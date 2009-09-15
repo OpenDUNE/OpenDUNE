@@ -640,7 +640,7 @@ void f__01F7_0211_0015_2B26()
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0x0);
 	emu_movb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0xFF);
 	emu_push(emu_es);
-	if (emu_flags.zf) { f__01F7_0229_0004_04C0(); return; }
+	if (emu_flags.zf) { p__01F7_0229_0004_04C0(); return; }
 
 	/* Call/jump based on memory/register values */
 	emu_ip = emu_get_memory16(emu_es, emu_bx.x,  0x2);
@@ -671,33 +671,6 @@ void f__01F7_0226_0003_021C()
 {
 	emu_pop(&emu_es);
 	f__01F7_01ED_0024_2FF8(); return;
-}
-
-/**
- * Decompiled function f__01F7_0229_0004_04C0()
- *
- * @name f__01F7_0229_0004_04C0
- * @implements 01F7:0229:0004:04C0 ()
- *
- * Called From: 01F7:0220:0015:2B26
- */
-void f__01F7_0229_0004_04C0()
-{
-
-	/* Call/jump based on memory/register values */
-	emu_ip = emu_get_memory16(emu_es, emu_bx.x,  0x2);
-	emu_push(0x022D);
-	switch (emu_ip) {
-		case 0x0F45: f__01F7_0F45_004B_D392(); break;
-		case 0x20B5: f__01F7_20B5_0076_659B(); break;
-		case 0x21FA: f__01F7_21FA_0012_F153(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x01F7; emu_last_ip = 0x0229; emu_last_length = 0x0004; emu_last_crc = 0x04C0;
-			emu_call();
-			return;
-	}
-	f__01F7_022D_0003_02EE();
 }
 
 /**
