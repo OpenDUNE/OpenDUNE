@@ -644,10 +644,10 @@ void f__10E4_01E3_002D_C472()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x0));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0xC));
-	if (emu_flags.zf) { emu_ip = 0x0209; emu_last_cs = 0x10E4; emu_last_ip = 0x01F5; emu_last_length = 0x002D; emu_last_crc = 0xC472; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__10E4_0209_0007_04D0(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0xD);
-	if (emu_flags.zf) { emu_ip = 0x0209; emu_last_cs = 0x10E4; emu_last_ip = 0x01FE; emu_last_length = 0x002D; emu_last_crc = 0xC472; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__10E4_0209_0007_04D0(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0x0);
 	if (!emu_flags.zf) { f__10E4_01D4_000F_5A86(); return; }
@@ -691,11 +691,13 @@ void f__10E4_01E6_002A_547E()
  * @implements 10E4:0209:0007:04D0 ()
  *
  * Called From: 10E4:01E9:002D:C472
+ * Called From: 10E4:01F5:002D:C472
+ * Called From: 10E4:01FE:002D:C472
  */
 void f__10E4_0209_0007_04D0()
 {
 	emu_cmpw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	if ((emu_flags.sf != emu_flags.of)) { emu_ip = 0x0249; emu_last_cs = 0x10E4; emu_last_ip = 0x020C; emu_last_length = 0x0007; emu_last_crc = 0x04D0; emu_call(); return; } // Jump does not resolve
+	if ((emu_flags.sf != emu_flags.of)) { f__10E4_0249_0021_F5F3(); return; }
 	f__10E4_0222_0048_AB83(); return;
 }
 
@@ -801,6 +803,7 @@ void f__10E4_0222_0048_AB83()
  * @implements 10E4:0249:0021:F5F3 ()
  *
  * Called From: 10E4:020C:002D:C472
+ * Called From: 10E4:020C:0007:04D0
  * Called From: 10E4:0229:004B:2F80
  * Called From: 10E4:0229:0048:AB83
  */
@@ -8222,6 +8225,7 @@ void f__10E4_1ED9_0006_137A()
  * Called From: B4DA:0DFF:001F:FEED
  * Called From: B4DA:14AD:0020:9020
  * Called From: B4DA:180D:0021:4D00
+ * Called From: B4DA:1A45:0022:EC2B
  * Called From: B4E0:08B0:0008:7B10
  * Called From: B4E0:08CE:001E:9CC0
  * Called From: B4E6:0099:0019:47E1
@@ -8239,6 +8243,7 @@ void f__10E4_1ED9_0006_137A()
  * Called From: B4ED:0C9E:002B:2EBC
  * Called From: B4F2:0120:001C:60FD
  * Called From: B4F2:08FA:0008:7B10
+ * Called From: B4F2:0B9D:0008:7B10
  * Called From: B4F2:109A:0008:7B10
  * Called From: B503:0F92:0021:6A1B
  * Called From: B518:0163:0008:7B10

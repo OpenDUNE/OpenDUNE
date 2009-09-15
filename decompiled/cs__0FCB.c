@@ -167,6 +167,7 @@ void f__0FCB_005D_0002_00E2()
  * Called From: 1A34:2843:000B:E9C4
  * Called From: 1A34:290B:000A:EA01
  * Called From: 1A34:290B:000C:DA04
+ * Called From: B480:02E0:0009:3003
  * Called From: B483:03FA:0013:2B83
  * Called From: B495:0C51:002A:F14C
  * Called From: B495:0C65:000C:EB8D
@@ -262,6 +263,7 @@ void f__0FCB_0086_0002_00E2()
  * @name f__0FCB_0088_0016_E17C
  * @implements 0FCB:0088:0016:E17C ()
  *
+ * Called From: B4E0:079E:0009:CEF2
  * Called From: B511:0DB5:0009:CEF2
  * Called From: B511:130C:0009:CEF2
  */

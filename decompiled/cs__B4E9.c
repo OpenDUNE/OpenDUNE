@@ -17,6 +17,11 @@
  * Called From: 34E9:0020:0005:1E8A
  * Called From: 34E9:0020:0005:1F26
  * Called From: 34E9:0020:0005:1F94
+ * Called From: 34E9:0020:0005:1DC6
+ * Called From: 34E9:0020:0005:1CE8
+ * Called From: 34E9:0020:0005:1C04
+ * Called From: 34E9:0020:0005:1C5A
+ * Called From: 34E9:0020:0005:1E0E
  * Called From: B4E9:00BA:000B:A2D6
  * Called From: B4E9:026A:0008:CC76
  * Called From: B4E9:02D4:0008:CE9E
@@ -217,6 +222,11 @@ void f__B4E9_004D_0003_0212()
  * Called From: 34E9:002A:0005:1BBA
  * Called From: 34E9:002A:0005:1BBE
  * Called From: 34E9:002A:0005:1BFA
+ * Called From: 34E9:002A:0005:1AC4
+ * Called From: 34E9:002A:0005:1ADC
+ * Called From: 34E9:002A:0005:1826
+ * Called From: 34E9:002A:0005:1A94
+ * Called From: 34E9:002A:0005:1B3A
  */
 void f__B4E9_0050_003F_389B()
 {
@@ -465,8 +475,26 @@ void f__B4E9_00FE_0024_D12A()
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x3A0A));
 	emu_movw(&emu_ax.x, 0x2);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x34CD; emu_ip = 0x01B0; emu_last_cs = 0xB4E9; emu_last_ip = 0x011D; emu_last_length = 0x0024; emu_last_crc = 0xD12A; emu_call(); // Jump does not resolve
-	emu_unknown_call();
+	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x34CD; ovl__34CD(22);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34E9) { ovl__34E9(0xFF); }
+	f__B4E9_0122_0011_D399();
+}
+
+/**
+ * Decompiled function f__B4E9_0122_0011_D399()
+ *
+ * @name f__B4E9_0122_0011_D399
+ * @implements B4E9:0122:0011:D399 ()
+ *
+ * Called From: B4E9:0122:0024:D12A
+ */
+void f__B4E9_0122_0011_D399()
+{
+	emu_addws(&emu_sp, 0x6);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x3A0C), 0x0);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x3A0A), 0x0);
+	f__B4E9_0135_0040_E86F(); return;
 }
 
 /**
@@ -505,6 +533,7 @@ void f__B4E9_0133_0002_03AC()
  *
  * Called From: B4E9:00FC:0005:1FD2
  * Called From: B4E9:0131:0002:03A8
+ * Called From: B4E9:0131:0011:D399
  * Called From: B4E9:0133:0002:03AC
  */
 void f__B4E9_0135_0040_E86F()
@@ -1228,6 +1257,7 @@ void f__B4E9_032B_0006_137A()
  *
  * Called From: 34E9:002F:0005:197E
  * Called From: 34E9:002F:0005:1B94
+ * Called From: 34E9:002F:0005:1AF6
  */
 void f__B4E9_0345_0023_4149()
 {
@@ -1458,6 +1488,7 @@ void f__B4E9_03D6_0015_4BD4()
  * @name f__B4E9_03EB_0008_F158
  * @implements B4E9:03EB:0008:F158 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B4E9:03EB:0015:4BD4
  */
 void f__B4E9_03EB_0008_F158()

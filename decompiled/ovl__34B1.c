@@ -34,6 +34,9 @@
  * Called From: B4E0:048D:000D:6FF1
  * Called From: B4E0:04AF:0022:5B17
  * Called From: B4E0:04BE:000F:B515
+ * Called From: B4E0:060D:0012:7EB1
+ * Called From: B4E0:062B:001E:8ADD
+ * Called From: B4E0:0634:0009:C22D
  */
 void ovl__34B1(uint8 entry)
 {

@@ -19,11 +19,14 @@
  * @implements 34B8:003E (6)
  *
  * Called From: 0642:00FC:000D:C2EE
+ * Called From: 0642:0159:0006:0418
+ * Called From: 0642:0162:0009:C9B9
  * Called From: 0C3A:1774:0005:1398
  * Called From: 0C3A:17D5:0006:0418
  * Called From: 0C3A:17F8:0016:5D94
  * Called From: 1423:0352:0005:1398
  * Called From: 1423:042E:0015:5D71
+ * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28

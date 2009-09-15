@@ -372,6 +372,7 @@ void f__1FB5_014B_0004_0F7A()
  * Called From: B4B1:0011:0016:A6CB
  * Called From: B4B1:002C:0010:AB84
  * Called From: B4CA:0221:0017:B156
+ * Called From: B4E0:068C:0015:A1D9
  * Called From: B4F2:005E:0012:60AA
  * Called From: B503:11CF:0016:A6CB
  * Called From: B518:07F6:0010:155A
@@ -1770,6 +1771,7 @@ void f__1FB5_09C1_0006_137A()
  * Called From: B4B1:001C:000B:FF15
  * Called From: B4B1:008F:0012:013D
  * Called From: B4CA:0251:000B:FA15
+ * Called From: B4E0:06E6:0009:CE13
  * Called From: B4F2:007E:0009:CF13
  * Called From: B503:121A:0009:CF13
  * Called From: B518:081D:000F:0C2B
@@ -1941,6 +1943,7 @@ void f__1FB5_0A83_001B_1EE1()
  * Called From: B4B1:024C:0012:F343
  * Called From: B4B1:02C4:001E:5CB6
  * Called From: B4CA:0246:0014:0B5D
+ * Called From: B4E0:06B5:0015:FF63
  * Called From: B503:1211:0015:6844
  * Called From: B52A:002B:0017:C838
  * Called From: B52A:035E:001A:2D66
@@ -2871,6 +2874,7 @@ void f__1FB5_1201_0006_137A()
  * Called From: B4B1:0309:0045:9B22
  * Called From: B4B1:032C:0016:DCD0
  * Called From: B4B1:035D:0028:EDF9
+ * Called From: B4E0:06A0:0014:9009
  * Called From: B503:11E4:0015:3AA1
  * Called From: B503:11FC:0018:5709
  * Called From: B52A:008B:0015:3E4D

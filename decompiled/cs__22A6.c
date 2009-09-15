@@ -1794,6 +1794,7 @@ void f__22A6_0781_0015_98FC()
  * @name f__22A6_0796_000B_3851
  * @implements 22A6:0796:000B:3851 ()
  *
+ * Called From: 0642:0448:000B:1E0C
  * Called From: 24DA:001B:000E:260A
  * Called From: 25C4:02C8:000F:4675
  * Called From: B4BE:00B5:000C:8E09
@@ -4778,6 +4779,7 @@ void f__22A6_0FAE_0027_9A7A()
  * Called From: 2B6C:0261:007B:EAE2
  * Called From: 2B6C:0261:008B:06FE
  * Called From: 2B6C:0261:009B:5987
+ * Called From: 2B6C:0261:00CE:7027
  * Called From: 2B6C:02B6:0028:CAA5
  * Called From: 2B99:0065:000C:3390
  */

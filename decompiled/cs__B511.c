@@ -88,6 +88,7 @@ void f__B511_001E_0010_962F()
  * @name f__B511_002E_0006_0298
  * @implements B511:002E:0006:0298 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B511:002E:0010:962F
  */
 void f__B511_002E_0006_0298()
@@ -2787,6 +2788,7 @@ void f__B511_0FAB_0005_04BA()
  *
  * Called From: 3511:0043:0005:1582
  * Called From: 3511:0043:0005:16C0
+ * Called From: 3511:0043:0005:16DA
  */
 void f__B511_0FB0_0028_715B()
 {
@@ -2883,6 +2885,7 @@ void f__B511_0FF1_0016_4B31()
  * @name f__B511_1007_0008_EF90
  * @implements B511:1007:0008:EF90 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B511:1007:0016:4B31
  */
 void f__B511_1007_0008_EF90()
@@ -3092,6 +3095,7 @@ void f__B511_10C5_0009_C400()
  * @name f__B511_10CE_001B_6339
  * @implements B511:10CE:001B:6339 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B511:10CE:0009:C400
  */
 void f__B511_10CE_001B_6339()

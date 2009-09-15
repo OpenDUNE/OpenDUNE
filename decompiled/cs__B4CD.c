@@ -17,6 +17,7 @@
  * Called From: 34CD:00B1:0005:1E8A
  * Called From: 34CD:00B1:0005:1FC2
  * Called From: 34CD:00B1:0005:1C32
+ * Called From: 34CD:00B1:0005:1F22
  * Called From: B4CD:018C:0010:18FA
  * Called From: B4CD:01A2:0011:3833
  * Called From: B4CD:01B7:0010:1826
@@ -247,6 +248,7 @@ void f__B4CD_009A_0003_0212()
  *
  * Called From: 34CD:006B:0005:14AA
  * Called From: 34CD:006B:0005:1592
+ * Called From: 34CD:006B:0005:164C
  */
 void f__B4CD_00A5_0016_CC59()
 {
@@ -651,6 +653,7 @@ void f__B4CD_01BA_0005_1CF2()
  * Called From: 34CD:008E:0005:17E4
  * Called From: 34CD:008E:0005:14B6
  * Called From: 34CD:008E:0005:143A
+ * Called From: 34CD:008E:0005:173E
  */
 void f__B4CD_01BF_0016_9EED()
 {
@@ -1296,6 +1299,7 @@ void f__B4CD_0402_0006_137A()
  *
  * Called From: 34CD:0039:0005:1E5A
  * Called From: 34CD:0039:0005:1F62
+ * Called From: 34CD:0039:0005:1CBC
  */
 void f__B4CD_0408_001F_4084()
 {
@@ -1576,6 +1580,8 @@ void f__B4CD_04BE_0006_3A32()
  *
  * Called From: 34CD:0020:0005:129A
  * Called From: 34CD:0020:0005:13A2
+ * Called From: 34CD:0020:0005:107C
+ * Called From: 34CD:0020:0005:10A6
  */
 void f__B4CD_04C4_0010_1984()
 {
@@ -2427,6 +2433,7 @@ void f__B4CD_074A_0006_137A()
  * Called From: 34CD:0061:0005:1BB2
  * Called From: 34CD:0061:0005:190A
  * Called From: 34CD:0061:0005:1AFA
+ * Called From: 34CD:0061:0005:1A1A
  * Called From: B4CD:0A29:0016:4757
  * Called From: B4CD:0B0F:0007:6460
  * Called From: B4CD:0C47:0014:AEAF
@@ -2647,6 +2654,7 @@ void f__B4CD_07F0_0004_07E2()
  *
  * Called From: 34CD:00BB:0005:1182
  * Called From: 34CD:00BB:0005:10BA
+ * Called From: 34CD:00BB:0005:1364
  * Called From: B4CD:02DF:0023:91AA
  */
 void f__B4CD_07F4_0013_5FE1()
@@ -4494,6 +4502,7 @@ void f__B4CD_0D6B_0009_D27B()
  * Called From: 34CD:0070:0005:19D2
  * Called From: 34CD:0070:0005:1B1A
  * Called From: 34CD:0070:0005:18EA
+ * Called From: 34CD:0070:0005:1B34
  */
 void f__B4CD_0D74_0020_95E1()
 {
@@ -4783,6 +4792,8 @@ void f__B4CD_0F85_0006_137A()
  * Called From: 34CD:0057:0005:1642
  * Called From: 34CD:0057:0005:170A
  * Called From: 34CD:0057:0005:14FA
+ * Called From: 34CD:0057:0005:17EA
+ * Called From: 34CD:0057:0005:14D4
  * Called From: B4CD:0810:000C:758B
  * Called From: B4CD:0A34:000B:F03A
  */
@@ -4972,6 +4983,8 @@ void f__B4CD_1013_0006_137A()
  * Called From: 34CD:00C0:0005:166A
  * Called From: 34CD:00C0:0005:14D2
  * Called From: 34CD:00C0:0005:1722
+ * Called From: 34CD:00C0:0005:17C2
+ * Called From: 34CD:00C0:0005:14FC
  * Called From: B4CD:02EA:0007:795E
  * Called From: B4CD:02EA:000B:7B59
  * Called From: B4CD:1B30:000D:50DF
@@ -4984,7 +4997,7 @@ void f__B4CD_1086_0040_609C()
 	emu_push(emu_di);
 	emu_movw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_si, 0x1000);
-	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x10E4; emu_last_cs = 0xB4CD; emu_last_ip = 0x1092; emu_last_length = 0x0040; emu_last_crc = 0x609C; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.sf != emu_flags.of)) { f__B4CD_10E4_0006_11A6(); return; }
 	emu_movw(&emu_ax.x, emu_si);
 	emu_movb(&emu_cx.l, 0x2);
 	emu_shlw(&emu_ax.x, emu_cx.l);
@@ -5081,6 +5094,7 @@ void f__B4CD_10E2_0002_0268()
  * @name f__B4CD_10E4_0006_11A6
  * @implements B4CD:10E4:0006:11A6 ()
  *
+ * Called From: B4CD:1092:0040:609C
  * Called From: B4CD:10AB:0040:609C
  */
 void f__B4CD_10E4_0006_11A6()
@@ -5119,6 +5133,7 @@ void f__B4CD_10EA_0004_07E2()
  *
  * Called From: 34CD:00A2:0005:109A
  * Called From: 34CD:00A2:0005:11A2
+ * Called From: 34CD:00A2:0005:127C
  * Called From: B4CD:0424:001F:4084
  * Called From: B4CD:0A58:001B:41F2
  * Called From: B4CD:130A:0009:7B1E
@@ -5230,6 +5245,7 @@ void f__B4CD_1130_0003_0212()
  * Called From: 34CD:00B6:0005:1D32
  * Called From: 34CD:00B6:0005:1F8A
  * Called From: 34CD:00B6:0005:1C7A
+ * Called From: 34CD:00B6:0005:1C9A
  * Called From: B4CD:07C2:0005:0CEA
  * Called From: B4CD:131A:0008:EC44
  */
@@ -6859,6 +6875,8 @@ void f__B4CD_1604_0008_66FA()
  * Called From: 34CD:007F:0005:1236
  * Called From: 34CD:007F:0005:13F2
  * Called From: 34CD:007F:0005:12BA
+ * Called From: 34CD:007F:0005:125A
+ * Called From: 34CD:007F:0005:1164
  * Called From: B4CD:00D1:000A:4EEF
  */
 void f__B4CD_17DC_0019_F917()
@@ -6901,6 +6919,7 @@ void f__B4CD_17F5_0002_00E2()
  *
  * Called From: 34CD:005C:0005:1132
  * Called From: 34CD:005C:0005:100A
+ * Called From: 34CD:005C:0005:13D4
  */
 void f__B4CD_17F7_001D_7923()
 {
@@ -7455,6 +7474,7 @@ void f__B4CD_1BBE_0006_137A()
  * Called From: 34CD:004D:0005:1212
  * Called From: 34CD:004D:0005:135A
  * Called From: 34CD:004D:0005:10AA
+ * Called From: 34CD:004D:0005:13BA
  * Called From: B4CD:02BC:000D:550B
  */
 void f__B4CD_1BC4_0013_C02D()
