@@ -1,0 +1,7 @@
+CS: 29A3
+IP: 0269
+Length: 0005
+CRC: 1452
+Binary: 01
+B8 00 00 CD 33
+From: 29A3,025D,003C,F8DC

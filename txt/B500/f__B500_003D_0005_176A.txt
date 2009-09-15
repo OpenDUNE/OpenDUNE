@@ -1,0 +1,7 @@
+CS: B500
+IP: 003D
+Length: 0005
+CRC: 176A
+Binary: 01
+9A 7A 0F E8 29
+From: B500,003D,0005,1002

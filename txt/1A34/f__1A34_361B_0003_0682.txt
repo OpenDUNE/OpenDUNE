@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 361B
+Length: 0003
+CRC: 0682
+Binary: 01
+E9 0D FF
+From: 1A34,3605,0017,6B2F

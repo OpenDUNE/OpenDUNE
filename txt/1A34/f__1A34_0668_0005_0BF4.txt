@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 0668
+Length: 0005
+CRC: 0BF4
+Binary: 01
+59 59 E9 82 02
+From: 1A34,0668,000E,021A

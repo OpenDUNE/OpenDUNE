@@ -1,0 +1,7 @@
+CS: 1DD7
+IP: 0713
+Length: 0002
+CRC: 0226
+Binary: 01
+EB C5
+From: 1DD7,05F5,0014,5999

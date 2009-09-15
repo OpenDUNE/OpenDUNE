@@ -1,0 +1,7 @@
+CS: 217E
+IP: 0593
+Length: 0003
+CRC: 05D2
+Binary: 01
+E8 A4 01
+From: 217E,0593,0008,5FFA

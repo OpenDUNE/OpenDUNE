@@ -1,0 +1,7 @@
+CS: 10E4
+IP: 049B
+Length: 0005
+CRC: 1F2A
+Binary: 01
+9A FA 07 E8 29
+From: 10E4,049B,0005,17FC

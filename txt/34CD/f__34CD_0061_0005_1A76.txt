@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 0061
+Length: 0005
+CRC: 1A76
+Binary: 01
+EA 50 07 A3 41
+From: 10E4,1CDD,0009,D18D

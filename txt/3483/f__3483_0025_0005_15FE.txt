@@ -1,0 +1,7 @@
+CS: 3483
+IP: 0025
+Length: 0005
+CRC: 15FE
+Binary: 01
+EA 83 02 06 43
+From: 261F,01B9,001B,DA28

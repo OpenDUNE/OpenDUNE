@@ -1,0 +1,7 @@
+CS: 176C
+IP: 00DE
+Length: 0002
+CRC: 03E8
+Binary: 01
+EB 22
+From: 176C,00DE,0025,3797

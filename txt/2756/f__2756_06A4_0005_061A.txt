@@ -1,0 +1,7 @@
+CS: 2756
+IP: 06A4
+Length: 0005
+CRC: 061A
+Binary: 01
+07 5F 5E 1F C3
+From: 2756,06A4,002D,7D27

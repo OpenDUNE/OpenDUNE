@@ -1,0 +1,7 @@
+CS: B503
+IP: 0327
+Length: 0002
+CRC: 03AC
+Binary: 01
+EB 00
+From: B503,0327,0011,967B

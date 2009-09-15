@@ -1,0 +1,7 @@
+CS: 0642
+IP: 03C2
+Length: 0005
+CRC: 1266
+Binary: 01
+9A 0B 01 6C 17
+From: 0642,03C2,0007,2A28

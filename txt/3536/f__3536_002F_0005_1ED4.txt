@@ -1,0 +1,7 @@
+CS: 3536
+IP: 002F
+Length: 0005
+CRC: 1ED4
+Binary: 01
+EA 29 01 62 42
+From: 261F,01B9,001B,DA28

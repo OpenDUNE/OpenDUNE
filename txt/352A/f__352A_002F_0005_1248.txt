@@ -1,0 +1,7 @@
+CS: 352A
+IP: 002F
+Length: 0005
+CRC: 1248
+Binary: 01
+EA F6 06 37 42
+From: B4ED,0528,000B,2475

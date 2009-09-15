@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 002F
+Length: 0005
+CRC: 183A
+Binary: 01
+EA 7F 01 80 41
+From: B4CD,0714,0032,5971

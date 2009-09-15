@@ -1,0 +1,7 @@
+CS: 348B
+IP: 0025
+Length: 0005
+CRC: 1708
+Binary: 01
+EA 88 00 93 42
+From: B495,13E0,000A,AC57

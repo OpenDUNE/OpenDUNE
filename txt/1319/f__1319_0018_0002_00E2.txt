@@ -1,0 +1,7 @@
+CS: 1319
+IP: 0018
+Length: 0002
+CRC: 00E2
+Binary: 01
+5D CB
+From: 1319,0016,0010,6CD3

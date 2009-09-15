@@ -1,0 +1,7 @@
+CS: 3480
+IP: 0020
+Length: 0002
+CRC: 034A
+Binary: 01
+CD 3F
+From: 01F7,014C,0019,69C0

@@ -1,0 +1,7 @@
+CS: 1FB5
+IP: 165C
+Length: 0005
+CRC: 099E
+Binary: 01
+59 59 E9 66 FF
+From: 1FB5,165C,0058,7FBB

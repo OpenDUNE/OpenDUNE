@@ -1,0 +1,7 @@
+CS: 0F3F
+IP: 02B2
+Length: 0002
+CRC: 037C
+Binary: 01
+EB 68
+From: 0F3F,031A,0004,05D8

@@ -1,0 +1,7 @@
+CS: 3483
+IP: 0020
+Length: 0005
+CRC: 1EFA
+Binary: 01
+EA 00 00 F1 3F
+From: B4ED,07A6,0023,CA4A

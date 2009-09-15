@@ -1,0 +1,7 @@
+CS: 352A
+IP: 0025
+Length: 0005
+CRC: 19B0
+Binary: 01
+EA 76 04 CD 42
+From: B4DA,101B,0013,E274

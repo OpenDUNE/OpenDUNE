@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 108F
+Length: 0002
+CRC: 03EA
+Binary: 01
+EB 23
+From: 1A34,108F,0018,569E

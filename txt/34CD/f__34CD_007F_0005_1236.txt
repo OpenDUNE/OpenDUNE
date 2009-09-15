@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 007F
+Length: 0005
+CRC: 1236
+Binary: 01
+EA DC 17 A3 41
+From: 07D4,0A52,0045,2721

@@ -1,0 +1,7 @@
+CS: 217E
+IP: 028F
+Length: 0001
+CRC: 0186
+Binary: 01
+C3
+From: 217E,028F,0010,6AFE

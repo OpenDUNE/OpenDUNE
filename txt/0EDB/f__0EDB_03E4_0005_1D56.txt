@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 03E4
+Length: 0005
+CRC: 1D56
+Binary: 01
+B8 FF FF EB F9
+From: 0EDB,03D9,000B,1B17

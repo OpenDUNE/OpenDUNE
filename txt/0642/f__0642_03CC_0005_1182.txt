@@ -1,0 +1,7 @@
+CS: 0642
+IP: 03CC
+Length: 0005
+CRC: 1182
+Binary: 01
+9A 0A 00 91 13
+From: 0642,03CC,0005,12EA

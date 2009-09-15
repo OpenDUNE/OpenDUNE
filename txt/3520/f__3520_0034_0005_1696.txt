@@ -1,0 +1,7 @@
+CS: 3520
+IP: 0034
+Length: 0005
+CRC: 1696
+Binary: 01
+EA 9B 03 BF 41
+From: B4E0,00FA,000D,A3F4

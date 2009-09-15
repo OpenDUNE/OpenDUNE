@@ -1,0 +1,7 @@
+CS: 24E6
+IP: 0094
+Length: 0002
+CRC: 03C4
+Binary: 01
+EB 34
+From: 24E6,00C8,0004,0560

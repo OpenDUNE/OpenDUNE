@@ -1,0 +1,7 @@
+CS: 34B8
+IP: 0025
+Length: 0005
+CRC: 1020
+Binary: 01
+EA CE 0E 5D 42
+From: 1423,0352,0005,1398

@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 0093
+Length: 0005
+CRC: 12FA
+Binary: 01
+EA CA 14 F1 3F
+From: B4B5,0B4E,000E,D5FD

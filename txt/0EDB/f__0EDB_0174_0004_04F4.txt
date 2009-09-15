@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 0174
+Length: 0004
+CRC: 04F4
+Binary: 01
+59 59 EB 00
+From: 0EDB,0174,002F,97D3

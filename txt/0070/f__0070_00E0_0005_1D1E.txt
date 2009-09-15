@@ -1,0 +1,7 @@
+CS: 0070
+IP: 00E0
+Length: 0005
+CRC: 1D1E
+Binary: 01
+FF 38 1C 00 CF
+From: 0000,0000,0000,0000

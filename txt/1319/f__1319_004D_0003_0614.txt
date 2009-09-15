@@ -1,0 +1,7 @@
+CS: 1319
+IP: 004D
+Length: 0003
+CRC: 0614
+Binary: 01
+E9 56 02
+From: 1319,02A3,000B,C459

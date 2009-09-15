@@ -1,0 +1,7 @@
+CS: 24E6
+IP: 0176
+Length: 0004
+CRC: 0F7A
+Binary: 01
+8B E5 5D CB
+From: 24E6,016E,003C,4098

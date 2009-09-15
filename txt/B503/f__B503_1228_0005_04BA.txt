@@ -1,0 +1,7 @@
+CS: B503
+IP: 1228
+Length: 0005
+CRC: 04BA
+Binary: 01
+5E 8B E5 5D CB
+From: B503,1226,0009,3CCC

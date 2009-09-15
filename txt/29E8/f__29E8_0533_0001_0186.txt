@@ -1,0 +1,7 @@
+CS: 29E8
+IP: 0533
+Length: 0001
+CRC: 0186
+Binary: 01
+C3
+From: 29E8,0501,0028,18FA

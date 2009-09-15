@@ -1,0 +1,7 @@
+CS: 104B
+IP: 00F6
+Length: 0002
+CRC: 00E2
+Binary: 01
+5D CB
+From: 104B,00F4,0004,04F4

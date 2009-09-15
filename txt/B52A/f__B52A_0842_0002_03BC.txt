@@ -1,0 +1,7 @@
+CS: B52A
+IP: 0842
+Length: 0002
+CRC: 03BC
+Binary: 01
+EB 08
+From: B52A,084A,0006,11F0

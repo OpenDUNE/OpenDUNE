@@ -1,0 +1,7 @@
+CS: 348B
+IP: 0043
+Length: 0005
+CRC: 170E
+Binary: 01
+EA A4 03 25 41
+From: 261F,01B9,001B,DA28

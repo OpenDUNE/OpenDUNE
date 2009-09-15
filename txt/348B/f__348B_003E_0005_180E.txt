@@ -1,0 +1,7 @@
+CS: 348B
+IP: 003E
+Length: 0005
+CRC: 180E
+Binary: 01
+EA 42 02 7E 43
+From: 261F,01B9,001B,DA28

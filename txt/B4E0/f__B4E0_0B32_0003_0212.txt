@@ -1,0 +1,7 @@
+CS: B4E0
+IP: 0B32
+Length: 0003
+CRC: 0212
+Binary: 01
+5E 5D CB
+From: B4E0,0AFC,001B,E930

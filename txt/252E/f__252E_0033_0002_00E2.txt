@@ -1,0 +1,7 @@
+CS: 252E
+IP: 0033
+Length: 0002
+CRC: 00E2
+Binary: 01
+5D CB
+From: 252E,0031,0018,30C5

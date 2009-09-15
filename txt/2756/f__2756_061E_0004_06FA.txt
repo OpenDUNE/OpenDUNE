@@ -1,0 +1,7 @@
+CS: 2756
+IP: 061E
+Length: 0004
+CRC: 06FA
+Binary: 01
+5F 5E 1F C3
+From: 2756,061E,0038,747E

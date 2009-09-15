@@ -1,0 +1,7 @@
+CS: 06F7
+IP: 0833
+Length: 0005
+CRC: 1186
+Binary: 01
+9A 04 00 B4 2B
+From: 06F7,0828,0036,0B9B

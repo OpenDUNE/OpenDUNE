@@ -1,0 +1,7 @@
+CS: B4FC
+IP: 06CA
+Length: 0005
+CRC: 09EA
+Binary: 01
+59 59 E9 04 01
+From: B4FC,06CA,0017,C286

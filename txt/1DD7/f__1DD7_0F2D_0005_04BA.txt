@@ -1,0 +1,7 @@
+CS: 1DD7
+IP: 0F2D
+Length: 0005
+CRC: 04BA
+Binary: 01
+5E 8B E5 5D CB
+From: 1DD7,0F2B,0004,0D2C

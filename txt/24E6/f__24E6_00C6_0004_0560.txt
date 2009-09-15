@@ -1,0 +1,7 @@
+CS: 24E6
+IP: 00C6
+Length: 0004
+CRC: 0560
+Binary: 01
+59 59 EB CA
+From: 24E6,00C6,000B,EA76

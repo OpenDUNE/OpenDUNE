@@ -1,0 +1,7 @@
+CS: 1082
+IP: 03CA
+Length: 0002
+CRC: 00E2
+Binary: 01
+5D CB
+From: 1082,03C2,0023,2E20

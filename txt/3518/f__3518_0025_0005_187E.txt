@@ -1,0 +1,7 @@
+CS: 3518
+IP: 0025
+Length: 0005
+CRC: 187E
+Binary: 01
+EA 58 05 04 43
+From: 261F,01B9,001B,DA28

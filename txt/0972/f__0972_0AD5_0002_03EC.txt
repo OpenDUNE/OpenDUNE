@@ -1,0 +1,7 @@
+CS: 0972
+IP: 0AD5
+Length: 0002
+CRC: 03EC
+Binary: 01
+EB 20
+From: 0972,0AF5,0006,1A40

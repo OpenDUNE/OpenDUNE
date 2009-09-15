@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 302A
+Length: 0005
+CRC: 0D66
+Binary: 01
+33 C0 E9 13 01
+From: 1A34,313F,0003,0514

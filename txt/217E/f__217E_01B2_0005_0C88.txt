@@ -1,0 +1,7 @@
+CS: 217E
+IP: 01B2
+Length: 0005
+CRC: 0C88
+Binary: 01
+0E FF 16 82 00
+From: 217E,01B2,0005,0C90

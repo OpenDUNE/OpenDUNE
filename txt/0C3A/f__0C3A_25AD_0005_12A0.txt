@@ -1,0 +1,7 @@
+CS: 0C3A
+IP: 25AD
+Length: 0005
+CRC: 12A0
+Binary: 01
+89 7E F2 EB 2E
+From: 0C3A,2582,0027,8C2F

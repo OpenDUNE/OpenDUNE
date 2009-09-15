@@ -1,0 +1,7 @@
+CS: 3495
+IP: 0098
+Length: 0005
+CRC: 1CE0
+Binary: 01
+EA 14 1A 2D 42
+From: 01F7,3005,001C,0D8F

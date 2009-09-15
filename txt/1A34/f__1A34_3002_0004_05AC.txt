@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 3002
+Length: 0004
+CRC: 05AC
+Binary: 01
+59 59 EB AC
+From: 1A34,3002,001F,F519
