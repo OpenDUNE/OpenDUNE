@@ -680,7 +680,7 @@ void f__25C4_03C4_0004_04F4()
  */
 void f__25C4_03C8_0005_1316()
 {
-	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x2533; p__2533_000D_001C_DBFD();
+	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x2533; f__2533_000D_001C_DBFD();
 	f__25C4_03CD_000B_036C();
 }
 
