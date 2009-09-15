@@ -1,5 +1,5 @@
 # Unix
-CFLAGS=-m32 -g -Wall -Wextra
+CFLAGS=-g -Wall -Wextra
 LIB_EXTENSION=.so
 EXTENSION=
 LIBS=-lncursesw -lSDL
@@ -19,13 +19,21 @@ SOURCE := $(shell ls src/*.c src/*/*.c 2>/dev/null)
 SOURCE := $(SOURCE:%.c=objs/%.o)
 RES := $(shell mkdir -p objs/decompiled objs/src)
 
+ifdef VERBOSE
+	Q =
+else
+	Q = @
+endif
+
 all: opendune$(EXTENSION)
 
 objs/%.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@ -I include/
+	@echo "[Compiling] $^"
+	$(Q)$(CC) $(CFLAGS) -c $^ -o $@ -I include/
 
 opendune$(EXTENSION): $(DECOMPILED) $(SOURCE)
-	$(CC) $(CFLAGS) -o $@ $^ ./libemu$(LIB_EXTENSION) $(LIBS)
+	@echo "[Linking] $@"
+	$(Q)$(CC) $(CFLAGS) -o $@ $^ ./libemu$(LIB_EXTENSION) $(LIBS)
 
 clean:
 	rm -f opendune$(EXTENSION) $(DECOMPILED) $(SOURCE)
