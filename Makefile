@@ -1,5 +1,5 @@
 # Unix
-CFLAGS=-g -Wall -Wextra
+CFLAGS=-m32 -g -Wall -Wextra
 LIB_EXTENSION=.so
 EXTENSION=
 LIBS=-lncursesw -lSDL
