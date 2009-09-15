@@ -13,5 +13,6 @@ void p__B4BE_035A_0011_3EFE();
 void p__B4ED_0603_0008_50C0();
 void p__B4ED_072B_0022_81E9();
 void p__B488_01D6_0021_CD5C();
+void p__B4B8_1BE3_0019_861A(uint8 entry); // in patched2.c
 
 #endif /* PATCHED_H */
