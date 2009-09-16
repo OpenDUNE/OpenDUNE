@@ -13,8 +13,10 @@
  * @implements 34F2:0020 (0)
  * @implements 34F2:0025 (1)
  * @implements 34F2:002A (2)
+ * @implements 34F2:002F (3)
  * @implements 34F2:0061 (13)
  *
+ * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
@@ -22,6 +24,7 @@
  * Called From: B4A2:0941:0011:88EC
  * Called From: B4B8:1A3A:0005:9EEE
  * Called From: B4B8:1DA7:000A:DA03
+ * Called From: B518:0A98:000C:38F0
  */
 void ovl__34F2(uint8 entry)
 {
@@ -38,6 +41,7 @@ void ovl__34F2(uint8 entry)
 		case 0: f__B4F2_0000_000D_C9F0(); return;
 		case 1: f__B4F2_009C_002E_D76F(); return;
 		case 2: f__B4F2_04B7_0015_5960(); return;
+		case 3: f__B4F2_1100_0019_B3DC(); return;
 		case 13: f__B4F2_0F68_0011_1140(); return;
 	}
 }

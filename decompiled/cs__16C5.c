@@ -21,7 +21,7 @@ void f__16C5_0009_0023_21B3()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x6166));
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ds, 0x00,  0x6164));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x76B2));
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x004A; emu_last_cs = 0x16C5; emu_last_ip = 0x001A; emu_last_length = 0x0023; emu_last_crc = 0x21B3; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__16C5_004A_0007_F6A9(); return; }
 	if (!emu_flags.zf) { f__16C5_0024_0008_EF7F(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_ds, 0x00,  0x76B0));
 	if (!(emu_flags.cf || emu_flags.zf)) { f__16C5_004A_0007_F6A9(); return; }
@@ -76,6 +76,7 @@ void f__16C5_002C_0025_E446()
  * @name f__16C5_004A_0007_F6A9
  * @implements 16C5:004A:0007:F6A9 ()
  *
+ * Called From: 16C5:001A:0023:21B3
  * Called From: 16C5:0022:0023:21B3
  */
 void f__16C5_004A_0007_F6A9()

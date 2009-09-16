@@ -22,6 +22,7 @@
  * Called From: 0642:016C:000A:D6BC
  * Called From: 0642:01EE:000B:70BA
  * Called From: 0642:024C:0005:2EF2
+ * Called From: 0642:0263:0010:94D1
  * Called From: 0642:028B:000B:69BA
  * Called From: 0642:0755:001B:0AF9
  * Called From: 06F7:08CE:0016:9292
@@ -29,11 +30,15 @@
  * Called From: 0972:0E74:0006:3EF3
  * Called From: 0AEC:0522:000F:6E04
  * Called From: 0AEC:06A8:000F:5504
+ * Called From: 0C3A:0EBB:0017:48E7
+ * Called From: 0C3A:1328:0006:22F3
  * Called From: 0EDB:0448:0027:711D
  * Called From: 1423:02E4:0008:FC73
  * Called From: 1423:0311:000C:4B79
  * Called From: 1423:032F:0009:16AF
  * Called From: 1423:0B17:0006:3EF3
+ * Called From: 1423:0E9D:0026:4424
+ * Called From: 151A:02D9:0016:FA9C
  * Called From: 176C:09EA:0015:CD26
  * Called From: 176C:184A:001D:2885
  * Called From: 1A34:0CA7:0009:33AF
@@ -58,6 +63,7 @@
  * Called From: B4E9:0414:000B:70BA
  * Called From: B4ED:07A6:0023:561F
  * Called From: B4ED:0AB0:0010:6B85
+ * Called From: B4F2:008E:0010:7381
  * Called From: B503:0024:000A:C5EF
  * Called From: B511:0029:0010:AE09
  * Called From: B511:0410:000A:D6BC

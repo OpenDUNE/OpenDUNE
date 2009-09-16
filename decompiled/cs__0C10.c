@@ -502,11 +502,12 @@ void f__0C10_0166_0002_2597()
  * Called From: 0C10:0065:000B:0B0F
  * Called From: 0C10:0073:000E:57D7
  * Called From: 0C10:0150:0016:8C5C
+ * Called From: 0C3A:2979:000B:70FD
  * Called From: 176C:2BE4:0014:2C56
  * Called From: 1A34:311B:001E:AED8
  * Called From: 1A34:36C1:000B:70FD
- * Called From: 1A34:36C1:002F:3E26
  * Called From: 1A34:36C1:001D:281D
+ * Called From: 1A34:36C1:002F:3E26
  */
 void f__0C10_0168_0014_CEB0()
 {
@@ -576,6 +577,7 @@ void f__0C10_0180_0002_2597()
  * Called From: 0972:0AEC:000F:3656
  * Called From: 0972:0E3A:0010:0DA8
  * Called From: 0AEC:0392:0011:A949
+ * Called From: 0C3A:2954:000F:DCEB
  * Called From: 176C:0A1A:0010:0D90
  * Called From: 176C:2C65:000D:8532
  * Called From: 1A34:1DCF:000D:0971

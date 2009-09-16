@@ -1529,9 +1529,44 @@ void f__0F78_04A6_0025_A2F9()
 	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C12));
 	emu_addw(&emu_ax.x, 0xFFF1);
 	emu_cmpw(&emu_ax.x, emu_si);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x04CB; emu_last_cs = 0x0F78; emu_last_ip = 0x04C5; emu_last_length = 0x0025; emu_last_crc = 0xA2F9; emu_call(); return; } // Jump does not resolve
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__0F78_04CB_0040_9F1F(); return; }
 	emu_movw(&emu_ax.x, emu_si);
 	f__0F78_04E6_0025_1314(); return;
+}
+
+/**
+ * Decompiled function f__0F78_04CB_0040_9F1F()
+ *
+ * @name f__0F78_04CB_0040_9F1F
+ * @implements 0F78:04CB:0040:9F1F ()
+ *
+ * Called From: 0F78:04C5:0025:A2F9
+ */
+void f__0F78_04CB_0040_9F1F()
+{
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C0E));
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C12));
+	emu_addw(&emu_ax.x, 0xFFF1);
+	emu_movw(&emu_si, emu_ax.x);
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C10));
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C14));
+	emu_addw(&emu_ax.x, 0xFFF6);
+	emu_cmpw(&emu_ax.x, emu_di);
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x050B; emu_last_cs = 0x0F78; emu_last_ip = 0x0505; emu_last_length = 0x0040; emu_last_crc = 0x9F1F; emu_call(); return; } // Jump does not resolve
+	emu_movw(&emu_ax.x, emu_di);
+	f__0F78_0526_0009_23D1(); return;
 }
 
 /**
@@ -1594,6 +1629,7 @@ void f__0F78_050B_0024_7C89()
  * @implements 0F78:0526:0009:23D1 ()
  *
  * Called From: 0F78:0509:0025:1314
+ * Called From: 0F78:0509:0040:9F1F
  */
 void f__0F78_0526_0009_23D1()
 {

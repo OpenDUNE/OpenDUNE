@@ -208,7 +208,7 @@ void f__0FE4_00BA_007F_22ED()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x35EC));
 	emu_decw(&emu_ax.x);
 	emu_cmpw(&emu_ax.x, emu_si);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x0139; emu_last_cs = 0x0FE4; emu_last_ip = 0x0134; emu_last_length = 0x007F; emu_last_crc = 0x22ED; emu_call(); return; } // Jump does not resolve
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__0FE4_0139_0006_F7CE(); return; }
 	f__0FE4_0023_005B_3AE9(); return;
 }
 
@@ -338,6 +338,7 @@ void f__0FE4_012E_000B_1A91()
  * Called From: 0FE4:0134:000C:1EF1
  * Called From: 0FE4:0134:0039:3CD7
  * Called From: 0FE4:0134:005A:6D90
+ * Called From: 0FE4:0134:007F:22ED
  */
 void f__0FE4_0139_0006_F7CE()
 {
@@ -661,19 +662,20 @@ void f__0FE4_0222_000A_6D8A()
  * Called From: 07D4:05EE:0012:E89D
  * Called From: 07D4:0920:0012:9B62
  * Called From: 07D4:0FCC:0012:9B62
+ * Called From: 0C3A:2969:0015:CD4B
  * Called From: 0EDB:0357:0031:E91B
  * Called From: 10E4:21D1:0023:8806
- * Called From: 176C:029D:0113:0405
  * Called From: 176C:029D:0012:9B52
- * Called From: 176C:029D:009C:C4F1
+ * Called From: 176C:029D:002B:0503
  * Called From: 176C:029D:0040:5621
+ * Called From: 176C:029D:006E:13E8
+ * Called From: 176C:029D:009C:C4F1
  * Called From: 176C:029D:00CA:9CA5
  * Called From: 176C:029D:00F8:FA80
- * Called From: 176C:029D:006E:13E8
- * Called From: 176C:029D:002B:0503
+ * Called From: 176C:029D:0113:0405
  * Called From: 1A34:13D9:0018:2009
- * Called From: 1A34:2259:001F:6DF6
  * Called From: 1A34:2259:001D:DE92
+ * Called From: 1A34:2259:001F:6DF6
  * Called From: 1A34:368D:0014:005F
  * Called From: B50B:03AE:001F:01AF
  * Called From: B511:0156:0013:5F86
@@ -775,8 +777,11 @@ void f__0FE4_0281_0002_2597()
  * Called From: 07D4:0E46:000D:6567
  * Called From: 07D4:1245:000A:B122
  * Called From: 07D4:1245:000D:E564
- * Called From: 0FE4:027A:003A:D5F2
+ * Called From: 0C3A:29BB:000B:799F
+ * Called From: 0C3A:29BB:001D:217F
+ * Called From: 0C3A:29BB:002F:3744
  * Called From: 0FE4:027A:0027:2707
+ * Called From: 0FE4:027A:003A:D5F2
  * Called From: 10E4:21F3:000E:5BF5
  * Called From: 176C:07C8:000A:B112
  * Called From: 176C:07C8:0016:E5D0

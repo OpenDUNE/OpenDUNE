@@ -239,6 +239,7 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 06F7:04AE:000B:8922
  * Called From: 06F7:05C7:0031:20FF
  * Called From: 06F7:073E:0018:F05F
+ * Called From: 06F7:08EB:0013:C78B
  * Called From: 06F7:0921:0013:C78B
  * Called From: 06F7:0A7D:0016:FA05
  * Called From: 07D4:0963:0025:DC26
@@ -250,9 +251,14 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 07D4:1003:0025:DC26
  * Called From: 07D4:1022:001F:FE51
  * Called From: 07D4:104E:0019:1306
+ * Called From: 0972:1537:0018:014D
+ * Called From: 0972:15B6:0019:AB1E
+ * Called From: 0972:16C2:000A:CB50
  * Called From: 0AEC:002F:001F:3C46
  * Called From: 0C3A:097C:0028:6D6C
  * Called From: 0C3A:09FA:001D:98C0
+ * Called From: 0C3A:1020:0010:1489
+ * Called From: 0C3A:115D:0039:970B
  * Called From: 0C3A:24BB:0009:3ADE
  * Called From: 0EDB:0483:0032:B7E5
  * Called From: 0F78:0398:0010:1771
@@ -266,8 +272,8 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 151A:060C:001D:0441
  * Called From: 167E:01A8:0012:B212
  * Called From: 167E:034F:002B:09A6
- * Called From: 176C:04E5:001F:EDCB
  * Called From: 176C:04E5:001C:D8DA
+ * Called From: 176C:04E5:001F:EDCB
  * Called From: 176C:14B3:0020:094B
  * Called From: 176C:1F9C:0011:1BC3
  * Called From: 176C:22E1:0009:3ADE
@@ -280,6 +286,7 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 1A34:12D7:0015:EDBF
  * Called From: 1A34:1373:002A:789C
  * Called From: 1A34:1707:0014:4C64
+ * Called From: 1A34:1B1E:001A:C543
  * Called From: 1A34:2895:0027:D7D0
  * Called From: 1A34:29FD:002C:34BE
  * Called From: 1A34:2FFD:001F:2746
@@ -321,6 +328,9 @@ void f__0F3F_0086_0017_EA43()
  * @implements 0F3F:009D:0017:8464 ()
  *
  * Called From: 0972:0D62:0015:DD16
+ * Called From: 0972:1574:001E:7AB4
+ * Called From: 0972:1615:0009:0491
+ * Called From: 0C3A:03AF:006A:8924
  * Called From: 0C3A:0545:0018:2318
  * Called From: 0C3A:0586:0039:9E74
  * Called From: 167E:03A6:0016:379C
@@ -836,6 +846,7 @@ void f__0F3F_019D_0004_DE52()
  * @name f__0F3F_01A1_0018_9631
  * @implements 0F3F:01A1:0018:9631 ()
  *
+ * Called From: 0972:16B8:001F:6F53
  * Called From: B4B8:0559:0008:CAD0
  */
 void f__0F3F_01A1_0018_9631()
@@ -1467,6 +1478,7 @@ void f__0F3F_034A_0002_2597()
  * Called From: B4CD:125B:0015:24F3
  * Called From: B4CD:1595:0013:97E3
  * Called From: B4CD:18CD:0006:433A
+ * Called From: B4CD:18CD:0014:F426
  */
 void f__0F3F_034C_0012_18EA()
 {

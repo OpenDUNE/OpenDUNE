@@ -742,7 +742,6 @@ void f__B4BE_01E3_0011_AAD1()
  * @name f__B4BE_01EE_0006_A58F
  * @implements B4BE:01EE:0006:A58F ()
  *
- * Called From: B4BE:02DA:000E:62DE
  * Called From: B4BE:037B:000E:2246
  */
 void f__B4BE_01EE_0006_A58F()
@@ -1021,7 +1020,7 @@ void f__B4BE_02CF_000E_62DE()
 	if (emu_flags.zf) { f__B4BE_02DF_001A_B479(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x0);
 	if (emu_flags.zf) { f__B4BE_02DF_001A_B479(); return; }
-	f__B4BE_01EE_0006_A58F(); return;
+	emu_ip = 0x01EE; emu_last_cs = 0xB4BE; emu_last_ip = 0x02DA; emu_last_length = 0x000E; emu_last_crc = 0x62DE; emu_call(); // Jump does not resolve
 }
 
 /**

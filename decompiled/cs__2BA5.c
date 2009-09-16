@@ -152,7 +152,7 @@ void f__2BA5_002F_0073_32B7()
 	emu_inb(&emu_ax.l, emu_dx.x);
 	emu_andb(&emu_ax.l, 0x8);
 	emu_xorb(&emu_ax.l, emu_bx.l);
-	if (emu_flags.zf) { f__2BA5_0077_002B_8A9F(); return; }
+	if (emu_flags.zf) { emu_ip = 0x0077; emu_last_cs = 0x2BA5; emu_last_ip = 0x007C; emu_last_length = 0x0073; emu_last_crc = 0x32B7; emu_call(); return; } // Jump does not resolve
 	emu_inb(&emu_ax.l, emu_dx.x);
 	emu_andb(&emu_ax.l, 0x8);
 	emu_xorb(&emu_ax.l, emu_bx.l);
@@ -225,7 +225,7 @@ void f__2BA5_004C_0056_46A5()
 	emu_lodsb(emu_ds);
 	emu_stosb();
 	emu_outb(emu_dx.x, emu_ax.l);
-	if (--emu_cx.x != 0) { emu_ip = 0x008A; emu_last_cs = 0x2BA5; emu_last_ip = 0x008D; emu_last_length = 0x0056; emu_last_crc = 0x46A5; emu_call(); } // Jump does not resolve
+	if (--emu_cx.x != 0) { f__2BA5_008A_0018_488A(); return; }
 	emu_popf();
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x0);
 	if (!emu_flags.zf) { emu_ip = 0x002F; emu_last_cs = 0x2BA5; emu_last_ip = 0x0094; emu_last_length = 0x0056; emu_last_crc = 0x46A5; emu_call(); return; } // Jump does not resolve
@@ -306,11 +306,10 @@ void f__2BA5_0067_003B_2718()
  * @name f__2BA5_0077_002B_8A9F
  * @implements 2BA5:0077:002B:8A9F ()
  *
- * Called From: 2BA5:007C:0056:46A5
  * Called From: 2BA5:007C:002B:8A9F
  * Called From: 2BA5:007C:003B:2718
+ * Called From: 2BA5:007C:0056:46A5
  * Called From: 2BA5:007C:009C:A3D1
- * Called From: 2BA5:007C:0073:32B7
  */
 void f__2BA5_0077_002B_8A9F()
 {
@@ -321,7 +320,7 @@ void f__2BA5_0077_002B_8A9F()
 	emu_inb(&emu_ax.l, emu_dx.x);
 	emu_andb(&emu_ax.l, 0x8);
 	emu_xorb(&emu_ax.l, emu_bx.l);
-	if (!emu_flags.zf) { emu_ip = 0x007E; emu_last_cs = 0x2BA5; emu_last_ip = 0x0083; emu_last_length = 0x002B; emu_last_crc = 0x8A9F; emu_call(); return; } // Jump does not resolve
+	if (!emu_flags.zf) { f__2BA5_007E_0024_E7C9(); return; }
 	emu_movw(&emu_dx.x, 0x3C9);
 	emu_pushf();
 	emu_cli();
@@ -355,11 +354,12 @@ void f__2BA5_0077_002B_8A9F()
  * @name f__2BA5_007E_0024_E7C9
  * @implements 2BA5:007E:0024:E7C9 ()
  *
- * Called From: 2BA5:0083:0056:46A5
  * Called From: 2BA5:0083:0024:E7C9
+ * Called From: 2BA5:0083:002B:8A9F
  * Called From: 2BA5:0083:003B:2718
- * Called From: 2BA5:0083:009C:A3D1
+ * Called From: 2BA5:0083:0056:46A5
  * Called From: 2BA5:0083:0073:32B7
+ * Called From: 2BA5:0083:009C:A3D1
  */
 void f__2BA5_007E_0024_E7C9()
 {
@@ -400,9 +400,10 @@ void f__2BA5_007E_0024_E7C9()
  * @name f__2BA5_008A_0018_488A
  * @implements 2BA5:008A:0018:488A ()
  *
- * Called From: 2BA5:008D:002B:8A9F
  * Called From: 2BA5:008D:0018:488A
  * Called From: 2BA5:008D:0024:E7C9
+ * Called From: 2BA5:008D:002B:8A9F
+ * Called From: 2BA5:008D:0056:46A5
  */
 void f__2BA5_008A_0018_488A()
 {
@@ -468,6 +469,7 @@ void f__2BA5_0096_000C_CF6C()
  * Called From: 0642:0635:0018:8149
  * Called From: 0642:064D:0018:8149
  * Called From: 0642:0665:0018:8149
+ * Called From: 0642:06F9:0015:23A1
  * Called From: 0642:06F9:002A:1932
  * Called From: 0642:06F9:0040:399F
  * Called From: 0642:0711:0018:8129

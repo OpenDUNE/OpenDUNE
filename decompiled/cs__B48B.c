@@ -449,7 +449,7 @@ void f__B48B_0127_000E_E325()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	if (!emu_flags.zf) { f__B48B_0135_000E_EE25(); return; }
-	emu_ip = 0x01C4; emu_last_cs = 0xB48B; emu_last_ip = 0x0132; emu_last_length = 0x000E; emu_last_crc = 0xE325; emu_call(); // Jump does not resolve
+	f__B48B_01C4_0008_0F0A(); return;
 }
 
 /**
@@ -620,6 +620,7 @@ void f__B48B_01A0_0022_19B9()
  * @name f__B48B_01C4_0008_0F0A
  * @implements B48B:01C4:0008:0F0A ()
  *
+ * Called From: B48B:0132:000E:E325
  * Called From: B48B:01A6:0022:19B9
  */
 void f__B48B_01C4_0008_0F0A()

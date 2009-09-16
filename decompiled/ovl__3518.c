@@ -12,6 +12,7 @@
  * @name ovl__3518
  * @implements 3518:0020 (0)
  * @implements 3518:0025 (1)
+ * @implements 3518:0034 (4)
  * @implements 3518:0039 (5)
  * @implements 3518:0066 (14)
  *
@@ -19,6 +20,7 @@
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
+ * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:06AC:0030:38D3
  * Called From: B4B8:1DFA:0009:F0F7
  * Called From: B527:00F8:000B:FF42
@@ -37,6 +39,7 @@ void ovl__3518(uint8 entry)
 	switch (entry) {
 		case 0: f__B518_0000_0025_FC16(); return;
 		case 1: f__B518_0558_0010_240A(); return;
+		case 4: f__B518_0A91_000C_38F0(); return;
 		case 5: f__B518_0B0D_000E_E283(); return;
 		case 14: f__B518_14F2_003E_977C(); return;
 	}

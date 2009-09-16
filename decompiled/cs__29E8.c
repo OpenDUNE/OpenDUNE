@@ -2824,7 +2824,7 @@ void f__29E8_0F01_0013_FF87()
 	emu_cmpb(&emu_ax.l, 0x6E);
 	if (!emu_flags.zf) { f__29E8_0F15_0021_FE06(); return; }
 	emu_cmpws(&emu_get_memory16(emu_cs, 0x00,  0x7C), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x0F15; emu_last_cs = 0x29E8; emu_last_ip = 0x0F0C; emu_last_length = 0x0013; emu_last_crc = 0xFF87; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__29E8_0F15_0021_FE06(); return; }
 	emu_push(emu_ax.x);
 
 	/* Call/jump based on memory/register values */
@@ -2849,6 +2849,7 @@ void f__29E8_0F01_0013_FF87()
  * @implements 29E8:0F15:0021:FE06 ()
  *
  * Called From: 29E8:0F04:0013:FF87
+ * Called From: 29E8:0F0C:0013:FF87
  */
 void f__29E8_0F15_0021_FE06()
 {

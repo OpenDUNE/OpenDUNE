@@ -140,17 +140,23 @@ void f__0FCB_005D_0002_2597()
  *
  * Called From: 0972:05F1:0006:6F66
  * Called From: 0972:0600:000F:119B
+ * Called From: 0972:0736:0025:6D67
+ * Called From: 0972:1749:0009:F63A
+ * Called From: 0972:1759:0010:7163
+ * Called From: 0AEC:06C6:000D:201F
  * Called From: 0AEC:06E4:000D:92EB
  * Called From: 0AEC:06F0:000C:A4A0
  * Called From: 0AEC:0BBC:0020:6A79
  * Called From: 0AEC:0BD0:000C:54F8
  * Called From: 0AEC:0BF7:0018:A44D
  * Called From: 0AEC:0F3F:0020:45D7
- * Called From: 0AEC:0F3F:0030:42F4
  * Called From: 0AEC:0F3F:002B:B5D3
+ * Called From: 0AEC:0F3F:0030:42F4
  * Called From: 0AEC:0F52:000B:559F
  * Called From: 0C3A:1AB8:0021:A062
  * Called From: 0C3A:1B21:001B:3C60
+ * Called From: 0C3A:209F:002C:9F6D
+ * Called From: 0C3A:2876:002A:363F
  * Called From: 0C3A:2876:002E:3E5B
  * Called From: 0C3A:28F3:004C:0493
  * Called From: 10E4:12C5:0005:3367
@@ -262,6 +268,7 @@ void f__0FCB_0086_0002_2597()
  * @name f__0FCB_0088_0016_2DD9
  * @implements 0FCB:0088:0016:2DD9 ()
  *
+ * Called From: B4E0:079E:0009:DAE3
  * Called From: B511:0DB5:0009:DAE3
  * Called From: B511:130C:0009:DAE3
  */

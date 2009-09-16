@@ -304,6 +304,10 @@ void f__10BE_0141_0005_8BCF()
  * Called From: 0972:14C3:000F:377B
  * Called From: 0C3A:0703:0020:6FF2
  * Called From: 0C3A:074E:0011:6CE1
+ * Called From: 0C3A:0F2D:000E:E431
+ * Called From: 0C3A:0FEE:0018:9CA0
+ * Called From: 0C3A:1119:0011:B975
+ * Called From: 0C3A:11AF:0011:6CE1
  * Called From: 0C3A:1471:0031:D8A7
  * Called From: 0C3A:1BBB:0026:93A4
  * Called From: 0C3A:1F43:0011:68E8
@@ -314,14 +318,15 @@ void f__10BE_0141_0005_8BCF()
  * Called From: 0FE4:05B5:002A:6D7E
  * Called From: 10BE:005C:0006:A112
  * Called From: 10E4:06B2:001C:0810
- * Called From: 10E4:1066:0013:5986
  * Called From: 10E4:1066:0011:5FD6
+ * Called From: 10E4:1066:0013:5986
  * Called From: 10E4:10F2:0045:52D0
  * Called From: 10E4:1D7C:006B:11D3
  * Called From: 10E4:1EB8:0070:0410
  * Called From: 1423:08E2:0008:EB39
  * Called From: 1423:09E0:001C:D7D2
  * Called From: 1423:0E35:0008:EA34
+ * Called From: 1423:0E5A:0010:843C
  * Called From: 176C:02F3:0037:7973
  * Called From: 1A34:2356:000D:9A60
  * Called From: B4CD:0D97:0008:DB39

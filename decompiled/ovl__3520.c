@@ -15,6 +15,7 @@
  * @implements 3520:002A (2)
  * @implements 3520:002F (3)
  * @implements 3520:0034 (4)
+ * @implements 3520:003E (6)
  * @implements 3520:0043 (7)
  * @implements 3520:0048 (8)
  * @implements 3520:004D (9)
@@ -22,6 +23,7 @@
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
+ * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:0941:0011:88EC
  * Called From: B4E0:00FA:000D:332A
@@ -53,6 +55,7 @@ void ovl__3520(uint8 entry)
 		case 2: f__B520_06A2_0013_A505(); return;
 		case 3: f__B520_0223_000E_38A3(); return;
 		case 4: f__B520_039B_001B_4BEB(); return;
+		case 6: f__B520_03E7_0017_BA36(); return;
 		case 7: f__B520_0407_00A9_43A1(); return;
 		case 8: f__B520_00E3_0028_2188(); return;
 		case 9: f__B520_0000_0019_6B99(); return;

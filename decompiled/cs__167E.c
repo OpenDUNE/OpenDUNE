@@ -48,6 +48,7 @@ void f__167E_0005_0013_AF0C()
  * @implements 167E:0014:0004:DD39 ()
  *
  * Called From: 167E:0060:0011:16F5
+ * Called From: 167E:0077:000F:2FDC
  */
 void f__167E_0014_0004_DD39()
 {
@@ -217,7 +218,7 @@ void f__167E_006A_000F_2FDC()
 	emu_movw(&emu_es, emu_dx.x);
 	emu_testw(&emu_get_memory16(emu_es, emu_bx.x,  0x4), 0x1);
 	if (!emu_flags.zf) { f__167E_0079_0002_C13A(); return; }
-	emu_ip = 0x0014; emu_last_cs = 0x167E; emu_last_ip = 0x0077; emu_last_length = 0x000F; emu_last_crc = 0x2FDC; emu_call(); // Jump does not resolve
+	f__167E_0014_0004_DD39(); return;
 }
 
 /**
@@ -303,6 +304,7 @@ void f__167E_0082_0006_F7CE()
  * Called From: 176C:089E:000D:9150
  * Called From: 176C:1556:0006:53C6
  * Called From: 176C:161F:0006:53C6
+ * Called From: 1A34:042C:0019:BEE7
  * Called From: 1A34:1A94:0006:57C6
  * Called From: 1A34:1B96:0006:57C6
  */
@@ -507,10 +509,12 @@ void f__167E_00EF_0004_893F()
  * @implements 167E:00F3:001E:8CB3 ()
  *
  * Called From: 0972:0A93:0017:2EC7
- * Called From: 0AEC:03D7:000C:BB87
+ * Called From: 0972:16CA:0008:A673
  * Called From: 0AEC:03D7:0005:BFC0
+ * Called From: 0AEC:03D7:000C:BB87
  * Called From: 0AEC:057A:0022:5BD5
  * Called From: 0AEC:05B9:0010:37DB
+ * Called From: 0C3A:2945:000F:A6A8
  * Called From: 0EDB:049E:0013:CDD0
  * Called From: 176C:14BB:0008:A673
  * Called From: 176C:182D:0021:E595
@@ -520,17 +524,22 @@ void f__167E_00EF_0004_893F()
  * Called From: 1A34:078A:000D:9925
  * Called From: 1A34:137B:0008:A673
  * Called From: 1A34:1AC7:001E:E8B0
+ * Called From: 1A34:1AF1:001E:6C91
  * Called From: 1A34:1B04:000F:A6AC
- * Called From: 1A34:1C7B:0033:213E
+ * Called From: 1A34:1B04:0013:A8EA
+ * Called From: 1A34:1B26:0008:A673
+ * Called From: 1A34:1BD9:002E:EAD1
+ * Called From: 1A34:1C03:001E:6C91
  * Called From: 1A34:1C7B:000F:A6D7
+ * Called From: 1A34:1C7B:0033:213E
  * Called From: 1A34:1C8D:0012:CA6A
  * Called From: 1A34:3069:003F:CF75
  * Called From: 1A34:307D:0014:5E5F
  * Called From: 1A34:30D9:0024:9E02
  * Called From: 1A34:3451:0027:51AB
  * Called From: 1A34:3478:0008:A673
- * Called From: 1A34:3611:000F:A6D7
  * Called From: 1A34:3611:0008:443E
+ * Called From: 1A34:3611:000F:A6D7
  * Called From: 1A34:366A:000F:A6AC
  */
 void f__167E_00F3_001E_8CB3()
@@ -1237,6 +1246,7 @@ void f__167E_02AB_0003_2E57()
  * Called From: 176C:08C4:000D:F112
  * Called From: 176C:1AD4:0016:C3C3
  * Called From: 1A34:1C0D:0006:3784
+ * Called From: 1A34:1C0D:000A:2B08
  * Called From: 1A34:28C7:0016:FFBA
  */
 void f__167E_02AE_000C_CC85()

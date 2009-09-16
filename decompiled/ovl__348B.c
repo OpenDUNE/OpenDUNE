@@ -109,6 +109,7 @@
  * Called From: B511:12BD:001A:4715
  * Called From: B511:13ED:000E:0FF5
  * Called From: B518:0A23:0053:7EDA
+ * Called From: B518:0AFE:000E:814C
  */
 void ovl__348B(uint8 entry)
 {

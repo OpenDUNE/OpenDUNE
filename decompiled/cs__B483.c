@@ -24,7 +24,7 @@ void f__B483_0000_0019_F96A()
 	if ((emu_flags.sf != emu_flags.of)) { emu_ip = 0x0016; emu_last_cs = 0xB483; emu_last_ip = 0x000D; emu_last_length = 0x0019; emu_last_crc = 0xF96A; emu_call(); return; } // Jump does not resolve
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x700A), 0x0);
 	if (!emu_flags.zf) { f__B483_0019_001A_284C(); return; }
-	emu_ip = 0x0150; emu_last_cs = 0xB483; emu_last_ip = 0x0016; emu_last_length = 0x0019; emu_last_crc = 0xF96A; emu_call(); // Jump does not resolve
+	f__B483_0150_0006_F7CE(); return;
 }
 
 /**
@@ -215,6 +215,27 @@ void f__B483_014E_0008_AE7C()
 }
 
 /**
+ * Decompiled function f__B483_0150_0006_F7CE()
+ *
+ * @name f__B483_0150_0006_F7CE
+ * @implements B483:0150:0006:F7CE ()
+ *
+ * Called From: B483:0016:0019:F96A
+ */
+void f__B483_0150_0006_F7CE()
+{
+	emu_pop(&emu_di);
+	emu_pop(&emu_si);
+	emu_movw(&emu_sp, emu_bp);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__B483_0156_0019_AEFE()
  *
  * @name f__B483_0156_0019_AEFE
@@ -234,7 +255,7 @@ void f__B483_0156_0019_AEFE()
 	if (emu_flags.zf) { f__B483_016C_0003_DDA3(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x700A), 0x0);
 	if (!emu_flags.zf) { f__B483_016F_0016_9FE7(); return; }
-	emu_ip = 0x027E; emu_last_cs = 0xB483; emu_last_ip = 0x016C; emu_last_length = 0x0019; emu_last_crc = 0xAEFE; emu_call(); // Jump does not resolve
+	f__B483_027E_0005_8BCF(); return;
 }
 
 /**
@@ -346,6 +367,7 @@ void f__B483_0211_003E_5CE7()
  * @implements B483:027E:0005:8BCF ()
  *
  * Called From: B483:016C:0003:DDA3
+ * Called From: B483:016C:0019:AEFE
  * Called From: B483:0222:003E:5CE7
  */
 void f__B483_027E_0005_8BCF()
@@ -823,7 +845,7 @@ void f__B483_03FF_001E_7533()
 	if (emu_flags.zf) { f__B483_0415_0008_880C(); return; }
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x3A12), 0x1);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37BA), 0x4);
-	emu_ip = 0x046A; emu_last_cs = 0xB483; emu_last_ip = 0x041B; emu_last_length = 0x001E; emu_last_crc = 0x7533; emu_call(); // Jump does not resolve
+	f__B483_046A_0002_C03A(); return;
 }
 
 /**
@@ -847,6 +869,7 @@ void f__B483_0415_0008_880C()
  * @implements B483:046A:0002:C03A ()
  *
  * Called From: B483:041B:0008:880C
+ * Called From: B483:041B:001E:7533
  */
 void f__B483_046A_0002_C03A()
 {
