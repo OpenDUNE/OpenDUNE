@@ -883,6 +883,7 @@ void f__10E4_026F_0004_DE52()
  *
  * Called From: 10E4:01A6:000A:1FB5
  * Called From: 1423:0345:0008:250B
+ * Called From: 1423:0480:0008:250B
  */
 void f__10E4_0273_0029_DCE5()
 {
@@ -3152,6 +3153,7 @@ void f__10E4_09A5_0006_F7CE()
  * Called From: 0C3A:20A7:0008:A466
  * Called From: 0C3A:287E:0008:A466
  * Called From: 0C3A:28FB:0008:A466
+ * Called From: 1391:04D5:0008:A466
  * Called From: 1A34:294B:0011:8182
  * Called From: B4E9:00F4:0015:9971
  * Called From: B4E9:00F4:0016:FD70

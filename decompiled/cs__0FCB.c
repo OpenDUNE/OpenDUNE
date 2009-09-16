@@ -168,7 +168,9 @@ void f__0FCB_005D_0002_2597()
  * Called From: 10E4:15C2:0046:E443
  * Called From: 10E4:197E:001F:5AE8
  * Called From: 10E4:1B22:001E:B7BB
+ * Called From: 1391:04CD:0024:200D
  * Called From: 1423:033D:000E:1BB4
+ * Called From: 1423:0478:000E:1AB4
  * Called From: 1A34:2843:000B:5F7D
  * Called From: 1A34:290B:000A:5B6D
  * Called From: 1A34:290B:000C:5845

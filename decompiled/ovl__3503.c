@@ -13,6 +13,7 @@
  * @implements 3503:0020 (0)
  *
  * Called From: 1423:03F2:0010:D5EE
+ * Called From: 1423:0499:000C:9E61
  * Called From: 261F:01B9:001B:EDBF
  */
 void ovl__3503(uint8 entry)

@@ -413,6 +413,7 @@ void f__10BE_01E0_0002_2597()
  * Called From: 0FE4:019A:0012:A3C7
  * Called From: 1082:001C:0012:A3C7
  * Called From: 1391:04E2:000A:2ECE
+ * Called From: 1391:04E2:000D:FA8A
  * Called From: 1423:0BF1:000B:E66F
  * Called From: B50B:0337:0016:CD5C
  * Called From: B511:030A:000B:E66F

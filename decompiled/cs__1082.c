@@ -294,6 +294,7 @@ void f__1082_00E4_0002_2597()
  * Called From: 0C3A:13DA:0022:D6F0
  * Called From: 0C3A:1FAF:0022:E6F2
  * Called From: 0C3A:2141:0016:7245
+ * Called From: 0C3A:2141:0013:8247
  * Called From: 0C3A:2337:003A:85DA
  * Called From: 10E4:2191:0015:A299
  * Called From: 1423:0076:001A:9364
@@ -406,6 +407,7 @@ void f__1082_013B_0002_2597()
  * Called From: 0C3A:2060:000B:166D
  * Called From: 0C3A:2060:0015:64A0
  * Called From: 0C3A:21E9:000B:166D
+ * Called From: 0C3A:21E9:000E:34E7
  * Called From: 0C3A:23FC:000B:166D
  * Called From: 0C3A:23FC:002B:25DC
  * Called From: 1082:0134:0027:2707
@@ -1123,6 +1125,7 @@ void f__1082_0398_0009_BE50()
  * @implements 1082:03A1:0023:9F5D ()
  *
  * Called From: 0AEC:10D2:0018:52CC
+ * Called From: 0C3A:0EDD:0022:A2EF
  * Called From: 0C3A:1E98:0018:6B6F
  * Called From: 167E:0065:0006:C09B
  * Called From: 167E:0196:0006:C49B

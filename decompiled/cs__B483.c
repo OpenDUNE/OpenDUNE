@@ -741,7 +741,7 @@ void f__B483_0392_0029_BAA5()
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x3A12), 0x1);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37BA), 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x4060), 0x0);
-	emu_ip = 0x046C; emu_last_cs = 0xB483; emu_last_ip = 0x03B8; emu_last_length = 0x0029; emu_last_crc = 0xBAA5; emu_call(); // Jump does not resolve
+	f__B483_046C_0004_DE52(); return;
 }
 
 /**
@@ -883,6 +883,7 @@ void f__B483_046A_0002_C03A()
  * @implements B483:046C:0004:DE52 ()
  *
  * Called From: B483:03B8:0009:DBAE
+ * Called From: B483:03B8:0029:BAA5
  * Called From: B483:046A:0002:C03A
  */
 void f__B483_046C_0004_DE52()

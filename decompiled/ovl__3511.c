@@ -14,11 +14,14 @@
  * @implements 3511:002A (2)
  * @implements 3511:0034 (4)
  * @implements 3511:0039 (5)
+ * @implements 3511:003E (6)
  * @implements 3511:0043 (7)
  *
  * Called From: 0642:0142:000C:B04E
  * Called From: 0642:01C5:000E:F44C
  * Called From: 1423:034D:0008:54DF
+ * Called From: 1423:0488:0008:24DF
+ * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
  * Called From: 261F:01B9:001B:EDBF
@@ -45,6 +48,7 @@ void ovl__3511(uint8 entry)
 		case 2: f__B511_0446_0013_E4E5(); return;
 		case 4: f__B511_0729_0016_F168(); return;
 		case 5: f__B511_0C35_002A_C70F(); return;
+		case 6: f__B511_0C64_002A_C757(); return;
 		case 7: f__B511_0FB0_0028_02A0(); return;
 	}
 }

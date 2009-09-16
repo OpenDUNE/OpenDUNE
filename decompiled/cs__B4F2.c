@@ -665,6 +665,7 @@ void f__B4F2_01DF_0007_29A0()
 		case 0x0219: f__B4F2_0219_0009_48EA(); return;
 		case 0x0231: f__B4F2_0231_0009_49EC(); return;
 		case 0x024E: f__B4F2_024E_0004_F879(); return;
+		case 0x0252: f__B4F2_0252_0009_9BF4(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB4F2; emu_last_ip = 0x01E1; emu_last_length = 0x0007; emu_last_crc = 0x29A0;
@@ -704,7 +705,7 @@ void f__B4F2_01EE_000A_E23B()
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__B4F2_01F5_0003_DD01(); return; }
 	emu_xorw(&emu_si, emu_si);
-	emu_ip = 0x027F; emu_last_cs = 0xB4F2; emu_last_ip = 0x01F5; emu_last_length = 0x000A; emu_last_crc = 0xE23B; emu_call(); // Jump does not resolve
+	f__B4F2_027F_0015_800B(); return;
 }
 
 /**
@@ -926,12 +927,99 @@ void f__B4F2_024E_0004_F879()
 }
 
 /**
+ * Decompiled function f__B4F2_0252_0009_9BF4()
+ *
+ * @name f__B4F2_0252_0009_9BF4
+ * @implements B4F2:0252:0009:9BF4 ()
+ *
+ * Called From: B4F2:01E1:0007:29A0
+ */
+void f__B4F2_0252_0009_9BF4()
+{
+	emu_movw(&emu_ax.x, 0x65);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs);
+	emu_push(0x025B); f__B4F2_1100_0019_B3DC();
+	f__B4F2_025B_0014_44C6();
+}
+
+/**
+ * Decompiled function f__B4F2_025B_0014_44C6()
+ *
+ * @name f__B4F2_025B_0014_44C6
+ * @implements B4F2:025B:0014:44C6 ()
+ *
+ * Called From: B4F2:025B:0009:9BF4
+ */
+void f__B4F2_025B_0014_44C6()
+{
+	emu_pop(&emu_cx.x);
+	emu_negw(&emu_ax.x, emu_ax.x);
+	emu_sbbw(&emu_ax.x, emu_ax.x);
+	emu_incw(&emu_ax.x);
+	emu_movw(&emu_si, emu_ax.x);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x38F8), emu_ax.x);
+	emu_movw(&emu_ax.x, 0xFFFE);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x026F); emu_cs = 0x3483; ovl__3483(2);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { ovl__34F2(0xFF); }
+	f__B4F2_026F_0003_CB1A();
+}
+
+/**
+ * Decompiled function f__B4F2_026F_0003_CB1A()
+ *
+ * @name f__B4F2_026F_0003_CB1A
+ * @implements B4F2:026F:0003:CB1A ()
+ *
+ * Called From: B4F2:026F:0014:44C6
+ */
+void f__B4F2_026F_0003_CB1A()
+{
+	emu_pop(&emu_cx.x);
+	f__B4F2_0272_0005_7A4B(); return;
+}
+
+/**
+ * Decompiled function f__B4F2_0272_0005_7A4B()
+ *
+ * @name f__B4F2_0272_0005_7A4B
+ * @implements B4F2:0272:0005:7A4B ()
+ *
+ * Called From: B4F2:0270:0003:CB1A
+ */
+void f__B4F2_0272_0005_7A4B()
+{
+	emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { ovl__34F2(0xFF); }
+	f__B4F2_0277_0006_A5DD();
+}
+
+/**
+ * Decompiled function f__B4F2_0277_0006_A5DD()
+ *
+ * @name f__B4F2_0277_0006_A5DD
+ * @implements B4F2:0277:0006:A5DD ()
+ *
+ * Called From: B4F2:0277:0005:7A4B
+ */
+void f__B4F2_0277_0006_A5DD()
+{
+	emu_orw(&emu_ax.x, emu_ax.x);
+	if (!emu_flags.zf) { emu_ip = 0x0272; emu_last_cs = 0xB4F2; emu_last_ip = 0x0279; emu_last_length = 0x0006; emu_last_crc = 0xA5DD; emu_call(); return; } // Jump does not resolve
+	f__B4F2_027F_0015_800B(); return;
+}
+
+/**
  * Decompiled function f__B4F2_027F_0015_800B()
  *
  * @name f__B4F2_027F_0015_800B
  * @implements B4F2:027F:0015:800B ()
  *
  * Called From: B4F2:01F5:0003:DD01
+ * Called From: B4F2:01F5:000A:E23B
  * Called From: B4F2:0208:0009:8EC4
  * Called From: B4F2:0208:0002:FABA
  * Called From: B4F2:0217:0004:681F
@@ -940,11 +1028,12 @@ void f__B4F2_024E_0004_F879()
  * Called From: B4F2:024C:0008:C674
  * Called From: B4F2:024C:0002:D8BA
  * Called From: B4F2:0250:0004:F879
+ * Called From: B4F2:027B:0006:A5DD
  */
 void f__B4F2_027F_0015_800B()
 {
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x38F8), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x02A2; emu_last_cs = 0xB4F2; emu_last_ip = 0x0284; emu_last_length = 0x0015; emu_last_crc = 0x800B; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4F2_02A2_0005_1765(); return; }
 	emu_orw(&emu_si, emu_si);
 	if (emu_flags.zf) { f__B4F2_02A2_0005_1765(); return; }
 	emu_push(emu_ds);
@@ -1000,6 +1089,7 @@ void f__B4F2_02A0_0007_73D6()
  * @implements B4F2:02A2:0005:1765 ()
  *
  * Called From: B4F2:01A8:000D:3A4F
+ * Called From: B4F2:0284:0015:800B
  * Called From: B4F2:0288:0015:800B
  */
 void f__B4F2_02A2_0005_1765()
@@ -5065,6 +5155,7 @@ void f__B4F2_10FA_0006_F7CE()
  * Called From: 34F2:002F:0005:0000
  * Called From: B4F2:021F:0009:48EA
  * Called From: B4F2:0237:0009:49EC
+ * Called From: B4F2:0258:0009:9BF4
  */
 void f__B4F2_1100_0019_B3DC()
 {

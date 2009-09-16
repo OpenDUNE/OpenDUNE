@@ -2248,7 +2248,40 @@ void f__06F7_08F8_0013_E47B()
 			emu_call();
 			return;
 	}
-	emu_unknown_call();
+	f__06F7_090B_0006_B1FB();
+}
+
+/**
+ * Decompiled function f__06F7_090B_0006_B1FB()
+ *
+ * @name f__06F7_090B_0006_B1FB
+ * @implements 06F7:090B:0006:B1FB ()
+ *
+ * Called From: 06F7:090B:0013:E47B
+ */
+void f__06F7_090B_0006_B1FB()
+{
+	emu_pop(&emu_cx.x);
+	emu_movw(&emu_ax.x, 0x1);
+	f__06F7_0911_0002_2597(); return;
+}
+
+/**
+ * Decompiled function f__06F7_0911_0002_2597()
+ *
+ * @name f__06F7_0911_0002_2597
+ * @implements 06F7:0911:0002:2597 ()
+ *
+ * Called From: 06F7:090F:0006:B1FB
+ */
+void f__06F7_0911_0002_2597()
+{
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }
 
 /**
