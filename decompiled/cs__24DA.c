@@ -101,7 +101,6 @@ void f__24DA_0028_0005_045A()
  * @name f__24DA_002D_0010_5D17
  * @implements 24DA:002D:0010:5D17 ()
  *
- * Called From: 0642:0153:0009:77B1
  * Called From: B4B8:1A53:0010:CFAE
  * Called From: B4ED:01F8:0009:71B1
  */

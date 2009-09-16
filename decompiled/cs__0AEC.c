@@ -37,7 +37,6 @@ void f__0AEC_004F_0024_F897()
 		case 0x007A: f__0AEC_007A_0008_A5B0(); return;
 		case 0x0082: f__0AEC_0082_0007_6E12(); return;
 		case 0x0089: f__0AEC_0089_0007_6E2C(); return;
-		case 0x0090: f__0AEC_0090_0007_6E7E(); return;
 		case 0x0097: f__0AEC_0097_0007_6E18(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -105,20 +104,6 @@ void f__0AEC_0089_0007_6E2C()
 }
 
 /**
- * Decompiled function f__0AEC_0090_0007_6E7E()
- *
- * @name f__0AEC_0090_0007_6E7E
- * @implements 0AEC:0090:0007:6E7E ()
- *
- * Called From: 0AEC:006E:0024:F897
- */
-void f__0AEC_0090_0007_6E7E()
-{
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x4);
-	f__0AEC_00A0_0048_F42C(); return;
-}
-
-/**
  * Decompiled function f__0AEC_0097_0007_6E18()
  *
  * @name f__0AEC_0097_0007_6E18
@@ -142,7 +127,6 @@ void f__0AEC_0097_0007_6E18()
  * Called From: 0AEC:0080:0008:A5B0
  * Called From: 0AEC:0087:0007:6E12
  * Called From: 0AEC:008E:0007:6E2C
- * Called From: 0AEC:0095:0007:6E7E
  * Called From: 0AEC:009C:0007:6E18
  */
 void f__0AEC_00A0_0048_F42C()
@@ -310,7 +294,6 @@ void f__0AEC_013A_001B_B07A()
 	/* Call/jump based on memory/register values */
 	emu_ip = emu_get_memory16(emu_cs, emu_bx.x,  0x7F3);
 	switch (emu_ip) {
-		case 0x0155: f__0AEC_0155_0007_6E34(); return;
 		case 0x015C: f__0AEC_015C_0007_6E66(); return;
 		case 0x0163: f__0AEC_0163_0007_6E70(); return;
 		case 0x016A: f__0AEC_016A_0007_6E22(); return;
@@ -320,20 +303,6 @@ void f__0AEC_013A_001B_B07A()
 			emu_call();
 			return;
 	}
-}
-
-/**
- * Decompiled function f__0AEC_0155_0007_6E34()
- *
- * @name f__0AEC_0155_0007_6E34
- * @implements 0AEC:0155:0007:6E34 ()
- *
- * Called From: 0AEC:0150:001B:B07A
- */
-void f__0AEC_0155_0007_6E34()
-{
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x6);
-	f__0AEC_0178_007A_9F70(); return;
 }
 
 /**
@@ -399,7 +368,6 @@ void f__0AEC_0171_0007_6664()
  * @name f__0AEC_0178_007A_9F70
  * @implements 0AEC:0178:007A:9F70 ()
  *
- * Called From: 0AEC:015A:0007:6E34
  * Called From: 0AEC:0161:0007:6E66
  * Called From: 0AEC:0168:0007:6E70
  * Called From: 0AEC:016F:0007:6E22

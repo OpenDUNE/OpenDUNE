@@ -16,8 +16,6 @@
  * Called From: B4DA:1391:0014:B27E
  * Called From: B4DA:1557:0014:B27E
  * Called From: B4DA:15BB:0014:B27E
- * Called From: B4E0:06DD:0014:FB7C
- * Called From: B4E0:07B2:0014:B26E
  * Called From: B511:0DCD:0018:C1B2
  * Called From: B511:1324:0018:C1B2
  */
@@ -120,7 +118,6 @@ void f__2502_0045_0012_B54D()
  * Called From: B4DA:137D:000A:A3A1
  * Called From: B4DA:1543:000A:A3A1
  * Called From: B4DA:15A7:000A:A3A1
- * Called From: B4E0:06C9:0014:E654
  */
 void f__2502_00FA_0009_4FCC()
 {

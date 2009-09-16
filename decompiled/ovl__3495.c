@@ -30,8 +30,6 @@
  * Called From: B4A2:06AC:0030:FF82
  * Called From: B4A2:06AC:0030:FF82
  * Called From: B4A2:06AC:0030:FF82
- * Called From: B4A2:06AC:0030:FF82
- * Called From: B4A2:06AC:0030:FF82
  */
 void ovl__3495(uint8 entry)
 {

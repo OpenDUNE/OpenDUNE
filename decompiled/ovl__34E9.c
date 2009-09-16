@@ -16,8 +16,6 @@
  * @implements 34E9:002F (3)
  *
  * Called From: 0642:0108:000C:8A43
- * Called From: 0642:01B7:000F:6377
- * Called From: 0642:01D6:0011:32B0
  * Called From: 0AEC:04CF:001B:DEA1
  * Called From: 0AEC:05CB:0009:722D
  * Called From: 0AEC:1035:001B:7D13
@@ -31,11 +29,6 @@
  * Called From: 1A34:10AF:0018:579A
  * Called From: 1A34:10E4:0015:8A45
  * Called From: 1A34:1DBE:0046:5616
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28

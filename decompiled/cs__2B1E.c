@@ -12,7 +12,6 @@
  *
  * Called From: 2B1E:00D7:002A:643E
  * Called From: 2B1E:01A1:001B:A980
- * Called From: 2B1E:01EB:000D:9984
  */
 void f__2B1E_000E_003E_6F6E()
 {
@@ -114,7 +113,6 @@ void f__2B1E_00DA_0008_E9B2()
  * @implements 2B1E:0189:001B:A980 ()
  *
  * Called From: 1423:0137:001A:B869
- * Called From: B480:03B3:0019:EE49
  */
 void f__2B1E_0189_001B_A980()
 {
@@ -176,7 +174,7 @@ void f__2B1E_01AA_0013_5C95()
 	emu_orb(&emu_ax.l, emu_ax.l);
 	if (emu_flags.zf) { f__2B1E_020F_000A_00B3(); return; }
 	emu_cmpb(&emu_ax.l, 0xD);
-	if (emu_flags.zf) { f__2B1E_01E1_000D_9984(); return; }
+	if (emu_flags.zf) { emu_ip = 0x01E1; emu_last_cs = 0x2B1E; emu_last_ip = 0x01B1; emu_last_length = 0x0013; emu_last_crc = 0x5C95; emu_call(); return; } // Jump does not resolve
 	emu_xorb(&emu_ax.h, emu_ax.h);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_ax.x);
@@ -212,47 +210,6 @@ void f__2B1E_01BD_001F_C28E()
 }
 
 /**
- * Decompiled function f__2B1E_01E1_000D_9984()
- *
- * @name f__2B1E_01E1_000D_9984
- * @implements 2B1E:01E1:000D:9984 ()
- *
- * Called From: 2B1E:01B1:0013:5C95
- */
-void f__2B1E_01E1_000D_9984()
-{
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_cs);
-	emu_push(0x01EE); f__2B1E_000E_003E_6F6E();
-	f__2B1E_01EE_0019_36ED();
-}
-
-/**
- * Decompiled function f__2B1E_01EE_0019_36ED()
- *
- * @name f__2B1E_01EE_0019_36ED
- * @implements 2B1E:01EE:0019:36ED ()
- *
- * Called From: 2B1E:01EE:000D:9984
- */
-void f__2B1E_01EE_0019_36ED()
-{
-	emu_addws(&emu_sp, 0x4);
-	emu_cmpws(&emu_get_memory16(emu_cs, 0x00,  0xA), 0x19);
-	if (emu_flags.cf) { f__2B1E_020D_0002_029A(); return; }
-	emu_push(emu_ax.x);
-	emu_push(emu_bp);
-	emu_movw(&emu_bp, emu_sp);
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0x2), 0x1);
-	emu_pop(&emu_bp);
-	emu_push(emu_cs);
-	emu_push(0x0207); emu_ip = 0x006D; emu_last_cs = 0x2B1E; emu_last_ip = 0x0204; emu_last_length = 0x0019; emu_last_crc = 0x36ED; emu_call(); // Jump does not resolve
-	emu_unknown_call();
-}
-
-/**
  * Decompiled function f__2B1E_01F1_0016_F6EC()
  *
  * @name f__2B1E_01F1_0016_F6EC
@@ -281,7 +238,6 @@ void f__2B1E_01F1_0016_F6EC()
  * @implements 2B1E:020D:0002:029A ()
  *
  * Called From: 2B1E:01F7:0016:F6EC
- * Called From: 2B1E:01F7:0019:36ED
  */
 void f__2B1E_020D_0002_029A()
 {

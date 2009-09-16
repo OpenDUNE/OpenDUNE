@@ -11,7 +11,6 @@
  * @implements 2537:000C:001C:1A9E ()
  *
  * Called From: 0642:011A:000C:5C1D
- * Called From: 0642:01E3:000D:1416
  * Called From: 0642:0280:0013:787E
  * Called From: 0EDB:016F:002F:97D3
  * Called From: 1391:01F2:0012:060A

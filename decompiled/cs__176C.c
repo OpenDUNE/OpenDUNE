@@ -3693,7 +3693,6 @@ void f__176C_1458_0023_5FB1()
  * @name f__176C_1476_0005_0FAC
  * @implements 176C:1476:0005:0FAC ()
  *
- * Called From: 176C:14EF:0005:1EB6
  * Called From: 176C:1543:0026:677F
  * Called From: 176C:191B:0003:07DE
  */
@@ -3827,8 +3826,8 @@ void f__176C_14C0_002C_8E78()
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x6268));
-	emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x1A34; f__1A34_1A66_0011_4E2C();
-	f__176C_14EC_0005_1EB6();
+	emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x1A34; emu_ip = 0x2F52; emu_last_cs = 0x176C; emu_last_ip = 0x14E7; emu_last_length = 0x002C; emu_last_crc = 0x8E78; emu_call(); // Jump does not resolve
+	emu_unknown_call();
 }
 
 /**
@@ -3848,21 +3847,7 @@ void f__176C_14D4_0018_365F()
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x6268));
 	emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x1A34; emu_ip = 0x2F52; emu_last_cs = 0x176C; emu_last_ip = 0x14E7; emu_last_length = 0x0018; emu_last_crc = 0x365F; emu_call(); // Jump does not resolve
-	f__176C_14EC_0005_1EB6();
-}
-
-/**
- * Decompiled function f__176C_14EC_0005_1EB6()
- *
- * @name f__176C_14EC_0005_1EB6
- * @implements 176C:14EC:0005:1EB6 ()
- *
- * Called From: 176C:14EC:002C:8E78
- */
-void f__176C_14EC_0005_1EB6()
-{
-	emu_addws(&emu_sp, 0x6);
-	f__176C_1476_0005_0FAC(); return;
+	emu_unknown_call();
 }
 
 /**

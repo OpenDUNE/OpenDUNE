@@ -522,7 +522,6 @@ void f__167E_00EF_0004_0F7A()
  * Called From: 1A34:137B:0008:7C24
  * Called From: 1A34:1AC7:001E:87B9
  * Called From: 1A34:1B04:000F:9DBA
- * Called From: 1A34:1B26:0008:7C24
  * Called From: 1A34:1C7B:0033:BCB7
  * Called From: 1A34:1C7B:000F:21BB
  * Called From: 1A34:1C8D:0012:9C3C

@@ -278,7 +278,6 @@ void f__0F3F_007E_0008_3E22()
  * Called From: 1A34:12D7:0015:B69C
  * Called From: 1A34:1373:002A:FE23
  * Called From: 1A34:1707:0014:E1D7
- * Called From: 1A34:1B1E:001A:3549
  * Called From: 1A34:2895:0027:77C1
  * Called From: 1A34:29FD:002C:51E8
  * Called From: 1A34:2FFD:001F:F519

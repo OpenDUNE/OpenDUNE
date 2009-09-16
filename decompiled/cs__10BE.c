@@ -546,38 +546,12 @@ void f__10BE_0226_0037_85EE()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_si, emu_get_memory16(emu_es, emu_bx.x,  0x4));
 	emu_cmpw(&emu_si, emu_get_memory16(emu_ds, 0x00,  0x35FE));
-	if (!(emu_flags.sf != emu_flags.of)) { f__10BE_0234_0029_175D(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x0234; emu_last_cs = 0x10BE; emu_last_ip = 0x0231; emu_last_length = 0x0037; emu_last_crc = 0x85EE; emu_call(); return; } // Jump does not resolve
 	emu_incw(&emu_si);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx.x,  0x4), emu_si);
 	emu_cmpw(&emu_si, emu_get_memory16(emu_ds, 0x00,  0x35FE));
 	if (!(emu_flags.sf != emu_flags.of)) { f__10BE_025D_0006_11EC(); return; }
-	emu_movw(&emu_bx.x, emu_si);
-	emu_movb(&emu_cx.l, 0x2);
-	emu_shlw(&emu_bx.x, emu_cx.l);
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x, -0x783E));
-	emu_movw(&emu_dx.x, emu_get_memory16(emu_ds, emu_bx.x, -0x7840));
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax.x);
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_dx.x);
-	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	f__10BE_0263_0005_04BA(); return;
-}
-
-/**
- * Decompiled function f__10BE_0234_0029_175D()
- *
- * @name f__10BE_0234_0029_175D
- * @implements 10BE:0234:0029:175D ()
- *
- * Called From: 10BE:0231:0037:85EE
- */
-void f__10BE_0234_0029_175D()
-{
-	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movw(&emu_get_memory16(emu_es, emu_bx.x,  0x4), emu_si);
-	emu_cmpw(&emu_si, emu_get_memory16(emu_ds, 0x00,  0x35FE));
-	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x025D; emu_last_cs = 0x10BE; emu_last_ip = 0x023F; emu_last_length = 0x0029; emu_last_crc = 0x175D; emu_call(); return; } // Jump does not resolve
 	emu_movw(&emu_bx.x, emu_si);
 	emu_movb(&emu_cx.l, 0x2);
 	emu_shlw(&emu_bx.x, emu_cx.l);
@@ -628,7 +602,6 @@ void f__10BE_025D_0006_11EC()
  * Called From: 10BE:025B:0037:85EE
  * Called From: 10BE:025B:004E:EE3E
  * Called From: 10BE:025B:0002:03A0
- * Called From: 10BE:025B:0029:175D
  */
 void f__10BE_0263_0005_04BA()
 {

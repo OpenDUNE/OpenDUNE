@@ -18,9 +18,6 @@
  * @implements 3483:0039 (5)
  *
  * Called From: 0642:0125:000B:A977
- * Called From: 0642:0136:0010:EFC3
- * Called From: 0642:016C:000A:ACE4
- * Called From: 0642:01EE:000B:A977
  * Called From: 0642:024C:0005:13D4
  * Called From: 0642:028B:000B:B077
  * Called From: 0642:0755:0005:13D4
@@ -66,13 +63,6 @@
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
- * Called From: 261F:01B9:001B:DA28
  * Called From: B4B8:1C06:0008:5474
  * Called From: B4B8:1C6A:0009:F605
  * Called From: B4B8:1CD8:0008:5474
@@ -87,7 +77,6 @@
  * Called From: B4E9:0414:000B:A977
  * Called From: B4ED:07A6:0023:CA4A
  * Called From: B4ED:0AB0:0010:6060
- * Called From: B4F2:026A:0014:27AA
  * Called From: B503:0024:000A:0E74
  * Called From: B511:0029:0010:962F
  * Called From: B511:0410:000A:ACE4

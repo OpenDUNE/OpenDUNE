@@ -1073,22 +1073,7 @@ void f__1391_05AF_000E_6B90()
 {
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ds, 0x00,  0x394A));
 	emu_cmpws(&emu_get_memory16(emu_es, emu_bx.x,  0x2C), 0xFF);
-	if (!emu_flags.zf) { f__1391_05BD_0009_0E43(); return; }
-	f__1391_076C_0009_0CD9(); return;
-}
-
-/**
- * Decompiled function f__1391_05BD_0009_0E43()
- *
- * @name f__1391_05BD_0009_0E43
- * @implements 1391:05BD:0009:0E43 ()
- *
- * Called From: 1391:05B8:000E:6B90
- */
-void f__1391_05BD_0009_0E43()
-{
-	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x0);
-	if (!emu_flags.zf) { emu_ip = 0x05C6; emu_last_cs = 0x1391; emu_last_ip = 0x05C1; emu_last_length = 0x0009; emu_last_crc = 0x0E43; emu_call(); return; } // Jump does not resolve
+	if (!emu_flags.zf) { emu_ip = 0x05BD; emu_last_cs = 0x1391; emu_last_ip = 0x05B8; emu_last_length = 0x000E; emu_last_crc = 0x6B90; emu_call(); return; } // Jump does not resolve
 	f__1391_076C_0009_0CD9(); return;
 }
 
@@ -1100,7 +1085,6 @@ void f__1391_05BD_0009_0E43()
  *
  * Called From: 1391:05BA:000F:EBBC
  * Called From: 1391:05BA:000E:6B90
- * Called From: 1391:05C3:0009:0E43
  */
 void f__1391_076C_0009_0CD9()
 {

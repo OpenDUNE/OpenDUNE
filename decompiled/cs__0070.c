@@ -54,8 +54,6 @@ void f__0070_0048_0005_1DB6()
  * Called From: 3EEE:0EB7:0003:01BC
  * Called From: 3EEE:0EBB:0003:01BC
  * Called From: 3EEE:0EC3:0003:01BC
- * Called From: 3EEE:0ECF:0003:01BC
- * Called From: 3EEE:0ED3:0003:01BC
  * Called From: B4B8:1850:0011:B0C7
  */
 void f__0070_0080_0005_1D7E()

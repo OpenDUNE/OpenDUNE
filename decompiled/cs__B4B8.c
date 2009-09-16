@@ -3884,7 +3884,6 @@ void f__B4B8_0A14_000A_F9F9()
  * Called From: 34B8:0034:0005:1E24
  * Called From: 34B8:0034:0005:1F00
  * Called From: 34B8:0034:0005:1F4A
- * Called From: 34B8:0034:0005:1E74
  * Called From: B4B8:19FF:0013:2F0E
  * Called From: B4B8:1D4A:0013:2C02
  */
@@ -4695,7 +4694,6 @@ void f__B4B8_0D1E_0005_04BA()
  * Called From: 34B8:0039:0005:1E92
  * Called From: 34B8:0039:0005:1DCC
  * Called From: 34B8:0039:0005:1F38
- * Called From: 34B8:0039:0005:1FA0
  * Called From: B4B8:21DF:0004:0772
  */
 void f__B4B8_0D23_0010_7C11()
@@ -4972,7 +4970,6 @@ void f__B4B8_0ECA_0004_0F7A()
  * Called From: 34B8:0025:0005:1354
  * Called From: 34B8:0025:0005:1056
  * Called From: 34B8:0025:0005:1020
- * Called From: 34B8:0025:0005:11B6
  */
 void f__B4B8_0ECE_000B_8103()
 {

@@ -849,7 +849,6 @@ void f__B495_0284_0004_07E2()
  * @implements B495:0288:001F:143C ()
  *
  * Called From: 3495:002F:0005:1610
- * Called From: 3495:002F:0005:15E0
  */
 void f__B495_0288_001F_143C()
 {
@@ -1031,7 +1030,6 @@ void f__B495_0394_0004_0F7A()
  * @implements B495:03B9:0008:3F8A ()
  *
  * Called From: 3495:003E:0005:1508
- * Called From: 3495:003E:0005:16F8
  */
 void f__B495_03B9_0008_3F8A()
 {

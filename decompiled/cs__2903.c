@@ -1653,7 +1653,6 @@ void f__2903_050E_0022_9D9B()
  * @implements 2903:0517:0019:902F ()
  *
  * Called From: 2903:0526:0011:6D33
- * Called From: 2903:0526:0019:902F
  */
 void f__2903_0517_0019_902F()
 {
@@ -1665,7 +1664,7 @@ void f__2903_0517_0019_902F()
 	emu_incw(&emu_di);
 	emu_incw(&emu_cx.x);
 	emu_subw(&emu_cx.x, emu_ax.x);
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2903_0517_0019_902F(); return; }
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x0517; emu_last_cs = 0x2903; emu_last_ip = 0x0526; emu_last_length = 0x0019; emu_last_crc = 0x902F; emu_call(); return; } // Jump does not resolve
 	emu_movw(&emu_ds, emu_bx.x);
 	emu_xchgw(&emu_di, &emu_si);
 	emu_pop(&emu_es);

@@ -27,9 +27,7 @@
  * Called From: B4DA:0B1A:0030:6E00
  * Called From: B4DA:10DF:0009:74A3
  * Called From: B4E0:042F:0017:7AAC
- * Called From: B4E0:0677:0024:3268
  * Called From: B4E0:0BE9:0018:1ED2
- * Called From: B4E0:0BE9:001A:C8D3
  * Called From: B4ED:02DB:000A:16A2
  * Called From: B4ED:0307:0009:74A3
  * Called From: B4F2:0EF8:0009:72A3
