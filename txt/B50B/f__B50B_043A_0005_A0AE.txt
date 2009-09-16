@@ -1,0 +1,7 @@
+CS: B50B
+IP: 043A
+Length: 0005
+CRC: A0AE
+Binary: 01
+83 C4 08 EB 4B
+From: B50B,043A,001E,0374

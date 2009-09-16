@@ -1,0 +1,7 @@
+CS: 217E
+IP: 0567
+Length: 0002
+CRC: D73A
+Binary: 01
+EB 2E
+From: 217E,0567,0008,D2BC

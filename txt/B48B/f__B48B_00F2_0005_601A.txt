@@ -1,0 +1,7 @@
+CS: B48B
+IP: 00F2
+Length: 0005
+CRC: 601A
+Binary: 01
+55 8B EC EB 1E
+From: 348B,002F,0005,0000

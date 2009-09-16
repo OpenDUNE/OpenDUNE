@@ -1,0 +1,7 @@
+CS: 10E4
+IP: 0483
+Length: 0005
+CRC: 1765
+Binary: 01
+9A 59 05 42 06
+From: 10E4,048F,000E,9A5B

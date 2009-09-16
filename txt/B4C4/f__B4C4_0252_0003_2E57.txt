@@ -1,0 +1,7 @@
+CS: B4C4
+IP: 0252
+Length: 0003
+CRC: 2E57
+Binary: 01
+5E 5D CB
+From: B4C4,0250,0007,B149

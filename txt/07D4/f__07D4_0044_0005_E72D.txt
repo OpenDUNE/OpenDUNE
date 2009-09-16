@@ -1,0 +1,7 @@
+CS: 07D4
+IP: 0044
+Length: 0005
+CRC: E72D
+Binary: 01
+9A 02 06 F7 06
+From: 07D4,003C,0015,CB18

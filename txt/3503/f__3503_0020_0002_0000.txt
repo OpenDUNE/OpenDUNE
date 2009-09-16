@@ -1,0 +1,7 @@
+CS: 3503
+IP: 0020
+Length: 0002
+CRC: 0000
+Binary: 01
+CD 3F
+From: 1423,03F2,0010,D5EE

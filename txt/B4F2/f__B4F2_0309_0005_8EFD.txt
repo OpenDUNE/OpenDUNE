@@ -1,0 +1,7 @@
+CS: B4F2
+IP: 0309
+Length: 0005
+CRC: 8EFD
+Binary: 01
+9A 39 00 B8 34
+From: B4F2,02BB,001E,2B44

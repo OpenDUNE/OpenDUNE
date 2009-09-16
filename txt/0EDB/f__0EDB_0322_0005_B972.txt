@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 0322
+Length: 0005
+CRC: B972
+Binary: 01
+B8 80 00 EB F9
+From: 0EDB,0315,001A,CA96

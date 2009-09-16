@@ -1,0 +1,7 @@
+CS: 0AEC
+IP: 111E
+Length: 0003
+CRC: E81A
+Binary: 01
+59 EB 46
+From: 0AEC,111E,001C,5E7F

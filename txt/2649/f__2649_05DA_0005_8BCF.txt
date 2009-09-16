@@ -1,0 +1,7 @@
+CS: 2649
+IP: 05DA
+Length: 0005
+CRC: 8BCF
+Binary: 01
+5E 8B E5 5D CB
+From: 2649,037F,0007,55C7

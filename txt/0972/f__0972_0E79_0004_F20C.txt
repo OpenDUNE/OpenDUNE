@@ -1,0 +1,7 @@
+CS: 0972
+IP: 0E79
+Length: 0004
+CRC: F20C
+Binary: 01
+59 E9 A4 FE
+From: 0972,0E79,0006,3EF3

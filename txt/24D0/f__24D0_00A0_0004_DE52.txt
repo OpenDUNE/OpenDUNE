@@ -1,0 +1,7 @@
+CS: 24D0
+IP: 00A0
+Length: 0004
+CRC: DE52
+Binary: 01
+5F 5E 5D CB
+From: 24D0,0044,000C,9629

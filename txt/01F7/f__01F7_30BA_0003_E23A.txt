@@ -1,0 +1,7 @@
+CS: 01F7
+IP: 30BA
+Length: 0003
+CRC: E23A
+Binary: 01
+E8 EA FE
+From: 01F7,3095,0015,D1FF

@@ -1,0 +1,7 @@
+CS: B50B
+IP: 033C
+Length: 0002
+CRC: DEBA
+Binary: 01
+EB 3D
+From: B50B,033C,0016,CD5C

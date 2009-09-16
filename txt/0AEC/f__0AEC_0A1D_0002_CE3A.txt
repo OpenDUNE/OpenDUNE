@@ -1,0 +1,7 @@
+CS: 0AEC
+IP: 0A1D
+Length: 0002
+CRC: CE3A
+Binary: 01
+EB 1C
+From: 0AEC,0A00,0032,084A

@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 0502
+Length: 0002
+CRC: C23A
+Binary: 01
+EB 04
+From: 0EDB,0506,0004,9539

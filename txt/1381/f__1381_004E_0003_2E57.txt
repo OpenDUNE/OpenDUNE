@@ -1,0 +1,7 @@
+CS: 1381
+IP: 004E
+Length: 0003
+CRC: 2E57
+Binary: 01
+5E 5D CB
+From: 1381,0041,000B,E2C7

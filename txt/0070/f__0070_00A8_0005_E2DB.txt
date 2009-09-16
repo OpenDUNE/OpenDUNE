@@ -1,0 +1,7 @@
+CS: 0070
+IP: 00A8
+Length: 0005
+CRC: E2DB
+Binary: 01
+FF 38 15 00 CF
+From: 217E,0FC3,0004,1BB8

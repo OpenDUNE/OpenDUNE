@@ -1,0 +1,7 @@
+CS: 253D
+IP: 0042
+Length: 0003
+CRC: 2E57
+Binary: 01
+5E 5D CB
+From: 253D,0040,0009,EE26

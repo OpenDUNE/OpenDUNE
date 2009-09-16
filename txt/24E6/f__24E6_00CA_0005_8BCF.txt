@@ -1,0 +1,7 @@
+CS: 24E6
+IP: 00CA
+Length: 0005
+CRC: 8BCF
+Binary: 01
+5E 8B E5 5D CB
+From: 24E6,0094,0002,DA3A

@@ -1,0 +1,7 @@
+CS: 1319
+IP: 002B
+Length: 0002
+CRC: 2597
+Binary: 01
+5D CB
+From: 1319,0029,0011,30DD

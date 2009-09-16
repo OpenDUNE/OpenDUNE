@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 35EF
+Length: 0002
+CRC: 803A
+Binary: 01
+EB 80
+From: 1A34,35FD,000A,3979

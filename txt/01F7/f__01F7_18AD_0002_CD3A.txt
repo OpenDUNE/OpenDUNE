@@ -1,0 +1,7 @@
+CS: 01F7
+IP: 18AD
+Length: 0002
+CRC: CD3A
+Binary: 01
+EB 1A
+From: 01F7,18AD,0003,222F

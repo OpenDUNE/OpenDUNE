@@ -1,0 +1,7 @@
+CS: 29A3
+IP: 02D5
+Length: 0005
+CRC: CE8B
+Binary: 01
+07 5A 59 58 CB
+From: 29A3,02D5,0018,A1B5

@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 131D
+Length: 0005
+CRC: 8669
+Binary: 01
+8B C6 E9 76 FE
+From: 1A34,1316,0028,478E

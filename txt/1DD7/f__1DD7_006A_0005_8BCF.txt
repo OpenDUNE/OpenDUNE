@@ -1,0 +1,7 @@
+CS: 1DD7
+IP: 006A
+Length: 0005
+CRC: 8BCF
+Binary: 01
+5E 8B E5 5D CB
+From: 1DD7,0068,0005,BBA6

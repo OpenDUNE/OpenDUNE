@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 0098
+Length: 0005
+CRC: 0000
+Binary: 01
+EA 16 18 F1 3F
+From: 1A34,2341,0009,1DF9

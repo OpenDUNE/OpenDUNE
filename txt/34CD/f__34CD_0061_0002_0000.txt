@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 0061
+Length: 0002
+CRC: 0000
+Binary: 01
+CD 3F
+From: 10E4,1CDD,0009,109E

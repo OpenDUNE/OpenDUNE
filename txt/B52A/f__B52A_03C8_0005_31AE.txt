@@ -1,0 +1,7 @@
+CS: B52A
+IP: 03C8
+Length: 0005
+CRC: 31AE
+Binary: 01
+83 CE 28 EB 21
+From: B52A,03C1,000C,FBEB

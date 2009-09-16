@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 0178
+Length: 0002
+CRC: 2597
+Binary: 01
+5D CB
+From: 0EDB,0176,0004,5B1F

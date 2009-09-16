@@ -1,0 +1,7 @@
+CS: 01F7
+IP: 32E3
+Length: 0005
+CRC: 88A6
+Binary: 01
+8B 46 FE EB 66
+From: 01F7,32D4,001E,C660

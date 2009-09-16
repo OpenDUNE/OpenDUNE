@@ -1,0 +1,7 @@
+CS: 1319
+IP: 02C7
+Length: 0005
+CRC: 9C31
+Binary: 01
+33 C0 E9 16 01
+From: 1319,0346,000B,A375

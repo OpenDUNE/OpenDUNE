@@ -1,0 +1,7 @@
+CS: 1A34
+IP: 381C
+Length: 0002
+CRC: C23A
+Binary: 01
+EB 04
+From: 1A34,3820,0004,9539

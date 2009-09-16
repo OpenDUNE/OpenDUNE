@@ -1,0 +1,7 @@
+CS: 01F7
+IP: 0349
+Length: 0004
+CRC: 4860
+Binary: 01
+FF 1E BE 77
+From: 01F7,0349,000C,44E6

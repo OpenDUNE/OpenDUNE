@@ -1,0 +1,7 @@
+CS: 10E4
+IP: 2066
+Length: 0004
+CRC: 2C1F
+Binary: 01
+59 59 EB EE
+From: 10E4,2066,000A,AE92

@@ -1,0 +1,7 @@
+CS: B50B
+IP: 0264
+Length: 0004
+CRC: 893F
+Binary: 01
+8B E5 5D CB
+From: B50B,0262,0008,112E

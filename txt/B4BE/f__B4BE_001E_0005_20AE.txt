@@ -1,0 +1,7 @@
+CS: B4BE
+IP: 001E
+Length: 0005
+CRC: 20AE
+Binary: 01
+9A 43 06 E8 29
+From: B4BE,001E,0007,DD28

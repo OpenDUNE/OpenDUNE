@@ -1,0 +1,7 @@
+CS: 217E
+IP: 0209
+Length: 0002
+CRC: A187
+Binary: 01
+1F C3
+From: 217E,0209,0005,6940

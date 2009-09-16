@@ -1,0 +1,7 @@
+CS: B511
+IP: 1487
+Length: 0005
+CRC: 8EFD
+Binary: 01
+9A 39 00 B8 34
+From: B511,1487,001B,0682

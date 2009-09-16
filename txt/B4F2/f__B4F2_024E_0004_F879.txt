@@ -1,0 +1,7 @@
+CS: B4F2
+IP: 024E
+Length: 0004
+CRC: F879
+Binary: 01
+33 F6 EB 2D
+From: B4F2,01E1,0007,29A0

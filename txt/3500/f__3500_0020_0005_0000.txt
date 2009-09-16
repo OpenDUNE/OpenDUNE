@@ -1,0 +1,7 @@
+CS: 3500
+IP: 0020
+Length: 0005
+CRC: 0000
+Binary: 01
+EA 00 00 6E 43
+From: 261F,01B9,001B,EDBF

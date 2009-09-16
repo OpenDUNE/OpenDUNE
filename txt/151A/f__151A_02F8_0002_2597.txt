@@ -1,0 +1,7 @@
+CS: 151A
+IP: 02F8
+Length: 0002
+CRC: 2597
+Binary: 01
+5D CB
+From: 151A,02F6,0010,6B15

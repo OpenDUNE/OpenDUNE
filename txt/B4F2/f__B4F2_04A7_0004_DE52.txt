@@ -1,0 +1,7 @@
+CS: B4F2
+IP: 04A7
+Length: 0004
+CRC: DE52
+Binary: 01
+5F 5E 5D CB
+From: B4F2,04A5,0006,8EF0

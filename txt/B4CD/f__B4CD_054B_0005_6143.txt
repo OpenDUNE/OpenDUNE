@@ -1,0 +1,7 @@
+CS: B4CD
+IP: 054B
+Length: 0005
+CRC: 6143
+Binary: 01
+83 C4 06 5D CB
+From: B4CD,054B,0010,C4CD

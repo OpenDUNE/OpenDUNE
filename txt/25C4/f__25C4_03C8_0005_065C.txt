@@ -1,0 +1,7 @@
+CS: 25C4
+IP: 03C8
+Length: 0005
+CRC: 065C
+Binary: 01
+9A 0D 00 33 25
+From: 25C4,03C6,0004,5B1F

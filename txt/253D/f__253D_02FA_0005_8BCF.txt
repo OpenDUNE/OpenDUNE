@@ -1,0 +1,7 @@
+CS: 253D
+IP: 02FA
+Length: 0005
+CRC: 8BCF
+Binary: 01
+5E 8B E5 5D CB
+From: 253D,02F8,0008,E949

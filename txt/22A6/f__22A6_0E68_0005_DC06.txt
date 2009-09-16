@@ -1,0 +1,7 @@
+CS: 22A6
+IP: 0E68
+Length: 0005
+CRC: DC06
+Binary: 01
+5E 1F 5B 5D CB
+From: 22A6,0E64,0007,99C6

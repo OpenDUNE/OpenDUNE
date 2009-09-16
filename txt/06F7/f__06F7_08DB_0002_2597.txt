@@ -1,0 +1,7 @@
+CS: 06F7
+IP: 08DB
+Length: 0002
+CRC: 2597
+Binary: 01
+5D CB
+From: 06F7,08D9,0008,4F72

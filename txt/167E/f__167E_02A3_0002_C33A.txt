@@ -1,0 +1,7 @@
+CS: 167E
+IP: 02A3
+Length: 0002
+CRC: C33A
+Binary: 01
+EB 06
+From: 167E,02A9,0006,5EA9

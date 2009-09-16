@@ -1,0 +1,7 @@
+CS: 01F7
+IP: 2920
+Length: 0003
+CRC: 2E57
+Binary: 01
+5E 5D CB
+From: 01F7,290F,000E,4424

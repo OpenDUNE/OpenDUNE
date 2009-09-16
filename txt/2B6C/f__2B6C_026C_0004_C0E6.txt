@@ -1,0 +1,7 @@
+CS: 2B6C
+IP: 026C
+Length: 0004
+CRC: C0E6
+Binary: 01
+FF 1E A4 66
+From: 2B6C,026C,0007,128D

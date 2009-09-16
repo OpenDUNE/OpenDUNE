@@ -1,0 +1,7 @@
+CS: 0C3A
+IP: 134A
+Length: 0002
+CRC: E33A
+Binary: 01
+EB 46
+From: 0C3A,1390,0007,A56C
