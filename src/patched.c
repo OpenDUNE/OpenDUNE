@@ -1,7 +1,6 @@
 /* $Id$ */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "types.h"
 #include "libemu.h"
 #include "../decompiled/decompiled.h"
