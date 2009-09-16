@@ -18,7 +18,7 @@ CFLAGS += -g -Wall -Wextra
 #  currently having. When all those cases are resolved, this can be removed.
 CFLAGS += -O1 -foptimize-sibling-calls
 
-DECOMPILED := $(shell ls decompiled/*.c)
+DECOMPILED := $(shell ls decompiled/*.c 2>/dev/null)
 DECOMPILED := $(DECOMPILED:%.c=objs/%.o)
 SOURCE := $(shell ls src/*.c src/*/*.c 2>/dev/null)
 SOURCE := $(SOURCE:%.c=objs/%.o)
