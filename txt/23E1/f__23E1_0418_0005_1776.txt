@@ -1,7 +1,0 @@
-CS: 23E1
-IP: 0418
-Length: 0005
-CRC: 1776
-Binary: 01
-9A 73 1B F7 01
-From: 23E1,03E9,000E,300D

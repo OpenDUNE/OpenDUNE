@@ -1,7 +1,0 @@
-CS: 2756
-IP: 0618
-Length: 0001
-CRC: 019E
-Binary: 01
-CF
-From: 2756,061B,0038,747E

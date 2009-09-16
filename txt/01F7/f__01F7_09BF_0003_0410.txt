@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 09BF
-Length: 0003
-CRC: 0410
-Binary: 01
-E9 A9 FE
-From: 01F7,09BB,000C,C46D

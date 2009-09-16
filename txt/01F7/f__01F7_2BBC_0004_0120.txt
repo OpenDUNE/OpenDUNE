@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 2BBC
-Length: 0004
-CRC: 0120
-Binary: 01
-50 E8 B5 DA
-From: 01F7,2BA0,001D,4462

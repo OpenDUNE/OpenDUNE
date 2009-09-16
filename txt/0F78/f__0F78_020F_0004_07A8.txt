@@ -1,7 +1,0 @@
-CS: 0F78
-IP: 020F
-Length: 0004
-CRC: 07A8
-Binary: 01
-33 FF EB 66
-From: 0F78,020B,0010,6058

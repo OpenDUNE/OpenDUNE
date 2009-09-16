@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 16FD
-Length: 0002
-CRC: 03FC
-Binary: 01
-EB 28
-From: 1DD7,16F4,0029,FAEB

@@ -1,7 +1,0 @@
-CS: B4BE
-IP: 0210
-Length: 0005
-CRC: 1FBC
-Binary: 01
-83 C4 06 EB 00
-From: B4BE,0210,001A,F321

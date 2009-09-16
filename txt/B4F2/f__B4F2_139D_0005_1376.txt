@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 139D
-Length: 0005
-CRC: 1376
-Binary: 01
-B8 6A 00 EB BD
-From: B4F2,1396,000C,4370

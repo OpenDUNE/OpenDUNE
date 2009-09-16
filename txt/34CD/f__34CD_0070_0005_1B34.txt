@@ -1,7 +1,0 @@
-CS: 34CD
-IP: 0070
-Length: 0005
-CRC: 1B34
-Binary: 01
-EA 74 0D 76 42
-From: 0C3A,210E,0027,2229

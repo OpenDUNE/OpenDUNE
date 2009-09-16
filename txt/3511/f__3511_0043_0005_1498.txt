@@ -1,7 +1,0 @@
-CS: 3511
-IP: 0043
-Length: 0005
-CRC: 1498
-Binary: 01
-EA B0 0F 89 42
-From: 261F,01B9,001B,DA28

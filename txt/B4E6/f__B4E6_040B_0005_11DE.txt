@@ -1,7 +1,0 @@
-CS: B4E6
-IP: 040B
-Length: 0005
-CRC: 11DE
-Binary: 01
-9A 37 01 6C 2B
-From: B4E6,0406,0008,335C

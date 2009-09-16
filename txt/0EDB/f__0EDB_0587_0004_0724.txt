@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0587
-Length: 0004
-CRC: 0724
-Binary: 01
-33 C0 EB DC
-From: 0EDB,0580,0018,9568

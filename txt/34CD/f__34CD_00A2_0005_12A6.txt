@@ -1,7 +1,0 @@
-CS: 34CD
-IP: 00A2
-Length: 0005
-CRC: 12A6
-Binary: 01
-EA EE 10 41 41
-From: 0F78,03DE,000D,432F

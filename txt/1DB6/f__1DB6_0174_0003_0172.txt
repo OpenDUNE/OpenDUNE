@@ -1,7 +1,0 @@
-CS: 1DB6
-IP: 0174
-Length: 0003
-CRC: 0172
-Binary: 01
-59 EB 0B
-From: 1DB6,0174,0017,198C

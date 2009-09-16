@@ -1,7 +1,0 @@
-CS: 0972
-IP: 151B
-Length: 0004
-CRC: 0756
-Binary: 01
-33 C0 EB E5
-From: 0972,1506,0002,038A

@@ -1,7 +1,0 @@
-CS: 176C
-IP: 25DF
-Length: 0005
-CRC: 1FB0
-Binary: 01
-83 C4 08 EB 3E
-From: 176C,25DF,000E,6E22

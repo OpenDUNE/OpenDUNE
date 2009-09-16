@@ -1,7 +1,0 @@
-CS: 1423
-IP: 03C9
-Length: 0005
-CRC: 143E
-Binary: 01
-9A 69 01 6C 2B
-From: 1423,03C9,0005,1390

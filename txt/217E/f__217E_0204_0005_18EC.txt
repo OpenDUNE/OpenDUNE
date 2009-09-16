@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0204
-Length: 0005
-CRC: 18EC
-Binary: 01
-8B FB E8 5F 00
-From: 217E,01FA,000E,3DB9

@@ -1,7 +1,0 @@
-CS: 348B
-IP: 0039
-Length: 0002
-CRC: 034A
-Binary: 01
-CD 3F
-From: 1A34,1D78,000E,2703

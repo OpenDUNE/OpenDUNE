@@ -1,7 +1,0 @@
-CS: 34B5
-IP: 0020
-Length: 0002
-CRC: 034A
-Binary: 01
-CD 3F
-From: B511,003C,000D,0D67

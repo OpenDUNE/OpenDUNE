@@ -1,7 +1,0 @@
-CS: 2B6C
-IP: 0192
-Length: 0005
-CRC: 1DA6
-Binary: 01
-FF 0E 5E 70 CB
-From: 2B6C,0192,0004,0D5C

@@ -1,7 +1,0 @@
-CS: 34A2
-IP: 002A
-Length: 0005
-CRC: 1E4C
-Binary: 01
-EA 39 00 06 42
-From: 0642,0317,000E,B70A

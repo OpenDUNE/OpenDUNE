@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 301F
-Length: 0003
-CRC: 04AA
-Binary: 01
-E8 85 FF
-From: 01F7,30CE,0014,9909

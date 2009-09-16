@@ -1,7 +1,0 @@
-CS: 0F78
-IP: 02D0
-Length: 0005
-CRC: 04BA
-Binary: 01
-5E 8B E5 5D CB
-From: 0F78,02CE,0006,070C

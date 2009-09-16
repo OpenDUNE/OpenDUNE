@@ -1,7 +1,0 @@
-CS: 3483
-IP: 0025
-Length: 0005
-CRC: 1720
-Binary: 01
-EA 83 02 B0 40
-From: B4B8,1C06,0008,5474

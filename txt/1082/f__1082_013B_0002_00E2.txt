@@ -1,7 +1,0 @@
-CS: 1082
-IP: 013B
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 1082,0139,0004,04F4

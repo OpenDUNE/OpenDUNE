@@ -1,7 +1,0 @@
-CS: 167E
-IP: 0014
-Length: 0004
-CRC: 0648
-Binary: 01
-33 C0 EB 6A
-From: 167E,0060,0011,386F

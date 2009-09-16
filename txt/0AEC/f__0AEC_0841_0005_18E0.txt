@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 0841
-Length: 0005
-CRC: 18E0
-Binary: 01
-9A 90 22 E4 10
-From: 0AEC,083C,0012,8A77

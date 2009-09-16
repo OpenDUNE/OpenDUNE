@@ -1,7 +1,0 @@
-CS: 3495
-IP: 003E
-Length: 0005
-CRC: 16F8
-Binary: 01
-EA B9 03 2D 42
-From: B4A2,06AC,0030,FF82

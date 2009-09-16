@@ -1,7 +1,0 @@
-CS: B511
-IP: 11B9
-Length: 0002
-CRC: 03FE
-Binary: 01
-EB 29
-From: B511,11A0,0012,0145

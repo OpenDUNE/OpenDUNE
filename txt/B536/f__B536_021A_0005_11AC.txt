@@ -1,7 +1,0 @@
-CS: B536
-IP: 021A
-Length: 0005
-CRC: 11AC
-Binary: 01
-88 46 FD EB 44
-From: B536,021A,0032,8537

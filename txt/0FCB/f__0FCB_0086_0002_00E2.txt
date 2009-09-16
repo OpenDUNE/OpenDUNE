@@ -1,7 +1,0 @@
-CS: 0FCB
-IP: 0086
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 0FCB,007E,0005,1FB0

@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 0756
-Length: 0003
-CRC: 043C
-Binary: 01
-E9 DD 00
-From: B4F2,0756,0008,F63E

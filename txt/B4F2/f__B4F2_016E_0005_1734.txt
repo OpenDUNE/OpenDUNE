@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 016E
-Length: 0005
-CRC: 1734
-Binary: 01
-90 0E E8 A3 0C
-From: B4F2,0140,0013,EA80

@@ -1,7 +1,0 @@
-CS: 2903
-IP: 0544
-Length: 0001
-CRC: 0186
-Binary: 01
-C3
-From: 2903,053B,0005,02CA

@@ -1,7 +1,0 @@
-CS: 2AE1
-IP: 02C9
-Length: 0004
-CRC: 07CC
-Binary: 01
-0E E8 64 FE
-From: 2AE1,02C1,0014,00F6

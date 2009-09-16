@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0589
-Length: 0002
-CRC: 0214
-Binary: 01
-EB DC
-From: 0EDB,0585,0018,9568

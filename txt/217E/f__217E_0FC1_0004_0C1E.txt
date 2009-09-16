@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0FC1
-Length: 0004
-CRC: 0C1E
-Binary: 01
-B4 88 CD 15
-From: 217E,0F3F,0003,06B4

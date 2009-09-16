@@ -1,7 +1,0 @@
-CS: 217E
-IP: 091D
-Length: 0005
-CRC: 1410
-Binary: 01
-90 0E E8 6E 04
-From: 217E,090A,0017,DD43

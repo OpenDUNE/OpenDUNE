@@ -1,7 +1,0 @@
-CS: B503
-IP: 0222
-Length: 0002
-CRC: 03AC
-Binary: 01
-EB 00
-From: B503,01DB,0012,F99A

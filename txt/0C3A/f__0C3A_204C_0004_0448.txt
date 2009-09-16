@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 204C
-Length: 0004
-CRC: 0448
-Binary: 01
-03 F8 EB 0A
-From: 0C3A,2041,0004,04E6

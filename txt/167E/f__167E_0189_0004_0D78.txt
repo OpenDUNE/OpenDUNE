@@ -1,7 +1,0 @@
-CS: 167E
-IP: 0189
-Length: 0004
-CRC: 0D78
-Binary: 01
-8B C6 EB 2A
-From: 167E,017B,0012,B88C

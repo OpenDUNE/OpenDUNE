@@ -1,7 +1,0 @@
-CS: 2B4C
-IP: 004A
-Length: 0004
-CRC: 0D5C
-Binary: 01
-FF 1E A4 66
-From: 2B4C,004A,0008,F246

@@ -1,7 +1,0 @@
-CS: 1587
-IP: 0361
-Length: 0005
-CRC: 060C
-Binary: 01
-59 8B C6 EB 00
-From: 1587,0361,0009,C36D

@@ -1,7 +1,0 @@
-CS: 1FB5
-IP: 17D0
-Length: 0004
-CRC: 0CE4
-Binary: 01
-8B C6 EB E4
-From: 1FB5,1770,004D,181C

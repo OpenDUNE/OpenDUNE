@@ -1,7 +1,0 @@
-CS: 1319
-IP: 053F
-Length: 0002
-CRC: 0358
-Binary: 01
-EB 7A
-From: 1319,052B,001B,41C5

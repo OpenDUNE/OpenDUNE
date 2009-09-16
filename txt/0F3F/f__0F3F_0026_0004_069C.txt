@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 0026
-Length: 0004
-CRC: 069C
-Binary: 01
-33 C0 EB 00
-From: 0F3F,001F,0019,C11D

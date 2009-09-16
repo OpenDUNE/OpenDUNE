@@ -1,7 +1,0 @@
-CS: 3EEE
-IP: 0EBD
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 3EEE,0EBD,0003,01BC

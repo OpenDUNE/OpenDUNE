@@ -1,7 +1,0 @@
-CS: 16BC
-IP: 008F
-Length: 0002
-CRC: 03A4
-Binary: 01
-EB 04
-From: 16BC,0093,0004,0768

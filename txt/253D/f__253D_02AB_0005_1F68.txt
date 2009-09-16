@@ -1,7 +1,0 @@
-CS: 253D
-IP: 02AB
-Length: 0005
-CRC: 1F68
-Binary: 01
-83 C4 0C EB 42
-From: 253D,02AB,0039,BDE1

@@ -1,7 +1,0 @@
-CS: B500
-IP: 0038
-Length: 0005
-CRC: 1002
-Binary: 01
-9A 05 00 D1 2B
-From: B500,0038,000C,C040

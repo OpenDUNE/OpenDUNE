@@ -1,7 +1,0 @@
-CS: 217E
-IP: 01AD
-Length: 0005
-CRC: 0C90
-Binary: 01
-0E FF 16 84 00
-From: 217E,01AD,0015,CAA0

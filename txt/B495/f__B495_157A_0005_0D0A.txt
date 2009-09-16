@@ -1,7 +1,0 @@
-CS: B495
-IP: 157A
-Length: 0005
-CRC: 0D0A
-Binary: 01
-59 0E E8 1B F3
-From: B495,157A,0008,566A

@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0381
-Length: 0005
-CRC: 04BA
-Binary: 01
-5E 8B E5 5D CB
-From: 0EDB,037F,0012,D1D9

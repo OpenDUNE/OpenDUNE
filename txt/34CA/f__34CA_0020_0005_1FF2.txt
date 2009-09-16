@@ -1,7 +1,0 @@
-CS: 34CA
-IP: 0020
-Length: 0005
-CRC: 1FF2
-Binary: 01
-EA 0F 02 B5 43
-From: 261F,01B9,001B,DA28

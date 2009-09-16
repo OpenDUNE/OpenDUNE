@@ -1,7 +1,0 @@
-CS: 34CD
-IP: 00B1
-Length: 0005
-CRC: 1D54
-Binary: 01
-EA 00 00 24 42
-From: 151A,06A1,0022,EFCA

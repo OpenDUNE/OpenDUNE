@@ -1,7 +1,0 @@
-CS: B4A2
-IP: 0764
-Length: 0003
-CRC: 0590
-Binary: 01
-E9 B7 02
-From: B4A2,0750,0025,86F7

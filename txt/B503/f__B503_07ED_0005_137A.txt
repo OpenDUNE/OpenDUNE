@@ -1,7 +1,0 @@
-CS: B503
-IP: 07ED
-Length: 0005
-CRC: 137A
-Binary: 01
-9A 3F 07 E8 29
-From: B503,07ED,0016,37DA

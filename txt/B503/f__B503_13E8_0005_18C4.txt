@@ -1,7 +1,0 @@
-CS: B503
-IP: 13E8
-Length: 0005
-CRC: 18C4
-Binary: 01
-A1 B4 81 EB 00
-From: B503,13CC,0009,F5AA

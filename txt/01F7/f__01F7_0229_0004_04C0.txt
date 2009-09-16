@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0229
-Length: 0004
-CRC: 04C0
-Binary: 01
-26 FF 57 02
-From: 01F7,0220,0015,2B26

@@ -1,7 +1,0 @@
-CS: B4ED
-IP: 074D
-Length: 0002
-CRC: 03AC
-Binary: 01
-EB 00
-From: B4ED,0748,0022,81E9

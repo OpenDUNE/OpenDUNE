@@ -1,7 +1,0 @@
-CS: 2618
-IP: 0074
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: 2618,0072,001A,CEEF

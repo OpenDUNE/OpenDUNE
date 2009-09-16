@@ -1,7 +1,0 @@
-CS: B518
-IP: 0502
-Length: 0005
-CRC: 143E
-Binary: 01
-9A 69 01 6C 2B
-From: B518,04FD,000A,DBED

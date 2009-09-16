@@ -1,7 +1,0 @@
-CS: 217E
-IP: 125B
-Length: 0001
-CRC: 0186
-Binary: 01
-C3
-From: 217E,0630,000D,998D

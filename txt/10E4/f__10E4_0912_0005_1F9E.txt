@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 0912
-Length: 0005
-CRC: 1F9E
-Binary: 01
-83 C4 0E EB 31
-From: 10E4,0912,003F,7109

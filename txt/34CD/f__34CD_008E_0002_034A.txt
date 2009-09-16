@@ -1,7 +1,0 @@
-CS: 34CD
-IP: 008E
-Length: 0002
-CRC: 034A
-Binary: 01
-CD 3F
-From: 1A34,10C1,0012,C645

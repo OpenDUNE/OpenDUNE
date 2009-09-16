@@ -1,7 +1,0 @@
-CS: 0642
-IP: 042B
-Length: 0005
-CRC: 11DE
-Binary: 01
-9A 37 01 6C 2B
-From: 0642,0419,0014,B2C5

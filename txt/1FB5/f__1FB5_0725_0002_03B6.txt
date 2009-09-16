@@ -1,7 +1,0 @@
-CS: 1FB5
-IP: 0725
-Length: 0002
-CRC: 03B6
-Binary: 01
-EB 0D
-From: 1FB5,0719,0010,BF47

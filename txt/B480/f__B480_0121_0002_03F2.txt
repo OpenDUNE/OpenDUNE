@@ -1,7 +1,0 @@
-CS: B480
-IP: 0121
-Length: 0002
-CRC: 03F2
-Binary: 01
-EB 2F
-From: B480,0119,000D,A00D

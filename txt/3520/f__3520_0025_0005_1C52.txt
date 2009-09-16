@@ -1,7 +1,0 @@
-CS: 3520
-IP: 0025
-Length: 0005
-CRC: 1C52
-Binary: 01
-EA 35 02 B5 43
-From: B4E0,0D26,002B,854A

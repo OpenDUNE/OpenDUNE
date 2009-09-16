@@ -1,7 +1,0 @@
-CS: 1FB5
-IP: 15F1
-Length: 0005
-CRC: 0D68
-Binary: 01
-59 0E E8 0F EA
-From: 1FB5,15F1,000F,C9F1

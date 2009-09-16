@@ -1,7 +1,0 @@
-CS: 3488
-IP: 0020
-Length: 0005
-CRC: 1DB4
-Binary: 01
-EA 00 00 1F 44
-From: 261F,01B9,001B,DA28

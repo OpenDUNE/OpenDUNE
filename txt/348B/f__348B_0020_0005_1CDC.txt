@@ -1,7 +1,0 @@
-CS: 348B
-IP: 0020
-Length: 0005
-CRC: 1CDC
-Binary: 01
-EA 00 00 45 44
-From: 261F,01B9,001B,DA28

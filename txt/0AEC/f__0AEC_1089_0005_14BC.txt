@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 1089
-Length: 0005
-CRC: 14BC
-Binary: 01
-B8 01 00 EB 00
-From: 0AEC,1048,0042,026A

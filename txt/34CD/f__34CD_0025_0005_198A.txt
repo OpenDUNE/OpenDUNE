@@ -1,7 +1,0 @@
-CS: 34CD
-IP: 0025
-Length: 0005
-CRC: 198A
-Binary: 01
-EA 66 05 80 41
-From: B4CD,0714,0032,5971

@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 3819
-Length: 0005
-CRC: 14B4
-Binary: 01
-B8 01 00 EB 04
-From: 1A34,37E8,0036,70A8

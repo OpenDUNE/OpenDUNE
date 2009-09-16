@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0320
-Length: 0002
-CRC: 03A6
-Binary: 01
-EB 05
-From: 0EDB,0325,0005,1D5E

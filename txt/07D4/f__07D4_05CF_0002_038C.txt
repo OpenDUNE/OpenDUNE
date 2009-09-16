@@ -1,7 +1,0 @@
-CS: 07D4
-IP: 05CF
-Length: 0002
-CRC: 038C
-Binary: 01
-EB 10
-From: 07D4,03B0,001A,35E1

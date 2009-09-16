@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 073E
-Length: 0001
-CRC: 0196
-Binary: 01
-CB
-From: 29E8,073E,000F,6188

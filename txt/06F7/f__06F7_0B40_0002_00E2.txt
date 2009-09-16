@@ -1,7 +1,0 @@
-CS: 06F7
-IP: 0B40
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 06F7,0B3E,0008,F43C

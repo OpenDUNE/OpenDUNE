@@ -1,7 +1,0 @@
-CS: B520
-IP: 03C3
-Length: 0004
-CRC: 07BA
-Binary: 01
-59 59 5D CB
-From: B520,03C3,000D,5922

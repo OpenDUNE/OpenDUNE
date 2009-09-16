@@ -1,7 +1,0 @@
-CS: B4E6
-IP: 0167
-Length: 0004
-CRC: 07D8
-Binary: 01
-33 F6 EB 7A
-From: B4E6,0167,0015,B10F

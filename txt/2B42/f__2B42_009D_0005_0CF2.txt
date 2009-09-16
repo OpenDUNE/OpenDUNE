@@ -1,7 +1,0 @@
-CS: 2B42
-IP: 009D
-Length: 0005
-CRC: 0CF2
-Binary: 01
-5A 59 58 5D CB
-From: 2B42,009D,0010,E709

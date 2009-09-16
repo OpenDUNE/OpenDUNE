@@ -1,7 +1,0 @@
-CS: 0C10
-IP: 0166
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 0C10,0160,0004,0694

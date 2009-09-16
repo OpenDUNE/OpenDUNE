@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0226
-Length: 0003
-CRC: 021C
-Binary: 01
-07 EB C4
-From: 01F7,0226,0015,2B26

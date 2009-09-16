@@ -1,7 +1,0 @@
-CS: B4BE
-IP: 01DC
-Length: 0002
-CRC: 039C
-Binary: 01
-EB 18
-From: B4BE,01C9,0014,9917

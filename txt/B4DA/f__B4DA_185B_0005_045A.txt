@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 185B
-Length: 0005
-CRC: 045A
-Binary: 01
-59 8B E5 5D CB
-From: B4DA,185B,0008,EAEA

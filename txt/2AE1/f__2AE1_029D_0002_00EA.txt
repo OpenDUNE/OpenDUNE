@@ -1,7 +1,0 @@
-CS: 2AE1
-IP: 029D
-Length: 0002
-CRC: 00EA
-Binary: 01
-5F CB
-From: 2AE1,025A,0028,87F7

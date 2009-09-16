@@ -1,7 +1,0 @@
-CS: 3533
-IP: 0020
-Length: 0005
-CRC: 1DB8
-Binary: 01
-EA 00 00 1F 42
-From: 261F,01B9,001B,DA28

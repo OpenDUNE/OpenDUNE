@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 1AE4
-Length: 0004
-CRC: 05C2
-Binary: 01
-33 C0 5D C3
-From: 01F7,1ADD,0009,F160

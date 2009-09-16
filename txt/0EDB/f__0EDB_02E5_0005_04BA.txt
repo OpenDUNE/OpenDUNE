@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 02E5
-Length: 0005
-CRC: 04BA
-Binary: 01
-5E 8B E5 5D CB
-From: 0EDB,02CF,0002,0384

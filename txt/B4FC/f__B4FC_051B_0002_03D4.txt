@@ -1,7 +1,0 @@
-CS: B4FC
-IP: 051B
-Length: 0002
-CRC: 03D4
-Binary: 01
-EB 3C
-From: B4FC,0513,0029,ACD7

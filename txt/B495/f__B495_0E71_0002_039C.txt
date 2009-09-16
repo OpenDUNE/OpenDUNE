@@ -1,7 +1,0 @@
-CS: B495
-IP: 0E71
-Length: 0002
-CRC: 039C
-Binary: 01
-EB 18
-From: B495,0E71,0008,F7BE

@@ -1,7 +1,0 @@
-CS: 2605
-IP: 00AA
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: 2605,00A8,0031,6857

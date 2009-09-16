@@ -1,7 +1,0 @@
-CS: 176C
-IP: 0880
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 176C,087E,0005,1FBC

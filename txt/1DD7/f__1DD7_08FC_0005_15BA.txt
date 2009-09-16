@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 08FC
-Length: 0005
-CRC: 15BA
-Binary: 01
-90 59 59 5D CB
-From: 1DD7,08FC,000E,E978

@@ -1,7 +1,0 @@
-CS: 0FE4
-IP: 049A
-Length: 0002
-CRC: 03F8
-Binary: 01
-EB 2A
-From: 0FE4,0492,002C,B45A

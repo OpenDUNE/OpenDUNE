@@ -1,7 +1,0 @@
-CS: B52A
-IP: 071D
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: B52A,0706,0002,0386

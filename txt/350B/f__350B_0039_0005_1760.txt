@@ -1,7 +1,0 @@
-CS: 350B
-IP: 0039
-Length: 0005
-CRC: 1760
-Binary: 01
-EA A1 04 26 44
-From: B511,0A5A,0012,3EE9

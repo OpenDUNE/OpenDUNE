@@ -1,7 +1,0 @@
-CS: B52A
-IP: 03CB
-Length: 0002
-CRC: 03EE
-Binary: 01
-EB 21
-From: B52A,03C6,000C,F824

@@ -1,7 +1,0 @@
-CS: 0C10
-IP: 015E
-Length: 0004
-CRC: 0694
-Binary: 01
-33 C0 EB 04
-From: 0C10,0157,000B,55FB

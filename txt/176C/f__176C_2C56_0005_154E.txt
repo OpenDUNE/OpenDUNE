@@ -1,7 +1,0 @@
-CS: 176C
-IP: 2C56
-Length: 0005
-CRC: 154E
-Binary: 01
-B8 01 00 EB F9
-From: 176C,2C2C,0022,D470

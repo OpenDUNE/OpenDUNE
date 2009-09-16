@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1546
-Length: 0002
-CRC: 03B6
-Binary: 01
-EB 0D
-From: 176C,1541,0026,677F

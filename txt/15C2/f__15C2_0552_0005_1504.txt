@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 0552
-Length: 0005
-CRC: 1504
-Binary: 01
-B8 01 00 EB DC
-From: 15C2,054E,000F,5BA0

@@ -1,7 +1,0 @@
-CS: 0F78
-IP: 0408
-Length: 0004
-CRC: 04D8
-Binary: 01
-59 59 EB 16
-From: 0F78,0408,0025,51C5

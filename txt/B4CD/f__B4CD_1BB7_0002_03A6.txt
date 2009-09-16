@@ -1,7 +1,0 @@
-CS: B4CD
-IP: 1BB7
-Length: 0002
-CRC: 03A6
-Binary: 01
-EB 05
-From: B4CD,1BBC,0005,154E

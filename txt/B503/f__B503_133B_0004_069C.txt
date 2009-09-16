@@ -1,7 +1,0 @@
-CS: B503
-IP: 133B
-Length: 0004
-CRC: 069C
-Binary: 01
-33 C0 EB 00
-From: B503,1334,0026,5F34

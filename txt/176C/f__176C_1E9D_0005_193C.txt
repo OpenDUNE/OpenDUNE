@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1E9D
-Length: 0005
-CRC: 193C
-Binary: 01
-8B C6 E9 A2 FE
-From: 176C,1E95,0022,9F3E

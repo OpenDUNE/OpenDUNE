@@ -1,7 +1,0 @@
-CS: 2599
-IP: 0052
-Length: 0004
-CRC: 0782
-Binary: 01
-59 5E 5D CB
-From: 2599,0052,0047,EC47

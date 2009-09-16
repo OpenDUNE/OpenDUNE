@@ -1,7 +1,0 @@
-CS: 1423
-IP: 0F49
-Length: 0002
-CRC: 03CE
-Binary: 01
-EB 31
-From: 1423,0F7A,0005,1526

@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 34C3
-Length: 0003
-CRC: 0168
-Binary: 01
-59 EB 06
-From: 1A34,34C3,0032,DE4A

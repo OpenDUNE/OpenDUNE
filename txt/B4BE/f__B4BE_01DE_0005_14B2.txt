@@ -1,7 +1,0 @@
-CS: B4BE
-IP: 01DE
-Length: 0005
-CRC: 14B2
-Binary: 01
-9A 43 06 E8 29
-From: B4BE,01FD,001A,F321

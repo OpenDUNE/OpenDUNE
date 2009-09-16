@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 115B
-Length: 0004
-CRC: 0728
-Binary: 01
-33 F6 EB 02
-From: B4F2,1152,001E,8854

@@ -1,7 +1,0 @@
-CS: B52A
-IP: 08AE
-Length: 0005
-CRC: 04BA
-Binary: 01
-5E 8B E5 5D CB
-From: B52A,08AC,0012,602D

@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 0632
-Length: 0005
-CRC: 0C4E
-Binary: 01
-5F 59 5B 58 C3
-From: 29E8,053F,000E,9603

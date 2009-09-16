@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 313F
-Length: 0003
-CRC: 0514
-Binary: 01
-E9 E8 FE
-From: 1A34,3113,001E,86EB

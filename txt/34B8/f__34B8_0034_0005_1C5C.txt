@@ -1,7 +1,0 @@
-CS: 34B8
-IP: 0034
-Length: 0005
-CRC: 1C5C
-Binary: 01
-EA 1E 0A 0B 40
-From: B4E9,03AB,0015,5D71

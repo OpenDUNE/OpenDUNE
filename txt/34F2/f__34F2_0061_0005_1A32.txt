@@ -1,7 +1,0 @@
-CS: 34F2
-IP: 0061
-Length: 0005
-CRC: 1A32
-Binary: 01
-EA 68 0F 43 43
-From: B4A2,0941,0011,D731

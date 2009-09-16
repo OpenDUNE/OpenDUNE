@@ -1,7 +1,0 @@
-CS: 34C4
-IP: 0039
-Length: 0005
-CRC: 11F0
-Binary: 01
-EA DA 04 6D 42
-From: B511,06E0,0011,9553

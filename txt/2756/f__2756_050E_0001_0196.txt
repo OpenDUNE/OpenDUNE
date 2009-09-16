@@ -1,7 +1,0 @@
-CS: 2756
-IP: 050E
-Length: 0001
-CRC: 0196
-Binary: 01
-CB
-From: 2756,0509,000D,8CF0

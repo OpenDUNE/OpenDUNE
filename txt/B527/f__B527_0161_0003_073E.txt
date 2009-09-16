@@ -1,7 +1,0 @@
-CS: B527
-IP: 0161
-Length: 0003
-CRC: 073E
-Binary: 01
-E9 1D 01
-From: B527,015D,0004,0494

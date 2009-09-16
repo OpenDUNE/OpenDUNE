@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 0840
-Length: 0003
-CRC: 057C
-Binary: 01
-E8 F1 FC
-From: 29E8,0840,0023,969A

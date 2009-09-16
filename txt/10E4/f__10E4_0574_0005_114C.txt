@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 0574
-Length: 0005
-CRC: 114C
-Binary: 01
-8B 46 FC EB 00
-From: 10E4,0574,0006,027E

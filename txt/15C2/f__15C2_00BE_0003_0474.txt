@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 00BE
-Length: 0003
-CRC: 0474
-Binary: 01
-E9 CE 02
-From: 15C2,038C,0007,0F0E

@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 2058
-Length: 0004
-CRC: 06BC
-Binary: 01
-2B F0 EB 10
-From: 10E4,2068,0004,0528

@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0352
-Length: 0005
-CRC: 1410
-Binary: 01
-90 0E E8 13 FE
-From: 01F7,0352,0005,15E4

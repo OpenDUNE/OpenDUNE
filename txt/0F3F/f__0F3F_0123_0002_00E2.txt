@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 0123
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 0F3F,0121,000C,9E12

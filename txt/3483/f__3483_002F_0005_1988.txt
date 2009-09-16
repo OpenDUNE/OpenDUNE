@@ -1,7 +1,0 @@
-CS: 3483
-IP: 002F
-Length: 0005
-CRC: 1988
-Binary: 01
-EA 70 04 DA 40
-From: B4ED,0AB0,0010,6060

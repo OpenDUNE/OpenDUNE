@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 2629
-Length: 0005
-CRC: 0EA0
-Binary: 01
-33 C0 E9 E2 00
-From: 0C3A,270D,0003,06D2

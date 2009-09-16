@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 16EB
-Length: 0005
-CRC: 0CD8
-Binary: 01
-56 0E E8 18 EC
-From: B4DA,16E6,001D,298B

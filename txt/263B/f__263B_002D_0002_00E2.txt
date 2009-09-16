@@ -1,7 +1,0 @@
-CS: 263B
-IP: 002D
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 263B,002B,000B,EFBB

@@ -1,7 +1,0 @@
-CS: B518
-IP: 0507
-Length: 0005
-CRC: 137A
-Binary: 01
-9A 3F 07 E8 29
-From: B518,0507,0005,143E

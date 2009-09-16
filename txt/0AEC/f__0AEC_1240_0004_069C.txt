@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 1240
-Length: 0004
-CRC: 069C
-Binary: 01
-33 C0 EB 00
-From: 0AEC,1226,001C,DDEE

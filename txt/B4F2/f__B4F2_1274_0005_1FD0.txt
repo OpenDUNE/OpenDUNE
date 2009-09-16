@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 1274
-Length: 0005
-CRC: 1FD0
-Binary: 01
-83 C4 08 EB 0E
-From: B4F2,1274,0014,1EF6

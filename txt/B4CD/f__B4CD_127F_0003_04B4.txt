@@ -1,7 +1,0 @@
-CS: B4CD
-IP: 127F
-Length: 0003
-CRC: 04B4
-Binary: 01
-E9 FF 00
-From: B4CD,137E,0008,97EC

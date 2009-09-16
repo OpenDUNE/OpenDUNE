@@ -1,7 +1,0 @@
-CS: 2521
-IP: 0031
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: 2521,002F,0022,2292

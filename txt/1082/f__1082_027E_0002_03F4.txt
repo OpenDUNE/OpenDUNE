@@ -1,7 +1,0 @@
-CS: 1082
-IP: 027E
-Length: 0002
-CRC: 03F4
-Binary: 01
-EB 2C
-From: 1082,0276,002E,BB63

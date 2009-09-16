@@ -1,7 +1,0 @@
-CS: B520
-IP: 0110
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: B520,0109,0028,9365

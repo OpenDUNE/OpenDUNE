@@ -1,7 +1,0 @@
-CS: 176C
-IP: 29F1
-Length: 0005
-CRC: 1F08
-Binary: 01
-83 C4 08 EB 62
-From: 176C,29F1,000E,6E22

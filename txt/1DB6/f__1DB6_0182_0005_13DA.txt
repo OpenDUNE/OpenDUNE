@@ -1,7 +1,0 @@
-CS: 1DB6
-IP: 0182
-Length: 0005
-CRC: 13DA
-Binary: 01
-9A 34 03 E1 23
-From: 1DB6,0175,0003,0172

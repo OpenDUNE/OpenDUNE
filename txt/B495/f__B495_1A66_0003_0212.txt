@@ -1,7 +1,0 @@
-CS: B495
-IP: 1A66
-Length: 0003
-CRC: 0212
-Binary: 01
-5E 5D CB
-From: B495,1A64,0008,60A4

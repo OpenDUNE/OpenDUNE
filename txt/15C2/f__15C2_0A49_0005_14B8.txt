@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 0A49
-Length: 0005
-CRC: 14B8
-Binary: 01
-B8 01 00 EB 02
-From: 15C2,0A41,000F,FFCA

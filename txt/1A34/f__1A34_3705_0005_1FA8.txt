@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 3705
-Length: 0005
-CRC: 1FA8
-Binary: 01
-83 C4 08 EB 32
-From: 1A34,3705,0022,9EA7

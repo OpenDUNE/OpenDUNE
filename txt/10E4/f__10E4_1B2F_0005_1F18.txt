@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 1B2F
-Length: 0005
-CRC: 1F18
-Binary: 01
-83 C4 12 EB 02
-From: 10E4,1B2F,0008,72AE

@@ -1,7 +1,0 @@
-CS: B511
-IP: 030F
-Length: 0002
-CRC: 03D8
-Binary: 01
-EB 3A
-From: B511,030F,000B,0F32

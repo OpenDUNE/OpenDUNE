@@ -1,7 +1,0 @@
-CS: 167E
-IP: 0062
-Length: 0002
-CRC: 039E
-Binary: 01
-EB 19
-From: 167E,005E,0011,386F

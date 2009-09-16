@@ -1,7 +1,0 @@
-CS: 2756
-IP: 0822
-Length: 0005
-CRC: 060A
-Binary: 01
-07 5F 5E 1F CB
-From: 2756,0822,0048,EB73

@@ -1,7 +1,0 @@
-CS: B48B
-IP: 02A0
-Length: 0002
-CRC: 0394
-Binary: 01
-EB 1C
-From: B48B,0289,0034,1998

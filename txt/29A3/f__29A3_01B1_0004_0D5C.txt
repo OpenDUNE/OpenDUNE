@@ -1,7 +1,0 @@
-CS: 29A3
-IP: 01B1
-Length: 0004
-CRC: 0D5C
-Binary: 01
-FF 1E A4 66
-From: 29A3,01B1,0008,F446

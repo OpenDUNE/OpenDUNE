@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 11AF
-Length: 0005
-CRC: 04BA
-Binary: 01
-5E 8B E5 5D CB
-From: B4F2,11AD,000A,B14D

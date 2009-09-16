@@ -1,7 +1,0 @@
-CS: 24DA
-IP: 0028
-Length: 0005
-CRC: 045A
-Binary: 01
-59 8B E5 5D CB
-From: 24DA,0028,0008,EAEA

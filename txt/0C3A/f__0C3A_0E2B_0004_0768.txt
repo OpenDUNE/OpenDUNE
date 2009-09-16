@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 0E2B
-Length: 0004
-CRC: 0768
-Binary: 01
-33 C0 EB FA
-From: 0C3A,0E17,0011,3F94

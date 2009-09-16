@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0167
-Length: 0003
-CRC: 0216
-Binary: 01
-5F 5E CB
-From: 01F7,0167,0010,9660

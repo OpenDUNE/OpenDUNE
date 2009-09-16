@@ -1,7 +1,0 @@
-CS: 1DB6
-IP: 01C4
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: 1DB6,00B1,0003,070A

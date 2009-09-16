@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 2475
-Length: 0005
-CRC: 1CF2
-Binary: 01
-83 C4 06 5D CB
-From: 0C3A,2475,0042,9CCA

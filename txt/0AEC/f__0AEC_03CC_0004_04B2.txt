@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 03CC
-Length: 0004
-CRC: 04B2
-Binary: 01
-59 50 EB 07
-From: 0AEC,03CC,0035,1F06

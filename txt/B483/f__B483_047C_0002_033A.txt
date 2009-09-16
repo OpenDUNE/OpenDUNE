@@ -1,7 +1,0 @@
-CS: B483
-IP: 047C
-Length: 0002
-CRC: 033A
-Binary: 01
-EB 4B
-From: B483,04C7,0005,15DA

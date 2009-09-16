@@ -1,7 +1,0 @@
-CS: 22A3
-IP: 0031
-Length: 0002
-CRC: 00E2
-Binary: 01
-5D CB
-From: 22A3,002F,0014,DDF2

@@ -1,7 +1,0 @@
-CS: B536
-IP: 08D0
-Length: 0004
-CRC: 0F7A
-Binary: 01
-8B E5 5D CB
-From: B536,08CE,0007,2BB4
