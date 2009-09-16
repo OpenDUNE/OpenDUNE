@@ -47,7 +47,29 @@ void f__B480_0018_0011_F5E0()
 	emu_push(emu_ds);
 	emu_movw(&emu_ax.x, 0xC5);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x01F7; emu_ip = 0x2BED; emu_last_cs = 0xB480; emu_last_ip = 0x0024; emu_last_length = 0x0011; emu_last_crc = 0xF5E0; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x01F7; f__01F7_2BC4_0019_3608();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
+	f__B480_0029_000A_50E7();
+}
+
+/**
+ * Decompiled function f__B480_0029_000A_50E7()
+ *
+ * @name f__B480_0029_000A_50E7
+ * @implements B480:0029:000A:50E7 ()
+ *
+ * Called From: B480:0029:0011:F5E0
+ */
+void f__B480_0029_000A_50E7()
+{
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_cx.x);
+	emu_xorw(&emu_ax.x, emu_ax.x);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; f__01F7_0377_000D_81BB();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	emu_unknown_call();
 }
 
