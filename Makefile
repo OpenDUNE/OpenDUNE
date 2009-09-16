@@ -6,11 +6,11 @@ LIBS=-lncursesw -lSDL
 
 # Windows
 ifdef WIN32
-CFLAGS=
+CFLAGS=-static
 CC=i686-mingw32-gcc
-LIB_EXTENSION=.dll
+LIB_EXTENSION=.a
 EXTENSION=.exe
-LIBS=
+LIBS=SDL.dll
 endif
 
 CFLAGS += -g -Wall -Wextra
