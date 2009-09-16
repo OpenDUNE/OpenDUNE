@@ -200,6 +200,7 @@ void f__10BE_0084_0005_04BA()
  * @implements 10BE:00A0:0064:F23B ()
  *
  * Called From: B4B5:02A1:0006:0E18
+ * Called From: B4C4:0338:000B:E51F
  */
 void f__10BE_00A0_0064_F23B()
 {
@@ -410,6 +411,7 @@ void f__10BE_01E0_0002_00E2()
  * Called From: 1391:04E2:000A:79B1
  * Called From: 1391:04E2:000D:69AD
  * Called From: 1423:0BF1:000B:0F32
+ * Called From: B50B:0337:0016:8231
  * Called From: B511:030A:000B:0F32
  */
 void f__10BE_01E2_0027_C454()
@@ -499,6 +501,7 @@ void f__10BE_020D_0002_00E2()
  * Called From: 1423:0C5A:000B:01FA
  * Called From: 1423:0C5A:0027:BBCC
  * Called From: 1423:0C5A:0020:D570
+ * Called From: B50B:0376:000E:A1C2
  * Called From: B511:0346:000C:91FF
  */
 void f__10BE_020F_004E_EE3E()

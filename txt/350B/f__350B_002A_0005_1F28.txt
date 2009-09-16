@@ -1,0 +1,7 @@
+CS: 350B
+IP: 002A
+Length: 0005
+CRC: 1F28
+Binary: 01
+EA 26 03 26 44
+From: B511,0972,0012,3FD9

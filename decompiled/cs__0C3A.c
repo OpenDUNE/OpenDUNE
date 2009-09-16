@@ -6865,6 +6865,7 @@ void f__0C3A_25E6_0006_137A()
  * Called From: 0C3A:0117:0016:6687
  * Called From: 0C3A:14C4:0010:E04D
  * Called From: 10E4:1128:001C:D9C8
+ * Called From: B4C4:04B0:0018:0390
  */
 void f__0C3A_25EC_0011_6FF5()
 {

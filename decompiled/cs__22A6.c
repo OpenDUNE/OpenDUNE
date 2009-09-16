@@ -3918,6 +3918,7 @@ void f__22A6_0C5E_000A_38F3()
  * Called From: B4B8:215E:0034:9B71
  * Called From: B4ED:0916:000E:36B2
  * Called From: B4ED:0916:0022:F451
+ * Called From: B4F2:145C:0020:7036
  * Called From: B503:023D:001E:A825
  * Called From: B503:0F71:001D:EC75
  * Called From: B518:039F:001D:945F

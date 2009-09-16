@@ -10,6 +10,7 @@
  * @name f__104B_0006_0011_4FBF
  * @implements 104B:0006:0011:4FBF ()
  *
+ * Called From: B4C4:0543:000B:FB69
  * Called From: B511:00B3:0005:122C
  */
 void f__104B_0006_0011_4FBF()
@@ -227,6 +228,7 @@ void f__104B_00A9_0002_00E2()
  *
  * Called From: 16C5:005B:000F:2E97
  * Called From: 1A34:3760:0010:6924
+ * Called From: B50B:04B6:001A:FCEF
  */
 void f__104B_00C2_0030_C2D2()
 {

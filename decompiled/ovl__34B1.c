@@ -12,6 +12,7 @@
  * @name ovl__34B1
  * @implements 34B1:0020 (0)
  * @implements 34B1:0025 (1)
+ * @implements 34B1:002A (2)
  * @implements 34B1:002F (3)
  * @implements 34B1:0034 (4)
  *
@@ -28,8 +29,13 @@
  * Called From: 15C2:01CC:000E:97BB
  * Called From: 15C2:0266:0030:556D
  * Called From: 15C2:02B0:002E:E091
+ * Called From: 15C2:02B0:002E:E091
  * Called From: 15C2:0339:001F:1E58
  * Called From: 15C2:0383:0006:072C
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: B4E0:048D:000D:6FF1
  * Called From: B4E0:04AF:0022:5B17
@@ -37,6 +43,23 @@
  * Called From: B4E0:060D:0012:7EB1
  * Called From: B4E0:062B:001E:8ADD
  * Called From: B4E0:0634:0009:C22D
+ * Called From: B4F2:12B0:0010:A284
+ * Called From: B4F2:12D5:0025:0C96
+ * Called From: B4F2:12DE:0009:C26D
+ * Called From: B511:0498:000B:E66A
+ * Called From: B511:04C8:0023:6BAD
+ * Called From: B511:05CF:0023:55A9
+ * Called From: B511:060F:0023:3BAF
+ * Called From: B511:064F:0023:4BAD
+ * Called From: B511:068F:0023:83AD
+ * Called From: B511:06CF:0023:C9AD
+ * Called From: B511:0709:0006:076C
+ * Called From: B511:0954:001C:E052
+ * Called From: B511:098E:001C:B050
+ * Called From: B511:09C8:001C:C052
+ * Called From: B511:0A02:001C:0852
+ * Called From: B511:0A3C:001C:DE56
+ * Called From: B511:0A76:001C:4252
  */
 void ovl__34B1(uint8 entry)
 {
@@ -52,6 +75,7 @@ void ovl__34B1(uint8 entry)
 	switch (entry) {
 		case 0: f__B4B1_0000_0016_A6CB(); return;
 		case 1: f__B4B1_01CD_002A_4C8A(); return;
+		case 2: f__B4B1_0373_001A_7461(); return;
 		case 3: f__B4B1_0098_002A_4C8A(); return;
 		case 4: f__B4B1_0082_0012_013D(); return;
 	}

@@ -314,7 +314,7 @@ void f__0642_0177_0030_D806()
 	if (emu_flags.zf) { f__0642_01A8_0005_1716(); return; }
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x3A10));
 	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x34E9; emu_ip = 0x01D1; emu_last_cs = 0x0642; emu_last_ip = 0x01A2; emu_last_length = 0x0030; emu_last_crc = 0xD806; emu_call(); // Jump does not resolve
-	emu_unknown_call();
+	f__0642_01A7_0006_0156();
 }
 
 /**
@@ -332,8 +332,24 @@ void f__0642_0195_0012_362E()
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x3A0E));
 	if (emu_flags.zf) { f__0642_01A8_0005_1716(); return; }
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x3A10));
-	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x34E9; emu_ip = 0x01D1; emu_last_cs = 0x0642; emu_last_ip = 0x01A2; emu_last_length = 0x0012; emu_last_crc = 0x362E; emu_call(); // Jump does not resolve
-	emu_unknown_call();
+	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x34E9; ovl__34E9(2);
+	f__0642_01A7_0006_0156();
+}
+
+/**
+ * Decompiled function f__0642_01A7_0006_0156()
+ *
+ * @name f__0642_01A7_0006_0156
+ * @implements 0642:01A7:0006:0156 ()
+ *
+ * Called From: 0642:01A7:0012:362E
+ */
+void f__0642_01A7_0006_0156()
+{
+	emu_pop(&emu_cx.x);
+	emu_push(emu_cs);
+	emu_push(0x01AD); f__0642_0559_0027_9047();
+	f__0642_01AD_000F_6377();
 }
 
 /**
@@ -359,6 +375,7 @@ void f__0642_01A8_0005_1716()
  * @implements 0642:01AD:000F:6377 ()
  *
  * Called From: 0642:01AD:0005:1716
+ * Called From: 0642:01AD:0006:0156
  */
 void f__0642_01AD_000F_6377()
 {
@@ -1389,6 +1406,7 @@ void f__0642_04EC_0005_04BA()
  * @implements 0642:0559:0027:9047 ()
  *
  * Called From: 0642:01AA:0005:1716
+ * Called From: 0642:01AA:0006:0156
  * Called From: 10E4:0483:0005:17FC
  * Called From: 10E4:0496:0005:17FC
  * Called From: B495:0098:0005:17FC
@@ -1397,6 +1415,10 @@ void f__0642_04EC_0005_04BA()
  * Called From: B4DA:0C1B:0009:877C
  * Called From: B4F2:02A2:0005:17FC
  * Called From: B4F2:02A2:0007:2D3C
+ * Called From: B4F2:048B:0005:17FC
+ * Called From: B4F2:048B:0007:2D3C
+ * Called From: B4F2:068C:0005:17FC
+ * Called From: B4F2:068C:0008:F77C
  * Called From: B4F2:1163:0005:17FC
  * Called From: B4F2:1163:0007:31BC
  * Called From: B511:0F7E:0009:857C

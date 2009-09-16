@@ -1,0 +1,7 @@
+CS: 34C1
+IP: 0020
+Length: 0005
+CRC: 1CE8
+Binary: 01
+EA 29 01 ED 42
+From: 0EDB,0116,0019,0270

@@ -10,6 +10,7 @@
  * @name f__1082_000F_0012_EFE2
  * @implements 1082:000F:0012:EFE2 ()
  *
+ * Called From: B4C4:04D1:0005:1198
  * Called From: B4F2:033B:0005:1198
  * Called From: B511:00A9:001D:38AC
  */
@@ -304,6 +305,7 @@ void f__1082_00E4_0002_00E2()
  * Called From: 1A34:335F:000E:6E22
  * Called From: 1A34:33E4:000E:6E22
  * Called From: 1A34:3700:0022:9EA7
+ * Called From: B50B:0435:001E:065C
  * Called From: B511:01B3:0023:C1F7
  * Called From: B518:0F72:0012:0DC3
  */
@@ -414,7 +416,9 @@ void f__1082_013B_0002_00E2()
  * Called From: 1A34:33AF:000B:0232
  * Called From: 1A34:342A:0019:4054
  * Called From: 1A34:3735:000A:75B1
+ * Called From: B50B:0483:000E:A20A
  * Called From: B511:02EC:0023:0C62
+ * Called From: B511:02EC:000B:0232
  * Called From: B518:0FA3:002C:9330
  */
 void f__1082_013D_0038_03DE()
@@ -1096,6 +1100,7 @@ void f__1082_0398_0009_3622()
  * Called From: 167E:0226:0006:0EE0
  * Called From: 167E:02C7:0007:23E0
  * Called From: 167E:02F8:0007:23E0
+ * Called From: B4C4:0475:000B:EE67
  * Called From: B4CD:10DD:0019:B54A
  * Called From: B4CD:1167:0039:7483
  */

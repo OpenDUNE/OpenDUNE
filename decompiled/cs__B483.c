@@ -404,6 +404,8 @@ void f__B483_027E_0005_04BA()
  * Called From: 3483:0025:0005:17E8
  * Called From: 3483:0025:0005:17EE
  * Called From: 3483:0025:0005:16C2
+ * Called From: 3483:0025:0005:1680
+ * Called From: 3483:0025:0005:146C
  */
 void f__B483_0283_0014_DEE0()
 {
@@ -966,6 +968,10 @@ void f__B483_046C_0004_07E2()
  * Called From: 3483:002F:0005:1B52
  * Called From: 3483:002F:0005:1A88
  * Called From: 3483:002F:0005:1812
+ * Called From: 3483:002F:0005:1980
+ * Called From: 3483:002F:0005:1AD8
+ * Called From: 3483:002F:0005:19C2
+ * Called From: 3483:002F:0005:18A2
  */
 void f__B483_0470_000E_7FC4()
 {
@@ -974,7 +980,7 @@ void f__B483_0470_000E_7FC4()
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x700A), 0x0);
 	if (!emu_flags.zf) { f__B483_047E_0005_1E9E(); return; }
 	emu_xorw(&emu_ax.x, emu_ax.x);
-	emu_ip = 0x04C9; emu_last_cs = 0xB483; emu_last_ip = 0x047C; emu_last_length = 0x000E; emu_last_crc = 0x7FC4; emu_call(); // Jump does not resolve
+	f__B483_04C9_0002_00E2(); return;
 }
 
 /**
@@ -1119,6 +1125,7 @@ void f__B483_04C4_0005_15DA()
  *
  * Called From: B483:047C:0002:033A
  * Called From: B483:047C:0004:060A
+ * Called From: B483:047C:000E:7FC4
  */
 void f__B483_04C9_0002_00E2()
 {

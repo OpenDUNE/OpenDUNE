@@ -14,6 +14,7 @@
  *
  * Called From: 261F:01B9:001B:DA28
  * Called From: B4DA:14D3:0026:529B
+ * Called From: B4F2:0798:0027:AFEA
  * Called From: B518:0760:0025:57B3
  */
 void ovl__3527(uint8 entry)

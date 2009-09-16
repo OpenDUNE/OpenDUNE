@@ -1,0 +1,7 @@
+CS: 34CD
+IP: 006B
+Length: 0005
+CRC: 164C
+Binary: 01
+EA A5 00 76 42
+From: 1A34,16F3,0014,AADA

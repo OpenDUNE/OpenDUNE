@@ -12,10 +12,13 @@
  *
  * Called From: B4B1:0139:000B:3E51
  * Called From: B4B1:026E:000B:3E51
+ * Called From: B4B1:0451:001C:60F5
+ * Called From: B4B1:049B:001D:D790
  * Called From: B4E0:05FB:0021:0124
  * Called From: B4E0:05FB:001F:0182
  * Called From: B4E0:0640:000C:E654
  * Called From: B4E0:0653:0013:7DF3
+ * Called From: B511:08BC:001B:F028
  */
 void f__2BC0_0004_000F_2F6C()
 {

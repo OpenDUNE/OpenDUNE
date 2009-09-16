@@ -117,7 +117,7 @@ void f__B4E6_0040_0009_D92B()
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_orw(&emu_si, emu_si);
 	if (!emu_flags.zf) { f__B4E6_0021_0010_8841(); return; }
-	emu_ip = 0x004C; emu_last_cs = 0xB4E6; emu_last_ip = 0x0047; emu_last_length = 0x0009; emu_last_crc = 0xD92B; emu_call(); // Jump does not resolve
+	f__B4E6_004C_0010_8841(); return;
 }
 
 /**
@@ -164,6 +164,7 @@ void f__B4E6_0049_0013_8F5D()
  *
  * Called From: B4E6:0047:0006:1E2A
  * Called From: B4E6:0047:0018:BB24
+ * Called From: B4E6:0047:0009:D92B
  */
 void f__B4E6_004C_0010_8841()
 {
@@ -497,6 +498,7 @@ void f__B4E6_0106_0002_00E2()
  * Called From: 34E6:0025:0005:1F3A
  * Called From: 34E6:0025:0005:1F68
  * Called From: 34E6:0025:0005:1FF0
+ * Called From: 34E6:0025:0005:1FBA
  */
 void f__B4E6_0108_004A_24E9()
 {
@@ -793,6 +795,7 @@ void f__B4E6_01FA_0006_137A()
  * Called From: 34E6:002A:0005:1F68
  * Called From: 34E6:002A:0005:1FA2
  * Called From: 34E6:002A:0005:1FF0
+ * Called From: 34E6:002A:0005:1F22
  */
 void f__B4E6_0200_0091_88EF()
 {
@@ -1209,13 +1212,26 @@ void f__B4E6_0386_0015_D125()
 {
 	emu_addws(&emu_sp, 0xC);
 	emu_orw(&emu_ax.x, emu_ax.x);
-	if (emu_flags.zf) { emu_ip = 0x039B; emu_last_cs = 0xB4E6; emu_last_ip = 0x038B; emu_last_length = 0x0015; emu_last_crc = 0xD125; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4E6_039B_0002_0310(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7066));
 	emu_subw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_cwd();
 	emu_idivw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_movw(&emu_si, emu_ax.x);
 	f__B4E6_039D_0005_12CE(); return;
+}
+
+/**
+ * Decompiled function f__B4E6_039B_0002_0310()
+ *
+ * @name f__B4E6_039B_0002_0310
+ * @implements B4E6:039B:0002:0310 ()
+ *
+ * Called From: B4E6:038B:0015:D125
+ */
+void f__B4E6_039B_0002_0310()
+{
+	f__B4E6_03FB_0008_800C(); return;
 }
 
 /**
@@ -1394,6 +1410,7 @@ void f__B4E6_03F2_0011_4BBD()
  * @name f__B4E6_03FB_0008_800C
  * @implements B4E6:03FB:0008:800C ()
  *
+ * Called From: B4E6:039B:0002:0310
  * Called From: B4E6:03EF:000F:7B3A
  */
 void f__B4E6_03FB_0008_800C()

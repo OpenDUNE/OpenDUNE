@@ -22,6 +22,8 @@
  * Called From: 34E9:0020:0005:1E0E
  * Called From: 34E9:0020:0005:1DC6
  * Called From: 34E9:0020:0005:1DE4
+ * Called From: 34E9:0020:0005:1EB6
+ * Called From: 34E9:0020:0005:1F6C
  * Called From: B4E9:00BA:000B:A2D6
  * Called From: B4E9:026A:0008:CC76
  * Called From: B4E9:02D4:0008:CE9E
@@ -225,6 +227,7 @@ void f__B4E9_004D_0003_0212()
  * Called From: 34E9:002A:0005:1ADC
  * Called From: 34E9:002A:0005:1BC8
  * Called From: 34E9:002A:0005:1AFE
+ * Called From: 34E9:002A:0005:1826
  */
 void f__B4E9_0050_003F_389B()
 {

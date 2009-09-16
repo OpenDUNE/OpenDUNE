@@ -12,13 +12,16 @@
  * @name ovl__34F2
  * @implements 34F2:0020 (0)
  * @implements 34F2:0025 (1)
+ * @implements 34F2:002A (2)
  * @implements 34F2:0061 (13)
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: B4A2:06AC:0030:FF82
  * Called From: B4A2:0941:0011:D731
  * Called From: B4B8:1A3A:0005:12E0
+ * Called From: B4B8:1DA7:000A:8341
  */
 void ovl__34F2(uint8 entry)
 {
@@ -34,6 +37,7 @@ void ovl__34F2(uint8 entry)
 	switch (entry) {
 		case 0: f__B4F2_0000_000D_D456(); return;
 		case 1: f__B4F2_009C_002E_5854(); return;
+		case 2: f__B4F2_04B7_0015_8DF5(); return;
 		case 13: f__B4F2_0F68_0011_7B02(); return;
 	}
 }

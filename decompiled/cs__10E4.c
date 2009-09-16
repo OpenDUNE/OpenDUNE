@@ -19,6 +19,7 @@
  * Called From: 10E4:0EC5:003D:3B15
  * Called From: B4DA:144D:0031:DD6F
  * Called From: B4DA:1480:0033:CE7D
+ * Called From: B4F2:0749:002C:6043
  */
 void f__10E4_0008_0048_CEEB()
 {
@@ -8242,7 +8243,10 @@ void f__10E4_1ED9_0006_137A()
  * Called From: B4ED:0C73:0025:9FA7
  * Called From: B4ED:0C9E:002B:2EBC
  * Called From: B4F2:0120:001C:60FD
+ * Called From: B4F2:0771:001D:38D8
  * Called From: B4F2:08FA:0008:7B10
+ * Called From: B4F2:093C:0008:7B10
+ * Called From: B4F2:0B9D:0008:7B10
  * Called From: B4F2:109A:0008:7B10
  * Called From: B503:0F92:0021:6A1B
  * Called From: B518:0163:0008:7B10

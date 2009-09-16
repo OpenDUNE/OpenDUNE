@@ -1,0 +1,7 @@
+CS: 350B
+IP: 0025
+Length: 0005
+CRC: 1BC0
+Binary: 01
+EA 68 02 26 44
+From: B511,0A20,0012,3F29

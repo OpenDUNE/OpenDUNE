@@ -19,6 +19,7 @@
  * Called From: 3500:0020:0005:1EBC
  * Called From: 3500:0020:0005:1EFA
  * Called From: 3500:0020:0005:1DDC
+ * Called From: 3500:0020:0005:1F2A
  */
 void f__B500_0000_0008_346E()
 {

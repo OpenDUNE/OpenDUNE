@@ -198,8 +198,22 @@ void f__29E8_02DB_0028_D16E()
 void f__29E8_0337_0008_0748()
 {
 	emu_cmpb(&emu_ax.l, 0x41);
-	if (emu_flags.cf) { emu_ip = 0x033F; emu_last_cs = 0x29E8; emu_last_ip = 0x0339; emu_last_length = 0x0008; emu_last_crc = 0x0748; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.cf) { f__29E8_033F_0004_0768(); return; }
 	emu_addb(&emu_ax.l, 0x85);
+	f__29E8_0345_0005_0432(); return;
+}
+
+/**
+ * Decompiled function f__29E8_033F_0004_0768()
+ *
+ * @name f__29E8_033F_0004_0768
+ * @implements 29E8:033F:0004:0768 ()
+ *
+ * Called From: 29E8:0339:0008:0748
+ */
+void f__29E8_033F_0004_0768()
+{
+	emu_orb(&emu_ax.l, 0x80);
 	f__29E8_0345_0005_0432(); return;
 }
 
@@ -233,6 +247,7 @@ void f__29E8_0343_0007_5AF2()
  * Called From: 29E8:02D9:0002:0378
  * Called From: 29E8:0301:0028:D16E
  * Called From: 29E8:033D:0008:0748
+ * Called From: 29E8:0341:0004:0768
  */
 void f__29E8_0345_0005_0432()
 {
@@ -838,6 +853,7 @@ void f__29E8_073E_0001_0196()
  * Called From: 10E4:2285:0007:29BA
  * Called From: B4AE:0003:0008:38FA
  * Called From: B4B8:2199:0006:053A
+ * Called From: B4B8:2199:0005:137A
  * Called From: B4DA:0BEE:003F:67FA
  * Called From: B4DA:107D:0006:053A
  * Called From: B4DA:148D:0005:137A

@@ -12,6 +12,7 @@
  *
  * Called From: 10E4:2263:0013:1DC9
  * Called From: 1423:0408:0016:6E55
+ * Called From: B4B8:1D7F:0011:7C74
  * Called From: B4B8:1FDE:0014:1024
  * Called From: B4B8:2188:0018:6779
  * Called From: B4BE:0143:0014:3139
@@ -150,8 +151,11 @@ void f__259E_003B_0005_1C82()
  * Called From: B495:00E8:0010:1B8C
  * Called From: B4B8:185B:000E:DB6F
  * Called From: B4B8:186A:000F:B954
+ * Called From: B4B8:1D9D:000D:1B6E
+ * Called From: B4B8:1DE8:000D:796E
  * Called From: B4B8:1E08:000E:3978
  * Called From: B4B8:2274:000E:5B78
+ * Called From: B4B8:2274:000D:1B6E
  * Called From: B4BE:00A9:0011:F948
  * Called From: B4F2:0E0D:0010:1B8C
  * Called From: B4F2:0ED4:001D:B19E

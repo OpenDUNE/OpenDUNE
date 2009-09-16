@@ -1,0 +1,7 @@
+CS: B4F2
+IP: 136F
+Length: 0005
+CRC: 13DA
+Binary: 01
+B8 6A 00 EB EB
+From: B4F2,1368,000C,7B70

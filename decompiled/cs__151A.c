@@ -255,7 +255,7 @@ void f__151A_0136_0034_68C8()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0x9));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0xB));
-	if (emu_flags.zf) { emu_ip = 0x0186; emu_last_cs = 0x151A; emu_last_ip = 0x0158; emu_last_length = 0x0034; emu_last_crc = 0x68C8; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__151A_0186_000A_D534(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_es, emu_bx.x,  0xF));
 	emu_push(emu_get_memory16(emu_es, emu_bx.x,  0xD));
@@ -308,6 +308,7 @@ void f__151A_017E_0008_F428()
  * @implements 151A:0184:0002:03B8 ()
  *
  * Called From: 151A:018E:0004:0774
+ * Called From: 151A:018E:000A:D534
  */
 void f__151A_0184_0002_03B8()
 {
@@ -320,6 +321,7 @@ void f__151A_0184_0002_03B8()
  * @name f__151A_0186_000A_D534
  * @implements 151A:0186:000A:D534 ()
  *
+ * Called From: 151A:0158:0034:68C8
  * Called From: 151A:016E:0014:F6B8
  */
 void f__151A_0186_000A_D534()
@@ -328,7 +330,7 @@ void f__151A_0186_000A_D534()
 	emu_cmpws(&emu_si, 0x70);
 	if ((emu_flags.sf != emu_flags.of)) { f__151A_0136_0034_68C8(); return; }
 	emu_xorw(&emu_ax.x, emu_ax.x);
-	emu_ip = 0x0184; emu_last_cs = 0x151A; emu_last_ip = 0x018E; emu_last_length = 0x000A; emu_last_crc = 0xD534; emu_call(); // Jump does not resolve
+	f__151A_0184_0002_03B8(); return;
 }
 
 /**

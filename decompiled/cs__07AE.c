@@ -37,6 +37,7 @@
  * Called From: B4E9:0189:0019:8B39
  * Called From: B4E9:0314:0018:3939
  * Called From: B4E9:0314:001B:213E
+ * Called From: B4F2:0717:000A:1EF6
  * Called From: B4F2:0884:000C:81B4
  * Called From: B4F2:0D11:000B:11B1
  * Called From: B4F2:0EE9:000E:F1BB
@@ -231,6 +232,7 @@ void f__07AE_00FF_0004_0F7A()
  * @implements 07AE:0103:004C:A52F ()
  *
  * Called From: 07AE:00F7:0009:3204
+ * Called From: B527:00AD:000C:3A83
  * Called From: B53B:014F:0008:F3CE
  */
 void f__07AE_0103_004C_A52F()

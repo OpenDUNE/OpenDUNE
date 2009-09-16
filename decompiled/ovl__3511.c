@@ -11,6 +11,8 @@
  *
  * @name ovl__3511
  * @implements 3511:0020 (0)
+ * @implements 3511:002A (2)
+ * @implements 3511:0034 (4)
  * @implements 3511:0039 (5)
  * @implements 3511:0043 (7)
  *
@@ -21,8 +23,13 @@
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B4B8:21D1:000B:7FD8
  * Called From: B4B8:224A:000D:2BF6
+ * Called From: B4F2:063E:000A:74CF
+ * Called From: B4F2:080F:0013:93CF
  */
 void ovl__3511(uint8 entry)
 {
@@ -37,6 +44,8 @@ void ovl__3511(uint8 entry)
 	emu_cs = emu_get_memory16(0x3511, 0, (entry * 5) + 0x23);
 	switch (entry) {
 		case 0: f__B511_0000_000E_006C(); return;
+		case 2: f__B511_0446_0013_DD68(); return;
+		case 4: f__B511_0729_0016_4C7A(); return;
 		case 5: f__B511_0C35_002A_3C92(); return;
 		case 7: f__B511_0FB0_0028_715B(); return;
 	}
