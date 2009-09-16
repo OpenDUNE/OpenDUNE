@@ -1,0 +1,7 @@
+CS: 34F2
+IP: 0025
+Length: 0005
+CRC: 1720
+Binary: 01
+EA 9C 00 C9 42
+From: 261F,01B9,001B,DA28

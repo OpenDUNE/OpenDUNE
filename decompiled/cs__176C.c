@@ -2148,7 +2148,7 @@ void f__176C_07CF_0013_2A7D()
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x6268), emu_ax.x);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x6268));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x626A));
-	if (emu_flags.zf) { emu_ip = 0x07E2; emu_last_cs = 0x176C; emu_last_ip = 0x07DD; emu_last_length = 0x0013; emu_last_crc = 0x2A7D; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__176C_07E2_0006_137A(); return; }
 	f__176C_02A8_000F_CDAE(); return;
 }
 
@@ -2159,6 +2159,7 @@ void f__176C_07CF_0013_2A7D()
  * @implements 176C:07E2:0006:137A ()
  *
  * Called From: 176C:07DD:0015:24CD
+ * Called From: 176C:07DD:0013:2A7D
  */
 void f__176C_07E2_0006_137A()
 {

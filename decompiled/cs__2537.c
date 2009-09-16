@@ -11,6 +11,7 @@
  * @implements 2537:000C:001C:1A9E ()
  *
  * Called From: 0642:011A:000C:5C1D
+ * Called From: 0642:01E3:000D:1416
  * Called From: 0642:0280:0013:787E
  * Called From: 0EDB:016F:002F:97D3
  * Called From: 1391:01F2:0012:060A
@@ -22,6 +23,7 @@
  * Called From: B4CD:18B9:0028:7013
  * Called From: B4CD:18EC:0018:36BA
  * Called From: B4DA:0418:000D:0601
+ * Called From: B4DA:0460:000D:AD00
  * Called From: B4DA:04C7:000C:541D
  * Called From: B4DA:0569:0006:0716
  * Called From: B4DA:0569:000D:D000

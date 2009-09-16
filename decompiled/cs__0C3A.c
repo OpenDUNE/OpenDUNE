@@ -6935,7 +6935,7 @@ void f__0C3A_262E_002D_F3EF()
 	if (!emu_flags.zf) { f__0C3A_265B_0053_0A6E(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x4);
-	if (!emu_flags.zf) { emu_ip = 0x265B; emu_last_cs = 0x0C3A; emu_last_ip = 0x2640; emu_last_length = 0x002D; emu_last_crc = 0xF3EF; emu_call(); return; } // Jump does not resolve
+	if (!emu_flags.zf) { f__0C3A_265B_0053_0A6E(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x4E), 0x1);
 	if (!emu_flags.zf) { emu_ip = 0x265B; emu_last_cs = 0x0C3A; emu_last_ip = 0x264A; emu_last_length = 0x002D; emu_last_crc = 0xF3EF; emu_call(); return; } // Jump does not resolve
@@ -6953,6 +6953,7 @@ void f__0C3A_262E_002D_F3EF()
  * @implements 0C3A:265B:0053:0A6E ()
  *
  * Called From: 0C3A:2636:002D:F3EF
+ * Called From: 0C3A:2640:002D:F3EF
  */
 void f__0C3A_265B_0053_0A6E()
 {

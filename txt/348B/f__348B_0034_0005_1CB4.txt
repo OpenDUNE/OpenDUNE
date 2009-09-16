@@ -1,0 +1,7 @@
+CS: 348B
+IP: 0034
+Length: 0005
+CRC: 1CB4
+Binary: 01
+EA 27 01 C2 42
+From: B4F2,0AE3,0010,7C27

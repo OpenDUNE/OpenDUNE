@@ -23,6 +23,10 @@
  * Called From: 348B:0020:0005:1EFA
  * Called From: 348B:0020:0005:1F32
  * Called From: 348B:0020:0005:1FA6
+ * Called From: 348B:0020:0005:1F6E
+ * Called From: 348B:0020:0005:1CFC
+ * Called From: 348B:0020:0005:1ECC
+ * Called From: 348B:0020:0005:1F78
  * Called From: B48B:02F7:003C:4385
  * Called From: B48B:02F7:0058:7D9E
  */
@@ -282,6 +286,10 @@ void f__B48B_00BB_0002_00E2()
  * Called From: 348B:002A:0005:1532
  * Called From: 348B:002A:0005:163C
  * Called From: 348B:002A:0005:1530
+ * Called From: 348B:002A:0005:14BE
+ * Called From: 348B:002A:0005:1668
+ * Called From: 348B:002A:0005:151C
+ * Called From: 348B:002A:0005:152A
  */
 void f__B48B_00BD_0029_AABE()
 {
@@ -371,6 +379,7 @@ void f__B48B_00F0_0002_00E2()
  * Called From: 348B:002F:0005:12CC
  * Called From: 348B:002F:0005:11C0
  * Called From: 348B:002F:0005:1086
+ * Called From: 348B:002F:0005:11EC
  */
 void f__B48B_00F2_0005_06E0()
 {
@@ -487,6 +496,10 @@ void f__B48B_0125_0002_00E2()
  * Called From: 348B:0034:0005:1F94
  * Called From: 348B:0034:0005:1C98
  * Called From: 348B:0034:0005:1DDE
+ * Called From: 348B:0034:0005:1D16
+ * Called From: 348B:0034:0005:1E84
+ * Called From: 348B:0034:0005:1FC0
+ * Called From: 348B:0034:0005:1CB4
  */
 void f__B48B_0127_000E_8DEB()
 {
@@ -1141,6 +1154,7 @@ void f__B48B_0334_0004_0F7A()
  * Called From: 348B:0043:0005:17E0
  * Called From: 348B:0043:0005:1536
  * Called From: 348B:0043:0005:14B8
+ * Called From: 348B:0043:0005:16FC
  */
 void f__B48B_03A4_0005_06E6()
 {

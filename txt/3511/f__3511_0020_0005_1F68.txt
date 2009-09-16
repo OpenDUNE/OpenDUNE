@@ -1,0 +1,7 @@
+CS: 3511
+IP: 0020
+Length: 0005
+CRC: 1F68
+Binary: 01
+EA 00 00 AB 42
+From: 0642,01C5,000E,6BE0

@@ -498,6 +498,9 @@ void f__2B6C_012C_000B_EE3B()
  * @name f__2B6C_0137_0020_17E5
  * @implements 2B6C:0137:0020:17E5 ()
  *
+ * Called From: 0642:014A:0008:A05E
+ * Called From: 0642:040F:0005:11DE
+ * Called From: 0642:042B:0005:11DE
  * Called From: 0F78:0170:003E:9180
  * Called From: 10E4:029F:0008:F3DE
  * Called From: 10E4:04BA:0006:079E
@@ -647,6 +650,7 @@ void f__2B6C_0162_0007_73B2()
  * @implements 2B6C:0169:001E:97C8 ()
  *
  * Called From: 0642:010E:0006:027E
+ * Called From: 0642:0172:0006:027E
  * Called From: 0F78:019C:0008:F13E
  * Called From: 10E4:0470:0007:2EFE
  * Called From: 10E4:056F:0006:027E
@@ -892,6 +896,7 @@ void f__2B6C_0197_00CE_7027()
 	emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66B6);
 	emu_push(0x0265);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x22A60FD7: f__22A6_0FD7_0043_03A9(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2B6C; emu_last_ip = 0x0261; emu_last_length = 0x00CE; emu_last_crc = 0x7027;
@@ -1385,6 +1390,7 @@ void f__2B6C_0228_003D_0095()
  * Called From: 2B6C:0265:007B:EAE2
  * Called From: 2B6C:0265:008B:06FE
  * Called From: 2B6C:0265:009B:5987
+ * Called From: 2B6C:0265:00CE:7027
  */
 void f__2B6C_0265_0007_74D2()
 {

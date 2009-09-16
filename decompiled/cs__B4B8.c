@@ -11,6 +11,7 @@
  * @implements B4B8:0000:001F:044D ()
  *
  * Called From: 34B8:003E:0005:1EFA
+ * Called From: 34B8:003E:0005:1FCE
  */
 void f__B4B8_0000_001F_044D()
 {
@@ -1745,6 +1746,7 @@ void f__B4B8_0534_000D_7B21()
  * @name f__B4B8_0541_0009_7487
  * @implements B4B8:0541:0009:7487 ()
  *
+ * Called From: B4B8:0572:001A:E371
  * Called From: B4B8:058C:0010:89EA
  * Called From: B4B8:058C:0014:8B7A
  */
@@ -1829,7 +1831,7 @@ void f__B4B8_0568_001A_E371()
 	emu_pop(&emu_cx.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x16), emu_ax.x);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x16), 0x1000);
-	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x0541; emu_last_cs = 0xB4B8; emu_last_ip = 0x0572; emu_last_length = 0x001A; emu_last_crc = 0xE371; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.sf != emu_flags.of)) { f__B4B8_0541_0009_7487(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x16), 0x0);
 	if ((emu_flags.sf != emu_flags.of)) { emu_ip = 0x0541; emu_last_cs = 0xB4B8; emu_last_ip = 0x0578; emu_last_length = 0x001A; emu_last_crc = 0xE371; emu_call(); return; } // Jump does not resolve
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x16));
@@ -3136,7 +3138,7 @@ void f__B4B8_07A4_0023_6A63()
 	emu_addws(&emu_get_memory16(emu_ss, emu_bp, -0x12), 0x4);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x40);
-	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x07C7; emu_last_cs = 0xB4B8; emu_last_ip = 0x07C2; emu_last_length = 0x0023; emu_last_crc = 0x6A63; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.sf != emu_flags.of)) { f__B4B8_07C7_000C_023F(); return; }
 	f__B4B8_0625_00CD_A1F4(); return;
 }
 
@@ -3183,6 +3185,7 @@ void f__B4B8_07BE_0009_1C5D()
  * @implements B4B8:07C7:000C:023F ()
  *
  * Called From: B4B8:07C2:0019:BA73
+ * Called From: B4B8:07C2:0023:6A63
  */
 void f__B4B8_07C7_000C_023F()
 {
@@ -4695,6 +4698,7 @@ void f__B4B8_0D1E_0005_04BA()
  * Called From: 34B8:0039:0005:1E92
  * Called From: 34B8:0039:0005:1DCC
  * Called From: 34B8:0039:0005:1F38
+ * Called From: 34B8:0039:0005:1D96
  * Called From: B4B8:21DF:0004:0772
  */
 void f__B4B8_0D23_0010_7C11()
@@ -4971,6 +4975,8 @@ void f__B4B8_0ECA_0004_0F7A()
  * Called From: 34B8:0025:0005:1354
  * Called From: 34B8:0025:0005:1056
  * Called From: 34B8:0025:0005:1020
+ * Called From: 34B8:0025:0005:11B6
+ * Called From: 34B8:0025:0005:1226
  */
 void f__B4B8_0ECE_000B_8103()
 {
@@ -5391,6 +5397,7 @@ void f__B4B8_10FF_0006_137A()
  *
  * Called From: 34B8:002F:0005:1DA0
  * Called From: 34B8:002F:0005:1EA2
+ * Called From: 34B8:002F:0005:1C9E
  * Called From: B4B8:21E7:0008:EBB2
  */
 void f__B4B8_110D_000D_CCFE()
@@ -6814,7 +6821,7 @@ void f__B4B8_1BAF_0010_6782()
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0xC), 0x0);
 	if (emu_flags.zf) { f__B4B8_1BBF_0018_8079(); return; }
 	emu_movw(&emu_ax.x, 0x1);
-	emu_ip = 0x1BC1; emu_last_cs = 0xB4B8; emu_last_ip = 0x1BBD; emu_last_length = 0x0010; emu_last_crc = 0x6782; emu_call(); // Jump does not resolve
+	f__B4B8_1BC1_0016_D379(); return;
 }
 
 /**
@@ -6862,6 +6869,28 @@ void f__B4B8_1BBF_0018_8079()
 }
 
 /**
+ * Decompiled function f__B4B8_1BC1_0016_D379()
+ *
+ * @name f__B4B8_1BC1_0016_D379
+ * @implements B4B8:1BC1:0016:D379 ()
+ *
+ * Called From: B4B8:1BBD:0010:6782
+ */
+void f__B4B8_1BC1_0016_D379()
+{
+	emu_pop(&emu_dx.x);
+	emu_orw(&emu_dx.x, emu_ax.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x12), emu_dx.x);
+	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0xC), 0x0);
+	if (!emu_flags.zf) { f__B4B8_1BDD_001F_7E6D(); return; }
+	emu_push(emu_ds);
+	emu_movw(&emu_ax.x, 0x230A);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x1BD7); emu_cs = 0x1FB5; emu_ip = 0x318C; emu_last_cs = 0xB4B8; emu_last_ip = 0x1BD2; emu_last_length = 0x0016; emu_last_crc = 0xD379; emu_call(); // Jump does not resolve
+	f__B4B8_1BD7_0025_736B();
+}
+
+/**
  * Decompiled function f__B4B8_1BD7_0025_736B()
  *
  * @name f__B4B8_1BD7_0025_736B
@@ -6885,6 +6914,28 @@ void f__B4B8_1BD7_0025_736B()
 	emu_addws(&emu_bx.x, 0x2);
 	if (--emu_cx.x != 0) { f__B4B8_1BEC_0010_B763(); return; }
 	emu_ip = 0x1E48; emu_last_cs = 0xB4B8; emu_last_ip = 0x1BF9; emu_last_length = 0x0025; emu_last_crc = 0x736B; emu_call(); // Jump does not resolve
+}
+
+/**
+ * Decompiled function f__B4B8_1BDD_001F_7E6D()
+ *
+ * @name f__B4B8_1BDD_001F_7E6D
+ * @implements B4B8:1BDD:001F:7E6D ()
+ *
+ * Called From: B4B8:1BCB:0016:D379
+ */
+void f__B4B8_1BDD_001F_7E6D()
+{
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x1);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_si);
+	emu_movw(&emu_cx.x, 0x5);
+	emu_movw(&emu_bx.x, 0x2281);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_cs, emu_bx.x,  0x0));
+	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x8));
+	if (emu_flags.zf) { emu_ip = 0x1BFC; emu_last_cs = 0xB4B8; emu_last_ip = 0x1BF2; emu_last_length = 0x001F; emu_last_crc = 0x7E6D; emu_call(); return; } // Jump does not resolve
+	emu_addws(&emu_bx.x, 0x2);
+	if (--emu_cx.x != 0) { f__B4B8_1BEC_0010_B763(); return; }
+	emu_ip = 0x1E48; emu_last_cs = 0xB4B8; emu_last_ip = 0x1BF9; emu_last_length = 0x001F; emu_last_crc = 0x7E6D; emu_call(); // Jump does not resolve
 }
 
 /**
@@ -6918,6 +6969,7 @@ void f__B4B8_1BE3_0019_861A()
  * Called From: B4B8:1BF7:0010:B763
  * Called From: B4B8:1BF7:0019:861A
  * Called From: B4B8:1BF7:0025:736B
+ * Called From: B4B8:1BF7:001F:7E6D
  */
 void f__B4B8_1BEC_0010_B763()
 {

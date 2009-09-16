@@ -12,6 +12,8 @@
  *
  * Called From: 3533:0020:0005:1DB8
  * Called From: 3533:0020:0005:1EAC
+ * Called From: 3533:0020:0005:1F02
+ * Called From: 3533:0020:0005:1C78
  */
 void f__B533_0000_0010_9159()
 {

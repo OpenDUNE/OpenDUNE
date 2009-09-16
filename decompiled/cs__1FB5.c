@@ -1507,7 +1507,7 @@ void f__1FB5_077E_0002_02DE()
 void f__1FB5_0780_0055_5423()
 {
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x07BE; emu_last_cs = 0x1FB5; emu_last_ip = 0x0784; emu_last_length = 0x0055; emu_last_crc = 0x5423; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__1FB5_07BE_0017_760E(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0xFF);
 	if (emu_flags.zf) { f__1FB5_07BE_0017_760E(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -1545,6 +1545,7 @@ void f__1FB5_0780_0055_5423()
  * @name f__1FB5_07BE_0017_760E
  * @implements 1FB5:07BE:0017:760E ()
  *
+ * Called From: 1FB5:0784:0055:5423
  * Called From: 1FB5:078A:0055:5423
  */
 void f__1FB5_07BE_0017_760E()

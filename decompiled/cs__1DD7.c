@@ -1428,6 +1428,7 @@ void f__1DD7_0ACE_0002_00E2()
  *
  * Called From: B4B8:1C5C:0005:154E
  * Called From: B4BE:0069:0005:154E
+ * Called From: B4F2:0241:000C:1C48
  * Called From: B503:0500:0005:154E
  * Called From: B511:0E23:000C:790A
  * Called From: B511:1436:0019:35CB

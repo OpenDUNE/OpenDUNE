@@ -49,6 +49,10 @@
  * Called From: 34CA:0020:0005:1ECA
  * Called From: 34CA:0020:0005:1FE4
  * Called From: 34CA:0020:0005:1DEA
+ * Called From: 34CA:0020:0005:1FF2
+ * Called From: 34CA:0020:0005:1C50
+ * Called From: 34CA:0020:0005:1E9A
+ * Called From: 34CA:0020:0005:1E6A
  */
 void f__B4CA_020F_0017_B156()
 {

@@ -11,6 +11,7 @@
  * @implements B511:0000:000E:006C ()
  *
  * Called From: 3511:0020:0005:1EFA
+ * Called From: 3511:0020:0005:1F68
  */
 void f__B511_0000_000E_006C()
 {
@@ -2788,6 +2789,7 @@ void f__B511_0FAB_0005_04BA()
  * Called From: 3511:0043:0005:1582
  * Called From: 3511:0043:0005:16C0
  * Called From: 3511:0043:0005:1498
+ * Called From: 3511:0043:0005:17DC
  */
 void f__B511_0FB0_0028_715B()
 {
@@ -2884,6 +2886,7 @@ void f__B511_0FF1_0016_4B31()
  * @name f__B511_1007_0008_EF90
  * @implements B511:1007:0008:EF90 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B511:1007:0016:4B31
  */
 void f__B511_1007_0008_EF90()

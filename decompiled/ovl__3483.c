@@ -18,6 +18,9 @@
  * @implements 3483:0039 (5)
  *
  * Called From: 0642:0125:000B:A977
+ * Called From: 0642:0136:0010:EFC3
+ * Called From: 0642:016C:000A:ACE4
+ * Called From: 0642:01EE:000B:A977
  * Called From: 0642:024C:0005:13D4
  * Called From: 0642:028B:000B:B077
  * Called From: 0642:0755:0005:13D4
@@ -38,6 +41,8 @@
  * Called From: 1A34:1013:0009:65B5
  * Called From: 1A34:1E34:0038:F23F
  * Called From: 1A34:25A5:0012:2ED3
+ * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28
  * Called From: 261F:01B9:001B:DA28

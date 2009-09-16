@@ -11,6 +11,7 @@
  * @implements B4B5:0000:0014:8B5D ()
  *
  * Called From: 34B5:0020:0005:1CC6
+ * Called From: 34B5:0020:0005:1EFA
  */
 void f__B4B5_0000_0014_8B5D()
 {
