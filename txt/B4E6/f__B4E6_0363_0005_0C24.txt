@@ -1,0 +1,7 @@
+CS: B4E6
+IP: 0363
+Length: 0005
+CRC: 0C24
+Binary: 01
+33 F6 E9 9B 00
+From: B4E6,0349,0004,04A8

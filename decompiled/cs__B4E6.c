@@ -409,7 +409,7 @@ void f__B4E6_00E0_0022_E3C9()
 	emu_cmpw(&emu_bx.x, emu_get_memory16(emu_ss, emu_bp,  0xC));
 	if ((emu_flags.sf != emu_flags.of)) { f__B4E6_0102_0004_069C(); return; }
 	emu_cmpw(&emu_bx.x, emu_get_memory16(emu_ss, emu_bp,  0x10));
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x0102; emu_last_cs = 0xB4E6; emu_last_ip = 0x00FB; emu_last_length = 0x0022; emu_last_crc = 0xE3C9; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B4E6_0102_0004_069C(); return; }
 	emu_movw(&emu_ax.x, 0x1);
 	f__B4E6_0104_0002_03AC(); return;
 }
@@ -423,6 +423,7 @@ void f__B4E6_00E0_0022_E3C9()
  * Called From: B4E6:00EC:0022:E3C9
  * Called From: B4E6:00F1:0022:E3C9
  * Called From: B4E6:00F6:0022:E3C9
+ * Called From: B4E6:00FB:0022:E3C9
  */
 void f__B4E6_0102_0004_069C()
 {
@@ -1058,6 +1059,8 @@ void f__B4E6_0349_0004_04A8()
 	switch (emu_ip) {
 		case 0x034D: f__B4E6_034D_000B_EA87(); return;
 		case 0x0358: f__B4E6_0358_000B_FD4A(); return;
+		case 0x0363: f__B4E6_0363_0005_0C24(); return;
+		case 0x0368: f__B4E6_0368_0006_26FC(); return;
 		case 0x036E: f__B4E6_036E_0018_AF31(); return;
 		case 0x039D: f__B4E6_039D_0005_12CE(); return;
 		default:
@@ -1125,6 +1128,34 @@ void f__B4E6_0358_000B_FD4A()
  */
 void f__B4E6_0360_0003_05C8()
 {
+	f__B4E6_0403_0008_335C(); return;
+}
+
+/**
+ * Decompiled function f__B4E6_0363_0005_0C24()
+ *
+ * @name f__B4E6_0363_0005_0C24
+ * @implements B4E6:0363:0005:0C24 ()
+ *
+ * Called From: B4E6:0349:0004:04A8
+ */
+void f__B4E6_0363_0005_0C24()
+{
+	emu_xorw(&emu_si, emu_si);
+	f__B4E6_0403_0008_335C(); return;
+}
+
+/**
+ * Decompiled function f__B4E6_0368_0006_26FC()
+ *
+ * @name f__B4E6_0368_0006_26FC
+ * @implements B4E6:0368:0006:26FC ()
+ *
+ * Called From: B4E6:0349:0004:04A8
+ */
+void f__B4E6_0368_0006_26FC()
+{
+	emu_movw(&emu_si, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	f__B4E6_0403_0008_335C(); return;
 }
 
@@ -1365,6 +1396,8 @@ void f__B4E6_03FB_0008_800C()
  * Called From: B4E6:0355:000B:EA87
  * Called From: B4E6:0360:0003:05C8
  * Called From: B4E6:0360:000B:FD4A
+ * Called From: B4E6:0365:0005:0C24
+ * Called From: B4E6:036B:0006:26FC
  * Called From: B4E6:03A0:0005:12CE
  * Called From: B4E6:0401:0008:800C
  * Called From: B4E6:0401:0012:4AA1

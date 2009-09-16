@@ -1,0 +1,7 @@
+CS: B536
+IP: 0338
+Length: 0005
+CRC: 167C
+Binary: 01
+90 0E E8 F6 02
+From: B536,0274,0007,5F42

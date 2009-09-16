@@ -1,0 +1,7 @@
+CS: B536
+IP: 01A9
+Length: 0005
+CRC: 162C
+Binary: 01
+90 0E E8 E0 06
+From: B536,049D,0003,0696

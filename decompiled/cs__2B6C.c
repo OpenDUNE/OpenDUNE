@@ -547,6 +547,7 @@ void f__2B6C_012C_000B_EE3B()
  * Called From: B527:0324:0005:11DE
  * Called From: B527:0324:0028:279D
  * Called From: B527:0324:003D:49AE
+ * Called From: B53B:0066:000F:2EC4
  */
 void f__2B6C_0137_0020_17E5()
 {
@@ -695,6 +696,7 @@ void f__2B6C_0162_0007_73B2()
  * Called From: B527:00E3:0007:2EFE
  * Called From: B527:025C:0008:F6BE
  * Called From: B527:0362:0008:F7BE
+ * Called From: B53B:0279:0013:234B
  */
 void f__2B6C_0169_001E_97C8()
 {
@@ -805,6 +807,7 @@ void f__2B6C_0192_0005_1DA6()
  * Called From: B4DA:0A4C:0017:948D
  * Called From: B4DA:0CF5:0013:41A5
  * Called From: B4DA:0D67:0013:41A5
+ * Called From: B4DA:0D67:0023:338D
  * Called From: B4DA:0E6D:0014:4435
  * Called From: B4DA:178D:0017:4845
  * Called From: B4DA:1823:0016:7905

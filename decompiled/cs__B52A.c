@@ -27,6 +27,9 @@
  * Called From: 352A:0020:0005:1F94
  * Called From: 352A:0020:0005:1FC6
  * Called From: 352A:0020:0005:1FFC
+ * Called From: 352A:0020:0005:1F82
+ * Called From: 352A:0020:0005:1F78
+ * Called From: 352A:0020:0005:1F12
  */
 void f__B52A_0000_0019_C6A1()
 {

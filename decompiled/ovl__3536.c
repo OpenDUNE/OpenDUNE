@@ -11,9 +11,13 @@
  *
  * @name ovl__3536
  * @implements 3536:002F (3)
+ * @implements 3536:0039 (5)
  *
  * Called From: 261F:01B9:001B:DA28
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B4B8:175F:0042:8C6A
+ * Called From: B53B:0191:0016:BF01
+ * Called From: B53B:01C4:0024:79EB
  */
 void ovl__3536(uint8 entry)
 {
@@ -28,5 +32,6 @@ void ovl__3536(uint8 entry)
 	emu_cs = emu_get_memory16(0x3536, 0, (entry * 5) + 0x23);
 	switch (entry) {
 		case 3: f__B536_0129_000A_DB22(); return;
+		case 5: f__B536_0148_0060_D4A4(); return;
 	}
 }

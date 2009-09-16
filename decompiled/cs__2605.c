@@ -14,6 +14,8 @@
  * Called From: 25C4:032E:000D:E600
  * Called From: B4ED:00CC:0016:6CAD
  * Called From: B4ED:0A99:000F:B9FE
+ * Called From: B53B:00A1:0011:6627
+ * Called From: B53B:024A:000C:855A
  */
 void f__2605_000C_006D_4FAF()
 {

@@ -232,6 +232,7 @@ void f__B483_014E_0008_66FA()
  * Called From: 3483:0039:0005:1A04
  * Called From: 3483:0039:0005:1B18
  * Called From: 3483:0039:0005:1BBC
+ * Called From: 3483:0039:0005:1B42
  * Called From: B483:0499:0019:4FFB
  */
 void f__B483_0156_0019_B934()
@@ -680,6 +681,7 @@ void f__B483_035F_0004_0782()
  * Called From: 3483:002A:0005:1AD6
  * Called From: 3483:002A:0005:1AEE
  * Called From: 3483:002A:0005:1B5C
+ * Called From: 3483:002A:0005:19BC
  */
 void f__B483_0363_0016_23BC()
 {
@@ -955,6 +957,8 @@ void f__B483_046C_0004_07E2()
  * Called From: 3483:002F:0005:1BDE
  * Called From: 3483:002F:0005:1BE6
  * Called From: 3483:002F:0005:1BEA
+ * Called From: 3483:002F:0005:18D2
+ * Called From: 3483:002F:0005:1886
  */
 void f__B483_0470_000E_7FC4()
 {

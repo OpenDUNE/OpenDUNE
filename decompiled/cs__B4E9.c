@@ -17,6 +17,7 @@
  * Called From: 34E9:0020:0005:1E8A
  * Called From: 34E9:0020:0005:1F26
  * Called From: 34E9:0020:0005:1F94
+ * Called From: 34E9:0020:0005:1CE8
  * Called From: B4E9:00BA:000B:A2D6
  * Called From: B4E9:026A:0008:CC76
  * Called From: B4E9:02D4:0008:CE9E
@@ -217,6 +218,8 @@ void f__B4E9_004D_0003_0212()
  * Called From: 34E9:002A:0005:1BBA
  * Called From: 34E9:002A:0005:1BBE
  * Called From: 34E9:002A:0005:1BFA
+ * Called From: 34E9:002A:0005:1ADC
+ * Called From: 34E9:002A:0005:1BC8
  */
 void f__B4E9_0050_003F_389B()
 {
@@ -1228,6 +1231,7 @@ void f__B4E9_032B_0006_137A()
  *
  * Called From: 34E9:002F:0005:197E
  * Called From: 34E9:002F:0005:1B94
+ * Called From: 34E9:002F:0005:1AF6
  */
 void f__B4E9_0345_0023_4149()
 {
@@ -1458,6 +1462,7 @@ void f__B4E9_03D6_0015_4BD4()
  * @name f__B4E9_03EB_0008_F158
  * @implements B4E9:03EB:0008:F158 ()
  *
+ * Called From: 261F:01B9:001B:DA28
  * Called From: B4E9:03EB:0015:4BD4
  */
 void f__B4E9_03EB_0008_F158()

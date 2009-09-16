@@ -105,7 +105,9 @@ void f__B4BE_0023_0014_37AE()
 	if (!emu_flags.zf) { f__B4BE_0073_0008_552C(); return; }
 	emu_movw(&emu_ax.x, 0x1B);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0037); emu_cs = 0x3483; emu_ip = 0x005C; emu_last_cs = 0xB4BE; emu_last_ip = 0x0032; emu_last_length = 0x0014; emu_last_crc = 0x37AE; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x0037); emu_cs = 0x3483; ovl__3483(1);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	f__B4BE_0037_002A_5064();
 }
 
@@ -134,6 +136,7 @@ void f__B4BE_002E_0009_6C75()
  * @implements B4BE:0037:002A:5064 ()
  *
  * Called From: B4BE:0037:0009:6C75
+ * Called From: B4BE:0037:0014:37AE
  */
 void f__B4BE_0037_002A_5064()
 {
@@ -637,7 +640,7 @@ void f__B4BE_01B9_000E_34A4()
 	emu_pop(&emu_cx.x);
 	emu_pop(&emu_cx.x);
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x01D2; emu_last_cs = 0xB4BE; emu_last_ip = 0x01C0; emu_last_length = 0x000E; emu_last_crc = 0x34A4; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4BE_01D2_0009_F6E5(); return; }
 	emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; f__29E8_0643_0008_40B8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
@@ -667,12 +670,31 @@ void f__B4BE_01C7_0014_9917()
 }
 
 /**
+ * Decompiled function f__B4BE_01D2_0009_F6E5()
+ *
+ * @name f__B4BE_01D2_0009_F6E5
+ * @implements B4BE:01D2:0009:F6E5 ()
+ *
+ * Called From: B4BE:01C0:000E:34A4
+ */
+void f__B4BE_01D2_0009_F6E5()
+{
+	emu_movw(&emu_ax.x, 0xFFFF);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x3483; ovl__3483(4);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
+	f__B4BE_01DB_0003_0154();
+}
+
+/**
  * Decompiled function f__B4BE_01DB_0003_0154()
  *
  * @name f__B4BE_01DB_0003_0154
  * @implements B4BE:01DB:0003:0154 ()
  *
  * Called From: B4BE:01DB:0014:9917
+ * Called From: B4BE:01DB:0009:F6E5
  */
 void f__B4BE_01DB_0003_0154()
 {
@@ -722,7 +744,7 @@ void f__B4BE_01E3_0011_6647()
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__B4BE_01F6_001A_F321(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x01F6; emu_last_cs = 0xB4BE; emu_last_ip = 0x01EC; emu_last_length = 0x0011; emu_last_crc = 0x6647; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4BE_01F6_001A_F321(); return; }
 	emu_movw(&emu_si, 0x1);
 	f__B4BE_0389_0011_7C74(); return;
 }
@@ -751,6 +773,7 @@ void f__B4BE_01EE_0006_2ABE()
  * Called From: B4BE:01DC:0002:039C
  * Called From: B4BE:01DC:0003:0154
  * Called From: B4BE:01E5:0011:6647
+ * Called From: B4BE:01EC:0011:6647
  */
 void f__B4BE_01F6_001A_F321()
 {
@@ -1010,7 +1033,7 @@ void f__B4BE_02CF_000E_37BD()
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__B4BE_02DF_001A_F3F7(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x02DF; emu_last_cs = 0xB4BE; emu_last_ip = 0x02D8; emu_last_length = 0x000E; emu_last_crc = 0x37BD; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4BE_02DF_001A_F3F7(); return; }
 	f__B4BE_01EE_0006_2ABE(); return;
 }
 
@@ -1022,6 +1045,7 @@ void f__B4BE_02CF_000E_37BD()
  *
  * Called From: B4BE:02C8:0011:367E
  * Called From: B4BE:02D1:000E:37BD
+ * Called From: B4BE:02D8:000E:37BD
  */
 void f__B4BE_02DF_001A_F3F7()
 {
@@ -1183,7 +1207,7 @@ void f__B4BE_0370_000E_363B()
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__B4BE_0380_001A_F3F7(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x37B4), 0x0);
-	if (emu_flags.zf) { emu_ip = 0x0380; emu_last_cs = 0xB4BE; emu_last_ip = 0x0379; emu_last_length = 0x000E; emu_last_crc = 0x363B; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4BE_0380_001A_F3F7(); return; }
 	f__B4BE_01EE_0006_2ABE(); return;
 }
 
@@ -1195,6 +1219,7 @@ void f__B4BE_0370_000E_363B()
  *
  * Called From: B4BE:0369:0011:3EFE
  * Called From: B4BE:0372:000E:363B
+ * Called From: B4BE:0379:000E:363B
  */
 void f__B4BE_0380_001A_F3F7()
 {

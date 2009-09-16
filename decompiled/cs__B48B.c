@@ -20,6 +20,9 @@
  * Called From: 348B:0020:0005:1E3A
  * Called From: 348B:0020:0005:1EB4
  * Called From: 348B:0020:0005:1FE0
+ * Called From: 348B:0020:0005:1EFA
+ * Called From: 348B:0020:0005:1F32
+ * Called From: 348B:0020:0005:1FA6
  * Called From: B48B:02F7:003C:4385
  * Called From: B48B:02F7:0058:7D9E
  */
@@ -191,6 +194,8 @@ void f__B48B_0084_0004_0F7A()
  * Called From: 348B:0025:0005:167A
  * Called From: 348B:0025:0005:1708
  * Called From: 348B:0025:0005:156C
+ * Called From: 348B:0025:0005:1660
+ * Called From: 348B:0025:0005:1726
  */
 void f__B48B_0088_0029_5A9B()
 {
@@ -276,6 +281,7 @@ void f__B48B_00BB_0002_00E2()
  * Called From: 348B:002A:0005:17FE
  * Called From: 348B:002A:0005:1532
  * Called From: 348B:002A:0005:163C
+ * Called From: 348B:002A:0005:1530
  */
 void f__B48B_00BD_0029_AABE()
 {
@@ -363,6 +369,8 @@ void f__B48B_00F0_0002_00E2()
  * Called From: 348B:002F:0005:11DA
  * Called From: 348B:002F:0005:10A8
  * Called From: 348B:002F:0005:12CC
+ * Called From: 348B:002F:0005:11C0
+ * Called From: 348B:002F:0005:1086
  */
 void f__B48B_00F2_0005_06E0()
 {
@@ -477,6 +485,8 @@ void f__B48B_0125_0002_00E2()
  * Called From: 348B:0034:0005:1C82
  * Called From: 348B:0034:0005:1DF0
  * Called From: 348B:0034:0005:1F94
+ * Called From: 348B:0034:0005:1C98
+ * Called From: 348B:0034:0005:1DDE
  */
 void f__B48B_0127_000E_8DEB()
 {
@@ -543,7 +553,7 @@ void f__B48B_0158_002D_038E()
 	if (emu_flags.zf) { f__B48B_0185_001B_F071(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orws(&emu_get_memory16(emu_es, emu_bx.x,  0x2E), 0x10);
-	emu_ip = 0x018D; emu_last_cs = 0xB48B; emu_last_ip = 0x0183; emu_last_length = 0x002D; emu_last_crc = 0x038E; emu_call(); // Jump does not resolve
+	f__B48B_018D_0013_D106(); return;
 }
 
 /**
@@ -598,6 +608,7 @@ void f__B48B_0185_001B_F071()
  * @implements B48B:018D:0013:D106 ()
  *
  * Called From: B48B:0183:0025:8052
+ * Called From: B48B:0183:002D:038E
  */
 void f__B48B_018D_0013_D106()
 {
@@ -692,6 +703,7 @@ void f__B48B_01CC_0002_00E2()
  * Called From: 348B:0039:0005:10C6
  * Called From: 348B:0039:0005:120A
  * Called From: 348B:0039:0005:1104
+ * Called From: 348B:0039:0005:1208
  */
 void f__B48B_01CE_002B_2382()
 {
@@ -1127,6 +1139,8 @@ void f__B48B_0334_0004_0F7A()
  * Called From: 348B:0043:0005:1786
  * Called From: 348B:0043:0005:17B4
  * Called From: 348B:0043:0005:17E0
+ * Called From: 348B:0043:0005:1536
+ * Called From: 348B:0043:0005:14B8
  */
 void f__B48B_03A4_0005_06E6()
 {

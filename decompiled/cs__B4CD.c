@@ -5054,7 +5054,7 @@ void f__B4CD_10C9_0019_B54A()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ds, 0x00,  0x39EA));
 	emu_addw(&emu_bx.x, emu_ax.x);
 	emu_testb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x20);
-	if (emu_flags.zf) { emu_ip = 0x10E4; emu_last_cs = 0xB4CD; emu_last_ip = 0x10DA; emu_last_length = 0x0019; emu_last_crc = 0xB54A; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4CD_10E4_0006_11A6(); return; }
 	emu_push(emu_di);
 	emu_push(emu_cs); emu_push(0x10E2); emu_cs = 0x1082; f__1082_03A1_0023_2E20();
 	/* Check if this overlay should be reloaded */
@@ -5082,6 +5082,7 @@ void f__B4CD_10E2_0002_0268()
  * @implements B4CD:10E4:0006:11A6 ()
  *
  * Called From: B4CD:10AB:0040:609C
+ * Called From: B4CD:10DA:0019:B54A
  */
 void f__B4CD_10E4_0006_11A6()
 {

@@ -21,6 +21,7 @@
  * Called From: B4DA:0FCD:000A:8BE4
  * Called From: B4DA:1039:000A:8BE4
  * Called From: B4DA:1332:000A:8BE4
+ * Called From: B536:01A3:0060:D4A4
  */
 void f__2642_0002_005E_D1F0()
 {
@@ -106,6 +107,7 @@ void f__2642_0060_0009_D57B()
  * Called From: B4DA:0FFA:0008:F194
  * Called From: B4DA:1066:0008:F194
  * Called From: B4DA:135F:0008:F194
+ * Called From: B536:04F5:004E:DCAE
  */
 void f__2642_0069_0008_3016()
 {

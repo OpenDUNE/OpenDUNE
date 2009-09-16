@@ -1,0 +1,7 @@
+CS: B520
+IP: 069D
+Length: 0005
+CRC: 0CA2
+Binary: 01
+59 59 5E 5D CB
+From: B520,069D,0011,416E

@@ -35,6 +35,7 @@
  * Called From: B520:0125:0016:81BF
  * Called From: B520:0246:0016:81A7
  * Called From: B520:030A:00C4:0003
+ * Called From: B53B:0111:000C:FB46
  */
 void f__23E1_0004_0014_DD3C()
 {
@@ -645,6 +646,7 @@ void f__23E1_01BE_0004_0F7A()
  * Called From: B520:022C:000E:0926
  * Called From: B520:03B1:001B:B8E7
  * Called From: B520:03BE:000D:5922
+ * Called From: B53B:0266:0012:A44A
  */
 void f__23E1_01C2_0011_4E4B()
 {
@@ -848,6 +850,7 @@ void f__23E1_0252_0004_0F7A()
  * Called From: 2B4C:011B:001C:51C2
  * Called From: 3FF1:0081:000C:A6D0
  * Called From: B480:0081:000C:A6D0
+ * Called From: B53B:00FB:0009:815A
  */
 void f__23E1_0334_000B_B6F7()
 {

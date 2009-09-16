@@ -283,6 +283,7 @@ void f__1DD7_01DD_000E_3238()
  * Called From: 0642:0240:0005:1E9E
  * Called From: 1DD7:01AF:0007:1284
  * Called From: B483:047E:0005:1E9E
+ * Called From: B4F2:0272:0005:1E9E
  * Called From: B511:1497:0005:1E9E
  */
 void f__1DD7_01EB_0013_AA5A()

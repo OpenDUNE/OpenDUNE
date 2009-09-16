@@ -14,6 +14,7 @@
  * Called From: 10E4:207B:0014:DA03
  * Called From: B4A2:091C:0013:B0B2
  * Called From: B4A2:091C:0016:8872
+ * Called From: B536:074D:0024:CBE2
  */
 void f__2BC2_000A_0044_4A53()
 {

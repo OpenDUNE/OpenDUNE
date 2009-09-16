@@ -736,6 +736,7 @@ void f__22A6_04D5_0008_4F52()
  * Called From: 10E4:052E:002E:A169
  * Called From: 2B6C:004F:0045:8F26
  * Called From: B4F2:0F59:001D:1EC1
+ * Called From: B53B:0233:0029:FF41
  */
 void f__22A6_04F8_007A_D667()
 {
@@ -2318,11 +2319,11 @@ void f__22A6_08BC_0046_C4FB()
 	emu_movb(&emu_ax.l, 0x0);
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_cs, emu_bx.x + emu_ax.l,  0x0));
 	emu_orb(&emu_ax.l, emu_ax.l);
-	if (emu_flags.zf) { emu_ip = 0x08F9; emu_last_cs = 0x22A6; emu_last_ip = 0x08E7; emu_last_length = 0x0046; emu_last_crc = 0xC4FB; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__22A6_08F9_0009_9D8A(); return; }
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_cs, 0x00,  0x7E));
 	emu_stosb();
 	emu_decw(&emu_dx.x);
-	if (!emu_flags.zf) { emu_ip = 0x08EE; emu_last_cs = 0x22A6; emu_last_ip = 0x08F0; emu_last_length = 0x0046; emu_last_crc = 0xC4FB; emu_call(); return; } // Jump does not resolve
+	if (!emu_flags.zf) { f__22A6_08EE_0014_457C(); return; }
 	emu_addw(&emu_di, emu_get_memory16(emu_cs, 0x00,  0x70));
 	if (--emu_cx.x != 0) { emu_ip = 0x08E9; emu_last_cs = 0x22A6; emu_last_ip = 0x08F7; emu_last_length = 0x0046; emu_last_crc = 0xC4FB; emu_call(); } // Jump does not resolve
 	emu_pop(&emu_si);
@@ -2469,6 +2470,7 @@ void f__22A6_08E9_0019_86FC()
  * Called From: 22A6:08F0:0014:457C
  * Called From: 22A6:08F0:0019:86FC
  * Called From: 22A6:08F0:0054:2300
+ * Called From: 22A6:08F0:0046:C4FB
  */
 void f__22A6_08EE_0014_457C()
 {
@@ -2505,6 +2507,7 @@ void f__22A6_08EE_0014_457C()
  * Called From: 22A6:08DF:0054:2300
  * Called From: 22A6:08E7:0031:A185
  * Called From: 22A6:08E7:0035:AD19
+ * Called From: 22A6:08E7:0046:C4FB
  */
 void f__22A6_08F9_0009_9D8A()
 {
@@ -3925,6 +3928,7 @@ void f__22A6_0C5E_000A_38F3()
  * Called From: B520:07DF:0024:EF1C
  * Called From: B520:07DF:0027:9E9C
  * Called From: B520:0821:002C:E2AF
+ * Called From: B520:0821:0025:A6A1
  * Called From: B527:035A:0015:920C
  */
 void f__22A6_0D31_0015_D6F0()
@@ -4818,6 +4822,7 @@ void f__22A6_0FD7_0043_03A9()
  * Called From: 2B6C:0106:002F:CF7D
  * Called From: 2B6C:0106:0045:415A
  * Called From: B4F2:0F15:001D:1D71
+ * Called From: B53B:0147:0028:4EF1
  */
 void f__22A6_101C_004B_C8B8()
 {
@@ -5375,6 +5380,7 @@ void f__22A6_11F2_000E_31E8()
  *
  * Called From: 10E4:0343:001C:93A4
  * Called From: 2B4C:0064:001A:AED0
+ * Called From: B53B:00F2:0051:3A1F
  */
 void f__22A6_127B_0036_5409()
 {

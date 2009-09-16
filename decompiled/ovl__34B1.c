@@ -26,14 +26,17 @@
  * Called From: 15C2:0126:000B:E66A
  * Called From: 15C2:0138:0012:349D
  * Called From: 15C2:01CC:000E:97BB
- * Called From: 15C2:0266:003E:4876
+ * Called From: 15C2:0266:0030:556D
  * Called From: 15C2:02B0:002E:E091
- * Called From: 15C2:0339:002D:9019
+ * Called From: 15C2:0339:001F:1E58
  * Called From: 15C2:0383:0006:072C
  * Called From: 261F:01B9:001B:DA28
  * Called From: B4E0:048D:000D:6FF1
  * Called From: B4E0:04AF:0022:5B17
  * Called From: B4E0:04BE:000F:B515
+ * Called From: B4E0:060D:0012:7EB1
+ * Called From: B4E0:062B:001E:8ADD
+ * Called From: B4E0:0634:0009:C22D
  */
 void ovl__34B1(uint8 entry)
 {
