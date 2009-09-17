@@ -4827,7 +4827,7 @@ void f__B511_1147_0020_6FFF()
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x116C; emu_last_cs = 0xB511; emu_last_ip = 0x115E; emu_last_length = 0x0020; emu_last_crc = 0x6FFF; emu_call(); return; }
 	emu_cmpw(&emu_ax.x, 0x8003);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x1171; emu_last_cs = 0xB511; emu_last_ip = 0x1163; emu_last_length = 0x0020; emu_last_crc = 0x6FFF; emu_call(); return; }
-	/* Unresolved jump */ emu_ip = 0x1175; emu_last_cs = 0xB511; emu_last_ip = 0x1165; emu_last_length = 0x0020; emu_last_crc = 0x6FFF; emu_call();
+	f__B511_1175_0002_C03A(); return;
 }
 
 /**
@@ -4899,6 +4899,7 @@ void f__B511_1171_0004_EFF9()
  * @implements B511:1175:0002:C03A ()
  *
  * Called From: B511:1165:0014:A689
+ * Called From: B511:1165:0020:6FFF
  */
 void f__B511_1175_0002_C03A()
 {

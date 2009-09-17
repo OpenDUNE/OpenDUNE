@@ -702,7 +702,7 @@ void f__B4A2_017B_0074_9303()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0x6), emu_dx.x);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x18FE));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x1900));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01E7; emu_last_cs = 0xB4A2; emu_last_ip = 0x01CD; emu_last_length = 0x0074; emu_last_crc = 0x9303; emu_call(); return; }
+	if (emu_flags.zf) { f__B4A2_01E7_0008_082E(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ds, 0x00,  0x18FE));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx.x,  0xE), 0x8);
 	if (emu_flags.zf) { f__B4A2_01E7_0008_082E(); return; }
@@ -744,6 +744,7 @@ void f__B4A2_01C6_0029_C114()
  * @implements B4A2:01E7:0008:082E ()
  *
  * Called From: B4A2:01CD:0029:C114
+ * Called From: B4A2:01CD:0074:9303
  * Called From: B4A2:01D9:009A:E308
  * Called From: B4A2:01D9:0074:9303
  * Called From: B4A2:01D9:0091:0167
@@ -1176,7 +1177,7 @@ void f__B4A2_035E_0061_CF47()
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x1900));
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0396; emu_last_cs = 0xB4A2; emu_last_ip = 0x038E; emu_last_length = 0x0061; emu_last_crc = 0xCF47; emu_call(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_ds, 0x00,  0x18FE));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x039F; emu_last_cs = 0xB4A2; emu_last_ip = 0x0394; emu_last_length = 0x0061; emu_last_crc = 0xCF47; emu_call(); return; }
+	if (emu_flags.zf) { f__B4A2_039F_0020_BF0F(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x18FE));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x1900));
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x03BF; emu_last_cs = 0xB4A2; emu_last_ip = 0x039D; emu_last_length = 0x0061; emu_last_crc = 0xCF47; emu_call(); return; }
@@ -1263,6 +1264,7 @@ void f__B4A2_0396_0029_BE62()
  * @implements B4A2:039F:0020:BF0F ()
  *
  * Called From: B4A2:0394:0050:9484
+ * Called From: B4A2:0394:0061:CF47
  */
 void f__B4A2_039F_0020_BF0F()
 {
@@ -1508,7 +1510,7 @@ void f__B4A2_045F_0012_4D72()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx.x,  0xE), 0x1);
 	if (emu_flags.zf) { f__B4A2_0471_0048_E243(); return; }
-	/* Unresolved jump */ emu_ip = 0x05BA; emu_last_cs = 0xB4A2; emu_last_ip = 0x046E; emu_last_length = 0x0012; emu_last_crc = 0x4D72; emu_call();
+	f__B4A2_05BA_00B6_11C2(); return;
 }
 
 /**
@@ -1758,7 +1760,7 @@ void f__B4A2_0543_001D_7800()
 	emu_andws(&emu_get_memory16(emu_es, emu_bx.x,  0x2E), 0xFB);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_andws(&emu_get_memory16(emu_es, emu_bx.x,  0x2E), 0xFD);
-	/* Unresolved jump */ emu_ip = 0x05BA; emu_last_cs = 0xB4A2; emu_last_ip = 0x055E; emu_last_length = 0x001D; emu_last_crc = 0x7800; emu_call();
+	f__B4A2_05BA_00B6_11C2(); return;
 }
 
 /**
@@ -1863,11 +1865,13 @@ void f__B4A2_05A8_0012_33E6()
  * Called From: B4A2:042B:000C:23A1
  * Called From: B4A2:045C:000C:9E28
  * Called From: B4A2:045C:0031:2D5E
+ * Called From: B4A2:046E:0012:4D72
  * Called From: B4A2:04FF:0010:E3E2
  * Called From: B4A2:04FF:0045:0588
  * Called From: B4A2:055E:0002:ED3A
  * Called From: B4A2:055E:0037:FA1E
  * Called From: B4A2:055E:0042:182D
+ * Called From: B4A2:055E:001D:7800
  * Called From: B4A2:058B:0002:D6BA
  * Called From: B4A2:058B:002D:0EE2
  * Called From: B4A2:05B8:0012:33E6
@@ -2068,7 +2072,7 @@ void f__B4A2_061C_0054_23DD()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	/* Unresolved call */ emu_push(0x0670); emu_ip = 0x0729; emu_last_cs = 0xB4A2; emu_last_ip = 0x066D; emu_last_length = 0x0054; emu_last_crc = 0x23DD; emu_call();
+	emu_push(0x0670); f__B4A2_0729_0013_2494();
 	f__B4A2_0670_0040_740E();
 }
 
@@ -2425,6 +2429,7 @@ void f__B4A2_0713_0006_F7CE()
  * Called From: 34A2:0020:0005:0000
  * Called From: B4A2:00F1:000B:A0FA
  * Called From: B4A2:066D:0027:26C2
+ * Called From: B4A2:066D:0054:23DD
  */
 void f__B4A2_0729_0013_2494()
 {

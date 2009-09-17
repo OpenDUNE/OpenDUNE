@@ -2513,6 +2513,7 @@ extern void f__07D4_0292_0016_367F();
 extern void f__B50B_0292_0055_5B5D();
 extern void f__29E8_0293_0015_08FC();
 extern void f__B4E9_0293_000B_C287();
+extern void f__2B6C_0293_0027_6AD7();
 extern void f__B4E0_0293_000F_D3A0();
 extern void f__B527_0293_000A_B6BD();
 extern void f__B4F2_0294_000C_9527();
