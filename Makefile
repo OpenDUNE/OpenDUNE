@@ -33,6 +33,7 @@ endif
 all: opendune$(EXTENSION)
 
 objs/%.o: %.c
+	$(shell mkdir -p `dirname $@`)
 	@echo "[Compiling] $^"
 	$(Q)$(CC) $(CFLAGS) -c $^ -o $@ -I include/
 
