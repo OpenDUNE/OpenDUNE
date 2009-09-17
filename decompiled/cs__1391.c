@@ -1116,7 +1116,7 @@ void f__1391_04B1_0021_2689()
 	emu_push(emu_ax.x);
 	emu_movw(&emu_ax.x, 0x91);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_ip = 0x005F; emu_last_cs = 0x1391; emu_last_ip = 0x04CD; emu_last_length = 0x0021; emu_last_crc = 0x2689; emu_call();
+	emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
 	f__1391_04D2_0008_A466();
 }
 
@@ -1127,6 +1127,7 @@ void f__1391_04B1_0021_2689()
  * @implements 1391:04D2:0008:A466 ()
  *
  * Called From: 1391:04D2:0024:200D
+ * Called From: 1391:04D2:0021:2689
  */
 void f__1391_04D2_0008_A466()
 {

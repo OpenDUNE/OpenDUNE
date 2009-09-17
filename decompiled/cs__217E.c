@@ -2863,6 +2863,7 @@ void f__217E_0764_0006_1247()
  * @name f__217E_076A_001D_1254
  * @implements 217E:076A:001D:1254 ()
  *
+ * Called From: 217E:0775:0019:CE13
  * Called From: 217E:077A:0019:CE13
  * Called From: 217E:077A:001D:1254
  * Called From: 217E:0781:001D:1254
@@ -2898,8 +2899,8 @@ void f__217E_076E_0019_CE13()
 {
 	emu_movw(&emu_cx.x, emu_get_memory16(emu_ss, emu_bp,  0x0));
 	emu_shrw(&emu_cx.x, 0x1);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0787; emu_last_cs = 0x217E; emu_last_ip = 0x0773; emu_last_length = 0x0019; emu_last_crc = 0xCE13; emu_call(); return; }
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x076A; emu_last_cs = 0x217E; emu_last_ip = 0x0775; emu_last_length = 0x0019; emu_last_crc = 0xCE13; emu_call(); return; }
+	if (emu_flags.zf) { f__217E_0787_0003_2A36(); return; }
+	if (emu_flags.cf) { f__217E_076A_001D_1254(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp,  0x4));
 	if (!emu_flags.zf) { f__217E_076A_001D_1254(); return; }
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0x4), emu_ax.x);
@@ -2916,6 +2917,7 @@ void f__217E_076E_0019_CE13()
  * @implements 217E:0787:0003:2A36 ()
  *
  * Called From: 217E:0773:001D:1254
+ * Called From: 217E:0773:0019:CE13
  */
 void f__217E_0787_0003_2A36()
 {

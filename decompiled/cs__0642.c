@@ -596,7 +596,7 @@ void f__0642_0245_0007_AEBB()
 {
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__0642_024C_0005_2EF2(); return; }
-	/* Unresolved jump */ emu_ip = 0x0306; emu_last_cs = 0x0642; emu_last_ip = 0x0249; emu_last_length = 0x0007; emu_last_crc = 0xAEBB; emu_call();
+	f__0642_0306_0008_64F7(); return;
 }
 
 /**
@@ -750,6 +750,7 @@ void f__0642_02AE_0027_9BAA()
  * @name f__0642_0306_0008_64F7
  * @implements 0642:0306:0008:64F7 ()
  *
+ * Called From: 0642:0249:0007:AEBB
  * Called From: 0642:026F:000A:7582
  * Called From: 0642:02AC:001E:E9C7
  * Called From: 0642:02B9:0027:9BAA

@@ -2007,7 +2007,7 @@ void f__06F7_083F_0018_1886()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_subw(&emu_di, emu_get_memory16(emu_es, emu_bx.x,  0x0));
 	emu_cmpws(&emu_di, 0x4);
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x084D; emu_last_cs = 0x06F7; emu_last_ip = 0x0848; emu_last_length = 0x0018; emu_last_crc = 0x1886; emu_call(); return; }
+	if (!emu_flags.cf) { f__06F7_084D_000A_9737(); return; }
 	emu_addws(&emu_di, 0x2);
 	emu_movw(&emu_ax.x, 0xFFFF);
 	emu_push(emu_ax.x);
@@ -2023,6 +2023,7 @@ void f__06F7_083F_0018_1886()
  * @implements 06F7:084D:000A:9737 ()
  *
  * Called From: 06F7:083D:0007:6C78
+ * Called From: 06F7:0848:0018:1886
  */
 void f__06F7_084D_000A_9737()
 {

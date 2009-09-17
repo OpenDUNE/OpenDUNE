@@ -1144,7 +1144,7 @@ void f__1082_03A1_0023_9F5D()
 	emu_orw(&emu_cx.x, emu_cx.x);
 	if ((emu_flags.sf != emu_flags.of)) { f__1082_03C4_0006_5EA9(); return; }
 	emu_cmpws(&emu_cx.x, 0x52);
-	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x03C4; emu_last_cs = 0x1082; emu_last_ip = 0x03AE; emu_last_length = 0x0023; emu_last_crc = 0x9F5D; emu_call(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { f__1082_03C4_0006_5EA9(); return; }
 	emu_movw(&emu_ax.x, emu_cx.x);
 	emu_movw(&emu_dx.x, 0x58);
 	emu_imuluw(&emu_ax.x, emu_dx.x);
@@ -1176,6 +1176,7 @@ void f__1082_03C2_0002_C33A()
  * @implements 1082:03C4:0006:5EA9 ()
  *
  * Called From: 1082:03A9:0023:9F5D
+ * Called From: 1082:03AE:0023:9F5D
  */
 void f__1082_03C4_0006_5EA9()
 {

@@ -1,0 +1,7 @@
+CS: 0EDB
+IP: 04A7
+Length: 0004
+CRC: 9539
+Binary: 01
+33 C0 EB FA
+From: 0EDB,0497,0013,CDD0
