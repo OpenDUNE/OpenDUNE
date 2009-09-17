@@ -72,8 +72,8 @@ uint16 Mouse_CheckButtons(uint8 newState)
 	if ((oldState & 0x01) != 0 && (newState & 0x01) == 0) return 0x800 | 0x41;
 
 	/* Right button */
-	if ((oldState & 0x02) == 0 && (newState & 0x02) != 0) return 0x41;
-	if ((oldState & 0x02) != 0 && (newState & 0x02) == 0) return 0x800 | 0x41;
+	if ((oldState & 0x02) == 0 && (newState & 0x02) != 0) return 0x42;
+	if ((oldState & 0x02) != 0 && (newState & 0x02) == 0) return 0x800 | 0x42;
 
 	/* This should never be reached */
 	assert(!"Invalid mouse button state");
