@@ -131,7 +131,44 @@ void f__1FB5_006A_0015_A08C()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs); emu_push(0x007F); emu_cs = 0x01F7; f__01F7_10EF_000B_AF8B();
-	emu_unknown_call();
+	f__1FB5_007F_000E_EB7D();
+}
+
+/**
+ * Decompiled function f__1FB5_007F_000E_EB7D()
+ *
+ * @name f__1FB5_007F_000E_EB7D
+ * @implements 1FB5:007F:000E:EB7D ()
+ *
+ * Called From: 1FB5:007F:0015:A08C
+ */
+void f__1FB5_007F_000E_EB7D()
+{
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_cx.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax.x);
+	emu_decb(&emu_get_memory8(emu_ds, 0x00, -0x6794));
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	f__1FB5_008D_0004_893F(); return;
+}
+
+/**
+ * Decompiled function f__1FB5_008D_0004_893F()
+ *
+ * @name f__1FB5_008D_0004_893F
+ * @implements 1FB5:008D:0004:893F ()
+ *
+ * Called From: 1FB5:008B:000E:EB7D
+ */
+void f__1FB5_008D_0004_893F()
+{
+	emu_movw(&emu_sp, emu_bp);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }
 
 /**
@@ -3884,6 +3921,19 @@ void f__1FB5_17FE_0011_2DA9()
 }
 
 /**
+ * Decompiled function f__1FB5_180C_0003_5D02()
+ *
+ * @name f__1FB5_180C_0003_5D02
+ * @implements 1FB5:180C:0003:5D02 ()
+ *
+ * Called From: 1FB5:1895:0012:EC57
+ */
+void f__1FB5_180C_0003_5D02()
+{
+	f__1FB5_1898_0003_2E57(); return;
+}
+
+/**
  * Decompiled function f__1FB5_180F_000F_774A()
  *
  * @name f__1FB5_180F_000F_774A
@@ -3951,7 +4001,47 @@ void f__1FB5_187C_000A_608D()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x1886); f__1FB5_006A_0015_A08C();
-	emu_unknown_call();
+	f__1FB5_1886_0012_EC57();
+}
+
+/**
+ * Decompiled function f__1FB5_1886_0012_EC57()
+ *
+ * @name f__1FB5_1886_0012_EC57
+ * @implements 1FB5:1886:0012:EC57 ()
+ *
+ * Called From: 1FB5:1886:000A:608D
+ */
+void f__1FB5_1886_0012_EC57()
+{
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_cx.x);
+	emu_negw(&emu_ax.x, emu_ax.x);
+	emu_sbbw(&emu_ax.x, emu_ax.x);
+	emu_incw(&emu_ax.x);
+	emu_movw(&emu_si, emu_ax.x);
+	emu_decb(&emu_get_memory8(emu_ds, 0x00, -0x6794));
+	emu_movw(&emu_ax.x, emu_si);
+	f__1FB5_180C_0003_5D02(); return;
+}
+
+/**
+ * Decompiled function f__1FB5_1898_0003_2E57()
+ *
+ * @name f__1FB5_1898_0003_2E57
+ * @implements 1FB5:1898:0003:2E57 ()
+ *
+ * Called From: 1FB5:180C:0003:5D02
+ */
+void f__1FB5_1898_0003_2E57()
+{
+	emu_pop(&emu_si);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }
 
 /**
