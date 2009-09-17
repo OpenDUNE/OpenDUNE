@@ -65,7 +65,7 @@ __attribute__((used)) static uint32 *emu_get_memory32r(uint16 s, uint16 o, uint1
 #define emu_get_memory32(s, o, d) (*(emu_get_memory32r(s, o, d)))
 #endif
 
-extern void emu_init();
+extern void emu_init(int argc, char **argv);
 #include "libemu_bios.h"
 #include "libemu_call.h"
 #include "libemu_math.h"
