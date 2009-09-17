@@ -1169,7 +1169,7 @@ void f__15C2_05C7_0012_F9D4()
 void f__15C2_05D9_0025_FC39()
 {
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x2000);
-	if (emu_flags.zf) { emu_ip = 0x0602; emu_last_cs = 0x15C2; emu_last_ip = 0x05DE; emu_last_length = 0x0025; emu_last_crc = 0xFC39; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__15C2_0602_000B_511E(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0x2));
 	emu_movw(&emu_si, emu_get_memory16(emu_es, emu_bx.x,  0x0));
@@ -1208,6 +1208,7 @@ void f__15C2_05FE_000F_DE98()
  *
  * Called From: 15C2:05C5:002D:D911
  * Called From: 15C2:05D7:0012:F9D4
+ * Called From: 15C2:05DE:0025:FC39
  */
 void f__15C2_0602_000B_511E()
 {

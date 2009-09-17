@@ -8753,7 +8753,7 @@ void f__1A34_2645_0061_62F8()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax.x);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x6));
-	if (emu_flags.zf) { emu_ip = 0x2677; emu_last_cs = 0x1A34; emu_last_ip = 0x2652; emu_last_length = 0x0061; emu_last_crc = 0x62F8; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__1A34_2677_002F_A9D2(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x2));
 	emu_movws(&emu_ax.x, emu_ax.l);
@@ -8791,6 +8791,7 @@ void f__1A34_2645_0061_62F8()
  * @name f__1A34_2677_002F_A9D2
  * @implements 1A34:2677:002F:A9D2 ()
  *
+ * Called From: 1A34:2652:0061:62F8
  * Called From: 1A34:266E:0061:62F8
  */
 void f__1A34_2677_002F_A9D2()

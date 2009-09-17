@@ -952,7 +952,7 @@ void f__B4E6_02A0_0074_F135()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ds, 0x00,  0x7097));
 	emu_movb(&emu_ax.h, 0x0);
 	emu_orw(&emu_ax.x, emu_ax.x);
-	if (!emu_flags.zf) { emu_ip = 0x032E; emu_last_cs = 0xB4E6; emu_last_ip = 0x02F5; emu_last_length = 0x0074; emu_last_crc = 0xF135; emu_call(); return; } // Jump does not resolve
+	if (!emu_flags.zf) { f__B4E6_032E_001B_A3EF(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7062));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x14), emu_ax.x);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
@@ -1005,6 +1005,7 @@ void f__B4E6_0314_0035_7204()
  * @name f__B4E6_032E_001B_A3EF
  * @implements B4E6:032E:001B:A3EF ()
  *
+ * Called From: B4E6:02F5:0074:F135
  * Called From: B4E6:0319:0035:7204
  */
 void f__B4E6_032E_001B_A3EF()
@@ -1191,13 +1192,26 @@ void f__B4E6_0386_0015_B505()
 {
 	emu_addws(&emu_sp, 0xC);
 	emu_orw(&emu_ax.x, emu_ax.x);
-	if (emu_flags.zf) { emu_ip = 0x039B; emu_last_cs = 0xB4E6; emu_last_ip = 0x038B; emu_last_length = 0x0015; emu_last_crc = 0xB505; emu_call(); return; } // Jump does not resolve
+	if (emu_flags.zf) { f__B4E6_039B_0002_EF3A(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7066));
 	emu_subw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_cwd();
 	emu_idivw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_movw(&emu_si, emu_ax.x);
 	f__B4E6_039D_0005_8B75(); return;
+}
+
+/**
+ * Decompiled function f__B4E6_039B_0002_EF3A()
+ *
+ * @name f__B4E6_039B_0002_EF3A
+ * @implements B4E6:039B:0002:EF3A ()
+ *
+ * Called From: B4E6:038B:0015:B505
+ */
+void f__B4E6_039B_0002_EF3A()
+{
+	f__B4E6_03FB_0008_F6A8(); return;
 }
 
 /**
@@ -1371,6 +1385,21 @@ void f__B4E6_03F2_0011_BC0B()
 }
 
 /**
+ * Decompiled function f__B4E6_03FB_0008_F6A8()
+ *
+ * @name f__B4E6_03FB_0008_F6A8
+ * @implements B4E6:03FB:0008:F6A8 ()
+ *
+ * Called From: B4E6:039B:0002:EF3A
+ */
+void f__B4E6_03FB_0008_F6A8()
+{
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x6));
+	emu_movw(&emu_get_memory16(emu_ds, 0x00, -0x7FAC), emu_ax.x);
+	f__B4E6_0403_0008_D54F(); return;
+}
+
+/**
  * Decompiled function f__B4E6_0403_0008_D54F()
  *
  * @name f__B4E6_0403_0008_D54F
@@ -1384,6 +1413,7 @@ void f__B4E6_03F2_0011_BC0B()
  * Called From: B4E6:036B:0006:92B8
  * Called From: B4E6:03A0:0005:8B75
  * Called From: B4E6:0401:0012:7C1A
+ * Called From: B4E6:0401:0008:F6A8
  */
 void f__B4E6_0403_0008_D54F()
 {

@@ -1,0 +1,7 @@
+CS: 06F7
+IP: 0A56
+Length: 0004
+CRC: DE52
+Binary: 01
+5F 5E 5D CB
+From: 06F7,0A54,0012,8814

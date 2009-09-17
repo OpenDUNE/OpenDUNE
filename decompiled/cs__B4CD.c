@@ -5428,7 +5428,7 @@ void f__B4CD_11BC_0040_9F1F()
 	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C14));
 	emu_addw(&emu_ax.x, 0xFFF6);
 	emu_cmpw(&emu_ax.x, emu_di);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { emu_ip = 0x11FC; emu_last_cs = 0xB4CD; emu_last_ip = 0x11F6; emu_last_length = 0x0040; emu_last_crc = 0x9F1F; emu_call(); return; } // Jump does not resolve
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B4CD_11FC_002F_1C91(); return; }
 	emu_movw(&emu_ax.x, emu_di);
 	f__B4CD_1217_0014_177A(); return;
 }
@@ -5466,6 +5466,7 @@ void f__B4CD_11D7_0025_1314()
  * @implements B4CD:11FC:002F:1C91 ()
  *
  * Called From: B4CD:11F6:0025:1314
+ * Called From: B4CD:11F6:0040:9F1F
  */
 void f__B4CD_11FC_002F_1C91()
 {
@@ -5483,7 +5484,7 @@ void f__B4CD_11FC_002F_1C91()
 	emu_movb(&emu_cx.l, 0x3);
 	emu_shlw(&emu_bx.x, emu_cx.l);
 	emu_cmpw(&emu_get_memory16(emu_ds, emu_bx.x,  0x3C0E), emu_si);
-	if (!(emu_flags.sf != emu_flags.of)) { emu_ip = 0x122B; emu_last_cs = 0xB4CD; emu_last_ip = 0x1225; emu_last_length = 0x002F; emu_last_crc = 0x1C91; emu_call(); return; } // Jump does not resolve
+	if (!(emu_flags.sf != emu_flags.of)) { f__B4CD_122B_0020_30BA(); return; }
 	emu_movw(&emu_ax.x, emu_si);
 	f__B4CD_1237_0014_085E(); return;
 }
@@ -5516,6 +5517,7 @@ void f__B4CD_1217_0014_177A()
  * @implements B4CD:122B:0020:30BA ()
  *
  * Called From: B4CD:1225:0014:177A
+ * Called From: B4CD:1225:002F:1C91
  */
 void f__B4CD_122B_0020_30BA()
 {
@@ -5530,7 +5532,7 @@ void f__B4CD_122B_0020_30BA()
 	emu_cmpw(&emu_get_memory16(emu_ds, emu_bx.x,  0x3C10), emu_di);
 	if (!(emu_flags.sf != emu_flags.of)) { f__B4CD_124B_0015_24F3(); return; }
 	emu_movw(&emu_ax.x, emu_di);
-	emu_ip = 0x1257; emu_last_cs = 0xB4CD; emu_last_ip = 0x1249; emu_last_length = 0x0020; emu_last_crc = 0x30BA; emu_call(); // Jump does not resolve
+	f__B4CD_1257_0009_23D1(); return;
 }
 
 /**
@@ -5585,6 +5587,7 @@ void f__B4CD_124B_0015_24F3()
  * @implements B4CD:1257:0009:23D1 ()
  *
  * Called From: B4CD:1249:0014:085E
+ * Called From: B4CD:1249:0020:30BA
  */
 void f__B4CD_1257_0009_23D1()
 {
