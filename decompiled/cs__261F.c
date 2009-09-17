@@ -125,7 +125,7 @@ void f__261F_0008_0033_66ED()
 	emu_movw(&emu_ax.x, 0x33F4);
 	emu_movw(&emu_es, emu_ax.x);
 	emu_push(emu_get_memory16(emu_es, 0x00,  0x128));
-	emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x01F7; emu_ip = 0x2407; emu_last_cs = 0x261F; emu_last_ip = 0x0036; emu_last_length = 0x0033; emu_last_crc = 0x66ED; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x01F7; emu_ip = 0x23CC; emu_last_cs = 0x261F; emu_last_ip = 0x0036; emu_last_length = 0x0033; emu_last_crc = 0x66ED; emu_call(); // Jump does not resolve
 	emu_unknown_call();
 }
 

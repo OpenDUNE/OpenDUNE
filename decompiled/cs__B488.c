@@ -297,7 +297,7 @@ void f__B488_0115_000D_EA2D()
 	emu_cmpw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0xC));
 	if (emu_flags.cf) { f__B488_00C8_000D_AA91(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x2598; emu_ip = 0x0122; emu_last_cs = 0xB488; emu_last_ip = 0x011D; emu_last_length = 0x000D; emu_last_crc = 0xEA2D; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x2598; emu_ip = 0x0000; emu_last_cs = 0xB488; emu_last_ip = 0x011D; emu_last_length = 0x000D; emu_last_crc = 0xEA2D; emu_call(); // Jump does not resolve
 	f__B488_0122_000C_BEF6();
 }
 

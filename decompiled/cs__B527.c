@@ -936,7 +936,7 @@ void f__B527_02CB_005E_FFA4()
 	emu_adcw(&emu_ax.x, 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x2C60), emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x2C5E), emu_dx.x);
-	emu_push(emu_cs); emu_push(0x0329); emu_cs = 0x2B6C; emu_ip = 0x0460; emu_last_cs = 0xB527; emu_last_ip = 0x0324; emu_last_length = 0x005E; emu_last_crc = 0xFFA4; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x0329); emu_cs = 0x2B6C; emu_ip = 0x0137; emu_last_cs = 0xB527; emu_last_ip = 0x0324; emu_last_length = 0x005E; emu_last_crc = 0xFFA4; emu_call(); // Jump does not resolve
 	f__B527_0329_000C_BD5E();
 }
 
