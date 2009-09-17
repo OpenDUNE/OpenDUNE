@@ -37,7 +37,7 @@ void f__251B_0000_001E_7202()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_es, emu_ax.x);
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_es, 0x00,  0x6654);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_es, 0x00,  0x6656);
@@ -72,7 +72,7 @@ void f__251B_001E_001A_4EC8()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_es, emu_ax.x);
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_es, 0x00,  0x6654);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_es, 0x00,  0x6656);
@@ -107,7 +107,7 @@ void f__251B_0038_0016_F082()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_es, emu_ax.x);
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_es, 0x00,  0x6654);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_es, 0x00,  0x6656);
@@ -142,7 +142,7 @@ void f__251B_004E_001A_83C7()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_es, emu_ax.x);
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_es, 0x00,  0x6654);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_es, 0x00,  0x6656);

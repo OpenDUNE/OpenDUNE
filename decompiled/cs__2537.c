@@ -57,7 +57,7 @@ void f__2537_000C_001C_86CB()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_si);
 	emu_movw(&emu_si, emu_di);
 	emu_movw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_ip = 0x0028; emu_last_cs = 0x2537; emu_last_ip = 0x0026; emu_last_length = 0x001C; emu_last_crc = 0x86CB; emu_call(); // Jump does not resolve
+	/* Unresolved jump */ emu_ip = 0x0028; emu_last_cs = 0x2537; emu_last_ip = 0x0026; emu_last_length = 0x001C; emu_last_crc = 0x86CB; emu_call();
 }
 
 /**

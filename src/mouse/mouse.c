@@ -120,7 +120,7 @@ void Mouse_CheckMovement()
 		emu_push(emu_get_memory16(emu_ds, 0x00,  0x7094));
 		emu_push(emu_get_memory16(emu_ds, 0x00,  0x7092));
 
-		/* Call/jump based on memory/register values */
+		/* Call based on memory/register values */
 		emu_ip = emu_get_memory16(emu_ds, 0x00,  0x66B4);
 		emu_push(emu_cs);
 		emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66B6);
@@ -137,7 +137,7 @@ void Mouse_CheckMovement()
 
 		emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
 
-		/* Call/jump based on memory/register values */
+		/* Call based on memory/register values */
 		emu_ip = emu_get_memory16(emu_ds, 0x00,  0x66A4);
 		emu_push(emu_cs);
 		emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66A6);
@@ -167,7 +167,7 @@ void Mouse_CheckMovement()
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x7094));
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x7092));
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_ds, 0x00,  0x66B4);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66B6);
@@ -184,7 +184,7 @@ void Mouse_CheckMovement()
 
 	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
 
-	/* Call/jump based on memory/register values */
+	/* Call based on memory/register values */
 	emu_ip = emu_get_memory16(emu_ds, 0x00,  0x66A4);
 	emu_push(emu_cs);
 	emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66A6);
