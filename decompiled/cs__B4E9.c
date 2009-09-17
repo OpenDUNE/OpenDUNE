@@ -584,7 +584,7 @@ void f__B4E9_018E_0017_E657()
 	emu_push(emu_ax.x);
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x6D5D));
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x10E4; emu_ip = 0x057F; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A0; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
-	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A0; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
+	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A5; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
 }
 
 /**

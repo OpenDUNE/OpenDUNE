@@ -1432,7 +1432,7 @@ void f__2903_04A4_0018_7352()
 			emu_call();
 			return;
 	}
-	/* Unresolved jump */ emu_ip = 0x04BC; emu_last_cs = 0x2903; emu_last_ip = 0x04B9; emu_last_length = 0x0018; emu_last_crc = 0x7352; emu_call();
+	/* Unresolved jump */ emu_ip = 0x04BC; emu_last_cs = 0x2903; emu_last_ip = 0x04BC; emu_last_length = 0x0018; emu_last_crc = 0x7352; emu_call();
 }
 
 /**

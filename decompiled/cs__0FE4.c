@@ -1862,7 +1862,7 @@ void f__0FE4_0632_0031_75AA()
 	emu_decw(&emu_ax.x);
 	emu_push(emu_ax.x);
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0663); emu_cs = 0x104B; emu_ip = 0x0354; emu_last_cs = 0x0FE4; emu_last_ip = 0x065E; emu_last_length = 0x0031; emu_last_crc = 0x75AA; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0663; emu_last_cs = 0x0FE4; emu_last_ip = 0x065E; emu_last_length = 0x0031; emu_last_crc = 0x75AA; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0663; emu_last_cs = 0x0FE4; emu_last_ip = 0x0663; emu_last_length = 0x0031; emu_last_crc = 0x75AA; emu_call();
 }
 
 /**

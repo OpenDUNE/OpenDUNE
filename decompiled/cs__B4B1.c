@@ -1275,7 +1275,7 @@ void f__B4B1_0409_001F_F908()
 	emu_push(emu_ax.x);
 	emu_push(emu_si);
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0428); emu_cs = 0x1FB5; emu_ip = 0x0E9C; emu_last_cs = 0xB4B1; emu_last_ip = 0x0423; emu_last_length = 0x001F; emu_last_crc = 0xF908; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0428; emu_last_cs = 0xB4B1; emu_last_ip = 0x0423; emu_last_length = 0x001F; emu_last_crc = 0xF908; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0428; emu_last_cs = 0xB4B1; emu_last_ip = 0x0428; emu_last_length = 0x001F; emu_last_crc = 0xF908; emu_call();
 }
 
 /**
