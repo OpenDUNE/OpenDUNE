@@ -53,7 +53,7 @@ void Mouse_ExitHandler()
  * Check the state of the mouse button.
  *
  * @return If no change, 0x2D. If left click 0x41. If right click 0x42. If
- *  mouse down 0x800 flag is set.
+ *  mouse button released flag 0x800 is set.
  *
  * @name Mouse_CheckButtons
  * @implements 29A3:000C:0048:00FE
@@ -68,12 +68,12 @@ uint16 Mouse_CheckButtons(uint8 newState)
 	if (oldState == newState) return 0x2D;
 
 	/* Left button */
-	if ((oldState & 0x01) != 0 && (newState & 0x01) == 0) return 0x41;
-	if ((oldState & 0x01) == 0 && (newState & 0x01) != 0) return 0x800 | 0x41;
+	if ((oldState & 0x01) == 0 && (newState & 0x01) != 0) return 0x41;
+	if ((oldState & 0x01) != 0 && (newState & 0x01) == 0) return 0x800 | 0x41;
 
 	/* Right button */
-	if ((oldState & 0x02) != 0 && (newState & 0x02) == 0) return 0x41;
-	if ((oldState & 0x02) == 0 && (newState & 0x02) != 0) return 0x800 | 0x41;
+	if ((oldState & 0x02) == 0 && (newState & 0x02) != 0) return 0x41;
+	if ((oldState & 0x02) != 0 && (newState & 0x02) == 0) return 0x800 | 0x41;
 
 	/* This should never be reached */
 	assert(!"Invalid mouse button state");
@@ -90,7 +90,6 @@ void Mouse_HandleButtons()
 	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; f__29E8_0A4A_0040_5428();
 	emu_sp += 0x2; // Remove entry from stack
 }
-
 
 /**
  * Check if the mouse moved, and update the cursor if needed. This includes
