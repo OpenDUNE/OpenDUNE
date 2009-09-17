@@ -220,7 +220,9 @@ void f__B4A2_00B5_0014_CD20()
 	emu_orw(&emu_get_memory16(emu_ds, 0x00,  0x7FC4), 0x200);
 	emu_movw(&emu_ax.x, 0x42);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x00C9); emu_cs = 0x29E8; emu_ip = 0x08B5; emu_last_cs = 0xB4A2; emu_last_ip = 0x00C4; emu_last_length = 0x0014; emu_last_crc = 0xCD20; emu_call(); // Jump does not resolve
+	emu_push(emu_cs); emu_push(0x00C9); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34A2) { ovl__34A2(0xFF); }
 	f__B4A2_00C9_0020_FF60();
 }
 
@@ -249,6 +251,7 @@ void f__B4A2_00C0_0009_433C()
  * @implements B4A2:00C9:0020:FF60 ()
  *
  * Called From: B4A2:00C9:0009:433C
+ * Called From: B4A2:00C9:0014:CD20
  */
 void f__B4A2_00C9_0020_FF60()
 {
