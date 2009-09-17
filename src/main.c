@@ -4,7 +4,7 @@
 
 extern void f__29E8_0D47_0096_3777();
 extern void f__2756_050F_000B_0871();
-extern void f__29A3_0054_005C_47DC();
+extern void Mouse_EventHandler();
 extern void f__01F7_0000_000C_3D76();
 extern void f__0070_0040_0005_E17B();
 extern void f__0070_00E0_0005_E3FB();
@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 {
 	emu_hard_link(0x29E8, 0x0D47, &f__29E8_0D47_0096_3777);
 	emu_hard_link(0x2756, 0x050F, &f__2756_050F_000B_0871);
-	emu_hard_link(0x29A3, 0x0054, &f__29A3_0054_005C_47DC);
+	emu_hard_link(0x29A3, 0x0054, &Mouse_EventHandler);
 	emu_hard_link(0x01F7, 0x0000, &f__01F7_0000_000C_3D76);
 	emu_hard_link(0x0070, 0x0040, &f__0070_0040_0005_E17B);
 	emu_hard_link(0x0070, 0x00E0, &f__0070_00E0_0005_E3FB);
