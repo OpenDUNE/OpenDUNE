@@ -5,6 +5,72 @@
 #include "decompiled.h"
 
 /**
+ * Decompiled function f__3EEE_0E1A_0003_4293()
+ *
+ * @name f__3EEE_0E1A_0003_4293
+ * @implements 3EEE:0E1A:0003:4293 ()
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E1A_0003_4293()
+{
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E1D); f__0070_0080_0005_E27B();
+	f__3EEE_0E1D_0002_2597();
+}
+
+/**
+ * Decompiled function f__3EEE_0E1D_0002_2597()
+ *
+ * @name f__3EEE_0E1D_0002_2597
+ * @implements 3EEE:0E1D:0002:2597 ()
+ *
+ * Called From: 3EEE:0E1D:0003:4293
+ */
+void f__3EEE_0E1D_0002_2597()
+{
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__3EEE_0E1E_0003_4293()
+ *
+ * @name f__3EEE_0E1E_0003_4293
+ * @implements 3EEE:0E1E:0003:4293 ()
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E1E_0003_4293()
+{
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E21); f__0070_0080_0005_E27B();
+	f__3EEE_0E21_0002_2597();
+}
+
+/**
+ * Decompiled function f__3EEE_0E21_0002_2597()
+ *
+ * @name f__3EEE_0E21_0002_2597
+ * @implements 3EEE:0E21:0002:2597 ()
+ *
+ * Called From: 3EEE:0E21:0003:4293
+ */
+void f__3EEE_0E21_0002_2597()
+{
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__3EEE_0E82_0003_4293()
  *
  * @name f__3EEE_0E82_0003_4293

@@ -73,7 +73,7 @@ void f__B500_0014_0015_D8D5()
 void f__B500_002C_000C_D965()
 {
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00,  0x62F6), 0x0);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0038; emu_last_cs = 0xB500; emu_last_ip = 0x0031; emu_last_length = 0x000C; emu_last_crc = 0xD965; emu_call(); return; }
+	if (emu_flags.zf) { f__B500_0038_0005_0164(); return; }
 	emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x1FB5; f__1FB5_1A67_0005_8AB7();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { ovl__3500(0xFF); }
@@ -86,6 +86,7 @@ void f__B500_002C_000C_D965()
  * @name f__B500_0038_0005_0164
  * @implements B500:0038:0005:0164 ()
  *
+ * Called From: B500:0031:000C:D965
  * Called From: B500:0038:000C:D965
  */
 void f__B500_0038_0005_0164()

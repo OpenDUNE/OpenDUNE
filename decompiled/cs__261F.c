@@ -101,6 +101,9 @@
  * Called From: 3530:0020:0002:0000
  * Called From: 3533:0020:0002:0000
  * Called From: 3536:002F:0002:0000
+ * Called From: 3536:0039:0002:0000
+ * Called From: 353B:0020:0002:0000
+ * Called From: 353B:002F:0002:0000
  */
 void f__261F_0008_0033_66ED()
 {

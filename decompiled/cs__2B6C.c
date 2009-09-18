@@ -555,6 +555,7 @@ void f__2B6C_012C_000B_CA8C()
  * Called From: B527:0324:0005:6168
  * Called From: B527:0324:0028:A290
  * Called From: B527:0324:003D:CE40
+ * Called From: B53B:0066:000F:A920
  */
 void f__2B6C_0137_0020_C73F()
 {

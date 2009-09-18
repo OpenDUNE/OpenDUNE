@@ -152,7 +152,7 @@ void f__2BA5_002F_0073_32B7()
 	emu_inb(&emu_ax.l, emu_dx.x);
 	emu_andb(&emu_ax.l, 0x8);
 	emu_xorb(&emu_ax.l, emu_bx.l);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0077; emu_last_cs = 0x2BA5; emu_last_ip = 0x007C; emu_last_length = 0x0073; emu_last_crc = 0x32B7; emu_call(); return; }
+	if (emu_flags.zf) { f__2BA5_0077_002B_8A9F(); return; }
 	emu_inb(&emu_ax.l, emu_dx.x);
 	emu_andb(&emu_ax.l, 0x8);
 	emu_xorb(&emu_ax.l, emu_bx.l);
@@ -310,6 +310,7 @@ void f__2BA5_0067_003B_2718()
  * Called From: 2BA5:007C:003B:2718
  * Called From: 2BA5:007C:0056:46A5
  * Called From: 2BA5:007C:009C:A3D1
+ * Called From: 2BA5:007C:0073:32B7
  */
 void f__2BA5_0077_002B_8A9F()
 {

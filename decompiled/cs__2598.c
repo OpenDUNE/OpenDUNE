@@ -105,6 +105,7 @@
  * Called From: B518:14C3:0008:0999
  * Called From: B527:0024:0009:E4DB
  * Called From: B527:02AA:0009:D1B5
+ * Called From: B53B:0083:001D:6E01
  */
 void f__2598_0000_0017_EB80()
 {

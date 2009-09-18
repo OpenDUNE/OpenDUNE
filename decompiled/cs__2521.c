@@ -20,6 +20,8 @@
  * Called From: B527:01F9:0009:A1E0
  * Called From: B527:0345:0012:356E
  * Called From: B527:0345:0015:ADC3
+ * Called From: B536:0467:0009:A1E6
+ * Called From: B536:06D6:0010:4E1D
  */
 void f__2521_000F_0022_6D87()
 {
@@ -79,6 +81,7 @@ void f__2521_0031_0004_893F()
  * Called From: B518:1246:0008:1FFE
  * Called From: B518:125C:0008:1FFE
  * Called From: B518:13E9:0028:C863
+ * Called From: B536:079A:000F:8263
  */
 void f__2521_0035_0015_AA0F()
 {

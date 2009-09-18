@@ -34,6 +34,7 @@
  * Called From: B520:0125:0016:52C9
  * Called From: B520:0246:0016:54C9
  * Called From: B520:030A:00C4:DD47
+ * Called From: B53B:0111:000C:1AF8
  */
 void f__23E1_0004_0014_2BC0()
 {
@@ -846,6 +847,7 @@ void f__23E1_0252_0004_893F()
  * Called From: 2B4C:011B:0006:590A
  * Called From: 2B4C:011B:001C:EC2A
  * Called From: B480:0081:000C:5821
+ * Called From: B53B:00FB:0009:0D32
  */
 void f__23E1_0334_000B_CF65()
 {

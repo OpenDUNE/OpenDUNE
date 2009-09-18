@@ -49,6 +49,8 @@ void f__0070_0048_0005_E15B()
  * @name f__0070_0080_0005_E27B
  * @implements 0070:0080:0005:E27B ()
  *
+ * Called From: 3EEE:0E1B:0003:4293
+ * Called From: 3EEE:0E1F:0003:4293
  * Called From: 3EEE:0E83:0003:4293
  * Called From: 3EEE:0E87:0003:4293
  * Called From: 3EEE:0EA9:0003:4293

@@ -44,6 +44,8 @@
  * Called From: B4F2:0F2D:000E:BC8E
  * Called From: B527:0030:000C:7CE1
  * Called From: B527:02A1:0009:18B8
+ * Called From: B53B:004B:0050:FEA6
+ * Called From: B53B:0090:000D:B84B
  */
 void f__07AE_0000_00DF_A32C()
 {
@@ -230,6 +232,7 @@ void f__07AE_00FF_0004_893F()
  *
  * Called From: 07AE:00F7:0009:4821
  * Called From: B527:00AD:000C:6949
+ * Called From: B53B:014F:0008:05D3
  */
 void f__07AE_0103_004C_B43B()
 {
