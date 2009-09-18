@@ -1,7 +1,0 @@
-CS: B520
-IP: 0969
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: B520,0962,0013,BA50

@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 175C
-Length: 0002
-CRC: C1BA
-Binary: 01
-EB 03
-From: 01F7,175C,001B,9E34

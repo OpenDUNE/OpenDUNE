@@ -1,7 +1,0 @@
-CS: 3520
-IP: 002A
-Length: 0005
-CRC: 0000
-Binary: 01
-EA A2 06 BF 41
-From: B4A2,0941,0011,88EC

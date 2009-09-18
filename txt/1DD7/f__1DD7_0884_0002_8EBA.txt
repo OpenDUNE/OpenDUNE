@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 0884
-Length: 0002
-CRC: 8EBA
-Binary: 01
-EB 9D
-From: 1DD7,073E,0014,9BBE

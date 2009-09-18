@@ -1,7 +1,0 @@
-CS: B4FC
-IP: 0411
-Length: 0003
-CRC: 1C92
-Binary: 01
-E9 C8 03
-From: B4FC,07D9,0009,9AB9

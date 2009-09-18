@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 0533
-Length: 0002
-CRC: D13A
-Binary: 01
-EB 22
-From: 15C2,0555,0005,BBFA

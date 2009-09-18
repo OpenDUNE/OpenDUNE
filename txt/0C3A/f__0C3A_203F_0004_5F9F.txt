@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 203F
-Length: 0004
-CRC: 5F9F
-Binary: 01
-59 59 EB 09
-From: 0C3A,203F,0012,1AF4

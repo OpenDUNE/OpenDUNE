@@ -1,7 +1,0 @@
-CS: B518
-IP: 0823
-Length: 0005
-CRC: 816D
-Binary: 01
-9A 69 01 6C 2B
-From: B518,06A1,000C,9D96

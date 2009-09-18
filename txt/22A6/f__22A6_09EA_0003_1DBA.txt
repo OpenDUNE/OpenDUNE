@@ -1,7 +1,0 @@
-CS: 22A6
-IP: 09EA
-Length: 0003
-CRC: 1DBA
-Binary: 01
-E9 68 01
-From: 22A6,09D0,0011,C80B

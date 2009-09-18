@@ -1,7 +1,0 @@
-CS: 0972
-IP: 160C
-Length: 0005
-CRC: 517D
-Binary: 01
-9A 04 00 B4 2B
-From: 0972,1607,000D,2DFE

@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 0E04
-Length: 0005
-CRC: A136
-Binary: 01
-89 46 FA EB 34
-From: 10E4,0DFF,000E,ED31

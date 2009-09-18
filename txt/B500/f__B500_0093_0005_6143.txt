@@ -1,7 +1,0 @@
-CS: B500
-IP: 0093
-Length: 0005
-CRC: 6143
-Binary: 01
-83 C4 06 5D CB
-From: B500,0093,0011,8B05

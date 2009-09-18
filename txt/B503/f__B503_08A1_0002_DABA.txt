@@ -1,7 +1,0 @@
-CS: B503
-IP: 08A1
-Length: 0002
-CRC: DABA
-Binary: 01
-EB 35
-From: B503,08D6,0020,4B31

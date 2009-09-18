@@ -1,7 +1,0 @@
-CS: 256D
-IP: 00D8
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: 256D,005F,0002,FBBA

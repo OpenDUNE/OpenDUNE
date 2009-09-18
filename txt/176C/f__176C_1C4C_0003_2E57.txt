@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1C4C
-Length: 0003
-CRC: 2E57
-Binary: 01
-5E 5D CB
-From: 176C,1C38,0004,E139

@@ -1,7 +1,0 @@
-CS: B52A
-IP: 04DA
-Length: 0005
-CRC: 5DB0
-Binary: 01
-33 C0 E9 11 02
-From: B52A,04D3,0033,548A

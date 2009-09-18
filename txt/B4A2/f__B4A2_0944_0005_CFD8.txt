@@ -1,7 +1,0 @@
-CS: B4A2
-IP: 0944
-Length: 0005
-CRC: CFD8
-Binary: 01
-59 59 E9 D5 00
-From: B4A2,0944,0011,88EC

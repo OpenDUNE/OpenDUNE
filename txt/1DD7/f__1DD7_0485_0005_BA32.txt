@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 0485
-Length: 0005
-CRC: BA32
-Binary: 01
-90 59 59 5D CB
-From: 1DD7,0485,000E,5C89

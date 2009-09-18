@@ -1,7 +1,0 @@
-CS: 0070
-IP: 00D0
-Length: 0005
-CRC: E33B
-Binary: 01
-FF 38 1A 00 CF
-From: 01F7,010E,0004,0D38

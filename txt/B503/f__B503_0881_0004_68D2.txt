@@ -1,7 +1,0 @@
-CS: B503
-IP: 0881
-Length: 0004
-CRC: 68D2
-Binary: 01
-8B C7 EB 00
-From: B503,087E,000B,19C5

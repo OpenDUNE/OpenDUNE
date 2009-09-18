@@ -1,7 +1,0 @@
-CS: 0972
-IP: 149D
-Length: 0005
-CRC: 2F01
-Binary: 01
-A3 3F 8D EB 17
-From: 0972,1498,0017,52C3

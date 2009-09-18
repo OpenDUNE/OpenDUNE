@@ -1,7 +1,0 @@
-CS: 0642
-IP: 024C
-Length: 0005
-CRC: 2EF2
-Binary: 01
-9A 2F 00 83 34
-From: 0642,0247,0007,AEBB

@@ -1,7 +1,0 @@
-CS: 07D4
-IP: 004E
-Length: 0005
-CRC: 2369
-Binary: 01
-9A 02 00 E4 0F
-From: 07D4,004E,0005,EE7F

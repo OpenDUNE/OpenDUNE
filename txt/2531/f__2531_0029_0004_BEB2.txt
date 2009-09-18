@@ -1,7 +1,0 @@
-CS: 2531
-IP: 0029
-Length: 0004
-CRC: BEB2
-Binary: 01
-59 59 5D CB
-From: 2531,0029,0010,2000

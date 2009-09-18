@@ -1,7 +1,0 @@
-CS: B500
-IP: 004F
-Length: 0005
-CRC: B7DE
-Binary: 01
-9A 06 00 3B 26
-From: B500,0049,000D,7184

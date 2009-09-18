@@ -1,7 +1,0 @@
-CS: 176C
-IP: 229B
-Length: 0003
-CRC: D63A
-Binary: 01
-98 EB 0A
-From: 176C,22A6,000A,0725

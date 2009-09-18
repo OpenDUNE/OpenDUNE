@@ -1,7 +1,0 @@
-CS: 3EEE
-IP: 0EC2
-Length: 0003
-CRC: 4293
-Binary: 01
-55 CD 10
-From: 01F7,203D,0021,24DC

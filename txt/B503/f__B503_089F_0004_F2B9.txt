@@ -1,7 +1,0 @@
-CS: B503
-IP: 089F
-Length: 0004
-CRC: F2B9
-Binary: 01
-33 C0 EB 35
-From: B503,08B6,0010,6CEF

@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 041E
-Length: 0003
-CRC: 3797
-Binary: 01
-90 5D CB
-From: 1DD7,041E,0005,FC05

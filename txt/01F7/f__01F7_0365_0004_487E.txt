@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0365
-Length: 0004
-CRC: 487E
-Binary: 01
-FF 1E C6 77
-From: 01F7,0365,000E,F9F7

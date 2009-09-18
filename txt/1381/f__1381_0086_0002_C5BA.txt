@@ -1,7 +1,0 @@
-CS: 1381
-IP: 0086
-Length: 0002
-CRC: C5BA
-Binary: 01
-EB 0B
-From: 1381,0091,0005,5395

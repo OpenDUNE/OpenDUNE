@@ -1,7 +1,0 @@
-CS: 0642
-IP: 03D9
-Length: 0003
-CRC: CA1A
-Binary: 01
-59 EB 02
-From: 0642,03D9,0008,75E4

@@ -1,7 +1,0 @@
-CS: B4CD
-IP: 1881
-Length: 0003
-CRC: 9C0D
-Binary: 01
-E9 B6 02
-From: B4CD,1834,0033,B55B

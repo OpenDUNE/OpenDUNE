@@ -1,7 +1,0 @@
-CS: 2BD1
-IP: 0005
-Length: 0001
-CRC: 6580
-Binary: 01
-CB
-From: B500,0038,0005,0164

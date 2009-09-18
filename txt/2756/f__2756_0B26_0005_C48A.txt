@@ -1,7 +1,0 @@
-CS: 2756
-IP: 0B26
-Length: 0005
-CRC: C48A
-Binary: 01
-5F 5E 1F 5D CB
-From: 2756,0B26,0016,04AE

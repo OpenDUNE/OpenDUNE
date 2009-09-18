@@ -1,7 +1,0 @@
-CS: 151A
-IP: 018C
-Length: 0004
-CRC: 9239
-Binary: 01
-33 C0 EB F4
-From: 151A,0130,0022,0B6C

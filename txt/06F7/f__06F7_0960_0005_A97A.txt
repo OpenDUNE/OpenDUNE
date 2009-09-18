@@ -1,7 +1,0 @@
-CS: 06F7
-IP: 0960
-Length: 0005
-CRC: A97A
-Binary: 01
-B8 01 00 EB F9
-From: 06F7,093C,002C,6E65

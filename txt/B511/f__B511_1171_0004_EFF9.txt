@@ -1,7 +1,0 @@
-CS: B511
-IP: 1171
-Length: 0004
-CRC: EFF9
-Binary: 01
-33 F6 EB 02
-From: B511,1163,0014,A689

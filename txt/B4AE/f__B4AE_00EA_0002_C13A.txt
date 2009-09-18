@@ -1,7 +1,0 @@
-CS: B4AE
-IP: 00EA
-Length: 0002
-CRC: C13A
-Binary: 01
-EB 02
-From: B4AE,0015,0010,F2A7

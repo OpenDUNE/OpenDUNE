@@ -1,7 +1,0 @@
-CS: 217E
-IP: 06E8
-Length: 0001
-CRC: 6180
-Binary: 01
-C3
-From: 217E,06BC,0014,B057

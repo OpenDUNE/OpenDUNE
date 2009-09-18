@@ -1,7 +1,0 @@
-CS: B4B8
-IP: 0B86
-Length: 0005
-CRC: 26CC
-Binary: 01
-BE 6F 00 EB 26
-From: B4B8,0B50,000E,D932

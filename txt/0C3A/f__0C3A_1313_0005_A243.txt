@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 1313
-Length: 0005
-CRC: A243
-Binary: 01
-BF 16 00 EB 0F
-From: 0C3A,1305,002B,6503

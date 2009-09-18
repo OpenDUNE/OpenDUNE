@@ -1,7 +1,0 @@
-CS: 34C4
-IP: 002F
-Length: 0005
-CRC: 0000
-Binary: 01
-EA AA 03 6D 42
-From: B511,0660,0011,C6E3

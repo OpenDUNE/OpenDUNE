@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 0A6A
-Length: 0004
-CRC: 8E39
-Binary: 01
-33 C0 EB CC
-From: 15C2,0A63,000A,36E9

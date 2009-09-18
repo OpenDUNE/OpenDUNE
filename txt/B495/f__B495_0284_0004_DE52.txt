@@ -1,7 +1,0 @@
-CS: B495
-IP: 0284
-Length: 0004
-CRC: DE52
-Binary: 01
-5F 5E 5D CB
-From: B495,0282,0008,4F72

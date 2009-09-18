@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 11A8
-Length: 0002
-CRC: B43A
-Binary: 01
-EB E8
-From: 01F7,11A8,0016,5243

@@ -1,7 +1,0 @@
-CS: B511
-IP: 14A9
-Length: 0003
-CRC: E0B7
-Binary: 01
-E9 5E FB
-From: B511,14A5,000D,A79B

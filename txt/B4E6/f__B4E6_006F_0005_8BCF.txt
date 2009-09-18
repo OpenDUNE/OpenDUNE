@@ -1,7 +1,0 @@
-CS: B4E6
-IP: 006F
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: B4E6,0018,0002,EABA

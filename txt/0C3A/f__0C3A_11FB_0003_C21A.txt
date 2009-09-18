@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 11FB
-Length: 0003
-CRC: C21A
-Binary: 01
-59 EB 12
-From: 0C3A,11FB,000E,67F9

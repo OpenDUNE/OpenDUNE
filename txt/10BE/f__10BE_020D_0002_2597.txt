@@ -1,7 +1,0 @@
-CS: 10BE
-IP: 020D
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 10BE,020B,0004,5B1F

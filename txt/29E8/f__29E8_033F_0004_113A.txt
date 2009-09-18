@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 033F
-Length: 0004
-CRC: 113A
-Binary: 01
-0C 80 EB 02
-From: 29E8,0339,0008,6739

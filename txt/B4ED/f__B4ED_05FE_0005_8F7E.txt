@@ -1,7 +1,0 @@
-CS: B4ED
-IP: 05FE
-Length: 0005
-CRC: 8F7E
-Binary: 01
-59 59 E9 4C 01
-From: B4ED,05FE,0016,6423

@@ -1,7 +1,0 @@
-CS: 29A3
-IP: 0171
-Length: 0004
-CRC: C0E6
-Binary: 01
-FF 1E A4 66
-From: 29A3,0171,0008,63C3

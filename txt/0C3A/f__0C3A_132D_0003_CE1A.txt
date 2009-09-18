@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 132D
-Length: 0003
-CRC: CE1A
-Binary: 01
-59 EB 0A
-From: 0C3A,132D,0006,22F3

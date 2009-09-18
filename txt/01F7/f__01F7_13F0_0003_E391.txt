@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 13F0
-Length: 0003
-CRC: E391
-Binary: 01
-E8 46 FD
-From: 01F7,13E9,0015,702E

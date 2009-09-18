@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 1372
-Length: 0002
-CRC: C13A
-Binary: 01
-EB 02
-From: 10E4,1366,0004,5E1F

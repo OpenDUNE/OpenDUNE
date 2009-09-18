@@ -1,7 +1,0 @@
-CS: B4FC
-IP: 04CA
-Length: 0005
-CRC: BE35
-Binary: 01
-01 76 FC EB 03
-From: B4FC,04BF,000F,5F8E

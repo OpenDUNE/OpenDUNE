@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 04D4
-Length: 0003
-CRC: DCA3
-Binary: 01
-E9 0F 03
-From: 0AEC,04D4,001B,FE60

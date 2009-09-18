@@ -1,7 +1,0 @@
-CS: 176C
-IP: 14EC
-Length: 0005
-CRC: C66E
-Binary: 01
-83 C4 06 EB 85
-From: 176C,14EC,002C,0682

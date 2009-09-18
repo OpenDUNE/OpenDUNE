@@ -1,7 +1,0 @@
-CS: 0972
-IP: 1504
-Length: 0002
-CRC: CCBA
-Binary: 01
-EB 19
-From: 0972,151D,0004,9AB9

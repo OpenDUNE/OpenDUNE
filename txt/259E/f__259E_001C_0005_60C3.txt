@@ -1,7 +1,0 @@
-CS: 259E
-IP: 001C
-Length: 0005
-CRC: 60C3
-Binary: 01
-83 C4 0A 5D CB
-From: 259E,001C,0016,858A

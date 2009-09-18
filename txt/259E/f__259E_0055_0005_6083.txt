@@ -1,7 +1,0 @@
-CS: 259E
-IP: 0055
-Length: 0005
-CRC: 6083
-Binary: 01
-83 C4 08 5D CB
-From: 259E,0055,0015,5E4A

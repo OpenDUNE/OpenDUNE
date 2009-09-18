@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 138F
-Length: 0002
-CRC: A73A
-Binary: 01
-EB CE
-From: B4F2,138A,000C,3A83

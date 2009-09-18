@@ -1,7 +1,0 @@
-CS: 1423
-IP: 0C6F
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: 1423,0BE8,000D,BD9D

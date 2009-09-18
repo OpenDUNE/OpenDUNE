@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 1198
-Length: 0003
-CRC: DD81
-Binary: 01
-E9 87 01
-From: 1A34,131F,0005,8669

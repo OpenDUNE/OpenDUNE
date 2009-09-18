@@ -1,7 +1,0 @@
-CS: 167E
-IP: 0016
-Length: 0002
-CRC: F53A
-Binary: 01
-EB 6A
-From: 167E,0080,0005,9FFA

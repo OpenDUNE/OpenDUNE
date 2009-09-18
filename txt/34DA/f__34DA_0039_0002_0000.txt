@@ -1,7 +1,0 @@
-CS: 34DA
-IP: 0039
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: 1423,0436,0008,AC6D

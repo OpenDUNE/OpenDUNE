@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 0410
-Length: 0005
-CRC: A7EE
-Binary: 01
-83 C4 06 EB 46
-From: 0AEC,0410,0010,476E

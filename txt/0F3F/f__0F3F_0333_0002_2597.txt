@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 0333
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 0F3F,0331,0011,5AAA

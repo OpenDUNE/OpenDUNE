@@ -1,7 +1,0 @@
-CS: B4E9
-IP: 0025
-Length: 0003
-CRC: 2E57
-Binary: 01
-5E 5D CB
-From: B4E9,0023,0007,43C2

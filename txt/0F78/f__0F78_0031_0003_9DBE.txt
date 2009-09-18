@@ -1,7 +1,0 @@
-CS: 0F78
-IP: 0031
-Length: 0003
-CRC: 9DBE
-Binary: 01
-E9 7A 01
-From: 0F78,0028,002C,AB63

@@ -1,7 +1,0 @@
-CS: 1423
-IP: 019D
-Length: 0003
-CRC: DD1F
-Binary: 01
-E9 FF 00
-From: 1423,029C,0005,864B

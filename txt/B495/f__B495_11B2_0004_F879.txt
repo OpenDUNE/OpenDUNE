@@ -1,7 +1,0 @@
-CS: B495
-IP: 11B2
-Length: 0004
-CRC: F879
-Binary: 01
-33 F6 EB 2D
-From: B495,11B2,0004,039F

@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 041B
-Length: 0002
-CRC: C2BA
-Binary: 01
-EB 05
-From: 0EDB,0420,0005,5695

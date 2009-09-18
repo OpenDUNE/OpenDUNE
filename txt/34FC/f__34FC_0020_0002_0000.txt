@@ -1,7 +1,0 @@
-CS: 34FC
-IP: 0020
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B4B5,00C1,0022,04BB

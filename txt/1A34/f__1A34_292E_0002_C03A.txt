@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 292E
-Length: 0002
-CRC: C03A
-Binary: 01
-EB 00
-From: 1A34,2870,0013,AF66

@@ -1,7 +1,0 @@
-CS: 2B6C
-IP: 0099
-Length: 0003
-CRC: 1D04
-Binary: 01
-E9 90 00
-From: 2B6C,008C,002E,4FBC

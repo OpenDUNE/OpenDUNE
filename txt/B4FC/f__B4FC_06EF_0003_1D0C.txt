@@ -1,7 +1,0 @@
-CS: B4FC
-IP: 06EF
-Length: 0003
-CRC: 1D0C
-Binary: 01
-E9 B0 00
-From: B4FC,06EA,0017,351B

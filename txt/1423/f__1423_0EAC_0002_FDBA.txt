@@ -1,7 +1,0 @@
-CS: 1423
-IP: 0EAC
-Length: 0002
-CRC: FDBA
-Binary: 01
-EB 7B
-From: 1423,0E97,0026,4424

@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 2322
-Length: 0005
-CRC: E336
-Binary: 01
-33 C0 E9 0A FF
-From: 1A34,22D3,001C,2671

@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 15C0
-Length: 0005
-CRC: A7AE
-Binary: 01
-83 C4 08 EB 45
-From: B4DA,15C0,0014,EB5F

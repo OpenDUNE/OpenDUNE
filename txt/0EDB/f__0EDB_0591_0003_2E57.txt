@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0591
-Length: 0003
-CRC: 2E57
-Binary: 01
-5E 5D CB
-From: 0EDB,0567,0002,D43A

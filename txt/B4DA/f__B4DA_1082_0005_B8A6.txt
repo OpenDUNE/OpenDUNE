@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 1082
-Length: 0005
-CRC: B8A6
-Binary: 01
-8B 46 E6 EB 00
-From: B4DA,1082,0006,8488

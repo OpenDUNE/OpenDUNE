@@ -1,7 +1,0 @@
-CS: 0FE4
-IP: 0394
-Length: 0002
-CRC: C5BA
-Binary: 01
-EB 0B
-From: 0FE4,039F,000B,4629

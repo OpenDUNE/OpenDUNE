@@ -1,7 +1,0 @@
-CS: 0972
-IP: 0A3A
-Length: 0002
-CRC: C43A
-Binary: 01
-EB 08
-From: 0972,09FC,0002,DE3A

@@ -1,7 +1,0 @@
-CS: B4C4
-IP: 0438
-Length: 0004
-CRC: 893F
-Binary: 01
-8B E5 5D CB
-From: B4C4,0438,0020,60C2

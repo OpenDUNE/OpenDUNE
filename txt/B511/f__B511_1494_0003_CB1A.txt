@@ -1,7 +1,0 @@
-CS: B511
-IP: 1494
-Length: 0003
-CRC: CB1A
-Binary: 01
-59 EB 00
-From: B511,1494,0008,1199

@@ -1,7 +1,0 @@
-CS: 25C4
-IP: 02B7
-Length: 0005
-CRC: 827A
-Binary: 01
-B8 00 A0 EB A7
-From: 25C4,025B,000E,9CBF

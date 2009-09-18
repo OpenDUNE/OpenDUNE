@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0587
-Length: 0004
-CRC: 9CF9
-Binary: 01
-33 D2 EB ED
-From: 01F7,0584,000D,FA69

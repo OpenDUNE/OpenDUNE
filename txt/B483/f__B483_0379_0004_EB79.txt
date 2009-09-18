@@ -1,7 +1,0 @@
-CS: B483
-IP: 0379
-Length: 0004
-CRC: EB79
-Binary: 01
-33 F6 EB 0B
-From: B483,0370,0016,83DF

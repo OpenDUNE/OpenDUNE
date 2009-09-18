@@ -1,7 +1,0 @@
-CS: B4B8
-IP: 212A
-Length: 0005
-CRC: 6168
-Binary: 01
-9A 37 01 6C 2B
-From: B4B8,20C8,0002,F03A

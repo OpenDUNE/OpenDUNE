@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 14AB
-Length: 0002
-CRC: CDBA
-Binary: 01
-EB 1B
-From: 01F7,1496,0028,6B27

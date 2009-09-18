@@ -1,7 +1,0 @@
-CS: 167E
-IP: 03AB
-Length: 0002
-CRC: C2BA
-Binary: 01
-EB 05
-From: 167E,03AB,0016,379C

@@ -1,7 +1,0 @@
-CS: B4B8
-IP: 2199
-Length: 0005
-CRC: E089
-Binary: 01
-9A 3F 07 E8 29
-From: B4B8,217A,0017,A91B

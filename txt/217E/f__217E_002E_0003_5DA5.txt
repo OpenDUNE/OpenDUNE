@@ -1,7 +1,0 @@
-CS: 217E
-IP: 002E
-Length: 0003
-CRC: 5DA5
-Binary: 01
-E8 95 01
-From: 217E,0029,0019,BAFF

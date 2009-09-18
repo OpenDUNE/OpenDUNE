@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 1891
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: B4DA,1891,0008,43E5

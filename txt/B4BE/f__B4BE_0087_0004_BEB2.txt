@@ -1,7 +1,0 @@
-CS: B4BE
-IP: 0087
-Length: 0004
-CRC: BEB2
-Binary: 01
-59 59 5D CB
-From: B4BE,0087,000C,5C4C

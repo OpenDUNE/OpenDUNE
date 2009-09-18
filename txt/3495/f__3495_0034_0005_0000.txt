@@ -1,7 +1,0 @@
-CS: 3495
-IP: 0034
-Length: 0005
-CRC: 0000
-Binary: 01
-EA 0B 03 D1 42
-From: B4A2,06AC,0030,38D3

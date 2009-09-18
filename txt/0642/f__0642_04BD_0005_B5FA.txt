@@ -1,7 +1,0 @@
-CS: 0642
-IP: 04BD
-Length: 0005
-CRC: B5FA
-Binary: 01
-B8 06 00 EB 20
-From: 0642,04A9,0004,25FB

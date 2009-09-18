@@ -1,7 +1,0 @@
-CS: 07C9
-IP: 009C
-Length: 0004
-CRC: 6872
-Binary: 01
-8B C2 EB 00
-From: 07C9,0025,0050,9278

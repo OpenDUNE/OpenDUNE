@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 0209
-Length: 0004
-CRC: EA39
-Binary: 01
-33 C0 EB 04
-From: 1DD7,0202,000B,EF5A

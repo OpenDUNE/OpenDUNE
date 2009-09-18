@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 18B2
-Length: 0004
-CRC: E7F9
-Binary: 01
-33 F6 EB 12
-From: B4DA,19D7,000C,1C10

@@ -1,7 +1,0 @@
-CS: 0FE4
-IP: 019F
-Length: 0002
-CRC: CA3A
-Binary: 01
-EB 14
-From: 0FE4,019F,0012,A3C7

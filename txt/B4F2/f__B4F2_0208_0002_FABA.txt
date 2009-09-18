@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 0208
-Length: 0002
-CRC: FABA
-Binary: 01
-EB 75
-From: B4F2,0204,0009,8EC4

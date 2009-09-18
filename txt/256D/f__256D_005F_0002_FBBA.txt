@@ -1,7 +1,0 @@
-CS: 256D
-IP: 005F
-Length: 0002
-CRC: FBBA
-Binary: 01
-EB 77
-From: 256D,00D6,0008,8309

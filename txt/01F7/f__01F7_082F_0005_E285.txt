@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 082F
-Length: 0005
-CRC: E285
-Binary: 01
-1F 72 02 EB 04
-From: 01F7,082F,000E,581D

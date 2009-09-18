@@ -1,7 +1,0 @@
-CS: 23E1
-IP: 0252
-Length: 0004
-CRC: 893F
-Binary: 01
-8B E5 5D CB
-From: 23E1,01D0,0011,24E8

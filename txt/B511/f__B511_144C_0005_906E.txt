@@ -1,7 +1,0 @@
-CS: B511
-IP: 144C
-Length: 0005
-CRC: 906E
-Binary: 01
-83 C4 06 EB 29
-From: B511,144C,000F,CDB2

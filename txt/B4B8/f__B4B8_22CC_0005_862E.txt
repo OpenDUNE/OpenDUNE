@@ -1,7 +1,0 @@
-CS: B4B8
-IP: 22CC
-Length: 0005
-CRC: 862E
-Binary: 01
-83 C4 10 EB 00
-From: B4B8,22CC,001F,5CD7

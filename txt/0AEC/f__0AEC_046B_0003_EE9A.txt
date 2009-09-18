@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 046B
-Length: 0003
-CRC: EE9A
-Binary: 01
-59 EB 4B
-From: 0AEC,046B,0010,6B0D

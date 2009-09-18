@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 2968
-Length: 0003
-CRC: DDAE
-Binary: 01
-E9 3B 01
-From: 1A34,2A98,0009,8654

@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 0635
-Length: 0002
-CRC: F8BA
-Binary: 01
-EB 71
-From: B4F2,0648,0007,C4C9

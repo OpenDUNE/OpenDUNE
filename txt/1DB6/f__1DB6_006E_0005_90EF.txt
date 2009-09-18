@@ -1,7 +1,0 @@
-CS: 1DB6
-IP: 006E
-Length: 0005
-CRC: 90EF
-Binary: 01
-9A 0C 00 FD 28
-From: 1DB6,006E,0008,B7D2

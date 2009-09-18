@@ -1,7 +1,0 @@
-CS: 260F
-IP: 0052
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 260F,004C,0014,CA10

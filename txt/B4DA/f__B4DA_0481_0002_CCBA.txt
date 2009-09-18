@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 0481
-Length: 0002
-CRC: CCBA
-Binary: 01
-EB 19
-From: B4DA,0456,001D,00AB

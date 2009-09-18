@@ -1,7 +1,0 @@
-CS: B495
-IP: 0098
-Length: 0005
-CRC: 1765
-Binary: 01
-9A 59 05 42 06
-From: B495,0089,0012,EA5B

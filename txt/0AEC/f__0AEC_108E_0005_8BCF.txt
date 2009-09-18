@@ -1,7 +1,0 @@
-CS: 0AEC
-IP: 108E
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: 0AEC,108C,0006,B1FB

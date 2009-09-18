@@ -1,7 +1,0 @@
-CS: B495
-IP: 122B
-Length: 0005
-CRC: DC9A
-Binary: 01
-59 5F 5E 5D CB
-From: B495,122B,0008,BA25

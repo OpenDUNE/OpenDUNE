@@ -1,7 +1,0 @@
-CS: 07D4
-IP: 1890
-Length: 0005
-CRC: 8AEE
-Binary: 01
-83 C4 0E EB 1E
-From: 07D4,1890,0069,7F32

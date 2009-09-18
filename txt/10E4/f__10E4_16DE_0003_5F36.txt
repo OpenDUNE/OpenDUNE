@@ -1,7 +1,0 @@
-CS: 10E4
-IP: 16DE
-Length: 0003
-CRC: 5F36
-Binary: 01
-E9 59 04
-From: 10E4,16D9,000C,8A97

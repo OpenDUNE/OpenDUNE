@@ -1,7 +1,0 @@
-CS: B503
-IP: 011A
-Length: 0005
-CRC: AFC0
-Binary: 01
-BF 21 00 EB F4
-From: B503,0108,001D,A0E4

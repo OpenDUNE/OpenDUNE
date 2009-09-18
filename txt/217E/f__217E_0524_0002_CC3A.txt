@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0524
-Length: 0002
-CRC: CC3A
-Binary: 01
-EB 18
-From: 217E,0524,001D,CFD2

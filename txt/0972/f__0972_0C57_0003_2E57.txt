@@ -1,7 +1,0 @@
-CS: 0972
-IP: 0C57
-Length: 0003
-CRC: 2E57
-Binary: 01
-5E 5D CB
-From: 0972,0C55,0007,F90C

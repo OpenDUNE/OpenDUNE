@@ -1,7 +1,0 @@
-CS: B4CD
-IP: 0081
-Length: 0002
-CRC: CBBA
-Binary: 01
-EB 17
-From: B4CD,0045,001E,2BA2

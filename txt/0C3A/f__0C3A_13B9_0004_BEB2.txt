@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 13B9
-Length: 0004
-CRC: BEB2
-Binary: 01
-59 59 5D CB
-From: 0C3A,13B9,0014,7F45

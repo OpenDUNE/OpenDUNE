@@ -1,7 +1,0 @@
-CS: 3511
-IP: 003E
-Length: 0005
-CRC: 0000
-Binary: 01
-EA 64 0C 95 40
-From: 261F,01B9,001B,EDBF

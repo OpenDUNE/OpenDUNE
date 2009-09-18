@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0195
-Length: 0003
-CRC: 2677
-Binary: 01
-1F 5D CB
-From: 217E,0185,0008,A03E

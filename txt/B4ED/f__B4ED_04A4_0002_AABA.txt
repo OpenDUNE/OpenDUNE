@@ -1,7 +1,0 @@
-CS: B4ED
-IP: 04A4
-Length: 0002
-CRC: AABA
-Binary: 01
-EB D5
-From: B4ED,04A4,0024,9E14

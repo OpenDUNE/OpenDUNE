@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 056B
-Length: 0003
-CRC: DE21
-Binary: 01
-E9 07 06
-From: 15C2,0B72,0006,0197

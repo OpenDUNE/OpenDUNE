@@ -1,7 +1,0 @@
-CS: B4B8
-IP: 20BB
-Length: 0005
-CRC: 1765
-Binary: 01
-9A 59 05 42 06
-From: B4B8,20A5,0023,32FB

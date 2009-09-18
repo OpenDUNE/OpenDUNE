@@ -1,7 +1,0 @@
-CS: 104B
-IP: 037D
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 104B,0375,0023,5A6D

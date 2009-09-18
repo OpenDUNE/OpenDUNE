@@ -1,7 +1,0 @@
-CS: 3520
-IP: 0025
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B4E0,0D26,002B,CAB1

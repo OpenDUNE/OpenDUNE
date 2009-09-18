@@ -1,7 +1,0 @@
-CS: 0642
-IP: 0B55
-Length: 0003
-CRC: 2E57
-Binary: 01
-5E 5D CB
-From: 0642,0AE4,002A,8B98

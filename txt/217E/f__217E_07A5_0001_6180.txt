@@ -1,7 +1,0 @@
-CS: 217E
-IP: 07A5
-Length: 0001
-CRC: 6180
-Binary: 01
-C3
-From: 217E,079B,001C,ADD5

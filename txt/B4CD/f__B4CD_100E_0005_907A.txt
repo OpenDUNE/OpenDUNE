@@ -1,7 +1,0 @@
-CS: B4CD
-IP: 100E
-Length: 0005
-CRC: 907A
-Binary: 01
-B8 01 00 EB 8B
-From: B4CD,100A,005E,F3FD

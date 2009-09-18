@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 13AA
-Length: 0003
-CRC: 9B9A
-Binary: 01
-59 EB A1
-From: B4F2,13AA,0006,6B66

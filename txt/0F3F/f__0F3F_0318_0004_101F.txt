@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 0318
-Length: 0004
-CRC: 101F
-Binary: 01
-59 59 EB 96
-From: 0F3F,0318,004B,E1B3

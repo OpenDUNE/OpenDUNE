@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 1B97
-Length: 0003
-CRC: 5C0D
-Binary: 01
-E9 B5 02
-From: 0C3A,1E4C,0009,5A36

@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 020B
-Length: 0002
-CRC: C23A
-Binary: 01
-EB 04
-From: 1DD7,020F,0004,9539

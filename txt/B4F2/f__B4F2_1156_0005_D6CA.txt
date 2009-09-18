@@ -1,7 +1,0 @@
-CS: B4F2
-IP: 1156
-Length: 0005
-CRC: D6CA
-Binary: 01
-BE 01 00 EB 06
-From: B4F2,114D,001E,D0F3

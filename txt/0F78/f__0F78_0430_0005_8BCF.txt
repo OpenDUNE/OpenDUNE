@@ -1,7 +1,0 @@
-CS: 0F78
-IP: 0430
-Length: 0005
-CRC: 8BCF
-Binary: 01
-5E 8B E5 5D CB
-From: 0F78,02E6,0014,4ABC

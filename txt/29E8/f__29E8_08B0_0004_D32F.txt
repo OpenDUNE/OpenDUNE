@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 08B0
-Length: 0004
-CRC: D32F
-Binary: 01
-FB E8 80 FC
-From: 29E8,08B0,0003,2227

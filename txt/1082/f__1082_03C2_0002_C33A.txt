@@ -1,7 +1,0 @@
-CS: 1082
-IP: 03C2
-Length: 0002
-CRC: C33A
-Binary: 01
-EB 06
-From: 1082,03C8,0006,5EA9

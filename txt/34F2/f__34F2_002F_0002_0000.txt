@@ -1,7 +1,0 @@
-CS: 34F2
-IP: 002F
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B518,0A98,000C,38F0

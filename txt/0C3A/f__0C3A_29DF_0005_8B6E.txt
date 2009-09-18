@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 29DF
-Length: 0005
-CRC: 8B6E
-Binary: 01
-83 C4 06 EB 1F
-From: 0C3A,29DF,001F,D4DD

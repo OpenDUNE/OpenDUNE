@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 2FCF
-Length: 0004
-CRC: F5D9
-Binary: 01
-33 FF EB 34
-From: 1A34,2FCB,0008,8187

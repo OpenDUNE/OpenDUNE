@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 11E0
-Length: 0002
-CRC: 89BA
-Binary: 01
-EB 93
-From: 1DD7,1113,004D,AF4E

@@ -1,7 +1,0 @@
-CS: 34B1
-IP: 0025
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B511,05CF,0023,4CA4

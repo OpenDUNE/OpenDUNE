@@ -1,7 +1,0 @@
-CS: B4CA
-IP: 0234
-Length: 0003
-CRC: 5F35
-Binary: 01
-E9 55 04
-From: B4CA,0294,000B,720B

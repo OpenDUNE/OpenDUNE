@@ -1,7 +1,0 @@
-CS: 0EDB
-IP: 0280
-Length: 0005
-CRC: 5695
-Binary: 01
-B8 FF FF EB F9
-From: 0EDB,026B,0013,346E

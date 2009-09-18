@@ -1,7 +1,0 @@
-CS: 1319
-IP: 0367
-Length: 0002
-CRC: 85BA
-Binary: 01
-EB 8B
-From: 1319,0363,0009,F086

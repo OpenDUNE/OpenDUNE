@@ -1,7 +1,0 @@
-CS: B500
-IP: 0069
-Length: 0005
-CRC: F701
-Binary: 01
-9A C3 1B F7 01
-From: B500,0069,0006,928E

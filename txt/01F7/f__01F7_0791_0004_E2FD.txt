@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0791
-Length: 0004
-CRC: E2FD
-Binary: 01
-72 02 EB 05
-From: 01F7,0791,001E,D7DA

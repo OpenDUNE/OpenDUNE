@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 296E
-Length: 0005
-CRC: A2AE
-Binary: 01
-83 C4 08 EB 4F
-From: 0C3A,296E,0015,CD4B

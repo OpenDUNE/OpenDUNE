@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 035E
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 0F3F,035C,0012,18EA

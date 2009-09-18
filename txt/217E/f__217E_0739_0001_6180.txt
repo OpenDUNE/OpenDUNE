@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0739
-Length: 0001
-CRC: 6180
-Binary: 01
-C3
-From: 217E,0725,0041,701D

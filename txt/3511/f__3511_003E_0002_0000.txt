@@ -1,7 +1,0 @@
-CS: 3511
-IP: 003E
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: 1423,0488,0008,24DF

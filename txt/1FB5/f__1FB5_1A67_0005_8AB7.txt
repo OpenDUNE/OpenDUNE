@@ -1,7 +1,0 @@
-CS: 1FB5
-IP: 1A67
-Length: 0005
-CRC: 8AB7
-Binary: 01
-55 8B EC 5D CB
-From: B500,0033,000C,D965

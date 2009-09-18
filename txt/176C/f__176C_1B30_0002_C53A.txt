@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1B30
-Length: 0002
-CRC: C53A
-Binary: 01
-EB 0A
-From: 176C,1B1D,0002,C8BA

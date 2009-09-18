@@ -1,7 +1,0 @@
-CS: 29E8
-IP: 0F91
-Length: 0004
-CRC: 9ED7
-Binary: 01
-1F 5A 58 CB
-From: 29E8,0F91,000A,5481

@@ -1,7 +1,0 @@
-CS: B511
-IP: 015B
-Length: 0005
-CRC: 9EAE
-Binary: 01
-83 C4 08 EB 37
-From: B511,015B,0013,5F86

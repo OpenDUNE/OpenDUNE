@@ -1,7 +1,0 @@
-CS: 3518
-IP: 0066
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B527,00F8,000B,FF42

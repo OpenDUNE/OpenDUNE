@@ -1,7 +1,0 @@
-CS: 0C3A
-IP: 221F
-Length: 0005
-CRC: DC9C
-Binary: 01
-33 C0 E9 A3 00
-From: 0C3A,2246,0008,984F

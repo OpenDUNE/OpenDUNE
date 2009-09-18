@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 04D9
-Length: 0005
-CRC: D4FA
-Binary: 01
-B8 01 00 EB 02
-From: 1A34,04D1,0017,222F

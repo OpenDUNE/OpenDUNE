@@ -1,7 +1,0 @@
-CS: 3511
-IP: 002A
-Length: 0002
-CRC: 0000
-Binary: 01
-CD 3F
-From: B4F2,063E,000A,7C45

@@ -1,7 +1,0 @@
-CS: B4DA
-IP: 0306
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: B4DA,02E8,0023,E297

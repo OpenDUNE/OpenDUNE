@@ -1,7 +1,0 @@
-CS: 176C
-IP: 2613
-Length: 0002
-CRC: CFBA
-Binary: 01
-EB 1F
-From: 176C,2632,0012,CF1D

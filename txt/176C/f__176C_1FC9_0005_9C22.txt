@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1FC9
-Length: 0005
-CRC: 9C22
-Binary: 01
-33 C0 E9 5A 01
-From: 176C,211F,000C,BC69

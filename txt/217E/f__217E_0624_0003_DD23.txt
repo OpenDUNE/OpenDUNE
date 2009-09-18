@@ -1,7 +1,0 @@
-CS: 217E
-IP: 0624
-Length: 0003
-CRC: DD23
-Binary: 01
-E8 8F 00
-From: 217E,0583,0016,AF8C

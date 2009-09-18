@@ -1,7 +1,0 @@
-CS: 1A34
-IP: 352B
-Length: 0005
-CRC: 9C8F
-Binary: 01
-33 C0 E9 EE 00
-From: 1A34,361B,0003,22A3

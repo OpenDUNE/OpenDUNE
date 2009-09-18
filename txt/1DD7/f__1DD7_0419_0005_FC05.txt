@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 0419
-Length: 0005
-CRC: FC05
-Binary: 01
-90 0E E8 14 0B
-From: 1DD7,0419,0005,3F33

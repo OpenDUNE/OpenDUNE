@@ -1,7 +1,0 @@
-CS: 06F7
-IP: 0754
-Length: 0003
-CRC: 1DB8
-Binary: 01
-E9 60 01
-From: 06F7,08B4,0009,8640

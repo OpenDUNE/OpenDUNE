@@ -1,7 +1,0 @@
-CS: 15C2
-IP: 0980
-Length: 0003
-CRC: 1D9B
-Binary: 01
-E9 EC 01
-From: 15C2,0959,0042,A7C5

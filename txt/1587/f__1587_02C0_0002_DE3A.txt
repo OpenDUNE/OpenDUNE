@@ -1,7 +1,0 @@
-CS: 1587
-IP: 02C0
-Length: 0002
-CRC: DE3A
-Binary: 01
-EB 3C
-From: 1587,029F,0025,B913

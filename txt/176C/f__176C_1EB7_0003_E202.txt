@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1EB7
-Length: 0003
-CRC: E202
-Binary: 01
-E9 8A FE
-From: 176C,1EB3,0013,17AE

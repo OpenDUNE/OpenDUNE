@@ -1,7 +1,0 @@
-CS: 176C
-IP: 1C47
-Length: 0005
-CRC: F1EE
-Binary: 01
-83 C4 06 EB EA
-From: 176C,1C47,000D,7589

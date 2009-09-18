@@ -1,7 +1,0 @@
-CS: B503
-IP: 0F97
-Length: 0005
-CRC: 85EE
-Binary: 01
-83 C4 0E EB 00
-From: B503,0F97,0021,0C50

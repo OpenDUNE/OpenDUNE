@@ -1,7 +1,0 @@
-CS: 1FB5
-IP: 1B12
-Length: 0002
-CRC: C43A
-Binary: 01
-EB 08
-From: 1FB5,1B1A,0005,5115

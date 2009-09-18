@@ -1,7 +1,0 @@
-CS: B4C1
-IP: 0114
-Length: 0005
-CRC: 341D
-Binary: 01
-25 FF 00 EB 0A
-From: B4C1,0121,0008,ACE9

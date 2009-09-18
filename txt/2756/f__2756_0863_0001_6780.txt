@@ -1,7 +1,0 @@
-CS: 2756
-IP: 0863
-Length: 0001
-CRC: 6780
-Binary: 01
-CF
-From: 2756,0866,0007,3FBD

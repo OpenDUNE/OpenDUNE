@@ -1,7 +1,0 @@
-CS: 1319
-IP: 0195
-Length: 0002
-CRC: DA3A
-Binary: 01
-EB 34
-From: 1319,018D,0014,ADE5

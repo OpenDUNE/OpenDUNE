@@ -1,7 +1,0 @@
-CS: B520
-IP: 0405
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: B520,0403,0007,F90C

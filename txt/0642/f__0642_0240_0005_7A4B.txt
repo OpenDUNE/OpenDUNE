@@ -1,7 +1,0 @@
-CS: 0642
-IP: 0240
-Length: 0005
-CRC: 7A4B
-Binary: 01
-9A EB 01 D7 1D
-From: 0642,023B,000A,17BC

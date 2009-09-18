@@ -1,7 +1,0 @@
-CS: 1DD7
-IP: 091C
-Length: 0003
-CRC: DD0D
-Binary: 01
-E9 B7 00
-From: 1DD7,0913,001E,8420

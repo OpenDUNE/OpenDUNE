@@ -1,7 +1,0 @@
-CS: 0F3F
-IP: 0198
-Length: 0005
-CRC: 852E
-Binary: 01
-83 C4 08 EB 00
-From: 0F3F,0198,0008,77D3

@@ -1,7 +1,0 @@
-CS: B518
-IP: 0C2C
-Length: 0002
-CRC: F0BA
-Binary: 01
-EB 61
-From: B518,0C1F,0011,0A68

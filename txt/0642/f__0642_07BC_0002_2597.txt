@@ -1,7 +1,0 @@
-CS: 0642
-IP: 07BC
-Length: 0002
-CRC: 2597
-Binary: 01
-5D CB
-From: 0642,076C,0002,E73A

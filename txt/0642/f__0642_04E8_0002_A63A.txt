@@ -1,7 +1,0 @@
-CS: 0642
-IP: 04E8
-Length: 0002
-CRC: A63A
-Binary: 01
-EB CC
-From: 0642,04E8,0006,13CC

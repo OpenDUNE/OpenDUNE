@@ -1,7 +1,0 @@
-CS: 01F7
-IP: 0E78
-Length: 0005
-CRC: F885
-Binary: 01
-93 73 D9 EB 2E
-From: 01F7,0E78,0009,327F
