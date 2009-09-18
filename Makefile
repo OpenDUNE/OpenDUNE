@@ -1,6 +1,7 @@
 # Settings via env variables
 #  CC          - Your C compiler
 #  CFLAGS      - Your CFLAGS (we add a few we find essential)
+#  LDFLAGS     - Your LDFLAGS
 #  LIBS        - Which libs to include (we add a few we find essential)
 #
 #  Settings via parameters
@@ -26,8 +27,8 @@ LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
 endif
 
 ifdef WIN32
-# Windows needs SDL.dll after libemu.a on some versions of mingw
-LIBS := $(LIBS) SDL.dll
+# Windows needs -lSDL after libemu.a on some versions of mingw
+LIBS := $(LIBS) -lSDL
 else
 LIBS := $(LIBS) -lncursesw -lSDL
 endif
@@ -58,7 +59,7 @@ objs/%.o: %.c
 
 opendune$(EXTENSION): $(DECOMPILED) $(SOURCE)
 	@echo "[Linking] $@"
-	$(Q)$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	@echo "[Cleaning] opendune"
