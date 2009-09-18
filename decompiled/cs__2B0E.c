@@ -260,7 +260,7 @@ void f__2B0E_00D0_0022_EC76()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_cmpw(&emu_dx.x, 0xF000);
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x00EE; emu_last_cs = 0x2B0E; emu_last_ip = 0x00DD; emu_last_length = 0x0022; emu_last_crc = 0xEC76; emu_call(); return; }
+	if (!emu_flags.cf) { f__2B0E_00EE_0004_893F(); return; }
 	emu_push(emu_ax.x);
 	emu_shrw(&emu_ax.x, 0x1);
 	emu_shrw(&emu_ax.x, 0x1);
@@ -269,6 +269,25 @@ void f__2B0E_00D0_0022_EC76()
 	emu_addw(&emu_dx.x, emu_ax.x);
 	emu_pop(&emu_ax.x);
 	emu_andw(&emu_ax.x, 0xF);
+	emu_movw(&emu_sp, emu_bp);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__2B0E_00EE_0004_893F()
+ *
+ * @name f__2B0E_00EE_0004_893F
+ * @implements 2B0E:00EE:0004:893F ()
+ *
+ * Called From: 2B0E:00DD:0022:EC76
+ */
+void f__2B0E_00EE_0004_893F()
+{
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
 

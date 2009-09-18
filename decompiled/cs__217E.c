@@ -1673,6 +1673,7 @@ void f__217E_04F7_0002_61BE()
  * @implements 217E:04F9:000E:346A ()
  *
  * Called From: 261F:0181:001D:22F4
+ * Called From: 261F:0181:0010:C131
  */
 void f__217E_04F9_000E_346A()
 {

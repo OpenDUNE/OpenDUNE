@@ -1502,6 +1502,7 @@ void f__01F7_041C_000C_8D5C()
  * Called From: 01F7:277B:000F:E56B
  * Called From: 1DB6:0061:0011:84E2
  * Called From: 1FB5:000F:000F:62CC
+ * Called From: 261F:0058:0005:44EF
  */
 void f__01F7_0428_0010_87B4()
 {
@@ -1546,6 +1547,7 @@ void f__01F7_0438_000A_6E9C()
  * @implements 01F7:0442:0015:6A10 ()
  *
  * Called From: 1DB6:016F:0017:0927
+ * Called From: 261F:0160:0008:F306
  */
 void f__01F7_0442_0015_6A10()
 {
@@ -2395,7 +2397,9 @@ void f__01F7_064D_0028_3537()
  *
  * Called From: 01F7:2070:0033:F011
  * Called From: 01F7:2300:0004:EC99
+ * Called From: 01F7:23DC:0013:6B52
  * Called From: 01F7:2BBD:0004:3028
+ * Called From: 01F7:3298:0018:6655
  */
 void f__01F7_0675_0020_D684()
 {
@@ -8778,8 +8782,21 @@ void f__01F7_23CC_0013_6B52()
 	if (emu_flags.cf) { f__01F7_23E1_0010_A514(); return; }
 	emu_movw(&emu_ax.x, 0x6);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(0x23DF); emu_ip = 0x0675; emu_last_cs = 0x01F7; emu_last_ip = 0x23DC; emu_last_length = 0x0013; emu_last_crc = 0x6B52; emu_call();
-	/* Unresolved jump */ emu_ip = 0x23DF; emu_last_cs = 0x01F7; emu_last_ip = 0x23DF; emu_last_length = 0x0013; emu_last_crc = 0x6B52; emu_call();
+	emu_push(0x23DF); f__01F7_0675_0020_D684();
+	f__01F7_23DF_0002_C8BA();
+}
+
+/**
+ * Decompiled function f__01F7_23DF_0002_C8BA()
+ *
+ * @name f__01F7_23DF_0002_C8BA
+ * @implements 01F7:23DF:0002:C8BA ()
+ *
+ * Called From: 01F7:23DF:0013:6B52
+ */
+void f__01F7_23DF_0002_C8BA()
+{
+	f__01F7_23F2_0002_2597(); return;
 }
 
 /**
@@ -8812,6 +8829,24 @@ void f__01F7_23E1_0010_A514()
 void f__01F7_23F1_0003_2EB7()
 {
 	emu_pop(&emu_cx.x);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__01F7_23F2_0002_2597()
+ *
+ * @name f__01F7_23F2_0002_2597
+ * @implements 01F7:23F2:0002:2597 ()
+ *
+ * Called From: 01F7:23DF:0002:C8BA
+ */
+void f__01F7_23F2_0002_2597()
+{
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -9065,6 +9100,7 @@ void f__01F7_2588_0005_6303()
  * @implements 01F7:276F:000F:E56B ()
  *
  * Called From: 1DB6:010B:0014:A7DD
+ * Called From: 261F:00B1:000E:768E
  */
 void f__01F7_276F_000F_E56B()
 {
@@ -10165,6 +10201,7 @@ void f__01F7_2A02_0004_4845()
  * Called From: 1FB5:0137:001B:0DC1
  * Called From: 24E6:0083:001A:719E
  * Called From: 261F:0045:000E:672A
+ * Called From: 261F:0125:0011:366E
  */
 void f__01F7_2A06_002A_9A90()
 {
@@ -11270,8 +11307,21 @@ void f__01F7_3283_0018_6655()
 	if (emu_flags.cf) { f__01F7_329E_001B_32A6(); return; }
 	emu_movw(&emu_ax.x, 0x6);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(0x329B); emu_ip = 0x0675; emu_last_cs = 0x01F7; emu_last_ip = 0x3298; emu_last_length = 0x0018; emu_last_crc = 0x6655; emu_call();
-	/* Unresolved jump */ emu_ip = 0x329B; emu_last_cs = 0x01F7; emu_last_ip = 0x329B; emu_last_length = 0x0018; emu_last_crc = 0x6655; emu_call();
+	emu_push(0x329B); f__01F7_0675_0020_D684();
+	f__01F7_329B_0003_1D0C();
+}
+
+/**
+ * Decompiled function f__01F7_329B_0003_1D0C()
+ *
+ * @name f__01F7_329B_0003_1D0C
+ * @implements 01F7:329B:0003:1D0C ()
+ *
+ * Called From: 01F7:329B:0018:6655
+ */
+void f__01F7_329B_0003_1D0C()
+{
+	f__01F7_334E_0006_F7CE(); return;
 }
 
 /**
@@ -11358,6 +11408,7 @@ void f__01F7_32E3_0005_88A6()
  * @name f__01F7_334E_0006_F7CE
  * @implements 01F7:334E:0006:F7CE ()
  *
+ * Called From: 01F7:329B:0003:1D0C
  * Called From: 01F7:32E6:001E:C660
  * Called From: 01F7:32E6:0005:88A6
  */
@@ -12473,6 +12524,7 @@ void f__01F7_3821_0005_6383()
  * Called From: 176C:7EF2:0012:B53A
  * Called From: 1A34:293A:000F:BC4B
  * Called From: 1DB6:0158:0010:743C
+ * Called From: 261F:0114:0012:C65C
  * Called From: B518:1313:0012:3A86
  * Called From: B518:138B:0020:B4DF
  * Called From: B518:139D:0012:4286
@@ -13027,6 +13079,7 @@ void f__01F7_399D_0008_CA06()
  * Called From: 1A34:2918:000D:2180
  * Called From: 1DB6:012A:000D:43EF
  * Called From: 2521:0045:0015:AA0F
+ * Called From: 261F:00E4:000A:57AA
  * Called From: B4B5:0292:000B:6FB9
  * Called From: B4B5:03A6:000B:6148
  * Called From: B4B5:062D:000E:6326

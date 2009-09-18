@@ -1344,7 +1344,7 @@ void f__B4E6_03E2_000F_F6A3()
 	emu_movw(&emu_ax.x, emu_di);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax.x);
 	emu_movw(&emu_si, emu_ax.x);
-	/* Unresolved jump */ emu_ip = 0x03FB; emu_last_cs = 0xB4E6; emu_last_ip = 0x03EF; emu_last_length = 0x000F; emu_last_crc = 0xF6A3; emu_call();
+	f__B4E6_03FB_0008_F6A8(); return;
 }
 
 /**
@@ -1391,6 +1391,7 @@ void f__B4E6_03F2_0011_BC0B()
  * @implements B4E6:03FB:0008:F6A8 ()
  *
  * Called From: B4E6:039B:0002:EF3A
+ * Called From: B4E6:03EF:000F:F6A3
  */
 void f__B4E6_03FB_0008_F6A8()
 {
