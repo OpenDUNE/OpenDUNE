@@ -2256,7 +2256,7 @@ void f__10E4_072B_000B_CFDE()
 	emu_cmpw(&emu_si, 0x80);
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__10E4_0736_000E_55D3(); return; }
 	emu_movw(&emu_ax.x, 0x80);
-	/* Unresolved jump */ emu_ip = 0x0738; emu_last_cs = 0x10E4; emu_last_ip = 0x0734; emu_last_length = 0x000B; emu_last_crc = 0xCFDE; emu_call();
+	f__10E4_0738_000C_67F9(); return;
 }
 
 /**
@@ -2279,12 +2279,30 @@ void f__10E4_0736_000E_55D3()
 }
 
 /**
+ * Decompiled function f__10E4_0738_000C_67F9()
+ *
+ * @name f__10E4_0738_000C_67F9
+ * @implements 10E4:0738:000C:67F9 ()
+ *
+ * Called From: 10E4:0734:000B:CFDE
+ */
+void f__10E4_0738_000C_67F9()
+{
+	emu_movw(&emu_si, emu_ax.x);
+	emu_cmpws(&emu_si, 0x80);
+	if (!(emu_flags.sf != emu_flags.of)) { f__10E4_0744_000A_880A(); return; }
+	emu_movw(&emu_ax.x, 0xFF80);
+	/* Unresolved jump */ emu_ip = 0x0746; emu_last_cs = 0x10E4; emu_last_ip = 0x0742; emu_last_length = 0x000C; emu_last_crc = 0x67F9; emu_call();
+}
+
+/**
  * Decompiled function f__10E4_0744_000A_880A()
  *
  * @name f__10E4_0744_000A_880A
  * @implements 10E4:0744:000A:880A ()
  *
  * Called From: 10E4:073D:000E:55D3
+ * Called From: 10E4:073D:000C:67F9
  */
 void f__10E4_0744_000A_880A()
 {
@@ -8060,7 +8078,7 @@ void f__10E4_1D16_006B_11D3()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x8));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x376A));
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x1D9D; emu_last_cs = 0x10E4; emu_last_ip = 0x1D71; emu_last_length = 0x006B; emu_last_crc = 0x11D3; emu_call(); return; }
+	if (!emu_flags.zf) { f__10E4_1D9D_002C_E708(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x8));
 	emu_movws(&emu_ax.x, emu_ax.l);
@@ -8119,6 +8137,7 @@ void f__10E4_1D81_0048_3DC5()
  * Called From: 10E4:1D3B:006B:11D3
  * Called From: 10E4:1D49:006B:11D3
  * Called From: 10E4:1D56:006B:11D3
+ * Called From: 10E4:1D71:006B:11D3
  */
 void f__10E4_1D9D_002C_E708()
 {

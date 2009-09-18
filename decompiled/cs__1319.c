@@ -854,6 +854,7 @@ void f__1319_02AC_0020_C75C()
  * @implements 1319:02C7:0005:9C31 ()
  *
  * Called From: 1319:0346:000B:A375
+ * Called From: 1319:03DF:0003:2219
  */
 void f__1319_02C7_0005_9C31()
 {
@@ -1230,7 +1231,7 @@ void f__1319_03CE_0011_46B9()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0xE), emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_si);
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0xA), 0x64);
-	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x03DF; emu_last_cs = 0x1319; emu_last_ip = 0x03DA; emu_last_length = 0x0011; emu_last_crc = 0x46B9; emu_call(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { f__1319_03DF_0003_2219(); return; }
 	f__1319_02EE_000E_09AC(); return;
 }
 
@@ -1247,6 +1248,19 @@ void f__1319_03D6_0009_FEE7()
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0xA), 0x64);
 	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x03DF; emu_last_cs = 0x1319; emu_last_ip = 0x03DA; emu_last_length = 0x0009; emu_last_crc = 0xFEE7; emu_call(); return; }
 	f__1319_02EE_000E_09AC(); return;
+}
+
+/**
+ * Decompiled function f__1319_03DF_0003_2219()
+ *
+ * @name f__1319_03DF_0003_2219
+ * @implements 1319:03DF:0003:2219 ()
+ *
+ * Called From: 1319:03DA:0011:46B9
+ */
+void f__1319_03DF_0003_2219()
+{
+	f__1319_02C7_0005_9C31(); return;
 }
 
 /**
@@ -1368,6 +1382,7 @@ void f__1319_043A_0015_C2CA()
  *
  * Called From: 1319:05D8:000C:DFB8
  * Called From: 1319:05D8:0013:EEE0
+ * Called From: 1319:05D8:000F:E0A6
  */
 void f__1319_044F_000F_FA79()
 {
@@ -1429,7 +1444,7 @@ void f__1319_0461_002A_77D7()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0xFE);
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x048B; emu_last_cs = 0x1319; emu_last_ip = 0x0486; emu_last_length = 0x002A; emu_last_crc = 0x77D7; emu_call(); return; }
-	/* Unresolved jump */ emu_ip = 0x05CC; emu_last_cs = 0x1319; emu_last_ip = 0x0488; emu_last_length = 0x002A; emu_last_crc = 0x77D7; emu_call();
+	f__1319_05CC_000F_E0A6(); return;
 }
 
 /**
@@ -1814,7 +1829,7 @@ void f__1319_056E_0037_A4A5()
 	if (!emu_flags.zf) { f__1319_056B_003A_6742(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0xFE);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x05B3; emu_last_cs = 0x1319; emu_last_ip = 0x0593; emu_last_length = 0x0037; emu_last_crc = 0xA4A5; emu_call(); return; }
+	if (emu_flags.zf) { f__1319_05B3_0008_A15E(); return; }
 	emu_movw(&emu_ax.x, 0x4);
 	emu_push(emu_ax.x);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
@@ -1886,6 +1901,21 @@ void f__1319_05AD_0006_0BFB()
 }
 
 /**
+ * Decompiled function f__1319_05B3_0008_A15E()
+ *
+ * @name f__1319_05B3_0008_A15E
+ * @implements 1319:05B3:0008:A15E ()
+ *
+ * Called From: 1319:0593:0037:A4A5
+ */
+void f__1319_05B3_0008_A15E()
+{
+	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_movw(&emu_si, emu_get_memory16(emu_es, emu_bx.x,  0x0));
+	f__1319_05CF_000C_DFB8(); return;
+}
+
+/**
  * Decompiled function f__1319_05B9_0002_CA3A()
  *
  * @name f__1319_05B9_0002_CA3A
@@ -1945,6 +1975,7 @@ void f__1319_05C8_0013_EEE0()
  * @name f__1319_05CC_000F_E0A6
  * @implements 1319:05CC:000F:E0A6 ()
  *
+ * Called From: 1319:0488:002A:77D7
  * Called From: 1319:04C9:0041:DC57
  */
 void f__1319_05CC_000F_E0A6()
@@ -1953,7 +1984,7 @@ void f__1319_05CC_000F_E0A6()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0xFF);
 	if (emu_flags.zf) { f__1319_05DB_003C_80DA(); return; }
-	/* Unresolved jump */ emu_ip = 0x044F; emu_last_cs = 0x1319; emu_last_ip = 0x05D8; emu_last_length = 0x000F; emu_last_crc = 0xE0A6; emu_call();
+	f__1319_044F_000F_FA79(); return;
 }
 
 /**
@@ -1964,6 +1995,7 @@ void f__1319_05CC_000F_E0A6()
  *
  * Called From: 1319:044C:0015:C2CA
  * Called From: 1319:05B9:0002:CA3A
+ * Called From: 1319:05B9:0008:A15E
  */
 void f__1319_05CF_000C_DFB8()
 {

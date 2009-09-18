@@ -712,6 +712,46 @@ void f__0EDB_035C_0005_822E()
 }
 
 /**
+ * Decompiled function f__0EDB_0361_000C_7DFF()
+ *
+ * @name f__0EDB_0361_000C_7DFF
+ * @implements 0EDB:0361:000C:7DFF ()
+ *
+ * Called From: 0EDB:037B:0012:1350
+ */
+void f__0EDB_0361_000C_7DFF()
+{
+	emu_incw(&emu_si);
+	emu_xorw(&emu_ax.x, emu_ax.x);
+	emu_xorw(&emu_dx.x, emu_dx.x);
+	emu_push(emu_ax.x);
+	emu_push(emu_dx.x);
+	emu_push(emu_cs); emu_push(0x036D); emu_cs = 0x0FE4; f__0FE4_0283_0038_4950();
+	f__0EDB_036D_0014_8875();
+}
+
+/**
+ * Decompiled function f__0EDB_036D_0014_8875()
+ *
+ * @name f__0EDB_036D_0014_8875
+ * @implements 0EDB:036D:0014:8875 ()
+ *
+ * Called From: 0EDB:036D:000C:7DFF
+ */
+void f__0EDB_036D_0014_8875()
+{
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_cx.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_dx.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax.x);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_orw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0361; emu_last_cs = 0x0EDB; emu_last_ip = 0x037B; emu_last_length = 0x0014; emu_last_crc = 0x8875; emu_call(); return; }
+	emu_movw(&emu_ax.x, emu_si);
+	f__0EDB_0381_0005_8BCF(); return;
+}
+
+/**
  * Decompiled function f__0EDB_036F_0012_1350()
  *
  * @name f__0EDB_036F_0012_1350
@@ -725,7 +765,7 @@ void f__0EDB_036F_0012_1350()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax.x);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_orw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0361; emu_last_cs = 0x0EDB; emu_last_ip = 0x037B; emu_last_length = 0x0012; emu_last_crc = 0x1350; emu_call(); return; }
+	if (!emu_flags.zf) { f__0EDB_0361_000C_7DFF(); return; }
 	emu_movw(&emu_ax.x, emu_si);
 	f__0EDB_0381_0005_8BCF(); return;
 }
@@ -737,6 +777,7 @@ void f__0EDB_036F_0012_1350()
  * @implements 0EDB:0381:0005:8BCF ()
  *
  * Called From: 0EDB:037F:0012:1350
+ * Called From: 0EDB:037F:0014:8875
  */
 void f__0EDB_0381_0005_8BCF()
 {

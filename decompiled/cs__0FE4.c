@@ -676,6 +676,7 @@ void f__0FE4_0222_000A_6D8A()
  * Called From: 1A34:13D9:0018:2009
  * Called From: 1A34:2259:001D:DE92
  * Called From: 1A34:2259:001F:6DF6
+ * Called From: 1A34:2BD5:0025:30B8
  * Called From: 1A34:368D:0014:005F
  * Called From: B50B:03AE:001F:01AF
  * Called From: B511:0156:0013:5F86
@@ -780,6 +781,7 @@ void f__0FE4_0281_0002_2597()
  * Called From: 0C3A:29BB:000B:799F
  * Called From: 0C3A:29BB:001D:217F
  * Called From: 0C3A:29BB:002F:3744
+ * Called From: 0EDB:0368:000C:7DFF
  * Called From: 0FE4:027A:0027:2707
  * Called From: 0FE4:027A:003A:D5F2
  * Called From: 10E4:21F3:000E:5BF5

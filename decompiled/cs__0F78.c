@@ -479,6 +479,7 @@ void f__0F78_01AE_0006_F7CE()
  * Called From: 07D4:00FE:0009:FDC6
  * Called From: 07D4:0200:0024:9249
  * Called From: 07D4:0200:0021:3AC0
+ * Called From: 07D4:0200:000F:E9F6
  * Called From: 07D4:02D9:000A:0B5A
  * Called From: 0F78:029E:001C:04DB
  * Called From: 0F78:02C7:0029:1FEE

@@ -41,7 +41,7 @@ void f__0972_0007_0051_7645()
 	emu_push(emu_ax.x);
 	emu_movw(&emu_ax.x, 0x1E);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0058); emu_cs = 0x07C9; emu_ip = 0x000F; emu_last_cs = 0x0972; emu_last_ip = 0x0053; emu_last_length = 0x0051; emu_last_crc = 0x7645; emu_call();
+	emu_push(emu_cs); emu_push(0x0058); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
 	f__0972_0058_004D_2870();
 }
 

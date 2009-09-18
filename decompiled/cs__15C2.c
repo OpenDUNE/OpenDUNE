@@ -1910,6 +1910,7 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x176C1F51: f__176C_1F51_002F_CE9F(); break;
 		case 0x176C2275: f__176C_2275_001D_D22D(); break;
 		case 0x176C22C4: f__176C_22C4_0019_80C9(); break;
+		case 0x176C246C: f__176C_246C_0015_C163(); break;
 		case 0x176C2552: f__176C_2552_0019_4894(); break;
 		case 0x176C25A5: f__176C_25A5_002C_AC04(); break;
 		case 0x176C26CD: f__176C_26CD_0010_041C(); break;

@@ -518,6 +518,9 @@ void f__167E_00EF_0004_893F()
  * Called From: 0EDB:049E:0013:CDD0
  * Called From: 176C:14BB:0008:A673
  * Called From: 176C:182D:0021:E595
+ * Called From: 176C:24C1:0010:16F6
+ * Called From: 176C:24EE:002D:83BF
+ * Called From: 176C:2529:0020:614B
  * Called From: 176C:260C:002D:1FC4
  * Called From: 176C:2A8B:0012:04F6
  * Called From: 176C:2C0D:001F:0151

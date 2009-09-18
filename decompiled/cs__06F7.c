@@ -809,7 +809,7 @@ void f__06F7_031E_0049_CA1D()
 	emu_sarw(&emu_ax.x, 0x1);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x1C));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0xE));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0359; emu_last_cs = 0x06F7; emu_last_ip = 0x0354; emu_last_length = 0x0049; emu_last_crc = 0xCA1D; emu_call(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__06F7_0359_000E_E9D8(); return; }
 	emu_movw(&emu_di, 0xF);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x1C));
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x8));
@@ -826,6 +826,7 @@ void f__06F7_031E_0049_CA1D()
  * @implements 06F7:0359:000E:E9D8 ()
  *
  * Called From: 06F7:0330:0049:CA1D
+ * Called From: 06F7:0354:0049:CA1D
  */
 void f__06F7_0359_000E_E9D8()
 {

@@ -22,7 +22,7 @@
  * Called From: B48B:00AC:0029:3A68
  * Called From: B48B:00E1:0029:3530
  * Called From: B48B:019B:001B:BAF2
- * Called From: B48B:020F:0013:6810
+ * Called From: B48B:020F:001B:35F3
  * Called From: B48B:03AF:000B:848D
  * Called From: B495:007F:000E:1017
  * Called From: B4DA:0C12:000C:6912
@@ -40,9 +40,9 @@
  * Called From: B4F2:054B:000F:C332
  * Called From: B4F2:0AF1:000E:5E9D
  * Called From: B4F2:1133:000D:7056
- * Called From: B511:0F75:000B:0481
+ * Called From: B511:0F75:000D:C913
  * Called From: B511:1138:000B:D4F4
- * Called From: B518:0855:0012:6168
+ * Called From: B518:0855:000B:8CFD
  * Called From: B527:0112:000B:0481
  */
 void ovl__34A2(uint8 entry)
