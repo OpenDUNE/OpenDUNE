@@ -1,22 +1,36 @@
-# Unix
-CFLAGS=-m32
-LIB_EXTENSION=.so
-EXTENSION=
-LIBS=-lncursesw -lSDL
+# Settings via env variables
+#  CC          - Your C compiler
+#  CFLAGS      - Your CFLAGS (we add a few we find essential)
+#  LIBS        - Which libs to include (we add a few we find essential)
+#
+#  Settings via parameters
+#   WIN32:=1   - To compile a .exe
+#   STATIC:=1  - If you want to compile static (default yes for WIN32)
 
-# Windows
+CFLAGS := $(CFLAGS)
 ifdef WIN32
-CFLAGS=-static
-CC=i686-mingw32-gcc
-LIB_EXTENSION=.a
-EXTENSION=.exe
-LIBS=SDL.dll
+ifndef STATIC
+STATIC := 1
+endif
+EXTENSION := .exe
+LIB_EXTENSION := .dll
+LIBS := $(LIBS) SDL.dll
+else
+EXTENSION :=
+LIB_EXTENSION := .so
+LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
-CFLAGS += -g -Wall -Wextra
+ifdef STATIC
+LIBS := $(LIBS) libemu.a
+else
+LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
+endif
+
+CFLAGS := $(CFLAGS) -g -Wall -Wextra
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
 #  currently having. When all those cases are resolved, this can be removed.
-CFLAGS += -O1 -foptimize-sibling-calls
+CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
 
 DECOMPILED := $(shell ls decompiled/*.c 2>/dev/null)
 DECOMPILED := $(DECOMPILED:%.c=objs/%.o)
@@ -39,7 +53,7 @@ objs/%.o: %.c
 
 opendune$(EXTENSION): $(DECOMPILED) $(SOURCE)
 	@echo "[Linking] $@"
-	$(Q)$(CC) $(CFLAGS) -o $@ $^ ./libemu$(LIB_EXTENSION) $(LIBS)
+	$(Q)$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	@echo "[Cleaning] opendune"
