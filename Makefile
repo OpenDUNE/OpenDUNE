@@ -14,17 +14,22 @@ STATIC := 1
 endif
 EXTENSION := .exe
 LIB_EXTENSION := .dll
-LIBS := $(LIBS) SDL.dll
 else
 EXTENSION :=
 LIB_EXTENSION := .so
-LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
 ifdef STATIC
 LIBS := $(LIBS) libemu.a
 else
 LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
+endif
+
+ifdef WIN32
+# Windows needs SDL.dll after libemu.a on some versions of mingw
+LIBS := $(LIBS) SDL.dll
+else
+LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra
