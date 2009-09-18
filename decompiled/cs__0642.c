@@ -626,7 +626,7 @@ void f__0642_0251_0007_AEBE()
 {
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__0642_0258_0010_94D1(); return; }
-	/* Unresolved jump */ emu_ip = 0x0306; emu_last_cs = 0x0642; emu_last_ip = 0x0255; emu_last_length = 0x0007; emu_last_crc = 0xAEBE; emu_call();
+	f__0642_0306_0008_64F7(); return;
 }
 
 /**
@@ -752,6 +752,7 @@ void f__0642_02AE_0027_9BAA()
  * @implements 0642:0306:0008:64F7 ()
  *
  * Called From: 0642:0249:0007:AEBB
+ * Called From: 0642:0255:0007:AEBE
  * Called From: 0642:026F:000A:7582
  * Called From: 0642:02AC:001E:E9C7
  * Called From: 0642:02B9:0027:9BAA
@@ -799,7 +800,7 @@ void f__0642_031C_0012_D4EA()
 	emu_decw(&emu_bx.x);
 	emu_cmpws(&emu_bx.x, 0x3);
 	if ((emu_flags.cf || emu_flags.zf)) { f__0642_032E_0007_2A20(); return; }
-	/* Unresolved jump */ emu_ip = 0x03DC; emu_last_cs = 0x0642; emu_last_ip = 0x032B; emu_last_length = 0x0012; emu_last_crc = 0xD4EA; emu_call();
+	f__0642_03DC_0002_C03A(); return;
 }
 
 /**
@@ -1098,12 +1099,26 @@ void f__0642_03D9_0003_CA1A()
 }
 
 /**
+ * Decompiled function f__0642_03DC_0002_C03A()
+ *
+ * @name f__0642_03DC_0002_C03A
+ * @implements 0642:03DC:0002:C03A ()
+ *
+ * Called From: 0642:032B:0012:D4EA
+ */
+void f__0642_03DC_0002_C03A()
+{
+	f__0642_03DE_000E_F2B7(); return;
+}
+
+/**
  * Decompiled function f__0642_03DE_000E_F2B7()
  *
  * @name f__0642_03DE_000E_F2B7
  * @implements 0642:03DE:000E:F2B7 ()
  *
  * Called From: 0642:03DA:0003:CA1A
+ * Called From: 0642:03DC:0002:C03A
  */
 void f__0642_03DE_000E_F2B7()
 {
@@ -1401,6 +1416,7 @@ void f__0642_04A9_0004_25FB()
 	emu_ip = emu_get_memory16(emu_cs, emu_bx.x,  0x34);
 	switch (emu_ip) {
 		case 0x04BD: f__0642_04BD_0005_B5FA(); return;
+		case 0x04D5: f__0642_04D5_0005_91FA(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x0642; emu_last_ip = 0x04A9; emu_last_length = 0x0004; emu_last_crc = 0x25FB;
@@ -1438,12 +1454,27 @@ void f__0642_04BD_0005_B5FA()
 }
 
 /**
+ * Decompiled function f__0642_04D5_0005_91FA()
+ *
+ * @name f__0642_04D5_0005_91FA
+ * @implements 0642:04D5:0005:91FA ()
+ *
+ * Called From: 0642:04A9:0004:25FB
+ */
+void f__0642_04D5_0005_91FA()
+{
+	emu_movw(&emu_ax.x, 0x5);
+	f__0642_04E2_0006_13CC(); return;
+}
+
+/**
  * Decompiled function f__0642_04E2_0006_13CC()
  *
  * @name f__0642_04E2_0006_13CC
  * @implements 0642:04E2:0006:13CC ()
  *
  * Called From: 0642:04C0:0005:B5FA
+ * Called From: 0642:04D8:0005:91FA
  */
 void f__0642_04E2_0006_13CC()
 {

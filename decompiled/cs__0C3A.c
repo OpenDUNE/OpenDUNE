@@ -3897,6 +3897,7 @@ void f__0C3A_1210_0006_F7CE()
  * @implements 0C3A:1216:0013:E56D ()
  *
  * Called From: 06F7:0372:0010:92A7
+ * Called From: 0972:023A:005A:6804
  * Called From: 0C3A:21DD:003B:F488
  * Called From: 1A34:2F76:0012:F102
  */

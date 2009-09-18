@@ -178,7 +178,7 @@ void f__B527_007D_0029_E163()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), 0x0);
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp,  0x16), 0x1);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x00A1; emu_last_cs = 0xB527; emu_last_ip = 0x009B; emu_last_length = 0x0029; emu_last_crc = 0xE163; emu_call(); return; }
+	if (emu_flags.zf) { f__B527_00A1_0005_6168(); return; }
 	emu_orws(&emu_get_memory16(emu_ss, emu_bp,  0x16), 0x4);
 	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 	/* Check if this overlay should be reloaded */
@@ -219,6 +219,7 @@ void f__B527_0081_0025_7FAE()
  * @implements B527:00A1:0005:6168 ()
  *
  * Called From: B527:009B:0025:7FAE
+ * Called From: B527:009B:0029:E163
  */
 void f__B527_00A1_0005_6168()
 {
