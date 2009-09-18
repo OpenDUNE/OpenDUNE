@@ -821,6 +821,7 @@ void f__2B6C_0192_0005_89A4()
  * Called From: B4DA:0D67:0023:9996
  * Called From: B4DA:0D67:0046:ED1B
  * Called From: B4DA:0E6D:0014:B893
+ * Called From: B4DA:0E6D:0013:2896
  * Called From: B4DA:178D:0017:EE19
  * Called From: B4DA:1823:0016:C2B4
  * Called From: B4F2:10B6:001C:4E38
@@ -1244,6 +1245,7 @@ void f__2B6C_020B_005A_3B17()
 	emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66B6);
 	emu_push(0x0265);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2B6C; emu_last_ip = 0x0261; emu_last_length = 0x005A; emu_last_crc = 0x3B17;
@@ -1576,11 +1578,12 @@ void f__2B6C_0292_0028_3AD7()
  * @implements 2B6C:0293:0027:6AD7 ()
  *
  * Called From: 2B6C:0298:0028:3AD7
+ * Called From: 2B6C:0298:0027:6AD7
  */
 void f__2B6C_0293_0027_6AD7()
 {
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x705E), 0x0);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0293; emu_last_cs = 0x2B6C; emu_last_ip = 0x0298; emu_last_length = 0x0027; emu_last_crc = 0x6AD7; emu_call(); return; }
+	if (!emu_flags.zf) { f__2B6C_0293_0027_6AD7(); return; }
 	emu_incw(&emu_get_memory16(emu_ds, 0x00,  0x705E));
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7080));
 	emu_cmpb(&emu_ax.l, 0x0);

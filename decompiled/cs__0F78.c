@@ -200,7 +200,7 @@ void f__0F78_009E_000D_43A4()
 	if (!emu_flags.zf) { f__0F78_00AB_0006_BB3C(); return; }
 	emu_orw(&emu_di, emu_di);
 	if (!emu_flags.zf) { f__0F78_00AB_0006_BB3C(); return; }
-	/* Unresolved jump */ emu_ip = 0x0164; emu_last_cs = 0x0F78; emu_last_ip = 0x00A8; emu_last_length = 0x000D; emu_last_crc = 0x43A4; emu_call();
+	f__0F78_0164_0011_C0E1(); return;
 }
 
 /**
@@ -363,6 +363,24 @@ void f__0F78_015B_001A_32E3()
 }
 
 /**
+ * Decompiled function f__0F78_0164_0011_C0E1()
+ *
+ * @name f__0F78_0164_0011_C0E1
+ * @implements 0F78:0164:0011:C0E1 ()
+ *
+ * Called From: 0F78:00A8:000D:43A4
+ */
+void f__0F78_0164_0011_C0E1()
+{
+	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x0);
+	if (emu_flags.zf) { f__0F78_01A1_0008_1199(); return; }
+	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x0);
+	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01A1; emu_last_cs = 0x0F78; emu_last_ip = 0x016E; emu_last_length = 0x0011; emu_last_crc = 0xC0E1; emu_call(); return; }
+	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x2B6C; emu_ip = 0x0137; emu_last_cs = 0x0F78; emu_last_ip = 0x0170; emu_last_length = 0x0011; emu_last_crc = 0xC0E1; emu_call();
+	f__0F78_0175_0024_4F8D();
+}
+
+/**
  * Decompiled function f__0F78_0175_0024_4F8D()
  *
  * @name f__0F78_0175_0024_4F8D
@@ -414,6 +432,7 @@ void f__0F78_0199_0008_43E5()
  * @implements 0F78:01A1:0008:1199 ()
  *
  * Called From: 0F78:0168:003E:BA89
+ * Called From: 0F78:0168:0011:C0E1
  * Called From: 0F78:016E:003E:BA89
  * Called From: 0F78:01A1:0008:43E5
  */
@@ -1258,7 +1277,7 @@ void f__0F78_03D5_000E_0663()
 {
 	emu_pop(&emu_cx.x);
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x3A0E), 0x1);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0422; emu_last_cs = 0x0F78; emu_last_ip = 0x03DB; emu_last_length = 0x000E; emu_last_crc = 0x0663; emu_call(); return; }
+	if (emu_flags.zf) { f__0F78_0422_0002_C43A(); return; }
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x03E3); emu_cs = 0x34CD; ovl__34CD(26);
 	f__0F78_03E3_0025_77BC();
@@ -1364,6 +1383,7 @@ void f__0F78_0420_0004_5F1F()
  * @name f__0F78_0422_0002_C43A
  * @implements 0F78:0422:0002:C43A ()
  *
+ * Called From: 0F78:03DB:000E:0663
  * Called From: 0F78:040A:0004:501F
  * Called From: 0F78:0413:0014:EE7E
  */

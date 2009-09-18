@@ -756,9 +756,22 @@ void f__0C10_01D6_0036_61BA()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0x56));
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_es, emu_bx.x,  0x26));
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x020A; emu_last_cs = 0x0C10; emu_last_ip = 0x01FF; emu_last_length = 0x0036; emu_last_crc = 0x61BA; emu_call(); return; }
+	if (!emu_flags.zf) { f__0C10_020A_0002_CC3A(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx.x,  0x56), 0x0);
+	f__0C10_0224_001E_CED9(); return;
+}
+
+/**
+ * Decompiled function f__0C10_020A_0002_CC3A()
+ *
+ * @name f__0C10_020A_0002_CC3A
+ * @implements 0C10:020A:0002:CC3A ()
+ *
+ * Called From: 0C10:01FF:0036:61BA
+ */
+void f__0C10_020A_0002_CC3A()
+{
 	f__0C10_0224_001E_CED9(); return;
 }
 
@@ -826,6 +839,7 @@ void f__0C10_021D_0025_6A21()
  * @implements 0C10:0224:001E:CED9 ()
  *
  * Called From: 0C10:020A:0036:61BA
+ * Called From: 0C10:020A:0002:CC3A
  */
 void f__0C10_0224_001E_CED9()
 {

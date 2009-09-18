@@ -3095,9 +3095,39 @@ void f__B4CD_0936_001C_555C()
 	emu_shlw(&emu_bx.x, emu_cx.l);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C0E));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x10));
-	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0952; emu_last_cs = 0xB4CD; emu_last_ip = 0x094B; emu_last_length = 0x001C; emu_last_crc = 0x555C; emu_call(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { f__B4CD_0952_0032_F47A(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x10));
 	f__B4CD_095E_0026_FA43(); return;
+}
+
+/**
+ * Decompiled function f__B4CD_0952_0032_F47A()
+ *
+ * @name f__B4CD_0952_0032_F47A
+ * @implements B4CD:0952:0032:F47A ()
+ *
+ * Called From: B4CD:094B:001C:555C
+ */
+void f__B4CD_0952_0032_F47A()
+{
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C0E));
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x10), emu_ax.x);
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C0E));
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x72F7));
+	emu_movb(&emu_cx.l, 0x3);
+	emu_shlw(&emu_bx.x, emu_cx.l);
+	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C12));
+	emu_decw(&emu_ax.x);
+	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x12));
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0984; emu_last_cs = 0xB4CD; emu_last_ip = 0x097D; emu_last_length = 0x0032; emu_last_crc = 0xF47A; emu_call(); return; }
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x12));
+	f__B4CD_099D_0019_1F64(); return;
 }
 
 /**
@@ -3133,6 +3163,7 @@ void f__B4CD_095E_0026_FA43()
  * @implements B4CD:099D:0019:1F64 ()
  *
  * Called From: B4CD:0982:0026:FA43
+ * Called From: B4CD:0982:0032:F47A
  */
 void f__B4CD_099D_0019_1F64()
 {
