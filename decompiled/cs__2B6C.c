@@ -250,7 +250,7 @@ void f__2B6C_00B3_0057_2EDD()
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x709C), emu_bx.x);
 	emu_addw(&emu_ax.x, emu_cx.x);
 	emu_subw(&emu_ax.x, 0x28);
-	if (emu_flags.sf) { /* Unresolved jump */ emu_ip = 0x00DB; emu_last_cs = 0x2B6C; emu_last_ip = 0x00D7; emu_last_length = 0x0057; emu_last_crc = 0x2EDD; emu_call(); return; }
+	if (emu_flags.sf) { f__2B6C_00DB_002F_7133(); return; }
 	emu_subw(&emu_cx.x, emu_ax.x);
 	emu_addw(&emu_bx.x, emu_dx.x);
 	emu_subw(&emu_bx.x, 0xC8);
@@ -340,6 +340,7 @@ void f__2B6C_00C5_0045_838C()
  * @implements 2B6C:00DB:002F:7133 ()
  *
  * Called From: 2B6C:00D7:0045:838C
+ * Called From: 2B6C:00D7:0057:2EDD
  */
 void f__2B6C_00DB_002F_7133()
 {

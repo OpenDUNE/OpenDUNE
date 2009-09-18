@@ -28,7 +28,7 @@ void f__07D4_0000_0027_FA61()
 	if (emu_flags.zf) { f__07D4_0027_000D_CDE2(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x3A0E), 0x4);
 	if (emu_flags.zf) { f__07D4_0027_000D_CDE2(); return; }
-	/* Unresolved jump */ emu_ip = 0x02F2; emu_last_cs = 0x07D4; emu_last_ip = 0x0024; emu_last_length = 0x0027; emu_last_crc = 0xFA61; emu_call();
+	f__07D4_02F2_0006_F7CE(); return;
 }
 
 /**
@@ -1217,6 +1217,7 @@ void f__07D4_02EB_0007_6375()
  * @name f__07D4_02F2_0006_F7CE
  * @implements 07D4:02F2:0006:F7CE ()
  *
+ * Called From: 07D4:0024:0027:FA61
  * Called From: 07D4:02F2:0007:6375
  */
 void f__07D4_02F2_0006_F7CE()

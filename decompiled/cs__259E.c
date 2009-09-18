@@ -138,6 +138,7 @@ void f__259E_003B_0005_6083()
  *
  * Called From: 0642:05C2:0010:2CA3
  * Called From: 0642:06B9:000D:A409
+ * Called From: 0642:06B9:0013:48D9
  * Called From: 0642:073A:000D:A409
  * Called From: 0642:073A:0013:43D9
  * Called From: 0C3A:17E2:000D:A409

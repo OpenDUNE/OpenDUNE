@@ -12237,7 +12237,7 @@ void f__01F7_3964_0041_7552()
 	emu_lodsb(emu_ds);
 	emu_movb(&emu_bx.l, emu_get_memory8(emu_es, emu_di,  0x0));
 	emu_orb(&emu_ax.l, emu_ax.l);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x399D; emu_last_cs = 0x01F7; emu_last_ip = 0x397F; emu_last_length = 0x0041; emu_last_crc = 0x7552; emu_call(); return; }
+	if (emu_flags.zf) { f__01F7_399D_0008_CA06(); return; }
 	emu_scasb();
 	if (emu_flags.zf) { f__01F7_3979_002C_34A6(); return; }
 	emu_cmpb(&emu_ax.l, emu_cx.h);
@@ -12370,6 +12370,7 @@ void f__01F7_3999_000C_B4D0()
  * @implements 01F7:399D:0008:CA06 ()
  *
  * Called From: 01F7:397F:002C:34A6
+ * Called From: 01F7:397F:0041:7552
  */
 void f__01F7_399D_0008_CA06()
 {
