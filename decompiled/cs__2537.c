@@ -13,6 +13,7 @@
  * Called From: 0642:011A:000C:CF74
  * Called From: 0642:01E3:000D:A777
  * Called From: 0642:0280:0013:DFDC
+ * Called From: 0642:02E0:0010:86AA
  * Called From: 06F7:0AED:0010:0B2F
  * Called From: 0EDB:016F:002F:C125
  * Called From: 1391:01F2:0012:F977
@@ -30,6 +31,7 @@
  * Called From: B4DA:04C7:000C:EF74
  * Called From: B4DA:0569:0006:565C
  * Called From: B4DA:0569:000D:84E5
+ * Called From: B4DA:0605:0019:9C7F
  * Called From: B4DA:086F:0006:565C
  * Called From: B4DA:086F:000D:9D45
  * Called From: B4DA:08AA:000C:8F74

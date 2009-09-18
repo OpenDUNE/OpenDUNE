@@ -13,9 +13,11 @@
  * Called From: 0972:0053:0019:8B3A
  * Called From: 0972:0053:0051:7645
  * Called From: 0972:00A0:0035:11A8
+ * Called From: 0972:00A0:0020:DE51
  * Called From: 176C:018A:0014:5245
  * Called From: 176C:018A:0029:F66B
  * Called From: 176C:018A:0055:6C8A
+ * Called From: 176C:018A:0040:7270
  * Called From: 176C:1034:001F:713B
  * Called From: 176C:1250:0016:35F1
  * Called From: 176C:1250:0019:CAAD

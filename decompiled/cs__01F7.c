@@ -9824,6 +9824,7 @@ void f__01F7_2944_0003_2E77()
  * Called From: 07D4:0367:001F:FF64
  * Called From: 07D4:037B:0014:D20F
  * Called From: 07D4:1275:001D:1903
+ * Called From: 07D4:1275:0017:2F38
  * Called From: 07D4:1289:0014:F74B
  * Called From: 0FE4:017C:001D:133A
  * Called From: 0FE4:017C:0026:ADF7

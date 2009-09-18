@@ -1713,7 +1713,7 @@ void f__1319_0526_001B_1B09()
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp, -0xC));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx.x,  0x0), emu_ax.l);
-	/* Unresolved jump */ emu_ip = 0x05BB; emu_last_cs = 0x1319; emu_last_ip = 0x053F; emu_last_length = 0x001B; emu_last_crc = 0x1B09; emu_call();
+	f__1319_05BB_000D_E8A9(); return;
 }
 
 /**
@@ -1936,6 +1936,7 @@ void f__1319_05B9_0002_CA3A()
  *
  * Called From: 1319:04D2:0009:D11F
  * Called From: 1319:053F:0002:FD3A
+ * Called From: 1319:053F:001B:1B09
  */
 void f__1319_05BB_000D_E8A9()
 {

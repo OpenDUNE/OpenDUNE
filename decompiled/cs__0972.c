@@ -189,7 +189,7 @@ void f__0972_0085_0020_DE51()
 	emu_push(emu_ax.x);
 	emu_movw(&emu_ax.x, 0x2A30);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x00A5); emu_cs = 0x07C9; emu_ip = 0x000F; emu_last_cs = 0x0972; emu_last_ip = 0x00A0; emu_last_length = 0x0020; emu_last_crc = 0xDE51; emu_call();
+	emu_push(emu_cs); emu_push(0x00A5); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
 	f__0972_00A5_0086_1AD2();
 }
 
@@ -246,7 +246,7 @@ void f__0972_00A5_0086_1AD2()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax.x, emu_bp - 0xE);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x012B); emu_cs = 0x1082; emu_ip = 0x00FD; emu_last_cs = 0x0972; emu_last_ip = 0x0126; emu_last_length = 0x0086; emu_last_crc = 0x1AD2; emu_call();
+	emu_push(emu_cs); emu_push(0x012B); emu_cs = 0x1082; f__1082_00FD_003A_D7E0();
 	f__0972_012B_0006_5385();
 }
 
@@ -342,7 +342,7 @@ void f__0972_00D2_0059_A980()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax.x, emu_bp - 0xE);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x012B); emu_cs = 0x1082; emu_ip = 0x00FD; emu_last_cs = 0x0972; emu_last_ip = 0x0126; emu_last_length = 0x0059; emu_last_crc = 0xA980; emu_call();
+	emu_push(emu_cs); emu_push(0x012B); emu_cs = 0x1082; f__1082_00FD_003A_D7E0();
 	f__0972_012B_0006_5385();
 }
 
@@ -447,6 +447,7 @@ void f__0972_0119_0012_F490()
  * Called From: 0972:012B:0012:F490
  * Called From: 0972:012B:0040:E14D
  * Called From: 0972:012B:002B:22A3
+ * Called From: 0972:012B:0059:A980
  */
 void f__0972_012B_0006_5385()
 {
@@ -2939,7 +2940,7 @@ void f__0972_141F_0018_99E8()
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x58), 0x0);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x143D; emu_last_cs = 0x0972; emu_last_ip = 0x142A; emu_last_length = 0x0018; emu_last_crc = 0x99E8; emu_call(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x1);
-	if ((emu_flags.cf || emu_flags.zf)) { /* Unresolved jump */ emu_ip = 0x1437; emu_last_cs = 0x0972; emu_last_ip = 0x1430; emu_last_length = 0x0018; emu_last_crc = 0x99E8; emu_call(); return; }
+	if ((emu_flags.cf || emu_flags.zf)) { f__0972_1437_000F_5710(); return; }
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	f__0972_143A_000C_2715(); return;
 }
@@ -2951,6 +2952,7 @@ void f__0972_141F_0018_99E8()
  * @implements 0972:1437:000F:5710 ()
  *
  * Called From: 0972:1430:0020:E839
+ * Called From: 0972:1430:0018:99E8
  */
 void f__0972_1437_000F_5710()
 {

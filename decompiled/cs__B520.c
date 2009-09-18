@@ -977,7 +977,7 @@ void f__B520_04B0_0010_386E()
 	emu_pop(&emu_cx.x);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx.x,  0x2E), 0x1100);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x04C0; emu_last_cs = 0xB520; emu_last_ip = 0x04BB; emu_last_length = 0x0010; emu_last_crc = 0x386E; emu_call(); return; }
+	if (!emu_flags.zf) { f__B520_04C0_0026_7395(); return; }
 	f__B520_0569_000E_C637(); return;
 }
 
@@ -1004,6 +1004,7 @@ void f__B520_04B2_000E_8A37()
  * @implements B520:04C0:0026:7395 ()
  *
  * Called From: B520:04BB:000E:8A37
+ * Called From: B520:04BB:0010:386E
  */
 void f__B520_04C0_0026_7395()
 {

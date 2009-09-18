@@ -487,7 +487,7 @@ void f__B4C1_00CF_004A_D29C()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x23E4));
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ds, emu_bx.x,  0x23E2));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x00F0; emu_last_cs = 0xB4C1; emu_last_ip = 0x00E1; emu_last_length = 0x004A; emu_last_crc = 0xD29C; emu_call(); return; }
+	if (emu_flags.cf) { f__B4C1_00F0_0029_084F(); return; }
 	if (!(emu_flags.cf || emu_flags.zf)) { /* Unresolved jump */ emu_ip = 0x00EA; emu_last_cs = 0xB4C1; emu_last_ip = 0x00E3; emu_last_length = 0x004A; emu_last_crc = 0xD29C; emu_call(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	if ((emu_flags.cf || emu_flags.zf)) { f__B4C1_00F0_0029_084F(); return; }
@@ -543,6 +543,7 @@ void f__B4C1_00EA_002F_4ABE()
  * @name f__B4C1_00F0_0029_084F
  * @implements B4C1:00F0:0029:084F ()
  *
+ * Called From: B4C1:00E1:004A:D29C
  * Called From: B4C1:00E8:004D:EEE4
  * Called From: B4C1:00E8:004A:D29C
  */

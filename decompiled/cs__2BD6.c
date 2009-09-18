@@ -113,6 +113,7 @@ void f__2BD6_0024_005A_C833()
  * Called From: 2BD6:007C:000D:9AAA
  * Called From: 2BD6:007C:0040:FC4A
  * Called From: 2BD6:009B:0006:F251
+ * Called From: 2BD6:009B:001F:4BDA
  * Called From: 2BD6:00C6:0005:852F
  * Called From: 2BD6:00EA:0005:6526
  * Called From: 2BD6:00EA:001D:37CB
@@ -190,7 +191,7 @@ void f__2BD6_007E_001F_4BDA()
 	emu_movw(&emu_cx.x, emu_get_memory16(emu_cs, 0x00,  0xF8));
 	emu_rep_movsb(emu_ds);
 	emu_movw(&emu_bx.x, emu_si);
-	/* Unresolved jump */ emu_ip = 0x003E; emu_last_cs = 0x2BD6; emu_last_ip = 0x009B; emu_last_length = 0x001F; emu_last_crc = 0x4BDA; emu_call();
+	f__2BD6_003E_0040_FC4A(); return;
 }
 
 /**

@@ -291,6 +291,8 @@ void f__1082_00E4_0002_2597()
  * Called From: 0972:0126:0012:F490
  * Called From: 0972:0126:0040:E14D
  * Called From: 0972:0126:002B:22A3
+ * Called From: 0972:0126:0059:A980
+ * Called From: 0972:0126:0086:1AD2
  * Called From: 0C3A:13DA:0022:D6F0
  * Called From: 0C3A:1FAF:0022:E6F2
  * Called From: 0C3A:2141:0016:7245
@@ -300,6 +302,7 @@ void f__1082_00E4_0002_2597()
  * Called From: 1423:0076:001A:9364
  * Called From: 1423:0AC5:001A:235A
  * Called From: 1423:0DE7:0029:D1E2
+ * Called From: 176C:0DC0:000E:DA27
  * Called From: 176C:25DA:000E:DA27
  * Called From: 176C:29EC:000E:DA27
  * Called From: 1A34:21F5:001A:547E
@@ -415,10 +418,17 @@ void f__1082_013B_0002_2597()
  * Called From: 10E4:21AE:000D:DBFF
  * Called From: 1423:00AE:000B:166D
  * Called From: 1423:0E10:0024:7F0A
+ * Called From: 176C:0E6D:000B:166D
+ * Called From: 176C:261B:000B:166D
  * Called From: 176C:2A51:0026:C654
+ * Called From: 176C:2A51:0019:4CA8
+ * Called From: 176C:2A51:000B:166D
  * Called From: 1A34:223A:000B:166D
  * Called From: 1A34:33AF:000B:166D
+ * Called From: 1A34:33AF:0019:4CA8
  * Called From: 1A34:342A:0019:4CA8
+ * Called From: 1A34:342A:0026:4EDC
+ * Called From: 1A34:342A:000B:166D
  * Called From: 1A34:3735:000A:DEC8
  * Called From: B50B:0483:000E:3487
  * Called From: B511:02EC:000B:166D
@@ -578,7 +588,7 @@ void f__1082_01AE_0020_C80A()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x2));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_cmpw(&emu_ax.x, emu_di);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01CE; emu_last_cs = 0x1082; emu_last_ip = 0x01BD; emu_last_length = 0x0020; emu_last_crc = 0xC80A; emu_call(); return; }
+	if (!emu_flags.zf) { f__1082_01CE_0014_2D5F(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx.x,  0x4), emu_si);
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
@@ -629,6 +639,7 @@ void f__1082_01CC_0002_CA3A()
  * Called From: 1082:01AC:0033:6811
  * Called From: 1082:01AC:0059:CC2D
  * Called From: 1082:01BD:0033:6811
+ * Called From: 1082:01BD:0020:C80A
  */
 void f__1082_01CE_0014_2D5F()
 {

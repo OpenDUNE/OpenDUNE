@@ -2709,7 +2709,7 @@ void f__22A6_0975_004B_1096()
 	emu_cmpw(&emu_bx.x, emu_get_memory16(emu_cs, 0x00,  0x6E));
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__22A6_09BD_0003_5D2E(); return; }
 	emu_cmpw(&emu_cx.x, emu_get_memory16(emu_cs, 0x00,  0x68));
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x09BD; emu_last_cs = 0x22A6; emu_last_ip = 0x09A6; emu_last_length = 0x004B; emu_last_crc = 0x1096; emu_call(); return; }
+	if ((emu_flags.sf != emu_flags.of)) { f__22A6_09BD_0003_5D2E(); return; }
 	emu_cmpw(&emu_cx.x, emu_get_memory16(emu_cs, 0x00,  0x6C));
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__22A6_09BD_0003_5D2E(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_cs, 0x00,  0x6A));
@@ -2730,6 +2730,7 @@ void f__22A6_0975_004B_1096()
  * Called From: 22A6:0991:004B:1096
  * Called From: 22A6:0998:004B:1096
  * Called From: 22A6:099F:004B:1096
+ * Called From: 22A6:09A6:004B:1096
  * Called From: 22A6:09AD:004B:1096
  * Called From: 22A6:09D9:000C:03FA
  * Called From: 22A6:09E5:0002:AB3A
@@ -2781,6 +2782,7 @@ void f__22A6_09C8_0011_C80B()
 	switch (emu_ip) {
 		case 0x0A0D: f__22A6_0A0D_0002_61BE(); break;
 		case 0x0A19: f__22A6_0A19_000E_92F3(); break;
+		case 0x0A46: f__22A6_0A46_0008_6953(); break;
 		case 0x0A50: f__22A6_0A50_000E_9CF3(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -2985,6 +2987,7 @@ void f__22A6_0A2D_0019_EA06()
  * @name f__22A6_0A46_0008_6953
  * @implements 22A6:0A46:0008:6953 ()
  *
+ * Called From: 22A6:09D4:0011:C80B
  * Called From: 22A6:09E0:000C:03FA
  */
 void f__22A6_0A46_0008_6953()

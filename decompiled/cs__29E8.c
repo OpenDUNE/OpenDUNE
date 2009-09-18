@@ -200,7 +200,7 @@ void f__29E8_030D_002A_00F8()
 	emu_cmpb(&emu_ax.l, 0x70);
 	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x033F; emu_last_cs = 0x29E8; emu_last_ip = 0x030F; emu_last_length = 0x002A; emu_last_crc = 0x00F8; emu_call(); return; }
 	emu_cmpb(&emu_ax.l, 0x79);
-	if (!(emu_flags.cf || emu_flags.zf)) { /* Unresolved jump */ emu_ip = 0x033F; emu_last_cs = 0x29E8; emu_last_ip = 0x0313; emu_last_length = 0x002A; emu_last_crc = 0x00F8; emu_call(); return; }
+	if (!(emu_flags.cf || emu_flags.zf)) { f__29E8_033F_0004_113A(); return; }
 	emu_movb(&emu_bx.l, emu_ax.l);
 	emu_subb(&emu_bx.l, 0x70);
 	emu_movb(&emu_bx.h, 0xC5);
@@ -255,6 +255,7 @@ void f__29E8_0337_0008_6739()
  * @name f__29E8_033F_0004_113A
  * @implements 29E8:033F:0004:113A ()
  *
+ * Called From: 29E8:0313:002A:00F8
  * Called From: 29E8:0339:0008:6739
  */
 void f__29E8_033F_0004_113A()
@@ -758,7 +759,7 @@ void f__29E8_0675_002F_0D28()
 void f__29E8_068A_001A_55A8()
 {
 	emu_cmpb(&emu_ax.l, 0x41);
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0695; emu_last_cs = 0x29E8; emu_last_ip = 0x068C; emu_last_length = 0x001A; emu_last_crc = 0x55A8; emu_call(); return; }
+	if (emu_flags.cf) { f__29E8_0695_000F_89E5(); return; }
 	emu_cmpb(&emu_ax.l, 0x44);
 	if (!(emu_flags.cf || emu_flags.zf)) { f__29E8_0695_000F_89E5(); return; }
 	emu_addws(&emu_si, 0x4);
@@ -775,6 +776,7 @@ void f__29E8_068A_001A_55A8()
  * @name f__29E8_0695_000F_89E5
  * @implements 29E8:0695:000F:89E5 ()
  *
+ * Called From: 29E8:068C:001A:55A8
  * Called From: 29E8:0690:002F:0D28
  * Called From: 29E8:0690:001A:55A8
  */
@@ -822,7 +824,7 @@ void f__29E8_06A6_0012_72C8()
 	emu_movw(&emu_get_memory16(emu_cs, 0x00,  0x1B7), emu_cx.x);
 	emu_sti();
 	emu_orw(&emu_ax.x, emu_ax.x);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x06BA; emu_last_cs = 0x29E8; emu_last_ip = 0x06B3; emu_last_length = 0x0012; emu_last_crc = 0x72C8; emu_call(); return; }
+	if (emu_flags.zf) { f__29E8_06BA_0006_A381(); return; }
 	emu_push(0x06B8); f__29E8_026C_0015_3543();
 	f__29E8_06B8_0008_9049();
 }
@@ -858,6 +860,7 @@ void f__29E8_06B8_0008_9049()
  * @implements 29E8:06BA:0006:A381 ()
  *
  * Called From: 29E8:06B3:0014:5ACB
+ * Called From: 29E8:06B3:0012:72C8
  */
 void f__29E8_06BA_0006_A381()
 {

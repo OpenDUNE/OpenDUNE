@@ -72,6 +72,7 @@
  * Called From: 0AEC:07BD:0012:353C
  * Called From: 0AEC:082A:0009:6093
  * Called From: 0AEC:0CF6:0009:6093
+ * Called From: 0AEC:0FEA:0017:6202
  * Called From: 0AEC:109D:000F:2295
  * Called From: 0AEC:11A5:0009:6093
  * Called From: 0AEC:1200:000F:2195
@@ -118,6 +119,9 @@
  * Called From: 176C:065A:0022:E86D
  * Called From: 176C:0685:001C:F5FE
  * Called From: 176C:0A53:0039:07D4
+ * Called From: 176C:0ED2:0028:0318
+ * Called From: 176C:0F36:001B:0C57
+ * Called From: 176C:0F6D:0008:375A
  * Called From: 176C:0FC4:0014:1DEB
  * Called From: 176C:11B5:001F:9F0A
  * Called From: 176C:12A4:0014:2D96

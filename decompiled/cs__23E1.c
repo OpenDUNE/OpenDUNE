@@ -645,6 +645,7 @@ void f__23E1_01BE_0004_893F()
  * Called From: B520:022C:000E:38A3
  * Called From: B520:03B1:001B:4BEB
  * Called From: B520:03BE:000D:A2A1
+ * Called From: B52A:04A1:0030:9D41
  */
 void f__23E1_01C2_0011_24E8()
 {

@@ -601,7 +601,7 @@ void f__B488_01E9_000E_D7EC()
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0xC));
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x01F7; emu_last_cs = 0xB488; emu_last_ip = 0x01F2; emu_last_length = 0x000E; emu_last_crc = 0xD7EC; emu_call(); return; }
+	if (!emu_flags.cf) { f__B488_01F7_000B_5A70(); return; }
 	f__B488_012E_000B_44F3(); return;
 }
 
@@ -628,6 +628,7 @@ void f__B488_01EC_000B_EB52()
  * @implements B488:01F7:000B:5A70 ()
  *
  * Called From: B488:01F2:0021:5ACE
+ * Called From: B488:01F2:000E:D7EC
  */
 void f__B488_01F7_000B_5A70()
 {

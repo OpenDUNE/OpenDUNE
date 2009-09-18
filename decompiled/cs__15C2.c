@@ -1894,6 +1894,7 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x0EDB050C: f__0EDB_050C_001D_2E46(); break;
 		case 0x176C0858: f__176C_0858_0023_E780(); break;
 		case 0x176C0882: f__176C_0882_0014_0C6A(); break;
+		case 0x176C0BC3: f__176C_0BC3_002A_A6DE(); break;
 		case 0x176C0FA2: f__176C_0FA2_0013_6D6D(); break;
 		case 0x176C0FD2: f__176C_0FD2_001F_B15D(); break;
 		case 0x176C1098: f__176C_1098_0021_667D(); break;
@@ -1901,6 +1902,7 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x176C1458: f__176C_1458_0023_356A(); break;
 		case 0x176C1932: f__176C_1932_0029_D0CC(); break;
 		case 0x176C196C: f__176C_196C_0027_D87A(); break;
+		case 0x176C1A40: f__176C_1A40_0020_8DC9(); break;
 		case 0x176C1A9F: f__176C_1A9F_0024_813F(); break;
 		case 0x176C1B45: f__176C_1B45_0022_208C(); break;
 		case 0x176C1C00: f__176C_1C00_003A_E6C7(); break;

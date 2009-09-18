@@ -260,7 +260,7 @@ void f__29A3_02EE_0027_7721()
 	emu_cmpw(&emu_ax.x, emu_si);
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__29A3_0315_000E_51CF(); return; }
 	emu_cmpw(&emu_bx.x, emu_dx.x);
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0315; emu_last_cs = 0x29A3; emu_last_ip = 0x030A; emu_last_length = 0x0027; emu_last_crc = 0x7721; emu_call(); return; }
+	if ((emu_flags.sf != emu_flags.of)) { f__29A3_0315_000E_51CF(); return; }
 	emu_cmpw(&emu_bx.x, emu_di);
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0315; emu_last_cs = 0x29A3; emu_last_ip = 0x030E; emu_last_length = 0x0027; emu_last_crc = 0x7721; emu_call(); return; }
 	emu_movw(&emu_ax.x, 0x1);
@@ -278,6 +278,7 @@ void f__29A3_02EE_0027_7721()
  * Called From: 29A3:0306:003B:81C9
  * Called From: 29A3:0306:0027:7721
  * Called From: 29A3:030A:003B:81C9
+ * Called From: 29A3:030A:0027:7721
  * Called From: 29A3:030E:003B:81C9
  */
 void f__29A3_0315_000E_51CF()

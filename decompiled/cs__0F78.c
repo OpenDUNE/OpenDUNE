@@ -1634,7 +1634,7 @@ void f__0F78_04CB_0040_9F1F()
 	emu_addw(&emu_ax.x, emu_get_memory16(emu_ds, emu_bx.x,  0x3C14));
 	emu_addw(&emu_ax.x, 0xFFF6);
 	emu_cmpw(&emu_ax.x, emu_di);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x050B; emu_last_cs = 0x0F78; emu_last_ip = 0x0505; emu_last_length = 0x0040; emu_last_crc = 0x9F1F; emu_call(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__0F78_050B_0024_7C89(); return; }
 	emu_movw(&emu_ax.x, emu_di);
 	f__0F78_0526_0009_23D1(); return;
 }
@@ -1673,6 +1673,7 @@ void f__0F78_04E6_0025_1314()
  * @implements 0F78:050B:0024:7C89 ()
  *
  * Called From: 0F78:0505:0025:1314
+ * Called From: 0F78:0505:0040:9F1F
  */
 void f__0F78_050B_0024_7C89()
 {

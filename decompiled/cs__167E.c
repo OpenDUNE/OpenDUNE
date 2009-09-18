@@ -18,6 +18,7 @@
  * Called From: 0EDB:0524:001D:2E46
  * Called From: 176C:147C:0006:83CE
  * Called From: 176C:19EB:0020:1A9C
+ * Called From: 176C:1A5B:0020:8DC9
  * Called From: 176C:1ABE:0024:813F
  * Called From: 176C:1B62:0022:208C
  * Called From: 176C:1C87:001D:2E46
@@ -302,6 +303,7 @@ void f__167E_0082_0006_F7CE()
  * Called From: 167E:02E1:000C:4C9F
  * Called From: 176C:03A2:000D:9950
  * Called From: 176C:089E:000D:9150
+ * Called From: 176C:0BF5:000D:9150
  * Called From: 176C:1556:0006:53C6
  * Called From: 176C:161F:0006:53C6
  * Called From: 1A34:042C:0019:BEE7
@@ -516,6 +518,8 @@ void f__167E_00EF_0004_893F()
  * Called From: 0AEC:05B9:0010:37DB
  * Called From: 0C3A:2945:000F:A6A8
  * Called From: 0EDB:049E:0013:CDD0
+ * Called From: 176C:0EF1:0011:8A0E
+ * Called From: 176C:0F04:0013:75C0
  * Called From: 176C:14BB:0008:A673
  * Called From: 176C:182D:0021:E595
  * Called From: 176C:24C1:0010:16F6
@@ -540,6 +544,7 @@ void f__167E_00EF_0004_893F()
  * Called From: 1A34:307D:0014:5E5F
  * Called From: 1A34:30D9:0024:9E02
  * Called From: 1A34:3451:0027:51AB
+ * Called From: 1A34:3451:0017:3A91
  * Called From: 1A34:3478:0008:A673
  * Called From: 1A34:3611:0008:443E
  * Called From: 1A34:3611:000F:A6D7
@@ -886,6 +891,7 @@ void f__167E_01B7_0004_DE52()
  * Called From: 176C:10CE:001A:65A9
  * Called From: 176C:1596:0006:63E5
  * Called From: 176C:19FA:0008:380B
+ * Called From: 176C:1A66:000B:311C
  * Called From: 176C:1B7C:0006:67E5
  * Called From: 176C:1CAC:0006:67E5
  * Called From: 176C:1CAC:0025:9AD8
@@ -1122,6 +1128,7 @@ void f__167E_027E_0006_F7CE()
  * Called From: 0EDB:0303:001E:F83C
  * Called From: 0EDB:0542:0006:9786
  * Called From: 176C:03B5:0013:F833
+ * Called From: 176C:0D80:000D:5110
  * Called From: 176C:162B:000C:43CF
  * Called From: 176C:2566:0019:4894
  * Called From: 1A34:2640:0016:7F42

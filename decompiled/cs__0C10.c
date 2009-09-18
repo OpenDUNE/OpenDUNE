@@ -10,6 +10,7 @@
  * @name f__0C10_0008_0014_19CD
  * @implements 0C10:0008:0014:19CD ()
  *
+ * Called From: 176C:0F0C:0008:9B67
  * Called From: 176C:2534:000B:9475
  * Called From: 1A34:1C95:0008:9B67
  */
@@ -560,6 +561,7 @@ void f__0C10_0166_0002_2597()
  * Called From: 0C10:0073:000E:57D7
  * Called From: 0C10:0150:0016:8C5C
  * Called From: 0C3A:2979:000B:70FD
+ * Called From: 176C:0F1B:000F:9658
  * Called From: 176C:2BE4:0014:2C56
  * Called From: 1A34:311B:001E:AED8
  * Called From: 1A34:36C1:000B:70FD

@@ -82,7 +82,7 @@ void f__16C5_002C_0025_E446()
 void f__16C5_004A_0007_F6A9()
 {
 	emu_orw(&emu_si, emu_si);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0051; emu_last_cs = 0x16C5; emu_last_ip = 0x004C; emu_last_length = 0x0007; emu_last_crc = 0xF6A9; emu_call(); return; }
+	if (!emu_flags.zf) { f__16C5_0051_000F_288A(); return; }
 	f__16C5_0121_0003_2E57(); return;
 }
 
@@ -93,6 +93,7 @@ void f__16C5_004A_0007_F6A9()
  * @implements 16C5:0051:000F:288A ()
  *
  * Called From: 16C5:004C:0025:E446
+ * Called From: 16C5:004C:0007:F6A9
  */
 void f__16C5_0051_000F_288A()
 {

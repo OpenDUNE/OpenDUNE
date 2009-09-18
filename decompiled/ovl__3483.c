@@ -24,6 +24,7 @@
  * Called From: 0642:024C:0005:2EF2
  * Called From: 0642:0263:0010:94D1
  * Called From: 0642:028B:000B:69BA
+ * Called From: 0642:02EB:000B:70BA
  * Called From: 0642:0755:001B:0AF9
  * Called From: 06F7:08CE:0016:9292
  * Called From: 0972:062D:000B:5D60
