@@ -11,7 +11,7 @@ static InputLocalData *s_input_local = NULL;
  *
  * @init system_Init_Input;
  */
-void system_Init_Input()
+void System_Init_Input()
 {
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
 }

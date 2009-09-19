@@ -10,7 +10,7 @@
  *  state.
  * @note It reserves space for 2 local variables.
  */
-void Mouse_EnterHandler()
+static void Input_Mouse_EnterHandler()
 {
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
@@ -33,7 +33,7 @@ void Mouse_EnterHandler()
  * @name Mouse_ExitHandler
  * @implements 29A3:01C3:000C:CF33 ()
  */
-void Mouse_ExitHandler()
+static void Input_Mouse_ExitHandler()
 {
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
@@ -61,7 +61,7 @@ void Mouse_ExitHandler()
  * @implements 29A3:0039:001B:7C5C
  * @implements 29A3:004C:0008:FC68
  */
-uint16 Mouse_CheckButtons(uint8 newState)
+static uint16 Input_Mouse_CheckButtons(uint8 newState)
 {
 	uint8 oldState = emu_get_memory8(emu_ds, 0x00,  0x7099);
 	emu_get_memory8(emu_ds, 0x00,  0x7099) = newState;
@@ -83,9 +83,9 @@ uint16 Mouse_CheckButtons(uint8 newState)
 /**
  * Handle the pressing and releasing of mouse buttons.
  */
-void Mouse_HandleButtons()
+static void Input_Mouse_HandleButtons()
 {
-	emu_ax.x = Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_ax.x = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
 	emu_push(emu_ax.x);
 	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; p__29E8_0A4A_0040_5428();
@@ -107,7 +107,7 @@ void Mouse_HandleButtons()
  * @implements 29A3:01B1:0004:C0E6
  * @implements 29A3:01B5:001A:784E
  */
-void Mouse_CheckMovement()
+static void Input_Mouse_CheckMovement()
 {
 	/* XXX -- It avoids mouse movement .. but what is it? */
 	if (emu_get_memory16(emu_ds, 0x00,  0x706A) != 0x0) return;
@@ -209,7 +209,7 @@ void Mouse_CheckMovement()
  * @implements 29A3:00F3:0040:B81C
  * @implements 29A3:010F:0024:C7FA
  */
-void Mouse_HandleMovement()
+static void Input_Mouse_HandleMovement()
 {
 	emu_get_memory16(emu_ds, 0x00,  0x705E) = 0x1;
 
@@ -235,10 +235,10 @@ void Mouse_HandleMovement()
 	emu_get_memory16(emu_ds, 0x00,  0x7062) = emu_dx.x;
 
 	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x01 && (emu_get_memory16(emu_ds, 0x00,  0x700E) & 0x1000) == 0) {
-		Mouse_HandleButtons();
+		Input_Mouse_HandleButtons();
 	}
 
-	Mouse_CheckMovement();
+	Input_Mouse_CheckMovement();
 
 	emu_get_memory16(emu_ds, 0x00,  0x707C) = emu_cx.x;
 	emu_get_memory16(emu_ds, 0x00,  0x707E) = emu_dx.x;
@@ -264,9 +264,9 @@ void Mouse_HandleMovement()
  * @implements 29A3:00B0:0009:B56A
  * @implements 29A3:00B9:0014:EEB4
  */
-void Mouse_EventHandler()
+void Input_Mouse_EventHandler()
 {
-	Mouse_EnterHandler();
+	Input_Mouse_EnterHandler();
 
 	/* Store the mouse-button and event-type on the stack */
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx.x;
@@ -277,10 +277,10 @@ void Mouse_EventHandler()
 
 	/* Check various of things, and if they do not validate, exit the mouse routine */
 	/* XXX -- Most of these checks are yet unknown in their function */
-	if (emu_get_memory8(emu_ds, 0x00,  0x7097) != 0x00) { Mouse_ExitHandler(); return; }
-	if (emu_get_memory8(emu_ds, 0x00,  0x7098) == 0x00) { Mouse_ExitHandler(); return; }
+	if (emu_get_memory8(emu_ds, 0x00,  0x7097) != 0x00) { Input_Mouse_ExitHandler(); return; }
+	if (emu_get_memory8(emu_ds, 0x00,  0x7098) == 0x00) { Input_Mouse_ExitHandler(); return; }
 	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x01) {
-		if (emu_get_memory8(emu_ds, 0x00, -0x6794) != 0x00) { Mouse_ExitHandler(); return; }
+		if (emu_get_memory8(emu_ds, 0x00, -0x6794) != 0x00) { Input_Mouse_ExitHandler(); return; }
 	}
 
 	/* For some screen modes the x axis is doubled in value (so 640x200) */
@@ -289,13 +289,13 @@ void Mouse_EventHandler()
 	if (emu_cx.x > 319) emu_cx.x = 319;
 
 	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x00 && (emu_get_memory16(emu_ds, 0x00,  0x700E) & 0x1000) == 0) {
-		Mouse_HandleButtons();
+		Input_Mouse_HandleButtons();
 	}
 
 	/* XXX -- More checks */
-	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x02) { Mouse_ExitHandler(); return; }
-	if (emu_get_memory16(emu_ds, 0x00,  0x705E) != 0x0000) { Mouse_ExitHandler(); return; }
+	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x02) { Input_Mouse_ExitHandler(); return; }
+	if (emu_get_memory16(emu_ds, 0x00,  0x705E) != 0x0000) { Input_Mouse_ExitHandler(); return; }
 
-	Mouse_HandleMovement();
-	Mouse_ExitHandler();
+	Input_Mouse_HandleMovement();
+	Input_Mouse_ExitHandler();
 }
