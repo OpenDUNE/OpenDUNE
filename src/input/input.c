@@ -13,16 +13,16 @@
  * @implements 29E8:0A19:002A:2DE6 ()
  * @implements 29E8:0A43:0007:9B22
  */
-uint8 input_HistoryAdd(uint16 value)
+bool input_HistoryAdd(uint16 value)
 {
 	uint16 position = emu_get_memory16(emu_cs, 0x00,  0x1B1);
 	uint16 positionNext = (position + 2) & 0xFF;
 
-	if (positionNext == emu_get_memory16(emu_cs, 0x00,  0x1AF)) return 0;
+	if (positionNext == emu_get_memory16(emu_cs, 0x00,  0x1AF)) return false;
 
 	emu_get_memory16(emu_cs, position,  0xAF) = value;
 	emu_get_memory16(emu_cs, 0x00,  0x1B1) = positionNext;
-	return 1;
+	return true;
 }
 
 /**
@@ -69,14 +69,14 @@ void p__29E8_0A8A_000A_EB53()
 
 	emu_ax.x = emu_get_memory16(emu_ss, emu_bp,  0x6); // First parameter, button state
 	if (emu_ax.l == 0x2D || emu_ax.l == 0x41 || emu_ax.l == 0x42) {
-		if (input_HistoryAdd(emu_get_memory16(emu_cs, 0x00,  0xA98))) {
+		if (!input_HistoryAdd(emu_get_memory16(emu_cs, 0x00,  0xA98))) {
 			emu_get_memory16(emu_cs, 0x00,  0x1B1) = emu_get_memory16(emu_ss, emu_bp, -0x2);
 			emu_ax.x = 0;
 			return;
 		}
 		emu_get_memory16(emu_ss, emu_bp, -0x4) += 0x2;
 
-		if (input_HistoryAdd(emu_get_memory16(emu_cs, 0x00,  0xA9A))) {
+		if (!input_HistoryAdd(emu_get_memory16(emu_cs, 0x00,  0xA9A))) {
 			emu_get_memory16(emu_cs, 0x00,  0x1B1) = emu_get_memory16(emu_ss, emu_bp, -0x2);
 			emu_ax.x = 0;
 			return;

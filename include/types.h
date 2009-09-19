@@ -15,12 +15,15 @@
 #	define MSVC_PACKED_END __pragma(pack(pop))
 #endif /* __GNUC__ / _MSC_VER */
 
-
 typedef unsigned char  uint8;
 typedef   signed char   int8;
 typedef unsigned short uint16;
 typedef   signed short  int16;
 typedef unsigned int   uint32;
 typedef   signed int    int32;
+
+typedef unsigned char  bool;
+#define false 0
+#define true 1
 
 #endif /* TYPES_H */
