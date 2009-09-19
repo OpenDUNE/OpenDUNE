@@ -47,18 +47,30 @@
  *      7099(1) -> Last mouse button state
  */
 
-/*
- * Local members:
- *
- * 29E8:
- *      00AF(.) -> History array
- *      01AF(2) -> First location in history
- *      01B1(2) -> Current location in hisory
- *      01B3(2) -> ?? Set to the same as 353F:700E
- *      0A94(4) -> ?? Callback to something
- *      0A98(2) -> Current X position
- *      0A9A(2) -> Current Y position
+MSVC_PACKED_BEGIN;
+/**
+ * Local variables of segment 29E8, the input handler.
  */
+typedef struct InputLocalData {
+	/* 0x0000()    */ uint8 unknown_0000[0xAF];
+
+	/* 0x00AF(256) */ uint8 history[256];            //!< History of input commands.
+	/* 0x01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
+	/* 0x01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
+	/* 0x01B3(2)   */ uint16 variable_01B3;          //!< ?? Set to the same as 353F:700E.
+
+	/* 0x01B5()    */ uint8 unknown_01B5[0x7D];
+
+	/* 0x0232(8)   */ uint8 variable_0232[8];        //!< ??
+
+	/* 0x023A()    */ uint8 unknown_023A[0x85A];
+
+	/* 0x0A94(2)   */ uint16 variable_0A94;          //!< ??
+	/* 0x0A96(2)   */ uint16 variable_0A96;          //!< ?? Set to the same as 353F:76A6.
+	/* 0x0A98(2)   */ uint16 pos_x;                  //!< Current X position.
+	/* 0x0A9A(2)   */ uint16 pos_y;                  //!< Current Y position.
+} GCC_PACKED InputLocalData;
+MSVC_PACKED_END;
 
 extern void Mouse_EventHandler();
 extern void p__29E8_0A4A_0040_5428();

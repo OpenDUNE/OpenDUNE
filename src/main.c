@@ -20,6 +20,10 @@ int main(int argc, char **argv)
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
+
+	/* Initialize all subsystems */
+	system_Init_Input();
+
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);
 
