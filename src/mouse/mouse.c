@@ -242,7 +242,6 @@ void Mouse_HandleMovement()
 	emu_get_memory16(emu_ds, 0x00,  0x707C) = emu_cx.x;
 	emu_get_memory16(emu_ds, 0x00,  0x707E) = emu_dx.x;
 	emu_get_memory16(emu_ds, 0x00,  0x705E) = 0x0;
-	Mouse_ExitHandler();
 }
 
 /**
@@ -297,4 +296,5 @@ void Mouse_EventHandler()
 	if (emu_get_memory16(emu_ds, 0x00,  0x705E) != 0x0000) { Mouse_ExitHandler(); return; }
 
 	Mouse_HandleMovement();
+	Mouse_ExitHandler();
 }

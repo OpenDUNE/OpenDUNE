@@ -19,6 +19,7 @@
  *                   0 - Normal mouse mode
  *                   1 - ??
  *                   2 - Only button clicks
+ *      7011(2) -> ??
  *
  *      705E(2) -> Lock variable for when moving mouse
  *
