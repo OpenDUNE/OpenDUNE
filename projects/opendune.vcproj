@@ -181,14 +181,18 @@
 				>
 			</File>
 			<Filter
-				Name="mouse"
+				Name="input"
 				>
 				<File
-					RelativePath="..\src\mouse\mouse.c"
+					RelativePath="..\src\input\input.c"
 					>
 				</File>
 				<File
-					RelativePath="..\src\mouse\mouse.h"
+					RelativePath="..\src\input\input.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\input\mouse.c"
 					>
 				</File>
 			</Filter>
@@ -717,6 +721,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\decompiled\cs__B53B.c"
+				>
+			</File>
+			<File
 				RelativePath="..\decompiled\decompiled.h"
 				>
 			</File>
@@ -850,6 +858,10 @@
 			</File>
 			<File
 				RelativePath="..\decompiled\ovl__3536.c"
+				>
+			</File>
+			<File
+				RelativePath="..\decompiled\ovl__353B.c"
 				>
 			</File>
 		</Filter>
