@@ -1,5 +1,5 @@
-#ifndef MOUSE_H
-#define MOUSE_H
+#ifndef INPUT_H
+#define INPUT_H
 
 /*
  * Mouse Memory:
@@ -47,6 +47,20 @@
  *      7099(1) -> Last mouse button state
  */
 
-extern void Mouse_EventHandler();
+/*
+ * Local members:
+ *
+ * 29E8:
+ *      00AF(.) -> History array
+ *      01AF(2) -> First location in history
+ *      01B1(2) -> Current location in hisory
+ *      01B3(2) -> ?? Set to the same as 353F:700E
+ *      0A94(4) -> ?? Callback to something
+ *      0A98(2) -> Current X position
+ *      0A9A(2) -> Current Y position
+ */
 
-#endif /* MOUSE_H */
+extern void Mouse_EventHandler();
+extern void p__29E8_0A4A_0040_5428();
+
+#endif /* INTPUT_H */
