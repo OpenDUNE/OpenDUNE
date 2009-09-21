@@ -33,7 +33,7 @@ bool input_HistoryAdd(uint16 value)
 
 	if (positionNext == s_input_local->historyHead) return false;
 
-	s_input_local->history[position] = value;
+	s_input_local->history[position / 2] = value;
 	s_input_local->historyTail = positionNext;
 	return true;
 }

@@ -54,7 +54,7 @@ MSVC_PACKED_BEGIN;
 typedef struct InputLocalData {
 	/* 0x0000()    */ uint8 unknown_0000[0xAF];
 
-	/* 0x00AF(256) */ uint8 history[256];            //!< History of input commands.
+	/* 0x00AF(256) */ uint16 history[128];           //!< History of input commands.
 	/* 0x01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
 	/* 0x01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
 	/* 0x01B3(2)   */ uint16 variable_01B3;          //!< ?? Set to the same as 353F:700E.
