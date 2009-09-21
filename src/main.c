@@ -25,6 +25,7 @@ int main(int argc, char **argv)
 
 	/* Initialize all subsystems */
 	System_Init_Input();
+	System_Init_Mouse();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

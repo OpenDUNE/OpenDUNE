@@ -9,7 +9,7 @@ static InputLocalData *s_input_local = NULL;
 /**
  * Initialize the input system.
  *
- * @init system_Init_Input;
+ * @init system_Init_Input
  */
 void System_Init_Input()
 {
@@ -68,15 +68,14 @@ void Input_HandlerInput(uint16 inputState)
 	bool released = (inputState & 0x800) ? true : false;
 	uint8 historySize = 0;
 
-	emu_ds = 0x353F;
-	s_input_local->variable_01B3 = emu_get_memory16(emu_ds, 0x00,  0x700E);
-	s_input_local->pos_x = emu_get_memory16(emu_ds, 0x00,  0x7060);
-	s_input_local->pos_y = emu_get_memory16(emu_ds, 0x00,  0x7062);
+	s_input_local->variable_01B3 = g_mouse->variable_700E;
+	s_input_local->posX = g_mouse->newX;
+	s_input_local->posY = g_mouse->newY;
 
 	if (inputState == 0) return;
 
-	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x01) {
-		if (emu_get_memory8(emu_ds, 0x00, -0x6794) != 0x0) return;
+	if (g_mouse->mode == 1) {
+		if (g_mouse->variable_986C != 0x0) return;
 		historySize = 4;
 	}
 
@@ -89,11 +88,11 @@ void Input_HandlerInput(uint16 inputState)
 
 	/* For mouse commands we also log the position of the mouse at that time */
 	if (inputCommand == 0x2D || inputCommand == 0x41 || inputCommand == 0x42) {
-		if (!Input_HistoryAdd(s_input_local->pos_x)) {
+		if (!Input_HistoryAdd(s_input_local->posX)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
-		if (!Input_HistoryAdd(s_input_local->pos_y)) {
+		if (!Input_HistoryAdd(s_input_local->posY)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
@@ -127,20 +126,20 @@ void Input_HandlerInput(uint16 inputState)
 	s_input_local->variable_0232[emu_di] &= emu_bx.h;
 	s_input_local->variable_0232[emu_di] |= emu_bx.l;
 
-	if (emu_get_memory8(emu_ds, 0x00,  0x7010) != 0x1) return;
+	if (g_mouse->mode != 1) return;
 	if (inputCommand == 0x7D) return;
 
 	s_input_local->variable_0A94 = inputCommand;
-	s_input_local->variable_0A96 = emu_get_memory16(emu_ds, 0x00,  0x76A6);
+	s_input_local->variable_0A96 = g_mouse->variable_76A6;
 
 	emu_push(0);
 	emu_push(historySize);
 	emu_push(emu_cs); emu_push(0xA94); // Location of above two variables
-	emu_push(emu_get_memory16(emu_ds, 0x00,  0x7011));
+	emu_push(g_mouse->variable_7011);
 	emu_push(emu_cs); emu_push(0x0D23); f__1FB5_0E9C_001B_37D1();
 	emu_sp += 10;
 
-	emu_get_memory16(emu_ds, 0x00, 0x76A6) = 0x0000;
+	g_mouse->variable_76A6 = 0x0000;
 	return;
 }
 
