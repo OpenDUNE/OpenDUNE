@@ -88,7 +88,7 @@ static void Input_Mouse_HandleButtons()
 	emu_ax.x = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; p__29E8_0A4A_0040_5428();
+	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; Input_HandleInputSafe();
 	emu_sp += 0x2; // Remove entry from stack
 }
 

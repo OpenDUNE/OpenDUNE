@@ -22,11 +22,11 @@ void System_Init_Input()
  * @param value The value to add to the history.
  * @return Zero if there was no more room in the history, else non-zero.
  *
- * @name input_HistoryAdd
- * @implements 29E8:0A19:002A:2DE6 ()
+ * @name Input_HistoryAdd
+ * @implements 29E8:0A19:002A:2DE6
  * @implements 29E8:0A43:0007:9B22
  */
-bool input_HistoryAdd(uint16 value)
+bool Input_HistoryAdd(uint16 value)
 {
 	uint16 position = s_input_local->historyTail;
 	uint16 positionNext = (position + 2) & 0xFF;
@@ -39,10 +39,14 @@ bool input_HistoryAdd(uint16 value)
 }
 
 /**
- * Input handler
+ * Handle input given by an input device.
  *
- * @name p__29E8_0A8A_000A_EB53
- * @implements 29E8:0A8A:000A:EB53 ()
+ * @param inputState The state of the key/button given. On the lower bits is the
+ *  key/button itself, and on the higher bit can be a 0x08 flag to indicate
+ *  key/button released.
+ *
+ * @name Input_HandlerInput
+ * @implements 29E8:0A8A:000A:EB53
  * @implements 29E8:0AD6:0010:7A1F
  * @implements 29E8:0C40:0012:D969
  * @implements 29E8:0C52:0018:DE31
@@ -57,122 +61,101 @@ bool input_HistoryAdd(uint16 value)
  * @implements 29E8:0D2C:0005:D17A
  * @implements 29E8:0D31:0016:113C
  */
-void p__29E8_0A8A_000A_EB53()
+void Input_HandlerInput(uint16 inputState)
 {
-	emu_ax.x = emu_get_memory16(emu_ss, emu_bp,  0x6); // First parameter, button state
-	if (emu_ax.x == 0) return;
+	uint16 originalHistoryTail = s_input_local->historyTail;
+	uint8 inputCommand = inputState & 0xFF;
+	bool released = (inputState & 0x800) ? true : false;
+	uint8 historySize = 0;
 
-	emu_es = emu_ds;
-	emu_ds = emu_cs;
+	emu_ds = 0x353F;
+	s_input_local->variable_01B3 = emu_get_memory16(emu_ds, 0x00,  0x700E);
+	s_input_local->pos_x = emu_get_memory16(emu_ds, 0x00,  0x7060);
+	s_input_local->pos_y = emu_get_memory16(emu_ds, 0x00,  0x7062);
+
+	if (inputState == 0) return;
+
+	if (emu_get_memory8(emu_ds, 0x00,  0x7010) == 0x01) {
+		if (emu_get_memory8(emu_ds, 0x00, -0x6794) != 0x0) return;
+		historySize = 4;
+	}
 
 	if ((s_input_local->variable_01B3 & 0x1000) == 0x1000) {
 		/* Unresolved jump */ emu_ip = 0x0AE6; emu_last_cs = 0x29E8; emu_last_ip = 0x0AE1; emu_last_length = 0x0010; emu_last_crc = 0x7A1F; emu_call();
 		return;
 	}
 
-	emu_si = s_input_local->historyTail;
-	emu_di = s_input_local->historyHead;
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_si;
+	if (!Input_HistoryAdd(inputState)) return;
 
-	if (!input_HistoryAdd(emu_ax.x)) {
-		s_input_local->historyTail = emu_get_memory16(emu_ss, emu_bp, -0x2);
-		emu_ax.x = 0;
-		return;
-	}
-
-	emu_ax.x = emu_get_memory16(emu_ss, emu_bp,  0x6); // First parameter, button state
-	if (emu_ax.l == 0x2D || emu_ax.l == 0x41 || emu_ax.l == 0x42) {
-		if (!input_HistoryAdd(s_input_local->pos_x)) {
-			s_input_local->historyTail = emu_get_memory16(emu_ss, emu_bp, -0x2);
-			emu_ax.x = 0;
+	/* For mouse commands we also log the position of the mouse at that time */
+	if (inputCommand == 0x2D || inputCommand == 0x41 || inputCommand == 0x42) {
+		if (!Input_HistoryAdd(s_input_local->pos_x)) {
+			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
-		emu_get_memory16(emu_ss, emu_bp, -0x4) += 0x2;
-
-		if (!input_HistoryAdd(s_input_local->pos_y)) {
-			s_input_local->historyTail = emu_get_memory16(emu_ss, emu_bp, -0x2);
-			emu_ax.x = 0;
+		if (!Input_HistoryAdd(s_input_local->pos_y)) {
+			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
-		emu_get_memory16(emu_ss, emu_bp, -0x4) += 0x2;
+
+		historySize += 4;
 	}
 
-	emu_ax.x = emu_get_memory16(emu_ss, emu_bp,  0x6); // First parameter, button state
 	emu_bx.x = 0x101;
 
-	/* Was there a button action? */
-	if (emu_ax.l != 0x2D && emu_ax.l != 0x7F) {
-		/* Was it button release? */
-		if ((emu_ax.h & 0x8) != 0) {
+	/* 2D and 7F are special commands which should not be logged */
+	if (inputCommand == 0x2D || inputCommand == 0x7F) {
+		s_input_local->historyTail = originalHistoryTail;
+	} else {
+		if (released) {
 			emu_bx.l = 0;
-			/* Check if it was not the left or right mouse button */
-			if ((s_input_local->variable_01B3 & 0x800) == 0) {
-				if (emu_ax.l != 0x41 && emu_ax.l != 0x42) {
-					s_input_local->historyTail = emu_si;
-				}
+			/* Don't log releases if it was not the left or right mouse button */
+			if ((s_input_local->variable_01B3 & 0x800) == 0 && inputCommand != 0x41 && inputCommand != 0x42) {
+				s_input_local->historyTail = originalHistoryTail;
 			}
 		}
-	} else {
-		s_input_local->historyTail = emu_si;
 	}
 
-	emu_di = (emu_ax.x & 0x3F) >> 3;
-	emu_bx.x <<= (emu_ax.l & 0x07);
+	emu_di = (inputCommand & 0x3F) >> 3;
+	emu_bx.x <<= (inputCommand & 0x07);
 	emu_bx.h = ~emu_bx.h;
 
-	if ((emu_bx.l & s_input_local->variable_0232[emu_di]) != 0) {
-		if ((s_input_local->variable_01B3 & 0x1) == 0) {
-			s_input_local->historyTail = emu_si;
-		}
+	if ((emu_bx.l & s_input_local->variable_0232[emu_di]) != 0 && (s_input_local->variable_01B3 & 0x1) == 0) {
+		s_input_local->historyTail = originalHistoryTail;
 	}
 
 	s_input_local->variable_0232[emu_di] &= emu_bx.h;
 	s_input_local->variable_0232[emu_di] |= emu_bx.l;
 
-	emu_ds = 0x353F;
+	if (emu_get_memory8(emu_ds, 0x00,  0x7010) != 0x1) return;
+	if (inputCommand == 0x7D) return;
 
-	if (emu_get_memory8(emu_ds, 0x00,  0x7010) != 0x1) {
-		emu_ax.x = 0x1;
-		return;
-	}
-
-	emu_ax.x = emu_get_memory16(emu_ss, emu_bp,  0x6); // First parameter, button state
-	if (emu_ax.l == 0x7D) {
-		emu_ax.x = 0x1;
-		return;
-	}
-
-	s_input_local->variable_0A94 = emu_ax.x;
+	s_input_local->variable_0A94 = inputCommand;
 	s_input_local->variable_0A96 = emu_get_memory16(emu_ds, 0x00,  0x76A6);
 
-	emu_ax.x = emu_get_memory16(emu_ds, 0x00,  0x76A6);
-	emu_bx.x = 0xA94;
-	emu_cx.x = 0;
-
-	emu_push(emu_cx.x);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(emu_bx.x);
+	emu_push(0);
+	emu_push(historySize);
+	emu_push(emu_cs); emu_push(0xA94); // Location of above two variables
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x7011));
 	emu_push(emu_cs); emu_push(0x0D23); f__1FB5_0E9C_001B_37D1();
 	emu_sp += 10;
 
 	emu_get_memory16(emu_ds, 0x00, 0x76A6) = 0x0000;
-	emu_ax.x = 1;
 	return;
 }
 
 /**
- * Input handler
+ * A safe handler around Input_HandlerInput, which puts all registers safe
+ *  and recovers it at the end.
  *
- * @name p__29E8_0A4A_0040_5428
+ * @name Input_HandleInputSafe
  * @implements 29E8:0A4A:0040:5428 ()
  * @implements 29E8:0D3A:000D:2768
  */
-void p__29E8_0A4A_0040_5428()
+void Input_HandleInputSafe()
 {
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
-	emu_sp -= 0x4; // 2 local variables
 
 	emu_push(emu_ax.x);
 	emu_push(emu_bx.x);
@@ -185,19 +168,7 @@ void p__29E8_0A4A_0040_5428()
 	emu_pushf();
 	emu_cli();
 
-	/* Our data offset */
-	emu_ds = 0x353F;
-
-	s_input_local->variable_01B3 = emu_get_memory16(emu_ds, 0x00,  0x700E);
-	s_input_local->pos_x = emu_get_memory16(emu_ds, 0x00,  0x7060);
-	s_input_local->pos_y = emu_get_memory16(emu_ds, 0x00,  0x7062);
-
-	if (emu_get_memory8(emu_ds, 0x00,  0x7010) != 0x01) {
-		p__29E8_0A8A_000A_EB53();
-	} else {
-		emu_get_memory16(emu_ss, emu_bp, -0x4) = 0x4;
-		if (emu_get_memory8(emu_ds, 0x00, -0x6794) == 0x0) p__29E8_0A8A_000A_EB53();
-	}
+	Input_HandlerInput(emu_get_memory16(emu_ss, emu_bp,  0x6));
 
 	emu_popf();
 	emu_pop(&emu_si);

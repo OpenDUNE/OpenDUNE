@@ -2318,7 +2318,7 @@ void f__29E8_0EFC_0005_C212()
 {
 	emu_push(emu_ax.x);
 	emu_push(emu_cs);
-	emu_push(0x0F01); p__29E8_0A4A_0040_5428();
+	emu_push(0x0F01); Input_HandleInputSafe();
 	f__29E8_0F01_0013_FF87();
 }
 

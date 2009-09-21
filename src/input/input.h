@@ -74,6 +74,6 @@ MSVC_PACKED_END;
 
 extern void System_Init_Input();
 extern void Input_Mouse_EventHandler();
-extern void p__29E8_0A4A_0040_5428();
+extern void Input_HandleInputSafe();
 
 #endif /* INTPUT_H */
