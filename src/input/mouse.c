@@ -30,7 +30,7 @@ static void Input_Mouse_EnterHandler()
  * When leaving the mouse handler, a few registers need to be restored.
  *  This function takes care of that.
  *
- * @name Mouse_ExitHandler
+ * @name Input_Mouse_ExitHandler
  * @implements 29A3:01C3:000C:CF33 ()
  */
 static void Input_Mouse_ExitHandler()
@@ -56,7 +56,7 @@ static void Input_Mouse_ExitHandler()
  * @return If no change, 0x2D. If left click 0x41. If right click 0x42. If
  *  mouse button released flag 0x800 is set.
  *
- * @name Mouse_CheckButtons
+ * @name Input_Mouse_CheckButtons
  * @implements 29A3:000C:0048:00FE
  * @implements 29A3:0039:001B:7C5C
  * @implements 29A3:004C:0008:FC68
@@ -96,7 +96,7 @@ static void Input_Mouse_HandleButtons()
  * Check if the mouse moved, and update the cursor if needed. This includes
  *  a check if it is outside the region defined.
  *
- * @name Mouse_CheckMovement
+ * @name Input_Mouse_CheckMovement
  * @implements 29A3:013F:002A:CFEE ()
  * @implements 29A3:0152:0017:5360
  * @implements 29A3:0169:0008:63C3
@@ -204,7 +204,7 @@ static void Input_Mouse_CheckMovement()
 /**
  * Handle the movement of the mouse.
  *
- * @name Mouse_HandleMovement
+ * @name Input_Mouse_HandleMovement
  * @implements 29A3:00CD:0066:C700 ()
  * @implements 29A3:00F3:0040:B81C
  * @implements 29A3:010F:0024:C7FA
@@ -257,7 +257,7 @@ static void Input_Mouse_HandleMovement()
  *  di - delta x
  *  si - delta y
  *
- * @name Mouse_EventHandler
+ * @name Input_Mouse_EventHandler
  * @implements 29A3:0054:005C:47DC ()
  * @implements 29A3:0089:0027:69FF
  * @implements 29A3:009B:0015:C95F
