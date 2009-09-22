@@ -83,6 +83,7 @@ extern MouseData *g_mouse;
 
 extern void System_Init_Input();
 extern void System_Init_Mouse();
+extern void Input_Mouse_Init();
 extern void Input_Mouse_EventHandler();
 extern void Input_Mouse_InsideRegion();
 extern void Input_Mouse_CallbackClear();
