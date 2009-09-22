@@ -26,9 +26,13 @@ typedef struct MouseData {
  	/* 7060(2)   */ uint16 newX;                   //!< New X position.
  	/* 7062(2)   */ uint16 newY;                   //!< New Y position.
 	/* 7064(4)   */ uint8  unknown_7064[0x0004];
- 	/* 7068(2)   */ uint16 variable_7068;          //!< ?? If one, mouse reports 640 in width.
+ 	/* 7068(2)   */ uint16 doubleWidth;            //!< If non-zero, the X-position given by mouse is twice the real value.
  	/* 706A(2)   */ uint16 variable_706A;          //!< ?? If non-zero, mouse movement is not registered.
-	/* 706C()    */ uint8  unknown_706C[0x0010];
+	/* 706C(2)   */ uint8  unknown_706C[0x0002];
+	/* 706E(2)   */ uint16 variable_706E;          //!< ??
+	/* 7070(2)   */ uint8  unknown_7070[0x0002];
+	/* 7072(2)   */ uint16 variable_7072;          //!< ??
+	/* 7074(8)   */ uint8  unknown_7074[0x0008];
  	/* 707C(2)   */ uint16 prevX;                  //!< Previous X position.
  	/* 707E(2)   */ uint16 prevY;                  //!< Previous Y position.
  	/* 7080(2)   */ uint16 flags;                  //!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check.
@@ -39,7 +43,7 @@ typedef struct MouseData {
 	/* 708A()    */ uint8  unknown_708A[0x0008];
  	/* 7092(2)   */ uint16 variable_7092;          //!< Parameter 1 for proc at 66B4.
  	/* 7094(2)   */ uint16 variable_7094;          //!< Paramerer 2 for proc at 66B4.
-	/* 7096(1)   */ uint8  unknown_7096[0x0001];
+	/* 7096(1)   */ uint8  installed;              //!< If non-zero, the mouse callback is installed.
  	/* 7097(1)   */ uint8  variable_7097;          //!< ?? If non-zero, no mouse handling.
  	/* 7098(1)   */ uint8  variable_7098;          //!< ?? If zero, no mouse handling.
  	/* 7099(1)   */ uint8  prevButtonState;        //!< Previous mouse button state.
@@ -80,6 +84,8 @@ extern MouseData *g_mouse;
 extern void System_Init_Input();
 extern void System_Init_Mouse();
 extern void Input_Mouse_EventHandler();
+extern void Input_Mouse_InsideRegion();
+extern void Input_Mouse_CallbackClear();
 extern void Input_HandleInputSafe();
 
 #endif /* INTPUT_H */

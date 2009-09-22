@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <assert.h>
 #include "types.h"
 #include "libemu.h"
@@ -291,9 +292,7 @@ void Input_Mouse_EventHandler()
 		if (g_mouse->variable_986C != 0x00) { Input_Mouse_ExitHandler(); return; }
 	}
 
-	/* For some screen modes the x axis is doubled in value (so 640x200) */
-	if (g_mouse->variable_7068 == 0x1) emu_cx.x >>= 1;
-
+	if (g_mouse->doubleWidth != 0) emu_cx.x = emu_cx.x / 2;
 	if (emu_cx.x > 319) emu_cx.x = 319;
 
 	if (g_mouse->mode == 0 && (g_mouse->variable_700E & 0x1000) == 0) {
@@ -306,4 +305,135 @@ void Input_Mouse_EventHandler()
 
 	Input_Mouse_HandleMovement();
 	Input_Mouse_ExitHandler();
+}
+
+/**
+ * Initialize the mouse.
+ *
+ * @name Input_Mouse_Init
+ * @implements 29A3:0224:0009:AA5D ()
+ * @implements 29A3:022D:003C:7E93
+ * @implements 29A3:0269:0005:5C73
+ * @implements 29A3:026E:0010:A6DC
+ * @implements 29A3:027E:002A:70B8
+ * @implements 29A3:02A8:000D:6EF0
+ * @implements 29A3:02B5:0008:B689
+ */
+void Input_Mouse_Init()
+{
+	emu_push(emu_bx.x);
+	emu_push(emu_cx.x);
+	emu_push(emu_dx.x);
+	emu_push(emu_es);
+
+	/* Get interrupt 0x33 CS:IP */
+	emu_ax.x = 0x3533;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_DOS();
+
+	g_mouse->newX = 160;
+	g_mouse->newY = 100;
+	g_mouse->flags = 0;
+	g_mouse->variable_706A = 1;
+	g_mouse->variable_706E = 0x13F;
+	g_mouse->variable_7072 = 0xC7;
+	g_mouse->installed = 1;
+	g_mouse->variable_7097 = 1;
+
+	/* Get the current position of the mouse */
+	emu_ax.x = 0x3;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x027E); Interrupt_Mouse();
+
+	g_mouse->doubleWidth = 0;
+	if (emu_cx.x != 160) g_mouse->doubleWidth = 1;
+
+	/* Set the current position of the mouse */
+	emu_ax.x = 0x4;
+	emu_cx.x = (g_mouse->doubleWidth != 0) ? 320 : 160;
+	emu_dx.x = 100;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02A8); Interrupt_Mouse();
+
+	/* Set mouse-event callback */
+	emu_ax.x = 0xC;
+	emu_cx.x = 0x1F; // Mask, catch all events
+	emu_dx.x = 0x54; // IP of callback
+	emu_es = emu_cs; // CS of callback
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02B5); Interrupt_Mouse();
+
+	emu_pop(&emu_es);
+	emu_pop(&emu_dx.x);
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_bx.x);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	/* Mouse installed and ready for use */
+	emu_ax.x = 0x1;
+	return;
+}
+
+/**
+ * Set the callback to no longer receive any event from the mouse handler.
+ *
+ * @name Input_Mouse_CallbackClear
+ * @implements 29A3:02BD:0018:A1B5 ()
+ * @implements 29A3:02D5:0005:CE8B
+ */
+void Input_Mouse_CallbackClear()
+{
+	emu_push(emu_ax.x);
+	emu_push(emu_cx.x);
+	emu_push(emu_dx.x);
+	emu_push(emu_es);
+
+	if (g_mouse->installed != 0) {
+		emu_ax.x = 0xC;
+		emu_cx.x = 0x0; // Mask, catch no events
+		emu_dx.x = 0x54; // IP of callback
+		emu_es = emu_cs; // CS of callback
+		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02D5); Interrupt_Mouse();
+	}
+
+	emu_pop(&emu_es);
+	emu_pop(&emu_dx.x);
+	emu_pop(&emu_cx.x);
+	emu_pop(&emu_ax.x);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Check if the mouse is inside a region.
+ *
+ * @name Input_Mouse_InsideRegion
+ * @implements 29A3:02DA:003B:81C9 ()
+ * @implements 29A3:02EE:0027:7721
+ * @implements 29A3:0315:000E:51CF
+ * @implements 29A3:0318:000B:532F
+ */
+void Input_Mouse_InsideRegion()
+{
+	while (g_mouse->lock != 0) usleep(1);
+
+	g_mouse->lock++;
+
+	/* Check if the mouse is inside the region given by the parameters */
+	emu_ax.x = 1;
+	if (g_mouse->newX < emu_get_memory16(emu_ss, emu_bp,  0x6) ||
+	    g_mouse->newX > emu_get_memory16(emu_ss, emu_bp,  0x8) ||
+	    g_mouse->newY < emu_get_memory16(emu_ss, emu_bp,  0xA) ||
+	    g_mouse->newY > emu_get_memory16(emu_ss, emu_bp,  0xC)) {
+		emu_ax.x = 0;
+	}
+
+	g_mouse->lock--;
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }

@@ -101,7 +101,7 @@ void f__25C4_0049_000B_50EF()
 void f__25C4_0054_0006_F43B()
 {
 	emu_pop(&emu_cx.x);
-	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; f__29A3_0224_0009_AA5D();
+	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; Input_Mouse_Init();
 	f__25C4_005A_0018_5796();
 }
 
