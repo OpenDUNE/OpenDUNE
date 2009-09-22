@@ -58,7 +58,7 @@ void f__2B99_0032_0019_5301()
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0046; emu_last_cs = 0x2B99; emu_last_ip = 0x0042; emu_last_length = 0x0019; emu_last_crc = 0x5301; emu_call(); return; }
 	emu_shlw(&emu_cx.x, 0x1);
 	emu_movw(&emu_ax.x, 0x4);
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); f__0070_0198_0005_E61B();
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();
 	f__2B99_004B_001E_8FB8();
 }
 

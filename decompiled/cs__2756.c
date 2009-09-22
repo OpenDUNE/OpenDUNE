@@ -373,7 +373,7 @@ void f__2756_0622_0006_823A()
 	emu_cs = emu_get_memory16(emu_cs, 0x00,  0x11E);
 	emu_push(0x0628);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x00700040: f__0070_0040_0005_E17B(); break;
+		case 0x00700040: Interrupt_Timer(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x0623; emu_last_length = 0x0006; emu_last_crc = 0x823A;

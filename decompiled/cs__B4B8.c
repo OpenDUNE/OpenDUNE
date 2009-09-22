@@ -5886,7 +5886,7 @@ void f__B4B8_1841_0011_6D15()
 	emu_xorw(&emu_bx.x, emu_bx.x);
 	emu_movb(&emu_ax.l, 0x12);
 	emu_movb(&emu_ax.h, 0x10);
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x1852); f__0070_0080_0005_E27B();
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x1852); Interrupt_Video();
 	f__B4B8_1852_000E_A415();
 }
 

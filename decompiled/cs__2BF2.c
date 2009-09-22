@@ -17,7 +17,7 @@ void f__2BF2_0000_0007_42B5()
 	emu_push(emu_bx.x);
 	emu_push(emu_es);
 	emu_movw(&emu_ax.x, 0x4300);
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0007); f__0070_0178_0005_E59B();
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0007); Interrupt_DOS_Multiplex();
 	f__2BF2_0007_0009_F6E6();
 }
 
