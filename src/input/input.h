@@ -5,7 +5,7 @@
 
 MSVC_PACKED_BEGIN;
 /**
- * Mouse variables of segment 253F.
+ * Mouse variables at segment 353F.
  */
 typedef struct MouseData {
 	/* 0000()    */ uint8  unknown_0000[0x66A4];
@@ -52,7 +52,7 @@ MSVC_PACKED_END;
 
 MSVC_PACKED_BEGIN;
 /**
- * Local variables of segment 29E8, the input handler.
+ * Local input variables at segment 29E8.
  */
 typedef struct InputLocalData {
 	/* 0000()    */ uint8  unknown_0000[0x00AF];
