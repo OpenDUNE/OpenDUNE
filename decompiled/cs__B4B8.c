@@ -5606,7 +5606,7 @@ void f__B4B8_170C_000C_840B()
 	emu_addws(&emu_sp, 0xA);
 	emu_movw(&emu_ax.x, 0xDEE);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; f__29E8_04EB_0011_9CC8();
+	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; Input_Flags_ClearBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { ovl__34B8(0xFF); }
 	f__B4B8_1718_000A_59F5();

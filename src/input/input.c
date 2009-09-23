@@ -1,11 +1,13 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "../decompiled/decompiled.h"
 #include "input.h"
 
+InputData *g_input = NULL;
 static InputLocalData *s_input_local = NULL;
 
 /**
@@ -16,6 +18,53 @@ static InputLocalData *s_input_local = NULL;
 void System_Init_Input()
 {
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
+	g_input = (InputData *)&emu_get_memory8(0x353F, 0x0, 0x0);
+}
+
+/**
+ * Set one or more bits given by the param to the input flags. See
+ *  InputFlagsEnum for the valid values.
+ *
+ * @name Input_Flags_SetBits
+ * @implements 29E8:04AF:003C:ECA0 ()
+ * @implements 29E8:04E9:0002:2597
+ */
+void Input_Flags_SetBits()
+{
+	uint16 setFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
+
+	g_input->flags |= setFlags;
+
+	/* If we switch on key-release tracking, reset the array */
+	if ((setFlags & INPUT_FLAG_KEY_RELEASE) != 0) {
+		memset(s_input_local->activeInputMap, 0, sizeof(s_input_local->activeInputMap));
+	}
+
+	/* Return from this function */
+	emu_ax.x = g_input->flags;
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Clears one or more bits given by the param to the input flags. See
+ *  InputFlagsEnum for the valid values.
+ *
+ * @name Input_Flags_ClearBits
+ * @implements 29E8:04EB:0011:9CC8 ()
+ */
+void Input_Flags_ClearBits()
+{
+	uint16 clearFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
+
+	g_input->flags &= ~clearFlags;
+
+	/* Return from this function */
+	emu_ax.x = g_input->flags;
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }
 
 /**
@@ -70,18 +119,18 @@ void Input_HandlerInput(uint16 inputState)
 	bool released = (inputState & 0x800) ? true : false;
 	uint8 historySize = 0;
 
-	s_input_local->allowed = g_mouse->allowed;
-	s_input_local->posX = g_mouse->newX;
-	s_input_local->posY = g_mouse->newY;
+	s_input_local->flags = g_input->flags;
+	s_input_local->mouseX = g_input->mouseX;
+	s_input_local->mouseY = g_input->mouseY;
 
 	if (inputState == 0) return;
 
-	if (g_mouse->mode == 1) {
-		if (g_mouse->variable_986C != 0x0) return;
+	if (g_input->mouseMode == INPUT_MOUSE_MODE_1) {
+		if (g_input->variable_986C != 0x0) return;
 		historySize = 4;
 	}
 
-	if ((s_input_local->allowed & INPUT_ALLOW_NO_CLICK) != 0) {
+	if ((s_input_local->flags & INPUT_FLAG_NO_CLICK) != 0) {
 		/* Unresolved jump */ emu_ip = 0x0AE6; emu_last_cs = 0x29E8; emu_last_ip = 0x0AE1; emu_last_length = 0x0010; emu_last_crc = 0x7A1F; emu_call();
 		return;
 	}
@@ -90,11 +139,11 @@ void Input_HandlerInput(uint16 inputState)
 
 	/* For mouse commands we also log the position of the mouse at that time */
 	if (inputCommand == 0x2D || inputCommand == 0x41 || inputCommand == 0x42) {
-		if (!Input_HistoryAdd(s_input_local->posX)) {
+		if (!Input_HistoryAdd(s_input_local->mouseX)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
-		if (!Input_HistoryAdd(s_input_local->posY)) {
+		if (!Input_HistoryAdd(s_input_local->mouseY)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
@@ -102,46 +151,44 @@ void Input_HandlerInput(uint16 inputState)
 		historySize += 4;
 	}
 
-	emu_bx.x = 0x101;
-
 	/* 2D and 7F are special commands which should not be logged */
 	if (inputCommand == 0x2D || inputCommand == 0x7F) {
 		s_input_local->historyTail = originalHistoryTail;
-	} else {
-		if (released) {
-			emu_bx.l = 0;
-			/* Don't log releases if it was not the left or right mouse button */
-			if ((s_input_local->allowed & INPUT_ALLOW_KEY_RELEASE) == 0 && inputCommand != 0x41 && inputCommand != 0x42) {
-				s_input_local->historyTail = originalHistoryTail;
-			}
+	} else if (released) {
+		/* Don't log releases if it was not the left or right mouse button */
+		if ((s_input_local->flags & INPUT_FLAG_KEY_RELEASE) == 0 && inputCommand != 0x41 && inputCommand != 0x42) {
+			s_input_local->historyTail = originalHistoryTail;
 		}
 	}
 
-	emu_di = (inputCommand & 0x7F) >> 3;
-	emu_bx.x <<= (inputCommand & 0x07);
-	emu_bx.h = ~emu_bx.h;
+	/* Find the byte and bit position in the bit array of active inputs */
+	uint8 bytePos = (inputCommand & 0x7F) >> 3;
+	uint8 bitPos  = 1 << (inputCommand & 0x07);
 
-	if ((emu_bx.l & s_input_local->activeInputMap[emu_di]) != 0 && (s_input_local->allowed & INPUT_ALLOW_DOUBLE_PRESS) == 0) {
+	/* If the key is already pressed, and we cannot repeat keys, revert the history */
+	if ((bitPos & s_input_local->activeInputMap[bytePos]) != 0 && (s_input_local->flags & INPUT_FLAG_KEY_REPEAT) == 0) {
 		s_input_local->historyTail = originalHistoryTail;
 	}
 
-	s_input_local->activeInputMap[emu_di] &= emu_bx.h;
-	s_input_local->activeInputMap[emu_di] |= emu_bx.l;
+	s_input_local->activeInputMap[bytePos] &= ~bitPos;
+	if (inputCommand != 0x2D && inputCommand != 0x7F && !released) {
+		s_input_local->activeInputMap[bytePos] |= bitPos;
+	}
 
-	if (g_mouse->mode != 1) return;
+	if (g_input->mouseMode != INPUT_MOUSE_MODE_1) return;
 	if (inputCommand == 0x7D) return;
 
 	s_input_local->variable_0A94 = inputCommand;
-	s_input_local->variable_0A96 = g_mouse->variable_76A6;
+	s_input_local->variable_0A96 = g_input->variable_76A6;
 
 	emu_push(0);
 	emu_push(historySize);
 	emu_push(emu_cs); emu_push(0xA94); // Location of above two variables
-	emu_push(g_mouse->variable_7011);
+	emu_push(g_input->variable_7011);
 	emu_push(emu_cs); emu_push(0x0D23); f__1FB5_0E9C_001B_37D1();
 	emu_sp += 10;
 
-	g_mouse->variable_76A6 = 0x0000;
+	g_input->variable_76A6 = 0x0000;
 	return;
 }
 
@@ -155,33 +202,10 @@ void Input_HandlerInput(uint16 inputState)
  */
 void Input_HandleInputSafe()
 {
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-
-	emu_push(emu_ax.x);
-	emu_push(emu_bx.x);
-	emu_push(emu_cx.x);
-	emu_push(emu_dx.x);
-	emu_push(emu_es);
-	emu_push(emu_di);
-	emu_push(emu_ds);
-	emu_push(emu_si);
 	emu_pushf();
 	emu_cli();
-
-	Input_HandlerInput(emu_get_memory16(emu_ss, emu_bp,  0x6));
-
+	Input_HandlerInput(emu_get_memory16(emu_ss, emu_sp,  0x6));
 	emu_popf();
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_dx.x);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_bx.x);
-	emu_pop(&emu_ax.x);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);

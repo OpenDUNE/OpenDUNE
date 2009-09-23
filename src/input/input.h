@@ -4,19 +4,29 @@
 #define INPUT_H
 
 /**
- * The types of input which you can allow or disallow.
+ * Several flags for input handling.
  */
-typedef enum InputAllowedEnum {
-	INPUT_ALLOW_DOUBLE_PRESS = 0x0001,             //!< Allow repeated input of the same key.
-	INPUT_ALLOW_KEY_RELEASE  = 0x0800,             //!< Record release of keys (not buttons).
-	INPUT_ALLOW_NO_CLICK     = 0x1000,             //!< Disallow mouse button clicks.
-} InputAllowedEnum;
+typedef enum InputFlagsEnum {
+	INPUT_FLAG_KEY_REPEAT  = 0x0001,               //!< Allow repeated input of the same key.
+	INPUT_FLAG_KEY_RELEASE = 0x0800,               //!< Record release of keys (not for buttons).
+	INPUT_FLAG_NO_CLICK    = 0x1000,               //!< Don't record mouse button clicks.
+} InputFlagsEnum;
+
+/**
+ * There are three different mouse modes.
+ *  It looks like only the first (normal) mode is ever used.
+ */
+typedef enum InputMouseMode {
+	INPUT_MOUSE_MODE_NORMAL = 0,                   //!< Normal mouse mode.
+	INPUT_MOUSE_MODE_1      = 1,                   //!< ??
+	INPUT_MOUSE_MODE_2      = 2,                   //!< Only button clicks
+} InputMouseMode;
 
 MSVC_PACKED_BEGIN;
 /**
- * Mouse variables at segment 353F.
+ * Input variables at segment 353F.
  */
-typedef struct MouseData {
+typedef struct InputData {
 	/* 0000()    */ uint8  unknown_0000[0x66A4];
 	/* 66A4(4)   */ uint32 callbackAfterChange;    //!< CS:IP of routine called after mouse change.
 	/* 66A8(12)  */ uint8  unknown_66A8[0x000C];
@@ -27,13 +37,13 @@ typedef struct MouseData {
 	/* 6C7C(2)   */ uint16 snapGreyX;              //!< Grey zone for snapping, x-axis.
 	/* 6C7E(2)   */ uint16 snapGreyY;              //!< Grey zone for snapping, y-axis.
 	/* 6C80()    */ uint8  unknown_BC80[0x038E];
-	/* 700E(2)   */ uint16 allowed;                //!< Mask for allowed input types. See InputAllowedEnum.
- 	/* 7010(1)   */ uint8  mode;                   //!< Mouse mode: 0 - Normal mouse mode, 1 - ??, 2 - Only button clicks.
+	/* 700E(2)   */ uint16 flags;                  //!< Flags for input. See InputFlagsEnum.
+ 	/* 7010(1)   */ uint8  mouseMode;              //!< Mouse mode. See InputMouseMode.
  	/* 7011(2)   */ uint16 variable_7011;          //!< ??
 	/* 7013()    */ uint8  unknown_7013[0x004B];
- 	/* 705E(2)   */ uint16 lock;                   //!< Lock for when handling mouse movement.
- 	/* 7060(2)   */ uint16 newX;                   //!< New X position.
- 	/* 7062(2)   */ uint16 newY;                   //!< New Y position.
+ 	/* 705E(2)   */ uint16 mouseLock;              //!< Lock for when handling mouse movement.
+ 	/* 7060(2)   */ uint16 mouseX;                 //!< Current X position of the mouse.
+ 	/* 7062(2)   */ uint16 mouseY;                 //!< Current Y position of the mouse.
 	/* 7064(4)   */ uint8  unknown_7064[0x0004];
  	/* 7068(2)   */ uint16 doubleWidth;            //!< If non-zero, the X-position given by mouse is twice the real value.
  	/* 706A(2)   */ uint16 variable_706A;          //!< ?? If non-zero, mouse movement is not registered.
@@ -44,7 +54,7 @@ typedef struct MouseData {
 	/* 7074(8)   */ uint8  unknown_7074[0x0008];
  	/* 707C(2)   */ uint16 prevX;                  //!< Previous X position.
  	/* 707E(2)   */ uint16 prevY;                  //!< Previous Y position.
- 	/* 7080(2)   */ uint16 flags;                  //!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check.
+ 	/* 7080(2)   */ uint16 regionFlags;            //!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check.
  	/* 7082(2)   */ uint16 regionMinX;             //!< Region - minimum value for X position.
  	/* 7084(2)   */ uint16 regionMinY;             //!< Region - minimum value for Y position.
  	/* 7086(2)   */ uint16 regionMaxX;             //!< Region - maximum value for X position.
@@ -60,7 +70,7 @@ typedef struct MouseData {
 	/* 76A6(2)   */ uint16 variable_76A6;          //!< ??
 	/* 76A8()    */ uint8  unknown_76A8[0x21C4];
 	/* 986C(1)   */ uint8  variable_986C;          //!< ??
-} GCC_PACKED MouseData;
+} GCC_PACKED InputData;
 MSVC_PACKED_END;
 
 MSVC_PACKED_BEGIN;
@@ -73,7 +83,7 @@ typedef struct InputLocalData {
 	/* 00AF(256) */ uint16 history[128];           //!< History of input commands.
 	/* 01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
 	/* 01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
-	/* 01B3(2)   */ uint16 allowed;                //!< Mask for allowed input types. See InputAllowedEnum.
+	/* 01B3(2)   */ uint16 flags;                  //!< Mask for allowed input types. See InputFlagsEnum.
 
 	/* 01B5()    */ uint8  unknown_01B5[0x007D];
 
@@ -83,19 +93,20 @@ typedef struct InputLocalData {
 
 	/* 0A94(2)   */ uint16 variable_0A94;          //!< ??
 	/* 0A96(2)   */ uint16 variable_0A96;          //!< ?? Set to the same as 353F:76A6.
-	/* 0A98(2)   */ uint16 posX;                   //!< Current X position.
-	/* 0A9A(2)   */ uint16 posY;                   //!< Current Y position.
+	/* 0A98(2)   */ uint16 mouseX;                 //!< Current X position of the mouse.
+	/* 0A9A(2)   */ uint16 mouseY;                 //!< Current Y position of the mouse.
 } GCC_PACKED InputLocalData;
 MSVC_PACKED_END;
 
-extern MouseData *g_mouse;
+extern InputData *g_input;
 
 extern void System_Init_Input();
-extern void System_Init_Mouse();
 extern void Input_Mouse_Init();
 extern void Input_Mouse_EventHandler();
 extern void Input_Mouse_InsideRegion();
 extern void Input_Mouse_CallbackClear();
+extern void Input_Flags_ClearBits();
+extern void Input_Flags_SetBits();
 extern void Input_HandleInputSafe();
 
 #endif /* INTPUT_H */
