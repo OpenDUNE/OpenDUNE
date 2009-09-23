@@ -68,9 +68,9 @@ typedef struct InputLocalData {
 
 	/* 01B5()    */ uint8  unknown_01B5[0x007D];
 
-	/* 0232(8)   */ uint8  variable_0232[8];       //!< ??
+	/* 0232(16)  */ uint8  variable_0232[16];      //!< ??
 
-	/* 023A()    */ uint8  unknown_023A[0x085A];
+	/* 0242()    */ uint8  unknown_0242[0x0852];
 
 	/* 0A94(2)   */ uint16 variable_0A94;          //!< ??
 	/* 0A96(2)   */ uint16 variable_0A96;          //!< ?? Set to the same as 353F:76A6.

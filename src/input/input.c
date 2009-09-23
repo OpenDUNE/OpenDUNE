@@ -117,7 +117,7 @@ void Input_HandlerInput(uint16 inputState)
 		}
 	}
 
-	emu_di = (inputCommand & 0x3F) >> 3;
+	emu_di = (inputCommand & 0x7F) >> 3;
 	emu_bx.x <<= (inputCommand & 0x07);
 	emu_bx.h = ~emu_bx.h;
 
