@@ -3,6 +3,15 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+/**
+ * The types of input which you can allow or disallow.
+ */
+typedef enum InputAllowedEnum {
+	INPUT_ALLOW_DOUBLE_PRESS = 0x0001,             //!< Allow repeated input of the same key.
+	INPUT_ALLOW_KEY_RELEASE  = 0x0800,             //!< Record release of keys (not buttons).
+	INPUT_ALLOW_NO_CLICK     = 0x1000,             //!< Disallow mouse button clicks.
+} InputAllowedEnum;
+
 MSVC_PACKED_BEGIN;
 /**
  * Mouse variables at segment 353F.
@@ -18,7 +27,7 @@ typedef struct MouseData {
 	/* 6C7C(2)   */ uint16 snapGreyX;              //!< Grey zone for snapping, x-axis.
 	/* 6C7E(2)   */ uint16 snapGreyY;              //!< Grey zone for snapping, y-axis.
 	/* 6C80()    */ uint8  unknown_BC80[0x038E];
-	/* 700E(2)   */ uint16 variable_700E;          //!< ?? If no mask 0x1000, no mouse click handling.
+	/* 700E(2)   */ uint16 allowed;                //!< Mask for allowed input types. See InputAllowedEnum.
  	/* 7010(1)   */ uint8  mode;                   //!< Mouse mode: 0 - Normal mouse mode, 1 - ??, 2 - Only button clicks.
  	/* 7011(2)   */ uint16 variable_7011;          //!< ??
 	/* 7013()    */ uint8  unknown_7013[0x004B];
@@ -64,11 +73,11 @@ typedef struct InputLocalData {
 	/* 00AF(256) */ uint16 history[128];           //!< History of input commands.
 	/* 01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
 	/* 01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
-	/* 01B3(2)   */ uint16 variable_01B3;          //!< ?? Set to the same as 353F:700E.
+	/* 01B3(2)   */ uint16 allowed;                //!< Mask for allowed input types. See InputAllowedEnum.
 
 	/* 01B5()    */ uint8  unknown_01B5[0x007D];
 
-	/* 0232(16)  */ uint8  variable_0232[16];      //!< ??
+	/* 0232(16)  */ uint8  activeInputMap[16];     //!< A 96 bit array, where each active bit means that the Nth key is pressed.
 
 	/* 0242()    */ uint8  unknown_0242[0x0852];
 

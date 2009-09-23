@@ -70,7 +70,7 @@ void Input_HandlerInput(uint16 inputState)
 	bool released = (inputState & 0x800) ? true : false;
 	uint8 historySize = 0;
 
-	s_input_local->variable_01B3 = g_mouse->variable_700E;
+	s_input_local->allowed = g_mouse->allowed;
 	s_input_local->posX = g_mouse->newX;
 	s_input_local->posY = g_mouse->newY;
 
@@ -81,7 +81,7 @@ void Input_HandlerInput(uint16 inputState)
 		historySize = 4;
 	}
 
-	if ((s_input_local->variable_01B3 & 0x1000) == 0x1000) {
+	if ((s_input_local->allowed & INPUT_ALLOW_NO_CLICK) != 0) {
 		/* Unresolved jump */ emu_ip = 0x0AE6; emu_last_cs = 0x29E8; emu_last_ip = 0x0AE1; emu_last_length = 0x0010; emu_last_crc = 0x7A1F; emu_call();
 		return;
 	}
@@ -111,7 +111,7 @@ void Input_HandlerInput(uint16 inputState)
 		if (released) {
 			emu_bx.l = 0;
 			/* Don't log releases if it was not the left or right mouse button */
-			if ((s_input_local->variable_01B3 & 0x800) == 0 && inputCommand != 0x41 && inputCommand != 0x42) {
+			if ((s_input_local->allowed & INPUT_ALLOW_KEY_RELEASE) == 0 && inputCommand != 0x41 && inputCommand != 0x42) {
 				s_input_local->historyTail = originalHistoryTail;
 			}
 		}
@@ -121,12 +121,12 @@ void Input_HandlerInput(uint16 inputState)
 	emu_bx.x <<= (inputCommand & 0x07);
 	emu_bx.h = ~emu_bx.h;
 
-	if ((emu_bx.l & s_input_local->variable_0232[emu_di]) != 0 && (s_input_local->variable_01B3 & 0x1) == 0) {
+	if ((emu_bx.l & s_input_local->activeInputMap[emu_di]) != 0 && (s_input_local->allowed & INPUT_ALLOW_DOUBLE_PRESS) == 0) {
 		s_input_local->historyTail = originalHistoryTail;
 	}
 
-	s_input_local->variable_0232[emu_di] &= emu_bx.h;
-	s_input_local->variable_0232[emu_di] |= emu_bx.l;
+	s_input_local->activeInputMap[emu_di] &= emu_bx.h;
+	s_input_local->activeInputMap[emu_di] |= emu_bx.l;
 
 	if (g_mouse->mode != 1) return;
 	if (inputCommand == 0x7D) return;

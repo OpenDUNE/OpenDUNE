@@ -251,7 +251,7 @@ static void Input_Mouse_HandleMovement()
 	g_mouse->newX = emu_cx.x;
 	g_mouse->newY = emu_dx.x;
 
-	if (g_mouse->mode == 1 && (g_mouse->variable_700E & 0x1000) == 0) {
+	if (g_mouse->mode == 1 && (g_mouse->allowed & INPUT_ALLOW_NO_CLICK) == 0) {
 		Input_Mouse_HandleButtons();
 	}
 
@@ -300,7 +300,7 @@ void Input_Mouse_EventHandler()
 	if (g_mouse->doubleWidth != 0) emu_cx.x = emu_cx.x / 2;
 	if (emu_cx.x > 319) emu_cx.x = 319;
 
-	if (g_mouse->mode == 0 && (g_mouse->variable_700E & 0x1000) == 0) {
+	if (g_mouse->mode == 0 && (g_mouse->allowed & INPUT_ALLOW_NO_CLICK) == 0) {
 		Input_Mouse_HandleButtons();
 	}
 
