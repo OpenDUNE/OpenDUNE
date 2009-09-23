@@ -169,6 +169,14 @@
 			Name="source"
 			>
 			<File
+				RelativePath="..\src\interrupt.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\interrupt.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\main.c"
 				>
 			</File>
@@ -232,10 +240,6 @@
 		<Filter
 			Name="decompiled"
 			>
-			<File
-				RelativePath="..\decompiled\cs__0070.c"
-				>
-			</File>
 			<File
 				RelativePath="..\decompiled\cs__01F7.c"
 				>
@@ -502,10 +506,6 @@
 			</File>
 			<File
 				RelativePath="..\decompiled\cs__2903.c"
-				>
-			</File>
-			<File
-				RelativePath="..\decompiled\cs__29A3.c"
 				>
 			</File>
 			<File
