@@ -542,7 +542,7 @@ void f__B527_0178_000D_2FF0()
 void f__B527_01C7_0008_8702()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; f__29E8_0479_0009_A77A();
+	emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; Input_Keyboard_HandleKeys2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	f__B527_01CF_0014_5990();

@@ -5,168 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__29E8_0479_0009_A77A()
- *
- * @name f__29E8_0479_0009_A77A
- * @implements 29E8:0479:0009:A77A ()
- *
- * Called From: B4E6:03D6:000E:C8A0
- * Called From: B527:01CA:0008:8702
- */
-void f__29E8_0479_0009_A77A()
-{
-	emu_push(emu_bp);
-	emu_movw(&emu_bp, emu_sp);
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(0x0482); Input_Keyboard_HandleKeys(emu_ax.l, emu_ax.h);
-	f__29E8_0482_0002_2597();
-}
-
-/**
- * Decompiled function f__29E8_0482_0002_2597()
- *
- * @name f__29E8_0482_0002_2597
- * @implements 29E8:0482:0002:2597 ()
- *
- * Called From: 29E8:0482:0009:A77A
- */
-void f__29E8_0482_0002_2597()
-{
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__29E8_0484_002B_0A28()
- *
- * @name f__29E8_0484_002B_0A28
- * @implements 29E8:0484:002B:0A28 ()
- *
- * Called From: 29E8:08C3:0007:D960
- * Called From: 29E8:0E72:000A:53F7
- */
-void f__29E8_0484_002B_0A28()
-{
-	emu_push(emu_bp);
-	emu_movw(&emu_bp, emu_sp);
-	emu_push(emu_cx.x);
-	emu_push(emu_es);
-	emu_push(emu_di);
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_testw(&emu_get_memory16(emu_ds, 0x00,  0x700E), 0x2);
-	if (!emu_flags.zf) { f__29E8_04AA_0005_5C4F(); return; }
-	emu_movw(&emu_cx.x, 0x10);
-	emu_push(emu_cs);
-	emu_pop(&emu_es);
-	emu_movw(&emu_di, 0x8E);
-	emu_repne_scasb();
-	if (emu_cx.x == 0) { f__29E8_04AA_0005_5C4F(); return; }
-	emu_movw(&emu_di, 0xAE);
-	emu_decw(&emu_di);
-	emu_subw(&emu_di, emu_cx.x);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_di,  0x0));
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__29E8_04AA_0005_5C4F()
- *
- * @name f__29E8_04AA_0005_5C4F
- * @implements 29E8:04AA:0005:5C4F ()
- *
- * Called From: 29E8:0493:002B:0A28
- * Called From: 29E8:049F:002B:0A28
- */
-void f__29E8_04AA_0005_5C4F()
-{
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__29E8_04FC_0028_0C66()
- *
- * @name f__29E8_04FC_0028_0C66
- * @implements 29E8:04FC:0028:0C66 ()
- *
- * Called From: 29E8:0648:0008:ED98
- * Called From: 29E8:073B:000F:651A
- * Called From: 29E8:08BC:000A:FC14
- */
-void f__29E8_04FC_0028_0C66()
-{
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00,  0x7010), 0x0);
-	if (emu_flags.zf) { f__29E8_0533_0001_6180(); return; }
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00,  0x7010), 0x1);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0533; emu_last_cs = 0x29E8; emu_last_ip = 0x0508; emu_last_length = 0x0028; emu_last_crc = 0x0C66; emu_call(); return; }
-	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x701B), 0x0);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0524; emu_last_cs = 0x29E8; emu_last_ip = 0x050F; emu_last_length = 0x0028; emu_last_crc = 0x0C66; emu_call(); return; }
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7015));
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00,  0x76A6), emu_ax.x);
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0524; emu_last_cs = 0x29E8; emu_last_ip = 0x0518; emu_last_length = 0x0028; emu_last_crc = 0x0C66; emu_call(); return; }
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x7013));
-	emu_cmpb(&emu_ax.l, 0x2D);
-	if (!emu_flags.zf) { f__29E8_0527_000D_25CF(); return; }
-	/* Unresolved call */ emu_push(0x0524); emu_ip = 0x0534; emu_last_cs = 0x29E8; emu_last_ip = 0x0521; emu_last_length = 0x0028; emu_last_crc = 0x0C66; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0524; emu_last_cs = 0x29E8; emu_last_ip = 0x0524; emu_last_length = 0x0028; emu_last_crc = 0x0C66; emu_call();
-}
-
-/**
- * Decompiled function f__29E8_0527_000D_25CF()
- *
- * @name f__29E8_0527_000D_25CF
- * @implements 29E8:0527:000D:25CF ()
- *
- * Called From: 29E8:051F:0028:0C66
- */
-void f__29E8_0527_000D_25CF()
-{
-	emu_push(emu_di);
-	emu_movw(&emu_di, emu_get_memory16(emu_cs, 0x00,  0x1AF));
-	emu_movw(&emu_get_memory16(emu_cs, emu_di,  0xAF), emu_ax.x);
-	emu_pop(&emu_di);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-}
-
-/**
- * Decompiled function f__29E8_0533_0001_6180()
- *
- * @name f__29E8_0533_0001_6180
- * @implements 29E8:0533:0001:6180 ()
- *
- * Called From: 29E8:0501:0028:0C66
- */
-void f__29E8_0533_0001_6180()
-{
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-}
-
-/**
  * Decompiled function f__29E8_0534_000E_6213()
  *
  * @name f__29E8_0534_000E_6213
@@ -229,7 +67,7 @@ void f__29E8_0643_0008_ED98()
 	emu_push(emu_di);
 	emu_push(emu_si);
 	emu_pushf();
-	emu_push(0x064B); f__29E8_04FC_0028_0C66();
+	emu_push(0x064B); Input_Unknown_04FC();
 	f__29E8_064B_0059_4AA8();
 }
 
@@ -500,7 +338,7 @@ void f__29E8_072F_000F_651A()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0x1AF));
 	emu_xorw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0x1B1));
 	emu_popf();
-	emu_push(0x073E); f__29E8_04FC_0028_0C66();
+	emu_push(0x073E); Input_Unknown_04FC();
 	f__29E8_073E_0001_6580();
 }
 
@@ -986,7 +824,7 @@ void f__29E8_08B5_000A_FC14()
 	emu_push(emu_cx.x);
 	emu_push(emu_di);
 	emu_push(emu_ds);
-	emu_push(0x08BF); f__29E8_04FC_0028_0C66();
+	emu_push(0x08BF); Input_Unknown_04FC();
 	f__29E8_08BF_0007_D960();
 }
 
@@ -1002,7 +840,7 @@ void f__29E8_08BF_0007_D960()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x08C6); f__29E8_0484_002B_0A28();
+	emu_push(0x08C6); Input_Keyboard_Translate();
 	f__29E8_08C6_001F_C389();
 }
 
@@ -1687,7 +1525,7 @@ void f__29E8_0E6B_000A_53F7()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_ds, emu_ax.x);
 	emu_push(emu_cs);
-	emu_push(0x0E75); f__29E8_0484_002B_0A28();
+	emu_push(0x0E75); Input_Keyboard_Translate();
 	f__29E8_0E75_008C_16C3();
 }
 

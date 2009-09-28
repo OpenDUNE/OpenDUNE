@@ -111,7 +111,7 @@ bool Input_HistoryAdd(uint16 value)
  */
 void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 {
-	/* Pop the return ip already. Reduces code */
+	/* Pop the return IP. */
 	emu_pop(&emu_ip);
 
 	if ((state & 0x80) != 0 || (state & 0x08) != 0) {
@@ -184,6 +184,89 @@ void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 		return;
 	}
 	emu_ax.l = 0xAC - key;
+}
+
+/**
+ * Same as Input_Keyboard_HandleKeys, but reads the scancode from the stack
+ *  instead of via parameters.
+ *
+ * @name Input_Keyboard_HandleKeys2
+ * @implements 29E8:0479:0009:A77A ()
+ * @implements 29E8:0482:0002:2597
+ */
+void Input_Keyboard_HandleKeys2()
+{
+	uint16 scancode = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	emu_push(0); Input_Keyboard_HandleKeys(scancode & 0xFF, scancode >> 8);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+}
+
+/**
+ * Some scancodes from the hardware has to be translated to something else
+ *  before it can be handled. At least .. it appears this function has that
+ *  job.
+ * TODO -- This needs to be confirmed.
+ *
+ * @name Input_Keyboard_Translate
+ * @implements 29E8:0484:002B:0A28 ()
+ * @implements 29E8:04AA:0005:5C4F
+ */
+void Input_Keyboard_Translate()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	uint16 key = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	emu_ax.x = key;
+	if ((g_input->flags & INPUT_FLAG_UNKNOWN_0002) != 0) return;
+
+	int i;
+	for (i = 0; i < 16; i++) {
+		if (s_input_local->translateMap[i] == (key & 0xFF)) {
+			emu_ax.l = s_input_local->translateTo[i];
+			return;
+		}
+	}
+}
+
+/**
+ * No clue what this function does.
+ * TODO -- Figure it out.
+ *
+ * @name Input_Unknown_04FC
+ * @implements 29E8:04FC:0028:0C66 ()
+ * @implements 29E8:0527:000D:25CF
+ * @implements 29E8:0533:0001:6180
+ */
+void Input_Unknown_04FC()
+{
+	/* Pop the return IP. */
+	emu_pop(&emu_ip);
+
+	if (g_input->mouseMode == INPUT_MOUSE_MODE_NORMAL) return;
+	if (g_input->mouseMode == INPUT_MOUSE_MODE_1) return;
+
+	if (g_input->variable_701B != 0x0) {
+		s_input_local->history[s_input_local->historyHead] = 0;
+		return;
+	}
+
+	if (g_input->variable_76A6 < g_input->variable_7015) {
+		s_input_local->history[s_input_local->historyHead] = 0;
+		return;
+	}
+
+	if (g_input->variable_7013 != 0x2D) {
+		s_input_local->history[s_input_local->historyHead] = g_input->variable_7013;
+		return;
+	}
+
+	emu_push(0x0524); f__29E8_0534_000E_6213();
+	s_input_local->history[s_input_local->historyHead] = 0;
 }
 
 /**

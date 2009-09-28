@@ -8,6 +8,7 @@
  */
 typedef enum InputFlagsEnum {
 	INPUT_FLAG_KEY_REPEAT   = 0x0001,              //!< Allow repeated input of the same key.
+	INPUT_FLAG_UNKNOWN_0002 = 0x0002,              //!< ??
 	INPUT_FLAG_UNKNOWN_0200 = 0x0200,              //!< ??
 	INPUT_FLAG_KEY_RELEASE  = 0x0800,              //!< Record release of keys (not for buttons).
 	INPUT_FLAG_NO_CLICK     = 0x1000,              //!< Don't record mouse button clicks.
@@ -20,7 +21,7 @@ typedef enum InputFlagsEnum {
 typedef enum InputMouseMode {
 	INPUT_MOUSE_MODE_NORMAL = 0,                   //!< Normal mouse mode.
 	INPUT_MOUSE_MODE_1      = 1,                   //!< ??
-	INPUT_MOUSE_MODE_2      = 2,                   //!< Only button clicks
+	INPUT_MOUSE_MODE_2      = 2,                   //!< ?? Only button clicks.
 } InputMouseMode;
 
 MSVC_PACKED_BEGIN;
@@ -41,7 +42,11 @@ typedef struct InputData {
 	/* 700E(2)   */ uint16 flags;                  //!< Flags for input. See InputFlagsEnum.
  	/* 7010(1)   */ uint8  mouseMode;              //!< Mouse mode. See InputMouseMode.
  	/* 7011(2)   */ uint16 variable_7011;          //!< ??
-	/* 7013()    */ uint8   unknown_7013[0x004B];
+	/* 7013(2)   */ uint16 variable_7013;          //!< ??
+	/* 7015(2)   */ uint16 variable_7015;          //!< ??
+	/* 7017()    */ uint8   unknown_7017[0x0004];
+	/* 701B(2)   */ uint16 variable_701B;          //!< ??
+	/* 701D()    */ uint8   unknown_701D[0x0041];
  	/* 705E(2)   */ uint16 mouseLock;              //!< Lock for when handling mouse movement.
  	/* 7060(2)   */ uint16 mouseX;                 //!< Current X position of the mouse.
  	/* 7062(2)   */ uint16 mouseY;                 //!< Current Y position of the mouse.
@@ -81,7 +86,10 @@ MSVC_PACKED_BEGIN;
 typedef struct InputLocalData {
 	/* 0000()    */ uint8   unknown_0000[0x002E];
 	/* 002E(8)   */ uint8  bitmask[8];             //!< The value of (1 << N), with N from 0 to 7.
-	/* 0036()    */ uint8   unknown_0036[0x0079];
+	/* 0036()    */ uint8   unknown_0036[0x0058];
+	/* 008E(16)  */ uint8  translateMap[16];       //!< ?? Some kind of translation map.
+	/* 009E(16)  */ uint8  translateTo[16];        //!< ?? To what a match in the above map translates.
+	/* 00AE(1)   */ uint8   unknown_00AE[1];
 	/* 00AF(256) */ uint16 history[128];           //!< History of input commands.
 	/* 01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
 	/* 01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
@@ -102,9 +110,8 @@ typedef struct InputLocalData {
 	/* 0442(35)  */ uint8  keymap_numpad[35];      //!< Keymap to convert scancode to for numpad with numlock off.
 	/* 0465(20)  */ uint8  keymap_numlock[20];     //!< Keymap to convert scancode to for numpad with numlock on.
 
-	/* 0479()    */ uint8   unknown_0479[0x0036];
-	/* 04AF(77)  */ uint8      code_04AF[77];
-	/* 04FC()    */ uint8   unknown_04FC[0x051D];
+	/* 0479(185) */ uint8      code_0479[187];
+	/* 0534()    */ uint8   unknown_0534[0x04E5];
 
 	/* 0A19(123) */ uint8      code_0A19[123];
 	/* 0A94(2)   */ uint16 variable_0A94;          //!< ??
@@ -131,6 +138,9 @@ extern void Input_Mouse_CallbackClear();
 extern void Input_Flags_ClearBits();
 extern void Input_Flags_SetBits();
 extern void Input_Keyboard_HandleKeys(uint8 key, uint8 state);
+extern void Input_Keyboard_HandleKeys2();
+extern void Input_Keyboard_Translate();
+extern void Input_Unknown_04FC();
 extern void Input_HandleInputSafe();
 
 #endif /* INTPUT_H */
