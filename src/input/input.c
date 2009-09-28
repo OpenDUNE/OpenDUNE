@@ -90,6 +90,103 @@ bool Input_HistoryAdd(uint16 value)
 }
 
 /**
+ * Handles the pressing of a key, transforming it to codes we understand.
+ *  For most characters this means making them ASCII code.
+ *
+ * @name Input_Keyboard_HandleKeys
+ * @implements 29E8:026C:0015:3543 (emu_ax.l, emu_ax.h)
+ * @implements 29E8:027A:0007:5A2E
+ * @implements 29E8:0281:0012:4D00
+ * @implements 29E8:0293:0015:08FC
+ * @implements 29E8:02B6:0025:93AF
+ * @implements 29E8:02BB:0020:2395
+ * @implements 29E8:02D9:0002:F53A
+ * @implements 29E8:02DB:0028:AB44
+ * @implements 29E8:030D:002A:00F8
+ * @implements 29E8:0331:0006:D00A
+ * @implements 29E8:0337:0008:6739
+ * @implements 29E8:033F:0004:113A
+ * @implements 29E8:0343:0007:372B
+ * @implements 29E8:0345:0005:5A4B
+ */
+void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
+{
+	/* Pop the return ip already. Reduces code */
+	emu_pop(&emu_ip);
+
+	if ((state & 0x80) != 0 || (state & 0x08) != 0) {
+		emu_ax.x = 0;
+		return;
+	}
+
+	s_input_local->flags = g_input->flags;
+
+	if (key < 0x3E) {
+		if ((state & 0x01) != 0) {
+			emu_ax.l = s_input_local->keymap_shift[key];
+		} else {
+			emu_ax.l = s_input_local->keymap_normal[key];
+		}
+
+		if ((state & 0x02) == 0) return;
+
+		uint8 bitmask = 1 << (key & 0x07);
+		uint8 bytePos = key >> 3;
+		if ((s_input_local->keymap_special_mask[bytePos] & bitmask) == 0) return;
+
+		emu_ax.l &= 0x1F;
+		return;
+	}
+
+	if (key < 0x41) {
+		emu_ax.l = key | 0x80;
+		return;
+	}
+
+	if (key < 0x4B) {
+		emu_ax.l = key + 0x85;
+		return;
+	}
+
+	if (key < 0x6E) {
+		key -= 0x4B;
+
+		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->variable_01B7 & 0x0002) != 0) {
+			emu_ax.l = s_input_local->keymap_numlock[key - 0x0F];
+		} else {
+			emu_ax.l = s_input_local->keymap_numpad[key];
+		}
+
+		return;
+	}
+
+	if (key == 0x6E) {
+		emu_ax.l = 0x1B;
+		return;
+	}
+
+	if (key == 0x6F || key > 0x79) {
+		emu_ax.l = key | 0x80;
+		return;
+	}
+
+	key -= 0x70;
+	if ((state & 0x07) == 0) {
+		emu_ax.l = 0xC5 - key;
+		return;
+	}
+	if ((state & 0x04) != 0) {
+		emu_ax.l = 0x98 - key;
+		return;
+	}
+	if ((state & 0x02) != 0) {
+		emu_ax.l = 0xA2 - key;
+		return;
+	}
+	emu_ax.l = 0xAC - key;
+}
+
+/**
  * Handle input given by an input device.
  *
  * @param inputState The state of the key/button given. On the lower bits is the
