@@ -73,11 +73,11 @@ void Input_Flags_ClearBits()
  * @param value The value to add to the history.
  * @return Zero if there was no more room in the history, else non-zero.
  *
- * @name Input_HistoryAdd
+ * @name Input_History_Add
  * @implements 29E8:0A19:002A:2DE6
  * @implements 29E8:0A43:0007:9B22
  */
-bool Input_HistoryAdd(uint16 value)
+bool Input_History_Add(uint16 value)
 {
 	uint16 position = s_input_local->historyTail;
 	uint16 positionNext = (position + 2) & 0xFF;
@@ -87,6 +87,25 @@ bool Input_HistoryAdd(uint16 value)
 	s_input_local->history[position / 2] = value;
 	s_input_local->historyTail = positionNext;
 	return true;
+}
+
+/**
+ * Clear the history.
+ *  In reality the head is set to the tail, making the input appear empty.
+ *
+ * @name Input_History_Clear
+ * @implements 29E8:073F:000E:6816 ()
+ */
+void Input_History_Clear()
+{
+	emu_pushf();
+	emu_cli();
+	s_input_local->historyTail = s_input_local->historyHead;
+	emu_popf();
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
 }
 
 /**
@@ -285,15 +304,12 @@ void Input_Unknown_04FC()
  */
 void Input_Keyboard_NextKey()
 {
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
 	emu_push(0x064B); Input_Unknown_04FC();
 
 	uint8 key = 0;
 	uint8 state = 0;
 
+	emu_pushf();
 	emu_cli();
 	while (true) {
 		key = (s_input_local->history[s_input_local->historyHead] & 0xFF);
@@ -324,15 +340,19 @@ void Input_Keyboard_NextKey()
 		s_input_local->historyHead += 2;
 		s_input_local->historyHead &= 0xFF;
 	}
-	emu_sti();
+	emu_popf();
 
 	s_input_local->variable_01B7 = s_input_local->variable_01B5;
 	emu_ax.x = 0;
 
-	if (key == 0) return;
+	if (key != 0) {
+		emu_push(0x06B8); Input_Keyboard_HandleKeys(key, state);
+		emu_ax.h = 0;
+	}
 
-	emu_push(0x06B8); Input_Keyboard_HandleKeys(key, state);
-	emu_ax.h = 0;
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
 }
 
 /**
@@ -381,15 +401,15 @@ void Input_HandlerInput(uint16 inputState)
 		return;
 	}
 
-	if (!Input_HistoryAdd(inputState)) return;
+	if (!Input_History_Add(inputState)) return;
 
 	/* For mouse commands we also log the position of the mouse at that time */
 	if (inputCommand == 0x2D || inputCommand == 0x41 || inputCommand == 0x42) {
-		if (!Input_HistoryAdd(s_input_local->mouseX)) {
+		if (!Input_History_Add(s_input_local->mouseX)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}
-		if (!Input_HistoryAdd(s_input_local->mouseY)) {
+		if (!Input_History_Add(s_input_local->mouseY)) {
 			s_input_local->historyTail = originalHistoryTail;
 			return;
 		}

@@ -82,55 +82,6 @@ void f__29E8_073E_0001_6580()
 }
 
 /**
- * Decompiled function f__29E8_073F_000E_6816()
- *
- * @name f__29E8_073F_000E_6816
- * @implements 29E8:073F:000E:6816 ()
- *
- * Called From: 10E4:0491:000E:9A5B
- * Called From: 10E4:2285:0007:843A
- * Called From: B4AE:0003:0008:049C
- * Called From: B4B8:2199:0006:8488
- * Called From: B4B8:2199:0005:E089
- * Called From: B4DA:0BEE:003F:C2EE
- * Called From: B4DA:107D:0006:8488
- * Called From: B4DA:148D:0005:E089
- * Called From: B4DA:163F:0017:9D01
- * Called From: B4DA:16AF:0006:8488
- * Called From: B4E0:001D:0006:8488
- * Called From: B4E6:01F5:0005:E089
- * Called From: B4ED:01EF:0006:8488
- * Called From: B503:0281:0008:7A01
- * Called From: B503:0311:0008:2201
- * Called From: B503:0524:0008:4201
- * Called From: B503:07ED:0005:E089
- * Called From: B511:0F92:0005:E089
- * Called From: B511:0F92:000C:C06C
- * Called From: B511:14D3:0008:4201
- * Called From: B518:01DD:0008:2201
- * Called From: B518:0507:0005:E089
- * Called From: B518:051A:0009:6867
- * Called From: B518:083B:000D:2172
- * Called From: B518:0870:0007:843A
- * Called From: B53B:01CC:0008:5201
- */
-void f__29E8_073F_000E_6816()
-{
-	emu_push(emu_ax.x);
-	emu_pushf();
-	emu_cli();
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0x1AF));
-	emu_movw(&emu_get_memory16(emu_cs, 0x00,  0x1B1), emu_ax.x);
-	emu_popf();
-	emu_pop(&emu_ax.x);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__29E8_074D_0066_6E9B()
  *
  * @name f__29E8_074D_0066_6E9B

@@ -3644,7 +3644,7 @@ void f__B4DA_0BB4_003F_C2EE()
 	emu_movb(&emu_cx.l, 0x3);
 	emu_shlw(&emu_ax.x, emu_cx.l);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x12), emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0BF3); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x0BF3); emu_cs = 0x29E8; Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	f__B4DA_0BF3_0010_8C36();
@@ -5437,7 +5437,7 @@ void f__B4DA_1073_0009_A1B5()
 void f__B4DA_107C_0006_8488()
 {
 	emu_pop(&emu_cx.x);
-	emu_push(emu_cs); emu_push(0x1082); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x1082); emu_cs = 0x29E8; Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	f__B4DA_1082_0005_B8A6();
@@ -6614,7 +6614,7 @@ void f__B4DA_1485_0008_33E5()
  */
 void f__B4DA_148D_0005_E089()
 {
-	emu_push(emu_cs); emu_push(0x1492); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x1492); emu_cs = 0x29E8; Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	f__B4DA_1492_0020_5F51();
@@ -7049,7 +7049,7 @@ void f__B4DA_162D_0017_9D01()
 	emu_adcw(&emu_bx.x, emu_dx.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1C), emu_bx.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1E), emu_cx.x);
-	emu_push(emu_cs); emu_push(0x1644); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x1644); emu_cs = 0x29E8; Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	f__B4DA_1644_0002_D0BA();
@@ -7187,7 +7187,7 @@ void f__B4DA_16A5_0009_C1B5()
 void f__B4DA_16AE_0006_8488()
 {
 	emu_pop(&emu_cx.x);
-	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	f__B4DA_16B4_0004_8B0A();

@@ -115,7 +115,9 @@ typedef struct InputLocalData {
 	/* 0479(185) */ uint8      code_0479[187];
 	/* 0534()    */ uint8   unknown_0534[0x010F];
 	/* 0643(125) */ uint8      code_0643[125];
-	/* 06C0()    */ uint8   unknown_06C0[0x0359];
+	/* 06C0()    */ uint8   unknown_06C0[0x007F];
+	/* 073F(14)  */ uint8      code_073F[14];
+	/* 074D()    */ uint8   unknown_074D[0x02CC];
 
 	/* 0A19(123) */ uint8      code_0A19[123];
 	/* 0A94(2)   */ uint16 variable_0A94;          //!< ??
@@ -141,6 +143,7 @@ extern void Input_Mouse_InsideRegion();
 extern void Input_Mouse_CallbackClear();
 extern void Input_Flags_ClearBits();
 extern void Input_Flags_SetBits();
+extern void Input_History_Clear();
 extern void Input_Keyboard_HandleKeys(uint8 key, uint8 state);
 extern void Input_Keyboard_HandleKeys2();
 extern void Input_Keyboard_Translate();
