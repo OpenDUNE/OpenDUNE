@@ -2720,7 +2720,7 @@ void f__B503_088B_000B_B072()
  */
 void f__B503_0896_0005_20AE()
 {
-	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
+	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_089B_0008_2C18();
@@ -5980,7 +5980,7 @@ void f__B503_13C2_0008_C4BB()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
-	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
+	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_13CA_0009_9868();

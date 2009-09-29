@@ -1668,7 +1668,7 @@ void f__B518_050C_0005_BE38()
  */
 void f__B518_0511_0005_20AE()
 {
-	emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
+	emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0516_0009_6867();

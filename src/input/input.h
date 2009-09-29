@@ -94,13 +94,15 @@ typedef struct InputLocalData {
 	/* 01AF(2)   */ uint16 historyHead;            //!< The current head inside the history array.
 	/* 01B1(2)   */ uint16 historyTail;            //!< The current tail inside the history array.
 	/* 01B3(2)   */ uint16 flags;                  //!< Mask for allowed input types. See InputFlagsEnum.
-	/* 01B5()    */ uint8   unknown_01B5[0x0002];
+	/* 01B5()    */ uint16 variable_01B5;          //!< ??
 	/* 01B7(2)   */ uint16 variable_01B7;          //!< ??
 	/* 01B9()    */ uint8   unknown_01B9[0x0059];
 	/* 0212(8)   */ uint8  keymap_special_mask[8]; //!< Per bit, mask which keys are special and should be done &= 0x1F.
 	/* 021A()    */ uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ uint8  activeInputMap[16];     //!< A 96 bit array, where each active bit means that the Nth key is pressed.
-	/* 0242()    */ uint8   unknown_0242[0x002A];
+	/* 0242()    */ uint8   unknown_0242[0x001E];
+	/* 0260(11)  */ uint8  keymap_ignore[11];      //!< Keys to ignore when reading.
+	/* 026B()    */ uint8   unknown_026B[0x0001];
 
 	/* 026C(222) */ uint8      code_026C[222];
 	/* 034A(62)  */ uint8  keymap_normal[62];      //!< Keymap to convert scancode to ASCII with capslock off and shift released.
@@ -111,7 +113,9 @@ typedef struct InputLocalData {
 	/* 0465(20)  */ uint8  keymap_numlock[20];     //!< Keymap to convert scancode to for numpad with numlock on.
 
 	/* 0479(185) */ uint8      code_0479[187];
-	/* 0534()    */ uint8   unknown_0534[0x04E5];
+	/* 0534()    */ uint8   unknown_0534[0x010F];
+	/* 0643(125) */ uint8      code_0643[125];
+	/* 06C0()    */ uint8   unknown_06C0[0x0359];
 
 	/* 0A19(123) */ uint8      code_0A19[123];
 	/* 0A94(2)   */ uint16 variable_0A94;          //!< ??
@@ -141,6 +145,7 @@ extern void Input_Keyboard_HandleKeys(uint8 key, uint8 state);
 extern void Input_Keyboard_HandleKeys2();
 extern void Input_Keyboard_Translate();
 extern void Input_Unknown_04FC();
+extern void Input_Keyboard_NextKey();
 extern void Input_HandleInputSafe();
 
 #endif /* INTPUT_H */

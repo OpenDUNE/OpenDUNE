@@ -247,8 +247,7 @@ void Input_Unknown_04FC()
 	/* Pop the return IP. */
 	emu_pop(&emu_ip);
 
-	if (g_input->mouseMode == INPUT_MOUSE_MODE_NORMAL) return;
-	if (g_input->mouseMode == INPUT_MOUSE_MODE_1) return;
+	if (g_input->mouseMode != INPUT_MOUSE_MODE_2) return;
 
 	if (g_input->variable_701B != 0x0) {
 		s_input_local->history[s_input_local->historyHead] = 0;
@@ -267,6 +266,73 @@ void Input_Unknown_04FC()
 
 	emu_push(0x0524); f__29E8_0534_000E_6213();
 	s_input_local->history[s_input_local->historyHead] = 0;
+}
+
+/**
+ * Find the next valid key from the history, and handle it.
+ *
+ * @name Input_Keyboard_NextKey
+ * @implements 29E8:0643:0008:ED98 ()
+ * @implements 29E8:064B:0059:4AA8
+ * @implements 29E8:0650:0054:F944
+ * @implements 29E8:0675:002F:0D28
+ * @implements 29E8:068A:001A:55A8
+ * @implements 29E8:0695:000F:89E5
+ * @implements 29E8:06A4:0014:5ACB
+ * @implements 29E8:06A6:0012:72C8
+ * @implements 29E8:06B8:0008:9049
+ * @implements 29E8:06BA:0006:A381
+ */
+void Input_Keyboard_NextKey()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_push(0x064B); Input_Unknown_04FC();
+
+	uint8 key = 0;
+	uint8 state = 0;
+
+	emu_cli();
+	while (true) {
+		key = (s_input_local->history[s_input_local->historyHead] & 0xFF);
+		state = s_input_local->history[s_input_local->historyHead] >> 8;
+
+		if (g_input->mouseMode != INPUT_MOUSE_MODE_2 && s_input_local->historyHead == s_input_local->historyTail) {
+			key = 0;
+			break;
+		}
+		if (g_input->mouseMode == INPUT_MOUSE_MODE_2 && key == 0) {
+			break;
+		}
+
+		int i;
+		for (i = 0; i < 11; i++) {
+			if (s_input_local->keymap_ignore[i] == key) break;
+		}
+
+		/* Valid keys are non-ignored, key-pressed, and below 0x7A */
+		if (i == 11 && (state & 0x08) == 0 && key < 0x7A) {
+			break;
+		}
+
+		/* Go to the next entry (mouse clicks have 4 more bytes in the history) */
+		if (key >= 0x41 && key <= 0x44) {
+			s_input_local->historyHead += 4;
+		}
+		s_input_local->historyHead += 2;
+		s_input_local->historyHead &= 0xFF;
+	}
+	emu_sti();
+
+	s_input_local->variable_01B7 = s_input_local->variable_01B5;
+	emu_ax.x = 0;
+
+	if (key == 0) return;
+
+	emu_push(0x06B8); Input_Keyboard_HandleKeys(key, state);
+	emu_ax.h = 0;
 }
 
 /**
