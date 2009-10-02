@@ -18,7 +18,7 @@ void f__B50B_0000_0029_BDBF()
 	emu_movw(&emu_bp, emu_sp);
 	emu_subws(&emu_sp, 0x2);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x0);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, -0x7303), 0x290);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x8CFD), 0x290);
 	emu_movw(&emu_ax.x, 0xE6);
 	emu_push(emu_ax.x);
 	emu_push(emu_ds);

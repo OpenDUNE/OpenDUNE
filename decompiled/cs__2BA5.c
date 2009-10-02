@@ -32,7 +32,7 @@ void f__2BA5_0006_009C_A3D1()
 	emu_push(emu_ds);
 	emu_push(emu_si);
 	emu_cld();
-	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00, -0x66C9));
+	emu_movw(&emu_bx.x, emu_get_memory16(emu_ds, 0x00,  0x9937));
 	emu_andb(&emu_bx.l, 0x1);
 	emu_shlb(&emu_bx.l, 0x1);
 	emu_shlb(&emu_bx.l, 0x1);

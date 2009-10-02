@@ -110,7 +110,7 @@ void f__2533_0031_0012_9FB6()
 void f__2533_0043_0009_47C5()
 {
 	emu_xorw(&emu_ax.x, emu_ax.x);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, -0x66C9), emu_ax.x);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x9937), emu_ax.x);
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
@@ -132,7 +132,7 @@ void f__2533_0043_0009_47C5()
  */
 void f__2533_0045_0007_07DC()
 {
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, -0x66C9), emu_ax.x);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x9937), emu_ax.x);
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);

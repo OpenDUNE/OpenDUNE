@@ -51,8 +51,8 @@ void f__104B_0017_0046_2F85()
 	emu_shlw(&emu_bx.x, emu_cx.l);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_movw(&emu_get_memory16(emu_ds, emu_bx.x, -0x7A22), emu_ax.x);
-	emu_movw(&emu_get_memory16(emu_ds, emu_bx.x, -0x7A24), emu_dx.x);
+	emu_movw(&emu_get_memory16(emu_ds, emu_bx.x,  0x85DE), emu_ax.x);
+	emu_movw(&emu_get_memory16(emu_ds, emu_bx.x,  0x85DC), emu_dx.x);
 	emu_incw(&emu_get_memory16(emu_ds, 0x00,  0x35F2));
 	emu_incw(&emu_si);
 	emu_cmpws(&emu_si, 0x10);

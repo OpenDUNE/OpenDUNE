@@ -1072,7 +1072,7 @@ void f__B511_0364_0015_3476()
 void f__B511_0379_0012_C11C()
 {
 	emu_addws(&emu_sp, 0x8);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, -0x7303), 0x290);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x8CFD), 0x290);
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x3A02));
 	emu_push(emu_cs); emu_push(0x038B); emu_cs = 0x0F78; f__0F78_02D5_0014_4ABC();
 	/* Check if this overlay should be reloaded */
@@ -3928,8 +3928,8 @@ void f__B511_0EA6_002A_894B()
 	emu_push(emu_ax.x);
 	emu_movw(&emu_ax.x, 0x2);
 	emu_push(emu_ax.x);
-	emu_push(emu_get_memory16(emu_ds, 0x00, -0x66D5));
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00, -0x66D3));
+	emu_push(emu_get_memory16(emu_ds, 0x00,  0x992B));
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x992D));
 	emu_movb(&emu_cx.l, 0x3);
 	emu_shlw(&emu_ax.x, emu_cx.l);
 	emu_push(emu_ax.x);

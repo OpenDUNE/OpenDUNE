@@ -32,7 +32,7 @@ void f__28FD_000C_0007_5DA9()
  */
 void f__28FD_0013_0009_539B()
 {
-	emu_movb(&emu_get_memory8(emu_ds, 0x00, -0x6793), emu_ax.l);
+	emu_movb(&emu_get_memory8(emu_ds, 0x00,  0x986D), emu_ax.l);
 	emu_movb(&emu_dx.l, emu_ax.l);
 	emu_movb(&emu_ax.h, 0xE);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x001C); Interrupt_DOS();
@@ -87,7 +87,7 @@ void f__28FD_002B_0009_3693()
 void f__28FD_0034_0009_3133()
 {
 	emu_movw(&emu_ax.x, emu_dx.x);
-	emu_movb(&emu_get_memory8(emu_ds, 0x00, -0x6792), emu_ax.l);
+	emu_movb(&emu_get_memory8(emu_ds, 0x00,  0x986E), emu_ax.l);
 	emu_pop(&emu_dx.x);
 	emu_pop(&emu_bx.x);
 	emu_pop(&emu_ax.x);

@@ -291,7 +291,7 @@ void f__259E_0104_0026_85EC()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x0));
 	emu_movb(&emu_ax.h, 0x0);
 	emu_movw(&emu_di, emu_ax.x);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp + emu_si, -0x312));
+	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp + emu_si,  0xFCEE));
 	emu_movb(&emu_ax.h, 0x0);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax.x);
 	emu_movw(&emu_ax.x, emu_di);
@@ -591,7 +591,7 @@ void f__259E_01B0_001C_3FC8()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x0));
 	emu_movb(&emu_ax.h, 0x0);
 	emu_movw(&emu_di, emu_ax.x);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp + emu_si, -0x312));
+	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp + emu_si,  0xFCEE));
 	emu_movb(&emu_ax.h, 0x0);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax.x);
 	emu_cmpw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x8));
@@ -698,7 +698,7 @@ void f__259E_0200_0028_CFAE()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x1);
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp, -0x8));
-	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si, -0x312), emu_ax.l);
+	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si,  0xFCEE), emu_ax.l);
 	emu_incw(&emu_si);
 	emu_cmpw(&emu_si, 0x300);
 	if ((emu_flags.sf != emu_flags.of)) { f__259E_01B0_001C_3FC8(); return; }
@@ -725,7 +725,7 @@ void f__259E_0202_0026_4520()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x1);
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp, -0x8));
-	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si, -0x312), emu_ax.l);
+	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si,  0xFCEE), emu_ax.l);
 	emu_incw(&emu_si);
 	emu_cmpw(&emu_si, 0x300);
 	if ((emu_flags.sf != emu_flags.of)) { f__259E_01B0_001C_3FC8(); return; }
@@ -751,7 +751,7 @@ void f__259E_0202_0026_4520()
 void f__259E_020A_001E_04ED()
 {
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp, -0x8));
-	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si, -0x312), emu_ax.l);
+	emu_movb(&emu_get_memory8(emu_ss, emu_bp + emu_si,  0xFCEE), emu_ax.l);
 	emu_incw(&emu_si);
 	emu_cmpw(&emu_si, 0x300);
 	if ((emu_flags.sf != emu_flags.of)) { f__259E_01B0_001C_3FC8(); return; }

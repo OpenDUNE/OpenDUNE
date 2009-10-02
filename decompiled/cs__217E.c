@@ -3530,7 +3530,7 @@ void f__217E_0F1F_0023_307C()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x22), emu_ax.x);
 	emu_movw(&emu_ax.x, 0xF000);
 	emu_movw(&emu_es, emu_ax.x);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, 0x00, -0x2));
+	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, 0x00,  0xFFFE));
 	emu_cmpb(&emu_ax.l, 0xFC);
 	if (!(emu_flags.cf || emu_flags.zf)) { /* Unresolved jump */ emu_ip = 0x0F1C; emu_last_cs = 0x217E; emu_last_ip = 0x0F2F; emu_last_length = 0x0023; emu_last_crc = 0x307C; emu_call(); return; }
 	emu_cmpb(&emu_ax.l, 0xFB);

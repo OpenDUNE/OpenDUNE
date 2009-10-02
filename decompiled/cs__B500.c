@@ -239,8 +239,8 @@ void f__B500_006E_0012_AD3C()
  */
 void f__B500_0082_0011_8B05()
 {
-	emu_push(emu_get_memory16(emu_ds, 0x00, -0x67B8));
-	emu_push(emu_get_memory16(emu_ds, 0x00, -0x67BA));
+	emu_push(emu_get_memory16(emu_ds, 0x00,  0x9848));
+	emu_push(emu_get_memory16(emu_ds, 0x00,  0x9846));
 	emu_movw(&emu_ax.x, 0x3F);
 	emu_push(emu_ax.x);
 	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x01F7; f__01F7_04CC_000E_D711();

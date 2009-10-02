@@ -637,8 +637,8 @@ void f__B4C4_0233_000B_9D3D()
  */
 void f__B4C4_023E_000D_44AD()
 {
-	emu_push(emu_get_memory16(emu_ds, 0x00, -0x72F9));
-	emu_push(emu_get_memory16(emu_ds, 0x00, -0x72FB));
+	emu_push(emu_get_memory16(emu_ds, 0x00,  0x8D07));
+	emu_push(emu_get_memory16(emu_ds, 0x00,  0x8D05));
 	emu_push(emu_cs); emu_push(0x024B); emu_cs = 0x34B8; ovl__34B8(6);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { ovl__34C4(0xFF); }
