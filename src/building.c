@@ -45,7 +45,7 @@ void Building_Get_ByIndex2()
 	emu_ax.x = 0x0;
 	emu_dx.x = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	if (index >= 0x52) return;
 
 	emu_dx.x = g_global->memoryBuildings >> 16;
