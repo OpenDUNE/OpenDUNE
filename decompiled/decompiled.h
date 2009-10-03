@@ -1,7 +1,6 @@
 /* $Id$ */
 
 #include "../src/global.h"
-#include "../src/memory.h"
 #include "../src/patched.h"
 #include "../src/owner.h"
 #include "../src/input/input.h"

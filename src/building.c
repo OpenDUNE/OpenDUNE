@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -31,28 +32,55 @@ Building *Building_Get_ByMemory(uint16 segment, uint16 offset)
 }
 
 /**
- * Get a building from the memory by index.
+ * Allocate memory for a building.
  *
- * @name emu_Building_Get_ByIndex
- * @implements 1082:03A1:0023:9F5D ()
- * @implements 1082:03C2:0002:C33A
- * @implements 1082:03C4:0006:5EA9
- * @implements 1082:03CA:0002:2597
+ * @param index The index to put the building on, or -1 to find a free spot.
+ * @param typeID The type of the new building.
  */
-void emu_Building_Get_ByIndex()
+Building *Building_Allocate(int16 index, uint8 typeID)
 {
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
+	Building *b = NULL;
 
-	emu_ax.x = 0x0;
-	emu_dx.x = 0x0;
+	if (g_global->buildingStartPos == 0x0) return NULL;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	if (index >= BUILDING_INDEX_MAX_HARD) return;
+	if (typeID == BUILDING_SLAB_1x1) {
+		index = BUILDING_INDEX_SLAB_1x1;
+		b = Building_Get_ByIndex(index);
+	} else if (typeID == BUILDING_SLAB_2x2) {
+		index = BUILDING_INDEX_SLAB_2x2;
+		b = Building_Get_ByIndex(index);
+	} else if (typeID == BUILDING_WALL) {
+		index = BUILDING_INDEX_WALL;
+		b = Building_Get_ByIndex(index);
+	} else if (index != -1) { // Forced on an index
+		b = Building_Get_ByIndex(index);
+		/* If the slot is not free, don't allocate the building */
+		if ((b->variable_04 & 0x0001) != 0) b = NULL;
+	} else { // Find the first free slot
+		for (index = 0; index < BUILDING_INDEX_MAX_SOFT; index++) {
+			b = Building_Get_ByIndex(index);
+			if ((b->variable_04 & 0x0001) == 0) break;
+		}
 
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building);
+		/* If we didn't find a free slot, don't allocate the building */
+		if (index == BUILDING_INDEX_MAX_SOFT) b = NULL;
+	}
+
+	if (b == NULL) return NULL;
+
+	/* Initialize the building */
+	memset(b, 0, sizeof(Building));
+	b->index = index;
+	b->typeID = typeID;
+	b->variable_03 = 0xFF;
+	b->variable_04 = 0x03;
+	b->variable_06 = 0x00;
+	b->variable_10 = 0x00;
+
+	g_global->buildingArray[g_global->buildingCount] = g_global->buildingStartPos + index * sizeof(Building);
+	g_global->buildingCount++;
+
+	return b;
 }
 
 /* Find all buildings, where filters specify what to find exactly.
@@ -83,42 +111,4 @@ Building *Building_Find(int16 ownerID, int16 typeID, int16 *lastIndex)
 
 	*lastIndex = index;
 	return NULL;
-}
-
-/**
- * Find alls buildings, where filters specify what to find exactly.
- *
- * @name emu_Building_Find
- * @implements 1082:013D:0038:4AF1 ()
- * @implements 1082:0155:0020:8556
- * @implements 1082:0173:0002:ED3A
- * @implements 1082:0175:0059:CC2D
- * @implements 1082:019B:0033:6811
- * @implements 1082:01AE:0020:C80A
- * @implements 1082:01BF:000F:4483
- * @implements 1082:01CC:0002:CA3A
- * @implements 1082:01CE:0014:2D5F
- * @implements 1082:01CF:0013:4D5B
- * @implements 1082:01E2:0006:F7CE
- */
-void emu_Building_Find()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	BuildingFindStruct *find = (BuildingFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
-	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) find = (BuildingFindStruct *)g_global->buildingFindStruct;
-
-	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
-
-	if (b == NULL) {
-		emu_dx.x = 0x0;
-		emu_ax.x = 0x0;
-		return;
-	}
-
-	/* Find back the CS:IP of the building */
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
 }
