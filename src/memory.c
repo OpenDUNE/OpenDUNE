@@ -50,26 +50,26 @@ void Memory_Building_Allocate()
 	}
 
 	if (typeID == BUILDING_SLAB_1x1) {
-		index = 81;
+		index = BUILDING_INDEX_SLAB_1x1;
 		b = Building_Get_ByIndex(index);
 	} else if (typeID == BUILDING_SLAB_2x2) {
-		index = 80;
+		index = BUILDING_INDEX_SLAB_2x2;
 		b = Building_Get_ByIndex(index);
 	} else if (typeID == BUILDING_WALL) {
-		index = 79;
+		index = BUILDING_INDEX_WALL;
 		b = Building_Get_ByIndex(index);
 	} else if (index != -1) { // Forced on an index
 		b = Building_Get_ByIndex(index);
 		/* If the slot is not free, don't allocate the building */
 		if ((b->variable_04 & 0x0001) != 0) b = NULL;
 	} else { // Find the first free slot
-		for (index = 0; index < 79; index++) {
+		for (index = 0; index < BUILDING_INDEX_MAX_SOFT; index++) {
 			b = Building_Get_ByIndex(index);
 			if ((b->variable_04 & 0x0001) == 0) break;
 		}
 
 		/* If we didn't find a free slot, don't allocate the building */
-		if (index == 79) b = NULL;
+		if (index == BUILDING_INDEX_MAX_SOFT) b = NULL;
 	}
 
 	if (b == NULL) {
@@ -84,10 +84,10 @@ void Memory_Building_Allocate()
 	}
 
 	/* Clear the memory of the building */
-	emu_push(0x58);
+	emu_push(sizeof(Building));
 	emu_push(0x0);
 	emu_push(g_global->buildingStartPos >> 16);
-	emu_push((g_global->buildingStartPos & 0xFFFF) + index * 0x58);
+	emu_push((g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building));
 	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x01F7; f__01F7_2947_0014_02B8();
 	emu_sp += 0x8;
 
@@ -99,11 +99,11 @@ void Memory_Building_Allocate()
 	b->variable_06 = 0x00;
 	b->variable_10 = 0x00;
 
-	g_global->buildingArray[g_global->buildingCount] = g_global->buildingStartPos + index * 0x58;
+	g_global->buildingArray[g_global->buildingCount] = g_global->buildingStartPos + index * sizeof(Building);
 	g_global->buildingCount++;
 
 	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * 0x58;
+	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building);
 
 	/* Return from this function */
 	emu_pop(&emu_bp);

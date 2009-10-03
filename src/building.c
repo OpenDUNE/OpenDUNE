@@ -1,8 +1,10 @@
+#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
 #include "building.h"
+#include "owner.h"
 
 /**
  * Get a building from the memory by index.
@@ -12,6 +14,7 @@
  */
 Building *Building_Get_ByIndex(uint8 index)
 {
+	assert(index < BUILDING_INDEX_MAX_HARD);
 	return (Building *)&emu_get_memory8(g_global->buildingStartPos >> 16, g_global->buildingStartPos & 0xFFFF, index * 0x58);
 }
 
@@ -47,10 +50,10 @@ void Building_Get_ByIndex2()
 	emu_dx.x = 0x0;
 
 	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	if (index >= 0x52) return;
+	if (index >= BUILDING_INDEX_MAX_HARD) return;
 
 	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * 0x58;
+	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building);
 }
 
 /**
@@ -88,7 +91,7 @@ void Building_Find()
 		uint32 pos = g_global->buildingArray[find->index];
 		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
 
-		if ((b->variable_04 & 0x04) != 0 && g_global->variable_38BC == 0) continue;
+		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
 		if (find->ownerID != OWNER_INVALID    && b->ownerID != find->ownerID) continue;
 		if (find->typeID  != BUILDING_INVALID && b->typeID  != find->typeID)  continue;
 

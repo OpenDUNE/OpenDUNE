@@ -3,6 +3,15 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
+enum {
+	BUILDING_INDEX_MAX_SOFT = 79,                  //!< The highest possible index for normal buildings.
+	BUILDING_INDEX_MAX_HARD = 82,                  //!< The highest possible index for any building.
+
+	BUILDING_INDEX_WALL     = 79,                  //!< All walls are are put under index 79.
+	BUILDING_INDEX_SLAB_2x2 = 80,                  //!< All 2x2 slabs are put under index 80.
+	BUILDING_INDEX_SLAB_1x1 = 81,                  //!< All 1x1 slabs are put under index 81.
+};
+
 /**
  * Types of buildings available in the game.
  * TODO -- Complete the enum.
@@ -31,6 +40,7 @@ typedef struct Building {
 	/* 0012()    */ uint8   unknown_0000[0x0046];
 } GCC_PACKED Building;
 MSVC_PACKED_END;
+assert_compile(sizeof(Building) == 0x58);
 
 MSVC_PACKED_BEGIN;
 /**
@@ -43,6 +53,7 @@ typedef struct BuildingFindStruct {
 	/* 0004(2)   */ int16  index;                   //!< Last index of search, or -1 to start from begin.
 } GCC_PACKED BuildingFindStruct;
 MSVC_PACKED_END;
+assert_compile(sizeof(BuildingFindStruct) == 0x06);
 
 extern Building *Building_Get_ByIndex(uint8 index);
 extern Building *Building_Get_ByMemory(uint16 segment, uint16 offset);

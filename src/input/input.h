@@ -78,6 +78,7 @@ typedef struct InputLocalData {
 	/* 0F95()    */ // Last known byte
 } GCC_PACKED InputLocalData;
 MSVC_PACKED_END;
+assert_compile(sizeof(InputLocalData) == 0x0F95);
 
 extern void System_Init_Input();
 extern void Input_Mouse_Init();
