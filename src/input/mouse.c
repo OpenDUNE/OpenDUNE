@@ -20,7 +20,7 @@
  *  state.
  * @note It reserves space for 2 local variables.
  */
-static void Input_Mouse_EnterHandler()
+static void emu_Input_Mouse_EnterHandler()
 {
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
@@ -40,10 +40,10 @@ static void Input_Mouse_EnterHandler()
  * When leaving the mouse handler, a few registers need to be restored.
  *  This function takes care of that.
  *
- * @name Input_Mouse_ExitHandler
+ * @name emu_Input_Mouse_ExitHandler
  * @implements 29A3:01C3:000C:CF33 ()
  */
-static void Input_Mouse_ExitHandler()
+static void emu_Input_Mouse_ExitHandler()
 {
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
@@ -93,12 +93,12 @@ static uint16 Input_Mouse_CheckButtons(uint8 newState)
 /**
  * Handle the pressing and releasing of mouse buttons.
  */
-static void Input_Mouse_HandleButtons()
+static void emu_Input_Mouse_HandleButtons()
 {
 	emu_ax.x = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; Input_HandleInputSafe();
+	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; emu_Input_HandleInputSafe();
 	emu_sp += 0x2; // Remove entry from stack
 }
 
@@ -106,7 +106,7 @@ static void Input_Mouse_HandleButtons()
  * Check if the mouse moved, and update the cursor if needed. This includes
  *  a check if it is outside the region defined.
  *
- * @name Input_Mouse_CheckMovement
+ * @name emu_Input_Mouse_CheckMovement
  * @implements 29A3:013F:002A:CFEE ()
  * @implements 29A3:0152:0017:5360
  * @implements 29A3:0169:0008:63C3
@@ -117,7 +117,7 @@ static void Input_Mouse_HandleButtons()
  * @implements 29A3:01B1:0004:C0E6
  * @implements 29A3:01B5:001A:784E
  */
-static void Input_Mouse_CheckMovement()
+static void emu_Input_Mouse_CheckMovement()
 {
 	/* XXX -- It avoids mouse movement .. but what is it? */
 	if (g_global->variable_706A != 0x0) return;
@@ -214,12 +214,12 @@ static void Input_Mouse_CheckMovement()
 /**
  * Handle the movement of the mouse.
  *
- * @name Input_Mouse_HandleMovement
+ * @name emu_Input_Mouse_HandleMovement
  * @implements 29A3:00CD:0066:C700 ()
  * @implements 29A3:00F3:0040:B81C
  * @implements 29A3:010F:0024:C7FA
  */
-static void Input_Mouse_HandleMovement()
+static void emu_Input_Mouse_HandleMovement()
 {
 	g_global->mouseLock = 1;
 
@@ -241,10 +241,10 @@ static void Input_Mouse_HandleMovement()
 	g_global->mouseY = emu_dx.x;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_1 && (g_global->inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
-		Input_Mouse_HandleButtons();
+		emu_Input_Mouse_HandleButtons();
 	}
 
-	Input_Mouse_CheckMovement();
+	emu_Input_Mouse_CheckMovement();
 
 	g_global->mousePrevX = emu_cx.x;
 	g_global->mousePrevY = emu_dx.x;
@@ -263,16 +263,16 @@ static void Input_Mouse_HandleMovement()
  *  di - delta x
  *  si - delta y
  *
- * @name Input_Mouse_EventHandler
+ * @name emu_Input_Mouse_EventHandler
  * @implements 29A3:0054:005C:47DC ()
  * @implements 29A3:0089:0027:69FF
  * @implements 29A3:009B:0015:C95F
  * @implements 29A3:00B0:0009:B56A
  * @implements 29A3:00B9:0014:EEB4
  */
-void Input_Mouse_EventHandler()
+void emu_Input_Mouse_EventHandler()
 {
-	Input_Mouse_EnterHandler();
+	emu_Input_Mouse_EnterHandler();
 
 	/* Store the mouse-button and event-type on the stack */
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx.x;
@@ -280,31 +280,31 @@ void Input_Mouse_EventHandler()
 
 	/* Check various of things, and if they do not validate, exit the mouse routine */
 	/* XXX -- Most of these checks are yet unknown in their function */
-	if (g_global->variable_7097 != 0x00) { Input_Mouse_ExitHandler(); return; }
-	if (g_global->variable_7098 == 0x00) { Input_Mouse_ExitHandler(); return; }
+	if (g_global->variable_7097 != 0x00) { emu_Input_Mouse_ExitHandler(); return; }
+	if (g_global->variable_7098 == 0x00) { emu_Input_Mouse_ExitHandler(); return; }
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_1) {
-		if (g_global->variable_986C != 0x00) { Input_Mouse_ExitHandler(); return; }
+		if (g_global->variable_986C != 0x00) { emu_Input_Mouse_ExitHandler(); return; }
 	}
 
 	if (g_global->doubleWidth != 0) emu_cx.x = emu_cx.x / 2;
 	if (emu_cx.x > 319) emu_cx.x = 319;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
-		Input_Mouse_HandleButtons();
+		emu_Input_Mouse_HandleButtons();
 	}
 
 	/* XXX -- More checks */
-	if (g_global->mouseMode == INPUT_MOUSE_MODE_2) { Input_Mouse_ExitHandler(); return; }
-	if (g_global->mouseLock != 0) { Input_Mouse_ExitHandler(); return; }
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_2) { emu_Input_Mouse_ExitHandler(); return; }
+	if (g_global->mouseLock != 0) { emu_Input_Mouse_ExitHandler(); return; }
 
-	Input_Mouse_HandleMovement();
-	Input_Mouse_ExitHandler();
+	emu_Input_Mouse_HandleMovement();
+	emu_Input_Mouse_ExitHandler();
 }
 
 /**
  * Initialize the mouse.
  *
- * @name Input_Mouse_Init
+ * @name emu_Input_Mouse_Init
  * @implements 29A3:0224:0009:AA5D ()
  * @implements 29A3:022D:003C:7E93
  * @implements 29A3:0269:0005:5C73
@@ -313,7 +313,7 @@ void Input_Mouse_EventHandler()
  * @implements 29A3:02A8:000D:6EF0
  * @implements 29A3:02B5:0008:B689
  */
-void Input_Mouse_Init()
+void emu_Input_Mouse_Init()
 {
 	emu_push(emu_bx.x);
 	emu_push(emu_cx.x);
@@ -370,11 +370,11 @@ void Input_Mouse_Init()
 /**
  * Set the callback to no longer receive any event from the mouse handler.
  *
- * @name Input_Mouse_CallbackClear
+ * @name emu_Input_Mouse_CallbackClear
  * @implements 29A3:02BD:0018:A1B5 ()
  * @implements 29A3:02D5:0005:CE8B
  */
-void Input_Mouse_CallbackClear()
+void emu_Input_Mouse_CallbackClear()
 {
 	emu_push(emu_ax.x);
 	emu_push(emu_cx.x);
@@ -403,13 +403,13 @@ void Input_Mouse_CallbackClear()
 /**
  * Check if the mouse is inside a region.
  *
- * @name Input_Mouse_InsideRegion
+ * @name emu_Input_Mouse_InsideRegion
  * @implements 29A3:02DA:003B:81C9 ()
  * @implements 29A3:02EE:0027:7721
  * @implements 29A3:0315:000E:51CF
  * @implements 29A3:0318:000B:532F
  */
-void Input_Mouse_InsideRegion()
+void emu_Input_Mouse_InsideRegion()
 {
 	while (g_global->mouseLock != 0) usleep(1);
 

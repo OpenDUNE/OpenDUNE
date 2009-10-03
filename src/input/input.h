@@ -81,18 +81,18 @@ MSVC_PACKED_END;
 assert_compile(sizeof(InputLocalData) == 0x0F95);
 
 extern void System_Init_Input();
-extern void Input_Mouse_Init();
-extern void Input_Mouse_EventHandler();
-extern void Input_Mouse_InsideRegion();
-extern void Input_Mouse_CallbackClear();
-extern void Input_Flags_ClearBits();
-extern void Input_Flags_SetBits();
-extern void Input_History_Clear();
-extern void Input_Keyboard_HandleKeys(uint8 key, uint8 state);
-extern void Input_Keyboard_HandleKeys2();
-extern void Input_Keyboard_Translate();
-extern void Input_Unknown_04FC();
-extern void Input_Keyboard_NextKey();
-extern void Input_HandleInputSafe();
+extern void emu_Input_Mouse_Init();
+extern void emu_Input_Mouse_EventHandler();
+extern void emu_Input_Mouse_InsideRegion();
+extern void emu_Input_Mouse_CallbackClear();
+extern void emu_Input_Flags_ClearBits();
+extern void emu_Input_Flags_SetBits();
+extern void emu_Input_History_Clear();
+extern void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state);
+extern void emu_Input_Keyboard_HandleKeys2();
+extern void emu_Input_Keyboard_Translate();
+extern void emu_Input_Unknown_04FC();
+extern void emu_Input_Keyboard_NextKey();
+extern void emu_Input_HandleInputSafe();
 
 #endif /* INTPUT_H */

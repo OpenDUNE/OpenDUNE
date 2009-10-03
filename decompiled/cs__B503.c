@@ -683,7 +683,7 @@ void f__B503_026A_0014_B1CE()
 void f__B503_027E_0008_7A01()
 {
 	emu_addws(&emu_sp, 0x6);
-	emu_push(emu_cs); emu_push(0x0286); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0286); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_0286_000F_B642();
@@ -867,7 +867,7 @@ void f__B503_02EA_0024_D285()
 void f__B503_030E_0008_2201()
 {
 	emu_addws(&emu_sp, 0x10);
-	emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_0316_0011_E66D();
@@ -1612,7 +1612,7 @@ void f__B503_050D_0014_8976()
 void f__B503_0521_0008_4201()
 {
 	emu_addws(&emu_sp, 0x8);
-	emu_push(emu_cs); emu_push(0x0529); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0529); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_0529_001A_2E3C();
@@ -2410,7 +2410,7 @@ void f__B503_07E3_000A_916C()
  */
 void f__B503_07ED_0005_E089()
 {
-	emu_push(emu_cs); emu_push(0x07F2); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x07F2); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_07F2_0009_067A();
@@ -2720,7 +2720,7 @@ void f__B503_088B_000B_B072()
  */
 void f__B503_0896_0005_20AE()
 {
-	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_089B_0008_2C18();
@@ -5980,7 +5980,7 @@ void f__B503_13C2_0008_C4BB()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
-	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
 	f__B503_13CA_0009_9868();

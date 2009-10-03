@@ -39,7 +39,7 @@ void f__B4E0_000F_000D_9EA7()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax.x);
 	emu_movw(&emu_ax.x, 0x1);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x001C); emu_cs = 0x29E8; Input_Flags_SetBits();
+	emu_push(emu_cs); emu_push(0x001C); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { ovl__34E0(0xFF); }
 	f__B4E0_001C_0006_8488();
@@ -56,7 +56,7 @@ void f__B4E0_000F_000D_9EA7()
 void f__B4E0_001C_0006_8488()
 {
 	emu_pop(&emu_cx.x);
-	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { ovl__34E0(0xFF); }
 	f__B4E0_0022_000F_E922();
@@ -441,7 +441,7 @@ void f__B4E0_011D_0024_0DEA()
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x8036), emu_dx.x);
 	emu_movw(&emu_ax.x, 0x1);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0141); emu_cs = 0x29E8; Input_Flags_ClearBits();
+	emu_push(emu_cs); emu_push(0x0141); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { ovl__34E0(0xFF); }
 	f__B4E0_0141_0009_91B5();
@@ -1059,7 +1059,7 @@ void f__B4E0_03FA_000A_A623()
 	emu_pop(&emu_cx.x);
 	emu_movw(&emu_ax.x, 0x841);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x29E8; Input_HandleInputSafe();
+	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x29E8; emu_Input_HandleInputSafe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { ovl__34E0(0xFF); }
 	f__B4E0_0404_000A_A523();
@@ -1078,7 +1078,7 @@ void f__B4E0_0404_000A_A523()
 	emu_pop(&emu_cx.x);
 	emu_movw(&emu_ax.x, 0x842);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x040E); emu_cs = 0x29E8; Input_HandleInputSafe();
+	emu_push(emu_cs); emu_push(0x040E); emu_cs = 0x29E8; emu_Input_HandleInputSafe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { ovl__34E0(0xFF); }
 	f__B4E0_040E_0005_E871();

@@ -60,7 +60,7 @@ void f__29E8_072F_000F_651A()
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0x1AF));
 	emu_xorw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0x1B1));
 	emu_popf();
-	emu_push(0x073E); Input_Unknown_04FC();
+	emu_push(0x073E); emu_Input_Unknown_04FC();
 	f__29E8_073E_0001_6580();
 }
 
@@ -364,7 +364,7 @@ void f__29E8_081D_0023_1368()
 	if (!emu_flags.zf) { f__29E8_0804_0016_2028(); return; }
 	emu_cmpb(&emu_ax.l, 0x7A);
 	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0804; emu_last_cs = 0x29E8; emu_last_ip = 0x083B; emu_last_length = 0x0023; emu_last_crc = 0x1368; emu_call(); return; }
-	emu_push(0x0840); Input_Keyboard_HandleKeys(emu_ax.l, emu_ax.h);
+	emu_push(0x0840); emu_Input_Keyboard_HandleKeys(emu_ax.l, emu_ax.h);
 	f__29E8_0840_0003_233C();
 }
 
@@ -497,7 +497,7 @@ void f__29E8_08B5_000A_FC14()
 	emu_push(emu_cx.x);
 	emu_push(emu_di);
 	emu_push(emu_ds);
-	emu_push(0x08BF); Input_Unknown_04FC();
+	emu_push(0x08BF); emu_Input_Unknown_04FC();
 	f__29E8_08BF_0007_D960();
 }
 
@@ -513,7 +513,7 @@ void f__29E8_08BF_0007_D960()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x08C6); Input_Keyboard_Translate();
+	emu_push(0x08C6); emu_Input_Keyboard_Translate();
 	f__29E8_08C6_001F_C389();
 }
 
@@ -1198,7 +1198,7 @@ void f__29E8_0E6B_000A_53F7()
 	emu_movw(&emu_ax.x, 0x353F);
 	emu_movw(&emu_ds, emu_ax.x);
 	emu_push(emu_cs);
-	emu_push(0x0E75); Input_Keyboard_Translate();
+	emu_push(0x0E75); emu_Input_Keyboard_Translate();
 	f__29E8_0E75_008C_16C3();
 }
 
@@ -1437,7 +1437,7 @@ void f__29E8_0EFC_0005_C212()
 {
 	emu_push(emu_ax.x);
 	emu_push(emu_cs);
-	emu_push(0x0F01); Input_HandleInputSafe();
+	emu_push(0x0F01); emu_Input_HandleInputSafe();
 	f__29E8_0F01_0013_FF87();
 }
 

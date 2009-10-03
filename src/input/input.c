@@ -24,11 +24,11 @@ void System_Init_Input()
  * Set one or more bits given by the param to the input flags. See
  *  InputFlagsEnum for the valid values.
  *
- * @name Input_Flags_SetBits
+ * @name emu_Input_Flags_SetBits
  * @implements 29E8:04AF:003C:ECA0 ()
  * @implements 29E8:04E9:0002:2597
  */
-void Input_Flags_SetBits()
+void emu_Input_Flags_SetBits()
 {
 	uint16 setFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
 
@@ -50,10 +50,10 @@ void Input_Flags_SetBits()
  * Clears one or more bits given by the param to the input flags. See
  *  InputFlagsEnum for the valid values.
  *
- * @name Input_Flags_ClearBits
+ * @name emu_Input_Flags_ClearBits
  * @implements 29E8:04EB:0011:9CC8 ()
  */
-void Input_Flags_ClearBits()
+void emu_Input_Flags_ClearBits()
 {
 	uint16 clearFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
 
@@ -76,7 +76,7 @@ void Input_Flags_ClearBits()
  * @implements 29E8:0A19:002A:2DE6
  * @implements 29E8:0A43:0007:9B22
  */
-bool Input_History_Add(uint16 value)
+static bool Input_History_Add(uint16 value)
 {
 	uint16 position = s_input_local->historyTail;
 	uint16 positionNext = (position + 2) & 0xFF;
@@ -92,10 +92,10 @@ bool Input_History_Add(uint16 value)
  * Clear the history.
  *  In reality the head is set to the tail, making the input appear empty.
  *
- * @name Input_History_Clear
+ * @name emu_Input_History_Clear
  * @implements 29E8:073F:000E:6816 ()
  */
-void Input_History_Clear()
+void emu_Input_History_Clear()
 {
 	emu_pushf();
 	emu_cli();
@@ -111,7 +111,7 @@ void Input_History_Clear()
  * Handles the pressing of a key, transforming it to codes we understand.
  *  For most characters this means making them ASCII code.
  *
- * @name Input_Keyboard_HandleKeys
+ * @name emu_Input_Keyboard_HandleKeys
  * @implements 29E8:026C:0015:3543 (emu_ax.l, emu_ax.h)
  * @implements 29E8:027A:0007:5A2E
  * @implements 29E8:0281:0012:4D00
@@ -127,7 +127,7 @@ void Input_History_Clear()
  * @implements 29E8:0343:0007:372B
  * @implements 29E8:0345:0005:5A4B
  */
-void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
+void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 {
 	/* Pop the return IP. */
 	emu_pop(&emu_ip);
@@ -208,14 +208,14 @@ void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
  * Same as Input_Keyboard_HandleKeys, but reads the scancode from the stack
  *  instead of via parameters.
  *
- * @name Input_Keyboard_HandleKeys2
+ * @name emu_Input_Keyboard_HandleKeys2
  * @implements 29E8:0479:0009:A77A ()
  * @implements 29E8:0482:0002:2597
  */
-void Input_Keyboard_HandleKeys2()
+void emu_Input_Keyboard_HandleKeys2()
 {
 	uint16 scancode = emu_get_memory16(emu_ss, emu_sp,  0x4);
-	emu_push(0); Input_Keyboard_HandleKeys(scancode & 0xFF, scancode >> 8);
+	emu_push(0); emu_Input_Keyboard_HandleKeys(scancode & 0xFF, scancode >> 8);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
@@ -228,11 +228,11 @@ void Input_Keyboard_HandleKeys2()
  *  job.
  * TODO -- This needs to be confirmed.
  *
- * @name Input_Keyboard_Translate
+ * @name emu_Input_Keyboard_Translate
  * @implements 29E8:0484:002B:0A28 ()
  * @implements 29E8:04AA:0005:5C4F
  */
-void Input_Keyboard_Translate()
+void emu_Input_Keyboard_Translate()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -255,12 +255,12 @@ void Input_Keyboard_Translate()
  * No clue what this function does.
  * TODO -- Figure it out.
  *
- * @name Input_Unknown_04FC
+ * @name emu_Input_Unknown_04FC
  * @implements 29E8:04FC:0028:0C66 ()
  * @implements 29E8:0527:000D:25CF
  * @implements 29E8:0533:0001:6180
  */
-void Input_Unknown_04FC()
+void emu_Input_Unknown_04FC()
 {
 	/* Pop the return IP. */
 	emu_pop(&emu_ip);
@@ -289,7 +289,7 @@ void Input_Unknown_04FC()
 /**
  * Find the next valid key from the history, and handle it.
  *
- * @name Input_Keyboard_NextKey
+ * @name emu_Input_Keyboard_NextKey
  * @implements 29E8:0643:0008:ED98 ()
  * @implements 29E8:064B:0059:4AA8
  * @implements 29E8:0650:0054:F944
@@ -301,9 +301,9 @@ void Input_Unknown_04FC()
  * @implements 29E8:06B8:0008:9049
  * @implements 29E8:06BA:0006:A381
  */
-void Input_Keyboard_NextKey()
+void emu_Input_Keyboard_NextKey()
 {
-	emu_push(0x064B); Input_Unknown_04FC();
+	emu_push(0x064B); emu_Input_Unknown_04FC();
 
 	uint8 key = 0;
 	uint8 state = 0;
@@ -345,7 +345,7 @@ void Input_Keyboard_NextKey()
 	emu_ax.x = 0;
 
 	if (key != 0) {
-		emu_push(0x06B8); Input_Keyboard_HandleKeys(key, state);
+		emu_push(0x06B8); emu_Input_Keyboard_HandleKeys(key, state);
 		emu_ax.h = 0;
 	}
 
@@ -377,7 +377,7 @@ void Input_Keyboard_NextKey()
  * @implements 29E8:0D2C:0005:D17A
  * @implements 29E8:0D31:0016:113C
  */
-void Input_HandlerInput(uint16 inputState)
+static void Input_HandlerInput(uint16 inputState)
 {
 	uint16 originalHistoryTail = s_input_local->historyTail;
 	uint8 inputCommand = inputState & 0xFF;
@@ -461,11 +461,11 @@ void Input_HandlerInput(uint16 inputState)
  * A safe handler around Input_HandlerInput, which puts all registers safe
  *  and recovers it at the end.
  *
- * @name Input_HandleInputSafe
+ * @name emu_Input_HandleInputSafe
  * @implements 29E8:0A4A:0040:5428 ()
  * @implements 29E8:0D3A:000D:2768
  */
-void Input_HandleInputSafe()
+void emu_Input_HandleInputSafe()
 {
 	emu_pushf();
 	emu_cli();

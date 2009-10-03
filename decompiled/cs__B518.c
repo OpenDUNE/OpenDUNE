@@ -622,7 +622,7 @@ void f__B518_01B9_0021_2C9D()
 void f__B518_01DA_0008_2201()
 {
 	emu_addws(&emu_sp, 0x10);
-	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_01E2_0029_5191();
@@ -1636,7 +1636,7 @@ void f__B518_0502_0005_816D()
  */
 void f__B518_0507_0005_E089()
 {
-	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_050C_0005_BE38();
@@ -1668,7 +1668,7 @@ void f__B518_050C_0005_BE38()
  */
 void f__B518_0511_0005_20AE()
 {
-	emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0516_0009_6867();
@@ -1686,7 +1686,7 @@ void f__B518_0516_0009_6867()
 {
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (emu_flags.zf) { f__B518_050C_0005_BE38(); return; }
-	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_051F_0008_0E60();
@@ -2696,7 +2696,7 @@ void f__B518_0833_000D_2172()
 	emu_pop(&emu_cx.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x12), emu_dx.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x14), emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0840_0008_64F7();
@@ -2792,7 +2792,7 @@ void f__B518_086E_0007_843A()
 {
 	emu_pop(&emu_cx.x);
 	emu_pop(&emu_cx.x);
-	emu_push(emu_cs); emu_push(0x0875); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0875); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0875_001E_C536();

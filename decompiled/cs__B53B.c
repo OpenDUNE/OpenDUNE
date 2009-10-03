@@ -500,7 +500,7 @@ void f__B53B_01A5_0024_3A58()
 void f__B53B_01C9_0008_5201()
 {
 	emu_addws(&emu_sp, 0xC);
-	emu_push(emu_cs); emu_push(0x01D1); emu_cs = 0x29E8; Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x01D1); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { ovl__353B(0xFF); }
 	f__B53B_01D1_0005_B085();
