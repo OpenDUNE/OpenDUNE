@@ -21,5 +21,6 @@ MSVC_PACKED_END;
 
 extern Building *Building_Get_ByIndex(uint8 index);
 extern Building *Building_Get_ByMemory(uint16 segment, uint16 offset);
+extern void Building_Get_ByIndex2();
 
 #endif /* BUILDING_H */

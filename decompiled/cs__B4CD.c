@@ -5110,7 +5110,7 @@ void f__B4CD_10C9_0019_CA1D()
 	emu_testb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x20);
 	if (emu_flags.zf) { f__B4CD_10E4_0006_4C29(); return; }
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x10E2); emu_cs = 0x1082; f__1082_03A1_0023_9F5D();
+	emu_push(emu_cs); emu_push(0x10E2); emu_cs = 0x1082; Building_Get_ByIndex2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { ovl__34CD(0xFF); }
 	f__B4CD_10E2_0002_B13A();
@@ -5307,7 +5307,7 @@ void f__B4CD_1133_0039_A02F()
 	emu_movb(&emu_ax.h, 0x0);
 	emu_decw(&emu_ax.x);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x116C); emu_cs = 0x1082; f__1082_03A1_0023_9F5D();
+	emu_push(emu_cs); emu_push(0x116C); emu_cs = 0x1082; Building_Get_ByIndex2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { ovl__34CD(0xFF); }
 	f__B4CD_116C_0003_C81A();

@@ -1273,7 +1273,7 @@ void f__B4C4_046F_000B_A260()
 {
 	emu_addws(&emu_sp, 0x8);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x5C));
-	emu_push(emu_cs); emu_push(0x047A); emu_cs = 0x1082; f__1082_03A1_0023_9F5D();
+	emu_push(emu_cs); emu_push(0x047A); emu_cs = 0x1082; Building_Get_ByIndex2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { ovl__34C4(0xFF); }
 	f__B4C4_047A_0023_5C32();
