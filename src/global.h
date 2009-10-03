@@ -10,8 +10,8 @@ MSVC_PACKED_BEGIN;
  */
 typedef struct GlobalData {
 	/* 0000()    */ uint8   unknown_0000[0x35F4];
-	/* 35F4(4)   */ uint32 memoryBuildings;        //!< CS:IP of buildings array.
-	/* 35F8(2)   */ uint16 memoryBuildingsCount;   //!< Amount of allocated buildings.
+	/* 35F4(4)   */ uint32 buildingStartPos;       //!< CS:IP of buildings array.
+	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of buildings on the map.
 	/* 35FA()    */ uint8   unknown_35F8[0x02C2];
 	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Building_Find skips buildings with flag 0x4 off.
 	/* 38BE()    */ uint8   unknown_38BE[0x2DE6];
@@ -61,7 +61,7 @@ typedef struct GlobalData {
 	/* 76A6(2)   */ uint16 variable_76A6;          //!< ??
 	/* 76A8()    */ uint8   unknown_76A8[0x0F74];
 	/* 861C(6)   */ uint8  buildingFindStruct[6];  //!< Default search struct used if none given to Building_Find().
-	/* 8622(328) */ uint32 memoryBuildingsPos[82]; //!< Array with CS:IP of buildings, always gap-less.
+	/* 8622(328) */ uint32 buildingArray[82];      //!< Array with CS:IP of buildings, always gap-less.
 	/* 876A()    */ uint8   unknown_876A[0x1102];
 	/* 986C(1)   */ uint8  variable_986C;          //!< ??
 } GCC_PACKED GlobalData;

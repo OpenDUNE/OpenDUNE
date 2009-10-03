@@ -38,7 +38,7 @@ void Memory_Building_Allocate()
 	int16 index = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	uint8 typeID = emu_get_memory16(emu_ss, emu_bp,  0x8);
 
-	if (g_global->memoryBuildings == 0x0) {
+	if (g_global->buildingStartPos == 0x0) {
 		emu_dx.x = 0x0;
 		emu_ax.x = 0x0;
 
@@ -86,8 +86,8 @@ void Memory_Building_Allocate()
 	/* Clear the memory of the building */
 	emu_push(0x58);
 	emu_push(0x0);
-	emu_push(g_global->memoryBuildings >> 16);
-	emu_push((g_global->memoryBuildings & 0xFFFF) + index * 0x58);
+	emu_push(g_global->buildingStartPos >> 16);
+	emu_push((g_global->buildingStartPos & 0xFFFF) + index * 0x58);
 	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x01F7; f__01F7_2947_0014_02B8();
 	emu_sp += 0x8;
 
@@ -99,11 +99,11 @@ void Memory_Building_Allocate()
 	b->variable_06 = 0x00;
 	b->variable_10 = 0x00;
 
-	g_global->memoryBuildingsPos[g_global->memoryBuildingsCount] = g_global->memoryBuildings + index * 0x58;
-	g_global->memoryBuildingsCount++;
+	g_global->buildingArray[g_global->buildingCount] = g_global->buildingStartPos + index * 0x58;
+	g_global->buildingCount++;
 
-	emu_dx.x = g_global->memoryBuildings >> 16;
-	emu_ax.x = (g_global->memoryBuildings & 0xFFFF) + index * 0x58;
+	emu_dx.x = g_global->buildingStartPos >> 16;
+	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * 0x58;
 
 	/* Return from this function */
 	emu_pop(&emu_bp);
@@ -142,14 +142,14 @@ void Memory_Building_Free()
 	/* Walk the array to find the building we are removing */
 	uint32 searchPos = (emu_get_memory16(emu_ss, emu_bp,  0x8) << 16) + emu_get_memory16(emu_ss, emu_bp,  0x6);
 	int i;
-	for (i = 0; i < g_global->memoryBuildingsCount; i++) {
-		if (g_global->memoryBuildingsPos[i] != searchPos) continue;
+	for (i = 0; i < g_global->buildingCount; i++) {
+		if (g_global->buildingArray[i] != searchPos) continue;
 		break;
 	}
-	assert(i < g_global->memoryBuildingsCount); // We should always find an entry
+	assert(i < g_global->buildingCount); // We should always find an entry
 
-	g_global->memoryBuildingsCount--;
-	if (i == g_global->memoryBuildingsCount) {
+	g_global->buildingCount--;
+	if (i == g_global->buildingCount) {
 		/* Return from this function */
 		emu_pop(&emu_bp);
 		emu_pop(&emu_ip);
@@ -158,7 +158,7 @@ void Memory_Building_Free()
 	}
 
 	/* Close the gap by moving everything one to the left */
-	emu_push((g_global->memoryBuildingsCount - i) * 4);
+	emu_push((g_global->buildingCount - i) * 4);
 	emu_push(emu_ds);
 	emu_push((i * 4) + 0x8626); // XXX -- g_global->memoryBuildingsPos[i + 1]
 	emu_push(emu_ds);

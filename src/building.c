@@ -12,7 +12,7 @@
  */
 Building *Building_Get_ByIndex(uint8 index)
 {
-	return (Building *)&emu_get_memory8(g_global->memoryBuildings >> 16, g_global->memoryBuildings & 0xFFFF, index * 0x58);
+	return (Building *)&emu_get_memory8(g_global->buildingStartPos >> 16, g_global->buildingStartPos & 0xFFFF, index * 0x58);
 }
 
 /**
@@ -49,8 +49,8 @@ void Building_Get_ByIndex2()
 	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	if (index >= 0x52) return;
 
-	emu_dx.x = g_global->memoryBuildings >> 16;
-	emu_ax.x = (g_global->memoryBuildings & 0xFFFF) + index * 0x58;
+	emu_dx.x = g_global->buildingStartPos >> 16;
+	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * 0x58;
 }
 
 /**
@@ -81,11 +81,11 @@ void Building_Find()
 	BuildingFindStruct *find = (BuildingFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) find = (BuildingFindStruct *)g_global->buildingFindStruct;
 
-	if (find->index >= g_global->memoryBuildingsCount) return;
+	if (find->index >= g_global->buildingCount) return;
 	find->index++; // First, we always go to the next index
 
-	for (; find->index < g_global->memoryBuildingsCount; find->index++) {
-		uint32 pos = g_global->memoryBuildingsPos[find->index];
+	for (; find->index < g_global->buildingCount; find->index++) {
+		uint32 pos = g_global->buildingArray[find->index];
 		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
 
 		if ((b->variable_04 & 0x04) != 0 && g_global->variable_38BC == 0) continue;
