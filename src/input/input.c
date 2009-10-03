@@ -5,9 +5,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "../decompiled/decompiled.h"
+#include "../global.h"
 #include "input.h"
 
-InputData *g_input = NULL;
 static InputLocalData *s_input_local = NULL;
 
 /**
@@ -18,7 +18,6 @@ static InputLocalData *s_input_local = NULL;
 void System_Init_Input()
 {
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
-	g_input = (InputData *)&emu_get_memory8(0x353F, 0x0, 0x0);
 }
 
 /**
@@ -33,7 +32,7 @@ void Input_Flags_SetBits()
 {
 	uint16 setFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
 
-	g_input->flags |= setFlags;
+	g_global->inputFlags |= setFlags;
 
 	/* If we switch on key-release tracking, reset the array */
 	if ((setFlags & INPUT_FLAG_KEY_RELEASE) != 0) {
@@ -41,7 +40,7 @@ void Input_Flags_SetBits()
 	}
 
 	/* Return from this function */
-	emu_ax.x = g_input->flags;
+	emu_ax.x = g_global->inputFlags;
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
@@ -58,10 +57,10 @@ void Input_Flags_ClearBits()
 {
 	uint16 clearFlags = emu_get_memory16(emu_ss, emu_sp,  0x4);
 
-	g_input->flags &= ~clearFlags;
+	g_global->inputFlags &= ~clearFlags;
 
 	/* Return from this function */
-	emu_ax.x = g_input->flags;
+	emu_ax.x = g_global->inputFlags;
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
@@ -138,7 +137,7 @@ void Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 		return;
 	}
 
-	s_input_local->flags = g_input->flags;
+	s_input_local->flags = g_global->inputFlags;
 
 	if (key < 0x3E) {
 		if ((state & 0x01) != 0) {
@@ -241,7 +240,7 @@ void Input_Keyboard_Translate()
 
 	uint16 key = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	emu_ax.x = key;
-	if ((g_input->flags & INPUT_FLAG_UNKNOWN_0002) != 0) return;
+	if ((g_global->inputFlags & INPUT_FLAG_UNKNOWN_0002) != 0) return;
 
 	int i;
 	for (i = 0; i < 16; i++) {
@@ -266,20 +265,20 @@ void Input_Unknown_04FC()
 	/* Pop the return IP. */
 	emu_pop(&emu_ip);
 
-	if (g_input->mouseMode != INPUT_MOUSE_MODE_2) return;
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_2) return;
 
-	if (g_input->variable_701B != 0x0) {
+	if (g_global->variable_701B != 0x0) {
 		s_input_local->history[s_input_local->historyHead] = 0;
 		return;
 	}
 
-	if (g_input->variable_76A6 < g_input->variable_7015) {
+	if (g_global->variable_76A6 < g_global->variable_7015) {
 		s_input_local->history[s_input_local->historyHead] = 0;
 		return;
 	}
 
-	if (g_input->variable_7013 != 0x2D) {
-		s_input_local->history[s_input_local->historyHead] = g_input->variable_7013;
+	if (g_global->variable_7013 != 0x2D) {
+		s_input_local->history[s_input_local->historyHead] = g_global->variable_7013;
 		return;
 	}
 
@@ -315,11 +314,11 @@ void Input_Keyboard_NextKey()
 		key = (s_input_local->history[s_input_local->historyHead] & 0xFF);
 		state = s_input_local->history[s_input_local->historyHead] >> 8;
 
-		if (g_input->mouseMode != INPUT_MOUSE_MODE_2 && s_input_local->historyHead == s_input_local->historyTail) {
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_2 && s_input_local->historyHead == s_input_local->historyTail) {
 			key = 0;
 			break;
 		}
-		if (g_input->mouseMode == INPUT_MOUSE_MODE_2 && key == 0) {
+		if (g_global->mouseMode == INPUT_MOUSE_MODE_2 && key == 0) {
 			break;
 		}
 
@@ -385,14 +384,14 @@ void Input_HandlerInput(uint16 inputState)
 	bool released = (inputState & 0x800) ? true : false;
 	uint8 historySize = 0;
 
-	s_input_local->flags = g_input->flags;
-	s_input_local->mouseX = g_input->mouseX;
-	s_input_local->mouseY = g_input->mouseY;
+	s_input_local->flags = g_global->inputFlags;
+	s_input_local->mouseX = g_global->mouseX;
+	s_input_local->mouseY = g_global->mouseY;
 
 	if (inputState == 0) return;
 
-	if (g_input->mouseMode == INPUT_MOUSE_MODE_1) {
-		if (g_input->variable_986C != 0x0) return;
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_1) {
+		if (g_global->variable_986C != 0x0) return;
 		historySize = 4;
 	}
 
@@ -441,20 +440,20 @@ void Input_HandlerInput(uint16 inputState)
 		s_input_local->activeInputMap[bytePos] |= bitPos;
 	}
 
-	if (g_input->mouseMode != INPUT_MOUSE_MODE_1) return;
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_1) return;
 	if (inputCommand == 0x7D) return;
 
 	s_input_local->variable_0A94 = inputCommand;
-	s_input_local->variable_0A96 = g_input->variable_76A6;
+	s_input_local->variable_0A96 = g_global->variable_76A6;
 
 	emu_push(0);
 	emu_push(historySize);
 	emu_push(emu_cs); emu_push(0xA94); // Location of above two variables
-	emu_push(g_input->variable_7011);
+	emu_push(g_global->variable_7011);
 	emu_push(emu_cs); emu_push(0x0D23); f__1FB5_0E9C_001B_37D1();
 	emu_sp += 10;
 
-	g_input->variable_76A6 = 0x0000;
+	g_global->variable_76A6 = 0x0000;
 	return;
 }
 

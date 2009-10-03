@@ -9,6 +9,7 @@ extern void f__01F7_0000_000C_3D76();
 extern void f__2756_050F_000B_0871();
 extern void Input_Mouse_EventHandler();
 
+extern void System_Init_Global();
 extern void System_Init_Input();
 
 int main(int argc, char **argv)
@@ -24,6 +25,7 @@ int main(int argc, char **argv)
 	emu_overlay = 1;
 
 	/* Initialize all subsystems */
+	System_Init_Global();
 	System_Init_Input();
 
 	emu_hard_jump(emu_cs, emu_ip);
