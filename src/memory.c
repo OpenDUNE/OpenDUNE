@@ -36,7 +36,7 @@ void Memory_Building_Allocate()
 	Building *b = NULL;
 
 	int16 index = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	uint8 type = emu_get_memory16(emu_ss, emu_bp,  0x8);
+	uint8 typeID = emu_get_memory16(emu_ss, emu_bp,  0x8);
 
 	if (g_global->memoryBuildings == 0x0) {
 		emu_dx.x = 0x0;
@@ -49,13 +49,13 @@ void Memory_Building_Allocate()
 		return;
 	}
 
-	if (type == 0) { // 1x1 Slab
+	if (typeID == 0) { // 1x1 Slab
 		index = 81;
 		b = Building_Get_ByIndex(index);
-	} else if (type == 1) { // 2x2 Slab
+	} else if (typeID == 1) { // 2x2 Slab
 		index = 80;
 		b = Building_Get_ByIndex(index);
-	} else if (type == 14) { // 1x1 Wall
+	} else if (typeID == 14) { // 1x1 Wall
 		index = 79;
 		b = Building_Get_ByIndex(index);
 	} else if (index != -1) { // Forced on an index
@@ -93,7 +93,7 @@ void Memory_Building_Allocate()
 
 	/* Initialize the building */
 	b->index = index;
-	b->type = type;
+	b->typeID = typeID;
 	b->variable_03 = 0xFF;
 	b->variable_04 = 0x03;
 	b->variable_06 = 0x00;

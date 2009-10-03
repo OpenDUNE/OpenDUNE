@@ -9541,7 +9541,7 @@ void f__10E4_21A6_000D_DBFF()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x21B3); emu_cs = 0x1082; f__1082_013D_0038_4AF1();
+	emu_push(emu_cs); emu_push(0x21B3); emu_cs = 0x1082; Building_Find();
 	f__10E4_21B3_0023_8806();
 }
 
