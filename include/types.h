@@ -4,16 +4,30 @@
 #define MSVC_PACKED_BEGIN
 #define MSVC_PACKED_END
 #define GCC_PACKED
+#define GCC_UNUSED
 
 #if defined(__GNUC__)
-#	undef  GCC_PACKED
-#	define GCC_PACKED __attribute__((packed))
+	#undef  GCC_PACKED
+	#define GCC_PACKED __attribute__((packed))
+	#undef  GCC_UNUSED
+	#define GCC_UNUSED __attribute__((unused))
 #elif defined(_MSC_VER)
-#	undef MSVC_PACKED_BEGIN
-#	undef MSVC_PACKED_END
-#	define MSVC_PACKED_BEGIN __pragma(pack(push, 1))
-#	define MSVC_PACKED_END __pragma(pack(pop))
+	#undef MSVC_PACKED_BEGIN
+	#undef MSVC_PACKED_END
+	#define MSVC_PACKED_BEGIN __pragma(pack(push, 1))
+	#define MSVC_PACKED_END __pragma(pack(pop))
 #endif /* __GNUC__ / _MSC_VER */
+
+/* Compile time assertions. Prefer c++0x static_assert() */
+#if defined(__STDCXX_VERSION__) || defined(__GXX_EXPERIMENTAL_CXX0X__) || defined(__GXX_EXPERIMENTAL_CPP0X__) || defined(static_assert)
+	/* __STDCXX_VERSION__ is c++0x feature macro, __GXX_EXPERIMENTAL_CXX0X__ is used by gcc, __GXX_EXPERIMENTAL_CPP0X__ by icc */
+	#define assert_compile(expr) static_assert(expr, #expr )
+#elif defined(__OS2__) || (defined(__GNUC__) && __GNUC__ == 3 && __GNUC_MINOR__ < 4)
+	/* Disabled for OS/2 or GCC < 3.4 */
+	#define assert_compile(expr)
+#else
+	#define assert_compile(expr) extern const int __ct_assert__[1 - 2 * !(expr)] GCC_UNUSED
+#endif
 
 typedef unsigned char  uint8;
 typedef   signed char   int8;
@@ -24,8 +38,8 @@ typedef   signed int    int32;
 
 #if !defined(_MSC_VER)
 	typedef unsigned char  bool;
-#	define false 0
-#	define true 1
+	#define false 0
+	#define true 1
 #endif
 
 #endif /* TYPES_H */
