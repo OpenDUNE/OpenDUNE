@@ -169,6 +169,26 @@
 			Name="source"
 			>
 			<File
+				RelativePath="..\src\building.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\building.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\emu_building.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\global.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\global.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\interrupt.c"
 				>
 			</File>
@@ -178,6 +198,10 @@
 			</File>
 			<File
 				RelativePath="..\src\main.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\owner.h"
 				>
 			</File>
 			<File
