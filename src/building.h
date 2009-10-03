@@ -63,6 +63,7 @@ extern Building *Building_Allocate(int16 index, uint8 typeID);
 extern void emu_Building_Allocate();
 extern void emu_Building_Free();
 extern void emu_Building_Get_ByIndex();
-extern void emu_Building_Find();
+extern void emu_Building_Find_Next();
+extern void emu_Building_Find_First();
 
 #endif /* BUILDING_H */

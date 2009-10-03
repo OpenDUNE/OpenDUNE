@@ -132,9 +132,10 @@ void emu_Building_Get_ByIndex()
 }
 
 /**
- * Find alls buildings, where filters specify what to find exactly.
+ * Find the next building matching the filter. The struct should be initialized
+ *  via emu_Building_Find_First().
  *
- * @name emu_Building_Find
+ * @name emu_Building_Find_Next
  * @implements 1082:013D:0038:4AF1 ()
  * @implements 1082:0155:0020:8556
  * @implements 1082:0173:0002:ED3A
@@ -147,14 +148,58 @@ void emu_Building_Get_ByIndex()
  * @implements 1082:01CF:0013:4D5B
  * @implements 1082:01E2:0006:F7CE
  */
-void emu_Building_Find()
+void emu_Building_Find_Next()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
 	BuildingFindStruct *find = (BuildingFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
-	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) find = (BuildingFindStruct *)g_global->buildingFindStruct;
+	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
+		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
+		emu_get_memory16(emu_ss, emu_sp,  0x0) = 0x861C; // XXX -- g_global->buildingFindStruct
+		find = (BuildingFindStruct *)g_global->buildingFindStruct;
+	}
+
+	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
+
+	if (b == NULL) {
+		emu_dx.x = 0x0;
+		emu_ax.x = 0x0;
+		return;
+	}
+
+	/* Find back the CS:IP of the building */
+	emu_dx.x = g_global->buildingStartPos >> 16;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
+}
+
+/**
+ * Finds the first building based on a given ownerID and typeID. Call
+ *  emu_Building_Find_Next() to find the next entry.
+ *
+ * @name emu_Building_Find_First
+ * @implements 1082:00FD:003A:D7E0 ()
+ * @implements 1082:0110:0027:2707
+ * @implements 1082:0137:0004:5B1F
+ * @implements 1082:013B:0002:2597
+ */
+void emu_Building_Find_First()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	BuildingFindStruct *find = (BuildingFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
+		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
+		emu_get_memory16(emu_ss, emu_sp,  0x0) = 0x861C; // XXX -- g_global->buildingFindStruct
+		find = (BuildingFindStruct *)g_global->buildingFindStruct;
+	}
+
+	find->ownerID = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	find->typeID  = emu_get_memory16(emu_ss, emu_sp,  0x6);
+	find->index   = -1;
 
 	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
 
