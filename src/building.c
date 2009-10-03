@@ -89,8 +89,8 @@ void Building_Find()
 		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
 
 		if ((b->variable_04 & 0x04) != 0 && g_global->variable_38BC == 0) continue;
-		if (find->ownerID != -1 && b->ownerID != find->ownerID) continue;
-		if (find->typeID  != -1 && b->typeID  != find->typeID)  continue;
+		if (find->ownerID != OWNER_INVALID    && b->ownerID != find->ownerID) continue;
+		if (find->typeID  != BUILDING_INVALID && b->typeID  != find->typeID)  continue;
 
 		emu_dx.x = pos >> 16;
 		emu_ax.x = pos & 0xFFFF;

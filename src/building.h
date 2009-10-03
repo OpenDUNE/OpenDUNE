@@ -3,6 +3,18 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 
+/**
+ * Types of buildings available in the game.
+ * TODO -- Complete the enum.
+ */
+typedef enum BuildingType {
+	BUILDING_INVALID  = -1,
+	BUILDING_SLAB_1x1 = 0,
+	BUILDING_SLAB_2x2 = 1,
+
+	BUILDING_WALL     = 14,
+} BuildingType;
+
 MSVC_PACKED_BEGIN;
 /**
  * A building as stored in the memory.

@@ -49,13 +49,13 @@ void Memory_Building_Allocate()
 		return;
 	}
 
-	if (typeID == 0) { // 1x1 Slab
+	if (typeID == BUILDING_SLAB_1x1) {
 		index = 81;
 		b = Building_Get_ByIndex(index);
-	} else if (typeID == 1) { // 2x2 Slab
+	} else if (typeID == BUILDING_SLAB_2x2) {
 		index = 80;
 		b = Building_Get_ByIndex(index);
-	} else if (typeID == 14) { // 1x1 Wall
+	} else if (typeID == BUILDING_WALL) {
 		index = 79;
 		b = Building_Get_ByIndex(index);
 	} else if (index != -1) { // Forced on an index
