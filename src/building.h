@@ -57,7 +57,9 @@ assert_compile(sizeof(BuildingFindStruct) == 0x06);
 
 extern Building *Building_Get_ByIndex(uint8 index);
 extern Building *Building_Get_ByMemory(uint16 segment, uint16 offset);
-extern void Building_Get_ByIndex2();
-extern void Building_Find();
+extern Building *Building_Find(int16 ownerID, int16 typeID, int16 *lastIndex);
+
+extern void emu_Building_Get_ByIndex();
+extern void emu_Building_Find();
 
 #endif /* BUILDING_H */

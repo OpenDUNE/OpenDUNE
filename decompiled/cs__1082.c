@@ -334,7 +334,7 @@ void f__1082_00FD_003A_D7E0()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0137); Building_Find();
+	emu_push(0x0137); emu_Building_Find();
 	f__1082_0137_0004_5B1F();
 }
 
@@ -359,7 +359,7 @@ void f__1082_0110_0027_2707()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0137); Building_Find();
+	emu_push(0x0137); emu_Building_Find();
 	f__1082_0137_0004_5B1F();
 }
 

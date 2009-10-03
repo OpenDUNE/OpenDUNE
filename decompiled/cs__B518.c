@@ -5160,7 +5160,7 @@ void f__B518_0F7C_002C_5E19()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x0FA8); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x0FA8); emu_cs = 0x1082; emu_Building_Find();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0FA8_002E_90CF();

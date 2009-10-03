@@ -1434,7 +1434,7 @@ void f__B50B_047A_000E_3487()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x1082; emu_Building_Find();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_0488_0015_374F();

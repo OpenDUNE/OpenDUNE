@@ -67,6 +67,8 @@ typedef struct GlobalData {
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END;
 
+extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
+
 extern GlobalData *g_global;
 
 #endif /* GLOBAL_H */

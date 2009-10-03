@@ -7928,7 +7928,7 @@ void f__1A34_2234_000B_166D()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x223F); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x223F); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_223F_001F_6DF6();
 }
 
@@ -12130,7 +12130,7 @@ void f__1A34_339B_0019_4CA8()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x33B4); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x33B4); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_33B4_0027_6A44();
 }
 
@@ -12148,7 +12148,7 @@ void f__1A34_33A9_000B_166D()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x33B4); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x33B4); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_33B4_0027_6A44();
 }
 
@@ -12290,7 +12290,7 @@ void f__1A34_3409_0026_4EDC()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_342F_0027_51AB();
 }
 
@@ -12313,7 +12313,7 @@ void f__1A34_3416_0019_4CA8()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_342F_0027_51AB();
 }
 
@@ -12331,7 +12331,7 @@ void f__1A34_3424_000B_166D()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x342F); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_342F_0027_51AB();
 }
 
@@ -13402,7 +13402,7 @@ void f__1A34_3730_000A_DEC8()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax.x, emu_bp - 0x12);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x373A); emu_cs = 0x1082; Building_Find();
+	emu_push(emu_cs); emu_push(0x373A); emu_cs = 0x1082; emu_Building_Find();
 	f__1A34_373A_001B_D4DB();
 }
 

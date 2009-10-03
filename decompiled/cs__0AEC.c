@@ -4972,7 +4972,7 @@ void f__0AEC_10BF_0018_52CC()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x3));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x10D7); emu_cs = 0x1082; Building_Get_ByIndex2();
+	emu_push(emu_cs); emu_push(0x10D7); emu_cs = 0x1082; emu_Building_Get_ByIndex();
 	f__0AEC_10D7_002B_C27D();
 }
 

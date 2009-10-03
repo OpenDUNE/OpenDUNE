@@ -32,15 +32,14 @@ Building *Building_Get_ByMemory(uint16 segment, uint16 offset)
 
 /**
  * Get a building from the memory by index.
- * @note This function is deprecated. Use Building_Get_ByIndex().
  *
- * @name Building_Get_ByIndex2
+ * @name emu_Building_Get_ByIndex
  * @implements 1082:03A1:0023:9F5D ()
  * @implements 1082:03C2:0002:C33A
  * @implements 1082:03C4:0006:5EA9
  * @implements 1082:03CA:0002:2597
  */
-void Building_Get_ByIndex2()
+void emu_Building_Get_ByIndex()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -56,10 +55,40 @@ void Building_Get_ByIndex2()
 	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building);
 }
 
+/* Find all buildings, where filters specify what to find exactly.
+ *
+ * @param ownerID If not -1, which ownerID the building should have.
+ * @param typeID If not -1, which typeID the building should have.
+ * @param lastIndex The last index which resulted in a match, or -1 to start from begin.
+ *   On exit, lastIndex contained the last index we looked at.
+ * @return The building, if one is found.
+ */
+Building *Building_Find(int16 ownerID, int16 typeID, int16 *lastIndex)
+{
+	int16 index = *lastIndex;
+	if (index >= g_global->buildingCount) return NULL;
+	index++; // First, we always go to the next index
+
+	for (; index < g_global->buildingCount; index++) {
+		uint32 pos = g_global->buildingArray[index];
+		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
+
+		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
+		if (ownerID != OWNER_INVALID    && ownerID != b->ownerID) continue;
+		if (typeID  != BUILDING_INVALID && typeID  != b->typeID)  continue;
+
+		*lastIndex = index;
+		return b;
+	}
+
+	*lastIndex = index;
+	return NULL;
+}
+
 /**
  * Find alls buildings, where filters specify what to find exactly.
  *
- * @name Building_Find
+ * @name emu_Building_Find
  * @implements 1082:013D:0038:4AF1 ()
  * @implements 1082:0155:0020:8556
  * @implements 1082:0173:0002:ED3A
@@ -72,31 +101,24 @@ void Building_Get_ByIndex2()
  * @implements 1082:01CF:0013:4D5B
  * @implements 1082:01E2:0006:F7CE
  */
-void Building_Find()
+void emu_Building_Find()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax.x = 0;
-	emu_dx.x = 0;
-
 	BuildingFindStruct *find = (BuildingFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) find = (BuildingFindStruct *)g_global->buildingFindStruct;
 
-	if (find->index >= g_global->buildingCount) return;
-	find->index++; // First, we always go to the next index
+	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
 
-	for (; find->index < g_global->buildingCount; find->index++) {
-		uint32 pos = g_global->buildingArray[find->index];
-		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
-
-		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
-		if (find->ownerID != OWNER_INVALID    && b->ownerID != find->ownerID) continue;
-		if (find->typeID  != BUILDING_INVALID && b->typeID  != find->typeID)  continue;
-
-		emu_dx.x = pos >> 16;
-		emu_ax.x = pos & 0xFFFF;
+	if (b == NULL) {
+		emu_dx.x = 0x0;
+		emu_ax.x = 0x0;
 		return;
 	}
+
+	/* Find back the CS:IP of the building */
+	emu_dx.x = g_global->buildingStartPos >> 16;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
 }
