@@ -65,6 +65,6 @@ extern void emu_Building_Free();
 extern void emu_Building_Get_ByIndex();
 extern void emu_Building_Find_Next();
 extern void emu_Building_Find_First();
-extern void emu_Building_CleanAll();
+extern void emu_Building_Init();
 
 #endif /* BUILDING_H */

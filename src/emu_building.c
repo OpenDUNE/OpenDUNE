@@ -218,16 +218,18 @@ void emu_Building_Find_First()
 }
 
 /**
- * Clean / destroy / free all buildings.
+ * Initialize the buildings. It cleans the whole memory, and resets everything
+ *  to zero. If as parameters a CS:IP pair is given, that will be used as
+ *  start of the Building array.
  *
- * @name emu_Building_CleanAll
+ * @name emu_Building_Init
  * @implements 1082:0098:001C:39E2 ()
  * @implements 1082:00B4:0026:CE00
  * @implements 1082:00BD:001D:48CA
  * @implements 1082:00DA:000A:A6BE
  * @implements 1082:00E4:0002:2597
  */
-void emu_Building_CleanAll()
+void emu_Building_Init()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
