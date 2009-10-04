@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -212,4 +213,42 @@ void emu_Building_Find_First()
 	/* Find back the CS:IP of the building */
 	emu_dx.x = g_global->buildingStartPos >> 16;
 	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
+}
+
+
+/**
+ * Clean / destroy / free all buildings.
+ *
+ * @name emu_Building_CleanAll
+ * @implements 1082:0098:001C:39E2 ()
+ * @implements 1082:00B4:0026:CE00
+ * @implements 1082:00BD:001D:48CA
+ * @implements 1082:00DA:000A:A6BE
+ * @implements 1082:00E4:0002:2597
+ */
+void emu_Building_CleanAll()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	uint16 newCS = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	uint16 newIP = emu_get_memory16(emu_ss, emu_sp,  0x0);
+
+	g_global->buildingCount = 0;
+
+	if (newCS != 0x0 || newIP != 0x0) {
+		/* Try to make the IP empty by moving as much as possible to the CS */
+		newCS += newIP >> 4;
+		newIP &= 0xF;
+
+		g_global->buildingStartPos = (newCS << 16) + newIP;
+	}
+
+	if (g_global->buildingStartPos != 0x0) {
+		memset(Building_Get_ByIndex(0), 0, sizeof(Building) * BUILDING_INDEX_MAX_HARD);
+	}
+
+	emu_dx.x = 0;
+	emu_ax.x = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
 }

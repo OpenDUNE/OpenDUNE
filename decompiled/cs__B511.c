@@ -2711,7 +2711,7 @@ void f__B511_0A9D_000D_8BD5()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x0AAA); emu_cs = 0x1082; f__1082_0098_001C_39E2();
+	emu_push(emu_cs); emu_push(0x0AAA); emu_cs = 0x1082; emu_Building_CleanAll();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { ovl__3511(0xFF); }
 	f__B511_0AAA_000D_9BEB();
