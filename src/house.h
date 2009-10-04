@@ -45,7 +45,7 @@ MSVC_PACKED_END;
 assert_compile(sizeof(HouseFindStruct) == 0x06);
 
 extern House *House_Get_ByIndex(uint8 index);
-extern House *House_Get_ByMemory(csip address);
+extern House *House_Get_ByMemory(csip32 address);
 extern House* House_Allocate(int16 index);
 extern House *House_Find(int16 *lastIndex);
 

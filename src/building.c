@@ -25,7 +25,7 @@ Building *Building_Get_ByIndex(uint8 index)
  * @param address The address of the building.
  * @return The building.
  */
-Building *Building_Get_ByMemory(csip address)
+Building *Building_Get_ByMemory(csip32 address)
 {
 	return (Building *)&emu_get_memory8(address.cs, address.ip, 0x0);
 }
@@ -98,7 +98,7 @@ Building *Building_Find(int16 houseID, int16 typeID, int16 *lastIndex)
 	index++; // First, we always go to the next index
 
 	for (; index < g_global->buildingCount; index++) {
-		csip pos = g_global->buildingArray[index];
+		csip32 pos = g_global->buildingArray[index];
 		Building *b = Building_Get_ByMemory(pos);
 
 		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;

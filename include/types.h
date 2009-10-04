@@ -42,11 +42,11 @@ assert_compile(sizeof( int16) == 2);
 assert_compile(sizeof(uint32) == 4);
 assert_compile(sizeof( int32) == 4);
 
-typedef union csip {
+typedef union csip32 {
 	struct { uint16 ip; uint16 cs; };
 	uint32 csip;
-} csip;
-assert_compile(sizeof(csip) == 4);
+} csip32;
+assert_compile(sizeof(csip32) == 4);
 
 #if !defined(_MSC_VER)
 	typedef unsigned char bool;

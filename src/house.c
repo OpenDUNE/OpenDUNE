@@ -24,7 +24,7 @@ House *House_Get_ByIndex(uint8 index)
  * @param address The address of the house.
  * @return The house.
  */
-House *House_Get_ByMemory(csip address)
+House *House_Get_ByMemory(csip32 address)
 {
 	return (House *)&emu_get_memory8(address.cs, address.ip, 0x0);
 }
@@ -68,7 +68,7 @@ House *House_Find(int16 *lastIndex)
 	index++; // First, we always go to the next index
 
 	for (; index < g_global->houseCount; index++) {
-		csip pos = g_global->houseArray[index];
+		csip32 pos = g_global->houseArray[index];
 		House *h = House_Get_ByMemory(pos);
 
 		*lastIndex = index;

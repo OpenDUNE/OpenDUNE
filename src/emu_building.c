@@ -71,7 +71,7 @@ void emu_Building_Free()
 	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
-	csip pos;
+	csip32 pos;
 	pos.cs = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	pos.ip = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	Building *b = Building_Get_ByMemory(pos);
