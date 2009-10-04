@@ -16,7 +16,7 @@
 Building *Building_Get_ByIndex(uint8 index)
 {
 	assert(index < BUILDING_INDEX_MAX_HARD);
-	return (Building *)&emu_get_memory8(g_global->buildingStartPos >> 16, g_global->buildingStartPos & 0xFFFF, index * 0x58);
+	return (Building *)&emu_get_memory8(g_global->buildingStartPos.cs, g_global->buildingStartPos.ip, index * 0x58);
 }
 
 /**
@@ -26,9 +26,9 @@ Building *Building_Get_ByIndex(uint8 index)
  * @param offset The offset of the building.
  * @return The building struct.
  */
-Building *Building_Get_ByMemory(uint16 segment, uint16 offset)
+Building *Building_Get_ByMemory(csip address)
 {
-	return (Building *)&emu_get_memory8(segment, offset, 0x0);
+	return (Building *)&emu_get_memory8(address.cs, address.ip, 0x0);
 }
 
 /**
@@ -41,7 +41,7 @@ Building *Building_Allocate(int16 index, uint8 typeID)
 {
 	Building *b = NULL;
 
-	if (g_global->buildingStartPos == 0x0) return NULL;
+	if (g_global->buildingStartPos.csip == 0x0) return NULL;
 
 	if (typeID == BUILDING_SLAB_1x1) {
 		index = BUILDING_INDEX_SLAB_1x1;
@@ -77,7 +77,7 @@ Building *Building_Allocate(int16 index, uint8 typeID)
 	b->variable_06 = 0x00;
 	b->variable_10 = 0x00;
 
-	g_global->buildingArray[g_global->buildingCount] = g_global->buildingStartPos + index * sizeof(Building);
+	g_global->buildingArray[g_global->buildingCount].csip = g_global->buildingStartPos.csip + index * sizeof(Building);
 	g_global->buildingCount++;
 
 	return b;
@@ -98,8 +98,8 @@ Building *Building_Find(int16 ownerID, int16 typeID, int16 *lastIndex)
 	index++; // First, we always go to the next index
 
 	for (; index < g_global->buildingCount; index++) {
-		uint32 pos = g_global->buildingArray[index];
-		Building *b = Building_Get_ByMemory(pos >> 16, pos & 0xFFFF);
+		csip pos = g_global->buildingArray[index];
+		Building *b = Building_Get_ByMemory(pos);
 
 		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
 		if (ownerID != OWNER_INVALID    && ownerID != b->ownerID) continue;

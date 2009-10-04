@@ -10,14 +10,14 @@ MSVC_PACKED_BEGIN;
  */
 typedef struct GlobalData {
 	/* 0000()    */ uint8   unknown_0000[0x35F4];
-	/* 35F4(4)   */ uint32 buildingStartPos;       //!< CS:IP of buildings array.
+	/* 35F4(4)   */ csip   buildingStartPos;       //!< CS:IP of buildings array.
 	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of buildings on the map.
 	/* 35FA()    */ uint8   unknown_35F8[0x02C2];
 	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Building_Find skips buildings with flag 0x4 off.
 	/* 38BE()    */ uint8   unknown_38BE[0x2DE6];
-	/* 66A4(4)   */ uint32 callbackAfterMouse;     //!< CS:IP of routine called after mouse change.
+	/* 66A4(4)   */ csip   callbackAfterMouse;     //!< CS:IP of routine called after mouse change.
 	/* 66A8(12)  */ uint8   unknown_66A8[0x000C];
-	/* 66B4(4)   */ uint32 callbackBeforeMouse;    //!< CS:IP of routine called before mouse change.
+	/* 66B4(4)   */ csip   callbackBeforeMouse;    //!< CS:IP of routine called before mouse change.
 	/* 66B8()    */ uint8   unknown_66B8[0x05C0];
 	/* 6C78(2)   */ uint16 snapX;                  //!< Snap mouse to grid, x-axis.
 	/* 6C7A(2)   */ uint16 snapY;                  //!< Snap mouse to grid, y-axis.
@@ -61,7 +61,7 @@ typedef struct GlobalData {
 	/* 76A6(2)   */ uint16 variable_76A6;          //!< ??
 	/* 76A8()    */ uint8   unknown_76A8[0x0F74];
 	/* 861C(6)   */ uint8  buildingFindStruct[6];  //!< Default search struct used if none given to Building_Find().
-	/* 8622(328) */ uint32 buildingArray[82];      //!< Array with CS:IP of buildings, always gap-less.
+	/* 8622(328) */ csip   buildingArray[82];      //!< Array with CS:IP of buildings, always gap-less.
 	/* 876A()    */ uint8   unknown_876A[0x1102];
 	/* 986C(1)   */ uint8  variable_986C;          //!< ??
 } GCC_PACKED GlobalData;

@@ -131,9 +131,9 @@ static void emu_Input_Mouse_CheckMovement()
 		emu_push(g_global->variable_7092);
 
 		/* Call based on memory/register values */
-		emu_ip = g_global->callbackBeforeMouse & 0xFFFF;
+		emu_ip = g_global->callbackBeforeMouse.ip;
 		emu_push(emu_cs);
-		emu_cs = g_global->callbackBeforeMouse >> 16;
+		emu_cs = g_global->callbackBeforeMouse.cs;
 		emu_push(0x0169);
 		switch ((emu_cs << 16) + emu_ip) {
 			case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
@@ -148,9 +148,9 @@ static void emu_Input_Mouse_CheckMovement()
 		emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
 
 		/* Call based on memory/register values */
-		emu_ip = g_global->callbackAfterMouse & 0xFFFF;
+		emu_ip = g_global->callbackAfterMouse.ip;
 		emu_push(emu_cs);
-		emu_cs = g_global->callbackAfterMouse >> 16;
+		emu_cs = g_global->callbackAfterMouse.cs;
 		emu_push(0x0175);
 		switch ((emu_cs << 16) + emu_ip) {
 			case 0x22A60FAE: f__22A6_0FAE_0027_2378(); break;
@@ -178,9 +178,9 @@ static void emu_Input_Mouse_CheckMovement()
 	emu_push(g_global->variable_7092);
 
 	/* Call based on memory/register values */
-	emu_ip = g_global->callbackBeforeMouse & 0xFFFF;
+	emu_ip = g_global->callbackBeforeMouse.ip;
 	emu_push(emu_cs);
-	emu_cs = g_global->callbackBeforeMouse >> 16;
+	emu_cs = g_global->callbackBeforeMouse.cs;
 	emu_push(0x01A9);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
@@ -195,9 +195,9 @@ static void emu_Input_Mouse_CheckMovement()
 	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
 
 	/* Call based on memory/register values */
-	emu_ip = g_global->callbackAfterMouse & 0xFFFF;
+	emu_ip = g_global->callbackAfterMouse.ip;
 	emu_push(emu_cs);
-	emu_cs = g_global->callbackAfterMouse >> 16;
+	emu_cs = g_global->callbackAfterMouse.cs;
 	emu_push(0x01B5);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x22A60FAE: f__22A6_0FAE_0027_2378(); break;

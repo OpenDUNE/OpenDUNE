@@ -35,9 +35,21 @@ typedef unsigned short uint16;
 typedef   signed short  int16;
 typedef unsigned int   uint32;
 typedef   signed int    int32;
+assert_compile(sizeof(uint8 ) == 1);
+assert_compile(sizeof( int8 ) == 1);
+assert_compile(sizeof(uint16) == 2);
+assert_compile(sizeof( int16) == 2);
+assert_compile(sizeof(uint32) == 4);
+assert_compile(sizeof( int32) == 4);
+
+typedef union csip {
+	struct { uint16 ip; uint16 cs; };
+	uint32 csip;
+} csip;
+assert_compile(sizeof(csip) == 4);
 
 #if !defined(_MSC_VER)
-	typedef unsigned char  bool;
+	typedef unsigned char bool;
 	#define false 0
 	#define true 1
 #endif

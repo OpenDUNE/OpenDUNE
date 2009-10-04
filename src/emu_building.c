@@ -43,8 +43,8 @@ void emu_Building_Allocate()
 		return;
 	}
 
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + b->index * sizeof(Building);
+	emu_dx.x = g_global->buildingStartPos.cs;
+	emu_ax.x = g_global->buildingStartPos.ip + b->index * sizeof(Building);
 }
 
 /**
@@ -71,14 +71,16 @@ void emu_Building_Free()
 	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
-	Building *b = Building_Get_ByMemory(emu_get_memory16(emu_ss, emu_bp,  0x8), emu_get_memory16(emu_ss, emu_bp,  0x6));
+	csip pos;
+	pos.cs = emu_get_memory16(emu_ss, emu_bp,  0x8);
+	pos.ip = emu_get_memory16(emu_ss, emu_bp,  0x6);
+	Building *b = Building_Get_ByMemory(pos);
 	b->variable_04 = 0x0;
 
 	/* Walk the array to find the building we are removing */
-	uint32 searchPos = (emu_get_memory16(emu_ss, emu_bp,  0x8) << 16) + emu_get_memory16(emu_ss, emu_bp,  0x6);
 	int i;
 	for (i = 0; i < g_global->buildingCount; i++) {
-		if (g_global->buildingArray[i] != searchPos) continue;
+		if (g_global->buildingArray[i].csip != pos.csip) continue;
 		break;
 	}
 	assert(i < g_global->buildingCount); // We should always find an entry
@@ -128,8 +130,8 @@ void emu_Building_Get_ByIndex()
 	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	if (index >= BUILDING_INDEX_MAX_HARD) return;
 
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = (g_global->buildingStartPos & 0xFFFF) + index * sizeof(Building);
+	emu_dx.x = g_global->buildingStartPos.cs;
+	emu_ax.x = g_global->buildingStartPos.ip + index * sizeof(Building);
 }
 
 /**
@@ -171,8 +173,8 @@ void emu_Building_Find_Next()
 	}
 
 	/* Find back the CS:IP of the building */
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
+	emu_dx.x = g_global->buildingStartPos.cs;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs) - g_global->buildingStartPos.ip;
 }
 
 /**
@@ -211,8 +213,8 @@ void emu_Building_Find_First()
 	}
 
 	/* Find back the CS:IP of the building */
-	emu_dx.x = g_global->buildingStartPos >> 16;
-	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos >> 16) - (g_global->buildingStartPos & 0xFFFF);
+	emu_dx.x = g_global->buildingStartPos.cs;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs) - g_global->buildingStartPos.ip;
 }
 
 
@@ -239,13 +241,11 @@ void emu_Building_CleanAll()
 
 	if (newCS != 0x0 || newIP != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
-		newCS += newIP >> 4;
-		newIP &= 0xF;
-
-		g_global->buildingStartPos = (newCS << 16) + newIP;
+		g_global->buildingStartPos.cs = newCS + (newIP >> 4);
+		g_global->buildingStartPos.ip = newIP & 0x000F;
 	}
 
-	if (g_global->buildingStartPos != 0x0) {
+	if (g_global->buildingStartPos.csip != 0x0) {
 		memset(Building_Get_ByIndex(0), 0, sizeof(Building) * BUILDING_INDEX_MAX_HARD);
 	}
 
