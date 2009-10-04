@@ -136,9 +136,9 @@ void emu_Building_Get_ByIndex()
 
 /**
  * Find the next building matching the filter. The struct should be initialized
- *  via emu_Building_Find_First().
+ *  via emu_Building_FindFirst().
  *
- * @name emu_Building_Find_Next
+ * @name emu_Building_FindNext
  * @implements 1082:013D:0038:4AF1 ()
  * @implements 1082:0155:0020:8556
  * @implements 1082:0173:0002:ED3A
@@ -151,7 +151,7 @@ void emu_Building_Get_ByIndex()
  * @implements 1082:01CF:0013:4D5B
  * @implements 1082:01E2:0006:F7CE
  */
-void emu_Building_Find_Next()
+void emu_Building_FindNext()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -164,7 +164,7 @@ void emu_Building_Find_Next()
 		find = (BuildingFindStruct *)g_global->buildingFindStruct;
 	}
 
-	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
+	Building *b = Building_Find(find->houseID, find->typeID, &find->index);
 
 	if (b == NULL) {
 		emu_dx.x = 0x0;
@@ -174,20 +174,20 @@ void emu_Building_Find_Next()
 
 	/* Find back the CS:IP of the building */
 	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs) - g_global->buildingStartPos.ip;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs);
 }
 
 /**
- * Finds the first building based on a given ownerID and typeID. Call
- *  emu_Building_Find_Next() to find the next entry.
+ * Finds the first building based on a given houseID and typeID. Call
+ *  emu_Building_FindNext() to find the next entry.
  *
- * @name emu_Building_Find_First
+ * @name emu_Building_FindFirst
  * @implements 1082:00FD:003A:D7E0 ()
  * @implements 1082:0110:0027:2707
  * @implements 1082:0137:0004:5B1F
  * @implements 1082:013B:0002:2597
  */
-void emu_Building_Find_First()
+void emu_Building_FindFirst()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -200,11 +200,11 @@ void emu_Building_Find_First()
 		find = (BuildingFindStruct *)g_global->buildingFindStruct;
 	}
 
-	find->ownerID = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	find->houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
 	find->typeID  = emu_get_memory16(emu_ss, emu_sp,  0x6);
 	find->index   = -1;
 
-	Building *b = Building_Find(find->ownerID, find->typeID, &find->index);
+	Building *b = Building_Find(find->houseID, find->typeID, &find->index);
 
 	if (b == NULL) {
 		emu_dx.x = 0x0;
@@ -214,7 +214,7 @@ void emu_Building_Find_First()
 
 	/* Find back the CS:IP of the building */
 	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs) - g_global->buildingStartPos.ip;
+	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs);
 }
 
 /**

@@ -4597,7 +4597,7 @@ void f__B4CD_0D91_0003_5D9C()
 void f__B4CD_0D94_0008_DB39()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0D9C); emu_cs = 0x10BE; f__10BE_01AB_002F_0E7B();
+	emu_push(emu_cs); emu_push(0x0D9C); emu_cs = 0x10BE; emu_House_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { ovl__34CD(0xFF); }
 	f__B4CD_0D9C_008E_1E0C();

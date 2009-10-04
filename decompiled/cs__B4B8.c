@@ -6566,7 +6566,7 @@ void f__B4B8_1AE1_0013_4073()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xC), emu_ax.x);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x1AF4); emu_cs = 0x10BE; f__10BE_000C_0020_F10F();
+	emu_push(emu_cs); emu_push(0x1AF4); emu_cs = 0x10BE; emu_House_Init();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { ovl__34B8(0xFF); }
 	f__B4B8_1AF4_0010_CE4A();

@@ -919,7 +919,7 @@ void f__B4C4_0332_000B_CA0C()
 {
 	emu_addws(&emu_sp, 0xE);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x46));
-	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x10BE; f__10BE_00A0_0064_DF2A();
+	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x10BE; emu_House_Allocate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { ovl__34C4(0xFF); }
 	f__B4C4_033D_0023_AC02();
