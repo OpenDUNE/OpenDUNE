@@ -769,6 +769,7 @@ void f__15C2_038F_0006_F7CE()
  * Called From: 0C3A:067D:003D:0EC1
  * Called From: 0C3A:0E89:002F:78FA
  * Called From: 0FE4:057B:0018:8258
+ * Called From: 104B:02BE:0064:D684
  * Called From: 1082:0338:0018:025E
  * Called From: 15C2:0417:0015:C65E
  * Called From: 176C:00B4:003E:BA74
@@ -814,6 +815,7 @@ void f__15C2_0395_0044_304E()
  *
  * Called From: 0C3A:0698:001B:2708
  * Called From: 0C3A:0EA4:001B:2708
+ * Called From: 104B:02D1:0013:8AC5
  * Called From: 176C:00D9:0025:6898
  * Called From: B511:026B:0018:7FFC
  */
@@ -912,6 +914,7 @@ void f__15C2_041A_0032_6C7D()
  * @implements 15C2:0526:000F:EA1E ()
  *
  * Called From: 0972:095A:0010:E581
+ * Called From: 16C5:009D:002F:03B8
  * Called From: 176C:06C2:0010:03D5
  */
 void f__15C2_0526_000F_EA1E()
@@ -1899,6 +1902,7 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x176C0FD2: f__176C_0FD2_001F_B15D(); break;
 		case 0x176C1098: f__176C_1098_0021_667D(); break;
 		case 0x176C12CE: f__176C_12CE_0011_A5C5(); break;
+		case 0x176C1382: f__176C_1382_0013_AA74(); break;
 		case 0x176C1458: f__176C_1458_0023_356A(); break;
 		case 0x176C1932: f__176C_1932_0029_D0CC(); break;
 		case 0x176C196C: f__176C_196C_0027_D87A(); break;
@@ -1915,8 +1919,10 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x176C246C: f__176C_246C_0015_C163(); break;
 		case 0x176C2552: f__176C_2552_0019_4894(); break;
 		case 0x176C25A5: f__176C_25A5_002C_AC04(); break;
+		case 0x176C2638: f__176C_2638_0017_CF4B(); break;
 		case 0x176C26CD: f__176C_26CD_0010_041C(); break;
 		case 0x176C26E5: f__176C_26E5_0013_FF24(); break;
+		case 0x176C27A4: f__176C_27A4_0021_7EE9(); break;
 		case 0x176C291A: f__176C_291A_0010_8A93(); break;
 		case 0x176C29A9: f__176C_29A9_003A_8DEF(); break;
 		case 0x176C2BD5: f__176C_2BD5_0014_2C56(); break;
@@ -2119,6 +2125,7 @@ void f__15C2_0A22_0007_ADA0()
 		case 0x0AA6: f__15C2_0AA6_0007_E0B3(); return;
 		case 0x0AAD: f__15C2_0AAD_0007_E473(); return;
 		case 0x0AB4: f__15C2_0AB4_0008_374F(); return;
+		case 0x0AC5: f__15C2_0AC5_000A_6C11(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x15C2; emu_last_ip = 0x0A24; emu_last_length = 0x0007; emu_last_crc = 0xADA0;
@@ -2181,6 +2188,7 @@ void f__15C2_0A38_0007_593D()
  * Called From: 15C2:0AAB:0007:E0B3
  * Called From: 15C2:0AB2:0007:E473
  * Called From: 15C2:0AB9:0008:374F
+ * Called From: 15C2:0ACC:000A:6C11
  */
 void f__15C2_0A3A_0005_5958()
 {
@@ -2491,6 +2499,22 @@ void f__15C2_0AB4_0008_374F()
 {
 	emu_movw(&emu_ax.x, emu_si);
 	emu_imuluw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x8));
+	f__15C2_0A3A_0005_5958(); return;
+}
+
+/**
+ * Decompiled function f__15C2_0AC5_000A_6C11()
+ *
+ * @name f__15C2_0AC5_000A_6C11
+ * @implements 15C2:0AC5:000A:6C11 ()
+ *
+ * Called From: 15C2:0A24:0007:ADA0
+ */
+void f__15C2_0AC5_000A_6C11()
+{
+	emu_movw(&emu_ax.x, emu_si);
+	emu_movb(&emu_cx.l, emu_get_memory8(emu_ss, emu_bp, -0x8));
+	emu_sarw(&emu_ax.x, emu_cx.l);
 	f__15C2_0A3A_0005_5958(); return;
 }
 

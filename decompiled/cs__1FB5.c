@@ -2605,6 +2605,7 @@ void f__1FB5_0E96_0006_F7CE()
  * Called From: B4B1:03AE:0026:282D
  * Called From: B4B1:03DC:001B:A317
  * Called From: B4B1:03F1:0015:290C
+ * Called From: B4B1:0423:001F:F908
  * Called From: B4B1:046B:001A:55EF
  * Called From: B4B1:04B5:001A:55EF
  * Called From: B4F2:0075:0017:F3DE
@@ -2989,6 +2990,7 @@ void f__1FB5_1201_0006_F7CE()
  * Called From: B4B1:03C1:0013:A9F2
  * Called From: B4B1:0404:0013:A9F2
  * Called From: B4B1:0435:000F:82CF
+ * Called From: B4B1:0435:0012:20E5
  * Called From: B4B1:047E:0013:70AD
  * Called From: B4B1:04C8:0013:AFF2
  * Called From: B4E0:06A0:0014:6B8A

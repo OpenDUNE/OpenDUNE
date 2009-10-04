@@ -564,7 +564,7 @@ void f__B527_01CF_0014_5990()
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x20);
 	if (!emu_flags.zf) { f__B527_01E3_0009_9151(); return; }
 	emu_orw(&emu_di, emu_di);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01E3; emu_last_cs = 0xB527; emu_last_ip = 0x01DE; emu_last_length = 0x0014; emu_last_crc = 0x5990; emu_call(); return; }
+	if (!emu_flags.zf) { f__B527_01E3_0009_9151(); return; }
 	/* Unresolved jump */ emu_ip = 0x027F; emu_last_cs = 0xB527; emu_last_ip = 0x01E0; emu_last_length = 0x0014; emu_last_crc = 0x5990; emu_call();
 }
 
@@ -575,6 +575,7 @@ void f__B527_01CF_0014_5990()
  * @implements B527:01E3:0009:9151 ()
  *
  * Called From: B527:01DA:0014:5990
+ * Called From: B527:01DE:0014:5990
  */
 void f__B527_01E3_0009_9151()
 {

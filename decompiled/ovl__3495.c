@@ -21,6 +21,10 @@
  * Called From: 01F7:3005:001C:E64C
  * Called From: 01F7:3058:0037:57AE
  * Called From: 01F7:307E:0010:F2A4
+ * Called From: 01F7:30A3:0010:C0A3
+ * Called From: 01F7:311C:0010:F2A4
+ * Called From: 01F7:313D:0021:AA4B
+ * Called From: 01F7:318C:0018:3FEB
  * Called From: 0C3A:17C0:000C:D272
  * Called From: 261F:01B9:001B:EDBF
  * Called From: B4A2:06AC:0030:38D3

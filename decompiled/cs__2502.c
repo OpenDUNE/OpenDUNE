@@ -16,6 +16,7 @@
  * Called From: B4DA:1391:0014:EB5F
  * Called From: B4DA:1557:0014:EB5F
  * Called From: B4DA:15BB:0014:EB5F
+ * Called From: B4DA:15FD:0014:EB5F
  * Called From: B4E0:06DD:0014:F31D
  * Called From: B4E0:07B2:0014:EB5E
  * Called From: B511:0DCD:0018:314D
@@ -120,6 +121,7 @@ void f__2502_0045_0012_9F29()
  * Called From: B4DA:137D:000A:5058
  * Called From: B4DA:1543:000A:5058
  * Called From: B4DA:15A7:000A:5058
+ * Called From: B4DA:15E9:000A:5058
  * Called From: B4E0:06C9:0014:7316
  */
 void f__2502_00FA_0009_9EB2()
@@ -271,6 +273,7 @@ void f__2502_0161_0004_DE52()
  * Called From: B4DA:1373:0014:149F
  * Called From: B4DA:1539:001B:C82E
  * Called From: B4DA:159D:0026:46F6
+ * Called From: B4DA:15DF:001F:F7C7
  */
 void f__2502_0165_0027_41E7()
 {

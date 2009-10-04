@@ -129,7 +129,10 @@ void f__2903_00CA_0015_756E()
  *
  * Called From: 07D4:0BAD:0031:A814
  * Called From: 07D4:0C82:0046:7ED9
+ * Called From: 07D4:0DFE:0031:A9D0
+ * Called From: 07D4:0DFE:0055:A271
  * Called From: 07D4:0E39:0038:77DF
+ * Called From: 07D4:0E39:003B:26C8
  * Called From: 07D4:0F95:002B:0C2A
  * Called From: 07D4:11FF:0049:B9BB
  * Called From: 07D4:1238:0025:37A1
@@ -150,6 +153,7 @@ void f__2903_00CA_0015_756E()
  * Called From: 2B6C:0124:001F:F77F
  * Called From: B495:0955:002E:7A31
  * Called From: B495:09EC:002B:80B3
+ * Called From: B495:110B:001D:B296
  * Called From: B495:12D1:0028:4959
  * Called From: B495:148B:0032:F13D
  * Called From: B4A2:08E0:0020:E97F

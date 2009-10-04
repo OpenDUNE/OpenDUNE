@@ -369,6 +369,7 @@ void f__1DD7_01DD_000E_9251()
  * Called From: 0642:0240:0005:7A4B
  * Called From: 1DD7:01AF:0007:96C6
  * Called From: B483:047E:0005:7A4B
+ * Called From: B4CD:0E4D:0005:7A4B
  * Called From: B4F2:0272:0005:7A4B
  * Called From: B511:1497:0005:7A4B
  */

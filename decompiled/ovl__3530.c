@@ -13,6 +13,7 @@
  * @implements 3530:0020 (0)
  *
  * Called From: 261F:01B9:001B:EDBF
+ * Called From: B4B5:0723:000A:7659
  * Called From: B4B5:07BA:000A:7659
  */
 void ovl__3530(uint8 entry)

@@ -19,6 +19,8 @@
  * Called From: 07D4:12D9:0033:D6E7
  * Called From: 07D4:1367:000B:2081
  * Called From: 07D4:155F:0008:5999
+ * Called From: 07D4:15B2:001D:F971
+ * Called From: 07D4:15E3:000E:A50F
  * Called From: 0AEC:0856:0015:4A00
  * Called From: 0AEC:0C71:0008:64F7
  * Called From: 0AEC:0CC4:0015:4A00
