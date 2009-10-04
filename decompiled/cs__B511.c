@@ -5669,6 +5669,7 @@ void f__B511_13F2_0007_E5DE()
  * @implements B511:13F9:0029:4034 ()
  *
  * Called From: B511:13F9:0007:E5DE
+ * Called From: B511:142D:0019:858B
  */
 void f__B511_13F9_0029_4034()
 {
@@ -5708,7 +5709,7 @@ void f__B511_1422_0019_858B()
 	emu_addws(&emu_sp, 0x12);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xC), emu_ax.x);
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp, -0xC), 0x8000);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x13F9; emu_last_cs = 0xB511; emu_last_ip = 0x142D; emu_last_length = 0x0019; emu_last_crc = 0x858B; emu_call(); return; }
+	if (emu_flags.zf) { f__B511_13F9_0029_4034(); return; }
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0xC), 0x8001);
 	if (!emu_flags.zf) { f__B511_143D_000F_CDB2(); return; }
 	emu_push(emu_cs); emu_push(0x143B); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
