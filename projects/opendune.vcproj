@@ -181,11 +181,23 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\emu_house.c"
+				>
+			</File>
+			<File
 				RelativePath="..\src\global.c"
 				>
 			</File>
 			<File
 				RelativePath="..\src\global.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\house.c"
+				>
+			</File>
+			<File
+				RelativePath="..\src\house.h"
 				>
 			</File>
 			<File
@@ -334,10 +346,6 @@
 			</File>
 			<File
 				RelativePath="..\decompiled\cs__1082.c"
-				>
-			</File>
-			<File
-				RelativePath="..\decompiled\cs__10BE.c"
 				>
 			</File>
 			<File
