@@ -12,7 +12,7 @@ typedef struct GlobalData {
 	/* 0000()    */ uint8   unknown_0000[0x35F4];
 	/* 35F4(4)   */ csip   buildingStartPos;       //!< CS:IP of buildings array.
 	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of buildings on the map.
-	/* 35FA()    */ uint8   unknown_35F8[0x02C2];
+	/* 35FA()    */ uint8   unknown_35FA[0x02C2];
 	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Building_Find skips buildings with flag 0x4 off.
 	/* 38BE()    */ uint8   unknown_38BE[0x2DE6];
 	/* 66A4(4)   */ csip   callbackAfterMouse;     //!< CS:IP of routine called after mouse change.
