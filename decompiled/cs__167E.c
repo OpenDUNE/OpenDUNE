@@ -307,6 +307,7 @@ void f__167E_0082_0006_F7CE()
  * Called From: 176C:1556:0006:53C6
  * Called From: 176C:161F:0006:53C6
  * Called From: 176C:27C9:0009:5D1A
+ * Called From: 176C:28D0:0024:58C9
  * Called From: 1A34:042C:0019:BEE7
  * Called From: 1A34:1A94:0006:57C6
  * Called From: 1A34:1B96:0006:57C6
@@ -522,6 +523,7 @@ void f__167E_00EF_0004_893F()
  * Called From: 0AEC:05B9:0010:37DB
  * Called From: 0C3A:2945:000F:A6A8
  * Called From: 0EDB:049E:0013:CDD0
+ * Called From: 1391:033C:0008:A673
  * Called From: 176C:0D31:0012:9ABF
  * Called From: 176C:0EF1:0011:8A0E
  * Called From: 176C:0F04:0013:75C0
@@ -532,7 +534,9 @@ void f__167E_00EF_0004_893F()
  * Called From: 176C:24EE:002D:83BF
  * Called From: 176C:2529:0020:614B
  * Called From: 176C:260C:002D:1FC4
+ * Called From: 176C:2907:0008:A673
  * Called From: 176C:2A8B:0012:04F6
+ * Called From: 176C:2BC4:001F:5AB6
  * Called From: 176C:2C0D:001F:0151
  * Called From: 1A34:078A:000D:9925
  * Called From: 1A34:137B:0008:A673
@@ -555,6 +559,7 @@ void f__167E_00EF_0004_893F()
  * Called From: 1A34:3478:0008:A673
  * Called From: 1A34:3611:0008:443E
  * Called From: 1A34:3611:000F:A6D7
+ * Called From: 1A34:3611:0017:BAEA
  * Called From: 1A34:366A:000F:A6AC
  */
 void f__167E_00F3_001E_8CB3()
@@ -571,7 +576,7 @@ void f__167E_00F3_001E_8CB3()
 	if (emu_flags.zf) { f__167E_0136_0006_8BC7(); return; }
 	emu_cmpw(&emu_ax.x, 0x3);
 	if (emu_flags.zf) { f__167E_0150_0007_030A(); return; }
-	/* Unresolved jump */ emu_ip = 0x0157; emu_last_cs = 0x167E; emu_last_ip = 0x010F; emu_last_length = 0x001E; emu_last_crc = 0x8CB3; emu_call();
+	f__167E_0157_0002_C03A(); return;
 }
 
 /**
@@ -693,12 +698,26 @@ void f__167E_0153_0004_067A()
 }
 
 /**
+ * Decompiled function f__167E_0157_0002_C03A()
+ *
+ * @name f__167E_0157_0002_C03A
+ * @implements 167E:0157:0002:C03A ()
+ *
+ * Called From: 167E:010F:001E:8CB3
+ */
+void f__167E_0157_0002_C03A()
+{
+	f__167E_0159_0004_83B9(); return;
+}
+
+/**
  * Decompiled function f__167E_0159_0004_83B9()
  *
  * @name f__167E_0159_0004_83B9
  * @implements 167E:0159:0004:83B9 ()
  *
  * Called From: 167E:014E:0002:C4BA
+ * Called From: 167E:0157:0002:C03A
  */
 void f__167E_0159_0004_83B9()
 {

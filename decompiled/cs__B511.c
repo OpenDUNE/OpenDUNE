@@ -147,11 +147,24 @@ void f__B511_0041_000B_5F37()
 void f__B511_004C_001F_8760()
 {
 	emu_cmpws(&emu_si, 0x5);
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0069; emu_last_cs = 0xB511; emu_last_ip = 0x004F; emu_last_length = 0x001F; emu_last_crc = 0x8760; emu_call(); return; }
+	if (!emu_flags.cf) { f__B511_0069_0002_CFBA(); return; }
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37F2), 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37F0), 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37F6), 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x37F4), 0x0);
+	f__B511_008A_0007_924A(); return;
+}
+
+/**
+ * Decompiled function f__B511_0069_0002_CFBA()
+ *
+ * @name f__B511_0069_0002_CFBA
+ * @implements B511:0069:0002:CFBA ()
+ *
+ * Called From: B511:004F:001F:8760
+ */
+void f__B511_0069_0002_CFBA()
+{
 	f__B511_008A_0007_924A(); return;
 }
 
@@ -162,6 +175,7 @@ void f__B511_004C_001F_8760()
  * @implements B511:008A:0007:924A ()
  *
  * Called From: B511:0069:001F:8760
+ * Called From: B511:0069:0002:CFBA
  */
 void f__B511_008A_0007_924A()
 {
@@ -1352,8 +1366,28 @@ void f__B511_0477_000B_28F6()
 	emu_pop(&emu_cx.x);
 	emu_orw(&emu_ax.x, emu_ax.x);
 	if (!emu_flags.zf) { f__B511_048D_0005_8EFD(); return; }
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0482); emu_cs = 0x3500; emu_ip = 0x0020; emu_last_cs = 0xB511; emu_last_ip = 0x047D; emu_last_length = 0x000B; emu_last_crc = 0x28F6; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0482; emu_last_cs = 0xB511; emu_last_ip = 0x0482; emu_last_length = 0x000B; emu_last_crc = 0x28F6; emu_call();
+	emu_push(emu_cs); emu_push(0x0482); emu_cs = 0x3500; ovl__3500(0);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3511) { ovl__3511(0xFF); }
+	f__B511_0482_0008_C68B();
+}
+
+/**
+ * Decompiled function f__B511_0482_0008_C68B()
+ *
+ * @name f__B511_0482_0008_C68B
+ * @implements B511:0482:0008:C68B ()
+ *
+ * Called From: B511:0482:000B:28F6
+ */
+void f__B511_0482_0008_C68B()
+{
+	emu_xorw(&emu_ax.x, emu_ax.x);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x048A); emu_cs = 0x01F7; f__01F7_0377_000D_81BB();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3511) { ovl__3511(0xFF); }
+	/* Unresolved jump */ emu_ip = 0x048A; emu_last_cs = 0xB511; emu_last_ip = 0x048A; emu_last_length = 0x0008; emu_last_crc = 0xC68B; emu_call();
 }
 
 /**

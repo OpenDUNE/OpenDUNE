@@ -16,6 +16,9 @@ extern void f__15C2_0395_0044_304E();
  * @implements 1082:01E8:0020:FFB9 ()
  * @implements 1082:0208:0013:DB66
  * @implements 1082:021B:001C:EC5F
+ * @implements 1082:021E:0019:C7B5
+ * @implements 1082:0237:0005:B4CF
+ * @implements 1082:023C:0005:5B4E
  * @implements 1082:0241:0009:5317
  * @implements 1082:024A:002E:B11B
  * @implements 1082:0278:0008:B2C0

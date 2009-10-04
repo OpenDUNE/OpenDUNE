@@ -14,6 +14,7 @@
  * Called From: 0972:0053:0051:7645
  * Called From: 0972:00A0:0035:11A8
  * Called From: 0972:00A0:0020:DE51
+ * Called From: 0972:00A0:004D:2870
  * Called From: 176C:018A:0014:5245
  * Called From: 176C:018A:0029:F66B
  * Called From: 176C:018A:0055:6C8A
@@ -169,7 +170,7 @@ void f__07C9_0066_000E_D629()
 {
 	emu_movw(&emu_bx.x, emu_ax.x);
 	emu_cmpws(&emu_bx.x, 0x4);
-	if (!(emu_flags.cf || emu_flags.zf)) { /* Unresolved jump */ emu_ip = 0x0082; emu_last_cs = 0x07C9; emu_last_ip = 0x006B; emu_last_length = 0x000E; emu_last_crc = 0xD629; emu_call(); return; }
+	if (!(emu_flags.cf || emu_flags.zf)) { f__07C9_0082_0002_C03A(); return; }
 	emu_shlw(&emu_bx.x, 0x1);
 
 	/* Jump based on memory/register values */
@@ -247,6 +248,19 @@ void f__07C9_007D_0005_BEE7()
 }
 
 /**
+ * Decompiled function f__07C9_0082_0002_C03A()
+ *
+ * @name f__07C9_0082_0002_C03A
+ * @implements 07C9:0082:0002:C03A ()
+ *
+ * Called From: 07C9:006B:000E:D629
+ */
+void f__07C9_0082_0002_C03A()
+{
+	f__07C9_0084_0008_A7FF(); return;
+}
+
+/**
  * Decompiled function f__07C9_0084_0008_A7FF()
  *
  * @name f__07C9_0084_0008_A7FF
@@ -256,6 +270,7 @@ void f__07C9_007D_0005_BEE7()
  * Called From: 07C9:0078:0004:6FD8
  * Called From: 07C9:0080:0008:4548
  * Called From: 07C9:0080:0005:BEE7
+ * Called From: 07C9:0082:0002:C03A
  */
 void f__07C9_0084_0008_A7FF()
 {
@@ -278,7 +293,7 @@ void f__07C9_008C_000C_41F1()
 	emu_movw(&emu_ax.x, emu_si);
 	emu_movw(&emu_dx.x, emu_ax.x);
 	emu_cmpw(&emu_dx.x, emu_cx.x);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0098; emu_last_cs = 0x07C9; emu_last_ip = 0x0092; emu_last_length = 0x000C; emu_last_crc = 0x41F1; emu_call(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__07C9_0098_0008_C872(); return; }
 	emu_movw(&emu_ax.x, emu_dx.x);
 	f__07C9_009A_0006_42F0(); return;
 }
@@ -307,6 +322,7 @@ void f__07C9_008E_000A_8959()
  * @implements 07C9:0098:0008:C872 ()
  *
  * Called From: 07C9:0092:000A:8959
+ * Called From: 07C9:0092:000C:41F1
  */
 void f__07C9_0098_0008_C872()
 {

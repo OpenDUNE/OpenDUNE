@@ -1569,7 +1569,7 @@ void f__B4FC_0854_0015_0D64()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_ds, emu_bx.x,  0x76BD));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_testw(&emu_ax.x, 0x1);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0869; emu_last_cs = 0xB4FC; emu_last_ip = 0x0865; emu_last_length = 0x0015; emu_last_crc = 0x0D64; emu_call(); return; }
+	if (!emu_flags.zf) { f__B4FC_0869_0017_621F(); return; }
 	f__B4FC_087B_0005_8BCF(); return;
 }
 
@@ -1580,6 +1580,7 @@ void f__B4FC_0854_0015_0D64()
  * @implements B4FC:0869:0017:621F ()
  *
  * Called From: B4FC:0865:002C:DCED
+ * Called From: B4FC:0865:0015:0D64
  */
 void f__B4FC_0869_0017_621F()
 {

@@ -45,10 +45,12 @@
  * Called From: 06F7:0758:0006:16E4
  * Called From: 06F7:0764:000C:C42B
  * Called From: 06F7:0772:0006:16E4
+ * Called From: 06F7:07AC:003A:CADB
  * Called From: 06F7:07B5:0006:16E4
  * Called From: 06F7:0852:000A:9737
  * Called From: 06F7:08A9:002E:5B22
  * Called From: 06F7:08F3:0008:9754
+ * Called From: 06F7:0955:0008:7759
  * Called From: 06F7:0AA2:0025:93F6
  * Called From: 06F7:0B33:0024:BD9C
  * Called From: 06F7:0B61:0024:BD9D
@@ -78,11 +80,20 @@
  * Called From: 0AEC:109D:000F:2295
  * Called From: 0AEC:11A5:0009:6093
  * Called From: 0AEC:1200:000F:2195
+ * Called From: 0C3A:029E:0008:F74D
+ * Called From: 0C3A:02A7:0006:D2E6
  * Called From: 0C3A:03B7:0008:F74D
  * Called From: 0C3A:03C0:0009:92AB
  * Called From: 0C3A:03E2:0022:C3F8
+ * Called From: 0C3A:04B4:0008:F74D
+ * Called From: 0C3A:04D4:0020:E670
  * Called From: 0C3A:054D:0008:F74D
  * Called From: 0C3A:06DB:0017:F9DE
+ * Called From: 0C3A:07FE:006E:9E9F
+ * Called From: 0C3A:0832:001C:F0D4
+ * Called From: 0C3A:0868:0024:0393
+ * Called From: 0C3A:0880:0008:590A
+ * Called From: 0C3A:0913:006C:A802
  * Called From: 0C3A:0AE1:000E:24E3
  * Called From: 0C3A:0C06:0017:6A02
  * Called From: 0C3A:0CBC:0018:FD80
@@ -90,6 +101,7 @@
  * Called From: 0C3A:0D41:0008:7900
  * Called From: 0C3A:0DAD:0011:5F85
  * Called From: 0C3A:0DD6:0008:690A
+ * Called From: 0C3A:1207:000E:8600
  * Called From: 0C3A:210E:0027:F812
  * Called From: 0C3A:2470:0042:DBC6
  * Called From: 0C3A:24F4:0039:31C8
@@ -105,6 +117,8 @@
  * Called From: 10E4:1CF3:0009:6093
  * Called From: 10E4:21E5:000F:0096
  * Called From: 10E4:229D:0012:78BD
+ * Called From: 1391:02ED:0009:1DF9
+ * Called From: 1391:0334:0027:6AEA
  * Called From: 1423:0AFA:0009:AAB4
  * Called From: 151A:039A:0006:D6E6
  * Called From: 151A:03BC:000C:4178
@@ -156,6 +170,8 @@
  * Called From: 1A34:113E:0016:931E
  * Called From: 1A34:129F:0008:3755
  * Called From: 1A34:12DF:0008:3755
+ * Called From: 1A34:1518:0008:9754
+ * Called From: 1A34:1552:0008:5756
  * Called From: 1A34:16F3:0014:DAB1
  * Called From: 1A34:1745:0008:490A
  * Called From: 1A34:1811:003E:03D1

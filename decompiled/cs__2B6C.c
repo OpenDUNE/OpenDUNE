@@ -512,6 +512,7 @@ void f__2B6C_012C_000B_CA8C()
  * Called From: B495:0E2E:002A:0E56
  * Called From: B495:0F33:0008:857D
  * Called From: B495:0F80:000B:410C
+ * Called From: B495:114C:0008:DE28
  * Called From: B495:11A9:0008:DE28
  * Called From: B495:150B:0007:05DB
  * Called From: B4B8:1C57:000F:E943
@@ -547,6 +548,7 @@ void f__2B6C_012C_000B_CA8C()
  * Called From: B511:117C:000A:673D
  * Called From: B511:1393:0008:DBE0
  * Called From: B518:0056:0008:40E7
+ * Called From: B518:0056:000B:4030
  * Called From: B518:0563:0010:240A
  * Called From: B518:148F:000B:DA15
  * Called From: B527:00A1:0005:6168
@@ -667,6 +669,7 @@ void f__2B6C_0162_0007_9568()
  * Called From: B495:0E6C:0008:2BE5
  * Called From: B495:0F73:0008:43E5
  * Called From: B495:0FAC:0008:43E5
+ * Called From: B495:1187:000E:5A2B
  * Called From: B495:121E:000E:7C2B
  * Called From: B495:1533:0008:43E5
  * Called From: B4B8:1B72:0027:A86C
@@ -1606,6 +1609,7 @@ void f__2B6C_0293_0027_6AD7()
 	emu_cs = emu_get_memory16(emu_ds, 0x00,  0x66B6);
 	emu_push(0x02BA);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2B6C; emu_last_ip = 0x02B6; emu_last_length = 0x0027; emu_last_crc = 0x6AD7;
@@ -1622,6 +1626,7 @@ void f__2B6C_0293_0027_6AD7()
  * @implements 2B6C:02BA:0007:D28E ()
  *
  * Called From: 2B6C:02BA:0028:3AD7
+ * Called From: 2B6C:02BA:0027:6AD7
  */
 void f__2B6C_02BA_0007_D28E()
 {

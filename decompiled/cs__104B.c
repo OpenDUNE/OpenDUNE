@@ -316,6 +316,7 @@ void f__104B_00F6_0002_2597()
  * @name f__104B_00F8_002E_3820
  * @implements 104B:00F8:002E:3820 ()
  *
+ * Called From: 0C3A:29FC:000B:0673
  * Called From: 104B:00EF:0030:20A6
  * Called From: 104B:00EF:001D:2B68
  * Called From: 16C5:0107:000B:0673
@@ -782,6 +783,7 @@ void f__104B_02EA_0005_8BCF()
  *
  * Called From: 1423:0B44:0018:B454
  * Called From: 1423:0B44:000E:3343
+ * Called From: 1423:0B44:0019:3478
  * Called From: B4C4:0512:000B:825D
  */
 void f__104B_0354_0023_5A6D()

@@ -1218,7 +1218,7 @@ void f__15C2_0602_000B_511E()
 	emu_movw(&emu_bx.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpws(&emu_bx.x, 0x12);
 	if ((emu_flags.cf || emu_flags.zf)) { f__15C2_060D_0007_AD99(); return; }
-	/* Unresolved jump */ emu_ip = 0x0B6C; emu_last_cs = 0x15C2; emu_last_ip = 0x060A; emu_last_length = 0x000B; emu_last_crc = 0x511E; emu_call();
+	f__15C2_0B6C_0003_E083(); return;
 }
 
 /**
@@ -1411,6 +1411,7 @@ void f__15C2_06A2_005B_8E2E()
  * @implements 15C2:06FD:0011:8B08 ()
  *
  * Called From: 15C2:07E8:000D:7E3C
+ * Called From: 15C2:0B6C:0003:E083
  */
 void f__15C2_06FD_0011_8B08()
 {
@@ -1923,8 +1924,10 @@ void f__15C2_08FB_003A_D1E0()
 		case 0x176C26CD: f__176C_26CD_0010_041C(); break;
 		case 0x176C26E5: f__176C_26E5_0013_FF24(); break;
 		case 0x176C27A4: f__176C_27A4_0021_7EE9(); break;
+		case 0x176C28B1: f__176C_28B1_0024_58C9(); break;
 		case 0x176C291A: f__176C_291A_0010_8A93(); break;
 		case 0x176C29A9: f__176C_29A9_003A_8DEF(); break;
+		case 0x176C2B97: f__176C_2B97_0013_B226(); break;
 		case 0x176C2BD5: f__176C_2BD5_0014_2C56(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -2149,7 +2152,7 @@ void f__15C2_0A29_000F_0A95()
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x0);
 	if (emu_flags.zf) { f__15C2_0A38_0007_593D(); return; }
 	emu_movw(&emu_ax.x, 0x1);
-	/* Unresolved jump */ emu_ip = 0x0A3A; emu_last_cs = 0x15C2; emu_last_ip = 0x0A36; emu_last_length = 0x000F; emu_last_crc = 0x0A95; emu_call();
+	f__15C2_0A3A_0005_5958(); return;
 }
 
 /**
@@ -2174,6 +2177,7 @@ void f__15C2_0A38_0007_593D()
  * @name f__15C2_0A3A_0005_5958
  * @implements 15C2:0A3A:0005:5958 ()
  *
+ * Called From: 15C2:0A36:000F:0A95
  * Called From: 15C2:0A50:0002:B43A
  * Called From: 15C2:0A5E:0004:8539
  * Called From: 15C2:0A5E:0002:AD3A
@@ -2540,6 +2544,19 @@ void f__15C2_0AFE_001E_19F9()
 	emu_addw(&emu_bx.x, emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_es, emu_bx.x,  0x16), emu_di);
 	f__15C2_0B6F_0006_0197(); return;
+}
+
+/**
+ * Decompiled function f__15C2_0B6C_0003_E083()
+ *
+ * @name f__15C2_0B6C_0003_E083
+ * @implements 15C2:0B6C:0003:E083 ()
+ *
+ * Called From: 15C2:060A:000B:511E
+ */
+void f__15C2_0B6C_0003_E083()
+{
+	f__15C2_06FD_0011_8B08(); return;
 }
 
 /**
