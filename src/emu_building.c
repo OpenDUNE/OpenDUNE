@@ -33,8 +33,8 @@ void emu_Building_Allocate()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	int16 index = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	uint8 typeID = emu_get_memory16(emu_ss, emu_bp,  0x8);
+	int16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	uint8 typeID = emu_get_memory16(emu_ss, emu_sp,  0x2);
 	Building *b = Building_Allocate(index, typeID);
 
 	if (b == NULL) {
@@ -216,7 +216,6 @@ void emu_Building_Find_First()
 	emu_dx.x = g_global->buildingStartPos.cs;
 	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs) - g_global->buildingStartPos.ip;
 }
-
 
 /**
  * Clean / destroy / free all buildings.
