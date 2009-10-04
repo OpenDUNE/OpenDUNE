@@ -148,6 +148,7 @@ void f__07C9_005F_0015_22E3()
 		case 0x0074: f__07C9_0074_0006_C560(); return;
 		case 0x0076: f__07C9_0076_0004_6FD8(); return;
 		case 0x007A: f__07C9_007A_0008_4548(); return;
+		case 0x007D: f__07C9_007D_0005_BEE7(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07C9; emu_last_ip = 0x006F; emu_last_length = 0x0015; emu_last_crc = 0x22E3;
@@ -177,6 +178,7 @@ void f__07C9_0066_000E_D629()
 	emu_ip = emu_get_memory16(emu_cs, emu_bx.x,  0xA6);
 	switch (emu_ip) {
 		case 0x0074: f__07C9_0074_0006_C560(); return;
+		case 0x0076: f__07C9_0076_0004_6FD8(); return;
 		case 0x007A: f__07C9_007A_0008_4548(); return;
 		case 0x007D: f__07C9_007D_0005_BEE7(); return;
 		default:
@@ -210,6 +212,7 @@ void f__07C9_0074_0006_C560()
  * @implements 07C9:0076:0004:6FD8 ()
  *
  * Called From: 07C9:006F:0015:22E3
+ * Called From: 07C9:006F:000E:D629
  */
 void f__07C9_0076_0004_6FD8()
 {
@@ -240,6 +243,7 @@ void f__07C9_007A_0008_4548()
  * @implements 07C9:007D:0005:BEE7 ()
  *
  * Called From: 07C9:006F:000E:D629
+ * Called From: 07C9:006F:0015:22E3
  */
 void f__07C9_007D_0005_BEE7()
 {
