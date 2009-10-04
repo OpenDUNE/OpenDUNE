@@ -38,10 +38,11 @@ CFLAGS := $(CFLAGS) -g -Wall -Wextra
 #  currently having. When all those cases are resolved, this can be removed.
 CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
 
+HEADER := $(shell ls decompiled/*.h src/*.h src/*/*.h include/*.h 2>/dev/null)
 DECOMPILED := $(shell ls decompiled/*.c 2>/dev/null)
-DECOMPILED := $(DECOMPILED:%.c=objs/%.o)
+DECOMPILED_OBJS := $(DECOMPILED:%.c=objs/%.o)
 SOURCE := $(shell ls src/*.c src/*/*.c 2>/dev/null)
-SOURCE := $(SOURCE:%.c=objs/%.o)
+SOURCE_OBJS := $(SOURCE:%.c=objs/%.o)
 RES := $(shell mkdir -p objs/decompiled objs/src)
 
 ifdef VERBOSE
@@ -52,16 +53,38 @@ endif
 
 all: opendune$(EXTENSION)
 
+objs/depend: tools/depend/depend.cpp
+	@echo "[Compiling / Linking] depend"
+	$(Q)$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $^
+
+ifeq ($(filter depend clean, $(MAKECMDGOALS)),)
+-include Makefile.dep
+endif
+
+ifeq ($(filter depend, $(MAKECMDGOALS)),)
+Makefile.dep: objs/depend $(SOURCE) $(DECOMPILED) $(HEADER)
+else
+Makefile.dep: objs/depend FORCE
+endif
+	@echo "[Dependency Check] All files"
+	$(Q)objs/depend -fMakefile.dep.tmp -o.o -Y -v -- $(CFLAGS) -I include -- $(DECOMPILED) $(SOURCE) 2>/dev/null
+	$(Q)cat Makefile.dep.tmp | sed 's@^src@objs/src@g;s@^decompiled@objs/decompiled@g' > Makefile.dep
+	$(Q) rm -f Makefile.dep.tmp Makefile.dep.tmp.bak
+
+depend: Makefile.dep
+
 objs/%.o: %.c
 	$(shell mkdir -p `dirname $@`)
-	@echo "[Compiling] $^"
-	$(Q)$(CC) $(CFLAGS) -c $^ -o $@ -I include/
+	@echo "[Compiling] $<"
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
 
-opendune$(EXTENSION): $(DECOMPILED) $(SOURCE)
+opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 	@echo "[Linking] $@"
 	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	@echo "[Cleaning] opendune"
-	$(Q)rm -f opendune$(EXTENSION) $(DECOMPILED) $(SOURCE)
+	$(Q)rm -f opendune$(EXTENSION) $(DECOMPILED_OBJS) $(SOURCE_OBJS)
+
+FORCE:
 
