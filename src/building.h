@@ -59,8 +59,10 @@ extern Building *Building_Get_ByIndex(uint8 index);
 extern Building *Building_Get_ByMemory(csip32 address);
 extern Building *Building_Find(int16 houseID, int16 typeID, int16 *lastIndex);
 extern Building *Building_Allocate(int16 index, uint8 typeID);
+extern void Building_Recount();
 
 extern void emu_Building_Init();
+extern void emu_Building_Recount();
 extern void emu_Building_Allocate();
 extern void emu_Building_Free();
 extern void emu_Building_Get_ByIndex();

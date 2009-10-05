@@ -5,9 +5,69 @@
 #include "libemu.h"
 #include "global.h"
 #include "building.h"
+#include "house.h"
 
 extern void f__01F7_28B8_0024_83C9();
 extern void f__15C2_0395_0044_304E();
+
+/**
+ * Initialize the buildings. It cleans the whole memory, and resets everything
+ *  to zero. If as parameters a CS:IP pair is given, that will be used as
+ *  start of the Building array.
+ *
+ * @name emu_Building_Init
+ * @implements 1082:0098:001C:39E2 ()
+ * @implements 1082:00B4:0026:CE00
+ * @implements 1082:00BD:001D:48CA
+ * @implements 1082:00DA:000A:A6BE
+ * @implements 1082:00E4:0002:2597
+ */
+void emu_Building_Init()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	uint16 newCS = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	uint16 newIP = emu_get_memory16(emu_ss, emu_sp,  0x0);
+
+	g_global->buildingCount = 0;
+
+	if (newCS != 0x0 || newIP != 0x0) {
+		/* Try to make the IP empty by moving as much as possible to the CS */
+		g_global->buildingStartPos.cs = newCS + (newIP >> 4);
+		g_global->buildingStartPos.ip = newIP & 0x000F;
+	}
+
+	if (g_global->buildingStartPos.csip != 0x0) {
+		memset(Building_Get_ByIndex(0), 0, sizeof(Building) * BUILDING_INDEX_MAX_HARD);
+	}
+
+	emu_dx.x = 0;
+	emu_ax.x = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
+}
+
+/**
+ * Recount all buildings, ignoring the cache array. Also set the buildingCount
+ *  of all houses to zero.
+ *
+ * @name emu_Building_Recount
+ * @implements 1082:000F:0012:A3C7 ()
+ * @implements 1082:0021:0002:CA3A
+ * @implements 1082:0023:0014:E02C
+ * @implements 1082:0037:001A:16D1
+ * @implements 1082:0051:0047:3D25
+ * @implements 1082:008D:000B:C182
+ * @implements 1082:008E:000A:018A
+ */
+void emu_Building_Recount()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	Building_Recount();
+}
 
 /**
  * Allocate memory for a building.
@@ -218,41 +278,4 @@ void emu_Building_FindFirst()
 	/* Find back the CS:IP of the building */
 	emu_dx.x = g_global->buildingStartPos.cs;
 	emu_ax.x = emu_Global_GetIP(b, g_global->buildingStartPos.cs);
-}
-
-/**
- * Initialize the buildings. It cleans the whole memory, and resets everything
- *  to zero. If as parameters a CS:IP pair is given, that will be used as
- *  start of the Building array.
- *
- * @name emu_Building_Init
- * @implements 1082:0098:001C:39E2 ()
- * @implements 1082:00B4:0026:CE00
- * @implements 1082:00BD:001D:48CA
- * @implements 1082:00DA:000A:A6BE
- * @implements 1082:00E4:0002:2597
- */
-void emu_Building_Init()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	uint16 newCS = emu_get_memory16(emu_ss, emu_sp,  0x2);
-	uint16 newIP = emu_get_memory16(emu_ss, emu_sp,  0x0);
-
-	g_global->buildingCount = 0;
-
-	if (newCS != 0x0 || newIP != 0x0) {
-		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->buildingStartPos.cs = newCS + (newIP >> 4);
-		g_global->buildingStartPos.ip = newIP & 0x000F;
-	}
-
-	if (g_global->buildingStartPos.csip != 0x0) {
-		memset(Building_Get_ByIndex(0), 0, sizeof(Building) * BUILDING_INDEX_MAX_HARD);
-	}
-
-	emu_dx.x = 0;
-	emu_ax.x = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
 }

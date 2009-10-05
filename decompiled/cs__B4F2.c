@@ -1256,7 +1256,7 @@ void f__B4F2_0336_0005_014D()
  */
 void f__B4F2_033B_0005_7CF0()
 {
-	emu_push(emu_cs); emu_push(0x0340); emu_cs = 0x1082; f__1082_000F_0012_A3C7();
+	emu_push(emu_cs); emu_push(0x0340); emu_cs = 0x1082; emu_Building_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { ovl__34F2(0xFF); }
 	f__B4F2_0340_0005_D341();

@@ -83,6 +83,30 @@ Building *Building_Allocate(int16 index, uint8 typeID)
 }
 
 /**
+ * Recount all buildings, ignoring the cache array. Also set the buildingCount
+ *  of all houses to zero.
+ */
+void Building_Recount()
+{
+	int16 index = -1;
+	House *h = House_Find(&index);
+
+	while (h != NULL) {
+		h->variable_06 = 0;
+		h = House_Find(&index);
+	}
+
+	g_global->buildingCount = 0;
+	for (index = 0; index < BUILDING_INDEX_MAX_HARD; index++) {
+		Building *b = Building_Get_ByIndex(index);
+		if ((b->variable_04 & 0x0001) == 0) continue;
+
+		g_global->buildingArray[g_global->buildingCount].csip = g_global->buildingStartPos.csip + index * sizeof(Building);
+		g_global->buildingCount++;
+	}
+}
+
+/**
  * Find all buildings, where filters specify what to find exactly.
  *
  * @param houseID If not -1, which houseID the building should have.

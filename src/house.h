@@ -23,7 +23,7 @@ typedef struct House {
 	/* 0000(2)   */ uint16 index;                  //!< The index of the house in the array.
 	/* 0002()    */ uint8   unknown_0002[0x0002];
 	/* 0004(2)   */ uint16 variable_04;            //!< ?? Bitflags. 0x0001 - Used.
-	/* 0006()    */ uint8   unknown_0006[0x0002];
+	/* 0006(2)   */ uint16 variable_06;            //!< ?? buildingCount?
 	/* 0008(2)   */ uint16 variable_08;            //!< ??
 	/* 000A()    */ uint8   unknown_000A[0x0022];
 	/* 002C(2)   */ uint16 variable_2C;            //!< ??
