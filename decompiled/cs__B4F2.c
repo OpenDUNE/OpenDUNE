@@ -1272,7 +1272,7 @@ void f__B4F2_033B_0005_7CF0()
  */
 void f__B4F2_0340_0005_D341()
 {
-	emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0FE4; f__0FE4_018D_0012_A3C7();
+	emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0FE4; emu_Unit_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { ovl__34F2(0xFF); }
 	f__B4F2_0345_0027_E6B6();

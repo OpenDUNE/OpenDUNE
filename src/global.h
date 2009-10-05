@@ -9,13 +9,17 @@ MSVC_PACKED_BEGIN;
  *  This struct tries to map all those.
  */
 typedef struct GlobalData {
-	/* 0000()    */ uint8   unknown_0000[0x35F4];
-	/* 35F4(4)   */ csip32 buildingStartPos;       //!< CS:IP of building array.
-	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of buildings on the map.
+	/* 0000()    */ uint8   unknown_0000[0x35E8];
+	/* 35E8(4)   */ csip32 unitStartPos;           //!< CS:IP of Unit array.
+	/* 35EC(2)   */ uint16 unitCount;              //!< Amount of Units on the map.
+	/* 35EE(4)   */ csip32 airUnitStartPos;        //!< CS:IP of AirUnit array.
+	/* 35F2(2)   */ uint16 airUnitCount;           //!< Amount of AirUnits on the map.
+	/* 35F4(4)   */ csip32 buildingStartPos;       //!< CS:IP of Building array.
+	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of Buildings on the map.
 	/* 35FA(4)   */ csip32 houseStartPos;          //!< CS:IP of house array.
 	/* 35FE(2)   */ uint16 houseCount;             //!< Amount of houses on the map.
 	/* 3600()    */ uint8   unknown_3600[0x02BC];
-	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Building_Find skips buildings with flag 0x4 off.
+	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?).
 	/* 38BE()    */ uint8   unknown_38BE[0x2DE6];
 	/* 66A4(4)   */ csip32 callbackAfterMouse;     //!< CS:IP of routine called after mouse change.
 	/* 66A8(12)  */ uint8   unknown_66A8[0x000C];
@@ -61,12 +65,16 @@ typedef struct GlobalData {
  	/* 7099(1)   */ uint8  prevButtonState;        //!< Previous mouse button state.
 	/* 709A()    */ uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ uint16 variable_76A6;          //!< ??
-	/* 76A8()    */ uint8   unknown_76A8[0x0F74];
-	/* 861C(6)   */ uint8  buildingFindStruct[6];  //!< Default search struct used if none given to Building_FindFirst/FindNext.
-	/* 8622(328) */ csip32 buildingArray[82];      //!< Array with CS:IP of buildings, always gap-less.
+	/* 76A8()    */ uint8   unknown_76A8[0x0D90];
+	/* 8438(6)   */ uint8  unitFindStruct[6];      //!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext.
+	/* 843E(408) */ csip32 unitArray[102];         //!< Array with CS:IP of AirUnit, always gap-less.
+	/* 85D6(6)   */ uint8  airUnitFindStruct[6];   //!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext.
+	/* 85DC(64)  */ csip32 airUnitArray[16];       //!< Array with CS:IP of AirUnit, always gap-less.
+	/* 861C(6)   */ uint8  buildingFindStruct[6];  //!< Default find struct used if none given to emu_Building_FindFirst/FindNext.
+	/* 8622(328) */ csip32 buildingArray[82];      //!< Array with CS:IP of Building, always gap-less.
 	/* 876A()    */ uint8   unknown_876A[0x0050];
-	/* 87BA(6)   */ uint8  houseFindStruct[6];     //!< Default search struct used if none given to House_FindFirst/FindNext.
-	/* 87C0(24)  */ csip32 houseArray[6];          //!< Array with CS:IP of houses, always gap-less.
+	/* 87BA(6)   */ uint8  houseFindStruct[6];     //!< Default find struct used if none given to emu_House_FindFirst/FindNext.
+	/* 87C0(24)  */ csip32 houseArray[6];          //!< Array with CS:IP of House, always gap-less.
 	/* 87D8()    */ uint8   unknown_87D8[0x1094];
 	/* 986C(1)   */ uint8  variable_986C;          //!< ??
 } GCC_PACKED GlobalData;

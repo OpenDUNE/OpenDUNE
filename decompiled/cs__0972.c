@@ -3578,7 +3578,7 @@ void f__0972_13C4_000F_D368()
 	emu_movb(&emu_ax.l, emu_get_memory8(emu_es, emu_bx.x,  0x3));
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x13D3); emu_cs = 0x0FE4; f__0FE4_05FD_002C_15BA();
+	emu_push(emu_cs); emu_push(0x13D3); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
 	f__0972_13D3_001C_1549();
 }
 

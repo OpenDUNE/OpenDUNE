@@ -1118,7 +1118,7 @@ void f__B4B5_047A_000B_186A()
 	emu_push(emu_di);
 	emu_movw(&emu_ax.x, 0xFFFF);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x0FE4; f__0FE4_03A7_0027_85D5();
+	emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x0FE4; emu_Unit_Allocate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
 	f__B4B5_0485_0014_19B1();

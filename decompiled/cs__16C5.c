@@ -103,7 +103,7 @@ void f__16C5_0051_000F_288A()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x0060); emu_cs = 0x104B; f__104B_00C2_0030_20A6();
+	emu_push(emu_cs); emu_push(0x0060); emu_cs = 0x104B; emu_AirUnit_FindFirst();
 	f__16C5_0060_0006_7728();
 }
 
@@ -232,7 +232,7 @@ void f__16C5_0101_000B_0673()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	emu_push(emu_cs); emu_push(0x010C); emu_cs = 0x104B; f__104B_00F8_002E_3820();
+	emu_push(emu_cs); emu_push(0x010C); emu_cs = 0x104B; emu_AirUnit_FindNext();
 	f__16C5_010C_0015_DF16();
 }
 
