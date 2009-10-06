@@ -313,7 +313,7 @@ void f__06F7_0118_000B_FD16()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x10));
-	emu_push(emu_cs); emu_push(0x0123); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x0123); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	f__06F7_0123_000E_417E();
 }
 
@@ -332,7 +332,7 @@ void f__06F7_0123_000E_417E()
 	emu_push(emu_ax.x);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x14));
-	emu_push(emu_cs); emu_push(0x0131); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x0131); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	f__06F7_0131_0008_9688();
 }
 

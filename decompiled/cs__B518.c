@@ -5341,7 +5341,7 @@ void f__B518_0FDB_000F_E06A()
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x3A38));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_cs); emu_push(0x0FEA); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x0FEA); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
 	f__B518_0FEA_0008_9688();

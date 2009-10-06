@@ -4,7 +4,37 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "pool/unit.h"
+#include "house.h"
 #include "unit.h"
+
+/**
+ * Emulator wrapper around Unit_GetHouseID().
+ *
+ * @name emu_Unit_GetHouseID
+ * @implements 1A34:3623:0010:B11C ()
+ * @implements 1A34:3631:0002:CCBA
+ * @implements 1A34:3633:000F:A277
+ * @implements 1A34:3642:000A:3CE3
+ * @implements 1A34:364C:0002:2597
+ */
+void emu_Unit_GetHouseID()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax.x = HOUSE_INVALID;
+
+	csip32 address;
+	address.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	address.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
+
+	if (address.csip == 0x0) return;
+
+	Unit *u = Unit_Get_ByMemory(address);
+	emu_ax.x = Unit_GetHouseID(u);
+}
 
 /**
  * Emulator wrapper around Unit_Create().

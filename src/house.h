@@ -8,7 +8,9 @@
  * TODO -- Complete the enum.
  */
 typedef enum HouseType {
-	HOUSE_ORDOS = 2,
+	HOUSE_ORDOS   = 2,
+
+	HOUSE_INVALID = 0xFFFF,
 } HouseType;
 
 MSVC_PACKED_BEGIN;

@@ -1385,7 +1385,7 @@ void f__0EDB_0547_0008_26BA()
 	emu_pop(&emu_cx.x);
 	emu_push(emu_dx.x);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x054F); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x054F); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	f__0EDB_054F_0016_49F0();
 }
 

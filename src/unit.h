@@ -80,6 +80,7 @@ uint8 Unit_GetHouseID(Unit *u);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint16 var10);
 
 
+extern void emu_Unit_GetHouseID();
 extern void emu_Unit_Create();
 
 #endif /* UNIT_H */

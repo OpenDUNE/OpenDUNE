@@ -397,7 +397,7 @@ void f__0FE4_0342_0024_B7F8()
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x036C; emu_last_cs = 0x0FE4; emu_last_ip = 0x0359; emu_last_length = 0x0024; emu_last_crc = 0xB7F8; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x0366); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x0366); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	f__0FE4_0366_0030_E8DE();
 }
 

@@ -9378,7 +9378,7 @@ void f__0C3A_2224_0014_B608()
 	emu_push(emu_ax.x);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x2238); emu_cs = 0x1A34; f__1A34_3623_0010_B11C();
+	emu_push(emu_cs); emu_push(0x2238); emu_cs = 0x1A34; emu_Unit_GetHouseID();
 	f__0C3A_2238_0008_9688();
 }
 
