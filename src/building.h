@@ -35,8 +35,8 @@ typedef struct Building {
 	/* 0049(2)   */ uint16 variable_49;            //!< ??
 	/* 004B(1)   */ uint8  variable_4B;            //!< ??
 	/* 004C(2)   */ uint16 variable_4C;            //!< ??
-	/* 004E(1)   */ uint16 variable_4E;            //!< ??
-	/* 004F(1)   */ uint16 variable_4F;            //!< ??
+	/* 004E(1)   */ uint8  variable_4E;            //!< ??
+	/* 004F(1)   */ uint8  variable_4F;            //!< ??
 	/* 0050(2)   */ uint16 variable_50;            //!< ??
 	/* 0052()    */ uint8   unknown_0050[0x0002];
 	/* 0054(2)   */ uint16 variable_54;            //!< ??
@@ -44,5 +44,21 @@ typedef struct Building {
 } GCC_PACKED Building;
 MSVC_PACKED_END;
 assert_compile(sizeof(Building) == 0x58);
+
+MSVC_PACKED_BEGIN;
+/**
+ * Static information per Building type.
+ */
+typedef struct BuildingInfo {
+	/* 0000()    */ uint8   unknown_0000[0x000C];
+	/* 000C(2)   */ uint16 variable_0C;            //!< ??
+	/* 000E()    */ uint8   unknown_000E[0x0002];
+	/* 0010(2)   */ uint16 variable_10;            //!< ??
+	/* 0012()    */ uint8   unknown_0012[0x004E];
+} GCC_PACKED BuildingInfo;
+MSVC_PACKED_END;
+assert_compile(sizeof(BuildingInfo) == 0x60);
+
+extern BuildingInfo *g_buildingInfo;
 
 #endif /* BUILDING_H */
