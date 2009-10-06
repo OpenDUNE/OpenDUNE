@@ -127,7 +127,7 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 	if (g_global->unitStartPos.csip == 0x0) return NULL;
 
 	House *h = House_Get_ByIndex(houseID);
-	if (h->unitCount >= h->variable_08) {
+	if (h->unitCount >= h->unitCountMax) {
 		if (g_unitInfo[typeID].variable_3C != 0x0004 && g_unitInfo[typeID].variable_3C != 0x0005) {
 			if (g_global->variable_38BC == 0x00) return NULL;
 		}
