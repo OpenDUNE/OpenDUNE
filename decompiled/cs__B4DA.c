@@ -3760,7 +3760,7 @@ void f__B4DA_0C2E_0019_5030()
 	emu_testw(&emu_di, 0x8000);
 	if (emu_flags.zf) { f__B4DA_0C45_0002_C4BA(); return; }
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x1A), 0x0);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0C45; emu_last_cs = 0xB4DA; emu_last_ip = 0x0C40; emu_last_length = 0x0019; emu_last_crc = 0x5030; emu_call(); return; }
+	if (!emu_flags.zf) { f__B4DA_0C45_0002_C4BA(); return; }
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1A), emu_di);
 	f__B4DA_0C50_000A_5BEE(); return;
 }
@@ -3772,6 +3772,7 @@ void f__B4DA_0C2E_0019_5030()
  * @implements B4DA:0C45:0002:C4BA ()
  *
  * Called From: B4DA:0C3A:0019:5030
+ * Called From: B4DA:0C40:0019:5030
  */
 void f__B4DA_0C45_0002_C4BA()
 {
