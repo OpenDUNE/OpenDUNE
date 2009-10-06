@@ -94,11 +94,11 @@ void emu_Unit_Allocate()
 	uint8 typeID  = emu_get_memory16(emu_ss, emu_sp,  0x2);
 	uint8 houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
 
-	Unit *b = Unit_Allocate(index, typeID, houseID);
+	Unit *u = Unit_Allocate(index, typeID, houseID);
 
-	if (b == NULL) return;
+	if (u == NULL) return;
 	emu_dx.x = g_global->unitStartPos.cs;
-	emu_ax.x = g_global->unitStartPos.ip + b->index * sizeof(Unit);
+	emu_ax.x = g_global->unitStartPos.ip + u->index * sizeof(Unit);
 }
 
 /**

@@ -124,7 +124,6 @@ void Unit_Recount()
 Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 {
 	if (typeID == 0xFF || houseID == 0xFF) return NULL;
-
 	if (g_global->unitStartPos.csip == 0x0) return NULL;
 
 	House *h = House_Get_ByIndex(houseID);
@@ -141,7 +140,6 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 		uint16 indexStart = emu_get_memory16(0x2D07, typeID * 0x5A, 0x32);
 		uint16 indexEnd = emu_get_memory16(0x2D07, typeID * 0x5A, 0x34);
 
-		int16 index;
 		for (index = indexStart; index <= indexEnd; index++) {
 			u = Unit_Get_ByIndex(index);
 			if ((u->variable_04 & 0x0001) == 0) break;
