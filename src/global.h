@@ -18,9 +18,13 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ uint16 buildingCount;          //!< Amount of Buildings on the map.
 	/* 35FA(4)   */ csip32 houseStartPos;          //!< CS:IP of house array.
 	/* 35FE(2)   */ uint16 houseCount;             //!< Amount of houses on the map.
-	/* 3600()    */ uint8   unknown_3600[0x02BC];
+	/* 3600()    */ uint8   unknown_3600[0x01F0];
+	/* 37F0(180) */ uint8  variable_37F0[180];     //!< ?? It is an array of HOUSE_INDEX_MAX size at most (possible just 3), with a struct size of 0x1E. Position might be wrong.
+	/* 38A4()    */ uint8   unknown_38A4[0x0018];
 	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?).
-	/* 38BE()    */ uint8   unknown_38BE[0x0130];
+	/* 38BE()    */ uint8   unknown_38BE[0x0044];
+	/* 3902(2)   */ uint16 variable_3902;          //!< ??
+	/* 3904()    */ uint8   unknown_3904[0x00EA];
 	/* 39EE(4)   */ csip32 variable_39EE;          //!< ?? Pointer to an array of building information
 	/* 39F2()    */ uint8   unknown_39F2[0x0046];
 	/* 3A38(2)   */ uint16 playerHouseID;          //!< The House the player is controlling.
