@@ -87,6 +87,7 @@ void f__B4A2_004F_000C_E695()
  *
  * Called From: B4A2:005B:000C:E695
  * Called From: B4A2:005B:000E:64BE
+ * Called From: B4A2:0718:0006:F7CE
  */
 void f__B4A2_005B_0005_84EE()
 {
@@ -2314,6 +2315,7 @@ void f__B4A2_0680_0030_38D3()
  * Called From: B4A2:06B0:0030:38D3
  * Called From: B4A2:06B0:003E:C657
  * Called From: B4A2:06B0:0040:740E
+ * Called From: B4F2:0378:0006:F7CE
  */
 void f__B4A2_06B0_0008_D0CF()
 {

@@ -295,6 +295,7 @@ void f__01F7_0138_0019_8DC5()
  * @implements 01F7:0151:0006:B889 ()
  *
  * Called From: 01F7:0151:0019:8DC5
+ * Called From: B480:03C5:0006:F7CE
  */
 void f__01F7_0151_0006_B889()
 {

@@ -852,6 +852,7 @@ void f__0642_030E_000E_8DCF()
  * @implements 0642:031C:0012:D4EA ()
  *
  * Called From: 0642:031C:000E:8DCF
+ * Called From: B4A2:0062:0003:2E57
  */
 void f__0642_031C_0012_D4EA()
 {
