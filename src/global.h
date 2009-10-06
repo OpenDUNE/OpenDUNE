@@ -22,7 +22,9 @@ typedef struct GlobalData {
 	/* 38BC(2)   */ uint16 variable_38BC;          //!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?).
 	/* 38BE()    */ uint8   unknown_38BE[0x0130];
 	/* 39EE(4)   */ csip32 variable_39EE;          //!< ?? Pointer to an array of building information
-	/* 39F2()    */ uint8   unknown_39F2[0x2CB2];
+	/* 39F2()    */ uint8   unknown_39F2[0x0046];
+	/* 3A38(2)   */ uint16 playerHouseID;          //!< The House the player is controlling.
+	/* 3A3A()    */ uint8   unknown_3A3A[0x2C6A];
 	/* 66A4(4)   */ csip32 callbackAfterMouse;     //!< CS:IP of routine called after mouse change.
 	/* 66A8(12)  */ uint8   unknown_66A8[0x000C];
 	/* 66B4(4)   */ csip32 callbackBeforeMouse;    //!< CS:IP of routine called before mouse change.

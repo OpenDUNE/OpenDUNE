@@ -28,19 +28,19 @@ typedef struct Building {
 	/* 0009(1)   */ uint8  variable_09;            //!< ??
 	/* 000A(2)   */ uint16 variable_0A;            //!< ??
 	/* 000C(2)   */ uint16 variable_0C;            //!< ??
-	/* 000E(2)   */ uint16 variable_0E;            //!< ??
+	/* 000E(2)   */ uint16 health;                 //!< Current amount of health.
 	/* 0010(2)   */ uint16 variable_10;            //!< ??
 	/* 0012()    */ uint8   unknown_0012[0x0035];
 	/* 0047(2)   */ uint16 variable_47;            //!< ?? The 16bit version of HouseID?
 	/* 0049(2)   */ uint16 variable_49;            //!< ??
 	/* 004B(1)   */ uint8  variable_4B;            //!< ??
 	/* 004C(2)   */ uint16 variable_4C;            //!< ??
-	/* 004E(1)   */ uint8  variable_4E;            //!< ??
-	/* 004F(1)   */ uint8  variable_4F;            //!< ??
+	/* 004E(1)   */ uint8  upgradeLevel;           //!< The current level of upgrade of the Building.
+	/* 004F(1)   */ uint8  upgradeCost;            //!< Cost for upgrade, or 0 if no upgrade available.
 	/* 0050(2)   */ uint16 variable_50;            //!< ??
 	/* 0052()    */ uint8   unknown_0050[0x0002];
 	/* 0054(2)   */ uint16 variable_54;            //!< ??
-	/* 0056(2)   */ uint16 variable_56;            //!< ??
+	/* 0056(2)   */ uint16 healthMax;              //!< Max amount of health.
 } GCC_PACKED Building;
 MSVC_PACKED_END;
 assert_compile(sizeof(Building) == 0x58);
@@ -53,7 +53,7 @@ typedef struct BuildingInfo {
 	/* 0000()    */ uint8   unknown_0000[0x000C];
 	/* 000C(2)   */ uint16 variable_0C;            //!< ??
 	/* 000E()    */ uint8   unknown_000E[0x0002];
-	/* 0010(2)   */ uint16 variable_10;            //!< ??
+	/* 0010(2)   */ uint16 health;                 //!< Default healt for the Building.
 	/* 0012()    */ uint8   unknown_0012[0x004E];
 } GCC_PACKED BuildingInfo;
 MSVC_PACKED_END;
