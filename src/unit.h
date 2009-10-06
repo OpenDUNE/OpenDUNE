@@ -34,6 +34,22 @@ typedef struct Unit {
 MSVC_PACKED_END;
 assert_compile(sizeof(Unit) == 0x80);
 
+MSVC_PACKED_BEGIN;
+/**
+ * Static information per Unit type.
+ */
+typedef struct UnitInfo {
+	/* 0000()    */ uint8   unknown_0000[0x0032];
+	/* 0032(2)   */ uint16 indexStart;             //!< At Unit create, between this and indexEnd (including) a free index is picked.
+	/* 0034(2)   */ uint16 indexEnd;               //!< At Unit create, between indexStart and this (including) a free index is picked.
+	/* 0036()    */ uint8   unknown_0036[0x0006];
+	/* 003C(2)   */ uint16 variable_3C;            //!< ??
+	/* 003E()    */ uint8   unknown_003E[0x001C];
+} GCC_PACKED UnitInfo;
+MSVC_PACKED_END;
+assert_compile(sizeof(UnitInfo) == 0x5A);
+
+extern UnitInfo *g_unitInfo;
 uint8 Unit_GetHouseID(Unit *u);
 
 #endif /* UNIT_H */

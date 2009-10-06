@@ -11,6 +11,7 @@ extern void emu_Input_Mouse_EventHandler();
 
 extern void System_Init_Global();
 extern void System_Init_Input();
+extern void System_Init_Unit();
 
 int main(int argc, char **argv)
 {
@@ -27,6 +28,7 @@ int main(int argc, char **argv)
 	/* Initialize all subsystems */
 	System_Init_Global();
 	System_Init_Input();
+	System_Init_Unit();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

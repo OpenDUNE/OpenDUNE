@@ -128,17 +128,15 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 
 	House *h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->variable_08) {
-		if (emu_get_memory16(0x2D07, typeID * 0x5A, 0x3C) != 0x0004) {
-			if (emu_get_memory16(0x2D07, typeID * 0x5A, 0x3C) != 0x0005) {
-				if (g_global->variable_38BC == 0x00) return NULL;
-			}
+		if (g_unitInfo[typeID].variable_3C != 0x0004 && g_unitInfo[typeID].variable_3C != 0x0005) {
+			if (g_global->variable_38BC == 0x00) return NULL;
 		}
 	}
 
 	Unit *u = NULL;
 	if (index == 0 || index == UNIT_INDEX_INVALID) {
-		uint16 indexStart = emu_get_memory16(0x2D07, typeID * 0x5A, 0x32);
-		uint16 indexEnd = emu_get_memory16(0x2D07, typeID * 0x5A, 0x34);
+		uint16 indexStart = g_unitInfo[typeID].indexStart;
+		uint16 indexEnd   = g_unitInfo[typeID].indexEnd;
 
 		for (index = indexStart; index <= indexEnd; index++) {
 			u = Unit_Get_ByIndex(index);

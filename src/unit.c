@@ -2,8 +2,21 @@
 
 #include <stdio.h>
 #include "types.h"
+#include "libemu.h"
 #include "house.h"
 #include "unit.h"
+
+UnitInfo *g_unitInfo = NULL;
+
+/**
+ * Initialize the unit system.
+ *
+ * @init system_Init_Unit
+ */
+void System_Init_Unit()
+{
+	g_unitInfo = (UnitInfo *)&emu_get_memory8(0x2D07, 0x0, 0x0);
+}
 
 /**
  * Get the HouseID of a unit. This is not always u->houseID, as a unit can be
