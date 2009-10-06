@@ -33,9 +33,12 @@ typedef struct Building {
 	/* 0012()    */ uint8   unknown_0012[0x0035];
 	/* 0047(2)   */ uint16 variable_47;            //!< ?? The 16bit version of HouseID?
 	/* 0049(2)   */ uint16 variable_49;            //!< ??
-	/* 004B()    */ uint8   unknown_004B[0x0003];
-	/* 004E(2)   */ uint16 variable_4E;            //!< ??
-	/* 0050()    */ uint8   unknown_0050[0x0004];
+	/* 004B(1)   */ uint8  variable_4B;            //!< ??
+	/* 004C(2)   */ uint16 variable_4C;            //!< ??
+	/* 004E(1)   */ uint16 variable_4E;            //!< ??
+	/* 004F(1)   */ uint16 variable_4F;            //!< ??
+	/* 0050(2)   */ uint16 variable_50;            //!< ??
+	/* 0052()    */ uint8   unknown_0050[0x0002];
 	/* 0054(2)   */ uint16 variable_54;            //!< ??
 	/* 0056(2)   */ uint16 variable_56;            //!< ??
 } GCC_PACKED Building;
