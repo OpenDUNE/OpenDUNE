@@ -1610,6 +1610,7 @@ void f__B52A_061C_000D_23E0()
  * @implements B52A:0629:0015:6520 ()
  *
  * Called From: B52A:0651:000A:CD49
+ * Called From: B52A:0651:000D:7130
  */
 void f__B52A_0629_0015_6520()
 {
@@ -1658,7 +1659,7 @@ void f__B52A_0648_000D_7130()
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0xC));
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0629; emu_last_cs = 0xB52A; emu_last_ip = 0x0651; emu_last_length = 0x000D; emu_last_crc = 0x7130; emu_call(); return; }
+	if ((emu_flags.sf != emu_flags.of)) { f__B52A_0629_0015_6520(); return; }
 	f__B52A_0686_005B_E187(); return;
 }
 

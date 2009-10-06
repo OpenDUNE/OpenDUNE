@@ -18,6 +18,7 @@
  * Called From: 0EDB:0524:001D:2E46
  * Called From: 176C:147C:0006:83CE
  * Called From: 176C:19EB:0020:1A9C
+ * Called From: 176C:19EB:0018:6478
  * Called From: 176C:1A5B:0020:8DC9
  * Called From: 176C:1ABE:0024:813F
  * Called From: 176C:1B62:0022:208C
@@ -520,6 +521,8 @@ void f__167E_00EF_0004_893F()
  * Called From: 0972:0A93:0017:2EC7
  * Called From: 0972:0BA9:0018:4D07
  * Called From: 0972:0BDE:0020:614B
+ * Called From: 0972:0FF3:0017:BA46
+ * Called From: 0972:131F:001D:FAC5
  * Called From: 0972:16CA:0008:A673
  * Called From: 0AEC:03D7:0005:BFC0
  * Called From: 0AEC:03D7:000C:BB87
@@ -943,9 +946,11 @@ void f__167E_01B7_0004_DE52()
  * @name f__167E_01BB_0010_85F6
  * @implements 167E:01BB:0010:85F6 ()
  *
+ * Called From: 0972:1030:0008:180B
  * Called From: 0C3A:22FD:000C:39D3
  * Called From: 0EDB:021D:000B:3104
  * Called From: 167E:03AF:0005:C0BA
+ * Called From: 176C:032C:0039:0847
  * Called From: 176C:10CE:001A:65A9
  * Called From: 176C:1596:0006:63E5
  * Called From: 176C:19FA:0008:380B

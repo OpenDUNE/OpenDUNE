@@ -1786,6 +1786,7 @@ void f__01F7_04DD_0007_D823()
  * Called From: B4C1:00BA:0007:8446
  * Called From: B4ED:04F8:0020:1485
  * Called From: B4ED:04F8:000E:C186
+ * Called From: B4ED:04F8:000B:56E0
  * Called From: B4ED:0540:0018:173C
  * Called From: B50B:0553:0036:7E4C
  * Called From: B518:0020:0025:FC16

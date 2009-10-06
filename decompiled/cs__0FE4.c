@@ -526,8 +526,26 @@ void f__0FE4_0632_0031_75AA()
 	emu_movws(&emu_ax.x, emu_ax.l);
 	emu_decw(&emu_ax.x);
 	emu_push(emu_ax.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0663); emu_cs = 0x104B; emu_ip = 0x0354; emu_last_cs = 0x0FE4; emu_last_ip = 0x065E; emu_last_length = 0x0031; emu_last_crc = 0x75AA; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0663; emu_last_cs = 0x0FE4; emu_last_ip = 0x0663; emu_last_length = 0x0031; emu_last_crc = 0x75AA; emu_call();
+	emu_push(emu_cs); emu_push(0x0663); emu_cs = 0x104B; emu_AirUnit_Get_ByIndex();
+	f__0FE4_0663_000F_F660();
+}
+
+/**
+ * Decompiled function f__0FE4_0663_000F_F660()
+ *
+ * @name f__0FE4_0663_000F_F660
+ * @implements 0FE4:0663:000F:F660 ()
+ *
+ * Called From: 0FE4:0663:0031:75AA
+ */
+void f__0FE4_0663_000F_F660()
+{
+	emu_pop(&emu_cx.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_dx.x);
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax.x);
+	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x4));
+	f__0FE4_0672_0004_893F(); return;
 }
 
 /**
@@ -552,6 +570,7 @@ void f__0FE4_066A_0008_C849()
  * @implements 0FE4:0672:0004:893F ()
  *
  * Called From: 0FE4:0670:0008:C849
+ * Called From: 0FE4:0670:000F:F660
  */
 void f__0FE4_0672_0004_893F()
 {

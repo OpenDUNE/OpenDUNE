@@ -133,8 +133,10 @@ void f__2903_00CA_0015_756E()
  * Called From: 07D4:07A9:002E:9990
  * Called From: 07D4:0BAD:0031:A814
  * Called From: 07D4:0C82:0046:7ED9
+ * Called From: 07D4:0DA6:0036:17D1
  * Called From: 07D4:0DFE:0031:A9D0
  * Called From: 07D4:0DFE:0055:A271
+ * Called From: 07D4:0DFE:0058:68F9
  * Called From: 07D4:0E39:0038:77DF
  * Called From: 07D4:0E39:003B:26C8
  * Called From: 07D4:0F95:002B:0C2A

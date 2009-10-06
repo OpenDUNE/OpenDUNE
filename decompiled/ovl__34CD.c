@@ -19,6 +19,7 @@
  * @implements 34CD:0043 (7)
  * @implements 34CD:0048 (8)
  * @implements 34CD:004D (9)
+ * @implements 34CD:0052 (10)
  * @implements 34CD:0057 (11)
  * @implements 34CD:005C (12)
  * @implements 34CD:0061 (13)
@@ -41,6 +42,7 @@
  *
  * Called From: 06F7:0319:0013:4514
  * Called From: 06F7:037D:0008:610A
+ * Called From: 06F7:03DA:0011:CB25
  * Called From: 06F7:0748:000A:CA6A
  * Called From: 06F7:0758:0006:16E4
  * Called From: 06F7:0764:000C:C42B
@@ -59,6 +61,7 @@
  * Called From: 07D4:07F4:0009:6097
  * Called From: 07D4:0A52:0045:4F52
  * Called From: 07D4:0BF6:0008:710A
+ * Called From: 07D4:0CDF:0008:5AE5
  * Called From: 07D4:10F5:0006:F2E5
  * Called From: 07D4:1110:0006:C2E7
  * Called From: 07D4:1660:0012:553F
@@ -66,6 +69,8 @@
  * Called From: 07D4:16BD:0008:A909
  * Called From: 07D4:1746:0008:9905
  * Called From: 07D4:17BD:0008:D904
+ * Called From: 0972:10D6:0012:27F9
+ * Called From: 0972:1138:0036:3852
  * Called From: 0972:13A1:002B:A9E3
  * Called From: 0AEC:0010:0010:9634
  * Called From: 0AEC:0039:000A:5A66
@@ -142,6 +147,7 @@
  * Called From: 176C:0F36:001B:0C57
  * Called From: 176C:0F6D:0008:375A
  * Called From: 176C:0FC4:0014:1DEB
+ * Called From: 176C:108A:0031:8B3F
  * Called From: 176C:11B5:001F:9F0A
  * Called From: 176C:12A4:0014:2D96
  * Called From: 176C:1569:0007:1E5C
@@ -249,6 +255,7 @@ void ovl__34CD(uint8 entry)
 		case 7: f__B4CD_048E_0012_3E9E(); return;
 		case 8: f__B4CD_01AA_0010_06F1(); return;
 		case 9: f__B4CD_1BC4_0013_1AB3(); return;
+		case 10: f__B4CD_1CDA_000C_C72C(); return;
 		case 11: f__B4CD_0F8B_0015_1689(); return;
 		case 12: f__B4CD_17F7_001D_1CA2(); return;
 		case 13: f__B4CD_0750_0027_7BA5(); return;

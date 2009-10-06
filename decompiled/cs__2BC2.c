@@ -61,7 +61,7 @@ void f__2BC2_0045_0009_9156()
 {
 	emu_cmpw(&emu_bx.x, 0x140);
 	if (emu_flags.cf) { f__2BC2_004E_0031_B02D(); return; }
-	/* Unresolved jump */ emu_ip = 0x00E9; emu_last_cs = 0x2BC2; emu_last_ip = 0x004B; emu_last_length = 0x0009; emu_last_crc = 0x9156; emu_call();
+	f__2BC2_00E9_000B_EA84(); return;
 }
 
 /**
@@ -318,6 +318,7 @@ void f__2BC2_00DE_000B_4026()
  * @implements 2BC2:00E9:000B:EA84 ()
  *
  * Called From: 2BC2:004B:0003:DD06
+ * Called From: 2BC2:004B:0009:9156
  * Called From: 2BC2:0086:0019:4403
  * Called From: 2BC2:0086:001C:CE2B
  * Called From: 2BC2:00D0:0012:BF40

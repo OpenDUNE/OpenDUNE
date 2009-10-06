@@ -254,6 +254,8 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 07D4:1003:0025:DC26
  * Called From: 07D4:1022:001F:FE51
  * Called From: 07D4:104E:0019:1306
+ * Called From: 0972:1038:0008:BAF2
+ * Called From: 0972:104E:0016:DE64
  * Called From: 0972:1537:0018:014D
  * Called From: 0972:15B6:0019:AB1E
  * Called From: 0972:16C2:000A:CB50
@@ -288,6 +290,7 @@ void f__0F3F_007E_0008_A4DE()
  * Called From: 176C:28FF:000A:CB50
  * Called From: 1A34:016C:0011:25DB
  * Called From: 1A34:040B:000B:4959
+ * Called From: 1A34:043D:0011:C8E7
  * Called From: 1A34:0E66:0028:1D74
  * Called From: 1A34:1297:0010:14B9
  * Called From: 1A34:12D7:0015:EDBF
@@ -338,6 +341,8 @@ void f__0F3F_0086_0017_EA43()
  * @implements 0F3F:009D:0017:8464 ()
  *
  * Called From: 0972:0D62:0015:DD16
+ * Called From: 0972:10B1:0008:04B9
+ * Called From: 0972:10BC:000B:281A
  * Called From: 0972:1574:001E:7AB4
  * Called From: 0972:1615:0009:0491
  * Called From: 0C3A:0296:006B:40B4
@@ -380,11 +385,13 @@ void f__0F3F_009D_0017_8464()
  * @implements 0F3F:00B4:002A:89B2 ()
  *
  * Called From: 06F7:0088:002E:4089
+ * Called From: 0972:0F38:001C:C333
  * Called From: 0C3A:2397:005A:53AA
  * Called From: 0C3A:23B5:0016:3ADC
  * Called From: 0EDB:0231:0014:ECFD
  * Called From: 0F3F:0114:0013:C3B8
  * Called From: 167E:03CB:001E:4E1D
+ * Called From: 16C5:02D7:0028:C684
  * Called From: 176C:10E6:0018:D147
  * Called From: 1A34:015B:001F:F414
  * Called From: 1A34:015B:0016:17F2
@@ -602,8 +609,10 @@ void f__0F3F_0123_0002_2597()
  * @implements 0F3F:0125:000D:4868 ()
  *
  * Called From: 0972:0DBD:003A:00C4
+ * Called From: 0972:10C4:0008:8AD8
  * Called From: 1423:0AF1:002C:6E18
  * Called From: 167E:0387:0038:56F3
+ * Called From: 176C:0340:0014:B1B8
  * Called From: 176C:040E:0023:D191
  * Called From: 176C:11DD:0011:5E38
  * Called From: 176C:15DC:0017:0BB3
@@ -870,6 +879,7 @@ void f__0F3F_019D_0004_DE52()
  * @implements 0F3F:01A1:0018:9631 ()
  *
  * Called From: 0972:16B8:001F:6F53
+ * Called From: 176C:23FE:001A:7B69
  * Called From: 176C:28F5:001D:FB78
  * Called From: B4B8:0559:0008:CAD0
  * Called From: B4CD:1A64:0029:FA07

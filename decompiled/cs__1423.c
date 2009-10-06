@@ -139,7 +139,7 @@ void f__1423_0080_0025_A252()
 {
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0xF);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x00A8; emu_last_cs = 0x1423; emu_last_ip = 0x0088; emu_last_length = 0x0025; emu_last_crc = 0xA252; emu_call(); return; }
+	if (emu_flags.zf) { f__1423_00A8_000B_166D(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x10);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x00A8; emu_last_cs = 0x1423; emu_last_ip = 0x0092; emu_last_length = 0x0025; emu_last_crc = 0xA252; emu_call(); return; }
@@ -177,6 +177,7 @@ void f__1423_00A5_000E_2A33()
  * @name f__1423_00A8_000B_166D
  * @implements 1423:00A8:000B:166D ()
  *
+ * Called From: 1423:0088:0025:A252
  * Called From: 1423:00A3:0025:A252
  */
 void f__1423_00A8_000B_166D()
@@ -2974,8 +2975,35 @@ void f__1423_0CA9_0029_7965()
 	emu_xorw(&emu_dx.x, emu_dx.x);
 	emu_push(emu_ax.x);
 	emu_push(emu_dx.x);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0CD2); emu_cs = 0x0FE4; emu_ip = 0x0243; emu_last_cs = 0x1423; emu_last_ip = 0x0CCD; emu_last_length = 0x0029; emu_last_crc = 0x7965; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0CD2; emu_last_cs = 0x1423; emu_last_ip = 0x0CD2; emu_last_length = 0x0029; emu_last_crc = 0x7965; emu_call();
+	emu_push(emu_cs); emu_push(0x0CD2); emu_cs = 0x0FE4; emu_Unit_FindFirst();
+	f__1423_0CD2_0032_9201();
+}
+
+/**
+ * Decompiled function f__1423_0CD2_0032_9201()
+ *
+ * @name f__1423_0CD2_0032_9201
+ * @implements 1423:0CD2:0032:9201 ()
+ *
+ * Called From: 1423:0CD2:0029:7965
+ */
+void f__1423_0CD2_0032_9201()
+{
+	emu_addws(&emu_sp, 0x8);
+	emu_orw(&emu_ax.x, emu_dx.x);
+	if (emu_flags.zf) { f__1423_0CE1_0023_6CB4(); return; }
+	emu_andws(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0xFE);
+	emu_andws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xFF);
+	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x4);
+	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0CF3; emu_last_cs = 0x1423; emu_last_ip = 0x0CE9; emu_last_length = 0x0032; emu_last_crc = 0x9201; emu_call(); return; }
+	emu_andws(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0xFF);
+	emu_andws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xFC);
+	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x8);
+	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0D4C; emu_last_cs = 0x1423; emu_last_ip = 0x0CFB; emu_last_length = 0x0032; emu_last_crc = 0x9201; emu_call(); return; }
+	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x0);
+	/* Unresolved jump */ emu_ip = 0x0D41; emu_last_cs = 0x1423; emu_last_ip = 0x0D02; emu_last_length = 0x0032; emu_last_crc = 0x9201; emu_call();
 }
 
 /**
@@ -2985,6 +3013,7 @@ void f__1423_0CA9_0029_7965()
  * @implements 1423:0CE1:0023:6CB4 ()
  *
  * Called From: 1423:0CB9:0029:7965
+ * Called From: 1423:0CD7:0032:9201
  */
 void f__1423_0CE1_0023_6CB4()
 {
@@ -2995,7 +3024,7 @@ void f__1423_0CE1_0023_6CB4()
 	emu_andws(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xFC);
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx.x,  0x2), 0x8);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0D4C; emu_last_cs = 0x1423; emu_last_ip = 0x0CFB; emu_last_length = 0x0023; emu_last_crc = 0x6CB4; emu_call(); return; }
+	if (!emu_flags.zf) { f__1423_0D4C_0007_EE65(); return; }
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x0);
 	/* Unresolved jump */ emu_ip = 0x0D41; emu_last_cs = 0x1423; emu_last_ip = 0x0D02; emu_last_length = 0x0023; emu_last_crc = 0x6CB4; emu_call();
 }
@@ -3119,6 +3148,7 @@ void f__1423_0D41_000B_D382()
  * @implements 1423:0D4C:0007:EE65 ()
  *
  * Called From: 1423:0CFB:0011:24ED
+ * Called From: 1423:0CFB:0023:6CB4
  */
 void f__1423_0D4C_0007_EE65()
 {
@@ -3676,6 +3706,7 @@ void f__1423_0F2F_0005_8BCF()
  * @implements 1423:0F34:0017:464D ()
  *
  * Called From: 06F7:0134:0008:9688
+ * Called From: 0972:0EEC:0008:9688
  * Called From: 0972:147E:001A:3E69
  * Called From: 0972:147E:0024:B930
  * Called From: 0C3A:12C1:0014:56D0
