@@ -1164,7 +1164,7 @@ void f__1391_02FA_0018_A575()
 	emu_push(emu_ax.x);
 	emu_movw(&emu_ax.x, 0xFFFF);
 	emu_push(emu_ax.x);
-	emu_push(emu_cs); emu_push(0x0312); emu_cs = 0x1A34; f__1A34_08FB_002C_D192();
+	emu_push(emu_cs); emu_push(0x0312); emu_cs = 0x1A34; emu_Unit_Create();
 	f__1391_0312_0027_6AEA();
 }
 
