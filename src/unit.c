@@ -110,9 +110,9 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint1
 	u->variable_52 = 0x7FFF;
 	u->variable_56 = 0x0000;
 	u->variable_58 = 0x00;
-	u->variable_6E = 0x00;
 	u->variable_6C = 0x00;
 	u->variable_6D = 0x00;
+	u->variable_6E = 0x00;
 	u->variable_70 = 0x0000;
 
 	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->variable_3902, 0x353F));
