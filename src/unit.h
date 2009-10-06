@@ -58,7 +58,9 @@ MSVC_PACKED_BEGIN;
 typedef struct UnitInfo {
 	/* 0000()    */ uint8   unknown_0000[0x0010];
 	/* 0010(2)   */ uint16 variable_10;            //!< ??
-	/* 0012()    */ uint8   unknown_0012[0x0016];
+	/* 0012()    */ uint8   unknown_0012[0x0006];
+	/* 0018(2)   */ uint16 buildTime;              //!< Time required to build this Unit.
+	/* 001A()    */ uint8   unknown_001A[0x000E];
 	/* 0028(2)   */ uint16 variable_28;            //!< ??
 	/* 002A()    */ uint8   unknown_002A[0x0008];
 	/* 0032(2)   */ uint16 indexStart;             //!< At Unit create, between this and indexEnd (including) a free index is picked.

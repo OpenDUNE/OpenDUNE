@@ -157,12 +157,12 @@ Building *Building_Allocate(uint16 index, uint8 typeID)
 
 	/* Initialize the Building */
 	memset(b, 0, sizeof(Building));
-	b->index       = index;
-	b->typeID      = typeID;
-	b->variable_03 = 0xFF;
-	b->variable_04 = 0x0003;
-	b->variable_06 = 0x0000;
-	b->variable_10 = 0x0000;
+	b->index          = index;
+	b->typeID         = typeID;
+	b->buildCurrentID = BUILDING_INDEX_INVALID & 0xFF;
+	b->variable_04    = 0x0003;
+	b->variable_06    = 0x0000;
+	b->variable_10    = 0x0000;
 
 	g_global->buildingArray[g_global->buildingCount].csip = g_global->buildingStartPos.csip + index * sizeof(Building);
 	g_global->buildingCount++;
