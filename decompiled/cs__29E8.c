@@ -313,6 +313,7 @@ void f__29E8_07FA_0020_177A()
  * Called From: 29E8:0818:0020:177A
  * Called From: 29E8:0818:0016:2028
  * Called From: 29E8:0837:0023:1368
+ * Called From: 29E8:083B:0023:1368
  */
 void f__29E8_0804_0016_2028()
 {
@@ -363,7 +364,7 @@ void f__29E8_081D_0023_1368()
 	emu_testb(&emu_ax.h, 0x8);
 	if (!emu_flags.zf) { f__29E8_0804_0016_2028(); return; }
 	emu_cmpb(&emu_ax.l, 0x7A);
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0804; emu_last_cs = 0x29E8; emu_last_ip = 0x083B; emu_last_length = 0x0023; emu_last_crc = 0x1368; emu_call(); return; }
+	if (!emu_flags.cf) { f__29E8_0804_0016_2028(); return; }
 	emu_push(0x0840); emu_Input_Keyboard_HandleKeys(emu_ax.l, emu_ax.h);
 	f__29E8_0840_0003_233C();
 }
