@@ -75,7 +75,7 @@ assert_compile(sizeof(UnitInfo) == 0x5A);
 extern UnitInfo *g_unitInfo;
 
 uint8 Unit_GetHouseID(Unit *u);
-extern struct Unit *Unit_Create(uint16 index, uint16 typeID, uint16 houseID, csip32 var0C, uint16 var10);
+extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint16 var10);
 
 
 extern void emu_Unit_Create();

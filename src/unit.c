@@ -54,7 +54,7 @@ uint8 Unit_GetHouseID(Unit *u)
  * @param var10 An unknown parameter.
  * @return The new created Unit, or NULL if something failed.
  */
-Unit *Unit_Create(uint16 index, uint16 typeID, uint16 houseID, csip32 var0C, uint16 var10)
+Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint16 var10)
 {
 	UnitInfo *ui = &g_unitInfo[typeID];
 	Unit *u = Unit_Allocate(index, typeID, houseID);
@@ -151,8 +151,8 @@ Unit *Unit_Create(uint16 index, uint16 typeID, uint16 houseID, csip32 var0C, uin
 		return u;
 	}
 	if (!loc0A) {
-		/* Unresolved jump */ emu_ip = 0x0B52; emu_last_cs = 0x1A34; emu_last_ip = 0x0B15; emu_last_length = 0x0015; emu_last_crc = 0xC072; emu_call();
-		return u;
+		Unit_Free(ucsip);
+		return NULL;
 	}
 
 	emu_push(ucsip.cs); emu_push(ucsip.ip);
