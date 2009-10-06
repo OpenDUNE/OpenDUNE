@@ -75,14 +75,6 @@ void House_Init(csip32 address)
 	if (g_global->houseStartPos.csip == 0x0) return;
 
 	memset(House_Get_ByIndex(0), 0, sizeof(House) * HOUSE_INDEX_MAX);
-
-	/* XXX -- Does this have ANY effect after above memset?! */
-	int i;
-	for (i = 0; i < 6; i++) {
-		House *h = House_Get_ByIndex(i);
-		if ((h->variable_04 & 0x0001) == 0) continue;
-		h->variable_08 = 0x000A;
-	}
 }
 
 /**
