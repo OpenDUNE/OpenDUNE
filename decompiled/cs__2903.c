@@ -141,6 +141,7 @@ void f__2903_00CA_0015_756E()
  * Called From: 07D4:11FF:0049:B9BB
  * Called From: 07D4:1238:0025:37A1
  * Called From: 07D4:188B:0069:7F32
+ * Called From: 07D4:188B:006E:C38D
  * Called From: 0AEC:0931:0039:D31B
  * Called From: 0AEC:09CB:0031:D7BE
  * Called From: 0AEC:0A79:0043:91CA
@@ -150,6 +151,7 @@ void f__2903_00CA_0015_756E()
  * Called From: 10E4:0812:0030:A563
  * Called From: 10E4:08B1:0032:0FD7
  * Called From: 10E4:090D:003F:34F2
+ * Called From: 10E4:090D:0035:C61C
  * Called From: 10E4:0940:002E:FA57
  * Called From: 10E4:13A4:0033:5882
  * Called From: 10E4:13F4:0029:203C
@@ -1122,7 +1124,7 @@ void f__2903_03CA_0065_0A6F()
 	emu_negw(&emu_ax.x, emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1E), emu_ax.x);
 	emu_cmpw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp, -0x16));
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x042F; emu_last_cs = 0x2903; emu_last_ip = 0x0403; emu_last_length = 0x0065; emu_last_crc = 0x0A6F; emu_call(); return; }
+	if (!emu_flags.cf) { f__2903_042F_0003_1D14(); return; }
 	emu_xorw(&emu_ax.x, emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0xC), emu_ax.x);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x20), 0x0);
@@ -1261,6 +1263,7 @@ void f__2903_040A_0025_90A0()
  * Called From: 2903:03D5:005C:6B02
  * Called From: 2903:03D5:0065:0A6F
  * Called From: 2903:0403:0043:4B28
+ * Called From: 2903:0403:0065:0A6F
  * Called From: 2903:0415:0025:90A0
  * Called From: 2903:0417:0025:90A0
  */
@@ -1525,7 +1528,7 @@ void f__2903_04C4_0010_92CB()
 void f__2903_04D4_000E_82DD()
 {
 	emu_cmpws(&emu_get_memory16(emu_ss, emu_bp, -0x1C), 0x0);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x04EA; emu_last_cs = 0x2903; emu_last_ip = 0x04D8; emu_last_length = 0x000E; emu_last_crc = 0x82DD; emu_call(); return; }
+	if (emu_flags.zf) { f__2903_04EA_0018_6F98(); return; }
 	emu_addw(&emu_cx.x, emu_get_memory16(emu_ss, emu_bp, -0x14));
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2903_04E2_0008_5672(); return; }
 
@@ -1579,6 +1582,7 @@ void f__2903_04E2_0008_5672()
  * @name f__2903_04EA_0018_6F98
  * @implements 2903:04EA:0018:6F98 ()
  *
+ * Called From: 2903:04D8:000E:82DD
  * Called From: 2903:04E5:0008:5672
  * Called From: 2903:04EA:0008:5672
  */

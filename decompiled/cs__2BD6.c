@@ -77,7 +77,7 @@ void f__2BD6_0024_005A_C833()
 	emu_movw(&emu_bp, emu_es);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_cs, 0x00,  0xFA));
 	emu_subw(&emu_ax.x, emu_di);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x009D; emu_last_cs = 0x2BD6; emu_last_ip = 0x0044; emu_last_length = 0x005A; emu_last_crc = 0xC833; emu_call(); return; }
+	if (emu_flags.zf) { f__2BD6_009D_0009_689C(); return; }
 	emu_movw(&emu_get_memory16(emu_cs, 0x00,  0xF8), emu_ax.x);
 	emu_movw(&emu_si, emu_bx.x);
 	emu_movw(&emu_ds, emu_dx.x);
@@ -217,6 +217,7 @@ void f__2BD6_0097_0006_F251()
  * @implements 2BD6:009D:0009:689C ()
  *
  * Called From: 2BD6:0044:0040:FC4A
+ * Called From: 2BD6:0044:005A:C833
  * Called From: 2BD6:0084:001F:4BDA
  */
 void f__2BD6_009D_0009_689C()

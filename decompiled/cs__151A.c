@@ -569,6 +569,7 @@ void f__151A_0205_005A_397D()
 	emu_cs = emu_get_memory16(emu_ds, emu_bx.x,  0x60EE);
 	emu_push(0x025F);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x151A02B0: f__151A_02B0_0011_62B1(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x151A; emu_last_ip = 0x025B; emu_last_length = 0x005A; emu_last_crc = 0x397D;
@@ -646,6 +647,7 @@ void f__151A_024D_0012_A9B9()
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x151A02C8: f__151A_02C8_0016_FA9C(); break;
 		case 0x151A02E8: f__151A_02E8_0010_6B15(); break;
+		case 0x151A02FA: f__151A_02FA_0014_26F2(); break;
 		case 0x151A0310: f__151A_0310_0018_831F(); break;
 		case 0x151A03ED: f__151A_03ED_0014_6217(); break;
 		case 0x151A043B: f__151A_043B_0018_36C4(); break;
@@ -668,6 +670,7 @@ void f__151A_024D_0012_A9B9()
  *
  * Called From: 151A:025F:0012:A9B9
  * Called From: 151A:025F:002A:9F9F
+ * Called From: 151A:025F:005A:397D
  */
 void f__151A_025F_0042_ABEC()
 {
@@ -833,6 +836,7 @@ void f__151A_02AA_0006_F7CE()
  * @implements 151A:02B0:0011:62B1 ()
  *
  * Called From: 151A:025B:002A:9F9F
+ * Called From: 151A:025B:005A:397D
  */
 void f__151A_02B0_0011_62B1()
 {
@@ -958,6 +962,44 @@ void f__151A_02E8_0010_6B15()
  * Called From: 151A:02F6:0010:6B15
  */
 void f__151A_02F8_0002_2597()
+{
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__151A_02FA_0014_26F2()
+ *
+ * @name f__151A_02FA_0014_26F2
+ * @implements 151A:02FA:0014:26F2 ()
+ *
+ * Called From: 151A:025B:0012:A9B9
+ */
+void f__151A_02FA_0014_26F2()
+{
+	emu_push(emu_bp);
+	emu_movw(&emu_bp, emu_sp);
+	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_movb(&emu_ax.l, emu_get_memory8(emu_ss, emu_bp,  0xA));
+	emu_decb(&emu_ax.l);
+	emu_addb(&emu_get_memory8(emu_es, emu_bx.x,  0x7), emu_ax.l);
+	emu_movw(&emu_ax.x, 0x1);
+	f__151A_030E_0002_2597(); return;
+}
+
+/**
+ * Decompiled function f__151A_030E_0002_2597()
+ *
+ * @name f__151A_030E_0002_2597
+ * @implements 151A:030E:0002:2597 ()
+ *
+ * Called From: 151A:030C:0014:26F2
+ */
+void f__151A_030E_0002_2597()
 {
 	emu_pop(&emu_bp);
 

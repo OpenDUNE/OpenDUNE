@@ -159,6 +159,7 @@ void f__0FCB_005D_0002_2597()
  * Called From: 0C3A:1AB8:0021:A062
  * Called From: 0C3A:1AB8:0005:3367
  * Called From: 0C3A:1B21:001B:3C60
+ * Called From: 0C3A:1B60:0016:D019
  * Called From: 0C3A:209F:002C:9F6D
  * Called From: 0C3A:27CD:0034:EAA1
  * Called From: 0C3A:2876:002A:363F
@@ -191,6 +192,7 @@ void f__0FCB_005D_0002_2597()
  * Called From: B483:03FA:0013:5CAE
  * Called From: B495:0A7B:001C:115A
  * Called From: B495:0AAD:002A:B2A6
+ * Called From: B495:0AD6:001C:E66E
  * Called From: B495:0C51:002A:6ABB
  * Called From: B495:0C65:000C:4A92
  * Called From: B495:0C96:0029:5C43

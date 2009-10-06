@@ -1660,7 +1660,7 @@ void f__B495_0A88_002A_B2A6()
 {
 	emu_addws(&emu_sp, 0xE);
 	emu_cmpws(&emu_get_memory16(emu_ds, 0x00,  0x7FBE), 0x0);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0ABF; emu_last_cs = 0xB495; emu_last_ip = 0x0A90; emu_last_length = 0x002A; emu_last_crc = 0xB2A6; emu_call(); return; }
+	if (emu_flags.zf) { f__B495_0ABF_001C_E66E(); return; }
 	emu_push(emu_get_memory16(emu_ds, 0x00,  0x7FBE));
 	emu_movw(&emu_ax.x, 0x132);
 	emu_push(emu_ax.x);
@@ -1711,6 +1711,67 @@ void f__B495_0ABA_0005_95AE()
 {
 	emu_addws(&emu_sp, 0x10);
 	f__B495_0AE6_0003_DD00(); return;
+}
+
+/**
+ * Decompiled function f__B495_0ABF_001C_E66E()
+ *
+ * @name f__B495_0ABF_001C_E66E
+ * @implements B495:0ABF:001C:E66E ()
+ *
+ * Called From: B495:0A90:002A:B2A6
+ */
+void f__B495_0ABF_001C_E66E()
+{
+	emu_movw(&emu_ax.x, 0x132);
+	emu_push(emu_ax.x);
+	emu_xorw(&emu_ax.x, emu_ax.x);
+	emu_push(emu_ax.x);
+	emu_movw(&emu_ax.x, 0x6);
+	emu_push(emu_ax.x);
+	emu_movw(&emu_ax.x, 0x68);
+	emu_push(emu_ax.x);
+	emu_movw(&emu_ax.x, 0xDC);
+	emu_push(emu_ax.x);
+	emu_movw(&emu_ax.x, 0x14D);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x0ADB); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3495) { ovl__3495(0xFF); }
+	f__B495_0ADB_0008_0683();
+}
+
+/**
+ * Decompiled function f__B495_0ADB_0008_0683()
+ *
+ * @name f__B495_0ADB_0008_0683
+ * @implements B495:0ADB:0008:0683 ()
+ *
+ * Called From: B495:0ADB:001C:E66E
+ */
+void f__B495_0ADB_0008_0683()
+{
+	emu_pop(&emu_cx.x);
+	emu_push(emu_dx.x);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x0AE3); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3495) { ovl__3495(0xFF); }
+	f__B495_0AE3_0006_3722();
+}
+
+/**
+ * Decompiled function f__B495_0AE3_0006_3722()
+ *
+ * @name f__B495_0AE3_0006_3722
+ * @implements B495:0AE3:0006:3722 ()
+ *
+ * Called From: B495:0AE3:0008:0683
+ */
+void f__B495_0AE3_0006_3722()
+{
+	emu_addws(&emu_sp, 0xE);
+	f__B495_0B6C_0005_6168(); return;
 }
 
 /**
@@ -1766,6 +1827,7 @@ void f__B495_0AE9_002C_6F3D()
  * @implements B495:0B6C:0005:6168 ()
  *
  * Called From: B495:0AE6:0003:DD00
+ * Called From: B495:0AE6:0006:3722
  * Called From: B495:0AEE:002C:6F3D
  */
 void f__B495_0B6C_0005_6168()

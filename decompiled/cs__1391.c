@@ -134,7 +134,7 @@ void f__1391_0054_00B3_890D()
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x00B2; emu_last_cs = 0x1391; emu_last_ip = 0x008E; emu_last_length = 0x00B3; emu_last_crc = 0x890D; emu_call(); return; }
 	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0098; emu_last_cs = 0x1391; emu_last_ip = 0x0090; emu_last_length = 0x00B3; emu_last_crc = 0x890D; emu_call(); return; }
 	emu_cmpw(&emu_dx.x, emu_get_memory16(emu_ds, 0x00,  0x76B0));
-	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x00B2; emu_last_cs = 0x1391; emu_last_ip = 0x0096; emu_last_length = 0x00B3; emu_last_crc = 0x890D; emu_call(); return; }
+	if (!emu_flags.cf) { f__1391_00B2_0055_86F4(); return; }
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x1);
 	emu_movw(&emu_ax.x, emu_get_memory16(emu_ds, 0x00,  0x76B2));
 	emu_movw(&emu_dx.x, emu_get_memory16(emu_ds, 0x00,  0x76B0));
@@ -344,6 +344,7 @@ void f__1391_0098_006F_AC38()
  * Called From: 1391:0096:0084:0CD3
  * Called From: 1391:0096:0099:5702
  * Called From: 1391:0096:00C8:12AA
+ * Called From: 1391:0096:00B3:890D
  */
 void f__1391_00B2_0055_86F4()
 {
@@ -1686,7 +1687,7 @@ void f__1391_052C_0029_B3B9()
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__1391_0573_001E_0E5D(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ds, 0x00,  0x394A));
 	emu_cmpws(&emu_get_memory16(emu_es, emu_bx.x,  0x12), 0x0);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0573; emu_last_cs = 0x1391; emu_last_ip = 0x0545; emu_last_length = 0x0029; emu_last_crc = 0xB3B9; emu_call(); return; }
+	if (emu_flags.zf) { f__1391_0573_001E_0E5D(); return; }
 	emu_lfp(&emu_es, &emu_bx.x, &emu_get_memory16(emu_ds, 0x00,  0x394A));
 	emu_push(emu_get_memory16(emu_es, emu_bx.x,  0x12));
 	emu_push(emu_si);
@@ -1765,6 +1766,7 @@ void f__1391_0570_0021_4319()
  *
  * Called From: 1391:0533:002C:37BF
  * Called From: 1391:053A:0029:B3B9
+ * Called From: 1391:0545:0029:B3B9
  * Called From: 1391:055A:0013:CAB6
  */
 void f__1391_0573_001E_0E5D()
