@@ -1479,10 +1479,13 @@ void f__0642_04A9_0004_25FB()
 	emu_ip = emu_get_memory16(emu_cs, emu_bx.x,  0x34);
 	switch (emu_ip) {
 		case 0x04BD: f__0642_04BD_0005_B5FA(); return;
+		case 0x04C2: f__0642_04C2_0005_E87A(); return;
 		case 0x04C7: f__0642_04C7_0004_E3B9(); return;
 		case 0x04CB: f__0642_04CB_0005_8CFA(); return;
 		case 0x04D0: f__0642_04D0_0005_B37A(); return;
 		case 0x04D5: f__0642_04D5_0005_91FA(); return;
+		case 0x04DA: f__0642_04DA_0005_D47A(); return;
+		case 0x04DF: f__0642_04DF_0009_1090(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x0642; emu_last_ip = 0x04A9; emu_last_length = 0x0004; emu_last_crc = 0x25FB;
@@ -1516,6 +1519,20 @@ void f__0642_04B6_0003_D29A()
 void f__0642_04BD_0005_B5FA()
 {
 	emu_movw(&emu_ax.x, 0x6);
+	f__0642_04E2_0006_13CC(); return;
+}
+
+/**
+ * Decompiled function f__0642_04C2_0005_E87A()
+ *
+ * @name f__0642_04C2_0005_E87A
+ * @implements 0642:04C2:0005:E87A ()
+ *
+ * Called From: 0642:04A9:0004:25FB
+ */
+void f__0642_04C2_0005_E87A()
+{
+	emu_movw(&emu_ax.x, 0x2);
 	f__0642_04E2_0006_13CC(); return;
 }
 
@@ -1576,16 +1593,48 @@ void f__0642_04D5_0005_91FA()
 }
 
 /**
+ * Decompiled function f__0642_04DA_0005_D47A()
+ *
+ * @name f__0642_04DA_0005_D47A
+ * @implements 0642:04DA:0005:D47A ()
+ *
+ * Called From: 0642:04A9:0004:25FB
+ */
+void f__0642_04DA_0005_D47A()
+{
+	emu_movw(&emu_ax.x, 0x1);
+	f__0642_04E2_0006_13CC(); return;
+}
+
+/**
+ * Decompiled function f__0642_04DF_0009_1090()
+ *
+ * @name f__0642_04DF_0009_1090
+ * @implements 0642:04DF:0009:1090 ()
+ *
+ * Called From: 0642:04A9:0004:25FB
+ */
+void f__0642_04DF_0009_1090()
+{
+	emu_movw(&emu_ax.x, 0x3);
+	emu_push(emu_ax.x);
+	emu_push(emu_cs); emu_push(0x04E8); emu_cs = 0x0F78; f__0F78_0435_000E_32E0();
+	f__0642_04E8_0002_A63A();
+}
+
+/**
  * Decompiled function f__0642_04E2_0006_13CC()
  *
  * @name f__0642_04E2_0006_13CC
  * @implements 0642:04E2:0006:13CC ()
  *
  * Called From: 0642:04C0:0005:B5FA
+ * Called From: 0642:04C5:0005:E87A
  * Called From: 0642:04C9:0004:E3B9
  * Called From: 0642:04CE:0005:8CFA
  * Called From: 0642:04D3:0005:B37A
  * Called From: 0642:04D8:0005:91FA
+ * Called From: 0642:04DD:0005:D47A
  */
 void f__0642_04E2_0006_13CC()
 {
@@ -1601,6 +1650,7 @@ void f__0642_04E2_0006_13CC()
  * @implements 0642:04E8:0002:A63A ()
  *
  * Called From: 0642:04E8:0006:13CC
+ * Called From: 0642:04E8:0009:1090
  */
 void f__0642_04E8_0002_A63A()
 {

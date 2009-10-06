@@ -1457,6 +1457,7 @@ void f__0F78_0430_0005_8BCF()
  * @implements 0F78:0435:000E:32E0 ()
  *
  * Called From: 0642:04E3:0006:13CC
+ * Called From: 0642:04E3:0009:1090
  * Called From: 0AEC:01ED:0016:5CAC
  * Called From: 0AEC:01ED:0022:10B3
  */
