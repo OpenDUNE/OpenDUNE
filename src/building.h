@@ -30,7 +30,8 @@ typedef struct Building {
 	/* 000C(2)   */ uint16 variable_0C;            //!< ??
 	/* 000E(2)   */ uint16 variable_0E;            //!< ??
 	/* 0010(2)   */ uint16 variable_10;            //!< ??
-	/* 0012()    */ uint8   unknown_0012[0x0037];
+	/* 0012()    */ uint8   unknown_0012[0x0035];
+	/* 0047(2)   */ uint16 variable_47;            //!< ?? The 16bit version of HouseID?
 	/* 0049(2)   */ uint16 variable_49;            //!< ??
 	/* 004B()    */ uint8   unknown_004B[0x0003];
 	/* 004E(2)   */ uint16 variable_4E;            //!< ??
