@@ -36,7 +36,7 @@ typedef struct Building {
 	/* 004B(1)   */ uint8  variable_4B;            //!< ??
 	/* 004C(2)   */ uint16 variable_4C;            //!< ??
 	/* 004E(1)   */ uint8  upgradeLevel;           //!< The current level of upgrade of the Building.
-	/* 004F(1)   */ uint8  upgradeCost;            //!< Cost for upgrade, or 0 if no upgrade available.
+	/* 004F(1)   */ uint8  upgradeTimeLeft;        //!< Time left before upgrade is complete, or 0 if no upgrade available.
 	/* 0050(2)   */ uint16 buildTimeLeft;          //!< Time left before build is complete.
 	/* 0052()    */ uint8   unknown_0050[0x0002];
 	/* 0054(2)   */ uint16 variable_54;            //!< ??
