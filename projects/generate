@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# $Id$
+
+ROOT_DIR="`pwd`/.."
+if ! [ -d "$ROOT_DIR/src" ]
+then
+	ROOT_DIR="`pwd`"
+fi
+if ! [ -d "$ROOT_DIR/src" ]
+then
+	echo "Can't find src dir, needed in order to make this run. Please go to either"
+	echo " the project dir, or the root dir of a clean SVN checkout."
+	exit 1
+fi
+
+generate_data()
+{
+svn ls -R "$ROOT_DIR/$1" | grep "\.[ch]" | awk '
+BEGIN {
+	print "		<Filter";
+	print "			Name=\"'$1'\"";
+	print "			>";
+}
+{
+	gsub("/", "\\");
+	print "			<File";
+	print "				RelativePath=\"..\\'$1'\\" $0 "\"";
+	print "				>";
+	split($0, a, ".");
+	if (a[2] == "c") {
+		len = split(a[1], b, "\\");
+		a[1] = "'$1'";
+		for (i = 1; i < len; i++) {
+			a[1] = a[1] "\\" b[i];
+		}
+		print "				<FileConfiguration";
+		print "					Name=\"Debug|Win32\"";
+		print "					>";
+		print "					<Tool";
+		print "						Name=\"VCCLCompilerTool\"";
+		print "						ObjectFile=\"$(IntDir)\\" a[1] "\\\"";
+		print "					/>";
+		print "				</FileConfiguration>";
+		print "				<FileConfiguration";
+		print "					Name=\"Release|Win32\"";
+		print "					>";
+		print "					<Tool";
+		print "						Name=\"VCCLCompilerTool\"";
+		print "						ObjectFile=\"$(IntDir)\\" a[1] "\\\"";
+		print "					/>";
+		print "				</FileConfiguration>";
+	}
+	print "			</File>";
+}
+END {
+	print "		</Filter>";
+}'
+}
+
+# Everything above the !!FILES!! marker
+cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
+	/^$/ { next }
+	/!!FILES!!/ { stop = 1; }
+	{
+		if (stop == 0) { print $0 }
+	}
+' > "$ROOT_DIR/projects/opendune.vcproj"
+
+# Get all source files
+generate_data decompiled >> "$ROOT_DIR/projects/opendune.vcproj"
+generate_data include >> "$ROOT_DIR/projects/opendune.vcproj"
+generate_data src >> "$ROOT_DIR/projects/opendune.vcproj"
+
+# Everything below the !!FILES!! marker
+cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
+	BEGIN { stop = 1; }
+	/^$/ { next }
+	/!!FILES!!/ { stop = 2; }
+	{
+		if (stop == 0) { print $0 }
+		if (stop == 2) { stop = 0 }
+	}
+' >> "$ROOT_DIR/projects/opendune.vcproj"
