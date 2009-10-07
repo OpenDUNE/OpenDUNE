@@ -119,6 +119,7 @@ void Unit_Recount()
  *
  * @param index The index to use, or UNIT_INDEX_INVALID to find an unused index.
  * @param typeID The type of the new Unit.
+ * @param houseID The House of the new Unit.
  * @return The Unit allocated, or NULL on failure.
  */
 Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
