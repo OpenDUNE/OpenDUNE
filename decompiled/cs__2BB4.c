@@ -69,21 +69,21 @@ void f__2BB4_0004_0027_DC1D()
 {
 	emu_push(emu_ds);
 	emu_push(emu_si);
-	emu_movw(&emu_ax.x, 0x353F);
-	emu_movw(&emu_ds, emu_ax.x);
+	emu_movw(&emu_ax, 0x353F);
+	emu_movw(&emu_ds, emu_ax);
 	emu_movw(&emu_si, 0x76A2);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_ds, emu_si,  0x0));
-	emu_shrb(&emu_ax.l, 0x1);
-	emu_shrb(&emu_ax.l, 0x1);
+	emu_movb(&emu_al, emu_get_memory8(emu_ds, emu_si,  0x0));
+	emu_shrb(&emu_al, 0x1);
+	emu_shrb(&emu_al, 0x1);
 	emu_rclb(&emu_get_memory8(emu_ds, emu_si,  0x2), 0x1);
 	emu_rclb(&emu_get_memory8(emu_ds, emu_si,  0x1), 0x1);
 	emu_cmc();
-	emu_sbbb(&emu_ax.l, emu_get_memory8(emu_ds, emu_si,  0x0));
-	emu_shrb(&emu_ax.l, 0x1);
+	emu_sbbb(&emu_al, emu_get_memory8(emu_ds, emu_si,  0x0));
+	emu_shrb(&emu_al, 0x1);
 	emu_rcrb(&emu_get_memory8(emu_ds, emu_si,  0x0), 0x1);
-	emu_movb(&emu_ax.l, emu_get_memory8(emu_ds, emu_si,  0x0));
-	emu_xorb(&emu_ax.l, emu_get_memory8(emu_ds, emu_si,  0x1));
-	emu_xorb(&emu_ax.h, emu_ax.h);
+	emu_movb(&emu_al, emu_get_memory8(emu_ds, emu_si,  0x0));
+	emu_xorb(&emu_al, emu_get_memory8(emu_ds, emu_si,  0x1));
+	emu_xorb(&emu_ah, emu_ah);
 	emu_pop(&emu_si);
 	emu_pop(&emu_ds);
 

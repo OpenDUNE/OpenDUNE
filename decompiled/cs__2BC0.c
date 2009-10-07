@@ -24,10 +24,10 @@ void f__2BC0_0004_000F_950B()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movw(&emu_dx.x, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_xchgb(&emu_dx.l, &emu_ax.h);
-	emu_xchgb(&emu_dx.h, &emu_ax.l);
+	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp,  0x8));
+	emu_xchgb(&emu_dl, &emu_ah);
+	emu_xchgb(&emu_dh, &emu_al);
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -50,8 +50,8 @@ void f__2BC0_0013_000A_39BD()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
-	emu_movw(&emu_ax.x, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_xchgb(&emu_ax.l, &emu_ax.h);
+	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_xchgb(&emu_al, &emu_ah);
 	emu_pop(&emu_bp);
 
 	/* Return from this function */

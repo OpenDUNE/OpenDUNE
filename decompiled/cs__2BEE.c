@@ -15,10 +15,10 @@
  */
 void f__2BEE_000E_0009_8881()
 {
-	emu_movw(&emu_dx.x, 0x3DA);
-	emu_inb(&emu_ax.l, emu_dx.x);
-	emu_andb(&emu_ax.l, 0x8);
-	emu_xorb(&emu_ax.h, emu_ax.h);
+	emu_movw(&emu_dx, 0x3DA);
+	emu_inb(&emu_al, emu_dx);
+	emu_andb(&emu_al, 0x8);
+	emu_xorb(&emu_ah, emu_ah);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
