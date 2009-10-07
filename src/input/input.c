@@ -40,7 +40,7 @@ void emu_Input_Flags_SetBits()
 	}
 
 	/* Return from this function */
-	emu_ax.x = g_global->inputFlags;
+	emu_ax = g_global->inputFlags;
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
@@ -60,7 +60,7 @@ void emu_Input_Flags_ClearBits()
 	g_global->inputFlags &= ~clearFlags;
 
 	/* Return from this function */
-	emu_ax.x = g_global->inputFlags;
+	emu_ax = g_global->inputFlags;
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
@@ -112,7 +112,7 @@ void emu_Input_History_Clear()
  *  For most characters this means making them ASCII code.
  *
  * @name emu_Input_Keyboard_HandleKeys
- * @implements 29E8:026C:0015:3543 (emu_ax.l, emu_ax.h)
+ * @implements 29E8:026C:0015:3543 (emu_al, emu_ah)
  * @implements 29E8:027A:0007:5A2E
  * @implements 29E8:0281:0012:4D00
  * @implements 29E8:0293:0015:08FC
@@ -133,7 +133,7 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 	emu_pop(&emu_ip);
 
 	if ((state & 0x80) != 0 || (state & 0x08) != 0) {
-		emu_ax.x = 0;
+		emu_ax = 0;
 		return;
 	}
 
@@ -141,9 +141,9 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 
 	if (key < 0x3E) {
 		if ((state & 0x01) != 0) {
-			emu_ax.l = s_input_local->keymap_shift[key];
+			emu_al = s_input_local->keymap_shift[key];
 		} else {
-			emu_ax.l = s_input_local->keymap_normal[key];
+			emu_al = s_input_local->keymap_normal[key];
 		}
 
 		if ((state & 0x02) == 0) return;
@@ -152,17 +152,17 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 		uint8 bytePos = key >> 3;
 		if ((s_input_local->keymap_special_mask[bytePos] & bitmask) == 0) return;
 
-		emu_ax.l &= 0x1F;
+		emu_al &= 0x1F;
 		return;
 	}
 
 	if (key < 0x41) {
-		emu_ax.l = key | 0x80;
+		emu_al = key | 0x80;
 		return;
 	}
 
 	if (key < 0x4B) {
-		emu_ax.l = key + 0x85;
+		emu_al = key + 0x85;
 		return;
 	}
 
@@ -170,38 +170,38 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 		key -= 0x4B;
 
 		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->variable_01B7 & 0x0002) != 0) {
-			emu_ax.l = s_input_local->keymap_numlock[key - 0x0F];
+			emu_al = s_input_local->keymap_numlock[key - 0x0F];
 		} else {
-			emu_ax.l = s_input_local->keymap_numpad[key];
+			emu_al = s_input_local->keymap_numpad[key];
 		}
 
 		return;
 	}
 
 	if (key == 0x6E) {
-		emu_ax.l = 0x1B;
+		emu_al = 0x1B;
 		return;
 	}
 
 	if (key == 0x6F || key > 0x79) {
-		emu_ax.l = key | 0x80;
+		emu_al = key | 0x80;
 		return;
 	}
 
 	key -= 0x70;
 	if ((state & 0x07) == 0) {
-		emu_ax.l = 0xC5 - key;
+		emu_al = 0xC5 - key;
 		return;
 	}
 	if ((state & 0x04) != 0) {
-		emu_ax.l = 0x98 - key;
+		emu_al = 0x98 - key;
 		return;
 	}
 	if ((state & 0x02) != 0) {
-		emu_ax.l = 0xA2 - key;
+		emu_al = 0xA2 - key;
 		return;
 	}
-	emu_ax.l = 0xAC - key;
+	emu_al = 0xAC - key;
 }
 
 /**
@@ -239,13 +239,13 @@ void emu_Input_Keyboard_Translate()
 	emu_pop(&emu_cs);
 
 	uint16 key = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	emu_ax.x = key;
+	emu_ax = key;
 	if ((g_global->inputFlags & INPUT_FLAG_UNKNOWN_0002) != 0) return;
 
 	int i;
 	for (i = 0; i < 16; i++) {
 		if (s_input_local->translateMap[i] == (key & 0xFF)) {
-			emu_ax.l = s_input_local->translateTo[i];
+			emu_al = s_input_local->translateTo[i];
 			return;
 		}
 	}
@@ -342,11 +342,11 @@ void emu_Input_Keyboard_NextKey()
 	emu_popf();
 
 	s_input_local->variable_01B7 = s_input_local->variable_01B5;
-	emu_ax.x = 0;
+	emu_ax = 0;
 
 	if (key != 0) {
 		emu_push(0x06B8); emu_Input_Keyboard_HandleKeys(key, state);
-		emu_ax.h = 0;
+		emu_ah = 0;
 	}
 
 	/* Return from this function */
@@ -448,7 +448,7 @@ static void Input_HandlerInput(uint16 inputState)
 
 	emu_push(0);
 	emu_push(historySize);
-	emu_push(emu_cs); emu_push(0xA94); // Location of above two variables
+	emu_push(emu_cs); emu_push(0x0A94); /* Location of above two variables */
 	emu_push(g_global->variable_7011);
 	emu_push(emu_cs); emu_push(0x0D23); f__1FB5_0E9C_001B_37D1();
 	emu_sp += 10;

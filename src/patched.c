@@ -15,7 +15,7 @@
 void p__01F7_0229_0004_BEF7()
 {
 	/* Call/jump based on memory/register values */
-	emu_ip = emu_get_memory16(emu_es, emu_bx.x,  0x2);
+	emu_ip = emu_get_memory16(emu_es, emu_bx,  0x2);
 	emu_push(0x022D);
 	switch (emu_ip) {
 		case 0x0F45: f__01F7_0F45_004B_44A0(); break;

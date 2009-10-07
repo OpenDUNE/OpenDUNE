@@ -19,7 +19,7 @@
 House *House_Get_ByIndex(uint8 index)
 {
 	assert(index < HOUSE_INDEX_MAX);
-	return (House *)&emu_get_memory8(g_global->houseStartPos.cs, g_global->houseStartPos.ip, index * sizeof(House));
+	return (House *)&emu_get_memory8(g_global->houseStartPos.s.cs, g_global->houseStartPos.s.ip, index * sizeof(House));
 }
 
 /**
@@ -31,7 +31,7 @@ House *House_Get_ByIndex(uint8 index)
 House *House_Get_ByMemory(csip32 address)
 {
 	assert(g_global->houseStartPos.csip <= address.csip && address.csip < g_global->houseStartPos.csip + sizeof(House) * HOUSE_INDEX_MAX);
-	return (House *)&emu_get_memory8(address.cs, address.ip, 0x0);
+	return (House *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
 }
 
 /**
@@ -45,7 +45,7 @@ House *House_Get_ByMemory(csip32 address)
 House *House_Find(PoolFindStruct *find)
 {
 	if (find->index >= g_global->houseCount && find->index != 0xFFFF) return NULL;
-	find->index++; // First, we always go to the next index
+	find->index++; /* First, we always go to the next index */
 
 	for (; find->index < g_global->houseCount; find->index++) {
 		csip32 pos = g_global->houseArray[find->index];
@@ -68,8 +68,8 @@ void House_Init(csip32 address)
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->houseStartPos.cs = address.cs + (address.ip >> 4);
-		g_global->houseStartPos.ip = address.ip & 0x000F;
+		g_global->houseStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
+		g_global->houseStartPos.s.ip = address.s.ip & 0x000F;
 	}
 
 	if (g_global->houseStartPos.csip == 0x0) return;
@@ -116,7 +116,7 @@ void House_Free(csip32 address)
 		if (g_global->houseArray[i].csip != address.csip) continue;
 		break;
 	}
-	assert(i < g_global->houseCount); // We should always find an entry
+	assert(i < g_global->houseCount); /* We should always find an entry */
 
 	g_global->houseCount--;
 

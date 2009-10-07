@@ -23,7 +23,7 @@ extern void f__15C2_0395_0044_304E();
 Building *Building_Get_ByIndex(uint16 index)
 {
 	assert(index < BUILDING_INDEX_MAX_HARD);
-	return (Building *)&emu_get_memory8(g_global->buildingStartPos.cs, g_global->buildingStartPos.ip, index * sizeof(Building));
+	return (Building *)&emu_get_memory8(g_global->buildingStartPos.s.cs, g_global->buildingStartPos.s.ip, index * sizeof(Building));
 }
 
 /**
@@ -35,7 +35,7 @@ Building *Building_Get_ByIndex(uint16 index)
 Building *Building_Get_ByMemory(csip32 address)
 {
 	assert(g_global->buildingStartPos.csip <= address.csip && address.csip < g_global->buildingStartPos.csip + sizeof(Building) * BUILDING_INDEX_MAX_HARD);
-	return (Building *)&emu_get_memory8(address.cs, address.ip, 0x0);
+	return (Building *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
 }
 
 /**
@@ -49,7 +49,7 @@ Building *Building_Get_ByMemory(csip32 address)
 Building *Building_Find(PoolFindStruct *find)
 {
 	if (find->index >= g_global->buildingCount && find->index != 0xFFFF) return NULL;
-	find->index++; // First, we always go to the next index
+	find->index++; /* First, we always go to the next index */
 
 	for (; find->index < g_global->buildingCount; find->index++) {
 		csip32 pos = g_global->buildingArray[find->index];
@@ -76,8 +76,8 @@ void Building_Init(csip32 address)
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->buildingStartPos.cs = address.cs + (address.ip >> 4);
-		g_global->buildingStartPos.ip = address.ip & 0x000F;
+		g_global->buildingStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
+		g_global->buildingStartPos.s.ip = address.s.ip & 0x000F;
 	}
 
 	if (g_global->buildingStartPos.csip == 0x0) return;
@@ -178,8 +178,8 @@ Building *Building_Allocate(uint16 index, uint8 typeID)
 void Building_Free(csip32 address)
 {
 	/* XXX -- No idea */
-	emu_push(0x353F); emu_push(0x3918); // XXX -- g_global->variable_3918
-	emu_push(address.cs); emu_push(address.ip + 0x12);
+	emu_push(0x353F); emu_push(0x3918); /* XXX -- g_global->variable_3918 */
+	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
 	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
@@ -192,7 +192,7 @@ void Building_Free(csip32 address)
 		if (g_global->buildingArray[i].csip != address.csip) continue;
 		break;
 	}
-	assert(i < g_global->buildingCount); // We should always find an entry
+	assert(i < g_global->buildingCount); /* We should always find an entry */
 
 	g_global->buildingCount--;
 

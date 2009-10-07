@@ -20,7 +20,7 @@
 AirUnit *AirUnit_Get_ByIndex(uint16 index)
 {
 	assert(index < AIRUNIT_INDEX_MAX);
-	return (AirUnit *)&emu_get_memory8(g_global->airUnitStartPos.cs, g_global->airUnitStartPos.ip, index * sizeof(AirUnit));
+	return (AirUnit *)&emu_get_memory8(g_global->airUnitStartPos.s.cs, g_global->airUnitStartPos.s.ip, index * sizeof(AirUnit));
 }
 
 /**
@@ -32,7 +32,7 @@ AirUnit *AirUnit_Get_ByIndex(uint16 index)
 AirUnit *AirUnit_Get_ByMemory(csip32 address)
 {
 	assert(g_global->airUnitStartPos.csip <= address.csip && address.csip < g_global->airUnitStartPos.csip + sizeof(AirUnit) * AIRUNIT_INDEX_MAX);
-	return (AirUnit *)&emu_get_memory8(address.cs, address.ip, 0x0);
+	return (AirUnit *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
 }
 
 /**
@@ -46,7 +46,7 @@ AirUnit *AirUnit_Get_ByMemory(csip32 address)
 AirUnit *AirUnit_Find(PoolFindStruct *find)
 {
 	if (find->index >= g_global->airUnitCount && find->index != 0xFFFF) return NULL;
-	find->index++; // First, we always go to the next index
+	find->index++; /* First, we always go to the next index */
 
 	for (; find->index < g_global->airUnitCount; find->index++) {
 		csip32 pos = g_global->airUnitArray[find->index];
@@ -71,8 +71,8 @@ void AirUnit_Init(csip32 address)
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->airUnitStartPos.cs = address.cs + (address.ip >> 4);
-		g_global->airUnitStartPos.ip = address.ip & 0x000F;
+		g_global->airUnitStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
+		g_global->airUnitStartPos.s.ip = address.s.ip & 0x000F;
 	}
 
 	if (g_global->airUnitStartPos.csip == 0x0) return;
@@ -148,7 +148,7 @@ void AirUnit_Free(csip32 address)
 		if (g_global->airUnitArray[i].csip != address.csip) continue;
 		break;
 	}
-	assert(i < g_global->airUnitCount); // We should always find an entry
+	assert(i < g_global->airUnitCount); /* We should always find an entry */
 
 	g_global->airUnitCount--;
 

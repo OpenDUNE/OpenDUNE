@@ -23,7 +23,7 @@ extern void f__15C2_0395_0044_304E();
 Unit *Unit_Get_ByIndex(uint16 index)
 {
 	assert(index < UNIT_INDEX_MAX);
-	return (Unit *)&emu_get_memory8(g_global->unitStartPos.cs, g_global->unitStartPos.ip, index * sizeof(Unit));
+	return (Unit *)&emu_get_memory8(g_global->unitStartPos.s.cs, g_global->unitStartPos.s.ip, index * sizeof(Unit));
 }
 
 /**
@@ -35,7 +35,7 @@ Unit *Unit_Get_ByIndex(uint16 index)
 Unit *Unit_Get_ByMemory(csip32 address)
 {
 	assert(g_global->unitStartPos.csip <= address.csip && address.csip < g_global->unitStartPos.csip + sizeof(Unit) * UNIT_INDEX_MAX);
-	return (Unit *)&emu_get_memory8(address.cs, address.ip, 0x0);
+	return (Unit *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
 }
 
 /**
@@ -49,7 +49,7 @@ Unit *Unit_Get_ByMemory(csip32 address)
 Unit *Unit_Find(PoolFindStruct *find)
 {
 	if (find->index >= g_global->unitCount && find->index != 0xFFFF) return NULL;
-	find->index++; // First, we always go to the next index
+	find->index++; /* First, we always go to the next index */
 
 	for (; find->index < g_global->unitCount; find->index++) {
 		csip32 pos = g_global->unitArray[find->index];
@@ -76,8 +76,8 @@ void Unit_Init(csip32 address)
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->unitStartPos.cs = address.cs + (address.ip >> 4);
-		g_global->unitStartPos.ip = address.ip & 0x000F;
+		g_global->unitStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
+		g_global->unitStartPos.s.ip = address.s.ip & 0x000F;
 	}
 
 	if (g_global->unitStartPos.csip == 0x0) return;
@@ -178,8 +178,8 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 void Unit_Free(csip32 address)
 {
 	/* XXX -- No idea */
-	emu_push(0x353F); emu_push(0x3902); // XXX -- g_global->variable_3902
-	emu_push(address.cs); emu_push(address.ip + 0x12);
+	emu_push(0x353F); emu_push(0x3902); /* XXX -- g_global->variable_3902 */
+	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
 	emu_push(emu_cs); emu_push(0x0580); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
@@ -192,7 +192,7 @@ void Unit_Free(csip32 address)
 		if (g_global->unitArray[i].csip != address.csip) continue;
 		break;
 	}
-	assert(i < g_global->unitCount); // We should always find an entry
+	assert(i < g_global->unitCount); /* We should always find an entry */
 
 	g_global->unitCount--;
 

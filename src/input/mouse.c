@@ -24,12 +24,12 @@ static void emu_Input_Mouse_EnterHandler()
 {
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
-	emu_sp -= 4; // 2 local variables
+	emu_sp -= 4; /* 2 local variables */
 
-	emu_push(emu_ax.x);
-	emu_push(emu_bx.x);
-	emu_push(emu_cx.x);
-	emu_push(emu_dx.x);
+	emu_push(emu_ax);
+	emu_push(emu_bx);
+	emu_push(emu_cx);
+	emu_push(emu_dx);
 	emu_push(emu_ds);
 	emu_push(emu_si);
 	emu_push(emu_es);
@@ -49,10 +49,10 @@ static void emu_Input_Mouse_ExitHandler()
 	emu_pop(&emu_es);
 	emu_pop(&emu_si);
 	emu_pop(&emu_ds);
-	emu_pop(&emu_dx.x);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_bx.x);
-	emu_pop(&emu_ax.x);
+	emu_pop(&emu_dx);
+	emu_pop(&emu_cx);
+	emu_pop(&emu_bx);
+	emu_pop(&emu_ax);
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
 
@@ -95,11 +95,11 @@ static uint16 Input_Mouse_CheckButtons(uint8 newState)
  */
 static void emu_Input_Mouse_HandleButtons()
 {
-	emu_ax.x = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_ax = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
-	emu_push(emu_ax.x);
+	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; emu_Input_HandleInputSafe();
-	emu_sp += 0x2; // Remove entry from stack
+	emu_sp += 0x2; /* Remove entry from stack */
 }
 
 /**
@@ -123,7 +123,7 @@ static void emu_Input_Mouse_CheckMovement()
 	if (g_global->variable_706A != 0x0) return;
 
 	/* Did the mouse move? */
-	if (g_global->mousePrevX == emu_cx.x && g_global->mousePrevY == emu_dx.x) return;
+	if (g_global->mousePrevX == emu_cx && g_global->mousePrevY == emu_dx) return;
 
 	if ((g_global->regionFlags & 0xC000) != 0xC000) {
 		/* XXX -- Parameters for the next function .. but what is in them? */
@@ -131,9 +131,9 @@ static void emu_Input_Mouse_CheckMovement()
 		emu_push(g_global->variable_7092);
 
 		/* Call based on memory/register values */
-		emu_ip = g_global->callbackBeforeMouse.ip;
+		emu_ip = g_global->callbackBeforeMouse.s.ip;
 		emu_push(emu_cs);
-		emu_cs = g_global->callbackBeforeMouse.cs;
+		emu_cs = g_global->callbackBeforeMouse.s.cs;
 		emu_push(0x0169);
 		switch ((emu_cs << 16) + emu_ip) {
 			case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
@@ -143,14 +143,14 @@ static void emu_Input_Mouse_CheckMovement()
 				emu_call();
 				return;
 		}
-		emu_sp += 0x4; // Release the two stack values
+		emu_sp += 0x4; /* Release the two stack values */
 
 		emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
 
 		/* Call based on memory/register values */
-		emu_ip = g_global->callbackAfterMouse.ip;
+		emu_ip = g_global->callbackAfterMouse.s.ip;
 		emu_push(emu_cs);
-		emu_cs = g_global->callbackAfterMouse.cs;
+		emu_cs = g_global->callbackAfterMouse.s.cs;
 		emu_push(0x0175);
 		switch ((emu_cs << 16) + emu_ip) {
 			case 0x22A60FAE: f__22A6_0FAE_0027_2378(); break;
@@ -164,10 +164,10 @@ static void emu_Input_Mouse_CheckMovement()
 
 	/* Check if the cursor is still inside a certain region */
 	if ((g_global->regionFlags & 0x8000) == 0x8000) {
-		if (emu_cx.x >= g_global->regionMinX ||
-		    emu_cx.x <= g_global->regionMaxX ||
-		    emu_dx.x >= g_global->regionMinY ||
-		    emu_dx.x <= g_global->regionMaxY) {
+		if (emu_cx >= g_global->regionMinX ||
+		    emu_cx <= g_global->regionMaxX ||
+		    emu_dx >= g_global->regionMinY ||
+		    emu_dx <= g_global->regionMaxY) {
 			g_global->regionFlags |= 0x4000;
 			return;
 		}
@@ -178,9 +178,9 @@ static void emu_Input_Mouse_CheckMovement()
 	emu_push(g_global->variable_7092);
 
 	/* Call based on memory/register values */
-	emu_ip = g_global->callbackBeforeMouse.ip;
+	emu_ip = g_global->callbackBeforeMouse.s.ip;
 	emu_push(emu_cs);
-	emu_cs = g_global->callbackBeforeMouse.cs;
+	emu_cs = g_global->callbackBeforeMouse.s.cs;
 	emu_push(0x01A9);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
@@ -190,14 +190,14 @@ static void emu_Input_Mouse_CheckMovement()
 			emu_call();
 			return;
 	}
-	emu_sp += 0x4; // Release the two stack values
+	emu_sp += 0x4; /* Release the two stack values */
 
 	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
 
 	/* Call based on memory/register values */
-	emu_ip = g_global->callbackAfterMouse.ip;
+	emu_ip = g_global->callbackAfterMouse.s.ip;
 	emu_push(emu_cs);
-	emu_cs = g_global->callbackAfterMouse.cs;
+	emu_cs = g_global->callbackAfterMouse.s.cs;
 	emu_push(0x01B5);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x22A60FAE: f__22A6_0FAE_0027_2378(); break;
@@ -225,20 +225,20 @@ static void emu_Input_Mouse_HandleMovement()
 
 	/* Snap to grid on x-axis */
 	if (g_global->snapX != 0x0) {
-		emu_cx.x -= g_global->snapGreyX;
-		emu_cx.x = (emu_cx.x / g_global->snapX) * g_global->snapX;
-		emu_cx.x += g_global->snapGreyX;
+		emu_cx -= g_global->snapGreyX;
+		emu_cx = (emu_cx / g_global->snapX) * g_global->snapX;
+		emu_cx += g_global->snapGreyX;
 	}
 
 	/* Snap to grid on y-axis */
 	if (g_global->snapY != 0x0) {
-		emu_dx.x -= g_global->snapGreyY;
-		emu_dx.x = (emu_dx.x / g_global->snapY) * g_global->snapY;
-		emu_dx.x += g_global->snapGreyY;
+		emu_dx -= g_global->snapGreyY;
+		emu_dx = (emu_dx / g_global->snapY) * g_global->snapY;
+		emu_dx += g_global->snapGreyY;
 	}
 
-	g_global->mouseX = emu_cx.x;
-	g_global->mouseY = emu_dx.x;
+	g_global->mouseX = emu_cx;
+	g_global->mouseY = emu_dx;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_1 && (g_global->inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 		emu_Input_Mouse_HandleButtons();
@@ -246,8 +246,8 @@ static void emu_Input_Mouse_HandleMovement()
 
 	emu_Input_Mouse_CheckMovement();
 
-	g_global->mousePrevX = emu_cx.x;
-	g_global->mousePrevY = emu_dx.x;
+	g_global->mousePrevX = emu_cx;
+	g_global->mousePrevY = emu_dx;
 	g_global->mouseLock = 0;
 }
 
@@ -275,8 +275,8 @@ void emu_Input_Mouse_EventHandler()
 	emu_Input_Mouse_EnterHandler();
 
 	/* Store the mouse-button and event-type on the stack */
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx.x;
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax.x;
+	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx;
+	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 
 	/* Check various of things, and if they do not validate, exit the mouse routine */
 	/* XXX -- Most of these checks are yet unknown in their function */
@@ -286,8 +286,8 @@ void emu_Input_Mouse_EventHandler()
 		if (g_global->variable_986C != 0x00) { emu_Input_Mouse_ExitHandler(); return; }
 	}
 
-	if (g_global->doubleWidth != 0) emu_cx.x = emu_cx.x / 2;
-	if (emu_cx.x > 319) emu_cx.x = 319;
+	if (g_global->doubleWidth != 0) emu_cx = emu_cx / 2;
+	if (emu_cx > 319) emu_cx = 319;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & INPUT_FLAG_NO_CLICK) == 0) {
 		emu_Input_Mouse_HandleButtons();
@@ -315,13 +315,13 @@ void emu_Input_Mouse_EventHandler()
  */
 void emu_Input_Mouse_Init()
 {
-	emu_push(emu_bx.x);
-	emu_push(emu_cx.x);
-	emu_push(emu_dx.x);
+	emu_push(emu_bx);
+	emu_push(emu_cx);
+	emu_push(emu_dx);
 	emu_push(emu_es);
 
 	/* Get interrupt 0x33 CS:IP */
-	emu_ax.x = 0x3533;
+	emu_ax = 0x3533;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_DOS();
 
 	g_global->mouseX = 160;
@@ -334,36 +334,36 @@ void emu_Input_Mouse_Init()
 	g_global->variable_7097 = 1;
 
 	/* Get the current position of the mouse */
-	emu_ax.x = 0x3;
+	emu_ax = 0x3;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x027E); Interrupt_Mouse();
 
 	g_global->doubleWidth = 0;
-	if (emu_cx.x != 160) g_global->doubleWidth = 1;
+	if (emu_cx != 160) g_global->doubleWidth = 1;
 
 	/* Set the current position of the mouse */
-	emu_ax.x = 0x4;
-	emu_cx.x = (g_global->doubleWidth != 0) ? 320 : 160;
-	emu_dx.x = 100;
+	emu_ax = 0x4;
+	emu_cx = (g_global->doubleWidth != 0) ? 320 : 160;
+	emu_dx = 100;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02A8); Interrupt_Mouse();
 
 	/* Set mouse-event callback */
-	emu_ax.x = 0xC;
-	emu_cx.x = 0x1F; // Mask, catch all events
-	emu_dx.x = 0x54; // IP of callback
-	emu_es = emu_cs; // CS of callback
+	emu_ax = 0xC;
+	emu_cx = 0x1F; /* Mask, catch all events */
+	emu_dx = 0x54; /* IP of callback */
+	emu_es = emu_cs; /* CS of callback */
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02B5); Interrupt_Mouse();
 
 	emu_pop(&emu_es);
-	emu_pop(&emu_dx.x);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_bx.x);
+	emu_pop(&emu_dx);
+	emu_pop(&emu_cx);
+	emu_pop(&emu_bx);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
 	/* Mouse installed and ready for use */
-	emu_ax.x = 0x1;
+	emu_ax = 0x1;
 	return;
 }
 
@@ -376,23 +376,23 @@ void emu_Input_Mouse_Init()
  */
 void emu_Input_Mouse_CallbackClear()
 {
-	emu_push(emu_ax.x);
-	emu_push(emu_cx.x);
-	emu_push(emu_dx.x);
+	emu_push(emu_ax);
+	emu_push(emu_cx);
+	emu_push(emu_dx);
 	emu_push(emu_es);
 
 	if (g_global->mouseInstalled != 0) {
-		emu_ax.x = 0xC;
-		emu_cx.x = 0x0; // Mask, catch no events
-		emu_dx.x = 0x54; // IP of callback
-		emu_es = emu_cs; // CS of callback
+		emu_ax = 0xC;
+		emu_cx = 0x0; /* Mask, catch no events */
+		emu_dx = 0x54; /* IP of callback */
+		emu_es = emu_cs; /* CS of callback */
 		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02D5); Interrupt_Mouse();
 	}
 
 	emu_pop(&emu_es);
-	emu_pop(&emu_dx.x);
-	emu_pop(&emu_cx.x);
-	emu_pop(&emu_ax.x);
+	emu_pop(&emu_dx);
+	emu_pop(&emu_cx);
+	emu_pop(&emu_ax);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
@@ -416,12 +416,12 @@ void emu_Input_Mouse_InsideRegion()
 	g_global->mouseLock++;
 
 	/* Check if the mouse is inside the region given by the parameters */
-	emu_ax.x = 1;
+	emu_ax = 1;
 	if (g_global->mouseX < emu_get_memory16(emu_ss, emu_bp,  0x6) ||
 	    g_global->mouseX > emu_get_memory16(emu_ss, emu_bp,  0x8) ||
 	    g_global->mouseY < emu_get_memory16(emu_ss, emu_bp,  0xA) ||
 	    g_global->mouseY > emu_get_memory16(emu_ss, emu_bp,  0xC)) {
-		emu_ax.x = 0;
+		emu_ax = 0;
 	}
 
 	g_global->mouseLock--;

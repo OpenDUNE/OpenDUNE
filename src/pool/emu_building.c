@@ -27,13 +27,13 @@ void emu_Building_Init()
 	emu_pop(&emu_cs);
 
 	csip32 address;
-	address.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	address.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	Building_Init(address);
 
-	emu_dx.x = 0;
-	emu_ax.x = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
+	emu_dx = 0;
+	emu_ax = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
 }
 
 /**
@@ -84,8 +84,8 @@ void emu_Building_Allocate()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx.x = 0x0;
-	emu_ax.x = 0x0;
+	emu_dx = 0x0;
+	emu_ax = 0x0;
 
 	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	uint8 typeID = emu_get_memory16(emu_ss, emu_sp,  0x2);
@@ -93,8 +93,8 @@ void emu_Building_Allocate()
 	Building *b = Building_Allocate(index, typeID);
 
 	if (b == NULL) return;
-	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = g_global->buildingStartPos.ip + b->index * sizeof(Building);
+	emu_dx = g_global->buildingStartPos.s.cs;
+	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
 }
 
 /**
@@ -115,8 +115,8 @@ void emu_Building_Free()
 	emu_pop(&emu_cs);
 
 	csip32 address;
-	address.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	address.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	Building_Free(address);
 }
@@ -136,14 +136,14 @@ void emu_Building_Get_ByIndex()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax.x = 0x0;
-	emu_dx.x = 0x0;
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	if (index >= BUILDING_INDEX_MAX_HARD) return;
-	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = g_global->buildingStartPos.ip + index * sizeof(Building);
+	emu_dx = g_global->buildingStartPos.s.cs;
+	emu_ax = g_global->buildingStartPos.s.ip + index * sizeof(Building);
 }
 
 /**
@@ -162,8 +162,8 @@ void emu_Building_FindFirst()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx.x = 0x0;
-	emu_ax.x = 0x0;
+	emu_dx = 0x0;
+	emu_ax = 0x0;
 
 	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
@@ -179,8 +179,8 @@ void emu_Building_FindFirst()
 	Building *b = Building_Find(find);
 
 	if (b == NULL) return;
-	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = g_global->buildingStartPos.ip + b->index * sizeof(Building);
+	emu_dx = g_global->buildingStartPos.s.cs;
+	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
 }
 
 /**
@@ -206,8 +206,8 @@ void emu_Building_FindNext()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx.x = 0x0;
-	emu_ax.x = 0x0;
+	emu_dx = 0x0;
+	emu_ax = 0x0;
 
 	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
@@ -219,6 +219,6 @@ void emu_Building_FindNext()
 	Building *b = Building_Find(find);
 
 	if (b == NULL) return;
-	emu_dx.x = g_global->buildingStartPos.cs;
-	emu_ax.x = g_global->buildingStartPos.ip + b->index * sizeof(Building);
+	emu_dx = g_global->buildingStartPos.s.cs;
+	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
 }

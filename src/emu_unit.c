@@ -24,16 +24,16 @@ void emu_Unit_GetHouseID()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax.x = HOUSE_INVALID;
+	emu_ax = HOUSE_INVALID;
 
 	csip32 address;
-	address.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	address.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	address.s.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	address.s.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
 
 	if (address.csip == 0x0) return;
 
 	Unit *u = Unit_Get_ByMemory(address);
-	emu_ax.x = Unit_GetHouseID(u);
+	emu_ax = Unit_GetHouseID(u);
 }
 
 /**
@@ -73,20 +73,20 @@ void emu_Unit_Create()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx.x = 0x0;
-	emu_ax.x = 0x0;
+	emu_dx = 0x0;
+	emu_ax = 0x0;
 
 	csip32 var0C;
 	uint16 index   = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	uint16 typeID  = emu_get_memory16(emu_ss, emu_sp,  0x2);
 	uint16 houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
-	var0C.ip       = emu_get_memory16(emu_ss, emu_sp,  0x6);
-	var0C.cs       = emu_get_memory16(emu_ss, emu_sp,  0x8);
+	var0C.s.ip     = emu_get_memory16(emu_ss, emu_sp,  0x6);
+	var0C.s.cs     = emu_get_memory16(emu_ss, emu_sp,  0x8);
 	uint16 var10   = emu_get_memory16(emu_ss, emu_sp,  0xA);
 
 	Unit *u = Unit_Create(index, typeID, houseID, var0C, var10);
 
 	if (u == NULL) return;
-	emu_dx.x = g_global->unitStartPos.cs;
-	emu_ax.x = g_global->unitStartPos.ip + u->index * sizeof(Unit);
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }
