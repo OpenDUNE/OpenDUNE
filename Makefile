@@ -76,7 +76,7 @@ depend: Makefile.dep
 objs/%.o: %.c
 	$(shell mkdir -p `dirname $@`)
 	@echo "[Compiling] $<"
-	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/ -pedantic -ansi
 
 opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 	@echo "[Linking] $@"
