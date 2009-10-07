@@ -4,9 +4,9 @@
 #define POOL_UNIT_H
 
 enum {
-	UNIT_INDEX_MAX = 102,                          //!< The highest possible index for any Unit.
+	UNIT_INDEX_MAX = 102,                          /*!< The highest possible index for any Unit. */
 
-	UNIT_INDEX_INVALID = 0xFFFF,
+	UNIT_INDEX_INVALID = 0xFFFF
 };
 
 struct PoolFindStruct;

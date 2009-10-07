@@ -4,14 +4,14 @@
 #define POOL_BUILDING_H
 
 enum {
-	BUILDING_INDEX_MAX_SOFT = 79,                  //!< The highest possible index for normal Building.
-	BUILDING_INDEX_MAX_HARD = 82,                  //!< The highest possible index for any Building.
+	BUILDING_INDEX_MAX_SOFT = 79,                  /*!< The highest possible index for normal Building. */
+	BUILDING_INDEX_MAX_HARD = 82,                  /*!< The highest possible index for any Building. */
 
-	BUILDING_INDEX_WALL     = 79,                  //!< All walls are are put under index 79.
-	BUILDING_INDEX_SLAB_2x2 = 80,                  //!< All 2x2 slabs are put under index 80.
-	BUILDING_INDEX_SLAB_1x1 = 81,                  //!< All 1x1 slabs are put under index 81.
+	BUILDING_INDEX_WALL     = 79,                  /*!< All walls are are put under index 79. */
+	BUILDING_INDEX_SLAB_2x2 = 80,                  /*!< All 2x2 slabs are put under index 80. */
+	BUILDING_INDEX_SLAB_1x1 = 81,                  /*!< All 1x1 slabs are put under index 81. */
 
-	BUILDING_INDEX_INVALID  = 0xFFFF,
+	BUILDING_INDEX_INVALID  = 0xFFFF
 };
 
 struct PoolFindStruct;

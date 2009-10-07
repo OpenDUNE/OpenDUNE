@@ -4,9 +4,9 @@
 #define POOL_AIRUNIT_H
 
 enum {
-	AIRUNIT_INDEX_MAX = 16,                        //!< The highest possible index for any AirUnit.
+	AIRUNIT_INDEX_MAX = 16,                        /*!< The highest possible index for any AirUnit.  */
 
-	AIRUNIT_INDEX_INVALID = 0xFFFF,
+	AIRUNIT_INDEX_INVALID = 0xFFFF
 };
 
 struct PoolFindStruct;
