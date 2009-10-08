@@ -5,7 +5,9 @@
 	#include <windows.h>
 	#define usleep Sleep
 #else
-	#define __USE_BSD
+	#if !defined(__USE_BSD)
+		#define __USE_BSD
+	#endif /* !__USE_BSD */
 	#include <unistd.h>
 #endif /* _MSC_VER */
 #include <assert.h>
