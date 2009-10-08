@@ -51,7 +51,7 @@ void emu_House_Init()
  */
 void emu_House_Allocate()
 {
-	uint16 index;
+	uint8 index;
 	House *h;
 
 	/* Pop the return CS:IP. */
@@ -61,7 +61,7 @@ void emu_House_Allocate()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	h = House_Allocate(index);
 
@@ -107,7 +107,7 @@ void emu_House_Free()
  */
 void emu_House_Get_ByIndex()
 {
-	uint16 index;
+	uint8 index;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -116,7 +116,7 @@ void emu_House_Get_ByIndex()
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	if (index >= HOUSE_INDEX_MAX) return;
 	{

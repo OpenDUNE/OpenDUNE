@@ -89,6 +89,7 @@ static uint16 Input_Mouse_CheckButtons(uint8 newState)
 
 	/* This should never be reached */
 	assert(!"Invalid mouse button state");
+	return 0x2D;
 }
 
 /**
@@ -96,7 +97,7 @@ static uint16 Input_Mouse_CheckButtons(uint8 newState)
  */
 static void emu_Input_Mouse_HandleButtons()
 {
-	emu_ax = Input_Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_ax = Input_Mouse_CheckButtons((uint8)emu_get_memory16(emu_ss, emu_bp, -0x4));
 
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; emu_Input_HandleInputSafe();

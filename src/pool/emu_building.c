@@ -93,7 +93,7 @@ void emu_Building_Allocate()
 	emu_ax = 0x0;
 
 	index  = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	typeID = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
 
 	b = Building_Allocate(index, typeID);
 

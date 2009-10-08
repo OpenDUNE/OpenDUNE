@@ -71,7 +71,8 @@ void emu_Unit_GetHouseID()
  */
 void emu_Unit_Create()
 {
-	uint16 index, typeID, houseID, var10;
+	uint16 index, var10;
+	uint8 typeID, houseID;
 	csip32 var0C;
 	Unit *u;
 
@@ -83,8 +84,8 @@ void emu_Unit_Create()
 	emu_ax = 0x0;
 
 	index      = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID     = emu_get_memory16(emu_ss, emu_sp,  0x2);
-	houseID    = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	typeID     = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
+	houseID    = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
 	var0C.s.ip = emu_get_memory16(emu_ss, emu_sp,  0x6);
 	var0C.s.cs = emu_get_memory16(emu_ss, emu_sp,  0x8);
 	var10      = emu_get_memory16(emu_ss, emu_sp,  0xA);

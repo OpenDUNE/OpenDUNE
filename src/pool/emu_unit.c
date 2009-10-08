@@ -96,8 +96,8 @@ void emu_Unit_Allocate()
 	emu_ax = 0x0;
 
 	index   = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID  = emu_get_memory16(emu_ss, emu_sp,  0x2);
-	houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
+	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
+	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
 
 	u = Unit_Allocate(index, typeID, houseID);
 
