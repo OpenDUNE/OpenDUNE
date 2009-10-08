@@ -406,7 +406,7 @@ void f__06F7_014D_0025_8494()
 	if (emu_flags.zf) { f__06F7_01D0_0049_4F3C(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0xC), 0x1);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0188; emu_last_cs = 0x06F7; emu_last_ip = 0x0165; emu_last_length = 0x0025; emu_last_crc = 0x8494; emu_call(); return; }
+	if (!emu_flags.zf) { f__06F7_0188_000C_AE31(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_push(emu_cs); emu_push(0x0172); emu_cs = 0x16BC; f__16BC_0044_0027_CB92();
@@ -448,12 +448,48 @@ void f__06F7_0183_0005_A66E()
 }
 
 /**
+ * Decompiled function f__06F7_0188_000C_AE31()
+ *
+ * @name f__06F7_0188_000C_AE31
+ * @implements 06F7:0188:000C:AE31 ()
+ *
+ * Called From: 06F7:0165:0025:8494
+ */
+void f__06F7_0188_000C_AE31()
+{
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x1A));
+	emu_push(emu_cs); emu_push(0x0194); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	f__06F7_0194_0011_A76A();
+}
+
+/**
+ * Decompiled function f__06F7_0194_0011_A76A()
+ *
+ * @name f__06F7_0194_0011_A76A
+ * @implements 06F7:0194:0011:A76A ()
+ *
+ * Called From: 06F7:0194:000C:AE31
+ */
+void f__06F7_0194_0011_A76A()
+{
+	emu_pop(&emu_cx);
+	emu_orw(&emu_ax, emu_dx);
+	if (emu_flags.zf) { f__06F7_01CD_0003_9DA7(); return; }
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x1A));
+	/* Unresolved call */ emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x167E; emu_ip = 0x0284; emu_last_cs = 0x06F7; emu_last_ip = 0x01A0; emu_last_length = 0x0011; emu_last_crc = 0xA76A; emu_call();
+	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0x06F7; emu_last_ip = 0x01A5; emu_last_length = 0x0011; emu_last_crc = 0xA76A; emu_call();
+}
+
+/**
  * Decompiled function f__06F7_01CD_0003_9DA7()
  *
  * @name f__06F7_01CD_0003_9DA7
  * @implements 06F7:01CD:0003:9DA7 ()
  *
  * Called From: 06F7:0186:0005:A66E
+ * Called From: 06F7:0197:0011:A76A
  */
 void f__06F7_01CD_0003_9DA7()
 {

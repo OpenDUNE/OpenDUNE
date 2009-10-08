@@ -66,8 +66,10 @@ void emu_Unit_GetHouseID()
  * @implements 1A34:0B3B:0012:C7F2
  * @implements 1A34:0B42:000B:1D44
  * @implements 1A34:0B4D:0005:8F6E
- * @implements 1A34:0B6B:0006:F7CE
+ * @implements 1A34:0B52:000B:71C0
+ * @implements 1A34:0B5D:000E:ABCB
  * @implements 1A34:0B69:0002:8F3A
+ * @implements 1A34:0B6B:0006:F7CE
  */
 void emu_Unit_Create()
 {

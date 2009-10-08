@@ -737,8 +737,41 @@ void f__B495_020C_0021_C120()
 	emu_movw(&emu_ax, 0xFFFF);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	/* Unresolved call */ emu_push(0x022D); emu_ip = 0x1140; emu_last_cs = 0xB495; emu_last_ip = 0x022A; emu_last_length = 0x0021; emu_last_crc = 0xC120; emu_call();
-	/* Unresolved jump */ emu_ip = 0x022D; emu_last_cs = 0xB495; emu_last_ip = 0x022D; emu_last_length = 0x0021; emu_last_crc = 0xC120; emu_call();
+	emu_push(0x022D); f__B495_1140_0009_13F2();
+	f__B495_022D_000D_9E8C();
+}
+
+/**
+ * Decompiled function f__B495_022D_000D_9E8C()
+ *
+ * @name f__B495_022D_000D_9E8C
+ * @implements B495:022D:000D:9E8C ()
+ *
+ * Called From: B495:022D:0021:C120
+ */
+void f__B495_022D_000D_9E8C()
+{
+	emu_pop(&emu_cx);
+	emu_movw(&emu_di, 0x1);
+	emu_movw(&emu_ax, 0x1);
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x023A); f__B495_0DC9_0010_C643();
+	f__B495_023A_0003_C21A();
+}
+
+/**
+ * Decompiled function f__B495_023A_0003_C21A()
+ *
+ * @name f__B495_023A_0003_C21A
+ * @implements B495:023A:0003:C21A ()
+ *
+ * Called From: B495:023A:000D:9E8C
+ */
+void f__B495_023A_0003_C21A()
+{
+	emu_pop(&emu_cx);
+	f__B495_024F_0002_C13A(); return;
 }
 
 /**
@@ -790,6 +823,19 @@ void f__B495_024D_0004_59FF()
 }
 
 /**
+ * Decompiled function f__B495_024F_0002_C13A()
+ *
+ * @name f__B495_024F_0002_C13A
+ * @implements B495:024F:0002:C13A ()
+ *
+ * Called From: B495:023B:0003:C21A
+ */
+void f__B495_024F_0002_C13A()
+{
+	f__B495_0253_0008_0E9A(); return;
+}
+
+/**
  * Decompiled function f__B495_0253_0008_0E9A()
  *
  * @name f__B495_0253_0008_0E9A
@@ -797,6 +843,7 @@ void f__B495_024D_0004_59FF()
  *
  * Called From: B495:020A:0006:9243
  * Called From: B495:024F:0004:59FF
+ * Called From: B495:024F:0002:C13A
  * Called From: B495:0263:0013:BAEB
  */
 void f__B495_0253_0008_0E9A()
@@ -2350,6 +2397,7 @@ void f__B495_0D37_0007_F77C()
  * Called From: B495:017A:000A:A88E
  * Called From: B495:019B:0008:4D0B
  * Called From: B495:0203:000D:1A5D
+ * Called From: B495:0237:000D:9E8C
  * Called From: B495:0258:0008:0E9A
  * Called From: B495:03D9:0009:FC66
  * Called From: B495:1195:0008:798E
@@ -3371,6 +3419,7 @@ void f__B495_113C_0004_893F()
  * @implements B495:1140:0009:13F2 ()
  *
  * Called From: B495:0170:0029:416B
+ * Called From: B495:022A:0021:C120
  */
 void f__B495_1140_0009_13F2()
 {

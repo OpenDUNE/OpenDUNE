@@ -531,6 +531,10 @@ void f__167E_00EF_0004_893F()
  * Called From: 0C3A:2945:000F:A6A8
  * Called From: 0EDB:049E:0013:CDD0
  * Called From: 1391:033C:0008:A673
+ * Called From: 16C5:0673:0008:A673
+ * Called From: 16C5:07CD:0025:40DD
+ * Called From: 16C5:095D:0005:BFC0
+ * Called From: 16C5:095D:0008:A673
  * Called From: 176C:0D31:0012:9ABF
  * Called From: 176C:0EF1:0011:8A0E
  * Called From: 176C:0F04:0013:75C0
@@ -760,6 +764,8 @@ void f__167E_015D_0005_8BCF()
  * @implements 167E:0162:000D:A6D2 ()
  *
  * Called From: 06F7:02C6:000F:C338
+ * Called From: 16C5:050F:003D:5378
+ * Called From: 16C5:0735:0021:53DA
  * Called From: 176C:1562:000C:2379
  * Called From: 176C:1FA9:000D:5C7A
  */
@@ -950,6 +956,8 @@ void f__167E_01B7_0004_DE52()
  * Called From: 0C3A:22FD:000C:39D3
  * Called From: 0EDB:021D:000B:3104
  * Called From: 167E:03AF:0005:C0BA
+ * Called From: 16C5:0599:000C:6B53
+ * Called From: 16C5:07A8:000D:11BB
  * Called From: 176C:032C:0039:0847
  * Called From: 176C:10CE:001A:65A9
  * Called From: 176C:1596:0006:63E5
@@ -1011,7 +1019,7 @@ void f__167E_01D3_0013_5505()
 	if (emu_flags.zf) { f__167E_0210_0006_8BC7(); return; }
 	emu_cmpw(&emu_ax, 0x3);
 	if (emu_flags.zf) { f__167E_0225_0006_C49B(); return; }
-	/* Unresolved jump */ emu_ip = 0x0276; emu_last_cs = 0x167E; emu_last_ip = 0x01E3; emu_last_length = 0x0013; emu_last_crc = 0x5505; emu_call();
+	f__167E_0276_0002_C03A(); return;
 }
 
 /**
@@ -1064,6 +1072,7 @@ void f__167E_020C_0004_6C1F()
  *
  * Called From: 167E:0223:000F:BFA9
  * Called From: 167E:0274:004B:0A01
+ * Called From: 167E:027C:0006:6AA9
  */
 void f__167E_020E_0002_F73A()
 {
@@ -1156,6 +1165,34 @@ void f__167E_022B_004B_0A01()
 }
 
 /**
+ * Decompiled function f__167E_0276_0002_C03A()
+ *
+ * @name f__167E_0276_0002_C03A
+ * @implements 167E:0276:0002:C03A ()
+ *
+ * Called From: 167E:01E3:0013:5505
+ */
+void f__167E_0276_0002_C03A()
+{
+	f__167E_0278_0006_6AA9(); return;
+}
+
+/**
+ * Decompiled function f__167E_0278_0006_6AA9()
+ *
+ * @name f__167E_0278_0006_6AA9
+ * @implements 167E:0278:0006:6AA9 ()
+ *
+ * Called From: 167E:0276:0002:C03A
+ */
+void f__167E_0278_0006_6AA9()
+{
+	emu_xorw(&emu_dx, emu_dx);
+	emu_xorw(&emu_ax, emu_ax);
+	f__167E_020E_0002_F73A(); return;
+}
+
+/**
  * Decompiled function f__167E_027E_0006_F7CE()
  *
  * @name f__167E_027E_0006_F7CE
@@ -1184,6 +1221,7 @@ void f__167E_027E_0006_F7CE()
  * @implements 167E:0284:000C:4C88 ()
  *
  * Called From: 06F7:00EE:0008:086B
+ * Called From: 06F7:018F:000C:AE31
  * Called From: 06F7:02A2:000C:9030
  * Called From: 06F7:02A2:0016:E02E
  * Called From: 0972:0AAF:000A:8B0A

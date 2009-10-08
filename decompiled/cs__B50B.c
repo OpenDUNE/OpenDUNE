@@ -894,7 +894,7 @@ void f__B50B_030E_000D_6B9A()
 	emu_addw(&emu_sp, 0xE);
 	emu_incw(&emu_di);
 	emu_cmpw(&emu_di, 0x1000);
-	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x031B; emu_last_cs = 0xB50B; emu_last_ip = 0x0316; emu_last_length = 0x000D; emu_last_crc = 0x6B9A; emu_call(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { f__B50B_031B_0005_BBA6(); return; }
 	f__B50B_027A_0018_B4ED(); return;
 }
 
@@ -936,6 +936,7 @@ void f__B50B_0312_0009_AE1F()
  * @implements B50B:031B:0005:BBA6 ()
  *
  * Called From: B50B:0316:000A:BFDF
+ * Called From: B50B:0316:000D:6B9A
  */
 void f__B50B_031B_0005_BBA6()
 {

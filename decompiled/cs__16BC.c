@@ -93,6 +93,7 @@ void f__16BC_0041_0003_2E57()
  *
  * Called From: 06F7:016D:0025:8494
  * Called From: 16C5:039A:0013:6D07
+ * Called From: 16C5:039A:0027:420B
  * Called From: 1A34:3750:001B:D4DB
  * Called From: 1A34:3750:0019:E290
  * Called From: 1A34:37D1:0026:D835

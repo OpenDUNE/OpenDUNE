@@ -26,11 +26,13 @@
  * @implements 34CD:0066 (14)
  * @implements 34CD:006B (15)
  * @implements 34CD:0070 (16)
+ * @implements 34CD:0075 (17)
  * @implements 34CD:007F (19)
  * @implements 34CD:0084 (20)
  * @implements 34CD:008E (22)
  * @implements 34CD:0093 (23)
  * @implements 34CD:0098 (24)
+ * @implements 34CD:009D (25)
  * @implements 34CD:00A2 (26)
  * @implements 34CD:00A7 (27)
  * @implements 34CD:00AC (28)
@@ -38,6 +40,7 @@
  * @implements 34CD:00B6 (30)
  * @implements 34CD:00BB (31)
  * @implements 34CD:00C0 (32)
+ * @implements 34CD:00C5 (33)
  * @implements 34CD:00CA (34)
  *
  * Called From: 06F7:0319:0013:4514
@@ -133,6 +136,8 @@
  * Called From: 151A:067F:0073:AC77
  * Called From: 151A:06A1:000C:4178
  * Called From: 167E:0390:0009:AAB4
+ * Called From: 16C5:074F:0008:1757
+ * Called From: 16C5:0938:000D:8578
  * Called From: 176C:04AC:0011:B562
  * Called From: 176C:04ED:0008:475C
  * Called From: 176C:0503:0016:FC92
@@ -167,8 +172,10 @@
  * Called From: 1A34:0413:0008:5756
  * Called From: 1A34:07A4:0006:62E9
  * Called From: 1A34:08AF:002A:0918
+ * Called From: 1A34:08CC:0009:0B67
  * Called From: 1A34:08E8:0009:EB67
  * Called From: 1A34:0B21:0015:C072
+ * Called From: 1A34:0C49:0008:175C
  * Called From: 1A34:0DB3:0059:EBA0
  * Called From: 1A34:0E70:000A:0A68
  * Called From: 1A34:0EBA:0006:26E8
@@ -262,11 +269,13 @@ void ovl__34CD(uint8 entry)
 		case 14: f__B4CD_04D9_0011_E9EF(); return;
 		case 15: f__B4CD_00A5_0016_24FA(); return;
 		case 16: f__B4CD_0D74_0020_7CC1(); return;
+		case 17: f__B4CD_1C1A_001A_9C1B(); return;
 		case 19: f__B4CD_17DC_0019_CB46(); return;
 		case 20: f__B4CD_1178_000D_B1D5(); return;
 		case 22: f__B4CD_01BF_0016_E78F(); return;
 		case 23: f__B4CD_14CA_0013_F579(); return;
 		case 24: f__B4CD_1816_0033_B55B(); return;
+		case 25: f__B4CD_160C_0014_FAD7(); return;
 		case 26: f__B4CD_10EE_0039_EC73(); return;
 		case 27: f__B4CD_08E7_002B_DC75(); return;
 		case 28: f__B4CD_0AFA_0011_D5DB(); return;
@@ -274,6 +283,7 @@ void ovl__34CD(uint8 entry)
 		case 30: f__B4CD_1133_0039_A02F(); return;
 		case 31: f__B4CD_07F4_0013_6862(); return;
 		case 32: f__B4CD_1086_0040_F11C(); return;
+		case 33: f__B4CD_154C_0015_B7FB(); return;
 		case 34: f__B4CD_1269_0019_A3E5(); return;
 	}
 }

@@ -1894,6 +1894,7 @@ void f__22A6_07A1_0011_14AA()
  * @implements 22A6:07B3:0037:50B9 ()
  *
  * Called From: 2BC2:00DA:0012:BF40
+ * Called From: 2BC2:00DA:0043:F33C
  */
 void f__22A6_07B3_0037_50B9()
 {

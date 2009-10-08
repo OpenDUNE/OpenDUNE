@@ -2656,7 +2656,7 @@ void f__10E4_07DD_003A_4A32()
 	emu_push(emu_get_memory16(emu_es, 0x00, 0x472));
 	emu_push(emu_get_memory16(emu_es, 0x00, 0x470));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6C91));
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0817); emu_cs = 0x2903; emu_ip = 0x0158; emu_last_cs = 0x10E4; emu_last_ip = 0x0812; emu_last_length = 0x003A; emu_last_crc = 0x4A32; emu_call();
+	emu_push(emu_cs); emu_push(0x0817); emu_cs = 0x2903; f__2903_0158_001A_2931();
 	f__10E4_0817_001B_C66D();
 }
 
@@ -2759,6 +2759,7 @@ void f__10E4_07F1_0026_6E79()
  *
  * Called From: 10E4:0817:0026:6E79
  * Called From: 10E4:0817:0030:A563
+ * Called From: 10E4:0817:003A:4A32
  */
 void f__10E4_0817_001B_C66D()
 {
@@ -3253,6 +3254,7 @@ void f__10E4_09A5_0006_F7CE()
  * Called From: 0C3A:1B3F:0011:8982
  * Called From: 0C3A:1B68:0008:A466
  * Called From: 0C3A:20A7:0008:A466
+ * Called From: 0C3A:2771:0008:A466
  * Called From: 0C3A:27D5:0008:A466
  * Called From: 0C3A:287E:0008:A466
  * Called From: 0C3A:28FB:0008:A466

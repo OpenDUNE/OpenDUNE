@@ -250,6 +250,7 @@ void f__2BC2_009B_0043_F33C()
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x664E);
 	emu_push(0x00DE);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x22A607B3: f__22A6_07B3_0037_50B9(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2BC2; emu_last_ip = 0x00DA; emu_last_length = 0x0043; emu_last_crc = 0xF33C;
@@ -300,6 +301,7 @@ void f__2BC2_00CC_0012_BF40()
  * @implements 2BC2:00DE:000B:4026 ()
  *
  * Called From: 2BC2:00DE:0012:BF40
+ * Called From: 2BC2:00DE:0043:F33C
  */
 void f__2BC2_00DE_000B_4026()
 {
