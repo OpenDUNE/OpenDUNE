@@ -36,12 +36,12 @@ void f__22A3_001D_0014_EB0D()
 {
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_movb(&emu_al, emu_get_memory8(emu_ds, 0x00,  0x7096));
+	emu_movb(&emu_al, emu_get_memory8(emu_ds, 0x00, 0x7096));
 	emu_movb(&emu_ah, 0x0);
 	emu_negw(&emu_ax, emu_ax);
 	emu_sbbw(&emu_ax, emu_ax);
 	emu_incw(&emu_ax);
-	emu_movb(&emu_get_memory8(emu_ds, 0x00,  0x7097), emu_al);
+	emu_movb(&emu_get_memory8(emu_ds, 0x00, 0x7097), emu_al);
 	emu_movw(&emu_ax, 0x1);
 	f__22A3_0031_0002_2597(); return;
 }

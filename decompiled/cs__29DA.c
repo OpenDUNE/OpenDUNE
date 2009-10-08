@@ -30,7 +30,7 @@ void f__29DA_00D0_0013_E21A()
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movb(&emu_ah, emu_bh);
 	emu_xorb(&emu_bh, emu_bh);
-	emu_movb(&emu_al, emu_get_memory8(emu_cs, emu_bx,  0x2));
+	emu_movb(&emu_al, emu_get_memory8(emu_cs, emu_bx, 0x2));
 	emu_pop(&emu_bx);
 	emu_pop(&emu_bp);
 

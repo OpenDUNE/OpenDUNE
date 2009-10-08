@@ -50,8 +50,8 @@ void f__2BF2_0016_000E_1B5D()
 {
 	emu_xorw(&emu_ax, emu_ax);
 	emu_xorw(&emu_dx, emu_dx);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x6E3E), emu_ax);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00,  0x6E40), emu_dx);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x6E3E), emu_ax);
+	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x6E40), emu_dx);
 	emu_pop(&emu_es);
 	emu_pop(&emu_bx);
 
