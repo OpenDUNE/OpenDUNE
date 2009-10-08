@@ -48,10 +48,8 @@ typedef union csip32 {
 } csip32;
 assert_compile(sizeof(csip32) == 4);
 
-#if !defined(_MSC_VER)
-	typedef unsigned char bool;
-	#define false 0
-	#define true 1
-#endif
+typedef unsigned char bool;
+#define false 0
+#define true 1
 
 #endif /* TYPES_H */
