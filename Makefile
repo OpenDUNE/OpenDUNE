@@ -10,6 +10,7 @@
 
 CFLAGS := $(CFLAGS)
 ifdef WIN32
+CFLAGS := $(CFLAGS) -DWIN32
 ifndef STATIC
 STATIC := 1
 endif
@@ -33,10 +34,11 @@ else
 LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
-CFLAGS := $(CFLAGS) -g -Wall -Wextra
+CFLAGS := $(CFLAGS) -g -Wall -Wextra -ansi -pedantic -Werror
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
 #  currently having. When all those cases are resolved, this can be removed.
 CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
+LDFLAGS := $(LDFLAGS) -g
 
 HEADER := $(shell ls decompiled/*.h src/*.h src/*/*.h include/*.h 2>/dev/null)
 DECOMPILED := $(shell ls decompiled/*.c 2>/dev/null)
@@ -55,7 +57,7 @@ all: opendune$(EXTENSION)
 
 objs/depend: tools/depend/depend.cpp
 	@echo "[Compiling / Linking] depend"
-	$(Q)$(CXX) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(Q)$(CXX) $(LDFLAGS) -o $@ $^
 
 ifeq ($(filter depend clean, $(MAKECMDGOALS)),)
 -include Makefile.dep
@@ -76,11 +78,11 @@ depend: Makefile.dep
 objs/%.o: %.c
 	$(shell mkdir -p `dirname $@`)
 	@echo "[Compiling] $<"
-	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/ -pedantic -ansi -Werror
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
 
 opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 	@echo "[Linking] $@"
-	$(Q)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 clean:
 	@echo "[Cleaning] opendune"
