@@ -26,11 +26,12 @@
  */
 void emu_House_Init()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -50,6 +51,9 @@ void emu_House_Init()
  */
 void emu_House_Allocate()
 {
+	uint16 index;
+	House *h;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -57,9 +61,9 @@ void emu_House_Allocate()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
-	House *h = House_Allocate(index);
+	h = House_Allocate(index);
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;
@@ -78,11 +82,12 @@ void emu_House_Allocate()
  */
 void emu_House_Free()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -102,6 +107,8 @@ void emu_House_Free()
  */
 void emu_House_Get_ByIndex()
 {
+	uint16 index;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -109,11 +116,13 @@ void emu_House_Get_ByIndex()
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	if (index >= HOUSE_INDEX_MAX) return;
-	House *h = House_Get_ByIndex(index);
-	if ((h->variable_04 & 0x0001) == 0) return;
+	{
+		House *h = House_Get_ByIndex(index);
+		if ((h->variable_04 & 0x0001) == 0) return;
+	}
 	emu_dx = g_global->houseStartPos.s.cs;
 	emu_ax = g_global->houseStartPos.s.ip + index * sizeof(House);
 }
@@ -130,6 +139,9 @@ void emu_House_Get_ByIndex()
  */
 void emu_House_FindFirst()
 {
+	PoolFindStruct *find;
+	House *h;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -137,7 +149,7 @@ void emu_House_FindFirst()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
@@ -148,7 +160,7 @@ void emu_House_FindFirst()
 	find->typeID  = 0xFFFF;
 	find->index   = 0xFFFF;
 
-	House *h = House_Find(find);
+	h = House_Find(find);
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;
@@ -169,6 +181,9 @@ void emu_House_FindFirst()
  */
 void emu_House_FindNext()
 {
+	PoolFindStruct *find;
+	House *h;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -176,14 +191,14 @@ void emu_House_FindNext()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
 		find = (PoolFindStruct *)g_global->houseFindStruct;
 	}
 
-	House *h = House_Find(find);
+	h = House_Find(find);
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;

@@ -22,11 +22,12 @@
  */
 void emu_AirUnit_Init()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -70,6 +71,9 @@ void emu_AirUnit_Recount()
  */
 void emu_AirUnit_Allocate()
 {
+	uint16 index;
+	AirUnit *a;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -77,9 +81,9 @@ void emu_AirUnit_Allocate()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
-	AirUnit *a = AirUnit_Allocate(index);
+	a = AirUnit_Allocate(index);
 
 	if (a == NULL) return;
 	emu_dx = g_global->airUnitStartPos.s.cs;
@@ -98,11 +102,12 @@ void emu_AirUnit_Allocate()
  */
 void emu_AirUnit_Free()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -119,6 +124,8 @@ void emu_AirUnit_Free()
  */
 void emu_AirUnit_Get_ByIndex()
 {
+	uint16 index;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -126,7 +133,7 @@ void emu_AirUnit_Get_ByIndex()
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	if (index >= AIRUNIT_INDEX_MAX) return;
 	emu_dx = g_global->airUnitStartPos.s.cs;
@@ -145,6 +152,9 @@ void emu_AirUnit_Get_ByIndex()
  */
 void emu_AirUnit_FindFirst()
 {
+	PoolFindStruct *find;
+	AirUnit *a;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -152,7 +162,7 @@ void emu_AirUnit_FindFirst()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->airUnitFindStruct, 0x353F);
@@ -163,7 +173,7 @@ void emu_AirUnit_FindFirst()
 	find->typeID  = 0xFFFF;
 	find->index   = 0xFFFF;
 
-	AirUnit *a = AirUnit_Find(find);
+	a = AirUnit_Find(find);
 
 	if (a == NULL) return;
 	emu_dx = g_global->airUnitStartPos.s.cs;
@@ -187,6 +197,9 @@ void emu_AirUnit_FindFirst()
  */
 void emu_AirUnit_FindNext()
 {
+	PoolFindStruct *find;
+	AirUnit *a;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -194,14 +207,14 @@ void emu_AirUnit_FindNext()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->airUnitFindStruct, 0x353F);
 		find = (PoolFindStruct *)g_global->airUnitFindStruct;
 	}
 
-	AirUnit *a = AirUnit_Find(find);
+	a = AirUnit_Find(find);
 
 	if (a == NULL) return;
 	emu_dx = g_global->airUnitStartPos.s.cs;

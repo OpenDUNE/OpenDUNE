@@ -91,6 +91,7 @@ void Building_Init(csip32 address)
  */
 void Building_Recount()
 {
+	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };
 	House *h = House_Find(&find);
 
@@ -101,7 +102,6 @@ void Building_Recount()
 
 	g_global->buildingCount = 0;
 
-	uint16 index;
 	for (index = 0; index < BUILDING_INDEX_MAX_HARD; index++) {
 		Building *b = Building_Get_ByIndex(index);
 		if ((b->variable_04 & 0x0001) == 0) continue;
@@ -120,9 +120,10 @@ void Building_Recount()
  */
 Building *Building_Allocate(uint16 index, uint8 typeID)
 {
+	Building *b = NULL;
+
 	if (g_global->buildingStartPos.csip == 0x0) return NULL;
 
-	Building *b = NULL;
 	switch (typeID) {
 		case BUILDING_SLAB_1x1:
 			index = BUILDING_INDEX_SLAB_1x1;
@@ -177,17 +178,19 @@ Building *Building_Allocate(uint16 index, uint8 typeID)
  */
 void Building_Free(csip32 address)
 {
+	Building *b;
+	int i;
+
 	/* XXX -- No idea */
 	emu_push(0x353F); emu_push(0x3918); /* XXX -- g_global->variable_3918 */
 	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
 	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
-	Building *b = Building_Get_ByMemory(address);
+	b = Building_Get_ByMemory(address);
 	b->variable_04 = 0x0;
 
 	/* Walk the array to find the Building we are removing */
-	int i;
 	for (i = 0; i < g_global->buildingCount; i++) {
 		if (g_global->buildingArray[i].csip != address.csip) continue;
 		break;

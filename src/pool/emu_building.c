@@ -22,11 +22,12 @@
  */
 void emu_Building_Init()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -80,6 +81,10 @@ void emu_Building_Recount()
  */
 void emu_Building_Allocate()
 {
+	uint16 index;
+	uint8  typeID;
+	Building *b;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -87,10 +92,10 @@ void emu_Building_Allocate()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	uint8 typeID = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	index  = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	typeID = emu_get_memory16(emu_ss, emu_sp,  0x2);
 
-	Building *b = Building_Allocate(index, typeID);
+	b = Building_Allocate(index, typeID);
 
 	if (b == NULL) return;
 	emu_dx = g_global->buildingStartPos.s.cs;
@@ -110,11 +115,12 @@ void emu_Building_Allocate()
  */
 void emu_Building_Free()
 {
+	csip32 address;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	csip32 address;
 	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
@@ -132,6 +138,8 @@ void emu_Building_Free()
  */
 void emu_Building_Get_ByIndex()
 {
+	uint16 index;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -139,7 +147,7 @@ void emu_Building_Get_ByIndex()
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	uint16 index = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
 	if (index >= BUILDING_INDEX_MAX_HARD) return;
 	emu_dx = g_global->buildingStartPos.s.cs;
@@ -158,6 +166,9 @@ void emu_Building_Get_ByIndex()
  */
 void emu_Building_FindFirst()
 {
+	PoolFindStruct *find;
+	Building *b;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -165,7 +176,7 @@ void emu_Building_FindFirst()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->buildingFindStruct, 0x353F);
@@ -176,7 +187,7 @@ void emu_Building_FindFirst()
 	find->typeID  = emu_get_memory16(emu_ss, emu_sp,  0x6);
 	find->index   = 0xFFFF;
 
-	Building *b = Building_Find(find);
+	b = Building_Find(find);
 
 	if (b == NULL) return;
 	emu_dx = g_global->buildingStartPos.s.cs;
@@ -202,6 +213,9 @@ void emu_Building_FindFirst()
  */
 void emu_Building_FindNext()
 {
+	PoolFindStruct *find;
+	Building *b;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
@@ -209,14 +223,14 @@ void emu_Building_FindNext()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	PoolFindStruct *find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
 		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->buildingFindStruct, 0x353F);
 		find = (PoolFindStruct *)g_global->buildingFindStruct;
 	}
 
-	Building *b = Building_Find(find);
+	b = Building_Find(find);
 
 	if (b == NULL) return;
 	emu_dx = g_global->buildingStartPos.s.cs;

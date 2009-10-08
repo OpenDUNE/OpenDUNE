@@ -140,6 +140,8 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 	s_input_local->flags = g_global->inputFlags;
 
 	if (key < 0x3E) {
+		uint8 bitmask, bytePos;
+
 		if ((state & 0x01) != 0) {
 			emu_al = s_input_local->keymap_shift[key];
 		} else {
@@ -148,8 +150,8 @@ void emu_Input_Keyboard_HandleKeys(uint8 key, uint8 state)
 
 		if ((state & 0x02) == 0) return;
 
-		uint8 bitmask = 1 << (key & 0x07);
-		uint8 bytePos = key >> 3;
+		bitmask = 1 << (key & 0x07);
+		bytePos = key >> 3;
 		if ((s_input_local->keymap_special_mask[bytePos] & bitmask) == 0) return;
 
 		emu_al &= 0x1F;
@@ -234,15 +236,17 @@ void emu_Input_Keyboard_HandleKeys2()
  */
 void emu_Input_Keyboard_Translate()
 {
+	uint16 key;
+	int i;
+
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	uint16 key = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	key = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	emu_ax = key;
 	if ((g_global->inputFlags & INPUT_FLAG_UNKNOWN_0002) != 0) return;
 
-	int i;
 	for (i = 0; i < 16; i++) {
 		if (s_input_local->translateMap[i] == (key & 0xFF)) {
 			emu_al = s_input_local->translateTo[i];
@@ -303,10 +307,11 @@ void emu_Input_Unknown_04FC()
  */
 void emu_Input_Keyboard_NextKey()
 {
-	emu_push(0x064B); emu_Input_Unknown_04FC();
-
 	uint8 key = 0;
 	uint8 state = 0;
+	int i;
+
+	emu_push(0x064B); emu_Input_Unknown_04FC();
 
 	emu_pushf();
 	emu_cli();
@@ -322,7 +327,6 @@ void emu_Input_Keyboard_NextKey()
 			break;
 		}
 
-		int i;
 		for (i = 0; i < 11; i++) {
 			if (s_input_local->keymap_ignore[i] == key) break;
 		}
@@ -381,8 +385,8 @@ static void Input_HandlerInput(uint16 inputState)
 {
 	uint16 originalHistoryTail = s_input_local->historyTail;
 	uint8 inputCommand = inputState & 0xFF;
-	bool released = (inputState & 0x800) ? true : false;
 	uint8 historySize = 0;
+	bool released = (inputState & 0x800) ? true : false;
 
 	s_input_local->flags = g_global->inputFlags;
 	s_input_local->mouseX = g_global->mouseX;
@@ -426,18 +430,20 @@ static void Input_HandlerInput(uint16 inputState)
 		}
 	}
 
-	/* Find the byte and bit position in the bit array of active inputs */
-	uint8 bytePos = (inputCommand & 0x7F) >> 3;
-	uint8 bitPos  = 1 << (inputCommand & 0x07);
+	{
+		/* Find the byte and bit position in the bit array of active inputs */
+		uint8 bytePos = (inputCommand & 0x7F) >> 3;
+		uint8 bitPos  = 1 << (inputCommand & 0x07);
 
-	/* If the key is already pressed, and we cannot repeat keys, revert the history */
-	if ((bitPos & s_input_local->activeInputMap[bytePos]) != 0 && (s_input_local->flags & INPUT_FLAG_KEY_REPEAT) == 0) {
-		s_input_local->historyTail = originalHistoryTail;
-	}
+		/* If the key is already pressed, and we cannot repeat keys, revert the history */
+		if ((bitPos & s_input_local->activeInputMap[bytePos]) != 0 && (s_input_local->flags & INPUT_FLAG_KEY_REPEAT) == 0) {
+			s_input_local->historyTail = originalHistoryTail;
+		}
 
-	s_input_local->activeInputMap[bytePos] &= ~bitPos;
-	if (inputCommand != 0x2D && inputCommand != 0x7F && !released) {
-		s_input_local->activeInputMap[bytePos] |= bitPos;
+		s_input_local->activeInputMap[bytePos] &= ~bitPos;
+		if (inputCommand != 0x2D && inputCommand != 0x7F && !released) {
+			s_input_local->activeInputMap[bytePos] |= bitPos;
+		}
 	}
 
 	if (g_global->mouseMode != INPUT_MOUSE_MODE_1) return;

@@ -2,10 +2,11 @@
 
 #include <stdio.h>
 #if defined(_MSC_VER)
-#	include <windows.h>
-#	define usleep Sleep
+	#include <windows.h>
+	#define usleep Sleep
 #else
-#	include <unistd.h>
+	#define __USE_BSD
+	#include <unistd.h>
 #endif /* _MSC_VER */
 #include <assert.h>
 #include "types.h"

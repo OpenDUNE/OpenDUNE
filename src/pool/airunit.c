@@ -85,9 +85,10 @@ void AirUnit_Init(csip32 address)
  */
 void AirUnit_Recount()
 {
+	uint16 index;
+
 	g_global->airUnitCount = 0;
 
-	uint16 index;
 	for (index = 0; index < AIRUNIT_INDEX_MAX; index++) {
 		AirUnit *a = AirUnit_Get_ByIndex(index);
 		if (a->variable_02 == 0) continue;
@@ -105,9 +106,10 @@ void AirUnit_Recount()
  */
 AirUnit *AirUnit_Allocate(uint16 index)
 {
+	AirUnit *a = NULL;
+
 	if (g_global->airUnitStartPos.csip == 0x0) return NULL;
 
-	AirUnit *a = NULL;
 	if (index == AIRUNIT_INDEX_INVALID) {
 		/* Find the first unused index */
 		for (index = 0; index < AIRUNIT_INDEX_MAX; index++) {
@@ -139,11 +141,13 @@ AirUnit *AirUnit_Allocate(uint16 index)
  */
 void AirUnit_Free(csip32 address)
 {
-	AirUnit *a = AirUnit_Get_ByMemory(address);
+	AirUnit *a;
+	int i;
+
+	a = AirUnit_Get_ByMemory(address);
 	a->variable_02 = 0x0000;
 
 	/* Walk the array to find the AirUnit we are removing */
-	int i;
 	for (i = 0; i < g_global->airUnitCount; i++) {
 		if (g_global->airUnitArray[i].csip != address.csip) continue;
 		break;

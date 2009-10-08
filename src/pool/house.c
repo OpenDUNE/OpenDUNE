@@ -85,10 +85,12 @@ void House_Init(csip32 address)
  */
 House* House_Allocate(uint8 index)
 {
+	House *h;
+
 	if (g_global->houseStartPos.csip == 0x0) return NULL;
 	if (index >= HOUSE_INDEX_MAX) return NULL;
 
-	House *h = House_Get_ByIndex(index);
+	h = House_Get_ByIndex(index);
 	if ((h->variable_04 & 0x0001) != 0) return NULL;
 
 	/* Initialize the House */

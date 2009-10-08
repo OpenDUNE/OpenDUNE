@@ -91,6 +91,7 @@ void Unit_Init(csip32 address)
  */
 void Unit_Recount()
 {
+	uint16 index;
 	PoolFindStruct find = { -1, -1, -1 };
 	House *h = House_Find(&find);
 
@@ -101,7 +102,6 @@ void Unit_Recount()
 
 	g_global->unitCount = 0;
 
-	uint16 index;
 	for (index = 0; index < UNIT_INDEX_MAX; index++) {
 		Unit *u = Unit_Get_ByIndex(index);
 		if ((u->variable_04 & 0x0001) == 0) continue;
@@ -124,17 +124,19 @@ void Unit_Recount()
  */
 Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 {
+	House *h;
+	Unit *u = NULL;
+
 	if (typeID == 0xFF || houseID == 0xFF) return NULL;
 	if (g_global->unitStartPos.csip == 0x0) return NULL;
 
-	House *h = House_Get_ByIndex(houseID);
+	h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->unitCountMax) {
 		if (g_unitInfo[typeID].variable_3C != 0x0004 && g_unitInfo[typeID].variable_3C != 0x0005) {
 			if (g_global->variable_38BC == 0x00) return NULL;
 		}
 	}
 
-	Unit *u = NULL;
 	if (index == 0 || index == UNIT_INDEX_INVALID) {
 		uint16 indexStart = g_unitInfo[typeID].indexStart;
 		uint16 indexEnd   = g_unitInfo[typeID].indexEnd;
@@ -177,17 +179,19 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
  */
 void Unit_Free(csip32 address)
 {
+	Unit *u;
+	int i;
+
 	/* XXX -- No idea */
 	emu_push(0x353F); emu_push(0x3902); /* XXX -- g_global->variable_3902 */
 	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
 	emu_push(emu_cs); emu_push(0x0580); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
-	Unit *u = Unit_Get_ByMemory(address);
+	u = Unit_Get_ByMemory(address);
 	u->variable_04 = 0x0;
 
 	/* Walk the array to find the Unit we are removing */
-	int i;
 	for (i = 0; i < g_global->unitCount; i++) {
 		if (g_global->unitArray[i].csip != address.csip) continue;
 		break;
@@ -196,8 +200,10 @@ void Unit_Free(csip32 address)
 
 	g_global->unitCount--;
 
-	House *h = House_Get_ByIndex(u->houseID);
-	h->unitCount--;
+	{
+		House *h = House_Get_ByIndex(u->houseID);
+		h->unitCount--;
+	}
 
 	/* If needed, close the gap */
 	if (i == g_global->unitCount) return;

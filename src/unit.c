@@ -56,14 +56,17 @@ uint8 Unit_GetHouseID(Unit *u)
  */
 Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint16 var10)
 {
-	UnitInfo *ui = &g_unitInfo[typeID];
-	Unit *u = Unit_Allocate(index, typeID, houseID);
+	csip32 ucsip;
+	UnitInfo *ui;
+	Unit *u;
+
+	ui = &g_unitInfo[typeID];
+	u = Unit_Allocate(index, typeID, houseID);
 	if (u == NULL) return NULL;
 
 	u->houseID = houseID;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	csip32 ucsip;
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
@@ -130,7 +133,6 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint1
 		}
 	}
 
-	bool loc0A = true;
 	if (ui->variable_3C == 0x0004) {
 		emu_push(0xFF);
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
@@ -142,17 +144,16 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint1
 			emu_push(emu_cs); emu_push(0x0AD7); f__1A34_0E2E_0015_7E65();
 			emu_sp += 4;
 
-			loc0A = (emu_ax == 0) ? true : false;
+			if (emu_ax != 0) {
+				Unit_Free(ucsip);
+				return NULL;
+			}
 		}
 	}
 
 	if (var0C.csip == 0xFFFFFFFF) {
 		u->variable_04 |= 0x0004;
 		return u;
-	}
-	if (!loc0A) {
-		Unit_Free(ucsip);
-		return NULL;
 	}
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
