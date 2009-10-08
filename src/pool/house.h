@@ -4,7 +4,7 @@
 #define POOL_HOUSE_H
 
 enum {
-	HOUSE_INDEX_MAX = 6,                           /*!< The highest possible index for any House.  */
+	HOUSE_INDEX_MAX = 6,                                    /*!< The highest possible index for any House.  */
 
 	HOUSE_INDEX_INVALID = 0xFFFF
 };
