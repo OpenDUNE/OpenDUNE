@@ -34,7 +34,8 @@ else
 LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
-CFLAGS := $(CFLAGS) -g -Wall -Wextra -ansi -pedantic -Werror
+CFLAGS := $(CFLAGS) -g -Wall -Wextra -Werror
+CFLAGS := $(CFLAGS) -ansi -pedantic
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
 #  currently having. When all those cases are resolved, this can be removed.
 CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
