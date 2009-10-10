@@ -9309,7 +9309,7 @@ void f__10E4_1F7F_0011_E0DB()
 	emu_push(emu_ds);
 	emu_movw(&emu_ax, 0x8ADE);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1F90); emu_cs = 0x01F7; f__01F7_2947_0014_02B8();
+	emu_push(emu_cs); emu_push(0x1F90); emu_cs = 0x01F7; emu_Tools_Memset();
 	f__10E4_1F90_0023_D333();
 }
 

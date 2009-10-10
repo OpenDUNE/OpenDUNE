@@ -23,7 +23,7 @@ void f__2649_0003_0014_67A9()
 	emu_push(emu_ds);
 	emu_movw(&emu_ax, 0x9A18);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0017); emu_cs = 0x01F7; f__01F7_2947_0014_02B8();
+	emu_push(emu_cs); emu_push(0x0017); emu_cs = 0x01F7; emu_Tools_Memset();
 	f__2649_0017_0008_33E4();
 }
 

@@ -1459,21 +1459,21 @@ void f__0642_049A_000F_4EEF()
 {
 	emu_movw(&emu_ax, emu_get_memory16(emu_cs, emu_bx, 0x0));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) { f__0642_04A9_0004_25FB(); return; }
+	if (emu_flags.zf) { emu_InGame_Numpad_Move(); return; }
 	emu_addw(&emu_bx, 0x2);
 	if (--emu_cx != 0) { f__0642_049A_000F_4EEF(); return; }
 	f__0642_04EA_0002_C03A(); return;
 }
 
 /**
- * Decompiled function f__0642_04A9_0004_25FB()
+ * Decompiled function emu_InGame_Numpad_Move()
  *
- * @name f__0642_04A9_0004_25FB
+ * @name emu_InGame_Numpad_Move
  * @implements 0642:04A9:0004:25FB ()
  *
  * Called From: 0642:04A0:000F:4EEF
  */
-void f__0642_04A9_0004_25FB()
+void emu_InGame_Numpad_Move()
 {
 
 	/* Jump based on memory/register values */
@@ -1797,7 +1797,7 @@ void f__0642_058C_002B_2BAE()
 	emu_addw(&emu_ax, 0x2CD);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__0642_05B7_0010_2CA3();
 }
 
@@ -1825,7 +1825,7 @@ void f__0642_058F_0028_2879()
 	emu_addw(&emu_ax, 0x2CD);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__0642_05B7_0010_2CA3();
 }
 
@@ -1853,7 +1853,7 @@ void f__0642_0591_0026_A299()
 	emu_addw(&emu_ax, 0x2CD);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x05B7); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__0642_05B7_0010_2CA3();
 }
 
@@ -2408,7 +2408,7 @@ void f__0642_076E_0014_FFCC()
 	emu_push(emu_ds);
 	emu_movw(&emu_ax, 0x8282);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0782); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0782); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__0642_0782_0017_3AC1();
 }
 

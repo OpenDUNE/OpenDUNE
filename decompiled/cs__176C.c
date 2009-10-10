@@ -9233,7 +9233,7 @@ void f__176C_201B_001F_0FEC()
 	emu_addw(&emu_ax, 0x72);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x203A); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x203A); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__176C_203A_003D_C682();
 }
 
@@ -9255,7 +9255,7 @@ void f__176C_201E_001C_7FD5()
 	emu_addw(&emu_ax, 0x72);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x203A); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x203A); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__176C_203A_003D_C682();
 }
 

@@ -82,7 +82,7 @@ void f__1DB6_003C_0019_FD4E()
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9848));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9846));
-	emu_push(emu_cs); emu_push(0x0055); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0055); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__1DB6_0055_0011_84E2();
 }
 

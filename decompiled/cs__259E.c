@@ -234,7 +234,7 @@ void f__259E_00CD_0015_D443()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x312);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00E2); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x00E2); emu_cs = 0x01F7; emu_Tools_Memmove();
 	f__259E_00E2_0014_1303();
 }
 

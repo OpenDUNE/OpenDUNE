@@ -235,7 +235,7 @@ void f__B4FC_0416_000B_F320()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x1A));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x18));
-	emu_push(emu_cs); emu_push(0x0421); emu_cs = 0x2B0E; f__2B0E_00D0_0022_EC76();
+	emu_push(emu_cs); emu_push(0x0421); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34FC) { ovl__34FC(0xFF); }
 	f__B4FC_0421_001D_503F();
@@ -1020,7 +1020,7 @@ void f__B4FC_0676_003D_80DA()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x14));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x12));
-	emu_push(emu_cs); emu_push(0x06B3); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x06B3); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34FC) { ovl__34FC(0xFF); }
 	f__B4FC_06B3_0017_1FA4();
@@ -1057,7 +1057,7 @@ void f__B4FC_0679_003A_FCA2()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x14));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x12));
-	emu_push(emu_cs); emu_push(0x06B3); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x06B3); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34FC) { ovl__34FC(0xFF); }
 	f__B4FC_06B3_0017_1FA4();
@@ -1224,7 +1224,7 @@ void f__B4FC_0720_0022_AE11()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x14));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x12));
-	emu_push(emu_cs); emu_push(0x0742); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0742); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34FC) { ovl__34FC(0xFF); }
 	f__B4FC_0742_0018_65C2();
@@ -1471,7 +1471,7 @@ void f__B4FC_07F4_000B_8B29()
 {
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x07FF); emu_cs = 0x2B0E; f__2B0E_00D0_0022_EC76();
+	emu_push(emu_cs); emu_push(0x07FF); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34FC) { ovl__34FC(0xFF); }
 	f__B4FC_07FF_000A_9076();

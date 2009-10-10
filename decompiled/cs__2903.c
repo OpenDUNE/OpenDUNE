@@ -66,7 +66,7 @@ void f__2903_00AC_0016_704A()
 	emu_pop(&emu_ds);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00C2); emu_cs = 0x2B0E; f__2B0E_00D0_0022_EC76();
+	emu_push(emu_cs); emu_push(0x00C2); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
 	f__2903_00C2_0008_4ECE();
 }
 

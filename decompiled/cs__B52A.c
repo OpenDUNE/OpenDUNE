@@ -432,7 +432,7 @@ void f__B52A_0244_0020_17D8()
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x20));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x22));
-	emu_push(emu_cs); emu_push(0x0264); emu_cs = 0x01F7; f__01F7_2947_0014_02B8();
+	emu_push(emu_cs); emu_push(0x0264); emu_cs = 0x01F7; emu_Tools_Memset();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { ovl__352A(0xFF); }
 	f__B52A_0264_0076_9A5D();
@@ -1227,7 +1227,7 @@ void f__B52A_04FC_0014_B383()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x16), emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x14));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x16));
-	emu_push(emu_cs); emu_push(0x0510); emu_cs = 0x2B0E; f__2B0E_00D0_0022_EC76();
+	emu_push(emu_cs); emu_push(0x0510); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { ovl__352A(0xFF); }
 	f__B52A_0510_000F_79FB();

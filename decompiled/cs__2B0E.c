@@ -259,9 +259,9 @@ void f__2B0E_00C6_000A_3DA6()
 }
 
 /**
- * Decompiled function f__2B0E_00D0_0022_EC76()
+ * Decompiled function emu_Tools_GetSmallestIP()
  *
- * @name f__2B0E_00D0_0022_EC76
+ * @name emu_Tools_GetSmallestIP
  * @implements 2B0E:00D0:0022:EC76 ()
  *
  * Called From: 0FE4:0156:001C:39CA
@@ -297,7 +297,7 @@ void f__2B0E_00C6_000A_3DA6()
  * Called From: B503:1148:0018:95A5
  * Called From: B52A:050B:0014:B383
  */
-void f__2B0E_00D0_0022_EC76()
+void emu_Tools_GetSmallestIP()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);

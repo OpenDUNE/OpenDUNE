@@ -1019,7 +1019,7 @@ void f__B50B_033E_0014_33ED()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x48);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0352); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0352); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_0352_001B_EC40();
@@ -1174,7 +1174,7 @@ void f__B50B_03B8_0015_A7EC()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x86);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_03CD_000D_2F88();
@@ -1367,7 +1367,7 @@ void f__B50B_043F_0014_3099()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5E);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_0453_000D_AF5A();
@@ -1558,7 +1558,7 @@ void f__B50B_04C0_0014_31F1()
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5A);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x04D4); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x04D4); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_04D4_000D_6F9A();
@@ -1930,7 +1930,7 @@ void f__B50B_0608_002C_0256()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x0634); emu_cs = 0x01F7; f__01F7_28B8_0024_83C9();
+	emu_push(emu_cs); emu_push(0x0634); emu_cs = 0x01F7; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { ovl__350B(0xFF); }
 	f__B50B_0634_0014_DF6D();

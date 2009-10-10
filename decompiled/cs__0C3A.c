@@ -7218,7 +7218,7 @@ void f__0C3A_1A9C_0021_A062()
 	emu_movw(&emu_es, emu_dx);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
 	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
-	f__0C3A_1ABD_004E_E6F7();
+	emu_GUI_Construction_Unknown();
 }
 
 /**
@@ -7232,19 +7232,19 @@ void f__0C3A_1A9C_0021_A062()
 void f__0C3A_1AB8_0005_3367()
 {
 	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
-	f__0C3A_1ABD_004E_E6F7();
+	emu_GUI_Construction_Unknown();
 }
 
 /**
- * Decompiled function f__0C3A_1ABD_004E_E6F7()
+ * Decompiled function emu_GUI_Construction_Unknown()
  *
- * @name f__0C3A_1ABD_004E_E6F7
+ * @name emu_GUI_Construction_Unknown
  * @implements 0C3A:1ABD:004E:E6F7 ()
  *
  * Called From: 0C3A:1ABD:0021:A062
  * Called From: 0C3A:1ABD:0005:3367
  */
-void f__0C3A_1ABD_004E_E6F7()
+void emu_GUI_Construction_Unknown()
 {
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1C), emu_dx);
