@@ -935,6 +935,8 @@ void f__2B6C_0270_0022_327A()
  * Called From: 2B6C:0245:007B:97B2
  * Called From: 2B6C:0245:009B:5944
  * Called From: 2B6C:0245:008B:F96D
+ * Called From: 2B6C:0245:003D:F75B
+ * Called From: 2B6C:0245:0047:8CB4
  * Called From: 2B6C:024B:007B:97B2
  * Called From: 2B6C:024B:008B:F96D
  * Called From: 2B6C:024B:003D:F75B

@@ -619,6 +619,7 @@ void f__0C10_0180_0002_2597()
  * Called From: 0972:0ADD:000B:D0F3
  * Called From: 0972:0AEC:000F:3656
  * Called From: 0972:0E3A:0010:0DA8
+ * Called From: 0972:11FD:0012:15D4
  * Called From: 0AEC:0392:0011:A949
  * Called From: 0C10:0085:0012:339E
  * Called From: 0C10:0092:000D:9624

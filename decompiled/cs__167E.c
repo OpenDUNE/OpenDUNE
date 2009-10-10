@@ -10,6 +10,7 @@
  * @name f__167E_0005_0013_AF0C
  * @implements 167E:0005:0013:AF0C ()
  *
+ * Called From: 0972:11D4:0020:8DC9
  * Called From: 0C10:0017:0014:19CD
  * Called From: 0C10:0022:000B:D573
  * Called From: 0EDB:0212:0020:4DC9
@@ -290,6 +291,7 @@ void f__167E_0082_0006_F7CE()
  * @name f__167E_0088_001A_60ED
  * @implements 167E:0088:001A:60ED ()
  *
+ * Called From: 0972:11DF:000B:0103
  * Called From: 0EDB:03DC:000B:017F
  * Called From: 0EDB:052F:000B:01D3
  * Called From: 167E:001A:0005:3FAA
@@ -1207,6 +1209,7 @@ void f__167E_027E_0006_F7CE()
  * Called From: 06F7:02A2:000C:9030
  * Called From: 06F7:02A2:0016:E02E
  * Called From: 0972:0AAF:000A:8B0A
+ * Called From: 0972:11EB:000C:47C7
  * Called From: 0AEC:043D:0010:8719
  * Called From: 0C10:01D1:0016:1D4B
  * Called From: 0EDB:0303:001E:F83C

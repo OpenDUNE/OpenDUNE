@@ -1339,6 +1339,7 @@ void f__1391_05AE_000F_810E()
  * @implements 1391:05AF:000E:330E ()
  *
  * Called From: 1391:05A0:0012:3EDC
+ * Called From: 1391:05A0:0015:7A08
  */
 void f__1391_05AF_000E_330E()
 {

@@ -4630,6 +4630,7 @@ void f__0AEC_10B8_0007_A0A5()
 		case 0x1121: f__0AEC_1121_000B_597F(); return;
 		case 0x112C: f__0AEC_112C_0013_430C(); return;
 		case 0x113F: f__0AEC_113F_0012_7EA1(); return;
+		case 0x1165: f__0AEC_1165_0002_C03A(); return;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x0AEC; emu_last_ip = 0x10BA; emu_last_length = 0x0007; emu_last_crc = 0xA0A5;
@@ -4783,6 +4784,19 @@ void f__0AEC_1151_0005_8C6E()
 }
 
 /**
+ * Decompiled function f__0AEC_1165_0002_C03A()
+ *
+ * @name f__0AEC_1165_0002_C03A
+ * @implements 0AEC:1165:0002:C03A ()
+ *
+ * Called From: 0AEC:10BA:0007:A0A5
+ */
+void f__0AEC_1165_0002_C03A()
+{
+	f__0AEC_1167_0004_E839(); return;
+}
+
+/**
  * Decompiled function f__0AEC_1167_0004_E839()
  *
  * @name f__0AEC_1167_0004_E839
@@ -4792,6 +4806,7 @@ void f__0AEC_1151_0005_8C6E()
  * Called From: 0AEC:112A:000B:597F
  * Called From: 0AEC:113D:0013:430C
  * Called From: 0AEC:1154:0005:8C6E
+ * Called From: 0AEC:1165:0002:C03A
  */
 void f__0AEC_1167_0004_E839()
 {
