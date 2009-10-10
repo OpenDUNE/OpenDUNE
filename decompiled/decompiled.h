@@ -11037,7 +11037,7 @@ extern void f__01F7_2B5F_0016_F477();
 extern void f__1A34_2B61_0008_9688();
 extern void f__1A34_2B69_0045_736F();
 extern void f__01F7_2B6D_0008_7D40();
-extern void f__01F7_2B75_002A_45D8();
+extern void emu_Tools_Open_File();
 extern void f__01F7_2B90_000F_E475();
 extern void f__176C_2B97_0013_B226();
 extern void f__01F7_2B9F_001D_8C05();

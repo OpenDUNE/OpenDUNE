@@ -10621,7 +10621,7 @@ void f__01F7_2ABF_000C_66BD()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x2ACB); f__01F7_2B75_002A_45D8();
+	emu_push(0x2ACB); emu_Tools_Open_File();
 	f__01F7_2ACB_0012_A5D7();
 }
 
@@ -10836,14 +10836,14 @@ void f__01F7_2B6D_0008_7D40()
 }
 
 /**
- * Decompiled function f__01F7_2B75_002A_45D8()
+ * Decompiled function emu_Tools_Open_File()
  *
- * @name f__01F7_2B75_002A_45D8
+ * @name emu_Tools_Open_File
  * @implements 01F7:2B75:002A:45D8 ()
  *
  * Called From: 01F7:2AC8:000C:66BD
  */
-void f__01F7_2B75_002A_45D8()
+void emu_Tools_Open_File()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);

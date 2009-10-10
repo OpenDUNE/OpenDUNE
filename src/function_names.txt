@@ -1,7 +1,13 @@
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
+01F7:2B75:002A:45D8	emu_Tools_Open_File	#
+
+0642:04A9:0004:25FB     emu_InGame_Numpad_Move  # When moving with numpad ingame
+
+0C3A:1ABD:004E:E6F7     emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
+
+1A34:3623:0010:B11C     emu_Unit_GetHouseID     # Units can be deviated
+
 2B0E:00D0:0022:EC76	emu_Tools_GetSmallestIP	# Move as much of the IP to CS
-1A34:3623:0010:B11C	emu_Unit_GetHouseID	# Units can be deviated
-0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown	# Something to do with the construction panel on the right
-0642:04A9:0004:25FB	emu_InGame_Numpad_Move	# When moving with numpad ingame
+
 B4DA:157C:0026:46F6	emu_Security_ValidateAnswer
