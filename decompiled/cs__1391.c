@@ -1659,7 +1659,7 @@ void f__1391_0529_002C_37BF()
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x38B4), 0x0);
 	if (!emu_flags.zf) { f__1391_0573_001E_0E5D(); return; }
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x38B2), 0x1);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0573; emu_last_cs = 0x1391; emu_last_ip = 0x053A; emu_last_length = 0x002C; emu_last_crc = 0x37BF; emu_call(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__1391_0573_001E_0E5D(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x12), 0x0);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0573; emu_last_cs = 0x1391; emu_last_ip = 0x0545; emu_last_length = 0x002C; emu_last_crc = 0x37BF; emu_call(); return; }
@@ -1766,6 +1766,7 @@ void f__1391_0570_0021_4319()
  *
  * Called From: 1391:0533:002C:37BF
  * Called From: 1391:053A:0029:B3B9
+ * Called From: 1391:053A:002C:37BF
  * Called From: 1391:0545:0029:B3B9
  * Called From: 1391:055A:0013:CAB6
  */

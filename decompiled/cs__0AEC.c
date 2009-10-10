@@ -547,7 +547,7 @@ void f__0AEC_0178_007A_7C0A()
 	emu_addw(&emu_dx, 0xA);
 	emu_adcw(&emu_ax, 0x0);
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B2));
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x01D0; emu_last_cs = 0x0AEC; emu_last_ip = 0x018F; emu_last_length = 0x007A; emu_last_crc = 0x7C0A; emu_call(); return; }
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__0AEC_01D0_0022_10B3(); return; }
 	if ((emu_flags.sf != emu_flags.of)) { f__0AEC_0199_0059_1015(); return; }
 	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76B0));
 	if (!emu_flags.cf) { f__0AEC_01D0_0022_10B3(); return; }
@@ -658,6 +658,7 @@ void f__0AEC_01B4_003E_7CC6()
  * @name f__0AEC_01D0_0022_10B3
  * @implements 0AEC:01D0:0022:10B3 ()
  *
+ * Called From: 0AEC:018F:007A:7C0A
  * Called From: 0AEC:0197:007A:7C0A
  * Called From: 0AEC:01B2:0059:1015
  * Called From: 0AEC:01B2:007A:7C0A
