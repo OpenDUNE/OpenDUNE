@@ -298,11 +298,7 @@ void f__23E1_00EB_001B_2FAC()
 	emu_movb(&emu_al, emu_get_memory8(emu_ss, emu_bp,  0xA));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), emu_al);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_testw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x10);
-	if (emu_flags.zf) { f__23E1_0156_0005_F8A0(); return; }
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	f__23E1_012D_0026_6C1D(); return;
+	f__23E1_00F7_000F_78DD(); return;
 }
 
 /**

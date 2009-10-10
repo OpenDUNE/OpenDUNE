@@ -824,12 +824,7 @@ void f__B518_02BE_002F_4E63()
 	emu_movw(&emu_ax, emu_bp - 0x2C);
 	emu_addw(&emu_bx, emu_ax);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bx, 0x0), 0x1);
-	emu_addw(&emu_si, 0x2);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x16));
-	emu_shlw(&emu_ax, 0x1);
-	emu_cmpw(&emu_ax, emu_si);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B518_02ED_0009_1C6A(); return; }
-	f__B518_020B_002E_9375(); return;
+	f__B518_02DE_000F_4E6B(); return;
 }
 
 /**
@@ -2361,12 +2356,7 @@ void f__B518_0799_001F_FC03()
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0xA));
 	if (!emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x078F; emu_last_cs = 0xB518; emu_last_ip = 0x07A8; emu_last_length = 0x001F; emu_last_crc = 0xFC03; emu_call(); return; }
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x0));
-	emu_movws(&emu_ax, emu_al);
-	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) { f__B518_07B8_0013_9031(); return; }
-	f__B518_0722_0008_64F7(); return;
+	f__B518_07AA_000E_D7F2(); return;
 }
 
 /**
@@ -4003,23 +3993,7 @@ void f__B518_0CFA_0026_1733()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x20);
 	if (!emu_flags.zf) { f__B518_0CE4_0013_A981(); return; }
-	emu_push(emu_si);
-	emu_movw(&emu_ax, 0x22);
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0xF);
-	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0xF);
-	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0x48);
-	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0x15);
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D20); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
-	f__B518_0D20_0008_0683();
+	f__B518_0D03_001D_970B(); return;
 }
 
 /**
@@ -5001,14 +4975,7 @@ void f__B518_1009_001B_6B56()
 	emu_movw(&emu_dx, 0x7);
 	emu_imuluw(&emu_ax, emu_dx);
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0xC), emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_xorw(&emu_dx, emu_dx);
-	emu_push(emu_ax);
-	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x1024); emu_cs = 0x0FE4; emu_Unit_FindNext();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
-	f__B518_1024_0037_DC68();
+	f__B518_1019_000B_799F(); return;
 }
 
 /**
@@ -5384,10 +5351,7 @@ void f__B518_1194_001B_8B65()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_addw(&emu_get_memory16(emu_es, emu_bx, 0xE), emu_ax);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xE);
-	if ((emu_flags.sf != emu_flags.of)) { f__B518_1194_001B_8B65(); return; }
-	emu_movw(&emu_ax, emu_si);
-	f__B518_11C0_0006_F7CE(); return;
+	f__B518_11A5_000A_49D8(); return;
 }
 
 /**
@@ -6475,21 +6439,7 @@ void f__B518_1530_0037_4A8F()
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x23);
 	if (!(emu_flags.cf || emu_flags.zf)) { f__B518_1540_0027_625D(); return; }
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x2C38), 0x1);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x81ED));
-	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x0));
-	emu_addb(&emu_al, emu_get_memory8(emu_ds, 0x00, 0x2C38));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x81ED));
-	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), emu_al);
-	emu_movw(&emu_ax, 0xFF);
-	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0xFF);
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C32));
-	emu_push(emu_cs); emu_push(0x1567); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3518) { ovl__3518(0xFF); }
-	f__B518_1567_0007_F97C();
+	f__B518_1540_0027_625D(); return;
 }
 
 /**
@@ -6609,15 +6559,7 @@ void f__B518_1586_0023_77EC()
 	emu_xorb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0xA7);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_incw(&emu_cx);
-	emu_cmpw(&emu_cx, 0x80);
-	if ((emu_flags.sf != emu_flags.of)) { f__B518_1586_0023_77EC(); return; }
-	emu_movw(&emu_sp, emu_bp);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__B518_159F_000A_5E0A(); return;
 }
 
 /**
@@ -6682,15 +6624,7 @@ void f__B518_15BF_0023_1D70()
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), emu_al);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_incw(&emu_cx);
-	emu_cmpw(&emu_cx, 0x80);
-	if ((emu_flags.sf != emu_flags.of)) { f__B518_15BF_0023_1D70(); return; }
-	emu_movw(&emu_sp, emu_bp);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__B518_15D8_000A_5E0A(); return;
 }
 
 /**

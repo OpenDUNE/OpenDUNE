@@ -893,19 +893,7 @@ void f__B536_0800_0033_ED56()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x821D));
 	emu_movb(&emu_dl, emu_get_memory8(emu_es, emu_bx, 0x0));
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x821D));
-	emu_movb(&emu_al, emu_dl);
-	emu_movws(&emu_ax, emu_al);
-	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) { f__B536_083E_0050_D2DD(); return; }
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8221));
-	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8223));
-	if (emu_flags.zf) { f__B536_083E_0050_D2DD(); return; }
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8221));
-	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
-	if (!emu_flags.zf) { f__B536_0833_005B_8E64(); return; }
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x8223), 0x0);
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x8221), 0x0);
-	f__B536_083E_0050_D2DD(); return;
+	f__B536_080B_0028_450A(); return;
 }
 
 /**
@@ -947,46 +935,7 @@ void f__B536_0833_005B_8E64()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8221));
 	emu_movb(&emu_dl, emu_get_memory8(emu_es, emu_bx, 0x0));
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x8221));
-	emu_testb(&emu_dl, 0x80);
-	if (emu_flags.zf) { f__B536_0878_0016_607A(); return; }
-	emu_andb(&emu_dl, 0x7F);
-	emu_movb(&emu_al, emu_dl);
-	emu_andb(&emu_al, 0x7);
-	emu_movb(&emu_get_memory8(emu_ss, emu_bp, -0x1), emu_al);
-	emu_movb(&emu_al, emu_dl);
-	emu_movws(&emu_ax, emu_al);
-	emu_andw(&emu_ax, 0x78);
-	emu_movb(&emu_cl, 0x3);
-	emu_sarw(&emu_ax, emu_cl);
-	emu_movb(&emu_dl, emu_al);
-	emu_movb(&emu_al, emu_dl);
-	emu_movws(&emu_ax, emu_al);
-	emu_movb(&emu_cl, 0x3);
-	emu_shlw(&emu_ax, emu_cl);
-	emu_push(emu_ax);
-	emu_movb(&emu_al, emu_get_memory8(emu_ss, emu_bp, -0x1));
-	emu_movws(&emu_ax, emu_al);
-	emu_pop(&emu_bx);
-	emu_addw(&emu_bx, emu_ax);
-	emu_movb(&emu_al, emu_get_memory8(emu_ds, emu_bx, 0x6E98));
-	emu_movb(&emu_get_memory8(emu_ss, emu_bp, -0x1), emu_al);
-	emu_movb(&emu_al, emu_dl);
-	emu_movws(&emu_ax, emu_al);
-	emu_movw(&emu_bx, emu_ax);
-	emu_movb(&emu_dl, emu_get_memory8(emu_ds, emu_bx, 0x6E88));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), emu_dl);
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movb(&emu_al, emu_get_memory8(emu_ss, emu_bp, -0x1));
-	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), emu_al);
-	emu_movw(&emu_sp, emu_bp);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__B536_083E_0050_D2DD(); return;
 }
 
 /**

@@ -618,7 +618,7 @@ void f__0EDB_0308_001A_CA96()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x64));
 	emu_movb(&emu_ah, 0x0);
-	f__0EDB_0327_0004_893F(); return;
+	f__0EDB_0320_0002_C2BA(); return;
 }
 
 /**
@@ -929,7 +929,7 @@ void f__0EDB_040C_0011_5969()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x2));
 	emu_movws(&emu_ax, emu_al);
-	f__0EDB_0422_0004_893F(); return;
+	f__0EDB_041B_0002_C2BA(); return;
 }
 
 /**

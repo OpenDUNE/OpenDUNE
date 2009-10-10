@@ -187,10 +187,7 @@ void f__B527_0081_0025_7FAE()
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp,  0x16), 0x1);
 	if (emu_flags.zf) { f__B527_00A1_0005_6168(); return; }
 	emu_orw(&emu_get_memory16(emu_ss, emu_bp,  0x16), 0x4);
-	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
-	f__B527_00A6_000C_6949();
+	f__B527_00A1_0005_6168(); return;
 }
 
 /**
@@ -707,7 +704,7 @@ void f__B527_0273_000E_4982()
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
-	f__B527_0281_0009_2E30(); return;
+	f__B527_027F_0002_C03A(); return;
 }
 
 /**

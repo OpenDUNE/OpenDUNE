@@ -1250,9 +1250,7 @@ void f__B4E6_03F2_0011_BC0B()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x24));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x6), emu_di);
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B4E6_03A6_000E_716E(); return; }
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x8054), emu_ax);
-	f__B4E6_0403_0008_D54F(); return;
+	f__B4E6_03FB_0008_F6A8(); return;
 }
 
 /**

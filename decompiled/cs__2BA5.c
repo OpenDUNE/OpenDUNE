@@ -275,22 +275,7 @@ void f__2BA5_00CC_0028_3096()
 	if (!emu_flags.cf) { f__2BA5_00E4_0010_E837(); return; }
 	emu_decb(&emu_get_memory8(emu_es, emu_di, 0x0));
 	emu_decb(&emu_get_memory8(emu_es, emu_di, 0x0));
-	emu_incw(&emu_di);
-	emu_incw(&emu_si);
-	if (--emu_cx != 0) { f__2BA5_00CC_0028_3096(); return; }
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_pop(&emu_si);
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_movw(&emu_sp, emu_bp);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__2BA5_00E4_0010_E837(); return;
 }
 
 /**

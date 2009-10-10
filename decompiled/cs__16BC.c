@@ -138,7 +138,7 @@ void f__16BC_006B_0026_801B()
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x8));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_subw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x4));
-	f__16BC_0095_0004_893F(); return;
+	f__16BC_008F_0002_C23A(); return;
 }
 
 /**

@@ -44,9 +44,7 @@ void f__2BC2_000A_0044_2E0E()
 	emu_cmpw(&emu_bx, 0x0);
 	if (!(emu_flags.sf != emu_flags.of)) { f__2BC2_0045_0009_9156(); return; }
 	emu_xorw(&emu_bx, emu_bx);
-	emu_cmpw(&emu_bx, 0x140);
-	if (emu_flags.cf) { f__2BC2_004E_0031_B02D(); return; }
-	f__2BC2_00E9_000B_EA84(); return;
+	f__2BC2_0045_0009_9156(); return;
 }
 
 /**
@@ -202,28 +200,7 @@ void f__2BC2_009B_0043_F33C()
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_addw(&emu_cx, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_addw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x6C6E));
-	emu_cmpw(&emu_cx, 0xC8);
-	if (!emu_flags.cf) { f__2BC2_00E9_000B_EA84(); return; }
-	emu_push(emu_cx);
-	emu_push(emu_bx);
-	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_si, 0x0));
-	emu_xorb(&emu_ah, emu_ah);
-	emu_push(emu_ax);
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x664C);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x664E);
-	emu_push(0x00DE);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A607B3: f__22A6_07B3_0037_50B9(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2BC2; emu_last_ip = 0x00DA; emu_last_length = 0x0043; emu_last_crc = 0xF33C;
-			emu_call();
-			return;
-	}
-	f__2BC2_00DE_000B_4026();
+	f__2BC2_00CC_0012_BF40(); return;
 }
 
 /**

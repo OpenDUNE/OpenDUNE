@@ -391,32 +391,7 @@ void f__261F_0168_001D_22F4()
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_es, emu_ax);
 	emu_movw(&emu_get_memory16(emu_es, 0x00, 0x128), emu_dx);
-	emu_movw(&emu_sp, emu_bp);
-	emu_pop(&emu_bp);
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_es);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_ax);
-	emu_push(emu_bp);
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x9846);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x9848);
-	emu_push(0x0185);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x217E04F9: f__217E_04F9_000E_346A(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x261F; emu_last_ip = 0x0181; emu_last_length = 0x001D; emu_last_crc = 0x22F4;
-			emu_call();
-			return;
-	}
-	f__261F_0185_001A_54D2();
+	f__261F_0175_0010_C131(); return;
 }
 
 /**

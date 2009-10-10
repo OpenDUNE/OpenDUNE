@@ -280,15 +280,7 @@ void f__2B4C_00D5_002F_AFD5()
 	emu_testw(&emu_get_memory16(emu_es, emu_si, 0x0), 0x1);
 	if (emu_flags.zf) { f__2B4C_00E9_001B_853E(); return; }
 	emu_addw(&emu_bx, 0x10);
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705C), emu_bx);
-	if (!(emu_flags.sf != emu_flags.of)) { f__2B4C_0151_0018_D96A(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x7090), 0x0);
-	if (emu_flags.zf) { f__2B4C_011A_0006_590A(); return; }
-	emu_push(emu_bx);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7090));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x708E));
-	emu_push(emu_cs); emu_push(0x0104); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
-	f__2B4C_0104_001C_EC2A();
+	f__2B4C_00E9_001B_853E(); return;
 }
 
 /**
