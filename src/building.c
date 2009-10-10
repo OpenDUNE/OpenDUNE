@@ -10,7 +10,7 @@ BuildingInfo *g_buildingInfo = NULL;
 /**
  * Initialize the building system.
  *
- * @init system_Init_Building
+ * @init System_Init_Building
  */
 void System_Init_Building()
 {

@@ -24,7 +24,7 @@ UnitInfo *g_unitInfo = NULL;
 /**
  * Initialize the unit system.
  *
- * @init system_Init_Unit
+ * @init System_Init_Unit
  */
 void System_Init_Unit()
 {

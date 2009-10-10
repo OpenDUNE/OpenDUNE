@@ -13,7 +13,7 @@ static InputLocalData *s_input_local = NULL;
 /**
  * Initialize the input system.
  *
- * @init system_Init_Input
+ * @init System_Init_Input
  */
 void System_Init_Input()
 {

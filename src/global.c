@@ -9,7 +9,7 @@ GlobalData *g_global = NULL;
 /**
  * Initialize the global system.
  *
- * @init system_Init_Global
+ * @init System_Init_Global
  */
 void System_Init_Global()
 {
