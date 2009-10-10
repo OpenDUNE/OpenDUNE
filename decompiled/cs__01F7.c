@@ -4539,14 +4539,14 @@ void f__01F7_10ED_0002_2597()
 }
 
 /**
- * Decompiled function f__01F7_10EF_000B_AF8B()
+ * Decompiled function emu_File_Delete()
  *
- * @name f__01F7_10EF_000B_AF8B
+ * @name emu_File_Delete
  * @implements 01F7:10EF:000B:AF8B ()
  *
  * Called From: 1FB5:007A:0015:A08C
  */
-void f__01F7_10EF_000B_AF8B()
+void emu_File_Delete()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
@@ -8998,7 +8998,7 @@ void f__01F7_23E1_0010_A514()
 	emu_movw(&emu_get_memory16(emu_ds, emu_bx, 0x795C), 0x0);
 	emu_push(emu_dx);
 	emu_push(emu_cs);
-	emu_push(0x23F1); f__01F7_23F4_000A_3443();
+	emu_push(0x23F1); emu_File_Close();
 	f__01F7_23F1_0003_2EB7();
 }
 
@@ -9040,14 +9040,14 @@ void f__01F7_23F2_0002_2597()
 }
 
 /**
- * Decompiled function f__01F7_23F4_000A_3443()
+ * Decompiled function emu_File_Close()
  *
- * @name f__01F7_23F4_000A_3443
+ * @name emu_File_Close
  * @implements 01F7:23F4:000A:3443 ()
  *
  * Called From: 01F7:23EE:0010:A514
  */
-void f__01F7_23F4_000A_3443()
+void emu_File_Close()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
@@ -10291,14 +10291,14 @@ void f__01F7_29CE_000B_BBB2()
 }
 
 /**
- * Decompiled function f__01F7_29D9_000E_7642()
+ * Decompiled function emu_File_Create()
  *
- * @name f__01F7_29D9_000E_7642
+ * @name emu_File_Create
  * @implements 01F7:29D9:000E:7642 ()
  *
  * Called From: 01F7:2AB3:000C:86B9
  */
-void f__01F7_29D9_000E_7642()
+void emu_File_Create()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
@@ -10586,7 +10586,7 @@ void f__01F7_2AAA_000C_86B9()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_push(0x2AB6); f__01F7_29D9_000E_7642();
+	emu_push(0x2AB6); emu_File_Create();
 	f__01F7_2AB6_0009_06B4();
 }
 
@@ -10621,7 +10621,7 @@ void f__01F7_2ABF_000C_66BD()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x2ACB); emu_Tools_Open_File();
+	emu_push(0x2ACB); emu_File_Open();
 	f__01F7_2ACB_0012_A5D7();
 }
 
@@ -10836,14 +10836,14 @@ void f__01F7_2B6D_0008_7D40()
 }
 
 /**
- * Decompiled function emu_Tools_Open_File()
+ * Decompiled function emu_File_Open()
  *
- * @name emu_Tools_Open_File
+ * @name emu_File_Open
  * @implements 01F7:2B75:002A:45D8 ()
  *
  * Called From: 01F7:2AC8:000C:66BD
  */
-void emu_Tools_Open_File()
+void emu_File_Open()
 {
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);

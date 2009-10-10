@@ -130,7 +130,7 @@ void f__1FB5_006A_0015_A08C()
 	emu_incb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x007F); emu_cs = 0x01F7; f__01F7_10EF_000B_AF8B();
+	emu_push(emu_cs); emu_push(0x007F); emu_cs = 0x01F7; emu_File_Delete();
 	f__1FB5_007F_000E_EB7D();
 }
 

@@ -1,6 +1,9 @@
+01F7:10EF:000B:AF8B	emu_File_Delete	#
+01F7:23F4:000A:3443	emu_File_Close	#
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
-01F7:2B75:002A:45D8	emu_Tools_Open_File	#
+01F7:2B75:002A:45D8	emu_File_Open	#
+01F7:29D9:000E:7642	emu_File_Create	#
 
 0642:04A9:0004:25FB     emu_InGame_Numpad_Move  # When moving with numpad ingame
 
