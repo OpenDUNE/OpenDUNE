@@ -1249,6 +1249,7 @@ void f__01F7_0369_0008_E8D2()
  * Called From: 1423:0447:0008:C68B
  * Called From: B4B8:1D65:0008:C68B
  * Called From: B511:0485:0008:C68B
+ * Called From: B511:0702:0008:C68B
  * Called From: B53B:0317:0009:F157
  */
 void f__01F7_0377_000D_81BB()
