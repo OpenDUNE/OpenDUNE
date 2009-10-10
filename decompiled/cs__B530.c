@@ -57,7 +57,6 @@ void f__B530_0010_0023_BD3C()
  * @name f__B530_0033_000B_E2C7
  * @implements B530:0033:000B:E2C7 ()
  *
- * Called From: B530:0033:0023:BD3C
  */
 void f__B530_0033_000B_E2C7()
 {
@@ -79,10 +78,7 @@ void f__B530_0033_000B_E2C7()
 void f__B530_003E_000B_90D9()
 {
 	emu_incw(&emu_si);
-	emu_cmpw(&emu_si, 0x13);
-	if ((emu_flags.sf != emu_flags.of)) { f__B530_0010_0023_BD3C(); return; }
-	emu_movw(&emu_ax, 0xFFFF);
-	/* Unresolved jump */ emu_ip = 0x003C; emu_last_cs = 0xB530; emu_last_ip = 0x0047; emu_last_length = 0x000B; emu_last_crc = 0x90D9; emu_call();
+	f__B530_003F_000A_50D1(); return;
 }
 
 /**

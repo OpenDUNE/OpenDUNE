@@ -34,7 +34,6 @@ void f__24E6_006E_001A_719E()
  * @name f__24E6_0088_000E_273C
  * @implements 24E6:0088:000E:273C ()
  *
- * Called From: 24E6:0088:001A:719E
  */
 void f__24E6_0088_000E_273C()
 {
@@ -43,7 +42,7 @@ void f__24E6_0088_000E_273C()
 	emu_cmpw(&emu_si, 0xFFFF);
 	if (!emu_flags.zf) { f__24E6_0096_0010_7426(); return; }
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x00CA; emu_last_cs = 0x24E6; emu_last_ip = 0x0094; emu_last_length = 0x000E; emu_last_crc = 0x273C; emu_call();
+	f__24E6_0094_0002_DA3A(); return;
 }
 
 /**
@@ -84,7 +83,6 @@ void f__24E6_0096_0010_7426()
  * @name f__24E6_00A6_000C_1590
  * @implements 24E6:00A6:000C:1590 ()
  *
- * Called From: 24E6:00A6:0010:7426
  */
 void f__24E6_00A6_000C_1590()
 {
@@ -101,7 +99,6 @@ void f__24E6_00A6_000C_1590()
  * @name f__24E6_00B2_0009_107E
  * @implements 24E6:00B2:0009:107E ()
  *
- * Called From: 24E6:00B2:000C:1590
  */
 void f__24E6_00B2_0009_107E()
 {
@@ -134,7 +131,6 @@ void f__24E6_00BB_000B_D3E0()
  * @name f__24E6_00C6_0004_3E1F
  * @implements 24E6:00C6:0004:3E1F ()
  *
- * Called From: 24E6:00C6:000B:D3E0
  */
 void f__24E6_00C6_0004_3E1F()
 {
@@ -243,7 +239,7 @@ void f__24E6_014D_0023_9862()
 	emu_cmpw(&emu_ax, emu_dx);
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0172; emu_last_cs = 0x24E6; emu_last_ip = 0x0169; emu_last_length = 0x0023; emu_last_crc = 0x9862; emu_call(); return; }
 	emu_movw(&emu_ax, 0x1);
-	/* Unresolved jump */ emu_ip = 0x0176; emu_last_cs = 0x24E6; emu_last_ip = 0x016E; emu_last_length = 0x0023; emu_last_crc = 0x9862; emu_call();
+	f__24E6_0176_0004_893F(); return;
 }
 
 /**

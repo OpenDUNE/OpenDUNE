@@ -235,7 +235,7 @@ void f__2502_0143_001E_15C2()
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_movw(&emu_ax, emu_si);
-	/* Unresolved jump */ emu_ip = 0x0161; emu_last_cs = 0x2502; emu_last_ip = 0x015F; emu_last_length = 0x001E; emu_last_crc = 0x15C2; emu_call();
+	f__2502_0161_0004_DE52(); return;
 }
 
 /**

@@ -34,7 +34,6 @@ void f__256D_0004_001C_9F23()
  * @name f__256D_0020_0009_37AE
  * @implements 256D:0020:0009:37AE ()
  *
- * Called From: 256D:0020:001C:9F23
  */
 void f__256D_0020_0009_37AE()
 {
@@ -69,7 +68,6 @@ void f__256D_0029_000F_8420()
  * @name f__256D_0038_0017_575A
  * @implements 256D:0038:0017:575A ()
  *
- * Called From: 256D:0038:000F:8420
  */
 void f__256D_0038_0017_575A()
 {
@@ -93,7 +91,6 @@ void f__256D_0038_0017_575A()
  * @name f__256D_004F_0012_D293
  * @implements 256D:004F:0012:D293 ()
  *
- * Called From: 256D:004F:0017:575A
  */
 void f__256D_004F_0012_D293()
 {
@@ -104,7 +101,7 @@ void f__256D_004F_0012_D293()
 	if (emu_flags.zf) { f__256D_0061_000F_2FE8(); return; }
 	emu_xorw(&emu_dx, emu_dx);
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x00D8; emu_last_cs = 0x256D; emu_last_ip = 0x005F; emu_last_length = 0x0012; emu_last_crc = 0xD293; emu_call();
+	f__256D_005F_0002_FBBA(); return;
 }
 
 /**
@@ -145,7 +142,6 @@ void f__256D_0061_000F_2FE8()
  * @name f__256D_0070_002C_8C80
  * @implements 256D:0070:002C:8C80 ()
  *
- * Called From: 256D:0070:000F:2FE8
  */
 void f__256D_0070_002C_8C80()
 {
@@ -175,7 +171,6 @@ void f__256D_0070_002C_8C80()
  * @name f__256D_009C_0009_2605
  * @implements 256D:009C:0009:2605 ()
  *
- * Called From: 256D:009C:002C:8C80
  */
 void f__256D_009C_0009_2605()
 {
@@ -191,7 +186,6 @@ void f__256D_009C_0009_2605()
  * @name f__256D_00A5_0003_CA1A
  * @implements 256D:00A5:0003:CA1A ()
  *
- * Called From: 256D:00A5:0009:2605
  */
 void f__256D_00A5_0003_CA1A()
 {

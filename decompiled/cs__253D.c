@@ -44,7 +44,6 @@ void f__253D_0000_0013_38F4()
  * @name f__253D_0013_0017_236C
  * @implements 253D:0013:0017:236C ()
  *
- * Called From: 253D:0013:0013:38F4
  */
 void f__253D_0013_0017_236C()
 {
@@ -65,7 +64,6 @@ void f__253D_0013_0017_236C()
  * @name f__253D_002A_000F_3D83
  * @implements 253D:002A:000F:3D83 ()
  *
- * Called From: 253D:002A:0017:236C
  */
 void f__253D_002A_000F_3D83()
 {
@@ -83,7 +81,6 @@ void f__253D_002A_000F_3D83()
  * @name f__253D_0039_0009_EE26
  * @implements 253D:0039:0009:EE26 ()
  *
- * Called From: 253D:0039:000F:3D83
  */
 void f__253D_0039_0009_EE26()
 {
@@ -141,7 +138,6 @@ void f__253D_008A_0016_007A()
  * @name f__253D_00A0_000B_9A42
  * @implements 253D:00A0:000B:9A42 ()
  *
- * Called From: 253D:00A0:0016:007A
  */
 void f__253D_00A0_000B_9A42()
 {
@@ -158,7 +154,6 @@ void f__253D_00A0_000B_9A42()
  * @name f__253D_00AB_0015_F0C0
  * @implements 253D:00AB:0015:F0C0 ()
  *
- * Called From: 253D:00AB:000B:9A42
  */
 void f__253D_00AB_0015_F0C0()
 {
@@ -178,7 +173,6 @@ void f__253D_00AB_0015_F0C0()
  * @name f__253D_00C0_0023_4714
  * @implements 253D:00C0:0023:4714 ()
  *
- * Called From: 253D:00C0:0015:F0C0
  */
 void f__253D_00C0_0023_4714()
 {
@@ -203,7 +197,6 @@ void f__253D_00C0_0023_4714()
  * @name f__253D_00E3_0009_2605
  * @implements 253D:00E3:0009:2605 ()
  *
- * Called From: 253D:00E3:0023:4714
  */
 void f__253D_00E3_0009_2605()
 {
@@ -219,7 +212,6 @@ void f__253D_00E3_0009_2605()
  * @name f__253D_00EC_0009_58E5
  * @implements 253D:00EC:0009:58E5 ()
  *
- * Called From: 253D:00EC:0009:2605
  */
 void f__253D_00EC_0009_58E5()
 {
@@ -276,7 +268,6 @@ void f__253D_00FA_0010_873D()
  * @name f__253D_010A_0016_F834
  * @implements 253D:010A:0016:F834 ()
  *
- * Called From: 253D:010A:0010:873D
  */
 void f__253D_010A_0016_F834()
 {
@@ -297,7 +288,6 @@ void f__253D_010A_0016_F834()
  * @name f__253D_0120_0017_515A
  * @implements 253D:0120:0017:515A ()
  *
- * Called From: 253D:0120:0016:F834
  */
 void f__253D_0120_0017_515A()
 {
@@ -321,7 +311,6 @@ void f__253D_0120_0017_515A()
  * @name f__253D_0137_0016_B57F
  * @implements 253D:0137:0016:B57F ()
  *
- * Called From: 253D:0137:0017:515A
  */
 void f__253D_0137_0016_B57F()
 {
@@ -343,7 +332,6 @@ void f__253D_0137_0016_B57F()
  * @name f__253D_014D_002A_786F
  * @implements 253D:014D:002A:786F ()
  *
- * Called From: 253D:014D:0016:B57F
  */
 void f__253D_014D_002A_786F()
 {
@@ -372,7 +360,6 @@ void f__253D_014D_002A_786F()
  * @name f__253D_0177_0005_8DEE
  * @implements 253D:0177:0005:8DEE ()
  *
- * Called From: 253D:0177:002A:786F
  */
 void f__253D_0177_0005_8DEE()
 {
@@ -407,31 +394,11 @@ void f__253D_017C_000E_37D8()
  * @name f__253D_018A_0041_0D4B
  * @implements 253D:018A:0041:0D4B ()
  *
- * Called From: 253D:018A:000E:37D8
  */
 void f__253D_018A_0041_0D4B()
 {
 	emu_addw(&emu_sp, 0x8);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x6), 0x0);
-	emu_subw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_di);
-	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_shlw(&emu_bx, 0x1);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, emu_bx, 0x6C93));
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax);
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xA), 0x0);
-	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_movb(&emu_cl, 0x2);
-	emu_shlw(&emu_bx, emu_cl);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, emu_bx, 0x6CD3));
-	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_addw(&emu_dx, 0x8);
-	emu_subw(&emu_ax, emu_dx);
-	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0xA), emu_ax);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x01CB); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	f__253D_01CB_002B_4141();
+	f__253D_018D_003E_5C0F(); return;
 }
 
 /**
@@ -472,8 +439,6 @@ void f__253D_018D_003E_5C0F()
  * @name f__253D_01CB_002B_4141
  * @implements 253D:01CB:002B:4141 ()
  *
- * Called From: 253D:01CB:0041:0D4B
- * Called From: 253D:01CB:003E:5C0F
  */
 void f__253D_01CB_002B_4141()
 {
@@ -502,7 +467,6 @@ void f__253D_01CB_002B_4141()
  * @name f__253D_01F6_0019_DC1B
  * @implements 253D:01F6:0019:DC1B ()
  *
- * Called From: 253D:01F6:002B:4141
  */
 void f__253D_01F6_0019_DC1B()
 {
@@ -525,7 +489,6 @@ void f__253D_01F6_0019_DC1B()
  * @name f__253D_020F_0009_2605
  * @implements 253D:020F:0009:2605 ()
  *
- * Called From: 253D:020F:0019:DC1B
  */
 void f__253D_020F_0009_2605()
 {
@@ -541,7 +504,6 @@ void f__253D_020F_0009_2605()
  * @name f__253D_0218_0009_C99B
  * @implements 253D:0218:0009:C99B ()
  *
- * Called From: 253D:0218:0009:2605
  */
 void f__253D_0218_0009_C99B()
 {
@@ -557,7 +519,6 @@ void f__253D_0218_0009_C99B()
  * @name f__253D_0221_000E_77E8
  * @implements 253D:0221:000E:77E8 ()
  *
- * Called From: 253D:0221:0009:C99B
  */
 void f__253D_0221_000E_77E8()
 {
@@ -577,7 +538,6 @@ void f__253D_0221_000E_77E8()
  * @name f__253D_022F_0005_852E
  * @implements 253D:022F:0005:852E ()
  *
- * Called From: 253D:022F:000E:77E8
  */
 void f__253D_022F_0005_852E()
 {
@@ -677,7 +637,6 @@ void f__253D_0272_0039_AA2E()
  * @name f__253D_02AB_0005_A4AE
  * @implements 253D:02AB:0005:A4AE ()
  *
- * Called From: 253D:02AB:0039:AA2E
  */
 void f__253D_02AB_0005_A4AE()
 {
@@ -716,7 +675,6 @@ void f__253D_02BF_0026_AF12()
  * @name f__253D_02E5_000D_2950
  * @implements 253D:02E5:000D:2950 ()
  *
- * Called From: 253D:02E5:0026:AF12
  */
 void f__253D_02E5_000D_2950()
 {

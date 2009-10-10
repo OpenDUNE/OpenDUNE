@@ -103,7 +103,6 @@ void f__2521_0035_0015_AA0F()
  * @name f__2521_004A_0009_2116
  * @implements 2521:004A:0009:2116 ()
  *
- * Called From: 2521:004A:0015:AA0F
  */
 void f__2521_004A_0009_2116()
 {
@@ -140,17 +139,13 @@ void f__2521_0053_000E_39D1()
  * @name f__2521_0061_000D_B9B6
  * @implements 2521:0061:000D:B9B6 ()
  *
- * Called From: 2521:0061:000E:39D1
  */
 void f__2521_0061_000D_B9B6()
 {
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);
 	emu_incw(&emu_di);
-	emu_cmpw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if ((emu_flags.sf != emu_flags.of)) { f__2521_0053_000E_39D1(); return; }
-	emu_movw(&emu_ax, emu_si);
-	f__2521_006E_0006_F7CE(); return;
+	f__2521_0065_0009_605A(); return;
 }
 
 /**

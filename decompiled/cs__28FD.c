@@ -28,7 +28,6 @@ void f__28FD_000C_0007_5DA9()
  * @name f__28FD_0013_0009_539B
  * @implements 28FD:0013:0009:539B ()
  *
- * Called From: 28FD:0013:0007:5DA9
  */
 void f__28FD_0013_0009_539B()
 {
@@ -45,7 +44,6 @@ void f__28FD_0013_0009_539B()
  * @name f__28FD_001C_000F_5F38
  * @implements 28FD:001C:000F:5F38 ()
  *
- * Called From: 28FD:001C:0009:539B
  */
 void f__28FD_001C_000F_5F38()
 {
@@ -65,7 +63,6 @@ void f__28FD_001C_000F_5F38()
  * @name f__28FD_002B_0009_3693
  * @implements 28FD:002B:0009:3693 ()
  *
- * Called From: 28FD:002B:000F:5F38
  */
 void f__28FD_002B_0009_3693()
 {

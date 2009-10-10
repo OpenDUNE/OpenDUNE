@@ -26,35 +26,7 @@ void f__07C4_001A_0045_DCB4()
 	if (!emu_flags.sf) { f__07C4_002F_0030_5F7C(); return; }
 	emu_incw(&emu_bx);
 	emu_negw(&emu_dx, emu_dx);
-	emu_shlw(&emu_bx, 0x1);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_subw(&emu_cx, emu_ax);
-	if (!emu_flags.sf) { f__07C4_003E_0021_782D(); return; }
-	emu_incw(&emu_bx);
-	emu_negw(&emu_cx, emu_cx);
-	emu_cmpw(&emu_cx, emu_dx);
-	if (emu_flags.cf) { f__07C4_0044_001B_B5CB(); return; }
-	emu_xchgw(&emu_dx, &emu_cx);
-	emu_rclw(&emu_bx, 0x1);
-	emu_movw(&emu_ax, emu_dx);
-	emu_incw(&emu_ax);
-	emu_shrw(&emu_ax, 0x1);
-	emu_cmpw(&emu_cx, emu_ax);
-	emu_rclw(&emu_bx, 0x1);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_movb(&emu_al, emu_get_memory8(emu_cs, emu_bx, 0xA));
-	emu_movb(&emu_cl, 0x5);
-	emu_shlw(&emu_ax, emu_cl);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__07C4_002F_0030_5F7C(); return;
 }
 
 /**
@@ -74,28 +46,7 @@ void f__07C4_002F_0030_5F7C()
 	if (!emu_flags.sf) { f__07C4_003E_0021_782D(); return; }
 	emu_incw(&emu_bx);
 	emu_negw(&emu_cx, emu_cx);
-	emu_cmpw(&emu_cx, emu_dx);
-	if (emu_flags.cf) { f__07C4_0044_001B_B5CB(); return; }
-	emu_xchgw(&emu_dx, &emu_cx);
-	emu_rclw(&emu_bx, 0x1);
-	emu_movw(&emu_ax, emu_dx);
-	emu_incw(&emu_ax);
-	emu_shrw(&emu_ax, 0x1);
-	emu_cmpw(&emu_cx, emu_ax);
-	emu_rclw(&emu_bx, 0x1);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_movb(&emu_al, emu_get_memory8(emu_cs, emu_bx, 0xA));
-	emu_movb(&emu_cl, 0x5);
-	emu_shlw(&emu_ax, emu_cl);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__07C4_003E_0021_782D(); return;
 }
 
 /**
@@ -112,25 +63,7 @@ void f__07C4_003E_0021_782D()
 	emu_cmpw(&emu_cx, emu_dx);
 	if (emu_flags.cf) { f__07C4_0044_001B_B5CB(); return; }
 	emu_xchgw(&emu_dx, &emu_cx);
-	emu_rclw(&emu_bx, 0x1);
-	emu_movw(&emu_ax, emu_dx);
-	emu_incw(&emu_ax);
-	emu_shrw(&emu_ax, 0x1);
-	emu_cmpw(&emu_cx, emu_ax);
-	emu_rclw(&emu_bx, 0x1);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_movb(&emu_al, emu_get_memory8(emu_cs, emu_bx, 0xA));
-	emu_movb(&emu_cl, 0x5);
-	emu_shlw(&emu_ax, emu_cl);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__07C4_0044_001B_B5CB(); return;
 }
 
 /**

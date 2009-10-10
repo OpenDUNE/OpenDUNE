@@ -68,7 +68,6 @@ void f__2B99_0032_0019_5301()
  * @name f__2B99_004B_001E_8FB8
  * @implements 2B99:004B:001E:8FB8 ()
  *
- * Called From: 2B99:004B:0019:5301
  */
 void f__2B99_004B_001E_8FB8()
 {
@@ -78,22 +77,7 @@ void f__2B99_004B_001E_8FB8()
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x7062));
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x707E), emu_ax);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x007A; emu_last_cs = 0x2B99; emu_last_ip = 0x005B; emu_last_length = 0x001E; emu_last_crc = 0x8FB8; emu_call(); return; }
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7094));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7092));
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x66B4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x66B6);
-	emu_push(0x0069);
-	switch ((emu_cs << 16) + emu_ip) {
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2B99; emu_last_ip = 0x0065; emu_last_length = 0x001E; emu_last_crc = 0x8FB8;
-			emu_call();
-			return;
-	}
-	f__2B99_0069_0008_63C3();
+	f__2B99_005D_000C_9EC2(); return;
 }
 
 /**
@@ -131,7 +115,6 @@ void f__2B99_005D_000C_9EC2()
  * @name f__2B99_0069_0008_63C3
  * @implements 2B99:0069:0008:63C3 ()
  *
- * Called From: 2B99:0069:000C:9EC2
  */
 void f__2B99_0069_0008_63C3()
 {
@@ -146,7 +129,6 @@ void f__2B99_0069_0008_63C3()
  * @name f__2B99_0071_0005_F14D
  * @implements 2B99:0071:0005:F14D ()
  *
- * Called From: 2B99:0071:0008:63C3
  */
 void f__2B99_0071_0005_F14D()
 {
@@ -160,7 +142,6 @@ void f__2B99_0071_0005_F14D()
  * @name f__2B99_0076_0004_C0E6
  * @implements 2B99:0076:0004:C0E6 ()
  *
- * Called From: 2B99:0076:0005:F14D
  */
 void f__2B99_0076_0004_C0E6()
 {
@@ -187,7 +168,6 @@ void f__2B99_0076_0004_C0E6()
  * @name f__2B99_007A_0001_6180
  * @implements 2B99:007A:0001:6180 ()
  *
- * Called From: 2B99:007A:0004:C0E6
  */
 void f__2B99_007A_0001_6180()
 {
@@ -226,7 +206,6 @@ void f__2B99_007B_0019_5737()
  * @name f__2B99_0094_0008_0A2F
  * @implements 2B99:0094:0008:0A2F ()
  *
- * Called From: 2B99:0094:0019:5737
  */
 void f__2B99_0094_0008_0A2F()
 {

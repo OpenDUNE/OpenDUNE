@@ -32,7 +32,6 @@ void f__104B_024D_0012_1DC4()
  * @name f__104B_025F_0064_D684
  * @implements 104B:025F:0064:D684 ()
  *
- * Called From: 104B:025F:0012:1DC4
  */
 void f__104B_025F_0064_D684()
 {
@@ -78,7 +77,6 @@ void f__104B_025F_0064_D684()
  * @name f__104B_02C3_0013_8AC5
  * @implements 104B:02C3:0013:8AC5 ()
  *
- * Called From: 104B:02C3:0064:D684
  */
 void f__104B_02C3_0013_8AC5()
 {
@@ -98,7 +96,6 @@ void f__104B_02C3_0013_8AC5()
  * @name f__104B_02D6_0014_4672
  * @implements 104B:02D6:0014:4672 ()
  *
- * Called From: 104B:02D6:0013:8AC5
  */
 void f__104B_02D6_0014_4672()
 {

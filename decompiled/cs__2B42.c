@@ -25,12 +25,7 @@ void f__2B42_0000_0022_1DB2()
 	emu_cmpw(&emu_cx, emu_dx);
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2B42_0012_0010_99D3(); return; }
 	emu_xchgw(&emu_dx, &emu_cx);
-	emu_cmpw(&emu_cx, 0x0);
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0022; emu_last_cs = 0x2B42; emu_last_ip = 0x0015; emu_last_length = 0x0022; emu_last_crc = 0x1DB2; emu_call(); return; }
-	emu_cmpw(&emu_cx, 0x13F);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0025; emu_last_cs = 0x2B42; emu_last_ip = 0x001B; emu_last_length = 0x0022; emu_last_crc = 0x1DB2; emu_call(); return; }
-	emu_movw(&emu_cx, 0x13F);
-	/* Unresolved jump */ emu_ip = 0x0025; emu_last_cs = 0x2B42; emu_last_ip = 0x0020; emu_last_length = 0x0022; emu_last_crc = 0x1DB2; emu_call();
+	f__2B42_0012_0010_99D3(); return;
 }
 
 /**
@@ -98,7 +93,6 @@ void f__2B42_003C_001B_3888()
  * @name f__2B42_0057_001C_AB52
  * @implements 2B42:0057:001C:AB52 ()
  *
- * Called From: 2B42:0057:001B:3888
  */
 void f__2B42_0057_001C_AB52()
 {
@@ -107,12 +101,7 @@ void f__2B42_0057_001C_AB52()
 	emu_cmpw(&emu_cx, emu_dx);
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2B42_0063_0010_1880(); return; }
 	emu_xchgw(&emu_dx, &emu_cx);
-	emu_cmpw(&emu_cx, 0x0);
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0073; emu_last_cs = 0x2B42; emu_last_ip = 0x0066; emu_last_length = 0x001C; emu_last_crc = 0xAB52; emu_call(); return; }
-	emu_cmpw(&emu_cx, 0xC7);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0076; emu_last_cs = 0x2B42; emu_last_ip = 0x006C; emu_last_length = 0x001C; emu_last_crc = 0xAB52; emu_call(); return; }
-	emu_movw(&emu_cx, 0xC7);
-	/* Unresolved jump */ emu_ip = 0x0076; emu_last_cs = 0x2B42; emu_last_ip = 0x0071; emu_last_length = 0x001C; emu_last_crc = 0xAB52; emu_call();
+	f__2B42_0063_0010_1880(); return;
 }
 
 /**
@@ -176,7 +165,6 @@ void f__2B42_008D_0010_8866()
  * @name f__2B42_009D_0005_BC42
  * @implements 2B42:009D:0005:BC42 ()
  *
- * Called From: 2B42:009D:0010:8866
  */
 void f__2B42_009D_0005_BC42()
 {

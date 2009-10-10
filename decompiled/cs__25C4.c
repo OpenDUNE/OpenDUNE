@@ -65,7 +65,6 @@ void f__25C4_002D_0013_0723()
  * @name f__25C4_0040_0005_872E
  * @implements 25C4:0040:0005:872E ()
  *
- * Called From: 25C4:0040:0013:0723
  */
 void f__25C4_0040_0005_872E()
 {
@@ -96,7 +95,6 @@ void f__25C4_0049_000B_50EF()
  * @name f__25C4_0054_0006_F43B
  * @implements 25C4:0054:0006:F43B ()
  *
- * Called From: 25C4:0054:000B:50EF
  */
 void f__25C4_0054_0006_F43B()
 {
@@ -111,7 +109,6 @@ void f__25C4_0054_0006_F43B()
  * @name f__25C4_005A_0018_5796
  * @implements 25C4:005A:0018:5796 ()
  *
- * Called From: 25C4:005A:0006:F43B
  */
 void f__25C4_005A_0018_5796()
 {
@@ -133,7 +130,6 @@ void f__25C4_005A_0018_5796()
  * @name f__25C4_0072_0010_002D
  * @implements 25C4:0072:0010:002D ()
  *
- * Called From: 25C4:0072:0018:5796
  */
 void f__25C4_0072_0010_002D()
 {
@@ -255,9 +251,7 @@ void f__25C4_0136_003F_00BE()
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_dx);
 	emu_adcw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_addw(&emu_si, 0x2);
-	emu_cmpw(&emu_si, 0x10);
-	if (!(emu_flags.sf != emu_flags.of)) { f__25C4_0175_0012_C097(); return; }
-	f__25C4_00DA_0041_885A(); return;
+	f__25C4_016D_0008_D3AD(); return;
 }
 
 /**
@@ -271,7 +265,7 @@ void f__25C4_0136_003F_00BE()
 void f__25C4_016D_0008_D3AD()
 {
 	emu_cmpw(&emu_si, 0x10);
-	if (!(emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0175; emu_last_cs = 0x25C4; emu_last_ip = 0x0170; emu_last_length = 0x0008; emu_last_crc = 0xD3AD; emu_call(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) { f__25C4_0175_0012_C097(); return; }
 	f__25C4_00DA_0041_885A(); return;
 }
 
@@ -300,7 +294,6 @@ void f__25C4_0175_0012_C097()
  * @name f__25C4_0187_000E_B643
  * @implements 25C4:0187:000E:B643 ()
  *
- * Called From: 25C4:0187:0012:C097
  */
 void f__25C4_0187_000E_B643()
 {
@@ -354,7 +347,6 @@ void f__25C4_0195_003F_BA75()
  * @name f__25C4_01D4_0011_FE22
  * @implements 25C4:01D4:0011:FE22 ()
  *
- * Called From: 25C4:01D4:003F:BA75
  */
 void f__25C4_01D4_0011_FE22()
 {
@@ -372,7 +364,6 @@ void f__25C4_01D4_0011_FE22()
  * @name f__25C4_01E5_0012_6D17
  * @implements 25C4:01E5:0012:6D17 ()
  *
- * Called From: 25C4:01E5:0011:FE22
  */
 void f__25C4_01E5_0012_6D17()
 {
@@ -380,10 +371,7 @@ void f__25C4_01E5_0012_6D17()
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax);
-	emu_addw(&emu_si, 0x2);
-	emu_cmpw(&emu_si, 0x10);
-	if ((emu_flags.sf != emu_flags.of)) { f__25C4_0195_003F_BA75(); return; }
-	/* Unresolved jump */ emu_ip = 0x0252; emu_last_cs = 0x25C4; emu_last_ip = 0x01F5; emu_last_length = 0x0012; emu_last_crc = 0x6D17; emu_call();
+	f__25C4_01ED_000A_E29B(); return;
 }
 
 /**
@@ -397,9 +385,7 @@ void f__25C4_01E5_0012_6D17()
 void f__25C4_01ED_000A_E29B()
 {
 	emu_addw(&emu_si, 0x2);
-	emu_cmpw(&emu_si, 0x10);
-	if ((emu_flags.sf != emu_flags.of)) { f__25C4_0195_003F_BA75(); return; }
-	f__25C4_0252_000E_9CBF(); return;
+	f__25C4_01F0_0007_C038(); return;
 }
 
 /**
@@ -414,7 +400,7 @@ void f__25C4_01F0_0007_C038()
 {
 	emu_cmpw(&emu_si, 0x10);
 	if ((emu_flags.sf != emu_flags.of)) { f__25C4_0195_003F_BA75(); return; }
-	/* Unresolved jump */ emu_ip = 0x0252; emu_last_cs = 0x25C4; emu_last_ip = 0x01F5; emu_last_length = 0x0007; emu_last_crc = 0xC038; emu_call();
+	f__25C4_0252_000E_9CBF(); return;
 }
 
 /**
@@ -510,7 +496,6 @@ void f__25C4_02BE_000F_595C()
  * @name f__25C4_02CD_0013_8B6C
  * @implements 25C4:02CD:0013:8B6C ()
  *
- * Called From: 25C4:02CD:000F:595C
  */
 void f__25C4_02CD_0013_8B6C()
 {
@@ -529,7 +514,6 @@ void f__25C4_02CD_0013_8B6C()
  * @name f__25C4_02E0_001B_40E8
  * @implements 25C4:02E0:001B:40E8 ()
  *
- * Called From: 25C4:02E0:0013:8B6C
  */
 void f__25C4_02E0_001B_40E8()
 {
@@ -568,7 +552,6 @@ void f__25C4_0326_000D_B94B()
  * @name f__25C4_0333_0012_BF4D
  * @implements 25C4:0333:0012:BF4D ()
  *
- * Called From: 25C4:0333:000D:B94B
  */
 void f__25C4_0333_0012_BF4D()
 {
@@ -590,7 +573,6 @@ void f__25C4_0333_0012_BF4D()
  * @name f__25C4_0345_001B_B33C
  * @implements 25C4:0345:001B:B33C ()
  *
- * Called From: 25C4:0345:0012:BF4D
  */
 void f__25C4_0345_001B_B33C()
 {
@@ -643,7 +625,6 @@ void f__25C4_039C_0018_6AD8()
  * @name f__25C4_03B4_0010_908E
  * @implements 25C4:03B4:0010:908E ()
  *
- * Called From: 25C4:03B4:0018:6AD8
  */
 void f__25C4_03B4_0010_908E()
 {
@@ -660,7 +641,6 @@ void f__25C4_03B4_0010_908E()
  * @name f__25C4_03C4_0004_5B1F
  * @implements 25C4:03C4:0004:5B1F ()
  *
- * Called From: 25C4:03C4:0010:908E
  */
 void f__25C4_03C4_0004_5B1F()
 {
@@ -689,7 +669,6 @@ void f__25C4_03C8_0005_065C()
  * @name f__25C4_03CD_000B_7CD0
  * @implements 25C4:03CD:000B:7CD0 ()
  *
- * Called From: 25C4:03CD:0005:065C
  */
 void f__25C4_03CD_000B_7CD0()
 {
@@ -707,7 +686,6 @@ void f__25C4_03CD_000B_7CD0()
  * @name f__25C4_03D8_0008_9D33
  * @implements 25C4:03D8:0008:9D33 ()
  *
- * Called From: 25C4:03D8:000B:7CD0
  */
 void f__25C4_03D8_0008_9D33()
 {
@@ -724,7 +702,6 @@ void f__25C4_03D8_0008_9D33()
  * @name f__25C4_03E0_0009_75D6
  * @implements 25C4:03E0:0009:75D6 ()
  *
- * Called From: 25C4:03E0:0008:9D33
  */
 void f__25C4_03E0_0009_75D6()
 {
@@ -741,7 +718,6 @@ void f__25C4_03E0_0009_75D6()
  * @name f__25C4_03E9_0007_03AB
  * @implements 25C4:03E9:0007:03AB ()
  *
- * Called From: 25C4:03E9:0009:75D6
  */
 void f__25C4_03E9_0007_03AB()
 {

@@ -34,7 +34,6 @@ void f__0FCB_000D_0019_5047()
  * @name f__0FCB_0026_0024_179B
  * @implements 0FCB:0026:0024:179B ()
  *
- * Called From: 0FCB:0026:0019:5047
  */
 void f__0FCB_0026_0024_179B()
 {
@@ -42,15 +41,7 @@ void f__0FCB_0026_0024_179B()
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x38CC), 0x0);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x38CA), 0x0);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) { f__0FCB_005D_0002_2597(); return; }
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x0642; f__0642_075D_0011_C164();
-	f__0FCB_004A_0009_6FDE();
+	f__0FCB_0034_0016_C1AF(); return;
 }
 
 /**
@@ -65,7 +56,7 @@ void f__0FCB_0034_0016_C1AF()
 {
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x005D; emu_last_cs = 0x0FCB; emu_last_ip = 0x003A; emu_last_length = 0x0016; emu_last_crc = 0xC1AF; emu_call(); return; }
+	if (emu_flags.zf) { f__0FCB_005D_0002_2597(); return; }
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
@@ -80,8 +71,6 @@ void f__0FCB_0034_0016_C1AF()
  * @name f__0FCB_004A_0009_6FDE
  * @implements 0FCB:004A:0009:6FDE ()
  *
- * Called From: 0FCB:004A:0016:C1AF
- * Called From: 0FCB:004A:0024:179B
  */
 void f__0FCB_004A_0009_6FDE()
 {
@@ -99,19 +88,13 @@ void f__0FCB_004A_0009_6FDE()
  * @name f__0FCB_0053_000C_79F7
  * @implements 0FCB:0053:000C:79F7 ()
  *
- * Called From: 0FCB:0053:0009:6FDE
  */
 void f__0FCB_0053_000C_79F7()
 {
 	emu_addw(&emu_sp, 0x6);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x38CC), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x38CA), emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__0FCB_005D_0002_2597(); return;
 }
 
 /**
@@ -260,7 +243,6 @@ void f__0FCB_005F_001C_FDC4()
  * @name f__0FCB_007B_0005_87EE
  * @implements 0FCB:007B:0005:87EE ()
  *
- * Called From: 0FCB:007B:001C:FDC4
  */
 void f__0FCB_007B_0005_87EE()
 {
@@ -369,7 +351,6 @@ void f__0FCB_00B0_001B_5ECC()
  * @name f__0FCB_00CB_0017_6A41
  * @implements 0FCB:00CB:0017:6A41 ()
  *
- * Called From: 0FCB:00CB:001B:5ECC
  */
 void f__0FCB_00CB_0017_6A41()
 {
@@ -393,7 +374,6 @@ void f__0FCB_00CB_0017_6A41()
  * @name f__0FCB_00E2_0015_AB73
  * @implements 0FCB:00E2:0015:AB73 ()
  *
- * Called From: 0FCB:00E2:0017:6A41
  */
 void f__0FCB_00E2_0015_AB73()
 {
@@ -416,7 +396,6 @@ void f__0FCB_00E2_0015_AB73()
  * @name f__0FCB_00F7_0018_1322
  * @implements 0FCB:00F7:0018:1322 ()
  *
- * Called From: 0FCB:00F7:0015:AB73
  */
 void f__0FCB_00F7_0018_1322()
 {
@@ -440,7 +419,6 @@ void f__0FCB_00F7_0018_1322()
  * @name f__0FCB_010F_0014_0A45
  * @implements 0FCB:010F:0014:0A45 ()
  *
- * Called From: 0FCB:010F:0018:1322
  */
 void f__0FCB_010F_0014_0A45()
 {
@@ -462,7 +440,6 @@ void f__0FCB_010F_0014_0A45()
  * @name f__0FCB_0123_0009_2605
  * @implements 0FCB:0123:0009:2605 ()
  *
- * Called From: 0FCB:0123:0014:0A45
  */
 void f__0FCB_0123_0009_2605()
 {
@@ -478,7 +455,6 @@ void f__0FCB_0123_0009_2605()
  * @name f__0FCB_012C_000C_74DA
  * @implements 0FCB:012C:000C:74DA ()
  *
- * Called From: 0FCB:012C:0009:2605
  */
 void f__0FCB_012C_000C_74DA()
 {
@@ -495,7 +471,6 @@ void f__0FCB_012C_000C_74DA()
  * @name f__0FCB_0138_0037_24E5
  * @implements 0FCB:0138:0037:24E5 ()
  *
- * Called From: 0FCB:0138:000C:74DA
  */
 void f__0FCB_0138_0037_24E5()
 {
@@ -530,7 +505,6 @@ void f__0FCB_0138_0037_24E5()
  * @name f__0FCB_016F_0014_2C10
  * @implements 0FCB:016F:0014:2C10 ()
  *
- * Called From: 0FCB:016F:0037:24E5
  */
 void f__0FCB_016F_0014_2C10()
 {
@@ -549,7 +523,6 @@ void f__0FCB_016F_0014_2C10()
  * @name f__0FCB_0183_0005_872E
  * @implements 0FCB:0183:0005:872E ()
  *
- * Called From: 0FCB:0183:0014:2C10
  */
 void f__0FCB_0183_0005_872E()
 {

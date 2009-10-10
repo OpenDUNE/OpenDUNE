@@ -35,7 +35,6 @@ void f__B4CA_020F_0017_A939()
  * @name f__B4CA_0226_0011_BA26
  * @implements B4CA:0226:0011:BA26 ()
  *
- * Called From: B4CA:0226:0017:A939
  */
 void f__B4CA_0226_0011_BA26()
 {
@@ -44,7 +43,7 @@ void f__B4CA_0226_0011_BA26()
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xFFFF);
 	if (!emu_flags.zf) { f__B4CA_0237_0014_C0C9(); return; }
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x068C; emu_last_cs = 0xB4CA; emu_last_ip = 0x0234; emu_last_length = 0x0011; emu_last_crc = 0xBA26; emu_call();
+	f__B4CA_0234_0003_5F35(); return;
 }
 
 /**
@@ -90,7 +89,6 @@ void f__B4CA_0237_0014_C0C9()
  * @name f__B4CA_024B_000B_6CAB
  * @implements B4CA:024B:000B:6CAB ()
  *
- * Called From: B4CA:024B:0014:C0C9
  */
 void f__B4CA_024B_000B_6CAB()
 {
@@ -108,7 +106,6 @@ void f__B4CA_024B_000B_6CAB()
  * @name f__B4CA_0256_001E_9B59
  * @implements B4CA:0256:001E:9B59 ()
  *
- * Called From: B4CA:0256:000B:6CAB
  */
 void f__B4CA_0256_001E_9B59()
 {
@@ -117,11 +114,7 @@ void f__B4CA_0256_001E_9B59()
 	if (!emu_flags.zf) { f__B4CA_0265_000F_A174(); return; }
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x4F46);
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0299; emu_last_cs = 0xB4CA; emu_last_ip = 0x0263; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C76), 0x3);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0274; emu_last_cs = 0xB4CA; emu_last_ip = 0x026A; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call(); return; }
-	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xE));
-	/* Unresolved jump */ emu_ip = 0x0278; emu_last_cs = 0xB4CA; emu_last_ip = 0x0272; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call();
+	f__B4CA_0265_000F_A174(); return;
 }
 
 /**
@@ -169,7 +162,6 @@ void f__B4CA_0278_0013_32DA()
  * @name f__B4CA_028B_000B_720B
  * @implements B4CA:028B:000B:720B ()
  *
- * Called From: B4CA:028B:0013:32DA
  */
 void f__B4CA_028B_000B_720B()
 {

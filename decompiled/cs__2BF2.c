@@ -27,7 +27,6 @@ void f__2BF2_0000_0007_42B5()
  * @name f__2BF2_0007_0009_F6E6
  * @implements 2BF2:0007:0009:F6E6 ()
  *
- * Called From: 2BF2:0007:0007:42B5
  */
 void f__2BF2_0007_0009_F6E6()
 {

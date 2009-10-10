@@ -30,7 +30,6 @@ void f__22A3_000D_0010_9291()
  * @name f__22A3_001D_0014_EB0D
  * @implements 22A3:001D:0014:EB0D ()
  *
- * Called From: 22A3:001D:0010:9291
  */
 void f__22A3_001D_0014_EB0D()
 {

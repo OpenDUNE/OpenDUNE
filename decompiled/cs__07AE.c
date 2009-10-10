@@ -180,7 +180,6 @@ void f__07AE_00E4_000D_9955()
  * @name f__07AE_00F1_0009_4821
  * @implements 07AE:00F1:0009:4821 ()
  *
- * Called From: 07AE:00F1:000D:9955
  */
 void f__07AE_00F1_0009_4821()
 {
@@ -197,7 +196,6 @@ void f__07AE_00F1_0009_4821()
  * @name f__07AE_00FA_0005_BBA6
  * @implements 07AE:00FA:0005:BBA6 ()
  *
- * Called From: 07AE:00FA:0009:4821
  */
 void f__07AE_00FA_0005_BBA6()
 {
@@ -287,7 +285,6 @@ void f__07AE_0103_004C_B43B()
  * @name f__07AE_014F_001B_3CCB
  * @implements 07AE:014F:001B:3CCB ()
  *
- * Called From: 07AE:014F:004C:B43B
  */
 void f__07AE_014F_001B_3CCB()
 {

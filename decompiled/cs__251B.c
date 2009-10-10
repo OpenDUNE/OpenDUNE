@@ -60,7 +60,6 @@ void f__251B_0000_001E_7202()
  * @name f__251B_001E_001A_4EC8
  * @implements 251B:001E:001A:4EC8 ()
  *
- * Called From: 251B:001E:001E:7202
  */
 void f__251B_001E_001A_4EC8()
 {
@@ -95,7 +94,6 @@ void f__251B_001E_001A_4EC8()
  * @name f__251B_0038_0016_F082
  * @implements 251B:0038:0016:F082 ()
  *
- * Called From: 251B:0038:001A:4EC8
  */
 void f__251B_0038_0016_F082()
 {
@@ -130,7 +128,6 @@ void f__251B_0038_0016_F082()
  * @name f__251B_004E_001A_83C7
  * @implements 251B:004E:001A:83C7 ()
  *
- * Called From: 251B:004E:0016:F082
  */
 void f__251B_004E_001A_83C7()
 {
@@ -165,7 +162,6 @@ void f__251B_004E_001A_83C7()
  * @name f__251B_0068_0007_CF07
  * @implements 251B:0068:0007:CF07 ()
  *
- * Called From: 251B:0068:001A:83C7
  */
 void f__251B_0068_0007_CF07()
 {

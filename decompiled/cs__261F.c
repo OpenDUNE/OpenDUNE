@@ -11,104 +11,21 @@
  * @implements 261F:0008:0033:66ED ()
  *
  * Called From: 3480:0000:0002:0000
- * Called From: 3483:0020:0002:0000
- * Called From: 3483:0025:0002:0000
- * Called From: 3483:002A:0002:0000
- * Called From: 3483:002F:0002:0000
- * Called From: 3483:0034:0002:0000
- * Called From: 3488:0020:0002:0000
  * Called From: 348B:0000:0002:0000
- * Called From: 348B:0020:0002:0000
- * Called From: 348B:002F:0002:0000
- * Called From: 348B:0034:0002:0000
- * Called From: 348B:0039:0002:0000
- * Called From: 348B:003E:0002:0000
- * Called From: 348B:0043:0002:0000
  * Called From: 3495:0000:0002:0000
- * Called From: 3495:0020:0002:0000
  * Called From: 34A2:0000:0002:0000
- * Called From: 34A2:0020:0002:0000
- * Called From: 34A2:002A:0002:0000
  * Called From: 34AE:0000:0002:0000
- * Called From: 34AE:0020:0002:0000
- * Called From: 34B1:0020:0002:0000
- * Called From: 34B1:0025:0002:0000
- * Called From: 34B1:002A:0002:0000
  * Called From: 34B5:0000:0002:0000
- * Called From: 34B5:0020:0002:0000
  * Called From: 34B8:0000:0002:0000
- * Called From: 34B8:0020:0002:0000
- * Called From: 34B8:0025:0002:0000
- * Called From: 34B8:002A:0002:0000
- * Called From: 34B8:002F:0002:0000
- * Called From: 34B8:0034:0002:0000
- * Called From: 34B8:0039:0002:0000
  * Called From: 34BE:0000:0002:0000
- * Called From: 34BE:0020:0002:0000
- * Called From: 34C1:0020:0002:0000
- * Called From: 34C1:0025:0002:0000
- * Called From: 34C1:002A:0002:0000
- * Called From: 34C4:0020:0002:0000
- * Called From: 34CA:0020:0002:0000
  * Called From: 34CD:0000:0002:0000
- * Called From: 34CD:0057:0002:0000
- * Called From: 34CD:005C:0002:0000
- * Called From: 34CD:0061:0002:0000
- * Called From: 34CD:008E:0002:0000
- * Called From: 34CD:00A2:0002:0000
- * Called From: 34CD:00B1:0002:0000
- * Called From: 34CD:00B6:0002:0000
- * Called From: 34CD:00C0:0002:0000
  * Called From: 34DA:0000:0002:0000
- * Called From: 34DA:0020:0002:0000
- * Called From: 34DA:0025:0002:0000
- * Called From: 34DA:002A:0002:0000
- * Called From: 34DA:002F:0002:0000
- * Called From: 34DA:0034:0002:0000
- * Called From: 34DA:0039:0002:0000
  * Called From: 34E0:0000:0002:0000
- * Called From: 34E0:0020:0002:0000
- * Called From: 34E6:0025:0002:0000
  * Called From: 34E9:0000:0002:0000
- * Called From: 34E9:0020:0002:0000
- * Called From: 34E9:0025:0002:0000
- * Called From: 34E9:002A:0002:0000
- * Called From: 34E9:002F:0002:0000
- * Called From: 34ED:0020:0002:0000
  * Called From: 34F2:0000:0002:0000
- * Called From: 34F2:0020:0002:0000
- * Called From: 34F2:0025:0002:0000
- * Called From: 34F2:002A:0002:0000
- * Called From: 34F2:002F:0002:0000
- * Called From: 34FC:0020:0002:0000
- * Called From: 34FC:0025:0002:0000
- * Called From: 3500:0020:0002:0000
  * Called From: 3503:0000:0002:0000
- * Called From: 3503:0020:0002:0000
- * Called From: 350B:0020:0002:0000
  * Called From: 3511:0000:0002:0000
- * Called From: 3511:0020:0002:0000
- * Called From: 3511:002A:0002:0000
- * Called From: 3511:0034:0002:0000
- * Called From: 3511:0039:0002:0000
- * Called From: 3511:003E:0002:0000
- * Called From: 3511:0043:0002:0000
  * Called From: 3518:0000:0002:0000
- * Called From: 3518:0020:0002:0000
- * Called From: 3518:0025:0002:0000
- * Called From: 3518:0066:0002:0000
- * Called From: 3520:0025:0002:0000
- * Called From: 3520:0034:0002:0000
- * Called From: 3520:004D:0002:0000
- * Called From: 3527:0020:0002:0000
- * Called From: 352A:0020:0002:0000
- * Called From: 352A:002A:0002:0000
- * Called From: 3530:0020:0002:0000
- * Called From: 3533:0020:0002:0000
- * Called From: 3536:002F:0002:0000
- * Called From: 3536:0039:0002:0000
- * Called From: 353B:0020:0002:0000
- * Called From: 353B:002F:0002:0000
  */
 void f__261F_0008_0033_66ED()
 {
@@ -162,7 +79,6 @@ void f__261F_003C_000E_672A()
  * @name f__261F_004A_000E_FD7C
  * @implements 261F:004A:000E:FD7C ()
  *
- * Called From: 261F:004A:000E:672A
  */
 void f__261F_004A_000E_FD7C()
 {
@@ -193,7 +109,6 @@ void f__261F_0058_0005_44EF()
  * @name f__261F_005D_0005_B7B6
  * @implements 261F:005D:0005:B7B6 ()
  *
- * Called From: 261F:005D:0005:44EF
  */
 void f__261F_005D_0005_B7B6()
 {
@@ -254,7 +169,6 @@ void f__261F_007B_000D_15ED()
  * @name f__261F_0088_0016_3265
  * @implements 261F:0088:0016:3265 ()
  *
- * Called From: 261F:0088:000D:15ED
  */
 void f__261F_0088_0016_3265()
 {
@@ -294,7 +208,6 @@ void f__261F_00A8_000E_768E()
  * @name f__261F_00B6_0017_107E
  * @implements 261F:00B6:0017:107E ()
  *
- * Called From: 261F:00B6:000E:768E
  */
 void f__261F_00B6_0017_107E()
 {
@@ -344,7 +257,6 @@ void f__261F_00DF_000A_57AA()
  * @name f__261F_00E9_001B_0FA7
  * @implements 261F:00E9:001B:0FA7 ()
  *
- * Called From: 261F:00E9:000A:57AA
  */
 void f__261F_00E9_001B_0FA7()
 {
@@ -389,7 +301,6 @@ void f__261F_0107_0012_C65C()
  * @name f__261F_0119_0011_366E
  * @implements 261F:0119:0011:366E ()
  *
- * Called From: 261F:0119:0012:C65C
  */
 void f__261F_0119_0011_366E()
 {
@@ -409,7 +320,6 @@ void f__261F_0119_0011_366E()
  * @name f__261F_012A_0021_FC59
  * @implements 261F:012A:0021:FC59 ()
  *
- * Called From: 261F:012A:0011:366E
  */
 void f__261F_012A_0021_FC59()
 {
@@ -460,7 +370,6 @@ void f__261F_015D_0008_F306()
  * @name f__261F_0165_0003_CD9A
  * @implements 261F:0165:0003:CD9A ()
  *
- * Called From: 261F:0165:0008:F306
  */
 void f__261F_0165_0003_CD9A()
 {
@@ -554,8 +463,6 @@ void f__261F_0175_0010_C131()
  * @name f__261F_0185_001A_54D2
  * @implements 261F:0185:001A:54D2 ()
  *
- * Called From: 261F:0185:001D:22F4
- * Called From: 261F:0185:0010:C131
  */
 void f__261F_0185_001A_54D2()
 {
@@ -583,7 +490,6 @@ void f__261F_0185_001A_54D2()
  * @name f__261F_019F_001B_EDBF
  * @implements 261F:019F:001B:EDBF ()
  *
- * Called From: 261F:019F:001A:54D2
  */
 void f__261F_019F_001B_EDBF()
 {

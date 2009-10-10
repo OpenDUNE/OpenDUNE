@@ -127,7 +127,6 @@ void f__2BB6_004F_0014_AB2C()
  * @name f__2BB6_0063_0041_F459
  * @implements 2BB6:0063:0041:F459 ()
  *
- * Called From: 2BB6:0063:0014:AB2C
  */
 void f__2BB6_0063_0041_F459()
 {
@@ -144,29 +143,7 @@ void f__2BB6_0063_0041_F459()
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x10));
 	emu_movw(&emu_bx, emu_si);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_di, 0x0));
-	emu_movb(&emu_al, emu_get_memory8(emu_ds, emu_bx + emu_al, 0x0));
-	emu_stosb();
-	if (--emu_cx != 0) { f__2BB6_0089_001B_258B(); return; }
-	emu_addw(&emu_di, 0x140);
-	emu_subw(&emu_di, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_decw(&emu_dx);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0086; emu_last_cs = 0x2BB6; emu_last_ip = 0x0098; emu_last_length = 0x0041; emu_last_crc = 0xF459; emu_call(); return; }
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__2BB6_0086_001E_5705(); return;
 }
 
 /**
@@ -180,28 +157,7 @@ void f__2BB6_0063_0041_F459()
 void f__2BB6_0086_001E_5705()
 {
 	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_di, 0x0));
-	emu_movb(&emu_al, emu_get_memory8(emu_ds, emu_bx + emu_al, 0x0));
-	emu_stosb();
-	if (--emu_cx != 0) { f__2BB6_0089_001B_258B(); return; }
-	emu_addw(&emu_di, 0x140);
-	emu_subw(&emu_di, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_decw(&emu_dx);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0086; emu_last_cs = 0x2BB6; emu_last_ip = 0x0098; emu_last_length = 0x001E; emu_last_crc = 0x5705; emu_call(); return; }
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	f__2BB6_0089_001B_258B(); return;
 }
 
 /**
