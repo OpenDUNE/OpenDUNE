@@ -1917,7 +1917,7 @@ void f__22A6_07B3_0037_50B9()
 	emu_shlw(&emu_bx, 0x1);
 	emu_addw(&emu_bx, emu_get_memory16(emu_cs, 0x00, 0x74));
 	emu_movw(&emu_cx, emu_get_memory16(emu_es, emu_bx + emu_si, 0x0));
-	if (emu_cx == 0) { /* Unresolved jump */ emu_ip = 0x07E7; emu_last_cs = 0x22A6; emu_last_ip = 0x07DC; emu_last_length = 0x0037; emu_last_crc = 0x50B9; emu_call(); return; }
+	if (emu_cx == 0) { f__22A6_07E7_0003_DDA3(); return; }
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_cmpw(&emu_dx, 0x140);
 	if (emu_flags.cf) { f__22A6_07EA_007A_8632(); return; }
@@ -1930,6 +1930,7 @@ void f__22A6_07B3_0037_50B9()
  * @name f__22A6_07E7_0003_DDA3
  * @implements 22A6:07E7:0003:DDA3 ()
  *
+ * Called From: 22A6:07DC:0037:50B9
  * Called From: 22A6:0802:007A:8632
  * Called From: 22A6:080D:007A:8632
  * Called From: 22A6:0823:007A:8632
