@@ -32,7 +32,7 @@ void f__B500_0000_0008_FE1F()
 void f__B500_0008_000C_F964()
 {
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7096), 0x0);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0014; emu_last_cs = 0xB500; emu_last_ip = 0x000D; emu_last_length = 0x000C; emu_last_crc = 0xF964; emu_call(); return; }
+	if (emu_flags.zf) { f__B500_0014_0015_D8D5(); return; }
 	emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Input_Mouse_CallbackClear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { ovl__3500(0xFF); }

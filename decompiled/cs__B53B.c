@@ -188,7 +188,7 @@ void f__B53B_00A6_0051_C06D()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xE), emu_ax);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x31B2));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x31B4));
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0124; emu_last_cs = 0xB53B; emu_last_ip = 0x00E6; emu_last_length = 0x0051; emu_last_crc = 0xC06D; emu_call(); return; }
+	if (!emu_flags.zf) { f__B53B_0124_0028_D443(); return; }
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x992F));
 	emu_movw(&emu_ax, 0x353F);
@@ -239,9 +239,10 @@ void f__B53B_0100_0016_FC40()
 {
 	emu_orw(&emu_dx, emu_dx);
 	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0122; emu_last_cs = 0xB53B; emu_last_ip = 0x0102; emu_last_length = 0x0016; emu_last_crc = 0xFC40; emu_call(); return; }
-	if (!emu_flags.zf) { f__B53B_010A_000C_1AF8(); return; }
-	emu_cmpw(&emu_ax, emu_si);
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0122; emu_last_cs = 0xB53B; emu_last_ip = 0x0108; emu_last_length = 0x0016; emu_last_crc = 0xFC40; emu_call(); return; }
+	if (emu_flags.zf) {
+		emu_cmpw(&emu_ax, emu_si);
+		if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0122; emu_last_cs = 0xB53B; emu_last_ip = 0x0108; emu_last_length = 0x0016; emu_last_crc = 0xFC40; emu_call(); return; }
+	}
 	f__B53B_010A_000C_1AF8(); return;
 }
 
@@ -424,9 +425,10 @@ void f__B53B_0196_0033_F614()
 {
 	emu_addw(&emu_sp, 0x8);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x6), 0x2);
-	if (emu_flags.zf) { f__B53B_01A5_0024_3A58(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x6), 0x0);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01CC; emu_last_cs = 0xB53B; emu_last_ip = 0x01A3; emu_last_length = 0x0033; emu_last_crc = 0xF614; emu_call(); return; }
+	if (!emu_flags.zf) {
+		emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x6), 0x0);
+		if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x01CC; emu_last_cs = 0xB53B; emu_last_ip = 0x01A3; emu_last_length = 0x0033; emu_last_crc = 0xF614; emu_call(); return; }
+	}
 	f__B53B_01A5_0024_3A58(); return;
 }
 

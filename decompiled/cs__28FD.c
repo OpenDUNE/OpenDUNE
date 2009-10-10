@@ -68,7 +68,7 @@ void f__28FD_002B_0009_3693()
 {
 	if (!emu_flags.cf) { f__28FD_0034_0009_3133(); return; }
 	emu_cmpb(&emu_al, 0xF);
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0034; emu_last_cs = 0x28FD; emu_last_ip = 0x002F; emu_last_length = 0x0009; emu_last_crc = 0x3693; emu_call(); return; }
+	if (!emu_flags.zf) { f__28FD_0034_0009_3133(); return; }
 	emu_decw(&emu_dx);
 	/* Unresolved jump */ emu_ip = 0x0022; emu_last_cs = 0x28FD; emu_last_ip = 0x0032; emu_last_length = 0x0009; emu_last_crc = 0x3693; emu_call();
 }

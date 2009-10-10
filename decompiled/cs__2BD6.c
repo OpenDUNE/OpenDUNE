@@ -111,8 +111,9 @@ void f__2BD6_003E_0040_FC4A()
 	emu_xorb(&emu_ch, emu_ch);
 	emu_addw(&emu_cx, 0x3);
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
-	if ((emu_flags.cf || emu_flags.zf)) { f__2BD6_0071_000D_9AAA(); return; }
-	emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	}
 	f__2BD6_0071_000D_9AAA(); return;
 }
 
@@ -154,8 +155,9 @@ void f__2BD6_007E_001F_4BDA()
 	emu_movb(&emu_cl, emu_al);
 	emu_andw(&emu_cx, 0x3F);
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
-	if ((emu_flags.cf || emu_flags.zf)) { f__2BD6_0097_0006_F251(); return; }
-	emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	}
 	f__2BD6_0097_0006_F251(); return;
 }
 
@@ -211,8 +213,9 @@ void f__2BD6_00A6_0023_D870()
 	emu_lodsb(emu_ds);
 	emu_movw(&emu_bx, emu_si);
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
-	if ((emu_flags.cf || emu_flags.zf)) { f__2BD6_00C4_0005_852F(); return; }
-	emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	}
 	f__2BD6_00C4_0005_852F(); return;
 }
 
@@ -241,9 +244,10 @@ void f__2BD6_00C4_0005_852F()
 void f__2BD6_00C9_0024_BC39()
 {
 	emu_cmpb(&emu_al, 0xFF);
-	if (!emu_flags.zf) { f__2BD6_00D0_001D_37CB(); return; }
-	emu_lodsw(emu_ds);
-	emu_movw(&emu_cx, emu_ax);
+	if (emu_flags.zf) {
+		emu_lodsw(emu_ds);
+		emu_movw(&emu_cx, emu_ax);
+	}
 	f__2BD6_00D0_001D_37CB(); return;
 }
 
@@ -263,8 +267,9 @@ void f__2BD6_00D0_001D_37CB()
 	emu_movw(&emu_si, emu_ax);
 	emu_movw(&emu_ds, emu_bp);
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
-	if ((emu_flags.cf || emu_flags.zf)) { f__2BD6_00E8_0005_6526(); return; }
-	emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_cx, emu_get_memory16(emu_cs, 0x00, 0xF8));
+	}
 	f__2BD6_00E8_0005_6526(); return;
 }
 

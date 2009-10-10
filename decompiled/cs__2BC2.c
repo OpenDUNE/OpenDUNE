@@ -31,7 +31,7 @@ void f__2BC2_000A_0044_2E0E()
 	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ds, 0x00, 0x99F3));
 	emu_movw(&emu_ax, emu_es);
 	emu_orw(&emu_ax, emu_di);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x004B; emu_last_cs = 0x2BC2; emu_last_ip = 0x001F; emu_last_length = 0x0044; emu_last_crc = 0x2E0E; emu_call(); return; }
+	if (emu_flags.zf) { f__2BC2_004B_0003_DD06(); return; }
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_es);
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_di, 0x8));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax);
@@ -42,8 +42,9 @@ void f__2BC2_000A_0044_2E0E()
 	emu_lfp(&emu_es, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_cmpw(&emu_bx, 0x0);
-	if (!(emu_flags.sf != emu_flags.of)) { f__2BC2_0045_0009_9156(); return; }
-	emu_xorw(&emu_bx, emu_bx);
+	if ((emu_flags.sf != emu_flags.of)) {
+		emu_xorw(&emu_bx, emu_bx);
+	}
 	f__2BC2_0045_0009_9156(); return;
 }
 
@@ -89,8 +90,9 @@ void f__2BC2_004E_0031_B02D()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xA), emu_bx);
 	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_cmpw(&emu_cx, 0x0);
-	if (!(emu_flags.sf != emu_flags.of)) { f__2BC2_005B_0024_8300(); return; }
-	emu_xorw(&emu_cx, emu_cx);
+	if ((emu_flags.sf != emu_flags.of)) {
+		emu_xorw(&emu_cx, emu_cx);
+	}
 	f__2BC2_005B_0024_8300(); return;
 }
 
@@ -196,10 +198,11 @@ void f__2BC2_009B_0043_F33C()
 	emu_addw(&emu_dx, emu_ax);
 	emu_pop(&emu_es);
 	emu_cmpw(&emu_dx, 0x140);
-	if ((emu_flags.cf || emu_flags.zf)) { f__2BC2_00CC_0012_BF40(); return; }
-	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_addw(&emu_cx, emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_addw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x6C6E));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0xA));
+		emu_addw(&emu_cx, emu_get_memory16(emu_ss, emu_bp, -0x6));
+		emu_addw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x6C6E));
+	}
 	f__2BC2_00CC_0012_BF40(); return;
 }
 

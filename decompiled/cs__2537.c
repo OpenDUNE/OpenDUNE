@@ -58,10 +58,11 @@ void f__2537_000C_001C_86CB()
 	emu_movw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_di, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_cmpw(&emu_si, emu_di);
-	if ((emu_flags.cf || emu_flags.zf)) { f__2537_0026_0002_C03A(); return; }
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_si);
-	emu_movw(&emu_si, emu_di);
-	emu_movw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	if (!(emu_flags.cf || emu_flags.zf)) {
+		emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_si);
+		emu_movw(&emu_si, emu_di);
+		emu_movw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	}
 	f__2537_0026_0002_C03A(); return;
 }
 

@@ -59,9 +59,10 @@ void f__24FD_002A_001F_D95C()
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76AA));
 	if (!(emu_flags.cf || emu_flags.zf)) { f__24FD_002A_001F_D95C(); return; }
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x003E; emu_last_cs = 0x24FD; emu_last_ip = 0x0036; emu_last_length = 0x001F; emu_last_crc = 0xD95C; emu_call(); return; }
-	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
-	if (!emu_flags.cf) { f__24FD_002A_001F_D95C(); return; }
+	if (!emu_flags.cf) {
+		emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
+		if (!emu_flags.cf) { f__24FD_002A_001F_D95C(); return; }
+	}
 	f__24FD_003E_000B_81CA(); return;
 }
 

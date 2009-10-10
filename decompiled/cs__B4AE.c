@@ -56,7 +56,7 @@ void f__B4AE_0018_0013_32DB()
 	if (emu_flags.zf) { f__B4AE_002B_001D_6FA8(); return; }
 	emu_cmpw(&emu_ax, 0x2);
 	if (emu_flags.zf) { f__B4AE_004D_0019_DEF2(); return; }
-	/* Unresolved jump */ emu_ip = 0x007F; emu_last_cs = 0xB4AE; emu_last_ip = 0x0029; emu_last_length = 0x0013; emu_last_crc = 0x32DB; emu_call();
+	f__B4AE_007F_0002_F5BA(); return;
 }
 
 /**

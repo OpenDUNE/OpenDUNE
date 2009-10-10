@@ -105,7 +105,7 @@ void f__16BC_0044_0027_CB92()
 	emu_subw(&emu_sp, 0x4);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0091; emu_last_cs = 0x16BC; emu_last_ip = 0x0050; emu_last_length = 0x0027; emu_last_crc = 0xCB92; emu_call(); return; }
+	if (emu_flags.zf) { f__16BC_0091_0004_9539(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x6F), 0x0);
 	if (emu_flags.zf) { f__16BC_0091_0004_9539(); return; }
