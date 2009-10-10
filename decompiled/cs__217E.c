@@ -2326,7 +2326,7 @@ void f__217E_061D_0002_A181()
  */
 void f__217E_061F_0005_07A7()
 {
-	emu_cs = 0x01F7; f__01F7_02AC_000F_B26A(); return;
+	emu_cs = 0x01F7; emu_File_Write2(); return;
 }
 
 /**

@@ -1,3 +1,6 @@
+01F7:0272:0007:7402	emu_File_Write1	#
+01F7:02AC:000F:B26A	emu_File_Write2	#
+01F7:0821:000E:581D	emu_File_Read	#
 01F7:10EF:000B:AF8B	emu_File_Delete	#
 01F7:23F4:000A:3443	emu_File_Close	#
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
