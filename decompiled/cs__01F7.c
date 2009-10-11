@@ -598,15 +598,15 @@ l__02C9:
 }
 
 /**
- * Decompiled function f__01F7_02F7_0007_3850()
+ * Decompiled function emu_Drive_Get_Default()
  *
- * @name f__01F7_02F7_0007_3850
+ * @name emu_Drive_Get_Default
  * @implements 01F7:02F7:0007:3850 ()
  * @implements 01F7:02FE:000B:E8C5
  *
  * Called From: 01F7:0435:0010:87B4
  */
-void f__01F7_02F7_0007_3850()
+void emu_Drive_Get_Default()
 {
 l__02F7:
 	emu_push(emu_bp);
@@ -628,15 +628,15 @@ l__02FE:
 }
 
 /**
- * Decompiled function f__01F7_0309_000C_E723()
+ * Decompiled function emu_Drive_Set_Default()
  *
- * @name f__01F7_0309_000C_E723
+ * @name emu_Drive_Set_Default
  * @implements 01F7:0309:000C:E723 ()
  * @implements 01F7:0315:000A:7DF3
  *
  * Called From: 01F7:0454:0015:6A10
  */
-void f__01F7_0309_000C_E723()
+void emu_Drive_Set_Default()
 {
 l__0309:
 	emu_push(emu_bp);
@@ -910,16 +910,16 @@ l__03C9:
 }
 
 /**
- * Decompiled function f__01F7_03E5_000F_055B()
+ * Decompiled function emu_Drive_Get_Curdir()
  *
- * @name f__01F7_03E5_000F_055B
+ * @name emu_Drive_Get_Curdir
  * @implements 01F7:03E5:000F:055B ()
  * @implements 01F7:03F4:0007:2226
  * @implements 01F7:03FF:0003:2E57
  *
  * Called From: 01F7:2795:001A:E421
  */
-void f__01F7_03E5_000F_055B()
+void emu_Drive_Get_Curdir()
 {
 l__03E5:
 	emu_push(emu_bp);
@@ -947,15 +947,15 @@ l__03FF:
 }
 
 /**
- * Decompiled function f__01F7_0402_0007_3E30()
+ * Decompiled function emu_Date_Get()
  *
- * @name f__01F7_0402_0007_3E30
+ * @name emu_Date_Get
  * @implements 01F7:0402:0007:3E30 ()
  * @implements 01F7:0409:000C:8D5C
  *
  * Called From: 01F7:104C:0010:4132
  */
-void f__01F7_0402_0007_3E30()
+void emu_Date_Get()
 {
 l__0402:
 	emu_push(emu_bp);
@@ -976,15 +976,15 @@ l__0409:
 }
 
 /**
- * Decompiled function f__01F7_0415_0007_3EF0()
+ * Decompiled function emu_Time_Get()
  *
- * @name f__01F7_0415_0007_3EF0
+ * @name emu_Time_Get
  * @implements 01F7:0415:0007:3EF0 ()
  * @implements 01F7:041C:000C:8D5C
  *
  * Called From: 01F7:1058:000C:A782
  */
-void f__01F7_0415_0007_3EF0()
+void emu_Time_Get()
 {
 l__0415:
 	emu_push(emu_bp);
@@ -1026,7 +1026,7 @@ l__0428:
 	emu_movw(&emu_ax, emu_bp - 0x2);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0438); f__01F7_02F7_0007_3850();
+	emu_push(0x0438); emu_Drive_Get_Default();
 	goto l__0438;
 l__0438:
 	emu_pop(&emu_cx);
@@ -1065,7 +1065,7 @@ l__0442:
 	emu_incw(&emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0457); f__01F7_0309_000C_E723();
+	emu_push(0x0457); emu_Drive_Set_Default();
 	goto l__0457;
 l__0457:
 	emu_addw(&emu_sp, 0x6);
@@ -1080,15 +1080,15 @@ l__0457:
 }
 
 /**
- * Decompiled function f__01F7_0494_000D_EF57()
+ * Decompiled function emu_Drive_Get_Free_Space()
  *
- * @name f__01F7_0494_000D_EF57
+ * @name emu_Drive_Get_Free_Space
  * @implements 01F7:0494:000D:EF57 ()
  * @implements 01F7:04A1:001C:75A1
  *
  * Called From: B4F2:11DD:0013:5635
  */
-void f__01F7_0494_000D_EF57()
+void emu_Drive_Get_Free_Space()
 {
 l__0494:
 	emu_push(emu_bp);
@@ -1116,15 +1116,15 @@ l__04A1:
 }
 
 /**
- * Decompiled function f__01F7_04BD_000A_984A()
+ * Decompiled function emu_Interrupt_Vector_Get()
  *
- * @name f__01F7_04BD_000A_984A
+ * @name emu_Interrupt_Vector_Get
  * @implements 01F7:04BD:000A:984A ()
  * @implements 01F7:04C7:0005:F947
  *
  * Called From: 1DB6:0016:000C:BA0F
  */
-void f__01F7_04BD_000A_984A()
+void emu_Interrupt_Vector_Get()
 {
 l__04BD:
 	emu_push(emu_bp);
@@ -2714,7 +2714,7 @@ l__103F:
 	emu_movw(&emu_ax, emu_bp - 0x4);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x104F); f__01F7_0402_0007_3E30();
+	emu_push(0x104F); emu_Date_Get();
 	goto l__104F;
 l__104F:
 	emu_pop(&emu_cx);
@@ -2723,7 +2723,7 @@ l__104F:
 	emu_movw(&emu_ax, emu_bp - 0x8);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x105B); f__01F7_0415_0007_3EF0();
+	emu_push(0x105B); emu_Time_Get();
 	goto l__105B;
 l__105B:
 	emu_pop(&emu_cx);
@@ -5467,7 +5467,7 @@ l__277E:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x2798); f__01F7_03E5_000F_055B();
+	emu_push(0x2798); emu_Drive_Get_Curdir();
 	goto l__2798;
 l__2798:
 	emu_addw(&emu_sp, 0x6);

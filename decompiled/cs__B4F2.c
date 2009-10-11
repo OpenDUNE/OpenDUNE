@@ -3139,7 +3139,7 @@ l__11CF:
 	emu_push(emu_ax);
 	emu_al = 0x0;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x01F7; f__01F7_0494_000D_EF57();
+	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x01F7; emu_Drive_Get_Free_Space();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { ovl__34F2(0xFF); }
 	goto l__11E2;

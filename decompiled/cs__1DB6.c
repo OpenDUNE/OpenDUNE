@@ -52,7 +52,7 @@ l__000F:
 	emu_get_memory16(emu_ds, 0x00, 0x6E26) = emu_ax;
 	emu_ax = 0x3F;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; f__01F7_04BD_000A_984A();
+	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; emu_Interrupt_Vector_Get();
 	goto l__001B;
 l__001B:
 	emu_pop(&emu_cx);
