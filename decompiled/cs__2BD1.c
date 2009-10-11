@@ -5,14 +5,14 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2BD1_0004_0001_6580()
+ * Decompiled function emu_Empty1()
  *
- * @name f__2BD1_0004_0001_6580
+ * @name emu_Empty1
  * @implements 2BD1:0004:0001:6580 ()
  *
  * Called From: 1DB6:01B0:0005:1164
  */
-void f__2BD1_0004_0001_6580()
+void emu_Empty1()
 {
 l__0004:
 
@@ -23,14 +23,14 @@ l__0004:
 }
 
 /**
- * Decompiled function f__2BD1_0005_0001_6580()
+ * Decompiled function emu_Empty2()
  *
- * @name f__2BD1_0005_0001_6580
+ * @name emu_Empty2
  * @implements 2BD1:0005:0001:6580 ()
  *
  * Called From: B500:0038:0005:0164
  */
-void f__2BD1_0005_0001_6580()
+void emu_Empty2()
 {
 l__0005:
 

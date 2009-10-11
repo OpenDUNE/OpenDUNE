@@ -231,7 +231,7 @@ l__01A9:
 	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
 	goto l__01B0;
 l__01B0:
-	emu_push(emu_cs); emu_push(0x01B5); emu_cs = 0x2BD1; f__2BD1_0004_0001_6580();
+	emu_push(emu_cs); emu_push(0x01B5); emu_cs = 0x2BD1; emu_Empty1();
 	goto l__01B5;
 l__01B5:
 	emu_push(emu_cs); emu_push(0x01BA); emu_cs = 0x1FB5; f__1FB5_18D3_000E_76AC();

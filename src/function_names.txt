@@ -20,6 +20,9 @@
 
 1A34:3623:0010:B11C     emu_Unit_GetHouseID     # Units can be deviated
 
+2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
+2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing
+
 2B0E:00D0:0022:EC76	emu_Tools_GetSmallestIP	# Move as much of the IP to CS
 
 B4DA:157C:0026:46F6	emu_Security_ValidateAnswer

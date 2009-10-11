@@ -62,7 +62,7 @@ l__002C:
 	}
 	goto l__0038;
 l__0038:
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x2BD1; f__2BD1_0005_0001_6580();
+	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x2BD1; emu_Empty2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { ovl__3500(0xFF); }
 	goto l__003D;
