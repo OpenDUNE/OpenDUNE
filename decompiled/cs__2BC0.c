@@ -22,6 +22,7 @@
  */
 void f__2BC0_0004_000F_950B()
 {
+l__0004:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -48,6 +49,7 @@ void f__2BC0_0004_000F_950B()
  */
 void f__2BC0_0013_000A_39BD()
 {
+l__0013:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));

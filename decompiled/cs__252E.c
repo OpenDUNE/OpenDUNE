@@ -9,6 +9,7 @@
  *
  * @name f__252E_0001_0018_08B3
  * @implements 252E:0001:0018:08B3 ()
+ * @implements 252E:0019:0002:2597
  *
  * Called From: 1587:0015:0012:30AE
  * Called From: 1587:0024:000F:6FDC
@@ -56,6 +57,7 @@
  */
 void f__252E_0001_0018_08B3()
 {
+l__0001:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -65,19 +67,8 @@ void f__252E_0001_0018_08B3()
 	emu_shlw(&emu_bx, 0x1);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ds, emu_bx, 0x6C93));
 	emu_xorw(&emu_ax, emu_ax);
-	f__252E_0019_0002_2597(); return;
-}
-
-/**
- * Decompiled function f__252E_0019_0002_2597()
- *
- * @name f__252E_0019_0002_2597
- * @implements 252E:0019:0002:2597 ()
- *
- * Called From: 252E:0017:0018:08B3
- */
-void f__252E_0019_0002_2597()
-{
+	goto l__0019;
+l__0019:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -91,6 +82,7 @@ void f__252E_0019_0002_2597()
  *
  * @name f__252E_001B_0018_EA2C
  * @implements 252E:001B:0018:EA2C ()
+ * @implements 252E:0033:0002:2597
  *
  * Called From: 28E6:0045:0009:2106
  * Called From: 2903:025E:0041:BA21
@@ -99,6 +91,7 @@ void f__252E_0019_0002_2597()
  */
 void f__252E_001B_0018_EA2C()
 {
+l__001B:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_cx, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -108,19 +101,8 @@ void f__252E_001B_0018_EA2C()
 	emu_shlw(&emu_bx, 0x1);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ds, emu_bx, 0x6C93));
 	emu_xorw(&emu_ax, emu_ax);
-	f__252E_0033_0002_2597(); return;
-}
-
-/**
- * Decompiled function f__252E_0033_0002_2597()
- *
- * @name f__252E_0033_0002_2597
- * @implements 252E:0033:0002:2597 ()
- *
- * Called From: 252E:0031:0018:EA2C
- */
-void f__252E_0033_0002_2597()
-{
+	goto l__0033;
+l__0033:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */

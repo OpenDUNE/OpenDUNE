@@ -24,6 +24,7 @@
  */
 void f__29DA_00D0_0013_E21A()
 {
+l__00D0:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_push(emu_bx);

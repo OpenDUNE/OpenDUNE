@@ -15,6 +15,7 @@
  */
 void f__2BEE_000E_0009_8881()
 {
+l__000E:
 	emu_movw(&emu_dx, 0x3DA);
 	emu_inb(&emu_al, emu_dx);
 	emu_andb(&emu_al, 0x8);

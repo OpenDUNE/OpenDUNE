@@ -9,6 +9,7 @@
  *
  * @name f__260F_003A_0014_CA10
  * @implements 260F:003A:0014:CA10 ()
+ * @implements 260F:0052:0002:2597
  *
  * Called From: 0AEC:0953:0022:44A5
  * Called From: B495:097D:0028:09CD
@@ -25,6 +26,7 @@
  */
 void f__260F_003A_0014_CA10()
 {
+l__003A:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -32,19 +34,8 @@ void f__260F_003A_0014_CA10()
 	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x004E; emu_last_cs = 0x260F; emu_last_ip = 0x0043; emu_last_length = 0x0014; emu_last_crc = 0xCA10; emu_call(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x3));
-	f__260F_0052_0002_2597(); return;
-}
-
-/**
- * Decompiled function f__260F_0052_0002_2597()
- *
- * @name f__260F_0052_0002_2597
- * @implements 260F:0052:0002:2597 ()
- *
- * Called From: 260F:004C:0014:CA10
- */
-void f__260F_0052_0002_2597()
-{
+	goto l__0052;
+l__0052:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -58,6 +49,7 @@ void f__260F_0052_0002_2597()
  *
  * @name f__260F_0054_0016_0011
  * @implements 260F:0054:0016:0011 ()
+ * @implements 260F:006E:0002:2597
  *
  * Called From: B4B8:1080:0014:8D34
  * Called From: B4DA:0127:0019:EE88
@@ -73,6 +65,7 @@ void f__260F_0052_0002_2597()
  */
 void f__260F_0054_0016_0011()
 {
+l__0054:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -81,19 +74,8 @@ void f__260F_0054_0016_0011()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x2));
 	emu_movb(&emu_ah, 0x0);
-	f__260F_006E_0002_2597(); return;
-}
-
-/**
- * Decompiled function f__260F_006E_0002_2597()
- *
- * @name f__260F_006E_0002_2597
- * @implements 260F:006E:0002:2597 ()
- *
- * Called From: 260F:0068:0016:0011
- */
-void f__260F_006E_0002_2597()
-{
+	goto l__006E;
+l__006E:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */

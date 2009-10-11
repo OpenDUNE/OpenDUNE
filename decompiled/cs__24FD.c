@@ -9,6 +9,9 @@
  *
  * @name f__24FD_000A_000B_2043
  * @implements 24FD:000A:000B:2043 ()
+ * @implements 24FD:0015:0015:F428
+ * @implements 24FD:002A:001F:D95C
+ * @implements 24FD:003E:000B:81CA
  *
  * Called From: B4E6:00A5:000C:3F1A
  * Called From: B4E6:00D0:0009:B4B2
@@ -16,70 +19,35 @@
  */
 void f__24FD_000A_000B_2043()
 {
+l__000A:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x4);
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	f__24FD_003E_000B_81CA(); return;
-}
-
-/**
- * Decompiled function f__24FD_0015_0015_F428()
- *
- * @name f__24FD_0015_0015_F428
- * @implements 24FD:0015:0015:F428 ()
- *
- * Called From: 24FD:0043:000B:81CA
- * Called From: 24FD:0043:001F:D95C
- */
-void f__24FD_0015_0015_F428()
-{
+	goto l__003E;
+l__0015:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76AA));
 	emu_movw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
 	emu_addw(&emu_dx, 0x1);
 	emu_adcw(&emu_ax, 0x0);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_dx);
-	f__24FD_002A_001F_D95C(); return;
-}
-
-/**
- * Decompiled function f__24FD_002A_001F_D95C()
- *
- * @name f__24FD_002A_001F_D95C
- * @implements 24FD:002A:001F:D95C ()
- *
- * Called From: 24FD:0028:0015:F428
- * Called From: 24FD:0034:001F:D95C
- * Called From: 24FD:003C:001F:D95C
- */
-void f__24FD_002A_001F_D95C()
-{
+	goto l__002A;
+l__002A:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76AA));
-	if (!(emu_flags.cf || emu_flags.zf)) { f__24FD_002A_001F_D95C(); return; }
+	if (!(emu_flags.cf || emu_flags.zf)) goto l__002A;
 	if (!emu_flags.cf) {
 		emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
-		if (!emu_flags.cf) { f__24FD_002A_001F_D95C(); return; }
+		if (!emu_flags.cf) goto l__002A;
 	}
-	f__24FD_003E_000B_81CA(); return;
-}
-
-/**
- * Decompiled function f__24FD_003E_000B_81CA()
- *
- * @name f__24FD_003E_000B_81CA
- * @implements 24FD:003E:000B:81CA ()
- *
- * Called From: 24FD:0013:000B:2043
- */
-void f__24FD_003E_000B_81CA()
-{
+	goto l__003E;
+l__003E:
 	emu_movw(&emu_ax, emu_bx);
 	emu_decw(&emu_bx);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) { f__24FD_0015_0015_F428(); return; }
+	if (!emu_flags.zf) goto l__0015;
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
 

@@ -11,6 +11,12 @@
  *
  * @name p__01F7_0229_0004_BEF7
  * @implements 01F7:0229:0004:BEF7 ()
+ *
+ * @define 01F7:0F45:004B:44A0
+ * @define 01F7:20B5:0076:64ED
+ * @define 01F7:21FA:0012:B06A
+ * @define 01F7:0138:0019:8DC5
+ * @define 01F7:022D:0003:9E5A
  */
 void p__01F7_0229_0004_BEF7()
 {

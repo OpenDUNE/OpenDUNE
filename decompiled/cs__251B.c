@@ -9,6 +9,10 @@
  *
  * @name f__251B_0000_001E_7202
  * @implements 251B:0000:001E:7202 ()
+ * @implements 251B:001E:001A:4EC8
+ * @implements 251B:0038:0016:F082
+ * @implements 251B:004E:001A:83C7
+ * @implements 251B:0068:0007:CF07
  *
  * Called From: 07D4:0894:0014:5D4C
  * Called From: 0AEC:08AB:0044:7B19
@@ -24,6 +28,7 @@
  */
 void f__251B_0000_001E_7202()
 {
+l__0000:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_push(emu_si);
@@ -51,18 +56,8 @@ void f__251B_0000_001E_7202()
 			emu_call();
 			return;
 	}
-	f__251B_001E_001A_4EC8(); return;
-}
-
-/**
- * Decompiled function f__251B_001E_001A_4EC8()
- *
- * @name f__251B_001E_001A_4EC8
- * @implements 251B:001E:001A:4EC8 ()
- *
- */
-void f__251B_001E_001A_4EC8()
-{
+	goto l__001E;
+l__001E:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
@@ -85,18 +80,8 @@ void f__251B_001E_001A_4EC8()
 			emu_call();
 			return;
 	}
-	f__251B_0038_0016_F082(); return;
-}
-
-/**
- * Decompiled function f__251B_0038_0016_F082()
- *
- * @name f__251B_0038_0016_F082
- * @implements 251B:0038:0016:F082 ()
- *
- */
-void f__251B_0038_0016_F082()
-{
+	goto l__0038;
+l__0038:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
@@ -119,18 +104,8 @@ void f__251B_0038_0016_F082()
 			emu_call();
 			return;
 	}
-	f__251B_004E_001A_83C7(); return;
-}
-
-/**
- * Decompiled function f__251B_004E_001A_83C7()
- *
- * @name f__251B_004E_001A_83C7
- * @implements 251B:004E:001A:83C7 ()
- *
- */
-void f__251B_004E_001A_83C7()
-{
+	goto l__004E;
+l__004E:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
@@ -153,18 +128,8 @@ void f__251B_004E_001A_83C7()
 			emu_call();
 			return;
 	}
-	f__251B_0068_0007_CF07(); return;
-}
-
-/**
- * Decompiled function f__251B_0068_0007_CF07()
- *
- * @name f__251B_0068_0007_CF07
- * @implements 251B:0068:0007:CF07 ()
- *
- */
-void f__251B_0068_0007_CF07()
-{
+	goto l__0068;
+l__0068:
 	emu_addw(&emu_sp, 0xA);
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);

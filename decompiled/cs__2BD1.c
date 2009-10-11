@@ -14,6 +14,7 @@
  */
 void f__2BD1_0004_0001_6580()
 {
+l__0004:
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
@@ -31,6 +32,7 @@ void f__2BD1_0004_0001_6580()
  */
 void f__2BD1_0005_0001_6580()
 {
+l__0005:
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
@@ -43,11 +45,15 @@ void f__2BD1_0005_0001_6580()
  *
  * @name f__2BD1_0006_004A_CD10
  * @implements 2BD1:0006:004A:CD10 ()
+ * @implements 2BD1:001E:0032:52D3
+ * @implements 2BD1:002C:0024:C4F2
+ * @implements 2BD1:004D:0003:AE87
  *
  * Called From: 2756:059D:0019:7966
  */
 void f__2BD1_0006_004A_CD10()
 {
+l__0006:
 	emu_push(emu_ds);
 	emu_push(emu_ax);
 	emu_movw(&emu_ax, 0x353F);
@@ -58,38 +64,15 @@ void f__2BD1_0006_004A_CD10()
 		emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76AC), 0x1);
 		emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76AE), 0x0);
 	}
-	f__2BD1_001E_0032_52D3(); return;
-}
-
-/**
- * Decompiled function f__2BD1_001E_0032_52D3()
- *
- * @name f__2BD1_001E_0032_52D3
- * @implements 2BD1:001E:0032:52D3 ()
- *
- * Called From: 2BD1:0012:004A:CD10
- */
-void f__2BD1_001E_0032_52D3()
-{
+	goto l__001E;
+l__001E:
 	emu_shrw(&emu_ax, 0x1);
 	if (emu_flags.cf) {
 		emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76B0), 0x1);
 		emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76B2), 0x0);
 	}
-	f__2BD1_002C_0024_C4F2(); return;
-}
-
-/**
- * Decompiled function f__2BD1_002C_0024_C4F2()
- *
- * @name f__2BD1_002C_0024_C4F2
- * @implements 2BD1:002C:0024:C4F2 ()
- *
- * Called From: 2BD1:0020:0032:52D3
- * Called From: 2BD1:0020:004A:CD10
- */
-void f__2BD1_002C_0024_C4F2()
-{
+	goto l__002C;
+l__002C:
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x76A6));
 	emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76A8), 0x1);
 	emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76AA), 0x0);
@@ -99,20 +82,8 @@ void f__2BD1_002C_0024_C4F2()
 		emu_subw(&emu_get_memory16(emu_ds, 0x00, 0x76B4), 0x1);
 		emu_sbbw(&emu_get_memory16(emu_ds, 0x00, 0x76B6), 0x0);
 	}
-	f__2BD1_004D_0003_AE87(); return;
-}
-
-/**
- * Decompiled function f__2BD1_004D_0003_AE87()
- *
- * @name f__2BD1_004D_0003_AE87
- * @implements 2BD1:004D:0003:AE87 ()
- *
- * Called From: 2BD1:0041:0024:C4F2
- * Called From: 2BD1:0041:004A:CD10
- */
-void f__2BD1_004D_0003_AE87()
-{
+	goto l__004D;
+l__004D:
 	emu_pop(&emu_ax);
 	emu_pop(&emu_ds);
 

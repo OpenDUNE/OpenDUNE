@@ -9,11 +9,21 @@
  *
  * @name f__B520_0000_0019_6B99
  * @implements B520:0000:0019:6B99 ()
+ * @implements B520:0019:0010:3B22
+ * @implements B520:0029:0032:C898
+ * @implements B520:005B:002A:C23D
+ * @implements B520:0085:001B:7C94
+ * @implements B520:00A0:000D:9A2C
+ * @implements B520:00AD:000D:2CDF
+ * @implements B520:00BA:001C:E198
+ * @implements B520:00D6:0007:DF15
+ * @implements B520:00DD:0006:F7CE
  *
  * Called From: 3520:004D:0005:0000
  */
 void f__B520_0000_0019_6B99()
 {
+l__0000:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x6);
@@ -25,37 +35,16 @@ void f__B520_0000_0019_6B99()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x0019); f__B520_00E3_0028_2188();
-	f__B520_0019_0010_3B22(); return;
-}
-
-/**
- * Decompiled function f__B520_0019_0010_3B22()
- *
- * @name f__B520_0019_0010_3B22
- * @implements B520:0019:0010:3B22 ()
- *
- */
-void f__B520_0019_0010_3B22()
-{
+	goto l__0019;
+l__0019:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (!emu_flags.zf) { f__B520_0029_0032_C898(); return; }
+	if (!emu_flags.zf) goto l__0029;
 	/* Unresolved jump */ emu_ip = 0x00D8; emu_last_cs = 0xB520; emu_last_ip = 0x0026; emu_last_length = 0x0010; emu_last_crc = 0x3B22; emu_call();
-}
-
-/**
- * Decompiled function f__B520_0029_0032_C898()
- *
- * @name f__B520_0029_0032_C898
- * @implements B520:0029:0032:C898 ()
- *
- * Called From: B520:0024:0010:3B22
- */
-void f__B520_0029_0032_C898()
-{
+l__0029:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x36));
 	emu_movw(&emu_dx, emu_get_memory16(emu_es, emu_bx, 0x34));
@@ -69,22 +58,11 @@ void f__B520_0029_0032_C898()
 	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0066; emu_last_cs = 0xB520; emu_last_ip = 0x0047; emu_last_length = 0x0032; emu_last_crc = 0xC898; emu_call(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x8), emu_di);
-	if (!(emu_flags.sf != emu_flags.of)) { f__B520_005B_002A_C23D(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) goto l__005B;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x8));
 	/* Unresolved jump */ emu_ip = 0x005D; emu_last_cs = 0xB520; emu_last_ip = 0x0059; emu_last_length = 0x0032; emu_last_crc = 0xC898; emu_call();
-}
-
-/**
- * Decompiled function f__B520_005B_002A_C23D()
- *
- * @name f__B520_005B_002A_C23D
- * @implements B520:005B:002A:C23D ()
- *
- * Called From: B520:0050:0032:C898
- */
-void f__B520_005B_002A_C23D()
-{
+l__005B:
 	emu_movw(&emu_ax, emu_di);
 	emu_movw(&emu_di, emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -97,21 +75,10 @@ void f__B520_005B_002A_C23D()
 	emu_subw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_movw(&emu_si, emu_ax);
 	emu_cmpw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0xE));
-	if (!(emu_flags.sf != emu_flags.of)) { f__B520_0085_001B_7C94(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) goto l__0085;
 	emu_movw(&emu_ax, emu_si);
 	/* Unresolved jump */ emu_ip = 0x0088; emu_last_cs = 0xB520; emu_last_ip = 0x0083; emu_last_length = 0x002A; emu_last_crc = 0xC23D; emu_call();
-}
-
-/**
- * Decompiled function f__B520_0085_001B_7C94()
- *
- * @name f__B520_0085_001B_7C94
- * @implements B520:0085:001B:7C94 ()
- *
- * Called From: B520:007F:002A:C23D
- */
-void f__B520_0085_001B_7C94()
-{
+l__0085:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp,  0xE), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -121,54 +88,24 @@ void f__B520_0085_001B_7C94()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
 	emu_push(0x00A0); f__B520_085F_003A_87ED();
-	f__B520_00A0_000D_9A2C(); return;
-}
-
-/**
- * Decompiled function f__B520_00A0_000D_9A2C()
- *
- * @name f__B520_00A0_000D_9A2C
- * @implements B520:00A0:000D:9A2C ()
- *
- */
-void f__B520_00A0_000D_9A2C()
-{
+	goto l__00A0;
+l__00A0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
 	emu_push(0x00AD); f__B520_096E_003C_F7E4();
-	f__B520_00AD_000D_2CDF(); return;
-}
-
-/**
- * Decompiled function f__B520_00AD_000D_2CDF()
- *
- * @name f__B520_00AD_000D_2CDF
- * @implements B520:00AD:000D:2CDF ()
- *
- */
-void f__B520_00AD_000D_2CDF()
-{
+	goto l__00AD;
+l__00AD:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x00BA); f__B520_06A2_0013_A505();
-	f__B520_00BA_001C_E198(); return;
-}
-
-/**
- * Decompiled function f__B520_00BA_001C_E198()
- *
- * @name f__B520_00BA_001C_E198
- * @implements B520:00BA:001C:E198 ()
- *
- */
-void f__B520_00BA_001C_E198()
-{
+	goto l__00BA;
+l__00BA:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -192,34 +129,13 @@ void f__B520_00BA_001C_E198()
 			emu_call();
 			return;
 	}
-	f__B520_00D6_0007_DF15(); return;
-}
-
-/**
- * Decompiled function f__B520_00D6_0007_DF15()
- *
- * @name f__B520_00D6_0007_DF15
- * @implements B520:00D6:0007:DF15 ()
- *
- */
-void f__B520_00D6_0007_DF15()
-{
+	goto l__00D6;
+l__00D6:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	f__B520_00DD_0006_F7CE(); return;
-}
-
-/**
- * Decompiled function f__B520_00DD_0006_F7CE()
- *
- * @name f__B520_00DD_0006_F7CE
- * @implements B520:00DD:0006:F7CE ()
- *
- * Called From: B520:00DB:0007:DF15
- */
-void f__B520_00DD_0006_F7CE()
-{
+	goto l__00DD;
+l__00DD:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);
@@ -236,12 +152,14 @@ void f__B520_00DD_0006_F7CE()
  *
  * @name f__B520_00E3_0028_2188
  * @implements B520:00E3:0028:2188 ()
+ * @implements B520:0110:0004:893F
  *
  * Called From: 3520:0048:0005:0000
  * Called From: B520:0016:0019:6B99
  */
 void f__B520_00E3_0028_2188()
 {
+l__00E3:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x4);
@@ -255,19 +173,8 @@ void f__B520_00E3_0028_2188()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_dx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xC));
-	f__B520_0110_0004_893F(); return;
-}
-
-/**
- * Decompiled function f__B520_0110_0004_893F()
- *
- * @name f__B520_0110_0004_893F
- * @implements B520:0110:0004:893F ()
- *
- * Called From: B520:0109:0028:2188
- */
-void f__B520_0110_0004_893F()
-{
+	goto l__0110;
+l__0110:
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
 
@@ -282,11 +189,18 @@ void f__B520_0110_0004_893F()
  *
  * @name f__B520_0114_0016_52C9
  * @implements B520:0114:0016:52C9 ()
+ * @implements B520:012A:0054:E901
+ * @implements B520:017E:0018:47C3
+ * @implements B520:0196:005C:17B9
+ * @implements B520:01F2:002D:3833
+ * @implements B520:0201:001E:722F
+ * @implements B520:021F:0004:893F
  *
  * Called From: 3520:0020:0005:0000
  */
 void f__B520_0114_0016_52C9()
 {
+l__0114:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x4);
@@ -299,18 +213,8 @@ void f__B520_0114_0016_52C9()
 	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_012A_0054_E901(); return;
-}
-
-/**
- * Decompiled function f__B520_012A_0054_E901()
- *
- * @name f__B520_012A_0054_E901
- * @implements B520:012A:0054:E901 ()
- *
- */
-void f__B520_012A_0054_E901()
-{
+	goto l__012A;
+l__012A:
 	emu_addw(&emu_sp, 0x6);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax);
@@ -337,18 +241,8 @@ void f__B520_012A_0054_E901()
 	emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x260F; f__260F_003A_0014_CA10();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_017E_0018_47C3(); return;
-}
-
-/**
- * Decompiled function f__B520_017E_0018_47C3()
- *
- * @name f__B520_017E_0018_47C3
- * @implements B520:017E:0018:47C3 ()
- *
- */
-void f__B520_017E_0018_47C3()
-{
+	goto l__017E;
+l__017E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_movb(&emu_cl, 0x3);
@@ -360,18 +254,8 @@ void f__B520_017E_0018_47C3()
 	emu_push(emu_cs); emu_push(0x0196); emu_cs = 0x260F; f__260F_0054_0016_0011();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_0196_005C_17B9(); return;
-}
-
-/**
- * Decompiled function f__B520_0196_005C_17B9()
- *
- * @name f__B520_0196_005C_17B9
- * @implements B520:0196:005C:17B9 ()
- *
- */
-void f__B520_0196_005C_17B9()
-{
+	goto l__0196;
+l__0196:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
@@ -394,39 +278,17 @@ void f__B520_0196_005C_17B9()
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x1A), emu_ax);
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x18), emu_dx);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x1A), 0x0);
-	if (emu_flags.zf) { f__B520_01F2_002D_3833(); return; }
+	if (emu_flags.zf) goto l__01F2;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x32), 0x3520);
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x30), 0x3E);
-	f__B520_0201_001E_722F(); return;
-}
-
-/**
- * Decompiled function f__B520_01F2_002D_3833()
- *
- * @name f__B520_01F2_002D_3833
- * @implements B520:01F2:002D:3833 ()
- *
- * Called From: B520:01DF:005C:17B9
- */
-void f__B520_01F2_002D_3833()
-{
+	goto l__0201;
+l__01F2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x32), 0x3520);
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x30), 0x39);
-	f__B520_0201_001E_722F(); return;
-}
-
-/**
- * Decompiled function f__B520_0201_001E_722F()
- *
- * @name f__B520_0201_001E_722F
- * @implements B520:0201:001E:722F ()
- *
- * Called From: B520:01F0:005C:17B9
- */
-void f__B520_0201_001E_722F()
-{
+	goto l__0201;
+l__0201:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x16));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x36));
 	emu_movw(&emu_dx, emu_get_memory16(emu_es, emu_bx, 0x34));
@@ -435,20 +297,8 @@ void f__B520_0201_001E_722F()
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x34), emu_dx);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	f__B520_021F_0004_893F(); return;
-}
-
-/**
- * Decompiled function f__B520_021F_0004_893F()
- *
- * @name f__B520_021F_0004_893F
- * @implements B520:021F:0004:893F ()
- *
- * Called From: B520:021D:001E:722F
- * Called From: B520:021D:002D:3833
- */
-void f__B520_021F_0004_893F()
-{
+	goto l__021F;
+l__021F:
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
 
@@ -463,11 +313,13 @@ void f__B520_021F_0004_893F()
  *
  * @name f__B520_0223_000E_38A3
  * @implements B520:0223:000E:38A3 ()
+ * @implements B520:0231:0004:BEB2
  *
  * Called From: 3520:002F:0005:0000
  */
 void f__B520_0223_000E_38A3()
 {
+l__0223:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
@@ -475,18 +327,8 @@ void f__B520_0223_000E_38A3()
 	emu_push(emu_cs); emu_push(0x0231); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_0231_0004_BEB2(); return;
-}
-
-/**
- * Decompiled function f__B520_0231_0004_BEB2()
- *
- * @name f__B520_0231_0004_BEB2
- * @implements B520:0231:0004:BEB2 ()
- *
- */
-void f__B520_0231_0004_BEB2()
-{
+	goto l__0231;
+l__0231:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_pop(&emu_bp);
@@ -502,11 +344,17 @@ void f__B520_0231_0004_BEB2()
  *
  * @name f__B520_0235_0016_54C9
  * @implements B520:0235:0016:54C9 ()
+ * @implements B520:024B:00C4:DD47
+ * @implements B520:030F:0071:C198
+ * @implements B520:0380:000D:94A7
+ * @implements B520:038D:000A:5E25
+ * @implements B520:0397:0004:893F
  *
  * Called From: 3520:0025:0005:0000
  */
 void f__B520_0235_0016_54C9()
 {
+l__0235:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x8);
@@ -519,18 +367,8 @@ void f__B520_0235_0016_54C9()
 	emu_push(emu_cs); emu_push(0x024B); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_024B_00C4_DD47(); return;
-}
-
-/**
- * Decompiled function f__B520_024B_00C4_DD47()
- *
- * @name f__B520_024B_00C4_DD47
- * @implements B520:024B:00C4:DD47 ()
- *
- */
-void f__B520_024B_00C4_DD47()
-{
+	goto l__024B;
+l__024B:
 	emu_addw(&emu_sp, 0x6);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax);
@@ -586,18 +424,8 @@ void f__B520_024B_00C4_DD47()
 	emu_push(emu_cs); emu_push(0x030F); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_030F_0071_C198(); return;
-}
-
-/**
- * Decompiled function f__B520_030F_0071_C198()
- *
- * @name f__B520_030F_0071_C198
- * @implements B520:030F:0071:C198 ()
- *
- */
-void f__B520_030F_0071_C198()
-{
+	goto l__030F;
+l__030F:
 	emu_addw(&emu_sp, 0x6);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax);
@@ -630,53 +458,22 @@ void f__B520_030F_0071_C198()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_cs);
 	emu_push(0x0380); f__B520_085F_003A_87ED();
-	f__B520_0380_000D_94A7(); return;
-}
-
-/**
- * Decompiled function f__B520_0380_000D_94A7()
- *
- * @name f__B520_0380_000D_94A7
- * @implements B520:0380:000D:94A7 ()
- *
- */
-void f__B520_0380_000D_94A7()
-{
+	goto l__0380;
+l__0380:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_cs);
 	emu_push(0x038D); f__B520_096E_003C_F7E4();
-	f__B520_038D_000A_5E25(); return;
-}
-
-/**
- * Decompiled function f__B520_038D_000A_5E25()
- *
- * @name f__B520_038D_000A_5E25
- * @implements B520:038D:000A:5E25 ()
- *
- */
-void f__B520_038D_000A_5E25()
-{
+	goto l__038D;
+l__038D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	f__B520_0397_0004_893F(); return;
-}
-
-/**
- * Decompiled function f__B520_0397_0004_893F()
- *
- * @name f__B520_0397_0004_893F
- * @implements B520:0397:0004:893F ()
- *
- * Called From: B520:0395:000A:5E25
- */
-void f__B520_0397_0004_893F()
-{
+	goto l__0397;
+l__0397:
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
 
@@ -691,11 +488,14 @@ void f__B520_0397_0004_893F()
  *
  * @name f__B520_039B_001B_4BEB
  * @implements B520:039B:001B:4BEB ()
+ * @implements B520:03B6:000D:A2A1
+ * @implements B520:03C3:0004:BEB2
  *
  * Called From: 3520:0034:0005:0000
  */
 void f__B520_039B_001B_4BEB()
 {
+l__039B:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -707,18 +507,8 @@ void f__B520_039B_001B_4BEB()
 	emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_03B6_000D_A2A1(); return;
-}
-
-/**
- * Decompiled function f__B520_03B6_000D_A2A1()
- *
- * @name f__B520_03B6_000D_A2A1
- * @implements B520:03B6:000D:A2A1 ()
- *
- */
-void f__B520_03B6_000D_A2A1()
-{
+	goto l__03B6;
+l__03B6:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
@@ -726,18 +516,8 @@ void f__B520_03B6_000D_A2A1()
 	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_03C3_0004_BEB2(); return;
-}
-
-/**
- * Decompiled function f__B520_03C3_0004_BEB2()
- *
- * @name f__B520_03C3_0004_BEB2
- * @implements B520:03C3:0004:BEB2 ()
- *
- */
-void f__B520_03C3_0004_BEB2()
-{
+	goto l__03C3;
+l__03C3:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_pop(&emu_bp);
@@ -753,11 +533,14 @@ void f__B520_03C3_0004_BEB2()
  *
  * @name f__B520_03E7_0017_BA36
  * @implements B520:03E7:0017:BA36 ()
+ * @implements B520:03FE:0007:F90C
+ * @implements B520:0405:0002:2597
  *
  * Called From: 3520:003E:0005:0000
  */
 void f__B520_03E7_0017_BA36()
 {
+l__03E7:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_movw(&emu_ax, 0x1);
@@ -767,33 +550,12 @@ void f__B520_03E7_0017_BA36()
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x34));
 	emu_push(emu_cs);
 	emu_push(0x03FE); f__B520_062C_0030_162A();
-	f__B520_03FE_0007_F90C(); return;
-}
-
-/**
- * Decompiled function f__B520_03FE_0007_F90C()
- *
- * @name f__B520_03FE_0007_F90C
- * @implements B520:03FE:0007:F90C ()
- *
- */
-void f__B520_03FE_0007_F90C()
-{
+	goto l__03FE;
+l__03FE:
 	emu_addw(&emu_sp, 0x6);
 	emu_xorw(&emu_ax, emu_ax);
-	f__B520_0405_0002_2597(); return;
-}
-
-/**
- * Decompiled function f__B520_0405_0002_2597()
- *
- * @name f__B520_0405_0002_2597
- * @implements B520:0405:0002:2597 ()
- *
- * Called From: B520:0403:0007:F90C
- */
-void f__B520_0405_0002_2597()
-{
+	goto l__0405;
+l__0405:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -807,11 +569,32 @@ void f__B520_0405_0002_2597()
  *
  * @name f__B520_0407_00A9_43A1
  * @implements B520:0407:00A9:43A1 ()
+ * @implements B520:0458:0058:9CCF
+ * @implements B520:0488:0028:0D79
+ * @implements B520:04B0:0010:386E
+ * @implements B520:04B2:000E:8A37
+ * @implements B520:04C0:0026:7395
+ * @implements B520:04E6:0060:0E44
+ * @implements B520:052C:001A:447C
+ * @implements B520:0546:0020:0833
+ * @implements B520:0549:001D:80A9
+ * @implements B520:0569:000E:C637
+ * @implements B520:0577:000D:BD8B
+ * @implements B520:0584:0030:27B8
+ * @implements B520:05B4:0028:F7FC
+ * @implements B520:05DC:0029:352D
+ * @implements B520:05E2:0023:A79B
+ * @implements B520:05FA:000B:72B2
+ * @implements B520:0605:001B:5AA5
+ * @implements B520:0620:0006:8EF0
+ * @implements B520:0622:0004:E839
+ * @implements B520:0626:0006:F7CE
  *
  * Called From: 3520:0043:0005:0000
  */
 void f__B520_0407_00A9_43A1()
 {
+l__0407:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x14);
@@ -843,19 +626,8 @@ void f__B520_0407_00A9_43A1()
 		emu_shlw(&emu_ax, emu_cl);
 		emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax);
 	}
-	f__B520_0458_0058_9CCF(); return;
-}
-
-/**
- * Decompiled function f__B520_0458_0058_9CCF()
- *
- * @name f__B520_0458_0058_9CCF
- * @implements B520:0458:0058:9CCF ()
- *
- * Called From: B520:0444:00A9:43A1
- */
-void f__B520_0458_0058_9CCF()
-{
+	goto l__0458;
+l__0458:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x1E));
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax);
@@ -873,99 +645,44 @@ void f__B520_0458_0058_9CCF()
 		emu_movw(&emu_ax, emu_get_memory16(emu_ds, emu_bx, 0x4068));
 		emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_ax);
 	}
-	f__B520_0488_0028_0D79(); return;
-}
-
-/**
- * Decompiled function f__B520_0488_0028_0D79()
- *
- * @name f__B520_0488_0028_0D79
- * @implements B520:0488:0028:0D79 ()
- *
- * Called From: B520:0478:0058:9CCF
- */
-void f__B520_0488_0028_0D79()
-{
+	goto l__0488;
+l__0488:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x20));
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0x2E), 0x4400);
-	if (emu_flags.zf) { f__B520_04B2_000E_8A37(); return; }
+	if (emu_flags.zf) goto l__04B2;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0xE), 0x0);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x04B0); f__B520_06A2_0013_A505();
-	f__B520_04B0_0010_386E(); return;
-}
-
-/**
- * Decompiled function f__B520_04B0_0010_386E()
- *
- * @name f__B520_04B0_0010_386E
- * @implements B520:04B0:0010:386E ()
- *
- */
-void f__B520_04B0_0010_386E()
-{
+	goto l__04B0;
+l__04B0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	f__B520_04B2_000E_8A37(); return;
-}
-
-/**
- * Decompiled function f__B520_04B2_000E_8A37()
- *
- * @name f__B520_04B2_000E_8A37
- * @implements B520:04B2:000E:8A37 ()
- *
- * Called From: B520:049B:0028:0D79
- */
-void f__B520_04B2_000E_8A37()
-{
+	goto l__04B2;
+l__04B2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0x2E), 0x1100);
-	if (!emu_flags.zf) { f__B520_04C0_0026_7395(); return; }
-	f__B520_0569_000E_C637(); return;
-}
-
-/**
- * Decompiled function f__B520_04C0_0026_7395()
- *
- * @name f__B520_04C0_0026_7395
- * @implements B520:04C0:0026:7395 ()
- *
- * Called From: B520:04BB:000E:8A37
- * Called From: B520:04BB:0010:386E
- */
-void f__B520_04C0_0026_7395()
-{
+	if (!emu_flags.zf) goto l__04C0;
+	goto l__0569;
+l__04C0:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movb(&emu_get_memory8(emu_es, emu_bx, 0xE), 0x0);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_04E6_0060_0E44(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__04E6;
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x7060));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x10), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	/* Unresolved jump */ emu_ip = 0x04F2; emu_last_cs = 0xB520; emu_last_ip = 0x04E4; emu_last_length = 0x0026; emu_last_crc = 0x7395; emu_call();
-}
-
-/**
- * Decompiled function f__B520_04E6_0060_0E44()
- *
- * @name f__B520_04E6_0060_0E44
- * @implements B520:04E6:0060:0E44 ()
- *
- * Called From: B520:04D6:0026:7395
- */
-void f__B520_04E6_0060_0E44()
-{
+l__04E6:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x7062));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x10), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
@@ -991,57 +708,25 @@ void f__B520_04E6_0060_0E44()
 			emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x10), emu_ax);
 		}
 	}
-	f__B520_052C_001A_447C(); return;
-}
-
-/**
- * Decompiled function f__B520_052C_001A_447C()
- *
- * @name f__B520_052C_001A_447C
- * @implements B520:052C:001A:447C ()
- *
- * Called From: B520:050D:0060:0E44
- */
-void f__B520_052C_001A_447C()
-{
+	goto l__052C;
+l__052C:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x14));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_0549_001D_80A9(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0549;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_cs);
 	emu_push(0x0546); f__B520_062C_0030_162A();
-	f__B520_0546_0020_0833(); return;
-}
-
-/**
- * Decompiled function f__B520_0546_0020_0833()
- *
- * @name f__B520_0546_0020_0833
- * @implements B520:0546:0020:0833 ()
- *
- */
-void f__B520_0546_0020_0833()
-{
+	goto l__0546;
+l__0546:
 	emu_addw(&emu_sp, 0x6);
-	f__B520_0549_001D_80A9(); return;
-}
-
-/**
- * Decompiled function f__B520_0549_001D_80A9()
- *
- * @name f__B520_0549_001D_80A9
- * @implements B520:0549:001D:80A9 ()
- *
- * Called From: B520:0532:0060:0E44
- */
-void f__B520_0549_001D_80A9()
-{
+	goto l__0549;
+l__0549:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x12));
-	if (!(emu_flags.sf != emu_flags.of)) { f__B520_0569_000E_C637(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) goto l__0569;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_negw(&emu_ax, emu_ax);
@@ -1051,53 +736,17 @@ void f__B520_0549_001D_80A9()
 	emu_push(emu_cs);
 	emu_push(0x0566); f__B520_062C_0030_162A();
 	/* Unresolved jump */ emu_ip = 0x0566; emu_last_cs = 0xB520; emu_last_ip = 0x0563; emu_last_length = 0x001D; emu_last_crc = 0x80A9; emu_call();
-}
-
-/**
- * Decompiled function f__B520_0569_000E_C637()
- *
- * @name f__B520_0569_000E_C637
- * @implements B520:0569:000E:C637 ()
- *
- * Called From: B520:04BD:000E:8A37
- * Called From: B520:04BD:0010:386E
- * Called From: B520:054F:001D:80A9
- * Called From: B520:054F:0020:0833
- */
-void f__B520_0569_000E_C637()
-{
+l__0569:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0x2E), 0x2200);
-	if (!emu_flags.zf) { f__B520_0577_000D_BD8B(); return; }
-	f__B520_0622_0004_E839(); return;
-}
-
-/**
- * Decompiled function f__B520_0577_000D_BD8B()
- *
- * @name f__B520_0577_000D_BD8B
- * @implements B520:0577:000D:BD8B ()
- *
- * Called From: B520:0572:000E:C637
- */
-void f__B520_0577_000D_BD8B()
-{
+	if (!emu_flags.zf) goto l__0577;
+	goto l__0622;
+l__0577:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0xE), 0x0);
-	if (!emu_flags.zf) { f__B520_0584_0030_27B8(); return; }
-	f__B520_0622_0004_E839(); return;
-}
-
-/**
- * Decompiled function f__B520_0584_0030_27B8()
- *
- * @name f__B520_0584_0030_27B8
- * @implements B520:0584:0030:27B8 ()
- *
- * Called From: B520:057F:000D:BD8B
- */
-void f__B520_0584_0030_27B8()
-{
+	if (!emu_flags.zf) goto l__0584;
+	goto l__0622;
+l__0584:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), emu_ax);
@@ -1106,7 +755,7 @@ void f__B520_0584_0030_27B8()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xA), emu_ax);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0xA));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_05B4_0028_F7FC(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__05B4;
 	emu_movw(&emu_si, emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x10));
@@ -1114,18 +763,7 @@ void f__B520_0584_0030_27B8()
 	emu_incw(&emu_ax);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x7060));
 	/* Unresolved jump */ emu_ip = 0x05C6; emu_last_cs = 0xB520; emu_last_ip = 0x05B2; emu_last_length = 0x0030; emu_last_crc = 0x27B8; emu_call();
-}
-
-/**
- * Decompiled function f__B520_05B4_0028_F7FC()
- *
- * @name f__B520_05B4_0028_F7FC
- * @implements B520:05B4:0028:F7FC ()
- *
- * Called From: B520:059E:0030:27B8
- */
-void f__B520_05B4_0028_F7FC()
-{
+l__05B4:
 	emu_movw(&emu_si, emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x10));
@@ -1138,39 +776,16 @@ void f__B520_05B4_0028_F7FC()
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_subw(&emu_si, emu_get_memory16(emu_es, emu_bx, 0x4));
 	emu_orw(&emu_di, emu_di);
-	if (!(emu_flags.sf != emu_flags.of)) { f__B520_05DC_0029_352D(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) goto l__05DC;
 	emu_xorw(&emu_di, emu_di);
-	f__B520_05E2_0023_A79B(); return;
-}
-
-/**
- * Decompiled function f__B520_05DC_0029_352D()
- *
- * @name f__B520_05DC_0029_352D
- * @implements B520:05DC:0029:352D ()
- *
- * Called From: B520:05D6:0028:F7FC
- */
-void f__B520_05DC_0029_352D()
-{
+	goto l__05E2;
+l__05DC:
 	emu_cmpw(&emu_di, emu_si);
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) {
 		emu_movw(&emu_di, emu_si);
 	}
-	f__B520_05E2_0023_A79B(); return;
-}
-
-/**
- * Decompiled function f__B520_05E2_0023_A79B()
- *
- * @name f__B520_05E2_0023_A79B
- * @implements B520:05E2:0023:A79B ()
- *
- * Called From: B520:05DA:0028:F7FC
- * Called From: B520:05DE:0029:352D
- */
-void f__B520_05E2_0023_A79B()
-{
+	goto l__05E2;
+l__05E2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x6), emu_di);
 	if (!emu_flags.zf) {
@@ -1179,90 +794,33 @@ void f__B520_05E2_0023_A79B()
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 		emu_movb(&emu_get_memory8(emu_es, emu_bx, 0xF), 0x1);
 	}
-	f__B520_05FA_000B_72B2(); return;
-}
-
-/**
- * Decompiled function f__B520_05FA_000B_72B2()
- *
- * @name f__B520_05FA_000B_72B2
- * @implements B520:05FA:000B:72B2 ()
- *
- * Called From: B520:05E9:0023:A79B
- * Called From: B520:05E9:0029:352D
- */
-void f__B520_05FA_000B_72B2()
-{
+	goto l__05FA;
+l__05FA:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_cs);
 	emu_push(0x0605); f__B520_08E6_0038_85A4();
-	f__B520_0605_001B_5AA5(); return;
-}
-
-/**
- * Decompiled function f__B520_0605_001B_5AA5()
- *
- * @name f__B520_0605_001B_5AA5
- * @implements B520:0605:001B:5AA5 ()
- *
- */
-void f__B520_0605_001B_5AA5()
-{
+	goto l__0605;
+l__0605:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0xF), 0x0);
-	if (emu_flags.zf) { f__B520_0622_0004_E839(); return; }
+	if (emu_flags.zf) goto l__0622;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
 	emu_push(0x0620); f__B520_06A2_0013_A505();
-	f__B520_0620_0006_8EF0(); return;
-}
-
-/**
- * Decompiled function f__B520_0620_0006_8EF0()
- *
- * @name f__B520_0620_0006_8EF0
- * @implements B520:0620:0006:8EF0 ()
- *
- */
-void f__B520_0620_0006_8EF0()
-{
+	goto l__0620;
+l__0620:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	f__B520_0622_0004_E839(); return;
-}
-
-/**
- * Decompiled function f__B520_0622_0004_E839()
- *
- * @name f__B520_0622_0004_E839
- * @implements B520:0622:0004:E839 ()
- *
- * Called From: B520:0574:000E:C637
- * Called From: B520:0581:000D:BD8B
- * Called From: B520:060F:001B:5AA5
- */
-void f__B520_0622_0004_E839()
-{
+	goto l__0622;
+l__0622:
 	emu_xorw(&emu_ax, emu_ax);
-	f__B520_0626_0006_F7CE(); return;
-}
-
-/**
- * Decompiled function f__B520_0626_0006_F7CE()
- *
- * @name f__B520_0626_0006_F7CE
- * @implements B520:0626:0006:F7CE ()
- *
- * Called From: B520:0624:0004:E839
- * Called From: B520:0624:0006:8EF0
- */
-void f__B520_0626_0006_F7CE()
-{
+	goto l__0626;
+l__0626:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);
@@ -1279,12 +837,18 @@ void f__B520_0626_0006_F7CE()
  *
  * @name f__B520_062C_0030_162A
  * @implements B520:062C:0030:162A ()
+ * @implements B520:065C:001C:557A
+ * @implements B520:065E:001A:9DD2
+ * @implements B520:067A:0012:3B1E
+ * @implements B520:068C:0011:2861
+ * @implements B520:069D:0005:BC9A
  *
  * Called From: B520:03FB:0017:BA36
  * Called From: B520:0543:001A:447C
  */
 void f__B520_062C_0030_162A()
 {
+l__062C:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_push(emu_si);
@@ -1298,36 +862,14 @@ void f__B520_062C_0030_162A()
 	emu_movw(&emu_si, emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0xC), emu_si);
-	if (!(emu_flags.sf != emu_flags.of)) { f__B520_065C_001C_557A(); return; }
+	if (!(emu_flags.sf != emu_flags.of)) goto l__065C;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xC));
-	f__B520_065E_001A_9DD2(); return;
-}
-
-/**
- * Decompiled function f__B520_065C_001C_557A()
- *
- * @name f__B520_065C_001C_557A
- * @implements B520:065C:001C:557A ()
- *
- * Called From: B520:0651:0030:162A
- */
-void f__B520_065C_001C_557A()
-{
+	goto l__065E;
+l__065C:
 	emu_movw(&emu_ax, emu_si);
-	f__B520_065E_001A_9DD2(); return;
-}
-
-/**
- * Decompiled function f__B520_065E_001A_9DD2()
- *
- * @name f__B520_065E_001A_9DD2
- * @implements B520:065E:001A:9DD2 ()
- *
- * Called From: B520:065A:0030:162A
- */
-void f__B520_065E_001A_9DD2()
-{
+	goto l__065E;
+l__065E:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0xC), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -1335,38 +877,16 @@ void f__B520_065E_001A_9DD2()
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0678; emu_last_cs = 0xB520; emu_last_ip = 0x066D; emu_last_length = 0x001A; emu_last_crc = 0x9DD2; emu_call(); return; }
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xC));
-	f__B520_067A_0012_3B1E(); return;
-}
-
-/**
- * Decompiled function f__B520_067A_0012_3B1E()
- *
- * @name f__B520_067A_0012_3B1E
- * @implements B520:067A:0012:3B1E ()
- *
- * Called From: B520:0676:001A:9DD2
- * Called From: B520:0676:001C:557A
- */
-void f__B520_067A_0012_3B1E()
-{
+	goto l__067A;
+l__067A:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0xC), emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x068C); f__B520_096E_003C_F7E4();
-	f__B520_068C_0011_2861(); return;
-}
-
-/**
- * Decompiled function f__B520_068C_0011_2861()
- *
- * @name f__B520_068C_0011_2861
- * @implements B520:068C:0011:2861 ()
- *
- */
-void f__B520_068C_0011_2861()
-{
+	goto l__068C;
+l__068C:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -1374,18 +894,8 @@ void f__B520_068C_0011_2861()
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
 	emu_push(0x069D); f__B520_06A2_0013_A505();
-	f__B520_069D_0005_BC9A(); return;
-}
-
-/**
- * Decompiled function f__B520_069D_0005_BC9A()
- *
- * @name f__B520_069D_0005_BC9A
- * @implements B520:069D:0005:BC9A ()
- *
- */
-void f__B520_069D_0005_BC9A()
-{
+	goto l__069D;
+l__069D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_pop(&emu_si);
@@ -1402,6 +912,19 @@ void f__B520_069D_0005_BC9A()
  *
  * @name f__B520_06A2_0013_A505
  * @implements B520:06A2:0013:A505 ()
+ * @implements B520:06B5:000E:2EA0
+ * @implements B520:06C3:00B7:930A
+ * @implements B520:071E:005C:1634
+ * @implements B520:0745:0035:0E38
+ * @implements B520:077A:0043:063B
+ * @implements B520:07BD:0027:DBD3
+ * @implements B520:07C0:0024:CA96
+ * @implements B520:07E4:0016:C2A0
+ * @implements B520:07FA:002C:125A
+ * @implements B520:0801:0025:CD0C
+ * @implements B520:0826:000F:9CB8
+ * @implements B520:0835:001A:D0A3
+ * @implements B520:084F:0010:C6C2
  *
  * Called From: 3520:002A:0005:0000
  * Called From: B520:00B7:000D:2CDF
@@ -1411,6 +934,7 @@ void f__B520_069D_0005_BC9A()
  */
 void f__B520_06A2_0013_A505()
 {
+l__06A2:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x12);
@@ -1418,36 +942,14 @@ void f__B520_06A2_0013_A505()
 	emu_push(emu_di);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (!emu_flags.zf) { f__B520_06B5_000E_2EA0(); return; }
+	if (!emu_flags.zf) goto l__06B5;
 	/* Unresolved jump */ emu_ip = 0x0859; emu_last_cs = 0xB520; emu_last_ip = 0x06B2; emu_last_length = 0x0013; emu_last_crc = 0xA505; emu_call();
-}
-
-/**
- * Decompiled function f__B520_06B5_000E_2EA0()
- *
- * @name f__B520_06B5_000E_2EA0
- * @implements B520:06B5:000E:2EA0 ()
- *
- * Called From: B520:06B0:0013:A505
- */
-void f__B520_06B5_000E_2EA0()
-{
+l__06B5:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0xE), 0x8);
-	if (emu_flags.zf) { f__B520_06C3_00B7_930A(); return; }
+	if (emu_flags.zf) goto l__06C3;
 	/* Unresolved jump */ emu_ip = 0x0859; emu_last_cs = 0xB520; emu_last_ip = 0x06C0; emu_last_length = 0x000E; emu_last_crc = 0x2EA0; emu_call();
-}
-
-/**
- * Decompiled function f__B520_06C3_00B7_930A()
- *
- * @name f__B520_06C3_00B7_930A
- * @implements B520:06C3:00B7:930A ()
- *
- * Called From: B520:06BE:000E:2EA0
- */
-void f__B520_06C3_00B7_930A()
-{
+l__06C3:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x1C));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
@@ -1480,19 +982,8 @@ void f__B520_06C3_00B7_930A()
 		emu_shlw(&emu_ax, emu_cl);
 		emu_addw(&emu_si, emu_ax);
 	}
-	f__B520_071E_005C_1634(); return;
-}
-
-/**
- * Decompiled function f__B520_071E_005C_1634()
- *
- * @name f__B520_071E_005C_1634
- * @implements B520:071E:005C:1634 ()
- *
- * Called From: B520:070B:00B7:930A
- */
-void f__B520_071E_005C_1634()
-{
+	goto l__071E;
+l__071E:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_addw(&emu_si, emu_get_memory16(emu_es, emu_bx, 0x1E));
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0x2));
@@ -1507,24 +998,13 @@ void f__B520_071E_005C_1634()
 		emu_shlw(&emu_bx, emu_cl);
 		emu_addw(&emu_di, emu_get_memory16(emu_ds, emu_bx, 0x4068));
 	}
-	f__B520_0745_0035_0E38(); return;
-}
-
-/**
- * Decompiled function f__B520_0745_0035_0E38()
- *
- * @name f__B520_0745_0035_0E38
- * @implements B520:0745:0035:0E38 ()
- *
- * Called From: B520:0738:005C:1634
- */
-void f__B520_0745_0035_0E38()
-{
+	goto l__0745;
+l__0745:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_addw(&emu_di, emu_get_memory16(emu_es, emu_bx, 0x20));
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_077A_0043_063B(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__077A;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x6));
 	emu_incw(&emu_ax);
@@ -1538,18 +1018,7 @@ void f__B520_0745_0035_0E38()
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_addw(&emu_ax, 0xFFFE);
 	/* Unresolved jump */ emu_ip = 0x079E; emu_last_cs = 0xB520; emu_last_ip = 0x0778; emu_last_length = 0x0035; emu_last_crc = 0x0E38; emu_call();
-}
-
-/**
- * Decompiled function f__B520_077A_0043_063B()
- *
- * @name f__B520_077A_0043_063B
- * @implements B520:077A:0043:063B ()
- *
- * Called From: B520:0752:0035:0E38
- */
-void f__B520_077A_0043_063B()
-{
+l__077A:
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x1);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x6));
@@ -1564,7 +1033,7 @@ void f__B520_077A_0043_063B()
 	emu_decw(&emu_ax);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0xE), emu_ax);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
-	if (!emu_flags.zf) { f__B520_07C0_0024_CA96(); return; }
+	if (!emu_flags.zf) goto l__07C0;
 	emu_movw(&emu_ax, emu_di);
 	emu_addw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_decw(&emu_ax);
@@ -1578,32 +1047,11 @@ void f__B520_077A_0043_063B()
 	emu_push(emu_cs); emu_push(0x07BD); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_07BD_0027_DBD3(); return;
-}
-
-/**
- * Decompiled function f__B520_07BD_0027_DBD3()
- *
- * @name f__B520_07BD_0027_DBD3
- * @implements B520:07BD:0027:DBD3 ()
- *
- */
-void f__B520_07BD_0027_DBD3()
-{
+	goto l__07BD;
+l__07BD:
 	emu_addw(&emu_sp, 0x8);
-	f__B520_07C0_0024_CA96(); return;
-}
-
-/**
- * Decompiled function f__B520_07C0_0024_CA96()
- *
- * @name f__B520_07C0_0024_CA96
- * @implements B520:07C0:0024:CA96 ()
- *
- * Called From: B520:07A6:0043:063B
- */
-void f__B520_07C0_0024_CA96()
-{
+	goto l__07C0;
+l__07C0:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x27));
 	emu_movb(&emu_ah, 0x0);
@@ -1634,52 +1082,20 @@ void f__B520_07C0_0024_CA96()
 			emu_call();
 			return;
 	}
-	f__B520_07E4_0016_C2A0(); return;
-}
-
-/**
- * Decompiled function f__B520_07E4_0016_C2A0()
- *
- * @name f__B520_07E4_0016_C2A0
- * @implements B520:07E4:0016:C2A0 ()
- *
- */
-void f__B520_07E4_0016_C2A0()
-{
+	goto l__07E4;
+l__07E4:
 	emu_addw(&emu_sp, 0xA);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0xE), 0x0);
-	if (emu_flags.zf) { f__B520_07FA_002C_125A(); return; }
+	if (emu_flags.zf) goto l__07FA;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x28));
-	f__B520_0801_0025_CD0C(); return;
-}
-
-/**
- * Decompiled function f__B520_07FA_002C_125A()
- *
- * @name f__B520_07FA_002C_125A
- * @implements B520:07FA:002C:125A ()
- *
- * Called From: B520:07EF:0016:C2A0
- */
-void f__B520_07FA_002C_125A()
-{
+	goto l__0801;
+l__07FA:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x26));
-	f__B520_0801_0025_CD0C(); return;
-}
-
-/**
- * Decompiled function f__B520_0801_0025_CD0C()
- *
- * @name f__B520_0801_0025_CD0C
- * @implements B520:0801:0025:CD0C ()
- *
- * Called From: B520:07F8:0016:C2A0
- */
-void f__B520_0801_0025_CD0C()
-{
+	goto l__0801;
+l__0801:
 	emu_movb(&emu_ah, 0x0);
 	emu_push(emu_ax);
 	emu_movw(&emu_ax, emu_di);
@@ -1710,18 +1126,8 @@ void f__B520_0801_0025_CD0C()
 			emu_call();
 			return;
 	}
-	f__B520_0826_000F_9CB8(); return;
-}
-
-/**
- * Decompiled function f__B520_0826_000F_9CB8()
- *
- * @name f__B520_0826_000F_9CB8
- * @implements B520:0826:000F:9CB8 ()
- *
- */
-void f__B520_0826_000F_9CB8()
-{
+	goto l__0826;
+l__0826:
 	emu_addw(&emu_sp, 0xA);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_flags.zf) {
@@ -1729,19 +1135,8 @@ void f__B520_0826_000F_9CB8()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3520) { ovl__3520(0xFF); }
 	}
-	f__B520_0835_001A_D0A3(); return;
-}
-
-/**
- * Decompiled function f__B520_0835_001A_D0A3()
- *
- * @name f__B520_0835_001A_D0A3
- * @implements B520:0835:001A:D0A3 ()
- *
- * Called From: B520:082E:000F:9CB8
- */
-void f__B520_0835_001A_D0A3()
-{
+	goto l__0835;
+l__0835:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x12));
 	emu_orw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x14));
@@ -1763,18 +1158,8 @@ void f__B520_0835_001A_D0A3()
 			emu_call();
 			return;
 	}
-	f__B520_084F_0010_C6C2(); return;
-}
-
-/**
- * Decompiled function f__B520_084F_0010_C6C2()
- *
- * @name f__B520_084F_0010_C6C2
- * @implements B520:084F:0010:C6C2 ()
- *
- */
-void f__B520_084F_0010_C6C2()
-{
+	goto l__084F;
+l__084F:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x12));
@@ -1795,12 +1180,17 @@ void f__B520_084F_0010_C6C2()
  *
  * @name f__B520_085F_003A_87ED
  * @implements B520:085F:003A:87ED ()
+ * @implements B520:0899:0022:663C
+ * @implements B520:08BB:0026:E858
+ * @implements B520:08DD:0004:68F2
+ * @implements B520:08E1:0005:8BCF
  *
  * Called From: B520:009D:001B:7C94
  * Called From: B520:037D:0071:C198
  */
 void f__B520_085F_003A_87ED()
 {
+l__085F:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x6);
@@ -1813,27 +1203,16 @@ void f__B520_085F_003A_87ED()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_dx);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	if (emu_flags.zf) { f__B520_08DD_0004_68F2(); return; }
+	if (emu_flags.zf) goto l__08DD;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_0899_0022_663C(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0899;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	/* Unresolved jump */ emu_ip = 0x08A0; emu_last_cs = 0xB520; emu_last_ip = 0x0897; emu_last_length = 0x003A; emu_last_crc = 0x87ED; emu_call();
-}
-
-/**
- * Decompiled function f__B520_0899_0022_663C()
- *
- * @name f__B520_0899_0022_663C
- * @implements B520:0899:0022:663C ()
- *
- * Called From: B520:088E:003A:87ED
- */
-void f__B520_0899_0022_663C()
-{
+l__0899:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
 	emu_addw(&emu_ax, 0xFFFE);
@@ -1850,18 +1229,8 @@ void f__B520_0899_0022_663C()
 	emu_push(emu_cs); emu_push(0x08BB); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_08BB_0026_E858(); return;
-}
-
-/**
- * Decompiled function f__B520_08BB_0026_E858()
- *
- * @name f__B520_08BB_0026_E858
- * @implements B520:08BB:0026:E858 ()
- *
- */
-void f__B520_08BB_0026_E858()
-{
+	goto l__08BB;
+l__08BB:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cwd();
 	emu_idivw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x8));
@@ -1874,34 +1243,11 @@ void f__B520_08BB_0026_E858()
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 		emu_movb(&emu_get_memory8(emu_es, emu_bx, 0xF), 0x1);
 	}
-	f__B520_08DD_0004_68F2(); return;
-}
-
-/**
- * Decompiled function f__B520_08DD_0004_68F2()
- *
- * @name f__B520_08DD_0004_68F2
- * @implements B520:08DD:0004:68F2 ()
- *
- * Called From: B520:08CC:0026:E858
- */
-void f__B520_08DD_0004_68F2()
-{
+	goto l__08DD;
+l__08DD:
 	emu_movw(&emu_ax, emu_si);
-	f__B520_08E1_0005_8BCF(); return;
-}
-
-/**
- * Decompiled function f__B520_08E1_0005_8BCF()
- *
- * @name f__B520_08E1_0005_8BCF
- * @implements B520:08E1:0005:8BCF ()
- *
- * Called From: B520:08DF:0026:E858
- * Called From: B520:08DF:0004:68F2
- */
-void f__B520_08E1_0005_8BCF()
-{
+	goto l__08E1;
+l__08E1:
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
@@ -1917,6 +1263,9 @@ void f__B520_08E1_0005_8BCF()
  *
  * @name f__B520_08E6_0038_85A4
  * @implements B520:08E6:0038:85A4 ()
+ * @implements B520:091E:0033:733E
+ * @implements B520:0951:0013:BA50
+ * @implements B520:0969:0005:8BCF
  *
  * Called From: B520:0602:000B:72B2
  * Called From: B520:0602:0023:A79B
@@ -1924,6 +1273,7 @@ void f__B520_08E1_0005_8BCF()
  */
 void f__B520_08E6_0038_85A4()
 {
+l__08E6:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x4);
@@ -1940,22 +1290,11 @@ void f__B520_08E6_0038_85A4()
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_091E_0033_733E(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__091E;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	/* Unresolved jump */ emu_ip = 0x0925; emu_last_cs = 0xB520; emu_last_ip = 0x091C; emu_last_length = 0x0038; emu_last_crc = 0x85A4; emu_call();
-}
-
-/**
- * Decompiled function f__B520_091E_0033_733E()
- *
- * @name f__B520_091E_0033_733E
- * @implements B520:091E:0033:733E ()
- *
- * Called From: B520:0913:0038:85A4
- */
-void f__B520_091E_0033_733E()
-{
+l__091E:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
 	emu_addw(&emu_ax, 0xFFFE);
@@ -1977,37 +1316,16 @@ void f__B520_091E_0033_733E()
 	emu_push(emu_cs); emu_push(0x0951); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_0951_0013_BA50(); return;
-}
-
-/**
- * Decompiled function f__B520_0951_0013_BA50()
- *
- * @name f__B520_0951_0013_BA50
- * @implements B520:0951:0013:BA50 ()
- *
- */
-void f__B520_0951_0013_BA50()
-{
+	goto l__0951;
+l__0951:
 	emu_cwd();
 	emu_idivw(&emu_ax, emu_si);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0xC), emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xC));
-	f__B520_0969_0005_8BCF(); return;
-}
-
-/**
- * Decompiled function f__B520_0969_0005_8BCF()
- *
- * @name f__B520_0969_0005_8BCF
- * @implements B520:0969:0005:8BCF ()
- *
- * Called From: B520:0962:0013:BA50
- */
-void f__B520_0969_0005_8BCF()
-{
+	goto l__0969;
+l__0969:
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);
@@ -2023,6 +1341,12 @@ void f__B520_0969_0005_8BCF()
  *
  * @name f__B520_096E_003C_F7E4
  * @implements B520:096E:003C:F7E4 ()
+ * @implements B520:09AA:003E:D22C
+ * @implements B520:09E8:0008:082D
+ * @implements B520:09F0:001E:489D
+ * @implements B520:09F2:001C:F856
+ * @implements B520:0A0A:0004:68F2
+ * @implements B520:0A0E:0006:F7CE
  *
  * Called From: B520:00AA:000D:9A2C
  * Called From: B520:038A:000D:94A7
@@ -2030,6 +1354,7 @@ void f__B520_0969_0005_8BCF()
  */
 void f__B520_096E_003C_F7E4()
 {
+l__096E:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x6);
@@ -2043,27 +1368,16 @@ void f__B520_096E_003C_F7E4()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_dx);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	if (emu_flags.zf) { f__B520_0A0A_0004_68F2(); return; }
+	if (emu_flags.zf) goto l__0A0A;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__B520_09AA_003E_D22C(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__09AA;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x22));
 	/* Unresolved jump */ emu_ip = 0x09B1; emu_last_cs = 0xB520; emu_last_ip = 0x09A8; emu_last_length = 0x003C; emu_last_crc = 0xF7E4; emu_call();
-}
-
-/**
- * Decompiled function f__B520_09AA_003E_D22C()
- *
- * @name f__B520_09AA_003E_D22C
- * @implements B520:09AA:003E:D22C ()
- *
- * Called From: B520:099F:003C:F7E4
- */
-void f__B520_09AA_003E_D22C()
-{
+l__09AA:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x24));
 	emu_addw(&emu_ax, 0xFFFE);
@@ -2076,7 +1390,7 @@ void f__B520_09AA_003E_D22C()
 	emu_subw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x0);
-	if (emu_flags.zf) { f__B520_09F0_001E_489D(); return; }
+	if (emu_flags.zf) goto l__09F0;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_cwd();
@@ -2089,48 +1403,16 @@ void f__B520_09AA_003E_D22C()
 	emu_push(emu_cs); emu_push(0x09E8); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { ovl__3520(0xFF); }
-	f__B520_09E8_0008_082D(); return;
-}
-
-/**
- * Decompiled function f__B520_09E8_0008_082D()
- *
- * @name f__B520_09E8_0008_082D
- * @implements B520:09E8:0008:082D ()
- *
- */
-void f__B520_09E8_0008_082D()
-{
+	goto l__09E8;
+l__09E8:
 	emu_cwd();
 	emu_idivw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_si, emu_ax);
-	f__B520_09F2_001C_F856(); return;
-}
-
-/**
- * Decompiled function f__B520_09F0_001E_489D()
- *
- * @name f__B520_09F0_001E_489D
- * @implements B520:09F0:001E:489D ()
- *
- * Called From: B520:09D2:003E:D22C
- */
-void f__B520_09F0_001E_489D()
-{
+	goto l__09F2;
+l__09F0:
 	emu_xorw(&emu_si, emu_si);
-	f__B520_09F2_001C_F856(); return;
-}
-
-/**
- * Decompiled function f__B520_09F2_001C_F856()
- *
- * @name f__B520_09F2_001C_F856
- * @implements B520:09F2:001C:F856 ()
- *
- * Called From: B520:09EE:0008:082D
- */
-void f__B520_09F2_001C_F856()
-{
+	goto l__09F2;
+l__09F2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x6), emu_si);
 	if (!emu_flags.zf) {
@@ -2139,35 +1421,11 @@ void f__B520_09F2_001C_F856()
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 		emu_movb(&emu_get_memory8(emu_es, emu_bx, 0xF), 0x1);
 	}
-	f__B520_0A0A_0004_68F2(); return;
-}
-
-/**
- * Decompiled function f__B520_0A0A_0004_68F2()
- *
- * @name f__B520_0A0A_0004_68F2
- * @implements B520:0A0A:0004:68F2 ()
- *
- * Called From: B520:09F9:001E:489D
- * Called From: B520:09F9:001C:F856
- */
-void f__B520_0A0A_0004_68F2()
-{
+	goto l__0A0A;
+l__0A0A:
 	emu_movw(&emu_ax, emu_si);
-	f__B520_0A0E_0006_F7CE(); return;
-}
-
-/**
- * Decompiled function f__B520_0A0E_0006_F7CE()
- *
- * @name f__B520_0A0E_0006_F7CE
- * @implements B520:0A0E:0006:F7CE ()
- *
- * Called From: B520:0A0C:0004:68F2
- * Called From: B520:0A0C:001C:F856
- */
-void f__B520_0A0E_0006_F7CE()
-{
+	goto l__0A0E;
+l__0A0E:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);

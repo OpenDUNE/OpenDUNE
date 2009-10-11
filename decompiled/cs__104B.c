@@ -9,11 +9,16 @@
  *
  * @name f__104B_024D_0012_1DC4
  * @implements 104B:024D:0012:1DC4 ()
+ * @implements 104B:025F:0064:D684
+ * @implements 104B:02C3:0013:8AC5
+ * @implements 104B:02D6:0014:4672
+ * @implements 104B:02EA:0005:8BCF
  *
  * Called From: B4B5:0F82:0017:CB04
  */
 void f__104B_024D_0012_1DC4()
 {
+l__024D:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_subw(&emu_sp, 0x4);
@@ -23,18 +28,8 @@ void f__104B_024D_0012_1DC4()
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x025F); emu_AirUnit_Allocate();
-	f__104B_025F_0064_D684(); return;
-}
-
-/**
- * Decompiled function f__104B_025F_0064_D684()
- *
- * @name f__104B_025F_0064_D684
- * @implements 104B:025F:0064:D684 ()
- *
- */
-void f__104B_025F_0064_D684()
-{
+	goto l__025F;
+l__025F:
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_dx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), emu_ax);
@@ -68,18 +63,8 @@ void f__104B_025F_0064_D684()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02C3); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
-	f__104B_02C3_0013_8AC5(); return;
-}
-
-/**
- * Decompiled function f__104B_02C3_0013_8AC5()
- *
- * @name f__104B_02C3_0013_8AC5
- * @implements 104B:02C3:0013:8AC5 ()
- *
- */
-void f__104B_02C3_0013_8AC5()
-{
+	goto l__02C3;
+l__02C3:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_si);
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
@@ -87,36 +72,15 @@ void f__104B_02C3_0013_8AC5()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
-	f__104B_02D6_0014_4672(); return;
-}
-
-/**
- * Decompiled function f__104B_02D6_0014_4672()
- *
- * @name f__104B_02D6_0014_4672
- * @implements 104B:02D6:0014:4672 ()
- *
- */
-void f__104B_02D6_0014_4672()
-{
+	goto l__02D6;
+l__02D6:
 	emu_addw(&emu_sp, 0x6);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_movw(&emu_get_memory16(emu_es, emu_bx, 0x1C), 0x0);
 	emu_movw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
-	f__104B_02EA_0005_8BCF(); return;
-}
-
-/**
- * Decompiled function f__104B_02EA_0005_8BCF()
- *
- * @name f__104B_02EA_0005_8BCF
- * @implements 104B:02EA:0005:8BCF ()
- *
- * Called From: 104B:02E8:0014:4672
- */
-void f__104B_02EA_0005_8BCF()
-{
+	goto l__02EA;
+l__02EA:
 	emu_pop(&emu_si);
 	emu_movw(&emu_sp, emu_bp);
 	emu_pop(&emu_bp);

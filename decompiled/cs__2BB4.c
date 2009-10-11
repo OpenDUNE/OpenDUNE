@@ -70,6 +70,7 @@
  */
 void f__2BB4_0004_0027_DC1D()
 {
+l__0004:
 	emu_push(emu_ds);
 	emu_push(emu_si);
 	emu_movw(&emu_ax, 0x353F);

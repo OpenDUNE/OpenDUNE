@@ -9,6 +9,7 @@
  *
  * @name f__2599_000B_0047_21FD
  * @implements 2599:000B:0047:21FD ()
+ * @implements 2599:0052:0004:BE52
  *
  * Called From: 10E4:042A:000A:B32B
  * Called From: 10E4:042A:0023:24DC
@@ -17,6 +18,7 @@
  */
 void f__2599_000B_0047_21FD()
 {
+l__000B:
 	emu_push(emu_bp);
 	emu_movw(&emu_bp, emu_sp);
 	emu_push(emu_si);
@@ -45,18 +47,8 @@ void f__2599_000B_0047_21FD()
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0053; emu_last_cs = 0x2599; emu_last_ip = 0x004A; emu_last_length = 0x0047; emu_last_crc = 0x21FD; emu_call(); return; }
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0052); emu_cs = 0x07AE; f__07AE_0000_00DF_A32C();
-	f__2599_0052_0004_BE52(); return;
-}
-
-/**
- * Decompiled function f__2599_0052_0004_BE52()
- *
- * @name f__2599_0052_0004_BE52
- * @implements 2599:0052:0004:BE52 ()
- *
- */
-void f__2599_0052_0004_BE52()
-{
+	goto l__0052;
+l__0052:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
