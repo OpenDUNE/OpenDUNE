@@ -166,7 +166,7 @@ Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID)
 	u->variable_04 = 0x0003;
 	u->variable_06 = 0x0001;
 	u->variable_10 = 0x0000;
-	if (typeID == UNIT_25) u->variable_58 = 0x03;
+	if (typeID == UNIT_UNKNOWN_25) u->variable_58 = 0x03;
 	u->variable_72 = 0xFF;
 
 	g_global->unitArray[g_global->unitCount].csip = g_global->unitStartPos.csip + index * sizeof(Unit);

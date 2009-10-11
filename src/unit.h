@@ -5,12 +5,38 @@
 
 /**
  * Types of Units available in the game.
- * TODO -- Complete the enum.
  */
 typedef enum UnitType {
-	UNIT_25 = 25,
+	UNIT_UNKNOWN_0      = 0, /* TODO -- What is unit type 0? */
+	UNIT_UNKNOWN_1      = 1, /* TODO -- What is unit type 1? */
+	UNIT_INFANTRY_SQUAD = 2,
+	UNIT_TROOPER_SQUAD  = 3,
+	UNIT_INFANTRY       = 4,
+	UNIT_TROOPER        = 5,
+	UNIT_UNKNOWN_6      = 6, /* TODO -- What is unit type 6? */
+	UNIT_UNKNOWN_7      = 7, /* TODO -- What is unit type 7? */
+	UNIT_UNKNOWN_8      = 8, /* TODO -- What is unit type 8? */
+	UNIT_UNKNOWN_9      = 9, /* TODO -- What is unit type 9? */
+	UNIT_TANK           = 9,
+	UNIT_UNKNOWN_10     = 10, /* TODO -- What is unit type 10? */
+	UNIT_UNKNOWN_11     = 11, /* TODO -- What is unit type 11? */
+	UNIT_UNKNOWN_12     = 12, /* TODO -- What is unit type 12? */
+	UNIT_TRIKE          = 13,
+	UNIT_FAST_TRIKE     = 14,
+	UNIT_QUAD           = 15,
+	UNIT_HARVESTER      = 16,
+	UNIT_MGV            = 17,
+	UNIT_UNKNOWN_18     = 18, /* TODO -- What is unit type 18? */
+	UNIT_UNKNOWN_19     = 19, /* TODO -- What is unit type 19? */
+	UNIT_UNKNOWN_20     = 20, /* TODO -- What is unit type 20? */
+	UNIT_UNKNOWN_21     = 21, /* TODO -- What is unit type 21? */
+	UNIT_UNKNOWN_22     = 22, /* TODO -- What is unit type 22? */
+	UNIT_UNKNOWN_23     = 23, /* TODO -- What is unit type 23? */
+	UNIT_UNKNOWN_24     = 24, /* TODO -- What is unit type 24? */
+	UNIT_UNKNOWN_25     = 25, /* TODO -- What is unit type 25? */
+	/* TODO -- Are there more units above type 25? */
 
-	UNIT_INVALID = 0xFFFF
+	UNIT_INVALID        = 0xFFFF
 } UnitType;
 
 MSVC_PACKED_BEGIN

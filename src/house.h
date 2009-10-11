@@ -5,10 +5,12 @@
 
 /**
  * Types of Houses available in the game.
- * TODO -- Complete the enum.
  */
 typedef enum HouseType {
-	HOUSE_ORDOS   = 2,
+	HOUSE_HARKONNEN = 0,
+	HOUSE_ATREIDES  = 1,
+	HOUSE_ORDOS     = 2,
+	/* TODO -- Are there more houses above 2? */
 
 	HOUSE_INVALID = 0xFFFF
 } HouseType;
