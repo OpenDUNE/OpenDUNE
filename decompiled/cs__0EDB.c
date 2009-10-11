@@ -186,7 +186,7 @@ l__01F7:
 l__0217:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__0241;
+	if (emu_ax == 0) goto l__0241;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x167E; f__167E_01BB_0010_85F6();
 	goto l__0222;
@@ -252,7 +252,7 @@ l__024B:
 l__0268:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__0280;
+	if (emu_ax == 0) goto l__0280;
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3950));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x394E));
@@ -314,7 +314,7 @@ l__02A8:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__02D1;
+	if (emu_ax == 0) goto l__02D1;
 	emu_ax = 0x3;
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
@@ -330,7 +330,7 @@ l__02D1:
 l__02D7:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_dx);
-	if (!emu_flags.zf) goto l__02E1;
+	if (emu_ax != 0) goto l__02E1;
 	emu_ax = 0x1;
 	goto l__02E3;
 l__02E1:
@@ -382,7 +382,7 @@ l__0308:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__0322;
+	if (emu_ax == 0) goto l__0322;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x64);
 	emu_ah = 0x0;
@@ -460,7 +460,7 @@ l__036F:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (!emu_flags.zf) goto l__0361;
+	if (emu_ax != 0) goto l__0361;
 	emu_ax = emu_si;
 	goto l__0381;
 l__0381:
@@ -506,7 +506,7 @@ l__03B9:
 l__03D6:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__03E4;
+	if (emu_ax == 0) goto l__03E4;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x03E1); emu_cs = 0x167E; f__167E_0088_001A_60ED();
 	goto l__03E1;
@@ -548,7 +548,7 @@ l__03EC:
 	emu_subw(&emu_sp, 0x4);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394E));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x3), 0xFF);
-	if (emu_flags.zf) goto l__041D;
+	if (emu_get_memory8(emu_es, emu_bx, 0x3) == 0xFF) goto l__041D;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394E));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x3);
 	emu_ax = (int8)emu_al;
@@ -664,7 +664,7 @@ l__0490:
 	emu_addw(&emu_sp, 0x6);
 	emu_si = emu_ax;
 	emu_orw(&emu_si, emu_si);
-	if (emu_flags.zf) goto l__04A7;
+	if (emu_si == 0) goto l__04A7;
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_si);
@@ -725,12 +725,12 @@ l__04D2:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__0504;
+	if (emu_ax == 0) goto l__0504;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x4);
 	emu_andw(&emu_ax, 0x5);
 	emu_cmpw(&emu_ax, 0x1);
-	if (!emu_flags.zf) goto l__0504;
+	if (emu_ax != 0x1) goto l__0504;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
@@ -800,16 +800,16 @@ l__050C:
 l__0529:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__058D;
+	if (emu_ax == 0) goto l__058D;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0534); emu_cs = 0x167E; f__167E_0088_001A_60ED();
 	goto l__0534;
 l__0534:
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_ax, 0x2);
-	if (emu_flags.zf) goto l__0541;
+	if (emu_ax == 0x2) goto l__0541;
 	emu_cmpw(&emu_ax, 0x3);
-	if (emu_flags.zf) goto l__0569;
+	if (emu_ax == 0x3) goto l__0569;
 	goto l__058B;
 l__0541:
 	emu_push(emu_si);
@@ -830,7 +830,7 @@ l__054F:
 	emu_ax = (int8)emu_al;
 	emu_pop(&emu_dx);
 	emu_cmpw(&emu_dx, emu_ax);
-	if (emu_flags.zf) goto l__0565;
+	if (emu_dx == emu_ax) goto l__0565;
 	emu_ax = 0x1;
 	goto l__0567;
 l__0565:
@@ -849,7 +849,7 @@ l__056F:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394E));
 	emu_cmpb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x8));
-	if (emu_flags.zf) goto l__0587;
+	if (emu_al == emu_get_memory8(emu_es, emu_bx, 0x8)) goto l__0587;
 	emu_ax = 0x1;
 	goto l__0589;
 l__0587:

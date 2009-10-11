@@ -126,10 +126,10 @@ l__006C:
 	goto l__0087;
 l__0087:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x0);
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__005A;
-	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0096; emu_last_cs = 0x24DA; emu_last_ip = 0x008D; emu_last_length = 0x0020; emu_last_crc = 0xC39B; emu_call(); return; }
+	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x6) > (int16)0x0) goto l__005A;
+	if (emu_get_memory16(emu_ss, emu_bp, -0x6) != 0x0) { /* Unresolved jump */ emu_ip = 0x0096; emu_last_cs = 0x24DA; emu_last_ip = 0x008D; emu_last_length = 0x0020; emu_last_crc = 0xC39B; emu_call(); return; }
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0xFA00);
-	if (!(emu_flags.cf || emu_flags.zf)) goto l__005A;
+	if (emu_get_memory16(emu_ss, emu_bp, -0x8) > 0xFA00) goto l__005A;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);

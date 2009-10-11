@@ -30,7 +30,7 @@ l__000C:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x00A2; emu_last_cs = 0x2605; emu_last_ip = 0x0025; emu_last_length = 0x006D; emu_last_crc = 0xF8B2; emu_call(); return; }
+	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x00A2; emu_last_cs = 0x2605; emu_last_ip = 0x0025; emu_last_length = 0x006D; emu_last_crc = 0xF8B2; emu_call(); return; }
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_get_memory16(emu_ds, 0x00, 0x99F5) = emu_ax;

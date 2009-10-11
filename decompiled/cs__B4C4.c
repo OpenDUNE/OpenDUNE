@@ -164,7 +164,7 @@ l__00C9:
 	emu_addw(&emu_sp, 0x8);
 	emu_si = emu_ax;
 	emu_cmpw(&emu_si, 0xFFFF);
-	if (emu_flags.zf) goto l__00E1;
+	if (emu_si == 0xFFFF) goto l__00E1;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x00D9); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
@@ -189,7 +189,7 @@ l__00F0:
 	emu_addw(&emu_sp, 0x8);
 	emu_si = emu_ax;
 	emu_cmpw(&emu_si, 0xFFFF);
-	if (emu_flags.zf) goto l__0108;
+	if (emu_si == 0xFFFF) goto l__0108;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0100); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
@@ -341,7 +341,7 @@ l__020C:
 	emu_addw(&emu_sp, 0x8);
 	emu_si = emu_ax;
 	emu_cmpw(&emu_si, 0xFFFF);
-	if (emu_flags.zf) goto l__0224;
+	if (emu_si == 0xFFFF) goto l__0224;
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x021C); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
@@ -430,7 +430,7 @@ l__025E:
 	goto l__028D;
 l__028D:
 	emu_cmpw(&emu_di, 0x1000);
-	if ((emu_flags.sf != emu_flags.of)) goto l__025E;
+	if ((int16)emu_di < (int16)0x1000) goto l__025E;
 	goto l__0307;
 l__0295:
 	emu_push(emu_ss);
@@ -478,7 +478,7 @@ l__02D1:
 	emu_andw(&emu_dx, 0x1FF);
 	emu_es = emu_ax;
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x323F), emu_dx);
-	if (!emu_flags.zf) {
+	if (emu_get_memory16(emu_es, emu_bx, 0x323F) != emu_dx) {
 		emu_bx = emu_di;
 		emu_shlw(&emu_bx, 0x1);
 		emu_ax = 0x2E9C;
@@ -488,7 +488,7 @@ l__02D1:
 	goto l__0307;
 l__0307:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
-	if (!emu_flags.zf) goto l__0295;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xA) != 0x0) goto l__0295;
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
@@ -548,7 +548,7 @@ l__033D:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__039D;
+	if (emu_ax == 0) goto l__039D;
 	emu_ax = 0x42;
 	emu_push(emu_ax);
 	emu_push(emu_ss);
@@ -563,7 +563,7 @@ l__033D:
 l__0360:
 	emu_addw(&emu_sp, 0xA);
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp, -0x42), 0x2);
-	if (!emu_flags.zf) {
+	if ((emu_get_memory16(emu_ss, emu_bp, -0x42) & 0x2) != 0) {
 		emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x46);
 		emu_get_memory16(emu_ds, 0x00, 0x3A38) = emu_ax;
 		emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
@@ -572,10 +572,10 @@ l__0360:
 		emu_get_memory16(emu_ds, 0x00, 0x3A3A) = emu_dx;
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3A3A));
 		emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x2C), 0xFFFF);
-		if (!emu_flags.zf) {
+		if (emu_get_memory16(emu_es, emu_bx, 0x2C) != 0xFFFF) {
 			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3A3A));
 			emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x2A), 0x1);
-			if ((emu_flags.sf != emu_flags.of)) {
+			if ((int16)emu_get_memory16(emu_es, emu_bx, 0x2A) < (int16)0x1) {
 				emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3A3A));
 				emu_get_memory16(emu_es, emu_bx, 0x2A) = 0x1;
 			}
@@ -584,7 +584,7 @@ l__0360:
 	goto l__039D;
 l__039D:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
-	if (emu_flags.zf) goto l__03A6;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xA) == 0x0) goto l__03A6;
 	goto l__031A;
 l__03A6:
 	emu_sp = emu_bp;
@@ -659,7 +659,7 @@ l__03F4:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__042D;
+	if (emu_ax == 0) goto l__042D;
 	emu_ax = 0x80;
 	emu_push(emu_ax);
 	emu_push(emu_ss);
@@ -682,7 +682,7 @@ l__0418:
 	goto l__042D;
 l__042D:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
-	if (!emu_flags.zf) goto l__03B3;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xA) != 0x0) goto l__03B3;
 	emu_push(emu_cs); emu_push(0x0438); emu_cs = 0x0FE4; emu_Unit_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { ovl__34C4(0xFF); }
@@ -761,7 +761,7 @@ l__047A:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__04C8;
+	if (emu_ax == 0) goto l__04C8;
 	emu_ax = 0x58;
 	emu_push(emu_ax);
 	emu_push(emu_ss);
@@ -777,7 +777,7 @@ l__049D:
 	emu_addw(&emu_sp, 0xA);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x4F), 0x0);
-	if (!emu_flags.zf) goto l__04C8;
+	if (emu_get_memory8(emu_es, emu_bx, 0x4F) != 0x0) goto l__04C8;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
@@ -788,7 +788,7 @@ l__04B5:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__04BF;
+	if (emu_ax == 0) goto l__04BF;
 	emu_al = 0x64;
 	/* Unresolved jump */ emu_ip = 0x04C1; emu_last_cs = 0xB4C4; emu_last_ip = 0x04BD; emu_last_length = 0x000A; emu_last_crc = 0x817C; emu_call();
 l__04BF:
@@ -798,7 +798,7 @@ l__04BF:
 	goto l__04C8;
 l__04C8:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
-	if (emu_flags.zf) goto l__04D1;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xA) == 0x0) goto l__04D1;
 	goto l__0445;
 l__04D1:
 	emu_push(emu_cs); emu_push(0x04D6); emu_cs = 0x1082; emu_Building_Recount();
@@ -876,7 +876,7 @@ l__0517:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_flags.zf) goto l__053D;
+	if (emu_ax == 0) goto l__053D;
 	emu_ax = 0x53;
 	emu_push(emu_ax);
 	emu_push(emu_ss);
@@ -893,7 +893,7 @@ l__053A:
 	goto l__053D;
 l__053D:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
-	if (!emu_flags.zf) goto l__04E2;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xA) != 0x0) goto l__04E2;
 	emu_push(emu_cs); emu_push(0x0548); emu_cs = 0x104B; emu_AirUnit_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { ovl__34C4(0xFF); }
@@ -1124,7 +1124,7 @@ l__0633:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x0);
 	emu_orw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x2));
-	if (!emu_flags.zf) {
+	if (emu_ax != 0) {
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 		emu_ax = emu_get_memory16(emu_es, emu_bx, 0x6);
 		emu_dx = emu_get_memory16(emu_es, emu_bx, 0x4);

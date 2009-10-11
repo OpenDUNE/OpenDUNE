@@ -25,7 +25,7 @@ l__0005:
 	emu_push(emu_si);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0049; emu_last_cs = 0x1381; emu_last_ip = 0x000F; emu_last_length = 0x0010; emu_last_crc = 0x8273; emu_call(); return; }
+	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0049; emu_last_cs = 0x1381; emu_last_ip = 0x000F; emu_last_length = 0x0010; emu_last_crc = 0x8273; emu_call(); return; }
 	emu_xorw(&emu_si, emu_si);
 	goto l__0044;
 l__0015:
@@ -44,7 +44,7 @@ l__0015:
 l__0038:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) goto l__0043;
+	if (emu_ax != 0) goto l__0043;
 	emu_ax = emu_si;
 	goto l__004E;
 l__0043:
@@ -52,7 +52,7 @@ l__0043:
 	goto l__0044;
 l__0044:
 	emu_cmpw(&emu_si, 0xE);
-	if ((emu_flags.sf != emu_flags.of)) goto l__0015;
+	if ((int16)emu_si < (int16)0xE) goto l__0015;
 	emu_ax = 0xFFFF;
 	/* Unresolved jump */ emu_ip = 0x0041; emu_last_cs = 0x1381; emu_last_ip = 0x004C; emu_last_length = 0x000A; emu_last_crc = 0x4DD1; emu_call();
 l__004E:
@@ -92,7 +92,7 @@ l__0051:
 	emu_push(emu_si);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_flags.zf) goto l__008E;
+	if (emu_ax == 0) goto l__008E;
 	emu_xorw(&emu_si, emu_si);
 	goto l__0089;
 l__0061:
@@ -109,7 +109,7 @@ l__0061:
 l__007D:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) goto l__0088;
+	if (emu_ax != 0) goto l__0088;
 	emu_ax = emu_si;
 	goto l__0086;
 l__0086:
@@ -119,7 +119,7 @@ l__0088:
 	goto l__0089;
 l__0089:
 	emu_cmpw(&emu_si, 0x6);
-	if ((emu_flags.sf != emu_flags.of)) goto l__0061;
+	if ((int16)emu_si < (int16)0x6) goto l__0061;
 	goto l__008E;
 l__008E:
 	emu_ax = 0xFFFF;
@@ -169,7 +169,7 @@ l__009E:
 l__00B7:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) goto l__00C2;
+	if (emu_ax != 0) goto l__00C2;
 	emu_ax = emu_si;
 	goto l__00C0;
 l__00C0:
@@ -179,7 +179,7 @@ l__00C2:
 	goto l__00C3;
 l__00C3:
 	emu_cmpw(&emu_si, 0x6);
-	if ((emu_flags.sf != emu_flags.of)) goto l__009E;
+	if ((int16)emu_si < (int16)0x6) goto l__009E;
 	emu_ax = 0xFFFF;
 	goto l__00C0;
 l__00CD:
@@ -226,7 +226,7 @@ l__00D8:
 l__00F1:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) goto l__00FC;
+	if (emu_ax != 0) goto l__00FC;
 	emu_ax = emu_si;
 	goto l__0107;
 l__00FC:
@@ -234,7 +234,7 @@ l__00FC:
 	goto l__00FD;
 l__00FD:
 	emu_cmpw(&emu_si, 0x5);
-	if ((emu_flags.sf != emu_flags.of)) goto l__00D8;
+	if ((int16)emu_si < (int16)0x5) goto l__00D8;
 	emu_ax = 0xFFFF;
 	/* Unresolved jump */ emu_ip = 0x00FA; emu_last_cs = 0x1381; emu_last_ip = 0x0105; emu_last_length = 0x000A; emu_last_crc = 0x2ED1; emu_call();
 l__0107:

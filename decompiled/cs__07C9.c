@@ -56,11 +56,11 @@ l__000F:
 	emu_cx = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0xA);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x3900), 0x2);
-	if (emu_flags.zf) goto l__009C;
+	if (emu_get_memory16(emu_ds, 0x00, 0x3900) == 0x2) goto l__009C;
 	emu_ax = emu_dx;
 	emu_shlw(&emu_ax, 0x1);
 	emu_cmpw(&emu_ax, emu_si);
-	if ((emu_flags.sf != emu_flags.of)) {
+	if ((int16)emu_ax < (int16)emu_si) {
 		emu_ax = emu_dx;
 		emu_shlw(&emu_ax, 0x1);
 		emu_si = emu_ax;
@@ -70,7 +70,7 @@ l__0035:
 	emu_ax = emu_dx;
 	emu_sarw(&emu_ax, 0x1);
 	emu_cmpw(&emu_ax, emu_cx);
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) {
+	if ((int16)emu_ax > (int16)emu_cx) {
 		emu_ax = emu_dx;
 		emu_sarw(&emu_ax, 0x1);
 		emu_cx = emu_ax;
@@ -86,7 +86,7 @@ l__0043:
 	emu_sarw(&emu_ax, 0x1);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xC), 0x0);
-	if (emu_flags.zf) goto l__005F;
+	if (emu_get_memory16(emu_ss, emu_bp,  0xC) == 0x0) goto l__005F;
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x3900);
 	goto l__0066;
 l__005F:
@@ -96,7 +96,7 @@ l__005F:
 l__0066:
 	emu_bx = emu_ax;
 	emu_cmpw(&emu_bx, 0x4);
-	if (!(emu_flags.cf || emu_flags.zf)) goto l__0082;
+	if (emu_bx > 0x4) goto l__0082;
 	emu_shlw(&emu_bx, 0x1);
 
 	/* Jump based on memory/register values */
@@ -128,7 +128,7 @@ l__0082:
 	goto l__0084;
 l__0084:
 	emu_cmpw(&emu_dx, emu_si);
-	if (!(emu_flags.sf != emu_flags.of)) goto l__008C;
+	if ((int16)emu_dx >= (int16)emu_si) goto l__008C;
 	emu_ax = emu_dx;
 	goto l__008E;
 l__008C:
@@ -137,7 +137,7 @@ l__008C:
 l__008E:
 	emu_dx = emu_ax;
 	emu_cmpw(&emu_dx, emu_cx);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0098;
+	if ((int16)emu_dx <= (int16)emu_cx) goto l__0098;
 	emu_ax = emu_dx;
 	goto l__009A;
 l__0098:

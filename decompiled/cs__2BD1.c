@@ -78,7 +78,7 @@ l__002C:
 	emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76AA), 0x0);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
-	if (!emu_flags.zf) {
+	if (emu_ax != 0) {
 		emu_subw(&emu_get_memory16(emu_ds, 0x00, 0x76B4), 0x1);
 		emu_sbbw(&emu_get_memory16(emu_ds, 0x00, 0x76B6), 0x0);
 	}

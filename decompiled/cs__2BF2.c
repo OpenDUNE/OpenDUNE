@@ -24,7 +24,7 @@ l__0000:
 	goto l__0007;
 l__0007:
 	emu_cmpb(&emu_al, 0x80);
-	if (!emu_flags.zf) goto l__0016;
+	if (emu_al != 0x80) goto l__0016;
 	emu_ax = 0x4310;
 	/* Unresolved jump */ emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = emu_get_memory16(0, 0, 0x2F * 4 + 2); emu_push(0x0010); emu_ip = emu_get_memory16(0, 0, 0x2F * 4 + 0); emu_last_cs = 0x2BF2; emu_last_ip = 0x000E; emu_last_length = 0x0009; emu_last_crc = 0xF6E6; emu_call();
 	/* Unresolved jump */ emu_ip = 0x0010; emu_last_cs = 0x2BF2; emu_last_ip = 0x0010; emu_last_length = 0x0009; emu_last_crc = 0xF6E6; emu_call();

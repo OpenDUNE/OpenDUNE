@@ -44,7 +44,7 @@ l__002F:
 	goto l__003E;
 l__003E:
 	emu_cmpw(&emu_cx, emu_dx);
-	if (!emu_flags.cf) {
+	if (emu_cx >= emu_dx) {
 		emu_xchgw(&emu_dx, &emu_cx);
 	}
 	goto l__0044;

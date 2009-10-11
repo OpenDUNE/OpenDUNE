@@ -26,7 +26,7 @@ l__0008:
 	emu_cl = emu_dl;
 	emu_shlw(&emu_ax, emu_cl);
 	emu_testw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B8));
-	if (emu_flags.zf) goto l__0023;
+	if ((emu_ax & emu_get_memory16(emu_ds, 0x00, 0x76B8)) == 0) goto l__0023;
 	emu_ax = 0x1;
 	/* Unresolved jump */ emu_ip = 0x0025; emu_last_cs = 0x2618; emu_last_ip = 0x0021; emu_last_length = 0x001B; emu_last_crc = 0xFAA6; emu_call();
 l__0023:
@@ -70,7 +70,7 @@ l__003F:
 	emu_cl = emu_dl;
 	emu_shlw(&emu_ax, emu_cl);
 	emu_testw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B8));
-	if (emu_flags.zf) goto l__005A;
+	if ((emu_ax & emu_get_memory16(emu_ds, 0x00, 0x76B8)) == 0) goto l__005A;
 	emu_ax = 0x1;
 	/* Unresolved jump */ emu_ip = 0x005C; emu_last_cs = 0x2618; emu_last_ip = 0x0058; emu_last_length = 0x001B; emu_last_crc = 0xFAA6; emu_call();
 l__005A:

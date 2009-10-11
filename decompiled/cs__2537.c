@@ -65,7 +65,7 @@ l__000C:
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_cmpw(&emu_si, emu_di);
-	if (!(emu_flags.cf || emu_flags.zf)) {
+	if (emu_si > emu_di) {
 		emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_si;
 		emu_si = emu_di;
 		emu_di = emu_get_memory16(emu_ss, emu_bp, -0x2);
@@ -101,7 +101,7 @@ l__004C:
 	emu_addw(&emu_ax, emu_si);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_cmpw(&emu_ax, emu_di);
-	if (!(emu_flags.cf || emu_flags.zf)) goto l__0028;
+	if (emu_ax > emu_di) goto l__0028;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	goto l__005A;
 l__005A:

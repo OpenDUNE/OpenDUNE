@@ -35,18 +35,18 @@ l__0000:
 l__0008:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x38B2);
 	emu_cmpw(&emu_ax, 0x4);
-	if (emu_flags.zf) goto l__0018;
+	if (emu_ax == 0x4) goto l__0018;
 	emu_cmpw(&emu_ax, 0x8);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0081; emu_last_cs = 0xB4AE; emu_last_ip = 0x0013; emu_last_length = 0x0010; emu_last_crc = 0xF2A7; emu_call(); return; }
+	if (emu_ax == 0x8) { /* Unresolved jump */ emu_ip = 0x0081; emu_last_cs = 0xB4AE; emu_last_ip = 0x0013; emu_last_length = 0x0010; emu_last_crc = 0xF2A7; emu_call(); return; }
 	goto l__00EA;
 l__0018:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x3A38);
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__0066;
+	if (emu_ax == 0) goto l__0066;
 	emu_cmpw(&emu_ax, 0x1);
-	if (emu_flags.zf) goto l__002B;
+	if (emu_ax == 0x1) goto l__002B;
 	emu_cmpw(&emu_ax, 0x2);
-	if (emu_flags.zf) goto l__004D;
+	if (emu_ax == 0x2) goto l__004D;
 	goto l__007F;
 l__002B:
 	emu_ax = 0x22;

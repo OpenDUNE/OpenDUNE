@@ -36,7 +36,7 @@ l__0000:
 	goto l__0008;
 l__0008:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7096), 0x0);
-	if (!emu_flags.zf) {
+	if (emu_get_memory8(emu_ds, 0x00, 0x7096) != 0x0) {
 		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Input_Mouse_CallbackClear();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3500) { ovl__3500(0xFF); }
@@ -44,7 +44,7 @@ l__0008:
 	goto l__0014;
 l__0014:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x7011), 0xFFFF);
-	if (emu_flags.zf) goto l__002C;
+	if (emu_get_memory16(emu_ds, 0x00, 0x7011) == 0xFFFF) goto l__002C;
 	emu_xorw(&emu_ax, emu_ax);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
@@ -55,7 +55,7 @@ l__0014:
 	/* Unresolved jump */ emu_ip = 0x0029; emu_last_cs = 0xB500; emu_last_ip = 0x0029; emu_last_length = 0x0015; emu_last_crc = 0xD8D5; emu_call();
 l__002C:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x62F6), 0x0);
-	if (!emu_flags.zf) {
+	if (emu_get_memory8(emu_ds, 0x00, 0x62F6) != 0x0) {
 		emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x1FB5; f__1FB5_1A67_0005_8AB7();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3500) { ovl__3500(0xFF); }
@@ -74,7 +74,7 @@ l__003D:
 l__0042:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x6C66);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x6C68));
-	if (!emu_flags.zf) {
+	if (emu_ax != 0) {
 
 		/* Call based on memory/register values */
 		emu_ip = emu_get_memory16(emu_ds, 0x00, 0x6C66);
@@ -97,7 +97,7 @@ l__004F:
 	goto l__0054;
 l__0054:
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x6E26));
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0064; emu_last_cs = 0xB500; emu_last_ip = 0x0058; emu_last_length = 0x000F; emu_last_crc = 0xACF6; emu_call(); return; }
+	if (emu_ax == emu_get_memory16(emu_ds, 0x00, 0x6E26)) { /* Unresolved jump */ emu_ip = 0x0064; emu_last_cs = 0xB500; emu_last_ip = 0x0058; emu_last_length = 0x000F; emu_last_crc = 0xACF6; emu_call(); return; }
 	emu_ax = 0x9;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
@@ -117,7 +117,7 @@ l__0069:
 	goto l__006E;
 l__006E:
 	emu_cmpw(&emu_ax, 0xFFFF);
-	if (!emu_flags.zf) goto l__0082;
+	if (emu_ax != 0xFFFF) goto l__0082;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6724));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6722));
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0080); emu_cs = 0x28E4; emu_ip = 0x0002; emu_last_cs = 0xB500; emu_last_ip = 0x007B; emu_last_length = 0x0012; emu_last_crc = 0xAD3C; emu_call();

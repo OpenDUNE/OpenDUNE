@@ -37,17 +37,17 @@ l__002A:
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76AA));
-	if (!(emu_flags.cf || emu_flags.zf)) goto l__002A;
-	if (!emu_flags.cf) {
+	if (emu_ax > emu_get_memory16(emu_ds, 0x00, 0x76AA)) goto l__002A;
+	if (emu_ax >= emu_get_memory16(emu_ds, 0x00, 0x76AA)) {
 		emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
-		if (!emu_flags.cf) goto l__002A;
+		if (emu_dx >= emu_get_memory16(emu_ds, 0x00, 0x76A8)) goto l__002A;
 	}
 	goto l__003E;
 l__003E:
 	emu_ax = emu_bx;
 	emu_decw(&emu_bx);
 	emu_orw(&emu_ax, emu_ax);
-	if (!emu_flags.zf) goto l__0015;
+	if (emu_ax != 0) goto l__0015;
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
 

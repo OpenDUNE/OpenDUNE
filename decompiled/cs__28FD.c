@@ -43,7 +43,7 @@ l__001C:
 l__002B:
 	if (!emu_flags.cf) goto l__0034;
 	emu_cmpb(&emu_al, 0xF);
-	if (!emu_flags.zf) goto l__0034;
+	if (emu_al != 0xF) goto l__0034;
 	emu_decw(&emu_dx);
 	/* Unresolved jump */ emu_ip = 0x0022; emu_last_cs = 0x28FD; emu_last_ip = 0x0032; emu_last_length = 0x0009; emu_last_crc = 0x3693; emu_call();
 l__0034:

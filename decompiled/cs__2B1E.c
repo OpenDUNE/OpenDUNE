@@ -133,7 +133,7 @@ l__0189:
 	emu_push(emu_ds);
 	emu_push(emu_si);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x8), 0x0);
-	if (emu_flags.zf) goto l__020F;
+	if (emu_get_memory16(emu_ss, emu_bp,  0x8) == 0x0) goto l__020F;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
@@ -146,9 +146,9 @@ l__01A4:
 l__01AA:
 	emu_lodsb(emu_ds);
 	emu_orb(&emu_al, emu_al);
-	if (emu_flags.zf) goto l__020F;
+	if (emu_al == 0) goto l__020F;
 	emu_cmpb(&emu_al, 0xD);
-	if (emu_flags.zf) goto l__01E1;
+	if (emu_al == 0xD) goto l__01E1;
 	emu_xorb(&emu_ah, emu_ah);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_ax);
@@ -158,7 +158,7 @@ l__01AA:
 l__01BD:
 	emu_addw(&emu_sp, 0x4);
 	emu_cmpw(&emu_get_memory16(emu_cs, 0x00, 0x8), 0x50);
-	if (emu_flags.cf) goto l__01F1;
+	if (emu_get_memory16(emu_cs, 0x00, 0x8) < 0x50) goto l__01F1;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_ax);
@@ -181,7 +181,7 @@ l__01EE:
 	goto l__01F1;
 l__01F1:
 	emu_cmpw(&emu_get_memory16(emu_cs, 0x00, 0xA), 0x19);
-	if (emu_flags.cf) goto l__020D;
+	if (emu_get_memory16(emu_cs, 0x00, 0xA) < 0x19) goto l__020D;
 	emu_push(emu_ax);
 	emu_push(emu_bp);
 	emu_bp = emu_sp;

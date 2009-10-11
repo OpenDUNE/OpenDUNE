@@ -114,7 +114,7 @@ l__0061:
 	goto l__0065;
 l__0065:
 	emu_cmpw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if ((emu_flags.sf != emu_flags.of)) goto l__0053;
+	if ((int16)emu_di < (int16)emu_get_memory16(emu_ss, emu_bp, -0x2)) goto l__0053;
 	emu_ax = emu_si;
 	goto l__006E;
 l__006E:

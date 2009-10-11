@@ -36,7 +36,7 @@ l__0024:
 	goto l__0029;
 l__0029:
 	emu_orw(&emu_ax, emu_ax);
-	if (emu_flags.zf) goto l__0030;
+	if (emu_ax == 0) goto l__0030;
 	emu_incw(&emu_di);
 	goto l__0031;
 l__0030:
@@ -45,9 +45,9 @@ l__0030:
 l__0031:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
-	if (!emu_flags.zf) goto l__0024;
+	if (emu_ax != 0) goto l__0024;
 	emu_cmpw(&emu_di, emu_si);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0043;
+	if ((int16)emu_di <= (int16)emu_si) goto l__0043;
 	emu_ax = 0x1;
 	goto l__0045;
 l__0043:
