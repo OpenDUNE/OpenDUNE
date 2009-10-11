@@ -153,7 +153,7 @@ l__0068:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x708C));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x708A));
 	emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
-	/* Unresolved jump */ emu_ip = 0x0088; emu_last_cs = 0x2B4C; emu_last_ip = 0x0083; emu_last_length = 0x0020; emu_last_crc = 0xDBA0; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0088; emu_last_cs = 0x2B4C; emu_last_ip = 0x0088; emu_last_length = 0x0020; emu_last_crc = 0xDBA0; emu_call();
 l__009E:
 	emu_push(emu_bx);
 	emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();

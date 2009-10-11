@@ -339,7 +339,7 @@ l__018E:
 	emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x10E4; f__10E4_057F_0052_2B00();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { ovl__34E9(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A0; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
+	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A5; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
 l__01A8:
 	emu_orw(&emu_si, emu_si);
 	if (!emu_flags.zf) goto l__01AF;

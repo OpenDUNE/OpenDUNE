@@ -682,7 +682,7 @@ l__0F01:
 			emu_call();
 			return;
 	}
-	/* Unresolved jump */ emu_ip = 0x0F14; emu_last_cs = 0x29E8; emu_last_ip = 0x0F0F; emu_last_length = 0x0013; emu_last_crc = 0xFF87; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0F14; emu_last_cs = 0x29E8; emu_last_ip = 0x0F14; emu_last_length = 0x0013; emu_last_crc = 0xFF87; emu_call();
 l__0F15:
 	emu_movw(&emu_di, 0x260);
 	emu_movw(&emu_cx, 0xA);

@@ -397,7 +397,7 @@ l__0225:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	/* Unresolved call */ emu_push(0x0239); emu_ip = 0x1B8D; emu_last_cs = 0x1FB5; emu_last_ip = 0x0236; emu_last_length = 0x0014; emu_last_crc = 0xD290; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0239; emu_last_cs = 0x1FB5; emu_last_ip = 0x0236; emu_last_length = 0x0014; emu_last_crc = 0xD290; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0239; emu_last_cs = 0x1FB5; emu_last_ip = 0x0239; emu_last_length = 0x0014; emu_last_crc = 0xD290; emu_call();
 l__023C:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -852,7 +852,7 @@ l__0766:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x0775); f__1FB5_1B21_0027_F474();
-	/* Unresolved jump */ emu_ip = 0x0775; emu_last_cs = 0x1FB5; emu_last_ip = 0x0772; emu_last_length = 0x000F; emu_last_crc = 0xC3D1; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0775; emu_last_cs = 0x1FB5; emu_last_ip = 0x0775; emu_last_length = 0x000F; emu_last_crc = 0xC3D1; emu_call();
 l__0780:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x0);
 	if (!emu_flags.zf) {
@@ -1098,7 +1098,7 @@ l__09E9:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x8));
 	emu_push(emu_cs); emu_push(0x0A4F); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
-	/* Unresolved jump */ emu_ip = 0x0A4F; emu_last_cs = 0x1FB5; emu_last_ip = 0x0A4A; emu_last_length = 0x0066; emu_last_crc = 0x0F4A; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0A4F; emu_last_cs = 0x1FB5; emu_last_ip = 0x0A4F; emu_last_length = 0x0066; emu_last_crc = 0x0F4A; emu_call();
 l__0A6F:
 	emu_movw(&emu_bx, emu_di);
 	emu_movb(&emu_cl, 0x4);
@@ -1524,7 +1524,7 @@ l__0EC5:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	/* Unresolved call */ emu_push(0x0F0F); emu_ip = 0x1B8D; emu_last_cs = 0x1FB5; emu_last_ip = 0x0F0C; emu_last_length = 0x004A; emu_last_crc = 0xEB70; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0F0F; emu_last_cs = 0x1FB5; emu_last_ip = 0x0F0C; emu_last_length = 0x004A; emu_last_crc = 0xEB70; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0F0F; emu_last_cs = 0x1FB5; emu_last_ip = 0x0F0F; emu_last_length = 0x004A; emu_last_crc = 0xEB70; emu_call();
 l__0F14:
 	emu_incb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x0);
@@ -1987,7 +1987,7 @@ l__1585:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x1594); f__1FB5_1B21_0027_F474();
-	/* Unresolved jump */ emu_ip = 0x1594; emu_last_cs = 0x1FB5; emu_last_ip = 0x1591; emu_last_length = 0x000F; emu_last_crc = 0x88D9; emu_call();
+	/* Unresolved jump */ emu_ip = 0x1594; emu_last_cs = 0x1FB5; emu_last_ip = 0x1594; emu_last_length = 0x000F; emu_last_crc = 0x88D9; emu_call();
 l__159D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -2277,7 +2277,7 @@ l__1769:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
 	emu_push(0x17B6); f__1FB5_175A_000F_6F28();
-	/* Unresolved jump */ emu_ip = 0x17B6; emu_last_cs = 0x1FB5; emu_last_ip = 0x17B3; emu_last_length = 0x004D; emu_last_crc = 0x7A7B; emu_call();
+	/* Unresolved jump */ emu_ip = 0x17B6; emu_last_cs = 0x1FB5; emu_last_ip = 0x17B6; emu_last_length = 0x004D; emu_last_crc = 0x7A7B; emu_call();
 l__17B8:
 	goto l__17D4;
 l__17BA:
@@ -2393,7 +2393,7 @@ l__181E:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x8));
 	emu_push(emu_cs); emu_push(0x185E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
-	/* Unresolved jump */ emu_ip = 0x185E; emu_last_cs = 0x1FB5; emu_last_ip = 0x1859; emu_last_length = 0x0040; emu_last_crc = 0x701B; emu_call();
+	/* Unresolved jump */ emu_ip = 0x185E; emu_last_cs = 0x1FB5; emu_last_ip = 0x185E; emu_last_length = 0x0040; emu_last_crc = 0x701B; emu_call();
 l__187C:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -2472,7 +2472,7 @@ l__1910:
 	emu_movw(&emu_ax, 0x1);
 	emu_push(emu_ax);
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x1923); emu_cs = 0x2649; emu_ip = 0x02B9; emu_last_cs = 0x1FB5; emu_last_ip = 0x191E; emu_last_length = 0x0013; emu_last_crc = 0x8016; emu_call();
-	/* Unresolved jump */ emu_ip = 0x1923; emu_last_cs = 0x1FB5; emu_last_ip = 0x191E; emu_last_length = 0x0013; emu_last_crc = 0x8016; emu_call();
+	/* Unresolved jump */ emu_ip = 0x1923; emu_last_cs = 0x1FB5; emu_last_ip = 0x1923; emu_last_length = 0x0013; emu_last_crc = 0x8016; emu_call();
 l__198F:
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x13);
 	goto l__1993;
@@ -2551,7 +2551,7 @@ l__1A6C:
 	emu_push(emu_di);
 	emu_push(emu_cs);
 	/* Unresolved call */ emu_push(0x1A8C); emu_ip = 0x1B8D; emu_last_cs = 0x1FB5; emu_last_ip = 0x1A89; emu_last_length = 0x0020; emu_last_crc = 0x9634; emu_call();
-	/* Unresolved jump */ emu_ip = 0x1A8C; emu_last_cs = 0x1FB5; emu_last_ip = 0x1A89; emu_last_length = 0x0020; emu_last_crc = 0x9634; emu_call();
+	/* Unresolved jump */ emu_ip = 0x1A8C; emu_last_cs = 0x1FB5; emu_last_ip = 0x1A8C; emu_last_length = 0x0020; emu_last_crc = 0x9634; emu_call();
 l__1A8F:
 	emu_movw(&emu_bx, emu_si);
 	emu_movb(&emu_cl, 0x4);
@@ -2565,7 +2565,7 @@ l__1A8F:
 	emu_push(emu_di);
 	emu_push(emu_cs);
 	/* Unresolved call */ emu_push(0x1AAE); emu_ip = 0x1B8D; emu_last_cs = 0x1FB5; emu_last_ip = 0x1AAB; emu_last_length = 0x001F; emu_last_crc = 0x8D60; emu_call();
-	/* Unresolved jump */ emu_ip = 0x1AAE; emu_last_cs = 0x1FB5; emu_last_ip = 0x1AAB; emu_last_length = 0x001F; emu_last_crc = 0x8D60; emu_call();
+	/* Unresolved jump */ emu_ip = 0x1AAE; emu_last_cs = 0x1FB5; emu_last_ip = 0x1AAE; emu_last_length = 0x001F; emu_last_crc = 0x8D60; emu_call();
 l__1AB1:
 	emu_movw(&emu_ax, 0x1);
 	goto l__1AB6;
@@ -2731,5 +2731,5 @@ l__1B75:
 			emu_call();
 			return;
 	}
-	/* Unresolved jump */ emu_ip = 0x1B84; emu_last_cs = 0x1FB5; emu_last_ip = 0x1B80; emu_last_length = 0x000F; emu_last_crc = 0x53C7; emu_call();
+	/* Unresolved jump */ emu_ip = 0x1B84; emu_last_cs = 0x1FB5; emu_last_ip = 0x1B84; emu_last_length = 0x000F; emu_last_crc = 0x53C7; emu_call();
 }

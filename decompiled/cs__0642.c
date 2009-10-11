@@ -527,7 +527,7 @@ l__0414:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0428); emu_cs = 0x257A; emu_ip = 0x000D; emu_last_cs = 0x0642; emu_last_ip = 0x0423; emu_last_length = 0x0014; emu_last_crc = 0xA716; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0428; emu_last_cs = 0x0642; emu_last_ip = 0x0423; emu_last_length = 0x0014; emu_last_crc = 0xA716; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0428; emu_last_cs = 0x0642; emu_last_ip = 0x0428; emu_last_length = 0x0014; emu_last_crc = 0xA716; emu_call();
 l__042B:
 	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 	goto l__0430;
@@ -738,6 +738,7 @@ l__04EC:
  * Called From: 10E4:0483:0005:1765
  * Called From: 10E4:0496:0005:1765
  * Called From: B495:0098:0005:1765
+ * Called From: B495:0098:0007:73D6
  * Called From: B4B8:20BB:0005:1765
  * Called From: B4B8:20BB:0023:32FB
  * Called From: B4CD:0EAF:0008:ADED
@@ -1100,7 +1101,7 @@ l__0AD2:
 	emu_movw(&emu_ax, 0x3204);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x0AFC); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-	/* Unresolved jump */ emu_ip = 0x0AFC; emu_last_cs = 0x0642; emu_last_ip = 0x0AF7; emu_last_length = 0x002A; emu_last_crc = 0x8B98; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0AFC; emu_last_cs = 0x0642; emu_last_ip = 0x0AFC; emu_last_length = 0x002A; emu_last_crc = 0x8B98; emu_call();
 l__0B55:
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
