@@ -115,16 +115,16 @@ void f__2598_0000_0017_EB80()
 {
 l__0000:
 	emu_push(emu_bp);
-	emu_movw(&emu_bp, emu_sp);
+	emu_bp = emu_sp;
 	emu_subw(&emu_sp, 0x2);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x6C91));
-	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), emu_ax);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
+	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x6C91);
+	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
+	emu_get_memory16(emu_ds, 0x00, 0x6C91) = emu_ax;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	goto l__0017;
 l__0017:
-	emu_movw(&emu_sp, emu_bp);
+	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
 
 	/* Return from this function */

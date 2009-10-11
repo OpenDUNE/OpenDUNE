@@ -56,9 +56,9 @@ void f__2BD1_0006_004A_CD10()
 l__0006:
 	emu_push(emu_ds);
 	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0x353F);
-	emu_movw(&emu_ds, emu_ax);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B8));
+	emu_ax = 0x353F;
+	emu_ds = emu_ax;
+	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B8);
 	emu_shrw(&emu_ax, 0x1);
 	if (emu_flags.cf) {
 		emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76AC), 0x1);
@@ -76,7 +76,7 @@ l__002C:
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x76A6));
 	emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76A8), 0x1);
 	emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76AA), 0x0);
-	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B4));
+	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
 	if (!emu_flags.zf) {
 		emu_subw(&emu_get_memory16(emu_ds, 0x00, 0x76B4), 0x1);

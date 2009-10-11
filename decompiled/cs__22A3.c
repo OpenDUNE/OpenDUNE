@@ -18,23 +18,23 @@ void f__22A3_000D_0010_9291()
 {
 l__000D:
 	emu_push(emu_bp);
-	emu_movw(&emu_bp, emu_sp);
-	emu_movw(&emu_ax, 0x24FD);
+	emu_bp = emu_sp;
+	emu_ax = 0x24FD;
 	emu_push(emu_ax);
-	emu_movw(&emu_ax, 0x49);
+	emu_ax = 0x49;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x001D); emu_cs = 0x22A6; f__22A6_0004_0003_DA0F();
 	goto l__001D;
 l__001D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_movb(&emu_al, emu_get_memory8(emu_ds, 0x00, 0x7096));
-	emu_movb(&emu_ah, 0x0);
+	emu_al = emu_get_memory8(emu_ds, 0x00, 0x7096);
+	emu_ah = 0x0;
 	emu_negw(&emu_ax, emu_ax);
 	emu_sbbw(&emu_ax, emu_ax);
 	emu_incw(&emu_ax);
-	emu_movb(&emu_get_memory8(emu_ds, 0x00, 0x7097), emu_al);
-	emu_movw(&emu_ax, 0x1);
+	emu_get_memory8(emu_ds, 0x00, 0x7097) = emu_al;
+	emu_ax = 0x1;
 	goto l__0031;
 l__0031:
 	emu_pop(&emu_bp);
