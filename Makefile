@@ -36,7 +36,7 @@ else
 LIBS := $(LIBS) -lncursesw -lSDL
 endif
 
-CFLAGS := $(CFLAGS) -g -Wall -Wextra -Werror -Wno-unused-label
+CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label
 CFLAGS := $(CFLAGS) -ansi -pedantic
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
 #  currently having. When all those cases are resolved, this can be removed.
