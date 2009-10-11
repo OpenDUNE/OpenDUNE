@@ -1,5 +1,9 @@
-01F7:0272:0007:7402	emu_File_Write1	#
-01F7:02AC:000F:B26A	emu_File_Write2	#
+01F7:016B:0009:694B	emu_Exit	# (code)
+01F7:017D:0006:2BD3	emu_Interrupt_Vector_Store	#
+01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
+01F7:0272:0007:7402	emu_Stderr_Write	# ()
+01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
+01F7:02AC:000F:B26A	emu_Print_Error_Overlay	# ()
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)

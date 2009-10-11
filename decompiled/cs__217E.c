@@ -948,7 +948,7 @@ l__04F9:
 	emu_movw(&emu_bp, emu_sp);
 	emu_addw(&emu_bp, 0x6);
 	if (!emu_flags.zf) goto l__0507;
-	emu_cs = 0x01F7; emu_File_Write2(); return;
+	emu_cs = 0x01F7; emu_Print_Error_Overlay(); return;
 l__0507:
 	emu_push(emu_ax);
 	emu_push(emu_bx);
@@ -1193,7 +1193,7 @@ l__061D:
 	emu_pop(&emu_ip);
 	return;
 l__061F:
-	emu_cs = 0x01F7; emu_File_Write2(); return;
+	emu_cs = 0x01F7; emu_Print_Error_Overlay(); return;
 }
 
 /**
@@ -1858,7 +1858,7 @@ l__0D7A:
 	emu_pop(&emu_cs);
 	return;
 l__0D82:
-	emu_cs = 0x01F7; f__01F7_027A_000E_2C9D(); return;
+	emu_cs = 0x01F7; emu_Error_Abnormal_Termination(); return;
 }
 
 /**

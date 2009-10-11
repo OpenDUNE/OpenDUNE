@@ -37,7 +37,7 @@ l__000C:
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x7B), emu_es);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x77), emu_bx);
 	emu_movw(&emu_get_memory16(emu_ds, 0x00, 0x91), emu_bp);
-	emu_push(0x0028); f__01F7_017D_0006_2BD3();
+	emu_push(0x0028); emu_Interrupt_Vector_Store();
 	goto l__0028;
 l__0028:
 	emu_movw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x77));
@@ -79,7 +79,7 @@ l__0075:
 	emu_incw(&emu_di);
 	emu_cmpw(&emu_bp, emu_di);
 	if (!emu_flags.cf) goto l__0081;
-	f__01F7_027A_000E_2C9D(); return;
+	emu_Error_Abnormal_Termination(); return;
 l__0081:
 	emu_movw(&emu_bx, emu_di);
 	emu_addw(&emu_bx, emu_dx);
@@ -218,14 +218,14 @@ l__016A:
 }
 
 /**
- * Decompiled function f__01F7_016B_0009_694B()
+ * Decompiled function emu_Exit()
  *
- * @name f__01F7_016B_0009_694B
+ * @name emu_Exit
  * @implements 01F7:016B:0009:694B ()
  *
  * Called From: 01F7:036E:0008:E8D2
  */
-void f__01F7_016B_0009_694B()
+void emu_Exit()
 {
 l__016B:
 	emu_movw(&emu_bp, emu_sp);
@@ -236,9 +236,9 @@ l__016B:
 }
 
 /**
- * Decompiled function f__01F7_017D_0006_2BD3()
+ * Decompiled function emu_Interrupt_Vector_Store()
  *
- * @name f__01F7_017D_0006_2BD3
+ * @name emu_Interrupt_Vector_Store
  * @implements 01F7:017D:0006:2BD3 ()
  * @implements 01F7:0183:000D:3CC0
  * @implements 01F7:0190:000D:ACB8
@@ -248,7 +248,7 @@ l__016B:
  *
  * Called From: 01F7:0025:001C:7156
  */
-void f__01F7_017D_0006_2BD3()
+void emu_Interrupt_Vector_Store()
 {
 l__017D:
 	emu_push(emu_ds);
@@ -291,9 +291,9 @@ l__01BE:
 }
 
 /**
- * Decompiled function f__01F7_01C0_000A_F393()
+ * Decompiled function emu_Interrupt_Vector_Restore()
  *
- * @name f__01F7_01C0_000A_F393
+ * @name emu_Interrupt_Vector_Restore
  * @implements 01F7:01C0:000A:F393 ()
  * @implements 01F7:01CA:000B:5790
  * @implements 01F7:01D5:000B:9693
@@ -302,7 +302,7 @@ l__01BE:
  *
  * Called From: 01F7:034F:0005:069B
  */
-void f__01F7_01C0_000A_F393()
+void emu_Interrupt_Vector_Restore()
 {
 l__01C0:
 	emu_push(emu_ds);
@@ -500,15 +500,15 @@ l__0271:
 }
 
 /**
- * Decompiled function emu_File_Write1()
+ * Decompiled function emu_Stderr_Write()
  *
- * @name emu_File_Write1
+ * @name emu_Stderr_Write
  * @implements 01F7:0272:0007:7402 ()
  * @implements 01F7:0279:0001:6180
  *
  * Called From: 01F7:0285:000E:2C9D
  */
-void emu_File_Write1()
+void emu_Stderr_Write()
 {
 l__0272:
 	emu_movb(&emu_ah, 0x40);
@@ -523,21 +523,21 @@ l__0279:
 }
 
 /**
- * Decompiled function f__01F7_027A_000E_2C9D()
+ * Decompiled function emu_Error_Abnormal_Termination()
  *
- * @name f__01F7_027A_000E_2C9D
+ * @name emu_Error_Abnormal_Termination
  * @implements 01F7:027A:000E:2C9D ()
  * @implements 01F7:0288:0009:FAE0
  *
  * Called From: 217E:0D82:0005:67AA
  */
-void f__01F7_027A_000E_2C9D()
+void emu_Error_Abnormal_Termination()
 {
 l__027A:
 	emu_movw(&emu_cx, 0x1E);
 	emu_movw(&emu_dx, 0x3D);
 	emu_movw(&emu_ds, emu_get_memory16(emu_cs, 0x00, 0x291));
-	emu_push(0x0288); emu_File_Write1();
+	emu_push(0x0288); emu_Stderr_Write();
 	goto l__0288;
 l__0288:
 	emu_movw(&emu_ax, 0x3);
@@ -548,15 +548,15 @@ l__0288:
 }
 
 /**
- * Decompiled function emu_File_Write2()
+ * Decompiled function emu_Print_Error_Overlay()
  *
- * @name emu_File_Write2
+ * @name emu_Print_Error_Overlay
  * @implements 01F7:02AC:000F:B26A ()
  * @implements 01F7:02BB:000E:6145
  *
  * Called From: 217E:061F:0005:07A7
  */
-void emu_File_Write2()
+void emu_Print_Error_Overlay()
 {
 l__02AC:
 	emu_movw(&emu_cx, 0x17);
@@ -727,7 +727,7 @@ l__0349:
 	goto l__034D;
 l__034D:
 	emu_push(emu_cs);
-	emu_push(0x0352); f__01F7_01C0_000A_F393();
+	emu_push(0x0352); emu_Interrupt_Vector_Restore();
 	goto l__0352;
 l__0352:
 	emu_push(emu_cs);
@@ -772,7 +772,7 @@ l__0365:
 l__0369:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x4));
 	emu_push(emu_cs);
-	emu_push(0x0371); f__01F7_016B_0009_694B();
+	emu_push(0x0371); emu_Exit();
 	/* Unresolved jump */ emu_ip = 0x0371; emu_last_cs = 0x01F7; emu_last_ip = 0x0371; emu_last_length = 0x0008; emu_last_crc = 0xE8D2; emu_call();
 }
 
@@ -5065,7 +5065,7 @@ l__220C:
 	emu_movw(&emu_ds, emu_dx);
 	emu_orw(&emu_ax, emu_dx);
 	if (!emu_flags.zf) goto l__2223;
-	f__01F7_027A_000E_2C9D(); return;
+	emu_Error_Abnormal_Termination(); return;
 l__2223:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_movw(&emu_cx, 0xFFFF);
