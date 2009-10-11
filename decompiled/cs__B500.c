@@ -127,7 +127,7 @@ l__0082:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9846));
 	emu_ax = 0x3F;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x01F7; f__01F7_04CC_000E_D711();
+	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { ovl__3500(0xFF); }
 	goto l__0093;

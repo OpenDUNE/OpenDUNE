@@ -11,15 +11,21 @@
 01F7:0415:0007:3EF0	emu_Time_Get	# (result_csip)
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
+01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
+01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
+01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
+01F7:21DE:000D:9231	emu_Memory_Realloc	# (block, size)
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
 01F7:23F4:000A:3443	emu_File_Close	# (file)
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
-01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
 01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
+01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
+01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
+01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
 0642:04A9:0004:25FB     emu_InGame_Numpad_Move  # When moving with numpad ingame
 

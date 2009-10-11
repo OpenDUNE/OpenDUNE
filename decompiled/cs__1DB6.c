@@ -67,7 +67,7 @@ l__001B:
 	emu_push(emu_ax);
 	emu_ax = 0x3F;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x003C); emu_cs = 0x01F7; f__01F7_04CC_000E_D711();
+	emu_push(emu_cs); emu_push(0x003C); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
 	goto l__003C;
 l__003C:
 	emu_addw(&emu_sp, 0x6);

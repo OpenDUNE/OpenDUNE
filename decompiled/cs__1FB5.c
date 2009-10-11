@@ -139,7 +139,7 @@ l__0091:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x00AC); emu_cs = 0x01F7; f__01F7_0773_001E_D7DA();
+	emu_push(emu_cs); emu_push(0x00AC); emu_cs = 0x01F7; emu_File_Seek();
 	goto l__00AC;
 l__00AC:
 	emu_addw(&emu_sp, 0x8);
