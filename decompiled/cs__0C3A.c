@@ -2886,15 +2886,6 @@ l__1429:
  * @implements 0C3A:1A7A:0022:A4D7
  * @implements 0C3A:1A9C:0021:A062
  * @implements 0C3A:1AB8:0005:3367
- * @implements 0C3A:1ABD:004E:E6F7
- * @implements 0C3A:1B0B:001B:3C60
- * @implements 0C3A:1B26:000D:A042
- * @implements 0C3A:1B33:0011:8982
- * @implements 0C3A:1B44:0009:855A
- * @implements 0C3A:1B47:0006:C117
- * @implements 0C3A:1B4F:0016:D019
- * @implements 0C3A:1B65:0008:A466
- * @implements 0C3A:1B6D:0006:4B31
  * @implements 0C3A:1B70:0003:2113
  * @implements 0C3A:1B73:0006:F7CE
  *
@@ -3384,7 +3375,48 @@ l__1A9C:
 	goto l__1AB8;
 l__1AB8:
 	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_GUI_Construction_Unknown(); return;
+l__1B70:
+	goto l__1440;
+l__1B73:
+	emu_pop(&emu_di);
+	emu_pop(&emu_si);
+	emu_movw(&emu_sp, emu_bp);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function emu_GUI_Construction_Unknown()
+ *
+ * @name emu_GUI_Construction_Unknown
+ * @implements 0C3A:1440:0005:9F3F ()
+ * @implements 0C3A:1442:0003:9EAB
+ * @implements 0C3A:1ABD:004E:E6F7
+ * @implements 0C3A:1B0B:001B:3C60
+ * @implements 0C3A:1B26:000D:A042
+ * @implements 0C3A:1B33:0011:8982
+ * @implements 0C3A:1B44:0009:855A
+ * @implements 0C3A:1B47:0006:C117
+ * @implements 0C3A:1B4F:0016:D019
+ * @implements 0C3A:1B65:0008:A466
+ * @implements 0C3A:1B6D:0006:4B31
+ * @implements 0C3A:1B70:0003:2113
+ * @implements 0C3A:1B73:0006:F7CE
+ *
+ */
+void emu_GUI_Construction_Unknown()
+{
 	goto l__1ABD;
+l__1440:
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__1442;
+l__1442:
+	goto l__1B73;
 l__1ABD:
 	emu_pop(&emu_cx);
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x1C), emu_dx);

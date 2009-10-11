@@ -2007,9 +2007,6 @@ l__07F6:
  *
  * @name f__01F7_080B_0016_8E7B
  * @implements 01F7:080B:0016:8E7B ()
- * @implements 01F7:0821:000E:581D
- * @implements 01F7:082F:0005:E285
- * @implements 01F7:0838:0002:2597
  *
  * Called From: 01F7:32C7:0011:1DCE
  */
@@ -2021,10 +2018,24 @@ l__080B:
 	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_shlw(&emu_bx, 0x1);
 	emu_testw(&emu_get_memory16(emu_ds, emu_bx, 0x795C), 0x2);
-	if (emu_flags.zf) goto l__0821;
+	if (emu_flags.zf) { emu_File_Read(); return; }
 	emu_movw(&emu_ax, 0x5);
 	emu_push(emu_ax);
 	/* Unresolved jump */ emu_ip = 0x0835; emu_last_cs = 0x01F7; emu_last_ip = 0x081F; emu_last_length = 0x0016; emu_last_crc = 0x8E7B; emu_call();
+}
+
+/**
+ * Decompiled function emu_File_Read()
+ *
+ * @name emu_File_Read
+ * @implements 01F7:0821:000E:581D ()
+ * @implements 01F7:082F:0005:E285
+ * @implements 01F7:0838:0002:2597
+ *
+ * Called From: 01F7:0819:0016:8E7B
+ */
+void emu_File_Read()
+{
 l__0821:
 	emu_push(emu_ds);
 	emu_movb(&emu_ah, 0x3F);
