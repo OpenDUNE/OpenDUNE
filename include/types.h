@@ -61,6 +61,12 @@ typedef union csip32 {
 } csip32;
 assert_compile(sizeof(csip32) == 4);
 
+typedef union tile32 {
+	struct { uint16 x; uint16 y; } s;
+	uint32 tile;
+} tile32;
+assert_compile(sizeof(tile32) == 4);
+
 typedef unsigned char bool;
 #define false 0
 #define true 1
