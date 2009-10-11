@@ -1,12 +1,14 @@
 01F7:0272:0007:7402	emu_File_Write1	#
 01F7:02AC:000F:B26A	emu_File_Write2	#
-01F7:0821:000E:581D	emu_File_Read	#
-01F7:10EF:000B:AF8B	emu_File_Delete	#
-01F7:23F4:000A:3443	emu_File_Close	#
+01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
+01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
+01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
+01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
+01F7:23F4:000A:3443	emu_File_Close	# (file)
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
-01F7:2B75:002A:45D8	emu_File_Open	#
-01F7:29D9:000E:7642	emu_File_Create	#
+01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
+01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
 
 0642:04A9:0004:25FB     emu_InGame_Numpad_Move  # When moving with numpad ingame
 
