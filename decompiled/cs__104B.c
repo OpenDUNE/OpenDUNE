@@ -23,7 +23,7 @@ void f__104B_024D_0012_1DC4()
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x025F); emu_AirUnit_Allocate();
-	f__104B_025F_0064_D684();
+	f__104B_025F_0064_D684(); return;
 }
 
 /**
@@ -68,7 +68,7 @@ void f__104B_025F_0064_D684()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02C3); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
-	f__104B_02C3_0013_8AC5();
+	f__104B_02C3_0013_8AC5(); return;
 }
 
 /**
@@ -87,7 +87,7 @@ void f__104B_02C3_0013_8AC5()
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
-	f__104B_02D6_0014_4672();
+	f__104B_02D6_0014_4672(); return;
 }
 
 /**

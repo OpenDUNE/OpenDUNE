@@ -95,7 +95,7 @@ void f__2537_0028_000C_718A()
 	emu_push(emu_ax);
 	emu_push(emu_dx);
 	emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x01F7; f__01F7_07E5_0011_F68B();
-	f__2537_0034_0011_C388();
+	f__2537_0034_0011_C388(); return;
 }
 
 /**
@@ -117,7 +117,7 @@ void f__2537_0034_0011_C388()
 	emu_pop(&emu_cx);
 	emu_pop(&emu_bx);
 	emu_push(emu_cs); emu_push(0x0045); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
-	f__2537_0045_0007_8446();
+	f__2537_0045_0007_8446(); return;
 }
 
 /**
@@ -132,7 +132,7 @@ void f__2537_0045_0007_8446()
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; f__01F7_04E0_0004_E219();
-	f__2537_004C_000E_7744();
+	f__2537_004C_000E_7744(); return;
 }
 
 /**

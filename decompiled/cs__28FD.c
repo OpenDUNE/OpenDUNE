@@ -19,7 +19,7 @@ void f__28FD_000C_0007_5DA9()
 	emu_push(emu_dx);
 	emu_movb(&emu_ah, 0x19);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0013); Interrupt_DOS();
-	f__28FD_0013_0009_539B();
+	f__28FD_0013_0009_539B(); return;
 }
 
 /**
@@ -35,7 +35,7 @@ void f__28FD_0013_0009_539B()
 	emu_movb(&emu_dl, emu_al);
 	emu_movb(&emu_ah, 0xE);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x001C); Interrupt_DOS();
-	f__28FD_001C_000F_5F38();
+	f__28FD_001C_000F_5F38(); return;
 }
 
 /**
@@ -54,7 +54,7 @@ void f__28FD_001C_000F_5F38()
 	emu_incb(&emu_bl);
 	emu_movw(&emu_ax, 0x440E);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x002B); Interrupt_DOS();
-	f__28FD_002B_0009_3693();
+	f__28FD_002B_0009_3693(); return;
 }
 
 /**

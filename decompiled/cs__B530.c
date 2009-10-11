@@ -48,7 +48,7 @@ void f__B530_0010_0023_BD3C()
 	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3530) { ovl__3530(0xFF); }
-	f__B530_0033_000B_E2C7();
+	f__B530_0033_000B_E2C7(); return;
 }
 
 /**

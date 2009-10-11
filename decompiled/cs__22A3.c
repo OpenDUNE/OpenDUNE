@@ -21,7 +21,7 @@ void f__22A3_000D_0010_9291()
 	emu_movw(&emu_ax, 0x49);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x001D); emu_cs = 0x22A6; f__22A6_0004_0003_DA0F();
-	f__22A3_001D_0014_EB0D();
+	f__22A3_001D_0014_EB0D(); return;
 }
 
 /**

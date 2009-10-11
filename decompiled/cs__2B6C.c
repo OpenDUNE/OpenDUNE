@@ -59,7 +59,7 @@ void f__2B6C_000E_0045_C1FE()
 			emu_call();
 			return;
 	}
-	f__2B6C_0053_001B_7422();
+	f__2B6C_0053_001B_7422(); return;
 }
 
 /**
@@ -272,7 +272,7 @@ void f__2B6C_00E5_0025_3C9F()
 			emu_call();
 			return;
 	}
-	f__2B6C_010A_001F_F77F();
+	f__2B6C_010A_001F_F77F(); return;
 }
 
 /**
@@ -295,7 +295,7 @@ void f__2B6C_010A_001F_F77F()
 	emu_movw(&emu_ax, 0x0);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x0129); emu_cs = 0x2903; f__2903_0158_001A_2931();
-	f__2B6C_0129_000E_E866();
+	f__2B6C_0129_000E_E866(); return;
 }
 
 /**
@@ -430,7 +430,7 @@ void f__2B6C_0137_0020_C73F()
 			emu_call();
 			return;
 	}
-	f__2B6C_0157_0007_9309();
+	f__2B6C_0157_0007_9309(); return;
 }
 
 /**
@@ -445,7 +445,7 @@ void f__2B6C_0157_0007_9309()
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs);
 	emu_push(0x015E); f__2B6C_000E_0045_C1FE();
-	f__2B6C_015E_0004_C0E6();
+	f__2B6C_015E_0004_C0E6(); return;
 }
 
 /**
@@ -471,7 +471,7 @@ void f__2B6C_015E_0004_C0E6()
 			emu_call();
 			return;
 	}
-	f__2B6C_0162_0007_9568();
+	f__2B6C_0162_0007_9568(); return;
 }
 
 /**
@@ -578,7 +578,7 @@ void f__2B6C_0169_001E_6939()
 			emu_call();
 			return;
 	}
-	f__2B6C_0187_0007_931D();
+	f__2B6C_0187_0007_931D(); return;
 }
 
 /**
@@ -593,7 +593,7 @@ void f__2B6C_0187_0007_931D()
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs);
 	emu_push(0x018E); f__2B6C_006E_002E_4FBC();
-	f__2B6C_018E_0004_C0E6();
+	f__2B6C_018E_0004_C0E6(); return;
 }
 
 /**
@@ -619,7 +619,7 @@ void f__2B6C_018E_0004_C0E6()
 			emu_call();
 			return;
 	}
-	f__2B6C_0192_0005_89A4();
+	f__2B6C_0192_0005_89A4(); return;
 }
 
 /**
@@ -880,7 +880,7 @@ void f__2B6C_0228_003D_F75B()
 			emu_call();
 			return;
 	}
-	f__2B6C_0265_0007_128D();
+	f__2B6C_0265_0007_128D(); return;
 }
 
 /**
@@ -895,7 +895,7 @@ void f__2B6C_0265_0007_128D()
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs);
 	emu_push(0x026C); f__2B6C_000E_0045_C1FE();
-	f__2B6C_026C_0004_C0E6();
+	f__2B6C_026C_0004_C0E6(); return;
 }
 
 /**
@@ -921,7 +921,7 @@ void f__2B6C_026C_0004_C0E6()
 			emu_call();
 			return;
 	}
-	f__2B6C_0270_0022_327A();
+	f__2B6C_0270_0022_327A(); return;
 }
 
 /**
@@ -1055,7 +1055,7 @@ void f__2B6C_0293_0027_6AD7()
 			emu_call();
 			return;
 	}
-	f__2B6C_02BA_0007_D28E();
+	f__2B6C_02BA_0007_D28E(); return;
 }
 
 /**
@@ -1070,7 +1070,7 @@ void f__2B6C_02BA_0007_D28E()
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs);
 	emu_push(0x02C1); f__2B6C_006E_002E_4FBC();
-	f__2B6C_02C1_0004_C0E6();
+	f__2B6C_02C1_0004_C0E6(); return;
 }
 
 /**
@@ -1096,7 +1096,7 @@ void f__2B6C_02C1_0004_C0E6()
 			emu_call();
 			return;
 	}
-	f__2B6C_02C5_000C_7CD1();
+	f__2B6C_02C5_000C_7CD1(); return;
 }
 
 /**

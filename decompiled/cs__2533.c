@@ -38,7 +38,7 @@ void f__2533_000D_001C_74EC()
 void f__2533_0024_0005_716B()
 {
 	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2BEE; f__2BEE_000E_0009_8881();
-	f__2533_0029_0007_FBEF();
+	f__2533_0029_0007_FBEF(); return;
 }
 
 /**

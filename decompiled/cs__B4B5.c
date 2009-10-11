@@ -72,7 +72,7 @@ void f__B4B5_0014_0038_72B6()
 	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_004C_000D_0FE8();
+	f__B4B5_004C_000D_0FE8(); return;
 }
 
 /**
@@ -91,7 +91,7 @@ void f__B4B5_004C_000D_0FE8()
 	emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0059_0008_B4CF();
+	f__B4B5_0059_0008_B4CF(); return;
 }
 
 /**
@@ -128,7 +128,7 @@ void f__B4B5_0061_0014_7874()
 	emu_push(emu_cs); emu_push(0x0075); emu_cs = 0x01F7; emu_Tools_Memset();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0075_001B_0118();
+	f__B4B5_0075_001B_0118(); return;
 }
 
 /**
@@ -151,7 +151,7 @@ void f__B4B5_0075_001B_0118()
 	emu_push(emu_cs); emu_push(0x0090); emu_cs = 0x253D; f__253D_0000_0013_38F4();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0090_0014_EBAA();
+	f__B4B5_0090_0014_EBAA(); return;
 }
 
 /**
@@ -174,7 +174,7 @@ void f__B4B5_0090_0014_EBAA()
 	emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x01F7; emu_Tools_Memset();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_00A4_0022_04BB();
+	f__B4B5_00A4_0022_04BB(); return;
 }
 
 /**
@@ -200,7 +200,7 @@ void f__B4B5_00A4_0022_04BB()
 	emu_push(emu_cs); emu_push(0x00C6); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_00C6_001F_0DBE();
+	f__B4B5_00C6_001F_0DBE(); return;
 }
 
 /**
@@ -226,7 +226,7 @@ void f__B4B5_00C6_001F_0DBE()
 	emu_push(emu_cs); emu_push(0x00E5); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_00E5_001F_25BE();
+	f__B4B5_00E5_001F_25BE(); return;
 }
 
 /**
@@ -252,7 +252,7 @@ void f__B4B5_00E5_001F_25BE()
 	emu_push(emu_cs); emu_push(0x0104); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0104_0023_B49E();
+	f__B4B5_0104_0023_B49E(); return;
 }
 
 /**
@@ -281,7 +281,7 @@ void f__B4B5_0104_0023_B49E()
 	emu_push(emu_cs); emu_push(0x0127); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0127_001F_EA8A();
+	f__B4B5_0127_001F_EA8A(); return;
 }
 
 /**
@@ -307,7 +307,7 @@ void f__B4B5_0127_001F_EA8A()
 	emu_push(emu_cs); emu_push(0x0146); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0146_0022_A358();
+	f__B4B5_0146_0022_A358(); return;
 }
 
 /**
@@ -334,7 +334,7 @@ void f__B4B5_0146_0022_A358()
 	emu_push(emu_cs); emu_push(0x0168); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0168_0022_8C57();
+	f__B4B5_0168_0022_8C57(); return;
 }
 
 /**
@@ -361,7 +361,7 @@ void f__B4B5_0168_0022_8C57()
 	emu_push(emu_cs); emu_push(0x018A); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_018A_0029_D26D();
+	f__B4B5_018A_0029_D26D(); return;
 }
 
 /**
@@ -394,7 +394,7 @@ void f__B4B5_018A_0029_D26D()
 	emu_push(emu_cs); emu_push(0x01B3); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_01B3_0026_A872();
+	f__B4B5_01B3_0026_A872(); return;
 }
 
 /**
@@ -426,7 +426,7 @@ void f__B4B5_01B3_0026_A872()
 	emu_push(emu_cs); emu_push(0x01D9); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_01D9_0026_480D();
+	f__B4B5_01D9_0026_480D(); return;
 }
 
 /**
@@ -458,7 +458,7 @@ void f__B4B5_01D9_0026_480D()
 	emu_push(emu_cs); emu_push(0x01FF); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_01FF_0008_5475();
+	f__B4B5_01FF_0008_5475(); return;
 }
 
 /**
@@ -474,7 +474,7 @@ void f__B4B5_01FF_0008_5475()
 	emu_push(emu_cs); emu_push(0x0207); emu_cs = 0x34B8; ovl__34B8(5);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0207_000D_44AD();
+	f__B4B5_0207_000D_44AD(); return;
 }
 
 /**
@@ -492,7 +492,7 @@ void f__B4B5_0207_000D_44AD()
 	emu_push(emu_cs); emu_push(0x0214); emu_cs = 0x34B8; ovl__34B8(6);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0214_0007_588E();
+	f__B4B5_0214_0007_588E(); return;
 }
 
 /**
@@ -549,7 +549,7 @@ void f__B4B5_021B_0041_D371()
 	emu_push(emu_cs); emu_push(0x025C); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_025C_000E_4C74();
+	f__B4B5_025C_000E_4C74(); return;
 }
 
 /**
@@ -568,7 +568,7 @@ void f__B4B5_025C_000E_4C74()
 	emu_push(emu_cs); emu_push(0x026A); emu_cs = 0x01F7; f__01F7_3CD5_000D_9D98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_026A_000E_B38A();
+	f__B4B5_026A_000E_B38A(); return;
 }
 
 /**
@@ -590,7 +590,7 @@ void f__B4B5_026A_000E_B38A()
 	emu_push(emu_cs); emu_push(0x0278); emu_cs = 0x01F7; f__01F7_3A8A_0018_E4EE();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0278_0014_E9B8();
+	f__B4B5_0278_0014_E9B8(); return;
 }
 
 /**
@@ -627,7 +627,7 @@ void f__B4B5_028C_000B_6FB9()
 	emu_push(emu_cs); emu_push(0x0297); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0297_0009_3799();
+	f__B4B5_0297_0009_3799(); return;
 }
 
 /**
@@ -660,7 +660,7 @@ void f__B4B5_02A0_0006_D4F4()
 	emu_push(emu_cs); emu_push(0x02A6); emu_cs = 0x10BE; emu_House_Allocate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_02A6_0020_939D();
+	f__B4B5_02A6_0020_939D(); return;
 }
 
 /**
@@ -687,7 +687,7 @@ void f__B4B5_02A6_0020_939D()
 	emu_push(emu_cs); emu_push(0x02C6); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_02C6_0023_D24E();
+	f__B4B5_02C6_0023_D24E(); return;
 }
 
 /**
@@ -714,7 +714,7 @@ void f__B4B5_02C6_0023_D24E()
 	emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_02E9_0024_0501();
+	f__B4B5_02E9_0024_0501(); return;
 }
 
 /**
@@ -741,7 +741,7 @@ void f__B4B5_02E9_0024_0501()
 	emu_push(emu_cs); emu_push(0x030D); emu_cs = 0x34FC; ovl__34FC(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_030D_003F_A1B8();
+	f__B4B5_030D_003F_A1B8(); return;
 }
 
 /**
@@ -824,7 +824,7 @@ void f__B4B5_034C_0019_3E28()
 	emu_push(emu_cs); emu_push(0x0365); emu_cs = 0x10BE; emu_House_FindFirst();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x0365; emu_last_cs = 0xB4B5; emu_last_ip = 0x0365; emu_last_length = 0x0019; emu_last_crc = 0x3E28; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0365; emu_last_cs = 0xB4B5; emu_last_ip = 0x0360; emu_last_length = 0x0019; emu_last_crc = 0x3E28; emu_call();
 }
 
 /**
@@ -842,7 +842,7 @@ void f__B4B5_03A0_000B_6148()
 	emu_push(emu_cs); emu_push(0x03AB); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_03AB_0040_8201();
+	f__B4B5_03AB_0040_8201(); return;
 }
 
 /**
@@ -884,7 +884,7 @@ void f__B4B5_03AB_0040_8201()
 	emu_push(emu_cs); emu_push(0x03EB); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_03EB_0006_B612();
+	f__B4B5_03EB_0006_B612(); return;
 }
 
 /**
@@ -918,7 +918,7 @@ void f__B4B5_03F1_000F_A0F4()
 	emu_push(emu_cs); emu_push(0x0400); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0400_002B_2569();
+	f__B4B5_0400_002B_2569(); return;
 }
 
 /**
@@ -952,7 +952,7 @@ void f__B4B5_0400_002B_2569()
 	emu_push(emu_cs); emu_push(0x042B); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_042B_0013_2B96();
+	f__B4B5_042B_0013_2B96(); return;
 }
 
 /**
@@ -974,7 +974,7 @@ void f__B4B5_042B_0013_2B96()
 	emu_push(emu_cs); emu_push(0x043E); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_043E_000A_3572();
+	f__B4B5_043E_000A_3572(); return;
 }
 
 /**
@@ -992,7 +992,7 @@ void f__B4B5_043E_000A_3572()
 	emu_push(emu_cs); emu_push(0x0448); emu_cs = 0x1381; f__1381_0051_0010_81BB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0448_000C_97E0();
+	f__B4B5_0448_000C_97E0(); return;
 }
 
 /**
@@ -1032,7 +1032,7 @@ void f__B4B5_0454_0010_8687()
 	emu_push(emu_cs); emu_push(0x0464); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0464_000A_B659();
+	f__B4B5_0464_000A_B659(); return;
 }
 
 /**
@@ -1050,7 +1050,7 @@ void f__B4B5_0464_000A_B659()
 	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x3533; ovl__3533(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_046E_000C_17F9();
+	f__B4B5_046E_000C_17F9(); return;
 }
 
 /**
@@ -1087,7 +1087,7 @@ void f__B4B5_047A_000B_186A()
 	emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x0FE4; emu_Unit_Allocate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0485_0014_19B1();
+	f__B4B5_0485_0014_19B1(); return;
 }
 
 /**
@@ -1130,7 +1130,7 @@ void f__B4B5_0499_0019_B499()
 	emu_push(emu_cs); emu_push(0x04B2); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_04B2_000A_882F();
+	f__B4B5_04B2_000A_882F(); return;
 }
 
 /**
@@ -1148,7 +1148,7 @@ void f__B4B5_04B2_000A_882F()
 	emu_push(emu_cs); emu_push(0x04BC); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_04BC_0021_883C();
+	f__B4B5_04BC_0021_883C(); return;
 }
 
 /**
@@ -1175,7 +1175,7 @@ void f__B4B5_04BC_0021_883C()
 	emu_push(emu_cs); emu_push(0x04DD); emu_cs = 0x34C1; ovl__34C1(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_04DD_0019_97D1();
+	f__B4B5_04DD_0019_97D1(); return;
 }
 
 /**
@@ -1202,7 +1202,7 @@ void f__B4B5_04DD_0019_97D1()
 	emu_push(emu_cs); emu_push(0x04F6); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_04F6_000A_882F();
+	f__B4B5_04F6_000A_882F(); return;
 }
 
 /**
@@ -1220,7 +1220,7 @@ void f__B4B5_04F6_000A_882F()
 	emu_push(emu_cs); emu_push(0x0500); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0500_0008_0AE5();
+	f__B4B5_0500_0008_0AE5(); return;
 }
 
 /**
@@ -1238,7 +1238,7 @@ void f__B4B5_0500_0008_0AE5()
 	emu_push(emu_cs); emu_push(0x0508); emu_cs = 0x0F3F; f__0F3F_009D_0017_8464();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0508_001C_DBB3();
+	f__B4B5_0508_001C_DBB3(); return;
 }
 
 /**
@@ -1264,7 +1264,7 @@ void f__B4B5_0508_001C_DBB3()
 	emu_push(emu_cs); emu_push(0x0524); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0524_000A_882F();
+	f__B4B5_0524_000A_882F(); return;
 }
 
 /**
@@ -1282,7 +1282,7 @@ void f__B4B5_0524_000A_882F()
 	emu_push(emu_cs); emu_push(0x052E); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_052E_0019_A2F9();
+	f__B4B5_052E_0019_A2F9(); return;
 }
 
 /**
@@ -1308,7 +1308,7 @@ void f__B4B5_052E_0019_A2F9()
 	emu_push(emu_cs); emu_push(0x0547); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0547_000A_7577();
+	f__B4B5_0547_000A_7577(); return;
 }
 
 /**
@@ -1326,7 +1326,7 @@ void f__B4B5_0547_000A_7577()
 	emu_push(emu_cs); emu_push(0x0551); emu_cs = 0x1381; f__1381_0005_0010_8273();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0551_0021_D3B7();
+	f__B4B5_0551_0021_D3B7(); return;
 }
 
 /**
@@ -1350,7 +1350,7 @@ void f__B4B5_0551_0021_D3B7()
 	emu_push(emu_cs); emu_push(0x0572); emu_cs = 0x0F3F; f__0F3F_0086_0017_EA43();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0572_0008_3755();
+	f__B4B5_0572_0008_3755(); return;
 }
 
 /**
@@ -1368,7 +1368,7 @@ void f__B4B5_0572_0008_3755()
 	emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x34CD; ovl__34CD(11);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_057A_0017_470E();
+	f__B4B5_057A_0017_470E(); return;
 }
 
 /**
@@ -1390,7 +1390,7 @@ void f__B4B5_057A_0017_470E()
 	emu_push(emu_cs); emu_push(0x0591); emu_cs = 0x0FE4; emu_Unit_Free();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x0591; emu_last_cs = 0xB4B5; emu_last_ip = 0x0591; emu_last_length = 0x0017; emu_last_crc = 0x470E; emu_call();
+	/* Unresolved jump */ emu_ip = 0x0591; emu_last_cs = 0xB4B5; emu_last_ip = 0x058C; emu_last_length = 0x0017; emu_last_crc = 0x470E; emu_call();
 }
 
 /**
@@ -1416,7 +1416,7 @@ void f__B4B5_0596_001F_757D()
 	emu_push(emu_cs); emu_push(0x05B5); emu_cs = 0x176C; f__176C_000E_000E_633D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_05B5_001F_CB42();
+	f__B4B5_05B5_001F_CB42(); return;
 }
 
 /**
@@ -1440,7 +1440,7 @@ void f__B4B5_05B5_001F_CB42()
 	emu_push(emu_cs); emu_push(0x05D4); emu_cs = 0x1423; f__1423_08CD_0012_0004();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_05D4_001F_E8C6();
+	f__B4B5_05D4_001F_E8C6(); return;
 }
 
 /**
@@ -1466,7 +1466,7 @@ void f__B4B5_05D4_001F_E8C6()
 	emu_push(emu_cs); emu_push(0x05F3); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_05F3_0020_9640();
+	f__B4B5_05F3_0020_9640(); return;
 }
 
 /**
@@ -1492,7 +1492,7 @@ void f__B4B5_05F3_0020_9640()
 	emu_push(emu_cs); emu_push(0x0613); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0613_0011_7F5A();
+	f__B4B5_0613_0011_7F5A(); return;
 }
 
 /**
@@ -1512,7 +1512,7 @@ void f__B4B5_0613_0011_7F5A()
 	emu_push(emu_cs); emu_push(0x0624); emu_cs = 0x1A34; f__1A34_204C_0043_B1ED();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0624_000E_6326();
+	f__B4B5_0624_000E_6326(); return;
 }
 
 /**
@@ -1543,7 +1543,7 @@ void f__B4B5_0627_000B_414C()
 	emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0632_0012_AEC4();
+	f__B4B5_0632_0012_AEC4(); return;
 }
 
 /**
@@ -1593,7 +1593,7 @@ void f__B4B5_0644_000B_6148()
 	emu_push(emu_cs); emu_push(0x064F); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_064F_0040_7E01();
+	f__B4B5_064F_0040_7E01(); return;
 }
 
 /**
@@ -1635,7 +1635,7 @@ void f__B4B5_064F_0040_7E01()
 	emu_push(emu_cs); emu_push(0x068F); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_068F_0006_77BF();
+	f__B4B5_068F_0006_77BF(); return;
 }
 
 /**
@@ -1672,7 +1672,7 @@ void f__B4B5_0695_0014_F457()
 	emu_push(emu_cs); emu_push(0x06A9); emu_cs = 0x01F7; f__01F7_28DC_0009_EE56();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_06A9_000A_C412();
+	f__B4B5_06A9_000A_C412(); return;
 }
 
 /**
@@ -1707,7 +1707,7 @@ void f__B4B5_06B3_000F_80F4()
 	emu_push(emu_cs); emu_push(0x06C2); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_06C2_002B_D951();
+	f__B4B5_06C2_002B_D951(); return;
 }
 
 /**
@@ -1741,7 +1741,7 @@ void f__B4B5_06C2_002B_D951()
 	emu_push(emu_cs); emu_push(0x06ED); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_06ED_0013_2B96();
+	f__B4B5_06ED_0013_2B96(); return;
 }
 
 /**
@@ -1763,7 +1763,7 @@ void f__B4B5_06ED_0013_2B96()
 	emu_push(emu_cs); emu_push(0x0700); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0700_000A_3572();
+	f__B4B5_0700_000A_3572(); return;
 }
 
 /**
@@ -1781,7 +1781,7 @@ void f__B4B5_0700_000A_3572()
 	emu_push(emu_cs); emu_push(0x070A); emu_cs = 0x1381; f__1381_0051_0010_81BB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_070A_0014_A580();
+	f__B4B5_070A_0014_A580(); return;
 }
 
 /**
@@ -1806,7 +1806,7 @@ void f__B4B5_070A_0014_A580()
 	emu_push(emu_cs); emu_push(0x071E); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_071E_000A_7659();
+	f__B4B5_071E_000A_7659(); return;
 }
 
 /**
@@ -1824,7 +1824,7 @@ void f__B4B5_071E_000A_7659()
 	emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; ovl__3530(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0728_001C_537A();
+	f__B4B5_0728_001C_537A(); return;
 }
 
 /**
@@ -1851,7 +1851,7 @@ void f__B4B5_0728_001C_537A()
 	emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; f__0C3A_0009_0029_BF94();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0744_0006_1788();
+	f__B4B5_0744_0006_1788(); return;
 }
 
 /**
@@ -1884,7 +1884,7 @@ void f__B4B5_074A_000F_A0F4()
 	emu_push(emu_cs); emu_push(0x0759); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0759_002B_D969();
+	f__B4B5_0759_002B_D969(); return;
 }
 
 /**
@@ -1918,7 +1918,7 @@ void f__B4B5_0759_002B_D969()
 	emu_push(emu_cs); emu_push(0x0784); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0784_0013_2B96();
+	f__B4B5_0784_0013_2B96(); return;
 }
 
 /**
@@ -1940,7 +1940,7 @@ void f__B4B5_0784_0013_2B96()
 	emu_push(emu_cs); emu_push(0x0797); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0797_000A_3572();
+	f__B4B5_0797_000A_3572(); return;
 }
 
 /**
@@ -1958,7 +1958,7 @@ void f__B4B5_0797_000A_3572()
 	emu_push(emu_cs); emu_push(0x07A1); emu_cs = 0x1381; f__1381_0051_0010_81BB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_07A1_0014_A580();
+	f__B4B5_07A1_0014_A580(); return;
 }
 
 /**
@@ -1983,7 +1983,7 @@ void f__B4B5_07A1_0014_A580()
 	emu_push(emu_cs); emu_push(0x07B5); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_07B5_000A_7659();
+	f__B4B5_07B5_000A_7659(); return;
 }
 
 /**
@@ -2001,7 +2001,7 @@ void f__B4B5_07B5_000A_7659()
 	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; ovl__3530(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_07BF_000C_177A();
+	f__B4B5_07BF_000C_177A(); return;
 }
 
 /**
@@ -2056,7 +2056,7 @@ void f__B4B5_07D3_0010_8687()
 	emu_push(emu_cs); emu_push(0x07E3); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_07E3_000A_882F();
+	f__B4B5_07E3_000A_882F(); return;
 }
 
 /**
@@ -2074,7 +2074,7 @@ void f__B4B5_07E3_000A_882F()
 	emu_push(emu_cs); emu_push(0x07ED); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_07ED_0015_F37B();
+	f__B4B5_07ED_0015_F37B(); return;
 }
 
 /**
@@ -2099,7 +2099,7 @@ void f__B4B5_07ED_0015_F37B()
 	emu_push(emu_cs); emu_push(0x0802); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0802_000A_882F();
+	f__B4B5_0802_000A_882F(); return;
 }
 
 /**
@@ -2117,7 +2117,7 @@ void f__B4B5_0802_000A_882F()
 	emu_push(emu_cs); emu_push(0x080C); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_080C_000D_8573();
+	f__B4B5_080C_000D_8573(); return;
 }
 
 /**
@@ -2136,7 +2136,7 @@ void f__B4B5_080C_000D_8573()
 	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; ovl__34CD(30);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0819_0012_21EC();
+	f__B4B5_0819_0012_21EC(); return;
 }
 
 /**
@@ -2158,7 +2158,7 @@ void f__B4B5_0819_0012_21EC()
 	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; f__0C3A_0009_0029_BF94();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_082B_0054_FF92();
+	f__B4B5_082B_0054_FF92(); return;
 }
 
 /**
@@ -2213,7 +2213,7 @@ void f__B4B5_0874_000B_414C()
 	emu_push(emu_cs); emu_push(0x087F); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_087F_0012_EF6E();
+	f__B4B5_087F_0012_EF6E(); return;
 }
 
 /**
@@ -2263,7 +2263,7 @@ void f__B4B5_0891_000B_6148()
 	emu_push(emu_cs); emu_push(0x089C); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_089C_0040_4310();
+	f__B4B5_089C_0040_4310(); return;
 }
 
 /**
@@ -2305,7 +2305,7 @@ void f__B4B5_089C_0040_4310()
 	emu_push(emu_cs); emu_push(0x08DC); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_08DC_0006_F794();
+	f__B4B5_08DC_0006_F794(); return;
 }
 
 /**
@@ -2353,7 +2353,7 @@ void f__B4B5_0A2F_000B_714A()
 	emu_push(emu_cs); emu_push(0x0A3A); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0A3A_0012_0C4A();
+	f__B4B5_0A3A_0012_0C4A(); return;
 }
 
 /**
@@ -2417,7 +2417,7 @@ void f__B4B5_0A4C_0024_5A64()
 	emu_push(emu_cs); emu_push(0x0A70); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0A70_0013_2BE2();
+	f__B4B5_0A70_0013_2BE2(); return;
 }
 
 /**
@@ -2439,7 +2439,7 @@ void f__B4B5_0A70_0013_2BE2()
 	emu_push(emu_cs); emu_push(0x0A83); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0A83_0013_90D2();
+	f__B4B5_0A83_0013_90D2(); return;
 }
 
 /**
@@ -2476,7 +2476,7 @@ void f__B4B5_0A96_000B_0225()
 	emu_push(emu_cs); emu_push(0x0AA1); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0AA1_003E_17EA();
+	f__B4B5_0AA1_003E_17EA(); return;
 }
 
 /**
@@ -2515,7 +2515,7 @@ void f__B4B5_0AA1_003E_17EA()
 	emu_push(emu_cs); emu_push(0x0ADF); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0ADF_0035_0FCE();
+	f__B4B5_0ADF_0035_0FCE(); return;
 }
 
 /**
@@ -2578,7 +2578,7 @@ void f__B4B5_0AF0_0024_1264()
 	emu_push(emu_cs); emu_push(0x0B14); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0B14_0013_2BE2();
+	f__B4B5_0B14_0013_2BE2(); return;
 }
 
 /**
@@ -2600,7 +2600,7 @@ void f__B4B5_0B14_0013_2BE2()
 	emu_push(emu_cs); emu_push(0x0B27); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0B27_0013_91B2();
+	f__B4B5_0B27_0013_91B2(); return;
 }
 
 /**
@@ -2637,7 +2637,7 @@ void f__B4B5_0B3A_000B_0225()
 	emu_push(emu_cs); emu_push(0x0B45); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0B45_000E_A2FD();
+	f__B4B5_0B45_000E_A2FD(); return;
 }
 
 /**
@@ -2658,7 +2658,7 @@ void f__B4B5_0B45_000E_A2FD()
 	emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x34CD; ovl__34CD(23);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0B53_002F_AC2C();
+	f__B4B5_0B53_002F_AC2C(); return;
 }
 
 /**
@@ -2705,7 +2705,7 @@ void f__B4B5_0B72_0010_86F3()
 	emu_push(emu_cs); emu_push(0x0B82); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0B82_0035_DFC7();
+	f__B4B5_0B82_0035_DFC7(); return;
 }
 
 /**
@@ -2768,7 +2768,7 @@ void f__B4B5_0B93_0024_C265()
 	emu_push(emu_cs); emu_push(0x0BB7); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0BB7_0013_2BE2();
+	f__B4B5_0BB7_0013_2BE2(); return;
 }
 
 /**
@@ -2790,7 +2790,7 @@ void f__B4B5_0BB7_0013_2BE2()
 	emu_push(emu_cs); emu_push(0x0BCA); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0BCA_0013_9072();
+	f__B4B5_0BCA_0013_9072(); return;
 }
 
 /**
@@ -2826,7 +2826,7 @@ void f__B4B5_0C38_000B_6148()
 	emu_push(emu_cs); emu_push(0x0C43); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0C43_001B_A229();
+	f__B4B5_0C43_001B_A229(); return;
 }
 
 /**
@@ -2904,7 +2904,7 @@ void f__B4B5_0C6E_002E_3B47()
 	emu_push(emu_cs); emu_push(0x0C9C); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0C9C_0006_F7AB();
+	f__B4B5_0C9C_0006_F7AB(); return;
 }
 
 /**
@@ -2936,7 +2936,7 @@ void f__B4B5_0CA2_000B_3223()
 	emu_push(emu_cs); emu_push(0x0CAD); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0CAD_002A_1E0E();
+	f__B4B5_0CAD_002A_1E0E(); return;
 }
 
 /**
@@ -2970,7 +2970,7 @@ void f__B4B5_0CAD_002A_1E0E()
 	emu_push(emu_cs); emu_push(0x0CD7); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0CD7_0013_2B96();
+	f__B4B5_0CD7_0013_2B96(); return;
 }
 
 /**
@@ -2992,7 +2992,7 @@ void f__B4B5_0CD7_0013_2B96()
 	emu_push(emu_cs); emu_push(0x0CEA); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0CEA_000A_3572();
+	f__B4B5_0CEA_000A_3572(); return;
 }
 
 /**
@@ -3010,7 +3010,7 @@ void f__B4B5_0CEA_000A_3572()
 	emu_push(emu_cs); emu_push(0x0CF4); emu_cs = 0x1381; f__1381_0051_0010_81BB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0CF4_000C_97DE();
+	f__B4B5_0CF4_000C_97DE(); return;
 }
 
 /**
@@ -3050,7 +3050,7 @@ void f__B4B5_0D00_0010_8687()
 	emu_push(emu_cs); emu_push(0x0D10); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D10_000A_B659();
+	f__B4B5_0D10_000A_B659(); return;
 }
 
 /**
@@ -3068,7 +3068,7 @@ void f__B4B5_0D10_000A_B659()
 	emu_push(emu_cs); emu_push(0x0D1A); emu_cs = 0x3533; ovl__3533(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D1A_000E_D0D2();
+	f__B4B5_0D1A_000E_D0D2(); return;
 }
 
 /**
@@ -3111,7 +3111,7 @@ void f__B4B5_0D28_0018_8BBA()
 	emu_push(emu_cs); emu_push(0x0D40); emu_cs = 0x1A34; emu_Unit_Create();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D40_0014_D927();
+	f__B4B5_0D40_0014_D927(); return;
 }
 
 /**
@@ -3159,7 +3159,7 @@ void f__B4B5_0D54_0023_4ECB()
 	emu_push(emu_cs); emu_push(0x0D77); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D77_000A_FBE7();
+	f__B4B5_0D77_000A_FBE7(); return;
 }
 
 /**
@@ -3177,7 +3177,7 @@ void f__B4B5_0D77_000A_FBE7()
 	emu_push(emu_cs); emu_push(0x0D81); emu_cs = 0x01F7; f__01F7_3CD5_000D_9D98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D81_000E_548A();
+	f__B4B5_0D81_000E_548A(); return;
 }
 
 /**
@@ -3199,7 +3199,7 @@ void f__B4B5_0D81_000E_548A()
 	emu_push(emu_cs); emu_push(0x0D8F); emu_cs = 0x01F7; f__01F7_3A8A_0018_E4EE();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0D8F_002E_8780();
+	f__B4B5_0D8F_002E_8780(); return;
 }
 
 /**
@@ -3234,7 +3234,7 @@ void f__B4B5_0D8F_002E_8780()
 	emu_push(emu_cs); emu_push(0x0DBD); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0DBD_000A_882F();
+	f__B4B5_0DBD_000A_882F(); return;
 }
 
 /**
@@ -3252,7 +3252,7 @@ void f__B4B5_0DBD_000A_882F()
 	emu_push(emu_cs); emu_push(0x0DC7); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0DC7_0027_5285();
+	f__B4B5_0DC7_0027_5285(); return;
 }
 
 /**
@@ -3285,7 +3285,7 @@ void f__B4B5_0DC7_0027_5285()
 	emu_push(emu_cs); emu_push(0x0DEE); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0DEE_0014_EB62();
+	f__B4B5_0DEE_0014_EB62(); return;
 }
 
 /**
@@ -3353,7 +3353,7 @@ void f__B4B5_0E33_000B_414C()
 	emu_push(emu_cs); emu_push(0x0E3E); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0E3E_0012_6F7B();
+	f__B4B5_0E3E_0012_6F7B(); return;
 }
 
 /**
@@ -3403,7 +3403,7 @@ void f__B4B5_0E50_000B_6148()
 	emu_push(emu_cs); emu_push(0x0E5B); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0E5B_003D_8F07();
+	f__B4B5_0E5B_003D_8F07(); return;
 }
 
 /**
@@ -3445,7 +3445,7 @@ void f__B4B5_0E5B_003D_8F07()
 	emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0E98_0006_373C();
+	f__B4B5_0E98_0006_373C(); return;
 }
 
 /**
@@ -3491,7 +3491,7 @@ void f__B4B5_0E9E_0026_D6B3()
 	emu_push(emu_cs); emu_push(0x0EC4); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0EC4_0013_2B96();
+	f__B4B5_0EC4_0013_2B96(); return;
 }
 
 /**
@@ -3513,7 +3513,7 @@ void f__B4B5_0EC4_0013_2B96()
 	emu_push(emu_cs); emu_push(0x0ED7); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0ED7_000A_3572();
+	f__B4B5_0ED7_000A_3572(); return;
 }
 
 /**
@@ -3531,7 +3531,7 @@ void f__B4B5_0ED7_000A_3572()
 	emu_push(emu_cs); emu_push(0x0EE1); emu_cs = 0x1381; f__1381_0051_0010_81BB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0EE1_000C_1773();
+	f__B4B5_0EE1_000C_1773(); return;
 }
 
 /**
@@ -3571,7 +3571,7 @@ void f__B4B5_0EED_0010_8687()
 	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0EFD_000A_257A();
+	f__B4B5_0EFD_000A_257A(); return;
 }
 
 /**
@@ -3589,7 +3589,7 @@ void f__B4B5_0EFD_000A_257A()
 	emu_push(emu_cs); emu_push(0x0F07); emu_cs = 0x1381; f__1381_00D0_0008_1ADC();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F07_001B_3B64();
+	f__B4B5_0F07_001B_3B64(); return;
 }
 
 /**
@@ -3616,7 +3616,7 @@ void f__B4B5_0F07_001B_3B64()
 	emu_push(emu_cs); emu_push(0x0F22); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F22_000A_457E();
+	f__B4B5_0F22_000A_457E(); return;
 }
 
 /**
@@ -3634,7 +3634,7 @@ void f__B4B5_0F22_000A_457E()
 	emu_push(emu_cs); emu_push(0x0F2C); emu_cs = 0x1381; f__1381_0096_0008_1ADC();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F2C_001B_0EE0();
+	f__B4B5_0F2C_001B_0EE0(); return;
 }
 
 /**
@@ -3661,7 +3661,7 @@ void f__B4B5_0F2C_001B_0EE0()
 	emu_push(emu_cs); emu_push(0x0F47); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F47_000A_882F();
+	f__B4B5_0F47_000A_882F(); return;
 }
 
 /**
@@ -3679,7 +3679,7 @@ void f__B4B5_0F47_000A_882F()
 	emu_push(emu_cs); emu_push(0x0F51); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F51_0015_FC7B();
+	f__B4B5_0F51_0015_FC7B(); return;
 }
 
 /**
@@ -3704,7 +3704,7 @@ void f__B4B5_0F51_0015_FC7B()
 	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F66_000A_882F();
+	f__B4B5_0F66_000A_882F(); return;
 }
 
 /**
@@ -3722,7 +3722,7 @@ void f__B4B5_0F66_000A_882F()
 	emu_push(emu_cs); emu_push(0x0F70); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F70_0017_CB04();
+	f__B4B5_0F70_0017_CB04(); return;
 }
 
 /**
@@ -3745,7 +3745,7 @@ void f__B4B5_0F70_0017_CB04()
 	emu_push(emu_cs); emu_push(0x0F87); emu_cs = 0x104B; f__104B_024D_0012_1DC4();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F87_000E_53E0();
+	f__B4B5_0F87_000E_53E0(); return;
 }
 
 /**
@@ -3777,7 +3777,7 @@ void f__B4B5_0F8A_000B_714A()
 	emu_push(emu_cs); emu_push(0x0F95); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0F95_0012_4C52();
+	f__B4B5_0F95_0012_4C52(); return;
 }
 
 /**
@@ -3827,7 +3827,7 @@ void f__B4B5_0FA7_000B_6148()
 	emu_push(emu_cs); emu_push(0x0FB2); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0FB2_003D_8907();
+	f__B4B5_0FB2_003D_8907(); return;
 }
 
 /**
@@ -3869,7 +3869,7 @@ void f__B4B5_0FB2_003D_8907()
 	emu_push(emu_cs); emu_push(0x0FEF); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0FEF_0005_B26E();
+	f__B4B5_0FEF_0005_B26E(); return;
 }
 
 /**
@@ -3901,7 +3901,7 @@ void f__B4B5_0FF4_000B_3C53()
 	emu_push(emu_cs); emu_push(0x0FFF); emu_cs = 0x3533; ovl__3533(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_0FFF_002F_9FB4();
+	f__B4B5_0FFF_002F_9FB4(); return;
 }
 
 /**
@@ -3937,7 +3937,7 @@ void f__B4B5_0FFF_002F_9FB4()
 	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x34FC; ovl__34FC(1);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_102E_000E_3FBC();
+	f__B4B5_102E_000E_3FBC(); return;
 }
 
 /**
@@ -3956,7 +3956,7 @@ void f__B4B5_102E_000E_3FBC()
 	emu_push(emu_cs); emu_push(0x103C); emu_cs = 0x01F7; f__01F7_2252_0045_03CB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_103C_001B_6488();
+	f__B4B5_103C_001B_6488(); return;
 }
 
 /**
@@ -3993,7 +3993,7 @@ void f__B4B5_104C_000B_714A()
 	emu_push(emu_cs); emu_push(0x1057); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { ovl__34B5(0xFF); }
-	f__B4B5_1057_0023_53D1();
+	f__B4B5_1057_0023_53D1(); return;
 }
 
 /**

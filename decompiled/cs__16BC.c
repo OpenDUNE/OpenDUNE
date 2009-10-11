@@ -115,7 +115,7 @@ void f__16BC_0044_0027_CB92()
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x104B; emu_AirUnit_Get_ByIndex();
-	f__16BC_006B_0026_801B();
+	f__16BC_006B_0026_801B(); return;
 }
 
 /**

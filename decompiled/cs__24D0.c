@@ -249,7 +249,7 @@ void f__24D0_007F_001E_EB4C()
 			emu_call();
 			return;
 	}
-	f__24D0_009D_0007_CFD7();
+	f__24D0_009D_0007_CFD7(); return;
 }
 
 /**

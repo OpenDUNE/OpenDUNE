@@ -56,7 +56,7 @@ void f__28E6_0041_0009_2106()
 {
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6C91));
 	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; f__252E_001B_0018_EA2C();
-	f__28E6_004A_0044_5F17();
+	f__28E6_004A_0044_5F17(); return;
 }
 
 /**
@@ -213,7 +213,7 @@ void f__28E6_0100_0009_9E6A()
 			emu_call();
 			return;
 	}
-	f__28E6_0109_001A_077C();
+	f__28E6_0109_001A_077C(); return;
 }
 
 /**

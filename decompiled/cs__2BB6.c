@@ -99,7 +99,7 @@ void f__2BB6_004F_0014_AB2C()
 	emu_cld();
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x252E; f__252E_0001_0018_08B3();
-	f__2BB6_0063_0041_F459();
+	f__2BB6_0063_0041_F459(); return;
 }
 
 /**

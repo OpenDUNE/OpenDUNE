@@ -171,7 +171,7 @@ void f__07AE_00E4_000D_9955()
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
 	emu_push(0x00F1); f__07AE_0000_00DF_A32C();
-	f__07AE_00F1_0009_4821();
+	f__07AE_00F1_0009_4821(); return;
 }
 
 /**
@@ -187,7 +187,7 @@ void f__07AE_00F1_0009_4821()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x00FA); f__07AE_0103_004C_B43B();
-	f__07AE_00FA_0005_BBA6();
+	f__07AE_00FA_0005_BBA6(); return;
 }
 
 /**
@@ -276,7 +276,7 @@ void f__07AE_0103_004C_B43B()
 			emu_call();
 			return;
 	}
-	f__07AE_014F_001B_3CCB();
+	f__07AE_014F_001B_3CCB(); return;
 }
 
 /**

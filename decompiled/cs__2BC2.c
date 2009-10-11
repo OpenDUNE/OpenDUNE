@@ -133,7 +133,7 @@ void f__2BC2_005B_0024_8300()
 			emu_call();
 			return;
 	}
-	f__2BC2_007F_001C_CE2B();
+	f__2BC2_007F_001C_CE2B(); return;
 }
 
 /**
@@ -237,7 +237,7 @@ void f__2BC2_00CC_0012_BF40()
 			emu_call();
 			return;
 	}
-	f__2BC2_00DE_000B_4026();
+	f__2BC2_00DE_000B_4026(); return;
 }
 
 /**

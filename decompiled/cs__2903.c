@@ -67,7 +67,7 @@ void f__2903_00AC_0016_704A()
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x00C2); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	f__2903_00C2_0008_4ECE();
+	f__2903_00C2_0008_4ECE(); return;
 }
 
 /**
@@ -408,7 +408,7 @@ void f__2903_0227_003C_4DE6()
 	emu_movw(&emu_get_memory16(emu_ss, emu_bp, -0x2), emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; f__252E_001B_0018_EA2C();
-	f__2903_0263_0060_2C9A();
+	f__2903_0263_0060_2C9A(); return;
 }
 
 /**
@@ -622,7 +622,7 @@ void f__2903_0325_001C_850F()
 	emu_push(emu_bx);
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0341); emu_cs = 0x2BD6; f__2BD6_0000_0015_24A9();
-	f__2903_0341_0018_4AE8();
+	f__2903_0341_0018_4AE8(); return;
 }
 
 /**
@@ -739,7 +739,7 @@ void f__2903_0371_0016_7D40()
 			emu_call();
 			return;
 	}
-	f__2903_0387_0043_3750();
+	f__2903_0387_0043_3750(); return;
 }
 
 /**
@@ -1055,7 +1055,7 @@ void f__2903_04A4_0018_7352()
 			emu_call();
 			return;
 	}
-	f__2903_04BC_0002_B33A();
+	f__2903_04BC_0002_B33A(); return;
 }
 
 /**
@@ -1114,7 +1114,7 @@ void f__2903_04C4_0010_92CB()
 			emu_call();
 			return;
 	}
-	f__2903_04D4_000E_82DD();
+	f__2903_04D4_000E_82DD(); return;
 }
 
 /**
@@ -1129,21 +1129,22 @@ void f__2903_04D4_000E_82DD()
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x1C), 0x0);
 	if (emu_flags.zf) { f__2903_04EA_0018_6F98(); return; }
 	emu_addw(&emu_cx, emu_get_memory16(emu_ss, emu_bp, -0x14));
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2903_04E2_0008_5672(); return; }
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) {
 
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ss, emu_bp, -0x8);
-	emu_push(0x04E2);
-	switch (emu_ip) {
-		case 0x0530: f__2903_0530_0008_CF42(); break;
-		case 0x0569: f__2903_0569_000A_C3B0(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2903; emu_last_ip = 0x04DF; emu_last_length = 0x000E; emu_last_crc = 0x82DD;
-			emu_call();
-			return;
+		/* Call based on memory/register values */
+		emu_ip = emu_get_memory16(emu_ss, emu_bp, -0x8);
+		emu_push(0x04E2);
+		switch (emu_ip) {
+			case 0x0530: f__2903_0530_0008_CF42(); break;
+			case 0x0569: f__2903_0569_000A_C3B0(); break;
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x2903; emu_last_ip = 0x04DF; emu_last_length = 0x000E; emu_last_crc = 0x82DD;
+				emu_call();
+				return;
+		}
 	}
-	f__2903_04E2_0008_5672();
+	f__2903_04E2_0008_5672(); return;
 }
 
 /**
@@ -1171,7 +1172,7 @@ void f__2903_04E2_0008_5672()
 			emu_call();
 			return;
 	}
-	f__2903_04EA_0018_6F98();
+	f__2903_04EA_0018_6F98(); return;
 }
 
 /**
@@ -1339,7 +1340,7 @@ void f__2903_0530_0008_CF42()
 			emu_call();
 			return;
 	}
-	f__2903_0538_0005_FF2C();
+	f__2903_0538_0005_FF2C(); return;
 }
 
 /**
@@ -1515,7 +1516,7 @@ void f__2903_056B_0008_CF42()
 			emu_call();
 			return;
 	}
-	f__2903_0573_0005_FF6C();
+	f__2903_0573_0005_FF6C(); return;
 }
 
 /**
