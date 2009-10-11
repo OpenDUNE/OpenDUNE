@@ -415,23 +415,22 @@ void emu_Input_Mouse_CallbackClear()
  */
 void emu_Input_Mouse_InsideRegion()
 {
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
 	while (g_global->mouseLock != 0) usleep(1);
 
 	g_global->mouseLock++;
 
 	/* Check if the mouse is inside the region given by the parameters */
 	emu_ax = 1;
-	if (g_global->mouseX < emu_get_memory16(emu_ss, emu_bp,  0x6) ||
-	    g_global->mouseX > emu_get_memory16(emu_ss, emu_bp,  0x8) ||
-	    g_global->mouseY < emu_get_memory16(emu_ss, emu_bp,  0xA) ||
-	    g_global->mouseY > emu_get_memory16(emu_ss, emu_bp,  0xC)) {
+	if (g_global->mouseX < emu_get_memory16(emu_ss, emu_sp,  0x0) ||
+	    g_global->mouseX > emu_get_memory16(emu_ss, emu_sp,  0x4) ||
+	    g_global->mouseY < emu_get_memory16(emu_ss, emu_sp,  0x2) ||
+	    g_global->mouseY > emu_get_memory16(emu_ss, emu_sp,  0x6)) {
 		emu_ax = 0;
 	}
 
 	g_global->mouseLock--;
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
 }
