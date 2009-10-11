@@ -69,7 +69,7 @@ assert_compile(sizeof(csip32) == 4);
  */
 typedef union tile32 {
 	struct { uint16 x; uint16 y; } s;
-	struct { uint32 ox:8; uint32 px:6; uint32 ux:2; uint32 oy:8; uint32 py:6; uint32 ux:2; } d;
+	struct { uint32 ox:8; uint32 px:6; uint32 ux:2; uint32 oy:8; uint32 py:6; uint32 uy:2; } d;
 	uint32 tile;
 } tile32;
 assert_compile(sizeof(tile32) == 4);
