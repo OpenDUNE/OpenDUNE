@@ -121,7 +121,7 @@ l__00AA:
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x00C6; emu_last_cs = 0x256D; emu_last_ip = 0x00C0; emu_last_length = 0x0026; emu_last_crc = 0xB985; emu_call(); return; }
 	emu_get_memory8(emu_ss, emu_bp, -0x1) = 0x1;
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x1);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_orw(&emu_ax, emu_ax);
 	if (!emu_flags.zf) goto l__00D0;
 	/* Unresolved jump */ emu_ip = 0x005B; emu_last_cs = 0x256D; emu_last_ip = 0x00CE; emu_last_length = 0x0026; emu_last_crc = 0xB985; emu_call();

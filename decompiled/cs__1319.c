@@ -831,7 +831,7 @@ l__048B:
 	goto l__04A8;
 l__04A8:
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x9);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, emu_bx, 0x3792);
 	emu_get_memory8(emu_ss, emu_bp, -0x9) = emu_al;
@@ -861,7 +861,7 @@ l__04EC:
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x04F9); f__1319_0008_0010_6124();
@@ -873,12 +873,12 @@ l__04F9:
 	emu_cmpb(&emu_get_memory8(emu_ss, emu_bp, -0x9), 0x0);
 	if (!(emu_flags.sf != emu_flags.of)) goto l__050C;
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x9);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_negw(&emu_ax, emu_ax);
 	goto l__0510;
 l__050C:
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x9);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	goto l__0510;
 l__0510:
 	emu_cmpw(&emu_ax, 0x1);
@@ -927,11 +927,11 @@ l__0541:
 	goto l__0559;
 l__0543:
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x9);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x0554); f__1319_0008_0010_6124();
@@ -972,7 +972,7 @@ l__058C:
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x05A5); f__1319_0008_0010_6124();
@@ -999,7 +999,7 @@ l__05B9:
 l__05BB:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_si);
 	emu_push(emu_cs);
@@ -1042,7 +1042,7 @@ l__0617:
 	if (emu_flags.zf) goto l__065C;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_si);
 	emu_push(emu_cs);
@@ -1054,7 +1054,7 @@ l__062D:
 	emu_si = emu_ax;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_si);
 

@@ -102,7 +102,7 @@ l__0055:
 l__006B:
 	emu_addw(&emu_sp, 0xA);
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x3A0E);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x2);

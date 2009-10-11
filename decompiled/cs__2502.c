@@ -118,7 +118,7 @@ l__0103:
 		emu_andw(&emu_ax, 0x7);
 		emu_addw(&emu_bx, emu_ax);
 		emu_al = emu_get_memory8(emu_ds, emu_bx, 0x6E98);
-		emu_ax = emu_al;
+		emu_ax = (int8)emu_al;
 		emu_dx = emu_ax;
 	}
 	goto l__0139;
@@ -131,7 +131,7 @@ l__0139:
 l__0143:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_dx = emu_ax;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_orw(&emu_dx, emu_dx);

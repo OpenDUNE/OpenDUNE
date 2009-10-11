@@ -1506,7 +1506,7 @@ l__08B8:
 	emu_es = emu_get_memory16(emu_ds, 0x00, 0x81D8);
 	emu_addw(&emu_bx, emu_get_memory16(emu_ds, 0x00, 0x81D6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0xFFF8);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	goto l__08A1;
 l__08D8:
 	emu_pop(&emu_si);
@@ -2998,7 +2998,7 @@ l__10F1:
 	emu_bx = emu_ax;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, emu_bx, 0x37F8));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_ds);
 	emu_ax = 0x2B8B;

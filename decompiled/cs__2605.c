@@ -72,7 +72,7 @@ l__000C:
 	goto l__0079;
 l__0079:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x6C71);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x9931);
 	emu_xorw(&emu_dx, emu_dx);
@@ -84,7 +84,7 @@ l__0079:
 	emu_shlw(&emu_ax, emu_cl);
 	emu_get_memory16(emu_ds, 0x00, 0x6D63) = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x6C70);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x6D63);
 	emu_cwd();

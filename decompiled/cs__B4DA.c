@@ -54,7 +54,7 @@ l__0000:
 	emu_bx = emu_ax;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, emu_bx, 0x37F8));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_ds);
 	emu_ax = 0x2586;
@@ -4270,19 +4270,19 @@ l__16F8:
 l__1712:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_testb(&emu_get_memory8(emu_ds, emu_bx, 0x76BD), 0xE);
 	if (emu_flags.zf) goto l__1755;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_testb(&emu_get_memory8(emu_ds, emu_bx, 0x76BD), 0x8);
 	if (emu_flags.zf) goto l__1746;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x173F); emu_cs = 0x01F7; f__01F7_10C3_0010_64C2();
 	/* Check if this overlay should be reloaded */

@@ -986,7 +986,7 @@ l__053E:
 	emu_al = emu_get_memory8(emu_es, 0x00, 0x1A);
 	emu_andb(&emu_al, 0x8);
 	emu_andb(&emu_get_memory8(emu_es, 0x00, 0x1A), 0xF7);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_ds = emu_get_memory16(emu_cs, 0x00, 0xA);
 
 	/* Call based on memory/register values */

@@ -295,10 +295,10 @@ l__04CF:
 l__04D2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, emu_bx, 0x76BD);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_testw(&emu_ax, 0x1);
 	if (!emu_flags.zf) goto l__04CF;
 	emu_ax = 0x5B;
@@ -388,7 +388,7 @@ l__057B:
 l__057F:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
@@ -442,7 +442,7 @@ l__05EE:
 	emu_cmpb(&emu_get_memory8(emu_ss, emu_bp, -0x12), 0x3D);
 	if (emu_flags.zf) goto l__0604;
 	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x12);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_testb(&emu_get_memory8(emu_ds, emu_bx, 0x76BD), 0x1);
 	if (!emu_flags.zf) goto l__0604;
@@ -507,10 +507,10 @@ l__0676:
 l__0679:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, emu_bx, 0x76BD);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_testw(&emu_ax, 0x1);
 	if (!emu_flags.zf) goto l__066B;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x8);
@@ -722,10 +722,10 @@ l__07FF:
 l__081F:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, emu_bx, 0x76BD);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_testw(&emu_ax, 0x1);
 	if (!emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0809; emu_last_cs = 0xB4FC; emu_last_ip = 0x0830; emu_last_length = 0x001E; emu_last_crc = 0xE9EF; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
@@ -750,10 +750,10 @@ l__083D:
 l__0854:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_bx = emu_ax;
 	emu_al = emu_get_memory8(emu_ds, emu_bx, 0x76BD);
-	emu_ax = emu_al;
+	emu_ax = (int8)emu_al;
 	emu_testw(&emu_ax, 0x1);
 	if (!emu_flags.zf) goto l__0869;
 	goto l__087B;
