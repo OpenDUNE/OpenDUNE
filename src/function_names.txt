@@ -32,7 +32,22 @@
 
 0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
 
+0F3F:000D:0019:5076	emu_Tile_IsValid	# (tile_tile)
+0F3F:002C:000B:51FA	emu_Tile_GetXY	# (tile_tile)
+0F3F:0037:000F:E3D8	emu_Tile_GetPosXY	# (tile_tile)
+0F3F:0046:000C:9E1E	emu_Tile_GetPosX	# (tile_tile)
+0F3F:0052:000C:9E02	emu_Tile_GetPosY	# (tile_tile)
+0F3F:0076:0008:A51E	emu_Tile_GetX	# (tile_tile)
+0F3F:007E:0008:A4DE	emu_Tile_GetY	# (tile_tile)
+0F3F:0086:0017:EA43	emu_Tile_PackTile	# (tile_tile), forgets offset
+0F3F:009D:0017:8464	emu_Tile_Unpack	# (tile_packed)
 0F3F:00B4:002A:89B2	emu_Tile_GetDistance	# (from_tile, to_tile), distance as longest * 2 + shortest
+0F3F:00F3:0011:5E67	emu_Tile_AddTileDiff	# (tile_tile, diff_tile)
+0F3F:0275:0019:64C3	emu_Tile_Center	# (tile_tile)
+0F3F:0322:0011:5AAA	emu_Tile_GetPackX	# (tile_packed)
+0F3F:0335:0015:2275	emu_Tile_GetPackY	# (tile_packed)
+0F3F:034C:0012:18EA	emu_Tile_PackXY	# (x, y)
+0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
 
 1A34:3312:0017:29E8	emu_Unit_FindBuilding	# (unit_csip), finds building to go to (harvester)
 1A34:3491:0032:AFF8	emu_Building_GetLinkedUnit # (building_csip)

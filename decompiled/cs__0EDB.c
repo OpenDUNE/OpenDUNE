@@ -652,7 +652,7 @@ l__0456:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394E));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
-	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x0F3F; f__0F3F_0086_0017_EA43();
+	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x0F3F; emu_Tile_PackTile();
 	goto l__0488;
 l__0488:
 	emu_pop(&emu_cx);

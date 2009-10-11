@@ -388,7 +388,7 @@ l__02F2:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02FA); emu_cs = 0x0F3F; f__0F3F_009D_0017_8464();
+	emu_push(emu_cs); emu_push(0x02FA); emu_cs = 0x0F3F; emu_Tile_Unpack();
 	goto l__02FA;
 l__02FA:
 	emu_pop(&emu_cx);

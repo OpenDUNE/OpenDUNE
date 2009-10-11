@@ -61,8 +61,15 @@ typedef union csip32 {
 } csip32;
 assert_compile(sizeof(csip32) == 4);
 
+/**
+ * ox is the offset in the tile.
+ * px is the position on the map.
+ * ux is never used (or should never be used).
+ * x is all the above.
+ */
 typedef union tile32 {
 	struct { uint16 x; uint16 y; } s;
+	struct { uint32 ox:8; uint32 px:6; uint32 ux:2; uint32 oy:8; uint32 py:6; uint32 ux:2; } d;
 	uint32 tile;
 } tile32;
 assert_compile(sizeof(tile32) == 4);
