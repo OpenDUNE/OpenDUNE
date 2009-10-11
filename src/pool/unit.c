@@ -53,7 +53,10 @@ Unit *Unit_Find(PoolFindStruct *find)
 
 	for (; find->index < g_global->unitCount; find->index++) {
 		csip32 pos = g_global->unitArray[find->index];
-		Unit *u = Unit_Get_ByMemory(pos);
+		Unit *u;
+		if (pos.csip == 0x00000000) continue;
+
+		u = Unit_Get_ByMemory(pos);
 
 		if ((u->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != Unit_GetHouseID(u)) continue;

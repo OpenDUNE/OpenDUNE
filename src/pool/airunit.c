@@ -50,7 +50,10 @@ AirUnit *AirUnit_Find(PoolFindStruct *find)
 
 	for (; find->index < g_global->airUnitCount; find->index++) {
 		csip32 pos = g_global->airUnitArray[find->index];
-		AirUnit *a = AirUnit_Get_ByMemory(pos);
+		AirUnit *a;
+		if (pos.csip == 0x00000000) continue;
+
+		a = AirUnit_Get_ByMemory(pos);
 
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != a->houseID) continue;
 

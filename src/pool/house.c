@@ -49,8 +49,10 @@ House *House_Find(PoolFindStruct *find)
 
 	for (; find->index < g_global->houseCount; find->index++) {
 		csip32 pos = g_global->houseArray[find->index];
-		House *h = House_Get_ByMemory(pos);
+		House *h;
+		if (pos.csip == 0x00000000) continue;
 
+		h = House_Get_ByMemory(pos);
 		return h;
 	}
 
