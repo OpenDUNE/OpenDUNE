@@ -2494,6 +2494,7 @@ l__1210:
  * Called From: 0C3A:21DD:003B:F488
  * Called From: 0C3A:21DD:0032:57F2
  * Called From: 1A34:2F76:0012:F102
+ * Called From: 1A34:2F76:0014:59EA
  */
 void f__0C3A_1216_0013_E56D()
 {
