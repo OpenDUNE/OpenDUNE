@@ -170,7 +170,7 @@ void emu_AirUnit_FindFirst()
 	}
 
 	find->houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
-	find->typeID  = 0xFFFF;
+	find->type    = 0xFFFF;
 	find->index   = 0xFFFF;
 
 	a = AirUnit_Find(find);

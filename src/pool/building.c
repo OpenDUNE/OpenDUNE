@@ -58,9 +58,9 @@ Building *Building_Find(PoolFindStruct *find)
 
 		b = Building_Get_ByMemory(pos);
 
-		if ((b->variable_04 & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
+		if ((b->flags & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID    && find->houseID != b->houseID) continue;
-		if (find->typeID  != BUILDING_INDEX_INVALID && find->typeID  != b->typeID)  continue;
+		if (find->type    != BUILDING_INDEX_INVALID && find->type    != b->type)  continue;
 
 		return b;
 	}
@@ -107,7 +107,7 @@ void Building_Recount()
 
 	for (index = 0; index < BUILDING_INDEX_MAX_HARD; index++) {
 		Building *b = Building_Get_ByIndex(index);
-		if ((b->variable_04 & 0x0001) == 0) continue;
+		if ((b->flags & 0x0001) == 0) continue;
 
 		g_global->buildingArray[g_global->buildingCount].csip = g_global->buildingStartPos.csip + index * sizeof(Building);
 		g_global->buildingCount++;
@@ -121,13 +121,13 @@ void Building_Recount()
  * @param typeID The type of the new Building.
  * @return The Building allocated, or NULL on failure.
  */
-Building *Building_Allocate(uint16 index, uint8 typeID)
+Building *Building_Allocate(uint16 index, uint8 type)
 {
 	Building *b = NULL;
 
 	if (g_global->buildingStartPos.csip == 0x0) return NULL;
 
-	switch (typeID) {
+	switch (type) {
 		case BUILDING_SLAB_1x1:
 			index = BUILDING_INDEX_SLAB_1x1;
 			b = Building_Get_ByIndex(index);
@@ -148,12 +148,12 @@ Building *Building_Allocate(uint16 index, uint8 typeID)
 				/* Find the first unused index */
 				for (index = 0; index < BUILDING_INDEX_MAX_SOFT; index++) {
 					b = Building_Get_ByIndex(index);
-					if ((b->variable_04 & 0x0001) == 0) break;
+					if ((b->flags & 0x0001) == 0) break;
 				}
 				if (index == BUILDING_INDEX_MAX_SOFT) return NULL;
 			} else {
 				b = Building_Get_ByIndex(index);
-				if ((b->variable_04 & 0x0001) != 0) return NULL;
+				if ((b->flags & 0x0001) != 0) return NULL;
 			}
 			break;
 	}
@@ -161,12 +161,12 @@ Building *Building_Allocate(uint16 index, uint8 typeID)
 
 	/* Initialize the Building */
 	memset(b, 0, sizeof(Building));
-	b->index          = index;
-	b->typeID         = typeID;
-	b->buildCurrentID = BUILDING_INDEX_INVALID & 0xFF;
-	b->variable_04    = 0x0003;
-	b->variable_06    = 0x0000;
-	b->variable_10    = 0x0000;
+	b->index        = index;
+	b->type         = type;
+	b->linkedUnitID = BUILDING_INDEX_INVALID & 0xFF;
+	b->flags        = 0x0003;
+	b->variable_06  = 0x0000;
+	b->variable_10  = 0x0000;
 
 	g_global->buildingArray[g_global->buildingCount].csip = g_global->buildingStartPos.csip + index * sizeof(Building);
 	g_global->buildingCount++;
@@ -191,7 +191,7 @@ void Building_Free(csip32 address)
 	emu_sp += 8;
 
 	b = Building_Get_ByMemory(address);
-	b->variable_04 = 0x0;
+	b->flags = 0x0;
 
 	/* Walk the array to find the Building we are removing */
 	for (i = 0; i < g_global->buildingCount; i++) {

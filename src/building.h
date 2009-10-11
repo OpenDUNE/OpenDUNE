@@ -37,14 +37,13 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Building {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Building in the array. */
-	/* 0002(1)   */ PACK uint8  typeID;                     /*!< Type of Building. */
-	/* 0003(1)   */ PACK uint8  buildCurrentID;             /*!< Current ID of the object we are building, or 0xFF if not building anything. */
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
+	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Building. */
+	/* 0003(1)   */ PACK uint8  linkedUnitID;               /*!< Unit we are linked to, or 0xFF if we are not linked to a unit. */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Building. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
+	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 health;                     /*!< Current amount of health. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0035];

@@ -966,7 +966,7 @@ l__03B2:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394E));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
-	emu_push(emu_cs); emu_push(0x03D0); emu_cs = 0x0F3F; f__0F3F_00B4_002A_89B2();
+	emu_push(emu_cs); emu_push(0x03D0); emu_cs = 0x0F3F; emu_Tile_GetDistance();
 	goto l__03D0;
 l__03D0:
 	emu_addw(&emu_sp, 0x8);

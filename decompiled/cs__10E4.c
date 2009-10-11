@@ -3526,7 +3526,7 @@ l__1816:
 l__181D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x1828); emu_cs = 0x1A34; f__1A34_3491_0032_AFF8();
+	emu_push(emu_cs); emu_push(0x1828); emu_cs = 0x1A34; emu_Building_GetLinkedUnit();
 	goto l__1828;
 l__1828:
 	emu_pop(&emu_cx);

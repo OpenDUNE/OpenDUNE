@@ -21,7 +21,7 @@ extern struct Building *Building_Find(struct PoolFindStruct *find);
 
 extern void Building_Init(csip32 address);
 extern void Building_Recount();
-extern struct Building *Building_Allocate(uint16 index, uint8 typeID);
+extern struct Building *Building_Allocate(uint16 index, uint8 type);
 extern void Building_Free(csip32 address);
 
 

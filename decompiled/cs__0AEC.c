@@ -1439,7 +1439,7 @@ l__0AB2:
 	if (emu_get_memory8(emu_es, emu_bx, 0x2) != 0xD) goto l__0AD4;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_push(emu_cs); emu_push(0x0AC7); emu_cs = 0x1A34; f__1A34_3491_0032_AFF8();
+	emu_push(emu_cs); emu_push(0x0AC7); emu_cs = 0x1A34; emu_Building_GetLinkedUnit();
 	/* Unresolved jump */ emu_ip = 0x0AC7; emu_last_cs = 0x0AEC; emu_last_ip = 0x0AC7; emu_last_length = 0x0015; emu_last_crc = 0x61FE; emu_call();
 l__0AD4:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));

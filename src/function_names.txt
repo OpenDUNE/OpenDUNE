@@ -31,7 +31,13 @@
 
 0C3A:1ABD:004E:E6F7     emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
 
-1A34:3623:0010:B11C     emu_Unit_GetHouseID     # Units can be deviated
+0F3F:00B4:002A:89B2	emu_Tile_GetDistance	# (from_tile, to_tile), distance as longest * 2 + shortest
+
+1A34:3312:0017:29E8	emu_Unit_FindBuilding	# (unit_csip), finds building to go to (harvester)
+1A34:3491:0032:AFF8	emu_Building_GetLinkedUnit # (building_csip)
+1A34:34D0:0032:E0A4	emu_Unit_GetLinkedBuilding # (unit_csip)
+1A34:3623:0010:B11C	emu_Unit_GetHouseID     # (unit_csip), units can be deviated
+1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
 2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing

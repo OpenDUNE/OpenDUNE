@@ -10,7 +10,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct PoolFindStruct {
 	/* 0000(2)   */ PACK uint16 houseID;                    /*!< House to search for, or -1 for all. */
-	/* 0002(2)   */ PACK uint16 typeID;                     /*!< Type to search for, or -1 for all. */
+	/* 0002(2)   */ PACK uint16 type;                       /*!< Type to search for, or -1 for all. */
 	/* 0004(2)   */ PACK uint16 index;                      /*!< Last index of search, or -1 to start from begin. */
 } GCC_PACKED PoolFindStruct;
 MSVC_PACKED_END

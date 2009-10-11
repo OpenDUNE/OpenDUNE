@@ -16,7 +16,7 @@ extern struct Unit *Unit_Find(struct PoolFindStruct *find);
 
 extern void Unit_Init(csip32 address);
 extern void Unit_Recount();
-extern struct Unit *Unit_Allocate(uint16 index, uint8 typeID, uint8 houseID);
+extern struct Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID);
 extern void Unit_Free(csip32 address);
 
 

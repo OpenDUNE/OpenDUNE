@@ -121,7 +121,7 @@ void emu_House_Get_ByIndex()
 	if (index >= HOUSE_INDEX_MAX) return;
 	{
 		House *h = House_Get_ByIndex(index);
-		if ((h->variable_04 & 0x0001) == 0) return;
+		if ((h->flags & 0x0001) == 0) return;
 	}
 	emu_dx = g_global->houseStartPos.s.cs;
 	emu_ax = g_global->houseStartPos.s.ip + index * sizeof(House);
@@ -157,7 +157,7 @@ void emu_House_FindFirst()
 	}
 
 	find->houseID = 0xFFFF;
-	find->typeID  = 0xFFFF;
+	find->type    = 0xFFFF;
 	find->index   = 0xFFFF;
 
 	h = House_Find(find);

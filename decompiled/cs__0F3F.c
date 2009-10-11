@@ -367,9 +367,9 @@ l__009D:
 }
 
 /**
- * Decompiled function f__0F3F_00B4_002A_89B2()
+ * Decompiled function emu_Tile_GetDistance()
  *
- * @name f__0F3F_00B4_002A_89B2
+ * @name emu_Tile_GetDistance
  * @implements 0F3F:00B4:002A:89B2 ()
  * @implements 0F3F:00C5:0019:7495
  * @implements 0F3F:00D1:000D:D00B
@@ -396,7 +396,7 @@ l__009D:
  * Called From: 1A34:3389:0025:D9FB
  * Called From: 1A34:3404:001B:E20F
  */
-void f__0F3F_00B4_002A_89B2()
+void emu_Tile_GetDistance()
 {
 l__00B4:
 	emu_push(emu_bp);
@@ -494,7 +494,7 @@ l__0104:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0117); f__0F3F_00B4_002A_89B2();
+	emu_push(0x0117); emu_Tile_GetDistance();
 	goto l__0117;
 l__0117:
 	emu_addw(&emu_sp, 0x8);

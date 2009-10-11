@@ -45,13 +45,13 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Unit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
-	/* 0002(1)   */ PACK uint8  typeID;                     /*!< Type of Unit. */
-	/* 0003(1)   */ PACK uint8  variable_03;                /*!< ?? */
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
+	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
+	/* 0003(1)   */ PACK uint8  linkedBuildingID;           /*!< Building we are linked to, or 0xFF if we are not linked to a building. */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
-	/* 000A(4)   */ PACK csip32 variable_0A;                /*!< ?? */
+	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0037];
@@ -65,8 +65,8 @@ typedef struct Unit {
 	/* 0056(2)   */ PACK uint16 variable_56;                /*!< ?? */
 	/* 0058(1)   */ PACK uint8  variable_58;                /*!< ?? */
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
-	/* 005A(4)   */ PACK csip32 variable_5A;                /*!< ?? */
-	/* 005E(4)   */ PACK csip32 variable_5E;                /*!< ?? */
+	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
+	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
 	/* 0062()    */ PACK uint8   unknown_005A[0x000A];
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
 	/* 006D(1)   */ PACK uint8  variable_6D;                /*!< ?? */
@@ -105,7 +105,7 @@ assert_compile(sizeof(UnitInfo) == 0x5A);
 extern UnitInfo *g_unitInfo;
 
 uint8 Unit_GetHouseID(Unit *u);
-extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, csip32 var0C, uint16 var10);
+extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 var10);
 
 
 extern void emu_Unit_GetHouseID();

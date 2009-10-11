@@ -184,7 +184,7 @@ void emu_Building_FindFirst()
 	}
 
 	find->houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
-	find->typeID  = emu_get_memory16(emu_ss, emu_sp,  0x6);
+	find->type    = emu_get_memory16(emu_ss, emu_sp,  0x6);
 	find->index   = 0xFFFF;
 
 	b = Building_Find(find);
