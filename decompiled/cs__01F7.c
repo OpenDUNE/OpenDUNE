@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__01F7_0000_000C_3D76()
+ * Decompiled function emu_EntryPoint()
  *
- * @name f__01F7_0000_000C_3D76
+ * @name emu_EntryPoint
  * @implements 01F7:0000:000C:3D76 ()
  * @implements 01F7:000C:001C:7156
  * @implements 01F7:0028:0059:D698
@@ -21,7 +21,7 @@
  *
  * Called From: 0000:0000:0000:0000
  */
-void f__01F7_0000_000C_3D76()
+void emu_EntryPoint()
 {
 l__0000:
 	emu_dx = 0x353F;

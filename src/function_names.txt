@@ -1,3 +1,4 @@
+01F7:0000:000C:3D76	emu_EntryPoint
 01F7:016B:0009:694B	emu_Exit	# (code)
 01F7:017D:0006:2BD3	emu_Interrupt_Vector_Store	#
 01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
@@ -27,9 +28,9 @@
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
-0642:04A9:0004:25FB     emu_InGame_Numpad_Move  # When moving with numpad ingame
+0642:04A9:0004:25FB	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
-0C3A:1ABD:004E:E6F7     emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
+0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
 
 0F3F:00B4:002A:89B2	emu_Tile_GetDistance	# (from_tile, to_tile), distance as longest * 2 + shortest
 
@@ -38,6 +39,8 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedBuilding # (unit_csip)
 1A34:3623:0010:B11C	emu_Unit_GetHouseID     # (unit_csip), units can be deviated
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
+
+29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
 
 2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing

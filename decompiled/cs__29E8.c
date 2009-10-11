@@ -445,9 +445,9 @@ l__0A13:
 }
 
 /**
- * Decompiled function f__29E8_0D47_0096_3777()
+ * Decompiled function emu_Input_Keyboard_EventHandler()
  *
- * @name f__29E8_0D47_0096_3777
+ * @name emu_Input_Keyboard_EventHandler
  * @implements 29E8:0D47:0096:3777 ()
  * @implements 29E8:0D69:0074:EB18
  * @implements 29E8:0D77:0066:8FA5
@@ -474,7 +474,7 @@ l__0A13:
  *
  * Called From: 0000:0000:0000:0000
  */
-void f__29E8_0D47_0096_3777()
+void emu_Input_Keyboard_EventHandler()
 {
 l__0D47:
 	emu_push(emu_ax);
