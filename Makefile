@@ -81,7 +81,7 @@ objs/%.o: %.c
 	@echo "[Compiling] $<"
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
 
-opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS)
+opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBS)
 	@echo "[Linking] $@"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
