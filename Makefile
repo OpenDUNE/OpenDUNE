@@ -23,8 +23,10 @@ endif
 
 ifdef STATIC
 LIBS := $(LIBS) libemu.a
+LIBEMU := libemu.a
 else
 LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
+LIBEMU := libemu$(LIB_EXTENSION)
 endif
 
 ifdef WIN32
@@ -81,9 +83,9 @@ objs/%.o: %.c
 	@echo "[Compiling] $<"
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
 
-opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBS)
+opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBEMU)
 	@echo "[Linking] $@"
-	$(Q)$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(Q)$(CC) $(LDFLAGS) -o $@ $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBS)
 
 clean:
 	@echo "[Cleaning] opendune"
