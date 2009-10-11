@@ -540,6 +540,7 @@ void f__2903_02D1_001C_D95B()
  *
  * Called From: 2903:02DD:001C:D95B
  * Called From: 2903:02DD:002A:DF7C
+ * Called From: 2903:02E8:001C:D95B
  */
 void f__2903_02ED_0054_FC7A()
 {
