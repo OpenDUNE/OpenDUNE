@@ -435,14 +435,14 @@ static void Input_HandlerInput(uint16 inputState)
 		uint8 bytePos = (inputCommand & 0x7F) >> 3;
 		uint8 bitPos  = 1 << (inputCommand & 0x07);
 
-		/* If the key is already pressed, and we cannot repeat keys, revert the history */
-		if ((bitPos & s_input_local->activeInputMap[bytePos]) != 0 && (s_input_local->flags & INPUT_FLAG_KEY_REPEAT) == 0) {
-			s_input_local->historyTail = originalHistoryTail;
-		}
-
-		s_input_local->activeInputMap[bytePos] &= ~bitPos;
-		if (inputCommand != 0x2D && inputCommand != 0x7F && !released) {
+		if (inputCommand == 0x2D || inputCommand == 0x7F || !released) {
+			/* If the key is already pressed, and we cannot repeat keys, revert the history */
+			if ((bitPos & s_input_local->activeInputMap[bytePos]) != 0 && (s_input_local->flags & INPUT_FLAG_KEY_REPEAT) == 0) {
+				s_input_local->historyTail = originalHistoryTail;
+			}
 			s_input_local->activeInputMap[bytePos] |= bitPos;
+		} else {
+			s_input_local->activeInputMap[bytePos] &= ~bitPos;
 		}
 	}
 
