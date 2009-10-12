@@ -120,7 +120,7 @@ void emu_Building_Free()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	address = emu_get_csip32(emu_ss, emu_sp, 0x2);
+	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
 	Building_Free(address);
 }
