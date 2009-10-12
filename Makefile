@@ -5,7 +5,8 @@
 #  LIBS        - Which libs to include (we add a few we find essential)
 #
 #  Settings via parameters
-#   WIN32:=1   - To compile a .exe
+#   OSX:=1     - To compile on/for OSX
+#   WIN32:=1   - To compile on/for Windows
 #   STATIC:=1  - If you want to compile static (default yes for WIN32)
 
 CFLAGS := $(CFLAGS)
@@ -34,6 +35,10 @@ ifdef WIN32
 LIBS := $(LIBS) -lSDL
 else
 LIBS := $(LIBS) -lncursesw -lSDL
+endif
+
+ifdef OSX
+LDFLAGS := $(LDFLAGS) -L/opt/local/lib -lSDLMain -lobjc -framework Foundation -framework AppKit
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label

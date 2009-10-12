@@ -14,7 +14,11 @@ extern void System_Init_Global();
 extern void System_Init_Building();
 extern void System_Init_Unit();
 
+#if defined(__APPLE__)
+int SDL_main(int argc, char **argv)
+#else
 int main(int argc, char **argv)
+#endif /* __APPLE__ */
 {
 	emu_hard_link(0x29E8, 0x0D47, &emu_Input_Keyboard_EventHandler);
 	emu_hard_link(0x0070, 0x00E0, &Interrupt_User_Clock);
