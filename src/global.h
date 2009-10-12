@@ -93,7 +93,13 @@ typedef struct GlobalData {
  	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
-	/* 76A8()    */ PACK uint8   unknown_76A8[0x02B2];
+	/* 76A8()    */ PACK uint8   unknown_76A8[0x0012];
+	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
+	/* 76BC()    */ PACK uint8   unknown_76BC[0x0102];
+	/* 77BE(4)   */ PACK csip32 variable_77BE;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
+	/* 77C2(4)   */ PACK csip32 variable_77C2;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
+	/* 77C6(4)   */ PACK csip32 variable_77C6;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
+	/* 77CA()    */ PACK uint8   unknown_77CA[0x0190];
 	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< ?? */
 	/* 795C()    */ PACK uint8   unknown_795C[0x010C];
 	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
