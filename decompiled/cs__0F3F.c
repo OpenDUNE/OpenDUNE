@@ -348,6 +348,7 @@ l__0086:
  * Called From: B4B5:0503:0008:0AE5
  * Called From: B4B8:0551:000C:B6C6
  * Called From: B4CD:1516:0036:B84B
+ * Called From: B4CD:16F4:000F:CF15
  * Called From: B4CD:1C9A:001A:031C
  */
 void emu_Tile_Unpack()
@@ -700,6 +701,7 @@ l__019D:
  * Called From: 1A34:261C:0014:85AF
  * Called From: 1A34:261C:0017:79E6
  * Called From: B4B8:0559:0008:CAD0
+ * Called From: B4CD:16FC:0008:CAD0
  * Called From: B4CD:1A64:0029:FA07
  */
 void f__0F3F_01A1_0018_9631()

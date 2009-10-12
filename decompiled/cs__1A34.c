@@ -1483,6 +1483,7 @@ l__0F43:
  * Called From: 1A34:1128:001E:722B
  * Called From: 1A34:2CC9:001C:F555
  * Called From: 1A34:3814:000A:AA19
+ * Called From: 1A34:3814:000B:8A12
  * Called From: B4E9:0299:000B:C287
  */
 void f__1A34_0F48_0018_0DB8()
@@ -2907,6 +2908,7 @@ l__1A62:
  * Called From: 0AEC:042D:0010:A74E
  * Called From: 16C5:0981:0016:8E0F
  * Called From: 176C:14E7:002C:0682
+ * Called From: 176C:14E7:0018:3AE7
  * Called From: 176C:157C:0013:7ED5
  */
 void f__1A34_1A66_0011_34D4()
@@ -6664,6 +6666,7 @@ l__348B:
  * @implements 1A34:34CC:0004:893F
  *
  * Called From: 0972:07B7:0011:81A2
+ * Called From: 0972:07B7:000D:B89A
  * Called From: 0972:0B53:0012:0F5D
  * Called From: 0972:0C77:000D:A320
  * Called From: 0C10:0119:003D:FEA4
@@ -7142,6 +7145,7 @@ l__3788:
  * @implements 1A34:379B:0015:B07B ()
  * @implements 1A34:37B0:0026:D835
  * @implements 1A34:37D6:0036:C636
+ * @implements 1A34:380C:000B:8A12
  * @implements 1A34:380D:000A:AA19
  * @implements 1A34:3817:0007:B349
  * @implements 1A34:3819:0005:D7FA
@@ -7195,8 +7199,11 @@ l__37D6:
 	emu_get_memory16(emu_ds, 0x00, 0x38F6) = 0xFFFF;
 	emu_ax = 0x4;
 	emu_push(emu_ax);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x380C); emu_cs = 0x34E9; emu_ip = 0x002A; emu_last_cs = 0x1A34; emu_last_ip = 0x3807; emu_last_length = 0x0036; emu_last_crc = 0xC636; emu_call();
-	/* Unresolved jump */ emu_ip = 0x380C; emu_last_cs = 0x1A34; emu_last_ip = 0x380C; emu_last_length = 0x0036; emu_last_crc = 0xC636; emu_call();
+	emu_push(emu_cs); emu_push(0x380C); emu_cs = 0x34E9; ovl__34E9(2);
+	goto l__380C;
+l__380C:
+	emu_pop(&emu_cx);
+	goto l__380D;
 l__380D:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_xorw(&emu_dx, emu_dx);

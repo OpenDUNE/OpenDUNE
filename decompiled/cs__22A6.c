@@ -1068,6 +1068,7 @@ l__0902:
  * Called From: 251B:0063:001A:83C7
  * Called From: B495:0591:001E:433D
  * Called From: B495:0699:001E:0C98
+ * Called From: B495:0699:0021:51DC
  * Called From: B495:06BA:0021:58DD
  * Called From: B518:03F0:0026:F217
  * Called From: B518:0414:0024:F6ED
@@ -1219,6 +1220,7 @@ l__09D9:
 	emu_push(0x09E5);
 	switch (emu_ip) {
 		case 0x0A0F: f__22A6_0A0F_0008_6943(); break;
+		case 0x0A19: f__22A6_0A19_000E_92F3(); break;
 		case 0x0A46: f__22A6_0A46_0008_6953(); break;
 		case 0x0A50: f__22A6_0A50_000E_9CF3(); break;
 		default:
@@ -1403,6 +1405,7 @@ l__0A17:
  * @implements 22A6:0A27:0006:902A
  *
  * Called From: 22A6:09D4:0011:C80B
+ * Called From: 22A6:09E0:000C:03FA
  */
 void f__22A6_0A19_000E_92F3()
 {

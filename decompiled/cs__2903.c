@@ -620,6 +620,7 @@ l__04A4:
 	emu_ip = emu_get_memory16(emu_ss, emu_bp, -0x6);
 	emu_push(0x04BC);
 	switch (emu_ip) {
+		case 0x050E: f__2903_050E_0022_419A(); break;
 		case 0x0545: f__2903_0545_0024_06E5(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -730,6 +731,7 @@ l__0502:
  *
  * Called From: 2903:0384:001B:6CB6
  * Called From: 2903:0384:0016:7D40
+ * Called From: 2903:04B9:0018:7352
  * Called From: 2903:04D1:0016:C1E2
  * Called From: 2903:04D1:0010:92CB
  * Called From: 2903:04E7:0008:5672

@@ -13,8 +13,10 @@
  * @implements 151A:002B:0006:5882
  * @implements 151A:0031:001A:DA20
  * @implements 151A:004B:00B6:DC7F
+ * @implements 151A:00FF:0002:C6BA
  * @implements 151A:0101:0009:D39F
  * @implements 151A:0102:0008:D3BC
+ * @implements 151A:010A:0004:90B9
  * @implements 151A:010E:0006:F7CE
  *
  * Called From: 06F7:09E0:0018:609B
@@ -115,14 +117,19 @@ l__004B:
 	emu_addw(&emu_bx, emu_ax);
 	emu_orb(&emu_get_memory8(emu_es, emu_bx, 0x2), 0x40);
 	emu_ax = 0x1;
+	goto l__00FF;
+l__00FF:
 	goto l__010E;
 l__0101:
 	emu_incw(&emu_si);
 	goto l__0102;
 l__0102:
 	emu_cmpw(&emu_si, 0x70);
-	if ((int16)emu_si >= (int16)0x70) { /* Unresolved jump */ emu_ip = 0x010A; emu_last_cs = 0x151A; emu_last_ip = 0x0105; emu_last_length = 0x0008; emu_last_crc = 0xD3BC; emu_call(); return; }
+	if ((int16)emu_si >= (int16)0x70) goto l__010A;
 	goto l__0031;
+l__010A:
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__00FF;
 l__010E:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
