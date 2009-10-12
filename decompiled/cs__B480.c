@@ -79,7 +79,7 @@ l__0029:
 	emu_pop(&emu_cx);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; f__01F7_0377_000D_81BB();
+	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; emu_Terminate_Normal();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	/* Unresolved jump */ emu_ip = 0x0033; emu_last_cs = 0xB480; emu_last_ip = 0x0033; emu_last_length = 0x000A; emu_last_crc = 0x50E7; emu_call();
