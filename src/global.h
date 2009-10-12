@@ -9,7 +9,27 @@ MSVC_PACKED_BEGIN
  *  This struct tries to map all those.
  */
 typedef struct GlobalData {
-	/* 0000()    */ PACK uint8   unknown_0000[0x35E8];
+	/* 0000()    */ PACK uint8   unknown_0000[0x005B];
+	/* 005B(4)   */ PACK csip32 oldInterrupt00;             /*!< CS:IP of original INT00 handler. */
+	/* 005F(4)   */ PACK csip32 oldInterrupt04;             /*!< CS:IP of original INT04 handler. */
+	/* 0063(4)   */ PACK csip32 oldInterrupt05;             /*!< CS:IP of original INT05 handler. */
+	/* 0067(4)   */ PACK csip32 oldInterrupt06;             /*!< CS:IP of original INT06 handler. */
+	/* 006B()    */ PACK uint8   unknown_006B[0x000A];
+	/* 0075(2)   */ PACK uint16 environmentSize;            /*!< Size of environment in bytes. */
+	/* 0077(2)   */ PACK uint16 environmentSegment;         /*!< Environment segment. */
+	/* 0079(2)   */ PACK uint16 variable_0079;              /*!< ?? Something related to number of environment varaibles. */
+	/* 007B(2)   */ PACK uint16 PSP;                        /*!< Program Segment Prefix. */
+	/* 007D()    */ PACK uint8  majorDOSVersion;            /*!< DOS major version. */
+	/* 007E()    */ PACK uint8  minorDOSVersion;            /*!< DOS minor version. */
+	/* 007F()    */ PACK uint8   unknown_007F[0x0002];
+	/* 0081(4)   */ PACK uint32 systemTime;                 /*!< System time. */
+	/* 0085()    */ PACK uint8   unknown_0085[0x0004];
+	/* 0089(2)   */ PACK uint16 variable_0089;              /*!< ?? Something related to memory. */
+	/* 008B()    */ PACK uint8   unknown_008B[0x0002];
+	/* 008D(2)   */ PACK uint16 variable_008D;              /*!< ?? Something related to memory. */
+	/* 008F()    */ PACK uint8   unknown_008F[0x0002];
+	/* 0091(2)   */ PACK uint16 memorySize;                 /*!< Size of memory in paragraphs. */
+	/* 0093()    */ PACK uint8   unknown_0093[0x3555];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
@@ -73,7 +93,12 @@ typedef struct GlobalData {
  	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
-	/* 76A8()    */ PACK uint8   unknown_76A8[0x0D90];
+	/* 76A8()    */ PACK uint8   unknown_76A8[0x02B2];
+	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< ?? */
+	/* 795C()    */ PACK uint8   unknown_795C[0x010C];
+	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
+	/* 7A6A()    */ PACK uint8   unknown_7A6A[0x0122];
+	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x08AC];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of AirUnit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */
