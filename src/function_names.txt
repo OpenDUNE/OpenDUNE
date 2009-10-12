@@ -33,6 +33,7 @@
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
+0642:000C:001A:AF29	emu_InGame_GameLoop	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
 0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
