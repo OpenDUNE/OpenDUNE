@@ -28,8 +28,7 @@ void emu_AirUnit_Init()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
 	AirUnit_Init(address);
 
@@ -108,8 +107,7 @@ void emu_AirUnit_Free()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	address.s.cs = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	address.s.ip = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
 	AirUnit_Free(address);
 }

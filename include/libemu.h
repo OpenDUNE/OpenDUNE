@@ -68,6 +68,11 @@ extern uint16 emu_last_crc;
 extern void emu_data_monitor(uint16 s, uint16 o, uint16 d, int l);
 extern void emu_make_crash_dump();
 
+#ifdef TYPES_H
+#define emu_get_csip32(s, o, d) (*((csip32 *)(emu_memory + ((s) << 4) + (((o) + (d)) & 0xFFFF))))
+#define emu_get_tile32(s, o, d) (*((tile32 *)(emu_memory + ((s) << 4) + (((o) + (d)) & 0xFFFF))))
+#endif /* TYPES_H */
+
 #if 1
 #define emu_get_memory8(s, o, d)  (*((uint8  *)(emu_memory + ((s) << 4) + (((o) + (d)) & 0xFFFF))))
 #define emu_get_memory16(s, o, d) (*((uint16 *)(emu_memory + ((s) << 4) + (((o) + (d)) & 0xFFFF))))

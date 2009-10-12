@@ -85,12 +85,11 @@ void emu_Unit_Create()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index        = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID       = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
-	houseID      = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
-	position.s.x = emu_get_memory16(emu_ss, emu_sp,  0x6);
-	position.s.y = emu_get_memory16(emu_ss, emu_sp,  0x8);
-	var10        = emu_get_memory16(emu_ss, emu_sp,  0xA);
+	index    = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
+	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
+	position = emu_get_tile32(emu_ss, emu_sp,  0x6);
+	var10    = emu_get_memory16(emu_ss, emu_sp,  0xA);
 
 	u = Unit_Create(index, typeID, houseID, position, var10);
 
