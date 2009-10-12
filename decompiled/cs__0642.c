@@ -458,7 +458,7 @@ l__03A5:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_cs);
-	emu_push(0x03AE); f__0642_0481_0010_36A4();
+	emu_push(0x03AE); emu_InGame_Numpad_Move();
 	goto l__03AE;
 l__03AE:
 	emu_pop(&emu_cx);
@@ -587,18 +587,30 @@ l__0471:
 }
 
 /**
- * Decompiled function f__0642_0481_0010_36A4()
+ * Decompiled function emu_InGame_Numpad_Move()
  *
- * @name f__0642_0481_0010_36A4
+ * @name emu_InGame_Numpad_Move
  * @implements 0642:0481:0010:36A4 ()
  * @implements 0642:0491:0018:2263
  * @implements 0642:049A:000F:4EEF
+ * @implements 0642:04A9:0004:25FB
+ * @implements 0642:04B6:0003:D29A
+ * @implements 0642:04BD:0005:B5FA
+ * @implements 0642:04C2:0005:E87A
+ * @implements 0642:04C7:0004:E3B9
+ * @implements 0642:04CB:0005:8CFA
+ * @implements 0642:04D0:0005:B37A
+ * @implements 0642:04D5:0005:91FA
+ * @implements 0642:04DA:0005:D47A
+ * @implements 0642:04DF:0009:1090
+ * @implements 0642:04E2:0006:13CC
+ * @implements 0642:04E8:0002:A63A
  * @implements 0642:04EA:0002:C03A
  * @implements 0642:04EC:0005:8BCF
  *
  * Called From: 0642:03AB:0009:BE77
  */
-void f__0642_0481_0010_36A4()
+void emu_InGame_Numpad_Move()
 {
 l__0481:
 	emu_push(emu_bp);
@@ -617,45 +629,10 @@ l__0491:
 l__049A:
 	emu_ax = emu_get_memory16(emu_cs, emu_bx, 0x0);
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_ax == emu_get_memory16(emu_ss, emu_bp, -0x2)) { emu_InGame_Numpad_Move(); return; }
+	if (emu_ax == emu_get_memory16(emu_ss, emu_bp, -0x2)) goto l__04A9;
 	emu_addw(&emu_bx, 0x2);
 	if (--emu_cx != 0) goto l__049A;
 	goto l__04EA;
-l__04EA:
-	goto l__04EC;
-l__04EC:
-	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function emu_InGame_Numpad_Move()
- *
- * @name emu_InGame_Numpad_Move
- * @implements 0642:04A9:0004:25FB ()
- * @implements 0642:04B6:0003:D29A
- * @implements 0642:04BD:0005:B5FA
- * @implements 0642:04C2:0005:E87A
- * @implements 0642:04C7:0004:E3B9
- * @implements 0642:04CB:0005:8CFA
- * @implements 0642:04D0:0005:B37A
- * @implements 0642:04D5:0005:91FA
- * @implements 0642:04DA:0005:D47A
- * @implements 0642:04DF:0009:1090
- * @implements 0642:04E2:0006:13CC
- * @implements 0642:04E8:0002:A63A
- * @implements 0642:04EC:0005:8BCF
- *
- * Called From: 0642:04A0:000F:4EEF
- */
-void emu_InGame_Numpad_Move()
-{
 l__04A9:
 
 	/* Jump based on memory/register values */
@@ -708,6 +685,8 @@ l__04E2:
 	goto l__04E8;
 l__04E8:
 	goto l__04B6;
+l__04EA:
+	goto l__04EC;
 l__04EC:
 	emu_pop(&emu_si);
 	emu_sp = emu_bp;
