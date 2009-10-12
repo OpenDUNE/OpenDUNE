@@ -364,7 +364,7 @@ extern void f__B495_030B_001D_B90C();
 extern void f__151A_0310_0018_831F();
 extern void f__B4C4_0311_0009_BC94();
 extern void f__167E_0319_0010_B56F();
-extern void f__01F7_031F_0001_6580();
+extern void emu_Empty4();
 extern void f__217E_0320_0049_4A24();
 extern void emu_Terminate();
 extern void emu_Tile_GetPackX();

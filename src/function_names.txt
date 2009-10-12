@@ -8,6 +8,7 @@
 01F7:02AC:000F:B26A	emu_Print_Error_Overlay	# ()
 01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
 01F7:0309:000C:E723	emu_Drive_Set_Default	# (drive, num_drive_csip)
+01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
 01F7:0320:000D:74B7	emu_Terminate	# (error, ?, code)
 01F7:0377:000D:81BB	emu_Terminate_Normal	# (code)
 01F7:0386:0010:FC59	emu_Terminate_Error	# (code)

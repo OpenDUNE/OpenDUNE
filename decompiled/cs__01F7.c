@@ -659,15 +659,15 @@ l__0315:
 }
 
 /**
- * Decompiled function f__01F7_031F_0001_6580()
+ * Decompiled function emu_Empty4()
  *
- * @name f__01F7_031F_0001_6580
+ * @name emu_Empty4
  * @implements 01F7:031F:0001:6580 ()
  *
  * Called From: 01F7:0361:000E:F9F7
  * Called From: 01F7:0365:0004:487E
  */
-void f__01F7_031F_0001_6580()
+void emu_Empty4()
 {
 l__031F:
 
@@ -745,7 +745,7 @@ l__0357:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x77C4);
 	emu_push(0x0365);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x01F7031F: f__01F7_031F_0001_6580(); break;
+		case 0x01F7031F: emu_Empty4(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x01F7; emu_last_ip = 0x0361; emu_last_length = 0x000E; emu_last_crc = 0xF9F7;
@@ -761,7 +761,7 @@ l__0365:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x77C8);
 	emu_push(0x0369);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x01F7031F: f__01F7_031F_0001_6580(); break;
+		case 0x01F7031F: emu_Empty4(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x01F7; emu_last_ip = 0x0365; emu_last_length = 0x0004; emu_last_crc = 0x487E;
