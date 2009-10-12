@@ -846,7 +846,10 @@ l__0680:
 		case 0x3495002A: ovl__3495(2); break;
 		case 0x3495002F: ovl__3495(3); break;
 		case 0x34950034: ovl__3495(4); break;
+		case 0x34950039: ovl__3495(5); break;
 		case 0x3495003E: ovl__3495(6); break;
+		case 0x34950043: ovl__3495(7); break;
+		case 0x3495004D: ovl__3495(9); break;
 		case 0x34E0002A: ovl__34E0(2); break;
 		case 0x34E9002F: ovl__34E9(3); break;
 		case 0x34F20025: ovl__34F2(1); break;

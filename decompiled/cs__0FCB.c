@@ -112,7 +112,10 @@ l__005D:
  * Called From: 10E4:1470:0006:7366
  * Called From: 10E4:1470:001E:32D6
  * Called From: 10E4:15C2:0046:E443
+ * Called From: 10E4:18E5:0024:7FCD
  * Called From: 10E4:197E:001F:5AE8
+ * Called From: 10E4:1A5E:002D:4350
+ * Called From: 10E4:1A87:001C:F6F9
  * Called From: 10E4:1B22:001E:B7BB
  * Called From: 10E4:1B22:0006:7366
  * Called From: 10E4:1B22:0025:E5D0
@@ -130,12 +133,20 @@ l__005D:
  * Called From: 1A34:290B:000C:5845
  * Called From: B480:02E0:0009:3238
  * Called From: B483:03FA:0013:5CAE
+ * Called From: B495:056B:002C:AAED
+ * Called From: B495:0606:0023:E701
+ * Called From: B495:070A:002E:D74D
+ * Called From: B495:0777:000A:D27A
+ * Called From: B495:0A51:0026:5884
  * Called From: B495:0A7B:001C:115A
  * Called From: B495:0AAD:002A:B2A6
  * Called From: B495:0AD6:001C:E66E
+ * Called From: B495:0B57:001F:97BC
  * Called From: B495:0C51:002A:6ABB
  * Called From: B495:0C65:000C:4A92
  * Called From: B495:0C96:0029:5C43
+ * Called From: B495:0CB1:0013:CBED
+ * Called From: B495:0CE9:0030:9AC5
  * Called From: B495:16A0:000C:26D1
  * Called From: B4B8:1E9E:0046:55E8
  * Called From: B4E0:0057:0015:7283

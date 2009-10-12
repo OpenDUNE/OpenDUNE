@@ -246,8 +246,11 @@ l__012C:
  * Called From: 10E4:04BA:0006:0569
  * Called From: 10E4:2215:0006:0569
  * Called From: 1423:03BF:0005:6168
+ * Called From: B495:0739:0008:DBE0
  * Called From: B495:0B6C:0005:6168
  * Called From: B495:0CF9:0005:6168
+ * Called From: B495:0CF9:0008:A3E0
+ * Called From: B495:0D62:001A:7F2D
  * Called From: B495:0E2E:002A:0E56
  * Called From: B495:0F33:0008:857D
  * Called From: B495:0F80:000B:410C
@@ -375,8 +378,10 @@ l__0162:
  * Called From: 10E4:056F:0006:E56C
  * Called From: 10E4:226B:0008:1BE5
  * Called From: 1423:03C9:0005:816D
+ * Called From: B495:0765:0008:43E5
  * Called From: B495:0B98:0008:43E5
  * Called From: B495:0D2C:0008:43E5
+ * Called From: B495:0DC0:0008:43E5
  * Called From: B495:0E6C:0008:2BE5
  * Called From: B495:0F73:0008:43E5
  * Called From: B495:0FAC:0008:43E5

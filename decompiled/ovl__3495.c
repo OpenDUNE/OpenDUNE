@@ -15,7 +15,10 @@
  * @implements 3495:002A (2)
  * @implements 3495:002F (3)
  * @implements 3495:0034 (4)
+ * @implements 3495:0039 (5)
  * @implements 3495:003E (6)
+ * @implements 3495:0043 (7)
+ * @implements 3495:004D (9)
  * @implements 3495:0098 (24)
  *
  * Called From: 01F7:3005:001C:E64C
@@ -27,6 +30,9 @@
  * Called From: 01F7:318C:0018:3FEB
  * Called From: 0C3A:17C0:000C:D272
  * Called From: 261F:01B9:001B:EDBF
+ * Called From: B4A2:06AC:0030:38D3
+ * Called From: B4A2:06AC:0030:38D3
+ * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:06AC:0030:38D3
  * Called From: B4A2:06AC:0030:38D3
@@ -50,7 +56,10 @@ void ovl__3495(uint8 entry)
 		case 2: f__B495_01CB_0016_9CD0(); return;
 		case 3: f__B495_0288_001F_5BC7(); return;
 		case 4: f__B495_030B_001D_B90C(); return;
+		case 5: f__B495_0398_0011_7346(); return;
 		case 6: f__B495_03B9_0008_D80E(); return;
+		case 7: f__B495_03E4_0014_917E(); return;
+		case 9: f__B495_04D7_000E_C317(); return;
 		case 24: f__B495_1A14_0013_AE3F(); return;
 	}
 }

@@ -709,6 +709,7 @@ l__0438:
  * @implements B4C4:049D:0018:10C7
  * @implements B4C4:04B5:000A:817C
  * @implements B4C4:04BF:0012:DB19
+ * @implements B4C4:04C1:0010:DB35
  * @implements B4C4:04C8:0009:AF48
  * @implements B4C4:04D1:0005:7CF0
  * @implements B4C4:04D6:0004:893F
@@ -790,9 +791,11 @@ l__04B5:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__04BF;
 	emu_al = 0x64;
-	/* Unresolved jump */ emu_ip = 0x04C1; emu_last_cs = 0xB4C4; emu_last_ip = 0x04BD; emu_last_length = 0x000A; emu_last_crc = 0x817C; emu_call();
+	goto l__04C1;
 l__04BF:
 	emu_al = 0x0;
+	goto l__04C1;
+l__04C1:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_get_memory8(emu_es, emu_bx, 0x4F) = emu_al;
 	goto l__04C8;

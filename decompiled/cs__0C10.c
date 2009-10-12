@@ -353,15 +353,19 @@ l__0180:
  *
  * Called From: 0972:0ADD:000B:D0F3
  * Called From: 0972:0AEC:000F:3656
+ * Called From: 0972:0CFE:0010:0DA8
  * Called From: 0972:0E3A:0010:0DA8
+ * Called From: 0972:0E3A:000D:8532
  * Called From: 0972:11FD:0012:15D4
  * Called From: 0AEC:0392:0011:A949
  * Called From: 0C10:0085:0012:339E
  * Called From: 0C10:0092:000D:9624
  * Called From: 0C3A:2954:000F:DCEB
+ * Called From: 176C:0973:0010:0DA8
  * Called From: 176C:0A1A:0010:0D90
  * Called From: 176C:0BA4:0046:5A28
  * Called From: 176C:0C3E:0017:BC9C
+ * Called From: 176C:2595:002F:8944
  * Called From: 176C:2C65:000D:8532
  * Called From: 1A34:1DCF:000D:0971
  * Called From: 1A34:2F84:000E:2A03

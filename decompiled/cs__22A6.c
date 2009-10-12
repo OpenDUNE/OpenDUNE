@@ -1066,6 +1066,9 @@ l__0902:
  * Called From: 251B:0033:001A:4EC8
  * Called From: 251B:0049:0016:F082
  * Called From: 251B:0063:001A:83C7
+ * Called From: B495:0591:001E:433D
+ * Called From: B495:0699:001E:0C98
+ * Called From: B495:06BA:0021:58DD
  * Called From: B518:03F0:0026:F217
  * Called From: B518:0414:0024:F6ED
  */
@@ -1801,6 +1804,7 @@ l__0C56:
  * Called From: 10E4:004B:0048:5BD4
  * Called From: 10E4:0AD6:0020:A11E
  * Called From: 10E4:0F0C:0049:0BFB
+ * Called From: B495:053F:0022:E64B
  * Called From: B495:0BE6:0021:D845
  * Called From: B495:1566:0021:6CFA
  * Called From: B4B8:215E:0034:7DBA

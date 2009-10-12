@@ -640,9 +640,12 @@ l__034B:
  * @implements 07D4:0C8E:000D:7DAB
  * @implements 07D4:0C9B:000D:C1BA
  * @implements 07D4:0CA8:002D:48A6
+ * @implements 07D4:0CD5:000F:7019
  * @implements 07D4:0CDC:0008:5AE5
  * @implements 07D4:0CE4:001B:A044
  * @implements 07D4:0CF0:000F:4EEF
+ * @implements 07D4:0CFF:0004:3BFB
+ * @implements 07D4:0D0A:0007:0DCA
  * @implements 07D4:0D49:0002:C03A
  * @implements 07D4:0D4B:0022:8E55
  * @implements 07D4:0D6D:0008:E391
@@ -1926,9 +1929,13 @@ l__0CA8:
 	emu_si = emu_get_memory16(emu_es, emu_bx, 0x46);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x26));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0xC), 0x40);
-	if ((emu_get_memory16(emu_es, emu_bx, 0xC) & 0x40) == 0) { /* Unresolved jump */ emu_ip = 0x0CD5; emu_last_cs = 0x07D4; emu_last_ip = 0x0CCA; emu_last_length = 0x002D; emu_last_crc = 0x48A6; emu_call(); return; }
+	if ((emu_get_memory16(emu_es, emu_bx, 0xC) & 0x40) == 0) goto l__0CD5;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x22));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x67);
+	goto l__0CDC;
+l__0CD5:
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x22));
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0x64);
 	goto l__0CDC;
 l__0CDC:
 	emu_ah = 0x0;
@@ -1945,10 +1952,25 @@ l__0CE4:
 l__0CF0:
 	emu_ax = emu_get_memory16(emu_cs, emu_bx, 0x0);
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x18));
-	if (emu_ax == emu_get_memory16(emu_ss, emu_bp, -0x18)) { /* Unresolved jump */ emu_ip = 0x0CFF; emu_last_cs = 0x07D4; emu_last_ip = 0x0CF6; emu_last_length = 0x000F; emu_last_crc = 0x4EEF; emu_call(); return; }
+	if (emu_ax == emu_get_memory16(emu_ss, emu_bp, -0x18)) goto l__0CFF;
 	emu_addw(&emu_bx, 0x2);
 	if (--emu_cx != 0) goto l__0CF0;
 	goto l__0D49;
+l__0CFF:
+
+	/* Jump based on memory/register values */
+	emu_ip = emu_get_memory16(emu_cs, emu_bx, 0x8);
+	switch (emu_ip) {
+		case 0x0D0A: goto l__0D0A;
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0x07D4; emu_last_ip = 0x0CFF; emu_last_length = 0x0004; emu_last_crc = 0x3BFB;
+			emu_call();
+			return;
+	}
+l__0D0A:
+	emu_get_memory16(emu_ss, emu_bp, -0x2E) = 0xFFFD;
+	goto l__0D4B;
 l__0D49:
 	goto l__0D4B;
 l__0D4B:

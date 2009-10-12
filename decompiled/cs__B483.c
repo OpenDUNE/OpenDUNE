@@ -9,6 +9,7 @@
  *
  * @name f__B483_0000_0019_F96A
  * @implements B483:0000:0019:F96A ()
+ * @implements B483:0016:0003:DDAD
  * @implements B483:0019:001A:284C
  * @implements B483:0033:0008:DA8A
  * @implements B483:003B:000D:4A11
@@ -33,9 +34,12 @@ l__0000:
 	emu_push(emu_di);
 	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_di, emu_di);
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0016; emu_last_cs = 0xB483; emu_last_ip = 0x000D; emu_last_length = 0x0019; emu_last_crc = 0xF96A; emu_call(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x700A), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x700A) != 0x0) goto l__0019;
+	if (!(emu_flags.sf != emu_flags.of)) {
+		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x700A), 0x0);
+		if (emu_get_memory16(emu_ds, 0x00, 0x700A) != 0x0) goto l__0019;
+	}
+	goto l__0016;
+l__0016:
 	goto l__0150;
 l__0019:
 	emu_si = 0xFF;
