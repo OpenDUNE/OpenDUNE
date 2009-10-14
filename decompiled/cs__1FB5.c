@@ -58,7 +58,7 @@ l__0047:
 	emu_subw(&emu_sp, 0x2);
 	emu_incb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x01F7; f__01F7_23CC_0013_6B52();
+	emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x01F7; emu_File_Close_Wrapper();
 	goto l__0059;
 l__0059:
 	emu_pop(&emu_cx);
@@ -181,7 +181,7 @@ l__00C5:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x00E0); emu_cs = 0x01F7; f__01F7_3354_0003_62AB();
+	emu_push(emu_cs); emu_push(0x00E0); emu_cs = 0x01F7; emu_File_Read_Wrapper();
 	goto l__00E0;
 l__00E0:
 	emu_addw(&emu_sp, 0x8);
@@ -262,7 +262,7 @@ l__0121:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x01F7; f__01F7_2A06_002A_9A90();
+	emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x01F7; emu_File_Open_Wrapper();
 	goto l__013C;
 l__013C:
 	emu_addw(&emu_sp, 0x8);

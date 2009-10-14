@@ -5241,9 +5241,9 @@ l__2303:
 }
 
 /**
- * Decompiled function f__01F7_23CC_0013_6B52()
+ * Decompiled function emu_File_Close_Wrapper()
  *
- * @name f__01F7_23CC_0013_6B52
+ * @name emu_File_Close_Wrapper
  * @implements 01F7:23CC:0013:6B52 ()
  * @implements 01F7:23DF:0002:C8BA
  * @implements 01F7:23E1:0010:A514
@@ -5255,7 +5255,7 @@ l__2303:
  * Called From: 24E6:00AD:000C:1590
  * Called From: 261F:019A:001A:54D2
  */
-void f__01F7_23CC_0013_6B52()
+void emu_File_Close_Wrapper()
 {
 l__23CC:
 	emu_push(emu_bp);
@@ -6134,9 +6134,9 @@ l__2A02:
 }
 
 /**
- * Decompiled function f__01F7_2A06_002A_9A90()
+ * Decompiled function emu_File_Open_Wrapper()
  *
- * @name f__01F7_2A06_002A_9A90
+ * @name emu_File_Open_Wrapper
  * @implements 01F7:2A06:002A:9A90 ()
  * @implements 01F7:2A22:000E:9A13
  * @implements 01F7:2A30:000F:AEDA
@@ -6164,7 +6164,7 @@ l__2A02:
  * Called From: 261F:0045:000E:672A
  * Called From: 261F:0125:0011:366E
  */
-void f__01F7_2A06_002A_9A90()
+void emu_File_Open_Wrapper()
 {
 l__2A06:
 	emu_push(emu_bp);
@@ -7063,9 +7063,9 @@ l__3281:
 }
 
 /**
- * Decompiled function f__01F7_3354_0003_62AB()
+ * Decompiled function emu_File_Read_Wrapper()
  *
- * @name f__01F7_3354_0003_62AB
+ * @name emu_File_Read_Wrapper
  * @implements 01F7:3283:0018:6655 ()
  * @implements 01F7:329B:0003:1D0C
  * @implements 01F7:329E:001B:32A6
@@ -7078,7 +7078,7 @@ l__3281:
  * Called From: 1FB5:00DB:001B:2EE4
  * Called From: 24E6:00A1:0010:7426
  */
-void f__01F7_3354_0003_62AB()
+void emu_File_Read_Wrapper()
 {
 	goto l__3354;
 l__3283:

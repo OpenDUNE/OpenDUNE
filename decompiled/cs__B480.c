@@ -59,7 +59,7 @@ l__0000:
 	emu_push(emu_ds);
 	emu_ax = 0xBC;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0018); emu_cs = 0x24E6; f__24E6_006E_001A_719E();
+	emu_push(emu_cs); emu_push(0x0018); emu_cs = 0x24E6; emu_Config_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	goto l__0018;

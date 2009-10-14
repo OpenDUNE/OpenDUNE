@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__24E6_006E_001A_719E()
+ * Decompiled function emu_Config_Read()
  *
- * @name f__24E6_006E_001A_719E
+ * @name emu_Config_Read
  * @implements 24E6:006E:001A:719E ()
  * @implements 24E6:0088:000E:273C
  * @implements 24E6:0094:0002:DA3A
@@ -20,7 +20,7 @@
  *
  * Called From: B480:0013:0018:A09B
  */
-void f__24E6_006E_001A_719E()
+void emu_Config_Read()
 {
 l__006E:
 	emu_push(emu_bp);
@@ -33,7 +33,7 @@ l__006E:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x01F7; f__01F7_2A06_002A_9A90();
+	emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x01F7; emu_File_Open_Wrapper();
 	goto l__0088;
 l__0088:
 	emu_addw(&emu_sp, 0x8);
@@ -50,13 +50,13 @@ l__0096:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x01F7; f__01F7_3354_0003_62AB();
+	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x01F7; emu_File_Read_Wrapper();
 	goto l__00A6;
 l__00A6:
 	emu_addw(&emu_sp, 0x8);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x00B2); emu_cs = 0x01F7; f__01F7_23CC_0013_6B52();
+	emu_push(emu_cs); emu_push(0x00B2); emu_cs = 0x01F7; emu_File_Close_Wrapper();
 	goto l__00B2;
 l__00B2:
 	emu_pop(&emu_cx);
@@ -67,7 +67,7 @@ l__00BB:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x00C6); f__24E6_011A_001A_2E2C();
+	emu_push(0x00C6); emu_Config_Decode();
 	goto l__00C6;
 l__00C6:
 	emu_pop(&emu_cx);
@@ -85,9 +85,9 @@ l__00CA:
 }
 
 /**
- * Decompiled function f__24E6_011A_001A_2E2C()
+ * Decompiled function emu_Config_Decode()
  *
- * @name f__24E6_011A_001A_2E2C
+ * @name emu_Config_Decode
  * @implements 24E6:011A:001A:2E2C ()
  * @implements 24E6:0134:003C:41F0
  * @implements 24E6:014D:0023:9862
@@ -95,7 +95,7 @@ l__00CA:
  *
  * Called From: 24E6:00C3:000B:D3E0
  */
-void f__24E6_011A_001A_2E2C()
+void emu_Config_Decode()
 {
 l__011A:
 	emu_push(emu_bp);

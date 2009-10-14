@@ -25,12 +25,15 @@
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Memory_Realloc	# (block, size)
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
+01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_Close	# (file)
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
 01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
-01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode?)
+01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
+01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
+01F7:3354:0003:62AB	emu_File_Read_Wrapper	#(file, buffer_csip, buflen) Manages reading of a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
 0642:000C:001A:AF29	emu_InGame_GameLoop	# Never ending-loop, started once at application-start, and loops for ever in-game
@@ -60,6 +63,9 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedBuilding # (unit_csip)
 1A34:3623:0010:B11C	emu_Unit_GetHouseID     # (unit_csip), units can be deviated
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
+
+24E6:006E:001A:719E	emu_Config_Read	# (filename_csip, config_csip)
+24E6:011A:001A:2E2C	emu_Config_Decode	# (config_csip)
 
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
 
