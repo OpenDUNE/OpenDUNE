@@ -41,7 +41,12 @@ typedef struct GlobalData {
 	/* 008D(2)   */ PACK uint16 variable_008D;              /*!< ?? Something related to memory. */
 	/* 008F()    */ PACK uint8   unknown_008F[0x0002];
 	/* 0091(2)   */ PACK uint16 memorySize;                 /*!< Size of memory in paragraphs. */
-	/* 0093()    */ PACK uint8   unknown_0093[0x0015];
+	/* 0093()    */ PACK uint8   unknown_0093[0x0009];
+	/* 009C(2)   */ PACK uint16 variable_009C;              /*!< ?? */
+	/* 009E(2)   */ PACK uint16 variable_009E;              /*!< ?? */
+	/* 00A0(2)   */ PACK uint16 variable_00A0;              /*!< ?? */
+	/* 00A2(2)   */ PACK uint16 variable_00A2;              /*!< ?? */
+	/* 00A4()    */ PACK uint8   unknown_00A4[0x0004];
 	/* 00A8(10)  */ PACK char   string_00A8[10];            /*!< "new8p.fnt" NULL terminated. */
 	/* 00B2(10)  */ PACK char   string_00B2[10];            /*!< "DUNE2.EXE" NULL terminated. */
 	/* 00BC(10)  */ PACK char   string_00BC[9];             /*!< "DUNE.CFG" NULL terminated. */
