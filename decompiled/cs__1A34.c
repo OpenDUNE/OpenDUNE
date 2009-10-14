@@ -6112,7 +6112,7 @@ l__30F1:
 	emu_cl = emu_get_memory8(emu_es, emu_bx, 0x2);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x1;
-	emu_push(emu_cs); emu_push(0x3102); emu_cs = 0x01F7; f__01F7_058E_0015_CED2();
+	emu_push(emu_cs); emu_push(0x3102); emu_cs = 0x01F7; emu_Math_Shld();
 	goto l__3102;
 l__3102:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));

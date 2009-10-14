@@ -18,6 +18,8 @@
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
+01F7:058E:0015:CED2	emu_Math_Shld	# () ((dx << 16) | ax) << cl
+01F7:05AF:0015:0AD5	emu_Math_Shrd	# () ((dx << 16) | ax) >> cl
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
@@ -33,7 +35,8 @@
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
 01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
-01F7:3354:0003:62AB	emu_File_Read_Wrapper	#(file, buffer_csip, buflen) Manages reading of a file
+01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
+01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game

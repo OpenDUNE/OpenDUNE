@@ -113,7 +113,7 @@ l__0064:
 	emu_ax = emu_get_memory16(emu_es, 0x00, 0x3);
 	emu_cwd();
 	emu_cl = 0x4;
-	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x01F7; f__01F7_058E_0015_CED2();
+	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x01F7; emu_Math_Shld();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	goto l__007A;

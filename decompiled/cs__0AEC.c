@@ -814,7 +814,7 @@ l__05F4:
 	emu_push(emu_dx);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x1;
-	emu_push(emu_cs); emu_push(0x0609); emu_cs = 0x01F7; f__01F7_058E_0015_CED2();
+	emu_push(emu_cs); emu_push(0x0609); emu_cs = 0x01F7; emu_Math_Shld();
 	goto l__0609;
 l__0609:
 	emu_pop(&emu_bx);
