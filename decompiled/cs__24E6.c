@@ -10,6 +10,7 @@
  * @name emu_Config_Read
  * @implements 24E6:006E:001A:719E ()
  * @implements 24E6:0088:000E:273C
+ * @implements 24E6:0092:0004:F239
  * @implements 24E6:0094:0002:DA3A
  * @implements 24E6:0096:0010:7426
  * @implements 24E6:00A6:000C:1590
@@ -40,6 +41,8 @@ l__0088:
 	emu_si = emu_ax;
 	emu_cmpw(&emu_si, 0xFFFF);
 	if (emu_si != 0xFFFF) goto l__0096;
+	goto l__0092;
+l__0092:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__0094;
 l__0094:
@@ -62,7 +65,7 @@ l__00B2:
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0xA);
 	if (emu_get_memory16(emu_ss, emu_bp, -0x2) == 0xA) goto l__00BB;
-	/* Unresolved jump */ emu_ip = 0x0092; emu_last_cs = 0x24E6; emu_last_ip = 0x00B9; emu_last_length = 0x0009; emu_last_crc = 0x107E; emu_call();
+	goto l__0092;
 l__00BB:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
