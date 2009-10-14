@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4BE_0000_000C_E7F4()
+ * Decompiled function emu_Gameloop_Intro()
  *
- * @name f__B4BE_0000_000C_E7F4
+ * @name emu_Gameloop_Intro
  * @implements B4BE:0000:000C:E7F4 ()
  * @implements B4BE:000C:000B:DEF2
  * @implements B4BE:0017:0007:DD28
@@ -24,7 +24,7 @@
  *
  * Called From: 34BE:0020:0005:0000
  */
-void f__B4BE_0000_000C_E7F4()
+void emu_Gameloop_Intro()
 {
 l__0000:
 	emu_push(emu_bp);

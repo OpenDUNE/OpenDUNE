@@ -2512,9 +2512,9 @@ l__16CE:
 }
 
 /**
- * Decompiled function f__B4B8_16D3_0022_3C6A()
+ * Decompiled function emu_Gameloop_IntroMenu()
  *
- * @name f__B4B8_16D3_0022_3C6A
+ * @name emu_Gameloop_IntroMenu
  * @implements B4B8:16D3:0022:3C6A ()
  * @implements B4B8:16F5:0017:8515
  * @implements B4B8:170C:000C:840B
@@ -2681,7 +2681,7 @@ l__16CE:
  *
  * Called From: 34B8:002A:0005:0000
  */
-void f__B4B8_16D3_0022_3C6A()
+void emu_Gameloop_IntroMenu()
 {
 l__16D3:
 	emu_push(emu_bp);

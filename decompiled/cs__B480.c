@@ -345,7 +345,7 @@ l__02A2:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x02D4); emu_cs = 0x0642; emu_InGame_GameLoop();
+	emu_push(emu_cs); emu_push(0x02D4); emu_cs = 0x0642; emu_GameLoop_Main();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	goto l__02D4;

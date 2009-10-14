@@ -36,7 +36,7 @@
 01F7:3354:0003:62AB	emu_File_Read_Wrapper	#(file, buffer_csip, buflen) Manages reading of a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
-0642:000C:001A:AF29	emu_InGame_GameLoop	# Never ending-loop, started once at application-start, and loops for ever in-game
+0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
 0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
@@ -73,5 +73,9 @@
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing
 
 2B0E:00D0:0022:EC76	emu_Tools_GetSmallestIP	# Move as much of the IP to CS
+
+B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
+
+B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
 B4DA:157C:0026:46F6	emu_Security_ValidateAnswer

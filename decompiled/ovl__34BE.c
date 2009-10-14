@@ -27,6 +27,6 @@ void ovl__34BE(uint8 entry)
 	/* Call the overlay function with the current cs it is loaded at */
 	emu_cs = emu_get_memory16(0x34BE, 0, (entry * 5) + 0x23);
 	switch (entry) {
-		case 0: f__B4BE_0000_000C_E7F4(); return;
+		case 0: emu_Gameloop_Intro(); return;
 	}
 }

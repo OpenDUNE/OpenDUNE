@@ -84,7 +84,7 @@ void ovl__34B8(uint8 entry)
 	switch (entry) {
 		case 0: f__B4B8_0ED9_001E_DC63(); return;
 		case 1: f__B4B8_0ECE_000B_BD2E(); return;
-		case 2: f__B4B8_16D3_0022_3C6A(); return;
+		case 2: emu_Gameloop_IntroMenu(); return;
 		case 3: f__B4B8_110D_000D_FD5C(); return;
 		case 4: f__B4B8_0A1E_001A_E094(); return;
 		case 5: f__B4B8_0D23_0010_BA99(); return;

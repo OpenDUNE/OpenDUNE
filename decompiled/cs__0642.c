@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_InGame_GameLoop()
+ * Decompiled function emu_GameLoop_Main()
  *
- * @name emu_InGame_GameLoop
+ * @name emu_GameLoop_Main
  * @implements 0642:000C:001A:AF29 ()
  * @implements 0642:00E0:000A:A0DD
  * @implements 0642:00EA:000A:99DA
@@ -88,7 +88,7 @@
  *
  * Called From: B480:02CF:0032:E148
  */
-void emu_InGame_GameLoop()
+void emu_GameLoop_Main()
 {
 l__000C:
 	emu_push(emu_bp);
