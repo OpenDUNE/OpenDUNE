@@ -784,6 +784,7 @@ l__0369:
  *
  * Called From: 01F7:0154:0006:B889
  * Called From: 1423:0447:0008:C68B
+ * Called From: B480:002E:000A:50E7
  * Called From: B4B8:1D65:0008:C68B
  * Called From: B511:0485:0008:C68B
  * Called From: B511:0702:0008:C68B
@@ -6418,6 +6419,7 @@ l__2BC0:
  * @implements 01F7:2BC4:0019:3608 ()
  * @implements 01F7:2BDD:0002:2597
  *
+ * Called From: B480:0024:0011:F5E0
  * Called From: B480:02E8:0008:98A4
  * Called From: B53B:0301:0019:AA57
  */

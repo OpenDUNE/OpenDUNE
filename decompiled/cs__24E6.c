@@ -91,6 +91,8 @@ l__00CA:
  * @implements 24E6:011A:001A:2E2C ()
  * @implements 24E6:0134:003C:41F0
  * @implements 24E6:014D:0023:9862
+ * @implements 24E6:016E:0002:C33A
+ * @implements 24E6:0172:0004:9439
  * @implements 24E6:0176:0004:893F
  *
  * Called From: 24E6:00C3:000B:D3E0
@@ -130,9 +132,14 @@ l__014D:
 	emu_dh = 0x0;
 	emu_xorw(&emu_dx, 0xA5);
 	emu_cmpw(&emu_ax, emu_dx);
-	if (emu_ax != emu_dx) { /* Unresolved jump */ emu_ip = 0x0172; emu_last_cs = 0x24E6; emu_last_ip = 0x0169; emu_last_length = 0x0023; emu_last_crc = 0x9862; emu_call(); return; }
+	if (emu_ax != emu_dx) goto l__0172;
 	emu_ax = 0x1;
+	goto l__016E;
+l__016E:
 	goto l__0176;
+l__0172:
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__016E;
 l__0176:
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
