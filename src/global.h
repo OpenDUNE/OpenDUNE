@@ -33,7 +33,7 @@ typedef struct GlobalData {
 	/* 007B(2)   */ PACK uint16 PSP;                        /*!< Program Segment Prefix. */
 	/* 007D(1)   */ PACK uint8  majorDOSVersion;            /*!< DOS major version. */
 	/* 007E(1)   */ PACK uint8  minorDOSVersion;            /*!< DOS minor version. */
-	/* 007F()    */ PACK uint8   unknown_007F[0x0002];
+	/* 007F(2)   */ PACK uint16 variable_007F;              /*!< ?? Something related to files. */
 	/* 0081(4)   */ PACK uint32 systemTime;                 /*!< System time. */
 	/* 0085()    */ PACK uint8   unknown_0085[0x0004];
 	/* 0089(2)   */ PACK uint16 variable_0089;              /*!< ?? Something related to memory. */
@@ -127,8 +127,13 @@ typedef struct GlobalData {
 	/* 77C2(4)   */ PACK csip32 variable_77C2;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
 	/* 77C6(4)   */ PACK csip32 variable_77C6;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
 	/* 77CA()    */ PACK uint8   unknown_77CA[0x0190];
-	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< ?? */
-	/* 795C()    */ PACK uint8   unknown_795C[0x010C];
+	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< Size of array of opened file status. */
+	/* 795C(40)  */ PACK uint16 variable_795C[20];          /*!< Array of opened file status (0 when closed). */
+	/* 7984(2)   */ PACK uint16 variable_7984;              /*!< ?? Something related to files. */
+	/* 7986(2)   */ PACK uint16 variable_7986;              /*!< ?? Something related to files. */
+	/* 7988(2)   */ PACK uint16 variable_7988;              /*!< ?? Something related to files. */
+	/* 798A(1)   */ PACK uint8  variable_798A;              /*!< ?? Something related to files. */
+	/* 798B()    */ PACK uint8   unknown_798B[0x00DD];
 	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
 	/* 7A6A()    */ PACK uint8   unknown_7A6A[0x00FE];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
@@ -144,9 +149,11 @@ typedef struct GlobalData {
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
 	/* 87D8()    */ PACK uint8   unknown_87D8[0x1094];
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
+	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
+	/* 98E1(10)  */ PACK uint8  variable_98E1[10];          /*!< Config data. */
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END
-assert_compile(sizeof(GlobalData) == 0x986D);
+assert_compile(sizeof(GlobalData) == 0x98EB);
 
 extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
 
