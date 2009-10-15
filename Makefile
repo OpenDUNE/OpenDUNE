@@ -30,12 +30,7 @@ LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
 LIBEMU := libemu$(LIB_EXTENSION)
 endif
 
-ifdef WIN32
-# Windows needs -lSDL after libemu.a on some versions of mingw
 LIBS := $(LIBS) -lSDL
-else
-LIBS := $(LIBS) -lncursesw -lSDL
-endif
 
 ifdef OSX
 LDFLAGS := $(LDFLAGS) -L/opt/local/lib -lSDLMain -lobjc -framework Foundation -framework AppKit
