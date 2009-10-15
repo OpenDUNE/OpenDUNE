@@ -3695,6 +3695,7 @@ l__1546:
  * @implements B4CD:15EE:0016:B8CD
  * @implements B4CD:15F6:000E:1B50
  * @implements B4CD:1604:0008:AE7C
+ * @implements B4CD:1606:0006:F7CE
  *
  * Called From: 34CD:00C5:0005:0000
  * Called From: B4CD:1543:0009:3AEC
@@ -3712,7 +3713,7 @@ l__154C:
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_orw(&emu_si, emu_si);
 	if (emu_si != 0) goto l__1561;
-	/* Unresolved jump */ emu_ip = 0x1606; emu_last_cs = 0xB4CD; emu_last_ip = 0x155E; emu_last_length = 0x0015; emu_last_crc = 0xB7FB; emu_call();
+	goto l__1606;
 l__1561:
 	emu_push(emu_di);
 	emu_push(emu_cs); emu_push(0x1567); emu_cs = 0x0F3F; emu_Tile_GetPackX();
@@ -3821,6 +3822,8 @@ l__15F6:
 l__1604:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
+	goto l__1606;
+l__1606:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
 	emu_sp = emu_bp;
