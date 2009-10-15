@@ -212,7 +212,7 @@ l__0195:
 	emu_bx = emu_get_memory16(emu_ds, emu_bx, 0x6CD3);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp, -0x6);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x8);
-	emu_push(emu_cs); emu_push(0x01D4); emu_cs = 0x01F7; f__01F7_05F0_0010_6415();
+	emu_push(emu_cs); emu_push(0x01D4); emu_cs = 0x01F7; emu_Tools_AddCSIP();
 	goto l__01D4;
 l__01D4:
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

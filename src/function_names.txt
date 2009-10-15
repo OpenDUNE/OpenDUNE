@@ -20,6 +20,9 @@
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
 01F7:058E:0015:CED2	emu_Math_Shld	# () ((dx << 16) | ax) << cl
 01F7:05AF:0015:0AD5	emu_Math_Shrd	# () ((dx << 16) | ax) >> cl
+01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper
+01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
+01F7:064D:0028:3537	emu_Tools_SubCSIP	# (dx:ax - cx:bx -> dx:ax, and makes ax as big as possible)
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)

@@ -1557,33 +1557,33 @@ l__05AF:
 }
 
 /**
- * Decompiled function f__01F7_05ED_0013_E7F6()
+ * Decompiled function emu_Tools_AddCSIP_Wrapper()
  *
- * @name f__01F7_05ED_0013_E7F6
+ * @name emu_Tools_AddCSIP_Wrapper
  * @implements 01F7:05ED:0013:E7F6 ()
  *
  * Called From: 01F7:1B26:0010:8C34
  */
-void f__01F7_05ED_0013_E7F6()
+void emu_Tools_AddCSIP_Wrapper()
 {
 l__05ED:
 	emu_pop(&emu_es);
 	emu_push(emu_cs);
 	emu_push(emu_es);
-	f__01F7_05F0_0010_6415(); return;
+	emu_Tools_AddCSIP(); return;
 }
 
 /**
- * Decompiled function f__01F7_05F0_0010_6415()
+ * Decompiled function emu_Tools_AddCSIP()
  *
- * @name f__01F7_05F0_0010_6415
+ * @name emu_Tools_AddCSIP
  * @implements 01F7:05F0:0010:6415 ()
  * @implements 01F7:0600:001C:45D7
  * @implements 01F7:0608:0014:B939
  *
  * Called From: 25C4:01CF:003F:BA75
  */
-void f__01F7_05F0_0010_6415()
+void emu_Tools_AddCSIP()
 {
 l__05F0:
 	emu_orw(&emu_cx, emu_cx);
@@ -1617,14 +1617,14 @@ l__0608:
 }
 
 /**
- * Decompiled function f__01F7_064D_0028_3537()
+ * Decompiled function emu_Tools_SubCSIP()
  *
- * @name f__01F7_064D_0028_3537
+ * @name emu_Tools_SubCSIP
  * @implements 01F7:064D:0028:3537 ()
  *
  * Called From: 01F7:1B92:0022:8ADB
  */
-void f__01F7_064D_0028_3537()
+void emu_Tools_SubCSIP()
 {
 l__064D:
 	emu_pop(&emu_es);
@@ -4239,7 +4239,7 @@ l__1B19:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x8B);
 	emu_cx = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0x4);
-	emu_push(0x1B29); f__01F7_05ED_0013_E7F6();
+	emu_push(0x1B29); emu_Tools_AddCSIP_Wrapper();
 	goto l__1B29;
 l__1B29:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -4302,7 +4302,7 @@ l__1B73:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x8F);
 	emu_cx = emu_get_memory16(emu_ds, 0x00, 0x8D);
 	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x8B);
-	emu_push(0x1B95); f__01F7_064D_0028_3537();
+	emu_push(0x1B95); emu_Tools_SubCSIP();
 	goto l__1B95;
 l__1B95:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
