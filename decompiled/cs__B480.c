@@ -25,8 +25,11 @@
  * @implements B480:0169:0018:55D8
  * @implements B480:018E:0002:C2BA
  * @implements B480:0195:0012:4C62
+ * @implements B480:01A7:001D:5034
  * @implements B480:01A8:001C:9836
  * @implements B480:01C4:0008:E1D7
+ * @implements B480:01CC:000A:47DE
+ * @implements B480:01D6:0007:7AE1
  * @implements B480:01E7:0016:CBA2
  * @implements B480:0204:0002:C03A
  * @implements B480:0206:0084:2794
@@ -226,7 +229,10 @@ l__0195:
 	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x01A7; emu_last_cs = 0xB480; emu_last_ip = 0x01A7; emu_last_length = 0x0012; emu_last_crc = 0x4C62; emu_call();
+	goto l__01A7;
+l__01A7:
+	emu_pop(&emu_cx);
+	goto l__01A8;
 l__01A8:
 	emu_get_memory16(emu_ds, 0x00, 0x6C76) = 0x3;
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x98E1);
@@ -234,7 +240,7 @@ l__01A8:
 	emu_subw(&emu_ax, 0x7);
 	emu_bx = emu_ax;
 	emu_cmpw(&emu_bx, 0x5);
-	if (emu_bx > 0x5) { /* Unresolved jump */ emu_ip = 0x01CC; emu_last_cs = 0xB480; emu_last_ip = 0x01BB; emu_last_length = 0x001C; emu_last_crc = 0x9836; emu_call(); return; }
+	if (emu_bx > 0x5) goto l__01CC;
 	emu_shlw(&emu_bx, 0x1);
 
 	/* Jump based on memory/register values */
@@ -250,6 +256,21 @@ l__01A8:
 l__01C4:
 	emu_get_memory16(emu_ds, 0x00, 0x6C76) = 0x3;
 	goto l__01E7;
+l__01CC:
+	emu_push(emu_ds);
+	emu_ax = 0x181;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x01D6); emu_cs = 0x01F7; f__01F7_2BC4_0019_3608();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
+	goto l__01D6;
+l__01D6:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_push(emu_cs); emu_push(0x01DD); emu_cs = 0x3500; ovl__3500(0);
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
+	/* Unresolved jump */ emu_ip = 0x01DD; emu_last_cs = 0xB480; emu_last_ip = 0x01DD; emu_last_length = 0x0007; emu_last_crc = 0x7AE1; emu_call();
 l__01E7:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x98E2);
 	emu_ah = 0x0;

@@ -18,6 +18,7 @@
  * @implements B500:004F:0005:B7DE
  * @implements B500:0054:000F:ACF6
  * @implements B500:0063:0006:928E
+ * @implements B500:0064:0005:F68F
  * @implements B500:0069:0005:F701
  * @implements B500:006E:0012:AD3C
  * @implements B500:0082:0011:8B05
@@ -97,7 +98,7 @@ l__004F:
 	goto l__0054;
 l__0054:
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x6E26));
-	if (emu_ax == emu_get_memory16(emu_ds, 0x00, 0x6E26)) { /* Unresolved jump */ emu_ip = 0x0064; emu_last_cs = 0xB500; emu_last_ip = 0x0058; emu_last_length = 0x000F; emu_last_crc = 0xACF6; emu_call(); return; }
+	if (emu_ax == emu_get_memory16(emu_ds, 0x00, 0x6E26)) goto l__0064;
 	emu_ax = 0x9;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
@@ -106,6 +107,8 @@ l__0054:
 	goto l__0063;
 l__0063:
 	emu_pop(&emu_cx);
+	goto l__0064;
+l__0064:
 	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; f__2649_0ADA_000E_EEB3();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { ovl__3500(0xFF); }

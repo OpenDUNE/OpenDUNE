@@ -152,6 +152,7 @@ l__05DA:
  * @implements 2649:0B05:0002:2597
  *
  * Called From: B500:0064:0006:928E
+ * Called From: B500:0064:0005:F68F
  */
 void f__2649_0ADA_000E_EEB3()
 {

@@ -6445,6 +6445,7 @@ l__2BC0:
  * @implements 01F7:2BDD:0002:2597
  *
  * Called From: B480:0024:0011:F5E0
+ * Called From: B480:01D1:000A:47DE
  * Called From: B480:02E8:0008:98A4
  * Called From: B53B:0301:0019:AA57
  */
