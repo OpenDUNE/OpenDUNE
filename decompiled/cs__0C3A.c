@@ -31,6 +31,7 @@
  * @implements 0C3A:01B4:0006:F7CE
  *
  * Called From: 0C3A:1A99:0022:A4D7
+ * Called From: 176C:2B14:0010:CBE1
  * Called From: B4B5:073F:001C:537A
  * Called From: B4B5:0826:0012:21EC
  */

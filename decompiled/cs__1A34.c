@@ -1706,6 +1706,7 @@ l__10EA:
  * Called From: 0C3A:0F15:001D:C1AF
  * Called From: 176C:12DA:0011:A5C5
  * Called From: 176C:173C:000E:1BB6
+ * Called From: 176C:2B86:000D:5697
  * Called From: 1A34:00EE:000B:2449
  * Called From: 1A34:0665:000E:C47C
  * Called From: 1A34:0665:000B:E6D6
@@ -6788,6 +6789,7 @@ l__350B:
  * @implements 1A34:361E:0005:8BCF
  *
  * Called From: 16C5:0714:000C:2071
+ * Called From: 16C5:0714:000E:20BB
  * Called From: 176C:0876:0023:E780
  */
 void f__1A34_350F_0021_9B04()

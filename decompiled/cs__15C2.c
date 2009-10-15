@@ -1153,6 +1153,7 @@ l__08FB:
 		case 0x176C28B1: f__176C_28B1_0024_58C9(); break;
 		case 0x176C291A: f__176C_291A_0010_8A93(); break;
 		case 0x176C29A9: f__176C_29A9_003A_8DEF(); break;
+		case 0x176C2AB2: f__176C_2AB2_0021_82CD(); break;
 		case 0x176C2B97: f__176C_2B97_0013_B226(); break;
 		case 0x176C2BD5: f__176C_2BD5_0014_2C56(); break;
 		default:

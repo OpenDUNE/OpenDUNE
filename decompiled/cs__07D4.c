@@ -646,6 +646,7 @@ l__034B:
  * @implements 07D4:0CF0:000F:4EEF
  * @implements 07D4:0CFF:0004:3BFB
  * @implements 07D4:0D0A:0007:0DCA
+ * @implements 07D4:0D11:001C:0497
  * @implements 07D4:0D49:0002:C03A
  * @implements 07D4:0D4B:0022:8E55
  * @implements 07D4:0D6D:0008:E391
@@ -1962,6 +1963,7 @@ l__0CFF:
 	emu_ip = emu_get_memory16(emu_cs, emu_bx, 0x8);
 	switch (emu_ip) {
 		case 0x0D0A: goto l__0D0A;
+		case 0x0D11: goto l__0D11;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x0CFF; emu_last_length = 0x0004; emu_last_crc = 0x3BFB;
@@ -1970,6 +1972,18 @@ l__0CFF:
 	}
 l__0D0A:
 	emu_get_memory16(emu_ss, emu_bp, -0x2E) = 0xFFFD;
+	goto l__0D4B;
+l__0D11:
+	emu_bx = emu_di;
+	emu_cl = 0x2;
+	emu_shlw(&emu_bx, emu_cl);
+	emu_ax = emu_get_memory16(emu_ds, emu_bx, 0x336E);
+	emu_get_memory16(emu_ss, emu_bp, -0x2C) = emu_ax;
+	emu_bx = emu_di;
+	emu_cl = 0x2;
+	emu_shlw(&emu_bx, emu_cl);
+	emu_ax = emu_get_memory16(emu_ds, emu_bx, 0x3370);
+	emu_get_memory16(emu_ss, emu_bp, -0x2E) = emu_ax;
 	goto l__0D4B;
 l__0D49:
 	goto l__0D4B;

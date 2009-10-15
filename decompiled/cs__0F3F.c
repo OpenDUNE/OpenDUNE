@@ -273,6 +273,7 @@ l__007E:
  * Called From: 176C:22FD:0012:5BD5
  * Called From: 176C:2712:0011:1BC3
  * Called From: 176C:28FF:000A:CB50
+ * Called From: 176C:2AE2:0014:B34A
  * Called From: 1A34:016C:0011:25DB
  * Called From: 1A34:040B:000B:4959
  * Called From: 1A34:043D:0011:C8E7
@@ -383,6 +384,7 @@ l__009D:
  *
  * Called From: 06F7:0088:002E:4089
  * Called From: 0972:0F38:001C:C333
+ * Called From: 0972:1270:000E:E53D
  * Called From: 0C3A:2397:005A:53AA
  * Called From: 0C3A:23B5:0016:3ADC
  * Called From: 0EDB:0231:0014:ECFD

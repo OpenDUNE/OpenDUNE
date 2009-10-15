@@ -32,6 +32,7 @@
  * Called From: 0972:00A0:0020:DE51
  * Called From: 0972:00A0:004D:2870
  * Called From: 0972:12BC:0005:B762
+ * Called From: 0972:12BC:001D:1E92
  * Called From: 176C:018A:0014:5245
  * Called From: 176C:018A:0029:F66B
  * Called From: 176C:018A:0055:6C8A

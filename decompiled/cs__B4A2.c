@@ -123,6 +123,7 @@ l__0060:
  * @implements B4A2:058B:0002:D6BA
  * @implements B4A2:058D:002D:0862
  * @implements B4A2:05A8:0012:33E6
+ * @implements B4A2:05B8:0002:C03A
  * @implements B4A2:05BA:00B6:11C2
  * @implements B4A2:05EF:0081:DCA6
  * @implements B4A2:0614:005C:D203
@@ -726,8 +727,11 @@ l__058D:
 l__05A8:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0xE), 0x1);
-	if ((emu_get_memory16(emu_es, emu_bx, 0xE) & 0x1) != 0) { /* Unresolved jump */ emu_ip = 0x05B8; emu_last_cs = 0xB4A2; emu_last_ip = 0x05B1; emu_last_length = 0x0012; emu_last_crc = 0x33E6; emu_call(); return; }
-	emu_get_memory16(emu_ss, emu_bp, -0x14) = 0x1;
+	if ((emu_get_memory16(emu_es, emu_bx, 0xE) & 0x1) == 0) {
+		emu_get_memory16(emu_ss, emu_bp, -0x14) = 0x1;
+	}
+	goto l__05B8;
+l__05B8:
 	goto l__05BA;
 l__05BA:
 	emu_testw(&emu_si, 0x2200);
@@ -849,6 +853,7 @@ l__0680:
 		case 0x34950039: ovl__3495(5); break;
 		case 0x3495003E: ovl__3495(6); break;
 		case 0x34950043: ovl__3495(7); break;
+		case 0x34950048: ovl__3495(8); break;
 		case 0x3495004D: ovl__3495(9); break;
 		case 0x34E0002A: ovl__34E0(2); break;
 		case 0x34E9002F: ovl__34E9(3); break;

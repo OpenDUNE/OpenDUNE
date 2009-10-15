@@ -515,6 +515,7 @@ l__01B7:
  * @implements 167E:027E:0006:F7CE
  *
  * Called From: 0972:1030:0008:180B
+ * Called From: 0972:1262:0019:3598
  * Called From: 0C3A:22FD:000C:39D3
  * Called From: 0EDB:021D:000B:3104
  * Called From: 167E:03AF:0005:C0BA

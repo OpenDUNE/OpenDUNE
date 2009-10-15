@@ -354,6 +354,7 @@ l__0180:
  * Called From: 0972:0ADD:000B:D0F3
  * Called From: 0972:0AEC:000F:3656
  * Called From: 0972:0CFE:0010:0DA8
+ * Called From: 0972:0CFE:000D:8532
  * Called From: 0972:0E3A:0010:0DA8
  * Called From: 0972:0E3A:000D:8532
  * Called From: 0972:11FD:0012:15D4

@@ -1175,6 +1175,8 @@ l__066F:
  * Called From: 10E4:2280:000D:91AA
  * Called From: B495:0067:000C:1509
  * Called From: B495:00AC:0014:3443
+ * Called From: B495:0368:0010:C27A
+ * Called From: B495:0368:0045:3C88
  * Called From: B495:0794:000C:1509
  * Called From: B495:1587:000D:D634
  */
@@ -2351,6 +2353,7 @@ l__0F11:
  * @implements 10E4:1113:001A:6A77
  * @implements 10E4:112D:000A:817C
  * @implements 10E4:1137:000E:7105
+ * @implements 10E4:1139:000C:73C5
  * @implements 10E4:1140:0005:3112
  * @implements 10E4:1145:0002:C8BA
  * @implements 10E4:1147:0011:B8FA
@@ -2730,9 +2733,11 @@ l__112D:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__1137;
 	emu_al = 0x64;
-	/* Unresolved jump */ emu_ip = 0x1139; emu_last_cs = 0x10E4; emu_last_ip = 0x1135; emu_last_length = 0x000A; emu_last_crc = 0x817C; emu_call();
+	goto l__1139;
 l__1137:
 	emu_al = 0x0;
+	goto l__1139;
+l__1139:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_get_memory8(emu_es, emu_bx, 0x4F) = emu_al;
 	goto l__1140;
@@ -5137,6 +5142,7 @@ l__228A:
  * Called From: 0AEC:0841:0005:08A0
  * Called From: 10E4:1142:000E:7105
  * Called From: 10E4:1142:0005:3112
+ * Called From: 10E4:1142:000C:73C5
  */
 void f__10E4_2290_0012_78BD()
 {
