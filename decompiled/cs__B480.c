@@ -30,6 +30,7 @@
  * @implements B480:01C4:0008:E1D7
  * @implements B480:01CC:000A:47DE
  * @implements B480:01D6:0007:7AE1
+ * @implements B480:01DD:0009:F557
  * @implements B480:01E7:0016:CBA2
  * @implements B480:0204:0002:C03A
  * @implements B480:0206:0084:2794
@@ -270,7 +271,14 @@ l__01D6:
 	emu_push(emu_cs); emu_push(0x01DD); emu_cs = 0x3500; ovl__3500(0);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x01DD; emu_last_cs = 0xB480; emu_last_ip = 0x01DD; emu_last_length = 0x0007; emu_last_crc = 0x7AE1; emu_call();
+	goto l__01DD;
+l__01DD:
+	emu_ax = 0x1;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x01E6); emu_cs = 0x01F7; emu_Terminate_Normal();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
+	/* Unresolved jump */ emu_ip = 0x01E6; emu_last_cs = 0xB480; emu_last_ip = 0x01E6; emu_last_length = 0x0009; emu_last_crc = 0xF557; emu_call();
 l__01E7:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x98E2);
 	emu_ah = 0x0;
