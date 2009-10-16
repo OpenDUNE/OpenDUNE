@@ -22,6 +22,7 @@
 	#undef MSVC_PACKED_END
 	#define MSVC_PACKED_BEGIN __pragma(pack(push, 1))
 	#define MSVC_PACKED_END __pragma(pack(pop))
+	#pragma warning(disable:4102) /* unreferenced label */
 #elif defined(__TINYC__)
 	/* Tiny C Compiler wants the __attribute__((packed)) attribute in
 	 *  every line of the struct in order for it to do what you expect.
