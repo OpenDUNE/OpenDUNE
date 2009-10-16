@@ -2832,8 +2832,10 @@ l__0F78:
  * @implements B495:1077:0009:BD71
  * @implements B495:1080:0012:A9EF
  * @implements B495:1092:005C:046A
+ * @implements B495:10EE:0005:96AE
  * @implements B495:10F3:001D:B296
  * @implements B495:1110:0005:966E
+ * @implements B495:1113:0002:D3BA
  * @implements B495:1115:0024:2AF0
  * @implements B495:1139:0007:98BA
  * @implements B495:113C:0004:893F
@@ -3026,7 +3028,10 @@ l__1092:
 	emu_push(emu_cs); emu_push(0x10EE); emu_cs = 0x2903; f__2903_0158_001A_2931();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { ovl__3495(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x10EE; emu_last_cs = 0xB495; emu_last_ip = 0x10EE; emu_last_length = 0x005C; emu_last_crc = 0x046A; emu_call();
+	goto l__10EE;
+l__10EE:
+	emu_addw(&emu_sp, 0x14);
+	goto l__1113;
 l__10F3:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
@@ -3046,6 +3051,8 @@ l__10F3:
 	goto l__1110;
 l__1110:
 	emu_addw(&emu_sp, 0xE);
+	goto l__1113;
+l__1113:
 	goto l__113C;
 l__1115:
 	emu_ax = 0x2;
