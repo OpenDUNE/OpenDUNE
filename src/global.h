@@ -61,7 +61,14 @@ typedef struct GlobalData {
 	                                                         *   "Misc allocations: %ld\"
 	                                                         *   "Spare RAM: %ld\"
 	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
-	/* 0217()    */ PACK uint8   unknown_0217[0x33D1];
+	/* 0217()    */ PACK uint8   unknown_0217[0x209D];
+	/* 22B4(12)  */ PACK char   string_22B4[12];            /*!< "PROFILE.INI" NULL terminated. */
+	/* 22C0(8)   */ PACK char   string_22C0[8];             /*!< "IBM.PAL" NULL terminated. */
+	/* 22C8()    */ PACK uint8   unknown_22C8[0x0028];
+	/* 22F0(13)  */ PACK char   string_22F0[13];            /*!< "_SAVE000.DAT" NULL terminated. */
+	/* 22FD(13)  */ PACK char   string_22FD[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
+	/* 230A(12)  */ PACK char   string_230A[12];            /*!< "ONETIME.DAT" NULL terminated. */
+	/* 2316()    */ PACK uint8   unknown_2316[0x12D2];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
@@ -80,7 +87,38 @@ typedef struct GlobalData {
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information */
 	/* 39F2()    */ PACK uint8   unknown_39F2[0x0046];
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
-	/* 3A3A()    */ PACK uint8   unknown_3A3A[0x2C6A];
+	/* 3A3A()    */ PACK uint8   unknown_3A3A[0x28C8];
+	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
+	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
+	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
+	/* 6312(2)   */ PACK uint16 variable_6312;              /*!< ?? */
+	/* 6314()    */ PACK uint8   unknown_6314[0x0030];
+	/* 6344(2)   */ PACK uint16 variable_6344;              /*!< ?? */
+	/* 6346()    */ PACK uint8   unknown_6346[0x000C];
+	/* 6352(2)   */ PACK uint16 variable_6352;              /*!< ?? */
+	/* 6354(2)   */ PACK uint16 variable_6354;              /*!< ?? */
+	/* 6356()    */ PACK uint8   unknown_6356[0x0016];
+	/* 636C(2)   */ PACK uint16 variable_636C;              /*!< ?? */
+	/* 636E()    */ PACK uint8   unknown_636E[0x0004];
+	/* 6372(2)   */ PACK uint16 variable_6372;              /*!< ?? */
+	/* 6374()    */ PACK uint8   unknown_6374[0x0028];
+	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
+	/* 639E()    */ PACK uint8   unknown_639E[0x000C];
+	/* 63AA(2)   */ PACK uint16 variable_63AA;              /*!< ?? 63AA and 63AC are 1 element of an array of unknown size. */
+	/* 63AC(2)   */ PACK uint16 variable_63AC;              /*!< ?? 63AA and 63AC are 1 element of an array of unknown size. */
+	/* 63AE()    */ PACK uint8   unknown_63AE[0x0018];
+	/* 63C6(2)   */ PACK uint16 variable_63C6;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
+	/* 63C8(2)   */ PACK uint16 variable_63C8;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
+	/* 63CA()    */ PACK uint8   unknown_63CA[0x0004];
+	/* 63CE(2)   */ PACK uint16 variable_63CE;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
+	/* 63D0(2)   */ PACK uint16 variable_63D0;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
+	/* 63D2()    */ PACK uint8   unknown_63D2[0x009C];
+	/* 646E(2)   */ PACK uint16 variable_646E;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
+	/* 6470(2)   */ PACK uint16 variable_6470;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
+	/* 6472()    */ PACK uint8   unknown_6472[0x0004];
+	/* 6476(2)   */ PACK uint16 variable_6476;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
+	/* 6478(2)   */ PACK uint16 variable_6478;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
+	/* 647A()    */ PACK uint8   unknown_647A[0x022A];
 	/* 66A4(4)   */ PACK csip32 callbackAfterMouse;         /*!< CS:IP of routine called after mouse change. */
 	/* 66A8(12)  */ PACK uint8   unknown_66A8[0x000C];
 	/* 66B4(4)   */ PACK csip32 callbackBeforeMouse;        /*!< CS:IP of routine called before mouse change. */
@@ -89,7 +127,30 @@ typedef struct GlobalData {
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
-	/* 6C80()    */ PACK uint8   unknown_BC80[0x038E];
+	/* 6C80()    */ PACK uint8   unknown_6C80[0x0053];
+	/* 6CD3(2)   */ PACK uint16 variable_6CD3;              /*!< ?? */
+	/* 6CD5(2)   */ PACK uint16 variable_6CD5;              /*!< ?? */
+	/* 6CD7(2)   */ PACK uint16 variable_6CD7;              /*!< ?? */
+	/* 6CD9(2)   */ PACK uint16 variable_6CD9;              /*!< ?? */
+	/* 6CDB(2)   */ PACK uint16 variable_6CDB;              /*!< ?? */
+	/* 6CDD(2)   */ PACK uint16 variable_6CDD;              /*!< ?? */
+	/* 6CDF(2)   */ PACK uint16 variable_6CDF;              /*!< ?? */
+	/* 6CE1(2)   */ PACK uint16 variable_6CE1;              /*!< ?? */
+	/* 6CE3(2)   */ PACK uint16 variable_6CE3;              /*!< ?? */
+	/* 6CE5(2)   */ PACK uint16 variable_6CE5;              /*!< ?? */
+	/* 6CE7(2)   */ PACK uint16 variable_6CE7;              /*!< ?? */
+	/* 6CE9(2)   */ PACK uint16 variable_6CE9;              /*!< ?? */
+	/* 6CEB(2)   */ PACK uint16 variable_6CEB;              /*!< ?? */
+	/* 6CED(2)   */ PACK uint16 variable_6CED;              /*!< ?? */
+	/* 6CEF(2)   */ PACK uint16 variable_6CEF;              /*!< ?? */
+	/* 6CF1(2)   */ PACK uint16 variable_6CF1;              /*!< ?? */
+	/* 6CF3(2)   */ PACK uint16 variable_6CF3;              /*!< ?? */
+	/* 6CF5(2)   */ PACK uint16 variable_6CF5;              /*!< ?? */
+	/* 6CF7(2)   */ PACK uint16 variable_6CF7;              /*!< ?? */
+	/* 6CF9(2)   */ PACK uint16 variable_6CF9;              /*!< ?? */
+	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x030F];
+	/* 700A(2)   */ PACK uint16 variable_700A;              /*!< ?? */
+	/* 700C(2)   */ PACK uint16 variable_700C;              /*!< ?? */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
 	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
 	/* 7011(2)   */ PACK uint16 variable_7011;              /*!< ?? */
