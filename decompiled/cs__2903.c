@@ -159,6 +159,7 @@ l__00CA:
  * Called From: 07D4:074D:0028:D31F
  * Called From: 07D4:07A9:002E:9990
  * Called From: 07D4:0BAD:0031:A814
+ * Called From: 07D4:0BAD:0042:98CD
  * Called From: 07D4:0C82:0046:7ED9
  * Called From: 07D4:0DA6:0036:17D1
  * Called From: 07D4:0DFE:0031:A9D0
@@ -799,6 +800,7 @@ l__0530:
 		case 0x0599: f__2903_0599_0017_FD2B(); break;
 		case 0x05C8: f__2903_05C8_0018_6BB5(); break;
 		case 0x05E0: f__2903_05E0_000A_A47A(); break;
+		case 0x05EA: f__2903_05EA_001D_06CA(); break;
 		case 0x061F: f__2903_061F_0015_4925(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -1060,6 +1062,45 @@ l__05E0:
 	emu_al = emu_get_memory8(emu_ds, emu_bx + emu_al, 0x0);
 	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
 	emu_pop(&emu_ds);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	return;
+}
+
+/**
+ * Decompiled function f__2903_05EA_001D_06CA()
+ *
+ * @name f__2903_05EA_001D_06CA
+ * @implements 2903:05EA:001D:06CA ()
+ * @implements 2903:0607:0018:F32C
+ *
+ * Called From: 2903:0535:0008:CF42
+ */
+void f__2903_05EA_001D_06CA()
+{
+l__05EA:
+	emu_bx = emu_get_memory16(emu_cs, 0x00, 0x74);
+	emu_addw(&emu_bx, emu_get_memory16(emu_cs, 0x00, 0x72));
+	emu_orb(&emu_bh, emu_bh);
+	if (emu_bh != 0) goto l__0607;
+	emu_get_memory16(emu_cs, 0x00, 0x74) = emu_bx;
+	emu_push(emu_ds);
+	emu_lfp(&emu_ds, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x3E));
+	emu_al = emu_get_memory8(emu_ds, emu_bx + emu_al, 0x0);
+	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
+	emu_pop(&emu_ds);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	return;
+l__0607:
+	emu_xorb(&emu_bh, emu_bh);
+	emu_get_memory16(emu_cs, 0x00, 0x74) = emu_bx;
+	emu_addw(&emu_di, emu_get_memory16(emu_cs, 0x00, 0x70));
+	emu_al = emu_get_memory8(emu_es, emu_di, 0x0);
+	emu_subw(&emu_di, emu_get_memory16(emu_cs, 0x00, 0x70));
+	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
 
 	/* Return from this function */
 	emu_pop(&emu_ip);

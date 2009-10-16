@@ -27,6 +27,7 @@
  * @implements 0C10:00CC:0006:F7CE
  *
  * Called From: 176C:0F0C:0008:9B67
+ * Called From: 176C:223E:000B:9877
  * Called From: 176C:2534:000B:9475
  * Called From: 1A34:1C95:0008:9B67
  */
@@ -248,6 +249,7 @@ l__013B:
  *
  * Called From: 0C10:009F:000B:CBA9
  * Called From: 0C10:009F:000D:063B
+ * Called From: 176C:221E:0015:1BD8
  * Called From: 176C:247C:0015:C163
  * Called From: 1A34:0111:0020:5691
  * Called From: 1A34:28DC:000B:C880

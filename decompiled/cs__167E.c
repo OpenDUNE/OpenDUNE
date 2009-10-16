@@ -306,6 +306,8 @@ l__00EF:
  * Called From: 176C:1390:0013:AA74
  * Called From: 176C:14BB:0008:A673
  * Called From: 176C:182D:0021:E595
+ * Called From: 176C:2157:002E:9D89
+ * Called From: 176C:2233:0015:0FEE
  * Called From: 176C:24C1:0010:16F6
  * Called From: 176C:24EE:002D:83BF
  * Called From: 176C:2529:0020:614B
@@ -737,6 +739,7 @@ l__02AB:
  * Called From: 176C:08C4:000D:F112
  * Called From: 176C:0C13:000D:F112
  * Called From: 176C:1AD4:0016:C3C3
+ * Called From: 176C:2184:001C:0800
  * Called From: 1A34:1C0D:0006:3784
  * Called From: 1A34:1C0D:000A:2B08
  * Called From: 1A34:28C7:0016:FFBA

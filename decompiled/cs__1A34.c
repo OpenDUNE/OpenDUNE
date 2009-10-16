@@ -6673,6 +6673,7 @@ l__348B:
  * Called From: 0C10:0119:003D:FEA4
  * Called From: 0C10:028B:003C:67AC
  * Called From: 10E4:1823:000B:CD5F
+ * Called From: 176C:2168:0011:BB28
  * Called From: 176C:27F5:000D:8210
  * Called From: 1A34:2211:0015:FCE4
  * Called From: 1A34:226B:000B:D285
