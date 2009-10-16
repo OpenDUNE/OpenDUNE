@@ -77,17 +77,52 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ PACK uint16 buildingCount;              /*!< Amount of Buildings on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
-	/* 3600()    */ PACK uint8   unknown_3600[0x01F0];
+	/* 3600()    */ PACK uint8   unknown_3600[0x01A0];
+	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
+	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
+	/* 37B6(2)   */ PACK uint16 variable_37B6;              /*!< ?? */
+	/* 37B8()    */ PACK uint8   unknown_37B8[0x0038];
 	/* 37F0(180) */ PACK uint8  variable_37F0[180];         /*!< ?? It is an array of HOUSE_INDEX_MAX size at most (possible just 3), with a struct size of 0x1E. Position might be wrong. */
-	/* 38A4()    */ PACK uint8   unknown_38A4[0x0018];
+	/* 38A4()    */ PACK uint8   unknown_38A4[0x000C];
+	/* 38B0(2)   */ PACK uint16 variable_38B0;              /*!< ?? */
+	/* 38B2(2)   */ PACK uint16 variable_38B2;              /*!< ?? */
+	/* 38B4()    */ PACK uint8   unknown_38B4[0x0008];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?). */
-	/* 38BE()    */ PACK uint8   unknown_38BE[0x0044];
+	/* 38BE()    */ PACK uint8   unknown_38BE[0x0008];
+	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
+	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
+	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
+	/* 38DA(4)   */ PACK csip32 variable_38DA;              /*!< ?? */
+	/* 38DE(4)   */ PACK csip32 variable_38DE;              /*!< ?? */
+	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information */
-	/* 39F2()    */ PACK uint8   unknown_39F2[0x0046];
+	/* 39F2()    */ PACK uint8   unknown_39F2[0x001C];
+	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
+	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
+	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
+	/* 3A2C(2)   */ PACK uint16 variable_3A2C;              /*!< ?? */
+	/* 3A2E(2)   */ PACK uint16 variable_3A2E;              /*!< ?? */
+	/* 3A30(2)   */ PACK uint16 variable_3A30;              /*!< ?? */
+	/* 3A32(2)   */ PACK uint16 variable_3A32;              /*!< ?? */
+	/* 3A34()    */ PACK uint8   unknown_3A34[0x0004];
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
-	/* 3A3A()    */ PACK uint8   unknown_3A3A[0x28C8];
+	/* 3A3A()    */ PACK uint8   unknown_3A3A[0x00FA];
+	/* 3B34(2)   */ PACK uint16 variable_3B34;              /*!< ?? */
+	/* 3B36(2)   */ PACK uint16 variable_3B36;              /*!< ?? */
+	/* 3B38()    */ PACK uint8   unknown_3B38[0x0018];
+	/* 3B50(2)   */ PACK uint16 variable_3B50;              /*!< ?? */
+	/* 3B52(2)   */ PACK uint16 variable_3B52;              /*!< ?? */
+	/* 3B54()    */ PACK uint8   unknown_3B54[0x00DE];
+	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
+	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
+	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */
+	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
+	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
+	/* 3C46(2)   */ PACK csip32 variable_3C46;              /*!< ?? */
+	/* 3C48(2)   */ PACK csip32 variable_3C48;              /*!< ?? */
+	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x26B4];
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
@@ -217,9 +252,14 @@ typedef struct GlobalData {
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
 	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
 	/* 98E1(10)  */ PACK uint8  variable_98E1[10];          /*!< Config data. */
+	/* 98EB()    */ PACK uint8   unknown_98EB[0x009F];
+	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
+	/* 998E()    */ PACK uint8   unknown_998E[0x0061];
+	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
+	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? */
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END
-assert_compile(sizeof(GlobalData) == 0x98EB);
+assert_compile(sizeof(GlobalData) == 0x99F7);
 
 extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
 
