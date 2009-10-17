@@ -26,6 +26,7 @@
  * @implements 1DB6:0110:0012:EEC5
  * @implements 1DB6:0122:000D:43EF
  * @implements 1DB6:012F:001B:2F76
+ * @implements 1DB6:014A:0013:606D
  * @implements 1DB6:014D:0010:743C
  * @implements 1DB6:015D:0017:0927
  * @implements 1DB6:0174:0003:CE9A
@@ -188,7 +189,10 @@ l__012F:
 	emu_ax = 0x9882;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x014A); emu_cs = 0x01F7; f__01F7_384A_003F_AE43();
-	/* Unresolved jump */ emu_ip = 0x014A; emu_last_cs = 0x1DB6; emu_last_ip = 0x014A; emu_last_length = 0x001B; emu_last_crc = 0x2F76; emu_call();
+	goto l__014A;
+l__014A:
+	emu_addw(&emu_sp, 0x8);
+	goto l__014D;
 l__014D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));

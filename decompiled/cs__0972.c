@@ -2063,6 +2063,7 @@ l__1000:
  * @implements 0972:1053:001A:D4A1
  * @implements 0972:106D:0041:C9BE
  * @implements 0972:1075:0039:A47C
+ * @implements 0972:10AB:0003:9D04
  * @implements 0972:10AE:0008:04B9
  * @implements 0972:10B6:000B:281A
  * @implements 0972:10C1:0008:8AD8
@@ -2075,6 +2076,7 @@ l__1000:
  * @implements 0972:1106:0037:38DE
  * @implements 0972:1107:0036:3852
  * @implements 0972:113D:0009:C65E
+ * @implements 0972:1140:0006:8213
  * @implements 0972:1146:0003:A217
  * @implements 0972:1149:0006:F7CE
  *
@@ -2155,10 +2157,13 @@ l__1075:
 	emu_subw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_si = emu_ax;
 	emu_orw(&emu_si, emu_si);
-	if ((emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x10AB; emu_last_cs = 0x0972; emu_last_ip = 0x10A4; emu_last_length = 0x0039; emu_last_crc = 0xA47C; emu_call(); return; }
-	emu_cmpw(&emu_si, 0x8);
-	if ((int16)emu_si < (int16)0x8) goto l__10AE;
-	/* Unresolved jump */ emu_ip = 0x1140; emu_last_cs = 0x0972; emu_last_ip = 0x10AB; emu_last_length = 0x0039; emu_last_crc = 0xA47C; emu_call();
+	if (!(emu_flags.sf != emu_flags.of)) {
+		emu_cmpw(&emu_si, 0x8);
+		if ((int16)emu_si < (int16)0x8) goto l__10AE;
+	}
+	goto l__10AB;
+l__10AB:
+	goto l__1140;
 l__10AE:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs); emu_push(0x10B6); emu_cs = 0x0F3F; emu_Tile_Unpack();
@@ -2236,6 +2241,8 @@ l__1107:
 	goto l__113D;
 l__113D:
 	emu_addw(&emu_sp, 0x6);
+	goto l__1140;
+l__1140:
 	emu_ax = 0x1;
 	goto l__102A;
 l__1146:
