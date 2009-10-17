@@ -227,7 +227,7 @@ l__0195:
 	if (emu_ax != 0) goto l__01A8;
 	emu_ax = 0x3000;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x29E8; f__29E8_04AF_003C_ECA0();
+	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { ovl__3480(0xFF); }
 	goto l__01A7;

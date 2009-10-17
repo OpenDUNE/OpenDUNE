@@ -7,7 +7,7 @@ extern void Interrupt_User_Clock();
 extern void Interrupt_Timer();
 extern void emu_EntryPoint();
 extern void f__2756_050F_000B_0871();
-extern void f__29A3_0054_005C_47DC();
+extern void emu_Mouse_EventHandler();
 
 extern void System_Init_Global();
 extern void System_Init_Building();
@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
 	emu_hard_link(0x01F7, 0x0000, &emu_EntryPoint);
 	emu_hard_link(0x2756, 0x050F, &f__2756_050F_000B_0871);
-	emu_hard_link(0x29A3, 0x0054, &f__29A3_0054_005C_47DC);
+	emu_hard_link(0x29A3, 0x0054, &emu_Mouse_EventHandler);
 
 	emu_init(argc, argv);
 	emu_overlay = 1;

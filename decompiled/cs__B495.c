@@ -1446,7 +1446,7 @@ l__077C:
 l__0784:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { ovl__3495(0xFF); }
 	goto l__078B;
@@ -1522,7 +1522,7 @@ l__07D6:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x20));
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x1E));
-	emu_push(emu_cs); emu_push(0x0818); emu_cs = 0x29A3; f__29A3_02DA_003B_81C9();
+	emu_push(emu_cs); emu_push(0x0818); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { ovl__3495(0xFF); }
 	/* Unresolved jump */ emu_ip = 0x0818; emu_last_cs = 0xB495; emu_last_ip = 0x0818; emu_last_length = 0x0042; emu_last_crc = 0x6511; emu_call();

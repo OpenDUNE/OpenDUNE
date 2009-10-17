@@ -38,7 +38,7 @@ l__0000:
 l__0008:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7096), 0x0);
 	if (emu_get_memory8(emu_ds, 0x00, 0x7096) != 0x0) {
-		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; f__29A3_02BD_0018_A1B5();
+		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Mouse_CallbackClear();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3500) { ovl__3500(0xFF); }
 	}

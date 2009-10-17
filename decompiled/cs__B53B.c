@@ -307,7 +307,7 @@ l__01A5:
 	goto l__01C9;
 l__01C9:
 	emu_addw(&emu_sp, 0xC);
-	emu_push(emu_cs); emu_push(0x01D1); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x01D1); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { ovl__353B(0xFF); }
 	goto l__01D1;

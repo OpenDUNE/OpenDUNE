@@ -2728,7 +2728,7 @@ l__170C:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = 0xDEE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; f__29E8_04EB_0011_9CC8();
+	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { ovl__34B8(0xFF); }
 	goto l__1718;
@@ -4223,7 +4223,7 @@ l__2198:
 	emu_pop(&emu_cx);
 	goto l__2199;
 l__2199:
-	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
+	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { ovl__34B8(0xFF); }
 	goto l__219E;

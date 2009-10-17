@@ -95,7 +95,7 @@ l__0049:
 	goto l__0054;
 l__0054:
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; f__29A3_0224_0009_AA5D();
+	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
 	goto l__005A;
 l__005A:
 	emu_push(emu_ds);
