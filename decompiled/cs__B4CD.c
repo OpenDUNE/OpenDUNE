@@ -4620,6 +4620,7 @@ l__1C17:
  * @implements B4CD:1C6F:0016:10DA
  * @implements B4CD:1C7A:000B:C572
  * @implements B4CD:1C85:001A:031C
+ * @implements B4CD:1C88:0017:2D16
  * @implements B4CD:1C9F:0008:3AB2
  * @implements B4CD:1CA7:000A:CB50
  * @implements B4CD:1CB1:000C:2B84
@@ -4696,9 +4697,11 @@ l__1C7A:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x14);
 	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x4) >= (int16)0x14) goto l__1C85;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	/* Unresolved jump */ emu_ip = 0x1C88; emu_last_cs = 0xB4CD; emu_last_ip = 0x1C83; emu_last_length = 0x000B; emu_last_crc = 0xC572; emu_call();
+	goto l__1C88;
 l__1C85:
 	emu_ax = 0x14;
+	goto l__1C88;
+l__1C88:
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 	emu_cl = 0x8;
 	emu_shlw(&emu_get_memory16(emu_ss, emu_bp, -0x6), emu_cl);

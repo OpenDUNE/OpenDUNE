@@ -351,6 +351,7 @@ l__0086:
  * Called From: B4CD:1516:0036:B84B
  * Called From: B4CD:16F4:000F:CF15
  * Called From: B4CD:1C9A:001A:031C
+ * Called From: B4CD:1C9A:0017:2D16
  */
 void emu_Tile_Unpack()
 {

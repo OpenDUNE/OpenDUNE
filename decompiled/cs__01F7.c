@@ -1768,12 +1768,15 @@ l__064D:
  *
  * @name f__01F7_0675_0020_D684
  * @implements 01F7:0675:0020:D684 ()
+ * @implements 01F7:0685:0010:F6A9
  * @implements 01F7:0688:000D:5817
  * @implements 01F7:0695:0019:5985
  * @implements 01F7:06A2:000C:D81E
  *
  * Called From: 01F7:03FC:0004:9C18
+ * Called From: 01F7:0796:0004:6232
  * Called From: 01F7:0835:0004:220A
+ * Called From: 01F7:0835:0003:220F
  * Called From: 01F7:2070:0033:F011
  * Called From: 01F7:2300:0004:EC99
  * Called From: 01F7:23DC:0013:6B52
@@ -1792,9 +1795,10 @@ l__0675:
 	emu_orw(&emu_si, emu_si);
 	if ((emu_flags.sf != emu_flags.of)) goto l__0695;
 	emu_cmpw(&emu_si, 0x58);
-	if ((int16)emu_si > (int16)0x58) {
-		emu_si = 0x57;
-	}
+	if ((int16)emu_si <= (int16)0x58) goto l__0688;
+	goto l__0685;
+l__0685:
+	emu_si = 0x57;
 	goto l__0688;
 l__0688:
 	emu_get_memory16(emu_ds, 0x00, 0x7988) = emu_si;
@@ -1805,7 +1809,7 @@ l__0688:
 l__0695:
 	emu_negw(&emu_si, emu_si);
 	emu_cmpw(&emu_si, 0x30);
-	if ((int16)emu_si > (int16)0x30) { /* Unresolved jump */ emu_ip = 0x0685; emu_last_cs = 0x01F7; emu_last_ip = 0x069A; emu_last_length = 0x0019; emu_last_crc = 0x5985; emu_call(); return; }
+	if ((int16)emu_si > (int16)0x30) goto l__0685;
 	emu_get_memory16(emu_ds, 0x00, 0x7988) = 0xFFFF;
 	goto l__06A2;
 l__06A2:
@@ -1961,6 +1965,8 @@ l__0741:
  * @name emu_File_Seek
  * @implements 01F7:0773:001E:D7DA ()
  * @implements 01F7:0791:0004:E2FD
+ * @implements 01F7:0795:0004:6232
+ * @implements 01F7:0799:0003:36B7
  * @implements 01F7:079A:0002:2597
  *
  * Called From: 1FB5:00A7:001B:4066
@@ -1981,7 +1987,14 @@ l__0773:
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0791); Interrupt_DOS();
 	goto l__0791;
 l__0791:
-	if (emu_flags.cf) { /* Unresolved jump */ emu_ip = 0x0795; emu_last_cs = 0x01F7; emu_last_ip = 0x0791; emu_last_length = 0x0004; emu_last_crc = 0xE2FD; emu_call(); return; }
+	if (emu_flags.cf) goto l__0795;
+	goto l__079A;
+l__0795:
+	emu_push(emu_ax);
+	emu_push(0x0799); f__01F7_0675_0020_D684();
+	goto l__0799;
+l__0799:
+	emu_cwd();
 	goto l__079A;
 l__079A:
 	emu_pop(&emu_bp);
@@ -2142,6 +2155,7 @@ l__07F6:
  * @implements 01F7:0821:000E:581D
  * @implements 01F7:082F:0005:E285
  * @implements 01F7:0834:0004:220A
+ * @implements 01F7:0835:0003:220F
  * @implements 01F7:0838:0002:2597
  *
  * Called From: 01F7:32C7:0011:1DCE
@@ -2157,7 +2171,7 @@ l__080B:
 	if ((emu_get_memory16(emu_ds, emu_bx, 0x795C) & 0x2) == 0) goto l__0821;
 	emu_ax = 0x5;
 	emu_push(emu_ax);
-	/* Unresolved jump */ emu_ip = 0x0835; emu_last_cs = 0x01F7; emu_last_ip = 0x081F; emu_last_length = 0x0016; emu_last_crc = 0x8E7B; emu_call();
+	goto l__0835;
 l__0821:
 	emu_push(emu_ds);
 	emu_ah = 0x3F;
@@ -2172,6 +2186,8 @@ l__082F:
 	goto l__0838;
 l__0834:
 	emu_push(emu_ax);
+	goto l__0835;
+l__0835:
 	emu_push(0x0838); f__01F7_0675_0020_D684();
 	goto l__0838;
 l__0838:

@@ -37,6 +37,7 @@
  * @implements B527:019A:000E:57E9
  * @implements B527:01A8:0012:AA0D
  * @implements B527:01BA:000D:0CF1
+ * @implements B527:01C4:0003:9D0E
  * @implements B527:01C7:0008:8702
  * @implements B527:01CF:0014:5990
  * @implements B527:01E3:0009:9151
@@ -289,7 +290,7 @@ l__0178:
 	goto l__0281;
 l__0185:
 	emu_orw(&emu_di, emu_di);
-	if (emu_di == 0) { /* Unresolved jump */ emu_ip = 0x01C4; emu_last_cs = 0xB527; emu_last_ip = 0x0187; emu_last_length = 0x0015; emu_last_crc = 0x3ABA; emu_call(); return; }
+	if (emu_di == 0) goto l__01C4;
 	emu_decw(&emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
@@ -326,6 +327,8 @@ l__01BA:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_get_memory8(emu_es, emu_bx, 0x0) = 0x0;
 	emu_decw(&emu_di);
+	goto l__01C4;
+l__01C4:
 	goto l__0281;
 l__01C7:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
