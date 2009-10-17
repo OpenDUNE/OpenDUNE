@@ -6,6 +6,7 @@
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
 01F7:02AC:000F:B26A	emu_Print_Error_Overlay	# ()
+01F7:02C9:0001:6580	emu_Empty5	# Function does absolutely nothing
 01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
 01F7:0309:000C:E723	emu_Drive_Set_Default	# (drive, num_drive_csip)
 01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
@@ -18,6 +19,7 @@
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
+01F7:058B:0018:D9CF	emu_Math_Shld_Wrapper	# stupid wrapper
 01F7:058E:0015:CED2	emu_Math_Shld	# () ((dx << 16) | ax) << cl
 01F7:05AF:0015:0AD5	emu_Math_Shrd	# () ((dx << 16) | ax) >> cl
 01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper

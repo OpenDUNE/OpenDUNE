@@ -743,7 +743,7 @@ l__03BA:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x88);
 	emu_push(0x03D4);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x01F702C9: f__01F7_02C9_0001_6580(); break;
+		case 0x01F702C9: emu_Empty5(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x217E; emu_last_ip = 0x03D0; emu_last_length = 0x001A; emu_last_crc = 0xD1EE;
@@ -996,7 +996,7 @@ l__053E:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x88);
 	emu_push(0x0555);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x01F702C9: f__01F7_02C9_0001_6580(); break;
+		case 0x01F702C9: emu_Empty5(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x217E; emu_last_ip = 0x0551; emu_last_length = 0x0017; emu_last_crc = 0xFADA;
