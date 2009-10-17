@@ -497,6 +497,7 @@ l__0192:
  * @implements 2B6C:0214:0051:5F7B
  * @implements 2B6C:021E:0047:8CB4
  * @implements 2B6C:0228:003D:F75B
+ * @implements 2B6C:0232:0033:EB45
  * @implements 2B6C:0265:0007:128D
  * @implements 2B6C:026C:0004:C0E6
  * @implements 2B6C:0270:0022:327A
@@ -512,6 +513,7 @@ l__0192:
  * Called From: B488:0022:0027:45A9
  * Called From: B4A2:08BD:0014:2AE3
  * Called From: B4A2:0906:0014:2AE3
+ * Called From: B4A2:09EE:0014:2AE3
  * Called From: B4DA:03C9:0017:0D1E
  * Called From: B4DA:0521:0017:0C1A
  * Called From: B4DA:068D:0017:0C1A
@@ -609,8 +611,11 @@ l__021E:
 	goto l__0228;
 l__0228:
 	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x7088));
-	if (emu_dx > emu_get_memory16(emu_ds, 0x00, 0x7088)) { /* Unresolved jump */ emu_ip = 0x0232; emu_last_cs = 0x2B6C; emu_last_ip = 0x022C; emu_last_length = 0x003D; emu_last_crc = 0xF75B; emu_call(); return; }
-	emu_get_memory16(emu_ds, 0x00, 0x7088) = emu_dx;
+	if (emu_dx <= emu_get_memory16(emu_ds, 0x00, 0x7088)) {
+		emu_get_memory16(emu_ds, 0x00, 0x7088) = emu_dx;
+	}
+	goto l__0232;
+l__0232:
 	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x7080), 0x4000);
 	if ((emu_get_memory16(emu_ds, 0x00, 0x7080) & 0x4000) != 0) goto l__0276;
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7060);
@@ -635,7 +640,7 @@ l__0228:
 		case 0x22A60FD7: f__22A6_0FD7_0043_ACF9(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2B6C; emu_last_ip = 0x0261; emu_last_length = 0x003D; emu_last_crc = 0xF75B;
+			emu_last_cs = 0x2B6C; emu_last_ip = 0x0261; emu_last_length = 0x0033; emu_last_crc = 0xEB45;
 			emu_call();
 			return;
 	}
@@ -703,6 +708,7 @@ l__0276:
  * Called From: B488:01FD:000B:5A70
  * Called From: B4A2:08EF:000F:BCB8
  * Called From: B4A2:092B:000F:ACB8
+ * Called From: B4A2:0A15:000F:FCB8
  * Called From: B4DA:03F4:0008:8B8A
  * Called From: B4DA:054C:0008:8B8A
  * Called From: B4DA:06B8:0008:8B8A

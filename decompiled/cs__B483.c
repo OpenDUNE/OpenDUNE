@@ -235,6 +235,7 @@ l__027E:
  *
  * @name f__B483_0283_0014_983A
  * @implements B483:0283:0014:983A ()
+ * @implements B483:0294:0003:5D12
  * @implements B483:0297:0020:5211
  * @implements B483:02B7:001D:5E6C
  * @implements B483:02D4:000B:5099
@@ -257,9 +258,12 @@ l__0283:
 	emu_push(emu_si);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_cmpw(&emu_si, 0xFFFF);
-	if (emu_si == 0xFFFF) { /* Unresolved jump */ emu_ip = 0x0294; emu_last_cs = 0xB483; emu_last_ip = 0x028D; emu_last_length = 0x0014; emu_last_crc = 0x983A; emu_call(); return; }
-	emu_cmpw(&emu_si, 0x26);
-	if ((int16)emu_si < (int16)0x26) goto l__0297;
+	if (emu_si != 0xFFFF) {
+		emu_cmpw(&emu_si, 0x26);
+		if ((int16)emu_si < (int16)0x26) goto l__0297;
+	}
+	goto l__0294;
+l__0294:
 	goto l__0360;
 l__0297:
 	emu_ax = emu_si;

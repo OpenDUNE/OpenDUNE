@@ -368,12 +368,14 @@ l__0180:
  * Called From: 176C:0A1A:0010:0D90
  * Called From: 176C:0BA4:0046:5A28
  * Called From: 176C:0C3E:0017:BC9C
+ * Called From: 176C:0D64:000D:8532
  * Called From: 176C:2595:002F:8944
  * Called From: 176C:2C65:000D:8532
  * Called From: 1A34:1DCF:000D:0971
  * Called From: 1A34:2F84:000E:2A03
  * Called From: 1A34:2F84:000B:0889
  * Called From: 1A34:3679:000F:DCEB
+ * Called From: 1A34:36D2:0011:21E1
  */
 void f__0C10_0182_0012_B114()
 {

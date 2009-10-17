@@ -144,6 +144,7 @@
  * Called From: 176C:04ED:0008:475C
  * Called From: 176C:0503:0016:FC92
  * Called From: 176C:056C:002D:282D
+ * Called From: 176C:05FC:0044:F2CF
  * Called From: 176C:065A:0022:E86D
  * Called From: 176C:0685:001C:F5FE
  * Called From: 176C:0939:003C:5819

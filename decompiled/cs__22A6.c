@@ -1606,6 +1606,7 @@ l__0AA3:
  *
  * Called From: 07D4:0575:0031:9C05
  * Called From: 07D4:059A:0025:B028
+ * Called From: B4A2:0A06:0018:9C56
  */
 void f__22A6_0B60_006A_2F61()
 {
@@ -2250,6 +2251,7 @@ l__0FAE:
  * Called From: 2B6C:0261:009B:5944
  * Called From: 2B6C:0261:00CE:4D32
  * Called From: 2B6C:0261:005A:3B17
+ * Called From: 2B6C:0261:0033:EB45
  * Called From: 2B6C:02B6:0028:3AD7
  * Called From: 2B6C:02B6:0027:6AD7
  * Called From: 2B99:0065:000C:9EC2

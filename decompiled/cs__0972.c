@@ -91,6 +91,7 @@
  * @implements 0972:06DB:0037:4B08
  * @implements 0972:06DC:0036:4B86
  * @implements 0972:06E1:0031:1FDA
+ * @implements 0972:0712:0004:431F
  * @implements 0972:0714:0002:D83A
  * @implements 0972:0716:0025:6D67
  * @implements 0972:073B:0008:A466
@@ -854,7 +855,11 @@ l__06E1:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1A));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1C));
 	emu_push(emu_cs); emu_push(0x0712); emu_cs = 0x1082; emu_Building_Free();
-	/* Unresolved jump */ emu_ip = 0x0712; emu_last_cs = 0x0972; emu_last_ip = 0x0712; emu_last_length = 0x0031; emu_last_crc = 0x1FDA; emu_call();
+	goto l__0712;
+l__0712:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	goto l__0714;
 l__0714:
 	goto l__0746;
 l__0716:

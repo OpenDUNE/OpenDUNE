@@ -3045,6 +3045,7 @@ l__1105:
  * @name f__01F7_111F_001A_B513
  * @implements 01F7:111F:001A:B513 ()
  * @implements 01F7:1183:0025:4423
+ * @implements 01F7:118C:001C:D392
  * @implements 01F7:118F:0019:242D
  * @implements 01F7:1192:0016:5243
  * @implements 01F7:119C:000C:BDD2
@@ -3098,6 +3099,9 @@ l__1105:
  * @implements 01F7:1538:0005:2680
  * @implements 01F7:153D:0005:B42C
  * @implements 01F7:153F:0003:2333
+ * @implements 01F7:1542:0018:AC5C
+ * @implements 01F7:155A:0024:5D21
+ * @implements 01F7:157B:0003:E323
  * @implements 01F7:157E:000E:A269
  * @implements 01F7:1589:0003:E0AE
  * @implements 01F7:158C:000F:E3A2
@@ -3127,6 +3131,8 @@ l__1183:
 	emu_cld();
 	emu_movw(&emu_di, emu_bp - 0x96);
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_di;
+	goto l__118C;
+l__118C:
 	emu_di = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	goto l__118F;
 l__118F:
@@ -3190,6 +3196,7 @@ l__11EE:
 		case 0x12F1: goto l__12F1;
 		case 0x13A1: goto l__13A1;
 		case 0x13C1: goto l__13C1;
+		case 0x1542: goto l__1542;
 		case 0x157E: goto l__157E;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -3485,6 +3492,32 @@ l__153D:
 	goto l__153F;
 l__153F:
 	goto l__118F;
+l__1542:
+	emu_get_memory16(emu_ss, emu_bp,  0x6) = emu_si;
+	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x4);
+	emu_testw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x20);
+	if ((emu_get_memory16(emu_ss, emu_bp, -0x2) & 0x20) != 0) goto l__155A;
+	emu_di = emu_get_memory16(emu_ss, emu_di, 0x0);
+	emu_addw(&emu_get_memory16(emu_ss, emu_bp,  0x4), 0x2);
+	emu_push(emu_ds);
+	emu_pop(&emu_es);
+	/* Unresolved jump */ emu_ip = 0x1561; emu_last_cs = 0x01F7; emu_last_ip = 0x1558; emu_last_length = 0x0018; emu_last_crc = 0xAC5C; emu_call();
+l__155A:
+	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ss, emu_di, 0x0));
+	emu_addw(&emu_get_memory16(emu_ss, emu_bp,  0x4), 0x4);
+	emu_ax = 0x50;
+	emu_subb(&emu_al, emu_get_memory8(emu_ss, emu_bp, -0x14));
+	emu_addw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x12));
+	emu_get_memory16(emu_es, emu_di, 0x0) = emu_ax;
+	emu_testw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x10);
+	if ((emu_get_memory16(emu_ss, emu_bp, -0x2) & 0x10) != 0) {
+		emu_incw(&emu_di);
+		emu_incw(&emu_di);
+		emu_get_memory16(emu_es, emu_di, 0x0) = 0x0;
+	}
+	goto l__157B;
+l__157B:
+	goto l__118C;
 l__157E:
 	emu_si = emu_get_memory16(emu_ss, emu_bp, -0x10);
 	emu_es = emu_get_memory16(emu_ss, emu_bp,  0x8);
@@ -3593,6 +3626,7 @@ l__1182:
  * @implements 01F7:1182:0001:6180
  *
  * Called From: 01F7:11A5:0016:5243
+ * Called From: 01F7:152D:000E:3CEF
  * Called From: 01F7:1598:0009:6CDC
  * Called From: 01F7:1598:000F:E3A2
  */
