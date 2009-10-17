@@ -5597,6 +5597,7 @@ l__2C8F:
  * @implements 1A34:2D76:0033:68C4
  * @implements 1A34:2DA9:0028:DC3E
  * @implements 1A34:2DD1:000D:5E93
+ * @implements 1A34:2DDE:005A:6439
  * @implements 1A34:2DE1:0057:CA39
  * @implements 1A34:2E18:0020:ACCF
  * @implements 1A34:2E38:001D:0BE3
@@ -5774,8 +5775,11 @@ l__2DD1:
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;
 	emu_cmpw(&emu_si, 0x1);
-	if (emu_si <= 0x1) { /* Unresolved jump */ emu_ip = 0x2DDE; emu_last_cs = 0x1A34; emu_last_ip = 0x2DD8; emu_last_length = 0x000D; emu_last_crc = 0x5E93; emu_call(); return; }
+	if (emu_si <= 0x1) goto l__2DDE;
 	emu_ax = emu_si;
+	goto l__2DE1;
+l__2DDE:
+	emu_ax = 0x1;
 	goto l__2DE1;
 l__2DE1:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
