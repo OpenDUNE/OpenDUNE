@@ -33,7 +33,7 @@ endif
 LIBS := $(LIBS) -lSDL
 
 ifdef OSX
-LDFLAGS := $(LDFLAGS) -L/opt/local/lib -lSDLMain -lobjc -framework Foundation -framework AppKit
+LDFLAGS := $(LDFLAGS) -L/opt/local/lib -lSDLmain -lobjc -framework Foundation -framework AppKit
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label
