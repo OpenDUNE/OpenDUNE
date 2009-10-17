@@ -1469,6 +1469,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\decompiled\cs__29A3.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\decompiled\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\decompiled\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\decompiled\cs__29DA.c"
 				>
 				<FileConfiguration
@@ -3367,26 +3387,6 @@
 			<File
 				RelativePath="..\src\input\input.h"
 				>
-			</File>
-			<File
-				RelativePath="..\src\input\mouse.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\input\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\input\"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\src\interrupt.c"
