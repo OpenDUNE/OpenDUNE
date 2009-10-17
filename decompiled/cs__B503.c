@@ -57,6 +57,7 @@
  * @implements B503:0388:000A:1561
  * @implements B503:0392:0008:3318
  * @implements B503:039A:0020:8E44
+ * @implements B503:039D:001D:8CFC
  * @implements B503:03BA:0011:8DB1
  * @implements B503:03CB:000E:28E9
  * @implements B503:03D9:000D:81B6
@@ -70,6 +71,7 @@
  * @implements B503:043C:0009:B5CB
  * @implements B503:0445:0006:5A1C
  * @implements B503:044B:0028:9194
+ * @implements B503:0473:0002:D13A
  * @implements B503:0475:0022:49A0
  * @implements B503:0497:0023:DE89
  * @implements B503:04BA:0013:3B9E
@@ -633,9 +635,11 @@ l__0392:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__039A;
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x039D; emu_last_cs = 0xB503; emu_last_ip = 0x0398; emu_last_length = 0x0008; emu_last_crc = 0x3318; emu_call();
+	goto l__039D;
 l__039A:
 	emu_ax = 0x1;
+	goto l__039D;
+l__039D:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
@@ -775,7 +779,9 @@ l__044B:
 	emu_push(emu_cs); emu_push(0x0473); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { ovl__3503(0xFF); }
-	/* Unresolved jump */ emu_ip = 0x0473; emu_last_cs = 0xB503; emu_last_ip = 0x0473; emu_last_length = 0x0028; emu_last_crc = 0x9194; emu_call();
+	goto l__0473;
+l__0473:
+	goto l__0497;
 l__0475:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
@@ -2464,6 +2470,7 @@ l__0DF7:
  * @implements B503:0EB1:0011:8F4C
  * @implements B503:0EC2:0008:3318
  * @implements B503:0ECA:0016:7A82
+ * @implements B503:0ECD:0013:9A88
  * @implements B503:0EE0:000E:69BD
  * @implements B503:0EEE:0016:1B71
  * @implements B503:0F04:0008:4947
@@ -2588,9 +2595,11 @@ l__0EC2:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__0ECA;
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x0ECD; emu_last_cs = 0xB503; emu_last_ip = 0x0EC8; emu_last_length = 0x0008; emu_last_crc = 0x3318; emu_call();
+	goto l__0ECD;
 l__0ECA:
 	emu_ax = 0x1;
+	goto l__0ECD;
+l__0ECD:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
