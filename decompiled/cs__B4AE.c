@@ -28,7 +28,7 @@ void f__B4AE_0000_0008_049C()
 l__0000:
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
-	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x29E8; emu_Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { ovl__34AE(0xFF); }
 	goto l__0008;

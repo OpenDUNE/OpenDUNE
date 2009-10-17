@@ -70,7 +70,7 @@ l__0000:
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x0;
 	emu_ax = 0x2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0016); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
+	emu_push(emu_cs); emu_push(0x0016); emu_cs = 0x29E8; f__29E8_04AF_003C_ECA0();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	goto l__0016;
@@ -78,7 +78,7 @@ l__0016:
 	emu_pop(&emu_cx);
 	emu_ax = 0x2000;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0020); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
+	emu_push(emu_cs); emu_push(0x0020); emu_cs = 0x29E8; f__29E8_04EB_0011_9CC8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	goto l__0020;
@@ -329,7 +329,7 @@ l__01BA:
 	goto l__0281;
 l__01C7:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
+	emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; f__29E8_0479_0009_A77A();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	goto l__01CF;
@@ -434,7 +434,7 @@ l__0281:
 l__028A:
 	emu_ax = 0x2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0293); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
+	emu_push(emu_cs); emu_push(0x0293); emu_cs = 0x29E8; f__29E8_04EB_0011_9CC8();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	goto l__0293;
@@ -442,7 +442,7 @@ l__0293:
 	emu_pop(&emu_cx);
 	emu_ax = 0x2000;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x029D); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
+	emu_push(emu_cs); emu_push(0x029D); emu_cs = 0x29E8; f__29E8_04AF_003C_ECA0();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { ovl__3527(0xFF); }
 	goto l__029D;

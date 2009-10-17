@@ -7,12 +7,12 @@ extern void Interrupt_User_Clock();
 extern void Interrupt_Timer();
 extern void emu_EntryPoint();
 extern void f__2756_050F_000B_0871();
-extern void emu_Input_Mouse_EventHandler();
+extern void f__29A3_0054_005C_47DC();
 
-extern void System_Init_Input();
 extern void System_Init_Global();
 extern void System_Init_Building();
 extern void System_Init_Unit();
+extern void System_Init_Input();
 
 #if defined(__APPLE__)
 int SDL_main(int argc, char **argv)
@@ -25,15 +25,15 @@ int main(int argc, char **argv)
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
 	emu_hard_link(0x01F7, 0x0000, &emu_EntryPoint);
 	emu_hard_link(0x2756, 0x050F, &f__2756_050F_000B_0871);
-	emu_hard_link(0x29A3, 0x0054, &emu_Input_Mouse_EventHandler);
+	emu_hard_link(0x29A3, 0x0054, &f__29A3_0054_005C_47DC);
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
 
-	System_Init_Input();
 	System_Init_Global();
 	System_Init_Building();
 	System_Init_Unit();
+	System_Init_Input();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

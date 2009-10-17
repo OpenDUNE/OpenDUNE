@@ -51,7 +51,7 @@ l__0017:
 	emu_push(0x001E); f__B4BE_008B_0012_DDEE();
 	goto l__001E;
 l__001E:
-	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__0023;
@@ -379,7 +379,7 @@ l__01B9:
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37B4), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x37B4) == 0x0) goto l__01D2;
-	emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__01C7;
@@ -402,7 +402,7 @@ l__01DB:
 l__01DC:
 	goto l__01F6;
 l__01DE:
-	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__01E3;
@@ -532,7 +532,7 @@ l__02B9:
 	emu_get_memory16(emu_ds, 0x00, 0x76B4) = 0x3C;
 	goto l__02DF;
 l__02CA:
-	emu_push(emu_cs); emu_push(0x02CF); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x02CF); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__02CF;
@@ -616,7 +616,7 @@ l__035A:
 	emu_get_memory16(emu_ds, 0x00, 0x76B4) = 0xB4;
 	goto l__0380;
 l__036B:
-	emu_push(emu_cs); emu_push(0x0370); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	emu_push(emu_cs); emu_push(0x0370); emu_cs = 0x29E8; f__29E8_0643_0008_ED98();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__0370;

@@ -382,7 +382,7 @@ l__01E5:
 	if (emu_cs == 0x34E6) { ovl__34E6(0xFF); }
 	goto l__01F5;
 l__01F5:
-	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; emu_Input_History_Clear();
+	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; f__29E8_073F_000E_6816();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { ovl__34E6(0xFF); }
 	goto l__01FA;
@@ -683,7 +683,7 @@ l__03CD:
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);
 	emu_andw(&emu_ax, 0xFF);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03DB); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
+	emu_push(emu_cs); emu_push(0x03DB); emu_cs = 0x29E8; f__29E8_0479_0009_A77A();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { ovl__34E6(0xFF); }
 	goto l__03DB;
