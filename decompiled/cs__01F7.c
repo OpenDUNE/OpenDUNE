@@ -8248,6 +8248,8 @@ l__38F6:
  * @implements 01F7:3999:000C:B4D0
  * @implements 01F7:399D:0008:CA06
  *
+ * Called From: 0642:0036:0015:FB5A
+ * Called From: 0642:0093:0015:F8DA
  * Called From: 10E4:0A56:0015:56BE
  * Called From: 10E4:0C5E:000F:1C48
  * Called From: 10E4:0C77:000F:9C4E

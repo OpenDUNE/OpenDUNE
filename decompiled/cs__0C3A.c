@@ -4346,6 +4346,7 @@ l__1F6C:
  * Called From: 0C3A:11F8:000E:67F9
  * Called From: 1391:077C:000C:2418
  * Called From: 1A34:2F2F:0017:10C5
+ * Called From: 1A34:2F2F:000E:591D
  * Called From: B511:033A:000C:E8B5
  */
 void f__0C3A_1F70_0010_8DB3()
