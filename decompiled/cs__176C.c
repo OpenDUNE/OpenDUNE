@@ -1931,6 +1931,7 @@ l__0FD0:
  *
  * @name f__176C_0FD2_001F_B15D
  * @implements 176C:0FD2:001F:B15D ()
+ * @implements 176C:0FF1:000E:4A08
  * @implements 176C:0FF3:000C:4AC2
  * @implements 176C:0FFF:001B:252E
  * @implements 176C:1002:0018:1AF9
@@ -1956,8 +1957,11 @@ l__0FD2:
 	emu_addw(&emu_bx, emu_ax);
 	emu_si = emu_get_memory16(emu_es, emu_bx, 0x16);
 	emu_orw(&emu_si, emu_si);
-	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x0FF1; emu_last_cs = 0x176C; emu_last_ip = 0x0FEB; emu_last_length = 0x001F; emu_last_crc = 0xB15D; emu_call(); return; }
+	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0FF1;
 	emu_ax = emu_si;
+	goto l__0FF3;
+l__0FF1:
+	emu_xorw(&emu_ax, emu_ax);
 	goto l__0FF3;
 l__0FF3:
 	emu_si = emu_ax;
