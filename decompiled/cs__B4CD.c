@@ -1178,6 +1178,8 @@ l__061A:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34CD) { ovl__34CD(0xFF); }
 	goto l__0644;
 l__0644:
 	emu_addw(&emu_sp, 0x6);
@@ -1301,6 +1303,8 @@ l__06E5:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34CD) { ovl__34CD(0xFF); }
 	goto l__0717;
 l__0717:
 	emu_addw(&emu_sp, 0x6);

@@ -2706,6 +2706,8 @@ l__10CE:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3511) { ovl__3511(0xFF); }
 	goto l__10E9;
 l__10E9:
 	emu_addw(&emu_sp, 0x8);

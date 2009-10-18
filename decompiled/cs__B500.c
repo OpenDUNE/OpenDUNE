@@ -89,6 +89,8 @@ l__0042:
 				emu_call();
 				return;
 		}
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3500) { ovl__3500(0xFF); }
 	}
 	goto l__004F;
 l__004F:

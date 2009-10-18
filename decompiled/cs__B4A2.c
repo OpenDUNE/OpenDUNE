@@ -868,6 +868,8 @@ l__0680:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34A2) { ovl__34A2(0xFF); }
 	goto l__06B0;
 l__06B0:
 	emu_pop(&emu_cx);
@@ -1231,6 +1233,8 @@ l__0933:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34A2) { ovl__34A2(0xFF); }
 	goto l__0944;
 l__0944:
 	emu_pop(&emu_cx);
@@ -1271,6 +1275,8 @@ l__09F3:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34A2) { ovl__34A2(0xFF); }
 	goto l__0A0B;
 l__0A0B:
 	emu_addw(&emu_sp, 0x6);

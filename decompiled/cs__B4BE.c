@@ -236,6 +236,8 @@ l__00AE:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__00BA;
 l__00BA:
 	emu_xorw(&emu_ax, emu_ax);
@@ -469,6 +471,8 @@ l__024E:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34BE) { ovl__34BE(0xFF); }
 	goto l__025B;
 l__025B:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6CDB));

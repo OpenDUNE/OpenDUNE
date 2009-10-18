@@ -109,6 +109,8 @@ l__004D:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34DA) { ovl__34DA(0xFF); }
 	goto l__0068;
 l__0068:
 	emu_addw(&emu_sp, 0x8);

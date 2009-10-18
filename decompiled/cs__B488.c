@@ -248,6 +248,8 @@ l__0175:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3488) { ovl__3488(0xFF); }
 	goto l__0184;
 l__0184:
 	emu_pop(&emu_cx);
@@ -288,6 +290,8 @@ l__01A4:
 			emu_call();
 			return;
 	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3488) { ovl__3488(0xFF); }
 	goto l__01B5;
 l__01B5:
 	emu_addw(&emu_sp, 0x6);
