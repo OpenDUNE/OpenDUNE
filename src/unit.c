@@ -17,7 +17,8 @@ extern void f__2BB4_0004_0027_DC1D();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__176C_000E_000E_633D();
-extern void ovl__34CD(uint8 entry);
+extern void f__B4CD_01BF_0016_E78F();
+extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
 
@@ -158,7 +159,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(0x01);
-	emu_push(emu_cs); emu_push(0x0B26); emu_cs = 0x34CD; ovl__34CD(22);
+	emu_push(emu_cs); emu_push(0x0B26); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
 	if (houseID == g_global->playerHouseID) {

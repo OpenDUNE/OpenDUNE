@@ -42,7 +42,7 @@ l__0010:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
 	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3533) { ovl__3533(0xFF); }
+	if (emu_cs == 0x3533) { overlay(0x3533, 1); }
 	goto l__0033;
 l__0033:
 	emu_addw(&emu_sp, 0x8);

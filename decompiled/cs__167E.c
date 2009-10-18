@@ -945,7 +945,7 @@ l__0354:
 l__038C:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0395); emu_cs = 0x34CD; ovl__34CD(19);
+	emu_push(emu_cs); emu_push(0x0395); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 	goto l__0395;
 l__0395:
 	emu_pop(&emu_cx);

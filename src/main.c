@@ -11,8 +11,8 @@ extern void emu_Mouse_EventHandler();
 
 extern void System_Init_Global();
 extern void System_Init_Building();
-extern void System_Init_Unit();
 extern void System_Init_Input();
+extern void System_Init_Unit();
 
 #if defined(__APPLE__)
 int SDL_main(int argc, char **argv)
@@ -32,8 +32,8 @@ int main(int argc, char **argv)
 
 	System_Init_Global();
 	System_Init_Building();
-	System_Init_Unit();
 	System_Init_Input();
+	System_Init_Unit();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

@@ -592,7 +592,7 @@ l__0159:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0161); emu_cs = 0x34C1; ovl__34C1(1);
+	emu_push(emu_cs); emu_push(0x0161); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0000_0022_1807();
 	goto l__0161;
 l__0161:
 	emu_addw(&emu_sp, 0x8);

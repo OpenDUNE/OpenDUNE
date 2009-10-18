@@ -31,21 +31,105 @@
  * @implements 261F:019F:001B:EDBF
  *
  * Called From: 3480:0000:0002:0000
+ * Called From: 3483:0020:0002:0000
+ * Called From: 3483:0025:0002:0000
+ * Called From: 3483:002A:0002:0000
+ * Called From: 3483:002F:0002:0000
+ * Called From: 3483:0034:0002:0000
+ * Called From: 3488:0020:0002:0000
  * Called From: 348B:0000:0002:0000
+ * Called From: 348B:0020:0002:0000
+ * Called From: 348B:0025:0002:0000
+ * Called From: 348B:002F:0002:0000
+ * Called From: 348B:0034:0002:0000
+ * Called From: 348B:0039:0002:0000
+ * Called From: 348B:003E:0002:0000
+ * Called From: 348B:0043:0002:0000
  * Called From: 3495:0000:0002:0000
+ * Called From: 3495:0020:0002:0000
  * Called From: 34A2:0000:0002:0000
+ * Called From: 34A2:0020:0002:0000
+ * Called From: 34A2:002A:0002:0000
  * Called From: 34AE:0000:0002:0000
+ * Called From: 34AE:0020:0002:0000
+ * Called From: 34B1:0020:0002:0000
+ * Called From: 34B1:0025:0002:0000
+ * Called From: 34B1:002A:0002:0000
  * Called From: 34B5:0000:0002:0000
+ * Called From: 34B5:0020:0002:0000
  * Called From: 34B8:0000:0002:0000
+ * Called From: 34B8:0020:0002:0000
+ * Called From: 34B8:0025:0002:0000
+ * Called From: 34B8:002A:0002:0000
+ * Called From: 34B8:002F:0002:0000
+ * Called From: 34B8:0034:0002:0000
+ * Called From: 34B8:0039:0002:0000
  * Called From: 34BE:0000:0002:0000
+ * Called From: 34BE:0020:0002:0000
+ * Called From: 34C1:0020:0002:0000
+ * Called From: 34C1:0025:0002:0000
+ * Called From: 34C1:002A:0002:0000
+ * Called From: 34C4:0020:0002:0000
+ * Called From: 34CA:0020:0002:0000
  * Called From: 34CD:0000:0002:0000
+ * Called From: 34CD:0057:0002:0000
+ * Called From: 34CD:005C:0002:0000
+ * Called From: 34CD:0061:0002:0000
+ * Called From: 34CD:008E:0002:0000
+ * Called From: 34CD:00A2:0002:0000
+ * Called From: 34CD:00B1:0002:0000
+ * Called From: 34CD:00B6:0002:0000
+ * Called From: 34CD:00C0:0002:0000
  * Called From: 34DA:0000:0002:0000
+ * Called From: 34DA:0020:0002:0000
+ * Called From: 34DA:0025:0002:0000
+ * Called From: 34DA:002A:0002:0000
+ * Called From: 34DA:002F:0002:0000
+ * Called From: 34DA:0034:0002:0000
+ * Called From: 34DA:0039:0002:0000
  * Called From: 34E0:0000:0002:0000
+ * Called From: 34E0:0020:0002:0000
+ * Called From: 34E6:0025:0002:0000
  * Called From: 34E9:0000:0002:0000
+ * Called From: 34E9:0020:0002:0000
+ * Called From: 34E9:0025:0002:0000
+ * Called From: 34E9:002A:0002:0000
+ * Called From: 34E9:002F:0002:0000
+ * Called From: 34ED:0020:0002:0000
  * Called From: 34F2:0000:0002:0000
+ * Called From: 34F2:0020:0002:0000
+ * Called From: 34F2:0025:0002:0000
+ * Called From: 34F2:002A:0002:0000
+ * Called From: 34F2:002F:0002:0000
+ * Called From: 34FC:0020:0002:0000
+ * Called From: 34FC:0025:0002:0000
+ * Called From: 3500:0020:0002:0000
  * Called From: 3503:0000:0002:0000
+ * Called From: 3503:0020:0002:0000
+ * Called From: 350B:0020:0002:0000
  * Called From: 3511:0000:0002:0000
+ * Called From: 3511:0020:0002:0000
+ * Called From: 3511:002A:0002:0000
+ * Called From: 3511:0034:0002:0000
+ * Called From: 3511:0039:0002:0000
+ * Called From: 3511:003E:0002:0000
+ * Called From: 3511:0043:0002:0000
  * Called From: 3518:0000:0002:0000
+ * Called From: 3518:0020:0002:0000
+ * Called From: 3518:0025:0002:0000
+ * Called From: 3518:0066:0002:0000
+ * Called From: 3520:0025:0002:0000
+ * Called From: 3520:0034:0002:0000
+ * Called From: 3520:004D:0002:0000
+ * Called From: 3527:0020:0002:0000
+ * Called From: 352A:0020:0002:0000
+ * Called From: 352A:002A:0002:0000
+ * Called From: 3530:0020:0002:0000
+ * Called From: 3533:0020:0002:0000
+ * Called From: 3536:002F:0002:0000
+ * Called From: 3536:0039:0002:0000
+ * Called From: 353B:0020:0002:0000
+ * Called From: 353B:002F:0002:0000
  */
 void f__261F_0008_0033_66ED()
 {
@@ -105,7 +189,7 @@ l__0062:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x6C82);
 	emu_push(0x0072);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x353B0020: ovl__353B(0); break;
+		case 0x353B0020: overlay(0x353B, 0); f__B53B_0289_001F_95C1(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x261F; emu_last_ip = 0x006E; emu_last_length = 0x0010; emu_last_crc = 0xF80A;
