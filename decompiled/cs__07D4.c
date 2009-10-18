@@ -645,6 +645,7 @@ l__034B:
  * @implements 07D4:0CE4:001B:A044
  * @implements 07D4:0CF0:000F:4EEF
  * @implements 07D4:0CFF:0004:3BFB
+ * @implements 07D4:0D03:0007:004A
  * @implements 07D4:0D0A:0007:0DCA
  * @implements 07D4:0D11:001C:0497
  * @implements 07D4:0D49:0002:C03A
@@ -695,6 +696,8 @@ l__034B:
  * @implements 07D4:10FA:0015:B78B
  * @implements 07D4:110F:0006:C2E7
  * @implements 07D4:1115:001F:2FB5
+ * @implements 07D4:1134:0006:F2E5
+ * @implements 07D4:113A:0037:51F0
  * @implements 07D4:1161:0010:4321
  * @implements 07D4:116B:0006:C6A4
  * @implements 07D4:1177:003C:1BA2
@@ -1962,6 +1965,7 @@ l__0CFF:
 	/* Jump based on memory/register values */
 	emu_ip = emu_get_memory16(emu_cs, emu_bx, 0x8);
 	switch (emu_ip) {
+		case 0x0D03: goto l__0D03;
 		case 0x0D0A: goto l__0D0A;
 		case 0x0D11: goto l__0D11;
 		default:
@@ -1970,6 +1974,9 @@ l__0CFF:
 			emu_call();
 			return;
 	}
+l__0D03:
+	emu_get_memory16(emu_ss, emu_bp, -0x2E) = 0xFFFE;
+	goto l__0D4B;
 l__0D0A:
 	emu_get_memory16(emu_ss, emu_bp, -0x2E) = 0xFFFD;
 	goto l__0D4B;
@@ -2391,6 +2398,7 @@ l__10DE:
 		case 0x10E5: goto l__10E5;
 		case 0x10F4: goto l__10F4;
 		case 0x110F: goto l__110F;
+		case 0x1134: goto l__1134;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x10E0; emu_last_length = 0x0007; emu_last_crc = 0x62A3;
@@ -2438,6 +2446,28 @@ l__1115:
 	emu_shlw(&emu_bx, emu_cl);
 	emu_ax = emu_get_memory16(emu_ds, emu_bx, 0x3306);
 	goto l__116B;
+l__1134:
+	emu_push(emu_di);
+	emu_push(emu_cs); emu_push(0x113A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	goto l__113A;
+l__113A:
+	emu_pop(&emu_cx);
+	emu_di = emu_ax;
+	emu_bx = emu_di;
+	emu_cl = 0x2;
+	emu_shlw(&emu_bx, emu_cl);
+	emu_ax = emu_get_memory16(emu_ds, emu_bx, 0x32E4);
+	emu_dx = 0x3;
+	emu_imuluw(&emu_ax, emu_dx);
+	emu_addw(&emu_si, emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x22));
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0x6D);
+	emu_ax = (int8)emu_al;
+	emu_andw(&emu_ax, 0x3);
+	emu_shlw(&emu_ax, 0x1);
+	emu_bx = emu_ax;
+	emu_addw(&emu_si, emu_get_memory16(emu_ds, emu_bx, 0x33AE));
+	goto l__1161;
 l__1161:
 	emu_bx = emu_di;
 	emu_cl = 0x2;

@@ -1647,6 +1647,7 @@ l__09A5:
  * Called From: 1391:056B:0008:A466
  * Called From: 1391:0594:0008:A466
  * Called From: 176C:26BF:0010:DEE5
+ * Called From: 1A34:2317:0008:A466
  * Called From: 1A34:294B:0011:8182
  * Called From: B4E9:00F4:0015:9971
  * Called From: B4E9:00F4:0016:FD70

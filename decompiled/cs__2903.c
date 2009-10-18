@@ -170,6 +170,7 @@ l__00CA:
  * Called From: 07D4:0F95:002B:0C2A
  * Called From: 07D4:11FF:0049:B9BB
  * Called From: 07D4:1238:0025:37A1
+ * Called From: 07D4:1238:0036:A4AC
  * Called From: 07D4:188B:0069:7F32
  * Called From: 07D4:188B:006E:C38D
  * Called From: 0AEC:0931:0039:D31B
@@ -193,6 +194,7 @@ l__00CA:
  * Called From: B495:09EC:002B:80B3
  * Called From: B495:1023:005C:8468
  * Called From: B495:1045:001D:3294
+ * Called From: B495:10E9:005C:046A
  * Called From: B495:110B:001D:B296
  * Called From: B495:12D1:0028:4959
  * Called From: B495:1454:004D:AD7F

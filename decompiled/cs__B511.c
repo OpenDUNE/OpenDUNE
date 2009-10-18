@@ -158,6 +158,7 @@ l__008A:
  * @implements B511:022E:0020:51C6
  * @implements B511:0258:0018:7FFC
  * @implements B511:0270:001B:5DD0
+ * @implements B511:028B:0026:BBFB
  * @implements B511:02A3:000E:EBD1
  * @implements B511:02B1:001D:CE78
  * @implements B511:02CE:0023:44EC
@@ -451,7 +452,17 @@ l__0270:
 	emu_push(emu_cs); emu_push(0x028B); emu_cs = 0x10BE; emu_House_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	/* Unresolved jump */ emu_ip = 0x028B; emu_last_cs = 0xB511; emu_last_ip = 0x028B; emu_last_length = 0x001B; emu_last_crc = 0x5DD0; emu_call();
+	goto l__028B;
+l__028B:
+	emu_pop(&emu_cx);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
+	emu_cx = emu_get_memory16(emu_es, emu_bx, 0xC);
+	emu_bx = emu_get_memory16(emu_es, emu_bx, 0xA);
+	emu_si = emu_ax;
+	emu_es = emu_dx;
+	emu_get_memory16(emu_es, emu_si, 0x20) = emu_cx;
+	emu_get_memory16(emu_es, emu_si, 0x1E) = emu_bx;
+	goto l__02A3;
 l__02A3:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);

@@ -11,8 +11,10 @@
  * @implements B530:0000:0010:8273 ()
  * @implements B530:0010:0023:BD3C
  * @implements B530:0033:000B:E2C7
+ * @implements B530:003C:0002:C5BA
  * @implements B530:003E:000B:90D9
  * @implements B530:003F:000A:50D1
+ * @implements B530:0044:0005:5395
  * @implements B530:0049:0003:2E57
  *
  * Called From: 3530:0020:0005:0000
@@ -25,7 +27,7 @@ l__0000:
 	emu_push(emu_si);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0044; emu_last_cs = 0xB530; emu_last_ip = 0x000A; emu_last_length = 0x0010; emu_last_crc = 0x8273; emu_call(); return; }
+	if (emu_ax == 0) goto l__0044;
 	emu_xorw(&emu_si, emu_si);
 	goto l__003F;
 l__0010:
@@ -48,6 +50,8 @@ l__0033:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__003E;
 	emu_ax = emu_si;
+	goto l__003C;
+l__003C:
 	goto l__0049;
 l__003E:
 	emu_incw(&emu_si);
@@ -55,8 +59,10 @@ l__003E:
 l__003F:
 	emu_cmpw(&emu_si, 0x13);
 	if ((int16)emu_si < (int16)0x13) goto l__0010;
+	goto l__0044;
+l__0044:
 	emu_ax = 0xFFFF;
-	/* Unresolved jump */ emu_ip = 0x003C; emu_last_cs = 0xB530; emu_last_ip = 0x0047; emu_last_length = 0x000A; emu_last_crc = 0x50D1; emu_call();
+	goto l__003C;
 l__0049:
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);

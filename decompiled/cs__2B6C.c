@@ -242,6 +242,7 @@ l__012C:
  * Called From: 0642:040F:0005:6168
  * Called From: 0642:042B:0005:6168
  * Called From: 0F78:0170:003E:BA89
+ * Called From: 0F78:0170:0011:C0E1
  * Called From: 10E4:029F:0008:D3E0
  * Called From: 10E4:04BA:0006:0569
  * Called From: 10E4:2215:0006:0569

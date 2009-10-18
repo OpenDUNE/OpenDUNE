@@ -384,10 +384,12 @@ l__009D:
  * @implements 0F3F:00D6:0008:643C
  *
  * Called From: 06F7:0088:002E:4089
+ * Called From: 06F7:044D:0016:DBF2
  * Called From: 0972:0F38:001C:C333
  * Called From: 0972:1270:000E:E53D
  * Called From: 0C3A:2397:005A:53AA
  * Called From: 0C3A:23B5:0016:3ADC
+ * Called From: 0C3A:23B5:001E:17E0
  * Called From: 0EDB:0231:0014:ECFD
  * Called From: 0F3F:0114:0013:C3B8
  * Called From: 167E:03CB:001E:4E1D

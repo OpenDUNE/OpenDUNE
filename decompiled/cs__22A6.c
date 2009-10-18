@@ -1133,6 +1133,7 @@ l__096D:
  * @implements 22A6:0B0D:0032:6BD9
  * @implements 22A6:0B12:002D:CB6F
  * @implements 22A6:0B2E:0011:81AA
+ * @implements 22A6:0B36:0009:8FA3
  * @implements 22A6:0B3D:0002:CB3A
  * @implements 22A6:0B3F:0014:336A
  * @implements 22A6:0B48:000B:1D5C
@@ -1324,8 +1325,11 @@ l__0B12:
 l__0B2E:
 	emu_dx = emu_cx;
 	emu_shrw(&emu_cx, 0x1);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x0B36; emu_last_cs = 0x22A6; emu_last_ip = 0x0B32; emu_last_length = 0x0011; emu_last_crc = 0x81AA; emu_call(); return; }
-	emu_rep_stosw();
+	if (!emu_flags.zf) {
+		emu_rep_stosw();
+	}
+	goto l__0B36;
+l__0B36:
 	emu_testw(&emu_dx, 0x1);
 	if ((emu_dx & 0x1) != 0) {
 		emu_stosb();
