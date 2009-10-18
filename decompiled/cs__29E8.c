@@ -753,7 +753,7 @@ l__0897:
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x1B1));
 	if (emu_ax != emu_get_memory16(emu_cs, 0x00, 0x1B1)) goto l__08AD;
 	emu_sti();
-	f__29E8_0897_0016_2028(); return;
+	goto l__0897;
 l__08AD:
 	emu_push(0x08B0); f__29E8_074D_0066_6E9B();
 	goto l__08B0;

@@ -811,13 +811,13 @@ l__0530:
 	goto l__0538;
 l__0538:
 	emu_incw(&emu_di);
-	if (--emu_cx != 0) { f__2903_0530_0008_CF42(); return; }
+	if (--emu_cx != 0) goto l__0530;
 	goto l__0544;
 l__053D:
 	emu_lodsb(emu_ds);
 	emu_addw(&emu_di, emu_ax);
 	emu_subw(&emu_cx, emu_ax);
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { f__2903_0530_0008_CF42(); return; }
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__0530;
 	goto l__0544;
 l__0544:
 

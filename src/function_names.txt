@@ -103,4 +103,4 @@ B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
-B4DA:157C:0026:46F6	emu_Security_ValidateAnswer
+B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong

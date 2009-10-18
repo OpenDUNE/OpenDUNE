@@ -413,7 +413,7 @@ l__0211:
 	goto l__0226;
 l__0226:
 	emu_pop(&emu_es);
-	f__01F7_01ED_0024_A432(); return;
+	goto l__01ED;
 	emu_calln(emu_get_memory16(emu_es, emu_bx, 0x2), 0x022D, 0x0229);
 l__0230:
 
@@ -499,7 +499,7 @@ l__0252:
 	goto l__0267;
 l__0267:
 	emu_pop(&emu_es);
-	f__01F7_0231_0021_40ED(); return;
+	goto l__0231;
 l__026A:
 
 	/* Call based on memory/register values */

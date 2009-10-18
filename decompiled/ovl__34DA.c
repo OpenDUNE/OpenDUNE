@@ -56,7 +56,7 @@ void ovl__34DA(uint8 entry)
 		case 2: f__B4DA_0308_0018_F99F(); return;
 		case 3: f__B4DA_0A8E_0025_4AC8(); return;
 		case 4: f__B4DA_0AB8_002A_AAB2(); return;
-		case 5: f__B4DA_1099_0024_C93B(); return;
+		case 5: emu_Security_Main(); return;
 		case 6: f__B4DA_16CB_001D_31CC(); return;
 	}
 }

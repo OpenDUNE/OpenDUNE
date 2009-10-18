@@ -433,7 +433,7 @@ void f__2B6C_0169_001E_6939()
 {
 l__0169:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705E), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x705E) != 0x0) { f__2B6C_0169_001E_6939(); return; }
+	if (emu_get_memory16(emu_ds, 0x00, 0x705E) != 0x0) goto l__0169;
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x705E));
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7097), 0x0);
 	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) goto l__0192;
