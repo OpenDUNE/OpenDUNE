@@ -61,14 +61,88 @@ typedef struct GlobalData {
 	                                                         *   "Misc allocations: %ld\"
 	                                                         *   "Spare RAM: %ld\"
 	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
-	/* 0217()    */ PACK uint8   unknown_0217[0x209D];
+	/* 0217()    */ PACK uint8   unknown_0217[0x1C8A];
+	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */
+	/* 1EAA(8)   */ PACK char   string_1EAA[8];             /*!< "EFINALA" NULL terminated. */
+	/* 1EB2(15)  */ PACK char   string_1EB2[15];            /*!< "SCEN%c%03d.INI" NULL terminated. */
+	/* 1EC1(6)   */ PACK char   string_1EC1[6];             /*!< "BASIC" NULL terminated. */
+	/* 1EC7(9)   */ PACK char   string_1EC7[9];             /*!< "WinFlags" NULL terminated. */
+	/* 1ED0(10)  */ PACK char   string_1ED0[10];            /*!< "LoseFlags" NULL terminated. */
+	/* 1EDA(4)   */ PACK char   string_1EDA[4];             /*!< "MAP" NULL terminated. */
+	/* 1EDE(5)   */ PACK char   string_1EDE[5];             /*!< "Seed" NULL terminated. */
+	/* 1EE3(8)   */ PACK char   string_1EE3[8];             /*!< "TimeOut" NULL terminated. */
+	/* 1EEB(12)  */ PACK char   string_1EEB[12];            /*!< "TacticalPos" NULL terminated. */
+	/* 1EF7(10)  */ PACK char   string_1EF7[10];            /*!< "CursorPos" NULL terminated. */
+	/* 1F01(9)   */ PACK char   string_1F01[9];             /*!< "MapScale" NULL terminated. */
+	/* 1F0A(13)  */ PACK char   string_1F0A[13];            /*!< "BriefPicture" NULL terminated. */
+	/* 1F17(12)  */ PACK char   string_1F17[12];            /*!< "HARVEST.WSA" NULL terminated. */
+	/* 1F23(11)  */ PACK char   string_1F23[11];            /*!< "WinPicture" NULL terminated. */
+	/* 1F2E(9)   */ PACK char   string_1F2E[9];             /*!< "WIN1.WSA" NULL terminated. */
+	/* 1F37(12)  */ PACK char   string_1F37[12];            /*!< "LosePicture" NULL terminated. */
+	/* 1F43(13)  */ PACK char   string_1F43[13];            /*!< "LOSTBILD.WSA" NULL terminated. */
+	/* 1F50(6)   */ PACK char   string_1F50[6];             /*!< "Brain" NULL terminated. */
+	/* 1F56(5)   */ PACK char   string_1F56[5];             /*!< "NONE" NULL terminated. */
+	/* 1F5B(10)  */ PACK char   string_1F5B[10];            /*!< "HUMAN$CPU" NULL terminated. */
+	/* 1F65(8)   */ PACK char   string_1F65[8];             /*!< "Credits" NULL terminated. */
+	/* 1F6D(6)   */ PACK char   string_1F6D[6];             /*!< "Quota" NULL terminated. */
+	/* 1F73(8)   */ PACK char   string_1F73[8];             /*!< "MaxUnit" NULL terminated. */
+	/* 1F7B(6)   */ PACK char   string_1F7B[6];             /*!< "UNITS" NULL terminated. */
+	/* 1F81(2)   */ PACK char   string_1F81[2];             /*!< "," NULL terminated. */
+	/* 1F83(4)   */ PACK char   string_1F83[4];             /*!< ",\r\n" NULL terminated. */
+	/* 1F87(11)  */ PACK char   string_1F87[11];            /*!< "STRUCTURES" NULL terminated. */
+	/* 1F92(4)   */ PACK char   string_1F92[4];             /*!< "GEN" NULL terminated. */
+	/* 1F96(6)   */ PACK char   string_1F96[6];             /*!< "Bloom" NULL terminated. */
+	/* 1F9C(3)   */ PACK char   string_1F9C[3];             /*!< ",\n" NULL terminated. */
+	/* 1F9F(6)   */ PACK char   string_1F9F[6];             /*!< "Field" NULL terminated. */
+	/* 1FA5(8)   */ PACK char   string_1FA5[8];             /*!< "Special" NULL terminated. */
+	/* 1FAD(15)  */ PACK char   string_1FAD[15];            /*!< "REINFORCEMENTS" NULL terminated. */
+	/* 1FBC(61)  */ PACK char   string_1FBC[61];            /*!< "0NORTH$1EAST$2SOUTH$3WEST$4AIR$5VISIBLE$6ENEMYBASE$7HOMEBASE" NULL terminated. */
+	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
+	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
+	/* 2005()    */ PACK uint8   unknown_2005[0x02AF];
 	/* 22B4(12)  */ PACK char   string_22B4[12];            /*!< "PROFILE.INI" NULL terminated. */
 	/* 22C0(8)   */ PACK char   string_22C0[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 22C8()    */ PACK uint8   unknown_22C8[0x0028];
-	/* 22F0(13)  */ PACK char   string_22F0[13];            /*!< "_SAVE000.DAT" NULL terminated. */
+	/* 22C8(8)   */ PACK char   string_22C8[8];             /*!< "MESSAGE" NULL terminated. */
+	/* 22D0(11)  */ PACK char   string_22D0[11];            /*!< "new6pg.fnt" NULL terminated. */
+	/* 22DB(10)  */ PACK char   string_22DB[10];            /*!< "new6p.fnt" NULL terminated. */
+	/* 22E5(5)   */ PACK char   string_22E5[5];             /*!< "TEAM" NULL terminated. */
+	/* 22EA(6)   */ PACK char   string_22EA[6];             /*!< "BUILD" NULL terminated. */
+	/* 22F0(13)  */ PACK char   string_22F0[13];            /*!< "_save000.dat" NULL terminated. */
 	/* 22FD(13)  */ PACK char   string_22FD[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
 	/* 230A(12)  */ PACK char   string_230A[12];            /*!< "ONETIME.DAT" NULL terminated. */
-	/* 2316()    */ PACK uint8   unknown_2316[0x12D2];
+	/* 2316(5)   */ PACK char   string_2316[5];             /*!< "DUNE" NULL terminated. */
+	/* 231B(6)   */ PACK char   string_231B[6];             /*!< "TITLE" NULL terminated. */
+	/* 2321(6)   */ PACK char   string_2321[6];             /*!< "V1.07" NULL terminated. */
+	/* 2327(9)   */ PACK char   string_2327[9];             /*!< "DUNE.LOG" NULL terminated. */
+	/* 2330(7)   */ PACK char   string_2330[7];             /*!< "%s.EMC" NULL terminated. */
+	/* 2337()    */ PACK uint8   unknown_2337[0x0002];
+	/* 2339(7)   */ PACK char   string_2339[7];             /*!< "INTRO1" NULL terminated. */
+	/* 2340(7)   */ PACK char   string_2340[7];             /*!< "INTRO2" NULL terminated. */
+	/* 2347(7)   */ PACK char   string_2347[7];             /*!< "INTRO3" NULL terminated. */
+	/* 234E(7)   */ PACK char   string_234E[7];             /*!< "INTRO9" NULL terminated. */
+	/* 2355(8)   */ PACK char   string_2355[8];             /*!< "INTRO10" NULL terminated. */
+	/* 235D(8)   */ PACK char   string_235D[8];             /*!< "EFINALA" NULL terminated. */
+	/* 2365(8)   */ PACK char   string_2365[8];             /*!< "INTRO11" NULL terminated. */
+	/* 236D(8)   */ PACK char   string_236D[7];             /*!< "INTRO4" NULL terminated. */
+	/* 2374(8)   */ PACK char   string_2374[7];             /*!< "INTRO6" NULL terminated. */
+	/* 237C(8)   */ PACK char   string_237B[8];             /*!< "INTRO7a" NULL terminated. */
+	/* 2384(8)   */ PACK char   string_2385[8];             /*!< "INTRO7b" NULL terminated. */
+	/* 238C(8)   */ PACK char   string_238B[8];             /*!< "INTRO8a" NULL terminated. */
+	/* 2394(8)   */ PACK char   string_2395[8];             /*!< "INTRO8b" NULL terminated. */
+	/* 239C(8)   */ PACK char   string_239B[8];             /*!< "INTRO8c" NULL terminated. */
+	/* 23A3(8)   */ PACK char   string_23A2[7];             /*!< "INTRO5" NULL terminated. */
+	/* 23A9(8)   */ PACK char   string_23A8[6];             /*!< "INTRO" NULL terminated. */
+	/* 23B1(13)  */ PACK char   string_23B0[13];            /*!< "WESTWOOD.PAL" NULL terminated. */
+	/* 23BE(13)  */ PACK char   string_23BD[13];            /*!< "WESTWOOD.WSA" NULL terminated. */
+	/* 23CB(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
+	/* 23CF(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
+	/* 23D9()    */ PACK uint8   unknown_23D9[0x019B];
+	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
+	/* 257F()    */ PACK uint8   unknown_257F[0x0007];
+	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
+	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
+	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
+	/* 25A4()    */ PACK uint8   unknown_25A4[0x1044];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
@@ -92,8 +166,10 @@ typedef struct GlobalData {
 	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
 	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
 	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
-	/* 38DA(4)   */ PACK csip32 variable_38DA;              /*!< ?? */
-	/* 38DE(4)   */ PACK csip32 variable_38DE;              /*!< ?? */
+	/* 38DA(2)   */ PACK uint16 variable_38DA;              /*!< ?? */
+	/* 38DC(2)   */ PACK uint16 variable_38DC;              /*!< ?? */
+	/* 38DE(2)   */ PACK uint16 variable_38DE;              /*!< ?? */
+	/* 38E0(2)   */ PACK uint16 variable_38E0;              /*!< ?? */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
