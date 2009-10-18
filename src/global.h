@@ -166,8 +166,7 @@ typedef struct GlobalData {
 	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
 	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
 	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
-	/* 38DA(2)   */ PACK uint16 variable_38DA;              /*!< ?? */
-	/* 38DC(2)   */ PACK uint16 variable_38DC;              /*!< ?? */
+	/* 38DA(4)   */ PACK csip32 variable_38DA;              /*!< ?? */
 	/* 38DE(2)   */ PACK uint16 variable_38DE;              /*!< ?? */
 	/* 38E0(2)   */ PACK uint16 variable_38E0;              /*!< ?? */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
