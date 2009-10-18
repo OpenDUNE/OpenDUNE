@@ -3,7 +3,6 @@
 #include "../src/unit.h"
 #include "../src/interrupt.h"
 #include "../src/building.h"
-#include "../src/global.h"
 #include "../src/patched.h"
 #include "../src/airunit.h"
 #include "../src/house.h"
@@ -12,6 +11,7 @@
 #include "../src/pool/building.h"
 #include "../src/pool/unit.h"
 #include "../src/pool/house.h"
+#include "../src/global.h"
 #include "../src/input/input.h"
 extern void ovl__348B(uint8 entry);
 extern void ovl__3495(uint8 entry);

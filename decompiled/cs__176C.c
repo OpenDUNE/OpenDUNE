@@ -5809,6 +5809,7 @@ l__2AAC:
  * @implements 176C:2AF0:0019:4CEF
  * @implements 176C:2B09:0010:CBE1
  * @implements 176C:2B19:0013:3522
+ * @implements 176C:2B2C:001B:CD26
  * @implements 176C:2B2D:001A:0D2E
  * @implements 176C:2B32:0015:D16B
  * @implements 176C:2B7C:0002:CA3A
@@ -5872,8 +5873,11 @@ l__2B19:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x2B2C; emu_last_cs = 0x176C; emu_last_ip = 0x2B28; emu_last_length = 0x0013; emu_last_crc = 0x3522; emu_call(); return; }
+	if (emu_ax == 0) goto l__2B2C;
 	goto l__2B32;
+l__2B2C:
+	emu_incw(&emu_si);
+	goto l__2B2D;
 l__2B2D:
 	emu_cmpw(&emu_si, 0x4);
 	if ((int16)emu_si < (int16)0x4) goto l__2AF0;
