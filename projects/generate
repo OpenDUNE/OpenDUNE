@@ -16,22 +16,23 @@ fi
 
 generate_data()
 {
-svn ls -R "$ROOT_DIR/$1" | grep "\.[ch]" | awk '
+find "$ROOT_DIR/$1" -path "*/.svn" -prune -o -type f -name "*.[ch]" -print | awk '
 BEGIN {
 	print "		<Filter";
 	print "			Name=\"'$1'\"";
 	print "			>";
 }
 {
+	gsub("'$ROOT_DIR/'", "");
 	gsub("/", "\\");
 	print "			<File";
-	print "				RelativePath=\"..\\'$1'\\" $0 "\"";
+	print "				RelativePath=\"..\\" $0 "\"";
 	print "				>";
 	split($0, a, ".");
 	if (a[2] == "c") {
 		len = split(a[1], b, "\\");
-		a[1] = "'$1'";
-		for (i = 1; i < len; i++) {
+		a[1] = b[1];
+		for (i = 2; i < len; i++) {
 			a[1] = a[1] "\\" b[i];
 		}
 		print "				<FileConfiguration";
