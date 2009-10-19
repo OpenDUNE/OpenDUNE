@@ -5334,6 +5334,7 @@ l__25E6:
  * @implements 0C3A:2710:0004:893F
  *
  * Called From: 0972:02DF:000D:FA04
+ * Called From: 0972:02DF:006D:68DA
  * Called From: 0C3A:0117:0016:49D5
  * Called From: 0C3A:0117:0045:1FBC
  * Called From: 0C3A:016B:000B:9990

@@ -11,6 +11,7 @@
  * @implements 2B6C:000E:0045:C1FE ()
  * @implements 2B6C:0053:001B:7422
  * @implements 2B6C:005C:0012:99BA
+ * @implements 2B6C:0066:0008:FF9D
  *
  * Called From: 29A3:016C:0008:63C3
  * Called From: 2B4C:0045:0008:63C3
@@ -31,7 +32,7 @@ l__000E:
 	emu_ax = 0x353F;
 	emu_ds = emu_ax;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7097), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) { /* Unresolved jump */ emu_ip = 0x0066; emu_last_cs = 0x2B6C; emu_last_ip = 0x001F; emu_last_length = 0x0045; emu_last_crc = 0xC1FE; emu_call(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) goto l__0066;
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x706A), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x706A) != 0x0) goto l__005C;
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x709A);
@@ -70,6 +71,8 @@ l__0053:
 l__005C:
 	emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x706A), 0x1);
 	emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x706A), 0x0);
+	goto l__0066;
+l__0066:
 	emu_pop(&emu_ds);
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
@@ -379,6 +382,7 @@ l__0162:
  * Called From: 10E4:056F:0006:E56C
  * Called From: 10E4:226B:0008:1BE5
  * Called From: 1423:03C9:0005:816D
+ * Called From: 2B6C:016E:001E:6939
  * Called From: B495:0765:0008:43E5
  * Called From: B495:0B98:0008:43E5
  * Called From: B495:0D2C:0008:43E5
@@ -412,6 +416,7 @@ l__0162:
  * Called From: B4F2:0F1D:0008:33E5
  * Called From: B4F2:0F61:0008:33E5
  * Called From: B503:04CE:0006:E56C
+ * Called From: B503:04CE:0005:816D
  * Called From: B503:0566:0006:E56C
  * Called From: B503:07E8:0016:22B8
  * Called From: B503:0950:0008:43E5
@@ -429,6 +434,7 @@ l__0162:
  * Called From: B527:00E3:0007:E5DE
  * Called From: B527:025C:0008:3BE5
  * Called From: B527:0362:0008:2BE5
+ * Called From: B53B:0279:0013:11D9
  */
 void f__2B6C_0169_001E_6939()
 {
@@ -524,6 +530,7 @@ l__0192:
  * Called From: B4DA:0D67:0019:74BF
  * Called From: B4DA:0D67:0023:9996
  * Called From: B4DA:0D67:0046:ED1B
+ * Called From: B4DA:0D67:0026:659C
  * Called From: B4DA:0E6D:0014:B893
  * Called From: B4DA:0E6D:0013:2896
  * Called From: B4DA:178D:0017:EE19

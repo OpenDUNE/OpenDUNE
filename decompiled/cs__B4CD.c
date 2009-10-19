@@ -1170,6 +1170,7 @@ l__061A:
 	emu_push(0x0644);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x34CD0020: overlay(0x34CD, 0); f__B4CD_04C4_0010_846B(); break;
+		case 0x34CD002A: overlay(0x34CD, 0); f__B4CD_0194_0011_3CAE(); break;
 		case 0x34CD0039: overlay(0x34CD, 0); f__B4CD_0408_001F_C54A(); break;
 		case 0x34CD0043: overlay(0x34CD, 0); f__B4CD_048E_0012_3E9E(); break;
 		default:

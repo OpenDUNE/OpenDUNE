@@ -10,6 +10,7 @@
  * @name f__06F7_0008_0018_D7CD
  * @implements 06F7:0008:0018:D7CD ()
  * @implements 06F7:0020:0011:E117
+ * @implements 06F7:0023:000E:BD07
  * @implements 06F7:0031:000F:001D
  * @implements 06F7:0040:0007:F7AC
  * @implements 06F7:0047:0012:9B52
@@ -72,6 +73,8 @@
  * Called From: 0972:1580:000C:582A
  * Called From: 0C3A:1386:000E:7330
  * Called From: 176C:13BF:002F:7128
+ * Called From: 176C:13F4:0018:5E8A
+ * Called From: 176C:1443:000E:7A30
  * Called From: 176C:175D:0021:1B31
  * Called From: 1A34:04BC:004B:AB24
  * Called From: 1A34:04BC:005A:1EF0
@@ -92,9 +95,11 @@ l__0008:
 	emu_cmpw(&emu_di, 0xB);
 	if (emu_di != 0xB) goto l__0020;
 	emu_ax = 0x20;
-	/* Unresolved jump */ emu_ip = 0x0023; emu_last_cs = 0x06F7; emu_last_ip = 0x001E; emu_last_length = 0x0018; emu_last_crc = 0xD7CD; emu_call();
+	goto l__0023;
 l__0020:
 	emu_ax = 0x10;
+	goto l__0023;
+l__0023:
 	emu_get_memory16(emu_ss, emu_bp, -0x20) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
@@ -648,6 +653,7 @@ l__0481:
  *
  * @name f__06F7_0493_0015_AAB2
  * @implements 06F7:0493:0015:AAB2 ()
+ * @implements 06F7:04A3:0005:9C87
  * @implements 06F7:04A5:0003:9D13
  * @implements 06F7:04A8:000B:8922
  * @implements 06F7:04B3:000A:7932
@@ -656,6 +662,7 @@ l__0481:
  * @implements 06F7:04DD:008D:B829
  * @implements 06F7:056A:0009:5383
  * @implements 06F7:056B:0008:53A0
+ * @implements 06F7:0573:0003:22AB
  * @implements 06F7:0576:0006:F7CE
  *
  * Called From: 06F7:03F6:0019:5C88
@@ -673,6 +680,8 @@ l__0493:
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	if (emu_ax != 0) goto l__04A8;
+	goto l__04A3;
+l__04A3:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__04A5;
 l__04A5:
@@ -751,8 +760,10 @@ l__056A:
 	goto l__056B;
 l__056B:
 	emu_cmpw(&emu_si, 0x20);
-	if ((int16)emu_si >= (int16)0x20) { /* Unresolved jump */ emu_ip = 0x0573; emu_last_cs = 0x06F7; emu_last_ip = 0x056E; emu_last_length = 0x0008; emu_last_crc = 0x53A0; emu_call(); return; }
+	if ((int16)emu_si >= (int16)0x20) goto l__0573;
 	goto l__04C3;
+l__0573:
+	goto l__04A3;
 l__0576:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);

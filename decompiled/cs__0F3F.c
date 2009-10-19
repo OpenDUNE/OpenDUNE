@@ -215,6 +215,7 @@ l__007E:
  *
  * Called From: 0642:0393:0009:3ADE
  * Called From: 06F7:002C:0011:E117
+ * Called From: 06F7:002C:000E:BD07
  * Called From: 06F7:02B7:0015:A544
  * Called From: 06F7:04AE:000B:8922
  * Called From: 06F7:05C7:0031:20FF
@@ -701,6 +702,7 @@ l__019D:
  *
  * Called From: 0972:16B8:001F:6F53
  * Called From: 16C5:0661:0023:559B
+ * Called From: 176C:1435:002A:1CFB
  * Called From: 176C:23FE:001A:7B69
  * Called From: 176C:28F5:001D:FB78
  * Called From: 1A34:261C:0014:85AF

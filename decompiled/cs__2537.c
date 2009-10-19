@@ -24,6 +24,8 @@
  * Called From: 0EDB:016F:002F:C125
  * Called From: 1391:01F2:0012:F977
  * Called From: 16C5:0903:0013:98D0
+ * Called From: 176C:13DC:0014:7309
+ * Called From: 176C:140B:0010:4117
  * Called From: 176C:2925:0010:8A93
  * Called From: 2C17:0086:000D:EA91
  * Called From: 2C17:00DE:000D:2A92

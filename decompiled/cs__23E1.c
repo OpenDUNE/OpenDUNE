@@ -307,6 +307,7 @@ l__01BE:
  * Called From: B520:03B1:001B:4BEB
  * Called From: B520:03BE:000D:A2A1
  * Called From: B52A:04A1:0030:9D41
+ * Called From: B53B:0266:0012:DC62
  */
 void f__23E1_01C2_0011_24E8()
 {

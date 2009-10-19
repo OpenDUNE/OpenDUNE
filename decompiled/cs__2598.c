@@ -93,6 +93,7 @@
  * Called From: B4F2:0F74:0011:1140
  * Called From: B4F2:10F0:0008:1199
  * Called From: B503:0057:000C:A435
+ * Called From: B503:0057:000F:57EB
  * Called From: B503:0437:000C:DE03
  * Called From: B503:0508:0008:3199
  * Called From: B503:0F17:0010:028B
@@ -114,6 +115,7 @@
  * Called From: B527:0024:0009:E4DB
  * Called From: B527:02AA:0009:D1B5
  * Called From: B53B:0083:001D:6E01
+ * Called From: B53B:0254:000A:EFF5
  */
 void f__2598_0000_0017_EB80()
 {

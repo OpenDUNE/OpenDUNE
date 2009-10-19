@@ -65,6 +65,7 @@ l__0EC6:
  * Called From: B495:11DA:0029:6D47
  * Called From: B495:1210:0029:6D53
  * Called From: B503:069C:0039:8E6A
+ * Called From: B503:069C:002F:2818
  * Called From: B503:06CD:0031:36AF
  * Called From: B503:07D2:0037:C389
  * Called From: B503:0948:002D:DAC3
@@ -345,6 +346,7 @@ l__04D5:
  * Called From: 10E4:052E:002E:B2DF
  * Called From: 2B6C:004F:0045:C1FE
  * Called From: B4F2:0F59:001D:FF8F
+ * Called From: B53B:0233:0029:5454
  */
 void f__22A6_04F8_007A_6E25()
 {
@@ -2030,6 +2032,7 @@ l__0E25:
  * Called From: 22A6:0747:0006:1005
  * Called From: 22A6:074F:0008:FFB7
  * Called From: 22A6:10B8:001D:52A1
+ * Called From: 22A6:10B8:0026:C042
  */
 void f__22A6_0E22_0012_7FC4()
 {
@@ -2484,6 +2487,7 @@ l__10DD:
  *
  * Called From: 259E:0036:001A:E253
  * Called From: 2BC2:007B:0024:8300
+ * Called From: 2BC2:007B:0031:B02D
  */
 void f__22A6_1102_004C_B069()
 {

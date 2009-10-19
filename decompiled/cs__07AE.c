@@ -47,6 +47,7 @@
  * Called From: B527:02A1:0009:18B8
  * Called From: B53B:004B:0050:FEA6
  * Called From: B53B:0090:000D:B84B
+ * Called From: B53B:023E:000B:D182
  */
 void f__07AE_0000_00DF_A32C()
 {

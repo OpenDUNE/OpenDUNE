@@ -85,6 +85,7 @@ l__005D:
  * Called From: 0972:1759:0010:7163
  * Called From: 0AEC:068C:0036:0E6D
  * Called From: 0AEC:06C6:000D:201F
+ * Called From: 0AEC:06C6:001E:C418
  * Called From: 0AEC:06E4:000D:92EB
  * Called From: 0AEC:06F0:000C:A4A0
  * Called From: 0AEC:0B64:0040:84EA

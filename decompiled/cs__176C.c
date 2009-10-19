@@ -45,6 +45,7 @@
  * Called From: 1A34:0D57:0019:C8A8
  * Called From: 1A34:0DE4:0029:C1D4
  * Called From: 1A34:191C:0012:298E
+ * Called From: 1A34:191C:000B:F53C
  * Called From: 1A34:1A11:000B:F53C
  * Called From: 1A34:1A11:0012:298E
  * Called From: 1A34:1DFC:002D:D435
@@ -2537,6 +2538,105 @@ l__13C4:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__13CB;
 l__13CB:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__176C_13CD_0014_7309()
+ *
+ * @name f__176C_13CD_0014_7309
+ * @implements 176C:13CD:0014:7309 ()
+ * @implements 176C:13E1:0018:5E8A
+ * @implements 176C:13F9:0007:D9AC
+ * @implements 176C:1400:0010:4117
+ * @implements 176C:1410:002A:1CFB
+ * @implements 176C:143A:000E:7A30
+ * @implements 176C:1448:000D:26CA
+ * @implements 176C:144C:0009:630F
+ * @implements 176C:1455:0003:2E57
+ *
+ * Called From: 15C2:0932:003A:D1E0
+ */
+void f__176C_13CD_0014_7309()
+{
+l__13CD:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_push(emu_si);
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_ax = 0x32;
+	emu_push(emu_ax);
+	emu_ax = 0x19;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x13E1); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	goto l__13E1;
+l__13E1:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_push(emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6268));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
+	emu_ax = 0xB;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x13F9); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	goto l__13F9;
+l__13F9:
+	emu_addw(&emu_sp, 0xA);
+	emu_xorw(&emu_si, emu_si);
+	goto l__144C;
+l__1400:
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_ax = 0x96;
+	emu_push(emu_ax);
+	emu_ax = 0x4B;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x1410); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	goto l__1410;
+l__1410:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_push(emu_ax);
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0xB);
+	emu_ax = (int8)emu_al;
+	emu_shlw(&emu_ax, 0x1);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_addw(&emu_bx, emu_ax);
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x16));
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6268));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
+	emu_push(emu_cs); emu_push(0x143A); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+	goto l__143A;
+l__143A:
+	emu_addw(&emu_sp, 0x8);
+	emu_push(emu_dx);
+	emu_push(emu_ax);
+	emu_ax = 0xB;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	goto l__1448;
+l__1448:
+	emu_addw(&emu_sp, 0xA);
+	emu_incw(&emu_si);
+	goto l__144C;
+l__144C:
+	emu_cmpw(&emu_si, 0x7);
+	if ((int16)emu_si < (int16)0x7) goto l__1400;
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__1455;
+l__1455:
+	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -6058,6 +6158,33 @@ l__2C6A:
 l__2C6E:
 	emu_pop(&emu_si);
 	emu_sp = emu_bp;
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__176C_2C73_0010_BB2A()
+ *
+ * @name f__176C_2C73_0010_BB2A
+ * @implements 176C:2C73:0010:BB2A ()
+ * @implements 176C:2C83:0002:2597
+ *
+ * Called From: 15C2:0932:003A:D1E0
+ */
+void f__176C_2C73_0010_BB2A()
+{
+l__2C73:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6268));
+	emu_get_memory8(emu_es, emu_bx, 0x6E) = 0x20;
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__2C83;
+l__2C83:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
