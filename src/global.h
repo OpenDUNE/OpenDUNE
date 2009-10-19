@@ -13,6 +13,22 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
 
 MSVC_PACKED_BEGIN
+typedef struct DuneCfg {
+	/* 0(1) */ PACK uint8  variable_0;  /*<! ?? */
+	/* 1(1) */ PACK uint8  variable_1;  /*<! ?? */
+	/* 2(1) */ PACK uint8  variable_2;  /*<! ?? */
+	/* 3(1) */ PACK uint8  variable_3;  /*<! ?? */
+	/* 4(1) */ PACK uint8  variable_4;  /*<! ?? */
+	/* 5(1) */ PACK uint8  variable_5;  /*<! ?? */
+	/* 6(1) */ PACK uint8  variable_6;  /*<! ?? */
+	/* 7(1) */ PACK uint8  variable_7;  /*<! ?? */
+	/* 8(1) */ PACK uint8  language;    /*<! 0:English, 1:French, 2:German. */
+	/* 9(1) */ PACK uint8  checksum;    /*<! Used to check validity on config data. See emu_Config_Decode(). */
+} GCC_PACKED DuneCfg;
+MSVC_PACKED_END
+assert_compile(sizeof(DuneCfg) == 0xA);
+
+MSVC_PACKED_BEGIN
 /**
  * At segment 353F there is a big blob of all kinds of variables and constants.
  *  This struct tries to map all those.
@@ -395,7 +411,7 @@ typedef struct GlobalData {
 	/* 3600()    */ PACK uint8   unknown_3600[0x01A0];
 	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
-	/* 37B6(2)   */ PACK uint16 variable_37B6;              /*!< ?? */
+	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0038];
 	/* 37F0(180) */ PACK uint8  variable_37F0[180];         /*!< ?? It is an array of HOUSE_INDEX_MAX size at most (possible just 3), with a struct size of 0x1E. Position might be wrong. */
 	/* 38A4()    */ PACK uint8   unknown_38A4[0x000C];
@@ -567,7 +583,7 @@ typedef struct GlobalData {
 	/* 87D8()    */ PACK uint8   unknown_87D8[0x1094];
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
 	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
-	/* 98E1(10)  */ PACK uint8  variable_98E1[10];          /*!< Config data. */
+	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x009F];
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
 	/* 998E()    */ PACK uint8   unknown_998E[0x0061];
