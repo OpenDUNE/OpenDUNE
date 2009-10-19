@@ -163,7 +163,99 @@ typedef struct GlobalData {
 	/* 1620(12)  */ PACK char   string_1620[12];            /*!< "-ENOSET.VOC" NULL terminated. */
 	/* 162C(10)  */ PACK char   string_162C[10];            /*!< "-EVIL.VOC" NULL terminated. */
 	/* 1636(10)  */ PACK char   string_1636[10];            /*!< "-HARK.VOC" NULL terminated. */
-	/* 1640()    */ PACK uint8   unknown_1640[0x0861];
+	/* 1640(10)  */ PACK char   string_1640[10];            /*!< "-HOME.VOC" NULL terminated. */
+	/* 164A(12)  */ PACK char   string_164A[12];            /*!< "-HOUSE2.VOC" NULL terminated. */
+	/* 1656(11)  */ PACK char   string_1656[11];            /*!< "-INSID.VOC" NULL terminated. */
+	/* 1661(10)  */ PACK char   string_1661[10];            /*!< "-KING.VOC" NULL terminated. */
+	/* 166B(11)  */ PACK char   string_166B[11];            /*!< "-KNOWN.VOC" NULL terminated. */
+	/* 1676(13)  */ PACK char   string_1676[13];            /*!< "-MELANGE.VOC" NULL terminated. */
+	/* 1683(11)  */ PACK char   string_1683[11];            /*!< "-NOBLE.VOC" NULL terminated. */
+	/* 168E(9)   */ PACK char   string_168E[9];             /*!< "?NOW.VOC" NULL terminated. */
+	/* 1697(12)  */ PACK char   string_1697[12];            /*!< "-OFDUNE.VOC" NULL terminated. */
+	/* 16A3(9)   */ PACK char   string_16A3[9];             /*!< "-ORD.VOC" NULL terminated. */
+	/* 16AC(12)  */ PACK char   string_16AC[12];            /*!< "-PLANET.VOC" NULL terminated. */
+	/* 16B8(13)  */ PACK char   string_16B8[13];            /*!< "-PREVAIL.VOC" NULL terminated. */
+	/* 16C5(14)  */ PACK char   string_16C5[14];            /*!< "-PROPOSED.VOC" NULL terminated. */
+	/* 16D3(14)  */ PACK char   string_16D3[14];            /*!< "-SANDLAND.VOC" NULL terminated. */
+	/* 16E1(11)  */ PACK char   string_16E1[11];            /*!< "-SPICE.VOC" NULL terminated. */
+	/* 16EC(12)  */ PACK char   string_16EC[12];            /*!< "-SPICE2.VOC" NULL terminated. */
+	/* 16F8(10)  */ PACK char   string_16F8[10];            /*!< "-VAST.VOC" NULL terminated. */
+	/* 1702(13)  */ PACK char   string_1702[13];            /*!< "-WHOEVER.VOC" NULL terminated. */
+	/* 170F(10)  */ PACK char   string_170F[10];            /*!< "?YOUR.VOC" NULL terminated. */
+	/* 1719(12)  */ PACK char   string_1719[12];            /*!< "?FILLER.VOC" NULL terminated. */
+	/* 1725(14)  */ PACK char   string_1725[14];            /*!< "-DROPEQ2P.VOC" NULL terminated. */
+	/* 1733(12)  */ PACK char   string_1733[12];            /*!< "/EXTINY.VOC" NULL terminated. */
+	/* 173F(13)  */ PACK char   string_173F[13];            /*!< "-WIND2BP.VOC" NULL terminated. */
+	/* 174C(14)  */ PACK char   string_174C[14];            /*!< "-BRAKES2P.VOC" NULL terminated. */
+	/* 175A(13)  */ PACK char   string_175A[13];            /*!< "-GUNSHOT.VOC" NULL terminated. */
+	/* 1767(11)  */ PACK char   string_1767[11];            /*!< "-GLASS.VOC" NULL terminated. */
+	/* 1772(13)  */ PACK char   string_1772[13];            /*!< "-MISSLE8.VOC" NULL terminated. */
+	/* 177F(11)  */ PACK char   string_177F[11];            /*!< "-CLANK.VOC" NULL terminated. */
+	/* 178A(13)  */ PACK char   string_178A[13];            /*!< "-BLOWUP1.VOC" NULL terminated. */
+	/* 1797(13)  */ PACK char   string_1797[13];            /*!< "-BLOWUP2.VOC" NULL terminated. */
+	/* 17A4(6)   */ PACK char   string_17A4[6];             /*!< "dune1" NULL terminated. */
+	/* 17AA(7)   */ PACK char   string_17AA[7];             /*!< "dune17" NULL terminated. */
+	/* 17B1(6)   */ PACK char   string_17B1[6];             /*!< "dune8" NULL terminated. */
+	/* 17B7(6)   */ PACK char   string_17B7[6];             /*!< "dune2" NULL terminated. */
+	/* 17BD(6)   */ PACK char   string_17BD[6];             /*!< "dune3" NULL terminated. */
+	/* 17C3(6)   */ PACK char   string_17C3[6];             /*!< "dune4" NULL terminated. */
+	/* 17C9(6)   */ PACK char   string_17C9[6];             /*!< "dune5" NULL terminated. */
+	/* 17CF(6)   */ PACK char   string_17CF[6];             /*!< "dune6" NULL terminated. */
+	/* 17D5(6)   */ PACK char   string_17D5[6];             /*!< "dune9" NULL terminated. */
+	/* 17DB(7)   */ PACK char   string_17DB[7];             /*!< "dune18" NULL terminated. */
+	/* 17E2(7)   */ PACK char   string_17E2[7];             /*!< "dune10" NULL terminated. */
+	/* 17E9(7)   */ PACK char   string_17E9[7];             /*!< "dune11" NULL terminated. */
+	/* 17F0(7)   */ PACK char   string_17F0[7];             /*!< "dune12" NULL terminated. */
+	/* 17F7(7)   */ PACK char   string_17F7[7];             /*!< "dune13" NULL terminated. */
+	/* 17FE(7)   */ PACK char   string_17FE[7];             /*!< "dune14" NULL terminated. */
+	/* 1805(7)   */ PACK char   string_1805[7];             /*!< "dune15" NULL terminated. */
+	/* 180C(6)   */ PACK char   string_180C[6];             /*!< "dune7" NULL terminated. */
+	/* 1812(6)   */ PACK char   string_1812[6];             /*!< "dune0" NULL terminated. */
+	/* 1818(7)   */ PACK char   string_1818[7];             /*!< "dune16" NULL terminated. */
+	/* 181F(7)   */ PACK char   string_181F[7];             /*!< "dune19" NULL terminated. */
+	/* 1826(7)   */ PACK char   string_1826[7];             /*!< "dune20" NULL terminated. */
+	/* 182D()    */ PACK uint8   unknown_182D[0x0012];
+	/* 183F(12)  */ PACK char   string_183F[12];            /*!< "BIGPLAN.CPS" NULL terminated. */
+	/* 184B(12)  */ PACK char   string_184B[12];            /*!< "MAPPLAN.CPS" NULL terminated. */
+	/* 1857()    */ PACK uint8   unknown_1857[0x000C];
+	/* 1863(8)   */ PACK char   string_1863[8];             /*!< "CREDITS" NULL terminated. */
+	/* 186B(8)   */ PACK char   string_186B[8];             /*!< "IBM.PAL" NULL terminated. */
+	/* 1873(13)  */ PACK char   string_1873[13];            /*!< "CREDIT%d.SHP" NULL terminated. */
+	/* 1880(2)   */ PACK char   string_1880[2];             /*!< " " NULL terminated. */
+	/* 1882(9)   */ PACK char   string_1882[9];             /*!< "%02d %5d" NULL terminated. */
+	/* 188B(3)   */ PACK char   string_188B[3];             /*!< "%d" NULL terminated. */
+	/* 188E(10)  */ PACK char   string_188E[10];            /*!< "CHOAM.CPS" NULL terminated. */
+	/* 1898(18)  */ PACK char   string_1898[18];            /*!< "sec(%u) seed(%u) " NULL terminated. */
+	/* 18AA(38)  */ PACK char   string_18AA[38];            /*!< "ERROR: No items in construction list!" NULL terminated. */
+	/* 18D0(13)  */ PACK char   string_18D0[13];            /*!< "GRAYRMAP.TBL" NULL terminated. */
+	/* 18DD(11)  */ PACK char   string_18DD[11];            /*!< "%04x:%04x " NULL terminated. */
+	/* 18E8(11)  */ PACK char   string_18E8[11];            /*!< "%04x-%04x " NULL terminated. */
+	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "³ " NULL terminated. */
+	/* 18F6(6)   */ PACK char   string_18F6[6];             /*!< "%02X " NULL terminated. */
+	/* 18FC(2)   */ PACK char   string_18FC[2];             /*!< "." NULL terminated. */
+	/* 18FE()    */ PACK uint8   unknown_18FE[0x0028];
+	/* 1926(28)  */ PACK char   string_1926[28];            /*!< "Victory Controls for Player" NULL terminated. */
+	/* 1942(5)   */ PACK char   string_1942[5];             /*!< "Imm." NULL terminated. */
+	/* 1947(4)   */ PACK char   string_1947[4];             /*!< "End" NULL terminated. */
+	/* 194B(7)   */ PACK char   string_194B[7];             /*!< "To Win" NULL terminated. */
+	/* 1952(28)  */ PACK char   string_1952[28];            /*!< "Only friendly units remain:" NULL terminated. */
+	/* 196E(26)  */ PACK char   string_196E[26];            /*!< "No friendly units remain:" NULL terminated. */
+	/* 1988(21)  */ PACK char   string_1988[21];            /*!< "Spice quota reached:" NULL terminated. */
+	/* 199D(11)  */ PACK char   string_199D[11];            /*!< "Timed out:" NULL terminated. */
+	/* 19A8()    */ PACK uint8   unknown_19A8[0x0214];
+	/* 1BBC(8)   */ PACK char   string_1BBC[8];             /*!< "AFINALA" NULL terminated. */
+	/* 1BC4(8)   */ PACK char   string_1BC4[8];             /*!< "EFINALA" NULL terminated. */
+	/* 1BCC(8)   */ PACK char   string_1BCC[8];             /*!< "EFINALB" NULL terminated. */
+	/* 1BD4(8)   */ PACK char   string_1BD4[8];             /*!< "AFINALB" NULL terminated. */
+	/* 1BDC(8)   */ PACK char   string_1BDC[8];             /*!< "HFINALA" NULL terminated. */
+	/* 1BE4(8)   */ PACK char   string_1BE4[8];             /*!< "HFINALB" NULL terminated. */
+	/* 1BEC(8)   */ PACK char   string_1BEC[8];             /*!< "HFINALC" NULL terminated. */
+	/* 1BF4(8)   */ PACK char   string_1BF4[8];             /*!< "OFINALA" NULL terminated. */
+	/* 1BFC(8)   */ PACK char   string_1BFC[8];             /*!< "OFINALB" NULL terminated. */
+	/* 1C04(8)   */ PACK char   string_1C04[8];             /*!< "OFINALC" NULL terminated. */
+	/* 1C0C(8)   */ PACK char   string_1C0C[8];             /*!< "OFINALD" NULL terminated. */
+	/* 1C14(6)   */ PACK char   string_1C14[6];             /*!< "INTRO" NULL terminated. */
+	/* 1C1A()    */ PACK uint8   unknown_1C1A[0x0287];
 	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */
 	/* 1EAA(8)   */ PACK char   string_1EAA[8];             /*!< "EFINALA" NULL terminated. */
 	/* 1EB2(15)  */ PACK char   string_1EB2[15];            /*!< "SCEN%c%03d.INI" NULL terminated. */
@@ -201,7 +293,8 @@ typedef struct GlobalData {
 	/* 1FBC(61)  */ PACK char   string_1FBC[61];            /*!< "0NORTH$1EAST$2SOUTH$3WEST$4AIR$5VISIBLE$6ENEMYBASE$7HOMEBASE" NULL terminated. */
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
-	/* 2005()    */ PACK uint8   unknown_2005[0x02AF];
+	/* 2005()    */ PACK uint8   unknown_2005[0x01C8];
+	/* 21CD()    */ PACK uint8   unknown_21CD[0x00E7];
 	/* 22B4(12)  */ PACK char   string_22B4[12];            /*!< "PROFILE.INI" NULL terminated. */
 	/* 22C0(8)   */ PACK char   string_22C0[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 22C8(8)   */ PACK char   string_22C8[8];             /*!< "MESSAGE" NULL terminated. */
@@ -244,7 +337,53 @@ typedef struct GlobalData {
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 25A4()    */ PACK uint8   unknown_25A4[0x1044];
+	/* 25A4(10)  */ PACK char   string_25A4[10];            /*!< "FHARK.WSA" NULL terminated. */
+	/* 25AE(10)  */ PACK char   string_25AE[10];            /*!< "FARTR.WSA" NULL terminated. */
+	/* 25B8(11)  */ PACK char   string_25B8[11];            /*!< "FORDOS.WSA" NULL terminated. */
+	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
+	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
+	/* 25CE()    */ PACK uint8   unknown_25CE[0x0008];
+	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
+	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
+	/* 25E6()    */ PACK uint8   unknown_25E6[0x0002];
+	/* 25E8(10)  */ PACK char   string_25E8[10];            /*!< "INTRO.PAL" NULL terminated. */
+	/* 25F2(10)  */ PACK char   string_25F2[10];            /*!< "INTRO.FNT" NULL terminated. */
+	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
+	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
+	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
+	/* 264A()    */ PACK uint8   unknown_264A[0x046D];
+	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
+	/* 2AC3(14)  */ PACK char   string_2AC3[14];            /*!< "_SAVE%03d.DAT" NULL terminated. */
+	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0004];
+	/* 2AD5(9)   */ PACK char   string_2AD5[9];             /*!< "\r\n[%s]\r\n" NULL terminated. */
+	/* 2ADE(8)   */ PACK char   string_2ADE[8];             /*!< "%s=%d\r\n" NULL terminated. */
+	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
+	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
+	/* 2AF3()    */ PACK uint8   unknown_2AF3[0x001F];
+	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */
+	/* 2B1E(11)  */ PACK char   string_2B1E[11];            /*!< "PLANET.CPS" NULL terminated. */
+	/* 2B29(12)  */ PACK char   string_2B29[12];            /*!< "DUNEMAP.CPS" NULL terminated. */
+	/* 2B35(12)  */ PACK char   string_2B35[12];            /*!< "DUNERGN.CPS" NULL terminated. */
+	/* 2B41(8)   */ PACK char   string_2B41[8];             /*!< "GROUP%d" NULL terminated. */
+	/* 2B49(6)   */ PACK char   string_2B49[6];             /*!< "REG%d" NULL terminated. */
+	/* 2B50(12)  */ PACK char   string_2B50[12];            /*!< "%d,%d,%d,%d" NULL terminated. */
+	/* 2B5C(7)   */ PACK char   string_2B5C[7];             /*!< "PIECES" NULL terminated. */
+	/* 2B63(8)   */ PACK char   string_2B63[8];             /*!< "%sTXT%d" NULL terminated. */
+	/* 2B6B(11)  */ PACK char   string_2B6B[11];            /*!< "RGNCLK.CPS" NULL terminated. */
+	/* 2B76(11)  */ PACK char   string_2B76[11];            /*!< "PIECES.SHP" NULL terminated. */
+	/* 2B81(11)  */ PACK char   string_2B81[11];            /*!< "ARROWS.SHP" NULL terminated. */
+	/* 2B8C(13)  */ PACK char   string_2B8C[13];            /*!< "REGION%c.INI" NULL terminated. */
+	/* 2B99(5)   */ PACK char   string_2B99[5];             /*!< "INFO" NULL terminated. */
+	/* 2B9E(14)  */ PACK char   string_2B9E[14];            /*!< "TOTAL REGIONS" NULL terminated. */
+	/* 2BAB()    */ PACK uint8   unknown_2BAB[0x001F];
+	/* 2BCA(19)  */ PACK char   string_2BCA[19];            /*!< "No more scenarios!" NULL terminated. */
+	/* 2BDD(7)   */ PACK char   string_2BDD[7];             /*!< "TEXT%c" NULL terminated. */
+	/* 2BE4(7)   */ PACK char   string_2BE4[7];             /*!< "HERALD" NULL terminated. */
+	/* 2BEB(10)  */ PACK char   string_2BEB[10];            /*!< "FHARK.WSA" NULL terminated. */
+	/* 2BF5(10)  */ PACK char   string_2BF5[10];            /*!< "FARTR.WSA" NULL terminated. */
+	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
+	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
+	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x09D9];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
