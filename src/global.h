@@ -15,14 +15,14 @@ assert_compile(sizeof(struct_7B68) == 0x6);
 MSVC_PACKED_BEGIN
 typedef struct DuneCfg {
 	/* 0(1) */ PACK uint8  variable_0;  /*<! ?? */
-	/* 1(1) */ PACK uint8  variable_1;  /*<! ?? */
-	/* 2(1) */ PACK uint8  variable_2;  /*<! ?? */
-	/* 3(1) */ PACK uint8  variable_3;  /*<! ?? */
-	/* 4(1) */ PACK uint8  variable_4;  /*<! ?? */
-	/* 5(1) */ PACK uint8  variable_5;  /*<! ?? */
+	/* 1(1) */ PACK uint8  music;       /*<! ?? Music Score Source. */
+	/* 2(1) */ PACK uint8  sound;       /*<! ?? Sound Effect Source. */
+	/* 3(1) */ PACK uint8  digized;     /*<! ?? Digitized Source. */
+	/* 4(1) */ PACK bool   useMouse;    /*<! Use Mouse. */
+	/* 5(1) */ PACK bool   useXMS;      /*<! Use Extended Memory. */
 	/* 6(1) */ PACK uint8  variable_6;  /*<! ?? */
 	/* 7(1) */ PACK uint8  variable_7;  /*<! ?? */
-	/* 8(1) */ PACK uint8  language;    /*<! 0:English, 1:French, 2:German. */
+	/* 8(1) */ PACK uint8  language;    /*<! 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 9(1) */ PACK uint8  checksum;    /*<! Used to check validity on config data. See emu_Config_Decode(). */
 } GCC_PACKED DuneCfg;
 MSVC_PACKED_END
@@ -411,7 +411,7 @@ typedef struct GlobalData {
 	/* 3600()    */ PACK uint8   unknown_3600[0x01A0];
 	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
-	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German. */
+	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0038];
 	/* 37F0(180) */ PACK uint8  variable_37F0[180];         /*!< ?? It is an array of HOUSE_INDEX_MAX size at most (possible just 3), with a struct size of 0x1E. Position might be wrong. */
 	/* 38A4()    */ PACK uint8   unknown_38A4[0x000C];
