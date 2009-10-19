@@ -23,7 +23,9 @@
  * Called From: B4DA:0FCD:000A:A344
  * Called From: B4DA:1039:000A:A344
  * Called From: B4DA:1332:000A:A344
+ * Called From: B536:00A1:0010:094E
  * Called From: B536:01A3:0060:01F3
+ * Called From: B536:0327:0013:1C1F
  */
 void f__2642_0002_005E_87F6()
 {
@@ -101,6 +103,8 @@ l__0060:
  * Called From: B4DA:0FFA:0008:C54E
  * Called From: B4DA:1066:0008:C54E
  * Called From: B4DA:135F:0008:C54E
+ * Called From: B536:0087:000F:9A7C
+ * Called From: B536:02FC:0015:7F44
  * Called From: B536:04F5:004E:C8CD
  */
 void f__2642_0069_0008_D517()

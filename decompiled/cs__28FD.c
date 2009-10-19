@@ -58,3 +58,54 @@ l__0034:
 	emu_pop(&emu_cs);
 	return;
 }
+
+/**
+ * Decompiled function f__28FD_003D_0012_41DC()
+ *
+ * @name f__28FD_003D_0012_41DC
+ * @implements 28FD:003D:0012:41DC ()
+ * @implements 28FD:004F:0009:8434
+ * @implements 28FD:0058:000F:3823
+ * @implements 28FD:0067:0007:8B82
+ *
+ * Called From: 1FB5:167C:0006:D8ED
+ */
+void f__28FD_003D_0012_41DC()
+{
+l__003D:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_push(emu_bx);
+	emu_push(emu_dx);
+	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
+	emu_push(emu_bx);
+	emu_bl = emu_dl;
+	emu_incb(&emu_bl);
+	emu_ax = 0x440E;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004F); Interrupt_DOS();
+	goto l__004F;
+l__004F:
+	emu_pop(&emu_bx);
+	if (!emu_flags.cf) goto l__0058;
+	emu_cmpb(&emu_al, 0x1);
+	if (emu_al == 0x1) goto l__0067;
+	/* Unresolved jump */ emu_ip = 0x0062; emu_last_cs = 0x28FD; emu_last_ip = 0x0056; emu_last_length = 0x0009; emu_last_crc = 0x8434; emu_call();
+l__0058:
+	emu_cmpb(&emu_al, 0x0);
+	if (emu_al == 0x0) goto l__0067;
+	emu_decb(&emu_al);
+	emu_cmpb(&emu_al, emu_dl);
+	if (emu_al == emu_dl) goto l__0067;
+	emu_ax = 0x0;
+	/* Unresolved jump */ emu_ip = 0x006A; emu_last_cs = 0x28FD; emu_last_ip = 0x0065; emu_last_length = 0x000F; emu_last_crc = 0x3823; emu_call();
+l__0067:
+	emu_ax = 0x1;
+	emu_pop(&emu_dx);
+	emu_pop(&emu_bx);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}

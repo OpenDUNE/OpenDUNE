@@ -545,6 +545,7 @@ l__073E:
  * Called From: B518:051A:0009:6867
  * Called From: B518:083B:000D:2172
  * Called From: B518:0870:0007:843A
+ * Called From: B536:008C:0005:E089
  * Called From: B53B:01CC:0008:5201
  */
 void emu_Input_History_Clear()
@@ -672,6 +673,7 @@ l__07EB:
  * Called From: 10E4:049B:0005:B085
  * Called From: B503:08A3:0005:B085
  * Called From: B503:13CE:0009:9868
+ * Called From: B536:0091:0005:B085
  * Called From: B53B:01D1:0005:B085
  */
 void f__29E8_07FA_0020_177A()

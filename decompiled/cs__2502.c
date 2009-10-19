@@ -11,6 +11,7 @@
  * @implements 2502:0008:0015:FFBD ()
  * @implements 2502:001D:0016:2C58
  * @implements 2502:0033:0024:59EB
+ * @implements 2502:0039:001E:8FAC
  * @implements 2502:0045:0012:9F29
  *
  * Called From: B4DA:1168:0014:EB5F
@@ -45,10 +46,12 @@ l__001D:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_addb(&emu_al, 0x7F);
-	/* Unresolved jump */ emu_ip = 0x0039; emu_last_cs = 0x2502; emu_last_ip = 0x0031; emu_last_length = 0x0016; emu_last_crc = 0x2C58; emu_call();
+	goto l__0039;
 l__0033:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
+	goto l__0039;
+l__0039:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_get_memory8(emu_es, emu_bx, 0x0) = emu_al;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));

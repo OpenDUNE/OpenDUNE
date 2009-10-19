@@ -1118,6 +1118,8 @@ l__0438:
  * @implements 01F7:0457:000A:B17A
  *
  * Called From: 1DB6:016F:0017:0927
+ * Called From: 1FB5:0031:0012:C761
+ * Called From: 1FB5:16C3:000E:80D8
  * Called From: 261F:0160:0008:F306
  */
 void f__01F7_0442_0015_6A10()
@@ -6212,6 +6214,7 @@ l__2944:
  * Called From: B4B5:0070:0014:7874
  * Called From: B4B5:009F:0014:EBAA
  * Called From: B4B8:02C5:0012:2C51
+ * Called From: B4B8:11B3:0019:6C90
  * Called From: B4DA:00A5:0011:F941
  * Called From: B4DA:00A5:0014:D1CA
  * Called From: B4E0:0C02:0019:6AEE
@@ -7923,6 +7926,7 @@ l__376A:
  * Called From: 176C:26AF:000D:A042
  * Called From: 1A34:2816:0012:6CE1
  * Called From: 1A34:285B:0018:A7FE
+ * Called From: 1A34:285B:000F:3DA7
  * Called From: 1A34:2924:000C:6F7F
  * Called From: B480:039A:009A:0548
  * Called From: B495:05E3:0030:96A7
@@ -8496,6 +8500,7 @@ l__399D:
  * Called From: B4B5:1052:000B:714A
  * Called From: B4B5:1052:001B:6488
  * Called From: B4B8:0B1D:0022:7AFB
+ * Called From: B4B8:11DD:000E:4382
  * Called From: B4DA:0E12:0013:390A
  * Called From: B4DA:13AC:000D:BCD8
  * Called From: B4DA:161D:000D:BCD8

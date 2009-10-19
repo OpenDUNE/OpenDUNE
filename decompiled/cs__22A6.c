@@ -1839,6 +1839,7 @@ l__0C56:
  * Called From: B520:0821:002C:125A
  * Called From: B520:0821:0025:CD0C
  * Called From: B527:035A:0015:34F5
+ * Called From: B536:00C5:0024:6B9F
  */
 void f__22A6_0D31_0015_A4C3()
 {

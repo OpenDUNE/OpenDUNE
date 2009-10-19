@@ -25,6 +25,7 @@
  * Called From: B495:0881:0020:FCC2
  * Called From: B4A2:091C:0013:79CF
  * Called From: B4A2:091C:0016:F3ED
+ * Called From: B536:0078:001A:03A1
  * Called From: B536:074D:0024:12A7
  */
 void f__2BC2_000A_0044_2E0E()
