@@ -320,17 +320,17 @@ typedef struct GlobalData {
 	/* 2365(8)   */ PACK char   string_2365[8];             /*!< "INTRO11" NULL terminated. */
 	/* 236D(8)   */ PACK char   string_236D[7];             /*!< "INTRO4" NULL terminated. */
 	/* 2374(8)   */ PACK char   string_2374[7];             /*!< "INTRO6" NULL terminated. */
-	/* 237C(8)   */ PACK char   string_237B[8];             /*!< "INTRO7a" NULL terminated. */
-	/* 2384(8)   */ PACK char   string_2385[8];             /*!< "INTRO7b" NULL terminated. */
-	/* 238C(8)   */ PACK char   string_238B[8];             /*!< "INTRO8a" NULL terminated. */
-	/* 2394(8)   */ PACK char   string_2395[8];             /*!< "INTRO8b" NULL terminated. */
-	/* 239C(8)   */ PACK char   string_239B[8];             /*!< "INTRO8c" NULL terminated. */
-	/* 23A3(8)   */ PACK char   string_23A2[7];             /*!< "INTRO5" NULL terminated. */
-	/* 23A9(8)   */ PACK char   string_23A8[6];             /*!< "INTRO" NULL terminated. */
-	/* 23B1(13)  */ PACK char   string_23B0[13];            /*!< "WESTWOOD.PAL" NULL terminated. */
-	/* 23BE(13)  */ PACK char   string_23BD[13];            /*!< "WESTWOOD.WSA" NULL terminated. */
-	/* 23CB(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
-	/* 23CF(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
+	/* 237B(8)   */ PACK char   string_237B[8];             /*!< "INTRO7a" NULL terminated. */
+	/* 2385(8)   */ PACK char   string_2385[8];             /*!< "INTRO7b" NULL terminated. */
+	/* 238B(8)   */ PACK char   string_238B[8];             /*!< "INTRO8a" NULL terminated. */
+	/* 2395(8)   */ PACK char   string_2395[8];             /*!< "INTRO8b" NULL terminated. */
+	/* 239B(8)   */ PACK char   string_239B[8];             /*!< "INTRO8c" NULL terminated. */
+	/* 23A2(8)   */ PACK char   string_23A2[7];             /*!< "INTRO5" NULL terminated. */
+	/* 23A8(8)   */ PACK char   string_23A8[6];             /*!< "INTRO" NULL terminated. */
+	/* 23B0(13)  */ PACK char   string_23B0[13];            /*!< "WESTWOOD.PAL" NULL terminated. */
+	/* 23BD(13)  */ PACK char   string_23BD[13];            /*!< "WESTWOOD.WSA" NULL terminated. */
+	/* 23CA(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
+	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x019B];
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0007];
