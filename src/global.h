@@ -475,23 +475,105 @@ typedef struct GlobalData {
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
 	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x021A];
-	/* 2E78()    */ PACK uint8   unknown_2E78[0x031D];
+	/* 2E78(9)   */ PACK char   string_2E78[9];            /*!< "Concrete" NULL terminated. */
+	/* 2E81(9)   */ PACK char   string_2E81[9];            /*!< "slab.wsa" NULL terminated. */
+	/* 2E8A(10)  */ PACK char   string_2E8A[10];           /*!< "Concrete4" NULL terminated. */
+	/* 2E94(10)  */ PACK char   string_2E94[10];           /*!< "4slab.wsa" NULL terminated. */
+	/* 2E9E(7)   */ PACK char   string_2E9E[7];            /*!< "Palace" NULL terminated. */
+	/* 2EA5(11)  */ PACK char   string_2EA5[11];           /*!< "palace.wsa" NULL terminated. */
+	/* 2EB0(12)  */ PACK char   string_2EB0[12];           /*!< "Light Fctry" NULL terminated. */
+	/* 2EBC(13)  */ PACK char   string_2EBC[13];           /*!< "liteftry.wsa" NULL terminated. */
+	/* 2EC9(12)  */ PACK char   string_2EC9[12];           /*!< "Heavy Fctry" NULL terminated. */
+	/* 2ED5(12)  */ PACK char   string_2ED5[12];           /*!< "hvyftry.wsa" NULL terminated. */
+	/* 2EE1(8)   */ PACK char   string_2EE1[8];            /*!< "Hi-Tech" NULL terminated. */
+	/* 2EE9(13)  */ PACK char   string_2EE9[13];           /*!< "hitcftry.wsa" NULL terminated. */
+	/* 2EF6(3)   */ PACK char   string_2EF6[3];            /*!< "IX" NULL terminated. */
+	/* 2EF9(7)   */ PACK char   string_2EF9[7];            /*!< "ix.wsa" NULL terminated. */
+	/* 2F00(4)   */ PACK char   string_2F00[4];            /*!< "WOR" NULL terminated. */
+	/* 2F04(8)   */ PACK char   string_2F04[8];            /*!< "wor.wsa" NULL terminated. */
+	/* 2F0C(11)  */ PACK char   string_2F0C[11];           /*!< "Const Yard" NULL terminated. */
+	/* 2F17(13)  */ PACK char   string_2F17[13];           /*!< "construc.wsa" NULL terminated. */
+	/* 2F24(9)   */ PACK char   string_2F24[9];            /*!< "Windtrap" NULL terminated. */
+	/* 2F2D(13)  */ PACK char   string_2F2D[13];           /*!< "windtrap.wsa" NULL terminated. */
+	/* 2F3A(9)   */ PACK char   string_2F3A[9];            /*!< "Barracks" NULL terminated. */
+	/* 2F43(11)  */ PACK char   string_2F43[11];           /*!< "barrac.wsa" NULL terminated. */
+	/* 2F4E(9)   */ PACK char   string_2F4E[9];            /*!< "Starport" NULL terminated. */
+	/* 2F57(13)  */ PACK char   string_2F57[13];           /*!< "starport.wsa" NULL terminated. */
+	/* 2F64(9)   */ PACK char   string_2F64[9];            /*!< "Refinery" NULL terminated. */
+	/* 2F6D(13)  */ PACK char   string_2F6D[13];           /*!< "refinery.wsa" NULL terminated. */
+	/* 2F7A(3)   */ PACK char   string_2F7A[7];            /*!< "Repair" NULL terminated. */
+	/* 2F81(11)  */ PACK char   string_2F81[11];           /*!< "repair.wsa" NULL terminated. */
+	/* 2F8C(5)   */ PACK char   string_2F8C[5];            /*!< "Wall" NULL terminated. */
+	/* 2F91(9)   */ PACK char   string_2F91[9];            /*!< "wall.wsa" NULL terminated. */
+	/* 2F9A(7)   */ PACK char   string_2F9A[7];            /*!< "Turret" NULL terminated. */
+	/* 2FA1(11)  */ PACK char   string_2FA1[11];           /*!< "turret.wsa" NULL terminated. */
+	/* 2FAC(9)   */ PACK char   string_2FAC[9];            /*!< "R-Turret" NULL terminated. */
+	/* 2FB5(12)  */ PACK char   string_2FB5[12];           /*!< "rturret.wsa" NULL terminated. */
+	/* 2FC1(11)  */ PACK char   string_2FC1[11];           /*!< "Spice Silo" NULL terminated. */
+	/* 2FCC(12)  */ PACK char   string_2FCC[12];           /*!< "storage.wsa" NULL terminated. */
+	/* 2FD8(8)   */ PACK char   string_2FD8[8];            /*!< "Outpost" NULL terminated. */
+	/* 2FE0(13)  */ PACK char   string_2FE0[13];           /*!< "headqrts.wsa" NULL terminated. */
+	/* 2FED()    */ PACK uint8   unknown_2FED[0x0001];
+	/* 2FEE(9)   */ PACK char   string_2FEE[9];            /*!< "Carryall" NULL terminated. */
+	/* 2FF7(13)  */ PACK char   string_2FF7[13];           /*!< "carryall.wsa" NULL terminated. */
+	/* 3004(9)   */ PACK char   string_3004[9];            /*!< "'Thopter" NULL terminated. */
+	/* 300D(9)   */ PACK char   string_300D[9];            /*!< "orni.wsa" NULL terminated. */
+	/* 3016(9)   */ PACK char   string_3016[9];            /*!< "Infantry" NULL terminated. */
+	/* 301F(13)  */ PACK char   string_301F[13];           /*!< "infantry.wsa" NULL terminated. */
+	/* 302E(9)   */ PACK char   string_302E[9];            /*!< "Troopers" NULL terminated. */
+	/* 3035(11)  */ PACK char   string_3035[11];           /*!< "hyinfy.wsa" NULL terminated. */
+	/* 3040(8)   */ PACK char   string_3040[8];            /*!< "Soldier" NULL terminated. */
+	/* 3048(8)   */ PACK char   string_3048[8];            /*!< "Trooper" NULL terminated. */
+	/* 3050(9)   */ PACK char   string_3050[9];            /*!< "Saboteur" NULL terminated. */
+	/* 3059(13)  */ PACK char   string_3059[13];           /*!< "saboture.wsa" NULL terminated. */
+	/* 3066(9)   */ PACK char   string_3066[9];            /*!< "Launcher" NULL terminated. */
+	/* 306F(10)  */ PACK char   string_306F[10];           /*!< "rtank.wsa" NULL terminated. */
+	/* 3079(9)   */ PACK char   string_3079[9];            /*!< "Deviator" NULL terminated. */
+	/* 3082(13)  */ PACK char   string_3082[13];           /*!< "ordrtank.wsa" NULL terminated. */
+	/* 308F(5)   */ PACK char   string_308F[5];            /*!< "Tank" NULL terminated. */
+	/* 3094(10)  */ PACK char   string_3094[10];           /*!< "ltank.wsa" NULL terminated. */
+	/* 309E(11)  */ PACK char   string_309E[11];           /*!< "Siege Tank" NULL terminated. */
+	/* 30A9(10)  */ PACK char   string_30A9[10];           /*!< "htank.wsa" NULL terminated. */
+	/* 30B3(11)  */ PACK char   string_30B3[11];           /*!< "Devastator" NULL terminated. */
+	/* 30BE(10)  */ PACK char   string_30BE[13];           /*!< "harktank.wsa" NULL terminated. */
+	/* 30CB(11)  */ PACK char   string_30CB[11];           /*!< "Sonic Tank" NULL terminated. */
+	/* 30D6(10)  */ PACK char   string_30D6[10];           /*!< "stank.wsa" NULL terminated. */
+	/* 30E0(6)   */ PACK char   string_30E0[6];            /*!< "Trike" NULL terminated. */
+	/* 30E6(10)  */ PACK char   string_30E6[10];           /*!< "trike.wsa" NULL terminated. */
+	/* 30F0(13)  */ PACK char   string_30F0[13];           /*!< "Raider Trike" NULL terminated. */
+	/* 30FD(11)  */ PACK char   string_30FD[11];           /*!< "otrike.wsa" NULL terminated. */
+	/* 3108(5)   */ PACK char   string_3108[5];            /*!< "Quad" NULL terminated. */
+	/* 310D(9)   */ PACK char   string_310D[9];            /*!< "quad.wsa" NULL terminated. */
+	/* 3116(10)  */ PACK char   string_3116[10];           /*!< "Harvester" NULL terminated. */
+	/* 3120(12)  */ PACK char   string_3120[12];           /*!< "harvest.wsa" NULL terminated. */
+	/* 312C(4)   */ PACK char   string_312C[4];            /*!< "MCV" NULL terminated. */
+	/* 3130(8)   */ PACK char   string_3130[8];            /*!< "mcv.wsa" NULL terminated. */
+	/* 3138(11)  */ PACK char   string_3138[11];           /*!< "Death Hand" NULL terminated. */
+	/* 3143(12)  */ PACK char   string_3143[12];           /*!< "gold-bb.wsa" NULL terminated. */
+	/* 314F(7)   */ PACK char   string_314F[7];            /*!< "Rocket" NULL terminated. */
+	/* 3156(8)   */ PACK char   string_3156[8];            /*!< "ARocket" NULL terminated. */
+	/* 315E(8)   */ PACK char   string_315E[8];            /*!< "GRocket" NULL terminated. */
+	/* 3166(11)  */ PACK char   string_3166[11];           /*!< "MiniRocket" NULL terminated. */
+	/* 3171(7)   */ PACK char   string_3171[7];            /*!< "Bullet" NULL terminated. */
+	/* 3178(12)  */ PACK char   string_3178[12];           /*!< "Sonic Blast" NULL terminated. */
+	/* 3184(9)   */ PACK char   string_3184[9];            /*!< "Sandworm" NULL terminated. */
+	/* 318D(8)   */ PACK char   string_318D[8];            /*!< "Frigate" NULL terminated. */
 	/* 3195()    */ PACK uint8   unknown_3195[0x000A];
 	/* 319F(7)   */ PACK char   string_319F[7];            /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];            /*!< "%d" NULL terminated. */
 	/* 31A9()    */ PACK uint8   unknown_31A9[0x002F];
-	/* 3178(4)   */ PACK char   string_3178[4];            /*!< "ENG" NULL terminated. */
-	/* 317C(4)   */ PACK char   string_317C[4];            /*!< "FRE" NULL terminated. */
-	/* 3180(4)   */ PACK char   string_3180[4];            /*!< "GER" NULL terminated. */
-	/* 3184(4)   */ PACK char   string_3184[4];            /*!< "ITA" NULL terminated. */
-	/* 3188(4)   */ PACK char   string_3188[4];            /*!< "SPA" NULL terminated. */
-	/* 318C(4)   */ PACK char   string_318C[4];            /*!< "FRE" NULL terminated. */
-	/* 3190(4)   */ PACK char   string_3190[4];            /*!< "GER" NULL terminated. */
-	/* 3194(5)   */ PACK char   string_3194[5];            /*!< "DUNE" NULL terminated. */
-	/* 3199(9)   */ PACK char   string_3199[9];            /*!< "DUNE.LOG" NULL terminated. */
-	/* 31A2(2)   */ PACK char   string_31A2[2];            /*!< "." NULL terminated. */
-	/* 31A4(9)   */ PACK char   string_31A4[9];            /*!< "DUNEINIT" NULL terminated. */
-	/* 31AD()    */ PACK uint8   unknown_31AD[0x03DB];
+	/* 31D8(4)   */ PACK char   string_31D8[4];            /*!< "ENG" NULL terminated. */
+	/* 31DC(4)   */ PACK char   string_31DC[4];            /*!< "FRE" NULL terminated. */
+	/* 31E0(4)   */ PACK char   string_31E0[4];            /*!< "GER" NULL terminated. */
+	/* 31E4(4)   */ PACK char   string_31E4[4];            /*!< "ITA" NULL terminated. */
+	/* 31E8(4)   */ PACK char   string_31E8[4];            /*!< "SPA" NULL terminated. */
+	/* 31EC(4)   */ PACK char   string_31EC[4];            /*!< "FRE" NULL terminated. */
+	/* 31E0(4)   */ PACK char   string_31F0[4];            /*!< "GER" NULL terminated. */
+	/* 31F4(5)   */ PACK char   string_31F4[5];            /*!< "DUNE" NULL terminated. */
+	/* 31F9(9)   */ PACK char   string_31F9[9];            /*!< "DUNE.LOG" NULL terminated. */
+	/* 3202(2)   */ PACK char   string_3202[2];            /*!< "." NULL terminated. */
+	/* 3204(9)   */ PACK char   string_3204[9];            /*!< "DUNEINIT" NULL terminated. */
+	/* 320D()    */ PACK uint8   unknown_320D[0x03DB];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
