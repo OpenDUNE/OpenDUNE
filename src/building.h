@@ -44,7 +44,7 @@ typedef struct Building {
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Building. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
-	/* 000E(2)   */ PACK uint16 health;                     /*!< Current amount of health. */
+	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0035];
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
@@ -69,7 +69,7 @@ typedef struct BuildingInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x000C];
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ??  */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
-	/* 0010(2)   */ PACK uint16 health;                     /*!< Default healt for the Building.  */
+	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Building.  */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Building.  */
 	/* 001A()    */ PACK uint8   unknown_001A[0x0046];

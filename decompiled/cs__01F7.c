@@ -5401,9 +5401,9 @@ l__222E:
 }
 
 /**
- * Decompiled function f__01F7_2252_0045_03CB()
+ * Decompiled function emu_String_ToInteger()
  *
- * @name f__01F7_2252_0045_03CB
+ * @name emu_String_ToInteger
  * @implements 01F7:2252:0045:03CB ()
  * @implements 01F7:2268:002F:CA14
  * @implements 01F7:227F:0018:909F
@@ -5432,7 +5432,7 @@ l__222E:
  * Called From: B503:0D4C:0017:BC75
  * Called From: B503:0D4C:000E:7F53
  */
-void f__01F7_2252_0045_03CB()
+void emu_String_ToInteger()
 {
 l__2252:
 	emu_push(emu_bp);
@@ -5793,7 +5793,7 @@ l__27A6:
 	emu_movw(&emu_ax, emu_bp - 0x44);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x27B0); f__01F7_39A5_001F_1A5D();
+	emu_push(0x27B0); emu_String_strlen();
 	goto l__27B0;
 l__27B0:
 	emu_pop(&emu_cx);
@@ -7624,7 +7624,7 @@ l__3474:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x348E); f__01F7_39A5_001F_1A5D();
+	emu_push(0x348E); emu_String_strlen();
 	goto l__348E;
 l__348E:
 	emu_pop(&emu_cx);
@@ -7728,7 +7728,7 @@ l__3581:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_bx);
 	emu_push(emu_cs);
-	emu_push(0x3593); f__01F7_39A5_001F_1A5D();
+	emu_push(0x3593); emu_String_strlen();
 	goto l__3593;
 l__3593:
 	emu_pop(&emu_cx);
@@ -8383,9 +8383,9 @@ l__38F6:
 }
 
 /**
- * Decompiled function f__01F7_3964_0041_7552()
+ * Decompiled function emu_String_strcasecmp()
  *
- * @name f__01F7_3964_0041_7552
+ * @name emu_String_strcasecmp
  * @implements 01F7:3964:0041:7552 ()
  * @implements 01F7:3979:002C:34A6
  * @implements 01F7:398E:0017:CC6E
@@ -8407,7 +8407,7 @@ l__38F6:
  * Called From: B530:002E:0023:BD3C
  * Called From: B533:002E:0023:A798
  */
-void f__01F7_3964_0041_7552()
+void emu_String_strcasecmp()
 {
 l__3964:
 	emu_push(emu_bp);
@@ -8464,9 +8464,9 @@ l__399D:
 }
 
 /**
- * Decompiled function f__01F7_39A5_001F_1A5D()
+ * Decompiled function emu_String_strlen()
  *
- * @name f__01F7_39A5_001F_1A5D
+ * @name emu_String_strlen
  * @implements 01F7:39A5:001F:1A5D ()
  * @implements 01F7:39B7:000D:EFE3
  *
@@ -8514,7 +8514,7 @@ l__399D:
  * Called From: B518:0777:0017:5D3C
  * Called From: B536:078B:000D:EADB
  */
-void f__01F7_39A5_001F_1A5D()
+void emu_String_strlen()
 {
 l__39A5:
 	emu_push(emu_bp);
@@ -8613,7 +8613,7 @@ l__3A41:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x3A52); f__01F7_39A5_001F_1A5D();
+	emu_push(0x3A52); emu_String_strlen();
 	goto l__3A52;
 l__3A52:
 	emu_pop(&emu_cx);

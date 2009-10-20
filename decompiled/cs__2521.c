@@ -92,7 +92,7 @@ l__0035:
 	emu_xorw(&emu_si, emu_si);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
+	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x01F7; emu_String_strlen();
 	goto l__004A;
 l__004A:
 	emu_pop(&emu_cx);

@@ -2829,7 +2829,7 @@ l__1AF8:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x1B09); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x1B09); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__1B09;
 l__1B09:
 	emu_addw(&emu_sp, 0x8);

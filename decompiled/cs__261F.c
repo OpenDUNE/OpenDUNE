@@ -248,7 +248,7 @@ l__00DF:
 	emu_push(emu_ds);
 	emu_ax = 0x9882;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00E9); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
+	emu_push(emu_cs); emu_push(0x00E9); emu_cs = 0x01F7; emu_String_strlen();
 	goto l__00E9;
 l__00E9:
 	emu_pop(&emu_cx);

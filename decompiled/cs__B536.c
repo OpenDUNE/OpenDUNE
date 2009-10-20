@@ -647,7 +647,7 @@ l__0783:
 	emu_push(emu_ds);
 	emu_ax = 0x822B;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0790); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
+	emu_push(emu_cs); emu_push(0x0790); emu_cs = 0x01F7; emu_String_strlen();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 	goto l__0790;

@@ -47,17 +47,17 @@ typedef struct Unit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
 	/* 0003(1)   */ PACK uint8  linkedBuildingID;           /*!< Building we are linked to, or 0xFF if we are not linked to a building. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x0200 - Scenario Unit. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
+	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0037];
 	/* 0049(4)   */ PACK csip32 variable_49;                /*!< ?? */
 	/* 004D(2)   */ PACK uint16 variable_4D;                /*!< ?? */
-	/* 004F(1)   */ PACK uint8  variable_4F;                /*!< ?? */
+	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
 	/* 0050(1)   */ PACK uint8  variable_50;                /*!< ?? */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
@@ -67,7 +67,9 @@ typedef struct Unit {
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062()    */ PACK uint8   unknown_005A[0x000A];
+	/* 0062()    */ PACK uint8   unknown_0062[0x0002];
+	/* 0064(1)   */ PACK uint8  variable_64;                /*!< ?? */
+	/* 0065()    */ PACK uint8   unknown_0066[0x0007];
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
 	/* 006D(1)   */ PACK uint8  variable_6D;                /*!< ?? */
 	/* 006E(1)   */ PACK uint8  variable_6E;                /*!< ?? */
@@ -85,7 +87,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct UnitInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0010];
-	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
+	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];

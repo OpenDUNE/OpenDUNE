@@ -31,6 +31,7 @@
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Memory_Realloc	# (block, size)
+01F7:2252:0045:03CB	emu_String_ToInteger	# (string_csip)
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
 01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_Close	# (file)
@@ -42,6 +43,8 @@
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
 01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
+01F7:3964:0041:7552	emu_String_strcasecmp	# (string1_csip, string2_csip) Case insensitive compare
+01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
 01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
@@ -66,6 +69,9 @@
 0F3F:0335:0015:2275	emu_Tile_GetPackY	# (tile_packed)
 0F3F:034C:0012:18EA	emu_Tile_PackXY	# (x, y)
 0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
+
+1381:0005:0010:8273	emu_Action_StringToID	# (string_csip)
+1381:0051:0010:81BB	emu_House_StringToID	# (string_csip)
 
 1A34:3312:0017:29E8	emu_Unit_FindBuilding	# (unit_csip), finds building to go to (harvester)
 1A34:3491:0032:AFF8	emu_Building_GetLinkedUnit # (building_csip)
@@ -105,3 +111,8 @@ B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
+
+B4FC:0000:0018:E5DC	emu_Ini_GetInteger
+B4FC:03C8:002C:9251	emu_Ini_GetString
+
+B533:0000:0010:8273	emu_Unit_StringToID	# (string_csip)

@@ -41,7 +41,7 @@ l__0010:
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xE));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
-	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; emu_String_strcasecmp();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3530) { overlay(0x3530, 1); }
 	goto l__0033;

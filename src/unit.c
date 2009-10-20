@@ -93,7 +93,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	emu_sp += 6;
 
 	u->position.tile    = position.tile;
-	u->variable_0E      = ui->variable_10;
+	u->hitpoints        = ui->hitpoints;
 	u->variable_49.csip = 0x00000000;
 	u->variable_4D      = 0x0000;
 	u->variable_72      = 0xFF;
@@ -110,7 +110,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	u->linkedBuildingID = 0xFF;
 	u->variable_10 = 0x0000;
-	u->variable_4F = 0x03;
+	u->actionID    = 0x03;
 	u->variable_50 = 0xFF;
 	u->variable_51 = 0x00;
 	u->variable_52 = 0x7FFF;

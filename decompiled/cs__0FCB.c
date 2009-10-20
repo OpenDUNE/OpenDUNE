@@ -336,7 +336,7 @@ l__012C:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_cs); emu_push(0x0138); emu_cs = 0x01F7; f__01F7_39A5_001F_1A5D();
+	emu_push(emu_cs); emu_push(0x0138); emu_cs = 0x01F7; emu_String_strlen();
 	goto l__0138;
 l__0138:
 	emu_pop(&emu_cx);

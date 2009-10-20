@@ -19,9 +19,9 @@ MSVC_PACKED_BEGIN
  */
 typedef struct HouseInfo {
 	/* 0000(4)   */ PACK csip32 houseName;                  /*<! Pointer to name of house. */
-	/* 0004(22)  */ PACK uint8  unknown_0004[0x0002];
+	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
 	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
-	/* 0008(18)  */ PACK uint8  unknown_0008[0x0012];
+	/* 0008()    */ PACK uint8   unknown_0008[0x0012];
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
 } GCC_PACKED HouseInfo;
 MSVC_PACKED_END
@@ -29,7 +29,7 @@ assert_compile(sizeof(HouseInfo) == 0x1E);
 
 MSVC_PACKED_BEGIN
 /**
- * Inside the GlobalData the raw information as in dune.cfg is stored. This
+ * Inside the GlobalData is the raw information as in dune.cfg is stored. This
  *  is the layout of dune.cfg.
  */
 typedef struct DuneCfg {
@@ -46,6 +46,25 @@ typedef struct DuneCfg {
 } GCC_PACKED DuneCfg;
 MSVC_PACKED_END
 assert_compile(sizeof(DuneCfg) == 0xA);
+
+MSVC_PACKED_BEGIN
+/**
+ * Inside the GlobalData is information about the current loaded scenario.
+ *  The is the layout of that data.
+ */
+typedef struct Scenario {
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*<! ?? Set to either 0x290 or 0x0. */
+	/* 0002(2)   */ PACK uint16 winFlags;                   /*<! BASIC/WinFlags. */
+	/* 0004(2)   */ PACK uint16 loseFlags;                  /*<! BASIC/LoseFlags. */
+	/* 0006(4)   */ PACK uint32 mapSeed;                    /*<! MAP/Seed. */
+	/* 000A(2)   */ PACK uint16 timeOut;                    /*<! BASIC/TimeOut. */
+	/* 000C(14)  */ PACK char   pictureBriefing[14];        /*<! BASIC/BriefPicture. */
+	/* 001A(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
+	/* 0028(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
+	/* 0036()    */ PACK uint8   unknown_0036[0x00B0];
+} GCC_PACKED Scenario;
+MSVC_PACKED_END
+assert_compile(sizeof(Scenario) == 0xE6);
 
 MSVC_PACKED_BEGIN
 /**
@@ -437,22 +456,28 @@ typedef struct GlobalData {
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
 	/* 37F8(180) */ PACK HouseInfo houseInfo[6];            /*!< Information about the houses. */
 	/* 38AC()    */ PACK uint8   unknown_38AC[0x0004];
-	/* 38B0(2)   */ PACK uint16 variable_38B0;              /*!< ?? */
+	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 variable_38B2;              /*!< ?? */
-	/* 38B4()    */ PACK uint8   unknown_38B4[0x0008];
+	/* 38B4(2)   */ PACK uint16 playerCredits;              /*!< Credits currently owned by player. */
+	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?). */
 	/* 38BE()    */ PACK uint8   unknown_38BE[0x0008];
 	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
 	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
 	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
 	/* 38DA(4)   */ PACK csip32 variable_38DA;              /*!< ?? */
-	/* 38DE(2)   */ PACK uint16 variable_38DE;              /*!< ?? */
-	/* 38E0(2)   */ PACK uint16 variable_38E0;              /*!< ?? */
+	/* 38DE(2)   */ PACK uint16 variable_38DE;              /*!< ?? Max length of variable_38DA memory field. */
+	/* 38E0(2)   */ PACK uint16 variable_38E0;              /*!< ?? Current used length of variable_38DA memory field. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information. */
-	/* 39F2()    */ PACK uint8   unknown_39F2[0x001C];
+	/* 39F2()    */ PACK uint8   unknown_39F2[0x000A];
+	/* 39FC(2)   */ PACK uint16 variable_39FC;              /*!< ?? */
+	/* 39FE(2)   */ PACK uint16 variable_39FE;              /*!< ?? */
+	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
+	/* 3A02(2)   */ PACK uint16 variable_3A02;              /*!< ?? */
+	/* 3A04()    */ PACK uint8   unknown_3A04[0x000A];
 	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
@@ -462,7 +487,8 @@ typedef struct GlobalData {
 	/* 3A32(2)   */ PACK uint16 variable_3A32;              /*!< ?? */
 	/* 3A34()    */ PACK uint8   unknown_3A34[0x0004];
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
-	/* 3A3A()    */ PACK uint8   unknown_3A3A[0x00FA];
+	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
+	/* 3A3E()    */ PACK uint8   unknown_3A3A[0x00F6];
 	/* 3B34(2)   */ PACK uint16 variable_3B34;              /*!< ?? */
 	/* 3B36(2)   */ PACK uint16 variable_3B36;              /*!< ?? */
 	/* 3B38()    */ PACK uint8   unknown_3B38[0x0018];
@@ -647,7 +673,9 @@ typedef struct GlobalData {
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
 	/* 87BA(6)   */ PACK uint8  houseFindStruct[6];         /*!< Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
-	/* 87D8()    */ PACK uint8   unknown_87D8[0x1094];
+	/* 87D8()    */ PACK uint8   unknown_87D8[0x0525];
+	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
+	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A89];
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
 	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */

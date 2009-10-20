@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__1381_0005_0010_8273()
+ * Decompiled function emu_Action_StringToID()
  *
- * @name f__1381_0005_0010_8273
+ * @name emu_Action_StringToID
  * @implements 1381:0005:0010:8273 ()
  * @implements 1381:0015:0023:81F4
  * @implements 1381:0038:000B:E2C7
@@ -17,7 +17,7 @@
  *
  * Called From: B4B5:054C:000A:7577
  */
-void f__1381_0005_0010_8273()
+void emu_Action_StringToID()
 {
 l__0005:
 	emu_push(emu_bp);
@@ -39,7 +39,7 @@ l__0015:
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x72));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x70));
-	emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__0038;
 l__0038:
 	emu_addw(&emu_sp, 0x8);
@@ -66,9 +66,9 @@ l__004E:
 }
 
 /**
- * Decompiled function f__1381_0051_0010_81BB()
+ * Decompiled function emu_House_StringToID()
  *
- * @name f__1381_0051_0010_81BB
+ * @name emu_House_StringToID
  * @implements 1381:0051:0010:81BB ()
  * @implements 1381:0061:001C:0B13
  * @implements 1381:007D:000B:E2C7
@@ -84,7 +84,7 @@ l__004E:
  * Called From: B4B5:0CEF:000A:3572
  * Called From: B4B5:0EDC:000A:3572
  */
-void f__1381_0051_0010_81BB()
+void emu_House_StringToID()
 {
 l__0051:
 	emu_push(emu_bp);
@@ -104,7 +104,7 @@ l__0061:
 	emu_bx = emu_ax;
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x37FA));
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x37F8));
-	emu_push(emu_cs); emu_push(0x007D); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x007D); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__007D;
 l__007D:
 	emu_addw(&emu_sp, 0x8);
@@ -164,7 +164,7 @@ l__009E:
 	emu_shlw(&emu_bx, emu_cl);
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x3BE4));
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x3BE2));
-	emu_push(emu_cs); emu_push(0x00B7); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x00B7); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__00B7;
 l__00B7:
 	emu_addw(&emu_sp, 0x8);
@@ -221,7 +221,7 @@ l__00D8:
 	emu_shlw(&emu_bx, emu_cl);
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x3BFC));
 	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x3BFA));
-	emu_push(emu_cs); emu_push(0x00F1); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x00F1); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__00F1;
 l__00F1:
 	emu_addw(&emu_sp, 0x8);

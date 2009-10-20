@@ -1723,7 +1723,7 @@ l__0A46:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5A);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0A5B); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0A5B); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__0A5B;
 l__0A5B:
 	emu_addw(&emu_sp, 0x8);
@@ -1976,7 +1976,7 @@ l__0C54:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5A);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__0C63;
 l__0C63:
 	emu_addw(&emu_sp, 0x8);
@@ -1990,7 +1990,7 @@ l__0C6D:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5A);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0C7C); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0C7C); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__0C7C;
 l__0C7C:
 	emu_addw(&emu_sp, 0x8);
@@ -2004,7 +2004,7 @@ l__0C86:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x5A);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0C95); emu_cs = 0x01F7; f__01F7_3964_0041_7552();
+	emu_push(emu_cs); emu_push(0x0C95); emu_cs = 0x01F7; emu_String_strcasecmp();
 	goto l__0C95;
 l__0C95:
 	emu_addw(&emu_sp, 0x8);
