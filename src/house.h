@@ -29,9 +29,9 @@ typedef struct House {
 	/* 0006(2)   */ PACK uint16 unitCount;                  /*!< Amount of units owned by House. */
 	/* 0008(2)   */ PACK uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */
 	/* 000A()    */ PACK uint8   unknown_000A[0x0008];
-	/* 0012(2)   */ PACK uint16 creditStart;                /*!< Amount of credits the House starts with. */
+	/* 0012(2)   */ PACK uint16 credits;                    /*!< Amount of credits the House currently has. */
 	/* 0014()    */ PACK uint8   unknown_0014[0x0008];
-	/* 001C(2)   */ PACK uint16 creditQuota;                /*!< Quota house has to reach to win the mission. */
+	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
 	/* 001E()    */ PACK uint8   unknown_001E[0x000E];
 	/* 002C(2)   */ PACK uint16 variable_2C;                /*!< ?? */
 	/* 002E()    */ PACK uint8   unknown_002E[0x0014];
