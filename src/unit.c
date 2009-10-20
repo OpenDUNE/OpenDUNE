@@ -61,6 +61,8 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	UnitInfo *ui;
 	Unit *u;
 
+	if (houseID >= HOUSE_MAX) return NULL;
+
 	ui = &g_unitInfo[typeID];
 	u = Unit_Allocate(index, typeID, houseID);
 	if (u == NULL) return NULL;
@@ -129,7 +131,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	if (ui->variable_3C == 0x0001) {
 		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
 
-		if (emu_ax < g_global->variable_37F0[houseID * 0x1E + 0x0E]) {
+		if (emu_ax < g_global->houseInfo[houseID].variable_0006) {
 			u->flags |= 0x0400;
 		}
 	}

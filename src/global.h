@@ -5,25 +5,44 @@
 
 MSVC_PACKED_BEGIN
 typedef struct struct_7B68 {
-	/* 0(1) */ PACK uint8  variable_0;  /*<! ?? */
-	/* 1(1) */ PACK uint8  variable_1;  /*<! ?? */
-	/* 2(4) */ PACK csip32 variable_2;  /*<! CS:IP of a function. */
+	/* 0000(1)   */ PACK uint8  variable_0000;              /*<! ?? */
+	/* 0001(1)   */ PACK uint8  variable_0001;              /*<! ?? */
+	/* 0002(4)   */ PACK csip32 variable_0002;              /*<! CS:IP of a function. */
 } GCC_PACKED struct_7B68;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
 
 MSVC_PACKED_BEGIN
+/**
+ * Inside the GlobalData is information about houses. This is the layout of
+ *  that data.
+ */
+typedef struct HouseInfo {
+	/* 0000(4)   */ PACK csip32 houseName;                  /*<! Pointer to name of house. */
+	/* 0004(22)  */ PACK uint8  unknown_0004[0x0002];
+	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
+	/* 0008(18)  */ PACK uint8  unknown_0008[0x0012];
+	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
+} GCC_PACKED HouseInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(HouseInfo) == 0x1E);
+
+MSVC_PACKED_BEGIN
+/**
+ * Inside the GlobalData the raw information as in dune.cfg is stored. This
+ *  is the layout of dune.cfg.
+ */
 typedef struct DuneCfg {
-	/* 0(1) */ PACK uint8  variable_0;  /*<! ?? */
-	/* 1(1) */ PACK uint8  music;       /*<! ?? Music Score Source. */
-	/* 2(1) */ PACK uint8  sound;       /*<! ?? Sound Effect Source. */
-	/* 3(1) */ PACK uint8  digized;     /*<! ?? Digitized Source. */
-	/* 4(1) */ PACK bool   useMouse;    /*<! Use Mouse. */
-	/* 5(1) */ PACK bool   useXMS;      /*<! Use Extended Memory. */
-	/* 6(1) */ PACK uint8  variable_6;  /*<! ?? */
-	/* 7(1) */ PACK uint8  variable_7;  /*<! ?? */
-	/* 8(1) */ PACK uint8  language;    /*<! 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
-	/* 9(1) */ PACK uint8  checksum;    /*<! Used to check validity on config data. See emu_Config_Decode(). */
+	/* 0000(1)   */ PACK uint8  variable_0000;              /*<! ?? */
+	/* 0001(1)   */ PACK uint8  music;                      /*<! ?? Music Score Source. */
+	/* 0002(1)   */ PACK uint8  sound;                      /*<! ?? Sound Effect Source. */
+	/* 0003(1)   */ PACK uint8  digized;                    /*<! ?? Digitized Source. */
+	/* 0004(1)   */ PACK bool   useMouse;                   /*<! Use Mouse. */
+	/* 0005(1)   */ PACK bool   useXMS;                     /*<! Use Extended Memory. */
+	/* 0006(1)   */ PACK uint8  variable_0006;              /*<! ?? */
+	/* 0007(1)   */ PACK uint8  variable_0007;              /*<! ?? */
+	/* 0008(1)   */ PACK uint8  language;                   /*<! 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
+	/* 0009(1)   */ PACK uint8  checksum;                   /*<! Used to check validity on config data. See emu_Config_Decode(). */
 } GCC_PACKED DuneCfg;
 MSVC_PACKED_END
 assert_compile(sizeof(DuneCfg) == 0xA);
@@ -67,8 +86,8 @@ typedef struct GlobalData {
 	/* 00B2(10)  */ PACK char   string_00B2[10];            /*!< "DUNE2.EXE" NULL terminated. */
 	/* 00BC(10)  */ PACK char   string_00BC[9];             /*!< "DUNE.CFG" NULL terminated. */
 	/* 00C5(152) */ PACK char   string_00C5[152];           /*!< "\r\nThe setup program must be run first.\r\n"
-	                                                         *   "\r\nZuerst muá das Setup-Programm betrieben werden.\r\n"
-	                                                         *   "\r\nLe programme de configuration doit d'abord ˆtre lanc‚.\r\n"
+	                                                         *   "\r\nZuerst muÃŸ das Setup-Programm betrieben werden.\r\n"
+	                                                         *   "\r\nLe programme de configuration doit d'abord Ãªtre lancÃ©.\r\n"
 	                                                         *   "\r\n" NULL terminated. */
 	/* 015D(36)  */ PACK char   string_015D[36];            /*!< "Insufficient memory by %ld bytes.\r\n" NULL terminated. */
 	/* 0181(29)  */ PACK char   string_0181[29];            /*!< "Unrecognized graphic mode!\r\n" NULL terminated. */
@@ -246,7 +265,7 @@ typedef struct GlobalData {
 	/* 18D0(13)  */ PACK char   string_18D0[13];            /*!< "GRAYRMAP.TBL" NULL terminated. */
 	/* 18DD(11)  */ PACK char   string_18DD[11];            /*!< "%04x:%04x " NULL terminated. */
 	/* 18E8(11)  */ PACK char   string_18E8[11];            /*!< "%04x-%04x " NULL terminated. */
-	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "³ " NULL terminated. */
+	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "Â³ " NULL terminated. */
 	/* 18F6(6)   */ PACK char   string_18F6[6];             /*!< "%02X " NULL terminated. */
 	/* 18FC(2)   */ PACK char   string_18FC[2];             /*!< "." NULL terminated. */
 	/* 18FE()    */ PACK uint8   unknown_18FE[0x0028];
@@ -412,9 +431,9 @@ typedef struct GlobalData {
 	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
-	/* 37B8()    */ PACK uint8   unknown_37B8[0x0038];
-	/* 37F0(180) */ PACK uint8  variable_37F0[180];         /*!< ?? It is an array of HOUSE_INDEX_MAX size at most (possible just 3), with a struct size of 0x1E. Position might be wrong. */
-	/* 38A4()    */ PACK uint8   unknown_38A4[0x000C];
+	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
+	/* 37F8(180) */ PACK HouseInfo houseInfo[6];            /*!< Information about the houses. */
+	/* 38AC()    */ PACK uint8   unknown_38AC[0x0004];
 	/* 38B0(2)   */ PACK uint16 variable_38B0;              /*!< ?? */
 	/* 38B2(2)   */ PACK uint16 variable_38B2;              /*!< ?? */
 	/* 38B4()    */ PACK uint8   unknown_38B4[0x0008];
@@ -429,7 +448,7 @@ typedef struct GlobalData {
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
-	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information */
+	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information. */
 	/* 39F2()    */ PACK uint8   unknown_39F2[0x001C];
 	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
@@ -452,9 +471,21 @@ typedef struct GlobalData {
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */
 	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
 	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
-	/* 3C46(2)   */ PACK csip32 variable_3C46;              /*!< ?? */
-	/* 3C48(2)   */ PACK csip32 variable_3C48;              /*!< ?? */
-	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x26B4];
+	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
+	/* 3C4A()    */ PACK uint8   unknown_3C4E[0x0582];
+	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
+	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
+	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
+	/* 41E9(10)  */ PACK char   string_41E9[10];            /*!< "nattr.voc" NULL terminated. */
+	/* 41F3(6)   */ PACK char   string_41F3[6];             /*!< "Ordos" NULL terminated. */
+	/* 41F9(10)  */ PACK char   string_41F9[10];            /*!< "norde.voc" NULL terminated. */
+	/* 4203(7)   */ PACK char   string_4203[7];             /*!< "Fremen" NULL terminated. */
+	/* 420A(12)  */ PACK char   string_420A[12];            /*!< "afremen.voc" NULL terminated. */
+	/* 4216(10)  */ PACK char   string_4216[10];            /*!< "Sardaukar" NULL terminated. */
+	/* 4220(10)  */ PACK char   string_4220[10];            /*!< "asard.voc" NULL terminated. */
+	/* 422A(10)  */ PACK char   string_422A[10];            /*!< "Mercenary" NULL terminated. */
+	/* 4234(10)  */ PACK char   string_4234[10];            /*!< "amerc.voc" NULL terminated. */
+	/* 423E()    */ PACK uint8   unknown_423E[0x20C4];
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */

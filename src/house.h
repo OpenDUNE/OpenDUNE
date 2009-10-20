@@ -10,9 +10,12 @@ typedef enum HouseType {
 	HOUSE_HARKONNEN = 0,
 	HOUSE_ATREIDES  = 1,
 	HOUSE_ORDOS     = 2,
-	/* TODO -- Are there more houses above 2? */
+	HOUSE_FREMEN    = 3,
+	HOUSE_SARDAUKAR = 4,
+	HOUSE_MERCENARY = 5,
 
-	HOUSE_INVALID = 0xFFFF
+	HOUSE_MAX       = 6,
+	HOUSE_INVALID   = 0xFFFF
 } HouseType;
 
 MSVC_PACKED_BEGIN
