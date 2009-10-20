@@ -8103,6 +8103,7 @@ l__37F8:
  * @implements 01F7:3803:001E:AAD4 ()
  * @implements 01F7:3821:0005:6383
  *
+ * Called From: B4B8:156F:0026:6A7F
  * Called From: B4DA:1240:0018:9D99
  * Called From: B503:0655:0033:8391
  * Called From: B503:09B3:001C:7696
@@ -8412,6 +8413,7 @@ l__38F6:
  * Called From: 1381:00EC:0019:21EC
  * Called From: 176C:6E65:000B:EB5E
  * Called From: 1FB5:1B04:0011:AD2D
+ * Called From: B4B8:15AC:0023:DD60
  * Called From: B530:002E:0023:BD3C
  * Called From: B533:002E:0023:A798
  */
@@ -8511,6 +8513,7 @@ l__399D:
  * Called From: B4B5:1052:001B:6488
  * Called From: B4B8:0B1D:0022:7AFB
  * Called From: B4B8:11DD:000E:4382
+ * Called From: B4B8:161D:000B:714A
  * Called From: B4DA:0E12:0013:390A
  * Called From: B4DA:13AC:000D:BCD8
  * Called From: B4DA:161D:000D:BCD8
