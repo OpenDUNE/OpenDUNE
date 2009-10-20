@@ -61,7 +61,10 @@ typedef struct GlobalData {
 	/* 005F(4)   */ PACK csip32 oldInterrupt04;             /*!< CS:IP of original INT04 handler. */
 	/* 0063(4)   */ PACK csip32 oldInterrupt05;             /*!< CS:IP of original INT05 handler. */
 	/* 0067(4)   */ PACK csip32 oldInterrupt06;             /*!< CS:IP of original INT06 handler. */
-	/* 006B()    */ PACK uint8   unknown_006B[0x000A];
+	/* 006B(2)   */ PACK uint16 variable_006B;              /*!< ?? */
+	/* 006D(4)   */ PACK csip32 variable_006D;              /*!< ?? */
+	/* 0071(2)   */ PACK uint16 variable_0071;              /*!< ?? */
+	/* 0073(2)   */ PACK uint16 variable_0073;              /*!< ?? */
 	/* 0075(2)   */ PACK uint16 environmentSize;            /*!< Size of environment in bytes. */
 	/* 0077(2)   */ PACK uint16 environmentSegment;         /*!< Environment segment. */
 	/* 0079(2)   */ PACK uint16 variable_0079;              /*!< ?? Something related to number of environment variables. */
@@ -623,7 +626,16 @@ typedef struct GlobalData {
 	/* 798A(1)   */ PACK uint8  variable_798A;              /*!< ?? Something related to files. */
 	/* 798B()    */ PACK uint8   unknown_798B[0x00DD];
 	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
-	/* 7A6A()    */ PACK uint8   unknown_7A6A[0x00FE];
+	/* 7A6A()    */ PACK uint8   unknown_7A6A[0x009C];
+	/* 7B06(2)   */ PACK uint16 variable_7B06;              /*!< ?? */
+	/* 7B08(4)   */ PACK csip32 variable_7B08;              /*!< ?? */
+	/* 7B0C(4)   */ PACK csip32 variable_7B0C;              /*!< ?? */
+	/* 7B10(2)   */ PACK uint16 variable_7B10;              /*!< ?? */
+	/* 7B12(2)   */ PACK uint16 variable_7B12;              /*!< ?? */
+	/* 7B14(2)   */ PACK uint16 variable_7B14;              /*!< ?? */
+	/* 7B16(2)   */ PACK uint16 variable_7B16;              /*!< ?? */
+	/* 7B18(2)   */ PACK uint16 variable_7B18;              /*!< ?? */
+	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x004E];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x08AC];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
