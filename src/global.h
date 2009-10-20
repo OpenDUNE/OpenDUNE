@@ -438,7 +438,13 @@ typedef struct GlobalData {
 	/* 2ADE(8)   */ PACK char   string_2ADE[8];             /*!< "%s=%d\r\n" NULL terminated. */
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
-	/* 2AF3()    */ PACK uint8   unknown_2AF3[0x001F];
+	/* 2AF3()    */ PACK uint8   unknown_2AF3[0x0005];
+	/* 2AF8(4)   */ PACK char   string_2AF8[4];            /*!< "ENG" NULL terminated. */
+	/* 2AFC(4)   */ PACK char   string_2AFC[4];            /*!< "FRE" NULL terminated. */
+	/* 2B00(4)   */ PACK char   string_2B00[4];            /*!< "GER" NULL terminated. */
+	/* 2B04(4)   */ PACK char   string_2B04[4];            /*!< "ITA" NULL terminated. */
+	/* 2B08(4)   */ PACK char   string_2B08[4];            /*!< "SPA" NULL terminated. */
+	/* 2B0C()    */ PACK uint8   unknown_2B0C[0x0006];
 	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */
 	/* 2B1E(11)  */ PACK char   string_2B1E[11];            /*!< "PLANET.CPS" NULL terminated. */
 	/* 2B29(12)  */ PACK char   string_2B29[12];            /*!< "DUNEMAP.CPS" NULL terminated. */
@@ -462,7 +468,30 @@ typedef struct GlobalData {
 	/* 2BF5(10)  */ PACK char   string_2BF5[10];            /*!< "FARTR.WSA" NULL terminated. */
 	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
-	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x09D9];
+	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x002F];
+	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
+	/* 2C41(13)  */ PACK char   string_2C41[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
+	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */
+	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
+	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
+	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x021A];
+	/* 2E78()    */ PACK uint8   unknown_2E78[0x031D];
+	/* 3195()    */ PACK uint8   unknown_3195[0x000A];
+	/* 319F(7)   */ PACK char   string_319F[7];            /*!< "<MORE>" NULL terminated. */
+	/* 31A6(3)   */ PACK char   string_31A6[3];            /*!< "%d" NULL terminated. */
+	/* 31A9()    */ PACK uint8   unknown_31A9[0x002F];
+	/* 3178(4)   */ PACK char   string_3178[4];            /*!< "ENG" NULL terminated. */
+	/* 317C(4)   */ PACK char   string_317C[4];            /*!< "FRE" NULL terminated. */
+	/* 3180(4)   */ PACK char   string_3180[4];            /*!< "GER" NULL terminated. */
+	/* 3184(4)   */ PACK char   string_3184[4];            /*!< "ITA" NULL terminated. */
+	/* 3188(4)   */ PACK char   string_3188[4];            /*!< "SPA" NULL terminated. */
+	/* 318C(4)   */ PACK char   string_318C[4];            /*!< "FRE" NULL terminated. */
+	/* 3190(4)   */ PACK char   string_3190[4];            /*!< "GER" NULL terminated. */
+	/* 3194(5)   */ PACK char   string_3194[5];            /*!< "DUNE" NULL terminated. */
+	/* 3199(9)   */ PACK char   string_3199[9];            /*!< "DUNE.LOG" NULL terminated. */
+	/* 31A2(2)   */ PACK char   string_31A2[2];            /*!< "." NULL terminated. */
+	/* 31A4(9)   */ PACK char   string_31A4[9];            /*!< "DUNEINIT" NULL terminated. */
+	/* 31AD()    */ PACK uint8   unknown_31AD[0x03DB];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
