@@ -351,7 +351,29 @@ typedef struct GlobalData {
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
 	/* 2005()    */ PACK uint8   unknown_2005[0x01C8];
-	/* 21CD()    */ PACK uint8   unknown_21CD[0x00E7];
+	/* 21CD(10)  */ PACK char   string_21CD[10];            /*!< "MOUSE.SHP" NULL terminated. */
+	/* 21D7(5)   */ PACK char   string_21D7[5];             /*!< "BTTN" NULL terminated. */
+	/* 21DC(11)  */ PACK char   string_21DC[11];            /*!< "SHAPES.SHP" NULL terminated. */
+	/* 21E7(11)  */ PACK char   string_21E7[11];            /*!< "UNITS2.SHP" NULL terminated. */
+	/* 21F2(11)  */ PACK char   string_21F2[11];            /*!< "UNITS1.SHP" NULL terminated. */
+	/* 21FD(10)  */ PACK char   string_21FD[10];            /*!< "UNITS.SHP" NULL terminated. */
+	/* 2207()    */ PACK uint8   unknown_2207[0x0001];
+	/* 2208(7)   */ PACK char   string_2208[7];             /*!< "MENTAT" NULL terminated. */
+	/* 220F(13)  */ PACK char   string_220F[13];            /*!< "MENSHP%c.SHP" NULL terminated. */
+	/* 221C()    */ PACK uint8   unknown_221C[0x0001];
+	/* 221D(10)  */ PACK char   string_221D[10];            /*!< "MOUSE.SHP" NULL terminated. */
+	/* 2227(5)   */ PACK char   string_2227[5];             /*!< "BTTN" NULL terminated. */
+	/* 222C(11)  */ PACK char   string_222C[11];            /*!< "SHAPES.SHP" NULL terminated. */
+	/* 2237(6)   */ PACK char   string_2237[6];             /*!< "CHOAM" NULL terminated. */
+	/* 223D()    */ PACK uint8   unknown_223D[0x0001];
+	/* 223E(9)   */ PACK char   string_223E[9];             /*!< "ICON.ICN" NULL terminated. */
+	/* 2247(9)   */ PACK char   string_2247[9];             /*!< "ICON.MAP" NULL terminated. */
+	/* 2250(5)   */ PACK char   string_2250[5];             /*!< "UNIT" NULL terminated. */
+	/* 2255(10)  */ PACK char   string_2255[10];            /*!< "construct" NULL terminated. */
+	/* 225F(24)  */ PACK char   string_225F[24];            /*!< "%d,%d,%d,%d,%d,%d,%d,%d" NULL terminated. */
+	/* 2277(35)  */ PACK char   string_2277[35];            /*!< "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d" NULL terminated. */
+	/* 229A(7)   */ PACK char   string_229A[7];             /*!< "combat" NULL terminated. */
+	/* 22A1(7)   */ PACK char   string_22A1[19];             /*!< "%*s%4d,%4d,%4d,%4d" NULL terminated. */
 	/* 22B4(12)  */ PACK char   string_22B4[12];            /*!< "PROFILE.INI" NULL terminated. */
 	/* 22C0(8)   */ PACK char   string_22C0[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 22C8(8)   */ PACK char   string_22C8[8];             /*!< "MESSAGE" NULL terminated. */
