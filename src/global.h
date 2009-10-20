@@ -485,7 +485,31 @@ typedef struct GlobalData {
 	/* 4220(10)  */ PACK char   string_4220[10];            /*!< "asard.voc" NULL terminated. */
 	/* 422A(10)  */ PACK char   string_422A[10];            /*!< "Mercenary" NULL terminated. */
 	/* 4234(10)  */ PACK char   string_4234[10];            /*!< "amerc.voc" NULL terminated. */
-	/* 423E()    */ PACK uint8   unknown_423E[0x20C4];
+	/* 423E(5)   */ PACK char   string_423E[5];             /*!< "Foot" NULL terminated. */
+	/* 4243(8)   */ PACK char   string_4243[8];             /*!< "Tracked" NULL terminated. */
+	/* 424B(10)  */ PACK char   string_424B[10];            /*!< "Harvester" NULL terminated. */
+	/* 4255(8)   */ PACK char   string_4255[8];             /*!< "Wheeled" NULL terminated. */
+	/* 425D(7)   */ PACK char   string_425D[7];             /*!< "Winged" NULL terminated. */
+	/* 4264(8)   */ PACK char   string_4264[8];             /*!< "Slither" NULL terminated. */
+	/* 426C(7)   */ PACK char   string_426C[7];             /*!< "Normal" NULL terminated. */
+	/* 4273(8)   */ PACK char   string_4273[8];             /*!< "Staging" NULL terminated. */
+	/* 427B(5)   */ PACK char   string_427B[5];             /*!< "Flee" NULL terminated. */
+	/* 4280(9)   */ PACK char   string_4280[9];             /*!< "Kamikaze" NULL terminated. */
+	/* 4289(6)   */ PACK char   string_4289[6];             /*!< "Guard" NULL terminated. */
+	/* 428F(7)   */ PACK char   string_428F[7];             /*!< "Attack" NULL terminated. */
+	/* 4296(5)   */ PACK char   string_4296[5];             /*!< "Move" NULL terminated. */
+	/* 429B(8)   */ PACK char   string_429B[8];             /*!< "Retreat" NULL terminated. */
+	/* 42A3(11)  */ PACK char   string_42A3[11];            /*!< "Area Guard" NULL terminated. */
+	/* 42AE(8)   */ PACK char   string_42AE[8];             /*!< "Harvest" NULL terminated. */
+	/* 42B6(7)   */ PACK char   string_42B6[7];             /*!< "Return" NULL terminated. */
+	/* 42BD(5)   */ PACK char   string_42BD[5];             /*!< "Stop" NULL terminated. */
+	/* 42C2(7)   */ PACK char   string_42C2[7];             /*!< "Ambush" NULL terminated. */
+	/* 42C9(9)   */ PACK char   string_42C9[9];             /*!< "Sabotage" NULL terminated. */
+	/* 42D2(4)   */ PACK char   string_42D2[4];             /*!< "Die" NULL terminated. */
+	/* 42D6(5)   */ PACK char   string_42D6[5];             /*!< "Hunt" NULL terminated. */
+	/* 42DB(7)   */ PACK char   string_42DB[7];             /*!< "Deploy" NULL terminated. */
+	/* 42E2(9)   */ PACK char   string_42E2[9];             /*!< "Destruct" NULL terminated. */
+	/* 42EB()    */ PACK uint8   unknown_42EB[0x2017];
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
