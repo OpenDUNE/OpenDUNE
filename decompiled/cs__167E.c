@@ -660,6 +660,7 @@ l__027E:
  *
  * Called From: 06F7:00EE:0008:086B
  * Called From: 06F7:018F:000C:AE31
+ * Called From: 06F7:01A0:0011:A76A
  * Called From: 06F7:02A2:000C:9030
  * Called From: 06F7:02A2:0016:E02E
  * Called From: 0972:0AAF:000A:8B0A

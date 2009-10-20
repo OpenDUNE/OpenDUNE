@@ -4616,6 +4616,7 @@ l__1C17:
  *
  * @name f__B4CD_1C1A_001A_9C1B
  * @implements B4CD:1C1A:001A:9C1B ()
+ * @implements B4CD:1C2F:0005:1C9C
  * @implements B4CD:1C31:0003:1D08
  * @implements B4CD:1C34:0009:A4FE
  * @implements B4CD:1C3D:000E:D7F5
@@ -4631,6 +4632,7 @@ l__1C17:
  * @implements B4CD:1CB1:000C:2B84
  * @implements B4CD:1CBD:000B:3A20
  * @implements B4CD:1CCB:0009:8EEF
+ * @implements B4CD:1CD1:0003:A2B6
  * @implements B4CD:1CD4:0006:F7CE
  *
  * Called From: 34CD:0075:0005:0000
@@ -4645,9 +4647,12 @@ l__1C1A:
 	emu_push(emu_di);
 	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x6), 0x0);
-	if (emu_get_memory16(emu_ss, emu_bp,  0x6) == 0x0) { /* Unresolved jump */ emu_ip = 0x1C2F; emu_last_cs = 0xB4CD; emu_last_ip = 0x1C29; emu_last_length = 0x001A; emu_last_crc = 0x9C1B; emu_call(); return; }
-	emu_orw(&emu_di, emu_di);
-	if (emu_di != 0) goto l__1C34;
+	if (emu_get_memory16(emu_ss, emu_bp,  0x6) != 0x0) {
+		emu_orw(&emu_di, emu_di);
+		if (emu_di != 0) goto l__1C34;
+	}
+	goto l__1C2F;
+l__1C2F:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__1C31;
 l__1C31:
@@ -4674,7 +4679,7 @@ l__1C4B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0xA);
-	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x4) <= (int16)0xA) { /* Unresolved jump */ emu_ip = 0x1CD1; emu_last_cs = 0xB4CD; emu_last_ip = 0x1C54; emu_last_length = 0x0012; emu_last_crc = 0xECD6; emu_call(); return; }
+	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x4) <= (int16)0xA) goto l__1CD1;
 	emu_get_memory16(emu_ss, emu_bp, -0x8) = 0x0;
 	goto l__1CCB;
 l__1C5D:
@@ -4752,7 +4757,9 @@ l__1CBD:
 l__1CCB:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x4);
 	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x8) < (int16)0x4) goto l__1C5D;
-	/* Unresolved jump */ emu_ip = 0x1C2F; emu_last_cs = 0xB4CD; emu_last_ip = 0x1CD1; emu_last_length = 0x0009; emu_last_crc = 0x8EEF; emu_call();
+	goto l__1CD1;
+l__1CD1:
+	goto l__1C2F;
 l__1CD4:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
