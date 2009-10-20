@@ -3769,7 +3769,7 @@ l__1B26:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1B33); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
+	emu_push(emu_cs); emu_push(0x1B33); emu_cs = 0x01F7; emu_String_sprintf();
 	goto l__1B33;
 l__1B33:
 	emu_addw(&emu_sp, 0xC);

@@ -41,6 +41,7 @@
 01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
 01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
+01F7:378D:0020:0F64	emu_String_sprintf	# (buf, format, param1, ...)
 01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 

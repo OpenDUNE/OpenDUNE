@@ -995,7 +995,7 @@ extern void f__1A34_350F_0021_9B04();
 extern void f__01F7_352D_0051_5751();
 extern void emu_Unit_UntargetMe();
 extern void f__01F7_374D_001D_AA1B();
-extern void f__01F7_378D_0020_0F64();
+extern void emu_String_sprintf();
 extern void f__1A34_379B_0015_B07B();
 extern void f__01F7_37AF_001F_03E8();
 extern void f__01F7_37D0_0021_EE69();

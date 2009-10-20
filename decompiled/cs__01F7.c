@@ -7911,9 +7911,9 @@ l__376A:
 }
 
 /**
- * Decompiled function f__01F7_378D_0020_0F64()
+ * Decompiled function emu_String_sprintf()
  *
- * @name f__01F7_378D_0020_0F64
+ * @name emu_String_sprintf
  * @implements 01F7:378D:0020:0F64 ()
  * @implements 01F7:37AD:0002:2597
  *
@@ -7957,7 +7957,7 @@ l__376A:
  * Called From: B511:12E7:002A:D28B
  * Called From: B518:0CBC:000D:A042
  */
-void f__01F7_378D_0020_0F64()
+void emu_String_sprintf()
 {
 l__378D:
 	emu_push(emu_bp);

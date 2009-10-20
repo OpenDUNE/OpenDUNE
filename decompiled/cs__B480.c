@@ -463,7 +463,7 @@ l__0322:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0xCC);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x039F); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
+	emu_push(emu_cs); emu_push(0x039F); emu_cs = 0x01F7; emu_String_sprintf();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { overlay(0x3480, 1); }
 	goto l__039F;

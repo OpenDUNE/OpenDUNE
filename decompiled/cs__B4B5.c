@@ -233,7 +233,7 @@ l__0014:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x22);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
+	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; emu_String_sprintf();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__004C;

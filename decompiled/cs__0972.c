@@ -758,7 +758,7 @@ l__0605:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0617); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
+	emu_push(emu_cs); emu_push(0x0617); emu_cs = 0x01F7; emu_String_sprintf();
 	goto l__0617;
 l__0617:
 	emu_addw(&emu_sp, 0x10);
@@ -3125,7 +3125,7 @@ l__175E:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1788); emu_cs = 0x01F7; f__01F7_378D_0020_0F64();
+	emu_push(emu_cs); emu_push(0x1788); emu_cs = 0x01F7; emu_String_sprintf();
 	goto l__1788;
 l__1788:
 	emu_addw(&emu_sp, 0x14);
