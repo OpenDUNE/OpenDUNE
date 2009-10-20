@@ -107,6 +107,8 @@
 
 2B0E:00D0:0022:EC76	emu_Tools_GetSmallestIP	# Move as much of the IP to CS
 
+B4B5:0000:0014:F092	emu_Scenario_Load	# (scenarioID, playerHouseID)
+
 B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro

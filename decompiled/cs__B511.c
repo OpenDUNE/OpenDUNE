@@ -81,7 +81,7 @@ l__0034:
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x38BC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0041); emu_cs = 0x34B5; overlay(0x34B5, 0); f__B4B5_0000_0014_F092();
+	emu_push(emu_cs); emu_push(0x0041); emu_cs = 0x34B5; overlay(0x34B5, 0); emu_Scenario_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 	goto l__0041;

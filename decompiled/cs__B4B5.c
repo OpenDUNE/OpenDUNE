@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4B5_0000_0014_F092()
+ * Decompiled function emu_Scenario_Load()
  *
- * @name f__B4B5_0000_0014_F092
+ * @name emu_Scenario_Load
  * @implements B4B5:0000:0014:F092 ()
  * @implements B4B5:000F:0005:94AD
  * @implements B4B5:0011:0003:9539
@@ -213,7 +213,7 @@
  *
  * Called From: 34B5:0020:0005:0000
  */
-void f__B4B5_0000_0014_F092()
+void emu_Scenario_Load()
 {
 l__0000:
 	emu_push(emu_bp);
