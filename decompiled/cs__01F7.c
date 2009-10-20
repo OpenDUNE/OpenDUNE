@@ -839,6 +839,7 @@ l__0372:
  * Called From: B480:002E:000A:50E7
  * Called From: B480:01E1:0009:F557
  * Called From: B4B8:1D65:0008:C68B
+ * Called From: B511:0084:0008:C68B
  * Called From: B511:0485:0008:C68B
  * Called From: B511:0702:0008:C68B
  * Called From: B53B:0317:0009:F157
@@ -4955,6 +4956,8 @@ l__201F:
 		case 0x3EEE0E1E: f__3EEE_0E1E_0003_4293(); break;
 		case 0x3EEE0E46: f__3EEE_0E46_0003_4293(); break;
 		case 0x3EEE0E4A: f__3EEE_0E4A_0003_4293(); break;
+		case 0x3EEE0E6C: f__3EEE_0E6C_0003_4293(); break;
+		case 0x3EEE0E70: f__3EEE_0E70_0003_4293(); break;
 		case 0x3EEE0E82: f__3EEE_0E82_0003_4293(); break;
 		case 0x3EEE0E86: f__3EEE_0E86_0003_4293(); break;
 		case 0x3EEE0E90: f__3EEE_0E90_0003_4293(); break;
@@ -5419,6 +5422,10 @@ l__222E:
  * Called From: B4B5:0754:000F:A0F4
  * Called From: B4B5:07E8:000A:882F
  * Called From: B4B5:0807:000A:882F
+ * Called From: B4B5:08F8:000F:40EC
+ * Called From: B4B5:0926:0012:1539
+ * Called From: B4B5:0982:000A:882F
+ * Called From: B4B5:09AE:000A:882F
  * Called From: B4B5:0A9C:000B:0225
  * Called From: B4B5:0B40:000B:0225
  * Called From: B4B5:0CA8:000B:3223
@@ -5981,6 +5988,7 @@ l__2888:
  * Called From: 176C:2035:001F:0FEC
  * Called From: 1DB6:0050:0019:FD4E
  * Called From: 259E:00DD:0015:D443
+ * Called From: B4B5:0914:001C:78CD
  * Called From: B4B8:02F2:0015:4DA7
  * Called From: B4B8:05E8:0015:4DA7
  * Called From: B4B8:1707:0017:8515
@@ -8483,6 +8491,7 @@ l__399D:
  * Called From: B495:06DC:000D:B8ED
  * Called From: B4B5:0292:000B:6FB9
  * Called From: B4B5:03A6:000B:6148
+ * Called From: B4B5:03A6:0023:F5D3
  * Called From: B4B5:062D:000E:6326
  * Called From: B4B5:062D:000B:414C
  * Called From: B4B5:064A:000B:6148
@@ -8490,6 +8499,7 @@ l__399D:
  * Called From: B4B5:087A:000B:414C
  * Called From: B4B5:0897:000B:6148
  * Called From: B4B5:0A35:000B:714A
+ * Called From: B4B5:0A35:0087:69AC
  * Called From: B4B5:0C3E:000B:6148
  * Called From: B4B5:0E39:000B:414C
  * Called From: B4B5:0E39:003C:C4FF
@@ -8752,6 +8762,7 @@ l__3AEE:
  * @implements 01F7:3B15:000E:8402
  * @implements 01F7:3B23:0042:18E1
  * @implements 01F7:3B35:0030:ADAF
+ * @implements 01F7:3B3E:0027:AFA7
  * @implements 01F7:3B4B:001A:0078
  * @implements 01F7:3B55:0010:9E5D
  * @implements 01F7:3B65:000F:A092
@@ -8775,6 +8786,8 @@ l__3AEE:
  * Called From: B4B5:07B0:0014:A580
  * Called From: B4B5:07DE:0010:8687
  * Called From: B4B5:07FD:0015:F37B
+ * Called From: B4B5:0978:0013:2B96
+ * Called From: B4B5:09A4:0022:7AC5
  * Called From: B4B5:0A7E:0013:2BE2
  * Called From: B4B5:0ADA:003E:17EA
  * Called From: B4B5:0B22:0013:2BE2
@@ -8817,13 +8830,15 @@ l__3B23:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x9AE2));
 	emu_cmpb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x0));
-	if (emu_al == emu_get_memory8(emu_es, emu_bx, 0x0)) { /* Unresolved jump */ emu_ip = 0x3B3E; emu_last_cs = 0x01F7; emu_last_ip = 0x3B30; emu_last_length = 0x0042; emu_last_crc = 0x18E1; emu_call(); return; }
+	if (emu_al == emu_get_memory8(emu_es, emu_bx, 0x0)) goto l__3B3E;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
 	goto l__3B35;
 l__3B35:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
 	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 0x0) goto l__3B23;
+	goto l__3B3E;
+l__3B3E:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
 	if (emu_get_memory8(emu_es, emu_bx, 0x0) == 0x0) goto l__3B55;

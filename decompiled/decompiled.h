@@ -703,6 +703,8 @@ extern void f__B511_0E44_000C_24F5();
 extern void f__3EEE_0E46_0003_4293();
 extern void f__3EEE_0E4A_0003_4293();
 extern void f__1423_0E4F_0010_843C();
+extern void f__3EEE_0E6C_0003_4293();
+extern void f__3EEE_0E70_0003_4293();
 extern void f__3EEE_0E82_0003_4293();
 extern void f__3EEE_0E86_0003_4293();
 extern void f__0972_0E87_0047_4065();
