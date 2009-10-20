@@ -479,7 +479,7 @@ l__032C:
 	goto l__03AE;
 l__032F:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x0335); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x0335); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__0335;
 l__0335:
 	emu_pop(&emu_cx);
@@ -909,7 +909,7 @@ l__078F:
 	goto l__07A3;
 l__07A3:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x07A9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x07A9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__07A9;
 l__07A9:
 	emu_pop(&emu_cx);
@@ -1590,7 +1590,7 @@ l__0F2B:
 	goto l__0E3D;
 l__0F2E:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0F34); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x0F34); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__0F34;
 l__0F34:
 	emu_pop(&emu_cx);
@@ -3409,7 +3409,7 @@ l__1ACC:
 	goto l__1AFA;
 l__1AD2:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x1AD8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x1AD8); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__1AD8;
 l__1AD8:
 	emu_pop(&emu_cx);
@@ -3597,7 +3597,7 @@ l__1BE2:
 	goto l__1C0C;
 l__1BE4:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x1BEA); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x1BEA); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__1BEA;
 l__1BEA:
 	emu_pop(&emu_cx);
@@ -6502,7 +6502,7 @@ l__2FB2:
 	goto l__300E;
 l__2FB4:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x2FBA); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x2FBA); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__2FBA;
 l__2FBA:
 	emu_pop(&emu_cx);
@@ -6895,7 +6895,7 @@ l__3244:
 	goto l__327D;
 l__3246:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x324C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x324C); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__324C;
 l__324C:
 	emu_pop(&emu_cx);

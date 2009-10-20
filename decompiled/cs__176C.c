@@ -5972,7 +5972,7 @@ l__2B09:
 	emu_push(emu_ax);
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2B19); emu_cs = 0x0C3A; f__0C3A_0009_0029_BF94();
+	emu_push(emu_cs); emu_push(0x2B19); emu_cs = 0x0C3A; emu_Building_Create();
 	goto l__2B19;
 l__2B19:
 	emu_addw(&emu_sp, 0x8);

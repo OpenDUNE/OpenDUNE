@@ -445,7 +445,7 @@ l__030B:
 	emu_orw(&emu_si, emu_si);
 	if (emu_si == 0) goto l__037A;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x031E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x031E); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__031E;
 l__031E:
 	emu_pop(&emu_cx);
@@ -1536,7 +1536,7 @@ l__097B:
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0985); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x0985); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__0985;
 l__0985:
 	emu_pop(&emu_cx);

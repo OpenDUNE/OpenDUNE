@@ -1427,7 +1427,7 @@ l__07A0:
 l__07C0:
 	emu_push(emu_di);
 	emu_push(emu_cs);
-	emu_push(0x07C5); f__B4CD_1133_0039_A02F();
+	emu_push(0x07C5); emu_Building_GetByPackedTile();
 	goto l__07C5;
 l__07C5:
 	emu_pop(&emu_cx);
@@ -2951,9 +2951,9 @@ l__1130:
 }
 
 /**
- * Decompiled function f__B4CD_1133_0039_A02F()
+ * Decompiled function emu_Building_GetByPackedTile()
  *
- * @name f__B4CD_1133_0039_A02F
+ * @name emu_Building_GetByPackedTile
  * @implements B4CD:1133:0039:A02F ()
  * @implements B4CD:116C:0003:C81A
  * @implements B4CD:116D:0002:C33A
@@ -2964,7 +2964,7 @@ l__1130:
  * Called From: B4CD:07C2:0005:7B23
  * Called From: B4CD:131A:0008:9A3D
  */
-void f__B4CD_1133_0039_A02F()
+void emu_Building_GetByPackedTile()
 {
 l__1133:
 	emu_push(emu_bp);
@@ -3296,7 +3296,7 @@ l__1315:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_si);
 	emu_push(emu_cs);
-	emu_push(0x131D); f__B4CD_1133_0039_A02F();
+	emu_push(0x131D); emu_Building_GetByPackedTile();
 	goto l__131D;
 l__131D:
 	emu_pop(&emu_cx);

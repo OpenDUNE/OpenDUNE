@@ -1183,7 +1183,7 @@ l__071E:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; overlay(0x3530, 0); f__B530_0000_0010_8273();
+	emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; overlay(0x3530, 0); emu_Building_StringToID();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__0728;
@@ -1200,7 +1200,7 @@ l__0728:
 	emu_push(emu_di);
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; f__0C3A_0009_0029_BF94();
+	emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; emu_Building_Create();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__0744;
@@ -1281,7 +1281,7 @@ l__07B5:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; overlay(0x3530, 0); f__B530_0000_0010_8273();
+	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; overlay(0x3530, 0); emu_Building_StringToID();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__07BF;
@@ -1344,7 +1344,7 @@ l__080C:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x12) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
-	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__0819;
@@ -1356,7 +1356,7 @@ l__0819:
 	emu_push(emu_si);
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
-	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; f__0C3A_0009_0029_BF94();
+	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; emu_Building_Create();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	goto l__082B;

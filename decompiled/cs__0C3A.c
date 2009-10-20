@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0C3A_0009_0029_BF94()
+ * Decompiled function emu_Building_Create()
  *
- * @name f__0C3A_0009_0029_BF94
+ * @name emu_Building_Create
  * @implements 0C3A:0009:0029:BF94 ()
  * @implements 0C3A:0032:0017:67B7
  * @implements 0C3A:0046:0003:DDBA
@@ -35,7 +35,7 @@
  * Called From: B4B5:073F:001C:537A
  * Called From: B4B5:0826:0012:21EC
  */
-void f__0C3A_0009_0029_BF94()
+void emu_Building_Create()
 {
 l__0009:
 	emu_push(emu_bp);
@@ -1839,7 +1839,7 @@ l__0DA1:
 	emu_addw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x16));
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x0DB2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1133_0039_A02F();
+	emu_push(emu_cs); emu_push(0x0DB2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
 	goto l__0DB2;
 l__0DB2:
 	emu_pop(&emu_cx);
@@ -3660,7 +3660,7 @@ l__1A7A:
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1A9C); f__0C3A_0009_0029_BF94();
+	emu_push(0x1A9C); emu_Building_Create();
 	goto l__1A9C;
 l__1A9C:
 	emu_addw(&emu_sp, 0x8);
