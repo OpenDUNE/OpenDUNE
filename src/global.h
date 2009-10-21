@@ -29,6 +29,31 @@ assert_compile(sizeof(HouseInfo) == 0x1E);
 
 MSVC_PACKED_BEGIN
 /**
+ * Inside the GlobalData is information about digitized sound drivers. This is the layout of
+ *  that data.
+ */
+typedef struct DSDriver {
+	/* 0000(4)   */ PACK csip32 filename;                   /*<! Pointer to filename for the driver. */
+} GCC_PACKED DSDriver;
+MSVC_PACKED_END
+assert_compile(sizeof(DSDriver) == 0x04);
+
+MSVC_PACKED_BEGIN
+/**
+ * Inside the GlobalData is information about music/sound drivers. This is the layout of
+ *  that data.
+ */
+typedef struct MSDriver {
+	/* 0000(4)   */ PACK csip32 filename;                   /*<! Pointer to filename for the driver. */
+	/* 0004(4)   */ PACK csip32 extension;                  /*<! Pointer to extension used for music file names. */
+	/* 0008(2)   */ PACK uint16 variable_0008;              /*<! ?? */
+	/* 000A(2)   */ PACK uint16 variable_000A;              /*<! ?? */
+} GCC_PACKED MSDriver;
+MSVC_PACKED_END
+assert_compile(sizeof(MSDriver) == 0x0C);
+
+MSVC_PACKED_BEGIN
+/**
  * Inside the GlobalData is the raw information as in dune.cfg is stored. This
  *  is the layout of dune.cfg.
  */
@@ -688,21 +713,42 @@ typedef struct GlobalData {
 	/* 6374()    */ PACK uint8   unknown_6374[0x0028];
 	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
 	/* 639E()    */ PACK uint8   unknown_639E[0x000C];
-	/* 63AA(2)   */ PACK uint16 variable_63AA;              /*!< ?? 63AA and 63AC are 1 element of an array of unknown size. */
-	/* 63AC(2)   */ PACK uint16 variable_63AC;              /*!< ?? 63AA and 63AC are 1 element of an array of unknown size. */
-	/* 63AE()    */ PACK uint8   unknown_63AE[0x0018];
-	/* 63C6(2)   */ PACK uint16 variable_63C6;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
-	/* 63C8(2)   */ PACK uint16 variable_63C8;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
-	/* 63CA()    */ PACK uint8   unknown_63CA[0x0004];
-	/* 63CE(2)   */ PACK uint16 variable_63CE;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
-	/* 63D0(2)   */ PACK uint16 variable_63D0;              /*!< ?? 63C6, 63C8, 63CE and 63D0 are 1 element of an array of unknown size.*/
-	/* 63D2()    */ PACK uint8   unknown_63D2[0x009C];
-	/* 646E(2)   */ PACK uint16 variable_646E;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
-	/* 6470(2)   */ PACK uint16 variable_6470;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
-	/* 6472()    */ PACK uint8   unknown_6472[0x0004];
-	/* 6476(2)   */ PACK uint16 variable_6476;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
-	/* 6478(2)   */ PACK uint16 variable_6478;              /*!< ?? 646E, 6470, 6476 and 6478 are 1 element of an array of unknown size. */
-	/* 647A()    */ PACK uint8   unknown_647A[0x022A];
+	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */
+	/* 63C6(168) */ PACK MSDriver musicDrv[14];             /*!< Informations about the music drivers. */
+	/* 646E(168) */ PACK MSDriver soundDrv[14];             /*!< Informations about the sound drivers. */
+	/* 6516()    */ PACK uint8   unknown_6516[0x0002];
+	/* 6518(17)  */ PACK char  string_6518[17];             /*!< "Sound1 for %08lx" NULL terminated. */
+	/* 6529(5)   */ PACK char  string_6529[5];              /*!< ".COM" NULL terminated. */
+	/* 652E(10)  */ PACK char  string_652E[10];             /*!< "SBDIG.ADV" NULL terminated. */
+	/* 6538(11)  */ PACK char  string_6538[11];             /*!< "SBPDIG.ADV" NULL terminated. */
+	/* 6543(11)  */ PACK char  string_6543[11];             /*!< "PASDIG.ADV" NULL terminated. */
+	/* 654E(11)  */ PACK char  string_654E[11];             /*!< "ALGDIG.ADV" NULL terminated. */
+	/* 6559(11)  */ PACK char  string_6559[11];             /*!< "IBMBAK.COM" NULL terminated. */
+	/* 6564(10)  */ PACK char  string_6564[10];             /*!< "ADLIB.COM" NULL terminated. */
+	/* 656E(4)   */ PACK char  string_656E[4];              /*!< "VOC" NULL terminated. */
+	/* 6572(9)   */ PACK char  string_6572[9];              /*!< "ALFX.DRV" NULL terminated. */
+	/* 657B(4)   */ PACK char  string_657B[4];              /*!< "ADL" NULL terminated. */
+	/* 657F(12)  */ PACK char  string_657F[12];             /*!< "PCSOUND.DRV" NULL terminated. */
+	/* 658B(4)   */ PACK char  string_658B[4];              /*!< "PCS" NULL terminated. */
+	/* 658F(11)  */ PACK char  string_658F[11];             /*!< "PCSPKR.DRV" NULL terminated. */
+	/* 659A(10)  */ PACK char  string_659A[10];             /*!< "TANDY.DRV" NULL terminated. */
+	/* 65A4(4)   */ PACK char  string_65A4[4];              /*!< "TAN" NULL terminated. */
+	/* 65A8(12)  */ PACK char  string_65A8[12];             /*!< "MT32MPU.DRV" NULL terminated. */
+	/* 65C4(4)   */ PACK char  string_65B4[4];              /*!< "XMI" NULL terminated. */
+	/* 65C8(4)   */ PACK char  string_65B8[4];              /*!< "C55" NULL terminated. */
+	/* 65CC(10)  */ PACK char  string_65BC[10];             /*!< "ADLIB.ADV" NULL terminated. */
+	/* 65D6(11)  */ PACK char  string_65C6[11];             /*!< "ADLIBG.ADV" NULL terminated. */
+	/* 65E1(10)  */ PACK char  string_65D1[10];             /*!< "PASFM.ADV" NULL terminated. */
+	/* 65EB(9)   */ PACK char  string_65DB[9];              /*!< "SBFM.ADV" NULL terminated. */
+	/* 65F4(11)  */ PACK char  string_65E4[11];             /*!< "SBP1FM.ADV" NULL terminated. */
+	/* 65FF(11)  */ PACK char  string_65EF[11];             /*!< "SBP2FM.ADV" NULL terminated. */
+	/* 660A(4)   */ PACK char  string_65FA[4];              /*!< "SND" NULL terminated. */
+	/* 660E(8)   */ PACK char  string_65FE[8];              /*!< "BLASTER" NULL terminated. */
+	/* 6616(2)   */ PACK char  string_6606[2];              /*!< "." NULL terminated. */
+	/* 6618(5)   */ PACK char  string_6608[5];              /*!< ".XMI" NULL terminated. */
+	/* 661D(9)   */ PACK char  string_660D[9];              /*!< "DEFAULT." NULL terminated. */
+	/* 6626(5)   */ PACK char  string_6616[5];              /*!< "ALFX" NULL terminated. */
+	/* 661B()    */ PACK uint8   unknown_661B[0x0089];
 	/* 66A4(4)   */ PACK csip32 callbackAfterMouse;         /*!< CS:IP of routine called after mouse change. */
 	/* 66A8(12)  */ PACK uint8   unknown_66A8[0x000C];
 	/* 66B4(4)   */ PACK csip32 callbackBeforeMouse;        /*!< CS:IP of routine called before mouse change. */
