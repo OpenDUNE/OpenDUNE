@@ -113,6 +113,8 @@ l__005D:
  * Called From: 10E4:1413:001F:1051
  * Called From: 10E4:1470:0006:7366
  * Called From: 10E4:1470:001E:32D6
+ * Called From: 10E4:14A9:001D:7AB2
+ * Called From: 10E4:14A9:001F:1FB2
  * Called From: 10E4:15C2:0046:E443
  * Called From: 10E4:18E5:0024:7FCD
  * Called From: 10E4:197E:001F:5AE8

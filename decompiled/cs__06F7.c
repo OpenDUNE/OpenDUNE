@@ -73,14 +73,17 @@
  *
  * Called From: 0972:1580:000C:582A
  * Called From: 0C3A:1386:000E:7330
+ * Called From: 176C:1373:002A:8194
  * Called From: 176C:13BF:002F:7128
  * Called From: 176C:13F4:0018:5E8A
  * Called From: 176C:1443:000E:7A30
  * Called From: 176C:175D:0021:1B31
  * Called From: 1A34:04BC:004B:AB24
  * Called From: 1A34:04BC:005A:1EF0
+ * Called From: 1A34:0575:0010:2A49
  * Called From: 1A34:05F6:0022:D8CF
  * Called From: 1A34:0655:0035:322D
+ * Called From: 1A34:0743:0016:30F8
  * Called From: B4CD:1522:000C:452A
  */
 void f__06F7_0008_0018_D7CD()

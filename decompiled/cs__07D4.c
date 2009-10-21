@@ -2414,6 +2414,7 @@ l__10DE:
 		case 0x10F4: goto l__10F4;
 		case 0x110F: goto l__110F;
 		case 0x1134: goto l__1134;
+		case 0x1171: goto l__1171;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x10E0; emu_last_length = 0x0007; emu_last_crc = 0x62A3;

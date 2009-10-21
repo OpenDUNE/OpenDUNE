@@ -3098,6 +3098,7 @@ l__1105:
  * @implements 01F7:14D9:0011:9CE5
  * @implements 01F7:14DA:0010:B965
  * @implements 01F7:14DE:000C:BAA4
+ * @implements 01F7:14EA:0006:7928
  * @implements 01F7:14F0:001F:69A1
  * @implements 01F7:1511:0009:310D
  * @implements 01F7:1515:0005:6688
@@ -3477,7 +3478,11 @@ l__14DE:
 	if ((emu_get_memory16(emu_ss, emu_bp, -0x2) & 0x40) == 0) goto l__14F0;
 	emu_al = 0x30;
 	emu_push(0x14EA); f__01F7_1146_0023_6860();
-	/* Unresolved jump */ emu_ip = 0x14EA; emu_last_cs = 0x01F7; emu_last_ip = 0x14EA; emu_last_length = 0x000C; emu_last_crc = 0xBAA4; emu_call();
+	goto l__14EA;
+l__14EA:
+	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x5);
+	emu_push(0x14F0); f__01F7_1146_0023_6860();
+	goto l__14F0;
 l__14F0:
 	emu_dx = emu_get_memory16(emu_ss, emu_bp, -0xE);
 	emu_orw(&emu_dx, emu_dx);
@@ -3640,6 +3645,8 @@ l__1139:
  * @implements 01F7:1182:0001:6180
  *
  * Called From: 01F7:14D6:0005:2699
+ * Called From: 01F7:14E7:0011:9CE5
+ * Called From: 01F7:14ED:0006:7928
  * Called From: 01F7:1517:0009:310D
  * Called From: 01F7:1517:0005:6688
  * Called From: 01F7:153A:000D:4B6C

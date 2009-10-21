@@ -54,6 +54,7 @@ l__002A:
  * Called From: 167E:0207:0026:5B15
  * Called From: 176C:1196:0013:A1AD
  * Called From: 176C:1196:0015:D5F9
+ * Called From: 1A34:0565:0028:49FE
  * Called From: B4CD:010B:0009:A8DF
  */
 void emu_Tile_GetXY()
@@ -160,6 +161,7 @@ l__0052:
  * Called From: 0F3F:02BB:000A:6D9A
  * Called From: 176C:1114:000E:633F
  * Called From: 176C:1134:0010:FEEC
+ * Called From: 1A34:0524:0015:C50E
  * Called From: B4CD:00B6:0016:24FA
  */
 void emu_Tile_GetX()
@@ -191,6 +193,7 @@ l__0076:
  * Called From: 0FE4:00B5:0014:B079
  * Called From: 176C:1124:0010:4ECA
  * Called From: 176C:1146:0012:4512
+ * Called From: 1A34:0534:0010:4789
  * Called From: B4CD:00C5:000F:DDCF
  */
 void emu_Tile_GetY()
@@ -249,6 +252,8 @@ l__007E:
  * Called From: 0EDB:0483:0032:B7E5
  * Called From: 0F78:0398:0010:1771
  * Called From: 0F78:0398:0012:7BE7
+ * Called From: 1423:0619:0016:978D
+ * Called From: 1423:0809:0014:FCE3
  * Called From: 151A:001C:0013:5840
  * Called From: 151A:0165:0034:AEFE
  * Called From: 151A:0323:0018:831F
@@ -280,6 +285,7 @@ l__007E:
  * Called From: 1A34:043D:0011:C8E7
  * Called From: 1A34:05A9:001B:8929
  * Called From: 1A34:05CC:0023:F92D
+ * Called From: 1A34:075F:000B:4959
  * Called From: 1A34:0C41:0029:43CA
  * Called From: 1A34:0E66:0028:1D74
  * Called From: 1A34:1269:0010:14B9
@@ -345,12 +351,16 @@ l__0086:
  * Called From: 0C3A:0586:0039:9E74
  * Called From: 0C3A:0586:000E:D924
  * Called From: 1391:02F5:0008:0AE5
+ * Called From: 1423:068B:000F:CF0D
+ * Called From: 1423:072C:0007:4BF7
+ * Called From: 1423:07DC:0006:4B57
  * Called From: 167E:03A6:0016:379C
  * Called From: 1A34:2349:0008:0AE5
  * Called From: B4B5:0503:0008:0AE5
  * Called From: B4B8:0551:000C:B6C6
  * Called From: B4CD:1516:0036:B84B
  * Called From: B4CD:16F4:000F:CF15
+ * Called From: B4CD:1785:000F:CF15
  * Called From: B4CD:1C9A:001A:031C
  * Called From: B4CD:1C9A:0017:2D16
  */
@@ -402,8 +412,10 @@ l__009D:
  * Called From: 1A34:015B:0016:17F2
  * Called From: 1A34:02BA:0022:BC63
  * Called From: 1A34:02BA:0037:505C
+ * Called From: 1A34:0725:0013:97BE
  * Called From: 1A34:144E:0029:435F
  * Called From: 1A34:1471:001B:B989
+ * Called From: 1A34:1471:0023:D010
  * Called From: 1A34:21A9:0033:EFF3
  * Called From: 1A34:25F3:0016:9136
  * Called From: 1A34:3389:0025:D9FB
@@ -701,6 +713,8 @@ l__019D:
  * @implements 0F3F:026F:0006:F7CE
  *
  * Called From: 0972:16B8:001F:6F53
+ * Called From: 1423:0693:0008:CAD0
+ * Called From: 1423:07F5:0019:7CE8
  * Called From: 16C5:0661:0023:559B
  * Called From: 176C:1435:002A:1CFB
  * Called From: 176C:23FE:001A:7B69
@@ -709,6 +723,7 @@ l__019D:
  * Called From: 1A34:261C:0017:79E6
  * Called From: B4B8:0559:0008:CAD0
  * Called From: B4CD:16FC:0008:CAD0
+ * Called From: B4CD:178D:0008:CAD0
  * Called From: B4CD:1A64:0029:FA07
  */
 void f__0F3F_01A1_0018_9631()
@@ -1106,6 +1121,7 @@ l__034A:
  * Called From: B4CD:1595:0013:97E3
  * Called From: B4CD:18CD:0006:433A
  * Called From: B4CD:18CD:0014:F426
+ * Called From: B4CD:19BA:0014:F426
  */
 void emu_Tile_PackXY()
 {

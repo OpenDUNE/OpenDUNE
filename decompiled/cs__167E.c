@@ -295,6 +295,7 @@ l__00EF:
  * Called From: 0EDB:049E:0013:CDD0
  * Called From: 1391:033C:0008:A673
  * Called From: 1391:0642:0039:B7A1
+ * Called From: 1423:0849:000B:696A
  * Called From: 16C5:0673:0008:A673
  * Called From: 16C5:07CD:0025:40DD
  * Called From: 16C5:095D:0005:BFC0
@@ -332,6 +333,7 @@ l__00EF:
  * Called From: 1A34:3069:003F:CF75
  * Called From: 1A34:307D:0014:5E5F
  * Called From: 1A34:30D9:0024:9E02
+ * Called From: 1A34:31DA:0019:2E66
  * Called From: 1A34:3451:0027:51AB
  * Called From: 1A34:3451:0017:3A91
  * Called From: 1A34:3478:0008:A673
@@ -533,6 +535,7 @@ l__01B7:
  * Called From: 176C:1CAC:0006:67E5
  * Called From: 176C:1CAC:0025:9AD8
  * Called From: 176C:280B:0016:9F64
+ * Called From: 1A34:0712:0020:BC73
  * Called From: 1A34:1392:000C:39D3
  * Called From: 1A34:2528:002F:672A
  */

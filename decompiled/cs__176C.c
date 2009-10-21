@@ -24,6 +24,8 @@
  * Called From: 0972:1685:0028:49BE
  * Called From: 0972:1699:000F:4845
  * Called From: 0AEC:03EA:0013:2700
+ * Called From: 1423:06DF:0024:0208
+ * Called From: 1423:076C:000F:6861
  * Called From: 1423:0B8C:001F:C162
  * Called From: 16C5:063E:001C:37C4
  * Called From: 16C5:063E:000F:6841
@@ -2403,6 +2405,7 @@ l__12C8:
  * @implements 176C:1335:0019:5069
  * @implements 176C:133D:0011:9DAE
  * @implements 176C:134E:002A:8194
+ * @implements 176C:1378:0007:F96C
  * @implements 176C:137B:0004:E839
  * @implements 176C:137F:0003:2E57
  *
@@ -2479,7 +2482,10 @@ l__134E:
 	emu_ax = 0x4;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x1378); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-	/* Unresolved jump */ emu_ip = 0x1378; emu_last_cs = 0x176C; emu_last_ip = 0x1378; emu_last_length = 0x002A; emu_last_crc = 0x8194; emu_call();
+	goto l__1378;
+l__1378:
+	emu_addw(&emu_sp, 0xA);
+	goto l__137B;
 l__137B:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__137F;
@@ -3937,6 +3943,7 @@ l__1CFB:
  * @implements 176C:1EDA:0011:AFFD
  * @implements 176C:1EEB:0005:63A1
  * @implements 176C:1EED:0003:6235
+ * @implements 176C:1EF0:0002:C03A
  * @implements 176C:1EF2:0004:68F2
  * @implements 176C:1EF6:0003:2E57
  *
@@ -3958,7 +3965,7 @@ l__1CFE:
 	emu_bx = emu_get_memory16(emu_es, emu_bx, 0x16);
 	emu_cmpw(&emu_bx, 0x13);
 	if (emu_bx <= 0x13) goto l__1D1F;
-	/* Unresolved jump */ emu_ip = 0x1EF0; emu_last_cs = 0x176C; emu_last_ip = 0x1D1C; emu_last_length = 0x0021; emu_last_crc = 0x29C8; emu_call();
+	goto l__1EF0;
 l__1D1F:
 	emu_shlw(&emu_bx, 0x1);
 
@@ -4146,6 +4153,8 @@ l__1EEB:
 	goto l__1EED;
 l__1EED:
 	goto l__1D44;
+l__1EF0:
+	goto l__1EF2;
 l__1EF2:
 	emu_ax = emu_si;
 	goto l__1EF6;

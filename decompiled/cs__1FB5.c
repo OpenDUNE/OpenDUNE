@@ -358,6 +358,7 @@ l__014B:
  * @implements 1FB5:0597:0007:E435
  * @implements 1FB5:05B2:000A:194C
  * @implements 1FB5:05BC:0009:ED1E
+ * @implements 1FB5:05C5:0050:D2ED
  * @implements 1FB5:0648:0009:AD12
  * @implements 1FB5:0651:001E:836D
  * @implements 1FB5:0703:0012:6404
@@ -817,8 +818,36 @@ l__05B2:
 	goto l__0648;
 l__05BC:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0xFFFF);
-	if (emu_get_memory16(emu_ss, emu_bp, -0x6) != 0xFFFF) { /* Unresolved jump */ emu_ip = 0x05C5; emu_last_cs = 0x1FB5; emu_last_ip = 0x05C0; emu_last_length = 0x0009; emu_last_crc = 0xED1E; emu_call(); return; }
+	if (emu_get_memory16(emu_ss, emu_bp, -0x6) != 0xFFFF) goto l__05C5;
 	goto l__0648;
+l__05C5:
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);
+	emu_dx = 0x13;
+	emu_imuluw(&emu_ax, emu_dx);
+	emu_dx = 0x2E9C;
+	emu_bx = emu_ax;
+	emu_es = emu_dx;
+	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x8);
+	emu_orw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xA));
+	if (emu_ax == 0) goto l__0648;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);
+	emu_dx = 0x13;
+	emu_imuluw(&emu_ax, emu_dx);
+	emu_dx = 0x2E9C;
+	emu_bx = emu_ax;
+	emu_es = emu_dx;
+	emu_testb(&emu_get_memory8(emu_es, emu_bx, 0x12), 0x10);
+	if ((emu_get_memory8(emu_es, emu_bx, 0x12) & 0x10) == 0) { /* Unresolved jump */ emu_ip = 0x0636; emu_last_cs = 0x1FB5; emu_last_ip = 0x05F5; emu_last_length = 0x0050; emu_last_crc = 0xD2ED; emu_call(); return; }
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);
+	emu_dx = 0x13;
+	emu_imuluw(&emu_ax, emu_dx);
+	emu_dx = 0x2E9C;
+	emu_bx = emu_ax;
+	emu_es = emu_dx;
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x8));
+	emu_push(emu_cs); emu_push(0x0615); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+	/* Unresolved jump */ emu_ip = 0x0615; emu_last_cs = 0x1FB5; emu_last_ip = 0x0615; emu_last_length = 0x0050; emu_last_crc = 0xD2ED; emu_call();
 l__0648:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0xFFFF);
 	if (emu_get_memory16(emu_ss, emu_bp, -0x6) != 0xFFFF) goto l__0651;

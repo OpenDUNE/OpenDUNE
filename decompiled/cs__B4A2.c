@@ -934,6 +934,7 @@ l__0713:
  * @name f__B4A2_0729_0013_2494
  * @implements B4A2:0729:0013:2494 ()
  * @implements B4A2:073C:0025:DBA0
+ * @implements B4A2:0761:0006:B62F
  * @implements B4A2:0764:0003:DC0D
  * @implements B4A2:0767:001B:DE60
  * @implements B4A2:0782:0037:9F6E
@@ -991,7 +992,10 @@ l__073C:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x2427; emu_ip = 0x0004; emu_last_cs = 0xB4A2; emu_last_ip = 0x075C; emu_last_length = 0x0025; emu_last_crc = 0xDBA0; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0761; emu_last_cs = 0xB4A2; emu_last_ip = 0x0761; emu_last_length = 0x0025; emu_last_crc = 0xDBA0; emu_call();
+	goto l__0761;
+l__0761:
+	emu_addw(&emu_sp, 0x6);
+	goto l__0764;
 l__0764:
 	goto l__0A1E;
 l__0767:

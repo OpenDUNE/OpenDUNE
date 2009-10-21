@@ -17,6 +17,13 @@
  * @implements B4AE:004D:0019:DEF2
  * @implements B4AE:0066:0019:C51E
  * @implements B4AE:007F:0002:F5BA
+ * @implements B4AE:0081:0013:32DB
+ * @implements B4AE:0094:001D:005C
+ * @implements B4AE:00AB:0006:798E
+ * @implements B4AE:00B1:0005:9F6E
+ * @implements B4AE:00B6:0019:BEF5
+ * @implements B4AE:00CF:0019:2122
+ * @implements B4AE:00E8:0002:C13A
  * @implements B4AE:00EA:0002:C13A
  * @implements B4AE:00EC:0002:C03A
  * @implements B4AE:00EE:0002:2597
@@ -37,7 +44,7 @@ l__0008:
 	emu_cmpw(&emu_ax, 0x4);
 	if (emu_ax == 0x4) goto l__0018;
 	emu_cmpw(&emu_ax, 0x8);
-	if (emu_ax == 0x8) { /* Unresolved jump */ emu_ip = 0x0081; emu_last_cs = 0xB4AE; emu_last_ip = 0x0013; emu_last_length = 0x0010; emu_last_crc = 0xF2A7; emu_call(); return; }
+	if (emu_ax == 0x8) goto l__0081;
 	goto l__00EA;
 l__0018:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x3A38);
@@ -103,6 +110,70 @@ l__0066:
 	goto l__0042;
 l__007F:
 	goto l__00EC;
+l__0081:
+	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x3A38);
+	emu_orw(&emu_ax, emu_ax);
+	if (emu_ax == 0) goto l__00CF;
+	emu_cmpw(&emu_ax, 0x1);
+	if (emu_ax == 0x1) goto l__0094;
+	emu_cmpw(&emu_ax, 0x2);
+	if (emu_ax == 0x2) goto l__00B6;
+	goto l__00E8;
+l__0094:
+	emu_ax = 0x22;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1CEC;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1CE9;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1CAD;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1C8D;
+	goto l__00AB;
+l__00AB:
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x00B1); f__B4AE_00F0_0024_E400();
+	goto l__00B1;
+l__00B1:
+	emu_addw(&emu_sp, 0x12);
+	goto l__00E8;
+l__00B6:
+	emu_ax = 0x22;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1DC0;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1DBD;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1D81;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1D61;
+	goto l__00AB;
+l__00CF:
+	emu_ax = 0x22;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1E9E;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1E9B;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1E55;
+	emu_push(emu_ax);
+	emu_push(emu_ds);
+	emu_ax = 0x1E35;
+	goto l__00AB;
+l__00E8:
+	goto l__00EC;
 l__00EA:
 	goto l__00EE;
 l__00EC:
@@ -129,6 +200,8 @@ l__00EE:
  *
  * Called From: B4AE:0045:001D:6FA8
  * Called From: B4AE:0045:0006:B9AB
+ * Called From: B4AE:00AE:0006:798E
+ * Called From: B4AE:00AE:001D:005C
  */
 void f__B4AE_00F0_0024_E400()
 {

@@ -941,6 +941,7 @@ l__04F8:
  * Called From: 261F:0181:001D:22F4
  * Called From: 261F:0181:0010:C131
  * Called From: 3480:0000:0002:0000
+ * Called From: 3480:0020:0020:0000
  */
 void f__217E_04F9_000E_346A()
 {
