@@ -730,10 +730,10 @@ typedef struct GlobalData {
 	/* 657B(4)   */ PACK char  string_657B[4];              /*!< "ADL" NULL terminated. */
 	/* 657F(12)  */ PACK char  string_657F[12];             /*!< "PCSOUND.DRV" NULL terminated. */
 	/* 658B(4)   */ PACK char  string_658B[4];              /*!< "PCS" NULL terminated. */
-	/* 658F(11)  */ PACK char  string_658F[11];             /*!< "PCSPKR.DRV" NULL terminated. */
-	/* 659A(10)  */ PACK char  string_659A[10];             /*!< "TANDY.DRV" NULL terminated. */
+	/* 658F(11)  */ PACK char  string_658F[11];             /*!< "PCSPKR.ADV" NULL terminated. */
+	/* 659A(10)  */ PACK char  string_659A[10];             /*!< "TANDY.ADV" NULL terminated. */
 	/* 65A4(4)   */ PACK char  string_65A4[4];              /*!< "TAN" NULL terminated. */
-	/* 65A8(12)  */ PACK char  string_65A8[12];             /*!< "MT32MPU.DRV" NULL terminated. */
+	/* 65A8(12)  */ PACK char  string_65A8[12];             /*!< "MT32MPU.ADV" NULL terminated. */
 	/* 65C4(4)   */ PACK char  string_65B4[4];              /*!< "XMI" NULL terminated. */
 	/* 65C8(4)   */ PACK char  string_65B8[4];              /*!< "C55" NULL terminated. */
 	/* 65CC(10)  */ PACK char  string_65BC[10];             /*!< "ADLIB.ADV" NULL terminated. */
