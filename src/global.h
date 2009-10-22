@@ -156,7 +156,8 @@ typedef struct GlobalData {
 	                                                         *   "Spare RAM: %ld\"
 	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
 	/* 0217()    */ PACK uint8   unknown_0217[0x0B43];
-	/* 0D5A(1014)*/ PACK struct_0D5A variable_0D5A[169];    /*!< Array of voice/music files (and something else). */
+	/* 0D5A(786) */ PACK struct_0D5A variable_0D5A[131];    /*!< Array of pointers to voice files names (and something else). */
+	/* 106C(228) */ PACK struct_0D5A variable_106C[38];     /*!< Array of pointers to music files names (and something else). */
 	/* 1150()    */ PACK uint8   unknown_1150[0x0002];
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
@@ -649,7 +650,8 @@ typedef struct GlobalData {
 	/* 39FE(2)   */ PACK uint16 variable_39FE;              /*!< ?? */
 	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
 	/* 3A02(2)   */ PACK uint16 variable_3A02;              /*!< ?? */
-	/* 3A04()    */ PACK uint8   unknown_3A04[0x000A];
+	/* 3A04()    */ PACK uint8   unknown_3A04[0x0006];
+	/* 3A0A(4)   */ PACK csip32 variable_3A0A;              /*!< ?? */
 	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
@@ -673,7 +675,12 @@ typedef struct GlobalData {
 	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
 	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
-	/* 3C4A()    */ PACK uint8   unknown_3C4E[0x0582];
+	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x0204];
+	/* 3E4E(4)   */ PACK csip32 variable_3E4E;              /*!< ?? */
+	/* 3E52(2)   */ PACK uint16 variable_3E52;              /*!< ?? */
+	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
+	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
+	/* 4062()    */ PACK uint8   unknown_4026[0x016A];
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
 	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
