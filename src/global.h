@@ -13,6 +13,14 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
 
 MSVC_PACKED_BEGIN
+typedef struct struct_0D5A {
+	/* 0000(4)   */ PACK csip32 string;                     /*<! Pointer to a string. */
+	/* 0001()    */ PACK uint8   unknown_0001[0x0002];      /*<! ?? */
+} GCC_PACKED struct_0D5A;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_0D5A) == 0x6);
+
+MSVC_PACKED_BEGIN
 /**
  * Inside the GlobalData is information about houses. This is the layout of
  *  that data.
@@ -21,7 +29,9 @@ typedef struct HouseInfo {
 	/* 0000(4)   */ PACK csip32 houseName;                  /*<! Pointer to name of house. */
 	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
 	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0012];
+	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
+	/* 0010(2)   */ PACK uint16 prefixChar;                 /*<! Char used as prefix for some filenames. */
+	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
 } GCC_PACKED HouseInfo;
 MSVC_PACKED_END
@@ -123,7 +133,9 @@ typedef struct GlobalData {
 	/* 008D(2)   */ PACK uint16 variable_008D;              /*!< ?? Something related to memory. */
 	/* 008F()    */ PACK uint8   unknown_008F[0x0002];
 	/* 0091(2)   */ PACK uint16 memorySize;                 /*!< Size of memory in paragraphs. */
-	/* 0093()    */ PACK uint8   unknown_0093[0x0009];
+	/* 0093()    */ PACK uint8   unknown_0093[0x0001];
+	/* 0094()    */ PACK csip32 variable_0094;              /*!< ?? Pointer to string_00A8. */
+	/* 0098()    */ PACK csip32 variable_0098;              /*!< ?? Pointer to string_00B2. */
 	/* 009C(2)   */ PACK uint16 variable_009C;              /*!< ?? */
 	/* 009E(2)   */ PACK uint16 variable_009E;              /*!< ?? */
 	/* 00A0(2)   */ PACK uint16 variable_00A0;              /*!< ?? */
@@ -143,7 +155,9 @@ typedef struct GlobalData {
 	                                                         *   "Misc allocations: %ld\"
 	                                                         *   "Spare RAM: %ld\"
 	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
-	/* 0217()    */ PACK uint8   unknown_0217[0x0F3B];
+	/* 0217()    */ PACK uint8   unknown_0217[0x0B43];
+	/* 0D5A(1014)*/ PACK struct_0D5A variable_0D5A[169];    /*!< Array of voice/music files (and something else). */
+	/* 1150()    */ PACK uint8   unknown_1150[0x0002];
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
 	/* 116C(12)  */ PACK char   string_116C[12];            /*!< "+ROCKET.VOC" NULL terminated. */
@@ -696,7 +710,14 @@ typedef struct GlobalData {
 	/* 42D6(5)   */ PACK char   string_42D6[5];             /*!< "Hunt" NULL terminated. */
 	/* 42DB(7)   */ PACK char   string_42DB[7];             /*!< "Deploy" NULL terminated. */
 	/* 42E2(9)   */ PACK char   string_42E2[9];             /*!< "Destruct" NULL terminated. */
-	/* 42EB()    */ PACK uint8   unknown_42EB[0x2017];
+	/* 42EB()    */ PACK uint8   unknown_42EB[0x1D67];      /*!< list of all files. */
+	/* 6052()    */ PACK uint8   unknown_6052[0x005C];
+	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
+	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
+	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
+	/* 60D2(13)  */ PACK char   string_60D2[13];            /*!< "Timeout win." NULL terminated. */
+	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
+	/* 60E7()    */ PACK uint8   unknown_60E7[0x021B];
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
