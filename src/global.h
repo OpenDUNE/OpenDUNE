@@ -15,7 +15,7 @@ assert_compile(sizeof(struct_7B68) == 0x6);
 MSVC_PACKED_BEGIN
 typedef struct struct_0D5A {
 	/* 0000(4)   */ PACK csip32 string;                     /*<! Pointer to a string. */
-	/* 0001()    */ PACK uint8   unknown_0001[0x0002];      /*<! ?? */
+	/* 0004()    */ PACK uint8   unknown_0001[0x0002];      /*<! ?? */
 } GCC_PACKED struct_0D5A;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_0D5A) == 0x6);
