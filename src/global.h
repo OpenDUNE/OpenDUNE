@@ -680,7 +680,15 @@ typedef struct GlobalData {
 	/* 3E52(2)   */ PACK uint16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
-	/* 4062()    */ PACK uint8   unknown_4026[0x016A];
+	/* 4062(208) */ PACK uint16 variable_4062[13][8];       /*!< ?? An array of 13 elements. */
+	/* 4132(2)   */ PACK uint16 variable_4132;              /*!< ?? */
+	/* 4134(2)   */ PACK uint16 variable_4134;              /*!< ?? */
+	/* 4136(2)   */ PACK uint16 variable_4136;              /*!< ?? */
+	/* 4138(2)   */ PACK uint16 variable_4138;              /*!< ?? */
+	/* 413A()    */ PACK uint8   unknown_413A[0x007C];
+	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*<! ?? */
+	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*<! ?? */
+	/* 41BA()    */ PACK uint8   unknown_41BA[0x0012];
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
 	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
@@ -776,11 +784,69 @@ typedef struct GlobalData {
 	/* 6618(5)   */ PACK char  string_6608[5];              /*!< ".XMI" NULL terminated. */
 	/* 661D(9)   */ PACK char  string_660D[9];              /*!< "DEFAULT." NULL terminated. */
 	/* 6626(5)   */ PACK char  string_6616[5];              /*!< "ALFX" NULL terminated. */
-	/* 661B()    */ PACK uint8   unknown_661B[0x0089];
+	/* 661B()    */ PACK uint8   unknown_661B[0x0009];
+	/* 6624(4)   */ PACK csip32 variable_6624;              /*!< CS:IP of routine. */
+	/* 6628(4)   */ PACK csip32 variable_6628;              /*!< CS:IP of routine (not called). */
+	/* 662C(4)   */ PACK csip32 variable_662C;              /*!< CS:IP of routine. */
+	/* 6630(4)   */ PACK csip32 variable_6630;              /*!< CS:IP of routine. */
+	/* 6634(4)   */ PACK csip32 variable_6634;              /*!< CS:IP of routine (not called). */
+	/* 6638(4)   */ PACK csip32 variable_6638;              /*!< CS:IP of routine. */
+	/* 663C(4)   */ PACK csip32 variable_663C;              /*!< CS:IP of routine. */
+	/* 6640(4)   */ PACK csip32 variable_6640;              /*!< CS:IP of routine. */
+	/* 6644(4)   */ PACK csip32 variable_6644;              /*!< CS:IP of routine (not called). */
+	/* 6648(4)   */ PACK csip32 variable_6648;              /*!< CS:IP of routine (not called). */
+	/* 664C(4)   */ PACK csip32 variable_664C;              /*!< CS:IP of routine. */
+	/* 6650(4)   */ PACK csip32 variable_6650;              /*!< CS:IP of routine. */
+	/* 6654(4)   */ PACK csip32 variable_6654;              /*!< CS:IP of routine. */
+	/* 6658(4)   */ PACK csip32 variable_6658;              /*!< CS:IP of routine (not called). */
+	/* 665C(4)   */ PACK csip32 variable_665C;              /*!< CS:IP of routine. */
+	/* 6660(4)   */ PACK csip32 variable_6660;              /*!< CS:IP of routine (not called). */
+	/* 6664(4)   */ PACK csip32 variable_6664;              /*!< CS:IP of routine (not called). */
+	/* 6668(4)   */ PACK csip32 variable_6668;              /*!< CS:IP of routine. */
+	/* 666C(4)   */ PACK csip32 variable_666C;              /*!< CS:IP of routine. */
+	/* 6670(4)   */ PACK csip32 variable_6670;              /*!< CS:IP of routine (not called). */
+	/* 6674(4)   */ PACK csip32 variable_6674;              /*!< CS:IP of routine. */
+	/* 6678(4)   */ PACK csip32 variable_6678;              /*!< CS:IP of routine (not called). */
+	/* 667C(4)   */ PACK csip32 variable_667C;              /*!< CS:IP of routine (not called). */
+	/* 6680(4)   */ PACK csip32 variable_6680;              /*!< CS:IP of routine (not called). */
+	/* 6684(4)   */ PACK csip32 variable_6684;              /*!< CS:IP of routine (not called). */
+	/* 6688(4)   */ PACK csip32 variable_6688;              /*!< CS:IP of routine (not called). */
+	/* 668C(4)   */ PACK csip32 variable_668C;              /*!< CS:IP of routine (not called). */
+	/* 6690(4)   */ PACK csip32 variable_6690;              /*!< CS:IP of routine (not called). */
+	/* 6694(4)   */ PACK csip32 variable_6694;              /*!< CS:IP of routine (not called). */
+	/* 6698(4)   */ PACK csip32 variable_6698;              /*!< CS:IP of routine (not called). */
+	/* 669C(4)   */ PACK csip32 variable_669C;              /*!< CS:IP of routine (not called). */
+	/* 66A0(4)   */ PACK csip32 variable_66A0;              /*!< CS:IP of routine. */
 	/* 66A4(4)   */ PACK csip32 callbackAfterMouse;         /*!< CS:IP of routine called after mouse change. */
-	/* 66A8(12)  */ PACK uint8   unknown_66A8[0x000C];
+	/* 66A8(4)   */ PACK csip32 variable_66A8;              /*!< CS:IP of routine (not called). */
+	/* 66AC(4)   */ PACK csip32 variable_66AC;              /*!< CS:IP of routine (not called). */
+	/* 66B0(4)   */ PACK csip32 variable_66B0;              /*!< CS:IP of routine (not called). */
 	/* 66B4(4)   */ PACK csip32 callbackBeforeMouse;        /*!< CS:IP of routine called before mouse change. */
-	/* 66B8()    */ PACK uint8   unknown_66B8[0x05C0];
+	/* 66B8(4)   */ PACK csip32 variable_66B8;              /*!< CS:IP of routine (not called). */
+	/* 66BC(4)   */ PACK csip32 variable_66BC;              /*!< CS:IP of routine (not called). */
+	/* 66C0(4)   */ PACK csip32 variable_66C0;              /*!< CS:IP of routine. */
+	/* 66C4(4)   */ PACK csip32 variable_66C4;              /*!< CS:IP of routine. */
+	/* 66C8(4)   */ PACK csip32 variable_66C8;              /*!< CS:IP of routine (not called). */
+	/* 66CC(4)   */ PACK csip32 variable_66CC;              /*!< CS:IP of routine (not called). */
+	/* 66D0(4)   */ PACK csip32 variable_66D0;              /*!< CS:IP of routine. */
+	/* 66D4(4)   */ PACK csip32 variable_66D4;              /*!< CS:IP of routine (not called). */
+	/* 66D8(4)   */ PACK csip32 variable_66D8;              /*!< CS:IP of routine (not called). */
+	/* 66DC(4)   */ PACK csip32 variable_66DC;              /*!< CS:IP of routine. */
+	/* 66E0(4)   */ PACK csip32 variable_66E0;              /*!< CS:IP of routine. */
+	/* 66E4(4)   */ PACK csip32 variable_66E4;              /*!< CS:IP of routine. */
+	/* 66E8(4)   */ PACK csip32 variable_66E8;              /*!< CS:IP of routine (not called). */
+	/* 66EC(4)   */ PACK csip32 variable_66EC;              /*!< CS:IP of routine. */
+	/* 66F0()    */ PACK uint8   unknown_66F0[0x0576];
+	/* 6C66(2)   */ PACK uint16 variable_6C66;              /*!< ?? */
+	/* 6C68(2)   */ PACK uint16 variable_6C68;              /*!< ?? */
+	/* 6C6A(2)   */ PACK uint16 variable_6C6A;              /*!< ?? */
+	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? */
+	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? */
+	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
+	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
+	/* 6C72(2)   */ PACK uint16 variable_6C72;              /*!< ?? */
+	/* 6C74(2)   */ PACK uint16 variable_6C74;              /*!< ?? */
+	/* 6C76(2)   */ PACK uint16 variable_6C76;              /*!< ?? */
 	/* 6C78(2)   */ PACK uint16 snapX;                      /*!< Snap mouse to grid, x-axis. */
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
