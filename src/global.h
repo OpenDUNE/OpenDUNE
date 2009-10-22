@@ -923,7 +923,8 @@ typedef struct GlobalData {
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
-	/* 6C80()    */ PACK uint8   unknown_6C80[0x0053];
+	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
+	/* 6C84()    */ PACK uint8   unknown_6C84[0x004F];
 	/* 6CD3(2)   */ PACK uint16 variable_6CD3;              /*!< ?? */
 	/* 6CD5(2)   */ PACK uint16 variable_6CD5;              /*!< ?? */
 	/* 6CD7(2)   */ PACK uint16 variable_6CD7;              /*!< ?? */
@@ -944,7 +945,36 @@ typedef struct GlobalData {
 	/* 6CF5(2)   */ PACK uint16 variable_6CF5;              /*!< ?? */
 	/* 6CF7(2)   */ PACK uint16 variable_6CF7;              /*!< ?? */
 	/* 6CF9(2)   */ PACK uint16 variable_6CF9;              /*!< ?? */
-	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x030F];
+	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x007C];
+	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
+	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */
+	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
+	/* 6D83(4)   */ PACK char   string_6D83[4];             /*!< "ITA" NULL terminated. */
+	/* 6D87(4)   */ PACK char   string_6D87[4];             /*!< "SPA" NULL terminated. */
+	/* 6D8B()    */ PACK uint8   unknown_6D8B[0x0027];
+	/* 6DB2(4)   */ PACK csip32 variable_6DB2;              /*!< ?? Pointer to string_6DCE. */
+	/* 6DB6(4)   */ PACK csip32 variable_6DB6;              /*!< ?? Pointer to string_6DD6. */
+	/* 6DBA(4)   */ PACK csip32 variable_6DBA;              /*!< ?? Pointer to string_6DDE. */
+	/* 6DBE(4)   */ PACK csip32 variable_6DBE;              /*!< ?? Pointer to string_6DE6. */
+	/* 6DC2(4)   */ PACK csip32 variable_6DC2;              /*!< ?? Pointer to string_6DEE. */
+	/* 6DC6(4)   */ PACK csip32 variable_6DC6;              /*!< ?? Pointer to string_6DF6. */
+	/* 6DCA(4)   */ PACK csip32 variable_6DCA;              /*!< ?? Pointer to string_6DFE. */
+	/* 6DCE(8)   */ PACK char   string_6DCE[8];             /*!< "cga.ovl" NULL terminated. */
+	/* 6DD6(8)   */ PACK char   string_6DD6[8];             /*!< "tga.ovl" NULL terminated. */
+	/* 6DDE(8)   */ PACK char   string_6DDE[8];             /*!< "ega.ovl" NULL terminated. */
+	/* 6DE6(8)   */ PACK char   string_6DE6[8];             /*!< "mga.ovl" NULL terminated. */
+	/* 6DEE(8)   */ PACK char   string_6DEE[8];             /*!< "vga.ovl" NULL terminated. */
+	/* 6DF6(8)   */ PACK char   string_6DF6[8];             /*!< "xga.ovl" NULL terminated. */
+	/* 6DFE(8)   */ PACK char   string_6DFE[8];             /*!< "yga.ovl" NULL terminated. */
+	/* 6E06(29)  */ PACK char   string_6E06[29];            /*!< "PageArraySize is negative!\r\n" NULL terminated. */
+	/* 6E23()    */ PACK uint8   unknown_6E23[0x0023];
+	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
+	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
+	/* 6E87()    */ PACK uint8   unknown_6E87[0x0001];
+	/* 6E88(145) */ PACK char   string_6E88[145];           /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
+                                                             *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm" NULL terminated.
+                                                             *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
+	/* 6F19()    */ PACK uint8   unknown_6F19[0x00F1];
 	/* 700A(2)   */ PACK uint16 variable_700A;              /*!< ?? */
 	/* 700C(2)   */ PACK uint16 variable_700C;              /*!< ?? */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
