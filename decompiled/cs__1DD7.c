@@ -336,6 +336,7 @@ l__0396:
  * @implements 1DD7:03FB:0002:2597
  *
  * Called From: B480:0285:0017:043A
+ * Called From: B480:0285:0084:2794
  */
 void f__1DD7_039B_0008_D3BD()
 {

@@ -22,6 +22,7 @@
  * @implements 1DB6:00C5:0015:4555
  * @implements 1DB6:00DA:0014:2E19
  * @implements 1DB6:00EE:000E:212B
+ * @implements 1DB6:00F1:000B:03A1
  * @implements 1DB6:00FC:0014:A7DD
  * @implements 1DB6:0110:0012:EEC5
  * @implements 1DB6:0122:000D:43EF
@@ -40,6 +41,7 @@
  * @implements 1DB6:01C4:0004:893F
  *
  * Called From: B480:010F:0030:016D
+ * Called From: B480:0144:0026:A929
  */
 void f__1DB6_0004_000B_BFBA()
 {
@@ -119,7 +121,7 @@ l__00B6:
 l__00C5:
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x12), 0x0);
-	if (emu_get_memory16(emu_ss, emu_bp,  0x12) == 0x0) { /* Unresolved jump */ emu_ip = 0x00F1; emu_last_cs = 0x1DB6; emu_last_ip = 0x00CA; emu_last_length = 0x0015; emu_last_crc = 0x4555; emu_call(); return; }
+	if (emu_get_memory16(emu_ss, emu_bp,  0x12) == 0x0) goto l__00F1;
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
@@ -142,6 +144,8 @@ l__00DA:
 	goto l__00EE;
 l__00EE:
 	emu_addw(&emu_sp, 0x8);
+	goto l__00F1;
+l__00F1:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs); emu_push(0x00FC); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();

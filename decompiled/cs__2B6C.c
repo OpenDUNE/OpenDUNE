@@ -14,6 +14,7 @@
  * @implements 2B6C:0066:0008:FF9D
  *
  * Called From: 29A3:016C:0008:63C3
+ * Called From: 29E8:0C2E:0021:D7CA
  * Called From: 2B4C:0045:0008:63C3
  * Called From: 2B6C:015B:0007:9309
  * Called From: 2B6C:0269:0007:128D
@@ -103,6 +104,7 @@ l__0066:
  * @implements 2B6C:012C:000B:CA8C
  *
  * Called From: 29A3:01AC:0008:63C5
+ * Called From: 29E8:0C33:0005:F14D
  * Called From: 2B4C:01E8:0008:63C5
  * Called From: 2B6C:018B:0007:931D
  * Called From: 2B6C:02BE:0007:D28E
