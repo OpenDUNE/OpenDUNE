@@ -991,7 +991,9 @@ l__073C:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D53));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x2427; emu_ip = 0x0004; emu_last_cs = 0xB4A2; emu_last_ip = 0x075C; emu_last_length = 0x0025; emu_last_crc = 0xDBA0; emu_call();
+	emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x2427; f__2427_0004_003B_B2A9();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 	goto l__0761;
 l__0761:
 	emu_addw(&emu_sp, 0x6);

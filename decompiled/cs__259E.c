@@ -12,7 +12,11 @@
  * @implements 259E:001C:0005:60C3
  *
  * Called From: 10E4:2263:0013:D274
+ * Called From: 1423:039B:0011:194B
  * Called From: 1423:0408:0016:5986
+ * Called From: B491:07D8:0011:193C
+ * Called From: B491:088C:0014:0DD8
+ * Called From: B491:0A25:0015:1784
  * Called From: B4B8:1D7F:0011:195A
  * Called From: B4B8:1FDE:0014:B1DF
  * Called From: B4B8:2188:0018:F01B
@@ -71,6 +75,7 @@ l__001C:
  * @implements 259E:003B:0005:6083
  *
  * Called From: 10E4:2001:0016:34AE
+ * Called From: B491:099A:000A:9698
  * Called From: B4ED:0179:0023:78FA
  * Called From: B4ED:0A8A:0023:78F0
  */
@@ -131,6 +136,9 @@ l__003B:
  * Called From: 259E:0225:0026:4520
  * Called From: 259E:0225:0028:CFAE
  * Called From: 25C4:03BF:0010:908E
+ * Called From: B491:0586:0018:6844
+ * Called From: B491:05CE:0018:6844
+ * Called From: B491:09B2:0018:910F
  * Called From: B495:00E8:0010:2CBB
  * Called From: B4B8:185B:000E:A415
  * Called From: B4B8:186A:000F:9764

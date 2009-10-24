@@ -64,6 +64,8 @@ l__0031:
  *
  * Called From: 10E4:204F:000A:AE92
  * Called From: 10E4:2061:000A:AE92
+ * Called From: B491:03A5:000B:EC55
+ * Called From: B491:03E5:000B:EC55
  * Called From: B495:0C6D:0008:1FFE
  * Called From: B495:0CB9:0008:1FFE
  * Called From: B4B8:1F02:0017:BB13

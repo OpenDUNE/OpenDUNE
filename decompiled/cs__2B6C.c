@@ -251,7 +251,10 @@ l__012C:
  * Called From: 10E4:029F:0008:D3E0
  * Called From: 10E4:04BA:0006:0569
  * Called From: 10E4:2215:0006:0569
+ * Called From: 1423:038A:000F:DD38
  * Called From: 1423:03BF:0005:6168
+ * Called From: B491:0820:000C:0B7D
+ * Called From: B491:0990:0005:6168
  * Called From: B495:0739:0008:DBE0
  * Called From: B495:0B6C:0005:6168
  * Called From: B495:0CF9:0005:6168

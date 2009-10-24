@@ -3288,6 +3288,7 @@ l__193A:
  * Called From: 1A34:1847:0034:D883
  * Called From: 1A34:1847:0020:D9F7
  * Called From: 1A34:1D45:0042:3307
+ * Called From: 1A34:1D45:001B:E5E3
  */
 void f__1A34_193F_0013_FA4D()
 {
@@ -7181,6 +7182,7 @@ l__330C:
  * Called From: 176C:1E08:000D:B2F8
  * Called From: 176C:1E08:0023:0DDB
  * Called From: 1A34:09D6:000B:5F01
+ * Called From: 1A34:09D6:0059:0B58
  * Called From: 1A34:29B5:0022:D8ED
  */
 void emu_Unit_FindBuilding()

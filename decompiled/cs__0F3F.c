@@ -217,6 +217,10 @@ l__007E:
  * @implements 0F3F:0086:0017:EA43 ()
  *
  * Called From: 0642:0393:0009:3ADE
+ * Called From: 0642:0811:0058:A125
+ * Called From: 0642:08AF:0010:1761
+ * Called From: 0642:098A:0010:1771
+ * Called From: 0642:0ABE:001E:3662
  * Called From: 06F7:002C:0011:E117
  * Called From: 06F7:002C:000E:BD07
  * Called From: 06F7:02B7:0015:A544
@@ -1018,6 +1022,9 @@ l__031C:
  * Called From: B4CD:0919:000C:28CD
  * Called From: B4CD:0C78:0016:6AD3
  * Called From: B4CD:0FA2:0006:BB3C
+ * Called From: B4CD:1025:0011:089E
+ * Called From: B4CD:103B:000D:8FA0
+ * Called From: B4CD:1049:000E:8921
  * Called From: B4CD:1180:000D:B1D5
  * Called From: B4CD:12C4:0006:BB3C
  * Called From: B4CD:13FC:0016:BAD0
@@ -1067,6 +1074,9 @@ l__0333:
  * Called From: B4CD:0931:000C:58F4
  * Called From: B4CD:0C84:000C:B8A9
  * Called From: B4CD:0FAB:0009:C1E1
+ * Called From: B4CD:102E:0009:C1E1
+ * Called From: B4CD:105A:0011:EE01
+ * Called From: B4CD:1069:000F:A93B
  * Called From: B4CD:118B:000B:7663
  * Called From: B4CD:12CD:0009:C1E1
  * Called From: B4CD:1408:000C:A8AF

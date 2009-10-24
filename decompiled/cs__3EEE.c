@@ -53,6 +53,30 @@ l__0E21:
 }
 
 /**
+ * Decompiled function f__3EEE_0E28_0003_4293()
+ *
+ * @name f__3EEE_0E28_0003_4293
+ * @implements 3EEE:0E28:0003:4293 ()
+ * @implements 3EEE:0E2B:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E28_0003_4293()
+{
+l__0E28:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E2B); Interrupt_Video();
+	goto l__0E2B;
+l__0E2B:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__3EEE_0E46_0003_4293()
  *
  * @name f__3EEE_0E46_0003_4293

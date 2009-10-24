@@ -388,6 +388,9 @@ l__0632:
  * @implements 29E8:06B8:0008:9049
  * @implements 29E8:06BA:0006:A381
  *
+ * Called From: B491:07C0:0005:20AE
+ * Called From: B491:07C0:005E:B087
+ * Called From: B491:0A10:0008:9226
  * Called From: B4BE:001E:0005:20AE
  * Called From: B4BE:01C2:000E:CC0C
  * Called From: B4BE:01DE:0005:20AE
@@ -522,6 +525,7 @@ l__073E:
  *
  * Called From: 10E4:0491:000E:9A5B
  * Called From: 10E4:2285:0007:843A
+ * Called From: B491:01DB:0013:C78E
  * Called From: B495:0786:0007:843A
  * Called From: B4AE:0003:0008:049C
  * Called From: B4B8:2199:0006:8488
@@ -672,6 +676,7 @@ l__07EB:
  * @implements 29E8:0843:0008:9386
  *
  * Called From: 10E4:049B:0005:B085
+ * Called From: 23E1:0404:0007:D436
  * Called From: B503:08A3:0005:B085
  * Called From: B503:13CE:0009:9868
  * Called From: B536:0091:0005:B085

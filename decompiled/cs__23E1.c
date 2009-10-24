@@ -46,6 +46,7 @@
  * Called From: 2B4C:00B9:000E:CC99
  * Called From: 2B4C:0135:000E:CC99
  * Called From: B480:0164:0017:957F
+ * Called From: B491:0BED:000E:A2A5
  * Called From: B4B8:0EF2:001E:DC63
  * Called From: B4B8:176F:0010:D3DB
  * Called From: B4B8:1789:001A:E7C5
@@ -289,9 +290,13 @@ l__01BE:
  *
  * Called From: 0FCB:0021:0019:5047
  * Called From: 10E4:054B:0012:00C8
+ * Called From: 15C2:0058:001D:0028
+ * Called From: 15C2:0077:001F:81D4
  * Called From: 1DD7:1732:0010:D59A
  * Called From: 1DD7:1744:0012:C80C
  * Called From: 2B4C:00FF:001B:853E
+ * Called From: B491:0C6B:002A:6159
+ * Called From: B491:0D5E:000B:5732
  * Called From: B4B8:17EB:000F:E497
  * Called From: B4B8:1C14:000E:5697
  * Called From: B4B8:1CE6:000E:5697
@@ -408,6 +413,7 @@ l__0252:
  * Called From: 2B4C:011B:0006:590A
  * Called From: 2B4C:011B:001C:EC2A
  * Called From: B480:0081:000C:5821
+ * Called From: B491:0BD3:000E:3BA8
  * Called From: B53B:00FB:0009:0D32
  */
 void f__23E1_0334_000B_CF65()
@@ -492,6 +498,8 @@ l__03D7:
  * @name f__23E1_03DB_000B_CF65
  * @implements 23E1:03DB:000B:CF65 ()
  * @implements 23E1:03E6:000E:32CC
+ * @implements 23E1:03F4:000E:7972
+ * @implements 23E1:0402:0007:D436
  * @implements 23E1:0418:0005:F70A
  * @implements 23E1:041D:0012:BB9F
  * @implements 23E1:042F:0022:89AF
@@ -516,7 +524,18 @@ l__03E6:
 	emu_ax = 0x9;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x03F4); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
-	/* Unresolved jump */ emu_ip = 0x03F4; emu_last_cs = 0x23E1; emu_last_ip = 0x03F4; emu_last_length = 0x000E; emu_last_crc = 0x32CC; emu_call();
+	goto l__03F4;
+l__03F4:
+	emu_pop(&emu_cx);
+	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6714));
+	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6712));
+	emu_push(emu_cs); emu_push(0x0402); emu_cs = 0x28E4; f__28E4_0002_0017_0B15();
+	goto l__0402;
+l__0402:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_push(emu_cs); emu_push(0x0409); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+	/* Unresolved jump */ emu_ip = 0x0409; emu_last_cs = 0x23E1; emu_last_ip = 0x0409; emu_last_length = 0x0007; emu_last_crc = 0xD436; emu_call();
 l__0418:
 	emu_push(emu_cs); emu_push(0x041D); emu_cs = 0x01F7; f__01F7_1B73_0022_8ADB();
 	goto l__041D;

@@ -108,7 +108,7 @@ l__007E:
 	if (emu_get_memory16(emu_es, 0x00, 0x128) != 0x0) goto l__00B6;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6784));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6782));
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0098); emu_cs = 0x28E4; emu_ip = 0x0002; emu_last_cs = 0x1DB6; emu_last_ip = 0x0093; emu_last_length = 0x001A; emu_last_crc = 0xB99F; emu_call();
+	emu_push(emu_cs); emu_push(0x0098); emu_cs = 0x28E4; f__28E4_0002_0017_0B15();
 	/* Unresolved jump */ emu_ip = 0x0098; emu_last_cs = 0x1DB6; emu_last_ip = 0x0098; emu_last_length = 0x001A; emu_last_crc = 0xB99F; emu_call();
 l__00B1:
 	goto l__01C4;

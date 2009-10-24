@@ -899,6 +899,8 @@ l__0ACE:
  * @implements 1DD7:0B7D:0019:AE96
  * @implements 1DD7:0B9A:0002:2597
  *
+ * Called From: B491:0A2D:0008:6188
+ * Called From: B4AB:005B:0005:FB00
  * Called From: B4AE:0125:0005:FB00
  * Called From: B4B8:1C5C:0005:FB00
  * Called From: B4BE:0069:0005:FB00

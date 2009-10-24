@@ -12,6 +12,7 @@
  * @implements 260F:0052:0002:2597
  *
  * Called From: 0AEC:0953:0022:44A5
+ * Called From: B491:0046:000A:11D7
  * Called From: B495:097D:0028:09CD
  * Called From: B4B8:106C:004D:6612
  * Called From: B4DA:010E:0036:600D
@@ -51,6 +52,7 @@ l__0052:
  * @implements 260F:0054:0016:0011 ()
  * @implements 260F:006E:0002:2597
  *
+ * Called From: B491:007D:000A:F1D1
  * Called From: B4B8:1080:0014:8D34
  * Called From: B4DA:0127:0019:EE88
  * Called From: B4DA:01B2:0019:6692

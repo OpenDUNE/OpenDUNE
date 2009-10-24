@@ -776,6 +776,7 @@ l__078C:
  * Called From: 0642:0448:000B:7BE4
  * Called From: 24DA:001B:000E:D6F0
  * Called From: 25C4:02C8:000F:595C
+ * Called From: B491:0A37:000A:5BEF
  * Called From: B4BE:00B5:000C:7E74
  * Called From: B4BE:0256:000D:8FAB
  * Called From: B4ED:0074:0079:AC5D
