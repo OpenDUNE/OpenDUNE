@@ -24,3 +24,11 @@ uint16 emu_Global_GetIP(void *ptr, uint16 segment)
 {
 	return (size_t)ptr - (size_t)emu_memory - (segment << 4);
 }
+
+/**
+ * Get a piece of memory by csip.
+ */
+uint8 *emu_get_memorycsip(csip32 csip)
+{
+	return &emu_get_memory8(csip.s.cs, csip.s.ip, 0x0);
+}

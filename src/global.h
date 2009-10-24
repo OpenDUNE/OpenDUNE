@@ -3,6 +3,13 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+/*
+ * Segments:
+ *   2C94 -> BuildingInfo array.
+ *   2D07 -> UnitInfo array.
+ *   353F -> Global data.
+ */
+
 MSVC_PACKED_BEGIN
 typedef struct struct_7B68 {
 	/* 0000(1)   */ PACK uint8  variable_0000;              /*<! ?? */
@@ -89,14 +96,16 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Scenario {
 	/* 0000(2)   */ PACK uint16 variable_0000;              /*<! ?? Set to either 0x290 or 0x0. */
-	/* 0002(2)   */ PACK uint16 winFlags;                   /*<! BASIC/WinFlags. */
-	/* 0004(2)   */ PACK uint16 loseFlags;                  /*<! BASIC/LoseFlags. */
-	/* 0006(4)   */ PACK uint32 mapSeed;                    /*<! MAP/Seed. */
-	/* 000A(2)   */ PACK uint16 timeOut;                    /*<! BASIC/TimeOut. */
-	/* 000C(14)  */ PACK char   pictureBriefing[14];        /*<! BASIC/BriefPicture. */
-	/* 001A(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
-	/* 0028(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
-	/* 0036()    */ PACK uint8   unknown_0036[0x00B0];
+	/* 0002(2)   */ PACK uint16 variable_0002;              /*<! ?? */
+	/* 0004(2)   */ PACK uint16 winFlags;                   /*<! BASIC/WinFlags. */
+	/* 0006(2)   */ PACK uint16 loseFlags;                  /*<! BASIC/LoseFlags. */
+	/* 0008(4)   */ PACK uint32 mapSeed;                    /*<! MAP/Seed. */
+	/* 000C(2)   */ PACK uint16 mapScale;                   /*<! BASIC/MapScale. */
+	/* 000E(2)   */ PACK uint16 timeOut;                    /*<! BASIC/TimeOut. */
+	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*<! BASIC/BriefPicture. */
+	/* 001E(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
+	/* 002C(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
+	/* 003A()    */ PACK uint8   unknown_003A[0x00AC];
 } GCC_PACKED Scenario;
 MSVC_PACKED_END
 assert_compile(sizeof(Scenario) == 0xE6);
@@ -355,7 +364,7 @@ typedef struct GlobalData {
 	/* 1C1A()    */ PACK uint8   unknown_1C1A[0x0287];
 	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */
 	/* 1EAA(8)   */ PACK char   string_1EAA[8];             /*!< "EFINALA" NULL terminated. */
-	/* 1EB2(15)  */ PACK char   string_1EB2[15];            /*!< "SCEN%c%03d.INI" NULL terminated. */
+	/* 1EB2(15)  */ PACK char   string_scenario_file[15];   /*!< "SCEN%c%03d.INI" NULL terminated. */
 	/* 1EC1(6)   */ PACK char   string_1EC1[6];             /*!< "BASIC" NULL terminated. */
 	/* 1EC7(9)   */ PACK char   string_1EC7[9];             /*!< "WinFlags" NULL terminated. */
 	/* 1ED0(10)  */ PACK char   string_1ED0[10];            /*!< "LoseFlags" NULL terminated. */
@@ -638,9 +647,9 @@ typedef struct GlobalData {
 	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
 	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
 	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
-	/* 38DA(4)   */ PACK csip32 variable_38DA;              /*!< ?? */
-	/* 38DE(2)   */ PACK uint16 variable_38DE;              /*!< ?? Max length of variable_38DA memory field. */
-	/* 38E0(2)   */ PACK uint16 variable_38E0;              /*!< ?? Current used length of variable_38DA memory field. */
+	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
+	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
+	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
@@ -1064,6 +1073,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);
 
 extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
+extern uint8 *emu_get_memorycsip(csip32 csip);
 
 extern GlobalData *g_global;
 
