@@ -16,7 +16,7 @@ fi
 
 generate_data()
 {
-find "$ROOT_DIR/$1" -path "*/.svn" -prune -o -type f -name "*.[ch]" -print | awk '
+find "$ROOT_DIR/$1" -path "*/.svn" -prune -o -type f -name "*.[ch]" -print | sort | awk '
 BEGIN {
 	print "		<Filter";
 	print "			Name=\"'$1'\"";
