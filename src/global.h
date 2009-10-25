@@ -652,9 +652,14 @@ typedef struct GlobalData {
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
-	/* 3904()    */ PACK uint8   unknown_3904[0x00EA];
+	/* 3904()    */ PACK uint8   unknown_3904[0x00E6];
+	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information. */
-	/* 39F2()    */ PACK uint8   unknown_39F2[0x000A];
+	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
+	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? */
+	/* 39F6(2)   */ PACK uint16 variable_39F6;              /*!< ?? */
+	/* 39F8(2)   */ PACK uint16 variable_39F8;              /*!< ?? */
+	/* 39FA(2)   */ PACK uint16 variable_39FA;              /*!< ?? */
 	/* 39FC(2)   */ PACK uint16 variable_39FC;              /*!< ?? */
 	/* 39FE(2)   */ PACK uint16 variable_39FE;              /*!< ?? */
 	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
@@ -741,7 +746,16 @@ typedef struct GlobalData {
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
 	/* 60D2(13)  */ PACK char   string_60D2[13];            /*!< "Timeout win." NULL terminated. */
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 60E7()    */ PACK uint8   unknown_60E7[0x021B];
+	/* 60E7()    */ PACK uint8   unknown_60E7[0x002D];
+	/* 6114(2)   */ PACK uint16 variable_6114;              /*!< ?? */
+	/* 6116(2)   */ PACK uint16 variable_6116;              /*!< ?? */
+	/* 6118(2)   */ PACK uint16 variable_6118;              /*!< ?? */
+	/* 611A(2)   */ PACK uint16 variable_611A;              /*!< ?? */
+	/* 611C(2)   */ PACK uint16 variable_611C;              /*!< ?? */
+	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
+	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
+	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
+	/* 6124()    */ PACK uint8   unknown_6124[0x01DE];
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
@@ -934,26 +948,7 @@ typedef struct GlobalData {
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
 	/* 6C84()    */ PACK uint8   unknown_6C84[0x004F];
-	/* 6CD3(2)   */ PACK uint16 variable_6CD3;              /*!< ?? */
-	/* 6CD5(2)   */ PACK uint16 variable_6CD5;              /*!< ?? */
-	/* 6CD7(2)   */ PACK uint16 variable_6CD7;              /*!< ?? */
-	/* 6CD9(2)   */ PACK uint16 variable_6CD9;              /*!< ?? */
-	/* 6CDB(2)   */ PACK uint16 variable_6CDB;              /*!< ?? */
-	/* 6CDD(2)   */ PACK uint16 variable_6CDD;              /*!< ?? */
-	/* 6CDF(2)   */ PACK uint16 variable_6CDF;              /*!< ?? */
-	/* 6CE1(2)   */ PACK uint16 variable_6CE1;              /*!< ?? */
-	/* 6CE3(2)   */ PACK uint16 variable_6CE3;              /*!< ?? */
-	/* 6CE5(2)   */ PACK uint16 variable_6CE5;              /*!< ?? */
-	/* 6CE7(2)   */ PACK uint16 variable_6CE7;              /*!< ?? */
-	/* 6CE9(2)   */ PACK uint16 variable_6CE9;              /*!< ?? */
-	/* 6CEB(2)   */ PACK uint16 variable_6CEB;              /*!< ?? */
-	/* 6CED(2)   */ PACK uint16 variable_6CED;              /*!< ?? */
-	/* 6CEF(2)   */ PACK uint16 variable_6CEF;              /*!< ?? */
-	/* 6CF1(2)   */ PACK uint16 variable_6CF1;              /*!< ?? */
-	/* 6CF3(2)   */ PACK uint16 variable_6CF3;              /*!< ?? */
-	/* 6CF5(2)   */ PACK uint16 variable_6CF5;              /*!< ?? */
-	/* 6CF7(2)   */ PACK uint16 variable_6CF7;              /*!< ?? */
-	/* 6CF9(2)   */ PACK uint16 variable_6CF9;              /*!< ?? */
+	/* 6CD3(40)  */ PACK uint16 variable_6CD3[5][4];        /*!< ?? Array of 5 elements (init in f__B480_0000_0018_A09B()). */
 	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x007C];
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
 	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */
@@ -1036,7 +1031,10 @@ typedef struct GlobalData {
 	/* 798A(1)   */ PACK uint8  variable_798A;              /*!< ?? Something related to files. */
 	/* 798B()    */ PACK uint8   unknown_798B[0x00DD];
 	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
-	/* 7A6A()    */ PACK uint8   unknown_7A6A[0x009C];
+	/* 7A6A(7)   */ PACK char   string_7A6A[7];             /*!< "(null)" NULL terminated. */
+	/* 7A71()    */ PACK uint8   unknown_7A71[0x0061];
+	/* 7AD2(50)  */ PACK char   string_7AD2[50];            /*!< "print scanf : floating point formats not linked\r\n" NULL terminated. */
+	/* 7B04(2)   */ PACK uint16 variable_7B04;              /*!< ?? */
 	/* 7B06(2)   */ PACK uint16 variable_7B06;              /*!< ?? */
 	/* 7B08(4)   */ PACK csip32 variable_7B08;              /*!< ?? */
 	/* 7B0C(4)   */ PACK csip32 variable_7B0C;              /*!< ?? */
