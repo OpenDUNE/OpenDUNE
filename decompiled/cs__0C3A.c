@@ -2724,6 +2724,7 @@ l__1392:
  * Called From: 176C:0C9D:0045:05CB
  * Called From: 1A34:2D61:000C:2FC2
  * Called From: 1A34:2D61:000F:5FC7
+ * Called From: B511:0229:000F:97B3
  */
 void f__0C3A_1398_000D_8766()
 {

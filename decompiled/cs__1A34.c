@@ -2594,6 +2594,7 @@ l__14E0:
  *
  * @name f__1A34_14E6_001F_FB1E
  * @implements 1A34:14E6:001F:FB1E ()
+ * @implements 1A34:1500:0005:5C8C
  * @implements 1A34:1502:0003:5D18
  * @implements 1A34:1505:0010:14B9
  * @implements 1A34:1515:0008:9754
@@ -2626,10 +2627,13 @@ l__14E6:
 	emu_xorw(&emu_si, emu_si);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x1500; emu_last_cs = 0x1A34; emu_last_ip = 0x14F6; emu_last_length = 0x001F; emu_last_crc = 0xFB1E; emu_call(); return; }
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xC));
-	if (emu_ax != 0) goto l__1505;
+	if (emu_ax != 0) {
+		emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
+		emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xC));
+		if (emu_ax != 0) goto l__1505;
+	}
+	goto l__1500;
+l__1500:
 	emu_xorw(&emu_ax, emu_ax);
 	goto l__1502;
 l__1502:

@@ -320,6 +320,7 @@ l__013A:
 	/* Jump based on memory/register values */
 	emu_ip = emu_get_memory16(emu_cs, emu_bx, 0x7F3);
 	switch (emu_ip) {
+		case 0x0082: goto l__0082;
 		case 0x0155: goto l__0155;
 		case 0x015C: goto l__015C;
 		case 0x0163: goto l__0163;
