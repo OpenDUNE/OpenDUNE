@@ -607,7 +607,9 @@ typedef struct GlobalData {
 	/* 3178(12)  */ PACK char   string_3178[12];            /*!< "Sonic Blast" NULL terminated. */
 	/* 3184(9)   */ PACK char   string_3184[9];             /*!< "Sandworm" NULL terminated. */
 	/* 318D(8)   */ PACK char   string_318D[8];             /*!< "Frigate" NULL terminated. */
-	/* 3195()    */ PACK uint8   unknown_3195[0x000A];
+	/* 3195()    */ PACK uint8   unknown_3195[0x0001];
+	/* 3196()    */ PACK uint16 variable_3196;              /*!< ?? A counter. */
+	/* 3198()    */ PACK uint8   unknown_3198[0x0007];
 	/* 319F(7)   */ PACK char   string_319F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
 	/* 31A9()    */ PACK uint8   unknown_31A9[0x002F];
@@ -669,10 +671,8 @@ typedef struct GlobalData {
 	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
-	/* 3A2C(2)   */ PACK uint16 variable_3A2C;              /*!< ?? */
-	/* 3A2E(2)   */ PACK uint16 variable_3A2E;              /*!< ?? */
-	/* 3A30(2)   */ PACK uint16 variable_3A30;              /*!< ?? */
-	/* 3A32(2)   */ PACK uint16 variable_3A32;              /*!< ?? */
+	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
+	/* 3A30(4)   */ PACK csip32 variable_3A30;              /*!< ?? */
 	/* 3A34()    */ PACK uint8   unknown_3A34[0x0004];
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
@@ -932,24 +932,30 @@ typedef struct GlobalData {
 	/* 6C06(51)  */ PACK char   string_6C06[51];            /*!< "\r\nProgram must be run from the source directory.\r\n" NULL terminated. */
 	/* 6C39(38)  */ PACK char   string_6C39[38];            /*!< "\r\nNot enough memory to run program.\r\n" NULL terminated. */
 	/* 6C5F(7)   */ PACK char   string_6C5F[7];             /*!< "<MORE>" NULL terminated. */
-	/* 6C66(2)   */ PACK uint16 variable_6C66;              /*!< ?? */
-	/* 6C68(2)   */ PACK uint16 variable_6C68;              /*!< ?? */
+	/* 6C66(4)   */ PACK csip32 variable_6C66;              /*!< ?? Pointer to a function. */
 	/* 6C6A(2)   */ PACK uint16 variable_6C6A;              /*!< ?? */
 	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? */
 	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? */
 	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
 	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
-	/* 6C72(2)   */ PACK uint16 variable_6C72;              /*!< ?? */
-	/* 6C74(2)   */ PACK uint16 variable_6C74;              /*!< ?? */
+	/* 6C72(4)   */ PACK csip32 variable_6C72;              /*!< ?? Pointer to an array. */
 	/* 6C76(2)   */ PACK uint16 variable_6C76;              /*!< ?? */
 	/* 6C78(2)   */ PACK uint16 snapX;                      /*!< Snap mouse to grid, x-axis. */
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
-	/* 6C84()    */ PACK uint8   unknown_6C84[0x004F];
+	/* 6C84()    */ PACK uint8   unknown_6C84[0x000F];
+	/* 6C93(20)  */ PACK uint16 variable_6C93[5][2];        /*!< ?? Array of 5 elements. */
+	/* 6CA7()    */ PACK uint8   unknown_6CA7[0x002C];
 	/* 6CD3(40)  */ PACK uint16 variable_6CD3[5][4];        /*!< ?? Array of 5 elements (init in f__B480_0000_0018_A09B()). */
-	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x007C];
+	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x0060];
+	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? */
+	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
+	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
+	/* 6D61(2)   */ PACK uint16 variable_6D61;              /*!< ?? */
+	/* 6D63(2)   */ PACK uint16 variable_6D63;              /*!< ?? */
+	/* 6C65()    */ PACK uint8   unknown_6D65[0x0012];
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
 	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */
 	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
@@ -1045,7 +1051,17 @@ typedef struct GlobalData {
 	/* 7B18(2)   */ PACK uint16 variable_7B18;              /*!< ?? */
 	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x004E];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
-	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x08AC];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x068E];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 821A(1)   */ PACK uint8  variable_821A;              /*!< ?? */
+	/* 821B(1)   */ PACK uint8  variable_821B;              /*!< ?? */
+	/* 821C(1)   */ PACK uint8  variable_821C;              /*!< ?? */
+	/* 821D(4)   */ PACK csip32 variable_821D;              /*!< ?? Pointer to an element in an array of uint8. */
+	/* 8221(4)   */ PACK csip32 variable_8221;              /*!< ?? Pointer to an element in an array of uint8. */
+	/* 8225(2)   */ PACK uint16 variable_8225;              /*!< ?? */
+	/* 8227(2)   */ PACK uint16 variable_8227;              /*!< ?? */
+	/* 8229(2)   */ PACK uint16 variable_8229;              /*!< ?? */
+	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
+	/* 822C()    */ PACK uint8   unknown_822C[0x020C];
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of AirUnit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */
@@ -1061,7 +1077,14 @@ typedef struct GlobalData {
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
 	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */
-	/* 98EB()    */ PACK uint8   unknown_98EB[0x009F];
+	/* 98EB()    */ PACK uint8   unknown_98EB[0x0040];
+	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
+	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? */
+	/* 992F(2)   */ PACK uint16 variable_992F;              /*!< ?? */
+	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? */
+	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
+	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
+	/* 98EB()    */ PACK uint8   unknown_9937[0x0053];
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
 	/* 998E()    */ PACK uint8   unknown_998E[0x0061];
 	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
