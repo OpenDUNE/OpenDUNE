@@ -390,6 +390,7 @@ l__0632:
  *
  * Called From: B491:07C0:0005:20AE
  * Called From: B491:07C0:005E:B087
+ * Called From: B491:07C0:0061:E5C3
  * Called From: B491:0A10:0008:9226
  * Called From: B4BE:001E:0005:20AE
  * Called From: B4BE:01C2:000E:CC0C

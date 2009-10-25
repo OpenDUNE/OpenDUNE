@@ -2729,6 +2729,7 @@ l__0F1E:
  * @implements B518:0F3A:000F:0B00
  * @implements B518:0F3B:000E:8F00
  * @implements B518:0F40:0009:E784
+ * @implements B518:0F49:0009:49AC
  * @implements B518:0F4C:0006:42F0
  * @implements B518:0F52:0002:2597
  *
@@ -2759,8 +2760,11 @@ l__0F3B:
 	goto l__0F40;
 l__0F40:
 	emu_cmpw(&emu_dx, 0xB);
-	if ((int16)emu_dx >= (int16)0xB) { /* Unresolved jump */ emu_ip = 0x0F49; emu_last_cs = 0xB518; emu_last_ip = 0x0F43; emu_last_length = 0x0009; emu_last_crc = 0xE784; emu_call(); return; }
+	if ((int16)emu_dx >= (int16)0xB) goto l__0F49;
 	emu_ax = emu_dx;
+	goto l__0F4C;
+l__0F49:
+	emu_ax = 0xB;
 	goto l__0F4C;
 l__0F4C:
 	emu_dx = emu_ax;

@@ -1,8 +1,6 @@
 /* $Id$ */
 
-#include "../src/unit.h"
 #include "../src/interrupt.h"
-#include "../src/building.h"
 #include "../src/patched.h"
 #include "../src/airunit.h"
 #include "../src/house.h"
@@ -12,7 +10,9 @@
 #include "../src/pool/unit.h"
 #include "../src/pool/house.h"
 #include "../src/global.h"
+#include "../src/building.h"
 #include "../src/input/input.h"
+#include "../src/unit.h"
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
 extern void f__B4C1_0000_0022_1807();

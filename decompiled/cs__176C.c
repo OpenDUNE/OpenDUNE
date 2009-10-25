@@ -4478,6 +4478,7 @@ l__2128:
  * @implements 176C:216D:001C:0800
  * @implements 176C:2189:0024:8100
  * @implements 176C:21E6:0005:7955
+ * @implements 176C:21E8:0003:1D01
  * @implements 176C:21EB:0010:4D4C
  * @implements 176C:21FB:000E:DA27
  * @implements 176C:2209:0005:A22E
@@ -4548,6 +4549,8 @@ l__2189:
 	/* Unresolved jump */ emu_ip = 0x21AD; emu_last_cs = 0x176C; emu_last_ip = 0x21AD; emu_last_length = 0x0024; emu_last_crc = 0x8100; emu_call();
 l__21E6:
 	emu_ax = emu_si;
+	goto l__21E8;
+l__21E8:
 	goto l__226F;
 l__21EB:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -4608,7 +4611,7 @@ l__225C:
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	if (emu_ax != 0) goto l__220E;
 	emu_xorw(&emu_ax, emu_ax);
-	/* Unresolved jump */ emu_ip = 0x21E8; emu_last_cs = 0x176C; emu_last_ip = 0x226C; emu_last_length = 0x0013; emu_last_crc = 0xF216; emu_call();
+	goto l__21E8;
 l__226F:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
@@ -4626,6 +4629,7 @@ l__226F:
  *
  * @name f__176C_2275_001D_D22D
  * @implements 176C:2275:001D:D22D ()
+ * @implements 176C:2292:000C:ED8F
  * @implements 176C:229B:0003:D63A
  * @implements 176C:229E:000A:0725
  * @implements 176C:22A8:0002:2597
@@ -4645,7 +4649,13 @@ l__2275:
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x2292); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
-	/* Unresolved jump */ emu_ip = 0x2292; emu_last_cs = 0x176C; emu_last_ip = 0x2292; emu_last_length = 0x001D; emu_last_crc = 0xD22D; emu_call();
+	goto l__2292;
+l__2292:
+	emu_pop(&emu_cx);
+	emu_bx = emu_ax;
+	emu_es = emu_dx;
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0x58);
+	goto l__229B;
 l__229B:
 	emu_ax = (int8)emu_al;
 	goto l__22A8;
