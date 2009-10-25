@@ -7,36 +7,36 @@
  * Types of Units available in the game.
  */
 typedef enum UnitType {
-	UNIT_UNKNOWN_0      = 0, /* TODO -- What is unit type 0? */
-	UNIT_UNKNOWN_1      = 1, /* TODO -- What is unit type 1? */
-	UNIT_INFANTRY_SQUAD = 2,
-	UNIT_TROOPER_SQUAD  = 3,
-	UNIT_INFANTRY       = 4,
-	UNIT_TROOPER        = 5,
-	UNIT_UNKNOWN_6      = 6, /* TODO -- What is unit type 6? */
-	UNIT_UNKNOWN_7      = 7, /* TODO -- What is unit type 7? */
-	UNIT_UNKNOWN_8      = 8, /* TODO -- What is unit type 8? */
-	UNIT_UNKNOWN_9      = 9, /* TODO -- What is unit type 9? */
-	UNIT_TANK           = 9,
-	UNIT_UNKNOWN_10     = 10, /* TODO -- What is unit type 10? */
-	UNIT_UNKNOWN_11     = 11, /* TODO -- What is unit type 11? */
-	UNIT_UNKNOWN_12     = 12, /* TODO -- What is unit type 12? */
-	UNIT_TRIKE          = 13,
-	UNIT_FAST_TRIKE     = 14,
-	UNIT_QUAD           = 15,
-	UNIT_HARVESTER      = 16,
-	UNIT_MGV            = 17,
-	UNIT_UNKNOWN_18     = 18, /* TODO -- What is unit type 18? */
-	UNIT_UNKNOWN_19     = 19, /* TODO -- What is unit type 19? */
-	UNIT_UNKNOWN_20     = 20, /* TODO -- What is unit type 20? */
-	UNIT_UNKNOWN_21     = 21, /* TODO -- What is unit type 21? */
-	UNIT_UNKNOWN_22     = 22, /* TODO -- What is unit type 22? */
-	UNIT_UNKNOWN_23     = 23, /* TODO -- What is unit type 23? */
-	UNIT_UNKNOWN_24     = 24, /* TODO -- What is unit type 24? */
-	UNIT_UNKNOWN_25     = 25, /* TODO -- What is unit type 25? */
-	/* TODO -- Are there more units above type 25? */
+	UNIT_CARRYALL        = 0,
+	UNIT_ORNITHOPTER     = 1,
+	UNIT_INFANTRY        = 2,
+	UNIT_TROOPERS        = 3,
+	UNIT_SOLDIER         = 4,
+	UNIT_TROOPER         = 5,
+	UNIT_SABOTEUR        = 6,
+	UNIT_LAUNCHER        = 7,
+	UNIT_DEVIATOR        = 8,
+	UNIT_TANK            = 9,
+	UNIT_SIEGE_TANK      = 10,
+	UNIT_DEVASTATOR      = 11,
+	UNIT_SONIC_TANK      = 12,
+	UNIT_TRIKE           = 13,
+	UNIT_RAIDER_TRIKE    = 14,
+	UNIT_QUAD            = 15,
+	UNIT_HARVESTER       = 16,
+	UNIT_MGV             = 17,
+	UNIT_MISSLE_HOUSE    = 18,
+	UNIT_MISSLE_ROCKET   = 19,
+	UNIT_MISSLE_TURRET   = 20,
+	UNIT_MISSLE_DEVIATOR = 21,
+	UNIT_MISSLE_TROOPER  = 22,
+	UNIT_BULLET          = 23,
+	UNIT_SONIC_BLAST     = 24,
+	UNIT_SANDWORM        = 25,
+	UNIT_FRIGATE         = 26,
 
-	UNIT_INVALID        = 0xFFFF
+	UNIT_MAX             = 27,
+	UNIT_INVALID         = 0xFFFF
 } UnitType;
 
 MSVC_PACKED_BEGIN
