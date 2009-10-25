@@ -63,7 +63,7 @@ typedef struct Unit {
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint8   unknown_0054[0x0002];
 	/* 0056(2)   */ PACK uint16 variable_56;                /*!< ?? */
-	/* 0058(1)   */ PACK uint8  variable_58;                /*!< ?? */
+	/* 0058(1)   */ PACK uint8  sandwormLeft;               /*!< How much units the sandworm will eat before it disappears. */
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */

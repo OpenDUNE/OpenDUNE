@@ -109,17 +109,17 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	}
 
 	u->linkedBuildingID = 0xFF;
-	u->variable_10 = 0x0000;
-	u->actionID    = 0x03;
-	u->variable_50 = 0xFF;
-	u->variable_51 = 0x00;
-	u->variable_52 = 0x7FFF;
-	u->variable_56 = 0x0000;
-	u->variable_58 = 0x00;
-	u->variable_6C = 0x00;
-	u->variable_6D = 0x00;
-	u->variable_6E = 0x00;
-	u->variable_70 = 0x0000;
+	u->variable_10      = 0x0000;
+	u->actionID         = 0x03;
+	u->variable_50      = 0xFF;
+	u->variable_51      = 0x00;
+	u->variable_52      = 0x7FFF;
+	u->variable_56      = 0x0000;
+	u->sandwormLeft     = 0x00;
+	u->variable_6C      = 0x00;
+	u->variable_6D      = 0x00;
+	u->variable_6E      = 0x00;
+	u->variable_70      = 0x0000;
 
 	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->variable_3902, 0x353F));
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip + 0x12);
