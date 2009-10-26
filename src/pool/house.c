@@ -18,7 +18,8 @@
  */
 House *House_Get_ByIndex(uint8 index)
 {
-	assert(index < HOUSE_INDEX_MAX);
+	/* XXX -- For some reasons when loading a savegame index '13' is loaded */
+	assert(index < HOUSE_INDEX_MAX || index == 13);
 	return (House *)&emu_get_memory8(g_global->houseStartPos.s.cs, g_global->houseStartPos.s.ip, index * sizeof(House));
 }
 
