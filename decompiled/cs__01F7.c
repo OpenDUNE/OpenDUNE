@@ -1532,26 +1532,26 @@ l__0587:
 }
 
 /**
- * Decompiled function emu_Math_Shld_Wrapper()
+ * Decompiled function emu_Tools_Shld_Wrapper()
  *
- * @name emu_Math_Shld_Wrapper
+ * @name emu_Tools_Shld_Wrapper
  * @implements 01F7:058B:0018:D9CF ()
  *
  * Called From: 01F7:1AF5:0010:0EEE
  */
-void emu_Math_Shld_Wrapper()
+void emu_Tools_Shld_Wrapper()
 {
 l__058B:
 	emu_pop(&emu_bx);
 	emu_push(emu_cs);
 	emu_push(emu_bx);
-	emu_Math_Shld(); return;
+	emu_Tools_Shld(); return;
 }
 
 /**
- * Decompiled function emu_Math_Shld()
+ * Decompiled function emu_Tools_Shld()
  *
- * @name emu_Math_Shld
+ * @name emu_Tools_Shld
  * @implements 01F7:058E:0015:CED2 ()
  * @implements 01F7:05A3:0009:5F2E
  *
@@ -1580,7 +1580,7 @@ l__058B:
  * Called From: B503:12BA:0013:473F
  * Called From: B503:1310:0013:473F
  */
-void emu_Math_Shld()
+void emu_Tools_Shld()
 {
 l__058E:
 	emu_cmpb(&emu_cl, 0x10);
@@ -1610,15 +1610,15 @@ l__05A3:
 }
 
 /**
- * Decompiled function emu_Math_Shrd()
+ * Decompiled function emu_Tools_Shrd()
  *
- * @name emu_Math_Shrd
+ * @name emu_Tools_Shrd
  * @implements 01F7:05AF:0015:0AD5 ()
  * @implements 01F7:05C4:0008:2A95
  *
  * Called From: B52A:07B0:0010:C5C7
  */
-void emu_Math_Shrd()
+void emu_Tools_Shrd()
 {
 l__05AF:
 	emu_cmpb(&emu_cl, 0x10);
@@ -4368,7 +4368,7 @@ l__1A76:
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B));
 	emu_push(emu_cs);
-	emu_push(0x1A80); emu_Memory_Realloc();
+	emu_push(0x1A80); emu_Tools_Realloc();
 	goto l__1A80;
 l__1A80:
 	emu_pop(&emu_cx);
@@ -4469,7 +4469,7 @@ l__1AE8:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x8D);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_cl = 0x4;
-	emu_push(0x1AF8); emu_Math_Shld_Wrapper();
+	emu_push(0x1AF8); emu_Tools_Shld_Wrapper();
 	goto l__1AF8;
 l__1AF8:
 	emu_addw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8B));
@@ -5343,16 +5343,16 @@ l__216F:
 }
 
 /**
- * Decompiled function emu_Memory_Realloc()
+ * Decompiled function emu_Tools_Realloc()
  *
- * @name emu_Memory_Realloc
+ * @name emu_Tools_Realloc
  * @implements 01F7:21DE:000D:9231 ()
  * @implements 01F7:21EB:0007:3DF1
  * @implements 01F7:21F8:0002:2597
  *
  * Called From: 01F7:1A7D:000A:D91E
  */
-void emu_Memory_Realloc()
+void emu_Tools_Realloc()
 {
 l__21DE:
 	emu_push(emu_bp);

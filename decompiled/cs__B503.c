@@ -3395,7 +3395,7 @@ l__12AC:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x1;
 	emu_cl = emu_get_memory8(emu_ss, emu_bp,  0x6);
-	emu_push(emu_cs); emu_push(0x12BF); emu_cs = 0x01F7; emu_Math_Shld();
+	emu_push(emu_cs); emu_push(0x12BF); emu_cs = 0x01F7; emu_Tools_Shld();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 	goto l__12BF;
@@ -3455,7 +3455,7 @@ l__1302:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x1;
 	emu_cl = emu_get_memory8(emu_ss, emu_bp,  0x6);
-	emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x01F7; emu_Math_Shld();
+	emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x01F7; emu_Tools_Shld();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 	goto l__1315;

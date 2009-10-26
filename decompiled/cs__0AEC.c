@@ -829,7 +829,7 @@ l__05F4:
 	emu_push(emu_dx);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x1;
-	emu_push(emu_cs); emu_push(0x0609); emu_cs = 0x01F7; emu_Math_Shld();
+	emu_push(emu_cs); emu_push(0x0609); emu_cs = 0x01F7; emu_Tools_Shld();
 	goto l__0609;
 l__0609:
 	emu_pop(&emu_bx);

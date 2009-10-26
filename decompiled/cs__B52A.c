@@ -959,7 +959,7 @@ l__07A5:
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0xC);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
 	emu_cl = 0x4;
-	emu_push(emu_cs); emu_push(0x07B5); emu_cs = 0x01F7; emu_Math_Shrd();
+	emu_push(emu_cs); emu_push(0x07B5); emu_cs = 0x01F7; emu_Tools_Shrd();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { overlay(0x352A, 1); }
 	goto l__07B5;

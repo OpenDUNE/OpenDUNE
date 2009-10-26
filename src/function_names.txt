@@ -19,9 +19,9 @@
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
-01F7:058B:0018:D9CF	emu_Math_Shld_Wrapper	# stupid wrapper
-01F7:058E:0015:CED2	emu_Math_Shld	# () ((dx << 16) | ax) << cl
-01F7:05AF:0015:0AD5	emu_Math_Shrd	# () ((dx << 16) | ax) >> cl
+01F7:058B:0018:D9CF	emu_Tools_Shld_Wrapper	# stupid wrapper
+01F7:058E:0015:CED2	emu_Tools_Shld	# () ((dx << 16) | ax) << cl
+01F7:05AF:0015:0AD5	emu_Tools_Shrd	# () ((dx << 16) | ax) >> cl
 01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper
 01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
 01F7:064D:0028:3537	emu_Tools_SubCSIP	# (dx:ax - cx:bx -> dx:ax, and makes ax as big as possible)
@@ -30,7 +30,7 @@
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
-01F7:21DE:000D:9231	emu_Memory_Realloc	# (block, size)
+01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:2252:0045:03CB	emu_String_ToInteger	# (string_csip)
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
 01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
