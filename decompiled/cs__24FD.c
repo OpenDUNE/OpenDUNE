@@ -42,7 +42,6 @@ l__002A:
 		emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76A8));
 		if (emu_dx >= emu_get_memory16(emu_ds, 0x00, 0x76A8)) goto l__002A;
 	}
-	goto l__003E;
 l__003E:
 	emu_ax = emu_bx;
 	emu_decw(&emu_bx);

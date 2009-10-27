@@ -27,7 +27,6 @@ l__0002:
 	emu_push(emu_si);
 	emu_cld();
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	goto l__000E;
 l__000E:
 	emu_lodsb(emu_ds);
 	emu_orb(&emu_al, emu_al);
@@ -35,7 +34,6 @@ l__000E:
 	emu_dl = emu_al;
 	emu_ah = 0x6;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0019); Interrupt_DOS();
-	goto l__0019;
 l__0019:
 	goto l__000E;
 l__001B:

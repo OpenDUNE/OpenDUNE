@@ -30,10 +30,8 @@ l__000D:
 	emu_si = emu_ax;
 	emu_get_memory16(emu_ds, 0x00, 0x76B6) = 0x0;
 	emu_get_memory16(emu_ds, 0x00, 0x76B4) = 0xF;
-	goto l__0024;
 l__0024:
 	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2BEE; f__2BEE_000E_0009_8881();
-	goto l__0029;
 l__0029:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__0030;
@@ -41,7 +39,6 @@ l__0029:
 	goto l__0031;
 l__0030:
 	emu_incw(&emu_si);
-	goto l__0031;
 l__0031:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
@@ -52,7 +49,6 @@ l__0031:
 	goto l__0045;
 l__0043:
 	emu_xorw(&emu_ax, emu_ax);
-	goto l__0045;
 l__0045:
 	emu_get_memory16(emu_ds, 0x00, 0x9937) = emu_ax;
 	emu_pop(&emu_di);

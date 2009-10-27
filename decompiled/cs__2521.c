@@ -95,7 +95,6 @@ l__0035:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x01F7; emu_String_strlen();
-	goto l__004A;
 l__004A:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -109,12 +108,10 @@ l__0053:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x0061); f__2521_000F_0022_6D87();
-	goto l__0061;
 l__0061:
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);
 	emu_incw(&emu_di);
-	goto l__0065;
 l__0065:
 	emu_cmpw(&emu_di, emu_get_memory16(emu_ss, emu_bp, -0x2));
 	if ((int16)emu_di < (int16)emu_get_memory16(emu_ss, emu_bp, -0x2)) goto l__0053;

@@ -56,7 +56,6 @@ l__0000:
 			emu_call();
 			return;
 	}
-	goto l__001E;
 l__001E:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
@@ -80,7 +79,6 @@ l__001E:
 			emu_call();
 			return;
 	}
-	goto l__0038;
 l__0038:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
@@ -104,7 +102,6 @@ l__0038:
 			emu_call();
 			return;
 	}
-	goto l__004E;
 l__004E:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
@@ -128,7 +125,6 @@ l__004E:
 			emu_call();
 			return;
 	}
-	goto l__0068;
 l__0068:
 	emu_addw(&emu_sp, 0xA);
 	emu_pop(&emu_di);

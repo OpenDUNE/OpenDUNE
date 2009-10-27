@@ -24,7 +24,6 @@ l__000D:
 	emu_ax = 0x49;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x001D); emu_cs = 0x22A6; f__22A6_0004_0003_DA0F();
-	goto l__001D;
 l__001D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

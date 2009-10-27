@@ -49,7 +49,6 @@ l__0032:
 		emu_ax = 0x4;
 		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();
 	}
-	goto l__004B;
 l__004B:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7060);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x707C), emu_ax);
@@ -58,7 +57,6 @@ l__004B:
 		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x707E), emu_ax);
 		if (emu_get_memory16(emu_ds, 0x00, 0x707E) == emu_ax) goto l__007A;
 	}
-	goto l__005D;
 l__005D:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7094));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7092));
@@ -76,14 +74,11 @@ l__005D:
 			emu_call();
 			return;
 	}
-	goto l__0069;
 l__0069:
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs); emu_push(0x0071); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
-	goto l__0071;
 l__0071:
 	emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
-	goto l__0076;
 l__0076:
 
 	/* Call based on memory/register values */
@@ -99,7 +94,6 @@ l__0076:
 			emu_call();
 			return;
 	}
-	goto l__007A;
 l__007A:
 
 	/* Return from this function */
@@ -129,7 +123,6 @@ l__007B:
 	if (emu_get_memory16(emu_ds, 0x00, 0x705E) != 0x0) { /* Unresolved jump */ emu_ip = 0x0086; emu_last_cs = 0x2B99; emu_last_ip = 0x008B; emu_last_length = 0x0019; emu_last_crc = 0x5737; emu_call(); return; }
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x705E));
 	emu_push(0x0094); f__2B99_0002_0012_E0C1();
-	goto l__0094;
 l__0094:
 	emu_decw(&emu_get_memory16(emu_ds, 0x00, 0x705E));
 	emu_pop(&emu_dx);

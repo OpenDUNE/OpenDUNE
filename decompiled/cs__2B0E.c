@@ -53,14 +53,12 @@ l__0006:
 	if (emu_ax >= 0xF000) {
 		emu_orw(&emu_cx, 0x1);
 	}
-	goto l__001E;
 l__001E:
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
 	emu_cmpw(&emu_ax, 0xF000);
 	if (emu_ax >= 0xF000) {
 		emu_orw(&emu_cx, 0x2);
 	}
-	goto l__0029;
 l__0029:
 	emu_cmpw(&emu_cx, 0x0);
 	if (emu_cx == 0x0) goto l__0068;
@@ -102,7 +100,6 @@ l__0068:
 	emu_rep_movsb(emu_ds);
 	emu_orw(&emu_bx, emu_bx);
 	if (emu_bx == 0) goto l__00C6;
-	goto l__00A2;
 l__00A2:
 	emu_cl = 0x4;
 	emu_dx = emu_si;
@@ -121,7 +118,6 @@ l__00A2:
 	emu_rep_movsw(emu_ds);
 	emu_decw(&emu_bx);
 	if (emu_bx != 0) goto l__00A2;
-	goto l__00C6;
 l__00C6:
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
@@ -197,7 +193,6 @@ l__00D0:
 		emu_pop(&emu_ax);
 		emu_andw(&emu_ax, 0xF);
 	}
-	goto l__00EE;
 l__00EE:
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
@@ -232,7 +227,6 @@ l__00F2:
 		emu_pop(&emu_ax);
 		emu_andw(&emu_ax, 0xF);
 	}
-	goto l__0107;
 l__0107:
 
 	/* Return from this function */

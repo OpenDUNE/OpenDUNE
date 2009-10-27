@@ -23,7 +23,6 @@ l__0096:
 	emu_push(emu_ds);
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x009F); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	goto l__009F;
 l__009F:
 	emu_addw(&emu_sp, 0x4);
 	emu_ds = emu_dx;
@@ -31,7 +30,6 @@ l__009F:
 	emu_push(emu_es);
 	emu_push(emu_di);
 	emu_push(emu_cs); emu_push(0x00AD); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	goto l__00AD;
 l__00AD:
 	emu_addw(&emu_sp, 0x4);
 	emu_es = emu_dx;
@@ -82,19 +80,16 @@ l__00B7:
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
 	emu_push(0x00CB); f__2AE1_0096_0009_9B4B();
-	goto l__00CB;
 l__00CB:
 	emu_cld();
 	emu_xorw(&emu_ax, emu_ax);
 	emu_cx = emu_ax;
-	goto l__00D0;
 l__00D0:
 	emu_lodsb(emu_ds);
 	emu_orb(&emu_al, emu_al);
 	if (emu_al == 0) goto l__00E2;
 	if (emu_flags.sf) goto l__00EE;
 	emu_cl = emu_al;
-	goto l__00D9;
 l__00D9:
 	emu_lodsb(emu_ds);
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
@@ -105,7 +100,6 @@ l__00E2:
 	emu_cl = emu_get_memory8(emu_ds, emu_si, 0x0);
 	emu_incw(&emu_si);
 	emu_lodsb(emu_ds);
-	goto l__00E6;
 l__00E6:
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
 	emu_incw(&emu_di);
@@ -131,7 +125,6 @@ l__0101:
 	emu_subw(&emu_ax, 0x4000);
 	emu_cx = emu_ax;
 	emu_lodsb(emu_ds);
-	goto l__0111;
 l__0111:
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
 	emu_incw(&emu_di);
@@ -140,7 +133,6 @@ l__0111:
 	goto l__00D0;
 l__011B:
 	emu_cx = emu_ax;
-	goto l__011D;
 l__011D:
 	emu_lodsb(emu_ds);
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
@@ -194,14 +186,12 @@ l__0131:
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
 	emu_push(emu_di);
-	goto l__0135;
 l__0135:
 	emu_lodsb(emu_ds);
 	emu_orb(&emu_al, emu_al);
 	if (emu_al == 0) goto l__0154;
 	if (emu_flags.sf) goto l__016D;
 	emu_cl = emu_al;
-	goto l__013E;
 l__013E:
 	emu_lodsb(emu_ds);
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
@@ -214,7 +204,6 @@ l__013E:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__0150;
 l__0150:
 	if (--emu_cx != 0) goto l__013E;
 	goto l__0135;
@@ -222,7 +211,6 @@ l__0154:
 	emu_cl = emu_get_memory8(emu_ds, emu_si, 0x0);
 	emu_incw(&emu_si);
 	emu_lodsb(emu_ds);
-	goto l__0158;
 l__0158:
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
 	emu_incw(&emu_di);
@@ -234,7 +222,6 @@ l__0158:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__0169;
 l__0169:
 	if (--emu_cx != 0) goto l__0158;
 	goto l__0135;
@@ -243,7 +230,6 @@ l__016D:
 	if (emu_flags.zf) goto l__0187;
 	emu_addw(&emu_di, emu_ax);
 	emu_addw(&emu_dx, emu_ax);
-	goto l__0175;
 l__0175:
 	emu_cmpw(&emu_dx, emu_bx);
 	if (emu_dx < emu_bx) goto l__0185;
@@ -261,7 +247,6 @@ l__0187:
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__01A4;
 	emu_addw(&emu_di, emu_ax);
 	emu_addw(&emu_dx, emu_ax);
-	goto l__0190;
 l__0190:
 	emu_cmpw(&emu_dx, emu_bx);
 	if (emu_dx < emu_bx) goto l__01A0;
@@ -282,7 +267,6 @@ l__01A4:
 	emu_subw(&emu_ax, 0x4000);
 	emu_cx = emu_ax;
 	emu_lodsb(emu_ds);
-	goto l__01B4;
 l__01B4:
 	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_al);
 	emu_incw(&emu_di);
@@ -294,7 +278,6 @@ l__01B4:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__01C5;
 l__01C5:
 	if (--emu_cx != 0) goto l__01B4;
 	emu_xorb(&emu_ah, emu_ah);
@@ -340,14 +323,12 @@ void f__2AE1_01EA_0020_A570()
 {
 l__01EA:
 	emu_push(emu_di);
-	goto l__01EB;
 l__01EB:
 	emu_lodsb(emu_ds);
 	emu_orb(&emu_al, emu_al);
 	if (emu_al == 0) goto l__020A;
 	if (emu_flags.sf) goto l__0223;
 	emu_cl = emu_al;
-	goto l__01F4;
 l__01F4:
 	emu_lodsb(emu_ds);
 	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
@@ -360,7 +341,6 @@ l__01F4:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__0206;
 l__0206:
 	if (--emu_cx != 0) goto l__01F4;
 	goto l__01EB;
@@ -368,7 +348,6 @@ l__020A:
 	emu_cl = emu_get_memory8(emu_ds, emu_si, 0x0);
 	emu_incw(&emu_si);
 	emu_lodsb(emu_ds);
-	goto l__020E;
 l__020E:
 	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
 	emu_incw(&emu_di);
@@ -380,7 +359,6 @@ l__020E:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__021F;
 l__021F:
 	if (--emu_cx != 0) goto l__020E;
 	goto l__01EB;
@@ -389,7 +367,6 @@ l__0223:
 	if (emu_flags.zf) goto l__023D;
 	emu_addw(&emu_di, emu_ax);
 	emu_addw(&emu_dx, emu_ax);
-	goto l__022B;
 l__022B:
 	emu_cmpw(&emu_dx, emu_bx);
 	if (emu_dx < emu_bx) goto l__023B;
@@ -407,7 +384,6 @@ l__023D:
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__025A;
 	emu_addw(&emu_di, emu_ax);
 	emu_addw(&emu_dx, emu_ax);
-	goto l__0246;
 l__0246:
 	emu_cmpw(&emu_dx, emu_bx);
 	if (emu_dx < emu_bx) goto l__0256;
@@ -428,7 +404,6 @@ l__025A:
 	emu_subw(&emu_ax, 0x4000);
 	emu_cx = emu_ax;
 	emu_lodsb(emu_ds);
-	goto l__026A;
 l__026A:
 	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
 	emu_incw(&emu_di);
@@ -440,14 +415,12 @@ l__026A:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__027B;
 l__027B:
 	if (--emu_cx != 0) goto l__026A;
 	emu_xorb(&emu_ah, emu_ah);
 	goto l__01EB;
 l__0282:
 	emu_cx = emu_ax;
-	goto l__0284;
 l__0284:
 	emu_lodsb(emu_ds);
 	emu_get_memory8(emu_es, emu_di, 0x0) = emu_al;
@@ -460,7 +433,6 @@ l__0284:
 		emu_addw(&emu_di, 0x140);
 		emu_push(emu_di);
 	}
-	goto l__0296;
 l__0296:
 	if (--emu_cx != 0) goto l__0284;
 	emu_xorb(&emu_ah, emu_ah);
@@ -503,7 +475,6 @@ l__029F:
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
 	emu_push(0x02B3); f__2AE1_0096_0009_9B4B();
-	goto l__02B3;
 l__02B3:
 	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0xE);
 	emu_cld();
@@ -514,13 +485,11 @@ l__02B3:
 	if (emu_get_memory16(emu_ss, emu_bp,  0x10) == 0x0) goto l__02C9;
 	emu_push(emu_cs);
 	emu_push(0x02C7); f__2AE1_01EA_0020_A570();
-	goto l__02C7;
 l__02C7:
 	goto l__02CD;
 l__02C9:
 	emu_push(emu_cs);
 	emu_push(0x02CD); f__2AE1_0131_0023_99F9();
-	goto l__02CD;
 l__02CD:
 	emu_pop(&emu_si);
 	emu_pop(&emu_es);

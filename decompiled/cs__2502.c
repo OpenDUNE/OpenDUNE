@@ -50,13 +50,11 @@ l__001D:
 l__0033:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	goto l__0039;
 l__0039:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_get_memory8(emu_es, emu_bx, 0x0) = emu_al;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0xA));
-	goto l__0045;
 l__0045:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
@@ -124,13 +122,11 @@ l__0103:
 		emu_ax = (int8)emu_al;
 		emu_dx = emu_ax;
 	}
-	goto l__0139;
 l__0139:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_get_memory8(emu_es, emu_bx, 0x0) = emu_dl;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_incw(&emu_si);
-	goto l__0143;
 l__0143:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);

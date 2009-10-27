@@ -31,7 +31,6 @@ l__001A:
 		emu_incw(&emu_bx);
 		emu_negw(&emu_dx, emu_dx);
 	}
-	goto l__002F;
 l__002F:
 	emu_shlw(&emu_bx, 0x1);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
@@ -41,13 +40,11 @@ l__002F:
 		emu_incw(&emu_bx);
 		emu_negw(&emu_cx, emu_cx);
 	}
-	goto l__003E;
 l__003E:
 	emu_cmpw(&emu_cx, emu_dx);
 	if (emu_cx >= emu_dx) {
 		emu_xchgw(&emu_dx, &emu_cx);
 	}
-	goto l__0044;
 l__0044:
 	emu_rclw(&emu_bx, 0x1);
 	emu_ax = emu_dx;

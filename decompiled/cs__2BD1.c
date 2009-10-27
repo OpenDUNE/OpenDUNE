@@ -64,14 +64,12 @@ l__0006:
 		emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76AC), 0x1);
 		emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76AE), 0x0);
 	}
-	goto l__001E;
 l__001E:
 	emu_shrw(&emu_ax, 0x1);
 	if (emu_flags.cf) {
 		emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76B0), 0x1);
 		emu_adcw(&emu_get_memory16(emu_ds, 0x00, 0x76B2), 0x0);
 	}
-	goto l__002C;
 l__002C:
 	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x76A6));
 	emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x76A8), 0x1);
@@ -82,7 +80,6 @@ l__002C:
 		emu_subw(&emu_get_memory16(emu_ds, 0x00, 0x76B4), 0x1);
 		emu_sbbw(&emu_get_memory16(emu_ds, 0x00, 0x76B6), 0x0);
 	}
-	goto l__004D;
 l__004D:
 	emu_pop(&emu_ax);
 	emu_pop(&emu_ds);

@@ -28,7 +28,6 @@ l__0001:
 	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xC));
 	if (emu_ax != 0) goto l__0019;
 	emu_xorw(&emu_ax, emu_ax);
-	goto l__0017;
 l__0017:
 	goto l__0041;
 l__0019:
@@ -91,7 +90,6 @@ l__0044:
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x104B; emu_AirUnit_Get_ByIndex();
-	goto l__006B;
 l__006B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -104,7 +102,6 @@ l__006B:
 	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x8);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_subw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x4));
-	goto l__008F;
 l__008F:
 	goto l__0095;
 l__0091:

@@ -44,22 +44,18 @@ l__0010:
 	emu_push(emu_cs); emu_push(0x0033); emu_cs = 0x01F7; emu_String_strcasecmp();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3530) { overlay(0x3530, 1); }
-	goto l__0033;
 l__0033:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__003E;
 	emu_ax = emu_si;
-	goto l__003C;
 l__003C:
 	goto l__0049;
 l__003E:
 	emu_incw(&emu_si);
-	goto l__003F;
 l__003F:
 	emu_cmpw(&emu_si, 0x13);
 	if ((int16)emu_si < (int16)0x13) goto l__0010;
-	goto l__0044;
 l__0044:
 	emu_ax = 0xFFFF;
 	goto l__003C;

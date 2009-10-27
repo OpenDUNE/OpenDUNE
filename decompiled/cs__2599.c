@@ -47,7 +47,6 @@ l__000B:
 	if (emu_get_memory16(emu_ds, 0x00, 0x6D5D) != emu_si) { /* Unresolved jump */ emu_ip = 0x0053; emu_last_cs = 0x2599; emu_last_ip = 0x004A; emu_last_length = 0x0047; emu_last_crc = 0x21FD; emu_call(); return; }
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x0052); emu_cs = 0x07AE; f__07AE_0000_00DF_A32C();
-	goto l__0052;
 l__0052:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_si);

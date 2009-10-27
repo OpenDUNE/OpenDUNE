@@ -38,7 +38,6 @@ l__0000:
 	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__0008;
 l__0008:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x38B2);
 	emu_cmpw(&emu_ax, 0x4);
@@ -69,12 +68,10 @@ l__002B:
 	emu_push(emu_ax);
 	emu_push(emu_ds);
 	emu_ax = 0x1C1A;
-	goto l__0042;
 l__0042:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x0048); f__B4AE_00F0_0024_E400();
-	goto l__0048;
 l__0048:
 	emu_addw(&emu_sp, 0x12);
 	goto l__007F;
@@ -133,12 +130,10 @@ l__0094:
 	emu_push(emu_ax);
 	emu_push(emu_ds);
 	emu_ax = 0x1C8D;
-	goto l__00AB;
 l__00AB:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x00B1); f__B4AE_00F0_0024_E400();
-	goto l__00B1;
 l__00B1:
 	emu_addw(&emu_sp, 0x12);
 	goto l__00E8;
@@ -221,30 +216,25 @@ l__00F0:
 	emu_push(emu_cs); emu_push(0x0114); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__0114;
 l__0114:
 	emu_addw(&emu_sp, 0x12);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x16));
 	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__011F;
 l__011F:
 	emu_pop(&emu_cx);
 	emu_push(emu_cs); emu_push(0x0125); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0200_000F_1FF4();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__0125;
 l__0125:
 	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__012A;
 l__012A:
 	emu_push(emu_cs); emu_push(0x012F); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
-	goto l__012F;
 l__012F:
 	emu_pop(&emu_bp);
 

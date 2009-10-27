@@ -24,13 +24,11 @@ l__000C:
 	emu_push(emu_dx);
 	emu_ah = 0x19;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0013); Interrupt_DOS();
-	goto l__0013;
 l__0013:
 	emu_get_memory8(emu_ds, 0x00, 0x986D) = emu_al;
 	emu_dl = emu_al;
 	emu_ah = 0xE;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x001C); Interrupt_DOS();
-	goto l__001C;
 l__001C:
 	emu_decb(&emu_al);
 	emu_xorb(&emu_ah, emu_ah);
@@ -39,7 +37,6 @@ l__001C:
 	emu_incb(&emu_bl);
 	emu_ax = 0x440E;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x002B); Interrupt_DOS();
-	goto l__002B;
 l__002B:
 	if (!emu_flags.cf) goto l__0034;
 	emu_cmpb(&emu_al, 0xF);
@@ -83,7 +80,6 @@ l__003D:
 	emu_incb(&emu_bl);
 	emu_ax = 0x440E;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004F); Interrupt_DOS();
-	goto l__004F;
 l__004F:
 	emu_pop(&emu_bx);
 	if (!emu_flags.cf) goto l__0058;

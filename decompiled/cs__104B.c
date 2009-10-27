@@ -28,7 +28,6 @@ l__024D:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
 	emu_push(0x025F); emu_AirUnit_Allocate();
-	goto l__025F;
 l__025F:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -63,7 +62,6 @@ l__025F:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02C3); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
-	goto l__02C3;
 l__02C3:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_si);
@@ -72,7 +70,6 @@ l__02C3:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
-	goto l__02D6;
 l__02D6:
 	emu_addw(&emu_sp, 0x6);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));

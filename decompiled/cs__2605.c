@@ -74,7 +74,6 @@ l__000C:
 			emu_call();
 			return;
 	}
-	goto l__0079;
 l__0079:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x6C71);
 	emu_ax = (int8)emu_al;

@@ -44,7 +44,6 @@ l__0008:
 	emu_ds = emu_ax;
 	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_bx = emu_es;
-	goto l__003E;
 l__003E:
 	emu_rep_cmpsw(emu_ds);
 	if (emu_cx == 0) goto l__0054;

@@ -18,7 +18,6 @@ void f__3EEE_0E1A_0003_4293()
 l__0E1A:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E1D); Interrupt_Video();
-	goto l__0E1D;
 l__0E1D:
 	emu_pop(&emu_bp);
 
@@ -42,7 +41,6 @@ void f__3EEE_0E1E_0003_4293()
 l__0E1E:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E21); Interrupt_Video();
-	goto l__0E21;
 l__0E21:
 	emu_pop(&emu_bp);
 
@@ -66,7 +64,6 @@ void f__3EEE_0E28_0003_4293()
 l__0E28:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E2B); Interrupt_Video();
-	goto l__0E2B;
 l__0E2B:
 	emu_pop(&emu_bp);
 
@@ -90,7 +87,6 @@ void f__3EEE_0E46_0003_4293()
 l__0E46:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E49); Interrupt_Video();
-	goto l__0E49;
 l__0E49:
 	emu_pop(&emu_bp);
 
@@ -114,7 +110,6 @@ void f__3EEE_0E4A_0003_4293()
 l__0E4A:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E4D); Interrupt_Video();
-	goto l__0E4D;
 l__0E4D:
 	emu_pop(&emu_bp);
 
@@ -138,7 +133,6 @@ void f__3EEE_0E6C_0003_4293()
 l__0E6C:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E6F); Interrupt_Video();
-	goto l__0E6F;
 l__0E6F:
 	emu_pop(&emu_bp);
 
@@ -162,7 +156,6 @@ void f__3EEE_0E70_0003_4293()
 l__0E70:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E73); Interrupt_Video();
-	goto l__0E73;
 l__0E73:
 	emu_pop(&emu_bp);
 
@@ -186,7 +179,6 @@ void f__3EEE_0E82_0003_4293()
 l__0E82:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E85); Interrupt_Video();
-	goto l__0E85;
 l__0E85:
 	emu_pop(&emu_bp);
 
@@ -210,7 +202,6 @@ void f__3EEE_0E86_0003_4293()
 l__0E86:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E89); Interrupt_Video();
-	goto l__0E89;
 l__0E89:
 	emu_pop(&emu_bp);
 
@@ -234,7 +225,6 @@ void f__3EEE_0E90_0003_4293()
 l__0E90:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E93); Interrupt_Video();
-	goto l__0E93;
 l__0E93:
 	emu_pop(&emu_bp);
 
@@ -258,7 +248,6 @@ void f__3EEE_0EA8_0003_4293()
 l__0EA8:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0EAB); Interrupt_Video();
-	goto l__0EAB;
 l__0EAB:
 	emu_pop(&emu_bp);
 
@@ -282,7 +271,6 @@ void f__3EEE_0EB0_0003_4293()
 l__0EB0:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0EB3); Interrupt_Video();
-	goto l__0EB3;
 l__0EB3:
 	emu_pop(&emu_bp);
 
@@ -306,7 +294,6 @@ void f__3EEE_0EB6_0003_4293()
 l__0EB6:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0EB9); Interrupt_Video();
-	goto l__0EB9;
 l__0EB9:
 	emu_pop(&emu_bp);
 
@@ -330,7 +317,6 @@ void f__3EEE_0EBA_0003_4293()
 l__0EBA:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0EBD); Interrupt_Video();
-	goto l__0EBD;
 l__0EBD:
 	emu_pop(&emu_bp);
 
@@ -354,7 +340,6 @@ void f__3EEE_0EC2_0003_4293()
 l__0EC2:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0EC5); Interrupt_Video();
-	goto l__0EC5;
 l__0EC5:
 	emu_pop(&emu_bp);
 
@@ -378,7 +363,6 @@ void f__3EEE_0EC8_0003_4293()
 l__0EC8:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0ECB); Interrupt_Video();
-	goto l__0ECB;
 l__0ECB:
 	emu_pop(&emu_bp);
 
@@ -402,7 +386,6 @@ void f__3EEE_0ECE_0003_4293()
 l__0ECE:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0ED1); Interrupt_Video();
-	goto l__0ED1;
 l__0ED1:
 	emu_pop(&emu_bp);
 
@@ -426,7 +409,6 @@ void f__3EEE_0ED2_0003_4293()
 l__0ED2:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0ED5); Interrupt_Video();
-	goto l__0ED5;
 l__0ED5:
 	emu_pop(&emu_bp);
 
