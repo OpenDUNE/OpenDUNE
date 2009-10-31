@@ -20,8 +20,6 @@
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
 01F7:058B:0018:D9CF	emu_Tools_Shld_Wrapper	# stupid wrapper
-01F7:058E:0015:CED2	emu_Tools_Shld	# () ((dx << 16) | ax) << cl
-01F7:05AF:0015:0AD5	emu_Tools_Shrd	# () ((dx << 16) | ax) >> cl
 01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper
 01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
 01F7:064D:0028:3537	emu_Tools_SubCSIP	# (dx:ax - cx:bx -> dx:ax, and makes ax as big as possible)

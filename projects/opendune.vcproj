@@ -2777,6 +2777,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\emu_tools.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\src\emu_unit.c"
 				>
 				<FileConfiguration
@@ -3094,6 +3114,10 @@
 			</File>
 			<File
 				RelativePath="..\src\pool\unit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\tools.h"
 				>
 			</File>
 			<File

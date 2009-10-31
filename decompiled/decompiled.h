@@ -13,6 +13,7 @@
 #include "../src/building.h"
 #include "../src/input/input.h"
 #include "../src/unit.h"
+#include "../src/tools.h"
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
 extern void f__B4C1_0000_0022_1807();
@@ -471,13 +472,11 @@ extern void f__B4C4_0581_003B_B6D9();
 extern void f__2903_0584_0015_8493();
 extern void f__B503_0586_0017_050A();
 extern void emu_Tools_Shld_Wrapper();
-extern void emu_Tools_Shld();
 extern void f__22A6_0597_0019_A23D();
 extern void f__2903_0599_0017_FD2B();
 extern void f__B4E0_059B_001B_5C8D();
 extern void f__217E_05A9_001A_42B9();
 extern void f__B50B_05AA_0030_871C();
-extern void emu_Tools_Shrd();
 extern void f__B4C4_05C0_002F_C3F6();
 extern void f__2903_05C8_0018_6BB5();
 extern void f__1DD7_05D0_0014_A7A2();
