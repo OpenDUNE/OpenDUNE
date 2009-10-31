@@ -30,10 +30,14 @@ LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
 LIBEMU := libemu$(LIB_EXTENSION)
 endif
 
-LIBS := $(LIBS) -lSDL
-
 ifdef OSX
-LDFLAGS := $(LDFLAGS) -L/opt/local/lib -lSDLmain -lobjc -framework Foundation -framework AppKit
+ifdef STATIC
+LDFLAGS := $(LDFLAGS) `sdl-config --static-libs`
+else
+LDFLAGS := $(LDFLAGS) `sdl-config --libs`
+endif
+else
+LIBS := $(LIBS) -lSDL
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label
