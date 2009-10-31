@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	emu_hard_link(0x2756, 0x050F, &f__2756_050F_000B_0871);
 	emu_hard_link(0x29A3, 0x0054, &emu_Mouse_EventHandler);
 
-	emu_caption = "OpenDUNE - 0.01";
+	emu_caption = "OpenDUNE - v0.1";
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
