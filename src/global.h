@@ -641,7 +641,7 @@ typedef struct GlobalData {
 	/* 37F8(180) */ PACK HouseInfo houseInfo[6];            /*!< Information about the houses. */
 	/* 38AC()    */ PACK uint8   unknown_38AC[0x0004];
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
-	/* 38B2(2)   */ PACK uint16 variable_38B2;              /*!< ?? */
+	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?). */
