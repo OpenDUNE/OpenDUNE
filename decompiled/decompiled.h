@@ -232,7 +232,7 @@ extern void f__1FB5_0121_001B_0DC1();
 extern void f__28E6_0123_000A_333D();
 extern void f__0F3F_0125_000D_4868();
 extern void f__B48B_0127_000E_E325();
-extern void f__B4C1_0129_0028_FB8E();
+extern void emu_PercentToValue();
 extern void f__B536_0129_000A_8178();
 extern void f__2AE1_0131_0023_99F9();
 extern void f__2B6C_0137_0020_C73F();

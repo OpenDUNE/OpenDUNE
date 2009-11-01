@@ -111,6 +111,8 @@ B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
+B4C1:0129:0028:FB8E	emu_PercentToValue	# Makes a value between 0 and 255 to the max-value given
+
 B4CD:1133:0039:A02F	emu_Building_GetByPackedTile # It returns the Index
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong

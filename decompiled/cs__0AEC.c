@@ -1406,7 +1406,7 @@ l__0B0B:
 	emu_push(emu_ax);
 	emu_ax = 0x64;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0B17); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0129_0028_FB8E();
+	emu_push(emu_cs); emu_push(0x0B17); emu_cs = 0x34C1; overlay(0x34C1, 0); emu_PercentToValue();
 l__0B17:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

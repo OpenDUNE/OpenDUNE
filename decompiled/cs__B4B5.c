@@ -845,7 +845,7 @@ l__04BC:
 	emu_bx = emu_ax;
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
-	emu_push(emu_cs); emu_push(0x04DD); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0129_0028_FB8E();
+	emu_push(emu_cs); emu_push(0x04DD); emu_cs = 0x34C1; overlay(0x34C1, 0); emu_PercentToValue();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 l__04DD:

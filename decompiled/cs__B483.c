@@ -83,7 +83,7 @@ l__0057:
 	emu_push(emu_si);
 	emu_ax = 0xFF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0065); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0129_0028_FB8E();
+	emu_push(emu_cs); emu_push(0x0065); emu_cs = 0x34C1; overlay(0x34C1, 0); emu_PercentToValue();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 l__0065:

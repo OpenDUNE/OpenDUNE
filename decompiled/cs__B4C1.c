@@ -203,16 +203,16 @@ l__0123:
 }
 
 /**
- * Decompiled function f__B4C1_0129_0028_FB8E()
+ * Decompiled function emu_PercentToValue()
  *
- * @name f__B4C1_0129_0028_FB8E
+ * @name emu_PercentToValue
  * @implements B4C1:0129:0028:FB8E ()
  * @implements B4C1:0149:0008:CA29
  * @implements B4C1:0151:0004:893F
  *
  * Called From: 34C1:0020:0005:0000
  */
-void f__B4C1_0129_0028_FB8E()
+void emu_PercentToValue()
 {
 l__0129:
 	emu_push(emu_bp);
