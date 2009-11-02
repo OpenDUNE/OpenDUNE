@@ -1085,7 +1085,9 @@ typedef struct GlobalData {
 	/* 8070(2)   */ PACK uint16 variable_8070;              /*!< ?? */
 	/* 8072(2)   */ PACK uint16 variable_8072;              /*!< ?? */
 	/* 8074(2)   */ PACK uint16 variable_8074;              /*!< ?? */
-	/* 8076(54)  */ PACK uint8  variable_8076[3][18];       /*!< ?? */
+	/* 8076(18)  */ PACK uint8  variable_8076[18];          /*!< ?? */
+	/* 8088(18)  */ PACK uint8  variable_8088[18];          /*!< ?? */
+	/* 809A(18)  */ PACK uint8  variable_809A[18];          /*!< ?? */
 	/* 80AC(2)   */ PACK uint16 variable_80AC;              /*!< ?? */
 	/* 80AE(2)   */ PACK uint16 variable_80AE;              /*!< ?? */
 	/* 80B0(2)   */ PACK uint16 variable_80B0;              /*!< ?? */
