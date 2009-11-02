@@ -7,6 +7,7 @@
  * Segments:
  *   2C94 -> BuildingInfo array.
  *   2D07 -> UnitInfo array.
+ *   2E9C:323F -> Map array (2 bytes per tile).
  *   353F -> Global data.
  */
 
@@ -655,10 +656,10 @@ typedef struct GlobalData {
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00E6];
-	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array. */
+	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array of tiles (the map). 4 bytes per tile. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
-	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? */
+	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? Bloom field information? */
 	/* 39F6(2)   */ PACK uint16 variable_39F6;              /*!< ?? */
 	/* 39F8(2)   */ PACK uint16 variable_39F8;              /*!< ?? */
 	/* 39FA(2)   */ PACK uint16 variable_39FA;              /*!< ?? */
