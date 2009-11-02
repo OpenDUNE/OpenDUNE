@@ -106,7 +106,8 @@ typedef struct Scenario {
 	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*<! BASIC/BriefPicture. */
 	/* 001E(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
 	/* 002C(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
-	/* 003A()    */ PACK uint8   unknown_003A[0x00AC];
+	/* 003A()    */ PACK uint8   unknown_003A[0x000C];
+	/* 0046()    */ PACK uint16  variable_0046[16][5];      /*<! ?? */
 } GCC_PACKED Scenario;
 MSVC_PACKED_END
 assert_compile(sizeof(Scenario) == 0xE6);
@@ -640,7 +641,7 @@ typedef struct GlobalData {
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
 	/* 37F8(180) */ PACK HouseInfo houseInfo[6];            /*!< Information about the houses. */
-	/* 38AC()    */ PACK uint8   unknown_38AC[0x0004];
+	/* 38AC()    */ PACK csip32 variable_38AC;              /*!< ?? */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
@@ -1023,7 +1024,9 @@ typedef struct GlobalData {
 	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
-	/* 76A8()    */ PACK uint8   unknown_76A8[0x0012];
+	/* 76A8()    */ PACK uint8   unknown_76A8[0x0008];
+	/* 76B0(4)   */ PACK csip32 variable_76B0;              /*!< ?? */
+	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0102];
 	/* 77BE(4)   */ PACK csip32 variable_77BE;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
