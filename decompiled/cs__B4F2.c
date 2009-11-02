@@ -3105,7 +3105,7 @@ l__1260:
 	emu_addw(&emu_ax, 0x80B4);
 	emu_push(emu_ds);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1274); emu_cs = 0x01F7; f__01F7_38F6_0029_8B99();
+	emu_push(emu_cs); emu_push(0x1274); emu_cs = 0x01F7; emu_String_strcpy();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__1274:

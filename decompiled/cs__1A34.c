@@ -5280,7 +5280,7 @@ l__2930:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x293F); emu_cs = 0x01F7; f__01F7_384A_003F_AE43();
+	emu_push(emu_cs); emu_push(0x293F); emu_cs = 0x01F7; emu_String_strcat();
 l__293F:
 	emu_addw(&emu_sp, 0x8);
 	emu_ax = 0x2;

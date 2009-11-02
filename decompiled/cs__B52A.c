@@ -281,7 +281,7 @@ l__0277:
 	emu_addw(&emu_ax, 0x12);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02DA); emu_cs = 0x01F7; f__01F7_38F6_0029_8B99();
+	emu_push(emu_cs); emu_push(0x02DA); emu_cs = 0x01F7; emu_String_strcpy();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { overlay(0x352A, 1); }
 l__02DA:

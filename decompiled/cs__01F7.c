@@ -1031,9 +1031,9 @@ l__041C:
 }
 
 /**
- * Decompiled function f__01F7_0428_0010_87B4()
+ * Decompiled function emu_Drive_Get_Default_Wrapper()
  *
- * @name f__01F7_0428_0010_87B4
+ * @name emu_Drive_Get_Default_Wrapper
  * @implements 01F7:0428:0010:87B4 ()
  * @implements 01F7:0438:000A:6E9C
  *
@@ -1042,7 +1042,7 @@ l__041C:
  * Called From: 1FB5:000F:000F:62CC
  * Called From: 261F:0058:0005:44EF
  */
-void f__01F7_0428_0010_87B4()
+void emu_Drive_Get_Default_Wrapper()
 {
 l__0428:
 	emu_push(emu_bp);
@@ -1068,9 +1068,9 @@ l__0438:
 }
 
 /**
- * Decompiled function f__01F7_0442_0015_6A10()
+ * Decompiled function emu_Drive_Set_Default_Wrapper()
  *
- * @name f__01F7_0442_0015_6A10
+ * @name emu_Drive_Set_Default_Wrapper
  * @implements 01F7:0442:0015:6A10 ()
  * @implements 01F7:0457:000A:B17A
  *
@@ -1079,7 +1079,7 @@ l__0438:
  * Called From: 1FB5:16C3:000E:80D8
  * Called From: 261F:0160:0008:F306
  */
-void f__01F7_0442_0015_6A10()
+void emu_Drive_Set_Default_Wrapper()
 {
 l__0442:
 	emu_push(emu_bp);
@@ -5130,6 +5130,7 @@ l__222E:
  * Called From: B4B5:09AE:000A:882F
  * Called From: B4B5:0A9C:000B:0225
  * Called From: B4B5:0B40:000B:0225
+ * Called From: B4B5:0BE3:000B:0225
  * Called From: B4B5:0CA8:000B:3223
  * Called From: B4B5:0DC2:000A:882F
  * Called From: B4B5:0F4C:000A:882F
@@ -5462,7 +5463,7 @@ l__276F:
 	emu_push(emu_si);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0xA);
 	emu_push(emu_cs);
-	emu_push(0x277E); f__01F7_0428_0010_87B4();
+	emu_push(0x277E); emu_Drive_Get_Default_Wrapper();
 l__277E:
 	emu_addb(&emu_al, 0x41);
 	emu_get_memory8(emu_ss, emu_bp, -0x44) = emu_al;
@@ -5510,7 +5511,7 @@ l__27DF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x27EF); f__01F7_38F6_0029_8B99();
+	emu_push(0x27EF); emu_String_strcpy();
 l__27EF:
 	emu_addw(&emu_sp, 0x8);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);
@@ -7770,9 +7771,9 @@ l__3821:
 }
 
 /**
- * Decompiled function f__01F7_384A_003F_AE43()
+ * Decompiled function emu_String_strcat()
  *
- * @name f__01F7_384A_003F_AE43
+ * @name emu_String_strcat
  * @implements 01F7:384A:003F:AE43 ()
  * @implements 01F7:387A:000F:165F
  * @implements 01F7:3881:0008:45B1
@@ -7792,7 +7793,7 @@ l__3821:
  * Called From: B518:139D:0012:4286
  * Called From: B518:13C1:000D:D1AE
  */
-void f__01F7_384A_003F_AE43()
+void emu_String_strcat()
 {
 l__384A:
 	emu_push(emu_bp);
@@ -7960,9 +7961,9 @@ l__38C6:
 }
 
 /**
- * Decompiled function f__01F7_38F6_0029_8B99()
+ * Decompiled function emu_String_strcpy()
  *
- * @name f__01F7_38F6_0029_8B99
+ * @name emu_String_strcpy
  * @implements 01F7:38F6:0029:8B99 ()
  *
  * Called From: 01F7:27EC:0010:D57C
@@ -7983,7 +7984,7 @@ l__38C6:
  * Called From: B52A:02D5:0063:F767
  * Called From: B536:077E:0011:1D0E
  */
-void f__01F7_38F6_0029_8B99()
+void emu_String_strcpy()
 {
 l__38F6:
 	emu_push(emu_bp);
@@ -8124,6 +8125,7 @@ l__399D:
  * Called From: B4B5:0A35:000B:714A
  * Called From: B4B5:0A35:0087:69AC
  * Called From: B4B5:0C3E:000B:6148
+ * Called From: B4B5:0C3E:001C:5A2C
  * Called From: B4B5:0E39:000B:414C
  * Called From: B4B5:0E39:003C:C4FF
  * Called From: B4B5:0E56:000B:6148
@@ -8471,6 +8473,7 @@ l__3AEE:
  * Called From: B4B5:0B22:0013:2BE2
  * Called From: B4B5:0B7D:0010:86F3
  * Called From: B4B5:0BC5:0013:2BE2
+ * Called From: B4B5:0C22:003F:FEF1
  * Called From: B4B5:0CE5:0013:2B96
  * Called From: B4B5:0D0B:0010:8687
  * Called From: B4B5:0D72:0023:4ECB
@@ -8837,7 +8840,7 @@ l__40DC:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B48));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B46));
 	emu_push(emu_cs);
-	emu_push(0x4100); f__01F7_38F6_0029_8B99();
+	emu_push(0x4100); emu_String_strcpy();
 l__4100:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_ds);
@@ -8846,7 +8849,7 @@ l__4100:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B4C));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B4A));
 	emu_push(emu_cs);
-	emu_push(0x4115); f__01F7_38F6_0029_8B99();
+	emu_push(0x4115); emu_String_strcpy();
 l__4115:
 	emu_addw(&emu_sp, 0x8);
 	goto l__4210;

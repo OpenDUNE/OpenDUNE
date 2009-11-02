@@ -22,7 +22,7 @@ l__0005:
 	emu_bp = emu_sp;
 	emu_subw(&emu_sp, 0x2);
 	emu_incb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
-	emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x01F7; f__01F7_0428_0010_87B4();
+	emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x01F7; emu_Drive_Get_Default_Wrapper();
 l__0014:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_decb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
@@ -56,7 +56,7 @@ l__0024:
 	emu_subw(&emu_sp, 0x2);
 	emu_incb(&emu_get_memory8(emu_ds, 0x00, 0x986C));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0036); emu_cs = 0x01F7; f__01F7_0442_0015_6A10();
+	emu_push(emu_cs); emu_push(0x0036); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();
 l__0036:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
@@ -2280,7 +2280,7 @@ l__16BB:
 	emu_cmpw(&emu_si, 0xFFFF);
 	if (emu_si != 0xFFFF) goto l__167B;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x16C8); emu_cs = 0x01F7; f__01F7_0442_0015_6A10();
+	emu_push(emu_cs); emu_push(0x16C8); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();
 l__16C8:
 	emu_pop(&emu_cx);
 	goto l__15C5;

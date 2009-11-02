@@ -16,6 +16,8 @@
 01F7:03E5:000F:055B	emu_Drive_Get_Curdir	# (drive, buffer_csip)
 01F7:0402:0007:3E30	emu_Date_Get	# (result_csip)
 01F7:0415:0007:3EF0	emu_Time_Get	# (result_csip)
+01F7:0428:0010:87B4	emu_Drive_Get_Default_Wrapper	# ()
+01F7:0442:0015:6A10	emu_Drive_Set_Default_Wrapper	# (drive)
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
@@ -33,7 +35,7 @@
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
 01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_Close	# (file)
-01F7:28B8:0024:83C9	emu_Tools_Memmove	# (to_csip, from_csop, count)
+01F7:28B8:0024:83C9	emu_Tools_Memmove	# (to_csip, from_csip, count)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
 01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
@@ -41,6 +43,8 @@
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
 01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
+01F7:384A:003F:AE43	emu_String_strcat	# (to_csip, from_csip)
+01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:3964:0041:7552	emu_String_strcasecmp	# (string1_csip, string2_csip) Case insensitive compare
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
 01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
