@@ -39,7 +39,7 @@ typedef struct Building {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Building in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Building. */
 	/* 0003(1)   */ PACK uint8  linkedUnitID;               /*!< Unit we are linked to, or 0xFF if we are not linked to a unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built? */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x0400 - Building degrates */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Building. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
@@ -55,7 +55,7 @@ typedef struct Building {
 	/* 004F(1)   */ PACK uint8  upgradeTimeLeft;            /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
 	/* 0050(2)   */ PACK uint16 buildTimeLeft;              /*!< Time left before build is complete. */
 	/* 0052()    */ PACK uint8   unknown_0050[0x0002];
-	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
+	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? If 0xFFFF it shows just-build animation. If 0 it is done. */
 	/* 0056(2)   */ PACK uint16 healthMax;                  /*!< Max amount of health. */
 } GCC_PACKED Building;
 MSVC_PACKED_END
@@ -67,11 +67,11 @@ MSVC_PACKED_BEGIN
  */
 typedef struct BuildingInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x000C];
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ??  */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
-	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Building.  */
+	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Building. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
-	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Building.  */
+	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Building. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x0046];
 } GCC_PACKED BuildingInfo;
 MSVC_PACKED_END
