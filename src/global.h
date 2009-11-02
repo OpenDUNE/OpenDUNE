@@ -29,6 +29,14 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_0D5A) == 0x6);
 
 MSVC_PACKED_BEGIN
+typedef struct struct_19A8 {
+	/* 0000(4)   */ PACK csip32 string;                     /*<! Pointer to a string. */
+	/* 0004()    */ PACK uint8   unknown_0004[0x0004];      /*<! ?? */
+} GCC_PACKED struct_19A8;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_19A8) == 0x8);
+
+MSVC_PACKED_BEGIN
 /**
  * Inside the GlobalData is information about houses. This is the layout of
  *  that data.
@@ -322,7 +330,13 @@ typedef struct GlobalData {
 	/* 1818(7)   */ PACK char   string_1818[7];             /*!< "dune16" NULL terminated. */
 	/* 181F(7)   */ PACK char   string_181F[7];             /*!< "dune19" NULL terminated. */
 	/* 1826(7)   */ PACK char   string_1826[7];             /*!< "dune20" NULL terminated. */
-	/* 182D()    */ PACK uint8   unknown_182D[0x0012];
+	/* 182D()    */ PACK uint8   unknown_182D[0x1];
+	/* 182E(4)   */ PACK csip32 variable_182E;              /*!< ?? */
+	/* 1832(4)   */ PACK csip32 variable_1832;              /*!< ?? */
+	/* 1836(2)   */ PACK uint16 variable_1836;              /*!< ?? Counter. */
+	/* 1838(2)   */ PACK uint16 variable_1838;              /*!< ?? Counter. */
+	/* 183A()    */ PACK uint8   unknown_183A[0x2];
+	/* 183C(3)   */ PACK char   string_183C[3];             /*!< "|\n" NULL terminated. */
 	/* 183F(12)  */ PACK char   string_183F[12];            /*!< "BIGPLAN.CPS" NULL terminated. */
 	/* 184B(12)  */ PACK char   string_184B[12];            /*!< "MAPPLAN.CPS" NULL terminated. */
 	/* 1857()    */ PACK uint8   unknown_1857[0x000C];
@@ -350,7 +364,10 @@ typedef struct GlobalData {
 	/* 196E(26)  */ PACK char   string_196E[26];            /*!< "No friendly units remain:" NULL terminated. */
 	/* 1988(21)  */ PACK char   string_1988[21];            /*!< "Spice quota reached:" NULL terminated. */
 	/* 199D(11)  */ PACK char   string_199D[11];            /*!< "Timed out:" NULL terminated. */
-	/* 19A8()    */ PACK uint8   unknown_19A8[0x0214];
+	/* 19A8(72)  */ PACK struct_19A8 variable_19A8[9];      /*!< ?? */
+	/* 19F0(60)  */ PACK uint8  variable_19F0[6][10];       /*!< ?? */
+	/* 1A2C(3)   */ PACK uint8  variable_1A2C[3];           /*!< ?? */
+	/* 1A2F()    */ PACK uint8   unknown_1A2F[0x018D];
 	/* 1BBC(8)   */ PACK char   string_1BBC[8];             /*!< "AFINALA" NULL terminated. */
 	/* 1BC4(8)   */ PACK char   string_1BC4[8];             /*!< "EFINALA" NULL terminated. */
 	/* 1BCC(8)   */ PACK char   string_1BCC[8];             /*!< "EFINALB" NULL terminated. */
@@ -1055,7 +1072,31 @@ typedef struct GlobalData {
 	/* 7B18(2)   */ PACK uint16 variable_7B18;              /*!< ?? */
 	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x004E];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
-	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x068E];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x04CA];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
+	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
+	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */
+	/* 8062(2)   */ PACK uint16 variable_8062;              /*!< ?? */
+	/* 8064(4)   */ PACK csip32 variable_8064;              /*!< ?? */
+	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
+	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
+	/* 806C(2)   */ PACK uint16 variable_806C;              /*!< ?? */
+	/* 806E(2)   */ PACK uint16 variable_806E;              /*!< ?? */
+	/* 8070(2)   */ PACK uint16 variable_8070;              /*!< ?? */
+	/* 8072(2)   */ PACK uint16 variable_8072;              /*!< ?? */
+	/* 8074(2)   */ PACK uint16 variable_8074;              /*!< ?? */
+	/* 8076(54)  */ PACK uint8  variable_8076[3][18];       /*!< ?? */
+	/* 80AC(2)   */ PACK uint16 variable_80AC;              /*!< ?? */
+	/* 80AE(2)   */ PACK uint16 variable_80AE;              /*!< ?? */
+	/* 80B0(2)   */ PACK uint16 variable_80B0;              /*!< ?? */
+	/* 80B2(2)   */ PACK uint16 variable_80B2;              /*!< ?? */
+	/* 80B4(306) */ PACK uint8  variable_80B4[6][51];       /*!< ?? */
+	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
+	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
+	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
+	/* 81ED(4)   */ PACK csip32 variable_81ED;              /*!< ?? */
+	/* 81F1(40)  */ PACK uint8  variable_81F1[40];          /*!< ?? */
+	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
 	/* 821A(1)   */ PACK uint8  variable_821A;              /*!< ?? */
 	/* 821B(1)   */ PACK uint8  variable_821B;              /*!< ?? */
 	/* 821C(1)   */ PACK uint8  variable_821C;              /*!< ?? */

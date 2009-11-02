@@ -33,8 +33,8 @@
 01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
 01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_Close	# (file)
-01F7:28B8:0024:83C9	emu_Tools_Memmove	# (count, from_csip, to_csip)
-01F7:2947:0014:02B8	emu_Tools_Memset	# (count, value, csip)
+01F7:28B8:0024:83C9	emu_Tools_Memmove	# (to_csip, from_csop, count)
+01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
 01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
 01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
