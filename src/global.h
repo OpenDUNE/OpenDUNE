@@ -1139,7 +1139,9 @@ typedef struct GlobalData {
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
 	/* 87D8()    */ PACK uint8   unknown_87D8[0x0525];
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
-	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A89];
+	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A04];
+	/* 97E7(54)  */ PACK uint16 variable_97E7[27];          /*!< ?? Array which sets max units per type (for starport?) */
+	/* 981D()    */ PACK uint8   unknown_981D[0x004F];
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
