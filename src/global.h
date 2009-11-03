@@ -667,7 +667,12 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ PACK uint16 buildingCount;              /*!< Amount of Buildings on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
-	/* 3600()    */ PACK uint8   unknown_3600[0x01A0];
+	/* 3600()    */ PACK uint8   unknown_3600[0x0170];
+	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
+	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
+	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
+	/* 3782(2)   */ PACK uint16 variable_3782;              /*!< ?? */
+	/* 3784()    */ PACK uint8   unknown_3784[0x001C];
 	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
@@ -789,7 +794,13 @@ typedef struct GlobalData {
 	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
-	/* 6124()    */ PACK uint8   unknown_6124[0x01DC];
+	/* 6124()    */ PACK uint8   unknown_6124[0x01C6];
+	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
+	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
+	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
+	/* 62F5()    */ PACK uint8   unknown_62F5[0x0001];
+	/* 62F6(1)   */ PACK uint8  variable_62F6;              /*!< ?? */
+	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
