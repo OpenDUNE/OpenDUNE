@@ -79,8 +79,10 @@
 0F3F:034C:0012:18EA	emu_Tile_PackXY	# (x, y)
 0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
 
-1381:0005:0010:8273	emu_Action_StringToID	# (string_csip)
+1381:0005:0010:8273	emu_Action_StringToID	# (string_csip), Guard, Ambush, ..
 1381:0051:0010:81BB	emu_House_StringToID	# (string_csip)
+1381:0096:0008:1ADC	emu_Movement_StringToID	# (string_csip), Foot, Track, ..
+1381:00D0:0008:1ADC	emu_Action2_StringToID	# (string_csip), Kamakazi, Normal, ..
 
 1A34:3312:0017:29E8	emu_Unit_FindBuilding	# (unit_csip), finds building to go to (harvester)
 1A34:3491:0032:AFF8	emu_Building_GetLinkedUnit # (building_csip)

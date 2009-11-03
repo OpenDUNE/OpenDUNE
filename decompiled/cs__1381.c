@@ -129,9 +129,9 @@ l__0093:
 }
 
 /**
- * Decompiled function f__1381_0096_0008_1ADC()
+ * Decompiled function emu_Movement_StringToID()
  *
- * @name f__1381_0096_0008_1ADC
+ * @name emu_Movement_StringToID
  * @implements 1381:0096:0008:1ADC ()
  * @implements 1381:009E:0019:21DF
  * @implements 1381:00B7:000B:E2C7
@@ -142,7 +142,7 @@ l__0093:
  *
  * Called From: B4B5:0F27:000A:457E
  */
-void f__1381_0096_0008_1ADC()
+void emu_Movement_StringToID()
 {
 l__0096:
 	emu_push(emu_bp);
@@ -184,9 +184,9 @@ l__00CD:
 }
 
 /**
- * Decompiled function f__1381_00D0_0008_1ADC()
+ * Decompiled function emu_Action2_StringToID()
  *
- * @name f__1381_00D0_0008_1ADC
+ * @name emu_Action2_StringToID
  * @implements 1381:00D0:0008:1ADC ()
  * @implements 1381:00D8:0019:21EC
  * @implements 1381:00F1:000B:E2C7
@@ -196,7 +196,7 @@ l__00CD:
  *
  * Called From: B4B5:0F02:000A:257A
  */
-void f__1381_00D0_0008_1ADC()
+void emu_Action2_StringToID()
 {
 l__00D0:
 	emu_push(emu_bp);
