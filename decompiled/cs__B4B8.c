@@ -3362,7 +3362,7 @@ l__1B04:
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x1B17); emu_cs = 0x1082; emu_Building_Init();
+	emu_push(emu_cs); emu_push(0x1B17); emu_cs = 0x1082; emu_Structure_Init();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__1B17:

@@ -1250,7 +1250,7 @@ l__07E0:
 	goto l__08FD;
 l__07F0:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A00));
-	emu_push(emu_cs); emu_push(0x07F9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x07F9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__07F9:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_dx);
@@ -3107,7 +3107,7 @@ l__17B8:
 	goto l__1827;
 l__17BA:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x17C2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x17C2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__17C2:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = emu_dx;

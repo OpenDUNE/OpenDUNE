@@ -2546,7 +2546,7 @@ l__1075:
 	goto l__1158;
 l__10A9:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
-	emu_push(emu_cs); emu_push(0x10B2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x10B2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__10B2:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x16) = emu_dx;
@@ -3430,7 +3430,7 @@ l__1816:
 l__181D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x1828); emu_cs = 0x1A34; emu_Building_GetLinkedUnit();
+	emu_push(emu_cs); emu_push(0x1828); emu_cs = 0x1A34; emu_Structure_GetLinkedUnit();
 l__1828:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -4067,7 +4067,7 @@ l__1CE2:
 	goto l__1DD4;
 l__1CEF:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
-	emu_push(emu_cs); emu_push(0x1CF8); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x1CF8); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__1CF8:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
@@ -4771,7 +4771,7 @@ l__2181:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x2196); emu_cs = 0x1082; emu_Building_FindFirst();
+	emu_push(emu_cs); emu_push(0x2196); emu_cs = 0x1082; emu_Structure_FindFirst();
 l__2196:
 	emu_addw(&emu_sp, 0x8);
 	goto l__21B5;
@@ -4786,7 +4786,7 @@ l__21A6:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x21B3); emu_cs = 0x1082; emu_Building_FindNext();
+	emu_push(emu_cs); emu_push(0x21B3); emu_cs = 0x1082; emu_Structure_FindNext();
 l__21B3:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -4939,7 +4939,7 @@ l__2290:
 	emu_push(emu_si);
 	emu_xorw(&emu_si, emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
-	emu_push(emu_cs); emu_push(0x22A2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x22A2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__22A2:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

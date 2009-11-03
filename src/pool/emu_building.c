@@ -6,21 +6,21 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../building.h"
+#include "../structure.h"
 #include "pool.h"
-#include "building.h"
+#include "structure.h"
 
 /**
- * Emulator wrapper around Building_Init().
+ * Emulator wrapper around Structure_Init().
  *
- * @name emu_Building_Init
+ * @name emu_Structure_Init
  * @implements 1082:0098:001C:39E2 ()
  * @implements 1082:00B4:0026:CE00
  * @implements 1082:00BD:001D:48CA
  * @implements 1082:00DA:000A:A6BE
  * @implements 1082:00E4:0002:2597
  */
-void emu_Building_Init()
+void emu_Structure_Init()
 {
 	csip32 address;
 
@@ -30,16 +30,16 @@ void emu_Building_Init()
 
 	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	Building_Init(address);
+	Structure_Init(address);
 
 	emu_dx = 0;
-	emu_ax = sizeof(Building) * BUILDING_INDEX_MAX_HARD;
+	emu_ax = sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD;
 }
 
 /**
- * Emulator wrapper around Building_Recount().
+ * Emulator wrapper around Structure_Recount().
  *
- * @name emu_Building_Recount
+ * @name emu_Structure_Recount
  * @implements 1082:000F:0012:A3C7 ()
  * @implements 1082:0021:0002:CA3A
  * @implements 1082:0023:0014:E02C
@@ -48,19 +48,19 @@ void emu_Building_Init()
  * @implements 1082:008D:000B:C182
  * @implements 1082:008E:000A:018A
  */
-void emu_Building_Recount()
+void emu_Structure_Recount()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	Building_Recount();
+	Structure_Recount();
 }
 
 /**
- * Emulator wrapper around Building_Allocate().
+ * Emulator wrapper around Structure_Allocate().
  *
- * @name emu_Building_Allocate
+ * @name emu_Structure_Allocate
  * @implements 1082:01E8:0020:FFB9 ()
  * @implements 1082:0208:0013:DB66
  * @implements 1082:021B:001C:EC5F
@@ -78,11 +78,11 @@ void emu_Building_Recount()
  * @implements 1082:02C8:0058:AF1D
  * @implements 1082:0320:0005:8BCF
  */
-void emu_Building_Allocate()
+void emu_Structure_Allocate()
 {
 	uint16 index;
 	uint8  typeID;
-	Building *b;
+	Structure *b;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -94,17 +94,17 @@ void emu_Building_Allocate()
 	index  = emu_get_memory16(emu_ss, emu_sp,  0x0);
 	typeID = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
 
-	b = Building_Allocate(index, typeID);
+	b = Structure_Allocate(index, typeID);
 
 	if (b == NULL) return;
-	emu_dx = g_global->buildingStartPos.s.cs;
-	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + b->index * sizeof(Structure);
 }
 
 /**
- * Emulator wrapper around Building_Free().
+ * Emulator wrapper around Structure_Free().
  *
- * @name emu_Building_Free
+ * @name emu_Structure_Free
  * @implements 1082:0325:0018:025E ()
  * @implements 1082:033D:0010:68D6
  * @implements 1082:034D:0047:CEC1
@@ -112,7 +112,7 @@ void emu_Building_Allocate()
  * @implements 1082:0397:000A:AFD0
  * @implements 1082:0398:0009:BE50
  */
-void emu_Building_Free()
+void emu_Structure_Free()
 {
 	csip32 address;
 
@@ -122,19 +122,19 @@ void emu_Building_Free()
 
 	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	Building_Free(address);
+	Structure_Free(address);
 }
 
 /**
- * Get a Building from the memory by index.
+ * Get a Structure from the memory by index.
  *
- * @name emu_Building_Get_ByIndex
+ * @name emu_Structure_Get_ByIndex
  * @implements 1082:03A1:0023:9F5D ()
  * @implements 1082:03C2:0002:C33A
  * @implements 1082:03C4:0006:5EA9
  * @implements 1082:03CA:0002:2597
  */
-void emu_Building_Get_ByIndex()
+void emu_Structure_Get_ByIndex()
 {
 	uint16 index;
 
@@ -147,25 +147,25 @@ void emu_Building_Get_ByIndex()
 
 	index = emu_get_memory16(emu_ss, emu_sp,  0x0);
 
-	if (index >= BUILDING_INDEX_MAX_HARD) return;
-	emu_dx = g_global->buildingStartPos.s.cs;
-	emu_ax = g_global->buildingStartPos.s.ip + index * sizeof(Building);
+	if (index >= STRUCTURE_INDEX_MAX_HARD) return;
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + index * sizeof(Structure);
 }
 
 /**
- * Emulator wrapper around Building_Find(). It also initializes the
+ * Emulator wrapper around Structure_Find(). It also initializes the
  *  PoolFindStruct, and uses a default struct in case none is given.
  *
- * @name emu_Building_FindFirst
+ * @name emu_Structure_FindFirst
  * @implements 1082:00FD:003A:D7E0 ()
  * @implements 1082:0110:0027:2707
  * @implements 1082:0137:0004:5B1F
  * @implements 1082:013B:0002:2597
  */
-void emu_Building_FindFirst()
+void emu_Structure_FindFirst()
 {
 	PoolFindStruct *find;
-	Building *b;
+	Structure *b;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -177,26 +177,26 @@ void emu_Building_FindFirst()
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->buildingFindStruct, 0x353F);
-		find = (PoolFindStruct *)g_global->buildingFindStruct;
+		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->structureFindStruct, 0x353F);
+		find = (PoolFindStruct *)g_global->structureFindStruct;
 	}
 
 	find->houseID = emu_get_memory16(emu_ss, emu_sp,  0x4);
 	find->type    = emu_get_memory16(emu_ss, emu_sp,  0x6);
 	find->index   = 0xFFFF;
 
-	b = Building_Find(find);
+	b = Structure_Find(find);
 
 	if (b == NULL) return;
-	emu_dx = g_global->buildingStartPos.s.cs;
-	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + b->index * sizeof(Structure);
 }
 
 /**
- * Emulator wrapper around Building_Find(). It uses a default struct in case
+ * Emulator wrapper around Structure_Find(). It uses a default struct in case
  *  none is given.
  *
- * @name emu_Building_FindNext
+ * @name emu_Structure_FindNext
  * @implements 1082:013D:0038:4AF1 ()
  * @implements 1082:0155:0020:8556
  * @implements 1082:0173:0002:ED3A
@@ -209,10 +209,10 @@ void emu_Building_FindFirst()
  * @implements 1082:01CF:0013:4D5B
  * @implements 1082:01E2:0006:F7CE
  */
-void emu_Building_FindNext()
+void emu_Structure_FindNext()
 {
 	PoolFindStruct *find;
-	Building *b;
+	Structure *b;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -224,13 +224,13 @@ void emu_Building_FindNext()
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->buildingFindStruct, 0x353F);
-		find = (PoolFindStruct *)g_global->buildingFindStruct;
+		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->structureFindStruct, 0x353F);
+		find = (PoolFindStruct *)g_global->structureFindStruct;
 	}
 
-	b = Building_Find(find);
+	b = Structure_Find(find);
 
 	if (b == NULL) return;
-	emu_dx = g_global->buildingStartPos.s.cs;
-	emu_ax = g_global->buildingStartPos.s.ip + b->index * sizeof(Building);
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + b->index * sizeof(Structure);
 }

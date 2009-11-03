@@ -101,7 +101,7 @@ l__0062:
 	goto l__007D;
 l__0064:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x006A); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x006A); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__006A:
 	emu_pop(&emu_cx);
 	emu_bx = emu_ax;
@@ -460,7 +460,7 @@ l__0193:
 	goto l__019B;
 l__0195:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x019B); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x019B); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__019B:
 	emu_pop(&emu_cx);
 	emu_bx = emu_ax;
@@ -581,7 +581,7 @@ l__0216:
 	goto l__020E;
 l__0225:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x022B); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x022B); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__022B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_dx;
@@ -741,7 +741,7 @@ l__02BA:
 l__02C5:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__02CC:
 	emu_pop(&emu_cx);
 l__02CD:
@@ -808,7 +808,7 @@ l__02F1:
 l__02F6:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02FD); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x02FD); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__02FD:
 	emu_pop(&emu_cx);
 l__02FE:

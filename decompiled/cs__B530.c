@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Building_StringToID()
+ * Decompiled function emu_Structure_StringToID()
  *
- * @name emu_Building_StringToID
+ * @name emu_Structure_StringToID
  * @implements B530:0000:0010:8273 ()
  * @implements B530:0010:0023:BD3C
  * @implements B530:0033:000B:E2C7
@@ -19,7 +19,7 @@
  *
  * Called From: 3530:0020:0005:0000
  */
-void emu_Building_StringToID()
+void emu_Structure_StringToID()
 {
 l__0000:
 	emu_push(emu_bp);

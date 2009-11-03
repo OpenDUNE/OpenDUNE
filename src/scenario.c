@@ -474,7 +474,7 @@ void emu_Scenario_Load_Structures()
 		emu_sp += 0x8;
 
 		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; overlay(0x3530, 0); emu_Building_StringToID();
+		emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; overlay(0x3530, 0); emu_Structure_StringToID();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 4;
@@ -487,7 +487,7 @@ void emu_Scenario_Load_Structures()
 		emu_push(emu_si);
 		emu_push(emu_di);
 		emu_push(0xFFFF);
-		emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; emu_Building_Create();
+		emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; emu_Structure_Create();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 8;
@@ -535,7 +535,7 @@ void emu_Scenario_Load_Structures()
 	emu_sp += 8;
 
 	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; overlay(0x3530, 0); emu_Building_StringToID();
+	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; overlay(0x3530, 0); emu_Structure_StringToID();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 4;
@@ -573,7 +573,7 @@ void emu_Scenario_Load_Structures()
 	emu_get_memory16(emu_ss, emu_bp, -0x12) = emu_ax;
 
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
-	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 2;
@@ -584,7 +584,7 @@ void emu_Scenario_Load_Structures()
 	emu_push(emu_si);
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
-	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; emu_Building_Create();
+	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; emu_Structure_Create();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
@@ -596,7 +596,7 @@ void emu_Scenario_Load_Structures()
 
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	/* XXX -- DUNE2 BUG -- The percent hp read at -0x14 is ignored, and 100% is always given */
-	emu_get_memory16(emu_es, emu_bx, 0xE) = g_buildingInfo[emu_get_memory8(emu_es, emu_bx, 0x2)].hitpoints;
+	emu_get_memory16(emu_es, emu_bx, 0xE) = g_structureInfo[emu_get_memory8(emu_es, emu_bx, 0x2)].hitpoints;
 	emu_get_memory16(emu_es, emu_bx, 0x4) &= 0xFBFF;
 	emu_get_memory16(emu_es, emu_bx, 0x54) = 0x0;
 }

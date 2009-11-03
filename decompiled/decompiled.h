@@ -7,11 +7,11 @@
 #include "../src/house.h"
 #include "../src/pool/pool.h"
 #include "../src/pool/airunit.h"
-#include "../src/pool/building.h"
 #include "../src/pool/unit.h"
 #include "../src/pool/house.h"
+#include "../src/pool/structure.h"
 #include "../src/global.h"
-#include "../src/building.h"
+#include "../src/structure.h"
 #include "../src/input/input.h"
 #include "../src/unit.h"
 #include "../src/tools.h"
@@ -24,7 +24,7 @@ extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
 extern void f__B527_0000_0016_BBD9();
 extern void f__B52A_0000_0019_1617();
-extern void emu_Building_StringToID();
+extern void emu_Structure_StringToID();
 extern void f__B4DA_0000_002C_B3C2();
 extern void emu_Unit_StringToID();
 extern void f__253D_0000_0013_38F4();
@@ -98,7 +98,7 @@ extern void f__0C10_0008_0014_19CD();
 extern void f__2502_0008_0015_FFBD();
 extern void f__10E4_0008_0048_5BD4();
 extern void f__1DD2_0008_004C_D4CF();
-extern void emu_Building_Create();
+extern void emu_Structure_Create();
 extern void f__16C5_0009_0023_21B3();
 extern void f__1423_0009_0025_FE5D();
 extern void f__1391_000A_0035_2CB6();
@@ -786,7 +786,7 @@ extern void f__B4F2_1100_0019_B3DC();
 extern void f__22A6_1102_004C_B069();
 extern void f__B4B8_110D_000D_FD5C();
 extern void emu_String_Format();
-extern void emu_Building_GetByPackedTile();
+extern void emu_Structure_GetByPackedTile();
 extern void f__01F7_1139_000D_AAB0();
 extern void f__B495_1140_0009_13F2();
 extern void f__01F7_1146_0023_6860();
@@ -1003,12 +1003,12 @@ extern void f__01F7_2FD5_0018_0AEC();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
 extern void f__01F7_325B_0026_C673();
-extern void emu_Unit_FindBuilding();
+extern void emu_Unit_FindStructure();
 extern void emu_File_Read_Wrapper();
 extern void f__01F7_3357_0028_B817();
 extern void f__01F7_3474_001A_8B70();
-extern void emu_Building_GetLinkedUnit();
-extern void emu_Unit_GetLinkedBuilding();
+extern void emu_Structure_GetLinkedUnit();
+extern void emu_Unit_GetLinkedStructure();
 extern void f__1A34_350F_0021_9B04();
 extern void f__01F7_352D_0051_5751();
 extern void emu_Unit_UntargetMe();

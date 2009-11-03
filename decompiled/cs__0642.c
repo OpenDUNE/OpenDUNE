@@ -1261,7 +1261,7 @@ l__0966:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0979); emu_cs = 0x1082; emu_Building_FindFirst();
+	emu_push(emu_cs); emu_push(0x0979); emu_cs = 0x1082; emu_Structure_FindFirst();
 l__0979:
 	emu_addw(&emu_sp, 0x8);
 	goto l__0A30;
@@ -1341,7 +1341,7 @@ l__0A23:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0A2E); emu_cs = 0x1082; emu_Building_FindNext();
+	emu_push(emu_cs); emu_push(0x0A2E); emu_cs = 0x1082; emu_Structure_FindNext();
 l__0A2E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

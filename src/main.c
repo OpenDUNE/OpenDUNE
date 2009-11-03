@@ -10,7 +10,7 @@ extern void f__2756_050F_000B_0871();
 extern void emu_Mouse_EventHandler();
 
 extern void System_Init_Global();
-extern void System_Init_Building();
+extern void System_Init_Structure();
 extern void System_Init_Input();
 extern void System_Init_Unit();
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 	emu_overlay = 1;
 
 	System_Init_Global();
-	System_Init_Building();
+	System_Init_Structure();
 	System_Init_Input();
 	System_Init_Unit();
 

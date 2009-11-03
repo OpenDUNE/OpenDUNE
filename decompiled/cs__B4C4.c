@@ -710,7 +710,7 @@ l__045D:
 l__046F:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x5C));
-	emu_push(emu_cs); emu_push(0x047A); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x047A); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
 l__047A:
@@ -757,7 +757,7 @@ l__04C8:
 	if (emu_get_memory16(emu_ss, emu_bp,  0xA) == 0x0) goto l__04D1;
 	goto l__0445;
 l__04D1:
-	emu_push(emu_cs); emu_push(0x04D6); emu_cs = 0x1082; emu_Building_Recount();
+	emu_push(emu_cs); emu_push(0x04D6); emu_cs = 0x1082; emu_Structure_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
 l__04D6:

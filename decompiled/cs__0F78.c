@@ -535,7 +535,7 @@ l__0302:
 	/* Unresolved jump */ emu_ip = 0x0424; emu_last_cs = 0x0F78; emu_last_ip = 0x0324; emu_last_length = 0x0025; emu_last_crc = 0xB4FB; emu_call();
 l__0327:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x032D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Building_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x032D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
 l__032D:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

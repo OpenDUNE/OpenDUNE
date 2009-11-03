@@ -2733,30 +2733,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\building.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\building.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\emu_tools.c"
 				>
 				<FileConfiguration
@@ -2941,30 +2917,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\pool\building.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\pool\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\pool\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\pool\building.h"
-				>
-			</File>
-			<File
 				RelativePath="..\src\pool\emu_airunit.c"
 				>
 				<FileConfiguration
@@ -3073,6 +3025,30 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\pool\structure.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\pool\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\pool\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\pool\structure.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\pool\unit.c"
 				>
 				<FileConfiguration
@@ -3118,6 +3094,30 @@
 			</File>
 			<File
 				RelativePath="..\src\scenario.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\structure.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\structure.h"
 				>
 			</File>
 			<File

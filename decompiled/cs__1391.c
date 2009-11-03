@@ -697,7 +697,7 @@ l__05FB:
 	emu_get_memory16(emu_ss, emu_bp, -0x16) = 0x0;
 	emu_get_memory16(emu_ss, emu_bp, -0x18) = 0x0;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38EA));
-	emu_push(emu_cs); emu_push(0x060E); emu_cs = 0x1082; emu_Building_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x060E); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
 l__060E:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x1A) = emu_dx;

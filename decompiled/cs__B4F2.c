@@ -567,7 +567,7 @@ l__0336:
 	emu_push(emu_cs);
 	emu_push(0x033B); f__B4F2_0051_0012_A048();
 l__033B:
-	emu_push(emu_cs); emu_push(0x0340); emu_cs = 0x1082; emu_Building_Recount();
+	emu_push(emu_cs); emu_push(0x0340); emu_cs = 0x1082; emu_Structure_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0340:

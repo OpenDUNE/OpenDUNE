@@ -11,7 +11,7 @@
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_204C_0043_B1ED();
-extern void emu_Unit_FindBuilding();
+extern void emu_Unit_FindStructure();
 extern void f__15C2_0395_0044_304E();
 extern void f__2BB4_0004_0027_DC1D();
 extern void f__1A34_204C_0043_B1ED();
@@ -100,7 +100,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	if (position.tile != 0xFFFFFFFF) {
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x09D9); emu_Unit_FindBuilding();
+		emu_push(emu_cs); emu_push(0x09D9); emu_Unit_FindStructure();
 		emu_sp += 4;
 
 		u->variable_4D      = emu_ax;
@@ -108,18 +108,18 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 		u->variable_5E.tile = position.tile;
 	}
 
-	u->linkedBuildingID = 0xFF;
-	u->variable_10      = 0x0000;
-	u->actionID         = 0x03;
-	u->variable_50      = 0xFF;
-	u->variable_51      = 0x00;
-	u->variable_52      = 0x7FFF;
-	u->variable_56      = 0x0000;
-	u->sandwormLeft     = 0x00;
-	u->variable_6C      = 0x00;
-	u->variable_6D      = 0x00;
-	u->variable_6E      = 0x00;
-	u->variable_70      = 0x0000;
+	u->linkedStructureID = 0xFF;
+	u->variable_10       = 0x0000;
+	u->actionID          = 0x03;
+	u->variable_50       = 0xFF;
+	u->variable_51       = 0x00;
+	u->variable_52       = 0x7FFF;
+	u->variable_56       = 0x0000;
+	u->sandwormLeft      = 0x00;
+	u->variable_6C       = 0x00;
+	u->variable_6D       = 0x00;
+	u->variable_6E       = 0x00;
+	u->variable_70       = 0x0000;
 
 	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->variable_3902, 0x353F));
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip + 0x12);

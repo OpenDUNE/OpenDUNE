@@ -5,7 +5,7 @@
 
 /*
  * Segments:
- *   2C94 -> BuildingInfo array.
+ *   2C94 -> StructureInfo array.
  *   2D07 -> UnitInfo array.
  *   2E9C:323F -> Map array (2 bytes per tile).
  *   353F -> Global data.
@@ -663,8 +663,8 @@ typedef struct GlobalData {
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
 	/* 35F2(2)   */ PACK uint16 airUnitCount;               /*!< Amount of AirUnits on the map. */
-	/* 35F4(4)   */ PACK csip32 buildingStartPos;           /*!< CS:IP of Building array. */
-	/* 35F8(2)   */ PACK uint16 buildingCount;              /*!< Amount of Buildings on the map. */
+	/* 35F4(4)   */ PACK csip32 structureStartPos;          /*!< CS:IP of Structure array. */
+	/* 35F8(2)   */ PACK uint16 structureCount;             /*!< Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
 	/* 3600()    */ PACK uint8   unknown_3600[0x0170];
@@ -683,7 +683,7 @@ typedef struct GlobalData {
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
-	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?). */
+	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE()    */ PACK uint8   unknown_38BE[0x0008];
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
 	/* 38CA(4)   */ PACK csip32 variable_38CA;              /*!< ?? */
@@ -695,7 +695,7 @@ typedef struct GlobalData {
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
 	/* 3904()    */ PACK uint8   unknown_3904[0x00E6];
 	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array of tiles (the map). 4 bytes per tile. */
-	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of building information. */
+	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
 	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? Bloom field information? */
 	/* 39F6(2)   */ PACK uint16 variable_39F6;              /*!< ?? */
@@ -1143,8 +1143,8 @@ typedef struct GlobalData {
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of AirUnit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */
 	/* 85DC(64)  */ PACK csip32 airUnitArray[16];           /*!< Array with CS:IP of AirUnit, always gap-less. */
-	/* 861C(6)   */ PACK uint8  buildingFindStruct[6];      /*!< Default find struct used if none given to emu_Building_FindFirst/FindNext. */
-	/* 8622(328) */ PACK csip32 buildingArray[82];          /*!< Array with CS:IP of Building, always gap-less. */
+	/* 861C(6)   */ PACK uint8  structureFindStruct[6];     /*!< Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
+	/* 8622(328) */ PACK csip32 structureArray[82];         /*!< Array with CS:IP of Structure, always gap-less. */
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
 	/* 87BA(6)   */ PACK uint8  houseFindStruct[6];         /*!< Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
