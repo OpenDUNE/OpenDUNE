@@ -2169,26 +2169,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__B4B5.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__B4B8.c"
 				>
 				<FileConfiguration
@@ -3114,6 +3094,30 @@
 			</File>
 			<File
 				RelativePath="..\src\pool\unit.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\scenario.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\scenario.h"
 				>
 			</File>
 			<File

@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include "../src/scenario.h"
 #include "../src/interrupt.h"
 #include "../src/patched.h"
 #include "../src/airunit.h"
@@ -49,7 +50,6 @@ extern void emu_EntryPoint();
 extern void f__B4B1_0000_0016_067A();
 extern void f__B50B_0000_0029_BDBF();
 extern void f__2BF2_0000_0007_42B5();
-extern void emu_Scenario_Load();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__2598_0000_0017_EB80();
 extern void f__B511_0000_000E_B463();
