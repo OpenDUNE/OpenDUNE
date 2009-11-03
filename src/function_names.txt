@@ -29,6 +29,8 @@
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
+01F7:111F:001A:B513	emu_String_Format	# (params_ip, format_csip, data_csip, callback_ip) data_csip depends on callback
+01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
 01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:2252:0045:03CB	emu_String_ToInteger	# (string_csip)
@@ -41,8 +43,12 @@
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
 01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
 01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
+01F7:2BC4:0019:3608	emu_String_printf	# (format_csip, param1, ...)
+01F7:2DA4:001B:CF3B	emu_String_Format_Callback_2D4A	# (data_csip, count, from_csip) Write 'count' bytes from 'from_csip' buffer to a file, data_csip points to file infos
 01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
+01F7:374D:001D:AA1B	emu_String_Format_Callback_374D	# (data_csip, count, from_csip) Move 'count' bytes from 'from_csip' buffer to a buffer, data_csip points to buffer csip
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
+01F7:37AF:001F:03E8	emu_String_sprintf_params	# (buf_csip, format_csip, params_ip)
 01F7:384A:003F:AE43	emu_String_strcat	# (to_csip, from_csip)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:3964:0041:7552	emu_String_strcasecmp	# (string1_csip, string2_csip) Case insensitive compare

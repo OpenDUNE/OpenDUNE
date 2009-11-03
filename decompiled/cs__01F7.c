@@ -2830,9 +2830,9 @@ l__1105:
 }
 
 /**
- * Decompiled function f__01F7_111F_001A_B513()
+ * Decompiled function emu_String_Format()
  *
- * @name f__01F7_111F_001A_B513
+ * @name emu_String_Format
  * @implements 01F7:111F:001A:B513 ()
  * @implements 01F7:1183:0025:4423
  * @implements 01F7:118C:001C:D392
@@ -2911,7 +2911,7 @@ l__1105:
  * Called From: 01F7:37AA:0020:0F64
  * Called From: 01F7:37CB:001F:03E8
  */
-void f__01F7_111F_001A_B513()
+void emu_String_Format()
 {
 l__111F:
 	emu_push(emu_bp);
@@ -2943,7 +2943,7 @@ l__119C:
 	emu_incw(&emu_di);
 	emu_decb(&emu_get_memory8(emu_ss, emu_bp, -0x14));
 	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__1192;
-	emu_push(0x11A8); f__01F7_114F_001A_962D();
+	emu_push(0x11A8); emu_String_Format_Callback();
 l__11A8:
 	goto l__1192;
 l__11AA:
@@ -3293,7 +3293,7 @@ l__1522:
 	emu_incw(&emu_di);
 	emu_decb(&emu_get_memory8(emu_ss, emu_bp, -0x14));
 	if ((emu_flags.zf || emu_flags.sf != emu_flags.of)) {
-		emu_push(0x1530); f__01F7_114F_001A_962D();
+		emu_push(0x1530); emu_String_Format_Callback();
 	}
 l__1530:
 	if (--emu_cx != 0) goto l__1522;
@@ -3347,7 +3347,7 @@ l__158C:
 l__1592:
 	emu_cmpb(&emu_get_memory8(emu_ss, emu_bp, -0x14), 0x50);
 	if ((int8)emu_get_memory8(emu_ss, emu_bp, -0x14) < (int8)0x50) {
-		emu_push(0x159B); f__01F7_114F_001A_962D();
+		emu_push(0x159B); emu_String_Format_Callback();
 	}
 l__159B:
 	emu_pop(&emu_es);
@@ -3420,7 +3420,7 @@ l__1146:
 	emu_incw(&emu_di);
 	emu_decb(&emu_get_memory8(emu_ss, emu_bp, -0x14));
 	if (emu_get_memory8(emu_ss, emu_bp, -0x14) != 0) goto l__1182;
-	f__01F7_114F_001A_962D(); return;
+	emu_String_Format_Callback(); return;
 l__1182:
 
 	/* Return from this function */
@@ -3429,9 +3429,9 @@ l__1182:
 }
 
 /**
- * Decompiled function f__01F7_114F_001A_962D()
+ * Decompiled function emu_String_Format_Callback()
  *
- * @name f__01F7_114F_001A_962D
+ * @name emu_String_Format_Callback
  * @implements 01F7:114F:001A:962D ()
  * @implements 01F7:1169:001A:40B5
  * @implements 01F7:1172:0011:8902
@@ -3442,7 +3442,7 @@ l__1182:
  * Called From: 01F7:1598:0009:6CDC
  * Called From: 01F7:1598:000F:E3A2
  */
-void f__01F7_114F_001A_962D()
+void emu_String_Format_Callback()
 {
 l__114F:
 	emu_push(emu_bx);
@@ -3462,8 +3462,8 @@ l__114F:
 	emu_ip = emu_get_memory16(emu_ss, emu_bp,  0xE);
 	emu_push(0x1169);
 	switch (emu_ip) {
-		case 0x2DA4: f__01F7_2DA4_001B_CF3B(); break;
-		case 0x374D: f__01F7_374D_001D_AA1B(); break;
+		case 0x2DA4: emu_String_Format_Callback_2D4A(); break;
+		case 0x374D: emu_String_Format_Callback_374D(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x01F7; emu_last_ip = 0x1166; emu_last_length = 0x001A; emu_last_crc = 0x962D;
@@ -6392,9 +6392,9 @@ l__2BC0:
 }
 
 /**
- * Decompiled function f__01F7_2BC4_0019_3608()
+ * Decompiled function emu_String_printf()
  *
- * @name f__01F7_2BC4_0019_3608
+ * @name emu_String_printf
  * @implements 01F7:2BC4:0019:3608 ()
  * @implements 01F7:2BDD:0002:2597
  *
@@ -6403,7 +6403,7 @@ l__2BC0:
  * Called From: B480:02E8:0008:98A4
  * Called From: B53B:0301:0019:AA57
  */
-void f__01F7_2BC4_0019_3608()
+void emu_String_printf()
 {
 l__2BC4:
 	emu_push(emu_bp);
@@ -6417,7 +6417,7 @@ l__2BC4:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_movw(&emu_ax, emu_bp + 0xA);
 	emu_push(emu_ax);
-	emu_push(0x2BDD); f__01F7_111F_001A_B513();
+	emu_push(0x2BDD); emu_String_Format();
 l__2BDD:
 	emu_pop(&emu_bp);
 
@@ -6428,9 +6428,9 @@ l__2BDD:
 }
 
 /**
- * Decompiled function f__01F7_2DA4_001B_CF3B()
+ * Decompiled function emu_String_Format_Callback_2D4A()
  *
- * @name f__01F7_2DA4_001B_CF3B
+ * @name emu_String_Format_Callback_2D4A
  * @implements 01F7:2DA4:001B:CF3B ()
  * @implements 01F7:2DDC:0005:9C1B
  * @implements 01F7:2DEB:000E:A237
@@ -6442,7 +6442,7 @@ l__2BDD:
  *
  * Called From: 01F7:1166:001A:962D
  */
-void f__01F7_2DA4_001B_CF3B()
+void emu_String_Format_Callback_2D4A()
 {
 l__2DA4:
 	emu_push(emu_bp);
@@ -7505,16 +7505,16 @@ l__36FF:
 }
 
 /**
- * Decompiled function f__01F7_374D_001D_AA1B()
+ * Decompiled function emu_String_Format_Callback_374D()
  *
- * @name f__01F7_374D_001D_AA1B
+ * @name emu_String_Format_Callback_374D
  * @implements 01F7:374D:001D:AA1B ()
  * @implements 01F7:376A:0023:2BAF
  *
  * Called From: 01F7:1166:001A:962D
  * Called From: 01F7:1166:0023:6860
  */
-void f__01F7_374D_001D_AA1B()
+void emu_String_Format_Callback_374D()
 {
 l__374D:
 	emu_push(emu_bp);
@@ -7616,7 +7616,7 @@ l__378D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_movw(&emu_ax, emu_bp + 0xE);
 	emu_push(emu_ax);
-	emu_push(0x37AD); f__01F7_111F_001A_B513();
+	emu_push(0x37AD); emu_String_Format();
 l__37AD:
 	emu_pop(&emu_bp);
 
@@ -7627,9 +7627,9 @@ l__37AD:
 }
 
 /**
- * Decompiled function f__01F7_37AF_001F_03E8()
+ * Decompiled function emu_String_sprintf_params()
  *
- * @name f__01F7_37AF_001F_03E8
+ * @name emu_String_sprintf_params
  * @implements 01F7:37AF:001F:03E8 ()
  * @implements 01F7:37CE:0002:2597
  *
@@ -7638,7 +7638,7 @@ l__37AD:
  * Called From: 10E4:2030:0027:C344
  * Called From: 10E4:2030:002F:F3AC
  */
-void f__01F7_37AF_001F_03E8()
+void emu_String_sprintf_params()
 {
 l__37AF:
 	emu_push(emu_bp);
@@ -7653,7 +7653,7 @@ l__37AF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
-	emu_push(0x37CE); f__01F7_111F_001A_B513();
+	emu_push(0x37CE); emu_String_Format();
 l__37CE:
 	emu_pop(&emu_bp);
 

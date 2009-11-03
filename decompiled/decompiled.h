@@ -11,6 +11,7 @@
 #include "../src/pool/house.h"
 #include "../src/global.h"
 #include "../src/building.h"
+#include "../src/scenario.h"
 #include "../src/input/input.h"
 #include "../src/unit.h"
 #include "../src/tools.h"
@@ -49,7 +50,6 @@ extern void emu_EntryPoint();
 extern void f__B4B1_0000_0016_067A();
 extern void f__B50B_0000_0029_BDBF();
 extern void f__2BF2_0000_0007_42B5();
-extern void emu_Scenario_Load();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__2598_0000_0017_EB80();
 extern void f__B511_0000_000E_B463();
@@ -785,12 +785,12 @@ extern void emu_File_Delete();
 extern void f__B4F2_1100_0019_B3DC();
 extern void f__22A6_1102_004C_B069();
 extern void f__B4B8_110D_000D_FD5C();
-extern void f__01F7_111F_001A_B513();
+extern void emu_String_Format();
 extern void emu_Building_GetByPackedTile();
 extern void f__01F7_1139_000D_AAB0();
 extern void f__B495_1140_0009_13F2();
 extern void f__01F7_1146_0023_6860();
-extern void f__01F7_114F_001A_962D();
+extern void emu_String_Format_Callback();
 extern void f__22A6_1158_0069_1890();
 extern void f__B503_116F_001B_4CA0();
 extern void f__B4B8_116F_0013_15F7();
@@ -991,11 +991,11 @@ extern void f__1A34_2B18_0011_E4D5();
 extern void emu_File_Open();
 extern void f__176C_2B97_0013_B226();
 extern void f__1A34_2BB5_0025_30B8();
-extern void f__01F7_2BC4_0019_3608();
+extern void emu_String_printf();
 extern void f__176C_2BD5_0014_2C56();
 extern void f__176C_2C73_0010_BB2A();
 extern void f__1A34_2C95_001B_89A2();
-extern void f__01F7_2DA4_001B_CF3B();
+extern void emu_String_Format_Callback_2D4A();
 extern void f__1A34_2F9E_0016_5A55();
 extern void f__01F7_2FA7_002E_FEFD();
 extern void f__01F7_2FD5_0018_0AEC();
@@ -1011,10 +1011,10 @@ extern void emu_Unit_GetLinkedBuilding();
 extern void f__1A34_350F_0021_9B04();
 extern void f__01F7_352D_0051_5751();
 extern void emu_Unit_UntargetMe();
-extern void f__01F7_374D_001D_AA1B();
+extern void emu_String_Format_Callback_374D();
 extern void emu_String_sprintf();
 extern void f__1A34_379B_0015_B07B();
-extern void f__01F7_37AF_001F_03E8();
+extern void emu_String_sprintf_params();
 extern void f__01F7_37D0_0021_EE69();
 extern void f__01F7_37F8_000B_8F48();
 extern void f__01F7_3803_001E_AAD4();

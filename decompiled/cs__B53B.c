@@ -466,7 +466,7 @@ l__02ED:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6780));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x677E));
-	emu_push(emu_cs); emu_push(0x0306); emu_cs = 0x01F7; f__01F7_2BC4_0019_3608();
+	emu_push(emu_cs); emu_push(0x0306); emu_cs = 0x01F7; emu_String_printf();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
 l__0306:
