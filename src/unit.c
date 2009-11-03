@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <strings.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -43,6 +44,32 @@ uint8 Unit_GetHouseID(Unit *u)
 {
 	if (u->deviated != 0) return HOUSE_ORDOS;
 	return u->houseID;
+}
+
+/**
+ * Convert the name of a unit to the type value of that unit, or
+ *  UNIT_INVALID if not found.
+ *
+ * @name Unit_StringToType
+ * @implements B533:0000:0010:8273
+ * @implements B533:0010:0023:A798
+ * @implements B533:0033:000B:E2C7
+ * @implements B533:003C:0002:C5BA
+ * @implements B533:003E:000B:98D9
+ * @implements B533:003F:000A:58D1
+ * @implements B533:0049:0003:2E57
+ */
+uint8 Unit_StringToType(const char *name)
+{
+	uint8 type;
+	if (name == NULL) return UNIT_INVALID;
+
+	for (type = 0; type < UNIT_MAX; type++) {
+		const char *unitName = (const char *)emu_get_memorycsip(g_unitInfo[type].name);
+		if (strcasecmp(unitName, name) == 0) return type;
+	}
+
+	return UNIT_INVALID;
 }
 
 /**
@@ -131,7 +158,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	if (ui->variable_3C == 0x0001) {
 		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
 
-		if (emu_ax < g_global->houseInfo[houseID].variable_0006) {
+		if (emu_ax < g_houseInfo[houseID].variable_0006) {
 			u->flags |= 0x0400;
 		}
 	}

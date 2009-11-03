@@ -28,7 +28,7 @@ typedef enum StructureType {
 	STRUCTURE_OUTPOST           = 18,
 
 	STRUCTURE_MAX               = 19,
-	STRUCTURE_INVALID           = 0xFFFF
+	STRUCTURE_INVALID           = 0xFF
 } StructureType;
 
 MSVC_PACKED_BEGIN
@@ -66,7 +66,9 @@ MSVC_PACKED_BEGIN
  * Static information per Structure type.
  */
 typedef struct StructureInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x000C];
+	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Structure. */
+	/* 0006()    */ PACK uint8   unknown_0006[0x0006];
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
@@ -78,5 +80,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(StructureInfo) == 0x60);
 
 extern StructureInfo *g_structureInfo;
+
+extern uint8 Structure_StringToType(const char *name);
 
 #endif /* STRUCTURE_H */

@@ -38,23 +38,6 @@ assert_compile(sizeof(struct_19A8) == 0x8);
 
 MSVC_PACKED_BEGIN
 /**
- * Inside the GlobalData is information about houses. This is the layout of
- *  that data.
- */
-typedef struct HouseInfo {
-	/* 0000(4)   */ PACK csip32 houseName;                  /*<! Pointer to name of house. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
-	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
-	/* 0010(2)   */ PACK uint16 prefixChar;                 /*<! Char used as prefix for some filenames. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
-	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
-} GCC_PACKED HouseInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(HouseInfo) == 0x1E);
-
-MSVC_PACKED_BEGIN
-/**
  * Inside the GlobalData is information about digitized sound drivers. This is the layout of
  *  that data.
  */
@@ -677,7 +660,7 @@ typedef struct GlobalData {
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
-	/* 37F8(180) */ PACK HouseInfo houseInfo[6];            /*!< Information about the houses. */
+	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
 	/* 38AC()    */ PACK csip32 variable_38AC;              /*!< ?? */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */

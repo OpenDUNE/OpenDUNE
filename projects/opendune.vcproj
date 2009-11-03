@@ -2589,46 +2589,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__B530.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\decompiled\cs__B533.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__B536.c"
 				>
 				<FileConfiguration
@@ -2795,6 +2755,26 @@
 			<File
 				RelativePath="..\src\global.h"
 				>
+			</File>
+			<File
+				RelativePath="..\src\house.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\src\house.h"

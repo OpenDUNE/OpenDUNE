@@ -36,7 +36,7 @@ typedef enum UnitType {
 	UNIT_FRIGATE         = 26,
 
 	UNIT_MAX             = 27,
-	UNIT_INVALID         = 0xFFFF
+	UNIT_INVALID         = 0xFF
 } UnitType;
 
 MSVC_PACKED_BEGIN
@@ -86,7 +86,9 @@ MSVC_PACKED_BEGIN
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0010];
+	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Unit. */
+	/* 0006()    */ PACK uint8   unknown_0006[0x000A];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
@@ -107,6 +109,7 @@ assert_compile(sizeof(UnitInfo) == 0x5A);
 extern UnitInfo *g_unitInfo;
 
 uint8 Unit_GetHouseID(Unit *u);
+extern uint8 Unit_StringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 var10);
 
 

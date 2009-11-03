@@ -15,7 +15,7 @@ typedef enum HouseType {
 	HOUSE_MERCENARY = 5,
 
 	HOUSE_MAX       = 6,
-	HOUSE_INVALID   = 0xFFFF
+	HOUSE_INVALID   = 0xFF
 } HouseType;
 
 MSVC_PACKED_BEGIN
@@ -38,5 +38,26 @@ typedef struct House {
 } GCC_PACKED House;
 MSVC_PACKED_END
 assert_compile(sizeof(House) == 0x42);
+
+MSVC_PACKED_BEGIN
+/**
+ * Inside the GlobalData is information about houses. This is the layout of
+ *  that data.
+ */
+typedef struct HouseInfo {
+	/* 0000(4)   */ PACK csip32 name;                       /*<! Pointer to name of house. */
+	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
+	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
+	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
+	/* 0010(2)   */ PACK uint16 prefixChar;                 /*<! Char used as prefix for some filenames. */
+	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
+	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
+} GCC_PACKED HouseInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(HouseInfo) == 0x1E);
+
+extern HouseInfo *g_houseInfo;
+
+extern uint8 House_StringToType(const char *name);
 
 #endif /* HOUSE_H */

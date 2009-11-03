@@ -5,6 +5,9 @@
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
+#include "house.h"
+#include "structure.h"
+#include "unit.h"
 #include "../decompiled/decompiled.h"
 
 void emu_Scenario_Load_General()
@@ -126,7 +129,7 @@ void emu_Scenario_Load_House(uint8 houseID)
 	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
 	emu_push(emu_ds); emu_push(0x1F56); /* NONE */
 	emu_push(emu_ds); emu_push(0x1F50); /* Brain */
-	emu_push(g_global->houseInfo[houseID].houseName.s.cs); emu_push(g_global->houseInfo[houseID].houseName.s.ip);
+	emu_push(g_houseInfo[houseID].name.s.cs); emu_push(g_houseInfo[houseID].name.s.ip);
 	emu_push(emu_cs); emu_push(0x025C); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -163,7 +166,7 @@ void emu_Scenario_Load_House(uint8 houseID)
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0);
 	emu_push(emu_ds); emu_push(0x1F65); /* Credits */
-	emu_push(g_global->houseInfo[houseID].houseName.s.cs); emu_push(g_global->houseInfo[houseID].houseName.s.ip);
+	emu_push(g_houseInfo[houseID].name.s.cs); emu_push(g_houseInfo[houseID].name.s.ip);
 	emu_push(emu_cs); emu_push(0x02C6); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetInteger();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -173,7 +176,7 @@ void emu_Scenario_Load_House(uint8 houseID)
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0);
 	emu_push(emu_ds); emu_push(0x1F6D); /* Quota */
-	emu_push(g_global->houseInfo[houseID].houseName.s.cs); emu_push(g_global->houseInfo[houseID].houseName.s.ip);
+	emu_push(g_houseInfo[houseID].name.s.cs); emu_push(g_houseInfo[houseID].name.s.ip);
 	emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetInteger();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -183,7 +186,7 @@ void emu_Scenario_Load_House(uint8 houseID)
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0x27);
 	emu_push(emu_ds); emu_push(0x1F73); /* MaxUnit */
-	emu_push(g_global->houseInfo[houseID].houseName.s.cs); emu_push(g_global->houseInfo[houseID].houseName.s.ip);
+	emu_push(g_houseInfo[houseID].name.s.cs); emu_push(g_houseInfo[houseID].name.s.ip);
 	emu_push(emu_cs); emu_push(0x030D); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetInteger();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -229,14 +232,8 @@ void emu_Scenario_Load_Units()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0448); emu_cs = 0x1381; emu_House_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	emu_si = emu_ax;
-	if (emu_si == 0xFFFF) return;
+	emu_si = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
+	if (emu_si == HOUSE_INVALID) return;
 
 	emu_push(emu_ds); emu_push(0x1F81); /* , */
 	emu_push(0); emu_push(0);
@@ -245,14 +242,8 @@ void emu_Scenario_Load_Units()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x3533; overlay(0x3533, 0); emu_Unit_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	emu_di = emu_ax;
-	if (emu_di == 0xFFFF) return;
+	emu_di = Unit_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
+	if (emu_di == UNIT_INVALID) return;
 
 	emu_push(emu_si);
 	emu_push(emu_di);
@@ -459,12 +450,7 @@ void emu_Scenario_Load_Structures()
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 0x8;
 
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x070A); emu_cs = 0x1381; emu_House_StringToID();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-		emu_sp += 4;
-		emu_si = emu_ax;
+		emu_si = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
 
 		emu_push(emu_ds); emu_push(0x1F81); /* , */
 		emu_push(0); emu_push(0);
@@ -473,15 +459,10 @@ void emu_Scenario_Load_Structures()
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 0x8;
 
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x0728); emu_cs = 0x3530; overlay(0x3530, 0); emu_Structure_StringToID();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-		emu_sp += 4;
-		emu_di = emu_ax;
+		emu_di = Structure_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
 
-		if (emu_si == 0xFFFF) return;
-		if (emu_di == 0xFFFF) return;
+		if (emu_si == HOUSE_INVALID) return;
+		if (emu_di == STRUCTURE_INVALID) return;
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
 		emu_push(emu_si);
@@ -520,12 +501,7 @@ void emu_Scenario_Load_Structures()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x07A1); emu_cs = 0x1381; emu_House_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_si = emu_ax;
+	emu_si = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
 
 	emu_push(emu_ds); emu_push(0x1F81); /* , */
 	emu_push(0); emu_push(0);
@@ -534,15 +510,10 @@ void emu_Scenario_Load_Structures()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x07BF); emu_cs = 0x3530; overlay(0x3530, 0); emu_Structure_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_di = emu_ax;
+	emu_di = Structure_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
 
-	if (emu_si == 0xFFFF) return;
-	if (emu_di == 0xFFFF) return;
+	if (emu_si == HOUSE_INVALID) return;
+	if (emu_di == STRUCTURE_INVALID) return;
 
 	emu_push(emu_ds); emu_push(0x1F81); /* , */
 	emu_push(0); emu_push(0);
@@ -726,13 +697,8 @@ void emu_Scenario_Load_Reinforcements()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0CF4); emu_cs = 0x1381; emu_House_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_di = emu_ax;
-	if (emu_di == 0xFFFF) return;
+	emu_di = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
+	if (emu_di == HOUSE_INVALID) return;
 
 	emu_push(emu_ds); emu_push(0x1F81); /* , */
 	emu_push(0); emu_push(0);
@@ -741,13 +707,8 @@ void emu_Scenario_Load_Reinforcements()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D1A); emu_cs = 0x3533; overlay(0x3533, 0); emu_Unit_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_get_memory16(emu_ss, emu_bp, -0xE) = emu_ax;
-	if (emu_get_memory16(emu_ss, emu_bp, -0xE) == 0xFFFF) return;
+	emu_get_memory16(emu_ss, emu_bp, -0xE) = Unit_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
+	if (emu_get_memory16(emu_ss, emu_bp, -0xE) == UNIT_INVALID) return;
 
 	emu_push(0);
 	emu_push(0xFFFF); emu_push(0xFFFF);
@@ -839,14 +800,8 @@ void emu_Scenario_Load_Teams()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 8;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0EE1); emu_cs = 0x1381; emu_House_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_si = emu_ax;
-
-	if (emu_si == 0xFFFF) return;
+	emu_si = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
+	if (emu_si == HOUSE_INVALID) return;
 
 	emu_push(emu_ds); emu_push(0x1F81); /* , */
 	emu_push(0); emu_push(0);
@@ -921,13 +876,8 @@ void emu_Scenario_Load_Teams()
 
 void emu_Scenario_Load_Choam()
 {
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_cs); emu_push(0x0FFF); emu_cs = 0x3533; overlay(0x3533, 0); emu_Unit_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_si = emu_ax;
-	if (emu_si == 0xFFFF) return;
+	emu_si = Unit_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));;
+	if (emu_si == UNIT_INVALID) return;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0x7F);
@@ -1193,7 +1143,7 @@ l__0014:
 	g_global->scenarioID = scenarioID;
 
 	/* Generate scenario filename */
-	sprintf((char *)&emu_get_memory8(emu_ss, emu_bp, -0x22), g_global->string_scenario_file, emu_get_memorycsip(g_global->houseInfo[houseID].houseName)[0], scenarioID);
+	sprintf((char *)&emu_get_memory8(emu_ss, emu_bp, -0x22), g_global->string_scenario_file, emu_get_memorycsip(g_houseInfo[houseID].name)[0], scenarioID);
 
 	/* Open the file, which can be hiding in a PAK file */
 	emu_push(emu_ss); emu_push(emu_bp - 0x22);
