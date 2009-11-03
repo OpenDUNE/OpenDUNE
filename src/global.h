@@ -665,9 +665,9 @@ typedef struct GlobalData {
 	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Building_Find skips Unit/Buildings with flag 0x4 off (being-built flag?). */
 	/* 38BE()    */ PACK uint8   unknown_38BE[0x0008];
-	/* 38C6(2)   */ PACK uint16 variable_38C6;              /*!< ?? */
-	/* 38C8(2)   */ PACK uint16 variable_38C8;              /*!< ?? */
-	/* 38CA()    */ PACK uint8   unknown_38CA[0x0010];
+	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
+	/* 38CA(4)   */ PACK csip32 variable_38CA;              /*!< ?? */
+	/* 38CA()    */ PACK uint8   unknown_38CE[0x000C];
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
@@ -774,7 +774,8 @@ typedef struct GlobalData {
 	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
-	/* 6124()    */ PACK uint8   unknown_6124[0x01DE];
+	/* 6124()    */ PACK uint8   unknown_6124[0x01DC];
+	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
 	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
 	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
@@ -1049,7 +1050,7 @@ typedef struct GlobalData {
 	/* 77BE(4)   */ PACK csip32 variable_77BE;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
 	/* 77C2(4)   */ PACK csip32 variable_77C2;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
 	/* 77C6(4)   */ PACK csip32 variable_77C6;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
-	/* 77CA()    */ PACK uint8   unknown_77CA[0x0190];
+	/* 77CA(400) */ PACK uint8  variable_77CA[20][20];      /*!< ?? File infos. */
 	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< Size of array of opened file status. */
 	/* 795C(40)  */ PACK uint16 variable_795C[20];          /*!< Array of opened file status (0 when closed). */
 	/* 7984(2)   */ PACK uint16 variable_7984;              /*!< ?? Something related to files. */
@@ -1070,7 +1071,10 @@ typedef struct GlobalData {
 	/* 7B14(2)   */ PACK uint16 variable_7B14;              /*!< ?? */
 	/* 7B16(2)   */ PACK uint16 variable_7B16;              /*!< ?? */
 	/* 7B18(2)   */ PACK uint16 variable_7B18;              /*!< ?? */
-	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x004E];
+	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x0002];
+	/* 7B1C(2)   */ PACK uint16 variable_7B1C;              /*!< ?? variable_77CA[0] init state. */
+	/* 7B1E(2)   */ PACK uint16 variable_7B1E;              /*!< ?? variable_77CA[1] init state. */
+	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x04CA];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
@@ -1122,7 +1126,10 @@ typedef struct GlobalData {
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A89];
 	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
-	/* 986D()    */ PACK uint8   unknown_986D[0x0074];
+	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
+	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
+	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
+	/* 9882()    */ PACK uint8  variable_9882[0x005F];      /*!< ?? Buffer. */
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0040];
 	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
@@ -1131,9 +1138,10 @@ typedef struct GlobalData {
 	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? */
 	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
 	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
-	/* 98EB()    */ PACK uint8   unknown_9937[0x0053];
+	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
+	/* 9939()    */ PACK uint8  variable_9939[0x0051];      /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
-	/* 998E()    */ PACK uint8   unknown_998E[0x0061];
+	/* 998E()    */ PACK uint8  variable_998E[0x0061];      /*!< ?? Buffer. */
 	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? */
 } GCC_PACKED GlobalData;
