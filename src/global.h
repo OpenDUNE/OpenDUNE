@@ -100,8 +100,23 @@ assert_compile(sizeof(DuneCfg) == 0xA);
 
 MSVC_PACKED_BEGIN
 /**
+ * Inside the Scenario is information about reinforcement in the scenarion.
+ *  This is the layout of that data.
+ */
+typedef struct Reinformcent {
+	/* 0000(2)   */ PACK uint16 unitID;                     /*<! The Unit which is already created and ready to join the game. */
+	/* 0000(2)   */ PACK uint16 locationID;                 /*<! The location where the Unit will appear. */
+	/* 0000(2)   */ PACK uint16 timeLeft;                   /*<! In how many ticks the Unit will appear. */
+	/* 0000(2)   */ PACK uint16 timeBetween;                /*<! In how many ticks the Unit will appear again if repeat is set. */
+	/* 0000(2)   */ PACK uint16 repeat;                     /*<! If non-zero, the Unit will appear every timeBetween ticks. */
+} GCC_PACKED Reinformcent;
+MSVC_PACKED_END
+assert_compile(sizeof(Reinformcent) == 0x0A);
+
+MSVC_PACKED_BEGIN
+/**
  * Inside the GlobalData is information about the current loaded scenario.
- *  The is the layout of that data.
+ *  This is the layout of that data.
  */
 typedef struct Scenario {
 	/* 0000(2)   */ PACK uint16 variable_0000;              /*<! ?? Set to either 0x290 or 0x0. */
@@ -115,7 +130,7 @@ typedef struct Scenario {
 	/* 001E(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
 	/* 002C(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
 	/* 003A()    */ PACK uint8   unknown_003A[0x000C];
-	/* 0046()    */ PACK uint16  variable_0046[16][5];      /*<! ?? */
+	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*<! Reinforcement information. */
 } GCC_PACKED Scenario;
 MSVC_PACKED_END
 assert_compile(sizeof(Scenario) == 0xE6);
