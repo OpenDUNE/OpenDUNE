@@ -4,7 +4,8 @@
 /*
  * This header should define the following functions:
  *
- * strcasecmp - strcmp, but case insensitive
+ * strcasecmp     - strcmp, but case insensitive
+ * strncasecmp    - strncmp, but case insensitive
  *
  */
 
