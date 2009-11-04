@@ -2849,6 +2849,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\os\strings.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\patched.c"
 				>
 				<FileConfiguration
