@@ -1073,7 +1073,7 @@ l__0000:
 	emu_bp = emu_sp;
 	emu_sp -= 162;
 
-	houseID    = emu_get_memory16(emu_ss, emu_bp,  0x8);
+	houseID    = emu_get_memory8(emu_ss, emu_bp,  0x8);
 	scenarioID = emu_get_memory16(emu_ss, emu_bp,  0x6);
 
 	emu_push(emu_si);
