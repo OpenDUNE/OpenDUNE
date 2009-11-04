@@ -2709,16 +2709,16 @@ l__108D:
 }
 
 /**
- * Decompiled function f__01F7_1097_0010_64C2()
+ * Decompiled function emu_String_tolower()
  *
- * @name f__01F7_1097_0010_64C2
+ * @name emu_String_tolower
  * @implements 01F7:1097:0010:64C2 ()
  * @implements 01F7:10A7:0016:FD08
  * @implements 01F7:10BD:0006:4B8E
  *
  * Called From: B536:01D6:000A:DD58
  */
-void f__01F7_1097_0010_64C2()
+void emu_String_tolower()
 {
 l__1097:
 	emu_push(emu_bp);
@@ -2750,9 +2750,9 @@ l__10BD:
 }
 
 /**
- * Decompiled function f__01F7_10C3_0010_64C2()
+ * Decompiled function emu_String_toupper()
  *
- * @name f__01F7_10C3_0010_64C2
+ * @name emu_String_toupper
  * @implements 01F7:10C3:0010:64C2 ()
  * @implements 01F7:10D3:0016:E224
  * @implements 01F7:10E9:0006:4B8E
@@ -2764,7 +2764,7 @@ l__10BD:
  * Called From: B4E6:03C8:0019:E3C0
  * Called From: B4E6:03DD:0007:B6D2
  */
-void f__01F7_10C3_0010_64C2()
+void emu_String_toupper()
 {
 l__10C3:
 	emu_push(emu_bp);
@@ -5822,9 +5822,9 @@ l__28D0:
 }
 
 /**
- * Decompiled function f__01F7_28DC_0009_EE56()
+ * Decompiled function emu_String_strncasecmp()
  *
- * @name f__01F7_28DC_0009_EE56
+ * @name emu_String_strncasecmp
  * @implements 01F7:28DC:0009:EE56 ()
  * @implements 01F7:28E5:000E:EFC0
  * @implements 01F7:28F3:0010:4F5D
@@ -5837,7 +5837,7 @@ l__28D0:
  * Called From: B4FC:04AC:001B:F59D
  * Called From: B4FC:05D0:0027:BF9B
  */
-void f__01F7_28DC_0009_EE56()
+void emu_String_strncasecmp()
 {
 l__28DC:
 	emu_push(emu_bp);
@@ -5851,7 +5851,7 @@ l__28E5:
 	emu_ah = 0x0;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x28F3); f__01F7_10C3_0010_64C2();
+	emu_push(0x28F3); emu_String_toupper();
 l__28F3:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
@@ -5860,7 +5860,7 @@ l__28F3:
 	emu_ah = 0x0;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x2903); f__01F7_10C3_0010_64C2();
+	emu_push(0x2903); emu_String_toupper();
 l__2903:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_dx);
@@ -5890,16 +5890,16 @@ l__2920:
 }
 
 /**
- * Decompiled function f__01F7_2923_0024_671B()
+ * Decompiled function emu_Tools_Memset_Internal()
  *
- * @name f__01F7_2923_0024_671B
+ * @name emu_Tools_Memset_Internal
  * @implements 01F7:2923:0024:671B ()
  * @implements 01F7:293D:000A:0416
  * @implements 01F7:2944:0003:2E77
  *
  * Called From: 01F7:2958:0014:02B8
  */
-void f__01F7_2923_0024_671B()
+void emu_Tools_Memset_Internal()
 {
 l__2923:
 	emu_push(emu_bp);
@@ -6012,7 +6012,7 @@ l__2947:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x295B); f__01F7_2923_0024_671B();
+	emu_push(0x295B); emu_Tools_Memset_Internal();
 l__295B:
 	emu_addw(&emu_sp, 0x8);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);

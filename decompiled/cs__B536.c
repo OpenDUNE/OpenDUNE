@@ -261,7 +261,7 @@ l__01D1:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x821B);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x01F7; f__01F7_1097_0010_64C2();
+	emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x01F7; emu_String_tolower();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 l__01DB:

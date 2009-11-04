@@ -15,6 +15,7 @@
 #include "../src/input/input.h"
 #include "../src/unit.h"
 #include "../src/tools.h"
+#include "../src/os/strings.h"
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
 extern void f__B4C1_0000_0022_1807();
@@ -769,10 +770,10 @@ extern void f__01F7_103F_0010_4132();
 extern void f__176C_105E_0031_8B3F();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__0AEC_1093_000F_2295();
-extern void f__01F7_1097_0010_64C2();
+extern void emu_String_tolower();
 extern void f__176C_1098_0021_667D();
 extern void emu_Security_Main();
-extern void f__01F7_10C3_0010_64C2();
+extern void emu_String_toupper();
 extern void f__1DD7_10C9_004D_AF4E();
 extern void f__B518_10DC_0011_9EE1();
 extern void f__22A6_10DD_0023_B468();
@@ -971,9 +972,9 @@ extern void f__0C3A_2814_0015_76F0();
 extern void f__01F7_286D_0023_9A13();
 extern void f__176C_28B1_0024_58C9();
 extern void emu_Tools_Memmove();
-extern void f__01F7_28DC_0009_EE56();
+extern void emu_String_strncasecmp();
 extern void f__176C_291A_0010_8A93();
-extern void f__01F7_2923_0024_671B();
+extern void emu_Tools_Memset_Internal();
 extern void f__0C3A_2929_0012_B10B();
 extern void emu_Tools_Memset();
 extern void f__1A34_2958_0013_3A47();

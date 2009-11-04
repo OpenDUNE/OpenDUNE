@@ -640,7 +640,7 @@ l__03B4:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x01F7; f__01F7_10C3_0010_64C2();
+	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x01F7; emu_String_toupper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__03CD:
@@ -655,7 +655,7 @@ l__03CD:
 l__03DB:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03E2); emu_cs = 0x01F7; f__01F7_10C3_0010_64C2();
+	emu_push(emu_cs); emu_push(0x03E2); emu_cs = 0x01F7; emu_String_toupper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__03E2:

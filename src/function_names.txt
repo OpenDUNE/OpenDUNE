@@ -5,6 +5,7 @@
 01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
+01F7:28DC:0009:EE56	emu_String_strncasecmp	# (string1_csip, string2_csip, n) Case insensitive compare up to n chars
 01F7:02AC:000F:B26A	emu_Print_Error_Overlay	# ()
 01F7:02C9:0001:6580	emu_Empty5	# Function does absolutely nothing
 01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
@@ -28,6 +29,8 @@
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
+01F7:1097:0010:64C2	emu_String_tolower	# (c)
+01F7:10C3:0010:64C2	emu_String_toupper	# (c)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
 01F7:111F:001A:B513	emu_String_Format	# (params_ip, format_csip, data_csip, callback_ip) data_csip depends on callback
 01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
@@ -38,6 +41,7 @@
 01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_Close	# (file)
 01F7:28B8:0024:83C9	emu_Tools_Memmove	# (to_csip, from_csip, count)
+01F7:2923:0024:671B	emu_Tools_Memset_Internal	# (csip, count, value)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
 01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
 01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
