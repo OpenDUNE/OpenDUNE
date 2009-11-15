@@ -14,11 +14,10 @@
 	#define strcasecmp _stricmp
 	#define strncasecmp _strnicmp
 #else /* _MSC_VER */
+	#include <strings.h>
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW strcasecmp (const char *, const char *);
 		int __cdecl __MINGW_NOTHROW strncasecmp (const char *, const char *, size_t);
-	#else /* __MINGW32__ && __STRICT_ANSI__ */
-		#include <strings.h>
 	#endif /* __MINGW32__ && __STRICT_ANSI__ */
 #endif /* _MSC_VER */
 
