@@ -688,29 +688,14 @@ void emu_Scenario_Load_Teams(const char *key, char *value)
 	emu_sp += 10;
 }
 
-void emu_Scenario_Load_Choam()
+void emu_Scenario_Load_Choam(const char *key, char *value)
 {
-	emu_si = Unit_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));;
-	if (emu_si == UNIT_INVALID) return;
+	uint8 unitType;
 
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(0x7F);
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(0); emu_push(0);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_ds); emu_push(0x1FFF); /* CHOAM */
-	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 0x16;
+	unitType = Unit_StringToType(key);
+	if (unitType == UNIT_INVALID) return;
 
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(emu_cs); emu_push(0x103C); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	g_global->variable_97E7[emu_si] = emu_ax;
+	g_global->variable_97E7[unitType] = atoi(value);
 }
 
 /**
@@ -1404,7 +1389,7 @@ l__0014:
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 0x16;
 
-		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
+		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0x6), emu_get_memory16(emu_ss, emu_bp, -0x8), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
 		emu_Scenario_Load_Teams(key, value);
 
@@ -1439,10 +1424,25 @@ l__0014:
 	emu_sp += 0x16;
 
 	while (true) {
+		char *key, *value;
+
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 		if (emu_get_memory8(emu_es, emu_bx, 0x0) == 0x0) break;
 
-		emu_Scenario_Load_Choam();
+		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+		emu_push(0x7F);
+		emu_push(emu_ss); emu_push(emu_bp - 0xA2);
+		emu_push(0); emu_push(0);
+		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
+		emu_push(emu_ds); emu_push(0x1FFF); /* CHOAM */
+		emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+		emu_sp += 0x16;
+
+		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0x6), emu_get_memory16(emu_ss, emu_bp, -0x8), 0);
+		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
+		emu_Scenario_Load_Choam(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x1057); emu_cs = 0x01F7; emu_String_strlen();
