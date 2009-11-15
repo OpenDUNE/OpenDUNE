@@ -219,7 +219,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	index = atoi(key + 2);
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = index;
 
-	/* The value should have XXX values seperated by a ',' */
+	/* The value should have 6 values seperated by a ',' */
 	split = strchr(value, ',');
 	if (split == NULL) return;
 	*split = '\0';
@@ -558,114 +558,69 @@ void emu_Scenario_Load_Map()
 	}
 }
 
-void emu_Scenario_Load_Reinforcements()
+void emu_Scenario_Load_Reinforcements(const char *key, char *value)
 {
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x0CAD); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_si = emu_ax;
+	uint8 index, houseType, unitType, locationID;
+	uint16 timeBetween;
+	tile32 position;
+	bool repeat;
+	Unit *u;
+	char *split;
 
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(0x7F);
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(0); emu_push(0);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_ds); emu_push(0x1FAD); /* REINFORCEMENTS */
-	emu_push(emu_cs); emu_push(0x0CD7); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 0x16;
+	index = atoi(key);
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(emu_cs); emu_push(0x0CEA); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* The value should have 4 values seperated by a ',' */
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_di = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
-	if (emu_di == HOUSE_INVALID) return;
+	/* First value is the House type */
+	houseType = House_StringToType(value);
+	if (houseType == HOUSE_INVALID) return;
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0D10); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_get_memory16(emu_ss, emu_bp, -0xE) = Unit_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
-	if (emu_get_memory16(emu_ss, emu_bp, -0xE) == UNIT_INVALID) return;
+	/* Second vlaue is the Unit type */
+	unitType = Unit_StringToType(value);
+	if (unitType == UNIT_INVALID) return;
 
-	emu_push(0);
-	emu_push(0xFFFF); emu_push(0xFFFF);
-	emu_push(emu_di);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
-	emu_push(0xFFFF);
-	emu_push(emu_cs); emu_push(0x0D40); emu_cs = 0x1A34; emu_Unit_Create();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 12;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;
-	emu_get_memory16(emu_ss, emu_bp, -0x8) = emu_ax;
-	if (emu_ax == 0 && emu_dx == 0) return;
+	/* Third value is the location of the reinforcement */
+	     if (strcasecmp(value, "NORTH")     == 0) locationID = 0;
+	else if (strcasecmp(value, "EAST")      == 0) locationID = 1;
+	else if (strcasecmp(value, "SOUTH")     == 0) locationID = 2;
+	else if (strcasecmp(value, "WEST")      == 0) locationID = 3;
+	else if (strcasecmp(value, "AIR")       == 0) locationID = 4;
+	else if (strcasecmp(value, "VISIBLE")   == 0) locationID = 5;
+	else if (strcasecmp(value, "ENEMYBASE") == 0) locationID = 6;
+	else if (strcasecmp(value, "HOMEBASE")  == 0) locationID = 7;
+	else return;
 
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
-	g_global->scenario.reinforcement[emu_si].unitID = emu_get_memory16(emu_es, emu_bx, 0x0);
+	/* Fourth value is the time between reinforcement */
+	value = split + 1;
+	timeBetween = atoi(value) * 6 + 1;
+	repeat = (value[strlen(value) - 1] == '+') ? true : false;
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0D77); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	position.s.x = 0xFFFF;
+	position.s.y = 0xFFFF;
+	u = Unit_Create(UNIT_INDEX_INVALID, unitType, houseType, position, 0);
+	if (u == NULL) return;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D81); emu_cs = 0x01F7; f__01F7_3CD5_000D_9D98();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_ds); emu_push(0x1FBC); /* 0NORTH$1EAST$2SOUTH$3WEST$4AIR$5VISIBLE$6ENEMYBASE$7HOMEBASE */
-	emu_push(emu_cs); emu_push(0x0D8F); emu_cs = 0x01F7; f__01F7_3A8A_0018_E4EE();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
-
-	g_global->scenario.reinforcement[emu_si].locationID = emu_get_memory8(emu_dx, emu_ax, 0xFFFF) - '0';
-
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0DBD); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0DC7); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	g_global->scenario.reinforcement[emu_si].timeLeft = (emu_ax * 6) + 1;
-	g_global->scenario.reinforcement[emu_si].timeBetween = g_global->scenario.reinforcement[emu_si].timeLeft;
-
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(emu_cs); emu_push(0x0DEE); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
-
-	/* XXX -- DUNE2 BUG -- this '+' is read from the wrong place, and so repeat is always 0 */
-	if (emu_get_memory8(emu_dx, emu_ax, 0x0) == '+') {
-		g_global->scenario.reinforcement[emu_si].repeat = 1;
-	} else {
-		g_global->scenario.reinforcement[emu_si].repeat = 0;
-	}
+	g_global->scenario.reinforcement[index].unitID      = u->index;
+	g_global->scenario.reinforcement[index].locationID  = locationID;
+	g_global->scenario.reinforcement[index].timeLeft    = timeBetween;
+	g_global->scenario.reinforcement[index].timeBetween = timeBetween;
+	/* XXX -- DUNE2 BUG -- Original Dune2 always reads the '+' from the wrong place, and so repeat is always 0 */
+	g_global->scenario.reinforcement[index].repeat      = 0;
 }
 
 void emu_Scenario_Load_Teams()
@@ -1411,10 +1366,25 @@ l__0014:
 	emu_sp += 0x16;
 
 	while (true) {
+		char *key, *value;
+
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xC));
 		if (emu_get_memory8(emu_es, emu_bx, 0x0) == 0x0) break;
 
-		emu_Scenario_Load_Reinforcements();
+		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+		emu_push(0x7F);
+		emu_push(emu_ss); emu_push(emu_bp - 0xA2);
+		emu_push(0); emu_push(0);
+		emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
+		emu_push(emu_ds); emu_push(0x1FAD); /* REINFORCEMENTS */
+		emu_push(emu_cs); emu_push(0x0CD7); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+		emu_sp += 0x16;
+
+		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
+		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
+		emu_Scenario_Load_Reinforcements(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 		emu_push(emu_cs); emu_push(0x0E3E); emu_cs = 0x01F7; emu_String_strlen();
