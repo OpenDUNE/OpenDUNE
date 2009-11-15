@@ -420,8 +420,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 	uint16 hitpoints, position;
 	char *split;
 
-	/* 'GEN' marked keys are Slabs and Walls, where the number following
-	 *  indicates the position on the map */
+	/* 'GEN' marked keys are Slabs and Walls, where the number following indicates the position on the map */
 	if (strncasecmp(key, "GEN", 3) == 0) {
 		/* Position on the map is in the key */
 		position = atoi(key + 3);
@@ -512,7 +511,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 		address.s.ip = emu_ax;
 		s = Structure_Get_ByMemory(address);
 
-		/* XXX -- DUNE2 BUG -- The percent hp read at -0x14 is ignored, and 100% is always given */
+		/* XXX -- DUNE2 BUG -- The percent hp read to the local variable 'hitpoints' is ignored, and 100% is always used */
 		s->hitpoints   = g_structureInfo[s->type].hitpoints;
 		s->flags      &= 0xFBFF;
 		s->variable_54 = 0;
