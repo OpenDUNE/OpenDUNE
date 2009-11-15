@@ -5,65 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Action_StringToID()
- *
- * @name emu_Action_StringToID
- * @implements 1381:0005:0010:8273 ()
- * @implements 1381:0015:0023:81F4
- * @implements 1381:0038:000B:E2C7
- * @implements 1381:0043:000B:8DD9
- * @implements 1381:0044:000A:4DD1
- * @implements 1381:004E:0003:2E57
- *
- * Called From: B4B5:054C:000A:7577
- */
-void emu_Action_StringToID()
-{
-l__0005:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0049; emu_last_cs = 0x1381; emu_last_ip = 0x000F; emu_last_length = 0x0010; emu_last_crc = 0x8273; emu_call(); return; }
-	emu_xorw(&emu_si, emu_si);
-	goto l__0044;
-l__0015:
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_si;
-	emu_dx = 0xC;
-	emu_imuluw(&emu_ax, emu_dx);
-	emu_dx = 0x2E8A;
-	emu_bx = emu_ax;
-	emu_es = emu_dx;
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0x72));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0x70));
-	emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x01F7; emu_String_strcasecmp();
-l__0038:
-	emu_addw(&emu_sp, 0x8);
-	emu_orw(&emu_ax, emu_ax);
-	if (emu_ax != 0) goto l__0043;
-	emu_ax = emu_si;
-	goto l__004E;
-l__0043:
-	emu_incw(&emu_si);
-l__0044:
-	emu_cmpw(&emu_si, 0xE);
-	if ((int16)emu_si < (int16)0xE) goto l__0015;
-	emu_ax = 0xFFFF;
-	/* Unresolved jump */ emu_ip = 0x0041; emu_last_cs = 0x1381; emu_last_ip = 0x004C; emu_last_length = 0x000A; emu_last_crc = 0x4DD1; emu_call();
-l__004E:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Movement_StringToID()
  *
  * @name emu_Movement_StringToID

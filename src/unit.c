@@ -22,6 +22,7 @@ extern void f__B4CD_01BF_0016_E78F();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
+ActionInfo *g_actionInfo = NULL;
 
 /**
  * Initialize the unit system.
@@ -31,6 +32,7 @@ UnitInfo *g_unitInfo = NULL;
 void System_Init_Unit()
 {
 	g_unitInfo = (UnitInfo *)&emu_get_memory8(0x2D07, 0x0, 0x0);
+	g_actionInfo = (ActionInfo *)&emu_get_memory8(0x2E8A, 0x0, 0x6E);
 }
 
 /**
@@ -70,6 +72,31 @@ uint8 Unit_StringToType(const char *name)
 	}
 
 	return UNIT_INVALID;
+}
+
+/**
+ * Convert the name of an action to the type value of that action, or
+ *  ACTION_INVALID if not found.
+ *
+ * @name Unit_ActionStringToType
+ * @implements 1381:0005:0010:8273
+ * @implements 1381:0015:0023:81F4
+ * @implements 1381:0038:000B:E2C7
+ * @implements 1381:0043:000B:8DD9
+ * @implements 1381:0044:000A:4DD1
+ * @implements 1381:004E:0003:2E57
+ */
+uint8 Unit_ActionStringToType(const char *name)
+{
+	uint8 type;
+	if (name == NULL) return ACTION_INVALID;
+
+	for (type = 0; type < ACTION_MAX; type++) {
+		const char *actionName = (const char *)emu_get_memorycsip(g_actionInfo[type].name);
+		if (strcasecmp(actionName, name) == 0) return type;
+	}
+
+	return ACTION_INVALID;
 }
 
 /**

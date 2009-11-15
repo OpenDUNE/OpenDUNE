@@ -80,7 +80,6 @@ extern void f__167E_0005_0013_AF0C();
 extern void emu_Empty2();
 extern void f__1A34_0005_001F_38E2();
 extern void f__0AEC_0005_0010_9634();
-extern void emu_Action_StringToID();
 extern void f__259E_0006_0016_858A();
 extern void f__2B0E_0006_0049_87B1();
 extern void f__2BA5_0006_009C_A3D1();

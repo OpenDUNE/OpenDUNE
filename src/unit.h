@@ -39,6 +39,29 @@ typedef enum UnitType {
 	UNIT_INVALID         = 0xFF
 } UnitType;
 
+/**
+ * Types of Actions available in the game.
+ */
+typedef enum ActionType {
+	ACTION_ATTACK        = 0,
+	ACTION_MOVE          = 1,
+	ACTION_RETREAT       = 2,
+	ACTION_GUARD         = 3,
+	ACTION_AREA_GUARD    = 4,
+	ACTION_HARVEST       = 5,
+	ACTION_RETURN        = 6,
+	ACTION_STOP          = 7,
+	ACTION_AMBUSH        = 8,
+	ACTION_SABOTAGE      = 9,
+	ACTION_DIE           = 10,
+	ACTION_HUNT          = 11,
+	ACTION_DEPLOY        = 12,
+	ACTION_DESTRUCT      = 13,
+
+	ACTION_MAX           = 14,
+	ACTION_INVALID       = 0xFF
+} ActionType;
+
 MSVC_PACKED_BEGIN
 /**
  * A Unit as stored in the memory.
@@ -106,10 +129,24 @@ typedef struct UnitInfo {
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);
 
+MSVC_PACKED_BEGIN
+/**
+ * Static information per Action type.
+ */
+typedef struct ActionInfo {
+	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
+	/* 0006()    */ PACK uint8   unknown_0006[0x0006];
+} GCC_PACKED ActionInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(ActionInfo) == 0x0C);
+
 extern UnitInfo *g_unitInfo;
+extern ActionInfo *g_actionInfo;
 
 uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);
+extern uint8 Unit_ActionStringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 var10);
 
 
