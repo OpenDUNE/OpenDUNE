@@ -118,7 +118,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	/* Check if there is an upgrade available */
 	if ((si->variable_0C & 0x0002) != 0) {
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x011A); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
+		emu_push(emu_cs); emu_push(0x011A); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 		emu_sp += 4;
 
 		if (emu_ax != 0) emu_al = 0x64;
@@ -138,7 +138,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	if (houseID != g_global->playerHouseID) {
 		while (true) {
 			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x016E); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
+			emu_push(emu_cs); emu_push(0x016E); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 			emu_sp += 4;
 
 			if (emu_ax == 0) break;

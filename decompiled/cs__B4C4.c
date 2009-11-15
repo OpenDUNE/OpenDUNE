@@ -737,7 +737,7 @@ l__049D:
 	if (emu_get_memory8(emu_es, emu_bx, 0x4F) != 0x0) goto l__04C8;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
+	emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
 l__04B5:

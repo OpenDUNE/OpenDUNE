@@ -2595,7 +2595,7 @@ l__1113:
 	if (emu_ax != 0) goto l__1140;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x16));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x18));
-	emu_push(emu_cs); emu_push(0x112D); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
+	emu_push(emu_cs); emu_push(0x112D); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 l__112D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

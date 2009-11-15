@@ -418,7 +418,7 @@ l__0277:
 l__02D7:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_cs); emu_push(0x02E4); emu_cs = 0x0C3A; f__0C3A_25EC_0011_E453();
+	emu_push(emu_cs); emu_push(0x02E4); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 l__02E4:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

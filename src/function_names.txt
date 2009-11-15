@@ -63,8 +63,7 @@
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
-0C3A:0009:0029:BF94	emu_Structure_Create	#
-0C3A:1ABD:004E:E6F7	emu_GUI_Construction_Unknown    # Something to do with the construction panel on the right
+0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
 0F3F:000D:0019:5076	emu_Tile_IsValid	# (tile_tile)
 0F3F:002C:000B:51FA	emu_Tile_GetXY	# (tile_tile)

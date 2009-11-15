@@ -2556,7 +2556,15 @@ l__1429:
  * @implements 0C3A:1A7A:0022:A4D7
  * @implements 0C3A:1A9C:0021:A062
  * @implements 0C3A:1AB8:0005:3367
+ * @implements 0C3A:1ABD:004E:E6F7
+ * @implements 0C3A:1B0B:001B:3C60
+ * @implements 0C3A:1B26:000D:A042
+ * @implements 0C3A:1B33:0011:8982
+ * @implements 0C3A:1B44:0009:855A
  * @implements 0C3A:1B47:0006:C117
+ * @implements 0C3A:1B4F:0016:D019
+ * @implements 0C3A:1B65:0008:A466
+ * @implements 0C3A:1B6D:0006:4B31
  * @implements 0C3A:1B70:0003:2113
  * @implements 0C3A:1B73:0006:F7CE
  *
@@ -2636,7 +2644,7 @@ l__14B7:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x14C7); f__0C3A_25EC_0011_E453();
+	emu_push(0x14C7); emu_Structure_IsUpgradable();
 l__14C7:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -3251,50 +3259,6 @@ l__1A9C:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
 l__1AB8:
 	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
-	emu_GUI_Construction_Unknown(); return;
-l__1B47:
-	emu_ax = 0x1;
-	goto l__1442;
-l__1B70:
-	goto l__1440;
-l__1B73:
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function emu_GUI_Construction_Unknown()
- *
- * @name emu_GUI_Construction_Unknown
- * @implements 0C3A:1440:0005:9F3F ()
- * @implements 0C3A:1442:0003:9EAB
- * @implements 0C3A:1ABD:004E:E6F7
- * @implements 0C3A:1B0B:001B:3C60
- * @implements 0C3A:1B26:000D:A042
- * @implements 0C3A:1B33:0011:8982
- * @implements 0C3A:1B44:0009:855A
- * @implements 0C3A:1B47:0006:C117
- * @implements 0C3A:1B4F:0016:D019
- * @implements 0C3A:1B65:0008:A466
- * @implements 0C3A:1B6D:0006:4B31
- * @implements 0C3A:1B70:0003:2113
- * @implements 0C3A:1B73:0006:F7CE
- *
- */
-void emu_GUI_Construction_Unknown()
-{
-	goto l__1ABD;
-l__1440:
-	emu_xorw(&emu_ax, emu_ax);
-l__1442:
-	goto l__1B73;
 l__1ABD:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x1C) = emu_dx;
@@ -4807,9 +4771,9 @@ l__25E6:
 }
 
 /**
- * Decompiled function f__0C3A_25EC_0011_E453()
+ * Decompiled function emu_Structure_IsUpgradable()
  *
- * @name f__0C3A_25EC_0011_E453
+ * @name emu_Structure_IsUpgradable
  * @implements 0C3A:25EC:0011:E453 ()
  * @implements 0C3A:25FD:0031:9CBA
  * @implements 0C3A:2629:0005:9C8C
@@ -4835,7 +4799,7 @@ l__25E6:
  * Called From: 10E4:1128:001A:6A77
  * Called From: B4C4:04B0:0018:10C7
  */
-void f__0C3A_25EC_0011_E453()
+void emu_Structure_IsUpgradable()
 {
 l__25EC:
 	emu_push(emu_bp);
