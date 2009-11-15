@@ -1,0 +1,17 @@
+Enhancement over Dune2
+======================
+When OpenDUNE is started in enhanced mode (default), a lot of bugs and
+ problems which are in the original Dune2 version, are fixed.
+
+Below is the complete listing of all those bugs and problems, per category.
+
+
+Scenario
+--------
+- A mistake in reading the '+' causes repeat for reinforcements to be always
+    false. In result reinforcement is only send once.
+- The structure '% hitpoints' is ignored. In result all structures always
+    have 100% hitpoints.
+- Original scenario files uses 'Track' and 'Wheel' where it should be
+    'Tracked' and 'Wheeled'. In result only infantry teams up.
+

@@ -5,6 +5,7 @@
 #include "global.h"
 
 GlobalData *g_global = NULL;
+bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
 /**
  * Initialize the global system.

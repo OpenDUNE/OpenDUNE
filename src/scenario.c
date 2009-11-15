@@ -244,8 +244,8 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	if (split == NULL) return;
 	*split = '\0';
 
-	/* Third value is the % of hitpoints */
-	hitpoints = atoi(value) * g_unitInfo[unitType].hitpoints / 256;
+	/* Third value is the Hitpoints in percent (in base 256) */
+	hitpoints = atoi(value);
 
 	/* Find the next value in the ',' seperated list */
 	value = split + 1;
@@ -281,7 +281,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	if (u == NULL) return;
 	u->flags |= 0x0200;
 
-	u->hitpoints   = hitpoints;
+	u->hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
 	u->position    = position;
 	u->variable_64 = variable_64;
 	u->actionID    = actionType;
@@ -421,6 +421,8 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 
 	/* Third value is the Hitpoints in percent (in base 256) */
 	hitpoints = atoi(value);
+	/* ENHANCEMENT -- Dune2 ignores the % hitpoints read from the scenario */
+	if (!g_dune2_enhanced) hitpoints = 256;
 
 	/* Fourth value is the position of the structure */
 	value = split + 1;
@@ -453,8 +455,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 		address.s.ip = emu_ax;
 		s = Structure_Get_ByMemory(address);
 
-		/* XXX -- DUNE2 BUG -- The percent hp read to the local variable 'hitpoints' is ignored, and 100% is always used */
-		s->hitpoints   = g_structureInfo[s->type].hitpoints;
+		s->hitpoints   = hitpoints * g_structureInfo[s->type].hitpoints / 256;
 		s->flags      &= 0xFBFF;
 		s->variable_54 = 0;
 	}
@@ -609,6 +610,8 @@ void emu_Scenario_Load_Reinforcements(const char *key, char *value)
 	value = split + 1;
 	timeBetween = atoi(value) * 6 + 1;
 	repeat = (value[strlen(value) - 1] == '+') ? true : false;
+	/* ENHANCEMENT -- Dune2 makes a mistake in reading the '+', causing repeat to be always false */
+	if (!g_dune2_enhanced) repeat = false;
 
 	position.s.x = 0xFFFF;
 	position.s.y = 0xFFFF;
@@ -619,8 +622,7 @@ void emu_Scenario_Load_Reinforcements(const char *key, char *value)
 	g_global->scenario.reinforcement[index].locationID  = locationID;
 	g_global->scenario.reinforcement[index].timeLeft    = timeBetween;
 	g_global->scenario.reinforcement[index].timeBetween = timeBetween;
-	/* XXX -- DUNE2 BUG -- Original Dune2 always reads the '+' from the wrong place, and so repeat is always 0 */
-	g_global->scenario.reinforcement[index].repeat      = 0;
+	g_global->scenario.reinforcement[index].repeat      = repeat ? 1 : 0;
 }
 
 void emu_Scenario_Load_Teams(const char *key, char *value)
@@ -655,9 +657,16 @@ void emu_Scenario_Load_Teams(const char *key, char *value)
 	*split = '\0';
 
 	/* Third value is the movement type */
-	/* XXX -- DUNE2 BUG -- Scenarios use 'Track' and 'Wheel' where it should be 'Tracked' and 'Wheeled' */
 	movementType = Unit_MovementStringToType(value);
-	if (movementType == MOVEMENT_INVALID) return;
+	if (movementType == MOVEMENT_INVALID) {
+		/* ENHANCEMENT -- The original scenario files use 'Track' and 'Wheel' where it should be 'Tracked' and 'Wheeled' */
+		if (g_dune2_enhanced) {
+			if (strcasecmp(value, "Track")) movementType = Unit_MovementStringToType("Tracked");
+			if (strcasecmp(value, "Wheel")) movementType = Unit_MovementStringToType("Wheeled");
+		}
+
+		if (movementType == MOVEMENT_INVALID) return;
+	}
 
 	/* Find the next value in the ',' seperated list */
 	value = split + 1;

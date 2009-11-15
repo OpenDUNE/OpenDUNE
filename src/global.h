@@ -1168,5 +1168,6 @@ extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
 extern uint8 *emu_get_memorycsip(csip32 csip);
 
 extern GlobalData *g_global;
+extern bool g_dune2_enhanced;
 
 #endif /* GLOBAL_H */
