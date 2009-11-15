@@ -149,6 +149,7 @@ l__004A:
  * @implements 0AEC:05DA:001A:1D41
  * @implements 0AEC:05F4:0015:DE27
  * @implements 0AEC:0609:0019:DF1A
+ * @implements 0AEC:0622:002E:D6BF
  * @implements 0AEC:0625:002B:F4D5
  * @implements 0AEC:0650:000B:36A0
  * @implements 0AEC:065B:0036:0E6D
@@ -796,7 +797,8 @@ l__0609:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x16));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x18));
 	emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-	/* Unresolved jump */ emu_ip = 0x0622; emu_last_cs = 0x0AEC; emu_last_ip = 0x0622; emu_last_length = 0x0019; emu_last_crc = 0xDF1A; emu_call();
+l__0622:
+	emu_addw(&emu_sp, 0x6);
 l__0625:
 	emu_get_memory16(emu_ds, 0x00, 0x38E2) = 0xFFFF;
 	emu_get_memory16(emu_ds, 0x00, 0x38E6) = 0x0;

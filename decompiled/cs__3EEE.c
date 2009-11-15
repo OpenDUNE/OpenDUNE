@@ -5,6 +5,52 @@
 #include "decompiled.h"
 
 /**
+ * Decompiled function f__3EEE_0DCA_0003_4293()
+ *
+ * @name f__3EEE_0DCA_0003_4293
+ * @implements 3EEE:0DCA:0003:4293 ()
+ * @implements 3EEE:0DCD:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0DCA_0003_4293()
+{
+l__0DCA:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0DCD); Interrupt_Video();
+l__0DCD:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__3EEE_0DCE_0003_4293()
+ *
+ * @name f__3EEE_0DCE_0003_4293
+ * @implements 3EEE:0DCE:0003:4293 ()
+ * @implements 3EEE:0DD1:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0DCE_0003_4293()
+{
+l__0DCE:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0DD1); Interrupt_Video();
+l__0DD1:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__3EEE_0E1A_0003_4293()
  *
  * @name f__3EEE_0E1A_0003_4293

@@ -801,6 +801,7 @@ l__0372:
  * Called From: 1423:0447:0008:C68B
  * Called From: B480:002E:000A:50E7
  * Called From: B480:01E1:0009:F557
+ * Called From: B495:1987:0008:C68B
  * Called From: B4B8:1D65:0008:C68B
  * Called From: B511:0084:0008:C68B
  * Called From: B511:0485:0008:C68B
@@ -4671,6 +4672,8 @@ l__201F:
 	emu_cs = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	emu_push(0x2040);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x3EEE0DCA: f__3EEE_0DCA_0003_4293(); break;
+		case 0x3EEE0DCE: f__3EEE_0DCE_0003_4293(); break;
 		case 0x3EEE0E1A: f__3EEE_0E1A_0003_4293(); break;
 		case 0x3EEE0E1E: f__3EEE_0E1E_0003_4293(); break;
 		case 0x3EEE0E28: f__3EEE_0E28_0003_4293(); break;

@@ -264,6 +264,7 @@ l__010E:
  *
  * Called From: 0972:0E0D:001E:8A47
  * Called From: 0AEC:064B:002B:F4D5
+ * Called From: 0AEC:064B:002E:D6BF
  * Called From: 0AEC:06D7:000D:1D7F
  * Called From: 0C3A:18B7:0022:9131
  * Called From: 0F78:0386:004C:F314
