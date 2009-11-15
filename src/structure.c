@@ -12,6 +12,7 @@
 extern void f__0C3A_25EC_0011_E453();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_01BA_0018_69C9();
+extern void emu_Structure_IsUpgradable();
 
 StructureInfo *g_structureInfo = NULL;
 
