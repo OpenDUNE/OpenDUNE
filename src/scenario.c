@@ -639,15 +639,7 @@ void emu_Scenario_Load_Teams(const char *key, char *value)
 
 	/* Third value is the movement type */
 	movementType = Unit_MovementStringToType(value);
-	if (movementType == MOVEMENT_INVALID) {
-		/* ENHANCEMENT -- The original scenario files use 'Track' and 'Wheel' where it should be 'Tracked' and 'Wheeled' */
-		if (g_dune2_enhanced) {
-			if (strcasecmp(value, "Track")) movementType = Unit_MovementStringToType("Tracked");
-			if (strcasecmp(value, "Wheel")) movementType = Unit_MovementStringToType("Wheeled");
-		}
-
-		if (movementType == MOVEMENT_INVALID) return;
-	}
+	if (movementType == MOVEMENT_INVALID) return;
 
 	/* Find the next value in the ',' seperated list */
 	value = split + 1;
