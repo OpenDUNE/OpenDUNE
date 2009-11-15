@@ -704,7 +704,10 @@ typedef struct GlobalData {
 	/* 3B38()    */ PACK uint8   unknown_3B38[0x0018];
 	/* 3B50(2)   */ PACK uint16 variable_3B50;              /*!< ?? */
 	/* 3B52(2)   */ PACK uint16 variable_3B52;              /*!< ?? */
-	/* 3B54()    */ PACK uint8   unknown_3B54[0x00DE];
+	/* 3B54()    */ PACK uint8   unknown_3B54[0x008E];
+	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
+	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
+	/* 3C0E()    */ PACK uint8   unknown_3C0E[0x0024];
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */

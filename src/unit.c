@@ -99,6 +99,58 @@ uint8 Unit_ActionStringToType(const char *name)
 	return ACTION_INVALID;
 }
 
+
+/**
+ * Convert the name of a team action to the type value of that team action, or
+ *  TEAM_ACTION_INVALID if not found.
+ *
+ * @name Unit_TeamActionStringToType
+ * @implements 1381:00D0:0008:1ADC
+ * @implements 1381:00D8:0019:21EC
+ * @implements 1381:00F1:000B:E2C7
+ * @implements 1381:00FC:000B:EED9
+ * @implements 1381:00FD:000A:2ED1
+ * @implements 1381:0107:0003:2E57
+ */
+uint8 Unit_TeamActionStringToType(const char *name)
+{
+	uint8 type;
+	if (name == NULL) return TEAM_ACTION_INVALID;
+
+	for (type = 0; type < TEAM_ACTION_MAX; type++) {
+		const char *teamActionName = (const char *)emu_get_memorycsip(g_global->teamActionName[type]);
+		if (strcasecmp(teamActionName, name) == 0) return type;
+	}
+
+	return TEAM_ACTION_INVALID;
+}
+
+/**
+ * Convert the name of a movement to the type value of that movement, or
+ *  MOVEMENT_INVALID if not found.
+ *
+ * @name Unit_MovementStringToType
+ * @implements 1381:0096:0008:1ADC
+ * @implements 1381:009E:0019:21DF
+ * @implements 1381:00B7:000B:E2C7
+ * @implements 1381:00C0:0002:C5BA
+ * @implements 1381:00C2:000B:EDD9
+ * @implements 1381:00C3:000A:2DD1
+ * @implements 1381:00CD:0003:2E57
+ */
+uint8 Unit_MovementStringToType(const char *name)
+{
+	uint8 type;
+	if (name == NULL) return MOVEMENT_INVALID;
+
+	for (type = 0; type < MOVEMENT_MAX; type++) {
+		const char *movementName = (const char *)emu_get_memorycsip(g_global->movementName[type]);
+		if (strcasecmp(movementName, name) == 0) return type;
+	}
+
+	return MOVEMENT_INVALID;
+}
+
 /**
  * Create a new Unit.
  *

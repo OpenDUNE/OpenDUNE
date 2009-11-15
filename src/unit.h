@@ -62,6 +62,35 @@ typedef enum ActionType {
 	ACTION_INVALID       = 0xFF
 } ActionType;
 
+/**
+ * Types of TeamActions available in the game.
+ */
+typedef enum TeamActionType {
+	TEAM_ACTION_NORMAL   = 0,
+	TEAM_ACTION_STAGING  = 1,
+	TEAM_ACTION_FLEE     = 2,
+	TEAM_ACTION_KAMIKAZE = 3,
+	TEAM_ACTION_GUARD    = 4,
+
+	TEAM_ACTION_MAX      = 5,
+	TEAM_ACTION_INVALID  = 0xFF
+} TeamActionType;
+
+/**
+ * Types of Movements available in the game.
+ */
+typedef enum MovementType {
+	MOVEMENT_FOOT        = 0,
+	MOVEMENT_TRACKED     = 1,
+	MOVEMENT_HARVESTER   = 2,
+	MOVEMENT_WHEELED     = 3,
+	MOVEMENT_WINGER      = 4,
+	MOVEMENT_SLITHER     = 5,
+
+	MOVEMENT_MAX         = 6,
+	MOVEMENT_INVALID     = 0xFF
+} MovementType;
+
 MSVC_PACKED_BEGIN
 /**
  * A Unit as stored in the memory.
@@ -147,6 +176,8 @@ extern ActionInfo *g_actionInfo;
 uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);
 extern uint8 Unit_ActionStringToType(const char *name);
+extern uint8 Unit_TeamActionStringToType(const char *name);
+extern uint8 Unit_MovementStringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 var10);
 
 
