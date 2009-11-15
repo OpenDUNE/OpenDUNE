@@ -1426,7 +1426,7 @@ l__0014:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(0); emu_push(0);
 	emu_push(0); emu_push(0);
-	emu_push(emu_ds); emu_push(emu_ax); /* CHOAM */
+	emu_push(emu_ds); emu_push(0x1FFF); /* CHOAM */
 	emu_push(emu_cs); emu_push(0x0FEF); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
