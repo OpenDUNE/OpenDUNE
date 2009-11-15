@@ -73,7 +73,7 @@ void emu_Unit_GetHouseID()
  */
 void emu_Unit_Create()
 {
-	uint16 index, var10;
+	uint16 index, unknown;
 	uint8 typeID, houseID;
 	tile32 position;
 	Unit *u;
@@ -85,13 +85,13 @@ void emu_Unit_Create()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index    = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index    =        emu_get_memory16(emu_ss, emu_sp,  0x0);
 	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
 	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
-	position = emu_get_tile32(emu_ss, emu_sp,  0x6);
-	var10    = emu_get_memory16(emu_ss, emu_sp,  0xA);
+	position =        emu_get_tile32  (emu_ss, emu_sp,  0x6);
+	unknown  =        emu_get_memory16(emu_ss, emu_sp,  0xA);
 
-	u = Unit_Create(index, typeID, houseID, position, var10);
+	u = Unit_Create(index, typeID, houseID, position, unknown);
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;

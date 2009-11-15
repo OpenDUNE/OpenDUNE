@@ -380,14 +380,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 		structureType = Structure_StringToType(value);
 		if (structureType == STRUCTURE_INVALID) return;
 
-		emu_push(position);
-		emu_push(houseType);
-		emu_push(structureType);
-		emu_push(0xFFFF);
-		emu_push(emu_cs); emu_push(0x0744); emu_cs = 0x0C3A; emu_Structure_Create();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-		emu_sp += 8;
+		Structure_Create(0xFFFF, structureType, houseType, position);
 		return;
 	}
 
@@ -437,23 +430,11 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 	emu_sp += 2;
 	if (emu_ax != 0 || emu_dx != 0) return;
 
-	emu_push(position);
-	emu_push(houseType);
-	emu_push(structureType);
-	emu_push(index);
-	emu_push(emu_cs); emu_push(0x082B); emu_cs = 0x0C3A; emu_Structure_Create();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
-	if (emu_ax == 0 && emu_dx == 0) return;
-
 	{
-		csip32 address;
 		Structure *s;
 
-		address.s.cs = emu_dx;
-		address.s.ip = emu_ax;
-		s = Structure_Get_ByMemory(address);
+		s = Structure_Create(index, structureType, houseType, position);
+		if (s == NULL) return;
 
 		s->hitpoints   = hitpoints * g_structureInfo[s->type].hitpoints / 256;
 		s->flags      &= 0xFBFF;

@@ -157,37 +157,38 @@ uint8 Unit_MovementStringToType(const char *name)
  * @param typeID The type of the new Unit.
  * @param houseID The House of the new Unit.
  * @param position To where on the map this Unit should be transported, or TILE_INVALID for not on the map yet.
- * @param var10 An unknown parameter.
+ * @param unknown An unknown parameter.
  * @return The new created Unit, or NULL if something failed.
  */
-Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 var10)
+Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 unknown)
 {
 	csip32 ucsip;
 	UnitInfo *ui;
 	Unit *u;
 
 	if (houseID >= HOUSE_MAX) return NULL;
+	if (typeID >= UNIT_MAX) return NULL;
 
 	ui = &g_unitInfo[typeID];
 	u = Unit_Allocate(index, typeID, houseID);
 	if (u == NULL) return NULL;
 
-	u->houseID = houseID;
-
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
+	u->houseID = houseID;
+
 	emu_push(0x00);
 	emu_push(0x01);
-	emu_push(var10);
+	emu_push(unknown);
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(emu_cs); emu_push(0x0958); f__1A34_1E99_0012_1117();
 	emu_sp += 10;
 
 	emu_push(0x01);
 	emu_push(0x01);
-	emu_push(var10);
+	emu_push(unknown);
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(emu_cs); emu_push(0x096F); f__1A34_1E99_0012_1117();
 	emu_sp += 10;

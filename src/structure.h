@@ -56,7 +56,7 @@ typedef struct Structure {
 	/* 0050(2)   */ PACK uint16 buildTimeLeft;              /*!< Time left before build is complete. */
 	/* 0052()    */ PACK uint8   unknown_0050[0x0002];
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? If 0xFFFF it shows just-build animation. If 0 it is done. */
-	/* 0056(2)   */ PACK uint16 healthMax;                  /*!< Max amount of health. */
+	/* 0056(2)   */ PACK uint16 hitpointsMax;               /*!< Max amount of hitpoints. */
 } GCC_PACKED Structure;
 MSVC_PACKED_END
 assert_compile(sizeof(Structure) == 0x58);
@@ -82,5 +82,9 @@ assert_compile(sizeof(StructureInfo) == 0x60);
 extern StructureInfo *g_structureInfo;
 
 extern uint8 Structure_StringToType(const char *name);
+extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
+
+
+extern void emu_Structure_Create();
 
 #endif /* STRUCTURE_H */

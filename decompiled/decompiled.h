@@ -96,7 +96,6 @@ extern void f__0C10_0008_0014_19CD();
 extern void f__2502_0008_0015_FFBD();
 extern void f__10E4_0008_0048_5BD4();
 extern void f__1DD2_0008_004C_D4CF();
-extern void emu_Structure_Create();
 extern void f__16C5_0009_0023_21B3();
 extern void f__1423_0009_0025_FE5D();
 extern void f__1391_000A_0035_2CB6();
