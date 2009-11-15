@@ -99,7 +99,6 @@ uint8 Unit_ActionStringToType(const char *name)
 	return ACTION_INVALID;
 }
 
-
 /**
  * Convert the name of a team action to the type value of that team action, or
  *  TEAM_ACTION_INVALID if not found.
