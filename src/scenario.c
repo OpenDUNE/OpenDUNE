@@ -623,94 +623,65 @@ void emu_Scenario_Load_Reinforcements(const char *key, char *value)
 	g_global->scenario.reinforcement[index].repeat      = 0;
 }
 
-void emu_Scenario_Load_Teams()
+void emu_Scenario_Load_Teams(const char *key, char *value)
 {
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(0x7F);
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(0); emu_push(0);
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_ds); emu_push(0x1FF9); /* TEAMS */
-	emu_push(emu_cs); emu_push(0x0EC4); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 0x16;
+	uint8 houseType, teamActionType, movementType;
+	uint16 unknown1, unknown2;
+	char *split;
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(emu_cs); emu_push(0x0ED7); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* The value should have 5 values seperated by a ',' */
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_si = House_StringToType((const char *)&emu_get_memory8(emu_dx, emu_ax, 0));
-	if (emu_si == HOUSE_INVALID) return;
+	/* First value is the House type */
+	houseType = House_StringToType(value);
+	if (houseType == HOUSE_INVALID) return;
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F07); emu_cs = 0x1381; emu_Action2_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_ax;
+	/* Second value is the teamAction type */
+	teamActionType = Unit_TeamActionStringToType(value);
+	if (teamActionType == TEAM_ACTION_INVALID) return;
 
-	if (emu_get_memory16(emu_ss, emu_bp, -0xA) == 0xFFFF) return;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_push(emu_ds); emu_push(0x1F81); /* , */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0F22); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* Third value is the movement type */
+	/* XXX -- DUNE2 BUG -- Scenarios use 'Track' and 'Wheel' where it should be 'Tracked' and 'Wheeled' */
+	movementType = Unit_MovementStringToType(value);
+	if (movementType == MOVEMENT_INVALID) return;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F2C); emu_cs = 0x1381; emu_Movement_StringToID();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	if (emu_get_memory16(emu_ss, emu_bp, -0xC) == 0xFFFF) return;
+	/* XXX -- Fourth value is unknown */
+	unknown1 = atoi(value);
 
-	emu_push(emu_ds); emu_push(0x1F81);
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0F47); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+	/* Find the next value in the ',' seperated list */
+	value = split + 1;
+	split = strchr(value, ',');
+	if (split == NULL) return;
+	*split = '\0';
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F51); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_get_memory16(emu_ss, emu_bp, -0xE) = emu_ax;
+	/* XXX -- Fifth value is unknown */
+	unknown2 = atoi(value);
 
-	emu_push(emu_ds); emu_push(0x1F81);
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F70); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_get_memory16(emu_ss, emu_bp, -0x10) = emu_ax;
-
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x10));
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_si);
+	emu_push(unknown2);
+	emu_push(unknown1);
+	emu_push(movementType);
+	emu_push(teamActionType);
+	emu_push(houseType);
 	emu_push(emu_cs); emu_push(0x0F87); emu_cs = 0x104B; f__104B_024D_0012_1DC4();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -1417,10 +1388,25 @@ l__0014:
 	emu_sp += 0x16;
 
 	while (true) {
+		char *key, *value;
+
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 		if (emu_get_memory8(emu_es, emu_bx, 0x0) == 0x0) break;
 
-		emu_Scenario_Load_Teams();
+		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+		emu_push(0x7F);
+		emu_push(emu_ss); emu_push(emu_bp - 0xA2);
+		emu_push(0); emu_push(0);
+		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
+		emu_push(emu_ds); emu_push(0x1FF9); /* TEAMS */
+		emu_push(emu_cs); emu_push(0x0EC4); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetString();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+		emu_sp += 0x16;
+
+		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
+		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
+		emu_Scenario_Load_Teams(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x0F95); emu_cs = 0x01F7; emu_String_strlen();
