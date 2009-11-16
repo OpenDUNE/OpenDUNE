@@ -6092,7 +6092,7 @@ l__2F26:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2F34); emu_cs = 0x0C3A; f__0C3A_1F70_0010_8DB3();
+	emu_push(emu_cs); emu_push(0x2F34); emu_cs = 0x0C3A; Structure_CalculatePowerAndCredit();
 l__2F34:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));

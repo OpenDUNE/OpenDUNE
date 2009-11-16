@@ -5,6 +5,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "house.h"
@@ -20,8 +21,9 @@ extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_Unpack();
 extern void f__0C3A_142D_0018_6667();
-extern void f__0C3A_1F70_0010_8DB3();
 extern void f__0C3A_25EC_0011_E453();
+extern void f__0FCB_005F_001C_FDC4();
+extern void f__10E4_09AB_0031_5E8E();
 extern void f__15C2_0395_0044_304E();
 extern void f__15C2_03D9_0011_D202();
 extern void f__1A34_10EC_000E_A326();
@@ -456,9 +458,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	if (g_global->variable_38BC == 0x0) {
-		emu_push(s->houseID);
-		emu_push(emu_cs); emu_push(0x0726); emu_cs = 0x0C3A; f__0C3A_1F70_0010_8DB3();
-		emu_sp += 2;
+		Structure_CalculatePowerAndCredit(s->houseID);
 	}
 
 	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
@@ -477,4 +477,76 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	return true;
+}
+
+/**
+ * Calculate the power usage and production, and the credits storage.
+ *
+ * @param houseID The index of the jouse to calculate the numbers for.
+ */
+void Structure_CalculatePowerAndCredit(uint8 houseID)
+{
+	PoolFindStruct find;
+	House *h;
+
+	if (houseID >= HOUSE_MAX) return;
+
+	h = House_Get_ByIndex(houseID);
+	if (h == NULL) return;
+
+	h->powerUsage      = 0;
+	h->powerProduction = 0;
+	h->creditsStorage  = 0;
+
+	find.houseID = houseID;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		StructureInfo *si;
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		si = &g_structureInfo[s->type];
+
+		h->creditsStorage += si->creditsStorage;
+
+		/* Positive values means usage */
+		if (si->powerUsage >= 0) {
+			h->powerUsage += si->powerUsage;
+			continue;
+		}
+
+		/* Negative value and full health means everything goes to production */
+		if (s->hitpoints >= si->hitpoints) {
+			h->powerProduction += -si->powerUsage;
+			continue;
+		}
+
+		/* Negative value and partial health, calculate how much should go to production (capped at 50%) */
+		if (s->hitpoints <= si->hitpoints / 2) {
+			h->powerProduction += (-si->powerUsage) / 2;
+			continue;
+		}
+		h->powerProduction += (-si->powerUsage) * s->hitpoints / si->hitpoints;
+	}
+
+	/* Check if we are low on power */
+	if (houseID == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
+		emu_push(0x010E);
+		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+		emu_sp += 2;
+
+		emu_push(0x1);
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x20AC); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+		emu_sp += 6;
+	}
+
+	/* If there are no buildings left, you lose your right on 'credits without storage' */
+	if (houseID == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
+		g_global->playerCreditsNoSilo = 0;
+	}
 }

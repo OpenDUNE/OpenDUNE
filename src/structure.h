@@ -81,7 +81,9 @@ typedef struct StructureInfo {
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
-	/* 001A()    */ PACK uint8   unknown_001A[0x0020];
+	/* 001A()    */ PACK uint8   unknown_001A[0x001C];
+	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
+	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
 	/* 003C()    */ PACK uint8   unknown_003C[0x0024];
 } GCC_PACKED StructureInfo;
@@ -93,9 +95,11 @@ extern StructureInfo *g_structureInfo;
 extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
 extern bool Structure_Place(Structure *s, uint16 position);
+extern void Structure_CalculatePowerAndCredit(uint8 houseID);
 
 
 extern void emu_Structure_Create();
 extern void emu_Structure_Place();
+extern void emu_Structure_CalculatePower();
 
 #endif /* STRUCTURE_H */

@@ -523,7 +523,7 @@ l__0333:
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x033F); emu_cs = 0x0C3A; f__0C3A_1F70_0010_8DB3();
+	emu_push(emu_cs); emu_push(0x033F); emu_cs = 0x0C3A; Structure_CalculatePowerAndCredit();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__033F:

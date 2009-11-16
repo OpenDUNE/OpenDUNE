@@ -12,6 +12,7 @@
 #include "../src/pool/structure.h"
 #include "../src/global.h"
 #include "../src/structure.h"
+#include "../src/map.h"
 #include "../src/input/input.h"
 #include "../src/unit.h"
 #include "../src/tools.h"
@@ -919,7 +920,6 @@ extern void f__10E4_1EF1_0040_01F8();
 extern void f__176C_1F21_001C_8C6C();
 extern void f__176C_1F51_002F_CE9F();
 extern void f__1A34_1F55_0019_98DF();
-extern void f__0C3A_1F70_0010_8DB3();
 extern void f__01F7_1FB0_0010_CF18();
 extern void f__01F7_1FE1_005F_A74A();
 extern void f__1A34_204C_0043_B1ED();

@@ -161,3 +161,42 @@ void emu_Structure_Place()
 
 	emu_ax = result ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Structure_CalculatePowerAndCredit().
+ *
+ * @name Structure_CalculatePowerAndCredit
+ * @implements 0C3A:1F70:0010:8DB3 ()
+ * @implements 0C3A:1F80:0012:95B8
+ * @implements 0C3A:1F92:0022:E6F2
+ * @implements 0C3A:1FB4:0006:D729
+ * @implements 0C3A:1FBA:0053:1870
+ * @implements 0C3A:200D:000E:D0A4
+ * @implements 0C3A:201B:000F:00C3
+ * @implements 0C3A:201E:000C:72C2
+ * @implements 0C3A:202D:0012:1AF4
+ * @implements 0C3A:203F:0004:5F9F
+ * @implements 0C3A:2043:000D:1BB4
+ * @implements 0C3A:204C:0004:EA3A
+ * @implements 0C3A:2050:0015:64A0
+ * @implements 0C3A:205A:000B:166D
+ * @implements 0C3A:2065:0013:9114
+ * @implements 0C3A:2067:0011:DA22
+ * @implements 0C3A:2078:002C:9F6D
+ * @implements 0C3A:20A4:0008:A466
+ * @implements 0C3A:20AC:002F:7D88
+ * @implements 0C3A:20AF:002C:4899
+ * @implements 0C3A:20D5:0006:F7CE
+ */
+void emu_Structure_CalculatePowerAndCredit()
+{
+	uint8 houseID;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	Structure_CalculatePowerAndCredit(houseID);
+}

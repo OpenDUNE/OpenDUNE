@@ -31,7 +31,9 @@ typedef struct House {
 	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
 	/* 000E(4)   */ PACK uint32 structuresBuilt;            /*!< The Nth bit active means the Nth structure type is built (one or more). */
 	/* 0012(2)   */ PACK uint16 credits;                    /*!< Amount of credits the House currently has. */
-	/* 0014()    */ PACK uint8   unknown_0014[0x0006];
+	/* 0014(2)   */ PACK uint16 creditsStorage;             /*!< Amount of credits the House can store. */
+	/* 0016(2)   */ PACK uint16 powerProduction;            /*!< Amount of power the House produces. */
+	/* 0018(2)   */ PACK uint16 powerUsage;                 /*!< Amount of power the House requires. */
 	/* 001A(2)   */ PACK uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
 	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
 	/* 001E()    */ PACK uint8   unknown_001E[0x000E];
