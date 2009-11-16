@@ -684,7 +684,7 @@ l__04EA:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38E6));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38E4));
-	emu_push(emu_cs); emu_push(0x050E); emu_cs = 0x0C3A; f__0C3A_01BA_0018_69C9();
+	emu_push(emu_cs); emu_push(0x050E); emu_cs = 0x0C3A; emu_Structure_Place();
 l__050E:
 	emu_addw(&emu_sp, 0x6);
 	emu_orw(&emu_ax, emu_ax);

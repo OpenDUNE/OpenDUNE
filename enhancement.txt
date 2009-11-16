@@ -6,6 +6,16 @@ When OpenDUNE is started in enhanced mode (default), a lot of bugs and
 Below is the complete listing of all those bugs and problems, per category.
 
 
+Structure
+---------
+- When building a Wall, the owner-bits are not cleared correctly, which in
+    theory could mean a Wall build by you could show up as owned by Sadukar.
+- When building a structure completely on slabs, it still degrades. This seems
+    in contrast with the idea of slabs.
+- When building a structure, only the fog is removed (with a radius of 2) from
+    the first tile defined in the layout of the structure. This is mostly
+    noticable with Palace and Oil Refinery, leaving parts of them in the fog.
+
 Scenario
 --------
 - A mistake in reading the '+' causes repeat for reinforcements to be always

@@ -790,7 +790,7 @@ l__0679:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x30));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1A));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1C));
-	emu_push(emu_cs); emu_push(0x06AE); emu_cs = 0x0C3A; f__0C3A_01BA_0018_69C9();
+	emu_push(emu_cs); emu_push(0x06AE); emu_cs = 0x0C3A; emu_Structure_Place();
 l__06AE:
 	emu_addw(&emu_sp, 0x6);
 	emu_orw(&emu_ax, emu_ax);
