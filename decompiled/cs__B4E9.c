@@ -121,6 +121,7 @@ l__004D:
  * @implements B4E9:0175:0019:4EE8
  * @implements B4E9:0176:0018:CEC4
  * @implements B4E9:018E:0017:E657
+ * @implements B4E9:01A5:000A:1017
  * @implements B4E9:01A8:0007:36B5
  * @implements B4E9:01AF:002D:29DB
  * @implements B4E9:01DC:002D:A3B3
@@ -324,7 +325,8 @@ l__018E:
 	emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x10E4; f__10E4_057F_0052_2B00();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-	/* Unresolved jump */ emu_ip = 0x01A5; emu_last_cs = 0xB4E9; emu_last_ip = 0x01A5; emu_last_length = 0x0017; emu_last_crc = 0xE657; emu_call();
+l__01A5:
+	emu_addw(&emu_sp, 0x6);
 l__01A8:
 	emu_orw(&emu_si, emu_si);
 	if (emu_si != 0) goto l__01AF;

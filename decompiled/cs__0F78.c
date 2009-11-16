@@ -492,6 +492,7 @@ l__02D0:
  * Called From: 0642:0AC6:0008:4AB0
  * Called From: 0AEC:0040:0007:0BB0
  * Called From: 0AEC:0778:0006:0B02
+ * Called From: 0AEC:0778:0012:C656
  * Called From: 0AEC:07E1:0005:5303
  * Called From: 0AEC:07E1:000F:54F3
  * Called From: B4E9:00DE:0009:049C

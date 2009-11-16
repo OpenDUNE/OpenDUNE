@@ -2821,6 +2821,7 @@ l__16CE:
  * @implements B4B8:224F:0007:05DB
  * @implements B4B8:2256:000C:E0BE
  * @implements B4B8:2262:0009:BAB5
+ * @implements B4B8:2265:0006:BEE9
  * @implements B4B8:226B:000E:A56D
  * @implements B4B8:226C:000D:A409
  * @implements B4B8:2279:0008:AE7C
@@ -4333,9 +4334,10 @@ l__2256:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x37A0) == 0x0) goto l__2262;
 	emu_ax = 0x5;
-	/* Unresolved jump */ emu_ip = 0x2265; emu_last_cs = 0xB4B8; emu_last_ip = 0x2260; emu_last_length = 0x000C; emu_last_crc = 0xE0BE; emu_call();
+	goto l__2265;
 l__2262:
 	emu_ax = 0x4;
+l__2265:
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x226B); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 	/* Check if this overlay should be reloaded */
