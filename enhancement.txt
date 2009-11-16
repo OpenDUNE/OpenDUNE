@@ -12,6 +12,4 @@ Scenario
     false. In result reinforcement is only send once.
 - The structure '% hitpoints' is ignored. In result all structures always
     have 100% hitpoints.
-- Original scenario files uses 'Track' and 'Wheel' where it should be
-    'Tracked' and 'Wheeled'. In result only infantry teams up.
 
