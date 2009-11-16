@@ -243,18 +243,13 @@ bool Structure_Place(Structure *s, uint16 position)
 
 		case STRUCTURE_SLAB_1x1:
 		case STRUCTURE_SLAB_2x2: {
-			csip32 tilesLayout;
-			uint16 tilesStructure, i, result;
+			uint16 i, result;
 
 			result = 0;
-			tilesStructure = emu_get_memory16(emu_ds, si->layout * 2, 0x2D52);
-			tilesLayout.s.cs = emu_ds;
-			tilesLayout.s.ip = 0x2C64 + si->layout * 18;
 
-			for (i = 0; i < tilesStructure; i++) {
-				uint16 curPos = position + emu_get_memory16(tilesLayout.s.cs, tilesLayout.s.ip, 0x0);
+			for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
+				uint16 curPos = position + g_global->structureLayout[si->layout][i];
 				Tile *t = Map_GetTileByPosition(curPos);
-				tilesLayout.s.ip += 2;
 
 				emu_push(STRUCTURE_SLAB_1x1);
 				emu_push(curPos);
@@ -296,13 +291,9 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			/* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
 			if (s->type == STRUCTURE_SLAB_2x2) {
-				tilesLayout.s.cs = emu_ds;
-				tilesLayout.s.ip = 0x2C64 + si->layout * 18;
-
-				for (i = 0; i < tilesStructure; i++) {
-					uint16 curPos = position + emu_get_memory16(tilesLayout.s.cs, tilesLayout.s.ip, 0x0);
+				for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
+					uint16 curPos = position + g_global->structureLayout[si->layout][i];
 					Tile *t = Map_GetTileByPosition(curPos);
-					tilesLayout.s.ip += 2;
 
 					emu_push(STRUCTURE_SLAB_1x1);
 					emu_push(curPos);
@@ -391,9 +382,9 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
 	if (loc0A < 0) {
 		uint16 tilesWithoutSlab = -(int16)loc0A;
-		uint16 tilesStructure = emu_get_memory16(emu_ds, si->layout * 2, 0x2D52);
+		uint16 structureTileCount = g_global->structureLayoutCount[si->layout];
 
-		s->hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / tilesStructure;
+		s->hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
 		/* Mark the structure as 'will degrade' */
 		s->flags |= 0x0400;
@@ -429,16 +420,10 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	{
-		uint16 tilesStructure = emu_get_memory16(emu_ds, si->layout * 2, 0x2D52);
 		uint16 i;
-		csip32 tilesLayout;
 
-		tilesLayout.s.cs = emu_ds;
-		tilesLayout.s.ip = 0x2C64 + si->layout * 18;
-
-		for (i = 0; i < tilesStructure; i++) {
-			uint16 curPos = position + emu_get_memory16(tilesLayout.s.cs, tilesLayout.s.ip, 0x0);
-			tilesLayout.s.ip += 2;
+		for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
+			uint16 curPos = position + g_global->structureLayout[si->layout][i];
 
 			emu_push(curPos);
 			emu_push(emu_cs); emu_push(0x06E0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_10EE_0039_EC73();

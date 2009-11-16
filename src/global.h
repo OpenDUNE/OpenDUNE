@@ -541,8 +541,10 @@ typedef struct GlobalData {
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
 	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x0006];
-	/* 2C64(N*18)*/ PACK uint8  variable_2C64[1][18];       /*!< ?? Array with sizeof() of 18, length unknown. */
-	/* 2C76()    */ PACK uint8   unknown_2C76[0x0202];
+	/* 2C64(126) */ PACK uint16 structureLayout[7][9];      /*!< Array with position offset per tile in a structure layout. */
+	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
+	/* 2D52(14)  */ PACK uint16 structureLayoutCount[7];    /*<! Array with amount of tiles in a structure layout. */
+	/* 2D60()    */ PACK uint8   unknown_2D60[0x0118];
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */
