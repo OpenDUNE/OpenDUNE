@@ -1215,7 +1215,7 @@ l__0014:
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 4;
 
-		if (g_global->variable_37A0 != 0) {
+		if (g_global->scenarioPreview) {
 			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
 			emu_bx += emu_di * 4;
 			emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;

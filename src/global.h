@@ -656,7 +656,7 @@ typedef struct GlobalData {
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
 	/* 3782(2)   */ PACK uint16 variable_3782;              /*!< ?? */
 	/* 3784()    */ PACK uint8   unknown_3784[0x001C];
-	/* 37A0(2)   */ PACK uint16 variable_37A0;              /*!< ?? */
+	/* 37A0(2)   */ PACK uint16 scenarioPreview;            /*!< If set, on start of level you preview the scenario (no fog). You can't interact with the game. */
 	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];

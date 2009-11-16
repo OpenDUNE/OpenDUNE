@@ -86,7 +86,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->linkedUnitID  = 0xFF;
 	s->variable_54   = 0xFFFF;
 
-	if (g_global->variable_37A0 != 0) {
+	if (g_global->scenarioPreview) {
 		s->variable_54 = 0;
 	}
 
