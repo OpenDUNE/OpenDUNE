@@ -203,16 +203,16 @@ l__0123:
 }
 
 /**
- * Decompiled function emu_PercentToValue()
+ * Decompiled function emu_Math_PercentToValue()
  *
- * @name emu_PercentToValue
+ * @name emu_Math_PercentToValue
  * @implements B4C1:0129:0028:FB8E ()
  * @implements B4C1:0149:0008:CA29
  * @implements B4C1:0151:0004:893F
  *
  * Called From: 34C1:0020:0005:0000
  */
-void emu_PercentToValue()
+void emu_Math_PercentToValue()
 {
 l__0129:
 	emu_push(emu_bp);
@@ -244,9 +244,9 @@ l__0151:
 }
 
 /**
- * Decompiled function f__B4C1_0155_002A_AC43()
+ * Decompiled function emu_Math_ValueToPercent()
  *
- * @name f__B4C1_0155_002A_AC43
+ * @name emu_Math_ValueToPercent
  * @implements B4C1:0155:002A:AC43 ()
  * @implements B4C1:0169:0016:2275
  * @implements B4C1:017F:0014:52B1
@@ -255,7 +255,7 @@ l__0151:
  *
  * Called From: 34C1:002A:0005:0000
  */
-void f__B4C1_0155_002A_AC43()
+void emu_Math_ValueToPercent()
 {
 l__0155:
 	emu_push(emu_bp);

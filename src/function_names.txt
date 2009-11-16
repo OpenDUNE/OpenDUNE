@@ -63,6 +63,10 @@
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
+0C3A:0C5C:004D:2837	emu_Structure_IsValidBuildLocation	# (type, tile), Check if one can build a structure on a tile given
+0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
+0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
+0C3A:13BD:0022:D6F0	emu_Structure_GetStructuresBuilt	# (houseID), Get which structures are built, where the Nth bit active means the Nth structure type has at least 1 structure built
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
 0F3F:000D:0019:5076	emu_Tile_IsValid	# (tile_tile)
@@ -125,8 +129,10 @@ B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
-B4C1:0129:0028:FB8E	emu_PercentToValue	# Makes a value between 0 and 255 to the max-value given
+B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to the max-value given
+B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
+B4CD:07F4:0013:6862	emu_Structure_RemoveFogAroundTile # (posx, posy, radius)
 B4CD:1133:0039:A02F	emu_Structure_GetByPackedTile # It returns the Index
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong

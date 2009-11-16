@@ -506,7 +506,7 @@ l__030F:
 l__0311:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x0C3A; f__0C3A_13BD_0022_D6F0();
+	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x0C3A; emu_Structure_GetStructuresBuilt();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__031C:

@@ -622,7 +622,7 @@ l__052C:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x12));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0555); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0155_002A_AC43();
+	emu_push(emu_cs); emu_push(0x0555); emu_cs = 0x34C1; overlay(0x34C1, 0); emu_Math_ValueToPercent();
 l__0555:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

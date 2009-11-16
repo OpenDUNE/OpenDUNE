@@ -486,7 +486,7 @@ l__039F:
 	emu_ax = 0x2C94;
 	emu_es = emu_ax;
 	emu_push(emu_get_memory16(emu_es, 0x00, 0x55A));
-	emu_push(emu_cs); emu_push(0x03B8); emu_cs = 0x34C1; overlay(0x34C1, 0); f__B4C1_0155_002A_AC43();
+	emu_push(emu_cs); emu_push(0x03B8); emu_cs = 0x34C1; overlay(0x34C1, 0); emu_Math_ValueToPercent();
 l__03B8:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
