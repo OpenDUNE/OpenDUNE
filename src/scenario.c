@@ -8,6 +8,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "house.h"
+#include "map.h"
 #include "structure.h"
 #include "unit.h"
 #include "../decompiled/decompiled.h"
@@ -502,41 +503,34 @@ void emu_Scenario_Load_Map()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 4;
 
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_bx += emu_di * 4;
-	emu_get_memory8(emu_es, emu_bx, 0x2) = emu_al;
+	{
+		Tile *t = Map_GetTileByPosition(emu_di);
 
-	emu_push(emu_ds); emu_push(0x1F83); /* ,\r\n */
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x09A9); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 8;
+		t->houseID  = emu_al & 0x07;
+		t->unknown2 = emu_al >> 3;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x09B3); emu_cs = 0x01F7; emu_String_ToInteger();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
+		emu_push(emu_ds); emu_push(0x1F83); /* ,\r\n */
+		emu_push(0); emu_push(0);
+		emu_push(emu_cs); emu_push(0x09A9); emu_cs = 0x01F7; f__01F7_3AF8_001D_A439();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+		emu_sp += 8;
 
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_bx += emu_di * 4;
-	emu_ax &= 0x1FF;
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x09B3); emu_cs = 0x01F7; emu_String_ToInteger();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+		emu_sp += 4;
 
-	emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-	emu_get_memory16(emu_es, emu_bx, 0x0) |= emu_ax;
+		t->spriteID = emu_ax & 0x01FF;
 
-	if (emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) != emu_ax) {
-		emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
-	}
+		if (emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) != (emu_ax & 0x01FF)) {
+			emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
+		}
 
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_bx += emu_di * 4;
-
-	if ((emu_get_memory8(emu_es, emu_bx, 0x2) & 0x8) == 0) {
-		emu_ax = (g_global->variable_39F2 & 0x7F) * 2;
-		emu_get_memory8(emu_es, emu_bx, 0x1) &= 0x1;
-		emu_get_memory8(emu_es, emu_bx, 0x1) |= emu_al;
+		if ((emu_get_memory8(emu_es, emu_bx, 0x2) & 0x8) == 0) {
+			t->unknown1 = (g_global->variable_39F2 & 0x7F) * 2;
+		}
 	}
 }
 
@@ -1152,6 +1146,7 @@ l__0014:
 
 	while (emu_ax != 0 || emu_dx != 0) {
 		uint16 position;
+		Tile *t;
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x0AA1); emu_cs = 0x01F7; emu_String_ToInteger();
@@ -1160,14 +1155,10 @@ l__0014:
 		emu_sp += 4;
 		position = emu_ax;
 
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-		emu_bx += position * 4;
+		t = Map_GetTileByPosition(position);
 
-		emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-		emu_get_memory16(emu_es, emu_bx, 0x0) |= g_global->variable_39F4 & 0x01FF;
-
-		emu_bx = position * 2;
-		emu_get_memory16(0x2E9C, emu_bx, 0x323F) |= 0x8000;
+		t->spriteID = g_global->variable_39F4 & 0x01FF;
+		emu_get_memory16(0x2E9C, position * 2, 0x323F) |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
 		emu_push(0); emu_push(0);
@@ -1215,11 +1206,10 @@ l__0014:
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 4;
 
+		/* Show where a field started in the preview mode by making it an odd looking sprite */
 		if (g_global->scenarioPreview) {
-			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-			emu_bx += emu_di * 4;
-			emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-			emu_get_memory16(emu_es, emu_bx, 0x0) |= 0x01FF;
+			Tile *t = Map_GetTileByPosition(emu_di);
+			t->spriteID = 0x01FF;
 		}
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
@@ -1253,6 +1243,8 @@ l__0014:
 	emu_get_memory16(emu_ss, emu_bp, -0x8) = emu_ax;
 
 	while (emu_ax != 0 || emu_dx != 0) {
+		Tile *t;
+
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x0BE8); emu_cs = 0x01F7; emu_String_ToInteger();
 		/* Check if this overlay should be reloaded */
@@ -1260,13 +1252,9 @@ l__0014:
 		emu_sp += 4;
 		emu_di = emu_ax;
 
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-		emu_bx += emu_di * 4;
-		emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-		emu_get_memory16(emu_es, emu_bx, 0x0) |= (g_global->variable_39F4 + 1) & 0x01FF;
-
-		emu_bx = emu_di * 2;
-		emu_get_memory16(0x2E9C, emu_bx, 0x323F) |= 0x8000;
+		t = Map_GetTileByPosition(emu_di);
+		t->spriteID = (g_global->variable_39F4 + 1) & 0x01FF;
+		emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
 		emu_push(0); emu_push(0);

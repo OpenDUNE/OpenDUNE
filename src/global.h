@@ -681,7 +681,7 @@ typedef struct GlobalData {
 	/* 3904()    */ PACK uint8   unknown_3904[0x0014];
 	/* 3918(?)   */ PACK uint16 variable_3918[2];           /*!< ?? */
 	/* 391C()    */ PACK uint8   unknown_391A[0x00CE];
-	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array of tiles (the map). 4 bytes per tile. */
+	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
 	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? Bloom field information? */

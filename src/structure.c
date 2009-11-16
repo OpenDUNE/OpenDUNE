@@ -8,6 +8,7 @@
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "house.h"
+#include "map.h"
 #include "structure.h"
 
 extern void emu_Structure_ConnectWall();
@@ -196,23 +197,19 @@ bool Structure_Place(Structure *s, uint16 position)
 	scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
 
 	switch (s->type) {
-		case STRUCTURE_WALL:
+		case STRUCTURE_WALL: {
+			Tile *t;
+
 			emu_push(STRUCTURE_WALL);
 			emu_push(position);
 			emu_push(emu_cs); emu_push(0x0227); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
 			emu_sp += 4;
 			if (emu_ax == 0) return false;
 
-			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-			emu_bx += position * 4;
-			emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-			emu_get_memory16(emu_es, emu_bx, 0x0) |= (g_global->variable_39FA + 1) & 0x1FF;
-
-			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-			emu_bx += position * 4;
-			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner */
-			emu_get_memory8(emu_es, emu_bx, 0x2) &= (g_dune2_enhanced) ? 0xF8 : 0xFC;
-			emu_get_memory8(emu_es, emu_bx, 0x2) |= s->houseID;
+			t = Map_GetTileByPosition(position);
+			t->spriteID = (g_global->variable_39FA + 1) & 0x1FF;
+			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
+			t->houseID  = s->houseID;
 
 			emu_get_memory16(0x2E9C, position * 2, 0x323F) |= 0x8000;
 
@@ -231,11 +228,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			emu_push(emu_cs); emu_push(0x02AC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
 			emu_sp += 2;
 
-			if (emu_ax != 0) {
-				emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-				emu_bx += position * 4;
-				emu_get_memory8(emu_es, emu_bx, 0x1) &= 0x01;
-			}
+			if (emu_ax != 0) t->unknown1 = 0;
 
 			emu_push(1);
 			emu_push(position);
@@ -246,7 +239,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			emu_push(emu_cs); emu_push(0x02D9); emu_cs = 0x1082; emu_Structure_Free();
 			emu_sp += 4;
 
-			return true;
+		} return true;
 
 		case STRUCTURE_SLAB_1x1:
 		case STRUCTURE_SLAB_2x2: {
@@ -260,6 +253,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			for (i = 0; i < tilesStructure; i++) {
 				uint16 curPos = position + emu_get_memory16(tilesLayout.s.cs, tilesLayout.s.ip, 0x0);
+				Tile *t = Map_GetTileByPosition(curPos);
 				tilesLayout.s.ip += 2;
 
 				emu_push(STRUCTURE_SLAB_1x1);
@@ -269,17 +263,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				if (emu_ax == 0) continue;
 
-				emu_ax = g_global->variable_39F8 & 0x01FF;
-
-				emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-				emu_bx += curPos * 4;
-				emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-				emu_get_memory16(emu_es, emu_bx, 0x0) |= emu_ax;
-
-				emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-				emu_bx += curPos * 4;
-				emu_get_memory8(emu_es, emu_bx, 0x2) &= 0xF8;
-				emu_get_memory8(emu_es, emu_bx, 0x2) |= s->houseID;
+				t->spriteID = g_global->variable_39F8 & 0x01FF;
+				t->houseID  = s->houseID;
 
 				emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
 
@@ -298,11 +283,7 @@ bool Structure_Place(Structure *s, uint16 position)
 				emu_push(emu_cs); emu_push(0x03C5); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
 				emu_sp += 2;
 
-				if (emu_ax != 0) {
-					emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-					emu_bx += curPos * 4;
-					emu_get_memory8(emu_es, emu_bx, 0x1) &= 0x01;
-				}
+				if (emu_ax != 0) t->unknown1 = 0;
 
 				emu_push(0);
 				emu_push(0);
@@ -320,6 +301,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				for (i = 0; i < tilesStructure; i++) {
 					uint16 curPos = position + emu_get_memory16(tilesLayout.s.cs, tilesLayout.s.ip, 0x0);
+					Tile *t = Map_GetTileByPosition(curPos);
 					tilesLayout.s.ip += 2;
 
 					emu_push(STRUCTURE_SLAB_1x1);
@@ -329,17 +311,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					if (emu_ax == 0) continue;
 
-					emu_ax = g_global->variable_39F8 & 0x01FF;
-
-					emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-					emu_bx += curPos * 4;
-					emu_get_memory16(emu_es, emu_bx, 0x0) &= 0xFE00;
-					emu_get_memory16(emu_es, emu_bx, 0x0) |= emu_ax;
-
-					emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-					emu_bx += curPos * 4;
-					emu_get_memory8(emu_es, emu_bx, 0x2) &= 0xF8;
-					emu_get_memory8(emu_es, emu_bx, 0x2) |= s->houseID;
+					t->spriteID = g_global->variable_39F8 & 0x01FF;
+					t->houseID  = s->houseID;
 
 					emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
 
@@ -353,9 +326,7 @@ bool Structure_Place(Structure *s, uint16 position)
 						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 						emu_sp += 6;
 
-						emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-						emu_bx += curPos * 4;
-						emu_get_memory8(emu_es, emu_bx, 0x1) &= 0x01;
+						t->unknown1 = 0;
 					}
 
 					emu_push(0);
