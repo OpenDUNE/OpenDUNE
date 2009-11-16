@@ -540,7 +540,9 @@ typedef struct GlobalData {
 	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
-	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x021A];
+	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x0006];
+	/* 2C64(N*18)*/ PACK uint8  variable_2C64[1][18];       /*!< ?? Array with sizeof() of 18, length unknown. */
+	/* 2C76()    */ PACK uint8   unknown_2C76[0x0202];
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */
@@ -676,7 +678,9 @@ typedef struct GlobalData {
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
-	/* 3904()    */ PACK uint8   unknown_3904[0x00E6];
+	/* 3904()    */ PACK uint8   unknown_3904[0x0014];
+	/* 3918(?)   */ PACK uint16 variable_3918[2];           /*!< ?? */
+	/* 391C()    */ PACK uint8   unknown_391A[0x00CE];
 	/* 39EA(4)   */ PACK csip32 variable_39EA;              /*!< ?? Pointer to an array of tiles (the map). 4 bytes per tile. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */

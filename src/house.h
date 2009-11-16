@@ -28,9 +28,11 @@ typedef struct House {
 	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Human. */
 	/* 0006(2)   */ PACK uint16 unitCount;                  /*!< Amount of units owned by House. */
 	/* 0008(2)   */ PACK uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */
-	/* 000A()    */ PACK uint8   unknown_000A[0x0008];
+	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
+	/* 000E(4)   */ PACK uint32 structuresBuilt;            /*!< The Nth bit active means the Nth structure type is built (one or more). */
 	/* 0012(2)   */ PACK uint16 credits;                    /*!< Amount of credits the House currently has. */
-	/* 0014()    */ PACK uint8   unknown_0014[0x0008];
+	/* 0014()    */ PACK uint8   unknown_0014[0x0006];
+	/* 001A(2)   */ PACK uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
 	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
 	/* 001E()    */ PACK uint8   unknown_001E[0x000E];
 	/* 002C(2)   */ PACK uint16 variable_2C;                /*!< ?? */
