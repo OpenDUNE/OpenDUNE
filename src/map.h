@@ -9,7 +9,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Tile {
 	PACK uint32 spriteID:9;                                 /*!< The Sprite which is drawn on this Tile. */
-	PACK uint32 unknown1:7;                                 /*!< ?? */
+	PACK uint32 fogOfWar:7;                                 /*!< The Fog of War on this Tile. */
 	PACK uint32 houseID:3;                                  /*!< Which House owns this Tile. */
 	PACK uint32 unknown2:5;                                 /*!< ?? */
 	PACK uint32 unknown3:8;                                 /*!< ?? */

@@ -528,8 +528,8 @@ void emu_Scenario_Load_Map()
 			emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
 		}
 
-		if ((emu_get_memory8(emu_es, emu_bx, 0x2) & 0x8) == 0) {
-			t->unknown1 = (g_global->variable_39F2 & 0x7F) * 2;
+		if ((t->unknown2 & 0x1) == 0) {
+			t->fogOfWar = g_global->variable_39F2 & 0x7F;
 		}
 	}
 }

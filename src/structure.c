@@ -228,7 +228,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			emu_push(emu_cs); emu_push(0x02AC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
 			emu_sp += 2;
 
-			if (emu_ax != 0) t->unknown1 = 0;
+			if (emu_ax != 0) t->fogOfWar = 0;
 
 			emu_push(1);
 			emu_push(position);
@@ -278,7 +278,7 @@ bool Structure_Place(Structure *s, uint16 position)
 				emu_push(emu_cs); emu_push(0x03C5); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
 				emu_sp += 2;
 
-				if (emu_ax != 0) t->unknown1 = 0;
+				if (emu_ax != 0) t->fogOfWar = 0;
 
 				emu_push(0);
 				emu_push(0);
@@ -317,7 +317,7 @@ bool Structure_Place(Structure *s, uint16 position)
 						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 						emu_sp += 6;
 
-						t->unknown1 = 0;
+						t->fogOfWar = 0;
 					}
 
 					emu_push(0);
