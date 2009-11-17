@@ -91,6 +91,11 @@
 1381:0096:0008:1ADC	emu_Movement_StringToID	# (string_csip), Foot, Track, ..
 1381:00D0:0008:1ADC	emu_Action2_StringToID	# (string_csip), Kamakazi, Normal, ..
 
+15C2:0395:0044:304E	emu_Script_Reset	# (script_csip, functions_csip), reset a script engine, and point to the given array of functions
+15C2:03D9:0011:D202	emu_Script_Load	# (script_csip, script_number), loads a script, where script_number is normally the typeID of the entity
+15C2:0526:000F:EA1E	emu_Script_IsLoaded	# (script_csip), check if a script engine is loaded
+15C2:0559:0015:E98A	emu_Script_Run	# (script_csip), run a script
+
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)

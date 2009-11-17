@@ -48,8 +48,7 @@ typedef struct Structure {
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
-	/* 0012(52)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
-	/* 0046(1)   */ PACK uint8  variable_46;                /*!< ?? */
+	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
 	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */
 	/* 004B(1)   */ PACK uint8  variable_4B;                /*!< ?? */

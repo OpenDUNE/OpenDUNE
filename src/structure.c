@@ -24,8 +24,8 @@ extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_25EC_0011_E453();
 extern void f__0FCB_005F_001C_FDC4();
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__15C2_0395_0044_304E();
-extern void f__15C2_03D9_0011_D202();
+extern void emu_Script_Reset();
+extern void emu_Script_Load();
 extern void f__1A34_10EC_000E_A326();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_10EE_0039_EC73();
@@ -400,7 +400,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 	emu_push(emu_ds); emu_push(emu_Global_GetIP(&g_global->scriptStructure, 0x353F));
 	emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-	emu_push(emu_cs); emu_push(0x0645); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
+	emu_push(emu_cs); emu_push(0x0645); emu_cs = 0x15C2; emu_Script_Reset();
 	emu_sp += 8;
 
 	s->script.variable_0C = 0;
@@ -412,12 +412,12 @@ bool Structure_Place(Structure *s, uint16 position)
 
 		emu_push(s->script.scriptInfo.s.cs); emu_push(s->script.scriptInfo.s.ip);
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-		emu_push(emu_cs); emu_push(0x0682); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
+		emu_push(emu_cs); emu_push(0x0682); emu_cs = 0x15C2; emu_Script_Reset();
 		emu_sp += 8;
 
 		emu_push(s->type);
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-		emu_push(emu_cs); emu_push(0x069D); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
+		emu_push(emu_cs); emu_push(0x069D); emu_cs = 0x15C2; emu_Script_Load();
 		emu_sp += 6;
 	}
 

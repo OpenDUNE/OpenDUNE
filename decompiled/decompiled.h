@@ -17,6 +17,7 @@
 #include "../src/unit.h"
 #include "../src/tools.h"
 #include "../src/os/strings.h"
+#include "../src/script.h"
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
 extern void f__B4C1_0000_0022_1807();
@@ -365,7 +366,7 @@ extern void emu_Terminate_Normal();
 extern void emu_Terminate_Error();
 extern void f__B4F2_0387_000F_A3C2();
 extern void f__B50B_0394_001F_01AF();
-extern void f__15C2_0395_0044_304E();
+extern void emu_Script_Reset();
 extern void f__B495_0398_0011_7346();
 extern void f__B520_039B_001B_4BEB();
 extern void f__1DD7_039B_0008_D3BD();
@@ -377,7 +378,7 @@ extern void f__B495_03B9_0008_D80E();
 extern void f__16C5_03C3_002D_24E5();
 extern void emu_Ini_GetString();
 extern void f__01F7_03C9_001C_11C7();
-extern void f__15C2_03D9_0011_D202();
+extern void emu_Script_Load();
 extern void f__23E1_03DB_000B_CF65();
 extern void f__B495_03E4_0014_917E();
 extern void emu_Drive_Get_Curdir();
@@ -453,7 +454,7 @@ extern void f__2903_0545_0024_06E5();
 extern void f__B4C4_054C_0031_FE26();
 extern void f__B518_0558_0010_240A();
 extern void f__0642_0559_0027_3560();
-extern void f__15C2_0559_0015_E98A();
+extern void emu_Script_Run();
 extern void f__217E_055F_0008_D2BC();
 extern void f__B4CD_0566_0010_04C2();
 extern void f__2903_0569_000A_C3B0();

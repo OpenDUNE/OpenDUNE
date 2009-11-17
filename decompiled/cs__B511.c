@@ -420,7 +420,7 @@ l__0258:
 	emu_addw(&emu_ax, 0x12);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0270); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
+	emu_push(emu_cs); emu_push(0x0270); emu_cs = 0x15C2; emu_Script_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0270:

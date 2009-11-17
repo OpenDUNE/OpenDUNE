@@ -12,7 +12,7 @@
 #include "structure.h"
 #include "house.h"
 
-extern void f__15C2_0395_0044_304E();
+extern void emu_Script_Reset();
 
 /**
  * Get a Structure from the pool with the indicated index.
@@ -184,10 +184,9 @@ void Structure_Free(csip32 address)
 	Structure *b;
 	int i;
 
-	/* XXX -- No idea */
-	emu_push(0x353F); emu_push(0x3918); /* XXX -- g_global->variable_3918 */
+	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->scriptStructure, 0x353F));
 	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
-	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
+	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; emu_Script_Reset();
 	emu_sp += 8;
 
 	b = Structure_Get_ByMemory(address);
