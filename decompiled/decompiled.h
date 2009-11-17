@@ -824,7 +824,7 @@ extern void f__B503_1343_003B_6432();
 extern void f__0972_137B_002B_A9E3();
 extern void f__176C_1382_0013_AA74();
 extern void f__B4CD_1387_002A_D695();
-extern void f__0C3A_1398_000D_8766();
+extern void emu_Structure_UpdateVariable54();
 extern void f__0972_13AF_0015_619A();
 extern void emu_Structure_GetStructuresBuilt();
 extern void f__B503_13C2_0008_C4BB();
