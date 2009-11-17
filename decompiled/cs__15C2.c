@@ -1101,7 +1101,7 @@ l__08FB:
 		case 0x09721004: f__0972_1004_0029_E69D(); break;
 		case 0x097211B9: f__0972_11B9_0020_8DC9(); break;
 		case 0x0972121E: f__0972_121E_0030_5DAA(); break;
-		case 0x0972137B: f__0972_137B_002B_A9E3(); break;
+		case 0x0972137B: emu_Script_Structure_RemoveFogAroundTile(); break;
 		case 0x097213AF: f__0972_13AF_0015_619A(); break;
 		case 0x09721524: f__0972_1524_0018_014D(); break;
 		case 0x097215A2: f__0972_15A2_0019_AB1E(); break;

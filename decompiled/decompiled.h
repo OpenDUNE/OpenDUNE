@@ -822,7 +822,7 @@ extern void f__B503_1302_0013_473F();
 extern void f__B4F2_1303_0017_56DB();
 extern void f__1A34_1328_0026_C398();
 extern void f__B503_1343_003B_6432();
-extern void f__0972_137B_002B_A9E3();
+extern void emu_Script_Structure_RemoveFogAroundTile();
 extern void f__176C_1382_0013_AA74();
 extern void f__B4CD_1387_002A_D695();
 extern void emu_Structure_UpdateVariable54();

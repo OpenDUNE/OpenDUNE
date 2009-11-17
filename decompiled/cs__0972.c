@@ -2387,9 +2387,9 @@ l__1336:
 }
 
 /**
- * Decompiled function f__0972_137B_002B_A9E3()
+ * Decompiled function emu_Script_Structure_RemoveFogAroundTile()
  *
- * @name f__0972_137B_002B_A9E3
+ * @name emu_Script_Structure_RemoveFogAroundTile
  * @implements 0972:137B:002B:A9E3 ()
  * @implements 0972:13A6:0007:F90C
  * @implements 0972:13A9:0004:E839
@@ -2397,7 +2397,7 @@ l__1336:
  *
  * Called From: 15C2:0932:003A:D1E0
  */
-void f__0972_137B_002B_A9E3()
+void emu_Script_Structure_RemoveFogAroundTile()
 {
 l__137B:
 	emu_push(emu_bp);
