@@ -150,9 +150,9 @@ l__0109:
 }
 
 /**
- * Decompiled function f__176C_010B_002F_7FAE()
+ * Decompiled function emu_GameLoop_Unit()
  *
- * @name f__176C_010B_002F_7FAE
+ * @name emu_GameLoop_Unit
  * @implements 176C:010B:002F:7FAE ()
  * @implements 176C:013A:0055:6C8A
  * @implements 176C:014F:0040:7270
@@ -244,7 +244,7 @@ l__0109:
  *
  * Called From: 0642:03C2:0005:BF6B
  */
-void f__176C_010B_002F_7FAE()
+void emu_GameLoop_Unit()
 {
 l__010B:
 	emu_push(emu_bp);

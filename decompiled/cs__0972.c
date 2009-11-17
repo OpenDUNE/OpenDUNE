@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0972_0007_0051_7645()
+ * Decompiled function emu_GameLoop_Structure()
  *
- * @name f__0972_0007_0051_7645
+ * @name emu_GameLoop_Structure
  * @implements 0972:0007:0051:7645 ()
  * @implements 0972:0038:0020:C146
  * @implements 0972:003F:0019:8B3A
@@ -151,7 +151,7 @@
  *
  * Called From: 0642:03C7:0005:F04C
  */
-void f__0972_0007_0051_7645()
+void emu_GameLoop_Structure()
 {
 l__0007:
 	emu_push(emu_bp);

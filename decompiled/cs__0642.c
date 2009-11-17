@@ -486,13 +486,13 @@ l__03AE:
 l__03BB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x03C2); emu_cs = 0x16C5; f__16C5_0009_0023_21B3();
+	emu_push(emu_cs); emu_push(0x03C2); emu_cs = 0x16C5; emu_GameLoop_AirUnit();
 l__03C2:
-	emu_push(emu_cs); emu_push(0x03C7); emu_cs = 0x176C; f__176C_010B_002F_7FAE();
+	emu_push(emu_cs); emu_push(0x03C7); emu_cs = 0x176C; emu_GameLoop_Unit();
 l__03C7:
-	emu_push(emu_cs); emu_push(0x03CC); emu_cs = 0x0972; f__0972_0007_0051_7645();
+	emu_push(emu_cs); emu_push(0x03CC); emu_cs = 0x0972; emu_GameLoop_Structure();
 l__03CC:
-	emu_push(emu_cs); emu_push(0x03D1); emu_cs = 0x1391; f__1391_000A_0035_2CB6();
+	emu_push(emu_cs); emu_push(0x03D1); emu_cs = 0x1391; emu_GameLoop_House();
 l__03D1:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);

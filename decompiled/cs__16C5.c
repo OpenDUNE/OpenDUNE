@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__16C5_0009_0023_21B3()
+ * Decompiled function emu_GameLoop_AirUnit()
  *
- * @name f__16C5_0009_0023_21B3
+ * @name emu_GameLoop_AirUnit
  * @implements 16C5:0009:0023:21B3 ()
  * @implements 16C5:0024:0008:EF7F
  * @implements 16C5:002C:0025:E446
@@ -28,7 +28,7 @@
  *
  * Called From: 0642:03BD:0007:BB52
  */
-void f__16C5_0009_0023_21B3()
+void emu_GameLoop_AirUnit()
 {
 l__0009:
 	emu_push(emu_bp);

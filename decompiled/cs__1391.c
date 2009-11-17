@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__1391_000A_0035_2CB6()
+ * Decompiled function emu_GameLoop_House()
  *
- * @name f__1391_000A_0035_2CB6
+ * @name emu_GameLoop_House
  * @implements 1391:000A:0035:2CB6 ()
  * @implements 1391:003F:00C8:12AA
  * @implements 1391:0054:00B3:890D
@@ -103,7 +103,7 @@
  *
  * Called From: 0642:03CC:0005:ED74
  */
-void f__1391_000A_0035_2CB6()
+void emu_GameLoop_House()
 {
 l__000A:
 	emu_push(emu_bp);
