@@ -526,7 +526,8 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
 		}
 
 		/* Negative value and partial health, calculate how much should go to production (capped at 50%) */
-		if (s->hitpoints <= si->hitpoints / 2) {
+		/* ENHANCEMENT -- The 50% cap of Dune2 is silly and disagress with the GUI. If your hp is 10%, so should the production. */
+		if (!g_dune2_enhanced && s->hitpoints <= si->hitpoints / 2) {
 			h->powerProduction += (-si->powerUsage) / 2;
 			continue;
 		}

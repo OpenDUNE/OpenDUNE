@@ -15,6 +15,9 @@ Structure
 - When building a structure, only the fog is removed (with a radius of 2) from
     the first tile defined in the layout of the structure. This is mostly
     noticable with Palace and Oil Refinery, leaving parts of them in the fog.
+- Windtraps that have less than 50% hp still produce 50% of the power, even so
+    the GUI tells you differently. Of course the GUI makes more sense in this
+    case.
 
 Scenario
 --------
