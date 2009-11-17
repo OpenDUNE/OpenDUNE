@@ -645,7 +645,9 @@ typedef struct GlobalData {
 	/* 31F9(9)   */ PACK char   string_31F9[9];             /*!< "DUNE.LOG" NULL terminated. */
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
-	/* 320D()    */ PACK uint8   unknown_320D[0x03DB];
+	/* 320D()    */ PACK uint8   unknown_320D[0x01A9];
+	/* 33B6(100) */ PACK csip32 variable_33B6[25];          /*!< ?? Structure functions to call via script engine. */
+	/* 341A()    */ PACK uint8   unknown_341A[0x01CE];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
@@ -679,10 +681,9 @@ typedef struct GlobalData {
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
-	/* 3902(2)   */ PACK uint16 variable_3902;              /*!< ?? */
-	/* 3904()    */ PACK uint8   unknown_3904[0x0014];
-	/* 3918(?)   */ PACK uint16 variable_3918[2];           /*!< ?? */
-	/* 391C()    */ PACK uint8   unknown_391A[0x00CE];
+	/* 3902(22)  */ PACK uint8  variable_3902[22];          /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
+	/* 3918(22)  */ PACK uint8  variable_3918[22];          /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
+	/* 392E()    */ PACK uint8   unknown_392E[0x00BC];
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
@@ -786,7 +787,9 @@ typedef struct GlobalData {
 	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
-	/* 6124()    */ PACK uint8   unknown_6124[0x01C6];
+	/* 6124()    */ PACK uint8   unknown_6124[0x0044];
+	/* 6168(256) */ PACK csip32 variable_6168[64];          /*!< ?? Functions to call via script engine. */
+	/* 6268()    */ PACK uint8   unknown_6268[0x0082];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
