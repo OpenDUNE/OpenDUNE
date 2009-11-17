@@ -5,7 +5,7 @@
 
 /*
  * Segments:
- *   2C94 -> StructureInfo array.
+ *   2C94 -> StructureInfo array (starts at 2C94:000A).
  *   2D07 -> UnitInfo array.
  *   2E9C:323F -> Map array (2 bytes per tile).
  *   353F -> Global data.
