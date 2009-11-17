@@ -525,9 +525,9 @@ l__0447:
 }
 
 /**
- * Decompiled function f__15C2_0526_000F_EA1E()
+ * Decompiled function emu_Script_IsLoaded()
  *
- * @name f__15C2_0526_000F_EA1E
+ * @name emu_Script_IsLoaded
  * @implements 15C2:0526:000F:EA1E ()
  * @implements 15C2:0531:0004:F939
  * @implements 15C2:0533:0002:D13A
@@ -540,7 +540,7 @@ l__0447:
  * Called From: 16C5:009D:002F:03B8
  * Called From: 176C:06C2:0010:03D5
  */
-void f__15C2_0526_000F_EA1E()
+void emu_Script_IsLoaded()
 {
 l__0526:
 	emu_push(emu_bp);

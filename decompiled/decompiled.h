@@ -445,7 +445,7 @@ extern void f__2756_050F_000B_0871();
 extern void f__B495_0511_0011_10E0();
 extern void f__B50B_0522_0036_7E4C();
 extern void f__151A_0526_0028_A3A6();
-extern void f__15C2_0526_000F_EA1E();
+extern void emu_Script_IsLoaded();
 extern void f__2903_0530_0008_CF42();
 extern void f__29E8_0534_000E_6213();
 extern void f__B4CD_053B_0010_C4CD();

@@ -1052,7 +1052,7 @@ l__094F:
 	emu_addw(&emu_ax, 0x12);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x095F); emu_cs = 0x15C2; f__15C2_0526_000F_EA1E();
+	emu_push(emu_cs); emu_push(0x095F); emu_cs = 0x15C2; emu_Script_IsLoaded();
 l__095F:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
