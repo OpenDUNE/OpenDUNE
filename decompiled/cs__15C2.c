@@ -1095,7 +1095,7 @@ l__08FB:
 		case 0x09720A72: f__0972_0A72_000D_024E(); break;
 		case 0x09720A81: f__0972_0A81_0017_2EC7(); break;
 		case 0x09720AFC: f__0972_0AFC_0016_0DC9(); break;
-		case 0x09720C04: f__0972_0C04_0037_B310(); break;
+		case 0x09720C04: emu_Script_Structure_ChangeVariable54(); break;
 		case 0x09720C5A: f__0972_0C5A_0015_E00A(); break;
 		case 0x09720E87: f__0972_0E87_0047_4065(); break;
 		case 0x09721004: f__0972_1004_0029_E69D(); break;

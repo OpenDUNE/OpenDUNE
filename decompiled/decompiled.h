@@ -665,7 +665,7 @@ extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__22A6_0BE6_0054_A98E();
 extern void f__B503_0BEE_002A_B077();
 extern void f__B4ED_0BF4_001B_A3A9();
-extern void f__0972_0C04_0037_B310();
+extern void emu_Script_Structure_ChangeVariable54();
 extern void f__B511_0C06_002A_8725();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B4CD_0C36_0014_30D0();

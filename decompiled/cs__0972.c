@@ -1433,9 +1433,9 @@ l__0BFE:
 }
 
 /**
- * Decompiled function f__0972_0C04_0037_B310()
+ * Decompiled function emu_Script_Structure_ChangeVariable54()
  *
- * @name f__0972_0C04_0037_B310
+ * @name emu_Script_Structure_ChangeVariable54
  * @implements 0972:0C04:0037:B310 ()
  * @implements 0972:0C3E:0002:C13A
  * @implements 0972:0C40:0010:51A9
@@ -1445,7 +1445,7 @@ l__0BFE:
  *
  * Called From: 15C2:0932:003A:D1E0
  */
-void f__0972_0C04_0037_B310()
+void emu_Script_Structure_ChangeVariable54()
 {
 l__0C04:
 	emu_push(emu_bp);
