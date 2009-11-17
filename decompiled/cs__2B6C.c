@@ -509,6 +509,7 @@ l__0192:
  * Called From: B488:0022:0027:45A9
  * Called From: B4A2:08BD:0014:2AE3
  * Called From: B4A2:0906:0014:2AE3
+ * Called From: B4A2:09A1:0014:2AE3
  * Called From: B4A2:09EE:0014:2AE3
  * Called From: B4DA:03C9:0017:0D1E
  * Called From: B4DA:0521:0017:0C1A
@@ -692,6 +693,7 @@ l__0276:
  * Called From: B488:01FD:000B:5A70
  * Called From: B4A2:08EF:000F:BCB8
  * Called From: B4A2:092B:000F:ACB8
+ * Called From: B4A2:09D8:000F:9CB8
  * Called From: B4A2:0A15:000F:FCB8
  * Called From: B4DA:03F4:0008:8B8A
  * Called From: B4DA:054C:0008:8B8A

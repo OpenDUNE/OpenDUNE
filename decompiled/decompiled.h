@@ -673,6 +673,7 @@ extern void f__B4F2_0C43_0017_56DB();
 extern void f__0972_0C5A_0015_E00A();
 extern void emu_Structure_IsValidBuildLocation();
 extern void f__B511_0C64_002A_C757();
+extern void f__22A6_0C69_008C_017F();
 extern void f__1423_0C74_0015_3419();
 extern void f__B511_0C93_0014_2A98();
 extern void f__0AEC_0CA1_0013_A57D();

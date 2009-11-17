@@ -1726,6 +1726,119 @@ l__0C56:
 }
 
 /**
+ * Decompiled function f__22A6_0C69_008C_017F()
+ *
+ * @name f__22A6_0C69_008C_017F
+ * @implements 22A6:0C69:008C:017F ()
+ * @implements 22A6:0C85:0070:7672
+ * @implements 22A6:0C98:005D:EC62
+ * @implements 22A6:0CAA:004B:0D94
+ * @implements 22A6:0CAF:0046:DC43
+ * @implements 22A6:0CC8:002D:77C6
+ * @implements 22A6:0CCD:0028:03E1
+ * @implements 22A6:0CF5:0027:50AF
+ *
+ * Called From: B4A2:09C9:0028:6340
+ */
+void f__22A6_0C69_008C_017F()
+{
+l__0C69:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_push(emu_ax);
+	emu_push(emu_bx);
+	emu_push(emu_cx);
+	emu_push(emu_di);
+	emu_push(emu_dx);
+	emu_push(emu_es);
+	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x6);
+	emu_cmpw(&emu_di, 0x0);
+	if ((int16)emu_di >= (int16)0x0) { /* Unresolved jump */ emu_ip = 0x0C7C; emu_last_cs = 0x22A6; emu_last_ip = 0x0C78; emu_last_length = 0x008C; emu_last_crc = 0x017F; emu_call(); return; }
+	emu_xorw(&emu_di, emu_di);
+	emu_cmpw(&emu_di, 0x140);
+	if ((int16)emu_di >= (int16)0x140) {
+		emu_di = 0x13F;
+	}
+l__0C85:
+	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);
+	emu_cmpw(&emu_dx, 0x0);
+	if ((int16)emu_dx >= (int16)0x0) { /* Unresolved jump */ emu_ip = 0x0C8F; emu_last_cs = 0x22A6; emu_last_ip = 0x0C8B; emu_last_length = 0x0070; emu_last_crc = 0x7672; emu_call(); return; }
+	emu_xorw(&emu_dx, emu_dx);
+	emu_cmpw(&emu_dx, 0xC8);
+	if ((int16)emu_dx >= (int16)0xC8) {
+		emu_dx = 0xC7;
+	}
+l__0C98:
+	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
+	emu_cmpw(&emu_ax, 0x0);
+	if ((int16)emu_ax >= (int16)0x0) { /* Unresolved jump */ emu_ip = 0x0CA2; emu_last_cs = 0x22A6; emu_last_ip = 0x0C9E; emu_last_length = 0x005D; emu_last_crc = 0xEC62; emu_call(); return; }
+	emu_xorw(&emu_ax, emu_ax);
+	emu_cmpw(&emu_ax, 0x140);
+	if ((int16)emu_ax >= (int16)0x140) {
+		emu_ax = 0x13F;
+	}
+l__0CAA:
+	emu_cmpw(&emu_ax, emu_di);
+	if ((int16)emu_ax < (int16)emu_di) {
+		emu_xchgw(&emu_ax, &emu_di);
+	}
+l__0CAF:
+	emu_subw(&emu_ax, emu_di);
+	emu_incw(&emu_ax);
+	emu_get_memory16(emu_cs, 0x00, 0x178) = emu_ax;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
+	emu_cmpw(&emu_ax, 0x0);
+	if ((int16)emu_ax >= (int16)0x0) { /* Unresolved jump */ emu_ip = 0x0CC0; emu_last_cs = 0x22A6; emu_last_ip = 0x0CBC; emu_last_length = 0x0046; emu_last_crc = 0xDC43; emu_call(); return; }
+	emu_xorw(&emu_ax, emu_ax);
+	emu_cmpw(&emu_ax, 0xC8);
+	if ((int16)emu_ax >= (int16)0xC8) {
+		emu_ax = 0xC7;
+	}
+l__0CC8:
+	emu_cmpw(&emu_ax, emu_dx);
+	if ((int16)emu_ax < (int16)emu_dx) {
+		emu_xchgw(&emu_ax, &emu_dx);
+	}
+l__0CCD:
+	emu_subw(&emu_ax, emu_dx);
+	emu_incw(&emu_ax);
+	emu_get_memory16(emu_cs, 0x00, 0x17A) = emu_ax;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xE);
+	emu_get_memory8(emu_cs, 0x00, 0x17C) = emu_al;
+	emu_bx = emu_dx;
+	emu_shlw(&emu_bx, 0x1);
+	emu_ax = emu_get_memory16(emu_cs, emu_bx, 0x17D);
+	emu_addw(&emu_di, emu_ax);
+	emu_ax = 0x140;
+	emu_subw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x178));
+	emu_get_memory16(emu_cs, 0x00, 0x70) = emu_ax;
+	emu_push(0x0CF5); f__22A6_0DF8_0022_5FD5();
+l__0CF5:
+	emu_es = emu_ax;
+	emu_cx = emu_get_memory16(emu_cs, 0x00, 0x17A);
+	emu_bl = emu_get_memory8(emu_cs, 0x00, 0x17C);
+	emu_dx = emu_get_memory16(emu_cs, 0x00, 0x178);
+	emu_xorb(&emu_get_memory8(emu_es, emu_di, 0x0), emu_bl);
+	emu_incw(&emu_di);
+	emu_decw(&emu_dx);
+	if (emu_dx != 0) { /* Unresolved jump */ emu_ip = 0x0D06; emu_last_cs = 0x22A6; emu_last_ip = 0x0D0B; emu_last_length = 0x0027; emu_last_crc = 0x50AF; emu_call(); return; }
+	emu_addw(&emu_di, emu_get_memory16(emu_cs, 0x00, 0x70));
+	if (--emu_cx != 0) { /* Unresolved jump */ emu_ip = 0x0D01; emu_last_cs = 0x22A6; emu_last_ip = 0x0D12; emu_last_length = 0x0027; emu_last_crc = 0x50AF; emu_call(); }
+	emu_pop(&emu_es);
+	emu_pop(&emu_dx);
+	emu_pop(&emu_di);
+	emu_pop(&emu_cx);
+	emu_pop(&emu_bx);
+	emu_pop(&emu_ax);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__22A6_0D31_0015_A4C3()
  *
  * @name f__22A6_0D31_0015_A4C3
@@ -1882,6 +1995,7 @@ l__0DCA:
  * Called From: 22A6:0956:000C:EC7D
  * Called From: 22A6:0BC7:001B:63E6
  * Called From: 22A6:0BC7:0029:FCB0
+ * Called From: 22A6:0CF2:0028:03E1
  * Called From: 22A6:0D43:0015:A4C3
  * Called From: 22A6:0E5C:002B:E39A
  * Called From: 22A6:0F9F:002C:45CC
