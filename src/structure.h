@@ -100,6 +100,6 @@ extern void Structure_CalculatePowerAndCredit(uint8 houseID);
 
 extern void emu_Structure_Create();
 extern void emu_Structure_Place();
-extern void emu_Structure_CalculatePower();
+extern void emu_Structure_CalculatePowerAndCredit();
 
 #endif /* STRUCTURE_H */

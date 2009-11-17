@@ -769,7 +769,7 @@ l__076C:
 l__0775:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x0781); emu_cs = 0x0C3A; Structure_CalculatePowerAndCredit();
+	emu_push(emu_cs); emu_push(0x0781); emu_cs = 0x0C3A; emu_Structure_CalculatePowerAndCredit();
 l__0781:
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));

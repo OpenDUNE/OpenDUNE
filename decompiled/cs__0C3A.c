@@ -1374,7 +1374,7 @@ l__11ED:
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x11FB); Structure_CalculatePowerAndCredit();
+	emu_push(0x11FB); emu_Structure_CalculatePowerAndCredit();
 l__11FB:
 	emu_pop(&emu_cx);
 	goto l__1210;

@@ -165,7 +165,7 @@ void emu_Structure_Place()
 /**
  * Emulator wrapper around Structure_CalculatePowerAndCredit().
  *
- * @name Structure_CalculatePowerAndCredit
+ * @name emu_Structure_CalculatePowerAndCredit
  * @implements 0C3A:1F70:0010:8DB3 ()
  * @implements 0C3A:1F80:0012:95B8
  * @implements 0C3A:1F92:0022:E6F2
