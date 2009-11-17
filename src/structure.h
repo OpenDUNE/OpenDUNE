@@ -3,6 +3,8 @@
 #ifndef STRUCTURE_H
 #define STRUCTURE_H
 
+#include "script.h"
+
 /**
  * Types of Structures available in the game.
  */
@@ -46,14 +48,8 @@ typedef struct Structure {
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
-	/* 0016(2)   */ PACK uint16 variable_16;                /*!< ?? */
-	/* 0018(2)   */ PACK uint16 variable_18;                /*!< ?? */
-	/* 001A()    */ PACK uint8   unknown_001A[0x0004];
-	/* 001E(2)   */ PACK uint16 variable_1E;                /*!< ?? */
-	/* 0020()    */ PACK uint8   unknown_0020[0x0006];
-	/* 0026(2)   */ PACK uint16 variable_26;                /*!< ?? */
-	/* 0028()    */ PACK uint8   unknown_0028[0x001F];
+	/* 0012(52)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
+	/* 0046(1)   */ PACK uint8  variable_46;                /*!< ?? */
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
 	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */
 	/* 004B(1)   */ PACK uint8  variable_4B;                /*!< ?? */

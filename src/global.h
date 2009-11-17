@@ -681,8 +681,8 @@ typedef struct GlobalData {
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
-	/* 3902(22)  */ PACK uint8  variable_3902[22];          /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
-	/* 3918(22)  */ PACK uint8  variable_3918[22];          /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
+	/* 3902(22)  */ PACK uint8  scriptUnit[22];             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
+	/* 3918(22)  */ PACK uint8  scriptStructure[22];        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
 	/* 392E()    */ PACK uint8   unknown_392E[0x00BC];
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */

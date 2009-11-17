@@ -398,25 +398,25 @@ bool Structure_Place(Structure *s, uint16 position)
 		}
 	}
 
-	emu_push(emu_ds); emu_push(0x3918);
-	emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12);
+	emu_push(emu_ds); emu_push(emu_Global_GetIP(&g_global->scriptStructure, 0x353F));
+	emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
 	emu_push(emu_cs); emu_push(0x0645); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 	emu_sp += 8;
 
-	s->variable_1E = 0;
-	s->variable_26 = 0;
+	s->script.variable_0C = 0;
+	s->script.variable_14 = 0;
 
 	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
 		s->variable_10 = 0;
 
-		emu_push(s->variable_18); emu_push(s->variable_16);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12);
+		emu_push(s->script.scriptInfo.s.cs); emu_push(s->script.scriptInfo.s.ip);
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
 		emu_push(emu_cs); emu_push(0x0682); emu_cs = 0x15C2; f__15C2_0395_0044_304E();
 		emu_sp += 8;
 
 		emu_push(s->type);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12);
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
 		emu_push(emu_cs); emu_push(0x069D); emu_cs = 0x15C2; f__15C2_03D9_0011_D202();
 		emu_sp += 6;
 	}

@@ -3105,6 +3105,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\script.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\structure.c"
 				>
 				<FileConfiguration

@@ -3,6 +3,8 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include "script.h"
+
 /**
  * Types of Units available in the game.
  */
@@ -106,7 +108,8 @@ typedef struct Unit {
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0037];
+	/* 0012(52)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
+	/* 0046()    */ PACK uint8   unknown_0046[0x0003];
 	/* 0049(4)   */ PACK csip32 variable_49;                /*!< ?? */
 	/* 004D(2)   */ PACK uint16 variable_4D;                /*!< ?? */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
