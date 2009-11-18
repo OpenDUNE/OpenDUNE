@@ -1271,6 +1271,7 @@ l__13AD:
  * @implements 0972:145F:0024:B930
  * @implements 0972:1469:001A:3E69
  * @implements 0972:1483:0017:52C3
+ * @implements 0972:149A:0008:62D2
  * @implements 0972:149D:0005:2F01
  * @implements 0972:14A2:0011:84A2
  * @implements 0972:14B3:0015:4D30
@@ -1385,9 +1386,11 @@ l__1483:
 	if (emu_ax == 0) goto l__14A2;
 	emu_addw(&emu_get_memory16(emu_ds, 0x00, 0x8D3F), emu_si);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x8D3F), 0xFDE8);
-	if (emu_get_memory16(emu_ds, 0x00, 0x8D3F) >= 0xFDE8) { /* Unresolved jump */ emu_ip = 0x149A; emu_last_cs = 0x0972; emu_last_ip = 0x1493; emu_last_length = 0x0017; emu_last_crc = 0x52C3; emu_call(); return; }
+	if (emu_get_memory16(emu_ds, 0x00, 0x8D3F) >= 0xFDE8) goto l__149A;
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x8D3F);
 	goto l__149D;
+l__149A:
+	emu_ax = 0xFDE8;
 l__149D:
 	emu_get_memory16(emu_ds, 0x00, 0x8D3F) = emu_ax;
 	goto l__14B9;
