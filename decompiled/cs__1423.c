@@ -9,6 +9,7 @@
  *
  * @name f__1423_0009_0025_FE5D
  * @implements 1423:0009:0025:FE5D ()
+ * @implements 1423:002E:0009:39EC
  * @implements 1423:0034:0003:9DB3
  * @implements 1423:0037:001F:CF6C
  * @implements 1423:0056:000B:8237
@@ -53,7 +54,9 @@ l__0009:
 	emu_ax = 0x60AE;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x002E); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-	/* Unresolved jump */ emu_ip = 0x002E; emu_last_cs = 0x1423; emu_last_ip = 0x002E; emu_last_length = 0x0025; emu_last_crc = 0xFE5D; emu_call();
+l__002E:
+	emu_addw(&emu_sp, 0xA);
+	emu_ax = 0x1;
 l__0034:
 	goto l__0185;
 l__0037:
