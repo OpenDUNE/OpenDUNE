@@ -563,6 +563,7 @@ l__0405:
  * @implements B520:052C:001A:447C
  * @implements B520:0546:0020:0833
  * @implements B520:0549:001D:80A9
+ * @implements B520:0566:0011:8B73
  * @implements B520:0569:000E:C637
  * @implements B520:0577:000D:BD8B
  * @implements B520:0584:0030:27B8
@@ -713,7 +714,8 @@ l__0549:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_cs);
 	emu_push(0x0566); f__B520_062C_0030_162A();
-	/* Unresolved jump */ emu_ip = 0x0566; emu_last_cs = 0xB520; emu_last_ip = 0x0566; emu_last_length = 0x001D; emu_last_crc = 0x80A9; emu_call();
+l__0566:
+	emu_addw(&emu_sp, 0x6);
 l__0569:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0x2E), 0x2200);

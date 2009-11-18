@@ -239,6 +239,7 @@ l__01AE:
  * @implements 0F78:01FB:0004:DE52
  *
  * Called From: 0642:0216:0012:4ECE
+ * Called From: 0642:0216:0028:7517
  * Called From: 0642:0220:000A:0B5A
  * Called From: 07D4:00FE:0009:FDC6
  * Called From: 07D4:0200:0024:9249

@@ -127,6 +127,7 @@ l__005D:
  * Called From: 1423:0478:000E:1AB4
  * Called From: 176C:2678:000C:1FEB
  * Called From: 176C:26A2:001A:8FC8
+ * Called From: 176C:2B56:0014:E5D5
  * Called From: 1A34:230F:0023:B208
  * Called From: 1A34:2804:002C:C218
  * Called From: 1A34:2833:0018:A4D6
@@ -163,6 +164,7 @@ l__005D:
  * Called From: B503:03E1:0009:6E38
  * Called From: B503:03E1:000D:81B6
  * Called From: B503:04E0:0012:2CFC
+ * Called From: B511:057F:000D:1AD2
  * Called From: B511:0CD5:001E:3AA6
  * Called From: B511:0D13:0024:CF16
  * Called From: B511:1231:0024:1AEB
