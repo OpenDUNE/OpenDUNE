@@ -107,7 +107,7 @@ typedef struct Unit {
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
-	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
+	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< When the script sets a delay, this value becomes non-zero. */
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
 	/* 0047()    */ PACK uint8   unknown_0046[0x0002];
 	/* 0049(4)   */ PACK csip32 variable_49;                /*!< ?? */
@@ -142,10 +142,12 @@ MSVC_PACKED_BEGIN
  */
 typedef struct UnitInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Unit. */
-	/* 0006()    */ PACK uint8   unknown_0006[0x000A];
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
+	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Unit. */
+	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
+	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
+	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];
 	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */

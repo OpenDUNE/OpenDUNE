@@ -41,13 +41,13 @@ typedef struct Structure {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
 	/* 0003(1)   */ PACK uint8  linkedUnitID;               /*!< Unit we are linked to, or 0xFF if we are not linked to a unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x0400 - Structure degrades */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being-built, 0x0400 - Degrades, 0x2000 - Repairing, 0x4000 - On hold. */
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? Bitflags. 0x0002 - Upgrading. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
-	/* 0010(2)   */ PACK uint16 variable_10;                /*!< ?? */
+	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< When the script sets a delay, this value becomes non-zero. */
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
 	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */
@@ -55,8 +55,8 @@ typedef struct Structure {
 	/* 004C(2)   */ PACK uint16 variable_4C;                /*!< ?? */
 	/* 004E(1)   */ PACK uint8  upgradeLevel;               /*!< The current level of upgrade of the Structure. */
 	/* 004F(1)   */ PACK uint8  upgradeTimeLeft;            /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
-	/* 0050(2)   */ PACK uint16 buildTimeLeft;              /*!< Time left before build is complete. */
-	/* 0052()    */ PACK uint8   unknown_0050[0x0002];
+	/* 0050(2)   */ PACK uint16 countDown;                  /*!< General countdown for various of functions. */
+	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? Used as 'overflow' value for building stuff. */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? If 0xFFFF it shows just-build animation. If 0 it is done. */
 	/* 0056(2)   */ PACK uint16 hitpointsMax;               /*!< Max amount of hitpoints. */
 } GCC_PACKED Structure;
@@ -69,12 +69,14 @@ MSVC_PACKED_BEGIN
  */
 typedef struct StructureInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Structure. */
-	/* 0006()    */ PACK uint8   unknown_0006[0x0006];
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
+	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Structure. */
+	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0006];
+	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
+	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x001C];
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
@@ -87,12 +89,14 @@ assert_compile(sizeof(StructureInfo) == 0x60);
 
 extern StructureInfo *g_structureInfo;
 
+extern void GameLoop_Structure();
 extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
 extern bool Structure_Place(Structure *s, uint16 position);
 extern void Structure_CalculatePowerAndCredit(uint8 houseID);
 
 
+extern void emu_GameLoop_Structure();
 extern void emu_Structure_Create();
 extern void emu_Structure_Place();
 extern void emu_Structure_CalculatePowerAndCredit();

@@ -2554,7 +2554,7 @@ l__1A9C:
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
 l__1AB8:
-	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x1ABD); emu_cs = 0x0FCB; emu_String_GetString();
 l__1ABD:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x1C) = emu_dx;
@@ -2593,7 +2593,7 @@ l__1B0B:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1E));
 	emu_ax = 0x89;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1B26); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x1B26); emu_cs = 0x0FCB; emu_String_GetString();
 l__1B26:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
@@ -2623,7 +2623,7 @@ l__1B4F:
 	emu_push(emu_ax);
 	emu_ax = 0x88;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1B65); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x1B65); emu_cs = 0x0FCB; emu_String_GetString();
 l__1B65:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
@@ -4084,7 +4084,7 @@ l__2744:
 	emu_push(emu_ax);
 	emu_ax = 0x8C;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x276E); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x276E); emu_cs = 0x0FCB; emu_String_GetString();
 l__276E:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
@@ -4122,7 +4122,7 @@ l__279E:
 	emu_push(emu_ax);
 	emu_ax = 0x8D;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x27D2); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x27D2); emu_cs = 0x0FCB; emu_String_GetString();
 l__27D2:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
@@ -4233,7 +4233,7 @@ l__2851:
 	emu_push(emu_ax);
 	emu_ax = 0x8A;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x287B); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x287B); emu_cs = 0x0FCB; emu_String_GetString();
 l__287B:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
@@ -4281,7 +4281,7 @@ l__28AC:
 	emu_push(emu_ax);
 	emu_ax = 0x8B;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x28F8); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x28F8); emu_cs = 0x0FCB; emu_String_GetString();
 l__28F8:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);

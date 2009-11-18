@@ -18,6 +18,14 @@ Structure
 - Windtraps that have less than 50% hp still produce 50% of the power, even so
     the GUI tells you differently. Of course the GUI makes more sense in this
     case.
+- Repair cost calculation is unfair. Dune2 uses a 256 float-resolution,
+    meaning that you get rounding errors very fast. In result, Palace costs
+    nothing to repair, and a windtrap costs 2 credits instead of 3 credits per
+    repair tick. In detail: (2 * 256 / hitpoints) * credits / 256. The first
+    part causes rounding errors.
+- If one structure gives a script error, all structures after it in the linked
+    list are not handled. This doesn't really seem correct.
+
 
 Scenario
 --------

@@ -400,7 +400,7 @@ l__02D4:
 l__02DC:
 	emu_ax = 0x141;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x0FCB; f__0FCB_005F_001C_FDC4();
+	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x0FCB; emu_String_GetString();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { overlay(0x3480, 1); }
 l__02E5:

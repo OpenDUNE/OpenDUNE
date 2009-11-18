@@ -166,7 +166,7 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 	b->linkedUnitID = 0xFF;
 	b->flags        = 0x0003;
 	b->variable_06  = 0x0000;
-	b->variable_10  = 0x0000;
+	b->scriptDelay  = 0;
 
 	g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
 	g_global->structureCount++;

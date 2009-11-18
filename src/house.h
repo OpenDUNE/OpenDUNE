@@ -38,7 +38,7 @@ typedef struct House {
 	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
 	/* 001E()    */ PACK uint8   unknown_001E[0x000E];
 	/* 002C(2)   */ PACK uint16 variable_2C;                /*!< ?? */
-	/* 002E()    */ PACK uint8   unknown_002E[0x0014];
+	/* 002E(20)  */ PACK uint16 ai_structureRebuild[10];    /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
 } GCC_PACKED House;
 MSVC_PACKED_END
 assert_compile(sizeof(House) == 0x42);
@@ -51,8 +51,9 @@ MSVC_PACKED_BEGIN
 typedef struct HouseInfo {
 	/* 0000(4)   */ PACK csip32 name;                       /*<! Pointer to name of house. */
 	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
-	/* 0006(2)   */ PACK uint16 variable_0006;              /*<! ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
+	/* 0006(2)   */ PACK uint16 variable_06;                /*<! ?? */
+	/* 0008(2)   */ PACK uint16 variable_08;                /*<! ?? Amount of damage per 'degrade' round? */
+	/* 000A()    */ PACK uint8   unknown_000A[0x0006];
 	/* 0010(2)   */ PACK uint16 prefixChar;                 /*<! Char used as prefix for some filenames. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */

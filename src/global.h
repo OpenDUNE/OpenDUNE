@@ -647,7 +647,13 @@ typedef struct GlobalData {
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
 	/* 320D()    */ PACK uint8   unknown_320D[0x01A9];
 	/* 33B6(100) */ PACK csip32 variable_33B6[25];          /*!< ?? Structure functions to call via script engine. */
-	/* 341A()    */ PACK uint8   unknown_341A[0x01CE];
+	/* 341A(4)   */ PACK uint32 variable_341A;              /*!< ?? */
+	/* 341E(4)   */ PACK uint32 variable_341E;              /*!< ?? */
+	/* 3422(4)   */ PACK uint32 variable_3422;              /*!< ?? */
+	/* 3426(4)   */ PACK uint32 variable_3426;              /*!< ?? */
+	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
+	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
+	/* 3439()    */ PACK uint8   unknown_3439[0x01AF];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
@@ -661,13 +667,21 @@ typedef struct GlobalData {
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
 	/* 3782(2)   */ PACK uint16 variable_3782;              /*!< ?? */
-	/* 3784()    */ PACK uint8   unknown_3784[0x001C];
-	/* 37A0(2)   */ PACK uint16 scenarioPreview;            /*!< If set, on start of level you preview the scenario (no fog). You can't interact with the game. */
-	/* 37A2()    */ PACK uint8   unknown_37A2[0x0014];
+	/* 3784()    */ PACK uint8   unknown_3784[0x0018];
+	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI, see a grid on the map, and more. */
+	/* 379E()    */ PACK uint8   unknown_379E[0x0002];
+	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). */
+	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? */
+	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
+	/* 37A6()    */ PACK uint8   unknown_37A6[0x0002];
+	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
+	/* 37AA()    */ PACK uint8   unknown_37AA[0x0002];
+	/* 37AC(2)   */ PACK uint16 variable_37AC;              /*!< ?? */
+	/* 37AE()    */ PACK uint8   unknown_37AE[0x0008];
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
-	/* 38AC()    */ PACK csip32 variable_38AC;              /*!< ?? */
+	/* 38AC()    */ PACK uint32 variable_38AC;              /*!< ?? */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
@@ -683,7 +697,10 @@ typedef struct GlobalData {
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
 	/* 3902(22)  */ PACK uint8  scriptUnit[22];             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
 	/* 3918(22)  */ PACK uint8  scriptStructure[22];        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
-	/* 392E()    */ PACK uint8   unknown_392E[0x00BC];
+	/* 392E()    */ PACK uint8   unknown_392E[0x001C];
+	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
+	/* 394E(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in GameLoop. */
+	/* 3952()    */ PACK uint8   unknown_3952[0x0098];
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
@@ -1064,7 +1081,7 @@ typedef struct GlobalData {
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8()    */ PACK uint8   unknown_76A8[0x0008];
-	/* 76B0(4)   */ PACK csip32 variable_76B0;              /*!< ?? */
+	/* 76B0(4)   */ PACK uint32 variable_76B0;              /*!< ?? */
 	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
@@ -1135,7 +1152,9 @@ typedef struct GlobalData {
 	/* 8227(2)   */ PACK uint16 variable_8227;              /*!< ?? */
 	/* 8229(2)   */ PACK uint16 variable_8229;              /*!< ?? */
 	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
-	/* 822C()    */ PACK uint8   unknown_822C[0x020C];
+	/* 822C()    */ PACK uint8   unknown_822C[0x0204];
+	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
+	/* 8434(4)   */ PACK csip32 structureCurrent2;          /*!< Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of AirUnit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */

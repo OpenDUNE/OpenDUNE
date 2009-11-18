@@ -63,7 +63,6 @@
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
-0972:0007:0051:7645	emu_GameLoop_Structure	# ()
 0972:0C04:0037:B310	emu_Script_Structure_ChangeVariable54	# Script function - Changes Structure.variable54 (Animation frame? How to call this? It controls the current SpriteID of the structure
 0972:137B:002B:A9E3	emu_Script_Structure_RemoveFogAroundTile	# Script function - Removes fog around a tile with a given radius
 
@@ -90,6 +89,8 @@
 0F3F:0335:0015:2275	emu_Tile_GetPackY	# (tile_packed)
 0F3F:034C:0012:18EA	emu_Tile_PackXY	# (x, y)
 0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
+
+0FCB:005F:001C:FDC4	emu_String_GetString	# (stringID), Gets a string based on a StringID
 
 1381:0005:0010:8273	emu_Action_StringToID	# (string_csip), Guard, Ambush, ..
 1381:0096:0008:1ADC	emu_Movement_StringToID	# (string_csip), Foot, Track, ..

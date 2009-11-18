@@ -8,6 +8,162 @@
 #include "structure.h"
 
 /**
+ * Emulator wrapper around GameLoop_Structure().
+ *
+ * @name emu_GameLoop_Structure
+ * @implements 0972:0007:0051:7645 ()
+ * @implements 0972:0038:0020:C146
+ * @implements 0972:003F:0019:8B3A
+ * @implements 0972:0058:004D:2870
+ * @implements 0972:0070:0035:11A8
+ * @implements 0972:0085:0020:DE51
+ * @implements 0972:00A5:0086:1AD2
+ * @implements 0972:00BD:006E:C639
+ * @implements 0972:00D2:0059:A980
+ * @implements 0972:00EB:0040:E14D
+ * @implements 0972:0100:002B:22A3
+ * @implements 0972:0119:0012:F490
+ * @implements 0972:012B:0006:5385
+ * @implements 0972:0131:0037:A640
+ * @implements 0972:0168:0012:8AC5
+ * @implements 0972:017A:0040:F4EB
+ * @implements 0972:01BA:0029:4B3B
+ * @implements 0972:01BB:0028:CB17
+ * @implements 0972:01E3:005C:4D9F
+ * @implements 0972:01E5:005A:6804
+ * @implements 0972:023F:000C:1822
+ * @implements 0972:0242:0009:920A
+ * @implements 0972:024B:000F:7578
+ * @implements 0972:025A:001D:88F1
+ * @implements 0972:0277:006D:68DA
+ * @implements 0972:02D7:000D:FA04
+ * @implements 0972:02E4:000A:817C
+ * @implements 0972:02EE:000C:2E19
+ * @implements 0972:02F0:000A:2519
+ * @implements 0972:02F8:0002:C4BA
+ * @implements 0972:02FA:000C:3415
+ * @implements 0972:0303:0003:9E2C
+ * @implements 0972:0306:000F:7770
+ * @implements 0972:0315:0011:1CBD
+ * @implements 0972:0326:0012:74BB
+ * @implements 0972:0338:0037:B1C0
+ * @implements 0972:036F:0037:C20A
+ * @implements 0972:0378:002E:1744
+ * @implements 0972:03A4:0002:C53A
+ * @implements 0972:03A6:000D:B949
+ * @implements 0972:03B0:0003:5F81
+ * @implements 0972:03B3:000F:76FF
+ * @implements 0972:03C2:000E:2934
+ * @implements 0972:03D0:000E:D597
+ * @implements 0972:03DE:000E:2D3F
+ * @implements 0972:03EC:000F:9EC1
+ * @implements 0972:03FB:0025:521A
+ * @implements 0972:0420:001A:C1B0
+ * @implements 0972:0446:002F:A3FF
+ * @implements 0972:045E:0017:5C13
+ * @implements 0972:0475:0015:5CB8
+ * @implements 0972:048A:0026:FEE9
+ * @implements 0972:048E:0022:3628
+ * @implements 0972:04B0:0020:BD61
+ * @implements 0972:04BB:0015:306F
+ * @implements 0972:04BD:0013:3438
+ * @implements 0972:04D0:0014:1BB6
+ * @implements 0972:04E4:0020:4CEA
+ * @implements 0972:04E9:001B:C395
+ * @implements 0972:0507:002B:15C1
+ * @implements 0972:050A:0028:2428
+ * @implements 0972:0532:001D:84CA
+ * @implements 0972:054F:001F:939F
+ * @implements 0972:056E:0018:A8ED
+ * @implements 0972:0578:000E:2802
+ * @implements 0972:0586:001B:DC71
+ * @implements 0972:05A1:0015:71F0
+ * @implements 0972:05B6:002B:35CA
+ * @implements 0972:05E1:0005:E0CA
+ * @implements 0972:05E6:0005:D74A
+ * @implements 0972:05EB:0005:F5CA
+ * @implements 0972:05F0:0006:6F66
+ * @implements 0972:05F6:000F:119B
+ * @implements 0972:0605:0012:6987
+ * @implements 0972:0617:0010:DEE5
+ * @implements 0972:0627:000B:5D60
+ * @implements 0972:0632:0004:0D12
+ * @implements 0972:0633:0003:9D17
+ * @implements 0972:0636:000E:0830
+ * @implements 0972:0644:000D:B324
+ * @implements 0972:0651:0021:1BFA
+ * @implements 0972:0672:0007:CF6C
+ * @implements 0972:0679:0035:CC9F
+ * @implements 0972:06AE:002D:14AC
+ * @implements 0972:06DB:0037:4B08
+ * @implements 0972:06DC:0036:4B86
+ * @implements 0972:06E1:0031:1FDA
+ * @implements 0972:0712:0004:431F
+ * @implements 0972:0714:0002:D83A
+ * @implements 0972:0716:0025:6D67
+ * @implements 0972:073B:0008:A466
+ * @implements 0972:0743:0011:51C8
+ * @implements 0972:0746:000E:1C8C
+ * @implements 0972:0754:000F:7761
+ * @implements 0972:0763:000E:A892
+ * @implements 0972:0771:000E:543A
+ * @implements 0972:077F:0017:5C1B
+ * @implements 0972:0796:0015:5CB8
+ * @implements 0972:07AB:0011:81A2
+ * @implements 0972:07AF:000D:B89A
+ * @implements 0972:07BC:0026:31BD
+ * @implements 0972:07E2:002A:C938
+ * @implements 0972:080C:0030:99D4
+ * @implements 0972:0816:0026:7654
+ * @implements 0972:083C:001E:CB1A
+ * @implements 0972:085A:0003:CB1A
+ * @implements 0972:085B:0002:C03A
+ * @implements 0972:085D:0002:CABA
+ * @implements 0972:085F:0024:6A5C
+ * @implements 0972:0874:000F:CCB9
+ * @implements 0972:0883:000F:F77A
+ * @implements 0972:0892:0012:3529
+ * @implements 0972:08A4:000E:8FFB
+ * @implements 0972:08B2:0038:5CE7
+ * @implements 0972:08EA:0005:A1EE
+ * @implements 0972:08EF:002F:F6E4
+ * @implements 0972:091E:0017:403F
+ * @implements 0972:0935:000C:9815
+ * @implements 0972:0938:0009:11BD
+ * @implements 0972:0941:000E:E81A
+ * @implements 0972:094F:0010:E581
+ * @implements 0972:095F:0009:7794
+ * @implements 0972:0968:005A:5668
+ * @implements 0972:097B:0047:4D03
+ * @implements 0972:09B2:0010:1586
+ * @implements 0972:09C2:0009:F797
+ * @implements 0972:09CB:0010:1586
+ * @implements 0972:09DB:0009:37AE
+ * @implements 0972:09E4:0010:1586
+ * @implements 0972:09F4:0008:D04F
+ * @implements 0972:09FC:0002:DE3A
+ * @implements 0972:09FE:001C:5B8B
+ * @implements 0972:0A1A:001D:C13E
+ * @implements 0972:0A37:0005:80EE
+ * @implements 0972:0A3A:0002:C43A
+ * @implements 0972:0A3C:0012:2599
+ * @implements 0972:0A44:000A:DEF0
+ * @implements 0972:0A4E:0015:9677
+ * @implements 0972:0A50:0013:04BA
+ * @implements 0972:0A63:0006:F7CE
+ *
+ * @define 1423:0C74:0015:3419
+ */
+void emu_GameLoop_Structure()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GameLoop_Structure();
+}
+
+/**
  * Emulator wrapper around Structure_Create().
  *
  * @name emu_Structure_Create

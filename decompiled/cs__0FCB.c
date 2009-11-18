@@ -67,9 +67,9 @@ l__005D:
 }
 
 /**
- * Decompiled function f__0FCB_005F_001C_FDC4()
+ * Decompiled function emu_String_GetString()
  *
- * @name f__0FCB_005F_001C_FDC4
+ * @name emu_String_GetString
  * @implements 0FCB:005F:001C:FDC4 ()
  * @implements 0FCB:007B:0005:87EE
  * @implements 0FCB:0086:0002:2597
@@ -197,7 +197,7 @@ l__005D:
  * Called From: B518:12D0:001B:EDC8
  * Called From: B518:13B4:0017:7E44
  */
-void f__0FCB_005F_001C_FDC4()
+void emu_String_GetString()
 {
 l__005F:
 	emu_push(emu_bp);

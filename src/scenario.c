@@ -1207,7 +1207,7 @@ l__0014:
 		emu_sp += 4;
 
 		/* Show where a field started in the preview mode by making it an odd looking sprite */
-		if (g_global->scenarioPreview) {
+		if (g_global->debugScenario) {
 			Tile *t = Map_GetTileByPosition(emu_di);
 			t->spriteID = 0x01FF;
 		}
@@ -1423,7 +1423,7 @@ l__0014:
 		emu_get_memory16(emu_ss, emu_bp, -0x8) += emu_ax + 1;
 	}
 
-	g_global->variable_38AC.csip = g_global->variable_76B0.csip;
+	g_global->variable_38AC = g_global->variable_76B0;
 	emu_ax = 0x1;
 
 exit:

@@ -215,7 +215,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	}
 
 	u->linkedStructureID = 0xFF;
-	u->variable_10       = 0x0000;
+	u->scriptDelay       = 0;
 	u->actionID          = 0x03;
 	u->variable_50       = 0xFF;
 	u->variable_51       = 0x00;
@@ -237,7 +237,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	if (ui->variable_3C == 0x0001) {
 		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
 
-		if (emu_ax < g_houseInfo[houseID].variable_0006) {
+		if (emu_ax < g_houseInfo[houseID].variable_06) {
 			u->flags |= 0x0400;
 		}
 	}
