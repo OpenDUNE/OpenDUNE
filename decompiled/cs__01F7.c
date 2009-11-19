@@ -8191,6 +8191,7 @@ l__399D:
  * @name emu_String_strlen
  * @implements 01F7:39A5:001F:1A5D ()
  * @implements 01F7:39B7:000D:EFE3
+ * @implements 01F7:39C1:0003:2E77
  *
  * Called From: 01F7:27AD:000A:3382
  * Called From: 01F7:348B:001A:8B70
@@ -8252,7 +8253,7 @@ l__39A5:
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
 	if (emu_ax == emu_get_memory16(emu_ss, emu_bp,  0x8)) {
 		emu_cmpw(&emu_ax, emu_di);
-		if (emu_ax == emu_di) { /* Unresolved jump */ emu_ip = 0x39C1; emu_last_cs = 0x01F7; emu_last_ip = 0x39B5; emu_last_length = 0x001F; emu_last_crc = 0x1A5D; emu_call(); return; }
+		if (emu_ax == emu_di) goto l__39C1;
 	}
 l__39B7:
 	emu_cld();
@@ -8261,6 +8262,7 @@ l__39B7:
 	emu_xchgw(&emu_ax, &emu_cx);
 	emu_notw(&emu_ax, emu_ax);
 	emu_decw(&emu_ax);
+l__39C1:
 	emu_pop(&emu_di);
 	emu_pop(&emu_bp);
 
