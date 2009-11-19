@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include "../src/scenario.h"
+#include "../src/unit.h"
 #include "../src/interrupt.h"
 #include "../src/patched.h"
 #include "../src/airunit.h"
@@ -14,7 +15,6 @@
 #include "../src/structure.h"
 #include "../src/map.h"
 #include "../src/input/input.h"
-#include "../src/unit.h"
 #include "../src/tools.h"
 #include "../src/os/strings.h"
 #include "../src/script.h"
@@ -124,7 +124,6 @@ extern void f__176C_000E_000E_633D();
 extern void f__1DD7_000E_001C_4593();
 extern void f__2BEE_000E_0009_8881();
 extern void f__2B6C_000E_0045_C1FE();
-extern void f__07C9_000F_0050_9278();
 extern void f__2521_000F_0022_6D87();
 extern void f__2BC0_0013_000A_39BD();
 extern void f__217E_0015_0019_BAFF();

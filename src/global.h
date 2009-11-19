@@ -694,7 +694,8 @@ typedef struct GlobalData {
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
-	/* 38E2()    */ PACK uint8   unknown_38E2[0x0020];
+	/* 38E2()    */ PACK uint8   unknown_38E2[0x001E];
+	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK uint8  scriptUnit[22];             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
 	/* 3918(22)  */ PACK uint8  scriptStructure[22];        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
 	/* 392E()    */ PACK uint8   unknown_392E[0x001C];

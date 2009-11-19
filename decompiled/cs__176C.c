@@ -297,7 +297,7 @@ l__017B:
 	emu_push(emu_ax);
 	emu_ax = 0x4;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x018F); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x018F); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__018F:
 	emu_addw(&emu_sp, 0x8);
 	emu_cwd();
@@ -1865,7 +1865,7 @@ l__101E:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x1039); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x1039); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__1039:
 	emu_addw(&emu_sp, 0x8);
 	emu_si = emu_ax;
@@ -2166,7 +2166,7 @@ l__123F:
 	emu_ax = 0x19;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x18));
-	emu_push(emu_cs); emu_push(0x1255); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x1255); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__1255:
 	emu_addw(&emu_sp, 0x8);
 	emu_get_memory16(emu_ss, emu_bp, -0x18) = emu_ax;
@@ -2983,7 +2983,7 @@ l__1875:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_push(emu_cs); emu_push(0x1895); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x1895); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__1895:
 	emu_addw(&emu_sp, 0x8);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
@@ -3004,7 +3004,7 @@ l__1895:
 	emu_push(emu_ax);
 	emu_ax = 0x5;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x18D2); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x18D2); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__18D2:
 	emu_addw(&emu_sp, 0x8);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6268));

@@ -29,7 +29,7 @@ extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
 extern void emu_Structure_UpdateVariable54();
 extern void emu_Tile_Unpack();
-extern void f__07C9_000F_0050_9278();
+extern void emu_Tools_AdjustToGameSpeed();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_25EC_0011_E453();
@@ -75,7 +75,7 @@ void GameLoop_Structure()
 		emu_push(0x5460);
 		emu_push(0x1518);
 		emu_push(0x2A30);
-		emu_push(emu_cs); emu_push(0x00A5); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+		emu_push(emu_cs); emu_push(0x00A5); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 		emu_sp += 8;
 
 		g_global->variable_341A = g_global->variable_76B0 + emu_ax;
@@ -88,7 +88,7 @@ void GameLoop_Structure()
 		emu_push(0x3C);
 		emu_push(0xF);
 		emu_push(0x1E);
-		emu_push(emu_cs); emu_push(0x0058); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+		emu_push(emu_cs); emu_push(0x0058); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 		emu_sp += 8;
 
 		g_global->variable_341E = g_global->variable_76B0 + emu_ax;

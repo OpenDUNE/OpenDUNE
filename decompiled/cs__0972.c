@@ -1150,7 +1150,7 @@ l__12A4:
 	emu_es = emu_ax;
 	emu_push(emu_get_memory16(emu_es, 0x00, 0x2C4));
 l__12BC:
-	emu_push(emu_cs); emu_push(0x12C1); emu_cs = 0x07C9; f__07C9_000F_0050_9278();
+	emu_push(emu_cs); emu_push(0x12C1); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
 l__12C1:
 	emu_addw(&emu_sp, 0x8);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
