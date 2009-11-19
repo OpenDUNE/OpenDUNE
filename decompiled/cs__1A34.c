@@ -4542,6 +4542,7 @@ l__2327:
  *
  * Called From: 0AEC:058A:0010:F5AC
  * Called From: 1391:0655:0013:BF12
+ * Called From: 1391:06DC:0013:BF12
  * Called From: 1A34:22EE:000D:82BF
  */
 void f__1A34_232C_0011_B7DE()

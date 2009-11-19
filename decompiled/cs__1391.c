@@ -95,6 +95,10 @@
  * @implements 1391:069A:0016:7A8F
  * @implements 1391:06B0:0005:B92E
  * @implements 1391:06B5:0019:6FCA
+ * @implements 1391:06CE:0013:BF12
+ * @implements 1391:06E1:003C:0BDF
+ * @implements 1391:071D:0003:C41A
+ * @implements 1391:071E:0002:CF3A
  * @implements 1391:0720:000B:166D
  * @implements 1391:072B:0013:8CF6
  * @implements 1391:072D:0011:C7C0
@@ -807,7 +811,37 @@ l__06B5:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x1C));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs); emu_push(0x06CE); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
-	/* Unresolved jump */ emu_ip = 0x06CE; emu_last_cs = 0x1391; emu_last_ip = 0x06CE; emu_last_length = 0x0019; emu_last_crc = 0x6FCA; emu_call();
+l__06CE:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_push(emu_ax);
+	emu_ax = 0x1A;
+	emu_push(emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
+	emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
+l__06E1:
+	emu_addw(&emu_sp, 0x6);
+	emu_get_memory16(emu_ss, emu_bp, -0x16) = emu_dx;
+	emu_get_memory16(emu_ss, emu_bp, -0x18) = emu_ax;
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x18);
+	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x16));
+	if (emu_ax == 0) goto l__071E;
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0x2C);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
+	emu_get_memory8(emu_es, emu_bx, 0x3) = emu_al;
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x394A));
+	emu_get_memory16(emu_es, emu_bx, 0x2C) = 0xFFFF;
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x18));
+	emu_orw(&emu_get_memory16(emu_es, emu_bx, 0x4), 0x100);
+	emu_ax = 0x26;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x071D); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+l__071D:
+	emu_pop(&emu_cx);
+l__071E:
+	goto l__073E;
 l__0720:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_xorw(&emu_dx, emu_dx);
