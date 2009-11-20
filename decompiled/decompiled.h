@@ -99,7 +99,6 @@ extern void f__10E4_0008_0048_5BD4();
 extern void f__1DD2_0008_004C_D4CF();
 extern void emu_GameLoop_AirUnit();
 extern void f__1423_0009_0025_FE5D();
-extern void emu_GameLoop_House();
 extern void f__28E6_000A_0040_D751();
 extern void f__24FD_000A_000B_2043();
 extern void f__2BC2_000A_0044_2E0E();

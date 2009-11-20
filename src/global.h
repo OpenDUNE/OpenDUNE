@@ -88,10 +88,10 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Reinformcent {
 	/* 0000(2)   */ PACK uint16 unitID;                     /*<! The Unit which is already created and ready to join the game. */
-	/* 0000(2)   */ PACK uint16 locationID;                 /*<! The location where the Unit will appear. */
-	/* 0000(2)   */ PACK uint16 timeLeft;                   /*<! In how many ticks the Unit will appear. */
-	/* 0000(2)   */ PACK uint16 timeBetween;                /*<! In how many ticks the Unit will appear again if repeat is set. */
-	/* 0000(2)   */ PACK uint16 repeat;                     /*<! If non-zero, the Unit will appear every timeBetween ticks. */
+	/* 0002(2)   */ PACK uint16 locationID;                 /*<! The location where the Unit will appear. */
+	/* 0004(2)   */ PACK uint16 timeLeft;                   /*<! In how many ticks the Unit will appear. */
+	/* 0006(2)   */ PACK uint16 timeBetween;                /*<! In how many ticks the Unit will appear again if repeat is set. */
+	/* 0008(2)   */ PACK uint16 repeat;                     /*<! If non-zero, the Unit will appear every timeBetween ticks. */
 } GCC_PACKED Reinformcent;
 MSVC_PACKED_END
 assert_compile(sizeof(Reinformcent) == 0x0A);
@@ -687,14 +687,19 @@ typedef struct GlobalData {
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
-	/* 38BE()    */ PACK uint8   unknown_38BE[0x0008];
+	/* 38BE()    */ PACK uint8   unknown_38BE[0x0002];
+	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */
+	/* 38C4()    */ PACK uint8   unknown_38C4[0x0002];
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
 	/* 38CA(4)   */ PACK csip32 variable_38CA;              /*!< ?? */
 	/* 38CA()    */ PACK uint8   unknown_38CE[0x000C];
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
-	/* 38E2()    */ PACK uint8   unknown_38E2[0x001E];
+	/* 38E2()    */ PACK uint8   unknown_38E2[0x0008];
+	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
+	/* 38EC()    */ PACK uint8   unknown_38EE[0x0012];
+	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK uint8  scriptUnit[22];             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
 	/* 3918(22)  */ PACK uint8  scriptStructure[22];        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
@@ -790,7 +795,15 @@ typedef struct GlobalData {
 	/* 42DB(7)   */ PACK char   string_42DB[7];             /*!< "Deploy" NULL terminated. */
 	/* 42E2(9)   */ PACK char   string_42E2[9];             /*!< "Destruct" NULL terminated. */
 	/* 42EB()    */ PACK uint8   unknown_42EB[0x1D67];      /*!< list of all files. */
-	/* 6052()    */ PACK uint8   unknown_6052[0x005C];
+	/* 6052()    */ PACK uint8   unknown_6052[0x0034];
+	/* 6086(4)   */ PACK uint32 variable_6086;              /*!< ?? */
+	/* 608A(4)   */ PACK uint32 variable_608A;              /*!< ?? */
+	/* 608E(4)   */ PACK uint32 variable_608E;              /*!< ?? */
+	/* 6092(4)   */ PACK uint32 variable_6092;              /*!< ?? */
+	/* 6096(4)   */ PACK uint32 variable_6096;              /*!< ?? */
+	/* 609A(4)   */ PACK uint32 variable_609A;              /*!< ?? */
+	/* 609E(4)   */ PACK uint32 variable_609E;              /*!< ?? */
+	/* 608A()    */ PACK uint8   unknown_60A2[0x000C];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
