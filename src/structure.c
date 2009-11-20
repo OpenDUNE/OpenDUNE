@@ -267,9 +267,9 @@ void GameLoop_Structure()
 
 							if (s->houseID == g_global->playerHouseID) {
 								if (s->type != STRUCTURE_BARRACKS && s->type != STRUCTURE_WOR_TROOPER) {
-									uint16 stringID = 0x83;
-									if (s->type == STRUCTURE_HIGH_TECH) stringID = 0x81;
-									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82;
+									uint16 stringID = 0x83; /* "is completed and awaiting orders." */
+									if (s->type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
+									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
 									emu_push(stringID);
 									emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x0FCB; emu_String_GetString();
@@ -340,7 +340,7 @@ void GameLoop_Structure()
 						if (s->houseID == g_global->playerHouseID) {
 							s->type |= 0x4000;
 
-							emu_push(0x84);
+							emu_push(0x84); /* "Insufficient funds.  Construction is halted." */
 							emu_push(emu_cs); emu_push(0x073B); emu_cs = 0x0FCB; emu_String_GetString();
 							emu_sp += 2;
 
@@ -961,7 +961,7 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
 
 	/* Check if we are low on power */
 	if (houseID == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
-		emu_push(0x010E);
+		emu_push(0x010E); /* "Insufficient power.  Windtrap is needed." */
 		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; emu_String_GetString();
 		emu_sp += 2;
 
