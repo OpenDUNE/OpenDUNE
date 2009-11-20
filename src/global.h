@@ -144,12 +144,10 @@ typedef struct GlobalData {
 	/* 007E(1)   */ PACK uint8  minorDOSVersion;            /*!< DOS minor version. */
 	/* 007F(2)   */ PACK uint16 variable_007F;              /*!< ?? Something related to files. */
 	/* 0081(4)   */ PACK uint32 systemTime;                 /*!< System time. */
-	/* 0085()    */ PACK uint8   unknown_0085[0x0004];
-	/* 0089(2)   */ PACK uint16 variable_0089;              /*!< ?? Something related to memory. */
-	/* 008B()    */ PACK uint8   unknown_008B[0x0002];
-	/* 008D(2)   */ PACK uint16 variable_008D;              /*!< ?? Something related to memory. */
-	/* 008F()    */ PACK uint8   unknown_008F[0x0002];
-	/* 0091(2)   */ PACK uint16 memorySize;                 /*!< Size of memory in paragraphs. */
+	/* 0085()    */ PACK uint8   unknown_0085[0x0002];
+	/* 0087(4)   */ PACK uint32 variable_0087;              /*!< ?? Something related to memory. */
+	/* 008B(4)   */ PACK uint32 variable_008B;              /*!< ?? Something related to memory. */
+	/* 008F(4)   */ PACK uint32 memorySize;                 /*!< Size of memory in paragraphs. */
 	/* 0093()    */ PACK uint8   unknown_0093[0x0001];
 	/* 0094()    */ PACK csip32 variable_0094;              /*!< ?? Pointer to string_00A8. */
 	/* 0098()    */ PACK csip32 variable_0098;              /*!< ?? Pointer to string_00B2. */
@@ -1111,7 +1109,9 @@ typedef struct GlobalData {
 	/* 7986(2)   */ PACK uint16 variable_7986;              /*!< ?? Something related to files. */
 	/* 7988(2)   */ PACK uint16 variable_7988;              /*!< ?? Something related to files. */
 	/* 798A(1)   */ PACK uint8  variable_798A;              /*!< ?? Something related to files. */
-	/* 798B()    */ PACK uint8   unknown_798B[0x00DD];
+	/* 798B()    */ PACK uint8   unknown_798B[0x0059];
+	/* 79E4(4)   */ PACK uint32 variable_79E4;              /*!< ?? */
+	/* 79E8()    */ PACK uint8   unknown_79E8[0x0080];
 	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
 	/* 7A6A(7)   */ PACK char   string_7A6A[7];             /*!< "(null)" NULL terminated. */
 	/* 7A71()    */ PACK uint8   unknown_7A71[0x0061];
