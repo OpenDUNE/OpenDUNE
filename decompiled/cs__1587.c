@@ -206,7 +206,7 @@ l__0153:
 	emu_xorw(&emu_cx, emu_cx);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0xE);
 	emu_xorw(&emu_dx, emu_dx);
-	emu_push(emu_cs); emu_push(0x0163); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
+	emu_push(emu_cs); emu_push(0x0163); emu_cs = 0x01F7; emu_Tools_MulCSIP_csip();
 l__0163:
 	emu_get_memory16(emu_ds, 0x00, 0x6116) = emu_dx;
 	emu_get_memory16(emu_ds, 0x00, 0x6114) = emu_ax;

@@ -4054,7 +4054,7 @@ l__1840:
 	emu_imuluw(&emu_ax, emu_di);
 	emu_di = emu_ax;
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x01F7; f__01F7_07D4_0011_370E();
+	emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__1863:

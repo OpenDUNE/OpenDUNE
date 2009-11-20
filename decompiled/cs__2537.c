@@ -86,7 +86,7 @@ l__0028:
 	emu_dx = 0x8000;
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x01F7; f__01F7_07E5_0011_F68B();
+	emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x01F7; emu_Tools_Var79E4_Update();
 l__0034:
 	emu_cwd();
 	emu_push(emu_ax);
@@ -97,7 +97,7 @@ l__0034:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_pop(&emu_cx);
 	emu_pop(&emu_bx);
-	emu_push(emu_cs); emu_push(0x0045); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
+	emu_push(emu_cs); emu_push(0x0045); emu_cs = 0x01F7; emu_Tools_MulCSIP_csip();
 l__0045:
 	emu_push(emu_dx);
 	emu_push(emu_ax);

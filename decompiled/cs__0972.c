@@ -713,7 +713,7 @@ l__0F59:
 	emu_bx = emu_get_memory16(emu_ss, emu_bp, -0x10);
 	emu_xorw(&emu_dx, emu_dx);
 	emu_ax = 0x3;
-	emu_push(emu_cs); emu_push(0x0F73); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
+	emu_push(emu_cs); emu_push(0x0F73); emu_cs = 0x01F7; emu_Tools_MulCSIP_csip();
 l__0F73:
 	emu_cmpw(&emu_dx, emu_get_memory16(emu_ss, emu_bp, -0x6));
 	if ((int16)emu_dx >= (int16)emu_get_memory16(emu_ss, emu_bp, -0x6)) {

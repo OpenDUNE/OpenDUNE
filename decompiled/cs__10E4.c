@@ -2061,7 +2061,7 @@ l__0DB3:
 	emu_cwd();
 	emu_pop(&emu_cx);
 	emu_pop(&emu_bx);
-	emu_push(emu_cs); emu_push(0x0DEC); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
+	emu_push(emu_cs); emu_push(0x0DEC); emu_cs = 0x01F7; emu_Tools_MulCSIP_csip();
 l__0DEC:
 	emu_push(emu_dx);
 	emu_push(emu_ax);

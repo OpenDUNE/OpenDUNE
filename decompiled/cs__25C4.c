@@ -350,7 +350,7 @@ l__03D8:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x01F7; f__01F7_07D4_0011_370E();
+	emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
 l__03E0:
 	emu_pop(&emu_cx);
 	emu_xorw(&emu_ax, emu_ax);

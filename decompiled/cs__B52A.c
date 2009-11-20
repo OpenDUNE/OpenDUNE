@@ -155,7 +155,7 @@ l__00D9:
 	emu_xorw(&emu_cx, emu_cx);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x40);
 	emu_xorw(&emu_dx, emu_dx);
-	emu_push(emu_cs); emu_push(0x00F2); emu_cs = 0x01F7; f__01F7_03B2_0017_7CBE();
+	emu_push(emu_cs); emu_push(0x00F2); emu_cs = 0x01F7; emu_Tools_MulCSIP_csip();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { overlay(0x352A, 1); }
 l__00F2:
