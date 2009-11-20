@@ -31,7 +31,7 @@
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:079C:0017:78BE	emu_Tools_MulCSIP_ip	# () dx:ax * cx:bx -> dx:ax
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
-01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4, returns high word & 0x7FFF
+01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
 01F7:1097:0010:64C2	emu_String_tolower	# (c)
 01F7:10C3:0010:64C2	emu_String_toupper	# (c)
