@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0FCB_000D_0019_5047()
+ * Decompiled function emu_String_Load()
  *
- * @name f__0FCB_000D_0019_5047
+ * @name emu_String_Load
  * @implements 0FCB:000D:0019:5047 ()
  * @implements 0FCB:0026:0024:179B
  * @implements 0FCB:0034:0016:C1AF
@@ -22,7 +22,7 @@
  * Called From: B4BE:0012:000B:DEF2
  * Called From: B4BE:0082:000C:5C4C
  */
-void f__0FCB_000D_0019_5047()
+void emu_String_Load()
 {
 l__000D:
 	emu_push(emu_bp);

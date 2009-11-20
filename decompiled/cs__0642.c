@@ -169,7 +169,7 @@ l__00E0:
 	emu_push(emu_ds);
 	emu_ax = 0x31F4;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00EA); emu_cs = 0x0FCB; f__0FCB_000D_0019_5047();
+	emu_push(emu_cs); emu_push(0x00EA); emu_cs = 0x0FCB; emu_String_Load();
 l__00EA:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

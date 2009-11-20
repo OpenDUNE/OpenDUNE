@@ -116,7 +116,7 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__2533_000D_001C_74EC();
 extern void f__22A3_000D_0010_9291();
 extern void emu_Tile_IsValid();
-extern void f__0FCB_000D_0019_5047();
+extern void emu_String_Load();
 extern void f__25C4_000E_0019_12FF();
 extern void f__2B1E_000E_003E_B647();
 extern void f__151A_000E_0013_5840();

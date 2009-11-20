@@ -35,7 +35,7 @@ l__0000:
 	emu_push(emu_ds);
 	emu_ax = 0x1C14;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x000D); emu_cs = 0x0FCB; f__0FCB_000D_0019_5047();
+	emu_push(emu_cs); emu_push(0x000D); emu_cs = 0x0FCB; emu_String_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AB) { overlay(0x34AB, 1); }
 l__000D:
