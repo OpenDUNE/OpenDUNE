@@ -11,13 +11,10 @@
 #include "pool/unit.h"
 #include "house.h"
 #include "map.h"
+#include "script.h"
 #include "unit.h"
 #include "structure.h"
 
-extern void emu_Script_IsLoaded();
-extern void emu_Script_Load();
-extern void emu_Script_Reset();
-extern void emu_Script_Run();
 extern void emu_String_GetString();
 extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
@@ -426,11 +423,7 @@ void GameLoop_Structure()
 			if (s->scriptDelay != 0) {
 				s->scriptDelay--;
 			} else {
-				emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip + 0x12); /* &s->script */
-				emu_push(emu_cs); emu_push(0x095F); emu_cs = 0x15C2; emu_Script_IsLoaded();
-				emu_sp += 4;
-
-				if (emu_ax != 0) {
+				if (Script_IsLoaded(&s->script)) {
 					uint8 i;
 
 					/* XXX -- No idea, variable_37A2, variable_37A4 and variable_37A8 are only written to, never read. Most likely part of a script debugger. */
@@ -438,32 +431,21 @@ void GameLoop_Structure()
 						g_global->variable_37A4 = 0;
 						g_global->variable_37A2++;
 
-						if (s->script.variable_0B <= 15 && 15 - s->script.variable_0B > g_global->variable_37A8) {
-							g_global->variable_37A8 = 15 - s->script.variable_0B;
+						if (s->script.stackPointer <= 15 && 15 - s->script.stackPointer > g_global->variable_37A8) {
+							g_global->variable_37A8 = 15 - s->script.stackPointer;
 						}
 					}
 
 					/* Run the script 3 times in a row */
 					for (i = 0; i < 3; i++) {
-						emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip + 0x12); /* &s->script */
-						emu_push(emu_cs); emu_push(0x09C2); emu_cs = 0x15C2; emu_Script_Run();
-						emu_sp += 4;
-
-						if (emu_ax == 0) break;
+						if (!Script_Run(&s->script)) break;
 					}
 
 					/* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
 					if (!g_dune2_enhanced && i != 3) return;
 				} else {
-					emu_push(s->script.scriptInfo.s.cs); emu_push(s->script.scriptInfo.s.ip);
-					emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip + 0x12); /* &s->script */
-					emu_push(emu_cs); emu_push(0x0682); emu_cs = 0x15C2; emu_Script_Reset();
-					emu_sp += 8;
-
-					emu_push(s->type);
-					emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip + 0x12); /* &s->script */
-					emu_push(emu_cs); emu_push(0x0A37); emu_cs = 0x15C2; emu_Script_Load();
-					emu_sp += 6;
+					Script_Reset(&s->script, ScriptInfo_Get_ByMemory(s->script.scriptInfo));
+					Script_Load(&s->script, s->type);
 				}
 			}
 		}
@@ -823,27 +805,16 @@ bool Structure_Place(Structure *s, uint16 position)
 		}
 	}
 
-	emu_push(emu_ds); emu_push(emu_Global_GetIP(&g_global->scriptStructure, 0x353F));
-	emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-	emu_push(emu_cs); emu_push(0x0645); emu_cs = 0x15C2; emu_Script_Reset();
-	emu_sp += 8;
+	Script_Reset(&s->script, &g_global->scriptStructure);
 
-	s->script.variable_0C = 0;
-	s->script.variable_14 = 0;
+	s->script.variables[0] = 0;
+	s->script.variables[4] = 0;
 
 	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
 		s->scriptDelay = 0;
-
-		emu_push(s->script.scriptInfo.s.cs); emu_push(s->script.scriptInfo.s.ip);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-		emu_push(emu_cs); emu_push(0x0682); emu_cs = 0x15C2; emu_Script_Reset();
-		emu_sp += 8;
-
-		emu_push(s->type);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip + 0x12); /* &s->script */
-		emu_push(emu_cs); emu_push(0x069D); emu_cs = 0x15C2; emu_Script_Load();
-		emu_sp += 6;
+		Script_Reset(&s->script, ScriptInfo_Get_ByMemory(s->script.scriptInfo));
+		Script_Load(&s->script, s->type);
 	}
 
 	{

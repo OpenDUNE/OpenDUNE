@@ -6,13 +6,12 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../structure.h"
 #include "../house.h"
+#include "../script.h"
+#include "../structure.h"
 #include "pool.h"
 #include "structure.h"
 #include "house.h"
-
-extern void emu_Script_Reset();
 
 /**
  * Get a Structure from the pool with the indicated index.
@@ -184,13 +183,10 @@ void Structure_Free(csip32 address)
 	Structure *b;
 	int i;
 
-	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->scriptStructure, 0x353F));
-	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
-	emu_push(emu_cs); emu_push(0x033D); emu_cs = 0x15C2; emu_Script_Reset();
-	emu_sp += 8;
-
 	b = Structure_Get_ByMemory(address);
 	b->flags = 0x0;
+
+	Script_Reset(&b->script, &g_global->scriptStructure);
 
 	/* Walk the array to find the Structure we are removing */
 	for (i = 0; i < g_global->structureCount; i++) {

@@ -7,12 +7,11 @@
 #include "libemu.h"
 #include "../global.h"
 #include "../house.h"
+#include "../script.h"
 #include "../unit.h"
 #include "pool.h"
 #include "house.h"
 #include "unit.h"
-
-extern void emu_Script_Reset();
 
 /**
  * Get a Unit from the pool with the indicated index.
@@ -185,13 +184,10 @@ void Unit_Free(csip32 address)
 	Unit *u;
 	int i;
 
-	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->scriptUnit, 0x353F));
-	emu_push(address.s.cs); emu_push(address.s.ip + 0x12);
-	emu_push(emu_cs); emu_push(0x0580); emu_cs = 0x15C2; emu_Script_Reset();
-	emu_sp += 8;
-
 	u = Unit_Get_ByMemory(address);
 	u->flags = 0x0;
+
+	Script_Reset(&u->script, &g_global->scriptUnit);
 
 	/* Walk the array to find the Unit we are removing */
 	for (i = 0; i < g_global->unitCount; i++) {

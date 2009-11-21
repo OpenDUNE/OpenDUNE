@@ -7,13 +7,13 @@
 #include "global.h"
 #include "pool/unit.h"
 #include "house.h"
+#include "script.h"
 #include "unit.h"
 
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_204C_0043_B1ED();
 extern void emu_Unit_FindStructure();
-extern void emu_Script_Reset();
 extern void f__2BB4_0004_0027_DC1D();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_0E2E_0015_7E65();
@@ -227,10 +227,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->variable_6E       = 0x00;
 	u->variable_70       = 0x0000;
 
-	emu_push(0x353F); emu_push(emu_Global_GetIP(&g_global->scriptUnit, 0x353F));
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip + 0x12); /* &s->script */
-	emu_push(emu_cs); emu_push(0x0A7C); emu_cs = 0x15C2; emu_Script_Reset();
-	emu_sp += 8;
+	Script_Reset(&u->script, &g_global->scriptUnit);
 
 	u->flags |= 0x0002;
 

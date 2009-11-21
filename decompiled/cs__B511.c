@@ -1215,7 +1215,7 @@ l__08A6:
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x08C1); emu_cs = 0x2BC0; f__2BC0_0004_000F_950B();
+	emu_push(emu_cs); emu_push(0x08C1); emu_cs = 0x2BC0; emu_Tools_Swapd();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__08C1:

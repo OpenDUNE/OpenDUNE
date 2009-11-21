@@ -3,6 +3,8 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include "script.h"
+
 /*
  * Segments:
  *   2C94 -> StructureInfo array (starts at 2C94:000A).
@@ -648,7 +650,7 @@ typedef struct GlobalData {
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
 	/* 320D()    */ PACK uint8   unknown_320D[0x01A9];
-	/* 33B6(100) */ PACK csip32 variable_33B6[25];          /*!< ?? Structure functions to call via script engine. */
+	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via script engine. */
 	/* 341A(4)   */ PACK uint32 variable_341A;              /*!< ?? */
 	/* 341E(4)   */ PACK uint32 variable_341E;              /*!< ?? */
 	/* 3422(4)   */ PACK uint32 variable_3422;              /*!< ?? */
@@ -703,8 +705,8 @@ typedef struct GlobalData {
 	/* 38EC()    */ PACK uint8   unknown_38EE[0x0012];
 	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
-	/* 3902(22)  */ PACK uint8  scriptUnit[22];             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
-	/* 3918(22)  */ PACK uint8  scriptStructure[22];        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
+	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< ?? Some struct for units, required by the script engine. At +16 is a csip32 which points to variable_6168. */
+	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< ?? Some struct for structures, required by script engine. At +16 is a csip32 which points to variable_33B6. */
 	/* 392E()    */ PACK uint8   unknown_392E[0x001C];
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in GameLoop. */
@@ -821,7 +823,7 @@ typedef struct GlobalData {
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
 	/* 6124()    */ PACK uint8   unknown_6124[0x0044];
-	/* 6168(256) */ PACK csip32 variable_6168[64];          /*!< ?? Functions to call via script engine. */
+	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via script engine. */
 	/* 6268()    */ PACK uint8   unknown_6268[0x0082];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */

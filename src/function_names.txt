@@ -144,6 +144,9 @@
 
 2B0E:00D0:0022:EC76	emu_Tools_GetSmallestIP	# Move as much of the IP to CS
 
+2BC0:0004:000F:950B	emu_Tools_Swapd	# LE <-> BE for 32bit values
+2BC0:0013:000A:39BD	emu_Tools_Swapw	# LE <-> BE for 16bit values
+
 B4B5:0000:0014:F092	emu_Scenario_Load	# (scenarioID, playerHouseID)
 
 B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop

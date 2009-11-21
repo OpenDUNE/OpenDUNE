@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2BC0_0004_000F_950B()
+ * Decompiled function emu_Tools_Swapd()
  *
- * @name f__2BC0_0004_000F_950B
+ * @name emu_Tools_Swapd
  * @implements 2BC0:0004:000F:950B ()
  *
  * Called From: B4B1:0139:000B:B36D
@@ -20,7 +20,7 @@
  * Called From: B4E0:0653:0013:A738
  * Called From: B511:08BC:001B:5CCA
  */
-void f__2BC0_0004_000F_950B()
+void emu_Tools_Swapd()
 {
 l__0004:
 	emu_push(emu_bp);
@@ -38,16 +38,16 @@ l__0004:
 }
 
 /**
- * Decompiled function f__2BC0_0013_000A_39BD()
+ * Decompiled function emu_Tools_Swapw()
  *
- * @name f__2BC0_0013_000A_39BD
+ * @name emu_Tools_Swapw
  * @implements 2BC0:0013:000A:39BD ()
  *
  * Called From: 15C2:0282:0015:F826
  * Called From: 15C2:0595:001E:C033
  * Called From: 15C2:05F9:0025:FC39
  */
-void f__2BC0_0013_000A_39BD()
+void emu_Tools_Swapw()
 {
 l__0013:
 	emu_push(emu_bp);
