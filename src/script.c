@@ -8,6 +8,7 @@
 
 extern void f__0972_0A72_000D_024E();
 extern void f__0972_0A81_0017_2EC7();
+extern void f__0972_0A69_0007_C3F1();
 extern void f__0972_0AFC_0016_0DC9();
 extern void emu_Script_Structure_ChangeVariable54();
 extern void f__0972_0C5A_0015_E00A();
@@ -15,24 +16,32 @@ extern void f__0972_0E87_0047_4065();
 extern void f__0972_1004_0029_E69D();
 extern void f__0972_11B9_0020_8DC9();
 extern void f__0972_121E_0030_5DAA();
+extern void f__0972_133C_0036_0328();
 extern void emu_Script_Structure_RemoveFogAroundTile();
 extern void f__0972_13AF_0015_619A();
+extern void f__0972_114F_0020_EA79();
 extern void f__0972_1524_0018_014D();
 extern void f__0972_15A2_0019_AB1E();
+extern void f__0EDB_0006_002F_CECA();
 extern void f__0EDB_00B7_003B_92E3();
 extern void f__0EDB_00F6_000C_3B74();
 extern void f__0EDB_0145_002F_C125();
+extern void f__0EDB_0184_0030_A1C2();
 extern void f__0EDB_01F7_0020_4DC9();
 extern void f__0EDB_024B_001D_2E46();
 extern void f__0EDB_0288_0020_3D83();
 extern void f__0EDB_02EA_001E_F83C();
 extern void f__0EDB_032B_0031_E91B();
+extern void f__0EDB_0386_001D_2E46();
 extern void f__0EDB_03B9_001D_2E46();
 extern void f__0EDB_03EC_0020_629E();
 extern void f__0EDB_0426_0027_711D();
 extern void f__0EDB_0456_0032_B7E5();
 extern void f__0EDB_04AE_0024_408E();
 extern void f__0EDB_050C_001D_2E46();
+extern void f__0EDB_0594_0026_F09C();
+extern void f__16C5_0124_0007_C3F1();
+extern void f__16C5_012D_0017_71BC();
 extern void f__16C5_01EF_000D_1984();
 extern void f__16C5_01FE_000D_19C4();
 extern void f__16C5_020D_000D_1A44();
@@ -43,6 +52,8 @@ extern void f__16C5_06C6_001D_94A6();
 extern void f__16C5_0788_0018_4AA5();
 extern void f__16C5_09C4_003E_31D6();
 extern void f__16C5_0A20_003A_2375();
+extern void f__176C_07E8_0007_C3F1();
+extern void f__176C_07F1_001D_3E0E();
 extern void f__176C_0858_0023_E780();
 extern void f__176C_0882_0014_0C6A();
 extern void f__176C_0BC3_002A_A6DE();
@@ -66,6 +77,7 @@ extern void f__176C_1CFE_0021_29C8();
 extern void f__176C_1F51_002F_CE9F();
 extern void f__176C_212E_002E_9D89();
 extern void f__176C_2275_001D_D22D();
+extern void f__176C_22AA_0014_EDA3();
 extern void f__176C_22C4_0019_80C9();
 extern void f__176C_23CC_000B_4119();
 extern void f__176C_246C_0015_C163();
@@ -91,30 +103,30 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
  */
 emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	&f__0EDB_00B7_003B_92E3,
-	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A69_0007_C3F1,
 	&f__0972_0A81_0017_2EC7,
 	&f__0972_0AFC_0016_0DC9,
 	&emu_Script_Structure_ChangeVariable54,
-	/*&f__0EDB_0006,*/ NULL,
+	&f__0EDB_0006_002F_CECA,
 	&f__0972_11B9_0020_8DC9,
 	&f__0972_0C5A_0015_E00A,
 	&f__0972_0E87_0047_4065,
 	&f__0972_1004_0029_E69D,
-	/*&f__0972_114F,*/ NULL,
+	&f__0972_114F_0020_EA79,
 	&f__0972_121E_0030_5DAA,
-	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A69_0007_C3F1,
 	&f__0972_0A72_000D_024E,
-	/*&f__0972_133C,*/ NULL,
+	&f__0972_133C_0036_0328,
 	&emu_Script_Structure_RemoveFogAroundTile,
-	/*&f__0972_0A69,*/ NULL,
-	/*&f__0972_0A69,*/ NULL,
-	/*&f__0972_0A69,*/ NULL,
-	/*&f__0972_0A69,*/ NULL,
-	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A69_0007_C3F1,
+	&f__0972_0A69_0007_C3F1,
+	&f__0972_0A69_0007_C3F1,
+	&f__0972_0A69_0007_C3F1,
+	&f__0972_0A69_0007_C3F1,
 	&f__0972_13AF_0015_619A,
 	&f__0972_1524_0018_014D,
 	&f__0972_15A2_0019_AB1E,
-	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A69_0007_C3F1,
 };
 
 /**
@@ -123,7 +135,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	&f__176C_1CFE_0021_29C8,
 	&f__176C_1C00_003A_E6C7,
-	/*&f__0EDB_0006,*/ NULL,
+	&f__0EDB_0006_002F_CECA,
 	&f__0EDB_01F7_0020_4DC9,
 	&f__176C_22C4_0019_80C9,
 	&f__176C_1A9F_0024_813F,
@@ -142,17 +154,17 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	&f__176C_13CD_0014_7309,
 	&f__176C_105E_0031_8B3F,
 	&f__176C_0882_0014_0C6A,
-	/*&f__176C_07E8,*/ NULL,
+	&f__176C_07E8_0007_C3F1,
 	&f__176C_1098_0021_667D,
 	&f__0EDB_0145_002F_C125,
-	/*&f__0EDB_0594,*/ NULL,
+	&f__0EDB_0594_0026_F09C,
 	&f__176C_1C6F_001D_2E46,
 	&f__176C_0FA2_0013_6D6D,
 	&f__176C_0FD2_001F_B15D,
 	&f__176C_0858_0023_E780,
-	/*&f__176C_07F1,*/ NULL,
+	&f__176C_07F1_001D_3E0E,
 	&f__176C_212E_002E_9D89,
-	/*&f__176C_22AA,*/ NULL,
+	&f__176C_22AA_0014_EDA3,
 	&f__176C_2275_001D_D22D,
 	&f__176C_23CC_000B_4119,
 	&f__176C_0BC3_002A_A6DE,
@@ -164,27 +176,27 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	&f__176C_26CD_0010_041C,
 	&f__0EDB_0456_0032_B7E5,
 	&f__176C_26E5_0013_FF24,
-	/*&f__176C_07E8,*/ NULL,
+	&f__176C_07E8_0007_C3F1,
 	&f__0EDB_03EC_0020_629E,
 	&f__0EDB_03B9_001D_2E46,
-	/*&f__0EDB_0386,*/ NULL,
+	&f__0EDB_0386_001D_2E46,
 	&f__176C_27A4_0021_7EE9,
 	&f__176C_28B1_0024_58C9,
 	&f__176C_291A_0010_8A93,
 	&f__0EDB_032B_0031_E91B,
 	&f__176C_29A9_003A_8DEF,
-	/*&f__176C_07E8,*/ NULL,
-	/*&f__176C_07E8,*/ NULL,
+	&f__176C_07E8_0007_C3F1,
+	&f__176C_07E8_0007_C3F1,
 	&f__176C_2B97_0013_B226,
 	&f__176C_2BD5_0014_2C56,
 	&f__0EDB_02EA_001E_F83C,
-	/*&f__176C_07E8,*/ NULL,
+	&f__176C_07E8_0007_C3F1,
 	&f__176C_1B45_0022_208C,
 	&f__0EDB_0288_0020_3D83,
 	&f__0EDB_00F6_000C_3B74,
 	&f__176C_196C_0027_D87A,
 	&f__0EDB_024B_001D_2E46,
-	/*&f__176C_07E8,*/ NULL,
+	&f__176C_07E8_0007_C3F1,
 };
 
 /**
@@ -192,7 +204,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
  */
 emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
 	&f__0EDB_00B7_003B_92E3,
-	/*&f__16C5_012D,*/ NULL,
+	&f__16C5_012D_0017_71BC,
 	&f__16C5_01EF_000D_1984,
 	&f__16C5_021C_003A_2718,
 	&f__16C5_03C3_002D_24E5,
@@ -202,10 +214,10 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = 
 	&f__16C5_09C4_003E_31D6,
 	&f__16C5_0A20_003A_2375,
 	&f__0EDB_00F6_000C_3B74,
-	/*&f__0EDB_0184,*/ NULL,
+	&f__0EDB_0184_0030_A1C2,
 	&f__16C5_01FE_000D_19C4,
 	&f__16C5_020D_000D_1A44,
-	/*&f__16C5_0124,*/ NULL,
+	&f__16C5_0124_0007_C3F1,
 };
 
 /**
