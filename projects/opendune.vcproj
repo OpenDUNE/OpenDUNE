@@ -2949,7 +2949,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\pool\emu_building.c"
+				RelativePath="..\src\pool\emu_house.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2969,7 +2969,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\pool\emu_house.c"
+				RelativePath="..\src\pool\emu_structure.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
