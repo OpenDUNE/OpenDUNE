@@ -121,6 +121,9 @@
  * @implements 1391:082A:000A:FEA0
  * @implements 1391:0834:0015:9C95
  * @implements 1391:0849:0006:F7CE
+ *
+ * @define 0C3A:20DB:0011:DA16
+ * @define 1A34:21E0:001A:547E
  */
 void emu_GameLoop_House()
 {
