@@ -1215,13 +1215,13 @@ l__04DD:
 	emu_pop(&emu_cx);
 	emu_push(emu_cs);
 	emu_push(emu_cx);
-	f__01F7_04E0_0004_E219(); return;
+	emu_Tools_Divd(); return;
 }
 
 /**
- * Decompiled function f__01F7_04E0_0004_E219()
+ * Decompiled function emu_Tools_Divd()
  *
- * @name f__01F7_04E0_0004_E219
+ * @name emu_Tools_Divd
  * @implements 01F7:04E0:0004:E219 ()
  * @implements 01F7:04FA:0084:C87E
  * @implements 01F7:0519:0065:1FE9
@@ -1249,7 +1249,7 @@ l__04DD:
  * Called From: B50B:0553:0036:7E4C
  * Called From: B518:0020:0025:FC16
  */
-void f__01F7_04E0_0004_E219()
+void emu_Tools_Divd()
 {
 l__04E0:
 	emu_xorw(&emu_cx, emu_cx);

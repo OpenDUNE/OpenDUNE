@@ -429,7 +429,7 @@ extern void f__B495_04D7_000E_C317();
 extern void f__B4CD_04D9_0011_E9EF();
 extern void f__B4C4_04DA_0008_C6B9();
 extern void f__01F7_04DD_0007_D823();
-extern void f__01F7_04E0_0004_E219();
+extern void emu_Tools_Divd();
 extern void f__01F7_04E7_0005_D2F2();
 extern void emu_Input_Flags_ClearBits();
 extern void f__1423_04F2_0016_CD6B();

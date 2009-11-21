@@ -2065,7 +2065,7 @@ l__0DB3:
 l__0DEC:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0DF3); emu_cs = 0x01F7; f__01F7_04E0_0004_E219();
+	emu_push(emu_cs); emu_push(0x0DF3); emu_cs = 0x01F7; emu_Tools_Divd();
 l__0DF3:
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x1);

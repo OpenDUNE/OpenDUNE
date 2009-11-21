@@ -101,7 +101,7 @@ l__0034:
 l__0045:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; f__01F7_04E0_0004_E219();
+	emu_push(emu_cs); emu_push(0x004C); emu_cs = 0x01F7; emu_Tools_Divd();
 l__004C:
 	emu_addw(&emu_ax, emu_si);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;

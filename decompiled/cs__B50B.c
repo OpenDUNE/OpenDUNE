@@ -894,7 +894,7 @@ l__0522:
 	emu_sbbw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x6));
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0558); emu_cs = 0x01F7; f__01F7_04E0_0004_E219();
+	emu_push(emu_cs); emu_push(0x0558); emu_cs = 0x01F7; emu_Tools_Divd();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { overlay(0x350B, 1); }
 l__0558:
