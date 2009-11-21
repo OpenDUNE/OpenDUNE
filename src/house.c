@@ -376,7 +376,7 @@ void GameLoop_House()
 			}
 		}
 
-		if (!loc02) {
+		if (loc02) {
 			Structure_CalculatePowerAndCredit(h->index);
 
 			emu_push(h->index);

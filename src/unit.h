@@ -101,7 +101,7 @@ typedef struct Unit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
 	/* 0003(1)   */ PACK uint8  linkedStructureID;          /*!< Structure we are linked to, or 0xFF if we are not linked to a structure. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x100 - ??, 0x0200 - Scenario Unit. */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x0100 - ??, 0x0200 - Scenario Unit. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
