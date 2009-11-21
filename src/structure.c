@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "os/strings.h"
+#include "os/math.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -38,6 +39,7 @@ extern void f__1423_0C74_0015_3419();
 extern void f__1A34_10EC_000E_A326();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
+extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_10EE_0039_EC73();
 extern void f__B4CD_1BC4_0013_1AB3();
 extern void overlay(uint16 cs, uint8 force);
@@ -872,7 +874,7 @@ bool Structure_Place(Structure *s, uint16 position)
 /**
  * Calculate the power usage and production, and the credits storage.
  *
- * @param houseID The index of the jouse to calculate the numbers for.
+ * @param houseID The index of the house to calculate the numbers for.
  */
 void Structure_CalculatePowerAndCredit(uint8 houseID)
 {
@@ -939,5 +941,63 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
 	/* If there are no buildings left, you lose your right on 'credits without storage' */
 	if (houseID == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
 		g_global->playerCreditsNoSilo = 0;
+	}
+}
+
+/**
+ * Calculate the power usage and production, and the credits storage.
+ *
+ * @param houseID The index of the house to calculate the numbers for.
+ */
+void Structure_CalculateHitpointsMax(uint8 houseID)
+{
+	PoolFindStruct find;
+	House *h;
+	uint16 power = 0;
+
+	if (houseID >= HOUSE_MAX) return;
+
+	h = House_Get_ByIndex(houseID);
+	if (h == NULL) return;
+
+	if (houseID == g_global->playerHouseID) {
+		emu_push(houseID);
+		emu_push(emu_cs); emu_push(0x2113); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
+		emu_sp += 2;
+	}
+
+	if (h->powerUsage == 0) {
+		power = 256;
+	} else {
+		power = min(h->powerProduction * 256 / h->powerUsage, 256);
+	}
+
+	find.type    = 0xFFFF;
+	find.houseID = houseID;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		csip32 scsip;
+		StructureInfo *si;
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) return;
+		/* XXX -- Temporary, to keep all the emu_calls workable for now */
+		scsip.s.cs = g_global->structureStartPos.s.cs;
+		scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+
+		si = &g_structureInfo[s->type];
+
+		s->hitpointsMax = si->hitpoints * power / 256;
+		s->hitpointsMax = max(s->hitpointsMax, si->hitpoints / 2);
+
+		if (s->hitpointsMax >= s->hitpoints) continue;
+
+		emu_push(0);
+		emu_push(1);
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x21E0); f__0C3A_1216_0013_E56D();
+		emu_sp += 8;
 	}
 }

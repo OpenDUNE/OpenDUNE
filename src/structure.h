@@ -94,6 +94,7 @@ extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
 extern bool Structure_Place(Structure *s, uint16 position);
 extern void Structure_CalculatePowerAndCredit(uint8 houseID);
+extern void Structure_CalculateHitpointsMax(uint8 houseID);
 
 
 extern void emu_GameLoop_Structure();

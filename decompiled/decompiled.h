@@ -922,7 +922,6 @@ extern void emu_File_IOCtrl();
 extern void f__10E4_2099_0012_A216();
 extern void f__01F7_20A3_0004_C957();
 extern void f__01F7_20B5_0076_64ED();
-extern void f__0C3A_20DB_0011_DA16();
 extern void f__176C_212E_002E_9D89();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__01F7_2148_0028_6CAC();

@@ -16,7 +16,6 @@
 
 extern void emu_String_GetString();
 extern void emu_Tile_Unpack();
-extern void f__0C3A_20DB_0011_DA16();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
 extern void f__167E_00F3_001E_8CB3();
@@ -375,10 +374,7 @@ void GameLoop_House()
 
 		if (loc02) {
 			Structure_CalculatePowerAndCredit(h->index);
-
-			emu_push(h->index);
-			emu_push(emu_cs); emu_push(0x078E); emu_cs = 0x0C3A; f__0C3A_20DB_0011_DA16();
-			emu_sp += 2;
+			Structure_CalculateHitpointsMax(h->index);
 
 			if (h->variable_24 != 0) h->variable_24--;
 			if (h->variable_26 != 0) h->variable_26--;
