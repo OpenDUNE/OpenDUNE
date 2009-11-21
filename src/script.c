@@ -89,7 +89,7 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 /**
  * Not yet converted script functions for Structures.
  */
-emu_ScriptFunction emu_scriptFunctionsStructure[25] = {
+emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	&f__0EDB_00B7_003B_92E3,
 	/*&f__0972_0A69,*/ NULL,
 	&f__0972_0A81_0017_2EC7,
@@ -120,7 +120,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[25] = {
 /**
  * Not yet converted script functions for Units.
  */
-emu_ScriptFunction emu_scriptFunctionsUnit[64] = {
+emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	&f__176C_1CFE_0021_29C8,
 	&f__176C_1C00_003A_E6C7,
 	/*&f__0EDB_0006,*/ NULL,
@@ -190,7 +190,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[64] = {
 /**
  * Not yet converted script functions for AirUnits.
  */
-emu_ScriptFunction emu_scriptFunctionsAirUnit[15] = {
+emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
 	&f__0EDB_00B7_003B_92E3,
 	/*&f__16C5_012D,*/ NULL,
 	&f__16C5_01EF_000D_1984,
@@ -211,7 +211,7 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[15] = {
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsStructure[25] = {
+ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	NULL,
 	NULL,
 	NULL,
@@ -242,7 +242,7 @@ ScriptFunction scriptFunctionsStructure[25] = {
 /**
  * Converted script functions for Units. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsUnit[64] = {
+ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	NULL,
 	NULL,
 	NULL,
@@ -312,7 +312,7 @@ ScriptFunction scriptFunctionsUnit[64] = {
 /**
  * Converted script functions for AirUnits. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsAirUnit[15] = {
+ScriptFunction scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
 	NULL,
 	NULL,
 	NULL,
@@ -559,6 +559,11 @@ bool Script_Run(ScriptEngine *script)
 
 			/* Check if we are using the scriptFunctionsStructure */
 			if (scriptInfo->functions.csip == 0x353F33B6) {
+				if (parameter >= SCRIPT_FUNCTIONS_STRUCTURE_COUNT) {
+					script->script.csip = 0;
+					return false;
+				}
+
 				if (scriptFunctionsStructure[parameter] != NULL) {
 					emu_sp += 8;
 
@@ -576,6 +581,11 @@ bool Script_Run(ScriptEngine *script)
 			}
 			/* Check if we are using the scriptFunctionsUnit */
 			if (scriptInfo->functions.csip == 0x353F6168) {
+				if (parameter >= SCRIPT_FUNCTIONS_UNIT_COUNT) {
+					script->script.csip = 0;
+					return false;
+				}
+
 				if (scriptFunctionsUnit[parameter] != NULL) {
 					emu_sp += 8;
 
@@ -593,6 +603,11 @@ bool Script_Run(ScriptEngine *script)
 			}
 			/* Check if we are using the scriptFunctionsAirUnit */
 			if (scriptInfo->functions.csip == 0x353F6128) {
+				if (parameter >= SCRIPT_FUNCTIONS_AIRUNIT_COUNT) {
+					script->script.csip = 0;
+					return false;
+				}
+
 				if (scriptFunctionsAirUnit[parameter] != NULL) {
 					emu_sp += 8;
 

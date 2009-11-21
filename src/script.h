@@ -3,6 +3,12 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
+enum {
+	SCRIPT_FUNCTIONS_STRUCTURE_COUNT = 25,                  /*!< There are 25 functions to call for Structures. */
+	SCRIPT_FUNCTIONS_UNIT_COUNT      = 64,                  /*!< There are 64 functions to call for Units. */
+	SCRIPT_FUNCTIONS_AIRUNIT_COUNT   = 15                   /*!< There are 15 functions to call for AirUnits. */
+};
+
 MSVC_PACKED_BEGIN
 /**
  * A ScriptEngine as stored in the memory.
