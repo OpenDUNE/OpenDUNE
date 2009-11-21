@@ -17,6 +17,7 @@
 #include "../src/input/input.h"
 #include "../src/tools.h"
 #include "../src/os/strings.h"
+#include "../src/os/math.h"
 #include "../src/script.h"
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
