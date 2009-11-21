@@ -25,11 +25,13 @@
  * @implements 167E:007D:0005:9FFA
  * @implements 167E:0082:0006:F7CE
  *
+ * Called From: 0972:116A:0020:EA79
  * Called From: 0972:11D4:0020:8DC9
  * Called From: 0C10:0017:0014:19CD
  * Called From: 0C10:0022:000B:D573
  * Called From: 0EDB:0212:0020:4DC9
  * Called From: 0EDB:0263:001D:2E46
+ * Called From: 0EDB:039E:001D:2E46
  * Called From: 0EDB:03D1:001D:2E46
  * Called From: 0EDB:0524:001D:2E46
  * Called From: 176C:147C:0006:83CE
@@ -208,6 +210,7 @@ l__00B5:
  * @implements 167E:00EB:0004:13F2
  * @implements 167E:00EF:0004:893F
  *
+ * Called From: 0EDB:03A9:000B:F17C
  * Called From: 167E:0024:000A:2A37
  * Called From: 167E:016C:000D:A6D2
  * Called From: 167E:01C8:0010:85F6
@@ -502,6 +505,7 @@ l__01B7:
  * @implements 167E:027E:0006:F7CE
  *
  * Called From: 0972:1030:0008:180B
+ * Called From: 0972:1175:000B:3510
  * Called From: 0972:1262:0019:3598
  * Called From: 0C3A:22FD:000C:39D3
  * Called From: 0EDB:021D:000B:3104
@@ -650,6 +654,7 @@ l__027E:
  * Called From: 0EDB:0303:001E:F83C
  * Called From: 0EDB:0542:0006:9786
  * Called From: 176C:03B5:0013:F833
+ * Called From: 176C:0809:001D:3E0E
  * Called From: 176C:0D80:000D:5110
  * Called From: 176C:162B:000C:43CF
  * Called From: 176C:16FA:0009:D7CB
@@ -713,6 +718,7 @@ l__02AB:
  * Called From: 0EDB:02A3:0020:3D83
  * Called From: 0EDB:056A:0006:3784
  * Called From: 167E:0326:0010:B56F
+ * Called From: 176C:082F:0006:3784
  * Called From: 176C:08C4:000D:F112
  * Called From: 176C:0C13:000D:F112
  * Called From: 176C:1AD4:0016:C3C3

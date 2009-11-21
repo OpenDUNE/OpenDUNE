@@ -551,6 +551,7 @@ l__0123:
  *
  * Called From: 0972:0DBD:003A:00C4
  * Called From: 0972:10C4:0008:8AD8
+ * Called From: 0972:1192:001D:31F3
  * Called From: 1423:0AF1:002C:6E18
  * Called From: 167E:0387:0038:56F3
  * Called From: 16C5:08F0:0019:EFED

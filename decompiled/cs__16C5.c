@@ -158,6 +158,65 @@ l__0121:
 }
 
 /**
+ * Decompiled function f__16C5_0124_0007_C3F1()
+ *
+ * @name f__16C5_0124_0007_C3F1
+ * @implements 16C5:0124:0007:C3F1 ()
+ * @implements 16C5:012B:0002:2597
+ *
+ * Called From: 15C2:0932:003A:D1E0
+ */
+void f__16C5_0124_0007_C3F1()
+{
+l__0124:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__012B;
+l__012B:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__16C5_012D_0017_71BC()
+ *
+ * @name f__16C5_012D_0017_71BC
+ * @implements 16C5:012D:0017:71BC ()
+ * @implements 16C5:01E7:0004:E839
+ * @implements 16C5:01EB:0004:893F
+ *
+ * Called From: 15C2:0932:003A:D1E0
+ */
+void f__16C5_012D_0017_71BC()
+{
+l__012D:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_subw(&emu_sp, 0x68);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6124));
+	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x10);
+	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x3A38));
+	if (emu_ax == emu_get_memory16(emu_ds, 0x00, 0x3A38)) { /* Unresolved jump */ emu_ip = 0x0144; emu_last_cs = 0x16C5; emu_last_ip = 0x013F; emu_last_length = 0x0017; emu_last_crc = 0x71BC; emu_call(); return; }
+	goto l__01E7;
+l__01E7:
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__01EB;
+l__01EB:
+	emu_sp = emu_bp;
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__16C5_01EF_000D_1984()
  *
  * @name f__16C5_01EF_000D_1984
@@ -1002,6 +1061,7 @@ l__0783:
  * @implements 16C5:0917:000F:9BA4
  * @implements 16C5:0926:000A:CB50
  * @implements 16C5:0930:000D:8578
+ * @implements 16C5:0935:0008:7900
  * @implements 16C5:093D:000E:0652
  * @implements 16C5:094B:000F:345F
  * @implements 16C5:095A:0008:A673
@@ -1171,6 +1231,7 @@ l__0930:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_ax;
+l__0935:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_cs); emu_push(0x093D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
 l__093D:

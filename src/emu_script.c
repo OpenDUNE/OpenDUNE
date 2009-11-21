@@ -176,6 +176,7 @@ void emu_Script_IsLoaded()
  * @implements 15C2:0B6F:0006:0197
  * @implements 15C2:0B75:0006:F7CE
  *
+ * @define 0972:0A69:0007:C3F1
  * @define 0972:0A72:000D:024E
  * @define 0972:0A81:0017:2EC7
  * @define 0972:0AFC:0016:0DC9
@@ -183,26 +184,34 @@ void emu_Script_IsLoaded()
  * @define 0972:0C5A:0015:E00A
  * @define 0972:0E87:0047:4065
  * @define 0972:1004:0029:E69D
+ * @define 0972:114F:0020:EA79
  * @define 0972:11B9:0020:8DC9
  * @define 0972:121E:0030:5DAA
+ * @define 0972:133C:0036:0328
  * @define 0972:137B:002B:A9E3
  * @define 0972:13AF:0015:619A
  * @define 0972:1524:0018:014D
  * @define 0972:15A2:0019:AB1E
+ * @define 0EDB:0006:002F:CECA
  * @define 0EDB:00B7:003B:92E3
  * @define 0EDB:00F6:000C:3B74
  * @define 0EDB:0145:002F:C125
+ * @define 0EDB:0184:0030:A1C2
  * @define 0EDB:01F7:0020:4DC9
  * @define 0EDB:024B:001D:2E46
  * @define 0EDB:0288:0020:3D83
  * @define 0EDB:02EA:001E:F83C
  * @define 0EDB:032B:0031:E91B
+ * @define 0EDB:0386:001D:2E46
  * @define 0EDB:03B9:001D:2E46
  * @define 0EDB:03EC:0020:629E
  * @define 0EDB:0426:0027:711D
  * @define 0EDB:0456:0032:B7E5
  * @define 0EDB:04AE:0024:408E
  * @define 0EDB:050C:001D:2E46
+ * @define 0EDB:0594:0026:F09C
+ * @define 16C5:0124:0007:C3F1
+ * @define 16C5:012D:0017:71BC
  * @define 16C5:01EF:000D:1984
  * @define 16C5:01FE:000D:19C4
  * @define 16C5:020D:000D:1A44
@@ -213,6 +222,8 @@ void emu_Script_IsLoaded()
  * @define 16C5:0788:0018:4AA5
  * @define 16C5:09C4:003E:31D6
  * @define 16C5:0A20:003A:2375
+ * @define 176C:07E8:0007:C3F1
+ * @define 176C:07F1:001D:3E0E
  * @define 176C:0858:0023:E780
  * @define 176C:0882:0014:0C6A
  * @define 176C:0BC3:002A:A6DE
@@ -236,6 +247,7 @@ void emu_Script_IsLoaded()
  * @define 176C:1F51:002F:CE9F
  * @define 176C:212E:002E:9D89
  * @define 176C:2275:001D:D22D
+ * @define 176C:22AA:0014:EDA3
  * @define 176C:22C4:0019:80C9
  * @define 176C:23CC:000B:4119
  * @define 176C:246C:0015:C163

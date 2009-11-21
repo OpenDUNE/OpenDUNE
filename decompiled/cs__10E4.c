@@ -530,6 +530,7 @@ l__026F:
  * @implements 10E4:0574:0005:BBE6
  * @implements 10E4:0579:0006:F7CE
  *
+ * Called From: 0EDB:01C6:0017:2566
  * Called From: 10E4:01A6:000A:1FB5
  * Called From: 1423:0345:0008:250B
  * Called From: 1423:0480:0008:250B
@@ -1548,6 +1549,7 @@ l__09A5:
  * Called From: 0C3A:27D5:0008:A466
  * Called From: 0C3A:287E:0008:A466
  * Called From: 0C3A:28FB:0008:A466
+ * Called From: 0EDB:00A7:0010:DE9D
  * Called From: 1391:04D5:0008:A466
  * Called From: 1391:056B:0008:A466
  * Called From: 1391:0594:0008:A466

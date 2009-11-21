@@ -1420,6 +1420,7 @@ l__1210:
  * @implements 0C3A:1313:0005:A243
  * @implements 0C3A:1318:0005:B0C3
  * @implements 0C3A:131D:0005:4743
+ * @implements 0C3A:1322:0005:2A2D
  * @implements 0C3A:1327:0006:22F3
  * @implements 0C3A:132D:0003:CE1A
  * @implements 0C3A:1330:0009:2BAF
@@ -1550,7 +1551,7 @@ l__12E8:
 	if (emu_ax == 0x1) goto l__1318;
 	emu_cmpw(&emu_ax, 0x2);
 	if (emu_ax == 0x2) goto l__131D;
-	/* Unresolved jump */ emu_ip = 0x1322; emu_last_cs = 0x0C3A; emu_last_ip = 0x1311; emu_last_length = 0x002B; emu_last_crc = 0x6503; emu_call();
+	goto l__1322;
 l__1313:
 	emu_di = 0x16;
 	goto l__1327;
@@ -1559,6 +1560,9 @@ l__1318:
 	goto l__1327;
 l__131D:
 	emu_di = 0x18;
+	goto l__1327;
+l__1322:
+	emu_di = 0xFFFF;
 	goto l__1327;
 l__1327:
 	emu_push(emu_di);

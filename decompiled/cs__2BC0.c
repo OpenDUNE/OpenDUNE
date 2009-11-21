@@ -43,6 +43,8 @@ l__0004:
  * @name emu_Tools_Swapw
  * @implements 2BC0:0013:000A:39BD ()
  *
+ * Called From: 0EDB:0030:002F:CECA
+ * Called From: 0EDB:01AF:0030:A1C2
  * Called From: 15C2:0282:0015:F826
  * Called From: 15C2:0595:001E:C033
  * Called From: 15C2:05F9:0025:FC39
