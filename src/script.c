@@ -83,6 +83,253 @@ extern void f__176C_2B97_0013_B226();
 extern void f__176C_2BD5_0014_2C56();
 extern void f__176C_2C73_0010_BB2A();
 
+typedef void (*emu_ScriptFunction)();
+typedef uint16 (*ScriptFunction)(ScriptEngine *script);
+
+/**
+ * Not yet converted script functions for Structures.
+ */
+emu_ScriptFunction emu_scriptFunctionsStructure[25] = {
+	&f__0EDB_00B7_003B_92E3,
+	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A81_0017_2EC7,
+	&f__0972_0AFC_0016_0DC9,
+	&emu_Script_Structure_ChangeVariable54,
+	/*&f__0EDB_0006,*/ NULL,
+	&f__0972_11B9_0020_8DC9,
+	&f__0972_0C5A_0015_E00A,
+	&f__0972_0E87_0047_4065,
+	&f__0972_1004_0029_E69D,
+	/*&f__0972_114F,*/ NULL,
+	&f__0972_121E_0030_5DAA,
+	/*&f__0972_0A69,*/ NULL,
+	&f__0972_0A72_000D_024E,
+	/*&f__0972_133C,*/ NULL,
+	&emu_Script_Structure_RemoveFogAroundTile,
+	/*&f__0972_0A69,*/ NULL,
+	/*&f__0972_0A69,*/ NULL,
+	/*&f__0972_0A69,*/ NULL,
+	/*&f__0972_0A69,*/ NULL,
+	/*&f__0972_0A69,*/ NULL,
+	&f__0972_13AF_0015_619A,
+	&f__0972_1524_0018_014D,
+	&f__0972_15A2_0019_AB1E,
+	/*&f__0972_0A69,*/ NULL,
+};
+
+/**
+ * Not yet converted script functions for Units.
+ */
+emu_ScriptFunction emu_scriptFunctionsUnit[64] = {
+	&f__176C_1CFE_0021_29C8,
+	&f__176C_1C00_003A_E6C7,
+	/*&f__0EDB_0006,*/ NULL,
+	&f__0EDB_01F7_0020_4DC9,
+	&f__176C_22C4_0019_80C9,
+	&f__176C_1A9F_0024_813F,
+	&f__176C_1A40_0020_8DC9,
+	&f__176C_1932_0029_D0CC,
+	&f__176C_1458_0023_356A,
+	&f__176C_2AB2_0021_82CD,
+	&f__176C_1C4F_0017_E375,
+	&f__176C_2C73_0010_BB2A,
+	&f__176C_1F51_002F_CE9F,
+	&f__0EDB_050C_001D_2E46,
+	&f__176C_1382_0013_AA74,
+	&f__176C_12CE_0011_A5C5,
+	&f__0EDB_00B7_003B_92E3,
+	&f__0EDB_04AE_0024_408E,
+	&f__176C_13CD_0014_7309,
+	&f__176C_105E_0031_8B3F,
+	&f__176C_0882_0014_0C6A,
+	/*&f__176C_07E8,*/ NULL,
+	&f__176C_1098_0021_667D,
+	&f__0EDB_0145_002F_C125,
+	/*&f__0EDB_0594,*/ NULL,
+	&f__176C_1C6F_001D_2E46,
+	&f__176C_0FA2_0013_6D6D,
+	&f__176C_0FD2_001F_B15D,
+	&f__176C_0858_0023_E780,
+	/*&f__176C_07F1,*/ NULL,
+	&f__176C_212E_002E_9D89,
+	/*&f__176C_22AA,*/ NULL,
+	&f__176C_2275_001D_D22D,
+	&f__176C_23CC_000B_4119,
+	&f__176C_0BC3_002A_A6DE,
+	&f__176C_246C_0015_C163,
+	&f__176C_2552_0019_4894,
+	&f__176C_25A5_002C_AC04,
+	&f__0EDB_0426_0027_711D,
+	&f__176C_2638_0017_CF4B,
+	&f__176C_26CD_0010_041C,
+	&f__0EDB_0456_0032_B7E5,
+	&f__176C_26E5_0013_FF24,
+	/*&f__176C_07E8,*/ NULL,
+	&f__0EDB_03EC_0020_629E,
+	&f__0EDB_03B9_001D_2E46,
+	/*&f__0EDB_0386,*/ NULL,
+	&f__176C_27A4_0021_7EE9,
+	&f__176C_28B1_0024_58C9,
+	&f__176C_291A_0010_8A93,
+	&f__0EDB_032B_0031_E91B,
+	&f__176C_29A9_003A_8DEF,
+	/*&f__176C_07E8,*/ NULL,
+	/*&f__176C_07E8,*/ NULL,
+	&f__176C_2B97_0013_B226,
+	&f__176C_2BD5_0014_2C56,
+	&f__0EDB_02EA_001E_F83C,
+	/*&f__176C_07E8,*/ NULL,
+	&f__176C_1B45_0022_208C,
+	&f__0EDB_0288_0020_3D83,
+	&f__0EDB_00F6_000C_3B74,
+	&f__176C_196C_0027_D87A,
+	&f__0EDB_024B_001D_2E46,
+	/*&f__176C_07E8,*/ NULL,
+};
+
+/**
+ * Not yet converted script functions for AirUnits.
+ */
+emu_ScriptFunction emu_scriptFunctionsAirUnit[15] = {
+	&f__0EDB_00B7_003B_92E3,
+	/*&f__16C5_012D,*/ NULL,
+	&f__16C5_01EF_000D_1984,
+	&f__16C5_021C_003A_2718,
+	&f__16C5_03C3_002D_24E5,
+	&f__16C5_0543_0034_CA88,
+	&f__16C5_06C6_001D_94A6,
+	&f__16C5_0788_0018_4AA5,
+	&f__16C5_09C4_003E_31D6,
+	&f__16C5_0A20_003A_2375,
+	&f__0EDB_00F6_000C_3B74,
+	/*&f__0EDB_0184,*/ NULL,
+	&f__16C5_01FE_000D_19C4,
+	&f__16C5_020D_000D_1A44,
+	/*&f__16C5_0124,*/ NULL,
+};
+
+/**
+ * Converted script functions for Structures. If NULL, the emu_ version is used.
+ */
+ScriptFunction scriptFunctionsStructure[25] = {
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
+
+/**
+ * Converted script functions for Units. If NULL, the emu_ version is used.
+ */
+ScriptFunction scriptFunctionsUnit[64] = {
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
+
+/**
+ * Converted script functions for AirUnits. If NULL, the emu_ version is used.
+ */
+ScriptFunction scriptFunctionsAirUnit[15] = {
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
+
 /**
  * Get a ScriptEngine from the memory.
  *
@@ -303,90 +550,67 @@ bool Script_Run(ScriptEngine *script)
 
 		case 14: { /* EXECUTE SUBROUTINE $parameter */
 			csip32 function;
-			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, (parameter & 0xFF) * 4);
 
+			parameter &= 0xFF;
+
+			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
 			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
 			emu_push(emu_cs); emu_push(0x0935);
 
+			/* Check if we are using the scriptFunctionsStructure */
+			if (scriptInfo->functions.csip == 0x353F33B6) {
+				if (scriptFunctionsStructure[parameter] != NULL) {
+					emu_sp += 8;
+
+					script->returnValue = scriptFunctionsStructure[parameter](script);
+					return true;
+				}
+				if (emu_scriptFunctionsStructure[parameter] != NULL) {
+					emu_cs = function.s.cs; emu_ip = function.s.ip;
+					emu_scriptFunctionsStructure[parameter]();
+					emu_sp += 4;
+
+					script->returnValue = emu_ax;
+					return true;
+				}
+			}
+			/* Check if we are using the scriptFunctionsUnit */
+			if (scriptInfo->functions.csip == 0x353F6168) {
+				if (scriptFunctionsUnit[parameter] != NULL) {
+					emu_sp += 8;
+
+					script->returnValue = scriptFunctionsUnit[parameter](script);
+					return true;
+				}
+				if (emu_scriptFunctionsUnit[parameter] != NULL) {
+					emu_cs = function.s.cs; emu_ip = function.s.ip;
+					emu_scriptFunctionsUnit[parameter]();
+					emu_sp += 4;
+
+					script->returnValue = emu_ax;
+					return true;
+				}
+			}
+			/* Check if we are using the scriptFunctionsAirUnit */
+			if (scriptInfo->functions.csip == 0x353F6128) {
+				if (scriptFunctionsAirUnit[parameter] != NULL) {
+					emu_sp += 8;
+
+					script->returnValue = scriptFunctionsAirUnit[parameter](script);
+					return true;
+				}
+				if (emu_scriptFunctionsAirUnit[parameter] != NULL) {
+					emu_cs = function.s.cs; emu_ip = function.s.ip;
+					emu_scriptFunctionsAirUnit[parameter]();
+					emu_sp += 4;
+
+					script->returnValue = emu_ax;
+					return true;
+				}
+			}
+			/* We are not using any known function, fall back to the decompiled method */
 			emu_cs = function.s.cs; emu_ip = function.s.ip;
 			switch (function.csip) {
-				case 0x09720A72: f__0972_0A72_000D_024E(); break;
-				case 0x09720A81: f__0972_0A81_0017_2EC7(); break;
-				case 0x09720AFC: f__0972_0AFC_0016_0DC9(); break;
-				case 0x09720C04: emu_Script_Structure_ChangeVariable54(); break;
-				case 0x09720C5A: f__0972_0C5A_0015_E00A(); break;
-				case 0x09720E87: f__0972_0E87_0047_4065(); break;
-				case 0x09721004: f__0972_1004_0029_E69D(); break;
-				case 0x097211B9: f__0972_11B9_0020_8DC9(); break;
-				case 0x0972121E: f__0972_121E_0030_5DAA(); break;
-				case 0x0972137B: emu_Script_Structure_RemoveFogAroundTile(); break;
-				case 0x097213AF: f__0972_13AF_0015_619A(); break;
-				case 0x09721524: f__0972_1524_0018_014D(); break;
-				case 0x097215A2: f__0972_15A2_0019_AB1E(); break;
-				case 0x0EDB00B7: f__0EDB_00B7_003B_92E3(); break;
-				case 0x0EDB00F6: f__0EDB_00F6_000C_3B74(); break;
-				case 0x0EDB0145: f__0EDB_0145_002F_C125(); break;
-				case 0x0EDB01F7: f__0EDB_01F7_0020_4DC9(); break;
-				case 0x0EDB024B: f__0EDB_024B_001D_2E46(); break;
-				case 0x0EDB0288: f__0EDB_0288_0020_3D83(); break;
-				case 0x0EDB02EA: f__0EDB_02EA_001E_F83C(); break;
-				case 0x0EDB032B: f__0EDB_032B_0031_E91B(); break;
-				case 0x0EDB03B9: f__0EDB_03B9_001D_2E46(); break;
-				case 0x0EDB03EC: f__0EDB_03EC_0020_629E(); break;
-				case 0x0EDB0426: f__0EDB_0426_0027_711D(); break;
-				case 0x0EDB0456: f__0EDB_0456_0032_B7E5(); break;
-				case 0x0EDB04AE: f__0EDB_04AE_0024_408E(); break;
-				case 0x0EDB050C: f__0EDB_050C_001D_2E46(); break;
-				case 0x16C501EF: f__16C5_01EF_000D_1984(); break;
-				case 0x16C501FE: f__16C5_01FE_000D_19C4(); break;
-				case 0x16C5020D: f__16C5_020D_000D_1A44(); break;
-				case 0x16C5021C: f__16C5_021C_003A_2718(); break;
-				case 0x16C503C3: f__16C5_03C3_002D_24E5(); break;
-				case 0x16C50543: f__16C5_0543_0034_CA88(); break;
-				case 0x16C506C6: f__16C5_06C6_001D_94A6(); break;
-				case 0x16C50788: f__16C5_0788_0018_4AA5(); break;
-				case 0x16C509C4: f__16C5_09C4_003E_31D6(); break;
-				case 0x16C50A20: f__16C5_0A20_003A_2375(); break;
-				case 0x176C0858: f__176C_0858_0023_E780(); break;
-				case 0x176C0882: f__176C_0882_0014_0C6A(); break;
-				case 0x176C0BC3: f__176C_0BC3_002A_A6DE(); break;
-				case 0x176C0FA2: f__176C_0FA2_0013_6D6D(); break;
-				case 0x176C0FD2: f__176C_0FD2_001F_B15D(); break;
-				case 0x176C105E: f__176C_105E_0031_8B3F(); break;
-				case 0x176C1098: f__176C_1098_0021_667D(); break;
-				case 0x176C12CE: f__176C_12CE_0011_A5C5(); break;
-				case 0x176C1382: f__176C_1382_0013_AA74(); break;
-				case 0x176C13CD: f__176C_13CD_0014_7309(); break;
-				case 0x176C1458: f__176C_1458_0023_356A(); break;
-				case 0x176C1932: f__176C_1932_0029_D0CC(); break;
-				case 0x176C196C: f__176C_196C_0027_D87A(); break;
-				case 0x176C1A40: f__176C_1A40_0020_8DC9(); break;
-				case 0x176C1A9F: f__176C_1A9F_0024_813F(); break;
-				case 0x176C1B45: f__176C_1B45_0022_208C(); break;
-				case 0x176C1C00: f__176C_1C00_003A_E6C7(); break;
-				case 0x176C1C4F: f__176C_1C4F_0017_E375(); break;
-				case 0x176C1C6F: f__176C_1C6F_001D_2E46(); break;
-				case 0x176C1CFE: f__176C_1CFE_0021_29C8(); break;
-				case 0x176C1F51: f__176C_1F51_002F_CE9F(); break;
-				case 0x176C212E: f__176C_212E_002E_9D89(); break;
-				case 0x176C2275: f__176C_2275_001D_D22D(); break;
-				case 0x176C22C4: f__176C_22C4_0019_80C9(); break;
-				case 0x176C23CC: f__176C_23CC_000B_4119(); break;
-				case 0x176C246C: f__176C_246C_0015_C163(); break;
-				case 0x176C2552: f__176C_2552_0019_4894(); break;
-				case 0x176C25A5: f__176C_25A5_002C_AC04(); break;
-				case 0x176C2638: f__176C_2638_0017_CF4B(); break;
-				case 0x176C26CD: f__176C_26CD_0010_041C(); break;
-				case 0x176C26E5: f__176C_26E5_0013_FF24(); break;
-				case 0x176C27A4: f__176C_27A4_0021_7EE9(); break;
-				case 0x176C28B1: f__176C_28B1_0024_58C9(); break;
-				case 0x176C291A: f__176C_291A_0010_8A93(); break;
-				case 0x176C29A9: f__176C_29A9_003A_8DEF(); break;
-				case 0x176C2AB2: f__176C_2AB2_0021_82CD(); break;
-				case 0x176C2B97: f__176C_2B97_0013_B226(); break;
-				case 0x176C2BD5: f__176C_2BD5_0014_2C56(); break;
-				case 0x176C2C73: f__176C_2C73_0010_BB2A(); break;
-
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */
 					emu_last_cs = 0x15C2; emu_last_ip = 0x0932; emu_last_length = 0x003A; emu_last_crc = 0xD1E0;
