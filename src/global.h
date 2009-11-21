@@ -13,25 +13,25 @@
 
 MSVC_PACKED_BEGIN
 typedef struct struct_7B68 {
-	/* 0000(1)   */ PACK uint8  variable_0000;              /*<! ?? */
-	/* 0001(1)   */ PACK uint8  variable_0001;              /*<! ?? */
-	/* 0002(4)   */ PACK csip32 variable_0002;              /*<! CS:IP of a function. */
+	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
+	/* 0001(1)   */ PACK uint8  variable_0001;              /*!< ?? */
+	/* 0002(4)   */ PACK csip32 variable_0002;              /*!< CS:IP of a function. */
 } GCC_PACKED struct_7B68;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_0D5A {
-	/* 0000(4)   */ PACK csip32 string;                     /*<! Pointer to a string. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0002];      /*<! ?? */
+	/* 0000(4)   */ PACK csip32 string;                     /*!< Pointer to a string. */
+	/* 0004()    */ PACK uint8   unknown_0004[0x0002];      /*!< ?? */
 } GCC_PACKED struct_0D5A;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_0D5A) == 0x6);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_19A8 {
-	/* 0000(4)   */ PACK csip32 string;                     /*<! Pointer to a string. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0004];      /*<! ?? */
+	/* 0000(4)   */ PACK csip32 string;                     /*!< Pointer to a string. */
+	/* 0004()    */ PACK uint8   unknown_0004[0x0004];      /*!< ?? */
 } GCC_PACKED struct_19A8;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_19A8) == 0x8);
@@ -42,7 +42,7 @@ MSVC_PACKED_BEGIN
  *  that data.
  */
 typedef struct DSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*<! Pointer to filename for the driver. */
+	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
 } GCC_PACKED DSDriver;
 MSVC_PACKED_END
 assert_compile(sizeof(DSDriver) == 0x04);
@@ -53,10 +53,10 @@ MSVC_PACKED_BEGIN
  *  that data.
  */
 typedef struct MSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*<! Pointer to filename for the driver. */
-	/* 0004(4)   */ PACK csip32 extension;                  /*<! Pointer to extension used for music file names. */
-	/* 0008(2)   */ PACK uint16 variable_0008;              /*<! ?? */
-	/* 000A(2)   */ PACK uint16 variable_000A;              /*<! ?? */
+	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
+	/* 0004(4)   */ PACK csip32 extension;                  /*!< Pointer to extension used for music file names. */
+	/* 0008(2)   */ PACK uint16 variable_0008;              /*!< ?? */
+	/* 000A(2)   */ PACK uint16 variable_000A;              /*!< ?? */
 } GCC_PACKED MSDriver;
 MSVC_PACKED_END
 assert_compile(sizeof(MSDriver) == 0x0C);
@@ -67,16 +67,16 @@ MSVC_PACKED_BEGIN
  *  is the layout of dune.cfg.
  */
 typedef struct DuneCfg {
-	/* 0000(1)   */ PACK uint8  variable_0000;              /*<! ?? */
-	/* 0001(1)   */ PACK uint8  musicDrv;                   /*<! Index into music drivers array. */
-	/* 0002(1)   */ PACK uint8  soundDrv;                   /*<! Index into sound drivers array. */
-	/* 0003(1)   */ PACK uint8  voiceDrv;                   /*<! Index into digitized sound drivers array. */
-	/* 0004(1)   */ PACK bool   useMouse;                   /*<! Use Mouse. */
-	/* 0005(1)   */ PACK bool   useXMS;                     /*<! Use Extended Memory. */
-	/* 0006(1)   */ PACK uint8  variable_0006;              /*<! ?? */
-	/* 0007(1)   */ PACK uint8  variable_0007;              /*<! ?? */
-	/* 0008(1)   */ PACK uint8  language;                   /*<! 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
-	/* 0009(1)   */ PACK uint8  checksum;                   /*<! Used to check validity on config data. See emu_Config_Decode(). */
+	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
+	/* 0001(1)   */ PACK uint8  musicDrv;                   /*!< Index into music drivers array. */
+	/* 0002(1)   */ PACK uint8  soundDrv;                   /*!< Index into sound drivers array. */
+	/* 0003(1)   */ PACK uint8  voiceDrv;                   /*!< Index into digitized sound drivers array. */
+	/* 0004(1)   */ PACK bool   useMouse;                   /*!< Use Mouse. */
+	/* 0005(1)   */ PACK bool   useXMS;                     /*!< Use Extended Memory. */
+	/* 0006(1)   */ PACK uint8  variable_0006;              /*!< ?? */
+	/* 0007(1)   */ PACK uint8  variable_0007;              /*!< ?? */
+	/* 0008(1)   */ PACK uint8  language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
+	/* 0009(1)   */ PACK uint8  checksum;                   /*!< Used to check validity on config data. See emu_Config_Decode(). */
 } GCC_PACKED DuneCfg;
 MSVC_PACKED_END
 assert_compile(sizeof(DuneCfg) == 0xA);
@@ -87,11 +87,11 @@ MSVC_PACKED_BEGIN
  *  This is the layout of that data.
  */
 typedef struct Reinformcent {
-	/* 0000(2)   */ PACK uint16 unitID;                     /*<! The Unit which is already created and ready to join the game. */
-	/* 0002(2)   */ PACK uint16 locationID;                 /*<! The location where the Unit will appear. */
-	/* 0004(2)   */ PACK uint16 timeLeft;                   /*<! In how many ticks the Unit will appear. */
-	/* 0006(2)   */ PACK uint16 timeBetween;                /*<! In how many ticks the Unit will appear again if repeat is set. */
-	/* 0008(2)   */ PACK uint16 repeat;                     /*<! If non-zero, the Unit will appear every timeBetween ticks. */
+	/* 0000(2)   */ PACK uint16 unitID;                     /*!< The Unit which is already created and ready to join the game. */
+	/* 0002(2)   */ PACK uint16 locationID;                 /*!< The location where the Unit will appear. */
+	/* 0004(2)   */ PACK uint16 timeLeft;                   /*!< In how many ticks the Unit will appear. */
+	/* 0006(2)   */ PACK uint16 timeBetween;                /*!< In how many ticks the Unit will appear again if repeat is set. */
+	/* 0008(2)   */ PACK uint16 repeat;                     /*!< If non-zero, the Unit will appear every timeBetween ticks. */
 } GCC_PACKED Reinformcent;
 MSVC_PACKED_END
 assert_compile(sizeof(Reinformcent) == 0x0A);
@@ -102,18 +102,21 @@ MSVC_PACKED_BEGIN
  *  This is the layout of that data.
  */
 typedef struct Scenario {
-	/* 0000(2)   */ PACK uint16 variable_0000;              /*<! ?? Set to either 0x290 or 0x0. */
-	/* 0002(2)   */ PACK uint16 variable_0002;              /*<! ?? */
-	/* 0004(2)   */ PACK uint16 winFlags;                   /*<! BASIC/WinFlags. */
-	/* 0006(2)   */ PACK uint16 loseFlags;                  /*<! BASIC/LoseFlags. */
-	/* 0008(4)   */ PACK uint32 mapSeed;                    /*<! MAP/Seed. */
-	/* 000C(2)   */ PACK uint16 mapScale;                   /*<! BASIC/MapScale. */
-	/* 000E(2)   */ PACK uint16 timeOut;                    /*<! BASIC/TimeOut. */
-	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*<! BASIC/BriefPicture. */
-	/* 001E(14)  */ PACK char   pictureWin[14];             /*<! BASIC/WinPicture. */
-	/* 002C(14)  */ PACK char   pictureLose[14];            /*<! BASIC/LosePicture. */
-	/* 003A()    */ PACK uint8   unknown_003A[0x000C];
-	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*<! Reinforcement information. */
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? Set to either 0x290 or 0x0. */
+	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
+	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
+	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
+	/* 0008(4)   */ PACK uint32 mapSeed;                    /*!< MAP/Seed. */
+	/* 000C(2)   */ PACK uint16 mapScale;                   /*!< BASIC/MapScale. */
+	/* 000E(2)   */ PACK uint16 timeOut;                    /*!< BASIC/TimeOut. */
+	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*!< BASIC/BriefPicture. */
+	/* 001E(14)  */ PACK char   pictureWin[14];             /*!< BASIC/WinPicture. */
+	/* 002C(14)  */ PACK char   pictureLose[14];            /*!< BASIC/LosePicture. */
+	/* 003A()    */ PACK uint8   unknown_003A[0x0004];
+	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
+	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
+	/* 0042()    */ PACK uint8   unknown_0042[0x0004];
+	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */
 } GCC_PACKED Scenario;
 MSVC_PACKED_END
 assert_compile(sizeof(Scenario) == 0xE6);
@@ -541,8 +544,9 @@ typedef struct GlobalData {
 	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x0006];
 	/* 2C64(126) */ PACK uint16 structureLayout[7][9];      /*!< Array with position offset per tile in a structure layout. */
 	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
-	/* 2D52(14)  */ PACK uint16 structureLayoutCount[7];    /*<! Array with amount of tiles in a structure layout. */
-	/* 2D60()    */ PACK uint8   unknown_2D60[0x0118];
+	/* 2D52(14)  */ PACK uint16 structureLayoutCount[7];    /*!< Array with amount of tiles in a structure layout. */
+	/* 2D60()    */ PACK uint8   unknown_2D60[0x00FC];
+	/* 2E5C(7)   */ PACK uint32 structureLayoutTileDiff[7]; /*!< Array with TileDiff in a structure layout. */
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */
@@ -753,8 +757,8 @@ typedef struct GlobalData {
 	/* 4136(2)   */ PACK uint16 variable_4136;              /*!< ?? */
 	/* 4138(2)   */ PACK uint16 variable_4138;              /*!< ?? */
 	/* 413A()    */ PACK uint8   unknown_413A[0x007C];
-	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*<! ?? */
-	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*<! ?? */
+	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*!< ?? */
+	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*!< ?? */
 	/* 41BA()    */ PACK uint8   unknown_41BA[0x0012];
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */

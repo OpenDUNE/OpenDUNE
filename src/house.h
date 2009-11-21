@@ -24,7 +24,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct House {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the House in the array. */
-	/* 0002(2)   */ PACK uint16 variable_02;                /*<! ?? */
+	/* 0002(2)   */ PACK uint16 variable_02;                /*!< ?? */
 	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Human. */
 	/* 0006(2)   */ PACK uint16 unitCount;                  /*!< Amount of units owned by House. */
 	/* 0008(2)   */ PACK uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */
@@ -53,15 +53,15 @@ MSVC_PACKED_BEGIN
  *  that data.
  */
 typedef struct HouseInfo {
-	/* 0000(4)   */ PACK csip32 name;                       /*<! Pointer to name of house. */
+	/* 0000(4)   */ PACK csip32 name;                       /*!< Pointer to name of house. */
 	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
-	/* 0006(2)   */ PACK uint16 variable_06;                /*<! ?? */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*<! ?? Amount of damage per 'degrade' round? */
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
+	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
 	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*<! ?? */
-	/* 0010(2)   */ PACK uint16 prefixChar;                 /*<! Char used as prefix for some filenames. */
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
+	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
-	/* 001A(4)   */ PACK csip32 voiceFilename;              /*<! Pointer to filename with the voices of the house. */
+	/* 001A(4)   */ PACK csip32 voiceFilename;              /*!< Pointer to filename with the voices of the house. */
 } GCC_PACKED HouseInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(HouseInfo) == 0x1E);
