@@ -179,19 +179,22 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
  *
  * @param address The address of the Unit to free.
  */
-void Unit_Free(csip32 address)
+void Unit_Free(Unit *u)
 {
-	Unit *u;
+	csip32 ucsip;
 	int i;
 
-	u = Unit_Get_ByMemory(address);
-	u->flags = 0x0;
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+
+	u->flags = 0x0000;
 
 	Script_Reset(&u->script, &g_global->scriptUnit);
 
 	/* Walk the array to find the Unit we are removing */
 	for (i = 0; i < g_global->unitCount; i++) {
-		if (g_global->unitArray[i].csip != address.csip) continue;
+		if (g_global->unitArray[i].csip != ucsip.csip) continue;
 		break;
 	}
 	assert(i < g_global->unitCount); /* We should always find an entry */

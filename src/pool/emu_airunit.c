@@ -102,6 +102,7 @@ void emu_AirUnit_Allocate()
 void emu_AirUnit_Free()
 {
 	csip32 address;
+	AirUnit *au;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -109,7 +110,10 @@ void emu_AirUnit_Free()
 
 	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	AirUnit_Free(address);
+	if (address.csip == 0) return;
+	au = AirUnit_Get_ByMemory(address);
+
+	AirUnit_Free(au);
 }
 
 /**

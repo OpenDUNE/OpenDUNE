@@ -17,7 +17,7 @@ extern struct AirUnit *AirUnit_Find(struct PoolFindStruct *find);
 extern void AirUnit_Init(csip32 address);
 extern void AirUnit_Recount();
 extern struct AirUnit *AirUnit_Allocate(uint16 index);
-extern void AirUnit_Free(csip32 address);
+extern void AirUnit_Free(struct AirUnit *au);
 
 
 extern void emu_AirUnit_Init();

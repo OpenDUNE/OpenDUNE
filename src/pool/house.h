@@ -16,7 +16,7 @@ extern struct House *House_Find(struct PoolFindStruct *find);
 
 extern void House_Init(csip32 address);
 extern struct House *House_Allocate(uint8 index);
-extern void House_Free(csip32 address);
+extern void House_Free(struct House *h);
 
 
 extern void emu_House_Init();

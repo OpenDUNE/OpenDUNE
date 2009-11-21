@@ -320,15 +320,11 @@ void GameLoop_Structure()
 
 								/* If the AI no longer had in memory where to store the structure, free it and forget about it */
 								if (i == 5) {
-									csip32 nscsip;
 									StructureInfo *nsi = &g_structureInfo[ns->type];
 
 									h->credits += nsi->buildCredits;
 
-									nscsip.s.cs = g_global->structureStartPos.s.cs;
-									nscsip.s.ip = g_global->structureStartPos.s.ip + ns->index * sizeof(Structure);
-
-									Structure_Free(nscsip);
+									Structure_Free(ns);
 								}
 							}
 						}
@@ -573,11 +569,9 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 		s->upgradeTimeLeft = 0;
 	}
 
-	if (position != 0xFFFF) {
-		if (!Structure_Place(s, position)) {
-			Structure_Free(scsip);
-			return NULL;
-		}
+	if (position != 0xFFFF && !Structure_Place(s, position)) {
+		Structure_Free(s);
+		return NULL;
 	}
 
 	return s;

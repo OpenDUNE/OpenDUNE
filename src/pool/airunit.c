@@ -50,14 +50,14 @@ AirUnit *AirUnit_Find(PoolFindStruct *find)
 
 	for (; find->index < g_global->airUnitCount; find->index++) {
 		csip32 pos = g_global->airUnitArray[find->index];
-		AirUnit *a;
+		AirUnit *au;
 		if (pos.csip == 0x00000000) continue;
 
-		a = AirUnit_Get_ByMemory(pos);
+		au = AirUnit_Get_ByMemory(pos);
 
-		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != a->houseID) continue;
+		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != au->houseID) continue;
 
-		return a;
+		return au;
 	}
 
 	return NULL;
@@ -93,8 +93,8 @@ void AirUnit_Recount()
 	g_global->airUnitCount = 0;
 
 	for (index = 0; index < AIRUNIT_INDEX_MAX; index++) {
-		AirUnit *a = AirUnit_Get_ByIndex(index);
-		if (a->variable_02 == 0) continue;
+		AirUnit *au = AirUnit_Get_ByIndex(index);
+		if (au->flags == 0) continue;
 
 		g_global->airUnitArray[g_global->airUnitCount].csip = g_global->airUnitStartPos.csip + index * sizeof(AirUnit);
 		g_global->airUnitCount++;
@@ -109,32 +109,32 @@ void AirUnit_Recount()
  */
 AirUnit *AirUnit_Allocate(uint16 index)
 {
-	AirUnit *a = NULL;
+	AirUnit *au = NULL;
 
 	if (g_global->airUnitStartPos.csip == 0x0) return NULL;
 
 	if (index == AIRUNIT_INDEX_INVALID) {
 		/* Find the first unused index */
 		for (index = 0; index < AIRUNIT_INDEX_MAX; index++) {
-			a = AirUnit_Get_ByIndex(index);
-			if (a->variable_02 == 0) break;
+			au = AirUnit_Get_ByIndex(index);
+			if (au->flags == 0) break;
 		}
 		if (index == AIRUNIT_INDEX_MAX) return NULL;
 	} else {
-		a = AirUnit_Get_ByIndex(index);
-		if (a->variable_02 != 0) return NULL;
+		au = AirUnit_Get_ByIndex(index);
+		if (au->flags != 0) return NULL;
 	}
-	assert(a != NULL);
+	assert(au != NULL);
 
 	/* Initialize the AirUnit */
-	memset(a, 0, sizeof(AirUnit));
-	a->index       = index;
-	a->variable_02 = 0x0001;
+	memset(au, 0, sizeof(AirUnit));
+	au->index       = index;
+	au->flags = 0x0001;
 
 	g_global->airUnitArray[g_global->airUnitCount].csip = g_global->airUnitStartPos.csip + index * sizeof(AirUnit);
 	g_global->airUnitCount++;
 
-	return a;
+	return au;
 }
 
 /**
@@ -142,17 +142,20 @@ AirUnit *AirUnit_Allocate(uint16 index)
  *
  * @param address The address of the AirUnit to free.
  */
-void AirUnit_Free(csip32 address)
+void AirUnit_Free(AirUnit *au)
 {
-	AirUnit *a;
+	csip32 aucsip;
 	int i;
 
-	a = AirUnit_Get_ByMemory(address);
-	a->variable_02 = 0x0000;
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	aucsip.s.cs = g_global->airUnitStartPos.s.cs;
+	aucsip.s.ip = g_global->airUnitStartPos.s.ip + au->index * sizeof(AirUnit);
+
+	au->flags = 0x0000;
 
 	/* Walk the array to find the AirUnit we are removing */
 	for (i = 0; i < g_global->airUnitCount; i++) {
-		if (g_global->airUnitArray[i].csip != address.csip) continue;
+		if (g_global->airUnitArray[i].csip != aucsip.csip) continue;
 		break;
 	}
 	assert(i < g_global->airUnitCount); /* We should always find an entry */

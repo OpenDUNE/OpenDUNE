@@ -52,16 +52,16 @@ Structure *Structure_Find(PoolFindStruct *find)
 
 	for (; find->index < g_global->structureCount; find->index++) {
 		csip32 pos = g_global->structureArray[find->index];
-		Structure *b;
+		Structure *s;
 		if (pos.csip == 0x00000000) continue;
 
-		b = Structure_Get_ByMemory(pos);
+		s = Structure_Get_ByMemory(pos);
 
-		if ((b->flags & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
-		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != b->houseID) continue;
-		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != b->type)  continue;
+		if ((s->flags & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
+		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->houseID) continue;
+		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->type)  continue;
 
-		return b;
+		return s;
 	}
 
 	return NULL;
@@ -105,8 +105,8 @@ void Structure_Recount()
 	g_global->structureCount = 0;
 
 	for (index = 0; index < STRUCTURE_INDEX_MAX_HARD; index++) {
-		Structure *b = Structure_Get_ByIndex(index);
-		if ((b->flags & 0x0001) == 0) continue;
+		Structure *s = Structure_Get_ByIndex(index);
+		if ((s->flags & 0x0001) == 0) continue;
 
 		g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
 		g_global->structureCount++;
@@ -122,55 +122,55 @@ void Structure_Recount()
  */
 Structure *Structure_Allocate(uint16 index, uint8 type)
 {
-	Structure *b = NULL;
+	Structure *s = NULL;
 
 	if (g_global->structureStartPos.csip == 0x0) return NULL;
 
 	switch (type) {
 		case STRUCTURE_SLAB_1x1:
 			index = STRUCTURE_INDEX_SLAB_1x1;
-			b = Structure_Get_ByIndex(index);
+			s = Structure_Get_ByIndex(index);
 			break;
 
 		case STRUCTURE_SLAB_2x2:
 			index = STRUCTURE_INDEX_SLAB_2x2;
-			b = Structure_Get_ByIndex(index);
+			s = Structure_Get_ByIndex(index);
 			break;
 
 		case STRUCTURE_WALL:
 			index = STRUCTURE_INDEX_WALL;
-			b = Structure_Get_ByIndex(index);
+			s = Structure_Get_ByIndex(index);
 			break;
 
 		default:
 			if (index == STRUCTURE_INDEX_INVALID) {
 				/* Find the first unused index */
 				for (index = 0; index < STRUCTURE_INDEX_MAX_SOFT; index++) {
-					b = Structure_Get_ByIndex(index);
-					if ((b->flags & 0x0001) == 0) break;
+					s = Structure_Get_ByIndex(index);
+					if ((s->flags & 0x0001) == 0) break;
 				}
 				if (index == STRUCTURE_INDEX_MAX_SOFT) return NULL;
 			} else {
-				b = Structure_Get_ByIndex(index);
-				if ((b->flags & 0x0001) != 0) return NULL;
+				s = Structure_Get_ByIndex(index);
+				if ((s->flags & 0x0001) != 0) return NULL;
 			}
 			break;
 	}
-	assert(b != NULL);
+	assert(s != NULL);
 
 	/* Initialize the Structure */
-	memset(b, 0, sizeof(Structure));
-	b->index        = index;
-	b->type         = type;
-	b->linkedUnitID = 0xFF;
-	b->flags        = 0x0003;
-	b->variable_06  = 0x0000;
-	b->scriptDelay  = 0;
+	memset(s, 0, sizeof(Structure));
+	s->index        = index;
+	s->type         = type;
+	s->linkedUnitID = 0xFF;
+	s->flags        = 0x0003;
+	s->variable_06  = 0x0000;
+	s->scriptDelay  = 0;
 
 	g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
 	g_global->structureCount++;
 
-	return b;
+	return s;
 }
 
 /**
@@ -178,19 +178,22 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
  *
  * @param address The address of the Structure to free.
  */
-void Structure_Free(csip32 address)
+void Structure_Free(Structure *s)
 {
-	Structure *b;
+	csip32 scsip;
 	int i;
 
-	b = Structure_Get_ByMemory(address);
-	b->flags = 0x0;
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	scsip.s.cs = g_global->structureStartPos.s.cs;
+	scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
 
-	Script_Reset(&b->script, &g_global->scriptStructure);
+	s->flags = 0x0000;
+
+	Script_Reset(&s->script, &g_global->scriptStructure);
 
 	/* Walk the array to find the Structure we are removing */
 	for (i = 0; i < g_global->structureCount; i++) {
-		if (g_global->structureArray[i].csip != address.csip) continue;
+		if (g_global->structureArray[i].csip != scsip.csip) continue;
 		break;
 	}
 	assert(i < g_global->structureCount); /* We should always find an entry */

@@ -113,12 +113,18 @@ House* House_Allocate(uint8 index)
  *
  * @param address The address of the House to free.
  */
-void House_Free(csip32 address)
+void House_Free(House *h)
 {
-	/* Walk the array to find the House we are removing */
+	csip32 hcsip;
 	int i;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	hcsip.s.cs = g_global->houseStartPos.s.cs;
+	hcsip.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+
+	/* Walk the array to find the House we are removing */
 	for (i = 0; i < g_global->houseCount; i++) {
-		if (g_global->houseArray[i].csip != address.csip) continue;
+		if (g_global->houseArray[i].csip != hcsip.csip) continue;
 		break;
 	}
 	assert(i < g_global->houseCount); /* We should always find an entry */

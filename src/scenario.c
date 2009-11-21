@@ -302,10 +302,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 
 	/* In case the above function failed and we are passed campaign 2, don't add the unit */
 	if (emu_ax == 0 && g_global->campaignID > 2) {
-		csip32 address;
-		address.s.cs = g_global->unitStartPos.s.cs;
-		address.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
-		Unit_Free(address);
+		Unit_Free(u);
 		return;
 	}
 

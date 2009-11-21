@@ -115,6 +115,7 @@ void emu_Structure_Allocate()
 void emu_Structure_Free()
 {
 	csip32 address;
+	Structure *s;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -122,7 +123,10 @@ void emu_Structure_Free()
 
 	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	Structure_Free(address);
+	if (address.csip == 0) return;
+	s = Structure_Get_ByMemory(address);
+
+	Structure_Free(s);
 }
 
 /**

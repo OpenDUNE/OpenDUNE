@@ -22,7 +22,7 @@ extern struct Structure *Structure_Find(struct PoolFindStruct *find);
 extern void Structure_Init(csip32 address);
 extern void Structure_Recount();
 extern struct Structure *Structure_Allocate(uint16 index, uint8 type);
-extern void Structure_Free(csip32 address);
+extern void Structure_Free(struct Structure *s);
 
 
 extern void emu_Structure_Init();

@@ -251,7 +251,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 			emu_sp += 4;
 
 			if (emu_ax != 0) {
-				Unit_Free(ucsip);
+				Unit_Free(u);
 				return NULL;
 			}
 		}

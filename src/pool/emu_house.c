@@ -82,6 +82,7 @@ void emu_House_Allocate()
 void emu_House_Free()
 {
 	csip32 address;
+	House *h;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -89,7 +90,10 @@ void emu_House_Free()
 
 	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	House_Free(address);
+	if (address.csip == 0) return;
+	h = House_Get_ByMemory(address);
+
+	House_Free(h);
 }
 
 /**
