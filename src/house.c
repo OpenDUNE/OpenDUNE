@@ -269,7 +269,7 @@ void GameLoop_House()
 				}
 
 				if (g_global->playerCreditsNoSilo == 0 && g_global->campaignID > 1 && h->credits != 0) {
-					if (h->credits * 256 / max(h->creditsStorage, g_global->playerCreditsNoSilo) > 200) {
+					if ((h->creditsStorage * 256 / h->credits) > 200) {
 						emu_push(0x142); /* "Spice storage capacity low, build silos." */
 						emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x0FCB; emu_String_GetString();
 						emu_sp += 2;
