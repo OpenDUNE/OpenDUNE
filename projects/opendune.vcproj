@@ -2853,6 +2853,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\os\math.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\os\strings.h"
 				>
 			</File>

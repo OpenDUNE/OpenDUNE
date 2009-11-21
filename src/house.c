@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "os/strings.h"
+#include "os/math.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -12,10 +13,6 @@
 #include "house.h"
 #include "structure.h"
 #include "unit.h"
-
-#ifndef max
-	#define max(a, b) ((a) > (b) ? (a) : (b))
-#endif /* max */
 
 extern void emu_String_GetString();
 extern void emu_Tile_Unpack();
