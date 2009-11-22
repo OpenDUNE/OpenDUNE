@@ -71,5 +71,6 @@ extern HouseInfo *g_houseInfo;
 extern void GameLoop_House();
 extern void emu_GameLoop_House();
 extern uint8 House_StringToType(const char *name);
+extern void House_EnsureHarvesterAvailable(uint8 houseID);
 
 #endif /* HOUSE_H */

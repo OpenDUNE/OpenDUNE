@@ -20,7 +20,6 @@ extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
 extern void f__167E_00F3_001E_8CB3();
 extern void f__1A34_1B68_0019_AAA0();
-extern void f__1A34_21E0_001A_547E();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
 extern void f__2537_000C_001C_86CB();
@@ -303,11 +302,7 @@ void GameLoop_House()
 			}
 		}
 
-		if (tickHouse) {
-			emu_push(h->index);
-			emu_push(emu_cs); emu_push(0x05AE); emu_cs = 0x1A34; f__1A34_21E0_001A_547E();
-			emu_sp += 2;
-		}
+		if (tickHouse) House_EnsureHarvesterAvailable(h->index);
 
 		if (tickStarport && h->starportLinkedID != UNIT_INDEX_INVALID) {
 			Unit *u = NULL;
@@ -439,4 +434,69 @@ uint8 House_StringToType(const char *name)
 	}
 
 	return HOUSE_INVALID;
+}
+
+/**
+ * Gives a harvester to the given house if it has a refinery and no harvesters.
+ *
+ * @param houseID The index of the house to give a harvester to.
+ */
+void House_EnsureHarvesterAvailable(uint8 houseID)
+{
+	PoolFindStruct find;
+	Structure *s;
+
+	find.houseID = houseID;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+		/* ENHANCEMENT -- Dune2 checked the wrong type to skip. LinkedID is a structure for a Construction Yard */
+		if (!g_dune2_enhanced && s->type == STRUCTURE_HEAVY_VEHICLE) continue;
+		if (g_dune2_enhanced && s->type == STRUCTURE_CONSTRUCTION_YARD) continue;
+		if (s->linkedID == UNIT_INVALID) continue;
+		if (Unit_Get_ByIndex(s->linkedID)->type == UNIT_HARVESTER) return;
+	}
+
+	find.houseID = houseID;
+	find.type    = UNIT_CARRYALL;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+		if (u->linkedID == UNIT_INVALID) continue;
+		if (Unit_Get_ByIndex(u->linkedID)->type == UNIT_HARVESTER) return;
+	}
+
+	if (Unit_IsTypeOnMap(houseID, UNIT_HARVESTER)) return;
+
+	find.houseID = houseID;
+	find.type    = STRUCTURE_REFINERY;
+	find.index   = 0xFFFF;
+
+	s = Structure_Find(&find);
+	if (s == NULL) return;
+
+	emu_push(s->index | 0x8000);
+	emu_push(UNIT_HARVESTER);
+	emu_push(houseID);
+	emu_push(emu_cs); emu_push(0x22F1); f__1A34_232C_0011_B7DE();
+	emu_sp += 6;
+	if (emu_dx == 0 && emu_ax == 0) return;
+
+	if (houseID != g_global->playerHouseID) return;
+
+	emu_push(0x32); /* "Harvester is heading to refinery." */
+	emu_push(emu_cs); emu_push(0x2314); emu_cs = 0x0FCB; emu_String_GetString();
+	emu_sp += 2;
+
+	emu_push(0);
+	emu_push(emu_dx); emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x231C); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+	emu_sp += 6;
 }

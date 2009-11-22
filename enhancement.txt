@@ -34,3 +34,9 @@ Scenario
 - The structure '% hitpoints' is ignored. In result all structures always
     have 100% hitpoints.
 
+
+House
+-----
+- When you have a refinery and lost all your harvesters, you get a new one even
+    if you are currently building one in heavy vehicle factory.
+

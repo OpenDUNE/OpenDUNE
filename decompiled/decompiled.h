@@ -934,7 +934,6 @@ extern void f__176C_212E_002E_9D89();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__01F7_2148_0028_6CAC();
 extern void emu_Tools_Realloc();
-extern void f__1A34_21E0_001A_547E();
 extern void f__01F7_21FA_0012_B06A();
 extern void f__0C3A_2207_001D_EDF2();
 extern void emu_String_ToInteger();
