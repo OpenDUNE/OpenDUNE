@@ -1,4 +1,4 @@
-/* $Id: script.c 559 2009-11-21 23:24:32Z truebrain $ */
+/* $Id$ */
 
 #include <stdio.h>
 #include "types.h"
