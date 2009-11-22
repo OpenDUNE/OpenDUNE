@@ -378,7 +378,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 		structureType = Structure_StringToType(value);
 		if (structureType == STRUCTURE_INVALID) return;
 
-		Structure_Create(0xFFFF, structureType, houseType, position);
+		Structure_Create(STRUCTURE_INDEX_INVALID, structureType, houseType, position);
 		return;
 	}
 
@@ -668,7 +668,7 @@ void emu_Scenario_Load_Choam(const char *key, char *value)
 	unitType = Unit_StringToType(key);
 	if (unitType == UNIT_INVALID) return;
 
-	g_global->variable_97E7[unitType] = atoi(value);
+	g_global->starportAvailable[unitType] = atoi(value);
 }
 
 /**
@@ -1274,7 +1274,7 @@ l__0014:
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = g_global->readBuffer.s.ip + emu_get_memory16(emu_ss, emu_bp, -0x10);
 
 	for (emu_si = 0; emu_si < 16; emu_si ++) {
-		g_global->scenario.reinforcement[emu_si].unitID = 0xFFFF;
+		g_global->scenario.reinforcement[emu_si].unitID = UNIT_INDEX_INVALID;
 	}
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);

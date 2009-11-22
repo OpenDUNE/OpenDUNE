@@ -213,7 +213,7 @@ void GameLoop_Structure()
 					s->flags &= 0xDFFF;
 				}
 			} else {
-				if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedUnitID != 0xFF && s->variable_54 == 0x0001 && (si->variable_0C & 0x0002) != 0) {
+				if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF && s->variable_54 == 0x0001 && (si->variable_0C & 0x0002) != 0) {
 					UnitInfo *ui;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -222,7 +222,7 @@ void GameLoop_Structure()
 						/* XXX -- This is not really pretty */
 						ui = (UnitInfo *)&g_structureInfo[s->variable_4C];
 					} else if (s->type == STRUCTURE_REPAIR) {
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedUnitID)->type];
+						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
 					} else {
 						ui = &g_unitInfo[s->variable_4C];
 					}
@@ -300,8 +300,8 @@ void GameLoop_Structure()
 								Structure *ns;
 								uint8 i;
 
-								ns = Structure_Get_ByIndex(s->linkedUnitID);
-								s->linkedUnitID = 0xFF;
+								ns = Structure_Get_ByIndex(s->linkedID);
+								s->linkedID = 0xFF;
 
 								/* The AI places structures which are operational immediatly */
 								emu_push(0);
@@ -348,12 +348,12 @@ void GameLoop_Structure()
 				}
 
 				if (s->type == STRUCTURE_REPAIR) {
-					if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedUnitID != 0xFF) {
+					if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF) {
 						UnitInfo *ui;
 						uint16 repairSpeed;
 						uint16 repairCost;
 
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedUnitID)->type];
+						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
 
 						repairSpeed = 256;
 						if (s->hitpoints < si->hitpoints) {
@@ -401,7 +401,7 @@ void GameLoop_Structure()
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-					if ((si->variable_0C & 0x0002) != 0 && s->countDown == 0 && s->linkedUnitID == 0xFF) {
+					if ((si->variable_0C & 0x0002) != 0 && s->countDown == 0 && s->linkedID == 0xFF) {
 						emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; f__1423_0C74_0015_3419();
 						emu_sp += 4;
@@ -507,7 +507,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->variable_47   = houseID;
 	s->flags        |= 0x0004;
 	s->position.tile = 0;
-	s->linkedUnitID  = 0xFF;
+	s->linkedID      = 0xFF;
 	s->variable_54   = 0xFFFF;
 
 	if (g_global->debugScenario) {
@@ -850,7 +850,10 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	if (g_global->variable_38BC == 0x0) {
-		Structure_CalculatePowerAndCredit(s->houseID);
+		House *h;
+
+		h = House_Get_ByIndex(s->houseID);
+		Structure_CalculatePowerAndCredit(h);
 	}
 
 	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
@@ -876,21 +879,17 @@ bool Structure_Place(Structure *s, uint16 position)
  *
  * @param houseID The index of the house to calculate the numbers for.
  */
-void Structure_CalculatePowerAndCredit(uint8 houseID)
+void Structure_CalculatePowerAndCredit(House *h)
 {
 	PoolFindStruct find;
-	House *h;
 
-	if (houseID >= HOUSE_MAX) return;
-
-	h = House_Get_ByIndex(houseID);
 	if (h == NULL) return;
 
 	h->powerUsage      = 0;
 	h->powerProduction = 0;
 	h->creditsStorage  = 0;
 
-	find.houseID = houseID;
+	find.houseID = h->index;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -927,7 +926,7 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
 	}
 
 	/* Check if we are low on power */
-	if (houseID == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
+	if (h->index == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
 		emu_push(0x010E); /* "Insufficient power.  Windtrap is needed." */
 		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; emu_String_GetString();
 		emu_sp += 2;
@@ -939,7 +938,7 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
 	}
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */
-	if (houseID == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
+	if (h->index == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
 		g_global->playerCreditsNoSilo = 0;
 	}
 }
@@ -949,19 +948,15 @@ void Structure_CalculatePowerAndCredit(uint8 houseID)
  *
  * @param houseID The index of the house to calculate the numbers for.
  */
-void Structure_CalculateHitpointsMax(uint8 houseID)
+void Structure_CalculateHitpointsMax(House *h)
 {
 	PoolFindStruct find;
-	House *h;
 	uint16 power = 0;
 
-	if (houseID >= HOUSE_MAX) return;
-
-	h = House_Get_ByIndex(houseID);
 	if (h == NULL) return;
 
-	if (houseID == g_global->playerHouseID) {
-		emu_push(houseID);
+	if (h->index == g_global->playerHouseID) {
+		emu_push(h->index);
 		emu_push(emu_cs); emu_push(0x2113); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
 		emu_sp += 2;
 	}
@@ -972,9 +967,9 @@ void Structure_CalculateHitpointsMax(uint8 houseID)
 		power = min(h->powerProduction * 256 / h->powerUsage, 256);
 	}
 
-	find.type    = 0xFFFF;
-	find.houseID = houseID;
+	find.houseID = h->index;
 	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
 
 	while (true) {
 		csip32 scsip;
@@ -983,6 +978,7 @@ void Structure_CalculateHitpointsMax(uint8 houseID)
 
 		s = Structure_Find(&find);
 		if (s == NULL) return;
+
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		scsip.s.cs = g_global->structureStartPos.s.cs;
 		scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);

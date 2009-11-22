@@ -40,8 +40,8 @@ typedef struct House {
 	/* 0024(2)   */ PACK uint16 variable_24;                /*!< ?? */
 	/* 0026(2)   */ PACK uint16 variable_26;                /*!< ?? */
 	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */
-	/* 002A(2)   */ PACK uint16 variable_2A;                /*!< ?? */
-	/* 002C(2)   */ PACK uint16 variable_2C;                /*!< ?? */
+	/* 002A(2)   */ PACK uint16 starportTimeLeft;           /*!< How much time is left before starport transport arrives. */
+	/* 002C(2)   */ PACK uint16 starportLinkedID;           /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
 	/* 002E(20)  */ PACK uint16 ai_structureRebuild[10];    /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
 } GCC_PACKED House;
 MSVC_PACKED_END
@@ -58,7 +58,7 @@ typedef struct HouseInfo {
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
 	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
+	/* 000E(2)   */ PACK uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
 	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*!< Pointer to filename with the voices of the house. */

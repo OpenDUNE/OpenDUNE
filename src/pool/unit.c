@@ -158,14 +158,14 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 	/* Initialize the Unit */
 	memset(u, 0, sizeof(Unit));
-	u->index             = index;
-	u->type              = type;
-	u->houseID           = houseID;
-	u->linkedStructureID = 0xFF;
-	u->flags             = 0x0003;
-	u->variable_06       = 0x0001;
-	u->scriptDelay       = 0;
-	u->variable_72       = 0xFF;
+	u->index       = index;
+	u->type        = type;
+	u->houseID     = houseID;
+	u->linkedID    = 0xFF;
+	u->flags       = 0x0003;
+	u->variable_06 = 0x0001;
+	u->scriptDelay = 0;
+	u->variable_72 = 0xFF;
 	if (type == UNIT_SANDWORM) u->sandwormLeft = 0x03;
 
 	g_global->unitArray[g_global->unitCount].csip = g_global->unitStartPos.csip + index * sizeof(Unit);

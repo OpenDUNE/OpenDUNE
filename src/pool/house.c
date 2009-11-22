@@ -8,6 +8,7 @@
 #include "../global.h"
 #include "../house.h"
 #include "pool.h"
+#include "unit.h"
 #include "house.h"
 
 /**
@@ -98,9 +99,9 @@ House* House_Allocate(uint8 index)
 
 	/* Initialize the House */
 	memset(h, 0, sizeof(House));
-	h->index       = index;
-	h->flags       = 0x0001;
-	h->variable_2C = 0xFFFF;
+	h->index            = index;
+	h->flags            = 0x0001;
+	h->starportLinkedID = UNIT_INDEX_INVALID;
 
 	g_global->houseArray[g_global->houseCount].csip = g_global->houseStartPos.csip + index * sizeof(House);
 	g_global->houseCount++;

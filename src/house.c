@@ -48,52 +48,52 @@ void GameLoop_House()
 {
 	PoolFindStruct find;
 	House *h = NULL;
-	bool loc02 = false;
-	bool loc04 = false;
-	bool loc06 = false;
-	bool loc08 = false;
-	bool loc0A = false;
-	bool loc0C = false;
-	bool loc0E = false;
+	bool tickHouse                = false;
+	bool tickPowerMaintenance     = false;
+	bool tickStarport             = false;
+	bool tickReinforcement        = false;
+	bool tickUnused               = false;
+	bool tickUnknown              = false;
+	bool tickStarportAvailability = false;
 
 	if (g_global->debugScenario) return;
 
 	if (g_global->variable_6086 <= g_global->variable_76B0) {
-		loc02 = true;
+		tickHouse = true;
 		g_global->variable_6086 = g_global->variable_76B0 + 900;
 	}
 
-	if (g_global->variable_38C0 <= g_global->variable_76B0 || g_global->variable_608A <= g_global->variable_76B0) {
-		loc04 = true;
+	if (g_global->variable_38C0 <= g_global->variable_76B0 && g_global->variable_608A <= g_global->variable_76B0) {
+		tickPowerMaintenance = true;
 		g_global->variable_608A = g_global->variable_76B0 + 10800;
 	}
 
 	if (g_global->variable_608E <= g_global->variable_76B0) {
-		loc06 = true;
+		tickStarport = true;
 		g_global->variable_608E = g_global->variable_76B0 + 180;
 	}
 
 	if (g_global->variable_6092 <= g_global->variable_76B0) {
-		loc08 = true;
+		tickReinforcement = true;
 		g_global->variable_6092 = g_global->variable_76B0 + (g_global->debugGame ? 60 : 600);
 	}
 
 	if (g_global->variable_6096 <= g_global->variable_76B0) {
-		loc0A = true;
+		tickUnused = true;
 		g_global->variable_6096 = g_global->variable_76B0 + 5;
 	}
 
 	if (g_global->variable_609A <= g_global->variable_76B0) {
-		loc0C = true;
+		tickUnknown = true;
 		g_global->variable_609A = g_global->variable_76B0 + 60;
 	}
 
 	if (g_global->variable_609E <= g_global->variable_76B0) {
-		loc0E = true;
+		tickStarportAvailability = true;
 		g_global->variable_609E = g_global->variable_76B0 + 1800;
 	}
 
-	if (loc0C && g_global->variable_38FE != 0) {
+	if (tickUnknown && g_global->variable_38FE != 0) {
 		g_global->variable_38FE--;
 		emu_push(g_global->variable_38FE + 41);
 		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
@@ -111,42 +111,47 @@ void GameLoop_House()
 		}
 	}
 
-	if (loc0E) {
-		emu_push(26);
+	if (tickStarportAvailability) {
+		/* Pick a random unit to increase starport availability */
+		emu_push(UNIT_MAX - 1);
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x01F7); emu_cs = 0x2537; f__2537_000C_001C_86CB();
 		emu_sp += 4;
 
-		if (g_global->variable_97E7[emu_ax] != 0 && (int16)g_global->variable_97E7[emu_ax] < 10) {
-			if (g_global->variable_97E7[emu_ax] != 0xFFFF) {
-				g_global->variable_97E7[emu_ax] = 1;
+		/* Increase how many of this unit is available via starport by one */
+		if (g_global->starportAvailable[emu_ax] != 0 && g_global->starportAvailable[emu_ax] < 10) {
+			if (g_global->starportAvailable[emu_ax] == -1) {
+				g_global->starportAvailable[emu_ax] = 1;
 			} else {
-				g_global->variable_97E7[emu_ax]++;
+				g_global->starportAvailable[emu_ax]++;
 			}
 		}
 	}
-	if (loc08) {
-		int i;
-		Unit *u = NULL;
+
+	if (tickReinforcement) {
 		Unit *nu = NULL;
-		uint16 loc1E = 0;
-		uint16 loc20 = 0;
+		int i;
 
 		for (i = 0; i < 16; i++) {
+			uint16 locationID;
+			bool deployed;
 			csip32 ucsip;
+			Unit *u;
+
 			if (g_global->scenario.reinforcement[i].unitID == UNIT_INDEX_INVALID) continue;
 			if (g_global->scenario.reinforcement[i].timeLeft == 0) continue;
 			if (--g_global->scenario.reinforcement[i].timeLeft != 0) continue;
 
 			u = Unit_Get_ByIndex(g_global->scenario.reinforcement[i].unitID);
+
 			/* XXX -- Temporary, to keep all the emu_calls workable for now */
 			ucsip.s.cs = g_global->unitStartPos.s.cs;
-			ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(u);
+			ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
-			loc1E = g_global->scenario.reinforcement[i].locationID;
-			loc20 = 0;
+			locationID = g_global->scenario.reinforcement[i].locationID;
+			deployed   = false;
 
-			if (loc1E >= 4) {
+			if (locationID >= 4) {
 				if (nu == NULL) {
 					tile32 tile;
 					csip32 nucsip;
@@ -166,14 +171,15 @@ void GameLoop_House()
 					tile.s.y = emu_dx;
 
 					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, tile, 100);
+
 					/* XXX -- Temporary, to keep all the emu_calls workable for now */
 					nucsip.s.cs = g_global->unitStartPos.s.cs;
 					nucsip.s.ip = g_global->unitStartPos.s.ip + nu->index * sizeof(u);
 
-					nu->flags |= 0x200;
+					nu->flags |= 0x0200;
 
 					emu_push(u->houseID);
-					emu_push(loc1E);
+					emu_push(locationID);
 					emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 					emu_sp += 4;
 
@@ -189,17 +195,18 @@ void GameLoop_House()
 				}
 
 				if (nu != NULL) {
-					u->linkedStructureID = nu->linkedStructureID;
-					nu->linkedStructureID = u->index;
-					nu->flags |= 0x100;
+					u->linkedID = nu->linkedID;
+					nu->linkedID = u->index;
+					nu->flags |= 0x0100;
 					g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
-					loc20 = 1;
+					deployed = true;
 				} else {
+					/* Failed to create carry-all, try again in a short moment */
 					g_global->scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
 				emu_push(u->houseID);
-				emu_push(loc1E);
+				emu_push(locationID);
 				emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 				emu_sp += 4;
 
@@ -211,12 +218,13 @@ void GameLoop_House()
 				emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 				emu_push(emu_cs); emu_push(0x03D2); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
 				emu_sp += 8;
-				loc20 = emu_ax;
+				deployed = (emu_ax == 0) ? false : true;
 			}
 
-			if (loc20 != 0 && g_global->scenario.reinforcement[i].repeat != 0) {
+			if (deployed && g_global->scenario.reinforcement[i].repeat != 0) {
 				tile32 tile;
 				tile.tile = 0xFFFFFFFF;
+
 				g_global->variable_38BC++;
 				u = Unit_Create(UNIT_INDEX_INVALID, u->type, u->houseID, tile, 0);
 				g_global->variable_38BC--;
@@ -229,15 +237,17 @@ void GameLoop_House()
 		}
 	}
 
+	/* XXX -- This seems oddly wrong placed, as 'houseCurrent' is not alternating between houses over multiple runs */
 	h = House_Get_ByMemory(g_global->houseCurrent);
 	if (h->index != g_global->playerHouseID) {
 		if (h->creditsStorage < h->credits) {
 			h->credits = h->creditsStorage;
 		}
 	} else {
-		uint16 max_credits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
-		if (h->credits > max_credits) {
-			h->credits = max_credits;
+		uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
+		if (h->credits > maxCredits) {
+			h->credits = maxCredits;
+
 			emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
 			emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
 			emu_sp += 2;
@@ -255,13 +265,13 @@ void GameLoop_House()
 
 	while (true) {
 		h = House_Find(&find);
-		if (h == NULL) return;
+		if (h == NULL) break;
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->houseCurrent.s.cs         = g_global->houseStartPos.s.cs;
-		g_global->houseCurrent.s.ip         = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+		g_global->houseCurrent.s.cs = g_global->houseStartPos.s.cs;
+		g_global->houseCurrent.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
 
-		if (loc02) {
+		if (tickHouse) {
 			if (h->index == g_global->playerHouseID) {
 				if (h->creditsStorage > g_global->playerCreditsNoSilo) {
 					g_global->playerCreditsNoSilo = 0;
@@ -291,56 +301,61 @@ void GameLoop_House()
 					emu_sp += 6;
 				}
 			}
+		}
 
+		if (tickHouse) {
 			emu_push(h->index);
 			emu_push(emu_cs); emu_push(0x05AE); emu_cs = 0x1A34; f__1A34_21E0_001A_547E();
 			emu_sp += 2;
 		}
 
-		if (h->variable_2C != 0xFFFF && loc06) {
-			Structure *s = NULL;
+		if (tickStarport && h->starportLinkedID != UNIT_INDEX_INVALID) {
 			Unit *u = NULL;
 			csip32 ucsip;
-			if ((uint16)(--h->variable_2A) <= 0) h->variable_2A = 0;
-			if (h->variable_2A == 0) {
+
+			h->starportTimeLeft--;
+			if ((int16)h->starportTimeLeft < 0) h->starportTimeLeft = 0;
+
+			if (h->starportTimeLeft == 0) {
+				Structure *s;
+
 				s = Structure_Get_ByIndex(g_global->structureIndex);
-				if (s != NULL) {
-					if (s->type == STRUCTURE_STARPORT) {
-						if (s->houseID == h->index) {
-							emu_push(3);
-							emu_push(s->index);
-							emu_push(emu_cs); emu_push(0x0647); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
-							emu_sp += 4;
+				if (s->type == STRUCTURE_STARPORT && s->houseID == h->index) {
+					emu_push(3);
+					emu_push(s->index);
+					emu_push(emu_cs); emu_push(0x0647); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+					emu_sp += 4;
 
-							emu_push(emu_ax);
-							emu_push(26);
-							emu_push(h->index);
-							emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
-							emu_sp += 6;
+					emu_push(emu_ax);
+					emu_push(UNIT_FRIGATE);
+					emu_push(h->index);
+					emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
+					emu_sp += 6;
 
-							ucsip.s.cs = emu_dx;
-							ucsip.s.ip = emu_ax;
-							u = Unit_Get_ByMemory(ucsip);
-							if (u != NULL) {
-								u->linkedStructureID = h->variable_2C;
-								h->variable_2C = 0xFFFF;
-								u->flags |= 0x100;
+					ucsip.s.cs = emu_dx;
+					ucsip.s.ip = emu_ax;
+					if (ucsip.csip != 0) {
+						u = Unit_Get_ByMemory(ucsip);
 
-								emu_push(38);
-								emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
-								emu_sp += 2;
-							}
-						}
+						u->linkedID = h->starportLinkedID;
+						h->starportLinkedID = UNIT_INDEX_INVALID;
+						u->flags |= 0x0100;
+
+						emu_push(38);
+						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+						emu_sp += 2;
 					}
 				} else {
 					PoolFindStruct find2;
+
 					find2.houseID = h->index;
-					find2.index = 0xFFFF;
-					find2.type = STRUCTURE_STARPORT;
+					find2.index   = 0xFFFF;
+					find2.type    = STRUCTURE_STARPORT;
+
 					while (true) {
 						s = Structure_Find(&find2);
 						if (s == NULL) break;
-						if (s->linkedUnitID != 0xFF) continue;
+						if (s->linkedID != 0xFF) continue;
 
 						emu_push(3);
 						emu_push(s->index);
@@ -348,18 +363,19 @@ void GameLoop_House()
 						emu_sp += 4;
 
 						emu_push(emu_ax);
-						emu_push(26);
+						emu_push(UNIT_FRIGATE);
 						emu_push(h->index);
 						emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
 						emu_sp += 6;
 
 						ucsip.s.cs = emu_dx;
 						ucsip.s.ip = emu_ax;
-						u = Unit_Get_ByMemory(ucsip);
-						if (u != NULL) {
-							u->linkedStructureID = h->variable_2C;
-							h->variable_2C = 0xFFFF;
-							u->flags |= 0x100;
+						if (ucsip.csip == 0) {
+							u = Unit_Get_ByMemory(ucsip);
+
+							u->linkedID = h->starportLinkedID;
+							h->starportLinkedID = 0xFFFF;
+							u->flags |= 0x0100;
 
 							emu_push(38);
 							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
@@ -368,13 +384,13 @@ void GameLoop_House()
 					}
 				}
 
-				h->variable_2A = (u != NULL) ? g_houseInfo[h->index].variable_0E : 1;
+				h->starportTimeLeft = (u != NULL) ? g_houseInfo[h->index].starportDeliveryTime : 1;
 			}
 		}
 
-		if (loc02) {
-			Structure_CalculatePowerAndCredit(h->index);
-			Structure_CalculateHitpointsMax(h->index);
+		if (tickHouse) {
+			Structure_CalculatePowerAndCredit(h);
+			Structure_CalculateHitpointsMax(h);
 
 			if (h->variable_24 != 0) h->variable_24--;
 			if (h->variable_26 != 0) h->variable_26--;
@@ -390,9 +406,12 @@ void GameLoop_House()
 				if (emu_ax != 0 || emu_dx != 0) h->variable_02--;
 			}
 		}
-	}
 
-	if (loc04) h->credits -= max(h->credits, (h->powerUsage / 32) + 1);
+		if (tickPowerMaintenance) {
+			uint16 powerMaintenanceCost = (h->powerUsage / 32) + 1;
+			h->credits -= min(h->credits, powerMaintenanceCost);
+		}
+	}
 }
 
 /**

@@ -40,7 +40,7 @@ MSVC_PACKED_BEGIN
 typedef struct Structure {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
-	/* 0003(1)   */ PACK uint8  linkedUnitID;               /*!< Unit we are linked to, or 0xFF if we are not linked to a unit. */
+	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
 	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being-built, 0x0400 - Degrades, 0x2000 - Repairing, 0x4000 - On hold. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? Bitflags. 0x0002 - Upgrading. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
@@ -87,14 +87,16 @@ typedef struct StructureInfo {
 MSVC_PACKED_END
 assert_compile(sizeof(StructureInfo) == 0x60);
 
+struct House;
+
 extern StructureInfo *g_structureInfo;
 
 extern void GameLoop_Structure();
 extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
 extern bool Structure_Place(Structure *s, uint16 position);
-extern void Structure_CalculatePowerAndCredit(uint8 houseID);
-extern void Structure_CalculateHitpointsMax(uint8 houseID);
+extern void Structure_CalculatePowerAndCredit(struct House *h);
+extern void Structure_CalculateHitpointsMax(struct House *h);
 
 
 extern void emu_GameLoop_Structure();

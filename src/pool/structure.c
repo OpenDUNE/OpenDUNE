@@ -160,12 +160,12 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 
 	/* Initialize the Structure */
 	memset(s, 0, sizeof(Structure));
-	s->index        = index;
-	s->type         = type;
-	s->linkedUnitID = 0xFF;
-	s->flags        = 0x0003;
-	s->variable_06  = 0x0000;
-	s->scriptDelay  = 0;
+	s->index       = index;
+	s->type        = type;
+	s->linkedID    = 0xFF;
+	s->flags       = 0x0003;
+	s->variable_06 = 0x0000;
+	s->scriptDelay = 0;
 
 	g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
 	g_global->structureCount++;

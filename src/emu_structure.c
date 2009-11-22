@@ -4,7 +4,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "pool/house.h"
 #include "pool/structure.h"
+#include "house.h"
 #include "structure.h"
 
 /**
@@ -347,6 +349,7 @@ void emu_Structure_Place()
 void emu_Structure_CalculatePowerAndCredit()
 {
 	uint8 houseID;
+	House *h;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -354,5 +357,8 @@ void emu_Structure_CalculatePowerAndCredit()
 
 	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	Structure_CalculatePowerAndCredit(houseID);
+	if (houseID >= HOUSE_MAX) return;
+	h = House_Get_ByIndex(houseID);
+
+	Structure_CalculatePowerAndCredit(h);
 }

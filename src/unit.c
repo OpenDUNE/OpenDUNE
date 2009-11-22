@@ -214,18 +214,18 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 		u->variable_5E.tile = position.tile;
 	}
 
-	u->linkedStructureID = 0xFF;
-	u->scriptDelay       = 0;
-	u->actionID          = 0x03;
-	u->variable_50       = 0xFF;
-	u->variable_51       = 0x00;
-	u->variable_52       = 0x7FFF;
-	u->variable_56       = 0x0000;
-	u->sandwormLeft      = 0x00;
-	u->variable_6C       = 0x00;
-	u->variable_6D       = 0x00;
-	u->variable_6E       = 0x00;
-	u->variable_70       = 0x0000;
+	u->linkedID     = 0xFF;
+	u->scriptDelay  = 0;
+	u->actionID     = ACTION_GUARD;
+	u->variable_50  = 0xFF;
+	u->variable_51  = 0x00;
+	u->variable_52  = 0x7FFF;
+	u->variable_56  = 0x0000;
+	u->sandwormLeft = 0x00;
+	u->variable_6C  = 0x00;
+	u->variable_6D  = 0x00;
+	u->variable_6E  = 0x00;
+	u->variable_70  = 0x0000;
 
 	Script_Reset(&u->script, &g_global->scriptUnit);
 
