@@ -106,10 +106,11 @@ tile32 Tile_UnpackTile(uint16 packed)
 {
 	tile32 tile;
 
-	tile.d.px = packed & 0x3F;
+	tile.tile = 0;
+	tile.d.px = (packed >> 0) & 0x3F;
 	tile.d.py = (packed >> 6) & 0x3F;
-	tile.d.oy = 0x80;
 	tile.d.ox = 0x80;
+	tile.d.oy = 0x80;
 
 	return tile;
 }
@@ -122,7 +123,7 @@ tile32 Tile_UnpackTile(uint16 packed)
  */
 uint8 Tile_GetPackedX(uint16 packed)
 {
-	return packed & 0x3F;
+	return (packed >> 0) & 0x3F;
 }
 
 /**
@@ -164,8 +165,9 @@ tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
 {
 	tile32 result;
 
-	result.s.x = from.s.x + diff.s.x;
-	result.s.y = from.s.y + diff.s.y;
+	result.tile = 0;
+	result.s.x  = from.s.x + diff.s.x;
+	result.s.y  = from.s.y + diff.s.y;
 
 	return result;
 }

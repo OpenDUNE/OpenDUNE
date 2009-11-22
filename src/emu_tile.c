@@ -183,8 +183,8 @@ void emu_Tile_Unpack()
 
 	tile = Tile_UnpackTile(packed);
 
-	emu_ax = tile.s.x;
-	emu_dx = tile.s.y;
+	emu_ax = Tile_GetX(tile);
+	emu_dx = Tile_GetY(tile);
 }
 
 /**
@@ -248,7 +248,7 @@ void emu_Tile_GetDistance()
 	emu_pop(&emu_cs);
 
 	tile_from = emu_get_tile32(emu_ss, emu_sp, 0x0);
-	tile_to = emu_get_tile32(emu_ss, emu_sp, 0x4);
+	tile_to   = emu_get_tile32(emu_ss, emu_sp, 0x4);
 
 	emu_ax = Tile_GetDistance(tile_from, tile_to);
 }
@@ -270,12 +270,12 @@ void emu_Tile_AddTileDiff()
 	emu_pop(&emu_cs);
 
 	tile_from = emu_get_tile32(emu_ss, emu_sp, 0x0);
-	tile_to = emu_get_tile32(emu_ss, emu_sp, 0x4);
+	tile_to   = emu_get_tile32(emu_ss, emu_sp, 0x4);
 
 	tile_result = Tile_AddTileDiff(tile_from, tile_to);
 
-	emu_ax = tile_result.s.x;
-	emu_dx = tile_result.s.y;
+	emu_ax = Tile_GetX(tile_result);
+	emu_dx = Tile_GetY(tile_result);
 }
 
 
@@ -297,8 +297,8 @@ void emu_Tile_Center()
 
 	Tile_Center(&tile);
 
-	emu_ax = tile.s.x;
-	emu_dx = tile.s.y;
+	emu_ax = Tile_GetX(tile);
+	emu_dx = Tile_GetY(tile);
 }
 
 /**
@@ -317,8 +317,9 @@ void emu_Tile_PackXY()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	x = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	y = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	x = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	y = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = Tile_PackXY(x, y);
+	emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_ax;
 }
