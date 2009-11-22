@@ -137,7 +137,6 @@ uint8 Tile_GetPackedY(uint16 packed)
 	return (packed >> 6) & 0x3F;
 }
 
-
 /**
  * Calculates the distance between the two given tiles.
  *
