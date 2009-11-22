@@ -30,32 +30,6 @@ l__0A70:
 }
 
 /**
- * Decompiled function f__0972_0A72_000D_024E()
- *
- * @name f__0972_0A72_000D_024E
- * @implements 0972:0A72:000D:024E ()
- * @implements 0972:0A7F:0002:2597
- *
- * Called From: 15C2:0932:003A:D1E0
- */
-void f__0972_0A72_000D_024E()
-{
-l__0A72:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x54);
-	goto l__0A7F;
-l__0A7F:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__0972_0A81_0017_2EC7()
  *
  * @name f__0972_0A81_0017_2EC7
@@ -284,9 +258,9 @@ l__0BFE:
 }
 
 /**
- * Decompiled function emu_Script_Structure_ChangeVariable54()
+ * Decompiled function emu_Script_Structure_SetAnimation()
  *
- * @name emu_Script_Structure_ChangeVariable54
+ * @name emu_Script_Structure_SetAnimation
  * @implements 0972:0C04:0037:B310 ()
  * @implements 0972:0C3E:0002:C13A
  * @implements 0972:0C40:0010:51A9
@@ -296,7 +270,7 @@ l__0BFE:
  *
  * Called From: 15C2:0932:003A:D1E0
  */
-void emu_Script_Structure_ChangeVariable54()
+void emu_Script_Structure_SetAnimation()
 {
 l__0C04:
 	emu_push(emu_bp);
@@ -327,7 +301,7 @@ l__0C42:
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_cs); emu_push(0x0C50); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+	emu_push(emu_cs); emu_push(0x0C50); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 l__0C50:
 	emu_addw(&emu_sp, 0x6);
 	emu_xorw(&emu_ax, emu_ax);
@@ -438,7 +412,7 @@ l__0CBA:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_cs); emu_push(0x0CF3); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+	emu_push(emu_cs); emu_push(0x0CF3); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 l__0CF3:
 	emu_addw(&emu_sp, 0x6);
 l__0CF6:
@@ -568,7 +542,7 @@ l__0E14:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 l__0E2F:
 	emu_addw(&emu_sp, 0x6);
 l__0E32:
@@ -1583,7 +1557,7 @@ l__1508:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8436));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_cs); emu_push(0x1518); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+	emu_push(emu_cs); emu_push(0x1518); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 l__1518:
 	emu_addw(&emu_sp, 0x6);
 l__151B:

@@ -6,11 +6,10 @@
 #include "global.h"
 #include "script.h"
 
-extern void f__0972_0A72_000D_024E();
 extern void f__0972_0A81_0017_2EC7();
 extern void f__0972_0A69_0007_C3F1();
 extern void f__0972_0AFC_0016_0DC9();
-extern void emu_Script_Structure_ChangeVariable54();
+extern void emu_Script_Structure_SetAnimation();
 extern void f__0972_0C5A_0015_E00A();
 extern void f__0972_0E87_0047_4065();
 extern void f__0972_1004_0029_E69D();
@@ -99,31 +98,31 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
  * Not yet converted script functions for Structures.
  */
 emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
-	/* 01 */ NULL,
-	/* 02 */ &f__0972_0A69_0007_C3F1,
-	/* 03 */ &f__0972_0A81_0017_2EC7,
-	/* 04 */ &f__0972_0AFC_0016_0DC9,
-	/* 05 */ &emu_Script_Structure_ChangeVariable54,
-	/* 06 */ &f__0EDB_0006_002F_CECA,
-	/* 07 */ &f__0972_11B9_0020_8DC9,
-	/* 08 */ &f__0972_0C5A_0015_E00A,
-	/* 09 */ &f__0972_0E87_0047_4065,
-	/* 0A */ &f__0972_1004_0029_E69D,
-	/* 0B */ &f__0972_114F_0020_EA79,
-	/* 0C */ &f__0972_121E_0030_5DAA,
-	/* 0D */ &f__0972_0A69_0007_C3F1,
-	/* 0E */ &f__0972_0A72_000D_024E,
-	/* 0F */ &f__0972_133C_0036_0328,
-	/* 10 */ &emu_Script_Structure_RemoveFogAroundTile,
+	/* 00 */ NULL,
+	/* 01 */ &f__0972_0A69_0007_C3F1,
+	/* 02 */ &f__0972_0A81_0017_2EC7,
+	/* 03 */ &f__0972_0AFC_0016_0DC9,
+	/* 04 */ &emu_Script_Structure_SetAnimation,
+	/* 05 */ &f__0EDB_0006_002F_CECA,
+	/* 06 */ &f__0972_11B9_0020_8DC9,
+	/* 07 */ &f__0972_0C5A_0015_E00A,
+	/* 08 */ &f__0972_0E87_0047_4065,
+	/* 09 */ &f__0972_1004_0029_E69D,
+	/* 0A */ &f__0972_114F_0020_EA79,
+	/* 0B */ &f__0972_121E_0030_5DAA,
+	/* 0C */ &f__0972_0A69_0007_C3F1,
+	/* 0D */ NULL,
+	/* 0E */ &f__0972_133C_0036_0328,
+	/* 0F */ &emu_Script_Structure_RemoveFogAroundTile,
+	/* 10 */ &f__0972_0A69_0007_C3F1,
 	/* 11 */ &f__0972_0A69_0007_C3F1,
 	/* 12 */ &f__0972_0A69_0007_C3F1,
 	/* 13 */ &f__0972_0A69_0007_C3F1,
 	/* 14 */ &f__0972_0A69_0007_C3F1,
-	/* 15 */ &f__0972_0A69_0007_C3F1,
-	/* 16 */ &f__0972_13AF_0015_619A,
-	/* 17 */ &f__0972_1524_0018_014D,
-	/* 18 */ &f__0972_15A2_0019_AB1E,
-	/* 19 */ &f__0972_0A69_0007_C3F1,
+	/* 15 */ &f__0972_13AF_0015_619A,
+	/* 16 */ &f__0972_1524_0018_014D,
+	/* 17 */ &f__0972_15A2_0019_AB1E,
+	/* 18 */ &f__0972_0A69_0007_C3F1,
 };
 
 /**
@@ -234,7 +233,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 0A */ NULL,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
-	/* 0D */ NULL,
+	/* 0D */ &Script_Structure_GetAnimation,
 	/* 0E */ NULL,
 	/* 0F */ NULL,
 	/* 10 */ NULL,

@@ -1629,9 +1629,9 @@ l__1392:
 }
 
 /**
- * Decompiled function emu_Structure_UpdateVariable54()
+ * Decompiled function emu_Structure_UpdateAnimation()
  *
- * @name emu_Structure_UpdateVariable54
+ * @name emu_Structure_UpdateAnimation
  * @implements 0C3A:1398:000D:8766 ()
  * @implements 0C3A:13A5:0014:7F45
  * @implements 0C3A:13B9:0004:BEB2
@@ -1655,7 +1655,7 @@ l__1392:
  * Called From: 1A34:2D61:000F:5FC7
  * Called From: B511:0229:000F:97B3
  */
-void emu_Structure_UpdateVariable54()
+void emu_Structure_UpdateAnimation()
 {
 l__1398:
 	emu_push(emu_bp);
@@ -2587,7 +2587,7 @@ l__1ABD:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x1B0B); emu_Structure_UpdateVariable54();
+	emu_push(0x1B0B); emu_Structure_UpdateAnimation();
 l__1B0B:
 	emu_addw(&emu_sp, 0x6);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);

@@ -53,6 +53,9 @@ extern uint16 Script_General_Delay(ScriptEngine *script);
 extern uint16 Script_General_DelayRandom(ScriptEngine *script);
 extern uint16 Script_General_GetDistance(ScriptEngine *script);
 
+/* Structure Script Functions */
+extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);
+
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();

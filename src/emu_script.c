@@ -177,7 +177,6 @@ void emu_Script_IsLoaded()
  * @implements 15C2:0B75:0006:F7CE
  *
  * @define 0972:0A69:0007:C3F1
- * @define 0972:0A72:000D:024E
  * @define 0972:0A81:0017:2EC7
  * @define 0972:0AFC:0016:0DC9
  * @define 0972:0C04:0037:B310

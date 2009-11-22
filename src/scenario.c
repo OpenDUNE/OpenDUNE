@@ -434,9 +434,9 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 		s = Structure_Create(index, structureType, houseType, position);
 		if (s == NULL) return;
 
-		s->hitpoints   = hitpoints * g_structureInfo[s->type].hitpoints / 256;
-		s->flags      &= 0xFBFF;
-		s->variable_54 = 0;
+		s->hitpoints = hitpoints * g_structureInfo[s->type].hitpoints / 256;
+		s->flags    &= 0xFBFF;
+		s->animation = 0;
 	}
 }
 

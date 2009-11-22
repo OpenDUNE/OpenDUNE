@@ -25,7 +25,7 @@ extern void emu_Structure_IsValidBuildLocation();
 extern void emu_Structure_Place();
 extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
-extern void emu_Structure_UpdateVariable54();
+extern void emu_Structure_UpdateAnimation();
 extern void emu_Tile_Unpack();
 extern void emu_Tools_AdjustToGameSpeed();
 extern void f__0C3A_1216_0013_E56D();
@@ -213,7 +213,7 @@ void GameLoop_Structure()
 					s->flags &= 0xDFFF;
 				}
 			} else {
-				if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF && s->variable_54 == 0x0001 && (si->variable_0C & 0x0002) != 0) {
+				if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF && s->animation == 1 && (si->variable_0C & 0x0002) != 0) {
 					UnitInfo *ui;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -261,7 +261,7 @@ void GameLoop_Structure()
 
 							emu_push(2);
 							emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-							emu_push(emu_cs); emu_push(0x05A1); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+							emu_push(emu_cs); emu_push(0x05A1); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 							emu_sp += 6;
 
 							if (s->houseID == g_global->playerHouseID) {
@@ -306,7 +306,7 @@ void GameLoop_Structure()
 								/* The AI places structures which are operational immediatly */
 								emu_push(0);
 								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-								emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+								emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 								emu_sp += 6;
 
 								/* Find the position to place the structure */
@@ -373,7 +373,7 @@ void GameLoop_Structure()
 
 								emu_push(2);
 								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-								emu_push(emu_cs); emu_push(0x083C); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
+								emu_push(emu_cs); emu_push(0x083C); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
 								emu_sp += 6;
 
 								if (s->houseID == g_global->playerHouseID) {
@@ -508,11 +508,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->flags        |= 0x0004;
 	s->position.tile = 0;
 	s->linkedID      = 0xFF;
-	s->variable_54   = 0xFFFF;
-
-	if (g_global->debugScenario) {
-		s->variable_54 = 0;
-	}
+	s->animation     = (g_global->debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
