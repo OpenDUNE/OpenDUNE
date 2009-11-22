@@ -23,10 +23,8 @@ extern void f__0972_114F_0020_EA79();
 extern void f__0972_1524_0018_014D();
 extern void f__0972_15A2_0019_AB1E();
 extern void f__0EDB_0006_002F_CECA();
-extern void f__0EDB_00F6_000C_3B74();
 extern void f__0EDB_0145_002F_C125();
 extern void f__0EDB_0184_0030_A1C2();
-extern void f__0EDB_01F7_0020_4DC9();
 extern void f__0EDB_024B_001D_2E46();
 extern void f__0EDB_0288_0020_3D83();
 extern void f__0EDB_02EA_001E_F83C();
@@ -135,7 +133,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ &f__176C_1CFE_0021_29C8,
 	/* 01 */ &f__176C_1C00_003A_E6C7,
 	/* 02 */ &f__0EDB_0006_002F_CECA,
-	/* 03 */ &f__0EDB_01F7_0020_4DC9,
+	/* 03 */ NULL,
 	/* 04 */ &f__176C_22C4_0019_80C9,
 	/* 05 */ &f__176C_1A9F_0024_813F,
 	/* 06 */ &f__176C_1A40_0020_8DC9,
@@ -192,7 +190,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 39 */ &f__176C_07E8_0007_C3F1,
 	/* 3A */ &f__176C_1B45_0022_208C,
 	/* 3B */ &f__0EDB_0288_0020_3D83,
-	/* 3C */ &f__0EDB_00F6_000C_3B74,
+	/* 3C */ NULL,
 	/* 3D */ &f__176C_196C_0027_D87A,
 	/* 3E */ &f__0EDB_024B_001D_2E46,
 	/* 3F */ &f__176C_07E8_0007_C3F1,
@@ -212,7 +210,7 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = 
 	/* 07 */ &f__16C5_0788_0018_4AA5,
 	/* 08 */ &f__16C5_09C4_003E_31D6,
 	/* 09 */ &f__16C5_0A20_003A_2375,
-	/* 0A */ &f__0EDB_00F6_000C_3B74,
+	/* 0A */ NULL,
 	/* 0B */ &f__0EDB_0184_0030_A1C2,
 	/* 0C */ &f__16C5_01FE_000D_19C4,
 	/* 0D */ &f__16C5_020D_000D_1A44,
@@ -257,7 +255,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ NULL,
 	/* 01 */ NULL,
 	/* 02 */ NULL,
-	/* 03 */ NULL,
+	/* 03 */ &Script_General_GetDistance,
 	/* 04 */ NULL,
 	/* 05 */ NULL,
 	/* 06 */ NULL,
@@ -314,7 +312,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 39 */ NULL,
 	/* 3A */ NULL,
 	/* 3B */ NULL,
-	/* 3C */ NULL,
+	/* 3C */ &Script_General_DelayRandom,
 	/* 3D */ NULL,
 	/* 3E */ NULL,
 	/* 3F */ NULL,
@@ -334,7 +332,7 @@ ScriptFunction scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
 	/* 07 */ NULL,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
-	/* 0A */ NULL,
+	/* 0A */ &Script_General_DelayRandom,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
 	/* 0D */ NULL,

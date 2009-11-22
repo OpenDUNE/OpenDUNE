@@ -193,10 +193,8 @@ void emu_Script_IsLoaded()
  * @define 0972:1524:0018:014D
  * @define 0972:15A2:0019:AB1E
  * @define 0EDB:0006:002F:CECA
- * @define 0EDB:00F6:000C:3B74
  * @define 0EDB:0145:002F:C125
  * @define 0EDB:0184:0030:A1C2
- * @define 0EDB:01F7:0020:4DC9
  * @define 0EDB:024B:001D:2E46
  * @define 0EDB:0288:0020:3D83
  * @define 0EDB:02EA:001E:F83C

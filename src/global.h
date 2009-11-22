@@ -710,7 +710,7 @@ typedef struct GlobalData {
 	/* 392E(22)  */ PACK ScriptInfo scriptAirUnit;          /*!< Script information for AirUnits. */
 	/* 3944()    */ PACK uint8   unknown_3944[0x0006];
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
-	/* 394E(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in GameLoop. */
+	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952()    */ PACK uint8   unknown_3952[0x0098];
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
@@ -1178,7 +1178,7 @@ typedef struct GlobalData {
 	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0204];
 	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
-	/* 8434(4)   */ PACK csip32 structureCurrent2;          /*!< Current Structure we are handling in the GameLoop. */
+	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of Unit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */

@@ -125,9 +125,9 @@ void GameLoop_Structure()
 		hi = &g_houseInfo[h->index];
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->structureCurrent2.s.cs    = g_global->structureStartPos.s.cs;
-		g_global->structureCurrent2.s.ip    = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
-		g_global->structureCurrent.csip     = g_global->structureCurrent2.csip;
+		g_global->structureCurrent.s.cs     = g_global->structureStartPos.s.cs;
+		g_global->structureCurrent.s.ip     = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+		g_global->objectCurrent.csip        = g_global->structureCurrent.csip;
 		g_global->structureInfoCurrent.s.cs = 0x2C94;
 		g_global->structureInfoCurrent.s.ip = 0xA + s->type * sizeof(StructureInfo);
 		g_global->houseCurrent.s.cs         = g_global->houseStartPos.s.cs;
@@ -146,7 +146,7 @@ void GameLoop_Structure()
 
 			/* If we can launch and we are an AI and flag 0x0008 is set, fire the Palace weapon */
 			if (s->countDown == 0 && (h->flags & (0x0002 | 0x0008)) == 0x0008) {
-				emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+				emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 				emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x1423; f__1423_04F2_0016_CD6B();
 				emu_sp += 4;
 			}
@@ -155,7 +155,7 @@ void GameLoop_Structure()
 		if (tickDegrade && (s->flags & 0x0400) != 0 && s->hitpoints > si->hitpoints / 2) {
 			emu_push(0);
 			emu_push(hi->variable_08 + 1);
-			emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+			emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 			emu_push(emu_cs); emu_push(0x023F); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
 			emu_sp += 8;
 		}
@@ -176,7 +176,7 @@ void GameLoop_Structure()
 						/* Ordos Heavy Vehicle gets the last upgrade for free */
 						if (s->houseID == HOUSE_ORDOS && s->type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
 
-						emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x02E4); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 						emu_sp += 2;
 
@@ -260,7 +260,7 @@ void GameLoop_Structure()
 							s->variable_52 = 0;
 
 							emu_push(2);
-							emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+							emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 							emu_push(emu_cs); emu_push(0x05A1); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
 							emu_sp += 6;
 
@@ -305,7 +305,7 @@ void GameLoop_Structure()
 
 								/* The AI places structures which are operational immediatly */
 								emu_push(0);
-								emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 								emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
 								emu_sp += 6;
 
@@ -372,7 +372,7 @@ void GameLoop_Structure()
 								s->countDown = 0;
 
 								emu_push(2);
-								emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 								emu_push(emu_cs); emu_push(0x083C); emu_cs = 0x0C3A; emu_Structure_UpdateVariable54();
 								emu_sp += 6;
 
@@ -395,20 +395,20 @@ void GameLoop_Structure()
 					if (s->hitpoints < si->hitpoints / 2) {
 						emu_push(0); emu_push(0);
 						emu_push(1);
-						emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x08EA); emu_cs = 0x0C3A; f__0C3A_2814_0015_76F0();
 						emu_sp += 10;
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
 					if ((si->variable_0C & 0x0002) != 0 && s->countDown == 0 && s->linkedID == 0xFF) {
-						emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; f__1423_0C74_0015_3419();
 						emu_sp += 4;
 
 						if (emu_ax != 0xFFFF) {
 							emu_push(emu_ax);
-							emu_push(g_global->structureCurrent2.s.cs); emu_push(g_global->structureCurrent2.s.ip);
+							emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 							emu_push(emu_cs); emu_push(0x0935); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
 							emu_sp += 6;
 						}
