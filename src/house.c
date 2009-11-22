@@ -236,25 +236,27 @@ void GameLoop_House()
 		}
 	}
 
-	/* XXX -- This seems oddly wrong placed, as 'houseCurrent' is not alternating between houses over multiple runs */
-	h = House_Get_ByMemory(g_global->houseCurrent);
-	if (h->index != g_global->playerHouseID) {
-		if (h->creditsStorage < h->credits) {
-			h->credits = h->creditsStorage;
-		}
-	} else {
-		uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
-		if (h->credits > maxCredits) {
-			h->credits = maxCredits;
+	/* ENHANCEMENT -- This seems oddly wrong placed, as 'houseCurrent' is not alternating between houses over multiple runs. So we moved this inside the house loop below */
+	if (!g_dune2_enhanced) {
+		h = House_Get_ByMemory(g_global->houseCurrent);
+		if (h->index != g_global->playerHouseID) {
+			if (h->creditsStorage < h->credits) {
+				h->credits = h->creditsStorage;
+			}
+		} else {
+			uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
+			if (h->credits > maxCredits) {
+				h->credits = maxCredits;
 
-			emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
-			emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
-			emu_sp += 2;
+				emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
+				emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
+				emu_sp += 2;
 
-			emu_push(1);
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x04DA); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-			emu_sp += 6;
+				emu_push(1);
+				emu_push(emu_dx); emu_push(emu_ax);
+				emu_push(emu_cs); emu_push(0x04DA); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+				emu_sp += 6;
+			}
 		}
 	}
 
@@ -271,6 +273,29 @@ void GameLoop_House()
 		g_global->houseCurrent.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
 
 		if (tickHouse) {
+			/* ENHANCEMENT -- Originally this code was outside the house loop, which seems very odd */
+			if (g_dune2_enhanced) {
+				if (h->index != g_global->playerHouseID) {
+					if (h->creditsStorage < h->credits) {
+						h->credits = h->creditsStorage;
+					}
+				} else {
+					uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
+					if (h->credits > maxCredits) {
+						h->credits = maxCredits;
+
+						emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
+						emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
+						emu_sp += 2;
+
+						emu_push(1);
+						emu_push(emu_dx); emu_push(emu_ax);
+						emu_push(emu_cs); emu_push(0x04DA); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+						emu_sp += 6;
+					}
+				}
+			}
+
 			if (h->index == g_global->playerHouseID) {
 				if (h->creditsStorage > g_global->playerCreditsNoSilo) {
 					g_global->playerCreditsNoSilo = 0;
