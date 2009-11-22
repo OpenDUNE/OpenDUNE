@@ -823,11 +823,12 @@ typedef struct GlobalData {
 	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
-	/* 6124()    */ PACK uint8   unknown_6124[0x0004];
+	/* 6124(4)   */ PACK csip32 airUnitCurrent;             /*!< Current AirUnit we are handling in GameLoop. */
 	/* 6128(60)  */ PACK csip32 scriptFunctionsAirUnit[15]; /*!< AirUnit functions to call via scripts. */
-	/* 6164()    */ PACK uint8   unknown_6164[0x0004];
+	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
-	/* 6268()    */ PACK uint8   unknown_6268[0x0082];
+	/* 6268(4)   */ PACK csip32 unitCurrent;                /*!< Current Unit we are handling in GameLoop. */
+	/* 626C()    */ PACK uint8   unknown_626C[0x007E];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
