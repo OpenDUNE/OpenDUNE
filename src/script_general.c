@@ -5,8 +5,10 @@
 #include "libemu.h"
 #include "global.h"
 #include "pool/structure.h"
+#include "pool/unit.h"
 #include "script.h"
 #include "structure.h"
+#include "unit.h"
 
 extern void emu_Tile_GetDistance();
 extern void f__167E_0005_0013_AF0C();
