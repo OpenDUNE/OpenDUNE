@@ -78,21 +78,6 @@
 0C3A:13BD:0022:D6F0	emu_Structure_GetStructuresBuilt	# (houseID), Get which structures are built, where the Nth bit active means the Nth structure type has at least 1 structure built
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
-0F3F:000D:0019:5076	emu_Tile_IsValid	# (tile_tile)
-0F3F:002C:000B:51FA	emu_Tile_GetXY	# (tile_tile)
-0F3F:0037:000F:E3D8	emu_Tile_GetPosXY	# (tile_tile)
-0F3F:0046:000C:9E1E	emu_Tile_GetPosX	# (tile_tile)
-0F3F:0052:000C:9E02	emu_Tile_GetPosY	# (tile_tile)
-0F3F:0076:0008:A51E	emu_Tile_GetX	# (tile_tile)
-0F3F:007E:0008:A4DE	emu_Tile_GetY	# (tile_tile)
-0F3F:0086:0017:EA43	emu_Tile_PackTile	# (tile_tile), forgets offset
-0F3F:009D:0017:8464	emu_Tile_Unpack	# (tile_packed)
-0F3F:00B4:002A:89B2	emu_Tile_GetDistance	# (from_tile, to_tile), distance as longest * 2 + shortest
-0F3F:00F3:0011:5E67	emu_Tile_AddTileDiff	# (tile_tile, diff_tile)
-0F3F:0275:0019:64C3	emu_Tile_Center	# (tile_tile)
-0F3F:0322:0011:5AAA	emu_Tile_GetPackX	# (tile_packed)
-0F3F:0335:0015:2275	emu_Tile_GetPackY	# (tile_packed)
-0F3F:034C:0012:18EA	emu_Tile_PackXY	# (x, y)
 0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
