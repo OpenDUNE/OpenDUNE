@@ -47,7 +47,7 @@ typedef struct Structure {
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
-	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< When the script sets a delay, this value becomes non-zero. */
+	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
 	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */

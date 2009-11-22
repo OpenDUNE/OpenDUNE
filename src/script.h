@@ -48,6 +48,9 @@ extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
 
+/* General Script Functions */
+uint16 Script_General_Delay(ScriptEngine *script);
+
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
