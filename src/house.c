@@ -12,10 +12,10 @@
 #include "pool/unit.h"
 #include "house.h"
 #include "structure.h"
+#include "tile.h"
 #include "unit.h"
 
 extern void emu_String_GetString();
-extern void emu_Tile_Unpack();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
 extern void f__167E_00F3_001E_8CB3();
@@ -152,7 +152,6 @@ void GameLoop_House()
 
 			if (locationID >= 4) {
 				if (nu == NULL) {
-					tile32 tile;
 					csip32 nucsip;
 
 					emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
@@ -162,14 +161,7 @@ void GameLoop_House()
 					emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 					emu_sp += 4;
 
-					emu_push(emu_ax);
-					emu_push(emu_cs); emu_push(0x02FA); emu_cs = 0x0F3F; emu_Tile_Unpack();
-					emu_sp += 2;
-
-					tile.s.x = emu_ax;
-					tile.s.y = emu_dx;
-
-					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, tile, 100);
+					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, Tile_UnpackTile(emu_ax), 100);
 
 					/* XXX -- Temporary, to keep all the emu_calls workable for now */
 					nucsip.s.cs = g_global->unitStartPos.s.cs;
@@ -204,16 +196,16 @@ void GameLoop_House()
 					g_global->scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
+				tile32 tile;
+
 				emu_push(u->houseID);
 				emu_push(locationID);
 				emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 				emu_sp += 4;
 
-				emu_push(emu_ax);
-				emu_push(emu_cs); emu_push(0x03C4); emu_cs = 0x0F3F; emu_Tile_Unpack();
-				emu_sp += 2;
+				tile = Tile_UnpackTile(emu_ax);
 
-				emu_push(emu_dx); emu_push(emu_ax);
+				emu_push(tile.s.y); emu_push(tile.s.x);
 				emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 				emu_push(emu_cs); emu_push(0x03D2); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
 				emu_sp += 8;

@@ -14,6 +14,7 @@
 #include "map.h"
 #include "script.h"
 #include "unit.h"
+#include "tile.h"
 #include "structure.h"
 
 extern void emu_String_GetString();
@@ -26,7 +27,6 @@ extern void emu_Structure_Place();
 extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
 extern void emu_Structure_UpdateAnimation();
-extern void emu_Tile_Unpack();
 extern void emu_Tools_AdjustToGameSpeed();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
@@ -587,6 +587,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	csip32 scsip;
 	StructureInfo *si;
 	int16 loc0A;
+	tile32 tile;
 
 	if (s == NULL) return false;
 	if (position == 0xFFFF) return false;
@@ -615,12 +616,10 @@ bool Structure_Place(Structure *s, uint16 position)
 			emu_get_memory16(0x2E9C, position * 2, 0x323F) |= 0x8000;
 
 			if (s->houseID == g_global->playerHouseID) {
-				emu_push(position);
-				emu_push(emu_cs); emu_push(0x029B); emu_cs = 0x0F3F; emu_Tile_Unpack();
-				emu_sp += 2;
+				tile = Tile_UnpackTile(position);
 
 				emu_push(1);
-				emu_push(emu_dx); emu_push(emu_ax);
+				emu_push(tile.s.y); emu_push(tile.s.x);
 				emu_push(emu_cs); emu_push(0x02A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 				emu_sp += 6;
 			}
@@ -665,12 +664,10 @@ bool Structure_Place(Structure *s, uint16 position)
 				emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
 
 				if (s->houseID == g_global->playerHouseID) {
-					emu_push(curPos);
-					emu_push(emu_cs); emu_push(0x03B4); emu_cs = 0x0F3F; emu_Tile_Unpack();
-					emu_sp += 2;
+					tile = Tile_UnpackTile(curPos);
 
 					emu_push(1);
-					emu_push(emu_dx); emu_push(emu_ax);
+					emu_push(tile.s.y); emu_push(tile.s.x);
 					emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 					emu_sp += 6;
 				}
@@ -709,12 +706,10 @@ bool Structure_Place(Structure *s, uint16 position)
 					emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
 
 					if (s->houseID == g_global->playerHouseID) {
-						emu_push(curPos);
-						emu_push(emu_cs); emu_push(0x04B1); emu_cs = 0x0F3F; emu_Tile_Unpack();
-						emu_sp += 2;
+						tile = Tile_UnpackTile(curPos);
 
 						emu_push(1);
-						emu_push(emu_dx); emu_push(emu_ax);
+						emu_push(tile.s.y); emu_push(tile.s.x);
 						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 						emu_sp += 6;
 
@@ -753,12 +748,10 @@ bool Structure_Place(Structure *s, uint16 position)
 
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 	if (!g_dune2_enhanced && s->houseID == g_global->playerHouseID) {
-		emu_push(position);
-		emu_push(emu_cs); emu_push(0x054A); emu_cs = 0x0F3F; emu_Tile_Unpack();
-		emu_sp += 2;
+		tile = Tile_UnpackTile(position);
 
 		emu_push(2);
-		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(tile.s.y); emu_push(tile.s.x);
 		emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 		emu_sp += 6;
 	}
@@ -769,12 +762,9 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* We are no longer building the structure */
 	s->flags &= 0xFFFB;
 
-	emu_push(position);
-	emu_push(emu_cs); emu_push(0x058B); emu_cs = 0x0F3F; emu_Tile_Unpack();
-	emu_sp += 2;
-
-	s->position.s.x = emu_ax & 0xFF00;
-	s->position.s.y = emu_dx & 0xFF00;
+	s->position = Tile_UnpackTile(position);
+	s->position.s.x &= 0xFF00;
+	s->position.s.y &= 0xFF00;
 
 	s->variable_49  = 0;
 	s->hitpoints    = si->hitpoints;
@@ -825,12 +815,10 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 			if (g_dune2_enhanced && s->houseID == g_global->playerHouseID) {
-				emu_push(curPos);
-				emu_push(emu_cs); emu_push(0x054A); emu_cs = 0x0F3F; emu_Tile_Unpack();
-				emu_sp += 2;
+				tile = Tile_UnpackTile(curPos);
 
 				emu_push(2);
-				emu_push(emu_dx); emu_push(emu_ax);
+				emu_push(tile.s.y); emu_push(tile.s.x);
 				emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
 				emu_sp += 6;
 			}

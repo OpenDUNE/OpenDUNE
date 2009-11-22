@@ -8,9 +8,9 @@
 #include "pool/unit.h"
 #include "script.h"
 #include "structure.h"
+#include "tile.h"
 #include "unit.h"
 
-extern void emu_Tile_GetDistance();
 extern void f__167E_0005_0013_AF0C();
 extern void f__167E_01BB_0010_85F6();
 extern void f__2BB4_0004_0027_DC1D();
@@ -75,6 +75,7 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 objectID;
+	tile32 tile;
 
 	objectID = script->stack[script->stackPointer];
 	u = Unit_Get_ByMemory(g_global->objectCurrent);
@@ -88,10 +89,8 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x167E; f__167E_01BB_0010_85F6();
 	emu_sp += 2;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
-	emu_push(emu_cs); emu_push(0x0236); emu_cs = 0x0F3F; emu_Tile_GetDistance();
-	emu_sp += 8;
+	tile.s.x = emu_ax;
+	tile.s.y = emu_dx;
 
-	return emu_ax;
+	return Tile_GetDistance(u->position, tile);
 }

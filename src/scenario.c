@@ -10,6 +10,7 @@
 #include "house.h"
 #include "map.h"
 #include "structure.h"
+#include "tile.h"
 #include "unit.h"
 #include "../decompiled/decompiled.h"
 
@@ -255,13 +256,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	*split = '\0';
 
 	/* Fourth value is the position on the map */
-	emu_push(atoi(value));
-	emu_push(emu_cs); emu_push(0x0508); emu_cs = 0x0F3F; emu_Tile_Unpack();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 2;
-	position.s.x = emu_ax;
-	position.s.y = emu_dx;
+	position = Tile_UnpackTile(atoi(value));
 
 	/* Find the next value in the ',' seperated list */
 	value = split + 1;
@@ -288,13 +283,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	u->actionID    = actionType;
 	u->variable_50 = 0xFF;
 
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
-	emu_push(emu_cs); emu_push(0x0572); emu_cs = 0x0F3F; emu_Tile_PackTile();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	emu_push(emu_ax);
+	emu_push(Tile_PackTile(u->position));
 	emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -468,13 +457,7 @@ void emu_Scenario_Load_Map()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 2;
 
-	emu_push(emu_di);
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0933); emu_cs = 0x0F3F; emu_Tile_PackXY();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-	emu_di = emu_ax & 0xFFF;
+	emu_di = Tile_PackXY(emu_ax, emu_di) & 0xFFF;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0x7F);
