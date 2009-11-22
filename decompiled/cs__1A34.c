@@ -4443,7 +4443,7 @@ l__2297:
 	emu_ax = 0x10;
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x22AF); emu_cs = 0x0FE4; f__0FE4_0333_000F_2B73();
+	emu_push(emu_cs); emu_push(0x22AF); emu_cs = 0x0FE4; emu_Unit_IsTypeOnMap();
 l__22AF:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -4659,7 +4659,7 @@ l__2426:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x2435); emu_cs = 0x0FE4; f__0FE4_0333_000F_2B73();
+	emu_push(emu_cs); emu_push(0x2435); emu_cs = 0x0FE4; emu_Unit_IsTypeOnMap();
 l__2435:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

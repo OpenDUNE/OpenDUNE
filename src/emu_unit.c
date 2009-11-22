@@ -97,3 +97,29 @@ void emu_Unit_Create()
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }
+
+/**
+ * Decompiled function emu_Unit_IsTypeOnMap()
+ *
+ * @name emu_Unit_IsTypeOnMap
+ * @implements 0FE4:0333:000F:2B73 ()
+ * @implements 0FE4:0342:0024:B7F8
+ * @implements 0FE4:0366:0030:E8DE
+ * @implements 0FE4:0394:0002:C5BA
+ * @implements 0FE4:0396:000B:4629
+ * @implements 0FE4:0397:000A:8621
+ * @implements 0FE4:03A1:0006:F7CE
+ */
+void emu_Unit_IsTypeOnMap()
+{
+	uint8 houseID, typeID;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
+	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
+
+	emu_ax = Unit_IsTypeOnMap(houseID, typeID) ? 1 : 0;
+}

@@ -278,3 +278,27 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	return u;
 }
+
+/**
+ * Checks if a Unit is on the map.
+ *
+ * @param houseID The House of the Unit.
+ * @param typeID The type of the Unit.
+ * @return Returns true if and only if a Unit with the given attributes is on the map.
+ */
+bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
+{
+	uint16 i;
+
+	for (i = 0; i < g_global->unitCount; i++) {
+		Unit *u;
+
+		u = Unit_Get_ByMemory(g_global->unitArray[i]);
+		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
+		if (typeID != UNIT_INVALID && u->type != typeID) continue;
+		if (g_global->variable_38BC == 0 && (u->flags & 0x0004) != 0) continue;
+
+		return true;
+	}
+	return false;
+}

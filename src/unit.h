@@ -184,9 +184,11 @@ extern uint8 Unit_ActionStringToType(const char *name);
 extern uint8 Unit_TeamActionStringToType(const char *name);
 extern uint8 Unit_MovementStringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 unknown);
+extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
 
 
 extern void emu_Unit_GetHouseID();
 extern void emu_Unit_Create();
+extern void emu_Unit_IsTypeOnMap();
 
 #endif /* UNIT_H */
