@@ -5,31 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0972_0A69_0007_C3F1()
- *
- * @name f__0972_0A69_0007_C3F1
- * @implements 0972:0A69:0007:C3F1 ()
- * @implements 0972:0A70:0002:2597
- *
- * Called From: 15C2:0932:003A:D1E0
- */
-void f__0972_0A69_0007_C3F1()
-{
-l__0A69:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__0A70;
-l__0A70:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__0972_0A81_0017_2EC7()
  *
  * @name f__0972_0A81_0017_2EC7

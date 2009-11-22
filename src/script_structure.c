@@ -9,6 +9,20 @@
 #include "structure.h"
 
 /**
+ * Do nothing. This function has absolutely no functionality other than
+ *  returning the value 0.
+ *
+ * Stack: *none*
+ *
+ * @param script The script engine to operate on
+ * @return The value 0. Always.
+ */
+uint16 Script_Structure_NoOperation(ScriptEngine *script)
+{
+	return 0;
+}
+
+/**
  * Get the animation frame of the current structure.
  *
  * Stack: *none*

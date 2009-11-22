@@ -7,7 +7,6 @@
 #include "script.h"
 
 extern void f__0972_0A81_0017_2EC7();
-extern void f__0972_0A69_0007_C3F1();
 extern void f__0972_0AFC_0016_0DC9();
 extern void emu_Script_Structure_SetAnimation();
 extern void f__0972_0C5A_0015_E00A();
@@ -99,7 +98,7 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
  */
 emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ NULL,
-	/* 01 */ &f__0972_0A69_0007_C3F1,
+	/* 01 */ NULL,
 	/* 02 */ &f__0972_0A81_0017_2EC7,
 	/* 03 */ &f__0972_0AFC_0016_0DC9,
 	/* 04 */ &emu_Script_Structure_SetAnimation,
@@ -110,19 +109,19 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 09 */ &f__0972_1004_0029_E69D,
 	/* 0A */ &f__0972_114F_0020_EA79,
 	/* 0B */ &f__0972_121E_0030_5DAA,
-	/* 0C */ &f__0972_0A69_0007_C3F1,
+	/* 0C */ NULL,
 	/* 0D */ NULL,
 	/* 0E */ &f__0972_133C_0036_0328,
 	/* 0F */ &emu_Script_Structure_RemoveFogAroundTile,
-	/* 10 */ &f__0972_0A69_0007_C3F1,
-	/* 11 */ &f__0972_0A69_0007_C3F1,
-	/* 12 */ &f__0972_0A69_0007_C3F1,
-	/* 13 */ &f__0972_0A69_0007_C3F1,
-	/* 14 */ &f__0972_0A69_0007_C3F1,
+	/* 10 */ NULL,
+	/* 11 */ NULL,
+	/* 12 */ NULL,
+	/* 13 */ NULL,
+	/* 14 */ NULL,
 	/* 15 */ &f__0972_13AF_0015_619A,
 	/* 16 */ &f__0972_1524_0018_014D,
 	/* 17 */ &f__0972_15A2_0019_AB1E,
-	/* 18 */ &f__0972_0A69_0007_C3F1,
+	/* 18 */ NULL,
 };
 
 /**
@@ -221,7 +220,7 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = 
  */
 ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ &Script_General_Delay,
-	/* 01 */ NULL,
+	/* 01 */ &Script_Structure_NoOperation,
 	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ NULL,
@@ -232,19 +231,19 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 09 */ NULL,
 	/* 0A */ NULL,
 	/* 0B */ NULL,
-	/* 0C */ NULL,
+	/* 0C */ &Script_Structure_NoOperation,
 	/* 0D */ &Script_Structure_GetAnimation,
 	/* 0E */ NULL,
 	/* 0F */ NULL,
-	/* 10 */ NULL,
-	/* 11 */ NULL,
-	/* 12 */ NULL,
-	/* 13 */ NULL,
-	/* 14 */ NULL,
+	/* 10 */ &Script_Structure_NoOperation,
+	/* 11 */ &Script_Structure_NoOperation,
+	/* 12 */ &Script_Structure_NoOperation,
+	/* 13 */ &Script_Structure_NoOperation,
+	/* 14 */ &Script_Structure_NoOperation,
 	/* 15 */ NULL,
 	/* 16 */ NULL,
 	/* 17 */ NULL,
-	/* 18 */ NULL,
+	/* 18 */ &Script_Structure_NoOperation,
 };
 
 /**
