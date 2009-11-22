@@ -137,6 +137,7 @@ l__0096:
  * Called From: 0642:0635:0018:8149
  * Called From: 0642:064D:0018:8149
  * Called From: 0642:0665:0018:8149
+ * Called From: 0642:0665:0010:42B6
  * Called From: 0642:06F9:0015:23A1
  * Called From: 0642:06F9:002A:1932
  * Called From: 0642:06F9:0040:399F
