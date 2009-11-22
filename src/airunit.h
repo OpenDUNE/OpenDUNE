@@ -3,6 +3,8 @@
 #ifndef AIRUNIT_H
 #define AIRUNIT_H
 
+#include "script.h"
+
 /**
  * Types of AirUnits available in the game.
  * TODO -- Complete the enum.
