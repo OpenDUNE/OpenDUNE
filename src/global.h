@@ -1107,7 +1107,7 @@ typedef struct GlobalData {
 	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
-	/* 76BD(256) */ PACK uint8  character_class[256];       /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. */
+	/* 76BD(256) */ PACK uint8  characterClass[256];        /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. */
 	/* 77BD()    */ PACK uint8   unknown_77BD[0x0001];
 	/* 77BE(4)   */ PACK csip32 variable_77BE;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
 	/* 77C2(4)   */ PACK csip32 variable_77C2;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
