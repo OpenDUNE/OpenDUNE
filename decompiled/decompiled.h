@@ -193,7 +193,6 @@ extern void f__259E_00B1_001C_4051();
 extern void emu_Tile_GetDistance();
 extern void f__2AE1_00B7_0014_51EF();
 extern void f__167E_00B7_0034_F3DA();
-extern void f__0EDB_00B7_003B_92E3();
 extern void f__B48B_00BD_0029_3530();
 extern void f__1FB5_00C5_001B_2EE4();
 extern void f__2903_00CA_0015_756E();
