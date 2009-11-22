@@ -316,12 +316,7 @@ void GameLoop_House()
 
 				s = Structure_Get_ByIndex(g_global->structureIndex);
 				if (s->type == STRUCTURE_STARPORT && s->houseID == h->index) {
-					emu_push(3);
-					emu_push(s->index);
-					emu_push(emu_cs); emu_push(0x0647); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
-					emu_sp += 4;
-
-					emu_push(emu_ax);
+					emu_push(s->index | 0x8000);
 					emu_push(UNIT_FRIGATE);
 					emu_push(h->index);
 					emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
@@ -352,12 +347,7 @@ void GameLoop_House()
 						if (s == NULL) break;
 						if (s->linkedID != 0xFF) continue;
 
-						emu_push(3);
-						emu_push(s->index);
-						emu_push(emu_cs); emu_push(0x06CE); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
-						emu_sp += 4;
-
-						emu_push(emu_ax);
+						emu_push(s->index | 0x8000);
 						emu_push(UNIT_FRIGATE);
 						emu_push(h->index);
 						emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
@@ -393,7 +383,7 @@ void GameLoop_House()
 
 			if (h->variable_02 > 0) {
 				emu_push(0);
-				emu_push(16);
+				emu_push(UNIT_HARVESTER);
 				emu_push(h->index);
 				emu_push(emu_cs); emu_push(0x07E6); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
 				emu_sp += 6;
