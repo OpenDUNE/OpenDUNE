@@ -305,7 +305,7 @@ void GameLoop_House()
 			if (h->variable_2A == 0) {
 				s = Structure_Get_ByIndex(g_global->structureIndex);
 				if (s != NULL) {
-					if (s->type == STRUCTURE_PALACE) {
+					if (s->type == STRUCTURE_STARPORT) {
 						if (s->houseID == h->index) {
 							emu_push(3);
 							emu_push(s->index);
@@ -336,7 +336,7 @@ void GameLoop_House()
 					PoolFindStruct find2;
 					find2.houseID = h->index;
 					find2.index = 0xFFFF;
-					find2.type = STRUCTURE_PALACE;
+					find2.type = STRUCTURE_STARPORT;
 					while (true) {
 						s = Structure_Find(&find2);
 						if (s == NULL) break;
