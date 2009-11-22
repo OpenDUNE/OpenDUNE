@@ -164,9 +164,8 @@ tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
 {
 	tile32 result;
 
-	result.tile = 0;
-	result.s.x  = from.s.x + diff.s.x;
-	result.s.y  = from.s.y + diff.s.y;
+	result.s.x = from.s.x + diff.s.x;
+	result.s.y = from.s.y + diff.s.y;
 
 	return result;
 }
