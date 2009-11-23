@@ -109,7 +109,7 @@ void GameLoop_Structure()
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		g_global->structureCurrent.s.cs     = g_global->structureStartPos.s.cs;
 		g_global->structureCurrent.s.ip     = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
-		g_global->objectCurrent.csip        = g_global->structureCurrent.csip;
+		g_global->objectCurrent             = g_global->structureCurrent;
 		g_global->structureInfoCurrent.s.cs = 0x2C94;
 		g_global->structureInfoCurrent.s.ip = 0xA + s->type * sizeof(StructureInfo);
 		g_global->houseCurrent.s.cs         = g_global->houseStartPos.s.cs;
