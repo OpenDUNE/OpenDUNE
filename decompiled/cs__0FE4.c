@@ -68,7 +68,7 @@ l__0023:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x007E); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x007E); emu_cs = 0x1423; emu_House_AreAllied();
 l__007E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

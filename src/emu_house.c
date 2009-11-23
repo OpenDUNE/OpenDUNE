@@ -130,3 +130,34 @@ void emu_GameLoop_House()
 
 	GameLoop_House();
 }
+
+/**
+ * Emulator wrapper around House_AreAllied().
+ *
+ * @name emu_House_AreAllied
+ * @implements 1423:0F34:0017:464D ()
+ * @implements 1423:0F47:0004:F0B9
+ * @implements 1423:0F49:0002:D8BA
+ * @implements 1423:0F4B:0006:69E5
+ * @implements 1423:0F51:0016:7BD9
+ * @implements 1423:0F5B:000C:3825
+ * @implements 1423:0F65:0002:C83A
+ * @implements 1423:0F67:0002:AF3A
+ * @implements 1423:0F69:000E:CCF9
+ * @implements 1423:0F75:0002:A83A
+ * @implements 1423:0F77:0005:B37A
+ * @implements 1423:0F7C:0002:2597
+ */
+void emu_House_AreAllied()
+{
+	uint8 houseID1, houseID2;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	houseID1 = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	houseID2 = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = House_AreAllied(houseID1, houseID2) ? 1 : 0;
+}

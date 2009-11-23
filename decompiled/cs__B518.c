@@ -2722,7 +2722,7 @@ l__0FEA:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0FF2); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x0FF2); emu_cs = 0x1423; emu_House_AreAllied();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0FF2:

@@ -221,7 +221,7 @@ l__0131:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0139); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x0139); emu_cs = 0x1423; emu_House_AreAllied();
 l__0139:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

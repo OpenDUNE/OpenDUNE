@@ -1516,7 +1516,7 @@ l__12B2:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x12C6); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x12C6); emu_cs = 0x1423; emu_House_AreAllied();
 l__12C6:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -3200,7 +3200,7 @@ l__2238:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2240); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x2240); emu_cs = 0x1423; emu_House_AreAllied();
 l__2240:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

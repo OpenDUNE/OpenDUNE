@@ -637,7 +637,7 @@ l__0EE9:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0EF1); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x0EF1); emu_cs = 0x1423; emu_House_AreAllied();
 l__0EF1:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1469,7 +1469,7 @@ l__1469:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1483); emu_cs = 0x1423; f__1423_0F34_0017_464D();
+	emu_push(emu_cs); emu_push(0x1483); emu_cs = 0x1423; emu_House_AreAllied();
 l__1483:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

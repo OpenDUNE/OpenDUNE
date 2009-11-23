@@ -507,3 +507,23 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	emu_push(emu_cs); emu_push(0x231C); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
 	emu_sp += 6;
 }
+
+/**
+ * Checks if two houses are allied.
+ *
+ * @param houseID1 The index of the first house.
+ * @param houseID2 The index of the second house.
+ */
+bool House_AreAllied(uint8 houseID1, uint8 houseID2)
+{
+	if (houseID1 == HOUSE_INVALID || houseID2 == HOUSE_INVALID) return false;
+
+	if (houseID1 == houseID2) return true;
+
+	if (houseID1 == HOUSE_FREMEN || houseID2 == HOUSE_FREMEN) {
+		return (houseID1 == HOUSE_ATREIDES || houseID2 == HOUSE_ATREIDES);
+	}
+
+	return (houseID1 != g_global->playerHouseID && houseID2 != g_global->playerHouseID);
+}
+

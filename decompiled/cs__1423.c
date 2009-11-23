@@ -862,7 +862,7 @@ l__05F1:
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0608); f__1423_0F34_0017_464D();
+	emu_push(0x0608); emu_House_AreAllied();
 l__0608:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1342,7 +1342,7 @@ l__0979:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0981); f__1423_0F34_0017_464D();
+	emu_push(0x0981); emu_House_AreAllied();
 l__0981:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1374,7 +1374,7 @@ l__09C1:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x09C9); f__1423_0F34_0017_464D();
+	emu_push(0x09C9); emu_House_AreAllied();
 l__09C9:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1411,7 +1411,7 @@ l__0A14:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0A1C); f__1423_0F34_0017_464D();
+	emu_push(0x0A1C); emu_House_AreAllied();
 l__0A1C:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1551,7 +1551,7 @@ l__0B61:
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0B72); f__1423_0F34_0017_464D();
+	emu_push(0x0B72); emu_House_AreAllied();
 l__0B72:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1666,7 +1666,7 @@ l__0C21:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0C29); f__1423_0F34_0017_464D();
+	emu_push(0x0C29); emu_House_AreAllied();
 l__0C29:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -2110,105 +2110,6 @@ l__0F29:
 l__0F2F:
 	emu_pop(&emu_si);
 	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__1423_0F34_0017_464D()
- *
- * @name f__1423_0F34_0017_464D
- * @implements 1423:0F34:0017:464D ()
- * @implements 1423:0F47:0004:F0B9
- * @implements 1423:0F49:0002:D8BA
- * @implements 1423:0F4B:0006:69E5
- * @implements 1423:0F51:0016:7BD9
- * @implements 1423:0F5B:000C:3825
- * @implements 1423:0F65:0002:C83A
- * @implements 1423:0F67:0002:AF3A
- * @implements 1423:0F69:000E:CCF9
- * @implements 1423:0F75:0002:A83A
- * @implements 1423:0F77:0005:B37A
- * @implements 1423:0F7C:0002:2597
- *
- * Called From: 06F7:0134:0008:9688
- * Called From: 0972:0EEC:0008:9688
- * Called From: 0972:147E:001A:3E69
- * Called From: 0972:147E:0024:B930
- * Called From: 0C3A:12C1:0014:56D0
- * Called From: 0C3A:12C1:0017:53A0
- * Called From: 0C3A:223B:0008:9688
- * Called From: 0FE4:0079:005B:3AE9
- * Called From: 1423:0605:0017:46DD
- * Called From: 1423:097E:0008:229F
- * Called From: 1423:09C6:0008:22A9
- * Called From: 1423:0A19:0008:E2B5
- * Called From: 1423:0B6F:0011:CB22
- * Called From: 1423:0B6F:0029:9196
- * Called From: 1423:0C26:0008:21B1
- * Called From: 1A34:0EFA:0008:9688
- * Called From: 1A34:11E9:0008:9688
- * Called From: 1A34:1400:0008:9688
- * Called From: 1A34:2421:000A:D495
- * Called From: 1A34:2B64:0008:9688
- * Called From: 1A34:2D39:0011:DBC6
- * Called From: 1A34:3209:0008:9688
- * Called From: 1A34:32D5:0051:2FE9
- * Called From: B4CD:02AD:0008:9688
- * Called From: B518:0FED:0008:9688
- */
-void f__1423_0F34_0017_464D()
-{
-l__0F34:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_cmpw(&emu_dx, 0xFFFF);
-	if (emu_dx != 0xFFFF) {
-		emu_cmpw(&emu_bx, 0xFFFF);
-		if (emu_bx != 0xFFFF) goto l__0F4B;
-	}
-l__0F47:
-	emu_xorw(&emu_ax, emu_ax);
-l__0F49:
-	goto l__0F7C;
-l__0F4B:
-	emu_cmpw(&emu_dx, emu_bx);
-	if (emu_dx != emu_bx) goto l__0F51;
-	goto l__0F77;
-l__0F51:
-	emu_cmpw(&emu_dx, 0x3);
-	if (emu_dx != 0x3) {
-		emu_cmpw(&emu_bx, 0x3);
-		if (emu_bx != 0x3) goto l__0F69;
-	}
-l__0F5B:
-	emu_cmpw(&emu_dx, 0x1);
-	if (emu_dx != 0x1) {
-		emu_cmpw(&emu_bx, 0x1);
-		if (emu_bx != 0x1) goto l__0F67;
-	}
-l__0F65:
-	goto l__0F77;
-l__0F67:
-	goto l__0F47;
-l__0F69:
-	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x3A38));
-	if (emu_dx != emu_get_memory16(emu_ds, 0x00, 0x3A38)) {
-		emu_cmpw(&emu_bx, emu_get_memory16(emu_ds, 0x00, 0x3A38));
-		if (emu_bx != emu_get_memory16(emu_ds, 0x00, 0x3A38)) goto l__0F77;
-	}
-l__0F75:
-	goto l__0F47;
-l__0F77:
-	emu_ax = 0x1;
-	goto l__0F49;
-l__0F7C:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
