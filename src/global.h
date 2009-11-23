@@ -708,7 +708,9 @@ typedef struct GlobalData {
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
 	/* 392E(22)  */ PACK ScriptInfo scriptAirUnit;          /*!< Script information for AirUnits. */
-	/* 3944()    */ PACK uint8   unknown_3944[0x0006];
+	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
+	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
+	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952()    */ PACK uint8   unknown_3952[0x0098];
@@ -828,7 +830,15 @@ typedef struct GlobalData {
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32 unitCurrent;                /*!< Current Unit we are handling in GameLoop. */
-	/* 626C()    */ PACK uint8   unknown_626C[0x007E];
+	/* 626C(4)   */ PACK csip32 unitInfoCurrent;            /*!< Current UnitInfo we are handling in the GameLoop. */
+	/* 6270(4)   */ PACK uint32 variable_6270;              /*!< ?? */
+	/* 6274(4)   */ PACK uint32 variable_6274;              /*!< ?? */
+	/* 6278(4)   */ PACK uint32 variable_6278;              /*!< ?? */
+	/* 627C(4)   */ PACK uint32 variable_627C;              /*!< ?? */
+	/* 6280(4)   */ PACK uint32 variable_6280;              /*!< ?? */
+	/* 6284(4)   */ PACK uint32 variable_6284;              /*!< ?? */
+	/* 6288(4)   */ PACK uint32 variable_6288;              /*!< ?? */
+	/* 628C()    */ PACK uint8   unknown_628C[0x005E];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */

@@ -94,8 +94,6 @@
 
 16C5:0009:0023:21B3	emu_GameLoop_AirUnit	# ()
 
-176C:010B:002F:7FAE	emu_GameLoop_Unit	# ()
-
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)

@@ -7,6 +7,112 @@
 #include "pool/unit.h"
 #include "house.h"
 #include "unit.h"
+#include "pool/pool.h"
+
+/**
+ * Emulator wrapper around GameLoop_Unit().
+ *
+ * @name emu_GameLoop_Unit
+ * @implements 176C:010B:002F:7FAE ()
+ * @implements 176C:013A:0055:6C8A
+ * @implements 176C:014F:0040:7270
+ * @implements 176C:0166:0029:F66B
+ * @implements 176C:017B:0014:5245
+ * @implements 176C:018F:0113:0405
+ * @implements 176C:01AA:00F8:FA80
+ * @implements 176C:01BF:00E3:C733
+ * @implements 176C:01D8:00CA:9CA5
+ * @implements 176C:01ED:00B5:53EB
+ * @implements 176C:0206:009C:C4F1
+ * @implements 176C:021B:0087:F6C5
+ * @implements 176C:0234:006E:13E8
+ * @implements 176C:0249:0059:3F67
+ * @implements 176C:0262:0040:5621
+ * @implements 176C:0277:002B:0503
+ * @implements 176C:0290:0012:9B52
+ * @implements 176C:02A2:0006:558B
+ * @implements 176C:02A8:000F:9BB6
+ * @implements 176C:02B7:000A:2CB1
+ * @implements 176C:02C1:0037:7973
+ * @implements 176C:02F8:0039:0847
+ * @implements 176C:0331:0014:B1B8
+ * @implements 176C:0345:0011:5754
+ * @implements 176C:0356:000A:1C0C
+ * @implements 176C:0359:0007:36AE
+ * @implements 176C:0360:000D:D0BA
+ * @implements 176C:036D:0010:DF03
+ * @implements 176C:037D:000E:7DC2
+ * @implements 176C:038B:000F:CB1C
+ * @implements 176C:039A:000D:9950
+ * @implements 176C:03A7:0013:F833
+ * @implements 176C:03BA:0031:621B
+ * @implements 176C:03EB:0005:E1F7
+ * @implements 176C:03F0:0023:D191
+ * @implements 176C:0402:0011:2BE9
+ * @implements 176C:0413:0011:5754
+ * @implements 176C:0424:001F:6A65
+ * @implements 176C:0427:001C:3F74
+ * @implements 176C:042F:0014:F073
+ * @implements 176C:0443:0020:60D4
+ * @implements 176C:0463:0033:A1D5
+ * @implements 176C:0466:0030:B284
+ * @implements 176C:0496:001B:C865
+ * @implements 176C:04A0:0011:B562
+ * @implements 176C:04B1:001A:EC5B
+ * @implements 176C:04B4:0017:CAF9
+ * @implements 176C:04CB:001F:EDCB
+ * @implements 176C:04CE:001C:D8DA
+ * @implements 176C:04EA:0008:475C
+ * @implements 176C:04F2:0016:FC92
+ * @implements 176C:0508:000C:5826
+ * @implements 176C:050B:0009:D18E
+ * @implements 176C:0514:000E:EDA0
+ * @implements 176C:0522:004F:CC5C
+ * @implements 176C:0538:0039:2AA4
+ * @implements 176C:0544:002D:282D
+ * @implements 176C:0571:0090:E5FF
+ * @implements 176C:05BD:0044:F2CF
+ * @implements 176C:0601:005E:FA7A
+ * @implements 176C:061B:0044:69AA
+ * @implements 176C:063D:0022:E86D
+ * @implements 176C:065F:000F:4F56
+ * @implements 176C:066E:001C:F5FE
+ * @implements 176C:068A:000E:C98D
+ * @implements 176C:0696:0002:C43A
+ * @implements 176C:0698:0011:6178
+ * @implements 176C:06A0:0009:1116
+ * @implements 176C:06A9:000E:2DCF
+ * @implements 176C:06B7:0010:03D5
+ * @implements 176C:06C7:0009:779A
+ * @implements 176C:06D0:0029:3063
+ * @implements 176C:06F9:0014:AFD4
+ * @implements 176C:0700:000D:6A2B
+ * @implements 176C:070D:0013:3361
+ * @implements 176C:0713:000D:8DB9
+ * @implements 176C:0720:0040:2E37
+ * @implements 176C:0750:0010:F3D2
+ * @implements 176C:0760:0008:E8CF
+ * @implements 176C:0768:0018:7CF1
+ * @implements 176C:077E:0002:C43A
+ * @implements 176C:0780:0037:8F26
+ * @implements 176C:0788:002F:3687
+ * @implements 176C:07B7:0016:E5D0
+ * @implements 176C:07C3:000A:B112
+ * @implements 176C:07CD:0015:AED4
+ * @implements 176C:07CF:0013:3C19
+ * @implements 176C:07E2:0006:F7CE
+ *
+ * @define 1A34:1F55:0019:98DF
+ * @define 1A34:2134:001E:3E9A
+ */
+void emu_GameLoop_Unit()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GameLoop_Unit();
+}
 
 /**
  * Emulator wrapper around Unit_GetHouseID().

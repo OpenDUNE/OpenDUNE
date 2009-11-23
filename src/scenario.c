@@ -281,7 +281,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	u->position    = position;
 	u->variable_64 = variable_64;
 	u->actionID    = actionType;
-	u->variable_50 = 0xFF;
+	u->variable_50 = -1;
 
 	emu_push(Tile_PackTile(u->position));
 	emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();

@@ -101,7 +101,7 @@ typedef struct Unit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
 	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated?, 0x0004 - Being-built?, 0x0100 - In transport, 0x0200 - Scenario Unit. */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being Built, 0x0008 - ??, 0x0100 - In Transport, 0x0200 - Scenario Unit, 0x0800 - ??. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
@@ -110,13 +110,13 @@ typedef struct Unit {
 	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
 	/* 0047()    */ PACK uint8   unknown_0046[0x0002];
-	/* 0049(4)   */ PACK csip32 variable_49;                /*!< ?? */
+	/* 0049(4)   */ PACK tile32 variable_49;                /*!< ?? */
 	/* 004D(2)   */ PACK uint16 variable_4D;                /*!< ?? */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
-	/* 0050(1)   */ PACK uint8  variable_50;                /*!< ?? */
+	/* 0050(1)   */ PACK  int8  variable_50;                /*!< ?? */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
-	/* 0054(2)   */ PACK uint8   unknown_0054[0x0002];
+	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
 	/* 0056(2)   */ PACK uint16 variable_56;                /*!< ?? */
 	/* 0058(1)   */ PACK uint8  sandwormLeft;               /*!< How much units the sandworm will eat before it disappears. */
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
@@ -124,9 +124,11 @@ typedef struct Unit {
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
 	/* 0062()    */ PACK uint8   unknown_0062[0x0002];
 	/* 0064(1)   */ PACK uint8  variable_64;                /*!< ?? */
-	/* 0065()    */ PACK uint8   unknown_0066[0x0007];
+	/* 0065()    */ PACK uint8   unknown_0066[0x0005];
+	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
+	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
-	/* 006D(1)   */ PACK uint8  variable_6D;                /*!< ?? */
+	/* 006D(1)   */ PACK  int8  variable_6D;                /*!< ?? */
 	/* 006E(1)   */ PACK uint8  variable_6E;                /*!< ?? */
 	/* 006F(1)   */ PACK uint8  variable_6F;                /*!< ?? */
 	/* 0070(1)   */ PACK uint16 variable_70;                /*!< ?? */
@@ -144,7 +146,9 @@ typedef struct UnitInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
 	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Unit. */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0008];
+	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??. 0x0800 - ??. */
+	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
@@ -154,9 +158,11 @@ typedef struct UnitInfo {
 	/* 002A()    */ PACK uint8   unknown_002A[0x0008];
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
-	/* 0036()    */ PACK uint8   unknown_0036[0x0006];
+	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */
+	/* 0038()    */ PACK uint8   unknown_0038[0x0004];
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
-	/* 003E()    */ PACK uint8   unknown_003E[0x000A];
+	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
+	/* 0040()    */ PACK uint8   unknown_0040[0x0008];
 	/* 0048(2)   */ PACK uint16 variable_48;                /*!< ?? */
 	/* 004A()    */ PACK uint8   unknown_004A[0x0010];
 } GCC_PACKED UnitInfo;
@@ -178,7 +184,8 @@ assert_compile(sizeof(ActionInfo) == 0x0C);
 extern UnitInfo *g_unitInfo;
 extern ActionInfo *g_actionInfo;
 
-uint8 Unit_GetHouseID(Unit *u);
+extern void GameLoop_Unit();
+extern uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);
 extern uint8 Unit_ActionStringToType(const char *name);
 extern uint8 Unit_TeamActionStringToType(const char *name);
@@ -187,6 +194,7 @@ extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile3
 extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
 
 
+extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
 extern void emu_Unit_Create();
 extern void emu_Unit_IsTypeOnMap();
