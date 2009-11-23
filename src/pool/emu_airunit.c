@@ -90,33 +90,6 @@ void emu_AirUnit_Allocate()
 }
 
 /**
- * Emulator wrapper around AirUnit_Free().
- *
- * @name emu_AirUnit_Free
- * @implements 104B:02EF ()
- * @implements 104B:0300
- * @implements 104B:0347
- * @implements 104B:034A
- * @implements 104B:034B
- */
-void emu_AirUnit_Free()
-{
-	csip32 address;
-	AirUnit *au;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (address.csip == 0) return;
-	au = AirUnit_Get_ByMemory(address);
-
-	AirUnit_Free(au);
-}
-
-/**
  * Get a AirUnit from the memory by index.
  *
  * @name emu_AirUnit_Get_ByIndex

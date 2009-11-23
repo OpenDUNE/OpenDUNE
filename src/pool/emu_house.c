@@ -70,33 +70,6 @@ void emu_House_Allocate()
 }
 
 /**
- * Emulator wrapper around House_Free().
- *
- * @name emu_House_Free
- * @implements 10BE:0147 ()
- * @implements 10BE:014E
- * @implements 10BE:019E
- * @implements 10BE:01A2
- * @implements 10BE:01A1
- */
-void emu_House_Free()
-{
-	csip32 address;
-	House *h;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (address.csip == 0) return;
-	h = House_Get_ByMemory(address);
-
-	House_Free(h);
-}
-
-/**
  * Get a _valid_ House from the memory by index.
  *  This function differs in other emu_Pool_Get_ByIndex, by the fact it can
  *  only return on used House structs. Else it returns 0000:0000 in dx:ax.

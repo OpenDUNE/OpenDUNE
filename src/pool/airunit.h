@@ -23,7 +23,6 @@ extern void AirUnit_Free(struct AirUnit *au);
 extern void emu_AirUnit_Init();
 extern void emu_AirUnit_Recount();
 extern void emu_AirUnit_Allocate();
-extern void emu_AirUnit_Free();
 extern void emu_AirUnit_Get_ByIndex();
 extern void emu_AirUnit_FindFirst();
 extern void emu_AirUnit_FindNext();

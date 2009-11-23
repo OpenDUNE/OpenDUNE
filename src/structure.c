@@ -16,6 +16,7 @@
 #include "unit.h"
 #include "tile.h"
 #include "structure.h"
+#include "tools.h"
 
 extern void emu_String_GetString();
 extern void emu_String_sprintf();
@@ -27,7 +28,6 @@ extern void emu_Structure_Place();
 extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
 extern void emu_Structure_UpdateAnimation();
-extern void emu_Tools_AdjustToGameSpeed();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_25EC_0011_E453();
@@ -69,28 +69,12 @@ void GameLoop_Structure()
 
 	if (g_global->variable_341A <= g_global->variable_76B0 && g_global->campaignID > 1) {
 		tickDegrade = true;
-
-		emu_push(0);
-		emu_push(0x5460);
-		emu_push(0x1518);
-		emu_push(0x2A30);
-		emu_push(emu_cs); emu_push(0x00A5); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
-		emu_sp += 8;
-
-		g_global->variable_341A = g_global->variable_76B0 + emu_ax;
+		g_global->variable_341A = g_global->variable_76B0 + Tools_AdjustToGameSpeed(0x2A30, 0x1518, 0x5460, true);
 	}
 
 	if (g_global->variable_341E <= g_global->variable_76B0 || g_global->variable_37AC != 0) {
 		tickStructure = true;
-
-		emu_push(0);
-		emu_push(0x3C);
-		emu_push(0xF);
-		emu_push(0x1E);
-		emu_push(emu_cs); emu_push(0x0058); emu_cs = 0x07C9; emu_Tools_AdjustToGameSpeed();
-		emu_sp += 8;
-
-		g_global->variable_341E = g_global->variable_76B0 + emu_ax;
+		g_global->variable_341E = g_global->variable_76B0 + Tools_AdjustToGameSpeed(0x1E, 0xF, 0x3C, true);
 	}
 
 	if (g_global->variable_3422 <= g_global->variable_76B0) {
@@ -635,9 +619,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x0C3A; emu_Structure_ConnectWall();
 			emu_sp += 4;
 
-			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x02D9); emu_cs = 0x1082; emu_Structure_Free();
-			emu_sp += 4;
+			Structure_Free(s);
 
 		} return true;
 
@@ -728,9 +710,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			if (result == 0) return false;
 
-			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x0500); emu_cs = 0x1082; emu_Structure_Free();
-			emu_sp += 4;
+			Structure_Free(s);
 		} return true;
 	}
 

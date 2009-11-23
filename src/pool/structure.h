@@ -27,7 +27,6 @@ extern void Structure_Free(struct Structure *s);
 
 extern void emu_Structure_Init();
 extern void emu_Structure_Recount();
-extern void emu_Structure_Allocate();
 extern void emu_Structure_Free();
 extern void emu_Structure_Get_ByIndex();
 extern void emu_Structure_FindFirst();

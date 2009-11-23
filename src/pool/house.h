@@ -21,7 +21,6 @@ extern void House_Free(struct House *h);
 
 extern void emu_House_Init();
 extern void emu_House_Allocate();
-extern void emu_House_Free();
 extern void emu_House_Get_ByIndex();
 extern void emu_House_FindFirst();
 extern void emu_House_FindNext();
