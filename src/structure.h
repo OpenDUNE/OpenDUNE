@@ -41,8 +41,8 @@ typedef struct Structure {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
 	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being-built, 0x0400 - Degrades, 0x2000 - Repairing, 0x4000 - On hold. */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? Bitflags. 0x0002 - Upgrading. */
+	/* 0004(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being-built, 0x0400 - Degrades, 0x2000 - Repairing, 0x4000 - On hold. */
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< Bitflags. 0x0002 - Upgrading. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
@@ -72,7 +72,7 @@ typedef struct StructureInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
 	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Structure. */
 	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0004];

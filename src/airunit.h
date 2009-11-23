@@ -19,7 +19,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct AirUnit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the AirUnit in the array. */
-	/* 0002(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x0001 - Used. */
+	/* 0002(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used. */
 	/* 0004()    */ PACK uint8   unknown_0004[0x000C];
 	/* 0010(2)   */ PACK uint16 houseID;                    /*!< House of AirUnit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x000A];
