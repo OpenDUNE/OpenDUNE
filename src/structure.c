@@ -69,23 +69,21 @@ void GameLoop_Structure()
 
 	if (g_global->variable_341A <= g_global->variable_76B0 && g_global->campaignID > 1) {
 		tickDegrade = true;
-		g_global->variable_341A = g_global->variable_76B0 + Tools_AdjustToGameSpeed(0x2A30, 0x1518, 0x5460, true);
+		g_global->variable_341A = g_global->variable_76B0 + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
 	if (g_global->variable_341E <= g_global->variable_76B0 || g_global->variable_37AC != 0) {
 		tickStructure = true;
-		g_global->variable_341E = g_global->variable_76B0 + Tools_AdjustToGameSpeed(0x1E, 0xF, 0x3C, true);
+		g_global->variable_341E = g_global->variable_76B0 + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}
 
 	if (g_global->variable_3422 <= g_global->variable_76B0) {
 		tickScript = true;
-
 		g_global->variable_3422 = g_global->variable_76B0 + 5;
 	}
 
 	if (g_global->variable_3426 <= g_global->variable_76B0) {
 		tickPalace = true;
-
 		g_global->variable_3426 = g_global->variable_76B0 + 60;
 	}
 
