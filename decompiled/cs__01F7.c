@@ -4672,6 +4672,7 @@ l__201F:
 	emu_cs = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	emu_push(0x2040);
 	switch ((emu_cs << 16) + emu_ip) {
+		case 0x3EEE0D9A: f__3EEE_0D9A_0003_4293(); break;
 		case 0x3EEE0DCA: f__3EEE_0DCA_0003_4293(); break;
 		case 0x3EEE0DCE: f__3EEE_0DCE_0003_4293(); break;
 		case 0x3EEE0E1A: f__3EEE_0E1A_0003_4293(); break;

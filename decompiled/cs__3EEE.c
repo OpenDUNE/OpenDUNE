@@ -5,6 +5,29 @@
 #include "decompiled.h"
 
 /**
+ * Decompiled function f__3EEE_0D9A_0003_4293()
+ *
+ * @name f__3EEE_0D9A_0003_4293
+ * @implements 3EEE:0D9A:0003:4293 ()
+ * @implements 3EEE:0D9D:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0D9A_0003_4293()
+{
+l__0D9A:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0D9D); Interrupt_Video();
+l__0D9D:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__3EEE_0DCA_0003_4293()
  *
  * @name f__3EEE_0DCA_0003_4293
