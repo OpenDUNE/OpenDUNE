@@ -651,10 +651,10 @@ typedef struct GlobalData {
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
 	/* 320D()    */ PACK uint8   unknown_320D[0x01A9];
 	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
-	/* 341A(4)   */ PACK uint32 variable_341A;              /*!< ?? */
-	/* 341E(4)   */ PACK uint32 variable_341E;              /*!< ?? */
-	/* 3422(4)   */ PACK uint32 variable_3422;              /*!< ?? */
-	/* 3426(4)   */ PACK uint32 variable_3426;              /*!< ?? */
+	/* 341A(4)   */ PACK uint32 tickStructureDegrade;       /*!< Indicates next time Structure runs Degrade function. */
+	/* 341E(4)   */ PACK uint32 tickStructureStructure;     /*!< Indicates next time Structure runs Structurs function. */
+	/* 3422(4)   */ PACK uint32 tickStructureScript;        /*!< Indicates next time Structure runs Script function. */
+	/* 3426(4)   */ PACK uint32 tickStructurePalace;        /*!< Indicates next time Structure runs Palace function. */
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
 	/* 3439()    */ PACK uint8   unknown_3439[0x01AF];
@@ -685,7 +685,7 @@ typedef struct GlobalData {
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
-	/* 38AC()    */ PACK uint32 variable_38AC;              /*!< ?? */
+	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
@@ -803,13 +803,13 @@ typedef struct GlobalData {
 	/* 42E2(9)   */ PACK char   string_42E2[9];             /*!< "Destruct" NULL terminated. */
 	/* 42EB()    */ PACK uint8   unknown_42EB[0x1D67];      /*!< list of all files. */
 	/* 6052()    */ PACK uint8   unknown_6052[0x0034];
-	/* 6086(4)   */ PACK uint32 variable_6086;              /*!< ?? */
-	/* 608A(4)   */ PACK uint32 variable_608A;              /*!< ?? */
-	/* 608E(4)   */ PACK uint32 variable_608E;              /*!< ?? */
-	/* 6092(4)   */ PACK uint32 variable_6092;              /*!< ?? */
-	/* 6096(4)   */ PACK uint32 variable_6096;              /*!< ?? */
-	/* 609A(4)   */ PACK uint32 variable_609A;              /*!< ?? */
-	/* 609E(4)   */ PACK uint32 variable_609E;              /*!< ?? */
+	/* 6086(4)   */ PACK uint32 tickHouseHouse;             /*!< Indicates next time House runs House function. */
+	/* 608A(4)   */ PACK uint32 tickHousePowerMaintenance;  /*!< Indicates next time House runs Power Maintenance function. */
+	/* 608E(4)   */ PACK uint32 tickHouseStarport;          /*!< Indicates next time House runs Starport function. */
+	/* 6092(4)   */ PACK uint32 tickHouseReinforcement;     /*!< Indicates next time House runs Reinforcement function. */
+	/* 6096(4)   */ PACK uint32 tickHouseUnused;            /*!< Indicates next time House runs Unused function. */
+	/* 609A(4)   */ PACK uint32 tickHouseUnknown;           /*!< Indicates next time House runs Unknown function. */
+	/* 609E(4)   */ PACK uint32 tickHouseStarportAvailability;/*!< Indicates next time House runs Starport Availability function. */
 	/* 608A()    */ PACK uint8   unknown_60A2[0x000C];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
@@ -831,13 +831,13 @@ typedef struct GlobalData {
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32 unitCurrent;                /*!< Current Unit we are handling in GameLoop. */
 	/* 626C(4)   */ PACK csip32 unitInfoCurrent;            /*!< Current UnitInfo we are handling in the GameLoop. */
-	/* 6270(4)   */ PACK uint32 variable_6270;              /*!< ?? */
-	/* 6274(4)   */ PACK uint32 variable_6274;              /*!< ?? */
-	/* 6278(4)   */ PACK uint32 variable_6278;              /*!< ?? */
-	/* 627C(4)   */ PACK uint32 variable_627C;              /*!< ?? */
-	/* 6280(4)   */ PACK uint32 variable_6280;              /*!< ?? */
-	/* 6284(4)   */ PACK uint32 variable_6284;              /*!< ?? */
-	/* 6288(4)   */ PACK uint32 variable_6288;              /*!< ?? */
+	/* 6270(4)   */ PACK uint32 tickUnitUnknown1;           /*!< Indicates next time Unit runs Unknown1 function. */
+	/* 6274(4)   */ PACK uint32 tickUnitUnknown2;           /*!< Indicates next time Unit runs Unknown2 function. */
+	/* 6278(4)   */ PACK uint32 tickUnitUnknown3;           /*!< Indicates next time Unit runs Unknown3 function. */
+	/* 627C(4)   */ PACK uint32 tickUnitUnknown4;           /*!< Indicates next time Unit runs Unknown4 function. */
+	/* 6280(4)   */ PACK uint32 tickUnitScript;             /*!< Indicates next time Unit runs Script function. */
+	/* 6284(4)   */ PACK uint32 tickUnitUnknown5;           /*!< Indicates next time Unit runs Unknown5 function. */
+	/* 6288(4)   */ PACK uint32 tickUnitUnknown6;           /*!< Indicates next time Unit runs Unknown6 function. */
 	/* 628C()    */ PACK uint8   unknown_628C[0x005E];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
@@ -1113,7 +1113,7 @@ typedef struct GlobalData {
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8()    */ PACK uint8   unknown_76A8[0x0008];
-	/* 76B0(4)   */ PACK uint32 variable_76B0;              /*!< ?? */
+	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
 	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];

@@ -1403,7 +1403,7 @@ l__0014:
 		emu_get_memory16(emu_ss, emu_bp, -0x8) += emu_ax + 1;
 	}
 
-	g_global->variable_38AC = g_global->variable_76B0;
+	g_global->tickScenarioStart = g_global->tickGlobal;
 	emu_ax = 0x1;
 
 exit:

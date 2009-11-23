@@ -53,7 +53,6 @@ void System_Init_Unit()
 void GameLoop_Unit()
 {
 	PoolFindStruct find;
-
 	bool tickUnknown1 = false;
 	bool tickUnknown2 = false;
 	bool tickUnknown3 = false;
@@ -64,39 +63,39 @@ void GameLoop_Unit()
 
 	if (g_global->debugScenario) return;
 
-	if (g_global->variable_6270 <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown1 <= g_global->tickGlobal) {
 		tickUnknown1 = true;
-		g_global->variable_6270 = g_global->variable_76B0 + 3;
+		g_global->tickUnitUnknown1 = g_global->tickGlobal + 3;
 	}
 
-	if (g_global->variable_6274 <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown2 <= g_global->tickGlobal) {
 		tickUnknown2 = true;
-		g_global->variable_6274 = g_global->variable_76B0 + Tools_AdjustToGameSpeed(4, 2, 8, true);
+		g_global->tickUnitUnknown2 = g_global->tickGlobal + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
-	if (g_global->variable_6278 <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown3 <= g_global->tickGlobal) {
 		tickUnknown3 = true;
-		g_global->variable_6278 = g_global->variable_76B0 + 3;
+		g_global->tickUnitUnknown3 = g_global->tickGlobal + 3;
 	}
 
-	if (g_global->variable_627C <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown4 <= g_global->tickGlobal) {
 		tickUnknown4 = true;
-		g_global->variable_627C = g_global->variable_76B0 + 20;
+		g_global->tickUnitUnknown4 = g_global->tickGlobal + 20;
 	}
 
-	if (g_global->variable_6280 <= g_global->variable_76B0) {
+	if (g_global->tickUnitScript <= g_global->tickGlobal) {
 		tickScript = true;
-		g_global->variable_6280 = g_global->variable_76B0 + 5;
+		g_global->tickUnitScript = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->variable_6284 <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown5 <= g_global->tickGlobal) {
 		tickUnknown5 = true;
-		g_global->variable_6284 = g_global->variable_76B0 + 5;
+		g_global->tickUnitUnknown5 = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->variable_6288 <= g_global->variable_76B0) {
+	if (g_global->tickUnitUnknown6 <= g_global->tickGlobal) {
 		tickUnknown6 = true;
-		g_global->variable_6288 = g_global->variable_76B0 + 60;
+		g_global->tickUnitUnknown6 = g_global->tickGlobal + 60;
 	}
 
 	find.houseID = 0xFFFF;

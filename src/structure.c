@@ -67,24 +67,24 @@ void GameLoop_Structure()
 	bool tickScript    = false;
 	bool tickPalace    = false;
 
-	if (g_global->variable_341A <= g_global->variable_76B0 && g_global->campaignID > 1) {
+	if (g_global->tickStructureDegrade <= g_global->tickGlobal && g_global->campaignID > 1) {
 		tickDegrade = true;
-		g_global->variable_341A = g_global->variable_76B0 + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
+		g_global->tickStructureDegrade = g_global->tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
-	if (g_global->variable_341E <= g_global->variable_76B0 || g_global->variable_37AC != 0) {
+	if (g_global->tickStructureStructure <= g_global->tickGlobal || g_global->variable_37AC != 0) {
 		tickStructure = true;
-		g_global->variable_341E = g_global->variable_76B0 + Tools_AdjustToGameSpeed(30, 15, 60, true);
+		g_global->tickStructureStructure = g_global->tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}
 
-	if (g_global->variable_3422 <= g_global->variable_76B0) {
+	if (g_global->tickStructureScript <= g_global->tickGlobal) {
 		tickScript = true;
-		g_global->variable_3422 = g_global->variable_76B0 + 5;
+		g_global->tickStructureScript = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->variable_3426 <= g_global->variable_76B0) {
+	if (g_global->tickStructurePalace <= g_global->tickGlobal) {
 		tickPalace = true;
-		g_global->variable_3426 = g_global->variable_76B0 + 60;
+		g_global->tickStructurePalace = g_global->tickGlobal + 60;
 	}
 
 	find.houseID = 0xFFFF;

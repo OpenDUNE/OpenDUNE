@@ -57,39 +57,39 @@ void GameLoop_House()
 
 	if (g_global->debugScenario) return;
 
-	if (g_global->variable_6086 <= g_global->variable_76B0) {
+	if (g_global->tickHouseHouse <= g_global->tickGlobal) {
 		tickHouse = true;
-		g_global->variable_6086 = g_global->variable_76B0 + 900;
+		g_global->tickHouseHouse = g_global->tickGlobal + 900;
 	}
 
-	if (g_global->variable_38C0 <= g_global->variable_76B0 && g_global->variable_608A <= g_global->variable_76B0) {
+	if (g_global->variable_38C0 <= g_global->tickGlobal && g_global->tickHousePowerMaintenance <= g_global->tickGlobal) {
 		tickPowerMaintenance = true;
-		g_global->variable_608A = g_global->variable_76B0 + 10800;
+		g_global->tickHousePowerMaintenance = g_global->tickGlobal + 10800;
 	}
 
-	if (g_global->variable_608E <= g_global->variable_76B0) {
+	if (g_global->tickHouseStarport <= g_global->tickGlobal) {
 		tickStarport = true;
-		g_global->variable_608E = g_global->variable_76B0 + 180;
+		g_global->tickHouseStarport = g_global->tickGlobal + 180;
 	}
 
-	if (g_global->variable_6092 <= g_global->variable_76B0) {
+	if (g_global->tickHouseReinforcement <= g_global->tickGlobal) {
 		tickReinforcement = true;
-		g_global->variable_6092 = g_global->variable_76B0 + (g_global->debugGame ? 60 : 600);
+		g_global->tickHouseReinforcement = g_global->tickGlobal + (g_global->debugGame ? 60 : 600);
 	}
 
-	if (g_global->variable_6096 <= g_global->variable_76B0) {
+	if (g_global->tickHouseUnused <= g_global->tickGlobal) {
 		tickUnused = true;
-		g_global->variable_6096 = g_global->variable_76B0 + 5;
+		g_global->tickHouseUnused = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->variable_609A <= g_global->variable_76B0) {
+	if (g_global->tickHouseUnknown <= g_global->tickGlobal) {
 		tickUnknown = true;
-		g_global->variable_609A = g_global->variable_76B0 + 60;
+		g_global->tickHouseUnknown = g_global->tickGlobal + 60;
 	}
 
-	if (g_global->variable_609E <= g_global->variable_76B0) {
+	if (g_global->tickHouseStarportAvailability <= g_global->tickGlobal) {
 		tickStarportAvailability = true;
-		g_global->variable_609E = g_global->variable_76B0 + 1800;
+		g_global->tickHouseStarportAvailability = g_global->tickGlobal + 1800;
 	}
 
 	if (tickUnknown && g_global->variable_38FE != 0) {
