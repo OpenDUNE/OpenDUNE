@@ -359,6 +359,7 @@ extern void emu_Tools_MulCSIP_csip();
 extern void f__0EDB_03B9_001D_2E46();
 extern void f__B495_03B9_0008_D80E();
 extern void f__16C5_03C3_002D_24E5();
+extern void f__B520_03C7_0017_65D1();
 extern void emu_Ini_GetString();
 extern void f__01F7_03C9_001C_11C7();
 extern void f__23E1_03DB_000B_CF65();

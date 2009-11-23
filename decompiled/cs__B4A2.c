@@ -809,6 +809,7 @@ l__0680:
 		case 0x34F20025: overlay(0x34F2, 0); f__B4F2_009C_002E_D76F(); break;
 		case 0x35180034: overlay(0x3518, 0); f__B518_0A91_000C_38F0(); break;
 		case 0x35180039: overlay(0x3518, 0); f__B518_0B0D_000E_E283(); break;
+		case 0x35200039: overlay(0x3520, 0); f__B520_03C7_0017_65D1(); break;
 		case 0x3520003E: overlay(0x3520, 0); f__B520_03E7_0017_BA36(); break;
 		case 0x35200043: overlay(0x3520, 0); f__B520_0407_00A9_43A1(); break;
 		default:

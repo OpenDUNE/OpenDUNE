@@ -515,6 +515,41 @@ l__03C3:
 }
 
 /**
+ * Decompiled function f__B520_03C7_0017_65D1()
+ *
+ * @name f__B520_03C7_0017_65D1
+ * @implements B520:03C7:0017:65D1 ()
+ * @implements B520:03DE:0007:F90C
+ * @implements B520:03E5:0002:2597
+ *
+ * Called From: 3520:0039:0005:0000
+ */
+void f__B520_03C7_0017_65D1()
+{
+l__03C7:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_ax = 0xFFFF;
+	emu_push(emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x36));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x34));
+	emu_push(emu_cs);
+	emu_push(0x03DE); f__B520_062C_0030_162A();
+l__03DE:
+	emu_addw(&emu_sp, 0x6);
+	emu_xorw(&emu_ax, emu_ax);
+	goto l__03E5;
+l__03E5:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__B520_03E7_0017_BA36()
  *
  * @name f__B520_03E7_0017_BA36
@@ -814,10 +849,12 @@ l__0626:
  * @implements B520:062C:0030:162A ()
  * @implements B520:065C:001C:557A
  * @implements B520:065E:001A:9DD2
+ * @implements B520:0678:0014:131D
  * @implements B520:067A:0012:3B1E
  * @implements B520:068C:0011:2861
  * @implements B520:069D:0005:BC9A
  *
+ * Called From: B520:03DB:0017:65D1
  * Called From: B520:03FB:0017:BA36
  * Called From: B520:0543:001A:447C
  */
@@ -848,10 +885,12 @@ l__065E:
 	emu_get_memory16(emu_es, emu_bx, 0xC) = emu_ax;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0xC), 0x0);
-	if ((int16)emu_get_memory16(emu_es, emu_bx, 0xC) <= (int16)0x0) { /* Unresolved jump */ emu_ip = 0x0678; emu_last_cs = 0xB520; emu_last_ip = 0x066D; emu_last_length = 0x001A; emu_last_crc = 0x9DD2; emu_call(); return; }
+	if ((int16)emu_get_memory16(emu_es, emu_bx, 0xC) <= (int16)0x0) goto l__0678;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_ax = emu_get_memory16(emu_es, emu_bx, 0xC);
 	goto l__067A;
+l__0678:
+	emu_xorw(&emu_ax, emu_ax);
 l__067A:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_get_memory16(emu_es, emu_bx, 0xC) = emu_ax;
@@ -1317,6 +1356,7 @@ l__0969:
  * Called From: B520:00AA:000D:9A2C
  * Called From: B520:038A:000D:94A7
  * Called From: B520:0689:0012:3B1E
+ * Called From: B520:0689:0014:131D
  */
 void f__B520_096E_003C_F7E4()
 {
