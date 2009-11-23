@@ -100,7 +100,7 @@ void GameLoop_Structure()
 		House *h;
 
 		s = Structure_Find(&find);
-		if (s == NULL) return;
+		if (s == NULL) break;
 
 		si = &g_structureInfo[s->type];
 		h  = House_Get_ByIndex(s->houseID);
