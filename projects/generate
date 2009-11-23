@@ -16,46 +16,68 @@ fi
 
 generate_data()
 {
-find "$ROOT_DIR/$1" -path "*/.svn" -prune -o -type f -name "*.[ch]" -print | sort | awk '
+ls -Rp "$ROOT_DIR/$1" | awk '
 BEGIN {
-	print "		<Filter";
-	print "			Name=\"'$1'\"";
-	print "			>";
+	path = "";
+	previous = ":"
+	deep = 0
+	tab = ""
 }
-{
+/:/ {
 	gsub("'$ROOT_DIR/'", "");
+	gsub(":", "");
+	if ($0 ~ previous) {
+		tab = tab "	";
+	} else {
+		while (deep > 0) {
+			print tab "		</Filter>";
+			deep--;
+			sub("/[^/]+$", "", previous);
+			if ($0 ~ previous) break;
+			sub("	", "", tab);
+		}
+	}
+	previous = $0;
 	gsub("/", "\\");
-	print "			<File";
-	print "				RelativePath=\"..\\" $0 "\"";
-	print "				>";
+	path = $0;
+	deep++;
+	len = split($0, a, "\\");
+	print tab "		<Filter";
+	print tab "			Name=\"" a[len] "\"";
+	print tab "			>";
+	next;
+}
+/(c|h)$/ {
+	print tab "			<File";
+	print tab "				RelativePath=\"..\\" path "\\" $0 "\"";
+	print tab "				>";
 	split($0, a, ".");
 	if (a[2] == "c") {
-		len = split(a[1], b, "\\");
-		a[1] = b[1];
-		for (i = 2; i < len; i++) {
-			a[1] = a[1] "\\" b[i];
-		}
-		print "				<FileConfiguration";
-		print "					Name=\"Debug|Win32\"";
-		print "					>";
-		print "					<Tool";
-		print "						Name=\"VCCLCompilerTool\"";
-		print "						ObjectFile=\"$(IntDir)\\" a[1] "\\\"";
-		print "					/>";
-		print "				</FileConfiguration>";
-		print "				<FileConfiguration";
-		print "					Name=\"Release|Win32\"";
-		print "					>";
-		print "					<Tool";
-		print "						Name=\"VCCLCompilerTool\"";
-		print "						ObjectFile=\"$(IntDir)\\" a[1] "\\\"";
-		print "					/>";
-		print "				</FileConfiguration>";
+		print tab "				<FileConfiguration";
+		print tab "					Name=\"Debug|Win32\"";
+		print tab "					>";
+		print tab "					<Tool";
+		print tab "						Name=\"VCCLCompilerTool\"";
+		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
+		print tab "					/>";
+		print tab "				</FileConfiguration>";
+		print tab "				<FileConfiguration";
+		print tab "					Name=\"Release|Win32\"";
+		print tab "					>";
+		print tab "					<Tool";
+		print tab "						Name=\"VCCLCompilerTool\"";
+		print tab "						ObjectFile=\"$(IntDir)\\" path "\\\"";
+		print tab "					/>";
+		print tab "				</FileConfiguration>";
 	}
-	print "			</File>";
+	print tab "			</File>";
 }
 END {
-	print "		</Filter>";
+	while (deep > 0) {
+		print tab "		</Filter>";
+		sub("	", "", tab);
+		deep--;
+	}
 }'
 }
 
