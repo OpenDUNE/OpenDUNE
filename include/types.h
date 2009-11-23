@@ -24,10 +24,12 @@
 	#define MSVC_PACKED_END __pragma(pack(pop))
 	#pragma warning(disable:4102) /* unreferenced label */
 #elif defined(__TINYC__)
-	/* Tiny C Compiler wants the __attribute__((packed)) attribute in
-	 *  every line of the struct in order for it to do what you expect.
-	 * There we define P here, and add that in every line of a struct, to
-	 *  solve the problem without making things too ugly. */
+	/* For Tiny C Compiler to pack the content of a struct, it needs the
+	 *  __attribute__((packed)) attribute on every member in the struct.
+	 * For that reason we define PACK here, which has to be added before
+	 *  every member in a struct you want to pack. This solves the
+	 *  problem without making things very ugly (it still is not pretty,
+	 *  but at least not very ugly). */
 	#undef PACK
 	#define PACK __attribute__((packed))
 #endif /* __GNUC__ / _MSC_VER / __TINYC__ */
@@ -57,7 +59,10 @@ assert_compile(sizeof(uint32) == 4);
 assert_compile(sizeof( int32) == 4);
 
 typedef union csip32 {
-	struct { uint16 ip; uint16 cs; } s;
+	struct {
+		uint32 ip:16;
+		uint32 cs:16;
+	} s;
 	uint32 csip;
 } csip32;
 assert_compile(sizeof(csip32) == 4);
@@ -69,8 +74,14 @@ assert_compile(sizeof(csip32) == 4);
  * x is all the above.
  */
 typedef union tile32 {
-	struct { uint16 x; uint16 y; } s;
-	struct { uint32 ox:8; uint32 px:6; uint32 ux:2; uint32 oy:8; uint32 py:6; uint32 uy:2; } d;
+	struct {
+		uint32 x:16;
+		uint32 y:16;
+	} s;
+	struct {
+		uint32 ox:8; uint32 px:6; uint32 ux:2;
+		uint32 oy:8; uint32 py:6; uint32 uy:2;
+	} d;
 	uint32 tile;
 } tile32;
 assert_compile(sizeof(tile32) == 4);
