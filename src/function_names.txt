@@ -69,7 +69,6 @@
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 
 0972:0C04:0037:B310	emu_Script_Structure_SetAnimation	# Script function - Changes Structure.animation
-0972:137B:002B:A9E3	emu_Script_Structure_RemoveFogAroundTile	# Script function - Removes fog around a tile with a given radius
 
 0C3A:0C5C:004D:2837	emu_Structure_IsValidBuildLocation	# (type, tile), Check if one can build a structure on a tile given
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
@@ -91,8 +90,6 @@
 15C2:03D9:0011:D202	emu_Script_Load	# (script_csip, script_number), loads a script, where script_number is normally the typeID of the entity
 15C2:0526:000F:EA1E	emu_Script_IsLoaded	# (script_csip), check if a script engine is loaded
 15C2:0559:0015:E98A	emu_Script_Run	# (script_csip), run a script
-
-16C5:0009:0023:21B3	emu_GameLoop_AirUnit	# ()
 
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
