@@ -44,3 +44,7 @@ House
     over your silo capicity most of the time, and then losing it all of a
     sudden (when you start building a structure).
 
+AirUnit
+-------
+- If an airunit gives a script error, all other airunits are aborted.
+
