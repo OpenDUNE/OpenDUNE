@@ -15,7 +15,6 @@ extern void f__0972_1004_0029_E69D();
 extern void f__0972_11B9_0020_8DC9();
 extern void f__0972_121E_0030_5DAA();
 extern void f__0972_133C_0036_0328();
-extern void emu_Script_Structure_RemoveFogAroundTile();
 extern void f__0972_13AF_0015_619A();
 extern void f__0972_114F_0020_EA79();
 extern void f__0972_1524_0018_014D();
@@ -112,7 +111,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 0C */ NULL,
 	/* 0D */ NULL,
 	/* 0E */ &f__0972_133C_0036_0328,
-	/* 0F */ &emu_Script_Structure_RemoveFogAroundTile,
+	/* 0F */ NULL,
 	/* 10 */ NULL,
 	/* 11 */ NULL,
 	/* 12 */ NULL,
@@ -234,7 +233,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 0C */ &Script_Structure_NoOperation,
 	/* 0D */ &Script_Structure_GetAnimation,
 	/* 0E */ NULL,
-	/* 0F */ NULL,
+	/* 0F */ &Script_Structure_RemoveFogAroundTile,
 	/* 10 */ &Script_Structure_NoOperation,
 	/* 11 */ &Script_Structure_NoOperation,
 	/* 12 */ &Script_Structure_NoOperation,

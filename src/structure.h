@@ -75,7 +75,8 @@ typedef struct StructureInfo {
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
+	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
+	/* 0014()    */ PACK uint8   unknown_0014[0x0002];
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x001C];

@@ -1304,47 +1304,6 @@ l__1379:
 }
 
 /**
- * Decompiled function emu_Script_Structure_RemoveFogAroundTile()
- *
- * @name emu_Script_Structure_RemoveFogAroundTile
- * @implements 0972:137B:002B:A9E3 ()
- * @implements 0972:13A6:0007:F90C
- * @implements 0972:13A9:0004:E839
- * @implements 0972:13AD:0002:2597
- *
- * Called From: 15C2:0932:003A:D1E0
- */
-void emu_Script_Structure_RemoveFogAroundTile()
-{
-l__137B:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x8);
-	emu_ax = (int8)emu_al;
-	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x3A38));
-	if (emu_ax != emu_get_memory16(emu_ds, 0x00, 0x3A38)) goto l__13A9;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8430));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0x12));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8434));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
-	emu_push(emu_cs); emu_push(0x13A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
-l__13A6:
-	emu_addw(&emu_sp, 0x6);
-l__13A9:
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__13AD;
-l__13AD:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__0972_13AF_0015_619A()
  *
  * @name f__0972_13AF_0015_619A

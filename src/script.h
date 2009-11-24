@@ -56,6 +56,7 @@ extern uint16 Script_General_GetDistance(ScriptEngine *script);
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);
 extern uint16 Script_Structure_NoOperation(ScriptEngine *script);
+extern uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script);
 
 
 extern void emu_Script_Reset();
