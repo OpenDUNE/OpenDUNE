@@ -19,6 +19,7 @@
  */
 uint16 Script_Structure_NoOperation(ScriptEngine *script)
 {
+	VARIABLE_NOT_USED(script);
 	return 0;
 }
 
@@ -33,6 +34,8 @@ uint16 Script_Structure_NoOperation(ScriptEngine *script)
 uint16 Script_Structure_GetAnimation(ScriptEngine *script)
 {
 	Structure *s;
+
+	VARIABLE_NOT_USED(script);
 
 	s = Structure_Get_ByMemory(g_global->structureCurrent);
 	return s->animation;

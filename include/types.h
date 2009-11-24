@@ -12,6 +12,8 @@
 #define GCC_UNUSED
 #define PACK
 
+#define VARIABLE_NOT_USED(variable) (void)variable;
+
 #if defined(__GNUC__)
 	#undef GCC_PACKED
 	#define GCC_PACKED __attribute__((packed))

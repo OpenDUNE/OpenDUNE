@@ -586,6 +586,8 @@ void emu_Scenario_Load_Teams(const char *key, char *value)
 	uint16 unknown1, unknown2;
 	char *split;
 
+	VARIABLE_NOT_USED(key);
+
 	/* The value should have 5 values seperated by a ',' */
 	split = strchr(value, ',');
 	if (split == NULL) return;
