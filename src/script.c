@@ -521,7 +521,7 @@ bool Script_Run(ScriptEngine *script)
 				}
 
 				script->script = scriptInfo->start;
-				script->framePointer = script->stack[script->stackPointer++];
+				script->framePointer = (uint8)script->stack[script->stackPointer++];
 				script->script.s.ip += script->stack[script->stackPointer++] * 2;
 				return true;
 			}

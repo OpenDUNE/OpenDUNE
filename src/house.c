@@ -187,7 +187,7 @@ void GameLoop_House()
 
 				if (nu != NULL) {
 					u->linkedID = nu->linkedID;
-					nu->linkedID = u->index;
+					nu->linkedID = (uint8)u->index;
 					nu->flags |= 0x0100;
 					g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
 					deployed = true;
@@ -319,7 +319,7 @@ void GameLoop_House()
 			}
 		}
 
-		if (tickHouse) House_EnsureHarvesterAvailable(h->index);
+		if (tickHouse) House_EnsureHarvesterAvailable((uint8)h->index);
 
 		if (tickStarport && h->starportLinkedID != UNIT_INDEX_INVALID) {
 			Unit *u = NULL;
@@ -344,7 +344,7 @@ void GameLoop_House()
 					if (ucsip.csip != 0) {
 						u = Unit_Get_ByMemory(ucsip);
 
-						u->linkedID = h->starportLinkedID;
+						u->linkedID = (uint8)h->starportLinkedID;
 						h->starportLinkedID = UNIT_INDEX_INVALID;
 						u->flags |= 0x0100;
 
@@ -375,7 +375,7 @@ void GameLoop_House()
 						if (ucsip.csip == 0) {
 							u = Unit_Get_ByMemory(ucsip);
 
-							u->linkedID = h->starportLinkedID;
+							u->linkedID = (uint8)h->starportLinkedID;
 							h->starportLinkedID = 0xFFFF;
 							u->flags |= 0x0100;
 

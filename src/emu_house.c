@@ -156,8 +156,8 @@ void emu_House_AreAllied()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	houseID1 = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	houseID2 = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	houseID1 = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+	houseID2 = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = House_AreAllied(houseID1, houseID2) ? 1 : 0;
 }

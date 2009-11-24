@@ -355,7 +355,7 @@ void emu_Structure_CalculatePowerAndCredit()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	if (houseID >= HOUSE_MAX) return;
 	h = House_Get_ByIndex(houseID);
