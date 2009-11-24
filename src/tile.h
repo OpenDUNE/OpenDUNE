@@ -25,7 +25,7 @@ extern void emu_Tile_GetY();
 extern void emu_Tile_GetXY();
 extern void emu_Tile_GetPosX();
 extern void emu_Tile_GetPosY();
-extern void emu_Tile_GetPosXY();
+extern void emu_Tile_GetSpecialXY();
 extern void emu_Tile_PackTile();
 extern void emu_Tile_PackXY();
 extern void emu_Tile_Unpack();
