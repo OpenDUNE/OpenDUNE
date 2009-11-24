@@ -20,9 +20,21 @@ bool Tile_IsValid(tile32 tile)
 }
 
 /**
+ * Return the X- and Y- position/offset of a tile, in some weird order.
+ *
+ * @param tile The tile32 to get the X- and Y-position/offset from.
+ * @return The X-position, X-offset, Y-position, and Y-offset of a tile, in
+ *  that order, 8bits per item.
+ */
+uint32 Tile_GetSpecialXY(tile32 tile)
+{
+	return (tile.d.px + (tile.d.ox << 8)) + ((tile.d.py + (tile.d.oy << 8)) << 16);
+}
+
+/**
  * Returns the X-position of the tile.
  *
- * @param tile The tile32 to get its X-position from.
+ * @param tile The tile32 to get the X-position from.
  * @return The X-position of the tile.
  */
 uint8 Tile_GetPosX(tile32 tile)
@@ -33,7 +45,7 @@ uint8 Tile_GetPosX(tile32 tile)
 /**
  * Returns the Y-position of the tile.
  *
- * @param tile The tile32 to get its Y-position from.
+ * @param tile The tile32 to get the Y-position from.
  * @return The Y-position of the tile.
  */
 uint8 Tile_GetPosY(tile32 tile)
@@ -44,7 +56,7 @@ uint8 Tile_GetPosY(tile32 tile)
 /**
  * Returns the tile as an uint32 value.
  *
- * @param tile The tile32 to retrieve its data from.
+ * @param tile The tile32 to retrieve the data from.
  * @return The uint32 representation of the tile32.
  */
 uint32 Tile_GetXY(tile32 tile)
@@ -55,7 +67,7 @@ uint32 Tile_GetXY(tile32 tile)
 /**
  * Returns the X-position of the tile.
  *
- * @param tile The tile32 to get its X-position from.
+ * @param tile The tile32 to get the X-position from.
  * @return The X-position of the tile.
  */
 uint16 Tile_GetX(tile32 tile)
@@ -66,7 +78,7 @@ uint16 Tile_GetX(tile32 tile)
 /**
  * Returns the Y-position of the tile.
  *
- * @param tile The tile32 to get its Y-position from.
+ * @param tile The tile32 to get the Y-position from.
  * @return The Y-position of the tile.
  */
 uint16 Tile_GetY(tile32 tile)

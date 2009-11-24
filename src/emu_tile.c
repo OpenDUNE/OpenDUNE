@@ -93,7 +93,7 @@ void emu_Tile_GetPosY()
  * @name emu_Tile_GetPosXY
  * @implements 0F3F:0037:000F:E3D8 ()
  */
-void emu_Tile_GetPosXY()
+void emu_Tile_GetSpecialXY()
 {
 	tile32 tile;
 
@@ -103,8 +103,8 @@ void emu_Tile_GetPosXY()
 
 	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
 
-	emu_ax = Tile_GetPosX(tile);
-	emu_dx = Tile_GetPosY(tile);
+	emu_ax = Tile_GetSpecialXY(tile) & 0xFFFF;
+	emu_dx = Tile_GetSpecialXY(tile) >> 16;
 }
 
 /**

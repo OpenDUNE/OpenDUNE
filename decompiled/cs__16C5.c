@@ -462,7 +462,7 @@ l__0453:
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x0F3F; emu_Tile_GetPosXY();
+	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x0F3F; emu_Tile_GetSpecialXY();
 l__046E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
