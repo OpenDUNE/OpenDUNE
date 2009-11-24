@@ -71,3 +71,36 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	return 0;
 }
+
+/*
+ * Set the animation for the current structure.
+ *
+ * Stack: *none*
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Structure_SetAnimation(ScriptEngine *script)
+{
+	Structure *s;
+	int16 animation;
+
+	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	animation = script->stack[script->stackPointer];
+
+	if (animation == -2) {
+		if (s->linkedID == 0xFF) {
+			animation = 0;
+		} else {
+			if (s->countDown == 0) {
+				animation = 2;
+			} else {
+				animation = 1;
+			}
+		}
+	}
+
+	Structure_SetAnimation(s, animation);
+
+	return 0;
+}

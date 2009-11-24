@@ -8,7 +8,6 @@
 
 extern void f__0972_0A81_0017_2EC7();
 extern void f__0972_0AFC_0016_0DC9();
-extern void emu_Script_Structure_SetAnimation();
 extern void f__0972_0C5A_0015_E00A();
 extern void f__0972_0E87_0047_4065();
 extern void f__0972_1004_0029_E69D();
@@ -100,7 +99,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 01 */ NULL,
 	/* 02 */ &f__0972_0A81_0017_2EC7,
 	/* 03 */ &f__0972_0AFC_0016_0DC9,
-	/* 04 */ &emu_Script_Structure_SetAnimation,
+	/* 04 */ NULL,
 	/* 05 */ &f__0EDB_0006_002F_CECA,
 	/* 06 */ &f__0972_11B9_0020_8DC9,
 	/* 07 */ &f__0972_0C5A_0015_E00A,
@@ -222,7 +221,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 01 */ &Script_Structure_NoOperation,
 	/* 02 */ NULL,
 	/* 03 */ NULL,
-	/* 04 */ NULL,
+	/* 04 */ &Script_Structure_SetAnimation,
 	/* 05 */ NULL,
 	/* 06 */ NULL,
 	/* 07 */ NULL,

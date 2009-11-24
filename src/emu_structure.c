@@ -362,3 +362,25 @@ void emu_Structure_CalculatePowerAndCredit()
 
 	Structure_CalculatePowerAndCredit(h);
 }
+
+/**
+ * Emulator wrapper around Structure_SetAnimation().
+ *
+ * @name emu_Structure_SetAnimation
+ * @implements 0C3A:1398:000D:8766 ()
+ * @implements 0C3A:13A5:0014:7F45
+ * @implements 0C3A:13B9:0004:BEB2
+ */
+void emu_Structure_SetAnimation()
+{
+	Structure *s;
+	int16 animation;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	s = Structure_Get_ByMemory(emu_get_csip32(emu_ss, emu_sp, 0x0));
+	animation = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	Structure_SetAnimation(s, animation);
+}

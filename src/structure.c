@@ -27,7 +27,6 @@ extern void emu_Structure_IsValidBuildLocation();
 extern void emu_Structure_Place();
 extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
-extern void emu_Structure_UpdateAnimation();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_25EC_0011_E453();
@@ -241,10 +240,7 @@ void GameLoop_Structure()
 							s->countDown = 0;
 							s->variable_52 = 0;
 
-							emu_push(2);
-							emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-							emu_push(emu_cs); emu_push(0x05A1); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
-							emu_sp += 6;
+							Structure_SetAnimation(s, 2);
 
 							if (s->houseID == g_global->playerHouseID) {
 								if (s->type != STRUCTURE_BARRACKS && s->type != STRUCTURE_WOR_TROOPER) {
@@ -286,10 +282,7 @@ void GameLoop_Structure()
 								s->linkedID = 0xFF;
 
 								/* The AI places structures which are operational immediatly */
-								emu_push(0);
-								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-								emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
-								emu_sp += 6;
+								Structure_SetAnimation(s, 0);
 
 								/* Find the position to place the structure */
 								for (i = 0; i < 5; i++) {
@@ -353,10 +346,7 @@ void GameLoop_Structure()
 							} else {
 								s->countDown = 0;
 
-								emu_push(2);
-								emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-								emu_push(emu_cs); emu_push(0x083C); emu_cs = 0x0C3A; emu_Structure_UpdateAnimation();
-								emu_sp += 6;
+								Structure_SetAnimation(s, 2);
 
 								if (s->houseID == g_global->playerHouseID) {
 									emu_push(g_global->playerHouseID + 0x37);
@@ -958,4 +948,20 @@ void Structure_CalculateHitpointsMax(House *h)
 		emu_push(emu_cs); emu_push(0x21E0); f__0C3A_1216_0013_E56D();
 		emu_sp += 8;
 	}
+}
+
+/**
+ * Set the animation for the given structure.
+ *
+ * @param s The structure to set the animation of.
+ * @param animation The new animation value.
+ */
+void Structure_SetAnimation(Structure *s, int16 animation)
+{
+	if (s == NULL) return;
+	s->animation = animation;
+
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+	emu_push(emu_cs); emu_push(0x13B9); emu_Structure_UpdateMap();
+	emu_sp += 4;
 }
