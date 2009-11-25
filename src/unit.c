@@ -541,7 +541,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->variable_51  = 0x00;
 	u->variable_52  = 0x7FFF;
 	u->variable_56  = 0x0000;
-	u->sandwormLeft = 0x00;
+	u->amount       = 0x00;
 	u->variable_6C  = 0x00;
 	u->variable_6D  = 0x00;
 	u->variable_6E  = 0x00;

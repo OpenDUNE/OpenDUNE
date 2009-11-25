@@ -117,7 +117,8 @@ typedef struct Scenario {
 	/* 003A()    */ PACK uint8   unknown_003A[0x0004];
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
-	/* 0042()    */ PACK uint8   unknown_0042[0x0004];
+	/* 0042(2)   */ PACK uint16 harvestedAllied;            /*!< Total amount of spice harvested by "You". */
+	/* 0044(2)   */ PACK uint16 harvestedEnemy;             /*!< Total amount of spice harvested by "Enemy". */
 	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */
 } GCC_PACKED Scenario;
 MSVC_PACKED_END

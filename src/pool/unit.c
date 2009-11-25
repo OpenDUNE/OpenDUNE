@@ -166,7 +166,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	u->variable_06 = 0x0001;
 	u->scriptDelay = 0;
 	u->variable_72 = 0xFF;
-	if (type == UNIT_SANDWORM) u->sandwormLeft = 0x03;
+	if (type == UNIT_SANDWORM) u->amount = 3;
 
 	g_global->unitArray[g_global->unitCount].csip = g_global->unitStartPos.csip + index * sizeof(Unit);
 	g_global->unitCount++;
