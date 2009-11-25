@@ -5731,9 +5731,9 @@ l__2888:
 }
 
 /**
- * Decompiled function emu_Tools_Memmove()
+ * Decompiled function emu_Tools_Memcopy()
  *
- * @name emu_Tools_Memmove
+ * @name emu_Tools_Memcopy
  * @implements 01F7:28B8:0024:83C9 ()
  * @implements 01F7:28D0:000C:A565
  *
@@ -5794,7 +5794,7 @@ l__2888:
  * Called From: B518:0A85:001D:CF58
  * Called From: B518:0E04:0036:0F81
  */
-void emu_Tools_Memmove()
+void emu_Tools_Memcopy()
 {
 l__28B8:
 	emu_push(emu_bp);
@@ -7620,7 +7620,7 @@ l__374D:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
-	emu_push(0x376A); emu_Tools_Memmove();
+	emu_push(0x376A); emu_Tools_Memcopy();
 l__376A:
 	emu_addw(&emu_sp, 0xA);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x4));

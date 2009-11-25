@@ -396,7 +396,7 @@ l__0221:
 	emu_addw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8BE2));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8BE6));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0249); emu_cs = 0x01F7; emu_Tools_Memmove();
+	emu_push(emu_cs); emu_push(0x0249); emu_cs = 0x01F7; emu_Tools_Memcopy();
 l__0249:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0xE);

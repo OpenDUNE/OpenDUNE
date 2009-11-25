@@ -90,7 +90,7 @@ void emu_Tile_GetPosY()
 /**
  * Emulator wrapper around Tile_GetPosX() and Tile_GetPosY().
  *
- * @name emu_Tile_GetPosXY
+ * @name emu_Tile_GetSpecialXY
  * @implements 0F3F:0037:000F:E3D8 ()
  */
 void emu_Tile_GetSpecialXY()

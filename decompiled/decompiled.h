@@ -949,7 +949,7 @@ extern void f__01F7_27FD_0037_E2C0();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__01F7_286D_0023_9A13();
 extern void f__176C_28B1_0024_58C9();
-extern void emu_Tools_Memmove();
+extern void emu_Tools_Memcopy();
 extern void emu_String_strncasecmp();
 extern void f__176C_291A_0010_8A93();
 extern void emu_Tools_Memset_Internal();

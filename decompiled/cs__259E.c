@@ -230,7 +230,7 @@ l__00CD:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x312);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00E2); emu_cs = 0x01F7; emu_Tools_Memmove();
+	emu_push(emu_cs); emu_push(0x00E2); emu_cs = 0x01F7; emu_Tools_Memcopy();
 l__00E2:
 	emu_addw(&emu_sp, 0xA);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C76), 0x3);

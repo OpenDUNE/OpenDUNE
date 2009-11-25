@@ -941,7 +941,7 @@ l__0736:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x19C);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0764); emu_cs = 0x01F7; emu_Tools_Memmove();
+	emu_push(emu_cs); emu_push(0x0764); emu_cs = 0x01F7; emu_Tools_Memcopy();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__0764:
