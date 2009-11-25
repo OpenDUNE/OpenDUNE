@@ -18,7 +18,7 @@ extern void f__0972_13AF_0015_619A();
 extern void f__0972_114F_0020_EA79();
 extern void f__0972_1524_0018_014D();
 extern void f__0972_15A2_0019_AB1E();
-extern void f__0EDB_0006_002F_CECA();
+extern void emu_Script_General_DisplayText();
 extern void f__0EDB_0145_002F_C125();
 extern void f__0EDB_0184_0030_A1C2();
 extern void f__0EDB_024B_001D_2E46();
@@ -100,7 +100,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 02 */ &f__0972_0A81_0017_2EC7,
 	/* 03 */ &f__0972_0AFC_0016_0DC9,
 	/* 04 */ NULL,
-	/* 05 */ &f__0EDB_0006_002F_CECA,
+	/* 05 */ &emu_Script_General_DisplayText,
 	/* 06 */ &f__0972_11B9_0020_8DC9,
 	/* 07 */ &f__0972_0C5A_0015_E00A,
 	/* 08 */ &f__0972_0E87_0047_4065,
@@ -128,7 +128,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ &f__176C_1CFE_0021_29C8,
 	/* 01 */ &f__176C_1C00_003A_E6C7,
-	/* 02 */ &f__0EDB_0006_002F_CECA,
+	/* 02 */ &emu_Script_General_DisplayText,
 	/* 03 */ NULL,
 	/* 04 */ &f__176C_22C4_0019_80C9,
 	/* 05 */ &f__176C_1A9F_0024_813F,

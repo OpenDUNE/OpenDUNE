@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0EDB_0006_002F_CECA()
+ * Decompiled function emu_Script_General_DisplayText()
  *
- * @name f__0EDB_0006_002F_CECA
+ * @name emu_Script_General_DisplayText
  * @implements 0EDB:0006:002F:CECA ()
  * @implements 0EDB:0035:0067:4027
  * @implements 0EDB:009C:0010:DE9D
@@ -16,7 +16,7 @@
  *
  * Called From: 15C2:0932:003A:D1E0
  */
-void f__0EDB_0006_002F_CECA()
+void emu_Script_General_DisplayText()
 {
 l__0006:
 	emu_push(emu_bp);

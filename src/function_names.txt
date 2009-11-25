@@ -74,6 +74,8 @@
 0C3A:13BD:0022:D6F0	emu_Structure_GetStructuresBuilt	# (houseID), Get which structures are built, where the Nth bit active means the Nth structure type has at least 1 structure built
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
+0EDB:0006:002F:CECA	emu_Script_General_DisplayText	# (script)
+
 0F3F:0360:0038:97C0	emu_Tile_GetDistanceOffset	# (from_tile, to_tile), distance of offset values
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString

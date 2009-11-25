@@ -31,7 +31,7 @@ MSVC_PACKED_BEGIN
  * A ScriptInfo as stored in the memory.
  */
 typedef struct ScriptInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0004];
+	/* 0000(4)   */ PACK csip32 text;                       /*!< ?? Pointer to TEXT section of the scripts. */
 	/* 0004(4)   */ PACK csip32 start;                      /*!< Pointer to the begin of the scripts. */
 	/* 0008(4)   */ PACK csip32 offsets;                    /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
 	/* 000C()    */ PACK uint8   unknown_000C[0x0004];
