@@ -18,7 +18,6 @@
 extern void emu_Unit_FindStructure();
 extern void f__07D4_196B_0073_56C1();
 extern void f__0F3F_0125_000D_4868();
-extern void f__167E_0088_001A_60ED();
 extern void f__167E_01BB_0010_85F6();
 extern void f__167E_0284_000C_4C88();
 extern void f__176C_000E_000E_633D();
@@ -155,11 +154,7 @@ void GameLoop_Unit()
 
 					tile = u->variable_49;
 
-					emu_push(u->variable_54);
-					emu_push(emu_cs); emu_push(0x03A7); emu_cs = 0x167E; f__167E_0088_001A_60ED();
-					emu_sp += 2;
-
-					if (emu_ax == 2) {
+					if (Tools_Index_GetType(u->variable_54) == IT_UNIT) {
 						csip32 ucsip2;
 						UnitInfo *ui2;
 						Unit *u2;

@@ -717,7 +717,7 @@ l__0670:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0678); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+	emu_push(emu_cs); emu_push(0x0678); emu_cs = 0x167E; emu_Tools_Index_Encode();
 l__0678:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -955,7 +955,7 @@ l__07AD:
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6124));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x18));
-	emu_push(emu_cs); emu_push(0x07D2); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+	emu_push(emu_cs); emu_push(0x07D2); emu_cs = 0x167E; emu_Tools_Index_Encode();
 l__07D2:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1100,7 +1100,7 @@ l__095A:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
 l__095D:
-	emu_push(emu_cs); emu_push(0x0962); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+	emu_push(emu_cs); emu_push(0x0962); emu_cs = 0x167E; emu_Tools_Index_Encode();
 l__0962:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

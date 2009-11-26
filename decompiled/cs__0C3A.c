@@ -4141,7 +4141,7 @@ l__293B:
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x294A); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+	emu_push(emu_cs); emu_push(0x294A); emu_cs = 0x167E; emu_Tools_Index_Encode();
 l__294A:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

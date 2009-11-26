@@ -1152,7 +1152,7 @@ l__0843:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x084E); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
+	emu_push(emu_cs); emu_push(0x084E); emu_cs = 0x167E; emu_Tools_Index_Encode();
 l__084E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

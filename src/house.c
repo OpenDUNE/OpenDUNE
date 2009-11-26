@@ -13,12 +13,12 @@
 #include "house.h"
 #include "structure.h"
 #include "tile.h"
+#include "tools.h"
 #include "unit.h"
 
 extern void emu_String_GetString();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
-extern void f__167E_00F3_001E_8CB3();
 extern void f__1A34_1B68_0019_AAA0();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
@@ -174,12 +174,7 @@ void GameLoop_House()
 					emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 					emu_sp += 4;
 
-					emu_push(1);
-					emu_push(emu_ax);
-					emu_push(emu_cs); emu_push(0x0341); emu_cs = 0x167E; f__167E_00F3_001E_8CB3();
-					emu_sp += 4;
-
-					emu_push(emu_ax);
+					emu_push(Tools_Index_Encode(emu_ax, IT_TILE));
 					emu_push(nucsip.s.cs); emu_push(nucsip.s.ip);
 					emu_push(emu_cs); emu_push(0x034F); emu_cs = 0x1A34; f__1A34_1B68_0019_AAA0();
 					emu_sp += 6;
@@ -333,7 +328,7 @@ void GameLoop_House()
 
 				s = Structure_Get_ByIndex(g_global->structureIndex);
 				if (s->type == STRUCTURE_STARPORT && s->houseID == h->index) {
-					emu_push(s->index | 0x8000);
+					emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
 					emu_push(UNIT_FRIGATE);
 					emu_push(h->index);
 					emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
@@ -364,7 +359,7 @@ void GameLoop_House()
 						if (s == NULL) break;
 						if (s->linkedID != 0xFF) continue;
 
-						emu_push(s->index | 0x8000);
+						emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
 						emu_push(UNIT_FRIGATE);
 						emu_push(h->index);
 						emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
@@ -489,7 +484,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	s = Structure_Find(&find);
 	if (s == NULL) return;
 
-	emu_push(s->index | 0x8000);
+	emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
 	emu_push(UNIT_HARVESTER);
 	emu_push(houseID);
 	emu_push(emu_cs); emu_push(0x22F1); f__1A34_232C_0011_B7DE();

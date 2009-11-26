@@ -84,3 +84,81 @@ void emu_Tools_Shrd()
 	emu_ax = val & 0xFFFF;
 	emu_dx = (val >> 16) & 0xFFFF;
 }
+
+/**
+ * Emulator wrapper around Tools_Index_GetType().
+ *
+ * @name emu_Tools_Index_GetType
+ * @implements 167E:0088:001A:60ED ()
+ * @implements 167E:00A2:0005:E2FA
+ * @implements 167E:00A5:0002:C73A
+ * @implements 167E:00A7:0005:897A
+ * @implements 167E:00AC:0005:AFFA
+ * @implements 167E:00B1:0004:9039
+ * @implements 167E:00B5:0002:2597
+ */
+void emu_Tools_Index_GetType()
+{
+	uint16 id;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Tools_Index_GetType(id);
+}
+
+/**
+ * Emulator wrapper around Tools_Index_Decode().
+ *
+ * @name emu_Tools_Index_Decode
+ * @implements 167E:00B7:0034:F3DA ()
+ * @implements 167E:00E6:0005:34FD
+ * @implements 167E:00EB:0004:13F2
+ * @implements 167E:00EF:0004:893F
+ */
+void emu_Tools_Index_Decode()
+{
+	uint16 id;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Tools_Index_Decode(id);
+}
+
+/**
+ * Emulator wrapper around Tools_Index_Encode().
+ *
+ * @name emu_Tools_Index_Encode
+ * @implements 167E:00F3:001E:8CB3 ()
+ * @implements 167E:0111:0025:96F6
+ * @implements 167E:0134:0002:D3BA
+ * @implements 167E:0136:0006:8BC7
+ * @implements 167E:013C:0012:1FAD
+ * @implements 167E:014E:0002:C4BA
+ * @implements 167E:0150:0007:030A
+ * @implements 167E:0153:0004:067A
+ * @implements 167E:0157:0002:C03A
+ * @implements 167E:0159:0004:83B9
+ * @implements 167E:015D:0005:8BCF
+ */
+void emu_Tools_Index_Encode()
+{
+	uint16 id;
+	uint16 type;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	id =   emu_get_memory16(emu_ss, emu_sp, 0x0);
+	type = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = Tools_Index_Encode(id, type);
+}
