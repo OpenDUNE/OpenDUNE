@@ -445,7 +445,7 @@ void emu_Scenario_Load_Map()
 	emu_push(2);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8) + 4);
 	emu_push(emu_ss); emu_push(emu_bp - 0xC);
-	emu_push(emu_cs); emu_push(0x0919); emu_cs = 0x01F7; emu_Tools_Memmove();
+	emu_push(emu_cs); emu_push(0x0919); emu_cs = 0x01F7; emu_Tools_Memcopy();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 10;
