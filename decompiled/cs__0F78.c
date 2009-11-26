@@ -411,6 +411,7 @@ l__027F:
  *
  * Called From: 0F78:03BB:0021:A39A
  * Called From: 0F78:03D2:0007:80C9
+ * Called From: 0F78:0428:0007:00F3
  * Called From: B4E9:02BE:001A:E38F
  * Called From: B511:0406:002D:9F7E
  */
@@ -487,6 +488,8 @@ l__02D0:
  * @implements 0F78:040C:0014:EE7E
  * @implements 0F78:0420:0004:5F1F
  * @implements 0F78:0422:0002:C43A
+ * @implements 0F78:0424:0007:00F3
+ * @implements 0F78:042B:000A:C3CF
  * @implements 0F78:042C:0009:D58F
  * @implements 0F78:0430:0005:8BCF
  *
@@ -534,7 +537,7 @@ l__0302:
 	if (emu_ax != emu_get_memory16(emu_ds, 0x00, 0x39F2)) goto l__0327;
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x37A0) != 0x0) goto l__0327;
-	/* Unresolved jump */ emu_ip = 0x0424; emu_last_cs = 0x0F78; emu_last_ip = 0x0324; emu_last_length = 0x0025; emu_last_crc = 0xB4FB; emu_call();
+	goto l__0424;
 l__0327:
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x032D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
@@ -649,6 +652,13 @@ l__0420:
 	emu_pop(&emu_cx);
 l__0422:
 	goto l__042C;
+l__0424:
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x042B); f__0F78_0285_001C_04DB();
+l__042B:
+	emu_pop(&emu_cx);
 l__042C:
 	emu_get_memory16(emu_ds, 0x00, 0x3A02) = emu_si;
 l__0430:

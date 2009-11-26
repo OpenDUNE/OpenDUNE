@@ -382,6 +382,7 @@ extern void f__151A_043B_0018_36C4();
 extern void f__B4C4_043C_0009_1C95();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void f__B511_0446_0013_E4E5();
+extern void f__15C2_044C_0012_C66D();
 extern void f__0EDB_0456_0032_B7E5();
 extern void f__151A_046F_0017_2508();
 extern void f__B483_0470_000E_519D();

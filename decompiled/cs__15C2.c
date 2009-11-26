@@ -395,3 +395,41 @@ l__038F:
 	emu_pop(&emu_cs);
 	return;
 }
+
+/**
+ * Decompiled function f__15C2_044C_0012_C66D()
+ *
+ * @name f__15C2_044C_0012_C66D
+ * @implements 15C2:044C:0012:C66D ()
+ * @implements 15C2:045E:0009:779F
+ * @implements 15C2:0521:0005:8BCF
+ *
+ * Called From: 176C:00FD:0022:7D65
+ */
+void f__15C2_044C_0012_C66D()
+{
+l__044C:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_subw(&emu_sp, 0x4);
+	emu_push(emu_si);
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_push(emu_cs);
+	emu_push(0x045E); emu_Script_IsLoaded();
+l__045E:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
+	emu_orw(&emu_ax, emu_ax);
+	if (emu_ax != 0) { /* Unresolved jump */ emu_ip = 0x0467; emu_last_cs = 0x15C2; emu_last_ip = 0x0462; emu_last_length = 0x0009; emu_last_crc = 0x779F; emu_call(); return; }
+	goto l__0521;
+l__0521:
+	emu_pop(&emu_si);
+	emu_sp = emu_bp;
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
