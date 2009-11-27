@@ -62,8 +62,8 @@ assert_compile(sizeof( int32) == 4);
 
 typedef union csip32 {
 	struct {
-		uint32 ip:16;
-		uint32 cs:16;
+		uint16 ip;
+		uint16 cs;
 	} s;
 	uint32 csip;
 } csip32;
