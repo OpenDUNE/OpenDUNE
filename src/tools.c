@@ -5,7 +5,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "pool/structure.h"
 #include "pool/unit.h"
+#include "structure.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
@@ -84,5 +86,34 @@ uint16 Tools_Index_Encode(uint16 id, IndexType type)
 		}
 		case IT_STRUCTURE:  return id | 0x8000;
 		default: return 0;
+	}
+}
+
+/**
+ * Check whether an Index is valid.
+ *
+ * @param id The Index to check for validity.
+ * @return True if valid, false if not.
+ */
+bool Tools_Index_IsValid(uint16 id)
+{
+	uint16 index;
+
+	if (id == 0) return false;
+
+	index = Tools_Index_Decode(id);
+
+	switch (Tools_Index_GetType(id)) {
+		case IT_UNIT:
+			if (index >= UNIT_INDEX_MAX) return false;
+			return (Unit_Get_ByIndex(index)->flags & 0x0003) == 0x0003;
+
+		case IT_STRUCTURE:
+			if (index >= STRUCTURE_INDEX_MAX_HARD) return false;
+			return (Structure_Get_ByIndex(index)->flags & 0x0001) != 0;
+
+		case IT_TILE : return true;
+
+		default: return false;
 	}
 }

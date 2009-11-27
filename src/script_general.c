@@ -9,9 +9,9 @@
 #include "script.h"
 #include "structure.h"
 #include "tile.h"
+#include "tools.h"
 #include "unit.h"
 
-extern void f__167E_0005_0013_AF0C();
 extern void f__167E_01BB_0010_85F6();
 extern void f__2BB4_0004_0027_DC1D();
 
@@ -80,10 +80,7 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 	objectID = script->stack[script->stackPointer];
 	u = Unit_Get_ByMemory(g_global->objectCurrent);
 
-	emu_push(objectID);
-	emu_push(emu_cs); emu_push(0x0217); emu_cs = 0x167E; f__167E_0005_0013_AF0C();
-	emu_sp += 2;
-	if (emu_ax == 0) return 0xFFFF;
+	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
 
 	emu_push(objectID);
 	emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x167E; f__167E_01BB_0010_85F6();

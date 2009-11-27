@@ -162,3 +162,37 @@ void emu_Tools_Index_Encode()
 
 	emu_ax = Tools_Index_Encode(id, type);
 }
+
+/**
+ * Emulator wrapper around Tools_Index_IsValid().
+ *
+ * @name emu_Tools_Index_IsValid
+ * @implements 167E:0005:0013:AF0C ()
+ * @implements 167E:0014:0004:DD39
+ * @implements 167E:0016:0002:F53A
+ * @implements 167E:0018:0005:3FAA
+ * @implements 167E:001D:000A:2A37
+ * @implements 167E:0027:0013:1DDD
+ * @implements 167E:003A:0006:8FC7
+ * @implements 167E:0040:0011:B96B
+ * @implements 167E:0051:0011:16F5
+ * @implements 167E:0062:0002:CCBA
+ * @implements 167E:0064:0006:C09B
+ * @implements 167E:006A:000F:2FDC
+ * @implements 167E:0079:0002:C13A
+ * @implements 167E:007B:0002:C03A
+ * @implements 167E:007D:0005:9FFA
+ * @implements 167E:0082:0006:F7CE
+ */
+void emu_Tools_Index_IsValid()
+{
+	uint16 id;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Tools_Index_IsValid(id) ? 1 : 0;
+}

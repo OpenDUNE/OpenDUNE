@@ -17,6 +17,7 @@ extern uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maxi
 extern IndexType Tools_Index_GetType(uint16 id);
 extern uint16 Tools_Index_Decode(uint16 id);
 extern uint16 Tools_Index_Encode(uint16 id, IndexType type);
+extern bool Tools_Index_IsValid(uint16 id);
 
 
 extern void emu_Tools_AdjustToGameSpeed();
@@ -25,5 +26,6 @@ extern void emu_Tools_Shrd();
 extern void emu_Tools_Index_GetType();
 extern void emu_Tools_Index_Decode();
 extern void emu_Tools_Index_Encode();
+extern void emu_Tools_Index_IsValid();
 
 #endif /* TOOLS_H */

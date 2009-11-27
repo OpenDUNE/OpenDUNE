@@ -80,7 +80,6 @@ extern void f__23E1_0004_0014_2BC0();
 extern void f__2427_0004_003B_B2A9();
 extern void f__2995_0004_001F_FE17();
 extern void f__1FB5_0005_000F_62CC();
-extern void f__167E_0005_0013_AF0C();
 extern void emu_Empty2();
 extern void f__1A34_0005_001F_38E2();
 extern void f__0AEC_0005_0010_9634();

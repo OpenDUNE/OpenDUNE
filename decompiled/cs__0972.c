@@ -931,7 +931,7 @@ l__114F:
 	emu_addw(&emu_bx, emu_ax);
 	emu_di = emu_get_memory16(emu_es, emu_bx, 0x16);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x116F); emu_cs = 0x167E; f__167E_0005_0013_AF0C();
+	emu_push(emu_cs); emu_push(0x116F); emu_cs = 0x167E; emu_Tools_Index_IsValid();
 l__116F:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -1002,7 +1002,7 @@ l__11B9:
 	emu_addw(&emu_bx, emu_ax);
 	emu_si = emu_get_memory16(emu_es, emu_bx, 0x16);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x11D9); emu_cs = 0x167E; f__167E_0005_0013_AF0C();
+	emu_push(emu_cs); emu_push(0x11D9); emu_cs = 0x167E; emu_Tools_Index_IsValid();
 l__11D9:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
