@@ -144,8 +144,8 @@ void GameLoop_House()
 			u = Unit_Get_ByIndex(g_global->scenario.reinforcement[i].unitID);
 
 			/* XXX -- Temporary, to keep all the emu_calls workable for now */
-			ucsip.s.cs = g_global->unitStartPos.s.cs;
-			ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+			ucsip = g_global->unitStartPos;
+			ucsip.s.ip += u->index * sizeof(Unit);
 
 			locationID = g_global->scenario.reinforcement[i].locationID;
 			deployed   = false;
@@ -164,8 +164,8 @@ void GameLoop_House()
 					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, Tile_UnpackTile(emu_ax), 100);
 
 					/* XXX -- Temporary, to keep all the emu_calls workable for now */
-					nucsip.s.cs = g_global->unitStartPos.s.cs;
-					nucsip.s.ip = g_global->unitStartPos.s.ip + nu->index * sizeof(Unit);
+					nucsip = g_global->unitStartPos;
+					nucsip.s.ip += nu->index * sizeof(Unit);
 
 					nu->flags |= 0x0200;
 
@@ -256,8 +256,8 @@ void GameLoop_House()
 		if (h == NULL) break;
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->houseCurrent.s.cs = g_global->houseStartPos.s.cs;
-		g_global->houseCurrent.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+		g_global->houseCurrent = g_global->houseStartPos;
+		g_global->houseCurrent.s.ip += h->index * sizeof(House);
 
 		if (tickHouse) {
 			/* ENHANCEMENT -- Originally this code was outside the house loop, which seems very odd */

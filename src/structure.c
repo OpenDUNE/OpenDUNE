@@ -106,13 +106,13 @@ void GameLoop_Structure()
 		hi = &g_houseInfo[h->index];
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->structureCurrent.s.cs     = g_global->structureStartPos.s.cs;
-		g_global->structureCurrent.s.ip     = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+		g_global->structureCurrent          = g_global->structureStartPos;
+		g_global->structureCurrent.s.ip    += s->index * sizeof(Structure);
 		g_global->objectCurrent             = g_global->structureCurrent;
 		g_global->structureInfoCurrent.s.cs = 0x2C94;
 		g_global->structureInfoCurrent.s.ip = 0xA + s->type * sizeof(StructureInfo);
-		g_global->houseCurrent.s.cs         = g_global->houseStartPos.s.cs;
-		g_global->houseCurrent.s.ip         = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+		g_global->houseCurrent              = g_global->houseStartPos;
+		g_global->houseCurrent.s.ip        += h->index * sizeof(House);
 
 		if (tickPalace && s->type == STRUCTURE_PALACE) {
 			if (s->countDown != 0) {
@@ -472,8 +472,8 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	if (s == NULL) return NULL;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip.s.cs = g_global->structureStartPos.s.cs;
-	scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	scsip = g_global->structureStartPos;
+	scsip.s.ip += s->index * sizeof(Structure);
 
 	s->houseID       = houseID;
 	s->variable_47   = houseID;
@@ -567,8 +567,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	si = &g_structureInfo[s->type];
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip.s.cs = g_global->structureStartPos.s.cs;
-	scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	scsip = g_global->structureStartPos;
+	scsip.s.ip += s->index * sizeof(Structure);
 
 	switch (s->type) {
 		case STRUCTURE_WALL: {
@@ -932,8 +932,8 @@ void Structure_CalculateHitpointsMax(House *h)
 		if (s == NULL) return;
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		scsip.s.cs = g_global->structureStartPos.s.cs;
-		scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+		scsip = g_global->structureStartPos;
+		scsip.s.ip += s->index * sizeof(Structure);
 
 		si = &g_structureInfo[s->type];
 

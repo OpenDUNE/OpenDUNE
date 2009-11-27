@@ -43,10 +43,10 @@ void GameLoop_AirUnit()
 		h = House_Get_ByIndex(a->houseID);
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->airUnitCurrent.s.cs = g_global->airUnitStartPos.s.cs;
-		g_global->airUnitCurrent.s.ip = g_global->airUnitStartPos.s.ip + a->index * sizeof(AirUnit);
-		g_global->houseCurrent.s.cs   = g_global->houseStartPos.s.cs;
-		g_global->houseCurrent.s.ip   = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+		g_global->airUnitCurrent       = g_global->airUnitStartPos;
+		g_global->airUnitCurrent.s.ip += a->index * sizeof(AirUnit);
+		g_global->houseCurrent         = g_global->houseStartPos;
+		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
 		if ((h->flags & 0x0008) == 0) continue;
 

@@ -204,8 +204,8 @@ void emu_Scenario_Load_House(uint8 houseID)
 	h->flags |= 0x0002;
 
 	g_global->playerHouseID       = houseID;
-	g_global->playerHouse.s.cs    = g_global->houseStartPos.s.cs;
-	g_global->playerHouse.s.ip    = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+	g_global->playerHouse         = g_global->houseStartPos;
+	g_global->playerHouse.s.ip   += h->index * sizeof(House);
 	g_global->playerCreditsNoSilo = h->credits;
 }
 

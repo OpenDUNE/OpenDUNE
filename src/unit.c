@@ -113,13 +113,13 @@ void GameLoop_Unit()
 		hi = &g_houseInfo[h->index];
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->unitCurrent.s.cs     = g_global->unitStartPos.s.cs;
-		g_global->unitCurrent.s.ip     = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+		g_global->unitCurrent          = g_global->unitStartPos;
+		g_global->unitCurrent.s.ip    += u->index * sizeof(Unit);
 		g_global->objectCurrent        = g_global->unitCurrent;
 		g_global->unitInfoCurrent.s.cs = 0x2D07;
 		g_global->unitInfoCurrent.s.ip = u->type * sizeof(UnitInfo);
-		g_global->houseCurrent.s.cs    = g_global->houseStartPos.s.cs;
-		g_global->houseCurrent.s.ip    = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+		g_global->houseCurrent         = g_global->houseStartPos;
+		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
 		if ((u->flags & 0x0004) != 0) continue;
 
@@ -462,8 +462,8 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	if (u == NULL) return NULL;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	ucsip = g_global->unitStartPos;
+	ucsip.s.ip += u->index * sizeof(Unit);
 
 	u->houseID = houseID;
 
