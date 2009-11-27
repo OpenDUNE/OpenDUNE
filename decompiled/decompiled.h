@@ -1,5 +1,7 @@
 /* $Id$ */
 
+#define DECOMPILED_INCLUDE
+
 #include "../src/airunit.h"
 #include "../src/global.h"
 #include "../src/house.h"
@@ -20,6 +22,10 @@
 #include "../src/tile.h"
 #include "../src/tools.h"
 #include "../src/unit.h"
+
+
+#undef DECOMPILED_INCLUDE
+
 extern void overlay(uint16 cs, uint8 force);
 extern void f__B518_0000_0025_FC16();
 extern void f__B4C1_0000_0022_1807();

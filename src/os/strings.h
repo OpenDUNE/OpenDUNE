@@ -13,12 +13,12 @@
 	#include <string.h>
 	#define strcasecmp _stricmp
 	#define strncasecmp _strnicmp
-#else /* _MSC_VER */
+#elif !defined(DECOMPILED_INCLUDE) || !defined(__TINYC__)
 	#include <strings.h>
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
 		int __cdecl __MINGW_NOTHROW strcasecmp (const char *, const char *);
 		int __cdecl __MINGW_NOTHROW strncasecmp (const char *, const char *, size_t);
 	#endif /* __MINGW32__ && __STRICT_ANSI__ */
-#endif /* _MSC_VER */
+#endif /* _MSC_VER && (!DECOMPILED_INCLUDE || !__TINYC__) */
 
 #endif /* OS_STRINGS_H */
