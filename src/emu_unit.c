@@ -246,6 +246,8 @@ void emu_Unit_IsTypeOnMap()
  * @implements 176C:0102:0005:85EE
  * @implements 176C:0107:0002:C03A
  * @implements 176C:0109:0002:2597
+ *
+ * @define 15C2:044C:0012:C66D
  */
 void emu_Unit_SetAction()
 {

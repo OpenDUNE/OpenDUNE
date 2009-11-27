@@ -214,7 +214,6 @@ void emu_Script_IsLoaded()
  * @define 16C5:0788:0018:4AA5
  * @define 16C5:09C4:003E:31D6
  * @define 16C5:0A20:003A:2375
- * @define 176C:07E8:0007:C3F1
  * @define 176C:07F1:001D:3E0E
  * @define 176C:0858:0023:E780
  * @define 176C:0882:0014:0C6A
