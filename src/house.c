@@ -165,7 +165,7 @@ void GameLoop_House()
 
 					/* XXX -- Temporary, to keep all the emu_calls workable for now */
 					nucsip.s.cs = g_global->unitStartPos.s.cs;
-					nucsip.s.ip = g_global->unitStartPos.s.ip + nu->index * sizeof(u);
+					nucsip.s.ip = g_global->unitStartPos.s.ip + nu->index * sizeof(Unit);
 
 					nu->flags |= 0x0200;
 
