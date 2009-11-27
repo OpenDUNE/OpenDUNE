@@ -229,3 +229,41 @@ void emu_Unit_IsTypeOnMap()
 
 	emu_ax = Unit_IsTypeOnMap(houseID, typeID) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Unit_SetAction().
+ *
+ * @name emu_Unit_SetAction
+ * @implements 176C:000E:000E:633D ()
+ * @implements 176C:001C:001D:EB93
+ * @implements 176C:0036:0003:1D14
+ * @implements 176C:0039:0025:526C
+ * @implements 176C:005E:0003:9D09
+ * @implements 176C:0061:001A:F455
+ * @implements 176C:007B:003E:BA74
+ * @implements 176C:00B9:0025:6898
+ * @implements 176C:00DE:0002:D13A
+ * @implements 176C:00E0:0022:7D65
+ * @implements 176C:0102:0005:85EE
+ * @implements 176C:0107:0002:C03A
+ * @implements 176C:0109:0002:2597
+ */
+void emu_Unit_SetAction()
+{
+	csip32 address;
+	Unit *u;
+	ActionType action;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	address.s.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	address.s.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	action =       emu_get_memory16(emu_ss, emu_sp,  0x4);
+
+	if (address.csip == 0x0) return;
+
+	u = Unit_Get_ByMemory(address);
+	Unit_SetAction(u, action);
+}

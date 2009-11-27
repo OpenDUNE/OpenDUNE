@@ -120,7 +120,6 @@ extern void emu_String_Load();
 extern void f__25C4_000E_0019_12FF();
 extern void f__2B1E_000E_003E_B647();
 extern void f__151A_000E_0013_5840();
-extern void f__176C_000E_000E_633D();
 extern void f__1DD7_000E_001C_4593();
 extern void f__2BEE_000E_0009_8881();
 extern void f__2B6C_000E_0045_C1FE();

@@ -604,7 +604,7 @@ l__03DC:
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38F4));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38F2));
-	emu_push(emu_cs); emu_push(0x03EF); emu_cs = 0x176C; f__176C_000E_000E_633D();
+	emu_push(emu_cs); emu_push(0x03EF); emu_cs = 0x176C; emu_Unit_SetAction();
 l__03EF:
 	emu_addw(&emu_sp, 0x6);
 	emu_ax = emu_si;

@@ -109,11 +109,11 @@ typedef struct Unit {
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
 	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
-	/* 0047()    */ PACK uint8   unknown_0046[0x0002];
+	/* 0047()    */ PACK uint8   unknown_0047[0x0002];
 	/* 0049(4)   */ PACK tile32 variable_49;                /*!< ?? */
 	/* 004D(2)   */ PACK uint16 variable_4D;                /*!< ?? */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
-	/* 0050(1)   */ PACK  int8  variable_50;                /*!< ?? */
+	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
@@ -157,7 +157,7 @@ typedef struct UnitInfo {
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];
-	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */
+	/* 0028(2)   */ PACK uint16 actionPlayer;               /*!< Default action for player units. */
 	/* 002A()    */ PACK uint8   unknown_002A[0x0008];
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
@@ -166,7 +166,7 @@ typedef struct UnitInfo {
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040()    */ PACK uint8   unknown_0040[0x0008];
-	/* 0048(2)   */ PACK uint16 variable_48;                /*!< ?? */
+	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
 	/* 004A()    */ PACK uint8   unknown_004A[0x0010];
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
@@ -179,7 +179,8 @@ MSVC_PACKED_BEGIN
 typedef struct ActionInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
-	/* 0006()    */ PACK uint8   unknown_0006[0x0006];
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
+	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
 } GCC_PACKED ActionInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ActionInfo) == 0x0C);
@@ -195,11 +196,13 @@ extern uint8 Unit_TeamActionStringToType(const char *name);
 extern uint8 Unit_MovementStringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 unknown);
 extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
+extern void Unit_SetAction(Unit *u, ActionType action);
 
 
 extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
 extern void emu_Unit_Create();
 extern void emu_Unit_IsTypeOnMap();
+extern void emu_Unit_SetAction();
 
 #endif /* UNIT_H */

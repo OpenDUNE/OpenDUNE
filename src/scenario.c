@@ -281,7 +281,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	u->position    = position;
 	u->variable_64 = variable_64;
 	u->actionID    = actionType;
-	u->variable_50 = -1;
+	u->nextActionID = ACTION_INVALID;
 
 	emu_push(Tile_PackTile(u->position));
 	emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
@@ -301,12 +301,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 		return;
 	}
 
-	emu_push(u->actionID);
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-	emu_push(emu_cs); emu_push(0x05B5); emu_cs = 0x176C; f__176C_000E_000E_633D();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 6;
+	Unit_SetAction(u, u->actionID);
 
 	u->variable_09 = 0x00;
 

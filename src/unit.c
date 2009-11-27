@@ -18,9 +18,9 @@
 extern void emu_Unit_FindStructure();
 extern void f__07D4_196B_0073_56C1();
 extern void f__0F3F_0125_000D_4868();
+extern void f__15C2_044C_0012_C66D();
 extern void f__167E_01BB_0010_85F6();
 extern void f__167E_0284_000C_4C88();
-extern void f__176C_000E_000E_633D();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_193F_0013_FA4D();
 extern void f__1A34_1E99_0012_1117();
@@ -338,15 +338,11 @@ void GameLoop_Unit()
 			}
 		}
 
-		if (u->variable_50 == -1) continue;
+		if (u->nextActionID == ACTION_INVALID) continue;
 		if (u->variable_49.tile != 0) continue;
 
-		emu_push(u->variable_50);
-		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-		emu_push(emu_cs); emu_push(0x07B7); emu_cs = 0x176C; f__176C_000E_000E_633D();
-		emu_sp += 6;
-
-		u->variable_50 = -1;
+		Unit_SetAction(u, u->nextActionID);
+		u->nextActionID = ACTION_INVALID;
 	}
 }
 
@@ -532,7 +528,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->linkedID     = 0xFF;
 	u->scriptDelay  = 0;
 	u->actionID     = ACTION_GUARD;
-	u->variable_50  = -1;
+	u->nextActionID  = ACTION_INVALID;
 	u->variable_51  = 0x00;
 	u->variable_52  = 0x7FFF;
 	u->variable_56  = 0x0000;
@@ -582,14 +578,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	emu_push(emu_cs); emu_push(0x0B26); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	if (houseID == g_global->playerHouseID) {
-		emu_push(ui->variable_28);
-	} else {
-		emu_push(ui->variable_48);
-	}
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0B4D); emu_cs = 0x176C; f__176C_000E_000E_633D();
-	emu_sp += 6;
+	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->actionPlayer : ui->actionAI);
 
 	return u;
 }
@@ -616,4 +605,49 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 		return true;
 	}
 	return false;
+}
+
+/**
+ * Sets the action the given unit will execute.
+ *
+ * @param u The Unit to set the action for.
+ * @param action The action.
+ */
+void Unit_SetAction(Unit *u, ActionType action)
+{
+	ActionInfo *ai;
+
+	if (u == NULL) return;
+	if (u->actionID == ACTION_DESTRUCT || u->actionID == ACTION_DIE || action == ACTION_INVALID) return;
+
+	ai = &g_actionInfo[action];
+
+	switch (ai->variable_06) {
+		case 0:
+			if (u->variable_49.tile != 0) {
+				u->nextActionID = action;
+				return;
+			}
+			/* FALL-THROUGH */
+		case 1:
+			u->actionID = action;
+			u->nextActionID = ACTION_INVALID;
+			u->variable_49.tile = 0;
+			u->scriptDelay = 0;
+			Script_Reset(&u->script, &g_global->scriptUnit);
+			u->script.variables[0] = action;
+			Script_Load(&u->script, u->type);
+			return;
+
+		case 2:
+			u->script.variables[0] = action;
+
+			emu_push(u->type);
+			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit) + 0x12); /* u->script */
+			emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x15C2; f__15C2_044C_0012_C66D();
+			emu_sp += 6;
+			return;
+
+		default: return;
+	}
 }
