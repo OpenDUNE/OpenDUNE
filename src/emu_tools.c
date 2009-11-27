@@ -99,15 +99,15 @@ void emu_Tools_Shrd()
  */
 void emu_Tools_Index_GetType()
 {
-	uint16 id;
+	uint16 encoded;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	emu_ax = Tools_Index_GetType(id);
+	emu_ax = Tools_Index_GetType(encoded);
 }
 
 /**
@@ -121,15 +121,15 @@ void emu_Tools_Index_GetType()
  */
 void emu_Tools_Index_Decode()
 {
-	uint16 id;
+	uint16 encoded;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	emu_ax = Tools_Index_Decode(id);
+	emu_ax = Tools_Index_Decode(encoded);
 }
 
 /**
@@ -150,17 +150,17 @@ void emu_Tools_Index_Decode()
  */
 void emu_Tools_Index_Encode()
 {
-	uint16 id;
+	uint16 index;
 	uint16 type;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	id   = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	type = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	type  = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
-	emu_ax = Tools_Index_Encode(id, type);
+	emu_ax = Tools_Index_Encode(index, type);
 }
 
 /**
@@ -186,13 +186,42 @@ void emu_Tools_Index_Encode()
  */
 void emu_Tools_Index_IsValid()
 {
-	uint16 id;
+	uint16 encoded;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	id = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	emu_ax = Tools_Index_IsValid(id) ? 1 : 0;
+	emu_ax = Tools_Index_IsValid(encoded) ? 1 : 0;
+}
+
+/**
+ * Emulator wrapper around Tools_Index_GetPackedTile().
+ *
+ * @name emu_Tools_Index_GetPackedTile
+ * @implements 167E:0162:000D:A6D2 ()
+ * @implements 167E:016F:0008:5829
+ * @implements 167E:0177:0012:EE2A
+ * @implements 167E:0189:0004:7DF2
+ * @implements 167E:018B:0002:D53A
+ * @implements 167E:018D:0006:8BC7
+ * @implements 167E:0193:0002:C33A
+ * @implements 167E:0195:0006:C49B
+ * @implements 167E:019B:0012:B212
+ * @implements 167E:01AD:0004:361F
+ * @implements 167E:01B7:0004:DE52
+ */
+void emu_Tools_Index_GetPackedTile()
+{
+	uint16 encoded;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Tools_Index_GetPackedTile(encoded);
 }

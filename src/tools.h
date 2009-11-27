@@ -14,10 +14,11 @@ typedef enum IndexType {
 } IndexType;
 
 extern uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed);
-extern IndexType Tools_Index_GetType(uint16 id);
-extern uint16 Tools_Index_Decode(uint16 id);
-extern uint16 Tools_Index_Encode(uint16 id, IndexType type);
-extern bool Tools_Index_IsValid(uint16 id);
+extern IndexType Tools_Index_GetType(uint16 encoded);
+extern uint16 Tools_Index_Decode(uint16 encoded);
+extern uint16 Tools_Index_Encode(uint16 index, IndexType type);
+extern bool Tools_Index_IsValid(uint16 encoded);
+extern uint16 Tools_Index_GetPackedTile(uint16 encoded);
 
 
 extern void emu_Tools_AdjustToGameSpeed();
@@ -27,5 +28,6 @@ extern void emu_Tools_Index_GetType();
 extern void emu_Tools_Index_Decode();
 extern void emu_Tools_Index_Encode();
 extern void emu_Tools_Index_IsValid();
+extern void emu_Tools_Index_GetPackedTile();
 
 #endif /* TOOLS_H */

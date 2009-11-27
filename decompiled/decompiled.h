@@ -225,7 +225,6 @@ extern void emu_Math_ValueToPercent();
 extern void f__B483_0156_0019_AEFE();
 extern void f__01F7_0157_0010_1227();
 extern void f__2903_0158_001A_2931();
-extern void f__167E_0162_000D_A6D2();
 extern void f__2502_0165_0027_41E7();
 extern void f__0C10_0168_0014_CEB0();
 extern void f__0F3F_0168_0010_C9EF();

@@ -36,14 +36,14 @@ uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bo
 }
 
 /**
- * Get the type of the given encoded Index.
+ * Get the type of the given encoded index.
  *
- * @param id The encoded Index to get the type of.
+ * @param id The encoded index to get the type of.
  * @return The type
  */
-IndexType Tools_Index_GetType(uint16 id)
+IndexType Tools_Index_GetType(uint16 encoded)
 {
-	switch(id & 0xC000) {
+	switch(encoded & 0xC000) {
 		case 0x4000: return IT_UNIT;
 		case 0x8000: return IT_STRUCTURE;
 		case 0xC000: return IT_TILE;
@@ -52,58 +52,58 @@ IndexType Tools_Index_GetType(uint16 id)
 }
 
 /**
- * Decode the given encoded Index.
+ * Decode the given encoded index.
  *
- * @param id The Index to decode.
- * @return The decoded Index.
+ * @param id The encoded index to decode.
+ * @return The decoded index.
  */
-uint16 Tools_Index_Decode(uint16 id)
+uint16 Tools_Index_Decode(uint16 encoded)
 {
-	if (Tools_Index_GetType(id) == IT_TILE) return Tile_PackXY((id >> 1) & 0x3F, (id >> 8) & 0x3F);
-	return id & 0x3FFF;
+	if (Tools_Index_GetType(encoded) == IT_TILE) return Tile_PackXY((encoded >> 1) & 0x3F, (encoded >> 8) & 0x3F);
+	return encoded & 0x3FFF;
 }
 
 /**
- * Encode the given Index.
+ * Encode the given index.
  *
- * @param id The Index to encode.
+ * @param id The index to encode.
  * @param type The type of the encoded Index.
  * @return The encoded Index.
  */
-uint16 Tools_Index_Encode(uint16 id, IndexType type)
+uint16 Tools_Index_Encode(uint16 index, IndexType type)
 {
 	switch (type) {
 		case IT_TILE: {
 			uint16 ret;
 
-			ret  = ((Tile_GetPackedX(id) << 1) + 1) << 0;
-			ret |= ((Tile_GetPackedY(id) << 1) + 1) << 7;
+			ret  = ((Tile_GetPackedX(index) << 1) + 1) << 0;
+			ret |= ((Tile_GetPackedY(index) << 1) + 1) << 7;
 			return ret | 0xC000;
 		}
 		case IT_UNIT: {
-			if ((Unit_Get_ByIndex(id)->flags & 0x0002) == 0) return 0;
-			return id | 0x4000;
+			if (index >= UNIT_INDEX_MAX || (Unit_Get_ByIndex(index)->flags & 0x0002) == 0) return 0;
+			return index | 0x4000;
 		}
-		case IT_STRUCTURE:  return id | 0x8000;
+		case IT_STRUCTURE:  return index | 0x8000;
 		default: return 0;
 	}
 }
 
 /**
- * Check whether an Index is valid.
+ * Check whether an encoded index is valid.
  *
- * @param id The Index to check for validity.
+ * @param id The encoded index to check for validity.
  * @return True if valid, false if not.
  */
-bool Tools_Index_IsValid(uint16 id)
+bool Tools_Index_IsValid(uint16 encoded)
 {
 	uint16 index;
 
-	if (id == 0) return false;
+	if (encoded == 0) return false;
 
-	index = Tools_Index_Decode(id);
+	index = Tools_Index_Decode(encoded);
 
-	switch (Tools_Index_GetType(id)) {
+	switch (Tools_Index_GetType(encoded)) {
 		case IT_UNIT:
 			if (index >= UNIT_INDEX_MAX) return false;
 			return (Unit_Get_ByIndex(index)->flags & 0x0003) == 0x0003;
@@ -115,5 +115,25 @@ bool Tools_Index_IsValid(uint16 id)
 		case IT_TILE : return true;
 
 		default: return false;
+	}
+}
+
+/**
+ * Gets the packed tile corresponding to the given encoded index.
+ *
+ * @param id The encoded index to get the packed tile of.
+ * @return The packed tile.
+ */
+uint16 Tools_Index_GetPackedTile(uint16 encoded)
+{
+	uint16 index;
+
+	index = Tools_Index_Decode(encoded);
+
+	switch (Tools_Index_GetType(encoded)) {
+		case IT_TILE:      return index;
+		case IT_UNIT:      return (index < UNIT_INDEX_MAX) ? Tile_PackTile(Unit_Get_ByIndex(index)->position) : 0;
+		case IT_STRUCTURE: return (index < STRUCTURE_INDEX_MAX_HARD) ? Tile_PackTile(Structure_Get_ByIndex(index)->position) : 0;
+		default:           return 0;
 	}
 }
