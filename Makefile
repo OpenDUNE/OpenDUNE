@@ -41,10 +41,10 @@ LIBS := $(LIBS) -lSDL
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label
-#CFLAGS := $(CFLAGS) -ansi -pedantic
+CFLAGS := $(CFLAGS) -ansi -pedantic
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
 #  currently having. When all those cases are resolved, this can be removed.
-#CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
+CFLAGS := $(CFLAGS) -O1 -foptimize-sibling-calls
 LDFLAGS := $(LDFLAGS) -g
 
 HEADER := $(shell ls decompiled/*.h src/*.h src/*/*.h include/*.h 2>/dev/null)
