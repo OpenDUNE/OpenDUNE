@@ -94,3 +94,18 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 
 	return Tile_GetDistance(u->position, tile);
 }
+
+/**
+ * Do nothing. This function has absolutely no functionality other than
+ *  returning the value 0.
+ *
+ * Stack: *none*
+ *
+ * @param script The script engine to operate on
+ * @return The value 0. Always.
+ */
+uint16 Script_General_NoOperation(ScriptEngine *script)
+{
+	VARIABLE_NOT_USED(script);
+	return 0;
+}

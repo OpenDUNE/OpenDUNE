@@ -530,7 +530,6 @@ extern void emu_Tools_Var79E4_Init();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__B4FC_07E2_0012_911F();
 extern void emu_Tools_Var79E4_Update();
-extern void f__176C_07E8_0007_C3F1();
 extern void f__176C_07F1_001D_3E0E();
 extern void emu_Structure_RemoveFogAroundTile();
 extern void f__29E8_07FA_0020_177A();

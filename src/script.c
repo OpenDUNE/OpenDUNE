@@ -44,7 +44,6 @@ extern void f__16C5_06C6_001D_94A6();
 extern void f__16C5_0788_0018_4AA5();
 extern void f__16C5_09C4_003E_31D6();
 extern void f__16C5_0A20_003A_2375();
-extern void f__176C_07E8_0007_C3F1();
 extern void f__176C_07F1_001D_3E0E();
 extern void f__176C_0858_0023_E780();
 extern void f__176C_0882_0014_0C6A();
@@ -146,7 +145,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 12 */ &f__176C_13CD_0014_7309,
 	/* 13 */ &f__176C_105E_0031_8B3F,
 	/* 14 */ &f__176C_0882_0014_0C6A,
-	/* 15 */ &f__176C_07E8_0007_C3F1,
+	/* 15 */ NULL,
 	/* 16 */ &f__176C_1098_0021_667D,
 	/* 17 */ &f__0EDB_0145_002F_C125,
 	/* 18 */ &f__0EDB_0594_0026_F09C,
@@ -168,7 +167,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 28 */ &f__176C_26CD_0010_041C,
 	/* 29 */ &f__0EDB_0456_0032_B7E5,
 	/* 2A */ &f__176C_26E5_0013_FF24,
-	/* 2B */ &f__176C_07E8_0007_C3F1,
+	/* 2B */ NULL,
 	/* 2C */ &f__0EDB_03EC_0020_629E,
 	/* 2D */ &f__0EDB_03B9_001D_2E46,
 	/* 2E */ &f__0EDB_0386_001D_2E46,
@@ -177,18 +176,18 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 31 */ &f__176C_291A_0010_8A93,
 	/* 32 */ &f__0EDB_032B_0031_E91B,
 	/* 33 */ &f__176C_29A9_003A_8DEF,
-	/* 34 */ &f__176C_07E8_0007_C3F1,
-	/* 35 */ &f__176C_07E8_0007_C3F1,
+	/* 34 */ NULL,
+	/* 35 */ NULL,
 	/* 36 */ &f__176C_2B97_0013_B226,
 	/* 37 */ &f__176C_2BD5_0014_2C56,
 	/* 38 */ &f__0EDB_02EA_001E_F83C,
-	/* 39 */ &f__176C_07E8_0007_C3F1,
+	/* 39 */ NULL,
 	/* 3A */ &f__176C_1B45_0022_208C,
 	/* 3B */ &f__0EDB_0288_0020_3D83,
 	/* 3C */ NULL,
 	/* 3D */ &f__176C_196C_0027_D87A,
 	/* 3E */ &f__0EDB_024B_001D_2E46,
-	/* 3F */ &f__176C_07E8_0007_C3F1,
+	/* 3F */ NULL,
 };
 
 /**
@@ -217,7 +216,7 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = 
  */
 ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ &Script_General_Delay,
-	/* 01 */ &Script_Structure_NoOperation,
+	/* 01 */ &Script_General_NoOperation,
 	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ &Script_Structure_SetAnimation,
@@ -228,19 +227,19 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 09 */ NULL,
 	/* 0A */ NULL,
 	/* 0B */ NULL,
-	/* 0C */ &Script_Structure_NoOperation,
+	/* 0C */ &Script_General_NoOperation,
 	/* 0D */ &Script_Structure_GetAnimation,
 	/* 0E */ NULL,
 	/* 0F */ &Script_Structure_RemoveFogAroundTile,
-	/* 10 */ &Script_Structure_NoOperation,
-	/* 11 */ &Script_Structure_NoOperation,
-	/* 12 */ &Script_Structure_NoOperation,
-	/* 13 */ &Script_Structure_NoOperation,
-	/* 14 */ &Script_Structure_NoOperation,
+	/* 10 */ &Script_General_NoOperation,
+	/* 11 */ &Script_General_NoOperation,
+	/* 12 */ &Script_General_NoOperation,
+	/* 13 */ &Script_General_NoOperation,
+	/* 14 */ &Script_General_NoOperation,
 	/* 15 */ &Script_Structure_RefineSpice,
 	/* 16 */ NULL,
 	/* 17 */ NULL,
-	/* 18 */ &Script_Structure_NoOperation,
+	/* 18 */ &Script_General_NoOperation,
 };
 
 /**
@@ -268,7 +267,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 12 */ NULL,
 	/* 13 */ NULL,
 	/* 14 */ NULL,
-	/* 15 */ NULL,
+	/* 15 */ &Script_General_NoOperation,
 	/* 16 */ NULL,
 	/* 17 */ NULL,
 	/* 18 */ NULL,
@@ -290,7 +289,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 28 */ NULL,
 	/* 29 */ NULL,
 	/* 2A */ NULL,
-	/* 2B */ NULL,
+	/* 2B */ &Script_General_NoOperation,
 	/* 2C */ NULL,
 	/* 2D */ NULL,
 	/* 2E */ NULL,
@@ -299,18 +298,18 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 31 */ NULL,
 	/* 32 */ NULL,
 	/* 33 */ NULL,
-	/* 34 */ NULL,
-	/* 35 */ NULL,
+	/* 34 */ &Script_General_NoOperation,
+	/* 35 */ &Script_General_NoOperation,
 	/* 36 */ NULL,
 	/* 37 */ NULL,
 	/* 38 */ NULL,
-	/* 39 */ NULL,
+	/* 39 */ &Script_General_NoOperation,
 	/* 3A */ NULL,
 	/* 3B */ NULL,
 	/* 3C */ &Script_General_DelayRandom,
 	/* 3D */ NULL,
 	/* 3E */ NULL,
-	/* 3F */ NULL,
+	/* 3F */ &Script_General_NoOperation,
 };
 
 /**
