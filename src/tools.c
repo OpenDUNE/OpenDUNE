@@ -185,3 +185,19 @@ Unit *Tools_Index_GetUnit(uint16 encoded)
 	index = Tools_Index_Decode(encoded);
 	return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index) : NULL;
 }
+
+/**
+ * Gets the Structure corresponding to the given encoded index.
+ *
+ * @param id The encoded index to get the Structure of.
+ * @return The Structure.
+ */
+Structure *Tools_Index_GetStructure(uint16 encoded)
+{
+	uint16 index;
+
+	if (Tools_Index_GetType(encoded) != IT_STRUCTURE) return NULL;
+
+	index = Tools_Index_Decode(encoded);
+	return (index < STRUCTURE_INDEX_MAX_HARD) ? Structure_Get_ByIndex(index) : NULL;
+}

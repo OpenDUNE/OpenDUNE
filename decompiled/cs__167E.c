@@ -5,71 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__167E_02AE_000C_CC85()
- *
- * @name f__167E_02AE_000C_CC85
- * @implements 167E:02AE:000C:CC85 ()
- * @implements 167E:02BA:000B:92AC
- * @implements 167E:02C5:0007:DC29
- * @implements 167E:02CC:0003:C81A
- * @implements 167E:02CD:0002:C33A
- * @implements 167E:02CF:0006:5EA9
- * @implements 167E:02D5:0003:2E57
- *
- * Called From: 0C10:020D:0006:3784
- * Called From: 0C10:0218:000B:6134
- * Called From: 0EDB:02A3:0020:3D83
- * Called From: 0EDB:056A:0006:3784
- * Called From: 167E:0326:0010:B56F
- * Called From: 176C:082F:0006:3784
- * Called From: 176C:08C4:000D:F112
- * Called From: 176C:0C13:000D:F112
- * Called From: 176C:1AD4:0016:C3C3
- * Called From: 176C:2184:001C:0800
- * Called From: 1A34:1C0D:0006:3784
- * Called From: 1A34:1C0D:000A:2B08
- * Called From: 1A34:28C7:0016:FFBA
- */
-void f__167E_02AE_000C_CC85()
-{
-l__02AE:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_push(emu_si);
-	emu_push(emu_cs);
-	emu_push(0x02BA); emu_Tools_Index_GetType();
-l__02BA:
-	emu_pop(&emu_cx);
-	emu_cmpw(&emu_ax, 0x3);
-	if (emu_ax != 0x3) goto l__02CF;
-	emu_push(emu_si);
-	emu_push(emu_cs);
-	emu_push(0x02C5); emu_Tools_Index_Decode();
-l__02C5:
-	emu_pop(&emu_cx);
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x1082; emu_Structure_Get_ByIndex();
-l__02CC:
-	emu_pop(&emu_cx);
-l__02CD:
-	goto l__02D5;
-l__02CF:
-	emu_xorw(&emu_dx, emu_dx);
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__02CD;
-l__02D5:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__167E_02D8_000C_4C9F()
  *
  * @name f__167E_02D8_000C_4C9F
@@ -177,7 +112,7 @@ l__0319:
 	emu_di = emu_get_memory16(emu_ss, emu_bp,  0xA);
 	emu_push(emu_di);
 	emu_push(emu_cs);
-	emu_push(0x0329); f__167E_02AE_000C_CC85();
+	emu_push(0x0329); emu_Tools_Index_GetStructure();
 l__0329:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

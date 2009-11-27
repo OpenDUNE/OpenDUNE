@@ -4,6 +4,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "structure.h"
 #include "tools.h"
 #include "unit.h"
 
@@ -295,4 +296,37 @@ void emu_Tools_Index_GetUnit()
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+}
+
+/**
+ * Emulator wrapper around Tools_Index_GetStructure().
+ *
+ * @name emu_Tools_Index_GetStructure
+ * @implements 167E:02AE:000C:CC85 ()
+ * @implements 167E:02BA:000B:92AC
+ * @implements 167E:02C5:0007:DC29
+ * @implements 167E:02CC:0003:C81A
+ * @implements 167E:02CD:0002:C33A
+ * @implements 167E:02CF:0006:5EA9
+ * @implements 167E:02D5:0003:2E57
+ */
+void emu_Tools_Index_GetStructure()
+{
+	uint16 encoded;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = 0;
+	emu_dx = 0;
+
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	s = Tools_Index_GetStructure(encoded);
+
+	if (s == NULL) return;
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
 }
