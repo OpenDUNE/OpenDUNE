@@ -130,7 +130,7 @@ void emu_Unit_Free()
 
 	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	if (ucsip.csip == 0) return;
+	if (ucsip.csip == 0x0) return;
 	u = Unit_Get_ByMemory(ucsip);
 
 	Unit_Free(u);

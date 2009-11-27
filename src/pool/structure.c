@@ -53,7 +53,7 @@ Structure *Structure_Find(PoolFindStruct *find)
 	for (; find->index < g_global->structureCount; find->index++) {
 		csip32 pos = g_global->structureArray[find->index];
 		Structure *s;
-		if (pos.csip == 0x00000000) continue;
+		if (pos.csip == 0x0) continue;
 
 		s = Structure_Get_ByMemory(pos);
 
@@ -108,7 +108,8 @@ void Structure_Recount()
 		Structure *s = Structure_Get_ByIndex(index);
 		if ((s->flags & 0x0001) == 0) continue;
 
-		g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
+		g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
+		g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
 		g_global->structureCount++;
 	}
 }
@@ -167,7 +168,8 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 	s->variable_06 = 0x0000;
 	s->scriptDelay = 0;
 
-	g_global->structureArray[g_global->structureCount].csip = g_global->structureStartPos.csip + index * sizeof(Structure);
+	g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
+	g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
 	g_global->structureCount++;
 
 	return s;
@@ -184,8 +186,8 @@ void Structure_Free(Structure *s)
 	int i;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip.s.cs = g_global->structureStartPos.s.cs;
-	scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	scsip = g_global->structureStartPos;
+	scsip.s.ip += s->index * sizeof(Structure);
 
 	s->flags = 0x0000;
 

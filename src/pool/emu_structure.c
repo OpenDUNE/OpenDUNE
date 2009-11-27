@@ -79,7 +79,7 @@ void emu_Structure_Free()
 
 	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	if (scsip.csip == 0) return;
+	if (scsip.csip == 0x0) return;
 	s = Structure_Get_ByMemory(scsip);
 
 	Structure_Free(s);

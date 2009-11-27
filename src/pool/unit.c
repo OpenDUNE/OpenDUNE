@@ -53,7 +53,7 @@ Unit *Unit_Find(PoolFindStruct *find)
 	for (; find->index < g_global->unitCount; find->index++) {
 		csip32 pos = g_global->unitArray[find->index];
 		Unit *u;
-		if (pos.csip == 0x00000000) continue;
+		if (pos.csip == 0x0) continue;
 
 		u = Unit_Get_ByMemory(pos);
 
@@ -111,7 +111,8 @@ void Unit_Recount()
 		h = House_Get_ByIndex(u->houseID);
 		h->unitCount++;
 
-		g_global->unitArray[g_global->unitCount].csip = g_global->unitStartPos.csip + index * sizeof(Unit);
+		g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
+		g_global->unitArray[g_global->unitCount].s.ip += index * sizeof(Unit);
 		g_global->unitCount++;
 	}
 }
@@ -168,7 +169,8 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	u->variable_72 = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
-	g_global->unitArray[g_global->unitCount].csip = g_global->unitStartPos.csip + index * sizeof(Unit);
+	g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
+	g_global->unitArray[g_global->unitCount].s.ip += index * sizeof(Unit);
 	g_global->unitCount++;
 
 	return u;
@@ -185,8 +187,8 @@ void Unit_Free(Unit *u)
 	int i;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	ucsip = g_global->unitStartPos;
+	ucsip.s.ip += u->index * sizeof(Unit);
 
 	u->flags = 0x0000;
 

@@ -52,7 +52,7 @@ House *House_Find(PoolFindStruct *find)
 	for (; find->index < g_global->houseCount; find->index++) {
 		csip32 pos = g_global->houseArray[find->index];
 		House *h;
-		if (pos.csip == 0x00000000) continue;
+		if (pos.csip == 0x0) continue;
 
 		h = House_Get_ByMemory(pos);
 		return h;
@@ -103,7 +103,8 @@ House* House_Allocate(uint8 index)
 	h->flags            = 0x0001;
 	h->starportLinkedID = UNIT_INDEX_INVALID;
 
-	g_global->houseArray[g_global->houseCount].csip = g_global->houseStartPos.csip + index * sizeof(House);
+	g_global->houseArray[g_global->houseCount] = g_global->houseStartPos;
+	g_global->houseArray[g_global->houseCount].s.ip += index * sizeof(House);
 	g_global->houseCount++;
 
 	return h;
@@ -120,8 +121,8 @@ void House_Free(House *h)
 	int i;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	hcsip.s.cs = g_global->houseStartPos.s.cs;
-	hcsip.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+	hcsip = g_global->houseStartPos;
+	hcsip.s.ip += h->index * sizeof(House);
 
 	/* Walk the array to find the House we are removing */
 	for (i = 0; i < g_global->houseCount; i++) {

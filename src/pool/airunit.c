@@ -51,7 +51,7 @@ AirUnit *AirUnit_Find(PoolFindStruct *find)
 	for (; find->index < g_global->airUnitCount; find->index++) {
 		csip32 pos = g_global->airUnitArray[find->index];
 		AirUnit *au;
-		if (pos.csip == 0x00000000) continue;
+		if (pos.csip == 0x0) continue;
 
 		au = AirUnit_Get_ByMemory(pos);
 
@@ -96,7 +96,8 @@ void AirUnit_Recount()
 		AirUnit *au = AirUnit_Get_ByIndex(index);
 		if (au->flags == 0) continue;
 
-		g_global->airUnitArray[g_global->airUnitCount].csip = g_global->airUnitStartPos.csip + index * sizeof(AirUnit);
+		g_global->airUnitArray[g_global->airUnitCount] = g_global->airUnitStartPos;
+		g_global->airUnitArray[g_global->airUnitCount].s.ip += index * sizeof(AirUnit);
 		g_global->airUnitCount++;
 	}
 }
@@ -131,7 +132,8 @@ AirUnit *AirUnit_Allocate(uint16 index)
 	au->index       = index;
 	au->flags = 0x0001;
 
-	g_global->airUnitArray[g_global->airUnitCount].csip = g_global->airUnitStartPos.csip + index * sizeof(AirUnit);
+	g_global->airUnitArray[g_global->airUnitCount] = g_global->airUnitStartPos;
+	g_global->airUnitArray[g_global->airUnitCount].s.ip += index * sizeof(AirUnit);
 	g_global->airUnitCount++;
 
 	return au;
@@ -148,8 +150,8 @@ void AirUnit_Free(AirUnit *au)
 	int i;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	aucsip.s.cs = g_global->airUnitStartPos.s.cs;
-	aucsip.s.ip = g_global->airUnitStartPos.s.ip + au->index * sizeof(AirUnit);
+	aucsip = g_global->airUnitStartPos;
+	aucsip.s.ip += au->index * sizeof(AirUnit);
 
 	au->flags = 0x0000;
 
