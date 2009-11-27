@@ -126,7 +126,7 @@ void emu_GameLoop_Unit()
  */
 void emu_Unit_GetHouseID()
 {
-	csip32 address;
+	csip32 ucsip;
 	Unit *u;
 
 	/* Pop the return CS:IP. */
@@ -135,12 +135,11 @@ void emu_Unit_GetHouseID()
 
 	emu_ax = HOUSE_INVALID;
 
-	address.s.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	address.s.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	if (address.csip == 0x0) return;
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
 
-	u = Unit_Get_ByMemory(address);
 	emu_ax = Unit_GetHouseID(u);
 }
 
@@ -191,11 +190,11 @@ void emu_Unit_Create()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index    =        emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
-	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
-	position =        emu_get_tile32  (emu_ss, emu_sp,  0x6);
-	unknown  =        emu_get_memory16(emu_ss, emu_sp,  0xA);
+	index    =        emu_get_memory16(emu_ss, emu_sp, 0x0);
+	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
+	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
+	position =        emu_get_tile32  (emu_ss, emu_sp, 0x6);
+	unknown  =        emu_get_memory16(emu_ss, emu_sp, 0xA);
 
 	u = Unit_Create(index, typeID, houseID, position, unknown);
 
@@ -224,8 +223,8 @@ void emu_Unit_IsTypeOnMap()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
+	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = Unit_IsTypeOnMap(houseID, typeID) ? 1 : 0;
 }
@@ -250,7 +249,7 @@ void emu_Unit_IsTypeOnMap()
  */
 void emu_Unit_SetAction()
 {
-	csip32 address;
+	csip32 ucsip;
 	Unit *u;
 	ActionType action;
 
@@ -258,12 +257,11 @@ void emu_Unit_SetAction()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	address.s.ip = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	address.s.cs = emu_get_memory16(emu_ss, emu_sp,  0x2);
-	action =       emu_get_memory16(emu_ss, emu_sp,  0x4);
+	ucsip  = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	action = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
-	if (address.csip == 0x0) return;
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
 
-	u = Unit_Get_ByMemory(address);
 	Unit_SetAction(u, action);
 }

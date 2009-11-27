@@ -26,15 +26,15 @@
  */
 void emu_House_Init()
 {
-	csip32 address;
+	csip32 hcsip;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	address = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	hcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	House_Init(address);
+	House_Init(hcsip);
 
 	emu_dx = 0;
 	emu_ax = sizeof(House) * HOUSE_INDEX_MAX;
@@ -60,7 +60,7 @@ void emu_House_Allocate()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	h = House_Allocate(index);
 
@@ -91,7 +91,7 @@ void emu_House_Get_ByIndex()
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	index = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x0);
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	if (index >= HOUSE_INDEX_MAX) return;
 	{
@@ -124,10 +124,10 @@ void emu_House_FindFirst()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
-	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
-		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
+	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
+		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
+		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
 		find = (PoolFindStruct *)g_global->houseFindStruct;
 	}
 
@@ -166,10 +166,10 @@ void emu_House_FindNext()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp,  0x2), emu_get_memory16(emu_ss, emu_sp,  0x0), 0x0);
-	if (emu_get_memory16(emu_ss, emu_sp,  0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp,  0x0) == 0x0) {
-		emu_get_memory16(emu_ss, emu_sp,  0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp,  0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
+	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
+	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
+		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
+		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->houseFindStruct, 0x353F);
 		find = (PoolFindStruct *)g_global->houseFindStruct;
 	}
 

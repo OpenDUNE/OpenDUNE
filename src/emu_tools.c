@@ -157,7 +157,7 @@ void emu_Tools_Index_Encode()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	id =   emu_get_memory16(emu_ss, emu_sp, 0x0);
+	id   = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	type = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = Tools_Index_Encode(id, type);

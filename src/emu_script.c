@@ -25,8 +25,8 @@ void emu_Script_Reset()
 	scsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	sicsip = emu_get_csip32(emu_ss, emu_sp, 0x4);
 
-	if (scsip.csip == 0) return;
-	if (sicsip.csip == 0) return;
+	if (scsip.csip == 0x0) return;
+	if (sicsip.csip == 0x0) return;
 	script = Script_Get_ByMemory(scsip);
 	scriptInfo = ScriptInfo_Get_ByMemory(sicsip);
 
@@ -56,7 +56,7 @@ void emu_Script_Load()
 	scsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	typeID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
 
-	if (scsip.csip == 0) return;
+	if (scsip.csip == 0x0) return;
 	script = Script_Get_ByMemory(scsip);
 
 	Script_Load(script, typeID);
@@ -85,7 +85,7 @@ void emu_Script_IsLoaded()
 
 	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	if (scsip.csip == 0) return;
+	if (scsip.csip == 0x0) return;
 	script = Script_Get_ByMemory(scsip);
 
 	emu_ax = Script_IsLoaded(script) ? 1 : 0;
@@ -268,7 +268,7 @@ void emu_Script_Run()
 
 	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	if (scsip.csip == 0) return;
+	if (scsip.csip == 0x0) return;
 	script = Script_Get_ByMemory(scsip);
 
 	emu_ax = Script_Run(script) ? 1 : 0;

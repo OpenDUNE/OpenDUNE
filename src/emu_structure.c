@@ -204,10 +204,10 @@ void emu_Structure_Create()
 	emu_dx = 0x0;
 	emu_ax = 0x0;
 
-	index    =        emu_get_memory16(emu_ss, emu_sp,  0x0);
-	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x2);
-	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp,  0x4);
-	position =        emu_get_memory16(emu_ss, emu_sp,  0x6);
+	index    =        emu_get_memory16(emu_ss, emu_sp, 0x0);
+	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
+	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
+	position =        emu_get_memory16(emu_ss, emu_sp, 0x6);
 
 	s = Structure_Create(index, typeID, houseID, position);
 
@@ -299,25 +299,20 @@ void emu_Structure_Place()
 	uint16 position;
 	csip32 scsip;
 	Structure *s;
-	bool result;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	scsip      = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	position   = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	emu_ax = 0;
 
-	if (scsip.csip == 0x0) {
-		emu_ax = 0;
-		return;
-	}
+	scsip    = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	position = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
+	if (scsip.csip == 0x0) return;
 	s = Structure_Get_ByMemory(scsip);
 
-	result = Structure_Place(s, position);
-
-	emu_ax = result ? 1 : 0;
+	emu_ax = Structure_Place(s, position) ? 1 : 0;
 }
 
 /**
@@ -373,6 +368,7 @@ void emu_Structure_CalculatePowerAndCredit()
  */
 void emu_Structure_SetAnimation()
 {
+	csip32 scsip;
 	Structure *s;
 	int16 animation;
 
@@ -380,7 +376,11 @@ void emu_Structure_SetAnimation()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	s = Structure_Get_ByMemory(emu_get_csip32(emu_ss, emu_sp, 0x0));
+	scsip     = emu_get_csip32  (emu_ss, emu_sp, 0x0);
 	animation = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	if (scsip.csip == 0x0) return;
+	s = Structure_Get_ByMemory(scsip);
+
 	Structure_SetAnimation(s, animation);
 }
