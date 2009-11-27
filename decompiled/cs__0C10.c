@@ -397,7 +397,7 @@ l__01C0:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = 0x0;
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = 0x0;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x01D6); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x01D6); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__01D6:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

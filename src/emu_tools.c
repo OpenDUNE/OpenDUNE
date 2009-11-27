@@ -1,8 +1,12 @@
 /* $Id$ */
 
+#include <stdio.h>
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
 #include "tools.h"
+#include "unit.h"
+
 
 /**
  * Emulator wrapper around Tools_AdjustToGameSpeed().
@@ -258,4 +262,37 @@ void emu_Tools_Index_GetTile()
 	tile = Tools_Index_GetTile(encoded);
 	emu_ax = tile.s.x;
 	emu_dx = tile.s.y;
+}
+
+/**
+ * Emulator wrapper around Tools_Index_GetUnit().
+ *
+ * @name emu_Tools_Index_GetUnit
+ * @implements 167E:0284:000C:4C88 ()
+ * @implements 167E:0290:000B:9317
+ * @implements 167E:029B:0007:9375
+ * @implements 167E:02A2:0003:C81A
+ * @implements 167E:02A3:0002:C33A
+ * @implements 167E:02A5:0006:5EA9
+ * @implements 167E:02AB:0003:2E57
+ */
+void emu_Tools_Index_GetUnit()
+{
+	uint16 encoded;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = 0;
+	emu_dx = 0;
+
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	u = Tools_Index_GetUnit(encoded);
+
+	if (u == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }

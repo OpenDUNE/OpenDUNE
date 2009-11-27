@@ -32,13 +32,13 @@ l__07F1:
 	emu_addw(&emu_bx, emu_ax);
 	emu_si = emu_get_memory16(emu_es, emu_bx, 0x16);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x080E); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x080E); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__080E:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_dx);
 	if (emu_ax == 0) goto l__082E;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 	/* Unresolved jump */ emu_ip = 0x0819; emu_last_cs = 0x176C; emu_last_ip = 0x0819; emu_last_length = 0x000B; emu_last_crc = 0xC11A; emu_call();
 l__082C:
 	goto l__0855;
@@ -683,7 +683,7 @@ l__0D69:
 l__0D78:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x6268));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x56));
-	emu_push(emu_cs); emu_push(0x0D85); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x0D85); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__0D85:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_dx;
@@ -1906,7 +1906,7 @@ l__1624:
 	emu_cmpw(&emu_ax, 0x2);
 	if (emu_ax != 0x2) goto l__1659;
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x1630); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x1630); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__1630:
 	emu_pop(&emu_cx);
 	emu_bx = emu_ax;
@@ -1995,7 +1995,7 @@ l__16E6:
 l__16F6:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x16FF); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x16FF); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__16FF:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -3958,7 +3958,7 @@ l__2552:
 	emu_orw(&emu_si, emu_si);
 	if (emu_si == 0) goto l__259C;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x256B); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x256B); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__256B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

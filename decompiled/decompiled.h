@@ -288,7 +288,6 @@ extern void emu_Stderr_Write();
 extern void f__10E4_0273_0029_DCE5();
 extern void emu_Error_Abnormal_Termination();
 extern void f__B483_0283_0014_983A();
-extern void f__167E_0284_000C_4C88();
 extern void f__0F78_0285_001C_04DB();
 extern void f__0EDB_0288_0020_3D83();
 extern void f__B495_0288_001F_5BC7();

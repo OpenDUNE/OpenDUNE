@@ -19,7 +19,6 @@ extern void emu_Unit_FindStructure();
 extern void f__07D4_196B_0073_56C1();
 extern void f__0F3F_0125_000D_4868();
 extern void f__15C2_044C_0012_C66D();
-extern void f__167E_0284_000C_4C88();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_193F_0013_FA4D();
 extern void f__1A34_1E99_0012_1117();
@@ -153,22 +152,8 @@ void GameLoop_Unit()
 
 					tile = u->variable_49;
 
-					if (Tools_Index_GetType(u->encodedIndex) == IT_UNIT) {
-						csip32 ucsip2;
-						UnitInfo *ui2;
-						Unit *u2;
-
-						emu_push(u->encodedIndex);
-						emu_push(emu_cs); emu_push(0x03BA); emu_cs = 0x167E; f__167E_0284_000C_4C88();
-						emu_sp += 2;
-
-						ucsip2.s.cs = emu_dx;
-						ucsip2.s.ip = emu_ax;
-
-						u2 = Unit_Get_ByMemory(ucsip2);
-						ui2 = &g_unitInfo[u2->type];
-
-						if (ui2->variable_3C == 4) tile = Tools_Index_GetTile(u->encodedIndex);
+					if (Tools_Index_GetType(u->encodedIndex) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->encodedIndex)->type].variable_3C == 4) {
+						tile = Tools_Index_GetTile(u->encodedIndex);
 					}
 
 					emu_push(tile.s.y); emu_push(tile.s.x);

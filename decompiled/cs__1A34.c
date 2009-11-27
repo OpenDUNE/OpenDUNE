@@ -4744,7 +4744,7 @@ l__262F:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_get_memory8(emu_es, emu_bx, 0x51) = emu_al;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_push(emu_cs); emu_push(0x2645); emu_cs = 0x167E; f__167E_0284_000C_4C88();
+	emu_push(emu_cs); emu_push(0x2645); emu_cs = 0x167E; emu_Tools_Index_GetUnit();
 l__2645:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

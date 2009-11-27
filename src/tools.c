@@ -169,3 +169,19 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 		default: return tile;
 	}
 }
+
+/**
+ * Gets the Unit corresponding to the given encoded index.
+ *
+ * @param id The encoded index to get the Unit of.
+ * @return The Unit.
+ */
+Unit *Tools_Index_GetUnit(uint16 encoded)
+{
+	uint16 index;
+
+	if (Tools_Index_GetType(encoded) != IT_UNIT) return NULL;
+
+	index = Tools_Index_Decode(encoded);
+	return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index) : NULL;
+}
