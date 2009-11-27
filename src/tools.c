@@ -137,3 +137,35 @@ uint16 Tools_Index_GetPackedTile(uint16 encoded)
 		default:           return 0;
 	}
 }
+
+/**
+ * Gets the tile corresponding to the given encoded index.
+ *
+ * @param id The encoded index to get the tile of.
+ * @return The tile.
+ */
+tile32 Tools_Index_GetTile(uint16 encoded)
+{
+	uint16 index;
+	tile32 tile;
+
+	index = Tools_Index_Decode(encoded);
+	tile.tile = 0;
+
+	switch (Tools_Index_GetType(encoded)) {
+		case IT_TILE: return Tile_UnpackTile(index);
+		case IT_UNIT: return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index)->position : tile;
+		case IT_STRUCTURE: {
+			Structure *s;
+			StructureInfo *si;
+
+			if (index >= STRUCTURE_INDEX_MAX_HARD) return tile;
+
+			s = Structure_Get_ByIndex(index);
+			si = &g_structureInfo[s->type];
+
+			return Tile_AddTileDiff(s->position, g_global->structureLayoutTileDiff[si->layout]);
+		}
+		default: return tile;
+	}
+}

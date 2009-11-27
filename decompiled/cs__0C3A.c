@@ -3259,7 +3259,7 @@ l__22F3:
 l__22F6:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x4D));
-	emu_push(emu_cs); emu_push(0x2302); emu_cs = 0x167E; f__167E_01BB_0010_85F6();
+	emu_push(emu_cs); emu_push(0x2302); emu_cs = 0x167E; emu_Tools_Index_GetTile();
 l__2302:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = emu_dx;

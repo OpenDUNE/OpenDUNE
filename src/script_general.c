@@ -12,7 +12,6 @@
 #include "tools.h"
 #include "unit.h"
 
-extern void f__167E_01BB_0010_85F6();
 extern void f__2BB4_0004_0027_DC1D();
 
 /**
@@ -75,21 +74,13 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 objectID;
-	tile32 tile;
 
 	objectID = script->stack[script->stackPointer];
 	u = Unit_Get_ByMemory(g_global->objectCurrent);
 
 	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
 
-	emu_push(objectID);
-	emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x167E; f__167E_01BB_0010_85F6();
-	emu_sp += 2;
-
-	tile.s.x = emu_ax;
-	tile.s.y = emu_dx;
-
-	return Tile_GetDistance(u->position, tile);
+	return Tile_GetDistance(u->position, Tools_Index_GetTile(objectID));
 }
 
 /**

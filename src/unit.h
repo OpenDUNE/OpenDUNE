@@ -116,7 +116,7 @@ typedef struct Unit {
 	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
-	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
+	/* 0054(2)   */ PACK uint16 encodedIndex;               /*!< An encoded index. */
 	/* 0056(2)   */ PACK uint16 variable_56;                /*!< ?? */
 	/* 0058(1)   */ PACK uint8  amount;                     /*!< Meaning depends on type:
 	                                                         * - Sandworm : units to eat before disappearing.

@@ -225,3 +225,37 @@ void emu_Tools_Index_GetPackedTile()
 
 	emu_ax = Tools_Index_GetPackedTile(encoded);
 }
+
+/**
+ * Emulator wrapper around Tools_Index_GetTile().
+ *
+ * @name emu_Tools_Index_GetTile
+ * @implements 167E:01BB:0010:85F6 ()
+ * @implements 167E:01CB:0008:5880
+ * @implements 167E:01D3:0013:5505
+ * @implements 167E:01E6:0026:5B15
+ * @implements 167E:020C:0004:6C1F
+ * @implements 167E:020E:0002:F73A
+ * @implements 167E:0210:0006:8BC7
+ * @implements 167E:0216:000F:BFA9
+ * @implements 167E:0225:0006:C49B
+ * @implements 167E:022B:004B:0A01
+ * @implements 167E:0276:0002:C03A
+ * @implements 167E:0278:0006:6AA9
+ * @implements 167E:027E:0006:F7CE
+ */
+void emu_Tools_Index_GetTile()
+{
+	uint16 encoded;
+	tile32 tile;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	tile = Tools_Index_GetTile(encoded);
+	emu_ax = tile.s.x;
+	emu_dx = tile.s.y;
+}

@@ -551,7 +551,7 @@ typedef struct GlobalData {
 	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
 	/* 2D52(14)  */ PACK uint16 structureLayoutCount[7];    /*!< Array with amount of tiles in a structure layout. */
 	/* 2D60()    */ PACK uint8   unknown_2D60[0x00FC];
-	/* 2E5C(7)   */ PACK uint32 structureLayoutTileDiff[7]; /*!< Array with TileDiff in a structure layout. */
+	/* 2E5C(7)   */ PACK tile32 structureLayoutTileDiff[7]; /*!< Array with TileDiff in a structure layout. */
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */
