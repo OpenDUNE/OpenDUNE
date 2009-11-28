@@ -212,7 +212,6 @@ extern void f__B4CD_011A_0011_E66F();
 extern void emu_Config_Decode();
 extern void f__1FB5_0121_001B_0DC1();
 extern void f__28E6_0123_000A_333D();
-extern void f__16C5_0124_0007_C3F1();
 extern void f__0F3F_0125_000D_4868();
 extern void f__B48B_0127_000E_E325();
 extern void emu_Math_PercentToValue();
