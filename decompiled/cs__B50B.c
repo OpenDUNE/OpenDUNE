@@ -475,9 +475,9 @@ l__0320:
 }
 
 /**
- * Decompiled function f__B50B_0326_0016_CD5C()
+ * Decompiled function emu_Save_House()
  *
- * @name f__B50B_0326_0016_CD5C
+ * @name emu_Save_House
  * @implements B50B:0326:0016:CD5C ()
  * @implements B50B:033C:0002:DEBA
  * @implements B50B:033E:0014:33ED
@@ -488,7 +488,7 @@ l__0320:
  *
  * Called From: 350B:002A:0005:0000
  */
-void f__B50B_0326_0016_CD5C()
+void emu_Save_House()
 {
 l__0326:
 	emu_push(emu_bp);
@@ -560,9 +560,9 @@ l__0390:
 }
 
 /**
- * Decompiled function f__B50B_0394_001F_01AF()
+ * Decompiled function emu_Save_Unit()
  *
- * @name f__B50B_0394_001F_01AF
+ * @name emu_Save_Unit
  * @implements B50B:0394:001F:01AF ()
  * @implements B50B:03B3:0005:A3AE
  * @implements B50B:03B8:0015:A7EC
@@ -575,7 +575,7 @@ l__0390:
  *
  * Called From: 350B:002F:0005:0000
  */
-void f__B50B_0394_001F_01AF()
+void emu_Save_Unit()
 {
 l__0394:
 	emu_push(emu_bp);
@@ -661,9 +661,9 @@ l__0418:
 }
 
 /**
- * Decompiled function f__B50B_041C_001E_0374()
+ * Decompiled function emu_Save_Structure()
  *
- * @name f__B50B_041C_001E_0374
+ * @name emu_Save_Structure
  * @implements B50B:041C:001E:0374 ()
  * @implements B50B:043A:0005:A0AE
  * @implements B50B:043F:0014:3099
@@ -676,7 +676,7 @@ l__0418:
  *
  * Called From: 350B:0034:0005:0000
  */
-void f__B50B_041C_001E_0374()
+void emu_Save_Structure()
 {
 l__041C:
 	emu_push(emu_bp);
@@ -762,9 +762,9 @@ l__049D:
 }
 
 /**
- * Decompiled function f__B50B_04A1_001A_1AA9()
+ * Decompiled function emu_Save_AirUnit()
  *
- * @name f__B50B_04A1_001A_1AA9
+ * @name emu_Save_AirUnit
  * @implements B50B:04A1:001A:1AA9 ()
  * @implements B50B:04BB:0005:A16E
  * @implements B50B:04C0:0014:31F1
@@ -777,7 +777,7 @@ l__049D:
  *
  * Called From: 350B:0039:0005:0000
  */
-void f__B50B_04A1_001A_1AA9()
+void emu_Save_AirUnit()
 {
 l__04A1:
 	emu_push(emu_bp);

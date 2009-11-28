@@ -570,9 +570,9 @@ l__036E:
 }
 
 /**
- * Decompiled function f__B4B1_0373_001A_90A2()
+ * Decompiled function emu_Save_Chunk()
  *
- * @name f__B4B1_0373_001A_90A2
+ * @name emu_Save_Chunk
  * @implements B4B1:0373:001A:90A2 ()
  * @implements B4B1:038D:0026:282D
  * @implements B4B1:03B3:0013:A9F2
@@ -593,7 +593,7 @@ l__036E:
  *
  * Called From: 34B1:002A:0005:0000
  */
-void f__B4B1_0373_001A_90A2()
+void emu_Save_Chunk()
 {
 l__0373:
 	emu_push(emu_bp);

@@ -394,7 +394,7 @@ l__01E6:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x01EE); f__B4F2_04B7_0015_5960();
+	emu_push(0x01EE); emu_GUI_SaveLoad_List();
 l__01EE:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -407,7 +407,7 @@ l__01F8:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0201); f__B4F2_04B7_0015_5960();
+	emu_push(0x0201); emu_GUI_SaveLoad_List();
 l__0201:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -823,9 +823,9 @@ l__04A7:
 }
 
 /**
- * Decompiled function f__B4F2_04B7_0015_5960()
+ * Decompiled function emu_GUI_SaveLoad_List()
  *
- * @name f__B4F2_04B7_0015_5960
+ * @name emu_GUI_SaveLoad_List
  * @implements B4F2:04B7:0015:5960 ()
  * @implements B4F2:04CC:000C:D9B0
  * @implements B4F2:04D8:0019:0F72
@@ -881,7 +881,7 @@ l__04A7:
  * Called From: B4F2:01EB:0008:CA33
  * Called From: B4F2:01FE:0009:39F0
  */
-void f__B4F2_04B7_0015_5960()
+void emu_GUI_SaveLoad_List()
 {
 l__04B7:
 	emu_push(emu_bp);
@@ -1075,7 +1075,7 @@ l__061B:
 	if (emu_si == 0) goto l__0639;
 	emu_push(emu_di);
 	emu_push(emu_cs);
-	emu_push(0x0628); f__B4F2_06AE_0035_32F1();
+	emu_push(0x0628); emu_GUI_Save_AskName();
 l__0628:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
@@ -1172,9 +1172,9 @@ l__06A8:
 }
 
 /**
- * Decompiled function f__B4F2_06AE_0035_32F1()
+ * Decompiled function emu_GUI_Save_AskName()
  *
- * @name f__B4F2_06AE_0035_32F1
+ * @name emu_GUI_Save_AskName
  * @implements B4F2:06AE:0035:32F1 ()
  * @implements B4F2:06D9:000A:0DAC
  * @implements B4F2:06E3:000C:EB11
@@ -1203,7 +1203,7 @@ l__06A8:
  *
  * Called From: B4F2:0625:000D:8771
  */
-void f__B4F2_06AE_0035_32F1()
+void emu_GUI_Save_AskName()
 {
 l__06AE:
 	emu_push(emu_bp);
@@ -1387,7 +1387,7 @@ l__0801:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x18);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0729_0016_F168();
+	emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x3511; overlay(0x3511, 0); emu_Save_Main();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0814:
