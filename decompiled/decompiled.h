@@ -311,7 +311,7 @@ extern void f__151A_02C8_0016_FA9C();
 extern void emu_Empty5();
 extern void f__B527_02CB_005E_FFA4();
 extern void f__0F78_02D5_0014_4ABC();
-extern void f__167E_02D8_000C_4C9F();
+extern void emu_Tools_Index_GetStructureOrUnit();
 extern void emu_Mouse_InsideRegion();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__151A_02E8_0010_6B15();

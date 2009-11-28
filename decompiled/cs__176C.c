@@ -4957,7 +4957,7 @@ l__2BE9:
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x2BF3); emu_cs = 0x167E; f__167E_02D8_000C_4C9F();
+	emu_push(emu_cs); emu_push(0x2BF3); emu_cs = 0x167E; emu_Tools_Index_GetStructureOrUnit();
 l__2BF3:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

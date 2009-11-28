@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__167E_02D8_000C_4C9F()
+ * Decompiled function emu_Tools_Index_GetStructureOrUnit()
  *
- * @name f__167E_02D8_000C_4C9F
+ * @name emu_Tools_Index_GetStructureOrUnit
  * @implements 167E:02D8:000C:4C9F ()
  * @implements 167E:02E4:000D:1F6F
  * @implements 167E:02F1:0005:C100
@@ -28,7 +28,7 @@
  * Called From: 0EDB:04CD:0024:408E
  * Called From: 176C:2BEE:000A:4B0F
  */
-void f__167E_02D8_000C_4C9F()
+void emu_Tools_Index_GetStructureOrUnit()
 {
 l__02D8:
 	emu_push(emu_bp);
