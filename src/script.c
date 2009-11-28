@@ -32,7 +32,6 @@ extern void f__0EDB_0456_0032_B7E5();
 extern void f__0EDB_04AE_0024_408E();
 extern void f__0EDB_050C_001D_2E46();
 extern void f__0EDB_0594_0026_F09C();
-extern void f__16C5_0124_0007_C3F1();
 extern void f__16C5_012D_0017_71BC();
 extern void f__16C5_01EF_000D_1984();
 extern void f__16C5_01FE_000D_19C4();
@@ -208,7 +207,7 @@ emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = 
 	/* 0B */ &f__0EDB_0184_0030_A1C2,
 	/* 0C */ &f__16C5_01FE_000D_19C4,
 	/* 0D */ &f__16C5_020D_000D_1A44,
-	/* 0E */ &f__16C5_0124_0007_C3F1,
+	/* 0E */ NULL,
 };
 
 /**
@@ -330,7 +329,7 @@ ScriptFunction scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
 	/* 0B */ NULL,
 	/* 0C */ NULL,
 	/* 0D */ NULL,
-	/* 0E */ NULL,
+	/* 0E */ &Script_General_NoOperation,
 };
 
 /**
