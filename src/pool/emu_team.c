@@ -6,21 +6,21 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../airunit.h"
+#include "../team.h"
 #include "pool.h"
-#include "airunit.h"
+#include "team.h"
 
 /**
- * Emulator wrapper around AirUnit_Init().
+ * Emulator wrapper around Team_Init().
  *
- * @name emu_AirUnit_Init
+ * @name emu_Team_Init
  * @implements 104B:005D:001C:39F6 ()
  * @implements 104B:0079:0026:FD93
  * @implements 104B:0082:001D:CF58
  * @implements 104B:009F:000A:A59E
  * @implements 104B:00A9:0002:2597
  */
-void emu_AirUnit_Init()
+void emu_Team_Init()
 {
 	csip32 aucsip;
 
@@ -30,34 +30,34 @@ void emu_AirUnit_Init()
 
 	aucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	AirUnit_Init(aucsip);
+	Team_Init(aucsip);
 
 	emu_dx = 0;
-	emu_ax = sizeof(AirUnit) * AIRUNIT_INDEX_MAX;
+	emu_ax = sizeof(Team) * TEAM_INDEX_MAX;
 }
 
 /**
- * Emulator wrapper around AirUnit_Recount().
+ * Emulator wrapper around Team_Recount().
  *
- * @name emu_AirUnit_Recount
+ * @name emu_Team_Recount
  * @implements 104B:0006:0011:631B ()
  * @implements 104B:0017:0046:2F85
  * @implements 104B:0052:000B:8782
  * @implements 104B:0053:000A:478A
  */
-void emu_AirUnit_Recount()
+void emu_Team_Recount()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	AirUnit_Recount();
+	Team_Recount();
 }
 
 /**
- * Emulator wrapper around AirUnit_Allocate().
+ * Emulator wrapper around Team_Allocate().
  *
- * @name emu_AirUnit_Allocate
+ * @name emu_Team_Allocate
  * @implements 104B:0171:0020:7F19 ()
  * @implements 104B:0191:0009:538F
  * @implements 104B:019A:002D:CF3C
@@ -68,10 +68,10 @@ void emu_AirUnit_Recount()
  * @implements 104B:0214:0034:E1EC
  * @implements 104B:0248:0005:8BCF
  */
-void emu_AirUnit_Allocate()
+void emu_Team_Allocate()
 {
 	uint16 index;
-	AirUnit *a;
+	Team *t;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -82,22 +82,22 @@ void emu_AirUnit_Allocate()
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	a = AirUnit_Allocate(index);
+	t = Team_Allocate(index);
 
-	if (a == NULL) return;
-	emu_dx = g_global->airUnitStartPos.s.cs;
-	emu_ax = g_global->airUnitStartPos.s.ip + a->index * sizeof(AirUnit);
+	if (t == NULL) return;
+	emu_dx = g_global->teamStartPos.s.cs;
+	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
 }
 
 /**
- * Get a AirUnit from the memory by index.
+ * Get a Team from the memory by index.
  *
- * @name emu_AirUnit_Get_ByIndex
+ * @name emu_Team_Get_ByIndex
  * @implements 104B:0354:0023:5A6D ()
  * @implements 104B:0377
  * @implements 104B:037D:0002:2597
  */
-void emu_AirUnit_Get_ByIndex()
+void emu_Team_Get_ByIndex()
 {
 	uint16 index;
 
@@ -110,25 +110,25 @@ void emu_AirUnit_Get_ByIndex()
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	if (index >= AIRUNIT_INDEX_MAX) return;
-	emu_dx = g_global->airUnitStartPos.s.cs;
-	emu_ax = g_global->airUnitStartPos.s.ip + index * sizeof(AirUnit);
+	if (index >= TEAM_INDEX_MAX) return;
+	emu_dx = g_global->teamStartPos.s.cs;
+	emu_ax = g_global->teamStartPos.s.ip + index * sizeof(Team);
 }
 
 /**
- * Emulator wrapper around AirUnit_Find(). It also initializes the
+ * Emulator wrapper around Team_Find(). It also initializes the
  *  PoolFindStruct, and uses a default struct in case none is given.
  *
- * @name emu_AirUnit_FindFirst
+ * @name emu_Team_FindFirst
  * @implements 104B:00C2:0030:20A6 ()
  * @implements 104B:00D5:001D:2B68
  * @implements 104B:00F2:0004:5B1F
  * @implements 104B:00F6:0002:2597
  */
-void emu_AirUnit_FindFirst()
+void emu_Team_FindFirst()
 {
 	PoolFindStruct *find;
-	AirUnit *a;
+	Team *t;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -140,26 +140,26 @@ void emu_AirUnit_FindFirst()
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->airUnitFindStruct, 0x353F);
-		find = (PoolFindStruct *)g_global->airUnitFindStruct;
+		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->teamFindStruct, 0x353F);
+		find = (PoolFindStruct *)g_global->teamFindStruct;
 	}
 
 	find->houseID = emu_get_memory16(emu_ss, emu_sp, 0x4);
 	find->type    = 0xFFFF;
 	find->index   = 0xFFFF;
 
-	a = AirUnit_Find(find);
+	t = Team_Find(find);
 
-	if (a == NULL) return;
-	emu_dx = g_global->airUnitStartPos.s.cs;
-	emu_ax = g_global->airUnitStartPos.s.ip + a->index * sizeof(AirUnit);
+	if (t == NULL) return;
+	emu_dx = g_global->teamStartPos.s.cs;
+	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
 }
 
 /**
- * Emulator wrapper around AirUnit_Find(). It uses a default struct in case
+ * Emulator wrapper around Team_Find(). It uses a default struct in case
  *  none is given.
  *
- * @name emu_AirUnit_FindNext
+ * @name emu_Team_FindNext
  * @implements 104B:00F8:002E:3820 ()
  * @implements 104B:0110:0016:6D19
  * @implements 104B:0124
@@ -170,10 +170,10 @@ void emu_AirUnit_FindFirst()
  * @implements 104B:0158:0013:49FB
  * @implements 104B:016B:0006:F7CE
  */
-void emu_AirUnit_FindNext()
+void emu_Team_FindNext()
 {
 	PoolFindStruct *find;
-	AirUnit *a;
+	Team *t;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -185,13 +185,13 @@ void emu_AirUnit_FindNext()
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
-		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->airUnitFindStruct, 0x353F);
-		find = (PoolFindStruct *)g_global->airUnitFindStruct;
+		emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_Global_GetIP(g_global->teamFindStruct, 0x353F);
+		find = (PoolFindStruct *)g_global->teamFindStruct;
 	}
 
-	a = AirUnit_Find(find);
+	t = Team_Find(find);
 
-	if (a == NULL) return;
-	emu_dx = g_global->airUnitStartPos.s.cs;
-	emu_ax = g_global->airUnitStartPos.s.ip + a->index * sizeof(AirUnit);
+	if (t == NULL) return;
+	emu_dx = g_global->teamStartPos.s.cs;
+	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
 }

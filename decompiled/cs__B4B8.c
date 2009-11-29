@@ -3325,7 +3325,7 @@ l__1ABE:
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x1AD1); emu_cs = 0x104B; emu_AirUnit_Init();
+	emu_push(emu_cs); emu_push(0x1AD1); emu_cs = 0x104B; emu_Team_Init();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__1AD1:

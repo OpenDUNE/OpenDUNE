@@ -819,7 +819,7 @@ l__04FA:
 l__050C:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x58));
-	emu_push(emu_cs); emu_push(0x0517); emu_cs = 0x104B; emu_AirUnit_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x0517); emu_cs = 0x104B; emu_Team_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
 l__0517:
@@ -844,7 +844,7 @@ l__053A:
 l__053D:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
 	if (emu_get_memory16(emu_ss, emu_bp,  0xA) != 0x0) goto l__04E2;
-	emu_push(emu_cs); emu_push(0x0548); emu_cs = 0x104B; emu_AirUnit_Recount();
+	emu_push(emu_cs); emu_push(0x0548); emu_cs = 0x104B; emu_Team_Recount();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
 l__0548:

@@ -4212,7 +4212,7 @@ l__29C2:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x29DF); emu_cs = 0x104B; emu_AirUnit_FindFirst();
+	emu_push(emu_cs); emu_push(0x29DF); emu_cs = 0x104B; emu_Team_FindFirst();
 l__29DF:
 	emu_addw(&emu_sp, 0x6);
 	goto l__2A03;
@@ -4228,7 +4228,7 @@ l__29F6:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x2A01); emu_cs = 0x104B; emu_AirUnit_FindNext();
+	emu_push(emu_cs); emu_push(0x2A01); emu_cs = 0x104B; emu_Team_FindNext();
 l__2A01:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

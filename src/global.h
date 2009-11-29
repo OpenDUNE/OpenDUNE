@@ -663,8 +663,8 @@ typedef struct GlobalData {
 	/* 3439()    */ PACK uint8   unknown_3439[0x01AF];
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
-	/* 35EE(4)   */ PACK csip32 airUnitStartPos;            /*!< CS:IP of AirUnit array. */
-	/* 35F2(2)   */ PACK uint16 airUnitCount;               /*!< Amount of AirUnits on the map. */
+	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
+	/* 35F2(2)   */ PACK uint16 teamCount;                  /*!< Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 structureStartPos;          /*!< CS:IP of Structure array. */
 	/* 35F8(2)   */ PACK uint16 structureCount;             /*!< Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
@@ -710,7 +710,7 @@ typedef struct GlobalData {
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
-	/* 392E(22)  */ PACK ScriptInfo scriptAirUnit;          /*!< Script information for AirUnits. */
+	/* 392E(22)  */ PACK ScriptInfo scriptTeam;             /*!< Script information for Teams. */
 	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
@@ -828,8 +828,8 @@ typedef struct GlobalData {
 	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
 	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
 	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
-	/* 6124(4)   */ PACK csip32 airUnitCurrent;             /*!< Current AirUnit we are handling in GameLoop. */
-	/* 6128(60)  */ PACK csip32 scriptFunctionsAirUnit[15]; /*!< AirUnit functions to call via scripts. */
+	/* 6124(4)   */ PACK csip32 teamCurrent;                /*!< Current Team we are handling in GameLoop. */
+	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32 unitCurrent;                /*!< Current Unit we are handling in GameLoop. */
@@ -1194,8 +1194,8 @@ typedef struct GlobalData {
 	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of Unit, always gap-less. */
-	/* 85D6(6)   */ PACK uint8  airUnitFindStruct[6];       /*!< Default find struct used if noone given to emu_AirUnit_FindFirst/FindNext. */
-	/* 85DC(64)  */ PACK csip32 airUnitArray[16];           /*!< Array with CS:IP of AirUnit, always gap-less. */
+	/* 85D6(6)   */ PACK uint8  teamFindStruct[6];          /*!< Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
+	/* 85DC(64)  */ PACK csip32 teamArray[16];              /*!< Array with CS:IP of Team, always gap-less. */
 	/* 861C(6)   */ PACK uint8  structureFindStruct[6];     /*!< Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
 	/* 8622(328) */ PACK csip32 structureArray[82];         /*!< Array with CS:IP of Structure, always gap-less. */
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];

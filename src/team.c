@@ -5,17 +5,17 @@
 #include "libemu.h"
 #include "global.h"
 #include "pool/pool.h"
-#include "pool/airunit.h"
+#include "pool/team.h"
 #include "pool/house.h"
-#include "airunit.h"
+#include "team.h"
 #include "house.h"
 
 extern void f__2BB4_0004_0027_DC1D();
 
 /**
- * Loop over all airunits, performing various of tasks.
+ * Loop over all teams, performing various of tasks.
  */
-void GameLoop_AirUnit()
+void GameLoop_Team()
 {
 	PoolFindStruct find;
 	bool tick = false;
@@ -34,41 +34,41 @@ void GameLoop_AirUnit()
 	find.type    = 0xFFFF;
 
 	while (true) {
-		AirUnit *a;
+		Team *t;
 		House *h;
 
-		a = AirUnit_Find(&find);
-		if (a == NULL) break;
+		t = Team_Find(&find);
+		if (t == NULL) break;
 
-		h = House_Get_ByIndex(a->houseID);
+		h = House_Get_ByIndex(t->houseID);
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->airUnitCurrent       = g_global->airUnitStartPos;
-		g_global->airUnitCurrent.s.ip += a->index * sizeof(AirUnit);
-		g_global->houseCurrent         = g_global->houseStartPos;
-		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
+		g_global->teamCurrent        = g_global->teamStartPos;
+		g_global->teamCurrent.s.ip  += t->index * sizeof(Team);
+		g_global->houseCurrent       = g_global->houseStartPos;
+		g_global->houseCurrent.s.ip += h->index * sizeof(House);
 
 		if ((h->flags & 0x0008) == 0) continue;
 
-		if (a->scriptDelay != 0) {
-			a->scriptDelay--;
+		if (t->scriptDelay != 0) {
+			t->scriptDelay--;
 			continue;
 		}
 
-		if (!Script_IsLoaded(&a->script)) continue;
+		if (!Script_IsLoaded(&t->script)) continue;
 
 
 		if (g_global->debugGame) {
 			g_global->variable_37A4 = 0;
 			g_global->variable_37A2++;
 
-			if (a->script.stackPointer <= 15 && 15 - a->script.stackPointer > g_global->variable_37A8) {
-				g_global->variable_37A8 = 15 - a->script.stackPointer;
+			if (t->script.stackPointer <= 15 && 15 - t->script.stackPointer > g_global->variable_37A8) {
+				g_global->variable_37A8 = 15 - t->script.stackPointer;
 			}
 		}
 
-		if (!Script_Run(&a->script)) {
-			/* ENHANCEMENT -- Dune2 aborts all other airunits if one gives a script error. This doesn't seem correct */
+		if (!Script_Run(&t->script)) {
+			/* ENHANCEMENT -- Dune2 aborts all other teams if one gives a script error. This doesn't seem correct */
 			if (g_dune2_enhanced) continue;
 			break;
 		}

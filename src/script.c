@@ -190,9 +190,9 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 };
 
 /**
- * Not yet converted script functions for AirUnits.
+ * Not yet converted script functions for Teams.
  */
-emu_ScriptFunction emu_scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
+emu_ScriptFunction emu_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 00 */ NULL,
 	/* 01 */ &f__16C5_012D_0017_71BC,
 	/* 02 */ &f__16C5_01EF_000D_1984,
@@ -312,9 +312,9 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 };
 
 /**
- * Converted script functions for AirUnits. If NULL, the emu_ version is used.
+ * Converted script functions for Teams. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsAirUnit[SCRIPT_FUNCTIONS_AIRUNIT_COUNT] = {
+ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ NULL,
 	/* 02 */ NULL,
@@ -603,22 +603,22 @@ bool Script_Run(ScriptEngine *script)
 					return true;
 				}
 			}
-			/* Check if we are using the scriptFunctionsAirUnit */
+			/* Check if we are using the scriptFunctionsTeam */
 			if (scriptInfo->functions.csip == 0x353F6128) {
-				if (parameter >= SCRIPT_FUNCTIONS_AIRUNIT_COUNT) {
+				if (parameter >= SCRIPT_FUNCTIONS_TEAM_COUNT) {
 					script->script.csip = 0;
 					return false;
 				}
 
-				if (scriptFunctionsAirUnit[parameter] != NULL) {
+				if (scriptFunctionsTeam[parameter] != NULL) {
 					emu_sp += 8;
 
-					script->returnValue = scriptFunctionsAirUnit[parameter](script);
+					script->returnValue = scriptFunctionsTeam[parameter](script);
 					return true;
 				}
-				if (emu_scriptFunctionsAirUnit[parameter] != NULL) {
+				if (emu_scriptFunctionsTeam[parameter] != NULL) {
 					emu_cs = function.s.cs; emu_ip = function.s.ip;
-					emu_scriptFunctionsAirUnit[parameter]();
+					emu_scriptFunctionsTeam[parameter]();
 					emu_sp += 4;
 
 					script->returnValue = emu_ax;

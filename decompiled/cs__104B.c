@@ -27,7 +27,7 @@ l__024D:
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x025F); emu_AirUnit_Allocate();
+	emu_push(0x025F); emu_Team_Allocate();
 l__025F:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

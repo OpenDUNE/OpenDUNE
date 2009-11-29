@@ -762,9 +762,9 @@ l__049D:
 }
 
 /**
- * Decompiled function emu_Save_AirUnit()
+ * Decompiled function emu_Save_Team()
  *
- * @name emu_Save_AirUnit
+ * @name emu_Save_Team
  * @implements B50B:04A1:001A:1AA9 ()
  * @implements B50B:04BB:0005:A16E
  * @implements B50B:04C0:0014:31F1
@@ -777,7 +777,7 @@ l__049D:
  *
  * Called From: 350B:0039:0005:0000
  */
-void emu_Save_AirUnit()
+void emu_Save_Team()
 {
 l__04A1:
 	emu_push(emu_bp);
@@ -790,7 +790,7 @@ l__04A1:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x04BB); emu_cs = 0x104B; emu_AirUnit_FindFirst();
+	emu_push(emu_cs); emu_push(0x04BB); emu_cs = 0x104B; emu_Team_FindFirst();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { overlay(0x350B, 1); }
 l__04BB:
@@ -836,7 +836,7 @@ l__04FB:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0509); emu_cs = 0x104B; emu_AirUnit_FindNext();
+	emu_push(emu_cs); emu_push(0x0509); emu_cs = 0x104B; emu_Team_FindNext();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x350B) { overlay(0x350B, 1); }
 l__0509:

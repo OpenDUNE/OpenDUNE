@@ -5,12 +5,12 @@
 #include "libemu.h"
 #include "global.h"
 #include "pool/unit.h"
-#include "airunit.h"
+#include "team.h"
 
 /**
- * Emulator wrapper around GameLoop_AirUnit().
+ * Emulator wrapper around GameLoop_Team().
  *
- * @name emu_GameLoop_AirUnit
+ * @name emu_GameLoop_Team
  * @implements 16C5:0009:0023:21B3 ()
  * @implements 16C5:0024:0008:EF7F
  * @implements 16C5:002C:0025:E446
@@ -29,11 +29,11 @@
  * @implements 16C5:010E:0013:4DDB
  * @implements 16C5:0121:0003:2E57
  */
-void emu_GameLoop_AirUnit()
+void emu_GameLoop_Team()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	GameLoop_AirUnit();
+	GameLoop_Team();
 }

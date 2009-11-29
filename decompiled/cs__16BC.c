@@ -89,7 +89,7 @@ l__0044:
 	emu_ax = (int8)emu_al;
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x104B; emu_AirUnit_Get_ByIndex();
+	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x104B; emu_Team_Get_ByIndex();
 l__006B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

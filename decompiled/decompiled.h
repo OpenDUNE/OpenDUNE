@@ -2,7 +2,6 @@
 
 #define DECOMPILED_INCLUDE
 
-#include "../src/airunit.h"
 #include "../src/global.h"
 #include "../src/house.h"
 #include "../src/input/input.h"
@@ -11,14 +10,15 @@
 #include "../src/os/math.h"
 #include "../src/os/strings.h"
 #include "../src/patched.h"
-#include "../src/pool/airunit.h"
 #include "../src/pool/house.h"
 #include "../src/pool/pool.h"
 #include "../src/pool/structure.h"
+#include "../src/pool/team.h"
 #include "../src/pool/unit.h"
 #include "../src/scenario.h"
 #include "../src/script.h"
 #include "../src/structure.h"
+#include "../src/team.h"
 #include "../src/tile.h"
 #include "../src/tools.h"
 #include "../src/unit.h"
@@ -395,7 +395,7 @@ extern void f__1DD7_048A_0017_3EEB();
 extern void f__B4CD_048E_0012_3E9E();
 extern void f__06F7_0493_0015_AAB2();
 extern void emu_Drive_Get_Free_Space();
-extern void emu_Save_AirUnit();
+extern void emu_Save_Team();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__B52A_04AC_0033_548A();
 extern void f__0EDB_04AE_0024_408E();

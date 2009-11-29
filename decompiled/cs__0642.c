@@ -486,7 +486,7 @@ l__03AE:
 l__03BB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x03C2); emu_cs = 0x16C5; emu_GameLoop_AirUnit();
+	emu_push(emu_cs); emu_push(0x03C2); emu_cs = 0x16C5; emu_GameLoop_Team();
 l__03C2:
 	emu_push(emu_cs); emu_push(0x03C7); emu_cs = 0x176C; emu_GameLoop_Unit();
 l__03C7:
