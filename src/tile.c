@@ -193,3 +193,18 @@ void Tile_Center(tile32 *tile)
 	tile->d.ox = 0x80;
 	tile->d.oy = 0x80;
 }
+
+/**
+ * Calculates the distance between the two given packed tiles.
+ *
+ * @param packed_from The origin.
+ * @param packed_to The destination.
+ * @return The longest distance between the X or Y coordinates, plus half the shortest.
+ */
+uint16 Tile_GetDistancePacked(uint16 packed_from, uint16 packed_to)
+{
+	tile32 from = Tile_UnpackTile(packed_from);
+	tile32 to = Tile_UnpackTile(packed_to);
+
+	return Tile_GetDistance(from, to) >> 8;
+}

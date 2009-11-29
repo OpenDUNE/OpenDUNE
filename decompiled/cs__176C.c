@@ -3259,7 +3259,7 @@ l__2075:
 l__2077:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x2080); emu_cs = 0x0F3F; emu_Tile_GetDistanceOffset();
+	emu_push(emu_cs); emu_push(0x2080); emu_cs = 0x0F3F; emu_Tile_GetDistancePacked();
 l__2080:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

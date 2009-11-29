@@ -512,7 +512,7 @@ l__051F:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x0F3F; emu_Tile_GetDistanceOffset();
+	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x0F3F; emu_Tile_GetDistancePacked();
 l__0527:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

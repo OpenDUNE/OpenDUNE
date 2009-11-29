@@ -3593,7 +3593,7 @@ l__256C:
 	if (emu_get_memory16(emu_ss, emu_bp, -0x10) == 0x0) goto l__259A;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x2593); emu_cs = 0x0F3F; emu_Tile_GetDistanceOffset();
+	emu_push(emu_cs); emu_push(0x2593); emu_cs = 0x0F3F; emu_Tile_GetDistancePacked();
 l__2593:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -3603,7 +3603,7 @@ l__259A:
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = emu_di;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x25A6); emu_cs = 0x0F3F; emu_Tile_GetDistanceOffset();
+	emu_push(emu_cs); emu_push(0x25A6); emu_cs = 0x0F3F; emu_Tile_GetDistancePacked();
 l__25A6:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

@@ -384,7 +384,7 @@ l__02BC:
 l__02CB:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02D2); emu_cs = 0x0F3F; emu_Tile_GetDistanceOffset();
+	emu_push(emu_cs); emu_push(0x02D2); emu_cs = 0x0F3F; emu_Tile_GetDistancePacked();
 l__02D2:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

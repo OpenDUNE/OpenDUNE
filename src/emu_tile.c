@@ -323,3 +323,27 @@ void emu_Tile_PackXY()
 	emu_ax = Tile_PackXY(x, y);
 	emu_get_memory16(emu_ss, emu_sp, 0x0) = emu_ax;
 }
+
+/**
+ * Emulator wrapper around Tile_GetDistancePacked().
+ *
+ * @name emu_Tile_GetDistancePacked
+ * @implements 0F3F:0360:0038:97C0 ()
+ * @implements 0F3F:0378:0020:E837
+ * @implements 0F3F:038A:000E:E0AD
+ * @implements 0F3F:038F:0009:FB77
+ */
+void emu_Tile_GetDistancePacked()
+{
+	uint16 packed_from;
+	uint16 packed_to;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed_from = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	packed_to   = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = Tile_GetDistancePacked(packed_from, packed_to);
+}

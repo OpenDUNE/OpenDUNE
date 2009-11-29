@@ -337,7 +337,6 @@ extern void f__2649_0336_004C_0948();
 extern void f__B4E9_0345_0023_FA52();
 extern void f__07D4_034D_001F_FF64();
 extern void f__22A6_034F_000C_5E0A();
-extern void emu_Tile_GetDistanceOffset();
 extern void f__B483_0363_0016_83DF();
 extern void emu_Save_Chunk();
 extern void emu_Terminate_Normal();
