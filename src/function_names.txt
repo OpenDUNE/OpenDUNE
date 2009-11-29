@@ -140,7 +140,6 @@ B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to
 B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
 B4CD:07F4:0013:6862	emu_Structure_RemoveFogAroundTile # (posx, posy, radius)
-B4CD:1133:0039:A02F	emu_Structure_GetByPackedTile # It returns the Index
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
 

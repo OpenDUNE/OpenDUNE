@@ -906,7 +906,7 @@ l__054E:
 	}
 l__059D:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x05A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x05A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_Get_ByPackedTile();
 l__05A3:
 	emu_pop(&emu_cx);
 	emu_bx = emu_ax;

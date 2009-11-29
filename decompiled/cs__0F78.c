@@ -540,7 +540,7 @@ l__0302:
 	goto l__0424;
 l__0327:
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x032D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x032D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_Get_ByPackedTile();
 l__032D:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_dx;

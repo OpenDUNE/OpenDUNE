@@ -384,3 +384,34 @@ void emu_Structure_SetAnimation()
 
 	Structure_SetAnimation(s, animation);
 }
+
+/**
+ * Emulator wrapper around Structure_Get_ByPackedTile().
+ *
+ * @name emu_Structure_Get_ByPackedTile
+ * @implements B4CD:1133:0039:A02F ()
+ * @implements B4CD:116C:0003:C81A
+ * @implements B4CD:116D:0002:C33A
+ * @implements B4CD:116F:0006:5EA9
+ * @implements B4CD:1175:0003:2E57
+ */
+void emu_Structure_Get_ByPackedTile()
+{
+	uint16 packed;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	packed = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	s = Structure_Get_ByPackedTile(packed);
+
+	if (s == NULL) return;
+	emu_dx = g_global->structureStartPos.s.cs;
+	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+}

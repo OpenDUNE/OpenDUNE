@@ -761,7 +761,6 @@ extern void f__B4F2_1100_0019_B3DC();
 extern void f__22A6_1102_004C_B069();
 extern void f__B4B8_110D_000D_FD5C();
 extern void emu_String_Format();
-extern void emu_Structure_GetByPackedTile();
 extern void f__01F7_1139_000D_AAB0();
 extern void f__B495_1140_0009_13F2();
 extern void f__01F7_1146_0023_6860();

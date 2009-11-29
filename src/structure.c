@@ -965,3 +965,20 @@ void Structure_SetAnimation(Structure *s, int16 animation)
 	emu_push(emu_cs); emu_push(0x13B9); emu_Structure_UpdateMap();
 	emu_sp += 4;
 }
+
+/**
+ * Get the structure on the given packed tile.
+ *
+ * @param packed The packed tile to get the structure from.
+ * @return The structure.
+ */
+Structure *Structure_Get_ByPackedTile(uint16 packed)
+{
+	Tile *tile;
+
+	if (packed >= 4096) return NULL;
+
+	tile = Map_GetTileByPosition(packed);
+	if ((tile->flags & 0x04) == 0) return NULL;
+	return Structure_Get_ByIndex(tile->index - 1);
+}

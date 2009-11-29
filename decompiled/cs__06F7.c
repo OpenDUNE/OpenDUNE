@@ -419,7 +419,7 @@ l__030B:
 	emu_orw(&emu_si, emu_si);
 	if (emu_si == 0) goto l__037A;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x031E); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x031E); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_Get_ByPackedTile();
 l__031E:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x1A) = emu_dx;
@@ -1445,7 +1445,7 @@ l__097B:
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0985); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
+	emu_push(emu_cs); emu_push(0x0985); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_Get_ByPackedTile();
 l__0985:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_dx);

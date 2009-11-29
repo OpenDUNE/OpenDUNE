@@ -405,12 +405,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 
 	/* Ensure nothing is already on the tile */
 	/* XXX -- DUNE2 BUG? -- This only checks the top-left corner? Not really a safety, is it? */
-	emu_push(position);
-	emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_GetByPackedTile();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 2;
-	if (emu_ax != 0 || emu_dx != 0) return;
+	if (Structure_Get_ByPackedTile(position) != NULL) return;
 
 	{
 		Structure *s;
@@ -481,8 +476,8 @@ void emu_Scenario_Load_Map()
 	{
 		Tile *t = Map_GetTileByPosition(emu_di);
 
-		t->houseID  = emu_al & 0x07;
-		t->unknown2 = emu_al >> 3;
+		t->houseID = emu_al & 0x07;
+		t->flags   = emu_al >> 3;
 
 		emu_push(emu_ds); emu_push(0x1F83); /* ,\r\n */
 		emu_push(0); emu_push(0);
@@ -503,7 +498,7 @@ void emu_Scenario_Load_Map()
 			emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
 		}
 
-		if ((t->unknown2 & 0x1) == 0) {
+		if ((t->flags & 0x01) == 0) {
 			t->fogOfWar = g_global->variable_39F2 & 0x7F;
 		}
 	}
