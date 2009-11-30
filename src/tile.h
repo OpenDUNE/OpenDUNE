@@ -17,6 +17,7 @@ extern uint8 Tile_GetPackedX(uint16 packed);
 extern uint8 Tile_GetPackedY(uint16 packed);
 extern uint16 Tile_GetDistance(tile32 from, tile32 to);
 extern uint16 Tile_GetDistancePacked(uint16 packed_from, uint16 packed_to);
+extern uint16 Tile_GetDistanceRoundedUp(tile32 from, tile32 to);
 extern tile32 Tile_AddTileDiff(tile32 from, tile32 diff);
 extern void Tile_Center(tile32 *tile);
 
@@ -34,6 +35,7 @@ extern void emu_Tile_GetPackX();
 extern void emu_Tile_GetPackY();
 extern void emu_Tile_GetDistance();
 extern void emu_Tile_GetDistancePacked();
+extern void emu_Tile_GetDistanceRoundedUp();
 extern void emu_Tile_AddTileDiff();
 extern void emu_Tile_Center();
 

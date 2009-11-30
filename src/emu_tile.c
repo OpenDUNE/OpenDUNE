@@ -347,3 +347,26 @@ void emu_Tile_GetDistancePacked()
 
 	emu_ax = Tile_GetDistancePacked(packed_from, packed_to);
 }
+
+/**
+ * Emulator wrapper around Tile_GetDistanceRoundedUp().
+ *
+ * @name emu_Tile_GetDistanceRoundedUp
+ * @implements 0F3F:0104:0013:C3B8 ()
+ * @implements 0F3F:0117:000C:A15F
+ * @implements 0F3F:0123:0002:2597
+ */
+void emu_Tile_GetDistanceRoundedUp()
+{
+	tile32 tile_from;
+	tile32 tile_to;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	tile_from = emu_get_tile32(emu_ss, emu_sp, 0x0);
+	tile_to   = emu_get_tile32(emu_ss, emu_sp, 0x4);
+
+	emu_ax = Tile_GetDistanceRoundedUp(tile_from, tile_to);
+}

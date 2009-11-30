@@ -5,53 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0F3F_0104_0013_C3B8()
- *
- * @name f__0F3F_0104_0013_C3B8
- * @implements 0F3F:0104:0013:C3B8 ()
- * @implements 0F3F:0117:000C:A15F
- * @implements 0F3F:0123:0002:2597
- *
- * Called From: 0C3A:22A1:0043:67B1
- * Called From: 16C5:04C1:002E:4299
- * Called From: 16C5:05BC:0023:DF62
- * Called From: 16C5:05E2:0026:0FE7
- * Called From: 16C5:05FF:001D:B1ED
- * Called From: 176C:0DE2:001C:A05B
- * Called From: 176C:2A2B:003A:2332
- * Called From: 1A34:12C2:001B:E25C
- * Called From: 1A34:15BA:001B:E25C
- * Called From: 1A34:15BA:001F:1633
- * Called From: 1A34:15BA:0033:7AA7
- * Called From: B4CD:08B7:0019:A93A
- */
-void f__0F3F_0104_0013_C3B8()
-{
-l__0104:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs);
-	emu_push(0x0117); emu_Tile_GetDistance();
-l__0117:
-	emu_addw(&emu_sp, 0x8);
-	emu_addw(&emu_ax, 0x80);
-	emu_cl = 0x8;
-	emu_sarw(&emu_ax, emu_cl);
-	goto l__0123;
-l__0123:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__0F3F_0125_000D_4868()
  *
  * @name f__0F3F_0125_000D_4868

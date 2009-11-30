@@ -208,3 +208,15 @@ uint16 Tile_GetDistancePacked(uint16 packed_from, uint16 packed_to)
 
 	return Tile_GetDistance(from, to) >> 8;
 }
+
+/**
+ * Calculates the rounded up distance between the two given packed tiles.
+ *
+ * @param from The origin.
+ * @param to The destination.
+ * @return The longest distance between the X or Y coordinates, plus half the shortest.
+ */
+uint16 Tile_GetDistanceRoundedUp(tile32 from, tile32 to)
+{
+	return (Tile_GetDistance(from, to) + 0x80) >> 8;
+}
