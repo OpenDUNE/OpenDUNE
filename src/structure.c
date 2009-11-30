@@ -21,7 +21,6 @@
 extern void emu_String_GetString();
 extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
-extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_IsValidBuildLocation();
 extern void emu_Structure_Place();
@@ -815,12 +814,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	{
 		House *h;
 		h = House_Get_ByIndex(s->houseID);
-
-		emu_push(h->index);
-		emu_push(emu_cs); emu_push(0x0742); emu_cs = 0x0C3A; emu_Structure_GetStructuresBuilt();
-		emu_sp += 4;
-
-		h->structuresBuilt = (emu_dx << 16) + emu_ax;
+		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 	}
 
 	return true;
@@ -829,7 +823,7 @@ bool Structure_Place(Structure *s, uint16 position)
 /**
  * Calculate the power usage and production, and the credits storage.
  *
- * @param houseID The index of the house to calculate the numbers for.
+ * @param h The house to calculate the numbers for.
  */
 void Structure_CalculatePowerAndCredit(House *h)
 {
@@ -898,7 +892,7 @@ void Structure_CalculatePowerAndCredit(House *h)
 /**
  * Calculate the power usage and production, and the credits storage.
  *
- * @param houseID The index of the house to calculate the numbers for.
+ * @param h The house to calculate the numbers for.
  */
 void Structure_CalculateHitpointsMax(House *h)
 {
@@ -981,4 +975,34 @@ Structure *Structure_Get_ByPackedTile(uint16 packed)
 	tile = Map_GetTileByPosition(packed);
 	if ((tile->flags & 0x04) == 0) return NULL;
 	return Structure_Get_ByIndex(tile->index - 1);
+}
+
+/**
+ * Get a bitmask of all built structure types for the given House.
+ *
+ * @param h The house to get built structures for.
+ * @return The bitmask.
+ */
+uint32 Structure_GetStructuresBuilt(House *h)
+{
+	PoolFindStruct find;
+	uint32 result;
+
+	if (h == NULL) return 0;
+
+	result = 0;
+	find.houseID = h->index;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+		if ((s->flags & 0x0004) != 0) continue;
+		result |= 1 << s->type;
+	}
+
+	return result;
 }

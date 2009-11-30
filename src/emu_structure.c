@@ -415,3 +415,39 @@ void emu_Structure_Get_ByPackedTile()
 	emu_dx = g_global->structureStartPos.s.cs;
 	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
 }
+
+/**
+ * Emulator wrapper around Structure_GetStructuresBuilt().
+ *
+ * @name emu_Structure_GetStructuresBuilt
+ * @implements 0C3A:13BD:0022:D6F0 ()
+ * @implements 0C3A:13DF:0005:92AE
+ * @implements 0C3A:13E4:001C:C40E
+ * @implements 0C3A:1400:0011:5D2C
+ * @implements 0C3A:1406:000B:166D
+ * @implements 0C3A:1411:0018:26D2
+ * @implements 0C3A:1413:0016:7F60
+ * @implements 0C3A:1429:0004:893F
+ */
+void emu_Structure_GetStructuresBuilt()
+{
+	uint8 houseID;
+	House *h;
+	uint32 result;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = 0;
+	emu_dx = 0;
+
+	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	if (houseID >= HOUSE_MAX) return;
+	h = House_Get_ByIndex(houseID);
+
+	result = Structure_GetStructuresBuilt(h);
+	emu_dx = result >> 16;
+	emu_ax = result & 0xFFFF;
+}

@@ -100,6 +100,7 @@ extern void Structure_CalculatePowerAndCredit(struct House *h);
 extern void Structure_CalculateHitpointsMax(struct House *h);
 extern void Structure_SetAnimation(Structure *s, int16 animation);
 extern Structure *Structure_Get_ByPackedTile(uint16 packed);
+extern uint32 Structure_GetStructuresBuilt(struct House *h);
 
 
 extern void emu_GameLoop_Structure();
@@ -108,5 +109,6 @@ extern void emu_Structure_Place();
 extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
+extern void emu_Structure_GetStructuresBuilt();
 
 #endif /* STRUCTURE_H */
