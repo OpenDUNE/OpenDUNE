@@ -422,7 +422,9 @@ typedef struct GlobalData {
 	/* 1FBC(61)  */ PACK char   string_1FBC[61];            /*!< "0NORTH$1EAST$2SOUTH$3WEST$4AIR$5VISIBLE$6ENEMYBASE$7HOMEBASE" NULL terminated. */
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
-	/* 2005()    */ PACK uint8   unknown_2005[0x01C8];
+	/* 2005()    */ PACK uint8   unknown_2005[0x0166];
+	/* 216B(12)  */ PACK csip32 variable_216B[3];           /*!< ?? */
+	/* 2177()    */ PACK uint8   unknown_2177[0x0056];
 	/* 21CD(10)  */ PACK char   string_21CD[10];            /*!< "MOUSE.SHP" NULL terminated. */
 	/* 21D7(5)   */ PACK char   string_21D7[5];             /*!< "BTTN" NULL terminated. */
 	/* 21DC(11)  */ PACK char   string_21DC[11];            /*!< "SHAPES.SHP" NULL terminated. */
@@ -502,7 +504,9 @@ typedef struct GlobalData {
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
-	/* 264A()    */ PACK uint8   unknown_264A[0x046D];
+	/* 264A()    */ PACK uint8   unknown_264A[0x0451];
+	/* 2A9B(18)  */ PACK uint16 variable_2A9B[9];           /*!< ?? */
+	/* 2AAD()    */ PACK uint8   unknown_2AAD[0x000A];
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
 	/* 2AC3(14)  */ PACK char   string_2AC3[14];            /*!< "_SAVE%03d.DAT" NULL terminated. */
 	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0004];
@@ -669,7 +673,9 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ PACK uint16 structureCount;             /*!< Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
-	/* 3600()    */ PACK uint8   unknown_3600[0x0170];
+	/* 3600()    */ PACK uint8   unknown_3600[0x0142];
+	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< ?? */
+	/* 3752()    */ PACK uint8   unknown_3752[0x001E];
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
