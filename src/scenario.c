@@ -140,14 +140,14 @@ void emu_Scenario_Load_House(uint8 houseID)
 	emu_sp += 0x16;
 
 	emu_push(emu_ss); emu_push(emu_bp - 0xA2);
-	emu_push(emu_cs); emu_push(0x026A); emu_cs = 0x01F7; f__01F7_3CD5_000D_9D98();
+	emu_push(emu_cs); emu_push(0x026A); emu_cs = 0x01F7; emu_String_strupr();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 4;
 
 	emu_push(emu_dx); emu_push(emu_ax);
 	emu_push(emu_ds); emu_push(0x1F5B); /* HUMAN$CPU */
-	emu_push(emu_cs); emu_push(0x0278); emu_cs = 0x01F7; f__01F7_3A8A_0018_E4EE();
+	emu_push(emu_cs); emu_push(0x0278); emu_cs = 0x01F7; emu_String_strstr();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 0x8;

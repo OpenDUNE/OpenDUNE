@@ -2168,7 +2168,7 @@ l__0CC1:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0CD9); emu_cs = 0x01F7; f__01F7_3889_0033_4660();
+	emu_push(emu_cs); emu_push(0x0CD9); emu_cs = 0x01F7; emu_String_strchr();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0CD9:

@@ -3204,7 +3204,7 @@ l__156A:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_cs); emu_push(0x157C); emu_cs = 0x01F7; f__01F7_38C6_0030_705A();
+	emu_push(emu_cs); emu_push(0x157C); emu_cs = 0x01F7; emu_String_strcmp();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__157C:

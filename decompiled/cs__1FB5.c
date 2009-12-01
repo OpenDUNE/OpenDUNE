@@ -2840,7 +2840,7 @@ l__1B5E:
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x1B75); emu_cs = 0x01F7; f__01F7_3CD5_000D_9D98();
+	emu_push(emu_cs); emu_push(0x1B75); emu_cs = 0x01F7; emu_String_strupr();
 l__1B75:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

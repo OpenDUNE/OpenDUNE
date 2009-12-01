@@ -59,9 +59,14 @@
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
 01F7:37AF:001F:03E8	emu_String_sprintf_params	# (buf_csip, format_csip, params_ip)
 01F7:384A:003F:AE43	emu_String_strcat	# (to_csip, from_csip)
+01F7:3889:0033:4660	emu_String_strchr	# (csip, c)
+01F7:38C6:0030:705A	emu_String_strcmp	# (string1_csip, string2_csip)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:3964:0041:7552	emu_String_strcasecmp	# (string1_csip, string2_csip) Case insensitive compare
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
+01F7:39C4:0031:EE87	emu_String_strncpy	# (to_csip, from_csip, count)
+01F7:3A8A:0018:E4EE	emu_String_strstr	# (string1_csip, string2_csip)
+01F7:3CD5:000D:9D98	emu_String_strupr	# (csip)
 01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
 
