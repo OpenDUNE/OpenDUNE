@@ -27,9 +27,9 @@
 #undef DECOMPILED_INCLUDE
 
 extern void overlay(uint16 cs, uint8 force);
-extern void f__B518_0000_0025_FC16();
+extern void emu_GUI_ShowEndStats();
 extern void f__B4C1_0000_0022_1807();
-extern void f__B4C4_0000_001C_B22A();
+extern void emu_Load();
 extern void f__B520_0000_0019_6B99();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
@@ -53,7 +53,7 @@ extern void f__B48B_0000_001E_7E97();
 extern void f__B495_0000_0022_1CF6();
 extern void f__07AE_0000_00DF_A32C();
 extern void f__B500_0000_0008_FE1F();
-extern void f__B503_0000_0016_B170();
+extern void emu_GUI_ShowMap();
 extern void f__B4AE_0000_0008_049C();
 extern void emu_EntryPoint();
 extern void f__B4B1_0000_0016_067A();
@@ -301,7 +301,7 @@ extern void f__217E_0290_000A_9FBE();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__2AE1_029F_0014_50E5();
 extern void f__217E_02A0_002C_0B5F();
-extern void f__1423_02A5_002A_29F1();
+extern void emu_Gameloop_LevelEnd();
 extern void f__1319_02AC_0020_C75C();
 extern void emu_Print_Error_Overlay();
 extern void f__151A_02B0_0011_62B1();

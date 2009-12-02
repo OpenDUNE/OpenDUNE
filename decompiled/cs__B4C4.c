@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4C4_0000_001C_B22A()
+ * Decompiled function emu_Load()
  *
- * @name f__B4C4_0000_001C_B22A
+ * @name emu_Load
  * @implements B4C4:0000:001C:B22A ()
  * @implements B4C4:001C:0012:447E
  * @implements B4C4:002E:0015:F951
@@ -41,7 +41,7 @@
  *
  * Called From: 34C4:0020:0005:0000
  */
-void f__B4C4_0000_001C_B22A()
+void emu_Load()
 {
 l__0000:
 	emu_push(emu_bp);

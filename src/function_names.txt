@@ -84,6 +84,8 @@
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 0FCB:005F:001C:FDC4	emu_String_GetString	# (stringID), Gets a string based on a StringID
 
+1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
+
 167E:02D8:000C:4C9F	emu_Tools_Index_GetStructureOrUnit	# (encoded), gets the structure or unit corresponding to the given encoded index
 
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
@@ -130,6 +132,8 @@ B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to the max-value given
 B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
+B4C4:0000:001C:B22A	emu_Load	# Loads a savegame, or at least some subroutine of the loading processes
+
 B4CD:07F4:0013:6862	emu_Structure_RemoveFogAroundTile # (posx, posy, radius)
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
@@ -140,11 +144,15 @@ B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name o
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString
 
+B503:0000:0016:B170	emu_GUI_ShowMap	# Shows the map and lets you select next mission
+
 B50B:0326:0016:CD5C	emu_Save_House	# Save all houses to a buffer
 B50B:0394:001F:01AF	emu_Save_Unit	# Save all units to a buffer
 B50B:041C:001E:0374	emu_Save_Structure	# Save all structures to a buffer
 B50B:04A1:001A:1AA9	emu_Save_Team	# Save all teams to a buffer
 
 B511:0729:0016:F168	emu_Save_Main	# Save a game
+
+B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox

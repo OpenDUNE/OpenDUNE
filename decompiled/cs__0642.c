@@ -516,7 +516,7 @@ l__03EC:
 	if (emu_get_memory16(emu_ds, 0x00, 0x38F8) == 0x0) goto l__0405;
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x37A0) != 0x0) goto l__0405;
-	emu_push(emu_cs); emu_push(0x0402); emu_cs = 0x1423; f__1423_02A5_002A_29F1();
+	emu_push(emu_cs); emu_push(0x0402); emu_cs = 0x1423; emu_Gameloop_LevelEnd();
 l__0402:
 	emu_get_memory16(emu_ds, 0x00, 0x38F8) = emu_ax;
 l__0405:

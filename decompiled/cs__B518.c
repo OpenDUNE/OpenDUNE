@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B518_0000_0025_FC16()
+ * Decompiled function emu_GUI_ShowEndStats()
  *
- * @name f__B518_0000_0025_FC16
+ * @name emu_GUI_ShowEndStats
  * @implements B518:0000:0025:FC16 ()
  * @implements B518:0025:0019:9691
  * @implements B518:003E:0012:348E
@@ -93,7 +93,7 @@
  *
  * Called From: 3518:0020:0005:0000
  */
-void f__B518_0000_0025_FC16()
+void emu_GUI_ShowEndStats()
 {
 l__0000:
 	emu_push(emu_bp);

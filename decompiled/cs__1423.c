@@ -371,9 +371,9 @@ l__029F:
 }
 
 /**
- * Decompiled function f__1423_02A5_002A_29F1()
+ * Decompiled function emu_Gameloop_LevelEnd()
  *
- * @name f__1423_02A5_002A_29F1
+ * @name emu_Gameloop_LevelEnd
  * @implements 1423:02A5:002A:29F1 ()
  * @implements 1423:02C5:000A:113F
  * @implements 1423:02CF:0004:038D
@@ -426,7 +426,7 @@ l__029F:
  *
  * Called From: 0642:03FD:0016:21F1
  */
-void f__1423_02A5_002A_29F1()
+void emu_Gameloop_LevelEnd()
 {
 l__02A5:
 	emu_push(emu_bp);
@@ -519,7 +519,7 @@ l__0357:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8D3B));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8D39));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8D37));
-	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0000_0025_FC16();
+	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_ShowEndStats();
 l__0380:
 	emu_addw(&emu_sp, 0x10);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x38B2), 0x9);
@@ -568,7 +568,7 @@ l__03E7:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38B2));
-	emu_push(emu_cs); emu_push(0x03F7); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0000_0016_B170();
+	emu_push(emu_cs); emu_push(0x03F7); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
 l__03F7:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -646,7 +646,7 @@ l__0492:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38B2));
-	emu_push(emu_cs); emu_push(0x049E); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0000_0016_B170();
+	emu_push(emu_cs); emu_push(0x049E); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
 l__049E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

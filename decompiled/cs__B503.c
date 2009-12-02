@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B503_0000_0016_B170()
+ * Decompiled function emu_GUI_ShowMap()
  *
- * @name f__B503_0000_0016_B170
+ * @name emu_GUI_ShowMap
  * @implements B503:0000:0016:B170 ()
  * @implements B503:0013:0003:9FBA
  * @implements B503:0016:0009:BCB2
@@ -97,7 +97,7 @@
  *
  * Called From: 3503:0020:0005:0000
  */
-void f__B503_0000_0016_B170()
+void emu_GUI_ShowMap()
 {
 l__0000:
 	emu_push(emu_bp);
