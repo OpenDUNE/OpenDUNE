@@ -33,7 +33,7 @@ extern void f__B4C4_0000_001C_B22A();
 extern void f__B520_0000_0019_6B99();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
-extern void f__B527_0000_0016_BBD9();
+extern void emu_GUI_EditBox();
 extern void f__B52A_0000_0019_1617();
 extern void f__B4DA_0000_002C_B3C2();
 extern void f__253D_0000_0013_38F4();

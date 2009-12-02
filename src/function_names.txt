@@ -146,3 +146,5 @@ B50B:041C:001E:0374	emu_Save_Structure	# Save all structures to a buffer
 B50B:04A1:001A:1AA9	emu_Save_Team	# Save all teams to a buffer
 
 B511:0729:0016:F168	emu_Save_Main	# Save a game
+
+B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox

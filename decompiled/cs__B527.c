@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B527_0000_0016_BBD9()
+ * Decompiled function emu_GUI_EditBox()
  *
- * @name f__B527_0000_0016_BBD9
+ * @name emu_GUI_EditBox
  * @implements B527:0000:0016:BBD9 ()
  * @implements B527:0016:000A:F6B9
  * @implements B527:0020:0009:E4DB
@@ -60,7 +60,7 @@
  *
  * Called From: 3527:0020:0005:0000
  */
-void f__B527_0000_0016_BBD9()
+void emu_GUI_EditBox()
 {
 l__0000:
 	emu_push(emu_bp);

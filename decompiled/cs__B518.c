@@ -1242,7 +1242,7 @@ l__0740:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x0765); emu_cs = 0x3527; overlay(0x3527, 0); f__B527_0000_0016_BBD9();
+	emu_push(emu_cs); emu_push(0x0765); emu_cs = 0x3527; overlay(0x3527, 0); emu_GUI_EditBox();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0765:

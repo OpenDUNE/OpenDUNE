@@ -3115,7 +3115,7 @@ l__14B2:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x14D8); emu_cs = 0x3527; overlay(0x3527, 0); f__B527_0000_0016_BBD9();
+	emu_push(emu_cs); emu_push(0x14D8); emu_cs = 0x3527; overlay(0x3527, 0); emu_GUI_EditBox();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__14D8:
