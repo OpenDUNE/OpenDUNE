@@ -65,7 +65,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 /*
  * Set the animation for the current structure.
  *
- * Stack: *none*
+ * Stack: 0 - The animation.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
