@@ -2433,7 +2433,7 @@ l__0F1A:
 	emu_push(emu_ds);
 	emu_push(emu_ax);
 	emu_cx = 0x10;
-	emu_push(emu_cs); emu_push(0x0FA2); emu_cs = 0x01F7; f__01F7_03C9_001C_11C7();
+	emu_push(emu_cs); emu_push(0x0FA2); emu_cs = 0x01F7; emu_Tools_MemcopyCX();
 l__0FA2:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);

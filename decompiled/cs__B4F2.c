@@ -2289,7 +2289,7 @@ l__0E16:
 	emu_push(emu_ds);
 	emu_push(emu_ax);
 	emu_cx = 0x12;
-	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x01F7; f__01F7_03C9_001C_11C7();
+	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x01F7; emu_Tools_MemcopyCX();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0E2F:

@@ -15,6 +15,7 @@
 01F7:0377:000D:81BB	emu_Terminate_Normal	# (code)
 01F7:0386:0010:FC59	emu_Terminate_Error	# (code)
 01F7:03B2:0017:7CBE	emu_Tools_MulCSIP_csip	# () dx:ax * cx:bx -> dx:ax
+01F7:03C9:001C:11C7	emu_Tools_MemcopyCX	# (from_csip, to_csip) count in cx, no return
 01F7:03E5:000F:055B	emu_Drive_Get_Curdir	# (drive, buffer_csip)
 01F7:0402:0007:3E30	emu_Date_Get	# (result_csip)
 01F7:0415:0007:3EF0	emu_Time_Get	# (result_csip)

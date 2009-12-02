@@ -899,16 +899,16 @@ l__03C2:
 }
 
 /**
- * Decompiled function f__01F7_03C9_001C_11C7()
+ * Decompiled function emu_Tools_MemcopyCX()
  *
- * @name f__01F7_03C9_001C_11C7
+ * @name emu_Tools_MemcopyCX
  * @implements 01F7:03C9:001C:11C7 ()
  *
  * Called From: 10E4:0F9D:0088:7622
  * Called From: B4B8:0A33:001A:E094
  * Called From: B4F2:0E2A:0019:86E9
  */
-void f__01F7_03C9_001C_11C7()
+void emu_Tools_MemcopyCX()
 {
 l__03C9:
 	emu_push(emu_bp);

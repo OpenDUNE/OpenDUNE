@@ -1476,7 +1476,7 @@ l__0A1E:
 	emu_push(emu_ds);
 	emu_push(emu_ax);
 	emu_cx = 0xC;
-	emu_push(emu_cs); emu_push(0x0A38); emu_cs = 0x01F7; f__01F7_03C9_001C_11C7();
+	emu_push(emu_cs); emu_push(0x0A38); emu_cs = 0x01F7; emu_Tools_MemcopyCX();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__0A38:
