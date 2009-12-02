@@ -367,7 +367,7 @@ void GameLoop_House()
 
 						ucsip.s.cs = emu_dx;
 						ucsip.s.ip = emu_ax;
-						if (ucsip.csip == 0) {
+						if (ucsip.csip != 0) {
 							u = Unit_Get_ByMemory(ucsip);
 
 							u->linkedID = (uint8)h->starportLinkedID;
