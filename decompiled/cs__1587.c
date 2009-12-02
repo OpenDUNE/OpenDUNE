@@ -199,7 +199,7 @@ l__0149:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0153); emu_cs = 0x01F7; f__01F7_04E7_0005_D2F2();
+	emu_push(emu_cs); emu_push(0x0153); emu_cs = 0x01F7; emu_Tools_Divd2();
 l__0153:
 	emu_si = emu_ax;
 	emu_bx = emu_si;

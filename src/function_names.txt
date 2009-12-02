@@ -24,7 +24,9 @@
 01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
-01F7:04E0:0004:E219	emu_Tools_Divd	# 32bit division
+01F7:04DD:0007:D823	emu_Tools_Divd_Wrapper	#
+01F7:04E0:0004:E219	emu_Tools_Divd	# 32bit division type 0
+01F7:04E7:0005:D2F2	emu_Tools_Divd2	# 32bit division type 1
 01F7:058B:0018:D9CF	emu_Tools_Shld_Wrapper	# stupid wrapper
 01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper
 01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
@@ -32,9 +34,11 @@
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
 01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
 01F7:079C:0017:78BE	emu_Tools_MulCSIP_ip	# () dx:ax * cx:bx -> dx:ax
+01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
 01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
 01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
+01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments # (csip) stores es, cs, ss and ds in "array" at csip
 01F7:1097:0010:64C2	emu_String_tolower	# (c)
 01F7:10C3:0010:64C2	emu_String_toupper	# (c)
 01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
