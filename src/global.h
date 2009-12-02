@@ -116,9 +116,10 @@ typedef struct Scenario {
 	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*!< BASIC/BriefPicture. */
 	/* 001E(14)  */ PACK char   pictureWin[14];             /*!< BASIC/WinPicture. */
 	/* 002C(14)  */ PACK char   pictureLose[14];            /*!< BASIC/LosePicture. */
-	/* 003A()    */ PACK uint8   unknown_003A[0x0004];
-	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
-	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
+	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? Stats (unit/structure lost you?) */
+	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? Stats (unit/structure lost enemy?) */
+	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? Stats (unit/structure lost you?) */
+	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? Stats (unit/structure lost enemy?) */
 	/* 0042(2)   */ PACK uint16 harvestedAllied;            /*!< Total amount of spice harvested by "You". */
 	/* 0044(2)   */ PACK uint16 harvestedEnemy;             /*!< Total amount of spice harvested by "Enemy". */
 	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */
@@ -514,7 +515,9 @@ typedef struct GlobalData {
 	/* 2ADE(8)   */ PACK char   string_2ADE[8];             /*!< "%s=%d\r\n" NULL terminated. */
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
-	/* 2AF3()    */ PACK uint8   unknown_2AF3[0x0005];
+	/* 2AF3(1)   */ PACK uint8  variable_2AF3;              /*!< ?? */
+	/* 2AF4(2)   */ PACK uint16 variable_2AF4;              /*!< ?? */
+	/* 2AF6(2)   */ PACK uint16 variable_2AF6;              /*!< ?? */
 	/* 2AF8(4)   */ PACK char   string_2AF8[4];             /*!< "ENG" NULL terminated. */
 	/* 2AFC(4)   */ PACK char   string_2AFC[4];             /*!< "FRE" NULL terminated. */
 	/* 2B00(4)   */ PACK char   string_2B00[4];             /*!< "GER" NULL terminated. */
@@ -682,7 +685,7 @@ typedef struct GlobalData {
 	/* 3782(2)   */ PACK uint16 variable_3782;              /*!< ?? */
 	/* 3784()    */ PACK uint8   unknown_3784[0x0018];
 	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI, see a grid on the map, and more. */
-	/* 379E()    */ PACK uint8   unknown_379E[0x0002];
+	/* 379E(2)   */ PACK uint16 variable_379E;              /*!< ?? */
 	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). */
 	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? */
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
@@ -700,7 +703,7 @@ typedef struct GlobalData {
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6()    */ PACK uint8   unknown_38B4[0x0006];
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
-	/* 38BE()    */ PACK uint8   unknown_38BE[0x0002];
+	/* 38BE(2)   */ PACK uint16 variable_38BE;              /*!< ?? */
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */
 	/* 38C4()    */ PACK uint8   unknown_38C4[0x0002];
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
@@ -711,7 +714,9 @@ typedef struct GlobalData {
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0008];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
-	/* 38EC()    */ PACK uint8   unknown_38EE[0x0012];
+	/* 38EC()    */ PACK uint8   unknown_38EE[0x000C];
+	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
+	/* 38FA()    */ PACK uint8   unknown_38FA[0x0004];
 	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
