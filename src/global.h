@@ -760,7 +760,10 @@ typedef struct GlobalData {
 	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
 	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
-	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x0204];
+	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x0002];
+	/* 3C4C(256) */ PACK uint8  variable_3C4C[256];         /*!< ?? */
+	/* 3D4C(256) */ PACK uint8  variable_3D4C[256];         /*!< ?? */
+	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
 	/* 3E4E(4)   */ PACK csip32 variable_3E4E;              /*!< ?? */
 	/* 3E52(2)   */ PACK uint16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
