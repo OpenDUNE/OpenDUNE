@@ -2613,7 +2613,7 @@ l__10E4:
 	emu_push(emu_ds);
 	emu_ax = 0x25C3;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1126); emu_cs = 0x0642; f__0642_075D_0011_C164();
+	emu_push(emu_cs); emu_push(0x1126); emu_cs = 0x0642; emu_String_GenerateFilename();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1126:

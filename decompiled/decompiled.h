@@ -505,7 +505,7 @@ extern void f__29E8_074D_0066_6E9B();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__217E_0758_0003_5D02();
 extern void f__B4ED_075D_002B_59B5();
-extern void f__0642_075D_0011_C164();
+extern void emu_String_GenerateFilename();
 extern void f__217E_0764_0006_1247();
 extern void emu_Structure_ConnectWall();
 extern void emu_File_Seek();

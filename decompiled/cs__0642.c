@@ -970,9 +970,9 @@ l__075A:
 }
 
 /**
- * Decompiled function f__0642_075D_0011_C164()
+ * Decompiled function emu_String_GenerateFilename()
  *
- * @name f__0642_075D_0011_C164
+ * @name emu_String_GenerateFilename
  * @implements 0642:075D:0011:C164 ()
  * @implements 0642:076C:0002:E73A
  * @implements 0642:076E:0014:FFCC
@@ -997,7 +997,7 @@ l__075A:
  * Called From: B511:1303:001C:D688
  * Called From: B511:1382:0021:27D9
  */
-void f__0642_075D_0011_C164()
+void emu_String_GenerateFilename()
 {
 l__075D:
 	emu_push(emu_bp);

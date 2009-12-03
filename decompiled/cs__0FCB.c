@@ -46,7 +46,7 @@ l__0034:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x0642; f__0642_075D_0011_C164();
+	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x0642; emu_String_GenerateFilename();
 l__004A:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
