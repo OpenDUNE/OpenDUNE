@@ -647,7 +647,13 @@ typedef struct GlobalData {
 	/* 3198()    */ PACK uint8   unknown_3198[0x0007];
 	/* 319F(7)   */ PACK char   string_319F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
-	/* 31A9()    */ PACK uint8   unknown_31A9[0x002F];
+	/* 31A9()    */ PACK uint8   unknown_31A9[0x001D];
+	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
+	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
+	/* 31CE(4)   */ PACK uint32 variable_31CE;              /*!< ?? */
+	/* 31D2(2)   */ PACK uint16 variable_31D2;              /*!< ?? */
+	/* 31D4(2)   */ PACK uint16 variable_31D4;              /*!< ?? */
+	/* 31D6(2)   */ PACK uint16 variable_31D6;              /*!< ?? */
 	/* 31D8(4)   */ PACK char   string_31D8[4];             /*!< "ENG" NULL terminated. */
 	/* 31DC(4)   */ PACK char   string_31DC[4];             /*!< "FRE" NULL terminated. */
 	/* 31E0(4)   */ PACK char   string_31E0[4];             /*!< "GER" NULL terminated. */
@@ -689,11 +695,14 @@ typedef struct GlobalData {
 	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). */
 	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? */
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
-	/* 37A6()    */ PACK uint8   unknown_37A6[0x0002];
+	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? */
 	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
-	/* 37AA()    */ PACK uint8   unknown_37AA[0x0002];
+	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? */
 	/* 37AC(2)   */ PACK uint16 variable_37AC;              /*!< ?? */
-	/* 37AE()    */ PACK uint8   unknown_37AE[0x0008];
+	/* 37AE(2)   */ PACK uint16 variable_37AE;              /*!< ?? */
+	/* 37B0(2)   */ PACK uint16 variable_37B0;              /*!< ?? */
+	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
+	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
@@ -714,7 +723,8 @@ typedef struct GlobalData {
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2()    */ PACK uint8   unknown_38E2[0x0008];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
-	/* 38EC()    */ PACK uint8   unknown_38EE[0x000C];
+	/* 38EC(2)   */ PACK uint16 variable_38EC;              /*!< ?? */
+	/* 38EE()    */ PACK uint8   unknown_38EE[0x000A];
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA()    */ PACK uint8   unknown_38FA[0x0004];
 	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
@@ -864,15 +874,23 @@ typedef struct GlobalData {
 	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
-	/* 6304()    */ PACK uint8   unknown_6304[0x000C];
-	/* 6310(2)   */ PACK uint16 variable_6310;              /*!< ?? */
-	/* 6312(2)   */ PACK uint16 variable_6312;              /*!< ?? */
-	/* 6314()    */ PACK uint8   unknown_6314[0x0030];
+	/* 6304(2)   */ PACK uint16 variable_6304;              /*!< ?? */
+	/* 6306(2)   */ PACK uint16 variable_6306;              /*!< ?? */
+	/* 6308()    */ PACK uint8   unknown_6308[0x0008];
+	/* 6310(4)   */ PACK csip32 variable_6310;              /*!< ?? */
+	/* 6314(2)   */ PACK uint16 variable_6314;              /*!< ?? */
+	/* 6316(2)   */ PACK uint16 variable_6316;              /*!< ?? */
+	/* 6318()    */ PACK uint8   unknown_6318[0x000E];
+	/* 6326(2)   */ PACK uint16 variable_6326;              /*!< ?? */
+	/* 6328()    */ PACK uint8   unknown_6328[0x001C];
 	/* 6344(2)   */ PACK uint16 variable_6344;              /*!< ?? */
-	/* 6346()    */ PACK uint8   unknown_6346[0x000C];
-	/* 6352(2)   */ PACK uint16 variable_6352;              /*!< ?? */
-	/* 6354(2)   */ PACK uint16 variable_6354;              /*!< ?? */
-	/* 6356()    */ PACK uint8   unknown_6356[0x0016];
+	/* 6346(2)   */ PACK uint16 variable_6346;              /*!< ?? */
+	/* 6348(2)   */ PACK uint16 variable_6348;              /*!< ?? */
+	/* 634A()    */ PACK uint8   unknown_634A[0x0008];
+	/* 6352(4)   */ PACK csip32 variable_6352;              /*!< ?? */
+	/* 6356(2)   */ PACK uint16 variable_6356;              /*!< ?? */
+	/* 6358(2)   */ PACK uint16 variable_6358;              /*!< ?? */
+	/* 635A()    */ PACK uint8   unknown_635A[0x0012];
 	/* 636C(2)   */ PACK uint16 variable_636C;              /*!< ?? */
 	/* 636E()    */ PACK uint8   unknown_636E[0x0004];
 	/* 6372(2)   */ PACK uint16 variable_6372;              /*!< ?? */
@@ -1068,7 +1086,9 @@ typedef struct GlobalData {
 	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
 	/* 6D83(4)   */ PACK char   string_6D83[4];             /*!< "ITA" NULL terminated. */
 	/* 6D87(4)   */ PACK char   string_6D87[4];             /*!< "SPA" NULL terminated. */
-	/* 6D8B()    */ PACK uint8   unknown_6D8B[0x0027];
+	/* 6D8B(2)   */ PACK uint16 variable_6D8B;              /*!< ?? */
+	/* 6D8D(2)   */ PACK uint16 variable_6D8D;              /*!< ?? */
+	/* 6D8F()    */ PACK uint8   unknown_6D8F[0x0023];
 	/* 6DB2(4)   */ PACK csip32 variable_6DB2;              /*!< ?? Pointer to string_6DCE. */
 	/* 6DB6(4)   */ PACK csip32 variable_6DB6;              /*!< ?? Pointer to string_6DD6. */
 	/* 6DBA(4)   */ PACK csip32 variable_6DBA;              /*!< ?? Pointer to string_6DDE. */
@@ -1129,7 +1149,8 @@ typedef struct GlobalData {
 	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
-	/* 76A8()    */ PACK uint8   unknown_76A8[0x0008];
+	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
+	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? */
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
 	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
