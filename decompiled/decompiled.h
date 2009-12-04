@@ -452,6 +452,7 @@ extern void f__B4C4_05C0_002F_C3F6();
 extern void f__2903_05C8_0018_6BB5();
 extern void f__1DD7_05D0_0014_A7A2();
 extern void f__B50B_05DA_002E_8785();
+extern void f__2649_05DF_0011_F459();
 extern void f__2903_05E0_000A_A47A();
 extern void f__2756_05E6_0038_06ED();
 extern void f__2903_05EA_001D_06CA();
