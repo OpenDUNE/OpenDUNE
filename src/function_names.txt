@@ -91,6 +91,9 @@
 
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
 
+15C2:000B:000E:6322	emu_Script_ClearInfo	# (info_csip)
+15C2:00AC:0015:2FBF	emu_Script_LoadFromFile	# (filename_csip, info_csip, functions_csip, text_csip)
+
 167E:02D8:000C:4C9F	emu_Tools_Index_GetStructureOrUnit	# (encoded), gets the structure or unit corresponding to the given encoded index
 
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)

@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__15C2_000B_000E_6322()
+ * Decompiled function emu_Script_ClearInfo()
  *
- * @name f__15C2_000B_000E_6322
+ * @name emu_Script_ClearInfo
  * @implements 15C2:000B:000E:6322 ()
  * @implements 15C2:0019:0025:CD91
  * @implements 15C2:003E:001F:B34C
@@ -24,7 +24,7 @@
  * Called From: B491:0D34:000D:B58B
  * Called From: B491:0D40:000C:7254
  */
-void f__15C2_000B_000E_6322()
+void emu_Script_ClearInfo()
 {
 l__000B:
 	emu_push(emu_bp);
@@ -92,9 +92,9 @@ l__00AA:
 }
 
 /**
- * Decompiled function f__15C2_00AC_0015_2FBF()
+ * Decompiled function emu_Script_LoadFromFile()
  *
- * @name f__15C2_00AC_0015_2FBF
+ * @name emu_Script_LoadFromFile
  * @implements 15C2:00AC:0015:2FBF ()
  * @implements 15C2:00BC:0005:9D87
  * @implements 15C2:00BE:0003:9C13
@@ -139,7 +139,7 @@ l__00AA:
  *
  * Called From: B4B8:22C7:001F:5CD7
  */
-void f__15C2_00AC_0015_2FBF()
+void emu_Script_LoadFromFile()
 {
 l__00AC:
 	emu_push(emu_bp);
@@ -163,7 +163,7 @@ l__00CB:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x00D5); f__15C2_000B_000E_6322();
+	emu_push(0x00D5); emu_Script_ClearInfo();
 l__00D5:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -424,7 +424,7 @@ l__0354:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x035E); f__15C2_000B_000E_6322();
+	emu_push(0x035E); emu_Script_ClearInfo();
 l__035E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -436,7 +436,7 @@ l__036C:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x0376); f__15C2_000B_000E_6322();
+	emu_push(0x0376); emu_Script_ClearInfo();
 l__0376:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

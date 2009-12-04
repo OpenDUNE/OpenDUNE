@@ -4404,7 +4404,7 @@ l__22AD:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x22CC); emu_cs = 0x15C2; f__15C2_00AC_0015_2FBF();
+	emu_push(emu_cs); emu_push(0x22CC); emu_cs = 0x15C2; emu_Script_LoadFromFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__22CC:
