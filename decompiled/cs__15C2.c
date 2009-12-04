@@ -110,6 +110,7 @@ l__00AA:
  * @implements 15C2:0186:000F:92A6
  * @implements 15C2:0195:002B:0050
  * @implements 15C2:01A2:001E:BBAE
+ * @implements 15C2:01C0:0011:8F23
  * @implements 15C2:01C3:000E:D267
  * @implements 15C2:01D1:0020:DCD5
  * @implements 15C2:01F1:002D:3393
@@ -259,7 +260,8 @@ l__01A2:
 	emu_push(emu_dx);
 	emu_push(emu_si);
 	emu_push(emu_cs); emu_push(0x01C0); emu_cs = 0x34B1; overlay(0x34B1, 0); f__B4B1_01CD_002A_CE8A();
-	/* Unresolved jump */ emu_ip = 0x01C0; emu_last_cs = 0x15C2; emu_last_ip = 0x01C0; emu_last_length = 0x001E; emu_last_crc = 0xBBAE; emu_call();
+l__01C0:
+	emu_addw(&emu_sp, 0xE);
 l__01C3:
 	emu_ax = 0x5244;
 	emu_dx = 0x524F;
