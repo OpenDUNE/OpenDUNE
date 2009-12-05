@@ -125,9 +125,9 @@ typedef struct Unit {
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062(2)   */ PACK uint16 variable_62;                /*!< ?? unknow arg of Unit_Create. */
+	/* 0062(2)   */ PACK uint16 variable_62;                /*!< ?? unknown argument of Unit_Create. */
 	/* 0064(1)   */ PACK uint8  variable_64;                /*!< ?? */
-	/* 0065(2)   */ PACK uint16 variable_65;                /*!< ?? unknow arg of Unit_Create. */
+	/* 0065(2)   */ PACK uint16 variable_65;                /*!< ?? unknown argument of Unit_Create. */
 	/* 0067()    */ PACK uint8   unknown_0067[0x0003];
 	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
 	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
