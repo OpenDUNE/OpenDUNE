@@ -2933,70 +2933,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\script.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\script.h"
-				>
-			</File>
-			<File
-				RelativePath="..\src\script_general.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\script_structure.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\structure.c"
 				>
 				<FileConfiguration
@@ -3338,6 +3274,74 @@
 				<File
 					RelativePath="..\src\pool\unit.h"
 					>
+				</File>
+			</Filter>
+			<Filter
+				Name="script"
+				>
+				<File
+					RelativePath="..\src\script\general.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\script\script.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\script\script.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\script\structure.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\script\"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
