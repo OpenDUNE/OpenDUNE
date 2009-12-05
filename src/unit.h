@@ -125,9 +125,10 @@ typedef struct Unit {
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062()    */ PACK uint8   unknown_0062[0x0002];
+	/* 0062(2)   */ PACK uint16 variable_62;                /*!< ?? unknow arg of Unit_Create. */
 	/* 0064(1)   */ PACK uint8  variable_64;                /*!< ?? */
-	/* 0065()    */ PACK uint8   unknown_0066[0x0005];
+	/* 0065(2)   */ PACK uint16 variable_65;                /*!< ?? unknow arg of Unit_Create. */
+	/* 0067()    */ PACK uint8   unknown_0067[0x0003];
 	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
 	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
@@ -151,7 +152,7 @@ typedef struct UnitInfo {
 	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Unit. */
 	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??. 0x0800 - ??. */
-	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
