@@ -57,12 +57,12 @@ void emu_House_Allocate()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	h = House_Allocate(index);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;
@@ -82,22 +82,22 @@ void emu_House_Allocate()
  */
 void emu_House_Get_ByIndex()
 {
+	House *h;
 	uint8 index;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+
 	emu_ax = 0x0;
 	emu_dx = 0x0;
 
-	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-
 	if (index >= HOUSE_INDEX_MAX) return;
-	{
-		House *h = House_Get_ByIndex(index);
-		if ((h->flags & 0x0001) == 0) return;
-	}
+	h = House_Get_ByIndex(index);
+	if ((h->flags & 0x0001) == 0) return;
+
 	emu_dx = g_global->houseStartPos.s.cs;
 	emu_ax = g_global->houseStartPos.s.ip + index * sizeof(House);
 }
@@ -121,9 +121,6 @@ void emu_House_FindFirst()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -136,6 +133,9 @@ void emu_House_FindFirst()
 	find->index   = 0xFFFF;
 
 	h = House_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;
@@ -163,9 +163,6 @@ void emu_House_FindNext()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -174,6 +171,9 @@ void emu_House_FindNext()
 	}
 
 	h = House_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (h == NULL) return;
 	emu_dx = g_global->houseStartPos.s.cs;

@@ -133,9 +133,9 @@ void emu_Unit_GetHouseID()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = HOUSE_INVALID;
-
 	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = HOUSE_INVALID;
 
 	if (ucsip.csip == 0x0) return;
 	u = Unit_Get_ByMemory(ucsip);
@@ -187,9 +187,6 @@ void emu_Unit_Create()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	index    =        emu_get_memory16(emu_ss, emu_sp, 0x0);
 	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
@@ -197,6 +194,9 @@ void emu_Unit_Create()
 	unknown  =        emu_get_memory16(emu_ss, emu_sp, 0xA);
 
 	u = Unit_Create(index, typeID, houseID, position, unknown);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;

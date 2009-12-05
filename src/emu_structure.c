@@ -201,15 +201,15 @@ void emu_Structure_Create()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	index    =        emu_get_memory16(emu_ss, emu_sp, 0x0);
 	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
 	position =        emu_get_memory16(emu_ss, emu_sp, 0x6);
 
 	s = Structure_Create(index, typeID, houseID, position);
+
+	emu_dx = 0x0;
+	emu_ax = 0x0;
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
@@ -304,10 +304,10 @@ void emu_Structure_Place()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = 0;
-
 	scsip    = emu_get_csip32  (emu_ss, emu_sp, 0x0);
 	position = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
 
 	if (scsip.csip == 0x0) return;
 	s = Structure_Get_ByMemory(scsip);
@@ -404,12 +404,12 @@ void emu_Structure_Get_ByPackedTile()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
 	packed = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	s = Structure_Get_ByPackedTile(packed);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
@@ -439,10 +439,10 @@ void emu_Structure_GetStructuresBuilt()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = 0;
-	emu_dx = 0;
-
 	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (houseID >= HOUSE_MAX) return;
 	h = House_Get_ByIndex(houseID);

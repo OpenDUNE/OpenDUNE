@@ -286,12 +286,12 @@ void emu_Tools_Index_GetUnit()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = 0;
-	emu_dx = 0;
-
 	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	u = Tools_Index_GetUnit(encoded);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
@@ -319,12 +319,12 @@ void emu_Tools_Index_GetStructure()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_ax = 0;
-	emu_dx = 0;
-
 	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	s = Tools_Index_GetStructure(encoded);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;

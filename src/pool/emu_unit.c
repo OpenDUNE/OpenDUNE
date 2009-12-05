@@ -91,14 +91,14 @@ void emu_Unit_Allocate()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	index   = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
 
 	u = Unit_Allocate(index, typeID, houseID);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
@@ -153,10 +153,10 @@ void emu_Unit_Get_ByIndex()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
+	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
 	emu_ax = 0x0;
 	emu_dx = 0x0;
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	if (index >= UNIT_INDEX_MAX) return;
 	emu_dx = g_global->unitStartPos.s.cs;
@@ -182,9 +182,6 @@ void emu_Unit_FindFirst()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -197,6 +194,9 @@ void emu_Unit_FindFirst()
 	find->index   = 0xFFFF;
 
 	u = Unit_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
@@ -230,9 +230,6 @@ void emu_Unit_FindNext()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -241,6 +238,9 @@ void emu_Unit_FindNext()
 	}
 
 	u = Unit_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;

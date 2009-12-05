@@ -77,12 +77,12 @@ void emu_Team_Allocate()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	t = Team_Allocate(index);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (t == NULL) return;
 	emu_dx = g_global->teamStartPos.s.cs;
@@ -105,10 +105,10 @@ void emu_Team_Get_ByIndex()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
+	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
 	emu_ax = 0x0;
 	emu_dx = 0x0;
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	if (index >= TEAM_INDEX_MAX) return;
 	emu_dx = g_global->teamStartPos.s.cs;
@@ -134,9 +134,6 @@ void emu_Team_FindFirst()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -149,6 +146,9 @@ void emu_Team_FindFirst()
 	find->index   = 0xFFFF;
 
 	t = Team_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (t == NULL) return;
 	emu_dx = g_global->teamStartPos.s.cs;
@@ -179,9 +179,6 @@ void emu_Team_FindNext()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_dx = 0x0;
-	emu_ax = 0x0;
-
 	find = (PoolFindStruct *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	if (emu_get_memory16(emu_ss, emu_sp, 0x2) == 0x0 && emu_get_memory16(emu_ss, emu_sp, 0x0) == 0x0) {
 		emu_get_memory16(emu_ss, emu_sp, 0x2) = 0x353F;
@@ -190,6 +187,9 @@ void emu_Team_FindNext()
 	}
 
 	t = Team_Find(find);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
 
 	if (t == NULL) return;
 	emu_dx = g_global->teamStartPos.s.cs;
