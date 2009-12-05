@@ -3,14 +3,14 @@
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
-#include "global.h"
-#include "pool/structure.h"
-#include "pool/unit.h"
+#include "../global.h"
+#include "../pool/structure.h"
+#include "../pool/unit.h"
 #include "script.h"
-#include "structure.h"
-#include "tile.h"
-#include "tools.h"
-#include "unit.h"
+#include "../structure.h"
+#include "../tile.h"
+#include "../tools.h"
+#include "../unit.h"
 
 extern void f__2BB4_0004_0027_DC1D();
 

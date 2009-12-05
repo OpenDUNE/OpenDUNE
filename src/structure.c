@@ -12,7 +12,7 @@
 #include "pool/unit.h"
 #include "house.h"
 #include "map.h"
-#include "script.h"
+#include "script/script.h"
 #include "unit.h"
 #include "tile.h"
 #include "structure.h"

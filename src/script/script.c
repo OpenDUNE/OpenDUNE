@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
-#include "global.h"
+#include "../global.h"
 #include "script.h"
 
 extern void f__0972_0A81_0017_2EC7();

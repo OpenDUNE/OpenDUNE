@@ -3,7 +3,7 @@
 #ifndef STRUCTURE_H
 #define STRUCTURE_H
 
-#include "script.h"
+#include "script/script.h"
 
 /**
  * Types of Structures available in the game.

@@ -3,7 +3,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include "script.h"
+#include "script/script.h"
 
 /*
  * Segments:

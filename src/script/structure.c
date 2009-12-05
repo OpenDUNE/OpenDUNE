@@ -3,14 +3,14 @@
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
-#include "global.h"
-#include "pool/house.h"
-#include "pool/structure.h"
-#include "pool/unit.h"
-#include "house.h"
+#include "../global.h"
+#include "../pool/house.h"
+#include "../pool/structure.h"
+#include "../pool/unit.h"
+#include "../house.h"
 #include "script.h"
-#include "structure.h"
-#include "unit.h"
+#include "../structure.h"
+#include "../unit.h"
 
 extern void emu_Structure_RemoveFogAroundTile();
 extern void overlay(uint16 cs, uint8 force);

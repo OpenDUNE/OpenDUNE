@@ -10,7 +10,7 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "house.h"
-#include "script.h"
+#include "script/script.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"

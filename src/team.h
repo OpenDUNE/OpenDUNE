@@ -3,7 +3,7 @@
 #ifndef TEAM_H
 #define TEAM_H
 
-#include "script.h"
+#include "script/script.h"
 
 /**
  * Types of Teams available in the game.

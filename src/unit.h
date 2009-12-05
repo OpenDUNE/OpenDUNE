@@ -3,7 +3,7 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-#include "script.h"
+#include "script/script.h"
 
 /**
  * Types of Units available in the game.

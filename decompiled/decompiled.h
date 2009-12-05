@@ -16,7 +16,7 @@
 #include "../src/pool/team.h"
 #include "../src/pool/unit.h"
 #include "../src/scenario.h"
-#include "../src/script.h"
+#include "../src/script/script.h"
 #include "../src/structure.h"
 #include "../src/team.h"
 #include "../src/tile.h"

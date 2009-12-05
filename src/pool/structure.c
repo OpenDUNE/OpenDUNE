@@ -7,7 +7,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "../house.h"
-#include "../script.h"
+#include "../script/script.h"
 #include "../structure.h"
 #include "pool.h"
 #include "structure.h"
