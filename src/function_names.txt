@@ -96,6 +96,8 @@
 
 167E:02D8:000C:4C9F	emu_Tools_Index_GetStructureOrUnit	# (encoded), gets the structure or unit corresponding to the given encoded index
 
+176C:23CC:000B:4119	emu_Script_Unit_RandomSoldier	# (script_csip) randomly generates a new soldier around currentUnit location
+
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
@@ -122,6 +124,8 @@
 29E8:0A19:002A:2DE6	emu_Input_History_Add
 29E8:04EB:0011:9CC8	emu_Input_Flags_ClearBits
 29E8:04AF:003C:ECA0	emu_Input_Flags_SetBits
+
+2BB4:0004:0027:DC1D	emu_Tools_Random_256	# (), returns a random value between 0 and 255
 
 2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing

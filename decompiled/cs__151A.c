@@ -713,7 +713,7 @@ l__043B:
 	emu_adcw(&emu_ax, 0x0);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x2BB4; emu_Tools_Random_256();
 l__0453:
 	emu_andw(&emu_ax, 0x3);
 	emu_pop(&emu_dx);

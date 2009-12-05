@@ -69,7 +69,7 @@ extern void f__176C_212E_002E_9D89();
 extern void f__176C_2275_001D_D22D();
 extern void f__176C_22AA_0014_EDA3();
 extern void f__176C_22C4_0019_80C9();
-extern void f__176C_23CC_000B_4119();
+extern void emu_Script_Unit_RandomSoldier();
 extern void f__176C_246C_0015_C163();
 extern void f__176C_2552_0019_4894();
 extern void f__176C_25A5_002C_AC04();
@@ -156,7 +156,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1E */ &f__176C_212E_002E_9D89,
 	/* 1F */ &f__176C_22AA_0014_EDA3,
 	/* 20 */ &f__176C_2275_001D_D22D,
-	/* 21 */ &f__176C_23CC_000B_4119,
+	/* 21 */ &emu_Script_Unit_RandomSoldier,
 	/* 22 */ &f__176C_0BC3_002A_A6DE,
 	/* 23 */ &f__176C_246C_0015_C163,
 	/* 24 */ &f__176C_2552_0019_4894,

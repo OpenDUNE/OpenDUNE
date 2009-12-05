@@ -23,7 +23,7 @@ extern void f__1A34_1B68_0019_AAA0();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
 extern void f__2537_000C_001C_86CB();
-extern void f__2BB4_0004_0027_DC1D();
+extern void emu_Tools_Random_256();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_1816_0033_B55B();
 extern void overlay(uint16 cs, uint8 force);
@@ -154,7 +154,7 @@ void GameLoop_House()
 				if (nu == NULL) {
 					csip32 nucsip;
 
-					emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+					emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x2BB4; emu_Tools_Random_256();
 
 					emu_push(u->houseID);
 					emu_push(emu_ax & 0x3);

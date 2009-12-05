@@ -1397,14 +1397,14 @@ l__15EA:
 	emu_addw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x2);
-	emu_push(emu_cs); emu_push(0x15FF); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x15FF); emu_cs = 0x2BB4; emu_Tools_Random_256();
 l__15FF:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8430));
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0xE));
 	if (emu_ax < emu_get_memory16(emu_es, emu_bx, 0xE)) goto l__160C;
 	goto l__16D8;
 l__160C:
-	emu_push(emu_cs); emu_push(0x1611); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x1611); emu_cs = 0x2BB4; emu_Tools_Random_256();
 l__1611:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -1431,7 +1431,7 @@ l__1634:
 	if (emu_ax != 0) goto l__1648;
 	goto l__16D8;
 l__1648:
-	emu_push(emu_cs); emu_push(0x164D); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x164D); emu_cs = 0x2BB4; emu_Tools_Random_256();
 l__164D:
 	emu_orw(&emu_ax, 0x3);
 	emu_di = emu_ax;

@@ -3459,7 +3459,7 @@ l__24F9:
 l__24FF:
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x0;
 	emu_get_memory16(emu_ss, emu_bp, -0x10) = 0x0;
-	emu_push(emu_cs); emu_push(0x250E); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x250E); emu_cs = 0x2BB4; emu_Tools_Random_256();
 l__250E:
 	emu_andw(&emu_ax, 0xF);
 	emu_si = emu_ax;

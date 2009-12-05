@@ -12,7 +12,7 @@
 #include "../tools.h"
 #include "../unit.h"
 
-extern void f__2BB4_0004_0027_DC1D();
+extern void emu_Tools_Random_256();
 
 /**
  * Suspend the script execution for a set amount of ticks.
@@ -51,7 +51,7 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
 	uint16 delay;
 
 	/* Get a random value between 0 and 255 */
-	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x2BB4; emu_Tools_Random_256();
 
 	delay = emu_ax * script->stack[script->stackPointer] / 256;
 	delay /= 5;

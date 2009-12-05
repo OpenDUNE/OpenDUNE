@@ -25,7 +25,7 @@ extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
-extern void f__2BB4_0004_0027_DC1D();
+extern void emu_Tools_Random_256();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
@@ -520,7 +520,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->flags |= 0x0002;
 
 	if (ui->variable_3C == 0x0001) {
-		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; f__2BB4_0004_0027_DC1D();
+		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; emu_Tools_Random_256();
 
 		if (emu_ax < g_houseInfo[houseID].variable_06) {
 			u->flags |= 0x0400;

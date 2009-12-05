@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2BB4_0004_0027_DC1D()
+ * Decompiled function emu_Tools_Random_256()
  *
- * @name f__2BB4_0004_0027_DC1D
+ * @name emu_Tools_Random_256
  * @implements 2BB4:0004:0027:DC1D ()
  *
  * Called From: 06F7:03BD:000A:3E9E
@@ -82,7 +82,7 @@
  * Called From: B4CD:1C5D:0005:517D
  * Called From: B4CD:1C6A:000D:A6B8
  */
-void f__2BB4_0004_0027_DC1D()
+void emu_Tools_Random_256()
 {
 l__0004:
 	emu_push(emu_ds);
