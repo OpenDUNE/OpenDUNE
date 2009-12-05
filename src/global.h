@@ -675,7 +675,7 @@ typedef struct GlobalData {
 	/* 31E4(4)   */ PACK char   string_31E4[4];             /*!< "ITA" NULL terminated. */
 	/* 31E8(4)   */ PACK char   string_31E8[4];             /*!< "SPA" NULL terminated. */
 	/* 31EC(4)   */ PACK char   string_31EC[4];             /*!< "FRE" NULL terminated. */
-	/* 31E0(4)   */ PACK char   string_31F0[4];             /*!< "GER" NULL terminated. */
+	/* 31F0(4)   */ PACK char   string_31F0[4];             /*!< "GER" NULL terminated. */
 	/* 31F4(5)   */ PACK char   string_31F4[5];             /*!< "DUNE" NULL terminated. */
 	/* 31F9(9)   */ PACK char   string_31F9[9];             /*!< "DUNE.LOG" NULL terminated. */
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
