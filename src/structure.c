@@ -616,8 +616,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			result = 0;
 
-			for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
-				uint16 curPos = position + g_global->structureLayout[si->layout][i];
+			for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+				uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 				Tile *t = Map_GetTileByPosition(curPos);
 
 				emu_push(STRUCTURE_SLAB_1x1);
@@ -658,8 +658,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			/* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
 			if (s->type == STRUCTURE_SLAB_2x2) {
-				for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
-					uint16 curPos = position + g_global->structureLayout[si->layout][i];
+				for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+					uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 					Tile *t = Map_GetTileByPosition(curPos);
 
 					emu_push(STRUCTURE_SLAB_1x1);
@@ -740,7 +740,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
 	if (loc0A < 0) {
 		uint16 tilesWithoutSlab = -(int16)loc0A;
-		uint16 structureTileCount = g_global->structureLayoutCount[si->layout];
+		uint16 structureTileCount = g_global->layoutTileCount[si->layout];
 
 		s->hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
@@ -769,8 +769,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	{
 		uint16 i;
 
-		for (i = 0; i < g_global->structureLayoutCount[si->layout]; i++) {
-			uint16 curPos = position + g_global->structureLayout[si->layout][i];
+		for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+			uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 
 			emu_push(curPos);
 			emu_push(emu_cs); emu_push(0x06E0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_10EE_0039_EC73();

@@ -67,6 +67,20 @@ assert_compile(sizeof(MSDriver) == 0x0C);
 
 MSVC_PACKED_BEGIN
 /**
+ * Inside the GlobalData is information about the map. This is the layout of
+ *  that data.
+ */
+typedef struct MapInfo {
+	/* 0000(2)   */ PACK uint16 minX;                       /*!< Minimal X position of the map. */
+	/* 0002(2)   */ PACK uint16 minY;                       /*!< Minimal Y position of the map. */
+	/* 0004(2)   */ PACK uint16 sizeX;                      /*!< Width of the map. */
+	/* 0006(2)   */ PACK uint16 sizeY;                      /*!< Height of the map. */
+} GCC_PACKED MapInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(MapInfo) == 0x08);
+
+MSVC_PACKED_BEGIN
+/**
  * Inside the GlobalData is the raw information as in dune.cfg is stored. This
  *  is the layout of dune.cfg.
  */
@@ -111,7 +125,7 @@ typedef struct Scenario {
 	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
 	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
 	/* 0008(4)   */ PACK uint32 mapSeed;                    /*!< MAP/Seed. */
-	/* 000C(2)   */ PACK uint16 mapScale;                   /*!< BASIC/MapScale. */
+	/* 000C(2)   */ PACK uint16 mapScale;                   /*!< BASIC/MapScale. 0 is 62x62, 1 is 32x32, 2 is 21x21. */
 	/* 000E(2)   */ PACK uint16 timeOut;                    /*!< BASIC/TimeOut. */
 	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*!< BASIC/BriefPicture. */
 	/* 001E(14)  */ PACK char   pictureWin[14];             /*!< BASIC/WinPicture. */
@@ -554,11 +568,12 @@ typedef struct GlobalData {
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
 	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x0006];
-	/* 2C64(126) */ PACK uint16 structureLayout[7][9];      /*!< Array with position offset per tile in a structure layout. */
+	/* 2C64(126) */ PACK uint16 layoutTiles[7][9];          /*!< Array with position offset per tile in a structure layout. */
 	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
-	/* 2D52(14)  */ PACK uint16 structureLayoutCount[7];    /*!< Array with amount of tiles in a structure layout. */
-	/* 2D60()    */ PACK uint8   unknown_2D60[0x00FC];
-	/* 2E5C(7)   */ PACK tile32 structureLayoutTileDiff[7]; /*!< Array with TileDiff in a structure layout. */
+	/* 2D52(14)  */ PACK uint16 layoutTileCount[7];         /*!< Array with amount of tiles in a layout. */
+	/* 2D60()    */ PACK uint8   unknown_2D60[0x00E0];
+	/* 2E40(28)  */ PACK uint16 layoutSize[7][2];           /*!< Array with size of a layout. */
+	/* 2E5C(28)  */ PACK tile32 layoutTileDiff[7];          /*!< Array with TileDiff of a layout. */
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */
@@ -673,7 +688,9 @@ typedef struct GlobalData {
 	/* 3426(4)   */ PACK uint32 tickStructurePalace;        /*!< Indicates next time Structure runs Palace function. */
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
-	/* 3439()    */ PACK uint8   unknown_3439[0x01AF];
+	/* 3439()    */ PACK uint8   unknown_3439[0x018D];
+	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
+	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
@@ -746,12 +763,14 @@ typedef struct GlobalData {
 	/* 39F8(2)   */ PACK uint16 variable_39F8;              /*!< ?? */
 	/* 39FA(2)   */ PACK uint16 variable_39FA;              /*!< ?? */
 	/* 39FC(2)   */ PACK uint16 variable_39FC;              /*!< ?? */
-	/* 39FE(2)   */ PACK uint16 variable_39FE;              /*!< ?? */
+	/* 39FE(2)   */ PACK uint16 viewportPosition;           /*!< Current viewport position (top-left tile, packed). */
 	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
 	/* 3A02(2)   */ PACK uint16 variable_3A02;              /*!< ?? */
-	/* 3A04()    */ PACK uint8   unknown_3A04[0x0006];
+	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
+	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
+	/* 3A08()    */ PACK uint8   unknown_3A08[0x0002];
 	/* 3A0A(4)   */ PACK csip32 variable_3A0A;              /*!< ?? */
-	/* 3A0E(2)   */ PACK uint16 variable_3A0E;              /*!< ?? */
+	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = ??, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
 	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
@@ -768,7 +787,8 @@ typedef struct GlobalData {
 	/* 3B54()    */ PACK uint8   unknown_3B54[0x008E];
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
-	/* 3C0E()    */ PACK uint8   unknown_3C0E[0x0024];
+	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
+	/* 3C26()    */ PACK uint8   unknown_3C26[0x000C];
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */

@@ -65,7 +65,7 @@ void emu_Scenario_Load_General()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 0xE;
 	g_global->variable_39FC = emu_ax;
-	g_global->variable_39FE = emu_ax;
+	g_global->viewportPosition = emu_ax;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(g_global->variable_3A00);
