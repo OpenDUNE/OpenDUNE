@@ -78,6 +78,7 @@
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 0642:075D:0011:C164	emu_String_GenerateFilename	# (string_csip) adds ".(ENG|FRE|...)" to the given string
+0642:0AD2:002A:8B98	emu_Sound_PlayDuneInit	# Play the DuneInit sound at startup
 
 0C3A:0C5C:004D:2837	emu_Structure_IsValidBuildLocation	# (type, tile), Check if one can build a structure on a tile given
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
@@ -85,6 +86,10 @@
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
 0EDB:0006:002F:CECA	emu_Script_General_DisplayText	# (script)
+
+0F78:0285:001C:04DB	emu_Map_SetSelectionSize	# (layout) Set the selection size
+0F78:02D5:0014:4ABC	emu_Map_SetSelection	# (layout) Select an object, show place object thingy, or something else
+0F78:0435:000E:32E0	emu_Map_MoveDirection	# (direction) Move the map with 1 tile in the given direction
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 0FCB:005F:001C:FDC4	emu_String_GetString	# (stringID), Gets a string based on a StringID

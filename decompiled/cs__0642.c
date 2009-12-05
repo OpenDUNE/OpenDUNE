@@ -176,7 +176,7 @@ l__00EA:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x00F4); f__0642_0AD2_002A_8B98();
+	emu_push(0x00F4); emu_Sound_PlayDuneInit();
 l__00F4:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
@@ -688,7 +688,7 @@ l__04DF:
 	emu_ax = 0x3;
 l__04E2:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x04E8); emu_cs = 0x0F78; f__0F78_0435_000E_32E0();
+	emu_push(emu_cs); emu_push(0x04E8); emu_cs = 0x0F78; emu_Map_MoveDirection();
 l__04E8:
 	goto l__04B6;
 l__04EA:
@@ -1408,7 +1408,7 @@ l__0AC3:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0ACB); emu_cs = 0x0F78; f__0F78_02D5_0014_4ABC();
+	emu_push(emu_cs); emu_push(0x0ACB); emu_cs = 0x0F78; emu_Map_SetSelection();
 l__0ACB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_di);
@@ -1423,15 +1423,15 @@ l__0ACB:
 }
 
 /**
- * Decompiled function f__0642_0AD2_002A_8B98()
+ * Decompiled function emu_Sound_PlayDuneInit()
  *
- * @name f__0642_0AD2_002A_8B98
+ * @name emu_Sound_PlayDuneInit
  * @implements 0642:0AD2:002A:8B98 ()
  * @implements 0642:0B55:0003:2E57
  *
  * Called From: 0642:00F1:000A:99DA
  */
-void f__0642_0AD2_002A_8B98()
+void emu_Sound_PlayDuneInit()
 {
 l__0AD2:
 	emu_push(emu_bp);

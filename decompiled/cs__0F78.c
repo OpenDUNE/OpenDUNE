@@ -401,9 +401,9 @@ l__027F:
 }
 
 /**
- * Decompiled function f__0F78_0285_001C_04DB()
+ * Decompiled function emu_Map_SetSelectionSize()
  *
- * @name f__0F78_0285_001C_04DB
+ * @name emu_Map_SetSelectionSize
  * @implements 0F78:0285:001C:04DB ()
  * @implements 0F78:02A1:0029:1FEE
  * @implements 0F78:02CA:0006:DFE7
@@ -415,7 +415,7 @@ l__027F:
  * Called From: B4E9:02BE:001A:E38F
  * Called From: B511:0406:002D:9F7E
  */
-void f__0F78_0285_001C_04DB()
+void emu_Map_SetSelectionSize()
 {
 l__0285:
 	emu_push(emu_bp);
@@ -464,9 +464,9 @@ l__02D0:
 }
 
 /**
- * Decompiled function f__0F78_02D5_0014_4ABC()
+ * Decompiled function emu_Map_SetSelection()
  *
- * @name f__0F78_02D5_0014_4ABC
+ * @name emu_Map_SetSelection
  * @implements 0F78:02D5:0014:4ABC ()
  * @implements 0F78:02E9:0011:CCF5
  * @implements 0F78:02FA:0008:CF79
@@ -502,7 +502,7 @@ l__02D0:
  * Called From: B4E9:00DE:0009:049C
  * Called From: B511:0386:0012:C11C
  */
-void f__0F78_02D5_0014_4ABC()
+void emu_Map_SetSelection()
 {
 l__02D5:
 	emu_push(emu_bp);
@@ -598,7 +598,7 @@ l__039D:
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x44));
 	emu_push(emu_cs);
-	emu_push(0x03BE); f__0F78_0285_001C_04DB();
+	emu_push(0x03BE); emu_Map_SetSelectionSize();
 l__03BE:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
@@ -612,7 +612,7 @@ l__03CE:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x03D5); f__0F78_0285_001C_04DB();
+	emu_push(0x03D5); emu_Map_SetSelectionSize();
 l__03D5:
 	emu_pop(&emu_cx);
 l__03D6:
@@ -656,7 +656,7 @@ l__0424:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x042B); f__0F78_0285_001C_04DB();
+	emu_push(0x042B); emu_Map_SetSelectionSize();
 l__042B:
 	emu_pop(&emu_cx);
 l__042C:
@@ -673,9 +673,9 @@ l__0430:
 }
 
 /**
- * Decompiled function f__0F78_0435_000E_32E0()
+ * Decompiled function emu_Map_MoveDirection()
  *
- * @name f__0F78_0435_000E_32E0
+ * @name emu_Map_MoveDirection
  * @implements 0F78:0435:000E:32E0 ()
  * @implements 0F78:0443:0017:6AE3
  * @implements 0F78:045A:0020:E45E
@@ -695,7 +695,7 @@ l__0430:
  * Called From: 0AEC:01ED:0016:5CAC
  * Called From: 0AEC:01ED:0022:10B3
  */
-void f__0F78_0435_000E_32E0()
+void emu_Map_MoveDirection()
 {
 l__0435:
 	emu_push(emu_bp);
