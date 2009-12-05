@@ -21,6 +21,7 @@
  * @implements B4C4:00D9:0017:4092
  * @implements B4C4:00E1:000F:66C0
  * @implements B4C4:00F0:0010:FF92
+ * @implements B4C4:0100:0017:FCC5
  * @implements B4C4:0108:000F:26DA
  * @implements B4C4:0117:0015:D8C6
  * @implements B4C4:012C:0019:1978
@@ -182,7 +183,10 @@ l__00F0:
 	emu_push(emu_cs); emu_push(0x0100); emu_cs = 0x0FE4; emu_Unit_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
-	/* Unresolved jump */ emu_ip = 0x0100; emu_last_cs = 0xB4C4; emu_last_ip = 0x0100; emu_last_length = 0x0010; emu_last_crc = 0xFF92; emu_call();
+l__0100:
+	emu_pop(&emu_cx);
+	emu_get_memory16(emu_ds, 0x00, 0x38F4) = emu_dx;
+	emu_get_memory16(emu_ds, 0x00, 0x38F2) = emu_ax;
 l__0108:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp + 0xA);
@@ -873,6 +877,7 @@ l__0548:
  * Called From: B4C4:00ED:000F:66C0
  * Called From: B4C4:00ED:0017:4092
  * Called From: B4C4:0114:000F:26DA
+ * Called From: B4C4:0114:0017:FCC5
  * Called From: B4C4:0142:0019:1978
  * Called From: B4C4:0157:0015:386F
  * Called From: B4C4:01C4:0026:C56B
