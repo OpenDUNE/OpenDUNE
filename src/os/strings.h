@@ -1,3 +1,5 @@
+/* $Id$ */
+
 #ifndef OS_STRINGS_H
 #define OS_STRINGS_H
 
