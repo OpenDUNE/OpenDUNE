@@ -796,14 +796,14 @@ l__0475:
 	emu_get_memory16(emu_ds, 0x00, 0x76B4) = 0x1E;
 	goto l__0488;
 l__0483:
-	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x0488); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 l__0488:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
 	if (emu_ax != 0) goto l__0483;
 	emu_push(emu_cs); emu_push(0x0496); emu_cs = 0x29E8; emu_Input_History_Clear();
 l__0496:
-	emu_push(emu_cs); emu_push(0x049B); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x049B); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 l__049B:
 	emu_push(emu_cs); emu_push(0x04A0); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
 l__04A0:

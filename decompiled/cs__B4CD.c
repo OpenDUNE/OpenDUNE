@@ -2426,7 +2426,7 @@ l__0E92:
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0EAC:
 	emu_addw(&emu_sp, 0xE);
-	emu_push(emu_cs); emu_push(0x0EB4); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x0EB4); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0EB4:
@@ -2482,7 +2482,7 @@ l__0EFA:
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0F14:
 	emu_addw(&emu_sp, 0xE);
-	emu_push(emu_cs); emu_push(0x0F1C); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x0F1C); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0F1C:

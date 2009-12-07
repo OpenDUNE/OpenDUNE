@@ -250,7 +250,7 @@ l__01A7:
 	emu_pop(&emu_cx);
 l__01A8:
 	emu_push(emu_cs);
-	emu_push(0x01AD); f__0642_0559_0027_3560();
+	emu_push(0x01AD); emu_GUI_PaletteAnimate();
 l__01AD:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x38BE), 0x1);
 	if (emu_get_memory16(emu_ds, 0x00, 0x38BE) != 0x1) goto l__0209;
@@ -705,9 +705,9 @@ l__04EC:
 }
 
 /**
- * Decompiled function f__0642_0559_0027_3560()
+ * Decompiled function emu_GUI_PaletteAnimate()
  *
- * @name f__0642_0559_0027_3560
+ * @name emu_GUI_PaletteAnimate
  * @implements 0642:0559:0027:3560 ()
  * @implements 0642:0574:000C:4D0E
  * @implements 0642:0580:000C:CC3D
@@ -762,7 +762,7 @@ l__04EC:
  * Called From: B511:0F7E:0009:0F5C
  * Called From: B511:1142:000A:C086
  */
-void f__0642_0559_0027_3560()
+void emu_GUI_PaletteAnimate()
 {
 l__0559:
 	emu_push(emu_bp);

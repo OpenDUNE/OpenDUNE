@@ -1862,7 +1862,7 @@ l__0C17:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_di = emu_ax;
-	emu_push(emu_cs); emu_push(0x0C20); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x0C20); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0C20:

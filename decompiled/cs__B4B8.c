@@ -4127,7 +4127,7 @@ l__209D:
 		emu_si = emu_get_memory16(emu_ds, emu_bx, 0x219D);
 	}
 l__20BB:
-	emu_push(emu_cs); emu_push(0x20C0); emu_cs = 0x0642; f__0642_0559_0027_3560();
+	emu_push(emu_cs); emu_push(0x20C0); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__20C0:

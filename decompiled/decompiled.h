@@ -429,7 +429,7 @@ extern void f__16C5_0543_0034_CA88();
 extern void f__2903_0545_0024_06E5();
 extern void f__B4C4_054C_0031_FE26();
 extern void f__B518_0558_0010_240A();
-extern void f__0642_0559_0027_3560();
+extern void emu_GUI_PaletteAnimate();
 extern void emu_Overlay_LocateMemory();
 extern void f__B4CD_0566_0010_04C2();
 extern void f__2903_0569_000A_C3B0();
