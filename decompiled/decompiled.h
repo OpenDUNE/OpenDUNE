@@ -2,6 +2,7 @@
 
 #define DECOMPILED_INCLUDE
 
+#include "../src/config.h"
 #include "../src/global.h"
 #include "../src/house.h"
 #include "../src/input/input.h"
