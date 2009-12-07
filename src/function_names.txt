@@ -108,9 +108,6 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
-24E6:006E:001A:719E	emu_Config_Read	# (filename_csip, config_csip)
-24E6:011A:001A:2E2C	emu_Config_Decode	# (config_csip)
-
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init
