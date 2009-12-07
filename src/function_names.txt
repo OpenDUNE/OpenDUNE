@@ -108,6 +108,19 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
+217E:04F9:000E:346A	emu_Overlay_Load
+217E:055F:0008:D2BC	emu_Overlay_LocateMemory
+217E:05A9:001A:42B9	emu_Overlay_Load2
+217E:0677:0009:9C4F	emu_Overlay_Activate
+217E:0698:001E:EA6B	emu_Overlay_ReplaceWithJump
+217E:073A:0003:5D1A	emu_Overlay_AddToLinkedList
+217E:0758:0003:5D02	emu_Overlay_ReplaceReturnCSIP
+217E:0764:0006:1247	emu_Overlay_ReplaceReturnCS
+217E:07A6:000C:1B04	emu_Overlay_GetCodeSize
+217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
+
+261F:0008:0033:66ED	emu_Overlay_Interrupt
+
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init

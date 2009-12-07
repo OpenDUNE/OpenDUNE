@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__261F_0008_0033_66ED()
+ * Decompiled function emu_Overlay_Interrupt()
  *
- * @name f__261F_0008_0033_66ED
+ * @name emu_Overlay_Interrupt
  * @implements 261F:0008:0033:66ED ()
  * @implements 261F:003C:000E:672A
  * @implements 261F:004A:000E:FD7C
@@ -137,7 +137,7 @@
  * Called From: 353B:0020:0002:0000
  * Called From: 353B:002F:0002:0000
  */
-void f__261F_0008_0033_66ED()
+void emu_Overlay_Interrupt()
 {
 l__0008:
 	emu_push(emu_ax);
@@ -334,7 +334,7 @@ l__0175:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x9848);
 	emu_push(0x0185);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x217E04F9: f__217E_04F9_000E_346A(); break;
+		case 0x217E04F9: emu_Overlay_Load(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x261F; emu_last_ip = 0x0181; emu_last_length = 0x0010; emu_last_crc = 0xC131;

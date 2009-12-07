@@ -524,7 +524,6 @@ l__0279:
  * @implements 01F7:0288:0009:FAE0
  *
  * Called From: 01F7:15FE:0003:2B3E
- * Called From: 01F7:2172:0005:2928
  * Called From: 217E:0D82:0005:67AA
  */
 void emu_Error_Abnormal_Termination()
