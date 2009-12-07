@@ -68,10 +68,10 @@ MSVC_PACKED_BEGIN
  * Static information per Structure type.
  */
 typedef struct StructureInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Structure. */
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
-	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Structure. */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
+	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
+	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */

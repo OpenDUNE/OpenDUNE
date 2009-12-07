@@ -253,7 +253,7 @@ void GameLoop_Structure()
 
 									emu_push(emu_dx); emu_push(emu_ax);
 
-									emu_push(ui->stringID);
+									emu_push(ui->stringID_full);
 									emu_push(emu_cs); emu_push(0x0605); emu_cs = 0x0FCB; emu_String_GetString();
 									emu_sp += 2;
 

@@ -147,10 +147,10 @@ MSVC_PACKED_BEGIN
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Unit. */
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
-	/* 0006(2)   */ PACK uint16 stringID;                   /*!< StringID of name of Unit. */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
+	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Unit. */
+	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??. 0x0800 - ??. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
