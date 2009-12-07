@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__16BC_0001_0018_AE47()
+ * Decompiled function emu_Team_AddUnitToTeam()
  *
- * @name f__16BC_0001_0018_AE47
+ * @name emu_Team_AddUnitToTeam
  * @implements 16BC:0001:0018:AE47 ()
  * @implements 16BC:0017:0002:D43A
  * @implements 16BC:0019:0028:89C5
@@ -15,7 +15,7 @@
  *
  * Called From: 16C5:03AF:0015:91C5
  */
-void f__16BC_0001_0018_AE47()
+void emu_Team_AddUnitToTeam()
 {
 l__0001:
 	emu_push(emu_bp);
@@ -56,9 +56,9 @@ l__0041:
 }
 
 /**
- * Decompiled function f__16BC_0044_0027_CB92()
+ * Decompiled function emu_Team_RemoveUnitFromTeam()
  *
- * @name f__16BC_0044_0027_CB92
+ * @name emu_Team_RemoveUnitFromTeam
  * @implements 16BC:0044:0027:CB92 ()
  * @implements 16BC:006B:0026:801B
  * @implements 16BC:008F:0002:C23A
@@ -72,7 +72,7 @@ l__0041:
  * Called From: 1A34:3750:0019:E290
  * Called From: 1A34:37D1:0026:D835
  */
-void f__16BC_0044_0027_CB92()
+void emu_Team_RemoveUnitFromTeam()
 {
 l__0044:
 	emu_push(emu_bp);
