@@ -520,7 +520,7 @@ extern void emu_Overlay_GetTotalSize();
 extern void f__22A6_07B3_0037_50B9();
 extern void emu_Tools_Cmpd();
 extern void f__B4ED_07B6_0013_1343();
-extern void f__0642_07BE_0058_A125();
+extern void emu_Map_SelectNext();
 extern void f__1423_07C5_0016_E9C2();
 extern void f__B52A_07CD_003B_4734();
 extern void f__B536_07CE_0032_AF6A();

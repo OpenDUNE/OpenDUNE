@@ -659,7 +659,7 @@ l__04AD:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x04B6); f__0642_07BE_0058_A125();
+	emu_push(0x04B6); emu_Map_SelectNext();
 l__04B6:
 	emu_pop(&emu_cx);
 	goto l__04EC;
@@ -1055,9 +1055,9 @@ l__07BC:
 }
 
 /**
- * Decompiled function f__0642_07BE_0058_A125()
+ * Decompiled function emu_Map_SelectNext()
  *
- * @name f__0642_07BE_0058_A125
+ * @name emu_Map_SelectNext
  * @implements 0642:07BE:0058:A125 ()
  * @implements 0642:0816:0008:D758
  * @implements 0642:081E:0014:04BF
@@ -1105,7 +1105,7 @@ l__07BC:
  *
  * Called From: 0642:04B3:0009:B95F
  */
-void f__0642_07BE_0058_A125()
+void emu_Map_SelectNext()
 {
 l__07BE:
 	emu_push(emu_bp);
