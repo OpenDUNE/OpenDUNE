@@ -116,8 +116,8 @@ typedef struct Unit {
 	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
-	/* 0054(2)   */ PACK uint16 encodedIndex;               /*!< An encoded index. */
-	/* 0056(2)   */ PACK uint16 variable_56;                /*!< ?? */
+	/* 0054(2)   */ PACK uint16 targetAttack;               /*!< Target to attack (encoded index). */
+	/* 0056(2)   */ PACK uint16 targetMove;                 /*!< Target to move to (encoded index). */
 	/* 0058(1)   */ PACK uint8  amount;                     /*!< Meaning depends on type:
 	                                                         * - Sandworm : units to eat before disappearing.
 	                                                         * - Harvester : harvested spice.
@@ -134,7 +134,7 @@ typedef struct Unit {
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
 	/* 006D(1)   */ PACK  int8  variable_6D;                /*!< ?? */
 	/* 006E(1)   */ PACK uint8  variable_6E;                /*!< ?? */
-	/* 006F(1)   */ PACK uint8  variable_6F;                /*!< ?? */
+	/* 006F(1)   */ PACK uint8  team;                       /*!< If not zero, unit is part of team. Value 1 means team 0, etc. */
 	/* 0070(1)   */ PACK uint16 variable_70;                /*!< ?? */
 	/* 0072(1)   */ PACK uint8  variable_72;                /*!< ?? */
 	/* 0073()    */ PACK uint8   unknown_0073[0x000D];

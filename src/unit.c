@@ -123,10 +123,10 @@ void GameLoop_Unit()
 
 		if ((u->flags & 0x0004) != 0) continue;
 
-		if (tickUnknown4 && u->encodedIndex != 0 && (ui->variable_0C & 0x0040) != 0) {
+		if (tickUnknown4 && u->targetAttack != 0 && (ui->variable_0C & 0x0040) != 0) {
 			tile32 tile;
 
-			tile = Tools_Index_GetTile(u->encodedIndex);
+			tile = Tools_Index_GetTile(u->targetAttack);
 
 			emu_push(tile.s.y); emu_push(tile.s.x);
 			emu_push(u->position.s.y); emu_push(u->position.s.x);
@@ -152,8 +152,8 @@ void GameLoop_Unit()
 
 					tile = u->variable_49;
 
-					if (Tools_Index_GetType(u->encodedIndex) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->encodedIndex)->type].variable_3C == 4) {
-						tile = Tools_Index_GetTile(u->encodedIndex);
+					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->type].variable_3C == 4) {
+						tile = Tools_Index_GetTile(u->targetAttack);
 					}
 
 					emu_push(tile.s.y); emu_push(tile.s.x);
@@ -505,10 +505,10 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->linkedID     = 0xFF;
 	u->scriptDelay  = 0;
 	u->actionID     = ACTION_GUARD;
-	u->nextActionID  = ACTION_INVALID;
+	u->nextActionID = ACTION_INVALID;
 	u->variable_51  = 0x00;
 	u->variable_52  = 0x7FFF;
-	u->variable_56  = 0x0000;
+	u->targetMove   = 0x0000;
 	u->amount       = 0x00;
 	u->variable_6C  = 0x00;
 	u->variable_6D  = 0x00;
