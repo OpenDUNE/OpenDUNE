@@ -686,8 +686,9 @@ typedef struct GlobalData {
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
-	/* 3782(2)   */ PACK uint16 variable_3782;              /*!< ?? */
-	/* 3784()    */ PACK uint8   unknown_3784[0x0018];
+	/* 3782(16)  */ PACK uint16 variable_3782[8];           /*!< ?? */
+	/* 3792(8)   */ PACK uint8  variable_3792[8];           /*!< ?? */
+	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< When non-zero, it logs things in dune.log. */
 	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI, see a grid on the map, and more. */
 	/* 379E(2)   */ PACK uint16 variable_379E;              /*!< ?? */
 	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). */
