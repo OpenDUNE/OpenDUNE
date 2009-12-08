@@ -166,6 +166,7 @@ B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent betw
 
 B4C4:0000:001C:B22A	emu_Load	# Loads a savegame, or at least some subroutine of the loading processes
 
+B4CD:10EE:0039:EC73	emu_Unit_Get_ByPackedTile	# (packed_tile)
 B4CD:07F4:0013:6862	emu_Structure_RemoveFogAroundTile # (posx, posy, radius)
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong

@@ -619,7 +619,7 @@ l__03D6:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x3A0E), 0x1);
 	if (emu_get_memory16(emu_ds, 0x00, 0x3A0E) == 0x1) goto l__0422;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x03E3); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_10EE_0039_EC73();
+	emu_push(emu_cs); emu_push(0x03E3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Unit_Get_ByPackedTile();
 l__03E3:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

@@ -3056,7 +3056,7 @@ l__1732:
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 l__1743:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x174B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_10EE_0039_EC73();
+	emu_push(emu_cs); emu_push(0x174B); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Unit_Get_ByPackedTile();
 l__174B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_dx;
