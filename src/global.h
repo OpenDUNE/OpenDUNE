@@ -470,12 +470,12 @@ typedef struct GlobalData {
 	/* 236D(8)   */ PACK char   string_236D[7];             /*!< "INTRO4" NULL terminated. */
 	/* 2374(8)   */ PACK char   string_2374[7];             /*!< "INTRO6" NULL terminated. */
 	/* 237B(8)   */ PACK char   string_237B[8];             /*!< "INTRO7a" NULL terminated. */
-	/* 2385(8)   */ PACK char   string_2385[8];             /*!< "INTRO7b" NULL terminated. */
+	/* 2383(8)   */ PACK char   string_2383[8];             /*!< "INTRO7b" NULL terminated. */
 	/* 238B(8)   */ PACK char   string_238B[8];             /*!< "INTRO8a" NULL terminated. */
-	/* 2395(8)   */ PACK char   string_2395[8];             /*!< "INTRO8b" NULL terminated. */
+	/* 2393(8)   */ PACK char   string_2393[8];             /*!< "INTRO8b" NULL terminated. */
 	/* 239B(8)   */ PACK char   string_239B[8];             /*!< "INTRO8c" NULL terminated. */
-	/* 23A2(8)   */ PACK char   string_23A2[7];             /*!< "INTRO5" NULL terminated. */
-	/* 23A8(8)   */ PACK char   string_23A8[6];             /*!< "INTRO" NULL terminated. */
+	/* 23A3(8)   */ PACK char   string_23A3[7];             /*!< "INTRO5" NULL terminated. */
+	/* 23AA(8)   */ PACK char   string_23AA[6];             /*!< "INTRO" NULL terminated. */
 	/* 23B0(13)  */ PACK char   string_23B0[13];            /*!< "WESTWOOD.PAL" NULL terminated. */
 	/* 23BD(13)  */ PACK char   string_23BD[13];            /*!< "WESTWOOD.WSA" NULL terminated. */
 	/* 23CA(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
@@ -715,8 +715,8 @@ typedef struct GlobalData {
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */
 	/* 38C4()    */ PACK uint8   unknown_38C4[0x0002];
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
-	/* 38CA(4)   */ PACK csip32 variable_38CA;              /*!< ?? */
-	/* 38CA()    */ PACK uint8   unknown_38CE[0x000C];
+	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
+	/* 38CE()    */ PACK uint8   unknown_38CE[0x000C];
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
