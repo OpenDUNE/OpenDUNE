@@ -388,6 +388,7 @@ l__014B:
  * Called From: 253D:011B:0016:F834
  * Called From: 256D:0033:000F:8420
  * Called From: 257A:00A7:001C:84BD
+ * Called From: 257A:00E9:0016:5546
  * Called From: B495:1A36:0012:DF2C
  * Called From: B4B1:0011:0016:067A
  * Called From: B4B1:002C:0010:8479
@@ -1225,6 +1226,14 @@ l__0A83:
  * Called From: 253D:020A:0019:DC1B
  * Called From: 256D:004A:0017:575A
  * Called From: 256D:0097:002C:8C80
+ * Called From: 257A:0120:0028:837C
+ * Called From: 257A:0138:0018:B140
+ * Called From: 257A:0174:001C:6ACC
+ * Called From: 257A:018C:0018:B180
+ * Called From: 29E8:0562:0018:AF1C
+ * Called From: 29E8:05F3:001B:2E47
+ * Called From: 29E8:05F3:006B:8F0C
+ * Called From: 29E8:05F3:0087:C5AD
  * Called From: B495:1A50:001A:4B96
  * Called From: B4B1:0043:0017:5F5A
  * Called From: B4B1:00BD:002A:CE8A

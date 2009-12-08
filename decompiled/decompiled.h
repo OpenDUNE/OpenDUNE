@@ -260,6 +260,7 @@ extern void f__217E_01C6_0004_16B8();
 extern void f__B495_01CB_0016_9CD0();
 extern void f__B4B1_01CD_002A_CE8A();
 extern void f__B48B_01CE_002B_7574();
+extern void f__29A3_01DB_003D_B0F3();
 extern void f__2AE1_01EA_0020_A570();
 extern void f__1DD7_01EB_0013_9C3C();
 extern void f__01F7_01ED_0024_A432();
