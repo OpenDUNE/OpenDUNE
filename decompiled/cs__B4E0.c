@@ -928,7 +928,7 @@ l__06BA:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
-	emu_push(emu_cs); emu_push(0x06CE); emu_cs = 0x2502; f__2502_00FA_0009_9EB2();
+	emu_push(emu_cs); emu_push(0x06CE); emu_cs = 0x2502; emu_String_Decompress();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__06CE:

@@ -18,6 +18,7 @@
 #include "../src/pool/unit.h"
 #include "../src/scenario.h"
 #include "../src/script/script.h"
+#include "../src/string.h"
 #include "../src/structure.h"
 #include "../src/team.h"
 #include "../src/tile.h"
@@ -202,7 +203,6 @@ extern void f__2B0E_00F2_0016_F9EC();
 extern void f__B48B_00F2_0005_601A();
 extern void f__1FB5_00F3_001B_7009();
 extern void f__253D_00FA_0010_873D();
-extern void f__2502_00FA_0009_9EB2();
 extern void f__B495_00FE_0017_4E8B();
 extern void f__07AE_0103_004C_B43B();
 extern void f__B4E6_0108_004A_C989();
