@@ -508,7 +508,6 @@ extern void f__29E8_074D_0066_6E9B();
 extern void f__B4CD_0750_0027_7BA5();
 extern void emu_Overlay_ReplaceReturnCSIP();
 extern void f__B4ED_075D_002B_59B5();
-extern void emu_String_GenerateFilename();
 extern void emu_Overlay_ReplaceReturnCS();
 extern void emu_Structure_ConnectWall();
 extern void emu_File_Seek();

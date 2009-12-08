@@ -8,6 +8,7 @@
  *
  * strcasecmp     - strcmp, but case insensitive
  * strncasecmp    - strncmp, but case insensitive
+ * snprintf
  *
  */
 
@@ -15,6 +16,7 @@
 	#include <string.h>
 	#define strcasecmp _stricmp
 	#define strncasecmp _strnicmp
+	#define snprintf _snprintf
 #elif !defined(DECOMPILED_INCLUDE) || !defined(__TINYC__)
 	#include <strings.h>
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)

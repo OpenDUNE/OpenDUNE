@@ -1227,7 +1227,7 @@ typedef struct GlobalData {
 	/* 8229(2)   */ PACK uint16 variable_8229;              /*!< ?? */
 	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
-	/* 8282(14)  */ PACK char   variable_8282[14];          /*!< String buffer for emu_String_GenerateFilename(). */
+	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
 	/* 8290()    */ PACK uint8   unknown_8290[0x01A0];
 	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */

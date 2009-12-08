@@ -5,6 +5,7 @@
 #include "libemu.h"
 #include "global.h"
 #include "string.h"
+#include "os/strings.h"
 
 /**
  * Decompress a string.
@@ -34,4 +35,16 @@ uint16 String_Decompress(char *source, char* dest)
 	}
 	dest[count] = '\0';
 	return count;
+}
+
+/**
+ * Appends ".(ENG|FRE|...)" to the given string.
+ *
+ * @param name The string to append extension to.
+ * @return The new string.
+ */
+char *String_GenerateFilename(char *name)
+{
+	snprintf(g_global->stringFilename, sizeof(g_global->stringFilename), "%s.%s", name, g_global->string_31D8 + g_global->language * 4);
+	return g_global->stringFilename;
 }

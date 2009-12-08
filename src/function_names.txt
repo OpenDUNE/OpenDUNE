@@ -78,7 +78,6 @@
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 0642:0559:0027:3560	emu_GUI_PaletteAnimate	# Animate the palette. Only works for some colours or something
-0642:075D:0011:C164	emu_String_GenerateFilename	# (string_csip) adds ".(ENG|FRE|...)" to the given string
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
 0642:0AD2:002A:8B98	emu_Sound_PlayDuneInit	# Play the DuneInit sound at startup
 
