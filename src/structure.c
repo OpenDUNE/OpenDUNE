@@ -38,7 +38,7 @@ extern void f__1A34_10EC_000E_A326();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0D74_0020_7CC1();
-extern void f__B4CD_10EE_0039_EC73();
+extern void emu_Unit_Get_ByPackedTile();
 extern void f__B4CD_1BC4_0013_1AB3();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -773,7 +773,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 
 			emu_push(curPos);
-			emu_push(emu_cs); emu_push(0x06E0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_10EE_0039_EC73();
+			emu_push(emu_cs); emu_push(0x06E0); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Unit_Get_ByPackedTile();
 			emu_sp += 2;
 
 			emu_push(emu_dx); emu_push(emu_ax);
