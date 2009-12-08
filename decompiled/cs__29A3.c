@@ -13,6 +13,7 @@
  * @implements 29A3:004C:0008:FC68
  *
  * Called From: 29A3:00AD:0015:C95F
+ * Called From: 29A3:0130:0024:C7FA
  */
 void emu_Mouse_CheckButtons()
 {
@@ -65,6 +66,7 @@ l__004C:
  * @implements 29A3:00B0:0009:B56A
  * @implements 29A3:00B9:0014:EEB4
  * @implements 29A3:00BC:0011:463C
+ * @implements 29A3:00CA:0003:9D1D
  * @implements 29A3:01C3:000C:CF33
  *
  * Called From: 0000:0000:0000:0000
@@ -88,13 +90,13 @@ l__0054:
 	emu_ax = 0x353F;
 	emu_ds = emu_ax;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7097), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) { /* Unresolved jump */ emu_ip = 0x00CA; emu_last_cs = 0x29A3; emu_last_ip = 0x0072; emu_last_length = 0x005C; emu_last_crc = 0x47DC; emu_call(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) goto l__00CA;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7098), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7098) == 0x0) { /* Unresolved jump */ emu_ip = 0x00CA; emu_last_cs = 0x29A3; emu_last_ip = 0x0079; emu_last_length = 0x005C; emu_last_crc = 0x47DC; emu_call(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7098) == 0x0) goto l__00CA;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x1);
 	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x1) {
 		emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x986C), 0x0);
-		if (emu_get_memory8(emu_ds, 0x00, 0x986C) != 0x0) { /* Unresolved jump */ emu_ip = 0x00CA; emu_last_cs = 0x29A3; emu_last_ip = 0x0087; emu_last_length = 0x005C; emu_last_crc = 0x47DC; emu_call(); return; }
+		if (emu_get_memory8(emu_ds, 0x00, 0x986C) != 0x0) goto l__00CA;
 	}
 l__0089:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x7068), 0x1);
@@ -119,9 +121,11 @@ l__00B9:
 	emu_addw(&emu_sp, 0x2);
 l__00BC:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x2) { /* Unresolved jump */ emu_ip = 0x00CA; emu_last_cs = 0x29A3; emu_last_ip = 0x00C1; emu_last_length = 0x0011; emu_last_crc = 0x463C; emu_call(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705E), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x705E) == 0x0) { emu_Mouse_HandleMovement(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7010) != 0x2) {
+		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705E), 0x0);
+		if (emu_get_memory16(emu_ds, 0x00, 0x705E) == 0x0) { emu_Mouse_HandleMovement(); return; }
+	}
+l__00CA:
 	goto l__01C3;
 l__01C3:
 	emu_pop(&emu_di);
@@ -148,6 +152,8 @@ l__01C3:
  * @implements 29A3:00CD:0066:C700 ()
  * @implements 29A3:00F3:0040:B81C
  * @implements 29A3:010F:0024:C7FA
+ * @implements 29A3:0133:0009:B56A
+ * @implements 29A3:013C:002D:9BAA
  *
  * Called From: 29A3:00C8:0014:EEB4
  * Called From: 29A3:00C8:0011:463C
@@ -192,7 +198,13 @@ l__010F:
 	if ((emu_get_memory16(emu_ds, 0x00, 0x700E) & 0x1000) != 0) { emu_Mouse_CheckMovement(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(0x0133); emu_Mouse_CheckButtons();
-	/* Unresolved jump */ emu_ip = 0x0133; emu_last_cs = 0x29A3; emu_last_ip = 0x0133; emu_last_length = 0x0024; emu_last_crc = 0xC7FA; emu_call();
+l__0133:
+	emu_addw(&emu_sp, 0x2);
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x29E8; emu_Input_HandleInput();
+l__013C:
+	emu_addw(&emu_sp, 0x2);
+	emu_Mouse_CheckMovement(); return;
 }
 
 /**

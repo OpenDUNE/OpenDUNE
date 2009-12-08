@@ -50,7 +50,9 @@ l__0014:
 	emu_push(emu_dx);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x257A; emu_ip = 0x000D; emu_last_cs = 0xB500; emu_last_ip = 0x0024; emu_last_length = 0x0015; emu_last_crc = 0xD8D5; emu_call();
+	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x257A; f__257A_000D_001A_3B75();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3500) { overlay(0x3500, 1); }
 	/* Unresolved jump */ emu_ip = 0x0029; emu_last_cs = 0xB500; emu_last_ip = 0x0029; emu_last_length = 0x0015; emu_last_crc = 0xD8D5; emu_call();
 l__002C:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x62F6), 0x0);

@@ -1920,6 +1920,7 @@ l__07D3:
  * @name emu_Tools_Var79E4_Init
  * @implements 01F7:07D4:0011:370E ()
  *
+ * Called From: 257A:008B:000B:C6B2
  * Called From: 25C4:03DB:0008:9D33
  * Called From: B495:180E:0023:3B9E
  * Called From: B495:185E:0023:3B9E
