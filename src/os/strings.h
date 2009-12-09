@@ -23,7 +23,7 @@
 		int __cdecl __MINGW_NOTHROW strcasecmp (const char *, const char *);
 		int __cdecl __MINGW_NOTHROW strncasecmp (const char *, const char *, size_t);
 	#endif /* __MINGW32__ && __STRICT_ANSI__ */
-	#if defined(__GNUC__) && !defined(snprintf)
+	#if !defined(__MINGW32__) && defined(__GNUC__) && !defined(snprintf)
 		/* snprintf is in fact C99, but we like to use it over sprintf for the obvious reasons */
 		extern int snprintf (char *__restrict __s, size_t __maxlen, __const char *__restrict __format, ...) __THROW __attribute__ ((__format__ (__printf__, 3, 4)));
 	#endif /* __GCC__ */
