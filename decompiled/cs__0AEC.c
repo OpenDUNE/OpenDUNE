@@ -630,7 +630,7 @@ l__0422:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38F4));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38F2));
-	emu_push(emu_cs); emu_push(0x0432); emu_cs = 0x1A34; f__1A34_1A66_0011_34D4();
+	emu_push(emu_cs); emu_push(0x0432); emu_cs = 0x1A34; emu_Unit_SetTarget();
 l__0432:
 	emu_addw(&emu_sp, 0x6);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x38F2));

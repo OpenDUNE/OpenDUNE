@@ -862,7 +862,7 @@ extern void f__B495_1A14_0013_AE3F();
 extern void f__B495_1A29_0012_DF2C();
 extern void f__01F7_1A33_002B_B2CA();
 extern void f__176C_1A40_0020_8DC9();
-extern void f__1A34_1A66_0011_34D4();
+extern void emu_Unit_SetTarget();
 extern void f__1FB5_1A67_0005_8AB7();
 extern void f__1FB5_1A6C_0020_9634();
 extern void f__176C_1A9F_0024_813F();

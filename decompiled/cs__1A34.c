@@ -3172,7 +3172,7 @@ l__1A24:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x1A34); f__1A34_1A66_0011_34D4();
+	emu_push(0x1A34); emu_Unit_SetTarget();
 l__1A34:
 	emu_addw(&emu_sp, 0x6);
 	emu_xorw(&emu_ax, emu_ax);
@@ -3203,9 +3203,9 @@ l__1A62:
 }
 
 /**
- * Decompiled function f__1A34_1A66_0011_34D4()
+ * Decompiled function emu_Unit_SetTarget()
  *
- * @name f__1A34_1A66_0011_34D4
+ * @name emu_Unit_SetTarget
  * @implements 1A34:1A66:0011:34D4 ()
  * @implements 1A34:1A77:0010:017A
  * @implements 1A34:1A84:0003:DD16
@@ -3234,7 +3234,7 @@ l__1A62:
  * Called From: 176C:157C:0013:7ED5
  * Called From: 1A34:1A31:0010:D468
  */
-void f__1A34_1A66_0011_34D4()
+void emu_Unit_SetTarget()
 {
 l__1A66:
 	emu_push(emu_bp);

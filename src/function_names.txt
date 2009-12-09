@@ -101,12 +101,10 @@
 
 167E:02D8:000C:4C9F	emu_Tools_Index_GetStructureOrUnit	# (encoded), gets the structure or unit corresponding to the given encoded index
 
-16BC:0001:0018:AE47	emu_Team_AddUnitToTeam	# (unit_csip), add unit to team
-16BC:0044:0027:CB92	emu_Team_RemoveUnitFromTeam	# (unit_csip), remove unit from team
-
 176C:23CC:000B:4119	emu_Script_Unit_RandomSoldier	# (script_csip) randomly generates a new soldier around currentUnit location
 
 1A34:0B71:0033:9787	emu_Unit_Damage	# (unit_csip, hitpoints, ??), damage a unit with amount of hitpoints. Sets action to DIE when unit runs out of hitpoints
+1A34:1A66:0011:34D4	emu_Unit_SetTarget	# (unit_csip, target_encoded), target a structure/unit/tile
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
