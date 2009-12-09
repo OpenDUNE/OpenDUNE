@@ -151,7 +151,7 @@ typedef struct UnitInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
 	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Unit. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??. 0x0800 - ??. */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??, 0x0200 - ??, 0x0800 - ??. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012()    */ PACK uint8   unknown_0012[0x0004];
