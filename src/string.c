@@ -48,3 +48,29 @@ char *String_GenerateFilename(char *name)
 	snprintf(g_global->stringFilename, sizeof(g_global->stringFilename), "%s.%s", name, g_global->string_31D8 + g_global->language * 4);
 	return g_global->stringFilename;
 }
+
+/**
+ * Returns a pointer to the string at given index in given buffer.
+ *
+ * @param buffer The content of a string file.
+ * @param index The index of the string.
+ * @return The pointer to the string.
+ */
+char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
+{
+	return buffer + ((uint16 *)buffer)[index];
+}
+
+/**
+ * Returns a pointer to the string at given index in current string file.
+ *
+ * @param index The index of the string.
+ * @return The pointer to the string.
+ */
+char *String_Get_ByIndex(uint16 index)
+{
+	char *buffer;
+
+	buffer = (char *)emu_get_memorycsip(g_global->strings);
+	return String_GetFromBuffer_ByIndex(buffer, index);
+}

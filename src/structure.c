@@ -15,10 +15,10 @@
 #include "script/script.h"
 #include "unit.h"
 #include "tile.h"
+#include "string.h"
 #include "structure.h"
 #include "tools.h"
 
-extern void emu_String_GetString();
 extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
@@ -248,13 +248,13 @@ void GameLoop_Structure()
 									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
 									emu_push(stringID);
-									emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x0FCB; emu_String_GetString();
+									emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 									emu_sp += 2;
 
 									emu_push(emu_dx); emu_push(emu_ax);
 
 									emu_push(ui->stringID_full);
-									emu_push(emu_cs); emu_push(0x0605); emu_cs = 0x0FCB; emu_String_GetString();
+									emu_push(emu_cs); emu_push(0x0605); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 									emu_sp += 2;
 
 									emu_push(emu_dx); emu_push(emu_ax);
@@ -310,7 +310,7 @@ void GameLoop_Structure()
 							s->type |= 0x4000;
 
 							emu_push(0x84); /* "Insufficient funds.  Construction is halted." */
-							emu_push(emu_cs); emu_push(0x073B); emu_cs = 0x0FCB; emu_String_GetString();
+							emu_push(emu_cs); emu_push(0x073B); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 							emu_sp += 2;
 
 							emu_push(0);
@@ -874,7 +874,7 @@ void Structure_CalculatePowerAndCredit(House *h)
 	/* Check if we are low on power */
 	if (h->index == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
 		emu_push(0x010E); /* "Insufficient power.  Windtrap is needed." */
-		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; emu_String_GetString();
+		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 		emu_sp += 2;
 
 		emu_push(0x1);

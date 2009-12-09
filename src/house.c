@@ -11,12 +11,12 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "house.h"
+#include "string.h"
 #include "structure.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
 
-extern void emu_String_GetString();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
 extern void f__1A34_1B68_0019_AAA0();
@@ -236,7 +236,7 @@ void GameLoop_House()
 				h->credits = maxCredits;
 
 				emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
-				emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
+				emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 				emu_sp += 2;
 
 				emu_push(1);
@@ -272,7 +272,7 @@ void GameLoop_House()
 						h->credits = maxCredits;
 
 						emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
-						emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_GetString();
+						emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 						emu_sp += 2;
 
 						emu_push(1);
@@ -291,7 +291,7 @@ void GameLoop_House()
 				if (g_global->playerCreditsNoSilo == 0 && g_global->campaignID > 1 && h->credits != 0) {
 					if (h->creditsStorage != 0 && ((h->credits * 256 / h->creditsStorage) > 200)) {
 						emu_push(0x142); /* "Spice storage capacity low, build silos." */
-						emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x0FCB; emu_String_GetString();
+						emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 						emu_sp += 2;
 
 						emu_push(0);
@@ -303,7 +303,7 @@ void GameLoop_House()
 
 				if (h->credits < 100 && g_global->playerCreditsNoSilo != 0) {
 					emu_push(0x14B); /* "Credits are low. Harvest spice for more credits." */
-					emu_push(emu_cs); emu_push(0x0591); emu_cs = 0x0FCB; emu_String_GetString();
+					emu_push(emu_cs); emu_push(0x0591); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 					emu_sp += 2;
 
 					emu_push(0);
@@ -494,7 +494,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	if (houseID != g_global->playerHouseID) return;
 
 	emu_push(0x32); /* "Harvester is heading to refinery." */
-	emu_push(emu_cs); emu_push(0x2314); emu_cs = 0x0FCB; emu_String_GetString();
+	emu_push(emu_cs); emu_push(0x2314); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 	emu_sp += 2;
 
 	emu_push(0);

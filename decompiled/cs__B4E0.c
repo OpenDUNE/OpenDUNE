@@ -88,7 +88,7 @@ l__0047:
 	emu_push(emu_ax);
 	emu_ax = 0xC1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x005C); emu_cs = 0x0FCB; emu_String_GetString();
+	emu_push(emu_cs); emu_push(0x005C); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__005C:
@@ -1207,7 +1207,7 @@ l__0886:
 	emu_push(emu_ax);
 	emu_ax = 0x30;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x08AD); emu_cs = 0x0FCB; emu_String_GetString();
+	emu_push(emu_cs); emu_push(0x08AD); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__08AD:

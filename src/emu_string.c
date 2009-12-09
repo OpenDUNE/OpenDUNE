@@ -63,3 +63,60 @@ void emu_String_GenerateFilename()
 	emu_dx = 0x353F;
 	emu_ax = emu_Global_GetIP(g_global->stringFilename, emu_dx);
 }
+
+/**
+ * Emulator wrapper around String_GetFromBuffer_ByIndex().
+ *
+ * @name emu_String_GetFromBuffer_ByIndex
+ * @implements 2502:0165:0027:41E7 ()
+ * @implements 2502:018C:0004:893F
+ */
+void emu_String_GetFromBuffer_ByIndex()
+{
+	csip32 csip;
+	char *buffer;
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	csip  =   emu_get_csip32(emu_ss, emu_sp, 0x0);
+	index = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	buffer = (char *)emu_get_memorycsip(csip);
+
+	csip.s.ip += String_GetFromBuffer_ByIndex(buffer, index) - buffer;
+
+	emu_dx = csip.s.cs;
+	emu_ax = csip.s.ip;
+}
+
+/**
+ * Emulator wrapper around String_Get_ByIndex().
+ *
+ * @name emu_String_Get_ByIndex
+ * @implements 0FCB:005F:001C:FDC4 ()
+ * @implements 0FCB:007B:0005:87EE
+ * @implements 0FCB:007E:0002:C33A
+ * @implements 0FCB:0080:0006:5EA9
+ * @implements 0FCB:0086:0002:2597
+ */
+void emu_String_Get_ByIndex()
+{
+	csip32 csip;
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	csip = g_global->strings;
+
+	csip.s.ip += String_Get_ByIndex(index) - (char *)emu_get_memorycsip(csip);
+
+	emu_dx = csip.s.cs;
+	emu_ax = csip.s.ip;
+}

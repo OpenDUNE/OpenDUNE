@@ -93,7 +93,6 @@
 0F78:0435:000E:32E0	emu_Map_MoveDirection	# (direction) Move the map with 1 tile in the given direction
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
-0FCB:005F:001C:FDC4	emu_String_GetString	# (stringID), Gets a string based on a StringID
 
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
 
