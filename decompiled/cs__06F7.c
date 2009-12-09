@@ -245,7 +245,7 @@ l__014D:
 	if (emu_get_memory16(emu_es, emu_bx, 0xC) != 0x1) goto l__0188;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x10));
-	emu_push(emu_cs); emu_push(0x0172); emu_cs = 0x16BC; emu_Team_RemoveUnitFromTeam();
+	emu_push(emu_cs); emu_push(0x0172); emu_cs = 0x16BC; emu_Unit_RemoveFromTeam();
 l__0172:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

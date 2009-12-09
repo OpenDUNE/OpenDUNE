@@ -9,11 +9,13 @@
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
+#include "pool/team.h"
 #include "house.h"
 #include "script/script.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
+#include "team.h"
 
 extern void emu_Unit_FindStructure();
 extern void f__07D4_196B_0073_56C1();
@@ -627,4 +629,44 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 		default: return;
 	}
+}
+
+/**
+ * Adds the specified unit to the specified team.
+ *
+ * @param u The unit to add to the team.
+ * @param t The team to add the unit to.
+ * @return Unknown until variable_08 has been documented,
+ *  0 is assumed as a failure, non-0 as a success.
+ */
+uint16 Unit_AddToTeam(Unit *u, Team *t)
+{
+	if (t == NULL || u == NULL) return 0;
+
+	u->team = t->index + 1;
+	t->members++;
+
+	return t->variable_08 - t->members;
+}
+
+/**
+ * Removes the specified unit from its team.
+ *
+ * @param u The unit to remove from the team it is in.
+ * @return Unknown until variable_08 has been documented,
+ *  0 is assumed as a failure, non-0 as a success.
+ */
+uint16 Unit_RemoveFromTeam(Unit *u)
+{
+	Team *t;
+
+	if (u == NULL) return 0;
+	if (u->team == 0) return 0;
+
+	t = Team_Get_ByIndex(u->team - 1);
+
+	t->members--;
+	u->team = 0;
+
+	return t->variable_08 - t->members;
 }

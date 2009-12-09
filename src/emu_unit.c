@@ -5,9 +5,11 @@
 #include "libemu.h"
 #include "global.h"
 #include "pool/unit.h"
+#include "pool/team.h"
 #include "house.h"
 #include "unit.h"
 #include "pool/pool.h"
+#include "team.h"
 
 /**
  * Emulator wrapper around GameLoop_Unit().
@@ -266,4 +268,71 @@ void emu_Unit_SetAction()
 	u = Unit_Get_ByMemory(ucsip);
 
 	Unit_SetAction(u, action);
+}
+
+/**
+ * Emulator wrapper around Unit_AddToTeam().
+ *
+ * @name emu_Unit_AddToTeam
+ * @implements 16BC:0001:0018:AE47 ()
+ * @implements 16BC:0017:0002:D43A
+ * @implements 16BC:0019:0028:89C5
+ * @implements 16BC:0041:0003:2E57
+ *
+ */
+void emu_Unit_AddToTeam()
+{
+	csip32 csip_team, csip_unit;
+	Team *t;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	/* Set the default return value */
+	emu_ax = 0;
+
+	/* emu implementation passes team as first arg */
+	csip_team = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	csip_unit = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	if (csip_team.csip == 0x0 || csip_unit.csip == 0x0) return;
+
+	t = Team_Get_ByMemory(csip_team);
+	u = Unit_Get_ByMemory(csip_unit);
+
+	emu_ax = Unit_AddToTeam(u, t);
+}
+
+/**
+ * Emulator wrapper around Unit_RemoveFromTeam().
+ *
+ * @name emu_Unit_RemoveFromTeam
+ * @implements 16BC:0044:0027:CB92 ()
+ * @implements 16BC:006B:0026:801B
+ * @implements 16BC:008F:0002:C23A
+ * @implements 16BC:0091:0004:9539
+ * @implements 16BC:0095:0004:893F
+ *
+ */
+void emu_Unit_RemoveFromTeam()
+{
+	csip32 csip_unit;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	/* Set the default return value */
+	emu_ax = 0;
+
+	csip_unit = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (csip_unit.csip == 0x0) return;
+
+	u = Unit_Get_ByMemory(csip_unit);
+
+	emu_ax = Unit_RemoveFromTeam(u);
 }
