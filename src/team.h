@@ -22,7 +22,7 @@ typedef struct Team {
 	/* 0002(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used. */
 	/* 0004(2)   */ PACK uint16 members;                    /*!< Amount of members in team. */
 	/* 0006()    */ PACK uint8   unknown_0006[0x0002];
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Size of team? */
+	/* 0008(2)   */ PACK uint16 maxMembers;                 /*!< Maximum amount of members in team. */
 	/* 000A()    */ PACK uint8   unknown_000A[0x0006];
 	/* 0010(2)   */ PACK uint8  houseID;                    /*!< House of Team. */
 	/* 0011()    */ PACK uint8   unknown_0011[0x0009];

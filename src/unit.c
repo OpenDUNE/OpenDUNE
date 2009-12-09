@@ -636,8 +636,7 @@ void Unit_SetAction(Unit *u, ActionType action)
  *
  * @param u The unit to add to the team.
  * @param t The team to add the unit to.
- * @return Unknown until variable_08 has been documented,
- *  0 is assumed as a failure, non-0 as a success.
+ * @return Amount of space left in the team.
  */
 uint16 Unit_AddToTeam(Unit *u, Team *t)
 {
@@ -646,15 +645,14 @@ uint16 Unit_AddToTeam(Unit *u, Team *t)
 	u->team = t->index + 1;
 	t->members++;
 
-	return t->variable_08 - t->members;
+	return t->maxMembers - t->members;
 }
 
 /**
  * Removes the specified unit from its team.
  *
  * @param u The unit to remove from the team it is in.
- * @return Unknown until variable_08 has been documented,
- *  0 is assumed as a failure, non-0 as a success.
+ * @return Amount of space left in the team.
  */
 uint16 Unit_RemoveFromTeam(Unit *u)
 {
@@ -668,5 +666,5 @@ uint16 Unit_RemoveFromTeam(Unit *u)
 	t->members--;
 	u->team = 0;
 
-	return t->variable_08 - t->members;
+	return t->maxMembers - t->members;
 }
