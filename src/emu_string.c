@@ -120,3 +120,30 @@ void emu_String_Get_ByIndex()
 	emu_dx = csip.s.cs;
 	emu_ax = csip.s.ip;
 }
+
+/**
+ * Emulator wrapper around String_TranslateSpecial().
+ *
+ * @name emu_String_TranslateSpecial
+ * @implements 2502:0008:0015:FFBD ()
+ * @implements 2502:001D:0016:2C58
+ * @implements 2502:0033:0024:59EB
+ * @implements 2502:0039:001E:8FAC
+ * @implements 2502:0045:0012:9F29
+ */
+void emu_String_TranslateSpecial()
+{
+	csip32 source;
+	csip32 dest;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	source = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	dest   = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	if (source.csip == 0x0 || dest.csip == 0x0) return;
+
+	String_TranslateSpecial((char *)emu_get_memorycsip(source), (char *)emu_get_memorycsip(dest));
+}

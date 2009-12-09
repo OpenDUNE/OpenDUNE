@@ -74,3 +74,23 @@ char *String_Get_ByIndex(uint16 index)
 	buffer = (char *)emu_get_memorycsip(g_global->strings);
 	return String_GetFromBuffer_ByIndex(buffer, index);
 }
+
+/**
+ * Translates 0x1B 0xXX occurences into extended ASCII values (0x7F + 0xXX).
+ *
+ * @param source The untranslated string.
+ * @param dest The translated string.
+ */
+void String_TranslateSpecial(char *source, char *dest)
+{
+	if (source == NULL || dest == NULL) return;
+
+	while (*source != '\0') {
+		char c = *source++;
+		if (c == 0x1B) {
+			c = 0x7F + (*source++);
+		}
+		*dest++ = c;
+	}
+	*dest = '\0';
+}

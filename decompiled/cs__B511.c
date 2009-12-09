@@ -2042,7 +2042,7 @@ l__0DBA:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DA));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DC));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DA));
-	emu_push(emu_cs); emu_push(0x0DD2); emu_cs = 0x2502; f__2502_0008_0015_FFBD();
+	emu_push(emu_cs); emu_push(0x0DD2); emu_cs = 0x2502; emu_String_TranslateSpecial();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0DD2:
@@ -2919,7 +2919,7 @@ l__1311:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DA));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DC));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DA));
-	emu_push(emu_cs); emu_push(0x1329); emu_cs = 0x2502; f__2502_0008_0015_FFBD();
+	emu_push(emu_cs); emu_push(0x1329); emu_cs = 0x2502; emu_String_TranslateSpecial();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__1329:
