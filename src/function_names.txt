@@ -106,6 +106,7 @@
 
 176C:23CC:000B:4119	emu_Script_Unit_RandomSoldier	# (script_csip) randomly generates a new soldier around currentUnit location
 
+1A34:0B71:0033:9787	emu_Unit_Damage	# (unit_csip, hitpoints, ??), damage a unit with amount of hitpoints. Sets action to DIE when unit runs out of hitpoints
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)

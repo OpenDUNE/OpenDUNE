@@ -628,7 +628,7 @@ extern void f__1DD7_0B53_0025_36F7();
 extern void f__B4E0_0B5D_0005_6F1A();
 extern void f__22A6_0B60_006A_2F61();
 extern void f__B503_0B68_000D_957E();
-extern void f__1A34_0B71_0033_9787();
+extern void emu_Unit_Damage();
 extern void f__B4E0_0B86_001E_9967();
 extern void f__2756_0B8F_0025_D5D8();
 extern void f__0C3A_0B93_0034_3B6D();
