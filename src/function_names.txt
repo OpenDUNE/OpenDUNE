@@ -121,7 +121,6 @@
 1FB5:00F3:001B:7009	emu_File_Write_NoInput	# (file, buffer_csip, buflen)
 1FB5:0121:001B:0DC1	emu_File_Open_NoInput	# (filename_csip, flags1, flags2)
 1FB5:1A67:0005:8AB7	emu_Empty6	# Function does absolutely nothing
-1FB5:1ABA:0031:8318	emu_FileInfo_FindIndex_ByName	# (filename_csip), returns the index of given filename in FileInfo array or 0xFFFF if not found
 
 217E:04F9:000E:346A	emu_Overlay_Load
 217E:055F:0008:D2BC	emu_Overlay_LocateMemory

@@ -12,6 +12,7 @@
  *   2D07 -> UnitInfo array.
  *   2E8A -> ?? array (starts at 2E8A:000E)
  *   2E8A -> ActionInfo array (starts at 2E8A:006E)
+ *   2E9C:0000 -> FileInfo array.
  *   2E9C:323F -> Map array (2 bytes per tile).
  *   353F -> Global data.
  */

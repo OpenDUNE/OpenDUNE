@@ -40,6 +40,7 @@ int main(int argc, char **argv)
 	System_Init_Global();
 	System_Init_Unit();
 	System_Init_House();
+	System_Init_File();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

@@ -3,6 +3,7 @@
 #define DECOMPILED_INCLUDE
 
 #include "../src/config.h"
+#include "../src/file.h"
 #include "../src/global.h"
 #include "../src/house.h"
 #include "../src/input/input.h"
@@ -867,7 +868,6 @@ extern void emu_Empty6();
 extern void f__1FB5_1A6C_0020_9634();
 extern void f__176C_1A9F_0024_813F();
 extern void f__01F7_1AA9_0014_FC63();
-extern void emu_FileInfo_FindIndex_ByName();
 extern void f__01F7_1AE8_0010_0EEE();
 extern void f__1FB5_1B21_0027_F474();
 extern void f__176C_1B45_0022_208C();
