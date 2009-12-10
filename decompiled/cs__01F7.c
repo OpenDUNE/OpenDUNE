@@ -4682,13 +4682,17 @@ l__201F:
 		case 0x3EEE0E1A: f__3EEE_0E1A_0003_4293(); break;
 		case 0x3EEE0E1E: f__3EEE_0E1E_0003_4293(); break;
 		case 0x3EEE0E28: f__3EEE_0E28_0003_4293(); break;
+		case 0x3EEE0E2C: f__3EEE_0E2C_0003_4293(); break;
 		case 0x3EEE0E46: f__3EEE_0E46_0003_4293(); break;
 		case 0x3EEE0E4A: f__3EEE_0E4A_0003_4293(); break;
+		case 0x3EEE0E56: f__3EEE_0E56_0003_4293(); break;
+		case 0x3EEE0E5A: f__3EEE_0E5A_0003_4293(); break;
 		case 0x3EEE0E6C: f__3EEE_0E6C_0003_4293(); break;
 		case 0x3EEE0E70: f__3EEE_0E70_0003_4293(); break;
 		case 0x3EEE0E82: f__3EEE_0E82_0003_4293(); break;
 		case 0x3EEE0E86: f__3EEE_0E86_0003_4293(); break;
 		case 0x3EEE0E90: f__3EEE_0E90_0003_4293(); break;
+		case 0x3EEE0EA4: f__3EEE_0EA4_0003_4293(); break;
 		case 0x3EEE0EA8: f__3EEE_0EA8_0003_4293(); break;
 		case 0x3EEE0EB0: f__3EEE_0EB0_0003_4293(); break;
 		case 0x3EEE0EB6: f__3EEE_0EB6_0003_4293(); break;
@@ -7676,6 +7680,7 @@ l__376A:
  * Called From: 1A34:285B:0018:A7FE
  * Called From: 1A34:285B:000F:3DA7
  * Called From: 1A34:2924:000C:6F7F
+ * Called From: 25C4:030F:0019:1817
  * Called From: B480:039A:009A:0548
  * Called From: B491:0BAB:0010:CA55
  * Called From: B495:05E3:0030:96A7

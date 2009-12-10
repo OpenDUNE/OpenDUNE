@@ -143,6 +143,29 @@ l__0E2B:
 }
 
 /**
+ * Decompiled function f__3EEE_0E2C_0003_4293()
+ *
+ * @name f__3EEE_0E2C_0003_4293
+ * @implements 3EEE:0E2C:0003:4293 ()
+ * @implements 3EEE:0E2F:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E2C_0003_4293()
+{
+l__0E2C:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E2F); Interrupt_Video();
+l__0E2F:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function f__3EEE_0E46_0003_4293()
  *
  * @name f__3EEE_0E46_0003_4293
@@ -180,6 +203,52 @@ l__0E4A:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E4D); Interrupt_Video();
 l__0E4D:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__3EEE_0E56_0003_4293()
+ *
+ * @name f__3EEE_0E56_0003_4293
+ * @implements 3EEE:0E56:0003:4293 ()
+ * @implements 3EEE:0E59:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E56_0003_4293()
+{
+l__0E56:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E59); Interrupt_Video();
+l__0E59:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__3EEE_0E5A_0003_4293()
+ *
+ * @name f__3EEE_0E5A_0003_4293
+ * @implements 3EEE:0E5A:0003:4293 ()
+ * @implements 3EEE:0E5D:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0E5A_0003_4293()
+{
+l__0E5A:
+	emu_push(emu_bp);
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E5D); Interrupt_Video();
+l__0E5D:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
@@ -295,6 +364,29 @@ l__0E90:
 	emu_push(emu_bp);
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0E93); Interrupt_Video();
 l__0E93:
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
+ * Decompiled function f__3EEE_0EA4_0003_4293()
+ *
+ * @name f__3EEE_0EA4_0003_4293
+ * @implements 3EEE:0EA4:0003:4293 ()
+ * @implements 3EEE:0EA7:0002:2597
+ *
+ * Called From: 01F7:203D:0021:24DC
+ */
+void f__3EEE_0EA4_0003_4293()
+{
+l__0EA4:
+	emu_push(emu_bp);
+	/* Unresolved jump */ emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = emu_get_memory16(0, 0, 0x10 * 4 + 2); emu_push(0x0EA7); emu_ip = emu_get_memory16(0, 0, 0x10 * 4 + 0); emu_last_cs = 0x3EEE; emu_last_ip = 0x0EA5; emu_last_length = 0x0003; emu_last_crc = 0x4293; emu_call();
+l__0EA7:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */
