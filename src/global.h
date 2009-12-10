@@ -920,20 +920,20 @@ typedef struct GlobalData {
 	/* 659A(10)  */ PACK char  string_659A[10];             /*!< "TANDY.ADV" NULL terminated. */
 	/* 65A4(4)   */ PACK char  string_65A4[4];              /*!< "TAN" NULL terminated. */
 	/* 65A8(12)  */ PACK char  string_65A8[12];             /*!< "MT32MPU.ADV" NULL terminated. */
-	/* 65C4(4)   */ PACK char  string_65B4[4];              /*!< "XMI" NULL terminated. */
-	/* 65C8(4)   */ PACK char  string_65B8[4];              /*!< "C55" NULL terminated. */
-	/* 65CC(10)  */ PACK char  string_65BC[10];             /*!< "ADLIB.ADV" NULL terminated. */
-	/* 65D6(11)  */ PACK char  string_65C6[11];             /*!< "ADLIBG.ADV" NULL terminated. */
-	/* 65E1(10)  */ PACK char  string_65D1[10];             /*!< "PASFM.ADV" NULL terminated. */
-	/* 65EB(9)   */ PACK char  string_65DB[9];              /*!< "SBFM.ADV" NULL terminated. */
-	/* 65F4(11)  */ PACK char  string_65E4[11];             /*!< "SBP1FM.ADV" NULL terminated. */
-	/* 65FF(11)  */ PACK char  string_65EF[11];             /*!< "SBP2FM.ADV" NULL terminated. */
-	/* 660A(4)   */ PACK char  string_65FA[4];              /*!< "SND" NULL terminated. */
-	/* 660E(8)   */ PACK char  string_65FE[8];              /*!< "BLASTER" NULL terminated. */
-	/* 6616(2)   */ PACK char  string_6606[2];              /*!< "." NULL terminated. */
-	/* 6618(5)   */ PACK char  string_6608[5];              /*!< ".XMI" NULL terminated. */
-	/* 661D(9)   */ PACK char  string_660D[9];              /*!< "DEFAULT." NULL terminated. */
-	/* 6626(5)   */ PACK char  string_6616[5];              /*!< "ALFX" NULL terminated. */
+	/* 65B4(4)   */ PACK char  string_65B4[4];              /*!< "XMI" NULL terminated. */
+	/* 65B8(4)   */ PACK char  string_65B8[4];              /*!< "C55" NULL terminated. */
+	/* 65BC(10)  */ PACK char  string_65BC[10];             /*!< "ADLIB.ADV" NULL terminated. */
+	/* 65C6(11)  */ PACK char  string_65C6[11];             /*!< "ADLIBG.ADV" NULL terminated. */
+	/* 65D1(10)  */ PACK char  string_65D1[10];             /*!< "PASFM.ADV" NULL terminated. */
+	/* 65DB(9)   */ PACK char  string_65DB[9];              /*!< "SBFM.ADV" NULL terminated. */
+	/* 65E4(11)  */ PACK char  string_65E4[11];             /*!< "SBP1FM.ADV" NULL terminated. */
+	/* 65EF(11)  */ PACK char  string_65EF[11];             /*!< "SBP2FM.ADV" NULL terminated. */
+	/* 65FA(4)   */ PACK char  string_65FA[4];              /*!< "SND" NULL terminated. */
+	/* 65FE(8)   */ PACK char  string_65FE[8];              /*!< "BLASTER" NULL terminated. */
+	/* 6606(2)   */ PACK char  string_6606[2];              /*!< "." NULL terminated. */
+	/* 6608(5)   */ PACK char  string_6608[5];              /*!< ".XMI" NULL terminated. */
+	/* 660D(9)   */ PACK char  string_660D[9];              /*!< "DEFAULT." NULL terminated. */
+	/* 6616(5)   */ PACK char  string_6616[5];              /*!< "ALFX" NULL terminated. */
 	/* 661B()    */ PACK uint8   unknown_661B[0x0009];
 	/* 6624(4)   */ PACK csip32 variable_6624;              /*!< CS:IP of routine. */
 	/* 6628(4)   */ PACK csip32 variable_6628;              /*!< CS:IP of routine (not called). */
