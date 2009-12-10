@@ -1,5 +1,6 @@
-/* $Id */
+/* $Id$ */
 
+#include <stdio.h>
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"

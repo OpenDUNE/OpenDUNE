@@ -1,3 +1,5 @@
+/* $Id$ */
+
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
