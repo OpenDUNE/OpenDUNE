@@ -17,6 +17,8 @@ typedef struct Tile {
 MSVC_PACKED_END
 assert_compile(sizeof(Tile) == 0x04);
 
+extern uint16 *g_map;
+
 extern Tile *Map_GetTileByPosition(uint16 position);
 
 #endif /* MAP_H */

@@ -14,6 +14,8 @@ extern void System_Init_Input();
 extern void System_Init_Global();
 extern void System_Init_Unit();
 extern void System_Init_House();
+extern void System_Init_File();
+extern void System_Init_Map();
 
 extern char *emu_caption;
 
@@ -41,6 +43,7 @@ int main(int argc, char **argv)
 	System_Init_Unit();
 	System_Init_House();
 	System_Init_File();
+	System_Init_Map();
 
 	emu_hard_jump(emu_cs, emu_ip);
 	while (1) emu_hard_jump_recursive(emu_deep);

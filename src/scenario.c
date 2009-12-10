@@ -494,8 +494,8 @@ void emu_Scenario_Load_Map()
 
 		t->spriteID = emu_ax & 0x01FF;
 
-		if (emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) != (emu_ax & 0x01FF)) {
-			emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
+		if (g_map[emu_di] != (emu_ax & 0x01FF)) {
+			g_map[emu_di] |= 0x8000;
 		}
 
 		if ((t->flags & 0x01) == 0) {
@@ -1130,7 +1130,7 @@ l__0014:
 		t = Map_GetTileByPosition(position);
 
 		t->spriteID = g_global->variable_39F4 & 0x01FF;
-		emu_get_memory16(0x2E9C, position * 2, 0x323F) |= 0x8000;
+		g_map[position] |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
 		emu_push(0); emu_push(0);
@@ -1226,7 +1226,7 @@ l__0014:
 
 		t = Map_GetTileByPosition(emu_di);
 		t->spriteID = (g_global->variable_39F4 + 1) & 0x01FF;
-		emu_get_memory16(0x2E9C, emu_di * 2, 0x323F) |= 0x8000;
+		g_map[emu_di] |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
 		emu_push(0); emu_push(0);

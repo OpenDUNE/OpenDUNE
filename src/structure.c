@@ -584,7 +584,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
 			t->houseID  = s->houseID;
 
-			emu_get_memory16(0x2E9C, position * 2, 0x323F) |= 0x8000;
+			g_map[position] |= 0x8000;
 
 			if (s->houseID == g_global->playerHouseID) {
 				tile = Tile_UnpackTile(position);
@@ -630,7 +630,7 @@ bool Structure_Place(Structure *s, uint16 position)
 				t->spriteID = g_global->variable_39F8 & 0x01FF;
 				t->houseID  = s->houseID;
 
-				emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
+				g_map[curPos] |= 0x8000;
 
 				if (s->houseID == g_global->playerHouseID) {
 					tile = Tile_UnpackTile(curPos);
@@ -672,7 +672,7 @@ bool Structure_Place(Structure *s, uint16 position)
 					t->spriteID = g_global->variable_39F8 & 0x01FF;
 					t->houseID  = s->houseID;
 
-					emu_get_memory16(0x2E9C, curPos * 2, 0x323F) |= 0x8000;
+					g_map[curPos] |= 0x8000;
 
 					if (s->houseID == g_global->playerHouseID) {
 						tile = Tile_UnpackTile(curPos);
