@@ -19,13 +19,13 @@
 
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_07C5_0016_E9C2();
-extern void f__1A34_1B68_0019_AAA0();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
 extern void f__2537_000C_001C_86CB();
 extern void emu_Tools_Random_256();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_1816_0033_B55B();
+extern void emu_Unit_SetDestination();
 extern void overlay(uint16 cs, uint8 force);
 
 HouseInfo *g_houseInfo = NULL;
@@ -176,7 +176,7 @@ void GameLoop_House()
 
 					emu_push(Tools_Index_Encode(emu_ax, IT_TILE));
 					emu_push(nucsip.s.cs); emu_push(nucsip.s.ip);
-					emu_push(emu_cs); emu_push(0x034F); emu_cs = 0x1A34; f__1A34_1B68_0019_AAA0();
+					emu_push(emu_cs); emu_push(0x034F); emu_cs = 0x1A34; emu_Unit_SetDestination();
 					emu_sp += 6;
 				}
 

@@ -18,11 +18,11 @@
 #include "team.h"
 
 extern void emu_Unit_FindStructure();
+extern void emu_Unit_Deviation_Descrease();
 extern void f__07D4_196B_0073_56C1();
 extern void f__0F3F_0125_000D_4868();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
-extern void f__1A34_193F_0013_FA4D();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
@@ -206,7 +206,7 @@ void GameLoop_Unit()
 		if (tickUnknown6) {
 			emu_push(1);
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x04CB); emu_cs = 0x1A34; f__1A34_193F_0013_FA4D();
+			emu_push(emu_cs); emu_push(0x04CB); emu_cs = 0x1A34; emu_Unit_Deviation_Descrease();
 			emu_sp += 6;
 		}
 
