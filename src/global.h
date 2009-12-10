@@ -1073,10 +1073,9 @@ typedef struct GlobalData {
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
 	/* 6C84()    */ PACK uint8   unknown_6C84[0x000F];
-	/* 6C93(20)  */ PACK uint16 variable_6C93[5][2];        /*!< ?? Array of 5 elements. */
-	/* 6CA7()    */ PACK uint8   unknown_6CA7[0x002C];
-	/* 6CD3(40)  */ PACK uint16 variable_6CD3[5][4];        /*!< ?? Array of 5 elements (init in f__B480_0000_0018_A09B()). */
-	/* 6CFB()    */ PACK uint8   unknown_6CFB[0x0060];
+	/* 6C93(64)  */ PACK uint16 variable_6C93[16][2];       /*!< ?? Array of memory segments. */
+	/* 6CD3(128) */ PACK uint32 variable_6CD3[16][2];       /*!< ?? Array init in f__B480_0000_0018_A09B(). */
+	/* 6D53()    */ PACK uint8   unknown_6D53[0x0008];
 	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? */
 	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
 	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
@@ -1245,7 +1244,7 @@ typedef struct GlobalData {
 	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A04];
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x004F];
-	/* 986C(1)   */ PACK uint8  variable_986C;              /*!< ?? */
+	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
