@@ -52,13 +52,13 @@ void System_Init_Unit()
 void GameLoop_Unit()
 {
 	PoolFindStruct find;
-	bool tickUnknown1 = false;
-	bool tickUnknown2 = false;
-	bool tickUnknown3 = false;
-	bool tickUnknown4 = false;
-	bool tickScript   = false;
-	bool tickUnknown5 = false;
-	bool tickUnknown6 = false;
+	bool tickUnknown1  = false;
+	bool tickUnknown2  = false;
+	bool tickUnknown3  = false;
+	bool tickUnknown4  = false;
+	bool tickScript    = false;
+	bool tickUnknown5  = false;
+	bool tickDeviation = false;
 
 	if (g_global->debugScenario) return;
 
@@ -92,9 +92,9 @@ void GameLoop_Unit()
 		g_global->tickUnitUnknown5 = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->tickUnitUnknown6 <= g_global->tickGlobal) {
-		tickUnknown6 = true;
-		g_global->tickUnitUnknown6 = g_global->tickGlobal + 60;
+	if (g_global->tickUnitDeviation <= g_global->tickGlobal) {
+		tickDeviation = true;
+		g_global->tickUnitDeviation = g_global->tickGlobal + 60;
 	}
 
 	find.houseID = 0xFFFF;
@@ -203,7 +203,7 @@ void GameLoop_Unit()
 			emu_sp += 6;
 		}
 
-		if (tickUnknown6) {
+		if (tickDeviation) {
 			emu_push(1);
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 			emu_push(emu_cs); emu_push(0x04CB); emu_cs = 0x1A34; emu_Unit_Deviation_Descrease();
