@@ -110,6 +110,17 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
+1FB5:0005:000F:62CC	emu_Drive_Get_Default_NoInput	# ()
+1FB5:0024:0012:C761	emu_Drive_Set_Default_NoInput	# (drive)
+1FB5:0047:0012:2389	emu_File_Close_NoInput	# (file)
+1FB5:006A:0015:A08C	emu_File_Delete_NoInput	# (filename_csip)
+1FB5:0091:001B:4066	emu_File_Seek_NoInput	# (file, low, high, method)
+1FB5:00C5:001B:2EE4	emu_File_Read_NoInput	# (file, buffer_csip, buflen)
+1FB5:00F3:001B:7009	emu_File_Write_NoInput	# (file, buffer_csip, buflen)
+1FB5:0121:001B:0DC1	emu_File_Open_NoInput	# (filename_csip, flags1, flags2)
+1FB5:1A67:0005:8AB7	emu_Empty6	# Function does absolutely nothing
+1FB5:1ABA:0031:8318	emu_FileInfo_FindIndex_ByName	# (filename_csip), returns the index of given filename in FileInfo array or 0xFFFF if not found
+
 217E:04F9:000E:346A	emu_Overlay_Load
 217E:055F:0008:D2BC	emu_Overlay_LocateMemory
 217E:05A9:001A:42B9	emu_Overlay_Load2
