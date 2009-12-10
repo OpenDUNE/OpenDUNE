@@ -54,7 +54,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct HouseInfo {
 	/* 0000(4)   */ PACK csip32 name;                       /*!< Pointer to name of house. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0002];
+	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
 	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
