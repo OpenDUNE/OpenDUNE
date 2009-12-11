@@ -2907,9 +2907,9 @@ l__1853:
 }
 
 /**
- * Decompiled function f__1A34_1859_0017_DF09()
+ * Decompiled function emu_Unit_Deviate()
  *
- * @name f__1A34_1859_0017_DF09
+ * @name emu_Unit_Deviate
  * @implements 1A34:1859:0017:DF09 ()
  * @implements 1A34:186B:0005:9C86
  * @implements 1A34:186D:0003:9D12
@@ -2929,7 +2929,7 @@ l__1853:
  *
  * Called From: 06F7:046D:0020:117E
  */
-void f__1A34_1859_0017_DF09()
+void emu_Unit_Deviate()
 {
 l__1859:
 	emu_push(emu_bp);

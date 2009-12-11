@@ -104,6 +104,7 @@
 176C:23CC:000B:4119	emu_Script_Unit_RandomSoldier	# (script_csip) randomly generates a new soldier around currentUnit location
 
 1A34:0B71:0033:9787	emu_Unit_Damage	# (unit_csip, hitpoints, ??), damage a unit with amount of hitpoints. Sets action to DIE when unit runs out of hitpoints
+1A34:1859:0017:DF09	emu_Unit_Deviate	# (unit_csip), try to deviate a unit
 1A34:193F:0013:FA4D	emu_Unit_Deviation_Descrease	# (unit_csip, amount), decrease the deviaton counter
 1A34:1A66:0011:34D4	emu_Unit_SetTarget	# (unit_csip, target_encoded), target a structure/unit/tile
 1A34:1B68:0019:AAA0	emu_Unit_SetDestination	# (unit_csip, target_encoded), move to a structure/unit/tile
