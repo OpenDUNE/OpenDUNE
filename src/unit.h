@@ -204,6 +204,7 @@ extern void Unit_SetAction(Unit *u, ActionType action);
 extern uint16 Unit_AddToTeam(Unit *u, struct Team *t);
 extern uint16 Unit_RemoveFromTeam(Unit *u);
 extern struct Team *Unit_GetTeam(Unit *u);
+extern void Unit_Sort();
 
 extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
@@ -213,5 +214,6 @@ extern void emu_Unit_SetAction();
 extern void emu_Unit_AddToTeam();
 extern void emu_Unit_RemoveFromTeam();
 extern void emu_Unit_GetTeam();
+extern void emu_Unit_Sort();
 
 #endif /* UNIT_H */

@@ -103,7 +103,7 @@ l__0044:
 l__0049:
 	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x151A; f__151A_0196_0018_AF63();
 l__004E:
-	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x0FE4; f__0FE4_0002_0021_D0A9();
+	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x0FE4; emu_Unit_Sort();
 l__0053:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x3A12), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x3A12) == 0x0) goto l__005D;

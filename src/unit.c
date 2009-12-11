@@ -681,3 +681,48 @@ Team *Unit_GetTeam(Unit *u)
 	if (u->team == 0) return NULL;
 	return Team_Get_ByIndex(u->team - 1);
 }
+
+/**
+ * ?? Sorts unit array and count enemy/allied units.
+ */
+void Unit_Sort()
+{
+	House *h;
+	uint16 i;
+
+	h = House_Get_ByMemory(g_global->playerHouse);
+	h->unitCountEnemy = 0;
+	h->unitCountAllied = 0;
+
+	for (i = 0; i < g_global->unitCount - 1; i++) {
+		csip32 csip1;
+		csip32 csip2;
+		Unit *u1;
+		Unit *u2;
+		uint16 y1;
+		uint16 y2;
+
+		csip1 = g_global->unitArray[i];
+		csip2 = g_global->unitArray[i + 1];
+
+		u1 = Unit_Get_ByMemory(csip1);
+		u2 = Unit_Get_ByMemory(csip2);
+
+		if ((u1->variable_09 & (1 << g_global->playerHouseID)) != 0 && (u1->flags & 0x0004) == 0) {
+			if (House_AreAllied(u1->houseID, (uint8)g_global->playerHouseID)) {
+				h->unitCountAllied++;
+			} else {
+				h->unitCountEnemy++;
+			}
+		}
+		y1 = Tile_GetY(u1->position);
+		y2 = Tile_GetY(u2->position);
+		if (g_unitInfo[u1->type].variable_3C == 0) y1 -= 0x100;
+		if (g_unitInfo[u2->type].variable_3C == 0) y2 -= 0x100;
+
+		if ((int16)y1 > (int16)y2) {
+			g_global->unitArray[i] = csip2;
+			g_global->unitArray[i + 1] = csip1;
+		}
+	}
+}

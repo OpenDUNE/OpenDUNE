@@ -370,3 +370,29 @@ void emu_Unit_GetTeam()
 	emu_dx = g_global->teamStartPos.s.cs;
 	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
 }
+
+/**
+ * Emulator wrapper around Unit_Sort().
+ *
+ * @name emu_Unit_Sort
+ * @implements 0FE4:0002:0021:D0A9 ()
+ * @implements 0FE4:0023:005B:3AE9
+ * @implements 0FE4:007E:0010:D40F
+ * @implements 0FE4:008E:0018:0071
+ * @implements 0FE4:0096:0010:976E
+ * @implements 0FE4:00A6:0014:B079
+ * @implements 0FE4:00BA:007F:22ED
+ * @implements 0FE4:00DF:005A:6D90
+ * @implements 0FE4:0100:0039:3CD7
+ * @implements 0FE4:012D:000C:1EF1
+ * @implements 0FE4:012E:000B:1A91
+ * @implements 0FE4:0139:0006:F7CE
+ */
+void emu_Unit_Sort()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	Unit_Sort();
+}
