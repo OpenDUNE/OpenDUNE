@@ -363,7 +363,7 @@ extern void f__0EDB_03EC_0020_629E();
 extern void f__151A_03ED_0014_6217();
 extern void f__217E_03ED_000A_D326();
 extern void f__1DD7_03FD_000C_8340();
-extern void f__06F7_0402_0020_9091();
+extern void emu_Map_DeviateArea();
 extern void emu_Date_Get();
 extern void f__B520_0407_00A9_43A1();
 extern void f__B4CD_0408_001F_C54A();

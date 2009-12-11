@@ -532,9 +532,9 @@ l__03F9:
 }
 
 /**
- * Decompiled function f__06F7_0402_0020_9091()
+ * Decompiled function emu_Map_DeviateArea()
  *
- * @name f__06F7_0402_0020_9091
+ * @name emu_Map_DeviateArea
  * @implements 06F7:0402:0020:9091 ()
  * @implements 06F7:0422:0015:DE46
  * @implements 06F7:0437:0005:A7AE
@@ -547,7 +547,7 @@ l__03F9:
  *
  * Called From: 1A34:061B:0020:17AB
  */
-void f__06F7_0402_0020_9091()
+void emu_Map_DeviateArea()
 {
 l__0402:
 	emu_push(emu_bp);
