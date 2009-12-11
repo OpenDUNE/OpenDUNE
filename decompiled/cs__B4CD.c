@@ -540,7 +540,7 @@ l__02BF:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_cs);
-	emu_push(0x02E2); emu_Structure_RemoveFogAroundTile();
+	emu_push(0x02E2); emu_Tile_RemoveFogInRadius();
 l__02E2:
 	emu_addw(&emu_sp, 0x6);
 l__02E6:
@@ -1402,9 +1402,9 @@ l__07F0:
 }
 
 /**
- * Decompiled function emu_Structure_RemoveFogAroundTile()
+ * Decompiled function emu_Tile_RemoveFogInRadius()
  *
- * @name emu_Structure_RemoveFogAroundTile
+ * @name emu_Tile_RemoveFogInRadius
  * @implements B4CD:07F4:0013:6862 ()
  * @implements B4CD:0807:000C:D969
  * @implements B4CD:0813:0009:37E4
@@ -1426,7 +1426,7 @@ l__07F0:
  * Called From: 34CD:00BB:0005:0000
  * Called From: B4CD:02DF:0023:1CEB
  */
-void emu_Structure_RemoveFogAroundTile()
+void emu_Tile_RemoveFogInRadius()
 {
 l__07F4:
 	emu_push(emu_bp);

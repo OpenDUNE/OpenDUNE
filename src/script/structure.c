@@ -12,7 +12,7 @@
 #include "../structure.h"
 #include "../unit.h"
 
-extern void emu_Structure_RemoveFogAroundTile();
+extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Tools_Random_256();
 
@@ -57,7 +57,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	emu_push(si->fogUncoverRadius);
 	emu_push(s->position.s.y); emu_push(s->position.s.x);
-	emu_push(emu_cs); emu_push(0x13A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+	emu_push(emu_cs); emu_push(0x13A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 
 	return 0;
 }

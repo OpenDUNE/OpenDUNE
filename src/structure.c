@@ -24,8 +24,8 @@ extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_IsValidBuildLocation();
 extern void emu_Structure_Place();
-extern void emu_Structure_RemoveFogAroundTile();
 extern void emu_Structure_UpdateMap();
+extern void emu_Tile_RemoveFogInRadius();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_25EC_0011_E453();
@@ -591,7 +591,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				emu_push(1);
 				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x02A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+				emu_push(emu_cs); emu_push(0x02A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 				emu_sp += 6;
 			}
 
@@ -637,7 +637,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					emu_push(1);
 					emu_push(tile.s.y); emu_push(tile.s.x);
-					emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+					emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 					emu_sp += 6;
 				}
 
@@ -679,7 +679,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 						emu_push(1);
 						emu_push(tile.s.y); emu_push(tile.s.x);
-						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 						emu_sp += 6;
 
 						t->fogOfWar = 0;
@@ -719,7 +719,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 		emu_push(2);
 		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+		emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 		emu_sp += 6;
 	}
 
@@ -786,7 +786,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				emu_push(2);
 				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Structure_RemoveFogAroundTile();
+				emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 				emu_sp += 6;
 			}
 
