@@ -336,3 +336,37 @@ void emu_Unit_RemoveFromTeam()
 
 	emu_ax = Unit_RemoveFromTeam(u);
 }
+
+/**
+ * Emulator wrapper around Unit_GetTeam().
+ *
+ * @name emu_Unit_GetTeam
+ * @implements 0FE4:0632:0031:75AA ()
+ * @implements 0FE4:0663:000F:F660
+ * @implements 0FE4:066A:0008:C849
+ * @implements 0FE4:0672:0004:893F
+ */
+void emu_Unit_GetTeam()
+{
+	csip32 ucsip;
+	Unit *u;
+	Team *t;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_dx = 0x0;
+	emu_ax = 0x0;
+
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
+
+	t = Unit_GetTeam(u);
+
+	if (t == NULL) return;
+	emu_dx = g_global->teamStartPos.s.cs;
+	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
+}

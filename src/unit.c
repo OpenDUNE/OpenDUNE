@@ -668,3 +668,16 @@ uint16 Unit_RemoveFromTeam(Unit *u)
 
 	return t->maxMembers - t->members;
 }
+
+/**
+ * Gets the team of the given unit.
+ *
+ * @param u The unit to get the team of.
+ * @return The team.
+ */
+Team *Unit_GetTeam(Unit *u)
+{
+	if (u == NULL) return NULL;
+	if (u->team == 0) return NULL;
+	return Team_Get_ByIndex(u->team - 1);
+}

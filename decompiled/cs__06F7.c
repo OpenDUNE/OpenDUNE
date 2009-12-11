@@ -231,7 +231,7 @@ l__0139:
 l__0142:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x10));
-	emu_push(emu_cs); emu_push(0x014D); emu_cs = 0x0FE4; f__0FE4_0632_0031_75AA();
+	emu_push(emu_cs); emu_push(0x014D); emu_cs = 0x0FE4; emu_Unit_GetTeam();
 l__014D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

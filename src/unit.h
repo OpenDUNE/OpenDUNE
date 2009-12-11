@@ -203,6 +203,7 @@ extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
 extern void Unit_SetAction(Unit *u, ActionType action);
 extern uint16 Unit_AddToTeam(Unit *u, struct Team *t);
 extern uint16 Unit_RemoveFromTeam(Unit *u);
+extern struct Team *Unit_GetTeam(Unit *u);
 
 extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
@@ -211,5 +212,6 @@ extern void emu_Unit_IsTypeOnMap();
 extern void emu_Unit_SetAction();
 extern void emu_Unit_AddToTeam();
 extern void emu_Unit_RemoveFromTeam();
+extern void emu_Unit_GetTeam();
 
 #endif /* UNIT_H */
