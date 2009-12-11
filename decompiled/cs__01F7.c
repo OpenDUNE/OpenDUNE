@@ -4624,8 +4624,6 @@ l__1FDA:
  * @name f__01F7_1FE1_005F_A74A
  * @implements 01F7:1FE1:005F:A74A ()
  * @implements 01F7:201F:0021:24DC
- * @implements 01F7:2040:0033:F011
- * @implements 01F7:2073:0007:F77E
  *
  * Called From: 01F7:1FD7:001A:86D3
  */
@@ -4656,57 +4654,32 @@ l__1FE1:
 			emu_get_memory16(emu_ss, emu_bp, -0x6) = 0xCB5D;
 		}
 	}
-l__201F:
+	p__01F7_201F_0021_24DC(); return;
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x10));
 	emu_push(emu_get_memory16(emu_ds, emu_si, 0x0));
 	emu_push(emu_get_memory16(emu_ds, emu_si, 0x6));
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_ax = emu_get_memory16(emu_ds, emu_si, 0x0);
-	emu_bx = emu_get_memory16(emu_ds, emu_si, 0x2);
-	emu_cx = emu_get_memory16(emu_ds, emu_si, 0x4);
-	emu_dx = emu_get_memory16(emu_ds, emu_si, 0x6);
-	emu_di = emu_get_memory16(emu_ds, emu_si, 0xA);
-	emu_si = emu_get_memory16(emu_ds, emu_si, 0x8);
+	emu_movw(&emu_ax, emu_get_memory16(emu_ds, emu_si, 0x0));
+	emu_movw(&emu_bx, emu_get_memory16(emu_ds, emu_si, 0x2));
+	emu_movw(&emu_cx, emu_get_memory16(emu_ds, emu_si, 0x4));
+	emu_movw(&emu_dx, emu_get_memory16(emu_ds, emu_si, 0x6));
+	emu_movw(&emu_di, emu_get_memory16(emu_ds, emu_si, 0xA));
+	emu_movw(&emu_si, emu_get_memory16(emu_ds, emu_si, 0x8));
 	emu_pop(&emu_ds);
 	emu_pop(&emu_es);
+	emu_callf(emu_get_memory16(emu_ss, emu_bp, -0x2), emu_get_memory16(emu_ss, emu_bp, -0x4), 0x2040, 0x203D);
+}
 
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_push(0x2040);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x3EEE0D9A: f__3EEE_0D9A_0003_4293(); break;
-		case 0x3EEE0DCA: f__3EEE_0DCA_0003_4293(); break;
-		case 0x3EEE0DCE: f__3EEE_0DCE_0003_4293(); break;
-		case 0x3EEE0E1A: f__3EEE_0E1A_0003_4293(); break;
-		case 0x3EEE0E1E: f__3EEE_0E1E_0003_4293(); break;
-		case 0x3EEE0E28: f__3EEE_0E28_0003_4293(); break;
-		case 0x3EEE0E2C: f__3EEE_0E2C_0003_4293(); break;
-		case 0x3EEE0E46: f__3EEE_0E46_0003_4293(); break;
-		case 0x3EEE0E4A: f__3EEE_0E4A_0003_4293(); break;
-		case 0x3EEE0E56: f__3EEE_0E56_0003_4293(); break;
-		case 0x3EEE0E5A: f__3EEE_0E5A_0003_4293(); break;
-		case 0x3EEE0E6C: f__3EEE_0E6C_0003_4293(); break;
-		case 0x3EEE0E70: f__3EEE_0E70_0003_4293(); break;
-		case 0x3EEE0E82: f__3EEE_0E82_0003_4293(); break;
-		case 0x3EEE0E86: f__3EEE_0E86_0003_4293(); break;
-		case 0x3EEE0E90: f__3EEE_0E90_0003_4293(); break;
-		case 0x3EEE0EA4: f__3EEE_0EA4_0003_4293(); break;
-		case 0x3EEE0EA8: f__3EEE_0EA8_0003_4293(); break;
-		case 0x3EEE0EB0: f__3EEE_0EB0_0003_4293(); break;
-		case 0x3EEE0EB6: f__3EEE_0EB6_0003_4293(); break;
-		case 0x3EEE0EBA: f__3EEE_0EBA_0003_4293(); break;
-		case 0x3EEE0EC2: f__3EEE_0EC2_0003_4293(); break;
-		case 0x3EEE0EC8: f__3EEE_0EC8_0003_4293(); break;
-		case 0x3EEE0ECE: f__3EEE_0ECE_0003_4293(); break;
-		case 0x3EEE0ED2: f__3EEE_0ED2_0003_4293(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x01F7; emu_last_ip = 0x203D; emu_last_length = 0x0021; emu_last_crc = 0x24DC;
-			emu_call();
-			return;
-	}
+/**
+ * Decompiled function f__01F7_2040_0033_F011()
+ *
+ * @name f__01F7_2040_0033_F011
+ * @implements 01F7:2040:0033:F011 ()
+ * @implements 01F7:2073:0007:F77E
+ *
+ */
+void f__01F7_2040_0033_F011()
+{
 l__2040:
 	emu_pushf();
 	emu_pushf();
