@@ -421,7 +421,9 @@ typedef struct GlobalData {
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
 	/* 2005()    */ PACK uint8   unknown_2005[0x0166];
 	/* 216B(12)  */ PACK csip32 variable_216B[3];           /*!< ?? */
-	/* 2177()    */ PACK uint8   unknown_2177[0x0056];
+	/* 2177()    */ PACK uint8   unknown_2177[0x0002];
+	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
+	/* 219D()    */ PACK uint8   unknown_219D[0x0030];
 	/* 21CD(10)  */ PACK char   string_21CD[10];            /*!< "MOUSE.SHP" NULL terminated. */
 	/* 21D7(5)   */ PACK char   string_21D7[5];             /*!< "BTTN" NULL terminated. */
 	/* 21DC(11)  */ PACK char   string_21DC[11];            /*!< "SHAPES.SHP" NULL terminated. */
@@ -1106,7 +1108,9 @@ typedef struct GlobalData {
 	/* 6DF6(8)   */ PACK char   string_6DF6[8];             /*!< "xga.ovl" NULL terminated. */
 	/* 6DFE(8)   */ PACK char   string_6DFE[8];             /*!< "yga.ovl" NULL terminated. */
 	/* 6E06(29)  */ PACK char   string_6E06[29];            /*!< "PageArraySize is negative!\r\n" NULL terminated. */
-	/* 6E23()    */ PACK uint8   unknown_6E23[0x0023];
+	/* 6E23()    */ PACK uint8   unknown_6E23[0x001B];
+	/* 6E3E(4)   */ PACK csip32 variable_6E3E;              /*!< ?? */
+	/* 6E42()    */ PACK uint8   unknown_6E42[0x0004];
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
 	/* 6E87()    */ PACK uint8   unknown_6E87[0x0001];
