@@ -5,6 +5,7 @@
 #include "../src/config.h"
 #include "../src/file.h"
 #include "../src/global.h"
+#include "../src/gui/gui.h"
 #include "../src/house.h"
 #include "../src/input/input.h"
 #include "../src/interrupt.h"
@@ -127,7 +128,7 @@ extern void f__151A_000E_0013_5840();
 extern void f__1DD7_000E_001C_4593();
 extern void f__2BEE_000E_0009_8881();
 extern void f__2B6C_000E_0045_C1FE();
-extern void f__2521_000F_0022_6D87();
+extern void emu_Font_GetWidth();
 extern void emu_Tools_Swapw();
 extern void f__217E_0015_0019_BAFF();
 extern void f__2BEE_0017_0028_0D9F();
@@ -300,7 +301,6 @@ extern void f__2649_02B9_000E_DFE0();
 extern void emu_Mouse_CallbackClear();
 extern void f__151A_02C8_0016_FA9C();
 extern void emu_Empty5();
-extern void f__B527_02CB_005E_FFA4();
 extern void emu_Map_SetSelection();
 extern void emu_Tools_Index_GetStructureOrUnit();
 extern void emu_Mouse_InsideRegion();
@@ -649,7 +649,7 @@ extern void f__B4ED_0CB5_0015_3E7D();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__217E_0D2C_000B_83A7();
 extern void f__01F7_0D2E_0015_C196();
-extern void f__22A6_0D31_0015_A4C3();
+extern void emu_GUI_DrawRectangle();
 extern void f__B495_0D3E_000F_31B8();
 extern void emu_Input_Keyboard_EventHandler();
 extern void f__B491_0D4B_000D_85F6();

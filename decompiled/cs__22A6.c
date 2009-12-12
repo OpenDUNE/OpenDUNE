@@ -1839,9 +1839,9 @@ l__0CF5:
 }
 
 /**
- * Decompiled function f__22A6_0D31_0015_A4C3()
+ * Decompiled function emu_GUI_DrawRectangle()
  *
- * @name f__22A6_0D31_0015_A4C3
+ * @name emu_GUI_DrawRectangle
  * @implements 22A6:0D31:0015:A4C3 ()
  * @implements 22A6:0D46:008D:DF87
  * @implements 22A6:0D56:007D:10AC
@@ -1883,7 +1883,7 @@ l__0CF5:
  * Called From: B527:035A:0015:34F5
  * Called From: B536:00C5:0024:6B9F
  */
-void f__22A6_0D31_0015_A4C3()
+void emu_GUI_DrawRectangle()
 {
 l__0D31:
 	emu_push(emu_bp);

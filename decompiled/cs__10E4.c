@@ -68,7 +68,7 @@ l__0008:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x666A);
 	emu_push(0x0050);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60D31: f__22A6_0D31_0015_A4C3(); break;
+		case 0x22A60D31: emu_GUI_DrawRectangle(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x10E4; emu_last_ip = 0x004B; emu_last_length = 0x0048; emu_last_crc = 0x5BD4;
@@ -402,7 +402,7 @@ l__01D4:
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x2521; f__2521_000F_0022_6D87();
+	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x2521; emu_Font_GetWidth();
 l__01E3:
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);
@@ -432,7 +432,7 @@ l__0210:
 	emu_decw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x021F); emu_cs = 0x2521; f__2521_000F_0022_6D87();
+	emu_push(emu_cs); emu_push(0x021F); emu_cs = 0x2521; emu_Font_GetWidth();
 l__021F:
 	emu_pop(&emu_cx);
 	emu_subw(&emu_si, emu_ax);
@@ -1693,7 +1693,7 @@ l__0ABB:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x666A);
 	emu_push(0x0ADB);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60D31: f__22A6_0D31_0015_A4C3(); break;
+		case 0x22A60D31: emu_GUI_DrawRectangle(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x10E4; emu_last_ip = 0x0AD6; emu_last_length = 0x0020; emu_last_crc = 0xA11E;
@@ -2176,7 +2176,7 @@ l__0EC8:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x666A);
 	emu_push(0x0F11);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60D31: f__22A6_0D31_0015_A4C3(); break;
+		case 0x22A60D31: emu_GUI_DrawRectangle(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x10E4; emu_last_ip = 0x0F0C; emu_last_length = 0x0049; emu_last_crc = 0x0BFB;

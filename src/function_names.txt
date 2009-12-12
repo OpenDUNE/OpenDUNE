@@ -137,6 +137,10 @@
 217E:07A6:000C:1B04	emu_Overlay_GetCodeSize
 217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
+22A6:0D31:0015:A4C3	emu_GUI_DrawRectangle	# (x1, y1, x2, y2, colour), draw a rectangle
+
+2521:000F:0022:6D87	emu_Font_GetWidth	# (char), get the font width of a character
+
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion

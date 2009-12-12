@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2521_000F_0022_6D87()
+ * Decompiled function emu_Font_GetWidth()
  *
- * @name f__2521_000F_0022_6D87
+ * @name emu_Font_GetWidth
  * @implements 2521:000F:0022:6D87 ()
  * @implements 2521:0031:0004:893F
  *
@@ -25,7 +25,7 @@
  * Called From: B536:0467:0009:A1E6
  * Called From: B536:06D6:0010:4E1D
  */
-void f__2521_000F_0022_6D87()
+void emu_Font_GetWidth()
 {
 l__000F:
 	emu_push(emu_bp);
@@ -107,7 +107,7 @@ l__0053:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0061); f__2521_000F_0022_6D87();
+	emu_push(0x0061); emu_Font_GetWidth();
 l__0061:
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);

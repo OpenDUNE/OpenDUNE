@@ -3794,7 +3794,7 @@ l__18B6:
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x18C5); emu_cs = 0x2521; f__2521_000F_0022_6D87();
+	emu_push(emu_cs); emu_push(0x18C5); emu_cs = 0x2521; emu_Font_GetWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__18C5:
@@ -3832,7 +3832,7 @@ l__1901:
 	emu_decw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1910); emu_cs = 0x2521; f__2521_000F_0022_6D87();
+	emu_push(emu_cs); emu_push(0x1910); emu_cs = 0x2521; emu_Font_GetWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1910:

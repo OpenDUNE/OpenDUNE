@@ -551,7 +551,8 @@ typedef struct GlobalData {
 	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
-	/* 2C5E()    */ PACK uint8   unknown_2C5E[0x0006];
+	/* 2C5E(4)   */ PACK uint32 tickEditBox;                /*!< Ticker for cursor blinking (in EditBox) */
+	/* 2C62(2)   */ PACK uint16 editBoxShowCursor;          /*!< Boolean value, when non-zero, cursor is active (in EditBox). */
 	/* 2C64(126) */ PACK uint16 layoutTiles[7][9];          /*!< Array with position offset per tile in a structure layout. */
 	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
 	/* 2D52(14)  */ PACK uint16 layoutTileCount[7];         /*!< Array with amount of tiles in a layout. */
@@ -646,7 +647,9 @@ typedef struct GlobalData {
 	/* 3198()    */ PACK uint8   unknown_3198[0x0007];
 	/* 319F(7)   */ PACK char   string_319F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
-	/* 31A9()    */ PACK uint8   unknown_31A9[0x001D];
+	/* 31A9()    */ PACK uint8   unknown_31A9[0x0009];
+	/* 31B2(4)   */ PACK csip32 variable_31B2;              /*!< ?? */
+	/* 31B6()    */ PACK uint8   unknown_31B6[0x0010];
 	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
 	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
 	/* 31CE(4)   */ PACK uint32 variable_31CE;              /*!< ?? */
@@ -1081,8 +1084,8 @@ typedef struct GlobalData {
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
 	/* 6CD3(64)  */ PACK uint32 variable_6CD3[8][2];        /*!< ?? Array init in f__B480_0000_0018_A09B(). */
 	/* 6D13()    */ PACK uint8   unknown_6D13[0x0046];
-	/* 6D59(2)   */ PACK uint16 variable_6D59;              /*!< ?? */
-	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? */
+	/* 6D59(2)   */ PACK uint16 variable_6D59;              /*!< ?? Non-blink colour for cursor in edit box. */
+	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? Blink colour for cursor in edit box. */
 	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
 	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
 	/* 6D61(2)   */ PACK uint16 variable_6D61;              /*!< ?? */
@@ -1159,7 +1162,7 @@ typedef struct GlobalData {
 	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
-	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? */
+	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
 	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
@@ -1260,9 +1263,9 @@ typedef struct GlobalData {
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0040];
 	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
-	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? */
+	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/
 	/* 992F(2)   */ PACK uint16 variable_992F;              /*!< ?? */
-	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? */
+	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? Height of edit box. */
 	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
 	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
