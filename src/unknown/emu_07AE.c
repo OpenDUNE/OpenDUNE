@@ -36,6 +36,6 @@ void emu_Unknown_07AE_0000()
 	g_global->variable_3196 = 0x0;
 	g_global->variable_8225 = g_global->variable_9935 / (g_global->variable_6C70 + g_global->variable_6C6C);
 	g_global->variable_6D5F = (g_global->variable_9931 - g_global->variable_6C6E) / (g_global->variable_6C71 + g_global->variable_6C6E);
-	g_global->variable_6D63 = g_global->variable_992F >> 3;
+	g_global->variable_6D63 = g_global->variable_992F << 3;
 	g_global->variable_6D61 = g_global->variable_6D63 / (g_global->variable_6C70 + g_global->variable_6C6C);
 }
