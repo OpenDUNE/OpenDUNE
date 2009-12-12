@@ -2771,7 +2771,7 @@ l__1029:
 	emu_subw(&emu_sp, 0x8);
 	emu_ax = 0x5;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; f__252E_0001_0018_08B3();
+	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Unknown_252E_0001();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__1038:

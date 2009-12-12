@@ -255,7 +255,7 @@ l__00D3:
 	emu_push(emu_dx);
 	emu_ax = 0x3;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; f__252E_0001_0018_08B3();
+	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Unknown_252E_0001();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__0102:

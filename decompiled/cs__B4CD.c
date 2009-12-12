@@ -2343,7 +2343,7 @@ l__0E0B:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6CDF));
 	emu_ax = 0x3;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; f__252E_0001_0018_08B3();
+	emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Unknown_252E_0001();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0E2A:

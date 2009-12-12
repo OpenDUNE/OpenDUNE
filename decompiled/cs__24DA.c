@@ -95,7 +95,7 @@ l__002D:
 	emu_push(emu_si);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; f__252E_0001_0018_08B3();
+	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; emu_Unknown_252E_0001();
 l__003D:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;

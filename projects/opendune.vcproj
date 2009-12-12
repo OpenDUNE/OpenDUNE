@@ -949,26 +949,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__252E.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__2531.c"
 				>
 				<FileConfiguration
@@ -3394,6 +3374,34 @@
 							ObjectFile="$(IntDir)\src\script\"
 						/>
 					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="unknown"
+				>
+				<File
+					RelativePath="..\src\unknown\emu_252E.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\unknown\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\unknown\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\unknown\unknown.h"
+					>
 				</File>
 			</Filter>
 		</Filter>

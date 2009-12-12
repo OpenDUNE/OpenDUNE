@@ -630,7 +630,7 @@ l__0510:
 	goto l__0541;
 l__051F:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x252E; f__252E_001B_0018_EA2C();
+	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x252E; emu_Unknown_252E_001B();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x352A) { overlay(0x352A, 1); }
 l__0527:

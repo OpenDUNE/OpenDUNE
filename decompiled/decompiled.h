@@ -25,6 +25,7 @@
 #include "../src/tile.h"
 #include "../src/tools.h"
 #include "../src/unit.h"
+#include "../src/unknown/unknown.h"
 
 
 #undef DECOMPILED_INCLUDE
@@ -70,7 +71,6 @@ extern void emu_Gameloop_Intro();
 extern void f__B53B_0000_0050_FEA6();
 extern void f__B4AB_0000_000D_6028();
 extern void f__B491_0000_0022_DD43();
-extern void f__252E_0001_0018_08B3();
 extern void f__2B99_0002_0012_E0C1();
 extern void f__2642_0002_005E_87F6();
 extern void f__2B4C_0002_0029_64AF();
@@ -136,7 +136,6 @@ extern void f__2BEE_0017_0028_0D9F();
 extern void f__2531_0019_0010_2000();
 extern void f__1319_001A_0011_30DD();
 extern void f__07C4_001A_0045_DCB4();
-extern void f__252E_001B_0018_EA2C();
 extern void f__B511_001E_0010_AE09();
 extern void f__259E_0021_001A_E253();
 extern void emu_Drive_Set_Default_NoInput();

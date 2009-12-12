@@ -1076,9 +1076,10 @@ typedef struct GlobalData {
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
 	/* 6C84()    */ PACK uint8   unknown_6C84[0x000F];
-	/* 6C93(64)  */ PACK uint16 variable_6C93[16][2];       /*!< ?? Array of memory segments. */
-	/* 6CD3(128) */ PACK uint32 variable_6CD3[16][2];       /*!< ?? Array init in f__B480_0000_0018_A09B(). */
-	/* 6D53()    */ PACK uint8   unknown_6D53[0x0008];
+	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */
+	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
+	/* 6CD3(64)  */ PACK uint32 variable_6CD3[8][2];        /*!< ?? Array init in f__B480_0000_0018_A09B(). */
+	/* 6D13()    */ PACK uint8   unknown_6D13[0x0048];
 	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? */
 	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
 	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
