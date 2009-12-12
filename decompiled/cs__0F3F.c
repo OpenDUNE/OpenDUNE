@@ -136,7 +136,7 @@ l__0188:
 l__0190:
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0198); emu_cs = 0x07C4; f__07C4_001A_0045_DCB4();
+	emu_push(emu_cs); emu_push(0x0198); emu_cs = 0x07C4; emu_Unknown_07C4_001A();
 l__0198:
 	emu_addw(&emu_sp, 0x8);
 	goto l__019D;

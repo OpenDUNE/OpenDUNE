@@ -7,6 +7,8 @@ extern void emu_Unknown_07AE_0000();
 extern void emu_Unknown_07AE_00E4();
 extern void emu_Unknown_07AE_0103();
 
+extern void emu_Unknown_07C4_001A();
+
 extern void emu_Unknown_252E_0001();
 extern void emu_Unknown_252E_001B();
 

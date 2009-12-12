@@ -134,7 +134,6 @@ extern void f__217E_0015_0019_BAFF();
 extern void f__2BEE_0017_0028_0D9F();
 extern void f__2531_0019_0010_2000();
 extern void f__1319_001A_0011_30DD();
-extern void f__07C4_001A_0045_DCB4();
 extern void f__B511_001E_0010_AE09();
 extern void f__259E_0021_001A_E253();
 extern void emu_Drive_Set_Default_NoInput();
