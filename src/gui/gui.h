@@ -1,4 +1,4 @@
-/* $Id: unknown.h 744 2009-12-12 15:21:54Z truebrain $ */
+/* $Id$ */
 
 #ifndef GUI_GUI_H
 #define GUI_GUI_H

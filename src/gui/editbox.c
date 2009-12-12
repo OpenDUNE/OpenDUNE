@@ -1,4 +1,4 @@
-/* $Id: emu_B53B.c 744 2009-12-12 15:21:54Z truebrain $ */
+/* $Id$ */
 
 #include <assert.h>
 #include <stdio.h>
