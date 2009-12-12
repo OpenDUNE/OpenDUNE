@@ -202,3 +202,6 @@ B511:0729:0016:F168	emu_Save_Main	# Save a game
 B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
+
+B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
+

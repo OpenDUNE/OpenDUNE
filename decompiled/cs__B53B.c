@@ -5,68 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B53B_0000_0050_FEA6()
+ * Decompiled function emu_File_Error()
  *
- * @name f__B53B_0000_0050_FEA6
- * @implements B53B:0000:0050:FEA6 ()
- * @implements B53B:0050:000C:D401
- *
- * Called From: B53B:0171:000B:944B
- * Called From: B53B:020C:0008:793E
- */
-void f__B53B_0000_0050_FEA6()
-{
-l__0000:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x6D5D);
-	emu_cl = 0x4;
-	emu_shlw(&emu_bx, emu_cl);
-	emu_subw(&emu_get_memory16(emu_ds, emu_bx, 0x4062), emu_si);
-	emu_ax = emu_si;
-	emu_cl = 0x3;
-	emu_shlw(&emu_ax, emu_cl);
-	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x6D5D);
-	emu_cl = 0x4;
-	emu_shlw(&emu_bx, emu_cl);
-	emu_subw(&emu_get_memory16(emu_ds, emu_bx, 0x4064), emu_ax);
-	emu_ax = emu_si;
-	emu_shlw(&emu_ax, 0x1);
-	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x6D5D);
-	emu_cl = 0x4;
-	emu_shlw(&emu_bx, emu_cl);
-	emu_addw(&emu_get_memory16(emu_ds, emu_bx, 0x4066), emu_ax);
-	emu_ax = emu_si;
-	emu_cl = 0x4;
-	emu_shlw(&emu_ax, emu_cl);
-	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x6D5D);
-	emu_cl = 0x4;
-	emu_shlw(&emu_bx, emu_cl);
-	emu_addw(&emu_get_memory16(emu_ds, emu_bx, 0x4068), emu_ax);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
-	emu_push(emu_cs); emu_push(0x0050); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-l__0050:
-	emu_pop(&emu_cx);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_get_memory16(emu_ds, 0x00, 0x9933) = emu_ax;
-	emu_get_memory16(emu_ds, 0x00, 0x9935) = emu_ax;
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__B53B_005C_000F_A920()
- *
- * @name f__B53B_005C_000F_A920
+ * @name emu_File_Error
  * @implements B53B:005C:000F:A920 ()
  * @implements B53B:006B:001D:6E01
  * @implements B53B:0088:000D:B84B
@@ -99,7 +40,7 @@ l__0050:
  *
  * Called From: B53B:02A5:001F:95C1
  */
-void f__B53B_005C_000F_A920()
+void emu_File_Error()
 {
 l__005C:
 	emu_push(emu_bp);
@@ -262,7 +203,7 @@ l__0169:
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0174); f__B53B_0000_0050_FEA6();
+	emu_push(0x0174); emu_Unknown_B53B_0000();
 l__0174:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
@@ -324,7 +265,7 @@ l__0207:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x020F); f__B53B_0000_0050_FEA6();
+	emu_push(0x020F); emu_Unknown_B53B_0000();
 l__020F:
 	emu_pop(&emu_cx);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x31B2);
@@ -404,82 +345,4 @@ l__0283:
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
-}
-
-/**
- * Decompiled function f__B53B_0289_001F_95C1()
- *
- * @name f__B53B_0289_001F_95C1
- * @implements B53B:0289:001F:95C1 ()
- * @implements B53B:02A8:000E:945D
- * @implements B53B:02B6:0004:893F
- *
- * Called From: 353B:0020:0005:0000
- */
-void f__B53B_0289_001F_95C1()
-{
-l__0289:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x2);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x6C91);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ds, 0x00, 0x6C91) = 0x0;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs);
-	emu_push(0x02A8); f__B53B_005C_000F_A920();
-l__02A8:
-	emu_addw(&emu_sp, 0x6);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_get_memory16(emu_ds, 0x00, 0x6C91) = emu_ax;
-	emu_ax = 0x1;
-	goto l__02B6;
-l__02B6:
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__B53B_02ED_0019_AA57()
- *
- * @name f__B53B_02ED_0019_AA57
- * @implements B53B:02ED:0019:AA57 ()
- * @implements B53B:0306:000D:8D50
- * @implements B53B:0313:0009:F157
- *
- * Called From: 353B:002F:0005:0000
- */
-void f__B53B_02ED_0019_AA57()
-{
-l__02ED:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6780));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x677E));
-	emu_push(emu_cs); emu_push(0x0306); emu_cs = 0x01F7; emu_String_printf();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-l__0306:
-	emu_addw(&emu_sp, 0xA);
-	emu_get_memory8(emu_ds, 0x00, 0x62F6) = 0x0;
-	emu_push(emu_cs); emu_push(0x0313); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-l__0313:
-	emu_ax = 0x5;
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x01F7; emu_Terminate_Normal();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-	/* Unresolved jump */ emu_ip = 0x031C; emu_last_cs = 0xB53B; emu_last_ip = 0x031C; emu_last_length = 0x0009; emu_last_crc = 0xF157; emu_call();
 }

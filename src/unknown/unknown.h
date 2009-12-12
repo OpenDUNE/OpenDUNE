@@ -10,4 +10,8 @@ extern void emu_Unknown_07AE_0103();
 extern void emu_Unknown_252E_0001();
 extern void emu_Unknown_252E_001B();
 
+extern void emu_Unknown_B53B_0000();
+extern void emu_File_Error_Wrapper();
+extern void emu_File_IOError();
+
 #endif /* UNKNOWN_UNKNOWN_H */

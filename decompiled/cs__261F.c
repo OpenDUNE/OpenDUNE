@@ -193,7 +193,7 @@ l__0062:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x6C82);
 	emu_push(0x0072);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x353B0020: overlay(0x353B, 0); f__B53B_0289_001F_95C1(); break;
+		case 0x353B0020: overlay(0x353B, 0); emu_File_Error_Wrapper(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x261F; emu_last_ip = 0x006E; emu_last_length = 0x0010; emu_last_crc = 0xF80A;
