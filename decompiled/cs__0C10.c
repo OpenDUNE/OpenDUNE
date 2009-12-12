@@ -80,7 +80,7 @@ l__005D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
-	emu_push(0x0068); f__0C10_0168_0014_CEB0();
+	emu_push(0x0068); emu_Object_GetScriptVariable4();
 l__0068:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -88,7 +88,7 @@ l__0068:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_cs);
-	emu_push(0x0076); f__0C10_0168_0014_CEB0();
+	emu_push(0x0076); emu_Object_GetScriptVariable4();
 l__0076:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -113,7 +113,7 @@ l__0097:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
-	emu_push(0x00A2); f__0C10_013D_0016_8C5C();
+	emu_push(0x00A2); emu_Object_IsScriptVariable4NotNull();
 l__00A2:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -221,9 +221,9 @@ l__013B:
 }
 
 /**
- * Decompiled function f__0C10_013D_0016_8C5C()
+ * Decompiled function emu_Object_IsScriptVariable4NotNull()
  *
- * @name f__0C10_013D_0016_8C5C
+ * @name emu_Object_IsScriptVariable4NotNull
  * @implements 0C10:013D:0016:8C5C ()
  * @implements 0C10:0153:000B:B65C
  * @implements 0C10:015E:0004:EA39
@@ -237,7 +237,7 @@ l__013B:
  * Called From: 1A34:0111:0020:5691
  * Called From: 1A34:28DC:000B:C880
  */
-void f__0C10_013D_0016_8C5C()
+void emu_Object_IsScriptVariable4NotNull()
 {
 l__013D:
 	emu_push(emu_bp);
@@ -248,7 +248,7 @@ l__013D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0153); f__0C10_0168_0014_CEB0();
+	emu_push(0x0153); emu_Object_GetScriptVariable4();
 l__0153:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -270,9 +270,9 @@ l__0166:
 }
 
 /**
- * Decompiled function f__0C10_0168_0014_CEB0()
+ * Decompiled function emu_Object_GetScriptVariable4()
  *
- * @name f__0C10_0168_0014_CEB0
+ * @name emu_Object_GetScriptVariable4
  * @implements 0C10:0168:0014:CEB0 ()
  * @implements 0C10:017A:0002:C23A
  * @implements 0C10:017C:0004:9539
@@ -291,7 +291,7 @@ l__0166:
  * Called From: 1A34:36C1:001D:281D
  * Called From: 1A34:36C1:002F:3E26
  */
-void f__0C10_0168_0014_CEB0()
+void emu_Object_GetScriptVariable4()
 {
 l__0168:
 	emu_push(emu_bp);

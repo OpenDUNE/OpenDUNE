@@ -4089,7 +4089,7 @@ l__296E:
 l__2973:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x297E); emu_cs = 0x0C10; f__0C10_0168_0014_CEB0();
+	emu_push(emu_cs); emu_push(0x297E); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
 l__297E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
