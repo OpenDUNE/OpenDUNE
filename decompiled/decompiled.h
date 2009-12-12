@@ -55,7 +55,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__2BD6_0000_0015_24A9();
 extern void f__B48B_0000_001E_7E97();
 extern void f__B495_0000_0022_1CF6();
-extern void f__07AE_0000_00DF_A32C();
 extern void f__B500_0000_0008_FE1F();
 extern void emu_GUI_ShowMap();
 extern void f__B4AE_0000_0008_049C();

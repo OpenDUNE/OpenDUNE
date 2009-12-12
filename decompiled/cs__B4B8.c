@@ -4051,7 +4051,7 @@ l__2030:
 	emu_addw(&emu_sp, 0xE);
 	emu_ax = 0xD;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x203C); emu_cs = 0x07AE; f__07AE_0000_00DF_A32C();
+	emu_push(emu_cs); emu_push(0x203C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__203C:

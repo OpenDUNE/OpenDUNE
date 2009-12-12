@@ -381,7 +381,7 @@ l__03E0:
 	emu_pop(&emu_cx);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03E9); emu_cs = 0x07AE; f__07AE_0000_00DF_A32C();
+	emu_push(emu_cs); emu_push(0x03E9); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
 l__03E9:
 	emu_pop(&emu_cx);
 	emu_ax = 0x1;
