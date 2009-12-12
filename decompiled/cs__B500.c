@@ -21,6 +21,7 @@
  * @implements B500:0064:0005:F68F
  * @implements B500:0069:0005:F701
  * @implements B500:006E:0012:AD3C
+ * @implements B500:0080:0013:C033
  * @implements B500:0082:0011:8B05
  * @implements B500:0093:0005:6143
  *
@@ -119,7 +120,9 @@ l__006E:
 	emu_push(emu_cs); emu_push(0x0080); emu_cs = 0x28E4; f__28E4_0002_0017_0B15();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { overlay(0x3500, 1); }
-	/* Unresolved jump */ emu_ip = 0x0080; emu_last_cs = 0xB500; emu_last_ip = 0x0080; emu_last_length = 0x0012; emu_last_crc = 0xAD3C; emu_call();
+l__0080:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
 l__0082:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9848));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9846));

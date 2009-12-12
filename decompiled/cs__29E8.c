@@ -760,6 +760,7 @@ l__07F7:
  * @implements 29E8:0843:0008:9386
  *
  * Called From: 10E4:049B:0005:B085
+ * Called From: 23E1:0358:0007:D436
  * Called From: 23E1:0404:0007:D436
  * Called From: 25C4:00B7:0005:B085
  * Called From: B503:08A3:0005:B085

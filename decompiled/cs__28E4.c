@@ -13,8 +13,10 @@
  * @implements 28E4:0019:0002:B9BA
  * @implements 28E4:001B:0007:B6D7
  *
+ * Called From: 23E1:0351:000D:7816
  * Called From: 23E1:03FD:000E:7972
  * Called From: 25C4:031C:000D:DB43
+ * Called From: B500:007B:0012:AD3C
  */
 void f__28E4_0002_0017_0B15()
 {
