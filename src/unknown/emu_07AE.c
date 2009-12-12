@@ -93,7 +93,7 @@ void emu_Unknown_07AE_0103()
 	emu_push(((g_global->variable_992D + g_global->variable_992F) << 3) - 1);
 	emu_push(g_global->variable_992B);
 	emu_push(g_global->variable_992D << 3);
-	emu_push(emu_cs); emu_push(0x014F); f__22A6_0D31_0015_A4C3();
+	emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x22A6; f__22A6_0D31_0015_A4C3();
 	emu_sp += 10;
 
 	g_global->variable_8225 = 0x0;
