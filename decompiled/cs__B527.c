@@ -154,7 +154,7 @@ l__00A1:
 l__00A6:
 	emu_testw(&emu_get_memory16(emu_ss, emu_bp,  0x16), 0x4);
 	if ((emu_get_memory16(emu_ss, emu_bp,  0x16) & 0x4) != 0) {
-		emu_push(emu_cs); emu_push(0x00B2); emu_cs = 0x07AE; f__07AE_0103_004C_B43B();
+		emu_push(emu_cs); emu_push(0x00B2); emu_cs = 0x07AE; emu_Unknown_07AE_0103();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 	}

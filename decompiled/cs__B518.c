@@ -1215,7 +1215,7 @@ l__072A:
 	emu_get_memory16(emu_ss, emu_bp, -0x1A) = emu_ax;
 	emu_ax = 0x13;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0737); emu_cs = 0x07AE; f__07AE_00E4_000D_9955();
+	emu_push(emu_cs); emu_push(0x0737); emu_cs = 0x07AE; emu_Unknown_07AE_00E4();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0737:
