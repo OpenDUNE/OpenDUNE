@@ -7,6 +7,13 @@
 #include "../global.h"
 #include "unknown.h"
 
+extern void f__B500_0000_0008_FE1F();
+extern void emu_Unknown_B53B_005C();
+extern void emu_File_Error();
+extern void emu_String_printf();
+extern void emu_Terminate_Normal();
+extern void overlay(uint16 cs, uint8 force);
+
 /**
  * C-ified function of f__B53B_0000_0050_FEA6().
  *
@@ -58,7 +65,7 @@ void emu_File_Error_Wrapper()
 	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x0));
-	emu_push(emu_cs); emu_push(0x02A8); emu_Unknown_B53B_005C();
+	emu_push(emu_cs); emu_push(0x02A8); emu_File_Error();
 	emu_sp += 6;
 
 	g_global->variable_6C91 = oldVariable_6C91;
