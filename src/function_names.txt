@@ -99,6 +99,8 @@
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 
+10E4:1EF1:0040:01F8	emu_GUI_DrawText	# (char_csip, positionX, positionY, textColour, backgroundColour, unknown), draw text to the screen
+
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
 
 15C2:000B:000E:6322	emu_Script_ClearInfo	# (info_csip)

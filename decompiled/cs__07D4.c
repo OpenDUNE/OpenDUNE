@@ -2642,7 +2642,7 @@ l__13F9:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x37BE));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x37BC));
-	emu_push(emu_cs); emu_push(0x1419); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x1419); emu_cs = 0x10E4; emu_GUI_DrawText();
 l__1419:
 	emu_addw(&emu_sp, 0xE);
 	emu_get_memory16(emu_ss, emu_bp, -0x36) = 0xFFFF;

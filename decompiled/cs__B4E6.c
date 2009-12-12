@@ -137,7 +137,7 @@ l__0085:
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x009E); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x009E); emu_cs = 0x10E4; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__009E:
@@ -157,7 +157,7 @@ l__00AA:
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x00C4); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x00C4); emu_cs = 0x10E4; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__00C4:
@@ -345,7 +345,7 @@ l__01B9:
 	emu_addw(&emu_bx, emu_ax);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x01E1); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x01E1); emu_cs = 0x10E4; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__01E1:
@@ -714,7 +714,7 @@ l__0420:
 	emu_addw(&emu_bx, emu_ax);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x045A); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x045A); emu_cs = 0x10E4; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__045A:
@@ -747,7 +747,7 @@ l__046B:
 	emu_addw(&emu_bx, emu_ax);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x04A4); emu_cs = 0x10E4; f__10E4_1EF1_0040_01F8();
+	emu_push(emu_cs); emu_push(0x04A4); emu_cs = 0x10E4; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E6) { overlay(0x34E6, 1); }
 l__04A4:
