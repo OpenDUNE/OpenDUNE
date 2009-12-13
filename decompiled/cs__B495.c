@@ -2122,7 +2122,7 @@ l__0C6A:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0C72); emu_cs = 0x2521; f__2521_0035_0015_AA0F();
+	emu_push(emu_cs); emu_push(0x0C72); emu_cs = 0x2521; emu_Font_GetStringWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__0C72:
@@ -2167,7 +2167,7 @@ l__0CB6:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0CBE); emu_cs = 0x2521; f__2521_0035_0015_AA0F();
+	emu_push(emu_cs); emu_push(0x0CBE); emu_cs = 0x2521; emu_Font_GetStringWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__0CBE:

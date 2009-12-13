@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Font_GetWidth()
+ * Decompiled function emu_Font_GetCharWidth()
  *
- * @name emu_Font_GetWidth
+ * @name emu_Font_GetCharWidth
  * @implements 2521:000F:0022:6D87 ()
  * @implements 2521:0031:0004:893F
  *
@@ -25,7 +25,7 @@
  * Called From: B536:0467:0009:A1E6
  * Called From: B536:06D6:0010:4E1D
  */
-void emu_Font_GetWidth()
+void emu_Font_GetCharWidth()
 {
 l__000F:
 	emu_push(emu_bp);
@@ -52,9 +52,9 @@ l__0031:
 }
 
 /**
- * Decompiled function f__2521_0035_0015_AA0F()
+ * Decompiled function emu_Font_GetStringWidth()
  *
- * @name f__2521_0035_0015_AA0F
+ * @name emu_Font_GetStringWidth
  * @implements 2521:0035:0015:AA0F ()
  * @implements 2521:004A:0009:2116
  * @implements 2521:0053:000E:39D1
@@ -83,7 +83,7 @@ l__0031:
  * Called From: B518:13E9:0028:C863
  * Called From: B536:079A:000F:8263
  */
-void f__2521_0035_0015_AA0F()
+void emu_Font_GetStringWidth()
 {
 l__0035:
 	emu_push(emu_bp);
@@ -107,7 +107,7 @@ l__0053:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0061); emu_Font_GetWidth();
+	emu_push(0x0061); emu_Font_GetCharWidth();
 l__0061:
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);

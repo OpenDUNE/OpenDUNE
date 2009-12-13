@@ -402,7 +402,7 @@ l__01D4:
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x2521; emu_Font_GetWidth();
+	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x2521; emu_Font_GetCharWidth();
 l__01E3:
 	emu_pop(&emu_cx);
 	emu_addw(&emu_si, emu_ax);
@@ -432,7 +432,7 @@ l__0210:
 	emu_decw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x021F); emu_cs = 0x2521; emu_Font_GetWidth();
+	emu_push(emu_cs); emu_push(0x021F); emu_cs = 0x2521; emu_Font_GetCharWidth();
 l__021F:
 	emu_pop(&emu_cx);
 	emu_subw(&emu_si, emu_ax);
@@ -4574,7 +4574,7 @@ l__204A:
 	emu_push(emu_ds);
 	emu_ax = 0x8AEE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2054); emu_cs = 0x2521; f__2521_0035_0015_AA0F();
+	emu_push(emu_cs); emu_push(0x2054); emu_cs = 0x2521; emu_Font_GetStringWidth();
 l__2054:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -4586,7 +4586,7 @@ l__205C:
 	emu_push(emu_ds);
 	emu_ax = 0x8AEE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2066); emu_cs = 0x2521; f__2521_0035_0015_AA0F();
+	emu_push(emu_cs); emu_push(0x2066); emu_cs = 0x2521; emu_Font_GetStringWidth();
 l__2066:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
