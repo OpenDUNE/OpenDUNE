@@ -143,7 +143,10 @@
 217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
 22A6:07B3:0037:50B9	emu_GUI_DrawChar	# (char, x, y), draw a char on the screen
-22A6:0D31:0015:A4C3	emu_GUI_DrawRectangle	# (x1, y1, x2, y2, colour), draw a rectangle
+22A6:094D:000C:EC7D	emu_GUI_DrawLine	# (x1, y1, x2, y2, colour), draw a line
+22A6:0D31:0015:A4C3	emu_GUI_DrawFilledRectangle	# (x1, y1, x2, y2, colour), draw a rectangle, filled
+
+251B:0000:001E:7202	emu_GUI_DrawWiredRectangle	# (x1, y1, x2, y2, colour), draw a rectangle, not filled (4 lines)
 
 2521:000F:0022:6D87	emu_Font_GetCharWidth	# (char), get the font width of a character
 2521:0035:0015:AA0F	emu_Font_GetStringWidth	# (string_csip), get the font width of a string

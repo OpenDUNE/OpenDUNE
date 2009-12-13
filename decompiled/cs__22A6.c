@@ -1002,9 +1002,9 @@ l__0902:
 }
 
 /**
- * Decompiled function f__22A6_094D_000C_EC7D()
+ * Decompiled function emu_GUI_DrawLine()
  *
- * @name f__22A6_094D_000C_EC7D
+ * @name emu_GUI_DrawLine
  * @implements 22A6:094D:000C:EC7D ()
  * @implements 22A6:0959:0014:82C1
  * @implements 22A6:096D:0008:E7EF
@@ -1031,7 +1031,7 @@ l__0902:
  * Called From: B518:03F0:0026:F217
  * Called From: B518:0414:0024:F6ED
  */
-void f__22A6_094D_000C_EC7D()
+void emu_GUI_DrawLine()
 {
 l__094D:
 	emu_push(emu_bp);
@@ -1839,9 +1839,9 @@ l__0CF5:
 }
 
 /**
- * Decompiled function emu_GUI_DrawRectangle()
+ * Decompiled function emu_GUI_DrawFilledRectangle()
  *
- * @name emu_GUI_DrawRectangle
+ * @name emu_GUI_DrawFilledRectangle
  * @implements 22A6:0D31:0015:A4C3 ()
  * @implements 22A6:0D46:008D:DF87
  * @implements 22A6:0D56:007D:10AC
@@ -1883,7 +1883,7 @@ l__0CF5:
  * Called From: B527:035A:0015:34F5
  * Called From: B536:00C5:0024:6B9F
  */
-void emu_GUI_DrawRectangle()
+void emu_GUI_DrawFilledRectangle()
 {
 l__0D31:
 	emu_push(emu_bp);

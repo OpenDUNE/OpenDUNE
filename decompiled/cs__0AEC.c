@@ -1154,7 +1154,7 @@ l__086E:
 	emu_ax = emu_si;
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x08B0); emu_cs = 0x251B; f__251B_0000_001E_7202();
+	emu_push(emu_cs); emu_push(0x08B0); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
 l__08B0:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = 0x1;
@@ -1722,7 +1722,7 @@ l__0D3D:
 	emu_ax = emu_si;
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x251B; f__251B_0000_001E_7202();
+	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
 l__0D7F:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
@@ -1935,7 +1935,7 @@ l__0E98:
 	emu_ax = emu_si;
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0EDA); emu_cs = 0x251B; f__251B_0000_001E_7202();
+	emu_push(emu_cs); emu_push(0x0EDA); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
 l__0EDA:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = 0x1;

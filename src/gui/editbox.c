@@ -17,7 +17,7 @@ extern void emu_Input_Flags_SetBits();
 extern void emu_Input_Flags_ClearBits();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Font_GetCharWidth();
-extern void emu_GUI_DrawRectangle();
+extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_Unknown_07AE_0000();
 extern void emu_Unknown_07AE_0103();
@@ -60,7 +60,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	emu_push(positionX + emu_ax);
 	emu_push(g_global->variable_992B);
 	emu_push(positionX);
-	emu_push(emu_cs); emu_push(0x035F); emu_cs = 0x22A6; emu_GUI_DrawRectangle();
+	emu_push(emu_cs); emu_push(0x035F); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 	emu_sp += 10;

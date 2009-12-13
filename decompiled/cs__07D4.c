@@ -935,7 +935,7 @@ l__04DD:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x666A);
 	emu_push(0x0544);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60D31: emu_GUI_DrawRectangle(); break;
+		case 0x22A60D31: emu_GUI_DrawFilledRectangle(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x053F; emu_last_length = 0x0067; emu_last_crc = 0xE7F1;
@@ -1336,7 +1336,7 @@ l__0885:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1A));
 	emu_push(emu_di);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0899); emu_cs = 0x251B; f__251B_0000_001E_7202();
+	emu_push(emu_cs); emu_push(0x0899); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
 l__0899:
 	emu_addw(&emu_sp, 0xA);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x38EC), 0x0);
@@ -1358,7 +1358,7 @@ l__0899:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6656);
 	emu_push(0x08C0);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6094D: f__22A6_094D_000C_EC7D(); break;
+		case 0x22A6094D: emu_GUI_DrawLine(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x08BB; emu_last_length = 0x0027; emu_last_crc = 0x372D;
@@ -1382,7 +1382,7 @@ l__08C0:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6656);
 	emu_push(0x08D9);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6094D: f__22A6_094D_000C_EC7D(); break;
+		case 0x22A6094D: emu_GUI_DrawLine(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x07D4; emu_last_ip = 0x08D4; emu_last_length = 0x0019; emu_last_crc = 0x9BB9;
