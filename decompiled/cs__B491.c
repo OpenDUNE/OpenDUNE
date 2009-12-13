@@ -872,7 +872,7 @@ l__06A3:
 	emu_bx = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x06D0); emu_cs = 0x2BC2; f__2BC2_000A_0044_2E0E();
+	emu_push(emu_cs); emu_push(0x06D0); emu_cs = 0x2BC2; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__06D0:

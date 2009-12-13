@@ -18,7 +18,7 @@ extern void emu_Input_Flags_ClearBits();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Font_GetCharWidth();
 extern void emu_GUI_DrawRectangle();
-extern void emu_GUI_DrawText();
+extern void emu_GUI_DrawText_Wrapper();
 extern void emu_Unknown_07AE_0000();
 extern void emu_Unknown_07AE_0103();
 extern void overlay(uint16 cs, uint8 force);
@@ -161,7 +161,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 unknow
 	emu_push(g_global->variable_992B);
 	emu_push(positionX);
 	emu_push(text.s.cs); emu_push(text.s.ip);
-	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x10E4; emu_GUI_DrawText();
+	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 	emu_sp += 14;
@@ -283,7 +283,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 unknow
 		emu_push(g_global->variable_992B);
 		emu_push(positionX + textWidth);
 		emu_push(text.s.cs); emu_push(text.s.ip + textLength - 1);
-		emu_push(emu_cs); emu_push(0x0259); emu_cs = 0x10E4; emu_GUI_DrawText();
+		emu_push(emu_cs); emu_push(0x0259); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 		emu_sp += 14;

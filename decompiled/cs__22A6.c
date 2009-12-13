@@ -776,9 +776,9 @@ l__07A1:
 }
 
 /**
- * Decompiled function f__22A6_07B3_0037_50B9()
+ * Decompiled function emu_GUI_DrawChar()
  *
- * @name f__22A6_07B3_0037_50B9
+ * @name emu_GUI_DrawChar
  * @implements 22A6:07B3:0037:50B9 ()
  * @implements 22A6:07E7:0003:DDA3
  * @implements 22A6:07EA:007A:8632
@@ -798,7 +798,7 @@ l__07A1:
  * Called From: 2BC2:00DA:0012:BF40
  * Called From: 2BC2:00DA:0043:F33C
  */
-void f__22A6_07B3_0037_50B9()
+void emu_GUI_DrawChar()
 {
 l__07B3:
 	emu_push(emu_bp);

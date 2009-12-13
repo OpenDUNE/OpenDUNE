@@ -582,7 +582,7 @@ l__02AC:
 	emu_push(emu_ax);
 	emu_push(emu_dx);
 	emu_push(emu_cs);
-	emu_push(0x02CB); emu_GUI_DrawText();
+	emu_push(0x02CB); emu_GUI_DrawText_Wrapper();
 l__02CB:
 	emu_addw(&emu_sp, 0xE);
 	emu_ax = 0x1;
@@ -781,7 +781,7 @@ l__042F:
 	emu_push(emu_ds);
 	emu_ax = 0x87D8;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x045E); emu_cs = 0x2BC2; f__2BC2_000A_0044_2E0E();
+	emu_push(emu_cs); emu_push(0x045E); emu_cs = 0x2BC2; emu_GUI_DrawText();
 l__045E:
 	emu_addw(&emu_sp, 0xC);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
@@ -1717,7 +1717,7 @@ l__0ADB:
 	emu_ax = 0x3694;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0AFF); emu_GUI_DrawText();
+	emu_push(0x0AFF); emu_GUI_DrawText_Wrapper();
 l__0AFF:
 	emu_addw(&emu_sp, 0xE);
 	emu_ax = 0x12;
@@ -1735,7 +1735,7 @@ l__0AFF:
 	emu_ax = 0x3644;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0B23); emu_GUI_DrawText();
+	emu_push(0x0B23); emu_GUI_DrawText_Wrapper();
 l__0B23:
 	emu_addw(&emu_sp, 0xE);
 	emu_get_memory16(emu_ds, 0x00, 0x38C4) = 0x0;
@@ -2825,7 +2825,7 @@ l__12E7:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1A));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x1C));
 	emu_push(emu_cs);
-	emu_push(0x130D); emu_GUI_DrawText();
+	emu_push(0x130D); emu_GUI_DrawText_Wrapper();
 l__130D:
 	emu_addw(&emu_sp, 0xE);
 l__1310:
@@ -2959,7 +2959,7 @@ l__1418:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1420); emu_GUI_DrawText();
+	emu_push(0x1420); emu_GUI_DrawText_Wrapper();
 l__1420:
 	emu_addw(&emu_sp, 0xE);
 	goto l__1427;
@@ -3021,7 +3021,7 @@ l__1475:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x147D); emu_GUI_DrawText();
+	emu_push(0x147D); emu_GUI_DrawText_Wrapper();
 l__147D:
 	emu_addw(&emu_sp, 0xE);
 	goto l__1B3A;
@@ -3053,7 +3053,7 @@ l__14AE:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x14B6); emu_GUI_DrawText();
+	emu_push(0x14B6); emu_GUI_DrawText_Wrapper();
 l__14B6:
 	emu_addw(&emu_sp, 0x10);
 	goto l__1B3A;
@@ -3525,7 +3525,7 @@ l__18EA:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x18F2); emu_GUI_DrawText();
+	emu_push(0x18F2); emu_GUI_DrawText_Wrapper();
 l__18F2:
 	emu_addw(&emu_sp, 0x10);
 l__18F5:
@@ -3609,7 +3609,7 @@ l__1983:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x198B); emu_GUI_DrawText();
+	emu_push(0x198B); emu_GUI_DrawText_Wrapper();
 l__198B:
 	emu_addw(&emu_sp, 0xE);
 	emu_push(emu_di);
@@ -3630,7 +3630,7 @@ l__198B:
 	emu_ax = 0x3774;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x19B2); emu_GUI_DrawText();
+	emu_push(0x19B2); emu_GUI_DrawText_Wrapper();
 l__19B2:
 	emu_addw(&emu_sp, 0x10);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x38));
@@ -3658,7 +3658,7 @@ l__19CC:
 	emu_ax = 0x3774;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x19E8); emu_GUI_DrawText();
+	emu_push(0x19E8); emu_GUI_DrawText_Wrapper();
 l__19E8:
 	emu_addw(&emu_sp, 0x10);
 	goto l__1B36;
@@ -3731,7 +3731,7 @@ l__1A63:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1A6B); emu_GUI_DrawText();
+	emu_push(0x1A6B); emu_GUI_DrawText_Wrapper();
 l__1A6B:
 	emu_addw(&emu_sp, 0x10);
 	goto l__1A97;
@@ -3754,7 +3754,7 @@ l__1A8C:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1A94); emu_GUI_DrawText();
+	emu_push(0x1A94); emu_GUI_DrawText_Wrapper();
 l__1A94:
 	emu_addw(&emu_sp, 0xE);
 l__1A97:
@@ -3843,7 +3843,7 @@ l__1B27:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1B2F); emu_GUI_DrawText();
+	emu_push(0x1B2F); emu_GUI_DrawText_Wrapper();
 l__1B2F:
 	emu_addw(&emu_sp, 0x12);
 	goto l__1B36;
@@ -4287,9 +4287,9 @@ l__1ED9:
 }
 
 /**
- * Decompiled function emu_GUI_DrawText()
+ * Decompiled function emu_GUI_DrawText_Wrapper()
  *
- * @name emu_GUI_DrawText
+ * @name emu_GUI_DrawText_Wrapper
  * @implements 10E4:1EF1:0040:01F8 ()
  * @implements 10E4:1F0E:0023:AD41
  * @implements 10E4:1F16:001B:1F78
@@ -4412,7 +4412,7 @@ l__1ED9:
  * Called From: B527:00CA:001D:E367
  * Called From: B527:0254:0023:ABEA
  */
-void emu_GUI_DrawText()
+void emu_GUI_DrawText_Wrapper()
 {
 l__1EF1:
 	emu_push(emu_bp);
@@ -4601,7 +4601,7 @@ l__206C:
 	emu_push(emu_ds);
 	emu_ax = 0x8AEE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x2080); emu_cs = 0x2BC2; f__2BC2_000A_0044_2E0E();
+	emu_push(emu_cs); emu_push(0x2080); emu_cs = 0x2BC2; emu_GUI_DrawText();
 l__2080:
 	emu_addw(&emu_sp, 0xC);
 l__2083:

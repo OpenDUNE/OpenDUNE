@@ -99,7 +99,7 @@
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 
-10E4:1EF1:0040:01F8	emu_GUI_DrawText	# (char_csip, positionX, positionY, textColour, backgroundColour, unknown), draw text to the screen
+10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, unknown), draw text to the screen
 
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
 
@@ -142,6 +142,7 @@
 217E:07A6:000C:1B04	emu_Overlay_GetCodeSize
 217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
+22A6:07B3:0037:50B9	emu_GUI_DrawChar	# (char, x, y), draw a char on the screen
 22A6:0D31:0015:A4C3	emu_GUI_DrawRectangle	# (x1, y1, x2, y2, colour), draw a rectangle
 
 2521:000F:0022:6D87	emu_Font_GetCharWidth	# (char), get the font width of a character
@@ -177,6 +178,8 @@
 
 2BC0:0004:000F:950B	emu_Tools_Swapd	# LE <-> BE for 32bit values
 2BC0:0013:000A:39BD	emu_Tools_Swapw	# LE <-> BE for 16bit values
+
+2BC2:000A:0044:2E0E	emu_GUI_DrawText	# (string_csip, ?, ?, ?, ?), draw text on the screen
 
 B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
 

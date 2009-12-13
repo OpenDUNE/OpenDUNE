@@ -1141,7 +1141,7 @@ l__090E:
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x0921); emu_cs = 0x2BC2; f__2BC2_000A_0044_2E0E();
+	emu_push(emu_cs); emu_push(0x0921); emu_cs = 0x2BC2; emu_GUI_DrawText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 l__0921:

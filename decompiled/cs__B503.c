@@ -2662,7 +2662,7 @@ l__0F76:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0F97); emu_cs = 0x10E4; emu_GUI_DrawText();
+	emu_push(emu_cs); emu_push(0x0F97); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__0F97:

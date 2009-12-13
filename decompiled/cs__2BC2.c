@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2BC2_000A_0044_2E0E()
+ * Decompiled function emu_GUI_DrawText()
  *
- * @name f__2BC2_000A_0044_2E0E
+ * @name emu_GUI_DrawText
  * @implements 2BC2:000A:0044:2E0E ()
  * @implements 2BC2:0045:0009:9156
  * @implements 2BC2:004B:0003:DD06
@@ -30,7 +30,7 @@
  * Called From: B536:0078:001A:03A1
  * Called From: B536:074D:0024:12A7
  */
-void f__2BC2_000A_0044_2E0E()
+void emu_GUI_DrawText()
 {
 l__000A:
 	emu_push(emu_bp);
@@ -149,7 +149,7 @@ l__00CC:
 	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x664E);
 	emu_push(0x00DE);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A607B3: f__22A6_07B3_0037_50B9(); break;
+		case 0x22A607B3: emu_GUI_DrawChar(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2BC2; emu_last_ip = 0x00DA; emu_last_length = 0x0012; emu_last_crc = 0xBF40;
