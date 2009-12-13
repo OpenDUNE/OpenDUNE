@@ -205,6 +205,7 @@ extern uint16 Unit_AddToTeam(Unit *u, struct Team *t);
 extern uint16 Unit_RemoveFromTeam(Unit *u);
 extern struct Team *Unit_GetTeam(Unit *u);
 extern void Unit_Sort();
+extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 
 extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
@@ -215,5 +216,6 @@ extern void emu_Unit_AddToTeam();
 extern void emu_Unit_RemoveFromTeam();
 extern void emu_Unit_GetTeam();
 extern void emu_Unit_Sort();
+extern void emu_Unit_Get_ByPackedTile();
 
 #endif /* UNIT_H */

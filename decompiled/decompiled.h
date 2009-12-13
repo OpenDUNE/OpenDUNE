@@ -724,7 +724,6 @@ extern void f__1DD7_10C9_004D_AF4E();
 extern void f__B518_10DC_0011_9EE1();
 extern void f__22A6_10DD_0023_B468();
 extern void f__1A34_10EC_000E_A326();
-extern void emu_Unit_Get_ByPackedTile();
 extern void emu_File_Delete();
 extern void f__B4F2_1100_0019_B3DC();
 extern void f__22A6_1102_004C_B069();

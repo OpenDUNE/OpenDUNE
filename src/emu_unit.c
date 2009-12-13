@@ -396,3 +396,34 @@ void emu_Unit_Sort()
 
 	Unit_Sort();
 }
+
+/**
+ * Emulator wrapper around Unit_Get_ByPackedTile()
+ *
+ * @name emu_Unit_Get_ByPackedTile
+ * @implements B4CD:10EE:0039:EC73 ()
+ * @implements B4CD:1127:0003:C81A
+ * @implements B4CD:1128:0002:C33A
+ * @implements B4CD:112A:0006:5EA9
+ * @implements B4CD:1130:0003:2E57
+ */
+void emu_Unit_Get_ByPackedTile()
+{
+	uint16 packed;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	u = Unit_Get_ByPackedTile(packed);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (u == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+}

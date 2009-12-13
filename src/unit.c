@@ -11,6 +11,7 @@
 #include "pool/unit.h"
 #include "pool/team.h"
 #include "house.h"
+#include "map.h"
 #include "script/script.h"
 #include "tile.h"
 #include "tools.h"
@@ -725,4 +726,21 @@ void Unit_Sort()
 			g_global->unitArray[i + 1] = csip1;
 		}
 	}
+}
+
+/**
+ * Get the unit on the given packed tile.
+ *
+ * @param packed The packed tile to get the unit from.
+ * @return The unit.
+ */
+Unit *Unit_Get_ByPackedTile(uint16 packed)
+{
+	Tile *tile;
+
+	if (packed >= 4096) return NULL;
+
+	tile = Map_GetTileByPosition(packed);
+	if ((tile->flags & 0x02) == 0) return NULL;
+	return Unit_Get_ByIndex(tile->index - 1);
 }
