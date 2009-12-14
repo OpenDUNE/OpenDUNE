@@ -93,10 +93,6 @@
 
 0EDB:0006:002F:CECA	emu_Script_General_DisplayText	# (script)
 
-0F78:0285:001C:04DB	emu_Map_SetSelectionSize	# (layout) Set the selection size
-0F78:02D5:0014:4ABC	emu_Map_SetSelection	# (layout) Select an object, show place object thingy, or something else
-0F78:0435:000E:32E0	emu_Map_MoveDirection	# (direction) Move the map with 1 tile in the given direction
-
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 
 10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, unknown), draw text to the screen

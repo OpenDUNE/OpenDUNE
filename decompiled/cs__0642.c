@@ -296,11 +296,11 @@ l__0209:
 	if (emu_ax == emu_get_memory16(emu_ds, 0x00, 0x38EC)) goto l__022C;
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x021B); emu_cs = 0x0F78; f__0F78_01B4_0016_23DD();
+	emu_push(emu_cs); emu_push(0x021B); emu_cs = 0x0F78; emu_Map_SetSelectionObjectPosition();
 l__021B:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A00));
-	emu_push(emu_cs); emu_push(0x0225); emu_cs = 0x0F78; f__0F78_01B4_0016_23DD();
+	emu_push(emu_cs); emu_push(0x0225); emu_cs = 0x0F78; emu_Map_SetSelectionObjectPosition();
 l__0225:
 	emu_pop(&emu_cx);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x38EC);

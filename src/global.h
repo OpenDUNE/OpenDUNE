@@ -675,7 +675,10 @@ typedef struct GlobalData {
 	/* 3426(4)   */ PACK uint32 tickStructurePalace;        /*!< Indicates next time Structure runs Palace function. */
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
-	/* 3439()    */ PACK uint8   unknown_3439[0x018D];
+	/* 3439()    */ PACK uint8   unknown_3439[0x012B];
+	/* 3564(2)   */ PACK uint16 minimapPreviousPosition;    /*!< Previous minimap position (top-left tile, packed). */
+	/* 3566(94)  */ PACK uint16 variable_3566[47];          /*!< ?? */
+	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
 	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
 	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
@@ -726,7 +729,8 @@ typedef struct GlobalData {
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
-	/* 38E2()    */ PACK uint8   unknown_38E2[0x0008];
+	/* 38E2(2)   */ PACK uint16 variable_38E2;              /*!< ?? */
+	/* 38E4()    */ PACK uint8   unknown_38E4[0x0006];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK uint16 variable_38EC;              /*!< ?? */
 	/* 38EE()    */ PACK uint8   unknown_38EE[0x000A];
@@ -750,14 +754,14 @@ typedef struct GlobalData {
 	/* 39F6(2)   */ PACK uint16 variable_39F6;              /*!< ?? */
 	/* 39F8(2)   */ PACK uint16 variable_39F8;              /*!< ?? */
 	/* 39FA(2)   */ PACK uint16 variable_39FA;              /*!< ?? */
-	/* 39FC(2)   */ PACK uint16 variable_39FC;              /*!< ?? */
+	/* 39FC(2)   */ PACK uint16 minimapPosition;            /*!< Current minimap position (top-left tile, packed). */
 	/* 39FE(2)   */ PACK uint16 viewportPosition;           /*!< Current viewport position (top-left tile, packed). */
 	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
-	/* 3A02(2)   */ PACK uint16 variable_3A02;              /*!< ?? */
+	/* 3A02(2)   */ PACK uint16 selectionPosition;          /*!< Current selection position (packed). */
 	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
 	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
 	/* 3A08()    */ PACK uint8   unknown_3A08[0x0002];
-	/* 3A0A(4)   */ PACK csip32 variable_3A0A;              /*!< ?? */
+	/* 3A0A(4)   */ PACK csip32 selectionObject;            /*!< Current selected object. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = ??, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
@@ -1252,7 +1256,10 @@ typedef struct GlobalData {
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
 	/* 87D8()    */ PACK uint8   unknown_87D8[0x0525];
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
-	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0A04];
+	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0602];
+	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
+	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
+	/* 97E5()    */ PACK uint8   unknown_97E5[0x0002];
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x004F];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */

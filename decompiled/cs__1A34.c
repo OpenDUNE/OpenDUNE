@@ -1807,7 +1807,7 @@ l__10C6:
 	emu_addw(&emu_sp, 0x6);
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x10D2); emu_cs = 0x0F78; f__0F78_01B4_0016_23DD();
+	emu_push(emu_cs); emu_push(0x10D2); emu_cs = 0x0F78; emu_Map_SetSelectionObjectPosition();
 l__10D2:
 	goto l__10E9;
 l__10D4:

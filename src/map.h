@@ -20,5 +20,16 @@ assert_compile(sizeof(Tile) == 0x04);
 extern uint16 *g_map;
 
 extern Tile *Map_GetTileByPosition(uint16 position);
+extern uint16 Map_MoveDirection(uint16 direction);
+extern void Map_SetSelection(uint16 packed);
+extern uint16 Map_SetSelectionSize(uint16 layout);
+extern uint16 Map_SetSelectionObjectPosition(uint16 packed);
+extern void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate);
+
+extern void emu_Map_MoveDirection();
+extern void emu_Map_SetSelection();
+extern void emu_Map_SetSelectionSize();
+extern void emu_Map_SetSelectionObjectPosition();
+extern void emu_Map_UpdateMinimapPosition();
 
 #endif /* MAP_H */

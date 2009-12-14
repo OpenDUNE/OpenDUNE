@@ -57,14 +57,14 @@ void emu_Scenario_Load_General()
 	g_global->scenario.timeOut = emu_ax;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(g_global->variable_39FC);
+	emu_push(g_global->minimapPosition);
 	emu_push(emu_ds); emu_push(0x1EEB); /* TacticalPos */
 	emu_push(emu_ds); emu_push(0x1EC1); /* BASIC */
 	emu_push(emu_cs); emu_push(0x0146); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_Ini_GetInteger();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 0xE;
-	g_global->variable_39FC = emu_ax;
+	g_global->minimapPosition = emu_ax;
 	g_global->viewportPosition = emu_ax;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
@@ -76,7 +76,7 @@ void emu_Scenario_Load_General()
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 0xE;
 	g_global->variable_3A00 = emu_ax;
-	g_global->variable_3A02 = emu_ax;
+	g_global->selectionPosition = emu_ax;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0);
