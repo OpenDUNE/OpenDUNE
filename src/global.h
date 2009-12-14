@@ -803,7 +803,8 @@ typedef struct GlobalData {
 	/* 413A()    */ PACK uint8   unknown_413A[0x007C];
 	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*!< ?? */
 	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*!< ?? */
-	/* 41BA()    */ PACK uint8   unknown_41BA[0x0012];
+	/* 41BA()    */ PACK uint8   unknown_41BA[0x0008];
+	/* 41C2(10)  */ PACK GameCfg gameConfig;                /*!< Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
 	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
@@ -1267,7 +1268,7 @@ typedef struct GlobalData {
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8  variable_9882[0x005F];      /*!< ?? Buffer. */
-	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data. */
+	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0040];
 	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
 	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/
