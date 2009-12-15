@@ -222,6 +222,8 @@ B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Menta
 
 B4E9:0345:0023:FA52	emu_GUI_Mentat	# (csip) Shows the Mentat window
 
+B4F2:0000:000D:C9F0	emu_GameOptions_Load	# () Loads GameOptions from options.cfg
+B4F2:0051:0012:A048	emu_GameOptions_Save	# () Saves GameOptions into options.cfg
 B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
 B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving

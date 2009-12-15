@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4F2_0000_000D_C9F0()
+ * Decompiled function emu_GameOptions_Load()
  *
- * @name f__B4F2_0000_000D_C9F0
+ * @name emu_GameOptions_Load
  * @implements B4F2:0000:000D:C9F0 ()
  * @implements B4F2:000D:001C:9C78
  * @implements B4F2:0029:000C:02B1
@@ -19,7 +19,7 @@
  *
  * Called From: 34F2:0020:0005:0000
  */
-void f__B4F2_0000_000D_C9F0()
+void emu_GameOptions_Load()
 {
 l__0000:
 	emu_push(emu_bp);
@@ -80,9 +80,9 @@ l__004F:
 }
 
 /**
- * Decompiled function f__B4F2_0051_0012_A048()
+ * Decompiled function emu_GameOptions_Save()
  *
- * @name f__B4F2_0051_0012_A048
+ * @name emu_GameOptions_Save
  * @implements B4F2:0051:0012:A048 ()
  * @implements B4F2:0063:0017:F3DE
  * @implements B4F2:007A:0009:2605
@@ -93,7 +93,7 @@ l__004F:
  *
  * Called From: B4F2:0338:0005:014D
  */
-void f__B4F2_0051_0012_A048()
+void emu_GameOptions_Save()
 {
 l__0051:
 	emu_push(emu_bp);
@@ -565,7 +565,7 @@ l__032A:
 l__0336:
 	emu_pop(&emu_cx);
 	emu_push(emu_cs);
-	emu_push(0x033B); f__B4F2_0051_0012_A048();
+	emu_push(0x033B); emu_GameOptions_Save();
 l__033B:
 	emu_push(emu_cs); emu_push(0x0340); emu_cs = 0x1082; emu_Structure_Recount();
 	/* Check if this overlay should be reloaded */

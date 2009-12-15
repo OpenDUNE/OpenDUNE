@@ -3256,7 +3256,7 @@ l__1A2F:
 	emu_push(emu_cs);
 	emu_push(0x1A3A); emu_Window_WidgetClick_Create();
 l__1A3A:
-	emu_push(emu_cs); emu_push(0x1A3F); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0000_000D_C9F0();
+	emu_push(emu_cs); emu_push(0x1A3F); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GameOptions_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__1A3F:
