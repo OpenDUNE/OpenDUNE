@@ -515,16 +515,16 @@ l__03C3:
 }
 
 /**
- * Decompiled function f__B520_03C7_0017_65D1()
+ * Decompiled function emu_GUI_Mentat_ScrollUp()
  *
- * @name f__B520_03C7_0017_65D1
+ * @name emu_GUI_Mentat_ScrollUp
  * @implements B520:03C7:0017:65D1 ()
  * @implements B520:03DE:0007:F90C
  * @implements B520:03E5:0002:2597
  *
  * Called From: 3520:0039:0005:0000
  */
-void f__B520_03C7_0017_65D1()
+void emu_GUI_Mentat_ScrollUp()
 {
 l__03C7:
 	emu_push(emu_bp);
@@ -550,16 +550,16 @@ l__03E5:
 }
 
 /**
- * Decompiled function f__B520_03E7_0017_BA36()
+ * Decompiled function emu_GUI_Mentat_ScrollDown()
  *
- * @name f__B520_03E7_0017_BA36
+ * @name emu_GUI_Mentat_ScrollDown
  * @implements B520:03E7:0017:BA36 ()
  * @implements B520:03FE:0007:F90C
  * @implements B520:0405:0002:2597
  *
  * Called From: 3520:003E:0005:0000
  */
-void f__B520_03E7_0017_BA36()
+void emu_GUI_Mentat_ScrollDown()
 {
 l__03E7:
 	emu_push(emu_bp);
@@ -585,9 +585,9 @@ l__0405:
 }
 
 /**
- * Decompiled function f__B520_0407_00A9_43A1()
+ * Decompiled function emu_GUI_Mentat_ScrollBar()
  *
- * @name f__B520_0407_00A9_43A1
+ * @name emu_GUI_Mentat_ScrollBar
  * @implements B520:0407:00A9:43A1 ()
  * @implements B520:0458:0058:9CCF
  * @implements B520:0488:0028:0D79
@@ -613,7 +613,7 @@ l__0405:
  *
  * Called From: 3520:0043:0005:0000
  */
-void f__B520_0407_00A9_43A1()
+void emu_GUI_Mentat_ScrollBar()
 {
 l__0407:
 	emu_push(emu_bp);

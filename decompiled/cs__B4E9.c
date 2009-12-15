@@ -545,9 +545,9 @@ l__032B:
 }
 
 /**
- * Decompiled function f__B4E9_0345_0023_FA52()
+ * Decompiled function emu_GUI_Mentat()
  *
- * @name f__B4E9_0345_0023_FA52
+ * @name emu_GUI_Mentat
  * @implements B4E9:0345:0023:FA52 ()
  * @implements B4E9:0368:000C:4B79
  * @implements B4E9:0374:000C:5509
@@ -568,7 +568,7 @@ l__032B:
  *
  * Called From: 34E9:002F:0005:0000
  */
-void f__B4E9_0345_0023_FA52()
+void emu_GUI_Mentat()
 {
 l__0345:
 	emu_push(emu_bp);

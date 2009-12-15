@@ -180,6 +180,16 @@
 
 2BC2:000A:0044:2E0E	emu_GUI_DrawText	# (string_csip, ?, ?, ?, ?), draw text on the screen
 
+B495:00FE:0017:4E8B	emu_GUI_Production_Down	# (csip) Handles click on down arrow in production/purchase window
+B495:01CB:0016:9CD0	emu_GUI_Production_Up	# (csip) Handles click on up arrow in production/purchase window
+B495:0288:001F:5BC7	emu_GUI_Production_BuildThis	# (csip) Handles click on "Build This"/"Send Order" button in production/purchase window
+B495:030B:001D:B90C	emu_GUI_Production_ResumeGame	# (csip) Handles click on "Resume game" button in production/purchase window
+B495:0398:0011:7346	emu_GUI_Production_Upgrade	# (csip) Handles click on "Upgrade" button in production/purchase window
+B495:03B9:0008:D80E	emu_GUI_Production_List	# (csip) Handles click on the list in production/purchase window
+B495:03E4:0014:917E	emu_GUI_Purchase_Plus	# (csip) Handles click on the "+" button in purchase window
+B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" button in purchase window
+B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
+
 B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
 
 B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
@@ -195,8 +205,15 @@ B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius # (posx, posy, radius)
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
 
+B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles list in Mentat window
+
+B4E9:0345:0023:FA52	emu_GUI_Mentat	# (csip) Shows the Mentat window
+
+B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
+B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
+B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString
@@ -211,6 +228,12 @@ B50B:04A1:001A:1AA9	emu_Save_Team	# Save all teams to a buffer
 B511:0729:0016:F168	emu_Save_Main	# Save a game
 
 B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
+B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window
+B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
+
+B520:03C7:0017:65D1	emu_GUI_Mentat_ScrollUp	# (csip) Handles click on the up arrow of scrollbar in Mentat window
+B520:03E7:0017:BA36	emu_GUI_Mentat_ScrollDown	# (csip) Handles click on the down arrow of scrollbar in Mentat window
+B520:0407:00A9:43A1	emu_GUI_Mentat_ScrollBar	# (csip) Handles click on the scrollbar in Mentat window
 
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
 

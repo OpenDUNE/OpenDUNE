@@ -346,9 +346,9 @@ l__02A2:
 }
 
 /**
- * Decompiled function f__B4E0_0300_001B_4F41()
+ * Decompiled function emu_GUI_Mentat_List()
  *
- * @name f__B4E0_0300_001B_4F41
+ * @name emu_GUI_Mentat_List
  * @implements B4E0:0300:001B:4F41 ()
  * @implements B4E0:031B:000E:C2E3
  * @implements B4E0:0329:0017:3649
@@ -371,7 +371,7 @@ l__02A2:
  *
  * Called From: 34E0:002A:0005:0000
  */
-void f__B4E0_0300_001B_4F41()
+void emu_GUI_Mentat_List()
 {
 l__0300:
 	emu_push(emu_bp);

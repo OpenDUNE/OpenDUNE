@@ -108,7 +108,7 @@ l__0084:
 	emu_push(emu_ax);
 	emu_push(emu_dx);
 	emu_push(emu_cs);
-	emu_push(0x0096); f__B495_030B_001D_B90C();
+	emu_push(0x0096); emu_GUI_Production_ResumeGame();
 l__0096:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -175,9 +175,9 @@ l__00FA:
 }
 
 /**
- * Decompiled function f__B495_00FE_0017_4E8B()
+ * Decompiled function emu_GUI_Production_Down()
  *
- * @name f__B495_00FE_0017_4E8B
+ * @name emu_GUI_Production_Down
  * @implements B495:00FE:0017:4E8B ()
  * @implements B495:0115:0022:C0E7
  * @implements B495:0137:000D:994C
@@ -197,7 +197,7 @@ l__00FA:
  *
  * Called From: 3495:0025:0005:0000
  */
-void f__B495_00FE_0017_4E8B()
+void emu_GUI_Production_Down()
 {
 l__00FE:
 	emu_push(emu_bp);
@@ -309,9 +309,9 @@ l__01C7:
 }
 
 /**
- * Decompiled function f__B495_01CB_0016_9CD0()
+ * Decompiled function emu_GUI_Production_Up()
  *
- * @name f__B495_01CB_0016_9CD0
+ * @name emu_GUI_Production_Up
  * @implements B495:01CB:0016:9CD0 ()
  * @implements B495:01E1:0018:D88B
  * @implements B495:01F9:000D:1A5D
@@ -331,7 +331,7 @@ l__01C7:
  *
  * Called From: 3495:002A:0005:0000
  */
-void f__B495_01CB_0016_9CD0()
+void emu_GUI_Production_Up()
 {
 l__01CB:
 	emu_push(emu_bp);
@@ -437,9 +437,9 @@ l__0284:
 }
 
 /**
- * Decompiled function f__B495_0288_001F_5BC7()
+ * Decompiled function emu_GUI_Production_BuildThis()
  *
- * @name f__B495_0288_001F_5BC7
+ * @name emu_GUI_Production_BuildThis
  * @implements B495:0288:001F:5BC7 ()
  * @implements B495:02A7:0007:5C2B
  * @implements B495:02AE:000B:6487
@@ -454,7 +454,7 @@ l__0284:
  *
  * Called From: 3495:002F:0005:0000
  */
-void f__B495_0288_001F_5BC7()
+void emu_GUI_Production_BuildThis()
 {
 l__0288:
 	emu_push(emu_bp);
@@ -527,9 +527,9 @@ l__0307:
 }
 
 /**
- * Decompiled function f__B495_030B_001D_B90C()
+ * Decompiled function emu_GUI_Production_ResumeGame()
  *
- * @name f__B495_030B_001D_B90C
+ * @name emu_GUI_Production_ResumeGame
  * @implements B495:030B:001D:B90C ()
  * @implements B495:0328:0045:3C88
  * @implements B495:035D:0010:C27A
@@ -543,7 +543,7 @@ l__0307:
  * Called From: 3495:0034:0005:0000
  * Called From: B495:0093:0012:EA5B
  */
-void f__B495_030B_001D_B90C()
+void emu_GUI_Production_ResumeGame()
 {
 l__030B:
 	emu_push(emu_bp);
@@ -614,16 +614,16 @@ l__0394:
 }
 
 /**
- * Decompiled function f__B495_0398_0011_7346()
+ * Decompiled function emu_GUI_Production_Upgrade()
  *
- * @name f__B495_0398_0011_7346
+ * @name emu_GUI_Production_Upgrade
  * @implements B495:0398:0011:7346 ()
  * @implements B495:03A9:000E:696C
  * @implements B495:03B7:0002:2597
  *
  * Called From: 3495:0039:0005:0000
  */
-void f__B495_0398_0011_7346()
+void emu_GUI_Production_Upgrade()
 {
 l__0398:
 	emu_push(emu_bp);
@@ -650,9 +650,9 @@ l__03B7:
 }
 
 /**
- * Decompiled function f__B495_03B9_0008_D80E()
+ * Decompiled function emu_GUI_Production_List()
  *
- * @name f__B495_03B9_0008_D80E
+ * @name emu_GUI_Production_List
  * @implements B495:03B9:0008:D80E ()
  * @implements B495:03C1:0012:9714
  * @implements B495:03D3:0009:FC66
@@ -661,7 +661,7 @@ l__03B7:
  *
  * Called From: 3495:003E:0005:0000
  */
-void f__B495_03B9_0008_D80E()
+void emu_GUI_Production_List()
 {
 l__03B9:
 	emu_push(emu_bp);
@@ -694,9 +694,9 @@ l__03E2:
 }
 
 /**
- * Decompiled function f__B495_03E4_0014_917E()
+ * Decompiled function emu_GUI_Purchase_Plus()
  *
- * @name f__B495_03E4_0014_917E
+ * @name emu_GUI_Purchase_Plus
  * @implements B495:03E4:0014:917E ()
  * @implements B495:03F8:000C:3C25
  * @implements B495:0404:0046:53E4
@@ -707,7 +707,7 @@ l__03E2:
  *
  * Called From: 3495:0043:0005:0000
  */
-void f__B495_03E4_0014_917E()
+void emu_GUI_Purchase_Plus()
 {
 l__03E4:
 	emu_push(emu_bp);
@@ -778,9 +778,9 @@ l__046D:
 }
 
 /**
- * Decompiled function f__B495_0471_0014_897E()
+ * Decompiled function emu_GUI_Purchase_Minus()
  *
- * @name f__B495_0471_0014_897E
+ * @name emu_GUI_Purchase_Minus
  * @implements B495:0471:0014:897E ()
  * @implements B495:0485:000C:FD89
  * @implements B495:0491:001D:8889
@@ -791,7 +791,7 @@ l__046D:
  *
  * Called From: 3495:0048:0005:0000
  */
-void f__B495_0471_0014_897E()
+void emu_GUI_Purchase_Minus()
 {
 l__0471:
 	emu_push(emu_bp);
@@ -849,9 +849,9 @@ l__04D3:
 }
 
 /**
- * Decompiled function f__B495_04D7_000E_C317()
+ * Decompiled function emu_GUI_Purchase_Invoice()
  *
- * @name f__B495_04D7_000E_C317
+ * @name emu_GUI_Purchase_Invoice
  * @implements B495:04D7:000E:C317 ()
  * @implements B495:04E5:0007:DD3A
  * @implements B495:04EC:000B:6487
@@ -861,7 +861,7 @@ l__04D3:
  *
  * Called From: 3495:004D:0005:0000
  */
-void f__B495_04D7_000E_C317()
+void emu_GUI_Purchase_Invoice()
 {
 l__04D7:
 	emu_push(emu_bp);

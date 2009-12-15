@@ -152,9 +152,9 @@ l__0099:
 }
 
 /**
- * Decompiled function f__B4F2_009C_002E_D76F()
+ * Decompiled function emu_GUI_Options()
  *
- * @name f__B4F2_009C_002E_D76F
+ * @name emu_GUI_Options
  * @implements B4F2:009C:002E:D76F ()
  * @implements B4F2:00CA:0008:EC74
  * @implements B4F2:00D2:0019:2DA2
@@ -215,7 +215,7 @@ l__0099:
  *
  * Called From: 34F2:0025:0005:0000
  */
-void f__B4F2_009C_002E_D76F()
+void emu_GUI_Options()
 {
 l__009C:
 	emu_push(emu_bp);
@@ -420,7 +420,7 @@ l__020A:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0215); f__B4F2_0387_000F_A3C2();
+	emu_push(0x0215); emu_GUI_GameOptions();
 l__0215:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -429,7 +429,7 @@ l__0219:
 	emu_ax = 0x76;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0222); f__B4F2_1100_0019_B3DC();
+	emu_push(0x0222); emu_GUI_YesNo();
 l__0222:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -443,7 +443,7 @@ l__0231:
 	emu_ax = 0x77;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x023A); f__B4F2_1100_0019_B3DC();
+	emu_push(0x023A); emu_GUI_YesNo();
 l__023A:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -463,7 +463,7 @@ l__0252:
 	emu_ax = 0x65;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x025B); f__B4F2_1100_0019_B3DC();
+	emu_push(0x025B); emu_GUI_YesNo();
 l__025B:
 	emu_pop(&emu_cx);
 	emu_negw(&emu_ax, emu_ax);
@@ -608,9 +608,9 @@ l__0373:
 }
 
 /**
- * Decompiled function f__B4F2_0387_000F_A3C2()
+ * Decompiled function emu_GUI_GameOptions()
  *
- * @name f__B4F2_0387_000F_A3C2
+ * @name emu_GUI_GameOptions
  * @implements B4F2:0387:000F:A3C2 ()
  * @implements B4F2:0396:000C:ECA6
  * @implements B4F2:03A2:0008:38A1
@@ -643,7 +643,7 @@ l__0373:
  *
  * Called From: B4F2:0212:000B:636B
  */
-void f__B4F2_0387_000F_A3C2()
+void emu_GUI_GameOptions()
 {
 l__0387:
 	emu_push(emu_bp);
@@ -2768,9 +2768,9 @@ l__10FA:
 }
 
 /**
- * Decompiled function f__B4F2_1100_0019_B3DC()
+ * Decompiled function emu_GUI_YesNo()
  *
- * @name f__B4F2_1100_0019_B3DC
+ * @name emu_GUI_YesNo
  * @implements B4F2:1100:0019:B3DC ()
  * @implements B4F2:1119:000B:D674
  * @implements B4F2:1124:0007:AFF1
@@ -2789,7 +2789,7 @@ l__10FA:
  * Called From: B4F2:0237:0009:49EC
  * Called From: B4F2:0258:0009:9BF4
  */
-void f__B4F2_1100_0019_B3DC()
+void emu_GUI_YesNo()
 {
 l__1100:
 	emu_push(emu_bp);

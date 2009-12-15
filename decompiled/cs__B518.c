@@ -1714,9 +1714,9 @@ l__0A8A:
 }
 
 /**
- * Decompiled function f__B518_0A91_000C_38F0()
+ * Decompiled function emu_GUI_HOF_ClearList()
  *
- * @name f__B518_0A91_000C_38F0
+ * @name emu_GUI_HOF_ClearList
  * @implements B518:0A91:000C:38F0 ()
  * @implements B518:0A9D:001C:D99B
  * @implements B518:0AB9:000D:0B16
@@ -1729,14 +1729,14 @@ l__0A8A:
  *
  * Called From: 3518:0034:0005:0000
  */
-void f__B518_0A91_000C_38F0()
+void emu_GUI_HOF_ClearList()
 {
 l__0A91:
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
 	emu_ax = 0x148;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1100_0019_B3DC();
+	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0A9D:
@@ -1807,15 +1807,15 @@ l__0B0B:
 }
 
 /**
- * Decompiled function f__B518_0B0D_000E_E283()
+ * Decompiled function emu_GUI_HOF_ResumeGame()
  *
- * @name f__B518_0B0D_000E_E283
+ * @name emu_GUI_HOF_ResumeGame
  * @implements B518:0B0D:000E:E283 ()
  * @implements B518:0B1B:0002:2597
  *
  * Called From: 3518:0039:0005:0000
  */
-void f__B518_0B0D_000E_E283()
+void emu_GUI_HOF_ResumeGame()
 {
 l__0B0D:
 	emu_push(emu_bp);

@@ -503,7 +503,16 @@ typedef struct GlobalData {
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
-	/* 264A()    */ PACK uint8   unknown_264A[0x0451];
+	/* 264A()    */ PACK uint8   unknown_264A[0x020F];
+	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */
+	/* 285D()    */ PACK uint8   unknown_285D[0x0038];
+	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */
+	/* 2899()    */ PACK uint8   unknown_2899[0x00EC];
+	/* 2985(4)   */ PACK csip32 variable_2985;              /*!< ?? */
+	/* 2989()    */ PACK uint8   unknown_2989[0x010A];
+	/* 2A93(4)   */ PACK csip32 variable_2A93;              /*!< ?? */
+	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
+	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
 	/* 2A9B(18)  */ PACK uint16 variable_2A9B[9];           /*!< ?? */
 	/* 2AAD()    */ PACK uint8   unknown_2AAD[0x000A];
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
@@ -780,7 +789,8 @@ typedef struct GlobalData {
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
-	/* 3C26()    */ PACK uint8   unknown_3C26[0x000C];
+	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< ?? */
+	/* 3C2A()    */ PACK uint8   unknown_3C2A[0x0008];
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */
@@ -1205,7 +1215,9 @@ typedef struct GlobalData {
 	/* 7B1E(2)   */ PACK uint16 variable_7B1E;              /*!< ?? variable_77CA[1] init state. */
 	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
-	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x04CA];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
+	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x00B0];
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
 	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
 	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */
