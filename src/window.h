@@ -44,21 +44,23 @@ typedef struct Widget {
 	/* 000C(1)   */ PACK uint8  variable_0C;                /*!< ?? */
 	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
-	/* 0010(4)   */ PACK uint32 variable_10;                /*!< ?? */
-	/* 0014(4)   */ PACK uint32 variable_14;                /*!< ?? */
-	/* 0018(4)   */ PACK uint32 variable_18;                /*!< ?? */
+	/* 0010(4)   */ PACK csip32 procDraw1;                  /*!< ?? Function to execute when widget should be drawn. */
+	/* 0014(4)   */ PACK csip32 procDraw2;                  /*!< ?? Function to execute when widget should be drawn. */
+	/* 0018(4)   */ PACK csip32 procDraw3;                  /*!< ?? Function to execute when widget should be drawn. */
 	/* 001C(2)   */ PACK uint16 variable_1C;                /*!< ?? */
 	/* 001E(2)   */ PACK uint16 variable_1E;                /*!< ?? */
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
 	/* 0022(2)   */ PACK uint16 variable_22;                /*!< ?? */
 	/* 0024(2)   */ PACK uint16 variable_24;                /*!< ?? */
-	/* 0026(1)   */ PACK uint8  variable_26;                /*!< ?? */
-	/* 0027(1)   */ PACK uint8  variable_27;                /*!< ?? */
-	/* 0028(1)   */ PACK uint8  variable_28;                /*!< ?? */
-	/* 0029(1)   */ PACK uint8  variable_29;                /*!< ?? */
-	/* 002A()    */ PACK uint8   unknown_002B[0x0004];
-	/* 002E(2)   */ PACK uint16 variable_2E;                /*!< ?? */
-	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when pressed. */
+	/* 0026(1)   */ PACK uint8  variable_26;                /*!< ?? Belongs to procDraw1. */
+	/* 0027(1)   */ PACK uint8  variable_27;                /*!< ?? Belongs to procDraw1. */
+	/* 0028(1)   */ PACK uint8  variable_28;                /*!< ?? Belongs to procDraw2. */
+	/* 0029(1)   */ PACK uint8  variable_29;                /*!< ?? Belongs to procDraw2. */
+	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? Belongs to procDraw3. */
+	/* 002B(1)   */ PACK uint8  variable_2B;                /*!< ?? Belongs to procDraw3. */
+	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
+	/* 002E(2)   */ PACK uint16 variable_2E;                /*!< ?? State? 0, 1, 4 and 5 seem legit values. */
+	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
 	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
 	/* 0038(2)   */ PACK uint16 variable_38;                /*!< ?? */
 	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
@@ -72,7 +74,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct WidgetClickInfo {
 	/* 0000(2)   */ PACK uint16 variable_00;                /*!< ?? */
-	/* 0002(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when pressed. */
+	/* 0002(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
