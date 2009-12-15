@@ -1068,7 +1068,7 @@ l__0606:
 	emu_movw(&emu_ax, emu_bp - 0x16);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x061B); f__B4F2_11B4_0016_244A();
+	emu_push(0x061B); emu_String_GenerateSavegameFilename();
 l__061B:
 	emu_addw(&emu_sp, 0x6);
 	emu_orw(&emu_si, emu_si);
@@ -1379,7 +1379,7 @@ l__07E8:
 	emu_movw(&emu_ax, emu_bp - 0x18);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0801); f__B4F2_11B4_0016_244A();
+	emu_push(0x0801); emu_String_GenerateSavegameFilename();
 l__0801:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
@@ -2855,7 +2855,7 @@ l__118D:
 	emu_movw(&emu_ax, emu_bp - 0xE);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1198); f__B4F2_11B4_0016_244A();
+	emu_push(0x1198); emu_String_GenerateSavegameFilename();
 l__1198:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_ss);
@@ -2883,9 +2883,9 @@ l__11AF:
 }
 
 /**
- * Decompiled function f__B4F2_11B4_0016_244A()
+ * Decompiled function emu_String_GenerateSavegameFilename()
  *
- * @name f__B4F2_11B4_0016_244A
+ * @name emu_String_GenerateSavegameFilename
  * @implements B4F2:11B4:0016:244A ()
  * @implements B4F2:11CA:0005:60C3
  *
@@ -2895,7 +2895,7 @@ l__11AF:
  * Called From: B4F2:1195:000C:BFCE
  * Called From: B4F2:1295:000F:0377
  */
-void f__B4F2_11B4_0016_244A()
+void emu_String_GenerateSavegameFilename()
 {
 l__11B4:
 	emu_push(emu_bp);
@@ -3078,7 +3078,7 @@ l__1289:
 	emu_movw(&emu_ax, emu_bp - 0xE);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1298); f__B4F2_11B4_0016_244A();
+	emu_push(0x1298); emu_String_GenerateSavegameFilename();
 l__1298:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_ss);

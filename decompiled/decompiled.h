@@ -736,7 +736,7 @@ extern void f__1A34_117E_001D_E17B();
 extern void f__B4F2_1181_000B_D4AD();
 extern void emu_GUI_Picture();
 extern void f__B495_119D_0009_53E9();
-extern void f__B4F2_11B4_0016_244A();
+extern void emu_String_GenerateSavegameFilename();
 extern void f__0972_11B9_0020_8DC9();
 extern void f__B503_11BE_0016_067A();
 extern void f__B518_11C6_0011_1160();

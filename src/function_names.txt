@@ -230,6 +230,7 @@ B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading 
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0F68:0011:1140	emu_GUI_Draw_Buttons	# (csip) Draws the "Yes", "No" ... buttons in Options, Game Options, SaveLoad, Yes/No windows
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
+B4F2:11B4:0016:244A	emu_String_GenerateSavegameFilename	# (buffer_csip, num) Generates "_SAVE<num>.DAT"
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString
