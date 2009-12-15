@@ -3571,9 +3571,9 @@ l__1CAB:
 }
 
 /**
- * Decompiled function f__1A34_1CB1_003A_B457()
+ * Decompiled function emu_GUI_Unit_Command()
  *
- * @name f__1A34_1CB1_003A_B457
+ * @name emu_GUI_Unit_Command
  * @implements 1A34:1CB1:003A:B457 ()
  * @implements 1A34:1CEB:005D:8082
  * @implements 1A34:1D06:0042:3307
@@ -3597,7 +3597,7 @@ l__1CAB:
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__1A34_1CB1_003A_B457()
+void emu_GUI_Unit_Command()
 {
 l__1CB1:
 	emu_push(emu_bp);

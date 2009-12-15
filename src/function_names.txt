@@ -83,6 +83,13 @@
 
 06F7:0402:0020:9091	emu_Map_DeviateArea	# (tile, radius) Try to deviate all units in an area
 
+0AEC:0005:0010:9634	emu_GUI_Name	# (csip) Handles click on structure/unit name
+0AEC:004F:0024:1E6F	emu_GUI_Viewport	# (csip) Handles events on viewport
+0AEC:0FD8:0017:6202	emu_GUI_Cancel	# (csip) Handles click on "Cancel" button
+0AEC:1093:000F:2295	emu_GUI_BuildPlace	# (csip) Handles click on "Build"/"Place" button
+0AEC:1181:001C:DFE4	emu_GUI_Picture	# (csip) Handles click on "Picture" button
+0AEC:11F6:000F:2195	emu_GUI_RepairUpgrade	# (csip) Handles click on "Repair"/"Upgrade" button
+
 0C10:013D:0016:8C5C	emu_Object_IsScriptVariable4NotNull	# (object_csip) returns 1 if script->variables[4] != 0, else 0
 0C10:0168:0014:CEB0	emu_Object_GetScriptVariable4	# (object_csip) returns the script->variables[4] of the given unit/structure
 
@@ -111,6 +118,7 @@
 1A34:193F:0013:FA4D	emu_Unit_Deviation_Descrease	# (unit_csip, amount), decrease the deviaton counter
 1A34:1A66:0011:34D4	emu_Unit_SetTarget	# (unit_csip, target_encoded), target a structure/unit/tile
 1A34:1B68:0019:AAA0	emu_Unit_SetDestination	# (unit_csip, target_encoded), move to a structure/unit/tile
+1A34:1CB1:003A:B457	emu_GUI_Unit_Command	# (csip) Handles click on command buttons ("Move", ...)
 1A34:2B18:0011:E4D5	emu_Unit_RemoveFog	# (unit_csip), removes fog around unit if allied and valid position
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
@@ -205,7 +213,7 @@ B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius # (posx, posy, radius)
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
 
-B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles list in Mentat window
+B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
 B4E9:0345:0023:FA52	emu_GUI_Mentat	# (csip) Shows the Mentat window
 

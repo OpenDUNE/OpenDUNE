@@ -788,13 +788,13 @@ l__0680:
 	emu_cs = emu_get_memory16(emu_es, emu_bx, 0x32);
 	emu_push(0x06B0);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x0AEC0005: f__0AEC_0005_0010_9634(); break;
-		case 0x0AEC004F: f__0AEC_004F_0024_1E6F(); break;
-		case 0x0AEC0FD8: f__0AEC_0FD8_0017_6202(); break;
-		case 0x0AEC1093: f__0AEC_1093_000F_2295(); break;
-		case 0x0AEC1181: f__0AEC_1181_001C_DFE4(); break;
-		case 0x0AEC11F6: f__0AEC_11F6_000F_2195(); break;
-		case 0x1A341CB1: f__1A34_1CB1_003A_B457(); break;
+		case 0x0AEC0005: emu_GUI_Name(); break;
+		case 0x0AEC004F: emu_GUI_Viewport(); break;
+		case 0x0AEC0FD8: emu_GUI_Cancel(); break;
+		case 0x0AEC1093: emu_GUI_BuildPlace(); break;
+		case 0x0AEC1181: emu_GUI_Picture(); break;
+		case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;
+		case 0x1A341CB1: emu_GUI_Unit_Command(); break;
 		case 0x34950025: overlay(0x3495, 0); emu_GUI_Production_Down(); break;
 		case 0x3495002A: overlay(0x3495, 0); emu_GUI_Production_Up(); break;
 		case 0x3495002F: overlay(0x3495, 0); emu_GUI_Production_BuildThis(); break;

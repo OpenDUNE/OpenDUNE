@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__0AEC_0005_0010_9634()
+ * Decompiled function emu_GUI_Name()
  *
- * @name f__0AEC_0005_0010_9634
+ * @name emu_GUI_Name
  * @implements 0AEC:0005:0010:9634 ()
  * @implements 0AEC:0015:001F:3C46
  * @implements 0AEC:0034:000A:5A66
@@ -17,7 +17,7 @@
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__0AEC_0005_0010_9634()
+void emu_GUI_Name()
 {
 l__0005:
 	emu_push(emu_bp);
@@ -63,9 +63,9 @@ l__004A:
 }
 
 /**
- * Decompiled function f__0AEC_004F_0024_1E6F()
+ * Decompiled function emu_GUI_Viewport()
  *
- * @name f__0AEC_004F_0024_1E6F
+ * @name emu_GUI_Viewport
  * @implements 0AEC:004F:0024:1E6F ()
  * @implements 0AEC:0073:0007:CD55
  * @implements 0AEC:007A:0008:FD9A
@@ -196,7 +196,7 @@ l__004A:
  * Called From: B4A2:06AC:003E:C657
  * Called From: B4A2:06AC:0040:740E
  */
-void f__0AEC_004F_0024_1E6F()
+void emu_GUI_Viewport()
 {
 l__004F:
 	emu_push(emu_bp);
@@ -2084,9 +2084,9 @@ l__0FD2:
 }
 
 /**
- * Decompiled function f__0AEC_0FD8_0017_6202()
+ * Decompiled function emu_GUI_Cancel()
  *
- * @name f__0AEC_0FD8_0017_6202
+ * @name emu_GUI_Cancel
  * @implements 0AEC:0FD8:0017:6202 ()
  * @implements 0AEC:0FEF:0021:7407
  * @implements 0AEC:101F:001B:5BA9
@@ -2099,7 +2099,7 @@ l__0FD2:
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__0AEC_0FD8_0017_6202()
+void emu_GUI_Cancel()
 {
 l__0FD8:
 	emu_push(emu_bp);
@@ -2173,9 +2173,9 @@ l__108E:
 }
 
 /**
- * Decompiled function f__0AEC_1093_000F_2295()
+ * Decompiled function emu_GUI_BuildPlace()
  *
- * @name f__0AEC_1093_000F_2295
+ * @name emu_GUI_BuildPlace
  * @implements 0AEC:1093:000F:2295 ()
  * @implements 0AEC:10A2:0016:DDD2
  * @implements 0AEC:10B8:0007:A0A5
@@ -2195,7 +2195,7 @@ l__108E:
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__0AEC_1093_000F_2295()
+void emu_GUI_BuildPlace()
 {
 l__1093:
 	emu_push(emu_bp);
@@ -2310,9 +2310,9 @@ l__116B:
 }
 
 /**
- * Decompiled function f__0AEC_1181_001C_DFE4()
+ * Decompiled function emu_GUI_Picture()
  *
- * @name f__0AEC_1181_001C_DFE4
+ * @name emu_GUI_Picture
  * @implements 0AEC:1181:001C:DFE4 ()
  * @implements 0AEC:11A1:0009:6093
  * @implements 0AEC:11AA:0041:E018
@@ -2321,7 +2321,7 @@ l__116B:
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__0AEC_1181_001C_DFE4()
+void emu_GUI_Picture()
 {
 l__1181:
 	emu_push(emu_bp);
@@ -2375,9 +2375,9 @@ l__11F2:
 }
 
 /**
- * Decompiled function f__0AEC_11F6_000F_2195()
+ * Decompiled function emu_GUI_RepairUpgrade()
  *
- * @name f__0AEC_11F6_000F_2195
+ * @name emu_GUI_RepairUpgrade
  * @implements 0AEC:11F6:000F:2195 ()
  * @implements 0AEC:1205:001C:6F1D
  * @implements 0AEC:1221:001C:8D4B
@@ -2387,7 +2387,7 @@ l__11F2:
  *
  * Called From: B4A2:06AC:0030:38D3
  */
-void f__0AEC_11F6_000F_2195()
+void emu_GUI_RepairUpgrade()
 {
 l__11F6:
 	emu_push(emu_bp);
