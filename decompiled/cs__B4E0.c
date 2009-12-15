@@ -106,7 +106,7 @@ l__006B:
 	emu_push(emu_ax);
 	emu_ax = 0x1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ED9_001E_DC63();
+	emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Window_Widget_Allocate();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0076:

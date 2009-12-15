@@ -27,6 +27,7 @@
 #include "../src/tools.h"
 #include "../src/unit.h"
 #include "../src/unknown/unknown.h"
+#include "../src/window.h"
 
 
 #undef DECOMPILED_INCLUDE
@@ -616,7 +617,7 @@ extern void f__2756_0B8F_0025_D5D8();
 extern void f__0C3A_0B93_0034_3B6D();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__B495_0BB9_0011_11A0();
-extern void f__B4B8_0BC1_000C_1630();
+extern void emu_Window_WidgetClick_Create();
 extern void f__176C_0BC3_002A_A6DE();
 extern void f__2756_0BC4_0001_6780();
 extern void f__1423_0BCC_0012_111A();
@@ -671,7 +672,7 @@ extern void f__1FB5_0E9C_001B_37D1();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__B4B8_0ECE_000B_BD2E();
 extern void f__217E_0ED2_001F_0CC9();
-extern void f__B4B8_0ED9_001E_DC63();
+extern void emu_Window_Widget_Allocate();
 extern void f__22A6_0EDB_000A_151A();
 extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__1DD7_0EE2_003D_B019();

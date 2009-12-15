@@ -200,6 +200,8 @@ B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invo
 
 B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
 
+B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
+B4B8:0ED9:001E:DC63	emu_Window_Widget_Allocate	# (??) Allocate memory for a widget
 B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
