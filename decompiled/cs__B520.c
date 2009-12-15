@@ -100,7 +100,7 @@ l__00AD:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x00BA); f__B520_06A2_0013_A505();
+	emu_push(0x00BA); emu_GUI_Mentat_Draw_ScrollBar();
 l__00BA:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -677,7 +677,7 @@ l__0488:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x04B0); f__B520_06A2_0013_A505();
+	emu_push(0x04B0); emu_GUI_Mentat_Draw_ScrollBar();
 l__04B0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -823,7 +823,7 @@ l__0605:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
-	emu_push(0x0620); f__B520_06A2_0013_A505();
+	emu_push(0x0620); emu_GUI_Mentat_Draw_ScrollBar();
 l__0620:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -905,7 +905,7 @@ l__068C:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
 	emu_push(emu_cs);
-	emu_push(0x069D); f__B520_06A2_0013_A505();
+	emu_push(0x069D); emu_GUI_Mentat_Draw_ScrollBar();
 l__069D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -919,9 +919,9 @@ l__069D:
 }
 
 /**
- * Decompiled function f__B520_06A2_0013_A505()
+ * Decompiled function emu_GUI_Mentat_Draw_ScrollBar()
  *
- * @name f__B520_06A2_0013_A505
+ * @name emu_GUI_Mentat_Draw_ScrollBar
  * @implements B520:06A2:0013:A505 ()
  * @implements B520:06B5:000E:2EA0
  * @implements B520:06C3:00B7:930A
@@ -943,7 +943,7 @@ l__069D:
  * Called From: B520:061D:001B:5AA5
  * Called From: B520:069A:0011:2861
  */
-void f__B520_06A2_0013_A505()
+void emu_GUI_Mentat_Draw_ScrollBar()
 {
 l__06A2:
 	emu_push(emu_bp);

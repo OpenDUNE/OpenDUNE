@@ -1018,9 +1018,9 @@ l__07ED:
 }
 
 /**
- * Decompiled function f__0AEC_0809_001D_BEB5()
+ * Decompiled function emu_GUI_Draw_BuildPlace()
  *
- * @name f__0AEC_0809_001D_BEB5
+ * @name emu_GUI_Draw_BuildPlace
  * @implements 0AEC:0809:001D:BEB5 ()
  * @implements 0AEC:0826:0009:6093
  * @implements 0AEC:082F:0012:E7A1
@@ -1083,7 +1083,7 @@ l__07ED:
  *
  * Called From: B4A2:0941:0011:88EC
  */
-void f__0AEC_0809_001D_BEB5()
+void emu_GUI_Draw_BuildPlace()
 {
 l__0809:
 	emu_push(emu_bp);
@@ -1607,9 +1607,9 @@ l__0C77:
 }
 
 /**
- * Decompiled function f__0AEC_0CA1_0013_A57D()
+ * Decompiled function emu_GUI_Draw_PictureButton()
  *
- * @name f__0AEC_0CA1_0013_A57D
+ * @name emu_GUI_Draw_PictureButton
  * @implements 0AEC:0CA1:0013:A57D ()
  * @implements 0AEC:0CB4:0015:4A00
  * @implements 0AEC:0CC9:0029:F8B9
@@ -1630,7 +1630,7 @@ l__0C77:
  *
  * Called From: B4A2:0941:0011:88EC
  */
-void f__0AEC_0CA1_0013_A57D()
+void emu_GUI_Draw_PictureButton()
 {
 l__0CA1:
 	emu_push(emu_bp);
@@ -1838,9 +1838,9 @@ l__0E38:
 }
 
 /**
- * Decompiled function f__0AEC_0E3E_0013_E57C()
+ * Decompiled function emu_GUI_Draw_CommandButtons()
  *
- * @name f__0AEC_0E3E_0013_E57C
+ * @name emu_GUI_Draw_CommandButtons
  * @implements 0AEC:0E3E:0013:E57C ()
  * @implements 0AEC:0E51:0015:7A06
  * @implements 0AEC:0E66:001B:7957
@@ -1867,7 +1867,7 @@ l__0E38:
  *
  * Called From: B4A2:0941:0011:88EC
  */
-void f__0AEC_0E3E_0013_E57C()
+void emu_GUI_Draw_CommandButtons()
 {
 l__0E3E:
 	emu_push(emu_bp);

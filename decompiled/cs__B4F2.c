@@ -2539,9 +2539,9 @@ l__0F66:
 }
 
 /**
- * Decompiled function f__B4F2_0F68_0011_1140()
+ * Decompiled function emu_GUI_Draw_Buttons()
  *
- * @name f__B4F2_0F68_0011_1140
+ * @name emu_GUI_Draw_Buttons
  * @implements B4F2:0F68:0011:1140 ()
  * @implements B4F2:0F79:0086:1AA0
  * @implements B4F2:0FFF:000C:55F2
@@ -2563,7 +2563,7 @@ l__0F66:
  *
  * Called From: 34F2:0061:0005:0000
  */
-void f__B4F2_0F68_0011_1140()
+void emu_GUI_Draw_Buttons()
 {
 l__0F68:
 	emu_push(emu_bp);

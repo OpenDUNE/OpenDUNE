@@ -1167,11 +1167,11 @@ l__0933:
 	emu_cs = emu_get_memory16(emu_ss, emu_bp, -0x2);
 	emu_push(0x0944);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x0AEC0809: f__0AEC_0809_001D_BEB5(); break;
-		case 0x0AEC0CA1: f__0AEC_0CA1_0013_A57D(); break;
-		case 0x0AEC0E3E: f__0AEC_0E3E_0013_E57C(); break;
-		case 0x34F20061: overlay(0x34F2, 0); f__B4F2_0F68_0011_1140(); break;
-		case 0x3520002A: overlay(0x3520, 0); f__B520_06A2_0013_A505(); break;
+		case 0x0AEC0809: emu_GUI_Draw_BuildPlace(); break;
+		case 0x0AEC0CA1: emu_GUI_Draw_PictureButton(); break;
+		case 0x0AEC0E3E: emu_GUI_Draw_CommandButtons(); break;
+		case 0x34F20061: overlay(0x34F2, 0); emu_GUI_Draw_Buttons(); break;
+		case 0x3520002A: overlay(0x3520, 0); emu_GUI_Mentat_Draw_ScrollBar(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB4A2; emu_last_ip = 0x0941; emu_last_length = 0x0011; emu_last_crc = 0x88EC;

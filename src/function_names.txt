@@ -85,6 +85,9 @@
 
 0AEC:0005:0010:9634	emu_GUI_Name	# (csip) Handles click on structure/unit name
 0AEC:004F:0024:1E6F	emu_GUI_Viewport	# (csip) Handles events on viewport
+0AEC:0809:001D:BEB5	emu_GUI_Draw_BuildPlace	# (csip) Draws the "Build"/"Place" button
+0AEC:0CA1:0013:A57D	emu_GUI_Draw_PictureButton	# (csip) Draws the "Picture" button
+0AEC:0E3E:0013:E57C	emu_GUI_Draw_CommandButtons	# (csip) Draws the command buttons ("Move"...) and "Cancel" button
 0AEC:0FD8:0017:6202	emu_GUI_Cancel	# (csip) Handles click on "Cancel" button
 0AEC:1093:000F:2295	emu_GUI_BuildPlace	# (csip) Handles click on "Build"/"Place" button
 0AEC:1181:001C:DFE4	emu_GUI_Picture	# (csip) Handles click on "Picture" button
@@ -223,6 +226,7 @@ B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
 B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
+B4F2:0F68:0011:1140	emu_GUI_Draw_Buttons	# (csip) Draws the "Yes", "No" ... buttons in Options, Game Options, SaveLoad, Yes/No windows
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
@@ -244,6 +248,7 @@ B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Gam
 B520:03C7:0017:65D1	emu_GUI_Mentat_ScrollUp	# (csip) Handles click on the up arrow of scrollbar in Mentat window
 B520:03E7:0017:BA36	emu_GUI_Mentat_ScrollDown	# (csip) Handles click on the down arrow of scrollbar in Mentat window
 B520:0407:00A9:43A1	emu_GUI_Mentat_ScrollBar	# (csip) Handles click on the scrollbar in Mentat window
+B520:06A2:0013:A505	emu_GUI_Mentat_Draw_ScrollBar	# (csip) Draws the scrollbar in Mentat window
 
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
 
