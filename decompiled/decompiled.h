@@ -629,7 +629,6 @@ extern void f__B511_0C06_002A_8725();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B4CD_0C36_0014_30D0();
 extern void f__B491_0C3E_0008_F6B9();
-extern void f__B4F2_0C43_0017_56DB();
 extern void f__0972_0C5A_0015_E00A();
 extern void emu_Structure_IsValidBuildLocation();
 extern void f__B511_0C64_002A_C757();
