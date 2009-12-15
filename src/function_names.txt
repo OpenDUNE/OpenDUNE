@@ -201,6 +201,8 @@ B495:03E4:0014:917E	emu_GUI_Purchase_Plus	# (csip) Handles click on the "+" butt
 B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" button in purchase window
 B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
 
+B4A2:0729:0013:2494	emu_GUI_Widget_Draw	# (??) Draw a widget to the screen
+
 B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
 
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
@@ -228,6 +230,7 @@ B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
 B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
+B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
 B4F2:0F68:0011:1140	emu_GUI_Draw_Buttons	# (csip) Draws the "Yes", "No" ... buttons in Options, Game Options, SaveLoad, Yes/No windows
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
 B4F2:11B4:0016:244A	emu_String_GenerateSavegameFilename	# (buffer_csip, num) Generates "_SAVE<num>.DAT"

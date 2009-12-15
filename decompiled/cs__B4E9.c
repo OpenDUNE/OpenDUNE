@@ -375,7 +375,7 @@ l__0209:
 l__0218:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_push(emu_cs); emu_push(0x0223); emu_cs = 0x34A2; overlay(0x34A2, 0); f__B4A2_0729_0013_2494();
+	emu_push(emu_cs); emu_push(0x0223); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_Draw();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__0223:

@@ -205,7 +205,7 @@ l__00E9:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x00F4); f__B4A2_0729_0013_2494();
+	emu_push(0x00F4); emu_GUI_Widget_Draw();
 l__00F4:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -757,7 +757,7 @@ l__0649:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0670); f__B4A2_0729_0013_2494();
+	emu_push(0x0670); emu_GUI_Widget_Draw();
 l__0670:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -876,9 +876,9 @@ l__0713:
 }
 
 /**
- * Decompiled function f__B4A2_0729_0013_2494()
+ * Decompiled function emu_GUI_Widget_Draw()
  *
- * @name f__B4A2_0729_0013_2494
+ * @name emu_GUI_Widget_Draw
  * @implements B4A2:0729:0013:2494 ()
  * @implements B4A2:073C:0025:DBA0
  * @implements B4A2:0761:0006:B62F
@@ -920,7 +920,7 @@ l__0713:
  * Called From: B4A2:066D:0027:26C2
  * Called From: B4A2:066D:0054:23DD
  */
-void f__B4A2_0729_0013_2494()
+void emu_GUI_Widget_Draw()
 {
 l__0729:
 	emu_push(emu_bp);
