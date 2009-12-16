@@ -4,8 +4,8 @@
 #define GUI_WIDGET_H
 
 /**
- *  * Types of Structures available in the game.
- *   */
+ * Types of WidgetClick available in the game.
+ */
 typedef enum WidgetClickType {
 	WIDGET_CLICK_MENTAT         = 0,
 	WIDGET_CLICK_OPTIONS        = 1,
