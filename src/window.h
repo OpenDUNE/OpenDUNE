@@ -50,8 +50,8 @@ typedef struct Widget {
 	/* 001C(2)   */ PACK uint16 variable_1C;                /*!< ?? */
 	/* 001E(2)   */ PACK uint16 variable_1E;                /*!< ?? */
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
-	/* 0022(2)   */ PACK uint16 variable_22;                /*!< ?? */
-	/* 0024(2)   */ PACK uint16 variable_24;                /*!< ?? */
+	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
+	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
 	/* 0026(1)   */ PACK uint8  variable_26;                /*!< ?? Belongs to procDraw1. */
 	/* 0027(1)   */ PACK uint8  variable_27;                /*!< ?? Belongs to procDraw1. */
 	/* 0028(1)   */ PACK uint8  variable_28;                /*!< ?? Belongs to procDraw2. */
@@ -59,10 +59,10 @@ typedef struct Widget {
 	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? Belongs to procDraw3. */
 	/* 002B(1)   */ PACK uint8  variable_2B;                /*!< ?? Belongs to procDraw3. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
-	/* 002E(2)   */ PACK uint16 variable_2E;                /*!< ?? State? 0, 1, 4 and 5 seem legit values. */
+	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Pressed, 0x0004 - Hover. */
 	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
 	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
-	/* 0038(2)   */ PACK uint16 variable_38;                /*!< ?? */
+	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
 } GCC_PACKED Widget;
 MSVC_PACKED_END
