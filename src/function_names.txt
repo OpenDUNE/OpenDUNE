@@ -105,7 +105,7 @@
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 
-10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, unknown), draw text to the screen
+10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, flags), draw text to the screen; if flags & 0x100, then text centered
 
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
 
@@ -231,9 +231,9 @@ B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
-B4F2:0F68:0011:1140	emu_GUI_Draw_Buttons	# (csip) Draws the "Yes", "No" ... buttons in Options, Game Options, SaveLoad, Yes/No windows
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
 B4F2:11B4:0016:244A	emu_String_GenerateSavegameFilename	# (buffer_csip, num) Generates "_SAVE<num>.DAT"
+B4F2:1303:0017:56DB	emu_GUI_String_Get_ByIndex	# (stringID) Special version of String_Get_ByIndex
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString

@@ -1,7 +1,7 @@
 /* $Id$ */
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef GUI_WIDGET_H
+#define GUI_WIDGET_H
 
 /**
  *  * Types of Structures available in the game.
@@ -89,4 +89,9 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
-#endif /* WINDOW_H */
+void GUI_Widget_DrawButton(struct Widget *w);
+
+
+extern void emu_GUI_Widget_DrawButton();
+
+#endif /* GUI_WIDGET_H */

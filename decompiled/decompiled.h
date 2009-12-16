@@ -6,6 +6,7 @@
 #include "../src/file.h"
 #include "../src/global.h"
 #include "../src/gui/gui.h"
+#include "../src/gui/widget.h"
 #include "../src/house.h"
 #include "../src/input/input.h"
 #include "../src/interrupt.h"
@@ -27,7 +28,6 @@
 #include "../src/tools.h"
 #include "../src/unit.h"
 #include "../src/unknown/unknown.h"
-#include "../src/window.h"
 
 
 #undef DECOMPILED_INCLUDE
@@ -687,7 +687,6 @@ extern void f__1DD7_0F43_004A_CF07();
 extern void f__01F7_0F45_004B_44A0();
 extern void f__1A34_0F48_0018_0DB8();
 extern void f__B518_0F54_0023_0701();
-extern void emu_GUI_Draw_Buttons();
 extern void f__2649_0F72_001C_A19C();
 extern void f__22A6_0F76_002C_45CC();
 extern void f__29E8_0F7A_000D_B1AA();
@@ -758,7 +757,7 @@ extern void f__22A6_127B_0036_F8C9();
 extern void f__B503_12AC_0013_473F();
 extern void f__176C_12CE_0011_A5C5();
 extern void f__B503_1302_0013_473F();
-extern void f__B4F2_1303_0017_56DB();
+extern void emu_GUI_String_Get_ByIndex();
 extern void f__1A34_1328_0026_C398();
 extern void f__0972_133C_0036_0328();
 extern void f__B503_1343_003B_6432();

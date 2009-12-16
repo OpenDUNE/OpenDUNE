@@ -1170,7 +1170,7 @@ l__0933:
 		case 0x0AEC0809: emu_GUI_Draw_BuildPlace(); break;
 		case 0x0AEC0CA1: emu_GUI_Draw_PictureButton(); break;
 		case 0x0AEC0E3E: emu_GUI_Draw_CommandButtons(); break;
-		case 0x34F20061: overlay(0x34F2, 0); emu_GUI_Draw_Buttons(); break;
+		case 0x34F20061: overlay(0x34F2, 0); emu_GUI_Widget_DrawButton(); break;
 		case 0x3520002A: overlay(0x3520, 0); emu_GUI_Mentat_Draw_ScrollBar(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */

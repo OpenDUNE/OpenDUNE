@@ -4,7 +4,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "window.h"
+#include "gui/widget.h"
 
 WidgetClickInfo *g_widgetClickInfo = NULL;
 
