@@ -57,7 +57,7 @@ void GUI_Widget_Button_Draw(Widget *w)
 
 	emu_push(1);
 	emu_push(state);
-	emu_push(0x13);
+	emu_push(19);
 	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
