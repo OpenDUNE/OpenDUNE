@@ -1465,6 +1465,7 @@ l__084F:
  * @implements B4F2:0AF6:000F:CEE8
  * @implements B4F2:0B05:0044:6791
  * @implements B4F2:0B49:0051:E4E8
+ * @implements B4F2:0B8D:000D:1EAE
  * @implements B4F2:0B9A:0008:0683
  * @implements B4F2:0BA2:0013:29DD
  * @implements B4F2:0BA5:0010:3E8C
@@ -1810,7 +1811,7 @@ l__0B05:
 	emu_cl = 0x3;
 	emu_shlw(&emu_ax, emu_cl);
 	emu_addw(&emu_ax, 0x28);
-	/* Unresolved jump */ emu_ip = 0x0B8D; emu_last_cs = 0xB4F2; emu_last_ip = 0x0B47; emu_last_length = 0x0044; emu_last_crc = 0x6791; emu_call();
+	goto l__0B8D;
 l__0B49:
 	emu_ax = 0x222;
 	emu_push(emu_ax);
@@ -1838,6 +1839,7 @@ l__0B49:
 	emu_shlw(&emu_dx, emu_cl);
 	emu_addw(&emu_ax, emu_dx);
 	emu_addw(&emu_ax, 0xFFF6);
+l__0B8D:
 	emu_push(emu_ax);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
@@ -2953,6 +2955,7 @@ l__12FD:
  * Called From: B4F2:0A09:000B:51A5
  * Called From: B4F2:0A09:0005:3DBD
  * Called From: B4F2:0B97:0051:E4E8
+ * Called From: B4F2:0B97:000D:1EAE
  * Called From: B4F2:1094:0022:D216
  * Called From: B4F2:1094:000C:2AAD
  * Called From: B4F2:125D:001A:72DC

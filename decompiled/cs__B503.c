@@ -33,6 +33,10 @@
  * @implements B503:0184:0023:CE81
  * @implements B503:01A7:0024:5AA3
  * @implements B503:01CB:0012:E385
+ * @implements B503:01DD:0024:B03C
+ * @implements B503:01F7:000A:93B9
+ * @implements B503:0201:0005:892E
+ * @implements B503:0206:001C:AF98
  * @implements B503:0222:0002:C03A
  * @implements B503:0224:001E:8296
  * @implements B503:0242:0008:CBE0
@@ -362,10 +366,49 @@ l__01CB:
 	emu_addw(&emu_sp, 0x10);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x37B6);
 	emu_cmpw(&emu_ax, 0x1);
-	if (emu_ax == 0x1) { /* Unresolved jump */ emu_ip = 0x0206; emu_last_cs = 0xB503; emu_last_ip = 0x01D4; emu_last_length = 0x0012; emu_last_crc = 0xE385; emu_call(); return; }
+	if (emu_ax == 0x1) goto l__0206;
 	emu_cmpw(&emu_ax, 0x2);
-	if (emu_ax == 0x2) { /* Unresolved jump */ emu_ip = 0x01DD; emu_last_cs = 0xB503; emu_last_ip = 0x01D9; emu_last_length = 0x0012; emu_last_crc = 0xE385; emu_call(); return; }
+	if (emu_ax == 0x2) goto l__01DD;
 	goto l__0222;
+l__01DD:
+	emu_ax = 0x4;
+	emu_push(emu_ax);
+	emu_ax = 0x4;
+	emu_push(emu_ax);
+	emu_ax = 0x18;
+	emu_push(emu_ax);
+	emu_ax = 0x26;
+	emu_push(emu_ax);
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_ax = 0x1;
+	emu_push(emu_ax);
+	emu_ax = 0x78;
+l__01F7:
+	emu_push(emu_ax);
+	emu_ax = 0x1;
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x0201); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
+l__0201:
+	emu_addw(&emu_sp, 0x10);
+	goto l__0224;
+l__0206:
+	emu_ax = 0x4;
+	emu_push(emu_ax);
+	emu_ax = 0x4;
+	emu_push(emu_ax);
+	emu_ax = 0x18;
+	emu_push(emu_ax);
+	emu_ax = 0x26;
+	emu_push(emu_ax);
+	emu_xorw(&emu_ax, emu_ax);
+	emu_push(emu_ax);
+	emu_ax = 0x1;
+	emu_push(emu_ax);
+	emu_ax = 0x60;
+	goto l__01F7;
 l__0222:
 	goto l__0224;
 l__0224:

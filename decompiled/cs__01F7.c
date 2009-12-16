@@ -7873,9 +7873,12 @@ l__3821:
  * Called From: 1DB6:0158:0013:606D
  * Called From: 261F:0114:0012:C65C
  * Called From: B518:1313:0012:3A86
+ * Called From: B518:133E:000D:D1AE
+ * Called From: B518:1350:0012:4286
  * Called From: B518:138B:0020:B4DF
  * Called From: B518:139D:0012:4286
  * Called From: B518:13C1:000D:D1AE
+ * Called From: B518:13C1:000A:1C86
  */
 void emu_String_strcat()
 {
