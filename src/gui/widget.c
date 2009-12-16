@@ -35,8 +35,8 @@ void GUI_Widget_DrawButton(Widget *w)
 	emu_sp += 2;
 	old2598 = emu_ax;
 
-	widgetX = w->variable_1E + (g_global->variable_4062[w->variable_1C][0] << 3);
-	widgetY = w->variable_20 +  g_global->variable_4062[w->variable_1C][1];
+	widgetX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
+	widgetY = w->offsetY +  g_global->variable_4062[w->parentID][1];
 
 	width  = w->width;
 	height = w->height;

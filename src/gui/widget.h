@@ -47,9 +47,9 @@ typedef struct Widget {
 	/* 0010(4)   */ PACK csip32 procDraw1;                  /*!< ?? Function to execute when widget should be drawn. */
 	/* 0014(4)   */ PACK csip32 procDraw2;                  /*!< ?? Function to execute when widget should be drawn. */
 	/* 0018(4)   */ PACK csip32 procDraw3;                  /*!< ?? Function to execute when widget should be drawn. */
-	/* 001C(2)   */ PACK uint16 variable_1C;                /*!< ?? */
-	/* 001E(2)   */ PACK uint16 variable_1E;                /*!< ?? */
-	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
+	/* 001C(2)   */ PACK uint16 parentID;                   /*!< Parent window we are nested in. */
+	/* 001E(2)   */ PACK uint16 offsetX;                    /*!< X position from parent we are at, in pixels. */
+	/* 0020(2)   */ PACK uint16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
 	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
 	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
 	/* 0026(1)   */ PACK uint8  variable_26;                /*!< ?? Belongs to procDraw1. */
