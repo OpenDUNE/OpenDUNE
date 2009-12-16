@@ -420,7 +420,7 @@ extern void f__2903_0569_000A_C3B0();
 extern void f__B50B_0573_0037_8058();
 extern void f__B4CD_057B_001A_D066();
 extern void f__06F7_057C_001F_E1C7();
-extern void f__10E4_057F_0052_2B00();
+extern void emu_GUI_Widget_DrawBorder();
 extern void f__2903_0580_0004_5083();
 extern void f__B4C4_0581_003B_B6D9();
 extern void f__2903_0584_0015_8493();

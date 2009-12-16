@@ -8,9 +8,9 @@
 #include "widget.h"
 
 /**
- * Emulator wrapper around emu_GUI_Widget_DrawButton().
+ * Emulator wrapper around GUI_Widget_Button_Draw().
  *
- * @name emu_GUI_Widget_DrawButton
+ * @name emu_GUI_Widget_Button_Draw
  * @implements B4F2:0F68:0011:1140 ()
  * @implements B4F2:0F79:0086:1AA0
  * @implements B4F2:0FFF:000C:55F2
@@ -30,7 +30,7 @@
  * @implements B4F2:10F5:0005:EAF1
  * @implements B4F2:10FA:0006:F7CE
  */
-void emu_GUI_Widget_DrawButton()
+void emu_GUI_Widget_Button_Draw()
 {
 	Widget *w;
 
@@ -40,7 +40,7 @@ void emu_GUI_Widget_DrawButton()
 
 	w = (Widget *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
 
-	GUI_Widget_DrawButton(w);
+	GUI_Widget_Button_Draw(w);
 
 	emu_ax = 0;
 }

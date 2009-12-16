@@ -7,13 +7,13 @@
 #include "../global.h"
 #include "widget.h"
 
-extern void f__10E4_057F_0052_2B00();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_String_Get_ByIndex();
+extern void emu_GUI_Widget_DrawBorder();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -21,10 +21,10 @@ extern void overlay(uint16 cs, uint8 force);
  *
  * @param w The widget (which is a button) to draw.
  */
-void GUI_Widget_DrawButton(Widget *w)
+void GUI_Widget_Button_Draw(Widget *w)
 {
 	uint16 old2598;
-	uint16 widgetX, widgetY;
+	uint16 positionX, positionY;
 	uint16 width, height;
 	uint16 state, colour;
 
@@ -35,17 +35,15 @@ void GUI_Widget_DrawButton(Widget *w)
 	emu_sp += 2;
 	old2598 = emu_ax;
 
-	widgetX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
-	widgetY = w->offsetY +  g_global->variable_4062[w->parentID][1];
+	positionX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
+	positionY = w->offsetY +  g_global->variable_4062[w->parentID][1];
+	width     = w->width;
+	height    = w->height;
 
-	width  = w->width;
-	height = w->height;
-
-	g_global->variable_4192 = widgetX >> 3;
-	g_global->variable_4194 = widgetY;
-
-	g_global->variable_4196 = width >> 3;
-	g_global->variable_4198 = height;
+	g_global->variable_4062[19][0] = positionX >> 3;
+	g_global->variable_4062[19][1] = positionY;
+	g_global->variable_4062[19][2] = width >> 3;
+	g_global->variable_4062[19][3] = height;
 
 	state = 2;
 	colour = 0xE8;
@@ -60,7 +58,7 @@ void GUI_Widget_DrawButton(Widget *w)
 	emu_push(1);
 	emu_push(state);
 	emu_push(0x13);
-	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x10E4; f__10E4_057F_0052_2B00();
+	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 	emu_sp += 6;
@@ -69,14 +67,14 @@ void GUI_Widget_DrawButton(Widget *w)
 		emu_push(0x122);
 		emu_push(0x0);
 		emu_push(colour);
-		emu_push(widgetY + 2);
-		emu_push(widgetX + (width / 2));
+		emu_push(positionY + 2);
+		emu_push(positionX + (width / 2));
 	} else {
 		emu_push(0x22);
 		emu_push(0x0);
 		emu_push(colour);
-		emu_push(widgetY + 2);
-		emu_push(widgetX + 3);
+		emu_push(positionY + 2);
+		emu_push(positionX + 3);
 	}
 
 	emu_push(w->stringID);
@@ -90,10 +88,10 @@ void GUI_Widget_DrawButton(Widget *w)
 	emu_sp += 14;
 
 	if (old2598 == 0) {
-		emu_push(widgetY + height);
-		emu_push(widgetX + width);
-		emu_push(widgetY);
-		emu_push(widgetX);
+		emu_push(positionY + height);
+		emu_push(positionX + width);
+		emu_push(positionY);
+		emu_push(positionX);
 		emu_push(emu_cs); emu_push(0x10BB); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
@@ -103,10 +101,10 @@ void GUI_Widget_DrawButton(Widget *w)
 		emu_push(2);
 		emu_push(height);
 		emu_push(width >> 3);
-		emu_push(widgetY);
-		emu_push(widgetX >> 3);
-		emu_push(widgetY);
-		emu_push(widgetX >> 3);
+		emu_push(positionY);
+		emu_push(positionX >> 3);
+		emu_push(positionY);
+		emu_push(positionX >> 3);
 		emu_push(emu_cs); emu_push(0x10E5); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }

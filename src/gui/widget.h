@@ -89,9 +89,9 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
-void GUI_Widget_DrawButton(struct Widget *w);
+void GUI_Widget_Button_Draw(struct Widget *w);
 
 
-extern void emu_GUI_Widget_DrawButton();
+extern void emu_GUI_Widget_Button_Draw();
 
 #endif /* GUI_WIDGET_H */

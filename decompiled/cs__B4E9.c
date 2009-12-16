@@ -322,7 +322,7 @@ l__018E:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
-	emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x10E4; f__10E4_057F_0052_2B00();
+	emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__01A5:

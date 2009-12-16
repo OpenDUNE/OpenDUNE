@@ -4062,7 +4062,7 @@ l__203C:
 	emu_push(emu_ax);
 	emu_ax = 0xD;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x204E); emu_cs = 0x10E4; f__10E4_057F_0052_2B00();
+	emu_push(emu_cs); emu_push(0x204E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__204E:

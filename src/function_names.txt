@@ -105,6 +105,7 @@
 
 0FCB:000D:0019:5047	emu_String_Load	# (name_csip), Load a language file in the memory, which is used after that with GetString
 
+10E4:057F:0052:2B00	emu_GUI_Widget_DrawBorder	# (widgetID, state, unknown) Draw the border and background of a widget
 10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, flags), draw text to the screen; if flags & 0x100, then text centered
 
 1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)

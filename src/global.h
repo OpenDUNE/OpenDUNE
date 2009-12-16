@@ -805,17 +805,8 @@ typedef struct GlobalData {
 	/* 3E52(2)   */ PACK uint16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
-	/* 4062(208) */ PACK uint16 variable_4062[13][8];       /*!< ?? An array of 13 elements. */
-	/* 4132(2)   */ PACK uint16 variable_4132;              /*!< ?? */
-	/* 4134(2)   */ PACK uint16 variable_4134;              /*!< ?? */
-	/* 4136(2)   */ PACK uint16 variable_4136;              /*!< ?? */
-	/* 4138(2)   */ PACK uint16 variable_4138;              /*!< ?? */
-	/* 413A()    */ PACK uint8   unknown_413A[0x0058];
-	/* 4192(2)   */ PACK uint16 variable_4192;              /*!< ?? */
-	/* 4194(2)   */ PACK uint16 variable_4194;              /*!< ?? */
-	/* 4196(2)   */ PACK uint16 variable_4196;              /*!< ?? */
-	/* 4198(2)   */ PACK uint16 variable_4198;              /*!< ?? */
-	/* 419A()    */ PACK uint8   unknown_419A[0x001C];
+	/* 4062(320) */ PACK uint16 variable_4062[20][8];       /*!< ?? Position and size of widgets? */
+	/* 41A2()    */ PACK uint8   unknown_41A2[0x0014];
 	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*!< ?? */
 	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*!< ?? */
 	/* 41BA()    */ PACK uint8   unknown_41BA[0x0008];

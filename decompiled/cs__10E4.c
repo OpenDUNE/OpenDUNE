@@ -712,7 +712,7 @@ l__03A0:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x03B4); f__10E4_057F_0052_2B00();
+	emu_push(0x03B4); emu_GUI_Widget_DrawBorder();
 l__03B4:
 	emu_addw(&emu_sp, 0x6);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0xFFFF);
@@ -916,9 +916,9 @@ l__0579:
 }
 
 /**
- * Decompiled function f__10E4_057F_0052_2B00()
+ * Decompiled function emu_GUI_Widget_DrawBorder()
  *
- * @name f__10E4_057F_0052_2B00
+ * @name emu_GUI_Widget_DrawBorder
  * @implements 10E4:057F:0052:2B00 ()
  * @implements 10E4:05D1:0025:BB42
  * @implements 10E4:05D3:0023:BAD6
@@ -936,7 +936,7 @@ l__0579:
  * Called From: B4F2:0896:0012:37F8
  * Called From: B4F2:1029:0010:DC57
  */
-void f__10E4_057F_0052_2B00()
+void emu_GUI_Widget_DrawBorder()
 {
 l__057F:
 	emu_push(emu_bp);
@@ -2758,7 +2758,7 @@ l__1290:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
 	emu_push(emu_cs);
-	emu_push(0x12A3); f__10E4_057F_0052_2B00();
+	emu_push(0x12A3); emu_GUI_Widget_DrawBorder();
 l__12A3:
 	emu_addw(&emu_sp, 0x6);
 l__12A6:
