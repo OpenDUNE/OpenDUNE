@@ -26,9 +26,25 @@ typedef enum WidgetClickType {
 	WIDGET_CLICK_VIEWPORT_6     = 16,
 	WIDGET_CLICK_VIEWPORT_7     = 17,
 
-	WIDGET_CLICK_MAX     = 18,
-	WIDGET_CLICK_INVALID = 0xFFFF
+	WIDGET_CLICK_MAX            = 18,
+	WIDGET_CLICK_INVALID        = 0xFFFF
 } WidgetClickType;
+
+
+/**
+ * Types of DrawMode available in the game.
+ */
+typedef enum DrawMode {
+	DRAW_MODE_NONE            = 0,                   /*!< Draw nothing. */
+	DRAW_MODE_UNKNOWN1        = 1,
+	DRAW_MODE_TEXT            = 2,                   /*!< Draw text. */
+	DRAW_MODE_UNKNOWN3        = 3,
+	DRAW_MODE_CUSTOM_PROC     = 4,                   /*!< Draw via a custom defined function. */
+	DRAW_MODE_WIRED_RECTANGLE = 5,                   /*!< Draw a wired rectangle. */
+	DRAW_MODE_UNKNOWN6        = 6,
+
+	DRAW_MODE_MAX             = 7
+} DrawMode;
 
 MSVC_PACKED_BEGIN
 /**

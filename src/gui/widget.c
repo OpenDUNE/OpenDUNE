@@ -200,8 +200,8 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	positionTop = g_global->variable_4062[w->parentID][1] + offsetY;
 	positionBottom = positionTop + w->height - 1;
 
-	assert(drawMode < 7);
-	if (drawMode != 0 && drawMode != 4 && g_global->variable_6C91 == 0) {
+	assert(drawMode < DRAW_MODE_MAX);
+	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->variable_6C91 == 0) {
 		emu_push(positionBottom);
 		emu_push(positionRight);
 		emu_push(positionTop);
@@ -213,9 +213,9 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	}
 
 	switch (drawMode) {
-		case 0: break;
+		case DRAW_MODE_NONE: break;
 
-		case 1: {
+		case DRAW_MODE_UNKNOWN1: {
 			emu_push(0x4000);
 			emu_push(w->parentID);
 			emu_push(offsetY);
@@ -228,7 +228,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_sp += 14;
 		} break;
 
-		case 2: {
+		case DRAW_MODE_TEXT: {
 			emu_push(drawParam2);
 			emu_push(drawParam1);
 			emu_push(positionTop);
@@ -240,7 +240,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_sp += 12;
 		} break;
 
-		case 3: {
+		case DRAW_MODE_UNKNOWN3: {
 			emu_push(positionTop);
 			emu_push(positionLeft >> 3);
 			emu_push(drawProc.s.cs);
@@ -250,7 +250,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_sp += 6;
 		} break;
 
-		case 4: {
+		case DRAW_MODE_CUSTOM_PROC: {
 			if (drawProc.csip == 0x0) return;
 
 			switch (drawProc.csip) {
@@ -279,7 +279,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_sp += 4;
 		} break;
 
-		case 5: {
+		case DRAW_MODE_WIRED_RECTANGLE: {
 			emu_push(drawParam1);
 			emu_push(positionBottom);
 			emu_push(positionRight);
@@ -291,7 +291,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_sp += 10;
 		} break;
 
-		case 6: {
+		case DRAW_MODE_UNKNOWN6: {
 			emu_push(drawParam1);
 			emu_push(positionBottom);
 			emu_push(positionRight);
@@ -304,7 +304,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 	}
 
-	if (drawMode != 0 && drawMode != 4 && g_global->variable_6C91 == 0) {
+	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->variable_6C91 == 0) {
 		emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
