@@ -202,8 +202,6 @@ B495:03E4:0014:917E	emu_GUI_Purchase_Plus	# (csip) Handles click on the "+" butt
 B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" button in purchase window
 B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
 
-B4A2:0729:0013:2494	emu_GUI_Widget_Draw	# (??) Draw a widget to the screen
-
 B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
 
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click

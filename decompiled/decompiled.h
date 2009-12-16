@@ -482,7 +482,6 @@ extern void f__B52A_06F6_0012_197D();
 extern void f__2756_06FB_0042_E7A6();
 extern void f__06F7_0713_0011_15A5();
 extern void f__1DD7_0719_0014_A78C();
-extern void emu_GUI_Widget_Draw();
 extern void emu_Save_Main();
 extern void f__06F7_072B_0018_F05F();
 extern void f__29E8_072F_000F_651A();

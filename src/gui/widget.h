@@ -39,25 +39,25 @@ typedef struct Widget {
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
-	/* 000A(1)   */ PACK uint8  variable_0A;                /*!< ?? */
-	/* 000B(1)   */ PACK uint8  variable_0B;                /*!< ?? */
-	/* 000C(1)   */ PACK uint8  variable_0C;                /*!< ?? */
+	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when in normal state. */
+	/* 000B(1)   */ PACK uint8  drawModeHover;              /*!< Draw mode when in hover state. */
+	/* 000C(1)   */ PACK uint8  drawModeClick;              /*!< Draw mode when in click state. */
 	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
-	/* 0010(4)   */ PACK csip32 procDraw1;                  /*!< ?? Function to execute when widget should be drawn. */
-	/* 0014(4)   */ PACK csip32 procDraw2;                  /*!< ?? Function to execute when widget should be drawn. */
-	/* 0018(4)   */ PACK csip32 procDraw3;                  /*!< ?? Function to execute when widget should be drawn. */
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Bitflags. 0x08 - ??, 0x10 - ??. */
+	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when in normal state. */
+	/* 0014(4)   */ PACK csip32 drawProcHover;              /*!< Draw proc when in hover state. */
+	/* 0018(4)   */ PACK csip32 drawProcClick;              /*!< Draw proc when in click state. */
 	/* 001C(2)   */ PACK uint16 parentID;                   /*!< Parent window we are nested in. */
-	/* 001E(2)   */ PACK uint16 offsetX;                    /*!< X position from parent we are at, in pixels. */
-	/* 0020(2)   */ PACK uint16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
+	/* 001E(2)   */ PACK  int16 offsetX;                    /*!< X position from parent we are at, in pixels. */
+	/* 0020(2)   */ PACK  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
 	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
 	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
-	/* 0026(1)   */ PACK uint8  variable_26;                /*!< ?? Belongs to procDraw1. */
-	/* 0027(1)   */ PACK uint8  variable_27;                /*!< ?? Belongs to procDraw1. */
-	/* 0028(1)   */ PACK uint8  variable_28;                /*!< ?? Belongs to procDraw2. */
-	/* 0029(1)   */ PACK uint8  variable_29;                /*!< ?? Belongs to procDraw2. */
-	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? Belongs to procDraw3. */
-	/* 002B(1)   */ PACK uint8  variable_2B;                /*!< ?? Belongs to procDraw3. */
+	/* 0026(1)   */ PACK uint8  drawParam1Normal;           /*!< Param 1 for draw proc in normal state. */
+	/* 0027(1)   */ PACK uint8  drawParam2Normal;           /*!< Param 2 for draw proc in normal state. */
+	/* 0028(1)   */ PACK uint8  drawParam1Hover;            /*!< Param 1 for draw proc in hover state. */
+	/* 0029(1)   */ PACK uint8  drawParam2Hover;            /*!< Param 2 for draw proc in hover state. */
+	/* 002A(1)   */ PACK uint8  drawParam1Click;            /*!< Param 1 for draw proc in click state. */
+	/* 002B(1)   */ PACK uint8  drawParam2Click;            /*!< Param 2 for draw proc in click state. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
 	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Pressed, 0x0004 - Hover. */
 	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
@@ -89,9 +89,9 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
-void GUI_Widget_Button_Draw(struct Widget *w);
+void GUI_Widget_Draw(Widget *w, csip32 wcsip);
 
 
-extern void emu_GUI_Widget_Button_Draw();
+extern void emu_GUI_Widget_Draw();
 
 #endif /* GUI_WIDGET_H */

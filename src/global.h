@@ -1094,7 +1094,9 @@ typedef struct GlobalData {
 	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
 	/* 6CD3(64)  */ PACK uint32 variable_6CD3[8][2];        /*!< ?? Array init in f__B480_0000_0018_A09B(). */
-	/* 6D13()    */ PACK uint8   unknown_6D13[0x0046];
+	/* 6D13()    */ PACK uint8   unknown_6D13[0x0040];
+	/* 6D53(2)   */ PACK uint16 variable_6D53;              /*!< ?? */
+	/* 6D55()    */ PACK uint8   unknown_6D55[0x0004];
 	/* 6D59(2)   */ PACK uint16 variable_6D59;              /*!< ?? Non-blink colour for cursor in edit box. */
 	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? Blink colour for cursor in edit box. */
 	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
