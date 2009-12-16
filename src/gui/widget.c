@@ -17,6 +17,7 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
+extern void emu_GUI_DrawWiredRectangle();
 extern void emu_GUI_Draw_BuildPlace();
 extern void emu_GUI_Draw_CommandButtons();
 extern void emu_GUI_Draw_PictureButton();
@@ -199,19 +200,22 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	positionTop = g_global->variable_4062[w->parentID][1] + offsetY;
 	positionBottom = positionTop + w->height - 1;
 
-	switch (drawMode) {
-		case 1: {
-			if (g_global->variable_6C91 == 0) {
-				emu_push(positionBottom);
-				emu_push(positionRight);
-				emu_push(positionTop);
-				emu_push(positionLeft);
-				emu_push(emu_cs); emu_push(0x08C2); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-				emu_sp += 8;
-			}
+	assert(drawMode < 7);
+	if (drawMode != 0 && drawMode != 4 && g_global->variable_6C91 == 0) {
+		emu_push(positionBottom);
+		emu_push(positionRight);
+		emu_push(positionTop);
+		emu_push(positionLeft);
+		emu_push(emu_cs); emu_push(0x08C2); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+		emu_sp += 8;
+	}
 
+	switch (drawMode) {
+		case 0: break;
+
+		case 1: {
 			emu_push(0x4000);
 			emu_push(w->parentID);
 			emu_push(offsetY);
@@ -222,26 +226,9 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 14;
-
-			if (g_global->variable_6C91 == 0) {
-				emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			}
-		} return;
+		} break;
 
 		case 2: {
-			if (g_global->variable_6C91 == 0) {
-				emu_push(positionBottom);
-				emu_push(positionRight);
-				emu_push(positionTop);
-				emu_push(positionLeft);
-				emu_push(emu_cs); emu_push(0x090B); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-				emu_sp += 8;
-			}
-
 			emu_push(drawParam2);
 			emu_push(drawParam1);
 			emu_push(positionTop);
@@ -251,26 +238,9 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 12;
-
-			if (g_global->variable_6C91 == 0) {
-				emu_push(emu_cs); emu_push(0x0930); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			}
-		} return;
+		} break;
 
 		case 3: {
-			if (g_global->variable_6C91 == 0) {
-				emu_push(positionBottom);
-				emu_push(positionRight);
-				emu_push(positionTop);
-				emu_push(positionLeft);
-				emu_push(emu_cs); emu_push(0x09F3); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-				emu_sp += 8;
-			}
-
 			emu_push(positionTop);
 			emu_push(positionLeft >> 3);
 			emu_push(drawProc.s.cs);
@@ -278,13 +248,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 6;
-
-			if (g_global->variable_6C91 == 0) {
-				emu_push(emu_cs); emu_push(0x0A1A); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			}
-		} return;
+		} break;
 
 		case 4: {
 			if (drawProc.csip == 0x0) return;
@@ -308,29 +272,26 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 					/* In case we don't know the call point yet, call the dynamic call */
 					emu_last_cs = 0xB4A2; emu_last_ip = 0x0941; emu_last_length = 0x0011; emu_last_crc = 0x88EC;
 					emu_call();
-					return;
+					break;
 			}
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 4;
-		} return;
+		} break;
 
 		case 5: {
-			emu_last_cs = 0xB4A2; emu_last_ip = 0x08A9; emu_last_length = 0x0007; emu_last_crc = 0x6D37; emu_ip = 0x0949; emu_call();
-		} return;
+			emu_push(drawParam1);
+			emu_push(positionBottom);
+			emu_push(positionRight);
+			emu_push(positionTop);
+			emu_push(positionLeft);
+			emu_push(emu_cs); emu_push(0x0980); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+			emu_sp += 10;
+		} break;
 
 		case 6: {
-			if (g_global->variable_6C91 == 0) {
-				emu_push(positionBottom);
-				emu_push(positionRight);
-				emu_push(positionTop);
-				emu_push(positionLeft);
-				emu_push(emu_cs); emu_push(0x09A6); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-				emu_sp += 8;
-			}
-
 			emu_push(drawParam1);
 			emu_push(positionBottom);
 			emu_push(positionRight);
@@ -340,14 +301,12 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 10;
+		} break;
+	}
 
-			if (g_global->variable_6C91 == 0) {
-				emu_push(emu_cs); emu_push(0x09DD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			}
-		} return;
-
-		default: return;
+	if (drawMode != 0 && drawMode != 4 && g_global->variable_6C91 == 0) {
+		emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 	}
 }
