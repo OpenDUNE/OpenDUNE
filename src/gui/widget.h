@@ -36,7 +36,7 @@ typedef enum WidgetClickType {
  */
 typedef enum DrawMode {
 	DRAW_MODE_NONE            = 0,                   /*!< Draw nothing. */
-	DRAW_MODE_UNKNOWN1        = 1,
+	DRAW_MODE_SPRITE          = 1,                   /*!< Draw a sprite. */
 	DRAW_MODE_TEXT            = 2,                   /*!< Draw text. */
 	DRAW_MODE_UNKNOWN3        = 3,
 	DRAW_MODE_CUSTOM_PROC     = 4,                   /*!< Draw via a custom defined function. */

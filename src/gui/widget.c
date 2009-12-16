@@ -215,7 +215,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	switch (drawMode) {
 		case DRAW_MODE_NONE: break;
 
-		case DRAW_MODE_UNKNOWN1: {
+		case DRAW_MODE_SPRITE: {
 			emu_push(0x4000);
 			emu_push(w->parentID);
 			emu_push(offsetY);
