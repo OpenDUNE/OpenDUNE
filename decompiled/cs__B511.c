@@ -2402,6 +2402,9 @@ l__0FAB:
  * @implements B511:1177:000A:673D
  * @implements B511:1181:0014:18D0
  * @implements B511:119B:0012:75BC
+ * @implements B511:11AD:0003:CB1A
+ * @implements B511:11B0:0005:2EF2
+ * @implements B511:11B5:0006:B05D
  * @implements B511:11B9:0002:D4BA
  * @implements B511:11BB:001B:9F2E
  * @implements B511:11D6:0025:9022
@@ -2735,8 +2738,19 @@ l__119B:
 	emu_ax = emu_si;
 	emu_addw(&emu_ax, 0x3E);
 	emu_push(emu_ax);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x11AD); emu_cs = 0x3483; emu_ip = 0x002A; emu_last_cs = 0xB511; emu_last_ip = 0x11A8; emu_last_length = 0x0012; emu_last_crc = 0x75BC; emu_call();
-	/* Unresolved jump */ emu_ip = 0x11AD; emu_last_cs = 0xB511; emu_last_ip = 0x11AD; emu_last_length = 0x0012; emu_last_crc = 0x75BC; emu_call();
+	emu_push(emu_cs); emu_push(0x11AD); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
+l__11AD:
+	emu_pop(&emu_cx);
+	goto l__11B0;
+l__11B0:
+	emu_push(emu_cs); emu_push(0x11B5); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0470_000E_519D();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
+l__11B5:
+	emu_orw(&emu_ax, emu_ax);
+	if (emu_ax != 0) goto l__11B0;
 l__11B9:
 	goto l__11E4;
 l__11BB:

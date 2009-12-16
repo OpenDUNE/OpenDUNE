@@ -388,6 +388,7 @@ l__014B:
  * @implements 1FB5:09C1:0006:F7CE
  *
  * Called From: 0FCB:00C6:001B:5ECC
+ * Called From: 1DD7:19D1:0012:EE74
  * Called From: 1FB5:02DD:0032:3133
  * Called From: 1FB5:18B6:000E:354E
  * Called From: 253D:000E:0013:38F4
@@ -396,6 +397,7 @@ l__014B:
  * Called From: 256D:0033:000F:8420
  * Called From: 257A:00A7:001C:84BD
  * Called From: 257A:00E9:0016:5546
+ * Called From: B483:0856:000F:8420
  * Called From: B495:1A36:0012:DF2C
  * Called From: B4B1:0011:0016:067A
  * Called From: B4B1:002C:0010:8479
@@ -1171,11 +1173,13 @@ l__09C1:
  * @implements 1FB5:0A83:001B:80A7
  *
  * Called From: 0FCB:0127:0009:2605
+ * Called From: 1DD7:1B52:0009:2605
  * Called From: 1FB5:18C5:000F:8967
  * Called From: 253D:0034:000F:3D83
  * Called From: 253D:00E7:0009:2605
  * Called From: 253D:0213:0009:2605
  * Called From: 256D:00A0:0009:2605
+ * Called From: B483:086E:000D:9AF4
  * Called From: B495:1A59:0009:2605
  * Called From: B4B1:001C:000B:B9A3
  * Called From: B4B1:008F:0012:D287
@@ -1313,6 +1317,8 @@ l__0A83:
  *
  * Called From: 0FCB:00F2:0015:AB73
  * Called From: 0FCB:011E:0014:0A45
+ * Called From: 1DD7:1ACE:003F:252C
+ * Called From: 1DD7:1B49:003A:F793
  * Called From: 1FB5:0331:001C:C5E1
  * Called From: 1FB5:0331:0017:3519
  * Called From: 1FB5:04A0:0012:DCC6
@@ -2290,11 +2296,17 @@ l__15B3:
  * Called From: 176C:7EFF:000D:017E
  * Called From: 1DB6:00F7:000E:212B
  * Called From: 1DB6:00F7:000B:03A1
+ * Called From: 1DD7:042A:000E:5431
+ * Called From: 1DD7:12EC:000B:03A1
+ * Called From: 1DD7:17FF:000D:017E
+ * Called From: 1DD7:18EF:000D:137E
+ * Called From: 1DD7:1928:000D:137E
  * Called From: 1FB5:072F:000B:24D7
  * Called From: 1FB5:15A5:000B:A3F4
  * Called From: 1FB5:1659:0058:3B72
  * Called From: 256D:001B:001C:9F23
  * Called From: 261F:0083:000D:15ED
+ * Called From: B483:083F:000B:03A1
  * Called From: B4B5:0054:000D:0FE8
  * Called From: B4B8:1188:000B:03A1
  * Called From: B4B8:1B8B:000F:A141
@@ -2466,9 +2478,11 @@ l__16CF:
  * @implements 1FB5:16D5:006A:679B ()
  * @implements 1FB5:1757:0003:2E57
  *
+ * Called From: 1DD7:19DC:000B:9A42
  * Called From: 1FB5:04BA:000C:AC45
  * Called From: 1FB5:08EB:0006:6338
  * Called From: 253D:00A6:000B:9A42
+ * Called From: B483:0861:000B:9A42
  */
 void f__1FB5_16D5_006A_679B()
 {

@@ -18,6 +18,7 @@
  * Called From: 0972:15FA:0015:06AF
  * Called From: 0972:160C:0005:517D
  * Called From: 0972:1648:0005:517D
+ * Called From: 0AEC:04A0:0005:517D
  * Called From: 0C3A:2509:000F:8F80
  * Called From: 0C3A:2509:0015:A882
  * Called From: 0EDB:00FD:000C:3B74

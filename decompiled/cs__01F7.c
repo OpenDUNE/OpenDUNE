@@ -905,6 +905,7 @@ l__03C2:
  * @implements 01F7:03C9:001C:11C7 ()
  *
  * Called From: 10E4:0F9D:0088:7622
+ * Called From: 1DD7:0D99:0027:BE74
  * Called From: B4B8:0A33:001A:E094
  * Called From: B4F2:0E2A:0019:86E9
  */
@@ -3442,6 +3443,7 @@ l__1182:
  * @implements 01F7:1182:0001:6180
  *
  * Called From: 01F7:11A5:0016:5243
+ * Called From: 01F7:11A5:0025:4423
  * Called From: 01F7:152D:000E:3CEF
  * Called From: 01F7:1598:0009:6CDC
  * Called From: 01F7:1598:000F:E3A2
@@ -5405,6 +5407,8 @@ l__24DA:
  *
  * Called From: 176C:7E79:0022:7E35
  * Called From: 176C:7EE0:0031:E88B
+ * Called From: 1DD7:17C9:0022:7E35
+ * Called From: 1DD7:18B9:0022:7AB5
  */
 void f__01F7_2562_0026_6AD7()
 {
@@ -5721,6 +5725,45 @@ l__2888:
 }
 
 /**
+ * Decompiled function f__01F7_2890_0028_F33A()
+ *
+ * @name f__01F7_2890_0028_F33A
+ * @implements 01F7:2890:0028:F33A ()
+ *
+ * Called From: 1DD7:1CA5:0019:3AC5
+ */
+void f__01F7_2890_0028_F33A()
+{
+l__2890:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_push(emu_si);
+	emu_push(emu_di);
+	emu_push(emu_ds);
+	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xE);
+	emu_cx = emu_ax;
+	if (emu_cx == 0) { /* Unresolved jump */ emu_ip = 0x28B1; emu_last_cs = 0x01F7; emu_last_ip = 0x289B; emu_last_length = 0x0028; emu_last_crc = 0xF33A; emu_call(); return; }
+	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ss, emu_bp,  0xA));
+	emu_cld();
+	emu_rep_cmpsb(emu_ds);
+	emu_al = emu_get_memory8(emu_ds, emu_si, 0xFFFF);
+	emu_xorb(&emu_ah, emu_ah);
+	emu_cl = emu_get_memory8(emu_es, emu_di, 0xFFFF);
+	emu_xorb(&emu_ch, emu_ch);
+	emu_pop(&emu_ds);
+	emu_subw(&emu_ax, emu_cx);
+	emu_pop(&emu_di);
+	emu_pop(&emu_si);
+	emu_pop(&emu_bp);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
+
+/**
  * Decompiled function emu_Tools_Memcopy()
  *
  * @name emu_Tools_Memcopy
@@ -5739,6 +5782,9 @@ l__2888:
  * Called From: 176C:2035:001C:7FD5
  * Called From: 176C:2035:001F:0FEC
  * Called From: 1DB6:0050:0019:FD4E
+ * Called From: 1DD7:113E:001A:20E2
+ * Called From: 1DD7:1475:0024:E66C
+ * Called From: 1DD7:1682:003A:A88D
  * Called From: 259E:00DD:0015:D443
  * Called From: B491:075F:002E:BCA5
  * Called From: B4B5:0914:001C:78CD
@@ -7344,6 +7390,8 @@ l__3470:
  * @implements 01F7:3474:001A:8B70 ()
  * @implements 01F7:348E:0018:9A8B
  * @implements 01F7:34A6:000E:9381
+ * @implements 01F7:34B4:0011:4D90
+ * @implements 01F7:34C5:0008:E83F
  * @implements 01F7:34C8:0005:4AB7
  *
  * Called From: 01F7:3698:0023:36BB
@@ -7366,7 +7414,7 @@ l__348E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_ax, emu_si);
-	if (emu_ax < emu_si) { /* Unresolved jump */ emu_ip = 0x34B4; emu_last_cs = 0x01F7; emu_last_ip = 0x3492; emu_last_length = 0x0018; emu_last_crc = 0x9A8B; emu_call(); return; }
+	if (emu_ax < emu_si) goto l__34B4;
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -7380,6 +7428,15 @@ l__34A6:
 	emu_addw(&emu_bx, emu_si);
 	emu_get_memory8(emu_es, emu_bx, 0x0) = 0x0;
 	goto l__34C8;
+l__34B4:
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
+	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
+	emu_push(emu_cs);
+	emu_push(0x34C5); emu_String_strcpy();
+l__34C5:
+	emu_addw(&emu_sp, 0x8);
 l__34C8:
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
@@ -7655,6 +7712,8 @@ l__376A:
  * Called From: 1A34:2924:000C:6F7F
  * Called From: 25C4:030F:0019:1817
  * Called From: B480:039A:009A:0548
+ * Called From: B483:0692:001B:D546
+ * Called From: B483:0750:001E:9FF4
  * Called From: B491:0BAB:0010:CA55
  * Called From: B495:05E3:0030:96A7
  * Called From: B495:06CF:0015:B497
@@ -7871,6 +7930,11 @@ l__3821:
  * Called From: 1DB6:0145:001B:2F76
  * Called From: 1DB6:0158:0010:743C
  * Called From: 1DB6:0158:0013:606D
+ * Called From: 1DD7:17DB:0012:C53A
+ * Called From: 1DD7:17F2:0017:F7B8
+ * Called From: 1DD7:18CB:0012:D73A
+ * Called From: 1DD7:18E2:0017:E5B4
+ * Called From: 1DD7:191B:0017:E5B4
  * Called From: 261F:0114:0012:C65C
  * Called From: B518:1313:0012:3A86
  * Called From: B518:133E:000D:D1AE
@@ -8054,6 +8118,7 @@ l__38C6:
  * @implements 01F7:38F6:0029:8B99 ()
  *
  * Called From: 01F7:27EC:0010:D57C
+ * Called From: 01F7:34C2:0011:4D90
  * Called From: 01F7:40FD:0024:F92B
  * Called From: 01F7:4112:0015:9374
  * Called From: 10E4:0A75:001F:F767
@@ -8064,6 +8129,10 @@ l__38C6:
  * Called From: 10E4:0CCD:001E:659A
  * Called From: 10E4:0CF6:0018:2FC8
  * Called From: 1DB6:011D:0012:EEC5
+ * Called From: 1DD7:141C:0010:921D
+ * Called From: 1DD7:148C:0017:46E4
+ * Called From: 1DD7:1904:0015:4424
+ * Called From: 1DD7:19BF:0024:F705
  * Called From: B4E0:0480:000E:69F3
  * Called From: B4F2:126F:0014:86F2
  * Called From: B518:0CF2:0013:A981
@@ -8124,6 +8193,13 @@ l__38F6:
  * Called From: 1381:00B2:0019:21DF
  * Called From: 1381:00EC:0019:21EC
  * Called From: 176C:6E65:000B:EB5E
+ * Called From: 1DD7:066C:000B:EB5E
+ * Called From: 1DD7:07B5:000B:EB5E
+ * Called From: 1DD7:0F9B:0013:3523
+ * Called From: 1DD7:1124:0013:0221
+ * Called From: 1DD7:13FD:0012:8AFE
+ * Called From: 1DD7:149F:0013:D0C9
+ * Called From: 1DD7:14B6:0017:7098
  * Called From: 1FB5:1B04:0011:AD2D
  * Called From: B4B8:15AC:0023:DD60
  * Called From: B530:002E:0023:BD3C
@@ -8196,6 +8272,7 @@ l__399D:
  * Called From: 0FCB:0133:000C:74DA
  * Called From: 1A34:2918:000D:2180
  * Called From: 1DB6:012A:000D:43EF
+ * Called From: 1DD7:198F:0011:BEDF
  * Called From: 2521:0045:0015:AA0F
  * Called From: 261F:00E4:000A:57AA
  * Called From: B491:0731:0017:E28B
@@ -8445,6 +8522,7 @@ l__3A7E:
  * @implements 01F7:3AE1:0017:4E03
  * @implements 01F7:3AEE:000A:AC55
  *
+ * Called From: 1DD7:0446:0010:24EA
  * Called From: B4B5:0273:000E:B38A
  * Called From: B4B5:0D8A:000E:548A
  */
