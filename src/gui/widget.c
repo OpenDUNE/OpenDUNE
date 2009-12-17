@@ -158,14 +158,6 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	if (w == NULL) return;
 
-	old6C91 = g_global->variable_6C91;
-
-	if (old6C91 == 0) {
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0CC9); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-	}
-
 	spriteID = 0;
 	if (g_global->selectionUnit.csip != 0x0) {
 		UnitInfo *ui;
@@ -180,11 +172,17 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
-		if (s != NULL) {
-			si = &g_structureInfo[s->type];
+		if (s == NULL) return;
+		si = &g_structureInfo[s->type];
 
-			spriteID = si->spriteID;;
-		}
+		spriteID = si->spriteID;;
+	}
+
+	old6C91 = g_global->variable_6C91;
+	if (old6C91 == 0) {
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x0CC9); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
 	}
 
 	pressed = false;
