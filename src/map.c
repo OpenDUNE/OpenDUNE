@@ -124,7 +124,7 @@ void Map_SetSelection(uint16 packed)
 					emu_sp += 4;
 				}
 			} else {
-				if (g_global->selectionObject.csip != 0x0) {
+				if (g_global->selectionUnit.csip != 0x0) {
 					emu_push(0); emu_push(0);
 					emu_push(emu_cs); emu_push(0x0420); emu_cs = 0x1A34; f__1A34_0F48_0018_0DB8();
 					emu_sp += 4;

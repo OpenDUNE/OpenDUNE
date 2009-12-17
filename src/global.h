@@ -770,7 +770,7 @@ typedef struct GlobalData {
 	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
 	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
 	/* 3A08()    */ PACK uint8   unknown_3A08[0x0002];
-	/* 3A0A(4)   */ PACK csip32 selectionObject;            /*!< Current selected object. */
+	/* 3A0A(4)   */ PACK csip32 selectionUnit;              /*!< Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = ??, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
