@@ -53,7 +53,7 @@ MSVC_PACKED_BEGIN
 typedef struct Widget {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0004];
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
+	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< What key triggers this widget. */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
 	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when in normal state. */
 	/* 000B(1)   */ PACK uint8  drawModeHover;              /*!< Draw mode when in hover state. */
