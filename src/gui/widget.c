@@ -36,7 +36,7 @@ extern void emu_String_Get_ByIndex();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
- * Draw a text button widget to the display.
+ * Draw a text button widget to the display, relative to its parent.
  *
  * @param w The widget (which is a button) to draw.
  */
@@ -66,15 +66,8 @@ static void GUI_Widget_TextButton_Draw(Widget *w)
 	g_global->variable_4062[19][2] = width >> 3;
 	g_global->variable_4062[19][3] = height;
 
-	state = 2;
-	colour = 0xE8;
-
-	if ((w->flags & 0x0001) != 0) {
-		state = 0;
-	}
-	if ((w->flags & 0x0004) != 0) {
-		colour = 0xE7;
-	}
+	state  = ((w->flags & 0x0001) != 0) ? 0 : 2;
+	colour = ((w->flags & 0x0004) != 0) ? 0xE7 : 0xE8;
 
 	emu_push(1);
 	emu_push(state);
@@ -146,7 +139,7 @@ static void GUI_Widget_TextButton_Draw(Widget *w)
 }
 
 /**
- * Draw a sprite button widget to the display.
+ * Draw a sprite button widget to the display, relative to 0,0.
  *
  * @param w The widget (which is a button) to draw.
  */
@@ -156,7 +149,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 	uint16 positionX, positionY;
 	uint16 width, height;
 	uint16 spriteID;
-	bool pressed;
+	bool buttonDown;
 
 	assert(g_global->variable_6624.csip == 0x22A6034F);
 
@@ -189,10 +182,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	pressed = false;
-	if ((w->flags & 0x0004) != 0) {
-		pressed = true;
-	}
+	buttonDown = ((w->flags & 0x0004) != 0) ? true : false;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -207,7 +197,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
 	emu_sp += 10;
 
-	emu_push(pressed ? 1 : 0);
+	emu_push(buttonDown ? 1 : 0);
 	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
 	emu_push(0x100);
 	emu_push(0);
@@ -221,7 +211,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_sp += 20;
 
 	emu_push(0);
-	emu_push(pressed ? 0 : 1);
+	emu_push(buttonDown ? 0 : 1);
 	emu_push(height);
 	emu_push(width);
 	emu_push(positionY);
@@ -257,7 +247,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 }
 
 /**
- * Draw a sprite/text button widget to the display.
+ * Draw a sprite/text button widget to the display, relative to 0,0.
  *
  * @param w The widget (which is a button) to draw.
  */
@@ -269,7 +259,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	uint16 width, height;
 	uint16 spriteID;
 	uint16 percentDone;
-	bool pressed;
+	bool buttonDown;
 
 	assert(g_global->variable_6624.csip == 0x22A6034F);
 
@@ -290,10 +280,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	pressed = false;
-	if ((w->flags & 0x0004) != 0) {
-		pressed = true;
-	}
+	buttonDown = ((w->flags & 0x0004) != 0) ? true : false;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -309,7 +296,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_sp += 10;
 
 	emu_push(1);
-	emu_push(pressed ? 0 : 1);
+	emu_push(buttonDown ? 0 : 1);
 	emu_push(height);
 	emu_push(width);
 	emu_push(positionY);
@@ -345,7 +332,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				uint16 spriteWidth;
 				uint16 x, y;
 
-				emu_push(pressed ? 2 : 0);
+				emu_push(buttonDown ? 2 : 0);
 				emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
 				emu_push(0x100);
 				emu_push(0);
@@ -390,7 +377,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	}
 
 	if (spriteID != 0) {
-		emu_push(pressed ? 1 : 0);
+		emu_push(buttonDown ? 1 : 0);
 		emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
 		emu_push(0x100);
 		emu_push(0);
@@ -436,7 +423,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_push(percentDone);
 		emu_push(0x21);
 		emu_push(0);
-		emu_push(pressed ? 0xE : 0xF);
+		emu_push(buttonDown ? 0xE : 0xF);
 		emu_push(positionY + height - 19);
 		emu_push(positionX + 1);
 
@@ -451,7 +438,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_push(percentDone);
 		emu_push(0x121);
 		emu_push(0);
-		emu_push((g_global->variable_97E5 == 0x26) ? 0xEF : (pressed ? 0xE : 0xF)); /* "Place it" */
+		emu_push((g_global->variable_97E5 == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF)); /* "Place it" */
 		emu_push(positionY + height - 9);
 		emu_push(positionX + width / 2);
 
@@ -505,6 +492,121 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 }
 
 /**
+ * Draw a text button widget to the display, relative to 0,0.
+ *
+ * @param w The widget (which is a button) to draw.
+ */
+static void GUI_Widget_TextButton2_Draw(Widget *w)
+{
+	uint16 old6C91;
+	uint16 stringID;
+	uint16 positionX, positionY;
+	uint16 width, height;
+	uint16 colour;
+	bool buttonSelected;
+	bool buttonDown;
+
+	assert(g_global->variable_6624.csip == 0x22A6034F);
+
+	if (w == NULL) return;
+
+	old6C91 = g_global->variable_6C91;
+	if (old6C91 == 0) {
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x0E66); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+
+	}
+
+	stringID = w->stringID;
+
+	buttonSelected = ((w->flags & 0x0001) != 0) ? true : false;
+	buttonDown     = ((w->flags & 0x0004) != 0) ? true : false;
+
+	positionX = w->offsetX;
+	positionY = w->offsetY;
+	width     = w->width;
+	height    = w->height;
+
+	emu_push(0xC);
+	emu_push(positionY + height);
+	emu_push(positionX + width);
+	emu_push(positionY - 1);
+	emu_push(positionX - 1);
+	emu_push(emu_cs); emu_push(0x0EDA); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
+	emu_sp += 10;
+
+	emu_push(1);
+	emu_push(buttonDown ? 0 : 1);
+	emu_push(height);
+	emu_push(width);
+	emu_push(positionY);
+	emu_push(positionX);
+	emu_push(emu_cs); emu_push(0x0EF7); emu_cs = 0x10E4; f__10E4_0008_0048_5BD4();
+	emu_sp += 12;
+
+	colour = 0xF;
+	if (buttonSelected) {
+		colour = 0x6;
+	} else if (buttonDown) {
+		colour = 0xE;
+	}
+
+	if (!buttonDown && stringID == 0x22) { /* "Repair" */
+		colour = 0xEF;
+	}
+
+	emu_push(0x121);
+	emu_push(0);
+	emu_push(colour);
+	emu_push(positionY + 1);
+	emu_push(positionX + width / 2);
+
+	emu_push(stringID);
+	emu_push(emu_cs); emu_push(0x0F44); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+	emu_sp += 2;
+
+	emu_push(emu_dx); emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x0F4C); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
+	emu_sp += 14;
+
+	emu_push(stringID);
+	emu_push(emu_cs); emu_push(0x0F57); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+	emu_sp += 2;
+
+	emu_push(emu_get_memory8(emu_dx, emu_ax, 0x0));
+	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x29DA; f__29DA_00D0_0013_E21A();
+	emu_sp += 2;
+	w->shortcut = emu_ax;
+
+	if (old6C91 != 0) return;
+
+	emu_push(positionY + height + 1);
+	emu_push(positionX + width + 1);
+	emu_push(positionY - 1);
+	emu_push(positionX - 1);
+	emu_push(emu_cs); emu_push(0x0F8F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+	emu_sp += 8;
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(height + 2);
+	emu_push(width + 2);
+	emu_push(positionY - 1);
+	emu_push(positionX - 1);
+	emu_push(positionY - 1);
+	emu_push(positionX - 1);
+	emu_push(emu_cs); emu_push(0x0FC1); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
+	emu_sp += 16;
+
+	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0FD1); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+}
+
+/**
  * Draw a widget to the display.
  *
  * @param w The widget to draw.
@@ -543,17 +645,17 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			drawParam1 = w->drawParam1Normal;
 			drawParam2 = w->drawParam2Normal;
 		} else {
-			drawMode   = w->drawModeHover;
-			drawProc   = w->drawProcHover;
-			drawParam1 = w->drawParam1Hover;
-			drawParam2 = w->drawParam2Hover;
+			drawMode   = w->drawModeSelected;
+			drawProc   = w->drawProcSelected;
+			drawParam1 = w->drawParam1Selected;
+			drawParam2 = w->drawParam2Selected;
 
 		}
 	} else {
-		drawMode   = w->drawModeClick;
-		drawProc   = w->drawProcClick;
-		drawParam1 = w->drawParam1Click;
-		drawParam2 = w->drawParam2Click;
+		drawMode   = w->drawModeDown;
+		drawProc   = w->drawProcDown;
+		drawParam1 = w->drawParam1Down;
+		drawParam2 = w->drawParam2Down;
 	}
 
 	offsetX = w->offsetX;
@@ -626,6 +728,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			switch (drawProc.csip) {
 				case 0x0AEC0809: GUI_Widget_SpriteTextButton_Draw(w); return;
 				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w); return;
+				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w); return;
 				case 0x34F20061: GUI_Widget_TextButton_Draw(w); return;
 			}
 
@@ -636,7 +739,6 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_ip = drawProc.s.ip;
 			emu_cs = drawProc.s.cs;
 			switch ((emu_cs << 16) + emu_ip) {
-				case 0x0AEC0E3E: emu_GUI_Draw_CommandButtons(); break;
 				case 0x3520002A: overlay(0x3520, 0); emu_GUI_Mentat_Draw_ScrollBar(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */

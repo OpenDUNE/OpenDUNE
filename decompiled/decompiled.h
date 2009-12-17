@@ -675,7 +675,6 @@ extern void f__1A34_0E2E_0015_7E65();
 extern void f__22A6_0E34_002B_E39A();
 extern void f__0C3A_0E35_0013_A551();
 extern void f__2756_0E36_0006_85ED();
-extern void emu_GUI_Draw_CommandButtons();
 extern void f__B511_0E44_000C_24F5();
 extern void f__1423_0E4F_0010_843C();
 extern void f__2756_0E6C_0006_02B3();

@@ -55,27 +55,27 @@ typedef struct Widget {
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
 	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< What key triggers this widget. */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
-	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when in normal state. */
-	/* 000B(1)   */ PACK uint8  drawModeHover;              /*!< Draw mode when in hover state. */
-	/* 000C(1)   */ PACK uint8  drawModeClick;              /*!< Draw mode when in click state. */
+	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when normal. */
+	/* 000B(1)   */ PACK uint8  drawModeSelected;           /*!< Draw mode when selected. */
+	/* 000C(1)   */ PACK uint8  drawModeDown;               /*!< Draw mode when down. */
 	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Bitflags. 0x08 - ??, 0x10 - ??. */
-	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when in normal state. */
-	/* 0014(4)   */ PACK csip32 drawProcHover;              /*!< Draw proc when in hover state. */
-	/* 0018(4)   */ PACK csip32 drawProcClick;              /*!< Draw proc when in click state. */
+	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when normal. */
+	/* 0014(4)   */ PACK csip32 drawProcSelected;           /*!< Draw proc when selected. */
+	/* 0018(4)   */ PACK csip32 drawProcDown;               /*!< Draw proc when down. */
 	/* 001C(2)   */ PACK uint16 parentID;                   /*!< Parent window we are nested in. */
 	/* 001E(2)   */ PACK  int16 offsetX;                    /*!< X position from parent we are at, in pixels. */
 	/* 0020(2)   */ PACK  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
 	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
 	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
-	/* 0026(1)   */ PACK uint8  drawParam1Normal;           /*!< Param 1 for draw proc in normal state. */
-	/* 0027(1)   */ PACK uint8  drawParam2Normal;           /*!< Param 2 for draw proc in normal state. */
-	/* 0028(1)   */ PACK uint8  drawParam1Hover;            /*!< Param 1 for draw proc in hover state. */
-	/* 0029(1)   */ PACK uint8  drawParam2Hover;            /*!< Param 2 for draw proc in hover state. */
-	/* 002A(1)   */ PACK uint8  drawParam1Click;            /*!< Param 1 for draw proc in click state. */
-	/* 002B(1)   */ PACK uint8  drawParam2Click;            /*!< Param 2 for draw proc in click state. */
+	/* 0026(1)   */ PACK uint8  drawParam1Normal;           /*!< Param 1 for draw proc when normal. */
+	/* 0027(1)   */ PACK uint8  drawParam2Normal;           /*!< Param 2 for draw proc when normal. */
+	/* 0028(1)   */ PACK uint8  drawParam1Selected;         /*!< Param 1 for draw proc when selected. */
+	/* 0029(1)   */ PACK uint8  drawParam2Selected;         /*!< Param 2 for draw proc when selected. */
+	/* 002A(1)   */ PACK uint8  drawParam1Down;             /*!< Param 1 for draw proc when down. */
+	/* 002B(1)   */ PACK uint8  drawParam2Down;             /*!< Param 2 for draw proc when down. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
-	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Click, 0x0004 - Hover. */
+	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Selected, 0x0004 - Down. */
 	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
 	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
