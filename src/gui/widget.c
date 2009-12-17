@@ -12,13 +12,16 @@
 #include "widget.h"
 
 extern void f__10E4_0008_0048_5BD4();
+extern void f__10E4_2290_0012_78BD();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
 extern void f__2427_0004_003B_B2A9();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
+extern void f__260F_003A_0014_CA10();
 extern void f__2903_0158_001A_2931();
+extern void f__29DA_00D0_0013_E21A();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_DrawText();
@@ -29,6 +32,7 @@ extern void emu_GUI_Draw_CommandButtons();
 extern void emu_GUI_Mentat_Draw_ScrollBar();
 extern void emu_GUI_String_Get_ByIndex();
 extern void emu_GUI_Widget_DrawBorder();
+extern void emu_String_Get_ByIndex();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
