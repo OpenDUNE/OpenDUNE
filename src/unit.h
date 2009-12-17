@@ -182,7 +182,8 @@ typedef struct ActionInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0004];
+	/* 0008()    */ PACK uint8   unknown_0008[0x0002];
+	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
 } GCC_PACKED ActionInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ActionInfo) == 0x0C);

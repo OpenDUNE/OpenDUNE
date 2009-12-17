@@ -684,7 +684,11 @@ typedef struct GlobalData {
 	/* 3426(4)   */ PACK uint32 tickStructurePalace;        /*!< Indicates next time Structure runs Palace function. */
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
-	/* 3439()    */ PACK uint8   unknown_3439[0x012B];
+	/* 3439()    */ PACK uint8   unknown_3439[0x0001];
+	/* 343A(4)   */ PACK uint32 tickCursor;                 /*!< Stores last time Viewport changed the cursor spriteID. */
+	/* 343E(4)   */ PACK uint32 tickMapScroll;              /*!< Stores last time Viewport ran MapScroll function. */
+	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< HotSpots for different cursor types. */
+	/* 345A()    */ PACK uint8   unknown_345A[0x010A];
 	/* 3564(2)   */ PACK uint16 minimapPreviousPosition;    /*!< Previous minimap position (top-left tile, packed). */
 	/* 3566(94)  */ PACK uint16 variable_3566[47];          /*!< ?? */
 	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
@@ -721,7 +725,8 @@ typedef struct GlobalData {
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
-	/* 37B8()    */ PACK uint8   unknown_37B8[0x0040];
+	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
+	/* 37BA()    */ PACK uint8   unknown_37BA[0x003E];
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
 	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
@@ -738,13 +743,17 @@ typedef struct GlobalData {
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
-	/* 38E2(2)   */ PACK uint16 variable_38E2;              /*!< ?? */
-	/* 38E4()    */ PACK uint8   unknown_38E4[0x0006];
+	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure currently controlled by player. */
+	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure currently controlled by player. */
+	/* 38E8()    */ PACK uint8   unknown_38E8[0x0002];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK uint16 variable_38EC;              /*!< ?? */
-	/* 38EE()    */ PACK uint8   unknown_38EE[0x000A];
+	/* 38EE()    */ PACK uint8   unknown_38EE[0x0002];
+	/* 38F0(2)   */ PACK uint16 variable_38F0;              /*!< ?? */
+	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
+	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
-	/* 38FA()    */ PACK uint8   unknown_38FA[0x0004];
+	/* 38FA(4)   */ PACK csip32 variable_38FA;              /*!< ?? */
 	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
@@ -771,12 +780,13 @@ typedef struct GlobalData {
 	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
 	/* 3A08()    */ PACK uint8   unknown_3A08[0x0002];
 	/* 3A0A(4)   */ PACK csip32 selectionUnit;              /*!< Current selected unit. */
-	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = ??, 2 = place object, 3 = unit, 4 = structure. */
+	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
 	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
 	/* 3A30(4)   */ PACK csip32 variable_3A30;              /*!< ?? */
-	/* 3A34()    */ PACK uint8   unknown_3A34[0x0004];
+	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
+	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
 	/* 3A3E()    */ PACK uint8   unknown_3A3A[0x00F6];
@@ -1111,7 +1121,8 @@ typedef struct GlobalData {
 	/* 6D87(4)   */ PACK char   string_6D87[4];             /*!< "SPA" NULL terminated. */
 	/* 6D8B(2)   */ PACK uint16 variable_6D8B;              /*!< ?? */
 	/* 6D8D(2)   */ PACK uint16 variable_6D8D;              /*!< ?? */
-	/* 6D8F()    */ PACK uint8   unknown_6D8F[0x0023];
+	/* 6D8F(2)   */ PACK uint16 variable_6D8F;              /*!< ?? */
+	/* 6D91()    */ PACK uint8   unknown_6D91[0x0021];
 	/* 6DB2(4)   */ PACK csip32 variable_6DB2;              /*!< ?? Pointer to string_6DCE. */
 	/* 6DB6(4)   */ PACK csip32 variable_6DB6;              /*!< ?? Pointer to string_6DD6. */
 	/* 6DBA(4)   */ PACK csip32 variable_6DBA;              /*!< ?? Pointer to string_6DDE. */
@@ -1150,7 +1161,8 @@ typedef struct GlobalData {
 	/* 705E(2)   */ PACK uint16 mouseLock;                  /*!< Lock for when handling mouse movement. */
 	/* 7060(2)   */ PACK uint16 mouseX;                     /*!< Current X position of the mouse. */
 	/* 7062(2)   */ PACK uint16 mouseY;                     /*!< Current Y position of the mouse. */
-	/* 7064(4)   */ PACK uint8   unknown_7064[0x0004];
+	/* 7064(2)   */ PACK uint16 mouseClickX;                /*!< X position of last mouse click. */
+	/* 7066(2)   */ PACK uint16 mouseClickY;                /*!< Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16 doubleWidth;                /*!< If non-zero, the X-position given by mouse is twice the real value. */
 	/* 706A(2)   */ PACK uint16 variable_706A;              /*!< ?? If non-zero, mouse movement is not registered. */
 	/* 706C(2)   */ PACK uint8   unknown_706C[0x0002];

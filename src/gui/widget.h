@@ -106,8 +106,10 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 extern WidgetClickInfo *g_widgetClickInfo;
 
 void GUI_Widget_Draw(Widget *w, csip32 wcsip);
+void GUI_Widget_Viewport_Click(struct Widget *w);
 
 
 extern void emu_GUI_Widget_Draw();
+extern void emu_GUI_Widget_Viewport_Click();
 
 #endif /* GUI_WIDGET_H */

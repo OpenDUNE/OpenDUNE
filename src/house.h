@@ -37,7 +37,8 @@ typedef struct House {
 	/* 0018(2)   */ PACK uint16 powerUsage;                 /*!< Amount of power the House requires. */
 	/* 001A(2)   */ PACK uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
 	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
-	/* 001E()    */ PACK uint8   unknown_001E[0x0006];
+	/* 001E(4)   */ PACK tile32 palacePosition;             /*!< Position of the Palace. */
+	/* 0022()    */ PACK uint8  unknown_0022[0x0002];
 	/* 0024(2)   */ PACK uint16 variable_24;                /*!< ?? */
 	/* 0026(2)   */ PACK uint16 variable_26;                /*!< ?? */
 	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */

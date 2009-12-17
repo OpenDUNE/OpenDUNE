@@ -3068,6 +3068,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\gui\emu_viewport.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\gui\emu_widget.c"
 					>
 					<FileConfiguration
@@ -3090,6 +3110,26 @@
 				<File
 					RelativePath="..\src\gui\gui.h"
 					>
+				</File>
+				<File
+					RelativePath="..\src\gui\viewport.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\src\gui\widget.c"

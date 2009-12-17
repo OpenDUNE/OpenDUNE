@@ -148,7 +148,6 @@ extern void f__2618_003F_001B_FAA6();
 extern void f__259E_0040_0015_5E4A();
 extern void emu_File_Close_NoInput();
 extern void f__2BB6_004F_0014_AB2C();
-extern void emu_GUI_Viewport();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_GameOptions_Save();
 extern void f__2649_0053_001D_FEB5();

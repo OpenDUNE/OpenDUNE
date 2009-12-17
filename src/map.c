@@ -77,7 +77,7 @@ void Map_SetSelection(uint16 packed)
 	if (g_global->selectionType == 1) return;
 
 	if (g_global->selectionType == 2) {
-		emu_push(g_global->variable_38E2);
+		emu_push(g_global->activeStructureType);
 		emu_push(packed);
 		emu_push(emu_cs); emu_push(0x02FA); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
 		emu_sp += 4;

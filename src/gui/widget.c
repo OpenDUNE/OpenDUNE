@@ -170,7 +170,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 		if (s == NULL) return;
 		si = &g_structureInfo[s->type];
 
-		spriteID = si->spriteID;;
+		spriteID = si->spriteID;
 	}
 
 	old6C91 = g_global->variable_6C91;

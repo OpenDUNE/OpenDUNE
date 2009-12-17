@@ -789,7 +789,7 @@ l__0680:
 	emu_push(0x06B0);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x0AEC0005: emu_GUI_Name(); break;
-		case 0x0AEC004F: emu_GUI_Viewport(); break;
+		case 0x0AEC004F: emu_GUI_Widget_Viewport_Click(); break;
 		case 0x0AEC0FD8: emu_GUI_Cancel(); break;
 		case 0x0AEC1093: emu_GUI_BuildPlace(); break;
 		case 0x0AEC1181: emu_GUI_Picture(); break;
