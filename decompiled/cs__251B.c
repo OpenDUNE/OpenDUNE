@@ -24,6 +24,7 @@
  * Called From: 0F78:0125:0044:7B39
  * Called From: B495:0E49:001B:3AB1
  * Called From: B495:0E64:001B:5840
+ * Called From: B4A2:097B:0020:2513
  * Called From: B53B:0164:0015:EEC6
  */
 void emu_GUI_DrawWiredRectangle()

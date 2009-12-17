@@ -85,8 +85,6 @@
 
 0AEC:0005:0010:9634	emu_GUI_Name	# (csip) Handles click on structure/unit name
 0AEC:004F:0024:1E6F	emu_GUI_Viewport	# (csip) Handles events on viewport
-0AEC:0809:001D:BEB5	emu_GUI_Draw_BuildPlace	# (csip) Draws the "Build"/"Place" button
-0AEC:0CA1:0013:A57D	emu_GUI_Draw_PictureButton	# (csip) Draws the "Picture" button
 0AEC:0E3E:0013:E57C	emu_GUI_Draw_CommandButtons	# (csip) Draws the command buttons ("Move"...) and "Cancel" button
 0AEC:0FD8:0017:6202	emu_GUI_Cancel	# (csip) Handles click on "Cancel" button
 0AEC:1093:000F:2295	emu_GUI_BuildPlace	# (csip) Handles click on "Build"/"Place" button
