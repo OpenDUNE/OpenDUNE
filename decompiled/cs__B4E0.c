@@ -98,7 +98,7 @@ l__005C:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x29DA; f__29DA_00D0_0013_E21A();
+	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x29DA; emu_GUI_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__006B:

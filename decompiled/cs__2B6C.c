@@ -203,7 +203,7 @@ l__010A:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x708E));
 	emu_ax = 0x0;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0129); emu_cs = 0x2903; f__2903_0158_001A_2931();
+	emu_push(emu_cs); emu_push(0x0129); emu_cs = 0x2903; emu_GUI_DrawSprite();
 l__0129:
 	emu_addw(&emu_sp, 0xE);
 l__012C:

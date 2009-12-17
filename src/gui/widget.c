@@ -11,8 +11,6 @@
 #include "../unit.h"
 #include "widget.h"
 
-extern void f__10E4_0008_0048_5BD4();
-extern void f__10E4_2290_0012_78BD();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
@@ -20,18 +18,18 @@ extern void f__2427_0004_003B_B2A9();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__260F_003A_0014_CA10();
-extern void f__2903_0158_001A_2931();
-extern void f__29DA_00D0_0013_E21A();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawWiredRectangle();
-extern void emu_GUI_Draw_BuildPlace();
-extern void emu_GUI_Draw_CommandButtons();
+extern void emu_GUI_DrawSprite();
+extern void emu_GUI_GetShortcut();
 extern void emu_GUI_Mentat_Draw_ScrollBar();
 extern void emu_GUI_String_Get_ByIndex();
+extern void emu_GUI_Update97E5();
 extern void emu_GUI_Widget_DrawBorder();
+extern void emu_GUI_Widget_DrawBorder2();
 extern void emu_String_Get_ByIndex();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -207,7 +205,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
 	emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
 	emu_push(g_global->variable_6C91);
-	emu_push(emu_cs); emu_push(0x0DB5); emu_cs = 0x2903; f__2903_0158_001A_2931();
+	emu_push(emu_cs); emu_push(0x0DB5); emu_cs = 0x2903; emu_GUI_DrawSprite();
 	emu_sp += 20;
 
 	emu_push(0);
@@ -216,7 +214,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(width);
 	emu_push(positionY);
 	emu_push(positionX);
-	emu_push(emu_cs); emu_push(0x0DD1); emu_cs = 0x10E4; f__10E4_0008_0048_5BD4();
+	emu_push(emu_cs); emu_push(0x0DD1); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
 	emu_sp += 12;
 
 	if (old6C91 != 0) return;
@@ -271,7 +269,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 	if (s == NULL) return;
 
-	emu_push(emu_cs); emu_push(0x0846); emu_cs = 0x10E4; f__10E4_2290_0012_78BD();
+	emu_push(emu_cs); emu_push(0x0846); emu_cs = 0x10E4; emu_GUI_Update97E5();
 
 	old6C91 = g_global->variable_6C91;
 	if (old6C91 == 0) {
@@ -301,7 +299,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_push(width);
 	emu_push(positionY);
 	emu_push(positionX);
-	emu_push(emu_cs); emu_push(0x08CD); emu_cs = 0x10E4; f__10E4_0008_0048_5BD4();
+	emu_push(emu_cs); emu_push(0x08CD); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
 	emu_sp += 12;
 
 	switch (g_global->variable_97E5) {
@@ -341,7 +339,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				emu_push(emu_get_memory16(0x2DCE, 63 * 4, 0x442));
 				emu_push(emu_get_memory16(0x2DCE, 63 * 4, 0x440));
 				emu_push(g_global->variable_6C91);
-				emu_push(emu_cs); emu_push(0x0936); emu_cs = 0x2903; f__2903_0158_001A_2931();
+				emu_push(emu_cs); emu_push(0x0936); emu_cs = 0x2903; emu_GUI_DrawSprite();
 				emu_sp += 20;
 
 				emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x442));
@@ -361,7 +359,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 						emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x442));
 						emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x440));
 						emu_push(g_global->variable_6C91);
-						emu_push(emu_cs); emu_push(0x09D0); emu_cs = 0x2903; f__2903_0158_001A_2931();
+						emu_push(emu_cs); emu_push(0x09D0); emu_cs = 0x2903; emu_GUI_DrawSprite();
 						emu_sp += 14;
 					}
 				}
@@ -386,7 +384,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
 		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
 		emu_push(g_global->variable_6C91);
-		emu_push(emu_cs); emu_push(0x0A7E); emu_cs = 0x2903; f__2903_0158_001A_2931();
+		emu_push(emu_cs); emu_push(0x0A7E); emu_cs = 0x2903; emu_GUI_DrawSprite();
 		emu_sp += 20;
 	}
 
@@ -460,7 +458,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_sp += 2;
 
 	emu_push(emu_get_memory8(emu_dx, emu_ax, 0x0));
-	emu_push(emu_cs); emu_push(0x0BE4); emu_cs = 0x29DA; f__29DA_00D0_0013_E21A();
+	emu_push(emu_cs); emu_push(0x0BE4); emu_cs = 0x29DA; emu_GUI_GetShortcut();
 	emu_sp += 2;
 	w->shortcut = emu_ax;
 
@@ -542,7 +540,7 @@ static void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(width);
 	emu_push(positionY);
 	emu_push(positionX);
-	emu_push(emu_cs); emu_push(0x0EF7); emu_cs = 0x10E4; f__10E4_0008_0048_5BD4();
+	emu_push(emu_cs); emu_push(0x0EF7); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
 	emu_sp += 12;
 
 	colour = 0xF;
@@ -575,7 +573,7 @@ static void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_sp += 2;
 
 	emu_push(emu_get_memory8(emu_dx, emu_ax, 0x0));
-	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x29DA; f__29DA_00D0_0013_E21A();
+	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x29DA; emu_GUI_GetShortcut();
 	emu_sp += 2;
 	w->shortcut = emu_ax;
 
@@ -694,7 +692,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			emu_push(offsetX);
 			emu_push(drawProc.s.cs); emu_push(drawProc.s.ip);
 			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x08E5); emu_cs = 0x2903; f__2903_0158_001A_2931();
+			emu_push(emu_cs); emu_push(0x08E5); emu_cs = 0x2903; emu_GUI_DrawSprite();
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 14;

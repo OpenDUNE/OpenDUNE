@@ -110,9 +110,9 @@ l__00DB:
 }
 
 /**
- * Decompiled function f__2903_0158_001A_2931()
+ * Decompiled function emu_GUI_DrawSprite()
  *
- * @name f__2903_0158_001A_2931
+ * @name emu_GUI_DrawSprite
  * @implements 2903:0158:001A:2931 ()
  * @implements 2903:0172:00B0:617E
  * @implements 2903:0180:00A2:7DFA
@@ -219,7 +219,7 @@ l__00DB:
  * Called From: B503:0AED:000E:6448
  * Called From: B503:0EAC:0039:5737
  */
-void f__2903_0158_001A_2931()
+void emu_GUI_DrawSprite()
 {
 l__0158:
 	emu_push(emu_bp);

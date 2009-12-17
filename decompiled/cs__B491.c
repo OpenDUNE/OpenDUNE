@@ -709,7 +709,7 @@ l__054A:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_cs); emu_push(0x0557); emu_cs = 0x2903; f__2903_0158_001A_2931();
+	emu_push(emu_cs); emu_push(0x0557); emu_cs = 0x2903; emu_GUI_DrawSprite();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__0557:

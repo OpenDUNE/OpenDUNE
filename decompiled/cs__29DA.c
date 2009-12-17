@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__29DA_00D0_0013_E21A()
+ * Decompiled function emu_GUI_GetShortcut()
  *
- * @name f__29DA_00D0_0013_E21A
+ * @name emu_GUI_GetShortcut
  * @implements 29DA:00D0:0013:E21A ()
  *
  * Called From: 0AEC:0BDF:000F:E74D
@@ -23,7 +23,7 @@
  * Called From: B511:1240:000F:E74D
  * Called From: B511:1298:000F:E74D
  */
-void f__29DA_00D0_0013_E21A()
+void emu_GUI_GetShortcut()
 {
 l__00D0:
 	emu_push(emu_bp);
