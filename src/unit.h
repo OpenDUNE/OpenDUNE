@@ -155,7 +155,7 @@ typedef struct UnitInfo {
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
-	/* 0014()    */ PACK uint8   unknown_0014[0x0002];
+	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Unit. */
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];

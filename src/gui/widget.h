@@ -75,7 +75,7 @@ typedef struct Widget {
 	/* 002A(1)   */ PACK uint8  drawParam1Click;            /*!< Param 1 for draw proc in click state. */
 	/* 002B(1)   */ PACK uint8  drawParam2Click;            /*!< Param 2 for draw proc in click state. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
-	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Pressed, 0x0004 - Hover. */
+	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Click, 0x0004 - Hover. */
 	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
 	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
