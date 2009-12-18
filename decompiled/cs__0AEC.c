@@ -62,6 +62,22 @@ l__004A:
 	return;
 }
 
+/**
+ * Decompiled function emu_GUI_Cancel()
+ *
+ * @name emu_GUI_Cancel
+ * @implements 0AEC:0FD8:0017:6202 ()
+ * @implements 0AEC:0FEF:0021:7407
+ * @implements 0AEC:101F:001B:5BA9
+ * @implements 0AEC:103A:0042:BBAB
+ * @implements 0AEC:1041:003B:40DA
+ * @implements 0AEC:107C:000C:379D
+ * @implements 0AEC:1088:0006:B1FB
+ * @implements 0AEC:1089:0005:D5FA
+ * @implements 0AEC:108E:0005:8BCF
+ *
+ * Called From: B4A2:06AC:0030:38D3
+ */
 void emu_GUI_Cancel()
 {
 l__0FD8:

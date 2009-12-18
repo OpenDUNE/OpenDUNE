@@ -51,15 +51,15 @@ MSVC_PACKED_BEGIN
  * A Widget as stored in the memory.
  */
 typedef struct Widget {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0004];
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
+	/* 0000(4)   */ PACK csip32 next;                       /*!< Next widget in the list. */
+	/* 0004(2)   */ PACK uint16 index;                      /*!< Index of the widget. */
 	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< What key triggers this widget. */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
+	/* 0008(2)   */ PACK uint16 shortcut2;                  /*!< What key (also) triggers this widget. */
 	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when normal. */
 	/* 000B(1)   */ PACK uint8  drawModeSelected;           /*!< Draw mode when selected. */
 	/* 000C(1)   */ PACK uint8  drawModeDown;               /*!< Draw mode when down. */
 	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Bitflags. 0x08 - ??, 0x10 - ??. */
+	/* 000E(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x01 - Requires Click, 0x04 - Click as Hover, 0x08 - NoButton, 0x10 - ??, 0x20 - No Other Widgets On Click, 0x40 - Lose Select When Leave. Bitmask. 0x0F00 - Left Button Filter, 0xF000 - Right Button Filter. */
 	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when normal. */
 	/* 0014(4)   */ PACK csip32 drawProcSelected;           /*!< Draw proc when selected. */
 	/* 0018(4)   */ PACK csip32 drawProcDown;               /*!< Draw proc when down. */
@@ -75,8 +75,8 @@ typedef struct Widget {
 	/* 002A(1)   */ PACK uint8  drawParam1Down;             /*!< Param 1 for draw proc when down. */
 	/* 002B(1)   */ PACK uint8  drawParam2Down;             /*!< Param 2 for draw proc when down. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
-	/* 002E(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Selected, 0x0004 - Down. */
-	/* 0030(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
+	/* 002E(2)   */ PACK uint16 state;                      /*!< Bitflags. 0x01 - Selected, 0x02/0x04 - Hover, 0x08 - Last Selected, 0x10/0x20 - Last Hover, 0x80 - Key Selected. */
+	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
 	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
@@ -105,10 +105,12 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
-void GUI_Widget_Draw(Widget *w, csip32 wcsip);
-void GUI_Widget_Viewport_Click(struct Widget *w);
+extern uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
+extern void GUI_Widget_Draw(Widget *w, csip32 wcsip);
+extern bool GUI_Widget_Viewport_Click(struct Widget *w);
 
 
+extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_Viewport_Click();
 

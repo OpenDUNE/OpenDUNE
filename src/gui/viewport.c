@@ -45,7 +45,7 @@ extern void overlay(uint16 cs, uint8 force);
  *
  * @param w The widget.
  */
-void GUI_Widget_Viewport_Click(Widget *w)
+bool GUI_Widget_Viewport_Click(Widget *w)
 {
 	uint16 direction;
 	uint16 x, y;
@@ -54,7 +54,7 @@ void GUI_Widget_Viewport_Click(Widget *w)
 	bool click, drag;
 
 	spriteID = g_global->cursorSpriteID;
-	switch (w->variable_04) {
+	switch (w->index) {
 		default: break;
 		case 39: spriteID = 1; break;
 		case 40: spriteID = 2; break;
@@ -78,22 +78,20 @@ void GUI_Widget_Viewport_Click(Widget *w)
 		g_global->cursorSpriteID = spriteID;
 	}
 
-	if (w->variable_04 == 45) return;
+	if (w->index == 45) return true;
 
 	click = false;
 	drag = false;
 
-	if ((w->flags & 0x1100) != 0) {
+	if ((w->state & 0x1100) != 0) {
 		click = true;
 		g_global->variable_37B8 = 0;
-	} else {
-		if ((w->flags & 0x2200) != 0 && g_global->variable_37B8 == 0) {
-			drag = true;
-		}
+	} else if ((w->state & 0x2200) != 0 && g_global->variable_37B8 == 0) {
+		drag = true;
 	}
 
 	direction = 0xFFFF;
-	switch (w->variable_04) {
+	switch (w->index) {
 		default: break;
 		case 39: direction = 0; break;
 		case 40: direction = 2; break;
@@ -103,15 +101,15 @@ void GUI_Widget_Viewport_Click(Widget *w)
 
 	if (direction != 0xFFFF) {
 		if (!click && !drag) {
-			if (g_global->tickMapScroll + 10 >= g_global->tickGlobal || g_global->tickCursor + 20 >= g_global->tickGlobal) return;
-			if (g_global->gameConfig.autoScroll == 0) return;
-			if (!g_global->config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return;
+			if (g_global->tickMapScroll + 10 >= g_global->tickGlobal || g_global->tickCursor + 20 >= g_global->tickGlobal) return true;
+			if (g_global->gameConfig.autoScroll == 0) return true;
+			if (!g_global->config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return true;
 		}
 
 		g_global->tickMapScroll = g_global->tickGlobal;
 
 		Map_MoveDirection(direction);
-		return;
+		return true;
 	}
 
 	if (click) {
@@ -122,10 +120,10 @@ void GUI_Widget_Viewport_Click(Widget *w)
 		y = g_global->mouseY;
 	}
 
-	if (w->variable_04 == 43) {
+	if (w->index == 43) {
 		x =  x / 16 + Tile_GetPackedX(g_global->minimapPosition);
 		y = (y - 40) / 16 + Tile_GetPackedY(g_global->minimapPosition);
-	} else if (w->variable_04 == 44) {
+	} else if (w->index == 44) {
 		uint16 mapScale;
 		MapInfo *mapInfo;
 
@@ -153,7 +151,7 @@ void GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(packed);
 			emu_push(emu_cs); emu_push(0x0383); emu_cs = 0x1423; f__1423_07C5_0016_E9C2();
 			emu_sp += 2;
-			return;
+			return true;
 		}
 
 		u = Unit_Get_ByMemory(g_global->activeUnit);
@@ -199,18 +197,15 @@ void GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(36);
 			emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
 			emu_sp += 2;
+		} else if (g_unitInfo[u->type].variable_3C == 0) {
+			emu_push(g_actionInfo[action].variable_0A);
+			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0156_0019_AEFE();
+			emu_sp += 2;
 		} else {
-			if (g_unitInfo[u->type].variable_3C == 0) {
-				emu_push(g_actionInfo[action].variable_0A);
-				emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0156_0019_AEFE();
-				emu_sp += 2;
-			} else {
-				emu_push(emu_cs); emu_push(0x04A5); emu_cs = 0x2BB4; emu_Tools_Random_256();
-
-				emu_push(((emu_ax & 0x1) == 0) ? 20 : 17);
-				emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0156_0019_AEFE();
-				emu_sp += 2;
-			}
+			emu_push(emu_cs); emu_push(0x04A5); emu_cs = 0x2BB4; emu_Tools_Random_256();
+			emu_push(((emu_ax & 0x1) == 0) ? 20 : 17);
+			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0156_0019_AEFE();
+			emu_sp += 2;
 		}
 
 		g_global->activeUnit.csip = 0x0;
@@ -219,7 +214,7 @@ void GUI_Widget_Viewport_Click(Widget *w)
 		emu_push(3);
 		emu_push(emu_cs); emu_push(0x04D4); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 		emu_sp += 2;
-		return;
+		return true;
 	}
 
 	if (click && g_global->selectionType == 2) {
@@ -310,7 +305,7 @@ void GUI_Widget_Viewport_Click(Widget *w)
 					emu_sp += 6;
 				}
 			}
-			return;
+			return true;
 		}
 
 		emu_push(0);
@@ -356,10 +351,10 @@ void GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x0713); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
 			emu_sp += 6;
 		}
-		return;
+		return true;
 	}
 
-	if (click && w->variable_04 == 43) {
+	if (click && w->index == 43) {
 		uint16 position;
 
 		if (g_global->debugScenario != 0) {
@@ -385,19 +380,19 @@ void GUI_Widget_Viewport_Click(Widget *w)
 			}
 		}
 
-		if ((w->flags & 0x1000) != 0) {
+		if ((w->state & 0x1000) != 0) {
 			emu_push(packed);
 			emu_push(emu_cs); emu_push(0x07A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
 			emu_sp += 2;
 		}
-		return;
+		return true;
 	}
 
-	if ((click || drag) && w->variable_04 == 44) {
+	if ((click || drag) && w->index == 44) {
 		emu_push(packed);
 		emu_push(emu_cs); emu_push(0x07C2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
 		emu_sp += 2;
-		return;
+		return true;
 	}
 
 	if (g_global->selectionType == 1) {
@@ -408,4 +403,6 @@ void GUI_Widget_Viewport_Click(Widget *w)
 	} else if (g_global->selectionType == 2) {
 		Map_SetSelection(packed);
 	}
+
+	return true;
 }

@@ -5,6 +5,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "widget.h"
 #include "gui.h"
 
 extern void f__2598_0000_0017_EB80();
@@ -70,7 +71,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 }
 
-uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 unknown2, csip32 uknown3, uint16 unknown4)
+uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 unknown3, uint16 unknown4)
 {
 	uint16 oldValue_2598_0000;
 	uint16 oldValue_07AE_0000;
@@ -176,12 +177,12 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 unknow
 		uint16 keyWidth;
 		uint16 key;
 
-		if (uknown3.csip != 0x0) {
+		if (unknown3.csip != 0x0) {
 			/* Call based on memory/register values */
 			emu_push(emu_cs); emu_push(0x00FB);
 
-			emu_ip = uknown3.s.ip;
-			emu_cs = uknown3.s.cs;
+			emu_ip = unknown3.s.ip;
+			emu_cs = unknown3.s.cs;
 
 			switch ((emu_cs << 16) + emu_ip) {
 				case 0x34DA003E: overlay(0x34DA, 0); f__B4DA_16CB_001D_31CC(); break;
@@ -199,12 +200,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 unknow
 			if (returnValue != 0) break;
 		}
 
-		emu_push(unknown2.s.cs); emu_push(unknown2.s.ip);
-		emu_push(emu_cs); emu_push(0x0117); emu_cs = 0x34A2; overlay(0x34A2, 0); f__B4A2_0039_000B_EC51();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 4;
-		key = emu_ax;
+		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip), wcsip);
 
 		GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 

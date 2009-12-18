@@ -403,7 +403,7 @@ l__030E:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C28));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C26));
-	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x34A2; overlay(0x34A2, 0); f__B4A2_0039_000B_EC51();
+	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_HandleEvents();
 l__031C:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

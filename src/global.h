@@ -356,7 +356,9 @@ typedef struct GlobalData {
 	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "³ " NULL terminated. */
 	/* 18F6(6)   */ PACK char   string_18F6[6];             /*!< "%02X " NULL terminated. */
 	/* 18FC(2)   */ PACK char   string_18FC[2];             /*!< "." NULL terminated. */
-	/* 18FE()    */ PACK uint8   unknown_18FE[0x0028];
+	/* 18FE(4)   */ PACK csip32 widgetSelected;             /*!< Current selected widget (clicked by mouse or keyboard). */
+	/* 1902(4)   */ PACK csip32 widgetCurrentFirst;         /*!< First widget of the current window. */
+	/* 1906(32)  */ PACK uint16 unused_1906[16];            /*!< No longer used. Was quick lookup table for a GetFirstBit. */
 	/* 1926(28)  */ PACK char   string_1926[28];            /*!< "Victory Controls for Player" NULL terminated. */
 	/* 1942(5)   */ PACK char   string_1942[5];             /*!< "Imm." NULL terminated. */
 	/* 1947(4)   */ PACK char   string_1947[4];             /*!< "End" NULL terminated. */
@@ -1113,7 +1115,8 @@ typedef struct GlobalData {
 	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
 	/* 6D61(2)   */ PACK uint16 variable_6D61;              /*!< ?? */
 	/* 6D63(2)   */ PACK uint16 variable_6D63;              /*!< ?? */
-	/* 6C65()    */ PACK uint8   unknown_6D65[0x0012];
+	/* 6C65()    */ PACK uint8   unknown_6D65[0x0010];
+	/* 6D75(2)   */ PACK uint16 widgetReset;                /*!< Reset the widget and redraw when non-zero. */
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
 	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */
 	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
@@ -1227,7 +1230,9 @@ typedef struct GlobalData {
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
-	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x00B0];
+	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x001E];
+	/* 7FC4(2)   */ PACK uint16 widgetLastButtonState;      /*!< The button state the widget was last time the Click handler was called. */
+	/* 7FC6()    */ PACK uint8   unknown_7FC6[0x0090];
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
 	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
 	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */

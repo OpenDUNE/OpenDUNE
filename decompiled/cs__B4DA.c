@@ -1855,7 +1855,7 @@ l__0C0B:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x16));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x14));
-	emu_push(emu_cs); emu_push(0x0C17); emu_cs = 0x34A2; overlay(0x34A2, 0); f__B4A2_0039_000B_EC51();
+	emu_push(emu_cs); emu_push(0x0C17); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_HandleEvents();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0C17:

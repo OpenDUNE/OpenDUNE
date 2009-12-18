@@ -18,15 +18,41 @@ extern void f__2427_0004_003B_B2A9();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__260F_003A_0014_CA10();
+extern void f__29E8_072F_000F_651A();
+extern void f__29E8_0897_0016_2028();
+extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
+extern void emu_GUI_BuildPlace();
+extern void emu_GUI_Cancel();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawWiredRectangle();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_GetShortcut();
+extern void emu_GUI_HOF_ClearList();
+extern void emu_GUI_HOF_ResumeGame();
+extern void emu_GUI_Mentat();
 extern void emu_GUI_Mentat_Draw_ScrollBar();
+extern void emu_GUI_Mentat_List();
+extern void emu_GUI_Mentat_ScrollUp();
+extern void emu_GUI_Mentat_ScrollDown();
+extern void emu_GUI_Mentat_ScrollBar();
+extern void emu_GUI_Name();
+extern void emu_GUI_Options();
+extern void emu_GUI_Picture();
+extern void emu_GUI_Production_BuildThis();
+extern void emu_GUI_Production_Down();
+extern void emu_GUI_Production_List();
+extern void emu_GUI_Production_ResumeGame();
+extern void emu_GUI_Production_Up();
+extern void emu_GUI_Production_Upgrade();
+extern void emu_GUI_Purchase_Invoice();
+extern void emu_GUI_Purchase_Minus();
+extern void emu_GUI_Purchase_Plus();
+extern void emu_GUI_RepairUpgrade();
 extern void emu_GUI_String_Get_ByIndex();
+extern void emu_GUI_Unit_Command();
 extern void emu_GUI_Update97E5();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawBorder2();
@@ -64,8 +90,8 @@ static void GUI_Widget_TextButton_Draw(Widget *w)
 	g_global->variable_4062[19][2] = width >> 3;
 	g_global->variable_4062[19][3] = height;
 
-	state  = ((w->flags & 0x0001) != 0) ? 0 : 2;
-	colour = ((w->flags & 0x0004) != 0) ? 0xE7 : 0xE8;
+	state  = ((w->state & 0x0001) != 0) ? 0 : 2;
+	colour = ((w->state & 0x0004) != 0) ? 0xE7 : 0xE8;
 
 	emu_push(1);
 	emu_push(state);
@@ -180,7 +206,7 @@ static void GUI_Widget_SpriteButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	buttonDown = ((w->flags & 0x0004) != 0) ? true : false;
+	buttonDown = ((w->state & 0x0004) != 0) ? true : false;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -278,7 +304,7 @@ static void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	buttonDown = ((w->flags & 0x0004) != 0) ? true : false;
+	buttonDown = ((w->state & 0x0004) != 0) ? true : false;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -518,8 +544,8 @@ static void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	stringID = w->stringID;
 
-	buttonSelected = ((w->flags & 0x0001) != 0) ? true : false;
-	buttonDown     = ((w->flags & 0x0004) != 0) ? true : false;
+	buttonSelected = ((w->state & 0x0001) != 0) ? true : false;
+	buttonDown     = ((w->state & 0x0004) != 0) ? true : false;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -623,8 +649,8 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 
 	if (w == NULL) return;
 
-	if ((w->variable_0E & 0x08) != 0) {
-		if ((w->variable_0E & 0x10) == 0) return;
+	if ((w->flags & 0x08) != 0) {
+		if ((w->flags & 0x10) == 0) return;
 
 		emu_push(g_global->variable_6D53);
 		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
@@ -636,8 +662,8 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		return;
 	}
 
-	if ((w->flags & 0x0004) == 0) {
-		if ((w->flags & 0x0001) == 0) {
+	if ((w->state & 0x0004) == 0) {
+		if ((w->state & 0x0001) == 0) {
 			drawMode   = w->drawModeNormal;
 			drawProc   = w->drawProcNormal;
 			drawParam1 = w->drawParam1Normal;
@@ -779,4 +805,325 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 	}
+}
+
+/**
+ * Check a widget for events like 'hover' or 'click'. Also check the keyboard
+ *  buffer if there was any key which should active us.
+ *
+ * @param w The widget to handle events for. If the widget has a valid next
+ *   pointer, those widgets are handled too.
+ * @param wcsip TODO -- TEMPORARY -- The csip to the widget.
+ * @return The last key pressed, or 0 if the key pressed was handled (or if
+ *   there was no key press).
+ */
+uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
+{
+	uint16 mouseX, mouseY;
+	uint16 buttonState;
+	uint16 returnValue;
+	uint16 key;
+	bool fakeClick;
+
+	/* Get the key from the buffer, if there was any key pressed */
+	key = 0;
+	emu_push(emu_cs); emu_push(0x0044); emu_cs = 0x29E8; f__29E8_072F_000F_651A();
+	if (emu_ax != 0) {
+		emu_push(emu_cs); emu_push(0x004D); emu_cs = 0x29E8; f__29E8_0897_0016_2028();
+		key = emu_ax;
+	}
+
+	if (w == NULL) return key & 0x7FFF;
+
+	/* First time this window is being drawn? */
+	if (wcsip.csip != g_global->widgetCurrentFirst.csip || g_global->widgetReset != 0) {
+		g_global->widgetCurrentFirst    = wcsip;
+		g_global->widgetSelected.csip   = 0x0;
+		g_global->widgetLastButtonState = 0x0;
+		g_global->widgetReset           = 0;
+
+		/* Check for left click */
+		emu_push(0x41);
+		emu_push(emu_cs); emu_push(0x00B5); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+		emu_sp += 2;
+		if (emu_ax != 0) g_global->widgetLastButtonState |= 0x0200;
+
+		/* Check for right click */
+		emu_push(0x42);
+		emu_push(emu_cs); emu_push(0x00C9); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+		emu_sp += 2;
+		if (emu_ax != 0) g_global->widgetLastButtonState |= 0x2000;
+
+		/* Draw all the widgets */
+		for (; wcsip.csip != 0x0; wcsip = w->next) {
+			w = (Widget *)emu_get_memorycsip(wcsip);
+			GUI_Widget_Draw(w, wcsip);
+		}
+	}
+
+	mouseX = g_global->mouseX;
+	mouseY = g_global->mouseY;
+
+	buttonState = 0;
+	if (g_global->variable_7097 == 0) {
+		uint16 buttonStateChange = 0;
+
+		/* See if the key was a mouse button action */
+		if ((key & 0x8000) != 0) {
+			if ((key & 0x00FF) == 0xC7) buttonStateChange = 0x1000;
+			if ((key & 0x00FF) == 0xC6) buttonStateChange = 0x0100;
+		} else {
+			if ((key & 0x00FF) == 0x42) buttonStateChange = 0x1000;
+			if ((key & 0x00FF) == 0x41) buttonStateChange = 0x0100;
+		}
+
+		/* Mouse button up */
+		if ((key & 0x0800) != 0) {
+			buttonStateChange <<= 2;
+		}
+
+		if (buttonStateChange != 0) {
+			mouseX = g_global->mouseClickX;
+			mouseY = g_global->mouseClickY;
+		}
+
+		/* Disable when release, enable when click */
+		g_global->widgetLastButtonState &= ~((buttonStateChange & 0x4400) >> 1);
+		g_global->widgetLastButtonState |=   (buttonStateChange & 0x1100) << 1;
+
+		buttonState |= buttonStateChange;
+		buttonState |= g_global->widgetLastButtonState;
+		buttonState |= (g_global->widgetLastButtonState << 2) ^ 0x8800;
+	}
+
+	wcsip = g_global->widgetCurrentFirst;
+	if (g_global->widgetSelected.csip != 0x0) {
+		wcsip = g_global->widgetSelected;
+		w = (Widget *)emu_get_memorycsip(wcsip);
+
+		if ((w->flags & 0x08) != 0) {
+			g_global->widgetSelected.csip = 0x0;
+		}
+	}
+
+	returnValue = 0;
+	for (; wcsip.csip != 0x0; wcsip = w->next) {
+		uint16 positionX, positionY;
+		bool triggerWidgetHover;
+		bool widgetHover;
+		bool widgetClick;
+
+		w = (Widget *)emu_get_memorycsip(wcsip);
+
+		if ((w->flags & 0x08) != 0) continue;
+
+		/* Store the previous button state */
+		w->state &= 0xFFE7;
+		w->state |= (w->state & 0x3) << 3;
+
+		positionX = w->offsetX;
+		if (w->offsetX < 0) positionX += (g_global->variable_4062[w->parentID][2] << 3);
+		positionX += g_global->variable_4062[w->parentID][0] << 3;
+
+		positionY = w->offsetY;
+		if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
+		positionY += g_global->variable_4062[w->parentID][1];
+
+		widgetHover = false;
+		w->state &= 0xFF7F;
+
+		/* Check if the mouse is inside the widget */
+		if (positionX <= mouseX && mouseX <= positionX + w->width && positionY <= mouseY && mouseY <= positionY + w->height) {
+			widgetHover = true;
+		}
+
+		/* Check if there was a keypress for the widget */
+		if ((key & 0x7F) != 0 && ((key & 0x7F) == w->shortcut || (key & 0x7F) == w->shortcut2)) {
+			widgetHover = true;
+			w->state |= 0x0080;
+			key = 0;
+
+			buttonState = 0;
+			if ((key & 0x7F) == w->shortcut2) buttonState = w->flags & 0xF000;
+			if (buttonState == 0) buttonState = w->flags & 0x0F00;
+
+			g_global->widgetSelected = wcsip;
+		}
+
+		/* Update the hover state */
+		w->state &= 0xFFF9;
+		if (widgetHover) {
+			/* Button pressed, and click is hover */
+			if ((buttonState & 0x3300) != 0 && (w->flags & 0x4) != 0 && (wcsip.csip == g_global->widgetSelected.csip || g_global->widgetSelected.csip == 0x0)) {
+				w->state |= 0x0006;
+
+				/* If we don't have a selected widget yet, this will be the one */
+				if (g_global->widgetSelected.csip == 0x0) g_global->widgetSelected = wcsip;
+			}
+			/* No button pressed, and click not is hover */
+			if ((buttonState & 0x8800) != 0 && (w->flags & 0x4) == 0) {
+				w->state |= 0x0006;
+			}
+		}
+
+		/* Check if we should trigger the hover activation */
+		triggerWidgetHover = widgetHover;
+		if (g_global->widgetSelected.csip != 0x0) {
+			Widget *ws;
+
+			ws = (Widget *)emu_get_memorycsip(g_global->widgetSelected);
+			if ((ws->flags & 0x40) != 0) {
+				triggerWidgetHover = (ws == w) ? true : false;
+			}
+		}
+
+		widgetClick = false;
+		if (triggerWidgetHover) {
+			/* We click this widget for the first time */
+			if ((buttonState & 0x1100) != 0 && g_global->widgetSelected.csip == 0x0) {
+				g_global->widgetSelected = wcsip;
+				key = 0;
+			}
+
+			/* Check if we want to consider this as click */
+			if ((buttonState & w->flags) != 0 && (widgetHover || (w->flags & 0x01) == 0)) {
+				uint16 buttonStateFilter;
+				buttonStateFilter = buttonState & w->flags;
+
+				if ((buttonStateFilter & 0x1100) != 0) {
+					/* Widget click */
+					w->state ^= 0x0001;
+					returnValue = w->index | 0x8000;
+					widgetClick = true;
+
+					if ((w->flags & 0x04) != 0) w->state |= 0x0006;
+					g_global->widgetSelected = wcsip;
+				} else if ((buttonStateFilter & 0x2200) != 0) {
+					/* Widget was already clicked */
+					if ((w->flags & 0x04) == 0) w->state |= 0x0006;
+					if ((w->flags & 0x01) == 0) widgetClick = true;
+				} else if ((buttonStateFilter & 0x4400) != 0) {
+					/* Widget release */
+					if ((w->flags & 0x01) == 0 || ((w->flags & 0x01) != 0 && wcsip.csip == g_global->widgetSelected.csip)) {
+						w->state ^= 0x0001;
+						returnValue = w->index | 0x8000;
+						widgetClick = true;
+					}
+
+					if ((w->flags & 0x04) == 0) w->state &= 0xFFF9;
+				} else {
+					/* Widget was already released */
+					if ((w->flags & 0x04) != 0) w->state |= 0x0006;
+					if ((w->flags & 0x01) == 0) widgetClick = true;
+				}
+			}
+		}
+
+		fakeClick = false;
+		/* Check if we are hovering and have mouse button down */
+		if (widgetHover && (buttonState & 0x2200) != 0) {
+			w->state |= 0x0006;
+
+			if ((w->flags & 0x04) == 0 && (w->state & 0x0001) == 0) {
+				fakeClick = true;
+				w->state |= 0x0001;
+			}
+		}
+
+		/* Check if we are not pressing a button */
+		if ((buttonState & 0x8800) == 0x8800) {
+			g_global->widgetSelected.csip = 0x0;
+
+			if (!widgetHover || (w->flags & 0x04) != 0) w->state &= 0xFFF9;
+		}
+
+		if (!widgetHover && g_global->widgetSelected.csip == wcsip.csip && (w->flags & 0x40) == 0) {
+			g_global->widgetSelected.csip = 0x0;
+		}
+
+		/* When the state changed, redraw */
+		if ((w->state & 0x0018) != ((w->state & 0x0003) << 3)) {
+			GUI_Widget_Draw(w, wcsip);
+		}
+
+		/* Reset click state when we were faking it */
+		if (fakeClick) {
+			w->state &= 0xFFFE;
+		}
+
+		if (widgetClick) {
+			w->state &= 0x00FF;
+			w->state |= buttonState;
+
+			if (w->clickProc.csip != 0x0) {
+				bool success = false;
+
+				switch (w->clickProc.csip) {
+					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
+
+					default:
+						emu_push(wcsip.s.cs);
+						emu_push(wcsip.s.ip);
+
+						/* Call based on memory/register values */
+						emu_push(emu_cs); emu_push(0x06B0);
+						emu_ip = w->clickProc.s.ip;
+						emu_cs = w->clickProc.s.cs;
+						switch ((emu_cs << 16) + emu_ip) {
+							case 0x0AEC0005: emu_GUI_Name(); break;
+							case 0x0AEC0FD8: emu_GUI_Cancel(); break;
+							case 0x0AEC1093: emu_GUI_BuildPlace(); break;
+							case 0x0AEC1181: emu_GUI_Picture(); break;
+							case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;
+							case 0x1A341CB1: emu_GUI_Unit_Command(); break;
+							case 0x34950025: overlay(0x3495, 0); emu_GUI_Production_Down(); break;
+							case 0x3495002A: overlay(0x3495, 0); emu_GUI_Production_Up(); break;
+							case 0x3495002F: overlay(0x3495, 0); emu_GUI_Production_BuildThis(); break;
+							case 0x34950034: overlay(0x3495, 0); emu_GUI_Production_ResumeGame(); break;
+							case 0x34950039: overlay(0x3495, 0); emu_GUI_Production_Upgrade(); break;
+							case 0x3495003E: overlay(0x3495, 0); emu_GUI_Production_List(); break;
+							case 0x34950043: overlay(0x3495, 0); emu_GUI_Purchase_Plus(); break;
+							case 0x34950048: overlay(0x3495, 0); emu_GUI_Purchase_Minus(); break;
+							case 0x3495004D: overlay(0x3495, 0); emu_GUI_Purchase_Invoice(); break;
+							case 0x34E0002A: overlay(0x34E0, 0); emu_GUI_Mentat_List(); break;
+							case 0x34E9002F: overlay(0x34E9, 0); emu_GUI_Mentat(); break;
+							case 0x34F20025: overlay(0x34F2, 0); emu_GUI_Options(); break;
+							case 0x35180034: overlay(0x3518, 0); emu_GUI_HOF_ClearList(); break;
+							case 0x35180039: overlay(0x3518, 0); emu_GUI_HOF_ResumeGame(); break;
+							case 0x35200039: overlay(0x3520, 0); emu_GUI_Mentat_ScrollUp(); break;
+							case 0x3520003E: overlay(0x3520, 0); emu_GUI_Mentat_ScrollDown(); break;
+							case 0x35200043: overlay(0x3520, 0); emu_GUI_Mentat_ScrollBar(); break;
+							default:
+								/* In case we don't know the call point yet, call the dynamic call */
+								emu_last_cs = 0xB4A2; emu_last_ip = 0x06AC; emu_last_length = 0x0030; emu_last_crc = 0x38D3;
+								emu_call();
+								return key & 0x7FFF;
+						}
+
+						/* Check if this overlay should be reloaded */
+						if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+						emu_sp += 4;
+
+						success = (emu_ax != 0) ? true : false;
+						break;
+				}
+
+				/* If Click was successful, don't handle any other widgets */
+				if (success) break;
+			}
+
+			/* On click, don't handle any other widgets */
+			if ((w->flags & 0x20) != 0) break;
+		}
+
+		/* If we are selected and we lose selection on leave, don't try other widgets */
+		if (wcsip.csip == g_global->widgetSelected.csip && (w->flags & 0x40) != 0) break;
+	}
+
+	if (returnValue != 0) return returnValue;
+	return key & 0x7FFF;
 }

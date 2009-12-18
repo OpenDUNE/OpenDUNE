@@ -143,8 +143,9 @@
  * @implements 0AEC:07E6:0004:B1A1
  * @implements 0AEC:07EA:0003:E1A3
  * @implements 0AEC:07ED:0006:F7CE
+ *
+ * @define 1A34:2F9E:0016:5A55
  */
-
 void emu_GUI_Widget_Viewport_Click()
 {
 	Widget *w;
@@ -155,7 +156,5 @@ void emu_GUI_Widget_Viewport_Click()
 
 	w = (Widget *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
 
-	GUI_Widget_Viewport_Click(w);
-
-	emu_ax = 1;
+	emu_ax = GUI_Widget_Viewport_Click(w) ? 1 : 0;
 }

@@ -63,7 +63,7 @@
 void emu_GUI_EditBox()
 {
 	csip32 text;
-	csip32 unknown2;
+	csip32 wcsip;
 	csip32 unknown3;
 	uint16 maxLength;
 	uint16 unknown1;
@@ -76,9 +76,9 @@ void emu_GUI_EditBox()
 	text      =   emu_get_csip32(emu_ss, emu_sp, 0x0);
 	maxLength = emu_get_memory16(emu_ss, emu_sp, 0x4);
 	unknown1  = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	unknown2  =   emu_get_csip32(emu_ss, emu_sp, 0x8);
+	wcsip     =   emu_get_csip32(emu_ss, emu_sp, 0x8);
 	unknown3  =   emu_get_csip32(emu_ss, emu_sp, 0xC);
 	unknown4  = emu_get_memory16(emu_ss, emu_sp, 0x10);
 
-	emu_ax = GUI_EditBox(text, maxLength, unknown1, unknown2, unknown3, unknown4);
+	emu_ax = GUI_EditBox(text, maxLength, unknown1, wcsip, unknown3, unknown4);
 }
