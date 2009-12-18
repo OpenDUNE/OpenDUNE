@@ -107,11 +107,18 @@ extern WidgetClickInfo *g_widgetClickInfo;
 
 extern uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
 extern void GUI_Widget_Draw(Widget *w, csip32 wcsip);
-extern bool GUI_Widget_Viewport_Click(struct Widget *w);
+
+/* viewport.c */
+extern bool GUI_Widget_Viewport_Click(Widget *w);
+
+/* widget_draw.c */
+extern void GUI_Widget_TextButton_Draw(Widget *w);
+extern void GUI_Widget_SpriteButton_Draw(Widget *w);
+extern void GUI_Widget_SpriteTextButton_Draw(Widget *w);
+extern void GUI_Widget_TextButton2_Draw(Widget *w);
 
 
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GUI_Widget_Draw();
-extern void emu_GUI_Widget_Viewport_Click();
 
 #endif /* GUI_WIDGET_H */
