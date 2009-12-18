@@ -105,8 +105,9 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
-extern uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
-extern void GUI_Widget_Draw(Widget *w, csip32 wcsip);
+extern Widget *GUI_Widget_GetNext(Widget *w);
+extern uint16  GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
+extern void    GUI_Widget_Draw(Widget *w, csip32 wcsip);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);

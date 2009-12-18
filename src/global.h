@@ -356,9 +356,9 @@ typedef struct GlobalData {
 	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "³ " NULL terminated. */
 	/* 18F6(6)   */ PACK char   string_18F6[6];             /*!< "%02X " NULL terminated. */
 	/* 18FC(2)   */ PACK char   string_18FC[2];             /*!< "." NULL terminated. */
-	/* 18FE(4)   */ PACK csip32 widgetSelected;             /*!< Current selected widget (clicked by mouse or keyboard). */
-	/* 1902(4)   */ PACK csip32 widgetCurrentFirst;         /*!< First widget of the current window. */
-	/* 1906(32)  */ PACK uint16 unused_1906[16];            /*!< No longer used. Was quick lookup table for a GetFirstBit. */
+	/* 18FE(4)   */ PACK csip32 donotuse_18FE;
+	/* 1902(4)   */ PACK csip32 donotuse_1902;
+	/* 1906(32)  */ PACK uint16 donotuse_1906[16];
 	/* 1926(28)  */ PACK char   string_1926[28];            /*!< "Victory Controls for Player" NULL terminated. */
 	/* 1942(5)   */ PACK char   string_1942[5];             /*!< "Imm." NULL terminated. */
 	/* 1947(4)   */ PACK char   string_1947[4];             /*!< "End" NULL terminated. */
@@ -1231,7 +1231,7 @@ typedef struct GlobalData {
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
 	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x001E];
-	/* 7FC4(2)   */ PACK uint16 widgetLastButtonState;      /*!< The button state the widget was last time the Click handler was called. */
+	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
 	/* 7FC6()    */ PACK uint8   unknown_7FC6[0x0090];
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
 	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */

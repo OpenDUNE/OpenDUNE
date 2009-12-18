@@ -44,6 +44,12 @@ extern void emu_GUI_RepairUpgrade();
 extern void emu_GUI_Unit_Command();
 extern void overlay(uint16 cs, uint8 force);
 
+Widget *GUI_Widget_GetNext(Widget *w)
+{
+	if (w->next.csip == 0x0) return NULL;
+	return (Widget *)emu_get_memorycsip(w->next);
+}
+
 /**
  * Draw a widget to the display.
  *
@@ -233,11 +239,20 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
  */
 uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 {
+	static Widget *l_widget_selected     = NULL;
+	static Widget *l_widget_last         = NULL;
+	static uint16  l_widget_button_state = 0x0;
+
 	uint16 mouseX, mouseY;
 	uint16 buttonState;
 	uint16 returnValue;
 	uint16 key;
 	bool fakeClick;
+
+	/* XXX -- Should be removed */
+	static csip32  l_widget_selected_csip;
+	static csip32  l_widget_last_csip;
+	csip32 wncsip;
 
 	/* Get the key from the buffer, if there was any key pressed */
 	key = 0;
@@ -250,11 +265,15 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 	if (w == NULL) return key & 0x7FFF;
 
 	/* First time this window is being drawn? */
-	if (wcsip.csip != g_global->widgetCurrentFirst.csip || g_global->widgetReset != 0) {
-		g_global->widgetCurrentFirst    = wcsip;
-		g_global->widgetSelected.csip   = 0x0;
-		g_global->widgetLastButtonState = 0x0;
-		g_global->widgetReset           = 0;
+	if (w != l_widget_last || g_global->widgetReset != 0) {
+		l_widget_last         = w;
+		l_widget_selected     = NULL;
+		l_widget_button_state = 0x0;
+		g_global->widgetReset = 0;
+
+		/* XXX -- Should be removed */
+		l_widget_last_csip = wcsip;
+		l_widget_selected_csip.csip = 0x0;
 
 		/* Check for left click */
 		emu_push(0x41);
@@ -262,7 +281,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		emu_sp += 2;
-		if (emu_ax != 0) g_global->widgetLastButtonState |= 0x0200;
+		if (emu_ax != 0) l_widget_button_state |= 0x0200;
 
 		/* Check for right click */
 		emu_push(0x42);
@@ -270,12 +289,12 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		emu_sp += 2;
-		if (emu_ax != 0) g_global->widgetLastButtonState |= 0x2000;
+		if (emu_ax != 0) l_widget_button_state |= 0x2000;
 
 		/* Draw all the widgets */
-		for (; wcsip.csip != 0x0; wcsip = w->next) {
-			w = (Widget *)emu_get_memorycsip(wcsip);
+		for (; w != NULL; w = GUI_Widget_GetNext(w)) {
 			GUI_Widget_Draw(w, wcsip);
+			wcsip = w->next;
 		}
 	}
 
@@ -306,32 +325,40 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		}
 
 		/* Disable when release, enable when click */
-		g_global->widgetLastButtonState &= ~((buttonStateChange & 0x4400) >> 1);
-		g_global->widgetLastButtonState |=   (buttonStateChange & 0x1100) << 1;
+		l_widget_button_state &= ~((buttonStateChange & 0x4400) >> 1);
+		l_widget_button_state |=   (buttonStateChange & 0x1100) << 1;
 
 		buttonState |= buttonStateChange;
-		buttonState |= g_global->widgetLastButtonState;
-		buttonState |= (g_global->widgetLastButtonState << 2) ^ 0x8800;
+		buttonState |= l_widget_button_state;
+		buttonState |= (l_widget_button_state << 2) ^ 0x8800;
 	}
 
-	wcsip = g_global->widgetCurrentFirst;
-	if (g_global->widgetSelected.csip != 0x0) {
-		wcsip = g_global->widgetSelected;
-		w = (Widget *)emu_get_memorycsip(wcsip);
+	w = l_widget_last;
+	/* XXX -- Should be removed */
+	wcsip = l_widget_last_csip;
+	if (l_widget_selected != NULL) {
+		w = l_widget_selected;
+		/* XXX -- Should be removed */
+		wcsip = l_widget_selected_csip;
 
 		if ((w->flags & 0x08) != 0) {
-			g_global->widgetSelected.csip = 0x0;
+			l_widget_selected = NULL;
+			/* XXX -- Should be removed */
+			l_widget_selected_csip.csip = 0x0;
 		}
 	}
 
 	returnValue = 0;
-	for (; wcsip.csip != 0x0; wcsip = w->next) {
+	wncsip = wcsip;
+	for (; w != NULL; w = GUI_Widget_GetNext(w)) {
 		uint16 positionX, positionY;
 		bool triggerWidgetHover;
 		bool widgetHover;
 		bool widgetClick;
 
-		w = (Widget *)emu_get_memorycsip(wcsip);
+		/* XXX -- Should be removed */
+		wcsip = wncsip;
+		wncsip = w->next;
 
 		if ((w->flags & 0x08) != 0) continue;
 
@@ -365,18 +392,24 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			if ((key & 0x7F) == w->shortcut2) buttonState = w->flags & 0xF000;
 			if (buttonState == 0) buttonState = w->flags & 0x0F00;
 
-			g_global->widgetSelected = wcsip;
+			l_widget_selected = w;
+			/* XXX -- Should be removed */
+			l_widget_selected_csip = wcsip;
 		}
 
 		/* Update the hover state */
 		w->state &= 0xFFF9;
 		if (widgetHover) {
 			/* Button pressed, and click is hover */
-			if ((buttonState & 0x3300) != 0 && (w->flags & 0x4) != 0 && (wcsip.csip == g_global->widgetSelected.csip || g_global->widgetSelected.csip == 0x0)) {
+			if ((buttonState & 0x3300) != 0 && (w->flags & 0x4) != 0 && (w == l_widget_selected || l_widget_selected == NULL)) {
 				w->state |= 0x0006;
 
 				/* If we don't have a selected widget yet, this will be the one */
-				if (g_global->widgetSelected.csip == 0x0) g_global->widgetSelected = wcsip;
+				if (l_widget_selected == NULL) {
+					l_widget_selected = w;
+					/* XXX -- Should be removed */
+					l_widget_selected_csip = wcsip;
+				}
 			}
 			/* No button pressed, and click not is hover */
 			if ((buttonState & 0x8800) != 0 && (w->flags & 0x4) == 0) {
@@ -386,21 +419,18 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 
 		/* Check if we should trigger the hover activation */
 		triggerWidgetHover = widgetHover;
-		if (g_global->widgetSelected.csip != 0x0) {
-			Widget *ws;
-
-			ws = (Widget *)emu_get_memorycsip(g_global->widgetSelected);
-			if ((ws->flags & 0x40) != 0) {
-				triggerWidgetHover = (ws == w) ? true : false;
-			}
+		if (l_widget_selected != NULL && (l_widget_selected->flags & 0x40) != 0) {
+			triggerWidgetHover = (l_widget_selected == w) ? true : false;
 		}
 
 		widgetClick = false;
 		if (triggerWidgetHover) {
 			/* We click this widget for the first time */
-			if ((buttonState & 0x1100) != 0 && g_global->widgetSelected.csip == 0x0) {
-				g_global->widgetSelected = wcsip;
+			if ((buttonState & 0x1100) != 0 && l_widget_selected == NULL) {
+				l_widget_selected = w;
 				key = 0;
+				/* XXX -- Should be removed */
+				l_widget_selected_csip = wcsip;
 			}
 
 			/* Check if we want to consider this as click */
@@ -415,14 +445,16 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					widgetClick = true;
 
 					if ((w->flags & 0x04) != 0) w->state |= 0x0006;
-					g_global->widgetSelected = wcsip;
+					l_widget_selected = w;
+					/* XXX -- Should be removed */
+					l_widget_selected_csip = wcsip;
 				} else if ((buttonStateFilter & 0x2200) != 0) {
 					/* Widget was already clicked */
 					if ((w->flags & 0x04) == 0) w->state |= 0x0006;
 					if ((w->flags & 0x01) == 0) widgetClick = true;
 				} else if ((buttonStateFilter & 0x4400) != 0) {
 					/* Widget release */
-					if ((w->flags & 0x01) == 0 || ((w->flags & 0x01) != 0 && wcsip.csip == g_global->widgetSelected.csip)) {
+					if ((w->flags & 0x01) == 0 || ((w->flags & 0x01) != 0 && w == l_widget_selected)) {
 						w->state ^= 0x0001;
 						returnValue = w->index | 0x8000;
 						widgetClick = true;
@@ -450,13 +482,17 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 
 		/* Check if we are not pressing a button */
 		if ((buttonState & 0x8800) == 0x8800) {
-			g_global->widgetSelected.csip = 0x0;
+			l_widget_selected = NULL;
+			/* XXX -- Should be removed */
+			l_widget_selected_csip.csip = 0x0;
 
 			if (!widgetHover || (w->flags & 0x04) != 0) w->state &= 0xFFF9;
 		}
 
-		if (!widgetHover && g_global->widgetSelected.csip == wcsip.csip && (w->flags & 0x40) == 0) {
-			g_global->widgetSelected.csip = 0x0;
+		if (!widgetHover && l_widget_selected == w && (w->flags & 0x40) == 0) {
+			l_widget_selected = NULL;
+			/* XXX -- Should be removed */
+			l_widget_selected_csip.csip = 0x0;
 		}
 
 		/* When the state changed, redraw */
@@ -535,7 +571,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		}
 
 		/* If we are selected and we lose selection on leave, don't try other widgets */
-		if (wcsip.csip == g_global->widgetSelected.csip && (w->flags & 0x40) != 0) break;
+		if (w == l_widget_selected && (w->flags & 0x40) != 0) break;
 	}
 
 	if (returnValue != 0) return returnValue;
