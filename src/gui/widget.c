@@ -347,8 +347,10 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		}
 	}
 
-	returnValue = 0;
+	/* XXX -- Should be removed */
 	wncsip = wcsip;
+
+	returnValue = 0;
 	for (; w != NULL; w = GUI_Widget_GetNext(w)) {
 		uint16 positionX, positionY;
 		bool triggerWidgetHover;
