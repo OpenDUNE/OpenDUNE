@@ -199,11 +199,11 @@ void GameLoop_Structure()
 
 					if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
 						/* XXX -- This is not really pretty */
-						ui = (UnitInfo *)&g_structureInfo[s->buildingType];
+						ui = (UnitInfo *)&g_structureInfo[s->objectType];
 					} else if (s->type == STRUCTURE_REPAIR) {
 						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
 					} else {
-						ui = &g_unitInfo[s->buildingType];
+						ui = &g_unitInfo[s->objectType];
 					}
 
 					buildSpeed = 256;
@@ -515,7 +515,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 		s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
 	}
 
-	s->buildingType = 0xFFFF;
+	s->objectType = 0xFFFF;
 
 	emu_push(0xFFFE);
 	emu_push(scsip.s.cs); emu_push(scsip.s.ip);

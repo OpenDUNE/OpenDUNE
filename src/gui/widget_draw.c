@@ -342,7 +342,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				emu_sp += 4;
 				spriteWidth = emu_ax + 1;
 
-				si = &g_structureInfo[s->buildingType];
+				si = &g_structureInfo[s->objectType];
 
 				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
 					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
@@ -362,7 +362,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			} else {
 				UnitInfo *ui;
 
-				ui = &g_unitInfo[s->buildingType];
+				ui = &g_unitInfo[s->objectType];
 				spriteID = ui->spriteID;
 			}
 			break;
@@ -389,7 +389,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
 			StructureInfo *si;
 
-			si = &g_structureInfo[s->buildingType];
+			si = &g_structureInfo[s->objectType];
 			buildTime = si->buildTime;
 		} else if (s->type == STRUCTURE_REPAIR) {
 			UnitInfo *ui;
@@ -401,7 +401,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		} else {
 			UnitInfo *ui;
 
-			ui = &g_unitInfo[s->buildingType];
+			ui = &g_unitInfo[s->objectType];
 			buildTime = ui->buildTime;
 		}
 

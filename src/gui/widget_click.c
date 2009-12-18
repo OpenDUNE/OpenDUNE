@@ -41,7 +41,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				ns = Structure_Get_ByIndex(s->linkedID);
 				g_global->activeStructure = g_global->structureStartPos;
 				g_global->activeStructure.s.ip += ns->index * sizeof(Structure);
-				g_global->activeStructureType = s->buildingType;
+				g_global->activeStructureType = s->objectType;
 
 				emu_push(g_global->activeStructureType);
 				emu_push(g_global->variable_3A00);
@@ -49,7 +49,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				emu_sp += 4;
 
 				g_global->variable_38EC = emu_ax;
-				g_global->variable_38F0 = g_global->selectionPosition;
+				g_global->activeStructurePosition = g_global->selectionPosition;
 				s->linkedID = STRUCTURE_INVALID;
 
 				emu_push(2);
@@ -64,7 +64,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x29: /* "Build it" */
-			emu_push(s->buildingType);
+			emu_push(s->objectType);
 			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
 			emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
 			emu_sp += 6;

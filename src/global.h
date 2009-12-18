@@ -745,13 +745,13 @@ typedef struct GlobalData {
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
-	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure currently controlled by player. */
-	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure currently controlled by player. */
+	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */
+	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure being placed. */
 	/* 38E8()    */ PACK uint8   unknown_38E8[0x0002];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK uint16 variable_38EC;              /*!< ?? */
 	/* 38EE()    */ PACK uint8   unknown_38EE[0x0002];
-	/* 38F0(2)   */ PACK uint16 variable_38F0;              /*!< ?? */
+	/* 38F0(2)   */ PACK uint16 activeStructurePosition;    /*!< Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */

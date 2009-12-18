@@ -52,7 +52,7 @@ typedef struct Structure {
 	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
 	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */
 	/* 004B(1)   */ PACK uint8  variable_4B;                /*!< ?? */
-	/* 004C(2)   */ PACK uint16 buildingType;               /*!< Type of Unit/Structure we are building. */
+	/* 004C(2)   */ PACK uint16 objectType;                 /*!< Type of Unit/Structure we are building. */
 	/* 004E(1)   */ PACK uint8  upgradeLevel;               /*!< The current level of upgrade of the Structure. */
 	/* 004F(1)   */ PACK uint8  upgradeTimeLeft;            /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
 	/* 0050(2)   */ PACK uint16 countDown;                  /*!< General countdown for various of functions. */

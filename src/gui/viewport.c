@@ -263,7 +263,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x05D0); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 			emu_sp += 2;
 
-			s = Structure_Get_ByPackedTile(g_global->variable_38F0);
+			s = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
 			if (s != NULL) {
 				uint32 returnValue;
 
@@ -272,7 +272,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				emu_sp += 4;
 				returnValue = (emu_dx << 16) | emu_ax;
 
-				if ((returnValue & (1 << s->buildingType)) == 0) {
+				if ((returnValue & (1 << s->objectType)) == 0) {
 					emu_push(0xFFFE);
 					emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
 					emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
