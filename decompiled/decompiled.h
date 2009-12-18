@@ -718,7 +718,6 @@ extern void f__1DD7_102C_001E_4902();
 extern void f__01F7_103F_0010_4132();
 extern void f__176C_105E_0031_8B3F();
 extern void f__B4CD_1086_0040_F11C();
-extern void emu_GUI_BuildPlace();
 extern void emu_String_tolower();
 extern void f__176C_1098_0021_667D();
 extern void emu_Security_Main();

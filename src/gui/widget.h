@@ -112,6 +112,9 @@ extern void    GUI_Widget_Draw(Widget *w, csip32 wcsip);
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
 
+/* widget_click.c */
+extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);
+
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteButton_Draw(Widget *w);

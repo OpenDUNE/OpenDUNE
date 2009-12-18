@@ -3116,6 +3116,26 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\gui\widget_click.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\gui\widget_draw.c"
 					>
 					<FileConfiguration

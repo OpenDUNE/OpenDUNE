@@ -15,7 +15,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void emu_GUI_BuildPlace();
 extern void emu_GUI_Cancel();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawWiredRectangle();
@@ -514,6 +513,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 
 				switch (w->clickProc.csip) {
 					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
+					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
 
 					default:
 						emu_push(wcsip.s.cs);
@@ -526,7 +526,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 						switch ((emu_cs << 16) + emu_ip) {
 							case 0x0AEC0005: emu_GUI_Name(); break;
 							case 0x0AEC0FD8: emu_GUI_Cancel(); break;
-							case 0x0AEC1093: emu_GUI_BuildPlace(); break;
 							case 0x0AEC1181: emu_GUI_Picture(); break;
 							case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;
 							case 0x1A341CB1: emu_GUI_Unit_Command(); break;
