@@ -16,7 +16,9 @@ extern void f__2598_0000_0017_EB80();
 extern void f__260F_003A_0014_CA10();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
+extern void f__B4E0_0A86_000E_D3BB();
 extern void emu_GUI_DrawText_Wrapper();
+extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawWiredRectangle();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_GetShortcut();
@@ -596,4 +598,104 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x0FD1); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 	emu_sp += 2;
+}
+
+void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
+{
+	csip32 loc10;
+	uint16 positionX, positionY;
+	uint16 width, height;
+	uint16 loc08, loc0A;
+	uint16 loc0C, loc0E;
+
+	assert(g_global->variable_6668.csip == 0x22A60D31);
+
+	if (w == NULL) return;
+	if ((w->flags & 0x08) != 0) return;
+
+	loc10 = w->variable_34;
+
+	width  = w->width;
+	height = w->height;
+
+	positionX = w->offsetX;
+	if (w->offsetX < 0) positionX += g_global->variable_4062[w->parentID][2] << 3;
+	positionX += g_global->variable_4062[w->parentID][0] << 3;
+
+	positionY = w->offsetY;
+	if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
+	positionY += g_global->variable_4062[w->parentID][1];
+
+	if (width > height) {
+		loc08 = emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x6) + 1;
+		loc0A = 1;
+		loc0C = loc08 + emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x4) - 1;
+		loc0E = height - 2;
+	} else {
+		loc08 = 1;
+		loc0A = emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x6) + 1;
+		loc0C = width - 2;
+		loc0E = loc0A + emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x4) - 1;
+	}
+
+	if (g_global->variable_6C91 == 0x0) {
+		emu_push(positionY + height - 1);
+		emu_push(positionX + width - 1);
+		emu_push(positionY);
+		emu_push(positionX);
+		emu_push(emu_cs); emu_push(0x07BD); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+		emu_sp += 8;
+	}
+
+	/* Draw background */
+	emu_push(w->drawParam2Normal);
+	emu_push(positionY + height - 1);
+	emu_push(positionX + width - 1);
+	emu_push(positionY);
+	emu_push(positionX);
+	emu_push(emu_cs); emu_push(0x07E4); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+	emu_sp += 10;
+
+	/* Draw where we currently are */
+	emu_push((emu_get_memory8(loc10.s.cs, loc10.s.ip, 0xE) == 0x0) ? w->drawParam1Normal : w->drawParam1Selected);
+	emu_push(positionY + loc0E);
+	emu_push(positionX + loc0C);
+	emu_push(positionY + loc0A);
+	emu_push(positionX + loc08);
+	emu_push(emu_cs); emu_push(0x0826); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+	emu_sp += 10;
+
+	if (g_global->variable_6C91 == 0x0) {
+		emu_push(emu_cs); emu_push(0x0835); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+	}
+
+	/* Call custom callback function if set */
+	if (emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).csip != 0x0) {
+		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+
+		emu_push(emu_cs); emu_push(0x084F);
+		emu_ip = emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).s.ip;
+		emu_cs = emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).s.cs;
+		switch ((emu_cs << 16) + emu_ip) {
+			case 0x34E0003E: overlay(0x34E0, 0); f__B4E0_0A86_000E_D3BB(); break;
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0xB520; emu_last_ip = 0x084B; emu_last_length = 0x001A; emu_last_crc = 0xD0A3;
+				emu_call();
+				return;
+		}
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+		emu_sp += 4;
+
+		emu_get_memory8(loc10.s.cs, loc10.s.ip, 0xF) = 0x0;
+	}
 }

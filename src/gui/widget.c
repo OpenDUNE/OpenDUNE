@@ -169,29 +169,13 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 			if (drawProc.csip == 0x0) return;
 
 			switch (drawProc.csip) {
-				case 0x0AEC0809: GUI_Widget_SpriteTextButton_Draw(w); return;
-				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w); return;
-				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w); return;
-				case 0x34F20061: GUI_Widget_TextButton_Draw(w); return;
+				case 0x0AEC0809: GUI_Widget_SpriteTextButton_Draw(w); break;
+				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w);     break;
+				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w);      break;
+				case 0x34F20061: GUI_Widget_TextButton_Draw(w);       break;
+				case 0x3520002A: GUI_Widget_ScrollBar_Draw(w, wcsip); break;
+				default: assert(!"GUI_Widget_Draw(): unknown draw function.");
 			}
-
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-
-			/* Call based on memory/register values */
-			emu_push(emu_cs); emu_push(0x0944);
-			emu_ip = drawProc.s.ip;
-			emu_cs = drawProc.s.cs;
-			switch ((emu_cs << 16) + emu_ip) {
-				case 0x3520002A: overlay(0x3520, 0); emu_GUI_Mentat_Draw_ScrollBar(); break;
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0xB4A2; emu_last_ip = 0x0941; emu_last_length = 0x0011; emu_last_crc = 0x88EC;
-					emu_call();
-					break;
-			}
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			emu_sp += 4;
 		} break;
 
 		case DRAW_MODE_WIRED_RECTANGLE: {

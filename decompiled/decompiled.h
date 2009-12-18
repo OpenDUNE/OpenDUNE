@@ -464,7 +464,6 @@ extern void emu_Overlay_Activate();
 extern void f__2756_0677_002D_321F();
 extern void emu_Overlay_ReplaceWithJump();
 extern void f__2756_069E_0001_6780();
-extern void emu_GUI_Mentat_Draw_ScrollBar();
 extern void f__2756_06A9_0015_B76D();
 extern void emu_GUI_Save_AskName();
 extern void f__217E_06B6_0014_B057();

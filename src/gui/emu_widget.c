@@ -175,3 +175,39 @@ void emu_GUI_Widget_HandleEvents()
 
 	emu_ax = GUI_Widget_HandleEvents(w, wcsip);
 }
+
+/**
+ * Emulator wrapper around emu_GUI_Widget_ScrollBar_Draw().
+ *
+ * @name emu_GUI_Widget_ScrollBar_Draw
+ * @implements B520:06A2:0013:A505 ()
+ * @implements B520:06B5:000E:2EA0
+ * @implements B520:06C3:00B7:930A
+ * @implements B520:071E:005C:1634
+ * @implements B520:0745:0035:0E38
+ * @implements B520:077A:0043:063B
+ * @implements B520:07BD:0027:DBD3
+ * @implements B520:07C0:0024:CA96
+ * @implements B520:07E4:0016:C2A0
+ * @implements B520:07FA:002C:125A
+ * @implements B520:0801:0025:CD0C
+ * @implements B520:0826:000F:9CB8
+ * @implements B520:0835:001A:D0A3
+ * @implements B520:084F:0010:C6C2
+ */
+void emu_GUI_Widget_ScrollBar_Draw()
+{
+	csip32 wcsip;
+	Widget *w;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	if (wcsip.csip == 0x0) return;
+
+	w = (Widget *)emu_get_memorycsip(wcsip);
+
+	GUI_Widget_ScrollBar_Draw(w, wcsip);
+}

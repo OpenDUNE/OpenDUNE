@@ -77,7 +77,7 @@ typedef struct Widget {
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
 	/* 002E(2)   */ PACK uint16 state;                      /*!< Bitflags. 0x01 - Selected, 0x02/0x04 - Hover, 0x08 - Last Selected, 0x10/0x20 - Last Hover, 0x80 - Key Selected. */
 	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
-	/* 0034()    */ PACK uint8   unknown_0034[0x0004];
+	/* 0034(4)   */ PACK csip32 variable_34;                /*!< ?? */
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
 } GCC_PACKED Widget;
@@ -120,9 +120,11 @@ extern void GUI_Widget_TextButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteTextButton_Draw(Widget *w);
 extern void GUI_Widget_TextButton2_Draw(Widget *w);
+extern void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip);
 
 
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GUI_Widget_Draw();
+extern void emu_GUI_Widget_ScrollBar_Draw();
 
 #endif /* GUI_WIDGET_H */
