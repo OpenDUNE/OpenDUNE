@@ -5,10 +5,6 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../pool/structure.h"
-#include "../pool/unit.h"
-#include "../structure.h"
-#include "../unit.h"
 #include "widget.h"
 
 extern void f__22A6_0B60_006A_2F61();

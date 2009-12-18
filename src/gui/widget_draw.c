@@ -5,7 +5,6 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../structure.h"
 #include "../unit.h"
