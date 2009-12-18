@@ -11,7 +11,6 @@
 #include "../unit.h"
 #include "widget.h"
 
-	extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
 extern void f__2427_0004_003B_B2A9();
