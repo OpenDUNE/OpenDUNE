@@ -17,10 +17,12 @@
 #include "tools.h"
 #include "unit.h"
 #include "team.h"
+#include "structure.h"
 
 extern void emu_Unit_FindStructure();
 extern void emu_Unit_Deviation_Descrease();
 extern void f__07D4_196B_0073_56C1();
+extern void f__0C10_0008_0014_19CD();
 extern void f__0F3F_0125_000D_4868();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
@@ -28,6 +30,7 @@ extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
+extern void f__1A34_3014_001B_858E();
 extern void emu_Tools_Random_256();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
@@ -743,4 +746,52 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
 	tile = Map_GetTileByPosition(packed);
 	if ((tile->flags & 0x02) == 0) return NULL;
 	return Unit_Get_ByIndex(tile->index - 1);
+}
+
+/**
+ * Sets the destination for the given unit.
+ *
+ * @param u The unit to set the destination for.
+ * @param destination The destination (encoded index).
+ */
+void Unit_SetDestination(Unit *u, uint16 destination)
+{
+	Structure *s;
+
+	if (u == NULL) return;
+	if (!Tools_Index_IsValid(destination)) return;
+	if (u->targetMove == destination) return;
+
+	if (Tools_Index_GetType(destination) == IT_TILE) {
+		Unit *u2;
+		uint16 packed;
+
+		packed = Tools_Index_Decode(destination);
+
+		u2 = Unit_Get_ByPackedTile(packed);
+		if (u2 != NULL) {
+			if (u != u2) destination = Tools_Index_Encode(u2->index, IT_UNIT);
+		} else {
+			s = Structure_Get_ByPackedTile(packed);
+			if (s != NULL) destination = Tools_Index_Encode(s->index, IT_STRUCTURE);
+		}
+	}
+
+	s = Tools_Index_GetStructure(destination);
+	if (s != NULL && s->houseID == Unit_GetHouseID(u)) {
+		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+		emu_push(emu_cs); emu_push(0x1C4D); f__1A34_3014_001B_858E();
+		emu_sp += 8;
+
+		if (emu_ax == 1 || g_unitInfo[u->type].variable_3C == 4) {
+			emu_push(destination);
+			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
+			emu_sp += 4;
+		}
+	}
+
+	u->targetMove  = destination;
+	u->variable_72 = 0xFF;
 }

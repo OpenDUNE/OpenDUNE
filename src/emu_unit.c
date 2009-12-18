@@ -427,3 +427,49 @@ void emu_Unit_Get_ByPackedTile()
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }
+
+/**
+ * Emulator wrapper around Unit_SetDestination().
+ *
+ * @name emu_Unit_SetDestination
+ * @implements 1A34:1B68:0019:AAA0 ()
+ * @implements 1A34:1B81:0008:F715
+ * @implements 1A34:1B89:000C:023A
+ * @implements 1A34:1B95:0006:57C6
+ * @implements 1A34:1B9B:000C:77C4
+ * @implements 1A34:1BA7:0009:2834
+ * @implements 1A34:1BB0:002E:EAD1
+ * @implements 1A34:1BDE:0006:1CFB
+ * @implements 1A34:1BE2:0002:D43A
+ * @implements 1A34:1BE4:0006:62E9
+ * @implements 1A34:1BEA:001E:6C91
+ * @implements 1A34:1C08:000A:2B08
+ * @implements 1A34:1C0C:0006:3784
+ * @implements 1A34:1C12:0023:2D66
+ * @implements 1A34:1C35:0018:2310
+ * @implements 1A34:1C4D:0033:213E
+ * @implements 1A34:1C71:000F:A6D7
+ * @implements 1A34:1C80:0012:CA6A
+ * @implements 1A34:1C92:0008:9B67
+ * @implements 1A34:1C9A:0017:EC4D
+ * @implements 1A34:1C9C:0015:88FE
+ * @implements 1A34:1CAB:0006:F7CE
+ */
+void emu_Unit_SetDestination()
+{
+	csip32 ucsip;
+	Unit *u;
+	uint16 destination;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip       = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	destination = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
+
+	Unit_SetDestination(u, destination);
+}
