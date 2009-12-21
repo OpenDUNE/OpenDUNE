@@ -22,7 +22,6 @@
 extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
-extern void emu_Structure_IsValidBuildLocation();
 extern void emu_Structure_Place();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
@@ -37,7 +36,10 @@ extern void f__1423_0C74_0015_3419();
 extern void f__1A34_10EC_000E_A326();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
+extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
+extern void f__B4CD_0F8B_0015_1689();
+extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1BC4_0013_1AB3();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -572,11 +574,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		case STRUCTURE_WALL: {
 			Tile *t;
 
-			emu_push(STRUCTURE_WALL);
-			emu_push(position);
-			emu_push(emu_cs); emu_push(0x0227); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
-			emu_sp += 4;
-			if (emu_ax == 0) return false;
+			if (Structure_IsValidBuildLocation(position, STRUCTURE_WALL) == 0) return false;
 
 			t = Map_GetTileByPosition(position);
 			t->spriteID = (g_global->variable_39FA + 1) & 0x1FF;
@@ -619,12 +617,7 @@ bool Structure_Place(Structure *s, uint16 position)
 				uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 				Tile *t = Map_GetTileByPosition(curPos);
 
-				emu_push(STRUCTURE_SLAB_1x1);
-				emu_push(curPos);
-				emu_push(emu_cs); emu_push(0x0341); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
-				emu_sp += 2;
-
-				if (emu_ax == 0) continue;
+				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 				t->spriteID = g_global->variable_39F8 & 0x01FF;
 				t->houseID  = s->houseID;
@@ -661,12 +654,7 @@ bool Structure_Place(Structure *s, uint16 position)
 					uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 					Tile *t = Map_GetTileByPosition(curPos);
 
-					emu_push(STRUCTURE_SLAB_1x1);
-					emu_push(curPos);
-					emu_push(emu_cs); emu_push(0x043E); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
-					emu_sp += 4;
-
-					if (emu_ax == 0) continue;
+					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 					t->spriteID = g_global->variable_39F8 & 0x01FF;
 					t->houseID  = s->houseID;
@@ -700,11 +688,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		} return true;
 	}
 
-	emu_push(s->type);
-	emu_push(position);
-	emu_push(emu_cs); emu_push(0x0517); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
-	emu_sp += 4;
-	loc0A = (int16)emu_ax;
+	loc0A = Structure_IsValidBuildLocation(position, s->type);
 
 	if (loc0A == 0) {
 		if ((s->houseID != g_global->playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
@@ -1007,4 +991,106 @@ uint32 Structure_GetStructuresBuilt(House *h)
 	}
 
 	return result;
+}
+
+/**
+ * Checks if the given position is a valid location for the given structure type.
+ *
+ * @param position The (packed) tile to check.
+ * @param type The structure type to check the position for.
+ * @return 0 if the position is not valid, 1 if the position is valid and have enough slabs, <0 if the position is valid but miss some slabs.
+ */
+int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
+{
+	StructureInfo *si;
+	uint16 *layoutTile;
+	uint8 i;
+	uint16 neededSlabs;
+	bool isValid;
+	uint16 curPos;
+
+	si = &g_structureInfo[type];
+	layoutTile = g_global->layoutTiles[si->layout];
+
+	isValid = true;
+	neededSlabs = 0;
+	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+		uint16 loc10;
+
+		curPos = position + layoutTile[i];
+
+		emu_push(curPos);
+		emu_push(emu_cs); emu_push(0x0CC1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+		emu_sp += 2;
+		loc10 = emu_ax;
+
+		if (g_global->debugScenario != 0) {
+			if (g_global->variable_3A3E[loc10][16] == 0) {
+				isValid = false;
+				break;
+			}
+		} else {
+			emu_push(curPos);
+			emu_push(emu_cs); emu_push(0x0CEB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
+			emu_sp += 2;
+			if (emu_ax == 0) {
+				isValid = false;
+				break;
+			}
+
+			if ((si->variable_0C & 0x0008) != 0) {
+				if (g_global->variable_3A3E[loc10][16] == 0 && g_global->variable_38BC == 0) {
+					isValid = false;
+					break;
+				}
+			} else {
+				if (g_global->variable_3A3E[loc10][12] == 0 && g_global->variable_38BC == 0) {
+					isValid = false;
+					break;
+				}
+				if (loc10 != 10) neededSlabs++;
+			}
+		}
+
+		emu_push(curPos);
+		emu_push(emu_cs); emu_push(0x0D46); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
+		emu_sp += 2;
+		if (emu_ax != 0 && emu_dx != 0) {
+			isValid = false;
+			break;
+		}
+	}
+
+	if (g_global->variable_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && g_global->debugScenario == 0) {
+		isValid = false;
+		for (i = 0; i < 16; i++) {
+			uint16 offset, loc14;
+			Structure *s;
+
+			offset = g_global->layoutTilesAround[si->layout][i];
+			if (offset == 0) break;
+
+			curPos = position + offset;
+			s = Structure_Get_ByPackedTile(curPos);
+			if (s != NULL) {
+				if (s->houseID != g_global->playerHouseID) continue;
+				isValid = true;
+				break;
+			}
+
+			emu_push(curPos);
+			emu_push(emu_cs); emu_push(0x0DDB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+			emu_sp += 2;
+			loc14 = emu_ax;
+			if (loc14 != 10 && loc14 != 11) continue;
+			if (Map_GetTileByPosition(curPos)->houseID != g_global->playerHouseID) continue;
+
+			isValid = true;
+			break;
+		}
+	}
+
+	if (!isValid) return 0;
+	if (neededSlabs == 0) return 1;
+	return -neededSlabs;
 }

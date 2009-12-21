@@ -14,7 +14,6 @@
 extern void f__0C3A_142D_0018_6667();
 extern void f__1423_04F2_0016_CD6B();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Structure_IsValidBuildLocation();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -42,13 +41,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				g_global->activeStructure = g_global->structureStartPos;
 				g_global->activeStructure.s.ip += ns->index * sizeof(Structure);
 				g_global->activeStructureType = s->objectType;
-
-				emu_push(g_global->activeStructureType);
-				emu_push(g_global->variable_3A00);
-				emu_push(emu_cs); emu_push(0x1102); emu_cs = 0x0C3A; emu_Structure_IsValidBuildLocation();
-				emu_sp += 4;
-
-				g_global->variable_38EC = emu_ax;
+				g_global->variable_38EC = Structure_IsValidBuildLocation(g_global->variable_3A00, g_global->activeStructureType);
 				g_global->activeStructurePosition = g_global->selectionPosition;
 				s->linkedID = STRUCTURE_INVALID;
 

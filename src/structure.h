@@ -72,7 +72,7 @@ typedef struct StructureInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
 	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??. */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??, 0x0008 - ??. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
@@ -103,6 +103,7 @@ extern void Structure_CalculateHitpointsMax(struct House *h);
 extern void Structure_SetAnimation(Structure *s, int16 animation);
 extern Structure *Structure_Get_ByPackedTile(uint16 packed);
 extern uint32 Structure_GetStructuresBuilt(struct House *h);
+extern int16 Structure_IsValidBuildLocation(uint16 position, StructureType type);
 
 
 extern void emu_GameLoop_Structure();

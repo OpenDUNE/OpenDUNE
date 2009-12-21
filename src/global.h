@@ -567,7 +567,7 @@ typedef struct GlobalData {
 	/* 2C64(126) */ PACK uint16 layoutTiles[7][9];          /*!< Array with position offset per tile in a structure layout. */
 	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
 	/* 2D52(14)  */ PACK uint16 layoutTileCount[7];         /*!< Array with amount of tiles in a layout. */
-	/* 2D60()    */ PACK uint8   unknown_2D60[0x00E0];
+	/* 2D60(224) */ PACK uint16 layoutTilesAround[7][16];   /*!< Array with position offset per tile around a structure layout. */
 	/* 2E40(28)  */ PACK uint16 layoutSize[7][2];           /*!< Array with size of a layout. */
 	/* 2E5C(28)  */ PACK tile32 layoutTileDiff[7];          /*!< Array with TileDiff of a layout. */
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
@@ -749,7 +749,7 @@ typedef struct GlobalData {
 	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure being placed. */
 	/* 38E8()    */ PACK uint8   unknown_38E8[0x0002];
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
-	/* 38EC(2)   */ PACK uint16 variable_38EC;              /*!< ?? */
+	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
 	/* 38EE()    */ PACK uint8   unknown_38EE[0x0002];
 	/* 38F0(2)   */ PACK uint16 activeStructurePosition;    /*!< Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
@@ -791,13 +791,7 @@ typedef struct GlobalData {
 	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
-	/* 3A3E()    */ PACK uint8   unknown_3A3A[0x00F6];
-	/* 3B34(2)   */ PACK uint16 variable_3B34;              /*!< ?? */
-	/* 3B36(2)   */ PACK uint16 variable_3B36;              /*!< ?? */
-	/* 3B38()    */ PACK uint8   unknown_3B38[0x0018];
-	/* 3B50(2)   */ PACK uint16 variable_3B50;              /*!< ?? */
-	/* 3B52(2)   */ PACK uint16 variable_3B52;              /*!< ?? */
-	/* 3B54()    */ PACK uint8   unknown_3B54[0x008E];
+	/* 3A3E(448) */ PACK uint8  variable_3A3E[15][28];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */

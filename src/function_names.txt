@@ -91,7 +91,6 @@
 0C10:013D:0016:8C5C	emu_Object_IsScriptVariable4NotNull	# (object_csip) returns 1 if script->variables[4] != 0, else 0
 0C10:0168:0014:CEB0	emu_Object_GetScriptVariable4	# (object_csip) returns the script->variables[4] of the given unit/structure
 
-0C3A:0C5C:004D:2837	emu_Structure_IsValidBuildLocation	# (type, tile), Check if one can build a structure on a tile given
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
