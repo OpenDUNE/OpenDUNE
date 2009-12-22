@@ -108,7 +108,6 @@ extern int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 
 extern void emu_GameLoop_Structure();
 extern void emu_Structure_Create();
-extern void emu_Structure_Place();
 extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();

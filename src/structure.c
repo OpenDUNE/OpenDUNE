@@ -22,7 +22,6 @@
 extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
-extern void emu_Structure_Place();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
 extern void f__0C3A_1216_0013_E56D();
