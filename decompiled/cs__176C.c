@@ -339,7 +339,7 @@ l__0AAF:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x0ABC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
+	emu_push(emu_cs); emu_push(0x0ABC); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_IsValidPosition();
 l__0ABC:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -4370,7 +4370,7 @@ l__27CE:
 	/* Unresolved jump */ emu_ip = 0x28A6; emu_last_cs = 0x176C; emu_last_ip = 0x27D9; emu_last_length = 0x000E; emu_last_crc = 0x27C3; emu_call();
 l__27DC:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x27E2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
+	emu_push(emu_cs); emu_push(0x27E2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_IsValidPosition();
 l__27E2:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);

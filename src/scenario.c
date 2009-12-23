@@ -283,14 +283,8 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	u->actionID    = actionType;
 	u->nextActionID = ACTION_INVALID;
 
-	emu_push(Tile_PackTile(u->position));
-	emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 2;
-
 	/* In case the above function failed and we are passed campaign 2, don't add the unit */
-	if (emu_ax == 0 && g_global->campaignID > 2) {
+	if (!Map_IsValidPosition(Tile_PackTile(u->position)) && g_global->campaignID > 2) {
 		Unit_Free(u);
 		return;
 	}

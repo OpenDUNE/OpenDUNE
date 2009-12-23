@@ -37,7 +37,6 @@ extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
-extern void f__B4CD_0F8B_0015_1689();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1BC4_0013_1AB3();
 extern void overlay(uint16 cs, uint8 force);
@@ -1029,10 +1028,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 		} else {
-			emu_push(curPos);
-			emu_push(emu_cs); emu_push(0x0CEB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
-			emu_sp += 2;
-			if (emu_ax == 0) {
+			if (!Map_IsValidPosition(curPos)) {
 				isValid = false;
 				break;
 			}

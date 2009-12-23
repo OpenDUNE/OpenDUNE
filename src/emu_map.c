@@ -168,3 +168,30 @@ void emu_Map_UpdateMinimapPosition()
 
 	Map_UpdateMinimapPosition(packed, forceUpdate);
 }
+
+/**
+ * Emulator wrapper around Map_IsValidPosition().
+ *
+ * @name emu_Map_IsValidPosition
+ * @implements B4CD:0F8B:0015:1689 ()
+ * @implements B4CD:0F9C:0004:D1B9
+ * @implements B4CD:0F9E:0002:F9BA
+ * @implements B4CD:0FA1:0006:BB3C
+ * @implements B4CD:0FA7:0009:C1E1
+ * @implements B4CD:0FB0:005E:F3FD
+ * @implements B4CD:100C:0002:873A
+ * @implements B4CD:100E:0005:907A
+ * @implements B4CD:1013:0006:F7CE
+ */
+void emu_Map_IsValidPosition()
+{
+	uint16 packed;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Map_IsValidPosition(packed) ? 1 : 0;
+}

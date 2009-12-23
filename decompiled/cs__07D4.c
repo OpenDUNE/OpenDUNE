@@ -2960,7 +2960,7 @@ l__1653:
 	emu_incw(&emu_ax);
 	emu_si = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x1665); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
+	emu_push(emu_cs); emu_push(0x1665); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_IsValidPosition();
 l__1665:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);

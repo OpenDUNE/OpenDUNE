@@ -306,3 +306,24 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 
 	g_global->minimapPreviousPosition = packed;
 }
+
+/**
+ * Checks if the given position is inside the map.
+ *
+ * @param position The tile (packed) to check.
+ * @return True if the position is valid.
+ */
+bool Map_IsValidPosition(uint16 position)
+{
+	uint16 x, y;
+	MapInfo *mapInfo;
+
+	if ((position & 0xC000) != 0) return false;
+
+	x = Tile_GetPackedX(position);
+	y = Tile_GetPackedY(position);
+
+	mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+
+	return (mapInfo->minX <= x && x < (mapInfo->minX + mapInfo->sizeX) && mapInfo->minY <= y && y < (mapInfo->minY + mapInfo->sizeY));
+}

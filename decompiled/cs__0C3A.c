@@ -3229,7 +3229,7 @@ l__2544:
 	emu_testb(&emu_get_memory8(emu_es, emu_bx, 0x2), 0x30);
 	if ((emu_get_memory8(emu_es, emu_bx, 0x2) & 0x30) != 0) goto l__25B2;
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x2561); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0F8B_0015_1689();
+	emu_push(emu_cs); emu_push(0x2561); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_IsValidPosition();
 l__2561:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
