@@ -130,8 +130,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		mapScale = g_global->scenario.mapScale;
 		mapInfo = &g_global->mapInfo[mapScale];
 
-		x = min((max(x, 256) - 256) * (mapScale + 1), mapInfo->sizeX - 1) + mapInfo->minX;
-		y = min((max(y, 136) - 136) * (mapScale + 1), mapInfo->sizeY - 1) + mapInfo->minY;
+		x = min((max(x, 256) - 256) / (mapScale + 1), mapInfo->sizeX - 1) + mapInfo->minX;
+		y = min((max(y, 136) - 136) / (mapScale + 1), mapInfo->sizeY - 1) + mapInfo->minY;
 	}
 
 	packed = Tile_PackXY(x, y);
