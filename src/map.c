@@ -58,8 +58,8 @@ uint16 Map_MoveDirection(uint16 direction)
 	x = max(x, mapInfo->minX);
 	y = max(y, mapInfo->minY);
 
-	x = min(x, mapInfo->minX + mapInfo->sizeX);
-	y = min(y, mapInfo->minY + mapInfo->sizeY);
+	x = min(x, mapInfo->minX + mapInfo->sizeX - 15);
+	y = min(y, mapInfo->minY + mapInfo->sizeY - 10);
 
 	g_global->viewportPosition = Tile_PackXY(x, y);
 
