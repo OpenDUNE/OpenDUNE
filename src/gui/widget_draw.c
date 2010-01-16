@@ -602,18 +602,18 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 {
-	csip32 loc10;
+	csip32 scrollcsip;
 	uint16 positionX, positionY;
 	uint16 width, height;
-	uint16 loc08, loc0A;
-	uint16 loc0C, loc0E;
+	uint16 scrollLeft, scrollTop;
+	uint16 scrollRight, scrollBottom;
 
 	assert(g_global->variable_6668.csip == 0x22A60D31);
 
 	if (w == NULL) return;
 	if ((w->flags & 0x08) != 0) return;
 
-	loc10 = w->variable_34;
+	scrollcsip = w->variable_34;
 
 	width  = w->width;
 	height = w->height;
@@ -627,15 +627,15 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	positionY += g_global->variable_4062[w->parentID][1];
 
 	if (width > height) {
-		loc08 = emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x6) + 1;
-		loc0A = 1;
-		loc0C = loc08 + emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x4) - 1;
-		loc0E = height - 2;
+		scrollLeft   = emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) + 1;
+		scrollTop    = 1;
+		scrollRight  = scrollLeft + emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x4) - 1;
+		scrollBottom = height - 2;
 	} else {
-		loc08 = 1;
-		loc0A = emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x6) + 1;
-		loc0C = width - 2;
-		loc0E = loc0A + emu_get_memory16(loc10.s.cs, loc10.s.ip, 0x4) - 1;
+		scrollLeft   = 1;
+		scrollTop    = emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) + 1;
+		scrollRight  = width - 2;
+		scrollBottom = scrollTop + emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x4) - 1;
 	}
 
 	if (g_global->variable_6C91 == 0x0) {
@@ -661,11 +661,11 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	emu_sp += 10;
 
 	/* Draw where we currently are */
-	emu_push((emu_get_memory8(loc10.s.cs, loc10.s.ip, 0xE) == 0x0) ? w->drawParam1Normal : w->drawParam1Selected);
-	emu_push(positionY + loc0E);
-	emu_push(positionX + loc0C);
-	emu_push(positionY + loc0A);
-	emu_push(positionX + loc08);
+	emu_push((emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xE) == 0x0) ? w->drawParam1Normal : w->drawParam1Selected);
+	emu_push(positionY + scrollBottom);
+	emu_push(positionX + scrollRight);
+	emu_push(positionY + scrollTop);
+	emu_push(positionX + scrollLeft);
 	emu_push(emu_cs); emu_push(0x0826); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
@@ -678,12 +678,12 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	}
 
 	/* Call custom callback function if set */
-	if (emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).csip != 0x0) {
+	if (emu_get_csip32(scrollcsip.s.cs, scrollcsip.s.ip, 0x12).csip != 0x0) {
 		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
 
 		emu_push(emu_cs); emu_push(0x084F);
-		emu_ip = emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).s.ip;
-		emu_cs = emu_get_csip32(loc10.s.cs, loc10.s.ip, 0x12).s.cs;
+		emu_ip = emu_get_csip32(scrollcsip.s.cs, scrollcsip.s.ip, 0x12).s.ip;
+		emu_cs = emu_get_csip32(scrollcsip.s.cs, scrollcsip.s.ip, 0x12).s.cs;
 		switch ((emu_cs << 16) + emu_ip) {
 			case 0x34E0003E: overlay(0x34E0, 0); f__B4E0_0A86_000E_D3BB(); break;
 			default:
@@ -696,6 +696,6 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 		emu_sp += 4;
 
-		emu_get_memory8(loc10.s.cs, loc10.s.ip, 0xF) = 0x0;
+		emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xF) = 0x0;
 	}
 }
