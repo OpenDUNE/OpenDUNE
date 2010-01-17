@@ -54,9 +54,9 @@ typedef struct WidgetScrollbar {
 	/* 0000(4)   */ PACK csip32 parent;                     /*!< Parent widget we belong to. */
 	/* 0004(2)   */ PACK uint16 size;                       /*!< Size (in pixels) of the scrollbar. */
 	/* 0006(2)   */ PACK uint16 position;                   /*!< Current position of the scrollbar. */
-	/* 0008()    */ PACK uint8   unknown_08[0x0002];
-	/* 000A(2)   */ PACK uint16 scrollPerPage;              /*!< Amount of pixels to scroll per page (click outside scrollbar). */
-	/* 000C()    */ PACK uint8   unknown_0C[0x0002];
+	/* 0008(2)   */ PACK uint16 scrollMax;                  /*!< Maximum position of the scrollbar cursor. */
+	/* 000A(2)   */ PACK uint16 scrollPageSize;             /*!< Amount of elements to scroll per page. */
+	/* 000C(2)   */ PACK uint16 scrollPosition;             /*!< Current position of the scrollbar cursor. */
 	/* 000E(1)   */ PACK uint8  pressed;                    /*!< If non-zero, the scrollbar is currently pressed. */
 	/* 000F(1)   */ PACK uint8  dirty;                      /*!< If non-zero, the scrollbar is dirty (requires repaint). */
 	/* 0010(2)   */ PACK uint16 pressedPosition;            /*!< Position where we clicked on the scrollbar when pressed. */

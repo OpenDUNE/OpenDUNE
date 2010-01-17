@@ -250,8 +250,6 @@ B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window
 B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
 
-B520:062C:0030:162A	emu_GUI_Widget_Scrollbar_Scroll	# (scrollbar_csip, offset), scroll the scrollbar
-
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
 
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors

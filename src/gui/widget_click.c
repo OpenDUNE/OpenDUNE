@@ -15,8 +15,31 @@ extern void f__0C3A_142D_0018_6667();
 extern void f__1423_04F2_0016_CD6B();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
-extern void emu_GUI_Widget_Scrollbar_Scroll();
+extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
+
+/**
+ * Handles scrolling of a scrollbar.
+ *
+ * @param scrollbar The scrollbar.
+ * @param scroll The amount of scrolling.
+ */
+void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll, csip32 scrollbarcsip)
+{
+	scrollbar->scrollPosition += scroll;
+
+	if ((int16)scrollbar->scrollPosition >= scrollbar->scrollMax - scrollbar->scrollPageSize) {
+		scrollbar->scrollPosition = scrollbar->scrollMax - scrollbar->scrollPageSize;
+	}
+
+	if ((int16)scrollbar->scrollPosition <= 0) scrollbar->scrollPosition = 0;
+
+	emu_push(scrollbarcsip.s.cs); emu_push(scrollbarcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x068C); f__B520_096E_003C_F7E4();
+	emu_sp += 4;
+
+	GUI_Widget_ScrollBar_Draw((Widget *)emu_get_memorycsip(scrollbar->parent), scrollbar->parent);
+}
 
 /**
  * Handles Click event for a sprite/text button.
@@ -88,10 +111,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 {
-	emu_push(-1);
-	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
-	emu_sp += 6;
+	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), -1, w->scrollbar);
 
 	return false;
 }
@@ -104,10 +124,7 @@ bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
 {
-	emu_push(1);
-	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
-	emu_sp += 6;
+	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), 1, w->scrollbar);
 
 	return false;
 }
@@ -159,10 +176,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 			scrollbar->pressed = 1;
 			scrollbar->pressedPosition = positionCurrent - positionBegin;
 		} else {
-			emu_push(positionCurrent < positionBegin ? -scrollbar->scrollPerPage : scrollbar->scrollPerPage);
-			emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-			emu_push(emu_cs); emu_push(0x0546); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
-			emu_sp += 6;
+			GUI_Widget_Scrollbar_Scroll(scrollbar, (positionCurrent < positionBegin ? -scrollbar->scrollPageSize : scrollbar->scrollPageSize), w->scrollbar);
 		}
 	}
 
