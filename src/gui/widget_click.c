@@ -14,8 +14,8 @@
 extern void f__0C3A_142D_0018_6667();
 extern void f__1423_04F2_0016_CD6B();
 extern void f__B4E9_0050_003F_292A();
-extern void f__B520_062C_0030_162A();
 extern void f__B520_08E6_0038_85A4();
+extern void emu_GUI_Widget_Scrollbar_Scroll();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -90,7 +90,7 @@ bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 {
 	emu_push(-1);
 	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; f__B520_062C_0030_162A();
+	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
 	emu_sp += 6;
 
 	return false;
@@ -106,7 +106,7 @@ bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
 {
 	emu_push(1);
 	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; f__B520_062C_0030_162A();
+	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
 	emu_sp += 6;
 
 	return false;
@@ -161,7 +161,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 		} else {
 			emu_push(positionCurrent < positionBegin ? -scrollbar->scrollPerPage : scrollbar->scrollPerPage);
 			emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-			emu_push(emu_cs); emu_push(0x0546); emu_cs = 0xB520; f__B520_062C_0030_162A();
+			emu_push(emu_cs); emu_push(0x0546); emu_cs = 0xB520; emu_GUI_Widget_Scrollbar_Scroll();
 			emu_sp += 6;
 		}
 	}
