@@ -19,7 +19,11 @@ EXTENSION := .exe
 LIB_EXTENSION := .dll
 else
 EXTENSION :=
+ifdef OSX
+LIB_EXTENSION := .dylib
+else
 LIB_EXTENSION := .so
+endif
 endif
 
 ifdef STATIC
