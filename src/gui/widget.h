@@ -114,6 +114,9 @@ extern bool GUI_Widget_Viewport_Click(Widget *w);
 
 /* widget_click.c */
 extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);
+extern bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w);
+extern bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w);
+extern bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);
@@ -126,5 +129,7 @@ extern void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip);
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_ScrollBar_Draw();
+extern void emu_GUI_Widget_Scrollbar_ArrowUp_Click();
+extern void emu_GUI_Widget_Scrollbar_ArrowDown_Click();
 
 #endif /* GUI_WIDGET_H */

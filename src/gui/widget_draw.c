@@ -600,6 +600,11 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_sp += 2;
 }
 
+/**
+ * Draw a scrollbar widget to the display, relative to its parent.
+ *
+ * @param w The widget (which is a scrollbar) to draw.
+ */
 void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 {
 	csip32 scrollcsip;

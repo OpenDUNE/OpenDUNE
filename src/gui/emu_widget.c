@@ -177,7 +177,7 @@ void emu_GUI_Widget_HandleEvents()
 }
 
 /**
- * Emulator wrapper around emu_GUI_Widget_ScrollBar_Draw().
+ * Emulator wrapper around GUI_Widget_ScrollBar_Draw().
  *
  * @name emu_GUI_Widget_ScrollBar_Draw
  * @implements B520:06A2:0013:A505 ()
@@ -210,4 +210,54 @@ void emu_GUI_Widget_ScrollBar_Draw()
 	w = (Widget *)emu_get_memorycsip(wcsip);
 
 	GUI_Widget_ScrollBar_Draw(w, wcsip);
+}
+
+/**
+ * Emulator wrapper around GUI_Widget_Scrollbar_ArrowUp_Click().
+ *
+ * @name emu_GUI_Widget_Scrollbar_ArrowUp_Click
+ * @implements B520:03C7:0017:65D1 ()
+ * @implements B520:03DE:0007:F90C
+ * @implements B520:03E5:0002:2597
+ */
+void emu_GUI_Widget_Scrollbar_ArrowUp_Click()
+{
+	csip32 wcsip;
+	Widget *w;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	if (wcsip.csip == 0x0) return;
+
+	w = (Widget *)emu_get_memorycsip(wcsip);
+
+	GUI_Widget_Scrollbar_ArrowUp_Click(w);
+}
+
+/**
+ * Emulator wrapper around GUI_Widget_Scrollbar_ArrowDown_Click().
+ *
+ * @name emu_GUI_Widget_Scrollbar_ArrowDown_Click
+ * @implements B520:03E7:0017:BA36 ()
+ * @implements B520:03FE:0007:F90C
+ * @implements B520:0405:0002:2597
+ */
+void emu_GUI_Widget_Scrollbar_ArrowDown_Click()
+{
+	csip32 wcsip;
+	Widget *w;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	if (wcsip.csip == 0x0) return;
+
+	w = (Widget *)emu_get_memorycsip(wcsip);
+
+	GUI_Widget_Scrollbar_ArrowDown_Click(w);
 }

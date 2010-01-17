@@ -90,3 +90,17 @@ l__201F:
 
 	f__01F7_2040_0033_F011();
 }
+
+/**
+ * Sometimes the decompiler plays tricks with us .. and to avoid wasting tons
+ *  of hours finding a small bug, this works much better and efficient:
+ *
+ * The next 'implements' lines makes sure those functions do not exist in the
+ *  decompiled/ code, as they already have a full C-ified variant, and are
+ *  never called by any code via the emulated layer.
+ *
+ * @name do-not-use
+ * @implements 0C3A:01BA:0018:69C9
+ * @implements 0C3A:0C5C:004D:2837
+ * @implements B520:0407:00A9:43A1
+ */

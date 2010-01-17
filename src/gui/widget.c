@@ -22,11 +22,7 @@ extern void emu_GUI_DrawSprite();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat();
-extern void emu_GUI_Mentat_Draw_ScrollBar();
 extern void emu_GUI_Mentat_List();
-extern void emu_GUI_Mentat_ScrollUp();
-extern void emu_GUI_Mentat_ScrollDown();
-extern void emu_GUI_Mentat_ScrollBar();
 extern void emu_GUI_Name();
 extern void emu_GUI_Options();
 extern void emu_GUI_Picture();
@@ -500,6 +496,9 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 				switch (w->clickProc.csip) {
 					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
 					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
+					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
+					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
+					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w, wcsip); break;
 
 					default:
 						emu_push(wcsip.s.cs);
@@ -529,9 +528,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 							case 0x34F20025: overlay(0x34F2, 0); emu_GUI_Options(); break;
 							case 0x35180034: overlay(0x3518, 0); emu_GUI_HOF_ClearList(); break;
 							case 0x35180039: overlay(0x3518, 0); emu_GUI_HOF_ResumeGame(); break;
-							case 0x35200039: overlay(0x3520, 0); emu_GUI_Mentat_ScrollUp(); break;
-							case 0x3520003E: overlay(0x3520, 0); emu_GUI_Mentat_ScrollDown(); break;
-							case 0x35200043: overlay(0x3520, 0); emu_GUI_Mentat_ScrollBar(); break;
 							default:
 								/* In case we don't know the call point yet, call the dynamic call */
 								emu_last_cs = 0xB4A2; emu_last_ip = 0x06AC; emu_last_length = 0x0030; emu_last_crc = 0x38D3;

@@ -370,7 +370,7 @@ l__01DA:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8036));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x01EA); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Mentat_ScrollUp();
+	emu_push(emu_cs); emu_push(0x01EA); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Scrollbar_ArrowUp_Click();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__01EA:
@@ -400,7 +400,7 @@ l__0216:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8036));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x0226); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Mentat_ScrollDown();
+	emu_push(emu_cs); emu_push(0x0226); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Scrollbar_ArrowDown_Click();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0226:
@@ -414,7 +414,7 @@ l__022E:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8036));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x023E); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Mentat_ScrollUp();
+	emu_push(emu_cs); emu_push(0x023E); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Scrollbar_ArrowUp_Click();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__023E:
@@ -432,7 +432,7 @@ l__024C:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x8036));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x2));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x025C); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Mentat_ScrollDown();
+	emu_push(emu_cs); emu_push(0x025C); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Scrollbar_ArrowDown_Click();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__025C:
