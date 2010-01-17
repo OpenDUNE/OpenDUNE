@@ -515,9 +515,9 @@ l__03C3:
 }
 
 /**
- * Decompiled function f__B520_062C_0030_162A()
+ * Decompiled function emu_GUI_Widget_Scrollbar_Scroll()
  *
- * @name f__B520_062C_0030_162A
+ * @name emu_GUI_Widget_Scrollbar_Scroll
  * @implements B520:062C:0030:162A ()
  * @implements B520:065C:001C:557A
  * @implements B520:065E:001A:9DD2
@@ -530,7 +530,7 @@ l__03C3:
  * Called From: B520:03FB:0017:BA36
  * Called From: B520:0543:001A:447C
  */
-void f__B520_062C_0030_162A()
+void emu_GUI_Widget_Scrollbar_Scroll()
 {
 l__062C:
 	emu_push(emu_bp);

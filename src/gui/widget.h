@@ -48,6 +48,25 @@ typedef enum DrawMode {
 
 MSVC_PACKED_BEGIN
 /**
+ * Scrollbar information as stored in the memory.
+ */
+typedef struct WidgetScrollbar {
+	/* 0000(4)   */ PACK csip32 parent;                     /*!< Parent widget we belong to. */
+	/* 0004(2)   */ PACK uint16 size;                       /*!< Size (in pixels) of the scrollbar. */
+	/* 0006(2)   */ PACK uint16 position;                   /*!< Current position of the scrollbar. */
+	/* 0008()    */ PACK uint8   unknown_08[0x0002];
+	/* 000A(2)   */ PACK uint16 scrollPerPage;              /*!< Amount of pixels to scroll per page (click outside scrollbar). */
+	/* 000C()    */ PACK uint8   unknown_0C[0x0002];
+	/* 000E(1)   */ PACK uint8  pressed;                    /*!< If non-zero, the scrollbar is currently pressed. */
+	/* 000F(1)   */ PACK uint8  dirty;                      /*!< If non-zero, the scrollbar is dirty (requires repaint). */
+	/* 0010(2)   */ PACK uint16 pressedPosition;            /*!< Position where we clicked on the scrollbar when pressed. */
+	/* 0012(4)   */ PACK csip32 drawProc;                   /*!< Draw proc (called on every draw). Can be null. */
+} GCC_PACKED WidgetScrollbar;
+MSVC_PACKED_END
+assert_compile(sizeof(WidgetScrollbar) == 0x16);
+
+MSVC_PACKED_BEGIN
+/**
  * A Widget as stored in the memory.
  */
 typedef struct Widget {
@@ -77,7 +96,7 @@ typedef struct Widget {
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
 	/* 002E(2)   */ PACK uint16 state;                      /*!< Bitflags. 0x01 - Selected, 0x02/0x04 - Hover, 0x08 - Last Selected, 0x10/0x20 - Last Hover, 0x80 - Key Selected. */
 	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
-	/* 0034(4)   */ PACK csip32 variable_34;                /*!< ?? */
+	/* 0034(4)   */ PACK csip32 scrollbar;                  /*!< If non-zero, it points to WidgetScrollbar belonging to this widget. */
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
 } GCC_PACKED Widget;

@@ -89,7 +89,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 {
 	emu_push(-1);
-	emu_push(w->variable_34.s.cs); emu_push(w->variable_34.s.ip);
+	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
 	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; f__B520_062C_0030_162A();
 	emu_sp += 6;
 
@@ -105,7 +105,7 @@ bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
 {
 	emu_push(1);
-	emu_push(w->variable_34.s.cs); emu_push(w->variable_34.s.ip);
+	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
 	emu_push(emu_cs); emu_push(0x03DE); emu_cs = 0xB520; f__B520_062C_0030_162A();
 	emu_sp += 6;
 
@@ -120,9 +120,10 @@ bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 {
+	WidgetScrollbar *scrollbar;
 	uint16 positionX, positionY;
 
-	csip32 scrollcsip = w->variable_34;
+	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
 
 	positionX = w->offsetX;
 	if (w->offsetX < 0) positionX += g_global->variable_4062[w->parentID][2] << 3;
@@ -133,47 +134,47 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 	positionY += g_global->variable_4062[w->parentID][1];
 
 	if ((w->state & 0x4400) != 0) {
-		emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xE) = 0;
+		scrollbar->pressed = 0;
 		GUI_Widget_ScrollBar_Draw(w, wcsip);
 	}
 
 	if ((w->state & 0x1100) != 0) {
-		int16 position;
-		int16 scrollTop;
-		int16 scrollBottom;
+		int16 positionCurrent;
+		int16 positionBegin;
+		int16 positionEnd;
 
-		emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xE) = 0;
+		scrollbar->pressed = 0;
 
 		if (w->width > w->height) {
-			position = g_global->mouseX;
-			scrollTop = positionX + emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) + 1;
+			positionCurrent = g_global->mouseX;
+			positionBegin = positionX + scrollbar->position + 1;
 		} else {
-			position = g_global->mouseY;
-			scrollTop = positionY + emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) + 1;
+			positionCurrent = g_global->mouseY;
+			positionBegin = positionY + scrollbar->position + 1;
 		}
 
-		scrollBottom = scrollTop + emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x4);
+		positionEnd = positionBegin + scrollbar->size;
 
-		if (position <= scrollBottom && position >= scrollTop) {
-			emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xE) = 1;
-			emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x10) = position - scrollTop;
+		if (positionCurrent <= positionEnd && positionCurrent >= positionBegin) {
+			scrollbar->pressed = 1;
+			scrollbar->pressedPosition = positionCurrent - positionBegin;
 		} else {
-			emu_push(position < scrollTop ? -emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0xA) : emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0xA));
-			emu_push(scrollcsip.s.cs); emu_push(scrollcsip.s.ip);
+			emu_push(positionCurrent < positionBegin ? -scrollbar->scrollPerPage : scrollbar->scrollPerPage);
+			emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
 			emu_push(emu_cs); emu_push(0x0546); emu_cs = 0xB520; f__B520_062C_0030_162A();
 			emu_sp += 6;
 		}
 	}
 
-	if ((w->state & 0x2200) != 0 && emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xE) != 0) {
+	if ((w->state & 0x2200) != 0 && scrollbar->pressed != 0) {
 		int16 position, size;
 
 		if (w->width > w->height) {
-			size = w->width - 2 - emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x4);
-			position = g_global->mouseX - emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x10) - positionX - 1;
+			size = w->width - 2 - scrollbar->size;
+			position = g_global->mouseX - scrollbar->pressedPosition - positionX - 1;
 		} else {
-			size = w->height - 2 - emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x4);
-			position = g_global->mouseY - emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x10) - positionY - 1;
+			size = w->height - 2 - scrollbar->size;
+			position = g_global->mouseY - scrollbar->pressedPosition - positionY - 1;
 		}
 
 		if (position < 0) {
@@ -182,17 +183,17 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 			position = size;
 		}
 
-		if (emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) != position) {
-			emu_get_memory16(scrollcsip.s.cs, scrollcsip.s.ip, 0x6) = position;
-			emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xF) = 1;
+		if (scrollbar->position != position) {
+			scrollbar->position = position;
+			scrollbar->dirty = 1;
 		}
 
-		emu_push(scrollcsip.s.cs); emu_push(scrollcsip.s.ip);
+		emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
 		emu_push(emu_cs); emu_push(0x0605); emu_cs = 0xB520; f__B520_08E6_0038_85A4();
 		emu_sp += 4;
 
-		if (emu_get_memory8(scrollcsip.s.cs, scrollcsip.s.ip, 0xF) != 0) {
-			assert(emu_get_csip32(scrollcsip.s.cs, scrollcsip.s.ip, 0x0).csip == wcsip.csip);
+		if (scrollbar->dirty != 0) {
+			assert(scrollbar->parent.csip == wcsip.csip);
 			GUI_Widget_ScrollBar_Draw(w, wcsip);
 		}
 	}
