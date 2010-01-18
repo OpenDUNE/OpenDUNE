@@ -11,6 +11,7 @@
 #include "../src/input/input.h"
 #include "../src/interrupt.h"
 #include "../src/map.h"
+#include "../src/opendune.h"
 #include "../src/os/math.h"
 #include "../src/os/strings.h"
 #include "../src/patched.h"
@@ -114,7 +115,6 @@ extern void f__2537_000C_001C_86CB();
 extern void f__2BB6_000C_0043_A570();
 extern void f__28FD_000C_0007_5DA9();
 extern void f__2C17_000C_002F_3016();
-extern void emu_GameLoop_Main();
 extern void emu_Mouse_CheckButtons();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2533_000D_001C_74EC();

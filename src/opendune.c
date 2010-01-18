@@ -7,8 +7,50 @@
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
+#include "house.h"
+#include "pool/unit.h"
+#include "unit.h"
 #include "opendune.h"
-#include "../decompiled/decompiled.h"
+
+extern void f__07D4_0000_0027_FA61();
+extern void f__10E4_0675_0026_F126();
+extern void f__10E4_09AB_0031_5E8E();
+extern void f__10E4_0F1A_0088_7622();
+extern void f__1A34_27A8_0012_7198();
+extern void f__1DD7_01EB_0013_9C3C();
+extern void f__1DD7_088A_0026_5144();
+extern void f__22A6_0796_000B_9035();
+extern void f__24DA_002D_0010_3EB2();
+extern void f__2537_000C_001C_86CB();
+extern void f__257A_000D_001A_3B75();
+extern void f__2598_0000_0017_EB80();
+extern void f__2B6C_0137_0020_C73F();
+extern void f__2B6C_0169_001E_6939();
+extern void f__2C17_000C_002F_3016();
+extern void f__B483_0283_0014_983A();
+extern void f__B483_0470_000E_519D();
+extern void f__B483_04CB_0015_EBB4();
+extern void f__B4B8_0D23_0010_BA99();
+extern void f__B4B8_110D_000D_FD5C();
+extern void f__B4E9_0000_0013_DC68();
+extern void f__B4E9_0050_003F_292A();
+extern void f__B511_0000_000E_B463();
+extern void f__B511_0FB0_0028_02A0();
+extern void emu_GUI_PaletteAnimate();
+extern void emu_GUI_Widget_HandleEvents();
+extern void emu_GameLoop_Structure();
+extern void emu_GameLoop_Team();
+extern void emu_Gameloop_IntroMenu();
+extern void emu_Gameloop_LevelEnd();
+extern void emu_InGame_Numpad_Move();
+extern void emu_Map_SetSelectionObjectPosition();
+extern void emu_Sound_PlayDuneInit();
+extern void emu_String_Load();
+extern void emu_Tile_Center();
+extern void emu_Tile_PackTile();
+extern void emu_Unknown_07AE_0000();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Decompiled function emu_GameLoop_Main()
