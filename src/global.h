@@ -660,7 +660,10 @@ typedef struct GlobalData {
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
 	/* 31A9()    */ PACK uint8   unknown_31A9[0x0009];
 	/* 31B2(4)   */ PACK csip32 variable_31B2;              /*!< ?? */
-	/* 31B6()    */ PACK uint8   unknown_31B6[0x0010];
+	/* 31B6()    */ PACK uint8   unknown_31B6[0x0006];
+	/* 31BC(4)   */ PACK uint32 variable_31BC;              /*!< ?? */
+	/* 31C0(2)   */ PACK  int16 variable_31C0;              /*!< ?? */
+	/* 31C2(4)   */ PACK uint32 variable_31C2;              /*!< ?? */
 	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
 	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
 	/* 31CE(4)   */ PACK uint32 variable_31CE;              /*!< ?? */
@@ -808,7 +811,7 @@ typedef struct GlobalData {
 	/* 3D4C(256) */ PACK uint8  variable_3D4C[256];         /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
 	/* 3E4E(4)   */ PACK csip32 variable_3E4E;              /*!< ?? */
-	/* 3E52(2)   */ PACK uint16 variable_3E52;              /*!< ?? */
+	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(320) */ PACK uint16 variable_4062[20][8];       /*!< ?? Position and size of widgets? */
