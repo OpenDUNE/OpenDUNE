@@ -36,8 +36,8 @@ extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4E9_0000_0013_DC68();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B511_0000_000E_B463();
-extern void f__B511_0FB0_0028_02A0();
 extern void emu_GUI_PaletteAnimate();
+extern void emu_GUI_PickHouse();
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GameLoop_Structure();
 extern void emu_GameLoop_Team();
@@ -190,7 +190,7 @@ void GameLoop_Main()
 			emu_sp += 2;
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
-			emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0FB0_0028_02A0();
+			emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x3511; overlay(0x3511, 0); emu_GUI_PickHouse();
 			g_global->playerHouseID = emu_ax;
 
 			emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();

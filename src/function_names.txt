@@ -245,6 +245,7 @@ B50B:041C:001E:0374	emu_Save_Structure	# Save all structures to a buffer
 B50B:04A1:001A:1AA9	emu_Save_Team	# Save all teams to a buffer
 
 B511:0729:0016:F168	emu_Save_Main	# Save a game
+B511:0FB0:0028:02A0	emu_GUI_PickHouse	# Show pick house screens
 
 B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window

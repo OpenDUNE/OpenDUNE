@@ -4282,7 +4282,7 @@ l__21BF:
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__21CB:
 	emu_get_memory16(emu_ds, 0x00, 0x3A38) = 0x5;
-	emu_push(emu_cs); emu_push(0x21D6); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0FB0_0028_02A0();
+	emu_push(emu_cs); emu_push(0x21D6); emu_cs = 0x3511; overlay(0x3511, 0); emu_GUI_PickHouse();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__21D6:

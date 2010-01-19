@@ -2369,9 +2369,9 @@ l__0FAB:
 }
 
 /**
- * Decompiled function f__B511_0FB0_0028_02A0()
+ * Decompiled function emu_GUI_PickHouse()
  *
- * @name f__B511_0FB0_0028_02A0
+ * @name emu_GUI_PickHouse
  * @implements B511:0FB0:0028:02A0 ()
  * @implements B511:0FD8:000E:7213
  * @implements B511:0FE6:000B:EDE5
@@ -2458,7 +2458,7 @@ l__0FAB:
  *
  * Called From: 3511:0043:0005:0000
  */
-void f__B511_0FB0_0028_02A0()
+void emu_GUI_PickHouse()
 {
 l__0FB0:
 	emu_push(emu_bp);

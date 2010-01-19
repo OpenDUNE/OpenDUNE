@@ -698,7 +698,7 @@ extern void f__B495_0F7A_000B_410C();
 extern void f__2649_0F92_0049_58A8();
 extern void f__176C_0FA2_0013_6D6D();
 extern void f__22A6_0FAE_0027_2378();
-extern void f__B511_0FB0_0028_02A0();
+extern void emu_GUI_PickHouse();
 extern void f__176C_0FD2_001F_B15D();
 extern void f__22A6_0FD7_0043_ACF9();
 extern void emu_GUI_Cancel();
