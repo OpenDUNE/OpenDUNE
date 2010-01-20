@@ -519,7 +519,8 @@ typedef struct GlobalData {
 	/* 2AAD()    */ PACK uint8   unknown_2AAD[0x000A];
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
 	/* 2AC3(14)  */ PACK char   string_2AC3[14];            /*!< "_SAVE%03d.DAT" NULL terminated. */
-	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0004];
+	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0001];
+	/* 2AD2(3)   */ PACK char   string_2AD2[3];             /*!< "%d" NULL terminated. */
 	/* 2AD5(9)   */ PACK char   string_2AD5[9];             /*!< "\r\n[%s]\r\n" NULL terminated. */
 	/* 2ADE(8)   */ PACK char   string_2ADE[8];             /*!< "%s=%d\r\n" NULL terminated. */
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
@@ -1189,7 +1190,8 @@ typedef struct GlobalData {
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
-	/* 76B4()    */ PACK uint8   unknown_76B4[0x0006];
+	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? */
+	/* 76B8(2)   */ PACK uint16 variable_76B8;              /*!< ?? */
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
 	/* 76BD(256) */ PACK uint8  characterClass[256];        /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. */
