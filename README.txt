@@ -79,10 +79,11 @@ The OpenDUNE team (in alphabetical order):
   Patric Stout (TrueBrain)             - Lead Developer
   Steven Noorbergen (Xaroth)           - Lead Manager
 
-Thanks To:
+Thanks To (in alphabetical order):
   Albert Hofkamp (Alberth)             - For his many bug-reports
   Szabolcs Nagy (nsz)                  - ANSI C Guru
   Ingo von Borstel (planetmaker)       - For his many bug-reports
+  tneo                                 - For his many bug-reports
 
   Bug Reporters                        - Thank you all for all bug reports
   Westwood                             - For an amazing game
