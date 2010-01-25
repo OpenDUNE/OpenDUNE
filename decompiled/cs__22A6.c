@@ -1174,6 +1174,7 @@ l__09D9:
 	emu_ip = emu_get_memory16(emu_cs, emu_di, 0x9ED);
 	emu_push(0x09E5);
 	switch (emu_ip) {
+		case 0x0A0D: f__22A6_0A0D_0002_61BE(); break;
 		case 0x0A0F: f__22A6_0A0F_0008_6943(); break;
 		case 0x0A19: f__22A6_0A19_000E_92F3(); break;
 		case 0x0A46: f__22A6_0A46_0008_6953(); break;
@@ -1314,6 +1315,7 @@ l__0B55:
  * @implements 22A6:0A0D:0002:61BE ()
  *
  * Called From: 22A6:09D4:0011:C80B
+ * Called From: 22A6:09E0:000C:03FA
  */
 void f__22A6_0A0D_0002_61BE()
 {
