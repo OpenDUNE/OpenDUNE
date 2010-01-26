@@ -25,6 +25,7 @@
 	#define MSVC_PACKED_BEGIN __pragma(pack(push, 1))
 	#define MSVC_PACKED_END __pragma(pack(pop))
 	#pragma warning(disable:4102) /* unreferenced label */
+	#pragma warning(disable:4996) /* deprecated functions */
 #elif defined(__TINYC__)
 	/* For Tiny C Compiler to pack the content of a struct, it needs the
 	 *  __attribute__((packed)) attribute on every member in the struct.
