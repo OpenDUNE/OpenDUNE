@@ -262,7 +262,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		if (textLength >= maxLength) continue;
 
 		/* Add char to the text */
-		*t = key;
+		*t = key & 0xFF;
 		*(++t) = '\0';
 		textLength++;
 
