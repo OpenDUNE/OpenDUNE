@@ -10,7 +10,6 @@
 #include "unit.h"
 #include "os/math.h"
 
-extern void overlay();
 extern void emu_GUI_DrawWiredRectangle();
 extern void emu_Structure_UpdateMap();
 extern void f__07D4_1625_001A_07E5();
@@ -21,6 +20,7 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4CD_0000_0011_95D0();
+extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
 
