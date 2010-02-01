@@ -849,26 +849,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__251B.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__2521.c"
 				>
 				<FileConfiguration
@@ -3052,7 +3032,47 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\gui\emu_gui.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\gui\emu_widget.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\gui\gui.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

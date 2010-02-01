@@ -67,7 +67,6 @@ extern void f__2BF2_0000_0007_42B5();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__2598_0000_0017_EB80();
 extern void f__B511_0000_000E_B463();
-extern void emu_GUI_DrawWiredRectangle();
 extern void emu_Gameloop_Intro();
 extern void f__B4AB_0000_000D_6028();
 extern void f__B491_0000_0022_DD43();
