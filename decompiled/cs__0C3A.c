@@ -3053,16 +3053,16 @@ l__242D:
 }
 
 /**
- * Decompiled function f__0C3A_2433_0042_DBC6()
+ * Decompiled function emu_Structure_RemoveFog()
  *
- * @name f__0C3A_2433_0042_DBC6
+ * @name emu_Structure_RemoveFog
  * @implements 0C3A:2433:0042:DBC6 ()
  * @implements 0C3A:2475:0005:6143
  * @implements 0C3A:2478:0002:2597
  *
  * Called From: B511:01D2:000B:5450
  */
-void f__0C3A_2433_0042_DBC6()
+void emu_Structure_RemoveFog()
 {
 l__2433:
 	emu_push(emu_bp);

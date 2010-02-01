@@ -888,7 +888,7 @@ extern void emu_Script_Unit_RandomSoldier();
 extern void emu_File_Close_Wrapper();
 extern void emu_File_Close();
 extern void f__01F7_2412_0011_FC80();
-extern void f__0C3A_2433_0042_DBC6();
+extern void emu_Structure_RemoveFog();
 extern void f__176C_246C_0015_C163();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__1A34_24FE_002F_672A();

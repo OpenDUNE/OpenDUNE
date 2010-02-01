@@ -93,6 +93,7 @@
 
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
+0C3A:2433:0042:DBC6	emu_Structure_RemoveFog	# (structure_csip), removes fog around structure if allied and valid position
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
 0EDB:0006:002F:CECA	emu_Script_General_DisplayText	# (script)
