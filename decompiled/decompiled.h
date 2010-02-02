@@ -12,6 +12,7 @@
 #include "../src/interrupt.h"
 #include "../src/map.h"
 #include "../src/opendune.h"
+#include "../src/os/endian.h"
 #include "../src/os/math.h"
 #include "../src/os/strings.h"
 #include "../src/patched.h"
@@ -20,6 +21,7 @@
 #include "../src/pool/structure.h"
 #include "../src/pool/team.h"
 #include "../src/pool/unit.h"
+#include "../src/save.h"
 #include "../src/scenario.h"
 #include "../src/script/script.h"
 #include "../src/string.h"
@@ -318,7 +320,6 @@ extern void emu_GUI_Mentat();
 extern void f__07D4_034D_001F_FF64();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__B483_0363_0016_83DF();
-extern void emu_Save_Chunk();
 extern void emu_Terminate_Normal();
 extern void f__0EDB_0386_001D_2E46();
 extern void emu_Terminate_Error();
@@ -471,7 +472,6 @@ extern void f__B52A_06F6_0012_197D();
 extern void f__2756_06FB_0042_E7A6();
 extern void f__06F7_0713_0011_15A5();
 extern void f__1DD7_0719_0014_A78C();
-extern void emu_Save_Main();
 extern void f__06F7_072B_0018_F05F();
 extern void f__29E8_072F_000F_651A();
 extern void emu_Overlay_AddToLinkedList();
@@ -734,7 +734,6 @@ extern void f__1A34_117E_001D_E17B();
 extern void f__B4F2_1181_000B_D4AD();
 extern void emu_GUI_Picture();
 extern void f__B495_119D_0009_53E9();
-extern void emu_String_GenerateSavegameFilename();
 extern void f__0972_11B9_0020_8DC9();
 extern void f__B503_11BE_0016_067A();
 extern void f__B518_11C6_0011_1160();
