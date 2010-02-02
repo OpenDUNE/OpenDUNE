@@ -2656,43 +2656,6 @@ l__11AF:
 }
 
 /**
- * Decompiled function emu_String_GenerateSavegameFilename()
- *
- * @name emu_String_GenerateSavegameFilename
- * @implements B4F2:11B4:0016:244A ()
- * @implements B4F2:11CA:0005:60C3
- *
- * Called From: B4F2:0618:0015:09D0
- * Called From: B4F2:07FE:0019:E1DC
- * Called From: B4F2:1195:000B:BBAE
- * Called From: B4F2:1195:000C:BFCE
- * Called From: B4F2:1295:000F:0377
- */
-void emu_String_GenerateSavegameFilename()
-{
-l__11B4:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_ds);
-	emu_ax = 0x2AC3;
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x11CA); emu_cs = 0x01F7; emu_String_sprintf();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-l__11CA:
-	emu_addw(&emu_sp, 0xA);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4F2_11CF_0013_5635()
  *
  * @name f__B4F2_11CF_0013_5635

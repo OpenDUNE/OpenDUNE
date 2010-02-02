@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B50B_0000_0029_BDBF()
+ * Decompiled function emu_Save_Info()
  *
- * @name f__B50B_0000_0029_BDBF
+ * @name emu_Save_Info
  * @implements B50B:0000:0029:BDBF ()
  * @implements B50B:0029:0016:86FA
  * @implements B50B:003F:0016:62F4
@@ -41,7 +41,7 @@
  *
  * Called From: 350B:0020:0005:0000
  */
-void f__B50B_0000_0029_BDBF()
+void emu_Save_Info()
 {
 l__0000:
 	emu_push(emu_bp);
@@ -355,9 +355,9 @@ l__0264:
 }
 
 /**
- * Decompiled function f__B50B_0268_0012_E6D0()
+ * Decompiled function emu_Save_Map()
  *
- * @name f__B50B_0268_0012_E6D0
+ * @name emu_Save_Map
  * @implements B50B:0268:0012:E6D0 ()
  * @implements B50B:027A:0018:B4ED
  * @implements B50B:0292:0055:5B5D
@@ -373,7 +373,7 @@ l__0264:
  *
  * Called From: 350B:0025:0005:0000
  */
-void f__B50B_0268_0012_E6D0()
+void emu_Save_Map()
 {
 l__0268:
 	emu_push(emu_bp);

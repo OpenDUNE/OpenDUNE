@@ -201,8 +201,6 @@ B495:03E4:0014:917E	emu_GUI_Purchase_Plus	# (csip) Handles click on the "+" butt
 B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" button in purchase window
 B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
 
-B4B1:0373:001A:90A2	emu_Save_Chunk	# Save a chunk to the file
-
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
 B4B8:0ED9:001E:DC63	emu_Window_Widget_Allocate	# (??) Allocate memory for a widget
 B4B8:16D3:0022:3C6A	emu_Gameloop_IntroMenu	# The intro and first menu main loop
@@ -230,7 +228,6 @@ B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading 
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
-B4F2:11B4:0016:244A	emu_String_GenerateSavegameFilename	# (buffer_csip, num) Generates "_SAVE<num>.DAT"
 B4F2:1303:0017:56DB	emu_GUI_String_Get_ByIndex	# (stringID) Special version of String_Get_ByIndex
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
@@ -238,12 +235,13 @@ B4FC:03C8:002C:9251	emu_Ini_GetString
 
 B503:0000:0016:B170	emu_GUI_ShowMap	# Shows the map and lets you select next mission
 
+B50B:0000:0029:BDBF	emu_Save_Info	# Save all infos to a buffer
+B50B:0268:0012:E6D0	emu_Save_Map	# Save all tiles to a buffer
 B50B:0326:0016:CD5C	emu_Save_House	# Save all houses to a buffer
 B50B:0394:001F:01AF	emu_Save_Unit	# Save all units to a buffer
 B50B:041C:001E:0374	emu_Save_Structure	# Save all structures to a buffer
 B50B:04A1:001A:1AA9	emu_Save_Team	# Save all teams to a buffer
 
-B511:0729:0016:F168	emu_Save_Main	# Save a game
 B511:0FB0:0028:02A0	emu_GUI_PickHouse	# Show pick house screens
 
 B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game

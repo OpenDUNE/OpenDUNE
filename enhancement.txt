@@ -4,6 +4,9 @@ When OpenDUNE is started in enhanced mode (default), a lot of bugs and
  problems which are in the original Dune2 version, are fixed.
 
 Below is the complete listing of all those bugs and problems, per category.
+ Every entry describes the problem, where the solution is in all cases
+ obvious by the way the problem is described and therefore the solution is
+ not mentioned as such.
 
 
 Structure
@@ -47,4 +50,9 @@ House
 AirUnit
 -------
 - If an airunit gives a script error, all other airunits are aborted.
+
+SaveLoad
+--------
+- The save routine allowed a NAME chunk up to 65536 bytes, where 255 bytes
+    should be sufficient for any sane name (both excluding the \0).
 
