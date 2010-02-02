@@ -910,7 +910,7 @@ l__0014:
 	emu_sp += 0xC;
 
 	memset(&g_global->scenario, 0, sizeof(Scenario));
-	g_global->scenario.variable_0000 = 0x290;
+	g_global->scenario.savegameVersion = 0x290;
 
 	emu_Scenario_Load_General();
 

@@ -102,7 +102,7 @@ MSVC_PACKED_BEGIN
  *  This is the layout of that data.
  */
 typedef struct Scenario {
-	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? Set to either 0x0290 or 0x0000. */
+	/* 0000(2)   */ PACK uint16 savegameVersion;            /*!< Version of the savegame, stored in the Scenario data. */
 	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
 	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
 	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */

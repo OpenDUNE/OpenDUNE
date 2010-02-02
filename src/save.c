@@ -31,7 +31,7 @@ static bool Save_Info(FILE *fp)
 {
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = 0x0;
 
-	g_global->scenario.variable_0000 = 0x0290;
+	g_global->scenario.savegameVersion = 0x0290;
 
 	if (fwrite(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
 	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
