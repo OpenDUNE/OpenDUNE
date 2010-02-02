@@ -30,9 +30,9 @@ void emu_String_GenerateSavegameFilename()
 }
 
 /**
- *Emulator wrapper around Save_Main()
+ *Emulator wrapper around emu_SaveFile()
  *
- * @name emu_Save_Main
+ * @name emu_SaveFile
  * @implements B511:0729:0016:F168 ()
  * @implements B511:0800:000F:842C
  * @implements B511:080F:0021:E6D5
@@ -67,7 +67,7 @@ void emu_String_GenerateSavegameFilename()
  * @implements B511:0A7B:0009:260D
  * @implements B511:0A84:000B:5472
  */
-void emu_Save_Main()
+void emu_SaveFile()
 {
 	char *filename;
 	char *description;
@@ -79,5 +79,5 @@ void emu_Save_Main()
 	filename = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x2), emu_get_memory16(emu_ss, emu_sp, 0x0), 0x0);
 	description = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_sp, 0x6), emu_get_memory16(emu_ss, emu_sp, 0x4), 0x0);
 
-	Save_Main(filename, description);
+	SaveFile(filename, description);
 }

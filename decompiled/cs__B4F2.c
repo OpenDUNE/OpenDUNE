@@ -1387,7 +1387,7 @@ l__0801:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x18);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x3511; overlay(0x3511, 0); emu_Save_Main();
+	emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x3511; overlay(0x3511, 0); emu_SaveFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0814:
