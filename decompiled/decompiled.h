@@ -286,7 +286,6 @@ extern void f__217E_0290_000A_9FBE();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__2AE1_029F_0014_50E5();
 extern void f__217E_02A0_002C_0B5F();
-extern void emu_Gameloop_LevelEnd();
 extern void f__1319_02AC_0020_C75C();
 extern void emu_Print_Error_Overlay();
 extern void f__151A_02B0_0011_62B1();

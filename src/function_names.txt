@@ -105,8 +105,6 @@
 10E4:1EF1:0040:01F8	emu_GUI_DrawText_Wrapper	# (char_csip, positionX, positionY, textColour, backgroundColour, flags), draw text to the screen; if flags & 0x100, then text centered
 10E4:2290:0012:78BD	emu_GUI_Update97E5	# () Sets variable_97E5 to the correct string for that structure
 
-1423:02A5:002A:29F1	emu_Gameloop_LevelEnd	# Handles level ending (losing or winning)
-
 15C2:000B:000E:6322	emu_Script_ClearInfo	# (info_csip)
 15C2:00AC:0015:2FBF	emu_Script_LoadFromFile	# (filename_csip, info_csip, functions_csip, text_csip)
 

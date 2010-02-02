@@ -867,7 +867,8 @@ typedef struct GlobalData {
 	/* 6096(4)   */ PACK uint32 tickHouseUnused;            /*!< Indicates next time House runs Unused function. */
 	/* 609A(4)   */ PACK uint32 tickHouseUnknown;           /*!< Indicates next time House runs Unknown function. */
 	/* 609E(4)   */ PACK uint32 tickHouseStarportAvailability;/*!< Indicates next time House runs Starport Availability function. */
-	/* 608A()    */ PACK uint8   unknown_60A2[0x000C];
+	/* 60A2(4)   */ PACK uint32 variable_60A2;              /*!< ?? */
+	/* 60A6()    */ PACK uint8   unknown_60A6[0x0008];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
