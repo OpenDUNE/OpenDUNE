@@ -103,6 +103,17 @@ l__201F:
  * @implements 0C3A:01BA:0018:69C9
  * @implements 0C3A:0C5C:004D:2837
  * @implements B4B1:0373:001A:90A2 ()
+ * @implements B50B:0000:0029:BDBF ()
+ * @implements B50B:0268:0012:E6D0 ()
+ * @implements B50B:0326:0016:CD5C ()
+ * @implements B50B:0394:001F:01AF ()
+ * @implements B50B:041C:001E:0374 ()
+ * @implements B50B:04A1:001A:1AA9 ()
+ * @implements B50B:0522:0036:7E4C ()
+ * @implements B50B:0573:0037:8058 ()
+ * @implements B50B:05AA:0030:871C ()
+ * @implements B50B:05DA:002E:8785 ()
+ * @implements B50B:0608:002C:0256 ()
  * @implements B520:0407:00A9:43A1
  * @implements B520:062C:0030:162A ()
  */
