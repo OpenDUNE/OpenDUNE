@@ -1091,7 +1091,7 @@ l__0639:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0x16);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0643); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0446_0013_E4E5();
+	emu_push(emu_cs); emu_push(0x0643); emu_cs = 0x3511; overlay(0x3511, 0); emu_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0643:

@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Load()
+ * Decompiled function emu_Load_Info()
  *
- * @name emu_Load
+ * @name emu_Load_Info
  * @implements B4C4:0000:001C:B22A ()
  * @implements B4C4:001C:0012:447E
  * @implements B4C4:002E:0015:F951
@@ -42,7 +42,7 @@
  *
  * Called From: 34C4:0020:0005:0000
  */
-void emu_Load()
+void emu_Load_Info()
 {
 l__0000:
 	emu_push(emu_bp);
@@ -365,9 +365,9 @@ l__0252:
 }
 
 /**
- * Decompiled function f__B4C4_0255_0009_A812()
+ * Decompiled function emu_Load_Map()
  *
- * @name f__B4C4_0255_0009_A812
+ * @name emu_Load_Map
  * @implements B4C4:0255:0009:A812 ()
  * @implements B4C4:025E:0037:F654
  * @implements B4C4:028D:0008:A023
@@ -378,7 +378,7 @@ l__0252:
  *
  * Called From: 34C4:0025:0005:0000
  */
-void f__B4C4_0255_0009_A812()
+void emu_Load_Map()
 {
 l__0255:
 	emu_push(emu_bp);
@@ -474,9 +474,9 @@ l__0307:
 }
 
 /**
- * Decompiled function f__B4C4_0311_0009_BC94()
+ * Decompiled function emu_Load_House()
  *
- * @name f__B4C4_0311_0009_BC94
+ * @name emu_Load_House
  * @implements B4C4:0311:0009:BC94 ()
  * @implements B4C4:031A:0018:3303
  * @implements B4C4:0332:000B:CA0C
@@ -487,7 +487,7 @@ l__0307:
  *
  * Called From: 34C4:002A:0005:0000
  */
-void f__B4C4_0311_0009_BC94()
+void emu_Load_House()
 {
 l__0311:
 	emu_push(emu_bp);
@@ -567,9 +567,9 @@ l__03A6:
 }
 
 /**
- * Decompiled function f__B4C4_03AA_0009_B4A2()
+ * Decompiled function emu_Load_Unit()
  *
- * @name f__B4C4_03AA_0009_B4A2
+ * @name emu_Load_Unit
  * @implements B4C4:03AA:0009:B4A2 ()
  * @implements B4C4:03B3:0019:DA34
  * @implements B4C4:03CC:0012:B51A
@@ -581,7 +581,7 @@ l__03A6:
  *
  * Called From: 34C4:002F:0005:0000
  */
-void f__B4C4_03AA_0009_B4A2()
+void emu_Load_Unit()
 {
 l__03AA:
 	emu_push(emu_bp);
@@ -662,9 +662,9 @@ l__0438:
 }
 
 /**
- * Decompiled function f__B4C4_043C_0009_1C95()
+ * Decompiled function emu_Load_Structure()
  *
- * @name f__B4C4_043C_0009_1C95
+ * @name emu_Load_Structure
  * @implements B4C4:043C:0009:1C95 ()
  * @implements B4C4:0445:0018:FDA2
  * @implements B4C4:045D:0012:24CE
@@ -680,7 +680,7 @@ l__0438:
  *
  * Called From: 34C4:0034:0005:0000
  */
-void f__B4C4_043C_0009_1C95()
+void emu_Load_Structure()
 {
 l__043C:
 	emu_push(emu_bp);
@@ -775,9 +775,9 @@ l__04D6:
 }
 
 /**
- * Decompiled function f__B4C4_04DA_0008_C6B9()
+ * Decompiled function emu_Load_Team()
  *
- * @name f__B4C4_04DA_0008_C6B9
+ * @name emu_Load_Team
  * @implements B4C4:04DA:0008:C6B9 ()
  * @implements B4C4:04E2:0018:3B2F
  * @implements B4C4:04FA:0012:5417
@@ -789,7 +789,7 @@ l__04D6:
  *
  * Called From: 34C4:0039:0005:0000
  */
-void f__B4C4_04DA_0008_C6B9()
+void emu_Load_Team()
 {
 l__04DA:
 	emu_push(emu_bp);

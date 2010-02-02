@@ -3,6 +3,7 @@
 #define DECOMPILED_INCLUDE
 
 #include <stdio.h>
+
 #include "../src/config.h"
 #include "../src/file.h"
 #include "../src/global.h"
@@ -39,7 +40,7 @@
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_GUI_ShowEndStats();
 extern void f__B4C1_0000_0022_1807();
-extern void emu_Load();
+extern void emu_Load_Info();
 extern void f__B520_0000_0019_6B99();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
@@ -271,7 +272,7 @@ extern void f__0C10_0247_000D_A5E6();
 extern void f__1DD7_0248_0014_9236();
 extern void f__0EDB_024B_001D_2E46();
 extern void f__104B_024D_0012_1DC4();
-extern void f__B4C4_0255_0009_A812();
+extern void emu_Load_Map();
 extern void f__217E_0268_0027_C749();
 extern void emu_Input_Keyboard_HandleKeys();
 extern void emu_Stderr_Write();
@@ -306,7 +307,7 @@ extern void f__B4DA_0308_0018_F99F();
 extern void emu_Drive_Set_Default();
 extern void emu_GUI_Production_ResumeGame();
 extern void f__151A_0310_0018_831F();
-extern void f__B4C4_0311_0009_BC94();
+extern void emu_Load_House();
 extern void f__167E_0319_0010_B56F();
 extern void emu_Empty4();
 extern void f__217E_0320_0049_4A24();
@@ -326,7 +327,7 @@ extern void emu_GUI_Production_Upgrade();
 extern void f__B520_039B_001B_4BEB();
 extern void f__1DD7_039B_0008_D3BD();
 extern void f__B48B_03A4_0005_619A();
-extern void f__B4C4_03AA_0009_B4A2();
+extern void emu_Load_Unit();
 extern void emu_Tools_MulCSIP_csip();
 extern void f__0EDB_03B9_001D_2E46();
 extern void emu_GUI_Production_List();
@@ -351,9 +352,9 @@ extern void f__0EDB_0426_0027_711D();
 extern void f__217E_0426_003F_15C8();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void f__151A_043B_0018_36C4();
-extern void f__B4C4_043C_0009_1C95();
+extern void emu_Load_Structure();
 extern void emu_Drive_Set_Default_Wrapper();
-extern void f__B511_0446_0013_E4E5();
+extern void emu_Load();
 extern void f__15C2_044C_0012_C66D();
 extern void f__0EDB_0456_0032_B7E5();
 extern void f__151A_046F_0017_2508();
@@ -381,7 +382,7 @@ extern void f__217E_04CB_0020_3089();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_GUI_Purchase_Invoice();
 extern void f__B4CD_04D9_0011_E9EF();
-extern void f__B4C4_04DA_0008_C6B9();
+extern void emu_Load_Team();
 extern void emu_Tools_Divd_Wrapper();
 extern void emu_Tools_Divd();
 extern void emu_Tools_Divd2();
