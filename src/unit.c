@@ -795,3 +795,38 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 	u->targetMove  = destination;
 	u->variable_72 = 0xFF;
 }
+
+/**
+ * Save all Units to a file. It converts pointers to indices where needed.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool Unit_Save(FILE *fp)
+{
+	PoolFindStruct find;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		Unit su;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+		su = *u;
+
+		/* Rewrite the pointer in the scriptEngine to an index */
+		if (su.script.script.csip != 0x00000000) {
+			ScriptInfo *scriptInfo;
+			scriptInfo = ScriptInfo_Get_ByMemory(su.script.scriptInfo);
+			su.script.script.csip = (su.script.script.csip - scriptInfo->start.csip) / 2;
+		}
+		su.script.scriptInfo.csip = 0x00000000;
+
+		if (fwrite(&su, sizeof(Unit), 1, fp) != 1) return false;
+	}
+
+	return true;
+}

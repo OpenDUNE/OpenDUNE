@@ -5,6 +5,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "house.h"
 #include "map.h"
 #include "os/endian.h"
 #include "os/math.h"
@@ -14,46 +15,138 @@
 #include "pool/unit.h"
 #include "save.h"
 #include "structure.h"
+#include "team.h"
 #include "unit.h"
 
-extern void emu_Save_Info();
-extern void emu_Save_Map();
-extern void emu_Save_House();
-extern void emu_Save_Structure();
-extern void emu_Save_Team();
-extern void emu_Save_Unit();
 extern void emu_Structure_RemoveFog();
 extern void emu_Unit_RemoveFog();
-extern void emu_Unknown_252E_0001();
 extern void overlay(uint16 cs, uint8 force);
 
-static bool Save_Chunk(FILE *fp, char *header, uint8 *data, uint32 dataLength)
+/**
+ * Save all kinds of important info to the savegame.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+static bool Save_Info(FILE *fp)
 {
-	uint32 lengthSwapped;
+	emu_get_memory16(emu_ss, emu_bp, -0x2) = 0x0;
 
-	if (dataLength == 0) return true;
+	g_global->scenario.variable_0000 = 0x0290;
+
+	if (fwrite(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
+	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->selectionType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fwrite(&g_global->activeStructureType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fwrite(&g_global->activeStructurePosition, sizeof(uint16), 1, fp) != 1) return false;
+
+	if (g_global->activeStructureType != 0xFFFF) {
+		Structure *s = Structure_Get_ByMemory(g_global->activeStructure);
+		if (fwrite(&s->index, sizeof(uint16), 1, fp) != 1) return false;
+	} else {
+		uint16 invalid = 0xFFFF;
+		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
+	}
+
+	if (g_global->selectionUnit.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
+		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+	} else {
+		uint16 invalid = 0xFFFF;
+		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
+	}
+
+	if (g_global->selectionUnit.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
+		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+	} else {
+		uint16 invalid = 0xFFFF;
+		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
+	}
+
+	if (fwrite(&g_global->activeAction, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
+
+	if (fwrite(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
+
+	if (fwrite(&g_global->variable_37F0, sizeof(uint32), 1, fp) != 1) return false;
+	if (fwrite(&g_global->variable_37F4, sizeof(uint32), 1, fp) != 1) return false;
+
+	{
+		uint32 tick = g_global->tickGlobal - g_global->tickScenarioStart;
+		if (fwrite(&tick, sizeof(uint32), 1, fp) != 1) return false;
+	}
+
+	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
+	if (fwrite(&g_global->variable_38FE, sizeof(uint16), 1, fp) != 1) return false;
+
+	if (g_global->variable_38FA.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->variable_38FA);
+		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+	} else {
+		uint16 invalid = 0xFFFF;
+		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
+	}
+
+	if (fwrite(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;
+
+	return true;
+}
+
+/**
+ * Save a chunk of data.
+ * @param fp The file to save to.
+ * @param header The chunk identification string (4 chars, always).
+ * @param saveProc The proc to call to generate the content of the chunk.
+ * @return True if and only if all bytes were written successful.
+ */
+static bool Save_Chunk(FILE *fp, char *header, bool (*saveProc)(FILE *fp))
+{
+	uint32 position;
+	uint32 length;
+	uint32 lengthSwapped;
 
 	if (fwrite(header, 4, 1, fp) != 1) return false;
 
-	lengthSwapped = HTOBE32(dataLength);
-	if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
+	/* Reserve the length field */
+	length = 0;
+	if (fwrite(&length, 4, 1, fp) != 1) return false;
 
-	if (fwrite(data, dataLength, 1, fp) != 1) return false;
+	/* Store the content of the chunk, and remember the length */
+	position = ftell(fp);
+	if (!saveProc(fp)) return false;
+	length = ftell(fp) - position;
+
 	/* Ensure we are word aligned */
-	if ((dataLength & 1) == 1) {
+	if ((length & 1) == 1) {
 		uint8 empty = 0;
 		if (fwrite(&empty, 1, 1, fp) != 1) return false;
 	}
 
-	return false;
+	/* Write back the chunk size */
+	fseek(fp, position - 4, SEEK_SET);
+	lengthSwapped = HTOBE32(length);
+	if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
+	fseek(fp, 0, SEEK_END);
+
+	return true;
 }
 
+/**
+ * Save the game for real. It creates all the required chunks and stores them
+ *  to the file. It updates the field lengths where needed.
+ *
+ * @param fp The file to save to.
+ * @param description The description of the savegame.
+ * @return True if and only if all bytes were written successful.
+ */
 static bool Save_Main_Internal(FILE *fp, char *description)
 {
 	uint32 length;
 	uint32 lengthSwapped;
-	uint8 *chunkData;
-	csip32 chunkcsip;
 
 	/* Write the 'FORM' chunk (in which all other chunks are) */
 	if (fwrite("FORM", 4, 1, fp) != 1) return false;
@@ -64,118 +157,25 @@ static bool Save_Main_Internal(FILE *fp, char *description)
 	/* Write the 'SCEN' chunk. Never contains content. */
 	if (fwrite("SCEN", 4, 1, fp) != 1) return false;
 
-	/* Write the 'NAME' chunk. Save_Chunk appends a \0 (because of
-	 *  word-aligning) in case the string exceeds 255 chars */
-	Save_Chunk(fp, "NAME", (uint8 *)description, min(255, strlen(description) + 1));
+	/* Write the 'NAME' chunk. Keep ourself word-aligned. */
+	if (fwrite("NAME", 4, 1, fp) != 1) return false;
+	length = min(255, strlen(description) + 1);
+	lengthSwapped = HTOBE32(length);
+	if (fwrite(&lengthSwapped, 4, 1, fp) != 1) return false;
+	if (fwrite(description, length, 1, fp) != 1) return false;
+	/* Ensure we are word aligned */
+	if ((length & 1) == 1) {
+		uint8 empty = 0;
+		if (fwrite(&empty, 1, 1, fp) != 1) return false;
+	}
 
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x092B); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x093D); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_Info();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "INFO", chunkData, emu_ax);
-
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0965); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0977); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_House();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "PLYR", chunkData, emu_ax);
-
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x099F); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x09B1); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_Unit();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "UNIT", chunkData, emu_ax);
-
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x09D9); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x09EB); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_Structure();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "BLDG", chunkData, emu_ax);
-
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0A13); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0A25); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_Map();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "MAP ", chunkData, emu_ax);
-
-
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0A4D); emu_cs = 0x252E; emu_Unknown_252E_0001();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
-	chunkcsip.s.cs = emu_dx;
-	chunkcsip.s.ip = emu_ax;
-
-	emu_push(chunkcsip.s.cs); emu_push(chunkcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0A5F); emu_cs = 0x350B; overlay(0x350B, 0); emu_Save_Team();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 4;
-
-	chunkData = &emu_get_memory8(chunkcsip.s.cs, chunkcsip.s.ip, 0);
-	Save_Chunk(fp, "TEAM", chunkData, emu_ax);
-
+	/* Store all additional chunks */
+	if (!Save_Chunk(fp, "INFO", &Save_Info)) return false;
+	if (!Save_Chunk(fp, "PLYR", &House_Save)) return false;
+	if (!Save_Chunk(fp, "UNIT", &Unit_Save)) return false;
+	if (!Save_Chunk(fp, "BLDG", &Structure_Save)) return false;
+	if (!Save_Chunk(fp, "MAP ", &Map_Save)) return false;
+	if (!Save_Chunk(fp, "TEAM", &Team_Save)) return false;
 
 	/* Write the total length of all data in the FORM chunk */
 	length = ftell(fp) - 8;
@@ -186,6 +186,13 @@ static bool Save_Main_Internal(FILE *fp, char *description)
 	return true;
 }
 
+/**
+ * Save the game to a filename
+ *
+ * @param fp The filename of the savegame.
+ * @param description The description of the savegame.
+ * @return True if and only if all bytes were written successful.
+ */
 bool Save_Main(char *filename, char *description)
 {
 	FILE *fp;

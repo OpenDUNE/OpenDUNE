@@ -102,7 +102,7 @@ MSVC_PACKED_BEGIN
  *  This is the layout of that data.
  */
 typedef struct Scenario {
-	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? Set to either 0x290 or 0x0. */
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? Set to either 0x0290 or 0x0000. */
 	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
 	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
 	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
@@ -526,8 +526,7 @@ typedef struct GlobalData {
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
 	/* 2AF3(1)   */ PACK uint8  variable_2AF3;              /*!< ?? */
-	/* 2AF4(2)   */ PACK uint16 variable_2AF4;              /*!< ?? */
-	/* 2AF6(2)   */ PACK uint16 variable_2AF6;              /*!< ?? */
+	/* 2AF4(2)   */ PACK uint32 variable_2AF4;              /*!< ?? */
 	/* 2AF8(4)   */ PACK char   string_2AF8[4];             /*!< "ENG" NULL terminated. */
 	/* 2AFC(4)   */ PACK char   string_2AFC[4];             /*!< "FRE" NULL terminated. */
 	/* 2B00(4)   */ PACK char   string_2B00[4];             /*!< "GER" NULL terminated. */
@@ -732,7 +731,9 @@ typedef struct GlobalData {
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
-	/* 37BA()    */ PACK uint8   unknown_37BA[0x003E];
+	/* 37BA()    */ PACK uint8   unknown_37BA[0x0036];
+	/* 37F0(4)   */ PACK uint32 variable_37F0;              /*!< ?? */
+	/* 37F4(4)   */ PACK uint32 variable_37F4;              /*!< ?? */
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
 	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
@@ -759,7 +760,7 @@ typedef struct GlobalData {
 	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
-	/* 38FA(4)   */ PACK csip32 variable_38FA;              /*!< ?? */
+	/* 38FA(4)   */ PACK csip32 variable_38FA;              /*!< ?? Stores an Unit. */
 	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */

@@ -327,3 +327,26 @@ bool Map_IsValidPosition(uint16 position)
 
 	return (mapInfo->minX <= x && x < (mapInfo->minX + mapInfo->sizeX) && mapInfo->minY <= y && y < (mapInfo->minY + mapInfo->sizeY));
 }
+
+/**
+ * Save all Tiles to a file.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool Map_Save(FILE *fp)
+{
+	uint16 i;
+
+	for (i = 0; i < 0x1000; i++) {
+		Tile *tile = Map_GetTileByPosition(i);
+
+		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
+		if (tile->flags == 0 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->spriteID) continue;
+
+		/* Store the index, then the tile itself */
+		if (fwrite(&i, 2, 1, fp) != 1) return false;
+		if (fwrite(tile, 4, 1, fp) != 1) return false;
+	}
+
+	return true;
+}

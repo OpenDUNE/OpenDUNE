@@ -214,7 +214,6 @@ void GameLoop_Main()
 			g_global->variable_38BE = 1;
 			g_global->scenarioID    = 1;
 			g_global->campaignID    = 0;
-			g_global->variable_2AF6 = 0;
 			g_global->variable_2AF4 = 0;
 		}
 

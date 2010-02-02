@@ -74,3 +74,38 @@ void GameLoop_Team()
 		}
 	}
 }
+
+/**
+ * Save all Teams to a file. It converts pointers to indices where needed.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool Team_Save(FILE *fp)
+{
+	PoolFindStruct find;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Team *t;
+		Team st;
+
+		t = Team_Find(&find);
+		if (t == NULL) break;
+		st = *t;
+
+		/* Rewrite the pointer in the scriptEngine to an index */
+		if (st.script.script.csip != 0x00000000) {
+			ScriptInfo *scriptInfo;
+			scriptInfo = ScriptInfo_Get_ByMemory(st.script.scriptInfo);
+			st.script.script.csip = (st.script.script.csip - scriptInfo->start.csip) / 2;
+		}
+		st.script.scriptInfo.csip = 0x00000000;
+
+		if (fwrite(&st, sizeof(Team), 1, fp) != 1) return false;
+	}
+
+	return true;
+}

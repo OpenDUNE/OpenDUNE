@@ -518,3 +518,27 @@ bool House_AreAllied(uint8 houseID1, uint8 houseID2)
 	return (houseID1 != g_global->playerHouseID && houseID2 != g_global->playerHouseID);
 }
 
+/**
+ * Save all Houses to a file.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool House_Save(FILE *fp)
+{
+	PoolFindStruct find;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		House *h;
+
+		h = House_Find(&find);
+		if (h == NULL) break;
+
+		if (fwrite(h, sizeof(House), 1, fp) != 1) return false;
+	}
+
+	return true;
+}

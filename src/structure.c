@@ -1089,3 +1089,38 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	if (neededSlabs == 0) return 1;
 	return -neededSlabs;
 }
+
+/**
+ * Save all Structures to a file. It converts pointers to indices where needed.
+ * @param fp The file to save to.
+ * @return True if and only if all bytes were written successful.
+ */
+bool Structure_Save(FILE *fp)
+{
+	PoolFindStruct find;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+		Structure ss;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+		ss = *s;
+
+		/* Rewrite the pointer in the scriptEngine to an index */
+		if (ss.script.script.csip != 0x00000000) {
+			ScriptInfo *scriptInfo;
+			scriptInfo = ScriptInfo_Get_ByMemory(ss.script.scriptInfo);
+			ss.script.script.csip = (ss.script.script.csip - scriptInfo->start.csip) / 2;
+		}
+		ss.script.scriptInfo.csip = 0x00000000;
+
+		if (fwrite(&ss, sizeof(Structure), 1, fp) != 1) return false;
+	}
+
+	return true;
+}
