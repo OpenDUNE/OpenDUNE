@@ -892,7 +892,7 @@ l__04B7:
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = 0x0;
 	emu_push(emu_cs);
-	emu_push(0x04CC); f__B4F2_1181_000B_D4AD();
+	emu_push(0x04CC); emu_Load_SavegameCount();
 l__04CC:
 	emu_get_memory16(emu_ds, 0x00, 0x80B2) = emu_ax;
 	emu_orw(&emu_si, emu_si);
@@ -2599,9 +2599,9 @@ l__117B:
 }
 
 /**
- * Decompiled function f__B4F2_1181_000B_D4AD()
+ * Decompiled function emu_Load_CountSavegames()
  *
- * @name f__B4F2_1181_000B_D4AD
+ * @name emu_Load_CountSavegames
  * @implements B4F2:1181:000B:D4AD ()
  * @implements B4F2:118C:000C:BFCE
  * @implements B4F2:118D:000B:BBAE
@@ -2611,7 +2611,7 @@ l__117B:
  *
  * Called From: B4F2:04C9:0015:5960
  */
-void f__B4F2_1181_000B_D4AD()
+void emu_Load_SavegameCount()
 {
 l__1181:
 	emu_push(emu_bp);

@@ -231,6 +231,7 @@ B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading 
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
+B4F2:1181:000B:D4AD	emu_Load_SavegameCount	# () Counts amount of savegames on disk
 B4F2:1303:0017:56DB	emu_GUI_String_Get_ByIndex	# (stringID) Special version of String_Get_ByIndex
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
