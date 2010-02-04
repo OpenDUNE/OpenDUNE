@@ -29,7 +29,8 @@ extern void overlay(uint16 cs, uint8 force);
  */
 static bool Save_Info(FILE *fp)
 {
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = 0x0;
+	uint8 selectionType = (uint8)g_global->selectionType;
+	uint8 activeStructureType = (uint8)g_global->activeStructureType;
 
 	g_global->scenario.savegameVersion = 0x0290;
 
@@ -37,8 +38,8 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->selectionType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fwrite(&g_global->activeStructureType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fwrite(&selectionType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fwrite(&activeStructureType, sizeof(uint8), 1, fp) != 1) return false;
 	if (fwrite(&g_global->activeStructurePosition, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (g_global->activeStructureType != 0xFFFF) {
@@ -57,8 +58,8 @@ static bool Save_Info(FILE *fp)
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
 	}
 
-	if (g_global->selectionUnit.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
+	if (g_global->activeUnit.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->activeUnit);
 		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
