@@ -2599,9 +2599,9 @@ l__117B:
 }
 
 /**
- * Decompiled function emu_Load_CountSavegames()
+ * Decompiled function emu_Load_SavegameCount()
  *
- * @name emu_Load_CountSavegames
+ * @name emu_Load_SavegameCount
  * @implements B4F2:1181:000B:D4AD ()
  * @implements B4F2:118C:000C:BFCE
  * @implements B4F2:118D:000B:BBAE
