@@ -752,7 +752,7 @@ typedef struct GlobalData {
 	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */
 	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure being placed. */
-	/* 38E8()    */ PACK uint8   unknown_38E8[0x0002];
+	/* 38E8()    */ PACK uint16 variable_38E8;              /*!< ?? */
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
 	/* 38EE()    */ PACK uint8   unknown_38EE[0x0002];

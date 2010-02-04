@@ -35,6 +35,8 @@ assert_compile(sizeof(Team) == 0x53);
 
 extern void GameLoop_Team();
 extern bool Team_Save(FILE *fp);
+extern bool Team_Load(FILE *fp, uint32 length);
+
 
 extern void emu_GameLoop_Team();
 

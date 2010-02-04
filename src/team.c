@@ -109,3 +109,43 @@ bool Team_Save(FILE *fp)
 
 	return true;
 }
+
+/**
+ * Load all Teams from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool Team_Load(FILE *fp, uint32 length)
+{
+	while (length >= sizeof(Team)) {
+		Team *t;
+		Team tl;
+
+		length -= sizeof(Team);
+
+		/* Read the next Structure from disk */
+		if (fread(&tl, sizeof(Team), 1, fp) != 1) return false;
+
+		tl.script.scriptInfo.s.cs = 0x353F;
+		tl.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptTeam, 0x353F);
+		if (tl.script.script.csip != 0x0) {
+			uint16 lineno = tl.script.script.csip;
+
+			tl.script.script = g_global->scriptTeam.start;
+			tl.script.script.s.ip += lineno * 2;
+		}
+
+		/* Get the Structure from the pool */
+		t = Team_Get_ByIndex(tl.index);
+		if (t == NULL) return false;
+
+		/* Copy over the data */
+		*t = tl;
+	}
+	if (length != 0) return false;
+
+	Team_Recount();
+
+	return true;
+}

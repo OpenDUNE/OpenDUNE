@@ -830,3 +830,47 @@ bool Unit_Save(FILE *fp)
 
 	return true;
 }
+
+/**
+ * Load all Units from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool Unit_Load(FILE *fp, uint32 length)
+{
+	while (length >= sizeof(Unit)) {
+		Unit *u;
+		Unit ul;
+
+		length -= sizeof(Unit);
+
+		/* Read the next Structure from disk */
+		if (fread(&ul, sizeof(Unit), 1, fp) != 1) return false;
+
+		ul.script.scriptInfo.s.cs = 0x353F;
+		ul.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptUnit, 0x353F);
+		if (ul.script.script.csip != 0x0) {
+			uint16 lineno = ul.script.script.csip;
+
+			ul.script.script = g_global->scriptUnit.start;
+			ul.script.script.s.ip += lineno * 2;
+		}
+		ul.scriptDelay = 0;
+		ul.variable_70 = 0;
+
+		/* Get the Structure from the pool */
+		u = Unit_Get_ByIndex(ul.index);
+		if (u == NULL) return false;
+
+		/* Copy over the data */
+		*u = ul;
+
+		u->variable_09 |= 1 << u->houseID;
+	}
+	if (length != 0) return false;
+
+	Unit_Recount();
+
+	return true;
+}

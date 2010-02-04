@@ -12,6 +12,7 @@
 #include "../src/house.h"
 #include "../src/input/input.h"
 #include "../src/interrupt.h"
+#include "../src/load.h"
 #include "../src/map.h"
 #include "../src/opendune.h"
 #include "../src/os/endian.h"
@@ -40,7 +41,6 @@
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_GUI_ShowEndStats();
 extern void f__B4C1_0000_0022_1807();
-extern void emu_Load_Info();
 extern void f__B520_0000_0019_6B99();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
@@ -272,7 +272,6 @@ extern void f__0C10_0247_000D_A5E6();
 extern void f__1DD7_0248_0014_9236();
 extern void f__0EDB_024B_001D_2E46();
 extern void f__104B_024D_0012_1DC4();
-extern void emu_Load_Map();
 extern void f__217E_0268_0027_C749();
 extern void emu_Input_Keyboard_HandleKeys();
 extern void emu_Stderr_Write();
@@ -306,7 +305,6 @@ extern void f__B4DA_0308_0018_F99F();
 extern void emu_Drive_Set_Default();
 extern void emu_GUI_Production_ResumeGame();
 extern void f__151A_0310_0018_831F();
-extern void emu_Load_House();
 extern void f__167E_0319_0010_B56F();
 extern void emu_Empty4();
 extern void f__217E_0320_0049_4A24();
@@ -326,7 +324,6 @@ extern void emu_GUI_Production_Upgrade();
 extern void f__B520_039B_001B_4BEB();
 extern void f__1DD7_039B_0008_D3BD();
 extern void f__B48B_03A4_0005_619A();
-extern void emu_Load_Unit();
 extern void emu_Tools_MulCSIP_csip();
 extern void f__0EDB_03B9_001D_2E46();
 extern void emu_GUI_Production_List();
@@ -351,9 +348,7 @@ extern void f__0EDB_0426_0027_711D();
 extern void f__217E_0426_003F_15C8();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void f__151A_043B_0018_36C4();
-extern void emu_Load_Structure();
 extern void emu_Drive_Set_Default_Wrapper();
-extern void emu_Load();
 extern void f__15C2_044C_0012_C66D();
 extern void f__0EDB_0456_0032_B7E5();
 extern void f__151A_046F_0017_2508();
@@ -381,7 +376,6 @@ extern void f__217E_04CB_0020_3089();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_GUI_Purchase_Invoice();
 extern void f__B4CD_04D9_0011_E9EF();
-extern void emu_Load_Team();
 extern void emu_Tools_Divd_Wrapper();
 extern void emu_Tools_Divd();
 extern void emu_Tools_Divd2();
@@ -401,7 +395,6 @@ extern void f__29E8_0534_000E_6213();
 extern void f__B4CD_053B_0010_C4CD();
 extern void f__16C5_0543_0034_CA88();
 extern void f__2903_0545_0024_06E5();
-extern void f__B4C4_054C_0031_FE26();
 extern void f__B518_0558_0010_240A();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_Overlay_LocateMemory();
@@ -411,7 +404,6 @@ extern void f__B4CD_057B_001A_D066();
 extern void f__06F7_057C_001F_E1C7();
 extern void emu_GUI_Widget_DrawBorder();
 extern void f__2903_0580_0004_5083();
-extern void f__B4C4_0581_003B_B6D9();
 extern void f__2903_0584_0015_8493();
 extern void f__B503_0586_0017_050A();
 extern void emu_Tools_Shld_Wrapper();
@@ -420,7 +412,6 @@ extern void f__22A6_0597_0019_A23D();
 extern void f__2903_0599_0017_FD2B();
 extern void f__B4E0_059B_001B_5C8D();
 extern void emu_Overlay_Load2();
-extern void f__B4C4_05C0_002F_C3F6();
 extern void f__2903_05C8_0018_6BB5();
 extern void f__1DD7_05D0_0014_A7A2();
 extern void f__2649_05DF_0011_F459();
@@ -429,14 +420,12 @@ extern void f__2756_05E6_0038_06ED();
 extern void f__2903_05EA_001D_06CA();
 extern void emu_Tools_AddCSIP_Wrapper();
 extern void emu_Tools_AddCSIP();
-extern void f__B4C4_05F3_002C_3269();
 extern void f__06F7_0602_0018_CEB0();
 extern void f__2756_0618_0001_6780();
 extern void f__2903_061F_0015_4925();
 extern void f__2756_0622_0006_823A();
 extern void f__217E_0624_0003_DD23();
 extern void f__2756_0629_0049_2D48();
-extern void f__B4C4_0633_0041_F5FE();
 extern void f__B536_0633_000A_6A3F();
 extern void f__217E_063C_002A_EC58();
 extern void emu_Input_Keyboard_NextKey();

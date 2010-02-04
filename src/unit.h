@@ -209,6 +209,7 @@ extern void Unit_Sort();
 extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 extern void Unit_SetDestination(Unit *u, uint16 destination);
 extern bool Unit_Save(FILE *fp);
+extern bool Unit_Load(FILE *fp, uint32 length);
 
 
 extern void emu_GameLoop_Unit();

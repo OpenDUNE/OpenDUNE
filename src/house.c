@@ -542,3 +542,41 @@ bool House_Save(FILE *fp)
 
 	return true;
 }
+
+/**
+ * Load all Houses from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool House_Load(FILE *fp, uint32 length)
+{
+	while (length >= sizeof(House)) {
+		House *h;
+		House hl;
+
+		length -= sizeof(House);
+
+		/* Read the next House from disk */
+		if (fread(&hl, sizeof(House), 1, fp) != 1) return false;
+
+		/* Create the House in the pool */
+		h = House_Allocate((uint8)hl.index);
+		if (h == NULL) return false;
+
+		/* Copy over the data */
+		*h = hl;
+
+		/* See if it is a human house */
+		if ((h->flags & 0x0002) != 0) {
+			g_global->playerHouseID = h->index;
+			g_global->playerHouse.s.cs = g_global->houseStartPos.s.cs;
+			g_global->playerHouse.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+
+			if (h->starportLinkedID != 0xFFFF && h->starportTimeLeft == 0) h->starportTimeLeft = 1;
+		}
+	}
+	if (length != 0) return false;
+
+	return true;
+}

@@ -1124,3 +1124,58 @@ bool Structure_Save(FILE *fp)
 
 	return true;
 }
+
+/**
+ * Load all Structures from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool Structure_Load(FILE *fp, uint32 length)
+{
+	while (length >= sizeof(Structure)) {
+		csip32 scsip;
+		Structure *s;
+		Structure sl;
+
+		length -= sizeof(Structure);
+
+		/* Read the next Structure from disk */
+		if (fread(&sl, sizeof(Structure), 1, fp) != 1) return false;
+
+		sl.script.scriptInfo.s.cs = 0x353F;
+		sl.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptStructure, 0x353F);
+		if (sl.script.script.csip != 0x0) {
+			uint16 lineno = sl.script.script.csip;
+
+			sl.script.script = g_global->scriptStructure.start;
+			sl.script.script.s.ip += lineno * 2;
+		}
+
+		/* Get the Structure from the pool */
+		s = Structure_Get_ByIndex(sl.index);
+		if (s == NULL) return false;
+
+		/* Copy over the data */
+		*s = sl;
+
+		if (s->upgradeTimeLeft != 0) continue;
+
+		/* XXX -- Temporary, to keep all the emu_calls workable for now */
+		scsip.s.cs = g_global->structureStartPos.s.cs;
+		scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
+		emu_sp += 4;
+
+		s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
+	}
+	if (length != 0) return false;
+
+	Structure_Recount();
+
+	return true;
+}

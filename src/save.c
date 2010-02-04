@@ -76,8 +76,8 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->variable_37F4, sizeof(uint32), 1, fp) != 1) return false;
 
 	{
-		uint32 tick = g_global->tickGlobal - g_global->tickScenarioStart;
-		if (fwrite(&tick, sizeof(uint32), 1, fp) != 1) return false;
+		uint32 tickScenarioStart = g_global->tickGlobal - g_global->tickScenarioStart;
+		if (fwrite(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
 	}
 
 	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
