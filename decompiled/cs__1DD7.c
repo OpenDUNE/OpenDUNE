@@ -391,9 +391,9 @@ l__0396:
 }
 
 /**
- * Decompiled function f__1DD7_039B_0008_D3BD()
+ * Decompiled function emu_Drivers_All_Init()
  *
- * @name f__1DD7_039B_0008_D3BD
+ * @name emu_Drivers_All_Init
  * @implements 1DD7:039B:0008:D3BD ()
  * @implements 1DD7:03A3:000D:7940
  * @implements 1DD7:03B0:0015:9C30
@@ -407,7 +407,7 @@ l__0396:
  * Called From: B480:0285:0017:043A
  * Called From: B480:0285:0084:2794
  */
-void f__1DD7_039B_0008_D3BD()
+void emu_Drivers_All_Init()
 {
 l__039B:
 	emu_push(emu_bp);
@@ -437,19 +437,19 @@ l__03D1:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_cs);
-	emu_push(0x03D9); f__1DD7_0F43_004A_CF07();
+	emu_push(0x03D9); emu_Drivers_Music_Init();
 l__03D9:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ds, 0x00, 0x6D8D) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x03E5); f__1DD7_10C9_004D_AF4E();
+	emu_push(0x03E5); emu_Drivers_Sound_Init();
 l__03E5:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ds, 0x00, 0x6D8B) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x03F1); f__1DD7_0EE2_003D_B019();
+	emu_push(0x03F1); emu_Drivers_Voice_Init();
 l__03F1:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ds, 0x00, 0x6D8F) = emu_ax;
@@ -1391,16 +1391,16 @@ l__0EDC:
 }
 
 /**
- * Decompiled function f__1DD7_0EE2_003D_B019()
+ * Decompiled function emu_Drivers_Voice_Init()
  *
- * @name f__1DD7_0EE2_003D_B019
+ * @name emu_Drivers_Voice_Init
  * @implements 1DD7:0EE2:003D:B019 ()
  * @implements 1DD7:0F29:0004:68F2
  * @implements 1DD7:0F2D:0005:8BCF
  *
  * Called From: 1DD7:03EE:000C:8D1D
  */
-void f__1DD7_0EE2_003D_B019()
+void emu_Drivers_Voice_Init()
 {
 l__0EE2:
 	emu_push(emu_bp);
@@ -1476,9 +1476,9 @@ l__0F3E:
 }
 
 /**
- * Decompiled function f__1DD7_0F43_004A_CF07()
+ * Decompiled function emu_Drivers_Music_Init()
  *
- * @name f__1DD7_0F43_004A_CF07
+ * @name emu_Drivers_Music_Init
  * @implements 1DD7:0F43:004A:CF07 ()
  * @implements 1DD7:0F8D:0013:3523
  * @implements 1DD7:0FA0:001A:56E0
@@ -1493,7 +1493,7 @@ l__0F3E:
  *
  * Called From: 1DD7:03D6:0008:F825
  */
-void f__1DD7_0F43_004A_CF07()
+void emu_Drivers_Music_Init()
 {
 l__0F43:
 	emu_push(emu_bp);
@@ -1663,9 +1663,9 @@ l__10C7:
 }
 
 /**
- * Decompiled function f__1DD7_10C9_004D_AF4E()
+ * Decompiled function emu_Drivers_Sound_Init()
  *
- * @name f__1DD7_10C9_004D_AF4E
+ * @name emu_Drivers_Sound_Init
  * @implements 1DD7:10C9:004D:AF4E ()
  * @implements 1DD7:1116:0013:0221
  * @implements 1DD7:1129:001A:20E2
@@ -1682,7 +1682,7 @@ l__10C7:
  *
  * Called From: 1DD7:03E2:000C:CE7B
  */
-void f__1DD7_10C9_004D_AF4E()
+void emu_Drivers_Sound_Init()
 {
 l__10C9:
 	emu_push(emu_bp);

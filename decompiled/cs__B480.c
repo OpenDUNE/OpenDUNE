@@ -364,7 +364,7 @@ l__0273:
 	emu_al = emu_get_memory8(emu_ds, 0x00, 0x98E3);
 	emu_ah = 0x0;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x028A); emu_cs = 0x1DD7; f__1DD7_039B_0008_D3BD();
+	emu_push(emu_cs); emu_push(0x028A); emu_cs = 0x1DD7; emu_Drivers_All_Init();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3480) { overlay(0x3480, 1); }
 l__028A:

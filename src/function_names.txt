@@ -124,6 +124,11 @@
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
+1DD7:039B:0008:D3BD	emu_Drivers_All_Init	# (sound, music, voice)
+1DD7:0EE2:003D:B019	emu_Drivers_Voice_Init	# (voice)
+1DD7:0F43:004A:CF07	emu_Drivers_Music_Init	# (music)
+1DD7:10C9:004D:AF4E	emu_Drivers_Sound_Init	# (sound)
+
 1FB5:0005:000F:62CC	emu_Drive_Get_Default_NoInput	# ()
 1FB5:0024:0012:C761	emu_Drive_Set_Default_NoInput	# (drive)
 1FB5:0047:0012:2389	emu_File_Close_NoInput	# (file)
