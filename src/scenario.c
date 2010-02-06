@@ -37,7 +37,7 @@ extern void emu_String_ToInteger();
 extern void emu_Tools_Memcopy();
 extern void overlay(uint16 cs, uint8 force);
 
-void emu_Scenario_Load_General()
+void Scenario_Load_General()
 {
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(0);
@@ -145,7 +145,7 @@ void emu_Scenario_Load_General()
 	emu_sp += 0x16;
 }
 
-void emu_Scenario_Load_House(uint8 houseID)
+void Scenario_Load_House(uint8 houseID)
 {
 	House *h;
 
@@ -232,7 +232,7 @@ void emu_Scenario_Load_House(uint8 houseID)
 	g_global->playerCreditsNoSilo = h->credits;
 }
 
-void emu_Scenario_Load_Units(const char *key, char *value)
+void Scenario_Load_Units(const char *key, char *value)
 {
 	uint8 index, houseType, unitType, actionType, variable_64;
 	uint16 hitpoints;
@@ -355,7 +355,7 @@ void emu_Scenario_Load_Units(const char *key, char *value)
 	emu_sp += 6;
 }
 
-void emu_Scenario_Load_Structures(const char *key, char *value)
+void Scenario_Load_Structures(const char *key, char *value)
 {
 	uint8 index, houseType, structureType;
 	uint16 hitpoints, position;
@@ -436,7 +436,7 @@ void emu_Scenario_Load_Structures(const char *key, char *value)
 	}
 }
 
-void emu_Scenario_Load_Map()
+void Scenario_Load_Map()
 {
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 'C') return;
@@ -521,7 +521,7 @@ void emu_Scenario_Load_Map()
 	}
 }
 
-void emu_Scenario_Load_Reinforcements(const char *key, char *value)
+void Scenario_Load_Reinforcements(const char *key, char *value)
 {
 	uint8 index, houseType, unitType, locationID;
 	uint16 timeBetween;
@@ -587,7 +587,7 @@ void emu_Scenario_Load_Reinforcements(const char *key, char *value)
 	g_global->scenario.reinforcement[index].repeat      = repeat ? 1 : 0;
 }
 
-void emu_Scenario_Load_Teams(const char *key, char *value)
+void Scenario_Load_Teams(const char *key, char *value)
 {
 	uint8 houseType, teamActionType, movementType;
 	uint16 unknown1, unknown2;
@@ -653,7 +653,7 @@ void emu_Scenario_Load_Teams(const char *key, char *value)
 	emu_sp += 10;
 }
 
-void emu_Scenario_Load_Choam(const char *key, char *value)
+void Scenario_Load_Choam(const char *key, char *value)
 {
 	uint8 unitType;
 
@@ -724,7 +724,7 @@ l__0014:
 	memset(&g_global->scenario, 0, sizeof(Scenario));
 	g_global->scenario.savegameVersion = 0x290;
 
-	emu_Scenario_Load_General();
+	Scenario_Load_General();
 
 	emu_push(emu_cs); emu_push(0x0207); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
 	/* Check if this overlay should be reloaded */
@@ -737,7 +737,7 @@ l__0014:
 	emu_sp += 4;
 
 	for (houseID = 0; houseID < HOUSE_MAX; houseID++) {
-		emu_Scenario_Load_House(houseID);
+		Scenario_Load_House(houseID);
 	}
 
 	{
@@ -804,7 +804,7 @@ l__0014:
 
 		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
-		emu_Scenario_Load_Units(key, value);
+		Scenario_Load_Units(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 		emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x01F7; emu_String_strlen();
@@ -855,7 +855,7 @@ l__0014:
 
 		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
-		emu_Scenario_Load_Structures(key, value);
+		Scenario_Load_Structures(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 		emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x01F7; emu_String_strlen();
@@ -891,7 +891,7 @@ l__0014:
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x8));
 		if (emu_get_memory8(emu_es, emu_bx, 0x0) == 0x0) break;
 
-		emu_Scenario_Load_Map();
+		Scenario_Load_Map();
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x0A3A); emu_cs = 0x01F7; emu_String_strlen();
@@ -1088,7 +1088,7 @@ l__0014:
 
 		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0xA), emu_get_memory16(emu_ss, emu_bp, -0xC), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
-		emu_Scenario_Load_Reinforcements(key, value);
+		Scenario_Load_Reinforcements(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 		emu_push(emu_cs); emu_push(0x0E3E); emu_cs = 0x01F7; emu_String_strlen();
@@ -1139,7 +1139,7 @@ l__0014:
 
 		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0x6), emu_get_memory16(emu_ss, emu_bp, -0x8), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
-		emu_Scenario_Load_Teams(key, value);
+		Scenario_Load_Teams(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x0F95); emu_cs = 0x01F7; emu_String_strlen();
@@ -1190,7 +1190,7 @@ l__0014:
 
 		key = (char *)&emu_get_memory8(emu_get_memory16(emu_ss, emu_bp, -0x6), emu_get_memory16(emu_ss, emu_bp, -0x8), 0);
 		value = (char *)&emu_get_memory8(emu_ss, emu_bp - 0xA2, 0);
-		emu_Scenario_Load_Choam(key, value);
+		Scenario_Load_Choam(key, value);
 
 		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 		emu_push(emu_cs); emu_push(0x1057); emu_cs = 0x01F7; emu_String_strlen();
