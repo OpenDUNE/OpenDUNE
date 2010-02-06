@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4B1_0000_0016_067A()
+ * Decompiled function emu_ChunkFile_LoadFile()
  *
- * @name f__B4B1_0000_0016_067A
+ * @name emu_ChunkFile_LoadFile
  * @implements B4B1:0000:0016:067A ()
  * @implements B4B1:0016:000B:B9A3
  * @implements B4B1:0021:0010:8479
@@ -19,7 +19,7 @@
  *
  * Called From: 34B1:0020:0005:0000
  */
-void f__B4B1_0000_0016_067A()
+void emu_ChunkFile_LoadFile()
 {
 l__0000:
 	emu_push(emu_bp);

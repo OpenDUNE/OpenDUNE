@@ -52,7 +52,7 @@ l__004A:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x253D; f__253D_008A_0016_007A();
+	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x253D; emu_File_ReadWhileFile();
 l__0053:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ds, 0x00, 0x38CC) = emu_dx;
@@ -67,9 +67,9 @@ l__005D:
 }
 
 /**
- * Decompiled function f__0FCB_0088_0016_2DD9()
+ * Decompiled function emu_String_LoadFile()
  *
- * @name f__0FCB_0088_0016_2DD9
+ * @name emu_String_LoadFile
  * @implements 0FCB:0088:0016:2DD9 ()
  * @implements 0FCB:009E:000B:ACA4
  * @implements 0FCB:00A9:0007:D2AB
@@ -91,7 +91,7 @@ l__005D:
  * Called From: B511:0DB5:0009:DAE3
  * Called From: B511:130C:0009:DAE3
  */
-void f__0FCB_0088_0016_2DD9()
+void emu_String_LoadFile()
 {
 l__0088:
 	emu_push(emu_bp);

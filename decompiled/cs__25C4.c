@@ -279,7 +279,7 @@ l__02CD:
 	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0335; emu_last_cs = 0x25C4; emu_last_ip = 0x02D3; emu_last_length = 0x0013; emu_last_crc = 0x8B6C; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x256D; f__256D_0004_001C_9F23();
+	emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x256D; emu_Font_LoadFile();
 l__02E0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__256D_0004_001C_9F23()
+ * Decompiled function emu_Font_LoadFile()
  *
- * @name f__256D_0004_001C_9F23
+ * @name emu_Font_LoadFile
  * @implements 256D:0004:001C:9F23 ()
  * @implements 256D:0020:0009:37AE
  * @implements 256D:0029:000F:8420
@@ -29,7 +29,7 @@
  * Called From: B4B8:1989:0006:564A
  * Called From: B4ED:00B6:000D:F799
  */
-void f__256D_0004_001C_9F23()
+void emu_Font_LoadFile()
 {
 l__0004:
 	emu_push(emu_bp);

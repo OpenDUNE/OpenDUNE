@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__253D_0000_0013_38F4()
+ * Decompiled function emu_File_ReadBlockFile()
  *
- * @name f__253D_0000_0013_38F4
+ * @name emu_File_ReadBlockFile
  * @implements 253D:0000:0013:38F4 ()
  * @implements 253D:0013:0017:236C
  * @implements 253D:002A:000F:3D83
@@ -33,7 +33,7 @@
  * Called From: B4F2:0024:001C:9C78
  * Called From: B518:0625:0017:2C04
  */
-void f__253D_0000_0013_38F4()
+void emu_File_ReadBlockFile()
 {
 l__0000:
 	emu_push(emu_bp);
@@ -75,9 +75,9 @@ l__0042:
 }
 
 /**
- * Decompiled function f__253D_008A_0016_007A()
+ * Decompiled function emu_File_ReadWhileFile()
  *
- * @name f__253D_008A_0016_007A
+ * @name emu_File_ReadWhileFile
  * @implements 253D:008A:0016:007A ()
  * @implements 253D:00A0:000B:9A42
  * @implements 253D:00AB:0015:F0C0
@@ -90,7 +90,7 @@ l__0042:
  * Called From: 1DD7:046B:000F:99A1
  * Called From: B4B8:1968:0009:6FDE
  */
-void f__253D_008A_0016_007A()
+void emu_File_ReadWhileFile()
 {
 l__008A:
 	emu_push(emu_bp);

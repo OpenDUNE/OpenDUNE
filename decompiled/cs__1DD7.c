@@ -555,7 +555,7 @@ l__0461:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0470); emu_cs = 0x253D; f__253D_008A_0016_007A();
+	emu_push(emu_cs); emu_push(0x0470); emu_cs = 0x253D; emu_File_ReadWhileFile();
 l__0470:
 	emu_addw(&emu_sp, 0x6);
 	goto l__0439;
