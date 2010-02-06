@@ -64,6 +64,5 @@ extern uint16 Script_Structure_RefineSpice(ScriptEngine *script);
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
 extern void emu_Script_IsLoaded();
-extern void emu_Script_Run();
 
 #endif /* SCRIPT_H */

@@ -12,21 +12,6 @@
 #include "team.h"
 
 /**
- * Emulator wrapper around GameLoop_Unit().
- *
- * @name emu_GameLoop_Unit
- * @implements 176C:010B:002F:7FAE ()
- */
-void emu_GameLoop_Unit()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GameLoop_Unit();
-}
-
-/**
  * Emulator wrapper around Unit_GetHouseID().
  *
  * @name emu_Unit_GetHouseID

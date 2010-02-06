@@ -10,21 +10,6 @@
 #include "structure.h"
 
 /**
- * Emulator wrapper around GameLoop_Structure().
- *
- * @name emu_GameLoop_Structure
- * @implements 0972:0007:0051:7645 ()
- */
-void emu_GameLoop_Structure()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GameLoop_Structure();
-}
-
-/**
  * Emulator wrapper around Structure_Create().
  *
  * @name emu_Structure_Create

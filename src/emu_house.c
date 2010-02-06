@@ -8,21 +8,6 @@
 #include "house.h"
 
 /**
- * Emulator wrapper around GameLoop_House().
- *
- * @name emu_GameLoop_House
- * @implements 1391:000A:0035:2CB6 ()
- */
-void emu_GameLoop_House()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GameLoop_House();
-}
-
-/**
  * Emulator wrapper around House_AreAllied().
  *
  * @name emu_House_AreAllied

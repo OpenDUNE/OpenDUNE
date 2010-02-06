@@ -12,6 +12,8 @@
 #include "pool/unit.h"
 #include "pool/house.h"
 #include "string.h"
+#include "structure.h"
+#include "team.h"
 #include "unit.h"
 #include "opendune.h"
 
@@ -58,8 +60,6 @@ extern void emu_GUI_PickHouse();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_GUI_Widget_HandleEvents();
-extern void emu_GameLoop_Structure();
-extern void emu_GameLoop_Team();
 extern void emu_Gameloop_IntroMenu();
 extern void emu_InGame_Numpad_Move();
 extern void emu_Map_SetSelectionObjectPosition();
@@ -473,10 +473,10 @@ void GameLoop_Main()
 			emu_push(emu_cs); emu_push(0x03BB); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
 			emu_sp += 4;
 
-			emu_push(emu_cs); emu_push(0x03C2); emu_cs = 0x16C5; emu_GameLoop_Team();
-			emu_push(emu_cs); emu_push(0x03C7); emu_cs = 0x176C; emu_GameLoop_Unit();
-			emu_push(emu_cs); emu_push(0x03CC); emu_cs = 0x0972; emu_GameLoop_Structure();
-			emu_push(emu_cs); emu_push(0x03D1); emu_cs = 0x1391; emu_GameLoop_House();
+			GameLoop_Team();
+			GameLoop_Unit();
+			GameLoop_Structure();
+			GameLoop_House();
 
 			emu_push(0);
 			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x07D4; f__07D4_0000_0027_FA61();

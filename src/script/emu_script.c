@@ -80,26 +80,3 @@ void emu_Script_IsLoaded()
 
 	emu_ax = Script_IsLoaded(script) ? 1 : 0;
 }
-
-/**
- * Emulator wrapper around Script_Run().
- *
- * @name emu_Script_Run
- * @implements 15C2:0559:0015:E98A ()
- */
-void emu_Script_Run()
-{
-	csip32 scsip;
-	ScriptEngine *script;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (scsip.csip == 0x0) return;
-	script = Script_Get_ByMemory(scsip);
-
-	emu_ax = Script_Run(script) ? 1 : 0;
-}

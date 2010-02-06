@@ -33,33 +33,6 @@ void emu_House_Init()
 }
 
 /**
- * Emulator wrapper around House_Allocate().
- *
- * @name emu_House_Allocate
- * @implements 10BE:00A0:0064:DF2A ()
- */
-void emu_House_Allocate()
-{
-	uint8 index;
-	House *h;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	h = House_Allocate(index);
-
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
-	if (h == NULL) return;
-	emu_dx = g_global->houseStartPos.s.cs;
-	emu_ax = g_global->houseStartPos.s.ip + h->index * sizeof(House);
-}
-
-/**
  * Get a _valid_ House from the memory by index.
  *  This function differs in other emu_Pool_Get_ByIndex, by the fact it can
  *  only return on used House structs. Else it returns 0000:0000 in dx:ax.
