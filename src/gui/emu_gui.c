@@ -10,10 +10,6 @@
  *
  * @name emu_GUI_DrawWiredRectangle
  * @implements 251B:0000:001E:7202 ()
- * @implements 251B:001E:001A:4EC8
- * @implements 251B:0038:0016:F082
- * @implements 251B:004E:001A:83C7
- * @implements 251B:0068:0007:CF07
  */
 void emu_GUI_DrawWiredRectangle()
 {

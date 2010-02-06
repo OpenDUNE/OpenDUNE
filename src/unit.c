@@ -345,15 +345,6 @@ uint8 Unit_GetHouseID(Unit *u)
 /**
  * Convert the name of a unit to the type value of that unit, or
  *  UNIT_INVALID if not found.
- *
- * @name Unit_StringToType
- * @implements B533:0000:0010:8273
- * @implements B533:0010:0023:A798
- * @implements B533:0033:000B:E2C7
- * @implements B533:003C:0002:C5BA
- * @implements B533:003E:000B:98D9
- * @implements B533:003F:000A:58D1
- * @implements B533:0049:0003:2E57
  */
 uint8 Unit_StringToType(const char *name)
 {
@@ -371,14 +362,6 @@ uint8 Unit_StringToType(const char *name)
 /**
  * Convert the name of an action to the type value of that action, or
  *  ACTION_INVALID if not found.
- *
- * @name Unit_ActionStringToType
- * @implements 1381:0005:0010:8273
- * @implements 1381:0015:0023:81F4
- * @implements 1381:0038:000B:E2C7
- * @implements 1381:0043:000B:8DD9
- * @implements 1381:0044:000A:4DD1
- * @implements 1381:004E:0003:2E57
  */
 uint8 Unit_ActionStringToType(const char *name)
 {
@@ -396,14 +379,6 @@ uint8 Unit_ActionStringToType(const char *name)
 /**
  * Convert the name of a team action to the type value of that team action, or
  *  TEAM_ACTION_INVALID if not found.
- *
- * @name Unit_TeamActionStringToType
- * @implements 1381:00D0:0008:1ADC
- * @implements 1381:00D8:0019:21EC
- * @implements 1381:00F1:000B:E2C7
- * @implements 1381:00FC:000B:EED9
- * @implements 1381:00FD:000A:2ED1
- * @implements 1381:0107:0003:2E57
  */
 uint8 Unit_TeamActionStringToType(const char *name)
 {
@@ -421,15 +396,6 @@ uint8 Unit_TeamActionStringToType(const char *name)
 /**
  * Convert the name of a movement to the type value of that movement, or
  *  MOVEMENT_INVALID if not found.
- *
- * @name Unit_MovementStringToType
- * @implements 1381:0096:0008:1ADC
- * @implements 1381:009E:0019:21DF
- * @implements 1381:00B7:000B:E2C7
- * @implements 1381:00C0:0002:C5BA
- * @implements 1381:00C2:000B:EDD9
- * @implements 1381:00C3:000A:2DD1
- * @implements 1381:00CD:0003:2E57
  */
 uint8 Unit_MovementStringToType(const char *name)
 {

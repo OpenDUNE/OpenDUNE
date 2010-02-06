@@ -19,7 +19,6 @@ extern void overlay(uint16 cs, uint8 force);
  *
  * @name emu_Unknown_B53B_0000
  * @implements B53B:0000:0050:FEA6 ()
- * @implements B53B:0050:000C:D401
  */
 void emu_Unknown_B53B_0000()
 {
@@ -48,8 +47,6 @@ void emu_Unknown_B53B_0000()
  *
  * @name emu_File_Error_Wrapper
  * @implements B53B:0289:001F:95C1 ()
- * @implements B53B:02A8:000E:945D
- * @implements B53B:02B6:0004:893F
  */
 void emu_File_Error_Wrapper()
 {
@@ -78,8 +75,6 @@ void emu_File_Error_Wrapper()
  *
  * @name emu_File_IOError
  * @implements B53B:02ED:0019:AA57 ()
- * @implements B53B:0306:000D:8D50
- * @implements B53B:0313:0009:F157
  */
 void emu_File_IOError()
 {

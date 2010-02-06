@@ -14,7 +14,6 @@ extern void emu_GUI_DrawFilledRectangle();
  *
  * @name emu_Unknown_07AE_0000
  * @implements 07AE:0000:00DF:A32C ()
- * @implements 07AE:00DF:0005:8BCF
  */
 void emu_Unknown_07AE_0000()
 {
@@ -48,9 +47,6 @@ void emu_Unknown_07AE_0000()
  *
  * @name emu_Unknown_07AE_00E4
  * @implements 07AE:00E4:000D:9955 ()
- * @implements 07AE:00F1:0009:4821
- * @implements 07AE:00FA:0005:BBA6
- * @implements 07AE:00FF:0004:893F
  */
 void emu_Unknown_07AE_00E4()
 {
@@ -78,7 +74,6 @@ void emu_Unknown_07AE_00E4()
  *
  * @name emu_Unknown_07AE_0103
  * @implements 07AE:0103:004C:B43B ()
- * @implements 07AE:014F:001B:3CCB
  */
 void emu_Unknown_07AE_0103()
 {

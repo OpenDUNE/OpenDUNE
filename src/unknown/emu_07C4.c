@@ -12,9 +12,6 @@
  *
  * @name emu_Unknown_07C4_001A
  * @implements 07C4:001A:0045:DCB4 ()
- * @implements 07C4:002F:0030:5F7C
- * @implements 07C4:003E:0021:782D
- * @implements 07C4:0044:001B:B5CB
  */
 void emu_Unknown_07C4_001A()
 {

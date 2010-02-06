@@ -11,8 +11,6 @@
  *
  * @name emu_Unknown_2618_0008
  * @implements 2618:0008:001B:FAA6 ()
- * @implements 2618:0023:0018:6D26
- * @implements 2618:003B:0004:893F
  */
 void emu_Unknown_2618_0008()
 {
@@ -37,8 +35,6 @@ void emu_Unknown_2618_0008()
  *
  * @name emu_Unknown_2618_003F
  * @implements 2618:003F:001B:FAA6 ()
- * @implements 2618:005A:001A:52A4
- * @implements 2618:0074:0004:893F
  */
 void emu_Unknown_2618_003F()
 {

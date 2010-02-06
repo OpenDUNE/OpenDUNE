@@ -12,9 +12,6 @@
  *
  * @name emu_Tile_IsValid
  * @implements 0F3F:000D:0019:5076 ()
- * @implements 0F3F:0026:0004:E839
- * @implements 0F3F:0028:0002:C03A
- * @implements 0F3F:002A:0002:2597
  */
 void emu_Tile_IsValid()
 {
@@ -192,7 +189,6 @@ void emu_Tile_Unpack()
  *
  * @name emu_Tile_GetPackX
  * @implements 0F3F:0322:0011:5AAA ()
- * @implements 0F3F:0333:0002:2597
  */
 void emu_Tile_GetPackX()
 {
@@ -213,7 +209,6 @@ void emu_Tile_GetPackX()
  *
  * @name emu_Tile_GetPackY
  * @implements 0F3F:0335:0015:2275 ()
- * @implements 0F3F:034A:0002:2597
  */
 void emu_Tile_GetPackY()
 {
@@ -234,9 +229,6 @@ void emu_Tile_GetPackY()
  *
  * @name emu_Tile_GetDistance
  * @implements 0F3F:00B4:002A:89B2 ()
- * @implements 0F3F:00C5:0019:7495
- * @implements 0F3F:00D1:000D:D00B
- * @implements 0F3F:00D6:0008:643C
  */
 void emu_Tile_GetDistance()
 {
@@ -306,7 +298,6 @@ void emu_Tile_Center()
  *
  * @name emu_Tile_PackXY
  * @implements 0F3F:034C:0012:18EA ()
- * @implements 0F3F:035E:0002:2597
  */
 void emu_Tile_PackXY()
 {
@@ -329,9 +320,6 @@ void emu_Tile_PackXY()
  *
  * @name emu_Tile_GetDistancePacked
  * @implements 0F3F:0360:0038:97C0 ()
- * @implements 0F3F:0378:0020:E837
- * @implements 0F3F:038A:000E:E0AD
- * @implements 0F3F:038F:0009:FB77
  */
 void emu_Tile_GetDistancePacked()
 {
@@ -353,8 +341,6 @@ void emu_Tile_GetDistancePacked()
  *
  * @name emu_Tile_GetDistanceRoundedUp
  * @implements 0F3F:0104:0013:C3B8 ()
- * @implements 0F3F:0117:000C:A15F
- * @implements 0F3F:0123:0002:2597
  */
 void emu_Tile_GetDistanceRoundedUp()
 {

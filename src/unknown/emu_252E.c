@@ -11,7 +11,6 @@
  *
  * @name emu_Unknown_252E_0001
  * @implements 252E:0001:0018:08B3 ()
- * @implements 252E:0019:0002:2597
  */
 void emu_Unknown_252E_0001()
 {
@@ -33,7 +32,6 @@ void emu_Unknown_252E_0001()
  *
  * @name emu_Unknown_252E_001B
  * @implements 252E:001B:0018:EA2C ()
- * @implements 252E:0033:0002:2597
  */
 void emu_Unknown_252E_001B()
 {

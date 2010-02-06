@@ -15,14 +15,6 @@
  *
  * @name emu_House_Init
  * @implements 10BE:000C:0020:F10F ()
- * @implements 10BE:002C:0026:4F78
- * @implements 10BE:0035:001D:55B0
- * @implements 10BE:0052:0007:F03C
- * @implements 10BE:0059:0006:A112
- * @implements 10BE:005F:0025:D55B
- * @implements 10BE:0077:000D:6824
- * @implements 10BE:0078:000C:5826
- * @implements 10BE:0084:0005:8BCF
  */
 void emu_House_Init()
 {
@@ -45,8 +37,6 @@ void emu_House_Init()
  *
  * @name emu_House_Allocate
  * @implements 10BE:00A0:0064:DF2A ()
- * @implements 10BE:0104:003D:D771
- * @implements 10BE:0141:0005:8BCF
  */
 void emu_House_Allocate()
 {
@@ -76,9 +66,6 @@ void emu_House_Allocate()
  *
  * @name emu_House_Get_ByIndex
  * @implements 10BE:01AB:002F:0E7B ()
- * @implements 10BE:01D8:0002:C33A
- * @implements 10BE:01DA:0006:5EA9
- * @implements 10BE:01E0:0002:2597
  */
 void emu_House_Get_ByIndex()
 {
@@ -108,9 +95,6 @@ void emu_House_Get_ByIndex()
  *
  * @name emu_House_FindFirst
  * @implements 10BE:01E2:0027:6596 ()
- * @implements 10BE:01F5:0014:C21B
- * @implements 10BE:0209:0004:5B1F
- * @implements 10BE:020D:0002:2597
  */
 void emu_House_FindFirst()
 {
@@ -148,11 +132,6 @@ void emu_House_FindFirst()
  *
  * @name emu_House_FindNext
  * @implements 10BE:020F:004E:633B ()
- * @implements 10BE:0226:0037:B108
- * @implements 10BE:0234:0029:8A5C
- * @implements 10BE:025B:0002:C33A
- * @implements 10BE:025D:0006:5EA9
- * @implements 10BE:0263:0005:8BCF
  */
 void emu_House_FindNext()
 {
