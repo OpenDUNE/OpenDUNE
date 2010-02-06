@@ -106,9 +106,9 @@ l__050E:
 }
 
 /**
- * Decompiled function f__2756_050F_000B_0871()
+ * Decompiled function emu_Interrupt_CustomTimer()
  *
- * @name f__2756_050F_000B_0871
+ * @name emu_Interrupt_CustomTimer
  * @implements 2756:050F:000B:0871 ()
  * @implements 2756:051A:006F:3626
  * @implements 2756:0543:0046:62C4
@@ -118,7 +118,7 @@ l__050E:
  *
  * Called From: 0000:0000:0000:0000
  */
-void f__2756_050F_000B_0871()
+void emu_Interrupt_CustomTimer()
 {
 l__050F:
 	emu_cmpw(&emu_get_memory16(emu_cs, 0x00, 0x6), 0x0);
@@ -1026,9 +1026,9 @@ l__0A76:
 }
 
 /**
- * Decompiled function f__2756_0A81_0022_9F5C()
+ * Decompiled function emu_CustomTimer_AddHandler()
  *
- * @name f__2756_0A81_0022_9F5C
+ * @name emu_CustomTimer_AddHandler
  * @implements 2756:0A81:0022:9F5C ()
  * @implements 2756:0A8E:0015:4ECC
  * @implements 2756:0AA3:0030:D440
@@ -1043,7 +1043,7 @@ l__0A76:
  * Called From: 1DD7:138A:0014:469E
  * Called From: 2756:0DA5:0010:D71A
  */
-void f__2756_0A81_0022_9F5C()
+void emu_CustomTimer_AddHandler()
 {
 l__0A81:
 	emu_push(emu_bp);
@@ -1511,7 +1511,7 @@ l__0D98:
 	emu_push(emu_es);
 	emu_push(emu_bx);
 	emu_push(emu_cs);
-	emu_push(0x0DA8); f__2756_0A81_0022_9F5C();
+	emu_push(0x0DA8); emu_CustomTimer_AddHandler();
 l__0DA8:
 	emu_addw(&emu_sp, 0x4);
 	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0x6);

@@ -418,7 +418,7 @@ l__03A3:
 	emu_push(emu_ax);
 	emu_ax = 0x6;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03B0); emu_cs = 0x2756; f__2756_0A81_0022_9F5C();
+	emu_push(emu_cs); emu_push(0x03B0); emu_cs = 0x2756; emu_CustomTimer_AddHandler();
 l__03B0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -2043,7 +2043,7 @@ l__137B:
 	emu_addw(&emu_ax, 0x3);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x138F); emu_cs = 0x2756; f__2756_0A81_0022_9F5C();
+	emu_push(emu_cs); emu_push(0x138F); emu_cs = 0x2756; emu_CustomTimer_AddHandler();
 l__138F:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
