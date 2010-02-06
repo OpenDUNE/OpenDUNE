@@ -27,6 +27,7 @@
 #include "../src/save.h"
 #include "../src/scenario.h"
 #include "../src/script/script.h"
+#include "../src/sound.h"
 #include "../src/string.h"
 #include "../src/structure.h"
 #include "../src/team.h"
@@ -277,7 +278,6 @@ extern void emu_Input_Keyboard_HandleKeys();
 extern void emu_Stderr_Write();
 extern void f__10E4_0273_0029_DCE5();
 extern void emu_Error_Abnormal_Termination();
-extern void f__B483_0283_0014_983A();
 extern void f__0EDB_0288_0020_3D83();
 extern void emu_GUI_Production_BuildThis();
 extern void f__0F3F_028E_0015_1153();

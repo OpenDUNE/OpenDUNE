@@ -219,7 +219,7 @@ l__00F0:
 l__0114:
 	emu_addw(&emu_sp, 0x12);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x16));
-	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AE) { overlay(0x34AE, 1); }
 l__011F:

@@ -5,6 +5,7 @@
 
 #include "script/script.h"
 #include "config.h"
+#include "sound.h"
 
 /*
  * Segments:
@@ -25,14 +26,6 @@ typedef struct struct_7B68 {
 } GCC_PACKED struct_7B68;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
-
-MSVC_PACKED_BEGIN
-typedef struct struct_0D5A {
-	/* 0000(4)   */ PACK csip32 string;                     /*!< Pointer to a string. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0002];      /*!< ?? */
-} GCC_PACKED struct_0D5A;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_0D5A) == 0x6);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_19A8 {
@@ -176,8 +169,8 @@ typedef struct GlobalData {
 	                                                         *   "Spare RAM: %ld\"
 	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
 	/* 0217()    */ PACK uint8   unknown_0217[0x0B43];
-	/* 0D5A(786) */ PACK struct_0D5A variable_0D5A[131];    /*!< Array of pointers to voice files names (and something else). */
-	/* 106C(228) */ PACK struct_0D5A variable_106C[38];     /*!< Array of pointers to music files names (and something else). */
+	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */
+	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
 	/* 1150()    */ PACK uint8   unknown_1150[0x0002];
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
@@ -812,7 +805,7 @@ typedef struct GlobalData {
 	/* 3C4C(256) */ PACK uint8  variable_3C4C[256];         /*!< ?? */
 	/* 3D4C(256) */ PACK uint8  variable_3D4C[256];         /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
-	/* 3E4E(4)   */ PACK csip32 variable_3E4E;              /*!< ?? */
+	/* 3E4E(4)   */ PACK csip32 currentMusic;               /*!< ?? */
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */

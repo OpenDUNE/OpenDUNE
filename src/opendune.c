@@ -37,7 +37,7 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2C17_000C_002F_3016();
-extern void f__B483_0283_0014_983A();
+extern void emu_Sound_Play();
 extern void f__B483_0363_0016_83DF();
 extern void f__B483_0470_000E_519D();
 extern void f__B483_04CB_0015_EBB4();
@@ -84,7 +84,7 @@ static void GameLoop_LevelEnd()
 
 	if (emu_ax != 0 || g_global->variable_379E != 0) {
 		emu_push(0);
-		emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+		emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 		emu_sp += 2;
 
 		g_global->cursorSpriteID = 0;
@@ -377,13 +377,13 @@ void GameLoop_Main()
 	emu_sp += 4;
 
 	emu_push(emu_ax + 8);
-	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 	emu_sp += 2;
 
 	while (true) {
 		if (g_global->variable_38BE == 2) {
 			emu_push(28);
-			emu_push(emu_cs); emu_push(0x013B); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+			emu_push(emu_cs); emu_push(0x013B); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 			emu_sp += 2;
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
@@ -444,7 +444,7 @@ void GameLoop_Main()
 			emu_sp += 4;
 
 			emu_push(emu_ax + 8);
-			emu_push(emu_cs); emu_push(0x01F3); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+			emu_push(emu_cs); emu_push(0x01F3); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 			emu_sp += 2;
 
 			g_global->variable_31BC = g_global->variable_76AC + 300;
@@ -469,7 +469,7 @@ void GameLoop_Main()
 				if (emu_ax == 0) {
 					if (g_global->variable_700C == 0) {
 						emu_push(2);
-						emu_push(emu_cs); emu_push(0x0268); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+						emu_push(emu_cs); emu_push(0x0268); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 						emu_sp += 2;
 
 						g_global->variable_3E52 = 0;
@@ -480,7 +480,7 @@ void GameLoop_Main()
 						emu_sp += 4;
 
 						emu_push(emu_ax + 17);
-						emu_push(emu_cs); emu_push(0x0290); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+						emu_push(emu_cs); emu_push(0x0290); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 						emu_sp += 2;
 
 						g_global->variable_31BC = g_global->variable_76AC + 300;
@@ -496,7 +496,7 @@ void GameLoop_Main()
 								emu_sp += 4;
 
 								emu_push(emu_ax + 8);
-								emu_push(emu_cs); emu_push(0x02F0); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+								emu_push(emu_cs); emu_push(0x02F0); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 								emu_sp += 2;
 
 								g_global->variable_31BC = g_global->variable_76AC + 300;

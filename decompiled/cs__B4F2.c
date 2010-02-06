@@ -133,7 +133,7 @@ l__0083:
 	if (emu_get_memory16(emu_ds, 0x00, 0x41C2) != 0x0) goto l__0094;
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0093:

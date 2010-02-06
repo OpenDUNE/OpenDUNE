@@ -80,7 +80,7 @@ l__0049:
 	emu_ax = 0x1E;
 l__004F:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0055); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0283_0014_983A();
+	emu_push(emu_cs); emu_push(0x0055); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34AB) { overlay(0x34AB, 1); }
 l__0055:
