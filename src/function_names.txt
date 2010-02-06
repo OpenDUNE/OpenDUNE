@@ -32,7 +32,7 @@
 01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
 01F7:064D:0028:3537	emu_Tools_SubCSIP	# (dx:ax - cx:bx -> dx:ax, and makes ax as big as possible)
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
-01F7:0773:001E:D7DA	emu_File_Seek	# (file, low, high, method)
+01F7:0773:001E:D7DA	emu_File_LowLevel_Seek	# (file, position32, method)
 01F7:079C:0017:78BE	emu_Tools_MulCSIP_ip	# () dx:ax * cx:bx -> dx:ax
 01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
@@ -133,7 +133,7 @@
 1FB5:0024:0012:C761	emu_Drive_Set_Default_NoInput	# (drive)
 1FB5:0047:0012:2389	emu_File_Close_NoInput	# (file)
 1FB5:006A:0015:A08C	emu_File_Delete_NoInput	# (filename_csip)
-1FB5:0091:001B:4066	emu_File_Seek_NoInput	# (file, low, high, method)
+1FB5:0091:001B:4066	emu_File_Seek_NoInput	# (file, position32, method)
 1FB5:00C5:001B:2EE4	emu_File_Read_NoInput	# (file, buffer_csip, buflen)
 1FB5:00F3:001B:7009	emu_File_Write_NoInput	# (file, buffer_csip, buflen)
 1FB5:0121:001B:0DC1	emu_File_Open_NoInput	# (filename_csip, flags1, flags2)
@@ -141,7 +141,7 @@
 1FB5:0AEC:001B:A5E4	emu_File_ReadBlock	# (file, buffer_csip, length32), read a block of bytes
 1FB5:0E9C:001B:37D1	emu_File_WriteBlock	# (file, buffer_csip, length32), write a block of bytes
 1FB5:09C7:0018:922D	emu_File_Close	# (file), close a file
-1FB5:1207:001B:2A6C	emu_File_Seek	# (file, position, type), seek in the file; type = 0 is SEEK_SET, type = 1 is SEEK_CUR and type = 2 is SEEK_END
+1FB5:1207:001B:2A6C	emu_File_Seek	# (file, position32, type), seek in the file; type = 0 is SEEK_SET, type = 1 is SEEK_CUR and type = 2 is SEEK_END
 1FB5:15B5:0015:6A00	emu_File_Exists	# (filename_csip), check if a file exists
 1FB5:1A67:0005:8AB7	emu_Empty6	# Function does absolutely nothing
 

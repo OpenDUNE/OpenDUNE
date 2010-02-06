@@ -462,7 +462,7 @@ extern void emu_Overlay_ReplaceReturnCSIP();
 extern void f__B4ED_075D_002B_59B5();
 extern void emu_Overlay_ReplaceReturnCS();
 extern void emu_Structure_ConnectWall();
-extern void emu_File_Seek();
+extern void emu_File_LowLevel_Seek();
 extern void f__16C5_0788_0018_4AA5();
 extern void f__217E_078A_001C_ADD5();
 extern void f__22A6_0796_000B_9035();

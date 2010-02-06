@@ -1793,9 +1793,9 @@ l__0741:
 }
 
 /**
- * Decompiled function emu_File_Seek()
+ * Decompiled function emu_File_LowLevel_Seek()
  *
- * @name emu_File_Seek
+ * @name emu_File_LowLevel_Seek
  * @implements 01F7:0773:001E:D7DA ()
  * @implements 01F7:0791:0004:E2FD
  * @implements 01F7:0795:0004:6232
@@ -1804,7 +1804,7 @@ l__0741:
  *
  * Called From: 1FB5:00A7:001B:4066
  */
-void emu_File_Seek()
+void emu_File_LowLevel_Seek()
 {
 l__0773:
 	emu_push(emu_bp);
@@ -5493,7 +5493,7 @@ l__2648:
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x2678); emu_File_Seek();
+	emu_push(0x2678); emu_File_LowLevel_Seek();
 l__2678:
 	emu_addw(&emu_sp, 0x8);
 	emu_cmpw(&emu_dx, 0xFFFF);
@@ -9160,7 +9160,7 @@ l__431E:
 	emu_push(emu_dx);
 	emu_push(emu_di);
 	emu_push(emu_cs);
-	emu_push(0x433A); emu_File_Seek();
+	emu_push(0x433A); emu_File_LowLevel_Seek();
 	/* Unresolved jump */ emu_ip = 0x433A; emu_last_cs = 0x01F7; emu_last_ip = 0x433A; emu_last_length = 0x001C; emu_last_crc = 0x8DD0; emu_call();
 l__433D:
 	emu_bx = emu_di;
