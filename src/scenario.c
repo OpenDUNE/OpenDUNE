@@ -853,6 +853,7 @@ void emu_Scenario_Load_Choam(const char *key, char *value)
  *
  * @define 01F7:3AF8:001D:A439
  * @define 104B:024D:0012:1DC4
+ * @define B511:0C64:002A:C757
  */
 void emu_Scenario_Load()
 {

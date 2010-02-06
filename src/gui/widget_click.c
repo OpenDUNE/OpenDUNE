@@ -46,6 +46,8 @@ void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll, csip
  *
  * @param w The widget.
  * @return False, always.
+ *
+ * @define 1423:04F2:0016:CD6B
  */
 bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 {
@@ -134,6 +136,8 @@ bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
  *
  * @param w The widget.
  * @return False, always.
+ *
+ * @define B520:08E6:0038:85A4
  */
 bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 {

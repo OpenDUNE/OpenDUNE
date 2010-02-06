@@ -55,6 +55,8 @@ void System_Init_Structure()
 
 /**
  * Loop over all structures, preforming various of tasks.
+ *
+ * @define 1423:04F2:0016:CD6B
  */
 void GameLoop_Structure()
 {

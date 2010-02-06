@@ -72,11 +72,21 @@ extern void emu_Tile_PackTile();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
-static uint16 GameLoop_LevelEnd()
+/**
+ * Checks if the level comes to an end. If so, it shows all end-level stuff,
+ *  and prepares for the next level.
+ *
+ * @define 1423:0009:0025:FE5D
+ * @define 1423:018B:0015:2B74
+ * @define B4AB:0000:000D:6028
+ * @define B4AE:0000:0008:049C
+ * @define B4B8:0000:001F:3BC3
+ * @define B511:0C35:002A:C70F
+ * @define B511:0C64:002A:C757
+ */
+static void GameLoop_LevelEnd()
 {
-	uint16 ret = 1;
-
-	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->variable_379E == 0) return ret;
+	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->variable_379E == 0) return;
 
 	emu_push(emu_cs); emu_push(0x02D3); f__1423_0009_0025_FE5D();
 
@@ -244,8 +254,6 @@ static uint16 GameLoop_LevelEnd()
 	}
 
 	g_global->variable_60A2 = g_global->tickGlobal + 300;
-
-	return ret;
 }
 
 /**
@@ -334,8 +342,6 @@ static uint16 GameLoop_LevelEnd()
  * @implements 0642:0442:000B:7BE4
  * @implements 0642:044D:0024:22E8
  * @implements 0642:0471:0008:4947
- *
- * Called From: B480:02CF:0032:E148
  */
 void emu_GameLoop_Main()
 {
@@ -346,6 +352,9 @@ void emu_GameLoop_Main()
 	GameLoop_Main();
 }
 
+/**
+ * Main game loop.
+ */
 void GameLoop_Main()
 {
 	uint16 key;
@@ -569,7 +578,7 @@ void GameLoop_Main()
 		emu_sp += 6;
 
 		if (g_global->variable_38F8 != 0 && g_global->debugScenario == 0) {
-			g_global->variable_38F8 = GameLoop_LevelEnd();
+			GameLoop_LevelEnd();
 		}
 
 		if (g_global->variable_38F8 == 0) break;

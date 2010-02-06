@@ -44,6 +44,11 @@ extern void overlay(uint16 cs, uint8 force);
  * Handles the Click events for the Viewport widget.
  *
  * @param w The widget.
+ *
+ * @define 1423:07C5:0016:E9C2
+ * @define 1A34:232C:0011:B7DE
+ * @define 1A34:2F9E:0016:5A55
+ * @define 1A34:2F9E:0016:5A55
  */
 bool GUI_Widget_Viewport_Click(Widget *w)
 {
