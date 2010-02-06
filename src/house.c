@@ -41,10 +41,6 @@ void System_Init_House()
 
 /**
  * Loop over all houses, preforming various of tasks.
- *
- * @define 1423:07C5:0016:E9C2
- * @define 1A34:232C:0011:B7DE
- * @define B4CD:1816:0033:B55B
  */
 void GameLoop_House()
 {

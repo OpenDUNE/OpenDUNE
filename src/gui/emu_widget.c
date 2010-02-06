@@ -47,9 +47,6 @@
  * @implements B4A2:0A1C:0002:C03A
  * @implements B4A2:0A1E:0006:F7CE
  *
- * @define 22A6:0C69:008C:017F
- * @define 2427:0004:003B:B2A9
- *
  * GUI_Widget_Button_Draw, static in widget.c
  * @implements B4F2:0F68:0011:1140 (not used)
  */

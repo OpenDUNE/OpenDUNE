@@ -34,8 +34,6 @@ extern void overlay(uint16 cs, uint8 force);
  * @param fp The file to load from.
  * @param length The length of the data chunk.
  * @return True if and only if all bytes were read successful.
- *
- * @define B4B8:0000:001F:3BC3
  */
 static bool Load_Info(FILE *fp, uint32 length)
 {

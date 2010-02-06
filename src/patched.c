@@ -5,7 +5,14 @@
 #include <stdlib.h>
 #include "types.h"
 #include "libemu.h"
-#include "../decompiled/decompiled.h"
+
+extern void f__01F7_0138_0019_8DC5();
+extern void f__01F7_022D_0003_9E5A();
+extern void f__01F7_0F45_004B_44A0();
+extern void f__01F7_2040_0033_F011();
+extern void f__01F7_20B5_0076_64ED();
+extern void f__01F7_21FA_0012_B06A();
+extern void Interrupt_Video();
 
 /**
  * Decompiled function f__01F7_0229_0004_BEF7()
@@ -13,12 +20,6 @@
  *
  * @name p__01F7_0229_0004_BEF7
  * @implements 01F7:0229:0004:BEF7 ()
- *
- * @define 01F7:0F45:004B:44A0
- * @define 01F7:20B5:0076:64ED
- * @define 01F7:21FA:0012:B06A
- * @define 01F7:0138:0019:8DC5
- * @define 01F7:022D:0003:9E5A
  */
 void p__01F7_0229_0004_BEF7()
 {
@@ -52,8 +53,6 @@ void p__01F7_0229_0004_BEF7()
  *
  * @name p__01F7_201F_0021_24DC
  * @implements 01F7:201F:0021:24DC ()
- *
- * @define 01F7:2040:0033:F011
  */
 void p__01F7_201F_0021_24DC()
 {

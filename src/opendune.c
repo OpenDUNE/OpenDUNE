@@ -75,14 +75,6 @@ extern void overlay(uint16 cs, uint8 force);
 /**
  * Checks if the level comes to an end. If so, it shows all end-level stuff,
  *  and prepares for the next level.
- *
- * @define 1423:0009:0025:FE5D
- * @define 1423:018B:0015:2B74
- * @define B4AB:0000:000D:6028
- * @define B4AE:0000:0008:049C
- * @define B4B8:0000:001F:3BC3
- * @define B511:0C35:002A:C70F
- * @define B511:0C64:002A:C757
  */
 static void GameLoop_LevelEnd()
 {

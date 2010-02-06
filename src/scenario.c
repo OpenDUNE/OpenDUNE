@@ -7,12 +7,35 @@
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
 #include "house.h"
 #include "map.h"
+#include "pool/house.h"
+#include "pool/pool.h"
+#include "pool/structure.h"
+#include "pool/unit.h"
 #include "structure.h"
 #include "tile.h"
 #include "unit.h"
-#include "../decompiled/decompiled.h"
+
+extern void f__01F7_3AF8_001D_A439();
+extern void f__104B_024D_0012_1DC4();
+extern void f__1423_08CD_0012_0004();
+extern void f__1A34_1E99_0012_1117();
+extern void f__1A34_204C_0043_B1ED();
+extern void f__1FB5_15B5_0015_6A00();
+extern void f__253D_0000_0013_38F4();
+extern void f__B4B8_0000_001F_3BC3();
+extern void f__B4B8_0D23_0010_BA99();
+extern void f__B4CD_14CA_0013_F579();
+extern void emu_Ini_GetInteger();
+extern void emu_Ini_GetString();
+extern void emu_String_strupr();
+extern void emu_String_strstr();
+extern void emu_String_strlen();
+extern void emu_String_ToInteger();
+extern void emu_Tools_Memcopy();
+extern void overlay(uint16 cs, uint8 force);
 
 void emu_Scenario_Load_General()
 {
@@ -850,10 +873,6 @@ void emu_Scenario_Load_Choam(const char *key, char *value)
  * @implements B4B5:1057:0023:53D1
  * @implements B4B5:105D:001D:B706
  * @implements B4B5:107A:0006:F7CE
- *
- * @define 01F7:3AF8:001D:A439
- * @define 104B:024D:0012:1DC4
- * @define B511:0C64:002A:C757
  */
 void emu_Scenario_Load()
 {

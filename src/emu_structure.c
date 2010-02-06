@@ -153,8 +153,6 @@
  * @implements 0972:0A4E:0015:9677
  * @implements 0972:0A50:0013:04BA
  * @implements 0972:0A63:0006:F7CE
- *
- * @define 1423:0C74:0015:3419
  */
 void emu_GameLoop_Structure()
 {

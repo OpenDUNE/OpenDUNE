@@ -103,9 +103,6 @@
  * @implements 176C:07CD:0015:AED4
  * @implements 176C:07CF:0013:3C19
  * @implements 176C:07E2:0006:F7CE
- *
- * @define 1A34:1F55:0019:98DF
- * @define 1A34:2134:001E:3E9A
  */
 void emu_GameLoop_Unit()
 {
@@ -248,8 +245,6 @@ void emu_Unit_IsTypeOnMap()
  * @implements 176C:0102:0005:85EE
  * @implements 176C:0107:0002:C03A
  * @implements 176C:0109:0002:2597
- *
- * @define 15C2:044C:0012:C66D
  */
 void emu_Unit_SetAction()
 {

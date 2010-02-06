@@ -59,8 +59,6 @@
  * @implements B527:02A6:0009:D1B5
  * @implements B527:02AF:0006:DE27
  * @implements B527:02B5:0006:F7CE
- *
- * @define B4DA:16CB:001D:31CC
  */
 void emu_GUI_EditBox()
 {
