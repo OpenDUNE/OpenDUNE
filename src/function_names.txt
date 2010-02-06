@@ -37,29 +37,29 @@
 01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
 01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
-01F7:080B:0016:8E7B	emu_File_Read	# (file, buffer_csip, buflen)
+01F7:080B:0016:8E7B	emu_File_LowLevel_Read	# (file, buffer_csip, buflen)
 01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments # (csip) stores es, cs, ss and ds in "array" at csip
 01F7:1097:0010:64C2	emu_String_tolower	# (c)
 01F7:10C3:0010:64C2	emu_String_toupper	# (c)
-01F7:10EF:000B:AF8B	emu_File_Delete	# (filename_csip)
+01F7:10EF:000B:AF8B	emu_File_LowLevel_Delete	# (filename_csip)
 01F7:111F:001A:B513	emu_String_Format	# (params_ip, format_csip, data_csip, callback_ip) data_csip depends on callback
 01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
-01F7:207A:0014:31F0	emu_File_IOCtrl	# (file, function, buffer_csip, buflen)
+01F7:207A:0014:31F0	emu_File_LowLevel_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:2252:0045:03CB	emu_String_ToInteger	# (string_csip)
-01F7:22E8:0011:1764	emu_File_GSAttr	# (filename_csip, type, attribute)
-01F7:23CC:0013:6B52	emu_File_Close_Wrapper	# (file) Manages closing of a file
-01F7:23F4:000A:3443	emu_File_Close	# (file)
+01F7:22E8:0011:1764	emu_File_LowLevel_GSAttr	# (filename_csip, type, attribute)
+01F7:23CC:0013:6B52	emu_File_LowLevel_Close_Wrapper	# (file) Manages closing of a file
+01F7:23F4:000A:3443	emu_File_LowLevel_Close	# (file)
 01F7:28B8:0024:83C9	emu_Tools_Memcopy	# (to_csip, from_csip, count)
 01F7:2923:0024:671B	emu_Tools_Memset_Internal	# (csip, count, value)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
-01F7:29D9:000E:7642	emu_File_Create	# (attributes, filename_csip)
-01F7:29F4:000E:B8B9	emu_File_Truncate	# (file)
-01F7:2A06:002A:9A90	emu_File_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
-01F7:2B75:002A:45D8	emu_File_Open	# (filename_csip, mode)
+01F7:29D9:000E:7642	emu_File_LowLevel_Create	# (attributes, filename_csip)
+01F7:29F4:000E:B8B9	emu_File_LowLevel_Truncate	# (file)
+01F7:2A06:002A:9A90	emu_File_LowLevel_Open_Wrapper	# (filename_csip, flags1, flags2) Manages opening (creation, truncation) of a file
+01F7:2B75:002A:45D8	emu_File_LowLevel_Open	# (filename_csip, mode)
 01F7:2BC4:0019:3608	emu_String_printf	# (format_csip, param1, ...)
 01F7:2DA4:001B:CF3B	emu_String_Format_Callback_2D4A	# (data_csip, count, from_csip) Write 'count' bytes from 'from_csip' buffer to a file, data_csip points to file infos
-01F7:3354:0003:62AB	emu_File_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
+01F7:3354:0003:62AB	emu_File_LowLevel_Read_Wrapper	# (file, buffer_csip, buflen) Manages reading of a file
 01F7:374D:001D:AA1B	emu_String_Format_Callback_374D	# (data_csip, count, from_csip) Move 'count' bytes from 'from_csip' buffer to a buffer, data_csip points to buffer csip
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
 01F7:37AF:001F:03E8	emu_String_sprintf_params	# (buf_csip, format_csip, params_ip)
@@ -72,8 +72,8 @@
 01F7:39C4:0031:EE87	emu_String_strncpy	# (to_csip, from_csip, count)
 01F7:3A8A:0018:E4EE	emu_String_strstr	# (string1_csip, string2_csip)
 01F7:3CD5:000D:9D98	emu_String_strupr	# (csip)
-01F7:42F4:0019:54E2	emu_File_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
-01F7:4445:0016:943B	emu_File_Write	# (file, buffer_csip, buflen)
+01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
+01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
 0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame

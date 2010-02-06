@@ -109,7 +109,7 @@ l__00B6:
 	emu_ax = 0x33F4;
 	emu_es = emu_ax;
 	emu_push(emu_get_memory16(emu_es, 0x00, 0x128));
-	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x01F7; emu_File_Close_Wrapper();
+	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x01F7; emu_File_LowLevel_Close_Wrapper();
 l__00C5:
 	emu_pop(&emu_cx);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x12), 0x0);
