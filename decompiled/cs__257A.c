@@ -82,7 +82,7 @@ l__0090:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_cs); emu_push(0x00AC); emu_cs = 0x1FB5; f__1FB5_01FA_0010_F89C();
+	emu_push(emu_cs); emu_push(0x00AC); emu_cs = 0x1FB5; emu_File_Open();
 l__00AC:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ds, 0x00, 0x7011) = emu_ax;
@@ -110,7 +110,7 @@ l__00D8:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_cs); emu_push(0x00EE); emu_cs = 0x1FB5; f__1FB5_01FA_0010_F89C();
+	emu_push(emu_cs); emu_push(0x00EE); emu_cs = 0x1FB5; emu_File_Open();
 l__00EE:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ds, 0x00, 0x7011) = emu_ax;
@@ -130,7 +130,7 @@ l__00FD:
 	emu_ax = 0x7013;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x0125); emu_cs = 0x1FB5; f__1FB5_0AEC_001B_A5E4();
+	emu_push(emu_cs); emu_push(0x0125); emu_cs = 0x1FB5; emu_File_ReadBlock();
 l__0125:
 	emu_addw(&emu_sp, 0xA);
 	emu_xorw(&emu_ax, emu_ax);
@@ -141,7 +141,7 @@ l__0125:
 	emu_ax = 0x7015;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x013D); emu_cs = 0x1FB5; f__1FB5_0AEC_001B_A5E4();
+	emu_push(emu_cs); emu_push(0x013D); emu_cs = 0x1FB5; emu_File_ReadBlock();
 l__013D:
 	emu_addw(&emu_sp, 0xA);
 	emu_orw(&emu_dx, emu_dx);
@@ -168,7 +168,7 @@ l__015D:
 	emu_ax = 0x7017;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x0179); emu_cs = 0x1FB5; f__1FB5_0AEC_001B_A5E4();
+	emu_push(emu_cs); emu_push(0x0179); emu_cs = 0x1FB5; emu_File_ReadBlock();
 l__0179:
 	emu_addw(&emu_sp, 0xA);
 	emu_xorw(&emu_ax, emu_ax);
@@ -179,7 +179,7 @@ l__0179:
 	emu_ax = 0x7019;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x0191); emu_cs = 0x1FB5; f__1FB5_0AEC_001B_A5E4();
+	emu_push(emu_cs); emu_push(0x0191); emu_cs = 0x1FB5; emu_File_ReadBlock();
 l__0191:
 	emu_addw(&emu_sp, 0xA);
 	emu_orw(&emu_dx, emu_dx);

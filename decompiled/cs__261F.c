@@ -204,7 +204,7 @@ l__0062:
 l__007B:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x9A));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x98));
-	emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();
+	emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x1FB5; emu_File_Exists();
 l__0088:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

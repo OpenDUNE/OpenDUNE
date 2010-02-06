@@ -27,7 +27,7 @@ l__0000:
 	emu_push(emu_ds);
 	emu_ax = 0x2AB7;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x000D); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();
+	emu_push(emu_cs); emu_push(0x000D); emu_cs = 0x1FB5; emu_File_Exists();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__000D:
@@ -104,7 +104,7 @@ l__0051:
 	emu_push(emu_ds);
 	emu_ax = 0x2AB7;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x1FB5; f__1FB5_01FA_0010_F89C();
+	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x1FB5; emu_File_Open();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0063:
@@ -118,13 +118,13 @@ l__0063:
 	emu_ax = 0x41C2;
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x1FB5; f__1FB5_0E9C_001B_37D1();
+	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x1FB5; emu_File_WriteBlock();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__007A:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0083); emu_cs = 0x1FB5; f__1FB5_09C7_0018_922D();
+	emu_push(emu_cs); emu_push(0x0083); emu_cs = 0x1FB5; emu_File_Close();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0083:
@@ -2634,7 +2634,7 @@ l__1198:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0xE);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x11A5); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();
+	emu_push(emu_cs); emu_push(0x11A5); emu_cs = 0x1FB5; emu_File_Exists();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__11A5:
@@ -2820,7 +2820,7 @@ l__1298:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0xE);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x12A5); emu_cs = 0x1FB5; f__1FB5_15B5_0015_6A00();
+	emu_push(emu_cs); emu_push(0x12A5); emu_cs = 0x1FB5; emu_File_Exists();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__12A5:
