@@ -45,7 +45,7 @@ extern void f__B4C1_0000_0022_1807();
 extern void f__B520_0000_0019_6B99();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__07D4_0000_0027_FA61();
-extern void f__B52A_0000_0019_1617();
+extern void emu_WSA_LoadFile();
 extern void f__B4DA_0000_002C_B3C2();
 extern void f__253D_0000_0013_38F4();
 extern void f__B536_0000_004B_3AF8();

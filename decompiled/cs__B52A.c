@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B52A_0000_0019_1617()
+ * Decompiled function emu_WSA_LoadFile()
  *
- * @name f__B52A_0000_0019_1617
+ * @name emu_WSA_LoadFile
  * @implements B52A:0000:0019:1617 ()
  * @implements B52A:0019:0017:365A
  * @implements B52A:0030:0030:5D25
@@ -53,7 +53,7 @@
  *
  * Called From: 352A:0020:0005:0000
  */
-void f__B52A_0000_0019_1617()
+void emu_WSA_LoadFile()
 {
 l__0000:
 	emu_push(emu_bp);

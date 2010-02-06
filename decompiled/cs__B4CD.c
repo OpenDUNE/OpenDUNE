@@ -2353,7 +2353,7 @@ l__0E2A:
 	emu_push(emu_ds);
 	emu_ax = 0x2574;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_0000_0019_1617();
+	emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__0E37:

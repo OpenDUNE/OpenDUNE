@@ -245,5 +245,7 @@ B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Gam
 
 B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
 
+B52A:0000:0019:1617	emu_WSA_LoadFile	# (filename_csip, ??, ??, ??, ??, ??, ??) Load a WSA file
+
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
 
