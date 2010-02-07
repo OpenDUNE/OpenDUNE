@@ -23,11 +23,11 @@ extern void f__104B_024D_0012_1DC4();
 extern void f__1423_08CD_0012_0004();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_204C_0043_B1ED();
-extern void f__253D_0000_0013_38F4();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4CD_14CA_0013_F579();
 extern void emu_File_Exists();
+extern void emu_File_ReadBlockFile();
 extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
 extern void emu_String_strupr();
@@ -716,7 +716,7 @@ l__0014:
 	emu_push(g_global->readBufferSize);
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(emu_ss); emu_push(emu_bp - 0x22);
-	emu_push(emu_cs); emu_push(0x0090); emu_cs = 0x253D; f__253D_0000_0013_38F4();
+	emu_push(emu_cs); emu_push(0x0090); emu_cs = 0x253D; emu_File_ReadBlockFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 0xC;

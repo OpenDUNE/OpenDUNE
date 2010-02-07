@@ -31,7 +31,6 @@ extern void f__22A6_0796_000B_9035();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
 extern void f__2537_000C_001C_86CB();
-extern void f__253D_0000_0013_38F4();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
@@ -55,6 +54,7 @@ extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
+extern void emu_File_ReadBlockFile();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_PickHouse();
 extern void emu_GUI_ShowEndStats();
@@ -166,7 +166,7 @@ static void GameLoop_LevelEnd()
 			emu_push(768);
 			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
 			emu_push(0x353F); emu_push(0x60DF); /* "IBM.PAL" */
-			emu_push(emu_cs); emu_push(0x03E7); emu_cs = 0x253D; f__253D_0000_0013_38F4();
+			emu_push(emu_cs); emu_push(0x03E7); emu_cs = 0x253D; emu_File_ReadBlockFile();
 			emu_sp += 12;
 
 			emu_push(1);
