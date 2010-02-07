@@ -2853,13 +2853,13 @@ l__12B5:
 	emu_push(emu_ax);
 	emu_push(emu_dx);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x12DA); emu_cs = 0x34B1; overlay(0x34B1, 0); f__B4B1_01CD_002A_CE8A();
+	emu_push(emu_cs); emu_push(0x12DA); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__12DA:
 	emu_addw(&emu_sp, 0xE);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x12E3); emu_cs = 0x34B1; overlay(0x34B1, 0); f__B4B1_0082_0012_D287();
+	emu_push(emu_cs); emu_push(0x12E3); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Close();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__12E3:

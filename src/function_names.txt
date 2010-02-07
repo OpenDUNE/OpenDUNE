@@ -220,6 +220,9 @@ B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" but
 B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
 
 B4B1:0000:0016:067A	emu_ChunkFile_LoadFile	# (filename_csip), load chunk file which start with FORM
+B4B1:0082:0012:D287	emu_ChunkFile_Close	# (file), close the file
+B4B1:0098:002A:CE8A	emu_ChunkFile_Seek	# (file, chunk_csip), seek to the requested chunk
+B4B1:01CD:002A:CE8A	emu_ChunkFile_Read	# (file, chunk_csip, length32, buffer_csip), read the requested chunk
 
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
 B4B8:0ED9:001E:DC63	emu_Window_Widget_Allocate	# (??) Allocate memory for a widget

@@ -97,15 +97,15 @@ l__007D:
 }
 
 /**
- * Decompiled function f__B4B1_0082_0012_D287()
+ * Decompiled function emu_ChunkFile_Close()
  *
- * @name f__B4B1_0082_0012_D287
+ * @name emu_ChunkFile_Close
  * @implements B4B1:0082:0012:D287 ()
  * @implements B4B1:0094:0004:BE52
  *
  * Called From: 34B1:0034:0005:0000
  */
-void f__B4B1_0082_0012_D287()
+void emu_ChunkFile_Close()
 {
 l__0082:
 	emu_push(emu_bp);
@@ -130,9 +130,9 @@ l__0094:
 }
 
 /**
- * Decompiled function f__B4B1_0098_002A_CE8A()
+ * Decompiled function emu_ChunkFile_Seek()
  *
- * @name f__B4B1_0098_002A_CE8A
+ * @name emu_ChunkFile_Seek
  * @implements B4B1:0098:002A:CE8A ()
  * @implements B4B1:00B0:0012:E067
  * @implements B4B1:00C2:0017:764B
@@ -154,7 +154,7 @@ l__0094:
  *
  * Called From: 34B1:002F:0005:0000
  */
-void f__B4B1_0098_002A_CE8A()
+void emu_ChunkFile_Seek()
 {
 l__0098:
 	emu_push(emu_bp);
@@ -324,9 +324,9 @@ l__01C8:
 }
 
 /**
- * Decompiled function f__B4B1_01CD_002A_CE8A()
+ * Decompiled function emu_ChunkFile_Read()
  *
- * @name f__B4B1_01CD_002A_CE8A
+ * @name emu_ChunkFile_Read
  * @implements B4B1:01CD:002A:CE8A ()
  * @implements B4B1:01E5:0012:E067
  * @implements B4B1:01F7:0017:B6E7
@@ -353,7 +353,7 @@ l__01C8:
  *
  * Called From: 34B1:0025:0005:0000
  */
-void f__B4B1_01CD_002A_CE8A()
+void emu_ChunkFile_Read()
 {
 l__01CD:
 	emu_push(emu_bp);
