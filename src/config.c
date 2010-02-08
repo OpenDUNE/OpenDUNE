@@ -46,5 +46,10 @@ bool Config_Read(char *filename, DuneCfg *config)
 
 	sum ^= 0xA5;
 
+	/* Disable all audio drivers. */
+	config->soundDrv = 0;
+	config->musicDrv = 0;
+	config->voiceDrv = 0;
+
 	return (sum == config->checksum);
 }

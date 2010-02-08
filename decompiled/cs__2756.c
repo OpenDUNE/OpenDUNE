@@ -75,7 +75,14 @@ l__04F0:
  * Called From: 2756:0DDF:0019:77BD
  * Called From: 2756:0E39:0006:85ED
  * Called From: 2756:0E6F:0006:02B3
+ * Called From: 2756:0E75:0006:82BA
+ * Called From: 2756:0E7B:0006:02FC
  * Called From: 2756:0E81:0006:82F7
+ * Called From: 2756:0E8D:0006:82E0
+ * Called From: 2756:0EAB:0006:0360
+ * Called From: 2756:0EB1:0006:836B
+ * Called From: 2756:0EBD:0006:835C
+ * Called From: 2756:0ECF:0006:03A3
  */
 void f__2756_04F8_0009_907D()
 {
@@ -89,14 +96,10 @@ l__0501:
 		emu_cmpw(&emu_dx, 0x0);
 		if (emu_dx == 0x0) goto l__050E;
 	}
-l__050B:
+	p__2756_050B_0003_6FD4(); return;
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
+	emu_retf(0x0, 0x050D);
 l__050E:
 
 	/* Return from this function */
@@ -177,6 +180,7 @@ l__0589:
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x27560622: f__2756_0622_0006_823A(); break;
 		case 0x2BD10006: f__2BD1_0006_004A_CD10(); break;
+		case 0x44AF1CEE: f__AB00_1CEE_0015_5BCF(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x059D; emu_last_length = 0x0019; emu_last_crc = 0x7966;
@@ -1379,6 +1383,7 @@ l__0CC9:
  * @implements 2756:0D4D:0007:3FBD
  * @implements 2756:0D54:0005:C48A
  *
+ * Called From: 1DD7:15D3:0012:C55E
  * Called From: 1DD7:1719:000E:F8EB
  */
 void f__2756_0D12_0042_A9FA()
@@ -1616,6 +1621,43 @@ l__0E6C:
 }
 
 /**
+ * Decompiled function f__2756_0E72_0006_82BA()
+ *
+ * @name f__2756_0E72_0006_82BA
+ * @implements 2756:0E72:0006:82BA ()
+ *
+ * Called From: 1DD7:0532:002A:9046
+ * Called From: 1DD7:0532:003C:DF0B
+ * Called From: 1DD7:096F:0020:62CD
+ * Called From: 1DD7:096F:0028:5495
+ */
+void f__2756_0E72_0006_82BA()
+{
+l__0E72:
+	emu_ax = 0x97;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0E78_0006_02FC()
+ *
+ * @name f__2756_0E78_0006_02FC
+ * @implements 2756:0E78:0006:02FC ()
+ *
+ * Called From: 1DD7:04F6:0019:FAFC
+ * Called From: 1DD7:0947:000F:FCBA
+ * Called From: 1DD7:0A22:0018:FA0A
+ * Called From: 1DD7:0AA3:000F:FCBA
+ * Called From: 1DD7:1054:000F:FCBA
+ */
+void f__2756_0E78_0006_02FC()
+{
+l__0E78:
+	emu_ax = 0x98;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
  * Decompiled function f__2756_0E7E_0006_82F7()
  *
  * @name f__2756_0E7E_0006_82F7
@@ -1627,5 +1669,87 @@ void f__2756_0E7E_0006_82F7()
 {
 l__0E7E:
 	emu_ax = 0x99;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0E8A_0006_82E0()
+ *
+ * @name f__2756_0E8A_0006_82E0
+ * @implements 2756:0E8A:0006:82E0 ()
+ *
+ * Called From: 1DD7:0D54:000E:E9B7
+ */
+void f__2756_0E8A_0006_82E0()
+{
+l__0E8A:
+	emu_ax = 0x9B;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0EA8_0006_0360()
+ *
+ * @name f__2756_0EA8_0006_0360
+ * @implements 2756:0EA8:0006:0360 ()
+ *
+ * Called From: 1DD7:0577:001B:056D
+ * Called From: 1DD7:0993:0011:8F49
+ */
+void f__2756_0EA8_0006_0360()
+{
+l__0EA8:
+	emu_ax = 0xAA;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0EAE_0006_836B()
+ *
+ * @name f__2756_0EAE_0006_836B
+ * @implements 2756:0EAE:0006:836B ()
+ *
+ * Called From: 1DD7:04DD:0028:EBD0
+ * Called From: 1DD7:0938:0014:C1EF
+ * Called From: 1DD7:0A0A:0026:5877
+ * Called From: 1DD7:0A94:001E:4A5A
+ * Called From: 1DD7:1045:001E:4902
+ */
+void f__2756_0EAE_0006_836B()
+{
+l__0EAE:
+	emu_ax = 0xAB;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0EBA_0006_835C()
+ *
+ * @name f__2756_0EBA_0006_835C
+ * @implements 2756:0EBA:0006:835C ()
+ *
+ * Called From: 1DD7:08AB:0026:5144
+ */
+void f__2756_0EBA_0006_835C()
+{
+l__0EBA:
+	emu_ax = 0xAE;
+	f__2756_04F8_0009_907D(); return;
+}
+
+/**
+ * Decompiled function f__2756_0ECC_0006_03A3()
+ *
+ * @name f__2756_0ECC_0006_03A3
+ * @implements 2756:0ECC:0006:03A3 ()
+ *
+ * Called From: 1DD7:05A2:002B:11DD
+ * Called From: 1DD7:09B4:0021:161D
+ * Called From: 1DD7:0B73:0025:36F7
+ */
+void f__2756_0ECC_0006_03A3()
+{
+l__0ECC:
+	emu_ax = 0xB1;
 	f__2756_04F8_0009_907D(); return;
 }

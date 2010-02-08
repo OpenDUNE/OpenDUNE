@@ -286,7 +286,9 @@ l__01BE:
  * Called From: 15C2:0058:001D:0028
  * Called From: 15C2:0077:001F:81D4
  * Called From: 1DD7:1069:000D:AC4F
+ * Called From: 1DD7:1069:0015:6DFD
  * Called From: 1DD7:125B:0016:C125
+ * Called From: 1DD7:13AD:0010:D5AA
  * Called From: 1DD7:1732:0010:D59A
  * Called From: 1DD7:1732:0019:4769
  * Called From: 1DD7:1744:0012:C80C
