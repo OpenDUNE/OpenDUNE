@@ -64,7 +64,7 @@ l__0038:
 	emu_movw(&emu_ax, emu_bp - 0x8);
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x1FB5; emu_File_Read();
 l__004F:
 	emu_addw(&emu_sp, 0xA);
 	emu_orw(&emu_dx, emu_dx);
@@ -101,7 +101,7 @@ l__0070:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x009C); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x009C); emu_cs = 0x1FB5; emu_File_Read();
 l__009C:
 	emu_addw(&emu_sp, 0xA);
 	emu_push(emu_si);

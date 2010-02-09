@@ -943,7 +943,7 @@ l__085B:
 	emu_addw(&emu_sp, 0x6);
 	emu_si = emu_ax;
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0866); emu_cs = 0x1FB5; f__1FB5_16D5_006A_679B();
+	emu_push(emu_cs); emu_push(0x0866); emu_cs = 0x1FB5; emu_File_GetSize();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 l__0866:

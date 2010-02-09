@@ -3093,7 +3093,7 @@ l__1201:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x1216); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x1216); emu_cs = 0x1FB5; emu_File_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__1216:

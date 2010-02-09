@@ -53,7 +53,7 @@ l__0237:
 	emu_movw(&emu_ax, emu_bp - 0x6);
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_push(emu_cs); emu_push(0x024B); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x024B); emu_cs = 0x1FB5; emu_File_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CA) { overlay(0x34CA, 1); }
 l__024B:

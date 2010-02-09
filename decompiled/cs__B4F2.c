@@ -118,7 +118,7 @@ l__0063:
 	emu_ax = 0x41C2;
 	emu_push(emu_ax);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x1FB5; emu_File_WriteBlock();
+	emu_push(emu_cs); emu_push(0x007A); emu_cs = 0x1FB5; emu_File_Write();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__007A:

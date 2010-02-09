@@ -58,7 +58,7 @@ l__0014:
 l__002C:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x62F6), 0x0);
 	if (emu_get_memory8(emu_ds, 0x00, 0x62F6) != 0x0) {
-		emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x1FB5; emu_Empty6();
+		emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x1FB5; emu_File_Obsolete3();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3500) { overlay(0x3500, 1); }
 	}

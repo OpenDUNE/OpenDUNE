@@ -1063,7 +1063,7 @@ l__06A5:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x06BA); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x06BA); emu_cs = 0x1FB5; emu_File_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__06BA:

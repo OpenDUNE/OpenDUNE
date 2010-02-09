@@ -208,7 +208,7 @@ l__0174:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_cs); emu_push(0x0180); emu_cs = 0x1FB5; f__1FB5_175A_000F_6F28();
+	emu_push(emu_cs); emu_push(0x0180); emu_cs = 0x1FB5; emu_File_Obsolete1();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
 l__0180:

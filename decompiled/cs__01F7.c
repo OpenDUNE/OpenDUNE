@@ -8487,64 +8487,6 @@ l__3A3D:
 }
 
 /**
- * Decompiled function f__01F7_3A41_0011_CC22()
- *
- * @name f__01F7_3A41_0011_CC22
- * @implements 01F7:3A41:0011:CC22 ()
- * @implements 01F7:3A52:0015:6E70
- * @implements 01F7:3A67:0016:893D
- * @implements 01F7:3A7D:000D:8402
- * @implements 01F7:3A7E:000C:CC00
- *
- * Called From: 1FB5:1B43:0027:F474
- */
-void f__01F7_3A41_0011_CC22()
-{
-l__3A41:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs);
-	emu_push(0x3A52); emu_String_strlen();
-l__3A52:
-	emu_pop(&emu_cx);
-	emu_pop(&emu_cx);
-	emu_incw(&emu_ax);
-	emu_cx = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_addw(&emu_dx, emu_cx);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-	goto l__3A7E;
-l__3A67:
-	emu_decw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_cmpb(&emu_al, emu_get_memory8(emu_ss, emu_bp,  0xA));
-	if (emu_al != emu_get_memory8(emu_ss, emu_bp,  0xA)) goto l__3A7D;
-	emu_dx = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	/* Unresolved jump */ emu_ip = 0x3A86; emu_last_cs = 0x01F7; emu_last_ip = 0x3A7B; emu_last_length = 0x0016; emu_last_crc = 0x893D; emu_call();
-l__3A7D:
-	emu_decw(&emu_cx);
-l__3A7E:
-	emu_orw(&emu_cx, emu_cx);
-	if (emu_cx != 0) goto l__3A67;
-	emu_xorw(&emu_dx, emu_dx);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_String_strstr()
  *
  * @name emu_String_strstr
@@ -9363,20 +9305,6 @@ l__447F:
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 	return;
-}
-
-/**
- * Decompiled function f__01F7_4481_0003_623C()
- *
- * @name f__01F7_4481_0003_623C
- * @implements 01F7:4481:0003:623C ()
- *
- * Called From: 1FB5:0109:001B:7009
- */
-void f__01F7_4481_0003_623C()
-{
-l__4481:
-	emu_File_LowLevel_Write_Wrapper(); return;
 }
 
 /**

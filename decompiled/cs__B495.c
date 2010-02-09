@@ -4356,7 +4356,7 @@ l__1A3B:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7FAC));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7FAA));
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x1A55); emu_cs = 0x1FB5; emu_File_ReadBlock();
+	emu_push(emu_cs); emu_push(0x1A55); emu_cs = 0x1FB5; emu_File_Read();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__1A55:

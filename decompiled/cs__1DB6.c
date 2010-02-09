@@ -219,7 +219,7 @@ l__01A9:
 l__01B0:
 	emu_push(emu_cs); emu_push(0x01B5); emu_cs = 0x2BD1; emu_Empty1();
 l__01B5:
-	emu_push(emu_cs); emu_push(0x01BA); emu_cs = 0x1FB5; f__1FB5_18D3_000E_76AC();
+	emu_push(emu_cs); emu_push(0x01BA); emu_cs = 0x1FB5; emu_File_Obsolete4();
 l__01BA:
 	emu_get_memory8(emu_ds, 0x00, 0x62F6) = 0x1;
 	emu_xorw(&emu_ax, emu_ax);

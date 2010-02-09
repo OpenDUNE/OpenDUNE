@@ -3,32 +3,29 @@
 #ifndef FILE_H
 #define FILE_H
 
-enum {
-	FILE_MAX     = 676,
-	FILE_INVALID = 0xFFFF
-};
-
-MSVC_PACKED_BEGIN
-/**
- * Static information per Action type.
- */
-typedef struct FileInfo {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Name of the file. */
-	/* 0004(4)   */ PACK uint32 variable_04;                /*!< ?? */
-	/* 0008(4)   */ PACK uint32 variable_08;                /*!< ?? */
-	/* 000C(4)   */ PACK uint32 variable_0C;                /*!< ?? */
-	/* 0010(1)   */ PACK uint8  variable_10;                /*!< ?? */
-	/* 0011(1)   */ PACK uint8  variable_11;                /*!< ?? */
-	/* 0012(1)   */ PACK uint8  variable_12;                /*!< ?? */
-} GCC_PACKED FileInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(FileInfo) == 0x13);
-
-extern FileInfo *g_fileInfo;
-
-extern uint16 FileInfo_FindIndex_ByName(char *filename);
+extern bool File_Exists(const char *filename);
+extern uint8 File_Open(const char *filename, uint8 mode);
+extern void File_Close(uint8 index);
+extern uint32 File_Read(uint8 index, void *buffer, uint32 length);
+extern uint32 File_Write(uint8 index, void *buffer, uint32 length);
+extern uint32 File_Seek(uint8 index, uint32 position, uint8 mode);
+extern uint32 File_GetSize(uint8 index);
+extern void File_Delete(const char *filename);
+extern void File_Create(const char *filename);
 
 
-extern void emu_FileInfo_FindIndex_ByName();
+extern void emu_File_Exists();
+extern void emu_File_Open();
+extern void emu_File_Close();
+extern void emu_File_Read();
+extern void emu_File_Write();
+extern void emu_File_Seek();
+extern void emu_File_GetSize();
+extern void emu_File_Delete();
+extern void emu_File_Create();
+extern void emu_File_Obsolete1();
+extern void emu_File_Obsolete2();
+extern void emu_File_Obsolete3();
+extern void emu_File_Obsolete4();
 
 #endif /* FILE_H */
