@@ -5,6 +5,7 @@
 
 #include "script/script.h"
 #include "config.h"
+#include "driver.h"
 #include "sound.h"
 
 /*
@@ -34,31 +35,6 @@ typedef struct struct_19A8 {
 } GCC_PACKED struct_19A8;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_19A8) == 0x8);
-
-MSVC_PACKED_BEGIN
-/**
- * Inside the GlobalData is information about digitized sound drivers. This is the layout of
- *  that data.
- */
-typedef struct DSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
-} GCC_PACKED DSDriver;
-MSVC_PACKED_END
-assert_compile(sizeof(DSDriver) == 0x04);
-
-MSVC_PACKED_BEGIN
-/**
- * Inside the GlobalData is information about music/sound drivers. This is the layout of
- *  that data.
- */
-typedef struct MSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
-	/* 0004(4)   */ PACK csip32 extension;                  /*!< Pointer to extension used for music file names. */
-	/* 0008(2)   */ PACK uint16 variable_0008;              /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_000A;              /*!< ?? */
-} GCC_PACKED MSDriver;
-MSVC_PACKED_END
-assert_compile(sizeof(MSDriver) == 0x0C);
 
 MSVC_PACKED_BEGIN
 /**
@@ -897,28 +873,16 @@ typedef struct GlobalData {
 	/* 62F6(1)   */ PACK uint8  variable_62F6;              /*!< ?? */
 	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
-	/* 6302(2)   */ PACK uint16 variable_6302;              /*!< ?? */
-	/* 6304(2)   */ PACK uint16 variable_6304;              /*!< ?? */
-	/* 6306(2)   */ PACK uint16 variable_6306;              /*!< ?? */
-	/* 6308()    */ PACK uint8   unknown_6308[0x0008];
-	/* 6310(4)   */ PACK csip32 variable_6310;              /*!< ?? */
-	/* 6314(2)   */ PACK uint16 variable_6314;              /*!< ?? */
-	/* 6316(2)   */ PACK uint16 variable_6316;              /*!< ?? */
-	/* 6318()    */ PACK uint8   unknown_6318[0x000E];
-	/* 6326(2)   */ PACK uint16 variable_6326;              /*!< ?? */
-	/* 6328()    */ PACK uint8   unknown_6328[0x001C];
-	/* 6344(2)   */ PACK uint16 variable_6344;              /*!< ?? */
-	/* 6346(2)   */ PACK uint16 variable_6346;              /*!< ?? */
-	/* 6348(2)   */ PACK uint16 variable_6348;              /*!< ?? */
-	/* 634A()    */ PACK uint8   unknown_634A[0x0008];
-	/* 6352(4)   */ PACK csip32 variable_6352;              /*!< ?? */
-	/* 6356(2)   */ PACK uint16 variable_6356;              /*!< ?? */
-	/* 6358(2)   */ PACK uint16 variable_6358;              /*!< ?? */
-	/* 635A()    */ PACK uint8   unknown_635A[0x0012];
-	/* 636C(2)   */ PACK uint16 variable_636C;              /*!< ?? */
-	/* 636E()    */ PACK uint8   unknown_636E[0x0004];
+	/* 6302(38)  */ PACK Driver soundDriver;                /*!< Sound driver. */
+	/* 6328(2)   */ PACK uint16 variable_6328;              /*!< ?? */
+	/* 632A(2)   */ PACK uint16 soundBufferIndex;           /*!< ?? */
+	/* 632C(24)  */ PACK MSBuffer soundBuffer[4];           /*!< ?? */
+	/* 6344(38)  */ PACK Driver musicDriver;                /*!< Music driver. */
+	/* 636A(2)   */ PACK uint16 variable_636A;              /*!< ?? */
+	/* 636C(6)   */ PACK MSBuffer musicBuffer;              /*!< ?? */
 	/* 6372(2)   */ PACK uint16 variable_6372;              /*!< ?? */
-	/* 6374()    */ PACK uint8   unknown_6374[0x0028];
+	/* 6374(38)  */ PACK Driver voiceDriver;                /*!< Voice driver. */
+	/* 639A()    */ PACK uint8   unknown_639A[0x0002];
 	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
 	/* 639E()    */ PACK uint8   unknown_639E[0x000C];
 	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */

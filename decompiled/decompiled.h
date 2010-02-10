@@ -14,6 +14,7 @@
 #include "../src/interrupt.h"
 #include "../src/load.h"
 #include "../src/map.h"
+#include "../src/mt32mpu.h"
 #include "../src/opendune.h"
 #include "../src/os/endian.h"
 #include "../src/os/file.h"
@@ -312,7 +313,6 @@ extern void emu_Terminate_Error();
 extern void emu_GUI_GameOptions();
 extern void emu_GUI_Production_Upgrade();
 extern void f__B520_039B_001B_4BEB();
-extern void emu_Drivers_All_Init();
 extern void f__B48B_03A4_0005_619A();
 extern void emu_Tools_MulCSIP_csip();
 extern void f__0EDB_03B9_001D_2E46();
@@ -333,7 +333,7 @@ extern void emu_Date_Get();
 extern void f__B4CD_0408_001F_C54A();
 extern void emu_Time_Get();
 extern void f__B4E0_041D_0017_C8A5();
-extern void f__1DD7_0421_000E_5431();
+extern void emu_Drivers_Load();
 extern void f__0EDB_0426_0027_711D();
 extern void f__217E_0426_003F_15C8();
 extern void emu_Drive_Get_Default_Wrapper();
@@ -356,7 +356,6 @@ extern void f__B4CD_048E_0012_3E9E();
 extern void f__AB00_048E_0001_6780();
 extern void f__06F7_0493_0015_AAB2();
 extern void emu_Drive_Get_Free_Space();
-extern void f__AB00_0499_0014_F091();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__B52A_04AC_0033_548A();
 extern void f__0EDB_04AE_0024_408E();
@@ -365,7 +364,6 @@ extern void emu_GUI_SaveLoad_List();
 extern void f__2756_04BC_002C_80A5();
 extern void emu_Interrupt_Vector_Get();
 extern void f__B4CD_04C4_0010_846B();
-extern void f__AB00_04C9_0016_446A();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__217E_04CB_0020_3089();
 extern void emu_Interrupt_Vector_Set();
@@ -380,23 +378,19 @@ extern void f__22A6_04F8_007A_6E25();
 extern void f__2756_04F8_0009_907D();
 extern void emu_Overlay_Load();
 extern void f__29E8_04FC_0028_0C66();
-extern void f__AB00_0505_0001_6780();
 extern void f__0EDB_050C_001D_2E46();
-extern void f__AB00_050D_0013_8F78();
 extern void f__2903_050E_0022_419A();
 extern void emu_Interrupt_CustomTimer();
 extern void f__B495_0511_0011_10E0();
 extern void f__151A_0526_0028_A3A6();
 extern void f__2903_0530_0008_CF42();
 extern void f__29E8_0534_000E_6213();
-extern void f__AB00_0539_0001_6780();
 extern void f__B4CD_053B_0010_C4CD();
 extern void f__16C5_0543_0034_CA88();
 extern void f__AB00_0543_0013_0ECE();
 extern void f__2903_0545_0024_06E5();
 extern void f__B518_0558_0010_240A();
 extern void emu_GUI_PaletteAnimate();
-extern void f__AB00_055A_0001_6780();
 extern void emu_Overlay_LocateMemory();
 extern void f__AB00_0564_0050_E6D5();
 extern void f__B4CD_0566_0010_04C2();
@@ -684,7 +678,6 @@ extern void f__B4F2_0F24_000E_BC8E();
 extern void f__AB00_0F24_0044_3584();
 extern void f__B495_0F30_0008_857D();
 extern void f__1DD7_0F32_000C_96B1();
-extern void emu_Drivers_Music_Init();
 extern void f__01F7_0F45_004B_44A0();
 extern void f__1A34_0F48_0018_0DB8();
 extern void f__B518_0F54_0023_0701();
@@ -712,7 +705,6 @@ extern void emu_String_tolower();
 extern void f__176C_1098_0021_667D();
 extern void emu_Security_Main();
 extern void emu_String_toupper();
-extern void emu_Drivers_Sound_Init();
 extern void f__B518_10DC_0011_9EE1();
 extern void f__22A6_10DD_0023_B468();
 extern void f__1A34_10EC_000E_A326();

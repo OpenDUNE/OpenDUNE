@@ -2317,15 +2317,15 @@
 			Name="include"
 			>
 			<File
+				RelativePath="..\include\libemu.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\libemu_bios.h"
 				>
 			</File>
 			<File
 				RelativePath="..\include\libemu_call.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu.h"
 				>
 			</File>
 			<File
@@ -2373,7 +2373,51 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\driver.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\driver.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\emu_config.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\emu_driver.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2454,6 +2498,26 @@
 			</File>
 			<File
 				RelativePath="..\src\emu_map.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\emu_mt32mpu.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2774,6 +2838,30 @@
 			</File>
 			<File
 				RelativePath="..\src\map.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\mt32mpu.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\mt32mpu.h"
 				>
 			</File>
 			<File
@@ -3208,6 +3296,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\gui\widget.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\gui\widget_click.c"
 					>
 					<FileConfiguration
@@ -3246,10 +3338,6 @@
 							ObjectFile="$(IntDir)\src\gui\"
 						/>
 					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\gui\widget.h"
-					>
 				</File>
 			</Filter>
 			<Filter
