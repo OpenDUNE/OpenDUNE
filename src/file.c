@@ -292,6 +292,7 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 	if (index >= FILE_MAX) return 0;
 	if (s_file[index].fp == NULL) return 0;
 	if (s_file[index].position >= s_file[index].size) return 0;
+	if (length == 0) return 0;
 
 	if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
