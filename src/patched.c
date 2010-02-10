@@ -13,21 +13,6 @@ extern void f__01F7_2040_0033_F011();
 extern void f__01F7_20B5_0076_64ED();
 extern void f__01F7_21FA_0012_B06A();
 extern void Interrupt_Video();
-extern void f__AB00_045A_0022_EC86();
-extern void f__AB00_0C96_0019_A7D9();
-extern void f__AB00_0F02_0012_D841();
-extern void f__AB00_0F24_0044_3584();
-extern void f__AB00_1FA8_0072_8B95();
-extern void f__AB00_2103_0040_93D2();
-extern void f__AB00_2191_0012_DA45();
-extern void f__AB00_21F0_0024_C4F7();
-extern void f__AB00_2336_002C_4FDC();
-extern void f__AB00_237A_002C_07AF();
-extern void f__AB00_240F_0029_C429();
-extern void f__AB00_2498_0021_920B();
-extern void f__AB00_26EB_0047_41F4();
-
-/* TODO decompiler bug: extern void f__AB00_240F_0029_C429(); */
 
 /**
  * Decompiled function f__01F7_0229_0004_BEF7()
@@ -103,38 +88,4 @@ l__201F:
 	emu_pop(&emu_cs);
 
 	f__01F7_2040_0033_F011();
-}
-
-/**
- * Decompiled function f__2756_050B_0003_6FD4()
- *  Patched for different return-values in rare cases.
- *
- * @name p__2756_050B_0003_6FD4
- * @implements 2756:050B:0003:6FD4 ()
- */
-void p__2756_050B_0003_6FD4()
-{
-	/* Call/jump based on memory/register values */
-	emu_ip = emu_ax;
-	emu_cs = emu_dx;
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x44AF045A: f__AB00_045A_0022_EC86(); return;
-		case 0x44AF0C96: f__AB00_0C96_0019_A7D9(); return;
-		case 0x44AF0F02: f__AB00_0F02_0012_D841(); return;
-		case 0x44AF0F24: f__AB00_0F24_0044_3584(); return;
-		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); return;
-		case 0x44AF2103: f__AB00_2103_0040_93D2(); return;
-		case 0x44AF2191: f__AB00_2191_0012_DA45(); return;
-		case 0x44AF21F0: f__AB00_21F0_0024_C4F7(); return;
-		case 0x44AF2336: f__AB00_2336_002C_4FDC(); return;
-		case 0x44AF237A: f__AB00_237A_002C_07AF(); return;
-		case 0x44AF240F: f__AB00_240F_0029_C429(); return;
-		case 0x44AF2498: f__AB00_2498_0021_920B(); return;
-		case 0x44AF26EB: f__AB00_26EB_0047_41F4(); return;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
-			emu_call();
-			return;
-	}
 }

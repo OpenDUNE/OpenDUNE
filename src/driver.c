@@ -16,7 +16,21 @@ extern void f__23E1_0004_0014_2BC0();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0A59_0023_D969();
 extern void f__2756_0B8F_0025_D5D8();
-extern void f__2756_0E6C_0006_02B3();
+extern void f__AB00_045A_0022_EC86();
+extern void f__AB00_0C96_0019_A7D9();
+extern void f__AB00_0F02_0012_D841();
+extern void f__AB00_0F24_0044_3584();
+extern void f__AB00_1FA8_0072_8B95();
+extern void f__AB00_2103_0040_93D2();
+extern void f__AB00_2191_0012_DA45();
+extern void f__AB00_21F0_0024_C4F7();
+extern void f__AB00_2336_002C_4FDC();
+extern void f__AB00_237A_002C_07AF();
+extern void f__AB00_240F_0029_C429();
+extern void f__AB00_2498_0021_920B();
+extern void f__AB00_26EB_0047_41F4();
+
+/* TODO decompiler bug: extern void f__AB00_240F_0029_C429(); */
 
 
 uint16 Drivers_Sound_Init(uint16 index)
@@ -50,11 +64,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 		uint8 i;
 		int32 value;
 
-		emu_push(sound->index);
-		emu_push(emu_cs); emu_push(0x1188); emu_cs = 0x2756; f__2756_0E6C_0006_02B3();
-		emu_sp += 2;
-
-		value = (int32)emu_ax;
+		value = (int32)Drivers_CallFunction(sound->index, 0x96).s.ip;
 
 		for (i = 0; i < 4; i++) {
 			MSBuffer *buf = &g_global->soundBuffer[i];
@@ -109,11 +119,7 @@ uint16 Drivers_Music_Init(uint16 index)
 	g_global->variable_636A = driver->variable_000A;
 	if (driver->variable_0008 != 0) return index;
 
-	emu_push(music->index);
-	emu_push(emu_cs); emu_push(0x1001); emu_cs = 0x2756; f__2756_0E6C_0006_02B3();
-	emu_sp += 2;
-
-	value = (int32)emu_ax;
+	value = (int32)Drivers_CallFunction(music->index, 0x96).s.ip;
 
 	emu_push(0x10);
 	emu_push(value >> 16); emu_push(value & 0xFFFF);
@@ -153,4 +159,67 @@ void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 	emu_push(emu_cs); emu_push(0x03D9); emu_Drivers_Voice_Init();
 	emu_sp += 2;
 	g_global->variable_6D8F = emu_ax;
+}
+
+csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
+{
+	csip32 csip;
+
+	if (driver >= 10) {
+		csip.csip = 0;
+		return csip;
+	}
+
+	csip = emu_get_csip32(0x2756, driver * 4, 0x128);
+	if (csip.csip == 0) return csip;
+
+	for (;; csip.s.ip += 4) {
+		uint16 f = emu_get_memory16(csip.s.cs, csip.s.ip, 0);
+		if (f == function) break;
+		if (f != 0xFFFF) continue;
+		csip.csip = 0;
+		return csip;
+	}
+
+	csip.s.ip = emu_get_memory16(csip.s.cs, csip.s.ip, 2);
+	return csip;
+}
+
+csip32 Drivers_CallFunction(uint16 driver, uint16 function)
+{
+	csip32 csip;
+
+	csip = Drivers_GetFunctionCSIP(driver, function);
+	if (csip.csip == 0) return csip;
+
+	/* Fake return CS:IP */
+	emu_sp -= 4;
+
+	/* Call/jump based on memory/register values */
+	emu_ip = csip.s.ip;
+	emu_cs = csip.s.cs;
+	switch ((emu_cs << 16) + emu_ip) {
+		case 0x44AF045A: f__AB00_045A_0022_EC86(); break;
+		case 0x44AF0C96: f__AB00_0C96_0019_A7D9(); break;
+		case 0x44AF0F02: f__AB00_0F02_0012_D841(); break;
+		case 0x44AF0F24: f__AB00_0F24_0044_3584(); break;
+		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); break;
+		case 0x44AF2103: f__AB00_2103_0040_93D2(); break;
+		case 0x44AF2191: f__AB00_2191_0012_DA45(); break;
+		case 0x44AF21F0: f__AB00_21F0_0024_C4F7(); break;
+		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break;
+		case 0x44AF237A: f__AB00_237A_002C_07AF(); break;
+		case 0x44AF240F: f__AB00_240F_0029_C429(); break;
+		case 0x44AF2498: f__AB00_2498_0021_920B(); break;
+		case 0x44AF26EB: f__AB00_26EB_0047_41F4(); break;
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
+			emu_call();
+			return csip; /* not reached */
+	}
+
+	csip.s.cs = emu_dx;
+	csip.s.ip = emu_ax;
+	return csip;
 }
