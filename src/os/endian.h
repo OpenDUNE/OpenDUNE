@@ -14,7 +14,9 @@
 			}
 		}
 	#endif /* _MSC_VER */
-#else /* _WIN32 */
+#elif defined(__APPLE__)
+	#include <machine/endian.h>
+#else
 	#include <endian.h>
 #endif /* _WIN32 */
 
