@@ -15,19 +15,23 @@
  */
 void emu_Drivers_All_Init()
 {
+	csip32 ret;
 	uint16 sound;
 	uint16 music;
 	uint16 voice;
 
 	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
 
 	sound = emu_get_memory16(emu_ss, emu_sp, 0);
 	music = emu_get_memory16(emu_ss, emu_sp, 2);
 	voice = emu_get_memory16(emu_ss, emu_sp, 4);
 
 	Drivers_All_Init(sound, music, voice);
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
 }
 
 /**
