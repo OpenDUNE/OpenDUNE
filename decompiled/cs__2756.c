@@ -1538,21 +1538,6 @@ l__0E78:
 }
 
 /**
- * Decompiled function f__2756_0E7E_0006_82F7()
- *
- * @name f__2756_0E7E_0006_82F7
- * @implements 2756:0E7E:0006:82F7 ()
- *
- * Called From: 1DD7:160C:000E:384B
- */
-void f__2756_0E7E_0006_82F7()
-{
-l__0E7E:
-	emu_ax = 0x99;
-	emu_Drivers_CallFunction(); return;
-}
-
-/**
  * Decompiled function f__2756_0E8A_0006_82E0()
  *
  * @name f__2756_0E8A_0006_82E0
