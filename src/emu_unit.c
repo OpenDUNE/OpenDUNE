@@ -269,3 +269,34 @@ void emu_Unit_SetDestination()
 
 	Unit_SetDestination(u, destination);
 }
+
+/**
+ * Emulator wrapper around Unit_GetTargetPriority().
+ *
+ * @name emu_Unit_GetTargetPriority
+ * @implements 1A34:117E:001D:E17B ()
+ */
+void emu_Unit_GetTargetPriority()
+{
+	csip32 unitcsip;
+	csip32 targetcsip;
+	Unit *unit;
+	Unit *target;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	unitcsip   = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	targetcsip = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
+
+	if (unitcsip.csip == 0x0) return;
+	if (targetcsip.csip == 0x0) return;
+
+	unit   = Unit_Get_ByMemory(unitcsip);
+	target = Unit_Get_ByMemory(targetcsip);
+
+	emu_ax = Unit_GetTargetPriority(unit, target);
+}

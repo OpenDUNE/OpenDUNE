@@ -19,8 +19,6 @@
 #include "team.h"
 #include "structure.h"
 
-extern void emu_Unit_FindStructure();
-extern void emu_Unit_Deviation_Descrease();
 extern void f__07D4_196B_0073_56C1();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0F3F_0125_000D_4868();
@@ -31,9 +29,12 @@ extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_3014_001B_858E();
-extern void emu_Tools_Random_256();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
+extern void f__B4CD_1BC4_0013_1AB3();
+extern void emu_Tools_Random_256();
+extern void emu_Unit_FindStructure();
+extern void emu_Unit_Deviation_Descrease();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -839,4 +840,49 @@ bool Unit_Load(FILE *fp, uint32 length)
 	Unit_Recount();
 
 	return true;
+}
+
+uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
+{
+	UnitInfo *targetInfo;
+	UnitInfo *unitInfo;
+	uint16 distance;
+	uint16 priority;
+
+	if (unit == NULL || target == NULL) return 0;
+	if (unit == target) return 0;
+
+	if ((target->flags & 0x0002) == 0) return 0;
+	if ((target->variable_09 & (1 << Unit_GetHouseID(unit))) == 0) return 0;
+
+	if (House_AreAllied(Unit_GetHouseID(unit), Unit_GetHouseID(target))) return 0;
+
+	unitInfo   = &g_unitInfo[unit->type];
+	targetInfo = &g_unitInfo[target->type];
+
+	if ((targetInfo->variable_0C & 0x2000) == 0) return 0;
+
+	if (targetInfo->variable_3C == 4) {
+		if ((unitInfo->variable_0C & 0x1000) == 0) return 0;
+
+		emu_push(Tile_PackTile(target->position));
+		emu_push(emu_cs); emu_push(0x1276); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
+		emu_sp += 2;
+
+		if (emu_ax == 0 && target->houseID == g_global->playerHouseID) return 0;
+	}
+
+	if (!Map_IsValidPosition(Tile_PackTile(target->position))) return 0;
+
+	distance = Tile_GetDistanceRoundedUp(unit->position, target->position);
+
+	if (!Map_IsValidPosition(Tile_PackTile(unit->position))) {
+		if (targetInfo->variable_50 >= distance) return 0;
+	}
+
+	priority = targetInfo->variable_2F + targetInfo->variable_2D;
+	if (distance != 0) priority = (priority / distance) + 1;
+
+	if (priority > 0x7D00) return 0x7D00;
+	return priority;
 }

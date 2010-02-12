@@ -151,7 +151,7 @@ typedef struct UnitInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
 	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Unit. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??, 0x0200 - ??, 0x0800 - ??. */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??, 0x0200 - ??, 0x0800 - ??, 0x1000 - ?? Can shoot air units?, 0x2000 - Has Target Priority. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
@@ -160,7 +160,10 @@ typedef struct UnitInfo {
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];
 	/* 0028(2)   */ PACK uint16 actionPlayer;               /*!< Default action for player units. */
-	/* 002A()    */ PACK uint8   unknown_002A[0x0008];
+	/* 002A()    */ PACK uint8   unknown_002A[0x0003];
+	/* 002D(2)   */ PACK uint16 variable_2D;                /*!< ?? */
+	/* 002F(2)   */ PACK uint16 variable_2F;                /*!< ?? */
+	/* 0031()    */ PACK uint8   unknown_0031[0x0001];
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */
@@ -169,7 +172,9 @@ typedef struct UnitInfo {
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040()    */ PACK uint8   unknown_0040[0x0008];
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
-	/* 004A()    */ PACK uint8   unknown_004A[0x0010];
+	/* 004A()    */ PACK uint8   unknown_004A[0x0006];
+	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
+	/* 0052()    */ PACK uint8   unknown_0052[0x0008];
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);
@@ -210,6 +215,7 @@ extern Unit *Unit_Get_ByPackedTile(uint16 packed);
 extern void Unit_SetDestination(Unit *u, uint16 destination);
 extern bool Unit_Save(FILE *fp);
 extern bool Unit_Load(FILE *fp, uint32 length);
+extern uint16 Unit_GetTargetPriority(Unit *unit, Unit *target);
 
 
 extern void emu_GameLoop_Unit();
@@ -223,5 +229,6 @@ extern void emu_Unit_GetTeam();
 extern void emu_Unit_Sort();
 extern void emu_Unit_Get_ByPackedTile();
 extern void emu_Unit_SetDestination();
+extern void emu_Unit_GetTargetPriority();
 
 #endif /* UNIT_H */
