@@ -493,8 +493,12 @@ void Scenario_Load_Map()
 	{
 		Tile *t = Map_GetTileByPosition(emu_di);
 
-		t->houseID = emu_al & 0x07;
-		t->flags   = emu_al >> 3;
+		t->houseID      = emu_al & 0x07;
+		t->isUnveiled   = (emu_al & 0x08) != 0 ? true : false;
+		t->hasUnit      = (emu_al & 0x10) != 0 ? true : false;
+		t->hasStructure = (emu_al & 0x20) != 0 ? true : false;
+		t->flag_08      = (emu_al & 0x40) != 0 ? true : false;
+		t->flag_10      = (emu_al & 0x80) != 0 ? true : false;
 
 		emu_push(emu_ds); emu_push(0x1F83); /* ,\r\n */
 		emu_push(0); emu_push(0);
@@ -515,7 +519,7 @@ void Scenario_Load_Map()
 			g_map[emu_di] |= 0x8000;
 		}
 
-		if ((t->flags & 0x01) == 0) {
+		if (!t->isUnveiled) {
 			t->fogOfWar = g_global->variable_39F2 & 0x7F;
 		}
 	}

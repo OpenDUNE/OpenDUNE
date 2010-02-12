@@ -11,7 +11,11 @@ typedef struct Tile {
 	PACK uint32 spriteID:9;                                 /*!< The Sprite which is drawn on this Tile. */
 	PACK uint32 fogOfWar:7;                                 /*!< The Fog of War on this Tile. */
 	PACK uint32 houseID:3;                                  /*!< Which House owns this Tile. */
-	PACK uint32 flags:5;                                    /*!< Bitflags. 0x01 - ??, 0x02 - Has Unit, 0x04 - Has Structure, 0x08 - ??, 0x10 - ??. */
+	PACK uint32 isUnveiled:1;                               /*!< There is no fog on the Tile. */
+	PACK uint32 hasUnit:1;                                  /*!< There is a Unit on the Tile. */
+	PACK uint32 hasStructure:1;                             /*!< There is a Structure on the Tile. */
+	PACK uint32 flag_08:1;                                  /*!< ?? */
+	PACK uint32 flag_10:1;                                  /*!< ?? */
 	PACK uint32 index:8;                                    /*!< Index of the Structure / Unit (index 1 is Structure/Unit 0, etc). */
 } GCC_PACKED Tile;
 MSVC_PACKED_END

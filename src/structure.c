@@ -946,7 +946,7 @@ Structure *Structure_Get_ByPackedTile(uint16 packed)
 	if (packed >= 4096) return NULL;
 
 	tile = Map_GetTileByPosition(packed);
-	if ((tile->flags & 0x04) == 0) return NULL;
+	if (!tile->hasStructure) return NULL;
 	return Structure_Get_ByIndex(tile->index - 1);
 }
 

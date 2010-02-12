@@ -341,7 +341,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = Map_GetTileByPosition(i);
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (tile->flags == 0 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->spriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->flag_08 && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->spriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -364,8 +364,8 @@ bool Map_Load(FILE *fp, uint32 length)
 	for (i = 0; i < 0x1000; i++) {
 		Tile *t = Map_GetTileByPosition(i);
 
-		t->flags &= ~0x01;
-		t->fogOfWar |= g_global->variable_39F2 & 0x7F;
+		t->isUnveiled = false;
+		t->fogOfWar = g_global->variable_39F2 & 0x7F;
 	}
 
 	while (length >= sizeof(uint16) + sizeof(Tile)) {

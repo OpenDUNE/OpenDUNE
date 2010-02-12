@@ -711,7 +711,7 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
 	if (packed >= 4096) return NULL;
 
 	tile = Map_GetTileByPosition(packed);
-	if ((tile->flags & 0x02) == 0) return NULL;
+	if (!tile->hasUnit) return NULL;
 	return Unit_Get_ByIndex(tile->index - 1);
 }
 
