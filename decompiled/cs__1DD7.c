@@ -443,7 +443,6 @@ l__041E:
  * @implements 1DD7:0475:0002:2597
  *
  * Called From: 1DD7:133A:000A:6B0D
- * Called From: 1DD7:133A:000D:CE92
  */
 void emu_Drivers_Load()
 {
@@ -1908,7 +1907,6 @@ l__12CB:
  *
  * Called From: 1DD7:0F3B:000C:96B1
  * Called From: 1DD7:12C5:0009:4A39
- * Called From: 1DD7:132D:000A:96CD
  */
 void f__1DD7_1696_0011_A4E3()
 {

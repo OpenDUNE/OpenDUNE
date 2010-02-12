@@ -762,13 +762,18 @@ l__0863:
  * Decompiled function f__2756_094F_0029_7838()
  *
  * @name f__2756_094F_0029_7838
- * @implements 2756:094F:0029:7838 ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:094F:0029:7838
  * @implements 2756:0978:0009:07BA
  *
  * Called From: 1DD7:170B:0011:F32E
  */
 void f__2756_094F_0029_7838()
 {
+	goto l__094F;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__094F:
 	emu_bx = emu_sp;
 	emu_bx = emu_get_memory16(emu_ss, emu_bx, 0x4);
@@ -1344,21 +1349,6 @@ l__0D4E:
 }
 
 /**
- * Decompiled function f__2756_0D59_0006_C5AC()
- *
- * @name f__2756_0D59_0006_C5AC
- * @implements 2756:0D59:0006:C5AC ()
- *
- * Called From: 1DD7:15C1:0027:AFB5
- */
-void f__2756_0D59_0006_C5AC()
-{
-l__0D59:
-	emu_ax = 0x65;
-	emu_Drivers_CallFunction(); return;
-}
-
-/**
  * Decompiled function f__2756_0D5F_0012_AE08()
  *
  * @name f__2756_0D5F_0012_AE08
@@ -1489,12 +1479,17 @@ l__0E06:
  * Decompiled function f__2756_0E36_0006_85ED()
  *
  * @name f__2756_0E36_0006_85ED
- * @implements 2756:0E36:0006:85ED ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0E36:0006:85ED
  *
  * Called From: 1DD7:01F9:0013:9C3C
  */
 void f__2756_0E36_0006_85ED()
 {
+	goto l__0E36;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0E36:
 	emu_ax = 0x7C;
 	emu_Drivers_CallFunction(); return;
@@ -1504,7 +1499,8 @@ l__0E36:
  * Decompiled function f__2756_0E72_0006_82BA()
  *
  * @name f__2756_0E72_0006_82BA
- * @implements 2756:0E72:0006:82BA ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0E72:0006:82BA
  *
  * Called From: 1DD7:0532:002A:9046
  * Called From: 1DD7:0532:003C:DF0B
@@ -1513,6 +1509,10 @@ l__0E36:
  */
 void f__2756_0E72_0006_82BA()
 {
+	goto l__0E72;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0E72:
 	emu_ax = 0x97;
 	emu_Drivers_CallFunction(); return;
@@ -1522,7 +1522,8 @@ l__0E72:
  * Decompiled function f__2756_0E78_0006_02FC()
  *
  * @name f__2756_0E78_0006_02FC
- * @implements 2756:0E78:0006:02FC ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0E78:0006:02FC
  *
  * Called From: 1DD7:04F6:0019:FAFC
  * Called From: 1DD7:0947:000F:FCBA
@@ -1532,6 +1533,10 @@ l__0E72:
  */
 void f__2756_0E78_0006_02FC()
 {
+	goto l__0E78;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0E78:
 	emu_ax = 0x98;
 	emu_Drivers_CallFunction(); return;
@@ -1541,12 +1546,17 @@ l__0E78:
  * Decompiled function f__2756_0E8A_0006_82E0()
  *
  * @name f__2756_0E8A_0006_82E0
- * @implements 2756:0E8A:0006:82E0 ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0E8A:0006:82E0
  *
  * Called From: 1DD7:0D54:000E:E9B7
  */
 void f__2756_0E8A_0006_82E0()
 {
+	goto l__0E8A;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0E8A:
 	emu_ax = 0x9B;
 	emu_Drivers_CallFunction(); return;
@@ -1556,13 +1566,18 @@ l__0E8A:
  * Decompiled function f__2756_0EA8_0006_0360()
  *
  * @name f__2756_0EA8_0006_0360
- * @implements 2756:0EA8:0006:0360 ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0EA8:0006:0360
  *
  * Called From: 1DD7:0577:001B:056D
  * Called From: 1DD7:0993:0011:8F49
  */
 void f__2756_0EA8_0006_0360()
 {
+	goto l__0EA8;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0EA8:
 	emu_ax = 0xAA;
 	emu_Drivers_CallFunction(); return;
@@ -1572,7 +1587,8 @@ l__0EA8:
  * Decompiled function f__2756_0EAE_0006_836B()
  *
  * @name f__2756_0EAE_0006_836B
- * @implements 2756:0EAE:0006:836B ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0EAE:0006:836B
  *
  * Called From: 1DD7:04DD:0028:EBD0
  * Called From: 1DD7:0938:0014:C1EF
@@ -1582,6 +1598,10 @@ l__0EA8:
  */
 void f__2756_0EAE_0006_836B()
 {
+	goto l__0EAE;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0EAE:
 	emu_ax = 0xAB;
 	emu_Drivers_CallFunction(); return;
@@ -1591,12 +1611,17 @@ l__0EAE:
  * Decompiled function f__2756_0EBA_0006_835C()
  *
  * @name f__2756_0EBA_0006_835C
- * @implements 2756:0EBA:0006:835C ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0EBA:0006:835C
  *
  * Called From: 1DD7:08AB:0026:5144
  */
 void f__2756_0EBA_0006_835C()
 {
+	goto l__0EBA;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0EBA:
 	emu_ax = 0xAE;
 	emu_Drivers_CallFunction(); return;
@@ -1606,7 +1631,8 @@ l__0EBA:
  * Decompiled function f__2756_0ECC_0006_03A3()
  *
  * @name f__2756_0ECC_0006_03A3
- * @implements 2756:0ECC:0006:03A3 ()
+ * @implements 2756:04F8:0009:907D ()
+ * @implements 2756:0ECC:0006:03A3
  *
  * Called From: 1DD7:05A2:002B:11DD
  * Called From: 1DD7:09B4:0021:161D
@@ -1614,6 +1640,10 @@ l__0EBA:
  */
 void f__2756_0ECC_0006_03A3()
 {
+	goto l__0ECC;
+	emu_movw(&emu_bx, emu_sp);
+	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
+	emu_calli(-0x45, 0x0501, 0x04FE);
 l__0ECC:
 	emu_ax = 0xB1;
 	emu_Drivers_CallFunction(); return;
