@@ -494,6 +494,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
  *
  * @param houseID1 The index of the first house.
  * @param houseID2 The index of the second house.
+ * @return True if and only if the two houses are allies of eachother.
  */
 bool House_AreAllied(uint8 houseID1, uint8 houseID2)
 {
