@@ -46,7 +46,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x12);
 
 	if (driver->dcontent.csip != 0) {
-		if (strcasecmp(emu_get_memorycsip(driver->dfilename), filename) == 0) return true;
+		if (strcasecmp((char *)emu_get_memorycsip(driver->dfilename), filename) == 0) return true;
 		emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
 		emu_push(emu_cs); emu_push(0x1330); f__1DD7_1696_0011_A4E3();
 		emu_sp += 4;
