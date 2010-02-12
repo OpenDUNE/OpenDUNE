@@ -41,8 +41,46 @@ typedef struct Structure {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
 	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being-built, 0x0400 - Degrades, 0x2000 - Repairing, 0x4000 - On hold. */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< Bitflags. 0x0002 - Upgrading. */
+	/* 0004(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE used:1;            /*!< The Structure is in use (no longer free in the pool). */
+	/*      0002 */              BITTYPE allocated:1;       /*!< The Structure is allocated (created, and ready to be put on the map). */
+	/*      0004 */              BITTYPE beingBuilt:1;      /*!< The Structure is still under construction. */
+	/*      0008 */              BITTYPE unknown_0008:1;
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE unknown_0100:1;
+	/*      0200 */              BITTYPE unknown_0200:1;
+	/*      0400 */              BITTYPE degrades:1;        /*!< Structure degrades. */
+	/*      0800 */              BITTYPE unknown_0800:1;
+	/*      1000 */              BITTYPE unknown_1000:1;
+	/*      2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
+	/*      4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the Structure. */
+	/* 0006(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE unknown_0001:1;
+	/*      0002 */              BITTYPE upgrading:1;       /*!< Structure is being upgraded. */
+	/*      0004 */              BITTYPE unknown_0004:1;
+	/*      0008 */              BITTYPE unknown_0008:1;
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE unknown_0100:1;
+	/*      0200 */              BITTYPE unknown_0200:1;
+	/*      0400 */              BITTYPE unknown_0400:1;
+	/*      0800 */              BITTYPE unknown_0800:1;
+	/*      1000 */              BITTYPE unknown_1000:1;
+	/*      2000 */              BITTYPE unknown_2000:1;
+	/*      4000 */              BITTYPE unknown_4000:1;
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags2;              /*!< General flags of the Structure, part 2. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
@@ -72,7 +110,26 @@ typedef struct StructureInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
 	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0002 - ??, 0x0008 - ??. */
+	/* 000C(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE unknown_0001:1;
+	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
+	/*      0004 */              BITTYPE unknown_0004:1;
+	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE unknown_0100:1;
+	/*      0200 */              BITTYPE unknown_0200:1;
+	/*      0400 */              BITTYPE unknown_0400:1;
+	/*      0800 */              BITTYPE unknown_0800:1;
+	/*      1000 */              BITTYPE unknown_1000:1;
+	/*      2000 */              BITTYPE unknown_2000:1;
+	/*      4000 */              BITTYPE unknown_4000:1;
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */

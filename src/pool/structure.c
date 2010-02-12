@@ -57,7 +57,7 @@ Structure *Structure_Find(PoolFindStruct *find)
 
 		s = Structure_Get_ByMemory(pos);
 
-		if ((s->flags & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
+		if (s->flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->houseID) continue;
 		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->type)  continue;
 
@@ -106,7 +106,7 @@ void Structure_Recount()
 
 	for (index = 0; index < STRUCTURE_INDEX_MAX_HARD; index++) {
 		Structure *s = Structure_Get_ByIndex(index);
-		if ((s->flags & 0x0001) == 0) continue;
+		if (!s->flags.s.used) continue;
 
 		g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
 		g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
@@ -148,12 +148,12 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 				/* Find the first unused index */
 				for (index = 0; index < STRUCTURE_INDEX_MAX_SOFT; index++) {
 					s = Structure_Get_ByIndex(index);
-					if ((s->flags & 0x0001) == 0) break;
+					if (!s->flags.s.used) break;
 				}
 				if (index == STRUCTURE_INDEX_MAX_SOFT) return NULL;
 			} else {
 				s = Structure_Get_ByIndex(index);
-				if ((s->flags & 0x0001) != 0) return NULL;
+				if (s->flags.s.used) return NULL;
 			}
 			break;
 	}
@@ -161,12 +161,12 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 
 	/* Initialize the Structure */
 	memset(s, 0, sizeof(Structure));
-	s->index       = index;
-	s->type        = type;
-	s->linkedID    = 0xFF;
-	s->flags       = 0x0003;
-	s->variable_06 = 0x0000;
-	s->scriptDelay = 0;
+	s->index             = index;
+	s->type              = type;
+	s->linkedID          = 0xFF;
+	s->flags.s.used      = true;
+	s->flags.s.allocated = true;
+	s->scriptDelay       = 0;
 
 	g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
 	g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
@@ -189,7 +189,7 @@ void Structure_Free(Structure *s)
 	scsip = g_global->structureStartPos;
 	scsip.s.ip += s->index * sizeof(Structure);
 
-	s->flags = 0x0000;
+	s->flags.all = 0x0000;
 
 	Script_Reset(&s->script, &g_global->scriptStructure);
 

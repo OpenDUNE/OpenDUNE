@@ -123,15 +123,15 @@ void GameLoop_Structure()
 				}
 			}
 
-			/* If we can launch and we are an AI and flag 0x0008 is set, fire the Palace weapon */
-			if (s->countDown == 0 && (h->flags & (0x0002 | 0x0008)) == 0x0008) {
+			/* Check if we have to fire the weapon for the AI immediatly */
+			if (s->countDown == 0 && !h->flags.s.human && h->flags.s.variable_0008) {
 				emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 				emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x1423; f__1423_04F2_0016_CD6B();
 				emu_sp += 4;
 			}
 		}
 
-		if (tickDegrade && (s->flags & 0x0400) != 0 && s->hitpoints > si->hitpoints / 2) {
+		if (tickDegrade && s->flags.s.degrades && s->hitpoints > si->hitpoints / 2) {
 			emu_push(0);
 			emu_push(hi->variable_08 + 1);
 			emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
@@ -140,7 +140,7 @@ void GameLoop_Structure()
 		}
 
 		if (tickStructure) {
-			if ((s->variable_06 & 0x0002) != 0) {
+			if (s->flags2.s.upgrading) {
 				uint16 upgradeCost = si->buildCredits / 40;
 
 				if (upgradeCost <= h->credits) {
@@ -150,7 +150,7 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft -= 5;
 					} else {
 						s->upgradeLevel++;
-						s->variable_06 &= 0xFFFD;
+						s->flags2.s.upgrading = false;
 
 						/* Ordos Heavy Vehicle gets the last upgrade for free */
 						if (s->houseID == HOUSE_ORDOS && s->type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
@@ -162,9 +162,9 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
 					}
 				} else {
-					s->variable_06 &= 0xFFFD;
+					s->flags2.s.upgrading = false;
 				}
-			} else if ((s->flags & 0x2000) != 0) {
+			} else if (s->flags.s.repairing) {
 				uint16 repairCost;
 
 				/* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
@@ -186,13 +186,14 @@ void GameLoop_Structure()
 
 					if (s->hitpoints > si->hitpoints) {
 						s->hitpoints = si->hitpoints;
-						s->flags &= 0x9FFF;
+						s->flags.s.repairing = false;
+						s->flags.s.onHold = false;
 					}
 				} else {
-					s->flags &= 0xDFFF;
+					s->flags.s.repairing = false;
 				}
 			} else {
-				if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF && s->animation == 1 && (si->variable_0C & 0x0002) != 0) {
+				if (!s->flags.s.onHold && s->countDown != 0 && s->linkedID != 0xFF && s->animation == 1 && si->flags.s.factory) {
 					UnitInfo *ui;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -321,7 +322,7 @@ void GameLoop_Structure()
 				}
 
 				if (s->type == STRUCTURE_REPAIR) {
-					if ((s->flags & 0x4000) == 0 && s->countDown != 0 && s->linkedID != 0xFF) {
+					if (!s->flags.s.onHold && s->countDown != 0 && s->linkedID != 0xFF) {
 						UnitInfo *ui;
 						uint16 repairSpeed;
 						uint16 repairCost;
@@ -354,13 +355,13 @@ void GameLoop_Structure()
 							}
 						}
 					} else if (h->credits != 0) {
-						/* Automaticly resume repairing when there is money again (remove the 'on hold') */
-						s->flags &= 0xBFFF;
+						/* Automaticly resume repairing when there is money again */
+						s->flags.s.onHold = false;
 					}
 				}
 
 				/* AI maintenance on structures */
-				if ((h->flags & 0x0008) != 0 && (s->flags & 0x0002) != 0 && s->houseID != g_global->playerHouseID && h->credits != 0) {
+				if (h->flags.s.variable_0008 && s->flags.s.allocated && s->houseID != g_global->playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->hitpoints < si->hitpoints / 2) {
 						emu_push(0); emu_push(0);
@@ -371,7 +372,7 @@ void GameLoop_Structure()
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-					if ((si->variable_0C & 0x0002) != 0 && s->countDown == 0 && s->linkedID == 0xFF) {
+					if (si->flags.s.factory && s->countDown == 0 && s->linkedID == 0xFF) {
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; f__1423_0C74_0015_3419();
 						emu_sp += 4;
@@ -463,12 +464,13 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	scsip = g_global->structureStartPos;
 	scsip.s.ip += s->index * sizeof(Structure);
 
-	s->houseID       = houseID;
-	s->variable_47   = houseID;
-	s->flags        |= 0x0004;
-	s->position.tile = 0;
-	s->linkedID      = 0xFF;
-	s->animation     = (g_global->debugScenario) ? 0 : -1;
+	s->houseID           = houseID;
+	s->variable_47       = houseID;
+	s->flags.s.used      = true;
+	s->flags.s.allocated = true;
+	s->position.tile     = 0;
+	s->linkedID          = 0xFF;
+	s->animation         = (g_global->debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
@@ -497,7 +499,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	}
 
 	/* Check if there is an upgrade available */
-	if ((si->variable_0C & 0x0002) != 0) {
+	if (si->flags.s.factory) {
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 		emu_push(emu_cs); emu_push(0x011A); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
 		emu_sp += 4;
@@ -697,8 +699,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->variable_09 |= 1 << s->houseID;
 	if (s->houseID == g_global->playerHouseID) s->variable_09 |= 0xFF;
 
-	/* We are no longer building the structure */
-	s->flags &= 0xFFFB;
+	s->flags.s.beingBuilt = false;
 
 	s->position = Tile_UnpackTile(position);
 	s->position.s.x &= 0xFF00;
@@ -715,13 +716,11 @@ bool Structure_Place(Structure *s, uint16 position)
 
 		s->hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
-		/* Mark the structure as 'will degrade' */
-		s->flags |= 0x0400;
+		s->flags.s.degrades = true;
 	} else {
 		/* ENHANCEMENT -- When you build a structure completely on slabs, it should not degrade */
 		if (!g_dune2_enhanced) {
-			/* Mark the structure as 'will degrade' */
-			s->flags |= 0x0400;
+			s->flags.s.degrades = true;
 		}
 	}
 
@@ -974,7 +973,7 @@ uint32 Structure_GetStructuresBuilt(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
-		if ((s->flags & 0x0004) != 0) continue;
+		if (s->flags.s.beingBuilt) continue;
 		result |= 1 << s->type;
 	}
 
@@ -1023,7 +1022,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			if ((si->variable_0C & 0x0008) != 0) {
+			if (si->flags.s.variable_0008) {
 				if (g_global->variable_3A3E[loc10][16] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;

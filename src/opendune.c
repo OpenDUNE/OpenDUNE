@@ -230,7 +230,7 @@ static void GameLoop_LevelEnd()
 
 		{
 			House *h = House_Get_ByMemory(g_global->playerHouse);
-			h->flags &= 0xFFFB;
+			h->flags.s.variable_0004 = false;
 		}
 
 		emu_push(0x2DCE); emu_push(0x440);

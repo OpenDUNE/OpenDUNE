@@ -166,7 +166,7 @@ void GameLoop_House()
 					nucsip = g_global->unitStartPos;
 					nucsip.s.ip += nu->index * sizeof(Unit);
 
-					nu->flags |= 0x0200;
+					nu->flags.s.byScenario = true;
 
 					emu_push(u->houseID);
 					emu_push(locationID);
@@ -179,7 +179,7 @@ void GameLoop_House()
 				if (nu != NULL) {
 					u->linkedID = nu->linkedID;
 					nu->linkedID = (uint8)u->index;
-					nu->flags |= 0x0100;
+					nu->flags.s.inTransport = true;
 					g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
 					deployed = true;
 				} else {
@@ -337,7 +337,7 @@ void GameLoop_House()
 
 						u->linkedID = (uint8)h->starportLinkedID;
 						h->starportLinkedID = UNIT_INDEX_INVALID;
-						u->flags |= 0x0100;
+						u->flags.s.inTransport = true;
 
 						emu_push(38);
 						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
@@ -368,7 +368,7 @@ void GameLoop_House()
 
 							u->linkedID = (uint8)h->starportLinkedID;
 							h->starportLinkedID = 0xFFFF;
-							u->flags |= 0x0100;
+							u->flags.s.inTransport = true;
 
 							emu_push(38);
 							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
@@ -559,7 +559,7 @@ bool House_Load(FILE *fp, uint32 length)
 		*h = hl;
 
 		/* See if it is a human house */
-		if ((h->flags & 0x0002) != 0) {
+		if (h->flags.s.human) {
 			g_global->playerHouseID = h->index;
 			g_global->playerHouse.s.cs = g_global->houseStartPos.s.cs;
 			g_global->playerHouse.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);

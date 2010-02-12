@@ -94,7 +94,7 @@ void Team_Recount()
 
 	for (index = 0; index < TEAM_INDEX_MAX; index++) {
 		Team *t = Team_Get_ByIndex(index);
-		if (t->flags == 0) continue;
+		if (!t->flags.s.used) continue;
 
 		g_global->teamArray[g_global->teamCount] = g_global->teamStartPos;
 		g_global->teamArray[g_global->teamCount].s.ip += index * sizeof(Team);
@@ -118,19 +118,19 @@ Team *Team_Allocate(uint16 index)
 		/* Find the first unused index */
 		for (index = 0; index < TEAM_INDEX_MAX; index++) {
 			t = Team_Get_ByIndex(index);
-			if (t->flags == 0) break;
+			if (!t->flags.s.used) break;
 		}
 		if (index == TEAM_INDEX_MAX) return NULL;
 	} else {
 		t = Team_Get_ByIndex(index);
-		if (t->flags != 0) return NULL;
+		if (t->flags.s.used) return NULL;
 	}
 	assert(t != NULL);
 
 	/* Initialize the Team */
 	memset(t, 0, sizeof(Team));
-	t->index       = index;
-	t->flags = 0x0001;
+	t->index        = index;
+	t->flags.s.used = true;
 
 	g_global->teamArray[g_global->teamCount] = g_global->teamStartPos;
 	g_global->teamArray[g_global->teamCount].s.ip += index * sizeof(Team);
@@ -153,7 +153,7 @@ void Team_Free(Team *t)
 	tcsip = g_global->teamStartPos;
 	tcsip.s.ip += t->index * sizeof(Team);
 
-	t->flags = 0x0000;
+	t->flags.all = 0x0000;
 
 	/* Walk the array to find the Team we are removing */
 	for (i = 0; i < g_global->teamCount; i++) {

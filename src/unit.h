@@ -101,7 +101,26 @@ typedef struct Unit {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
 	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used, 0x0002 - Allocated, 0x0004 - Being Built, 0x0008 - ??, 0x0100 - In Transport, 0x0200 - Scenario Unit, 0x0800 - ??. */
+	/* 0004(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE used:1;            /*!< The Unit is in use (no longer free in the pool). */
+	/*      0002 */              BITTYPE allocated:1;       /*!< The Unit is allocated (created, and ready to be put on the map). */
+	/*      0004 */              BITTYPE beingBuilt:1;      /*!< The Unit is still under construction. */
+	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE inTransport:1;     /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
+	/*      0200 */              BITTYPE byScenario:1;      /*!< The Unit is created by the scenario. */
+	/*      0400 */              BITTYPE variable_0400:1;   /*!< ?? */
+	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
+	/*      1000 */              BITTYPE unknown_1000:1;
+	/*      2000 */              BITTYPE unknown_2000:1;
+	/*      4000 */              BITTYPE unknown_4000:1;
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the Unit. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
@@ -151,7 +170,26 @@ typedef struct UnitInfo {
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
 	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Unit. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< Bitflags. 0x0040 - ??, 0x0200 - ??, 0x0800 - ??, 0x1000 - ?? Can shoot air units?, 0x2000 - Has Target Priority. */
+	/* 000C(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE unknown_0001:1;
+	/*      0002 */              BITTYPE unknown_0002:1;
+	/*      0004 */              BITTYPE unknown_0004:1;
+	/*      0008 */              BITTYPE unknown_0008:1;
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE unknown_0100:1;
+	/*      0200 */              BITTYPE variable_0200:1;   /*!< ?? */
+	/*      0400 */              BITTYPE unknown_0400:1;
+	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
+	/*      1000 */              BITTYPE variable_1000:1;   /*!< ?? Can shoot air units? */
+	/*      2000 */              BITTYPE hasTarget:1;       /*!< Has Target Priority. If not set, it is never seen as any priority for Units. */
+	/*      4000 */              BITTYPE unknown_4000:1;
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */

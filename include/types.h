@@ -11,6 +11,7 @@
 #define GCC_PACKED
 #define GCC_UNUSED
 #define PACK
+#define BITTYPE uint8
 
 #define VARIABLE_NOT_USED(variable) (void)variable;
 
@@ -19,6 +20,8 @@
 	#define GCC_PACKED __attribute__((packed))
 	#undef GCC_UNUSED
 	#define GCC_UNUSED __attribute__((unused))
+	#undef BITTYPE
+	#define BITTYPE uint32
 #elif defined(_MSC_VER)
 	#undef MSVC_PACKED_BEGIN
 	#undef MSVC_PACKED_END

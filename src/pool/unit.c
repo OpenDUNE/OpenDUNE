@@ -57,7 +57,7 @@ Unit *Unit_Find(PoolFindStruct *find)
 
 		u = Unit_Get_ByMemory(pos);
 
-		if ((u->flags & 0x0004) != 0 && g_global->variable_38BC == 0) continue;
+		if (u->flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != Unit_GetHouseID(u)) continue;
 		if (find->type    != UNIT_INDEX_INVALID  && find->type    != u->type)  continue;
 
@@ -106,7 +106,7 @@ void Unit_Recount()
 
 	for (index = 0; index < UNIT_INDEX_MAX; index++) {
 		Unit *u = Unit_Get_ByIndex(index);
-		if ((u->flags & 0x0001) == 0) continue;
+		if (!u->flags.s.used) continue;
 
 		h = House_Get_ByIndex(u->houseID);
 		h->unitCount++;
@@ -146,12 +146,12 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 		for (index = indexStart; index <= indexEnd; index++) {
 			u = Unit_Get_ByIndex(index);
-			if ((u->flags & 0x0001) == 0) break;
+			if (!u->flags.s.used) break;
 		}
 		if (index > indexEnd) return NULL;
 	} else {
 		u = Unit_Get_ByIndex(index);
-		if ((u->flags & 0x0001) != 0) return NULL;
+		if (u->flags.s.used) return NULL;
 	}
 	assert(u != NULL);
 
@@ -159,14 +159,15 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 	/* Initialize the Unit */
 	memset(u, 0, sizeof(Unit));
-	u->index       = index;
-	u->type        = type;
-	u->houseID     = houseID;
-	u->linkedID    = 0xFF;
-	u->flags       = 0x0003;
-	u->variable_06 = 0x0001;
-	u->scriptDelay = 0;
-	u->variable_72 = 0xFF;
+	u->index               = index;
+	u->type                = type;
+	u->houseID             = houseID;
+	u->linkedID            = 0xFF;
+	u->flags.s.used        = true;
+	u->flags.s.allocated   = true;
+	u->variable_06         = 0x0001;
+	u->scriptDelay         = 0;
+	u->variable_72         = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
 	g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
@@ -190,7 +191,7 @@ void Unit_Free(Unit *u)
 	ucsip = g_global->unitStartPos;
 	ucsip.s.ip += u->index * sizeof(Unit);
 
-	u->flags = 0x0000;
+	u->flags.all = 0x0000;
 
 	Script_Reset(&u->script, &g_global->scriptUnit);
 

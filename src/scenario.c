@@ -224,7 +224,7 @@ void Scenario_Load_House(uint8 houseID)
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
 	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 'H') return;
 
-	h->flags |= 0x0002;
+	h->flags.s.human = true;
 
 	g_global->playerHouseID       = houseID;
 	g_global->playerHouse         = g_global->houseStartPos;
@@ -298,7 +298,7 @@ void Scenario_Load_Units(const char *key, char *value)
 
 	u = Unit_Allocate(UNIT_INDEX_INVALID, unitType, houseType);
 	if (u == NULL) return;
-	u->flags |= 0x0200;
+	u->flags.s.byScenario = true;
 
 	u->hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
 	u->position    = position;
@@ -312,8 +312,8 @@ void Scenario_Load_Units(const char *key, char *value)
 		return;
 	}
 
-	/* XXX -- There is no way this is ever possible, as the 0x0004 flag is set by Unit_Allocate() */
-	if ((u->flags & 0x0004) != 0) {
+	/* XXX -- There is no way this is ever possible, as the beingBuilt flag is unset by Unit_Allocate() */
+	if (u->flags.s.beingBuilt) {
 		/* Unresolved jump */ emu_ip = 0x05B8; emu_last_cs = 0xB4B5; emu_last_ip = 0x059F; emu_last_length = 0x001F; emu_last_crc = 0x757D; emu_call();
 		return;
 	}
@@ -431,7 +431,7 @@ void Scenario_Load_Structures(const char *key, char *value)
 		if (s == NULL) return;
 
 		s->hitpoints = hitpoints * g_structureInfo[s->type].hitpoints / 256;
-		s->flags    &= 0xFBFF;
+		s->flags.s.degrades = false;
 		s->animation = 0;
 	}
 }
@@ -756,7 +756,7 @@ l__0014:
 			max = 80;
 			while ((h = House_Find(&find)) != NULL) {
 				/* Skip the human controlled house */
-				if ((h->flags & 0x0002) != 0) continue;
+				if (h->flags.s.human) continue;
 				max -= h->unitCountMax;
 			}
 

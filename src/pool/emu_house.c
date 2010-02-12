@@ -56,7 +56,7 @@ void emu_House_Get_ByIndex()
 
 	if (index >= HOUSE_INDEX_MAX) return;
 	h = House_Get_ByIndex(index);
-	if ((h->flags & 0x0001) == 0) return;
+	if (!h->flags.s.used) return;
 
 	emu_dx = g_global->houseStartPos.s.cs;
 	emu_ax = g_global->houseStartPos.s.ip + index * sizeof(House);

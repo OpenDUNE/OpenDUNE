@@ -128,9 +128,9 @@ void GameLoop_Unit()
 		g_global->houseCurrent         = g_global->houseStartPos;
 		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
-		if ((u->flags & 0x0004) != 0) continue;
+		if (u->flags.s.beingBuilt) continue;
 
-		if (tickUnknown4 && u->targetAttack != 0 && (ui->variable_0C & 0x0040) != 0) {
+		if (tickUnknown4 && u->targetAttack != 0 && ui->flags.s.variable_0040) {
 			tile32 tile;
 
 			tile = Tools_Index_GetTile(u->targetAttack);
@@ -186,7 +186,7 @@ void GameLoop_Unit()
 			emu_push(emu_cs); emu_push(0x0443); emu_cs = 0x1A34; f__1A34_1F55_0019_98DF();
 			emu_sp += 6;
 
-			if ((ui->variable_0C & 0x0040) != 0) {
+			if (ui->flags.s.variable_0040) {
 				emu_push(1);
 				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 				emu_push(emu_cs); emu_push(0x0463); emu_cs = 0x1A34; f__1A34_1F55_0019_98DF();
@@ -197,9 +197,9 @@ void GameLoop_Unit()
 		if (tickUnknown3 && u->variable_6E != 0) {
 			u->variable_6E--;
 			if ((u->variable_6E & 0x01) != 0) {
-				u->flags |= 0x0800;
+				u->flags.s.variable_0800 = true;
 			} else {
-				u->flags &= 0xF7FF;
+				u->flags.s.variable_0800 = false;
 			}
 
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
@@ -230,7 +230,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown5) {
 			if (u->variable_70 == 0) {
-				if ((ui->variable_3C == 0 && u->variable_6A != 0) || (u->flags & 0x0008) != 0) {
+				if ((ui->variable_3C == 0 && u->variable_6A != 0) || u->flags.s.variable_0008) {
 					if (u->variable_6D >= 0) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
@@ -241,17 +241,17 @@ void GameLoop_Unit()
 						emu_sp += 6;
 
 						u->variable_70 = ui->variable_3E / 5;
-						if ((u->flags & 0x0008) != 0) {
+						if (u->flags.s.variable_0008) {
 							u->variable_70 = 3;
 							if (u->variable_6D > 32) {
-								u->flags &= 0xFFF7;
+								u->flags.s.variable_0008 = false;
 								u->variable_6D = 0;
 							}
 						}
 					}
 				}
 
-				if (u->type == UNIT_ORNITHOPTER && (u->flags & 0x0002) != 0 && u->variable_6D >= 0) {
+				if (u->type == UNIT_ORNITHOPTER && u->flags.s.allocated && u->variable_6D >= 0) {
 					u->variable_6D &= 0x3F;
 					u->variable_6D++;
 
@@ -264,7 +264,7 @@ void GameLoop_Unit()
 				}
 
 				if (u->type == UNIT_HARVESTER) {
-					if (u->actionID == ACTION_HARVEST || (u->flags & 0x0008) != 0) {
+					if (u->actionID == ACTION_HARVEST || u->flags.s.variable_0008) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
 
@@ -294,7 +294,7 @@ void GameLoop_Unit()
 			if (u->scriptDelay == 0) {
 				if (Script_IsLoaded(&u->script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if ((ui->variable_0C & 0x0800) == 0) {
+					if (!ui->flags.s.variable_0800) {
 						emu_push(0); emu_push(0);
 						emu_push(0); emu_push(0);
 						emu_push(u->position.s.y); emu_push(u->position.s.x);
@@ -490,13 +490,13 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	Script_Reset(&u->script, &g_global->scriptUnit);
 
-	u->flags |= 0x0002;
+	u->flags.s.allocated = true;
 
 	if (ui->variable_3C == 0x0001) {
 		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; emu_Tools_Random_256();
 
 		if (emu_ax < g_houseInfo[houseID].variable_06) {
-			u->flags |= 0x0400;
+			u->flags.s.variable_0400 = true;
 		}
 	}
 
@@ -519,7 +519,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	}
 
 	if (position.tile == 0xFFFFFFFF) {
-		u->flags |= 0x0004;
+		u->flags.s.beingBuilt = true;
 		return u;
 	}
 
@@ -550,7 +550,7 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 		u = Unit_Get_ByMemory(g_global->unitArray[i]);
 		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 		if (typeID != UNIT_INVALID && u->type != typeID) continue;
-		if (g_global->variable_38BC == 0 && (u->flags & 0x0004) != 0) continue;
+		if (g_global->variable_38BC == 0 && u->flags.s.beingBuilt) continue;
 
 		return true;
 	}
@@ -679,7 +679,7 @@ void Unit_Sort()
 		u1 = Unit_Get_ByMemory(csip1);
 		u2 = Unit_Get_ByMemory(csip2);
 
-		if ((u1->variable_09 & (1 << g_global->playerHouseID)) != 0 && (u1->flags & 0x0004) == 0) {
+		if ((u1->variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->flags.s.beingBuilt) {
 			if (House_AreAllied(u1->houseID, (uint8)g_global->playerHouseID)) {
 				h->unitCountAllied++;
 			} else {
@@ -852,7 +852,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 	if (unit == NULL || target == NULL) return 0;
 	if (unit == target) return 0;
 
-	if ((target->flags & 0x0002) == 0) return 0;
+	if (!target->flags.s.allocated) return 0;
 	if ((target->variable_09 & (1 << Unit_GetHouseID(unit))) == 0) return 0;
 
 	if (House_AreAllied(Unit_GetHouseID(unit), Unit_GetHouseID(target))) return 0;
@@ -860,10 +860,10 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 	unitInfo   = &g_unitInfo[unit->type];
 	targetInfo = &g_unitInfo[target->type];
 
-	if ((targetInfo->variable_0C & 0x2000) == 0) return 0;
+	if (!targetInfo->flags.s.hasTarget) return 0;
 
 	if (targetInfo->variable_3C == 4) {
-		if ((unitInfo->variable_0C & 0x1000) == 0) return 0;
+		if (!unitInfo->flags.s.variable_1000) return 0;
 
 		emu_push(Tile_PackTile(target->position));
 		emu_push(emu_cs); emu_push(0x1276); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();

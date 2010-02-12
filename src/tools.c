@@ -81,7 +81,7 @@ uint16 Tools_Index_Encode(uint16 index, IndexType type)
 			return ret | 0xC000;
 		}
 		case IT_UNIT: {
-			if (index >= UNIT_INDEX_MAX || (Unit_Get_ByIndex(index)->flags & 0x0002) == 0) return 0;
+			if (index >= UNIT_INDEX_MAX || !Unit_Get_ByIndex(index)->flags.s.allocated) return 0;
 			return index | 0x4000;
 		}
 		case IT_STRUCTURE:  return index | 0x8000;
@@ -106,11 +106,11 @@ bool Tools_Index_IsValid(uint16 encoded)
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_UNIT:
 			if (index >= UNIT_INDEX_MAX) return false;
-			return (Unit_Get_ByIndex(index)->flags & 0x0003) == 0x0003;
+			return Unit_Get_ByIndex(index)->flags.s.used && Unit_Get_ByIndex(index)->flags.s.allocated;
 
 		case IT_STRUCTURE:
 			if (index >= STRUCTURE_INDEX_MAX_HARD) return false;
-			return (Structure_Get_ByIndex(index)->flags & 0x0001) != 0;
+			return Structure_Get_ByIndex(index)->flags.s.used;
 
 		case IT_TILE : return true;
 

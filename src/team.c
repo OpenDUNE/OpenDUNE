@@ -48,7 +48,7 @@ void GameLoop_Team()
 		g_global->houseCurrent       = g_global->houseStartPos;
 		g_global->houseCurrent.s.ip += h->index * sizeof(House);
 
-		if ((h->flags & 0x0008) == 0) continue;
+		if (!h->flags.s.variable_0008) continue;
 
 		if (t->scriptDelay != 0) {
 			t->scriptDelay--;

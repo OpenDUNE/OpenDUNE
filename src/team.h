@@ -19,7 +19,26 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Team {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Team in the array. */
-	/* 0002(2)   */ PACK uint16 flags;                      /*!< Bitflags. 0x0001 - Used. */
+	/* 0002(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE used:1;            /*!< The Team is in use (no longer free in the pool). */
+	/*      0002 */              BITTYPE unknown_0002:1;
+	/*      0004 */              BITTYPE unknown_0004:1;
+	/*      0008 */              BITTYPE unknown_0008:1;
+	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0080 */              BITTYPE unknown_0080:1;
+	/*      0100 */              BITTYPE unknown_0100:1;
+	/*      0200 */              BITTYPE unknown_0200:1;
+	/*      0400 */              BITTYPE unknown_0400:1;
+	/*      0800 */              BITTYPE unknown_0800:1;
+	/*      1000 */              BITTYPE unknown_1000:1;
+	/*      2000 */              BITTYPE unknown_2000:1;
+	/*      4000 */              BITTYPE unknown_4000:1;
+	/*      8000 */              BITTYPE unknown_8000:1;
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the Team. */
 	/* 0004(2)   */ PACK uint16 members;                    /*!< Amount of members in team. */
 	/* 0006()    */ PACK uint8   unknown_0006[0x0002];
 	/* 0008(2)   */ PACK uint16 maxMembers;                 /*!< Maximum amount of members in team. */

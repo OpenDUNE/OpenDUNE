@@ -77,8 +77,9 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x28: /* "On hold" */
-			s->flags &= 0x9FFF;
-			s->variable_06 &= 0xFFFD;
+			s->flags.s.repairing  = false;
+			s->flags.s.onHold     = false;
+			s->flags2.s.upgrading = false;
 			break;
 
 		case 0x29: /* "Build it" */
@@ -97,7 +98,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x2E: /* "%d%% done" */
-			s->flags |= 0x4000;
+			s->flags.s.onHold = true;
 			break;
 	}
 	return false;

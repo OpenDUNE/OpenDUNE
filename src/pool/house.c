@@ -95,12 +95,12 @@ House* House_Allocate(uint8 index)
 	if (index >= HOUSE_INDEX_MAX) return NULL;
 
 	h = House_Get_ByIndex(index);
-	if ((h->flags & 0x0001) != 0) return NULL;
+	if (h->flags.s.used) return NULL;
 
 	/* Initialize the House */
 	memset(h, 0, sizeof(House));
 	h->index            = index;
-	h->flags            = 0x0001;
+	h->flags.s.used     = true;
 	h->starportLinkedID = UNIT_INDEX_INVALID;
 
 	g_global->houseArray[g_global->houseCount] = g_global->houseStartPos;
