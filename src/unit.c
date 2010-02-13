@@ -842,6 +842,14 @@ bool Unit_Load(FILE *fp, uint32 length)
 	return true;
 }
 
+/**
+ * Get the priority a target has for a given unit. The higher the value,
+ *  the more serious it should look at the target.
+ *
+ * @param unit The unit looking at a target.
+ * @param target The unit to look at.
+ * @return The priority of the target.
+ */
 uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 {
 	UnitInfo *targetInfo;
