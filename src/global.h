@@ -684,7 +684,7 @@ typedef struct GlobalData {
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
 	/* 3782(16)  */ PACK uint16 variable_3782[8];           /*!< ?? */
 	/* 3792(8)   */ PACK uint8  variable_3792[8];           /*!< ?? */
-	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< When non-zero, it logs things in dune.log. */
+	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI. */
 	/* 379E(2)   */ PACK uint16 debugInstantWin;            /*!< When non-zero, you immediately win every level.  */
 	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
