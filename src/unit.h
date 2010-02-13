@@ -185,7 +185,7 @@ typedef struct UnitInfo {
 	/*      0400 */              BITTYPE unknown_0400:1;
 	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
 	/*      1000 */              BITTYPE variable_1000:1;   /*!< ?? Can shoot air units? */
-	/*      2000 */              BITTYPE hasTarget:1;       /*!< Has Target Priority. If not set, it is never seen as any priority for Units. */
+	/*      2000 */              BITTYPE hasPriority:1;     /*!< Has Target Priority. If not set, it is never seen as any priority for Units. */
 	/*      4000 */              BITTYPE unknown_4000:1;
 	/*      8000 */              BITTYPE unknown_8000:1;
 	                     } GCC_PACKED s;

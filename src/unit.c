@@ -867,7 +867,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 	unitInfo   = &g_unitInfo[unit->type];
 	targetInfo = &g_unitInfo[target->type];
 
-	if (!targetInfo->flags.s.hasTarget) return 0;
+	if (!targetInfo->flags.s.hasPriority) return 0;
 
 	if (targetInfo->variable_3C == 4) {
 		if (!unitInfo->flags.s.variable_1000) return 0;
