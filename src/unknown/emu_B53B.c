@@ -7,7 +7,6 @@
 #include "../global.h"
 #include "unknown.h"
 
-extern void f__B500_0000_0008_FE1F();
 extern void emu_Unknown_B53B_005C();
 extern void emu_File_Error();
 extern void emu_String_printf();
@@ -70,34 +69,3 @@ void emu_File_Error_Wrapper()
 	emu_ax = 0x1;
 }
 
-/**
- * C-ified function of f__B53B_02ED_0019_AA57().
- *
- * @name emu_File_IOError
- * @implements B53B:02ED:0019:AA57 ()
- */
-void emu_File_IOError()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x0));
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x4));
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x2));
-	emu_push(g_global->variable_677E.s.cs); emu_push(g_global->variable_677E.s.ip); /* IO error */
-	emu_push(emu_cs); emu_push(0x0306); emu_cs = 0x01F7; emu_String_printf();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-	emu_sp += 10;
-
-	g_global->variable_62F6 = 0x0;
-
-	emu_push(emu_cs); emu_push(0x0313); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
-
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x01F7; emu_Terminate_Normal();
-	assert(!"Terminate Normal");
-}

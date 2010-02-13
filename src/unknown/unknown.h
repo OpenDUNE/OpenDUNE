@@ -17,6 +17,5 @@ extern void emu_Unknown_2618_003F();
 
 extern void emu_Unknown_B53B_0000();
 extern void emu_File_Error_Wrapper();
-extern void emu_File_IOError();
 
 #endif /* UNKNOWN_UNKNOWN_H */

@@ -24,7 +24,6 @@ extern void f__10E4_0273_0029_DCE5();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
-extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0091_001D_9C25();
 extern void f__B511_0A8F_000E_EE64();
 extern void overlay(uint16 cs, uint8 force);
