@@ -67,7 +67,7 @@ void GameLoop_Structure()
 		g_global->tickStructureDegrade = g_global->tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
-	if (g_global->tickStructureStructure <= g_global->tickGlobal || g_global->variable_37AC != 0) {
+	if (g_global->tickStructureStructure <= g_global->tickGlobal || g_global->debugInstantBuild != 0) {
 		tickStructure = true;
 		g_global->tickStructureStructure = g_global->tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}

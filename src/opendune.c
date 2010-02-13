@@ -78,11 +78,11 @@ extern void overlay(uint16 cs, uint8 force);
  */
 static void GameLoop_LevelEnd()
 {
-	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->variable_379E == 0) return;
+	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->debugInstantWin == 0) return;
 
 	emu_push(emu_cs); emu_push(0x02D3); f__1423_0009_0025_FE5D();
 
-	if (emu_ax != 0 || g_global->variable_379E != 0) {
+	if (emu_ax != 0 || g_global->debugInstantWin != 0) {
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 		emu_sp += 2;
@@ -242,7 +242,7 @@ static void GameLoop_LevelEnd()
 		emu_push(emu_cs); emu_push(0x04C8); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
 
 		g_global->variable_38BE = 1;
-		g_global->variable_379E = 0;
+		g_global->debugInstantWin = 0;
 	}
 
 	g_global->variable_60A2 = g_global->tickGlobal + 300;

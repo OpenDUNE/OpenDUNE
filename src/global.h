@@ -685,17 +685,17 @@ typedef struct GlobalData {
 	/* 3782(16)  */ PACK uint16 variable_3782[8];           /*!< ?? */
 	/* 3792(8)   */ PACK uint8  variable_3792[8];           /*!< ?? */
 	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< When non-zero, it logs things in dune.log. */
-	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI, see a grid on the map, and more. */
-	/* 379E(2)   */ PACK uint16 variable_379E;              /*!< ?? */
-	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). */
-	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? */
+	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI. */
+	/* 379E(2)   */ PACK uint16 debugInstantWin;            /*!< When non-zero, you immediately win every level.  */
+	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
+	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? Write-only. */
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
-	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? */
+	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? Write-only. */
 	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
-	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? */
-	/* 37AC(2)   */ PACK uint16 variable_37AC;              /*!< ?? */
-	/* 37AE(2)   */ PACK uint16 variable_37AE;              /*!< ?? */
-	/* 37B0(2)   */ PACK uint16 variable_37B0;              /*!< ?? */
+	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? Read-only. */
+	/* 37AC(2)   */ PACK uint16 debugInstantBuild;          /*!< When non-zero, constructions are almost instant. */
+	/* 37AE(2)   */ PACK uint16 debugSkipDialogs;           /*!< When non-zero, you immediately go to house selection, and skip all intros. */
+	/* 37B0(2)   */ PACK uint16 variable_37B0;              /*!< ?? Read-only. */
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
