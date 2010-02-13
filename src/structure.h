@@ -119,15 +119,7 @@ typedef struct StructureInfo {
 	/*      0010 */              BITTYPE unknown_0010:1;
 	/*      0020 */              BITTYPE unknown_0020:1;
 	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE unknown_0200:1;
-	/*      0400 */              BITTYPE unknown_0400:1;
-	/*      0800 */              BITTYPE unknown_0800:1;
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE unknown_2000:1;
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
+	/*      -    */              BITTYPE notused:9;         /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];

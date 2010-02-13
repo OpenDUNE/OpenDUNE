@@ -186,8 +186,7 @@ typedef struct UnitInfo {
 	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? Related to amount of script cycles available. */
 	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
 	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
+	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
 	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
