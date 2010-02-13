@@ -526,7 +526,7 @@ l__02B2:
 	if (emu_ax == 0) goto l__02E6;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_cs);
-	emu_push(0x02BF); f__B4CD_1BC4_0013_1AB3();
+	emu_push(0x02BF); emu_Map_IsPositionUnveiled();
 l__02BF:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
@@ -4347,74 +4347,6 @@ l__1BBE:
 }
 
 /**
- * Decompiled function f__B4CD_1BC4_0013_1AB3()
- *
- * @name f__B4CD_1BC4_0013_1AB3
- * @implements B4CD:1BC4:0013:1AB3 ()
- * @implements B4CD:1BD2:0005:F5FA
- * @implements B4CD:1BD5:0002:E03A
- * @implements B4CD:1BD7:003C:397D
- * @implements B4CD:1C11:0002:9FBA
- * @implements B4CD:1C13:0004:B739
- * @implements B4CD:1C17:0003:2E57
- *
- * Called From: 34CD:004D:0005:0000
- * Called From: B4CD:02BC:000D:DC77
- * Called From: B4CD:1D16:0033:84AF
- */
-void f__B4CD_1BC4_0013_1AB3()
-{
-l__1BC4:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x37A0) == 0x0) goto l__1BD7;
-l__1BD2:
-	emu_ax = 0x1;
-l__1BD5:
-	goto l__1C17;
-l__1BD7:
-	emu_ax = emu_dx;
-	emu_cl = 0x2;
-	emu_shlw(&emu_ax, emu_cl);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_addw(&emu_bx, emu_ax);
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x1);
-	emu_shrw(&emu_ax, 0x1);
-	emu_andw(&emu_ax, 0x7F);
-	emu_si = emu_ax;
-	emu_ax = emu_dx;
-	emu_cl = 0x2;
-	emu_shlw(&emu_ax, emu_cl);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_addw(&emu_bx, emu_ax);
-	emu_testb(&emu_get_memory8(emu_es, emu_bx, 0x2), 0x8);
-	if ((emu_get_memory8(emu_es, emu_bx, 0x2) & 0x8) == 0) goto l__1C13;
-	emu_cmpw(&emu_si, emu_get_memory16(emu_ds, 0x00, 0x39F2));
-	if (emu_si <= emu_get_memory16(emu_ds, 0x00, 0x39F2)) {
-		emu_ax = emu_get_memory16(emu_ds, 0x00, 0x39F2);
-		emu_subw(&emu_ax, 0xF);
-		emu_cmpw(&emu_ax, emu_si);
-		if (emu_ax <= emu_si) goto l__1C13;
-	}
-l__1C11:
-	goto l__1BD2;
-l__1C13:
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__1BD5;
-l__1C17:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4CD_1C1A_001A_9C1B()
  *
  * @name f__B4CD_1C1A_001A_9C1B
@@ -4606,7 +4538,7 @@ l__1CE6:
 	emu_orw(&emu_get_memory16(emu_es, emu_bx, 0x0), emu_ax);
 	emu_push(emu_si);
 	emu_push(emu_cs);
-	emu_push(0x1D19); f__B4CD_1BC4_0013_1AB3();
+	emu_push(0x1D19); emu_Map_IsPositionUnveiled();
 l__1D19:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);

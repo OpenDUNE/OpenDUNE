@@ -11,7 +11,6 @@
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4A2_0039_000B_EC51();
 extern void f__B4DA_16CB_001D_31CC();
 extern void f__B518_14F2_003E_977C();
 extern void emu_Input_Flags_SetBits();

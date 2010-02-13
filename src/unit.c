@@ -31,7 +31,6 @@ extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_3014_001B_858E();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1BC4_0013_1AB3();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_FindStructure();
 extern void emu_Unit_Deviation_Descrease();
@@ -872,12 +871,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 
 	if (targetInfo->variable_3C == 4) {
 		if (!unitInfo->flags.s.variable_1000) return 0;
-
-		emu_push(Tile_PackTile(target->position));
-		emu_push(emu_cs); emu_push(0x1276); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
-		emu_sp += 2;
-
-		if (emu_ax == 0 && target->houseID == g_global->playerHouseID) return 0;
+		if (target->houseID == g_global->playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target->position))) return 0;
 	}
 
 	if (!Map_IsValidPosition(Tile_PackTile(target->position))) return 0;

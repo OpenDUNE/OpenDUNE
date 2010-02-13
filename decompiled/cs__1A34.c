@@ -2228,7 +2228,7 @@ l__1515:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x151D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
+	emu_push(emu_cs); emu_push(0x151D); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_IsPositionUnveiled();
 l__151D:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);

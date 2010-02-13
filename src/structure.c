@@ -26,7 +26,6 @@ extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
-extern void f__0C3A_25EC_0011_E453();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
@@ -38,7 +37,6 @@ extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1BC4_0013_1AB3();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -582,11 +580,7 @@ bool Structure_Place(Structure *s, uint16 position)
 				emu_sp += 6;
 			}
 
-			emu_push(position);
-			emu_push(emu_cs); emu_push(0x02AC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
-			emu_sp += 2;
-
-			if (emu_ax != 0) t->fogOfWar = 0;
+			if (Map_IsPositionUnveiled(position)) t->fogOfWar = 0;
 
 			emu_push(1);
 			emu_push(position);
@@ -623,11 +617,7 @@ bool Structure_Place(Structure *s, uint16 position)
 					emu_sp += 6;
 				}
 
-				emu_push(curPos);
-				emu_push(emu_cs); emu_push(0x03C5); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1BC4_0013_1AB3();
-				emu_sp += 2;
-
-				if (emu_ax != 0) t->fogOfWar = 0;
+				if (Map_IsPositionUnveiled(curPos)) t->fogOfWar = 0;
 
 				emu_push(0);
 				emu_push(0);

@@ -387,3 +387,23 @@ bool Map_Load(FILE *fp, uint32 length)
 
 	return true;
 }
+
+/**
+ * Check if a position is unveiled (the fog is removed).
+ *
+ * @param position For which position to check.
+ * @return True if and only if the position is unveiled.
+ */
+bool Map_IsPositionUnveiled(uint16 position)
+{
+	Tile *t;
+
+	if (g_global->debugScenario) return true;
+
+	t = Map_GetTileByPosition(position);
+
+	if (!t->isUnveiled) return false;
+	if (t->fogOfWar <= g_global->variable_39F2 && g_global->variable_39F2 - 15 <= t->fogOfWar) return false;
+
+	return true;
+}

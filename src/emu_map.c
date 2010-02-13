@@ -120,3 +120,22 @@ void emu_Map_IsValidPosition()
 
 	emu_ax = Map_IsValidPosition(packed) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Map_IsPositionUnveiled().
+ *
+ * @name emu_Map_IsPositionUnveiled
+ * @implements B4CD:1BC4:0013:1AB3 ()
+ */
+void emu_Map_IsPositionUnveiled()
+{
+	uint16 position;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	position = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Map_IsPositionUnveiled(position) ? 1 : 0;
+}
