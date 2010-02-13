@@ -108,7 +108,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileIndex == FILE_MAX) return FILE_INVALID;
 
 	/* Check if we can find the file outside any PAK file */
-	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "ab+" : "rb"));
+	s_file[fileIndex].fp = fopen(filenameComplete, (mode == 2) ? "wb" : ((mode == 3) ? "wb+" : "rb"));
 	if (s_file[fileIndex].fp != NULL) {
 		s_file[fileIndex].start    = 0;
 		s_file[fileIndex].position = 0;
@@ -230,7 +230,10 @@ bool File_Exists(const char *filename)
 	g_global->ignoreInput++;
 
 	index = _File_Open(filename, 1);
-	if (index == FILE_INVALID) return false;
+	if (index == FILE_INVALID) {
+		g_global->ignoreInput--;
+		return false;
+	}
 	File_Close(index);
 
 	g_global->ignoreInput--;
@@ -332,6 +335,7 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 	g_global->ignoreInput--;
 
 	s_file[index].position += length;
+	if (s_file[index].position > s_file[index].size) s_file[index].size = s_file[index].position;
 	return length;
 }
 
@@ -419,7 +423,10 @@ void File_Create(const char *filename)
 	g_global->ignoreInput++;
 
 	index = _File_Open(filename, 2);
-	if (index == FILE_INVALID) return;
+	if (index == FILE_INVALID) {
+		g_global->ignoreInput--;
+		return;
+	}
 	File_Close(index);
 
 	g_global->ignoreInput--;
