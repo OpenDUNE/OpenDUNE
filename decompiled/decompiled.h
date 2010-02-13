@@ -802,7 +802,7 @@ extern void f__07D4_18BD_0016_68BB();
 extern void f__176C_1932_0029_D0CC();
 extern void emu_Unit_Deviation_Descrease();
 extern void f__1DD7_1940_0021_1C0F();
-extern void f__07D4_196B_0073_56C1();
+extern void emu_Map_IsPositionInViewport();
 extern void f__176C_196C_0027_D87A();
 extern void f__B495_19B0_0016_09F7();
 extern void f__B4DA_19E6_0016_C1CB();

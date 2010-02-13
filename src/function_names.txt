@@ -83,6 +83,8 @@
 
 06F7:0402:0020:9091	emu_Map_DeviateArea	# (tile, radius) Try to deviate all units in an area
 
+07D4:196B:0073:56C1	emu_Map_IsPositionInViewport	# (position, ??_csip, ??_csip), check if a position is inside the viewport
+
 0AEC:0005:0010:9634	emu_GUI_Name	# (csip) Handles click on structure/unit name
 0AEC:0FD8:0017:6202	emu_GUI_Cancel	# (csip) Handles click on "Cancel" button
 0AEC:1181:001C:DFE4	emu_GUI_Picture	# (csip) Handles click on "Picture" button

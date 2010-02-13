@@ -112,13 +112,13 @@ typedef struct StructureInfo {
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK union {
 	                     struct {
-	/*      0001 */              BITTYPE unknown_0001:1;
+	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
 	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
-	/*      0004 */              BITTYPE unknown_0004:1;
+	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
 	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
+	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
+	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
+	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
 	/*      -    */              BITTYPE notused:9;         /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */

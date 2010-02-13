@@ -172,18 +172,18 @@ typedef struct UnitInfo {
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK union {
 	                     struct {
-	/*      0001 */              BITTYPE unknown_0001:1;
-	/*      0002 */              BITTYPE unknown_0002:1;
-	/*      0004 */              BITTYPE unknown_0004:1;
-	/*      0008 */              BITTYPE unknown_0008:1;
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
+	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
+	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
+	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
+	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
+	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
+	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
 	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE variable_0200:1;   /*!< ?? */
-	/*      0400 */              BITTYPE unknown_0400:1;
-	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? Related to amount of script cycles available. */
+	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? Used in Script Commands. */
+	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
+	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */
+	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Unit selectable by pressing tab (which cycles through all Units and Structures). */
+	/*      0800 */              BITTYPE scriptSlowdown:1;  /*!< If Unit is outside viewport, slow down scripting. */
 	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
 	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
 	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */

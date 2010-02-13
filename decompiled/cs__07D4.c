@@ -1109,7 +1109,7 @@ l__067A:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_cs);
-	emu_push(0x06A2); f__07D4_196B_0073_56C1();
+	emu_push(0x06A2); emu_Map_IsPositionInViewport();
 l__06A2:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -1138,7 +1138,7 @@ l__06CD:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x5C));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x5A));
 	emu_push(emu_cs);
-	emu_push(0x06E6); f__07D4_196B_0073_56C1();
+	emu_push(0x06E6); emu_Map_IsPositionInViewport();
 l__06E6:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -1167,7 +1167,7 @@ l__0711:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x60));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x5E));
 	emu_push(emu_cs);
-	emu_push(0x072A); f__07D4_196B_0073_56C1();
+	emu_push(0x072A); emu_Map_IsPositionInViewport();
 l__072A:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -1202,7 +1202,7 @@ l__0755:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_cs);
-	emu_push(0x0780); f__07D4_196B_0073_56C1();
+	emu_push(0x0780); emu_Map_IsPositionInViewport();
 l__0780:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -1525,7 +1525,7 @@ l__09D6:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_cs);
-	emu_push(0x0A07); f__07D4_196B_0073_56C1();
+	emu_push(0x0A07); emu_Map_IsPositionInViewport();
 l__0A07:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -2105,7 +2105,7 @@ l__0F33:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x12));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x10));
 	emu_push(emu_cs);
-	emu_push(0x0F4C); f__07D4_196B_0073_56C1();
+	emu_push(0x0F4C); emu_Map_IsPositionInViewport();
 l__0F4C:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -2245,7 +2245,7 @@ l__1076:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_cs);
-	emu_push(0x10A7); f__07D4_196B_0073_56C1();
+	emu_push(0x10A7); emu_Map_IsPositionInViewport();
 l__10A7:
 	emu_addw(&emu_sp, 0xC);
 	emu_orw(&emu_ax, emu_ax);
@@ -3361,9 +3361,9 @@ l__1965:
 }
 
 /**
- * Decompiled function f__07D4_196B_0073_56C1()
+ * Decompiled function emu_Map_IsPositionInViewport()
  *
- * @name f__07D4_196B_0073_56C1
+ * @name emu_Map_IsPositionInViewport
  * @implements 07D4:196B:0073:56C1 ()
  * @implements 07D4:19AF:002F:75C1
  * @implements 07D4:19C0:001E:03DD
@@ -3384,7 +3384,7 @@ l__1965:
  * Called From: 07D4:10A4:0031:05C3
  * Called From: 176C:06F4:0029:3063
  */
-void f__07D4_196B_0073_56C1()
+void emu_Map_IsPositionInViewport()
 {
 l__196B:
 	emu_push(emu_bp);

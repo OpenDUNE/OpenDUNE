@@ -19,7 +19,6 @@
 #include "team.h"
 #include "structure.h"
 
-extern void f__07D4_196B_0073_56C1();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0F3F_0125_000D_4868();
 extern void f__15C2_044C_0012_C66D();
@@ -31,6 +30,7 @@ extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_3014_001B_858E();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
+extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_FindStructure();
 extern void emu_Unit_Deviation_Descrease();
@@ -293,11 +293,11 @@ void GameLoop_Unit()
 			if (u->scriptDelay == 0) {
 				if (Script_IsLoaded(&u->script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if (!ui->flags.s.variable_0800) {
+					if (!ui->flags.s.scriptSlowdown) {
 						emu_push(0); emu_push(0);
 						emu_push(0); emu_push(0);
 						emu_push(u->position.s.y); emu_push(u->position.s.x);
-						emu_push(emu_cs); emu_push(0x06F9); emu_cs = 0x07D4; f__07D4_196B_0073_56C1();
+						emu_push(emu_cs); emu_push(0x06F9); emu_cs = 0x07D4; emu_Map_IsPositionInViewport();
 						emu_sp += 12;
 
 						if (emu_ax == 0) g_global->scriptUnitLeft = 1;
