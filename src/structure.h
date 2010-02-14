@@ -119,7 +119,8 @@ typedef struct StructureInfo {
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
 	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      -    */              BITTYPE notused:9;         /*!< The remaining bits are never used. */
+	/*      -    */              BITTYPE notused1:1;        /*!< The remaining bits are never used. */
+	/*      -    */              BITTYPE notused2:8;        /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
 	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
