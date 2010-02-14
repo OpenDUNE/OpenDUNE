@@ -138,7 +138,7 @@ void GameLoop_Structure()
 		}
 
 		if (tickStructure) {
-			if (s->flags2.s.upgrading) {
+			if (s->flags.s.upgrading) {
 				uint16 upgradeCost = si->buildCredits / 40;
 
 				if (upgradeCost <= h->credits) {
@@ -148,7 +148,7 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft -= 5;
 					} else {
 						s->upgradeLevel++;
-						s->flags2.s.upgrading = false;
+						s->flags.s.upgrading = false;
 
 						/* Ordos Heavy Vehicle gets the last upgrade for free */
 						if (s->houseID == HOUSE_ORDOS && s->type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
@@ -160,7 +160,7 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
 					}
 				} else {
-					s->flags2.s.upgrading = false;
+					s->flags.s.upgrading = false;
 				}
 			} else if (s->flags.s.repairing) {
 				uint16 repairCost;

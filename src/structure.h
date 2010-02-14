@@ -41,46 +41,42 @@ typedef struct Structure {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
 	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
 	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK union {
+	/* 0004(4)   */ PACK union {
 	                     struct {
-	/*      0001 */              BITTYPE used:1;            /*!< The Structure is in use (no longer free in the pool). */
-	/*      0002 */              BITTYPE allocated:1;       /*!< The Structure is allocated (created, and ready to be put on the map). */
-	/*      0004 */              BITTYPE beingBuilt:1;      /*!< The Structure is still under construction. */
-	/*      0008 */              BITTYPE unknown_0008:1;
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE unknown_0200:1;
-	/*      0400 */              BITTYPE degrades:1;        /*!< Structure degrades. */
-	/*      0800 */              BITTYPE unknown_0800:1;
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
-	/*      4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */
-	/*      8000 */              BITTYPE unknown_8000:1;
+	/*  4 - 0001 */              BITTYPE used:1;            /*!< The Structure is in use (no longer free in the pool). */
+	/*  4 - 0002 */              BITTYPE allocated:1;       /*!< The Structure is allocated (created, and ready to be put on the map). */
+	/*  4 - 0004 */              BITTYPE beingBuilt:1;      /*!< The Structure is still under construction. */
+	/*  4 - 0008 */              BITTYPE unknown_4_0008:1;
+	/*  4 - 0010 */              BITTYPE unknown_4_0010:1;
+	/*  4 - 0020 */              BITTYPE unknown_4_0020:1;
+	/*  4 - 0040 */              BITTYPE unknown_4_0040:1;
+	/*  4 - 0080 */              BITTYPE unknown_4_0080:1;
+	/*  4 - 0100 */              BITTYPE unknown_4_0100:1;
+	/*  4 - 0200 */              BITTYPE unknown_4_0200:1;
+	/*  4 - 0400 */              BITTYPE degrades:1;        /*!< Structure degrades. */
+	/*  4 - 0800 */              BITTYPE unknown_4_0800:1;
+	/*  4 - 1000 */              BITTYPE unknown_4_1000:1;
+	/*  4 - 2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
+	/*  4 - 4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */
+	/*  4 - 8000 */              BITTYPE unknown_4_8000:1;
+	/*  6 - 0001 */              BITTYPE unknown_6_0001:1;
+	/*  6 - 0002 */              BITTYPE upgrading:1;       /*!< Structure is being upgraded. */
+	/*  6 - 0004 */              BITTYPE unknown_6_0004:1;
+	/*  6 - 0008 */              BITTYPE unknown_6_0008:1;
+	/*  6 - 0010 */              BITTYPE unknown_6_0010:1;
+	/*  6 - 0020 */              BITTYPE unknown_6_0020:1;
+	/*  6 - 0040 */              BITTYPE unknown_6_0040:1;
+	/*  6 - 0080 */              BITTYPE unknown_6_0080:1;
+	/*  6 - 0100 */              BITTYPE unknown_6_0100:1;
+	/*  6 - 0200 */              BITTYPE unknown_6_0200:1;
+	/*  6 - 0400 */              BITTYPE unknown_6_0400:1;
+	/*  6 - 0800 */              BITTYPE unknown_6_0800:1;
+	/*  6 - 1000 */              BITTYPE unknown_6_1000:1;
+	/*  6 - 2000 */              BITTYPE unknown_6_2000:1;
+	/*  6 - 4000 */              BITTYPE unknown_6_4000:1;
+	/*  6 - 8000 */              BITTYPE unknown_6_8000:1;
 	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the Structure. */
-	/* 0006(2)   */ PACK union {
-	                     struct {
-	/*      0001 */              BITTYPE unknown_0001:1;
-	/*      0002 */              BITTYPE upgrading:1;       /*!< Structure is being upgraded. */
-	/*      0004 */              BITTYPE unknown_0004:1;
-	/*      0008 */              BITTYPE unknown_0008:1;
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE unknown_0200:1;
-	/*      0400 */              BITTYPE unknown_0400:1;
-	/*      0800 */              BITTYPE unknown_0800:1;
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE unknown_2000:1;
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
-	                     } GCC_PACKED s;
-	                     uint16 all; } flags2;              /*!< General flags of the Structure, part 2. */
+	                     uint32 all; } flags;               /*!< General flags of the Structure. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
