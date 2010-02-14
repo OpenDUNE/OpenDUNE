@@ -23,7 +23,6 @@ extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1423_07C5_0016_E9C2();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_27A8_0012_7198();
 extern void f__1A34_2F9E_0016_5A55();
@@ -37,6 +36,7 @@ extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_String_Get_ByIndex();
 extern void emu_Tools_Random_256();
+extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Unit_SetTarget();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -147,9 +147,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		emu_push(emu_cs); emu_push(0x036F); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
 		emu_sp += 6;
 
-		if (g_global->variable_38FA.csip != 0x0) {
+		if (g_global->unitHouseMissile.csip != 0x0) {
 			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x0383); emu_cs = 0x1423; f__1423_07C5_0016_E9C2();
+			emu_push(emu_cs); emu_push(0x0383); emu_cs = 0x1423; emu_Unit_LaunchHouseMissle();
 			emu_sp += 2;
 			return true;
 		}

@@ -82,10 +82,10 @@ static bool Save_Info(FILE *fp)
 
 	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fwrite(&g_global->variable_38FE, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_global->houseMissleCountdown, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (g_global->variable_38FA.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->variable_38FA);
+	if (g_global->unitHouseMissile.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->unitHouseMissile);
 		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;

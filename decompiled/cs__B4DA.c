@@ -717,7 +717,7 @@ l__0410:
 	emu_push(emu_ax);
 	emu_ax = 0x1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x041D); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x041D); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__041D:
@@ -747,7 +747,7 @@ l__0458:
 	emu_push(emu_ax);
 	emu_ax = 0xA;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0465); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x0465); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0465:
@@ -793,7 +793,7 @@ l__04C0:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__04CC:
@@ -892,7 +892,7 @@ l__0561:
 	emu_ax = 0x7;
 l__0568:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__056E:
@@ -969,7 +969,7 @@ l__05F1:
 	emu_push(emu_ax);
 	emu_ax = 0x1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x060A); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x060A); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__060A:
@@ -1258,7 +1258,7 @@ l__0867:
 	emu_ax = 0x14;
 l__086E:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0874); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x0874); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0874:
@@ -1288,7 +1288,7 @@ l__08A3:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x08AF); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x08AF); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__08AF:
@@ -1323,7 +1323,7 @@ l__08DF:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x08EB); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x08EB); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__08EB:
@@ -1351,7 +1351,7 @@ l__090C:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0918); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x0918); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0918:
@@ -1387,7 +1387,7 @@ l__0948:
 	emu_push(emu_ax);
 	emu_ax = 0x1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x095F); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x095F); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__095F:
@@ -1430,7 +1430,7 @@ l__09B6:
 	emu_ax = 0xF;
 l__09BD:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x09C3); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x09C3); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__09C3:
@@ -2793,7 +2793,7 @@ l__126C:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1279); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x1279); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1279:

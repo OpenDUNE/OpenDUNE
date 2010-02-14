@@ -30,7 +30,7 @@ extern void f__1DD7_088A_0026_5144();
 extern void f__22A6_0796_000B_9035();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
-extern void f__2537_000C_001C_86CB();
+extern void emu_Tools_RandomRange();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
@@ -292,7 +292,7 @@ void GameLoop_Main()
 
 	emu_push(5);
 	emu_push(0);
-	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x2537; emu_Tools_RandomRange();
 	emu_sp += 4;
 
 	emu_push(emu_ax + 8);
@@ -359,7 +359,7 @@ void GameLoop_Main()
 
 			emu_push(8);
 			emu_push(0);
-			emu_push(emu_cs); emu_push(0x01E8); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+			emu_push(emu_cs); emu_push(0x01E8); emu_cs = 0x2537; emu_Tools_RandomRange();
 			emu_sp += 4;
 
 			emu_push(emu_ax + 8);
@@ -395,7 +395,7 @@ void GameLoop_Main()
 					} else if (g_global->variable_3E52 > 0) {
 						emu_push(5);
 						emu_push(0);
-						emu_push(emu_cs); emu_push(0x0285); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+						emu_push(emu_cs); emu_push(0x0285); emu_cs = 0x2537; emu_Tools_RandomRange();
 						emu_sp += 4;
 
 						emu_push(emu_ax + 17);
@@ -411,7 +411,7 @@ void GameLoop_Main()
 							if (emu_ax == 0) {
 								emu_push(8);
 								emu_push(0);
-								emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+								emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2537; emu_Tools_RandomRange();
 								emu_sp += 4;
 
 								emu_push(emu_ax + 8);

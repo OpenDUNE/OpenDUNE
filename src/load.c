@@ -65,7 +65,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fread(&g_global->variable_38FE, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_global->houseMissleCountdown, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&variable_38FA, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;
 
@@ -102,8 +102,8 @@ static bool Load_Info(FILE *fp, uint32 length)
 		if (variable_38FA >= UNIT_INDEX_MAX) return false;
 		u = Unit_Get_ByIndex(variable_38FA);
 
-		g_global->variable_38FA.csip = g_global->unitStartPos.csip;
-		g_global->variable_38FA.s.ip += u->index * sizeof(Unit);
+		g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
+		g_global->unitHouseMissile.s.ip += u->index * sizeof(Unit);
 	}
 
 	emu_push(emu_cs); emu_push(0x023E); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();

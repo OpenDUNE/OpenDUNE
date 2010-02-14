@@ -729,8 +729,8 @@ typedef struct GlobalData {
 	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
-	/* 38FA(4)   */ PACK csip32 variable_38FA;              /*!< ?? Stores an Unit. */
-	/* 38FE(2)   */ PACK uint16 variable_38FE;              /*!< ?? */
+	/* 38FA(4)   */ PACK csip32 unitHouseMissile;           /*!< When launching a House Missile, while selecting location, this points to the missile. */
+	/* 38FE(2)   */ PACK uint16 houseMissleCountdown;       /*!< Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
@@ -834,10 +834,10 @@ typedef struct GlobalData {
 	/* 608E(4)   */ PACK uint32 tickHouseStarport;          /*!< Indicates next time House runs Starport function. */
 	/* 6092(4)   */ PACK uint32 tickHouseReinforcement;     /*!< Indicates next time House runs Reinforcement function. */
 	/* 6096(4)   */ PACK uint32 tickHouseUnused;            /*!< Indicates next time House runs Unused function. */
-	/* 609A(4)   */ PACK uint32 tickHouseUnknown;           /*!< Indicates next time House runs Unknown function. */
+	/* 609A(4)   */ PACK uint32 tickHouseMissileCountdown;  /*!< Indicates next time House runs Unknown function. */
 	/* 609E(4)   */ PACK uint32 tickHouseStarportAvailability;/*!< Indicates next time House runs Starport Availability function. */
 	/* 60A2(4)   */ PACK uint32 variable_60A2;              /*!< ?? */
-	/* 60A6()    */ PACK uint8   unknown_60A6[0x0008];
+	/* 60A6(8)   */ PACK uint16 donotuse_60A6[4];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */

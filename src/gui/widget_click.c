@@ -12,7 +12,6 @@
 #include "widget.h"
 
 extern void f__0C3A_142D_0018_6667();
-extern void f__1423_04F2_0016_CD6B();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -92,9 +91,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 		case 0x2A: /* "Launch" */
 		case 0x2B: /* "Fremen" */
 		case 0x2C: /* "Saboteur" */
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
-			emu_push(emu_cs); emu_push(0x1161); emu_cs = 0x1423; f__1423_04F2_0016_CD6B();
-			emu_sp += 4;
+			Structure_ActivateSpecial(s);
 			break;
 
 		case 0x2E: /* "%d%% done" */

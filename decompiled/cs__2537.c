@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2537_000C_001C_86CB()
+ * Decompiled function emu_Tools_RandomRange()
  *
- * @name f__2537_000C_001C_86CB
+ * @name emu_Tools_RandomRange
  * @implements 2537:000C:001C:86CB ()
  * @implements 2537:0026:0002:C03A
  * @implements 2537:0028:000C:718A
@@ -63,7 +63,7 @@
  * Called From: B4E9:0409:000D:0776
  * Called From: B518:01A9:0015:02B2
  */
-void f__2537_000C_001C_86CB()
+void emu_Tools_RandomRange()
 {
 l__000C:
 	emu_push(emu_bp);

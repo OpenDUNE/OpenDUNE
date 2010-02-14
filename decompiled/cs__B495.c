@@ -4236,7 +4236,7 @@ l__19B0:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x19C6); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x19C6); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__19C6:
@@ -4247,7 +4247,7 @@ l__19C6:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x19D5); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x19D5); emu_cs = 0x2537; emu_Tools_RandomRange();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__19D5:

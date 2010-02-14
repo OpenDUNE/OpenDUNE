@@ -1660,7 +1660,7 @@ l__0AE2:
 	emu_push(emu_si);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0AF2); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x0AF2); emu_cs = 0x2537; emu_Tools_RandomRange();
 l__0AF2:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

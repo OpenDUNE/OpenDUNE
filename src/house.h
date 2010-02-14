@@ -18,6 +18,17 @@ typedef enum HouseType {
 	HOUSE_INVALID   = 0xFF
 } HouseType;
 
+/**
+ * Types of special House Weapons there ar ein the game.
+ */
+typedef enum HouseWeapon {
+	HOUSE_WEAPON_MISSLE   = 1,
+	HOUSE_WEAPON_FREMEN   = 2,
+	HOUSE_WEAPON_SABOTEUR = 3,
+
+	HOUSE_WEAPON_INVALID = 0xFF
+} HouseWeapon;
+
 MSVC_PACKED_BEGIN
 /**
  * An House as stored in the memory.
@@ -78,10 +89,12 @@ typedef struct HouseInfo {
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
-	/* 000A()    */ PACK uint8   unknown_000A[0x0004];
+	/* 000A()    */ PACK uint8   unknown_000A[0x0002];
+	/* 000C(2)   */ PACK uint16 specialCountDown;           /*!< Time between activation of Special Weapon. */
 	/* 000E(2)   */ PACK uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
 	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x0008];
+	/* 0012(2)   */ PACK uint16 specialWeapon;              /*!< Which Special Weapon this House has. @see HouseWeapon. */
+	/* 0014()    */ PACK uint8   unknown_0014[0x0006];
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*!< Pointer to filename with the voices of the house. */
 } GCC_PACKED HouseInfo;
 MSVC_PACKED_END

@@ -152,6 +152,7 @@ extern uint32 Structure_GetStructuresBuilt(struct House *h);
 extern int16 Structure_IsValidBuildLocation(uint16 position, StructureType type);
 extern bool Structure_Save(FILE *fp);
 extern bool Structure_Load(FILE *fp, uint32 length);
+extern void Structure_ActivateSpecial(Structure *s);
 
 
 extern void emu_GameLoop_Structure();

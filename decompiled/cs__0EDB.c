@@ -127,7 +127,7 @@ l__0145:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_addw(&emu_bx, emu_ax);
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x16));
-	emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+	emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x2537; emu_Tools_RandomRange();
 l__0174:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

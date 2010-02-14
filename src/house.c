@@ -18,13 +18,13 @@
 #include "unit.h"
 
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1423_07C5_0016_E9C2();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
-extern void f__2537_000C_001C_86CB();
-extern void emu_Tools_Random_256();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_1816_0033_B55B();
+extern void emu_Tools_Random_256();
+extern void emu_Tools_RandomRange();
+extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
 HouseInfo *g_houseInfo = NULL;
@@ -51,7 +51,7 @@ void GameLoop_House()
 	bool tickStarport             = false;
 	bool tickReinforcement        = false;
 	bool tickUnused               = false;
-	bool tickUnknown              = false;
+	bool tickMissileCountdown     = false;
 	bool tickStarportAvailability = false;
 
 	if (g_global->debugScenario) return;
@@ -81,9 +81,9 @@ void GameLoop_House()
 		g_global->tickHouseUnused = g_global->tickGlobal + 5;
 	}
 
-	if (g_global->tickHouseUnknown <= g_global->tickGlobal) {
-		tickUnknown = true;
-		g_global->tickHouseUnknown = g_global->tickGlobal + 60;
+	if (g_global->tickHouseMissileCountdown <= g_global->tickGlobal) {
+		tickMissileCountdown = true;
+		g_global->tickHouseMissileCountdown = g_global->tickGlobal + 60;
 	}
 
 	if (g_global->tickHouseStarportAvailability <= g_global->tickGlobal) {
@@ -91,20 +91,20 @@ void GameLoop_House()
 		g_global->tickHouseStarportAvailability = g_global->tickGlobal + 1800;
 	}
 
-	if (tickUnknown && g_global->variable_38FE != 0) {
-		g_global->variable_38FE--;
-		emu_push(g_global->variable_38FE + 41);
+	if (tickMissileCountdown && g_global->houseMissleCountdown != 0) {
+		g_global->houseMissleCountdown--;
+		emu_push(g_global->houseMissleCountdown + 41);
 		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
 		emu_sp += 2;
 
-		if (g_global->variable_38FE == 0) {
+		if (g_global->houseMissleCountdown == 0) {
 			emu_push(g_global->playerHouseID);
 			emu_push(4);
 			emu_push(emu_cs); emu_push(0x01DC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 			emu_sp += 4;
 
 			emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x01E4); emu_cs = 0x1423; f__1423_07C5_0016_E9C2();
+			emu_push(emu_cs); emu_push(0x01E4); emu_cs = 0x1423; emu_Unit_LaunchHouseMissle();
 			emu_sp += 2;
 		}
 	}
@@ -113,7 +113,7 @@ void GameLoop_House()
 		/* Pick a random unit to increase starport availability */
 		emu_push(UNIT_MAX - 1);
 		emu_push(0);
-		emu_push(emu_cs); emu_push(0x01F7); emu_cs = 0x2537; f__2537_000C_001C_86CB();
+		emu_push(emu_cs); emu_push(0x01F7); emu_cs = 0x2537; emu_Tools_RandomRange();
 		emu_sp += 4;
 
 		/* Increase how many of this unit is available via starport by one */

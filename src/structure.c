@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "house.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
@@ -19,17 +20,14 @@
 #include "structure.h"
 #include "tools.h"
 
-extern void emu_String_sprintf();
-extern void emu_Structure_ConnectWall();
-extern void emu_Structure_IsUpgradable();
-extern void emu_Structure_UpdateMap();
-extern void emu_Tile_RemoveFogInRadius();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
+extern void f__0C3A_247A_0015_EA04();
 extern void f__0C3A_2814_0015_76F0();
+extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
-extern void f__1423_04F2_0016_CD6B();
+extern void emu_Unit_LaunchHouseMissle();
 extern void f__1423_0C74_0015_3419();
 extern void f__1A34_10EC_000E_A326();
 extern void f__B483_0363_0016_83DF();
@@ -37,6 +35,15 @@ extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
+extern void f__B4CD_1816_0033_B55B();
+extern void f__B4E9_0050_003F_292A();
+extern void emu_String_sprintf();
+extern void emu_Structure_ConnectWall();
+extern void emu_Structure_IsUpgradable();
+extern void emu_Structure_UpdateMap();
+extern void emu_Tile_RemoveFogInRadius();
+extern void emu_Tools_Random_256();
+extern void emu_Tools_RandomRange();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -123,9 +130,7 @@ void GameLoop_Structure()
 
 			/* Check if we have to fire the weapon for the AI immediatly */
 			if (s->countDown == 0 && !h->flags.s.human && h->flags.s.variable_0008) {
-				emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-				emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x1423; f__1423_04F2_0016_CD6B();
-				emu_sp += 4;
+				Structure_ActivateSpecial(s);
 			}
 		}
 
@@ -1157,4 +1162,170 @@ bool Structure_Load(FILE *fp, uint32 length)
 	Structure_Recount();
 
 	return true;
+}
+
+/**
+ * Activate the special weapon of a house.
+ *
+ * @param s The structure which launches the weapon. Has to be the Palace.
+ */
+void Structure_ActivateSpecial(Structure *s)
+{
+	House *h;
+
+	if (s == NULL) return;
+	if (s->type != STRUCTURE_PALACE) return;
+
+	h = House_Get_ByIndex(s->houseID);
+	if (!h->flags.s.used) return;
+
+	switch (g_houseInfo[s->houseID].specialWeapon) {
+		case HOUSE_WEAPON_MISSLE: {
+			Unit *u;
+			tile32 position;
+			uint16 random;
+
+			emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
+			random = emu_ax;
+
+			position.s.x = 0xFFFF;
+			position.s.y = 0xFFFF;
+
+			g_global->variable_38BC++;
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->houseID, position, random);
+			g_global->variable_38BC--;
+
+			g_global->unitHouseMissile.csip = 0x0;
+			if (u == NULL) break;
+
+			g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
+			g_global->unitHouseMissile.s.ip += u->index * sizeof(Unit);
+
+			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+
+			if (!h->flags.s.human) {
+				PoolFindStruct find;
+
+				find.houseID = 0xFFFF;
+				find.type    = 0xFFFF;
+				find.index   = 0xFFFF;
+
+				/* For the AI, try to find the first structure which is not ours, and launch missile to there */
+				while (true) {
+					Structure *sf;
+
+					sf = Structure_Find(&find);
+					if (sf == NULL) break;
+
+					if (House_AreAllied(s->houseID, sf->houseID)) continue;
+
+					emu_push(Tile_PackTile(sf->position));
+					emu_push(emu_cs); emu_push(0x0626); emu_Unit_LaunchHouseMissle();
+					emu_sp += 2;
+
+					return;
+				}
+
+				/* We failed to find a target, so remove the missile */
+				Unit_Free(u);
+				g_global->unitHouseMissile.csip = 0x0;
+
+				return;
+			}
+
+			/* Give the user 7 seconds to select their target */
+			g_global->houseMissleCountdown = 7;
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x05D5); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+			emu_sp += 2;
+		} break;
+
+		case HOUSE_WEAPON_FREMEN: {
+			uint16 location;
+			uint16 i;
+
+			/* Find a random location to appear */
+			emu_push(0xFFFF);
+			emu_push(4);
+			emu_push(emu_cs); emu_push(0x0670); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
+			emu_sp += 4;
+			location = emu_ax;
+
+			for (i = 0; i < 5; i++) {
+				Unit *u;
+				tile32 position;
+				uint16 random;
+				uint16 unitType;
+
+				emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
+				random = emu_ax;
+
+				position = Tile_UnpackTile(location);
+				emu_push(1);
+				emu_push(32);
+				emu_push(position.s.y); emu_push(position.s.x);
+				emu_push(emu_cs); emu_push(0x0698); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+				emu_sp += 8;
+				position.s.x = emu_ax;
+				position.s.y = emu_dx;
+
+				emu_push(3);
+				emu_push(0);
+				emu_push(emu_cs); emu_push(0x06AD); emu_cs = 0x2537; emu_Tools_RandomRange();
+				emu_sp += 4;
+				unitType = (emu_ax == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
+
+				g_global->variable_38BC++;
+				u = Unit_Create(UNIT_INDEX_INVALID, unitType, HOUSE_FREMEN, position, emu_ax);
+				g_global->variable_38BC--;
+
+				if (u == NULL) continue;
+
+				Unit_SetAction(u, ACTION_HUNT);
+			}
+
+			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+		} break;
+
+		case HOUSE_WEAPON_SABOTEUR: {
+			Unit *u;
+			uint16 position;
+			uint16 random;
+
+			/* Find a spot next to the structure */
+			emu_push(0);
+			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+			emu_push(emu_cs); emu_push(0x0718); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
+			emu_sp += 6;
+			position = emu_ax;
+
+			/* If there is no spot, reset countdown */
+			if (position == 0) {
+				s->countDown = 1;
+				return;
+			}
+
+			emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
+			random = emu_ax;
+
+			g_global->variable_38BC++;
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->houseID, Tile_UnpackTile(position), random);
+			g_global->variable_38BC--;
+
+			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+
+			if (u == NULL) return;
+
+			Unit_SetAction(u, ACTION_SABOTAGE);
+		} break;
+
+		default: break;
+	}
+
+	if (s->houseID == g_global->playerHouseID) {
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x07B8); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
+		emu_sp += 2;
+	}
 }
