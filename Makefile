@@ -42,6 +42,9 @@ LDFLAGS := $(LDFLAGS) `sdl-config --libs`
 endif
 else
 LIBS := $(LIBS) -lSDL
+ifdef WIN32
+LIBS := $(LIBS) -lwinmm
+endif
 endif
 
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label -Wno-multichar
