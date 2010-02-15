@@ -467,13 +467,12 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	scsip = g_global->structureStartPos;
 	scsip.s.ip += s->index * sizeof(Structure);
 
-	s->houseID           = houseID;
-	s->variable_47       = houseID;
-	s->flags.s.used      = true;
-	s->flags.s.allocated = true;
-	s->position.tile     = 0;
-	s->linkedID          = 0xFF;
-	s->animation         = (g_global->debugScenario) ? 0 : -1;
+	s->houseID            = houseID;
+	s->variable_47        = houseID;
+	s->flags.s.beingBuilt = true;
+	s->position.tile      = 0;
+	s->linkedID           = 0xFF;
+	s->animation          = (g_global->debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
