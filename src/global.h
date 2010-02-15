@@ -686,7 +686,7 @@ typedef struct GlobalData {
 	/* 3792(8)   */ PACK uint8  variable_3792[8];           /*!< ?? */
 	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI. */
-	/* 379E(2)   */ PACK uint16 debugInstantWin;            /*!< When non-zero, you immediately win every level.  */
+	/* 379E(2)   */ PACK uint16 debugForceWin;              /*!< When non-zero, you immediately win the level.  */
 	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
 	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? Write-only. */
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
@@ -709,8 +709,7 @@ typedef struct GlobalData {
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits player has available. */
-	/* 38B8()    */ PACK uint8   unknown_38B8[0x0002];
-	/* 38BA(2)   */ PACK uint16 tickGameTimeout;            /*!< The tick the game will timeout. */
+	/* 38B8(4)   */ PACK uint32 tickGameTimeout;            /*!< The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16 variable_38BE;              /*!< ?? */
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */

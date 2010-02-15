@@ -9,8 +9,10 @@
 #include "libemu.h"
 #include "global.h"
 #include "house.h"
-#include "pool/unit.h"
+#include "pool/pool.h"
 #include "pool/house.h"
+#include "pool/unit.h"
+#include "pool/structure.h"
 #include "string.h"
 #include "structure.h"
 #include "team.h"
@@ -22,8 +24,6 @@ extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
-extern void f__1423_0009_0025_FE5D();
-extern void f__1423_018B_0015_2B74();
 extern void f__1A34_27A8_0012_7198();
 extern void f__1DD7_01EB_0013_9C3C();
 extern void f__1DD7_088A_0026_5144();
@@ -34,6 +34,7 @@ extern void emu_Tools_RandomRange();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
+extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
@@ -73,16 +74,184 @@ extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
+ * Check if a level is finished, based on the values in WinFlags.
+ *
+ * @return True if and only if the level has come to an end.
+ */
+static bool GameLoop_IsLevelFinished()
+{
+	bool finish = false;
+
+	if (g_global->debugForceWin) {
+		emu_push(2);
+		emu_push(0);
+		emu_push(0);
+		emu_push(emu_ds); emu_push(0x60AE);
+		emu_push(emu_cs); emu_push(0x002E); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
+		emu_sp += 10;
+		return true;
+	}
+
+	/* You have to play at least 7200 ticks before you can win the game */
+	if (g_global->tickGlobal - g_global->tickScenarioStart < 7200) return false;
+
+	/* Check for structure counts hitting zero */
+	if ((g_global->scenario.winFlags & 0x3) != 0) {
+		PoolFindStruct find;
+		uint16 countStructureEnemy = 0;
+		uint16 countStructureFriendly = 0;
+
+		find.houseID = 0xFFFF;
+		find.type    = 0xFFFF;
+		find.index   = 0xFFFF;
+
+		/* Calculate how many structures are left on the map */
+		while (true) {
+			Structure *s;
+
+			s = Structure_Find(&find);
+			if (s == NULL) break;
+
+			if (s->type == STRUCTURE_TURRET) continue;
+			if (s->type == STRUCTURE_ROCKET_TURRET) continue;
+
+			if (s->houseID == g_global->playerHouseID) {
+				countStructureFriendly++;
+			} else {
+				countStructureEnemy++;
+			}
+		}
+
+		if ((g_global->scenario.winFlags & 0x1) != 0 && countStructureEnemy == 0) {
+			finish = true;
+		}
+		if ((g_global->scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0) {
+			finish = true;
+		}
+
+		if (finish) {
+			emu_push(2);
+			emu_push(0);
+			emu_push(0);
+			emu_push(emu_ds); emu_push(0x60BA);
+			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
+			emu_sp += 10;
+		}
+	}
+
+	/* Check for reaching spice quota */
+	if ((g_global->scenario.winFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
+		House *h;
+
+		h = House_Get_ByMemory(g_global->playerHouse);
+		if (g_global->playerCredits > h->creditsQuota) {
+			finish = true;
+
+			emu_push(2);
+			emu_push(0);
+			emu_push(0);
+			emu_push(emu_ds); emu_push(0x60C7);
+			emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
+			emu_sp += 10;
+		}
+	}
+
+	/* Check for reaching timeout */
+	if ((g_global->scenario.winFlags & 0x8) != 0) {
+		/* XXX -- This code was with '<' instead of '>=', which makes
+		 *  no sense. As it is unused, who knows what the intentions
+		 *  were. This at least makes it sensible. */
+		if (g_global->tickGlobal >= g_global->tickGameTimeout) {
+			finish = true;
+
+			emu_push(2);
+			emu_push(0);
+			emu_push(0);
+			emu_push(emu_ds); emu_push(0x60D2);
+			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
+			emu_sp += 10;
+		}
+	}
+
+	return finish;
+}
+
+/**
+ * Check if a level is won, based on the values in LoseFlags.
+ *
+ * @return True if and only if the level has been won by the human.
+ */
+static bool GameLoop_IsLevelWon()
+{
+	bool win = false;
+
+	if (g_global->debugForceWin) return true;
+
+	/* Check for structure counts hitting zero */
+	if ((g_global->scenario.loseFlags & 0x3) != 0) {
+		PoolFindStruct find;
+		uint16 countStructureEnemy = 0;
+		uint16 countStructureFriendly = 0;
+
+		find.houseID = 0xFFFF;
+		find.type    = 0xFFFF;
+		find.index   = 0xFFFF;
+
+		/* Calculate how many structures are left on the map */
+		while (true) {
+			Structure *s;
+
+			s = Structure_Find(&find);
+			if (s == NULL) break;
+
+			if (s->type == STRUCTURE_WALL) continue;
+			if (s->type == STRUCTURE_TURRET) continue;
+			if (s->type == STRUCTURE_ROCKET_TURRET) continue;
+
+			if (s->houseID == g_global->playerHouseID) {
+				countStructureFriendly++;
+			} else {
+				countStructureEnemy++;
+			}
+		}
+
+		if ((g_global->scenario.loseFlags & 0x1) != 0 && countStructureEnemy == 0) {
+			win = true;
+		}
+		if ((g_global->scenario.loseFlags & 0x2) != 0 && countStructureFriendly == 0) {
+			win = true;
+		}
+	}
+
+	/* Check for reaching spice quota */
+	if ((g_global->scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
+		House *h;
+
+		h = House_Get_ByMemory(g_global->playerHouse);
+		if (g_global->playerCredits > h->creditsQuota) {
+			win = true;
+		}
+	}
+
+	/* Check for reaching timeout */
+	if ((g_global->scenario.loseFlags & 0x8) != 0) {
+		if (g_global->tickGlobal >= g_global->tickGameTimeout) {
+			win = false;
+		}
+	}
+
+	return win;
+}
+
+/**
  * Checks if the level comes to an end. If so, it shows all end-level stuff,
  *  and prepares for the next level.
  */
 static void GameLoop_LevelEnd()
 {
-	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->debugInstantWin == 0) return;
+	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->debugForceWin == 0) return;
 
-	emu_push(emu_cs); emu_push(0x02D3); f__1423_0009_0025_FE5D();
-
-	if (emu_ax != 0 || g_global->debugInstantWin != 0) {
+	if (GameLoop_IsLevelFinished()) {
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x3483; overlay(0x3483, 0); emu_Sound_Play();
 		emu_sp += 2;
@@ -104,8 +273,7 @@ static void GameLoop_LevelEnd()
 		emu_push(emu_cs); emu_push(0x031F); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 		emu_sp += 2;
 
-		emu_push(emu_cs); emu_push(0x0324); f__1423_018B_0015_2B74();
-		if (emu_ax != 0) {
+		if (GameLoop_IsLevelWon()) {
 			emu_push(0x28);
 			emu_push(emu_cs); emu_push(0x0334); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
 			emu_sp += 2;
@@ -242,7 +410,7 @@ static void GameLoop_LevelEnd()
 		emu_push(emu_cs); emu_push(0x04C8); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
 
 		g_global->variable_38BE = 1;
-		g_global->debugInstantWin = 0;
+		g_global->debugForceWin = 0;
 	}
 
 	g_global->variable_60A2 = g_global->tickGlobal + 300;
