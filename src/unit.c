@@ -293,7 +293,7 @@ void GameLoop_Unit()
 			if (u->scriptDelay == 0) {
 				if (Script_IsLoaded(&u->script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if (!ui->flags.s.scriptSlowdown) {
+					if (!ui->flags.s.scriptNoSlowdown) {
 						emu_push(0); emu_push(0);
 						emu_push(0); emu_push(0);
 						emu_push(u->position.s.y); emu_push(u->position.s.x);

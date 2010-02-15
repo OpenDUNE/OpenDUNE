@@ -183,7 +183,7 @@ typedef struct UnitInfo {
 	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
 	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */
 	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Unit selectable by pressing tab (which cycles through all Units and Structures). */
-	/*      0800 */              BITTYPE scriptSlowdown:1;  /*!< If not set and Unit is outside viewport, slow down scripting. */
+	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Unit is outside viewport, do not slow down scripting. */
 	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
 	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
 	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */
