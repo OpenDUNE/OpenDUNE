@@ -144,7 +144,8 @@ static bool GameLoop_IsLevelFinished()
 		House *h;
 
 		h = House_Get_ByMemory(g_global->playerHouse);
-		if (g_global->playerCredits > h->creditsQuota) {
+
+		if (g_global->playerCredits >= h->creditsQuota) {
 			finish = true;
 
 			emu_push(2);
@@ -215,29 +216,26 @@ static bool GameLoop_IsLevelWon()
 			}
 		}
 
-		if ((g_global->scenario.loseFlags & 0x1) != 0 && countStructureEnemy == 0) {
-			win = true;
+		win = true;
+		if ((g_global->scenario.loseFlags & 0x1) != 0) {
+			win = win && (countStructureEnemy == 0);
 		}
-		if ((g_global->scenario.loseFlags & 0x2) != 0 && countStructureFriendly == 0) {
-			win = true;
+		if ((g_global->scenario.loseFlags & 0x2) != 0) {
+			win = win && (countStructureFriendly != 0);
 		}
 	}
 
 	/* Check for reaching spice quota */
-	if ((g_global->scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
+	if (!win && (g_global->scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
 		House *h;
 
 		h = House_Get_ByMemory(g_global->playerHouse);
-		if (g_global->playerCredits > h->creditsQuota) {
-			win = true;
-		}
+		win = (g_global->playerCredits >= h->creditsQuota);
 	}
 
 	/* Check for reaching timeout */
-	if ((g_global->scenario.loseFlags & 0x8) != 0) {
-		if (g_global->tickGlobal >= g_global->tickGameTimeout) {
-			win = false;
-		}
+	if (!win && (g_global->scenario.loseFlags & 0x8) != 0) {
+		win = (g_global->tickGlobal < g_global->tickGameTimeout);
 	}
 
 	return win;
