@@ -54,3 +54,18 @@ void emu_MPU_WriteData()
 
 	MPU_WriteData(data);
 }
+
+/**
+ * Emulator wrapper around MPU_Interrupt()
+ *
+ * @name emu_MPU_Interrupt
+ * @implements AB00:1CEE:0015:5BCF ()
+ */
+void emu_MPU_Interrupt()
+{
+	MPU_Interrupt();
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+}
