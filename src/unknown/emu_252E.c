@@ -9,10 +9,10 @@
 /**
  * C-ified function of f__252E_0001_0018_08B3().
  *
- * @name emu_Unknown_252E_0001
+ * @name emu_Memory_GetBlock1
  * @implements 252E:0001:0018:08B3 ()
  */
-void emu_Unknown_252E_0001()
+void emu_Memory_GetBlock1()
 {
 	uint16 index;
 
@@ -30,10 +30,10 @@ void emu_Unknown_252E_0001()
 /**
  * C-ified function of f__252E_001B_0018_EA2C().
  *
- * @name emu_Unknown_252E_001B
+ * @name emu_Memory_GetBlock2
  * @implements 252E:001B:0018:EA2C ()
  */
-void emu_Unknown_252E_001B()
+void emu_Memory_GetBlock2()
 {
 	uint16 index;
 

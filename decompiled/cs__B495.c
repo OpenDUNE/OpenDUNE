@@ -3381,7 +3381,7 @@ l__1345:
 	emu_get_memory16(emu_ds, 0x00, 0x7FA6) = emu_dx;
 	emu_ax = 0x5;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Unknown_252E_0001();
+	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Memory_GetBlock1();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__135F:

@@ -321,7 +321,7 @@ l__0227:
 	emu_ax = emu_get_memory16(emu_cs, emu_bx, 0x3E);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Unknown_252E_001B();
+	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Memory_GetBlock2();
 l__0263:
 	emu_pop(&emu_ax);
 	emu_es = emu_dx;

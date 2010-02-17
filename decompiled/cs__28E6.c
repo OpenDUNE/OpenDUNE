@@ -52,7 +52,7 @@ l__000A:
 	}
 l__0041:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6C91));
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; emu_Unknown_252E_001B();
+	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; emu_Memory_GetBlock2();
 l__004A:
 	emu_addw(&emu_sp, 0x2);
 	emu_es = emu_dx;
