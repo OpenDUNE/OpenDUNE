@@ -508,16 +508,16 @@ typedef struct GlobalData {
 	/* 2B35(12)  */ PACK char   string_2B35[12];            /*!< "DUNERGN.CPS" NULL terminated. */
 	/* 2B41(8)   */ PACK char   string_2B41[8];             /*!< "GROUP%d" NULL terminated. */
 	/* 2B49(6)   */ PACK char   string_2B49[6];             /*!< "REG%d" NULL terminated. */
-	/* 2B50(12)  */ PACK char   string_2B50[12];            /*!< "%d,%d,%d,%d" NULL terminated. */
-	/* 2B5C(7)   */ PACK char   string_2B5C[7];             /*!< "PIECES" NULL terminated. */
-	/* 2B63(8)   */ PACK char   string_2B63[8];             /*!< "%sTXT%d" NULL terminated. */
-	/* 2B6B(11)  */ PACK char   string_2B6B[11];            /*!< "RGNCLK.CPS" NULL terminated. */
-	/* 2B76(11)  */ PACK char   string_2B76[11];            /*!< "PIECES.SHP" NULL terminated. */
-	/* 2B81(11)  */ PACK char   string_2B81[11];            /*!< "ARROWS.SHP" NULL terminated. */
-	/* 2B8C(13)  */ PACK char   string_2B8C[13];            /*!< "REGION%c.INI" NULL terminated. */
-	/* 2B99(5)   */ PACK char   string_2B99[5];             /*!< "INFO" NULL terminated. */
-	/* 2B9E(14)  */ PACK char   string_2B9E[14];            /*!< "TOTAL REGIONS" NULL terminated. */
-	/* 2BAB()    */ PACK uint8   unknown_2BAB[0x001F];
+	/* 2B4F(12)  */ PACK char   string_2B4F[12];            /*!< "%d,%d,%d,%d" NULL terminated. */
+	/* 2B5B(7)   */ PACK char   string_2B5B[7];             /*!< "PIECES" NULL terminated. */
+	/* 2B62(8)   */ PACK char   string_2B62[8];             /*!< "%sTXT%d" NULL terminated. */
+	/* 2B6A(11)  */ PACK char   string_2B6A[11];            /*!< "RGNCLK.CPS" NULL terminated. */
+	/* 2B75(11)  */ PACK char   string_2B75[11];            /*!< "PIECES.SHP" NULL terminated. */
+	/* 2B80(11)  */ PACK char   string_2B80[11];            /*!< "ARROWS.SHP" NULL terminated. */
+	/* 2B8B(13)  */ PACK char   string_2B8B[13];            /*!< "REGION%c.INI" NULL terminated. */
+	/* 2B98(5)   */ PACK char   string_2B98[5];             /*!< "INFO" NULL terminated. */
+	/* 2B9D(14)  */ PACK char   string_2B9D[14];            /*!< "TOTAL REGIONS" NULL terminated. */
+	/* 2BAB()    */ PACK uint8   unknown_2BAA[0x001F];
 	/* 2BCA(19)  */ PACK char   string_2BCA[19];            /*!< "No more scenarios!" NULL terminated. */
 	/* 2BDD(7)   */ PACK char   string_2BDD[7];             /*!< "TEXT%c" NULL terminated. */
 	/* 2BE4(7)   */ PACK char   string_2BE4[7];             /*!< "HERALD" NULL terminated. */
