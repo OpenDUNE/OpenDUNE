@@ -149,9 +149,9 @@ l__00F5:
 }
 
 /**
- * Decompiled function f__253D_00FA_0010_873D()
+ * Decompiled function emu_File_ReadLengthFile()
  *
- * @name f__253D_00FA_0010_873D
+ * @name emu_File_ReadLengthFile
  * @implements 253D:00FA:0010:873D ()
  * @implements 253D:010A:0016:F834
  * @implements 253D:0120:0017:515A
@@ -172,7 +172,7 @@ l__00F5:
  * Called From: B4CA:0286:0013:32DA
  * Called From: B503:1059:0026:D203
  */
-void f__253D_00FA_0010_873D()
+void emu_File_ReadLengthFile()
 {
 l__00FA:
 	emu_push(emu_bp);

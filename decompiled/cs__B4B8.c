@@ -3963,7 +3963,7 @@ l__1F95:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1F9E); emu_cs = 0x34CA; overlay(0x34CA, 0); f__B4CA_020F_0017_A939();
+	emu_push(emu_cs); emu_push(0x1F9E); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__1F9E:

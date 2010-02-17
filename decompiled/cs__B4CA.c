@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4CA_020F_0017_A939()
+ * Decompiled function emu_File_ReadChunkOrLengthFile()
  *
- * @name f__B4CA_020F_0017_A939
+ * @name emu_File_ReadChunkOrLengthFile
  * @implements B4CA:020F:0017:A939 ()
  * @implements B4CA:0226:0011:BA26
  * @implements B4CA:0234:0003:5F35
@@ -21,7 +21,7 @@
  *
  * Called From: 34CA:0020:0005:0000
  */
-void f__B4CA_020F_0017_A939()
+void emu_File_ReadChunkOrLengthFile()
 {
 l__020F:
 	emu_push(emu_bp);
@@ -82,7 +82,7 @@ l__0278:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x028B); emu_cs = 0x253D; f__253D_00FA_0010_873D();
+	emu_push(emu_cs); emu_push(0x028B); emu_cs = 0x253D; emu_File_ReadLengthFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CA) { overlay(0x34CA, 1); }
 l__028B:

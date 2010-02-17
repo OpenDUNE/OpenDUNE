@@ -78,7 +78,7 @@ l__002C:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x004D); emu_cs = 0x34CA; overlay(0x34CA, 0); f__B4CA_020F_0017_A939();
+	emu_push(emu_cs); emu_push(0x004D); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__004D:

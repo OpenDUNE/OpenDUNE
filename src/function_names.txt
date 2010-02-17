@@ -154,6 +154,7 @@
 
 253D:0000:0013:38F4	emu_File_ReadBlockFile	# (filename_csip, length32), read length32 bytes from a filename
 253D:008A:0016:007A	emu_File_ReadWholeFile	# (filename_csip), read the whole file
+253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
 256D:0004:001C:9F23	emu_Font_LoadFile	# (filename_csip), load a font file (based on file it opens)
 
@@ -221,6 +222,8 @@ B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to the max-value given
 B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
+B4CA:020F:0017:A939	emu_File_ReadChunkOrLengthFile	# (filename_csip, ??, ..), check if the file is a Chunk file or length file, and read it
+
 B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius # (posx, posy, radius)
 
 B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
@@ -244,6 +247,7 @@ B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString
 
 B503:0000:0016:B170	emu_GUI_ShowMap	# Shows the map and lets you select next mission
+B503:1029:000F:8100	emu_CPS_LoadRegionClick	# Load the RGNCLK.CPS file and set some things for it
 
 B511:0FB0:0028:02A0	emu_GUI_PickHouse	# Show pick house screens
 
