@@ -520,7 +520,6 @@ l__077C:
  * @name f__AB00_0787_0028_C5A7
  * @implements AB00:0787:0028:C5A7 ()
  * @implements AB00:079E:0011:DDDD
- * @implements AB00:07A3:000C:62A2
  * @implements AB00:07AA:0005:C48A
  *
  * Called From: AB00:0D8F:000A:3A40
@@ -545,10 +544,9 @@ l__079E:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
 	if ((emu_al & 0x8) == 0) goto l__079E;
-l__07A3:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) != 0) goto l__07A3;
+	if ((emu_al & 0x8) != 0) { /* Unresolved jump */ emu_ip = 0x07A3; emu_last_cs = 0xAB00; emu_last_ip = 0x07A6; emu_last_length = 0x0011; emu_last_crc = 0xDDDD; emu_call(); return; }
 	if (--emu_cx != 0) goto l__079E;
 l__07AA:
 	emu_pop(&emu_di);
@@ -1457,7 +1455,6 @@ l__0CA9:
  * Called From: AB00:085E:002F:41E5
  * Called From: AB00:08C3:0028:EB32
  * Called From: AB00:0B8C:0036:4720
- * Called From: AB00:0E15:0046:A051
  */
 void f__AB00_0CB4_0016_9B28()
 {
@@ -1616,9 +1613,6 @@ l__0D96:
  *
  * @name f__AB00_0DA1_0077_69FE
  * @implements AB00:0DA1:0077:69FE ()
- * @implements AB00:0DCA:004E:218B
- * @implements AB00:0DD2:0046:A051
- * @implements AB00:0E18:000A:0F1F
  * @implements AB00:0E1B:0007:3FBD
  * @implements AB00:0E22:0005:C48A
  *
@@ -1647,14 +1641,11 @@ l__0DA1:
 	emu_rep_stosb();
 	emu_di = 0x1BF;
 	emu_cx = emu_get_memory16(emu_cs, 0x00, 0xDD);
-l__0DCA:
 	emu_lodsb(emu_ds);
 	emu_cmpb(&emu_al, 0x0);
-	if (emu_al != 0x0) {
-		emu_stosb();
-		if (--emu_cx != 0) goto l__0DCA;
-	}
-l__0DD2:
+	if (emu_al == 0x0) { /* Unresolved jump */ emu_ip = 0x0DD2; emu_last_cs = 0xAB00; emu_last_ip = 0x0DCD; emu_last_length = 0x0077; emu_last_crc = 0x69FE; emu_call(); return; }
+	emu_stosb();
+	if (--emu_cx != 0) { /* Unresolved jump */ emu_ip = 0x0DCA; emu_last_cs = 0xAB00; emu_last_ip = 0x0DD0; emu_last_length = 0x0077; emu_last_crc = 0x69FE; emu_call(); }
 	emu_push(emu_ax);
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
@@ -1689,8 +1680,7 @@ l__0DD2:
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
 	emu_push(0x0E18); f__AB00_0CB4_0016_9B28();
-l__0E18:
-	emu_addw(&emu_sp, 0x10);
+	/* Unresolved jump */ emu_ip = 0x0E18; emu_last_cs = 0xAB00; emu_last_ip = 0x0E18; emu_last_length = 0x0077; emu_last_crc = 0x69FE; emu_call();
 l__0E1B:
 	emu_orb(&emu_bh, 0x0);
 	emu_push(emu_cs);
@@ -1714,7 +1704,6 @@ l__0E22:
  * @implements AB00:0E1C:0001:6780 ()
  *
  * Called From: AB00:0E1F:0007:3FBD
- * Called From: AB00:0E1F:000A:0F1F
  */
 void f__AB00_0E1C_0001_6780()
 {
