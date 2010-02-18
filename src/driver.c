@@ -30,7 +30,7 @@ extern void f__AB00_0F24_0044_3584();
 extern void f__AB00_1FA8_0072_8B95();
 extern void f__AB00_2103_0040_93D2();
 extern void f__AB00_2191_0012_DA45();
-extern void f__AB00_21F0_0024_C4F7();
+extern void emu_MPU_SetData();
 extern void f__AB00_2336_002C_4FDC();
 extern void f__AB00_237A_002C_07AF();
 extern void f__AB00_240F_0029_C429();
@@ -368,7 +368,7 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); break;
 		case 0x44AF2103: f__AB00_2103_0040_93D2(); break;
 		case 0x44AF2191: f__AB00_2191_0012_DA45(); break;
-		case 0x44AF21F0: f__AB00_21F0_0024_C4F7(); break;
+		case 0x44AF21F0: emu_MPU_SetData(); break;
 		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break;
 		case 0x44AF237A: f__AB00_237A_002C_07AF(); break;
 		case 0x44AF240F: f__AB00_240F_0029_C429(); break;

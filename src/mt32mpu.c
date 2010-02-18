@@ -85,45 +85,6 @@ void MPU_WriteData(uint8 data)
 	emu_outb(0x330, data);
 }
 
-MSVC_PACKED_BEGIN
-typedef struct MSData {
-	/* 0000()    */ PACK uint8   unknown_0000[0x00C];
-	/* 000C(4)   */ PACK csip32 sound;                      /*!< Pointer to current position in sound file. */
-	/* 0010()    */ PACK uint8   unknown_0010[0x00A];
-	/* 001A(2)   */ PACK uint16 variable_001A;              /*!< ?? */
-	/* 001C(2)   */ PACK uint16 variable_001C;              /*!< ?? */
-	/* 001E(2)   */ PACK int16  delay;                      /*!< Delay before reading next command. */
-	/* 0020(2)   */ PACK uint16 noteOnCount;                /*!< Number of notes currently on. */
-	/* 0022(2)   */ PACK uint16 variable_0022;              /*!< ?? */
-	/* 0024(2)   */ PACK uint16 variable_0024;              /*!< ?? */
-	/* 0026(2)   */ PACK uint16 variable_0026;              /*!< ?? */
-	/* 0028(4)   */ PACK uint32 variable_0028;              /*!< ?? */
-	/* 002C(4)   */ PACK uint32 variable_002C;              /*!< ?? */
-	/* 0030(2)   */ PACK uint16 variable_0030;              /*!< ?? */
-	/* 0032(2)   */ PACK uint16 variable_0032;              /*!< ?? */
-	/* 0034(2)   */ PACK uint16 variable_0034;              /*!< ?? */
-	/* 0036(4)   */ PACK uint32 variable_0036;              /*!< ?? */
-	/* 003A(4)   */ PACK uint32 variable_003A;              /*!< ?? */
-	/* 003E(2)   */ PACK uint16 variable_003E;              /*!< ?? */
-	/* 0040(2)   */ PACK uint16 variable_0040;              /*!< ?? */
-	/* 0042(2)   */ PACK uint16 variable_0042;              /*!< ?? */
-	/* 0044(4)   */ PACK uint32 variable_0044;              /*!< ?? */
-	/* 0048(4)   */ PACK uint32 variable_0048;              /*!< ?? */
-	/* 004C(4)   */ PACK uint32 variable_004C;              /*!< ?? */
-	/* 0050()    */ PACK uint8   unknown_0050[0x018];
-	/* 0068(16)  */ PACK uint8  chanMaps[16];               /*!< ?? Channel mapping. */
-	/* 0078(16)  */ PACK uint8  programs[16];               /*!< Channel program number (C0 command). */
-	/* 0088(16)  */ PACK uint8  pitchWheelLSB[16];          /*!< Channel pitch wheel LSB (E0 command). */
-	/* 0098(16)  */ PACK uint8  pitchWheelMSB[16];          /*!< Channel pitch wheel MSB (E0 command). */
-	/* 00A8()    */ PACK uint8   unknown_00A8[0xA0];
-	/* 0148(32)  */ PACK uint8  noteOnChans[32];            /*!< ?? */
-	/* 0168(32)  */ PACK uint8  noteOnNotes[32];            /*!< ?? */
-	/* 0188(64)  */ PACK uint16 noteOnLengthLSB[32];        /*!< ?? */
-	/* 01C8(64)  */ PACK uint16 noteOnLengthMSB[32];        /*!< ?? */
-} GCC_PACKED MSData;
-MSVC_PACKED_END
-assert_compile(sizeof(MSData) == 0x208);
-
 void MPU_Interrupt()
 {
 	static bool locked = false;
@@ -394,4 +355,92 @@ csip32 MPU_FindSoundStart(csip32 file, uint16 index)
 	}
 
 	return file;
+}
+
+uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_0012)
+{
+	uint16 i;
+	uint16 size;
+	MSData *data;
+
+	for (i = 0; i < 8; i++) {
+		if (emu_get_memory16(0x44AF, i * 4, 0x12F4) == 0) break;
+	}
+	if (i == 8) return 0xFFFF;
+
+	file = MPU_FindSoundStart(file, index);
+
+	if (file.csip == 0) return 0xFFFF;
+
+	size = 0xC;
+	emu_get_memory32(0x44AF, i * 4, 0x12F2) = data_csip.csip;
+	data = (MSData*)emu_get_memorycsip(data_csip);
+	data->TIMB.csip = 0;
+	data->RBRN.csip = 0;
+	data->EVNT.csip = 0;
+
+	while (emu_get_memory32(file.s.cs, file.s.ip, 0) != 'TNVE') {
+		file.s.ip += size;
+		file.s.cs += file.s.ip >> 4;
+		file.s.ip &= 0xF;
+
+		size = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
+
+		if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'BMIT') {
+			data->TIMB = file;
+			continue;
+		}
+
+		if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'NRBR') {
+			data->RBRN = file;
+			continue;
+		}
+	}
+
+	data->index = i;
+	data->EVNT = file;
+	data->variable_0012 = variable_0012;
+	data->variable_0018 = 0;
+	data->variable_001A = 0;
+	data->variable_001C = 0;
+
+	emu_get_memory16(0x44AF, 0x0, 0x1312)++;
+
+	MPU_InitData(data);
+
+	return i;
+}
+
+void MPU_InitData(MSData *data)
+{
+	uint8 i;
+
+	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
+
+	for (i = 0; i < 16; i++) {
+		data->chanMaps[i] = i;
+		data->programs[i] = 0xFF;
+		data->pitchWheelLSB[i] = 0xFF;
+		data->pitchWheelMSB[i] = 0xFF;
+		data->variable_00A8[i] = 0xFF;
+	}
+
+	for (i = 0; i < 144; i++) data->variable_00B8[i] = 0xFF;
+
+	for (i = 0; i < 32; i++) data->noteOnChans[i] = 0xFF;
+
+	data->variable_0010 = 0xFFFF;
+	data->delay = 0;
+	data->noteOnCount = 0;
+	data->variable_0024 = 0x5A;
+	data->variable_0026 = 0x5A;
+	data->variable_0030 = 0;
+	data->variable_0032 = 0x64;
+	data->variable_0034 = 0x64;
+	data->variable_003E = 0;
+	data->variable_0040 = 0;
+	data->variable_0042 = 4;
+	data->variable_0044 = 0x208D5;
+	data->variable_0048 = 0x208D5;
+	data->variable_004C = 0x7A1200;
 }

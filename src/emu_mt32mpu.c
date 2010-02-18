@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
 #include "mt32mpu.h"
 
 /**
@@ -71,25 +72,49 @@ void emu_MPU_Interrupt()
 }
 
 /**
- * Emulator wrapper around MPU_FindSoundStart()
+ * Emulator wrapper around MPU_SetData()
  *
- * @name emu_MPU_FindSoundStart
- * @implements AB00:1400:0026:1BEB ()
+ * @name emu_MPU_SetData
+ * @implements AB00:21F0:0024:C4F7 ()
  */
-void emu_MPU_FindSoundStart()
+void emu_MPU_SetData()
 {
 	csip32 file;
 	uint16 index;
+	csip32 data;
+	csip32 variable_0012;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	file  = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	index = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	/* First arg was not for us so we skipped it. */
+	file           = emu_get_csip32(emu_ss, emu_sp, 0x2);
+	index          = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	data           = emu_get_csip32(emu_ss, emu_sp, 0x8);
+	variable_0012  = emu_get_csip32(emu_ss, emu_sp, 0xC);
 
-	file = MPU_FindSoundStart(file, index);
+	emu_ax = MPU_SetData(file, index, data, variable_0012);
+}
 
-	emu_dx = file.s.cs;
-	emu_ax = file.s.ip;
+/**
+ * Emulator wrapper around MPU_InitData()
+ *
+ * @name emu_MPU_InitData
+ * @implements AB00:152A:00B7:1482 ()
+ */
+void emu_MPU_InitData()
+{
+	uint16 index;
+	MSData *data;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index = emu_get_memory16(emu_ss, emu_sp, 0);
+
+	data = (MSData *)emu_get_memorycsip(emu_get_csip32(0x44AF, index, 0x12F2));
+
+	MPU_InitData(data);
 }
