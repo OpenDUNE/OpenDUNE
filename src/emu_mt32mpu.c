@@ -69,3 +69,27 @@ void emu_MPU_Interrupt()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 }
+
+/**
+ * Emulator wrapper around MPU_FindSoundStart()
+ *
+ * @name emu_MPU_FindSoundStart
+ * @implements AB00:1400:0026:1BEB ()
+ */
+void emu_MPU_FindSoundStart()
+{
+	csip32 file;
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	file  = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	index = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	file = MPU_FindSoundStart(file, index);
+
+	emu_dx = file.s.cs;
+	emu_ax = file.s.ip;
+}

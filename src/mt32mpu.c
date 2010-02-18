@@ -7,6 +7,7 @@
 #include "global.h"
 #include "mt32mpu.h"
 #include "os/math.h"
+#include "os/endian.h"
 
 extern void f__AB00_08CE_005F_AC14();
 extern void f__AB00_184D_004F_7B67();
@@ -352,4 +353,45 @@ void MPU_Interrupt()
 	locked = false;
 
 	return;
+}
+
+csip32 MPU_FindSoundStart(csip32 file, uint16 index)
+{
+	csip32 ret;
+	uint32 total;
+
+	ret.csip = 0;
+
+	index++;
+
+	while (true) {
+		if (emu_get_memory32(file.s.cs, file.s.ip, 0) != ' TAC' && emu_get_memory32(file.s.cs, file.s.ip, 0) != 'MROF') return ret;
+		if (emu_get_memory32(file.s.cs, file.s.ip, 8) == 'DIMX') break;
+
+		file.s.ip += BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
+		file.s.cs += file.s.ip >> 4;
+		file.s.ip &= 0xF;
+	}
+
+	total = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) - 5;
+
+	if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'MROF') return (index == 1) ? file : ret;
+
+	file.s.ip += 0xC;
+
+	while (true) {
+		uint16 size;
+
+		if (emu_get_memory32(file.s.cs, file.s.ip, 8) == 'DIMX' && --index == 0) break;
+
+		size = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
+		total -= size;
+		if ((int32)total < 0) return ret;
+
+		file.s.ip += size;
+		file.s.cs += file.s.ip >> 4;
+		file.s.ip &= 0xF;
+	}
+
+	return file;
 }
