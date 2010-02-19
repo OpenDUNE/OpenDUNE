@@ -373,7 +373,7 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_
 	if (file.csip == 0) return 0xFFFF;
 
 	size = 0xC;
-	emu_get_memory32(0x44AF, i * 4, 0x12F2) = data_csip.csip;
+	emu_get_csip32(0x44AF, i * 4, 0x12F2) = data_csip;
 	data = (MSData*)emu_get_memorycsip(data_csip);
 	data->TIMB.csip = 0;
 	data->RBRN.csip = 0;
@@ -397,7 +397,7 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_
 		}
 	}
 
-	data->index = i;
+	data->index = i * 4;
 	data->EVNT = file;
 	data->variable_0012 = variable_0012;
 	data->variable_0018 = 0;
@@ -408,7 +408,7 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_
 
 	MPU_InitData(data);
 
-	return i;
+	return i * 4;
 }
 
 void MPU_InitData(MSData *data)
