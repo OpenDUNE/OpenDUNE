@@ -38,6 +38,7 @@
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
 01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
 01F7:080B:0016:8E7B	emu_File_LowLevel_Read	# (file, buffer_csip, buflen)
+01F7:083A:0014:CDF5	emu_String_sscanf_callback	# (callback1_ip, callback2_ip, buffer_csip, format_csip, params_csip)
 01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments # (csip) stores es, cs, ss and ds in "array" at csip
 01F7:1097:0010:64C2	emu_String_tolower	# (c)
 01F7:10C3:0010:64C2	emu_String_toupper	# (c)
@@ -63,6 +64,7 @@
 01F7:374D:001D:AA1B	emu_String_Format_Callback_374D	# (data_csip, count, from_csip) Move 'count' bytes from 'from_csip' buffer to a buffer, data_csip points to buffer csip
 01F7:378D:0020:0F64	emu_String_sprintf	# (buf_csip, format_csip, param1, ...)
 01F7:37AF:001F:03E8	emu_String_sprintf_params	# (buf_csip, format_csip, params_ip)
+01F7:3803:001E:AAD4	emu_String_sscanf	# (buf_csip, format_csip, param1, ...)
 01F7:384A:003F:AE43	emu_String_strcat	# (to_csip, from_csip)
 01F7:3889:0033:4660	emu_String_strchr	# (csip, c)
 01F7:38C6:0030:705A	emu_String_strcmp	# (string1_csip, string2_csip)

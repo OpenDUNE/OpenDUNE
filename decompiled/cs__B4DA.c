@@ -2763,7 +2763,7 @@ l__122D:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
-	emu_push(emu_cs); emu_push(0x1245); emu_cs = 0x01F7; f__01F7_3803_001E_AAD4();
+	emu_push(emu_cs); emu_push(0x1245); emu_cs = 0x01F7; emu_String_sscanf();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1245:
