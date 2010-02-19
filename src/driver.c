@@ -8,6 +8,7 @@
 #include "global.h"
 #include "file.h"
 #include "driver.h"
+#include "mt32mpu.h"
 #include "os/strings.h"
 
 extern void emu_CustomTimer_AddHandler();
@@ -30,14 +31,9 @@ extern void f__AB00_0F24_0044_3584();
 extern void f__AB00_1FA8_0072_8B95();
 extern void f__AB00_2103_0040_93D2();
 extern void f__AB00_2191_0012_DA45();
-extern void emu_MPU_SetData();
 extern void f__AB00_2336_002C_4FDC();
-extern void f__AB00_237A_002C_07AF();
-extern void f__AB00_240F_0029_C429();
 extern void f__AB00_2498_0021_920B();
 extern void f__AB00_26EB_0047_41F4();
-
-/* TODO decompiler bug: extern void f__AB00_240F_0029_C429(); */
 
 bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008)
 {
@@ -370,8 +366,8 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x44AF2191: f__AB00_2191_0012_DA45(); break;
 		case 0x44AF21F0: emu_MPU_SetData(); break;
 		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break;
-		case 0x44AF237A: f__AB00_237A_002C_07AF(); break;
-		case 0x44AF240F: f__AB00_240F_0029_C429(); break;
+		case 0x44AF237A: emu_MPU_Play(); break;
+		case 0x44AF240F: emu_MPU_Stop(); break;
 		case 0x44AF2498: f__AB00_2498_0021_920B(); break;
 		case 0x44AF26EB: f__AB00_26EB_0047_41F4(); break;
 		default:

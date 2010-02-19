@@ -10,6 +10,7 @@
 #include "os/endian.h"
 
 extern void f__AB00_08CE_005F_AC14();
+extern void f__AB00_16B7_0039_7EF1();
 extern void f__AB00_184D_004F_7B67();
 extern void f__AB00_18AC_0082_307C();
 extern void f__AB00_1A90_002B_D292();
@@ -443,4 +444,75 @@ void MPU_InitData(MSData *data)
 	data->variable_0044 = 0x208D5;
 	data->variable_0048 = 0x208D5;
 	data->variable_004C = 0x7A1200;
+}
+
+void MPU_Play(uint16 index)
+{
+	MSData *data;
+
+	if (index == 0xFFFF) return;
+
+	data = (MSData *)emu_get_memorycsip(emu_get_csip32(0x44AF, index, 0x12F2));
+
+	if (data->variable_001A == 1) MPU_Stop(index);
+
+	MPU_InitData(data);
+
+	data->sound = data->EVNT;
+	data->sound.s.ip += 8;
+	data->sound.s.cs += data->sound.s.ip >> 4;
+	data->sound.s.ip &= 0xF;
+
+	data->variable_001A = 1;
+	data->variable_0018 = 1;
+}
+
+void MPU_StopAllNotes(MSData *data)
+{
+	uint8 i;
+
+	for (i = 0; i < 32; i++) {
+		uint8 note;
+		uint8 chan;
+
+		chan = data->noteOnChans[i];
+		if (chan == 0xFF) continue;
+
+		data->noteOnChans[i] = 0xFF;
+		note = data->noteOnNotes[i];
+		chan = data->chanMaps[chan];
+
+		/* Note Off */
+		emu_push(0);
+		emu_push(note);
+		emu_push(0x80 | chan);
+		emu_push(emu_cs); emu_push(0x16A2); f__AB00_08CE_005F_AC14();
+		emu_sp += 6;
+	}
+
+	data->noteOnCount = 0;
+}
+
+void MPU_Stop(uint16 index)
+{
+	MSData *data;
+	csip32 data_csip;
+
+	if (index == 0xFFFF) return;
+
+	data_csip = emu_get_csip32(0x44AF, index, 0x12F2);
+
+	if (data_csip.csip == 0) return;
+
+	data = (MSData *)emu_get_memorycsip(data_csip);
+
+	if (data->variable_001A != 1) return;
+
+	MPU_StopAllNotes(data);
+
+	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x2441); f__AB00_16B7_0039_7EF1();
+	emu_sp += 4;
+
+	data->variable_001A = 0;
 }

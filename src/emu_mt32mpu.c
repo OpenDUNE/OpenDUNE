@@ -98,23 +98,51 @@ void emu_MPU_SetData()
 }
 
 /**
- * Emulator wrapper around MPU_InitData()
+ * Emulator wrapper around MPU_Play()
  *
- * @name emu_MPU_InitData
- * @implements AB00:152A:00B7:1482 ()
+ * @name emu_MPU_Play
+ * @implements AB00:237A:002C:07AF ()
  */
-void emu_MPU_InitData()
+void emu_MPU_Play()
 {
+	csip32 ret;
 	uint16 index;
-	MSData *data;
 
 	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
 
-	index = emu_get_memory16(emu_ss, emu_sp, 0);
+	/* First arg was not for us so we skipped it. */
+	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
-	data = (MSData *)emu_get_memorycsip(emu_get_csip32(0x44AF, index, 0x12F2));
+	MPU_Play(index);
 
-	MPU_InitData(data);
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around MPU_Stop()
+ *
+ * @name emu_MPU_Stop
+ * @implements AB00:240F:0029:C429 ()
+ */
+void emu_MPU_Stop()
+{
+	csip32 ret;
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	/* First arg was not for us so we skipped it. */
+	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	MPU_Stop(index);
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}
+
+

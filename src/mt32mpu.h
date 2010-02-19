@@ -55,6 +55,8 @@ extern void MPU_WriteData(uint8 data);
 extern void MPU_Interrupt();
 extern uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_0012);
 extern void MPU_InitData(MSData *data);
+extern void MPU_Play(uint16 index);
+extern void MPU_Stop(uint16 index);
 
 
 extern void emu_MPU_Reset();
@@ -62,6 +64,7 @@ extern void emu_MPU_UART();
 extern void emu_MPU_WriteData();
 extern void emu_MPU_Interrupt();
 extern void emu_MPU_SetData();
-extern void emu_MPU_InitData();
+extern void emu_MPU_Play();
+extern void emu_MPU_Stop();
 
 #endif /* MT32MPU_H */
