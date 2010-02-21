@@ -198,8 +198,8 @@ typedef struct UnitInfo {
 	/* 001A()    */ PACK uint8   unknown_001A[0x000E];
 	/* 0028(2)   */ PACK uint16 actionPlayer;               /*!< Default action for player units. */
 	/* 002A()    */ PACK uint8   unknown_002A[0x0003];
-	/* 002D(2)   */ PACK uint16 variable_2D;                /*!< ?? */
-	/* 002F(2)   */ PACK uint16 variable_2F;                /*!< ?? */
+	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
+	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
 	/* 0031()    */ PACK uint8   unknown_0031[0x0001];
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */

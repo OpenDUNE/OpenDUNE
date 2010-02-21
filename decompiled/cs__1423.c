@@ -653,9 +653,9 @@ l__0C6F:
 }
 
 /**
- * Decompiled function f__1423_0C74_0015_3419()
+ * Decompiled function emu_Structure_AI_PickNextToBuild()
  *
- * @name f__1423_0C74_0015_3419
+ * @name emu_Structure_AI_PickNextToBuild
  * @implements 1423:0C74:0015:3419 ()
  * @implements 1423:0C89:000E:E431
  * @implements 1423:0C97:0012:C249
@@ -681,7 +681,7 @@ l__0C6F:
  *
  * Called From: 0972:0919:002F:F6E4
  */
-void f__1423_0C74_0015_3419()
+void emu_Structure_AI_PickNextToBuild()
 {
 l__0C74:
 	emu_push(emu_bp);

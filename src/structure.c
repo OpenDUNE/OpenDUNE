@@ -28,7 +28,7 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
-extern void f__1423_0C74_0015_3419();
+extern void emu_Structure_AI_PickNextToBuild();
 extern void f__1A34_10EC_000E_A326();
 extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
@@ -377,7 +377,7 @@ void GameLoop_Structure()
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
 					if (si->flags.s.factory && s->countDown == 0 && s->linkedID == 0xFF) {
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; f__1423_0C74_0015_3419();
+						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; emu_Structure_AI_PickNextToBuild();
 						emu_sp += 4;
 
 						if (emu_ax != 0xFFFF) {

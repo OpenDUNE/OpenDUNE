@@ -882,7 +882,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 		if (targetInfo->variable_50 >= distance) return 0;
 	}
 
-	priority = targetInfo->variable_2F + targetInfo->variable_2D;
+	priority = targetInfo->priorityTarget + targetInfo->priorityBuild;
 	if (distance != 0) priority = (priority / distance) + 1;
 
 	if (priority > 0x7D00) return 0x7D00;
