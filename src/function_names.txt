@@ -36,10 +36,10 @@
 01F7:079C:0017:78BE	emu_Tools_MulCSIP_ip	# () dx:ax * cx:bx -> dx:ax
 01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
 01F7:07D4:0011:370E	emu_Tools_Var79E4_Init	# (value)
-01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update # () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
+01F7:07E5:0011:F68B	emu_Tools_Var79E4_Update	# () variable_79E4 = 0x15A4E35 * variable_79E4 + 1, returns high word & 0x7FFF
 01F7:080B:0016:8E7B	emu_File_LowLevel_Read	# (file, buffer_csip, buflen)
 01F7:083A:0014:CDF5	emu_String_sscanf_callback	# (callback1_ip, callback2_ip, buffer_csip, format_csip, params_csip)
-01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments # (csip) stores es, cs, ss and ds in "array" at csip
+01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments	# (csip) stores es, cs, ss and ds in "array" at csip
 01F7:1097:0010:64C2	emu_String_tolower	# (c)
 01F7:10C3:0010:64C2	emu_String_toupper	# (c)
 01F7:10EF:000B:AF8B	emu_File_LowLevel_Delete	# (filename_csip)
@@ -77,7 +77,7 @@
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
-0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
+0642:0481:0010:36A4	emu_InGame_Numpad_Move	# When moving with numpad ingame
 0642:0559:0027:3560	emu_GUI_PaletteAnimate	# Animate the palette. Only works for some colours or something
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
 0642:0AD2:002A:8B98	emu_Sound_PlayDuneInit	# Play the DuneInit sound at startup
@@ -122,12 +122,11 @@
 1A34:1859:0017:DF09	emu_Unit_Deviate	# (unit_csip), try to deviate a unit
 1A34:193F:0013:FA4D	emu_Unit_Deviation_Descrease	# (unit_csip, amount), decrease the deviaton counter
 1A34:1A66:0011:34D4	emu_Unit_SetTarget	# (unit_csip, target_encoded), target a structure/unit/tile
-1A34:1B68:0019:AAA0	emu_Unit_SetDestination	# (unit_csip, target_encoded), move to a structure/unit/tile
 1A34:1CB1:003A:B457	emu_GUI_Unit_Command	# (csip) Handles click on command buttons ("Move", ...)
 1A34:2B18:0011:E4D5	emu_Unit_RemoveFog	# (unit_csip), removes fog around unit if allied and valid position
 1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
-1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit # (structure_csip)
-1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure # (unit_csip)
+1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit	# (structure_csip)
+1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure	# (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
 1DD7:0421:000E:5431	emu_Drivers_Load	# (name_csip), load a driver in the memory
@@ -225,7 +224,7 @@ B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent betw
 
 B4CA:020F:0017:A939	emu_File_ReadChunkOrLengthFile	# (filename_csip, ??, ..), check if the file is a Chunk file or length file, and read it
 
-B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius # (posx, posy, radius)
+B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius	# (posx, posy, radius)
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
@@ -234,7 +233,7 @@ B4E9:0345:0023:FA52	emu_GUI_Mentat	# (csip) Shows the Mentat window
 B4F2:0000:000D:C9F0	emu_GameOptions_Load	# () Loads GameOptions from options.cfg
 B4F2:0051:0012:A048	emu_GameOptions_Save	# () Saves GameOptions into options.cfg
 B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
-B4F2:0387:000F:A3C2	emu_GUI_GameOptions # (csip) Shows the Game Options window
+B4F2:0387:000F:A3C2	emu_GUI_GameOptions	# (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
@@ -253,8 +252,6 @@ B511:0FB0:0028:02A0	emu_GUI_PickHouse	# Show pick house screens
 B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window
 B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
-
-B527:0000:0016:BBD9	emu_GUI_EditBox	# Handle a complete editbox
 
 B52A:0000:0019:1617	emu_WSA_LoadFile	# (filename_csip, ??, ??, ??, ??, ??, ??) Load a WSA file
 
