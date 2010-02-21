@@ -77,7 +77,6 @@
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
-0642:000C:001A:AF29	emu_GameLoop_Main	# Never ending-loop, started once at application-start, and loops for ever in-game
 0642:0481:0010:36A4	emu_InGame_Numpad_Move  # When moving with numpad ingame
 0642:0559:0027:3560	emu_GUI_PaletteAnimate	# Animate the palette. Only works for some colours or something
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
@@ -227,8 +226,6 @@ B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent betw
 B4CA:020F:0017:A939	emu_File_ReadChunkOrLengthFile	# (filename_csip, ??, ..), check if the file is a Chunk file or length file, and read it
 
 B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius # (posx, posy, radius)
-
-B4DA:1099:0024:C93B	emu_Security_Main	# 157C checks for correct/wrong
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 

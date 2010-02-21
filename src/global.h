@@ -456,7 +456,9 @@ typedef struct GlobalData {
 	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x019B];
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
-	/* 257F()    */ PACK uint8   unknown_257F[0x0007];
+	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
+	/* 2580(2)   */ PACK uint16 variable_2580;              /*!< ?? */
+	/* 2582(4)   */ PACK uint32 variable_2582;              /*!< ?? Ticker inside Security_Check(). */
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
@@ -718,8 +720,7 @@ typedef struct GlobalData {
 	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE()    */ PACK uint8   unknown_38CE[0x000C];
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
-	/* 38DE(2)   */ PACK uint16 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
-	/* 38E0(2)   */ PACK uint16 readBufferCount;            /*!< Current used length of the temporary read buffer. */
+	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */
 	/* 38E4(4)   */ PACK csip32 activeStructure;            /*!< Structure being placed. */
 	/* 38E8()    */ PACK uint16 variable_38E8;              /*!< ?? */
@@ -778,7 +779,7 @@ typedef struct GlobalData {
 	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
 	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
-	/* 3C4A()    */ PACK uint8   unknown_3C4A[0x0002];
+	/* 3C4A(2)   */ PACK uint16 variable_3C4A;              /*!< ?? */
 	/* 3C4C(256) */ PACK uint8  variable_3C4C[256];         /*!< ?? */
 	/* 3D4C(256) */ PACK uint8  variable_3D4C[256];         /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
@@ -1105,9 +1106,9 @@ typedef struct GlobalData {
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
 	/* 6E87()    */ PACK uint8   unknown_6E87[0x0001];
-	/* 6E88(145) */ PACK char   string_6E88[145];           /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
-                                                             *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm" NULL terminated.
-                                                             *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
+	/* 6E88(145) */ PACK char   stringDecompress[145];      /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
+	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm" NULL terminated.
+	                                                         *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
 	/* 6F19()    */ PACK uint8   unknown_6F19[0x00F1];
 	/* 700A(2)   */ PACK uint16 variable_700A;              /*!< ?? */
 	/* 700C(2)   */ PACK uint16 variable_700C;              /*!< ?? */
@@ -1263,9 +1264,9 @@ typedef struct GlobalData {
 	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
 	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
-	/* 9939()    */ PACK uint8  variable_9939[0x0051];      /*!< ?? Buffer. */
+	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
-	/* 998E()    */ PACK uint8  variable_998E[0x0061];      /*!< ?? Buffer. */
+	/* 998E(97)  */ PACK uint8  variable_998E[97];          /*!< ?? Buffer. */
 	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? */
 } GCC_PACKED GlobalData;

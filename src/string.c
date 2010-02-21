@@ -14,7 +14,7 @@
  * @param dest The decompressed string.
  * @return The length of decompressed string.
  */
-uint16 String_Decompress(char *source, char* dest)
+uint16 String_Decompress(char *source, char *dest)
 {
 	uint16 count;
 	char *s;
@@ -26,10 +26,10 @@ uint16 String_Decompress(char *source, char* dest)
 		if ((c & 0x80) != 0) {
 			c &= 0x78;
 			c >>= 3;
-			dest[count++] = g_global->string_6E88[c];
+			dest[count++] = g_global->stringDecompress[c];
 			c <<= 3;
 			c += (*s & 0x07);
-			c = g_global->string_6E88[c + 0x10];
+			c = g_global->stringDecompress[c + 0x10];
 		}
 		dest[count++] = c;
 	}

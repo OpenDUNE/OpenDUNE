@@ -70,7 +70,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 }
 
-uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 unknown3, uint16 unknown4)
+uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
 {
 	uint16 oldValue_2598_0000;
 	uint16 oldValue_07AE_0000;
@@ -176,12 +176,12 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		uint16 keyWidth;
 		uint16 key;
 
-		if (unknown3.csip != 0x0) {
+		if (callbackcsip.csip != 0x0) {
 			/* Call based on memory/register values */
 			emu_push(emu_cs); emu_push(0x00FB);
 
-			emu_ip = unknown3.s.ip;
-			emu_cs = unknown3.s.cs;
+			emu_ip = callbackcsip.s.ip;
+			emu_cs = callbackcsip.s.cs;
 
 			switch ((emu_cs << 16) + emu_ip) {
 				case 0x34DA003E: overlay(0x34DA, 0); f__B4DA_16CB_001D_31CC(); break;

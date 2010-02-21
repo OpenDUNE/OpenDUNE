@@ -716,8 +716,7 @@ l__0014:
 	memset(emu_get_memorycsip(g_global->readBuffer), 0, g_global->readBufferSize);
 
 	/* Read the file into the buffer */
-	emu_push(g_global->readBufferCount);
-	emu_push(g_global->readBufferSize);
+	emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(emu_ss); emu_push(emu_bp - 0x22);
 	emu_push(emu_cs); emu_push(0x0090); emu_cs = 0x253D; emu_File_ReadBlockFile();

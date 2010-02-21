@@ -13,6 +13,7 @@
 #include "pool/house.h"
 #include "pool/unit.h"
 #include "pool/structure.h"
+#include "security.h"
 #include "string.h"
 #include "structure.h"
 #include "team.h"
@@ -354,9 +355,7 @@ static void GameLoop_LevelEnd()
 				emu_push(emu_cs); emu_push(0x0433); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
 				emu_sp += 8;
 
-				emu_push(emu_cs); emu_push(0x043B); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_Security_Main();
-
-				if (emu_ax == 0) {
+				if (!Security_Check()) {
 					emu_push(emu_cs); emu_push(0x0444); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
 					emu_push(emu_cs); emu_push(0x044C); emu_cs = 0x01F7; emu_Terminate_Normal();

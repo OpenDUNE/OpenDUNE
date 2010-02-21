@@ -47,12 +47,20 @@ House
     over your silo capicity most of the time, and then losing it all of a
     sudden (when you start building a structure).
 
-AirUnit
--------
-- If an airunit gives a script error, all other airunits are aborted.
+
+Teams
+-----
+- If a team gives a script error, all other teams are aborted.
+
 
 SaveLoad
 --------
 - The save routine allowed a NAME chunk up to 65536 bytes, where 255 bytes
     should be sufficient for any sane name (both excluding the \0).
+
+
+General
+-------
+- The screen telling if you have the security question wrong/right is there
+    for such short time, you never really see it.
 

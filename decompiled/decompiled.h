@@ -30,6 +30,7 @@
 #include "../src/save.h"
 #include "../src/scenario.h"
 #include "../src/script/script.h"
+#include "../src/security.h"
 #include "../src/sound.h"
 #include "../src/string.h"
 #include "../src/structure.h"
@@ -701,7 +702,6 @@ extern void f__176C_105E_0031_8B3F();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_String_tolower();
 extern void f__176C_1098_0021_667D();
-extern void emu_Security_Main();
 extern void emu_String_toupper();
 extern void f__B518_10DC_0011_9EE1();
 extern void f__22A6_10DD_0023_B468();
