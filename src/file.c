@@ -365,7 +365,7 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 			break;
 		case 2:
 			fseek(s_file[index].fp, s_file[index].start + s_file[index].size - position, SEEK_SET);
-			s_file[index].position = s_file[index].start + s_file[index].size - position;
+			s_file[index].position = s_file[index].size - position;
 			break;
 	}
 	g_global->ignoreInput--;
