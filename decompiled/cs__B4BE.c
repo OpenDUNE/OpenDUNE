@@ -402,7 +402,7 @@ l__0210:
 	emu_addw(&emu_sp, 0x6);
 	goto l__0215;
 l__0215:
-	emu_push(emu_cs); emu_push(0x021A); emu_cs = 0x1DD7; f__1DD7_088A_0026_5144();
+	emu_push(emu_cs); emu_push(0x021A); emu_cs = 0x1DD7; emu_Driver_Music_IsPlaying();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__021A:

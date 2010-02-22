@@ -13,7 +13,7 @@ typedef struct MSData {
 	/* 0012(4)   */ PACK csip32 variable_0012;              /*!< ?? */
 	/* 0016(2)   */ PACK uint16 index;                      /*!< ?? */
 	/* 0018(2)   */ PACK uint16 variable_0018;              /*!< ?? */
-	/* 001A(2)   */ PACK uint16 variable_001A;              /*!< ?? */
+	/* 001A(2)   */ PACK uint16 playing;                    /*!< ?? 0, 1 or 2. 1 if a sound is playing. */
 	/* 001C(2)   */ PACK uint16 variable_001C;              /*!< ?? */
 	/* 001E(2)   */ PACK int16  delay;                      /*!< Delay before reading next command. */
 	/* 0020(2)   */ PACK uint16 noteOnCount;                /*!< Number of notes currently on. */
@@ -57,6 +57,7 @@ extern uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 va
 extern void MPU_InitData(MSData *data);
 extern void MPU_Play(uint16 index);
 extern void MPU_Stop(uint16 index);
+extern uint16 MPU_IsPlaying(uint16 index);
 
 
 extern void emu_MPU_Reset();

@@ -110,7 +110,7 @@ void MPU_Interrupt()
 		data_csip = emu_get_csip32(0x44AF, index, 0x12F2);
 		data = (MSData *)emu_get_memorycsip(data_csip);
 
-		if (data->variable_001A != 0x1) continue;
+		if (data->playing != 1) continue;
 
 		data->variable_0030 += data->variable_0032;
 
@@ -255,12 +255,12 @@ void MPU_Interrupt()
 					}
 
 					data->sound.s.ip += nb;
-				} while (data->variable_001A == 0x1);
+				} while (data->playing == 1);
 			}
-			if (data->variable_001A != 0x1) break;
+			if (data->playing != 1) break;
 		}
 
-		if (data->variable_001A != 0x1) continue;
+		if (data->playing != 1) continue;
 
 		if (data->variable_0032 != data->variable_0034) {
 			uint32 v;
@@ -402,7 +402,7 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_
 	data->EVNT = file;
 	data->variable_0012 = variable_0012;
 	data->variable_0018 = 0;
-	data->variable_001A = 0;
+	data->playing = 0;
 	data->variable_001C = 0;
 
 	emu_get_memory16(0x44AF, 0x0, 0x1312)++;
@@ -454,7 +454,7 @@ void MPU_Play(uint16 index)
 
 	data = (MSData *)emu_get_memorycsip(emu_get_csip32(0x44AF, index, 0x12F2));
 
-	if (data->variable_001A == 1) MPU_Stop(index);
+	if (data->playing == 1) MPU_Stop(index);
 
 	MPU_InitData(data);
 
@@ -463,7 +463,7 @@ void MPU_Play(uint16 index)
 	data->sound.s.cs += data->sound.s.ip >> 4;
 	data->sound.s.ip &= 0xF;
 
-	data->variable_001A = 1;
+	data->playing = 1;
 	data->variable_0018 = 1;
 }
 
@@ -506,7 +506,7 @@ void MPU_Stop(uint16 index)
 
 	data = (MSData *)emu_get_memorycsip(data_csip);
 
-	if (data->variable_001A != 1) return;
+	if (data->playing != 1) return;
 
 	MPU_StopAllNotes(data);
 
@@ -514,5 +514,16 @@ void MPU_Stop(uint16 index)
 	emu_push(emu_cs); emu_push(0x2441); f__AB00_16B7_0039_7EF1();
 	emu_sp += 4;
 
-	data->variable_001A = 0;
+	data->playing = 0;
+}
+
+uint16 MPU_IsPlaying(uint16 index)
+{
+	MSData *data;
+
+	if (index == 0xFFFF) return 0xFFFF;
+
+	data = (MSData *)emu_get_memorycsip(emu_get_csip32(0x44AF, index, 0x12F2));
+
+	return data->playing;
 }

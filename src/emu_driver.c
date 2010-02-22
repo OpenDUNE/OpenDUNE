@@ -110,3 +110,22 @@ void emu_Drivers_Init()
 	emu_ip = ret.s.ip;
 }
 
+/**
+ * Emulator wrapper around Driver_Music_IsPlaying()
+ *
+ * @name emu_Driver_Music_IsPlaying
+ * @implements 1DD7:088A:0026:5144 ()
+ */
+void emu_Driver_Music_IsPlaying()
+{
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	emu_ax = Driver_Music_IsPlaying() ? 1 : 0;
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}

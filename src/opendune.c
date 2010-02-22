@@ -27,7 +27,6 @@ extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1A34_27A8_0012_7198();
 extern void f__1DD7_01EB_0013_9C3C();
-extern void f__1DD7_088A_0026_5144();
 extern void f__22A6_0796_000B_9035();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
@@ -559,8 +558,7 @@ void GameLoop_Main()
 					} else {
 						g_global->variable_3E52 = 0;
 						if (g_global->variable_6D8D != 0 && g_global->variable_76AC > g_global->variable_31BC) {
-							emu_push(emu_cs); emu_push(0x02D5); emu_cs = 0x1DD7; f__1DD7_088A_0026_5144();
-							if (emu_ax == 0) {
+							if (!Driver_Music_IsPlaying()) {
 								emu_push(8);
 								emu_push(0);
 								emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2537; emu_Tools_RandomRange();

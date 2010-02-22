@@ -32,7 +32,6 @@ extern void f__AB00_1FA8_0072_8B95();
 extern void f__AB00_2103_0040_93D2();
 extern void f__AB00_2191_0012_DA45();
 extern void f__AB00_2336_002C_4FDC();
-extern void f__AB00_2498_0021_920B();
 extern void f__AB00_26EB_0047_41F4();
 
 bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008)
@@ -238,7 +237,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 
 			buf->buffer.s.cs = emu_dx;
 			buf->buffer.s.ip = emu_ax;
-			buf->count       = 0xFFFF;
+			buf->index       = 0xFFFF;
 		}
 		g_global->soundBufferIndex = 0;
 	}
@@ -286,7 +285,7 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	g_global->musicBuffer.buffer.s.cs = emu_dx;
 	g_global->musicBuffer.buffer.s.ip = emu_ax;
-	g_global->musicBuffer.count       = 0xFFFF;
+	g_global->musicBuffer.index       = 0xFFFF;
 
 	return index;
 }
@@ -357,19 +356,18 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	emu_ip = csip.s.ip;
 	emu_cs = csip.s.cs;
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x44AF045A: f__AB00_045A_0022_EC86(); break;
-		case 0x44AF0C96: f__AB00_0C96_0019_A7D9(); break;
-		case 0x44AF0F02: f__AB00_0F02_0012_D841(); break;
-		case 0x44AF0F24: f__AB00_0F24_0044_3584(); break;
-		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); break;
-		case 0x44AF2103: f__AB00_2103_0040_93D2(); break;
-		case 0x44AF2191: f__AB00_2191_0012_DA45(); break;
-		case 0x44AF21F0: emu_MPU_SetData(); break;
-		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break;
-		case 0x44AF237A: emu_MPU_Play(); break;
-		case 0x44AF240F: emu_MPU_Stop(); break;
-		case 0x44AF2498: f__AB00_2498_0021_920B(); break;
-		case 0x44AF26EB: f__AB00_26EB_0047_41F4(); break;
+		case 0x44AF045A: f__AB00_045A_0022_EC86(); break; /* 0x65 */
+		case 0x44AF0C96: f__AB00_0C96_0019_A7D9(); break; /* 0x64 */
+		case 0x44AF0F02: f__AB00_0F02_0012_D841(); break; /* 0x99 */
+		case 0x44AF0F24: f__AB00_0F24_0044_3584(); break; /* 0x9B */
+		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); break; /* 0x66 */
+		case 0x44AF2103: f__AB00_2103_0040_93D2(); break; /* 0x68 */
+		case 0x44AF2191: f__AB00_2191_0012_DA45(); break; /* 0x96 */
+		case 0x44AF21F0: emu_MPU_SetData(); break; /* 0x97 */
+		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break; /* 0x98 */
+		case 0x44AF237A: emu_MPU_Play(); break; /* 0xAA */
+		case 0x44AF240F: emu_MPU_Stop(); break; /* 0xAB */
+		case 0x44AF26EB: f__AB00_26EB_0047_41F4(); break; /* 0xB1 */
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
@@ -380,4 +378,37 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	csip.s.cs = emu_dx;
 	csip.s.ip = emu_ax;
 	return csip;
+}
+
+bool Driver_Music_IsPlaying()
+{
+	Driver *driver = &g_global->musicDriver;
+	MSBuffer *buffer = &g_global->musicBuffer;
+
+	if (driver->index == 0xFFFF) {
+		if (driver->dcontent.csip == 0) return false;
+
+		emu_ax = 0x0;
+		emu_bx = 0x7;
+		emu_pushf();
+
+		/* Call based on memory/register values */
+		emu_ip = driver->dcontent.s.ip;
+		emu_push(emu_cs);
+		emu_cs = driver->dcontent.s.cs;
+		emu_push(0x08E2);
+		switch ((emu_cs << 16) + emu_ip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1DD7; emu_last_ip = 0x08DF; emu_last_length = 0x0020; emu_last_crc = 0xBD30;
+				emu_call();
+				return false;
+		}
+
+		return emu_ax == 1;
+	}
+
+	if (buffer->index == 0xFFFF) return false;
+
+	return MPU_IsPlaying(buffer->index) == 1;
 }

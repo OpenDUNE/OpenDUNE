@@ -43,7 +43,7 @@ assert_compile(sizeof(Driver) == 0x26);
 
 MSVC_PACKED_BEGIN
 typedef struct MSBuffer {
-	/* 0000(2)   */ PACK uint16 count;                      /*!< ?? */
+	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
 	/* 0002(4)   */ PACK csip32 buffer;                     /*!< ?? */
 } GCC_PACKED MSBuffer;
 MSVC_PACKED_END
@@ -54,11 +54,13 @@ extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
 extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
 extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008);
+extern bool Driver_Music_IsPlaying();
 
 
 extern void emu_Drivers_All_Init();
 extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
 extern void emu_Drivers_Init();
+extern void emu_Driver_Music_IsPlaying();
 
 #endif /* DRIVER_H */

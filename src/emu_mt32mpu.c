@@ -144,5 +144,3 @@ void emu_MPU_Stop()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
-
-
