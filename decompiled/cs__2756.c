@@ -1530,6 +1530,7 @@ l__0E72:
  * Called From: 1DD7:0A22:0018:FA0A
  * Called From: 1DD7:0AA3:000F:FCBA
  * Called From: 1DD7:1054:000F:FCBA
+ * Called From: 1DD7:1234:0018:FA0A
  */
 void f__2756_0E78_0006_02FC()
 {
@@ -1595,6 +1596,7 @@ l__0EA8:
  * Called From: 1DD7:0A0A:0026:5877
  * Called From: 1DD7:0A94:001E:4A5A
  * Called From: 1DD7:1045:001E:4902
+ * Called From: 1DD7:121C:0026:5877
  */
 void f__2756_0EAE_0006_836B()
 {
