@@ -154,6 +154,7 @@ l__159F:
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x10));
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xE));
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xC));
+		emu_push(driver->index); /* unused, but needed for correct param accesses. */
 		emu_ax = Drivers_CallFunction(driver->index, 0x65).s.ip;
 		emu_sp += 8;
 
