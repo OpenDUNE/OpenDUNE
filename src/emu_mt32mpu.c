@@ -144,3 +144,33 @@ void emu_MPU_Stop()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around MPU_GetDataSize()
+ *
+ * @name emu_MPU_GetDataSize
+ * @implements AB00:2191:0012:DA45 ()
+ */
+void emu_MPU_GetDataSize()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = MPU_GetDataSize();
+}
+
+/**
+ * Emulator wrapper around MPU_GetUnknownSize()
+ *
+ * @name emu_MPU_GetUnknownSize
+ * @implements AB00:0F02:0012:D841 ()
+ */
+void emu_MPU_GetUnknownSize()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = MPU_GetUnknownSize();
+}

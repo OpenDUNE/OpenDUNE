@@ -527,3 +527,13 @@ uint16 MPU_IsPlaying(uint16 index)
 
 	return data->playing;
 }
+
+uint16 MPU_GetDataSize()
+{
+	return sizeof(MSData);
+}
+
+uint16 MPU_GetUnknownSize()
+{
+	return 0;
+}

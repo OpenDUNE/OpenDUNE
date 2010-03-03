@@ -58,6 +58,8 @@ extern void MPU_InitData(MSData *data);
 extern void MPU_Play(uint16 index);
 extern void MPU_Stop(uint16 index);
 extern uint16 MPU_IsPlaying(uint16 index);
+extern uint16 MPU_GetDataSize();
+extern uint16 MPU_GetUnknownSize();
 
 
 extern void emu_MPU_Reset();
@@ -67,5 +69,7 @@ extern void emu_MPU_Interrupt();
 extern void emu_MPU_SetData();
 extern void emu_MPU_Play();
 extern void emu_MPU_Stop();
+extern void emu_MPU_GetDataSize();
+extern void emu_MPU_GetUnknownSize();
 
 #endif /* MT32MPU_H */

@@ -1728,60 +1728,6 @@ l__0E1C:
 }
 
 /**
- * Decompiled function f__AB00_0F02_0012_D841()
- *
- * @name f__AB00_0F02_0012_D841
- * @implements AB00:0F02:0012:D841 ()
- * @implements AB00:0F14:0005:C48A
- *
- * Called From: 2756:050D:0003:6FD4
- */
-void f__AB00_0F02_0012_D841()
-{
-l__0F02:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ds);
-	emu_push(emu_si);
-	emu_push(emu_di);
-	emu_pushf();
-	emu_cli();
-	emu_ax = 0x0;
-	emu_orb(&emu_bh, 0x0);
-	emu_push(emu_cs);
-	emu_push(0x0F14); f__AB00_0F0E_0001_6780();
-l__0F14:
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__AB00_0F0E_0001_6780()
- *
- * @name f__AB00_0F0E_0001_6780
- * @implements AB00:0F0E:0001:6780 ()
- *
- * Called From: AB00:0F11:0012:D841
- */
-void f__AB00_0F0E_0001_6780()
-{
-l__0F0E:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
  * Decompiled function f__AB00_0F24_0044_3584()
  *
  * @name f__AB00_0F24_0044_3584
@@ -2994,60 +2940,6 @@ l__218A:
 void f__AB00_2184_0001_6780()
 {
 l__2184:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
- * Decompiled function f__AB00_2191_0012_DA45()
- *
- * @name f__AB00_2191_0012_DA45
- * @implements AB00:2191:0012:DA45 ()
- * @implements AB00:21A3:0005:C48A
- *
- * Called From: 2756:050D:0003:6FD4
- */
-void f__AB00_2191_0012_DA45()
-{
-l__2191:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ds);
-	emu_push(emu_si);
-	emu_push(emu_di);
-	emu_pushf();
-	emu_cli();
-	emu_ax = 0x208;
-	emu_orb(&emu_bh, 0x0);
-	emu_push(emu_cs);
-	emu_push(0x21A3); f__AB00_219D_0001_6780();
-l__21A3:
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__AB00_219D_0001_6780()
- *
- * @name f__AB00_219D_0001_6780
- * @implements AB00:219D:0001:6780 ()
- *
- * Called From: AB00:21A0:0012:DA45
- */
-void f__AB00_219D_0001_6780()
-{
-l__219D:
 
 	/* Return from this function */
 	emu_pop(&emu_ip);

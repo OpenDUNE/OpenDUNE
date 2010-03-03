@@ -26,11 +26,9 @@ extern void f__2756_0D12_0042_A9FA();
 extern void f__2756_0D5F_0012_AE08();
 extern void f__AB00_045A_0022_EC86();
 extern void f__AB00_0C96_0019_A7D9();
-extern void f__AB00_0F02_0012_D841();
 extern void f__AB00_0F24_0044_3584();
 extern void f__AB00_1FA8_0072_8B95();
 extern void f__AB00_2103_0040_93D2();
-extern void f__AB00_2191_0012_DA45();
 extern void f__AB00_2336_002C_4FDC();
 extern void f__AB00_26EB_0047_41F4();
 
@@ -358,11 +356,11 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x44AF045A: f__AB00_045A_0022_EC86(); break; /* 0x65 */
 		case 0x44AF0C96: f__AB00_0C96_0019_A7D9(); break; /* 0x64 */
-		case 0x44AF0F02: f__AB00_0F02_0012_D841(); break; /* 0x99 */
+		case 0x44AF0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
 		case 0x44AF0F24: f__AB00_0F24_0044_3584(); break; /* 0x9B */
 		case 0x44AF1FA8: f__AB00_1FA8_0072_8B95(); break; /* 0x66 */
 		case 0x44AF2103: f__AB00_2103_0040_93D2(); break; /* 0x68 */
-		case 0x44AF2191: f__AB00_2191_0012_DA45(); break; /* 0x96 */
+		case 0x44AF2191: emu_MPU_GetDataSize(); break; /* 0x96 */
 		case 0x44AF21F0: emu_MPU_SetData(); break; /* 0x97 */
 		case 0x44AF2336: f__AB00_2336_002C_4FDC(); break; /* 0x98 */
 		case 0x44AF237A: emu_MPU_Play(); break; /* 0xAA */
