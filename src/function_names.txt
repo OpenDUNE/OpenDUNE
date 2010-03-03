@@ -199,6 +199,10 @@
 
 2BC2:000A:0044:2E0E	emu_GUI_DrawText	# (string_csip, ?, ?, ?, ?), draw text on the screen
 
+AB00:0443:0017:B488	emu_MPU_SetPort	# (port)
+AB00:045A:0022:EC86	emu_MPU_TestPort	# (unused, port1, port2, port3, port4)
+AB00:1FA8:0072:8B95	emu_MPU_Init	# (unused, port1, port2, port3, port4)
+
 B495:00FE:0017:4E8B	emu_GUI_Production_Down	# (csip) Handles click on down arrow in production/purchase window
 B495:01CB:0016:9CD0	emu_GUI_Production_Up	# (csip) Handles click on up arrow in production/purchase window
 B495:0288:001F:5BC7	emu_GUI_Production_BuildThis	# (csip) Handles click on "Build This"/"Send Order" button in production/purchase window

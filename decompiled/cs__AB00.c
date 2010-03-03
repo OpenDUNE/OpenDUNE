@@ -5,15 +5,15 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__AB00_0443_0017_B488()
+ * Decompiled function emu_MPU_SetPort()
  *
- * @name f__AB00_0443_0017_B488
+ * @name emu_MPU_SetPort
  * @implements AB00:0443:0017:B488 ()
  *
  * Called From: AB00:0479:0022:EC86
  * Called From: AB00:2017:0023:0EE1
  */
-void f__AB00_0443_0017_B488()
+void emu_MPU_SetPort()
 {
 l__0443:
 	emu_push(emu_bp);
@@ -37,9 +37,9 @@ l__0443:
 }
 
 /**
- * Decompiled function f__AB00_045A_0022_EC86()
+ * Decompiled function emu_MPU_TestPort()
  *
- * @name f__AB00_045A_0022_EC86
+ * @name emu_MPU_TestPort
  * @implements AB00:045A:0022:EC86 ()
  * @implements AB00:047C:0007:6C67
  * @implements AB00:0483:0011:6258
@@ -47,7 +47,7 @@ l__0443:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_045A_0022_EC86()
+void emu_MPU_TestPort()
 {
 l__045A:
 	emu_push(emu_bp);
@@ -64,7 +64,7 @@ l__045A:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_cs);
-	emu_push(0x047C); f__AB00_0443_0017_B488();
+	emu_push(0x047C); emu_MPU_SetPort();
 l__047C:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_cs);
@@ -2639,9 +2639,9 @@ l__1CE5:
 }
 
 /**
- * Decompiled function f__AB00_1FA8_0072_8B95()
+ * Decompiled function emu_MPU_Init()
  *
- * @name f__AB00_1FA8_0072_8B95
+ * @name emu_MPU_Init
  * @implements AB00:1FA8:0072:8B95 ()
  * @implements AB00:1FF7:0023:0EE1
  * @implements AB00:201A:0007:9E7E
@@ -2663,7 +2663,7 @@ l__1CE5:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_1FA8_0072_8B95()
+void emu_MPU_Init()
 {
 l__1FA8:
 	emu_push(emu_bp);
@@ -2710,7 +2710,7 @@ l__1FF7:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_cs);
-	emu_push(0x201A); f__AB00_0443_0017_B488();
+	emu_push(0x201A); emu_MPU_SetPort();
 l__201A:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_cs);
