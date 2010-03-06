@@ -139,11 +139,11 @@ typedef struct GlobalData {
 	                                                         *   "\r\n" NULL terminated. */
 	/* 015D(36)  */ PACK char   string_015D[36];            /*!< "Insufficient memory by %ld bytes.\r\n" NULL terminated. */
 	/* 0181(29)  */ PACK char   string_0181[29];            /*!< "Unrecognized graphic mode!\r\n" NULL terminated. */
-	/* 019E(121) */ PACK char   string_019D[121];           /*!< "Program in memory: %ld\n"
-	                                                         *   "Buffer allocations: %ld\n"
-	                                                         *   "Misc allocations: %ld\"
-	                                                         *   "Spare RAM: %ld\"
-	                                                         *   "DOS prompt memory free must be %ld.\n" NULL terminated. */
+	/* 019E(121) */ PACK char   string_019E[121];           /*!< "Program in memory: %ld\r"
+	                                                         *   "Buffer allocations: %ld\r"
+	                                                         *   "Misc allocations: %ld\r"
+	                                                         *   "Spare RAM: %ld\r"
+	                                                         *   "DOS prompt memory free must be %ld.\r" NULL terminated. */
 	/* 0217()    */ PACK uint8   unknown_0217[0x0B43];
 	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
