@@ -343,6 +343,7 @@ extern void emu_MPU_SetPort();
 extern void f__15C2_044C_0012_C66D();
 extern void f__0EDB_0456_0032_B7E5();
 extern void emu_MPU_TestPort();
+extern void f__217E_046B_0058_3F3A();
 extern void f__151A_046F_0017_2508();
 extern void f__B483_0470_000E_519D();
 extern void emu_GUI_Purchase_Minus();
