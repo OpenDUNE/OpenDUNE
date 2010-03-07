@@ -689,18 +689,19 @@ void Main()
 	memoryNeeded = 0;
 
 	if (config->voiceDrv == 4) {
-		memoryNeeded += 0x3E80 + 0x7D0;
+		memoryNeeded += 16000 + 2000;
 	} else if (config->voiceDrv != 0) {
-		memoryNeeded += 0x3E80;
+		memoryNeeded += 16000;
 	}
 
 	if (config->musicDrv == 1) {
-		memoryNeeded += 0x59D8;
+		memoryNeeded += 23000;
 	} else if (config->musicDrv != 0) {
-		memoryNeeded += 0x7530;
+		memoryNeeded += 30000;
 	}
 
-	memoryNeeded += 0x1770;
+	memoryNeeded += 6000;
+	memoryNeeded += 542000;
 
 	/* The size of the dune2.exe binary in memory */
 	g_global->sizeExecutable = emu_get_memory16(g_global->PSP - 1, 0, 3) << 4;
@@ -709,13 +710,13 @@ void Main()
 	emu_push(emu_cs); emu_push(0x0086); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
 	g_global->memoryFree = g_global->sizeExecutable + (emu_dx << 16) + emu_ax;
 
-	if (memoryNeeded + 0x84530 > g_global->memoryFree) {
-		printf("Insufficient memory by %d bytes.\n", memoryNeeded + 0x84530 - g_global->memoryFree);
+	if (memoryNeeded > g_global->memoryFree) {
+		printf("Insufficient memory by %d bytes.\n", memoryNeeded - g_global->memoryFree);
 		exit(1);
 	}
 
 	if (config->useXMS) {
-		uint32 loc = memoryNeeded + 0x84530 - g_global->sizeExecutable;
+		uint32 loc = memoryNeeded - g_global->sizeExecutable;
 
 		emu_push(1);
 		emu_push(0xD); emu_push(0xE2B0);
@@ -726,7 +727,7 @@ void Main()
 
 		if (emu_ax != 0) exit(1);
 	} else {
-		uint32 loc = memoryNeeded + 0x84530 - g_global->sizeExecutable;
+		uint32 loc = memoryNeeded - g_global->sizeExecutable;
 
 		emu_push(0);
 		emu_push(0); emu_push(0);
