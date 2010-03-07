@@ -10,7 +10,7 @@ MSVC_PACKED_BEGIN
  * This is the layout of decoded dune.cfg.
  */
 typedef struct DuneCfg {
-	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
+	/* 0000(1)   */ PACK uint8  graphicDrv;                 /*!< Graphic mode to use. */
 	/* 0001(1)   */ PACK uint8  musicDrv;                   /*!< Index into music drivers array. */
 	/* 0002(1)   */ PACK uint8  soundDrv;                   /*!< Index into sound drivers array. */
 	/* 0003(1)   */ PACK uint8  voiceDrv;                   /*!< Index into digitized sound drivers array. */

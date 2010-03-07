@@ -26,14 +26,19 @@ extern void f__10E4_0675_0026_F126();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1A34_27A8_0012_7198();
+extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_01EB_0013_9C3C();
 extern void f__22A6_0796_000B_9035();
+extern void f__23E1_0004_0014_2BC0();
+extern void f__23E1_0334_000B_CF65();
+extern void f__23E1_01C2_0011_24E8();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
 extern void emu_Tools_RandomRange();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
+extern void f__25C4_000E_0019_12FF();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -62,10 +67,12 @@ extern void emu_GUI_ShowMap();
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_Gameloop_IntroMenu();
 extern void emu_InGame_Numpad_Move();
+extern void emu_Input_Flags_SetBits();
 extern void emu_Map_SetSelectionObjectPosition();
 extern void emu_Security_Main();
 extern void emu_Sound_PlayDuneInit();
 extern void emu_String_Load();
+extern void emu_String_printf();
 extern void emu_Terminate_Normal();
 extern void emu_Tile_Center();
 extern void emu_Tile_PackTile();
@@ -410,24 +417,9 @@ static void GameLoop_LevelEnd()
 }
 
 /**
- * Decompiled function emu_GameLoop_Main()
- *
- * @name emu_GameLoop_Main
- * @implements 0642:000C:001A:AF29 ()
- */
-void emu_GameLoop_Main()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GameLoop_Main();
-}
-
-/**
  * Main game loop.
  */
-void GameLoop_Main()
+static void GameLoop_Main()
 {
 	uint16 key;
 
@@ -674,4 +666,175 @@ void GameLoop_Main()
 	emu_push(g_global->variable_992D);
 	emu_push(emu_cs); emu_push(0x0471); emu_cs = 0x2C17; f__2C17_000C_002F_3016();
 	emu_sp += 16;
+}
+
+void Main()
+{
+	DuneCfg *config;
+	uint32 memoryNeeded;
+
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_sp -= 0xCC;
+
+	config = (DuneCfg *)&emu_get_memory8(0x353F, 0x98E1, 0);
+	if (!Config_Read("dune.cfg", config)) {
+		printf("\r\nThe setup program must be run first.\r\n"
+		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
+		       "\r\nLe programme de configuration doit d'abord être lancé.\r\n"
+		       "\r\n");
+		exit(1);
+	}
+
+	memoryNeeded = 0;
+
+	if (config->voiceDrv == 4) {
+		memoryNeeded += 0x3E80 + 0x7D0;
+	} else if (config->voiceDrv != 0) {
+		memoryNeeded += 0x3E80;
+	}
+
+	if (config->musicDrv == 1) {
+		memoryNeeded += 0x59D8;
+	} else if (config->musicDrv != 0) {
+		memoryNeeded += 0x7530;
+	}
+
+	memoryNeeded += 0x1770;
+
+	/* The size of the dune2.exe binary in memory */
+	g_global->sizeExecutable = emu_get_memory16(g_global->PSP - 1, 0, 3) << 4;
+
+	/* Get the amount of free memory */
+	emu_push(emu_cs); emu_push(0x0086); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	g_global->memoryFree = g_global->sizeExecutable + (emu_dx << 16) + emu_ax;
+
+	if (memoryNeeded + 0x84530 > g_global->memoryFree) {
+		printf("Insufficient memory by %d bytes.\n", memoryNeeded + 0x84530 - g_global->memoryFree);
+		exit(1);
+	}
+
+	if (config->useXMS) {
+		uint32 loc = memoryNeeded + 0x84530 - g_global->sizeExecutable;
+
+		emu_push(1);
+		emu_push(0xD); emu_push(0xE2B0);
+		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
+		emu_push(emu_ds); emu_push(0xB2); /* "DUNE2.EXE" */
+		emu_push(emu_cs); emu_push(0x0114); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
+		emu_sp += 14;
+
+		if (emu_ax != 0) exit(1);
+	} else {
+		uint32 loc = memoryNeeded + 0x84530 - g_global->sizeExecutable;
+
+		emu_push(0);
+		emu_push(0); emu_push(0);
+		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
+		emu_push(emu_ds); emu_push(0xB2); /* "DUNE2.EXE" */
+		emu_push(emu_cs); emu_push(0x0149); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
+		emu_sp += 14;
+
+		if (emu_ax != 0) exit(1);
+	}
+
+	if (config->useXMS) {
+		emu_push(0x40);
+		emu_push(0); emu_push(1);
+		emu_push(emu_cs); emu_push(0x0169); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_sp += 6;
+
+		if (emu_ax == 0 && emu_dx == 0) {
+			config->voiceDrv = 0;
+		} else {
+			emu_push(emu_dx); emu_push(emu_ax);
+			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_sp += 4;
+		}
+	} else {
+		config->voiceDrv = 0;
+	}
+
+	if (!config->useMouse) {
+		emu_push(0x3000);
+		emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
+		emu_sp += 2;
+	}
+
+	g_global->variable_6C76 = 3;
+
+	if (config->graphicDrv >= 7 && config->graphicDrv <= 12 && config->graphicDrv != 9) {
+		g_global->variable_6C76 = 3;
+	} else {
+		printf("Unrecognized graphic mode!\n");
+		exit(1);
+	}
+
+	if (config->musicDrv >= 8 && config->musicDrv <= 12) {
+		config->musicDrv = 1;
+	}
+
+	g_global->variable_6CD3[0][0] = 0xFA00;
+	g_global->variable_6CD3[0][1] = 0xFA00;
+	g_global->variable_6CD3[1][0] = 0xFBF4;
+	g_global->variable_6CD3[1][1] = 0xFBF4;
+	g_global->variable_6CD3[2][0] = 0xFA00;
+	g_global->variable_6CD3[2][1] = 0xFA00;
+	g_global->variable_6CD3[3][0] = 0xFD0D;
+	g_global->variable_6CD3[3][1] = 0xFD0D;
+	g_global->variable_6CD3[4][0] = 0xA044;
+	g_global->variable_6CD3[4][1] = 0xA044;
+
+	if (!config->useXMS) {
+		config->voiceDrv = 0;
+	}
+
+	Drivers_All_Init(config->soundDrv, config->musicDrv, config->voiceDrv);
+
+	emu_push(1);
+	emu_push(g_global->variable_0094.s.cs); emu_push(g_global->variable_0094.s.ip); /* Pointer to "new8p.fnt" */
+	emu_push(g_global->variable_6C76);
+	emu_push(emu_cs); emu_push(0x02A2); emu_cs = 0x25C4; f__25C4_000E_0019_12FF();
+	emu_sp += 8;
+	if (emu_ax == 0) exit(1);
+
+	g_global->variable_6C80.s.cs = 0x353B; g_global->variable_6C80.s.ip = 0x20; /* emu_File_Error_Wrapper */
+	g_global->variable_6C84 = 0x25284000;
+
+	g_global->variable_7097 = 0;
+
+	GameLoop_Main();
+
+	emu_push(emu_cs); emu_push(0x02DC); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+
+	emu_push(0x141); /* "Thank you for playing Dune II." */
+	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+	emu_sp += 2;
+
+	emu_push(emu_dx); emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x02ED); emu_cs = 0x01F7; emu_String_printf();
+	emu_sp += 4;
+
+	/* XXX -- Debug code */
+	if (0) {
+		uint32 bufferSize = 0;
+		uint16 i;
+		for (i = 1; i < 5; i++) {
+			bufferSize += g_global->variable_6CD3[i][1];
+		}
+
+		printf("Program in memory: %d\n"
+		       "Buffer allocations: %d\n"
+		       "Misc allocations: %d\n"
+		       "Spare RAM: %d\n"
+		       "DOS prompt memory free must be %d.\n",
+			g_global->sizeExecutable,
+			bufferSize,
+			g_global->variable_66F4 - (bufferSize + g_global->variable_00A4),
+			g_global->memoryFree - (g_global->sizeExecutable + g_global->variable_66F4 - g_global->variable_00A4),
+			g_global->sizeExecutable + g_global->variable_66F4 - g_global->variable_00A4
+		);
+	}
+
+	exit(0);
 }

@@ -51,7 +51,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B42_0000_0022_1DB2();
 extern void f__2BD6_0000_0015_24A9();
 extern void f__2BF2_0000_0007_42B5();
-extern void f__B480_0000_0018_A09B();
 extern void f__B483_0000_0019_F96A();
 extern void f__B488_0000_0027_45A9();
 extern void f__B48B_0000_001E_7E97();

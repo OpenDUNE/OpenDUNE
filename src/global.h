@@ -125,11 +125,9 @@ typedef struct GlobalData {
 	/* 0093()    */ PACK uint8   unknown_0093[0x0001];
 	/* 0094()    */ PACK csip32 variable_0094;              /*!< ?? Pointer to string_00A8. */
 	/* 0098()    */ PACK csip32 variable_0098;              /*!< ?? Pointer to string_00B2. */
-	/* 009C(2)   */ PACK uint16 variable_009C;              /*!< ?? */
-	/* 009E(2)   */ PACK uint16 variable_009E;              /*!< ?? */
-	/* 00A0(2)   */ PACK uint16 variable_00A0;              /*!< ?? */
-	/* 00A2(2)   */ PACK uint16 variable_00A2;              /*!< ?? */
-	/* 00A4()    */ PACK uint8   unknown_00A4[0x0004];
+	/* 009C(4)   */ PACK uint32 sizeExecutable;             /*!< The size, in bytes, of the executable as loaded in the memory. */
+	/* 00A0(4)   */ PACK uint32 memoryFree;                 /*!< The amount of free bytes in the memory. */
+	/* 00A4(4)   */ PACK uint32 variable_00A4;              /*!< ?? */
 	/* 00A8(10)  */ PACK char   string_00A8[10];            /*!< "new8p.fnt" NULL terminated. */
 	/* 00B2(10)  */ PACK char   string_00B2[10];            /*!< "DUNE2.EXE" NULL terminated. */
 	/* 00BC(10)  */ PACK char   string_00BC[9];             /*!< "DUNE.CFG" NULL terminated. */
@@ -976,8 +974,7 @@ typedef struct GlobalData {
 	/* 66EC(4)   */ PACK csip32 variable_66EC;              /*!< CS:IP of routine. */
 	/* 66F0(2)   */ PACK uint16 variable_66F0;              /*!< ?? */
 	/* 66F2(2)   */ PACK uint16 variable_66F2;              /*!< ?? */
-	/* 66F4(2)   */ PACK uint16 variable_66F4;              /*!< ?? */
-	/* 66F6(2)   */ PACK uint16 variable_66F6;              /*!< ?? */
+	/* 66F4(4)   */ PACK uint32 variable_66F4;              /*!< ?? */
 	/* 66F8(2)   */ PACK uint16 variable_66F8;              /*!< ?? */
 	/* 66FA(2)   */ PACK uint16 variable_66FA;              /*!< ?? */
 	/* 66FC()    */ PACK uint8   unknown_66FC[0x0004];
@@ -1060,7 +1057,8 @@ typedef struct GlobalData {
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
-	/* 6C84()    */ PACK uint8   unknown_6C84[0x000D];
+	/* 6C84(4)   */ PACK uint32 variable_6C84;              /*!< ?? */
+	/* 6C88()    */ PACK uint8   unknown_6C88[0x0009];
 	/* 6C91(2)   */ PACK uint16 variable_6C91;              /*!< ?? */
 	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
