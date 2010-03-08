@@ -11,7 +11,7 @@
  * Emulator wrapper around MPU_Reset()
  *
  * @name emu_MPU_Reset
- * @implements AB00:050D:0013:8F78 ()
+ * @implements AB01:050D:0013:8F78 ()
  */
 void emu_MPU_Reset()
 {
@@ -26,7 +26,7 @@ void emu_MPU_Reset()
  * Emulator wrapper around MPU_UART()
  *
  * @name emu_MPU_UART
- * @implements AB00:0543:0013:0ECE ()
+ * @implements AB01:0543:0013:0ECE ()
  */
 void emu_MPU_UART()
 {
@@ -41,7 +41,7 @@ void emu_MPU_UART()
  * Emulator wrapper around MPU_WriteData()
  *
  * @name emu_MPU_WriteData
- * @implements AB00:0499:0014:F091 ()
+ * @implements AB01:0499:0014:F091 ()
  */
 void emu_MPU_WriteData()
 {
@@ -60,7 +60,7 @@ void emu_MPU_WriteData()
  * Emulator wrapper around MPU_Interrupt()
  *
  * @name emu_MPU_Interrupt
- * @implements AB00:1CEE:0015:5BCF ()
+ * @implements AB01:1CEE:0015:5BCF ()
  */
 void emu_MPU_Interrupt()
 {
@@ -75,7 +75,7 @@ void emu_MPU_Interrupt()
  * Emulator wrapper around MPU_SetData()
  *
  * @name emu_MPU_SetData
- * @implements AB00:21F0:0024:C4F7 ()
+ * @implements AB01:21F0:0024:C4F7 ()
  */
 void emu_MPU_SetData()
 {
@@ -101,7 +101,7 @@ void emu_MPU_SetData()
  * Emulator wrapper around MPU_Play()
  *
  * @name emu_MPU_Play
- * @implements AB00:237A:002C:07AF ()
+ * @implements AB01:237A:002C:07AF ()
  */
 void emu_MPU_Play()
 {
@@ -125,7 +125,7 @@ void emu_MPU_Play()
  * Emulator wrapper around MPU_Stop()
  *
  * @name emu_MPU_Stop
- * @implements AB00:240F:0029:C429 ()
+ * @implements AB01:240F:0029:C429 ()
  */
 void emu_MPU_Stop()
 {
@@ -149,7 +149,7 @@ void emu_MPU_Stop()
  * Emulator wrapper around MPU_GetDataSize()
  *
  * @name emu_MPU_GetDataSize
- * @implements AB00:2191:0012:DA45 ()
+ * @implements AB01:2191:0012:DA45 ()
  */
 void emu_MPU_GetDataSize()
 {
@@ -164,7 +164,7 @@ void emu_MPU_GetDataSize()
  * Emulator wrapper around MPU_GetUnknownSize()
  *
  * @name emu_MPU_GetUnknownSize
- * @implements AB00:0F02:0012:D841 ()
+ * @implements AB01:0F02:0012:D841 ()
  */
 void emu_MPU_GetUnknownSize()
 {

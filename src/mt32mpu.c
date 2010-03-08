@@ -9,13 +9,13 @@
 #include "os/math.h"
 #include "os/endian.h"
 
-extern void f__AB00_08CE_005F_AC14();
-extern void f__AB00_16B7_0039_7EF1();
-extern void f__AB00_184D_004F_7B67();
-extern void f__AB00_18AC_0082_307C();
-extern void f__AB00_1A90_002B_D292();
-extern void f__AB00_1B48_0023_740C();
-extern void f__AB00_1C49_0022_C4C7();
+extern void f__AB01_08CE_005F_AC14();
+extern void f__AB01_16B7_0039_7EF1();
+extern void f__AB01_184D_004F_7B67();
+extern void f__AB01_18AC_0082_307C();
+extern void f__AB01_1A90_002B_D292();
+extern void f__AB01_1B48_0023_740C();
+extern void f__AB01_1C49_0022_C4C7();
 
 static bool MPU_WriteCommand(uint8 command)
 {
@@ -140,7 +140,7 @@ void MPU_Interrupt()
 				emu_push(0);
 				emu_push(note);
 				emu_push(0x80 | chan);
-				emu_push(emu_cs); emu_push(0x1E10); f__AB00_08CE_005F_AC14();
+				emu_push(emu_cs); emu_push(0x1E10); f__AB01_08CE_005F_AC14();
 				emu_sp += 6;
 
 				data->noteOnCount--;
@@ -176,9 +176,9 @@ void MPU_Interrupt()
 					if (status >= 0xF0) {
 						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 						if (chan != 0xF) {
-							emu_push(emu_cs); emu_push(0x1EA8); f__AB00_1C49_0022_C4C7();
+							emu_push(emu_cs); emu_push(0x1EA8); f__AB01_1C49_0022_C4C7();
 						} else {
-							emu_push(emu_cs); emu_push(0x1EB5); f__AB00_1B48_0023_740C();
+							emu_push(emu_cs); emu_push(0x1EB5); f__AB01_1B48_0023_740C();
 						}
 						emu_sp += 4;
 						nb = emu_ax;
@@ -191,7 +191,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB00_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x3;
@@ -200,7 +200,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB00_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x2;
@@ -211,7 +211,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB00_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x2;
@@ -220,7 +220,7 @@ void MPU_Interrupt()
 						emu_push(data1);
 						emu_push(chan);
 						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1EC5); f__AB00_18AC_0082_307C();
+						emu_push(emu_cs); emu_push(0x1EC5); f__AB01_18AC_0082_307C();
 						emu_sp += 10;
 						nb = 0x3;
 					} else if (status >= 0xA0) {
@@ -228,13 +228,13 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB00_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x3;
 					} else {
 						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1E96); f__AB00_1A90_002B_D292();
+						emu_push(emu_cs); emu_push(0x1E96); f__AB01_1A90_002B_D292();
 						emu_sp += 4;
 						nb = emu_ax;
 					}
@@ -291,7 +291,7 @@ void MPU_Interrupt()
 					data->variable_0024 = min(data->variable_0024 + i, data->variable_0026);
 				}
 				emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x1FA2); f__AB00_184D_004F_7B67();
+				emu_push(emu_cs); emu_push(0x1FA2); f__AB01_184D_004F_7B67();
 				emu_sp += 4;
 			}
 		}
@@ -471,7 +471,7 @@ void MPU_StopAllNotes(MSData *data)
 		emu_push(0);
 		emu_push(note);
 		emu_push(0x80 | chan);
-		emu_push(emu_cs); emu_push(0x16A2); f__AB00_08CE_005F_AC14();
+		emu_push(emu_cs); emu_push(0x16A2); f__AB01_08CE_005F_AC14();
 		emu_sp += 6;
 	}
 
@@ -496,7 +496,7 @@ void MPU_Stop(uint16 index)
 	MPU_StopAllNotes(data);
 
 	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x2441); f__AB00_16B7_0039_7EF1();
+	emu_push(emu_cs); emu_push(0x2441); f__AB01_16B7_0039_7EF1();
 	emu_sp += 4;
 
 	data->playing = 0;
