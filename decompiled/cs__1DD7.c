@@ -1572,6 +1572,7 @@ l__0EDC:
  *
  * @name emu_Drivers_Voice_Init
  * @implements 1DD7:0EE2:003D:B019 ()
+ * @implements 1DD7:0F1F:000E:02E3
  * @implements 1DD7:0F29:0004:68F2
  * @implements 1DD7:0F2D:0005:8BCF
  *
@@ -1607,7 +1608,12 @@ l__0EE2:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
 	emu_push(0x0F1F); emu_Drivers_Init();
-	/* Unresolved jump */ emu_ip = 0x0F1F; emu_last_cs = 0x1DD7; emu_last_ip = 0x0F1F; emu_last_length = 0x003D; emu_last_crc = 0xB019; emu_call();
+l__0F1F:
+	emu_addw(&emu_sp, 0xE);
+	emu_orw(&emu_ax, emu_ax);
+	if (emu_ax == 0) {
+		emu_xorw(&emu_si, emu_si);
+	}
 l__0F29:
 	emu_ax = emu_si;
 	goto l__0F2D;
