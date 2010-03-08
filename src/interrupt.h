@@ -12,6 +12,6 @@ extern void Interrupt_User_Clock();
 extern void Interrupt_DOS();
 extern void Interrupt_DOS_Multiplex();
 extern void Interrupt_Mouse();
-extern void Interrupt_XMS();
+extern void Handler_XMS();
 
 #endif /* INTERRUPT_H */
