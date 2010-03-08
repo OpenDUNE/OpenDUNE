@@ -20,6 +20,8 @@
  * @implements 2BC2:00DE:000B:4026
  * @implements 2BC2:00E9:000B:EA84
  *
+ * Called From: 0642:0B44:0006:7161
+ * Called From: 0642:0B44:001D:FC53
  * Called From: 10E4:0459:002F:F19C
  * Called From: 10E4:207B:0014:77A1
  * Called From: B491:06CB:002D:EBCE

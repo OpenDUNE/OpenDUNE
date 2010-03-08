@@ -882,6 +882,8 @@ l__0715:
  * @implements 1DD7:0719:0014:A78C ()
  * @implements 1DD7:072D:0014:9BBE
  * @implements 1DD7:0741:003F:4F2C
+ * @implements 1DD7:0780:0009:010C
+ * @implements 1DD7:0789:000F:9F20
  * @implements 1DD7:078C:000C:7647
  * @implements 1DD7:0798:0017:34D9
  * @implements 1DD7:07AF:000B:EB5E
@@ -892,6 +894,7 @@ l__0715:
  * @implements 1DD7:0884:0002:8EBA
  * @implements 1DD7:0886:0004:893F
  *
+ * Called From: 0642:0AF7:0016:8598
  * Called From: B483:02F3:0019:9BD8
  * Called From: B483:0329:001C:FF11
  */
@@ -916,9 +919,9 @@ l__0741:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x635C);
 	emu_dx = emu_get_memory16(emu_ds, 0x00, 0x635A);
 	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x631A));
-	if (emu_ax != emu_get_memory16(emu_ds, 0x00, 0x631A)) { /* Unresolved jump */ emu_ip = 0x0780; emu_last_cs = 0x1DD7; emu_last_ip = 0x074C; emu_last_length = 0x003F; emu_last_crc = 0x4F2C; emu_call(); return; }
+	if (emu_ax != emu_get_memory16(emu_ds, 0x00, 0x631A)) goto l__0780;
 	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x6318));
-	if (emu_dx != emu_get_memory16(emu_ds, 0x00, 0x6318)) { /* Unresolved jump */ emu_ip = 0x0780; emu_last_cs = 0x1DD7; emu_last_ip = 0x0752; emu_last_length = 0x003F; emu_last_crc = 0x4F2C; emu_call(); return; }
+	if (emu_dx != emu_get_memory16(emu_ds, 0x00, 0x6318)) goto l__0780;
 	emu_get_memory16(emu_ds, 0x00, 0x635C) = 0x0;
 	emu_get_memory16(emu_ds, 0x00, 0x635A) = 0x0;
 	emu_get_memory16(emu_ds, 0x00, 0x6364) = 0x0;
@@ -927,6 +930,15 @@ l__0741:
 	emu_get_memory16(emu_ds, 0x00, 0x635E) = 0x0;
 	emu_get_memory16(emu_ds, 0x00, 0x6366) = 0x0;
 	goto l__078C;
+l__0780:
+	emu_push(emu_ds);
+	emu_ax = 0x6344;
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x0789); f__1DD7_1BB4_002A_17AC();
+l__0789:
+	emu_pop(&emu_cx);
+	emu_pop(&emu_cx);
 l__078C:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x631C);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x631E));
@@ -1011,6 +1023,7 @@ l__0886:
  * @implements 1DD7:08EE:000E:5C89 ()
  * @implements 1DD7:08FC:0005:BA32
  *
+ * Called From: 0642:0B02:000B:9D91
  * Called From: B483:035A:0012:13DA
  * Called From: B483:035A:0015:564E
  */
@@ -2504,6 +2517,7 @@ l__1BAF:
  * @implements 1DD7:1C02:003A:4038
  *
  * Called From: 1DD7:063D:0009:C117
+ * Called From: 1DD7:0786:0009:010C
  * Called From: 1DD7:1980:000A:5658
  */
 void f__1DD7_1BB4_002A_17AC()
