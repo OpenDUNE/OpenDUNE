@@ -27,5 +27,6 @@ extern void emu_File_Obsolete1();
 extern void emu_File_Obsolete2();
 extern void emu_File_Obsolete3();
 extern void emu_File_Obsolete4();
+extern void emu_File_Obsolete5();
 
 #endif /* FILE_H */
