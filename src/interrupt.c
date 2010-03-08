@@ -157,3 +157,19 @@ void Interrupt_Mouse()
 	emu_popf();
 	return;
 }
+
+/**
+ * XMS Handler.
+ *
+ * @name Handler_XMS
+ * @implements 0070:07D0:0002:C33A ()
+ */
+void f__0070_07D0_0002_C33A()
+{
+	emu_syscall(0xFB);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
+}
