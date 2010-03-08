@@ -579,6 +579,7 @@ l__02BB:
  * Called From: 217E:03D0:001A:D1EE
  * Called From: 217E:0551:0020:2849
  * Called From: 217E:0551:0017:FADA
+ * Called From: 217E:0BE4:000E:81D5
  */
 void emu_Empty5()
 {
@@ -1472,6 +1473,7 @@ l__0587:
  *
  * @name emu_Tools_Shld_Wrapper
  * @implements 01F7:058B:0018:D9CF ()
+ * @implements 01F7:058E:0015:CED2
  *
  * Called From: 01F7:1AF5:0010:0EEE
  */
@@ -1482,6 +1484,33 @@ l__058B:
 	emu_push(emu_cs);
 	emu_push(emu_bx);
 	emu_Tools_Shld(); return;
+}
+
+/**
+ * Decompiled function f__01F7_05CF_0015_0AD7()
+ *
+ * @name f__01F7_05CF_0015_0AD7
+ * @implements 01F7:05CF:0015:0AD7 ()
+ *
+ * Called From: 2649:0141:0049:FCE0
+ */
+void f__01F7_05CF_0015_0AD7()
+{
+l__05CF:
+	emu_cmpb(&emu_cl, 0x10);
+	if (emu_cl >= 0x10) { /* Unresolved jump */ emu_ip = 0x05E4; emu_last_cs = 0x01F7; emu_last_ip = 0x05D2; emu_last_length = 0x0015; emu_last_crc = 0x0AD7; emu_call(); return; }
+	emu_bx = emu_dx;
+	emu_shrw(&emu_ax, emu_cl);
+	emu_shrw(&emu_dx, emu_cl);
+	emu_negb(&emu_cl, emu_cl);
+	emu_addb(&emu_cl, 0x10);
+	emu_shlw(&emu_bx, emu_cl);
+	emu_orw(&emu_ax, emu_bx);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	return;
 }
 
 /**
