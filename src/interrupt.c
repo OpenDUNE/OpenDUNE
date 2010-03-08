@@ -164,7 +164,7 @@ void Interrupt_Mouse()
  * @name Handler_XMS
  * @implements 0070:07D0:0002:C33A ()
  */
-void f__0070_07D0_0002_C33A()
+void Handler_XMS()
 {
 	emu_syscall(0xFB);
 
