@@ -14,6 +14,7 @@
 extern void emu_CustomTimer_AddHandler();
 extern void emu_Drivers_Voice_Init();
 extern void emu_Drivers_Load();
+extern void f__1DD7_14C5_000A_A995();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__23E1_0004_0014_2BC0();
 extern void f__23E1_01C2_0011_24E8();
@@ -25,6 +26,8 @@ extern void f__2756_0C31_0037_2A81();
 extern void f__2756_0D12_0042_A9FA();
 extern void f__2756_0D5F_0012_AE08();
 extern void emu_MPU_TestPort();
+extern void f__AB00_0B73_0019_AD43();
+extern void f__AB00_0C3F_006F_09A2();
 extern void f__AB01_0C96_0019_A7D9();
 extern void f__AB01_0F24_0044_3584();
 extern void emu_MPU_Init();
@@ -147,7 +150,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 		strcpy(driver->extension, "xmi");
 
 		if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
-			/* Unresolved jump */ emu_ip = 0x14C5; emu_last_cs = 0x1DD7; emu_last_ip = 0x14C5; emu_last_length = 0x0017; emu_last_crc = 0x7098; emu_call(); return false;
+			f__1DD7_14C5_000A_A995();
 		}
 l__159F:
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
@@ -356,6 +359,8 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	emu_cs = csip.s.cs;
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x44AF045A: emu_MPU_TestPort(); break; /* 0x65 */
+		case 0x44AF0B73: f__AB00_0B73_0019_AD43(); break; /* 0x64 */
+		case 0x44AF0C3F: f__AB00_0C3F_006F_09A2(); break; /* 0x65 */
 		case 0x44AF0C96: f__AB01_0C96_0019_A7D9(); break; /* 0x64 */
 		case 0x44AF0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
 		case 0x44AF0F24: f__AB01_0F24_0044_3584(); break; /* 0x9B */

@@ -1689,6 +1689,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\decompiled\cs__AB00.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\decompiled\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\decompiled\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\decompiled\cs__AB01.c"
 				>
 				<FileConfiguration
@@ -2297,15 +2317,15 @@
 			Name="include"
 			>
 			<File
-				RelativePath="..\include\libemu.h"
-				>
-			</File>
-			<File
 				RelativePath="..\include\libemu_bios.h"
 				>
 			</File>
 			<File
 				RelativePath="..\include\libemu_call.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\libemu.h"
 				>
 			</File>
 			<File
@@ -3300,10 +3320,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\gui\widget.h"
-					>
-				</File>
-				<File
 					RelativePath="..\src\gui\widget_click.c"
 					>
 					<FileConfiguration
@@ -3342,6 +3358,10 @@
 							ObjectFile="$(IntDir)\src\gui\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\gui\widget.h"
+					>
 				</File>
 			</Filter>
 			<Filter
