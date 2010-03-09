@@ -5,15 +5,15 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__AB00_0169_001D_2693()
+ * Decompiled function emu_DSP_Write()
  *
- * @name f__AB00_0169_001D_2693
+ * @name emu_DSP_Write
  * @implements AB00:0169:001D:2693 ()
  * @implements AB00:0186:000C:4828
  *
  * Called From: AB00:0CAB:006F:09A2
  */
-void f__AB00_0169_001D_2693()
+void emu_DSP_Write()
 {
 l__0169:
 	emu_push(emu_bp);
@@ -53,15 +53,15 @@ l__0186:
 }
 
 /**
- * Decompiled function f__AB00_0192_0019_263B()
+ * Decompiled function emu_DSP_Read()
  *
- * @name f__AB00_0192_0019_263B
+ * @name emu_DSP_Read
  * @implements AB00:0192:0019:263B ()
  * @implements AB00:01AB:000C:E897
  *
  * Called From: AB00:0252:000D:8FCB
  */
-void f__AB00_0192_0019_263B()
+void emu_DSP_Read()
 {
 l__0192:
 	emu_push(emu_ds);
@@ -97,9 +97,9 @@ l__01AB:
 }
 
 /**
- * Decompiled function f__AB00_01B7_003B_56B4()
+ * Decompiled function emu_DSP_WriteAndWait()
  *
- * @name f__AB00_01B7_003B_56B4
+ * @name emu_DSP_WriteAndWait
  * @implements AB00:01B7:003B:56B4 ()
  * @implements AB00:01C8:002A:54DE
  * @implements AB00:01DE:0014:5923
@@ -110,7 +110,7 @@ l__01AB:
  * Called From: AB00:0683:0013:FC0C
  * Called From: AB00:0698:0015:89F7
  */
-void f__AB00_01B7_003B_56B4()
+void emu_DSP_WriteAndWait()
 {
 l__01B7:
 	emu_push(emu_bp);
@@ -154,9 +154,9 @@ l__01DE:
 }
 
 /**
- * Decompiled function f__AB00_023A_001B_A31C()
+ * Decompiled function emu_DSP_Reset()
  *
- * @name f__AB00_023A_001B_A31C
+ * @name emu_DSP_Reset
  * @implements AB00:023A:001B:A31C ()
  * @implements AB00:0248:000D:8FCB
  * @implements AB00:0255:000F:8760
@@ -164,7 +164,7 @@ l__01DE:
  *
  * Called From: AB00:0CC3:0007:9688
  */
-void f__AB00_023A_001B_A31C()
+void emu_DSP_Reset()
 {
 l__023A:
 	emu_push(emu_ds);
@@ -181,7 +181,7 @@ l__0248:
 	emu_outb(emu_dx, emu_al);
 	emu_si = 0x10;
 	emu_push(emu_cs);
-	emu_push(0x0255); f__AB00_0192_0019_263B();
+	emu_push(0x0255); emu_DSP_Read();
 l__0255:
 	emu_cmpw(&emu_ax, 0xAA);
 	if (emu_ax != 0xAA) {
@@ -289,14 +289,14 @@ l__03A7:
 	emu_get_memory16(emu_ss, emu_bp,  0x2) = 0x40;
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
-	emu_push(0x03D5); f__AB00_01B7_003B_56B4();
+	emu_push(0x03D5); emu_DSP_WriteAndWait();
 l__03D5:
 	emu_addw(&emu_sp, 0x2);
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x03E9; emu_last_cs = 0xAB00; emu_last_ip = 0x03DA; emu_last_length = 0x000E; emu_last_crc = 0x256B; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x03E3); f__AB00_01B7_003B_56B4();
+	emu_push(0x03E3); emu_DSP_WriteAndWait();
 l__03E3:
 	emu_addw(&emu_sp, 0x2);
 	emu_ax = 0x1;
@@ -603,7 +603,7 @@ l__0662:
 	emu_bx = emu_get_memory16(emu_cs, 0x00, 0x112);
 	emu_push(emu_get_memory16(emu_cs, emu_bx, 0xEA));
 	emu_push(emu_cs);
-	emu_push(0x0673); f__AB00_01B7_003B_56B4();
+	emu_push(0x0673); emu_DSP_WriteAndWait();
 l__0673:
 	emu_addw(&emu_sp, 0x2);
 	emu_orw(&emu_ax, emu_ax);
@@ -612,7 +612,7 @@ l__0673:
 	emu_andw(&emu_ax, 0xFF);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0686); f__AB00_01B7_003B_56B4();
+	emu_push(0x0686); emu_DSP_WriteAndWait();
 l__0686:
 	emu_addw(&emu_sp, 0x2);
 	emu_orw(&emu_ax, emu_ax);
@@ -622,7 +622,7 @@ l__0686:
 	emu_xchgb(&emu_ah, &emu_al);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x069B); f__AB00_01B7_003B_56B4();
+	emu_push(0x069B); emu_DSP_WriteAndWait();
 l__069B:
 	emu_addw(&emu_sp, 0x2);
 	emu_pop(&emu_di);
@@ -880,15 +880,15 @@ l__0B62:
 }
 
 /**
- * Decompiled function f__AB00_0B73_0019_AD43()
+ * Decompiled function emu_DSP_GetInfo()
  *
- * @name f__AB00_0B73_0019_AD43
+ * @name emu_DSP_GetInfo
  * @implements AB00:0B73:0019:AD43 ()
  * @implements AB00:0B8C:0005:C48A
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_0B73_0019_AD43()
+void emu_DSP_GetInfo()
 {
 l__0B73:
 	emu_push(emu_bp);
@@ -936,9 +936,9 @@ l__0B86:
 }
 
 /**
- * Decompiled function f__AB00_0C3F_006F_09A2()
+ * Decompiled function emu_DSP_TestPort()
  *
- * @name f__AB00_0C3F_006F_09A2
+ * @name emu_DSP_TestPort
  * @implements AB00:0C3F:006F:09A2 ()
  * @implements AB00:0CAE:0011:D789
  * @implements AB00:0CBF:0007:9688
@@ -955,7 +955,7 @@ l__0B86:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_0C3F_006F_09A2()
+void emu_DSP_TestPort()
 {
 l__0C3F:
 	emu_push(emu_bp);
@@ -992,7 +992,7 @@ l__0C3F:
 	emu_get_memory16(emu_ss, emu_bp,  0x2) = 0xD3;
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
-	emu_push(0x0CAE); f__AB00_0169_001D_2693();
+	emu_push(0x0CAE); emu_DSP_Write();
 l__0CAE:
 	emu_addw(&emu_sp, 0x2);
 	emu_push(emu_ax);
@@ -1005,7 +1005,7 @@ l__0CAE:
 l__0CBF:
 	emu_addw(&emu_sp, 0x2);
 	emu_push(emu_cs);
-	emu_push(0x0CC6); f__AB00_023A_001B_A31C();
+	emu_push(0x0CC6); emu_DSP_Reset();
 l__0CC6:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__0CCD;

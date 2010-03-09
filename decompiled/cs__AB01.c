@@ -1376,15 +1376,15 @@ l__0C8E:
 }
 
 /**
- * Decompiled function f__AB01_0C96_0019_A7D9()
+ * Decompiled function emu_MPU_GetInfo()
  *
- * @name f__AB01_0C96_0019_A7D9
+ * @name emu_MPU_GetInfo
  * @implements AB01:0C96:0019:A7D9 ()
  * @implements AB01:0CAF:0005:C48A
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB01_0C96_0019_A7D9()
+void emu_MPU_GetInfo()
 {
 l__0C96:
 	emu_push(emu_bp);
