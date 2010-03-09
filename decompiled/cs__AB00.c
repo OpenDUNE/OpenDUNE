@@ -254,9 +254,9 @@ l__0264:
 }
 
 /**
- * Decompiled function f__AB00_03A7_002E_9463()
+ * Decompiled function emu_DSP_SetTimeConst()
  *
- * @name f__AB00_03A7_002E_9463
+ * @name emu_DSP_SetTimeConst
  * @implements AB00:03A7:002E:9463 ()
  * @implements AB00:03D5:000E:256B
  * @implements AB00:03E3:000D:C5F9
@@ -264,7 +264,7 @@ l__0264:
  *
  * Called From: AB00:0D0A:0040:6228
  */
-void f__AB00_03A7_002E_9463()
+void emu_DSP_SetTimeConst()
 {
 l__03A7:
 	emu_push(emu_bp);
@@ -336,16 +336,16 @@ l__03EA:
 }
 
 /**
- * Decompiled function f__AB00_0402_006B_A66C()
+ * Decompiled function emu_DSP_InstallInterrupt()
  *
- * @name f__AB00_0402_006B_A66C
+ * @name emu_DSP_InstallInterrupt
  * @implements AB00:0402:006B:A66C ()
  * @implements AB00:041F:004E:9304
  * @implements AB00:046D:0005:C48A
  *
  * Called From: AB00:0D16:000C:1AC4
  */
-void f__AB00_0402_006B_A66C()
+void emu_DSP_InstallInterrupt()
 {
 l__0402:
 	emu_push(emu_bp);
@@ -422,16 +422,16 @@ l__0467:
 }
 
 /**
- * Decompiled function f__AB00_0472_0062_026A()
+ * Decompiled function emu_DSP_UninstallInterrupt()
  *
- * @name f__AB00_0472_0062_026A
+ * @name emu_DSP_UninstallInterrupt
  * @implements AB00:0472:0062:026A ()
  * @implements AB00:04AC:0028:0015
  * @implements AB00:04D4:0004:5E42
  *
  * Called From: AB00:0D6E:0015:A2A3
  */
-void f__AB00_0472_0062_026A()
+void emu_DSP_UninstallInterrupt()
 {
 l__0472:
 	emu_push(emu_ds);
@@ -502,15 +502,15 @@ l__04CE:
 }
 
 /**
- * Decompiled function f__AB00_050B_005F_C2DC()
+ * Decompiled function emu_DSP_SetDMA()
  *
- * @name f__AB00_050B_005F_C2DC
+ * @name emu_DSP_SetDMA
  * @implements AB00:050B:005F:C2DC ()
  * @implements AB00:056A:0005:C48A
  *
  * Called From: AB00:072A:0051:6DFE
  */
-void f__AB00_050B_005F_C2DC()
+void emu_DSP_SetDMA()
 {
 l__050B:
 	emu_push(emu_bp);
@@ -709,7 +709,7 @@ l__06DC:
 	emu_push(emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x072D); f__AB00_050B_005F_C2DC();
+	emu_push(0x072D); emu_DSP_SetDMA();
 l__072D:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_cs);
@@ -1030,14 +1030,14 @@ l__0CCD:
 	emu_get_memory16(emu_ss, emu_bp,  0x2) = 0xA6;
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
-	emu_push(0x0D0D); f__AB00_03A7_002E_9463();
+	emu_push(0x0D0D); emu_DSP_SetTimeConst();
 l__0D0D:
 	emu_addw(&emu_sp, 0x4);
 	emu_ax = 0x56F;
 	emu_push(emu_cs);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0D19); f__AB00_0402_006B_A66C();
+	emu_push(0x0D19); emu_DSP_InstallInterrupt();
 l__0D19:
 	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_ax);
@@ -1081,7 +1081,7 @@ l__0D5C:
 	if (emu_di != 0) goto l__0D4E;
 	emu_si = 0x0;
 	emu_push(emu_cs);
-	emu_push(0x0D71); f__AB00_0472_0062_026A();
+	emu_push(0x0D71); emu_DSP_UninstallInterrupt();
 l__0D71:
 	emu_orb(&emu_bh, 0x0);
 	emu_push(emu_cs);
