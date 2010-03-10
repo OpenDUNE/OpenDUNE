@@ -13,7 +13,7 @@
 #include "os/strings.h"
 
 extern void emu_CustomTimer_AddHandler();
-extern void emu_Drivers_Voice_Init();
+extern void emu_Drivers_Load();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__23E1_0004_0014_2BC0();
