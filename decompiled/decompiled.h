@@ -725,7 +725,6 @@ extern void f__217E_0ED2_001F_0CC9();
 extern void emu_Window_Widget_Allocate();
 extern void f__22A6_0EDB_000A_151A();
 extern void f__B4F2_0EE0_000E_BC8E();
-extern void emu_Drivers_Voice_Init();
 extern void emu_Tools_StoreSegments();
 extern void f__2649_0EFC_003A_7D24();
 extern void f__B503_0F0C_0010_028B();

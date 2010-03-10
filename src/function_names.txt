@@ -131,7 +131,6 @@
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
 1DD7:0421:000E:5431	emu_Drivers_Load	# (name_csip), load a driver in the memory
-1DD7:0EE2:003D:B019	emu_Drivers_Voice_Init	# (voice)
 
 217E:04F9:000E:346A	emu_Overlay_Load
 217E:055F:0008:D2BC	emu_Overlay_LocateMemory

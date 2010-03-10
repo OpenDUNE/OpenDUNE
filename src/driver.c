@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -13,8 +14,7 @@
 
 extern void emu_CustomTimer_AddHandler();
 extern void emu_Drivers_Voice_Init();
-extern void emu_Drivers_Load();
-extern void f__1DD7_14C5_000A_A995();
+extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__23E1_0004_0014_2BC0();
 extern void f__23E1_01C2_0011_24E8();
@@ -159,9 +159,39 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 		strcpy(driver->extension, "xmi");
 
 		if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
-			f__1DD7_14C5_000A_A995();
+			csip32 blaster;
+
+			emu_push(emu_ds); emu_push(0x65FE); /* "BLASTER" */
+			emu_push(emu_cs); emu_push(0x14CF); emu_cs = 0x01F7; f__01F7_27FD_0037_E2C0();
+			emu_sp += 4;
+
+			blaster.s.cs = emu_dx;
+			blaster.s.ip = emu_ax;
+
+			if (blaster.csip != 0) {
+				char *val;
+
+				val = strchr((char*)emu_get_memorycsip(blaster), 'A');
+				if (val != NULL) {
+					val++;
+					emu_get_memory16(csip.s.cs, csip.s.ip, 0xC) = (uint16)strtoul(val, NULL, 16);
+				}
+
+				val = strchr((char*)emu_get_memorycsip(blaster), 'I');
+				if (val != NULL) {
+					val++;
+					emu_get_memory16(csip.s.cs, csip.s.ip, 0x12) = (uint16)strtoul(val, NULL, 10);
+					emu_get_memory16(csip.s.cs, csip.s.ip, 0xE)  = (uint16)strtoul(val, NULL, 10);
+				}
+
+				val = strchr((char*)emu_get_memorycsip(blaster), 'D');
+				if (val != NULL) {
+					val++;
+					emu_get_memory16(csip.s.cs, csip.s.ip, 0x10) = (uint16)strtoul(val, NULL, 10);
+				}
+			}
 		}
-l__159F:
+
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x10));
 		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xE));
@@ -301,6 +331,26 @@ uint16 Drivers_Music_Init(uint16 index)
 	return index;
 }
 
+uint16 Drivers_Voice_Init(uint16 index)
+{
+	char *filename;
+	DSDriver *driver;
+	Driver *voice;
+	csip32 voice_csip;
+
+	driver = &g_global->voiceDrv[index];
+	voice  = &g_global->voiceDriver;
+
+	if (driver->filename.csip == 0x0) return index;
+
+	filename = (char *)emu_get_memorycsip(driver->filename);
+	voice_csip.csip = 0x353F6374;
+
+	if (!Drivers_Init(filename, driver->filename, voice, voice_csip, "VOC", 0)) return 0;
+
+	return index;
+}
+
 void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 {
 	emu_push(emu_cs); emu_push(0x03A3); emu_cs = 0x2756; f__2756_07DA_0048_9F5D();
@@ -322,11 +372,7 @@ void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 
 	g_global->variable_6D8D = Drivers_Music_Init(music);
 	g_global->variable_6D8B = Drivers_Sound_Init(sound);
-
-	emu_push(voice);
-	emu_push(emu_cs); emu_push(0x03D9); emu_Drivers_Voice_Init();
-	emu_sp += 2;
-	g_global->variable_6D8F = emu_ax;
+	g_global->variable_6D8F = Drivers_Voice_Init(voice);
 }
 
 csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
