@@ -1114,6 +1114,10 @@ l__07B2:
  * @implements B4ED:08F9:0022:0A36
  * @implements B4ED:090D:000E:CEAE
  * @implements B4ED:091B:0036:53F7
+ * @implements B4ED:0951:0027:8E9A
+ * @implements B4ED:0978:0008:E138
+ * @implements B4ED:0980:0005:906E
+ * @implements B4ED:0983:0002:D4BA
  * @implements B4ED:0985:001E:72A5
  * @implements B4ED:09A3:0008:A137
  * @implements B4ED:09AB:0023:8584
@@ -1330,8 +1334,36 @@ l__091B:
 	emu_addw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8072));
 	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
 	emu_push(emu_ax);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0951); emu_cs = 0x3483; emu_ip = 0x002A; emu_last_cs = 0xB4ED; emu_last_ip = 0x094C; emu_last_length = 0x0036; emu_last_crc = 0x53F7; emu_call();
-	/* Unresolved jump */ emu_ip = 0x0951; emu_last_cs = 0xB4ED; emu_last_ip = 0x0951; emu_last_length = 0x0036; emu_last_crc = 0x53F7; emu_call();
+	emu_push(emu_cs); emu_push(0x0951); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34ED) { overlay(0x34ED, 1); }
+l__0951:
+	emu_pop(&emu_cx);
+	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x6);
+	emu_dx = 0xE;
+	emu_imuluw(&emu_ax, emu_dx);
+	emu_bx = emu_ax;
+	emu_cmpw(&emu_get_memory16(emu_ds, emu_bx, 0x31C), 0x0);
+	if (emu_get_memory16(emu_ds, emu_bx, 0x31C) == 0x0) goto l__0983;
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_al = emu_get_memory8(emu_es, emu_bx, 0x5);
+	emu_ah = 0x0;
+	emu_push(emu_ax);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
+	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
+	emu_push(emu_cs); emu_push(0x0978); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34ED) { overlay(0x34ED, 1); }
+l__0978:
+	emu_pop(&emu_cx);
+	emu_push(emu_dx);
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x0980); f__B4ED_0BF4_001B_A3A9();
+l__0980:
+	emu_addw(&emu_sp, 0x6);
+l__0983:
+	goto l__09AE;
 l__0985:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_bx, 0x0), 0x0);
@@ -1737,6 +1769,7 @@ l__0BEF:
  * @implements B4ED:0CA3:0012:1689
  * @implements B4ED:0CB0:0005:8BCF
  *
+ * Called From: B4ED:097D:0008:E138
  * Called From: B4ED:09A8:0008:A137
  */
 void f__B4ED_0BF4_001B_A3A9()

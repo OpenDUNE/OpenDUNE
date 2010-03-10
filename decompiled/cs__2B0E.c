@@ -11,6 +11,9 @@
  * @implements 2B0E:0006:0049:87B1 ()
  * @implements 2B0E:001E:0031:7223
  * @implements 2B0E:0029:0026:299A
+ * @implements 2B0E:004F:0005:BCAE
+ * @implements 2B0E:005E:0005:C642
+ * @implements 2B0E:0063:0005:AAAE
  * @implements 2B0E:0068:0068:539D
  * @implements 2B0E:00A2:002E:524A
  * @implements 2B0E:00C6:000A:3DA6
@@ -20,7 +23,9 @@
  * Called From: 1FB5:0E5A:005C:A9D7
  * Called From: 253D:01F1:002B:4141
  * Called From: 253D:02A6:0039:AA2E
+ * Called From: B483:01F8:0019:57E1
  * Called From: B483:04AE:0017:11AB
+ * Called From: B483:08DE:002A:FBE9
  * Called From: B491:0C15:0028:83F4
  * Called From: B495:001D:0022:1CF6
  * Called From: B495:00D8:001C:D772
@@ -69,11 +74,18 @@ l__0029:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpw(&emu_cx, 0x1);
-	if (emu_cx != 0x1) { /* Unresolved jump */ emu_ip = 0x005E; emu_last_cs = 0x2B0E; emu_last_ip = 0x0043; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return; }
+	if (emu_cx != 0x1) goto l__005E;
 	emu_cmpw(&emu_cx, 0x3);
 	if (emu_cx == 0x3) { /* Unresolved jump */ emu_ip = 0x0054; emu_last_cs = 0x2B0E; emu_last_ip = 0x0048; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return; }
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; emu_ip = 0x0D40; emu_last_cs = 0x2B0E; emu_last_ip = 0x004A; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call();
-	/* Unresolved jump */ emu_ip = 0x004F; emu_last_cs = 0x2B0E; emu_last_ip = 0x004F; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call();
+	emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; f__2649_0D40_0019_C58F();
+l__004F:
+	emu_addw(&emu_sp, 0xC);
+	goto l__00C6;
+l__005E:
+	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x2649; f__2649_0C09_0019_459F();
+l__0063:
+	emu_addw(&emu_sp, 0xC);
+	goto l__00C6;
 l__0068:
 	emu_cld();
 	emu_cl = 0x4;
