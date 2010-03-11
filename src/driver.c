@@ -42,8 +42,6 @@ extern void f__AB01_2103_0040_93D2();
 extern void f__AB01_2336_002C_4FDC();
 extern void f__AB01_26EB_0047_41F4();
 
-/* TOC bug: extern void f__AB00_02AB_000F_A43F(); */
-
 bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008)
 {
 	if (filename == NULL || !File_Exists(filename)) return false;
