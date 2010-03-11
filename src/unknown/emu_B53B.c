@@ -7,7 +7,6 @@
 #include "../global.h"
 #include "unknown.h"
 
-extern void emu_Unknown_B53B_005C();
 extern void emu_File_Error();
 extern void emu_String_printf();
 extern void emu_Terminate_Normal();

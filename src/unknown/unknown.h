@@ -15,6 +15,9 @@ extern void emu_Memory_GetBlock2();
 extern void emu_Unknown_2618_0008();
 extern void emu_Unknown_2618_003F();
 
+extern void emu_Unknown_B483_0156();
+extern void emu_Unknown_B483_0823();
+
 extern void emu_Unknown_B53B_0000();
 extern void emu_File_Error_Wrapper();
 
