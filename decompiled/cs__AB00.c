@@ -1354,6 +1354,7 @@ l__0AA7:
  * @name f__AB00_0B4B_0028_C5A7
  * @implements AB00:0B4B:0028:C5A7 ()
  * @implements AB00:0B62:0011:DDDD
+ * @implements AB00:0B67:000C:62A2
  *
  * Called From: AB00:0BB0:000E:9248
  * Called From: AB00:0CBC:0011:D789
@@ -1378,9 +1379,10 @@ l__0B62:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
 	if ((emu_al & 0x8) == 0) goto l__0B62;
+l__0B67:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) != 0) { /* Unresolved jump */ emu_ip = 0x0B67; emu_last_cs = 0xAB00; emu_last_ip = 0x0B6A; emu_last_length = 0x0011; emu_last_crc = 0xDDDD; emu_call(); return; }
+	if ((emu_al & 0x8) != 0) goto l__0B67;
 	if (--emu_cx != 0) goto l__0B62;
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
