@@ -595,7 +595,6 @@ extern void emu_Sound_PlayDuneInit();
 extern void f__2649_0ADA_000E_EEB3();
 extern void f__06F7_0AE2_0010_0B2F();
 extern void f__B4CD_0AFA_0011_D5DB();
-extern void f__0972_0AFC_0016_0DC9();
 extern void f__2649_0B07_000E_F670();
 extern void emu_GUI_HOF_ResumeGame();
 extern void f__06F7_0B14_0024_BD9C();

@@ -14,7 +14,10 @@
 #include "../tools.h"
 #include "../unit.h"
 
+extern void f__0C10_00D2_000F_D61E();
 extern void f__0C10_0182_0012_B114();
+extern void f__0C3A_247A_0015_EA04();
+extern void f__1A34_2BB5_0025_30B8();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Tools_Random_256();
@@ -193,4 +196,63 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 	emu_sp += 4;
 
 	return 0;
+}
+
+/*
+ * Unknown function 0AFC.
+ *
+ * Stack: 0 - Unknown.
+ *
+ * @param script The script engine to operate on.
+ * @return unknown.
+ */
+uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
+{
+	Structure *s;
+	Unit *u;
+	Unit *carryall;
+	csip32 ucsip;
+	uint16 loc06;
+	uint16 loc08;
+	uint16 carryallIndex;
+
+	s = Structure_Get_ByMemory(g_global->structureCurrent);
+
+	if (s->animation != 2) return 0;
+	if (s->linkedID == 0xFF) return 0;
+
+	loc06 = script->stack[script->stackPointer];
+
+	emu_push(0);
+	emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0B46); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
+	emu_sp += 6;
+	loc08 = emu_ax;
+
+	u = Unit_Get_ByIndex(s->linkedID);
+
+	if (g_global->playerHouseID == s->houseID && u->type == UNIT_HARVESTER && u->variable_5A.tile == 0 && loc08 != 0) {
+		return 0;
+	}
+
+	emu_push(loc08 != 0 ? 0 : 1);
+	emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
+	emu_push(s->houseID);
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x0BC3); emu_cs = 0x1A34; f__1A34_2BB5_0025_30B8();
+	emu_sp += 8;
+	ucsip.s.cs = emu_dx;
+	ucsip.s.ip = emu_ax;
+
+	if (ucsip.csip == 0) return 0;
+
+	carryall = Unit_Get_ByMemory(ucsip);
+	carryallIndex = Tools_Index_Encode(carryall->index, IT_UNIT);
+
+	emu_push(carryallIndex);
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0BF5); emu_cs = 0x0C10; f__0C10_00D2_000F_D61E();
+	emu_sp += 6;
+
+	return carryallIndex;
 }
