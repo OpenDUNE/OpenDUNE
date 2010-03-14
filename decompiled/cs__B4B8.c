@@ -3545,7 +3545,7 @@ l__1C61:
 l__1C66:
 	emu_ax = 0xFFFE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1C6F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x1C6F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__1C6F:

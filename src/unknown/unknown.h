@@ -16,6 +16,8 @@ extern void emu_Unknown_2618_0008();
 extern void emu_Unknown_2618_003F();
 
 extern void emu_Unknown_B483_0156();
+extern void emu_Unknown_B483_0363();
+extern void emu_Unknown_B483_0470();
 extern void emu_Unknown_B483_0823();
 
 extern void emu_Unknown_B53B_0000();

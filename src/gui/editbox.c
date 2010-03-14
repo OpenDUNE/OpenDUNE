@@ -7,6 +7,7 @@
 #include "../global.h"
 #include "widget.h"
 #include "gui.h"
+#include "../unknown/unknown.h"
 
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
@@ -19,8 +20,6 @@ extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Font_GetCharWidth();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawText_Wrapper();
-extern void emu_Unknown_07AE_0000();
-extern void emu_Unknown_07AE_0103();
 extern void overlay(uint16 cs, uint8 force);
 
 /**

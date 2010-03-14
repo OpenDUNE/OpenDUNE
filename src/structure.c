@@ -19,6 +19,7 @@
 #include "string.h"
 #include "structure.h"
 #include "tools.h"
+#include "unknown/unknown.h"
 
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
@@ -30,7 +31,6 @@ extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__1A34_10EC_000E_A326();
-extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
@@ -272,7 +272,7 @@ void GameLoop_Structure()
 									emu_sp += 6;
 
 									emu_push(0);
-									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 									emu_sp += 2;
 								}
 							} else if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
@@ -352,7 +352,7 @@ void GameLoop_Structure()
 
 								if (s->houseID == g_global->playerHouseID) {
 									emu_push(g_global->playerHouseID + 0x37);
-									emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+									emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 									emu_sp += 2;
 								}
 							}

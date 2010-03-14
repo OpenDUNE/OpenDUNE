@@ -19,6 +19,7 @@
 #include "team.h"
 #include "unit.h"
 #include "opendune.h"
+#include "unknown/unknown.h"
 
 extern void f__07D4_0000_0027_FA61();
 extern void f__10E4_0273_0029_DCE5();
@@ -44,8 +45,6 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2C17_000C_002F_3016();
-extern void f__B483_0363_0016_83DF();
-extern void f__B483_0470_000E_519D();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B4AB_0000_000D_6028();
 extern void f__B4AE_0000_0008_049C();
@@ -76,7 +75,6 @@ extern void emu_String_printf();
 extern void emu_Terminate_Normal();
 extern void emu_Tile_Center();
 extern void emu_Tile_PackTile();
-extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -268,7 +266,7 @@ static void GameLoop_LevelEnd()
 		emu_sp += 8;
 
 		emu_push(0xFFFE);
-		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 		emu_sp += 2;
 
 		emu_push(0);
@@ -277,7 +275,7 @@ static void GameLoop_LevelEnd()
 
 		if (GameLoop_IsLevelWon()) {
 			emu_push(0x28);
-			emu_push(emu_cs); emu_push(0x0334); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+			emu_push(emu_cs); emu_push(0x0334); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 
 			emu_push(0x52); /* "You have successfully completed your mission." */
@@ -372,7 +370,7 @@ static void GameLoop_LevelEnd()
 			}
 		} else {
 			emu_push(0x29);
-			emu_push(emu_cs); emu_push(0x046F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+			emu_push(emu_cs); emu_push(0x046F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 
 			emu_push(0x53); /* "You have failed your mission " */
@@ -531,7 +529,7 @@ static void GameLoop_Main()
 		if (g_global->variable_6D8D != 4 && g_global->variable_6D8D != 5) {
 			emu_push(emu_cs); emu_push(0x0245); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
 			if (emu_ax == 0) {
-				emu_push(emu_cs); emu_push(0x0251); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0470_000E_519D();
+				emu_push(emu_cs); emu_push(0x0251); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
 				if (emu_ax == 0) {
 					if (g_global->variable_700C == 0) {
 						Sound_Play(2);

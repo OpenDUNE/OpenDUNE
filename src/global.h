@@ -142,7 +142,11 @@ typedef struct GlobalData {
 	                                                         *   "Misc allocations: %ld\r"
 	                                                         *   "Spare RAM: %ld\r"
 	                                                         *   "DOS prompt memory free must be %ld.\r" NULL terminated. */
-	/* 0217()    */ PACK uint8   unknown_0217[0x0B43];
+	/* 0217()    */ PACK uint8   unknown_0217;
+	/* 0218(18)  */ PACK uint16 variable_0218[9];           /*!< ?? */
+	/* 022A()    */ PACK uint8   unknown_022A[0x00E8];
+	/* 0312(70)  */ PACK uint16 variable_0312[5][7];        /*!< ?? */
+	/* 0358()    */ PACK uint8   unknown_0358[0x0A02];
 	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
 	/* 1150()    */ PACK uint8   unknown_1150[0x0002];
@@ -700,7 +704,9 @@ typedef struct GlobalData {
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
-	/* 37BA()    */ PACK uint8   unknown_37BA[0x0036];
+	/* 37BA(2)   */ PACK uint16 variable_37BA;              /*!< ?? */
+	/* 37BC(4)   */ PACK csip32 variable_37BC;              /*!< ?? */
+	/* 37E0()    */ PACK uint8   unknown_37E0[0x0030];
 	/* 37F0(4)   */ PACK uint32 variable_37F0;              /*!< ?? */
 	/* 37F4(4)   */ PACK uint32 variable_37F4;              /*!< ?? */
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
@@ -758,7 +764,8 @@ typedef struct GlobalData {
 	/* 3A0A(4)   */ PACK csip32 selectionUnit;              /*!< Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
-	/* 3A12()    */ PACK uint8   unknown_3A12[0x001A];
+	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
+	/* 3A14()    */ PACK uint8   unknown_3A14[0x0018];
 	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
 	/* 3A30(4)   */ PACK csip32 variable_3A30;              /*!< ?? */
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */

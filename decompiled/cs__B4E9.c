@@ -589,7 +589,7 @@ l__0368:
 	emu_addw(&emu_sp, 0x8);
 	emu_ax = 0xFFFE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0374); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x0374); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__0374:

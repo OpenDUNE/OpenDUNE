@@ -17,6 +17,7 @@
 #include "../tools.h"
 #include "../unit.h"
 #include "widget.h"
+#include "../unknown/unknown.h"
 
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
@@ -29,7 +30,6 @@ extern void f__1A34_2F9E_0016_5A55();
 extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
-extern void emu_Unknown_B483_0156();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1178_000D_B1D5();

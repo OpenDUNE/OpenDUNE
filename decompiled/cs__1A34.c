@@ -1244,7 +1244,7 @@ l__0C50:
 	if (emu_get_memory8(emu_es, emu_bx, 0x2) != 0x6) goto l__0C66;
 	emu_ax = 0x14;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 l__0C63:
 	emu_pop(&emu_cx);
 	goto l__0CAD;
@@ -1280,7 +1280,7 @@ l__0CA3:
 	emu_ax = 0xD;
 l__0CA6:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0CAC); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x0CAC); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 l__0CAC:
 	emu_pop(&emu_cx);
 l__0CAD:

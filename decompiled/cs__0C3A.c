@@ -1301,14 +1301,14 @@ l__1322:
 	goto l__1327;
 l__1327:
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x132D); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x132D); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 l__132D:
 	emu_pop(&emu_cx);
 	goto l__133A;
 l__1330:
 	emu_ax = 0x15;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1339); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x1339); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 l__1339:
 	emu_pop(&emu_cx);
 l__133A:

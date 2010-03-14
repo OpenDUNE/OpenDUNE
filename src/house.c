@@ -16,11 +16,11 @@
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
+#include "unknown/unknown.h"
 
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_2958_0013_3A47();
-extern void f__B483_0363_0016_83DF();
 extern void f__B4CD_1816_0033_B55B();
 extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
@@ -94,7 +94,7 @@ void GameLoop_House()
 	if (tickMissileCountdown && g_global->houseMissleCountdown != 0) {
 		g_global->houseMissleCountdown--;
 		emu_push(g_global->houseMissleCountdown + 41);
-		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 		emu_sp += 2;
 
 		if (g_global->houseMissleCountdown == 0) {
@@ -340,7 +340,7 @@ void GameLoop_House()
 						u->flags.s.inTransport = true;
 
 						emu_push(38);
-						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 						emu_sp += 2;
 					}
 				} else {
@@ -371,7 +371,7 @@ void GameLoop_House()
 							u->flags.s.inTransport = true;
 
 							emu_push(38);
-							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 							emu_sp += 2;
 						}
 					}

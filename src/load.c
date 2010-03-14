@@ -19,9 +19,9 @@
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
+#include "unknown/unknown.h"
 
 extern void f__10E4_0273_0029_DCE5();
-extern void f__B483_0363_0016_83DF();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B511_0091_001D_9C25();
@@ -258,7 +258,7 @@ bool LoadFile(char *filename)
 	bool res;
 
 	emu_push(0xFFFE);
-	emu_push(emu_cs); emu_push(0x0462); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0363_0016_83DF();
+	emu_push(emu_cs); emu_push(0x0462); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 	emu_sp += 2;

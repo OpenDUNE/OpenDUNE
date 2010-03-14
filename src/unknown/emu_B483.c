@@ -2,15 +2,20 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
 #include "../file.h"
 #include "../house.h"
+#include "../string.h"
 
 extern void f__1DD7_010B_000E_A324();
+extern void f__1DD7_01AB_0007_96C6();
+extern void f__1DD7_01EB_0013_9C3C();
 extern void f__1DD7_022D_0015_1956();
+extern void f__1DD7_0477_000E_5C89();
 extern void f__23E1_0004_0014_2BC0();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
@@ -92,6 +97,154 @@ void emu_Unknown_B483_0156()
 	}
 
 l__027E:
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}
+
+/**
+ * C-ified function of f__B483_0363_0016_83DF()
+ *
+ * @name emu_Unknown_B483_0363
+ * @implements B483:0363:0016:83DF ()
+ */
+void emu_Unknown_B483_0363()
+{
+	uint16 index;
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	index = emu_get_memory16(emu_ss, emu_sp, 0);
+
+	if (index == 0xFFFF) {
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	if (index == 0xFFFE) {
+		uint8 i;
+
+		for (i = 0; i < 5; i++) {
+			g_global->variable_0218[i] = 0xFFFF;
+		}
+
+		emu_push(emu_cs); emu_push(0x0392); emu_cs = 0x1DD7; f__1DD7_01AB_0007_96C6();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+
+		g_global->variable_37BC.csip = 0;
+		if ((g_global->variable_37BA & 1) != 0) {
+			g_global->variable_3A12 = 1;
+			g_global->variable_37BA = 0;
+		}
+		g_global->variable_4060 = 0;
+
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	if (g_global->variable_6D8F == 0 || g_global->variable_700A == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
+		emu_push(g_global->variable_0312[index][6]);
+		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+		emu_sp += 2;
+
+		emu_push(g_global->variable_0312[index][5]);
+		emu_push(emu_cs); emu_push(0x03FF); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+		emu_sp += 2;
+
+		g_global->variable_37BC.s.cs = emu_dx;
+		g_global->variable_37BC.s.ip = emu_ax;
+
+		if ((g_global->variable_37BA & 1) != 0) {
+			g_global->variable_3A12 = 1;
+		}
+
+		g_global->variable_37BA = 4;
+
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	if (g_global->variable_0218[0] == 0xFFFF) {
+		uint8 i;
+
+		for (i = 0; i < 5; i++) {
+			uint16 val;
+
+			if (g_global->language == 0) {
+				val = g_global->variable_0312[index][0];
+			} else {
+				/* Unresolved jump */ emu_ip = 0x0444; emu_last_cs = 0xB483; emu_last_ip = 0x042D; emu_last_length = 0x001C; emu_last_crc = 0xB271; emu_call(); return;
+			}
+		l__0457:
+			g_global->variable_0218[i] = val;
+		}
+	}
+
+	emu_push(emu_cs); emu_push(0x046A); emu_Unknown_B483_0470();
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}
+
+/**
+ * C-ified function of f__B483_0470_000E_519D()
+ *
+ * @name emu_Unknown_B483_0470
+ * @implements B483:0470:000E:519D ()
+ */
+void emu_Unknown_B483_0470()
+{
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	if (g_global->variable_700A == 0) {
+		emu_ax = 0;
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	emu_push(emu_cs); emu_push(0x0483); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+
+	if (emu_ax != 0) {
+		emu_ax = 1;
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	g_global->variable_4060 = 0;
+
+	if (g_global->variable_0218[0] == 0xFFFF) {
+		emu_ax = 0;
+		emu_cs = ret.s.cs;
+		emu_ip = ret.s.ip;
+		return;
+	}
+
+	emu_push(g_global->variable_0218[0]);
+	emu_push(emu_cs); emu_push(0x049C); emu_Unknown_B483_0156();
+	emu_sp += 2;
+
+	memmove(&g_global->variable_0218[0], &g_global->variable_0218[1], 8);
+	g_global->variable_0218[8] = 0xFFFF;
+
+	emu_ax = 1;
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }

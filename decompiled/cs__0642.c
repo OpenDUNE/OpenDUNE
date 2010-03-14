@@ -374,7 +374,7 @@ l__073F:
 	emu_get_memory16(emu_ds, 0x00, 0x31C8) = emu_ax;
 	emu_get_memory16(emu_ds, 0x00, 0x31C6) = emu_dx;
 l__0755:
-	emu_push(emu_cs); emu_push(0x075A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0470_000E_519D();
+	emu_push(emu_cs); emu_push(0x075A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
 l__075A:
 	emu_pop(&emu_si);
 	emu_pop(&emu_bp);
