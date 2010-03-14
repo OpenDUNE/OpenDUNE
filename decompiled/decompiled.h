@@ -581,7 +581,6 @@ extern void f__06F7_0A6C_0016_FA05();
 extern void f__2756_0A76_0001_6780();
 extern void f__22A6_0A79_002B_D1F0();
 extern void f__1DD7_0A7B_001E_4A5A();
-extern void f__0972_0A81_0017_2EC7();
 extern void emu_CustomTimer_AddHandler();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void f__B4DA_0A8E_0025_4AC8();

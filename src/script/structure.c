@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
@@ -10,8 +11,10 @@
 #include "../house.h"
 #include "script.h"
 #include "../structure.h"
+#include "../tools.h"
 #include "../unit.h"
 
+extern void f__0C10_0182_0012_B114();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Tools_Random_256();
@@ -152,4 +155,42 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	if (u->amount == 0) u->flags.s.inTransport = false;
 	s->scriptDelay = 6;
 	return 1;
+}
+
+/*
+ * Unknown function 0A81.
+ *
+ * Stack: *none*
+ *
+ * @param script The script engine to operate on.
+ * @return unknown.
+ */
+uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
+{
+	uint16 structureIndex;
+	Structure *s;
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
+
+	s = Structure_Get_ByMemory(g_global->structureCurrent);
+
+	structureIndex = Tools_Index_Encode(s->index, IT_STRUCTURE);
+
+	u = Tools_Index_GetUnit(s->script.variables[4]);
+	if (u != NULL) {
+		if (structureIndex == u->script.variables[4]) return s->script.variables[4];
+
+		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+		emu_push(emu_cs); emu_push(0x0AE2); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+		emu_sp += 4;
+	}
+
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0AF1); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	return 0;
 }

@@ -56,9 +56,10 @@ extern uint16 Script_General_NoOperation(ScriptEngine *script);
 
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);
-extern uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script);
 extern uint16 Script_Structure_SetAnimation(ScriptEngine *script);
+extern uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script);
 extern uint16 Script_Structure_RefineSpice(ScriptEngine *script);
+extern uint16 Script_Structure_Unknown0A81(ScriptEngine *script);
 
 
 extern void emu_Script_Reset();

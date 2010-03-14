@@ -6,7 +6,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__0972_0A81_0017_2EC7();
 extern void f__0972_0AFC_0016_0DC9();
 extern void f__0972_0C5A_0015_E00A();
 extern void f__0972_0E87_0047_4065();
@@ -94,7 +93,7 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ NULL,
 	/* 01 */ NULL,
-	/* 02 */ &f__0972_0A81_0017_2EC7,
+	/* 02 */ NULL,
 	/* 03 */ &f__0972_0AFC_0016_0DC9,
 	/* 04 */ NULL,
 	/* 05 */ &emu_Script_General_DisplayText,
@@ -216,7 +215,7 @@ emu_ScriptFunction emu_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_General_NoOperation,
-	/* 02 */ NULL,
+	/* 02 */ &Script_Structure_Unknown0A81,
 	/* 03 */ NULL,
 	/* 04 */ &Script_Structure_SetAnimation,
 	/* 05 */ NULL,
