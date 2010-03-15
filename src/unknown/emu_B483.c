@@ -92,7 +92,20 @@ void emu_Unknown_B483_0156()
 		filename = (char *)emu_get_memorycsip(g_global->voices[index].string);
 		if (*filename == '?') {
 			sprintf((char *)g_global->variable_9939, ++filename, g_houseInfo[g_global->playerHouseID].prefixChar);
-			/* Unresolved jump */ emu_ip = 0x024F; emu_last_cs = 0xB483; emu_last_ip = 0x024F; emu_last_length = 0x003E; emu_last_crc = 0x5CE7; emu_call();
+
+			emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
+			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+			emu_push(0x353F); emu_push(0x9939);
+			emu_push(emu_cs); emu_push(0x026C); emu_cs = 0x1DD7; f__1DD7_010B_000E_A324();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+			emu_sp += 12;
+
+			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+			emu_push(emu_cs); emu_push(0x027C); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x3483) { overlay(0x3483, 1); }
+			emu_sp += 4;
 		}
 	}
 
