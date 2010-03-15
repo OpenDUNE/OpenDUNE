@@ -1484,6 +1484,16 @@ l__058B:
 	emu_push(emu_cs);
 	emu_push(emu_bx);
 	emu_Tools_Shld(); return;
+	emu_cmpb(&emu_cl, 0x10);
+	emu_jmpnc( 0x10, 0x0593, 0x0591);
+	emu_movw(&emu_bx, emu_ax);
+	emu_shlw(&emu_ax, emu_cl);
+	emu_shlw(&emu_dx, emu_cl);
+	emu_negb(&emu_cl, emu_cl);
+	emu_addb(&emu_cl, 0x10);
+	emu_shrw(&emu_bx, emu_cl);
+	emu_orw(&emu_dx, emu_bx);
+	emu_retf(0x0, 0x05A2);
 }
 
 /**
@@ -5821,6 +5831,8 @@ l__2890:
  * Called From: 1DD7:1475:0024:E66C
  * Called From: 1DD7:1682:003A:A88D
  * Called From: 259E:00DD:0015:D443
+ * Called From: 2649:07FA:0043:7D69
+ * Called From: 2649:0A6A:0016:4D2B
  * Called From: B491:075F:002E:BCA5
  * Called From: B4B5:0914:001C:78CD
  * Called From: B4B8:02F2:0015:4DA7
@@ -7779,6 +7791,7 @@ l__376A:
  * Called From: 1A34:2924:000C:6F7F
  * Called From: 25C4:030F:0019:1817
  * Called From: B480:039A:009A:0548
+ * Called From: B483:024A:003E:5CE7
  * Called From: B483:0692:001B:D546
  * Called From: B483:0750:001E:9FF4
  * Called From: B491:0BAB:0010:CA55
