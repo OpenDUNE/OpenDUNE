@@ -181,6 +181,7 @@ l__08C8:
  * @implements 1423:0A7B:0003:DD18
  * @implements 1423:0A7E:000E:A895
  * @implements 1423:0A8C:0020:4946
+ * @implements 1423:0A99:0013:1BCD
  * @implements 1423:0AAC:0004:CD05
  * @implements 1423:0AB0:001A:235A
  * @implements 1423:0ACA:002C:6E18
@@ -398,8 +399,10 @@ l__0A7E:
 	goto l__0B3B;
 l__0A8C:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x3E52), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x3E52) != 0x0) { /* Unresolved jump */ emu_ip = 0x0A99; emu_last_cs = 0x1423; emu_last_ip = 0x0A91; emu_last_length = 0x0020; emu_last_crc = 0x4946; emu_call(); return; }
-	emu_get_memory16(emu_ds, 0x00, 0x3E52) = 0x1;
+	if (emu_get_memory16(emu_ds, 0x00, 0x3E52) == 0x0) {
+		emu_get_memory16(emu_ds, 0x00, 0x3E52) = 0x1;
+	}
+l__0A99:
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x2), 0x6);
 	if (emu_get_memory8(emu_es, emu_bx, 0x2) != 0x6) goto l__0AB0;
