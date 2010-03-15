@@ -6,7 +6,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__0972_0AFC_0016_0DC9();
 extern void f__0972_0C5A_0015_E00A();
 extern void f__0972_0E87_0047_4065();
 extern void f__0972_1004_0029_E69D();
