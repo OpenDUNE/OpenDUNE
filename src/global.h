@@ -146,8 +146,8 @@ typedef struct GlobalData {
 	/* 0218(10)  */ PACK uint16 variable_0218[5];           /*!< ?? */
 	/* 0222(10)  */ PACK uint16 variable_0222[5];           /*!< ?? */
 	/* 022C()    */ PACK uint8   unknown_022C[0x00E6];
-	/* 0312(70)  */ PACK uint16 variable_0312[5][7];        /*!< ?? */
-	/* 0358()    */ PACK uint8   unknown_0358[0x0A02];
+	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
+	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
 	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
 	/* 1150()    */ PACK uint8   unknown_1150[0x0002];

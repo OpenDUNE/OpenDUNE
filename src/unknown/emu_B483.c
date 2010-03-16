@@ -191,15 +191,7 @@ void emu_Unknown_B483_0363()
 		uint8 i;
 
 		for (i = 0; i < 5; i++) {
-			uint16 val;
-
-			if (g_global->language == 0) {
-				val = g_global->variable_0312[index][i];
-			} else {
-				/* Unresolved jump */ emu_ip = 0x0444; emu_last_cs = 0xB483; emu_last_ip = 0x042D; emu_last_length = 0x001C; emu_last_crc = 0xB271; emu_call(); return;
-			}
-		l__0457:
-			g_global->variable_0218[i] = val;
+			g_global->variable_0218[i] = (g_global->language == 0) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
 		}
 	}
 
