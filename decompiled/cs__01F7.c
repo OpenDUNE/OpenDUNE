@@ -7793,7 +7793,9 @@ l__376A:
  * Called From: B480:039A:009A:0548
  * Called From: B483:024A:003E:5CE7
  * Called From: B483:0692:001B:D546
+ * Called From: B483:0692:001F:A15F
  * Called From: B483:0750:001E:9FF4
+ * Called From: B483:0750:0021:C3B2
  * Called From: B491:0BAB:0010:CA55
  * Called From: B495:05E3:0030:96A7
  * Called From: B495:06CF:0015:B497
