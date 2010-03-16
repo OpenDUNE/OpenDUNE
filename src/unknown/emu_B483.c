@@ -90,8 +90,8 @@ void emu_Unknown_B483_0156()
 		char *filename;
 
 		filename = (char *)emu_get_memorycsip(g_global->voices[index].string);
-		if (*filename == '?') {
-			sprintf((char *)g_global->variable_9939, ++filename, g_houseInfo[g_global->playerHouseID].prefixChar);
+		if (filename[0] == '?') {
+			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
 
 			emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
 			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
