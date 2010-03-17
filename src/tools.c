@@ -201,3 +201,19 @@ Structure *Tools_Index_GetStructure(uint16 encoded)
 	index = Tools_Index_Decode(encoded);
 	return (index < STRUCTURE_INDEX_MAX_HARD) ? Structure_Get_ByIndex(index) : NULL;
 }
+
+/**
+ * Moves as much of the IP to CS
+ *
+ * @param csip The CS:IP to modify.
+ * @return The modified CS:IP.
+ */
+csip32 Tools_GetSmallestIP(csip32 csip)
+{
+	if (csip.s.cs < 0xF000) {
+		csip.s.cs += csip.s.ip >> 4;
+		csip.s.ip &= 0xF;
+	}
+
+	return csip;
+}

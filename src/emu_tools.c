@@ -244,3 +244,48 @@ void emu_Tools_Index_GetStructure()
 	emu_dx = g_global->structureStartPos.s.cs;
 	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
 }
+
+/**
+ * Emulator wrapper around emu_Tools_GetSmallestIP()
+ *
+ * @name emu_Tools_GetSmallestIP
+ * @implements 2B0E:00D0:0022:EC76 ()
+ */
+void emu_Tools_GetSmallestIP()
+{
+	csip32 csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	csip = emu_get_csip32(emu_ss, emu_sp, 0);
+
+	csip = Tools_GetSmallestIP(csip);
+
+	emu_dx = csip.s.cs;
+	emu_ax = csip.s.ip;
+}
+
+/**
+ * Emulator wrapper around emu_Tools_GetSmallestIP2()
+ *
+ * @name emu_Tools_GetSmallestIP2
+ * @implements 2B0E:00F2:0016:F9EC ()
+ */
+void emu_Tools_GetSmallestIP2()
+{
+	csip32 csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	csip.s.cs = emu_dx;
+	csip.s.ip = emu_ax;
+
+	csip = Tools_GetSmallestIP(csip);
+
+	emu_dx = csip.s.cs;
+	emu_ax = csip.s.ip;
+}

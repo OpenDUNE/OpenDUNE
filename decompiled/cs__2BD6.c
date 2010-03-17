@@ -47,13 +47,13 @@ l__0000:
 	emu_push(emu_si);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_push(emu_cs); emu_push(0x0015); emu_cs = 0x2B0E; f__2B0E_00F2_0016_F9EC();
+	emu_push(emu_cs); emu_push(0x0015); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP2();
 l__0015:
 	emu_si = emu_ax;
 	emu_ds = emu_dx;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
 	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	emu_push(emu_cs); emu_push(0x0024); emu_cs = 0x2B0E; f__2B0E_00F2_0016_F9EC();
+	emu_push(emu_cs); emu_push(0x0024); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP2();
 l__0024:
 	emu_di = emu_ax;
 	emu_es = emu_dx;

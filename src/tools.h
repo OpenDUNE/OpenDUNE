@@ -25,6 +25,7 @@ extern uint16 Tools_Index_GetPackedTile(uint16 encoded);
 extern tile32 Tools_Index_GetTile(uint16 encoded);
 extern struct Unit *Tools_Index_GetUnit(uint16 encoded);
 extern struct Structure *Tools_Index_GetStructure(uint16 encoded);
+extern csip32 Tools_GetSmallestIP(csip32 csip);
 
 
 extern void emu_Tools_AdjustToGameSpeed();
@@ -38,5 +39,7 @@ extern void emu_Tools_Index_GetPackedTile();
 extern void emu_Tools_Index_GetTile();
 extern void emu_Tools_Index_GetUnit();
 extern void emu_Tools_Index_GetStructure();
+extern void emu_Tools_GetSmallestIP();
+extern void emu_Tools_GetSmallestIP2();
 
 #endif /* TOOLS_H */
