@@ -10,6 +10,7 @@
 #include "../file.h"
 #include "../house.h"
 #include "../string.h"
+#include "../tools.h"
 
 extern void f__1DD7_010B_000E_A324();
 extern void f__1DD7_01AB_0007_96C6();
@@ -19,7 +20,6 @@ extern void f__1DD7_0477_000E_5C89();
 extern void f__23E1_0004_0014_2BC0();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
-extern void f__2B0E_0006_0049_87B1();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -49,7 +49,7 @@ void emu_Unknown_B483_0156()
 
 	if (g_global->variable_3E54[index].csip != 0x0) {
 		csip32 csip;
-		csip32 csip2;
+		uint32 count;
 
 		csip = g_global->variable_3E54[index];
 
@@ -66,20 +66,15 @@ void emu_Unknown_B483_0156()
 			if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 			emu_sp += 4;
 
-			csip2.s.cs = emu_dx;
-			csip2.s.ip = emu_ax;
+			count = (emu_dx << 16) | emu_ax;
 		} else {
 			/* Unresolved jump */ emu_ip = 0x01D7; emu_last_cs = 0xB483; emu_last_ip = 0x01D7; emu_last_length = 0x0011; emu_last_crc = 0x7C21; emu_call(); return;
 		}
 
 	l__01E4:
-		emu_push(csip2.s.cs); emu_push(csip2.s.ip);
-		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(csip.s.cs); emu_push(csip.s.ip);
-		emu_push(emu_cs); emu_push(0x01FD); emu_cs = 0x2B0E; f__2B0E_0006_0049_87B1();
+		Tools_Memmove(csip, g_global->readBuffer, count);
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-		emu_sp += 12;
 
 		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x020D); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
@@ -317,13 +312,9 @@ void emu_Unknown_B483_0823()
 	res.s.ip = emu_ax;
 
 	if (res.csip != 0) {
-		emu_push(fileSize >> 16); emu_push(fileSize & 0xFFFF);
-		emu_push(res.s.cs); emu_push(res.s.ip);
-		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x08E3); emu_cs = 0x2B0E; f__2B0E_0006_0049_87B1();
+		Tools_Memmove(g_global->readBuffer, res, fileSize);
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-		emu_sp += 12;
 	}
 
 	emu_dx = res.s.cs;

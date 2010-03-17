@@ -173,7 +173,7 @@ l__0114:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x38DA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x012D); emu_cs = 0x2B0E; f__2B0E_0006_0049_87B1();
+	emu_push(emu_cs); emu_push(0x012D); emu_cs = 0x2B0E; emu_Tools_Memmove();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 l__012D:

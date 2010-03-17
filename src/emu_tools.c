@@ -246,7 +246,7 @@ void emu_Tools_Index_GetStructure()
 }
 
 /**
- * Emulator wrapper around emu_Tools_GetSmallestIP()
+ * Emulator wrapper around Tools_GetSmallestIP()
  *
  * @name emu_Tools_GetSmallestIP
  * @implements 2B0E:00D0:0022:EC76 ()
@@ -268,7 +268,7 @@ void emu_Tools_GetSmallestIP()
 }
 
 /**
- * Emulator wrapper around emu_Tools_GetSmallestIP2()
+ * Emulator wrapper around Tools_GetSmallestIP()
  *
  * @name emu_Tools_GetSmallestIP2
  * @implements 2B0E:00F2:0016:F9EC ()
@@ -288,4 +288,31 @@ void emu_Tools_GetSmallestIP2()
 
 	emu_dx = csip.s.cs;
 	emu_ax = csip.s.ip;
+}
+
+/**
+ * Emulator wrapper around Tools_Memmove()
+ *
+ * @name emu_Tools_Memmove
+ * @implements 2B0E:0006:0049:87B1 ()
+ */
+void emu_Tools_Memmove()
+{
+	csip32 src;
+	csip32 dst;
+	uint32 count;
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	src   = emu_get_csip32(emu_ss, emu_sp, 0);
+	dst   = emu_get_csip32(emu_ss, emu_sp, 4);
+	count = emu_get_memory32(emu_ss, emu_sp, 8);
+
+	Tools_Memmove(src, dst, count);
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
 }

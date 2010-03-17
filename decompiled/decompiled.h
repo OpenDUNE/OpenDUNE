@@ -98,7 +98,6 @@ extern void emu_Empty2();
 extern void emu_Script_General_DisplayText();
 extern void f__259E_0006_0016_858A();
 extern void f__263B_0006_001C_9C72();
-extern void f__2B0E_0006_0049_87B1();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BD1_0006_004A_CD10();
 extern void f__06F7_0008_0018_D7CD();

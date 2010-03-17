@@ -199,7 +199,7 @@ l__0138:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_cs); emu_push(0x016F); emu_cs = 0x2B0E; f__2B0E_0006_0049_87B1();
+	emu_push(emu_cs); emu_push(0x016F); emu_cs = 0x2B0E; emu_Tools_Memmove();
 l__016F:
 	emu_addw(&emu_sp, 0xC);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));

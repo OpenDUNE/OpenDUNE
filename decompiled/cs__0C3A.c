@@ -1836,7 +1836,7 @@ l__1779:
 	emu_push(emu_ds);
 	emu_ax = 0x70A2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1792); emu_cs = 0x2B0E; f__2B0E_0006_0049_87B1();
+	emu_push(emu_cs); emu_push(0x1792); emu_cs = 0x2B0E; emu_Tools_Memmove();
 l__1792:
 	emu_addw(&emu_sp, 0xC);
 	emu_xorw(&emu_ax, emu_ax);
