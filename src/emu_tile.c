@@ -287,7 +287,7 @@ void emu_Tile_Center()
 
 	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
 
-	Tile_Center(&tile);
+	tile = Tile_Center(tile);
 
 	emu_ax = Tile_GetX(tile);
 	emu_dx = Tile_GetY(tile);

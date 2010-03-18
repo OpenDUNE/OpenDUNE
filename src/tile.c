@@ -188,10 +188,15 @@ tile32 Tile_AddTileDiff(tile32 from, tile32 diff)
  *
  * @param tile The tile to center.
  */
-void Tile_Center(tile32 *tile)
+tile32 Tile_Center(tile32 tile)
 {
-	tile->d.ox = 0x80;
-	tile->d.oy = 0x80;
+	tile32 result;
+
+	result = tile;
+	result.d.ox = 0x80;
+	result.d.oy = 0x80;
+
+	return result;
 }
 
 /**
