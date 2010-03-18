@@ -10,8 +10,15 @@
 #include "../structure.h"
 #include "../unit.h"
 #include "widget.h"
+#include "../unknown/unknown.h"
 
+extern void emu_Unit_Deviation_Descrease();
+extern void f__01F7_286D_0023_9A13();
+extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
+extern void f__B48B_00F2_0005_601A();
+extern void f__B48B_0127_000E_E325();
+extern void f__B48B_01CE_002B_7574();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -211,4 +218,120 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 	}
 
 	return false;
+}
+
+/**
+ * Handles Click event for unit commands button.
+ *
+ * @param w The widget.
+ * @return True, always.
+ */
+bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
+{
+	ActionType action;
+	Unit *u;
+	UnitInfo *ui;
+	uint16 *actions;
+	csip32 acsip;
+	csip32 loc08;
+	ActionType unitAction;
+	ActionInfo *ai;
+
+	u = Unit_Get_ByMemory(g_global->selectionUnit);
+	ui = &g_unitInfo[u->type];
+
+	actions = ui->actionsPlayer;
+	acsip.s.cs = 0x2D07;
+	acsip.s.ip = u->type * sizeof(UnitInfo) + 0x22;
+
+	if (Unit_GetHouseID(u) != g_global->playerHouseID) {
+		if (u->type != UNIT_SIEGE_TANK) {
+			actions = g_global->actionsAI;
+			acsip.s.cs = 0x353F;
+			acsip.s.ip = 0x3C2A;
+		}
+	}
+
+	action = actions[w->index - 8];
+
+	unitAction = u->nextActionID;
+	if (unitAction == ACTION_INVALID) {
+		unitAction = u->actionID;
+	}
+
+	if (u->deviated != 0) {
+		emu_push(5);
+		emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
+		emu_push(emu_cs); emu_push(0x1D48); emu_Unit_Deviation_Descrease();
+		emu_sp += 6;
+
+		if (u->deviated == 0) {
+			emu_push(0);
+			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+			emu_push(emu_cs); emu_push(0x1D66); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0127_000E_E325();
+			emu_sp += 6;
+
+			return true;
+		}
+	}
+
+	emu_push(0);
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1D7D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
+	emu_sp += 6;
+
+	ai = &g_actionInfo[action];
+
+	if (ai->variable_08 != g_global->selectionType) {
+		g_global->activeUnit = g_global->selectionUnit;
+		g_global->activeAction = action;
+		emu_push(ai->variable_08);
+		emu_push(emu_cs); emu_push(0x1DC3); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+		emu_sp += 2;
+
+		return true;
+	}
+
+	emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
+	emu_push(emu_cs); emu_push(0x1DD4); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	u->targetAttack = 0;
+	u->targetMove = 0;
+	u->variable_72 = 0xFF;
+
+	Unit_SetAction(u, action);
+
+	if (ui->variable_3C == 0) {
+		emu_push(ai->variable_08);
+		emu_push(emu_cs); emu_push(0x1E39); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
+		emu_sp += 2;
+	}
+
+	if (unitAction == action) return true;
+
+	emu_push(4);
+	emu_push(unitAction);
+	emu_push(acsip.s.cs); emu_push(acsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1E4E); emu_cs = 0x01F7; f__01F7_286D_0023_9A13();
+	emu_sp += 8;
+
+	loc08.s.cs = emu_dx;
+	loc08.s.ip = emu_ax;
+	if (loc08.csip == 0) return true;
+
+	emu_push(loc08.s.ip - acsip.s.ip + 8);
+	emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
+	emu_push(emu_cs); emu_push(0x1E76); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00F2_0005_601A();
+	emu_sp += 6;
+
+	wcsip.s.cs = emu_dx;
+	wcsip.s.ip = emu_ax;
+
+	emu_push(0);
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1E8D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0127_000E_E325();
+	emu_sp += 6;
+
+	return true;
 }

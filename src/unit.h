@@ -195,8 +195,8 @@ typedef struct UnitInfo {
 	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Unit. */
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
-	/* 001A()    */ PACK uint8   unknown_001A[0x000E];
-	/* 0028(2)   */ PACK uint16 actionPlayer;               /*!< Default action for player units. */
+	/* 001A()    */ PACK uint8   unknown_001A[0x0008];
+	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
 	/* 002A()    */ PACK uint8   unknown_002A[0x0003];
 	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
 	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
@@ -224,7 +224,7 @@ typedef struct ActionInfo {
 	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[0x0002];
+	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
 } GCC_PACKED ActionInfo;
 MSVC_PACKED_END

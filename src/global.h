@@ -778,7 +778,7 @@ typedef struct GlobalData {
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< ?? */
-	/* 3C2A()    */ PACK uint8   unknown_3C2A[0x0008];
+	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */

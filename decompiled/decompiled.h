@@ -887,7 +887,6 @@ extern void f__AB01_1C49_0022_C4C7();
 extern void f__176C_1C4F_0017_E375();
 extern void f__176C_1C6F_001D_2E46();
 extern void f__AB01_1CA3_0042_C43A();
-extern void emu_GUI_Unit_Command();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void f__176C_1CFE_0021_29C8();
 extern void f__01F7_1DE5_0036_9480();

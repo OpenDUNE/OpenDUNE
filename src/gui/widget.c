@@ -36,7 +36,6 @@ extern void emu_GUI_Purchase_Invoice();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_GUI_Purchase_Plus();
 extern void emu_GUI_RepairUpgrade();
-extern void emu_GUI_Unit_Command();
 extern void overlay(uint16 cs, uint8 force);
 
 Widget *GUI_Widget_GetNext(Widget *w)
@@ -496,6 +495,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 				switch (w->clickProc.csip) {
 					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
 					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
+					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w, wcsip); break;
 					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
 					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w, wcsip); break;
@@ -513,7 +513,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 							case 0x0AEC0FD8: emu_GUI_Cancel(); break;
 							case 0x0AEC1181: emu_GUI_Picture(); break;
 							case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;
-							case 0x1A341CB1: emu_GUI_Unit_Command(); break;
 							case 0x34950025: overlay(0x3495, 0); emu_GUI_Production_Down(); break;
 							case 0x3495002A: overlay(0x3495, 0); emu_GUI_Production_Up(); break;
 							case 0x3495002F: overlay(0x3495, 0); emu_GUI_Production_BuildThis(); break;

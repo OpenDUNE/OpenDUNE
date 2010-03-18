@@ -527,7 +527,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	emu_push(emu_cs); emu_push(0x0B26); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->actionPlayer : ui->actionAI);
+	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->actionsPlayer[3] : ui->actionAI);
 
 	return u;
 }
