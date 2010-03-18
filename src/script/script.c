@@ -6,7 +6,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__0972_0C5A_0015_E00A();
 extern void f__0972_0E87_0047_4065();
 extern void f__0972_1004_0029_E69D();
 extern void f__0972_11B9_0020_8DC9();
@@ -97,7 +96,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 04 */ NULL,
 	/* 05 */ &emu_Script_General_DisplayText,
 	/* 06 */ &f__0972_11B9_0020_8DC9,
-	/* 07 */ &f__0972_0C5A_0015_E00A,
+	/* 07 */ NULL,
 	/* 08 */ &f__0972_0E87_0047_4065,
 	/* 09 */ &f__0972_1004_0029_E69D,
 	/* 0A */ &f__0972_114F_0020_EA79,
@@ -219,7 +218,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 04 */ &Script_Structure_SetAnimation,
 	/* 05 */ NULL,
 	/* 06 */ NULL,
-	/* 07 */ NULL,
+	/* 07 */ &Script_Structure_Unknown0C5A,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
 	/* 0A */ NULL,

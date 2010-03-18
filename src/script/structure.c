@@ -11,12 +11,18 @@
 #include "../house.h"
 #include "script.h"
 #include "../structure.h"
+#include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
+#include "../unknown/unknown.h"
 
 extern void f__0C10_00D2_000F_D61E();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_247A_0015_EA04();
+extern void f__0F3F_0125_000D_4868();
+extern void f__10E4_0117_0015_392D();
+extern void f__1A34_1E99_0012_1117();
+extern void f__1A34_2958_0013_3A47();
 extern void f__1A34_2BB5_0025_30B8();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -255,4 +261,125 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	emu_sp += 6;
 
 	return carryallIndex;
+}
+
+/*
+ * Unknown function 0C5A.
+ *
+ * Stack: 0 - Unknown.
+ *
+ * @param script The script engine to operate on.
+ * @return unknown.
+ */
+uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
+{
+	tile32 tile;
+	Structure *s;
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	s = Structure_Get_ByMemory(g_global->structureCurrent);
+
+	if (s->linkedID == 0xFF) return 0;
+
+	u = Unit_Get_ByIndex(s->linkedID);
+
+	if (g_unitInfo[u->type].variable_3C == 0x4) {
+		emu_push(s->position.s.y); emu_push(s->position.s.x);
+		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+		emu_push(emu_cs); emu_push(0x0CBA); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
+		emu_sp += 8;
+
+		if (emu_ax != 0) {
+			s->linkedID = u->linkedID;
+			u->linkedID = 0xFF;
+
+			if (s->linkedID == 0xFF) {
+				emu_push(0);
+				emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
+				emu_push(emu_cs); emu_push(0x0CF3); emu_cs = 0x0C3A; emu_Structure_SetAnimation();
+				emu_sp += 6;
+			}
+
+			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+			emu_push(emu_cs); emu_push(0x0D03); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+			emu_sp += 4;
+
+			if (s->houseID == g_global->playerHouseID) {
+				emu_push(g_global->playerHouseID + 49);
+				emu_push(emu_cs); emu_push(0x0D20); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+				emu_sp += 2;
+			}
+			return 1;
+		}
+	}
+
+	emu_push(u->type == UNIT_HARVESTER ? 1 : 0);
+	emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0D46); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
+	emu_sp += 6;
+
+	emu_si = emu_ax;
+	if (emu_si == 0) return 0;
+
+	u->variable_09 |= s->variable_09;
+
+	tile = Tile_Center(Tile_UnpackTile(emu_si));
+
+	emu_push(Tile_GetY(tile)); emu_push(Tile_GetX(tile));
+	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+	emu_push(emu_cs); emu_push(0x0D7E); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
+	emu_sp += 8;
+
+	if (emu_ax == 0) return 0;
+
+	s->linkedID = u->linkedID;
+	u->linkedID = 0xFF;
+
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(s->position.s.y); emu_push(s->position.s.x);
+	emu_push(emu_cs); emu_push(0x0DC2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+
+	emu_push(0);
+	emu_push(1);
+	emu_push(emu_ax & 0xE0);
+	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+	emu_push(emu_cs); emu_push(0x0DD4); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
+	emu_sp += 10;
+
+	emu_push(1);
+	emu_push(1);
+	emu_push(u->variable_64);
+	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+	emu_push(emu_cs); emu_push(0x0DF4); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
+	emu_sp += 10;
+
+	if (u->houseID == g_global->playerHouseID) {
+		emu_push(0x6A);
+		emu_push(0x1B);
+		emu_push(emu_cs); emu_push(0x0E12); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
+		emu_sp += 2;
+	}
+
+	if (s->linkedID == 0xFF) {
+		emu_push(0);
+		emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
+		emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x0C3A; emu_Structure_SetAnimation();
+		emu_sp += 6;
+	}
+
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0E3F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	if (s->houseID != g_global->playerHouseID) return 1;
+	if (s->type == STRUCTURE_REPAIR) return 1;
+
+	emu_push(g_global->playerHouseID + (u->type == UNIT_HARVESTER) ? 68 : 30);
+	emu_push(emu_cs); emu_push(0x0E79); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+	emu_sp += 2;
+
+	return 1;
 }
