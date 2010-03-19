@@ -17,6 +17,7 @@
 #include "structure.h"
 #include "tile.h"
 #include "unit.h"
+#include "file.h"
 
 extern void f__01F7_3AF8_001D_A439();
 extern void f__104B_024D_0012_1DC4();
@@ -26,7 +27,6 @@ extern void f__1A34_204C_0043_B1ED();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4CD_14CA_0013_F579();
-extern void emu_File_Exists();
 extern void emu_File_ReadBlockFile();
 extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
@@ -703,14 +703,7 @@ l__0014:
 	sprintf((char *)&emu_get_memory8(emu_ss, emu_bp, -0x22), g_global->string_scenario_file, emu_get_memorycsip(g_houseInfo[houseID].name)[0], scenarioID);
 
 	/* Check if the file exists (might be in a PAK file) */
-	emu_push(emu_ss); emu_push(emu_bp - 0x22);
-	emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x1FB5; emu_File_Exists();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 4;
-
-	/* Couldn't find the file, or failed opening it */
-	if (emu_ax == 0) goto exitError;
+	if (!File_Exists((char *)&emu_get_memory8(emu_ss, emu_bp, -0x22))) goto exitError;
 
 	/* Clear the buffer we will read in */
 	memset(emu_get_memorycsip(g_global->readBuffer), 0, g_global->readBufferSize);

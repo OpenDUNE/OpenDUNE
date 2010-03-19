@@ -155,7 +155,6 @@ extern bool Structure_Load(FILE *fp, uint32 length);
 extern void Structure_ActivateSpecial(Structure *s);
 
 
-extern void emu_GameLoop_Structure();
 extern void emu_Structure_Create();
 extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();

@@ -57,10 +57,8 @@ extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csi
 extern bool Driver_Music_IsPlaying();
 
 
-extern void emu_Drivers_All_Init();
 extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
-extern void emu_Drivers_Init();
 extern void emu_Driver_Music_IsPlaying();
 
 #endif /* DRIVER_H */

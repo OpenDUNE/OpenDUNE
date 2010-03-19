@@ -41,6 +41,4 @@ assert_compile(sizeof(GameCfg) == 0xA);
 
 extern bool Config_Read(char *filename, DuneCfg *config);
 
-extern void emu_Config_Read();
-
 #endif /* CONFIG_H */

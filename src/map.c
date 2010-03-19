@@ -9,8 +9,8 @@
 #include "tile.h"
 #include "unit.h"
 #include "os/math.h"
+#include "gui/gui.h"
 
-extern void emu_GUI_DrawWiredRectangle();
 extern void emu_Structure_UpdateMap();
 extern void f__07D4_1625_001A_07E5();
 extern void f__10E4_0117_0015_392D();
@@ -266,13 +266,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		top    = (Tile_GetPackedY(packed) - mapInfo->minY) * (mapScale + 1) + 136;
 		bottom = top + mapScale * 10 + 9;
 
-		emu_push(15);
-		emu_push(bottom);
-		emu_push(right);
-		emu_push(top);
-		emu_push(left);
-		emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
-		emu_sp += 10;
+		GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
 		for (m = g_global->variable_3566; *m != 0xFFFF; m++) {
 			uint16 curPacked;

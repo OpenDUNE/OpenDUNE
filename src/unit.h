@@ -257,7 +257,6 @@ extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
 
 
-extern void emu_GameLoop_Unit();
 extern void emu_Unit_GetHouseID();
 extern void emu_Unit_Create();
 extern void emu_Unit_IsTypeOnMap();

@@ -8,8 +8,6 @@
 #include "unknown.h"
 
 extern void emu_File_Error();
-extern void emu_String_printf();
-extern void emu_Terminate_Normal();
 extern void overlay(uint16 cs, uint8 force);
 
 /**

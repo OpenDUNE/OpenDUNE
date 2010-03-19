@@ -9,6 +9,8 @@
 #include "../structure.h"
 #include "../unit.h"
 #include "widget.h"
+#include "gui.h"
+#include "../string.h"
 
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
@@ -19,14 +21,12 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawWiredRectangle();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_GetShortcut();
 extern void emu_GUI_String_Get_ByIndex();
 extern void emu_GUI_Update97E5();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawBorder2();
-extern void emu_String_Get_ByIndex();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -183,13 +183,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	width     = w->width;
 	height    = w->height;
 
-	emu_push(0xC);
-	emu_push(positionY + height);
-	emu_push(positionX + width);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
-	emu_sp += 10;
+	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
 	emu_push(buttonDown ? 1 : 0);
 	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
@@ -281,13 +275,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	width     = w->width;
 	height    = w->height;
 
-	emu_push(0xC);
-	emu_push(positionY + height);
-	emu_push(positionX + width);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x08B0); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
-	emu_sp += 10;
+	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
 	emu_push(1);
 	emu_push(buttonDown ? 0 : 1);
@@ -522,13 +510,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	width     = w->width;
 	height    = w->height;
 
-	emu_push(0xC);
-	emu_push(positionY + height);
-	emu_push(positionX + width);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0EDA); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
-	emu_sp += 10;
+	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
 	emu_push(1);
 	emu_push(buttonDown ? 0 : 1);
@@ -564,11 +546,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0F4C); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
 	emu_sp += 14;
 
-	emu_push(stringID);
-	emu_push(emu_cs); emu_push(0x0F57); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_get_memory8(emu_dx, emu_ax, 0x0));
+	emu_push(*String_Get_ByIndex(stringID));
 	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x29DA; emu_GUI_GetShortcut();
 	emu_sp += 2;
 	w->shortcut = emu_ax;

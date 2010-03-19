@@ -288,12 +288,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		s->linkedID = u->linkedID;
 		u->linkedID = 0xFF;
 
-		if (s->linkedID == 0xFF) {
-			emu_push(0);
-			emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0CF3); emu_cs = 0x0C3A; emu_Structure_SetAnimation();
-			emu_sp += 6;
-		}
+		if (s->linkedID == 0xFF) Structure_SetAnimation(s, 0);
 
 		emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
 		emu_push(emu_cs); emu_push(0x0D03); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
@@ -350,12 +345,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		emu_sp += 2;
 	}
 
-	if (s->linkedID == 0xFF) {
-		emu_push(0);
-		emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-		emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x0C3A; emu_Structure_SetAnimation();
-		emu_sp += 6;
-	}
+	if (s->linkedID == 0xFF) Structure_SetAnimation(s, 0);
 
 	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
 	emu_push(emu_cs); emu_push(0x0E3F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();

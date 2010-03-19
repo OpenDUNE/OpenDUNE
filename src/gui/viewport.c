@@ -18,6 +18,7 @@
 #include "../unit.h"
 #include "widget.h"
 #include "../unknown/unknown.h"
+#include "../string.h"
 
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
@@ -34,7 +35,6 @@ extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_String_Get_ByIndex();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Unit_SetTarget();
@@ -324,27 +324,13 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x0713); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
 			emu_sp += 6;
 		} else {
-			char *name;
-			char *string;
-
 			emu_push(0xFFFF);
 			emu_push(26);
 			emu_push(emu_cs); emu_push(0x06DC); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 			emu_sp += 4;
 
-			emu_push(si->stringID_abbrev);
-			emu_push(emu_cs); emu_push(0x06E9); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-
-			name = (char*)&emu_get_memory8(emu_dx, emu_ax, 0);
-
-			emu_push(0x86); /* Can not place %s here. */
-			emu_push(emu_cs); emu_push(0x06F5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-
-			string = (char*)&emu_get_memory8(emu_dx, emu_ax, 0);
-
-			snprintf((char*)&g_global->variable_9939, sizeof(g_global->variable_9939), string, name);
+			/* "Can not place %s here." */
+			snprintf((char*)&g_global->variable_9939, sizeof(g_global->variable_9939), String_Get_ByIndex(0x86), String_Get_ByIndex(si->stringID_abbrev));
 
 			emu_push(2);
 			emu_push(0x353F); emu_push(emu_Global_GetIP(g_global->variable_9939, 0x353F));

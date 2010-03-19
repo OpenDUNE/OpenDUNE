@@ -37,7 +37,6 @@ extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_String_sprintf();
 extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_UpdateMap();
@@ -250,21 +249,7 @@ void GameLoop_Structure()
 									if (s->type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
 									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
-									emu_push(stringID);
-									emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-									emu_sp += 2;
-
-									emu_push(emu_dx); emu_push(emu_ax);
-
-									emu_push(ui->stringID_full);
-									emu_push(emu_cs); emu_push(0x0605); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-									emu_sp += 2;
-
-									emu_push(emu_dx); emu_push(emu_ax);
-									emu_push(emu_ds); emu_push(0x342A); /* %s %s */
-									emu_push(emu_ds); emu_push(0x9939);
-									emu_push(emu_cs); emu_push(0x0617); emu_cs = 0x01F7; emu_String_sprintf();
-									emu_sp += 16;
+									sprintf((char *)g_global->variable_9939, "%s %s", String_Get_ByIndex(ui->stringID_full), String_Get_ByIndex(stringID));
 
 									emu_push(0);
 									emu_push(emu_ds); emu_push(0x9939);

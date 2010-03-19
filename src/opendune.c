@@ -17,9 +17,12 @@
 #include "string.h"
 #include "structure.h"
 #include "team.h"
+#include "tile.h"
 #include "unit.h"
 #include "opendune.h"
 #include "unknown/unknown.h"
+#include "gui/widget.h"
+#include "map.h"
 
 extern void f__07D4_0000_0027_FA61();
 extern void f__10E4_0273_0029_DCE5();
@@ -63,18 +66,12 @@ extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_PickHouse();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
-extern void emu_GUI_Widget_HandleEvents();
 extern void emu_Gameloop_IntroMenu();
 extern void emu_InGame_Numpad_Move();
 extern void emu_Input_Flags_SetBits();
-extern void emu_Map_SetSelectionObjectPosition();
-extern void emu_Security_Main();
 extern void emu_Sound_PlayDuneInit();
 extern void emu_String_Load();
-extern void emu_String_printf();
 extern void emu_Terminate_Normal();
-extern void emu_Tile_Center();
-extern void emu_Tile_PackTile();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -515,14 +512,8 @@ static void GameLoop_Main()
 		}
 
 		if (g_global->variable_31C0 != g_global->variable_38EC) {
-			emu_push(0xFFFF);
-			emu_push(emu_cs); emu_push(0x021B); emu_cs = 0x0F78; emu_Map_SetSelectionObjectPosition();
-			emu_sp += 2;
-
-			emu_push(g_global->variable_3A00);
-			emu_push(emu_cs); emu_push(0x0225); emu_cs = 0x0F78; emu_Map_SetSelectionObjectPosition();
-			emu_sp += 2;
-
+			Map_SetSelectionObjectPosition(0xFFFF);
+			Map_SetSelectionObjectPosition(g_global->variable_3A00);
 			g_global->variable_31C0 = g_global->variable_38EC;
 		}
 
@@ -568,10 +559,11 @@ static void GameLoop_Main()
 		emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 		emu_sp += 2;
 
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_HandleEvents();
-		emu_sp += 4;
-		key = emu_ax;
+		{
+			Widget *w = NULL;
+			if (g_global->variable_3C26.csip != 0) w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+			key = GUI_Widget_HandleEvents(w ,g_global->variable_3C26);
+		}
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_global->selectionUnit.csip != 0x00000000) {
@@ -585,16 +577,7 @@ static void GameLoop_Main()
 
 				if (g_global->selectionType != 1) {
 					Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-
-					emu_push(u->position.s.y); emu_push(u->position.s.x);
-					emu_push(emu_cs); emu_push(0x038F); emu_cs = 0x0F3F; emu_Tile_Center();
-					emu_sp += 4;
-
-					emu_push(emu_dx); emu_push(emu_ax);
-					emu_push(emu_cs); emu_push(0x0398); emu_cs = 0x0F3F; emu_Tile_PackTile();
-					emu_sp += 4;
-
-					g_global->selectionPosition = emu_ax;
+					g_global->selectionPosition = Tile_PackTile(Tile_Center(u->position));
 				}
 			}
 
@@ -806,13 +789,7 @@ void Main()
 
 	emu_push(emu_cs); emu_push(0x02DC); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
-	emu_push(0x141); /* "Thank you for playing Dune II." */
-	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x02ED); emu_cs = 0x01F7; emu_String_printf();
-	emu_sp += 4;
+	printf(String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
 
 	/* XXX -- Debug code */
 	if (0) {

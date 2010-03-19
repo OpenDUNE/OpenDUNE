@@ -110,7 +110,6 @@ extern bool House_Save(FILE *fp);
 extern bool House_Load(FILE *fp, uint32 length);
 
 
-extern void emu_GameLoop_House();
 extern void emu_House_AreAllied();
 
 #endif /* HOUSE_H */

@@ -6,6 +6,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "widget.h"
+#include "gui.h"
 
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
@@ -17,7 +18,6 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_Cancel();
 extern void emu_GUI_DrawText();
-extern void emu_GUI_DrawWiredRectangle();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
@@ -174,15 +174,9 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 
 		case DRAW_MODE_WIRED_RECTANGLE: {
-			emu_push(drawParam1);
-			emu_push(positionBottom);
-			emu_push(positionRight);
-			emu_push(positionTop);
-			emu_push(positionLeft);
-			emu_push(emu_cs); emu_push(0x0980); emu_cs = 0x251B; emu_GUI_DrawWiredRectangle();
+			GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, drawParam1);
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			emu_sp += 10;
 		} break;
 
 		case DRAW_MODE_UNKNOWN6: {
