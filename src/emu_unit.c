@@ -326,3 +326,30 @@ void emu_Unit_FindClosestRefinery()
 
 	emu_ax = Unit_FindClosestRefinery(u);
 }
+
+/**
+ * Emulator wrapper around Unit_SetPosition()
+ *
+ * @name emu_Unit_SetPosition
+ * @implements 1A34:2958:0013:3A47 ()
+ */
+void emu_Unit_SetPosition()
+{
+	csip32 ucsip;
+	Unit *u;
+	tile32 position;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip    = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	position = emu_get_tile32(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_SetPosition(u, position) ? 1 : 0;
+}

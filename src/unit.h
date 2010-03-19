@@ -254,6 +254,7 @@ extern bool Unit_Save(FILE *fp);
 extern bool Unit_Load(FILE *fp, uint32 length);
 extern uint16 Unit_GetTargetPriority(Unit *unit, Unit *target);
 extern uint16 Unit_FindClosestRefinery(Unit *unit);
+extern bool Unit_SetPosition(Unit *u, tile32 position);
 
 
 extern void emu_GameLoop_Unit();
@@ -269,5 +270,6 @@ extern void emu_Unit_Get_ByPackedTile();
 extern void emu_Unit_SetDestination();
 extern void emu_Unit_GetTargetPriority();
 extern void emu_Unit_FindClosestRefinery();
+extern void emu_Unit_SetPosition();
 
 #endif /* UNIT_H */

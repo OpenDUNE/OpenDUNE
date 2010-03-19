@@ -20,7 +20,6 @@
 
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1A34_232C_0011_B7DE();
-extern void f__1A34_2958_0013_3A47();
 extern void f__B4CD_1816_0033_B55B();
 extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
@@ -187,20 +186,12 @@ void GameLoop_House()
 					g_global->scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
-				tile32 tile;
-
 				emu_push(u->houseID);
 				emu_push(locationID);
 				emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 				emu_sp += 4;
 
-				tile = Tile_UnpackTile(emu_ax);
-
-				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-				emu_push(emu_cs); emu_push(0x03D2); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
-				emu_sp += 8;
-				deployed = (emu_ax == 0) ? false : true;
+				deployed = Unit_SetPosition(u, Tile_UnpackTile(emu_ax));
 			}
 
 			if (deployed && g_global->scenario.reinforcement[i].repeat != 0) {

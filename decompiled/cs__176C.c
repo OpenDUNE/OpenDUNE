@@ -357,7 +357,7 @@ l__0AD5:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xE));
-	emu_push(emu_cs); emu_push(0x0AE4); emu_cs = 0x1A34; f__1A34_2958_0013_3A47();
+	emu_push(emu_cs); emu_push(0x0AE4); emu_cs = 0x1A34; emu_Unit_SetPosition();
 l__0AE4:
 	emu_addw(&emu_sp, 0x8);
 	emu_orw(&emu_ax, emu_ax);

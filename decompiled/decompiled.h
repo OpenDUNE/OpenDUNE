@@ -965,7 +965,6 @@ extern void f__176C_291A_0010_8A93();
 extern void emu_Tools_Memset_Internal();
 extern void f__0C3A_2929_0012_B10B();
 extern void emu_Tools_Memset();
-extern void f__1A34_2958_0013_3A47();
 extern void f__01F7_2966_0015_53C0();
 extern void f__AB01_2976_0001_6780();
 extern void f__176C_29A9_003A_8DEF();

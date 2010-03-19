@@ -21,6 +21,7 @@
 
 extern void f__0C10_0008_0014_19CD();
 extern void f__0F3F_0125_000D_4868();
+extern void f__1423_08CD_0012_0004();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_1E99_0012_1117();
@@ -938,4 +939,68 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 	if (s != NULL) unit->variable_4D = Tools_Index_Encode(s->index, IT_STRUCTURE);
 
 	return res;
+}
+
+/**
+ * Sets the position of the given unit.
+ *
+ * @param u The Unit to set the position for.
+ * @position The position.
+ * @return True if and only if the position changed.
+ */
+bool Unit_SetPosition(Unit *u, tile32 position)
+{
+	UnitInfo *ui;
+	csip32 ucsip;
+
+	if (u == NULL) return false;
+
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+
+	ui = &g_unitInfo[u->type];
+	u->flags.s.beingBuilt = false;
+
+	u->position = Tile_Center(position);
+
+	if (u->variable_4D == 0) Unit_FindClosestRefinery(u);
+
+	u->script.variables[4] = 0;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x29CD); f__1A34_0E2E_0015_7E65();
+	emu_sp += 2;
+
+	if (emu_ax != 0) {
+		u->flags.s.beingBuilt = true;
+		return false;
+	}
+
+	u->variable_49.tile = 0;
+	u->targetMove = 0;
+	u->targetAttack = 0;
+
+	if (Map_GetTileByPosition(Tile_PackTile(u->position))->flag_10 != 0) {
+		u->variable_09 &= ~(1 << u->houseID);
+
+		emu_push(g_global->playerHouseID);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x2A38); emu_cs = 0x1423; f__1423_08CD_0012_0004();
+		emu_sp += 6;
+	}
+
+	if (u->houseID != g_global->playerHouseID || u->type == UNIT_HARVESTER || u->type == UNIT_SABOTEUR) {
+		Unit_SetAction(u, ui->actionAI);
+	} else {
+		Unit_SetAction(u, ui->actionsPlayer[3]);
+	}
+
+	u->variable_6D = 0;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x2A92); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	return true;
 }
