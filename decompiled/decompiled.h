@@ -990,7 +990,6 @@ extern void f__01F7_2FD5_0018_0AEC();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
 extern void f__01F7_325B_0026_C673();
-extern void emu_Unit_FindStructure();
 extern void emu_File_LowLevel_Read_Wrapper();
 extern void f__01F7_3357_0028_B817();
 extern void f__01F7_3474_001A_8B70();

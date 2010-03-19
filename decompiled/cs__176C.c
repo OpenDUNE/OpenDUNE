@@ -2973,7 +2973,7 @@ l__1DEA:
 l__1E00:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6268));
-	emu_push(emu_cs); emu_push(0x1E0D); emu_cs = 0x1A34; emu_Unit_FindStructure();
+	emu_push(emu_cs); emu_push(0x1E0D); emu_cs = 0x1A34; emu_Unit_FindClosestRefinery();
 l__1E0D:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

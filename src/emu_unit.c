@@ -300,3 +300,29 @@ void emu_Unit_GetTargetPriority()
 
 	emu_ax = Unit_GetTargetPriority(unit, target);
 }
+
+/**
+ * Emulator wrapper around Unit_FindClosestRefinery()
+ *
+ * @name emu_Unit_FindClosestRefinery
+ * @implements 1A34:3312:0017:29E8 ()
+ */
+void emu_Unit_FindClosestRefinery()
+{
+	csip32 ucsip;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+
+	u = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_FindClosestRefinery(u);
+}

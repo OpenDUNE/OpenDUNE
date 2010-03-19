@@ -32,7 +32,6 @@ extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
-extern void emu_Unit_FindStructure();
 extern void emu_Unit_Deviation_Descrease();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -465,11 +464,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->variable_72      = 0xFF;
 
 	if (position.tile != 0xFFFFFFFF) {
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x09D9); emu_Unit_FindStructure();
-		emu_sp += 4;
-
-		u->variable_4D      = emu_ax;
+		u->variable_4D      = Unit_FindClosestRefinery(u);
 		u->variable_5A.tile = position.tile;
 		u->variable_5E.tile = position.tile;
 	}
@@ -887,4 +882,60 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 
 	if (priority > 0x7D00) return 0x7D00;
 	return priority;
+}
+
+/**
+ * Finds the closest refinery a harvester can go to.
+ *
+ * @param unit The unit to find the closest refinery for.
+ * @return 1 if unit->variable_4D was not 0, else 0.
+ */
+uint16 Unit_FindClosestRefinery(Unit *unit)
+{
+	uint16 res;
+	Structure *s = NULL;
+	uint16 mind = 0;
+	Structure *s2;
+	uint16 d;
+	PoolFindStruct find;
+
+	res = (unit->variable_4D == 0) ? 0 : 1;
+
+	if (unit->type != UNIT_HARVESTER) {
+		unit->variable_4D = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
+		return res;
+	}
+
+	find.type = STRUCTURE_REFINERY;
+	find.houseID = Unit_GetHouseID(unit);
+	find.index = 0xFFFF;
+
+	while (true) {
+		s2 = Structure_Find(&find);
+		if (s2 == NULL) break;
+		if (s2->animation != 1) continue;
+		d = Tile_GetDistance(unit->position, s2->position);
+		if (mind != 0 && d >= mind) continue;
+		mind = d;
+		s = s2;
+	}
+
+	if (s == NULL) {
+		find.type = STRUCTURE_REFINERY;
+		find.houseID = Unit_GetHouseID(unit);
+		find.index = 0xFFFF;
+
+		while (true) {
+			s2 = Structure_Find(&find);
+			if (s2 == NULL) break;
+			d = Tile_GetDistance(unit->position, s2->position);
+			if (mind != 0 && d >= mind) continue;
+			mind = d;
+			s = s2;
+		}
+	}
+
+	if (s != NULL) unit->variable_4D = Tools_Index_Encode(s->index, IT_STRUCTURE);
+
+	return res;
 }

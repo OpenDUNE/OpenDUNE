@@ -124,7 +124,6 @@
 1A34:193F:0013:FA4D	emu_Unit_Deviation_Descrease	# (unit_csip, amount), decrease the deviaton counter
 1A34:1A66:0011:34D4	emu_Unit_SetTarget	# (unit_csip, target_encoded), target a structure/unit/tile
 1A34:2B18:0011:E4D5	emu_Unit_RemoveFog	# (unit_csip), removes fog around unit if allied and valid position
-1A34:3312:0017:29E8	emu_Unit_FindStructure	# (unit_csip), finds structure to go to (harvester)
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit	# (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure	# (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
