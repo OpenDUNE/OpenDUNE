@@ -753,7 +753,7 @@ l__0EFD:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
-	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x1A34; f__1A34_10EC_000E_A326();
+	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x1A34; emu_Unit_Unknown10EC();
 l__0F1A:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

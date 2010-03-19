@@ -30,7 +30,6 @@ extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
-extern void f__1A34_10EC_000E_A326();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
@@ -724,13 +723,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			u = Unit_Get_ByPackedTile(curPos);
 
-			if (u == NULL) {
-				emu_push(0); emu_push(0);
-			} else {
-				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-			}
-			emu_push(emu_cs); emu_push(0x06E8); emu_cs = 0x1A34; f__1A34_10EC_000E_A326();
-			emu_sp += 4;
+			Unit_Unknown10EC(u);
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
 			if (g_dune2_enhanced && s->houseID == g_global->playerHouseID) {

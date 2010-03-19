@@ -255,6 +255,8 @@ extern bool Unit_Load(FILE *fp, uint32 length);
 extern uint16 Unit_GetTargetPriority(Unit *unit, Unit *target);
 extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
+extern void Unit_Unknown10EC(Unit *u);
+extern Unit *Unit_FindBestTarget(Unit *u, uint16 mode);
 
 
 extern void emu_Unit_GetHouseID();
@@ -270,5 +272,7 @@ extern void emu_Unit_SetDestination();
 extern void emu_Unit_GetTargetPriority();
 extern void emu_Unit_FindClosestRefinery();
 extern void emu_Unit_SetPosition();
+extern void emu_Unit_Unknown10EC();
+extern void emu_Unit_FindBestTarget();
 
 #endif /* UNIT_H */

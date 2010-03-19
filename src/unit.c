@@ -22,8 +22,10 @@
 extern void f__0C10_0008_0014_19CD();
 extern void f__0F3F_0125_000D_4868();
 extern void f__1423_08CD_0012_0004();
+extern void f__1423_0BCC_0012_111A();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
+extern void f__1A34_0F48_0018_0DB8();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
@@ -34,6 +36,7 @@ extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_Deviation_Descrease();
+extern void emu_Unit_UntargetMe();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -1003,4 +1006,110 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	emu_sp += 6;
 
 	return true;
+}
+
+/**
+ * Unknown funtion 10EC.
+ *
+ * @param u The Unit to operate on.
+ */
+void Unit_Unknown10EC(Unit *u)
+{
+	csip32 ucsip;
+
+	if (u == NULL) return;
+
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+
+	u->flags.s.allocated = true;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x110D); emu_Unit_UntargetMe();
+	emu_sp += 4;
+
+	if (ucsip.csip == g_global->selectionUnit.csip) {
+		emu_push(0); emu_push(0);
+		emu_push(emu_cs); emu_push(0x112B); f__1A34_0F48_0018_0DB8();
+		emu_sp += 4;
+	}
+
+	u->flags.s.unknown_0040 = true;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x1143); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	emu_push(0xFFFF);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1155); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
+	emu_sp += 6;
+
+	Script_Reset(&u->script, &g_global->scriptUnit);
+
+	Unit_Free(u);
+}
+
+/**
+ * Gets the best target for the given unit.
+ *
+ * @param u The Unit to get the best target for.
+ * @param mode How to determine the best target.
+ * @return The best target or NULL if none found.
+ */
+Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
+{
+	tile32 position;
+	uint16 distance;
+	PoolFindStruct find;
+	Unit *targetBest = NULL;
+	uint16 priorityMax = 0;
+
+	if (u == NULL) return NULL;
+
+	position = u->position;
+	if (u->variable_4D == 0) {
+		u->variable_4D = Tools_Index_Encode(Tile_PackTile(position), IT_TILE);
+	} else {
+		position = Tools_Index_GetTile(u->variable_4D);
+	}
+
+	distance = g_unitInfo[u->type].variable_50 << 8;
+	if (mode == 2) distance <<= 1;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *target;
+		uint16 priority;
+
+		target = Unit_Find(&find);
+
+		if (target == NULL) break;
+		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(target))) continue;
+		if ((target->variable_09 & (1 << u->houseID)) == 0) continue;
+
+		if (mode != 0 && mode != 4) {
+			if (mode == 1) {
+				if (Tile_GetDistance(u->position, target->position) > distance) continue;
+			}
+			if (mode == 2) {
+				if (Tile_GetDistance(position, target->position) > distance) continue;
+			}
+		}
+
+		priority = Unit_GetTargetPriority(u, target);
+
+		if ((int16)priority > (int16)priorityMax) {
+			targetBest = target;
+			priorityMax = priority;
+		}
+	}
+
+	if (priorityMax == 0) return NULL;
+
+	return targetBest;
 }

@@ -353,3 +353,59 @@ void emu_Unit_SetPosition()
 
 	emu_ax = Unit_SetPosition(u, position) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Unit_Unknown10EC()
+ *
+ * @name emu_Unit_Unknown10EC
+ * @implements 1A34:10EC:000E:A326 ()
+ */
+void emu_Unit_Unknown10EC()
+{
+	csip32 ucsip;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
+
+	Unit_Unknown10EC(u);
+}
+
+/**
+ * Emulator wrapper around Unit_FindBestTarget()
+ *
+ * @name emu_Unit_FindBestTarget
+ * @implements 1A34:1328:0026:C398 ()
+ */
+void emu_Unit_FindBestTarget()
+{
+	csip32 ucsip;
+	uint16 mode;
+	Unit *unit;
+	Unit *target;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	mode  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	target = Unit_FindBestTarget(unit, mode);
+
+	if (target == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + target->index * sizeof(Unit);
+}

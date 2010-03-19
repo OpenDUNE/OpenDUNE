@@ -3287,7 +3287,7 @@ l__14DD:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x14E5); emu_cs = 0x1A34; f__1A34_10EC_000E_A326();
+	emu_push(emu_cs); emu_push(0x14E5); emu_cs = 0x1A34; emu_Unit_Unknown10EC();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__14E5:
