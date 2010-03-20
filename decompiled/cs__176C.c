@@ -2124,7 +2124,7 @@ l__184F:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6268));
-	emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x1A34; emu_Unit_Deviation_Descrease();
+	emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x1A34; emu_Unit_Deviation_Decrease();
 l__1863:
 	emu_addw(&emu_sp, 0x6);
 l__1866:

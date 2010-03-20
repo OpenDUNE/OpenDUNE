@@ -38,7 +38,6 @@ extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
-extern void emu_Unit_Deviation_Descrease();
 extern void emu_Unit_UntargetMe();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -213,12 +212,7 @@ void GameLoop_Unit()
 			emu_sp += 6;
 		}
 
-		if (tickDeviation) {
-			emu_push(1);
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x04CB); emu_cs = 0x1A34; emu_Unit_Deviation_Descrease();
-			emu_sp += 6;
-		}
+		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
 		if (ui->variable_3C != 4) {
 			emu_push(Tile_PackTile(u->position));
@@ -1296,10 +1290,105 @@ bool Unit_Unknown167C(Unit *unit)
 
 	unit->variable_49 = position;
 
-	emu_push(10);
+	Unit_Deviation_Decrease(unit, 10);
+
+	return true;
+}
+
+/**
+ * Set the target for the given unit.
+ *
+ * @param unit The Unit to set the target for.
+ * @param encoded The encoded index of the target.
+ */
+void Unit_SetTarget(Unit *unit, uint16 encoded)
+{
+	if (unit == NULL || !Tools_Index_IsValid(encoded)) return;
+	if (unit->targetAttack == encoded) return;
+
+	if (Tools_Index_GetType(encoded) == IT_TILE) {
+		uint16 packed;
+		Unit *u;
+
+		packed = Tools_Index_Decode(encoded);
+
+		u = Unit_Get_ByPackedTile(packed);
+		if (u != NULL) {
+			encoded = Tools_Index_Encode(u->index, IT_UNIT);
+		} else {
+			Structure *s;
+
+			s = Structure_Get_ByPackedTile(packed);
+			if (s != NULL) {
+				encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+			}
+		}
+	}
+
+	if (Tools_Index_Encode(unit->index, IT_UNIT) == encoded) {
+		encoded = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
+	}
+
+	unit->targetAttack = encoded;
+
+	if (!g_unitInfo[unit->type].flags.s.variable_0040) {
+		unit->targetMove = encoded;
+		unit->variable_72 = 0xFF;
+	}
+}
+
+/**
+ * Decrease deviation counter for the given unit.
+ *
+ * @param unit The Unit to decrease counter for.
+ * @param amount The amount to decrease.
+ * @return True if and only if the unit lost deviation.
+ */
+bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
+{
+	UnitInfo *ui;
+	csip32 ucsip;
+
+	if (unit == NULL || unit->deviated == 0) return false;
+
+	ui = &g_unitInfo[unit->type];
+
+	if ((ui->variable_36 & 0x8000) == 0) return false;
+
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	if (amount == 0) {
+		amount = g_houseInfo[unit->houseID].variable_04;
+	}
+
+
+	if (unit->deviated > amount) {
+		unit->deviated -= amount;
+		return false;
+	}
+
+	unit->deviated = 0;
+	unit->flags.s.unknown_0040 = true;
+
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x184A); emu_Unit_Deviation_Descrease();
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x19E2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
+
+	unit->flags.s.unknown_0040 = false;
+	if (unit->houseID == g_global->playerHouseID) {
+		Unit_SetAction(unit, ui->actionsPlayer[3]);
+	} else {
+		Unit_SetAction(unit, ui->actionAI);
+	}
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1A24); emu_Unit_UntargetMe();
+	emu_sp += 4;
+
+	Unit_SetTarget(unit, 0);
+	Unit_SetDestination(unit, 0);
 
 	return true;
 }

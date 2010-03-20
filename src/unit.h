@@ -259,6 +259,8 @@ extern void Unit_Unknown10EC(Unit *u);
 extern Unit *Unit_FindBestTarget(Unit *u, uint16 mode);
 extern Unit *Unit_Unknown15F4(Unit *unit);
 extern bool Unit_Unknown167C(Unit *unit);
+extern void Unit_SetTarget(Unit* unit, uint16 encoded);
+extern bool Unit_Deviation_Decrease(Unit* unit, uint16 encoded);
 
 
 extern void emu_Unit_GetHouseID();
@@ -278,5 +280,7 @@ extern void emu_Unit_Unknown10EC();
 extern void emu_Unit_FindBestTarget();
 extern void emu_Unit_Unknown15F4();
 extern void emu_Unit_Unknown167C();
+extern void emu_Unit_SetTarget();
+extern void emu_Unit_Deviation_Decrease();
 
 #endif /* UNIT_H */

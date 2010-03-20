@@ -37,7 +37,6 @@ extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_LaunchHouseMissle();
-extern void emu_Unit_SetTarget();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -184,11 +183,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		} else {
 			Unit *target;
 
-			emu_push(encoded);
-			emu_push(g_global->activeUnit.s.cs); emu_push(g_global->activeUnit.s.ip);
-			emu_push(emu_cs); emu_push(0x0432); emu_cs = 0x1A34; emu_Unit_SetTarget();
-			emu_sp += 6;
-
+			Unit_SetTarget(u, encoded);
 			target = Tools_Index_GetUnit(u->targetAttack);
 			if (target != NULL) target->variable_6E = 8;
 		}

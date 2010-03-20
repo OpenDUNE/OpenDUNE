@@ -12,7 +12,6 @@
 #include "widget.h"
 #include "../unknown/unknown.h"
 
-extern void emu_Unit_Deviation_Descrease();
 extern void f__01F7_286D_0023_9A13();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
@@ -260,11 +259,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	}
 
 	if (u->deviated != 0) {
-		emu_push(5);
-		emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-		emu_push(emu_cs); emu_push(0x1D48); emu_Unit_Deviation_Descrease();
-		emu_sp += 6;
-
+		Unit_Deviation_Decrease(u, 5);
 		if (u->deviated == 0) {
 			emu_push(0);
 			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
