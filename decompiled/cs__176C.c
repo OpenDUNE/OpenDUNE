@@ -3298,7 +3298,7 @@ l__20CD:
 l__20D2:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6268));
-	emu_push(emu_cs); emu_push(0x20DF); emu_cs = 0x1A34; f__1A34_167C_0015_AA25();
+	emu_push(emu_cs); emu_push(0x20DF); emu_cs = 0x1A34; emu_Unit_Unknown167C();
 l__20DF:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

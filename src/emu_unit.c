@@ -438,3 +438,28 @@ void emu_Unit_Unknown15F4()
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + res->index * sizeof(Unit);
 }
+
+/**
+ * Emulator wrapper around Unit_Unknown167C()
+ *
+ * @name emu_Unit_Unknown167C
+ * @implements 1A34:167C:0015:AA25 ()
+ */
+void emu_Unit_Unknown167C()
+{
+	csip32 ucsip;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	u = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_Unknown167C(u) ? 1 : 0;
+}

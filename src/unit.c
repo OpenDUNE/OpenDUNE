@@ -31,6 +31,8 @@ extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_3014_001B_858E();
+extern void f__1A34_3146_0018_6887();
+extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
@@ -1191,4 +1193,113 @@ Unit *Unit_Unknown15F4(Unit *unit)
 	if (unknownMax == 0) return NULL;
 
 	return res;
+}
+
+/**
+ * Unknwown function 167C.
+ *
+ * @param unit The Unit to operate on.
+ * @return ??.
+ */
+bool Unit_Unknown167C(Unit *unit)
+{
+	UnitInfo *ui;
+	uint16 locsi;
+	csip32 ucsip;
+	uint16 packed;
+	uint16 loc08;
+	tile32 position;
+	uint16 locdi;
+
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	if (unit == NULL) return false;
+
+	ui = &g_unitInfo[unit->type];
+
+	locsi = (unit->variable_64 + 16) & 0xE0;
+
+	emu_push(0);
+	emu_push(1);
+	emu_push(locsi);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x16CE); f__1A34_1E99_0012_1117();
+	emu_sp += 10;
+
+	emu_push(1);
+	emu_push(0);
+	emu_push(locsi);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x16CE); f__1A34_1E99_0012_1117();
+	emu_sp += 10;
+
+	emu_push(locsi);
+	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(emu_cs); emu_push(0x16F8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_00A5_0016_24FA();
+	emu_sp += 6;
+
+	position.s.x = emu_ax;
+	position.s.y = emu_dx;
+
+	packed = Tile_PackTile(position);
+
+	unit->variable_52 = 0x7FFF;
+
+	emu_push(locsi / 32);
+	emu_push(packed);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x172F); f__1A34_3146_0018_6887();
+	emu_sp += 8;
+
+	if ((int16)emu_ax > 0xFF || emu_ax == 0xFFFF) return false;
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x174A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	loc08 = emu_ax;
+	if (loc08 == 0xC) loc08 = 0xA;
+
+	locdi = g_global->variable_3A3E[loc08][2 + (ui->variable_3C / 2)];
+	if (ui->variable_3C % 2 == 0) {
+		locdi >>= 8;
+	} else {
+		locdi &= 0xFF;
+	}
+
+	if (unit->type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
+	unit->flags.s.variable_0008 = false;
+
+	if (g_global->variable_3A3E[loc08][5] != 0) unit->flags.s.unknown_0080 = true;
+
+	if ((ui->hitpoints / 2) > unit->hitpoints && ui->variable_3C != 4) locdi -= locdi / 4;
+
+	emu_push(locdi);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x17D8); f__1A34_204C_0043_B1ED();
+	emu_sp += 6;
+
+	if (ui->variable_3C != 5) {
+		tile32 positionOld;
+
+		positionOld = unit->position;
+		unit->position = position;
+
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x1816); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+		emu_sp += 6;
+
+		unit->position = positionOld;
+	}
+
+	unit->variable_49 = position;
+
+	emu_push(10);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x184A); emu_Unit_Deviation_Descrease();
+	emu_sp += 6;
+
+	return true;
 }
