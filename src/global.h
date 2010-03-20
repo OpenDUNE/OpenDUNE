@@ -773,7 +773,7 @@ typedef struct GlobalData {
 	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
-	/* 3A3E(448) */ PACK uint8  variable_3A3E[15][28];      /*!< ?? */
+	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */

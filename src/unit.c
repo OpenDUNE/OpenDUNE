@@ -32,6 +32,7 @@ extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_3014_001B_858E();
 extern void f__B4CD_01BF_0016_E78F();
+extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
@@ -1112,4 +1113,82 @@ Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
 	if (priorityMax == 0) return NULL;
 
 	return targetBest;
+}
+
+/**
+ * Unknwown function 14E6.
+ *
+ * @param unit ??.
+ * @param target ??.
+ * @return ??.
+ */
+uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
+{
+	uint16 res;
+	uint16 distance;
+
+	if (unit == NULL || target == NULL) return 0;
+	if (!Map_IsPositionUnveiled(Tile_PackTile(target->position))) return 0;
+
+	emu_push(Tile_PackTile(target->position));
+	emu_push(emu_cs); emu_push(0x1557); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	if (g_global->variable_3A3E[emu_ax][7] == 0) return 0;
+
+	switch(g_unitInfo[target->type].variable_3C) {
+		case 0:  res = 0x64;   break;
+		case 1:  res = 0x3E8;  break;
+		case 2:  res = 0x3E8;  break;
+		case 3:  res = 0x1388; break;
+		default: res = 0;      break;
+	}
+
+	if (target->variable_6A != 0 || target->variable_51 != 0) res <<= 2;
+
+	distance = Tile_GetDistanceRoundedUp(unit->position, target->position);
+
+	if (distance != 0 && res != 0) res /= distance;
+	if (distance < 2) res *= 2;
+
+	return res;
+}
+
+/**
+ * Unknwown function 15F4.
+ *
+ * @param unit ??.
+ * @return ??.
+ */
+Unit *Unit_Unknown15F4(Unit *unit)
+{
+	Unit *res = NULL;
+	PoolFindStruct find;
+	uint16 unknownMax = 0;
+
+	if (unit == NULL) return NULL;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		uint16 unknown;
+
+		u = Unit_Find(&find);
+
+		if (u == NULL) break;
+
+		unknown = Unit_Unknown14E6(unit, u);
+
+		if (unknown >= unknownMax) {
+			res = u;
+			unknownMax = unknown;
+		}
+	}
+
+	if (unknownMax == 0) return NULL;
+
+	return res;
 }

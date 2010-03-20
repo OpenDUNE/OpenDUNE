@@ -257,6 +257,7 @@ extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
 extern void Unit_Unknown10EC(Unit *u);
 extern Unit *Unit_FindBestTarget(Unit *u, uint16 mode);
+extern Unit *Unit_Unknown15F4(Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -274,5 +275,6 @@ extern void emu_Unit_FindClosestRefinery();
 extern void emu_Unit_SetPosition();
 extern void emu_Unit_Unknown10EC();
 extern void emu_Unit_FindBestTarget();
+extern void emu_Unit_Unknown15F4();
 
 #endif /* UNIT_H */

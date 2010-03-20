@@ -984,7 +984,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 		loc10 = emu_ax;
 
 		if (g_global->debugScenario != 0) {
-			if (g_global->variable_3A3E[loc10][16] == 0) {
+			if (g_global->variable_3A3E[loc10][8] == 0) {
 				isValid = false;
 				break;
 			}
@@ -995,12 +995,12 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->flags.s.variable_0008) {
-				if (g_global->variable_3A3E[loc10][16] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[loc10][8] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (g_global->variable_3A3E[loc10][12] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[loc10][6] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
 				}

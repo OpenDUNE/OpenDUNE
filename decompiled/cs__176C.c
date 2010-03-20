@@ -4893,7 +4893,7 @@ l__2B97:
 	emu_subw(&emu_sp, 0x4);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x626A));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6268));
-	emu_push(emu_cs); emu_push(0x2BAA); emu_cs = 0x1A34; f__1A34_15F4_0026_EDA4();
+	emu_push(emu_cs); emu_push(0x2BAA); emu_cs = 0x1A34; emu_Unit_Unknown15F4();
 l__2BAA:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
