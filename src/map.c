@@ -397,7 +397,7 @@ bool Map_IsPositionUnveiled(uint16 position)
 	t = Map_GetTileByPosition(position);
 
 	if (!t->isUnveiled) return false;
-	if (t->fogOfWar <= g_global->variable_39F2 && g_global->variable_39F2 - 15 <= t->fogOfWar) return false;
+	if (t->fogOfWar <= g_global->variable_39F2 && g_global->variable_39F2 <= t->fogOfWar + 15) return false;
 
 	return true;
 }

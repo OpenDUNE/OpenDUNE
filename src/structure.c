@@ -1254,7 +1254,7 @@ void Structure_ActivateSpecial(Structure *s)
 				unitType = (emu_ax == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
 				g_global->variable_38BC++;
-				u = Unit_Create(UNIT_INDEX_INVALID, unitType, HOUSE_FREMEN, position, emu_ax);
+				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, emu_ax);
 				g_global->variable_38BC--;
 
 				if (u == NULL) continue;
