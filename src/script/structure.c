@@ -6,6 +6,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "../pool/house.h"
+#include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../house.h"
@@ -45,7 +46,7 @@ uint16 Script_Structure_GetAnimation(ScriptEngine *script)
 	return s->animation;
 }
 
-/*
+/**
  * Set the animation for the current structure.
  *
  * Stack: 0 - The animation.
@@ -78,7 +79,7 @@ uint16 Script_Structure_SetAnimation(ScriptEngine *script)
 	return 0;
 }
 
-/*
+/**
  * Remove fog around the current structure.
  * Radius to uncover is taken from the current structure info.
  *
@@ -106,7 +107,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 	return 0;
 }
 
-/*
+/**
  * Refine spice in the current structure.
  *
  * Stack: *none*
@@ -165,7 +166,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	return 1;
 }
 
-/*
+/**
  * Unknown function 0A81.
  *
  * Stack: *none*
@@ -203,7 +204,7 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 	return 0;
 }
 
-/*
+/**
  * Unknown function 0AFC.
  *
  * Stack: 0 - Unknown.
@@ -223,8 +224,8 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	s = Structure_Get_ByMemory(g_global->structureCurrent);
 
-	if (s->animation != 2) return 0;
-	if (s->linkedID == 0xFF) return 0;
+	if (s->animation != 2) return IT_NONE;
+	if (s->linkedID == 0xFF) return IT_NONE;
 
 	loc06 = script->stack[script->stackPointer];
 
@@ -237,7 +238,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	u = Unit_Get_ByIndex(s->linkedID);
 
 	if (g_global->playerHouseID == s->houseID && u->type == UNIT_HARVESTER && u->variable_5A.tile == 0 && loc08 != 0) {
-		return 0;
+		return IT_NONE;
 	}
 
 	emu_push(loc08 != 0 ? 0 : 1);
@@ -249,7 +250,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	ucsip.s.cs = emu_dx;
 	ucsip.s.ip = emu_ax;
 
-	if (ucsip.csip == 0) return 0;
+	if (ucsip.csip == 0) return IT_NONE;
 
 	carryall = Unit_Get_ByMemory(ucsip);
 	carryallIndex = Tools_Index_Encode(carryall->index, IT_UNIT);
@@ -262,10 +263,10 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	return carryallIndex;
 }
 
-/*
+/**
  * Unknown function 0C5A.
  *
- * Stack: 0 - Unknown.
+ * Stack: *none*
  *
  * @param script The script engine to operate on.
  * @return unknown.
@@ -359,4 +360,61 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	emu_sp += 2;
 
 	return 1;
+}
+
+/**
+ * Find a Unit which is within range and not an ally.
+ *
+ * Stack: 0 - Range to find a target in (amount of tiles multiplied with 256).
+ *
+ * @param script The script engine to operate on.
+ * @return The Unit Index of the closest unit within range and not friendly,
+ *   or 0 if none exists.
+ */
+uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
+{
+	PoolFindStruct find;
+	Structure *s;
+	Unit *u;
+	uint32 distanceCurrent;
+	uint32 targetRange;
+
+	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	targetRange = script->stack[script->stackPointer];
+	distanceCurrent = 32000;
+	u = NULL;
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		uint16 distance;
+		Unit *uf;
+
+		uf = Unit_Find(&find);
+		if (uf == NULL) break;
+
+		if (House_AreAllied(s->houseID, uf->houseID)) continue;
+
+		if (uf->type != UNIT_ORNITHOPTER) {
+			if ((uf->variable_09 & (1 << s->houseID)) == 0) continue;
+		}
+
+		distance = Tile_GetDistance(uf->position, s->position);
+		if (distance >= distanceCurrent) continue;
+
+		if (uf->type == UNIT_ORNITHOPTER) {
+			if (distance >= targetRange * 3) continue;
+		} else {
+			if (distance >= targetRange) continue;
+		}
+
+		/* ENHANCEMENT -- The original code swapped the assignment, making it do nothing, Now it finds the closest unit to shoot at, what seems to be the intention */
+		if (g_dune2_enhanced) distanceCurrent = distance;
+		u = uf;
+	}
+
+	if (u == NULL) return IT_NONE;
+	return Tools_Index_Encode(u->index, IT_UNIT);
 }

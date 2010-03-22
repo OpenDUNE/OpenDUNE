@@ -28,6 +28,9 @@ Structure
     part causes rounding errors.
 - If one structure gives a script error, all structures after it in the linked
     list are not handled. This doesn't really seem correct.
+- In Script function which finds the closest unit to target, it doesn't pick
+    the closest unit within range, but the one with the highest index within
+    range.
 
 
 Scenario
