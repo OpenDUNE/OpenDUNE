@@ -789,7 +789,7 @@ void Main()
 
 	emu_push(emu_cs); emu_push(0x02DC); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
-	printf(String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
+	printf("%s", String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
 
 	/* XXX -- Debug code */
 	if (0) {
