@@ -19,7 +19,6 @@
 #include "unit.h"
 
 extern void emu_Structure_RemoveFog();
-extern void emu_Unit_RemoveFog();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -220,21 +219,12 @@ bool SaveFile(char *filename, char *description)
 
 		/* Remove the fog of war for all units */
 		while (true) {
-			csip32 ucsip;
 			Unit *u;
 
 			u = Unit_Find(&find);
 			if (u == NULL) break;
 
-			/* XXX -- Temporary, to keep all the emu_calls workable for now */
-			ucsip.s.cs = g_global->unitStartPos.s.cs;
-			ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
-
-			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-			emu_push(emu_cs); emu_push(0x07A3); emu_cs = 0x1A34; emu_Unit_RemoveFog();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-			emu_sp += 4;
+			Unit_RemoveFog(u);
 		}
 
 		find.houseID = 0xFFFF;

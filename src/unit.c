@@ -39,6 +39,7 @@ extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Tools_Random_256();
 extern void emu_Unit_UntargetMe();
+extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -955,6 +956,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	if (u == NULL) return false;
 
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
@@ -1016,6 +1018,7 @@ void Unit_Unknown10EC(Unit *u)
 
 	if (u == NULL) return;
 
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
@@ -1205,6 +1208,7 @@ bool Unit_Unknown167C(Unit *unit)
 	tile32 position;
 	uint16 locdi;
 
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
 
@@ -1355,13 +1359,13 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 
 	if ((ui->variable_36 & 0x8000) == 0) return false;
 
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
 
 	if (amount == 0) {
 		amount = g_houseInfo[unit->houseID].variable_04;
 	}
-
 
 	if (unit->deviated > amount) {
 		unit->deviated -= amount;
@@ -1391,4 +1395,28 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	Unit_SetDestination(unit, 0);
 
 	return true;
+}
+
+/**
+ * Remove fog arount the given unit.
+ *
+ * @param unit The Unit to remove fog around.
+ */
+void Unit_RemoveFog(Unit *unit)
+{
+	uint16 fogUncoverRadius;
+
+	if (unit == NULL) return;
+	if (unit->flags.s.beingBuilt) return;
+	if (unit->position.tile == 0xFFFFFFFF || unit->position.tile == 0) return;
+	if (!House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID)) return;
+
+	fogUncoverRadius = g_unitInfo[unit->type].fogUncoverRadius;
+
+	if (fogUncoverRadius == 0) return;
+
+	emu_push(fogUncoverRadius);
+	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(emu_cs); emu_push(0x2BAE); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
+	emu_sp += 6;
 }

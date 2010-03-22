@@ -966,7 +966,6 @@ extern void emu_File_LowLevel_Truncate();
 extern void emu_File_LowLevel_Open_Wrapper();
 extern void f__1A34_2AAA_000D_A3E6();
 extern void f__176C_2AB2_0021_82CD();
-extern void emu_Unit_RemoveFog();
 extern void emu_File_LowLevel_Open();
 extern void f__176C_2B97_0013_B226();
 extern void f__1A34_2BB5_0025_30B8();

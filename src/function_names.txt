@@ -121,7 +121,6 @@
 
 1A34:0B71:0033:9787	emu_Unit_Damage	# (unit_csip, hitpoints, ??), damage a unit with amount of hitpoints. Sets action to DIE when unit runs out of hitpoints
 1A34:1859:0017:DF09	emu_Unit_Deviate	# (unit_csip), try to deviate a unit
-1A34:2B18:0011:E4D5	emu_Unit_RemoveFog	# (unit_csip), removes fog around unit if allied and valid position
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit	# (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure	# (unit_csip)
 1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target

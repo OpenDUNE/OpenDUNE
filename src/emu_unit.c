@@ -515,3 +515,26 @@ void emu_Unit_Deviation_Decrease()
 
 	emu_ax = Unit_Deviation_Decrease(unit, amount) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Unit_RemoveFog()
+ *
+ * @name emu_Unit_RemoveFog
+ * @implements 1A34:2B18:0011:E4D5 ()
+ */
+void emu_Unit_RemoveFog()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_RemoveFog(unit);
+}
