@@ -40,7 +40,6 @@ extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
-extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1160,16 +1159,12 @@ void Structure_ActivateSpecial(Structure *s)
 		case HOUSE_WEAPON_MISSLE: {
 			Unit *u;
 			tile32 position;
-			uint16 random;
-
-			emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
-			random = emu_ax;
 
 			position.s.x = 0xFFFF;
 			position.s.y = 0xFFFF;
 
 			g_global->variable_38BC++;
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->houseID, position, random);
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->houseID, position, Tools_Random_256());
 			g_global->variable_38BC--;
 
 			g_global->unitHouseMissile.csip = 0x0;
@@ -1232,11 +1227,9 @@ void Structure_ActivateSpecial(Structure *s)
 			for (i = 0; i < 5; i++) {
 				Unit *u;
 				tile32 position;
-				uint16 random;
 				uint16 unitType;
 
-				emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
-				random = emu_ax;
+				Tools_Random_256();
 
 				position = Tile_UnpackTile(location);
 				emu_push(1);
@@ -1268,7 +1261,6 @@ void Structure_ActivateSpecial(Structure *s)
 		case HOUSE_WEAPON_SABOTEUR: {
 			Unit *u;
 			uint16 position;
-			uint16 random;
 
 			/* Find a spot next to the structure */
 			emu_push(0);
@@ -1283,11 +1275,8 @@ void Structure_ActivateSpecial(Structure *s)
 				return;
 			}
 
-			emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2BB4; emu_Tools_Random_256();
-			random = emu_ax;
-
 			g_global->variable_38BC++;
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->houseID, Tile_UnpackTile(position), random);
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->houseID, Tile_UnpackTile(position), Tools_Random_256());
 			g_global->variable_38BC--;
 
 			s->countDown = g_houseInfo[s->houseID].specialCountDown;

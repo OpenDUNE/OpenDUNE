@@ -37,7 +37,6 @@ extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_Map_IsPositionInViewport();
-extern void emu_Tools_Random_256();
 extern void emu_Unit_UntargetMe();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -489,9 +488,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->flags.s.allocated = true;
 
 	if (ui->variable_3C == 0x0001) {
-		emu_push(emu_cs); emu_push(0x0A96); emu_cs = 0x2BB4; emu_Tools_Random_256();
-
-		if (emu_ax < g_houseInfo[houseID].variable_06) {
+		if (Tools_Random_256() < g_houseInfo[houseID].variable_06) {
 			u->flags.s.variable_0400 = true;
 		}
 	}
@@ -1447,8 +1444,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 		probability -= probability / 8;
 	}
 
-	emu_push(emu_cs); emu_push(0x18DE); emu_cs = 0x2BB4; emu_Tools_Random_256();
-	if ((emu_ax & 0xFF) >= probability) return false;
+	if (Tools_Random_256() >= probability) return false;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;

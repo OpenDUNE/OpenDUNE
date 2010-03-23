@@ -316,3 +316,18 @@ void emu_Tools_Memmove()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around Tools_Random_256()
+ *
+ * @name emu_Tools_Random_256
+ * @implements 2BB4:0004:0027:DC1D ()
+ */
+void emu_Tools_Random_256()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = Tools_Random_256();
+}

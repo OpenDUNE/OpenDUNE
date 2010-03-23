@@ -89,7 +89,6 @@ extern void f__2427_0004_003B_B2A9();
 extern void f__24DA_0004_000E_FD1B();
 extern void emu_Font_LoadFile();
 extern void f__2995_0004_001F_FE17();
-extern void emu_Tools_Random_256();
 extern void emu_Tools_Swapd();
 extern void emu_Empty1();
 extern void emu_GUI_Name();

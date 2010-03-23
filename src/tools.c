@@ -260,3 +260,24 @@ void Tools_Memmove(csip32 src, csip32 dst, uint32 count)
 
 	/* Unresolved jump */ emu_ip = 0x0054; emu_last_cs = 0x2B0E; emu_last_ip = 0x0048; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return;
 }
+
+/**
+ * Get a random value between 0 and 255.
+ *
+ * @return The random value.
+ */
+uint8 Tools_Random_256()
+{
+	uint16 val16;
+	uint8 val8;
+
+	val16 = (g_global->randomSeed[1] << 8) | g_global->randomSeed[2];
+	val8 = ((val16 ^ 0x8000) >> 15) & 1;
+	val16 = (val16 << 1) | ((g_global->randomSeed[0] >> 1) & 1);
+	val8 = (g_global->randomSeed[0] >> 2) - g_global->randomSeed[0] - val8;
+	g_global->randomSeed[0] = (val8 << 7) | (g_global->randomSeed[0] >> 1);
+	g_global->randomSeed[1] = val16 >> 8;
+	g_global->randomSeed[2] = val16 & 0xFF;
+
+	return g_global->randomSeed[0] ^ g_global->randomSeed[1];
+}

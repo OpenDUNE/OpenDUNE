@@ -8,9 +8,8 @@
 #include "pool/team.h"
 #include "pool/house.h"
 #include "team.h"
+#include "tools.h"
 #include "house.h"
-
-extern void emu_Tools_Random_256();
 
 /**
  * Loop over all teams, performing various of tasks.
@@ -22,9 +21,7 @@ void GameLoop_Team()
 
 	if (g_global->variable_6164 <= g_global->tickGlobal) {
 		tick = true;
-		emu_push(emu_cs); emu_push(0x002C); emu_cs = 0x2BB4; emu_Tools_Random_256();
-		emu_ax &= 7;
-		g_global->variable_6164 = g_global->tickGlobal + emu_ax + 5;
+		g_global->variable_6164 = g_global->tickGlobal + (Tools_Random_256() & 7) + 5;
 	}
 
 	if (!tick) return;

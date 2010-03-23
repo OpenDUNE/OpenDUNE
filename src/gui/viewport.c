@@ -35,7 +35,6 @@ extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Tools_Random_256();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -197,8 +196,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 			emu_sp += 2;
 		} else {
-			emu_push(emu_cs); emu_push(0x04A5); emu_cs = 0x2BB4; emu_Tools_Random_256();
-			emu_push(((emu_ax & 0x1) == 0) ? 20 : 17);
+			emu_push(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 			emu_sp += 2;
 		}

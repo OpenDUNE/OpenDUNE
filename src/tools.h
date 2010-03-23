@@ -27,6 +27,7 @@ extern struct Unit *Tools_Index_GetUnit(uint16 encoded);
 extern struct Structure *Tools_Index_GetStructure(uint16 encoded);
 extern csip32 Tools_GetSmallestIP(csip32 csip);
 extern void Tools_Memmove(csip32 src, csip32 dst, uint32 count);
+extern uint8 Tools_Random_256();
 
 
 extern void emu_Tools_AdjustToGameSpeed();
@@ -43,5 +44,6 @@ extern void emu_Tools_Index_GetStructure();
 extern void emu_Tools_GetSmallestIP();
 extern void emu_Tools_GetSmallestIP2();
 extern void emu_Tools_Memmove();
+extern void emu_Tools_Random_256();
 
 #endif /* TOOLS_H */

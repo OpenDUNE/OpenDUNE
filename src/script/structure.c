@@ -26,7 +26,6 @@ extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_2BB5_0025_30B8();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
-extern void emu_Tools_Random_256();
 
 /**
  * Get the animation frame of the current structure.
@@ -143,8 +142,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 
 	creditsStep = 7;
 	if (u->houseID != g_global->playerHouseID) {
-		emu_push(emu_cs); emu_push(0x145F); emu_cs = 0x2BB4; emu_Tools_Random_256();
-		creditsStep += (emu_ax % 4) - 1;
+		creditsStep += (Tools_Random_256() % 4) - 1;
 	}
 
 	creditsStep *= harvesterStep;

@@ -1152,7 +1152,8 @@ typedef struct GlobalData {
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
-	/* 709A()    */ PACK uint8   unknown_709A[0x060C];
+	/* 709A()    */ PACK uint8   unknown_709A[0x0608];
+	/* 76A2(4)   */ PACK uint8  randomSeed[4];              /*!< Seed for pseudo-random generator. */
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */

@@ -21,7 +21,6 @@
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__1A34_232C_0011_B7DE();
 extern void f__B4CD_1816_0033_B55B();
-extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
@@ -152,10 +151,8 @@ void GameLoop_House()
 				if (nu == NULL) {
 					csip32 nucsip;
 
-					emu_push(emu_cs); emu_push(0x02E9); emu_cs = 0x2BB4; emu_Tools_Random_256();
-
 					emu_push(u->houseID);
-					emu_push(emu_ax & 0x3);
+					emu_push(Tools_Random_256() & 3);
 					emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 					emu_sp += 4;
 
