@@ -1420,3 +1420,56 @@ void Unit_RemoveFog(Unit *unit)
 	emu_push(emu_cs); emu_push(0x2BAE); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 	emu_sp += 6;
 }
+
+/**
+ * Deviate the given unit.
+ *
+ * @param unit The Unit to deviate.
+ * @param probability The probability for deviation to succeed.
+ * @return True if and only if the unit beacame deviated.
+ */
+bool Unit_Deviate(Unit *unit, uint16 probability)
+{
+	csip32 ucsip;
+	UnitInfo *ui;
+
+	if (unit == NULL) return false;
+
+	ui = &g_unitInfo[unit->type];
+
+	if ((ui->variable_36 & 0x8000) == 0) return false;
+	if (unit->deviated != 0) return false;
+	if ((ui->variable_36 & 0x1000) != 0) return false;
+
+	if (probability == 0) probability = g_houseInfo[unit->houseID].variable_04;
+
+	if (unit->houseID != g_global->playerHouseID) {
+		probability -= probability / 8;
+	}
+
+	emu_push(emu_cs); emu_push(0x18DE); emu_cs = 0x2BB4; emu_Tools_Random_256();
+	if ((emu_ax & 0xFF) >= probability) return false;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	unit->deviated = 0x78;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x18FC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	if (g_global->playerHouseID == HOUSE_ORDOS) {
+		Unit_SetAction(unit, ui->actionsPlayer[3]);
+	} else {
+		Unit_SetAction(unit, ui->actionAI);
+	}
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x192F); emu_Unit_UntargetMe();
+	emu_sp += 4;
+
+	return true;
+}

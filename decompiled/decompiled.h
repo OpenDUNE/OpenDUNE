@@ -844,7 +844,6 @@ extern void f__01F7_1828_0023_D335();
 extern void f__01F7_184B_000A_9146();
 extern void f__AB01_184D_004F_7B67();
 extern void f__01F7_1855_0053_AC2D();
-extern void emu_Unit_Deviate();
 extern void f__B4DA_1860_0008_857D();
 extern void f__1DD7_186C_0030_42BF();
 extern void f__B4DA_1893_001C_7AC4();

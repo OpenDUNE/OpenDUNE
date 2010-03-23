@@ -262,6 +262,7 @@ extern bool Unit_Unknown167C(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 encoded);
 extern void Unit_RemoveFog(Unit *unit);
+extern bool Unit_Deviate(Unit *unit, uint16 probability);
 
 
 extern void emu_Unit_GetHouseID();
@@ -284,5 +285,6 @@ extern void emu_Unit_Unknown167C();
 extern void emu_Unit_SetTarget();
 extern void emu_Unit_Deviation_Decrease();
 extern void emu_Unit_RemoveFog();
+extern void emu_Unit_Deviate();
 
 #endif /* UNIT_H */
