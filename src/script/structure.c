@@ -5,6 +5,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../map.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
@@ -24,6 +25,8 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__10E4_0117_0015_392D();
 extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_2BB5_0025_30B8();
+extern void f__B4CD_0000_0011_95D0();
+extern void f__B4CD_17DC_0019_CB46();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -415,4 +418,78 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 
 	if (u == NULL) return IT_NONE;
 	return Tools_Index_Encode(u->index, IT_UNIT);
+}
+
+/**
+ * Rotate the turret to look at a tile.
+ *
+ * Stack: 0 - Tile to look at.
+ *
+ * @param script The script engine to operate on.
+ * @return 0 if looking at target, otherwise 1.
+ */
+uint16 Script_Structure_RotateTurret(ScriptEngine *script)
+{
+	Structure *s;
+	tile32 lookAt;
+	Tile *tile;
+	uint16 baseSpriteID;
+	int16 rotation;
+	int16 rotationNeeded;
+	int16 rotateDiff;
+
+	if (script->stack[script->stackPointer] == 0) return 0;
+
+	s      = Structure_Get_ByMemory(g_global->structureCurrent);
+	lookAt = Tools_Index_GetTile(script->stack[script->stackPointer]);
+	tile   = Map_GetTileByPosition(Tile_PackTile(s->position));
+
+	/* Find the base sprite of the structure */
+	if (s->type == STRUCTURE_ROCKET_TURRET) {
+		emu_ax = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip, 0x30);
+	} else {
+		emu_ax = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip, 0x2E);
+	}
+	baseSpriteID = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip + (emu_ax << 1), 0x4);
+
+	rotation = tile->spriteID - baseSpriteID;
+	if (rotation < 0 || rotation > 7) return 1;
+
+	/* Find what rotation we should have to look at the target */
+	emu_push(lookAt.s.y); emu_push(lookAt.s.x);
+	emu_push(s->position.s.y); emu_push(s->position.s.x);
+	emu_push(emu_cs); emu_push(0x10C9); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+	rotationNeeded = emu_ax;
+
+	emu_push(rotationNeeded & 0xFF);
+	emu_push(emu_cs); emu_push(0x10DB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	emu_sp += 2;
+	rotationNeeded = emu_ax;
+
+	/* Do we need to rotate */
+	if (rotationNeeded == rotation) return 0;
+
+	/* Find the fastest way to rotate to the correct rotation */
+	rotateDiff = rotationNeeded - rotation;
+	if (rotateDiff < 0) rotateDiff += 8;
+
+	if (rotateDiff < 4) {
+		rotation++;
+	} else {
+		rotation--;
+	}
+	rotation &= 0x7;
+
+	/* Set the new sprites */
+	tile->spriteID = baseSpriteID + rotation;
+	s->variable_49 = rotation;
+
+	emu_push(0);
+	emu_push(0);
+	emu_push(Tile_PackTile(s->position));
+	emu_push(emu_cs); emu_push(0x113D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
+	emu_sp += 6;
+
+	return 1;
 }

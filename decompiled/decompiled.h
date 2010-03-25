@@ -737,7 +737,6 @@ extern void f__176C_0FD2_001F_B15D();
 extern void f__22A6_0FD7_0043_ACF9();
 extern void emu_GUI_Cancel();
 extern void f__0C3A_1002_0013_651A();
-extern void f__0972_1004_0029_E69D();
 extern void f__B4CD_1019_0011_089E();
 extern void f__22A6_101C_004B_D9F3();
 extern void emu_CPS_LoadRegionClick();
