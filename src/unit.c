@@ -19,10 +19,14 @@
 #include "team.h"
 #include "structure.h"
 
+extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
+extern void f__0C3A_1216_0013_E56D();
 extern void f__0F3F_0125_000D_4868();
+extern void f__0F3F_028E_0015_1153();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
+extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_0F48_0018_0DB8();
@@ -30,13 +34,20 @@ extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
+extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
+extern void f__B4CD_14CA_0013_F579();
+extern void f__B4CD_160C_0014_FAD7();
+extern void f__B4CD_17DC_0019_CB46();
+extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
+extern void emu_Object_IsScriptVariable4NotNull();
+extern void emu_Unit_Damage();
 extern void emu_Unit_UntargetMe();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -1468,4 +1479,352 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 	emu_sp += 4;
 
 	return true;
+}
+
+/**
+ * Unknwown function 0005.
+ *
+ * @param unit The Unit to operate on.
+ * @param distance ??.
+ * @return ??.
+ */
+bool Unit_Unknown0005(Unit *unit, uint16 distance)
+{
+	csip32 ucsip;
+	UnitInfo *ui;
+	uint16 d;
+	uint16 packed;
+	tile32 newPosition;
+	bool ret;
+	tile32 position_49;
+	bool sprite1 = false;
+	bool sprite2 = false;
+
+	if (unit == NULL || !unit->flags.s.used) return false;
+
+	ui = &g_unitInfo[unit->type];
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	emu_push(distance);
+	emu_push(unit->variable_64);
+	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
+	emu_sp += 8;
+
+	newPosition.s.y = emu_dx;
+	newPosition.s.x = emu_ax;
+
+	if (newPosition.tile == unit->position.tile) return false;
+
+	if ((newPosition.tile & 0xC000C000) != 0) {
+		if ((ui->variable_36 & 0x80) != 0) {
+			newPosition = unit->position;
+
+			emu_push(0);
+			emu_push(0);
+			emu_push((unit->variable_64 + (Tools_Random_256() & 0xF)) & 0xFF);
+			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+			emu_push(emu_cs); emu_push(0x00E1); f__1A34_1E99_0012_1117();
+			emu_sp += 10;
+		} else {
+			Unit_Unknown10EC(unit);
+			return true;
+		}
+
+		if (unit->flags.s.byScenario || unit->linkedID == 0xFF) {
+			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+			emu_push(emu_cs); emu_push(0x0116); emu_cs = 0x0C10; emu_Object_IsScriptVariable4NotNull();
+			emu_sp += 4;
+
+			if (emu_ax == 0) {
+				Unit_Unknown10EC(unit);
+				return true;
+			}
+		}
+	}
+
+	unit->variable_6C = 0;
+
+	if ((ui->variable_36 & 0x10) != 0 || unit->flags.s.unknown_0080) {
+		unit->variable_6C = Tools_Random_256() & 7;
+	}
+
+	d = Tile_GetDistance(newPosition, unit->variable_49);
+	packed = Tile_PackTile(newPosition);
+
+	if ((ui->variable_36 & 0x20) != 0 && d < 48) {
+		Unit *u;
+		u = Unit_Get_ByPackedTile(packed);
+
+		if (u != NULL && g_unitInfo[u->type].variable_3C == 0 && u->flags.s.allocated) {
+			if (u == Unit_Get_ByMemory(g_global->selectionUnit)) {
+				emu_push(0); emu_push(0);
+				emu_push(emu_cs); emu_push(0x01E4); f__1A34_0F48_0018_0DB8();
+				emu_sp += 4;
+			}
+
+			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+			emu_push(emu_cs); emu_push(0x01F1); emu_Unit_UntargetMe();
+			emu_sp += 4;
+
+			u->script.returnValue = 1;
+			Unit_SetAction(u, ACTION_DIE);
+		} else {
+			emu_push(packed);
+			emu_push(emu_cs); emu_push(0x0216); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+			emu_sp += 2;
+
+			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->fogOfWar == 0) {
+				emu_push(unit->variable_64);
+				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+				emu_sp += 2;
+
+				emu_push(5);
+				emu_push(unit->houseID);
+				emu_push(0);
+				emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+				emu_push(0x33C8); emu_push(emu_ax << 4);
+				emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x151A; f__151A_000E_0013_5840();
+				emu_sp += 14;
+			}
+		}
+	}
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0288); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	if (ui->variable_3C == 4) {
+		unit->flags.s.unknown_0020 ^= true;
+	}
+
+	position_49 = unit->variable_49;
+	distance = Tile_GetDistance(newPosition, position_49);
+
+	if (unit->type == UNIT_SONIC_BLAST) {
+		Unit *u;
+		uint16 hitpoints;
+
+		hitpoints = (unit->hitpoints / 4) + 1;
+		ret = false;
+
+		u = Unit_Get_ByPackedTile(packed);
+
+		if (u != NULL) {
+			if ((g_unitInfo[u->type].variable_36 & 8) == 0) {
+				emu_push(0);
+				emu_push(hitpoints);
+				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+				emu_push(emu_cs); emu_push(0x0329); emu_Unit_Damage();
+				emu_sp += 8;
+			}
+		} else {
+			Structure *s;
+
+			s = Structure_Get_ByPackedTile(packed);
+
+			if (s != NULL) {
+				emu_push(0);
+				emu_push(hitpoints);
+				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+				emu_push(emu_cs); emu_push(0x0355); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
+				emu_sp += 8;
+			} else {
+				emu_push(packed);
+				emu_push(emu_cs); emu_push(0x0360); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+				emu_sp += 2;
+
+				if (emu_ax == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > hitpoints) Tools_Random_256();
+			}
+		}
+
+		if (unit->hitpoints < (ui->variable_52 / 2)) {
+			unit->flags.s.unknown_0040 = true;
+		}
+
+		if (--unit->hitpoints == 0 || unit->variable_51 == 0) {
+			Unit_Unknown10EC(unit);
+		}
+	} else {
+		if (unit->type == UNIT_MGV) {
+			emu_push(Tile_PackTile(newPosition));
+			emu_push(emu_cs); emu_push(0x0418); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+			emu_sp += 2;
+
+			if (emu_ax == 11 || emu_ax == 12) {
+				if (Tools_Index_GetType(unit->variable_4D) == IT_STRUCTURE) {
+					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->houseID) {
+						emu_ax = 0;
+					}
+				}
+			}
+
+			if (emu_ax == 11 || emu_ax == 12 || emu_ax == 6) {
+				unit->position = newPosition;
+
+				emu_push(unit->variable_4D);
+				emu_push(unit->hitpoints);
+				emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+				emu_push((ui->variable_54 + unit->hitpoints / 10) & 3);
+				emu_push(emu_cs); emu_push(0x04C1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+				emu_sp += 10;
+
+				Unit_Unknown10EC(unit);
+				return true;
+			}
+		}
+
+		ret = (unit->variable_52 < distance || distance < 16);
+
+		if (ret) {
+			if ((ui->variable_36 & 2) != 0) {
+				if (unit->variable_51 == 0 || unit->type == UNIT_MISSILE_TURRET) {
+					if (unit->type == UNIT_MISSILE_HOUSE) {
+						uint8 i;
+
+						for (i = 0; i < 17; i++) {
+							emu_push(0);
+							emu_push(200);
+							emu_push(newPosition.s.y + g_global->variable_6294[i].s.y); emu_push(newPosition.s.x + g_global->variable_6294[i].s.x);
+							emu_push(ui->variable_54);
+							emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+							emu_sp += 10;
+						}
+					} else {
+						if (ui->variable_54 != 0xFFFF) {
+							emu_push(Tile_PackTile(unit->position));
+							emu_push(emu_cs); emu_push(0x05D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+							emu_sp += 2;
+
+							if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->position))->index == 0 && emu_ax == 0) {
+								emu_push(unit->variable_4D);
+								emu_push(unit->hitpoints);
+								emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+								emu_push(8);
+								emu_push(emu_cs); emu_push(0x05FB); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+								emu_sp += 10;
+							} else {
+								if (unit->type == UNIT_MISSILE_DEVIATOR) {
+									emu_push(32);
+									emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+									emu_push(ui->variable_54);
+									emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
+									emu_sp += 8;
+								} else {
+									emu_push(unit->variable_4D);
+									emu_push(unit->hitpoints);
+									emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+									emu_push((ui->variable_54 + unit->hitpoints / 20) & 3);
+									emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+									emu_sp += 10;
+								}
+							}
+						}
+					}
+
+					Unit_Unknown10EC(unit);
+					return true;
+				}
+			} else {
+				if ((ui->variable_36 & 0x40) != 0) {
+					if (position_49.tile != 0) newPosition = position_49;
+					unit->variable_5E = unit->variable_5A;
+					unit->variable_5A = unit->position;
+					unit->variable_49.tile = 0;
+
+					if (unit->flags.s.variable_0400 && (Tools_Random_256() & 3) == 0) {
+						emu_push(0);
+						emu_push(1);
+						emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+						emu_push(emu_cs); emu_push(0x06F4); emu_Unit_Damage();
+						emu_sp += 8;
+					}
+
+					if (unit->type == UNIT_SABOTEUR) {
+						emu_push(Tile_PackTile(newPosition));
+						emu_push(emu_cs); emu_push(0x076C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+						emu_sp += 2;
+
+						if (emu_ax == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->position, Tools_Index_GetTile(unit->targetMove)) < 32)) {
+							emu_push(0);
+							emu_push(500);
+							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+							emu_push(4);
+							emu_push(emu_cs); emu_push(0x0748); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+							emu_sp += 10;
+
+							Unit_Free(unit);
+							return true;
+						}
+					}
+
+					emu_push(0);
+					emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+					emu_push(emu_cs); emu_push(0x0782); f__1A34_204C_0043_B1ED();
+					emu_sp += 6;
+
+					if (unit->targetMove == Tools_Index_Encode(packed, IT_TILE)) {
+						unit->targetMove = 0;
+					}
+
+					{
+						Structure *s;
+
+						s = Structure_Get_ByPackedTile(packed);
+						if (s != NULL) {
+							unit->variable_5E.tile = 0;
+							unit->variable_5A.tile = 0;
+
+							emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+							emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+							emu_push(emu_cs); emu_push(0x07DF); f__1A34_2C95_001B_89A2();
+							emu_sp += 8;
+
+							return true;
+						}
+					}
+
+					if (unit->type != UNIT_SANDWORM) {
+						if (Map_GetTileByPosition(packed)->spriteID == g_global->variable_39F4) {
+							Map_GetTileByPosition(g_global->selectionPosition)->spriteID = g_map[g_global->selectionPosition] & 0x01FF;
+							sprite1 = true;
+						}
+
+						if (Map_GetTileByPosition(packed)->spriteID == g_global->variable_39F4 + 1) {
+							Map_GetTileByPosition(g_global->selectionPosition)->spriteID = g_map[g_global->selectionPosition] & 0x01FF;
+							sprite2 = true;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	unit->variable_52 = distance;
+	unit->position = newPosition;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x08B4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	if (sprite2 != 0) {
+		emu_push(Unit_GetHouseID(unit));
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x08D1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_160C_0014_FAD7();
+		emu_sp += 4;
+	}
+
+	if (sprite1 != 0) {
+		emu_push(Unit_GetHouseID(unit));
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x08ED); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
+		emu_sp += 4;
+	}
+
+	return ret;
 }

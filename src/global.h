@@ -873,7 +873,9 @@ typedef struct GlobalData {
 	/* 6280(4)   */ PACK uint32 tickUnitScript;             /*!< Indicates next time Unit runs Script function. */
 	/* 6284(4)   */ PACK uint32 tickUnitUnknown5;           /*!< Indicates next time Unit runs Unknown5 function. */
 	/* 6288(4)   */ PACK uint32 tickUnitDeviation;          /*!< Indicates next time Unit runs Deviation function. */
-	/* 628C()    */ PACK uint8   unknown_628C[0x005E];
+	/* 628C()    */ PACK uint8   unknown_628C[0x0008];
+	/* 6294(68)  */ PACK tile32 variable_6294[17];          /*!< ?? */
+	/* 62D8()    */ PACK uint8   unknown_62D8[0x0012];
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */

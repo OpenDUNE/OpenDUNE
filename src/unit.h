@@ -211,7 +211,9 @@ typedef struct UnitInfo {
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
 	/* 004A()    */ PACK uint8   unknown_004A[0x0006];
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
-	/* 0052()    */ PACK uint8   unknown_0052[0x0008];
+	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
+	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
+	/* 0056()    */ PACK uint8   unknown_0056[0x0004];
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);
@@ -263,6 +265,7 @@ extern void Unit_SetTarget(Unit* unit, uint16 encoded);
 extern bool Unit_Deviation_Decrease(Unit* unit, uint16 encoded);
 extern void Unit_RemoveFog(Unit *unit);
 extern bool Unit_Deviate(Unit *unit, uint16 probability);
+extern bool Unit_Unknown0005(Unit *unit, uint16 distance);
 
 
 extern void emu_Unit_GetHouseID();
@@ -286,5 +289,6 @@ extern void emu_Unit_SetTarget();
 extern void emu_Unit_Deviation_Decrease();
 extern void emu_Unit_RemoveFog();
 extern void emu_Unit_Deviate();
+extern void emu_Unit_Unknown0005();
 
 #endif /* UNIT_H */

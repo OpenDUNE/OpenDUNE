@@ -565,3 +565,30 @@ void emu_Unit_Deviate()
 
 	emu_ax = Unit_Deviate(unit, probability) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Unit_Unknown0005()
+ *
+ * @name emu_Unit_Unknown0005
+ * @implements 1A34:0005:001F:38E2 ()
+ */
+void emu_Unit_Unknown0005()
+{
+	csip32 ucsip;
+	uint16 distance;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	distance = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_Unknown0005(unit, distance) ? 1 : 0;
+}
