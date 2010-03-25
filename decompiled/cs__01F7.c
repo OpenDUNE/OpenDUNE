@@ -8890,6 +8890,7 @@ l__3CED:
  * @implements 01F7:3D37:0019:225A
  * @implements 01F7:3D50:0024:0E49
  * @implements 01F7:3D65:000F:C671
+ * @implements 01F7:3D74:005B:C3DE
  * @implements 01F7:3D7C:0053:E1F5
  * @implements 01F7:3D9A:0035:C4C8
  * @implements 01F7:3DCF:0014:372E
@@ -8958,9 +8959,14 @@ l__3D65:
 	emu_decw(&emu_ax);
 	emu_si = emu_ax;
 	goto l__3D7C;
+l__3D74:
+	emu_decw(&emu_si);
+	emu_al = emu_get_memory8(emu_ds, emu_si, 0x7B20);
+	emu_ax = (int8)emu_al;
+	emu_addw(&emu_cx, emu_ax);
 l__3D7C:
 	emu_orw(&emu_si, emu_si);
-	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) { /* Unresolved jump */ emu_ip = 0x3D74; emu_last_cs = 0x01F7; emu_last_ip = 0x3D7E; emu_last_length = 0x0053; emu_last_crc = 0xE1F5; emu_call(); return; }
+	if (!(emu_flags.zf || emu_flags.sf != emu_flags.of)) goto l__3D74;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x2);
 	emu_ax = (int8)emu_al;
