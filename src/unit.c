@@ -18,6 +18,7 @@
 #include "unit.h"
 #include "team.h"
 #include "structure.h"
+#include "unknown/unknown.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
@@ -37,17 +38,18 @@ extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
+extern void f__1A34_379B_0015_B07B();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_14CA_0013_F579();
+extern void f__B4CD_154C_0015_B7FB();
 extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Object_IsScriptVariable4NotNull();
-extern void emu_Unit_Damage();
 extern void emu_Unit_UntargetMe();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -1607,20 +1609,16 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 
 	if (unit->type == UNIT_SONIC_BLAST) {
 		Unit *u;
-		uint16 hitpoints;
+		uint16 damage;
 
-		hitpoints = (unit->hitpoints / 4) + 1;
+		damage = (unit->hitpoints / 4) + 1;
 		ret = false;
 
 		u = Unit_Get_ByPackedTile(packed);
 
 		if (u != NULL) {
 			if ((g_unitInfo[u->type].variable_36 & 8) == 0) {
-				emu_push(0);
-				emu_push(hitpoints);
-				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-				emu_push(emu_cs); emu_push(0x0329); emu_Unit_Damage();
-				emu_sp += 8;
+				Unit_Damage(u, damage, 0);
 			}
 		} else {
 			Structure *s;
@@ -1629,7 +1627,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 
 			if (s != NULL) {
 				emu_push(0);
-				emu_push(hitpoints);
+				emu_push(damage);
 				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
 				emu_push(emu_cs); emu_push(0x0355); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
 				emu_sp += 8;
@@ -1638,7 +1636,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 				emu_push(emu_cs); emu_push(0x0360); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 				emu_sp += 2;
 
-				if (emu_ax == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > hitpoints) Tools_Random_256();
+				if (emu_ax == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > damage) Tools_Random_256();
 			}
 		}
 
@@ -1737,11 +1735,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 					unit->variable_49.tile = 0;
 
 					if (unit->flags.s.variable_0400 && (Tools_Random_256() & 3) == 0) {
-						emu_push(0);
-						emu_push(1);
-						emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-						emu_push(emu_cs); emu_push(0x06F4); emu_Unit_Damage();
-						emu_sp += 8;
+						Unit_Damage(unit, 1, 0);
 					}
 
 					if (unit->type == UNIT_SABOTEUR) {
@@ -1827,4 +1821,118 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 	}
 
 	return ret;
+}
+
+/**
+ * Applies damages to the given unit.
+ *
+ * @param unit The Unit to apply damages on.
+ * @param damage The amount of damage to apply.
+ * @param range ??.
+ * @return True if and only if the unit has no hitpoints left.
+ */
+bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
+{
+	csip32 ucsip;
+	UnitInfo *ui;
+	bool alive = false;
+	uint8 houseID;
+
+	if (unit == NULL || !unit->flags.s.allocated) return false;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	ui = &g_unitInfo[unit->type];
+
+	if ((ui->variable_36 & 0x8000) == 0 && unit->type != UNIT_SANDWORM) return false;
+
+	if (unit->hitpoints != 0) alive = true;
+
+	if (unit->hitpoints >= damage) {
+		unit->hitpoints -= damage;
+	} else {
+		unit->hitpoints = 0;
+	}
+
+	Unit_Deviation_Decrease(unit, 0);
+
+	houseID = Unit_GetHouseID(unit);
+
+	if (unit->hitpoints == 0) {
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x0C1D); f__1A34_379B_0015_B07B();
+		emu_sp += 4;
+
+		if (unit->type == UNIT_HARVESTER) {
+			emu_push(unit->amount / 32);
+			emu_push(Tile_PackTile(unit->position));
+			emu_push(emu_cs); emu_push(0x0C4E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_154C_0015_B7FB();
+			emu_sp += 4;
+		}
+
+		if (unit->type == UNIT_SABOTEUR) {
+			emu_push(20);
+			emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+			emu_sp += 2;
+		} else {
+			if (!ui->flags.s.noMessageOnDeath && alive) {
+				if (houseID == g_global->playerHouseID || g_global->campaignID > 3) {
+					emu_push(houseID + 14);
+					emu_push(emu_cs); emu_push(0x0CAC); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+					emu_sp += 2;
+				} else {
+					emu_push(13);
+					emu_push(emu_cs); emu_push(0x0CAC); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+					emu_sp += 2;
+				}
+			}
+		}
+
+		Unit_SetAction(unit, ACTION_DIE);
+		return true;
+	}
+
+	if (range != 0) {
+		emu_push(0);
+		emu_push(0);
+		emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+		emu_push((damage < 25) ? 0 : 1);
+		emu_push(emu_cs); emu_push(0x0CF1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+		emu_sp += 10;
+	}
+
+	if (houseID != g_global->playerHouseID && unit->actionID == ACTION_AMBUSH && unit->type != UNIT_HARVESTER) {
+		Unit_SetAction(unit, ACTION_ATTACK);
+	}
+
+	if (unit->hitpoints >= ui->hitpoints / 2) return false;
+
+	if (unit->type == UNIT_SANDWORM) {
+		Unit_SetAction(unit, ACTION_DIE);
+	}
+
+	if (unit->type == UNIT_TROOPERS || unit->type == UNIT_INFANTRY) {
+		unit->type += 2;
+		ui = &g_unitInfo[unit->type];
+		unit->hitpoints = ui->hitpoints;
+
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x0DB8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+		emu_sp += 6;
+
+		if (Tools_Random_256() < g_houseInfo[unit->houseID].variable_04) {
+			Unit_SetAction(unit, ACTION_RETREAT);
+		}
+	}
+
+	if (ui->variable_3C != 2 && ui->variable_3C != 1 && ui->variable_3C != 3) return false;
+
+	unit->flags.s.variable_0008 = true;
+	unit->variable_6D = 0;
+	unit->variable_70 = 0;
+
+	return false;
 }

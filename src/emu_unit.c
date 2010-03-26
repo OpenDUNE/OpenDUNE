@@ -582,7 +582,7 @@ void emu_Unit_Unknown0005()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	ucsip    = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	distance = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
 	emu_ax = 0;
@@ -591,4 +591,33 @@ void emu_Unit_Unknown0005()
 	unit = Unit_Get_ByMemory(ucsip);
 
 	emu_ax = Unit_Unknown0005(unit, distance) ? 1 : 0;
+}
+
+/**
+ * Emulator wrapper around Unit_Damage()
+ *
+ * @name emu_Unit_Damage
+ * @implements 1A34:0B71:0033:9787 ()
+ */
+void emu_Unit_Damage()
+{
+	csip32 ucsip;
+	uint16 damage;
+	uint16 range;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	damage = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	range  = emu_get_memory16(emu_ss, emu_sp, 0x6);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_Damage(unit, damage, range) ? 1 : 0;
 }

@@ -605,7 +605,6 @@ extern void f__B4E0_0B5D_0005_6F1A();
 extern void f__22A6_0B60_006A_2F61();
 extern void f__2649_0B64_0011_32F8();
 extern void f__B503_0B68_000D_957E();
-extern void emu_Unit_Damage();
 extern void emu_DSP_GetInfo();
 extern void f__AB00_0B86_0001_6780();
 extern void f__B4E0_0B86_001E_9967();
