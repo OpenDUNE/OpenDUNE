@@ -621,3 +621,26 @@ void emu_Unit_Damage()
 
 	emu_ax = Unit_Damage(unit, damage, range) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Unit_UntargetMe()
+ *
+ * @name emu_Unit_UntargetMe
+ * @implements 1A34:364E:0012:61B3 ()
+ */
+void emu_Unit_UntargetMe()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_UntargetMe(unit);
+}

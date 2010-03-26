@@ -22,6 +22,7 @@
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
+extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_028E_0015_1153();
@@ -49,8 +50,8 @@ extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
+extern void emu_Object_GetScriptVariable4();
 extern void emu_Object_IsScriptVariable4NotNull();
-extern void emu_Unit_UntargetMe();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1033,10 +1034,7 @@ void Unit_Unknown10EC(Unit *u)
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 
 	u->flags.s.allocated = true;
-
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x110D); emu_Unit_UntargetMe();
-	emu_sp += 4;
+	Unit_UntargetMe(u);
 
 	if (ucsip.csip == g_global->selectionUnit.csip) {
 		emu_push(0); emu_push(0);
@@ -1397,10 +1395,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 		Unit_SetAction(unit, ui->actionAI);
 	}
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1A24); emu_Unit_UntargetMe();
-	emu_sp += 4;
-
+	Unit_UntargetMe(unit);
 	Unit_SetTarget(unit, 0);
 	Unit_SetDestination(unit, 0);
 
@@ -1476,9 +1471,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 		Unit_SetAction(unit, ui->actionAI);
 	}
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x192F); emu_Unit_UntargetMe();
-	emu_sp += 4;
+	Unit_UntargetMe(unit);
 
 	return true;
 }
@@ -1568,10 +1561,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 				emu_sp += 4;
 			}
 
-			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-			emu_push(emu_cs); emu_push(0x01F1); emu_Unit_UntargetMe();
-			emu_sp += 4;
-
+			Unit_UntargetMe(u);
 			u->script.returnValue = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
@@ -1935,4 +1925,86 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	unit->variable_70 = 0;
 
 	return false;
+}
+
+/**
+ * Untarget the given unit.
+ *
+ * @param unit The unit to untarget.
+ */
+void Unit_UntargetMe(Unit *unit)
+{
+	csip32 ucsip;
+	uint16 encoded;
+	PoolFindStruct find;
+
+	if (unit == NULL) return;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	encoded = Tools_Index_Encode(unit->index, IT_UNIT);
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(emu_cs); emu_push(0x367E); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		csip32 ucsip2;
+
+		u = Unit_Find(&find);
+
+		if (u == NULL) break;
+		if (u->targetMove == encoded) u->targetMove = 0;
+		if (u->targetAttack == encoded) u->targetAttack = 0;
+
+		/* XXX -- Temporary, to keep all the emu_calls workable for now */
+		ucsip2.s.cs = g_global->unitStartPos.s.cs;
+		ucsip2.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+
+		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
+		emu_push(emu_cs); emu_push(0x36C6); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
+		emu_sp += 4;
+
+		if (emu_ax != encoded) continue;
+
+		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
+		emu_push(emu_cs); emu_push(0x36D7); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+		emu_sp += 4;
+	}
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+
+		if (s == NULL) break;
+		if (s->type != STRUCTURE_TURRET && s->type != STRUCTURE_ROCKET_TURRET) continue;
+		if (s->script.variables[2] == encoded) s->script.variables[2] = 0;
+	}
+
+	Unit_RemoveFromTeam(unit);
+
+	find.houseID = 0xFFFF;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Team *t;
+
+		t = Team_Find(&find);
+
+		if (t == NULL) break;
+		if (t->target == encoded) t->target = 0;
+	}
 }

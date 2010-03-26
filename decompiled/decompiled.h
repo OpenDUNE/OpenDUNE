@@ -982,7 +982,6 @@ extern void emu_Structure_GetLinkedUnit();
 extern void emu_Unit_GetLinkedStructure();
 extern void f__1A34_350F_0021_9B04();
 extern void f__01F7_352D_0051_5751();
-extern void emu_Unit_UntargetMe();
 extern void emu_String_Format_Callback_374D();
 extern void emu_String_sprintf();
 extern void f__1A34_379B_0015_B07B();

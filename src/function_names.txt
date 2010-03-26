@@ -119,10 +119,8 @@
 
 176C:23CC:000B:4119	emu_Script_Unit_RandomSoldier	# (script_csip) randomly generates a new soldier around currentUnit location
 
-1A34:1859:0017:DF09	emu_Unit_Deviate	# (unit_csip), try to deviate a unit
 1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit	# (structure_csip)
 1A34:34D0:0032:E0A4	emu_Unit_GetLinkedStructure	# (unit_csip)
-1A34:364E:0012:61B3	emu_Unit_UntargetMe	# (unit_csip), everything targeting this unit will now lose target
 
 1DD7:0421:000E:5431	emu_Drivers_Load	# (name_csip), load a driver in the memory
 

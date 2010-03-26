@@ -268,6 +268,7 @@ extern void Unit_RemoveFog(Unit *unit);
 extern bool Unit_Deviate(Unit *unit, uint16 probability);
 extern bool Unit_Unknown0005(Unit *unit, uint16 distance);
 extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
+extern void Unit_UntargetMe(Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -293,5 +294,6 @@ extern void emu_Unit_RemoveFog();
 extern void emu_Unit_Deviate();
 extern void emu_Unit_Unknown0005();
 extern void emu_Unit_Damage();
+extern void emu_Unit_UntargetMe();
 
 #endif /* UNIT_H */
