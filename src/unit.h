@@ -130,7 +130,7 @@ typedef struct Unit {
 	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
 	/* 0047()    */ PACK uint8   unknown_0047[0x0002];
 	/* 0049(4)   */ PACK tile32 variable_49;                /*!< ?? */
-	/* 004D(2)   */ PACK uint16 variable_4D;                /*!< ?? */
+	/* 004D(2)   */ PACK uint16 originEncoded;              /*!< Encoded index, indicating the origin. */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
 	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
 	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
@@ -209,7 +209,8 @@ typedef struct UnitInfo {
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040()    */ PACK uint8   unknown_0040[0x0008];
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
-	/* 004A()    */ PACK uint8   unknown_004A[0x0006];
+	/* 004A()    */ PACK uint8   unknown_004A[0x0004];
+	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */

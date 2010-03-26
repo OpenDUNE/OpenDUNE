@@ -248,7 +248,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				if (ucsip.csip == 0x0) {
 					h->variable_02++;
 				} else {
-					Unit_Get_ByMemory(ucsip)->variable_4D = Tools_Index_Encode(s->index, IT_STRUCTURE);
+					Unit_Get_ByMemory(ucsip)->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
 				}
 			}
 

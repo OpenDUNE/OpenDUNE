@@ -472,11 +472,11 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->position.tile    = position.tile;
 	u->hitpoints        = ui->hitpoints;
 	u->variable_49.tile = 0;
-	u->variable_4D      = 0x0000;
+	u->originEncoded    = 0x0000;
 	u->variable_72      = 0xFF;
 
 	if (position.tile != 0xFFFFFFFF) {
-		u->variable_4D      = Unit_FindClosestRefinery(u);
+		u->originEncoded    = Unit_FindClosestRefinery(u);
 		u->variable_5A.tile = position.tile;
 		u->variable_5E.tile = position.tile;
 	}
@@ -909,10 +909,10 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 	uint16 d;
 	PoolFindStruct find;
 
-	res = (unit->variable_4D == 0) ? 0 : 1;
+	res = (unit->originEncoded == 0) ? 0 : 1;
 
 	if (unit->type != UNIT_HARVESTER) {
-		unit->variable_4D = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
+		unit->originEncoded = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
 		return res;
 	}
 
@@ -945,7 +945,7 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 		}
 	}
 
-	if (s != NULL) unit->variable_4D = Tools_Index_Encode(s->index, IT_STRUCTURE);
+	if (s != NULL) unit->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
 
 	return res;
 }
@@ -973,7 +973,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	u->position = Tile_Center(position);
 
-	if (u->variable_4D == 0) Unit_FindClosestRefinery(u);
+	if (u->originEncoded == 0) Unit_FindClosestRefinery(u);
 
 	u->script.variables[4] = 0;
 
@@ -1077,10 +1077,10 @@ Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
 	if (u == NULL) return NULL;
 
 	position = u->position;
-	if (u->variable_4D == 0) {
-		u->variable_4D = Tools_Index_Encode(Tile_PackTile(position), IT_TILE);
+	if (u->originEncoded == 0) {
+		u->originEncoded = Tools_Index_Encode(Tile_PackTile(position), IT_TILE);
 	} else {
-		position = Tools_Index_GetTile(u->variable_4D);
+		position = Tools_Index_GetTile(u->originEncoded);
 	}
 
 	distance = g_unitInfo[u->type].variable_50 << 8;
@@ -1656,7 +1656,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 			emu_sp += 2;
 
 			if (emu_ax == 11 || emu_ax == 12) {
-				if (Tools_Index_GetType(unit->variable_4D) == IT_STRUCTURE) {
+				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
 					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->houseID) {
 						emu_ax = 0;
 					}
@@ -1666,7 +1666,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 			if (emu_ax == 11 || emu_ax == 12 || emu_ax == 6) {
 				unit->position = newPosition;
 
-				emu_push(unit->variable_4D);
+				emu_push(unit->originEncoded);
 				emu_push(unit->hitpoints);
 				emu_push(unit->position.s.y); emu_push(unit->position.s.x);
 				emu_push((ui->variable_54 + unit->hitpoints / 10) & 3);
@@ -1701,7 +1701,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 							emu_sp += 2;
 
 							if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->position))->index == 0 && emu_ax == 0) {
-								emu_push(unit->variable_4D);
+								emu_push(unit->originEncoded);
 								emu_push(unit->hitpoints);
 								emu_push(newPosition.s.y); emu_push(newPosition.s.x);
 								emu_push(8);
@@ -1715,7 +1715,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 									emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
 									emu_sp += 8;
 								} else {
-									emu_push(unit->variable_4D);
+									emu_push(unit->originEncoded);
 									emu_push(unit->hitpoints);
 									emu_push(newPosition.s.y); emu_push(newPosition.s.x);
 									emu_push((ui->variable_54 + unit->hitpoints / 20) & 3);
