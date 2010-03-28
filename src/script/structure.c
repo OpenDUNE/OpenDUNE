@@ -23,7 +23,6 @@ extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__0F3F_0125_000D_4868();
 extern void f__10E4_0117_0015_392D();
-extern void f__1A34_1E99_0012_1117();
 extern void f__1A34_2BB5_0025_30B8();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
@@ -326,19 +325,8 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x0DC2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	emu_push(0);
-	emu_push(1);
-	emu_push(emu_ax & 0xE0);
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-	emu_push(emu_cs); emu_push(0x0DD4); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
-	emu_sp += 10;
-
-	emu_push(1);
-	emu_push(1);
-	emu_push(u->variable_64);
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-	emu_push(emu_cs); emu_push(0x0DF4); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
-	emu_sp += 10;
+	Unit_Unknown1E99(u, (uint8)(emu_ax & 0xE0), true, 0);
+	Unit_Unknown1E99(u, u->variable_62[0][2], true, 1);
 
 	if (u->houseID == g_global->playerHouseID) {
 		emu_push(0x6A);

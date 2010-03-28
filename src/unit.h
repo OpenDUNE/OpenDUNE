@@ -144,10 +144,8 @@ typedef struct Unit {
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062(2)   */ PACK uint16 variable_62;                /*!< ?? unknown argument of Unit_Create. */
-	/* 0064(1)   */ PACK uint8  variable_64;                /*!< ?? */
-	/* 0065(2)   */ PACK uint16 variable_65;                /*!< ?? unknown argument of Unit_Create. */
-	/* 0067()    */ PACK uint8   unknown_0067[0x0003];
+	/* 0062(6)   */ PACK uint8  variable_62[2][3];          /*!< ?? unknown argument of Unit_Create. */
+	/* 0068()    */ PACK uint8   unknown_0068[0x0002];
 	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
 	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
@@ -207,7 +205,9 @@ typedef struct UnitInfo {
 	/* 0038()    */ PACK uint8   unknown_0038[0x0004];
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
-	/* 0040()    */ PACK uint8   unknown_0040[0x0008];
+	/* 0040()    */ PACK uint8   unknown_0040[0x0002];
+	/* 0042(1)   */ PACK uint8  variable_42;                /*!< ?? */
+	/* 0043()    */ PACK uint8   unknown_0043[0x0005];
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
 	/* 004A()    */ PACK uint8   unknown_004A[0x0004];
 	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
@@ -244,7 +244,7 @@ extern uint8 Unit_StringToType(const char *name);
 extern uint8 Unit_ActionStringToType(const char *name);
 extern uint8 Unit_TeamActionStringToType(const char *name);
 extern uint8 Unit_MovementStringToType(const char *name);
-extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 unknown);
+extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint8 unknown);
 extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
 extern void Unit_SetAction(Unit *u, ActionType action);
 extern uint16 Unit_AddToTeam(Unit *u, struct Team *t);
@@ -269,6 +269,7 @@ extern bool Unit_Deviate(Unit *unit, uint16 probability);
 extern bool Unit_Unknown0005(Unit *unit, uint16 distance);
 extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
 extern void Unit_UntargetMe(Unit *unit);
+extern void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i);
 
 
 extern void emu_Unit_GetHouseID();
@@ -295,5 +296,6 @@ extern void emu_Unit_Deviate();
 extern void emu_Unit_Unknown0005();
 extern void emu_Unit_Damage();
 extern void emu_Unit_UntargetMe();
+extern void emu_Unit_Unknown1E99();
 
 #endif /* UNIT_H */

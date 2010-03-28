@@ -1,6 +1,8 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
@@ -32,8 +34,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_0F48_0018_0DB8();
-extern void f__1A34_1E99_0012_1117();
-extern void f__1A34_1F55_0019_98DF();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_2C95_001B_89A2();
@@ -48,6 +48,7 @@ extern void f__B4CD_14CA_0013_F579();
 extern void f__B4CD_154C_0015_B7FB();
 extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
+extern void f__B4CD_17F7_001D_1CA2();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Object_GetScriptVariable4();
@@ -67,6 +68,82 @@ void System_Init_Unit()
 {
 	g_unitInfo = (UnitInfo *)&emu_get_memory8(0x2D07, 0x0, 0x0);
 	g_actionInfo = (ActionInfo *)&emu_get_memory8(0x2E8A, 0x0, 0x6E);
+}
+
+/**
+ * Unknwown function 1F55.
+ *
+ * @param unit The Unit to operate on.
+ * @param i ??.
+ */
+void Unit_Unknown1F55(Unit *unit, uint16 i)
+{
+	csip32 ucsip;
+	uint8 loc02;
+	uint8 loc04;
+	int16 loc06;
+	int16 locsi;
+	uint16 locax;
+
+	assert(i < 2);
+
+	if (unit->variable_62[i][0] == 0) return;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	loc02 = unit->variable_62[i][1];
+	loc04 = unit->variable_62[i][2];
+	locsi = loc02 - loc04;
+
+	if (locsi > 128) locsi -= 256;
+	if (locsi < -128) locsi += 256;
+	locsi = abs(locsi);
+
+	loc06 = loc04 - unit->variable_62[i][0];
+
+	if (abs(loc06) >= locsi) {
+		unit->variable_62[i][0] = 0;
+		loc06 = loc02;
+	}
+
+	unit->variable_62[i][2] = loc06 & 0xFF;
+
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x2009); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
+	emu_sp += 2;
+
+	locax = emu_ax;
+
+	emu_push(loc04);
+	emu_push(emu_cs); emu_push(0x2013); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
+	emu_sp += 2;
+
+	if (locax != emu_ax) {
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x2040); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+		emu_sp += 6;
+		return;
+	}
+
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x2021); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	emu_sp += 2;
+
+	locax = emu_ax;
+
+	emu_push(loc04);
+	emu_push(emu_cs); emu_push(0x202B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	emu_sp += 2;
+
+	if (locax == emu_ax) return;
+
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x2040); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
 }
 
 /**
@@ -158,12 +235,7 @@ void GameLoop_Unit()
 			emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 			emu_sp += 8;
 
-			emu_push(1);
-			emu_push(0);
-			emu_push(emu_ax);
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0356); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
-			emu_sp += 10;
+			Unit_Unknown1E99(u, (uint8)emu_ax, false, 1);
 		}
 
 		if (tickUnknown1) {
@@ -186,12 +258,7 @@ void GameLoop_Unit()
 					emu_push(emu_cs); emu_push(0x0413); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 					emu_sp += 8;
 
-					emu_push(0);
-					emu_push(0);
-					emu_push(emu_ax);
-					emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-					emu_push(emu_cs); emu_push(0x0424); emu_cs = 0x1A34; f__1A34_1E99_0012_1117();
-					emu_sp += 10;
+					Unit_Unknown1E99(u, (uint8)emu_ax, false, 0);
 				}
 
 				u->variable_51--;
@@ -199,17 +266,8 @@ void GameLoop_Unit()
 		}
 
 		if (tickUnknown2) {
-			emu_push(0);
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0443); emu_cs = 0x1A34; f__1A34_1F55_0019_98DF();
-			emu_sp += 6;
-
-			if (ui->flags.s.variable_0040) {
-				emu_push(1);
-				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-				emu_push(emu_cs); emu_push(0x0463); emu_cs = 0x1A34; f__1A34_1F55_0019_98DF();
-				emu_sp += 6;
-			}
+			Unit_Unknown1F55(u, 0);
+			if (ui->flags.s.variable_0040) Unit_Unknown1F55(u, 1);
 		}
 
 		if (tickUnknown3 && u->variable_6E != 0) {
@@ -434,7 +492,7 @@ uint8 Unit_MovementStringToType(const char *name)
  * @param unknown An unknown parameter.
  * @return The new created Unit, or NULL if something failed.
  */
-Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint16 unknown)
+Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint8 unknown)
 {
 	csip32 ucsip;
 	UnitInfo *ui;
@@ -453,19 +511,8 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	u->houseID = houseID;
 
-	emu_push(0x00);
-	emu_push(0x01);
-	emu_push(unknown);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0958); f__1A34_1E99_0012_1117();
-	emu_sp += 10;
-
-	emu_push(0x01);
-	emu_push(0x01);
-	emu_push(unknown);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x096F); f__1A34_1E99_0012_1117();
-	emu_sp += 10;
+	Unit_Unknown1E99(u, unknown, true, 0);
+	Unit_Unknown1E99(u, unknown, true, 1);
 
 	emu_push(0x00);
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
@@ -1209,7 +1256,7 @@ Unit *Unit_Unknown15F4(Unit *unit)
 bool Unit_Unknown167C(Unit *unit)
 {
 	UnitInfo *ui;
-	uint16 locsi;
+	uint8 locsi;
 	csip32 ucsip;
 	uint16 packed;
 	uint16 loc08;
@@ -1224,21 +1271,10 @@ bool Unit_Unknown167C(Unit *unit)
 
 	ui = &g_unitInfo[unit->type];
 
-	locsi = (unit->variable_64 + 16) & 0xE0;
+	locsi = (unit->variable_62[0][2] + 16) & 0xE0;
 
-	emu_push(0);
-	emu_push(1);
-	emu_push(locsi);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x16CE); f__1A34_1E99_0012_1117();
-	emu_sp += 10;
-
-	emu_push(1);
-	emu_push(0);
-	emu_push(locsi);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x16CE); f__1A34_1E99_0012_1117();
-	emu_sp += 10;
+	Unit_Unknown1E99(unit, locsi, true, 0);
+	Unit_Unknown1E99(unit, locsi, false, 1);
 
 	emu_push(locsi);
 	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
@@ -1504,7 +1540,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
 
 	emu_push(distance);
-	emu_push(unit->variable_64);
+	emu_push(unit->variable_62[0][2]);
 	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
 	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
 	emu_sp += 8;
@@ -1518,12 +1554,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 		if ((ui->variable_36 & 0x80) != 0) {
 			newPosition = unit->position;
 
-			emu_push(0);
-			emu_push(0);
-			emu_push((unit->variable_64 + (Tools_Random_256() & 0xF)) & 0xFF);
-			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-			emu_push(emu_cs); emu_push(0x00E1); f__1A34_1E99_0012_1117();
-			emu_sp += 10;
+			Unit_Unknown1E99(unit, unit->variable_62[0][2] + (Tools_Random_256() & 0xF), false, 0);
 		} else {
 			Unit_Unknown10EC(unit);
 			return true;
@@ -1570,7 +1601,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 			emu_sp += 2;
 
 			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->fogOfWar == 0) {
-				emu_push(unit->variable_64);
+				emu_push(unit->variable_62[0][2]);
 				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 				emu_sp += 2;
 
@@ -2007,4 +2038,39 @@ void Unit_UntargetMe(Unit *unit)
 		if (t == NULL) break;
 		if (t->target == encoded) t->target = 0;
 	}
+}
+
+/**
+ * Unknwown function 1E99.
+ *
+ * @param unit The Unit to operate on.
+ * @param arg0A ??.
+ * @param arg0C ??.
+ * @param i ??.
+ */
+void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
+{
+	int16 locsi;
+
+	assert(i < 2);
+
+	if (unit == NULL) return;
+
+	unit->variable_62[i][0] = 0;
+	unit->variable_62[i][1] = arg0A;
+
+	if (arg0C) {
+		unit->variable_62[i][2] = arg0A;
+		return;
+	}
+
+	if (unit->variable_62[i][2] == arg0A) return;
+
+	unit->variable_62[i][0] = g_unitInfo[unit->type].variable_42 << 2;
+
+	locsi = arg0A - unit->variable_62[i][2];
+
+	if ((locsi <= -128 || locsi >= 0) && locsi <= 128) return;
+
+	unit->variable_62[i][0] = -unit->variable_62[i][0];
 }

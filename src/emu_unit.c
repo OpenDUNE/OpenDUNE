@@ -59,7 +59,7 @@ void emu_Unit_Create()
 	position =        emu_get_tile32  (emu_ss, emu_sp, 0x6);
 	unknown  =        emu_get_memory16(emu_ss, emu_sp, 0xA);
 
-	u = Unit_Create(index, typeID, houseID, position, unknown);
+	u = Unit_Create(index, typeID, houseID, position, (uint8)unknown);
 
 	emu_ax = 0x0;
 	emu_dx = 0x0;
@@ -643,4 +643,33 @@ void emu_Unit_UntargetMe()
 	unit = Unit_Get_ByMemory(ucsip);
 
 	Unit_UntargetMe(unit);
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown1E99()
+ *
+ * @name emu_Unit_Unknown1E99
+ * @implements 1A34:1E99:0012:1117 ()
+ */
+void emu_Unit_Unknown1E99()
+{
+	csip32 ucsip;
+	uint16 arg0A;
+	uint16 arg0C;
+	uint16 i;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	arg0A = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	arg0C = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	i     = emu_get_memory16(emu_ss, emu_sp, 0x8);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_Unknown1E99(unit, (uint8)arg0A, (arg0C != 0) ? true : false, i);
 }
