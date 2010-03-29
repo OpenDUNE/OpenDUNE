@@ -567,12 +567,12 @@ void emu_Unit_Deviate()
 }
 
 /**
- * Emulator wrapper around Unit_Unknown0005()
+ * Emulator wrapper around Unit_Move()
  *
- * @name emu_Unit_Unknown0005
+ * @name emu_Unit_Move
  * @implements 1A34:0005:001F:38E2 ()
  */
-void emu_Unit_Unknown0005()
+void emu_Unit_Move()
 {
 	csip32 ucsip;
 	uint16 distance;
@@ -590,7 +590,7 @@ void emu_Unit_Unknown0005()
 	if (ucsip.csip == 0x0) return;
 	unit = Unit_Get_ByMemory(ucsip);
 
-	emu_ax = Unit_Unknown0005(unit, distance) ? 1 : 0;
+	emu_ax = Unit_Move(unit, distance) ? 1 : 0;
 }
 
 /**

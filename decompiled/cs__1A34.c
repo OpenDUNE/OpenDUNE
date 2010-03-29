@@ -378,7 +378,7 @@ l__21BF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x21CA); emu_Unit_Unknown0005();
+	emu_push(0x21CA); emu_Unit_Move();
 l__21CA:
 	emu_addw(&emu_sp, 0x6);
 l__21CD:

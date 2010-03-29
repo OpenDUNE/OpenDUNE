@@ -1514,13 +1514,13 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 }
 
 /**
- * Unknwown function 0005.
+ * Moves the given unit.
  *
- * @param unit The Unit to operate on.
- * @param distance ??.
+ * @param unit The Unit to move.
+ * @param distance The maximum distance to pass through.
  * @return ??.
  */
-bool Unit_Unknown0005(Unit *unit, uint16 distance)
+bool Unit_Move(Unit *unit, uint16 distance)
 {
 	csip32 ucsip;
 	UnitInfo *ui;
