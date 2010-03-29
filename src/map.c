@@ -14,7 +14,6 @@
 extern void emu_Structure_UpdateMap();
 extern void f__07D4_1625_001A_07E5();
 extern void f__10E4_0117_0015_392D();
-extern void f__1A34_0F48_0018_0DB8();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
@@ -113,15 +112,11 @@ void Map_SetSelection(uint16 packed)
 			u = Unit_Get_ByPackedTile(packed);
 			if (u != NULL) {
 				if (u->type != UNIT_CARRYALL) {
-					emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-					emu_push(emu_cs); emu_push(0x0408); emu_cs = 0x1A34; f__1A34_0F48_0018_0DB8();
-					emu_sp += 4;
+					Unit_Select(u);
 				}
 			} else {
 				if (g_global->selectionUnit.csip != 0x0) {
-					emu_push(0); emu_push(0);
-					emu_push(emu_cs); emu_push(0x0420); emu_cs = 0x1A34; f__1A34_0F48_0018_0DB8();
-					emu_sp += 4;
+					Unit_Select(NULL);
 				}
 			}
 		}

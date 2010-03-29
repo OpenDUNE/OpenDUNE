@@ -452,7 +452,7 @@ l__0293:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x029E); emu_cs = 0x1A34; f__1A34_0F48_0018_0DB8();
+	emu_push(emu_cs); emu_push(0x029E); emu_cs = 0x1A34; emu_Unit_Select();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__029E:

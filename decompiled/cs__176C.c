@@ -803,7 +803,7 @@ l__0E90:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0EAD); emu_cs = 0x1A34; f__1A34_0F48_0018_0DB8();
+	emu_push(emu_cs); emu_push(0x0EAD); emu_cs = 0x1A34; emu_Unit_Select();
 l__0EAD:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

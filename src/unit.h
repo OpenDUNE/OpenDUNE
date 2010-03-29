@@ -195,7 +195,8 @@ typedef struct UnitInfo {
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x0008];
 	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
-	/* 002A()    */ PACK uint8   unknown_002A[0x0003];
+	/* 002A()    */ PACK uint8   unknown_002A[0x0001];
+	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
 	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
 	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
 	/* 0031()    */ PACK uint8   unknown_0031[0x0001];
@@ -270,6 +271,7 @@ extern bool Unit_Unknown0005(Unit *unit, uint16 distance);
 extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
 extern void Unit_UntargetMe(Unit *unit);
 extern void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i);
+extern void Unit_Select(Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -297,5 +299,6 @@ extern void emu_Unit_Unknown0005();
 extern void emu_Unit_Damage();
 extern void emu_Unit_UntargetMe();
 extern void emu_Unit_Unknown1E99();
+extern void emu_Unit_Select();
 
 #endif /* UNIT_H */

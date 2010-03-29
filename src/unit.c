@@ -33,13 +33,15 @@ extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
-extern void f__1A34_0F48_0018_0DB8();
 extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_2134_001E_3E9A();
+extern void f__1A34_27A8_0012_7198();
 extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
 extern void f__1A34_379B_0015_B07B();
+extern void f__10E4_0117_0015_392D();
+extern void f__10E4_0F1A_0088_7622();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
@@ -49,6 +51,7 @@ extern void f__B4CD_154C_0015_B7FB();
 extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
+extern void f__B4E9_0050_003F_292A();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Object_GetScriptVariable4();
@@ -1084,9 +1087,7 @@ void Unit_Unknown10EC(Unit *u)
 	Unit_UntargetMe(u);
 
 	if (ucsip.csip == g_global->selectionUnit.csip) {
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x112B); f__1A34_0F48_0018_0DB8();
-		emu_sp += 4;
+		Unit_Select(NULL);
 	}
 
 	u->flags.s.unknown_0040 = true;
@@ -1587,9 +1588,7 @@ bool Unit_Unknown0005(Unit *unit, uint16 distance)
 
 		if (u != NULL && g_unitInfo[u->type].variable_3C == 0 && u->flags.s.allocated) {
 			if (u == Unit_Get_ByMemory(g_global->selectionUnit)) {
-				emu_push(0); emu_push(0);
-				emu_push(emu_cs); emu_push(0x01E4); f__1A34_0F48_0018_0DB8();
-				emu_sp += 4;
+				Unit_Select(NULL);
 			}
 
 			Unit_UntargetMe(u);
@@ -2073,4 +2072,94 @@ void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
 	if ((locsi <= -128 || locsi >= 0) && locsi <= 128) return;
 
 	unit->variable_62[i][0] = -unit->variable_62[i][0];
+}
+
+/**
+ * Selects the given unit.
+ *
+ * @param unit The Unit to select.
+ */
+void Unit_Select(Unit *unit)
+{
+	csip32 ucsip;
+	Unit *selected;
+
+	selected = (g_global->selectionUnit.csip != 0x0) ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
+
+	if (unit == selected) return;
+
+	if (unit != NULL && !unit->flags.s.allocated && g_global->debugGame == 0) {
+		unit = NULL;
+	}
+
+	if (unit != NULL && (unit->variable_09 & (1 << g_global->playerHouseID)) == 0 && g_global->debugGame == 0) {
+		unit = NULL;
+	}
+
+	if (selected != NULL) {
+		emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x0FCD); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+		emu_sp += 6;
+	}
+
+	if (unit == NULL) {
+		g_global->selectionUnit.csip = 0x0;
+
+		emu_push(4);
+		emu_push(emu_cs); emu_push(0x10E9); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+		emu_sp += 2;
+
+		return;
+	}
+
+	if (Unit_GetHouseID(unit) == g_global->playerHouseID) {
+		UnitInfo *ui;
+
+		ui = &g_unitInfo[unit->type];
+
+		emu_push(ui->variable_3C == 0 ? 18 : 19);
+		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
+		emu_sp += 2;
+
+		emu_push(ui->spriteID);
+		emu_push(ui->variable_2B);
+		emu_push(emu_cs); emu_push(0x1050); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
+		emu_sp += 4;
+	}
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip.s.cs = g_global->unitStartPos.s.cs;
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+
+	if (selected != NULL) {
+		if (selected != unit) {
+			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+			emu_push(emu_cs); emu_push(0x1077); f__1A34_27A8_0012_7198();
+			emu_sp += 4;
+		}
+
+		g_global->selectionUnit = ucsip;
+
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x108F); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
+		emu_sp += 2;
+	} else {
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x109C); f__1A34_27A8_0012_7198();
+		emu_sp += 4;
+
+		g_global->selectionUnit = ucsip;
+
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x10B4); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+		emu_sp += 2;
+	}
+
+	emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x10C6); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	Map_SetSelectionObjectPosition(0xFFFF);
 }
