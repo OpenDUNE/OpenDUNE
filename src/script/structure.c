@@ -339,7 +339,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		emu_push(0x6A);
 		emu_push(0x1B);
 		emu_push(emu_cs); emu_push(0x0E12); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-		emu_sp += 2;
+		emu_sp += 4;
 	}
 
 	if (s->linkedID == 0xFF) Structure_SetAnimation(s, 0);
