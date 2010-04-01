@@ -2647,8 +2647,12 @@ l__11F2:
  *
  * @name f__22A6_1200_007B_0356
  * @implements 22A6:1200:007B:0356 ()
+ * @implements 22A6:1217:0064:103D
  * @implements 22A6:121C:005F:FFCA
+ * @implements 22A6:1240:003B:7C56
  * @implements 22A6:1245:0036:A3B9
+ * @implements 22A6:124A:0031:5864
+ * @implements 22A6:124F:002C:E71B
  *
  * Called From: 06F7:0906:0013:E47B
  */
@@ -2666,9 +2670,10 @@ l__1200:
 	emu_es = emu_ax;
 	emu_dx = emu_get_memory16(emu_es, 0x00, 0x63);
 	emu_addb(&emu_dl, 0x6);
+l__1217:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) == 0) { /* Unresolved jump */ emu_ip = 0x1217; emu_last_cs = 0x22A6; emu_last_ip = 0x121A; emu_last_length = 0x007B; emu_last_crc = 0x0356; emu_call(); return; }
+	if ((emu_al & 0x8) == 0) goto l__1217;
 l__121C:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
@@ -2692,19 +2697,22 @@ l__121C:
 	emu_xchgb(&emu_al, &emu_ah);
 	emu_sti();
 	emu_addb(&emu_dl, 0x5);
+l__1240:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) == 0) { /* Unresolved jump */ emu_ip = 0x1240; emu_last_cs = 0x22A6; emu_last_ip = 0x1243; emu_last_length = 0x005F; emu_last_crc = 0xFFCA; emu_call(); return; }
+	if ((emu_al & 0x8) == 0) goto l__1240;
 l__1245:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
 	if ((emu_al & 0x8) != 0) goto l__1245;
+l__124A:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) == 0) { /* Unresolved jump */ emu_ip = 0x124A; emu_last_cs = 0x22A6; emu_last_ip = 0x124D; emu_last_length = 0x0036; emu_last_crc = 0xA3B9; emu_call(); return; }
+	if ((emu_al & 0x8) == 0) goto l__124A;
+l__124F:
 	emu_inb(&emu_al, emu_dx);
 	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) != 0) { /* Unresolved jump */ emu_ip = 0x124F; emu_last_cs = 0x22A6; emu_last_ip = 0x1252; emu_last_length = 0x0036; emu_last_crc = 0xA3B9; emu_call(); return; }
+	if ((emu_al & 0x8) != 0) goto l__124F;
 	emu_cli();
 	emu_subb(&emu_dl, 0x6);
 	emu_ah = 0x0;
@@ -2724,7 +2732,7 @@ l__1245:
 	emu_xchgb(&emu_al, &emu_ah);
 	emu_sti();
 	emu_addb(&emu_dl, 0x5);
-	if (--emu_cx != 0) { /* Unresolved jump */ emu_ip = 0x1217; emu_last_cs = 0x22A6; emu_last_ip = 0x1273; emu_last_length = 0x0036; emu_last_crc = 0xA3B9; emu_call(); }
+	if (--emu_cx != 0) goto l__1217;
 	emu_pop(&emu_es);
 	emu_pop(&emu_dx);
 	emu_pop(&emu_cx);
