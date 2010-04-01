@@ -21,6 +21,7 @@
 #include "team.h"
 #include "structure.h"
 #include "unknown/unknown.h"
+#include "os/math.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
@@ -34,7 +35,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
 extern void f__1A34_0E2E_0015_7E65();
 extern void f__1A34_204C_0043_B1ED();
-extern void f__1A34_2134_001E_3E9A();
 extern void f__1A34_27A8_0012_7198();
 extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
@@ -149,6 +149,23 @@ void Unit_Unknown1F55(Unit *unit, uint16 i)
 	emu_sp += 6;
 }
 
+void Unit_Unknown2134(Unit *unit)
+{
+	uint16 loc02;
+
+	if (unit->variable_6A == 0) return;
+
+	loc02 = unit->variable_69;
+
+	loc02 += Tools_AdjustToGameSpeed(unit->variable_68, 1, 255, false);
+
+	if ((loc02 & 0xFF00) != 0) {
+		Unit_Move(unit, min(unit->variable_6A * 16, Tile_GetDistance(unit->position, unit->variable_49) + 16));
+	}
+
+	unit->variable_69 = loc02 & 0xFF;
+}
+
 /**
  * Loop over all units, preforming various of tasks.
  */
@@ -242,9 +259,7 @@ void GameLoop_Unit()
 		}
 
 		if (tickUnknown1) {
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x036D); emu_cs = 0x1A34; f__1A34_2134_001E_3E9A();
-			emu_sp += 4;
+			Unit_Unknown2134(u);
 
 			if (u->variable_51 != 0) {
 				if (ui->variable_3C == 4 && (ui->variable_36 & 0x8000) == 0) {

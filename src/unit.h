@@ -145,7 +145,8 @@ typedef struct Unit {
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
 	/* 0062(6)   */ PACK uint8  variable_62[2][3];          /*!< ?? unknown argument of Unit_Create. */
-	/* 0068()    */ PACK uint8   unknown_0068[0x0002];
+	/* 0068(1)   */ PACK uint8  variable_68;                /*!< ?? */
+	/* 0069(1)   */ PACK uint8  variable_69;                /*!< ?? */
 	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
 	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
