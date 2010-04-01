@@ -6,12 +6,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__0972_11B9_0020_8DC9();
-extern void f__0972_121E_0030_5DAA();
-extern void f__0972_133C_0036_0328();
-extern void f__0972_114F_0020_EA79();
-extern void f__0972_1524_0018_014D();
-extern void f__0972_15A2_0019_AB1E();
 extern void emu_Script_General_DisplayText();
 extern void f__0EDB_0145_002F_C125();
 extern void f__0EDB_0184_0030_A1C2();
@@ -93,15 +87,15 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 03 */ NULL,
 	/* 04 */ NULL,
 	/* 05 */ &emu_Script_General_DisplayText,
-	/* 06 */ &f__0972_11B9_0020_8DC9,
+	/* 06 */ NULL,
 	/* 07 */ NULL,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
-	/* 0A */ &f__0972_114F_0020_EA79,
-	/* 0B */ &f__0972_121E_0030_5DAA,
+	/* 0A */ NULL,
+	/* 0B */ NULL,
 	/* 0C */ NULL,
 	/* 0D */ NULL,
-	/* 0E */ &f__0972_133C_0036_0328,
+	/* 0E */ NULL,
 	/* 0F */ NULL,
 	/* 10 */ NULL,
 	/* 11 */ NULL,
@@ -109,8 +103,8 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 13 */ NULL,
 	/* 14 */ NULL,
 	/* 15 */ NULL,
-	/* 16 */ &f__0972_1524_0018_014D,
-	/* 17 */ &f__0972_15A2_0019_AB1E,
+	/* 16 */ NULL,
+	/* 17 */ NULL,
 	/* 18 */ NULL,
 };
 
@@ -215,15 +209,15 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 03 */ &Script_Structure_Unknown0AFC,
 	/* 04 */ &Script_Structure_SetAnimation,
 	/* 05 */ NULL,
-	/* 06 */ NULL,
+	/* 06 */ &Script_Structure_Unknown11B9,
 	/* 07 */ &Script_Structure_Unknown0C5A,
 	/* 08 */ &Script_Structure_FindTargetUnit,
 	/* 09 */ &Script_Structure_RotateTurret,
-	/* 0A */ NULL,
-	/* 0B */ NULL,
+	/* 0A */ &Script_Structure_GetDirection,
+	/* 0B */ &Script_Structure_Fire,
 	/* 0C */ &Script_General_NoOperation,
 	/* 0D */ &Script_Structure_GetAnimation,
-	/* 0E */ NULL,
+	/* 0E */ &Script_Structure_Unknown133C,
 	/* 0F */ &Script_Structure_RemoveFogAroundTile,
 	/* 10 */ &Script_General_NoOperation,
 	/* 11 */ &Script_General_NoOperation,
@@ -231,8 +225,8 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 13 */ &Script_General_NoOperation,
 	/* 14 */ &Script_General_NoOperation,
 	/* 15 */ &Script_Structure_RefineSpice,
-	/* 16 */ NULL,
-	/* 17 */ NULL,
+	/* 16 */ &Script_Structure_Unknown1524,
+	/* 17 */ &Script_Structure_Destroy,
 	/* 18 */ &Script_General_NoOperation,
 };
 

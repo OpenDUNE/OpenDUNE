@@ -119,7 +119,7 @@ typedef struct StructureInfo {
 	/*      -    */              BITTYPE notused2:8;        /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
-	/* 000E()    */ PACK uint8   unknown_000E[0x0002];
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Chance of spawning an infanctry on structure destruction. */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
 	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */

@@ -64,6 +64,12 @@ extern uint16 Script_Structure_Unknown0AFC(ScriptEngine *script);
 extern uint16 Script_Structure_Unknown0C5A(ScriptEngine *script);
 extern uint16 Script_Structure_FindTargetUnit(ScriptEngine *script);
 extern uint16 Script_Structure_RotateTurret(ScriptEngine *script);
+extern uint16 Script_Structure_GetDirection(ScriptEngine *script);
+extern uint16 Script_Structure_Unknown11B9(ScriptEngine *script);
+extern uint16 Script_Structure_Unknown133C(ScriptEngine *script);
+extern uint16 Script_Structure_Fire(ScriptEngine *script);
+extern uint16 Script_Structure_Unknown1524(ScriptEngine *script);
+extern uint16 Script_Structure_Destroy(ScriptEngine *script);
 
 
 extern void emu_Script_Reset();
