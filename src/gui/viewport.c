@@ -25,9 +25,7 @@ extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1A34_232C_0011_B7DE();
 extern void f__1A34_27A8_0012_7198();
-extern void f__1A34_2F9E_0016_5A55();
 extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
@@ -165,10 +163,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		u->variable_72  = 0xFF;
 
 		if (action != ACTION_MOVE && action != ACTION_HARVEST) {
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x03CC); emu_cs = 0x1A34; f__1A34_2F9E_0016_5A55();
-			emu_sp += 2;
-			encoded = Tools_Index_Encode(emu_ax, IT_TILE);
+			encoded = Tools_Index_Encode(Unit_FindTargetAround(packed), IT_TILE);
 		} else {
 			encoded = Tools_Index_Encode(packed, IT_TILE);
 		}
@@ -229,26 +224,16 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			if (s->type == STRUCTURE_PALACE) House_Get_ByIndex(s->houseID)->palacePosition = s->position;
 
 			if (g_global->activeStructureType == STRUCTURE_REFINERY && g_global->variable_38BC == 0) {
-				csip32 ucsip;
+				Unit *u;
 
 				g_global->variable_38BC++;
-
-				emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-				emu_push(UNIT_HARVESTER);
-				emu_push(g_global->playerHouseID);
-				emu_push(emu_cs); emu_push(0x058F); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
-				emu_sp += 6;
-
-				/* XXX -- Temporary, to keep all the emu_calls workable for now */
-				ucsip.s.cs = emu_dx;
-				ucsip.s.ip = emu_ax;
-
+				u = Unit_CreateWrapper((uint8)g_global->playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->index, IT_STRUCTURE));
 				g_global->variable_38BC--;
 
-				if (ucsip.csip == 0x0) {
+				if (u == NULL) {
 					h->variable_02++;
 				} else {
-					Unit_Get_ByMemory(ucsip)->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+					u->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
 				}
 			}
 
@@ -339,10 +324,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (g_global->debugScenario != 0) {
 			position = packed;
 		} else {
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x0740); emu_cs = 0x1A34; f__1A34_2F9E_0016_5A55();
-			emu_sp += 2;
-			position = emu_ax;
+			position = Unit_FindTargetAround(packed);
 		}
 
 		if (Map_GetTileByPosition(position)->fogOfWar != g_global->variable_39F2 || g_global->debugScenario != 0) {
@@ -375,10 +357,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (g_global->selectionType == 1) {
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x07D3); emu_cs = 0x1A34; f__1A34_2F9E_0016_5A55();
-		emu_sp += 2;
-		Map_SetSelection(emu_ax);
+		Map_SetSelection(Unit_FindTargetAround(packed));
 	} else if (g_global->selectionType == 2) {
 		Map_SetSelection(packed);
 	}

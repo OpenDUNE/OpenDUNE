@@ -273,6 +273,8 @@ extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
 extern void Unit_UntargetMe(Unit *unit);
 extern void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i);
 extern void Unit_Select(Unit *unit);
+extern Unit *Unit_CreateWrapper(uint8 houseID, UnitType type, uint16 location);
+extern uint16 Unit_FindTargetAround(uint16 packed);
 
 
 extern void emu_Unit_GetHouseID();

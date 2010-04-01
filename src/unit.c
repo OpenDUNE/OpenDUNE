@@ -51,6 +51,7 @@ extern void f__B4CD_154C_0015_B7FB();
 extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
+extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
@@ -2177,4 +2178,121 @@ void Unit_Select(Unit *unit)
 	emu_sp += 6;
 
 	Map_SetSelectionObjectPosition(0xFFFF);
+}
+
+/**
+ * Create a unit (and a carryall if needed).
+ *
+ * @param houseID The House of the new Unit.
+ * @param typeID The type of the new Unit.
+ * @param destination To where on the map this Unit should move.
+ * @return The new created Unit, or NULL if something failed.
+ */
+Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
+{
+	tile32 tile;
+	House *h;
+	uint8 loc0E;
+	Unit *unit;
+	Unit *carryall;
+
+	emu_push(houseID);
+	emu_push(Tools_Random_256() & 3);
+	emu_push(emu_cs); emu_push(0x2346); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
+	emu_sp += 4;
+
+	tile = Tile_UnpackTile(emu_ax);
+
+	h = House_Get_ByIndex(houseID);
+
+	emu_push(0x2000);
+	emu_push(0x2000);
+	emu_push(tile.s.y); emu_push(tile.s.x);
+	emu_push(emu_cs); emu_push(0x2375); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+
+	loc0E = emu_ax & 0xFF;
+
+	if (g_unitInfo[typeID].variable_3C == 4) {
+		g_global->variable_38BC++;
+		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, loc0E);
+		g_global->variable_38BC--;
+
+		if (unit == NULL) return NULL;
+
+		unit->flags.s.byScenario = true;
+
+		if (destination != 0) {
+			Unit_SetDestination(unit, destination);
+		}
+
+		return unit;
+	}
+
+	g_global->variable_38BC++;
+	carryall = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, houseID, tile, loc0E);
+	g_global->variable_38BC--;
+
+	if (carryall == NULL) {
+		if (typeID == UNIT_HARVESTER && h->variable_02 == 0) h->variable_02++;
+		return NULL;
+	}
+
+	if (House_AreAllied(houseID, (uint8)g_global->playerHouseID) || Unit_IsTypeOnMap(houseID, UNIT_CARRYALL)) {
+		carryall->flags.s.byScenario = true;
+	}
+
+	tile.tile = 0xFFFFFFFF;
+
+	g_global->variable_38BC++;
+	unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, 0);
+	g_global->variable_38BC--;
+
+	if (unit == NULL) {
+		Unit_Unknown10EC(carryall);
+		if (typeID == UNIT_HARVESTER && h->variable_02 == 0) h->variable_02++;
+		return NULL;
+	}
+
+	carryall->flags.s.inTransport = true;
+	carryall->linkedID = unit->index & 0xFF;
+	if (typeID == UNIT_HARVESTER) unit->amount = 1;
+
+	if (destination != 0) {
+		Unit_SetDestination(carryall, destination);
+	}
+
+	return unit;
+}
+
+/**
+ * Find a target around the given packed tile.
+ *
+ * @param packed The packed tile around where to look.
+ * @return A packed tile where a Unit/Structure is, or the given packed tile if nothing found.
+ */
+uint16 Unit_FindTargetAround(uint16 packed)
+{
+	uint8 i;
+
+	if (g_global->selectionType == 2) return packed;
+
+	if (Structure_Get_ByPackedTile(packed) != NULL) return packed;
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x2FC7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	if (emu_ax == 14) return packed;
+
+	for (i = 0; i < 9; i++) {
+		Unit *u;
+
+		u = Unit_Get_ByPackedTile(packed + g_global->variable_62D8[i]);
+		if (u == NULL) continue;
+
+		return Tile_PackTile(u->position);
+	}
+
+	return packed;
 }

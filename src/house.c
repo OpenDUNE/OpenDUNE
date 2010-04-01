@@ -19,7 +19,6 @@
 #include "unknown/unknown.h"
 
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1A34_232C_0011_B7DE();
 extern void f__B4CD_1816_0033_B55B();
 extern void emu_Tools_RandomRange();
 extern void emu_Unit_LaunchHouseMissle();
@@ -302,7 +301,6 @@ void GameLoop_House()
 
 		if (tickStarport && h->starportLinkedID != UNIT_INDEX_INVALID) {
 			Unit *u = NULL;
-			csip32 ucsip;
 
 			h->starportTimeLeft--;
 			if ((int16)h->starportTimeLeft < 0) h->starportTimeLeft = 0;
@@ -312,17 +310,9 @@ void GameLoop_House()
 
 				s = Structure_Get_ByIndex(g_global->structureIndex);
 				if (s->type == STRUCTURE_STARPORT && s->houseID == h->index) {
-					emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-					emu_push(UNIT_FRIGATE);
-					emu_push(h->index);
-					emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
-					emu_sp += 6;
+					u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->index, IT_STRUCTURE));
 
-					ucsip.s.cs = emu_dx;
-					ucsip.s.ip = emu_ax;
-					if (ucsip.csip != 0) {
-						u = Unit_Get_ByMemory(ucsip);
-
+					if (u != NULL) {
 						u->linkedID = (uint8)h->starportLinkedID;
 						h->starportLinkedID = UNIT_INDEX_INVALID;
 						u->flags.s.inTransport = true;
@@ -343,17 +333,9 @@ void GameLoop_House()
 						if (s == NULL) break;
 						if (s->linkedID != 0xFF) continue;
 
-						emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-						emu_push(UNIT_FRIGATE);
-						emu_push(h->index);
-						emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
-						emu_sp += 6;
+						u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->index, IT_STRUCTURE));
 
-						ucsip.s.cs = emu_dx;
-						ucsip.s.ip = emu_ax;
-						if (ucsip.csip != 0) {
-							u = Unit_Get_ByMemory(ucsip);
-
+						if (u != NULL) {
 							u->linkedID = (uint8)h->starportLinkedID;
 							h->starportLinkedID = 0xFFFF;
 							u->flags.s.inTransport = true;
@@ -376,16 +358,7 @@ void GameLoop_House()
 			if (h->variable_24 != 0) h->variable_24--;
 			if (h->variable_26 != 0) h->variable_26--;
 			if (h->variable_28 != 0) h->variable_28--;
-
-			if (h->variable_02 > 0) {
-				emu_push(0);
-				emu_push(UNIT_HARVESTER);
-				emu_push(h->index);
-				emu_push(emu_cs); emu_push(0x07E6); emu_cs = 0x1A34; f__1A34_232C_0011_B7DE();
-				emu_sp += 6;
-
-				if (emu_ax != 0 || emu_dx != 0) h->variable_02--;
-			}
+			if (h->variable_02 > 0 && Unit_CreateWrapper((uint8)h->index, UNIT_HARVESTER, 0) != NULL) h->variable_02--;
 		}
 
 		if (tickPowerMaintenance) {
@@ -458,12 +431,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	s = Structure_Find(&find);
 	if (s == NULL) return;
 
-	emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-	emu_push(UNIT_HARVESTER);
-	emu_push(houseID);
-	emu_push(emu_cs); emu_push(0x22F1); f__1A34_232C_0011_B7DE();
-	emu_sp += 6;
-	if (emu_dx == 0 && emu_ax == 0) return;
+	if (Unit_CreateWrapper(houseID, UNIT_HARVESTER, Tools_Index_Encode(s->index, IT_STRUCTURE)) == NULL) return;
 
 	if (houseID != g_global->playerHouseID) return;
 
