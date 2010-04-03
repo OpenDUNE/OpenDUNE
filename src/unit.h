@@ -207,7 +207,7 @@ typedef struct UnitInfo {
 	/* 0038()    */ PACK uint8   unknown_0038[0x0004];
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
-	/* 0040()    */ PACK uint8   unknown_0040[0x0002];
+	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
 	/* 0042(1)   */ PACK uint8  variable_42;                /*!< ?? */
 	/* 0043()    */ PACK uint8   unknown_0043[0x0005];
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
@@ -216,7 +216,8 @@ typedef struct UnitInfo {
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
-	/* 0056()    */ PACK uint8   unknown_0056[0x0004];
+	/* 0056()    */ PACK uint8   unknown_0056[0x0002];
+	/* 0058(2)   */ PACK uint16 variable_58;                /*!< ?? */
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);
@@ -275,6 +276,9 @@ extern void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i);
 extern void Unit_Select(Unit *unit);
 extern Unit *Unit_CreateWrapper(uint8 houseID, UnitType type, uint16 location);
 extern uint16 Unit_FindTargetAround(uint16 packed);
+extern bool Unit_Unknown0E2E(Unit *unit);
+extern void Unit_Unknown204C(Unit *unit, uint16 arg0A);
+extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target);
 
 
 extern void emu_Unit_GetHouseID();
@@ -303,5 +307,8 @@ extern void emu_Unit_Damage();
 extern void emu_Unit_UntargetMe();
 extern void emu_Unit_Unknown1E99();
 extern void emu_Unit_Select();
+extern void emu_Unit_Unknown0E2E();
+extern void emu_Unit_Unknown204C();
+extern void emu_Unit_CreateBullet();
 
 #endif /* UNIT_H */

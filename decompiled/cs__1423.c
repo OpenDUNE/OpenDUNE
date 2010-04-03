@@ -117,7 +117,7 @@ l__0878:
 	emu_es = emu_dx;
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x20));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x1E));
-	emu_push(emu_cs); emu_push(0x088A); emu_cs = 0x1A34; f__1A34_24FE_002F_672A();
+	emu_push(emu_cs); emu_push(0x088A); emu_cs = 0x1A34; emu_Unit_CreateBullet();
 l__088A:
 	emu_addw(&emu_sp, 0xC);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x38FA));

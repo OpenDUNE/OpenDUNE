@@ -691,8 +691,90 @@ void emu_Unit_Select()
 
 	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
+	unit = (ucsip.csip == 0x0) ? NULL : Unit_Get_ByMemory(ucsip);
+
+	Unit_Select(unit);
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown0E2E()
+ *
+ * @name emu_Unit_Unknown0E2E
+ * @implements 1A34:0E2E:0015:7E65 ()
+ */
+void emu_Unit_Unknown0E2E()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
 	if (ucsip.csip == 0x0) return;
 	unit = Unit_Get_ByMemory(ucsip);
 
-	Unit_Select(unit);
+	emu_ax = Unit_Unknown0E2E(unit) ? 1 : 0;
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown204C()
+ *
+ * @name emu_Unit_Unknown204C
+ * @implements 1A34:204C:0043:B1ED ()
+ */
+void emu_Unit_Unknown204C()
+{
+	csip32 ucsip;
+	uint16 arg0A;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	arg0A = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_Unknown204C(unit, arg0A);
+}
+
+/**
+ * Emulator wrapper around Unit_CreateBullet()
+ *
+ * @name emu_Unit_CreateBullet
+ * @implements 1A34:24FE:002F:672A ()
+ */
+void emu_Unit_CreateBullet()
+{
+	tile32 position;
+	UnitType type;
+	uint16 houseID;
+	uint16 damage;
+	uint16 target;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	position = emu_get_tile32(emu_ss, emu_sp, 0x0);
+	type     = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	houseID  = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	damage   = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	target   = emu_get_memory16(emu_ss, emu_sp, 0xA);
+
+	u = Unit_CreateBullet(position, type, (uint8)houseID, damage, target);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (u == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }

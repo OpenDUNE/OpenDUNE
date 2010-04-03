@@ -28,13 +28,12 @@ extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0F3F_0125_000D_4868();
+extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
-extern void f__1A34_0E2E_0015_7E65();
-extern void f__1A34_204C_0043_B1ED();
 extern void f__1A34_27A8_0012_7198();
 extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
@@ -42,6 +41,7 @@ extern void f__1A34_3146_0018_6887();
 extern void f__1A34_379B_0015_B07B();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_0F1A_0088_7622();
+extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
@@ -533,10 +533,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	Unit_Unknown1E99(u, unknown, true, 0);
 	Unit_Unknown1E99(u, unknown, true, 1);
 
-	emu_push(0x00);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0980); f__1A34_204C_0043_B1ED();
-	emu_sp += 6;
+	Unit_Unknown204C(u, 0);
 
 	u->position.tile    = position.tile;
 	u->hitpoints        = ui->hitpoints;
@@ -574,20 +571,11 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	}
 
 	if (ui->variable_3C == 0x0004) {
-		emu_push(0xFF);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0AF2); f__1A34_204C_0043_B1ED();
-		emu_sp += 6;
+		Unit_Unknown204C(u, 255);
 	} else {
-		if (position.tile != 0xFFFFFFFF) {
-			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-			emu_push(emu_cs); emu_push(0x0AD7); f__1A34_0E2E_0015_7E65();
-			emu_sp += 4;
-
-			if (emu_ax != 0) {
-				Unit_Free(u);
-				return NULL;
-			}
+		if (position.tile != 0xFFFFFFFF && Unit_Unknown0E2E(u)) {
+			Unit_Free(u);
+			return NULL;
 		}
 	}
 
@@ -1046,11 +1034,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	u->script.variables[4] = 0;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x29CD); f__1A34_0E2E_0015_7E65();
-	emu_sp += 2;
-
-	if (emu_ax != 0) {
+	if (Unit_Unknown0E2E(u)) {
 		u->flags.s.beingBuilt = true;
 		return false;
 	}
@@ -1334,10 +1318,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if ((ui->hitpoints / 2) > unit->hitpoints && ui->variable_3C != 4) locdi -= locdi / 4;
 
-	emu_push(locdi);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x17D8); f__1A34_204C_0043_B1ED();
-	emu_sp += 6;
+	Unit_Unknown204C(unit, locdi);
 
 	if (ui->variable_3C != 5) {
 		tile32 positionOld;
@@ -1792,10 +1773,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						}
 					}
 
-					emu_push(0);
-					emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-					emu_push(emu_cs); emu_push(0x0782); f__1A34_204C_0043_B1ED();
-					emu_sp += 6;
+					Unit_Unknown204C(unit, 0);
 
 					if (unit->targetMove == Tools_Index_Encode(packed, IT_TILE)) {
 						unit->targetMove = 0;
@@ -2295,4 +2273,216 @@ uint16 Unit_FindTargetAround(uint16 packed)
 	}
 
 	return packed;
+}
+
+/**
+ * Unknwown function 0E2E.
+ *
+ * @param unit The Unit to operate on.
+ * @return ??.
+ */
+bool Unit_Unknown0E2E(Unit *unit)
+{
+	UnitInfo *ui;
+	uint16 packed;
+	Unit *u;
+	Structure *s;
+
+	if (unit == NULL) return true;
+
+	ui = &g_unitInfo[unit->type];
+	packed = Tile_PackTile(unit->position);
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	if ((g_global->variable_3A3E[emu_ax + ui->variable_3C][2] & 0xFF) == 0) return true;
+
+	if (unit->type == UNIT_SANDWORM || ui->variable_3C == 4) return false;
+
+	u = Unit_Get_ByPackedTile(packed);
+	if (u != NULL && u != unit && !House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) {
+		if (ui->variable_3C == 1 && g_unitInfo[u->type].variable_3C != 0) return true;
+	}
+
+	s = Structure_Get_ByPackedTile(packed);
+	return s != NULL;
+}
+
+/**
+ * Unknwown function 204C.
+ *
+ * @param unit The Unit to operate on.
+ * @param arg0A ??.
+ */
+void Unit_Unknown204C(Unit *unit, uint16 arg0A)
+{
+	uint16 loc02;
+
+	assert(unit != NULL);
+
+	loc02 = 0;
+	unit->variable_6A = 0;
+	unit->variable_69 = 0;
+	unit->variable_68 = 0;
+
+	if (unit->type == UNIT_HARVESTER) {
+		arg0A = ((255 - unit->amount) * arg0A) / 256;
+	}
+
+	if (arg0A == 0 || arg0A >= 256) {
+		unit->variable_6B = 0;
+		return;
+	}
+
+	unit->variable_6B = arg0A & 0xFF;
+	arg0A = (g_unitInfo[unit->type].variable_40 * arg0A) / 256;
+	arg0A = Tools_AdjustToGameSpeed(arg0A, 1, 255, false);
+	loc02 = arg0A << 4;
+	arg0A >>= 4;
+
+	if (arg0A != 0) {
+		loc02 = 255;
+	} else {
+		arg0A = 1;
+	}
+
+	unit->variable_6A = arg0A & 0xFF;
+	unit->variable_68 = loc02 & 0xFF;
+}
+
+/**
+ * Create a new bullet Unit.
+ *
+ * @param position Where on the map this bullet Unit is created.
+ * @param typeID The type of the new bullet Unit.
+ * @param houseID The House of the new bullet Unit.
+ * @param damage The hitpoints of the new bullet Unit.
+ * @param target The target of the new bullet Unit.
+ * @return The new created Unit, or NULL if something failed.
+ */
+Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target)
+{
+	UnitInfo *ui;
+	tile32 tile;
+
+	if (!Tools_Index_IsValid(target)) return NULL;
+
+	ui = &g_unitInfo[type];
+	tile = Tools_Index_GetTile(target);
+
+	switch (type) {
+		case UNIT_MISSILE_HOUSE:
+		case UNIT_MISSILE_ROCKET:
+		case UNIT_MISSILE_TURRET:
+		case UNIT_MISSILE_DEVIATOR:
+		case UNIT_MISSILE_TROOPER: {
+			uint8 loc0E;
+			Unit *bullet;
+			Unit *u;
+
+			emu_push(tile.s.y); emu_push(tile.s.x);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x2569); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+			emu_sp += 8;
+
+			loc0E = emu_ax & 0xFF;
+
+			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, loc0E);
+			if (bullet == NULL) return NULL;
+
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(ui->variable_58);
+			emu_push(emu_cs); emu_push(0x25AA); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+			emu_sp += 6;
+
+			bullet->targetAttack = target;
+			bullet->hitpoints = damage;
+			bullet->variable_49 = tile;
+
+			if ((ui->variable_36 & 0x4000) != 0) {
+				emu_push(0);
+				if ((Tools_Random_256() & 0xF) != 0) {
+					emu_push(Tile_GetDistance(position, tile) / 256 + 8);
+				} else {
+					emu_push(Tools_Random_256() + 8);
+				}
+				emu_push(tile.s.y); emu_push(tile.s.x);
+				emu_push(emu_cs); emu_push(0x2621); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+				emu_sp += 8;
+
+				bullet->variable_49.s.y = emu_dx;
+				bullet->variable_49.s.x = emu_ax;
+			}
+
+			bullet->variable_51 = ui->variable_50 & 0xFF;
+
+			u = Tools_Index_GetUnit(target);
+			if (u != NULL && g_unitInfo[u->type].variable_3C == 4) {
+				bullet->variable_51 <<= 1;
+			}
+
+			if (type == UNIT_MISSILE_HOUSE || (bullet->variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
+
+			emu_push(2);
+			emu_push(bullet->position.s.y); emu_push(bullet->position.s.x);
+			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
+			emu_sp += 6;
+
+			return bullet;
+		}
+
+		case UNIT_BULLET:
+		case UNIT_SONIC_BLAST: {
+			uint8 loc0E;
+			tile32 t;
+			Unit *bullet;
+
+			emu_push(tile.s.y); emu_push(tile.s.x);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x26BD); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+			emu_sp += 8;
+
+			loc0E = emu_ax & 0xFF;
+
+			emu_push(32);
+			emu_push(0);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x26D5); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
+			emu_sp += 8;
+
+			emu_push(128);
+			emu_push(loc0E);
+			emu_push(emu_dx); emu_push(emu_ax);
+			emu_push(emu_cs); emu_push(0x26F0); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
+			emu_sp += 8;
+
+			t.s.y = emu_dx;
+			t.s.x = emu_ax;
+
+			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, t, loc0E);
+			if (bullet == NULL) return NULL;
+
+			if (type == UNIT_SONIC_BLAST) {
+				bullet->variable_51 = ui->variable_50 & 0xFF;
+			}
+
+			bullet->variable_49 = tile;
+			bullet->hitpoints = damage;
+
+			if (damage > 15) bullet->flags.s.unknown_0040 = true;
+
+			if ((bullet->variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
+
+			emu_push(2);
+			emu_push(bullet->position.s.y); emu_push(bullet->position.s.x);
+			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
+			emu_sp += 6;
+
+			return bullet;
+		}
+
+		default: return NULL;
+	}
 }
