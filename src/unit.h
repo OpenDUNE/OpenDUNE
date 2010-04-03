@@ -279,6 +279,7 @@ extern uint16 Unit_FindTargetAround(uint16 packed);
 extern bool Unit_Unknown0E2E(Unit *unit);
 extern void Unit_Unknown204C(Unit *unit, uint16 arg0A);
 extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target);
+extern void Unit_DisplayStatusText(Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -310,5 +311,6 @@ extern void emu_Unit_Select();
 extern void emu_Unit_Unknown0E2E();
 extern void emu_Unit_Unknown204C();
 extern void emu_Unit_CreateBullet();
+extern void emu_Unit_DisplayStatusText();
 
 #endif /* UNIT_H */

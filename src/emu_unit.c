@@ -778,3 +778,26 @@ void emu_Unit_CreateBullet()
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
 }
+
+/**
+ * Emulator wrapper around Unit_DisplayStatusText()
+ *
+ * @name emu_Unit_DisplayStatusText
+ * @implements 1A34:27A8:0012:7198 ()
+ */
+void emu_Unit_DisplayStatusText()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_DisplayStatusText(unit);
+}

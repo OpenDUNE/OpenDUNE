@@ -174,7 +174,7 @@ l__1181:
 	if (emu_ax == 0) goto l__11A1;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A0C));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A0A));
-	emu_push(emu_cs); emu_push(0x119D); emu_cs = 0x1A34; f__1A34_27A8_0012_7198();
+	emu_push(emu_cs); emu_push(0x119D); emu_cs = 0x1A34; emu_Unit_DisplayStatusText();
 	/* Unresolved jump */ emu_ip = 0x119D; emu_last_cs = 0x0AEC; emu_last_ip = 0x119D; emu_last_length = 0x001C; emu_last_crc = 0xDFE4; emu_call();
 l__11A1:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));

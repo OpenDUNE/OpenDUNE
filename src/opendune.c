@@ -29,7 +29,6 @@ extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
-extern void f__1A34_27A8_0012_7198();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_01EB_0013_9C3C();
 extern void f__22A6_0796_000B_9035();
@@ -567,16 +566,14 @@ static void GameLoop_Main()
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_global->selectionUnit.csip != 0x00000000) {
-				if (g_global->variable_31C2 < g_global->tickGlobal) {
-					emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-					emu_push(emu_cs); emu_push(0x0360); emu_cs = 0x1A34; f__1A34_27A8_0012_7198();
-					emu_sp += 4;
+				Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
 
+				if (g_global->variable_31C2 < g_global->tickGlobal) {
+					Unit_DisplayStatusText(u);
 					g_global->variable_31C2 = g_global->tickGlobal + 300;
 				}
 
 				if (g_global->selectionType != 1) {
-					Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
 					g_global->selectionPosition = Tile_PackTile(Tile_Center(u->position));
 				}
 			}

@@ -25,7 +25,6 @@ extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1A34_27A8_0012_7198();
 extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
@@ -336,7 +335,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				Map_SetSelection(position);
 
 				emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-				emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x1A34; f__1A34_27A8_0012_7198();
+				emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x1A34; emu_Unit_DisplayStatusText();
 				emu_sp += 4;
 			}
 		}

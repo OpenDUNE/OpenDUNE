@@ -22,6 +22,7 @@
 #include "structure.h"
 #include "unknown/unknown.h"
 #include "os/math.h"
+#include "string.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
@@ -30,17 +31,17 @@ extern void f__0C3A_1216_0013_E56D();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
+extern void f__10E4_0117_0015_392D();
+extern void f__10E4_0F1A_0088_7622();
+extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
-extern void f__1A34_27A8_0012_7198();
 extern void f__1A34_2C95_001B_89A2();
 extern void f__1A34_3014_001B_858E();
 extern void f__1A34_3146_0018_6887();
 extern void f__1A34_379B_0015_B07B();
-extern void f__10E4_0117_0015_392D();
-extern void f__10E4_0F1A_0088_7622();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
@@ -2127,11 +2128,7 @@ void Unit_Select(Unit *unit)
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
 
 	if (selected != NULL) {
-		if (selected != unit) {
-			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-			emu_push(emu_cs); emu_push(0x1077); f__1A34_27A8_0012_7198();
-			emu_sp += 4;
-		}
+		if (selected != unit) Unit_DisplayStatusText(unit);
 
 		g_global->selectionUnit = ucsip;
 
@@ -2139,10 +2136,7 @@ void Unit_Select(Unit *unit)
 		emu_push(emu_cs); emu_push(0x108F); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
 		emu_sp += 2;
 	} else {
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x109C); f__1A34_27A8_0012_7198();
-		emu_sp += 4;
-
+		Unit_DisplayStatusText(unit);
 		g_global->selectionUnit = ucsip;
 
 		emu_push(3);
@@ -2485,4 +2479,70 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 		default: return NULL;
 	}
+}
+
+/**
+ * Display status text for the given unit.
+ *
+ * @param unit The Unit to display status text for.
+ */
+void Unit_DisplayStatusText(Unit *unit)
+{
+	UnitInfo *ui;
+
+	if (unit == NULL) return;
+
+	ui = &g_unitInfo[unit->type];
+
+	if (unit->type == UNIT_SANDWORM) {
+		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->stringID_abbrev));
+	} else {
+		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
+		if (g_global->language == 1) {
+			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->stringID_abbrev), houseName);
+		} else {
+			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->stringID_abbrev));
+		}
+	}
+
+	if (unit->type == UNIT_HARVESTER) {
+		uint16 stringID;
+
+		stringID = 0x79; /* " is %d percent full" */
+
+		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
+			emu_push(Tile_PackTile(unit->position));
+			emu_push(emu_cs); emu_push(0x28A2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+			emu_sp += 2;
+
+			if (emu_ax == 8 || emu_ax == 9) stringID = 0x7A; /* " is %d percent full and harvesting" */
+		}
+
+		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
+			emu_si = 0x7B; /* " is %d percent full and heading back" */
+		} else {
+			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->index * sizeof(Unit));
+			emu_push(emu_cs); emu_push(0x28E1); emu_cs = 0x0C10; emu_Object_IsScriptVariable4NotNull();
+			emu_sp += 4;
+			if (emu_ax != 0) {
+				stringID = 0x7C; /* " is %d percent full and awaiting pickup" */
+			}
+		}
+
+		if (unit->amount == 0) stringID += 4;
+
+		{
+			size_t len = strlen((char *)g_global->variable_9939);
+			char *s = (char *)g_global->variable_9939 + len;
+
+			snprintf(s, sizeof((char *)g_global->variable_9939) - len, String_Get_ByIndex(stringID), unit->amount);
+		}
+	}
+
+	strcat((char *)g_global->variable_9939, ".");
+
+	emu_push(2);
+	emu_push(0x353F); emu_push(0x9939);
+	emu_push(emu_cs); emu_push(0x2950); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+	emu_sp += 6;
 }
