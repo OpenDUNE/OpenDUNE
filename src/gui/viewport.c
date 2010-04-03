@@ -333,10 +333,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			if (emu_ax != 0 || emu_dx != 0 || g_global->debugScenario != 0) {
 				Map_SetSelection(position);
-
-				emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-				emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x1A34; emu_Unit_DisplayStatusText();
-				emu_sp += 4;
+				Unit_DisplayStatusText(g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL);
 			}
 		}
 

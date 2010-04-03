@@ -801,3 +801,59 @@ void emu_Unit_DisplayStatusText()
 
 	Unit_DisplayStatusText(unit);
 }
+
+/**
+ * Emulator wrapper around Unit_Unknown2AAA()
+ *
+ * @name emu_Unit_Unknown2AAA
+ * @implements 1A34:2AAA:000D:A3E6 ()
+ */
+void emu_Unit_Unknown2AAA()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_Unknown2AAA(unit);
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown2BB5()
+ *
+ * @name emu_Unit_Unknown2BB5
+ * @implements 1A34:2BB5:0025:30B8 ()
+ */
+void emu_Unit_Unknown2BB5()
+{
+	UnitType type;
+	uint16 houseID;
+	uint16 target;
+	uint16 arg0C;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	type     = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	houseID  = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	target   = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	arg0C    = emu_get_memory16(emu_ss, emu_sp, 0x6);
+
+	u = Unit_Unknown2BB5(type, (uint8)houseID, target, arg0C != 0 ? true : false);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (u == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+}

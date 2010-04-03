@@ -28,7 +28,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_09AB_0031_5E8E();
-extern void f__1A34_2BB5_0025_30B8();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
@@ -223,7 +222,6 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	Structure *s;
 	Unit *u;
 	Unit *carryall;
-	csip32 ucsip;
 	uint16 loc06;
 	uint16 loc08;
 	uint16 carryallIndex;
@@ -247,18 +245,10 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 		return IT_NONE;
 	}
 
-	emu_push(loc08 != 0 ? 0 : 1);
-	emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-	emu_push(s->houseID);
-	emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x0BC3); emu_cs = 0x1A34; f__1A34_2BB5_0025_30B8();
-	emu_sp += 8;
-	ucsip.s.cs = emu_dx;
-	ucsip.s.ip = emu_ax;
+	carryall = Unit_Unknown2BB5(loc06, s->houseID, Tools_Index_Encode(s->index, IT_STRUCTURE), loc08 != 0 ? 0 : 1);
 
-	if (ucsip.csip == 0) return IT_NONE;
+	if (carryall == NULL) return IT_NONE;
 
-	carryall = Unit_Get_ByMemory(ucsip);
 	carryallIndex = Tools_Index_Encode(carryall->index, IT_UNIT);
 
 	emu_push(carryallIndex);
