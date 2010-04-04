@@ -53,6 +53,13 @@ extern uint16 Script_General_Delay(ScriptEngine *script);
 extern uint16 Script_General_DelayRandom(ScriptEngine *script);
 extern uint16 Script_General_GetDistance(ScriptEngine *script);
 extern uint16 Script_General_NoOperation(ScriptEngine *script);
+extern uint16 Script_General_DisplayText(ScriptEngine *script);
+extern uint16 Script_General_RandomRange(ScriptEngine *script);
+extern uint16 Script_General_Unknown0184(ScriptEngine *script);
+extern uint16 Script_General_Unknown024B(ScriptEngine *script);
+extern uint16 Script_General_Unknown0288(ScriptEngine *script);
+extern uint16 Script_General_Unknown02EA(ScriptEngine *script);
+extern uint16 Script_General_UnitCount(ScriptEngine *script);
 
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);

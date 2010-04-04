@@ -6,13 +6,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void emu_Script_General_DisplayText();
-extern void f__0EDB_0145_002F_C125();
-extern void f__0EDB_0184_0030_A1C2();
-extern void f__0EDB_024B_001D_2E46();
-extern void f__0EDB_0288_0020_3D83();
-extern void f__0EDB_02EA_001E_F83C();
-extern void f__0EDB_032B_0031_E91B();
 extern void f__0EDB_0386_001D_2E46();
 extern void f__0EDB_03B9_001D_2E46();
 extern void f__0EDB_03EC_0020_629E();
@@ -86,7 +79,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ NULL,
-	/* 05 */ &emu_Script_General_DisplayText,
+	/* 05 */ NULL,
 	/* 06 */ NULL,
 	/* 07 */ NULL,
 	/* 08 */ NULL,
@@ -114,7 +107,7 @@ emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT
 emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ &f__176C_1CFE_0021_29C8,
 	/* 01 */ &f__176C_1C00_003A_E6C7,
-	/* 02 */ &emu_Script_General_DisplayText,
+	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ &f__176C_22C4_0019_80C9,
 	/* 05 */ &f__176C_1A9F_0024_813F,
@@ -135,7 +128,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 14 */ &f__176C_0882_0014_0C6A,
 	/* 15 */ NULL,
 	/* 16 */ &f__176C_1098_0021_667D,
-	/* 17 */ &f__0EDB_0145_002F_C125,
+	/* 17 */ NULL,
 	/* 18 */ &f__0EDB_0594_0026_F09C,
 	/* 19 */ &f__176C_1C6F_001D_2E46,
 	/* 1A */ &f__176C_0FA2_0013_6D6D,
@@ -162,19 +155,19 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 2F */ &f__176C_27A4_0021_7EE9,
 	/* 30 */ &f__176C_28B1_0024_58C9,
 	/* 31 */ &f__176C_291A_0010_8A93,
-	/* 32 */ &f__0EDB_032B_0031_E91B,
+	/* 32 */ NULL,
 	/* 33 */ &f__176C_29A9_003A_8DEF,
 	/* 34 */ NULL,
 	/* 35 */ NULL,
 	/* 36 */ &f__176C_2B97_0013_B226,
 	/* 37 */ &f__176C_2BD5_0014_2C56,
-	/* 38 */ &f__0EDB_02EA_001E_F83C,
+	/* 38 */ NULL,
 	/* 39 */ NULL,
 	/* 3A */ &f__176C_1B45_0022_208C,
-	/* 3B */ &f__0EDB_0288_0020_3D83,
+	/* 3B */ NULL,
 	/* 3C */ NULL,
 	/* 3D */ &f__176C_196C_0027_D87A,
-	/* 3E */ &f__0EDB_024B_001D_2E46,
+	/* 3E */ NULL,
 	/* 3F */ NULL,
 };
 
@@ -193,7 +186,7 @@ emu_ScriptFunction emu_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 08 */ &f__16C5_09C4_003E_31D6,
 	/* 09 */ &f__16C5_0A20_003A_2375,
 	/* 0A */ NULL,
-	/* 0B */ &f__0EDB_0184_0030_A1C2,
+	/* 0B */ NULL,
 	/* 0C */ &f__16C5_01FE_000D_19C4,
 	/* 0D */ &f__16C5_020D_000D_1A44,
 	/* 0E */ NULL,
@@ -208,7 +201,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 02 */ &Script_Structure_Unknown0A81,
 	/* 03 */ &Script_Structure_Unknown0AFC,
 	/* 04 */ &Script_Structure_SetAnimation,
-	/* 05 */ NULL,
+	/* 05 */ &Script_General_DisplayText,
 	/* 06 */ &Script_Structure_Unknown11B9,
 	/* 07 */ &Script_Structure_Unknown0C5A,
 	/* 08 */ &Script_Structure_FindTargetUnit,
@@ -236,7 +229,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ NULL,
 	/* 01 */ NULL,
-	/* 02 */ NULL,
+	/* 02 */ &Script_General_DisplayText,
 	/* 03 */ &Script_General_GetDistance,
 	/* 04 */ NULL,
 	/* 05 */ NULL,
@@ -257,7 +250,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 14 */ NULL,
 	/* 15 */ &Script_General_NoOperation,
 	/* 16 */ NULL,
-	/* 17 */ NULL,
+	/* 17 */ &Script_General_RandomRange,
 	/* 18 */ NULL,
 	/* 19 */ NULL,
 	/* 1A */ NULL,
@@ -284,19 +277,19 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 2F */ NULL,
 	/* 30 */ NULL,
 	/* 31 */ NULL,
-	/* 32 */ NULL,
+	/* 32 */ &Script_General_UnitCount,
 	/* 33 */ NULL,
 	/* 34 */ &Script_General_NoOperation,
 	/* 35 */ &Script_General_NoOperation,
 	/* 36 */ NULL,
 	/* 37 */ NULL,
-	/* 38 */ NULL,
+	/* 38 */ &Script_General_Unknown02EA,
 	/* 39 */ &Script_General_NoOperation,
 	/* 3A */ NULL,
-	/* 3B */ NULL,
+	/* 3B */ &Script_General_Unknown0288,
 	/* 3C */ &Script_General_DelayRandom,
 	/* 3D */ NULL,
-	/* 3E */ NULL,
+	/* 3E */ &Script_General_Unknown024B,
 	/* 3F */ &Script_General_NoOperation,
 };
 
@@ -315,7 +308,7 @@ ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 08 */ NULL,
 	/* 09 */ NULL,
 	/* 0A */ &Script_General_DelayRandom,
-	/* 0B */ NULL,
+	/* 0B */ &Script_General_Unknown0184,
 	/* 0C */ NULL,
 	/* 0D */ NULL,
 	/* 0E */ &Script_General_NoOperation,
