@@ -138,7 +138,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
  * Get a random value between min and max.
  *
  * Stack: 0 - The minimum value.
- *        1 - The.maximum value
+ *        1 - The maximum value.
  *
  * @param script The script engine to operate on.
  * @return The random value.
