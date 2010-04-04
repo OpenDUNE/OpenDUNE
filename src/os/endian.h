@@ -23,9 +23,13 @@
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 	#define HTOBE32(x) __builtin_bswap32(x)
 	#define BETOH32(x) __builtin_bswap32(x)
+	#define HTOBE16(x) (__builtin_bswap32(x) >> 16)
+	#define BETOH16(x) (__builtin_bswap32(x) >> 16)
 #else
 	#define HTOBE32(x) (x)
 	#define BETOH32(x) (x)
+	#define BETOH16(x) (x)
+	#define BETOH16(x) (x)
 #endif
 
 #endif /* OS_ENDIAN_H */

@@ -5,6 +5,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../os/endian.h"
+#include "../os/strings.h"
+#include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "script.h"
@@ -12,8 +15,6 @@
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
-#include "../os/strings.h"
-#include "../pool/pool.h"
 
 extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_09AB_0031_5E8E();
@@ -106,7 +107,7 @@ uint16 Script_General_NoOperation(ScriptEngine *script)
  * Draws a string.
  *
  * Stack: 0 - The index of the string to draw.
- *        1-3 - The args.
+ *        1-3 - The arguments for the string.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
@@ -118,8 +119,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
 
 	text = ScriptInfo_Get_ByMemory(script->scriptInfo)->text;
 
-	offset = emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2);
-	offset = (offset >> 8) | (offset << 8);
+	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
 
 	text.s.ip += offset;
 
@@ -163,14 +163,12 @@ uint16 Script_General_RandomRange(ScriptEngine *script)
  */
 uint16 Script_General_Unknown0184(ScriptEngine *script)
 {
-
 	csip32 text;
 	uint16 offset;
 
 	text = ScriptInfo_Get_ByMemory(script->scriptInfo)->text;
 
-	offset = emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2);
-	offset = (offset >> 8) | (offset << 8);
+	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
 
 	text.s.ip += offset;
 
