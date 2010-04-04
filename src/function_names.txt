@@ -91,8 +91,10 @@
 0AEC:1181:001C:DFE4	emu_GUI_Picture	# (csip) Handles click on "Picture" button
 0AEC:11F6:000F:2195	emu_GUI_RepairUpgrade	# (csip) Handles click on "Repair"/"Upgrade" button
 
+0C10:00D2:000F:D61E	emu_Object_SetScriptVariable4	# (object_csip, value) sets the script->variables[4] of the given unit/structure (does more if object is a structure)
 0C10:013D:0016:8C5C	emu_Object_IsScriptVariable4NotNull	# (object_csip) returns 1 if script->variables[4] != 0, else 0
 0C10:0168:0014:CEB0	emu_Object_GetScriptVariable4	# (object_csip) returns the script->variables[4] of the given unit/structure
+0C10:0247:000D:A5E6	emu_Object_ClearScriptVariable4	# (object_csip) clears the script->variables[4] of the given unit/structure (does more if object is a structure)
 
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure

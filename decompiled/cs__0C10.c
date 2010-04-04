@@ -123,14 +123,14 @@ l__00A2:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
-	emu_push(0x00B4); f__0C10_00D2_000F_D61E();
+	emu_push(0x00B4); emu_Object_SetScriptVariable4();
 l__00B4:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_cs);
-	emu_push(0x00C3); f__0C10_00D2_000F_D61E();
+	emu_push(0x00C3); emu_Object_SetScriptVariable4();
 l__00C3:
 	emu_addw(&emu_sp, 0x6);
 	emu_ax = 0x1;
@@ -148,9 +148,9 @@ l__00CC:
 }
 
 /**
- * Decompiled function f__0C10_00D2_000F_D61E()
+ * Decompiled function emu_Object_SetScriptVariable4()
  *
- * @name f__0C10_00D2_000F_D61E
+ * @name emu_Object_SetScriptVariable4
  * @implements 0C10:00D2:000F:D61E ()
  * @implements 0C10:00DF:0002:ED3A
  * @implements 0C10:00E1:003D:FEA4
@@ -165,7 +165,7 @@ l__00CC:
  * Called From: 1A34:2C7F:0020:54FF
  * Called From: 1A34:2C7F:003E:E039
  */
-void f__0C10_00D2_000F_D61E()
+void emu_Object_SetScriptVariable4()
 {
 l__00D2:
 	emu_push(emu_bp);
@@ -381,14 +381,14 @@ l__01A1:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x01B3); f__0C10_0247_000D_A5E6();
+	emu_push(0x01B3); emu_Object_ClearScriptVariable4();
 l__01B3:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
-	emu_push(0x01C0); f__0C10_0247_000D_A5E6();
+	emu_push(0x01C0); emu_Object_ClearScriptVariable4();
 l__01C0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -457,9 +457,9 @@ l__0242:
 }
 
 /**
- * Decompiled function f__0C10_0247_000D_A5E6()
+ * Decompiled function emu_Object_ClearScriptVariable4()
  *
- * @name f__0C10_0247_000D_A5E6
+ * @name emu_Object_ClearScriptVariable4
  * @implements 0C10:0247:000D:A5E6 ()
  * @implements 0C10:0254:003C:67AC
  * @implements 0C10:0290:0014:0758
@@ -469,7 +469,7 @@ l__0242:
  * Called From: 0C10:01B0:0012:26F5
  * Called From: 0C10:01BD:000D:063C
  */
-void f__0C10_0247_000D_A5E6()
+void emu_Object_ClearScriptVariable4()
 {
 l__0247:
 	emu_push(emu_bp);

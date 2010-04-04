@@ -26,7 +26,7 @@
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
-extern void f__0C10_00D2_000F_D61E();
+extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_2207_001D_EDF2();
@@ -55,8 +55,6 @@ extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
-extern void emu_Object_GetScriptVariable4();
-extern void emu_Object_IsScriptVariable4NotNull();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -807,11 +805,7 @@ uint16 Unit_Unknown3014(Unit *unit, Structure *s)
 
 	if ((si->variable_32 & (1 << unit->type)) == 0) return 0;
 
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
-	emu_push(emu_cs); emu_push(0x3120); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
-	emu_sp += 4;
-
-	if (emu_ax == loc0A) return 2;
+	if (s->script.variables[4] == loc0A) return 2;
 	return s->linkedID == 0xFF ? 1 : 0;
 }
 
@@ -1590,11 +1584,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 
 		if (unit->flags.s.byScenario || unit->linkedID == 0xFF) {
-			emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-			emu_push(emu_cs); emu_push(0x0116); emu_cs = 0x0C10; emu_Object_IsScriptVariable4NotNull();
-			emu_sp += 4;
-
-			if (emu_ax == 0) {
+			if (unit->script.variables[4] == 0) {
 				Unit_Unknown10EC(unit);
 				return true;
 			}
@@ -2011,16 +2001,11 @@ void Unit_UntargetMe(Unit *unit)
 		if (u == NULL) break;
 		if (u->targetMove == encoded) u->targetMove = 0;
 		if (u->targetAttack == encoded) u->targetAttack = 0;
+		if (u->script.variables[4] != encoded) continue;
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		ucsip2.s.cs = g_global->unitStartPos.s.cs;
 		ucsip2.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
-
-		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
-		emu_push(emu_cs); emu_push(0x36C6); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
-		emu_sp += 4;
-
-		if (emu_ax != encoded) continue;
 
 		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
 		emu_push(emu_cs); emu_push(0x36D7); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
@@ -2544,10 +2529,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
 			emu_si = 0x7B; /* " is %d percent full and heading back" */
 		} else {
-			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->index * sizeof(Unit));
-			emu_push(emu_cs); emu_push(0x28E1); emu_cs = 0x0C10; emu_Object_IsScriptVariable4NotNull();
-			emu_sp += 4;
-			if (emu_ax != 0) {
+			if (unit->script.variables[4] != 0) {
 				stringID = 0x7C; /* " is %d percent full and awaiting pickup" */
 			}
 		}
@@ -2649,7 +2631,7 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 
 		emu_push(target);
 		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->index * sizeof(Unit));
-		emu_push(emu_cs); emu_push(0x2C84); emu_cs = 0x0C10; f__0C10_00D2_000F_D61E();
+		emu_push(emu_cs); emu_push(0x2C84); emu_cs = 0x0C10; emu_Object_SetScriptVariable4();
 		emu_sp += 6;
 	}
 

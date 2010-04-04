@@ -20,7 +20,7 @@
 #include "../unknown/unknown.h"
 
 extern void f__06F7_0008_0018_D7CD();
-extern void f__0C10_00D2_000F_D61E();
+extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1002_0013_651A();
 extern void f__0C3A_247A_0015_EA04();
@@ -253,7 +253,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	emu_push(carryallIndex);
 	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0BF5); emu_cs = 0x0C10; f__0C10_00D2_000F_D61E();
+	emu_push(emu_cs); emu_push(0x0BF5); emu_cs = 0x0C10; emu_Object_SetScriptVariable4();
 	emu_sp += 6;
 
 	return carryallIndex;
