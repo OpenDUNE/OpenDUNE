@@ -2836,6 +2836,8 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 
 	if (unit == NULL) return 0;
 
+	scsip.csip = 0x0;
+
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
 	ucsip.s.ip += unit->index * sizeof(Unit);
