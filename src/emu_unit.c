@@ -8,6 +8,8 @@
 #include "pool/team.h"
 #include "house.h"
 #include "unit.h"
+#include "structure.h"
+#include "pool/structure.h"
 #include "pool/pool.h"
 #include "team.h"
 
@@ -856,4 +858,111 @@ void emu_Unit_Unknown2BB5()
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+}
+
+/**
+ * Emulator wrapper around Unit_EnterStructure()
+ *
+ * @name emu_Unit_EnterStructure
+ * @implements 1A34:2C95:001B:89A2 ()
+ */
+void emu_Unit_EnterStructure()
+{
+	csip32 ucsip;
+	csip32 scsip;
+	Unit *unit;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	scsip = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	if (ucsip.csip == 0x0 || scsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+	s = Structure_Get_ByMemory(scsip);
+
+	Unit_EnterStructure(unit, s);
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown3146()
+ *
+ * @name emu_Unit_Unknown3146
+ * @implements 1A34:3146:0018:6887 ()
+ */
+void emu_Unit_Unknown3146()
+{
+	csip32 ucsip;
+	Unit *unit;
+	uint16 packed;
+	uint16 arg0C;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	packed = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	arg0C  = emu_get_memory16(emu_ss, emu_sp, 0x6);
+
+	emu_ax = 0;
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_Unknown3146(unit, packed, arg0C);
+}
+
+/**
+ * Emulator wrapper around Unit_FindBestTargetEncoded()
+ *
+ * @name emu_Unit_FindBestTargetEncoded
+ * @implements 1A34:350F:0021:9B04 ()
+ */
+void emu_Unit_FindBestTargetEncoded()
+{
+	csip32 ucsip;
+	uint16 mode;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	mode  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_FindBestTargetEncoded(unit, mode);
+}
+
+/**
+ * Emulator wrapper around Unit_Unknown379B()
+ *
+ * @name emu_Unit_Unknown379B
+ * @implements 1A34:379B:0015:B07B ()
+ */
+void emu_Unit_Unknown379B()
+{
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = 0;
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	emu_ax = Unit_Unknown379B(unit) ? 1 : 0;
 }

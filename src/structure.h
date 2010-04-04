@@ -115,7 +115,7 @@ typedef struct StructureInfo {
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
 	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      -    */              BITTYPE notused1:1;        /*!< The remaining bits are never used. */
+	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
 	/*      -    */              BITTYPE notused2:8;        /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
@@ -127,7 +127,8 @@ typedef struct StructureInfo {
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x0011];
 	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
-	/* 002D()    */ PACK uint8   unknown_002D[0x009];
+	/* 002D()    */ PACK uint8   unknown_002D[0x005];
+	/* 0032(4)   */ PACK uint32 variable_32;                /*!< ?? */
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */

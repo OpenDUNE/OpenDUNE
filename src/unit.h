@@ -237,6 +237,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(ActionInfo) == 0x0C);
 
 struct Team;
+struct Structure;
 
 extern UnitInfo *g_unitInfo;
 extern ActionInfo *g_actionInfo;
@@ -282,6 +283,10 @@ extern Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, ui
 extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Unknown2AAA(Unit *unit);
 extern Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C);
+extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
+extern uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C);
+extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
+extern bool Unit_Unknown379B(Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -316,5 +321,9 @@ extern void emu_Unit_CreateBullet();
 extern void emu_Unit_DisplayStatusText();
 extern void emu_Unit_Unknown2AAA();
 extern void emu_Unit_Unknown2BB5();
+extern void emu_Unit_EnterStructure();
+extern void emu_Unit_Unknown3146();
+extern void emu_Unit_FindBestTargetEncoded();
+extern void emu_Unit_Unknown379B();
 
 #endif /* UNIT_H */

@@ -29,6 +29,8 @@ extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_00D2_000F_D61E();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1216_0013_E56D();
+extern void f__0C3A_2207_001D_EDF2();
+extern void f__0C3A_22CD_0029_8F46();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
@@ -39,10 +41,6 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__15C2_044C_0012_C66D();
-extern void f__1A34_2C95_001B_89A2();
-extern void f__1A34_3014_001B_858E();
-extern void f__1A34_3146_0018_6887();
-extern void f__1A34_379B_0015_B07B();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
@@ -59,6 +57,7 @@ extern void emu_Map_DeviateArea();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Object_GetScriptVariable4();
 extern void emu_Object_IsScriptVariable4NotNull();
+extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -779,6 +778,44 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
 }
 
 /**
+ * Unknwown function 3014.
+ *
+ * @param unit The Unit to operate on.
+ * @param s The Structure to operate on.
+ * @return ??.
+ */
+uint16 Unit_Unknown3014(Unit *unit, Structure *s)
+{
+	StructureInfo *si;
+	UnitInfo *ui;
+	uint16 loc0A;
+	uint16 loc0C;
+
+	if (unit == NULL || s == NULL) return 0;
+
+	si = &g_structureInfo[s->type];
+	ui = &g_unitInfo[unit->type];
+
+	loc0A = Tools_Index_Encode(unit->index, IT_UNIT);
+	loc0C = Tools_Index_Encode(s->index, IT_STRUCTURE);
+
+	if (Unit_GetHouseID(unit) != s->houseID) {
+		if (unit->type == UNIT_SABOTEUR && unit->targetMove == loc0C) return 2;
+		if (ui->variable_3C == 0 && si->flags.s.variable_0080) return unit->targetMove == loc0C ? 2 : 1;
+		return 0;
+	}
+
+	if ((si->variable_32 & (1 << unit->type)) == 0) return 0;
+
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+	emu_push(emu_cs); emu_push(0x3120); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
+	emu_sp += 4;
+
+	if (emu_ax == loc0A) return 2;
+	return s->linkedID == 0xFF ? 1 : 0;
+}
+
+/**
  * Sets the destination for the given unit.
  *
  * @param u The unit to set the destination for.
@@ -809,12 +846,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 
 	s = Tools_Index_GetStructure(destination);
 	if (s != NULL && s->houseID == Unit_GetHouseID(u)) {
-		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
-		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
-		emu_push(emu_cs); emu_push(0x1C4D); f__1A34_3014_001B_858E();
-		emu_sp += 8;
-
-		if (emu_ax == 1 || g_unitInfo[u->type].variable_3C == 4) {
+		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->type].variable_3C == 4) {
 			emu_push(destination);
 			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
@@ -1265,6 +1297,7 @@ bool Unit_Unknown167C(Unit *unit)
 	uint16 loc08;
 	tile32 position;
 	uint16 locdi;
+	uint16 locax;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
@@ -1291,13 +1324,9 @@ bool Unit_Unknown167C(Unit *unit)
 
 	unit->variable_52 = 0x7FFF;
 
-	emu_push(locsi / 32);
-	emu_push(packed);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x172F); f__1A34_3146_0018_6887();
-	emu_sp += 8;
+	locax = Unit_Unknown3146(unit, packed, locsi / 32);
 
-	if ((int16)emu_ax > 0xFF || emu_ax == 0xFFFF) return false;
+	if ((int16)locax > 0xFF || locax == 0xFFFF) return false;
 
 	emu_push(packed);
 	emu_push(emu_cs); emu_push(0x174A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
@@ -1788,12 +1817,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						if (s != NULL) {
 							unit->variable_5E.tile = 0;
 							unit->variable_5A.tile = 0;
-
-							emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
-							emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-							emu_push(emu_cs); emu_push(0x07DF); f__1A34_2C95_001B_89A2();
-							emu_sp += 8;
-
+							Unit_EnterStructure(unit, s);
 							return true;
 						}
 					}
@@ -1877,9 +1901,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	houseID = Unit_GetHouseID(unit);
 
 	if (unit->hitpoints == 0) {
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0C1D); f__1A34_379B_0015_B07B();
-		emu_sp += 4;
+		Unit_Unknown379B(unit);
 
 		if (unit->type == UNIT_HARVESTER) {
 			emu_push(unit->amount / 32);
@@ -2548,6 +2570,11 @@ void Unit_DisplayStatusText(Unit *unit)
 	emu_sp += 6;
 }
 
+/**
+ * Unknwown function 2AAA.
+ *
+ * @param unit The Unit to operate on.
+ */
 void Unit_Unknown2AAA(Unit *unit)
 {
 	csip32 ucsip;
@@ -2578,6 +2605,15 @@ void Unit_Unknown2AAA(Unit *unit)
 	emu_sp += 6;
 }
 
+/**
+ * Unknwown function 2BB5.
+ *
+ * @param type The type of the Unit to find.
+ * @param houseID The houseID of the Unit to find.
+ * @param target To where the found Unit should move.
+ * @param arg0C Create a carryall if none found.
+ * @return The found Unit, or NULL if none found.
+ */
 Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 {
 	PoolFindStruct find;
@@ -2618,4 +2654,275 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 	}
 
 	return unit;
+}
+
+/**
+ * Handles what happens when the given unit enters into the given structure.
+ *
+ * @param unit The Unit.
+ * @param s The Structure.
+ */
+void Unit_EnterStructure(Unit *unit, Structure *s)
+{
+	csip32 scsip;
+	Unit *selected;
+	UnitInfo *ui;
+	StructureInfo *si;
+
+	if (unit == NULL || s == NULL) return;
+	selected = g_global->selectionUnit.csip != 0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
+
+	if (unit == selected) Unit_Select(NULL);
+
+	ui = &g_unitInfo[unit->type];
+	si = &g_structureInfo[s->type];
+
+	if (!unit->flags.s.allocated || s->hitpoints == 0) {
+		Unit_Unknown10EC(unit);
+		return;
+	}
+
+	unit->variable_09 |= s->variable_09;
+	Unit_Unknown2AAA(unit);
+
+	if (House_AreAllied(s->houseID, Unit_GetHouseID(unit))) {
+		Structure_SetAnimation(s, si->flags.s.variable_0010 ? 2 : 1);
+
+		if (s->type == STRUCTURE_REPAIR) {
+			uint16 countDown;
+
+			countDown = ((ui->hitpoints - unit->hitpoints) * 256 / ui->hitpoints) * (ui->buildTime << 6) / 256;
+
+			if (countDown > 1) {
+				s->countDown = countDown;
+			} else {
+				s->countDown = 1;
+			}
+			unit->hitpoints = ui->hitpoints;
+			unit->flags.s.variable_0008 = false;
+			unit->variable_6D = 0;
+		}
+		unit->linkedID = s->linkedID;
+		s->linkedID = unit->index & 0xFF;
+		return;
+	}
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	scsip       = g_global->structureStartPos;
+	scsip.s.ip += s->index * sizeof(Structure);
+
+	if (unit->type == UNIT_SABOTEUR) {
+		emu_push(1);
+		emu_push(500);
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x2E55); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
+		emu_sp += 8;
+
+		Unit_Free(unit);
+		return;
+	}
+
+	if (s->hitpoints < ui->hitpoints / 4) {
+		House *h;
+
+		h = House_Get_ByIndex(s->houseID);
+		s->houseID = Unit_GetHouseID(unit);
+		h->structuresBuilt = Structure_GetStructuresBuilt(h);
+
+		h = House_Get_ByIndex(unit->houseID);
+		h->structuresBuilt = Structure_GetStructuresBuilt(h);
+
+		if (s->linkedID != 0xFF) {
+			Unit *u = Unit_Get_ByIndex(s->linkedID);
+			if (u != NULL) u->houseID = Unit_GetHouseID(unit);
+		}
+
+		Structure_CalculatePowerAndCredit(House_Get_ByIndex(s->houseID));
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x2F40); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
+		emu_sp += 4;
+	} else {
+		emu_push(1);
+		emu_push(max(unit->hitpoints * 2, s->hitpoints / 2));
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x2F7B); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
+		emu_sp += 8;
+	}
+
+	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+	emu_push(emu_cs); emu_push(0x2F89); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	Unit_Free(unit);
+}
+
+/**
+ * Unknwown function 3146.
+ *
+ * @param unit The Unit to operate on.
+ * @param packed The packed tile.
+ * @param arg0C ??.
+ * @return ??.
+ */
+uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
+{
+	UnitInfo *ui;
+	Unit *u;
+	Structure *s;
+	uint16 loc0E;
+	uint16 res;
+
+	if (unit == NULL) return 0;
+
+	ui = &g_unitInfo[unit->type];
+
+	if (!Map_IsValidPosition(packed) && ui->variable_3C != 4) return 256;
+
+	u = Unit_Get_ByPackedTile(packed);
+	if (u != NULL && u != unit && unit->type != UNIT_SANDWORM) {
+		if (unit->type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->index, IT_UNIT)) return 0;
+
+		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
+		if (g_unitInfo[u->type].variable_3C != 0 || (ui->variable_3C != 1 && ui->variable_3C != 2)) return 256;
+	}
+
+	s = Structure_Get_ByPackedTile(packed);
+	if (s != NULL) {
+		res = Unit_Unknown3014(unit, s);
+		if (res == 0) return 256;
+		return -res;
+	}
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x3289); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	loc0E = emu_ax;
+
+	res = g_global->variable_3A3E[loc0E][2 + (ui->variable_3C / 2)];
+	if (ui->variable_3C % 2 == 0) {
+		res &= 0xFF;
+	} else {
+		res >>= 8;
+	}
+
+	if (unit->type == UNIT_SABOTEUR && loc0E == 11) {
+		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->houseID)) emu_si = 0xFF;
+	}
+
+	if (res == 0) return 256;
+	res ^= 0xFF;
+
+	if ((arg0C & 1) != 0) {
+		res -= res / 4 + res / 8;
+	}
+
+	return res;
+}
+
+/**
+ * Gets the best target for the given unit.
+ *
+ * @param unit The Unit to get the best target for.
+ * @param mode How to determine the best target.
+ * @return The encoded index of the best target or 0 if none found.
+ */
+uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
+{
+	csip32 ucsip;
+	csip32 scsip;
+	Unit *target;
+
+	if (unit == NULL) return 0;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip       = g_global->unitStartPos;
+	ucsip.s.ip += unit->index * sizeof(Unit);
+
+	if (mode == 4) {
+		emu_push(mode);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x3541); emu_cs = 0x0C3A; f__0C3A_22CD_0029_8F46();
+		emu_sp += 6;
+
+		scsip.s.cs = emu_dx;
+		scsip.s.ip = emu_ax;
+
+		if (scsip.csip != 0x0) {
+			return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
+		}
+
+		target = Unit_FindBestTarget(unit, mode);
+
+		if (target == NULL) return 0;
+		return Tools_Index_Encode(target->index, IT_UNIT);
+	}
+
+	target = Unit_FindBestTarget(unit, mode);
+
+	if (unit->type != UNIT_DEVIATOR) {
+		emu_push(mode);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x35A7); emu_cs = 0x0C3A; f__0C3A_22CD_0029_8F46();
+		emu_sp += 6;
+
+		scsip.s.cs = emu_dx;
+		scsip.s.ip = emu_ax;
+	}
+
+	if (target != NULL && scsip.csip != 0x0) {
+		uint16 priority;
+
+		priority = Unit_GetTargetPriority(unit, target);
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x35E5); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
+		emu_sp += 8;
+
+		if (emu_ax >= priority) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
+		return Tools_Index_Encode(target->index, IT_UNIT);
+	}
+
+	if (target != NULL) return Tools_Index_Encode(target->index, IT_UNIT);
+	if (scsip.csip != 0x0) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
+
+	return 0;
+}
+
+/**
+ * Unknwown function 379B.
+ *
+ * @param unit The Unit to operate on.
+ * @return ??.
+ */
+bool Unit_Unknown379B(Unit *unit)
+{
+	Unit *selected;
+
+	if (unit == NULL) return false;
+	if (Unit_GetHouseID(unit) != g_global->playerHouseID) return false;
+	if (!unit->flags.s.allocated) return false;
+
+	unit->flags.s.allocated = false;
+	Unit_RemoveFromTeam(unit);
+
+	selected = g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
+
+	if (unit != selected) return true;
+
+	if (g_global->selectionType == 1) {
+		g_global->variable_39F2 = 0;
+		g_global->variable_39F4 = 0;
+		g_global->variable_39F6 = 0xFFFF;
+
+		emu_push(4);
+		emu_push(emu_cs); emu_push(0x380C); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+		emu_sp += 2;
+	}
+
+	Unit_Select(NULL);
+
+	return true;
 }
