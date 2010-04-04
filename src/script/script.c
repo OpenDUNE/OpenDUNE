@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
@@ -69,37 +70,6 @@ extern void f__176C_2C73_0010_BB2A();
 
 typedef void (*emu_ScriptFunction)();
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
-
-/**
- * Not yet converted script functions for Structures.
- */
-emu_ScriptFunction emu_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
-	/* 00 */ NULL,
-	/* 01 */ NULL,
-	/* 02 */ NULL,
-	/* 03 */ NULL,
-	/* 04 */ NULL,
-	/* 05 */ NULL,
-	/* 06 */ NULL,
-	/* 07 */ NULL,
-	/* 08 */ NULL,
-	/* 09 */ NULL,
-	/* 0A */ NULL,
-	/* 0B */ NULL,
-	/* 0C */ NULL,
-	/* 0D */ NULL,
-	/* 0E */ NULL,
-	/* 0F */ NULL,
-	/* 10 */ NULL,
-	/* 11 */ NULL,
-	/* 12 */ NULL,
-	/* 13 */ NULL,
-	/* 14 */ NULL,
-	/* 15 */ NULL,
-	/* 16 */ NULL,
-	/* 17 */ NULL,
-	/* 18 */ NULL,
-};
 
 /**
  * Not yet converted script functions for Units.
@@ -537,10 +507,6 @@ bool Script_Run(ScriptEngine *script)
 
 			parameter &= 0xFF;
 
-			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
-			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
-			emu_push(emu_cs); emu_push(0x0935);
-
 			/* Check if we are using the scriptFunctionsStructure */
 			if (scriptInfo->functions.csip == 0x353F33B6) {
 				if (parameter >= SCRIPT_FUNCTIONS_STRUCTURE_COUNT) {
@@ -548,21 +514,16 @@ bool Script_Run(ScriptEngine *script)
 					return false;
 				}
 
-				if (scriptFunctionsStructure[parameter] != NULL) {
-					emu_sp += 8;
+				assert(scriptFunctionsStructure[parameter] != NULL);
 
-					script->returnValue = scriptFunctionsStructure[parameter](script);
-					return true;
-				}
-				if (emu_scriptFunctionsStructure[parameter] != NULL) {
-					emu_cs = function.s.cs; emu_ip = function.s.ip;
-					emu_scriptFunctionsStructure[parameter]();
-					emu_sp += 4;
-
-					script->returnValue = emu_ax;
-					return true;
-				}
+				script->returnValue = scriptFunctionsStructure[parameter](script);
+				return true;
 			}
+
+			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
+			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
+			emu_push(emu_cs); emu_push(0x0935);
+
 			/* Check if we are using the scriptFunctionsUnit */
 			if (scriptInfo->functions.csip == 0x353F6168) {
 				if (parameter >= SCRIPT_FUNCTIONS_UNIT_COUNT) {
