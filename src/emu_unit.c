@@ -72,26 +72,6 @@ void emu_Unit_Create()
 }
 
 /**
- * Decompiled function emu_Unit_IsTypeOnMap()
- *
- * @name emu_Unit_IsTypeOnMap
- * @implements 0FE4:0333:000F:2B73 ()
- */
-void emu_Unit_IsTypeOnMap()
-{
-	uint8 houseID, typeID;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
-
-	emu_ax = Unit_IsTypeOnMap(houseID, typeID) ? 1 : 0;
-}
-
-/**
  * Emulator wrapper around Unit_SetAction().
  *
  * @name emu_Unit_SetAction
@@ -270,37 +250,6 @@ void emu_Unit_SetDestination()
 	u = Unit_Get_ByMemory(ucsip);
 
 	Unit_SetDestination(u, destination);
-}
-
-/**
- * Emulator wrapper around Unit_GetTargetPriority().
- *
- * @name emu_Unit_GetTargetPriority
- * @implements 1A34:117E:001D:E17B ()
- */
-void emu_Unit_GetTargetPriority()
-{
-	csip32 unitcsip;
-	csip32 targetcsip;
-	Unit *unit;
-	Unit *target;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	unitcsip   = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	targetcsip = emu_get_csip32(emu_ss, emu_sp, 0x4);
-
-	emu_ax = 0;
-
-	if (unitcsip.csip == 0x0) return;
-	if (targetcsip.csip == 0x0) return;
-
-	unit   = Unit_Get_ByMemory(unitcsip);
-	target = Unit_Get_ByMemory(targetcsip);
-
-	emu_ax = Unit_GetTargetPriority(unit, target);
 }
 
 /**
@@ -569,33 +518,6 @@ void emu_Unit_Deviate()
 }
 
 /**
- * Emulator wrapper around Unit_Move()
- *
- * @name emu_Unit_Move
- * @implements 1A34:0005:001F:38E2 ()
- */
-void emu_Unit_Move()
-{
-	csip32 ucsip;
-	uint16 distance;
-	Unit *unit;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip    = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	distance = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	emu_ax = 0;
-
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	emu_ax = Unit_Move(unit, distance) ? 1 : 0;
-}
-
-/**
  * Emulator wrapper around Unit_Damage()
  *
  * @name emu_Unit_Damage
@@ -622,29 +544,6 @@ void emu_Unit_Damage()
 	unit = Unit_Get_ByMemory(ucsip);
 
 	emu_ax = Unit_Damage(unit, damage, range) ? 1 : 0;
-}
-
-/**
- * Emulator wrapper around Unit_UntargetMe()
- *
- * @name emu_Unit_UntargetMe
- * @implements 1A34:364E:0012:61B3 ()
- */
-void emu_Unit_UntargetMe()
-{
-	csip32 ucsip;
-	Unit *unit;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	Unit_UntargetMe(unit);
 }
 
 /**
