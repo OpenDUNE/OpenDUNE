@@ -1588,7 +1588,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	unit->variable_6C = 0;
 
-	if ((ui->variable_36 & 0x10) != 0 || unit->flags.s.unknown_0080) {
+	if ((ui->variable_36 & 0x10) != 0 && unit->flags.s.unknown_0080) {
 		unit->variable_6C = Tools_Random_256() & 7;
 	}
 
