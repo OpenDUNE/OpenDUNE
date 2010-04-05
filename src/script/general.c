@@ -19,8 +19,11 @@
 extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__167E_0319_0010_B56F();
+extern void f__B483_0000_0019_F96A();
+extern void f__B4CD_08E7_002B_DC75();
 extern void emu_Tools_RandomRange();
 extern void emu_Tools_Index_GetStructureOrUnit();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Suspend the script execution for a set amount of ticks.
@@ -274,4 +277,168 @@ uint16 Script_General_UnitCount(ScriptEngine *script)
 	}
 
 	return count;
+}
+
+/**
+ * Decodes the given encoded index.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return The decoded index, or 0xFFFF if invalid.
+ */
+uint16 Script_General_DecodeIndex(ScriptEngine *script)
+{
+	uint16 index;
+
+	index = script->stack[script->stackPointer];
+
+	if (!Tools_Index_IsValid(index)) return 0xFFFF;
+
+	return Tools_Index_Decode(index);
+}
+
+/**
+ * Gets the type of the given encoded index.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return The type, or 0xFFFF if invalid.
+ */
+uint16 Script_General_GetIndexType(ScriptEngine *script)
+{
+	uint16 index;
+
+	index = script->stack[script->stackPointer];
+
+	if (!Tools_Index_IsValid(index)) return 0xFFFF;
+
+	return Tools_Index_GetType(index);
+}
+
+/**
+ * Gets the type of the current object's linked unit.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The type, or 0xFFFF if no linked unit.
+ */
+uint16 Script_General_GetLinkedUnitType(ScriptEngine *script)
+{
+	uint16 linkedID;
+
+	VARIABLE_NOT_USED(script);
+
+	linkedID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 3); /* object->linkedID */
+
+	if (linkedID == 0xFF) return 0xFFFF;
+
+	return Unit_Get_ByIndex(linkedID)->type;
+}
+
+/**
+ * Unknown function 0426.
+ *
+ * Stack: 0 - Unknown.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_General_Unknown0426(ScriptEngine *script)
+{
+	tile32 position;
+
+	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
+
+	emu_push(position.s.y); emu_push(position.s.x);
+	emu_push(script->stack[script->stackPointer]);
+	emu_push(emu_cs); emu_push(0x044D); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+
+	return 0;
+}
+
+/**
+ * Unknown function 0456.
+ *
+ * Stack: 0 - Unknown.
+ *
+ * @param script The script engine to operate on.
+ * @return Unknown.
+ */
+uint16 Script_General_Unknown0456(ScriptEngine *script)
+{
+	uint8 houseID;
+	tile32 position;
+
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
+
+	emu_push(houseID);
+	emu_push(script->stack[script->stackPointer]);
+	emu_push(Tile_PackTile(position));
+	emu_push(emu_cs); emu_push(0x0490); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
+	emu_sp += 6;
+
+	if (emu_ax == 0) return 0;
+	return Tools_Index_Encode(emu_ax, IT_TILE);
+}
+
+/**
+ * Unknown function 04AE.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return Unknown.
+ */
+uint16 Script_General_Unknown04AE(ScriptEngine *script)
+{
+	uint16 index;
+	csip32 csip;
+	uint16 res;
+
+	index = script->stack[script->stackPointer];
+
+	emu_push(index);
+	emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x167E; emu_Tools_Index_GetStructureOrUnit();
+	emu_sp += 2;
+
+	csip.s.cs = emu_dx;
+	csip.s.ip = emu_ax;
+
+	if (csip.csip == 0x0) return 0;
+	if ((emu_get_memory16(csip.s.cs, csip.s.ip, 4) & 5) != 1) return 0; /* object->flags.s.allocated || !object->flags.s.used */
+
+	res = Script_General_Unknown050C(script);
+
+	return (res == 0) ? 1 : -res;
+}
+
+/**
+ * Unknown function 050C.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return Unknown.
+ */
+uint16 Script_General_Unknown050C(ScriptEngine *script)
+{
+	uint8 houseID;
+	uint16 index;
+
+	index = script->stack[script->stackPointer];
+
+	if (!Tools_Index_IsValid(index)) return 0;
+
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+
+	switch (Tools_Index_GetType(index)) {
+		case IT_UNIT:      return (Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0;
+		case IT_STRUCTURE: return (Tools_Index_GetStructure(index)->houseID != houseID) ? 1 : 0;
+		default:           return 0;
+	}
 }

@@ -7,13 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__0EDB_0386_001D_2E46();
-extern void f__0EDB_03B9_001D_2E46();
-extern void f__0EDB_03EC_0020_629E();
-extern void f__0EDB_0426_0027_711D();
-extern void f__0EDB_0456_0032_B7E5();
-extern void f__0EDB_04AE_0024_408E();
-extern void f__0EDB_050C_001D_2E46();
 extern void f__0EDB_0594_0026_F09C();
 extern void f__16C5_012D_0017_71BC();
 extern void f__16C5_01EF_000D_1984();
@@ -88,11 +81,11 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 0A */ &f__176C_1C4F_0017_E375,
 	/* 0B */ &f__176C_2C73_0010_BB2A,
 	/* 0C */ &f__176C_1F51_002F_CE9F,
-	/* 0D */ &f__0EDB_050C_001D_2E46,
+	/* 0D */ NULL,
 	/* 0E */ &f__176C_1382_0013_AA74,
 	/* 0F */ &f__176C_12CE_0011_A5C5,
 	/* 10 */ NULL,
-	/* 11 */ &f__0EDB_04AE_0024_408E,
+	/* 11 */ NULL,
 	/* 12 */ &f__176C_13CD_0014_7309,
 	/* 13 */ &f__176C_105E_0031_8B3F,
 	/* 14 */ &f__176C_0882_0014_0C6A,
@@ -113,15 +106,15 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 23 */ &f__176C_246C_0015_C163,
 	/* 24 */ &f__176C_2552_0019_4894,
 	/* 25 */ &f__176C_25A5_002C_AC04,
-	/* 26 */ &f__0EDB_0426_0027_711D,
+	/* 26 */ NULL,
 	/* 27 */ &f__176C_2638_0017_CF4B,
 	/* 28 */ &f__176C_26CD_0010_041C,
-	/* 29 */ &f__0EDB_0456_0032_B7E5,
+	/* 29 */ NULL,
 	/* 2A */ &f__176C_26E5_0013_FF24,
 	/* 2B */ NULL,
-	/* 2C */ &f__0EDB_03EC_0020_629E,
-	/* 2D */ &f__0EDB_03B9_001D_2E46,
-	/* 2E */ &f__0EDB_0386_001D_2E46,
+	/* 2C */ NULL,
+	/* 2D */ NULL,
+	/* 2E */ NULL,
 	/* 2F */ &f__176C_27A4_0021_7EE9,
 	/* 30 */ &f__176C_28B1_0024_58C9,
 	/* 31 */ &f__176C_291A_0010_8A93,
@@ -210,11 +203,11 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 0A */ NULL,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
-	/* 0D */ NULL,
+	/* 0D */ &Script_General_Unknown050C,
 	/* 0E */ NULL,
 	/* 0F */ NULL,
 	/* 10 */ &Script_General_Delay,
-	/* 11 */ NULL,
+	/* 11 */ &Script_General_Unknown04AE,
 	/* 12 */ NULL,
 	/* 13 */ NULL,
 	/* 14 */ NULL,
@@ -235,15 +228,15 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 23 */ NULL,
 	/* 24 */ NULL,
 	/* 25 */ NULL,
-	/* 26 */ NULL,
+	/* 26 */ &Script_General_Unknown0426,
 	/* 27 */ NULL,
 	/* 28 */ NULL,
-	/* 29 */ NULL,
+	/* 29 */ &Script_General_Unknown0456,
 	/* 2A */ NULL,
 	/* 2B */ &Script_General_NoOperation,
-	/* 2C */ NULL,
-	/* 2D */ NULL,
-	/* 2E */ NULL,
+	/* 2C */ &Script_General_GetLinkedUnitType,
+	/* 2D */ &Script_General_GetIndexType,
+	/* 2E */ &Script_General_DecodeIndex,
 	/* 2F */ NULL,
 	/* 30 */ NULL,
 	/* 31 */ NULL,

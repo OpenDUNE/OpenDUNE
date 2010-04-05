@@ -60,6 +60,13 @@ extern uint16 Script_General_Unknown024B(ScriptEngine *script);
 extern uint16 Script_General_Unknown0288(ScriptEngine *script);
 extern uint16 Script_General_Unknown02EA(ScriptEngine *script);
 extern uint16 Script_General_UnitCount(ScriptEngine *script);
+extern uint16 Script_General_DecodeIndex(ScriptEngine *script);
+extern uint16 Script_General_GetIndexType(ScriptEngine *script);
+extern uint16 Script_General_GetLinkedUnitType(ScriptEngine *script);
+extern uint16 Script_General_Unknown0426(ScriptEngine *script);
+extern uint16 Script_General_Unknown0456(ScriptEngine *script);
+extern uint16 Script_General_Unknown04AE(ScriptEngine *script);
+extern uint16 Script_General_Unknown050C(ScriptEngine *script);
 
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);
