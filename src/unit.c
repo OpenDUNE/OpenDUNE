@@ -1634,7 +1634,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	emu_sp += 6;
 
 	if (ui->variable_3C == 4) {
-		unit->flags.s.unknown_0020 ^= true;
+		unit->flags.s.unknown_0020 = !unit->flags.s.unknown_0020;
 	}
 
 	position_49 = unit->variable_49;
@@ -1681,7 +1681,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			Unit_Unknown10EC(unit);
 		}
 	} else {
-		if (unit->type == UNIT_MGV) {
+		if (unit->type == UNIT_BULLET) {
 			emu_push(Tile_PackTile(newPosition));
 			emu_push(emu_cs); emu_push(0x0418); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 			emu_sp += 2;
@@ -1709,7 +1709,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			}
 		}
 
-		ret = (unit->variable_52 < distance || distance < 16);
+		ret = (unit->variable_52 < distance || distance < 16) ? true : false;
 
 		if (ret) {
 			if ((ui->variable_36 & 2) != 0) {
@@ -1725,35 +1725,31 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 							emu_sp += 10;
 						}
-					} else {
-						if (ui->variable_54 != 0xFFFF) {
-							emu_push(Tile_PackTile(unit->position));
-							emu_push(emu_cs); emu_push(0x05D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-							emu_sp += 2;
+					} else if (ui->variable_54 != 0xFFFF) {
+						emu_push(Tile_PackTile(unit->position));
+						emu_push(emu_cs); emu_push(0x05D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+						emu_sp += 2;
 
-							if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->position))->index == 0 && emu_ax == 0) {
-								emu_push(unit->originEncoded);
-								emu_push(unit->hitpoints);
-								emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-								emu_push(8);
-								emu_push(emu_cs); emu_push(0x05FB); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-								emu_sp += 10;
-							} else {
-								if (unit->type == UNIT_MISSILE_DEVIATOR) {
-									emu_push(32);
-									emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-									emu_push(ui->variable_54);
-									emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
-									emu_sp += 8;
-								} else {
-									emu_push(unit->originEncoded);
-									emu_push(unit->hitpoints);
-									emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-									emu_push((ui->variable_54 + unit->hitpoints / 20) & 3);
-									emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-									emu_sp += 10;
-								}
-							}
+						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->position))->index == 0 && emu_ax == 0) {
+							emu_push(unit->originEncoded);
+							emu_push(unit->hitpoints);
+							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+							emu_push(8);
+							emu_push(emu_cs); emu_push(0x05FB); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+							emu_sp += 10;
+						} else if (unit->type == UNIT_MISSILE_DEVIATOR) {
+							emu_push(32);
+							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+							emu_push(ui->variable_54);
+							emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
+							emu_sp += 8;
+						} else {
+							emu_push(unit->originEncoded);
+							emu_push(unit->hitpoints);
+							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
+							emu_push((ui->variable_54 + unit->hitpoints / 20) & 3);
+							emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+							emu_sp += 10;
 						}
 					}
 
