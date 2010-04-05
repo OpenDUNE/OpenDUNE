@@ -40,11 +40,14 @@ typedef struct Team {
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the Team. */
 	/* 0004(2)   */ PACK uint16 members;                    /*!< Amount of members in team. */
-	/* 0006()    */ PACK uint8   unknown_0006[0x0002];
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 maxMembers;                 /*!< Maximum amount of members in team. */
-	/* 000A()    */ PACK uint8   unknown_000A[0x0006];
+	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
+	/* 000C()    */ PACK uint8   unknown_000C[0x0004];
 	/* 0010(2)   */ PACK uint8  houseID;                    /*!< House of Team. */
-	/* 0011()    */ PACK uint8   unknown_0011[0x0009];
+	/* 0011()    */ PACK uint8   unknown_0011[0x0003];
+	/* 0014(4)   */ PACK tile32 position;                   /*!< Position on the map. */
+	/* 0018(2)   */ PACK uint16 variable_18;                /*!< ?? */
 	/* 001A(2)   */ PACK uint16 target;                     /*!< Current target of team (encoded index). */
 	/* 001C(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
 	/* 001E(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Team. */

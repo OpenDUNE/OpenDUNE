@@ -9,12 +9,6 @@
 
 extern void f__0EDB_0594_0026_F09C();
 extern void f__16C5_012D_0017_71BC();
-extern void f__16C5_01EF_000D_1984();
-extern void f__16C5_01FE_000D_19C4();
-extern void f__16C5_020D_000D_1A44();
-extern void f__16C5_021C_003A_2718();
-extern void f__16C5_03C3_002D_24E5();
-extern void f__16C5_0543_0034_CA88();
 extern void f__16C5_06C6_001D_94A6();
 extern void f__16C5_0788_0018_4AA5();
 extern void f__16C5_09C4_003E_31D6();
@@ -140,18 +134,18 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 emu_ScriptFunction emu_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 00 */ NULL,
 	/* 01 */ &f__16C5_012D_0017_71BC,
-	/* 02 */ &f__16C5_01EF_000D_1984,
-	/* 03 */ &f__16C5_021C_003A_2718,
-	/* 04 */ &f__16C5_03C3_002D_24E5,
-	/* 05 */ &f__16C5_0543_0034_CA88,
+	/* 02 */ NULL,
+	/* 03 */ NULL,
+	/* 04 */ NULL,
+	/* 05 */ NULL,
 	/* 06 */ &f__16C5_06C6_001D_94A6,
 	/* 07 */ &f__16C5_0788_0018_4AA5,
 	/* 08 */ &f__16C5_09C4_003E_31D6,
 	/* 09 */ &f__16C5_0A20_003A_2375,
 	/* 0A */ NULL,
 	/* 0B */ NULL,
-	/* 0C */ &f__16C5_01FE_000D_19C4,
-	/* 0D */ &f__16C5_020D_000D_1A44,
+	/* 0C */ NULL,
+	/* 0D */ NULL,
 	/* 0E */ NULL,
 };
 
@@ -262,18 +256,18 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ NULL,
-	/* 02 */ NULL,
-	/* 03 */ NULL,
-	/* 04 */ NULL,
-	/* 05 */ NULL,
+	/* 02 */ &Script_Team_GetMembers,
+	/* 03 */ &Script_Team_AddCloserUnit,
+	/* 04 */ &Script_Team_GetAverageDistance,
+	/* 05 */ &Script_Team_Unknown0543,
 	/* 06 */ NULL,
 	/* 07 */ NULL,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
 	/* 0A */ &Script_General_DelayRandom,
 	/* 0B */ &Script_General_Unknown0184,
-	/* 0C */ NULL,
-	/* 0D */ NULL,
+	/* 0C */ &Script_Team_GetVariable6,
+	/* 0D */ &Script_Team_GetTarget,
 	/* 0E */ &Script_General_NoOperation,
 };
 
