@@ -67,6 +67,7 @@ extern uint16 Script_General_Unknown0426(ScriptEngine *script);
 extern uint16 Script_General_Unknown0456(ScriptEngine *script);
 extern uint16 Script_General_Unknown04AE(ScriptEngine *script);
 extern uint16 Script_General_Unknown050C(ScriptEngine *script);
+extern uint16 Script_General_Unknown0594(ScriptEngine *script);
 
 /* Structure Script Functions */
 extern uint16 Script_Structure_GetAnimation(ScriptEngine *script);

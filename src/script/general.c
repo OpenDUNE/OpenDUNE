@@ -442,3 +442,42 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 		default:           return 0;
 	}
 }
+
+/**
+ * Unknown function 0594.
+ *
+ * Stack: 0 - An encoded index or a Structure type.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_General_Unknown0594(ScriptEngine *script)
+{
+	uint8 houseID;
+	uint16 index;
+	Structure *s;
+	PoolFindStruct find;
+
+	index = script->stack[script->stackPointer];
+
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+
+	if ((index & 0xC000) != 0) {
+		if (Tools_Index_GetType(index) != IT_STRUCTURE) return 0;
+		s = Tools_Index_GetStructure(index);
+		if (s->houseID != houseID) return 0;
+		if (s->animation != 0) return 0;
+		return 1;
+	}
+
+	find.houseID = houseID;
+	find.index   = 0xFFFF;
+	find.type    = index;
+
+	while (true) {
+		s = Structure_Find(&find);
+		if (s == NULL) return 0;
+		if (s->animation != 0) continue;
+		return Tools_Index_Encode(s->index, IT_STRUCTURE);
+	}
+}
