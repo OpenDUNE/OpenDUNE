@@ -89,7 +89,7 @@ void Unit_Unknown1F55(Unit *unit, uint16 i)
 	int16 locsi;
 	uint16 locax;
 
-	assert(i < 2);
+	assert(i == 0 || i == 1);
 
 	if (unit->variable_62[i][0] == 0) return;
 
@@ -105,9 +105,9 @@ void Unit_Unknown1F55(Unit *unit, uint16 i)
 	if (locsi < -128) locsi += 256;
 	locsi = abs(locsi);
 
-	loc06 = loc04 - unit->variable_62[i][0];
+	loc06 = loc04 + unit->variable_62[i][0];
 
-	if (abs(loc06) >= locsi) {
+	if (abs((int8)unit->variable_62[i][0]) >= locsi) {
 		unit->variable_62[i][0] = 0;
 		loc06 = loc02;
 	}
@@ -124,25 +124,19 @@ void Unit_Unknown1F55(Unit *unit, uint16 i)
 	emu_push(emu_cs); emu_push(0x2013); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
 	emu_sp += 2;
 
-	if (locax != emu_ax) {
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x2040); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
-		return;
+	if (locax == emu_ax) {
+		emu_push(loc06);
+		emu_push(emu_cs); emu_push(0x2021); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+		emu_sp += 2;
+
+		locax = emu_ax;
+
+		emu_push(loc04);
+		emu_push(emu_cs); emu_push(0x202B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+		emu_sp += 2;
+
+		if (locax == emu_ax) return;
 	}
-
-	emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x2021); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-	emu_sp += 2;
-
-	locax = emu_ax;
-
-	emu_push(loc04);
-	emu_push(emu_cs); emu_push(0x202B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-	emu_sp += 2;
-
-	if (locax == emu_ax) return;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(2);
@@ -2055,7 +2049,7 @@ void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
 {
 	int16 locsi;
 
-	assert(i < 2);
+	assert(i == 0 || i == 1);
 
 	if (unit == NULL) return;
 
@@ -2073,9 +2067,9 @@ void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
 
 	locsi = arg0A - unit->variable_62[i][2];
 
-	if ((locsi <= -128 || locsi >= 0) && locsi <= 128) return;
-
-	unit->variable_62[i][0] = -unit->variable_62[i][0];
+	if ((locsi > -128 && locsi < 0) || locsi > 128) {
+		unit->variable_62[i][0] = -unit->variable_62[i][0];
+	}
 }
 
 /**
