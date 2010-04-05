@@ -386,6 +386,8 @@ void emu_Unit_Unknown15F4()
 	unit = Unit_Get_ByMemory(ucsip);
 
 	res = Unit_Unknown15F4(unit);
+
+	if (res == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
 	emu_ax = g_global->unitStartPos.s.ip + res->index * sizeof(Unit);
 }
