@@ -47,6 +47,7 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
+extern void Script_Unknown044C(ScriptEngine *script, uint16 type);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);

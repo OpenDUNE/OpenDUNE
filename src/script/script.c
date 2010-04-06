@@ -645,3 +645,33 @@ bool Script_Run(ScriptEngine *script)
 			return false;
 	}
 }
+
+/**
+ * Unknown function 044C.
+ *
+ * @param script The script engine to run.
+ * @param type ??.
+ */
+void Script_Unknown044C(ScriptEngine *script, uint16 type)
+{
+	ScriptInfo *scriptInfo;
+	csip32 csip;
+	uint16 *offsets;
+
+	if (!Script_IsLoaded(script)) return;
+	if (script->variable_34 != 0) return;
+
+	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+	script->variable_34 = 1;
+
+	csip = script->script;
+	csip.csip -= scriptInfo->start.csip;
+
+	script->stack[--script->stackPointer] = csip.csip / 2;
+	script->stack[--script->stackPointer] = script->returnValue;
+
+	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
+	csip       = scriptInfo->start;
+	csip.s.ip += offsets[type];
+	script->script = csip;
+}

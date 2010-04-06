@@ -41,7 +41,6 @@ extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
-extern void f__15C2_044C_0012_C66D();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
@@ -646,11 +645,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 		case 2:
 			u->script.variables[0] = action;
-
-			emu_push(u->type);
-			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit) + 0x12); /* u->script */
-			emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x15C2; f__15C2_044C_0012_C66D();
-			emu_sp += 6;
+			Script_Unknown044C(&u->script, u->type);
 			return;
 
 		default: return;

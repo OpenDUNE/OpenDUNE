@@ -332,7 +332,6 @@ extern void emu_Drive_Get_Default_Wrapper();
 extern void f__151A_043B_0018_36C4();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_MPU_SetPort();
-extern void f__15C2_044C_0012_C66D();
 extern void emu_MPU_TestPort();
 extern void f__AB00_0467_0001_6780();
 extern void f__217E_046B_0058_3F3A();
