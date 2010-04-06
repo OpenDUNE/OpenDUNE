@@ -85,7 +85,6 @@ extern void f__2649_0003_0014_67A9();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__22A6_0004_0003_DA0F();
 extern void f__23E1_0004_0014_2BC0();
-extern void f__2427_0004_003B_B2A9();
 extern void f__24DA_0004_000E_FD1B();
 extern void emu_Font_LoadFile();
 extern void f__2995_0004_001F_FE17();

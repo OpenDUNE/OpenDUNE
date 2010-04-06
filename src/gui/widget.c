@@ -10,7 +10,6 @@
 
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
-extern void f__2427_0004_003B_B2A9();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
@@ -45,6 +44,45 @@ Widget *GUI_Widget_GetNext(Widget *w)
 }
 
 /**
+ * Unknown function 0004.
+ *
+ * @param w The widget to draw.
+ * @param unknown ??.
+ */
+void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
+{
+	if (g_global->variable_6C91 == 0) {
+		emu_push(w->offsetY + w->height);
+		emu_push(w->offsetX + w->width);
+		emu_push(w->offsetY);
+		emu_push(w->offsetX);
+		emu_push(emu_cs); emu_push(0x003F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		emu_sp += 8;
+	}
+
+	emu_push(0);
+	emu_push(w->parentID);
+	emu_push(w->offsetY);
+	emu_push(w->offsetX);
+	emu_push(w->drawProcNormal.s.cs); emu_push(w->drawProcNormal.s.ip);
+	emu_push(g_global->variable_6C91);
+	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x2903; emu_GUI_DrawSprite();
+	emu_sp += 14;
+
+	emu_push(unknown);
+	emu_push(w->height);
+	emu_push(w->width);
+	emu_push(w->offsetY);
+	emu_push(w->offsetX);
+	emu_push(emu_cs); emu_push(0x0095); emu_cs = 0x2995; f__2995_0004_001F_FE17();
+	emu_sp += 10;
+
+	if (g_global->variable_6C91 == 0) {
+		emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	}
+}
+
+/**
  * Draw a widget to the display.
  *
  * @param w The widget to draw.
@@ -66,13 +104,9 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	if ((w->flags & 0x08) != 0) {
 		if ((w->flags & 0x10) == 0) return;
 
-		emu_push(g_global->variable_6D53);
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x2427; f__2427_0004_003B_B2A9();
+		GUI_Widget_Unknown0004(w, g_global->variable_6D53);
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-		emu_sp += 6;
-
 		return;
 	}
 
