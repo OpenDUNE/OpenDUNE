@@ -256,7 +256,6 @@ extern void emu_DSP_Reset();
 extern void f__B48B_0242_0017_581D();
 extern void emu_Object_ClearScriptVariable4();
 extern void f__1DD7_0248_0014_9236();
-extern void f__104B_024D_0012_1DC4();
 extern void f__AB00_0264_0047_2B67();
 extern void f__217E_0268_0027_C749();
 extern void emu_Input_Keyboard_HandleKeys();

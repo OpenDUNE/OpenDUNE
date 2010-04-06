@@ -15,12 +15,12 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "structure.h"
+#include "team.h"
 #include "tile.h"
 #include "unit.h"
 #include "file.h"
 
 extern void f__01F7_3AF8_001D_A439();
-extern void f__104B_024D_0012_1DC4();
 extern void f__1423_08CD_0012_0004();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
@@ -571,7 +571,7 @@ void Scenario_Load_Reinforcements(const char *key, char *value)
 void Scenario_Load_Teams(const char *key, char *value)
 {
 	uint8 houseType, teamActionType, movementType;
-	uint16 unknown1, unknown2;
+	uint16 unknown, maxMembers;
 	char *split;
 
 	VARIABLE_NOT_USED(key);
@@ -612,7 +612,7 @@ void Scenario_Load_Teams(const char *key, char *value)
 	*split = '\0';
 
 	/* XXX -- Fourth value is unknown */
-	unknown1 = atoi(value);
+	unknown = atoi(value);
 
 	/* Find the next value in the ',' seperated list */
 	value = split + 1;
@@ -620,18 +620,10 @@ void Scenario_Load_Teams(const char *key, char *value)
 	if (split == NULL) return;
 	*split = '\0';
 
-	/* XXX -- Fifth value is unknown */
-	unknown2 = atoi(value);
+	/* Fifth value is maximum amount of members in team */
+	maxMembers = atoi(value);
 
-	emu_push(unknown2);
-	emu_push(unknown1);
-	emu_push(movementType);
-	emu_push(teamActionType);
-	emu_push(houseType);
-	emu_push(emu_cs); emu_push(0x0F87); emu_cs = 0x104B; f__104B_024D_0012_1DC4();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 10;
+	Team_Create(houseType, teamActionType, movementType, unknown, maxMembers);
 }
 
 void Scenario_Load_Choam(const char *key, char *value)

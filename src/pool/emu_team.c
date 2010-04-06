@@ -48,33 +48,6 @@ void emu_Team_Recount()
 }
 
 /**
- * Emulator wrapper around Team_Allocate().
- *
- * @name emu_Team_Allocate
- * @implements 104B:0171:0020:7F19 ()
- */
-void emu_Team_Allocate()
-{
-	uint16 index;
-	Team *t;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	t = Team_Allocate(index);
-
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
-	if (t == NULL) return;
-	emu_dx = g_global->teamStartPos.s.cs;
-	emu_ax = g_global->teamStartPos.s.ip + t->index * sizeof(Team);
-}
-
-/**
  * Get a Team from the memory by index.
  *
  * @name emu_Team_Get_ByIndex

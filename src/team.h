@@ -43,7 +43,8 @@ typedef struct Team {
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 maxMembers;                 /*!< Maximum amount of members in team. */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-	/* 000C()    */ PACK uint8   unknown_000C[0x0004];
+	/* 000A(2)   */ PACK uint16 variable_0C;                /*!< ?? */
+	/* 000A(2)   */ PACK uint16 variable_0E;                /*!< ?? */
 	/* 0010(2)   */ PACK uint8  houseID;                    /*!< House of Team. */
 	/* 0011()    */ PACK uint8   unknown_0011[0x0003];
 	/* 0014(4)   */ PACK tile32 position;                   /*!< Position on the map. */
@@ -58,5 +59,6 @@ assert_compile(sizeof(Team) == 0x53);
 extern void GameLoop_Team();
 extern bool Team_Save(FILE *fp);
 extern bool Team_Load(FILE *fp, uint32 length);
+extern Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 unknown1, uint16 unknown2);
 
 #endif /* TEAM_H */

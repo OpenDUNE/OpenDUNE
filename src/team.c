@@ -146,3 +146,36 @@ bool Team_Load(FILE *fp, uint32 length)
 
 	return true;
 }
+
+/**
+ * Create a new Team.
+ *
+ * @param houseID The House of the new Team.
+ * @param teamActionType The teamActionType of the new Team.
+ * @param movementType The movementType of the new Team.
+ * @param unknown An unknown parameter.
+ * @param maxMembers The maximum amount of members in the new Team.
+ * @return The new created Team, or NULL if something failed.
+ */
+Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 unknown, uint16 maxMembers)
+{
+	Team *t;
+
+	t = Team_Allocate(0xFFFF);
+
+	if (t == NULL) return NULL;
+	t->flags.s.used = true;
+	t->houseID     = houseID;
+	t->variable_0C = teamActionType;
+	t->variable_0E = teamActionType;
+	t->variable_0A = movementType;
+	t->variable_06 = unknown;
+	t->maxMembers  = maxMembers;
+
+	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Load(&t->script, teamActionType);
+
+	t->scriptDelay = 0;
+
+	return t;
+}
