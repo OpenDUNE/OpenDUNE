@@ -100,7 +100,7 @@ opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBEMU)
 
 clean:
 	@echo "[Cleaning] opendune"
-	$(Q)rm -f opendune$(EXTENSION) $(DECOMPILED_OBJS) $(SOURCE_OBJS)
+	$(Q)rm -f Makefile.dep opendune$(EXTENSION) $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 
 FORCE:
 
