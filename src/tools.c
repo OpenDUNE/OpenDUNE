@@ -15,6 +15,7 @@
 
 extern void f__2649_0C09_0019_459F();
 extern void f__2649_0D40_0019_C58F();
+extern void emu_Tools_Var79E4_Update();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -280,4 +281,35 @@ uint8 Tools_Random_256()
 	g_global->randomSeed[2] = val16 & 0xFF;
 
 	return g_global->randomSeed[0] ^ g_global->randomSeed[1];
+}
+
+/**
+ * Get a random value between the given values.
+ *
+ * @param min The minimum value.
+ * @param max The maximum value.
+ * @return The random value.
+ */
+uint16 Tools_RandomRange(uint16 min, uint16 max)
+{
+	int32 value;
+	uint16 ret;
+
+	if (min > max) {
+		uint16 temp = min;
+		min = max;
+		max = temp;
+	}
+
+	do {
+		emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x01F7; emu_Tools_Var79E4_Update();
+		value = (int32)emu_ax;
+		value *= max - min + 1;
+		value /= 0x8000;
+		value += min;
+
+		ret = value & 0xFFFF;
+	} while (ret > max);
+
+	return ret;
 }

@@ -18,6 +18,7 @@
 #include "structure.h"
 #include "team.h"
 #include "tile.h"
+#include "tools.h"
 #include "unit.h"
 #include "opendune.h"
 #include "unknown/unknown.h"
@@ -37,7 +38,6 @@ extern void f__23E1_0334_000B_CF65();
 extern void f__23E1_01C2_0011_24E8();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
-extern void emu_Tools_RandomRange();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
@@ -437,12 +437,7 @@ static void GameLoop_Main()
 
 	emu_push(emu_cs); emu_push(0x0113); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(5);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x011F); emu_cs = 0x2537; emu_Tools_RandomRange();
-	emu_sp += 4;
-
-	Sound_Play(emu_ax + 8);
+	Sound_Play(Tools_RandomRange(0, 5) + 8);
 
 	while (true) {
 		if (g_global->variable_38BE == 2) {
@@ -500,13 +495,7 @@ static void GameLoop_Main()
 			emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 			emu_sp += 2;
 
-			emu_push(8);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x01E8); emu_cs = 0x2537; emu_Tools_RandomRange();
-			emu_sp += 4;
-
-			Sound_Play(emu_ax + 8);
-
+			Sound_Play(Tools_RandomRange(0, 8) + 8);
 			g_global->variable_31BC = g_global->variable_76AC + 300;
 		}
 
@@ -526,26 +515,14 @@ static void GameLoop_Main()
 
 						g_global->variable_3E52 = 0;
 					} else if (g_global->variable_3E52 > 0) {
-						emu_push(5);
-						emu_push(0);
-						emu_push(emu_cs); emu_push(0x0285); emu_cs = 0x2537; emu_Tools_RandomRange();
-						emu_sp += 4;
-
-						Sound_Play(emu_ax + 17);
-
+						Sound_Play(Tools_RandomRange(0, 5) + 17);
 						g_global->variable_31BC = g_global->variable_76AC + 300;
 						g_global->variable_3E52 = -1;
 					} else {
 						g_global->variable_3E52 = 0;
 						if (g_global->variable_6D8D != 0 && g_global->variable_76AC > g_global->variable_31BC) {
 							if (!Driver_Music_IsPlaying()) {
-								emu_push(8);
-								emu_push(0);
-								emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2537; emu_Tools_RandomRange();
-								emu_sp += 4;
-
-								Sound_Play(emu_ax + 8);
-
+								Sound_Play(Tools_RandomRange(0, 8) + 8);
 								g_global->variable_31BC = g_global->variable_76AC + 300;
 							}
 						}

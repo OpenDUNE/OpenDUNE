@@ -11,6 +11,7 @@
 #include "house.h"
 #include "os/strings.h"
 #include "string.h"
+#include "tools.h"
 #include "unknown/unknown.h"
 
 extern void f__24D0_000D_0039_C17D();
@@ -34,7 +35,6 @@ extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_Widget_DrawBorder2();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void emu_Tools_RandomRange();
 extern void emu_WSA_LoadFile();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -198,13 +198,7 @@ bool Security_Check()
 		char string[1024];
 		char *compressedString;
 
-		emu_push(questionsCount - 1);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x1279); emu_cs = 0x2537; emu_Tools_RandomRange();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 4;
-		questionIndex = emu_ax * 3 + 10;
+		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + 10;
 
 		emu_push(8);
 		emu_push(emu_cs); emu_push(0x1292); emu_cs = 0x07AE; emu_Unknown_07AE_0000();

@@ -109,7 +109,6 @@ extern void f__28E6_000A_0040_D751();
 extern void emu_GUI_DrawText();
 extern void emu_Script_ClearInfo();
 extern void f__2599_000B_0047_21FD();
-extern void emu_Tools_RandomRange();
 extern void f__2605_000C_006D_F8B2();
 extern void f__28FD_000C_0007_5DA9();
 extern void emu_Mouse_CheckButtons();

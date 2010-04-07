@@ -20,7 +20,6 @@
 
 extern void f__10E4_09AB_0031_5E8E();
 extern void f__B4CD_1816_0033_B55B();
-extern void emu_Tools_RandomRange();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -107,11 +106,10 @@ void GameLoop_House()
 	}
 
 	if (tickStarportAvailability) {
+		uint16 type;
+
 		/* Pick a random unit to increase starport availability */
-		emu_push(UNIT_MAX - 1);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x01F7); emu_cs = 0x2537; emu_Tools_RandomRange();
-		emu_sp += 4;
+		type = Tools_RandomRange(0, UNIT_MAX - 1);
 
 		/* Increase how many of this unit is available via starport by one */
 		if (g_global->starportAvailable[emu_ax] != 0 && g_global->starportAvailable[emu_ax] < 10) {

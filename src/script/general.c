@@ -21,7 +21,6 @@ extern void f__10E4_09AB_0031_5E8E();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_08E7_002B_DC75();
-extern void emu_Tools_RandomRange();
 extern void emu_Tools_Index_GetStructureOrUnit();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -148,12 +147,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
  */
 uint16 Script_General_RandomRange(ScriptEngine *script)
 {
-	emu_push(script->stack[script->stackPointer + 1]);
-	emu_push(script->stack[script->stackPointer + 0]);
-	emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x2537; emu_Tools_RandomRange();
-	emu_sp += 4;
-
-	return emu_ax;
+	return Tools_RandomRange(script->stack[script->stackPointer + 0], script->stack[script->stackPointer + 1]);
 }
 
 /**

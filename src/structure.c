@@ -40,7 +40,6 @@ extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
-extern void emu_Tools_RandomRange();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -1240,11 +1239,7 @@ void Structure_ActivateSpecial(Structure *s)
 				position.s.x = emu_ax;
 				position.s.y = emu_dx;
 
-				emu_push(3);
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x06AD); emu_cs = 0x2537; emu_Tools_RandomRange();
-				emu_sp += 4;
-				unitType = (emu_ax == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
+				unitType = (Tools_RandomRange(0, 3) == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
 				g_global->variable_38BC++;
 				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, (uint8)emu_ax);
