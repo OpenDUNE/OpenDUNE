@@ -10,6 +10,7 @@
 
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
+extern void f__2995_0004_001F_FE17();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
