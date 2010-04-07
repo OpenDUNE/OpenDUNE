@@ -127,6 +127,7 @@ extern WidgetClickInfo *g_widgetClickInfo;
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern uint16  GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
 extern void    GUI_Widget_Draw(Widget *w, csip32 wcsip);
+extern uint8   GUI_Widget_GetShortcut(uint8 c);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -151,5 +152,6 @@ extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_ScrollBar_Draw();
 extern void emu_GUI_Widget_Scrollbar_ArrowUp_Click();
 extern void emu_GUI_Widget_Scrollbar_ArrowDown_Click();
+extern void emu_GUI_Widget_GetShortcut();
 
 #endif /* GUI_WIDGET_H */

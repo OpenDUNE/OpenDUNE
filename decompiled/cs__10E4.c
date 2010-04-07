@@ -3182,7 +3182,7 @@ l__15C7:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x15D6); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x15D6); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 l__15D6:
 	emu_pop(&emu_cx);
 	emu_bx = emu_si;

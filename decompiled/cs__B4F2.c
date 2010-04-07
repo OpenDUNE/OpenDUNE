@@ -1697,7 +1697,7 @@ l__0A0C:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0A1B); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x0A1B); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0A1B:

@@ -22,7 +22,6 @@ extern void f__B4E0_0A86_000E_D3BB();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawSprite();
-extern void emu_GUI_GetShortcut();
 extern void emu_GUI_String_Get_ByIndex();
 extern void emu_GUI_Update97E5();
 extern void emu_GUI_Widget_DrawBorder();
@@ -434,17 +433,10 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	}
 
 	if (g_global->variable_97E5 == 0x2E || g_global->variable_97E5 == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
-		emu_push(0x28); /* "On hold" */
+		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(0x28)); /* "On hold" */
 	} else {
-		emu_push(g_global->variable_97E5);
+		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_global->variable_97E5));
 	}
-	emu_push(emu_cs); emu_push(0x0BFC); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_get_memory8(emu_dx, emu_ax, 0x0));
-	emu_push(emu_cs); emu_push(0x0BE4); emu_cs = 0x29DA; emu_GUI_GetShortcut();
-	emu_sp += 2;
-	w->shortcut = emu_ax;
 
 	if (old6C91 != 0x0) return;
 
@@ -546,10 +538,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0F4C); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
 	emu_sp += 14;
 
-	emu_push(*String_Get_ByIndex(stringID));
-	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x29DA; emu_GUI_GetShortcut();
-	emu_sp += 2;
-	w->shortcut = emu_ax;
+	w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
 
 	if (old6C91 != 0) return;
 

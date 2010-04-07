@@ -121,3 +121,22 @@ void emu_GUI_Widget_Scrollbar_ArrowDown_Click()
 
 	GUI_Widget_Scrollbar_ArrowDown_Click(w);
 }
+
+/**
+ * Emulator wrapper around GUI_Widget_GetShortcut()
+ *
+ * @name emu_GUI_Widget_GetShortcut
+ * @implements 29DA:00D0:0013:E21A ()
+ */
+void emu_GUI_Widget_GetShortcut()
+{
+	uint16 c;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	c = emu_get_memory16(emu_ss, emu_sp, 0);
+
+	emu_ax = GUI_Widget_GetShortcut(c & 0xFF);
+}

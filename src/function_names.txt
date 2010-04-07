@@ -164,8 +164,6 @@
 29A3:013F:002A:CFEE	emu_Mouse_CheckMovement
 29A3:000C:0048:00FE	emu_Mouse_CheckButtons
 
-29DA:00D0:0013:E21A	emu_GUI_GetShortcut	# (char) Get shortcut-key for a char
-
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
 29E8:0A4A:0040:5428	emu_Input_HandleInput
 29E8:0643:0008:ED98	emu_Input_Keyboard_NextKey

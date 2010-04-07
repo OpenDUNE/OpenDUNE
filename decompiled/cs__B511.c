@@ -1075,7 +1075,7 @@ l__0CDA:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0CE9); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x0CE9); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0CE9:
@@ -1112,7 +1112,7 @@ l__0D18:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D27); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x0D27); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0D27:
@@ -1978,7 +1978,7 @@ l__1236:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1245); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x1245); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__1245:
@@ -2026,7 +2026,7 @@ l__128E:
 	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
 	emu_ax = (int8)emu_al;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x129D); emu_cs = 0x29DA; emu_GUI_GetShortcut();
+	emu_push(emu_cs); emu_push(0x129D); emu_cs = 0x29DA; emu_GUI_Widget_GetShortcut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__129D:

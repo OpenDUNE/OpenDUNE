@@ -174,7 +174,6 @@ extern void f__2BF2_00B7_000E_61C1();
 extern void f__B48B_00BD_0029_3530();
 extern void f__2903_00CA_0015_756E();
 extern void emu_Mouse_HandleMovement();
-extern void emu_GUI_GetShortcut();
 extern void emu_Object_SetScriptVariable4();
 extern void f__B4E6_00E0_0022_452E();
 extern void f__B520_00E3_0028_2188();
