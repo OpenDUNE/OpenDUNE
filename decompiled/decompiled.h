@@ -15,6 +15,7 @@
 #include "../src/interrupt.h"
 #include "../src/load.h"
 #include "../src/map.h"
+#include "../src/mouse.h"
 #include "../src/mt32mpu.h"
 #include "../src/opendune.h"
 #include "../src/os/endian.h"
