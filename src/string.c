@@ -6,6 +6,10 @@
 #include "global.h"
 #include "string.h"
 #include "os/strings.h"
+#include "file.h"
+
+extern void f__23E1_01C2_0011_24E8();
+extern void emu_File_ReadWholeFile();
 
 /**
  * Decompress a string.
@@ -93,4 +97,66 @@ void String_TranslateSpecial(char *source, char *dest)
 		*dest++ = c;
 	}
 	*dest = '\0';
+}
+
+/**
+ * Loads the given language file in the memory, which is used after that with String_GetXXX_ByIndex().
+ *
+ * @param name The name of the language file to load (without extension).
+ */
+void String_Load(char *name)
+{
+	char *filename;
+
+	if (g_global->strings.csip != 0) {
+		emu_push(g_global->strings.s.cs); emu_push(g_global->strings.s.ip);
+		emu_push(emu_cs); emu_push(0x0026); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+		emu_sp += 4;
+
+		g_global->strings.csip = 0;
+	}
+
+	if (name == NULL) return;
+
+	filename = String_GenerateFilename(name);
+
+	emu_push(0);
+	emu_push(0x353F); emu_push(0x8282); /* filename = g_global->stringFilename*/
+	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x253D; emu_File_ReadWholeFile();
+	emu_sp += 6;
+
+	g_global->strings.s.cs = emu_dx;
+	g_global->strings.s.ip = emu_ax;
+}
+
+/**
+ * Loads the string at given index from file with given file to given buffer, and decompress it.
+ *
+ * @param filename The file to load the string from.
+ * @param index The index of the string to load.
+ * @param buffer Where to load the string.
+ * @param buflen The length of the buffer.
+ * @return The length of decompressed string
+ */
+uint16 String_LoadFile(char *filename, uint16 index, char *buffer, uint16 buflen)
+{
+	uint8 file;
+	uint16 offset;
+	uint16 len;
+	char *s;
+
+	if (filename == NULL || buffer == NULL || buflen == 0) return 0;
+
+	file = File_Open(filename, 1);
+	File_Seek(file, index * 2, 0);
+	File_Read(file, &offset, 2);
+	File_Seek(file, offset, 0);
+	File_Read(file, buffer, buflen);
+	File_Close(file);
+
+	len = strlen(buffer) + 1;
+
+	s = buffer + buflen - len;
+	memmove(s, buffer, len);
+	return String_Decompress(s, buffer);
 }

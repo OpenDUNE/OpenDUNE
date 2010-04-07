@@ -69,7 +69,6 @@ extern void emu_Gameloop_IntroMenu();
 extern void emu_InGame_Numpad_Move();
 extern void emu_Input_Flags_SetBits();
 extern void emu_Sound_PlayDuneInit();
-extern void emu_String_Load();
 extern void emu_Terminate_Normal();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -421,9 +420,7 @@ static void GameLoop_Main()
 
 	g_global->language = g_global->config.language;
 
-	emu_push(0x353F); emu_push(0x31F4); /* "DUNE" */
-	emu_push(emu_cs); emu_push(0x00EA); emu_cs = 0x0FCB; emu_String_Load();
-	emu_sp += 4;
+	String_Load("DUNE");
 
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x00F4); emu_cs = 0x0642; emu_Sound_PlayDuneInit();

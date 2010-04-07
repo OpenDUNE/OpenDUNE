@@ -128,3 +128,53 @@ void emu_String_TranslateSpecial()
 
 	String_TranslateSpecial((char *)emu_get_memorycsip(source), (char *)emu_get_memorycsip(dest));
 }
+
+/**
+ * Emulator wrapper around String_Load()
+ *
+ * @name emu_String_Load
+ * @implements 0FCB:000D:0019:5047 ()
+ */
+void emu_String_Load()
+{
+	csip32 filename;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (filename.csip == 0x0) return;
+
+	String_Load((char *)emu_get_memorycsip(filename));
+}
+
+/**
+ * Emulator wrapper around String_LoadFile()
+ *
+ * @name emu_String_LoadFile
+ * @implements 0FCB:0088:0016:2DD9 ()
+ */
+void emu_String_LoadFile()
+{
+	csip32 filename;
+	uint16 index;
+	csip32 buffer;
+	uint16 buflen;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	index    = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	buffer   = emu_get_csip32(emu_ss, emu_sp, 0x6);
+	buflen   = emu_get_memory16(emu_ss, emu_sp, 0xA);
+
+	emu_ax = 0;
+
+	if (filename.csip == 0x0 || buffer.csip == 0x0) return;
+
+	emu_ax = String_LoadFile((char *)emu_get_memorycsip(filename), index, (char *)emu_get_memorycsip(buffer), buflen);
+}
