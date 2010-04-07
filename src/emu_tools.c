@@ -369,6 +369,6 @@ void emu_Tools_PrintString()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	string = (char *)&emu_get_csip32(emu_ss, emu_ss, 0x0);
+	string = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_ss, 0x0));
 	printf("%s\n", string);
 }

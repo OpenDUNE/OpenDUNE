@@ -47,5 +47,6 @@ extern void emu_Tools_GetSmallestIP2();
 extern void emu_Tools_Memmove();
 extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
+extern void emu_Tools_PrintString();
 
 #endif /* TOOLS_H */
