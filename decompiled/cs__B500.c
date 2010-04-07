@@ -117,7 +117,7 @@ l__006E:
 	if (emu_ax != 0xFFFF) goto l__0082;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6724));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6722));
-	emu_push(emu_cs); emu_push(0x0080); emu_cs = 0x28E4; f__28E4_0002_0017_0B15();
+	emu_push(emu_cs); emu_push(0x0080); emu_cs = 0x28E4; emu_Tools_PrintString();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3500) { overlay(0x3500, 1); }
 l__0080:

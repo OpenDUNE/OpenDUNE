@@ -306,7 +306,7 @@ l__0314:
 	emu_push(emu_ds);
 	emu_ax = 0x9939;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0321); emu_cs = 0x28E4; f__28E4_0002_0017_0B15();
+	emu_push(emu_cs); emu_push(0x0321); emu_cs = 0x28E4; emu_Tools_PrintString();
 l__0321:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
