@@ -178,7 +178,7 @@ l__006F:
 	emu_push(emu_ax);
 	emu_ax = 0x8;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0087); emu_cs = 0x2B42; f__2B42_0000_0022_1DB2();
+	emu_push(emu_cs); emu_push(0x0087); emu_cs = 0x2B42; emu_Mouse_SetRegion();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__0087:
@@ -889,7 +889,7 @@ l__050D:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0521); emu_cs = 0x2B42; f__2B42_0000_0022_1DB2();
+	emu_push(emu_cs); emu_push(0x0521); emu_cs = 0x2B42; emu_Mouse_SetRegion();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__0521:

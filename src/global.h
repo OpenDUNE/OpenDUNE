@@ -1135,10 +1135,10 @@ typedef struct GlobalData {
 	/* 7066(2)   */ PACK uint16 mouseClickY;                /*!< Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16 doubleWidth;                /*!< If non-zero, the X-position given by mouse is twice the real value. */
 	/* 706A(2)   */ PACK uint16 variable_706A;              /*!< ?? If non-zero, mouse movement is not registered. */
-	/* 706C(2)   */ PACK uint8   unknown_706C[0x0002];
-	/* 706E(2)   */ PACK uint16 variable_706E;              /*!< ?? */
-	/* 7070(2)   */ PACK uint8   unknown_7070[0x0002];
-	/* 7072(2)   */ PACK uint16 variable_7072;              /*!< ?? */
+	/* 706C(2)   */ PACK uint16 mouseRegionLeft;            /*!< Region mouse can be in - left position. */
+	/* 706E(2)   */ PACK uint16 mouseRegionRight;           /*!< Region mouse can be in - right position. */
+	/* 7070(2)   */ PACK uint16 mouseRegionTop;             /*!< Region mouse can be in - top position. */
+	/* 7072(2)   */ PACK uint16 mouseRegionBottom;          /*!< Region mouse can be in - bottom position. */
 	/* 7074(8)   */ PACK uint8   unknown_7074[0x0008];
 	/* 707C(2)   */ PACK uint16 mousePrevX;                 /*!< Previous X position. */
 	/* 707E(2)   */ PACK uint16 mousePrevY;                 /*!< Previous Y position. */

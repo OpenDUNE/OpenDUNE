@@ -11,4 +11,8 @@
 	#define min(a, b) ((a) < (b) ? (a) : (b))
 #endif /* min */
 
+#ifndef clamp
+	#define clamp(a, b, c) (min(max(a, b), c))
+#endif /* clamp */
+
 #endif /* OS_MATH_H */
