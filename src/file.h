@@ -12,6 +12,8 @@ extern uint32 File_Seek(uint8 index, uint32 position, uint8 mode);
 extern uint32 File_GetSize(uint8 index);
 extern void File_Delete(const char *filename);
 extern void File_Create(const char *filename);
+extern uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length);
+extern csip32 File_ReadWholeFile(const char *filename, uint16 arg0A);
 
 
 extern void emu_File_Exists();
@@ -23,6 +25,8 @@ extern void emu_File_Seek();
 extern void emu_File_GetSize();
 extern void emu_File_Delete();
 extern void emu_File_Create();
+extern void emu_File_ReadBlockFile();
+extern void emu_File_ReadWholeFile();
 extern void emu_File_Obsolete1();
 extern void emu_File_Obsolete2();
 extern void emu_File_Obsolete3();

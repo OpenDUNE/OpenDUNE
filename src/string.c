@@ -9,7 +9,6 @@
 #include "file.h"
 
 extern void f__23E1_01C2_0011_24E8();
-extern void emu_File_ReadWholeFile();
 
 /**
  * Decompress a string.
@@ -120,13 +119,7 @@ void String_Load(char *name)
 
 	filename = String_GenerateFilename(name);
 
-	emu_push(0);
-	emu_push(0x353F); emu_push(0x8282); /* filename = g_global->stringFilename*/
-	emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x253D; emu_File_ReadWholeFile();
-	emu_sp += 6;
-
-	g_global->strings.s.cs = emu_dx;
-	g_global->strings.s.ip = emu_ax;
+	g_global->strings = File_ReadWholeFile(filename, 0);
 }
 
 /**

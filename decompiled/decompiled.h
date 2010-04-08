@@ -47,7 +47,6 @@
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_EntryPoint();
 extern void f__07D4_0000_0027_FA61();
-extern void emu_File_ReadBlockFile();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B42_0000_0022_1DB2();
 extern void f__2BD6_0000_0015_24A9();
@@ -155,7 +154,6 @@ extern void f__2903_007A_0032_762D();
 extern void f__2B99_007B_0019_5737();
 extern void emu_ChunkFile_Close();
 extern void f__B48B_0088_0029_3A68();
-extern void emu_File_ReadWholeFile();
 extern void f__B4BE_008B_0012_DDEE();
 extern void f__2BF2_008E_0013_1D73();
 extern void f__B511_0091_001D_9C25();

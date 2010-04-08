@@ -24,6 +24,7 @@
 #include "unknown/unknown.h"
 #include "gui/widget.h"
 #include "map.h"
+#include "file.h"
 
 extern void f__07D4_0000_0027_FA61();
 extern void f__10E4_0273_0029_DCE5();
@@ -60,7 +61,6 @@ extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
-extern void emu_File_ReadBlockFile();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_PickHouse();
 extern void emu_GUI_ShowEndStats();
@@ -325,12 +325,7 @@ static void GameLoop_LevelEnd()
 
 			emu_push(emu_cs); emu_push(0x03CE); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-			emu_push(0);
-			emu_push(768);
-			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-			emu_push(0x353F); emu_push(0x60DF); /* "IBM.PAL" */
-			emu_push(emu_cs); emu_push(0x03E7); emu_cs = 0x253D; emu_File_ReadBlockFile();
-			emu_sp += 12;
+			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
 			emu_push(1);
 			emu_push(g_global->campaignID);

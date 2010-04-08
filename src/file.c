@@ -10,6 +10,8 @@
 #include "global.h"
 #include "file.h"
 
+extern void f__23E1_0004_0014_2BC0();
+
 enum {
 	FILEINFO_MAX     = 676,
 	FILEINFO_INVALID = 0xFFFF,
@@ -430,4 +432,55 @@ void File_Create(const char *filename)
 	File_Close(index);
 
 	g_global->ignoreInput--;
+}
+
+/**
+ * Reads length bytes from filename into buffer.
+ *
+ * @param filename Then name of the file to read.
+ * @param buffer The buffer to read into.
+ * @param length The amount of bytes to read.
+ * @return The amount of bytes truly read, or 0 if there was a failure.
+ */
+uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
+{
+	uint8 index;
+
+	index = File_Open(filename, 1);
+	length = File_Read(index, buffer, length);
+	File_Close(index);
+	return length;
+}
+
+/**
+ * Reads the whole file in the memory.
+ *
+ * @param filename The name of the file to open.
+ * @param arg0A The type of memory to allocate.
+ * @return The CSIP of the allocated memory where the file has been read.
+ */
+csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
+{
+	uint8 index;
+	uint32 length;
+	csip32 memBlock;
+
+	index = File_Open(filename, 1);
+	length = File_GetSize(index);
+
+	emu_push(arg0A);
+	emu_push(length >> 16); emu_push(length & 0xFFFF);
+	emu_push(emu_cs); emu_push(0x00C0); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_sp += 6;
+
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = emu_ax;
+
+	if (memBlock.csip != 0x0) {
+		File_Read(index, (void *)emu_get_memorycsip(memBlock), length);
+	}
+
+	File_Close(index);
+
+	return memBlock;
 }

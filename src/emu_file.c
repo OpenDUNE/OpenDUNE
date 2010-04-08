@@ -222,6 +222,58 @@ void emu_File_Create()
 }
 
 /**
+ * Emulator wrapper around File_ReadBlockFile()
+ *
+ * @name emu_File_ReadBlockFile
+ * @implements 253D:0000:0013:38F4 ()
+ */
+void emu_File_ReadBlockFile()
+{
+	csip32 filename;
+	csip32 buffer;
+	uint32 length;
+	uint32 res;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename  = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	buffer    = emu_get_csip32  (emu_ss, emu_sp, 0x4);
+	length    = emu_get_memory32(emu_ss, emu_sp, 0x8);
+
+	res = File_ReadBlockFile((char *)emu_get_memorycsip(filename), (void *)emu_get_memorycsip(buffer), length);
+
+	emu_dx = res >> 16;
+	emu_ax = res & 0xFFFF;
+}
+
+/**
+ * Emulator wrapper around File_ReadWholeFile()
+ *
+ * @name emu_File_ReadWholeFile
+ * @implements 253D:008A:0016:007A ()
+ */
+void emu_File_ReadWholeFile()
+{
+	csip32 filename;
+	uint16 arg0A;
+	csip32 res;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename  = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	arg0A     = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	res = File_ReadWholeFile((char *)emu_get_memorycsip(filename), arg0A);
+
+	emu_dx = res.s.cs;
+	emu_ax = res.s.ip;
+}
+
+/**
  * This function is obsolete. Please remove any reference to it as soon as
  *  you can.
  *

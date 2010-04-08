@@ -140,8 +140,6 @@
 
 2537:000C:001C:86CB	emu_Tools_RandomRange	# (low, high), get random value between 'low' and 'high'
 
-253D:0000:0013:38F4	emu_File_ReadBlockFile	# (filename_csip, length32), read length32 bytes from a filename
-253D:008A:0016:007A	emu_File_ReadWholeFile	# (filename_csip), read the whole file
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
 256D:0004:001C:9F23	emu_Font_LoadFile	# (filename_csip), load a font file (based on file it opens)
