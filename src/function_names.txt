@@ -138,8 +138,6 @@
 2521:000F:0022:6D87	emu_Font_GetCharWidth	# (char), get the font width of a character
 2521:0035:0015:AA0F	emu_Font_GetStringWidth	# (string_csip), get the font width of a string
 
-2537:000C:001C:86CB	emu_Tools_RandomRange	# (low, high), get random value between 'low' and 'high'
-
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
 256D:0004:001C:9F23	emu_Font_LoadFile	# (filename_csip), load a font file (based on file it opens)

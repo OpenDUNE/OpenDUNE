@@ -43,8 +43,8 @@ typedef struct Team {
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 maxMembers;                 /*!< Maximum amount of members in team. */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0C;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0E;                /*!< ?? */
+	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
 	/* 0010(2)   */ PACK uint8  houseID;                    /*!< House of Team. */
 	/* 0011()    */ PACK uint8   unknown_0011[0x0003];
 	/* 0014(4)   */ PACK tile32 position;                   /*!< Position on the map. */

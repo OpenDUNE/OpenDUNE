@@ -15,6 +15,8 @@
 #include "../tools.h"
 
 extern void f__0F3F_01A1_0018_9631();
+extern void f__B4CD_1C1A_001A_9C1B();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Gets the amount of members in the current team.
@@ -249,4 +251,104 @@ uint16 Script_Team_Unknown0543(ScriptEngine *script)
 	}
 
 	return count;
+}
+
+/**
+ * Gets the best target for the current team.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The encoded index of the best target or 0 if none found.
+ */
+uint16 Script_Team_FindBestTarget(ScriptEngine *script)
+{
+	Team *t;
+	PoolFindStruct find;
+
+	VARIABLE_NOT_USED(script);
+
+	t = Team_Get_ByMemory(g_global->teamCurrent);
+
+	find.houseID = t->houseID;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		uint16 target;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+		if (u->team - 1 != t->index) continue;
+		target = Unit_FindBestTargetEncoded(u, t->variable_0C == 3 ? 4 : 0);
+		if (target == 0) continue;
+		if (t->target == target) return target;
+
+		t->target = target;
+
+		emu_push(Tools_Index_GetPackedTile(target));
+		emu_push(Tile_PackTile(u->position));
+		emu_push(emu_cs); emu_push(0x0754); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1C1A_001A_9C1B();
+		emu_sp += 4;
+
+		t->variable_18 = emu_ax;
+		return target;
+	}
+
+	return 0;
+}
+
+/**
+ * Loads a new script for the current team.
+ *
+ * Stack: 0 - The script type.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Team_Load(ScriptEngine *script)
+{
+	Team *t;
+	uint16 type;
+
+	t = Team_Get_ByMemory(g_global->teamCurrent);
+	type = script->stack[script->stackPointer];
+
+	if (t->variable_0C == type) return 0;
+
+	t->variable_0C = type;
+
+	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Load(&t->script, type & 0xFF);
+
+	return 0;
+}
+
+/**
+ * Loads a new script for the current team.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Team_Load2(ScriptEngine *script)
+{
+	Team *t;
+	uint16 type;
+
+	VARIABLE_NOT_USED(script);
+
+	t = Team_Get_ByMemory(g_global->teamCurrent);
+	type = t->variable_0E;
+
+	if (t->variable_0C == type) return 0;
+
+	t->variable_0C = type;
+
+	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Load(&t->script, type & 0xFF);
+
+	return 0;
 }

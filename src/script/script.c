@@ -8,10 +8,7 @@
 #include "script.h"
 
 extern void f__16C5_012D_0017_71BC();
-extern void f__16C5_06C6_001D_94A6();
 extern void f__16C5_0788_0018_4AA5();
-extern void f__16C5_09C4_003E_31D6();
-extern void f__16C5_0A20_003A_2375();
 extern void f__176C_07F1_001D_3E0E();
 extern void f__176C_0858_0023_E780();
 extern void f__176C_0882_0014_0C6A();
@@ -137,10 +134,10 @@ emu_ScriptFunction emu_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 03 */ NULL,
 	/* 04 */ NULL,
 	/* 05 */ NULL,
-	/* 06 */ &f__16C5_06C6_001D_94A6,
+	/* 06 */ NULL,
 	/* 07 */ &f__16C5_0788_0018_4AA5,
-	/* 08 */ &f__16C5_09C4_003E_31D6,
-	/* 09 */ &f__16C5_0A20_003A_2375,
+	/* 08 */ NULL,
+	/* 09 */ NULL,
 	/* 0A */ NULL,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
@@ -259,10 +256,10 @@ ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 03 */ &Script_Team_AddCloserUnit,
 	/* 04 */ &Script_Team_GetAverageDistance,
 	/* 05 */ &Script_Team_Unknown0543,
-	/* 06 */ NULL,
+	/* 06 */ &Script_Team_FindBestTarget,
 	/* 07 */ NULL,
-	/* 08 */ NULL,
-	/* 09 */ NULL,
+	/* 08 */ &Script_Team_Load,
+	/* 09 */ &Script_Team_Load2,
 	/* 0A */ &Script_General_DelayRandom,
 	/* 0B */ &Script_General_Unknown0184,
 	/* 0C */ &Script_Team_GetVariable6,
