@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
@@ -13,8 +14,15 @@
 #include "../pool/unit.h"
 #include "../tile.h"
 #include "../tools.h"
+#include "../os/endian.h"
+#include "../os/strings.h"
+#include "../gui/gui.h"
 
+extern void f__10E4_09AB_0031_5E8E();
+extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
+extern void f__0F3F_028E_0015_1153();
+extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1C1A_001A_9C1B();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -349,6 +357,117 @@ uint16 Script_Team_Load2(ScriptEngine *script)
 
 	Script_Reset(&t->script, &g_global->scriptTeam);
 	Script_Load(&t->script, type & 0xFF);
+
+	return 0;
+}
+
+/**
+ * Unknown function 0788.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Team_Unknown0788(ScriptEngine *script)
+{
+	Team *t;
+	tile32 tile;
+	PoolFindStruct find;
+
+	VARIABLE_NOT_USED(script);
+
+	t = Team_Get_ByMemory(g_global->teamCurrent);
+	if (t->target == 0) return 0;
+
+	tile = Tools_Index_GetTile(t->target);
+
+	find.houseID = t->houseID;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+		uint16 distance;
+		uint16 packed;
+		uint16 locsi;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+		if (u->team - 1 != t->index) continue;
+		if (t->target == 0) {
+			Unit_SetAction(u, ACTION_GUARD);
+			continue;
+		}
+
+		distance = g_unitInfo[u->type].variable_50 << 8;
+		if (u->actionID == ACTION_ATTACK && u->targetAttack == t->target) {
+			if (u->targetMove != 0) continue;
+			if (Tile_GetDistance(u->position, tile) >= distance) continue;
+		}
+
+		if (u->actionID != ACTION_ATTACK) Unit_SetAction(u, ACTION_ATTACK);
+
+		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(tile.s.y); emu_push(tile.s.x);
+		emu_push(emu_cs); emu_push(0x08F5); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+		emu_sp += 8;
+
+		locsi = (emu_ax & 0xFFC0) + Tools_RandomRange(0, 127);
+		if ((int16)locsi < 0) locsi += 256;
+
+		emu_push(distance);
+		emu_push(locsi);
+		emu_push(tile.s.y); emu_push(tile.s.x);
+		emu_push(emu_cs); emu_push(0x0926); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
+		emu_sp += 8;
+
+		packed = Tile_PackXY(emu_ax, emu_dx);
+
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x093D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
+		emu_sp += 2;
+
+		if (emu_ax == 0 && emu_dx == 0) {
+			Unit_SetDestination(u, Tools_Index_Encode(packed, IT_TILE));
+		} else {
+			Unit_SetDestination(u, Tools_Index_Encode(Tile_PackTile(tile), IT_TILE));
+		}
+
+		Unit_SetTarget(u, t->target);
+	}
+
+	return 0;
+}
+
+/**
+ * Draws a string.
+ *
+ * Stack: 0 - The index of the string to draw.
+ *        1-3 - The arguments for the string.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Team_DisplayText(ScriptEngine *script)
+{
+	Team *t;
+	ScriptInfo *scriptInfo;
+	csip32 text;
+	uint16 offset;
+
+	t = Team_Get_ByMemory(g_global->teamCurrent);
+	if (t->houseID == g_global->playerHouseID) return 0;
+
+	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+
+	text = scriptInfo->text;
+
+	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
+
+	text.s.ip += offset;
+
+	GUI_DisplayText((char *)emu_get_memorycsip(text), 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
 
 	return 0;
 }

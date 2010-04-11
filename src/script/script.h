@@ -97,6 +97,8 @@ extern uint16 Script_Team_Unknown0543(ScriptEngine *script);
 extern uint16 Script_Team_FindBestTarget(ScriptEngine *script);
 extern uint16 Script_Team_Load(ScriptEngine *script);
 extern uint16 Script_Team_Load2(ScriptEngine *script);
+extern uint16 Script_Team_Unknown0788(ScriptEngine *script);
+extern uint16 Script_Team_DisplayText(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
