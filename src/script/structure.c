@@ -18,6 +18,7 @@
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
+#include "../gui/gui.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void emu_Object_SetScriptVariable4();
@@ -27,7 +28,6 @@ extern void f__0C3A_247A_0015_EA04();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
@@ -662,7 +662,6 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	uint16 position;
 	uint16 layout;
 	uint16 i;
-	char *buf;
 
 	VARIABLE_NOT_USED(script);
 
@@ -710,18 +709,11 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	if (g_global->debugScenario) return 0;
 	if (s->houseID != g_global->playerHouseID) return 0;
 
-	buf = (char *)&emu_get_memory8(0x353F, 0x0, 0x9939);
-
 	if (g_global->language == 1) {
-		sprintf(buf, "%s %s %s", String_Get_ByIndex(g_structureInfo[s->type].stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->houseID].name), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_structureInfo[s->type].stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->houseID].name), String_Get_ByIndex(0x85));
 	} else {
-		sprintf(buf, "%s %s %s", (char *)emu_get_memorycsip(g_houseInfo[s->houseID].name), String_Get_ByIndex(g_structureInfo[s->type].stringID_full), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->houseID].name), String_Get_ByIndex(g_structureInfo[s->type].stringID_full), String_Get_ByIndex(0x85));
 	}
-
-	emu_push(0);
-	emu_push(0x353F); emu_push(0x9939);
-	emu_push(emu_cs); emu_push(0x1798); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-	emu_sp += 6;
 
 	return 0;
 }

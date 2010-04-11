@@ -24,6 +24,7 @@
 #include "unknown/unknown.h"
 #include "os/math.h"
 #include "string.h"
+#include "gui/gui.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
@@ -37,7 +38,6 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_0F1A_0088_7622();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
@@ -2531,11 +2531,7 @@ void Unit_DisplayStatusText(Unit *unit)
 	}
 
 	strcat((char *)g_global->variable_9939, ".");
-
-	emu_push(2);
-	emu_push(0x353F); emu_push(0x9939);
-	emu_push(emu_cs); emu_push(0x2950); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-	emu_sp += 6;
+	GUI_DisplayText((char *)g_global->variable_9939, 2);
 }
 
 /**

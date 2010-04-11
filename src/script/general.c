@@ -15,9 +15,9 @@
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
+#include "../gui/gui.h"
 
 extern void f__10E4_0273_0029_DCE5();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_08E7_002B_DC75();
@@ -125,13 +125,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
 
 	text.s.ip += offset;
 
-	snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), (char *)emu_get_memorycsip(text),
-	         script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
-
-	emu_push(0);
-	emu_push(0x353F); emu_push(0x9939);
-	emu_push(emu_cs); emu_push(0x00AC); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-	emu_sp += 6;
+	GUI_DisplayText((char *)emu_get_memorycsip(text), 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
 
 	return 0;
 }

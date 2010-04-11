@@ -17,8 +17,8 @@
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
+#include "gui/gui.h"
 
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__B4CD_1816_0033_B55B();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
@@ -216,14 +216,8 @@ void GameLoop_House()
 			if (h->credits > maxCredits) {
 				h->credits = maxCredits;
 
-				emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
-				emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-				emu_sp += 2;
-
-				emu_push(1);
-				emu_push(emu_dx); emu_push(emu_ax);
-				emu_push(emu_cs); emu_push(0x04DA); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-				emu_sp += 6;
+				/* "Insufficient spice storage available.  Spice is lost." */
+				GUI_DisplayText(String_Get_ByIndex(0x91), 1);
 			}
 		}
 	}
@@ -252,14 +246,8 @@ void GameLoop_House()
 					if (h->credits > maxCredits) {
 						h->credits = maxCredits;
 
-						emu_push(0x91); /* "Insufficient spice storage available.  Spice is lost." */
-						emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-						emu_sp += 2;
-
-						emu_push(1);
-						emu_push(emu_dx); emu_push(emu_ax);
-						emu_push(emu_cs); emu_push(0x04DA); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-						emu_sp += 6;
+						/* "Insufficient spice storage available.  Spice is lost." */
+						GUI_DisplayText(String_Get_ByIndex(0x91), 1);
 					}
 				}
 			}
@@ -271,26 +259,14 @@ void GameLoop_House()
 
 				if (g_global->playerCreditsNoSilo == 0 && g_global->campaignID > 1 && h->credits != 0) {
 					if (h->creditsStorage != 0 && ((h->credits * 256 / h->creditsStorage) > 200)) {
-						emu_push(0x142); /* "Spice storage capacity low, build silos." */
-						emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-						emu_sp += 2;
-
-						emu_push(0);
-						emu_push(emu_dx); emu_push(emu_ax);
-						emu_push(emu_cs); emu_push(0x0570); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-						emu_sp += 6;
+						/* "Spice storage capacity low, build silos." */
+						GUI_DisplayText(String_Get_ByIndex(0x142), 0);
 					}
 				}
 
 				if (h->credits < 100 && g_global->playerCreditsNoSilo != 0) {
-					emu_push(0x14B); /* "Credits are low. Harvest spice for more credits." */
-					emu_push(emu_cs); emu_push(0x0591); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-					emu_sp += 2;
-
-					emu_push(0);
-					emu_push(emu_dx); emu_push(emu_ax);
-					emu_push(emu_cs); emu_push(0x0599); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-					emu_sp += 6;
+					/* "Credits are low. Harvest spice for more credits." */
+					GUI_DisplayText(String_Get_ByIndex(0x14B), 0);
 				}
 			}
 		}
@@ -433,14 +409,8 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 
 	if (houseID != g_global->playerHouseID) return;
 
-	emu_push(0x32); /* "Harvester is heading to refinery." */
-	emu_push(emu_cs); emu_push(0x2314); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(0);
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x231C); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-	emu_sp += 6;
+	/* "Harvester is heading to refinery." */
+	GUI_DisplayText(String_Get_ByIndex(0x32), 0);
 }
 
 /**

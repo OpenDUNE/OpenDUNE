@@ -247,7 +247,7 @@ l__00E4:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x00F9); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
+	emu_push(emu_cs); emu_push(0x00F9); emu_cs = 0x10E4; emu_GUI_DisplayText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__00F9:

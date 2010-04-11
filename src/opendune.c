@@ -25,11 +25,11 @@
 #include "gui/widget.h"
 #include "map.h"
 #include "file.h"
+#include "gui/gui.h"
 
 extern void f__07D4_0000_0027_FA61();
 extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_0675_0026_F126();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_01EB_0013_9C3C();
@@ -570,10 +570,7 @@ static void GameLoop_Main()
 			emu_sp += 2;
 		}
 
-		emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-		emu_sp += 6;
+		GUI_DisplayText(NULL, 0);
 
 		if (g_global->variable_38F8 != 0 && g_global->debugScenario == 0) {
 			GameLoop_LevelEnd();

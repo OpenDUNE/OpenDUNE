@@ -20,13 +20,13 @@
 #include "structure.h"
 #include "tools.h"
 #include "unknown/unknown.h"
+#include "gui/gui.h"
 
 extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
@@ -246,12 +246,7 @@ void GameLoop_Structure()
 									if (s->type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
 									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
-									sprintf((char *)g_global->variable_9939, "%s %s", String_Get_ByIndex(ui->stringID_full), String_Get_ByIndex(stringID));
-
-									emu_push(0);
-									emu_push(emu_ds); emu_push(0x9939);
-									emu_push(emu_cs); emu_push(0x0627); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-									emu_sp += 6;
+									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(ui->stringID_full), String_Get_ByIndex(stringID));
 
 									emu_push(0);
 									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
@@ -294,14 +289,8 @@ void GameLoop_Structure()
 						if (s->houseID == g_global->playerHouseID) {
 							s->type |= 0x4000;
 
-							emu_push(0x84); /* "Insufficient funds.  Construction is halted." */
-							emu_push(emu_cs); emu_push(0x073B); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-							emu_sp += 2;
-
-							emu_push(0);
-							emu_push(emu_dx); emu_push(emu_ax);
-							emu_push(emu_cs); emu_push(0x0743); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-							emu_sp += 6;
+							/* "Insufficient funds.  Construction is halted." */
+							GUI_DisplayText(String_Get_ByIndex(0x84), 0);
 						}
 					}
 				}
@@ -816,14 +805,8 @@ void Structure_CalculatePowerAndCredit(House *h)
 
 	/* Check if we are low on power */
 	if (h->index == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
-		emu_push(0x010E); /* "Insufficient power.  Windtrap is needed." */
-		emu_push(emu_cs); emu_push(0x20A4); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-
-		emu_push(0x1);
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x20AC); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-		emu_sp += 6;
+		/* "Insufficient power.  Windtrap is needed." */
+		GUI_DisplayText(String_Get_ByIndex(0x10E), 1);
 	}
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */

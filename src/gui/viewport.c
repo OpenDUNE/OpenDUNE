@@ -17,6 +17,7 @@
 #include "../tools.h"
 #include "../unit.h"
 #include "widget.h"
+#include "gui.h"
 #include "../unknown/unknown.h"
 #include "../string.h"
 
@@ -24,7 +25,6 @@ extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
@@ -136,11 +136,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		ActionType action;
 		uint16 encoded;
 
-		emu_push(0xFFFF);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x036F); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-		emu_sp += 6;
+		GUI_DisplayText(NULL, 0xFFFF);
 
 		if (g_global->unitHouseMissile.csip != 0x0) {
 			emu_push(packed);
@@ -272,14 +268,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			if (h->powerProduction < h->powerUsage) {
 				if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0) {
-					emu_push(0x14C); /* Not enough power for radar.  Build windtraps. */
-					emu_push(emu_cs); emu_push(0x0691); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-					emu_sp += 2;
-
-					emu_push(3);
-					emu_push(emu_dx); emu_push(emu_ax);
-					emu_push(emu_cs); emu_push(0x0699); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-					emu_sp += 6;
+					/* Not enough power for radar.  Build windtraps. */
+					GUI_DisplayText(String_Get_ByIndex(0x14C), 3);
 				}
 			}
 			return true;
@@ -292,14 +282,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		emu_sp += 6;
 
 		if (g_global->activeStructureType == STRUCTURE_SLAB_1x1 || g_global->activeStructureType == STRUCTURE_SLAB_2x2) {
-			emu_push(0x87); /* Can not place foundation here. */
-			emu_push(emu_cs); emu_push(0x06CB); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-
-			emu_push(2);
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x0713); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-			emu_sp += 6;
+			/* Can not place foundation here. */
+			GUI_DisplayText(String_Get_ByIndex(0x87), 2);
 		} else {
 			emu_push(0xFFFF);
 			emu_push(26);
@@ -307,12 +291,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_sp += 4;
 
 			/* "Can not place %s here." */
-			snprintf((char*)&g_global->variable_9939, sizeof(g_global->variable_9939), String_Get_ByIndex(0x86), String_Get_ByIndex(si->stringID_abbrev));
-
-			emu_push(2);
-			emu_push(0x353F); emu_push(emu_Global_GetIP(g_global->variable_9939, 0x353F));
-			emu_push(emu_cs); emu_push(0x0713); emu_cs = 0x10E4; f__10E4_09AB_0031_5E8E();
-			emu_sp += 6;
+			GUI_DisplayText(String_Get_ByIndex(0x86), 2, String_Get_ByIndex(si->stringID_abbrev));
 		}
 		return true;
 	}
