@@ -8,13 +8,7 @@
 #include "script.h"
 
 extern void f__176C_07F1_001D_3E0E();
-extern void f__176C_0858_0023_E780();
 extern void f__176C_0882_0014_0C6A();
-extern void f__176C_0BC3_002A_A6DE();
-extern void f__176C_0FA2_0013_6D6D();
-extern void f__176C_0FD2_001F_B15D();
-extern void f__176C_105E_0031_8B3F();
-extern void f__176C_1098_0021_667D();
 extern void f__176C_12CE_0011_A5C5();
 extern void f__176C_1382_0013_AA74();
 extern void f__176C_13CD_0014_7309();
@@ -33,7 +27,6 @@ extern void f__176C_212E_002E_9D89();
 extern void f__176C_2275_001D_D22D();
 extern void f__176C_22AA_0014_EDA3();
 extern void f__176C_22C4_0019_80C9();
-extern void emu_Script_Unit_RandomSoldier();
 extern void f__176C_246C_0015_C163();
 extern void f__176C_2552_0019_4894();
 extern void f__176C_25A5_002C_AC04();
@@ -75,22 +68,22 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 10 */ NULL,
 	/* 11 */ NULL,
 	/* 12 */ &f__176C_13CD_0014_7309,
-	/* 13 */ &f__176C_105E_0031_8B3F,
+	/* 13 */ NULL,
 	/* 14 */ &f__176C_0882_0014_0C6A,
 	/* 15 */ NULL,
-	/* 16 */ &f__176C_1098_0021_667D,
+	/* 16 */ NULL,
 	/* 17 */ NULL,
 	/* 18 */ NULL,
 	/* 19 */ &f__176C_1C6F_001D_2E46,
-	/* 1A */ &f__176C_0FA2_0013_6D6D,
-	/* 1B */ &f__176C_0FD2_001F_B15D,
-	/* 1C */ &f__176C_0858_0023_E780,
+	/* 1A */ NULL,
+	/* 1B */ NULL,
+	/* 1C */ NULL,
 	/* 1D */ &f__176C_07F1_001D_3E0E,
 	/* 1E */ &f__176C_212E_002E_9D89,
 	/* 1F */ &f__176C_22AA_0014_EDA3,
 	/* 20 */ &f__176C_2275_001D_D22D,
-	/* 21 */ &emu_Script_Unit_RandomSoldier,
-	/* 22 */ &f__176C_0BC3_002A_A6DE,
+	/* 21 */ NULL,
+	/* 22 */ NULL,
 	/* 23 */ &f__176C_246C_0015_C163,
 	/* 24 */ &f__176C_2552_0019_4894,
 	/* 25 */ &f__176C_25A5_002C_AC04,
@@ -176,22 +169,22 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 10 */ &Script_General_Delay,
 	/* 11 */ &Script_General_Unknown04AE,
 	/* 12 */ NULL,
-	/* 13 */ NULL,
+	/* 13 */ &Script_Unit_Unknown105E,
 	/* 14 */ NULL,
 	/* 15 */ &Script_General_NoOperation,
-	/* 16 */ NULL,
+	/* 16 */ &Script_Unit_Unknown1098,
 	/* 17 */ &Script_General_RandomRange,
 	/* 18 */ &Script_General_Unknown0594,
 	/* 19 */ NULL,
-	/* 1A */ NULL,
-	/* 1B */ NULL,
-	/* 1C */ NULL,
+	/* 1A */ &Script_Unit_Unknown0FA2,
+	/* 1B */ &Script_Unit_Unknown0FD2,
+	/* 1C */ &Script_Unit_FindBestTarget,
 	/* 1D */ NULL,
 	/* 1E */ NULL,
 	/* 1F */ NULL,
 	/* 20 */ NULL,
-	/* 21 */ NULL,
-	/* 22 */ NULL,
+	/* 21 */ &Script_Unit_RandomSoldier,
+	/* 22 */ &Script_Unit_Unknown0BC3,
 	/* 23 */ NULL,
 	/* 24 */ NULL,
 	/* 25 */ NULL,

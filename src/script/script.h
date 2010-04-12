@@ -100,6 +100,15 @@ extern uint16 Script_Team_Load2(ScriptEngine *script);
 extern uint16 Script_Team_Unknown0788(ScriptEngine *script);
 extern uint16 Script_Team_DisplayText(ScriptEngine *script);
 
+/* Unit Script Functions */
+extern uint16 Script_Unit_RandomSoldier(ScriptEngine *script);
+extern uint16 Script_Unit_FindBestTarget(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown0BC3(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown0FA2(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown0FD2(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown105E(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown1098(ScriptEngine *script);
+
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
 extern void emu_Script_IsLoaded();
