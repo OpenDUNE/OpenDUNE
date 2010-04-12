@@ -5,7 +5,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "gui.h"
-#include "..\global.h"
+#include "../global.h"
 
 /**
  * Emulator wrapper around GUI_EditBox().
