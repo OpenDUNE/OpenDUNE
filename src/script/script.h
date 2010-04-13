@@ -111,6 +111,7 @@ extern uint16 Script_Unit_Unknown1098(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown12CE(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1382(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown13CD(ScriptEngine *script);
+extern uint16 Script_Unit_Fire(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1932(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown196C(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1B45(ScriptEngine *script);

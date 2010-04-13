@@ -133,7 +133,7 @@ typedef struct Unit {
 	/* 004D(2)   */ PACK uint16 originEncoded;              /*!< Encoded index, indicating the origin. */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
 	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
-	/* 0051(1)   */ PACK uint8  variable_51;                /*!< ?? */
+	/* 0051(1)   */ PACK uint8  fireDelay;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint16 targetAttack;               /*!< Target to attack (encoded index). */
 	/* 0056(2)   */ PACK uint16 targetMove;                 /*!< Target to move to (encoded index). */
@@ -214,9 +214,9 @@ typedef struct UnitInfo {
 	/* 004A()    */ PACK uint8   unknown_004A[0x0004];
 	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
-	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
+	/* 0052(2)   */ PACK uint16 damage;                     /*!< ?? */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
-	/* 0056()    */ PACK uint8   unknown_0056[0x0002];
+	/* 0056(2)   */ PACK uint16 bulletType;                 /*!< Type of the bullets of Unit */
 	/* 0058(2)   */ PACK uint16 variable_58;                /*!< ?? */
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
@@ -267,7 +267,7 @@ extern Unit *Unit_FindBestTarget(Unit *u, uint16 mode);
 extern Unit *Unit_Unknown15F4(Unit *unit);
 extern bool Unit_Unknown167C(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
-extern bool Unit_Deviation_Decrease(Unit* unit, uint16 encoded);
+extern bool Unit_Deviation_Decrease(Unit* unit, uint16 amount);
 extern void Unit_RemoveFog(Unit *unit);
 extern bool Unit_Deviate(Unit *unit, uint16 probability);
 extern bool Unit_Move(Unit *unit, uint16 distance);

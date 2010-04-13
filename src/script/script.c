@@ -9,7 +9,6 @@
 
 extern void f__176C_07F1_001D_3E0E();
 extern void f__176C_0882_0014_0C6A();
-extern void f__176C_1458_0023_356A();
 extern void f__176C_1A40_0020_8DC9();
 extern void f__176C_1A9F_0024_813F();
 extern void f__176C_1F51_002F_CE9F();
@@ -47,7 +46,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 05 */ &f__176C_1A9F_0024_813F,
 	/* 06 */ &f__176C_1A40_0020_8DC9,
 	/* 07 */ NULL,
-	/* 08 */ &f__176C_1458_0023_356A,
+	/* 08 */ NULL,
 	/* 09 */ &f__176C_2AB2_0021_82CD,
 	/* 0A */ NULL,
 	/* 0B */ &f__176C_2C73_0010_BB2A,
@@ -148,7 +147,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 05 */ NULL,
 	/* 06 */ NULL,
 	/* 07 */ &Script_Unit_Unknown1932,
-	/* 08 */ NULL,
+	/* 08 */ &Script_Unit_Fire,
 	/* 09 */ NULL,
 	/* 0A */ &Script_Unit_SetActionDefault,
 	/* 0B */ NULL,

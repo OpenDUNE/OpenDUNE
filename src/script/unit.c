@@ -23,8 +23,11 @@ extern void f__0C10_0182_0012_B114();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1423_0BCC_0012_111A();
+extern void f__167E_0319_0010_B56F();
+extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_08E7_002B_DC75();
+extern void f__B4CD_1086_0040_F11C();
 extern void emu_Object_GetScriptVariable4();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -511,6 +514,177 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 }
 
 /**
+ * Makes the current unit fire a bullet (or eat its target).
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 1 if the current unit fired/eat, 0 otherwise.
+ */
+uint16 Script_Unit_Fire(ScriptEngine *script)
+{
+	Unit *u;
+	UnitInfo *ui;
+	uint16 target;
+	UnitType typeID;
+	uint16 loc12;
+	uint16 distance;
+	bool loc1A;
+	uint16 damage;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	target = u->targetAttack;
+	if (target == 0 || !Tools_Index_IsValid(target)) return 0;
+
+	if (u->type != UNIT_SANDWORM && target == Tools_Index_Encode(Tile_PackTile(u->position), IT_TILE)) u->targetAttack = 0;
+
+	if (u->targetAttack != target) {
+		Unit_SetTarget(u, target);
+		return 0;
+	}
+
+	ui = &g_unitInfo[u->type];
+
+	if (u->type != UNIT_SANDWORM && u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][0] != 0) return 0;
+
+	if (Tools_Index_GetType(target) == IT_TILE) {
+		emu_push(Tools_Index_GetPackedTile(target));
+		emu_push(emu_cs); emu_push(0x156E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
+		emu_sp += 2;
+
+		if (emu_ax != 0) Unit_SetTarget(u, target);
+	}
+
+	if (u->fireDelay != 0) return 0;
+
+	emu_push(target);
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x15B0); emu_cs = 0x167E; f__167E_0319_0010_B56F();
+	emu_sp += 6;
+
+	distance = emu_ax;
+
+	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
+
+	loc12 = 0;
+	if (u->type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->type].variable_3C != 4)) {
+		tile32 tile = Tools_Index_GetTile(target);
+		emu_push(tile.s.y); emu_push(tile.s.x);
+		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+		emu_sp += 8;
+
+		loc12 = u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2] - emu_ax;
+		if ((int16)loc12 < 0) loc12 = -loc12;
+		if (ui->variable_3C == 4) loc12 /= 8;
+	}
+
+	if (loc12 >= 8) return 0;
+
+	damage = ui->damage;
+	typeID = ui->bulletType;
+
+	loc1A = (ui->variable_36 & 0x400) != 0 && u->hitpoints > ui->hitpoints / 2;
+
+	if ((u->type == UNIT_TROOPERS || u->type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
+
+	switch (typeID) {
+		case UNIT_SANDWORM: {
+			Unit *u2;
+
+			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x16F6); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+			emu_sp += 6;
+
+			u2 = Tools_Index_GetUnit(target);
+
+			if (u2 != NULL) {
+				u2->script.variables[1] = 0xFFFF;
+				Unit_Unknown379B(u2);
+
+				emu_push(g_global->playerHouseID);
+				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->index * sizeof(Unit));
+				emu_push(emu_cs); emu_push(0x1733); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
+				emu_sp += 6;
+
+				Unit_Unknown10EC(u2);
+			}
+
+			emu_push(0);
+			emu_push(0);
+			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(ui->variable_54);
+			emu_push(emu_cs); emu_push(0x1762); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+			emu_sp += 10;
+
+			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(63);
+			emu_push(emu_cs); emu_push(0x177A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+			emu_sp += 6;
+
+			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x178E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+			emu_sp += 6;
+
+			u->amount--;
+
+			/* XXX -- Lovely hackish */
+			*(((uint16 *)script) - 1) = 12;
+
+			if ((int8)u->amount < 1) Unit_SetAction(u, ACTION_DIE);
+		} break;
+
+		case UNIT_MISSILE_TROOPER:
+			damage -= damage / 4;
+			/* FALL-THROUGH */
+
+		case UNIT_MISSILE_ROCKET:
+		case UNIT_MISSILE_TURRET:
+		case UNIT_MISSILE_DEVIATOR:
+		case UNIT_BULLET:
+		case UNIT_SONIC_BLAST: {
+			Unit *bullet;
+
+			bullet = Unit_CreateBullet(u->position, typeID, Unit_GetHouseID(u), damage, target);
+
+			if (bullet == NULL) return 0;
+
+			bullet->originEncoded = Tools_Index_Encode(u->index, IT_UNIT);
+
+			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(ui->variable_58);
+			emu_push(emu_cs); emu_push(0x184F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+			emu_sp += 6;
+
+			Unit_Deviation_Decrease(u, 20);
+		} break;
+
+		default: break;
+	}
+
+	u->fireDelay = Tools_AdjustToGameSpeed(ui->fireDelay * 2, 1, 255, true) & 0xFF;
+
+	if (loc1A) {
+		u->flags.s.unknown_0010 = !u->flags.s.unknown_0010;
+		if (u->flags.s.unknown_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
+	} else {
+		u->flags.s.unknown_0010 = false;
+	}
+
+	u->fireDelay += Tools_Random_256() & 1;
+
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x1912); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	return 1;
+}
+
+/**
  * Unknown function 1932.
  *
  * Stack: 0 - ??.
@@ -728,7 +902,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x09: return u->variable_6B;
 		case 0x0A: return abs(u->variable_62[0][1] - u->variable_62[0][2]);
 		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
-		case 0x0C: return u->variable_51 == 0 ? 1 : 0;
+		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
 		case 0x0D: return ui->variable_36 & 0x4;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->flags.s.byScenario ? 1 : 0;

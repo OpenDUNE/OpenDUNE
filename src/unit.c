@@ -255,7 +255,7 @@ void GameLoop_Unit()
 		if (tickUnknown1) {
 			Unit_Unknown2134(u);
 
-			if (u->variable_51 != 0) {
+			if (u->fireDelay != 0) {
 				if (ui->variable_3C == 4 && (ui->variable_36 & 0x8000) == 0) {
 					tile32 tile;
 
@@ -273,7 +273,7 @@ void GameLoop_Unit()
 					Unit_Unknown1E99(u, (uint8)emu_ax, false, 0);
 				}
 
-				u->variable_51--;
+				u->fireDelay--;
 			}
 		}
 
@@ -544,7 +544,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->scriptDelay  = 0;
 	u->actionID     = ACTION_GUARD;
 	u->nextActionID = ACTION_INVALID;
-	u->variable_51  = 0x00;
+	u->fireDelay  = 0x00;
 	u->variable_52  = 0x7FFF;
 	u->targetMove   = 0x0000;
 	u->amount       = 0x00;
@@ -1217,7 +1217,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 		default: res = 0;      break;
 	}
 
-	if (target->variable_6A != 0 || target->variable_51 != 0) res <<= 2;
+	if (target->variable_6A != 0 || target->fireDelay != 0) res <<= 2;
 
 	distance = Tile_GetDistanceRoundedUp(unit->position, target->position);
 
@@ -1668,11 +1668,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			}
 		}
 
-		if (unit->hitpoints < (ui->variable_52 / 2)) {
+		if (unit->hitpoints < (ui->damage / 2)) {
 			unit->flags.s.unknown_0040 = true;
 		}
 
-		if (--unit->hitpoints == 0 || unit->variable_51 == 0) {
+		if (--unit->hitpoints == 0 || unit->fireDelay == 0) {
 			Unit_Unknown10EC(unit);
 		}
 	} else {
@@ -1708,7 +1708,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 		if (ret) {
 			if ((ui->variable_36 & 2) != 0) {
-				if (unit->variable_51 == 0 || unit->type == UNIT_MISSILE_TURRET) {
+				if (unit->fireDelay == 0 || unit->type == UNIT_MISSILE_TURRET) {
 					if (unit->type == UNIT_MISSILE_HOUSE) {
 						uint8 i;
 
@@ -2404,11 +2404,11 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 				bullet->variable_49.s.x = emu_ax;
 			}
 
-			bullet->variable_51 = ui->variable_50 & 0xFF;
+			bullet->fireDelay = ui->variable_50 & 0xFF;
 
 			u = Tools_Index_GetUnit(target);
 			if (u != NULL && g_unitInfo[u->type].variable_3C == 4) {
-				bullet->variable_51 <<= 1;
+				bullet->fireDelay <<= 1;
 			}
 
 			if (type == UNIT_MISSILE_HOUSE || (bullet->variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
@@ -2453,7 +2453,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			if (bullet == NULL) return NULL;
 
 			if (type == UNIT_SONIC_BLAST) {
-				bullet->variable_51 = ui->variable_50 & 0xFF;
+				bullet->fireDelay = ui->variable_50 & 0xFF;
 			}
 
 			bullet->variable_49 = tile;
