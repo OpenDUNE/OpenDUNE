@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
@@ -616,5 +617,126 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	Unit_Unknown1E99(u, locdi & 0xFF, false, 1);
 
 	return u->targetAttack;
+}
+
+/**
+ * Sets the action for the current unit.
+ *
+ * Stack: 0 - The action.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_SetAction(ScriptEngine *script)
+{
+	Unit *u;
+	ActionType action;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	action = script->stack[script->stackPointer];
+
+	if (u->houseID == g_global->playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
+
+	Unit_SetAction(u, action);
+
+	return 0;
+}
+
+/**
+ * Sets the action for the current unit to default.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
+{
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	Unit_SetAction(u, g_unitInfo[u->type].actionsPlayer[3]);
+
+	return 0;
+}
+
+/**
+ * Unknown function 1C6F.
+ *
+ * Stack: 0 - An encoded tile.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 encoded;
+
+	encoded = script->stack[script->stackPointer];
+
+	if (!Tools_Index_IsValid(encoded)) return 0;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (u->variable_49.tile == 0 || (g_unitInfo[u->type].variable_36 & 0x8000) != 0) {
+		u->variable_49 = Tools_Index_GetTile(encoded);
+	}
+
+	emu_push(u->variable_49.s.y); emu_push(u->variable_49.s.x);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(emu_cs); emu_push(0x1CE1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+
+	Unit_Unknown1E99(u, emu_ax & 0xFF, false, 0);
+
+	return 0;
+}
+
+/**
+ * Unknown function 1CFE.
+ *
+ * Stack: 0 - What to return.
+ *
+ * @param script The script engine to operate on.
+ * @return The value.
+ */
+uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
+{
+	Unit *u;
+	UnitInfo *ui;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	ui = &g_unitInfo[u->type];
+
+	switch (script->stack[script->stackPointer]) {
+		case 0x00: return u->hitpoints / ui->hitpoints * 256;
+		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
+		case 0x02: return ui->variable_50 << 8;
+		case 0x03: return u->index;
+		case 0x04: return u->variable_62[0][2];
+		case 0x05: return u->targetAttack;
+		case 0x06:
+			if (u->originEncoded == 0 || u->type == UNIT_HARVESTER) Unit_FindClosestRefinery(u);
+			return u->originEncoded;
+		case 0x07: return u->type;
+		case 0x08: return Tools_Index_Encode(u->index, IT_UNIT);
+		case 0x09: return u->variable_6B;
+		case 0x0A: return abs(u->variable_62[0][1] - u->variable_62[0][2]);
+		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
+		case 0x0C: return u->variable_51 == 0 ? 1 : 0;
+		case 0x0D: return ui->variable_36 & 0x4;
+		case 0x0E: return Unit_GetHouseID(u);
+		case 0x0F: return u->flags.s.byScenario ? 1 : 0;
+		case 0x10: return u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2];
+		case 0x11: return abs(u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][1] - u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2]);
+		case 0x12: return (ui->variable_3C & 0x40) == 0 ? 0 : 1;
+		case 0x13: return (u->variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
+		default:   return 0;
+	}
 }
 

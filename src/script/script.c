@@ -12,10 +12,6 @@ extern void f__176C_0882_0014_0C6A();
 extern void f__176C_1458_0023_356A();
 extern void f__176C_1A40_0020_8DC9();
 extern void f__176C_1A9F_0024_813F();
-extern void f__176C_1C00_003A_E6C7();
-extern void f__176C_1C4F_0017_E375();
-extern void f__176C_1C6F_001D_2E46();
-extern void f__176C_1CFE_0021_29C8();
 extern void f__176C_1F51_002F_CE9F();
 extern void f__176C_212E_002E_9D89();
 extern void f__176C_2275_001D_D22D();
@@ -43,8 +39,8 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
  * Not yet converted script functions for Units.
  */
 emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
-	/* 00 */ &f__176C_1CFE_0021_29C8,
-	/* 01 */ &f__176C_1C00_003A_E6C7,
+	/* 00 */ NULL,
+	/* 01 */ NULL,
 	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ &f__176C_22C4_0019_80C9,
@@ -53,7 +49,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 07 */ NULL,
 	/* 08 */ &f__176C_1458_0023_356A,
 	/* 09 */ &f__176C_2AB2_0021_82CD,
-	/* 0A */ &f__176C_1C4F_0017_E375,
+	/* 0A */ NULL,
 	/* 0B */ &f__176C_2C73_0010_BB2A,
 	/* 0C */ &f__176C_1F51_002F_CE9F,
 	/* 0D */ NULL,
@@ -68,7 +64,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 16 */ NULL,
 	/* 17 */ NULL,
 	/* 18 */ NULL,
-	/* 19 */ &f__176C_1C6F_001D_2E46,
+	/* 19 */ NULL,
 	/* 1A */ NULL,
 	/* 1B */ NULL,
 	/* 1C */ NULL,
@@ -144,8 +140,8 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
  * Converted script functions for Units. If NULL, the emu_ version is used.
  */
 ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
-	/* 00 */ NULL,
-	/* 01 */ NULL,
+	/* 00 */ &Script_Unit_Unknown1CFE,
+	/* 01 */ &Script_Unit_SetAction,
 	/* 02 */ &Script_General_DisplayText,
 	/* 03 */ &Script_General_GetDistance,
 	/* 04 */ NULL,
@@ -154,7 +150,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 07 */ &Script_Unit_Unknown1932,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
-	/* 0A */ NULL,
+	/* 0A */ &Script_Unit_SetActionDefault,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
 	/* 0D */ &Script_General_Unknown050C,
@@ -169,7 +165,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 16 */ &Script_Unit_Unknown1098,
 	/* 17 */ &Script_General_RandomRange,
 	/* 18 */ &Script_General_Unknown0594,
-	/* 19 */ NULL,
+	/* 19 */ &Script_Unit_Unknown1C6F,
 	/* 1A */ &Script_Unit_Unknown0FA2,
 	/* 1B */ &Script_Unit_Unknown0FD2,
 	/* 1C */ &Script_Unit_FindBestTarget,

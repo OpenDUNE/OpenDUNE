@@ -114,6 +114,10 @@ extern uint16 Script_Unit_Unknown13CD(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1932(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown196C(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1B45(ScriptEngine *script);
+extern uint16 Script_Unit_SetAction(ScriptEngine *script);
+extern uint16 Script_Unit_SetActionDefault(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown1C6F(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown1CFE(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
