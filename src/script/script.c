@@ -9,15 +9,9 @@
 
 extern void f__176C_07F1_001D_3E0E();
 extern void f__176C_0882_0014_0C6A();
-extern void f__176C_12CE_0011_A5C5();
-extern void f__176C_1382_0013_AA74();
-extern void f__176C_13CD_0014_7309();
 extern void f__176C_1458_0023_356A();
-extern void f__176C_1932_0029_D0CC();
-extern void f__176C_196C_0027_D87A();
 extern void f__176C_1A40_0020_8DC9();
 extern void f__176C_1A9F_0024_813F();
-extern void f__176C_1B45_0022_208C();
 extern void f__176C_1C00_003A_E6C7();
 extern void f__176C_1C4F_0017_E375();
 extern void f__176C_1C6F_001D_2E46();
@@ -56,18 +50,18 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 04 */ &f__176C_22C4_0019_80C9,
 	/* 05 */ &f__176C_1A9F_0024_813F,
 	/* 06 */ &f__176C_1A40_0020_8DC9,
-	/* 07 */ &f__176C_1932_0029_D0CC,
+	/* 07 */ NULL,
 	/* 08 */ &f__176C_1458_0023_356A,
 	/* 09 */ &f__176C_2AB2_0021_82CD,
 	/* 0A */ &f__176C_1C4F_0017_E375,
 	/* 0B */ &f__176C_2C73_0010_BB2A,
 	/* 0C */ &f__176C_1F51_002F_CE9F,
 	/* 0D */ NULL,
-	/* 0E */ &f__176C_1382_0013_AA74,
-	/* 0F */ &f__176C_12CE_0011_A5C5,
+	/* 0E */ NULL,
+	/* 0F */ NULL,
 	/* 10 */ NULL,
 	/* 11 */ NULL,
-	/* 12 */ &f__176C_13CD_0014_7309,
+	/* 12 */ NULL,
 	/* 13 */ NULL,
 	/* 14 */ &f__176C_0882_0014_0C6A,
 	/* 15 */ NULL,
@@ -107,10 +101,10 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 37 */ &f__176C_2BD5_0014_2C56,
 	/* 38 */ NULL,
 	/* 39 */ NULL,
-	/* 3A */ &f__176C_1B45_0022_208C,
+	/* 3A */ NULL,
 	/* 3B */ NULL,
 	/* 3C */ NULL,
-	/* 3D */ &f__176C_196C_0027_D87A,
+	/* 3D */ NULL,
 	/* 3E */ NULL,
 	/* 3F */ NULL,
 };
@@ -157,18 +151,18 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 04 */ NULL,
 	/* 05 */ NULL,
 	/* 06 */ NULL,
-	/* 07 */ NULL,
+	/* 07 */ &Script_Unit_Unknown1932,
 	/* 08 */ NULL,
 	/* 09 */ NULL,
 	/* 0A */ NULL,
 	/* 0B */ NULL,
 	/* 0C */ NULL,
 	/* 0D */ &Script_General_Unknown050C,
-	/* 0E */ NULL,
-	/* 0F */ NULL,
+	/* 0E */ &Script_Unit_Unknown1382,
+	/* 0F */ &Script_Unit_Unknown12CE,
 	/* 10 */ &Script_General_Delay,
 	/* 11 */ &Script_General_Unknown04AE,
-	/* 12 */ NULL,
+	/* 12 */ &Script_Unit_Unknown13CD,
 	/* 13 */ &Script_Unit_Unknown105E,
 	/* 14 */ NULL,
 	/* 15 */ &Script_General_NoOperation,
@@ -208,10 +202,10 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 37 */ NULL,
 	/* 38 */ &Script_General_Unknown02EA,
 	/* 39 */ &Script_General_NoOperation,
-	/* 3A */ NULL,
+	/* 3A */ &Script_Unit_Unknown1B45,
 	/* 3B */ &Script_General_Unknown0288,
 	/* 3C */ &Script_General_DelayRandom,
-	/* 3D */ NULL,
+	/* 3D */ &Script_Unit_Unknown196C,
 	/* 3E */ &Script_General_Unknown024B,
 	/* 3F */ &Script_General_NoOperation,
 };

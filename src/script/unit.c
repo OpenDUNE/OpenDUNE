@@ -16,10 +16,12 @@
 #include "../tile.h"
 #include "../os/math.h"
 
+extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
+extern void f__1423_0BCC_0012_111A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_08E7_002B_DC75();
 extern void emu_Object_GetScriptVariable4();
@@ -391,3 +393,228 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	return 0;
 }
+
+/**
+ * Unknown function 12CE.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
+{
+	Unit *u;
+	UnitInfo *ui;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	ui = &g_unitInfo[u->type];
+
+	Unit_Unknown10EC(u);
+
+	if (ui->variable_3C != 4) {
+		uint16 credits;
+
+		credits = max(ui->buildCredits / 100, 1);
+
+		if (u->houseID == g_global->playerHouseID) {
+			g_global->scenario.variable_3A++;
+			g_global->scenario.variable_0002 -= credits;
+		} else {
+			g_global->scenario.variable_3C++;
+			g_global->scenario.variable_0002 += credits;
+		}
+	}
+
+	emu_push(g_global->playerHouseID);
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x134E); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
+	emu_sp += 6;
+
+	if (u->type != UNIT_SABOTEUR) return 0;
+
+	emu_push(0);
+	emu_push(300);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(4);
+	emu_push(emu_cs); emu_push(0x1378); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	emu_sp += 10;
+
+	return 0;
+}
+
+/**
+ * Unknown function 1382.
+ *
+ * Stack: 0 - ??.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown1382(ScriptEngine *script)
+{
+	Unit *u;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+	emu_push(g_unitInfo[u->type].hitpoints);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(script->stack[script->stackPointer]);
+	emu_push(emu_cs); emu_push(0x13C4); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	emu_sp += 10;
+
+	return 0;
+}
+
+/**
+ * Unknown function 13CD.
+ *
+ * Stack: 0 - ??.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
+{
+	Unit *u;
+	uint8 i;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	emu_push(0);
+	emu_push(Tools_RandomRange(25, 50));
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(11);
+	emu_push(emu_cs); emu_push(0x13F9); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	emu_sp += 10;
+
+	for (i = 0; i < 7; i++) {
+		emu_push(0);
+		emu_push(script->stack[script->stackPointer]);
+		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(emu_cs); emu_push(0x143A); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+		emu_sp += 8;
+
+		emu_push(0);
+		emu_push(Tools_RandomRange(75, 150));
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(11);
+		emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+		emu_sp += 10;
+	}
+
+	return 0;
+}
+
+/**
+ * Unknown function 1932.
+ *
+ * Stack: 0 - ??.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown1932(ScriptEngine *script)
+{
+	Unit *u;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	Unit_Unknown1E99(u, script->stack[script->stackPointer] & 0xFF, false, 0);
+
+	return u->variable_62[0][2];
+}
+
+/**
+ * Unknown function 196C.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown196C(ScriptEngine *script)
+{
+	Unit *u;
+	UnitInfo *ui;
+	uint16 locdi;
+	uint16 loc04;
+	tile32 tile;
+	uint16 locsi;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	ui = &g_unitInfo[u->type];
+
+	if (ui->variable_3C != 4 && u->variable_49.tile != 0) return 1;
+
+	locdi = ui->flags.s.variable_0040 ? 1 : 0;
+
+	if (u->variable_62[locdi][0] != 0) return 1;
+	loc04 = u->variable_62[locdi][2];
+
+	if (!Tools_Index_IsValid(u->targetAttack)) return 0;
+
+	tile = Tools_Index_GetTile(u->targetAttack);
+
+	emu_push(tile.s.y); emu_push(tile.s.x);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(emu_cs); emu_push(0x1A13); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+
+	locsi = emu_ax;
+
+	if (locsi == loc04) return 0;
+
+	Unit_Unknown1E99(u, locsi & 0xFF, false, locdi);
+
+	return 1;
+}
+
+/**
+ * Unknown function 1B45.
+ *
+ * Stack: 0 - An encoded tile.
+ *
+ * @param script The script engine to operate on.
+ * @return The new targetAttack of current unit.
+ */
+uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 target;
+	tile32 tile;
+	uint16 locdi;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	target = script->stack[script->stackPointer];
+
+	if (target == 0 || !Tools_Index_IsValid(target)) {
+		u->targetAttack = 0;
+		return 0;
+	}
+
+	tile = Tools_Index_GetTile(target);
+
+	emu_push(tile.s.y); emu_push(tile.s.x);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(emu_cs); emu_push(0x1B95); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+	emu_sp += 8;
+
+	locdi = emu_ax;
+
+	u->targetAttack = target;
+	if (!g_unitInfo[u->type].flags.s.variable_0040) {
+		u->targetMove = target;
+		Unit_Unknown1E99(u, locdi & 0xFF, false, 0);
+	}
+	Unit_Unknown1E99(u, locdi & 0xFF, false, 1);
+
+	return u->targetAttack;
+}
+
