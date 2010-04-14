@@ -153,9 +153,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		emu_push(emu_cs); emu_push(0x0397); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
 		emu_sp += 2;
 
-		u->targetAttack = 0;
-		u->targetMove   = 0;
-		u->variable_72  = 0xFF;
+		u->targetAttack   = 0;
+		u->targetMove     = 0;
+		u->variable_72[0] = 0xFF;
 
 		if (action != ACTION_MOVE && action != ACTION_HARVEST) {
 			encoded = Tools_Index_Encode(Unit_FindTargetAround(packed), IT_TILE);

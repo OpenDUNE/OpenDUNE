@@ -7,10 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_1A40_0020_8DC9();
-extern void f__176C_1A9F_0024_813F();
-extern void f__176C_1F51_002F_CE9F();
-extern void f__176C_212E_002E_9D89();
 extern void f__176C_2275_001D_D22D();
 extern void f__176C_22AA_0014_EDA3();
 extern void f__176C_22C4_0019_80C9();
@@ -41,14 +37,14 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 02 */ NULL,
 	/* 03 */ NULL,
 	/* 04 */ &f__176C_22C4_0019_80C9,
-	/* 05 */ &f__176C_1A9F_0024_813F,
-	/* 06 */ &f__176C_1A40_0020_8DC9,
+	/* 05 */ NULL,
+	/* 06 */ NULL,
 	/* 07 */ NULL,
 	/* 08 */ NULL,
 	/* 09 */ &f__176C_2AB2_0021_82CD,
 	/* 0A */ NULL,
 	/* 0B */ &f__176C_2C73_0010_BB2A,
-	/* 0C */ &f__176C_1F51_002F_CE9F,
+	/* 0C */ NULL,
 	/* 0D */ NULL,
 	/* 0E */ NULL,
 	/* 0F */ NULL,
@@ -66,7 +62,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1B */ NULL,
 	/* 1C */ NULL,
 	/* 1D */ NULL,
-	/* 1E */ &f__176C_212E_002E_9D89,
+	/* 1E */ NULL,
 	/* 1F */ &f__176C_22AA_0014_EDA3,
 	/* 20 */ &f__176C_2275_001D_D22D,
 	/* 21 */ NULL,
@@ -142,14 +138,14 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 02 */ &Script_General_DisplayText,
 	/* 03 */ &Script_General_GetDistance,
 	/* 04 */ NULL,
-	/* 05 */ NULL,
-	/* 06 */ NULL,
+	/* 05 */ &Script_Unit_Unknown1A9F,
+	/* 06 */ &Script_Unit_Unknown1A40,
 	/* 07 */ &Script_Unit_Unknown1932,
 	/* 08 */ &Script_Unit_Fire,
 	/* 09 */ NULL,
 	/* 0A */ &Script_Unit_SetActionDefault,
 	/* 0B */ NULL,
-	/* 0C */ NULL,
+	/* 0C */ &Script_Unit_Unknown1F51,
 	/* 0D */ &Script_General_Unknown050C,
 	/* 0E */ &Script_Unit_Unknown1382,
 	/* 0F */ &Script_Unit_Unknown12CE,
@@ -167,7 +163,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1B */ &Script_Unit_Unknown0FD2,
 	/* 1C */ &Script_Unit_FindBestTarget,
 	/* 1D */ &Script_Unit_GetTargetPriority,
-	/* 1E */ NULL,
+	/* 1E */ &Script_Unit_Unknown212E,
 	/* 1F */ NULL,
 	/* 20 */ NULL,
 	/* 21 */ &Script_Unit_RandomSoldier,

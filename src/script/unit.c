@@ -18,19 +18,20 @@
 #include "../os/math.h"
 #include "../map.h"
 
+extern void f__01F7_29B8_0016_B3E0();
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_2207_001D_EDF2();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
+extern void f__1319_002D_0023_320C();
 extern void f__1423_0BCC_0012_111A();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_1086_0040_F11C();
-extern void emu_Object_GetScriptVariable4();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -374,11 +375,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
 			emu_sp += 4;
 
-			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x0C10; emu_Object_GetScriptVariable4();
-			emu_sp += 4;
-
-			u->targetMove = emu_ax;
+			u->targetMove = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
 
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 			emu_push(2);
@@ -910,6 +907,75 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 }
 
 /**
+ * Unknown function 1A40.
+ *
+ * Stack: 0 - An encoded tile.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 encoded;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	encoded = script->stack[script->stackPointer];
+
+	if (Tools_Index_IsValid(encoded)) {
+		tile32 tile;
+
+		tile = Tools_Index_GetTile(encoded);
+		emu_push(tile.s.y); emu_push(tile.s.x);
+		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(emu_cs); emu_push(0x1A89); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+		emu_sp += 8;
+
+		return emu_ax;
+	}
+
+	return u->variable_62[0][2];
+}
+
+/**
+ * Unknown function 1A9F.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 encoded;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	encoded = script->stack[script->stackPointer];
+
+	if (encoded == 0 || !Tools_Index_IsValid(encoded)) {
+		u->targetMove = 0;
+		return 0;
+	}
+
+	if (u->type == UNIT_HARVESTER) {
+		Structure *s;
+
+		s = Tools_Index_GetStructure(encoded);
+		if (s == NULL) {
+			u->targetMove = encoded;
+			u->variable_72[0] = 0xFF;
+			return 0;
+		}
+
+		if (s->script.variables[4] != 0) return 0;
+	}
+
+	Unit_SetDestination(u, encoded);
+	return 0;
+}
+
+/**
  * Unknown function 1B45.
  *
  * Stack: 0 - An encoded tile.
@@ -1073,3 +1139,144 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	}
 }
 
+/**
+ * Unknown function 1F51.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 encoded;
+	uint16 packed;
+	uint16 locdi;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	encoded = script->stack[script->stackPointer];
+
+	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
+
+	packed = Tile_PackTile(u->position);
+	locdi = Tools_Index_GetPackedTile(encoded);
+
+	if (locdi == packed) {
+		u->variable_72[0] = 0xFF;
+		u->targetMove = 0;
+		return 0;
+	}
+
+	if (u->variable_72[0] == 0xFF) {
+		csip32 loc08;
+
+		emu_push(255);
+		emu_push(0x176C); emu_push(0x1F21);
+		emu_push(40);
+		emu_push(0x353F); emu_push(0x981E);
+		emu_push(locdi);
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x1FFF); emu_cs = 0x1319; f__1319_002D_0023_320C();
+		emu_sp += 16;
+
+		loc08.s.cs = emu_dx;
+		loc08.s.ip = emu_ax;
+
+		memcpy(u->variable_72, emu_get_memorycsip(emu_get_csip32(loc08.s.cs, loc08.s.ip, 0x6)), min(emu_get_memory16(loc08.s.cs, loc08.s.ip, 0x4), 14));
+
+		if (u->variable_72[0] == 0xFF) {
+			u->targetMove = 0;
+			if (u->type == UNIT_SANDWORM) {
+				/* XXX -- Lovely hackish */
+				*(((uint16 *)script) - 1) = 720;
+			}
+		}
+	} else {
+		uint16 distance;
+
+		distance = Tile_GetDistancePacked(locdi, packed);
+		if (distance < 14) u->variable_72[distance] = 0xFF;
+	}
+
+	if (u->variable_72[0] == 0xFF) return 1;
+
+	if (u->variable_62[0][2] != u->variable_72[0] * 32) {
+		Unit_Unknown1E99(u, u->variable_72[0] * 32, false, 0);
+		return 1;
+	}
+
+	if (!Unit_Unknown167C(u)) {
+		u->variable_72[0] = 0xFF;
+		return 0;
+	}
+
+	memmove(&u->variable_72[0], &u->variable_72[1], 13);
+	u->variable_72[13] = 0xFF;
+	return 1;
+}
+
+/**
+ * Unknown function 212E.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return An encoded structure index.
+ */
+uint16 Script_Unit_Unknown212E(ScriptEngine *script)
+{
+	Unit *u;
+	PoolFindStruct find;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (u->linkedID != 0xFF) {
+		Structure *s;
+
+		s = Tools_Index_GetStructure(Unit_Get_ByIndex(u->linkedID)->originEncoded);
+
+		if (s != NULL && s->animation == 0 && s->script.variables[4] == 0) {
+			uint16 encoded;
+
+			encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+
+			emu_push(encoded);
+			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+			emu_push(emu_cs); emu_push(0x21CD); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
+			emu_sp += 4;
+
+			u->targetMove = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+
+			return encoded;
+		}
+	}
+
+	find.houseID = Unit_GetHouseID(u);
+	find.index   = 0xFFFF;
+	find.type    = script->stack[script->stackPointer];
+
+	while (true) {
+		Structure *s;
+		uint16 encoded;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		if (s->animation != 0) continue;
+		if (s->script.variables[4] != 0) continue;
+
+		encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+
+		emu_push(encoded);
+		emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+		emu_push(emu_cs); emu_push(0x2243); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
+		emu_sp += 4;
+
+		u->targetMove = encoded;
+
+		return encoded;
+	}
+
+	return 0;
+}

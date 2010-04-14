@@ -532,7 +532,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	u->hitpoints        = ui->hitpoints;
 	u->variable_49.tile = 0;
 	u->originEncoded    = 0x0000;
-	u->variable_72      = 0xFF;
+	u->variable_72[0]   = 0xFF;
 
 	if (position.tile != 0xFFFFFFFF) {
 		u->originEncoded    = Unit_FindClosestRefinery(u);
@@ -839,7 +839,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 	}
 
 	u->targetMove  = destination;
-	u->variable_72 = 0xFF;
+	u->variable_72[0] = 0xFF;
 }
 
 /**
@@ -1394,7 +1394,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 	if (!g_unitInfo[unit->type].flags.s.variable_0040) {
 		unit->targetMove = encoded;
-		unit->variable_72 = 0xFF;
+		unit->variable_72[0] = 0xFF;
 	}
 }
 

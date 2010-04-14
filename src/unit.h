@@ -154,8 +154,7 @@ typedef struct Unit {
 	/* 006E(1)   */ PACK uint8  variable_6E;                /*!< ?? */
 	/* 006F(1)   */ PACK uint8  team;                       /*!< If not zero, unit is part of team. Value 1 means team 0, etc. */
 	/* 0070(1)   */ PACK uint16 variable_70;                /*!< ?? */
-	/* 0072(1)   */ PACK uint8  variable_72;                /*!< ?? */
-	/* 0073()    */ PACK uint8   unknown_0073[0x000D];
+	/* 0072(1)   */ PACK uint8  variable_72[14];            /*!< ?? */
 } GCC_PACKED Unit;
 MSVC_PACKED_END
 assert_compile(sizeof(Unit) == 0x80);

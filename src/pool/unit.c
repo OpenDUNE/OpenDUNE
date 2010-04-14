@@ -167,7 +167,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	u->flags.s.allocated   = true;
 	u->variable_06         = 0x0001;
 	u->scriptDelay         = 0;
-	u->variable_72         = 0xFF;
+	u->variable_72[0]      = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
 	g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;

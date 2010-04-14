@@ -293,7 +293,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 
 	u->targetAttack = 0;
 	u->targetMove = 0;
-	u->variable_72 = 0xFF;
+	u->variable_72[0] = 0xFF;
 
 	Unit_SetAction(u, action);
 
