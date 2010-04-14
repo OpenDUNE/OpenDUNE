@@ -1065,8 +1065,8 @@ typedef struct GlobalData {
 	/* 6C5F(7)   */ PACK char   string_6C5F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 6C66(4)   */ PACK csip32 variable_6C66;              /*!< ?? Pointer to a function. */
 	/* 6C6A(2)   */ PACK uint16 variable_6C6A;              /*!< ?? */
-	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? */
-	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? */
+	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? Wide-space between chars? */
+	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? Wide-space between lines? */
 	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
 	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
 	/* 6C72(4)   */ PACK csip32 variable_6C72;              /*!< ?? Pointer to an array. */
@@ -1290,7 +1290,7 @@ typedef struct GlobalData {
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
 	/* 998E(97)  */ PACK uint8  variable_998E[97];          /*!< ?? Buffer. */
 	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
-	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? */
+	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);

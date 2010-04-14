@@ -9,11 +9,13 @@
 #include "gui.h"
 #include "../os/strings.h"
 
+extern void f__22A6_1102_004C_B069();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void emu_GUI_DrawFilledRectangle();
+extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_Unknown_07AE_0000();
@@ -244,4 +246,75 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 	g_global->variable_373A = 1;
 	g_global->variable_3740 = 10;
 	g_global->variable_373C = 0;
+}
+
+/**
+ * Draw a string to the screen.
+ * @param string The string to draw.
+ * @param left The most left position where to draw the string.
+ * @param top The most top position where to draw the string.
+ * @param arg0E Unknown, possibilythe colour.
+ * @param arg10 Unknown, possibily the colour.
+ */
+void GUI_DrawText(char *string, int16 left, int16 top, uint8 arg0E, uint8 arg10)
+{
+	uint8 *data;
+	uint16 height;
+	uint16 heightOffset;
+	uint16 widthOffset;
+	uint16 x;
+	uint16 y;
+	char *s;
+
+	data = (uint8 *)emu_get_memorycsip(g_global->variable_99F3);
+	if (data == NULL) return;
+
+	heightOffset = ((uint16 *)data)[2];
+	widthOffset  = ((uint16 *)data)[4];
+	height = data[heightOffset + 4];
+
+	if (left < 0) left = 0;
+	if (top  < 0) top  = 0;
+	if (left > 320) return;
+	if (top  > 200) return;
+
+	/* XXX -- This of course is not something that should stay in here very long */
+	emu_get_memory8(0x2BC2, 0x00, 0x9) = arg0E;
+	emu_get_memory8(0x2BC2, 0x00, 0x8) = arg10;
+
+	emu_push(1);
+	emu_push(0);
+	emu_push(0x2BC2); emu_push(0x8);
+	emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x22A6; f__22A6_1102_004C_B069();
+	emu_sp += 8;
+
+	s = string;
+	x = left;
+	y = top;
+	while (*s != '\0') {
+		uint16 width;
+
+		if (*s == '\n' || *s == '\r') {
+			x = left;
+			y += height + g_global->variable_6C6E;
+
+			while (*s == '\n' || *s == '\r') s++;
+		}
+
+		width = data[widthOffset + *s] + g_global->variable_6C6C;
+
+		if (x + width > 320) {
+			x = left;
+			y += height + g_global->variable_6C6E;
+		}
+		if (y > 200) break;
+
+		emu_push(y); emu_push(x);
+		emu_push(*s);
+		emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x22A6; emu_GUI_DrawChar();
+		emu_sp += 6;
+
+		x += width;
+		s++;
+	}
 }
