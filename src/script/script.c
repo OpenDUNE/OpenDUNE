@@ -7,8 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_07F1_001D_3E0E();
-extern void f__176C_0882_0014_0C6A();
 extern void f__176C_1A40_0020_8DC9();
 extern void f__176C_1A9F_0024_813F();
 extern void f__176C_1F51_002F_CE9F();
@@ -58,7 +56,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 11 */ NULL,
 	/* 12 */ NULL,
 	/* 13 */ NULL,
-	/* 14 */ &f__176C_0882_0014_0C6A,
+	/* 14 */ NULL,
 	/* 15 */ NULL,
 	/* 16 */ NULL,
 	/* 17 */ NULL,
@@ -67,7 +65,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1A */ NULL,
 	/* 1B */ NULL,
 	/* 1C */ NULL,
-	/* 1D */ &f__176C_07F1_001D_3E0E,
+	/* 1D */ NULL,
 	/* 1E */ &f__176C_212E_002E_9D89,
 	/* 1F */ &f__176C_22AA_0014_EDA3,
 	/* 20 */ &f__176C_2275_001D_D22D,
@@ -159,7 +157,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 11 */ &Script_General_Unknown04AE,
 	/* 12 */ &Script_Unit_Unknown13CD,
 	/* 13 */ &Script_Unit_Unknown105E,
-	/* 14 */ NULL,
+	/* 14 */ &Script_Unit_Unknown0882,
 	/* 15 */ &Script_General_NoOperation,
 	/* 16 */ &Script_Unit_Unknown1098,
 	/* 17 */ &Script_General_RandomRange,
@@ -168,7 +166,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1A */ &Script_Unit_Unknown0FA2,
 	/* 1B */ &Script_Unit_Unknown0FD2,
 	/* 1C */ &Script_Unit_FindBestTarget,
-	/* 1D */ NULL,
+	/* 1D */ &Script_Unit_GetTargetPriority,
 	/* 1E */ NULL,
 	/* 1F */ NULL,
 	/* 20 */ NULL,

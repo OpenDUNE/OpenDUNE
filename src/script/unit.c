@@ -16,10 +16,12 @@
 #include "../tools.h"
 #include "../tile.h"
 #include "../os/math.h"
+#include "../map.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();
+extern void f__0C3A_2207_001D_EDF2();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1423_0BCC_0012_111A();
@@ -84,6 +86,163 @@ uint16 Script_Unit_FindBestTarget(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	return Unit_FindBestTargetEncoded(u, script->stack[script->stackPointer]);
+}
+
+/**
+ * Get the priority a target has for the current unit.
+ *
+ * Stack: 0 - The encoded target.
+ *
+ * @param script The script engine to operate on.
+ * @return The priority of the target.
+ */
+uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
+{
+	Unit *u;
+	Unit *target;
+	Structure *s;
+	uint16 encoded;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	encoded = script->stack[script->stackPointer];
+
+	target = Tools_Index_GetUnit(encoded);
+	if (target != NULL) return Unit_GetTargetPriority(u, target);
+
+	s = Tools_Index_GetStructure(encoded);
+	if (s == NULL) return 0;
+
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x084F); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
+	emu_sp += 8;
+
+	return emu_ax;
+}
+
+/**
+ * Unknown function 0882.
+ *
+ * Stack: *none*.
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown0882(ScriptEngine *script)
+{
+	Unit *u;
+	Unit *u2;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (u->linkedID == 0xFF) return 0;
+	if (Tools_Index_GetType(u->targetMove) == IT_UNIT) return 0;
+
+	if (Tools_Index_GetType(u->targetMove) == IT_STRUCTURE) {
+		Structure *s;
+		StructureInfo *si;
+
+		s = Tools_Index_GetStructure(u->targetMove);
+		si = &g_structureInfo[s->type];
+
+		if (s->type == STRUCTURE_STARPORT) {
+			uint16 ret = 0;
+
+			if (s->animation == 1) {
+				s->linkedID = u->linkedID;
+				u->linkedID = 0xFF;
+				u->flags.s.inTransport = false;
+				u->amount = 0;
+
+				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+				emu_push(2);
+				emu_push(emu_cs); emu_push(0x093E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+				emu_sp += 6;
+
+				emu_push(u->position.s.y); emu_push(u->position.s.x);
+				emu_push(24);
+				emu_push(emu_cs); emu_push(0x0956); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+				emu_sp += 6;
+
+				Structure_SetAnimation(s, 2);
+
+				ret = 1;
+			}
+
+			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+			emu_push(emu_cs); emu_push(0x0999); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+			emu_sp += 4;
+
+			u->targetMove = 0;
+
+			return ret;
+		}
+
+		if ((s->animation == 0 || (si->flags.s.variable_0010 && s->animation == 1)) && s->linkedID == 0xFF) {
+			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(24);
+			emu_push(emu_cs); emu_push(0x09EF); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+			emu_sp += 6;
+
+			Unit_EnterStructure(Unit_Get_ByIndex(u->linkedID), s);
+
+			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+			emu_push(emu_cs); emu_push(0x0A1F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+			emu_sp += 4;
+
+			u->targetMove = 0;
+			u->linkedID = 0xFF;
+			u->flags.s.inTransport = false;
+			u->amount = 0;
+
+			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+			emu_push(2);
+			emu_push(emu_cs); emu_push(0x0A58); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+			emu_sp += 6;
+
+			return 1;
+		}
+
+		emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+		emu_push(emu_cs); emu_push(0x0A6D); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+		emu_sp += 4;
+
+		u->targetMove = 0;
+
+		return 0;
+	}
+
+	if (!Map_IsValidPosition(Tile_PackTile(Tile_Center(u->position)))) return 0;
+
+	u2 = Unit_Get_ByIndex(u->linkedID);
+
+	if (!Unit_SetPosition(u2, Tile_Center(u->position))) return 0;
+
+	if (u2->houseID == g_global->playerHouseID) {
+		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(24);
+		emu_push(emu_cs); emu_push(0x0B11); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+		emu_sp += 6;
+	}
+
+	Unit_Unknown1E99(u2, u->variable_62[0][2], true, 0);
+	Unit_Unknown1E99(u2, u->variable_62[0][2], true, 1);
+	Unit_Unknown204C(u2, 0);
+
+	u->linkedID = u2->linkedID;
+	u2->linkedID = 0xFF;
+
+	if (u->linkedID != 0xFF) return 1;
+
+	u->flags.s.inTransport = false;
+	u->targetMove = 0;
+
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x0BA9); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	return 1;
 }
 
 /**
