@@ -404,7 +404,7 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint16 fgColour, 
 
 	if (string == NULL) return;
 
-	{
+	if (string != g_global->variable_8AEE) {
 		char buf[256];
 		va_list ap;
 
