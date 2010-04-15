@@ -10,31 +10,6 @@
 
 
 /**
- * Emulator wrapper around Tools_AdjustToGameSpeed().
- *
- * @name emu_Tools_AdjustToGameSpeed
- * @implements 07C9:000F:0050:9278 ()
- */
-void emu_Tools_AdjustToGameSpeed()
-{
-	uint16 normal;
-	uint16 maximum;
-	uint16 minimum;
-	uint16 inverse;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	normal  = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	minimum = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	maximum = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	inverse = emu_get_memory16(emu_ss, emu_sp, 0x6);
-
-	emu_ax = Tools_AdjustToGameSpeed(normal, minimum, maximum, (inverse == 0) ? true : false);
-}
-
-/**
  * 32bits left shift.
  *
  * @name emu_Tools_Shld

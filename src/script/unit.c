@@ -18,7 +18,6 @@
 #include "../os/math.h"
 #include "../map.h"
 
-extern void f__01F7_29B8_0016_B3E0();
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();

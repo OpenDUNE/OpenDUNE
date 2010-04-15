@@ -134,6 +134,5 @@ extern uint16 Script_Unit_FindStructure(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
-extern void emu_Script_IsLoaded();
 
 #endif /* SCRIPT_H */

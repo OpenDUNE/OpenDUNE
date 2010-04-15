@@ -18,7 +18,6 @@
 #include "../os/strings.h"
 #include "../gui/gui.h"
 
-extern void f__10E4_09AB_0031_5E8E();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();

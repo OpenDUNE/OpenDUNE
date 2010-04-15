@@ -31,7 +31,6 @@ extern uint8 Tools_Random_256();
 extern uint16 Tools_RandomRange(uint16 min, uint16 max);
 
 
-extern void emu_Tools_AdjustToGameSpeed();
 extern void emu_Tools_Shld();
 extern void emu_Tools_Shrd();
 extern void emu_Tools_Index_GetType();
