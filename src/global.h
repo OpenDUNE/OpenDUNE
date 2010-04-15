@@ -692,7 +692,9 @@ typedef struct GlobalData {
 	/* 373C(4)   */ PACK uint32 variable_373C;              /*!< ?? */
 	/* 3740(2)   */ PACK uint16 variable_3740;              /*!< ?? */
 	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< ?? */
-	/* 3752()    */ PACK uint8   unknown_3752[0x001E];
+	/* 3752()    */ PACK uint8   unknown_3752[0x001A];
+	/* 376C(2)   */ PACK uint16 variable_376C;              /*!< ?? */
+	/* 376E(2)   */ PACK uint16 variable_376E;              /*!< ?? */
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
@@ -1264,7 +1266,9 @@ typedef struct GlobalData {
 	/* 8AD8(2)   */ PACK uint16 variable_8AD8;              /*!< ?? */
 	/* 8ADA(2)   */ PACK uint16 variable_8ADA;              /*!< ?? */
 	/* 8ADC(2)   */ PACK uint16 variable_8ADC;              /*!< ?? */
-	/* 8ADE()    */ PACK uint8   unknown_8ADE[0x021F];
+	/* 8ADE(16)  */ PACK uint8  variable_8ADE[16];          /*!< ?? Buffer. */
+	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
+	/* 8BDE()    */ PACK uint8   unknown_8BDE[0x011F];
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0602];
 	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */

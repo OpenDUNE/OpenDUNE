@@ -17,7 +17,6 @@ extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_Cancel();
-extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
@@ -174,15 +173,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 
 		case DRAW_MODE_TEXT: {
-			emu_push(drawParam2);
-			emu_push(drawParam1);
-			emu_push(positionTop);
-			emu_push(positionLeft);
-			emu_push(drawProc.s.cs); emu_push(drawProc.s.ip);
-			emu_push(emu_cs); emu_push(0x0921); emu_cs = 0x2BC2; emu_GUI_DrawText();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			emu_sp += 12;
+			GUI_DrawText((char *)emu_get_memorycsip(drawProc), positionLeft, positionTop, drawParam1, drawParam2);
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {

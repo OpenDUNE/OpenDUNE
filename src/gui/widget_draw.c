@@ -401,35 +401,25 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	if (g_global->variable_97E5 == 0x90) { /* "Upgrading|%d%% done" */
 		percentDone = 100 - s->upgradeTimeLeft;
 
-		emu_push(percentDone);
-		emu_push(0x21);
-		emu_push(0);
-		emu_push(buttonDown ? 0xE : 0xF);
-		emu_push(positionY + height - 19);
-		emu_push(positionX + 1);
-
-		emu_push(g_global->variable_97E5);
-		emu_push(emu_cs); emu_push(0x0B69); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x0B71); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
-		emu_sp += 16;
+		GUI_DrawText_Wrapper(
+			String_Get_ByIndex(g_global->variable_97E5),
+			positionX + 1,
+			positionY + height - 19,
+			buttonDown ? 0xE : 0xF,
+			0,
+			0x021,
+			percentDone
+		);
 	} else {
-		emu_push(percentDone);
-		emu_push(0x121);
-		emu_push(0);
-		emu_push((g_global->variable_97E5 == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF)); /* "Place it" */
-		emu_push(positionY + height - 9);
-		emu_push(positionX + width / 2);
-
-		emu_push(g_global->variable_97E5);
-		emu_push(emu_cs); emu_push(0x0BC1); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x0BC9); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
-		emu_sp += 16;
+		GUI_DrawText_Wrapper(
+			String_Get_ByIndex(g_global->variable_97E5),
+			positionX + width / 2,
+			positionY + height - 9,
+			(g_global->variable_97E5 == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF), /* "Place it" */
+			0,
+			0x121,
+			percentDone
+		);
 	}
 
 	if (g_global->variable_97E5 == 0x2E || g_global->variable_97E5 == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
@@ -524,19 +514,14 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 		colour = 0xEF;
 	}
 
-	emu_push(0x121);
-	emu_push(0);
-	emu_push(colour);
-	emu_push(positionY + 1);
-	emu_push(positionX + width / 2);
-
-	emu_push(stringID);
-	emu_push(emu_cs); emu_push(0x0F44); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F4C); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
-	emu_sp += 14;
+	GUI_DrawText_Wrapper(
+		String_Get_ByIndex(stringID),
+		positionX + width / 2,
+		positionY + 1,
+		colour,
+		0,
+		0x121
+	);
 
 	w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
 

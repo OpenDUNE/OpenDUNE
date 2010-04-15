@@ -814,7 +814,6 @@ extern void f__01F7_1DE5_0036_9480();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__0C3A_1E67_0011_E44A();
 extern void f__01F7_1EDE_0027_0D8F();
-extern void emu_GUI_DrawText_Wrapper();
 extern void f__176C_1F21_001C_8C6C();
 extern void emu_MPU_Init();
 extern void f__01F7_1FB0_0010_CF18();

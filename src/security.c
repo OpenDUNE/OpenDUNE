@@ -31,7 +31,6 @@ extern void f__B4DA_1860_0008_857D();
 extern void f__B4DA_16F8_001A_D84F();
 extern void f__B52A_0476_0030_9D41();
 extern void f__B52A_04AC_0033_548A();
-extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_Widget_DrawBorder2();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
@@ -351,16 +350,7 @@ bool Security_Check()
 
 		g_global->variable_9939[0] = 0;
 
-		emu_push(34);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x14B2); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 14;
+		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
 		{
 			csip32 callback;

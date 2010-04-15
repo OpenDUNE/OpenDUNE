@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
@@ -12,12 +13,14 @@
 extern void f__22A6_1102_004C_B069();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
+extern void f__259E_0021_001A_E253();
+extern void f__2605_000C_006D_F8B2();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
+extern void emu_Font_GetStringWidth();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_GUI_DrawText_Wrapper();
 extern void emu_Unknown_07AE_0000();
 
 /**
@@ -142,23 +145,23 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 			emu_push(emu_cs); emu_push(0x0ADB); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 			emu_sp += 10;
 
-			emu_push(18);
-			emu_push(0);
-			emu_push(g_global->variable_8ADA);
-			emu_push(2);
-			emu_push(g_global->variable_992D << 3);
-			emu_push(0x353F); emu_push(0x3694); /* g_global->variable_3694 */
-			emu_push(emu_cs); emu_push(0x0AFF); emu_GUI_DrawText_Wrapper();
-			emu_sp += 14;
+			GUI_DrawText_Wrapper(
+				g_global->variable_3694,
+				g_global->variable_992D << 3,
+				2,
+				g_global->variable_8ADA,
+				0,
+				0x012
+			);
 
-			emu_push(18);
-			emu_push(0);
-			emu_push(g_global->variable_8AD8);
-			emu_push(13);
-			emu_push(g_global->variable_992D << 3);
-			emu_push(0x353F); emu_push(0x3644); /* g_global->variable_3644 */
-			emu_push(emu_cs); emu_push(0x0B23); emu_GUI_DrawText_Wrapper();
-			emu_sp += 14;
+			GUI_DrawText_Wrapper(
+				g_global->variable_3644,
+				g_global->variable_992D << 3,
+				13,
+				g_global->variable_8AD8,
+				0,
+				0x012
+			);
 
 			g_global->variable_38C4 = 0;
 
@@ -250,13 +253,14 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 /**
  * Draw a string to the screen.
+ *
  * @param string The string to draw.
  * @param left The most left position where to draw the string.
  * @param top The most top position where to draw the string.
- * @param arg0E Unknown, possibilythe colour.
- * @param arg10 Unknown, possibily the colour.
+ * @param fgColour The foreground colour of the text.
+ * @param bgColour The background colour of the text.
  */
-void GUI_DrawText(char *string, int16 left, int16 top, uint8 arg0E, uint8 arg10)
+void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
 {
 	uint8 *data;
 	uint16 height;
@@ -279,8 +283,8 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 arg0E, uint8 arg10)
 	if (top  > 200) return;
 
 	/* XXX -- This of course is not something that should stay in here very long */
-	emu_get_memory8(0x2BC2, 0x00, 0x9) = arg0E;
-	emu_get_memory8(0x2BC2, 0x00, 0x8) = arg10;
+	emu_get_memory8(0x2BC2, 0x00, 0x9) = fgColour;
+	emu_get_memory8(0x2BC2, 0x00, 0x8) = bgColour;
 
 	emu_push(1);
 	emu_push(0);
@@ -317,4 +321,117 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 arg0E, uint8 arg10)
 		x += width;
 		s++;
 	}
+}
+
+/**
+ * Draw a string to the screen, and so some magic.
+ *
+ * @param string The string to draw.
+ * @param left The most left position where to draw the string.
+ * @param top The most top position where to draw the string.
+ * @param fgColour The foreground colour of the text.
+ * @param bgColour The background colour of the text.
+ * @param flags The flags of the string.
+ */
+void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint16 fgColour, uint16 bgColour, uint16 flags, ...)
+{
+	uint8 arg12low = flags & 0xF;
+	uint8 arg2mid  = flags & 0xF0;
+
+	if ((arg12low != g_global->variable_376C && arg12low != 0) || string == NULL) {
+		csip32 loc04;
+
+		switch (arg12low) {
+			case 1:
+				loc04 = g_global->variable_3A2C;
+				break;
+
+			case 2:
+				loc04 = g_global->variable_3A30;
+				break;
+
+			default:
+				loc04 = g_global->variable_99EF;
+				break;
+		}
+
+		emu_push(loc04.s.cs); emu_push(loc04.s.ip);
+		emu_push(emu_cs); emu_push(0x1F56); emu_cs = 0x2605; f__2605_000C_006D_F8B2();
+		emu_sp += 4;
+
+		g_global->variable_376C = arg12low;
+	}
+
+	if ((arg2mid != g_global->variable_376E && arg2mid != 0) || string == NULL) {
+		memset(g_global->variable_8ADE, 0, 16);
+
+		switch (arg2mid) {
+			case 0x0010:
+				g_global->variable_8ADE[2] = 0;
+				g_global->variable_8ADE[3] = 0;
+				g_global->variable_6C6C = -2;
+				break;
+
+			case 0x0020:
+				g_global->variable_8ADE[2] = 12;
+				g_global->variable_8ADE[3] = 0;
+				g_global->variable_6C6C = -1;
+				break;
+
+			case 0x0030:
+				g_global->variable_8ADE[2] = 12;
+				g_global->variable_8ADE[3] = 12;
+				g_global->variable_6C6C = -1;
+				break;
+
+			case 0x0040:
+				g_global->variable_8ADE[2] = 232;
+				g_global->variable_8ADE[3] = 0;
+				g_global->variable_6C6C = -1;
+				break;
+		}
+
+		g_global->variable_8ADE[0] = bgColour;
+		g_global->variable_8ADE[1] = fgColour;
+		g_global->variable_8ADE[4] = 6;
+
+		emu_push(0x353F); emu_push(0x8ADE);
+		emu_push(emu_cs); emu_push(0x2006); emu_cs = 0x259E; f__259E_0021_001A_E253();
+		emu_sp += 4;
+
+		g_global->variable_376E = arg2mid;
+	}
+
+	if (string == NULL) return;
+
+	{
+		char buf[256];
+		va_list ap;
+
+		strncpy(buf, string, sizeof(buf));
+
+		va_start(ap, flags);
+		vsnprintf(g_global->variable_8AEE, sizeof(g_global->variable_8AEE), buf, ap);
+		va_end(ap);
+	}
+
+	switch (flags & 0x0F00) {
+		case 0x100:
+			emu_push(0x353F); emu_push(0x8AEE);
+			emu_push(emu_cs); emu_push(0x2054); emu_cs = 0x2521; emu_Font_GetStringWidth();
+			emu_sp += 4;
+
+			left -= emu_ax / 2;
+			break;
+
+		case 0x200:
+			emu_push(0x353F); emu_push(0x8AEE);
+			emu_push(emu_cs); emu_push(0x2066); emu_cs = 0x2521; emu_Font_GetStringWidth();
+			emu_sp += 4;
+
+			left -= emu_ax;
+			break;
+	}
+
+	GUI_DrawText(g_global->variable_8AEE, left, top, fgColour, bgColour);
 }

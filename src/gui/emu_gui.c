@@ -7,6 +7,8 @@
 #include "gui.h"
 #include "../global.h"
 
+extern void emu_String_sprintf_params();
+
 /**
  * Emulator wrapper around GUI_EditBox().
  *
@@ -65,18 +67,58 @@ void emu_GUI_DrawText()
 	char *string;
 	int16 left;
 	int16 top;
-	uint8 arg0E;
-	uint8 arg10;
+	uint8 fgColour;
+	uint8 bgColour;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	string = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
-	left   = (int16)emu_get_memory16(emu_ss, emu_sp, 0x4);
-	top    = (int16)emu_get_memory16(emu_ss, emu_sp, 0x6);
-	arg0E  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x8);
-	arg10  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0xA);
+	string   = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
+	left     = (int16)emu_get_memory16(emu_ss, emu_sp, 0x4);
+	top      = (int16)emu_get_memory16(emu_ss, emu_sp, 0x6);
+	fgColour = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x8);
+	bgColour = (uint8)emu_get_memory16(emu_ss, emu_sp, 0xA);
 
-	GUI_DrawText(string, left, top, arg0E, arg10);
+	GUI_DrawText(string, left, top, fgColour, bgColour);
+}
+
+/**
+ * Decompiled function emu_GUI_DrawText_Wrapper()
+ *
+ * @name emu_GUI_DrawText_Wrapper
+ * @implements 10E4:1EF1:0040:01F8 ()
+ */
+void emu_GUI_DrawText_Wrapper()
+{
+	csip32 string;
+	int16 left;
+	int16 top;
+	uint8 fgColour;
+	uint8 bgColour;
+	uint16 flags;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	string   =        emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	left     = (int16)emu_get_memory16(emu_ss, emu_sp, 0x4);
+	top      = (int16)emu_get_memory16(emu_ss, emu_sp, 0x6);
+	fgColour = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x8);
+	bgColour = (uint8)emu_get_memory16(emu_ss, emu_sp, 0xA);
+	flags    =        emu_get_memory16(emu_ss, emu_sp, 0xC);
+
+	if (string.csip != 0) {
+		/* Run the snprintf in emulator space */
+		emu_push(emu_ss); emu_push(emu_sp + 14);
+		emu_push(string.s.cs); emu_push(string.s.ip);
+		emu_push(0x353F); emu_push(0x8AEE);
+		emu_push(emu_cs); emu_push(0x2035); emu_cs = 0x01F7; emu_String_sprintf_params();
+		emu_sp += 12;
+
+		GUI_DrawText_Wrapper(g_global->variable_8AEE, left, top, fgColour, bgColour, flags);
+	} else {
+		GUI_DrawText_Wrapper(NULL, left, top, fgColour, bgColour, flags);
+	}
 }
