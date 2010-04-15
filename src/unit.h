@@ -210,7 +210,8 @@ typedef struct UnitInfo {
 	/* 0042(1)   */ PACK uint8  variable_42;                /*!< ?? */
 	/* 0043()    */ PACK uint8   unknown_0043[0x0005];
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
-	/* 004A()    */ PACK uint8   unknown_004A[0x0004];
+	/* 004A(2)   */ PACK uint16 variable_4A;                /*!< ?? */
+	/* 004C()    */ PACK uint8   unknown_004C[0x0002];
 	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
 	/* 0052(2)   */ PACK uint16 damage;                     /*!< ?? */

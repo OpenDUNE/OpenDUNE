@@ -7,12 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_2275_001D_D22D();
-extern void f__176C_22AA_0014_EDA3();
-extern void f__176C_22C4_0019_80C9();
-extern void f__176C_246C_0015_C163();
-extern void f__176C_2552_0019_4894();
-extern void f__176C_25A5_002C_AC04();
 extern void f__176C_2638_0017_CF4B();
 extern void f__176C_26CD_0010_041C();
 extern void f__176C_26E5_0013_FF24();
@@ -36,7 +30,7 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 01 */ NULL,
 	/* 02 */ NULL,
 	/* 03 */ NULL,
-	/* 04 */ &f__176C_22C4_0019_80C9,
+	/* 04 */ NULL,
 	/* 05 */ NULL,
 	/* 06 */ NULL,
 	/* 07 */ NULL,
@@ -63,13 +57,13 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1C */ NULL,
 	/* 1D */ NULL,
 	/* 1E */ NULL,
-	/* 1F */ &f__176C_22AA_0014_EDA3,
-	/* 20 */ &f__176C_2275_001D_D22D,
+	/* 1F */ NULL,
+	/* 20 */ NULL,
 	/* 21 */ NULL,
 	/* 22 */ NULL,
-	/* 23 */ &f__176C_246C_0015_C163,
-	/* 24 */ &f__176C_2552_0019_4894,
-	/* 25 */ &f__176C_25A5_002C_AC04,
+	/* 23 */ NULL,
+	/* 24 */ NULL,
+	/* 25 */ NULL,
 	/* 26 */ NULL,
 	/* 27 */ &f__176C_2638_0017_CF4B,
 	/* 28 */ &f__176C_26CD_0010_041C,
@@ -137,7 +131,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 01 */ &Script_Unit_SetAction,
 	/* 02 */ &Script_General_DisplayText,
 	/* 03 */ &Script_General_GetDistance,
-	/* 04 */ NULL,
+	/* 04 */ &Script_Unit_Unknown22C4,
 	/* 05 */ &Script_Unit_Unknown1A9F,
 	/* 06 */ &Script_Unit_Unknown1A40,
 	/* 07 */ &Script_Unit_Unknown1932,
@@ -164,13 +158,13 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 1C */ &Script_Unit_FindBestTarget,
 	/* 1D */ &Script_Unit_GetTargetPriority,
 	/* 1E */ &Script_Unit_Unknown212E,
-	/* 1F */ NULL,
-	/* 20 */ NULL,
+	/* 1F */ &Script_Unit_IsInTransport,
+	/* 20 */ &Script_Unit_GetAmount,
 	/* 21 */ &Script_Unit_RandomSoldier,
 	/* 22 */ &Script_Unit_Unknown0BC3,
-	/* 23 */ NULL,
-	/* 24 */ NULL,
-	/* 25 */ NULL,
+	/* 23 */ &Script_Unit_Unknown246C,
+	/* 24 */ &Script_Unit_Unknown2552,
+	/* 25 */ &Script_Unit_FindStructure,
 	/* 26 */ &Script_General_Unknown0426,
 	/* 27 */ NULL,
 	/* 28 */ NULL,

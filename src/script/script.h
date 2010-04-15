@@ -125,6 +125,12 @@ extern uint16 Script_Unit_Unknown1C6F(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1CFE(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1F51(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown212E(ScriptEngine *script);
+extern uint16 Script_Unit_GetAmount(ScriptEngine *script);
+extern uint16 Script_Unit_IsInTransport(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown22C4(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown246C(ScriptEngine *script);
+extern uint16 Script_Unit_Unknown2552(ScriptEngine *script);
+extern uint16 Script_Unit_FindStructure(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();

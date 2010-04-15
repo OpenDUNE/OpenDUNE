@@ -27,9 +27,12 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1319_002D_0023_320C();
 extern void f__1423_0BCC_0012_111A();
+extern void f__151A_000E_0013_5840();
+extern void f__151A_0114_0022_0B6C();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
+extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
@@ -1280,3 +1283,199 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 
 	return 0;
 }
+
+/**
+ * Gets the amount of the unit linked to current unit, or current unit if not linked.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The amount.
+ */
+uint16 Script_Unit_GetAmount(ScriptEngine *script)
+{
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (u->linkedID == 0xFF) return u->amount;
+
+	return Unit_Get_ByIndex(u->linkedID)->amount;
+}
+
+/**
+ * Checks if the current unit is in transport.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return True if the current unit is in transport.
+ */
+uint16 Script_Unit_IsInTransport(ScriptEngine *script)
+{
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	return u->flags.s.inTransport ? 1 : 0;
+}
+
+/**
+ * Unknown function 22C4.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 1. Always.
+ */
+uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 loc06;
+	uint16 position;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	position = Tile_PackTile(Tile_Center(u->position));
+
+	emu_push(position);
+	emu_push(emu_cs); emu_push(0x22F0); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
+	emu_sp += 2;
+
+	emu_push(Tile_PackTile(u->position));
+	emu_push(emu_cs); emu_push(0x230A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	loc06 = g_global->variable_3A3E[emu_ax][7] != 0 ? 0 : 1;
+
+	if (u->script.variables[1] == 1) loc06 += 2;
+
+	loc06 = (loc06 << 4) + (g_unitInfo[u->type].variable_4A == 3 ? 128 : 192);
+
+	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);
+
+	emu_push(4);
+	emu_push(Unit_GetHouseID(u));
+	emu_push(0);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(0x33C8); emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x23BE); emu_cs = 0x151A; f__151A_000E_0013_5840();
+	emu_sp += 14;
+
+	return 1;
+}
+
+/**
+ * Unknown function 246C.
+ *
+ * Stack: 0 - An unit type.
+ *
+ * @param script The script engine to operate on.
+ * @return An encoded unit index.
+ */
+uint16 Script_Unit_Unknown246C(ScriptEngine *script)
+{
+	Unit *u;
+	Unit *u2;
+	uint16 variable4;
+	uint16 encoded;
+	uint16 encoded2;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	variable4 = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+
+	if (variable4 != 0) return variable4;
+
+	if (!g_unitInfo[u->type].flags.s.variable_0100 || u->deviated != 0) return 0;
+
+	encoded = Tools_Index_Encode(u->index, IT_UNIT);
+
+	u2 = Unit_Unknown2BB5(script->stack[script->stackPointer], Unit_GetHouseID(u), encoded, false);
+
+	if (u2 == NULL) return 0;
+
+	encoded2 = Tools_Index_Encode(u2->index, IT_UNIT);
+
+	emu_push(encoded2);
+	emu_push(encoded);
+	emu_push(emu_cs); emu_push(0x2539); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
+	emu_sp += 4;
+
+	u2->targetMove = encoded;
+
+	return encoded2;
+}
+
+/**
+ * Unknown function 2552.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown2552(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 variable4;
+
+	VARIABLE_NOT_USED(script);
+
+	variable4 = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+
+	if (variable4 == 0) return 0;
+
+	u = Tools_Index_GetUnit(variable4);
+
+	if (u == NULL || u->type != UNIT_CARRYALL) return 0;
+
+	u->targetMove = 0;
+
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x259A); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+
+	return 0;
+}
+
+/**
+ * Finds a structure.
+ *
+ * Stack: 0 - A structure type.
+ *
+ * @param script The script engine to operate on.
+ * @return An encoded structure index, or 0 if none found.
+ */
+uint16 Script_Unit_FindStructure(ScriptEngine *script)
+{
+	Unit *u;
+	PoolFindStruct find;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	find.houseID = Unit_GetHouseID(u);
+	find.index   = 0xFFFF;
+	find.type    = script->stack[script->stackPointer];
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+		if (s->animation != 0) continue;
+		if (s->linkedID != 0xFF) continue;
+		if (s->script.variables[4] != 0) continue;
+
+		return Tools_Index_Encode(s->index, IT_STRUCTURE);
+	}
+
+	return 0;
+}
+
