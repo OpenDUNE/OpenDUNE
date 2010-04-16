@@ -87,12 +87,12 @@ typedef struct Widget {
 	/* 0020(2)   */ PACK  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
 	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
 	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
-	/* 0026(1)   */ PACK uint8  drawParam1Normal;           /*!< Param 1 for draw proc when normal. */
-	/* 0027(1)   */ PACK uint8  drawParam2Normal;           /*!< Param 2 for draw proc when normal. */
-	/* 0028(1)   */ PACK uint8  drawParam1Selected;         /*!< Param 1 for draw proc when selected. */
-	/* 0029(1)   */ PACK uint8  drawParam2Selected;         /*!< Param 2 for draw proc when selected. */
-	/* 002A(1)   */ PACK uint8  drawParam1Down;             /*!< Param 1 for draw proc when down. */
-	/* 002B(1)   */ PACK uint8  drawParam2Down;             /*!< Param 2 for draw proc when down. */
+	/* 0026(1)   */ PACK uint8  fgColourNormal;             /*!< Foregroud colour for draw proc when normal. */
+	/* 0027(1)   */ PACK uint8  bgColourNormal;             /*!< Background colour for draw proc when normal. */
+	/* 0028(1)   */ PACK uint8  fgColourSelected;           /*!< Foregroud colour for draw proc when selected. */
+	/* 0029(1)   */ PACK uint8  bgColourSelected;           /*!< Background colour for draw proc when selected. */
+	/* 002A(1)   */ PACK uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
+	/* 002B(1)   */ PACK uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
 	/* 002E(2)   */ PACK uint16 state;                      /*!< Bitflags. 0x01 - Selected, 0x02/0x04 - Hover, 0x08 - Last Selected, 0x10/0x20 - Last Hover, 0x80 - Key Selected. */
 	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */

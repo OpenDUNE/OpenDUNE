@@ -466,7 +466,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	uint16 stringID;
 	uint16 positionX, positionY;
 	uint16 width, height;
-	uint16 colour;
+	uint8 colour;
 	bool buttonSelected;
 	bool buttonDown;
 
@@ -607,7 +607,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	}
 
 	/* Draw background */
-	emu_push(w->drawParam2Normal);
+	emu_push(w->bgColourNormal);
 	emu_push(positionY + height - 1);
 	emu_push(positionX + width - 1);
 	emu_push(positionY);
@@ -618,7 +618,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	emu_sp += 10;
 
 	/* Draw where we currently are */
-	emu_push((scrollbar->pressed == 0) ? w->drawParam1Normal : w->drawParam1Selected);
+	emu_push((scrollbar->pressed == 0) ? w->fgColourNormal : w->fgColourSelected);
 	emu_push(positionY + scrollBottom);
 	emu_push(positionX + scrollRight);
 	emu_push(positionY + scrollTop);

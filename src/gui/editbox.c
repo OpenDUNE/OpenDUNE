@@ -152,7 +152,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 	}
 
-	GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text), positionX, g_global->variable_992B, g_global->variable_6D5B, g_global->variable_6D59, 0);
+	GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text), positionX, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0);
 
 	GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 
@@ -260,7 +260,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		GUI_EditBox_BlinkCursor(positionX + textWidth, true);
 
 		/* Draw new character */
-		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text) + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B, g_global->variable_6D59, 0x020);
+		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text) + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0x020);
 
 		emu_push(emu_cs); emu_push(0x0261); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */

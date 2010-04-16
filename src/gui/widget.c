@@ -93,7 +93,8 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 	uint16 positionLeft, positionRight;
 	uint16 positionTop, positionBottom;
 	uint16 offsetX, offsetY;
-	uint16 drawMode, drawParam1, drawParam2;
+	uint16 drawMode;
+	uint8 fgColour, bgColour;
 	csip32 drawProc;
 
 	assert(g_global->variable_6660.csip == 0x22A60C69);
@@ -112,22 +113,22 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 
 	if ((w->state & 0x0004) == 0) {
 		if ((w->state & 0x0001) == 0) {
-			drawMode   = w->drawModeNormal;
-			drawProc   = w->drawProcNormal;
-			drawParam1 = w->drawParam1Normal;
-			drawParam2 = w->drawParam2Normal;
+			drawMode = w->drawModeNormal;
+			drawProc = w->drawProcNormal;
+			fgColour = w->fgColourNormal;
+			bgColour = w->bgColourNormal;
 		} else {
-			drawMode   = w->drawModeSelected;
-			drawProc   = w->drawProcSelected;
-			drawParam1 = w->drawParam1Selected;
-			drawParam2 = w->drawParam2Selected;
+			drawMode = w->drawModeSelected;
+			drawProc = w->drawProcSelected;
+			fgColour = w->fgColourSelected;
+			bgColour = w->bgColourSelected;
 
 		}
 	} else {
-		drawMode   = w->drawModeDown;
-		drawProc   = w->drawProcDown;
-		drawParam1 = w->drawParam1Down;
-		drawParam2 = w->drawParam2Down;
+		drawMode = w->drawModeDown;
+		drawProc = w->drawProcDown;
+		fgColour = w->fgColourDown;
+		bgColour = w->bgColourDown;
 	}
 
 	offsetX = w->offsetX;
@@ -173,7 +174,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 
 		case DRAW_MODE_TEXT: {
-			GUI_DrawText((char *)emu_get_memorycsip(drawProc), positionLeft, positionTop, drawParam1, drawParam2);
+			GUI_DrawText((char *)emu_get_memorycsip(drawProc), positionLeft, positionTop, fgColour, bgColour);
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {
@@ -200,13 +201,13 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 
 		case DRAW_MODE_WIRED_RECTANGLE: {
-			GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, drawParam1);
+			GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
 			/* Check if this overlay should be reloaded */
 			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		} break;
 
 		case DRAW_MODE_UNKNOWN6: {
-			emu_push(drawParam1);
+			emu_push(fgColour);
 			emu_push(positionBottom);
 			emu_push(positionRight);
 			emu_push(positionTop);

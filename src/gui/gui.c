@@ -149,7 +149,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 				g_global->variable_3694,
 				g_global->variable_992D << 3,
 				2,
-				g_global->variable_8ADA,
+				g_global->variable_8ADA & 0xFF,
 				0,
 				0x012
 			);
@@ -158,7 +158,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 				g_global->variable_3644,
 				g_global->variable_992D << 3,
 				13,
-				g_global->variable_8AD8,
+				g_global->variable_8AD8 & 0xFF,
 				0,
 				0x012
 			);
@@ -333,7 +333,7 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
  * @param bgColour The background colour of the text.
  * @param flags The flags of the string.
  */
-void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint16 fgColour, uint16 bgColour, uint16 flags, ...)
+void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
 {
 	uint8 arg12low = flags & 0xF;
 	uint8 arg2mid  = flags & 0xF0;
