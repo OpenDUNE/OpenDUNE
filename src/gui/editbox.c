@@ -134,7 +134,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		textWidth += emu_ax;
 		textLength++;
 
-		if (textWidth >= maxWidth) { /* Unresolved jump */ emu_ip = 0x008F; emu_last_cs = 0xB527; emu_last_ip = 0x0084; emu_last_length = 0x0025; emu_last_crc = 0x7FAE; emu_call(); return 0; }
+		if (textWidth >= maxWidth) break;
 	}
 	*t = '\0';
 

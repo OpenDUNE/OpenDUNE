@@ -35,7 +35,8 @@ typedef struct Driver {
 	/* 0006(4)   */ PACK char   extension[4];               /*!< Extension used for music file names. */
 	/* 000A(4)   */ PACK char   variable_0A[4];             /*!< ?? */
 	/* 000E(4)   */ PACK csip32 dcontent;                   /*!< Pointer to the driver file content. */
-	/* 0012()    */ PACK uint8   unknown_0012[0x12];
+	/* 0012(4)   */ PACK csip32 variable_12;                /*!< ?? */
+	/* 0016()    */ PACK uint8   unknown_0016[0x0E];
 	/* 0024(2)   */ PACK uint16 customTimer;                /*!< ?? */
 } GCC_PACKED Driver;
 MSVC_PACKED_END

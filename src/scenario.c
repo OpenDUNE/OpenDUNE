@@ -310,12 +310,7 @@ void Scenario_Load_Units(const char *key, char *value)
 	}
 
 	/* XXX -- There is no way this is ever possible, as the beingBuilt flag is unset by Unit_Allocate() */
-	if (u->flags.s.beingBuilt) {
-		/* Unresolved jump */ emu_ip = 0x05B8; emu_last_cs = 0xB4B5; emu_last_ip = 0x059F; emu_last_length = 0x001F; emu_last_crc = 0x757D; emu_call();
-		return;
-	}
-
-	Unit_SetAction(u, u->actionID);
+	if (!u->flags.s.beingBuilt) Unit_SetAction(u, u->actionID);
 
 	u->variable_09 = 0x00;
 

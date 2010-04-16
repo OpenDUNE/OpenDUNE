@@ -68,10 +68,9 @@ void emu_Unknown_B483_0156()
 
 			count = (emu_dx << 16) | emu_ax;
 		} else {
-			/* Unresolved jump */ emu_ip = 0x01D7; emu_last_cs = 0xB483; emu_last_ip = 0x01D7; emu_last_length = 0x0011; emu_last_crc = 0x7C21; emu_call(); return;
+			count = g_global->readBufferSize;
 		}
 
-	l__01E4:
 		Tools_Memmove(csip, g_global->readBuffer, count);
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
@@ -104,7 +103,6 @@ void emu_Unknown_B483_0156()
 		}
 	}
 
-l__027E:
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }

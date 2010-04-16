@@ -225,7 +225,16 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 				emu_push(0);
 				emu_push(value >> 16); emu_push(value & 0xFFFF);
 				emu_push(emu_cs); emu_push(0x1625); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
-				/* Unresolved jump */ emu_ip = 0x1625; emu_last_cs = 0x1DD7; emu_last_ip = 0x1625; emu_last_length = 0x0014; emu_last_crc = 0x9695; emu_call();
+				emu_sp += 6;
+
+				driver->variable_12.s.cs = emu_dx;
+				driver->variable_12.s.ip = emu_ax;
+
+				emu_push(value & 0xFFFF);
+				emu_push(driver->variable_12.s.cs); emu_push(driver->variable_12.s.ip);
+				emu_push(driver->index); /* unused, but needed for correct param accesses. */
+				Drivers_CallFunction(driver->index, 0x9A);
+				emu_sp += 8;
 			}
 		}
 	}
@@ -419,6 +428,7 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x44AF0C96: emu_MPU_GetInfo(); break; /* 0x64 */
 		case 0x44AF0DA4: case 0x47EE0DA4: f__AB00_0DA4_0078_0101(); break; /* 0x66 */
 		case 0x44AF0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
+		case 0x44AF0F19: break; /* 0x9A */
 		case 0x44AF0F24: f__AB01_0F24_0044_3584(); break; /* 0x9B */
 		case 0x44AF1068: case 0x47EE1068: f__AB00_1068_0020_E6F1(); break; /* 0x7B */
 		case 0x44AF1122: case 0x47EE1122: f__AB00_1122_001C_9408(); break; /* 0x7D */

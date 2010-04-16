@@ -259,7 +259,10 @@ void Tools_Memmove(csip32 src, csip32 dst, uint32 count)
 		return;
 	}
 
-	/* Unresolved jump */ emu_ip = 0x0054; emu_last_cs = 0x2B0E; emu_last_ip = 0x0048; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return;
+	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x2649; /* f__2649_0E39_XXXX_XXXX(); */ emu_ip = 0x0E39; emu_last_cs = 0x2B0E; emu_last_ip = 0x0054; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return;
+	emu_sp += 12;
+	return;
+
 }
 
 /**
