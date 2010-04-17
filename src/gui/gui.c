@@ -7,6 +7,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "font.h"
 #include "gui.h"
 #include "../os/strings.h"
 
@@ -17,7 +18,6 @@ extern void f__259E_0021_001A_E253();
 extern void f__2605_000C_006D_F8B2();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
-extern void emu_Font_GetStringWidth();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
@@ -417,19 +417,11 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 
 	switch (flags & 0x0F00) {
 		case 0x100:
-			emu_push(0x353F); emu_push(0x8AEE);
-			emu_push(emu_cs); emu_push(0x2054); emu_cs = 0x2521; emu_Font_GetStringWidth();
-			emu_sp += 4;
-
-			left -= emu_ax / 2;
+			left -= Font_GetStringWidth(g_global->variable_8AEE) / 2;
 			break;
 
 		case 0x200:
-			emu_push(0x353F); emu_push(0x8AEE);
-			emu_push(emu_cs); emu_push(0x2066); emu_cs = 0x2521; emu_Font_GetStringWidth();
-			emu_sp += 4;
-
-			left -= emu_ax;
+			left -= Font_GetStringWidth(g_global->variable_8AEE);
 			break;
 	}
 
