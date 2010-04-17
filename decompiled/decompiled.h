@@ -8,6 +8,7 @@
 #include "../src/driver.h"
 #include "../src/file.h"
 #include "../src/global.h"
+#include "../src/gui/font.h"
 #include "../src/gui/gui.h"
 #include "../src/gui/widget.h"
 #include "../src/house.h"
@@ -121,7 +122,6 @@ extern void f__25C4_000E_0019_12FF();
 extern void f__2B1E_000E_003E_B647();
 extern void f__2B6C_000E_0045_C1FE();
 extern void f__2BEE_000E_0009_8881();
-extern void emu_Font_GetCharWidth();
 extern void emu_Tools_Swapw();
 extern void f__217E_0015_0019_BAFF();
 extern void f__2BEE_0017_0028_0D9F();
@@ -133,7 +133,6 @@ extern void f__B4E9_0028_0013_DF68();
 extern void f__1319_002D_0023_320C();
 extern void f__24DA_002D_0010_3EB2();
 extern void f__263B_002F_0016_FDB0();
-extern void emu_Font_GetStringWidth();
 extern void f__260F_003A_0014_CA10();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2BF2_0040_000E_71D1();

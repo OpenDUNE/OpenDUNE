@@ -709,26 +709,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__2521.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__2531.c"
 				>
 				<FileConfiguration
@@ -3000,6 +2980,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\gui\emu_font.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\gui\emu_gui.c"
 					>
 					<FileConfiguration
@@ -3038,6 +3038,30 @@
 							ObjectFile="$(IntDir)\src\gui\"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\gui\font.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\gui\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\gui\font.h"
+					>
 				</File>
 				<File
 					RelativePath="..\src\gui\gui.c"

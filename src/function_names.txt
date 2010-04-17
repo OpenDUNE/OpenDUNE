@@ -132,9 +132,6 @@
 22A6:094D:000C:EC7D	emu_GUI_DrawLine	# (x1, y1, x2, y2, colour), draw a line
 22A6:0D31:0015:A4C3	emu_GUI_DrawFilledRectangle	# (x1, y1, x2, y2, colour), draw a rectangle, filled
 
-2521:000F:0022:6D87	emu_Font_GetCharWidth	# (char), get the font width of a character
-2521:0035:0015:AA0F	emu_Font_GetStringWidth	# (string_csip), get the font width of a string
-
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
 256D:0004:001C:9F23	emu_Font_LoadFile	# (filename_csip), load a font file (based on file it opens)
