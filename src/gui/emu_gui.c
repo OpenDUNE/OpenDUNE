@@ -57,7 +57,7 @@ void emu_GUI_DisplayText()
 }
 
 /**
- * Decompiled function emu_GUI_DrawText()
+ * Emulator wrapper around GUI_DrawText()
  *
  * @name emu_GUI_DrawText
  * @implements 2BC2:000A:0044:2E0E ()
@@ -84,7 +84,7 @@ void emu_GUI_DrawText()
 }
 
 /**
- * Decompiled function emu_GUI_DrawText_Wrapper()
+ * Emulator wrapper around GUI_DrawText_Wrapper()
  *
  * @name emu_GUI_DrawText_Wrapper
  * @implements 10E4:1EF1:0040:01F8 ()
