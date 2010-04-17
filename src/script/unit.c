@@ -1115,7 +1115,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	ui = &g_unitInfo[u->type];
 
 	switch (script->stack[script->stackPointer]) {
-		case 0x00: return u->hitpoints / ui->hitpoints * 256;
+		case 0x00: return u->hitpoints * 256 / ui->hitpoints;
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
 		case 0x02: return ui->variable_50 << 8;
 		case 0x03: return u->index;
