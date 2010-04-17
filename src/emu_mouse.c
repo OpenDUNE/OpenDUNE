@@ -8,7 +8,7 @@
 /**
  * Set the region in which the mouse can move.
  *
- * @name f__2B42_0000_0022_1DB2
+ * @name emu_Mouse_SetRegion
  * @implements 2B42:0000:0022:1DB2 ()
  */
 void emu_Mouse_SetRegion()
