@@ -21,7 +21,7 @@ void emu_Font_GetCharWidth()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	c = emu_get_memory8(emu_ss, emu_bp, 0x0);
+	c = emu_get_memory8(emu_ss, emu_sp, 0x0);
 
 	emu_ax = Font_GetCharWidth(c);
 }
