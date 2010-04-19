@@ -131,6 +131,9 @@ extern uint16 Script_Unit_Unknown22C4(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown246C(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2552(ScriptEngine *script);
 extern uint16 Script_Unit_FindStructure(ScriptEngine *script);
+extern uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script);
+extern uint16 Script_Unit_RemoveFog(ScriptEngine *script);
+extern uint16 Script_Unit_Harvest(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();

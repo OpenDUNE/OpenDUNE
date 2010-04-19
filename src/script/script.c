@@ -7,9 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_2638_0017_CF4B();
-extern void f__176C_26CD_0010_041C();
-extern void f__176C_26E5_0013_FF24();
 extern void f__176C_27A4_0021_7EE9();
 extern void f__176C_28B1_0024_58C9();
 extern void f__176C_291A_0010_8A93();
@@ -65,10 +62,10 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 24 */ NULL,
 	/* 25 */ NULL,
 	/* 26 */ NULL,
-	/* 27 */ &f__176C_2638_0017_CF4B,
-	/* 28 */ &f__176C_26CD_0010_041C,
+	/* 27 */ NULL,
+	/* 28 */ NULL,
 	/* 29 */ NULL,
-	/* 2A */ &f__176C_26E5_0013_FF24,
+	/* 2A */ NULL,
 	/* 2B */ NULL,
 	/* 2C */ NULL,
 	/* 2D */ NULL,
@@ -166,10 +163,10 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 24 */ &Script_Unit_Unknown2552,
 	/* 25 */ &Script_Unit_FindStructure,
 	/* 26 */ &Script_General_Unknown0426,
-	/* 27 */ NULL,
-	/* 28 */ NULL,
+	/* 27 */ &Script_Unit_DisplayDestroyedText,
+	/* 28 */ &Script_Unit_RemoveFog,
 	/* 29 */ &Script_General_Unknown0456,
-	/* 2A */ NULL,
+	/* 2A */ &Script_Unit_Harvest,
 	/* 2B */ &Script_General_NoOperation,
 	/* 2C */ &Script_General_GetLinkedUnitType,
 	/* 2D */ &Script_General_GetIndexType,

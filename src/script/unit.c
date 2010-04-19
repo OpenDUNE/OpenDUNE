@@ -17,6 +17,9 @@
 #include "../tile.h"
 #include "../os/math.h"
 #include "../map.h"
+#include "../house.h"
+#include "../gui/gui.h"
+#include "../string.h"
 
 extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
@@ -33,6 +36,7 @@ extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_08E7_002B_DC75();
+extern void f__B4CD_0AFA_0011_D5DB();
 extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1478,3 +1482,95 @@ uint16 Script_Unit_FindStructure(ScriptEngine *script)
 	return 0;
 }
 
+/**
+ * Displays the "XXX XXX destroyed." message for the current unit.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
+{
+	Unit *u;
+	UnitInfo *ui;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	ui = &g_unitInfo[u->type];
+
+	/* "%s %s destroyed." */
+	if (g_global->language == 1) {
+		GUI_DisplayText(String_Get_ByIndex(0x13), 0, String_Get_ByIndex(ui->stringID_abbrev), (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name));
+	} else {
+		GUI_DisplayText(String_Get_ByIndex(0x13), 0, (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name), String_Get_ByIndex(ui->stringID_abbrev));
+	}
+
+	return 0;
+}
+
+/**
+ * Removes fog around the current unit.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_RemoveFog(ScriptEngine *script)
+{
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	Unit_RemoveFog(u);
+	return 0;
+}
+
+/**
+ * Unknown function 26E5.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Harvest(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 packed;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (u->type != UNIT_HARVESTER) return 0;
+	if (u->amount >= 100) return 0;
+
+	packed = Tile_PackTile(u->position);
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x2721); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	if (emu_ax != 8 && emu_ax != 9) return 0;
+
+	u->amount += Tools_Random_256() & 1;
+	u->flags.s.inTransport = true;
+
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x2762); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	if (u->amount > 100) u->amount = 100;
+
+	if ((Tools_Random_256() & 0x1F) != 0) return 1;
+
+	emu_push(0xFFFF);
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x278D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
+	emu_sp += 4;
+
+	return 0;
+}
