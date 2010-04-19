@@ -214,7 +214,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		if (key < 0x20) continue;
 		if (key > 0x7E) continue;
 
-		keyWidth = Font_GetCharWidth(key);
+		keyWidth = Font_GetCharWidth(key & 0xFF);
 
 		if (textWidth + keyWidth >= maxWidth) continue;
 		if (textLength >= maxLength) continue;
