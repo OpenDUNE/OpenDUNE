@@ -111,7 +111,7 @@ void emu_GUI_DrawText_Wrapper()
 
 	if (string.csip != 0) {
 		/* Run the snprintf in emulator space */
-		emu_push(emu_ss); emu_push(emu_sp + 14);
+		emu_push(emu_ss); emu_push(emu_sp + 16); /* args are at emu_sp + 14, but as we pushed emu_ss they are now at emu_sp + 16 */
 		emu_push(string.s.cs); emu_push(string.s.ip);
 		emu_push(0x353F); emu_push(0x8AEE);
 		emu_push(emu_cs); emu_push(0x2035); emu_cs = 0x01F7; emu_String_sprintf_params();
