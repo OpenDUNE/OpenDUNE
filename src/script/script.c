@@ -7,83 +7,7 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_2AB2_0021_82CD();
-extern void f__176C_2B97_0013_B226();
-extern void f__176C_2BD5_0014_2C56();
-extern void f__176C_2C73_0010_BB2A();
-
-typedef void (*emu_ScriptFunction)();
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
-
-/**
- * Not yet converted script functions for Units.
- */
-emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
-	/* 00 */ NULL,
-	/* 01 */ NULL,
-	/* 02 */ NULL,
-	/* 03 */ NULL,
-	/* 04 */ NULL,
-	/* 05 */ NULL,
-	/* 06 */ NULL,
-	/* 07 */ NULL,
-	/* 08 */ NULL,
-	/* 09 */ &f__176C_2AB2_0021_82CD,
-	/* 0A */ NULL,
-	/* 0B */ &f__176C_2C73_0010_BB2A,
-	/* 0C */ NULL,
-	/* 0D */ NULL,
-	/* 0E */ NULL,
-	/* 0F */ NULL,
-	/* 10 */ NULL,
-	/* 11 */ NULL,
-	/* 12 */ NULL,
-	/* 13 */ NULL,
-	/* 14 */ NULL,
-	/* 15 */ NULL,
-	/* 16 */ NULL,
-	/* 17 */ NULL,
-	/* 18 */ NULL,
-	/* 19 */ NULL,
-	/* 1A */ NULL,
-	/* 1B */ NULL,
-	/* 1C */ NULL,
-	/* 1D */ NULL,
-	/* 1E */ NULL,
-	/* 1F */ NULL,
-	/* 20 */ NULL,
-	/* 21 */ NULL,
-	/* 22 */ NULL,
-	/* 23 */ NULL,
-	/* 24 */ NULL,
-	/* 25 */ NULL,
-	/* 26 */ NULL,
-	/* 27 */ NULL,
-	/* 28 */ NULL,
-	/* 29 */ NULL,
-	/* 2A */ NULL,
-	/* 2B */ NULL,
-	/* 2C */ NULL,
-	/* 2D */ NULL,
-	/* 2E */ NULL,
-	/* 2F */ NULL,
-	/* 30 */ NULL,
-	/* 31 */ NULL,
-	/* 32 */ NULL,
-	/* 33 */ NULL,
-	/* 34 */ NULL,
-	/* 35 */ NULL,
-	/* 36 */ &f__176C_2B97_0013_B226,
-	/* 37 */ &f__176C_2BD5_0014_2C56,
-	/* 38 */ NULL,
-	/* 39 */ NULL,
-	/* 3A */ NULL,
-	/* 3B */ NULL,
-	/* 3C */ NULL,
-	/* 3D */ NULL,
-	/* 3E */ NULL,
-	/* 3F */ NULL,
-};
 
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
@@ -129,9 +53,9 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 06 */ &Script_Unit_Unknown1A40,
 	/* 07 */ &Script_Unit_Unknown1932,
 	/* 08 */ &Script_Unit_Fire,
-	/* 09 */ NULL,
+	/* 09 */ &Script_Unit_MCVDeploy,
 	/* 0A */ &Script_Unit_SetActionDefault,
-	/* 0B */ NULL,
+	/* 0B */ &Script_Unit_Unknown2C73,
 	/* 0C */ &Script_Unit_Unknown1F51,
 	/* 0D */ &Script_General_Unknown050C,
 	/* 0E */ &Script_Unit_Unknown1382,
@@ -174,8 +98,8 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 33 */ &Script_Unit_GoToClosestStructure,
 	/* 34 */ &Script_General_NoOperation,
 	/* 35 */ &Script_General_NoOperation,
-	/* 36 */ NULL,
-	/* 37 */ NULL,
+	/* 36 */ &Script_Unit_Unknown2B97,
+	/* 37 */ &Script_Unit_Unknown2BD5,
 	/* 38 */ &Script_General_Unknown02EA,
 	/* 39 */ &Script_General_NoOperation,
 	/* 3A */ &Script_Unit_Unknown1B45,
@@ -456,10 +380,6 @@ bool Script_Run(ScriptEngine *script)
 				return true;
 			}
 
-			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
-			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
-			emu_push(emu_cs); emu_push(0x0935);
-
 			/* Check if we are using the scriptFunctionsUnit */
 			if (scriptInfo->functions.csip == 0x353F6168) {
 				if (parameter >= SCRIPT_FUNCTIONS_UNIT_COUNT) {
@@ -467,21 +387,16 @@ bool Script_Run(ScriptEngine *script)
 					return false;
 				}
 
-				if (scriptFunctionsUnit[parameter] != NULL) {
-					emu_sp += 8;
+				assert (scriptFunctionsUnit[parameter] != NULL);
 
-					script->returnValue = scriptFunctionsUnit[parameter](script);
-					return true;
-				}
-				if (emu_scriptFunctionsUnit[parameter] != NULL) {
-					emu_cs = function.s.cs; emu_ip = function.s.ip;
-					emu_scriptFunctionsUnit[parameter]();
-					emu_sp += 4;
-
-					script->returnValue = emu_ax;
-					return true;
-				}
+				script->returnValue = scriptFunctionsUnit[parameter](script);
+				return true;
 			}
+
+			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
+			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
+			emu_push(emu_cs); emu_push(0x0935);
+
 			/* We are not using any known function, fall back to the decompiled method */
 			emu_cs = function.s.cs; emu_ip = function.s.ip;
 			switch (function.csip) {

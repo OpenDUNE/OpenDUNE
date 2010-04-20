@@ -298,7 +298,6 @@ extern void emu_Unit_GetTeam();
 extern void emu_Unit_Sort();
 extern void emu_Unit_Get_ByPackedTile();
 extern void emu_Unit_Unknown10EC();
-extern void emu_Unit_Unknown15F4();
 extern void emu_Unit_SetTarget();
 extern void emu_Unit_RemoveFog();
 extern void emu_Unit_Deviate();

@@ -220,37 +220,6 @@ void emu_Unit_Unknown10EC()
 }
 
 /**
- * Emulator wrapper around Unit_Unknown15F4()
- *
- * @name emu_Unit_Unknown15F4
- * @implements 1A34:15F4:0026:EDA4 ()
- */
-void emu_Unit_Unknown15F4()
-{
-	csip32 ucsip;
-	Unit *unit;
-	Unit *res;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	res = Unit_Unknown15F4(unit);
-
-	if (res == NULL) return;
-	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + res->index * sizeof(Unit);
-}
-
-/**
  * Emulator wrapper around Unit_SetTarget()
  *
  * @name emu_Unit_SetTarget

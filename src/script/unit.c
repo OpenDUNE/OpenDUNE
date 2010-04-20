@@ -1738,3 +1738,136 @@ uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
 
 	return 1;
 }
+
+/**
+ * Transform an MCV into Construction Yard.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return 1 if and only if the transformation succeeded.
+ */
+uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
+{
+	Unit *u;
+	Structure *s = NULL;
+	uint16 i;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x2AD3); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	for (i = 0; i < 4; i++) {
+		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->position) + g_global->variable_628C[i]);
+
+		if (s != NULL) {
+			Unit_Unknown10EC(u);
+			return 1;
+		}
+	}
+
+	if (Unit_GetHouseID(u) == g_global->playerHouseID) {
+		/* "Unit is unable to deploy here." */
+		GUI_DisplayText(String_Get_ByIndex(0x14), 0);
+	}
+
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x2B77); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_sp += 6;
+
+	return 0;
+}
+
+/**
+ * Unknown function 2B97.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return An encoded unit index, or 0.
+ */
+uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
+{
+	Unit *u;
+	Unit *u2;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	u2 = Unit_Unknown15F4(u);
+	if (u2 == NULL) return 0;
+
+	return Tools_Index_Encode(u2->index, IT_UNIT);
+}
+
+/**
+ * Unknown function 2BD5.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 encoded;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	encoded = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* objectCurrent->script.variables[4] */
+
+	switch (Tools_Index_GetType(encoded)) {
+		case IT_UNIT: {
+			Unit *u2;
+
+			u2 = Tools_Index_GetUnit(encoded);
+
+			if (Tools_Index_Encode(u->index, IT_UNIT) == u2->script.variables[4] && u2->houseID == u->houseID) return 1;
+
+			u2->targetMove = 0;
+		} break;
+
+		case IT_STRUCTURE: {
+			Structure *s;
+
+			s = Tools_Index_GetStructure(encoded);
+			if (Tools_Index_Encode(u->index, IT_UNIT) == s->script.variables[4] && s->houseID == u->houseID) return 1;
+		} break;
+
+		default: break;
+	}
+
+	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(emu_cs); emu_push(0x2C6A); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
+	emu_sp += 4;
+	return 0;
+}
+
+/**
+ * Unknown function 2C73.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown2C73(ScriptEngine *script)
+{
+	Unit *u;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u->variable_6E = 32;
+	return 0;
+}
