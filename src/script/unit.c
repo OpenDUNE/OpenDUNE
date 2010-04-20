@@ -1530,7 +1530,7 @@ uint16 Script_Unit_RemoveFog(ScriptEngine *script)
 }
 
 /**
- * Unknown function 26E5.
+ * Make the current unit harvest spice.
  *
  * Stack: *none*.
  *
@@ -1541,6 +1541,8 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 packed;
+
+	VARIABLE_NOT_USED(script);
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
@@ -1573,4 +1575,166 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 	emu_sp += 4;
 
 	return 0;
+}
+
+/**
+ * Unknown function 27A4.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return ??.
+ */
+uint16 Script_Unit_Unknown27A4(ScriptEngine *script)
+{
+	Unit *u;
+	Unit *u2;
+	uint16 encoded;
+	uint16 index;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	encoded = script->stack[script->stackPointer];
+	index = Tools_Index_Decode(encoded);
+
+	switch (Tools_Index_GetType(encoded)) {
+		case IT_TILE:
+			if (!Map_IsValidPosition(index)) return 1;
+			if (u->linkedID == 0XFF) return 1;
+			u2 = Unit_Get_ByIndex(u->linkedID);
+			u2->position = Tools_Index_GetTile(encoded);
+			if (!Unit_Unknown0E2E(u2)) return 0;
+			u2->position.tile = 0xFFFFFFFF;
+			return 1;
+
+		case IT_STRUCTURE: {
+			Structure *s;
+
+			s = Structure_Get_ByIndex(index);
+			if (s->houseID == Unit_GetHouseID(u)) return 0;
+			if (u->linkedID == 0xFF) return 1;
+			u2 = Unit_Get_ByIndex(u->linkedID);
+			return Unit_Unknown3014(u2, s) ? 1 : 0;
+		}
+
+		default: return 1;
+	}
+}
+
+/**
+ * Unknown function 28B1.
+ *
+ * Stack: 0 - An encoded index.
+ *
+ * @param script The script engine to operate on.
+ * @return An encoded tile, or 0.
+ */
+uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
+{
+	Unit *u;
+	tile32 tile;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	if (Tools_Index_GetType(script->stack[script->stackPointer]) != 1) return 0;
+
+	emu_push(1);
+	emu_push(80);
+	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(emu_cs); emu_push(0x28FA); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+	emu_sp += 8;
+
+	tile.s.x = emu_ax;
+	tile.s.y = emu_dx;
+
+	return Tools_Index_Encode(Tile_PackTile(tile), IT_TILE);
+}
+
+/**
+ * Unknown function 291A.
+ *
+ * Stack: *none*.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 0. Always.
+ */
+uint16 Script_Unit_Unknown291A(ScriptEngine *script)
+{
+	Unit *u;
+	uint16 random;
+	uint16 loc3C;
+	uint16 i;
+
+	VARIABLE_NOT_USED(script);
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	random = Tools_RandomRange(0, 10);
+	loc3C = g_unitInfo[u->type].variable_3C;
+
+	if (loc3C != 0 && loc3C != 1 && loc3C != 3) return 0;
+
+	if (loc3C == 0 && random > 8) {
+		u->variable_6D = Tools_Random_256() & 0x3F;
+
+		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x296B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+		emu_sp += 6;
+	}
+
+	if (random > 2) return 0;
+
+	/* Ensure the order of Tools_Random_256() calls. */
+	i = (Tools_Random_256() & 1) == 0 ? 1 : 0;
+	Unit_Unknown1E99(u, Tools_Random_256(), false, i);
+
+	return 0;
+}
+
+/**
+ * Makes the current unit to go to the closest structure of the given type.
+ *
+ * Stack: 0 - The type of the structure.
+ *
+ * @param script The script engine to operate on.
+ * @return The value 1 if and only if a structure has been found.
+ */
+uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
+{
+	Unit *u;
+	Structure *s = NULL;
+	PoolFindStruct find;
+	uint16 distanceMin =0;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	find.houseID = Unit_GetHouseID(u);
+	find.index   = 0xFFFF;
+	find.type    = script->stack[script->stackPointer];
+
+	while (true) {
+		Structure *s2;
+		uint16 distance;
+
+		s2 = Structure_Find(&find);
+
+		if (s2 == NULL) break;
+		if (s2->animation != 0) continue;
+		if (s2->linkedID != 0xFF) continue;
+		if (s2->script.variables[4] != 0) continue;
+
+		distance = Tile_GetDistanceRoundedUp(s2->position, u->position);
+
+		if (distance >= distanceMin && distanceMin != 0) continue;
+
+		distanceMin = distance;
+		s = s2;
+	}
+
+	if (s == NULL) return 0;
+
+	Unit_SetAction(u, ACTION_MOVE);
+	Unit_SetDestination(u, Tools_Index_Encode(s->index, IT_STRUCTURE));
+
+	return 1;
 }

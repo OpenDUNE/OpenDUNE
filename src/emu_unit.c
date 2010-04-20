@@ -197,31 +197,6 @@ void emu_Unit_Get_ByPackedTile()
 }
 
 /**
- * Emulator wrapper around Unit_SetDestination().
- *
- * @name emu_Unit_SetDestination
- * @implements 1A34:1B68:0019:AAA0 ()
- */
-void emu_Unit_SetDestination()
-{
-	csip32 ucsip;
-	Unit *u;
-	uint16 destination;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip       = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	destination = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	if (ucsip.csip == 0x0) return;
-	u = Unit_Get_ByMemory(ucsip);
-
-	Unit_SetDestination(u, destination);
-}
-
-/**
  * Emulator wrapper around Unit_Unknown10EC()
  *
  * @name emu_Unit_Unknown10EC
@@ -380,35 +355,6 @@ void emu_Unit_Damage()
 }
 
 /**
- * Emulator wrapper around Unit_Unknown1E99()
- *
- * @name emu_Unit_Unknown1E99
- * @implements 1A34:1E99:0012:1117 ()
- */
-void emu_Unit_Unknown1E99()
-{
-	csip32 ucsip;
-	uint16 arg0A;
-	uint16 arg0C;
-	uint16 i;
-	Unit *unit;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	arg0A = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	arg0C = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	i     = emu_get_memory16(emu_ss, emu_sp, 0x8);
-
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	Unit_Unknown1E99(unit, (uint8)arg0A, (arg0C != 0) ? true : false, i);
-}
-
-/**
  * Emulator wrapper around Unit_Select()
  *
  * @name emu_Unit_Select
@@ -428,29 +374,6 @@ void emu_Unit_Select()
 	unit = (ucsip.csip == 0x0) ? NULL : Unit_Get_ByMemory(ucsip);
 
 	Unit_Select(unit);
-}
-
-/**
- * Emulator wrapper around Unit_Unknown0E2E()
- *
- * @name emu_Unit_Unknown0E2E
- * @implements 1A34:0E2E:0015:7E65 ()
- */
-void emu_Unit_Unknown0E2E()
-{
-	csip32 ucsip;
-	Unit *unit;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	emu_ax = Unit_Unknown0E2E(unit) ? 1 : 0;
 }
 
 /**

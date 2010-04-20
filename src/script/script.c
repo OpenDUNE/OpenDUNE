@@ -7,10 +7,6 @@
 #include "../global.h"
 #include "script.h"
 
-extern void f__176C_27A4_0021_7EE9();
-extern void f__176C_28B1_0024_58C9();
-extern void f__176C_291A_0010_8A93();
-extern void f__176C_29A9_003A_8DEF();
 extern void f__176C_2AB2_0021_82CD();
 extern void f__176C_2B97_0013_B226();
 extern void f__176C_2BD5_0014_2C56();
@@ -70,11 +66,11 @@ emu_ScriptFunction emu_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 2C */ NULL,
 	/* 2D */ NULL,
 	/* 2E */ NULL,
-	/* 2F */ &f__176C_27A4_0021_7EE9,
-	/* 30 */ &f__176C_28B1_0024_58C9,
-	/* 31 */ &f__176C_291A_0010_8A93,
+	/* 2F */ NULL,
+	/* 30 */ NULL,
+	/* 31 */ NULL,
 	/* 32 */ NULL,
-	/* 33 */ &f__176C_29A9_003A_8DEF,
+	/* 33 */ NULL,
 	/* 34 */ NULL,
 	/* 35 */ NULL,
 	/* 36 */ &f__176C_2B97_0013_B226,
@@ -171,11 +167,11 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 2C */ &Script_General_GetLinkedUnitType,
 	/* 2D */ &Script_General_GetIndexType,
 	/* 2E */ &Script_General_DecodeIndex,
-	/* 2F */ NULL,
-	/* 30 */ NULL,
-	/* 31 */ NULL,
+	/* 2F */ &Script_Unit_Unknown27A4,
+	/* 30 */ &Script_Unit_Unknown28B1,
+	/* 31 */ &Script_Unit_Unknown291A,
 	/* 32 */ &Script_General_UnitCount,
-	/* 33 */ NULL,
+	/* 33 */ &Script_Unit_GoToClosestStructure,
 	/* 34 */ &Script_General_NoOperation,
 	/* 35 */ &Script_General_NoOperation,
 	/* 36 */ NULL,
