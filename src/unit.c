@@ -2274,7 +2274,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 	UnitInfo *ui;
 	uint16 packed;
 	Unit *u;
-	Structure *s;
+	uint16 loc02;
 
 	if (unit == NULL) return true;
 
@@ -2285,17 +2285,20 @@ bool Unit_Unknown0E2E(Unit *unit)
 	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 	emu_sp += 2;
 
-	if ((g_global->variable_3A3E[emu_ax + ui->variable_3C][2] & 0xFF) == 0) return true;
+	loc02 = g_global->variable_3A3E[emu_ax][2 + ui->variable_3C / 2];
+	loc02 &= ((ui->variable_3C & 0x1) != 0) ? 0xFF00 : 0x00FF;
+	if (loc02 == 0) return true;
 
 	if (unit->type == UNIT_SANDWORM || ui->variable_3C == 4) return false;
 
 	u = Unit_Get_ByPackedTile(packed);
-	if (u != NULL && u != unit && !House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) {
-		if (ui->variable_3C == 1 && g_unitInfo[u->type].variable_3C != 0) return true;
+	if (u != NULL && u != unit) {
+		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return true;
+		if (ui->variable_3C != 1) return true;
+		if (g_unitInfo[u->type].variable_3C != 0) return true;
 	}
 
-	s = Structure_Get_ByPackedTile(packed);
-	return s != NULL;
+	return (Structure_Get_ByPackedTile(packed) != NULL);
 }
 
 /**

@@ -582,6 +582,7 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 {
 	Structure *s;
 	Unit *u;
+	tile32 position;
 	uint16 target;
 	uint16 damage;
 	uint16 fireDelay;
@@ -602,7 +603,10 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 		fireDelay = Tools_AdjustToGameSpeed(g_unitInfo[UNIT_TANK].fireDelay, 1, 255, true);
 	}
 
-	u = Unit_CreateBullet(s->position, type, s->houseID, damage, target);
+	position.tile = s->position.tile;
+	position.s.x += 0x80;
+	position.s.y += 0x80;
+	u = Unit_CreateBullet(position, type, s->houseID, damage, target);
 
 	if (u == NULL) return 0;
 
