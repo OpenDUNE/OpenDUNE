@@ -1595,7 +1595,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		u = Unit_Get_ByPackedTile(packed);
 
 		if (u != NULL && g_unitInfo[u->type].variable_3C == 0 && u->flags.s.allocated) {
-			if (u == Unit_Get_ByMemory(g_global->selectionUnit)) {
+			if (g_global->selectionUnit.csip != 0x0 && u == Unit_Get_ByMemory(g_global->selectionUnit)) {
 				Unit_Select(NULL);
 			}
 
