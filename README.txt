@@ -31,7 +31,7 @@ OpenDUNE is written in ANSI C (C89), and only requires SDL to run. In result,
 Currently we official support the following platforms:
 
   - Linux
-  - Mac OS X (PPC and Intel, 10.4+)
+  - Mac OS X (Intel, i686 / x86_64, 10.4+)
   - Windows
 
 
