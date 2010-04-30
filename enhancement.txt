@@ -47,7 +47,7 @@ House
     if you are currently building one in heavy vehicle factory.
 - Silo credit capping is done outside the main house loop, causing it to only
     update the house which owns the latest structure. This allows you to go
-    over your silo capicity most of the time, and then losing it all of a
+    over your silo capacity most of the time, and then losing it all of a
     sudden (when you start building a structure).
 
 
