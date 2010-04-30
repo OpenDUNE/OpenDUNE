@@ -1573,7 +1573,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			return true;
 		}
 
-		if (unit->flags.s.byScenario || unit->linkedID == 0xFF) {
+		if (unit->flags.s.byScenario && unit->linkedID == 0xFF) {
 			if (unit->script.variables[4] == 0) {
 				Unit_Unknown10EC(unit);
 				return true;
