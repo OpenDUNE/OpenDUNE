@@ -155,18 +155,20 @@ void GameLoop_House()
 
 					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, Tile_UnpackTile(emu_ax), 100);
 
-					/* XXX -- Temporary, to keep all the emu_calls workable for now */
-					nucsip = g_global->unitStartPos;
-					nucsip.s.ip += nu->index * sizeof(Unit);
+					if (nu != NULL) {
+						/* XXX -- Temporary, to keep all the emu_calls workable for now */
+						nucsip = g_global->unitStartPos;
+						nucsip.s.ip += nu->index * sizeof(Unit);
 
-					nu->flags.s.byScenario = true;
+						nu->flags.s.byScenario = true;
 
-					emu_push(u->houseID);
-					emu_push(locationID);
-					emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-					emu_sp += 4;
+						emu_push(u->houseID);
+						emu_push(locationID);
+						emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
+						emu_sp += 4;
 
-					Unit_SetDestination(nu, Tools_Index_Encode(emu_ax, IT_TILE));
+						Unit_SetDestination(nu, Tools_Index_Encode(emu_ax, IT_TILE));
+					}
 				}
 
 				if (nu != NULL) {
