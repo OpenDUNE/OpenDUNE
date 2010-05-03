@@ -117,6 +117,7 @@ l__00DA:
  * Called From: 1423:00F6:0018:9B05
  * Called From: 1423:0137:001A:E4BD
  * Called From: 1423:0137:001C:E795
+ * Called From: 2649:10B2:0017:D2D7
  * Called From: B480:03B3:0019:950E
  */
 void f__2B1E_0189_001B_E6CF()

@@ -86,7 +86,7 @@ l__004E:
 	if (emu_ax != 0x0) goto l__005E;
 	emu_xorb(&emu_bh, emu_bh);
 	emu_push(emu_bx);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x005B); emu_cs = 0x2649; emu_ip = 0x106A; emu_last_cs = 0x2BF2; emu_last_ip = 0x0056; emu_last_length = 0x000D; emu_last_crc = 0xFF7F; emu_call();
+	emu_push(emu_cs); emu_push(0x005B); emu_cs = 0x2649; f__2649_106A_0018_BAE3();
 	/* Unresolved jump */ emu_ip = 0x005B; emu_last_cs = 0x2BF2; emu_last_ip = 0x005B; emu_last_length = 0x000D; emu_last_crc = 0xFF7F; emu_call();
 l__005E:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x6), 0x0);
@@ -143,7 +143,7 @@ l__0078:
 	if (emu_ax != 0x0) goto l__008A;
 	emu_xorb(&emu_bh, emu_bh);
 	emu_push(emu_bx);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0087); emu_cs = 0x2649; emu_ip = 0x106A; emu_last_cs = 0x2BF2; emu_last_ip = 0x0082; emu_last_length = 0x000F; emu_last_crc = 0xEA76; emu_call();
+	emu_push(emu_cs); emu_push(0x0087); emu_cs = 0x2649; f__2649_106A_0018_BAE3();
 	/* Unresolved jump */ emu_ip = 0x0087; emu_last_cs = 0x2BF2; emu_last_ip = 0x0087; emu_last_length = 0x000F; emu_last_crc = 0xEA76; emu_call();
 l__008A:
 	emu_pop(&emu_dx);
@@ -201,7 +201,7 @@ l__00A1:
 	if (emu_ax != 0x0) goto l__00B2;
 	emu_xorb(&emu_bh, emu_bh);
 	emu_push(emu_bx);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x00AF); emu_cs = 0x2649; emu_ip = 0x106A; emu_last_cs = 0x2BF2; emu_last_ip = 0x00AA; emu_last_length = 0x000E; emu_last_crc = 0xFF03; emu_call();
+	emu_push(emu_cs); emu_push(0x00AF); emu_cs = 0x2649; f__2649_106A_0018_BAE3();
 	/* Unresolved jump */ emu_ip = 0x00AF; emu_last_cs = 0x2BF2; emu_last_ip = 0x00AF; emu_last_length = 0x000E; emu_last_crc = 0xFF03; emu_call();
 l__00B2:
 	emu_pop(&emu_si);
@@ -253,7 +253,7 @@ l__00C5:
 	if (emu_ax != 0x0) goto l__00D5;
 	emu_xorb(&emu_bh, emu_bh);
 	emu_push(emu_bx);
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x00D2); emu_cs = 0x2649; emu_ip = 0x106A; emu_last_cs = 0x2BF2; emu_last_ip = 0x00CD; emu_last_length = 0x000D; emu_last_crc = 0xFF7F; emu_call();
+	emu_push(emu_cs); emu_push(0x00D2); emu_cs = 0x2649; f__2649_106A_0018_BAE3();
 	/* Unresolved jump */ emu_ip = 0x00D2; emu_last_cs = 0x2BF2; emu_last_ip = 0x00D2; emu_last_length = 0x000D; emu_last_crc = 0xFF7F; emu_call();
 l__00D5:
 	emu_pop(&emu_dx);

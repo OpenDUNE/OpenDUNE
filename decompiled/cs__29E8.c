@@ -610,6 +610,7 @@ l__073E:
  *
  * Called From: 10E4:0491:000E:9A5B
  * Called From: 10E4:2285:0007:843A
+ * Called From: 2649:10C4:0006:8488
  * Called From: B491:01DB:0013:C78E
  * Called From: B495:0786:0007:843A
  * Called From: B4AE:0003:0008:049C
@@ -763,6 +764,7 @@ l__07F7:
  * Called From: 23E1:0358:0007:D436
  * Called From: 23E1:0404:0007:D436
  * Called From: 25C4:00B7:0005:B085
+ * Called From: 2649:10C9:0005:B085
  * Called From: B503:08A3:0005:B085
  * Called From: B503:13CE:0009:9868
  * Called From: B536:0091:0005:B085

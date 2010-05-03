@@ -76,7 +76,7 @@ l__0589:
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x27560622: f__2756_0622_0006_823A(); break;
 		case 0x2BD10006: f__2BD1_0006_004A_CD10(); break;
-		case 0x44AF1CEE: emu_MPU_Interrupt(); break;
+		case 0xAB011CEE: emu_MPU_Interrupt(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x059D; emu_last_length = 0x0019; emu_last_crc = 0x7966;

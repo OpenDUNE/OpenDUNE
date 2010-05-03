@@ -694,6 +694,7 @@ extern void emu_CPS_LoadRegionClick();
 extern void f__1DD7_102C_001E_4902();
 extern void f__01F7_103F_0010_4132();
 extern void f__AB00_1068_0020_E6F1();
+extern void f__2649_106A_0018_BAE3();
 extern void f__217E_1082_0015_F4CE();
 extern void f__B4CD_1086_0040_F11C();
 extern void emu_String_tolower();

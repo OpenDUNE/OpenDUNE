@@ -2904,6 +2904,7 @@ l__1105:
  * @implements 01F7:12A0:001C:A3DF
  * @implements 01F7:12BC:0007:1C4F
  * @implements 01F7:12D3:0004:B471
+ * @implements 01F7:12D7:001A:744C
  * @implements 01F7:12E1:0010:CD77
  * @implements 01F7:12F1:003D:88BC
  * @implements 01F7:1301:002D:1213
@@ -3034,6 +3035,7 @@ l__11EE:
 		case 0x127E: goto l__127E;
 		case 0x12BC: goto l__12BC;
 		case 0x12D3: goto l__12D3;
+		case 0x12D7: goto l__12D7;
 		case 0x12F1: goto l__12F1;
 		case 0x13A1: goto l__13A1;
 		case 0x13C1: goto l__13C1;
@@ -3099,6 +3101,11 @@ l__12BC:
 l__12D3:
 	emu_bh = 0xA;
 	goto l__12E1;
+l__12D7:
+	emu_bh = 0x10;
+	emu_bl = 0xE9;
+	emu_addb(&emu_bl, emu_dl);
+	emu_get_memory8(emu_ss, emu_bp, -0xB) = 0x0;
 l__12E1:
 	emu_get_memory8(emu_ss, emu_bp, -0x5) = emu_dl;
 	emu_xorw(&emu_dx, emu_dx);
@@ -7684,6 +7691,7 @@ l__376A:
  * Called From: 1A34:285B:000F:3DA7
  * Called From: 1A34:2924:000C:6F7F
  * Called From: 25C4:030F:0019:1817
+ * Called From: 2649:109B:001E:919C
  * Called From: B480:039A:009A:0548
  * Called From: B483:024A:003E:5CE7
  * Called From: B483:0692:001B:D546
