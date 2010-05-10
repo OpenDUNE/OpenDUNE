@@ -545,7 +545,6 @@ extern void f__B4E0_0AAD_002E_796D();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__217E_0ABA_001A_9AA0();
 extern void f__06F7_0AC1_001F_55CB();
-extern void emu_Sound_PlayDuneInit();
 extern void f__2649_0ADA_000E_EEB3();
 extern void f__06F7_0AE2_0010_0B2F();
 extern void f__B4CD_0AFA_0011_D5DB();

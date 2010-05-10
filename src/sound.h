@@ -13,6 +13,7 @@ assert_compile(sizeof(SoundData) == 0x6);
 
 
 extern void Sound_Play(uint16 index);
+extern void Sound_InitMT32(uint16 arg06);
 
 
 extern void emu_Sound_Play();

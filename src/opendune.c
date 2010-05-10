@@ -68,7 +68,6 @@ extern void emu_GUI_ShowMap();
 extern void emu_Gameloop_IntroMenu();
 extern void emu_InGame_Numpad_Move();
 extern void emu_Input_Flags_SetBits();
-extern void emu_Sound_PlayDuneInit();
 extern void emu_Terminate_Normal();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -417,9 +416,7 @@ static void GameLoop_Main()
 
 	String_Load("DUNE");
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x00F4); emu_cs = 0x0642; emu_Sound_PlayDuneInit();
-	emu_sp += 2;
+	Sound_InitMT32(0);
 
 	emu_push(emu_cs); emu_push(0x0101); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Gameloop_IntroMenu();
 
