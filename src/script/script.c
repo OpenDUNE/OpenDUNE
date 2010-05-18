@@ -6,8 +6,11 @@
 #include "libemu.h"
 #include "../global.h"
 #include "script.h"
+#include "../file.h"
 
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
+
+extern void f__23E1_01C2_0011_24E8();
 
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
@@ -517,4 +520,38 @@ void Script_Unknown044C(ScriptEngine *script, uint16 type)
 	csip       = scriptInfo->start;
 	csip.s.ip += offsets[type];
 	script->script = csip;
+}
+
+/**
+ * Clears the given scriptInfo.
+ *
+ * @param scriptInfo The scriptInfo to load in the script.
+ */
+void Script_ClearInfo(ScriptInfo *scriptInfo)
+{
+	if (scriptInfo == NULL) return;
+
+	if (scriptInfo->variable_14 != 0) {
+		if (scriptInfo->text.csip != 0x0) {
+			emu_push(scriptInfo->text.s.cs); emu_push(scriptInfo->text.s.ip);
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_sp += 4;
+		}
+
+		if (scriptInfo->offsets.csip != 0x0) {
+			emu_push(scriptInfo->offsets.s.cs); emu_push(scriptInfo->offsets.s.ip);
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_sp += 4;
+		}
+
+		if (scriptInfo->start.csip != 0x0) {
+			emu_push(scriptInfo->start.s.cs); emu_push(scriptInfo->start.s.ip);
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_sp += 4;
+		}
+	}
+
+	scriptInfo->text.csip = 0x0;
+	scriptInfo->offsets.csip = 0x0;
+	scriptInfo->start.csip = 0x0;
 }

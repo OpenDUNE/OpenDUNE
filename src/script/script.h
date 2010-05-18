@@ -36,7 +36,7 @@ typedef struct ScriptInfo {
 	/* 0008(4)   */ PACK csip32 offsets;                    /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
 	/* 000C()    */ PACK uint8   unknown_000C[0x0004];
 	/* 0010(4)   */ PACK csip32 functions;                  /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
-	/* 0014()    */ PACK uint8   unknown_0014[0x0002];
+	/* 0014()    */ PACK uint16 variable_14;                /*!< ?? */
 } GCC_PACKED ScriptInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ScriptInfo) == 0x16);
@@ -48,6 +48,7 @@ extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
 extern void Script_Unknown044C(ScriptEngine *script, uint16 type);
+extern void Script_ClearInfo(ScriptInfo *scriptInfo);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);
@@ -145,5 +146,6 @@ extern uint16 Script_Unit_Unknown2C73(ScriptEngine *script);
 
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
+extern void emu_Script_ClearInfo();
 
 #endif /* SCRIPT_H */
