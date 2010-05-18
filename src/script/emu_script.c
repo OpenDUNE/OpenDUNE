@@ -80,3 +80,34 @@ void emu_Script_ClearInfo()
 
 	Script_ClearInfo(scriptInfo);
 }
+
+/**
+ * Emulator wrapper around Script_LoadFromFile()
+ *
+ * @name emu_Script_LoadFromFile
+ * @implements 15C2:00AC:0015:2FBF ()
+ */
+void emu_Script_LoadFromFile()
+{
+	csip32 filename;
+	csip32 sicsip;
+	csip32 functions;
+	csip32 data;
+	ScriptInfo *scriptInfo;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename  = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	sicsip    = emu_get_csip32(emu_ss, emu_sp, 0x4);
+	functions = emu_get_csip32(emu_ss, emu_sp, 0x8);
+	data      = emu_get_csip32(emu_ss, emu_sp, 0xC);
+
+	emu_ax = 0;
+	if (filename.csip == 0x0) return;
+	if (sicsip.csip == 0x0) return;
+	scriptInfo = ScriptInfo_Get_ByMemory(sicsip);
+
+	emu_ax = Script_LoadFromFile((char *)emu_get_memorycsip(filename), scriptInfo, functions, data);
+}

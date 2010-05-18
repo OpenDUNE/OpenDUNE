@@ -7,9 +7,11 @@
 #include "../global.h"
 #include "script.h"
 #include "../file.h"
+#include "../os/endian.h"
 
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 
+extern void f__23E1_0004_0014_2BC0();
 extern void f__23E1_01C2_0011_24E8();
 
 /**
@@ -525,13 +527,13 @@ void Script_Unknown044C(ScriptEngine *script, uint16 type)
 /**
  * Clears the given scriptInfo.
  *
- * @param scriptInfo The scriptInfo to load in the script.
+ * @param scriptInfo The scriptInfo to clear.
  */
 void Script_ClearInfo(ScriptInfo *scriptInfo)
 {
 	if (scriptInfo == NULL) return;
 
-	if (scriptInfo->variable_14 != 0) {
+	if (scriptInfo->isAllocated != 0) {
 		if (scriptInfo->text.csip != 0x0) {
 			emu_push(scriptInfo->text.s.cs); emu_push(scriptInfo->text.s.ip);
 			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
@@ -554,4 +556,112 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
 	scriptInfo->text.csip = 0x0;
 	scriptInfo->offsets.csip = 0x0;
 	scriptInfo->start.csip = 0x0;
+}
+
+/**
+ * Clears the given scriptInfo.
+ *
+ * @param filename The name of the file to load.
+ * @param scriptInfo The scriptInfo to load in the script.
+ * @param functions Pointer to the functions to call via script.
+ * @param data Pointer to preallocated space to load data.
+ */
+uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 functions, csip32 data)
+{
+	uint32 total = 0;
+	uint32 length = 0;
+	uint8 index;
+	int16 i;
+
+	if (scriptInfo == NULL) return 0;
+	if (filename == NULL) return 0;
+
+	Script_ClearInfo(scriptInfo);
+
+	scriptInfo->isAllocated = (data.csip == 0x0) ? 1 : 0;
+
+	scriptInfo->functions = functions;
+
+	if (!File_Exists(filename)) return 0;
+
+	index = ChunkFile_Open(filename);
+
+	length = ChunkFile_Seek(index, HTOBE32('TEXT'));
+	total += length;
+
+	if (length != 0) {
+		if (data.csip != 0) {
+			scriptInfo->text = data;
+			data.csip += length;
+		} else {
+			emu_push(0x30);
+			emu_push(length >> 16); emu_push(length & 0xFFFF);
+			emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+			emu_sp += 6;
+
+			scriptInfo->text.s.cs = emu_dx;
+			scriptInfo->text.s.ip = emu_ax;
+		}
+
+		ChunkFile_Read(index, HTOBE32('TEXT'), (void *)emu_get_memorycsip(scriptInfo->text), length);
+	}
+
+	length = ChunkFile_Seek(index, HTOBE32('ORDR'));
+	total += length;
+
+	if (length == 0) {
+		Script_ClearInfo(scriptInfo);
+		ChunkFile_Close(index);
+		return 0;
+	}
+
+	if (data.csip != 0x0) {
+		scriptInfo->offsets = data;
+		data.csip += length;
+	} else {
+		emu_push(0x30);
+		emu_push(length >> 16); emu_push(length & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_sp += 6;
+
+		scriptInfo->offsets.s.cs = emu_dx;
+		scriptInfo->offsets.s.ip = emu_ax;
+	}
+
+	scriptInfo->offsetsCount = (length >> 1) & 0xFFFF;
+	ChunkFile_Read(index, HTOBE32('ORDR'), (void *)emu_get_memorycsip(scriptInfo->offsets), length);
+
+	for(i = 0; (int16)((length >> 1) & 0xFFFF) > i; i++) {
+		emu_get_memory16(scriptInfo->offsets.s.cs, scriptInfo->offsets.s.ip, 2 * i) = HTOBE16(emu_get_memory16(scriptInfo->offsets.s.cs, scriptInfo->offsets.s.ip, 2 * i));
+	}
+
+	length = ChunkFile_Seek(index, HTOBE32('DATA'));
+	total += length;
+
+	if (length == 0) {
+		Script_ClearInfo(scriptInfo);
+		ChunkFile_Close(index);
+		return 0;
+	}
+
+	if (data.csip != 0x0) {
+		scriptInfo->start = data;
+		data.csip += length;
+	} else {
+		emu_push(0x30);
+		emu_push(length >> 16); emu_push(length & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_sp += 6;
+
+		scriptInfo->start.s.cs = emu_dx;
+		scriptInfo->start.s.ip = emu_ax;
+	}
+
+	scriptInfo->startCount = (length >> 1) & 0xFFFF;
+	ChunkFile_Read(index, HTOBE32('DATA'), (void *)emu_get_memorycsip(scriptInfo->start), length);
+
+
+	ChunkFile_Close(index);
+
+	return total & 0xFFFF;
 }

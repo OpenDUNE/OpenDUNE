@@ -34,9 +34,10 @@ typedef struct ScriptInfo {
 	/* 0000(4)   */ PACK csip32 text;                       /*!< ?? Pointer to TEXT section of the scripts. */
 	/* 0004(4)   */ PACK csip32 start;                      /*!< Pointer to the begin of the scripts. */
 	/* 0008(4)   */ PACK csip32 offsets;                    /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
-	/* 000C()    */ PACK uint8   unknown_000C[0x0004];
+	/* 000C()    */ PACK uint16 offsetsCount;               /*!< Number of words in offsets array. */
+	/* 000E()    */ PACK uint16 startCount;                 /*!< Number of words in start. */
 	/* 0010(4)   */ PACK csip32 functions;                  /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
-	/* 0014()    */ PACK uint16 variable_14;                /*!< ?? */
+	/* 0014()    */ PACK uint16 isAllocated;                /*!< Memory has been allocated on load. */
 } GCC_PACKED ScriptInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ScriptInfo) == 0x16);
@@ -49,6 +50,7 @@ extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
 extern void Script_Unknown044C(ScriptEngine *script, uint16 type);
 extern void Script_ClearInfo(ScriptInfo *scriptInfo);
+extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 functions, csip32 data);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);
@@ -147,5 +149,6 @@ extern uint16 Script_Unit_Unknown2C73(ScriptEngine *script);
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
 extern void emu_Script_ClearInfo();
+extern void emu_Script_LoadFromFile();
 
 #endif /* SCRIPT_H */

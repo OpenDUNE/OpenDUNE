@@ -155,7 +155,6 @@ extern void f__2AE1_0096_0009_9B4B();
 extern void emu_GUI_Options();
 extern void f__2BA5_00A2_0052_DEE3();
 extern void f__B4CD_00A5_0016_24FA();
-extern void emu_Script_LoadFromFile();
 extern void f__2B1E_00B0_002A_9AED();
 extern void f__259E_00B1_001C_4051();
 extern void f__2AE1_00B7_0014_51EF();
