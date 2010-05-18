@@ -7,13 +7,13 @@
 /**
  * Decompiled function f__2BEE_000E_0009_8881()
  *
- * @name f__2BEE_000E_0009_8881
+ * @name emu_Video_IsInVSync
  * @implements 2BEE:000E:0009:8881 ()
  *
  * Called From: 2533:0024:001C:74EC
  * Called From: 2533:0024:0005:716B
  */
-void f__2BEE_000E_0009_8881()
+void emu_Video_IsInVSync()
 {
 l__000E:
 	emu_dx = 0x3DA;
@@ -30,13 +30,13 @@ l__000E:
 /**
  * Decompiled function f__2BEE_0017_0028_0D9F()
  *
- * @name f__2BEE_0017_0028_0D9F
+ * @name emu_Video_WaitForNextVSync
  * @implements 2BEE:0017:0028:0D9F ()
  * @implements 2BEE:0033:000C:3776
  *
  * Called From: B491:0701:0009:A037
  */
-void f__2BEE_0017_0028_0D9F()
+void emu_Video_WaitForNextVSync()
 {
 l__0017:
 	emu_push(emu_bp);

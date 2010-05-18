@@ -901,7 +901,7 @@ l__06F2:
 l__06FD:
 	emu_ax = 0x1;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; f__2BEE_0017_0028_0D9F();
+	emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; emu_Video_WaitForNextVSync();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__0706:
