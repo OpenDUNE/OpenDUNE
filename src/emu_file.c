@@ -348,3 +348,94 @@ void emu_File_Obsolete5()
 	return;
 }
 
+/**
+ * Emulator wrapper around ChunkFile_Open()
+ *
+ * @name emu_ChunkFile_Open
+ * @implements B4B1:0000:0016:067A ()
+ */
+void emu_ChunkFile_Open()
+{
+	csip32 filename;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+
+	emu_ax = ChunkFile_Open((char *)emu_get_memorycsip(filename));
+}
+
+/**
+ * Emulator wrapper around ChunkFile_Close()
+ *
+ * @name emu_ChunkFile_Close
+ * @implements B4B1:0082:0012:D287 ()
+ */
+void emu_ChunkFile_Close()
+{
+	uint8 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	ChunkFile_Close(index);
+}
+
+/**
+ * Emulator wrapper around ChunkFile_Seek()
+ *
+ * @name emu_ChunkFile_Seek
+ * @implements B4B1:0098:002A:CE8A ()
+ */
+void emu_ChunkFile_Seek()
+{
+	uint8 index;
+	uint32 header;
+	uint32 res;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+	header =        emu_get_memory32(emu_ss, emu_sp, 0x2);
+
+	res = ChunkFile_Seek(index, header);
+
+	emu_dx = res >> 16;
+	emu_ax = res & 0xFFFF;
+}
+
+/**
+ * Emulator wrapper around ChunkFile_Read()
+ *
+ * @name emu_ChunkFile_Read
+ * @implements B4B1:01CD:002A:CE8A ()
+ */
+void emu_ChunkFile_Read()
+{
+	uint8 index;
+	uint32 header;
+	csip32 buffer;
+	uint32 length;
+	uint32 res;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
+	header =        emu_get_memory32(emu_ss, emu_sp, 0x2);
+	buffer =        emu_get_csip32  (emu_ss, emu_sp, 0x6);
+	length =        emu_get_memory32(emu_ss, emu_sp, 0xA);
+
+	res = ChunkFile_Read(index, header, (void *)emu_get_memorycsip(buffer), length);
+
+	emu_dx = res >> 16;
+	emu_ax = res & 0xFFFF;
+}

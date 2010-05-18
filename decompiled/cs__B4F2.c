@@ -2831,7 +2831,7 @@ l__12A5:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0xE);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x12B5); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_LoadFile();
+	emu_push(emu_cs); emu_push(0x12B5); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Open();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__12B5:

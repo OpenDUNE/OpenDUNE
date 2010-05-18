@@ -62,7 +62,7 @@ l__0029:
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_LoadFile();
+	emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Open();
 l__003B:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

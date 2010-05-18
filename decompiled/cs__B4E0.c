@@ -750,7 +750,7 @@ l__0488:
 	emu_push(emu_ds);
 	emu_ax = 0x8040;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0492); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_LoadFile();
+	emu_push(emu_cs); emu_push(0x0492); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Open();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0492:
@@ -972,7 +972,7 @@ l__0600:
 	emu_push(emu_ds);
 	emu_ax = 0x8040;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0612); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_LoadFile();
+	emu_push(emu_cs); emu_push(0x0612); emu_cs = 0x34B1; overlay(0x34B1, 0); emu_ChunkFile_Open();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0612:

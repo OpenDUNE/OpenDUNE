@@ -9,6 +9,8 @@
 #include "libemu.h"
 #include "global.h"
 #include "file.h"
+#include "os/endian.h"
+#include "os/math.h"
 
 extern void f__23E1_0004_0014_2BC0();
 
@@ -483,4 +485,132 @@ csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 	File_Close(index);
 
 	return memBlock;
+}
+
+/**
+ * Open a chunk file (starting with FORM) for reading.
+ *
+ * @param filename The name of the file to open.
+ * @return An index value refering to the opened file, or FILE_INVALID.
+ */
+uint8 ChunkFile_Open(const char *filename)
+{
+	uint8 index;
+	uint32 header;
+
+	index = File_Open(filename, 1);
+	File_Close(index);
+
+	index = File_Open(filename, 1);
+
+	File_Read(index, &header, 4);
+
+	if (header != HTOBE32('FORM')) {
+		File_Close(index);
+		return FILE_INVALID;
+	}
+
+	File_Seek(index, 4, 1);
+
+	return index;
+}
+
+/**
+ * Close an opened chunk file.
+ *
+ * @param index The index given by ChunkFile_Open() of the file.
+ */
+void ChunkFile_Close(uint8 index)
+{
+	if (index == FILE_INVALID) return;
+
+	File_Close(index);
+}
+
+/**
+ * Seek to the given chunk inside a chunk file.
+ *
+ * @param index The index given by ChunkFile_Open() of the file.
+ * @param chunk The chunk to seek to.
+ * @return The length of the chunk (0 if not found).
+ */
+uint32 ChunkFile_Seek(uint8 index, uint32 chunk)
+{
+	uint32 value = 0;
+	uint32 length = 0;
+	bool first = true;
+
+	while (true) {
+		if (File_Read(index, &value, 4) != 4 && !first) return 0;
+
+		if (value == 0 && File_Read(index, &value, 4) != 4 && !first) return 0;
+
+		if (File_Read(index, &length, 4) != 4 && !first) return 0;
+
+		length = HTOBE32(length);
+
+		if (value == chunk) {
+			File_Seek(index, -8, 1);
+			return length;
+		}
+
+		if (first) {
+			File_Seek(index, 12, 0);
+			first = false;
+			continue;
+		}
+
+		length += 1;
+		length &= 0xFFFFFFFE;
+		File_Seek(index, length, 1);
+	}
+}
+
+/**
+ * Read bytes from a chunk file into a buffer.
+ *
+ * @param index The index given by ChunkFile_Open() of the file.
+ * @param chunk The chunk to read from.
+ * @param buffer The buffer to read into.
+ * @param length The amount of bytes to read.
+ * @return The amount of bytes truly read, or 0 if there was a failure.
+ */
+uint32 ChunkFile_Read(uint8 index, uint32 chunk, void *buffer, uint32 buflen)
+{
+	uint32 value = 0;
+	uint32 length = 0;
+	bool first = true;
+
+	while (true) {
+		if (File_Read(index, &value, 4) != 4 && !first) return 0;
+
+		if (value == 0 && File_Read(index, &value, 4) != 4 && !first) return 0;
+
+		if (File_Read(index, &length, 4) != 4 && !first) return 0;
+
+		length = HTOBE32(length);
+
+		if (value == chunk) {
+			buflen = min(buflen, length);
+
+			File_Read(index, buffer, buflen);
+
+			length += 1;
+			length &= 0xFFFFFFFE;
+
+			if (buflen < length) File_Seek(index, length - buflen, 1);
+
+			return buflen;
+		}
+
+		if (first) {
+			File_Seek(index, 12, 0);
+			first = false;
+			continue;
+		}
+
+		length += 1;
+		length &= 0xFFFFFFFE;
+		File_Seek(index, length, 1);
+	}
 }
