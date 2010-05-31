@@ -51,6 +51,8 @@ MSVC_PACKED_END
 assert_compile(sizeof(MSBuffer) == 0x06);
 
 
+extern uint16 Drivers_EnableSounds(uint16 sounds);
+extern uint16 Drivers_EnableMusic(uint16 music);
 extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
 extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
@@ -58,6 +60,8 @@ extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csi
 extern bool Driver_Music_IsPlaying();
 
 
+extern void emu_Drivers_EnableSounds();
+extern void emu_Drivers_EnableMusic();
 extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
 extern void emu_Driver_Music_IsPlaying();

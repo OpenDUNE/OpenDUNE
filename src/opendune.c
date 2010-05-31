@@ -499,7 +499,7 @@ static void GameLoop_Main()
 			if (emu_ax == 0) {
 				emu_push(emu_cs); emu_push(0x0251); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
 				if (emu_ax == 0) {
-					if (g_global->variable_700C == 0) {
+					if (g_global->musicEnabled == 0) {
 						Sound_Play(2);
 
 						g_global->variable_3E52 = 0;

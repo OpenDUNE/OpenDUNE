@@ -1129,8 +1129,8 @@ typedef struct GlobalData {
 	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm" NULL terminated.
 	                                                         *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
 	/* 6F19()    */ PACK uint8   unknown_6F19[0x00F1];
-	/* 700A(2)   */ PACK uint16 variable_700A;              /*!< ?? */
-	/* 700C(2)   */ PACK uint16 variable_700C;              /*!< ?? */
+	/* 700A(2)   */ PACK uint16 soundsEnabled;              /*!< 1 if sounds are enabled in game options, 0 otherwise. */
+	/* 700C(2)   */ PACK uint16 musicEnabled;               /*!< 1 if music is enabled in game options, 0 otherwise. */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
 	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
 	/* 7011(2)   */ PACK uint16 variable_7011;              /*!< ?? */

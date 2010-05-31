@@ -39,7 +39,7 @@ void emu_Unknown_B483_0156()
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0);
 
-	if (index == 0xFFFF || g_global->variable_700A == 0 || (int16)g_global->voices[index].variable_04 < (int16)g_global->variable_4060) {
+	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)g_global->voices[index].variable_04 < (int16)g_global->variable_4060) {
 		emu_cs = ret.s.cs;
 		emu_ip = ret.s.ip;
 		return;
@@ -153,7 +153,7 @@ void emu_Unknown_B483_0363()
 		return;
 	}
 
-	if (g_global->variable_6D8F == 0 || g_global->variable_700A == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
+	if (g_global->variable_6D8F == 0 || g_global->soundsEnabled == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
 		emu_push(g_global->variable_0312[index][6]);
 		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
 		/* Check if this overlay should be reloaded */
@@ -208,7 +208,7 @@ void emu_Unknown_B483_0470()
 	emu_pop(&ret.s.ip);
 	emu_pop(&ret.s.cs);
 
-	if (g_global->variable_700A == 0) {
+	if (g_global->soundsEnabled == 0) {
 		emu_ax = 0;
 		emu_cs = ret.s.cs;
 		emu_ip = ret.s.ip;

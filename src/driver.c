@@ -15,6 +15,8 @@
 extern void emu_CustomTimer_AddHandler();
 extern void emu_Drivers_Load();
 extern void f__01F7_27FD_0037_E2C0();
+extern void f__1DD7_09DA_000F_D404();
+extern void f__1DD7_0A7B_001E_4A5A();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__23E1_0004_0014_2BC0();
 extern void f__23E1_01C2_0011_24E8();
@@ -41,6 +43,73 @@ extern void emu_MPU_Init();
 extern void f__AB01_2103_0040_93D2();
 extern void f__AB01_2336_002C_4FDC();
 extern void f__AB01_26EB_0047_41F4();
+
+uint16 Drivers_EnableSounds(uint16 sounds)
+{
+	uint16 ret;
+
+	ret = g_global->soundsEnabled;
+	g_global->soundsEnabled = sounds;
+
+	if (sounds == 0) {
+		emu_push(emu_cs); emu_push(0x002A); f__1DD7_09DA_000F_D404();
+	}
+
+	if (g_global->soundDriver.index != 0xFFFF || g_global->soundDriver.dcontent.csip == 0x0) return ret;
+
+	emu_ax = 0x1;
+	emu_bx = g_global->soundsEnabled == 0 ? 0x10 : 0x11;
+	emu_pushf();
+
+	/* Call based on memory/register values */
+	emu_ip = g_global->soundDriver.dcontent.s.ip;
+	emu_push(emu_cs);
+	emu_cs = g_global->soundDriver.dcontent.s.cs;
+	emu_push(0x0059);
+	switch ((emu_cs << 16) + emu_ip) {
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0x1DD7; emu_last_ip = 0x0056; emu_last_length = 0x002E; emu_last_crc = 0x813E;
+			emu_call();
+			return ret;
+	}
+
+	return ret;
+}
+
+uint16 Drivers_EnableMusic(uint16 music)
+{
+	uint16 ret;
+
+	ret = g_global->soundsEnabled; /* Looks like a bug in original code */
+	g_global->musicEnabled = music;
+
+	if (music == 0) {
+		emu_push(emu_cs); emu_push(0x008B); f__1DD7_0A7B_001E_4A5A();
+	}
+
+	if (g_global->musicDriver.index != 0xFFFF || g_global->musicDriver.dcontent.csip == 0x0) return ret;
+
+	emu_ax = 0x2;
+	emu_bx = g_global->musicEnabled == 0 ? 0x10 : 0x11;
+	emu_pushf();
+
+	/* Call based on memory/register values */
+	emu_ip = g_global->musicDriver.dcontent.s.ip;
+	emu_push(emu_cs);
+	emu_cs = g_global->musicDriver.dcontent.s.cs;
+	emu_push(0x00BA);
+	switch ((emu_cs << 16) + emu_ip) {
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0x1DD7; emu_last_ip = 0x00B7; emu_last_length = 0x002E; emu_last_crc = 0xB16C;
+			emu_call();
+			return ret;
+	}
+
+	return ret;
+}
+
 
 bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008)
 {
