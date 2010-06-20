@@ -10,18 +10,22 @@
 #include "font.h"
 #include "gui.h"
 #include "../os/strings.h"
+#include "../unknown/unknown.h"
 
 extern void f__22A6_1102_004C_B069();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0021_001A_E253();
+extern void f__259E_0040_0015_5E4A();
 extern void f__2605_000C_006D_F8B2();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
+extern void f__2BA5_00A2_0052_DEE3();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
 extern void emu_Unknown_07AE_0000();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Draw a wired rectangle.
@@ -426,4 +430,107 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 	}
 
 	GUI_DrawText(g_global->variable_8AEE, left, top, fgColour, bgColour);
+}
+
+/**
+ * Animate the palette. Only works for some colours or something
+ */
+void GUI_PaletteAnimate()
+{
+	uint16 locsi = 0;
+
+	if (g_global->variable_31CE < g_global->variable_76AC) {
+		if (g_global->variable_37B2 != 0) {
+			locsi = 15;
+		} else {
+			locsi = (g_global->variable_31D2 == 0) ? 15 : 6;
+		}
+
+		memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2CD, emu_get_memorycsip(g_global->variable_3C32) + 3 * locsi, 3);
+
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x05C7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+		emu_sp += 4;
+
+		g_global->variable_31D2 = (g_global->variable_31D2 == 0) ? 1 : 0;
+		g_global->variable_31CE = g_global->variable_76AC + 60;
+	}
+
+	if (g_global->variable_31CA < g_global->variable_76AC && g_global->selectionType != 0) {
+		emu_push(g_global->variable_31D4);
+		emu_push(255);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		emu_push(g_global->variable_31D4);
+		emu_push(255);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x063A); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		emu_push(g_global->variable_31D4);
+		emu_push(255);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x0652); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		emu_push(g_global->variable_31D4);
+		emu_push(255);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x066A); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		if (emu_ax == 0) {
+			if (g_global->variable_31D4 == 13) {
+				g_global->variable_31D4 = 15;
+
+				if (g_global->selectionType == 2) {
+					if (g_global->variable_38EC != 0) {
+						g_global->variable_31D4 = ((g_global->variable_38EC & 0x8000) != 0) ? 5 : 15;
+					} else {
+						g_global->variable_31D4 = 6;
+					}
+				}
+			} else {
+				g_global->variable_31D4 = 13;
+			}
+		}
+
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x06BE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+		emu_sp += 4;
+
+		g_global->variable_31CA = g_global->variable_76AC + 3;
+	}
+
+	if (g_global->variable_31C6 < g_global->variable_76AC) {
+		emu_push(g_global->variable_31D6);
+		emu_push(223);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		emu_push(g_global->variable_31D6);
+		emu_push(223);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x0716); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
+		emu_sp += 8;
+
+		if (emu_ax == 0) {
+			if (g_global->variable_31D6 == 12) {
+				g_global->variable_31D6 = 10;
+			} else {
+				g_global->variable_31D6 = 12;
+			}
+		}
+
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x073F); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+		emu_sp += 4;
+
+		g_global->variable_31C6 = g_global->variable_76AC + 5;
+	}
+
+	emu_push(emu_cs); emu_push(0x075A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
 }

@@ -78,7 +78,6 @@
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
 0642:0481:0010:36A4	emu_InGame_Numpad_Move	# When moving with numpad ingame
-0642:0559:0027:3560	emu_GUI_PaletteAnimate	# Animate the palette. Only works for some colours or something
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
 
 06F7:0402:0020:9091	emu_Map_DeviateArea	# (tile, radius) Try to deviate all units in an area

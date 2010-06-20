@@ -61,7 +61,6 @@ extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
-extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_PickHouse();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
@@ -466,7 +465,7 @@ static void GameLoop_Main()
 			emu_sp += 2;
 		}
 
-		emu_push(emu_cs); emu_push(0x01AD); emu_cs = 0x0642; emu_GUI_PaletteAnimate();
+		GUI_PaletteAnimate();
 
 		if (g_global->variable_38BE == 1) {
 			emu_push(0);

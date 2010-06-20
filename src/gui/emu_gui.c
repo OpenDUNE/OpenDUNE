@@ -122,3 +122,18 @@ void emu_GUI_DrawText_Wrapper()
 		GUI_DrawText_Wrapper(NULL, left, top, fgColour, bgColour, flags);
 	}
 }
+
+/**
+ * Emulator wrapper around GUI_PaletteAnimate()
+ *
+ * @name emu_GUI_PaletteAnimate
+ * @implements 0642:0559:0027:3560 ()
+ */
+void emu_GUI_PaletteAnimate()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_PaletteAnimate();
+}
