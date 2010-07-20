@@ -33,6 +33,7 @@ extern bool Map_IsValidPosition(uint16 position);
 extern bool Map_Save(FILE *fp);
 extern bool Map_Load(FILE *fp, uint32 length);
 extern bool Map_IsPositionUnveiled(uint16 position);
+extern bool Map_IsPositionInViewport(tile32 position, int16 *retX, int16 *retY);
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();
@@ -41,5 +42,6 @@ extern void emu_Map_SetSelectionObjectPosition();
 extern void emu_Map_UpdateMinimapPosition();
 extern void emu_Map_IsValidPosition();
 extern void emu_Map_IsPositionUnveiled();
+extern void emu_Map_IsPositionInViewport();
 
 #endif /* MAP_H */

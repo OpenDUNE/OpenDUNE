@@ -54,7 +54,6 @@ extern void f__B4CD_17F7_001D_1CA2();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Map_DeviateArea();
-extern void emu_Map_IsPositionInViewport();
 extern void emu_Structure_UpdateMap();
 extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
@@ -377,14 +376,8 @@ void GameLoop_Unit()
 			if (u->scriptDelay == 0) {
 				if (Script_IsLoaded(&u->script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if (!ui->flags.s.scriptNoSlowdown) {
-						emu_push(0); emu_push(0);
-						emu_push(0); emu_push(0);
-						emu_push(u->position.s.y); emu_push(u->position.s.x);
-						emu_push(emu_cs); emu_push(0x06F9); emu_cs = 0x07D4; emu_Map_IsPositionInViewport();
-						emu_sp += 12;
-
-						if (emu_ax == 0) g_global->scriptUnitLeft = 1;
+					if (!ui->flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->position, NULL, NULL)) {
+						g_global->scriptUnitLeft = 1;
 					}
 
 					u->script.variables[3] = g_global->playerHouseID;

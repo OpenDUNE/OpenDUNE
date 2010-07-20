@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
 #include "map.h"
 
 /**
@@ -138,4 +139,33 @@ void emu_Map_IsPositionUnveiled()
 	position = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	emu_ax = Map_IsPositionUnveiled(position) ? 1 : 0;
+}
+
+
+/**
+ * Emulator wrapper around Map_IsPositionInViewport()
+ *
+ * @name emu_Map_IsPositionInViewport
+ * @implements 07D4:196B:0073:56C1 ()
+ */
+void emu_Map_IsPositionInViewport()
+{
+	tile32 position;
+	csip32 retX_csip;
+	csip32 retY_csip;
+	uint16 *retX;
+	uint16 *retY;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	position  = emu_get_tile32(emu_ss, emu_sp, 0x0);
+	retX_csip = emu_get_csip32(emu_ss, emu_sp, 0x4);
+	retY_csip = emu_get_csip32(emu_ss, emu_sp, 0x8);
+
+	retX = (uint16 *)emu_get_memorycsip(retX_csip);
+	retY = (uint16 *)emu_get_memorycsip(retY_csip);
+
+	emu_ax = Map_IsPositionInViewport(position, retX, retY) ? 1 : 0;
 }

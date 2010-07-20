@@ -396,3 +396,24 @@ bool Map_IsPositionUnveiled(uint16 position)
 
 	return true;
 }
+
+/**
+ * Check if a position is in the viewport.
+ *
+ * @param position For which position to check.
+ * @param retX Pointer to X inside the viewport.
+ * @param retY Pointer to Y inside the viewport.
+ * @return True if and only if the position is in the viewport.
+ */
+bool Map_IsPositionInViewport(tile32 position, int16 *retX, int16 *retY)
+{
+	int16 x, y;
+
+	x = (position.s.x >> 4) - (Tile_GetPackedX(g_global->viewportPosition) << 4);
+	y = (position.s.y >> 4) - (Tile_GetPackedY(g_global->viewportPosition) << 4);
+
+	if (retX != NULL) *retX = x;
+	if (retY != NULL) *retY = y;
+
+	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
+}
