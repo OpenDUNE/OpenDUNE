@@ -86,7 +86,7 @@ uint16 Tools_Index_Encode(uint16 index, IndexType type)
 			return ret | 0xC000;
 		}
 		case IT_UNIT: {
-			if (index >= UNIT_INDEX_MAX || !Unit_Get_ByIndex(index)->flags.s.allocated) return 0;
+			if (index >= UNIT_INDEX_MAX || !Unit_Get_ByIndex(index)->o.flags.s.allocated) return 0;
 			return index | 0x4000;
 		}
 		case IT_STRUCTURE:  return index | 0x8000;
@@ -111,11 +111,11 @@ bool Tools_Index_IsValid(uint16 encoded)
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_UNIT:
 			if (index >= UNIT_INDEX_MAX) return false;
-			return Unit_Get_ByIndex(index)->flags.s.used && Unit_Get_ByIndex(index)->flags.s.allocated;
+			return Unit_Get_ByIndex(index)->o.flags.s.used && Unit_Get_ByIndex(index)->o.flags.s.allocated;
 
 		case IT_STRUCTURE:
 			if (index >= STRUCTURE_INDEX_MAX_HARD) return false;
-			return Structure_Get_ByIndex(index)->flags.s.used;
+			return Structure_Get_ByIndex(index)->o.flags.s.used;
 
 		case IT_TILE : return true;
 
@@ -137,8 +137,8 @@ uint16 Tools_Index_GetPackedTile(uint16 encoded)
 
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_TILE:      return index;
-		case IT_UNIT:      return (index < UNIT_INDEX_MAX) ? Tile_PackTile(Unit_Get_ByIndex(index)->position) : 0;
-		case IT_STRUCTURE: return (index < STRUCTURE_INDEX_MAX_HARD) ? Tile_PackTile(Structure_Get_ByIndex(index)->position) : 0;
+		case IT_UNIT:      return (index < UNIT_INDEX_MAX) ? Tile_PackTile(Unit_Get_ByIndex(index)->o.position) : 0;
+		case IT_STRUCTURE: return (index < STRUCTURE_INDEX_MAX_HARD) ? Tile_PackTile(Structure_Get_ByIndex(index)->o.position) : 0;
 		default:           return 0;
 	}
 }
@@ -159,7 +159,7 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_TILE: return Tile_UnpackTile(index);
-		case IT_UNIT: return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index)->position : tile;
+		case IT_UNIT: return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index)->o.position : tile;
 		case IT_STRUCTURE: {
 			Structure *s;
 			StructureInfo *si;
@@ -167,9 +167,9 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 			if (index >= STRUCTURE_INDEX_MAX_HARD) return tile;
 
 			s = Structure_Get_ByIndex(index);
-			si = &g_structureInfo[s->type];
+			si = &g_structureInfo[s->o.type];
 
-			return Tile_AddTileDiff(s->position, g_global->layoutTileDiff[si->layout]);
+			return Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]);
 		}
 		default: return tile;
 	}

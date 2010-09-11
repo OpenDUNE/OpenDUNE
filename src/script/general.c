@@ -87,7 +87,7 @@ uint16 Script_General_GetDistance(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
 
-	return Tile_GetDistance(u->position, Tools_Index_GetTile(objectID));
+	return Tile_GetDistance(u->o.position, Tools_Index_GetTile(objectID));
 }
 
 /**
@@ -211,7 +211,7 @@ uint16 Script_General_Unknown0288(ScriptEngine *script)
 	index = script->stack[script->stackPointer];
 	s = Tools_Index_GetStructure(index);
 
-	if (s != NULL && Tools_Index_Encode(s->index, IT_STRUCTURE) != index) return 1;
+	if (s != NULL && Tools_Index_Encode(s->o.index, IT_STRUCTURE) != index) return 1;
 
 	emu_push(index);
 	emu_push(emu_cs); emu_push(0x02D7); emu_cs = 0x167E; emu_Tools_Index_GetStructureOrUnit();
@@ -254,7 +254,7 @@ uint16 Script_General_UnitCount(ScriptEngine *script)
 	uint16 count = 0;
 	PoolFindStruct find;
 
-	find.houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 8); /* object->houseID */
+	find.houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 8); /* object->o.houseID */
 	find.type    = script->stack[script->stackPointer];
 	find.index   = 0xFFFF;
 
@@ -323,7 +323,7 @@ uint16 Script_General_GetLinkedUnitType(ScriptEngine *script)
 
 	if (linkedID == 0xFF) return 0xFFFF;
 
-	return Unit_Get_ByIndex(linkedID)->type;
+	return Unit_Get_ByIndex(linkedID)->o.type;
 }
 
 /**
@@ -361,7 +361,7 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 	uint8 houseID;
 	tile32 position;
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
 	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
 
 	emu_push(houseID);
@@ -422,11 +422,11 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(index)) return 0;
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
 
 	switch (Tools_Index_GetType(index)) {
 		case IT_UNIT:      return (Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0;
-		case IT_STRUCTURE: return (Tools_Index_GetStructure(index)->houseID != houseID) ? 1 : 0;
+		case IT_STRUCTURE: return (Tools_Index_GetStructure(index)->o.houseID != houseID) ? 1 : 0;
 		default:           return 0;
 	}
 }
@@ -448,12 +448,12 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 
 	index = script->stack[script->stackPointer];
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->houseID */
+	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
 
 	if ((index & 0xC000) != 0) {
 		if (Tools_Index_GetType(index) != IT_STRUCTURE) return 0;
 		s = Tools_Index_GetStructure(index);
-		if (s->houseID != houseID) return 0;
+		if (s->o.houseID != houseID) return 0;
 		if (s->animation != 0) return 0;
 		return 1;
 	}
@@ -466,6 +466,6 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 		s = Structure_Find(&find);
 		if (s == NULL) return 0;
 		if (s->animation != 0) continue;
-		return Tools_Index_Encode(s->index, IT_STRUCTURE);
+		return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 	}
 }

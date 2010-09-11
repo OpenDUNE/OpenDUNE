@@ -37,7 +37,7 @@ void emu_Structure_Create()
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
-	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	emu_ax = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 }
 
 /**
@@ -112,7 +112,7 @@ void emu_Structure_Get_ByPackedTile()
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
-	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	emu_ax = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 }
 
 /**

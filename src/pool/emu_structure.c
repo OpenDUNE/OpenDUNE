@@ -128,7 +128,7 @@ void emu_Structure_FindFirst()
 
 	if (b == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
-	emu_ax = g_global->structureStartPos.s.ip + b->index * sizeof(Structure);
+	emu_ax = g_global->structureStartPos.s.ip + b->o.index * sizeof(Structure);
 }
 
 /**
@@ -161,5 +161,5 @@ void emu_Structure_FindNext()
 
 	if (b == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
-	emu_ax = g_global->structureStartPos.s.ip + b->index * sizeof(Structure);
+	emu_ax = g_global->structureStartPos.s.ip + b->o.index * sizeof(Structure);
 }

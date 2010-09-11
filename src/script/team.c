@@ -101,11 +101,11 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
-		if (!u->flags.s.byScenario) continue;
-		if (u->type == UNIT_SABOTEUR) continue;
-		if (g_unitInfo[u->type].variable_3C != t->variable_0A) continue;
+		if (!u->o.flags.s.byScenario) continue;
+		if (u->o.type == UNIT_SABOTEUR) continue;
+		if (g_unitInfo[u->o.type].variable_3C != t->variable_0A) continue;
 		if (u->team == 0) {
-			distance = Tile_GetDistance(t->position, u->position);
+			distance = Tile_GetDistance(t->position, u->o.position);
 			if (distance >= minDistance && minDistance != 0) continue;
 			minDistance = distance;
 			closer = u;
@@ -115,7 +115,7 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 		t2 = Team_Get_ByIndex(u->team - 1);
 		if (t2->members > t2->variable_06) continue;
 
-		distance = Tile_GetDistance(t->position, u->position);
+		distance = Tile_GetDistance(t->position, u->o.position);
 		if (distance >= minDistance2 && minDistance2 != 0) continue;
 		minDistance2 = distance;
 		closer2 = u;
@@ -161,8 +161,8 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 		if (u == NULL) break;
 		if (t->index != u->team - 1) continue;
 		count++;
-		position.s.x += u->position.s.x;
-		position.s.y += u->position.s.y;
+		position.s.x += u->o.position.s.x;
+		position.s.y += u->o.position.s.y;
 	}
 
 	if (count == 0) return 0;
@@ -181,7 +181,7 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 		if (t->index != u->team - 1) continue;
-		loc08 += Tile_GetDistanceRoundedUp(u->position, t->position);
+		loc08 += Tile_GetDistanceRoundedUp(u->o.position, t->position);
 	}
 
 	loc08 /= count;
@@ -227,10 +227,10 @@ uint16 Script_Team_Unknown0543(ScriptEngine *script)
 		if (t->index != u->team - 1) continue;
 
 		tile = Tools_Index_GetTile(u->targetMove);
-		distanceUnitTeam = Tile_GetDistanceRoundedUp(u->position, t->position);
+		distanceUnitTeam = Tile_GetDistanceRoundedUp(u->o.position, t->position);
 
 		if (u->targetMove != 0) {
-			distanceUnitDest = Tile_GetDistanceRoundedUp(u->position, tile);
+			distanceUnitDest = Tile_GetDistanceRoundedUp(u->o.position, tile);
 			distanceTeamDest = Tile_GetDistanceRoundedUp(t->position, tile);
 		} else {
 			distanceUnitDest = 64;
@@ -295,7 +295,7 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 		t->target = target;
 
 		emu_push(Tools_Index_GetPackedTile(target));
-		emu_push(Tile_PackTile(u->position));
+		emu_push(Tile_PackTile(u->o.position));
 		emu_push(emu_cs); emu_push(0x0754); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1C1A_001A_9C1B();
 		emu_sp += 4;
 
@@ -399,15 +399,15 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 			continue;
 		}
 
-		distance = g_unitInfo[u->type].variable_50 << 8;
+		distance = g_unitInfo[u->o.type].variable_50 << 8;
 		if (u->actionID == ACTION_ATTACK && u->targetAttack == t->target) {
 			if (u->targetMove != 0) continue;
-			if (Tile_GetDistance(u->position, tile) >= distance) continue;
+			if (Tile_GetDistance(u->o.position, tile) >= distance) continue;
 		}
 
 		if (u->actionID != ACTION_ATTACK) Unit_SetAction(u, ACTION_ATTACK);
 
-		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(tile.s.y); emu_push(tile.s.x);
 		emu_push(emu_cs); emu_push(0x08F5); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;

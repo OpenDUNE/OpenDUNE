@@ -87,19 +87,19 @@ void Map_SetSelection(uint16 packed)
 		if (s != NULL) {
 			StructureInfo *si;
 
-			si = &g_structureInfo[s->type];
-			if (s->houseID == g_global->playerHouseID || g_global->selectionType != 0) {
+			si = &g_structureInfo[s->o.type];
+			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
 				emu_push(si->spriteID);
 				emu_push(si->variable_2B);
 				emu_push(emu_cs); emu_push(0x038B); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 				emu_sp += 4;
 			}
 
-			packed = Tile_PackTile(s->position);
+			packed = Tile_PackTile(s->o.position);
 
 			Map_SetSelectionSize(si->layout);
 
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 			emu_push(emu_cs); emu_push(0x03CA); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
 			emu_sp += 4;
 		} else {
@@ -111,7 +111,7 @@ void Map_SetSelection(uint16 packed)
 
 			u = Unit_Get_ByPackedTile(packed);
 			if (u != NULL) {
-				if (u->type != UNIT_CARRYALL) {
+				if (u->o.type != UNIT_CARRYALL) {
 					Unit_Select(u);
 				}
 			} else {

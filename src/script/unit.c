@@ -56,18 +56,18 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (Tools_Random_256() >= g_unitInfo[u->type].variable_0E) return 0;
+	if (Tools_Random_256() >= g_unitInfo[u->o.type].variable_0E) return 0;
 
 	emu_push(1);
 	emu_push(20);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x2403); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
 	emu_sp += 8;
 
 	position.s.x = emu_ax;
 	position.s.y = emu_dx;
 
-	nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, u->houseID, position, Tools_Random_256());
+	nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, u->o.houseID, position, Tools_Random_256());
 
 	if (nu == NULL) return 0;
 
@@ -119,7 +119,7 @@ uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
 	s = Tools_Index_GetStructure(encoded);
 	if (s == NULL) return 0;
 
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 	emu_push(emu_cs); emu_push(0x084F); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
 	emu_sp += 8;
@@ -143,7 +143,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->linkedID == 0xFF) return 0;
+	if (u->o.linkedID == 0xFF) return 0;
 	if (Tools_Index_GetType(u->targetMove) == IT_UNIT) return 0;
 
 	if (Tools_Index_GetType(u->targetMove) == IT_STRUCTURE) {
@@ -151,15 +151,15 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 		StructureInfo *si;
 
 		s = Tools_Index_GetStructure(u->targetMove);
-		si = &g_structureInfo[s->type];
+		si = &g_structureInfo[s->o.type];
 
-		if (s->type == STRUCTURE_STARPORT) {
+		if (s->o.type == STRUCTURE_STARPORT) {
 			uint16 ret = 0;
 
 			if (s->animation == 1) {
-				s->linkedID = u->linkedID;
-				u->linkedID = 0xFF;
-				u->flags.s.inTransport = false;
+				s->o.linkedID = u->o.linkedID;
+				u->o.linkedID = 0xFF;
+				u->o.flags.s.inTransport = false;
 				u->amount = 0;
 
 				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
@@ -167,7 +167,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 				emu_push(emu_cs); emu_push(0x093E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 				emu_sp += 6;
 
-				emu_push(u->position.s.y); emu_push(u->position.s.x);
+				emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 				emu_push(24);
 				emu_push(emu_cs); emu_push(0x0956); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 				emu_sp += 6;
@@ -186,21 +186,21 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			return ret;
 		}
 
-		if ((s->animation == 0 || (si->flags.s.variable_0010 && s->animation == 1)) && s->linkedID == 0xFF) {
-			emu_push(u->position.s.y); emu_push(u->position.s.x);
+		if ((s->animation == 0 || (si->flags.s.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
+			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(24);
 			emu_push(emu_cs); emu_push(0x09EF); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 			emu_sp += 6;
 
-			Unit_EnterStructure(Unit_Get_ByIndex(u->linkedID), s);
+			Unit_EnterStructure(Unit_Get_ByIndex(u->o.linkedID), s);
 
 			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
 			emu_push(emu_cs); emu_push(0x0A1F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
 			emu_sp += 4;
 
 			u->targetMove = 0;
-			u->linkedID = 0xFF;
-			u->flags.s.inTransport = false;
+			u->o.linkedID = 0xFF;
+			u->o.flags.s.inTransport = false;
 			u->amount = 0;
 
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
@@ -220,14 +220,14 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 		return 0;
 	}
 
-	if (!Map_IsValidPosition(Tile_PackTile(Tile_Center(u->position)))) return 0;
+	if (!Map_IsValidPosition(Tile_PackTile(Tile_Center(u->o.position)))) return 0;
 
-	u2 = Unit_Get_ByIndex(u->linkedID);
+	u2 = Unit_Get_ByIndex(u->o.linkedID);
 
-	if (!Unit_SetPosition(u2, Tile_Center(u->position))) return 0;
+	if (!Unit_SetPosition(u2, Tile_Center(u->o.position))) return 0;
 
-	if (u2->houseID == g_global->playerHouseID) {
-		emu_push(u->position.s.y); emu_push(u->position.s.x);
+	if (u2->o.houseID == g_global->playerHouseID) {
+		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(24);
 		emu_push(emu_cs); emu_push(0x0B11); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 		emu_sp += 6;
@@ -237,12 +237,12 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 	Unit_Unknown1E99(u2, u->variable_62[0][2], true, 1);
 	Unit_Unknown204C(u2, 0);
 
-	u->linkedID = u2->linkedID;
-	u2->linkedID = 0xFF;
+	u->o.linkedID = u2->o.linkedID;
+	u2->o.linkedID = 0xFF;
 
-	if (u->linkedID != 0xFF) return 1;
+	if (u->o.linkedID != 0xFF) return 1;
 
-	u->flags.s.inTransport = false;
+	u->o.flags.s.inTransport = false;
 	u->targetMove = 0;
 
 	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
@@ -267,7 +267,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->linkedID != 0xFF) return 0;
+	if (u->o.linkedID != 0xFF) return 0;
 
 	switch (Tools_Index_GetType(u->targetMove)) {
 		case IT_STRUCTURE: {
@@ -285,7 +285,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 				return 0;
 			}
 
-			u->flags.s.inTransport = true;
+			u->o.flags.s.inTransport = true;
 
 			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
 			emu_push(emu_cs); emu_push(0x0C43); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
@@ -293,20 +293,20 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			u->targetMove = 0;
 
-			u2 = Unit_Get_ByIndex(s->linkedID);
+			u2 = Unit_Get_ByIndex(s->o.linkedID);
 
-			u->linkedID = u2->index & 0xFF;
-			s->linkedID = u2->linkedID;
-			u2->linkedID = 0xFF;
+			u->o.linkedID = u2->o.index & 0xFF;
+			s->o.linkedID = u2->o.linkedID;
+			u2->o.linkedID = 0xFF;
 
-			if (s->linkedID == 0xFF) Structure_SetAnimation(s, 0);
+			if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
 
 			if (u2->variable_5A.tile != 0) {
 				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->variable_5A), IT_TILE);
-			} else if (u2->type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_global->playerHouseID) {
+			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_global->playerHouseID) {
 				emu_push(Unit_GetHouseID(u));
 				emu_push(20);
-				emu_push(Tile_PackTile(u->position));
+				emu_push(Tile_PackTile(u->o.position));
 				emu_push(emu_cs); emu_push(0x0D24); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
 				emu_sp += 6;
 
@@ -329,7 +329,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			u2 = Tools_Index_GetUnit(u->targetMove);
 
-			if (!u2->flags.s.allocated) return 0;
+			if (!u2->o.flags.s.allocated) return 0;
 
 			find.houseID = Unit_GetHouseID(u);
 			find.index   = 0xFFFF;
@@ -342,17 +342,17 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 				s2 = Structure_Find(&find);
 				if (s2 == NULL) break;
 
-				distance = Tile_GetDistanceRoundedUp(s2->position, u->position);
+				distance = Tile_GetDistanceRoundedUp(s2->o.position, u->o.position);
 
-				if (u2->type == UNIT_HARVESTER) {
-					if (s2->type != STRUCTURE_REFINERY || s2->animation != 0 || s2->script.variables[4] != 0) continue;
+				if (u2->o.type == UNIT_HARVESTER) {
+					if (s2->o.type != STRUCTURE_REFINERY || s2->animation != 0 || s2->o.script.variables[4] != 0) continue;
 					if (minDistance != 0 && distance >= minDistance) break;
 					minDistance = distance;
 					s = s2;
 					break;
 				}
 
-				if (s2->type != STRUCTURE_REPAIR || s2->animation != 0 || s2->script.variables[4] != 0) continue;
+				if (s2->o.type != STRUCTURE_REPAIR || s2->animation != 0 || s2->o.script.variables[4] != 0) continue;
 
 				if (minDistance != 0 && distance >= minDistance) continue;
 				minDistance = distance;
@@ -366,18 +366,18 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 				if (u2 == selected) Unit_Select(NULL);
 			}
 
-			u->linkedID = u2->index & 0xFF;
-			u->flags.s.inTransport = true;
+			u->o.linkedID = u2->o.index & 0xFF;
+			u->o.flags.s.inTransport = true;
 
-			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->index * sizeof(Unit));
+			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->o.index * sizeof(Unit));
 			emu_push(0);
 			emu_push(emu_cs); emu_push(0x0ED7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 			emu_sp += 6;
 
 			Unit_Unknown2AAA(u2);
 
-			emu_push(Tools_Index_Encode(s->index, IT_STRUCTURE));
-			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+			emu_push(Tools_Index_Encode(s->o.index, IT_STRUCTURE));
+			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
 			emu_sp += 4;
 
@@ -388,11 +388,11 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			emu_push(emu_cs); emu_push(0x0F3B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 			emu_sp +=6;
 
-			if (u2->type != UNIT_HARVESTER) return 0;
+			if (u2->o.type != UNIT_HARVESTER) return 0;
 
 			emu_push(Unit_GetHouseID(u2));
 			emu_push(2);
-			emu_push(Tile_PackTile(u2->position));
+			emu_push(Tile_PackTile(u2->o.position));
 			emu_push(emu_cs); emu_push(0x0F72); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
 			emu_sp += 6;
 
@@ -450,9 +450,9 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 	param = clamp(script->stack[script->stackPointer], 0, 255);
 
-	if (!u->flags.s.byScenario) param = param * 192 / 256;
+	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
 
-	if (g_unitInfo[u->type].variable_3C == 4) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
+	if (g_unitInfo[u->o.type].variable_3C == 4) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
 
 	Unit_Unknown204C(u, param);
 
@@ -506,13 +506,13 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	tile = Tools_Index_GetTile(u->targetMove);
 
-	distance = Tile_GetDistance(u->position, tile);
+	distance = Tile_GetDistance(u->o.position, tile);
 
 	if ((int16)distance < 128) {
 		Unit_Unknown204C(u, 0);
 
-		u->position.s.x += clamp((int16)(tile.s.x - u->position.s.x), -16, 16);
-		u->position.s.y += clamp((int16)(tile.s.y - u->position.s.y), -16, 16);
+		u->o.position.s.x += clamp((int16)(tile.s.x - u->o.position.s.x), -16, 16);
+		u->o.position.s.y += clamp((int16)(tile.s.y - u->o.position.s.y), -16, 16);
 
 		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 		emu_push(2);
@@ -529,7 +529,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	}
 
 	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
@@ -576,7 +576,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
 	Unit_Unknown10EC(u);
 
@@ -585,7 +585,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 		credits = max(ui->buildCredits / 100, 1);
 
-		if (u->houseID == g_global->playerHouseID) {
+		if (u->o.houseID == g_global->playerHouseID) {
 			g_global->scenario.variable_3A++;
 			g_global->scenario.variable_0002 -= credits;
 		} else {
@@ -599,11 +599,11 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x134E); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
 	emu_sp += 6;
 
-	if (u->type != UNIT_SABOTEUR) return 0;
+	if (u->o.type != UNIT_SABOTEUR) return 0;
 
 	emu_push(0);
 	emu_push(300);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(4);
 	emu_push(emu_cs); emu_push(0x1378); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 	emu_sp += 10;
@@ -625,9 +625,9 @@ uint16 Script_Unit_Unknown1382(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	emu_push(Tools_Index_Encode(u->index, IT_UNIT));
-	emu_push(g_unitInfo[u->type].hitpoints);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
+	emu_push(g_unitInfo[u->o.type].hitpoints);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(script->stack[script->stackPointer]);
 	emu_push(emu_cs); emu_push(0x13C4); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 	emu_sp += 10;
@@ -652,7 +652,7 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 
 	emu_push(0);
 	emu_push(Tools_RandomRange(25, 50));
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(11);
 	emu_push(emu_cs); emu_push(0x13F9); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 	emu_sp += 10;
@@ -660,7 +660,7 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 	for (i = 0; i < 7; i++) {
 		emu_push(0);
 		emu_push(script->stack[script->stackPointer]);
-		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x143A); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
 		emu_sp += 8;
 
@@ -699,16 +699,16 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	target = u->targetAttack;
 	if (target == 0 || !Tools_Index_IsValid(target)) return 0;
 
-	if (u->type != UNIT_SANDWORM && target == Tools_Index_Encode(Tile_PackTile(u->position), IT_TILE)) u->targetAttack = 0;
+	if (u->o.type != UNIT_SANDWORM && target == Tools_Index_Encode(Tile_PackTile(u->o.position), IT_TILE)) u->targetAttack = 0;
 
 	if (u->targetAttack != target) {
 		Unit_SetTarget(u, target);
 		return 0;
 	}
 
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
-	if (u->type != UNIT_SANDWORM && u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][0] != 0) return 0;
+	if (u->o.type != UNIT_SANDWORM && u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][0] != 0) return 0;
 
 	if (Tools_Index_GetType(target) == IT_TILE) {
 		emu_push(Tools_Index_GetPackedTile(target));
@@ -730,10 +730,10 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 
 	loc12 = 0;
-	if (u->type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->type].variable_3C != 4)) {
+	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].variable_3C != 4)) {
 		tile32 tile = Tools_Index_GetTile(target);
 		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
@@ -747,9 +747,9 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = (ui->variable_36 & 0x400) != 0 && u->hitpoints > ui->hitpoints / 2;
+	loc1A = (ui->variable_36 & 0x400) != 0 && u->o.hitpoints > ui->hitpoints / 2;
 
-	if ((u->type == UNIT_TROOPERS || u->type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
+	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
 	switch (typeID) {
 		case UNIT_SANDWORM: {
@@ -763,11 +763,11 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 			u2 = Tools_Index_GetUnit(target);
 
 			if (u2 != NULL) {
-				u2->script.variables[1] = 0xFFFF;
+				u2->o.script.variables[1] = 0xFFFF;
 				Unit_Unknown379B(u2);
 
 				emu_push(g_global->playerHouseID);
-				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->index * sizeof(Unit));
+				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->o.index * sizeof(Unit));
 				emu_push(emu_cs); emu_push(0x1733); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
 				emu_sp += 6;
 
@@ -776,12 +776,12 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			emu_push(0);
 			emu_push(0);
-			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(ui->variable_54);
 			emu_push(emu_cs); emu_push(0x1762); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 			emu_sp += 10;
 
-			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(63);
 			emu_push(emu_cs); emu_push(0x177A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 			emu_sp += 6;
@@ -810,13 +810,13 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		case UNIT_SONIC_BLAST: {
 			Unit *bullet;
 
-			bullet = Unit_CreateBullet(u->position, typeID, Unit_GetHouseID(u), damage, target);
+			bullet = Unit_CreateBullet(u->o.position, typeID, Unit_GetHouseID(u), damage, target);
 
 			if (bullet == NULL) return 0;
 
-			bullet->originEncoded = Tools_Index_Encode(u->index, IT_UNIT);
+			bullet->originEncoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
-			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(ui->variable_58);
 			emu_push(emu_cs); emu_push(0x184F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 			emu_sp += 6;
@@ -830,10 +830,10 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	u->fireDelay = Tools_AdjustToGameSpeed(ui->fireDelay * 2, 1, 255, true) & 0xFF;
 
 	if (loc1A) {
-		u->flags.s.unknown_0010 = !u->flags.s.unknown_0010;
-		if (u->flags.s.unknown_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
+		u->o.flags.s.unknown_4_0010 = !u->o.flags.s.unknown_4_0010;
+		if (u->o.flags.s.unknown_4_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
 	} else {
-		u->flags.s.unknown_0010 = false;
+		u->o.flags.s.unknown_4_0010 = false;
 	}
 
 	u->fireDelay += Tools_Random_256() & 1;
@@ -885,7 +885,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
 	if (ui->variable_3C != 4 && u->variable_49.tile != 0) return 1;
 
@@ -899,7 +899,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	tile = Tools_Index_GetTile(u->targetAttack);
 
 	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1A13); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
@@ -933,7 +933,7 @@ uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
 
 		tile = Tools_Index_GetTile(encoded);
 		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(u->position.s.y); emu_push(u->position.s.x);
+		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x1A89); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
@@ -964,7 +964,7 @@ uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
 		return 0;
 	}
 
-	if (u->type == UNIT_HARVESTER) {
+	if (u->o.type == UNIT_HARVESTER) {
 		Structure *s;
 
 		s = Tools_Index_GetStructure(encoded);
@@ -974,7 +974,7 @@ uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
 			return 0;
 		}
 
-		if (s->script.variables[4] != 0) return 0;
+		if (s->o.script.variables[4] != 0) return 0;
 	}
 
 	Unit_SetDestination(u, encoded);
@@ -1008,14 +1008,14 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	tile = Tools_Index_GetTile(target);
 
 	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1B95); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
 	locdi = emu_ax;
 
 	u->targetAttack = target;
-	if (!g_unitInfo[u->type].flags.s.variable_0040) {
+	if (!g_unitInfo[u->o.type].flags.s.variable_0040) {
 		u->targetMove = target;
 		Unit_Unknown1E99(u, locdi & 0xFF, false, 0);
 	}
@@ -1041,7 +1041,7 @@ uint16 Script_Unit_SetAction(ScriptEngine *script)
 
 	action = script->stack[script->stackPointer];
 
-	if (u->houseID == g_global->playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
+	if (u->o.houseID == g_global->playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
 
 	Unit_SetAction(u, action);
 
@@ -1064,7 +1064,7 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	Unit_SetAction(u, g_unitInfo[u->type].actionsPlayer[3]);
+	Unit_SetAction(u, g_unitInfo[u->o.type].actionsPlayer[3]);
 
 	return 0;
 }
@@ -1088,12 +1088,12 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->variable_49.tile == 0 || (g_unitInfo[u->type].variable_36 & 0x8000) != 0) {
+	if (u->variable_49.tile == 0 || (g_unitInfo[u->o.type].variable_36 & 0x8000) != 0) {
 		u->variable_49 = Tools_Index_GetTile(encoded);
 	}
 
 	emu_push(u->variable_49.s.y); emu_push(u->variable_49.s.x);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1CE1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
@@ -1116,31 +1116,31 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	UnitInfo *ui;
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
 	switch (script->stack[script->stackPointer]) {
-		case 0x00: return u->hitpoints * 256 / ui->hitpoints;
+		case 0x00: return u->o.hitpoints * 256 / ui->hitpoints;
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
 		case 0x02: return ui->variable_50 << 8;
-		case 0x03: return u->index;
+		case 0x03: return u->o.index;
 		case 0x04: return u->variable_62[0][2];
 		case 0x05: return u->targetAttack;
 		case 0x06:
-			if (u->originEncoded == 0 || u->type == UNIT_HARVESTER) Unit_FindClosestRefinery(u);
+			if (u->originEncoded == 0 || u->o.type == UNIT_HARVESTER) Unit_FindClosestRefinery(u);
 			return u->originEncoded;
-		case 0x07: return u->type;
-		case 0x08: return Tools_Index_Encode(u->index, IT_UNIT);
+		case 0x07: return u->o.type;
+		case 0x08: return Tools_Index_Encode(u->o.index, IT_UNIT);
 		case 0x09: return u->variable_6B;
 		case 0x0A: return abs(u->variable_62[0][1] - u->variable_62[0][2]);
 		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
 		case 0x0D: return ui->variable_36 & 0x4;
 		case 0x0E: return Unit_GetHouseID(u);
-		case 0x0F: return u->flags.s.byScenario ? 1 : 0;
+		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
 		case 0x10: return u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2];
 		case 0x11: return abs(u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][1] - u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2]);
 		case 0x12: return (ui->variable_3C & 0x40) == 0 ? 0 : 1;
-		case 0x13: return (u->variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
+		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
 	}
 }
@@ -1165,7 +1165,7 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 
 	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
 
-	packed = Tile_PackTile(u->position);
+	packed = Tile_PackTile(u->o.position);
 	locdi = Tools_Index_GetPackedTile(encoded);
 
 	if (locdi == packed) {
@@ -1193,7 +1193,7 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 
 		if (u->variable_72[0] == 0xFF) {
 			u->targetMove = 0;
-			if (u->type == UNIT_SANDWORM) {
+			if (u->o.type == UNIT_SANDWORM) {
 				/* XXX -- Lovely hackish */
 				*(((uint16 *)script) - 1) = 720;
 			}
@@ -1237,18 +1237,18 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->linkedID != 0xFF) {
+	if (u->o.linkedID != 0xFF) {
 		Structure *s;
 
-		s = Tools_Index_GetStructure(Unit_Get_ByIndex(u->linkedID)->originEncoded);
+		s = Tools_Index_GetStructure(Unit_Get_ByIndex(u->o.linkedID)->originEncoded);
 
-		if (s != NULL && s->animation == 0 && s->script.variables[4] == 0) {
+		if (s != NULL && s->animation == 0 && s->o.script.variables[4] == 0) {
 			uint16 encoded;
 
-			encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+			encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
 			emu_push(encoded);
-			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x21CD); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
 			emu_sp += 4;
 
@@ -1270,12 +1270,12 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 		if (s == NULL) break;
 
 		if (s->animation != 0) continue;
-		if (s->script.variables[4] != 0) continue;
+		if (s->o.script.variables[4] != 0) continue;
 
-		encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+		encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
 		emu_push(encoded);
-		emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+		emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 		emu_push(emu_cs); emu_push(0x2243); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
 		emu_sp += 4;
 
@@ -1303,9 +1303,9 @@ uint16 Script_Unit_GetAmount(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->linkedID == 0xFF) return u->amount;
+	if (u->o.linkedID == 0xFF) return u->amount;
 
-	return Unit_Get_ByIndex(u->linkedID)->amount;
+	return Unit_Get_ByIndex(u->o.linkedID)->amount;
 }
 
 /**
@@ -1324,7 +1324,7 @@ uint16 Script_Unit_IsInTransport(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	return u->flags.s.inTransport ? 1 : 0;
+	return u->o.flags.s.inTransport ? 1 : 0;
 }
 
 /**
@@ -1345,28 +1345,28 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	position = Tile_PackTile(Tile_Center(u->position));
+	position = Tile_PackTile(Tile_Center(u->o.position));
 
 	emu_push(position);
 	emu_push(emu_cs); emu_push(0x22F0); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
 	emu_sp += 2;
 
-	emu_push(Tile_PackTile(u->position));
+	emu_push(Tile_PackTile(u->o.position));
 	emu_push(emu_cs); emu_push(0x230A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 	emu_sp += 2;
 
 	loc06 = g_global->variable_3A3E[emu_ax][7] != 0 ? 0 : 1;
 
-	if (u->script.variables[1] == 1) loc06 += 2;
+	if (u->o.script.variables[1] == 1) loc06 += 2;
 
-	loc06 = (loc06 << 4) + (g_unitInfo[u->type].variable_4A == 3 ? 128 : 192);
+	loc06 = (loc06 << 4) + (g_unitInfo[u->o.type].variable_4A == 3 ? 128 : 192);
 
 	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);
 
 	emu_push(4);
 	emu_push(Unit_GetHouseID(u));
 	emu_push(0);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(0x33C8); emu_push(loc06);
 	emu_push(emu_cs); emu_push(0x23BE); emu_cs = 0x151A; f__151A_000E_0013_5840();
 	emu_sp += 14;
@@ -1396,15 +1396,15 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 
 	if (variable4 != 0) return variable4;
 
-	if (!g_unitInfo[u->type].flags.s.variable_0100 || u->deviated != 0) return 0;
+	if (!g_unitInfo[u->o.type].flags.s.variable_0100 || u->deviated != 0) return 0;
 
-	encoded = Tools_Index_Encode(u->index, IT_UNIT);
+	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
 	u2 = Unit_Unknown2BB5(script->stack[script->stackPointer], Unit_GetHouseID(u), encoded, false);
 
 	if (u2 == NULL) return 0;
 
-	encoded2 = Tools_Index_Encode(u2->index, IT_UNIT);
+	encoded2 = Tools_Index_Encode(u2->o.index, IT_UNIT);
 
 	emu_push(encoded2);
 	emu_push(encoded);
@@ -1437,7 +1437,7 @@ uint16 Script_Unit_Unknown2552(ScriptEngine *script)
 
 	u = Tools_Index_GetUnit(variable4);
 
-	if (u == NULL || u->type != UNIT_CARRYALL) return 0;
+	if (u == NULL || u->o.type != UNIT_CARRYALL) return 0;
 
 	u->targetMove = 0;
 
@@ -1473,10 +1473,10 @@ uint16 Script_Unit_FindStructure(ScriptEngine *script)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 		if (s->animation != 0) continue;
-		if (s->linkedID != 0xFF) continue;
-		if (s->script.variables[4] != 0) continue;
+		if (s->o.linkedID != 0xFF) continue;
+		if (s->o.script.variables[4] != 0) continue;
 
-		return Tools_Index_Encode(s->index, IT_STRUCTURE);
+		return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 	}
 
 	return 0;
@@ -1498,7 +1498,7 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
 	/* "%s %s destroyed." */
 	if (g_global->language == 1) {
@@ -1546,10 +1546,10 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (u->type != UNIT_HARVESTER) return 0;
+	if (u->o.type != UNIT_HARVESTER) return 0;
 	if (u->amount >= 100) return 0;
 
-	packed = Tile_PackTile(u->position);
+	packed = Tile_PackTile(u->o.position);
 
 	emu_push(packed);
 	emu_push(emu_cs); emu_push(0x2721); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
@@ -1558,7 +1558,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 	if (emu_ax != 8 && emu_ax != 9) return 0;
 
 	u->amount += Tools_Random_256() & 1;
-	u->flags.s.inTransport = true;
+	u->o.flags.s.inTransport = true;
 
 	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 	emu_push(2);
@@ -1599,20 +1599,20 @@ uint16 Script_Unit_Unknown27A4(ScriptEngine *script)
 	switch (Tools_Index_GetType(encoded)) {
 		case IT_TILE:
 			if (!Map_IsValidPosition(index)) return 1;
-			if (u->linkedID == 0XFF) return 1;
-			u2 = Unit_Get_ByIndex(u->linkedID);
-			u2->position = Tools_Index_GetTile(encoded);
+			if (u->o.linkedID == 0XFF) return 1;
+			u2 = Unit_Get_ByIndex(u->o.linkedID);
+			u2->o.position = Tools_Index_GetTile(encoded);
 			if (!Unit_Unknown0E2E(u2)) return 0;
-			u2->position.tile = 0xFFFFFFFF;
+			u2->o.position.tile = 0xFFFFFFFF;
 			return 1;
 
 		case IT_STRUCTURE: {
 			Structure *s;
 
 			s = Structure_Get_ByIndex(index);
-			if (s->houseID == Unit_GetHouseID(u)) return 0;
-			if (u->linkedID == 0xFF) return 1;
-			u2 = Unit_Get_ByIndex(u->linkedID);
+			if (s->o.houseID == Unit_GetHouseID(u)) return 0;
+			if (u->o.linkedID == 0xFF) return 1;
+			u2 = Unit_Get_ByIndex(u->o.linkedID);
 			return Unit_Unknown3014(u2, s) ? 1 : 0;
 		}
 
@@ -1639,7 +1639,7 @@ uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
 
 	emu_push(1);
 	emu_push(80);
-	emu_push(u->position.s.y); emu_push(u->position.s.x);
+	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x28FA); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
 	emu_sp += 8;
 
@@ -1669,7 +1669,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	random = Tools_RandomRange(0, 10);
-	loc3C = g_unitInfo[u->type].variable_3C;
+	loc3C = g_unitInfo[u->o.type].variable_3C;
 
 	if (loc3C != 0 && loc3C != 1 && loc3C != 3) return 0;
 
@@ -1720,10 +1720,10 @@ uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
 
 		if (s2 == NULL) break;
 		if (s2->animation != 0) continue;
-		if (s2->linkedID != 0xFF) continue;
-		if (s2->script.variables[4] != 0) continue;
+		if (s2->o.linkedID != 0xFF) continue;
+		if (s2->o.script.variables[4] != 0) continue;
 
-		distance = Tile_GetDistanceRoundedUp(s2->position, u->position);
+		distance = Tile_GetDistanceRoundedUp(s2->o.position, u->o.position);
 
 		if (distance >= distanceMin && distanceMin != 0) continue;
 
@@ -1734,7 +1734,7 @@ uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
 	if (s == NULL) return 0;
 
 	Unit_SetAction(u, ACTION_MOVE);
-	Unit_SetDestination(u, Tools_Index_Encode(s->index, IT_STRUCTURE));
+	Unit_SetDestination(u, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 
 	return 1;
 }
@@ -1763,7 +1763,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 	emu_sp += 6;
 
 	for (i = 0; i < 4; i++) {
-		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->position) + g_global->variable_628C[i]);
+		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + g_global->variable_628C[i]);
 
 		if (s != NULL) {
 			Unit_Unknown10EC(u);
@@ -1804,7 +1804,7 @@ uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
 	u2 = Unit_Unknown15F4(u);
 	if (u2 == NULL) return 0;
 
-	return Tools_Index_Encode(u2->index, IT_UNIT);
+	return Tools_Index_Encode(u2->o.index, IT_UNIT);
 }
 
 /**
@@ -1832,7 +1832,7 @@ uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 
 			u2 = Tools_Index_GetUnit(encoded);
 
-			if (Tools_Index_Encode(u->index, IT_UNIT) == u2->script.variables[4] && u2->houseID == u->houseID) return 1;
+			if (Tools_Index_Encode(u->o.index, IT_UNIT) == u2->o.script.variables[4] && u2->o.houseID == u->o.houseID) return 1;
 
 			u2->targetMove = 0;
 		} break;
@@ -1841,7 +1841,7 @@ uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 			Structure *s;
 
 			s = Tools_Index_GetStructure(encoded);
-			if (Tools_Index_Encode(u->index, IT_UNIT) == s->script.variables[4] && s->houseID == u->houseID) return 1;
+			if (Tools_Index_Encode(u->o.index, IT_UNIT) == s->o.script.variables[4] && s->o.houseID == u->o.houseID) return 1;
 		} break;
 
 		default: break;

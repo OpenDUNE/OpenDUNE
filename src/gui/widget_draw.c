@@ -154,7 +154,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		Unit *u;
 
 		u = Unit_Get_ByMemory(g_global->selectionUnit);
-		ui = &g_unitInfo[u->type];
+		ui = &g_unitInfo[u->o.type];
 
 		spriteID = ui->spriteID;
 	} else {
@@ -163,7 +163,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 		if (s == NULL) return;
-		si = &g_structureInfo[s->type];
+		si = &g_structureInfo[s->o.type];
 
 		spriteID = si->spriteID;
 	}
@@ -308,7 +308,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		case 0x28: /* "On hold" */
 		case 0x29: /* "Build it" */
 		case 0x2E: /* "%d%% done" */
-			if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
+			if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 				StructureInfo *si;
 				uint16 spriteWidth;
 				uint16 x, y;
@@ -375,17 +375,17 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		uint16 buildTime;
 		uint16 timeLeft;
 
-		if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
+		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 			StructureInfo *si;
 
 			si = &g_structureInfo[s->objectType];
 			buildTime = si->buildTime;
-		} else if (s->type == STRUCTURE_REPAIR) {
+		} else if (s->o.type == STRUCTURE_REPAIR) {
 			UnitInfo *ui;
 
-			if (s->linkedID == 0xFF) return;
+			if (s->o.linkedID == 0xFF) return;
 
-			ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
+			ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 			buildTime = ui->buildTime;
 		} else {
 			UnitInfo *ui;

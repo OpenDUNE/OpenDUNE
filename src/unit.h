@@ -3,7 +3,7 @@
 #ifndef UNIT_H
 #define UNIT_H
 
-#include "script/script.h"
+#include "object.h"
 
 /**
  * Types of Units available in the game.
@@ -98,36 +98,7 @@ MSVC_PACKED_BEGIN
  * A Unit as stored in the memory.
  */
 typedef struct Unit {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Unit in the array. */
-	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Unit. */
-	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
-	/* 0004(2)   */ PACK union {
-	                     struct {
-	/*      0001 */              BITTYPE used:1;            /*!< The Unit is in use (no longer free in the pool). */
-	/*      0002 */              BITTYPE allocated:1;       /*!< The Unit is allocated (created, and ready to be put on the map). */
-	/*      0004 */              BITTYPE beingBuilt:1;      /*!< The Unit is still under construction. */
-	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE inTransport:1;     /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
-	/*      0200 */              BITTYPE byScenario:1;      /*!< The Unit is created by the scenario. */
-	/*      0400 */              BITTYPE variable_0400:1;   /*!< ?? */
-	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE unknown_2000:1;
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
-	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the Unit. */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Unit. */
-	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
-	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
-	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
-	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
-	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Unit. */
+	/* 0000(71)  */ PACK Object o;                          /*!< Common to Unit and Structures. */
 	/* 0047()    */ PACK uint8   unknown_0047[0x0002];
 	/* 0049(4)   */ PACK tile32 variable_49;                /*!< ?? */
 	/* 004D(2)   */ PACK uint16 originEncoded;              /*!< Encoded index, indicating the origin. */

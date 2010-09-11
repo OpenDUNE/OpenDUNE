@@ -109,10 +109,10 @@ static bool GameLoop_IsLevelFinished()
 			s = Structure_Find(&find);
 			if (s == NULL) break;
 
-			if (s->type == STRUCTURE_TURRET) continue;
-			if (s->type == STRUCTURE_ROCKET_TURRET) continue;
+			if (s->o.type == STRUCTURE_TURRET) continue;
+			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
-			if (s->houseID == g_global->playerHouseID) {
+			if (s->o.houseID == g_global->playerHouseID) {
 				countStructureFriendly++;
 			} else {
 				countStructureEnemy++;
@@ -202,11 +202,11 @@ static bool GameLoop_IsLevelWon()
 			s = Structure_Find(&find);
 			if (s == NULL) break;
 
-			if (s->type == STRUCTURE_WALL) continue;
-			if (s->type == STRUCTURE_TURRET) continue;
-			if (s->type == STRUCTURE_ROCKET_TURRET) continue;
+			if (s->o.type == STRUCTURE_WALL) continue;
+			if (s->o.type == STRUCTURE_TURRET) continue;
+			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
-			if (s->houseID == g_global->playerHouseID) {
+			if (s->o.houseID == g_global->playerHouseID) {
 				countStructureFriendly++;
 			} else {
 				countStructureEnemy++;
@@ -539,7 +539,7 @@ static void GameLoop_Main()
 				}
 
 				if (g_global->selectionType != 1) {
-					g_global->selectionPosition = Tile_PackTile(Tile_Center(u->position));
+					g_global->selectionPosition = Tile_PackTile(Tile_Center(u->o.position));
 				}
 			}
 

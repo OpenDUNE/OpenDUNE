@@ -139,7 +139,7 @@ void GameLoop_House()
 
 			/* XXX -- Temporary, to keep all the emu_calls workable for now */
 			ucsip = g_global->unitStartPos;
-			ucsip.s.ip += u->index * sizeof(Unit);
+			ucsip.s.ip += u->o.index * sizeof(Unit);
 
 			locationID = g_global->scenario.reinforcement[i].locationID;
 			deployed   = false;
@@ -148,21 +148,21 @@ void GameLoop_House()
 				if (nu == NULL) {
 					csip32 nucsip;
 
-					emu_push(u->houseID);
+					emu_push(u->o.houseID);
 					emu_push(Tools_Random_256() & 3);
 					emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 					emu_sp += 4;
 
-					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->houseID, Tile_UnpackTile(emu_ax), 100);
+					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->o.houseID, Tile_UnpackTile(emu_ax), 100);
 
 					if (nu != NULL) {
 						/* XXX -- Temporary, to keep all the emu_calls workable for now */
 						nucsip = g_global->unitStartPos;
-						nucsip.s.ip += nu->index * sizeof(Unit);
+						nucsip.s.ip += nu->o.index * sizeof(Unit);
 
-						nu->flags.s.byScenario = true;
+						nu->o.flags.s.byScenario = true;
 
-						emu_push(u->houseID);
+						emu_push(u->o.houseID);
 						emu_push(locationID);
 						emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 						emu_sp += 4;
@@ -172,9 +172,9 @@ void GameLoop_House()
 				}
 
 				if (nu != NULL) {
-					u->linkedID = nu->linkedID;
-					nu->linkedID = (uint8)u->index;
-					nu->flags.s.inTransport = true;
+					u->o.linkedID = nu->o.linkedID;
+					nu->o.linkedID = (uint8)u->o.index;
+					nu->o.flags.s.inTransport = true;
 					g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
 					deployed = true;
 				} else {
@@ -182,7 +182,7 @@ void GameLoop_House()
 					g_global->scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
-				emu_push(u->houseID);
+				emu_push(u->o.houseID);
 				emu_push(locationID);
 				emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
 				emu_sp += 4;
@@ -195,11 +195,11 @@ void GameLoop_House()
 				tile.tile = 0xFFFFFFFF;
 
 				g_global->variable_38BC++;
-				u = Unit_Create(UNIT_INDEX_INVALID, u->type, u->houseID, tile, 0);
+				u = Unit_Create(UNIT_INDEX_INVALID, u->o.type, u->o.houseID, tile, 0);
 				g_global->variable_38BC--;
 
 				if (u != NULL) {
-					g_global->scenario.reinforcement[i].unitID = u->index;
+					g_global->scenario.reinforcement[i].unitID = u->o.index;
 					g_global->scenario.reinforcement[i].timeLeft = g_global->scenario.reinforcement[i].timeBetween;
 				}
 			}
@@ -285,13 +285,13 @@ void GameLoop_House()
 				Structure *s;
 
 				s = Structure_Get_ByIndex(g_global->structureIndex);
-				if (s->type == STRUCTURE_STARPORT && s->houseID == h->index) {
-					u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->index, IT_STRUCTURE));
+				if (s->o.type == STRUCTURE_STARPORT && s->o.houseID == h->index) {
+					u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 
 					if (u != NULL) {
-						u->linkedID = (uint8)h->starportLinkedID;
+						u->o.linkedID = (uint8)h->starportLinkedID;
 						h->starportLinkedID = UNIT_INDEX_INVALID;
-						u->flags.s.inTransport = true;
+						u->o.flags.s.inTransport = true;
 
 						emu_push(38);
 						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
@@ -307,14 +307,14 @@ void GameLoop_House()
 					while (true) {
 						s = Structure_Find(&find2);
 						if (s == NULL) break;
-						if (s->linkedID != 0xFF) continue;
+						if (s->o.linkedID != 0xFF) continue;
 
-						u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->index, IT_STRUCTURE));
+						u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 
 						if (u != NULL) {
-							u->linkedID = (uint8)h->starportLinkedID;
+							u->o.linkedID = (uint8)h->starportLinkedID;
 							h->starportLinkedID = 0xFFFF;
-							u->flags.s.inTransport = true;
+							u->o.flags.s.inTransport = true;
 
 							emu_push(38);
 							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
@@ -379,10 +379,10 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 		/* ENHANCEMENT -- Dune2 checked the wrong type to skip. LinkedID is a structure for a Construction Yard */
-		if (!g_dune2_enhanced && s->type == STRUCTURE_HEAVY_VEHICLE) continue;
-		if (g_dune2_enhanced && s->type == STRUCTURE_CONSTRUCTION_YARD) continue;
-		if (s->linkedID == UNIT_INVALID) continue;
-		if (Unit_Get_ByIndex(s->linkedID)->type == UNIT_HARVESTER) return;
+		if (!g_dune2_enhanced && s->o.type == STRUCTURE_HEAVY_VEHICLE) continue;
+		if (g_dune2_enhanced && s->o.type == STRUCTURE_CONSTRUCTION_YARD) continue;
+		if (s->o.linkedID == UNIT_INVALID) continue;
+		if (Unit_Get_ByIndex(s->o.linkedID)->o.type == UNIT_HARVESTER) return;
 	}
 
 	find.houseID = houseID;
@@ -394,8 +394,8 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
-		if (u->linkedID == UNIT_INVALID) continue;
-		if (Unit_Get_ByIndex(u->linkedID)->type == UNIT_HARVESTER) return;
+		if (u->o.linkedID == UNIT_INVALID) continue;
+		if (Unit_Get_ByIndex(u->o.linkedID)->o.type == UNIT_HARVESTER) return;
 	}
 
 	if (Unit_IsTypeOnMap(houseID, UNIT_HARVESTER)) return;
@@ -407,7 +407,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 	s = Structure_Find(&find);
 	if (s == NULL) return;
 
-	if (Unit_CreateWrapper(houseID, UNIT_HARVESTER, Tools_Index_Encode(s->index, IT_STRUCTURE)) == NULL) return;
+	if (Unit_CreateWrapper(houseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE)) == NULL) return;
 
 	if (houseID != g_global->playerHouseID) return;
 

@@ -181,7 +181,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(36);
 			emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
 			emu_sp += 2;
-		} else if (g_unitInfo[u->type].variable_3C == 0) {
+		} else if (g_unitInfo[u->o.type].variable_3C == 0) {
 			emu_push(g_actionInfo[action].variable_0A);
 			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 			emu_sp += 2;
@@ -216,19 +216,19 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 			emu_sp += 2;
 
-			if (s->type == STRUCTURE_PALACE) House_Get_ByIndex(s->houseID)->palacePosition = s->position;
+			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 
 			if (g_global->activeStructureType == STRUCTURE_REFINERY && g_global->variable_38BC == 0) {
 				Unit *u;
 
 				g_global->variable_38BC++;
-				u = Unit_CreateWrapper((uint8)g_global->playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->index, IT_STRUCTURE));
+				u = Unit_CreateWrapper((uint8)g_global->playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 				g_global->variable_38BC--;
 
 				if (u == NULL) {
 					h->variable_02++;
 				} else {
-					u->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+					u->originEncoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 				}
 			}
 
@@ -240,14 +240,14 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			if (s != NULL) {
 				uint32 returnValue;
 
-				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 				emu_push(emu_cs); emu_push(0x05F4); emu_cs = 0x0C3A; f__0C3A_1B79_0021_8C40();
 				emu_sp += 4;
 				returnValue = (emu_dx << 16) | emu_ax;
 
 				if ((returnValue & (1 << s->objectType)) == 0) {
 					emu_push(0xFFFE);
-					emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+					emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 					emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
 					emu_sp += 6;
 				}

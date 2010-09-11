@@ -93,7 +93,7 @@ void Unit_Unknown1F55(Unit *unit, uint16 i)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	loc02 = unit->variable_62[i][1];
 	loc04 = unit->variable_62[i][2];
@@ -153,7 +153,7 @@ void Unit_Unknown2134(Unit *unit)
 	loc02 += Tools_AdjustToGameSpeed(unit->variable_68, 1, 255, false);
 
 	if ((loc02 & 0xFF00) != 0) {
-		Unit_Move(unit, min(unit->variable_6A * 16, Tile_GetDistance(unit->position, unit->variable_49) + 16));
+		Unit_Move(unit, min(unit->variable_6A * 16, Tile_GetDistance(unit->o.position, unit->variable_49) + 16));
 	}
 
 	unit->variable_69 = loc02 & 0xFF;
@@ -223,20 +223,20 @@ void GameLoop_Unit()
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		ui = &g_unitInfo[u->type];
-		h  = House_Get_ByIndex(u->houseID);
+		ui = &g_unitInfo[u->o.type];
+		h  = House_Get_ByIndex(u->o.houseID);
 		hi = &g_houseInfo[h->index];
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		g_global->unitCurrent          = g_global->unitStartPos;
-		g_global->unitCurrent.s.ip    += u->index * sizeof(Unit);
+		g_global->unitCurrent.s.ip    += u->o.index * sizeof(Unit);
 		g_global->objectCurrent        = g_global->unitCurrent;
 		g_global->unitInfoCurrent.s.cs = 0x2D07;
-		g_global->unitInfoCurrent.s.ip = u->type * sizeof(UnitInfo);
+		g_global->unitInfoCurrent.s.ip = u->o.type * sizeof(UnitInfo);
 		g_global->houseCurrent         = g_global->houseStartPos;
 		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
-		if (u->flags.s.beingBuilt) continue;
+		if (u->o.flags.s.beingBuilt) continue;
 
 		if (tickUnknown4 && u->targetAttack != 0 && ui->flags.s.variable_0040) {
 			tile32 tile;
@@ -244,7 +244,7 @@ void GameLoop_Unit()
 			tile = Tools_Index_GetTile(u->targetAttack);
 
 			emu_push(tile.s.y); emu_push(tile.s.x);
-			emu_push(u->position.s.y); emu_push(u->position.s.x);
+			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 			emu_sp += 8;
 
@@ -260,12 +260,12 @@ void GameLoop_Unit()
 
 					tile = u->variable_49;
 
-					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->type].variable_3C == 4) {
+					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].variable_3C == 4) {
 						tile = Tools_Index_GetTile(u->targetAttack);
 					}
 
 					emu_push(tile.s.y); emu_push(tile.s.x);
-					emu_push(u->position.s.y); emu_push(u->position.s.x);
+					emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 					emu_push(emu_cs); emu_push(0x0413); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 					emu_sp += 8;
 
@@ -284,9 +284,9 @@ void GameLoop_Unit()
 		if (tickUnknown3 && u->variable_6E != 0) {
 			u->variable_6E--;
 			if ((u->variable_6E & 0x01) != 0) {
-				u->flags.s.variable_0800 = true;
+				u->o.flags.s.variable_0800 = true;
 			} else {
-				u->flags.s.variable_0800 = false;
+				u->o.flags.s.variable_0800 = false;
 			}
 
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
@@ -298,7 +298,7 @@ void GameLoop_Unit()
 		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
 		if (ui->variable_3C != 4) {
-			emu_push(Tile_PackTile(u->position));
+			emu_push(Tile_PackTile(u->o.position));
 			emu_push(emu_cs); emu_push(0x04F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
 			emu_sp += 2;
 
@@ -312,7 +312,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown5) {
 			if (u->variable_70 == 0) {
-				if ((ui->variable_3C == 0 && u->variable_6A != 0) || u->flags.s.variable_0008) {
+				if ((ui->variable_3C == 0 && u->variable_6A != 0) || u->o.flags.s.variable_0008) {
 					if (u->variable_6D >= 0) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
@@ -323,17 +323,17 @@ void GameLoop_Unit()
 						emu_sp += 6;
 
 						u->variable_70 = ui->variable_3E / 5;
-						if (u->flags.s.variable_0008) {
+						if (u->o.flags.s.variable_0008) {
 							u->variable_70 = 3;
 							if (u->variable_6D > 32) {
-								u->flags.s.variable_0008 = false;
+								u->o.flags.s.variable_0008 = false;
 								u->variable_6D = 0;
 							}
 						}
 					}
 				}
 
-				if (u->type == UNIT_ORNITHOPTER && u->flags.s.allocated && u->variable_6D >= 0) {
+				if (u->o.type == UNIT_ORNITHOPTER && u->o.flags.s.allocated && u->variable_6D >= 0) {
 					u->variable_6D &= 0x3F;
 					u->variable_6D++;
 
@@ -345,8 +345,8 @@ void GameLoop_Unit()
 					u->variable_70 = 1;
 				}
 
-				if (u->type == UNIT_HARVESTER) {
-					if (u->actionID == ACTION_HARVEST || u->flags.s.variable_0008) {
+				if (u->o.type == UNIT_HARVESTER) {
+					if (u->actionID == ACTION_HARVEST || u->o.flags.s.variable_0008) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
 
@@ -373,28 +373,28 @@ void GameLoop_Unit()
 		}
 
 		if (tickScript) {
-			if (u->scriptDelay == 0) {
-				if (Script_IsLoaded(&u->script)) {
+			if (u->o.scriptDelay == 0) {
+				if (Script_IsLoaded(&u->o.script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if (!ui->flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->position, NULL, NULL)) {
+					if (!ui->flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->o.position, NULL, NULL)) {
 						g_global->scriptUnitLeft = 1;
 					}
 
-					u->script.variables[3] = g_global->playerHouseID;
+					u->o.script.variables[3] = g_global->playerHouseID;
 
-					for (; g_global->scriptUnitLeft >= -1 && u->scriptDelay == 0; g_global->scriptUnitLeft--) {
+					for (; g_global->scriptUnitLeft >= -1 && u->o.scriptDelay == 0; g_global->scriptUnitLeft--) {
 						g_global->variable_37A4 = 0;
 						g_global->variable_37A2++;
 
-						if (u->script.stackPointer <= 15 && 15 - u->script.stackPointer > g_global->variable_37A8) {
-							g_global->variable_37A8 = 15 - u->script.stackPointer;
+						if (u->o.script.stackPointer <= 15 && 15 - u->o.script.stackPointer > g_global->variable_37A8) {
+							g_global->variable_37A8 = 15 - u->o.script.stackPointer;
 						}
 
-						if (!Script_Run(&u->script)) break;
+						if (!Script_Run(&u->o.script)) break;
 					}
 				}
 			} else {
-				u->scriptDelay--;
+				u->o.scriptDelay--;
 			}
 		}
 
@@ -407,7 +407,7 @@ void GameLoop_Unit()
 }
 
 /**
- * Get the HouseID of a unit. This is not always u->houseID, as a unit can be
+ * Get the HouseID of a unit. This is not always u->o.houseID, as a unit can be
  *  deviated by the Ordos.
  *
  * @param u Unit to get the HouseID of.
@@ -416,7 +416,7 @@ void GameLoop_Unit()
 uint8 Unit_GetHouseID(Unit *u)
 {
 	if (u->deviated != 0) return HOUSE_ORDOS;
-	return u->houseID;
+	return u->o.houseID;
 }
 
 /**
@@ -512,17 +512,17 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip = g_global->unitStartPos;
-	ucsip.s.ip += u->index * sizeof(Unit);
+	ucsip.s.ip += u->o.index * sizeof(Unit);
 
-	u->houseID = houseID;
+	u->o.houseID = houseID;
 
 	Unit_Unknown1E99(u, unknown, true, 0);
 	Unit_Unknown1E99(u, unknown, true, 1);
 
 	Unit_Unknown204C(u, 0);
 
-	u->position.tile    = position.tile;
-	u->hitpoints        = ui->hitpoints;
+	u->o.position.tile  = position.tile;
+	u->o.hitpoints      = ui->hitpoints;
 	u->variable_49.tile = 0;
 	u->originEncoded    = 0x0000;
 	u->variable_72[0]   = 0xFF;
@@ -533,26 +533,26 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 		u->variable_5E.tile = position.tile;
 	}
 
-	u->linkedID     = 0xFF;
-	u->scriptDelay  = 0;
-	u->actionID     = ACTION_GUARD;
-	u->nextActionID = ACTION_INVALID;
-	u->fireDelay  = 0x00;
-	u->variable_52  = 0x7FFF;
-	u->targetMove   = 0x0000;
-	u->amount       = 0x00;
-	u->variable_6C  = 0x00;
-	u->variable_6D  = 0x00;
-	u->variable_6E  = 0x00;
-	u->variable_70  = 0x0000;
+	u->o.linkedID    = 0xFF;
+	u->o.scriptDelay = 0;
+	u->actionID      = ACTION_GUARD;
+	u->nextActionID  = ACTION_INVALID;
+	u->fireDelay     = 0x00;
+	u->variable_52   = 0x7FFF;
+	u->targetMove    = 0x0000;
+	u->amount        = 0x00;
+	u->variable_6C   = 0x00;
+	u->variable_6D   = 0x00;
+	u->variable_6E   = 0x00;
+	u->variable_70   = 0x0000;
 
-	Script_Reset(&u->script, &g_global->scriptUnit);
+	Script_Reset(&u->o.script, &g_global->scriptUnit);
 
-	u->flags.s.allocated = true;
+	u->o.flags.s.allocated = true;
 
 	if (ui->variable_3C == 0x0001) {
 		if (Tools_Random_256() < g_houseInfo[houseID].variable_06) {
-			u->flags.s.variable_0400 = true;
+			u->o.flags.s.degrades = true;
 		}
 	}
 
@@ -566,7 +566,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 	}
 
 	if (position.tile == 0xFFFFFFFF) {
-		u->flags.s.beingBuilt = true;
+		u->o.flags.s.beingBuilt = true;
 		return u;
 	}
 
@@ -596,8 +596,8 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 
 		u = Unit_Get_ByMemory(g_global->unitArray[i]);
 		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
-		if (typeID != UNIT_INVALID && u->type != typeID) continue;
-		if (g_global->variable_38BC == 0 && u->flags.s.beingBuilt) continue;
+		if (typeID != UNIT_INVALID && u->o.type != typeID) continue;
+		if (g_global->variable_38BC == 0 && u->o.flags.s.beingBuilt) continue;
 
 		return true;
 	}
@@ -630,15 +630,15 @@ void Unit_SetAction(Unit *u, ActionType action)
 			u->actionID = action;
 			u->nextActionID = ACTION_INVALID;
 			u->variable_49.tile = 0;
-			u->scriptDelay = 0;
-			Script_Reset(&u->script, &g_global->scriptUnit);
-			u->script.variables[0] = action;
-			Script_Load(&u->script, u->type);
+			u->o.scriptDelay = 0;
+			Script_Reset(&u->o.script, &g_global->scriptUnit);
+			u->o.script.variables[0] = action;
+			Script_Load(&u->o.script, u->o.type);
 			return;
 
 		case 2:
-			u->script.variables[0] = action;
-			Script_Unknown044C(&u->script, u->type);
+			u->o.script.variables[0] = action;
+			Script_Unknown044C(&u->o.script, u->o.type);
 			return;
 
 		default: return;
@@ -722,17 +722,17 @@ void Unit_Sort()
 		u1 = Unit_Get_ByMemory(csip1);
 		u2 = Unit_Get_ByMemory(csip2);
 
-		if ((u1->variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->flags.s.beingBuilt) {
-			if (House_AreAllied(u1->houseID, (uint8)g_global->playerHouseID)) {
+		if ((u1->o.variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->o.flags.s.beingBuilt) {
+			if (House_AreAllied(u1->o.houseID, (uint8)g_global->playerHouseID)) {
 				h->unitCountAllied++;
 			} else {
 				h->unitCountEnemy++;
 			}
 		}
-		y1 = Tile_GetY(u1->position);
-		y2 = Tile_GetY(u2->position);
-		if (g_unitInfo[u1->type].variable_3C == 0) y1 -= 0x100;
-		if (g_unitInfo[u2->type].variable_3C == 0) y2 -= 0x100;
+		y1 = Tile_GetY(u1->o.position);
+		y2 = Tile_GetY(u2->o.position);
+		if (g_unitInfo[u1->o.type].variable_3C == 0) y1 -= 0x100;
+		if (g_unitInfo[u2->o.type].variable_3C == 0) y2 -= 0x100;
 
 		if ((int16)y1 > (int16)y2) {
 			g_global->unitArray[i] = csip2;
@@ -774,22 +774,22 @@ uint16 Unit_Unknown3014(Unit *unit, Structure *s)
 
 	if (unit == NULL || s == NULL) return 0;
 
-	si = &g_structureInfo[s->type];
-	ui = &g_unitInfo[unit->type];
+	si = &g_structureInfo[s->o.type];
+	ui = &g_unitInfo[unit->o.type];
 
-	loc0A = Tools_Index_Encode(unit->index, IT_UNIT);
-	loc0C = Tools_Index_Encode(s->index, IT_STRUCTURE);
+	loc0A = Tools_Index_Encode(unit->o.index, IT_UNIT);
+	loc0C = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
-	if (Unit_GetHouseID(unit) != s->houseID) {
-		if (unit->type == UNIT_SABOTEUR && unit->targetMove == loc0C) return 2;
+	if (Unit_GetHouseID(unit) != s->o.houseID) {
+		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == loc0C) return 2;
 		if (ui->variable_3C == 0 && si->flags.s.variable_0080) return unit->targetMove == loc0C ? 2 : 1;
 		return 0;
 	}
 
-	if ((si->variable_32 & (1 << unit->type)) == 0) return 0;
+	if ((si->variable_32 & (1 << unit->o.type)) == 0) return 0;
 
-	if (s->script.variables[4] == loc0A) return 2;
-	return s->linkedID == 0xFF ? 1 : 0;
+	if (s->o.script.variables[4] == loc0A) return 2;
+	return s->o.linkedID == 0xFF ? 1 : 0;
 }
 
 /**
@@ -814,18 +814,18 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 
 		u2 = Unit_Get_ByPackedTile(packed);
 		if (u2 != NULL) {
-			if (u != u2) destination = Tools_Index_Encode(u2->index, IT_UNIT);
+			if (u != u2) destination = Tools_Index_Encode(u2->o.index, IT_UNIT);
 		} else {
 			s = Structure_Get_ByPackedTile(packed);
-			if (s != NULL) destination = Tools_Index_Encode(s->index, IT_STRUCTURE);
+			if (s != NULL) destination = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 		}
 	}
 
 	s = Tools_Index_GetStructure(destination);
-	if (s != NULL && s->houseID == Unit_GetHouseID(u)) {
-		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->type].variable_3C == 4) {
+	if (s != NULL && s->o.houseID == Unit_GetHouseID(u)) {
+		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->o.type].variable_3C == 4) {
 			emu_push(destination);
-			emu_push(Tools_Index_Encode(u->index, IT_UNIT));
+			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
 			emu_sp += 4;
 		}
@@ -857,12 +857,12 @@ bool Unit_Save(FILE *fp)
 		su = *u;
 
 		/* Rewrite the pointer in the scriptEngine to an index */
-		if (su.script.script.csip != 0x00000000) {
+		if (su.o.script.script.csip != 0x00000000) {
 			ScriptInfo *scriptInfo;
-			scriptInfo = ScriptInfo_Get_ByMemory(su.script.scriptInfo);
-			su.script.script.csip = (su.script.script.csip - scriptInfo->start.csip) / 2;
+			scriptInfo = ScriptInfo_Get_ByMemory(su.o.script.scriptInfo);
+			su.o.script.script.csip = (su.o.script.script.csip - scriptInfo->start.csip) / 2;
 		}
-		su.script.scriptInfo.csip = 0x00000000;
+		su.o.script.scriptInfo.csip = 0x00000000;
 
 		if (fwrite(&su, sizeof(Unit), 1, fp) != 1) return false;
 	}
@@ -887,25 +887,25 @@ bool Unit_Load(FILE *fp, uint32 length)
 		/* Read the next Structure from disk */
 		if (fread(&ul, sizeof(Unit), 1, fp) != 1) return false;
 
-		ul.script.scriptInfo.s.cs = 0x353F;
-		ul.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptUnit, 0x353F);
-		if (ul.script.script.csip != 0x0) {
-			uint16 lineno = ul.script.script.csip;
+		ul.o.script.scriptInfo.s.cs = 0x353F;
+		ul.o.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptUnit, 0x353F);
+		if (ul.o.script.script.csip != 0x0) {
+			uint16 lineno = ul.o.script.script.csip;
 
-			ul.script.script = g_global->scriptUnit.start;
-			ul.script.script.s.ip += lineno * 2;
+			ul.o.script.script = g_global->scriptUnit.start;
+			ul.o.script.script.s.ip += lineno * 2;
 		}
-		ul.scriptDelay = 0;
+		ul.o.scriptDelay = 0;
 		ul.variable_70 = 0;
 
 		/* Get the Structure from the pool */
-		u = Unit_Get_ByIndex(ul.index);
+		u = Unit_Get_ByIndex(ul.o.index);
 		if (u == NULL) return false;
 
 		/* Copy over the data */
 		*u = ul;
 
-		u->variable_09 |= 1 << u->houseID;
+		u->o.variable_09 |= 1 << u->o.houseID;
 	}
 	if (length != 0) return false;
 
@@ -932,26 +932,26 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 	if (unit == NULL || target == NULL) return 0;
 	if (unit == target) return 0;
 
-	if (!target->flags.s.allocated) return 0;
-	if ((target->variable_09 & (1 << Unit_GetHouseID(unit))) == 0) return 0;
+	if (!target->o.flags.s.allocated) return 0;
+	if ((target->o.variable_09 & (1 << Unit_GetHouseID(unit))) == 0) return 0;
 
 	if (House_AreAllied(Unit_GetHouseID(unit), Unit_GetHouseID(target))) return 0;
 
-	unitInfo   = &g_unitInfo[unit->type];
-	targetInfo = &g_unitInfo[target->type];
+	unitInfo   = &g_unitInfo[unit->o.type];
+	targetInfo = &g_unitInfo[target->o.type];
 
 	if (!targetInfo->flags.s.priority) return 0;
 
 	if (targetInfo->variable_3C == 4) {
 		if (!unitInfo->flags.s.targetAir) return 0;
-		if (target->houseID == g_global->playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target->position))) return 0;
+		if (target->o.houseID == g_global->playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
 	}
 
-	if (!Map_IsValidPosition(Tile_PackTile(target->position))) return 0;
+	if (!Map_IsValidPosition(Tile_PackTile(target->o.position))) return 0;
 
-	distance = Tile_GetDistanceRoundedUp(unit->position, target->position);
+	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 
-	if (!Map_IsValidPosition(Tile_PackTile(unit->position))) {
+	if (!Map_IsValidPosition(Tile_PackTile(unit->o.position))) {
 		if (targetInfo->variable_50 >= distance) return 0;
 	}
 
@@ -979,8 +979,8 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 
 	res = (unit->originEncoded == 0) ? 0 : 1;
 
-	if (unit->type != UNIT_HARVESTER) {
-		unit->originEncoded = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
+	if (unit->o.type != UNIT_HARVESTER) {
+		unit->originEncoded = Tools_Index_Encode(Tile_PackTile(unit->o.position), IT_TILE);
 		return res;
 	}
 
@@ -992,7 +992,7 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 		s2 = Structure_Find(&find);
 		if (s2 == NULL) break;
 		if (s2->animation != 1) continue;
-		d = Tile_GetDistance(unit->position, s2->position);
+		d = Tile_GetDistance(unit->o.position, s2->o.position);
 		if (mind != 0 && d >= mind) continue;
 		mind = d;
 		s = s2;
@@ -1006,14 +1006,14 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 		while (true) {
 			s2 = Structure_Find(&find);
 			if (s2 == NULL) break;
-			d = Tile_GetDistance(unit->position, s2->position);
+			d = Tile_GetDistance(unit->o.position, s2->o.position);
 			if (mind != 0 && d >= mind) continue;
 			mind = d;
 			s = s2;
 		}
 	}
 
-	if (s != NULL) unit->originEncoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+	if (s != NULL) unit->originEncoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
 	return res;
 }
@@ -1034,19 +1034,19 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
-	ui = &g_unitInfo[u->type];
-	u->flags.s.beingBuilt = false;
+	ui = &g_unitInfo[u->o.type];
+	u->o.flags.s.beingBuilt = false;
 
-	u->position = Tile_Center(position);
+	u->o.position = Tile_Center(position);
 
 	if (u->originEncoded == 0) Unit_FindClosestRefinery(u);
 
-	u->script.variables[4] = 0;
+	u->o.script.variables[4] = 0;
 
 	if (Unit_Unknown0E2E(u)) {
-		u->flags.s.beingBuilt = true;
+		u->o.flags.s.beingBuilt = true;
 		return false;
 	}
 
@@ -1054,8 +1054,8 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
-	if (Map_GetTileByPosition(Tile_PackTile(u->position))->flag_10 != 0) {
-		u->variable_09 &= ~(1 << u->houseID);
+	if (Map_GetTileByPosition(Tile_PackTile(u->o.position))->flag_10 != 0) {
+		u->o.variable_09 &= ~(1 << u->o.houseID);
 
 		emu_push(g_global->playerHouseID);
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
@@ -1063,7 +1063,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 		emu_sp += 6;
 	}
 
-	if (u->houseID != g_global->playerHouseID || u->type == UNIT_HARVESTER || u->type == UNIT_SABOTEUR) {
+	if (u->o.houseID != g_global->playerHouseID || u->o.type == UNIT_HARVESTER || u->o.type == UNIT_SABOTEUR) {
 		Unit_SetAction(u, ui->actionAI);
 	} else {
 		Unit_SetAction(u, ui->actionsPlayer[3]);
@@ -1092,16 +1092,16 @@ void Unit_Unknown10EC(Unit *u)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
-	u->flags.s.allocated = true;
+	u->o.flags.s.allocated = true;
 	Unit_UntargetMe(u);
 
 	if (ucsip.csip == g_global->selectionUnit.csip) {
 		Unit_Select(NULL);
 	}
 
-	u->flags.s.unknown_0040 = true;
+	u->o.flags.s.unknown_4_0040 = true;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(0);
@@ -1113,7 +1113,7 @@ void Unit_Unknown10EC(Unit *u)
 	emu_push(emu_cs); emu_push(0x1155); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
 	emu_sp += 6;
 
-	Script_Reset(&u->script, &g_global->scriptUnit);
+	Script_Reset(&u->o.script, &g_global->scriptUnit);
 
 	Unit_Free(u);
 }
@@ -1135,14 +1135,14 @@ Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
 
 	if (u == NULL) return NULL;
 
-	position = u->position;
+	position = u->o.position;
 	if (u->originEncoded == 0) {
 		u->originEncoded = Tools_Index_Encode(Tile_PackTile(position), IT_TILE);
 	} else {
 		position = Tools_Index_GetTile(u->originEncoded);
 	}
 
-	distance = g_unitInfo[u->type].variable_50 << 8;
+	distance = g_unitInfo[u->o.type].variable_50 << 8;
 	if (mode == 2) distance <<= 1;
 
 	find.houseID = 0xFFFF;
@@ -1157,14 +1157,14 @@ Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
 
 		if (target == NULL) break;
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(target))) continue;
-		if ((target->variable_09 & (1 << u->houseID)) == 0) continue;
+		if ((target->o.variable_09 & (1 << u->o.houseID)) == 0) continue;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {
-				if (Tile_GetDistance(u->position, target->position) > distance) continue;
+				if (Tile_GetDistance(u->o.position, target->o.position) > distance) continue;
 			}
 			if (mode == 2) {
-				if (Tile_GetDistance(position, target->position) > distance) continue;
+				if (Tile_GetDistance(position, target->o.position) > distance) continue;
 			}
 		}
 
@@ -1194,15 +1194,15 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 	uint16 distance;
 
 	if (unit == NULL || target == NULL) return 0;
-	if (!Map_IsPositionUnveiled(Tile_PackTile(target->position))) return 0;
+	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
 
-	emu_push(Tile_PackTile(target->position));
+	emu_push(Tile_PackTile(target->o.position));
 	emu_push(emu_cs); emu_push(0x1557); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 	emu_sp += 2;
 
 	if (g_global->variable_3A3E[emu_ax][7] == 0) return 0;
 
-	switch(g_unitInfo[target->type].variable_3C) {
+	switch(g_unitInfo[target->o.type].variable_3C) {
 		case 0:  res = 0x64;   break;
 		case 1:  res = 0x3E8;  break;
 		case 2:  res = 0x3E8;  break;
@@ -1212,7 +1212,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (target->variable_6A != 0 || target->fireDelay != 0) res <<= 2;
 
-	distance = Tile_GetDistanceRoundedUp(unit->position, target->position);
+	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 
 	if (distance != 0 && res != 0) res /= distance;
 	if (distance < 2) res *= 2;
@@ -1278,11 +1278,11 @@ bool Unit_Unknown167C(Unit *unit)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	if (unit == NULL) return false;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
 	locsi = (unit->variable_62[0][2] + 16) & 0xE0;
 
@@ -1290,7 +1290,7 @@ bool Unit_Unknown167C(Unit *unit)
 	Unit_Unknown1E99(unit, locsi, false, 1);
 
 	emu_push(locsi);
-	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x16F8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_00A5_0016_24FA();
 	emu_sp += 6;
 
@@ -1319,27 +1319,27 @@ bool Unit_Unknown167C(Unit *unit)
 		locdi >>= 8;
 	}
 
-	if (unit->type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
-	unit->flags.s.variable_0008 = false;
+	if (unit->o.type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
+	unit->o.flags.s.variable_0008 = false;
 
-	if (g_global->variable_3A3E[loc08][5] != 0) unit->flags.s.unknown_0080 = true;
+	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.unknown_4_0080 = true;
 
-	if ((ui->hitpoints / 2) > unit->hitpoints && ui->variable_3C != 4) locdi -= locdi / 4;
+	if ((ui->hitpoints / 2) > unit->o.hitpoints && ui->variable_3C != 4) locdi -= locdi / 4;
 
 	Unit_Unknown204C(unit, locdi);
 
 	if (ui->variable_3C != 5) {
 		tile32 positionOld;
 
-		positionOld = unit->position;
-		unit->position = position;
+		positionOld = unit->o.position;
+		unit->o.position = position;
 
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 		emu_push(1);
 		emu_push(emu_cs); emu_push(0x1816); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 		emu_sp += 6;
 
-		unit->position = positionOld;
+		unit->o.position = positionOld;
 	}
 
 	unit->variable_49 = position;
@@ -1368,24 +1368,24 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 		u = Unit_Get_ByPackedTile(packed);
 		if (u != NULL) {
-			encoded = Tools_Index_Encode(u->index, IT_UNIT);
+			encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 		} else {
 			Structure *s;
 
 			s = Structure_Get_ByPackedTile(packed);
 			if (s != NULL) {
-				encoded = Tools_Index_Encode(s->index, IT_STRUCTURE);
+				encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 			}
 		}
 	}
 
-	if (Tools_Index_Encode(unit->index, IT_UNIT) == encoded) {
-		encoded = Tools_Index_Encode(Tile_PackTile(unit->position), IT_TILE);
+	if (Tools_Index_Encode(unit->o.index, IT_UNIT) == encoded) {
+		encoded = Tools_Index_Encode(Tile_PackTile(unit->o.position), IT_TILE);
 	}
 
 	unit->targetAttack = encoded;
 
-	if (!g_unitInfo[unit->type].flags.s.variable_0040) {
+	if (!g_unitInfo[unit->o.type].flags.s.variable_0040) {
 		unit->targetMove = encoded;
 		unit->variable_72[0] = 0xFF;
 	}
@@ -1405,16 +1405,16 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 
 	if (unit == NULL || unit->deviated == 0) return false;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
 	if ((ui->variable_36 & 0x8000) == 0) return false;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	if (amount == 0) {
-		amount = g_houseInfo[unit->houseID].variable_04;
+		amount = g_houseInfo[unit->o.houseID].variable_04;
 	}
 
 	if (unit->deviated > amount) {
@@ -1423,15 +1423,15 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	}
 
 	unit->deviated = 0;
-	unit->flags.s.unknown_0040 = true;
+	unit->o.flags.s.unknown_4_0040 = true;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(2);
 	emu_push(emu_cs); emu_push(0x19E2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	unit->flags.s.unknown_0040 = false;
-	if (unit->houseID == g_global->playerHouseID) {
+	unit->o.flags.s.unknown_4_0040 = false;
+	if (unit->o.houseID == g_global->playerHouseID) {
 		Unit_SetAction(unit, ui->actionsPlayer[3]);
 	} else {
 		Unit_SetAction(unit, ui->actionAI);
@@ -1454,16 +1454,16 @@ void Unit_RemoveFog(Unit *unit)
 	uint16 fogUncoverRadius;
 
 	if (unit == NULL) return;
-	if (unit->flags.s.beingBuilt) return;
-	if (unit->position.tile == 0xFFFFFFFF || unit->position.tile == 0) return;
+	if (unit->o.flags.s.beingBuilt) return;
+	if (unit->o.position.tile == 0xFFFFFFFF || unit->o.position.tile == 0) return;
 	if (!House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID)) return;
 
-	fogUncoverRadius = g_unitInfo[unit->type].fogUncoverRadius;
+	fogUncoverRadius = g_unitInfo[unit->o.type].fogUncoverRadius;
 
 	if (fogUncoverRadius == 0) return;
 
 	emu_push(fogUncoverRadius);
-	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x2BAE); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 	emu_sp += 6;
 }
@@ -1482,15 +1482,15 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	if (unit == NULL) return false;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
 	if ((ui->variable_36 & 0x8000) == 0) return false;
 	if (unit->deviated != 0) return false;
 	if ((ui->variable_36 & 0x1000) != 0) return false;
 
-	if (probability == 0) probability = g_houseInfo[unit->houseID].variable_04;
+	if (probability == 0) probability = g_houseInfo[unit->o.houseID].variable_04;
 
-	if (unit->houseID != g_global->playerHouseID) {
+	if (unit->o.houseID != g_global->playerHouseID) {
 		probability -= probability / 8;
 	}
 
@@ -1498,7 +1498,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	unit->deviated = 0x78;
 
@@ -1537,28 +1537,28 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	bool sprite1 = false;
 	bool sprite2 = false;
 
-	if (unit == NULL || !unit->flags.s.used) return false;
+	if (unit == NULL || !unit->o.flags.s.used) return false;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	emu_push(distance);
 	emu_push(unit->variable_62[0][2]);
-	emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
 	emu_sp += 8;
 
 	newPosition.s.y = emu_dx;
 	newPosition.s.x = emu_ax;
 
-	if (newPosition.tile == unit->position.tile) return false;
+	if (newPosition.tile == unit->o.position.tile) return false;
 
 	if ((newPosition.tile & 0xC000C000) != 0) {
 		if ((ui->variable_36 & 0x80) != 0) {
-			newPosition = unit->position;
+			newPosition = unit->o.position;
 
 			Unit_Unknown1E99(unit, unit->variable_62[0][2] + (Tools_Random_256() & 0xF), false, 0);
 		} else {
@@ -1566,8 +1566,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			return true;
 		}
 
-		if (unit->flags.s.byScenario && unit->linkedID == 0xFF) {
-			if (unit->script.variables[4] == 0) {
+		if (unit->o.flags.s.byScenario && unit->o.linkedID == 0xFF) {
+			if (unit->o.script.variables[4] == 0) {
 				Unit_Unknown10EC(unit);
 				return true;
 			}
@@ -1576,7 +1576,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	unit->variable_6C = 0;
 
-	if ((ui->variable_36 & 0x10) != 0 && unit->flags.s.unknown_0080) {
+	if ((ui->variable_36 & 0x10) != 0 && unit->o.flags.s.unknown_4_0080) {
 		unit->variable_6C = Tools_Random_256() & 7;
 	}
 
@@ -1587,13 +1587,13 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		Unit *u;
 		u = Unit_Get_ByPackedTile(packed);
 
-		if (u != NULL && g_unitInfo[u->type].variable_3C == 0 && u->flags.s.allocated) {
+		if (u != NULL && g_unitInfo[u->o.type].variable_3C == 0 && u->o.flags.s.allocated) {
 			if (g_global->selectionUnit.csip != 0x0 && u == Unit_Get_ByMemory(g_global->selectionUnit)) {
 				Unit_Select(NULL);
 			}
 
 			Unit_UntargetMe(u);
-			u->script.returnValue = 1;
+			u->o.script.returnValue = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			emu_push(packed);
@@ -1606,9 +1606,9 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				emu_sp += 2;
 
 				emu_push(5);
-				emu_push(unit->houseID);
+				emu_push(unit->o.houseID);
 				emu_push(0);
-				emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+				emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 				emu_push(0x33C8); emu_push(emu_ax << 4);
 				emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x151A; f__151A_000E_0013_5840();
 				emu_sp += 14;
@@ -1622,23 +1622,23 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	emu_sp += 6;
 
 	if (ui->variable_3C == 4) {
-		unit->flags.s.unknown_0020 = !unit->flags.s.unknown_0020;
+		unit->o.flags.s.unknown_4_0020 = !unit->o.flags.s.unknown_4_0020;
 	}
 
 	position_49 = unit->variable_49;
 	distance = Tile_GetDistance(newPosition, position_49);
 
-	if (unit->type == UNIT_SONIC_BLAST) {
+	if (unit->o.type == UNIT_SONIC_BLAST) {
 		Unit *u;
 		uint16 damage;
 
-		damage = (unit->hitpoints / 4) + 1;
+		damage = (unit->o.hitpoints / 4) + 1;
 		ret = false;
 
 		u = Unit_Get_ByPackedTile(packed);
 
 		if (u != NULL) {
-			if ((g_unitInfo[u->type].variable_36 & 8) == 0) {
+			if ((g_unitInfo[u->o.type].variable_36 & 8) == 0) {
 				Unit_Damage(u, damage, 0);
 			}
 		} else {
@@ -1649,7 +1649,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (s != NULL) {
 				emu_push(0);
 				emu_push(damage);
-				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 				emu_push(emu_cs); emu_push(0x0355); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
 				emu_sp += 8;
 			} else {
@@ -1661,34 +1661,34 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			}
 		}
 
-		if (unit->hitpoints < (ui->damage / 2)) {
-			unit->flags.s.unknown_0040 = true;
+		if (unit->o.hitpoints < (ui->damage / 2)) {
+			unit->o.flags.s.unknown_4_0040 = true;
 		}
 
-		if (--unit->hitpoints == 0 || unit->fireDelay == 0) {
+		if (--unit->o.hitpoints == 0 || unit->fireDelay == 0) {
 			Unit_Unknown10EC(unit);
 		}
 	} else {
-		if (unit->type == UNIT_BULLET) {
+		if (unit->o.type == UNIT_BULLET) {
 			emu_push(Tile_PackTile(newPosition));
 			emu_push(emu_cs); emu_push(0x0418); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 			emu_sp += 2;
 
 			if (emu_ax == 11 || emu_ax == 12) {
 				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
-					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->houseID) {
+					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->o.houseID) {
 						emu_ax = 0;
 					}
 				}
 			}
 
 			if (emu_ax == 11 || emu_ax == 12 || emu_ax == 6) {
-				unit->position = newPosition;
+				unit->o.position = newPosition;
 
 				emu_push(unit->originEncoded);
-				emu_push(unit->hitpoints);
-				emu_push(unit->position.s.y); emu_push(unit->position.s.x);
-				emu_push((ui->variable_54 + unit->hitpoints / 10) & 3);
+				emu_push(unit->o.hitpoints);
+				emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
+				emu_push((ui->variable_54 + unit->o.hitpoints / 10) & 3);
 				emu_push(emu_cs); emu_push(0x04C1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 				emu_sp += 10;
 
@@ -1701,8 +1701,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 		if (ret) {
 			if ((ui->variable_36 & 2) != 0) {
-				if (unit->fireDelay == 0 || unit->type == UNIT_MISSILE_TURRET) {
-					if (unit->type == UNIT_MISSILE_HOUSE) {
+				if (unit->fireDelay == 0 || unit->o.type == UNIT_MISSILE_TURRET) {
+					if (unit->o.type == UNIT_MISSILE_HOUSE) {
 						uint8 i;
 
 						for (i = 0; i < 17; i++) {
@@ -1714,18 +1714,18 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							emu_sp += 10;
 						}
 					} else if (ui->variable_54 != 0xFFFF) {
-						emu_push(Tile_PackTile(unit->position));
+						emu_push(Tile_PackTile(unit->o.position));
 						emu_push(emu_cs); emu_push(0x05D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 						emu_sp += 2;
 
-						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->position))->index == 0 && emu_ax == 0) {
+						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && emu_ax == 0) {
 							emu_push(unit->originEncoded);
-							emu_push(unit->hitpoints);
+							emu_push(unit->o.hitpoints);
 							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
 							emu_push(8);
 							emu_push(emu_cs); emu_push(0x05FB); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 							emu_sp += 10;
-						} else if (unit->type == UNIT_MISSILE_DEVIATOR) {
+						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							emu_push(32);
 							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
 							emu_push(ui->variable_54);
@@ -1733,9 +1733,9 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							emu_sp += 8;
 						} else {
 							emu_push(unit->originEncoded);
-							emu_push(unit->hitpoints);
+							emu_push(unit->o.hitpoints);
 							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-							emu_push((ui->variable_54 + unit->hitpoints / 20) & 3);
+							emu_push((ui->variable_54 + unit->o.hitpoints / 20) & 3);
 							emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 							emu_sp += 10;
 						}
@@ -1748,19 +1748,19 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				if ((ui->variable_36 & 0x40) != 0) {
 					if (position_49.tile != 0) newPosition = position_49;
 					unit->variable_5E = unit->variable_5A;
-					unit->variable_5A = unit->position;
+					unit->variable_5A = unit->o.position;
 					unit->variable_49.tile = 0;
 
-					if (unit->flags.s.variable_0400 && (Tools_Random_256() & 3) == 0) {
+					if (unit->o.flags.s.degrades && (Tools_Random_256() & 3) == 0) {
 						Unit_Damage(unit, 1, 0);
 					}
 
-					if (unit->type == UNIT_SABOTEUR) {
+					if (unit->o.type == UNIT_SABOTEUR) {
 						emu_push(Tile_PackTile(newPosition));
 						emu_push(emu_cs); emu_push(0x076C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 						emu_sp += 2;
 
-						if (emu_ax == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->position, Tools_Index_GetTile(unit->targetMove)) < 32)) {
+						if (emu_ax == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32)) {
 							emu_push(0);
 							emu_push(500);
 							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
@@ -1791,7 +1791,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						}
 					}
 
-					if (unit->type != UNIT_SANDWORM) {
+					if (unit->o.type != UNIT_SANDWORM) {
 						if (Map_GetTileByPosition(packed)->spriteID == g_global->variable_39F4) {
 							Map_GetTileByPosition(g_global->selectionPosition)->spriteID = g_map[g_global->selectionPosition] & 0x01FF;
 							sprite1 = true;
@@ -1808,7 +1808,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	}
 
 	unit->variable_52 = distance;
-	unit->position = newPosition;
+	unit->o.position = newPosition;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(1);
@@ -1847,39 +1847,39 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	bool alive = false;
 	uint8 houseID;
 
-	if (unit == NULL || !unit->flags.s.allocated) return false;
+	if (unit == NULL || !unit->o.flags.s.allocated) return false;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
-	if ((ui->variable_36 & 0x8000) == 0 && unit->type != UNIT_SANDWORM) return false;
+	if ((ui->variable_36 & 0x8000) == 0 && unit->o.type != UNIT_SANDWORM) return false;
 
-	if (unit->hitpoints != 0) alive = true;
+	if (unit->o.hitpoints != 0) alive = true;
 
-	if (unit->hitpoints >= damage) {
-		unit->hitpoints -= damage;
+	if (unit->o.hitpoints >= damage) {
+		unit->o.hitpoints -= damage;
 	} else {
-		unit->hitpoints = 0;
+		unit->o.hitpoints = 0;
 	}
 
 	Unit_Deviation_Decrease(unit, 0);
 
 	houseID = Unit_GetHouseID(unit);
 
-	if (unit->hitpoints == 0) {
+	if (unit->o.hitpoints == 0) {
 		Unit_Unknown379B(unit);
 
-		if (unit->type == UNIT_HARVESTER) {
+		if (unit->o.type == UNIT_HARVESTER) {
 			emu_push(unit->amount / 32);
-			emu_push(Tile_PackTile(unit->position));
+			emu_push(Tile_PackTile(unit->o.position));
 			emu_push(emu_cs); emu_push(0x0C4E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_154C_0015_B7FB();
 			emu_sp += 4;
 		}
 
-		if (unit->type == UNIT_SABOTEUR) {
+		if (unit->o.type == UNIT_SABOTEUR) {
 			emu_push(20);
 			emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
@@ -1904,40 +1904,40 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	if (range != 0) {
 		emu_push(0);
 		emu_push(0);
-		emu_push(unit->position.s.y); emu_push(unit->position.s.x);
+		emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 		emu_push((damage < 25) ? 0 : 1);
 		emu_push(emu_cs); emu_push(0x0CF1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
 		emu_sp += 10;
 	}
 
-	if (houseID != g_global->playerHouseID && unit->actionID == ACTION_AMBUSH && unit->type != UNIT_HARVESTER) {
+	if (houseID != g_global->playerHouseID && unit->actionID == ACTION_AMBUSH && unit->o.type != UNIT_HARVESTER) {
 		Unit_SetAction(unit, ACTION_ATTACK);
 	}
 
-	if (unit->hitpoints >= ui->hitpoints / 2) return false;
+	if (unit->o.hitpoints >= ui->hitpoints / 2) return false;
 
-	if (unit->type == UNIT_SANDWORM) {
+	if (unit->o.type == UNIT_SANDWORM) {
 		Unit_SetAction(unit, ACTION_DIE);
 	}
 
-	if (unit->type == UNIT_TROOPERS || unit->type == UNIT_INFANTRY) {
-		unit->type += 2;
-		ui = &g_unitInfo[unit->type];
-		unit->hitpoints = ui->hitpoints;
+	if (unit->o.type == UNIT_TROOPERS || unit->o.type == UNIT_INFANTRY) {
+		unit->o.type += 2;
+		ui = &g_unitInfo[unit->o.type];
+		unit->o.hitpoints = ui->hitpoints;
 
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 		emu_push(2);
 		emu_push(emu_cs); emu_push(0x0DB8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 		emu_sp += 6;
 
-		if (Tools_Random_256() < g_houseInfo[unit->houseID].variable_04) {
+		if (Tools_Random_256() < g_houseInfo[unit->o.houseID].variable_04) {
 			Unit_SetAction(unit, ACTION_RETREAT);
 		}
 	}
 
 	if (ui->variable_3C != 2 && ui->variable_3C != 1 && ui->variable_3C != 3) return false;
 
-	unit->flags.s.variable_0008 = true;
+	unit->o.flags.s.variable_0008 = true;
 	unit->variable_6D = 0;
 	unit->variable_70 = 0;
 
@@ -1959,9 +1959,9 @@ void Unit_UntargetMe(Unit *unit)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
-	encoded = Tools_Index_Encode(unit->index, IT_UNIT);
+	encoded = Tools_Index_Encode(unit->o.index, IT_UNIT);
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(emu_cs); emu_push(0x367E); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
@@ -1980,11 +1980,11 @@ void Unit_UntargetMe(Unit *unit)
 		if (u == NULL) break;
 		if (u->targetMove == encoded) u->targetMove = 0;
 		if (u->targetAttack == encoded) u->targetAttack = 0;
-		if (u->script.variables[4] != encoded) continue;
+		if (u->o.script.variables[4] != encoded) continue;
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		ucsip2.s.cs = g_global->unitStartPos.s.cs;
-		ucsip2.s.ip = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+		ucsip2.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
 		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
 		emu_push(emu_cs); emu_push(0x36D7); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
@@ -2001,8 +2001,8 @@ void Unit_UntargetMe(Unit *unit)
 		s = Structure_Find(&find);
 
 		if (s == NULL) break;
-		if (s->type != STRUCTURE_TURRET && s->type != STRUCTURE_ROCKET_TURRET) continue;
-		if (s->script.variables[2] == encoded) s->script.variables[2] = 0;
+		if (s->o.type != STRUCTURE_TURRET && s->o.type != STRUCTURE_ROCKET_TURRET) continue;
+		if (s->o.script.variables[2] == encoded) s->o.script.variables[2] = 0;
 	}
 
 	Unit_RemoveFromTeam(unit);
@@ -2047,7 +2047,7 @@ void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
 
 	if (unit->variable_62[i][2] == arg0A) return;
 
-	unit->variable_62[i][0] = g_unitInfo[unit->type].variable_42 << 2;
+	unit->variable_62[i][0] = g_unitInfo[unit->o.type].variable_42 << 2;
 
 	locsi = arg0A - unit->variable_62[i][2];
 
@@ -2070,11 +2070,11 @@ void Unit_Select(Unit *unit)
 
 	if (unit == selected) return;
 
-	if (unit != NULL && !unit->flags.s.allocated && g_global->debugGame == 0) {
+	if (unit != NULL && !unit->o.flags.s.allocated && g_global->debugGame == 0) {
 		unit = NULL;
 	}
 
-	if (unit != NULL && (unit->variable_09 & (1 << g_global->playerHouseID)) == 0 && g_global->debugGame == 0) {
+	if (unit != NULL && (unit->o.variable_09 & (1 << g_global->playerHouseID)) == 0 && g_global->debugGame == 0) {
 		unit = NULL;
 	}
 
@@ -2098,7 +2098,7 @@ void Unit_Select(Unit *unit)
 	if (Unit_GetHouseID(unit) == g_global->playerHouseID) {
 		UnitInfo *ui;
 
-		ui = &g_unitInfo[unit->type];
+		ui = &g_unitInfo[unit->o.type];
 
 		emu_push(ui->variable_3C == 0 ? 18 : 19);
 		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
@@ -2112,7 +2112,7 @@ void Unit_Select(Unit *unit)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->index * sizeof(Unit);
+	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	if (selected != NULL) {
 		if (selected != unit) Unit_DisplayStatusText(unit);
@@ -2179,7 +2179,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 		if (unit == NULL) return NULL;
 
-		unit->flags.s.byScenario = true;
+		unit->o.flags.s.byScenario = true;
 
 		if (destination != 0) {
 			Unit_SetDestination(unit, destination);
@@ -2198,7 +2198,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	}
 
 	if (House_AreAllied(houseID, (uint8)g_global->playerHouseID) || Unit_IsTypeOnMap(houseID, UNIT_CARRYALL)) {
-		carryall->flags.s.byScenario = true;
+		carryall->o.flags.s.byScenario = true;
 	}
 
 	tile.tile = 0xFFFFFFFF;
@@ -2213,8 +2213,8 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 		return NULL;
 	}
 
-	carryall->flags.s.inTransport = true;
-	carryall->linkedID = unit->index & 0xFF;
+	carryall->o.flags.s.inTransport = true;
+	carryall->o.linkedID = unit->o.index & 0xFF;
 	if (typeID == UNIT_HARVESTER) unit->amount = 1;
 
 	if (destination != 0) {
@@ -2250,7 +2250,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
 		u = Unit_Get_ByPackedTile(packed + g_global->variable_62D8[i]);
 		if (u == NULL) continue;
 
-		return Tile_PackTile(u->position);
+		return Tile_PackTile(u->o.position);
 	}
 
 	return packed;
@@ -2271,8 +2271,8 @@ bool Unit_Unknown0E2E(Unit *unit)
 
 	if (unit == NULL) return true;
 
-	ui = &g_unitInfo[unit->type];
-	packed = Tile_PackTile(unit->position);
+	ui = &g_unitInfo[unit->o.type];
+	packed = Tile_PackTile(unit->o.position);
 
 	emu_push(packed);
 	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
@@ -2282,13 +2282,13 @@ bool Unit_Unknown0E2E(Unit *unit)
 	loc02 &= ((ui->variable_3C & 0x1) != 0) ? 0xFF00 : 0x00FF;
 	if (loc02 == 0) return true;
 
-	if (unit->type == UNIT_SANDWORM || ui->variable_3C == 4) return false;
+	if (unit->o.type == UNIT_SANDWORM || ui->variable_3C == 4) return false;
 
 	u = Unit_Get_ByPackedTile(packed);
 	if (u != NULL && u != unit) {
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return true;
 		if (ui->variable_3C != 1) return true;
-		if (g_unitInfo[u->type].variable_3C != 0) return true;
+		if (g_unitInfo[u->o.type].variable_3C != 0) return true;
 	}
 
 	return (Structure_Get_ByPackedTile(packed) != NULL);
@@ -2311,7 +2311,7 @@ void Unit_Unknown204C(Unit *unit, uint16 arg0A)
 	unit->variable_69 = 0;
 	unit->variable_68 = 0;
 
-	if (unit->type == UNIT_HARVESTER) {
+	if (unit->o.type == UNIT_HARVESTER) {
 		arg0A = ((255 - unit->amount) * arg0A) / 256;
 	}
 
@@ -2321,7 +2321,7 @@ void Unit_Unknown204C(Unit *unit, uint16 arg0A)
 	}
 
 	unit->variable_6B = arg0A & 0xFF;
-	arg0A = (g_unitInfo[unit->type].variable_40 * arg0A) / 256;
+	arg0A = (g_unitInfo[unit->o.type].variable_40 * arg0A) / 256;
 	arg0A = Tools_AdjustToGameSpeed(arg0A, 1, 255, false);
 	loc02 = arg0A << 4;
 	arg0A >>= 4;
@@ -2382,7 +2382,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			emu_sp += 6;
 
 			bullet->targetAttack = target;
-			bullet->hitpoints = damage;
+			bullet->o.hitpoints = damage;
 			bullet->variable_49 = tile;
 
 			if ((ui->variable_36 & 0x4000) != 0) {
@@ -2403,14 +2403,14 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->fireDelay = ui->variable_50 & 0xFF;
 
 			u = Tools_Index_GetUnit(target);
-			if (u != NULL && g_unitInfo[u->type].variable_3C == 4) {
+			if (u != NULL && g_unitInfo[u->o.type].variable_3C == 4) {
 				bullet->fireDelay <<= 1;
 			}
 
-			if (type == UNIT_MISSILE_HOUSE || (bullet->variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
+			if (type == UNIT_MISSILE_HOUSE || (bullet->o.variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
 
 			emu_push(2);
-			emu_push(bullet->position.s.y); emu_push(bullet->position.s.x);
+			emu_push(bullet->o.position.s.y); emu_push(bullet->o.position.s.x);
 			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 			emu_sp += 6;
 
@@ -2453,14 +2453,14 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			}
 
 			bullet->variable_49 = tile;
-			bullet->hitpoints = damage;
+			bullet->o.hitpoints = damage;
 
-			if (damage > 15) bullet->flags.s.unknown_0040 = true;
+			if (damage > 15) bullet->o.flags.s.unknown_4_0040 = true;
 
-			if ((bullet->variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
+			if ((bullet->o.variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
 
 			emu_push(2);
-			emu_push(bullet->position.s.y); emu_push(bullet->position.s.x);
+			emu_push(bullet->o.position.s.y); emu_push(bullet->o.position.s.x);
 			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
 			emu_sp += 6;
 
@@ -2482,9 +2482,9 @@ void Unit_DisplayStatusText(Unit *unit)
 
 	if (unit == NULL) return;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
-	if (unit->type == UNIT_SANDWORM) {
+	if (unit->o.type == UNIT_SANDWORM) {
 		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->stringID_abbrev));
 	} else {
 		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
@@ -2495,13 +2495,13 @@ void Unit_DisplayStatusText(Unit *unit)
 		}
 	}
 
-	if (unit->type == UNIT_HARVESTER) {
+	if (unit->o.type == UNIT_HARVESTER) {
 		uint16 stringID;
 
 		stringID = 0x79; /* " is %d percent full" */
 
 		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
-			emu_push(Tile_PackTile(unit->position));
+			emu_push(Tile_PackTile(unit->o.position));
 			emu_push(emu_cs); emu_push(0x28A2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 			emu_sp += 2;
 
@@ -2511,7 +2511,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
 			emu_si = 0x7B; /* " is %d percent full and heading back" */
 		} else {
-			if (unit->script.variables[4] != 0) {
+			if (unit->o.script.variables[4] != 0) {
 				stringID = 0x7C; /* " is %d percent full and awaiting pickup" */
 			}
 		}
@@ -2541,23 +2541,23 @@ void Unit_Unknown2AAA(Unit *unit)
 
 	if (unit == NULL) return;
 
-	unit->flags.s.unknown_0040 = true;
+	unit->o.flags.s.unknown_4_0040 = true;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->index * sizeof(Unit);
+	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x2ACD); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	unit->flags.s.unknown_0040 = false;
+	unit->o.flags.s.unknown_4_0040 = false;
 
-	Script_Reset(&unit->script, &g_global->scriptUnit);
+	Script_Reset(&unit->o.script, &g_global->scriptUnit);
 	Unit_UntargetMe(unit);
 
-	unit->flags.s.beingBuilt = true;
+	unit->o.flags.s.beingBuilt = true;
 
 	emu_push(g_global->playerHouseID);
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
@@ -2588,7 +2588,7 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
-		if (u->linkedID != 0xFF) continue;
+		if (u->o.linkedID != 0xFF) continue;
 		if (u->targetMove != 0) continue;
 		unit = u;
 	}
@@ -2601,14 +2601,14 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 		unit = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, 96);
 		g_global->variable_38BC--;
 
-		if (unit != NULL) unit->flags.s.byScenario = true;
+		if (unit != NULL) unit->o.flags.s.byScenario = true;
 	}
 
 	if (unit != NULL) {
 		unit->targetMove = target;
 
 		emu_push(target);
-		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->index * sizeof(Unit));
+		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit));
 		emu_push(emu_cs); emu_push(0x2C84); emu_cs = 0x0C10; emu_Object_SetScriptVariable4();
 		emu_sp += 6;
 	}
@@ -2634,44 +2634,44 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 	if (unit == selected) Unit_Select(NULL);
 
-	ui = &g_unitInfo[unit->type];
-	si = &g_structureInfo[s->type];
+	ui = &g_unitInfo[unit->o.type];
+	si = &g_structureInfo[s->o.type];
 
-	if (!unit->flags.s.allocated || s->hitpoints == 0) {
+	if (!unit->o.flags.s.allocated || s->o.hitpoints == 0) {
 		Unit_Unknown10EC(unit);
 		return;
 	}
 
-	unit->variable_09 |= s->variable_09;
+	unit->o.variable_09 |= s->o.variable_09;
 	Unit_Unknown2AAA(unit);
 
-	if (House_AreAllied(s->houseID, Unit_GetHouseID(unit))) {
+	if (House_AreAllied(s->o.houseID, Unit_GetHouseID(unit))) {
 		Structure_SetAnimation(s, si->flags.s.variable_0010 ? 2 : 1);
 
-		if (s->type == STRUCTURE_REPAIR) {
+		if (s->o.type == STRUCTURE_REPAIR) {
 			uint16 countDown;
 
-			countDown = ((ui->hitpoints - unit->hitpoints) * 256 / ui->hitpoints) * (ui->buildTime << 6) / 256;
+			countDown = ((ui->hitpoints - unit->o.hitpoints) * 256 / ui->hitpoints) * (ui->buildTime << 6) / 256;
 
 			if (countDown > 1) {
 				s->countDown = countDown;
 			} else {
 				s->countDown = 1;
 			}
-			unit->hitpoints = ui->hitpoints;
-			unit->flags.s.variable_0008 = false;
+			unit->o.hitpoints = ui->hitpoints;
+			unit->o.flags.s.variable_0008 = false;
 			unit->variable_6D = 0;
 		}
-		unit->linkedID = s->linkedID;
-		s->linkedID = unit->index & 0xFF;
+		unit->o.linkedID = s->o.linkedID;
+		s->o.linkedID = unit->o.index & 0xFF;
 		return;
 	}
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	scsip       = g_global->structureStartPos;
-	scsip.s.ip += s->index * sizeof(Structure);
+	scsip.s.ip += s->o.index * sizeof(Structure);
 
-	if (unit->type == UNIT_SABOTEUR) {
+	if (unit->o.type == UNIT_SABOTEUR) {
 		emu_push(1);
 		emu_push(500);
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
@@ -2682,29 +2682,29 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		return;
 	}
 
-	if (s->hitpoints < ui->hitpoints / 4) {
+	if (s->o.hitpoints < ui->hitpoints / 4) {
 		House *h;
 
-		h = House_Get_ByIndex(s->houseID);
-		s->houseID = Unit_GetHouseID(unit);
+		h = House_Get_ByIndex(s->o.houseID);
+		s->o.houseID = Unit_GetHouseID(unit);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
-		h = House_Get_ByIndex(unit->houseID);
+		h = House_Get_ByIndex(unit->o.houseID);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
-		if (s->linkedID != 0xFF) {
-			Unit *u = Unit_Get_ByIndex(s->linkedID);
-			if (u != NULL) u->houseID = Unit_GetHouseID(unit);
+		if (s->o.linkedID != 0xFF) {
+			Unit *u = Unit_Get_ByIndex(s->o.linkedID);
+			if (u != NULL) u->o.houseID = Unit_GetHouseID(unit);
 		}
 
-		Structure_CalculatePowerAndCredit(House_Get_ByIndex(s->houseID));
+		Structure_CalculatePowerAndCredit(House_Get_ByIndex(s->o.houseID));
 
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 		emu_push(emu_cs); emu_push(0x2F40); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
 		emu_sp += 4;
 	} else {
 		emu_push(1);
-		emu_push(max(unit->hitpoints * 2, s->hitpoints / 2));
+		emu_push(max(unit->o.hitpoints * 2, s->o.hitpoints / 2));
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 		emu_push(emu_cs); emu_push(0x2F7B); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
 		emu_sp += 8;
@@ -2735,16 +2735,16 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	if (unit == NULL) return 0;
 
-	ui = &g_unitInfo[unit->type];
+	ui = &g_unitInfo[unit->o.type];
 
 	if (!Map_IsValidPosition(packed) && ui->variable_3C != 4) return 256;
 
 	u = Unit_Get_ByPackedTile(packed);
-	if (u != NULL && u != unit && unit->type != UNIT_SANDWORM) {
-		if (unit->type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->index, IT_UNIT)) return 0;
+	if (u != NULL && u != unit && unit->o.type != UNIT_SANDWORM) {
+		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->o.index, IT_UNIT)) return 0;
 
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
-		if (g_unitInfo[u->type].variable_3C != 0 || (ui->variable_3C != 1 && ui->variable_3C != 2)) return 256;
+		if (g_unitInfo[u->o.type].variable_3C != 0 || (ui->variable_3C != 1 && ui->variable_3C != 2)) return 256;
 	}
 
 	s = Structure_Get_ByPackedTile(packed);
@@ -2767,8 +2767,8 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 		res >>= 8;
 	}
 
-	if (unit->type == UNIT_SABOTEUR && loc0E == 11) {
-		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->houseID)) emu_si = 0xFF;
+	if (unit->o.type == UNIT_SABOTEUR && loc0E == 11) {
+		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) emu_si = 0xFF;
 	}
 
 	if (res == 0) return 256;
@@ -2800,7 +2800,7 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->index * sizeof(Unit);
+	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	if (mode == 4) {
 		emu_push(mode);
@@ -2812,18 +2812,18 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 		scsip.s.ip = emu_ax;
 
 		if (scsip.csip != 0x0) {
-			return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
+			return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
 		}
 
 		target = Unit_FindBestTarget(unit, mode);
 
 		if (target == NULL) return 0;
-		return Tools_Index_Encode(target->index, IT_UNIT);
+		return Tools_Index_Encode(target->o.index, IT_UNIT);
 	}
 
 	target = Unit_FindBestTarget(unit, mode);
 
-	if (unit->type != UNIT_DEVIATOR) {
+	if (unit->o.type != UNIT_DEVIATOR) {
 		emu_push(mode);
 		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 		emu_push(emu_cs); emu_push(0x35A7); emu_cs = 0x0C3A; f__0C3A_22CD_0029_8F46();
@@ -2843,12 +2843,12 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 		emu_push(emu_cs); emu_push(0x35E5); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
 		emu_sp += 8;
 
-		if (emu_ax >= priority) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
-		return Tools_Index_Encode(target->index, IT_UNIT);
+		if (emu_ax >= priority) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
+		return Tools_Index_Encode(target->o.index, IT_UNIT);
 	}
 
-	if (target != NULL) return Tools_Index_Encode(target->index, IT_UNIT);
-	if (scsip.csip != 0x0) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->index, IT_STRUCTURE);
+	if (target != NULL) return Tools_Index_Encode(target->o.index, IT_UNIT);
+	if (scsip.csip != 0x0) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
 
 	return 0;
 }
@@ -2865,9 +2865,9 @@ bool Unit_Unknown379B(Unit *unit)
 
 	if (unit == NULL) return false;
 	if (Unit_GetHouseID(unit) != g_global->playerHouseID) return false;
-	if (!unit->flags.s.allocated) return false;
+	if (!unit->o.flags.s.allocated) return false;
 
-	unit->flags.s.allocated = false;
+	unit->o.flags.s.allocated = false;
 	Unit_RemoveFromTeam(unit);
 
 	selected = g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;

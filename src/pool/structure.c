@@ -57,9 +57,9 @@ Structure *Structure_Find(PoolFindStruct *find)
 
 		s = Structure_Get_ByMemory(pos);
 
-		if (s->flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
-		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->houseID) continue;
-		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->type)  continue;
+		if (s->o.flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
+		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->o.houseID) continue;
+		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->o.type)  continue;
 
 		return s;
 	}
@@ -106,7 +106,7 @@ void Structure_Recount()
 
 	for (index = 0; index < STRUCTURE_INDEX_MAX_HARD; index++) {
 		Structure *s = Structure_Get_ByIndex(index);
-		if (!s->flags.s.used) continue;
+		if (!s->o.flags.s.used) continue;
 
 		g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
 		g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
@@ -148,12 +148,12 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 				/* Find the first unused index */
 				for (index = 0; index < STRUCTURE_INDEX_MAX_SOFT; index++) {
 					s = Structure_Get_ByIndex(index);
-					if (!s->flags.s.used) break;
+					if (!s->o.flags.s.used) break;
 				}
 				if (index == STRUCTURE_INDEX_MAX_SOFT) return NULL;
 			} else {
 				s = Structure_Get_ByIndex(index);
-				if (s->flags.s.used) return NULL;
+				if (s->o.flags.s.used) return NULL;
 			}
 			break;
 	}
@@ -161,12 +161,12 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 
 	/* Initialize the Structure */
 	memset(s, 0, sizeof(Structure));
-	s->index             = index;
-	s->type              = type;
-	s->linkedID          = 0xFF;
-	s->flags.s.used      = true;
-	s->flags.s.allocated = true;
-	s->scriptDelay       = 0;
+	s->o.index             = index;
+	s->o.type              = type;
+	s->o.linkedID          = 0xFF;
+	s->o.flags.s.used      = true;
+	s->o.flags.s.allocated = true;
+	s->o.scriptDelay       = 0;
 
 	g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
 	g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
@@ -187,11 +187,11 @@ void Structure_Free(Structure *s)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->index * sizeof(Structure);
+	scsip.s.ip += s->o.index * sizeof(Structure);
 
-	s->flags.all = 0x0000;
+	s->o.flags.all = 0x0000;
 
-	Script_Reset(&s->script, &g_global->scriptStructure);
+	Script_Reset(&s->o.script, &g_global->scriptStructure);
 
 	/* Walk the array to find the Structure we are removing */
 	for (i = 0; i < g_global->structureCount; i++) {

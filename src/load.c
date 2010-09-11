@@ -83,7 +83,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		u = Unit_Get_ByIndex(selectionUnit);
 
 		g_global->selectionUnit.csip = g_global->unitStartPos.csip;
-		g_global->selectionUnit.s.ip += u->index * sizeof(Unit);
+		g_global->selectionUnit.s.ip += u->o.index * sizeof(Unit);
 	}
 
 	if (activeUnit != 0xFFFF) {
@@ -92,7 +92,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		u = Unit_Get_ByIndex(activeUnit);
 
 		g_global->activeUnit.csip = g_global->unitStartPos.csip;
-		g_global->activeUnit.s.ip += u->index * sizeof(Unit);
+		g_global->activeUnit.s.ip += u->o.index * sizeof(Unit);
 	}
 
 	g_global->tickScenarioStart = g_global->tickGlobal - tickScenarioStart;
@@ -103,7 +103,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		u = Unit_Get_ByIndex(variable_38FA);
 
 		g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
-		g_global->unitHouseMissile.s.ip += u->index * sizeof(Unit);
+		g_global->unitHouseMissile.s.ip += u->o.index * sizeof(Unit);
 	}
 
 	emu_push(emu_cs); emu_push(0x023E); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();

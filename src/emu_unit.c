@@ -68,7 +68,7 @@ void emu_Unit_Create()
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 }
 
 /**
@@ -193,7 +193,7 @@ void emu_Unit_Get_ByPackedTile()
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 }
 
 /**
@@ -377,7 +377,7 @@ void emu_Unit_CreateBullet()
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 }
 
 /**

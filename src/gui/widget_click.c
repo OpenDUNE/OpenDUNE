@@ -64,16 +64,16 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 		default: break;
 
 		case 0x26: /* "Place it" */
-			if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
+			if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 				Structure *ns;
 
-				ns = Structure_Get_ByIndex(s->linkedID);
+				ns = Structure_Get_ByIndex(s->o.linkedID);
 				g_global->activeStructure = g_global->structureStartPos;
-				g_global->activeStructure.s.ip += ns->index * sizeof(Structure);
+				g_global->activeStructure.s.ip += ns->o.index * sizeof(Structure);
 				g_global->activeStructureType = s->objectType;
 				g_global->variable_38EC = Structure_IsValidBuildLocation(g_global->variable_3A00, g_global->activeStructureType);
 				g_global->activeStructurePosition = g_global->selectionPosition;
-				s->linkedID = STRUCTURE_INVALID;
+				s->o.linkedID = STRUCTURE_INVALID;
 
 				emu_push(2);
 				emu_push(emu_cs); emu_push(0x111E); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
@@ -82,14 +82,14 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x28: /* "On hold" */
-			s->flags.s.repairing = false;
-			s->flags.s.onHold    = false;
-			s->flags.s.upgrading = false;
+			s->o.flags.s.repairing = false;
+			s->o.flags.s.onHold    = false;
+			s->o.flags.s.upgrading = false;
 			break;
 
 		case 0x29: /* "Build it" */
 			emu_push(s->objectType);
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 			emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
 			emu_sp += 6;
 			break;
@@ -101,7 +101,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x2E: /* "%d%% done" */
-			s->flags.s.onHold = true;
+			s->o.flags.s.onHold = true;
 			break;
 	}
 	return false;
@@ -237,14 +237,14 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	ActionInfo *ai;
 
 	u = Unit_Get_ByMemory(g_global->selectionUnit);
-	ui = &g_unitInfo[u->type];
+	ui = &g_unitInfo[u->o.type];
 
 	actions = ui->actionsPlayer;
 	acsip.s.cs = 0x2D07;
-	acsip.s.ip = u->type * sizeof(UnitInfo) + 0x22;
+	acsip.s.ip = u->o.type * sizeof(UnitInfo) + 0x22;
 
 	if (Unit_GetHouseID(u) != g_global->playerHouseID) {
-		if (u->type != UNIT_SIEGE_TANK) {
+		if (u->o.type != UNIT_SIEGE_TANK) {
 			actions = g_global->actionsAI;
 			acsip.s.cs = 0x353F;
 			acsip.s.ip = 0x3C2A;

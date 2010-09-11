@@ -190,7 +190,7 @@ void emu_Tools_Index_GetUnit()
 
 	if (u == NULL) return;
 	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + u->index * sizeof(Unit);
+	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 }
 
 /**
@@ -217,7 +217,7 @@ void emu_Tools_Index_GetStructure()
 
 	if (s == NULL) return;
 	emu_dx = g_global->structureStartPos.s.cs;
-	emu_ax = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+	emu_ax = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 }
 
 /**

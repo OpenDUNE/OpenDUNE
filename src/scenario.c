@@ -295,27 +295,27 @@ void Scenario_Load_Units(const char *key, char *value)
 
 	u = Unit_Allocate(UNIT_INDEX_INVALID, unitType, houseType);
 	if (u == NULL) return;
-	u->flags.s.byScenario = true;
+	u->o.flags.s.byScenario = true;
 
-	u->hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
-	u->position    = position;
+	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
+	u->o.position    = position;
 	u->variable_62[0][2] = variable_64;
 	u->actionID    = actionType;
 	u->nextActionID = ACTION_INVALID;
 
 	/* In case the above function failed and we are passed campaign 2, don't add the unit */
-	if (!Map_IsValidPosition(Tile_PackTile(u->position)) && g_global->campaignID > 2) {
+	if (!Map_IsValidPosition(Tile_PackTile(u->o.position)) && g_global->campaignID > 2) {
 		Unit_Free(u);
 		return;
 	}
 
 	/* XXX -- There is no way this is ever possible, as the beingBuilt flag is unset by Unit_Allocate() */
-	if (!u->flags.s.beingBuilt) Unit_SetAction(u, u->actionID);
+	if (!u->o.flags.s.beingBuilt) Unit_SetAction(u, u->actionID);
 
-	u->variable_09 = 0x00;
+	u->o.variable_09 = 0x00;
 
-	emu_push(u->houseID);
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->index * sizeof(Unit));
+	emu_push(u->o.houseID);
+	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit));
 	emu_push(emu_cs); emu_push(0x05D4); emu_cs = 0x1423; f__1423_08CD_0012_0004();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
@@ -401,8 +401,8 @@ void Scenario_Load_Structures(const char *key, char *value)
 		s = Structure_Create(index, structureType, houseType, position);
 		if (s == NULL) return;
 
-		s->hitpoints = hitpoints * g_structureInfo[s->type].hitpoints / 256;
-		s->flags.s.degrades = false;
+		s->o.hitpoints = hitpoints * g_structureInfo[s->o.type].hitpoints / 256;
+		s->o.flags.s.degrades = false;
 		s->animation = 0;
 	}
 }
@@ -555,7 +555,7 @@ void Scenario_Load_Reinforcements(const char *key, char *value)
 	u = Unit_Create(UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 	if (u == NULL) return;
 
-	g_global->scenario.reinforcement[index].unitID      = u->index;
+	g_global->scenario.reinforcement[index].unitID      = u->o.index;
 	g_global->scenario.reinforcement[index].locationID  = locationID;
 	g_global->scenario.reinforcement[index].timeLeft    = timeBetween;
 	g_global->scenario.reinforcement[index].timeBetween = timeBetween;

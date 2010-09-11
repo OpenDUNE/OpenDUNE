@@ -43,7 +43,7 @@ static bool Save_Info(FILE *fp)
 
 	if (g_global->activeStructureType != 0xFFFF) {
 		Structure *s = Structure_Get_ByMemory(g_global->activeStructure);
-		if (fwrite(&s->index, sizeof(uint16), 1, fp) != 1) return false;
+		if (fwrite(&s->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
@@ -51,7 +51,7 @@ static bool Save_Info(FILE *fp)
 
 	if (g_global->selectionUnit.csip != 0x0) {
 		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
@@ -59,7 +59,7 @@ static bool Save_Info(FILE *fp)
 
 	if (g_global->activeUnit.csip != 0x0) {
 		Unit *u = Unit_Get_ByMemory(g_global->activeUnit);
-		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
@@ -85,7 +85,7 @@ static bool Save_Info(FILE *fp)
 
 	if (g_global->unitHouseMissile.csip != 0x0) {
 		Unit *u = Unit_Get_ByMemory(g_global->unitHouseMissile);
-		if (fwrite(&u->index, sizeof(uint16), 1, fp) != 1) return false;
+		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
@@ -241,7 +241,7 @@ bool SaveFile(char *filename, char *description)
 
 			/* XXX -- Temporary, to keep all the emu_calls workable for now */
 			scsip.s.cs = g_global->structureStartPos.s.cs;
-			scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+			scsip.s.ip = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 
 			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 			emu_push(emu_cs); emu_push(0x07E3); emu_cs = 0x0C3A; emu_Structure_RemoveFog();

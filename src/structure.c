@@ -100,24 +100,24 @@ void GameLoop_Structure()
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		si = &g_structureInfo[s->type];
-		h  = House_Get_ByIndex(s->houseID);
+		si = &g_structureInfo[s->o.type];
+		h  = House_Get_ByIndex(s->o.houseID);
 		hi = &g_houseInfo[h->index];
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		g_global->structureCurrent          = g_global->structureStartPos;
-		g_global->structureCurrent.s.ip    += s->index * sizeof(Structure);
+		g_global->structureCurrent.s.ip    += s->o.index * sizeof(Structure);
 		g_global->objectCurrent             = g_global->structureCurrent;
 		g_global->structureInfoCurrent.s.cs = 0x2C94;
-		g_global->structureInfoCurrent.s.ip = 0xA + s->type * sizeof(StructureInfo);
+		g_global->structureInfoCurrent.s.ip = 0xA + s->o.type * sizeof(StructureInfo);
 		g_global->houseCurrent              = g_global->houseStartPos;
 		g_global->houseCurrent.s.ip        += h->index * sizeof(House);
 
-		if (tickPalace && s->type == STRUCTURE_PALACE) {
+		if (tickPalace && s->o.type == STRUCTURE_PALACE) {
 			if (s->countDown != 0) {
 				s->countDown--;
 
-				if (s->houseID == g_global->playerHouseID) {
+				if (s->o.houseID == g_global->playerHouseID) {
 					emu_push(1);
 					emu_push(emu_cs); emu_push(0x01BA); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
 					emu_sp += 2;
@@ -130,7 +130,7 @@ void GameLoop_Structure()
 			}
 		}
 
-		if (tickDegrade && s->flags.s.degrades && s->hitpoints > si->hitpoints / 2) {
+		if (tickDegrade && s->o.flags.s.degrades && s->o.hitpoints > si->hitpoints / 2) {
 			emu_push(0);
 			emu_push(hi->variable_08 + 1);
 			emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
@@ -139,7 +139,7 @@ void GameLoop_Structure()
 		}
 
 		if (tickStructure) {
-			if (s->flags.s.upgrading) {
+			if (s->o.flags.s.upgrading) {
 				uint16 upgradeCost = si->buildCredits / 40;
 
 				if (upgradeCost <= h->credits) {
@@ -149,10 +149,10 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft -= 5;
 					} else {
 						s->upgradeLevel++;
-						s->flags.s.upgrading = false;
+						s->o.flags.s.upgrading = false;
 
 						/* Ordos Heavy Vehicle gets the last upgrade for free */
-						if (s->houseID == HOUSE_ORDOS && s->type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
+						if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
 
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x02E4); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
@@ -161,9 +161,9 @@ void GameLoop_Structure()
 						s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
 					}
 				} else {
-					s->flags.s.upgrading = false;
+					s->o.flags.s.upgrading = false;
 				}
-			} else if (s->flags.s.repairing) {
+			} else if (s->o.flags.s.repairing) {
 				uint16 repairCost;
 
 				/* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
@@ -177,42 +177,42 @@ void GameLoop_Structure()
 					h->credits -= repairCost;
 
 					/* AIs repair in early games slower than in later games */
-					if (s->houseID == g_global->playerHouseID || g_global->campaignID >= 3) {
-						s->hitpoints += 5;
+					if (s->o.houseID == g_global->playerHouseID || g_global->campaignID >= 3) {
+						s->o.hitpoints += 5;
 					} else {
-						s->hitpoints += 3;
+						s->o.hitpoints += 3;
 					}
 
-					if (s->hitpoints > si->hitpoints) {
-						s->hitpoints = si->hitpoints;
-						s->flags.s.repairing = false;
-						s->flags.s.onHold = false;
+					if (s->o.hitpoints > si->hitpoints) {
+						s->o.hitpoints = si->hitpoints;
+						s->o.flags.s.repairing = false;
+						s->o.flags.s.onHold = false;
 					}
 				} else {
-					s->flags.s.repairing = false;
+					s->o.flags.s.repairing = false;
 				}
 			} else {
-				if (!s->flags.s.onHold && s->countDown != 0 && s->linkedID != 0xFF && s->animation == 1 && si->flags.s.factory) {
+				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->flags.s.factory) {
 					UnitInfo *ui;
 					uint16 buildSpeed;
 					uint16 buildCost;
 
-					if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
+					if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 						/* XXX -- This is not really pretty */
 						ui = (UnitInfo *)&g_structureInfo[s->objectType];
-					} else if (s->type == STRUCTURE_REPAIR) {
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
+					} else if (s->o.type == STRUCTURE_REPAIR) {
+						ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 					} else {
 						ui = &g_unitInfo[s->objectType];
 					}
 
 					buildSpeed = 256;
-					if (s->hitpoints < si->hitpoints) {
-						buildSpeed = s->hitpoints * 256 / si->hitpoints;
+					if (s->o.hitpoints < si->hitpoints) {
+						buildSpeed = s->o.hitpoints * 256 / si->hitpoints;
 					}
 
 					/* For AIs, we slow down building speed in all but the last campaign */
-					if (g_global->playerHouseID != s->houseID) {
+					if (g_global->playerHouseID != s->o.houseID) {
 						if (buildSpeed > g_global->campaignID * 20 + 95) buildSpeed = g_global->campaignID * 20 + 95;
 					}
 
@@ -222,7 +222,7 @@ void GameLoop_Structure()
 						buildCost = buildSpeed * buildCost / 256;
 					}
 
-					if (s->type == STRUCTURE_REPAIR && buildCost > 4) {
+					if (s->o.type == STRUCTURE_REPAIR && buildCost > 4) {
 						buildCost /= 4;
 					}
 
@@ -240,11 +240,11 @@ void GameLoop_Structure()
 
 							Structure_SetAnimation(s, 2);
 
-							if (s->houseID == g_global->playerHouseID) {
-								if (s->type != STRUCTURE_BARRACKS && s->type != STRUCTURE_WOR_TROOPER) {
+							if (s->o.houseID == g_global->playerHouseID) {
+								if (s->o.type != STRUCTURE_BARRACKS && s->o.type != STRUCTURE_WOR_TROOPER) {
 									uint16 stringID = 0x83; /* "is completed and awaiting orders." */
-									if (s->type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
-									if (s->type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
+									if (s->o.type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
+									if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
 									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(ui->stringID_full), String_Get_ByIndex(stringID));
 
@@ -252,20 +252,20 @@ void GameLoop_Structure()
 									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 									emu_sp += 2;
 								}
-							} else if (s->type == STRUCTURE_CONSTRUCTION_YARD) {
+							} else if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 								/* An AI immediatly places the structure when it is done building */
 								Structure *ns;
 								uint8 i;
 
-								ns = Structure_Get_ByIndex(s->linkedID);
-								s->linkedID = 0xFF;
+								ns = Structure_Get_ByIndex(s->o.linkedID);
+								s->o.linkedID = 0xFF;
 
 								/* The AI places structures which are operational immediatly */
 								Structure_SetAnimation(s, 0);
 
 								/* Find the position to place the structure */
 								for (i = 0; i < 5; i++) {
-									if (ns->type != h->ai_structureRebuild[i * 2]) continue;
+									if (ns->o.type != h->ai_structureRebuild[i * 2]) continue;
 
 									if (!Structure_Place(ns, h->ai_structureRebuild[i * 2 + 1])) continue;
 
@@ -276,7 +276,7 @@ void GameLoop_Structure()
 
 								/* If the AI no longer had in memory where to store the structure, free it and forget about it */
 								if (i == 5) {
-									StructureInfo *nsi = &g_structureInfo[ns->type];
+									StructureInfo *nsi = &g_structureInfo[ns->o.type];
 
 									h->credits += nsi->buildCredits;
 
@@ -286,8 +286,8 @@ void GameLoop_Structure()
 						}
 					} else {
 						/* Out of money means the building gets put on hold */
-						if (s->houseID == g_global->playerHouseID) {
-							s->type |= 0x4000;
+						if (s->o.houseID == g_global->playerHouseID) {
+							s->o.type |= 0x4000;
 
 							/* "Insufficient funds.  Construction is halted." */
 							GUI_DisplayText(String_Get_ByIndex(0x84), 0);
@@ -295,17 +295,17 @@ void GameLoop_Structure()
 					}
 				}
 
-				if (s->type == STRUCTURE_REPAIR) {
-					if (!s->flags.s.onHold && s->countDown != 0 && s->linkedID != 0xFF) {
+				if (s->o.type == STRUCTURE_REPAIR) {
+					if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF) {
 						UnitInfo *ui;
 						uint16 repairSpeed;
 						uint16 repairCost;
 
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->linkedID)->type];
+						ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 
 						repairSpeed = 256;
-						if (s->hitpoints < si->hitpoints) {
-							repairSpeed = s->hitpoints * 256 / si->hitpoints;
+						if (s->o.hitpoints < si->hitpoints) {
+							repairSpeed = s->o.hitpoints * 256 / si->hitpoints;
 						}
 
 						/* XXX -- This is highly unfair. Repairing becomes more expensive if your structure is more damaged */
@@ -321,7 +321,7 @@ void GameLoop_Structure()
 
 								Structure_SetAnimation(s, 2);
 
-								if (s->houseID == g_global->playerHouseID) {
+								if (s->o.houseID == g_global->playerHouseID) {
 									emu_push(g_global->playerHouseID + 0x37);
 									emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 									emu_sp += 2;
@@ -330,14 +330,14 @@ void GameLoop_Structure()
 						}
 					} else if (h->credits != 0) {
 						/* Automaticly resume repairing when there is money again */
-						s->flags.s.onHold = false;
+						s->o.flags.s.onHold = false;
 					}
 				}
 
 				/* AI maintenance on structures */
-				if (h->flags.s.variable_0008 && s->flags.s.allocated && s->houseID != g_global->playerHouseID && h->credits != 0) {
+				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_global->playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
-					if (s->hitpoints < si->hitpoints / 2) {
+					if (s->o.hitpoints < si->hitpoints / 2) {
 						emu_push(0); emu_push(0);
 						emu_push(1);
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
@@ -346,7 +346,7 @@ void GameLoop_Structure()
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-					if (si->flags.s.factory && s->countDown == 0 && s->linkedID == 0xFF) {
+					if (si->flags.s.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; emu_Structure_AI_PickNextToBuild();
 						emu_sp += 4;
@@ -363,10 +363,10 @@ void GameLoop_Structure()
 		}
 
 		if (tickScript) {
-			if (s->scriptDelay != 0) {
-				s->scriptDelay--;
+			if (s->o.scriptDelay != 0) {
+				s->o.scriptDelay--;
 			} else {
-				if (Script_IsLoaded(&s->script)) {
+				if (Script_IsLoaded(&s->o.script)) {
 					uint8 i;
 
 					/* XXX -- No idea, variable_37A2, variable_37A4 and variable_37A8 are only written to, never read. Most likely part of a script debugger. */
@@ -374,21 +374,21 @@ void GameLoop_Structure()
 						g_global->variable_37A4 = 0;
 						g_global->variable_37A2++;
 
-						if (s->script.stackPointer <= 15 && 15 - s->script.stackPointer > g_global->variable_37A8) {
-							g_global->variable_37A8 = 15 - s->script.stackPointer;
+						if (s->o.script.stackPointer <= 15 && 15 - s->o.script.stackPointer > g_global->variable_37A8) {
+							g_global->variable_37A8 = 15 - s->o.script.stackPointer;
 						}
 					}
 
 					/* Run the script 3 times in a row */
 					for (i = 0; i < 3; i++) {
-						if (!Script_Run(&s->script)) break;
+						if (!Script_Run(&s->o.script)) break;
 					}
 
 					/* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
 					if (!g_dune2_enhanced && i != 3) return;
 				} else {
-					Script_Reset(&s->script, ScriptInfo_Get_ByMemory(s->script.scriptInfo));
-					Script_Load(&s->script, s->type);
+					Script_Reset(&s->o.script, ScriptInfo_Get_ByMemory(s->o.script.scriptInfo));
+					Script_Load(&s->o.script, s->o.type);
 				}
 			}
 		}
@@ -436,14 +436,14 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->index * sizeof(Structure);
+	scsip.s.ip += s->o.index * sizeof(Structure);
 
-	s->houseID            = houseID;
-	s->variable_47        = houseID;
-	s->flags.s.beingBuilt = true;
-	s->position.tile      = 0;
-	s->linkedID           = 0xFF;
-	s->animation          = (g_global->debugScenario) ? 0 : -1;
+	s->o.houseID            = houseID;
+	s->variable_47          = houseID;
+	s->o.flags.s.beingBuilt = true;
+	s->o.position.tile      = 0;
+	s->o.linkedID           = 0xFF;
+	s->animation            = (g_global->debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
 		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
@@ -464,7 +464,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 		s->variable_49 = emu_get_memory16(emu_es, emu_bx, 0x2);
 	}
 
-	s->hitpoints    = si->hitpoints;
+	s->o.hitpoints    = si->hitpoints;
 	s->hitpointsMax = si->hitpoints;
 
 	if (houseID == HOUSE_HARKONNEN && typeID == STRUCTURE_LIGHT_VEHICLE) {
@@ -527,13 +527,13 @@ bool Structure_Place(Structure *s, uint16 position)
 	if (s == NULL) return false;
 	if (position == 0xFFFF) return false;
 
-	si = &g_structureInfo[s->type];
+	si = &g_structureInfo[s->o.type];
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->index * sizeof(Structure);
+	scsip.s.ip += s->o.index * sizeof(Structure);
 
-	switch (s->type) {
+	switch (s->o.type) {
 		case STRUCTURE_WALL: {
 			Tile *t;
 
@@ -542,11 +542,11 @@ bool Structure_Place(Structure *s, uint16 position)
 			t = Map_GetTileByPosition(position);
 			t->spriteID = (g_global->variable_39FA + 1) & 0x1FF;
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
-			t->houseID  = s->houseID;
+			t->houseID  = s->o.houseID;
 
 			g_map[position] |= 0x8000;
 
-			if (s->houseID == g_global->playerHouseID) {
+			if (s->o.houseID == g_global->playerHouseID) {
 				tile = Tile_UnpackTile(position);
 
 				emu_push(1);
@@ -579,11 +579,11 @@ bool Structure_Place(Structure *s, uint16 position)
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 				t->spriteID = g_global->variable_39F8 & 0x01FF;
-				t->houseID  = s->houseID;
+				t->houseID  = s->o.houseID;
 
 				g_map[curPos] |= 0x8000;
 
-				if (s->houseID == g_global->playerHouseID) {
+				if (s->o.houseID == g_global->playerHouseID) {
 					tile = Tile_UnpackTile(curPos);
 
 					emu_push(1);
@@ -604,7 +604,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			}
 
 			/* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
-			if (s->type == STRUCTURE_SLAB_2x2) {
+			if (s->o.type == STRUCTURE_SLAB_2x2) {
 				for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
 					uint16 curPos = position + g_global->layoutTiles[si->layout][i];
 					Tile *t = Map_GetTileByPosition(curPos);
@@ -612,11 +612,11 @@ bool Structure_Place(Structure *s, uint16 position)
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 					t->spriteID = g_global->variable_39F8 & 0x01FF;
-					t->houseID  = s->houseID;
+					t->houseID  = s->o.houseID;
 
 					g_map[curPos] |= 0x8000;
 
-					if (s->houseID == g_global->playerHouseID) {
+					if (s->o.houseID == g_global->playerHouseID) {
 						tile = Tile_UnpackTile(curPos);
 
 						emu_push(1);
@@ -643,16 +643,16 @@ bool Structure_Place(Structure *s, uint16 position)
 		} return true;
 	}
 
-	loc0A = Structure_IsValidBuildLocation(position, s->type);
+	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
 
 	if (loc0A == 0) {
-		if ((s->houseID != g_global->playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
+		if ((s->o.houseID != g_global->playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
 			return false;
 		}
 	}
 
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-	if (!g_dune2_enhanced && s->houseID == g_global->playerHouseID) {
+	if (!g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) {
 		tile = Tile_UnpackTile(position);
 
 		emu_push(2);
@@ -661,17 +661,17 @@ bool Structure_Place(Structure *s, uint16 position)
 		emu_sp += 6;
 	}
 
-	s->variable_09 |= 1 << s->houseID;
-	if (s->houseID == g_global->playerHouseID) s->variable_09 |= 0xFF;
+	s->o.variable_09 |= 1 << s->o.houseID;
+	if (s->o.houseID == g_global->playerHouseID) s->o.variable_09 |= 0xFF;
 
-	s->flags.s.beingBuilt = false;
+	s->o.flags.s.beingBuilt = false;
 
-	s->position = Tile_UnpackTile(position);
-	s->position.s.x &= 0xFF00;
-	s->position.s.y &= 0xFF00;
+	s->o.position = Tile_UnpackTile(position);
+	s->o.position.s.x &= 0xFF00;
+	s->o.position.s.y &= 0xFF00;
 
 	s->variable_49  = 0;
-	s->hitpoints    = si->hitpoints;
+	s->o.hitpoints  = si->hitpoints;
 	s->hitpointsMax = si->hitpoints;
 
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
@@ -679,26 +679,26 @@ bool Structure_Place(Structure *s, uint16 position)
 		uint16 tilesWithoutSlab = -(int16)loc0A;
 		uint16 structureTileCount = g_global->layoutTileCount[si->layout];
 
-		s->hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
+		s->o.hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
-		s->flags.s.degrades = true;
+		s->o.flags.s.degrades = true;
 	} else {
 		/* ENHANCEMENT -- When you build a structure completely on slabs, it should not degrade */
 		if (!g_dune2_enhanced) {
-			s->flags.s.degrades = true;
+			s->o.flags.s.degrades = true;
 		}
 	}
 
-	Script_Reset(&s->script, &g_global->scriptStructure);
+	Script_Reset(&s->o.script, &g_global->scriptStructure);
 
-	s->script.variables[0] = 0;
-	s->script.variables[4] = 0;
+	s->o.script.variables[0] = 0;
+	s->o.script.variables[4] = 0;
 
 	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
-		s->scriptDelay = 0;
-		Script_Reset(&s->script, ScriptInfo_Get_ByMemory(s->script.scriptInfo));
-		Script_Load(&s->script, s->type);
+		s->o.scriptDelay = 0;
+		Script_Reset(&s->o.script, ScriptInfo_Get_ByMemory(s->o.script.scriptInfo));
+		Script_Load(&s->o.script, s->o.type);
 	}
 
 	{
@@ -713,7 +713,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			Unit_Unknown10EC(u);
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-			if (g_dune2_enhanced && s->houseID == g_global->playerHouseID) {
+			if (g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) {
 				tile = Tile_UnpackTile(curPos);
 
 				emu_push(2);
@@ -725,17 +725,17 @@ bool Structure_Place(Structure *s, uint16 position)
 		}
 	}
 
-	if (s->type == STRUCTURE_WINDTRAP) {
+	if (s->o.type == STRUCTURE_WINDTRAP) {
 		House *h;
 
-		h = House_Get_ByIndex(s->houseID);
+		h = House_Get_ByIndex(s->o.houseID);
 		h->windtrapCount += 1;
 	}
 
 	if (g_global->variable_38BC == 0x0) {
 		House *h;
 
-		h = House_Get_ByIndex(s->houseID);
+		h = House_Get_ByIndex(s->o.houseID);
 		Structure_CalculatePowerAndCredit(h);
 	}
 
@@ -745,7 +745,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 	{
 		House *h;
-		h = House_Get_ByIndex(s->houseID);
+		h = House_Get_ByIndex(s->o.houseID);
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
 	}
 
@@ -778,7 +778,7 @@ void Structure_CalculatePowerAndCredit(House *h)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		si = &g_structureInfo[s->type];
+		si = &g_structureInfo[s->o.type];
 
 		h->creditsStorage += si->creditsStorage;
 
@@ -789,18 +789,18 @@ void Structure_CalculatePowerAndCredit(House *h)
 		}
 
 		/* Negative value and full health means everything goes to production */
-		if (s->hitpoints >= si->hitpoints) {
+		if (s->o.hitpoints >= si->hitpoints) {
 			h->powerProduction += -si->powerUsage;
 			continue;
 		}
 
 		/* Negative value and partial health, calculate how much should go to production (capped at 50%) */
 		/* ENHANCEMENT -- The 50% cap of Dune2 is silly and disagress with the GUI. If your hp is 10%, so should the production. */
-		if (!g_dune2_enhanced && s->hitpoints <= si->hitpoints / 2) {
+		if (!g_dune2_enhanced && s->o.hitpoints <= si->hitpoints / 2) {
 			h->powerProduction += (-si->powerUsage) / 2;
 			continue;
 		}
-		h->powerProduction += (-si->powerUsage) * s->hitpoints / si->hitpoints;
+		h->powerProduction += (-si->powerUsage) * s->o.hitpoints / si->hitpoints;
 	}
 
 	/* Check if we are low on power */
@@ -853,14 +853,14 @@ void Structure_CalculateHitpointsMax(House *h)
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		scsip = g_global->structureStartPos;
-		scsip.s.ip += s->index * sizeof(Structure);
+		scsip.s.ip += s->o.index * sizeof(Structure);
 
-		si = &g_structureInfo[s->type];
+		si = &g_structureInfo[s->o.type];
 
 		s->hitpointsMax = si->hitpoints * power / 256;
 		s->hitpointsMax = max(s->hitpointsMax, si->hitpoints / 2);
 
-		if (s->hitpointsMax >= s->hitpoints) continue;
+		if (s->hitpointsMax >= s->o.hitpoints) continue;
 
 		emu_push(0);
 		emu_push(1);
@@ -881,7 +881,7 @@ void Structure_SetAnimation(Structure *s, int16 animation)
 	if (s == NULL) return;
 	s->animation = animation;
 
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 	emu_push(emu_cs); emu_push(0x13B9); emu_Structure_UpdateMap();
 	emu_sp += 4;
 }
@@ -926,8 +926,8 @@ uint32 Structure_GetStructuresBuilt(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
-		if (s->flags.s.beingBuilt) continue;
-		result |= 1 << s->type;
+		if (s->o.flags.s.beingBuilt) continue;
+		result |= 1 << s->o.type;
 	}
 
 	return result;
@@ -1010,7 +1010,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			curPos = position + offset;
 			s = Structure_Get_ByPackedTile(curPos);
 			if (s != NULL) {
-				if (s->houseID != g_global->playerHouseID) continue;
+				if (s->o.houseID != g_global->playerHouseID) continue;
 				isValid = true;
 				break;
 			}
@@ -1054,12 +1054,12 @@ bool Structure_Save(FILE *fp)
 		ss = *s;
 
 		/* Rewrite the pointer in the scriptEngine to an index */
-		if (ss.script.script.csip != 0x00000000) {
+		if (ss.o.script.script.csip != 0x00000000) {
 			ScriptInfo *scriptInfo;
-			scriptInfo = ScriptInfo_Get_ByMemory(ss.script.scriptInfo);
-			ss.script.script.csip = (ss.script.script.csip - scriptInfo->start.csip) / 2;
+			scriptInfo = ScriptInfo_Get_ByMemory(ss.o.script.scriptInfo);
+			ss.o.script.script.csip = (ss.o.script.script.csip - scriptInfo->start.csip) / 2;
 		}
-		ss.script.scriptInfo.csip = 0x00000000;
+		ss.o.script.scriptInfo.csip = 0x00000000;
 
 		if (fwrite(&ss, sizeof(Structure), 1, fp) != 1) return false;
 	}
@@ -1085,17 +1085,17 @@ bool Structure_Load(FILE *fp, uint32 length)
 		/* Read the next Structure from disk */
 		if (fread(&sl, sizeof(Structure), 1, fp) != 1) return false;
 
-		sl.script.scriptInfo.s.cs = 0x353F;
-		sl.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptStructure, 0x353F);
-		if (sl.script.script.csip != 0x0) {
-			uint16 lineno = sl.script.script.csip;
+		sl.o.script.scriptInfo.s.cs = 0x353F;
+		sl.o.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptStructure, 0x353F);
+		if (sl.o.script.script.csip != 0x0) {
+			uint16 lineno = sl.o.script.script.csip;
 
-			sl.script.script = g_global->scriptStructure.start;
-			sl.script.script.s.ip += lineno * 2;
+			sl.o.script.script = g_global->scriptStructure.start;
+			sl.o.script.script.s.ip += lineno * 2;
 		}
 
 		/* Get the Structure from the pool */
-		s = Structure_Get_ByIndex(sl.index);
+		s = Structure_Get_ByIndex(sl.o.index);
 		if (s == NULL) return false;
 
 		/* Copy over the data */
@@ -1105,7 +1105,7 @@ bool Structure_Load(FILE *fp, uint32 length)
 
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		scsip.s.cs = g_global->structureStartPos.s.cs;
-		scsip.s.ip = g_global->structureStartPos.s.ip + s->index * sizeof(Structure);
+		scsip.s.ip = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 		emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
@@ -1132,12 +1132,12 @@ void Structure_ActivateSpecial(Structure *s)
 	House *h;
 
 	if (s == NULL) return;
-	if (s->type != STRUCTURE_PALACE) return;
+	if (s->o.type != STRUCTURE_PALACE) return;
 
-	h = House_Get_ByIndex(s->houseID);
+	h = House_Get_ByIndex(s->o.houseID);
 	if (!h->flags.s.used) return;
 
-	switch (g_houseInfo[s->houseID].specialWeapon) {
+	switch (g_houseInfo[s->o.houseID].specialWeapon) {
 		case HOUSE_WEAPON_MISSLE: {
 			Unit *u;
 			tile32 position;
@@ -1146,16 +1146,16 @@ void Structure_ActivateSpecial(Structure *s)
 			position.s.y = 0xFFFF;
 
 			g_global->variable_38BC++;
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->houseID, position, Tools_Random_256());
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->o.houseID, position, Tools_Random_256());
 			g_global->variable_38BC--;
 
 			g_global->unitHouseMissile.csip = 0x0;
 			if (u == NULL) break;
 
 			g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
-			g_global->unitHouseMissile.s.ip += u->index * sizeof(Unit);
+			g_global->unitHouseMissile.s.ip += u->o.index * sizeof(Unit);
 
-			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
 
 			if (!h->flags.s.human) {
 				PoolFindStruct find;
@@ -1171,9 +1171,9 @@ void Structure_ActivateSpecial(Structure *s)
 					sf = Structure_Find(&find);
 					if (sf == NULL) break;
 
-					if (House_AreAllied(s->houseID, sf->houseID)) continue;
+					if (House_AreAllied(s->o.houseID, sf->o.houseID)) continue;
 
-					emu_push(Tile_PackTile(sf->position));
+					emu_push(Tile_PackTile(sf->o.position));
 					emu_push(emu_cs); emu_push(0x0626); emu_Unit_LaunchHouseMissle();
 					emu_sp += 2;
 
@@ -1233,7 +1233,7 @@ void Structure_ActivateSpecial(Structure *s)
 				Unit_SetAction(u, ACTION_HUNT);
 			}
 
-			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
 		} break;
 
 		case HOUSE_WEAPON_SABOTEUR: {
@@ -1242,7 +1242,7 @@ void Structure_ActivateSpecial(Structure *s)
 
 			/* Find a spot next to the structure */
 			emu_push(0);
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->index * sizeof(Structure));
+			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
 			emu_push(emu_cs); emu_push(0x0718); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
 			emu_sp += 6;
 			position = emu_ax;
@@ -1254,10 +1254,10 @@ void Structure_ActivateSpecial(Structure *s)
 			}
 
 			g_global->variable_38BC++;
-			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->houseID, Tile_UnpackTile(position), Tools_Random_256());
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->o.houseID, Tile_UnpackTile(position), Tools_Random_256());
 			g_global->variable_38BC--;
 
-			s->countDown = g_houseInfo[s->houseID].specialCountDown;
+			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
 
 			if (u == NULL) return;
 
@@ -1267,7 +1267,7 @@ void Structure_ActivateSpecial(Structure *s)
 		default: break;
 	}
 
-	if (s->houseID == g_global->playerHouseID) {
+	if (s->o.houseID == g_global->playerHouseID) {
 		emu_push(1);
 		emu_push(emu_cs); emu_push(0x07B8); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
 		emu_sp += 2;

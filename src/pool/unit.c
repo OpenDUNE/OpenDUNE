@@ -57,9 +57,9 @@ Unit *Unit_Find(PoolFindStruct *find)
 
 		u = Unit_Get_ByMemory(pos);
 
-		if (u->flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
+		if (u->o.flags.s.beingBuilt && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != Unit_GetHouseID(u)) continue;
-		if (find->type    != UNIT_INDEX_INVALID  && find->type    != u->type)  continue;
+		if (find->type    != UNIT_INDEX_INVALID  && find->type    != u->o.type)  continue;
 
 		return u;
 	}
@@ -106,9 +106,9 @@ void Unit_Recount()
 
 	for (index = 0; index < UNIT_INDEX_MAX; index++) {
 		Unit *u = Unit_Get_ByIndex(index);
-		if (!u->flags.s.used) continue;
+		if (!u->o.flags.s.used) continue;
 
-		h = House_Get_ByIndex(u->houseID);
+		h = House_Get_ByIndex(u->o.houseID);
 		h->unitCount++;
 
 		g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
@@ -146,12 +146,12 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 		for (index = indexStart; index <= indexEnd; index++) {
 			u = Unit_Get_ByIndex(index);
-			if (!u->flags.s.used) break;
+			if (!u->o.flags.s.used) break;
 		}
 		if (index > indexEnd) return NULL;
 	} else {
 		u = Unit_Get_ByIndex(index);
-		if (u->flags.s.used) return NULL;
+		if (u->o.flags.s.used) return NULL;
 	}
 	assert(u != NULL);
 
@@ -159,15 +159,15 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 	/* Initialize the Unit */
 	memset(u, 0, sizeof(Unit));
-	u->index               = index;
-	u->type                = type;
-	u->houseID             = houseID;
-	u->linkedID            = 0xFF;
-	u->flags.s.used        = true;
-	u->flags.s.allocated   = true;
-	u->variable_06         = 0x0001;
-	u->scriptDelay         = 0;
-	u->variable_72[0]      = 0xFF;
+	u->o.index                   = index;
+	u->o.type                    = type;
+	u->o.houseID                 = houseID;
+	u->o.linkedID                = 0xFF;
+	u->o.flags.s.used            = true;
+	u->o.flags.s.allocated       = true;
+	u->o.flags.s.variable_6_0001 = true;
+	u->o.scriptDelay             = 0;
+	u->variable_72[0]            = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
 	g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
@@ -189,11 +189,11 @@ void Unit_Free(Unit *u)
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip = g_global->unitStartPos;
-	ucsip.s.ip += u->index * sizeof(Unit);
+	ucsip.s.ip += u->o.index * sizeof(Unit);
 
-	u->flags.all = 0x0000;
+	u->o.flags.all = 0x0000;
 
-	Script_Reset(&u->script, &g_global->scriptUnit);
+	Script_Reset(&u->o.script, &g_global->scriptUnit);
 
 	/* Walk the array to find the Unit we are removing */
 	for (i = 0; i < g_global->unitCount; i++) {
@@ -205,7 +205,7 @@ void Unit_Free(Unit *u)
 	g_global->unitCount--;
 
 	{
-		House *h = House_Get_ByIndex(u->houseID);
+		House *h = House_Get_ByIndex(u->o.houseID);
 		h->unitCount--;
 	}
 

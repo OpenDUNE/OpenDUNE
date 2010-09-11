@@ -2611,6 +2611,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\object.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\opendune.c"
 				>
 				<FileConfiguration
