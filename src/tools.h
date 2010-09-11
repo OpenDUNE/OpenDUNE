@@ -15,6 +15,7 @@ typedef enum IndexType {
 
 struct Unit;
 struct Structure;
+struct Object;
 
 extern uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed);
 extern IndexType Tools_Index_GetType(uint16 encoded);
@@ -25,6 +26,7 @@ extern uint16 Tools_Index_GetPackedTile(uint16 encoded);
 extern tile32 Tools_Index_GetTile(uint16 encoded);
 extern struct Unit *Tools_Index_GetUnit(uint16 encoded);
 extern struct Structure *Tools_Index_GetStructure(uint16 encoded);
+extern struct Object *Tools_Index_GetObject(uint16 encoded);
 extern csip32 Tools_GetSmallestIP(csip32 csip);
 extern void Tools_Memmove(csip32 src, csip32 dst, uint32 count);
 extern uint8 Tools_Random_256();
@@ -41,6 +43,7 @@ extern void emu_Tools_Index_GetPackedTile();
 extern void emu_Tools_Index_GetTile();
 extern void emu_Tools_Index_GetUnit();
 extern void emu_Tools_Index_GetStructure();
+extern void emu_Tools_Index_GetObject();
 extern void emu_Tools_GetSmallestIP();
 extern void emu_Tools_GetSmallestIP2();
 extern void emu_Tools_Memmove();

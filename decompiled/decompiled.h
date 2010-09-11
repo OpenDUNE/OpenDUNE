@@ -254,7 +254,6 @@ extern void f__151A_02B0_0011_62B1();
 extern void emu_Mouse_CallbackClear();
 extern void f__151A_02C8_0016_FA9C();
 extern void emu_Empty5();
-extern void emu_Tools_Index_GetStructureOrUnit();
 extern void emu_Mouse_InsideRegion();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__151A_02E8_0010_6B15();

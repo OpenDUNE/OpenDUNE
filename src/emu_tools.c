@@ -221,6 +221,39 @@ void emu_Tools_Index_GetStructure()
 }
 
 /**
+ * Emulator wrapper around Tools_Index_GetObject()
+ *
+ * @name emu_Tools_Index_GetObject
+ * @implements 167E:02D8:000C:4C9F ()
+ */
+void emu_Tools_Index_GetObject()
+{
+	uint16 encoded;
+	Object *o;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	encoded = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	o = Tools_Index_GetObject(encoded);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (o == NULL) return;
+
+	if (Tools_Index_GetType(encoded) == IT_UNIT) {
+		emu_dx = g_global->unitStartPos.s.cs;
+		emu_ax = g_global->unitStartPos.s.ip + o->index * sizeof(Unit);
+	} else {
+		emu_dx = g_global->structureStartPos.s.cs;
+		emu_ax = g_global->structureStartPos.s.ip + o->index * sizeof(Structure);
+	}
+}
+
+/**
  * Emulator wrapper around Tools_GetSmallestIP()
  *
  * @name emu_Tools_GetSmallestIP

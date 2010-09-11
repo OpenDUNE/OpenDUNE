@@ -208,6 +208,29 @@ Structure *Tools_Index_GetStructure(uint16 encoded)
 }
 
 /**
+ * Gets the Object corresponding to the given encoded index.
+ *
+ * @param id The encoded index to get the Object of.
+ * @return The Object.
+ */
+Object *Tools_Index_GetObject(uint16 encoded)
+{
+	uint16 index;
+
+	switch (Tools_Index_GetType(encoded)) {
+		case IT_UNIT:
+			index = Tools_Index_Decode(encoded);
+			return (index < UNIT_INDEX_MAX) ? &Unit_Get_ByIndex(index)->o : NULL;
+
+		case IT_STRUCTURE:
+			index = Tools_Index_Decode(encoded);
+			return (index < STRUCTURE_INDEX_MAX_HARD) ? &Structure_Get_ByIndex(index)->o : NULL;
+
+		default: return NULL;
+	}
+}
+
+/**
  * Moves as much of the IP to CS
  *
  * @param csip The CS:IP to modify.

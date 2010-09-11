@@ -21,7 +21,6 @@ extern void f__10E4_0273_0029_DCE5();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_08E7_002B_DC75();
-extern void emu_Tools_Index_GetStructureOrUnit();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -213,13 +212,7 @@ uint16 Script_General_Unknown0288(ScriptEngine *script)
 
 	if (s != NULL && Tools_Index_Encode(s->o.index, IT_STRUCTURE) != index) return 1;
 
-	emu_push(index);
-	emu_push(emu_cs); emu_push(0x02D7); emu_cs = 0x167E; emu_Tools_Index_GetStructureOrUnit();
-	emu_sp += 2;
-
-	if (emu_ax == 0 && emu_dx == 0) return 1;
-
-	return 0;
+	return (Tools_Index_GetObject(index) == NULL) ? 1 : 0;
 }
 
 /**
@@ -385,20 +378,14 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 uint16 Script_General_Unknown04AE(ScriptEngine *script)
 {
 	uint16 index;
-	csip32 csip;
+	Object *o;
 	uint16 res;
 
 	index = script->stack[script->stackPointer];
 
-	emu_push(index);
-	emu_push(emu_cs); emu_push(0x04D2); emu_cs = 0x167E; emu_Tools_Index_GetStructureOrUnit();
-	emu_sp += 2;
+	o = Tools_Index_GetObject(index);
 
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
-
-	if (csip.csip == 0x0) return 0;
-	if ((emu_get_memory16(csip.s.cs, csip.s.ip, 4) & 5) != 1) return 0; /* object->flags.s.allocated || !object->flags.s.used */
+	if (o == NULL || o->flags.s.beingBuilt || !o->flags.s.used) return 0;
 
 	res = Script_General_Unknown050C(script);
 
