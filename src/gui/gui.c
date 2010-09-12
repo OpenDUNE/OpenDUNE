@@ -11,6 +11,8 @@
 #include "gui.h"
 #include "../os/strings.h"
 #include "../unknown/unknown.h"
+#include "../house.h"
+#include "../structure.h"
 
 extern void f__22A6_1102_004C_B069();
 extern void f__24D0_000D_0039_C17D();
@@ -533,4 +535,44 @@ void GUI_PaletteAnimate()
 	}
 
 	emu_push(emu_cs); emu_push(0x075A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
+}
+
+/**
+ * Sets productionStringID to the correct string for the active structure.
+ */
+void GUI_UpdateProductionStringID()
+{
+	Structure *s = NULL;
+
+	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+
+	g_global->productionStringID = 0;
+
+	if (s == NULL) return;
+
+	if (g_structureInfo[s->o.type].flags.s.factory) {
+		if (s->o.flags.s.upgrading) {
+			g_global->productionStringID = 0x90; /* "Upgrading|%d%% done" */
+		} else {
+			if (s->o.linkedID != 0xFF) {
+				if (s->o.flags.s.onHold) {
+					g_global->productionStringID = 0x28; /* "On hold" */
+				} else {
+					if (s->countDown != 0) {
+						g_global->productionStringID = 0x2E; /* "%d%% done" */
+					} else {
+						if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+							g_global->productionStringID = 0x26; /* "Place it" */
+						} else {
+							g_global->productionStringID = 0x27; /* "Completed" */
+						}
+					}
+				}
+			} else {
+				g_global->productionStringID = 0x29; /* "Build it" */
+			}
+		}
+	} else {
+		if (s->o.type == STRUCTURE_PALACE) g_global->productionStringID = g_houseInfo[s->o.houseID].specialWeapon + 0x29;
+	}
 }

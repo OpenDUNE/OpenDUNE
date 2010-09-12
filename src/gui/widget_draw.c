@@ -23,7 +23,6 @@ extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_String_Get_ByIndex();
-extern void emu_GUI_Update97E5();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawBorder2();
 extern void overlay(uint16 cs, uint8 force);
@@ -258,7 +257,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 	if (s == NULL) return;
 
-	emu_push(emu_cs); emu_push(0x0846); emu_cs = 0x10E4; emu_GUI_Update97E5();
+	GUI_UpdateProductionStringID();
 
 	old6C91 = g_global->variable_6C91;
 	if (old6C91 == 0) {
@@ -285,7 +284,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x08CD); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
 	emu_sp += 12;
 
-	switch (g_global->variable_97E5) {
+	switch (g_global->productionStringID) {
 		case 0x2A: /* "Launch" */
 			spriteID = 0x1E;
 			break;
@@ -371,7 +370,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_sp += 20;
 	}
 
-	if (g_global->variable_97E5 == 0x2E) { /* "%d%% done" */
+	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;
 		uint16 timeLeft;
 
@@ -398,11 +397,11 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		percentDone = 100 * timeLeft / buildTime;
 	}
 
-	if (g_global->variable_97E5 == 0x90) { /* "Upgrading|%d%% done" */
+	if (g_global->productionStringID == 0x90) { /* "Upgrading|%d%% done" */
 		percentDone = 100 - s->upgradeTimeLeft;
 
 		GUI_DrawText_Wrapper(
-			String_Get_ByIndex(g_global->variable_97E5),
+			String_Get_ByIndex(g_global->productionStringID),
 			positionX + 1,
 			positionY + height - 19,
 			buttonDown ? 0xE : 0xF,
@@ -412,20 +411,20 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		);
 	} else {
 		GUI_DrawText_Wrapper(
-			String_Get_ByIndex(g_global->variable_97E5),
+			String_Get_ByIndex(g_global->productionStringID),
 			positionX + width / 2,
 			positionY + height - 9,
-			(g_global->variable_97E5 == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF), /* "Place it" */
+			(g_global->productionStringID == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF), /* "Place it" */
 			0,
 			0x121,
 			percentDone
 		);
 	}
 
-	if (g_global->variable_97E5 == 0x2E || g_global->variable_97E5 == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
+	if (g_global->productionStringID == 0x2E || g_global->productionStringID == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
 		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(0x28)); /* "On hold" */
 	} else {
-		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_global->variable_97E5));
+		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_global->productionStringID));
 	}
 
 	if (old6C91 != 0x0) return;

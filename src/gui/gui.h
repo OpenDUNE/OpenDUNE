@@ -8,6 +8,7 @@ extern void GUI_DisplayText(const char *str, uint16 arg0A, ...);
 extern void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
 extern void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
 extern void GUI_PaletteAnimate();
+extern void GUI_UpdateProductionStringID();
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
@@ -17,6 +18,7 @@ extern void emu_GUI_DisplayText();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_PaletteAnimate();
+extern void emu_GUI_UpdateProductionStringID();
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
 

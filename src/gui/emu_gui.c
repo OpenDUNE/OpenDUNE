@@ -137,3 +137,18 @@ void emu_GUI_PaletteAnimate()
 
 	GUI_PaletteAnimate();
 }
+
+/**
+ * Emulator wrapper around GUI_UpdateProductionStringID()
+ *
+ * @name GUI_UpdateProductionStringID
+ * @implements 10E4:2290:0012:78BD ()
+ */
+void emu_GUI_UpdateProductionStringID()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_UpdateProductionStringID();
+}

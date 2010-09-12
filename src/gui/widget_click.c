@@ -60,7 +60,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-	switch (g_global->variable_97E5) {
+	switch (g_global->productionStringID) {
 		default: break;
 
 		case 0x26: /* "Place it" */

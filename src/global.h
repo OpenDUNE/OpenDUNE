@@ -1273,7 +1273,7 @@ typedef struct GlobalData {
 	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0602];
 	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
 	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
-	/* 97E5(2)   */ PACK uint16 variable_97E5;              /*!< ?? */
+	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x004F];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
