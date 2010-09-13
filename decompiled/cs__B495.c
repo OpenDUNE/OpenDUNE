@@ -4169,7 +4169,7 @@ l__1967:
 	emu_push(emu_ds);
 	emu_ax = 0x18AA;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x197C); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
+	emu_push(emu_cs); emu_push(0x197C); emu_cs = 0x10E4; emu_GUI_DisplayModalMessage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__197C:

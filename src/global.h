@@ -681,7 +681,8 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ PACK uint16 structureCount;             /*!< Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
-	/* 3600()    */ PACK uint8   unknown_3600[0x0044];
+	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
+	/* 3604()    */ PACK uint8   unknown_3604[0x0040];
 	/* 3644(80)  */ PACK char  variable_3644[80];           /*!< ?? */
 	/* 3694(80)  */ PACK char  variable_3694[80];           /*!< ?? */
 	/* 36E4(80)  */ PACK char  variable_36E4[80];           /*!< ?? */
@@ -1262,7 +1263,7 @@ typedef struct GlobalData {
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
 	/* 87BA(6)   */ PACK uint8  houseFindStruct[6];         /*!< Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */
-	/* 87D8()    */ PACK uint8   unknown_87D8[0x0300];
+	/* 87D8(768) */ PACK char   variable_87D8[768];         /*!< ?? Buffer. */
 	/* 8AD8(2)   */ PACK uint16 variable_8AD8;              /*!< ?? */
 	/* 8ADA(2)   */ PACK uint16 variable_8ADA;              /*!< ?? */
 	/* 8ADC(2)   */ PACK uint16 variable_8ADC;              /*!< ?? */

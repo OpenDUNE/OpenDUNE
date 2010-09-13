@@ -28,7 +28,6 @@
 #include "gui/gui.h"
 
 extern void f__07D4_0000_0027_FA61();
-extern void f__10E4_0273_0029_DCE5();
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1DB6_0004_000B_BFBA();
@@ -271,14 +270,7 @@ static void GameLoop_LevelEnd()
 			emu_push(emu_cs); emu_push(0x0334); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 
-			emu_push(0x52); /* "You have successfully completed your mission." */
-			emu_push(emu_cs); emu_push(0x0342); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-
-			emu_push(0xFFFF);
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x034A); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
-			emu_sp += 6;
+			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
 			emu_push(emu_cs); emu_push(0x0352); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C35_002A_C70F();
 
@@ -361,14 +353,7 @@ static void GameLoop_LevelEnd()
 			emu_push(emu_cs); emu_push(0x046F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 
-			emu_push(0x53); /* "You have failed your mission " */
-			emu_push(emu_cs); emu_push(0x047D); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-
-			emu_push(0xFFFF);
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
-			emu_sp += 6;
+			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
 			emu_push(emu_cs); emu_push(0x048D); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C64_002A_C757();
 

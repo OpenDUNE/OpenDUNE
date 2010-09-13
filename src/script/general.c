@@ -17,7 +17,6 @@
 #include "../unit.h"
 #include "../gui/gui.h"
 
-extern void f__10E4_0273_0029_DCE5();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_08E7_002B_DC75();
@@ -162,12 +161,7 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 
 	text.s.ip += offset;
 
-	emu_push(0xFFFF);
-	emu_push(text.s.cs); emu_push(text.s.ip);
-	emu_push(emu_cs); emu_push(0x01CB); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
-	emu_sp += 6;
-
-	return emu_ax;
+	return GUI_DisplayModalMessage(text.csip == 0 ? NULL : (char *)emu_get_memorycsip(text), 0xFFFF);
 }
 
 /**

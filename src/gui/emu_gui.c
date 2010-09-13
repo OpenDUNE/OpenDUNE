@@ -152,3 +152,26 @@ void emu_GUI_UpdateProductionStringID()
 
 	GUI_UpdateProductionStringID();
 }
+
+/**
+ * Emulator wrapper around GUI_DisplayModalMessage()
+ *
+ * @name emu_GUI_DisplayModalMessage
+ * @implements 10E4:0273:0029:DCE5 ()
+ */
+void emu_GUI_DisplayModalMessage()
+{
+	csip32 str;
+	uint16 arg0A;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	str     = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	arg0A   = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	/* XXX -- Theorically there can be more args, but this wrapper is always called without any */
+	emu_ax = GUI_DisplayModalMessage(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), arg0A);
+}
+

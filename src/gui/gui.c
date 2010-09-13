@@ -13,19 +13,35 @@
 #include "../unknown/unknown.h"
 #include "../house.h"
 #include "../structure.h"
+#include "../os/math.h"
 
+extern void f__10E4_01B8_0014_5104();
+extern void f__22A6_04F8_007A_6E25();
+extern void f__22A6_101C_004B_D9F3();
 extern void f__22A6_1102_004C_B069();
+extern void f__22A6_127B_0036_F8C9();
+extern void f__23E1_0004_0014_2BC0();
+extern void f__23E1_01C2_0011_24E8();
+extern void f__23E1_0334_000B_CF65();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
+extern void f__2599_000B_0047_21FD();
 extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2605_000C_006D_F8B2();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
+extern void f__29E8_07FA_0020_177A();
+extern void f__2B6C_0137_0020_C73F();
+extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_00A2_0052_DEE3();
+extern void emu_Input_HandleInput();
+extern void emu_Input_History_Clear();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
+extern void emu_GUI_DrawSprite();
+extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -576,3 +592,199 @@ void GUI_UpdateProductionStringID()
 		if (s->o.type == STRUCTURE_PALACE) g_global->productionStringID = g_houseInfo[s->o.houseID].specialWeapon + 0x29;
 	}
 }
+
+/**
+ * Displays a message and waits for a user action.
+ * @param str The text to display.
+ * @param spriteID The sprite to draw (0xFFFF for none).
+ * @param ... The args for the text.
+ * @return ??
+ */
+uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
+{
+	va_list ap;
+	uint16 oldValue_07AE_0000;
+	uint16 ret;
+	uint16 oldValue_2598_0000;
+	uint16 size = 0;
+
+	va_start(ap, spriteID);
+	vsnprintf(g_global->variable_87D8, sizeof(g_global->variable_87D8), str, ap);
+	va_end(ap);
+
+	emu_push(emu_cs); emu_push(0x02A4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x02AC); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+	oldValue_2598_0000 = emu_ax;
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x02D7); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+	oldValue_07AE_0000 = emu_ax;
+
+	emu_push(13);
+	emu_push(((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6);
+	emu_push(0x353F); emu_push(0x87D8);
+	emu_push(emu_cs); emu_push(0x0304); f__10E4_01B8_0014_5104();
+	emu_sp += 8;
+
+	g_global->variable_4062[1][3] = g_global->variable_6C71 * min(emu_ax, 3) + 18;
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+
+	if (g_global->variable_3600.csip == 0x0) {
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992F);
+		emu_push(emu_cs); emu_push(0x0348); emu_cs = 0x22A6; f__22A6_127B_0036_F8C9();
+		emu_sp += 4;
+
+		size = emu_ax;
+
+		emu_push(emu_cs); emu_push(0x0351); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+
+		if (((int32)((emu_dx << 16) | emu_ax)) >= size) {
+			emu_push(0);
+			emu_push(0); emu_push(size);
+			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+			emu_sp += 6;
+
+			g_global->variable_3600.s.cs = emu_dx;
+			g_global->variable_3600.s.ip = emu_ax;
+		} else {
+			size = 0;
+		}
+	}
+
+	if (g_global->variable_3600.csip != 0x0) {
+		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992F);
+		emu_push(g_global->variable_992B);
+		emu_push(g_global->variable_992D);
+		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; f__22A6_101C_004B_D9F3();
+		emu_sp += 12;
+	}
+
+	emu_push(1);
+	emu_push(1);
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x03B4); emu_GUI_Widget_DrawBorder();
+	emu_sp += 6;
+
+	if (spriteID != 0xFFFF) {
+		emu_push(0x4000);
+		emu_push(0x1);
+		emu_push(0x8);
+		emu_push(0x7);
+		/* TODO -- Change this into an accessable array */
+		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
+		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
+		emu_push(g_global->variable_6C91);
+		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x2903; emu_GUI_DrawSprite();
+		emu_sp += 14;
+
+		emu_push(g_global->variable_9931 - 16);
+		emu_push(g_global->variable_992F - 7);
+		emu_push(g_global->variable_992B + 8);
+		emu_push(g_global->variable_992D + 5);
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x042F); emu_cs = 0x2599; f__2599_000B_0047_21FD();
+		emu_sp += 10;
+	} else {
+		emu_push(g_global->variable_9931 - 16);
+		emu_push(g_global->variable_992F - 2);
+		emu_push(g_global->variable_992B + 8);
+		emu_push(g_global->variable_992D + 1);
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x042F); emu_cs = 0x2599; f__2599_000B_0047_21FD();
+		emu_sp += 10;
+	}
+
+	g_global->variable_6D59 = 0;
+	g_global->variable_9933 = 0;
+	g_global->variable_9935 = 0;
+
+	GUI_DrawText(g_global->variable_87D8, g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF);
+
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+
+	emu_push(emu_cs); emu_push(0x0475); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	g_global->variable_76B4 = 30;
+
+	while (g_global->variable_76B4 != 0) GUI_PaletteAnimate();
+
+	emu_push(emu_cs); emu_push(0x0496); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	do {
+		GUI_PaletteAnimate();
+
+		emu_push(emu_cs); emu_push(0x04A0); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+		ret = emu_ax;
+	} while (ret == 0 || (ret & 0x800) != 0);
+
+	emu_push(0x841);
+	emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x29E8; emu_Input_HandleInput();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x04BF); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	if (spriteID != 0xFFFF) {
+		emu_push(g_global->variable_9931 + 16);
+		emu_push(g_global->variable_992F + 7);
+		emu_push(g_global->variable_992B - 8);
+		emu_push(g_global->variable_992D - 5);
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x2599; f__2599_000B_0047_21FD();
+		emu_sp += 10;
+	} else {
+		emu_push(g_global->variable_9931 + 16);
+		emu_push(g_global->variable_992F + 2);
+		emu_push(g_global->variable_992B - 8);
+		emu_push(g_global->variable_992D - 1);
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x2599; f__2599_000B_0047_21FD();
+		emu_sp += 10;
+	}
+
+	if (g_global->variable_3600.csip != 0x0) {
+		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992F);
+		emu_push(g_global->variable_992B);
+		emu_push(g_global->variable_992D);
+		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; f__22A6_04F8_007A_6E25();
+		emu_sp += 12;
+	}
+
+	emu_push(oldValue_07AE_0000);
+	emu_push(emu_cs); emu_push(0x053E); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+
+	if (size != 0) {
+		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
+		emu_push(emu_cs); emu_push(0x0550); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+		emu_sp += 4;
+
+		g_global->variable_3600.csip = 0;
+	} else {
+		g_global->variable_3A12 = 1;
+	}
+
+	emu_push(oldValue_2598_0000);
+	emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x0574); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	return ret;
+}
+

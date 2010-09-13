@@ -20,8 +20,8 @@
 #include "team.h"
 #include "unit.h"
 #include "unknown/unknown.h"
+#include "gui/gui.h"
 
-extern void f__10E4_0273_0029_DCE5();
 extern void f__B4B8_0000_001F_3BC3();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B511_0091_001D_9C25();
@@ -204,18 +204,7 @@ static bool Load_Main(FILE *fp)
 		}
 		if (length == 0) return false;
 
-		emu_push(0x152); /* "Warning: Original saved games are incompatable with the new version.  The battle will be restarted." */
-		emu_push(emu_cs); emu_push(0x0584); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-		emu_sp += 2;
-
-		emu_push(0xFFFF);
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x058C); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-		emu_sp += 6;
+		GUI_DisplayModalMessage(String_Get_ByIndex(0x152), 0xFFFF); /* "Warning: Original saved games are incompatable with the new version.  The battle will be restarted." */
 
 		return true;
 	}

@@ -103,7 +103,7 @@ l__006B:
 	emu_push(emu_ds);
 	emu_ax = 0x2BCA;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0079); emu_cs = 0x10E4; f__10E4_0273_0029_DCE5();
+	emu_push(emu_cs); emu_push(0x0079); emu_cs = 0x10E4; emu_GUI_DisplayModalMessage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0079:
