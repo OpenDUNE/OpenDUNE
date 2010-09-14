@@ -16,8 +16,8 @@
 #include "../os/math.h"
 
 extern void f__10E4_01B8_0014_5104();
-extern void f__22A6_04F8_007A_6E25();
-extern void f__22A6_101C_004B_D9F3();
+extern void emu_GUI_CopyFromBuffer();
+extern void emu_GUI_CopyToBuffer();
 extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
 extern void f__23E1_0004_0014_2BC0();
@@ -667,7 +667,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_push(g_global->variable_992F);
 		emu_push(g_global->variable_992B);
 		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; f__22A6_101C_004B_D9F3();
+		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; emu_GUI_CopyToBuffer();
 		emu_sp += 12;
 	}
 
@@ -761,7 +761,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_push(g_global->variable_992F);
 		emu_push(g_global->variable_992B);
 		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; f__22A6_04F8_007A_6E25();
+		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; emu_GUI_CopyFromBuffer();
 		emu_sp += 12;
 	}
 

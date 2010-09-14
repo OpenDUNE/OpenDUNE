@@ -319,9 +319,9 @@ l__04D5:
 }
 
 /**
- * Decompiled function f__22A6_04F8_007A_6E25()
+ * Decompiled function emu_GUI_CopyFromBuffer()
  *
- * @name f__22A6_04F8_007A_6E25
+ * @name emu_GUI_CopyFromBuffer
  * @implements 22A6:04F8:007A:6E25 ()
  * @implements 22A6:0517:005B:75B3
  * @implements 22A6:051F:0053:AB4B
@@ -337,7 +337,7 @@ l__04D5:
  * Called From: B4F2:0F59:001D:FF8F
  * Called From: B53B:0233:0029:5454
  */
-void f__22A6_04F8_007A_6E25()
+void emu_GUI_CopyFromBuffer()
 {
 l__04F8:
 	emu_push(emu_bp);
@@ -2328,9 +2328,9 @@ l__0FD7:
 }
 
 /**
- * Decompiled function f__22A6_101C_004B_D9F3()
+ * Decompiled function emu_GUI_CopyToBuffer()
  *
- * @name f__22A6_101C_004B_D9F3
+ * @name emu_GUI_CopyToBuffer
  * @implements 22A6:101C:004B:D9F3 ()
  * @implements 22A6:103A:002D:1381
  * @implements 22A6:1042:0025:252F
@@ -2352,7 +2352,7 @@ l__0FD7:
  * Called From: B4F2:0F15:001D:FFB4
  * Called From: B53B:0147:0028:D443
  */
-void f__22A6_101C_004B_D9F3()
+void emu_GUI_CopyToBuffer()
 {
 l__101C:
 	emu_push(emu_bp);
