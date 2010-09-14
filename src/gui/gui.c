@@ -632,7 +632,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	emu_push(emu_cs); emu_push(0x0304); f__10E4_01B8_0014_5104();
 	emu_sp += 8;
 
-	g_global->variable_4062[1][3] = g_global->variable_6C71 * min(emu_ax, 3) + 18;
+	g_global->variable_4062[1][3] = g_global->variable_6C71 * max((int16)emu_ax, 3) + 18;
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
