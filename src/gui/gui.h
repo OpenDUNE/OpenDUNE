@@ -10,6 +10,7 @@ extern void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgCo
 extern void GUI_PaletteAnimate();
 extern void GUI_UpdateProductionStringID();
 extern uint16 GUI_DisplayModalMessage(char *str, uint16 stringID, ...);
+extern uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter);
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
@@ -21,6 +22,7 @@ extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_UpdateProductionStringID();
 extern void emu_GUI_DisplayModalMessage();
+extern void emu_GUI_SplitText();
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
 

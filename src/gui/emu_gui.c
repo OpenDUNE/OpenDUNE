@@ -175,3 +175,25 @@ void emu_GUI_DisplayModalMessage()
 	emu_ax = GUI_DisplayModalMessage(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), arg0A);
 }
 
+/**
+ * Emulator wrapper around GUI_SplitText()
+ *
+ * @name emu_GUI_SplitText
+ * @implements 10E4:01B8:0014:5104 ()
+ */
+void emu_GUI_SplitText()
+{
+	csip32 str;
+	uint16 maxwidth;
+	char delimiter;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	str       = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	maxwidth  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	delimiter = emu_get_memory8 (emu_ss, emu_sp, 0x6);
+
+	emu_ax = GUI_DisplayModalMessage(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), maxwidth, delimiter);
+}

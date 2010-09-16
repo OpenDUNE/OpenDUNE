@@ -15,7 +15,6 @@
 #include "../structure.h"
 #include "../os/math.h"
 
-extern void f__10E4_01B8_0014_5104();
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__22A6_1102_004C_B069();
@@ -626,13 +625,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	emu_sp += 2;
 	oldValue_07AE_0000 = emu_ax;
 
-	emu_push(13);
-	emu_push(((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6);
-	emu_push(0x353F); emu_push(0x87D8);
-	emu_push(emu_cs); emu_push(0x0304); f__10E4_01B8_0014_5104();
-	emu_sp += 8;
-
-	g_global->variable_4062[1][3] = g_global->variable_6C71 * max((int16)emu_ax, 3) + 18;
+	g_global->variable_4062[1][3] = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
@@ -788,3 +781,32 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	return ret;
 }
 
+/**
+ * Splits the given text in lines of maxwidth width using the given delimiter.
+ * @param str The text to split.
+ * @param maxwidth The maximum width the text will have.
+ * @param delimiter The char used as delimiter.
+ * @return The number of lines.
+ */
+uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
+{
+	uint16 lines = 0;
+
+	if (str == NULL) return 0;
+
+	while (*str != '\0') {
+		uint16 width = 0;
+
+		lines++;
+
+		while (width < maxwidth && *str != delimiter && *str != '\r' && *str != '\0') width += Font_GetCharWidth(*str++);
+
+		if (width >= maxwidth) {
+			while (*str != 0x20 && *str != delimiter && *str != '\r' && *str != '\0') width -= Font_GetCharWidth(*str--);
+		}
+
+		if (*str != '\0') *str++ = delimiter;
+	}
+
+	return lines;
+}

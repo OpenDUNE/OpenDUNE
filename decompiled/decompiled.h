@@ -207,7 +207,6 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__B4CD_01AA_0010_06F1();
 extern void f__1DD7_01AB_0007_96C6();
 extern void emu_DSP_WriteAndWait();
-extern void f__10E4_01B8_0014_5104();
 extern void f__217E_01BA_000A_D507();
 extern void f__B4CD_01BF_0016_E78F();
 extern void emu_Interrupt_Vector_Restore();

@@ -1785,7 +1785,7 @@ l__0B65:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_cs); emu_push(0x0B81); emu_cs = 0x10E4; f__10E4_01B8_0014_5104();
+	emu_push(emu_cs); emu_push(0x0B81); emu_cs = 0x10E4; emu_GUI_SplitText();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0B81:
