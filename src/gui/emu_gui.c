@@ -195,5 +195,5 @@ void emu_GUI_SplitText()
 	maxwidth  = emu_get_memory16(emu_ss, emu_sp, 0x4);
 	delimiter = emu_get_memory8 (emu_ss, emu_sp, 0x6);
 
-	emu_ax = GUI_DisplayModalMessage(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), maxwidth, delimiter);
+	emu_ax = GUI_SplitText(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), maxwidth, delimiter);
 }
