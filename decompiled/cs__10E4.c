@@ -3355,7 +3355,7 @@ l__2123:
 l__2135:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6C91));
-	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; f__07D4_0000_0027_FA61();
+	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
 l__213F:
 	emu_pop(&emu_cx);
 	emu_ax = 0x1;

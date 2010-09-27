@@ -27,7 +27,6 @@
 #include "file.h"
 #include "gui/gui.h"
 
-extern void f__07D4_0000_0027_FA61();
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1DB6_0004_000B_BFBA();
@@ -547,7 +546,7 @@ static void GameLoop_Main()
 			GameLoop_House();
 
 			emu_push(0);
-			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x07D4; f__07D4_0000_0027_FA61();
+			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
 			emu_sp += 2;
 		}
 

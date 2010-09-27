@@ -655,7 +655,9 @@ typedef struct GlobalData {
 	/* 31F9(9)   */ PACK char   string_31F9[9];             /*!< "DUNE.LOG" NULL terminated. */
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
-	/* 320D()    */ PACK uint8   unknown_320D[0x01A9];
+	/* 320D()    */ PACK uint8   unknown_320D[0x0139];
+	/* 3346(4)   */ PACK uint32 variable_3346;              /*!< ?? */
+	/* 334A()    */ PACK uint8   unknown_334A[0x006C];
 	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
 	/* 341A(4)   */ PACK uint32 tickStructureDegrade;       /*!< Indicates next time Structure runs Degrade function. */
 	/* 341E(4)   */ PACK uint32 tickStructureStructure;     /*!< Indicates next time Structure runs Structurs function. */
@@ -759,7 +761,9 @@ typedef struct GlobalData {
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
-	/* 3952()    */ PACK uint8   unknown_3952[0x0098];
+	/* 3952()    */ PACK uint8   unknown_3952[0x0090];
+	/* 39E2()    */ PACK uint16 variable_39E2;              /*!< ?? */
+	/* 39E4()    */ PACK uint8   unknown_39E4[0x0006];
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
@@ -1271,7 +1275,10 @@ typedef struct GlobalData {
 	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
 	/* 8BDE()    */ PACK uint8   unknown_8BDE[0x011F];
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
-	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0602];
+	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0002];
+	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
+	/* 8FE5(512) */ PACK uint8  variable_8FE5[512];         /*!< ?? array size is unsure. */
+	/* 91E5()    */ PACK uint8   unknown_91E5[0x0200];
 	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
 	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
 	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
