@@ -405,7 +405,7 @@ bool Map_IsPositionUnveiled(uint16 position)
  * @param retY Pointer to Y inside the viewport.
  * @return True if and only if the position is in the viewport.
  */
-bool Map_IsPositionInViewport(tile32 position, int16 *retX, int16 *retY)
+bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 {
 	int16 x, y;
 
