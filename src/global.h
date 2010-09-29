@@ -655,9 +655,19 @@ typedef struct GlobalData {
 	/* 31F9(9)   */ PACK char   string_31F9[9];             /*!< "DUNE.LOG" NULL terminated. */
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
-	/* 320D()    */ PACK uint8   unknown_320D[0x0139];
+	/* 320D()    */ PACK uint8   unknown_320D[0x0097];
+	/* 32A4(32)  */ PACK uint16 variable_32A4[8][2];        /*!< ?? */
+	/* 32C4(32)  */ PACK uint16 variable_32C4[8][2];        /*!< ?? */
+	/* 32E4(32)  */ PACK uint16 variable_32E4[8][2];        /*!< ?? */
+	/* 3304(32)  */ PACK uint16 variable_3304[8][2];        /*!< ?? */
+	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
+	/* 3344(2)   */ PACK uint16 variable_3344;              /*!< ?? */
 	/* 3346(4)   */ PACK uint32 variable_3346;              /*!< ?? */
-	/* 334A()    */ PACK uint8   unknown_334A[0x006C];
+	/* 334A(4)   */ PACK uint8  variable_334A[4];           /*!< ?? */
+	/* 334E(32)  */ PACK uint16 variable_334E[8][2];        /*!< ?? */
+	/* 336E(32)  */ PACK uint16 variable_336E[8][2];        /*!< ?? */
+	/* 338E(32)  */ PACK uint16 variable_338E[8][2];        /*!< ?? */
+	/* 33AE(8)   */ PACK uint16 variable_33AE[4];           /*!< ?? */
 	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
 	/* 341A(4)   */ PACK uint32 tickStructureDegrade;       /*!< Indicates next time Structure runs Degrade function. */
 	/* 341E(4)   */ PACK uint32 tickStructureStructure;     /*!< Indicates next time Structure runs Structurs function. */
@@ -761,9 +771,13 @@ typedef struct GlobalData {
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
-	/* 3952()    */ PACK uint8   unknown_3952[0x0090];
-	/* 39E2()    */ PACK uint16 variable_39E2;              /*!< ?? */
-	/* 39E4()    */ PACK uint8   unknown_39E4[0x0006];
+	/* 3952()    */ PACK uint8   unknown_3952[0x0008];
+	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
+	/* 395E()    */ PACK uint8   unknown_395E[0x0084];
+	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
+	/* 39E4(2)   */ PACK uint16 variable_39E4;              /*!< ?? */
+	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
+	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
@@ -777,12 +791,13 @@ typedef struct GlobalData {
 	/* 3A02(2)   */ PACK uint16 selectionPosition;          /*!< Current selection position (packed). */
 	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
 	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
-	/* 3A08()    */ PACK uint8   unknown_3A08[0x0002];
+	/* 3A08(2)   */ PACK uint16 variable_3A08;              /*!< ?? */
 	/* 3A0A(4)   */ PACK csip32 selectionUnit;              /*!< Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
-	/* 3A14()    */ PACK uint8   unknown_3A14[0x0018];
+	/* 3A14(2)   */ PACK uint16 variable_3A14;              /*!< ?? */
+	/* 3A16()    */ PACK uint8   unknown_3A16[0x0016];
 	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
 	/* 3A30(4)   */ PACK csip32 variable_3A30;              /*!< ?? */
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
@@ -1255,7 +1270,8 @@ typedef struct GlobalData {
 	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
-	/* 8290()    */ PACK uint8   unknown_8290[0x01A0];
+	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
+	/* 8420()    */ PACK uint8   unknown_8420[0x0010];
 	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
@@ -1275,10 +1291,10 @@ typedef struct GlobalData {
 	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
 	/* 8BDE()    */ PACK uint8   unknown_8BDE[0x011F];
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
-	/* 8DE3()    */ PACK uint8   unknown_8DE3[0x0002];
+	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
 	/* 8FE5(512) */ PACK uint8  variable_8FE5[512];         /*!< ?? array size is unsure. */
-	/* 91E5()    */ PACK uint8   unknown_91E5[0x0200];
+	/* 91E5(512) */ PACK uint8  variable_91E5[512];         /*!< ?? array size is unsure. */
 	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
 	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
 	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
