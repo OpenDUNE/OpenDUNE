@@ -141,7 +141,7 @@ void emu_GUI_PaletteAnimate()
 /**
  * Emulator wrapper around GUI_UpdateProductionStringID()
  *
- * @name GUI_UpdateProductionStringID
+ * @name emu_GUI_UpdateProductionStringID
  * @implements 10E4:2290:0012:78BD ()
  */
 void emu_GUI_UpdateProductionStringID()

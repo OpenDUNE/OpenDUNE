@@ -5,7 +5,7 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2BEE_000E_0009_8881()
+ * Decompiled function emu_Video_IsInVSync()
  *
  * @name emu_Video_IsInVSync
  * @implements 2BEE:000E:0009:8881 ()
@@ -28,7 +28,7 @@ l__000E:
 }
 
 /**
- * Decompiled function f__2BEE_0017_0028_0D9F()
+ * Decompiled function emu_Video_WaitForNextVSync()
  *
  * @name emu_Video_WaitForNextVSync
  * @implements 2BEE:0017:0028:0D9F ()

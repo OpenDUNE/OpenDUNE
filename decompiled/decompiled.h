@@ -18,6 +18,7 @@
 #include "../src/map.h"
 #include "../src/mouse.h"
 #include "../src/mt32mpu.h"
+#include "../src/object.h"
 #include "../src/opendune.h"
 #include "../src/os/endian.h"
 #include "../src/os/file.h"
