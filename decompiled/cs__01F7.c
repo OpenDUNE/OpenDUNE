@@ -549,6 +549,8 @@ l__0288:
  * @implements 01F7:02BB:000E:6145
  *
  * Called From: 217E:061F:0005:07A7
+ * Called From: 217E:0BFD:0007:1341
+ * Called From: 217E:0C21:0007:1341
  */
 void emu_Print_Error_Overlay()
 {

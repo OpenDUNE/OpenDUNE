@@ -55,6 +55,7 @@ l__001C:
  * @implements B511:0081:0008:C68B
  * @implements B511:008A:0007:924A
  *
+ * Called From: 3511:0025:0005:0000
  * Called From: B511:000B:000E:B463
  */
 void f__B511_001E_0010_AE09()
@@ -1023,6 +1024,7 @@ l__0C8E:
  * @implements B511:0E1C:000C:15CC
  * @implements B511:0E28:0014:36BE
  * @implements B511:0E3C:0008:2947
+ * @implements B511:0E3F:0005:8BCF
  *
  * Called From: B511:0C2D:002A:8725
  * Called From: B511:0C5C:002A:C70F
@@ -1038,7 +1040,7 @@ l__0C93:
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0xE);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37AE), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x37AE) == 0x0) goto l__0CA7;
-	/* Unresolved jump */ emu_ip = 0x0E3F; emu_last_cs = 0xB511; emu_last_ip = 0x0CA4; emu_last_length = 0x0014; emu_last_crc = 0x2A98; emu_call();
+	goto l__0E3F;
 l__0CA7:
 	emu_ax = 0x2DCE;
 	emu_push(emu_ax);
@@ -1265,6 +1267,7 @@ l__0E28:
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0E3C:
 	emu_addw(&emu_sp, 0x8);
+l__0E3F:
 	emu_pop(&emu_si);
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
@@ -1573,6 +1576,7 @@ l__0FAB:
  * @implements B511:11D6:0025:9022
  * @implements B511:11E4:0017:51C5
  * @implements B511:11FB:0014:EDAC
+ * @implements B511:120C:0003:5C07
  * @implements B511:1212:0024:1AEB
  * @implements B511:1236:000F:E74D
  * @implements B511:1245:000B:6BAA
@@ -1949,9 +1953,11 @@ l__11E4:
 l__11FB:
 	emu_addw(&emu_sp, 0x6);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37AE), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x37AE) != 0x0) { /* Unresolved jump */ emu_ip = 0x120C; emu_last_cs = 0xB511; emu_last_ip = 0x1203; emu_last_length = 0x0014; emu_last_crc = 0xEDAC; emu_call(); return; }
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x37A0) == 0x0) goto l__1212;
+	if (emu_get_memory16(emu_ds, 0x00, 0x37AE) == 0x0) {
+		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x37A0), 0x0);
+		if (emu_get_memory16(emu_ds, 0x00, 0x37A0) == 0x0) goto l__1212;
+	}
+l__120C:
 	goto l__14AC;
 l__1212:
 	emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x0;

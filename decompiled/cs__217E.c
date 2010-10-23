@@ -2690,7 +2690,9 @@ l__11AB:
  * @implements 217E:120E:001B:E86F
  * @implements 217E:1217:0012:1F58
  * @implements 217E:1229:0007:5C25
+ * @implements 217E:1251:0005:DECE
  * @implements 217E:1256:0005:A0F3
+ * @implements 217E:1258:0003:A167
  *
  * Called From: 217E:0BF8:0013:D73E
  * Called From: 217E:0C1C:0019:700E
@@ -2755,9 +2757,14 @@ l__1229:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__1256;
 	emu_stc();
-	/* Unresolved jump */ emu_ip = 0x1251; emu_last_cs = 0x217E; emu_last_ip = 0x122E; emu_last_length = 0x0007; emu_last_crc = 0x5C25; emu_call();
+	goto l__1251;
+l__1251:
+	emu_sbbw(&emu_ax, emu_ax);
+	emu_stc();
+	goto l__1258;
 l__1256:
 	emu_xorw(&emu_ax, emu_ax);
+l__1258:
 	emu_pop(&emu_es);
 	emu_pop(&emu_ds);
 
