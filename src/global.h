@@ -726,7 +726,7 @@ typedef struct GlobalData {
 	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? Read-only. */
 	/* 37AC(2)   */ PACK uint16 debugInstantBuild;          /*!< When non-zero, constructions are almost instant. */
 	/* 37AE(2)   */ PACK uint16 debugSkipDialogs;           /*!< When non-zero, you immediately go to house selection, and skip all intros. */
-	/* 37B0(2)   */ PACK uint16 variable_37B0;              /*!< ?? Read-only. */
+	/* 37B0(2)   */ PACK uint16 debugNoExplosionDamage;     /*!< When non-zero, explosions do no damage to their surrounding. */
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */

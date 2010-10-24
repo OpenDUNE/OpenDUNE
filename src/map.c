@@ -442,7 +442,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	uint16 reactionDistance = (type == 11) ? 32 : 16;
 	uint16 positionPacked = Tile_PackTile(position);
 
-	if (g_global->variable_37B0 == 0 && hitpoints != 0) {
+	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
 		PoolFindStruct find;
 		find.houseID = 0xFFFF;
 		find.index   = 0xFFFF;
@@ -522,7 +522,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	if (g_global->variable_37B0 == 0 && hitpoints != 0) {
+	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
 		csip32 scsip;
 		Structure *s = Structure_Get_ByPackedTile(positionPacked);
 
