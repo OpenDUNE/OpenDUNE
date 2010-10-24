@@ -81,7 +81,8 @@ typedef struct StructureInfo {
 	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
-	/* 001A()    */ PACK uint8   unknown_001A[0x0011];
+	/* 001A(2)   */ PACK uint16 variable_1A;                /*!< ?? */
+	/* 001C()    */ PACK uint8   unknown_001C[0x000F];
 	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
 	/* 002D()    */ PACK uint8   unknown_002D[0x005];
 	/* 0032(4)   */ PACK uint32 variable_32;                /*!< ?? */

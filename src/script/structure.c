@@ -20,7 +20,6 @@
 #include "../unknown/unknown.h"
 #include "../gui/gui.h"
 
-extern void f__06F7_0008_0018_D7CD();
 extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1002_0013_651A();
@@ -641,12 +640,7 @@ uint16 Script_Structure_Unknown1524(ScriptEngine *script)
 
 		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(14);
-		emu_push(emu_cs); emu_push(0x1585); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-		emu_sp += 10;
+		Map_MakeExplosion(14, tile, 0, 0);
 	}
 
 	return 0;

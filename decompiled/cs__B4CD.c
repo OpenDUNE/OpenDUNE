@@ -3321,7 +3321,7 @@ l__151B:
 	emu_push(emu_ax);
 	emu_ax = 0x13;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1527); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	emu_push(emu_cs); emu_push(0x1527); emu_cs = 0x06F7; emu_Map_MakeExplosion();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__1527:

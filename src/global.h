@@ -655,7 +655,9 @@ typedef struct GlobalData {
 	/* 31F9(9)   */ PACK char   string_31F9[9];             /*!< "DUNE.LOG" NULL terminated. */
 	/* 3202(2)   */ PACK char   string_3202[2];             /*!< "." NULL terminated. */
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
-	/* 320D()    */ PACK uint8   unknown_320D[0x0097];
+	/* 320D()    */ PACK uint8   unknown_320D[0x0005];
+	/* 3212(64)  */ PACK csip32 variable_3212[14];          /*!< ?? */
+	/* 324A()    */ PACK uint8   unknown_324A[0x005A];
 	/* 32A4(32)  */ PACK uint16 variable_32A4[8][2];        /*!< ?? */
 	/* 32C4(32)  */ PACK uint16 variable_32C4[8][2];        /*!< ?? */
 	/* 32E4(32)  */ PACK uint16 variable_32E4[8][2];        /*!< ?? */

@@ -21,7 +21,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_2207_001D_EDF2();
@@ -601,13 +600,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 	if (u->o.type != UNIT_SABOTEUR) return 0;
 
-	emu_push(0);
-	emu_push(300);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(4);
-	emu_push(emu_cs); emu_push(0x1378); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-	emu_sp += 10;
-
+	Map_MakeExplosion(4, u->o.position, 300, 0);
 	return 0;
 }
 
@@ -625,13 +618,7 @@ uint16 Script_Unit_Unknown1382(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
-	emu_push(g_unitInfo[u->o.type].hitpoints);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(script->stack[script->stackPointer]);
-	emu_push(emu_cs); emu_push(0x13C4); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-	emu_sp += 10;
-
+	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_unitInfo[u->o.type].hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
 	return 0;
 }
 
@@ -650,26 +637,20 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	emu_push(0);
-	emu_push(Tools_RandomRange(25, 50));
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(11);
-	emu_push(emu_cs); emu_push(0x13F9); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-	emu_sp += 10;
+	Map_MakeExplosion(11, u->o.position, Tools_RandomRange(25, 50), 0);
 
 	for (i = 0; i < 7; i++) {
+		tile32 p;
+
 		emu_push(0);
 		emu_push(script->stack[script->stackPointer]);
 		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x143A); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
 		emu_sp += 8;
 
-		emu_push(0);
-		emu_push(Tools_RandomRange(75, 150));
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(11);
-		emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-		emu_sp += 10;
+		p.s.y = emu_dx;
+		p.s.x = emu_ax;
+		Map_MakeExplosion(11, p, Tools_RandomRange(75, 150), 0);
 	}
 
 	return 0;
@@ -774,12 +755,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 				Unit_Unknown10EC(u2);
 			}
 
-			emu_push(0);
-			emu_push(0);
-			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-			emu_push(ui->variable_54);
-			emu_push(emu_cs); emu_push(0x1762); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-			emu_sp += 10;
+			Map_MakeExplosion(ui->variable_54, u->o.position, 0, 0);
 
 			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(63);

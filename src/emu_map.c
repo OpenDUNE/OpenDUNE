@@ -169,3 +169,28 @@ void emu_Map_IsPositionInViewport()
 
 	emu_ax = Map_IsPositionInViewport(position, retX, retY) ? 1 : 0;
 }
+
+/**
+ * Emulator wrapper around Map_MakeExplosion()
+ *
+ * @name emu_Map_MakeExplosition
+ * @implements 06F7:0008:0018:D7CD ()
+ */
+void emu_Map_MakeExplosion()
+{
+	uint16 type;
+	tile32 position;
+	uint16 hitpoints;
+	uint16 unitOriginEncoded;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	type = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	position = emu_get_tile32(emu_ss, emu_sp, 0x2);
+	hitpoints = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	unitOriginEncoded = emu_get_memory16(emu_ss, emu_sp, 0x8);
+
+	Map_MakeExplosion(type, position, hitpoints, unitOriginEncoded);
+}

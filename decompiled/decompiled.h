@@ -93,7 +93,6 @@ extern void f__259E_0006_0016_858A();
 extern void f__263B_0006_001C_9C72();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BD1_0006_004A_CD10();
-extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void emu_GUI_Widget_DrawBorder2();
 extern void f__1319_0008_0010_6124();

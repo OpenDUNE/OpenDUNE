@@ -1345,7 +1345,7 @@ l__137D:
 	emu_push(emu_ax);
 	emu_ax = 0x2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x138B); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
+	emu_push(emu_cs); emu_push(0x138B); emu_cs = 0x06F7; emu_Map_MakeExplosion();
 l__138B:
 	emu_addw(&emu_sp, 0xA);
 l__138E:

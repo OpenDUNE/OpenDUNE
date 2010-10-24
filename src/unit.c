@@ -26,7 +26,6 @@
 #include "string.h"
 #include "gui/gui.h"
 
-extern void f__06F7_0008_0018_D7CD();
 extern void f__0C10_0008_0014_19CD();
 extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
@@ -1685,12 +1684,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (emu_ax == 11 || emu_ax == 12 || emu_ax == 6) {
 				unit->o.position = newPosition;
 
-				emu_push(unit->originEncoded);
-				emu_push(unit->o.hitpoints);
-				emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-				emu_push((ui->variable_54 + unit->o.hitpoints / 10) & 3);
-				emu_push(emu_cs); emu_push(0x04C1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-				emu_sp += 10;
+				Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
 
 				Unit_Unknown10EC(unit);
 				return true;
@@ -1706,12 +1700,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						uint8 i;
 
 						for (i = 0; i < 17; i++) {
-							emu_push(0);
-							emu_push(200);
-							emu_push(newPosition.s.y + g_global->variable_6294[i].s.y); emu_push(newPosition.s.x + g_global->variable_6294[i].s.x);
-							emu_push(ui->variable_54);
-							emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-							emu_sp += 10;
+							tile32 p = newPosition;
+							p.s.y += g_global->variable_6294[i].s.y;
+							p.s.x += g_global->variable_6294[i].s.x;
+
+							Map_MakeExplosion(ui->variable_54, p, 200, 0);
 						}
 					} else if (ui->variable_54 != 0xFFFF) {
 						emu_push(Tile_PackTile(unit->o.position));
@@ -1719,12 +1712,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						emu_sp += 2;
 
 						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && emu_ax == 0) {
-							emu_push(unit->originEncoded);
-							emu_push(unit->o.hitpoints);
-							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-							emu_push(8);
-							emu_push(emu_cs); emu_push(0x05FB); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-							emu_sp += 10;
+							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							emu_push(32);
 							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
@@ -1732,12 +1720,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
 							emu_sp += 8;
 						} else {
-							emu_push(unit->originEncoded);
-							emu_push(unit->o.hitpoints);
-							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-							emu_push((ui->variable_54 + unit->o.hitpoints / 20) & 3);
-							emu_push(emu_cs); emu_push(0x065A); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-							emu_sp += 10;
+							Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}
 					}
 
@@ -1761,12 +1744,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						emu_sp += 2;
 
 						if (emu_ax == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32)) {
-							emu_push(0);
-							emu_push(500);
-							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-							emu_push(4);
-							emu_push(emu_cs); emu_push(0x0748); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-							emu_sp += 10;
+							Map_MakeExplosion(4, newPosition, 500, 0);
 
 							Unit_Free(unit);
 							return true;
@@ -1902,12 +1880,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	}
 
 	if (range != 0) {
-		emu_push(0);
-		emu_push(0);
-		emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-		emu_push((damage < 25) ? 0 : 1);
-		emu_push(emu_cs); emu_push(0x0CF1); emu_cs = 0x06F7; f__06F7_0008_0018_D7CD();
-		emu_sp += 10;
+		Map_MakeExplosion((damage < 25) ? 0 : 1, unit->o.position, 0, 0);
 	}
 
 	if (houseID != g_global->playerHouseID && unit->actionID == ACTION_AMBUSH && unit->o.type != UNIT_HARVESTER) {

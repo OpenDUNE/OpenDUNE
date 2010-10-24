@@ -4,21 +4,31 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "gui/gui.h"
+#include "house.h"
 #include "map.h"
+#include "os/math.h"
+#include "pool/pool.h"
+#include "pool/unit.h"
 #include "structure.h"
+#include "team.h"
+#include "tools.h"
 #include "tile.h"
 #include "unit.h"
-#include "os/math.h"
-#include "gui/gui.h"
 
 extern void emu_Structure_UpdateMap();
+extern void f__06F7_0493_0015_AAB2();
 extern void f__07D4_1625_001A_07E5();
+extern void f__0C3A_1216_0013_E56D();
 extern void f__10E4_0117_0015_392D();
+extern void f__1423_0E4F_0010_843C();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4CD_0000_0011_95D0();
+extern void f__B4CD_0750_0027_7BA5();
+extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
@@ -416,4 +426,160 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 	if (retY != NULL) *retY = y;
 
 	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
+}
+
+/**
+ * Make an explosion on the given position, of a certain type. All units in the
+ *  neighbourhoud get an amount of damage related to their distance to the
+ *  explosion.
+ * @param type The type of explosion.
+ * @param position The position of the explosion.
+ * @param hitpoints The amount of hitpoints to give people in the neighbourhoud.
+ * @param unitOriginEncoded The unit that fired the bullet.
+ */
+void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded)
+{
+	uint16 reactionDistance = (type == 11) ? 32 : 16;
+	uint16 positionPacked = Tile_PackTile(position);
+
+	if (g_global->variable_37B0 == 0 && hitpoints != 0) {
+		PoolFindStruct find;
+		find.houseID = 0xFFFF;
+		find.index   = 0xFFFF;
+		find.type    = 0xFFFF;
+
+		while (true) {
+			uint16 distance;
+			Team *t;
+			UnitInfo *ui;
+			Unit *u;
+			Unit *us;
+			Unit *attack;
+
+			u = Unit_Find(&find);
+			if (u == NULL) break;
+
+			ui = &g_unitInfo[u->o.type];
+
+			distance = Tile_GetDistance(position, u->o.position) >> 4;
+			if (distance >= reactionDistance) continue;
+
+			if (!(u->o.type == UNIT_SANDWORM && type == 13) && u->o.type != UNIT_FRIGATE) {
+				Unit_Damage(u, hitpoints >> (distance >> 2), 0);
+			}
+
+			if (u->o.houseID == g_global->playerHouseID) continue;
+
+			us = Tools_Index_GetUnit(unitOriginEncoded);
+			if (us == NULL) continue;
+			if (us == u) continue;
+			if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(us))) continue;
+
+			t = Unit_GetTeam(u);
+			if (t != NULL) {
+				UnitInfo *targetInfo;
+				Unit *target;
+
+				if (t->variable_0C == 1) {
+					Unit_RemoveFromTeam(u);
+					Unit_SetAction(u, ACTION_HUNT);
+					continue;
+				}
+
+				target = Tools_Index_GetUnit(t->target);
+				if (target == NULL) continue;
+
+				targetInfo = &g_unitInfo[target->o.type];
+				if (targetInfo->bulletType == 0xFFFF) t->target = unitOriginEncoded;
+				continue;
+			}
+
+			if (u->o.type == UNIT_HARVESTER) {
+				UnitInfo *uis = &g_unitInfo[us->o.type];
+
+				if (uis->variable_3C == 0 && u->targetMove == 0) {
+					if (u->actionID != ACTION_MOVE) Unit_SetAction(u, ACTION_MOVE);
+					u->targetMove = unitOriginEncoded;
+					continue;
+				}
+			}
+
+			if (ui->bulletType == 0xFFFF) continue;
+
+			if (u->actionID == ACTION_GUARD && u->o.flags.s.byScenario) {
+				Unit_SetAction(u, ACTION_HUNT);
+			}
+
+			if (u->targetAttack != 0 && u->actionID != ACTION_HUNT) continue;
+
+			attack = Tools_Index_GetUnit(u->targetAttack);
+			if (attack != NULL) {
+				uint16 packed = Tile_PackTile(u->o.position);
+				if (Tile_GetDistancePacked(Tools_Index_GetPackedTile(u->targetAttack), packed) <= ui->variable_50) continue;
+			}
+
+			Unit_SetTarget(u, unitOriginEncoded);
+		}
+	}
+
+	if (g_global->variable_37B0 == 0 && hitpoints != 0) {
+		csip32 scsip;
+		Structure *s = Structure_Get_ByPackedTile(positionPacked);
+
+		if (s != NULL) {
+			/* XXX -- Temporary, to keep all the emu_calls workable for now */
+			scsip = g_global->structureStartPos;
+			scsip.s.ip += s->o.index * sizeof(Structure);
+
+			if (type == 2) {
+				StructureInfo *si = &g_structureInfo[s->o.type];
+
+				if ((si->variable_1A >> 1) > s->o.hitpoints) {
+					type = 15;
+				}
+			}
+
+			emu_push(s->o.houseID);
+			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x1423; f__1423_0E4F_0010_843C();
+			emu_sp += 2;
+
+			emu_push(0);
+			emu_push(hitpoints);
+			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+			emu_push(emu_cs); emu_push(0x0377); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
+			emu_sp += 8;
+		}
+	}
+
+	emu_push(positionPacked);
+	emu_push(emu_cs); emu_push(0x0382); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_sp += 2;
+
+	if (emu_ax == 0xB && hitpoints != 0) {
+		uint16 loc22;
+
+		loc22 = 0;
+		if (g_structureInfo[STRUCTURE_TURRET].hitpoints <= hitpoints) {
+			loc22 = 1;
+		}
+
+		if (loc22 == 0) {
+			uint16 loc24 = hitpoints * 256 / g_structureInfo[STRUCTURE_TURRET].hitpoints;
+
+			if (Tools_Random_256() <= loc24) {
+				loc22 = 1;
+			}
+		}
+
+		if (loc22 != 0) {
+			emu_push(positionPacked);
+			emu_push(emu_cs); emu_push(0x03DF); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1CDA_000C_C72C();
+			emu_sp += 2;
+		}
+	}
+
+	emu_push(position.s.y); emu_push(position.s.x);
+	emu_push(g_global->variable_3212[type].s.cs); emu_push(g_global->variable_3212[type].s.ip);
+	emu_push(emu_cs); emu_push(0x03F9); f__06F7_0493_0015_AAB2();
+	emu_sp += 8;
 }
