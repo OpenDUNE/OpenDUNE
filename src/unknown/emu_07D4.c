@@ -376,7 +376,7 @@ void emu_Unknown_07D4_034D()
 			emu_sp += 24;
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
-				emu_push(loc10);
+				emu_push(packed);
 				emu_push(emu_cs); emu_push(0x0BFB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 				emu_sp += 2;
 
