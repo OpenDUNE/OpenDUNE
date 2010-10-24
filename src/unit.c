@@ -254,12 +254,12 @@ void GameLoop_Unit()
 			Unit_Unknown2134(u);
 
 			if (u->fireDelay != 0) {
-				if (ui->variable_3C == 4 && (ui->variable_36 & 0x8000) == 0) {
+				if (ui->movementType == MOVEMENT_WINGER && (ui->variable_36 & 0x8000) == 0) {
 					tile32 tile;
 
 					tile = u->variable_49;
 
-					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].variable_3C == 4) {
+					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].movementType == MOVEMENT_WINGER) {
 						tile = Tools_Index_GetTile(u->targetAttack);
 					}
 
@@ -296,7 +296,7 @@ void GameLoop_Unit()
 
 		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
-		if (ui->variable_3C != 4) {
+		if (ui->movementType != MOVEMENT_WINGER) {
 			emu_push(Tile_PackTile(u->o.position));
 			emu_push(emu_cs); emu_push(0x04F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
 			emu_sp += 2;
@@ -311,7 +311,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown5) {
 			if (u->variable_70 == 0) {
-				if ((ui->variable_3C == 0 && u->variable_6A != 0) || u->o.flags.s.variable_0008) {
+				if ((ui->movementType == MOVEMENT_FOOT && u->variable_6A != 0) || u->o.flags.s.variable_0008) {
 					if (u->variable_6D >= 0) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
@@ -549,13 +549,13 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	u->o.flags.s.allocated = true;
 
-	if (ui->variable_3C == 0x0001) {
+	if (ui->movementType == MOVEMENT_TRACKED) {
 		if (Tools_Random_256() < g_houseInfo[houseID].variable_06) {
 			u->o.flags.s.degrades = true;
 		}
 	}
 
-	if (ui->variable_3C == 0x0004) {
+	if (ui->movementType == MOVEMENT_WINGER) {
 		Unit_Unknown204C(u, 255);
 	} else {
 		if (position.tile != 0xFFFFFFFF && Unit_Unknown0E2E(u)) {
@@ -730,8 +730,8 @@ void Unit_Sort()
 		}
 		y1 = Tile_GetY(u1->o.position);
 		y2 = Tile_GetY(u2->o.position);
-		if (g_unitInfo[u1->o.type].variable_3C == 0) y1 -= 0x100;
-		if (g_unitInfo[u2->o.type].variable_3C == 0) y2 -= 0x100;
+		if (g_unitInfo[u1->o.type].movementType == MOVEMENT_FOOT) y1 -= 0x100;
+		if (g_unitInfo[u2->o.type].movementType == MOVEMENT_FOOT) y2 -= 0x100;
 
 		if ((int16)y1 > (int16)y2) {
 			g_global->unitArray[i] = csip2;
@@ -781,7 +781,7 @@ uint16 Unit_Unknown3014(Unit *unit, Structure *s)
 
 	if (Unit_GetHouseID(unit) != s->o.houseID) {
 		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == loc0C) return 2;
-		if (ui->variable_3C == 0 && si->flags.s.variable_0080) return unit->targetMove == loc0C ? 2 : 1;
+		if (ui->movementType == MOVEMENT_FOOT && si->flags.s.variable_0080) return unit->targetMove == loc0C ? 2 : 1;
 		return 0;
 	}
 
@@ -822,7 +822,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 
 	s = Tools_Index_GetStructure(destination);
 	if (s != NULL && s->o.houseID == Unit_GetHouseID(u)) {
-		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->o.type].variable_3C == 4) {
+		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
 			emu_push(destination);
 			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
@@ -941,7 +941,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 
 	if (!targetInfo->flags.s.priority) return 0;
 
-	if (targetInfo->variable_3C == 4) {
+	if (targetInfo->movementType == MOVEMENT_WINGER) {
 		if (!unitInfo->flags.s.targetAir) return 0;
 		if (target->o.houseID == g_global->playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
 	}
@@ -1201,12 +1201,12 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (g_global->variable_3A3E[emu_ax][7] == 0) return 0;
 
-	switch(g_unitInfo[target->o.type].variable_3C) {
-		case 0:  res = 0x64;   break;
-		case 1:  res = 0x3E8;  break;
-		case 2:  res = 0x3E8;  break;
-		case 3:  res = 0x1388; break;
-		default: res = 0;      break;
+	switch(g_unitInfo[target->o.type].movementType) {
+		case MOVEMENT_FOOT:      res = 0x64;   break;
+		case MOVEMENT_TRACKED:   res = 0x3E8;  break;
+		case MOVEMENT_HARVESTER: res = 0x3E8;  break;
+		case MOVEMENT_WHEELED:   res = 0x1388; break;
+		default:                 res = 0;      break;
 	}
 
 	if (target->variable_6A != 0 || target->fireDelay != 0) res <<= 2;
@@ -1311,8 +1311,8 @@ bool Unit_Unknown167C(Unit *unit)
 	loc08 = emu_ax;
 	if (loc08 == 0xC) loc08 = 0xA;
 
-	locdi = g_global->variable_3A3E[loc08][2 + (ui->variable_3C / 2)];
-	if (ui->variable_3C % 2 == 0) {
+	locdi = g_global->variable_3A3E[loc08][2 + (ui->movementType / 2)];
+	if (ui->movementType % 2 == 0) {
 		locdi &= 0xFF;
 	} else {
 		locdi >>= 8;
@@ -1323,11 +1323,11 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.unknown_4_0080 = true;
 
-	if ((ui->hitpoints / 2) > unit->o.hitpoints && ui->variable_3C != 4) locdi -= locdi / 4;
+	if ((ui->hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
 	Unit_Unknown204C(unit, locdi);
 
-	if (ui->variable_3C != 5) {
+	if (ui->movementType != MOVEMENT_SLITHER) {
 		tile32 positionOld;
 
 		positionOld = unit->o.position;
@@ -1586,7 +1586,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		Unit *u;
 		u = Unit_Get_ByPackedTile(packed);
 
-		if (u != NULL && g_unitInfo[u->o.type].variable_3C == 0 && u->o.flags.s.allocated) {
+		if (u != NULL && g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT && u->o.flags.s.allocated) {
 			if (g_global->selectionUnit.csip != 0x0 && u == Unit_Get_ByMemory(g_global->selectionUnit)) {
 				Unit_Select(NULL);
 			}
@@ -1620,7 +1620,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	emu_push(emu_cs); emu_push(0x0288); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	if (ui->variable_3C == 4) {
+	if (ui->movementType == MOVEMENT_WINGER) {
 		unit->o.flags.s.unknown_4_0020 = !unit->o.flags.s.unknown_4_0020;
 	}
 
@@ -1908,7 +1908,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		}
 	}
 
-	if (ui->variable_3C != 2 && ui->variable_3C != 1 && ui->variable_3C != 3) return false;
+	if (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER && ui->movementType != MOVEMENT_WHEELED) return false;
 
 	unit->o.flags.s.variable_0008 = true;
 	unit->variable_6D = 0;
@@ -2073,7 +2073,7 @@ void Unit_Select(Unit *unit)
 
 		ui = &g_unitInfo[unit->o.type];
 
-		emu_push(ui->variable_3C == 0 ? 18 : 19);
+		emu_push(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
 		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 		emu_sp += 2;
 
@@ -2145,7 +2145,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 	loc0E = emu_ax & 0xFF;
 
-	if (g_unitInfo[typeID].variable_3C == 4) {
+	if (g_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
 		g_global->variable_38BC++;
 		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, loc0E);
 		g_global->variable_38BC--;
@@ -2251,17 +2251,17 @@ bool Unit_Unknown0E2E(Unit *unit)
 	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
 	emu_sp += 2;
 
-	loc02 = g_global->variable_3A3E[emu_ax][2 + ui->variable_3C / 2];
-	loc02 &= ((ui->variable_3C & 0x1) != 0) ? 0xFF00 : 0x00FF;
+	loc02 = g_global->variable_3A3E[emu_ax][2 + ui->movementType / 2];
+	loc02 &= ((ui->movementType & 0x1) != 0) ? 0xFF00 : 0x00FF;
 	if (loc02 == 0) return true;
 
-	if (unit->o.type == UNIT_SANDWORM || ui->variable_3C == 4) return false;
+	if (unit->o.type == UNIT_SANDWORM || ui->movementType == MOVEMENT_WINGER) return false;
 
 	u = Unit_Get_ByPackedTile(packed);
 	if (u != NULL && u != unit) {
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return true;
-		if (ui->variable_3C != 1) return true;
-		if (g_unitInfo[u->o.type].variable_3C != 0) return true;
+		if (ui->movementType != MOVEMENT_TRACKED) return true;
+		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT) return true;
 	}
 
 	return (Structure_Get_ByPackedTile(packed) != NULL);
@@ -2376,7 +2376,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->fireDelay = ui->variable_50 & 0xFF;
 
 			u = Tools_Index_GetUnit(target);
-			if (u != NULL && g_unitInfo[u->o.type].variable_3C == 4) {
+			if (u != NULL && g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
 				bullet->fireDelay <<= 1;
 			}
 
@@ -2710,14 +2710,14 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	ui = &g_unitInfo[unit->o.type];
 
-	if (!Map_IsValidPosition(packed) && ui->variable_3C != 4) return 256;
+	if (!Map_IsValidPosition(packed) && ui->movementType != MOVEMENT_WINGER) return 256;
 
 	u = Unit_Get_ByPackedTile(packed);
 	if (u != NULL && u != unit && unit->o.type != UNIT_SANDWORM) {
 		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->o.index, IT_UNIT)) return 0;
 
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
-		if (g_unitInfo[u->o.type].variable_3C != 0 || (ui->variable_3C != 1 && ui->variable_3C != 2)) return 256;
+		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT || (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER)) return 256;
 	}
 
 	s = Structure_Get_ByPackedTile(packed);
@@ -2733,8 +2733,8 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	loc0E = emu_ax;
 
-	res = g_global->variable_3A3E[loc0E][2 + (ui->variable_3C / 2)];
-	if (ui->variable_3C % 2 == 0) {
+	res = g_global->variable_3A3E[loc0E][2 + (ui->movementType / 2)];
+	if (ui->movementType % 2 == 0) {
 		res &= 0xFF;
 	} else {
 		res >>= 8;

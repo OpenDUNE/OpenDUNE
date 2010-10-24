@@ -280,7 +280,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
 
-	if (g_unitInfo[u->o.type].variable_3C == 0x4 && Unit_SetPosition(u, s->o.position)) {
+	if (g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER && Unit_SetPosition(u, s->o.position)) {
 		s->o.linkedID = u->o.linkedID;
 		u->o.linkedID = 0xFF;
 

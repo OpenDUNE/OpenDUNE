@@ -135,7 +135,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->unitCountMax) {
-		if (g_unitInfo[type].variable_3C != 0x0004 && g_unitInfo[type].variable_3C != 0x0005) {
+		if (g_unitInfo[type].movementType != MOVEMENT_WINGER && g_unitInfo[type].movementType != MOVEMENT_SLITHER) {
 			if (g_global->variable_38BC == 0x00) return NULL;
 		}
 	}

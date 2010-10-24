@@ -497,7 +497,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			if (u->o.type == UNIT_HARVESTER) {
 				UnitInfo *uis = &g_unitInfo[us->o.type];
 
-				if (uis->variable_3C == 0 && u->targetMove == 0) {
+				if (uis->movementType == MOVEMENT_FOOT && u->targetMove == 0) {
 					if (u->actionID != ACTION_MOVE) Unit_SetAction(u, ACTION_MOVE);
 					u->targetMove = unitOriginEncoded;
 					continue;

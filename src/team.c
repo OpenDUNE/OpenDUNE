@@ -168,7 +168,7 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	t->houseID     = houseID;
 	t->variable_0C = teamActionType;
 	t->variable_0E = teamActionType;
-	t->variable_0A = movementType;
+	t->movementType = movementType;
 	t->variable_06 = unknown;
 	t->maxMembers  = maxMembers;
 

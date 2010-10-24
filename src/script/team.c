@@ -103,7 +103,7 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 		if (u == NULL) break;
 		if (!u->o.flags.s.byScenario) continue;
 		if (u->o.type == UNIT_SABOTEUR) continue;
-		if (g_unitInfo[u->o.type].variable_3C != t->variable_0A) continue;
+		if (g_unitInfo[u->o.type].movementType != t->movementType) continue;
 		if (u->team == 0) {
 			distance = Tile_GetDistance(t->position, u->o.position);
 			if (distance >= minDistance && minDistance != 0) continue;

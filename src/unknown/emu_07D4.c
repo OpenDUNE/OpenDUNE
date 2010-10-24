@@ -325,7 +325,7 @@ void emu_Unknown_07D4_034D()
 				switch (ui->variable_4A) {
 					case 1:
 					case 2:
-						if (ui->variable_3C == 5) break;
+						if (ui->movementType == MOVEMENT_SLITHER) break;
 						locsi += g_global->variable_32A4[locdi][0];
 						g_global->variable_8DE3 = g_global->variable_32A4[locdi][1];
 						break;

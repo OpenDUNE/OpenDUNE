@@ -175,7 +175,7 @@ typedef struct UnitInfo {
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */
 	/* 0038()    */ PACK uint8   unknown_0038[0x0004];
-	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
+	/* 003C(2)   */ PACK uint16 movementType;               /*!< MovementType of Unit. */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
 	/* 0042(1)   */ PACK uint8  variable_42;                /*!< ?? */

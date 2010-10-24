@@ -451,7 +451,7 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 
 	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
 
-	if (g_unitInfo[u->o.type].variable_3C == 4) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
+	if (g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
 
 	Unit_Unknown204C(u, param);
 
@@ -579,7 +579,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 	Unit_Unknown10EC(u);
 
-	if (ui->variable_3C != 4) {
+	if (ui->movementType != MOVEMENT_WINGER) {
 		uint16 credits;
 
 		credits = max(ui->buildCredits / 100, 1);
@@ -711,7 +711,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 
 	loc12 = 0;
-	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].variable_3C != 4)) {
+	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
 		tile32 tile = Tools_Index_GetTile(target);
 		emu_push(tile.s.y); emu_push(tile.s.x);
 		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
@@ -720,7 +720,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 		loc12 = u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2] - emu_ax;
 		if ((int16)loc12 < 0) loc12 = -loc12;
-		if (ui->variable_3C == 4) loc12 /= 8;
+		if (ui->movementType == MOVEMENT_WINGER) loc12 /= 8;
 	}
 
 	if (loc12 >= 8) return 0;
@@ -863,7 +863,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 	ui = &g_unitInfo[u->o.type];
 
-	if (ui->variable_3C != 4 && u->variable_49.tile != 0) return 1;
+	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
 	locdi = ui->flags.s.variable_0040 ? 1 : 0;
 
@@ -1115,7 +1115,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
 		case 0x10: return u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2];
 		case 0x11: return abs(u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][1] - u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2]);
-		case 0x12: return (ui->variable_3C & 0x40) == 0 ? 0 : 1;
+		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
 		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
 	}
@@ -1637,7 +1637,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 random;
-	uint16 loc3C;
+	uint16 movementType;
 	uint16 i;
 
 	VARIABLE_NOT_USED(script);
@@ -1645,11 +1645,11 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	random = Tools_RandomRange(0, 10);
-	loc3C = g_unitInfo[u->o.type].variable_3C;
+	movementType = g_unitInfo[u->o.type].movementType;
 
-	if (loc3C != 0 && loc3C != 1 && loc3C != 3) return 0;
+	if (movementType != MOVEMENT_FOOT && movementType != MOVEMENT_TRACKED && movementType != MOVEMENT_WHEELED) return 0;
 
-	if (loc3C == 0 && random > 8) {
+	if (movementType == MOVEMENT_FOOT && random > 8) {
 		u->variable_6D = Tools_Random_256() & 0x3F;
 
 		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);

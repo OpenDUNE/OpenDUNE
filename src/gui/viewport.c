@@ -181,7 +181,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(36);
 			emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
 			emu_sp += 2;
-		} else if (g_unitInfo[u->o.type].variable_3C == 0) {
+		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
 			emu_push(g_actionInfo[action].variable_0A);
 			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 			emu_sp += 2;
