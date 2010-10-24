@@ -104,7 +104,7 @@ typedef struct Unit {
 	/* 004D(2)   */ PACK uint16 originEncoded;              /*!< Encoded index, indicating the origin. */
 	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
 	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
-	/* 0051(1)   */ PACK uint8  fireDelay;                /*!< ?? */
+	/* 0051(1)   */ PACK uint8  fireDelay;                  /*!< ?? */
 	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
 	/* 0054(2)   */ PACK uint16 targetAttack;               /*!< Target to attack (encoded index). */
 	/* 0056(2)   */ PACK uint16 targetMove;                 /*!< Target to move to (encoded index). */
