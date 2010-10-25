@@ -29,6 +29,7 @@
 #include "gui/gui.h"
 #include "gui/font.h"
 #include "interrupt.h"
+#include "input/input.h"
 
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
@@ -82,8 +83,6 @@ extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_InGame_Numpad_Move();
-extern void emu_Input_Flags_ClearBits();
-extern void emu_Input_Flags_SetBits();
 extern void emu_Input_History_Clear();
 extern void emu_Terminate_Normal();
 extern void emu_Window_WidgetClick_Create();
@@ -422,9 +421,9 @@ static void Gameloop_IntroMenu()
 
 	memcpy(&emu_get_memory8(0x29E8, 0xA, 0x0), g_global->variable_2179, 36);
 
-	emu_push(0xDEE);
-	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
-	emu_sp += 2;
+	Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE | INPUT_FLAG_UNKNOWN_0400 | INPUT_FLAG_UNKNOWN_0100 |
+	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
+	                      INPUT_FLAG_UNKNOWN_0008 | INPUT_FLAG_UNKNOWN_0004 | INPUT_FLAG_UNKNOWN_0002);
 
 	Tools_Var76B8_Set(1, true);
 
@@ -1383,11 +1382,7 @@ void Main()
 		config->voiceDrv = 0;
 	}
 
-	if (!config->useMouse) {
-		emu_push(0x3000);
-		emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
-		emu_sp += 2;
-	}
+	if (!config->useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
 
 	g_global->variable_6C76 = 3;
 

@@ -9,9 +9,18 @@
 typedef enum InputFlagsEnum {
 	INPUT_FLAG_KEY_REPEAT   = 0x0001,                       /*!< Allow repeated input of the same key. */
 	INPUT_FLAG_UNKNOWN_0002 = 0x0002,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0004 = 0x0004,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0008 = 0x0008,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0010 = 0x0010,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0020 = 0x0020,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0040 = 0x0040,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0080 = 0x0080,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0100 = 0x0100,                       /*!< ?? */
 	INPUT_FLAG_UNKNOWN_0200 = 0x0200,                       /*!< ?? */
+	INPUT_FLAG_UNKNOWN_0400 = 0x0400,                       /*!< ?? */
 	INPUT_FLAG_KEY_RELEASE  = 0x0800,                       /*!< Record release of keys (not for buttons). */
-	INPUT_FLAG_NO_CLICK     = 0x1000                        /*!< Don't record mouse button clicks. */
+	INPUT_FLAG_NO_CLICK     = 0x1000,                       /*!< Don't record mouse button clicks. */
+	INPUT_FLAG_UNKNOWN_2000 = 0x2000                        /*!< ?? */
 } InputFlagsEnum;
 
 /**
@@ -82,5 +91,10 @@ MSVC_PACKED_END
 assert_compile(sizeof(InputLocalData) == 0x0F95);
 
 extern void System_Init_Input();
+extern uint16 Input_Flags_ClearBits(uint16 bits);
+extern uint16 Input_Flags_SetBits(uint16 bits);
+
+extern void emu_Input_Flags_ClearBits();
+extern void emu_Input_Flags_SetBits();
 
 #endif /* INTPUT_H */

@@ -9,14 +9,13 @@
 #include "gui.h"
 #include "widget.h"
 #include "../unknown/unknown.h"
+#include "../input/input.h"
 
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_16CB_001D_31CC();
 extern void f__B518_14F2_003E_977C();
-extern void emu_Input_Flags_SetBits();
-extern void emu_Input_Flags_ClearBits();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_GUI_DrawFilledRectangle();
 extern void overlay(uint16 cs, uint8 force);
@@ -75,17 +74,8 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 	/* Initialize */
 	{
-		emu_push(0x2);
-		emu_push(emu_cs); emu_push(0x0016); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
-
-		emu_push(0x2000);
-		emu_push(emu_cs); emu_push(0x0020); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
+		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_0002);
+		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2598; f__2598_0000_0017_EB80();
@@ -244,17 +234,8 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 	/* Deinitialize */
 	{
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0293); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
-
-		emu_push(0x2000);
-		emu_push(emu_cs); emu_push(0x029D); emu_cs = 0x29E8; emu_Input_Flags_SetBits();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
+		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_0002);
+		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000);
 
 		emu_push(oldValue_07AE_0000);
 		emu_push(emu_cs); emu_push(0x02A6); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
