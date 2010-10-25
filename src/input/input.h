@@ -29,7 +29,8 @@ MSVC_PACKED_BEGIN
  * Local input variables at segment 29E8.
  */
 typedef struct InputLocalData {
-	/* 0000()    */ PACK uint8   unknown_0000[0x002E];
+	/* 0000()    */ PACK uint8   unknown_0000[0x000A];
+	/* 000A(36)  */ PACK uint8  variable_000A[36];
 	/* 002E(8)   */ PACK uint8  bitmask[8];                 /*!< The value of (1 << N), with N from 0 to 7. */
 	/* 0036()    */ PACK uint8   unknown_0036[0x0058];
 	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Some kind of translation map. */

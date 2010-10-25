@@ -397,7 +397,7 @@ typedef struct GlobalData {
 	/* 216B(12)  */ PACK csip32 variable_216B[3];           /*!< ?? */
 	/* 2177()    */ PACK uint8   unknown_2177[0x0002];
 	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
-	/* 219D()    */ PACK uint8   unknown_219D[0x0030];
+	/* 219D(48)  */ PACK uint16 variable_219D[4][6];        /*!< ?? */
 	/* 21CD(10)  */ PACK char   string_21CD[10];            /*!< "MOUSE.SHP" NULL terminated. */
 	/* 21D7(5)   */ PACK char   string_21D7[5];             /*!< "BTTN" NULL terminated. */
 	/* 21DC(11)  */ PACK char   string_21DC[11];            /*!< "SHAPES.SHP" NULL terminated. */
@@ -773,7 +773,8 @@ typedef struct GlobalData {
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
-	/* 3952()    */ PACK uint8   unknown_3952[0x0008];
+	/* 3952()    */ PACK uint8   unknown_3952[0x0004];
+	/* 3956(4)   */ PACK csip32 variable_3956;              /*!< ?? */
 	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
 	/* 395E()    */ PACK uint8   unknown_395E[0x0084];
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */

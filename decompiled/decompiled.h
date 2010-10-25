@@ -748,7 +748,6 @@ extern void f__01F7_1670_003F_2D8D();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__B4DA_16CB_001D_31CC();
-extern void emu_Gameloop_IntroMenu();
 extern void f__01F7_16E1_0021_50D4();
 extern void f__B4DA_16F8_001A_D84F();
 extern void f__01F7_170A_0029_EF04();
