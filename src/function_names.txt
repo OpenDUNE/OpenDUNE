@@ -124,6 +124,9 @@
 22A6:0D31:0015:A4C3	emu_GUI_DrawFilledRectangle	# (x1, y1, x2, y2, colour), draw a rectangle, filled
 22A6:101C:004B:D9F3	emu_GUI_CopyToBuffer	# (??, ??, ??, ??, buffer_csip) copy from the screen to a buffer
 
+23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
+23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
+
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
 261F:0008:0033:66ED	emu_Overlay_Interrupt

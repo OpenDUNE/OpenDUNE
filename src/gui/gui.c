@@ -19,8 +19,8 @@ extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
-extern void f__23E1_0004_0014_2BC0();
-extern void f__23E1_01C2_0011_24E8();
+extern void emu_Tools_Malloc();
+extern void emu_Tools_Free();
 extern void f__23E1_0334_000B_CF65();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -644,7 +644,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		if (((int32)((emu_dx << 16) | emu_ax)) >= size) {
 			emu_push(0);
 			emu_push(0); emu_push(size);
-			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x23E1; emu_Tools_Malloc();
 			emu_sp += 6;
 
 			g_global->variable_3600.s.cs = emu_dx;
@@ -764,7 +764,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	if (size != 0) {
 		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
-		emu_push(emu_cs); emu_push(0x0550); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+		emu_push(emu_cs); emu_push(0x0550); emu_cs = 0x23E1; emu_Tools_Free();
 		emu_sp += 4;
 
 		g_global->variable_3600.csip = 0;

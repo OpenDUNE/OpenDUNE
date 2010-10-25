@@ -12,7 +12,7 @@
 #include "os/endian.h"
 #include "os/math.h"
 
-extern void f__23E1_0004_0014_2BC0();
+extern void emu_Tools_Malloc();
 
 enum {
 	FILEINFO_MAX     = 676,
@@ -472,7 +472,7 @@ csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 
 	emu_push(arg0A);
 	emu_push(length >> 16); emu_push(length & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x00C0); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x00C0); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 
 	memBlock.s.cs = emu_dx;

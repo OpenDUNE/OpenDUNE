@@ -238,7 +238,7 @@ l__0184:
 	emu_bp = emu_sp;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8066));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8064));
-	emu_push(emu_cs); emu_push(0x0194); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+	emu_push(emu_cs); emu_push(0x0194); emu_cs = 0x23E1; emu_Tools_Free();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34ED) { overlay(0x34ED, 1); }
 l__0194:

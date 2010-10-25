@@ -11,8 +11,8 @@
 
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 
-extern void f__23E1_0004_0014_2BC0();
-extern void f__23E1_01C2_0011_24E8();
+extern void emu_Tools_Malloc();
+extern void emu_Tools_Free();
 
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
@@ -536,19 +536,19 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
 	if (scriptInfo->isAllocated != 0) {
 		if (scriptInfo->text.csip != 0x0) {
 			emu_push(scriptInfo->text.s.cs); emu_push(scriptInfo->text.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 		}
 
 		if (scriptInfo->offsets.csip != 0x0) {
 			emu_push(scriptInfo->offsets.s.cs); emu_push(scriptInfo->offsets.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 		}
 
 		if (scriptInfo->start.csip != 0x0) {
 			emu_push(scriptInfo->start.s.cs); emu_push(scriptInfo->start.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 		}
 	}
@@ -596,7 +596,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 		} else {
 			emu_push(0x30);
 			emu_push(length >> 16); emu_push(length & 0xFFFF);
-			emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+			emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
 			emu_sp += 6;
 
 			scriptInfo->text.s.cs = emu_dx;
@@ -621,7 +621,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 	} else {
 		emu_push(0x30);
 		emu_push(length >> 16); emu_push(length & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
 		emu_sp += 6;
 
 		scriptInfo->offsets.s.cs = emu_dx;
@@ -650,7 +650,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 	} else {
 		emu_push(0x30);
 		emu_push(length >> 16); emu_push(length & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
 		emu_sp += 6;
 
 		scriptInfo->start.s.cs = emu_dx;

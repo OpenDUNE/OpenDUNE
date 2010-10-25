@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__23E1_0004_0014_2BC0()
+ * Decompiled function emu_Tools_Malloc()
  *
- * @name f__23E1_0004_0014_2BC0
+ * @name emu_Tools_Malloc
  * @implements 23E1:0004:0014:2BC0 ()
  * @implements 23E1:0018:001C:B654
  * @implements 23E1:001F:0015:7A84
@@ -73,7 +73,7 @@
  * Called From: B520:030A:00C4:DD47
  * Called From: B53B:0111:000C:1AF8
  */
-void f__23E1_0004_0014_2BC0()
+void emu_Tools_Malloc()
 {
 l__0004:
 	emu_push(emu_bp);
@@ -265,9 +265,9 @@ l__01BE:
 }
 
 /**
- * Decompiled function f__23E1_01C2_0011_24E8()
+ * Decompiled function emu_Tools_Free()
  *
- * @name f__23E1_01C2_0011_24E8
+ * @name emu_Tools_Free
  * @implements 23E1:01C2:0011:24E8 ()
  * @implements 23E1:01D3:000B:ACDF
  * @implements 23E1:01DE:0011:2432
@@ -319,7 +319,7 @@ l__01BE:
  * Called From: B52A:04A1:0030:9D41
  * Called From: B53B:0266:0012:DC62
  */
-void f__23E1_01C2_0011_24E8()
+void emu_Tools_Free()
 {
 l__01C2:
 	emu_push(emu_bp);

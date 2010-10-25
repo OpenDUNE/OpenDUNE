@@ -17,7 +17,7 @@ extern void f__1DD7_01AB_0007_96C6();
 extern void f__1DD7_01EB_0013_9C3C();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0477_000E_5C89();
-extern void f__23E1_0004_0014_2BC0();
+extern void emu_Tools_Malloc();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void overlay(uint16 cs, uint8 force);
@@ -301,7 +301,7 @@ void emu_Unknown_B483_0823()
 
 	emu_push(0x40);
 	emu_push(fileSize >> 16); emu_push(fileSize & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x08B9); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x08B9); emu_cs = 0x23E1; emu_Tools_Malloc();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 	emu_sp += 6;

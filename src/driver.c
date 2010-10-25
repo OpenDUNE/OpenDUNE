@@ -18,8 +18,8 @@ extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_09DA_000F_D404();
 extern void f__1DD7_0A7B_001E_4A5A();
 extern void f__1DD7_1696_0011_A4E3();
-extern void f__23E1_0004_0014_2BC0();
-extern void f__23E1_01C2_0011_24E8();
+extern void emu_Tools_Malloc();
+extern void emu_Tools_Free();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0A59_0023_D969();
 extern void f__2756_0B8F_0025_D5D8();
@@ -176,7 +176,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 		driver->customTimer = emu_ax;
 		if (driver->customTimer == 0xFFFF) {
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 
 			driver->dcontent.csip = 0;
@@ -208,7 +208,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 
 		if (driver->index == 0xFFFF) {
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 
 			driver->dcontent.csip = 0;
@@ -273,7 +273,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 			emu_sp += 2;
 
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 
 			driver->dcontent.csip = 0;
@@ -293,7 +293,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 			if (value != 0) {
 				emu_push(0);
 				emu_push(value >> 16); emu_push(value & 0xFFFF);
-				emu_push(emu_cs); emu_push(0x1625); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+				emu_push(emu_cs); emu_push(0x1625); emu_cs = 0x23E1; emu_Tools_Malloc();
 				emu_sp += 6;
 
 				driver->variable_12.s.cs = emu_dx;
@@ -349,7 +349,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 
 			emu_push(0x10);
 			emu_push(value >> 16); emu_push(value & 0xFFFF);
-			emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+			emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; emu_Tools_Malloc();
 			emu_sp += 6;
 
 			buf->buffer.s.cs = emu_dx;
@@ -397,7 +397,7 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	emu_push(0x10);
 	emu_push(value >> 16); emu_push(value & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 
 	g_global->musicBuffer.buffer.s.cs = emu_dx;

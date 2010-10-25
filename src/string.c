@@ -9,7 +9,7 @@
 #include "os/strings.h"
 #include "file.h"
 
-extern void f__23E1_01C2_0011_24E8();
+extern void emu_Tools_Free();
 
 /**
  * Decompress a string.
@@ -110,7 +110,7 @@ void String_Load(char *name)
 
 	if (g_global->strings.csip != 0) {
 		emu_push(g_global->strings.s.cs); emu_push(g_global->strings.s.ip);
-		emu_push(emu_cs); emu_push(0x0026); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+		emu_push(emu_cs); emu_push(0x0026); emu_cs = 0x23E1; emu_Tools_Free();
 		emu_sp += 4;
 
 		g_global->strings.csip = 0;

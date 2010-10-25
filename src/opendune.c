@@ -38,9 +38,9 @@ extern void f__1DD7_01EB_0013_9C3C();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_0597_0019_A23D();
 extern void f__22A6_0796_000B_9035();
-extern void f__23E1_0004_0014_2BC0();
+extern void emu_Tools_Malloc();
 extern void f__23E1_0334_000B_CF65();
-extern void f__23E1_01C2_0011_24E8();
+extern void emu_Tools_Free();
 extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
@@ -442,21 +442,21 @@ static void Gameloop_IntroMenu()
 
 	emu_push(0x10);
 	emu_push(0); emu_push(0x300);
-	emu_push(emu_cs); emu_push(0x1774); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x1774); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C36.s.cs = emu_dx;
 	g_global->variable_3C36.s.ip = emu_ax;
 
 	emu_push(0x10);
 	emu_push(0); emu_push(0x300);
-	emu_push(emu_cs); emu_push(0x178E); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x178E); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C32.s.cs = emu_dx;
 	g_global->variable_3C32.s.ip = emu_ax;
 
 	emu_push(0);
 	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x17A7); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x17A7); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C42.s.cs = emu_dx;
 	g_global->variable_3C42.s.ip = emu_ax;
@@ -464,7 +464,7 @@ static void Gameloop_IntroMenu()
 	g_global->readBufferSize = 0x2EE0;
 	emu_push(0x20);
 	emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x17CE); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x17CE); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->readBuffer.s.cs = emu_dx;
 	g_global->readBuffer.s.ip = emu_ax;
@@ -474,7 +474,7 @@ static void Gameloop_IntroMenu()
 	emu_sp += 4;
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x17F0); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+	emu_push(emu_cs); emu_push(0x17F0); emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
 	g_global->readBuffer.csip = 0x0;
@@ -507,14 +507,14 @@ static void Gameloop_IntroMenu()
 
 	emu_push(0);
 	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x1880); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x1880); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C3A.s.cs = emu_dx;
 	g_global->variable_3C3A.s.ip = emu_ax;
 
 	emu_push(0);
 	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x1899); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x1899); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C3E.s.cs = emu_dx;
 	g_global->variable_3C3E.s.ip = emu_ax;
@@ -543,7 +543,7 @@ static void Gameloop_IntroMenu()
 
 	emu_push(0x30);
 	emu_push(0); emu_push(0x5DC);
-	emu_push(emu_cs); emu_push(0x1939); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x1939); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 	g_global->variable_3C46.s.cs = emu_dx;
 	g_global->variable_3C46.s.ip = emu_ax;
@@ -706,14 +706,14 @@ static void Gameloop_IntroMenu()
 					Sound_Play(0);
 
 					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-					emu_push(emu_cs); emu_push(0x1C19); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+					emu_push(emu_cs); emu_push(0x1C19); emu_cs = 0x23E1; emu_Tools_Free();
 					emu_sp += 4;
 
 					g_global->readBufferSize = (g_global->variable_6D8F == 0) ? 0x2EE0 : 0x6D60;
 
 					emu_push(0x20);
 					emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-					emu_push(emu_cs); emu_push(0x1C4D); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+					emu_push(emu_cs); emu_push(0x1C4D); emu_cs = 0x23E1; emu_Tools_Malloc();
 					emu_sp += 6;
 					g_global->readBuffer.s.cs = emu_dx;
 					g_global->readBuffer.s.ip = emu_ax;
@@ -742,7 +742,7 @@ static void Gameloop_IntroMenu()
 					Sound_Play(0);
 
 					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-					emu_push(emu_cs); emu_push(0x1CEB); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+					emu_push(emu_cs); emu_push(0x1CEB); emu_cs = 0x23E1; emu_Tools_Free();
 					emu_sp += 4;
 
 					String_Load("DUNE");
@@ -751,7 +751,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(0x20);
 					emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-					emu_push(emu_cs); emu_push(0x1D2B); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+					emu_push(emu_cs); emu_push(0x1D2B); emu_cs = 0x23E1; emu_Tools_Malloc();
 					emu_sp += 6;
 					g_global->readBuffer.s.cs = emu_dx;
 					g_global->readBuffer.s.ip = emu_ax;
@@ -966,7 +966,7 @@ static void Gameloop_IntroMenu()
 		Sound_Play(0);
 
 		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x20E0); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+		emu_push(emu_cs); emu_push(0x20E0); emu_cs = 0x23E1; emu_Tools_Free();
 		emu_sp += 4;
 
 		String_Load("DUNE");
@@ -975,7 +975,7 @@ static void Gameloop_IntroMenu()
 
 		emu_push(0x20);
 		emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x2120); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_push(emu_cs); emu_push(0x2120); emu_cs = 0x23E1; emu_Tools_Malloc();
 		emu_sp += 6;
 		g_global->readBuffer.s.cs = emu_dx;
 		g_global->readBuffer.s.ip = emu_ax;
@@ -1368,14 +1368,14 @@ void Main()
 	if (config->useXMS) {
 		emu_push(0x40);
 		emu_push(0); emu_push(1);
-		emu_push(emu_cs); emu_push(0x0169); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+		emu_push(emu_cs); emu_push(0x0169); emu_cs = 0x23E1; emu_Tools_Malloc();
 		emu_sp += 6;
 
 		if (emu_ax == 0 && emu_dx == 0) {
 			config->voiceDrv = 0;
 		} else {
 			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; f__23E1_01C2_0011_24E8();
+			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 		}
 	} else {

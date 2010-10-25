@@ -7,7 +7,7 @@
 #include "font.h"
 #include "../file.h"
 
-extern void f__23E1_0004_0014_2BC0();
+extern void emu_Tools_Malloc();
 
 /**
  * Get the width of a char in pixels.
@@ -68,7 +68,7 @@ csip32 Font_LoadFile(const char *filename)
 
 	emu_push(0x10);
 	emu_push(0); emu_push(length);
-	emu_push(emu_cs); emu_push(0x0070); emu_cs = 0x23E1; f__23E1_0004_0014_2BC0();
+	emu_push(emu_cs); emu_push(0x0070); emu_cs = 0x23E1; emu_Tools_Malloc();
 	emu_sp += 6;
 
 	memBlock.s.cs = emu_dx;
