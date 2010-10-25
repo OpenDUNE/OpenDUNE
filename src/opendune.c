@@ -947,25 +947,25 @@ static void Gameloop_IntroMenu()
 				loc06 = false;
 			}
 
-			if (loc10) {
-				emu_push(0);
-				emu_push(0); emu_push(0xFF);
-				emu_push(0); emu_push(0);
-				emu_push(emu_ss); emu_push(emu_bp - 0x2C);
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x209D); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0200_0091_FAEA();
-				emu_sp += 16;
-				stringId = emu_ax;
+			if (!loc10) break;
 
-				if (stringId != 0xFFFF) {
-					uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
-					stringId = g_global->variable_219D[index][stringId];
-				}
+			emu_push(0);
+			emu_push(0); emu_push(0xFF);
+			emu_push(0); emu_push(0);
+			emu_push(emu_ss); emu_push(emu_bp - 0x2C);
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x209D); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0200_0091_FAEA();
+			emu_sp += 16;
+			stringId = emu_ax;
 
-				GUI_PaletteAnimate();
-
-				if (stringId == 0x1B) break;
+			if (stringId != 0xFFFF) {
+				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
+				stringId = g_global->variable_219D[index][stringId];
 			}
+
+			GUI_PaletteAnimate();
+
+			if (stringId == 0x1B) break;
 		}
 	} else {
 		Sound_Play(0);
