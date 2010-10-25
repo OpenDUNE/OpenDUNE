@@ -1313,8 +1313,8 @@ void Main()
 	config = (DuneCfg *)&emu_get_memory8(0x353F, 0x98E1, 0);
 	if (!Config_Read("dune.cfg", config)) {
 		printf("\r\nThe setup program must be run first.\r\n"
-		       "\r\nZuerst mu   das Setup-Programm betrieben werden.\r\n"
-		       "\r\nLe programme de configuration doit d'abord   tre lanc @.\r\n"
+		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
+		       "\r\nLe programme de configuration doit d'abord être lancé.\r\n"
 		       "\r\n");
 		exit(1);
 	}
