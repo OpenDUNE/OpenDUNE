@@ -65,8 +65,6 @@ extern void f__B4B8_116F_0013_15F7();
 extern void f__B4B8_2295_0018_A862();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
-extern void f__B4E9_0000_0013_DC68();
-extern void f__B4E9_0028_0013_DF68();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
@@ -428,9 +426,7 @@ static void Gameloop_IntroMenu()
 	emu_push(emu_cs); emu_push(0x1718); emu_cs = 0x29E8; emu_Input_Flags_ClearBits();
 	emu_sp += 2;
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x1722); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0028_0013_DF68();
-	emu_sp += 2;
+	Tools_Var76B8_Set(1, true);
 
 	g_global->campaignID = 0x0;
 	g_global->scenarioID = 0x1;
@@ -1112,9 +1108,7 @@ static void GameLoop_Main()
 
 	Gameloop_IntroMenu();
 
-	emu_push(g_global->variable_37AA);
-	emu_push(emu_cs); emu_push(0x010D); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0000_0013_DC68();
-	emu_sp += 2;
+	Tools_Var76B8_Set(2, g_global->variable_37AA != 0);
 
 	emu_push(emu_cs); emu_push(0x0113); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 

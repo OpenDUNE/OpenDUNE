@@ -339,3 +339,25 @@ uint16 Tools_RandomRange(uint16 min, uint16 max)
 
 	return ret;
 }
+
+/**
+ * Get the state of a bit in g_global->variable_76B8, and sets/resets the previous bit.
+ *
+ * @param bit The bit to get the state for.
+ * @param set Wether to set or reset the previous bit.
+ * @return True if bit is set, false if it is not set.
+ */
+bool Tools_Var76B8_Set(uint16 bit, bool set)
+{
+	bool ret = (g_global->variable_76B8 & (1 << bit)) != 0;
+
+	bit--;
+
+	if (set) {
+		g_global->variable_76B8 |= (1 << bit);
+	} else {
+		g_global->variable_76B8 &= ~(1 << bit);
+	}
+
+	return ret;
+}

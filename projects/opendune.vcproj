@@ -3582,7 +3582,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\unknown\emu_2618.c"
+					RelativePath="..\src\unknown\emu_B483.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -3602,7 +3602,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\unknown\emu_B483.c"
+					RelativePath="..\src\unknown\emu_B4E9.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
