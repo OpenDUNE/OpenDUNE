@@ -364,15 +364,15 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 
 		switch (arg12low) {
 			case 1:
-				loc04 = g_global->variable_3A2C;
+				loc04 = g_global->new6pFnt;
 				break;
 
 			case 2:
-				loc04 = g_global->variable_3A30;
+				loc04 = g_global->new8pFnt2;
 				break;
 
 			default:
-				loc04 = g_global->variable_99EF;
+				loc04 = g_global->new8pFnt;
 				break;
 		}
 

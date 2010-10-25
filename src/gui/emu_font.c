@@ -45,3 +45,25 @@ void emu_Font_GetStringWidth()
 	emu_ax = Font_GetStringWidth(string);
 }
 
+/**
+ * Emulator wrapper around Font_LoadFile()
+ *
+ * @name emu_Font_LoadFile
+ * @implements 256D:0004:001C:9F23 ()
+ */
+void emu_Font_LoadFile()
+{
+	char *filename;
+	csip32 csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
+
+	csip = Font_LoadFile(filename);
+
+	emu_ax = csip.s.ip;
+	emu_dx = csip.s.cs;
+}

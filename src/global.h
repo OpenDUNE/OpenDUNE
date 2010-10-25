@@ -801,8 +801,8 @@ typedef struct GlobalData {
 	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
 	/* 3A14(2)   */ PACK uint16 variable_3A14;              /*!< ?? */
 	/* 3A16()    */ PACK uint8   unknown_3A16[0x0016];
-	/* 3A2C(4)   */ PACK csip32 variable_3A2C;              /*!< ?? */
-	/* 3A30(4)   */ PACK csip32 variable_3A30;              /*!< ?? */
+	/* 3A2C(4)   */ PACK csip32 new6pFnt;                   /*!< Pointer to content of new6p[g].fnt. */
+	/* 3A30(4)   */ PACK csip32 new8pFnt2;                  /*!< Pointer to content of new8p.fnt (copy of new8pFnt). */
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
 	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
@@ -1240,7 +1240,7 @@ typedef struct GlobalData {
 	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
 	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */
 	/* 8062(2)   */ PACK uint16 variable_8062;              /*!< ?? */
-	/* 8064(4)   */ PACK csip32 variable_8064;              /*!< ?? */
+	/* 8064(4)   */ PACK csip32 introFnt;                   /*!< Pointer to content of intro.fnt. */
 	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
 	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
 	/* 806C(2)   */ PACK uint16 variable_806C;              /*!< ?? */
@@ -1320,7 +1320,7 @@ typedef struct GlobalData {
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
 	/* 998E(97)  */ PACK uint8  variable_998E[97];          /*!< ?? Buffer. */
-	/* 99EF(4)   */ PACK csip32 variable_99EF;              /*!< ?? */
+	/* 99EF(4)   */ PACK csip32 new8pFnt;                   /*!< Pointer to content of new8p.fnt. */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END

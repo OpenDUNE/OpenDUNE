@@ -76,7 +76,6 @@ extern void f__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
 extern void emu_File_ReadChunkOrLengthFile();
-extern void emu_Font_LoadFile();
 extern void emu_Gameloop_Intro();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_PickHouse();
@@ -561,17 +560,9 @@ static void Gameloop_IntroMenu()
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 
-	if (g_global->language == 2) {
-		emu_push(0x353F); emu_push(0x22D0); /* "new6pg.fnt" NULL terminated. */
-	} else {
-		emu_push(0x353F); emu_push(0x22DB); /* "new6p.fnt" NULL terminated. */
-	}
-	emu_push(emu_cs); emu_push(0x198E); emu_cs = 0x256D; emu_Font_LoadFile();
-	emu_sp += 4;
-	g_global->variable_3A2C.s.cs = emu_dx;
-	g_global->variable_3A2C.s.ip = emu_ax;
+	g_global->new6pFnt = Font_LoadFile((g_global->language == 2) ? "new6pg.fnt" : "new6p.fnt");
 
-	g_global->variable_3A30 = g_global->variable_99EF;
+	g_global->new8pFnt2 = g_global->new8pFnt;
 
 	emu_push(0); emu_push(0);
 	emu_push(0x353F); emu_push(0x6128); /* g_global->scriptFunctionsTeam */

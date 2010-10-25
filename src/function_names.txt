@@ -126,8 +126,6 @@
 
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
-256D:0004:001C:9F23	emu_Font_LoadFile	# (filename_csip), load a font file (based on file it opens)
-
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 2756:050F:000B:0871	emu_Interrupt_CustomTimer

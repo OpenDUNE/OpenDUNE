@@ -459,7 +459,7 @@ uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
  *
  * @param filename The name of the file to open.
  * @param arg0A The type of memory to allocate.
- * @return The CSIP of the allocated memory where the file has been read.
+ * @return The CS:IP of the allocated memory where the file has been read.
  */
 csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 {
