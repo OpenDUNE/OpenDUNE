@@ -1100,7 +1100,7 @@ void Unit_Unknown10EC(Unit *u)
 		Unit_Select(NULL);
 	}
 
-	u->o.flags.s.unknown_4_0040 = true;
+	u->o.flags.s.variable_4_0040 = true;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(0);
@@ -1321,7 +1321,7 @@ bool Unit_Unknown167C(Unit *unit)
 	if (unit->o.type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
 	unit->o.flags.s.variable_0008 = false;
 
-	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.unknown_4_0080 = true;
+	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
 	if ((ui->hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
@@ -1422,14 +1422,14 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	}
 
 	unit->deviated = 0;
-	unit->o.flags.s.unknown_4_0040 = true;
+	unit->o.flags.s.variable_4_0040 = true;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(2);
 	emu_push(emu_cs); emu_push(0x19E2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	unit->o.flags.s.unknown_4_0040 = false;
+	unit->o.flags.s.variable_4_0040 = false;
 	if (unit->o.houseID == g_global->playerHouseID) {
 		Unit_SetAction(unit, ui->actionsPlayer[3]);
 	} else {
@@ -1575,7 +1575,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	unit->variable_6C = 0;
 
-	if ((ui->variable_36 & 0x10) != 0 && unit->o.flags.s.unknown_4_0080) {
+	if ((ui->variable_36 & 0x10) != 0 && unit->o.flags.s.variable_4_0080) {
 		unit->variable_6C = Tools_Random_256() & 7;
 	}
 
@@ -1621,7 +1621,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	emu_sp += 6;
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		unit->o.flags.s.unknown_4_0020 = !unit->o.flags.s.unknown_4_0020;
+		unit->o.flags.s.variable_4_0020 = !unit->o.flags.s.variable_4_0020;
 	}
 
 	position_49 = unit->variable_49;
@@ -1661,7 +1661,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 
 		if (unit->o.hitpoints < (ui->damage / 2)) {
-			unit->o.flags.s.unknown_4_0040 = true;
+			unit->o.flags.s.variable_4_0040 = true;
 		}
 
 		if (--unit->o.hitpoints == 0 || unit->fireDelay == 0) {
@@ -2428,7 +2428,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->variable_49 = tile;
 			bullet->o.hitpoints = damage;
 
-			if (damage > 15) bullet->o.flags.s.unknown_4_0040 = true;
+			if (damage > 15) bullet->o.flags.s.variable_4_0040 = true;
 
 			if ((bullet->o.variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
 
@@ -2514,7 +2514,7 @@ void Unit_Unknown2AAA(Unit *unit)
 
 	if (unit == NULL) return;
 
-	unit->o.flags.s.unknown_4_0040 = true;
+	unit->o.flags.s.variable_4_0040 = true;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
@@ -2525,7 +2525,7 @@ void Unit_Unknown2AAA(Unit *unit)
 	emu_push(emu_cs); emu_push(0x2ACD); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	unit->o.flags.s.unknown_4_0040 = false;
+	unit->o.flags.s.variable_4_0040 = false;
 
 	Script_Reset(&unit->o.script, &g_global->scriptUnit);
 	Unit_UntargetMe(unit);

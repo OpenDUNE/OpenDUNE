@@ -806,10 +806,10 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	u->fireDelay = Tools_AdjustToGameSpeed(ui->fireDelay * 2, 1, 255, true) & 0xFF;
 
 	if (loc1A) {
-		u->o.flags.s.unknown_4_0010 = !u->o.flags.s.unknown_4_0010;
-		if (u->o.flags.s.unknown_4_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
+		u->o.flags.s.variable_4_0010 = !u->o.flags.s.variable_4_0010;
+		if (u->o.flags.s.variable_4_0010) u->fireDelay = Tools_AdjustToGameSpeed(5, 1, 10, true) & 0xFF;
 	} else {
-		u->o.flags.s.unknown_4_0010 = false;
+		u->o.flags.s.variable_4_0010 = false;
 	}
 
 	u->fireDelay += Tools_Random_256() & 1;

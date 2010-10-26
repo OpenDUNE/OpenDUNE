@@ -171,9 +171,9 @@ void emu_Unknown_07D4_034D()
 
 		if (u == NULL) break;
 
-		if (!u->o.flags.s.unknown_4_1000 && arg06 == 0) continue;
+		if (!u->o.flags.s.variable_4_1000 && arg06 == 0) continue;
 
-		u->o.flags.s.unknown_4_1000 = false;
+		u->o.flags.s.variable_4_1000 = false;
 
 		loc10 = Tile_PackTile(u->o.position);
 
@@ -301,9 +301,9 @@ void emu_Unknown_07D4_034D()
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.unknown_4_1000 || u->o.flags.s.beingBuilt) && arg06 == 0 && (g_global->variable_8FE5[packed >> 3] & (1 << (packed & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.beingBuilt) && arg06 == 0 && (g_global->variable_8FE5[packed >> 3] & (1 << (packed & 7))) == 0) continue;
 
-			u->o.flags.s.unknown_4_1000 = false;
+			u->o.flags.s.variable_4_1000 = false;
 
 			if (!Map_GetTileByPosition(packed)->isUnveiled && g_global->debugScenario == 0) continue;
 
@@ -544,9 +544,9 @@ void emu_Unknown_07D4_034D()
 
 			loc10 = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.unknown_4_1000 || u->o.flags.s.beingBuilt) && arg06 == 0 && (g_global->variable_8FE5[loc10 >> 3] & (1 << (loc10 & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.beingBuilt) && arg06 == 0 && (g_global->variable_8FE5[loc10 >> 3] & (1 << (loc10 & 7))) == 0) continue;
 
-			u->o.flags.s.unknown_4_1000 = false;
+			u->o.flags.s.variable_4_1000 = false;
 
 			if (!Map_GetTileByPosition(loc10)->isUnveiled && g_global->debugScenario == 0) continue;
 
@@ -560,7 +560,7 @@ void emu_Unknown_07D4_034D()
 
 			switch (ui->variable_4A) {
 				case 0:
-					if (u->o.flags.s.unknown_4_0040) locsi++;
+					if (u->o.flags.s.variable_4_0040) locsi++;
 					break;
 
 				case 1:
@@ -598,7 +598,7 @@ void emu_Unknown_07D4_034D()
 					break;
 			}
 
-			if ((ui->variable_36 & 0x2000) != 0 && u->o.flags.s.unknown_4_0020) locsi += 5;
+			if ((ui->variable_36 & 0x2000) != 0 && u->o.flags.s.variable_4_0020) locsi += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) locsi += 3;
 
 			emu_push(Unit_GetHouseID(u));

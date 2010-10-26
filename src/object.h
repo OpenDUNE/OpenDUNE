@@ -19,15 +19,15 @@ typedef struct Object {
 	/*  4 - 0002 */              BITTYPE allocated:1;       /*!< The Object is allocated (created, and ready to be put on the map). */
 	/*  4 - 0004 */              BITTYPE beingBuilt:1;      /*!< The Object is still under construction. */
 	/*  4 - 0008 */              BITTYPE variable_0008:1;   /*!< Unit ?? */
-	/*  4 - 0010 */              BITTYPE unknown_4_0010:1;
-	/*  4 - 0020 */              BITTYPE unknown_4_0020:1;
-	/*  4 - 0040 */              BITTYPE unknown_4_0040:1;
-	/*  4 - 0080 */              BITTYPE unknown_4_0080:1;
+	/*  4 - 0010 */              BITTYPE variable_4_0010:1; /*!< Unit ?? */
+	/*  4 - 0020 */              BITTYPE variable_4_0020:1; /*!< Unit ?? */
+	/*  4 - 0040 */              BITTYPE variable_4_0040:1; /*!< Unit ?? */
+	/*  4 - 0080 */              BITTYPE variable_4_0080:1; /*!< Unit ?? */
 	/*  4 - 0100 */              BITTYPE inTransport:1;     /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
 	/*  4 - 0200 */              BITTYPE byScenario:1;      /*!< The Unit is created by the scenario. */
 	/*  4 - 0400 */              BITTYPE degrades:1;        /*!< Structure degrades. Unit ?? */
 	/*  4 - 0800 */              BITTYPE variable_0800:1;   /*!< Unit ?? */
-	/*  4 - 1000 */              BITTYPE unknown_4_1000:1;
+	/*  4 - 1000 */              BITTYPE variable_4_1000:1; /*!< Unit ?? */
 	/*  4 - 2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
 	/*  4 - 4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */
 	/*  4 - 8000 */              BITTYPE unknown_4_8000:1;
