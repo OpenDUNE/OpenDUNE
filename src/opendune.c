@@ -30,6 +30,7 @@
 #include "gui/font.h"
 #include "interrupt.h"
 #include "input/input.h"
+#include "sprites.h"
 
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
@@ -58,7 +59,6 @@ extern void f__2C17_000C_002F_3016();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B4AB_0000_000D_6028();
 extern void f__B4AE_0000_0008_049C();
-extern void f__B4B8_0A1E_001A_E094();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4B8_0ECE_000B_BD2E();
 extern void f__B4B8_110D_000D_FD5C();
@@ -269,8 +269,7 @@ static void GameLoop_LevelEnd()
 
 		g_global->cursorSpriteID = 0;
 
-		emu_push(emu_get_memory16(0x2DCE, 0x00, 0x442));
-		emu_push(emu_get_memory16(0x2DCE, 0x00, 0x440));
+		emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
 		emu_push(0);
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x030A); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
@@ -349,11 +348,7 @@ static void GameLoop_LevelEnd()
 			emu_sp += 6;
 
 			if (g_global->campaignID == 1 || g_global->campaignID == 7) {
-				emu_push(0x2DCE); emu_push(0x440);
-				emu_push(7);
-				emu_push(1);
-				emu_push(emu_cs); emu_push(0x0433); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-				emu_sp += 8;
+				Sprites_Load(1, 7, g_sprites);
 
 				if (!Security_Check()) {
 					emu_push(emu_cs); emu_push(0x0444); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
@@ -361,11 +356,7 @@ static void GameLoop_LevelEnd()
 					emu_push(emu_cs); emu_push(0x044C); emu_cs = 0x01F7; emu_Terminate_Normal();
 				}
 
-				emu_push(0x2DCE); emu_push(0x440);
-				emu_push(7);
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x0433); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-				emu_sp += 8;
+				Sprites_Load(0, 7, g_sprites);
 			}
 		} else {
 			emu_push(0x29);
@@ -391,11 +382,7 @@ static void GameLoop_LevelEnd()
 			h->flags.s.variable_0004 = false;
 		}
 
-		emu_push(0x2DCE); emu_push(0x440);
-		emu_push(7);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0433); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-		emu_sp += 8;
+		Sprites_Load(0, 7, g_sprites);
 
 		emu_push(emu_cs); emu_push(0x04C8); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
 
@@ -579,16 +566,11 @@ static void Gameloop_IntroMenu()
 		emu_sp += 2;
 	}
 
-	emu_push(0x2DCE); emu_push(0x440);
-	emu_push(7);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x1A02); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-	emu_sp += 8;
+	Sprites_Load(0, 7, g_sprites);
 
 	g_global->cursorSpriteID = 0;
 
-	emu_push(emu_get_memory16(0x2DCE, 0x00, 0x442));
-	emu_push(emu_get_memory16(0x2DCE, 0x00, 0x440));
+	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
 	emu_push(0);
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x1A25); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
@@ -758,11 +740,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(emu_cs); emu_push(0x1D3A); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-					emu_push(0x2DCE); emu_push(0x440);
-					emu_push(7);
-					emu_push(0);
-					emu_push(emu_cs); emu_push(0x1D4D); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-					emu_sp += 8;
+					Sprites_Load(0, 7, g_sprites);
 
 					Sound_Play(28);
 
@@ -818,11 +796,7 @@ static void Gameloop_IntroMenu()
 						if (g_global->variable_38BE == 1) break;
 						g_global->variable_38BE = 0;
 
-						emu_push(0x2DCE); emu_push(0x440);
-						emu_push(7);
-						emu_push(0);
-						emu_push(emu_cs); emu_push(0x1DD6); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
-						emu_sp += 8;
+						Sprites_Load(0, 7, g_sprites);
 					} else {
 						emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
 						emu_push(emu_cs); emu_push(0x1DED); emu_cs = 0x259E; f__259E_0040_0015_5E4A();

@@ -14,6 +14,7 @@
 #include "../house.h"
 #include "../structure.h"
 #include "../os/math.h"
+#include "../sprites.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -675,9 +676,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_push(0x1);
 		emu_push(0x8);
 		emu_push(0x7);
-		/* TODO -- Change this into an accessable array */
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
+		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
 		emu_push(g_global->variable_6C91);
 		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x2903; emu_GUI_DrawSprite();
 		emu_sp += 14;

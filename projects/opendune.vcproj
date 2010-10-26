@@ -2279,6 +2279,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\emu_sprites.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\src\emu_string.c"
 				>
 				<FileConfiguration
@@ -2736,6 +2756,30 @@
 			</File>
 			<File
 				RelativePath="..\src\sound.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\sprites.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\sprites.h"
 				>
 			</File>
 			<File

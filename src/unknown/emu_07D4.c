@@ -17,6 +17,7 @@
 #include "../pool/pool.h"
 #include "../pool/unit.h"
 #include "../house.h"
+#include "../sprites.h"
 
 extern void f__06F7_0602_0018_CEB0();
 extern void f__07D4_1625_001A_07E5();
@@ -231,8 +232,7 @@ void emu_Unknown_07D4_034D()
 		emu_push(2);
 		emu_push(loc04);
 		emu_push(loc02);
-		emu_push(emu_get_memory16(0x2DCE, 0x00, 0x45A));
-		emu_push(emu_get_memory16(0x2DCE, 0x00, 0x458));
+		emu_push(g_sprites[6].s.cs); emu_push(g_sprites[6].s.ip);
 		emu_push(g_global->variable_6C91);
 		emu_push(emu_cs); emu_push(0x07AE); emu_cs = 0x2903; emu_GUI_DrawSprite();
 		emu_sp += 14;
@@ -468,8 +468,7 @@ void emu_Unknown_07D4_034D()
 				emu_push(2);
 				emu_push(loc04 - 14);
 				emu_push(loc02);
-				emu_push(emu_get_memory16(0x2DCE, loc2C * 4, 0x712));
-				emu_push(emu_get_memory16(0x2DCE, loc2C * 4, 0x710));
+				emu_push(g_sprites[loc2C + 180].s.cs); emu_push(g_sprites[loc2C + 180].s.ip);
 				emu_push(g_global->variable_6C91);
 				emu_push(emu_cs); emu_push(0x0E03); emu_cs = 0x2903; emu_GUI_DrawSprite();
 				emu_sp += 14;
@@ -481,8 +480,7 @@ void emu_Unknown_07D4_034D()
 			emu_push(2);
 			emu_push(loc04);
 			emu_push(loc02);
-			emu_push(emu_get_memory16(0x2DCE, 0x00, 0x45A));
-			emu_push(emu_get_memory16(0x2DCE, 0x00, 0x458));
+			emu_push(g_sprites[6].s.cs); emu_push(g_sprites[6].s.ip);
 			emu_push(g_global->variable_6C91);
 			emu_push(emu_cs); emu_push(0x0E3E); emu_cs = 0x2903; emu_GUI_DrawSprite();
 			emu_sp += 14;

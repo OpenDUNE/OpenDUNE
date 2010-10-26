@@ -3759,7 +3759,7 @@ l__15C4:
 	emu_push(emu_ax);
 	emu_ax = 0x2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x15E6); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
+	emu_push(emu_cs); emu_push(0x15E6); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_Load();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__15E6:

@@ -11,6 +11,7 @@
 #include "widget.h"
 #include "gui.h"
 #include "../string.h"
+#include "../sprites.h"
 
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
@@ -189,9 +190,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(0);
 	emu_push(positionY);
 	emu_push(positionX);
-	/* TODO -- Change this into an accessable array */
-	emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
-	emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
+	emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
 	emu_push(g_global->variable_6C91);
 	emu_push(emu_cs); emu_push(0x0DB5); emu_cs = 0x2903; emu_GUI_DrawSprite();
 	emu_sp += 20;
@@ -318,14 +317,12 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				emu_push(0);
 				emu_push(positionY + 5);
 				emu_push(positionX + 37);
-				emu_push(emu_get_memory16(0x2DCE, 63 * 4, 0x442));
-				emu_push(emu_get_memory16(0x2DCE, 63 * 4, 0x440));
+				emu_push(g_sprites[63].s.cs); emu_push(g_sprites[63].s.ip);
 				emu_push(g_global->variable_6C91);
 				emu_push(emu_cs); emu_push(0x0936); emu_cs = 0x2903; emu_GUI_DrawSprite();
 				emu_sp += 20;
 
-				emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x442));
-				emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x440));
+				emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
 				emu_push(emu_cs); emu_push(0x0958); emu_cs = 0x260F; f__260F_003A_0014_CA10();
 				emu_sp += 4;
 				spriteWidth = emu_ax + 1;
@@ -338,8 +335,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 						emu_push(0);
 						emu_push(positionY + y * spriteWidth + 6);
 						emu_push(positionX + x * spriteWidth + 38);
-						emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x442));
-						emu_push(emu_get_memory16(0x2DCE, 24 * 4, 0x440));
+						emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
 						emu_push(g_global->variable_6C91);
 						emu_push(emu_cs); emu_push(0x09D0); emu_cs = 0x2903; emu_GUI_DrawSprite();
 						emu_sp += 14;
@@ -363,8 +359,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_push(0);
 		emu_push(positionY + 2);
 		emu_push(positionX + 2);
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
+		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
 		emu_push(g_global->variable_6C91);
 		emu_push(emu_cs); emu_push(0x0A7E); emu_cs = 0x2903; emu_GUI_DrawSprite();
 		emu_sp += 20;

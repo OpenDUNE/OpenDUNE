@@ -20,6 +20,7 @@
 #include "gui.h"
 #include "../unknown/unknown.h"
 #include "../string.h"
+#include "../sprites.h"
 
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
@@ -63,8 +64,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	if (spriteID != g_global->cursorSpriteID) {
 		g_global->tickCursor = g_global->tickGlobal;
 
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x442));
-		emu_push(emu_get_memory16(0x2DCE, spriteID * 4, 0x440));
+		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
 		emu_push(g_global->cursorHotSpots[spriteID][1]);
 		emu_push(g_global->cursorHotSpots[spriteID][0]);
 		emu_push(emu_cs); emu_push(0x00E8); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();

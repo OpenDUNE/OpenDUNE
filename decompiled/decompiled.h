@@ -35,6 +35,7 @@
 #include "../src/script/script.h"
 #include "../src/security.h"
 #include "../src/sound.h"
+#include "../src/sprites.h"
 #include "../src/string.h"
 #include "../src/structure.h"
 #include "../src/team.h"
@@ -103,7 +104,6 @@ extern void f__2599_000B_0047_21FD();
 extern void f__2605_000C_006D_F8B2();
 extern void f__28FD_000C_0007_5DA9();
 extern void emu_Mouse_CheckButtons();
-extern void f__2BB6_000C_0043_A570();
 extern void f__2C17_000C_002F_3016();
 extern void f__22A3_000D_0010_9291();
 extern void f__24D0_000D_0039_C17D();
@@ -137,7 +137,6 @@ extern void f__2642_0069_0008_D517();
 extern void f__2BF2_006A_000E_61D9();
 extern void f__2B6C_006E_002E_4FBC();
 extern void f__B4E6_0074_000C_3554();
-extern void f__2903_007A_0032_762D();
 extern void f__2B99_007B_0019_5737();
 extern void f__B48B_0088_0029_3A68();
 extern void f__B4BE_008B_0012_DDEE();
@@ -499,7 +498,6 @@ extern void f__22A6_0A0D_0002_61BE();
 extern void f__22A6_0A0F_0008_6943();
 extern void f__22A6_0A19_000E_92F3();
 extern void emu_Input_History_Add();
-extern void f__B4B8_0A1E_001A_E094();
 extern void f__06F7_0A27_001D_1D75();
 extern void f__22A6_0A2D_0019_EA06();
 extern void f__B518_0A3E_0008_F439();

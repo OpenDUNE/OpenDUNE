@@ -1885,7 +1885,7 @@ l__17E7:
 	emu_push(emu_ax);
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x17FD); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0A1E_001A_E094();
+	emu_push(emu_cs); emu_push(0x17FD); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_Load();
 l__17FD:
 	emu_addw(&emu_sp, 0x8);
 	emu_ax = 0x4;
