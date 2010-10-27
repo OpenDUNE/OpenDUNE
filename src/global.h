@@ -394,25 +394,13 @@ typedef struct GlobalData {
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
 	/* 2005()    */ PACK uint8   unknown_2005[0x0166];
-	/* 216B(12)  */ PACK csip32 variable_216B[3];           /*!< ?? */
+	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
 	/* 2177()    */ PACK uint8   unknown_2177[0x0002];
 	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
 	/* 219D(48)  */ PACK uint16 variable_219D[4][6];        /*!< ?? */
-	/* 21CD(10)  */ PACK char   string_21CD[10];            /*!< "MOUSE.SHP" NULL terminated. */
-	/* 21D7(5)   */ PACK char   string_21D7[5];             /*!< "BTTN" NULL terminated. */
-	/* 21DC(11)  */ PACK char   string_21DC[11];            /*!< "SHAPES.SHP" NULL terminated. */
-	/* 21E7(11)  */ PACK char   string_21E7[11];            /*!< "UNITS2.SHP" NULL terminated. */
-	/* 21F2(11)  */ PACK char   string_21F2[11];            /*!< "UNITS1.SHP" NULL terminated. */
-	/* 21FD(10)  */ PACK char   string_21FD[10];            /*!< "UNITS.SHP" NULL terminated. */
-	/* 2207()    */ PACK uint8   unknown_2207[0x0001];
-	/* 2208(7)   */ PACK char   string_2208[7];             /*!< "MENTAT" NULL terminated. */
-	/* 220F(13)  */ PACK char   string_220F[13];            /*!< "MENSHP%c.SHP" NULL terminated. */
-	/* 221C()    */ PACK uint8   unknown_221C[0x0001];
-	/* 221D(10)  */ PACK char   string_221D[10];            /*!< "MOUSE.SHP" NULL terminated. */
-	/* 2227(5)   */ PACK char   string_2227[5];             /*!< "BTTN" NULL terminated. */
-	/* 222C(11)  */ PACK char   string_222C[11];            /*!< "SHAPES.SHP" NULL terminated. */
-	/* 2237(6)   */ PACK char   string_2237[6];             /*!< "CHOAM" NULL terminated. */
-	/* 223D()    */ PACK uint8   unknown_223D[0x0001];
+	/* 21CD(59)  */ PACK char   spriteFiles0[59];           /*!< "MOUSE.SHP\0BTTN\0SHAPES.SHP\0UNITS2.SHP\0UNITS1.SHP\0UNITS.SHP\0\0". */
+	/* 2208(21)  */ PACK char   spriteFiles1[21];           /*!< "MENTAT\0MENSHP%c.SHP\0\0". */
+	/* 221D(33)  */ PACK char   spriteFiles2[33];           /*!< "MOUSE.SHP\0BTTN\0SHAPES.SHP\0CHOAM\0\0". */
 	/* 223E(9)   */ PACK char   string_223E[9];             /*!< "ICON.ICN" NULL terminated. */
 	/* 2247(9)   */ PACK char   string_2247[9];             /*!< "ICON.MAP" NULL terminated. */
 	/* 2250(5)   */ PACK char   string_2250[5];             /*!< "UNIT" NULL terminated. */
