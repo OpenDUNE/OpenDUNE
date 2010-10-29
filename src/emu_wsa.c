@@ -15,7 +15,6 @@ extern void f__23E1_0334_000B_CF65();
 extern void f__28E6_000A_0040_D751();
 extern void f__2AE1_00B7_0014_51EF();
 extern void f__2AE1_029F_0014_50E5();
-extern void f__2BD6_0000_0015_24A9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Memory_GetBlock2();
