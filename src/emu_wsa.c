@@ -57,76 +57,43 @@ static uint32 csip32_add(csip32 csip, uint32 add) {
 
 
 /**
- * Decompiled function emu_WSA_GetFramePosition_FromMemory()
- *
- * @name emu_WSA_GetFramePosition_FromMemory
- * @implements B52A:07CD:003B:4734 ()
+ * Get the offset in the fileContent which stores the animation data for a
+ *  given frame.
+ * @param header The header of the WSA.
+ * @param frame The frame of animation.
+ * @return The offset for the animation from the beginning of the fileContent.
  */
-void emu_WSA_GetFramePosition_FromMemory()
+static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
 {
-	csip32 buffer;
-	uint16 position;
+	uint16 lengthAnimation = 0;
+	uint32 *animationArray;
 
-	uint32 *animationPositions;
-	uint32 firstFrameSize;
-	uint32 ret;
+	animationArray = (uint32 *)emu_get_memorycsip(header->fileContent);
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
+	if (animationArray[frame] == 0) return 0;
 
-	buffer = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	position = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	firstFrameSize = 0;
-	ret = 0;
-
-	animationPositions = (uint32 *)emu_get_memorycsip(buffer);
-	if (animationPositions[position] == 0) {
-		emu_ax = 0;
-		emu_dx = 0;
-		return /* 0 */;
+	if (animationArray[0] != 0) {
+		lengthAnimation = animationArray[1] - animationArray[0];
 	}
 
-	if (animationPositions[0] != 0) {
-		firstFrameSize = animationPositions[1] - animationPositions[0];
-	}
-
-	ret = animationPositions[position] - firstFrameSize - 10;
-
-	emu_dx = ret >> 16;
-	emu_ax = ret & 0xFFFF;
-	return /* ret */;
+	return animationArray[frame] - lengthAnimation - 10;
 }
 
 /**
- * Decompiled function emu_WSA_GetFramePosition_FromDisk()
- *
- * @name emu_WSA_GetFramePosition_FromDisk
- * @implements B52A:0850:0021:2409 ()
+ * Get the offset in the file which stores the animation data for a given
+ *  frame.
+ * @param fileno The fileno of an opened WSA.
+ * @param frame The frame of animation.
+ * @return The offset for the animation from the beginning of the file.
  */
-void emu_WSA_GetFramePosition_FromDisk()
+static uint32 WSA_GetFrameOffset_FromDisk(uint16 fileno, uint16 frame)
 {
-	uint16 fileno;
-	uint16 position;
-	uint16 offset;
-
 	uint32 length;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
+	File_Seek(fileno, frame * 4 + 10, 0);
+	if (File_Read(fileno, &length, 4) != 4) return 0;
 
-	fileno = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	position = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	offset = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	File_Seek(fileno, position * 4 + 10, 0);
-	if (File_Read(fileno, &length, 4) != 4) length = 0;
-
-	emu_dx = (length + offset) >> 16;
-	emu_ax = (length + offset) & 0xFFFF;
-	return;
+	return length;
 }
 
 /**
@@ -143,7 +110,7 @@ void emu_WSA_GotoNextFrame()
 
 	WSAHeader *header;
 
-	uint16 loc0A;
+	uint16 lengthSpecial;
 	csip32 dest;
 
 	/* Pop the return CS:IP. */
@@ -156,9 +123,9 @@ void emu_WSA_GotoNextFrame()
 
 	header = (WSAHeader *)emu_get_memorycsip(headercsip);
 
-	loc0A = 0;
+	lengthSpecial = 0;
 	if (header->flags.s.isSpecial) {
-		loc0A = 0x300;
+		lengthSpecial = 0x300;
 	}
 
 	dest.csip = header->buffer.csip;
@@ -169,19 +136,8 @@ void emu_WSA_GotoNextFrame()
 		uint32 length;
 		csip32 positionFrame;
 
-		emu_push(frame);
-		emu_push(header->fileContent.s.cs); emu_push(header->fileContent.s.ip);
-		emu_push(emu_cs); emu_push(0x0902); emu_WSA_GetFramePosition_FromMemory();
-		emu_sp += 6;
-
-		positionStart = (emu_dx << 16) + emu_ax;
-
-		emu_push(frame + 1);
-		emu_push(header->fileContent.s.cs); emu_push(header->fileContent.s.ip);
-		emu_push(emu_cs); emu_push(0x091E); emu_WSA_GetFramePosition_FromMemory();
-		emu_sp += 6;
-
-		positionEnd = (emu_dx << 16) + emu_ax;
+		positionStart = WSA_GetFrameOffset_FromMemory(header, frame);
+		positionEnd = WSA_GetFrameOffset_FromMemory(header, frame + 1);
 		length = positionEnd - positionStart;
 
 		positionFrame.csip = csip32_add(header->fileContent, positionStart);
@@ -201,21 +157,8 @@ void emu_WSA_GotoNextFrame()
 
 		fileno = File_Open(header->filename, 1);
 
-		emu_push(loc0A);
-		emu_push(frame);
-		emu_push(fileno);
-		emu_push(emu_cs); emu_push(0x09BB); emu_WSA_GetFramePosition_FromDisk();
-		emu_sp += 6;
-
-		positionStart = (emu_dx << 16) + emu_ax;
-
-		emu_push(loc0A);
-		emu_push(frame + 1);
-		emu_push(fileno);
-		emu_push(emu_cs); emu_push(0x09D0); emu_WSA_GetFramePosition_FromDisk();
-		emu_sp += 6;
-
-		positionEnd = (emu_dx << 16) + emu_ax;
+		positionStart = WSA_GetFrameOffset_FromDisk(fileno, frame);
+		positionEnd = WSA_GetFrameOffset_FromDisk(fileno, frame + 1);
 		length = positionEnd - positionStart;
 
 		if (positionStart == 0 || positionEnd == 0 || length == 0) {
@@ -224,7 +167,7 @@ void emu_WSA_GotoNextFrame()
 			return /* 0 */;
 		}
 
-		File_Seek(fileno, positionStart, 0);
+		File_Seek(fileno, positionStart + lengthSpecial, 0);
 
 		dest.csip = csip32_add(dest, header->bufferLength - length);
 
@@ -280,8 +223,8 @@ void emu_WSA_LoadFile()
 	uint32 bufferSizeOptimal;
 	uint16 lengthHeader;
 	uint16 fileno;
-	uint16 offsetSpecial;
-	uint16 offsetAnimation;
+	uint16 lengthSpecial;
+	uint16 lengthAnimation;
 	uint32 lengthFileContent;
 	uint32 displaySize;
 	csip32 b;
@@ -303,11 +246,11 @@ void emu_WSA_LoadFile()
 	fileno = File_Open(filename, 1);
 	File_Read(fileno, &fileheader, sizeof(WSAFileHeader));
 
-	offsetSpecial = 0;
+	lengthSpecial = 0;
 	if (fileheader.isSpecial) {
 		flags.s.isSpecial = true;
 
-		offsetSpecial = 0x300;
+		lengthSpecial = 0x300;
 		if (bufferSpecial.csip != 0) {
 			File_Seek(fileno, fileheader.frames * 4, 1);
 			File_Read(fileno, emu_get_memorycsip(bufferSpecial), 0x300);
@@ -316,14 +259,14 @@ void emu_WSA_LoadFile()
 
 	lengthFileContent = File_Seek(fileno, 0, 2);
 
-	offsetAnimation = 0;
+	lengthAnimation = 0;
 	if (fileheader.animationOffsetStart != 0) {
-		offsetAnimation = fileheader.animationOffsetEnd - fileheader.animationOffsetStart;
+		lengthAnimation = fileheader.animationOffsetEnd - fileheader.animationOffsetStart;
 	} else {
 		flags.s.variable_0040 = true;
 	}
 
-	lengthFileContent -= offsetSpecial + offsetAnimation + 10;
+	lengthFileContent -= lengthSpecial + lengthAnimation + 10;
 
 	displaySize = 0;
 	if (reserveDisplayFrame) {
@@ -341,6 +284,7 @@ void emu_WSA_LoadFile()
 		emu_dx = 0;
 		return /* 0 */;
 	}
+	bufferSizeCurrent = bufferSizeMinimal;
 
 	if (buffer.csip == 0) {
 		uint32 free;
@@ -412,33 +356,22 @@ void emu_WSA_LoadFile()
 
 		File_Seek(fileno, 10, 0);
 		File_Read(fileno, emu_get_memorycsip(header->fileContent), lengthHeader);
-		File_Seek(fileno, offsetAnimation + offsetSpecial, 1);
+		File_Seek(fileno, lengthAnimation + lengthSpecial, 1);
 		File_Read(fileno, emu_get_memorycsip(header->fileContent) + lengthHeader, lengthFileContent - lengthHeader);
 
-		emu_push(header->frames + 1);
-		emu_push(header->fileContent.s.cs); emu_push(header->fileContent.s.ip);
-		emu_push(emu_cs); emu_push(0x03BC); emu_WSA_GetFramePosition_FromMemory();
-		emu_sp += 6;
-
 		header->flags.s.dataInMemory = true;
-		if (emu_ax == 0) header->flags.s.variable_0020 = true;
+		if (WSA_GetFrameOffset_FromMemory(header, header->frames + 1) == 0) header->flags.s.noAnimation = true;
 	} else {
-		emu_push(offsetSpecial);
-		emu_push(header->frames + 1);
-		emu_push(fileno);
-		emu_push(emu_cs); emu_push(0x03DF); emu_WSA_GetFramePosition_FromDisk();
-		emu_sp += 6;
-
 		header->flags.s.dataOnDisk = true;
-		if (emu_ax == 0) header->flags.s.variable_0020 = true;
+		if (WSA_GetFrameOffset_FromDisk(fileno, header->frames + 1) == 0) header->flags.s.noAnimation = true;
 	}
 
 	{
 		csip32 loc28;
-		loc28.csip = csip32_add(b, header->bufferLength - offsetAnimation);
+		loc28.csip = csip32_add(b, header->bufferLength - lengthAnimation);
 
-		File_Seek(fileno, lengthHeader + offsetSpecial + 10, 0);
-		File_Read(fileno, emu_get_memorycsip(loc28), offsetAnimation);
+		File_Seek(fileno, lengthHeader + lengthSpecial + 10, 0);
+		File_Read(fileno, emu_get_memorycsip(loc28), lengthAnimation);
 		File_Close(fileno);
 
 		Format80_Decode(emu_get_memorycsip(loc28), emu_get_memorycsip(b), header->bufferLength);
@@ -560,7 +493,7 @@ void emu_WSA_DisplayFrame()
 	if (frameNext > header->frameCurrent) {
 		frameCount = header->frames - frameNext + header->frameCurrent;
 
-		if (frameCount < frameDiff && !header->flags.s.variable_0020) {
+		if (frameCount < frameDiff && !header->flags.s.noAnimation) {
 			direction = -1;
 		} else {
 			frameCount = frameDiff;
@@ -568,7 +501,7 @@ void emu_WSA_DisplayFrame()
 	} else {
 		frameCount = header->frames - header->frameCurrent + frameNext;
 
-		if (frameCount < frameDiff && !header->flags.s.variable_0020) {
+		if (frameCount < frameDiff && !header->flags.s.noAnimation) {
 		} else {
 			direction = -1;
 			frameCount = frameDiff;

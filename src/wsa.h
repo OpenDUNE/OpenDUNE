@@ -14,7 +14,7 @@ typedef union WSAFlags {
 	/*      0004 */ BITTYPE dataOnDisk:1;                   /*!< Only the header is in the memory. Rest is on disk. */
 	/*      0008 */ BITTYPE dataInMemory:1;                 /*!< The whole WSA is in memory. */
 	/*      0010 */ BITTYPE displayInBuffer:1;              /*!< The output display is in the buffer. */
-	/*      0020 */ BITTYPE variable_0020:1;                /*!< ?? */
+	/*      0020 */ BITTYPE noAnimation:1;                  /*!< If the WSA has animation or not. */
 	/*      0040 */ BITTYPE variable_0040:1;                /*!< ?? */
 	/*      0080 */ BITTYPE variable_0080:1;                /*!< ?? */
 	/*      0100 */ BITTYPE isSpecial:1;                    /*!< Indicates if the WSA has a special buffer. */
