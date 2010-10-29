@@ -251,7 +251,7 @@ l__02BF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2BD6; f__2BD6_0000_0015_24A9();
+	emu_push(emu_cs); emu_push(0x02E5); emu_cs = 0x2BD6; emu_Format80_Decode();
 l__02E5:
 	emu_addw(&emu_sp, 0xA);
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = 0x0;

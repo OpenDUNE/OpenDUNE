@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "codec/format80.h"
 #include "file.h"
 #include "tools.h"
 #include "wsa.h"
@@ -237,11 +238,7 @@ void emu_WSA_GotoNextFrame()
 		}
 	}
 
-	emu_push(header->bufferLength);
-	emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-	emu_push(dest.s.cs); emu_push(dest.s.ip);
-	emu_push(emu_cs); emu_push(0x0A76); emu_cs = 0x2BD6; f__2BD6_0000_0015_24A9();
-	emu_sp += 10;
+	Format80_Decode(emu_get_memorycsip(dest), emu_get_memorycsip(header->buffer), header->bufferLength);
 
 	if (header->flags.s.displayInBuffer) {
 		emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
@@ -445,11 +442,7 @@ void emu_WSA_LoadFile()
 		File_Read(fileno, emu_get_memorycsip(loc28), offsetAnimation);
 		File_Close(fileno);
 
-		emu_push(header->bufferLength);
-		emu_push(b.s.cs); emu_push(b.s.ip);
-		emu_push(loc28.s.cs); emu_push(loc28.s.ip);
-		emu_push(emu_cs); emu_push(0x045D); emu_cs = 0x2BD6; f__2BD6_0000_0015_24A9();
-		emu_sp += 10;
+		Format80_Decode(emu_get_memorycsip(loc28), emu_get_memorycsip(b), header->bufferLength);
 	}
 
 	emu_dx = buffer.s.cs;

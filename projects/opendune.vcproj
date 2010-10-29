@@ -1291,26 +1291,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__2BD6.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__2BEE.c"
 				>
 				<FileConfiguration
@@ -2970,6 +2950,54 @@
 				RelativePath="..\src\wsa.h"
 				>
 			</File>
+			<Filter
+				Name="codec"
+				>
+				<File
+					RelativePath="..\src\codec\emu_format80.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\codec\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\codec\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\codec\format80.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\codec\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\codec\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\codec\format80.h"
+					>
+				</File>
+			</Filter>
 			<Filter
 				Name="gui"
 				>

@@ -351,7 +351,7 @@ l__0325:
 	emu_push(emu_di);
 	emu_push(emu_bx);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0341); emu_cs = 0x2BD6; f__2BD6_0000_0015_24A9();
+	emu_push(emu_cs); emu_push(0x0341); emu_cs = 0x2BD6; emu_Format80_Decode();
 l__0341:
 	emu_addw(&emu_sp, 0xA);
 	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ds, 0x00, 0x6F18));
