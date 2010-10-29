@@ -43,6 +43,7 @@
 #include "../src/tools.h"
 #include "../src/unit.h"
 #include "../src/unknown/unknown.h"
+#include "../src/wsa.h"
 
 
 #undef DECOMPILED_INCLUDE
@@ -73,7 +74,6 @@ extern void emu_GUI_ShowMap();
 extern void f__B511_0000_000E_B463();
 extern void emu_GUI_ShowEndStats();
 extern void f__B520_0000_0019_6B99();
-extern void emu_WSA_LoadFile();
 extern void f__B536_0000_004B_3AF8();
 extern void f__2642_0002_005E_87F6();
 extern void f__2B4C_0002_0029_64AF();
@@ -308,7 +308,6 @@ extern void f__217E_046B_0058_3F3A();
 extern void f__151A_046F_0017_2508();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_DSP_UninstallInterrupt();
-extern void f__B52A_0476_0030_9D41();
 extern void f__1DD7_0477_000E_5C89();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_InGame_Numpad_Move();
@@ -319,7 +318,6 @@ extern void f__B4CD_048E_0012_3E9E();
 extern void f__06F7_0493_0015_AAB2();
 extern void emu_Drive_Get_Free_Space();
 extern void f__22A6_04A5_000F_3B8F();
-extern void f__B52A_04AC_0033_548A();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_Interrupt_Vector_Get();
 extern void f__B4CD_04C4_0010_846B();
@@ -404,7 +402,6 @@ extern void f__01F7_06D1_004A_EF77();
 extern void f__2756_06D2_0021_3A37();
 extern void f__22A6_06D7_006B_B7D6();
 extern void f__217E_06E9_0041_701D();
-extern void f__B52A_06F6_0012_197D();
 extern void f__2756_06FB_0042_E7A6();
 extern void f__AB01_0709_0001_6780();
 extern void f__06F7_0713_0011_15A5();
@@ -436,7 +433,6 @@ extern void emu_GUI_DrawChar();
 extern void f__B4ED_07B6_0013_1343();
 extern void emu_Map_SelectNext();
 extern void emu_Unit_LaunchHouseMissle();
-extern void f__B52A_07CD_003B_4734();
 extern void f__B536_07CE_0032_AF6A();
 extern void f__2756_07D0_0001_6780();
 extern void emu_Tools_Var79E4_Init();
@@ -455,7 +451,6 @@ extern void f__2756_0827_0035_3DAA();
 extern void emu_String_sscanf_callback();
 extern void f__B4E0_0847_0019_A380();
 extern void f__01F7_084E_0011_B741();
-extern void f__B52A_0850_0021_2409();
 extern void f__B495_0854_0012_008A();
 extern void emu_GUI_Option_CreateWindow();
 extern void f__B520_085F_003A_87ED();
@@ -468,7 +463,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__B4B8_0899_002D_EBA1();
 extern void f__B495_089A_0011_B26C();
 extern void f__B518_089C_001A_542C();
-extern void f__B52A_08B3_001B_1BB9();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__06F7_08BD_0016_9292();
 extern void f__1423_08CD_0012_0004();

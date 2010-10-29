@@ -1091,7 +1091,7 @@ typedef struct GlobalData {
 	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
 	/* 6C84(4)   */ PACK uint32 variable_6C84;              /*!< ?? */
 	/* 6C88()    */ PACK uint8   unknown_6C88[0x0009];
-	/* 6C91(2)   */ PACK uint16 variable_6C91;              /*!< ?? */
+	/* 6C91(2)   */ PACK uint16 variable_6C91;              /*!< ?? Current memory block in use. */
 	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
 	/* 6CD3(64)  */ PACK uint32 variable_6CD3[8][2];        /*!< ?? Array init in f__B480_0000_0018_A09B(). */

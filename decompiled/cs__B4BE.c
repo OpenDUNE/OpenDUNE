@@ -285,7 +285,7 @@ l__010F:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_04AC_0033_548A();
+	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__0134:
@@ -340,7 +340,7 @@ l__018C:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_04AC_0033_548A();
+	emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__01A7:
@@ -349,7 +349,7 @@ l__01A7:
 	if (emu_ax != 0) goto l__0163;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0xA));
-	emu_push(emu_cs); emu_push(0x01B9); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_0476_0030_9D41();
+	emu_push(emu_cs); emu_push(0x01B9); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__01B9:

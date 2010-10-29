@@ -29,12 +29,12 @@ extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_176C_000F_12AD();
 extern void f__B4DA_1860_0008_857D();
 extern void f__B4DA_16F8_001A_D84F();
-extern void f__B52A_0476_0030_9D41();
-extern void f__B52A_04AC_0033_548A();
 extern void emu_GUI_Widget_DrawBorder2();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
+extern void emu_WSA_DisplayFrame();
 extern void emu_WSA_LoadFile();
+extern void emu_WSA_Unload();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -230,13 +230,13 @@ bool Security_Check()
 		emu_push(g_global->variable_992D << 3);
 		emu_push(0);
 		emu_push(wsaQuestion.s.cs); emu_push(wsaQuestion.s.ip);
-		emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_04AC_0033_548A();
+		emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 		emu_sp += 14;
 
 		emu_push(wsaQuestion.s.cs); emu_push(wsaQuestion.s.ip);
-		emu_push(emu_cs); emu_push(0x1323); emu_cs = 0x352A; overlay(0x352A, 0); f__B52A_0476_0030_9D41();
+		emu_push(emu_cs); emu_push(0x1323); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 		emu_sp += 4;
