@@ -1,4 +1,4 @@
-/* $Id: emu_driver.c 1128 2010-05-31 13:13:36Z glx $ */
+/* $Id$ */
 
 #include <assert.h>
 #include <stdio.h>

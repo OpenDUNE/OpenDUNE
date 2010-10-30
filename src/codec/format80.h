@@ -1,4 +1,4 @@
-/* $Id: driver.h 1128 2010-05-31 13:13:36Z glx $ */
+/* $Id$ */
 
 #ifndef CODEC_FORMAT80_H
 #define CODEC_FORMAT80_H
