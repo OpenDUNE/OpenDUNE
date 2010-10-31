@@ -37,5 +37,5 @@ void emu_Format80_Decode()
 	source = emu_get_memorycsip(sourcecsip);
 	dest = emu_get_memorycsip(destcsip);
 
-	emu_ax = Format80_Decode(source, dest, length);
+	Format80_Decode(dest, source, length);
 }

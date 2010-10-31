@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "codec/format40.h"
 #include "codec/format80.h"
 #include "file.h"
 #include "tools.h"
@@ -13,7 +14,6 @@
 
 extern void f__23E1_0334_000B_CF65();
 extern void f__28E6_000A_0040_D751();
-extern void f__2AE1_00B7_0014_51EF();
 extern void f__2AE1_029F_0014_50E5();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -106,7 +106,7 @@ void emu_WSA_GotoNextFrame()
 {
 	csip32 headercsip;
 	uint16 frame;
-	csip32 buffer;
+	csip32 displayBuffer;
 
 	WSAHeader *header;
 
@@ -119,7 +119,7 @@ void emu_WSA_GotoNextFrame()
 
 	headercsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	frame = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	buffer = emu_get_csip32(emu_ss, emu_sp, 0x6);
+	displayBuffer = emu_get_csip32(emu_ss, emu_sp, 0x6);
 
 	header = (WSAHeader *)emu_get_memorycsip(headercsip);
 
@@ -180,18 +180,15 @@ void emu_WSA_GotoNextFrame()
 		}
 	}
 
-	Format80_Decode(emu_get_memorycsip(dest), emu_get_memorycsip(header->buffer), header->bufferLength);
+	Format80_Decode(emu_get_memorycsip(header->buffer), emu_get_memorycsip(dest), header->bufferLength);
 
 	if (header->flags.s.displayInBuffer) {
-		emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-		emu_push(buffer.s.cs); emu_push(buffer.s.ip);
-		emu_push(emu_cs); emu_push(0x0A9A); emu_cs = 0x2AE1; f__2AE1_00B7_0014_51EF();
-		emu_sp += 8;
+		Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
 	} else {
 		emu_push(0);
 		emu_push(header->width);
 		emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-		emu_push(buffer.s.cs); emu_push(buffer.s.ip);
+		emu_push(displayBuffer.s.cs); emu_push(displayBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x0ABF); emu_cs = 0x2AE1; f__2AE1_029F_0014_50E5();
 		emu_sp += 12;
 	}
@@ -284,7 +281,8 @@ void emu_WSA_LoadFile()
 		emu_dx = 0;
 		return /* 0 */;
 	}
-	bufferSizeCurrent = bufferSizeMinimal;
+	if (bufferSizeCurrent == 0) bufferSizeCurrent = bufferSizeOptimal;
+	if (bufferSizeCurrent == 1) bufferSizeCurrent = bufferSizeMinimal;
 
 	if (buffer.csip == 0) {
 		uint32 free;
@@ -374,7 +372,7 @@ void emu_WSA_LoadFile()
 		File_Read(fileno, emu_get_memorycsip(loc28), lengthAnimation);
 		File_Close(fileno);
 
-		Format80_Decode(emu_get_memorycsip(loc28), emu_get_memorycsip(b), header->bufferLength);
+		Format80_Decode(emu_get_memorycsip(b), emu_get_memorycsip(loc28), header->bufferLength);
 	}
 
 	emu_dx = buffer.s.cs;
@@ -477,10 +475,7 @@ void emu_WSA_DisplayFrame()
 				emu_push(emu_cs); emu_push(0x057E); emu_cs = 0x2AE1; f__2AE1_029F_0014_50E5();
 				emu_sp += 12;
 			} else {
-				emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-				emu_push(displayBuffer.s.cs); emu_push(displayBuffer.s.ip);
-				emu_push(emu_cs); emu_push(0x0599); emu_cs = 0x2AE1; f__2AE1_00B7_0014_51EF();
-				emu_sp += 8;
+				Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
 			}
 		}
 

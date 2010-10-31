@@ -5,7 +5,13 @@
 #include "types.h"
 #include "format80.h"
 
-uint16 Format80_Decode(uint8 *source, uint8 *dest, uint16 destLength)
+/**
+ * Decode a memory fragment which is encoded with 'format80'.
+ * @param source The encoded fragment.
+ * @param dest The place the decoded fragment will be loaded.
+ * @param destLength The length of the destionation buffer.
+ */
+void Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 {
 	uint8 *end = dest + destLength;
 
@@ -86,5 +92,5 @@ uint16 Format80_Decode(uint8 *source, uint8 *dest, uint16 destLength)
 		}
 	}
 
-	return end - dest;
+	return;
 }
