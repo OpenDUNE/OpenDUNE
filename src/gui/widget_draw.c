@@ -22,7 +22,6 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawSprite();
 extern void emu_GUI_String_Get_ByIndex();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawBorder2();
@@ -184,16 +183,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
-	emu_push(buttonDown ? 1 : 0);
-	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
-	emu_push(0x100);
-	emu_push(0);
-	emu_push(positionY);
-	emu_push(positionX);
-	emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
-	emu_push(g_global->variable_6C91);
-	emu_push(emu_cs); emu_push(0x0DB5); emu_cs = 0x2903; emu_GUI_DrawSprite();
-	emu_sp += 20;
+	GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], positionX, positionY, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
 
 	emu_push(0);
 	emu_push(buttonDown ? 0 : 1);
@@ -311,16 +301,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				uint16 spriteWidth;
 				uint16 x, y;
 
-				emu_push(buttonDown ? 2 : 0);
-				emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
-				emu_push(0x100);
-				emu_push(0);
-				emu_push(positionY + 5);
-				emu_push(positionX + 37);
-				emu_push(g_sprites[63].s.cs); emu_push(g_sprites[63].s.ip);
-				emu_push(g_global->variable_6C91);
-				emu_push(emu_cs); emu_push(0x0936); emu_cs = 0x2903; emu_GUI_DrawSprite();
-				emu_sp += 20;
+				GUI_DrawSprite(g_global->variable_6C91, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
 
 				emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
 				emu_push(emu_cs); emu_push(0x0958); emu_cs = 0x260F; f__260F_003A_0014_CA10();
@@ -331,14 +312,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
 					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
-						emu_push(0);
-						emu_push(0);
-						emu_push(positionY + y * spriteWidth + 6);
-						emu_push(positionX + x * spriteWidth + 38);
-						emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
-						emu_push(g_global->variable_6C91);
-						emu_push(emu_cs); emu_push(0x09D0); emu_cs = 0x2903; emu_GUI_DrawSprite();
-						emu_sp += 14;
+						GUI_DrawSprite(g_global->variable_6C91, g_sprites[24], positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
 					}
 				}
 
@@ -352,18 +326,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			break;
 	}
 
-	if (spriteID != 0) {
-		emu_push(buttonDown ? 1 : 0);
-		emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
-		emu_push(0x100);
-		emu_push(0);
-		emu_push(positionY + 2);
-		emu_push(positionX + 2);
-		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
-		emu_push(g_global->variable_6C91);
-		emu_push(emu_cs); emu_push(0x0A7E); emu_cs = 0x2903; emu_GUI_DrawSprite();
-		emu_sp += 20;
-	}
+	if (spriteID != 0) GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], positionX + 2, positionY + 2, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
 
 	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;

@@ -15,6 +15,7 @@
 #include "../structure.h"
 #include "../os/math.h"
 #include "../sprites.h"
+#include "../codec/format80.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -40,7 +41,6 @@ extern void emu_Input_History_Clear();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_GUI_DrawSprite();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
@@ -672,14 +672,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	emu_sp += 6;
 
 	if (spriteID != 0xFFFF) {
-		emu_push(0x4000);
-		emu_push(0x1);
-		emu_push(0x8);
-		emu_push(0x7);
-		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
-		emu_push(g_global->variable_6C91);
-		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x2903; emu_GUI_DrawSprite();
-		emu_sp += 14;
+		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 7, 8, 1, 0x4000);
 
 		emu_push(g_global->variable_9931 - 16);
 		emu_push(g_global->variable_992F - 7);
@@ -809,3 +802,497 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
 
 	return lines;
 }
+
+/**
+ * Draws a sprite.
+ * @param memory The index of the memory block where the drawing is done.
+ * @param sprite_csip The CS:IP of the sprite to draw.
+ * @param posX ??.
+ * @param posY ??.
+ * @param windowID The ID of the window where the drawing is done.
+ * @param flags The flags.
+ * @param ... The extra args, flags dependant.
+ */
+void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
+{
+	static uint16 s_variable_0E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07A7, 0x0857, 0x07A7, 0x0857};
+	static uint16 s_variable_1E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07ED, 0x089D, 0x07ED, 0x089D};
+	static uint16 s_variable_2E[8]  = {0x0530, 0x0569, 0x0530, 0x0569, 0x0812, 0x08C5, 0x0812, 0x08C5};
+	static uint16 s_variable_3E[16] = {0x0580, 0x0584, 0x0599, 0x05C8, 0x05E0, 0x061F, 0x05EA, 0x05C8, 0x0634, 0x0653, 0x0683, 0x06C6, 0x06F9, 0x0777, 0x071E, 0x06C6};
+	static uint16 s_variable_5E     = 0;
+	static uint16 s_variable_60[8]  = {1, 3, 2, 5, 4, 3, 2, 1};
+	static uint16 s_variable_70     = 1;
+	static uint16 s_variable_72     = 0x8B55;
+	static uint16 s_variable_74     = 0x51EC;
+
+	va_list ap;
+
+	int16  top;
+	int16  bottom;
+	uint16 width;
+	uint16 loc10;
+	int16  loc12;
+	int16  loc14;
+	int16  loc16;
+	uint8  loc18;
+	int16  loc1A;
+	int16  loc1C;
+	int16  loc1E;
+	int16  loc20;
+	uint16 loc22;
+	uint8 *loc26 = NULL;
+	int16  loc28 = 0;
+	int16  loc2A;
+	uint16 loc30 = 0;
+	uint16 loc32;
+	uint16 loc34;
+	uint8 *loc38 = NULL;
+	int16  loc3A;
+	uint8 *loc3E = NULL;
+	uint16 loc42;
+	uint16 loc44;
+	uint16 locbx;
+
+	csip32 memBlock;
+	uint8 *buf = NULL;
+	uint8 *sprite = NULL;
+	uint8 *b = NULL;
+	int16  count;
+
+	if (sprite_csip.csip == 0x0) return;
+
+	sprite = emu_get_memorycsip(sprite_csip);
+
+	if ((*sprite & 0x1) != 0) flags |= 0x400;
+
+	va_start(ap, flags);
+
+	if ((flags & 0x2000) != 0) loc3E = va_arg(ap, uint8*);
+
+	if ((flags & 0x100) != 0) {
+		loc26 = va_arg(ap, uint8*);
+		loc28 = (int16)va_arg(ap, int);
+		if (loc28 == 0) flags &= 0xFEFF;
+	}
+
+	if ((flags & 0x200) != 0) {
+		s_variable_5E = (s_variable_5E + 1) % 8;
+		s_variable_70 = s_variable_60[s_variable_5E];
+		s_variable_74 = 0x0;
+		s_variable_72 = 0x100;
+	}
+
+	if ((flags & 0x1000) != 0) s_variable_72 = (uint16)va_arg(ap, int);
+
+	if ((flags & 0x800) != 0) {
+		loc18 = (uint8)va_arg(ap, int);
+	}
+
+	if ((flags & 0x4) != 0) {
+		loc30 = (uint16)va_arg(ap, int);
+		loc32 = (uint16)va_arg(ap, int);
+	} else {
+		loc32 = 0x100;
+	}
+
+	va_end(ap);
+
+	loc34 = 0;
+
+	emu_push(emu_ax);
+	emu_push(emu_dx);
+	emu_push(memory);
+	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Memory_GetBlock2();
+	emu_sp += 2;
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = g_global->variable_4062[windowID][0] << 3;
+	emu_pop(&emu_dx);
+	emu_pop(&emu_ax);
+
+	buf = emu_get_memorycsip(memBlock);
+
+	if ((flags & 0x4000) == 0) posX -= g_global->variable_4062[windowID][0] << 3;
+
+	width = g_global->variable_4062[windowID][2] << 3;
+	top = g_global->variable_4062[windowID][1];
+
+	if ((flags & 0x4000) != 0) posY += g_global->variable_4062[windowID][1];
+
+	bottom = g_global->variable_4062[windowID][1] + g_global->variable_4062[windowID][3];
+
+	loc10 = *(uint16 *)sprite;
+	sprite += 2;
+
+	loc12 = *sprite++;
+
+	if ((flags & 0x4) != 0) {
+		loc12 *= loc32;
+		loc12 >>= 8;
+		if (loc12 == 0) return;
+	}
+
+	if ((flags & 0x8000) != 0) posY -= loc12 / 2;
+
+	loc1A = *(uint16 *)sprite;
+	sprite += 2;
+
+	loc14 = loc1A;
+
+	if ((flags & 0x4) != 0) {
+		loc14 += loc30;
+		loc14 >>= 8;
+		if (loc14 == 0) return;
+	}
+
+	if ((flags & 0x8000) != 0) posX -= loc14 / 2;
+
+	loc16 = loc14;
+
+	sprite += 3;
+
+	locbx = *(uint16 *)sprite;
+	sprite += 2;
+
+	if ((loc10 & 0x1) != 0 && (flags & 0x2000) == 0) loc3E = sprite;
+
+	if ((flags & 0x400) != 0) {
+		sprite += 16;
+	}
+
+	if ((loc10 & 0x2) == 0) {
+		Format80_Decode(emu_get_memorycsip(g_global->variable_6F18), sprite, locbx);
+
+		sprite = emu_get_memorycsip(g_global->variable_6F18);
+	}
+
+	if ((flags & 0x2) == 0) {
+		loc2A = posY - top;
+	} else {
+		loc2A = bottom - posY - loc12;
+	}
+
+	if (loc2A < 0) {
+		loc12 += loc2A;
+		if (loc12 <= 0) return;
+
+		loc2A = -loc2A;
+
+		while (loc2A > 0) {
+			loc42 = 0;
+			loc38 = sprite;
+			count = loc1A;
+			loc1C = loc1A;
+
+			/* Call based on memory/register values */
+			switch (s_variable_1E[flags & 0xFF]) {
+				case 0x050E:
+				case 0x0545:
+					if (count == 0) break;
+
+					while (count > 0) {
+						while (count != 0) {
+							count--;
+							if (*sprite++ == 0) break;
+						}
+						if (sprite[-1] != 0 && count == 0) break;
+
+						count -= *sprite++ - 1;
+					}
+
+					buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
+					break;
+
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x2903; emu_last_ip = 0x0384; emu_last_length = 0x0016; emu_last_crc = 0x7D40;
+					emu_call();
+					return;
+			}
+
+			loc34 += loc32;
+			if ((loc34 & 0xFF00) == 0) continue;
+
+			loc2A -= loc34 >> 8;
+			loc34 &= 0xFF;
+		}
+
+		if (loc2A < 0) {
+			sprite = loc38;
+
+			loc2A = -loc2A;
+			loc34 += loc2A << 8;
+		}
+
+		if ((flags & 0x2) == 0) posY = top;
+	}
+
+	if ((flags & 0x2) == 0) {
+		loc1E = bottom - posY;
+	} else {
+		loc1E = posY + loc12 - top;
+	}
+
+	if (loc1E <= 0) return;
+
+	if (loc1E < loc12) {
+		loc12 = loc1E;
+		if ((flags & 0x2) != 0) posY = top;
+	}
+
+	loc1E = 0;
+	if (posX < 0) {
+		loc14 += posX;
+		loc1E = -posX;
+		if (loc1E >= loc16) return;
+		posX = 0;
+	}
+
+	loc20 = 0;
+	loc3A = width - posX;
+	if (loc3A <= 0) return;
+
+	if (loc3A < loc14) {
+		loc14 = loc3A;
+		loc20 = loc16 - loc1E - loc14;
+	}
+
+	loc3A = 320;
+	loc22 = posY;
+
+	if ((flags & 0x2) != 0) {
+		loc3A = - loc3A;
+		loc22 += loc12 - 1;
+	}
+
+	loc22 *= 2;
+	loc22 = emu_get_memory16(g_global->variable_66EC.s.cs, g_global->variable_66EC.s.ip, loc22) + posX;
+	buf += loc22;
+
+	if ((flags & 0x1) != 0) {
+		uint16 tmp = loc1E;
+		loc1E = loc20;
+		loc20 = tmp;
+		buf += loc14 - 1;
+	}
+
+	b = buf;
+
+	if ((flags & 0x4) != 0) {
+		loc20 = 0;
+		loc44 = loc1E;
+		loc1E = (loc44 << 8) / loc30;
+		loc42 = -((loc44 << 8) % loc30);
+	}
+
+	if ((loc34 & 0xFF00) == 0) {
+	l__04A4:
+		while (true) {
+			loc34 += loc32;
+
+			if ((loc34 & 0xFF00) != 0) break;
+			count = loc1A;
+			loc1C = loc1A;
+
+			/* Call based on memory/register values */
+			switch (s_variable_1E[flags & 0xFF]) {
+				case 0x050E:
+				case 0x0545:
+					if (count == 0) break;
+
+					while (count > 0) {
+						while (count != 0) {
+							count--;
+							if (*sprite++ == 0) break;
+						}
+						if (sprite[-1] != 0 && count == 0) break;
+
+						count -= *sprite++ - 1;
+					}
+
+					buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
+					break;
+
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x2903; emu_last_ip = 0x04B9; emu_last_length = 0x0018; emu_last_crc = 0x7352;
+					emu_call();
+					return;
+			}
+		}
+		loc38 = sprite;
+	}
+
+	while (true) {
+		loc1C = loc1A;
+		count = loc1E;
+
+		/* Call based on memory/register values */
+		switch (s_variable_0E[flags & 0xFF]) {
+			case 0x050E:
+			case 0x0545:
+				if (count == 0) break;
+
+				while (count > 0) {
+					while (count != 0) {
+						count--;
+						if (*sprite++ == 0) break;
+					}
+					if (sprite[-1] != 0 && count == 0) break;
+
+					count -= *sprite++ - 1;
+				}
+
+				buf += count * ((s_variable_0E[flags & 0xFF] == 0x050E) ? -1 : 1);
+				break;
+
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x2903; emu_last_ip = 0x04D1; emu_last_length = 0x0010; emu_last_crc = 0x92CB;
+				emu_call();
+				return;
+		}
+
+		if (loc1C != 0) {
+			count += loc14;
+			if (count > 0) {
+				uint8 v;
+
+				/* Call based on memory/register values */
+				switch (s_variable_2E[flags & 0xFF]) {
+					case 0x0530:
+					case 0x0569:
+						while (count > 0) {
+							v = *sprite++;
+							if (v == 0) {
+								buf += *sprite * ((s_variable_2E[flags & 0xFF] == 0x0530) ? 1 : -1);
+								count -= *sprite++;
+								continue;
+							}
+
+							/* Call based on memory/register values */
+							switch (s_variable_3E[(flags >> 8) & 0xF]) {
+								case 0x0580:
+									*buf = v;
+									break;
+
+								case 0x0584: {
+									int16 i;
+
+									for(i = 0; i < loc28; i++) v = loc26[v];
+
+									*buf = v;
+
+									break;
+								}
+
+								case 0x0599:
+									s_variable_74 += s_variable_72;
+
+									if ((s_variable_74 & 0xFF00) == 0) {
+										*buf = v;
+									} else {
+										s_variable_74 &= 0xFF;
+										*buf = buf[s_variable_70];
+									}
+									break;
+
+								case 0x05C8: {
+									int16 i;
+
+									v = *buf;
+
+									for(i = 0; i < loc28; i++) v = loc26[v];
+
+									*buf = v;
+
+									break;
+								}
+
+								case 0x05E0:
+									*buf = loc3E[v];
+									break;
+
+								case 0x05EA:
+									s_variable_74 += s_variable_72;
+
+									if ((s_variable_74 & 0xFF00) == 0) {
+										*buf = loc3E[v];
+									} else {
+										s_variable_74 &= 0xFF;
+										*buf = buf[s_variable_70];
+									}
+									break;
+
+								case 0x061F: {
+									int16 i;
+
+									v = loc3E[v];
+
+									for(i = 0; i < loc28; i++) v = loc26[v];
+
+									*buf = v;
+
+									break;
+								}
+
+								default:
+									/* In case we don't know the call point yet, call the dynamic call */
+									emu_last_cs = 0x2903; emu_last_ip = 0x0535; emu_last_length = 0x0008; emu_last_crc = 0xCF42;
+									emu_call();
+									return;
+							}
+
+							buf += ((s_variable_2E[flags & 0xFF] == 0x0530) ? 1 : -1);
+							count--;
+						}
+						break;
+
+					default:
+						/* In case we don't know the call point yet, call the dynamic call */
+						emu_last_cs = 0x2903; emu_last_ip = 0x04DF; emu_last_length = 0x000E; emu_last_crc = 0x82DD;
+						emu_call();
+						return;
+				}
+			}
+
+			count += loc20;
+			if (count != 0) {
+				/* Call based on memory/register values */
+				switch (s_variable_1E[flags & 0xFF]) {
+					case 0x050E:
+					case 0x0545:
+						if (count == 0) break;
+
+						while (count > 0) {
+							while (count != 0) {
+								count--;
+								if (*sprite++ == 0) break;
+							}
+							if (sprite[-1] != 0 && count == 0) break;
+
+							count -= *sprite++ - 1;
+						}
+
+						buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
+						break;
+
+					default:
+						/* In case we don't know the call point yet, call the dynamic call */
+						emu_last_cs = 0x2903; emu_last_ip = 0x04E7; emu_last_length = 0x0008; emu_last_crc = 0x5672;
+						emu_call();
+						return;
+				}
+			}
+		}
+
+		b += loc3A;
+		buf = b;
+
+		if (--loc12 == 0) return;
+
+		loc34 -= 0x100;
+		if ((loc34 & 0xFF00) == 0) goto l__04A4;
+		sprite = loc38;
+	}
+}
+

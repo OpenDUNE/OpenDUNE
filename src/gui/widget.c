@@ -17,7 +17,6 @@ extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_Cancel();
-extern void emu_GUI_DrawSprite();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat();
@@ -60,14 +59,7 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 		emu_sp += 8;
 	}
 
-	emu_push(0);
-	emu_push(w->parentID);
-	emu_push(w->offsetY);
-	emu_push(w->offsetX);
-	emu_push(w->drawProcNormal.s.cs); emu_push(w->drawProcNormal.s.ip);
-	emu_push(g_global->variable_6C91);
-	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x2903; emu_GUI_DrawSprite();
-	emu_sp += 14;
+	GUI_DrawSprite(g_global->variable_6C91, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
 
 	emu_push(unknown);
 	emu_push(w->height);
@@ -161,16 +153,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		case DRAW_MODE_NONE: break;
 
 		case DRAW_MODE_SPRITE: {
-			emu_push(0x4000);
-			emu_push(w->parentID);
-			emu_push(offsetY);
-			emu_push(offsetX);
-			emu_push(drawProc.s.cs); emu_push(drawProc.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x08E5); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			emu_sp += 14;
+			GUI_DrawSprite(g_global->variable_6C91, drawProc, offsetX, offsetY, w->parentID, 0x4000);
 		} break;
 
 		case DRAW_MODE_TEXT: {

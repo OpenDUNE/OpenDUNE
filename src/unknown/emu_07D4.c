@@ -37,7 +37,6 @@ extern void f__B4CD_17F7_001D_1CA2();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawLine();
-extern void emu_GUI_DrawSprite();
 
 /**
  * C-ified function of f__07D4_034D_001F_FF64()
@@ -188,54 +187,17 @@ void emu_Unknown_07D4_034D()
 
 		g_global->variable_8DE3 = 0x200;
 
-		if (Map_IsPositionInViewport(u->o.position, &loc02, &loc04)) {
-			emu_push(g_global->variable_8DE3 | 0xC000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(loc2A.s.cs);
-			emu_push(loc2A.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x06CA); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 14;
-		}
+		if (Map_IsPositionInViewport(u->o.position, &loc02, &loc04)) GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &loc02, &loc04)) {
-			emu_push(g_global->variable_8DE3 | 0xC000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(loc2A.s.cs);
-			emu_push(loc2A.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x070E); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 14;
-		}
+		if (Map_IsPositionInViewport(u->variable_5A, &loc02, &loc04)) GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &loc02, &loc04)) {
-			emu_push(g_global->variable_8DE3 | 0xC000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(loc2A.s.cs);
-			emu_push(loc2A.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x0752); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 14;
-		}
+		if (Map_IsPositionInViewport(u->variable_5E, &loc02, &loc04)) GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0xC000);
 
 		if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &loc02, &loc04)) continue;
 
-		emu_push(0xC000);
-		emu_push(2);
-		emu_push(loc04);
-		emu_push(loc02);
-		emu_push(g_sprites[6].s.cs); emu_push(g_sprites[6].s.ip);
-		emu_push(g_global->variable_6C91);
-		emu_push(emu_cs); emu_push(0x07AE); emu_cs = 0x2903; emu_GUI_DrawSprite();
-		emu_sp += 14;
+		GUI_DrawSprite(g_global->variable_6C91, g_sprites[6], loc02, loc04, 2, 0xC000);
 	}
 
 	g_global->variable_39E4 = 0;
@@ -361,19 +323,7 @@ void emu_Unknown_07D4_034D()
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.variable_0800) g_global->variable_8DE3 |= 0x100;
 			if (ui->flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			emu_push(1);
-			emu_push(g_global->variable_3C3E.s.cs);
-			emu_push(g_global->variable_3C3E.s.ip);
-			emu_push(0x353F); emu_push(0x8420);
-			emu_push(g_global->variable_8DE3 | 0xE000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(loc2A.s.cs);
-			emu_push(loc2A.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x0BB2); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 24;
+			GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				emu_push(packed);
@@ -390,15 +340,7 @@ void emu_Unknown_07D4_034D()
 					loc2A.s.cs = emu_dx;
 					loc2A.s.ip = emu_ax;
 
-					emu_push(g_global->variable_32A4[locdi][1] | 0xC000);
-					emu_push(2);
-					emu_push(loc04 + g_global->variable_334E[locdi][1]);
-					emu_push(loc02 + g_global->variable_334E[locdi][0]);
-					emu_push(loc2A.s.cs);
-					emu_push(loc2A.s.ip);
-					emu_push(g_global->variable_6C91);
-					emu_push(emu_cs); emu_push(0x0C87); emu_cs = 0x2903; emu_GUI_DrawSprite();
-					emu_sp += 14;
+					GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02 + g_global->variable_334E[locdi][0], loc04 + g_global->variable_334E[locdi][1], 2, g_global->variable_32A4[locdi][1] | 0xC000);
 				}
 			}
 
@@ -448,42 +390,19 @@ void emu_Unknown_07D4_034D()
 				loc2A.s.cs = emu_dx;
 				loc2A.s.ip = emu_ax;
 
-				emu_push(0x353F); emu_push(0x8420);
-				emu_push(g_global->variable_8DE3 | 0xE000);
-				emu_push(2);
-				emu_push(loc04 + loc2E);
-				emu_push(loc02 + loc2C);
-				emu_push(loc2A.s.cs);
-				emu_push(loc2A.s.ip);
-				emu_push(g_global->variable_6C91);
-				emu_push(emu_cs); emu_push(0x0DAB); emu_cs = 0x2903; emu_GUI_DrawSprite();
-				emu_sp += 18;
+				GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02 + loc2C, loc04 + loc2E, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
 			if (u->o.flags.s.variable_0008) {
 				loc2C = u->variable_6D & 3;
 				if (loc2C == 3) loc2C = 1;
 
-				emu_push(0xC000);
-				emu_push(2);
-				emu_push(loc04 - 14);
-				emu_push(loc02);
-				emu_push(g_sprites[loc2C + 180].s.cs); emu_push(g_sprites[loc2C + 180].s.ip);
-				emu_push(g_global->variable_6C91);
-				emu_push(emu_cs); emu_push(0x0E03); emu_cs = 0x2903; emu_GUI_DrawSprite();
-				emu_sp += 14;
+				GUI_DrawSprite(g_global->variable_6C91, g_sprites[loc2C + 180], loc02, loc04 - 14, 2, 0xC000);
 			}
 
 			if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
 
-			emu_push(0xC000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(g_sprites[6].s.cs); emu_push(g_sprites[6].s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x0E3E); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 14;
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[6], loc02, loc04, 2, 0xC000);
 		}
 
 		g_global->variable_39E6 = 0;
@@ -516,15 +435,13 @@ void emu_Unknown_07D4_034D()
 		emu_push(emu_cs); emu_push(0x0F6F); emu_cs = 0x07D4; f__07D4_18BD_0016_68BB();
 		emu_sp += 4;
 
-		emu_push(0x353F); emu_push(0x8420);
-		emu_push(g_global->variable_8DE3);
-		emu_push(2);
-		emu_push(loc04);
-		emu_push(loc02);
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(g_global->variable_6C91);
-		emu_push(emu_cs); emu_push(0x0F9A); emu_cs = 0x2903; emu_GUI_DrawSprite();
-		emu_sp += 18;
+		{
+			csip32 sprite_csip;
+			sprite_csip.s.cs = emu_dx;
+			sprite_csip.s.ip = emu_ax;
+
+			GUI_DrawSprite(g_global->variable_6C91, sprite_csip, loc02, loc04, 2, g_global->variable_8DE3, g_global->variable_8420);
+		}
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 != 0 || loc12 != 0) {
@@ -608,33 +525,11 @@ void emu_Unknown_07D4_034D()
 			loc2A.s.cs = emu_dx;
 			loc2A.s.ip = emu_ax;
 
-			if (ui->flags.s.variable_0001) {
-				emu_push(1);
-				emu_push(g_global->variable_3C3A.s.cs);
-				emu_push(g_global->variable_3C3A.s.ip);
-				emu_push((g_global->variable_8DE3 & 0xDFFF) | 0x300);
-				emu_push(2);
-				emu_push(loc04 + 3);
-				emu_push(loc02 + 1);
-				emu_push(loc2A.s.cs);
-				emu_push(loc2A.s.ip);
-				emu_push(g_global->variable_6C91);
-				emu_push(emu_cs); emu_push(0x1204); emu_cs = 0x2903; emu_GUI_DrawSprite();
-				emu_sp += 20;
-			}
+			if (ui->flags.s.variable_0001) GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02 + 1, loc04 + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
 
 			if (ui->flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			emu_push(0x353F); emu_push(0x8420);
-			emu_push(g_global->variable_8DE3 | 0x2000);
-			emu_push(2);
-			emu_push(loc04);
-			emu_push(loc02);
-			emu_push(loc2A.s.cs);
-			emu_push(loc2A.s.ip);
-			emu_push(g_global->variable_6C91);
-			emu_push(emu_cs); emu_push(0x123D); emu_cs = 0x2903; emu_GUI_DrawSprite();
-			emu_sp += 18;
+			GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}
 
 		g_global->variable_39E8 = 0;

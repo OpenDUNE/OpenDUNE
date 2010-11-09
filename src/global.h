@@ -1136,10 +1136,12 @@ typedef struct GlobalData {
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
 	/* 6E87()    */ PACK uint8   unknown_6E87[0x0001];
-	/* 6E88(145) */ PACK char   stringDecompress[145];      /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
-	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm" NULL terminated.
+	/* 6E88(145) */ PACK char   stringDecompress[144];      /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
+	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm".
 	                                                         *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
-	/* 6F19()    */ PACK uint8   unknown_6F19[0x00F1];
+	/* 6F18(4)   */ PACK csip32 variable_6F18;              /*!< Pointer to a buffer. */
+	/* 6F1C(2)   */ PACK uint16 variable_6F1C;              /*!< Size of the above buffer. */
+	/* 6F1E()    */ PACK uint8   unknown_6F1E[0x00EC];
 	/* 700A(2)   */ PACK uint16 soundsEnabled;              /*!< 1 if sounds are enabled in game options, 0 otherwise. */
 	/* 700C(2)   */ PACK uint16 musicEnabled;               /*!< 1 if music is enabled in game options, 0 otherwise. */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
@@ -1262,7 +1264,7 @@ typedef struct GlobalData {
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
-	/* 8420()    */ PACK uint8   unknown_8420[0x0010];
+	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
 	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */

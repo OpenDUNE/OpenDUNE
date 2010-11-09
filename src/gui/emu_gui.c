@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include "types.h"
@@ -196,4 +197,109 @@ void emu_GUI_SplitText()
 	delimiter = emu_get_memory8 (emu_ss, emu_sp, 0x6);
 
 	emu_ax = GUI_SplitText(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), maxwidth, delimiter);
+}
+
+/**
+ * Emulator wrapper around GUI_DrawSprite()
+ *
+ * @name emu_GUI_DrawSprite
+ * @implements 2903:0158:001A:2931 ()
+ */
+void emu_GUI_DrawSprite()
+{
+	uint16 memory;
+	csip32 sprite_csip;
+	int16  posX;
+	int16  posY;
+	uint16 windowID;
+	uint16 flags;
+
+	uint16  va_offset;
+	uint8  *arg_2000   = NULL;
+	uint8  *arg_0100_1 = NULL;
+	uint16  arg_0100_2 = 0;
+	uint16  arg_1000   = 0;
+	uint8   arg_0800   = 0;
+	uint16  arg_0004_1 = 0;
+	uint16  arg_0004_2 = 0;
+
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	memory      =        emu_get_memory16(emu_ss, emu_sp, 0x0);
+	sprite_csip =        emu_get_csip32  (emu_ss, emu_sp, 0x2);
+	posX        = (int16)emu_get_memory16(emu_ss, emu_sp, 0x6);
+	posY        = (int16)emu_get_memory16(emu_ss, emu_sp, 0x8);
+	windowID    =        emu_get_memory16(emu_ss, emu_sp, 0xA);
+	flags       =        emu_get_memory16(emu_ss, emu_sp, 0xC);
+
+	if (sprite_csip.csip == 0x0) return;
+
+	va_offset = 0xE;
+	if ((flags & 0x2000) != 0) {
+		arg_2000 = emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, va_offset));
+		va_offset += 4;
+	}
+
+	if ((flags & 0x100) != 0) {
+		arg_0100_1 = emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, va_offset));
+		va_offset += 4;
+		arg_0100_2 = emu_get_memory16(emu_ss, emu_sp, va_offset);
+		va_offset += 2;
+	}
+
+	if ((flags & 0x1000) != 0) {
+		arg_1000 = emu_get_memory16(emu_ss, emu_sp, va_offset);
+		va_offset += 2;
+	}
+
+	if ((flags & 0x800) != 0) {
+		arg_0800 = emu_get_memory8(emu_ss, emu_sp, va_offset);
+		va_offset += 2;
+	}
+
+	if ((flags & 0x4) != 0) {
+		arg_0004_1 = emu_get_memory16(emu_ss, emu_sp, va_offset);
+		va_offset += 2;
+		arg_0004_2 = emu_get_memory16(emu_ss, emu_sp, va_offset);
+		va_offset += 2;
+	}
+
+	switch (flags & 0x3904) {
+		case 0x3904: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_1000, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x3900: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_1000, arg_0800); break;
+		case 0x3804: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_1000, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x3800: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_1000, arg_0800); break;
+		case 0x3104: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_1000, arg_0004_1, arg_0004_2); break;
+		case 0x3100: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_1000); break;
+		case 0x3004: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_1000, arg_0004_1, arg_0004_2); break;
+		case 0x3000: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_1000); break;
+		case 0x2904: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x2900: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_0800); break;
+		case 0x2804: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x2800: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0800); break;
+		case 0x2104: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2, arg_0004_1, arg_0004_2); break;
+		case 0x2100: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0100_1, arg_0100_2); break;
+		case 0x2004: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000, arg_0004_1, arg_0004_2); break;
+		case 0x2000: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_2000); break;
+		case 0x1904: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_1000, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x1900: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_1000, arg_0800); break;
+		case 0x1804: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_1000, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x1800: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_1000, arg_0800); break;
+		case 0x1104: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_1000, arg_0004_1, arg_0004_2); break;
+		case 0x1100: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_1000); break;
+		case 0x1004: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_1000, arg_0004_1, arg_0004_2); break;
+		case 0x1000: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_1000); break;
+		case 0x0904: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x0900: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_0800); break;
+		case 0x0804: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0800, arg_0004_1, arg_0004_2); break;
+		case 0x0800: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0800); break;
+		case 0x0104: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2, arg_0004_1, arg_0004_2); break;
+		case 0x0100: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0100_1, arg_0100_2); break;
+		case 0x0004: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags, arg_0004_1, arg_0004_2); break;
+		case 0x0000: GUI_DrawSprite(memory, sprite_csip, posX, posY, windowID, flags); break;
+		default: assert(0);
+	}
 }

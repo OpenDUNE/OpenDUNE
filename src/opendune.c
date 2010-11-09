@@ -50,7 +50,7 @@ extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0040_0015_5E4A();
 extern void f__25C4_000E_0019_12FF();
-extern void f__2903_090A_0019_4354();
+extern void emu_Unknown_2903_090A();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -537,7 +537,7 @@ static void Gameloop_IntroMenu()
 
 	emu_push(0x5DC);
 	emu_push(g_global->variable_3C46.s.cs); emu_push(g_global->variable_3C46.s.ip);
-	emu_push(emu_cs); emu_push(0x1954); emu_cs = 0x2903; f__2903_090A_0019_4354();
+	emu_push(emu_cs); emu_push(0x1954); emu_cs = 0x2903; emu_Unknown_2903_090A();
 	emu_sp += 6;
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);

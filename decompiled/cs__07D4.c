@@ -569,7 +569,7 @@ l__18D3:
 l__18F9:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_cs); emu_push(0x1904); emu_cs = 0x2903; f__2903_00CA_0015_756E();
+	emu_push(emu_cs); emu_push(0x1904); emu_cs = 0x2903; emu_Unknown_2903_00CA();
 l__1904:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

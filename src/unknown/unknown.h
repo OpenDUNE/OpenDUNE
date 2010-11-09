@@ -14,6 +14,9 @@ extern void emu_Unknown_07C4_001A();
 extern void emu_Memory_GetBlock1();
 extern void emu_Memory_GetBlock2();
 
+extern void emu_Unknown_2903_00CA();
+extern void emu_Unknown_2903_090A();
+
 extern void emu_Unknown_B483_0156();
 extern void emu_Unknown_B483_0363();
 extern void emu_Unknown_B483_0470();

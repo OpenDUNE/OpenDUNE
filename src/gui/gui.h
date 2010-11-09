@@ -11,6 +11,7 @@ extern void GUI_PaletteAnimate();
 extern void GUI_UpdateProductionStringID();
 extern uint16 GUI_DisplayModalMessage(char *str, uint16 stringID, ...);
 extern uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter);
+extern void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...);
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
@@ -23,6 +24,7 @@ extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_UpdateProductionStringID();
 extern void emu_GUI_DisplayModalMessage();
 extern void emu_GUI_SplitText();
+extern void emu_GUI_DrawSprite();
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
 

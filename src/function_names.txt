@@ -134,8 +134,6 @@
 2756:050F:000B:0871	emu_Interrupt_CustomTimer
 2756:0A81:0022:9F5C	emu_CustomTimer_AddHandler	# (handler_csip), returns handler index
 
-2903:0158:001A:2931	emu_GUI_DrawSprite	# (??, sprite_csip, x, y, ??, ??, ??_csip, state) Draw a sprite
-
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init

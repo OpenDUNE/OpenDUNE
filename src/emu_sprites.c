@@ -15,19 +15,19 @@
  */
 void emu_Sprites_Load()
 {
-	uint16 arg06;
 	uint16 index;
+	uint16 memory;
 	csip32 *sprites;
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	arg06   = emu_get_memory16(emu_ss, emu_sp,  0x0);
-	index   = emu_get_memory16(emu_ss, emu_sp,  0x2);
+	index   = emu_get_memory16(emu_ss, emu_sp,  0x0);
+	memory   = emu_get_memory16(emu_ss, emu_sp,  0x2);
 	sprites = (csip32 *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp,  0x4));
 
-	Sprites_Load(arg06, index, sprites);
+	Sprites_Load(index, memory, sprites);
 }
 
 /**
