@@ -1,4 +1,4 @@
-/* $Id: widget.c 1170 2010-11-09 18:08:06Z glx $ */
+/* $Id$ */
 
 #include <stdio.h>
 #include "types.h"
