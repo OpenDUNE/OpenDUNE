@@ -291,7 +291,6 @@ extern void emu_DSP_InstallInterrupt();
 extern void f__B4CD_0408_001F_C54A();
 extern void emu_Time_Get();
 extern void f__B4E0_041D_0017_C8A5();
-extern void emu_Drivers_Load();
 extern void f__217E_0426_003F_15C8();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void f__151A_043B_0018_36C4();

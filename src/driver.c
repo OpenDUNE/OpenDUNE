@@ -13,7 +13,6 @@
 #include "os/strings.h"
 
 extern void emu_CustomTimer_AddHandler();
-extern void emu_Drivers_Load();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_09DA_000F_D404();
 extern void f__1DD7_0A7B_001E_4A5A();
@@ -43,6 +42,24 @@ extern void emu_MPU_Init();
 extern void f__AB01_2103_0040_93D2();
 extern void f__AB01_2336_002C_4FDC();
 extern void f__AB01_26EB_0047_41F4();
+
+static csip32 Drivers_Load(const char *filename, csip32 fcsip)
+{
+	csip32 ret;
+
+	ret.csip = 0x0;
+
+	if (!File_Exists(filename)) return ret;
+
+	if (strstr(filename, ".COM") != NULL) {
+		emu_push(fcsip.s.cs); emu_push(fcsip.s.ip);
+		/* Unresolved call */ emu_push(emu_cs); emu_push(0x045D); emu_cs = 0x2431; emu_ip = 0x03DF; emu_last_cs = 0x1DD7; emu_last_ip = 0x0458; emu_last_length = 0x0012; emu_last_crc = 0xAB15; emu_call();
+		emu_sp += 4;
+		return ret; /* return value of the above unresolved call */
+	}
+
+	return File_ReadWholeFile(filename, 0x20);
+}
 
 uint16 Drivers_EnableSounds(uint16 sounds)
 {
@@ -124,12 +141,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 		emu_sp += 4;
 	}
 
-	emu_push(fcsip.s.cs); emu_push(fcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x133D); emu_Drivers_Load();
-	emu_sp += 4;
-
-	driver->dcontent.s.cs = emu_dx;
-	driver->dcontent.s.ip = emu_ax;
+	driver->dcontent = Drivers_Load(filename, fcsip);
 
 	if (driver->dcontent.csip == 0) return false;
 
