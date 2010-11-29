@@ -333,7 +333,7 @@ l__026F:
 	emu_pop(&emu_cx);
 	goto l__0272;
 l__0272:
-	emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
+	emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0277:

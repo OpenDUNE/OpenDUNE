@@ -25,7 +25,6 @@ extern void f__2756_0B8F_0025_D5D8();
 extern void f__2756_0C0B_0021_873C();
 extern void f__2756_0C31_0037_2A81();
 extern void f__2756_0D12_0042_A9FA();
-extern void f__2756_0D5F_0012_AE08();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
 extern void emu_DSP_TestPort();
@@ -59,6 +58,52 @@ static csip32 Drivers_Load(const char *filename, csip32 fcsip)
 	}
 
 	return File_ReadWholeFile(filename, 0x20);
+}
+
+static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C, uint16 arg0E)
+{
+	csip32 csip;
+
+	if (driver >= 16) return;
+
+	emu_get_memory16(0x2756, 0x00, 0x1B2) = 0xFFFF;
+
+	emu_push(driver);
+	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x2756; f__2756_0C0B_0021_873C();
+	emu_sp += 2;
+
+	emu_si = emu_get_memory16(emu_dx, emu_ax, 0x14);
+	csip = Drivers_GetFunctionCSIP(driver, 0x67);
+	if (emu_si != 0xFFFF && csip.csip != 0) {
+		emu_push(csip.s.cs); emu_push(csip.s.ip);
+		emu_push(0x2756); emu_push(0x0DA8); emu_cs = 0x2756; emu_CustomTimer_AddHandler();
+		emu_sp += 4;
+
+		emu_get_memory16(0x2756, driver * 2, 0x168) = emu_ax;
+		emu_get_memory16(0x2756, 0x00, 0x1B2) = emu_ax;
+
+		emu_push(0);
+		emu_push(emu_si);
+		emu_push(emu_ax);
+		emu_push(0x2756); emu_push(0x0DC9); emu_cs = 0x2756; f__2756_0B8F_0025_D5D8();
+		emu_sp += 6;
+	}
+
+	emu_push(arg0E);
+	emu_push(arg0C);
+	emu_push(arg0A);
+	emu_push(arg08);
+	emu_push(driver); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(driver, 0x66);
+	emu_sp += 10;
+
+	emu_get_memory16(0x2756, driver * 2, 0x188) = 1;
+
+	if (emu_get_memory16(0x2756, 0x00, 0x1B2) != 0xFFFF) {
+		emu_push(emu_get_memory16(0x2756, 0x00, 0x1B2));
+		emu_push(0x2756); emu_push(0x0E02); emu_cs = 0x2756; f__2756_0A59_0023_D969();
+		emu_sp += 2;
+	}
 }
 
 uint16 Drivers_EnableSounds(uint16 sounds)
@@ -292,13 +337,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 			return false;
 		}
 
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x10));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xE));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xC));
-		emu_push(driver->index);
-		emu_push(emu_cs); emu_push(0x1603); emu_cs = 0x2756; f__2756_0D5F_0012_AE08();
-		emu_sp += 10;
+		Driver_Init(driver->index, emu_get_memory16(csip.s.cs, csip.s.ip, 0xC), emu_get_memory16(csip.s.cs, csip.s.ip, 0xE), emu_get_memory16(csip.s.cs, csip.s.ip, 0x10), emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
 
 		{
 			int32 value = (int32)Drivers_CallFunction(driver->index, 0x99).s.ip;
@@ -467,7 +506,7 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 {
 	csip32 csip;
 
-	if (driver >= 10) {
+	if (driver >= 16) {
 		csip.csip = 0;
 		return csip;
 	}
@@ -541,7 +580,7 @@ bool Driver_Music_IsPlaying()
 	MSBuffer *buffer = &g_global->musicBuffer;
 
 	if (driver->index == 0xFFFF) {
-		if (driver->dcontent.csip == 0) return false;
+		if (driver->dcontent.csip == 0x0) return false;
 
 		emu_ax = 0x0;
 		emu_bx = 0x7;
@@ -566,4 +605,10 @@ bool Driver_Music_IsPlaying()
 	if (buffer->index == 0xFFFF) return false;
 
 	return MPU_IsPlaying(buffer->index) == 1;
+}
+
+bool Driver_Voice_01EB()
+{
+	if (g_global->voiceDriver.index == 0xFFFF) return false;
+	return Drivers_CallFunction(g_global->voiceDriver.index, 0x7C).s.ip == 2;
 }

@@ -58,6 +58,7 @@ extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
 extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008);
 extern bool Driver_Music_IsPlaying();
+extern bool Driver_Voice_01EB();
 
 
 extern void emu_Drivers_EnableSounds();
@@ -65,5 +66,6 @@ extern void emu_Drivers_EnableMusic();
 extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
 extern void emu_Driver_Music_IsPlaying();
+extern void emu_Driver_Voice_01EB();
 
 #endif /* DRIVER_H */

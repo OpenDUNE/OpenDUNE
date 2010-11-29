@@ -2305,7 +2305,7 @@ l__1494:
 	emu_pop(&emu_cx);
 	goto l__1497;
 l__1497:
-	emu_push(emu_cs); emu_push(0x149C); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
+	emu_push(emu_cs); emu_push(0x149C); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__149C:

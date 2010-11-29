@@ -14,7 +14,6 @@
 
 extern void f__1DD7_010B_000E_A324();
 extern void f__1DD7_01AB_0007_96C6();
-extern void f__1DD7_01EB_0013_9C3C();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0477_000E_5C89();
 extern void emu_Tools_Malloc();
@@ -215,16 +214,15 @@ void emu_Unknown_B483_0470()
 		return;
 	}
 
-	emu_push(emu_cs); emu_push(0x0483); emu_cs = 0x1DD7; f__1DD7_01EB_0013_9C3C();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-
-	if (emu_ax != 0) {
+	if (Driver_Voice_01EB()) {
 		emu_ax = 1;
 		emu_cs = ret.s.cs;
 		emu_ip = ret.s.ip;
 		return;
 	}
+
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 
 	g_global->variable_4060 = 0;
 

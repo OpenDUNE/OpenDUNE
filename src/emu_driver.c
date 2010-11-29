@@ -119,3 +119,23 @@ void emu_Driver_Music_IsPlaying()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
+
+/**
+ * Decompiled function Driver_Voice_01EB()
+ *
+ * @name emu_Driver_Voice_01EB
+ * @implements 1DD7:01EB:0013:9C3C ()
+ */
+void emu_Driver_Voice_01EB()
+{
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	emu_ax = Driver_Voice_01EB() ? 1 : 0;
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}
