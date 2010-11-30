@@ -14,9 +14,63 @@ extern void overlay(uint16 cs, uint8 force);
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0719_0014_A78C();
 extern void f__1DD7_05D0_0014_A7A2();
-extern void f__1DD7_08EE_000E_5C89();
 extern void f__1DD7_0A7B_001E_4A5A();
+extern void f__1DD7_0B9C_001D_AF74();
+extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
+
+static void Driver_Music_Play(int16 index, uint16 volume)
+{
+	if (index < 0 || index > 120 || g_global->musicEnabled == 0) return;
+
+	if (g_global->musicDriver.index == 0xFFFF) {
+		if (g_global->musicDriver.dcontent.csip == 0x0) return;
+		emu_push(volume);
+		emu_push(index);
+		emu_push(0x353F); emu_push(0x6344);
+		emu_push(emu_cs); emu_push(0x09D2); emu_cs = 0x1DD7; f__1DD7_1C3C_0020_9C6E();
+		emu_sp += 8;
+		return;
+	}
+
+	if (g_global->musicBuffer.index != 0xFFFF) {
+		emu_push(g_global->musicBuffer.index);
+		emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(g_global->musicDriver.index, 0xAB);
+
+		emu_push(g_global->musicBuffer.index);
+		emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(g_global->musicDriver.index, 0x98);
+
+
+		g_global->musicBuffer.index = 0xFFFF;
+	}
+
+	emu_push(0); emu_push(0);
+	emu_push(g_global->musicBuffer.buffer.s.cs); emu_push(g_global->musicBuffer.buffer.s.ip);
+	emu_push(index);
+	emu_push(g_global->musicDriver.variable_16.s.cs); emu_push(g_global->musicDriver.variable_16.s.ip);
+	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
+	g_global->musicBuffer.index = Drivers_CallFunction(g_global->musicDriver.index, 0x97).s.ip;
+	emu_sp += 16;
+
+	emu_push(g_global->musicBuffer.index);
+	emu_push(0x353F); emu_push(0x6344);
+	emu_push(emu_cs); emu_push(0x0987); emu_cs = 0x1DD7; f__1DD7_0B9C_001D_AF74();
+	emu_sp += 6;
+
+	emu_push(g_global->musicBuffer.index);
+	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(g_global->musicDriver.index, 0xAA);
+	emu_sp += 4;
+
+	emu_push(0);
+	emu_push(((volume & 0xFF) * 90) / 256);
+	emu_push(g_global->musicBuffer.index);
+	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(g_global->musicDriver.index, 0xB1);
+	emu_sp += 8;
+}
 
 /**
  * Plays a sound.
@@ -72,18 +126,16 @@ void Sound_Play(uint16 index)
 		emu_sp +=12;
 	}
 
-	emu_push(g_global->musics[index].variable_04);
-	emu_push(emu_cs); emu_push(0x035F); emu_cs = 0x1DD7; f__1DD7_08EE_000E_5C89();
+	Driver_Music_Play(g_global->musics[index].variable_04, 0xFF);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-	emu_sp += 2;
 }
 
 /**
  * Initialises the MT-32.
- * @param arg06 ??.
+ * @param index The index of the music to play.
  */
-void Sound_InitMT32(uint16 arg06)
+void Sound_InitMT32(uint16 index)
 {
 	uint16 left = 0;
 
@@ -95,9 +147,7 @@ void Sound_InitMT32(uint16 arg06)
 	emu_push(emu_cs); emu_push(0x0AFC); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
 	emu_sp += 12;
 
-	emu_push(arg06);
-	emu_push(emu_cs); emu_push(0x0B07); emu_cs = 0x1DD7; f__1DD7_08EE_000E_5C89();
-	emu_sp += 2;
+	Driver_Music_Play(index, 0xFF);
 
 	GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
 
