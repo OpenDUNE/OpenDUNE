@@ -26,7 +26,6 @@ extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
-extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0D74_0020_7CC1();
@@ -178,9 +177,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		}
 
 		if (g_global->variable_6D8F == 0) {
-			emu_push(36);
-			emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
-			emu_sp += 2;
+			Driver_Sound_Play(36, 0xFF);
 		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
 			emu_push(g_actionInfo[action].variable_0A);
 			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();

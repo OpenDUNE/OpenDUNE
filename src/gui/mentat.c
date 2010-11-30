@@ -11,7 +11,6 @@
 
 extern void f__10E4_2099_0012_A216();
 extern void f__1DD7_022D_0015_1956();
-extern void f__1DD7_0477_000E_5C89();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4B8_0ECE_000B_BD2E();
@@ -71,11 +70,9 @@ bool GUI_Widget_Mentat_Click()
 	emu_push(emu_cs); emu_push(0x03CC); emu_Unknown_B4E9_0000();
 	emu_sp += 2;
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x03D6); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+	Driver_Sound_Play(1, 0xFF);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-	emu_sp += 2;
 
 	Sprites_Load(0, 7, g_sprites);
 

@@ -16,7 +16,9 @@ extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_09DA_000F_D404();
 extern void f__1DD7_0A7B_001E_4A5A();
+extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1696_0011_A4E3();
+extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void f__2756_07DA_0048_9F5D();
@@ -611,4 +613,61 @@ bool Driver_Voice_01EB()
 {
 	if (g_global->voiceDriver.index == 0xFFFF) return false;
 	return Drivers_CallFunction(g_global->voiceDriver.index, 0x7C).s.ip == 2;
+}
+
+void Driver_Sound_Play(int16 index, int16 volume)
+{
+	if (index < 0 || index >= 120) return;
+
+	if (g_global->soundsEnabled == 0 && index > 1) return;
+
+	if (g_global->soundDriver.index == 0xFFFF) {
+		emu_push(volume);
+		emu_push(index);
+		emu_push(0x353F); emu_push(0x6302);
+		emu_push(emu_cs); emu_push(0x05C8); emu_cs = 0x1DD7; f__1DD7_1C3C_0020_9C6E();
+		emu_sp += 8;
+		return;
+	}
+
+	if (g_global->soundBuffer[g_global->soundBufferIndex].index != 0xFFFF) {
+		emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
+		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(g_global->soundDriver.index, 0xAB);
+		emu_sp += 4;
+
+		emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
+		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(g_global->soundDriver.index, 0x98);
+		emu_sp += 4;
+
+		g_global->soundBuffer[g_global->soundBufferIndex].index = 0xFFFF;
+	}
+
+	emu_push(0); emu_push(0);
+	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].buffer.s.cs); emu_push(g_global->soundBuffer[g_global->soundBufferIndex].buffer.s.ip);
+	emu_push(index);
+	emu_push(g_global->soundDriver.variable_16.s.cs); emu_push(g_global->soundDriver.variable_16.s.ip);
+	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
+	g_global->soundBuffer[g_global->soundBufferIndex].index = Drivers_CallFunction(g_global->soundDriver.index, 0x97).s.ip;
+	emu_sp += 16;
+
+	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
+	emu_push(0x353F); emu_push(0x6302);
+	emu_push(emu_cs); emu_push(0x0561); emu_cs = 0x1DD7; f__1DD7_0B9C_001D_AF74();
+	emu_sp += 6;
+
+	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
+	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(g_global->soundDriver.index, 0xAA);
+	emu_sp += 4;
+
+	emu_push(0);
+	emu_push(((volume & 0xFF) * 90) / 256);
+	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
+	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(g_global->soundDriver.index, 0xB1);
+	emu_sp += 8;
+
+	g_global->soundBufferIndex = (g_global->soundBufferIndex + 1) % 4;
 }

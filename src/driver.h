@@ -36,7 +36,10 @@ typedef struct Driver {
 	/* 000A(4)   */ PACK char   variable_0A[4];             /*!< ?? */
 	/* 000E(4)   */ PACK csip32 dcontent;                   /*!< Pointer to the driver file content. */
 	/* 0012(4)   */ PACK csip32 variable_12;                /*!< ?? */
-	/* 0016()    */ PACK uint8   unknown_0016[0x0E];
+	/* 0016(4)   */ PACK csip32 variable_16;                /*!< ?? */
+	/* 001A(4)   */ PACK csip32 variable_1A;                /*!< ?? */
+	/* 001E(4)   */ PACK csip32 variable_1E;                /*!< ?? */
+	/* 0022(2)   */ PACK uint16 variable_22;                /*!< ?? */
 	/* 0024(2)   */ PACK uint16 customTimer;                /*!< ?? */
 } GCC_PACKED Driver;
 MSVC_PACKED_END
@@ -59,6 +62,7 @@ extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
 extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008);
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_01EB();
+extern void Driver_Sound_Play(int16 index, int16 volume);
 
 
 extern void emu_Drivers_EnableSounds();
@@ -67,5 +71,7 @@ extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
 extern void emu_Driver_Music_IsPlaying();
 extern void emu_Driver_Voice_01EB();
+extern void emu_Driver_Sound_Play();
+extern void emu_Driver_Sound_Play_Wrapper();
 
 #endif /* DRIVER_H */

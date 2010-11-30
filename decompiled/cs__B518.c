@@ -712,7 +712,7 @@ l__043D:
 	emu_addw(&emu_sp, 0x10);
 	emu_ax = 0x34;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0449); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+	emu_push(emu_cs); emu_push(0x0449); emu_cs = 0x1DD7; emu_Driver_Sound_Play_Wrapper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0449:
@@ -815,7 +815,7 @@ l__04CC:
 	emu_addw(&emu_sp, 0x10);
 	emu_ax = 0x26;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x04D8); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+	emu_push(emu_cs); emu_push(0x04D8); emu_cs = 0x1DD7; emu_Driver_Sound_Play_Wrapper();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__04D8:

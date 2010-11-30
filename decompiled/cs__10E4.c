@@ -677,7 +677,7 @@ l__076F:
 	emu_ax = 0x35;
 l__0772:
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0778); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+	emu_push(emu_cs); emu_push(0x0778); emu_cs = 0x1DD7; emu_Driver_Sound_Play_Wrapper();
 l__0778:
 	emu_pop(&emu_cx);
 l__0779:

@@ -15,7 +15,6 @@
 extern void f__1DD7_010B_000E_A324();
 extern void f__1DD7_01AB_0007_96C6();
 extern void f__1DD7_022D_0015_1956();
-extern void f__1DD7_0477_000E_5C89();
 extern void emu_Tools_Malloc();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
@@ -153,11 +152,9 @@ void emu_Unknown_B483_0363()
 	}
 
 	if (g_global->variable_6D8F == 0 || g_global->soundsEnabled == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
-		emu_push(g_global->variable_0312[index][6]);
-		emu_push(emu_cs); emu_push(0x03EC); emu_cs = 0x1DD7; f__1DD7_0477_000E_5C89();
+		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-		emu_sp += 2;
 
 		emu_push(g_global->variable_0312[index][5]);
 		emu_push(emu_cs); emu_push(0x03FF); emu_cs = 0x0FCB; emu_String_Get_ByIndex();

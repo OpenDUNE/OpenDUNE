@@ -191,7 +191,7 @@ l__0142:
 l__0147:
 	emu_push(emu_si);
 	emu_push(emu_di);
-	emu_push(emu_cs); emu_push(0x014E); emu_cs = 0x1DD7; f__1DD7_048A_0017_3EEB();
+	emu_push(emu_cs); emu_push(0x014E); emu_cs = 0x1DD7; emu_Driver_Sound_Play();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 l__014E:
