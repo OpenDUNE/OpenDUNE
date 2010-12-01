@@ -14,7 +14,6 @@ extern void overlay(uint16 cs, uint8 force);
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0719_0014_A78C();
 extern void f__1DD7_05D0_0014_A7A2();
-extern void f__1DD7_0A7B_001E_4A5A();
 extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
@@ -37,11 +36,12 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 		emu_push(g_global->musicBuffer.index);
 		emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
 		Drivers_CallFunction(g_global->musicDriver.index, 0xAB);
+		emu_sp += 4;
 
 		emu_push(g_global->musicBuffer.index);
 		emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
 		Drivers_CallFunction(g_global->musicDriver.index, 0x98);
-
+		emu_sp += 4;
 
 		g_global->musicBuffer.index = 0xFFFF;
 	}
@@ -83,7 +83,7 @@ void Sound_Play(uint16 index)
 	if (g_global->musics[index].string.csip != g_global->currentMusic.csip) {
 		g_global->currentMusic.csip = g_global->musics[index].string.csip;
 
-		emu_push(emu_cs); emu_push(0x02D4); emu_cs = 0x1DD7; f__1DD7_0A7B_001E_4A5A();
+		Driver_Music_Stop();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 

@@ -63,6 +63,8 @@ extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csi
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_01EB();
 extern void Driver_Sound_Play(int16 index, int16 volume);
+extern void Driver_Music_Stop();
+extern void Driver_Sound_Stop();
 
 
 extern void emu_Drivers_EnableSounds();
@@ -73,5 +75,7 @@ extern void emu_Driver_Music_IsPlaying();
 extern void emu_Driver_Voice_01EB();
 extern void emu_Driver_Sound_Play();
 extern void emu_Driver_Sound_Play_Wrapper();
+extern void emu_Driver_Music_Stop();
+extern void emu_Driver_Sound_Stop();
 
 #endif /* DRIVER_H */

@@ -187,3 +187,43 @@ void emu_Driver_Sound_Play_Wrapper()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around Driver_Music_Stop()
+ *
+ * @name emu_Driver_Music_Stop
+ * @implements 1DD7:0A7B:001E:4A5A ()
+ */
+void emu_Driver_Music_Stop()
+{
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	Driver_Music_Stop();
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}
+
+/**
+ * Emulator wrapper around Driver_Sound_Stop()
+ *
+ * @name emu_Driver_Sound_Stop
+ * @implements 1DD7:09DA:000F:D404 ()
+ */
+void emu_Driver_Sound_Stop()
+{
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&ret.s.ip);
+	emu_pop(&ret.s.cs);
+
+	Driver_Sound_Stop();
+
+	emu_cs = ret.s.cs;
+	emu_ip = ret.s.ip;
+}

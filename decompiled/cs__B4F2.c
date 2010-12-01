@@ -573,7 +573,7 @@ l__03F5:
 	emu_xorw(&emu_get_memory16(emu_ds, 0x00, 0x41C2), 0x1);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x41C2), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x41C2) != 0x0) goto l__040C;
-	emu_push(emu_cs); emu_push(0x0406); emu_cs = 0x1DD7; f__1DD7_0A7B_001E_4A5A();
+	emu_push(emu_cs); emu_push(0x0406); emu_cs = 0x1DD7; emu_Driver_Music_Stop();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0406:
