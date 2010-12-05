@@ -585,11 +585,11 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 		credits = max(ui->buildCredits / 100, 1);
 
 		if (u->o.houseID == g_global->playerHouseID) {
-			g_global->scenario.variable_3A++;
-			g_global->scenario.variable_0002 -= credits;
+			g_global->scenario.killedAllied++;
+			g_global->scenario.score -= credits;
 		} else {
-			g_global->scenario.variable_3C++;
-			g_global->scenario.variable_0002 += credits;
+			g_global->scenario.killedEnemy++;
+			g_global->scenario.score += credits;
 		}
 	}
 

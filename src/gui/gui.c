@@ -13,12 +13,21 @@
 #include "../unknown/unknown.h"
 #include "../house.h"
 #include "../structure.h"
+#include "../unit.h"
 #include "../os/math.h"
 #include "../sprites.h"
 #include "../codec/format80.h"
+#include "../pool/pool.h"
+#include "../pool/house.h"
+#include "../pool/structure.h"
+#include "../pool/unit.h"
+#include "../string.h"
+#include "../tools.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
+extern void f__1DD7_0B53_0025_36F7();
+extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
@@ -36,8 +45,15 @@ extern void f__29E8_07FA_0020_177A();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_00A2_0052_DEE3();
+extern void f__B4E9_0050_003F_292A();
+extern void f__B518_0B1D_0014_307D();
+extern void f__B518_0EB1_000E_D2F5();
+extern void f__B518_14D4_0013_5ED7();
+extern void f__B518_14F2_003E_977C();
+extern void f__B518_0558_0010_240A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
+extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
@@ -1296,3 +1312,348 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 	}
 }
 
+/**
+ * Updates the score.
+ * @param score The base score.
+ * @param harvestedAllied Pointer to the total amount of spice harvested by allies.
+ * @param harvestedEnemy Pointer to the total amount of spice harvested by enemies.
+ * @param houseID The houseID of the player.
+ */
+static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvestedEnemy, uint16 houseID)
+{
+	PoolFindStruct find;
+	uint16 locdi = 0;
+	int16  loc0A;
+	uint16 loc0C = 0;
+	uint32 tmp;
+
+	if (score < 0) score = 0;
+
+	find.houseID = houseID;
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		score += g_structureInfo[s->o.type].variable_20 / 100;
+	}
+
+	g_global->variable_38BC++;
+
+	find.houseID = 0xFFFF;
+	find.type    = UNIT_HARVESTER;
+	find.index   = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		if (House_AreAllied(Unit_GetHouseID(u), (uint8)g_global->playerHouseID)) {
+			locdi += u->amount * 7;
+		} else {
+			loc0C += u->amount * 7;
+		}
+	}
+
+	g_global->variable_38BC--;
+
+	tmp = *harvestedEnemy + loc0C;
+	*harvestedEnemy = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
+
+	tmp = *harvestedAllied + locdi;
+	*harvestedAllied = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
+
+	score += House_Get_ByIndex((uint8)houseID)->credits / 100;
+
+	if (score < 0) score = 0;
+
+	loc0A = g_global->campaignID * 45;
+
+	if ((int16)g_global->variable_81EB < loc0A) {
+		score += loc0A - g_global->variable_81EB;
+	}
+
+	return score;
+}
+
+/**
+ * Draws a string on a filled rectangle.
+ * @param string The string to draw.
+ * @param top The most top position where to draw the string.
+ */
+static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
+{
+	uint16 halfWidth;
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x121);
+
+	halfWidth = (Font_GetStringWidth(string) / 2) + 4;
+
+	emu_push(116);
+	emu_push(top + 6);
+	emu_push(160 + halfWidth);
+	emu_push(top);
+	emu_push(160 - halfWidth);
+	emu_push(emu_cs); emu_push(0x0E8C); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+	emu_sp += 10;
+
+	GUI_DrawText_Wrapper(string, 160, top, 0xF, 0, 0x121);
+}
+
+/**
+ * Shows the stats at end of scenario.
+ * @param killedAllied The amount of destroyed allied units.
+ * @param killedEnemy The amount of destroyed enemy units.
+ * @param destroyedAllied The amount of destroyed allied structures.
+ * @param destroyedEnemy The amount of destroyed enemy structures.
+ * @param harvestedAllied The amount of spice harvested by allies.
+ * @param harvestedEnemy The amount of spice harvested by enemies.
+ * @param score The base score.
+ * @param houseID The houseID of the player.
+ */
+void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
+{
+	uint16 loc06;
+	uint16 loc14;
+	uint16 loc16;
+	uint16 loc18;
+	uint16 loc1A;
+	uint16 loc32[3][2][2];
+	uint16 i;
+
+	g_global->variable_81EB = ((g_global->tickGlobal - g_global->tickScenarioStart) / 3600) + 1;
+
+	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
+
+	loc16 = (g_global->scenarioID == 1) ? 2 : 3;
+
+	emu_push(emu_cs); emu_push(0x005B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+	emu_sp += 2;
+
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x006D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+	loc14 = emu_ax;
+
+	emu_push(0);
+	emu_push(score);
+	emu_push(emu_cs); emu_push(0x007C); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0B1D_0014_307D();
+	emu_sp += 4;
+
+	/* "Spice Harvested By" */
+	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x1A), 83);
+
+	/* "Units Destroyed By" */
+	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x18), 119);
+
+	if (g_global->scenarioID != 1) {
+		/* "Buildings Destroyed By" */
+		GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x19), 155);
+	}
+
+	/* "You:", "Enemy:" */
+	loc06 = max(Font_GetStringWidth(String_Get_ByIndex(0x149)), Font_GetStringWidth(String_Get_ByIndex(0x14A)));
+
+	loc18 = loc06 + 19;
+	loc1A = 261 - loc18;
+
+	for (i = 0; i < loc16; i++) {
+		/* "You:" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x149), loc18 - 4,  92 + (i * 36), 0xF, 0, 0x221);
+
+		/* "Enemy:" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x14A), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
+	}
+
+	Sound_Play(17 + Tools_RandomRange(0, 5));
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(200);
+	emu_push(40);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x01DA); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_sp += 16;
+
+	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	loc32[0][0][0] = harvestedAllied;
+	loc32[0][1][0] = harvestedEnemy;
+	loc32[1][0][0] = killedEnemy;
+	loc32[1][1][0] = killedAllied;
+	loc32[2][0][0] = destroyedEnemy;
+	loc32[2][1][0] = destroyedAllied;
+
+	for (i = 0; i < loc16; i++) {
+		uint16 loc08 = loc32[i][0][0];
+		uint16 loc0A = loc32[i][1][0];
+
+		if (loc08 >= 65000) loc08 = 65000;
+		if (loc0A >= 65000) loc0A = 65000;
+
+		loc32[i][0][0] = loc08;
+		loc32[i][1][0] = loc0A;
+
+		loc06 = max(loc08, loc0A);
+
+		loc32[i][0][1] = 1 + ((loc06 > loc1A) ? (loc06 / loc1A) : 0);
+		loc32[i][1][1] = 1 + ((loc06 > loc1A) ? (loc06 / loc1A) : 0);
+	}
+
+	emu_push(45);
+	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+	emu_sp += 2;
+
+	emu_push(1);
+	emu_push(score);
+	emu_push(emu_cs); emu_push(0x0303); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0EB1_000E_D2F5();
+	emu_sp += 4;
+
+	emu_push(45);
+	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+	emu_sp += 2;
+
+	for (i = 0; i < loc16; i++) {
+		uint16 loc02;
+
+		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+
+		for (loc02 = 0; loc02 < 2; loc02++) {
+			uint16 loc12;
+			uint16 loc04;
+			uint16 locdi;
+			uint16 loc0E;
+			uint16 loc10;
+			uint16 loc0C;
+
+			emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+
+			loc12 = (loc02 == 0) ? 255 : 209;
+			loc04 = loc18;
+
+			locdi = 93 + (i * 36) + (loc02 * 9);
+
+			loc0E = loc32[i][loc02][0];
+			loc10 = loc32[i][loc02][1];
+
+			for (loc0C = 0; loc0C < loc0E; loc0C += loc10) {
+				emu_push(226);
+				emu_push(locdi + 5);
+				emu_push(303);
+				emu_push(locdi);
+				emu_push(271);
+				emu_push(emu_cs); emu_push(0x03A4); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+				emu_sp += 10;
+
+				GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0x14, 0, 0x121, loc0C);
+
+				emu_push(emu_cs); emu_push(0x03CF); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+
+				g_global->variable_76B4 = 1;
+
+				emu_push(loc12);
+				emu_push(locdi + 5);
+				emu_push(loc04);
+				emu_push(locdi);
+				emu_push(loc04);
+				emu_push(emu_cs); emu_push(0x03F5); emu_cs = 0x22A6; emu_GUI_DrawLine();
+				emu_sp += 10;
+
+				loc04++;
+
+				emu_push(0xC);
+				emu_push(locdi + 6);
+				emu_push(loc04);
+				emu_push(locdi + 1);
+				emu_push(loc04);
+				emu_push(emu_cs); emu_push(0x0419); emu_cs = 0x22A6; emu_GUI_DrawLine();
+				emu_sp += 10;
+
+				emu_push(0);
+				emu_push(2);
+				emu_push(7);
+				emu_push(304);
+				emu_push(locdi);
+				emu_push(loc18);
+				emu_push(locdi);
+				emu_push(loc18);
+				emu_push(emu_cs); emu_push(0x043D); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
+				emu_sp += 16;
+
+				Driver_Sound_Play(52, 0xFF);
+
+				emu_push(g_global->variable_76B4);
+				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+				emu_sp += 2;
+			}
+
+			emu_push(226);
+			emu_push(locdi + 5);
+			emu_push(303);
+			emu_push(locdi);
+			emu_push(271);
+			emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+			emu_sp += 10;
+
+			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
+
+			emu_push(0);
+			emu_push(2);
+			emu_push(7);
+			emu_push(304);
+			emu_push(locdi);
+			emu_push(loc18);
+			emu_push(locdi);
+			emu_push(loc18);
+			emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
+			emu_sp += 16;
+
+			Driver_Sound_Play(38, 0xFF);
+
+			emu_push(12);
+			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+			emu_sp += 2;
+		}
+
+		emu_push(60);
+		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+		emu_sp += 2;
+	}
+
+	emu_push(emu_cs); emu_push(0x0507); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	while (true) {
+		emu_push(emu_cs); emu_push(0x0511); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+
+		emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax != 0) break;
+	}
+
+	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	emu_push(score);
+	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0558_0010_240A();
+	emu_sp += 2;
+
+	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);
+
+	emu_push(loc14);
+	emu_push(emu_cs); emu_push(0x054C); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+}

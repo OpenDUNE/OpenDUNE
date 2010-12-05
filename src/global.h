@@ -72,7 +72,7 @@ MSVC_PACKED_BEGIN
  */
 typedef struct Scenario {
 	/* 0000(2)   */ PACK uint16 savegameVersion;            /*!< Version of the savegame, stored in the Scenario data. */
-	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
+	/* 0002(2)   */ PACK uint16 score;                      /*!< Base score. */
 	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
 	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
 	/* 0008(4)   */ PACK uint32 mapSeed;                    /*!< MAP/Seed. */
@@ -81,10 +81,10 @@ typedef struct Scenario {
 	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*!< BASIC/BriefPicture. */
 	/* 001E(14)  */ PACK char   pictureWin[14];             /*!< BASIC/WinPicture. */
 	/* 002C(14)  */ PACK char   pictureLose[14];            /*!< BASIC/LosePicture. */
-	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? Stats (unit/structure lost you?) */
-	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? Stats (unit/structure lost enemy?) */
-	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? Stats (unit/structure lost you?) */
-	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? Stats (unit/structure lost enemy?) */
+	/* 003A(2)   */ PACK uint16 killedAllied;               /*!< Number of units lost by "You". */
+	/* 003C(2)   */ PACK uint16 killedEnemy;                /*!< Number of units lost by "Enemy". */
+	/* 003E(2)   */ PACK uint16 destroyedAllied;            /*!< Number of structures lost by "You". */
+	/* 0040(2)   */ PACK uint16 destroyedEnemy;             /*!< Number of structures lost by "Enemy". */
 	/* 0042(2)   */ PACK uint16 harvestedAllied;            /*!< Total amount of spice harvested by "You". */
 	/* 0044(2)   */ PACK uint16 harvestedEnemy;             /*!< Total amount of spice harvested by "Enemy". */
 	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */

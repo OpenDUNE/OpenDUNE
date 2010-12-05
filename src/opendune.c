@@ -295,16 +295,7 @@ static void GameLoop_LevelEnd()
 
 			g_global->campaignID++;
 
-			emu_push(g_global->playerHouseID);
-			emu_push(g_global->scenario.variable_0002);
-			emu_push(g_global->scenario.harvestedEnemy);
-			emu_push(g_global->scenario.harvestedAllied);
-			emu_push(g_global->scenario.variable_40);
-			emu_push(g_global->scenario.variable_3E);
-			emu_push(g_global->scenario.variable_3C);
-			emu_push(g_global->scenario.variable_3A);
-			emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_ShowEndStats();
-			emu_sp += 16;
+			GUI_ShowEndStats(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_global->playerHouseID);
 
 			if (g_global->campaignID == 9) {
 				emu_push(emu_cs); emu_push(0x038F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
