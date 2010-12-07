@@ -483,10 +483,7 @@ static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 color, uint16 reference
 	for (i = 0; i < 3; i++) {
 		if (palette[reference] != palette[color]) {
 			ret = true;
-			if (palette[color] > palette[color]) {
-				palette[color] -= 2;
-			}
-			palette[color]++;
+			palette[color] += (palette[color] > palette[reference]) ? -1 : 1;
 		}
 		color++;
 		reference++;
