@@ -510,7 +510,9 @@ typedef struct GlobalData {
 	/* 2B8B(13)  */ PACK char   string_2B8B[13];            /*!< "REGION%c.INI" NULL terminated. */
 	/* 2B98(5)   */ PACK char   string_2B98[5];             /*!< "INFO" NULL terminated. */
 	/* 2B9D(14)  */ PACK char   string_2B9D[14];            /*!< "TOTAL REGIONS" NULL terminated. */
-	/* 2BAB()    */ PACK uint8   unknown_2BAA[0x001F];
+	/* 2BAB()    */ PACK uint8   unknown_2BAB[0x0001];
+	/* 2BAC(18)  */ PACK uint16 variable_2BAC[3][3];        /*!< ?? */
+	/* 2BBE(12)  */ PACK csip32 variable_2BBE[3];           /*!< ?? */
 	/* 2BCA(19)  */ PACK char   string_2BCA[19];            /*!< "No more scenarios!" NULL terminated. */
 	/* 2BDD(7)   */ PACK char   string_2BDD[7];             /*!< "TEXT%c" NULL terminated. */
 	/* 2BE4(7)   */ PACK char   string_2BE4[7];             /*!< "HERALD" NULL terminated. */

@@ -76,7 +76,6 @@ extern void f__B536_0129_000A_8178();
 extern void emu_File_ReadChunkOrLengthFile();
 extern void emu_Gameloop_Intro();
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_PickHouse();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
@@ -985,9 +984,7 @@ static void Gameloop_IntroMenu()
 			emu_push(emu_cs); emu_push(0x21CB); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
-
-			emu_push(emu_cs); emu_push(0x21D6); emu_cs = 0x3511; overlay(0x3511, 0); emu_GUI_PickHouse();
-			g_global->playerHouseID = emu_ax;
+			g_global->playerHouseID = GUI_PickHouse();
 
 			emu_push(emu_cs); emu_push(0x21DE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 		}
@@ -1082,8 +1079,7 @@ static void GameLoop_Main()
 			Sound_Play(28);
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
-			emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x3511; overlay(0x3511, 0); emu_GUI_PickHouse();
-			g_global->playerHouseID = emu_ax;
+			g_global->playerHouseID = GUI_PickHouse();
 
 			emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
