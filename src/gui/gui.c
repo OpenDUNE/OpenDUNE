@@ -44,7 +44,6 @@ extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__2BA5_00A2_0052_DEE3();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -467,20 +466,51 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 }
 
 /**
+ * Do something on the given color in the given palette.
+ *
+ * @param palette The palette to work on.
+ * @param color The color to modify.
+ * @param reference The color to use as reference.
+ */
+static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 color, uint16 reference)
+{
+	bool ret = false;
+	uint16 i;
+
+	color *= 3;
+	reference *= 3;
+
+	for (i = 0; i < 3; i++) {
+		if (palette[reference] != palette[color]) {
+			ret = true;
+			if (palette[color] > palette[color]) {
+				palette[color] -= 2;
+			}
+			palette[color]++;
+		}
+		color++;
+		reference++;
+	}
+
+	return ret;
+}
+
+/**
  * Animate the palette. Only works for some colours or something
  */
 void GUI_PaletteAnimate()
 {
-	uint16 locsi = 0;
+	uint8 *palette = emu_get_memorycsip(g_global->variable_3C32);
 
 	if (g_global->variable_31CE < g_global->variable_76AC) {
+		uint16 color;
 		if (g_global->variable_37B2 != 0) {
-			locsi = 15;
+			color = 15;
 		} else {
-			locsi = (g_global->variable_31D2 == 0) ? 15 : 6;
+			color = (g_global->variable_31D2 == 0) ? 15 : 6;
 		}
 
-		memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2CD, emu_get_memorycsip(g_global->variable_3C32) + 3 * locsi, 3);
+		memcpy(palette + 3 * 239, palette + 3 * color, 3);
 
 		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
 		emu_push(emu_cs); emu_push(0x05C7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
@@ -491,31 +521,11 @@ void GUI_PaletteAnimate()
 	}
 
 	if (g_global->variable_31CA < g_global->variable_76AC && g_global->selectionType != 0) {
-		emu_push(g_global->variable_31D4);
-		emu_push(255);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
+		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
+		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
+		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
 
-		emu_push(g_global->variable_31D4);
-		emu_push(255);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x063A); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
-
-		emu_push(g_global->variable_31D4);
-		emu_push(255);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x0652); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
-
-		emu_push(g_global->variable_31D4);
-		emu_push(255);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x066A); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
-
-		if (emu_ax == 0) {
+		if (!GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4)) {
 			if (g_global->variable_31D4 == 13) {
 				g_global->variable_31D4 = 15;
 
@@ -539,19 +549,9 @@ void GUI_PaletteAnimate()
 	}
 
 	if (g_global->variable_31C6 < g_global->variable_76AC) {
-		emu_push(g_global->variable_31D6);
-		emu_push(223);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
+		GUI_Palette_2BA5_00A2(palette, 223, g_global->variable_31D6);
 
-		emu_push(g_global->variable_31D6);
-		emu_push(223);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x0716); emu_cs = 0x2BA5; f__2BA5_00A2_0052_DEE3();
-		emu_sp += 8;
-
-		if (emu_ax == 0) {
+		if (!GUI_Palette_2BA5_00A2(palette, 223, g_global->variable_31D6)) {
 			if (g_global->variable_31D6 == 12) {
 				g_global->variable_31D6 = 10;
 			} else {
