@@ -54,7 +54,7 @@ void emu_GUI_DisplayText()
 	arg0A   = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
 	/* XXX -- Theorically there can be more args, but this wrapper is always called without any */
-	GUI_DisplayText(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), arg0A);
+	GUI_DisplayText((char *)emu_get_memorycsip(str), arg0A);
 }
 
 /**
@@ -173,7 +173,7 @@ void emu_GUI_DisplayModalMessage()
 	arg0A   = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
 	/* XXX -- Theorically there can be more args, but this wrapper is always called without any */
-	emu_ax = GUI_DisplayModalMessage(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), arg0A);
+	emu_ax = GUI_DisplayModalMessage((char *)emu_get_memorycsip(str), arg0A);
 }
 
 /**
@@ -196,7 +196,7 @@ void emu_GUI_SplitText()
 	maxwidth  = emu_get_memory16(emu_ss, emu_sp, 0x4);
 	delimiter = emu_get_memory8 (emu_ss, emu_sp, 0x6);
 
-	emu_ax = GUI_SplitText(str.csip == 0 ? NULL : (char *)emu_get_memorycsip(str), maxwidth, delimiter);
+	emu_ax = GUI_SplitText((char *)emu_get_memorycsip(str), maxwidth, delimiter);
 }
 
 /**

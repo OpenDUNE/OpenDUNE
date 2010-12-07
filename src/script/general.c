@@ -161,7 +161,7 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 
 	text.s.ip += offset;
 
-	return GUI_DisplayModalMessage(text.csip == 0 ? NULL : (char *)emu_get_memorycsip(text), 0xFFFF);
+	return GUI_DisplayModalMessage((char *)emu_get_memorycsip(text), 0xFFFF);
 }
 
 /**

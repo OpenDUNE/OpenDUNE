@@ -1172,11 +1172,7 @@ static void GameLoop_Main()
 		emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 		emu_sp += 2;
 
-		{
-			Widget *w = NULL;
-			if (g_global->variable_3C26.csip != 0) w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
-			key = GUI_Widget_HandleEvents(w ,g_global->variable_3C26);
-		}
+		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(g_global->variable_3C26) ,g_global->variable_3C26);
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_global->selectionUnit.csip != 0x00000000) {

@@ -148,8 +148,6 @@
 29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
 29E8:073F:000E:6816	emu_Input_History_Clear
 29E8:0A19:002A:2DE6	emu_Input_History_Add
-29E8:04EB:0011:9CC8	emu_Input_Flags_ClearBits
-29E8:04AF:003C:ECA0	emu_Input_Flags_SetBits
 
 2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing
@@ -200,8 +198,6 @@ B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius	# (posx, posy, radius)
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
-B4E9:0345:0023:FA52	emu_GUI_Mentat	# (csip) Shows the Mentat window
-
 B4F2:0000:000D:C9F0	emu_GameOptions_Load	# () Loads GameOptions from options.cfg
 B4F2:0051:0012:A048	emu_GameOptions_Save	# () Saves GameOptions into options.cfg
 B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
@@ -221,11 +217,8 @@ B503:1029:000F:8100	emu_CPS_LoadRegionClick	# Load the RGNCLK.CPS file and set s
 
 B511:0FB0:0028:02A0	emu_GUI_PickHouse	# Show pick house screens
 
-B518:0000:0025:FC16	emu_GUI_ShowEndStats	# Show the stats at the end of the game
 B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window
 B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
-
-B52A:0000:0019:1617	emu_WSA_LoadFile	# (filename_csip, ??, ??, ??, ??, ??, ??) Load a WSA file
 
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
 
