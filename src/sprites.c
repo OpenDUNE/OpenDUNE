@@ -162,3 +162,29 @@ csip32 Sprites_GetCSIP(csip32 buffer_csip, uint16 index)
 
 	return Tools_GetSmallestIP(buffer_csip);
 }
+
+/**
+ * Gets the width of the given sprite.
+ *
+ * @param sprite_csip The CSIP of the sprite.
+ * @return The width.
+ */
+uint8 Sprite_GetWidth(csip32 sprite_csip)
+{
+	if (sprite_csip.csip == 0x0) return 0;
+
+	return emu_get_memorycsip(sprite_csip)[3];
+}
+
+/**
+ * Gets the height of the given sprite.
+ *
+ * @param sprite_csip The CSIP of the sprite.
+ * @return The height.
+ */
+uint8 Sprite_GetHeight(csip32 sprite_csip)
+{
+	if (sprite_csip.csip == 0x0) return 0;
+
+	return emu_get_memorycsip(sprite_csip)[2];
+}

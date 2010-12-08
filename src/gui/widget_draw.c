@@ -16,7 +16,6 @@
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
-extern void emu_Sprite_GetWidth();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();

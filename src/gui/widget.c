@@ -36,8 +36,6 @@ extern void emu_GUI_Purchase_Invoice();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_GUI_Purchase_Plus();
 extern void emu_GUI_RepairUpgrade();
-extern void emu_Sprite_GetHeight();
-extern void emu_Sprite_GetWidth();
 extern void emu_Tools_Malloc();
 extern void overlay(uint16 cs, uint8 force);
 
