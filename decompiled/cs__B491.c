@@ -126,7 +126,7 @@ l__0041:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x004B); emu_cs = 0x260F; f__260F_003A_0014_CA10();
+	emu_push(emu_cs); emu_push(0x004B); emu_cs = 0x260F; emu_Sprite_GetWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__004B:
@@ -153,7 +153,7 @@ l__0078:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0082); emu_cs = 0x260F; f__260F_0054_0016_0011();
+	emu_push(emu_cs); emu_push(0x0082); emu_cs = 0x260F; emu_Sprite_GetHeight();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__0082:

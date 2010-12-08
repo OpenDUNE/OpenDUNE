@@ -234,7 +234,7 @@ l__012A:
 	emu_get_memory8(emu_es, emu_bx, 0xB) = 0x1;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
-	emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x260F; f__260F_003A_0014_CA10();
+	emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x260F; emu_Sprite_GetWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 l__017E:
@@ -246,7 +246,7 @@ l__017E:
 	emu_get_memory16(emu_es, emu_bx, 0x22) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
-	emu_push(emu_cs); emu_push(0x0196); emu_cs = 0x260F; f__260F_0054_0016_0011();
+	emu_push(emu_cs); emu_push(0x0196); emu_cs = 0x260F; emu_Sprite_GetHeight();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 l__0196:

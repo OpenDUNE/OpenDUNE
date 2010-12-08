@@ -139,3 +139,38 @@ void emu_GUI_Widget_GetShortcut()
 
 	emu_ax = GUI_Widget_GetShortcut(c & 0xFF);
 }
+
+/**
+ * Emulator wrapper around GUI_Widget_Allocate()
+ *
+ * @name emu_GUI_Widget_Allocate
+ * @implements B4B8:0ED9:001E:DC63 ()
+ */
+void emu_GUI_Widget_Allocate()
+{
+	uint16 index;
+	uint16 shortcut;
+	uint16 offsetX;
+	uint16 offsetY;
+	uint16 spriteID;
+	uint16 stringID;
+	uint16 variable_3A;
+	csip32 retcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index       = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	shortcut    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	offsetX     = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	offsetY     = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	spriteID    = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	stringID    = emu_get_memory16(emu_ss, emu_sp, 0xA);
+	variable_3A = emu_get_memory16(emu_ss, emu_sp, 0xC);
+
+	GUI_Widget_Allocate(index, shortcut, offsetX, offsetY, spriteID, stringID, variable_3A, &retcsip);
+
+	emu_dx = retcsip.s.cs;
+	emu_ax = retcsip.s.ip;
+}

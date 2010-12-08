@@ -1659,7 +1659,7 @@ l__095A:
 	emu_get_memory16(emu_ss, emu_bp, -0x18) = emu_dx;
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x16));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x18));
-	emu_push(emu_cs); emu_push(0x0982); emu_cs = 0x260F; f__260F_003A_0014_CA10();
+	emu_push(emu_cs); emu_push(0x0982); emu_cs = 0x260F; emu_Sprite_GetWidth();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__0982:

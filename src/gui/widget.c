@@ -8,6 +8,8 @@
 #include "mentat.h"
 #include "widget.h"
 #include "gui.h"
+#include "../string.h"
+#include "../sprites.h"
 
 extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
@@ -34,6 +36,9 @@ extern void emu_GUI_Purchase_Invoice();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_GUI_Purchase_Plus();
 extern void emu_GUI_RepairUpgrade();
+extern void emu_Sprite_GetHeight();
+extern void emu_Sprite_GetWidth();
+extern void emu_Tools_Malloc();
 extern void overlay(uint16 cs, uint8 force);
 
 Widget *GUI_Widget_GetNext(Widget *w)
@@ -587,4 +592,110 @@ uint8 GUI_Widget_GetShortcut(uint8 c)
 	assert((c) < sizeof(shortcuts));
 
 	return shortcuts[c];
+}
+
+/**
+ * Allocates a widget.
+ *
+ * @param index The index for the allocated widget.
+ * @param shortcut The shortcut for the allocated widget.
+ * @param offsetX The x position for the allocated widget.
+ * @param offsetY The y position for the allocated widget.
+ * @param spriteID The sprite to draw on the allocated widget (0xFFFF for none).
+ * @param stringID The string to print on the allocated widget.
+ * @param variable_3A ??.
+ * @param retcsip TODO -- TEMPORARY -- Pointer to return the csip of the allocated widget.
+ * @return The allocated widget.
+ */
+Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A, csip32 *retcsip)
+{
+	Widget *w;
+	csip32 wcsip;
+	uint8  drawMode;
+	csip32 drawProc1;
+	csip32 drawProc2;
+
+	emu_push(0x10);
+	emu_push(0); emu_push(0x3C);
+	emu_push(emu_cs); emu_push(0x0EF7); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	wcsip.s.cs = emu_dx;
+	wcsip.s.ip = emu_ax;
+	w = (Widget *)emu_get_memorycsip(wcsip);
+
+	w->index            = index;
+	w->shortcut         = shortcut;
+	w->shortcut2        = shortcut;
+	w->parentID         = 0;
+	w->fgColourSelected = 0xB;
+	w->bgColourSelected = 0xC;
+	w->fgColourNormal   = 0xF;
+	w->bgColourNormal   = 0xC;
+	w->flags            = 0x44C5;
+	w->stringID         = stringID;
+	w->variable_3A      = variable_3A;
+	w->state            = 0x0;
+	w->offsetX          = offsetX;
+	w->offsetY          = offsetY;
+
+	switch ((int16)spriteID + 4) {
+		case 0:
+			drawMode       = DRAW_MODE_CUSTOM_PROC;
+			drawProc1.csip = 0x0AEC0CA1; /* GUI_Widget_SpriteButton_Draw */
+			drawProc2.csip = 0x0AEC0CA1; /* GUI_Widget_SpriteButton_Draw */
+			break;
+
+		case 1:
+			drawMode       = DRAW_MODE_CUSTOM_PROC;
+			drawProc1.csip = 0x0AEC0809; /* GUI_Widget_SpriteTextButton_Draw */
+			drawProc2.csip = 0x0AEC0809; /* GUI_Widget_SpriteTextButton_Draw */
+
+			if (stringID == 0) break;
+
+			if (String_Get_ByIndex(stringID) != NULL) w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
+			if (stringID == 0x1E) w->shortcut2 = 0x6E ; /* "Cancel" */
+		l__1009:
+			break;
+
+		case 2:
+			drawMode       = DRAW_MODE_CUSTOM_PROC;
+			drawProc1.csip = 0x0AEC0E3E; /* GUI_Widget_TextButton2_Draw */
+			drawProc2.csip = 0x0AEC0E3E; /* GUI_Widget_TextButton2_Draw */
+			break;
+
+		case 3:
+			drawMode       = DRAW_MODE_NONE;
+			drawProc1.csip = 0x0;
+			drawProc2.csip = 0x0;
+			break;
+
+		default:
+			drawMode  = DRAW_MODE_SPRITE;
+			drawProc1 = g_sprites[spriteID];
+			drawProc2 = g_sprites[spriteID + 1];
+
+			if (drawProc1.csip == 0x0) break;
+
+			emu_push(drawProc1.s.cs); emu_push(drawProc1.s.ip);
+			emu_push(emu_cs); emu_push(0x1071); emu_cs = 0x260F; emu_Sprite_GetWidth();
+			emu_sp += 4;
+			w->width = emu_ax;
+
+			emu_push(drawProc1.s.cs); emu_push(drawProc1.s.ip);
+			emu_push(emu_cs); emu_push(0x1085); emu_cs = 0x260F; emu_Sprite_GetHeight();
+			emu_sp += 4;
+			w->height = emu_ax;
+
+			break;
+	}
+
+	w->drawModeSelected = drawMode;
+	w->drawModeDown     = drawMode;
+	w->drawModeNormal   = drawMode;
+	w->drawProcNormal   = drawProc1;
+	w->drawProcDown     = drawProc2;
+	w->drawProcSelected = (spriteID == 0x19) ? drawProc2 : drawProc1;
+
+	if (retcsip != NULL) *retcsip = wcsip;
+	return w;
 }

@@ -69,7 +69,6 @@ extern void emu_File_ReadChunkOrLengthFile();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_Window_Widget_Allocate();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
@@ -1708,18 +1707,7 @@ uint16 GUI_PickHouse()
 			Widget *w2;
 			csip32 w2csip;
 
-			emu_push(0);
-			emu_push(0);
-			emu_push(0xFFFF);
-			emu_push(g_global->variable_2BAC[i][1]);
-			emu_push(g_global->variable_2BAC[i][0]);
-			emu_push(g_global->variable_2BAC[i][2]);
-			emu_push(i + 1);
-			emu_push(emu_cs); emu_push(0x1062); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Window_Widget_Allocate();
-			emu_sp += 14;
-			w2csip.s.cs = emu_dx;
-			w2csip.s.ip = emu_ax;
-			w2 = (Widget *)emu_get_memorycsip(w2csip);
+			w2 = GUI_Widget_Allocate(i + 1, g_global->variable_2BAC[i][2], g_global->variable_2BAC[i][0], g_global->variable_2BAC[i][1], 0xFFFF, 0, 0, &w2csip);
 
 			w2->flags  = 0x11C0;
 			w2->width  = 96;
@@ -1824,17 +1812,11 @@ uint16 GUI_PickHouse()
 
 		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(168);
-		emu_push(168);
-		emu_push(GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6B))); /* "Yes" */
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x1250); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Window_Widget_Allocate();
-		emu_sp += 14;
-
-		emu_push(emu_dx); emu_push(emu_ax); /* return of previous call */
+		{
+			csip32 tmp;
+			GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6B)), 168, 168, 0, 0, 0, &tmp); /* "Yes" */
+			emu_push(tmp.s.cs); emu_push(tmp.s.ip);
+		}
 		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
 		emu_push(emu_cs); emu_push(0x126A); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
 		emu_sp += 8;
@@ -1842,17 +1824,11 @@ uint16 GUI_PickHouse()
 		wcsip.s.ip = emu_ax;
 		w = (Widget *)emu_get_memorycsip(wcsip);
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(2);
-		emu_push(168);
-		emu_push(240);
-		emu_push(GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6C))); /* "No" */
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x12A8); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Window_Widget_Allocate();
-		emu_sp += 14;
-
-		emu_push(emu_dx); emu_push(emu_ax); /* return of previous call */
+		{
+			csip32 tmp;
+			GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6C)), 240, 168, 2, 0, 0, &tmp); /* "No" */
+			emu_push(tmp.s.cs); emu_push(tmp.s.ip);
+		}
 		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
 		emu_push(emu_cs); emu_push(0x12C2); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
 		emu_sp += 8;

@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__260F_003A_0014_CA10()
+ * Decompiled function emu_Sprite_GetWidth()
  *
- * @name f__260F_003A_0014_CA10
+ * @name emu_Sprite_GetWidth
  * @implements 260F:003A:0014:CA10 ()
  * @implements 260F:0052:0002:2597
  *
@@ -25,7 +25,7 @@
  * Called From: B503:0EE9:000E:69BD
  * Called From: B520:0179:0054:E901
  */
-void f__260F_003A_0014_CA10()
+void emu_Sprite_GetWidth()
 {
 l__003A:
 	emu_push(emu_bp);
@@ -46,9 +46,9 @@ l__0052:
 }
 
 /**
- * Decompiled function f__260F_0054_0016_0011()
+ * Decompiled function emu_Sprite_GetHeight()
  *
- * @name f__260F_0054_0016_0011
+ * @name emu_Sprite_GetHeight
  * @implements 260F:0054:0016:0011 ()
  * @implements 260F:006E:0002:2597
  *
@@ -66,7 +66,7 @@ l__0052:
  * Called From: B503:0EDB:0013:9A88
  * Called From: B520:0191:0018:47C3
  */
-void f__260F_0054_0016_0011()
+void emu_Sprite_GetHeight()
 {
 l__0054:
 	emu_push(emu_bp);

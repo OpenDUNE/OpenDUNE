@@ -16,7 +16,7 @@
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
-extern void f__260F_003A_0014_CA10();
+extern void emu_Sprite_GetWidth();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
@@ -304,7 +304,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				GUI_DrawSprite(g_global->variable_6C91, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
 
 				emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
-				emu_push(emu_cs); emu_push(0x0958); emu_cs = 0x260F; f__260F_003A_0014_CA10();
+				emu_push(emu_cs); emu_push(0x0958); emu_cs = 0x260F; emu_Sprite_GetWidth();
 				emu_sp += 4;
 				spriteWidth = emu_ax + 1;
 

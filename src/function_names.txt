@@ -127,6 +127,9 @@
 
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
+260F:003A:0014:CA10	emu_Sprite_GetWidth	# (sprite_csip), gets the width of the sprite
+260F:0054:0016:0011	emu_Sprite_GetHeight	# (sprite_csip), gets the height of the sprite
+
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 2756:050F:000B:0871	emu_Interrupt_CustomTimer
@@ -185,7 +188,6 @@ B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" but
 B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
 
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
-B4B8:0ED9:001E:DC63	emu_Window_Widget_Allocate	# (??) Allocate memory for a widget
 
 B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
 
