@@ -127,9 +127,6 @@
 
 253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
 
-260F:003A:0014:CA10	emu_Sprite_GetWidth	# (sprite_csip), gets the width of the sprite
-260F:0054:0016:0011	emu_Sprite_GetHeight	# (sprite_csip), gets the height of the sprite
-
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 2756:050F:000B:0871	emu_Interrupt_CustomTimer
