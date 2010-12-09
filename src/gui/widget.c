@@ -674,16 +674,8 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 
 			if (drawProc1.csip == 0x0) break;
 
-			emu_push(drawProc1.s.cs); emu_push(drawProc1.s.ip);
-			emu_push(emu_cs); emu_push(0x1071); emu_cs = 0x260F; emu_Sprite_GetWidth();
-			emu_sp += 4;
-			w->width = emu_ax;
-
-			emu_push(drawProc1.s.cs); emu_push(drawProc1.s.ip);
-			emu_push(emu_cs); emu_push(0x1085); emu_cs = 0x260F; emu_Sprite_GetHeight();
-			emu_sp += 4;
-			w->height = emu_ax;
-
+			w->width  = Sprite_GetWidth(drawProc1);
+			w->height = Sprite_GetHeight(drawProc1);
 			break;
 	}
 

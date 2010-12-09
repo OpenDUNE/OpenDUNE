@@ -302,10 +302,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				GUI_DrawSprite(g_global->variable_6C91, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
 
-				emu_push(g_sprites[24].s.cs); emu_push(g_sprites[24].s.ip);
-				emu_push(emu_cs); emu_push(0x0958); emu_cs = 0x260F; emu_Sprite_GetWidth();
-				emu_sp += 4;
-				spriteWidth = emu_ax + 1;
+				spriteWidth = Sprite_GetWidth(g_sprites[24]) + 1;
 
 				si = &g_structureInfo[s->objectType];
 
