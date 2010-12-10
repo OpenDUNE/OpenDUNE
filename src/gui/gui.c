@@ -1964,3 +1964,45 @@ uint16 GUI_PickHouse()
 
 	return ret;
 }
+
+/**
+ * Creates a palette mapping: color -> color + reference * intensity.
+ *
+ * @param palette The palette to create the mapping for.
+ * @param colors The resulting mapping.
+ * @param reference The color to use as reference.
+ * @param intensity The intensity to use.
+ */
+void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity)
+{
+	uint16 index;
+
+	if (palette == NULL || colors == NULL) return;
+
+	colors[0] = 0;
+
+	for (index = 1; index < 256; index++) {
+		uint16 i;
+		uint8 red   = palette[3 * index + 0] - (((palette[3 * index + 0] - palette[3 * reference + 0]) * (intensity / 2)) >> 7);
+		uint8 blue  = palette[3 * index + 1] - (((palette[3 * index + 1] - palette[3 * reference + 1]) * (intensity / 2)) >> 7);
+		uint8 green = palette[3 * index + 2] - (((palette[3 * index + 2] - palette[3 * reference + 2]) * (intensity / 2)) >> 7);
+		uint8 color = reference;
+		uint16 sumMin = 0xFFFF;
+
+		for (i = 1; i < 256; i++) {
+			uint16 sum = 0;
+
+			sum += (palette[3 * i + 0] - red)   * (palette[3 * i + 0] - red);
+			sum += (palette[3 * i + 1] - blue)  * (palette[3 * i + 1] - blue);
+			sum += (palette[3 * i + 2] - green) * (palette[3 * i + 2] - green);
+
+			if (sum > sumMin) continue;
+			if ((i != reference) && (i == index)) continue;
+
+			sumMin = sum;
+			color = i & 0xFF;
+		}
+
+		colors[index] = color;
+	}
+}

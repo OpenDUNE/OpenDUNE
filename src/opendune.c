@@ -36,7 +36,6 @@ extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_0B53_0025_36F7();
-extern void f__22A6_0597_0019_A23D();
 extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
 extern void f__23E1_0334_000B_CF65();
@@ -495,24 +494,12 @@ static void Gameloop_IntroMenu()
 	g_global->variable_3C3E.s.cs = emu_dx;
 	g_global->variable_3C3E.s.ip = emu_ax;
 
-	emu_push(0x55);
-	emu_push(0xC);
-	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x18C5); emu_cs = 0x22A6; f__22A6_0597_0019_A23D();
-	emu_sp += 12;
-
-	emu_push(0x55);
-	emu_push(0xF);
-	emu_push(g_global->variable_3C3E.s.cs); emu_push(g_global->variable_3C3E.s.ip);
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x18EA); emu_cs = 0x22A6; f__22A6_0597_0019_A23D();
-	emu_sp += 12;
-
+	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_3C3A), 0xC, 0x55);
 	emu_get_memorycsip(g_global->variable_3C3A)[0xFF] = 0xFF;
 	emu_get_memorycsip(g_global->variable_3C3A)[0xDF] = 0xDF;
 	emu_get_memorycsip(g_global->variable_3C3A)[0xEF] = 0xEF;
 
+	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_3C3E), 0xF, 0x55);
 	emu_get_memorycsip(g_global->variable_3C3E)[0xFF] = 0xFF;
 	emu_get_memorycsip(g_global->variable_3C3E)[0xDF] = 0xDF;
 	emu_get_memorycsip(g_global->variable_3C3E)[0xEF] = 0xEF;
