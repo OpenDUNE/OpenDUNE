@@ -42,7 +42,6 @@ extern void f__259E_0006_0016_858A();
 extern void f__2599_000B_0047_21FD();
 extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
-extern void f__2605_000C_006D_F8B2();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
@@ -389,25 +388,11 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 	uint8 arg2mid  = flags & 0xF0;
 
 	if ((arg12low != g_global->variable_376C && arg12low != 0) || string == NULL) {
-		csip32 loc04;
-
 		switch (arg12low) {
-			case 1:
-				loc04 = g_global->new6pFnt;
-				break;
-
-			case 2:
-				loc04 = g_global->new8pFnt2;
-				break;
-
-			default:
-				loc04 = g_global->new8pFnt;
-				break;
+			case 1:  Font_Select(g_global->new6pFnt);  break;
+			case 2:  Font_Select(g_global->new8pFnt2); break;
+			default: Font_Select(g_global->new8pFnt);  break;
 		}
-
-		emu_push(loc04.s.cs); emu_push(loc04.s.ip);
-		emu_push(emu_cs); emu_push(0x1F56); emu_cs = 0x2605; f__2605_000C_006D_F8B2();
-		emu_sp += 4;
 
 		g_global->variable_376C = arg12low;
 	}

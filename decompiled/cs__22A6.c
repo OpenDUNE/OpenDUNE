@@ -800,50 +800,6 @@ l__08F9:
 }
 
 /**
- * Decompiled function f__22A6_0902_004B_01A8()
- *
- * @name f__22A6_0902_004B_01A8
- * @implements 22A6:0902:004B:01A8 ()
- *
- * Called From: 2605:0074:006D:F8B2
- */
-void f__22A6_0902_004B_01A8()
-{
-l__0902:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ax);
-	emu_push(emu_es);
-	emu_push(emu_si);
-	emu_lfp(&emu_es, &emu_si, &emu_get_memory16(emu_cs, 0x00, 0x7));
-	emu_lfp(&emu_es, &emu_si, &emu_get_memory16(emu_es, emu_si, 0x0));
-	emu_ax = emu_es;
-	emu_orw(&emu_ax, emu_si);
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0948; emu_last_cs = 0x22A6; emu_last_ip = 0x0914; emu_last_length = 0x004B; emu_last_crc = 0x01A8; emu_call(); return; }
-	emu_get_memory16(emu_cs, 0x00, 0x82) = emu_es;
-	emu_get_memory16(emu_cs, 0x00, 0x80) = emu_si;
-	emu_ax = emu_get_memory16(emu_es, emu_si, 0x4);
-	emu_get_memory16(emu_cs, 0x00, 0x72) = emu_ax;
-	emu_ax = emu_get_memory16(emu_es, emu_si, 0x6);
-	emu_get_memory16(emu_cs, 0x00, 0x74) = emu_ax;
-	emu_ax = emu_get_memory16(emu_es, emu_si, 0x8);
-	emu_get_memory16(emu_cs, 0x00, 0x76) = emu_ax;
-	emu_ax = emu_get_memory16(emu_es, emu_si, 0xA);
-	emu_get_memory16(emu_cs, 0x00, 0x78) = emu_ax;
-	emu_ax = emu_get_memory16(emu_es, emu_si, 0xC);
-	emu_get_memory16(emu_cs, 0x00, 0x7A) = emu_ax;
-	emu_pop(&emu_si);
-	emu_pop(&emu_es);
-	emu_pop(&emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_GUI_DrawLine()
  *
  * @name emu_GUI_DrawLine

@@ -67,3 +67,26 @@ void emu_Font_LoadFile()
 	emu_ax = csip.s.ip;
 	emu_dx = csip.s.cs;
 }
+
+/**
+ * Emulator wrapper around Font_Select()
+ *
+ * @name emu_Font_Select
+ * @implements 2605:000C:006D:F8B2 ()
+ */
+void emu_Font_Select()
+{
+	csip32 font_csip;
+	csip32 csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	font_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	csip = Font_Select(font_csip);
+
+	emu_ax = csip.s.ip;
+	emu_dx = csip.s.cs;
+}

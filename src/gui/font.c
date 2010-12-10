@@ -84,3 +84,40 @@ csip32 Font_LoadFile(const char *filename)
 
 	return memBlock;
 }
+
+/**
+ * Select a font.
+ *
+ * @param font_csip The CS:IP of the font to use.
+ * @return The CS:IP of the previous selected font.
+ */
+csip32 Font_Select(csip32 font_csip)
+{
+	csip32 ret = g_global->variable_99F3;
+	uint8 *font = emu_get_memorycsip(font_csip);
+
+	if (font_csip.csip == 0x0) return ret;
+
+	g_global->variable_99F3 = font_csip;
+
+	g_global->variable_6C72 = font_csip;
+	g_global->variable_6C72.s.ip += ((uint16 *)font)[4]; /* widthOffset */
+
+	emu_get_csip32  (0x22A6, 0x00, 0x80) = font_csip;
+	emu_get_memory16(0x22A6, 0x00, 0x72) = ((uint16 *)font)[2]; /* heightOffset */
+	emu_get_memory16(0x22A6, 0x00, 0x74) = ((uint16 *)font)[3];
+	emu_get_memory16(0x22A6, 0x00, 0x76) = ((uint16 *)font)[4]; /* widthOffset */
+	emu_get_memory16(0x22A6, 0x00, 0x78) = ((uint16 *)font)[5];
+	emu_get_memory16(0x22A6, 0x00, 0x7A) = ((uint16 *)font)[6];
+
+	font += ((uint16 *)font)[2]; /* heightOffset */
+
+	g_global->variable_6C71 = font[4];
+	g_global->variable_6C70 = font[5];
+
+	g_global->variable_6D5F = g_global->variable_9931 / g_global->variable_6C71;
+	g_global->variable_6D63 = g_global->variable_992F << 3;
+	g_global->variable_6D61 = g_global->variable_6D63 / g_global->variable_6C70;
+
+	return ret;
+}

@@ -314,7 +314,7 @@ l__0321:
 l__0326:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x99F1));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x99EF));
-	emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x2605; f__2605_000C_006D_F8B2();
+	emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x2605; emu_Font_Select();
 l__0333:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
