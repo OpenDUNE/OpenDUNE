@@ -758,36 +758,51 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
 }
 
 /**
- * Unknwown function 3014.
+ * Determines whether a move order into the given structure is OK for
+ * a particular unit.
+ *
+ * It handles orders to invade enemy buildings as well as going into
+ * a friendly structure (e.g. refinery, repair facility).
  *
  * @param unit The Unit to operate on.
  * @param s The Structure to operate on.
- * @return ??.
+ * @return
+ * 0 - invalid movement
+ * 1 - valid movement, will try to get close to the structure
+ * 2 - valid movement, will attempt to damage/conquer the structure
  */
-uint16 Unit_Unknown3014(Unit *unit, Structure *s)
+uint16 Unit_IsValidMovementIntoStructure(Unit *unit, Structure *s)
 {
 	StructureInfo *si;
 	UnitInfo *ui;
-	uint16 loc0A;
-	uint16 loc0C;
+	uint16 unitEnc;
+	uint16 structEnc;
 
 	if (unit == NULL || s == NULL) return 0;
 
 	si = &g_structureInfo[s->o.type];
 	ui = &g_unitInfo[unit->o.type];
 
-	loc0A = Tools_Index_Encode(unit->o.index, IT_UNIT);
-	loc0C = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
+	unitEnc = Tools_Index_Encode(unit->o.index, IT_UNIT);
+	structEnc = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
+	/* Movement into structure of other owner. */
 	if (Unit_GetHouseID(unit) != s->o.houseID) {
-		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == loc0C) return 2;
-		if (ui->movementType == MOVEMENT_FOOT && si->flags.s.variable_0080) return unit->targetMove == loc0C ? 2 : 1;
+		/* Saboteur can always enter houses */
+		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == structEnc) return 2;
+		/* Entering houses is only possible for foot-units and if the structure is conquerable.
+		 * Everyone else can only move close to the building. */
+		if (ui->movementType == MOVEMENT_FOOT && si->flags.s.conquerable) return unit->targetMove == structEnc ? 2 : 1;
 		return 0;
 	}
 
-	if ((si->variable_32 & (1 << unit->o.type)) == 0) return 0;
+	/* Prevent movement if target structure does not accept the unit type. */
+	if ((si->enterFilter & (1 << unit->o.type)) == 0) return 0;
 
-	if (s->o.script.variables[4] == loc0A) return 2;
+	/* TODO -- Not sure. */
+	if (s->o.script.variables[4] == unitEnc) return 2;
+
+	/* Enter only if structure not linked to any other unit already. */
 	return s->o.linkedID == 0xFF ? 1 : 0;
 }
 
@@ -822,7 +837,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 
 	s = Tools_Index_GetStructure(destination);
 	if (s != NULL && s->o.houseID == Unit_GetHouseID(u)) {
-		if (Unit_Unknown3014(u, s) == 1 || g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
+		if (Unit_IsValidMovementIntoStructure(u, s) == 1 || g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
 			emu_push(destination);
 			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
 			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
@@ -2722,7 +2737,7 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	s = Structure_Get_ByPackedTile(packed);
 	if (s != NULL) {
-		res = Unit_Unknown3014(unit, s);
+		res = Unit_IsValidMovementIntoStructure(unit, s);
 		if (res == 0) return 256;
 		return -res;
 	}

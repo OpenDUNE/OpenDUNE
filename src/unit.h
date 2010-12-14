@@ -229,7 +229,7 @@ extern uint16 Unit_RemoveFromTeam(Unit *u);
 extern struct Team *Unit_GetTeam(Unit *u);
 extern void Unit_Sort();
 extern Unit *Unit_Get_ByPackedTile(uint16 packed);
-extern uint16 Unit_Unknown3014(Unit *unit, struct Structure *s);
+extern uint16 Unit_IsValidMovementIntoStructure(Unit *unit, struct Structure *s);
 extern void Unit_SetDestination(Unit *u, uint16 destination);
 extern bool Unit_Save(FILE *fp);
 extern bool Unit_Load(FILE *fp, uint32 length);

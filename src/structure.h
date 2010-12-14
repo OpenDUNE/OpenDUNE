@@ -71,7 +71,7 @@ typedef struct StructureInfo {
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
 	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
+	/*      0080 */              BITTYPE conquerable:1;     /*!< Structure can be invaded and subsequently conquered when hitpoints are low. */
 	/*      -    */              BITTYPE notused2:8;        /*!< The remaining bits are never used. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
@@ -87,7 +87,7 @@ typedef struct StructureInfo {
 	/* 0022()    */ PACK uint8   unknown_0022[0x0009];
 	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
 	/* 002D()    */ PACK uint8   unknown_002D[0x005];
-	/* 0032(4)   */ PACK uint32 variable_32;                /*!< ?? */
+	/* 0032(4)   */ PACK uint32 enterFilter;                /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */

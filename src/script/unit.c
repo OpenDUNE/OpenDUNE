@@ -1589,7 +1589,7 @@ uint16 Script_Unit_Unknown27A4(ScriptEngine *script)
 			if (s->o.houseID == Unit_GetHouseID(u)) return 0;
 			if (u->o.linkedID == 0xFF) return 1;
 			u2 = Unit_Get_ByIndex(u->o.linkedID);
-			return Unit_Unknown3014(u2, s) ? 1 : 0;
+			return Unit_IsValidMovementIntoStructure(u2, s) != 0 ? 1 : 0;
 		}
 
 		default: return 1;
