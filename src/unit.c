@@ -2655,7 +2655,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		return;
 	}
 
-	if (s->o.hitpoints < ui->hitpoints / 4) {
+	if (s->o.hitpoints < si->hitpoints / 4) {
 		House *h;
 
 		h = House_Get_ByIndex(s->o.houseID);
