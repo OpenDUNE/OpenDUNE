@@ -173,9 +173,9 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 			break;
 		}
 		if (key == 0x6E) {
-			emu_ip = 0x0164; emu_last_cs = 0xB527; emu_last_ip = 0x015D; emu_last_length = 0x0004; emu_last_crc = 0x3BFB;
-			emu_call();
-			continue;
+			*t = '\0';
+			returnValue = 0x6B;
+			break;
 		}
 
 		/* Handle backspace */
