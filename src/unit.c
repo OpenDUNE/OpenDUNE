@@ -311,7 +311,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown5) {
 			if (u->variable_70 == 0) {
-				if ((ui->movementType == MOVEMENT_FOOT && u->variable_6A != 0) || u->o.flags.s.variable_0008) {
+				if ((ui->movementType == MOVEMENT_FOOT && u->variable_6A != 0) || u->o.flags.s.isSmoking) {
 					if (u->variable_6D >= 0) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
@@ -322,10 +322,10 @@ void GameLoop_Unit()
 						emu_sp += 6;
 
 						u->variable_70 = ui->variable_3E / 5;
-						if (u->o.flags.s.variable_0008) {
+						if (u->o.flags.s.isSmoking) {
 							u->variable_70 = 3;
 							if (u->variable_6D > 32) {
-								u->o.flags.s.variable_0008 = false;
+								u->o.flags.s.isSmoking = false;
 								u->variable_6D = 0;
 							}
 						}
@@ -345,7 +345,7 @@ void GameLoop_Unit()
 				}
 
 				if (u->o.type == UNIT_HARVESTER) {
-					if (u->actionID == ACTION_HARVEST || u->o.flags.s.variable_0008) {
+					if (u->actionID == ACTION_HARVEST || u->o.flags.s.isSmoking) {
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
 
@@ -1334,7 +1334,7 @@ bool Unit_Unknown167C(Unit *unit)
 	}
 
 	if (unit->o.type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
-	unit->o.flags.s.variable_0008 = false;
+	unit->o.flags.s.isSmoking = false;
 
 	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
@@ -1925,7 +1925,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 	if (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER && ui->movementType != MOVEMENT_WHEELED) return false;
 
-	unit->o.flags.s.variable_0008 = true;
+	unit->o.flags.s.isSmoking = true;
 	unit->variable_6D = 0;
 	unit->variable_70 = 0;
 
@@ -2648,7 +2648,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 				s->countDown = 1;
 			}
 			unit->o.hitpoints = ui->hitpoints;
-			unit->o.flags.s.variable_0008 = false;
+			unit->o.flags.s.isSmoking = false;
 			unit->variable_6D = 0;
 		}
 		unit->o.linkedID = s->o.linkedID;

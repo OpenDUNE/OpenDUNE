@@ -393,7 +393,7 @@ void emu_Unknown_07D4_034D()
 				GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02 + loc2C, loc04 + loc2E, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
-			if (u->o.flags.s.variable_0008) {
+			if (u->o.flags.s.isSmoking) {
 				loc2C = u->variable_6D & 3;
 				if (loc2C == 3) loc2C = 1;
 
