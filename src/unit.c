@@ -2088,6 +2088,7 @@ void Unit_Select(Unit *unit)
 
 		ui = &g_unitInfo[unit->o.type];
 
+		/* Plays the 'reporting' sound file. */
 		emu_push(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
 		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 		emu_sp += 2;
