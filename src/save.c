@@ -18,9 +18,6 @@
 #include "team.h"
 #include "unit.h"
 
-extern void emu_Structure_RemoveFog();
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Save all kinds of important info to the savegame.
  * @param fp The file to save to.
@@ -233,21 +230,12 @@ bool SaveFile(char *filename, char *description)
 
 		/* Remove the fog of war for all structures */
 		while (true) {
-			csip32 scsip;
 			Structure *s;
 
 			s = Structure_Find(&find);
 			if (s == NULL) break;
 
-			/* XXX -- Temporary, to keep all the emu_calls workable for now */
-			scsip.s.cs = g_global->structureStartPos.s.cs;
-			scsip.s.ip = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
-
-			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x07E3); emu_cs = 0x0C3A; emu_Structure_RemoveFog();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-			emu_sp += 4;
+			Structure_RemoveFog(s);
 		}
 	}
 

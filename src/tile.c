@@ -7,6 +7,10 @@
 #include "libemu.h"
 #include "global.h"
 #include "tile.h"
+#include "map.h"
+
+extern void f__B4CD_1269_0019_A3E5();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Check whether a tile is valid.
@@ -224,4 +228,45 @@ uint16 Tile_GetDistancePacked(uint16 packed_from, uint16 packed_to)
 uint16 Tile_GetDistanceRoundedUp(tile32 from, tile32 to)
 {
 	return (Tile_GetDistance(from, to) + 0x80) >> 8;
+}
+
+/**
+ * Remove fog in the radius around the given tile.
+ *
+ * @param tile The tile to remove fog around.
+ * @param radius The radius to remove fog around.
+ */
+void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
+{
+	uint16 packed;
+	uint16 x, y;
+	int16 i, j;
+
+	packed = Tile_PackTile(tile);
+
+	if (!Map_IsValidPosition(packed)) return;
+
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+	tile.tile = Tile_GetSpecialXY(tile);
+
+	for (i = -radius; i <= radius; i++) {
+		for (j = -radius; j <= radius; j++) {
+			tile32 t;
+
+			if ((x + i) < 0 || (x + i) >= 64) continue;
+			if ((y + j) < 0 || (y + j) >= 64) continue;
+
+			packed = Tile_PackXY(x + i, y + j);
+
+			t.tile = Tile_GetSpecialXY(Tile_UnpackTile(packed));
+
+			if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
+
+			emu_push(g_global->playerHouseID);
+			emu_push(packed);
+			emu_push(emu_cs); emu_push(0x08CF); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1269_0019_A3E5();
+			emu_sp += 4;
+		}
+	}
 }

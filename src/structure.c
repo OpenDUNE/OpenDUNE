@@ -39,7 +39,6 @@ extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_ConnectWall();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_UpdateMap();
-extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -522,7 +521,6 @@ bool Structure_Place(Structure *s, uint16 position)
 	csip32 scsip;
 	StructureInfo *si;
 	int16 loc0A;
-	tile32 tile;
 
 	if (s == NULL) return false;
 	if (position == 0xFFFF) return false;
@@ -546,14 +544,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			g_map[position] |= 0x8000;
 
-			if (s->o.houseID == g_global->playerHouseID) {
-				tile = Tile_UnpackTile(position);
-
-				emu_push(1);
-				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x02A3); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-				emu_sp += 6;
-			}
+			if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
 
 			if (Map_IsPositionUnveiled(position)) t->fogOfWar = 0;
 
@@ -583,14 +574,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				g_map[curPos] |= 0x8000;
 
-				if (s->o.houseID == g_global->playerHouseID) {
-					tile = Tile_UnpackTile(curPos);
-
-					emu_push(1);
-					emu_push(tile.s.y); emu_push(tile.s.x);
-					emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-					emu_sp += 6;
-				}
+				if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 
 				if (Map_IsPositionUnveiled(curPos)) t->fogOfWar = 0;
 
@@ -617,13 +601,7 @@ bool Structure_Place(Structure *s, uint16 position)
 					g_map[curPos] |= 0x8000;
 
 					if (s->o.houseID == g_global->playerHouseID) {
-						tile = Tile_UnpackTile(curPos);
-
-						emu_push(1);
-						emu_push(tile.s.y); emu_push(tile.s.x);
-						emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-						emu_sp += 6;
-
+						Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 						t->fogOfWar = 0;
 					}
 
@@ -652,14 +630,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-	if (!g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) {
-		tile = Tile_UnpackTile(position);
-
-		emu_push(2);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-		emu_sp += 6;
-	}
+	if (!g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
 
 	s->o.variable_09 |= 1 << s->o.houseID;
 	if (s->o.houseID == g_global->playerHouseID) s->o.variable_09 |= 0xFF;
@@ -713,14 +684,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			Unit_Unknown10EC(u);
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-			if (g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) {
-				tile = Tile_UnpackTile(curPos);
-
-				emu_push(2);
-				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-				emu_sp += 6;
-			}
+			if (g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
 
 		}
 	}
@@ -1272,4 +1236,16 @@ void Structure_ActivateSpecial(Structure *s)
 		emu_push(emu_cs); emu_push(0x07B8); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
 		emu_sp += 2;
 	}
+}
+
+/**
+ * Remove the fog around a structure.
+ *
+ * @param s The Structure.
+ */
+void Structure_RemoveFog(Structure *s)
+{
+	if (s == NULL || s->o.houseID != g_global->playerHouseID) return;
+
+	Tile_RemoveFogInRadius(s->o.position, g_structureInfo[s->o.type].fogUncoverRadius);
 }

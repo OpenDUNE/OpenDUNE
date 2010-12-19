@@ -143,3 +143,26 @@ void emu_Structure_GetStructuresBuilt()
 	emu_dx = result >> 16;
 	emu_ax = result & 0xFFFF;
 }
+
+/**
+ * Emulator wrapper around Structure_RemoveFog()
+ *
+ * @name emu_Structure_RemoveFog
+ * @implements 0C3A:2433:0042:DBC6 ()
+ */
+void emu_Structure_RemoveFog()
+{
+	csip32 scsip;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (scsip.csip == 0x0) return;
+	s = Structure_Get_ByMemory(scsip);
+
+	Structure_RemoveFog(s);
+}

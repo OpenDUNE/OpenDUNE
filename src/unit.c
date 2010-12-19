@@ -54,7 +54,6 @@ extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Map_DeviateArea();
 extern void emu_Structure_UpdateMap();
-extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -1476,10 +1475,7 @@ void Unit_RemoveFog(Unit *unit)
 
 	if (fogUncoverRadius == 0) return;
 
-	emu_push(fogUncoverRadius);
-	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x2BAE); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-	emu_sp += 6;
+	Tile_RemoveFogInRadius(unit->o.position, fogUncoverRadius);
 }
 
 /**
@@ -2398,10 +2394,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 			if (type == UNIT_MISSILE_HOUSE || (bullet->o.variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
 
-			emu_push(2);
-			emu_push(bullet->o.position.s.y); emu_push(bullet->o.position.s.x);
-			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-			emu_sp += 6;
+			Tile_RemoveFogInRadius(bullet->o.position, 2);
 
 			return bullet;
 		}
@@ -2448,10 +2441,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 			if ((bullet->o.variable_09 & (1 << g_global->playerHouseID)) != 0) return bullet;
 
-			emu_push(2);
-			emu_push(bullet->o.position.s.y); emu_push(bullet->o.position.s.x);
-			emu_push(emu_cs); emu_push(0x26A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
-			emu_sp += 6;
+			Tile_RemoveFogInRadius(bullet->o.position, 2);
 
 			return bullet;
 		}

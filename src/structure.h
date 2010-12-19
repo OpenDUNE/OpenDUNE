@@ -113,6 +113,7 @@ extern int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 extern bool Structure_Save(FILE *fp);
 extern bool Structure_Load(FILE *fp, uint32 length);
 extern void Structure_ActivateSpecial(Structure *s);
+extern void Structure_RemoveFog(Structure *s);
 
 
 extern void emu_Structure_Create();
@@ -120,5 +121,6 @@ extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
+extern void emu_Structure_RemoveFog();
 
 #endif /* STRUCTURE_H */

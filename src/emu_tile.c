@@ -356,3 +356,24 @@ void emu_Tile_GetDistanceRoundedUp()
 
 	emu_ax = Tile_GetDistanceRoundedUp(tile_from, tile_to);
 }
+
+/**
+ * Emulator wrapper around Tile_RemoveFogInRadius()
+ *
+ * @name emu_Tile_RemoveFogInRadius
+ * @implements B4CD:07F4:0013:6862 ()
+ */
+void emu_Tile_RemoveFogInRadius()
+{
+	tile32 tile;
+	uint16 radius;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	tile   = emu_get_tile32  (emu_ss, emu_sp, 0x0);
+	radius = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	Tile_RemoveFogInRadius(tile, radius);
+}

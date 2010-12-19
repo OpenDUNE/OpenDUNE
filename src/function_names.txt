@@ -89,7 +89,6 @@
 
 0C3A:076E:0027:991C	emu_Structure_ConnectWall	# (internal, tile), Connect surrounding walls
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
-0C3A:2433:0042:DBC6	emu_Structure_RemoveFog	# (structure_csip), removes fog around structure if allied and valid position
 0C3A:25EC:0011:E453	emu_Structure_IsUpgradable	# Check if a structure can be upgraded
 
 10E4:0008:0048:5BD4	emu_GUI_Widget_DrawBorder2	# (x, y, width, height, state, ??) Draw the border of a widget
@@ -187,8 +186,6 @@ B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to
 B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
 B4CA:020F:0017:A939	emu_File_ReadChunkOrLengthFile	# (filename_csip, ??, ..), check if the file is a Chunk file or length file, and read it
-
-B4CD:07F4:0013:6862	emu_Tile_RemoveFogInRadius	# (posx, posy, radius)
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 

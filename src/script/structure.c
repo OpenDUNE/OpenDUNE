@@ -30,7 +30,6 @@ extern void f__10E4_0117_0015_392D();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
-extern void emu_Tile_RemoveFogInRadius();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -105,9 +104,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	si = &g_structureInfo[s->o.type];
 
-	emu_push(si->fogUncoverRadius);
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x13A6); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Tile_RemoveFogInRadius();
+	Tile_RemoveFogInRadius(s->o.position, si->fogUncoverRadius);
 
 	return 0;
 }
