@@ -142,6 +142,7 @@ extern bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip);
 extern bool GUI_Widget_Name_Click();
 extern bool GUI_Widget_Cancel_Click();
 extern bool GUI_Widget_Picture_Click();
+extern bool GUI_Widget_RepairUpgrade_Click(Widget *w, csip32 wcsip);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);

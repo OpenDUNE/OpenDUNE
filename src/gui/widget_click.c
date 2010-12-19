@@ -18,6 +18,8 @@
 extern void f__01F7_286D_0023_9A13();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
+extern void f__0C3A_2714_0015_B6F6();
+extern void f__0C3A_2814_0015_76F0();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B48B_00F2_0005_601A();
 extern void f__B48B_0127_000E_E325();
@@ -445,3 +447,35 @@ bool GUI_Widget_Picture_Click()
 	return false;
 }
 
+/**
+ * Handles Click event for "Repair/Upgrade" button.
+ *
+ * @param w The widget.
+ * @return False, always.
+ */
+bool GUI_Widget_RepairUpgrade_Click(Widget *w, csip32 wcsip)
+{
+	Structure *s;
+	csip32 scsip;
+
+	VARIABLE_NOT_USED(w);
+
+	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	scsip       = g_global->structureStartPos;
+	scsip.s.ip += s->o.index * sizeof(Structure);
+
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(0xFFFF);
+	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1221); emu_cs = 0x0C3A; f__0C3A_2814_0015_76F0();
+	emu_sp += 10;
+	if (emu_ax != 0) return false;
+
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(0xFFFF);
+	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+	emu_push(emu_cs); emu_push(0x123D); emu_cs = 0x0C3A; f__0C3A_2714_0015_B6F6();
+	emu_sp += 10;
+
+	return false;
+}
