@@ -617,7 +617,6 @@ extern void f__B495_0F7A_000B_410C();
 extern void f__AB01_0F7D_0001_6780();
 extern void f__22A6_0FAE_0027_2378();
 extern void f__22A6_0FD7_0043_ACF9();
-extern void emu_GUI_Cancel();
 extern void f__0C3A_1002_0013_651A();
 extern void f__B4CD_1019_0011_089E();
 extern void emu_GUI_CopyToBuffer();

@@ -13,10 +13,12 @@
 #include "../unknown/unknown.h"
 #include "../tile.h"
 #include "../map.h"
+#include "../sprites.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
+extern void f__2B4C_0002_0029_64AF();
 extern void f__B48B_00F2_0005_601A();
 extern void f__B48B_0127_000E_E325();
 extern void f__B48B_01CE_002B_7574();
@@ -364,4 +366,52 @@ bool GUI_Widget_Name_Click()
 	Map_SetSelection(packed);
 
 	return false;
+}
+
+/**
+ * Handles Click event for "Cancel" button.
+ *
+ * @return True, always.
+ */
+bool GUI_Widget_Cancel_Click()
+{
+	if (g_global->activeStructureType != 0xFFFF) {
+		Structure *s  = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
+		Structure *s2 = Structure_Get_ByMemory(g_global->activeStructure);
+
+		assert(s2 != NULL);
+
+		if (s != NULL) {
+			s->o.linkedID = s2->o.index & 0xFF;
+		} else {
+			Structure_Free(s2);
+		}
+
+		g_global->activeStructure.csip = 0x0;
+		g_global->activeStructurePosition = 0xFFFF;
+
+		emu_push(4);
+		emu_push(emu_cs); emu_push(0x103A); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+		emu_sp += 2;
+
+		g_global->variable_38EC = 0;
+	}
+
+	if (g_global->activeUnit.csip == 0x0) return true;
+
+	g_global->activeUnit.csip = 0x0;
+	g_global->activeAction = 0xFFFF;
+	g_global->cursorSpriteID = 0;
+
+	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x107C); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
+	emu_sp += 8;
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x1088); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+	emu_sp += 2;
+
+	return true;
 }
