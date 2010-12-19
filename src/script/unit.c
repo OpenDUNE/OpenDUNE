@@ -531,8 +531,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
-
-	orientation = emu_ax;
+	orientation = (int8)emu_ax;
 
 	Unit_SetOrientation(u, orientation, false, 0);
 
@@ -877,7 +876,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1A13); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
-	orientation = emu_ax;
+	orientation = (int8)emu_ax;
 
 	if (orientation == current) return 0;
 

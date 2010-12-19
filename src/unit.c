@@ -82,7 +82,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 	csip32 ucsip;
 	int8 target;
 	int8 current;
-	int16 newCurrent;
+	int8 newCurrent;
 	int16 diff;
 	uint16 locax;
 
