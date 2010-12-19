@@ -86,7 +86,7 @@ static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
  * @param frame The frame of animation.
  * @return The offset for the animation from the beginning of the file.
  */
-static uint32 WSA_GetFrameOffset_FromDisk(uint16 fileno, uint16 frame)
+static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame)
 {
 	uint32 length;
 
@@ -149,7 +149,7 @@ void emu_WSA_GotoNextFrame()
 		emu_push(emu_cs); emu_push(0x0986); emu_cs = 0x2B0E; emu_Tools_Memmove();
 		emu_sp += 12;
 	} else if (header->flags.s.dataOnDisk) {
-		uint16 fileno;
+		uint8 fileno;
 		uint32 positionStart;
 		uint32 positionEnd;
 		uint32 length;
@@ -219,7 +219,7 @@ void emu_WSA_LoadFile()
 	uint32 bufferSizeMinimal;
 	uint32 bufferSizeOptimal;
 	uint16 lengthHeader;
-	uint16 fileno;
+	uint8 fileno;
 	uint16 lengthSpecial;
 	uint16 lengthAnimation;
 	uint32 lengthFileContent;
