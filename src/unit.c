@@ -237,7 +237,7 @@ void GameLoop_Unit()
 
 		if (u->o.flags.s.beingBuilt) continue;
 
-		if (tickUnknown4 && u->targetAttack != 0 && ui->flags.s.variable_0040) {
+		if (tickUnknown4 && u->targetAttack != 0 && ui->flags.s.hasTurret) {
 			tile32 tile;
 
 			tile = Tools_Index_GetTile(u->targetAttack);
@@ -277,7 +277,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown2) {
 			Unit_Rotate(u, 0);
-			if (ui->flags.s.variable_0040) Unit_Rotate(u, 1);
+			if (ui->flags.s.hasTurret) Unit_Rotate(u, 1);
 		}
 
 		if (tickUnknown3 && u->variable_6E != 0) {
@@ -1399,7 +1399,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 	unit->targetAttack = encoded;
 
-	if (!g_unitInfo[unit->o.type].flags.s.variable_0040) {
+	if (!g_unitInfo[unit->o.type].flags.s.hasTurret) {
 		unit->targetMove = encoded;
 		unit->variable_72[0] = 0xFF;
 	}

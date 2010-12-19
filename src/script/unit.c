@@ -687,7 +687,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	ui = &g_unitInfo[u->o.type];
 
-	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->flags.s.variable_0040 ? 1 : 0].speed != 0) return 0;
+	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
 
 	if (Tools_Index_GetType(target) == IT_TILE) {
 		emu_push(Tools_Index_GetPackedTile(target));
@@ -716,7 +716,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
-		diff = u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current - emu_ax;
+		diff = u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - emu_ax;
 		if ((int16)diff < 0) diff = -diff;
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
 	}
@@ -863,7 +863,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
-	locdi = ui->flags.s.variable_0040 ? 1 : 0;
+	locdi = ui->flags.s.hasTurret ? 1 : 0;
 
 	if (u->orientation[locdi].speed != 0) return 1;
 	current = u->orientation[locdi].current;
@@ -988,7 +988,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	locdi = emu_ax;
 
 	u->targetAttack = target;
-	if (!g_unitInfo[u->o.type].flags.s.variable_0040) {
+	if (!g_unitInfo[u->o.type].flags.s.hasTurret) {
 		u->targetMove = target;
 		Unit_SetOrientation(u, locdi & 0xFF, false, 0);
 	}
@@ -1110,8 +1110,8 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x0D: return ui->variable_36 & 0x4;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
-		case 0x10: return u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current;
-		case 0x11: return abs(u->orientation[ui->flags.s.variable_0040 ? 1 : 0].target - u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current);
+		case 0x10: return u->orientation[ui->flags.s.hasTurret ? 1 : 0].current;
+		case 0x11: return abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].target - u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
 		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;

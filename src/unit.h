@@ -159,7 +159,7 @@ typedef struct UnitInfo {
 	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
-	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
+	/*      0040 */              BITTYPE hasTurret:1;       /*!< If true, the Unit has a turret seperate from his base unit. */
 	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? Used in Script Commands. */
 	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
 	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */

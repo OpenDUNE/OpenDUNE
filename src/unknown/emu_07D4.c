@@ -350,7 +350,7 @@ void emu_Unknown_07D4_034D()
 				loc2A.csip = 0x0;
 				locsi = ui->variable_46;
 
-				emu_push(u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current);
+				emu_push(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
 				emu_push(emu_cs); emu_push(0x0CE4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 				emu_sp += 2;
 				locdi = emu_ax;
