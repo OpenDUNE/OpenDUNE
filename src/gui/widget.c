@@ -23,7 +23,6 @@ extern void emu_GUI_Cancel();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat_List();
-extern void emu_GUI_Name();
 extern void emu_GUI_Options();
 extern void emu_GUI_Picture();
 extern void emu_GUI_Production_BuildThis();
@@ -507,6 +506,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
 					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w, wcsip); break;
 					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
+					case 0x0AEC0005: success = GUI_Widget_Name_Click(); break;
 
 					default:
 						emu_push(wcsip.s.cs);
@@ -517,7 +517,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 						emu_ip = w->clickProc.s.ip;
 						emu_cs = w->clickProc.s.cs;
 						switch ((emu_cs << 16) + emu_ip) {
-							case 0x0AEC0005: emu_GUI_Name(); break;
 							case 0x0AEC0FD8: emu_GUI_Cancel(); break;
 							case 0x0AEC1181: emu_GUI_Picture(); break;
 							case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;

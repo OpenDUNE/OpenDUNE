@@ -139,6 +139,7 @@ extern bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip);
 extern bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip);
+extern bool GUI_Widget_Name_Click();
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);

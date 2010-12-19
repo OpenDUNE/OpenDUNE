@@ -82,7 +82,6 @@
 
 06F7:0402:0020:9091	emu_Map_DeviateArea	# (tile, radius) Try to deviate all units in an area
 
-0AEC:0005:0010:9634	emu_GUI_Name	# (csip) Handles click on structure/unit name
 0AEC:0FD8:0017:6202	emu_GUI_Cancel	# (csip) Handles click on "Cancel" button
 0AEC:1181:001C:DFE4	emu_GUI_Picture	# (csip) Handles click on "Picture" button
 0AEC:11F6:000F:2195	emu_GUI_RepairUpgrade	# (csip) Handles click on "Repair"/"Upgrade" button

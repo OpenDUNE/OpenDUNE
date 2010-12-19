@@ -85,7 +85,6 @@ extern void f__24DA_0004_000E_FD1B();
 extern void f__2995_0004_001F_FE17();
 extern void emu_Tools_Swapd();
 extern void emu_Empty1();
-extern void emu_GUI_Name();
 extern void emu_Empty2();
 extern void f__259E_0006_0016_858A();
 extern void f__263B_0006_001C_9C72();

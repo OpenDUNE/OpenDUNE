@@ -5,64 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_GUI_Name()
- *
- * @name emu_GUI_Name
- * @implements 0AEC:0005:0010:9634 ()
- * @implements 0AEC:0015:001F:3C46
- * @implements 0AEC:0034:000A:5A66
- * @implements 0AEC:003E:0007:0BB0
- * @implements 0AEC:0045:0005:EAF1
- * @implements 0AEC:004A:0005:8BCF
- *
- * Called From: B4A2:06AC:0030:38D3
- */
-void emu_GUI_Name()
-{
-l__0005:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_push(emu_si);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
-	emu_push(emu_cs); emu_push(0x0015); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-l__0015:
-	emu_pop(&emu_cx);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0046; emu_last_cs = 0x0AEC; emu_last_ip = 0x0022; emu_last_length = 0x001F; emu_last_crc = 0x3C46; emu_call(); return; }
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
-	emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x0F3F; emu_Tile_PackTile();
-l__0034:
-	emu_pop(&emu_cx);
-	emu_pop(&emu_cx);
-	emu_si = emu_ax;
-	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
-l__003E:
-	emu_pop(&emu_cx);
-	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0045); emu_cs = 0x0F78; emu_Map_SetSelection();
-l__0045:
-	emu_pop(&emu_cx);
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__004A;
-l__004A:
-	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_GUI_Cancel()
  *
  * @name emu_GUI_Cancel
