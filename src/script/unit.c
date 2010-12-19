@@ -232,8 +232,8 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 		emu_sp += 6;
 	}
 
-	Unit_Unknown1E99(u2, u->variable_62[0][2], true, 0);
-	Unit_Unknown1E99(u2, u->variable_62[0][2], true, 1);
+	Unit_SetOrientation(u2, u->orientation[0].current, true, 0);
+	Unit_SetOrientation(u2, u->orientation[0].current, true, 1);
 	Unit_Unknown204C(u2, 0);
 
 	u->o.linkedID = u2->o.linkedID;
@@ -496,8 +496,8 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	uint16 delay;
 	tile32 tile;
 	uint16 distance;
-	uint16 loc12;
-	uint16 loc14;
+	int8 orientation;
+	uint16 diff;
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
@@ -532,15 +532,14 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	loc12 = emu_ax;
+	orientation = emu_ax;
 
-	Unit_Unknown1E99(u, loc12 & 0xFF, false, 0);
+	Unit_SetOrientation(u, orientation, false, 0);
 
-	loc14 = loc12 - u->variable_62[0][2];
+	diff = orientation - u->orientation[0].current;
+	if ((int16)diff < 0) diff = -diff;
 
-	if ((int16)loc14 < 0) loc14 = -loc14;
-
-	Unit_Unknown204C(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - loc14) / 256);
+	Unit_Unknown204C(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
 
 	delay = max((int16)distance / 1024, 1);
 
@@ -670,7 +669,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	UnitInfo *ui;
 	uint16 target;
 	UnitType typeID;
-	uint16 loc12;
+	uint16 diff;
 	uint16 distance;
 	bool loc1A;
 	uint16 damage;
@@ -689,7 +688,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	ui = &g_unitInfo[u->o.type];
 
-	if (u->o.type != UNIT_SANDWORM && u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][0] != 0) return 0;
+	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->flags.s.variable_0040 ? 1 : 0].speed != 0) return 0;
 
 	if (Tools_Index_GetType(target) == IT_TILE) {
 		emu_push(Tools_Index_GetPackedTile(target));
@@ -710,7 +709,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 
-	loc12 = 0;
+	diff = 0;
 	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
 		tile32 tile = Tools_Index_GetTile(target);
 		emu_push(tile.s.y); emu_push(tile.s.x);
@@ -718,12 +717,12 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
-		loc12 = u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2] - emu_ax;
-		if ((int16)loc12 < 0) loc12 = -loc12;
-		if (ui->movementType == MOVEMENT_WINGER) loc12 /= 8;
+		diff = u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current - emu_ax;
+		if ((int16)diff < 0) diff = -diff;
+		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
 	}
 
-	if (loc12 >= 8) return 0;
+	if (diff >= 8) return 0;
 
 	damage = ui->damage;
 	typeID = ui->bulletType;
@@ -823,22 +822,22 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1932.
+ * Set the orientation of a unit.
  *
- * Stack: 0 - ??.
+ * Stack: 0 - New orientation for unit.
  *
  * @param script The script engine to operate on.
- * @return ??.
+ * @return The current orientation of the unit (it will move to the requested over time).
  */
-uint16 Script_Unit_Unknown1932(ScriptEngine *script)
+uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	Unit_Unknown1E99(u, script->stack[script->stackPointer] & 0xFF, false, 0);
+	Unit_SetOrientation(u, (int8)script->stack[script->stackPointer], false, 0);
 
-	return u->variable_62[0][2];
+	return u->orientation[0].current;
 }
 
 /**
@@ -854,9 +853,9 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	Unit *u;
 	UnitInfo *ui;
 	uint16 locdi;
-	uint16 loc04;
+	int8 current;
 	tile32 tile;
-	uint16 locsi;
+	int8 orientation;
 
 	VARIABLE_NOT_USED(script);
 
@@ -867,8 +866,8 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	locdi = ui->flags.s.variable_0040 ? 1 : 0;
 
-	if (u->variable_62[locdi][0] != 0) return 1;
-	loc04 = u->variable_62[locdi][2];
+	if (u->orientation[locdi].speed != 0) return 1;
+	current = u->orientation[locdi].current;
 
 	if (!Tools_Index_IsValid(u->targetAttack)) return 0;
 
@@ -878,12 +877,11 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1A13); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
+	orientation = emu_ax;
 
-	locsi = emu_ax;
+	if (orientation == current) return 0;
 
-	if (locsi == loc04) return 0;
-
-	Unit_Unknown1E99(u, locsi & 0xFF, false, locdi);
+	Unit_SetOrientation(u, orientation & 0xFF, false, locdi);
 
 	return 1;
 }
@@ -916,7 +914,7 @@ uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
 		return emu_ax;
 	}
 
-	return u->variable_62[0][2];
+	return u->orientation[0].current;
 }
 
 /**
@@ -993,9 +991,9 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	u->targetAttack = target;
 	if (!g_unitInfo[u->o.type].flags.s.variable_0040) {
 		u->targetMove = target;
-		Unit_Unknown1E99(u, locdi & 0xFF, false, 0);
+		Unit_SetOrientation(u, locdi & 0xFF, false, 0);
 	}
-	Unit_Unknown1E99(u, locdi & 0xFF, false, 1);
+	Unit_SetOrientation(u, locdi & 0xFF, false, 1);
 
 	return u->targetAttack;
 }
@@ -1073,7 +1071,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x1CE1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	Unit_Unknown1E99(u, emu_ax & 0xFF, false, 0);
+	Unit_SetOrientation(u, emu_ax & 0xFF, false, 0);
 
 	return 0;
 }
@@ -1099,7 +1097,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
 		case 0x02: return ui->variable_50 << 8;
 		case 0x03: return u->o.index;
-		case 0x04: return u->variable_62[0][2];
+		case 0x04: return u->orientation[0].current;
 		case 0x05: return u->targetAttack;
 		case 0x06:
 			if (u->originEncoded == 0 || u->o.type == UNIT_HARVESTER) Unit_FindClosestRefinery(u);
@@ -1107,14 +1105,14 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x07: return u->o.type;
 		case 0x08: return Tools_Index_Encode(u->o.index, IT_UNIT);
 		case 0x09: return u->variable_6B;
-		case 0x0A: return abs(u->variable_62[0][1] - u->variable_62[0][2]);
+		case 0x0A: return abs(u->orientation[0].target - u->orientation[0].current);
 		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
 		case 0x0D: return ui->variable_36 & 0x4;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
-		case 0x10: return u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2];
-		case 0x11: return abs(u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][1] - u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2]);
+		case 0x10: return u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current;
+		case 0x11: return abs(u->orientation[ui->flags.s.variable_0040 ? 1 : 0].target - u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
 		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
@@ -1183,8 +1181,8 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 
 	if (u->variable_72[0] == 0xFF) return 1;
 
-	if (u->variable_62[0][2] != u->variable_72[0] * 32) {
-		Unit_Unknown1E99(u, u->variable_72[0] * 32, false, 0);
+	if (u->orientation[0].current != (int8)(u->variable_72[0] * 32)) {
+		Unit_SetOrientation(u, (int8)(u->variable_72[0] * 32), false, 0);
 		return 1;
 	}
 
@@ -1662,7 +1660,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 
 	/* Ensure the order of Tools_Random_256() calls. */
 	i = (Tools_Random_256() & 1) == 0 ? 1 : 0;
-	Unit_Unknown1E99(u, Tools_Random_256(), false, i);
+	Unit_SetOrientation(u, Tools_Random_256(), false, i);
 
 	return 0;
 }

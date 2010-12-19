@@ -276,7 +276,7 @@ void emu_Unknown_07D4_034D()
 			loc02 += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x0);
 			loc04 += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x2);
 
-			emu_push(u->variable_62[0][2]);
+			emu_push(u->orientation[0].current);
 			emu_push(emu_cs); emu_push(0x0A57); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 			emu_sp += 2;
 			locdi = emu_ax;
@@ -350,7 +350,7 @@ void emu_Unknown_07D4_034D()
 				loc2A.csip = 0x0;
 				locsi = ui->variable_46;
 
-				emu_push(u->variable_62[ui->flags.s.variable_0040 ? 1 : 0][2]);
+				emu_push(u->orientation[ui->flags.s.variable_0040 ? 1 : 0].current);
 				emu_push(emu_cs); emu_push(0x0CE4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 				emu_sp += 2;
 				locdi = emu_ax;
@@ -472,7 +472,7 @@ void emu_Unknown_07D4_034D()
 			if (!Map_IsPositionInViewport(u->o.position, &loc02, &loc04)) continue;
 
 			locsi = ui->variable_44;
-			locdi = u->variable_62[0][2];
+			locdi = u->orientation[0].current;
 			g_global->variable_8DE3 = 0xC000;
 
 			switch (ui->variable_4A) {

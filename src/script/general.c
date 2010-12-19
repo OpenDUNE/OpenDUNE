@@ -210,14 +210,14 @@ uint16 Script_General_Unknown0288(ScriptEngine *script)
 }
 
 /**
- * Unknown function 02EA.
+ * Get orientation of a unit.
  *
  * Stack: 0 - An encoded index.
  *
  * @param script The script engine to operate on.
- * @return unknown.
+ * @return The orientation of the unit.
  */
-uint16 Script_General_Unknown02EA(ScriptEngine *script)
+uint16 Script_General_GetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 
@@ -225,7 +225,7 @@ uint16 Script_General_Unknown02EA(ScriptEngine *script)
 
 	if (u == NULL) return 128;
 
-	return u->variable_62[0][2];
+	return u->orientation[0].current;
 }
 
 /**

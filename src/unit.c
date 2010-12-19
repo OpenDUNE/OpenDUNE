@@ -72,63 +72,63 @@ void System_Init_Unit()
 }
 
 /**
- * Unknwown function 1F55.
+ * Rotate a unit (or his top).
  *
  * @param unit The Unit to operate on.
- * @param i ??.
+ * @param level 0 = base, 1 = top (turret etc).
  */
-void Unit_Unknown1F55(Unit *unit, uint16 i)
+static void Unit_Rotate(Unit *unit, uint16 level)
 {
 	csip32 ucsip;
-	uint8 loc02;
-	uint8 loc04;
-	int16 loc06;
-	int16 locsi;
+	int8 target;
+	int8 current;
+	int16 newCurrent;
+	int16 diff;
 	uint16 locax;
 
-	assert(i == 0 || i == 1);
+	assert(level == 0 || level == 1);
 
-	if (unit->variable_62[i][0] == 0) return;
+	if (unit->orientation[level].speed == 0) return;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip.s.cs = g_global->unitStartPos.s.cs;
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
-	loc02 = unit->variable_62[i][1];
-	loc04 = unit->variable_62[i][2];
-	locsi = loc02 - loc04;
+	target = unit->orientation[level].target;
+	current = unit->orientation[level].current;
+	diff = target - current;
 
-	if (locsi > 128) locsi -= 256;
-	if (locsi < -128) locsi += 256;
-	locsi = abs(locsi);
+	if (diff > 128) diff -= 256;
+	if (diff < -128) diff += 256;
+	diff = abs(diff);
 
-	loc06 = loc04 + unit->variable_62[i][0];
+	newCurrent = current + unit->orientation[level].speed;
 
-	if (abs((int8)unit->variable_62[i][0]) >= locsi) {
-		unit->variable_62[i][0] = 0;
-		loc06 = loc02;
+	if (abs(unit->orientation[level].speed) >= diff) {
+		unit->orientation[level].speed = 0;
+		newCurrent = target;
 	}
 
-	unit->variable_62[i][2] = loc06 & 0xFF;
+	unit->orientation[level].current = newCurrent;
 
-	emu_push(loc06);
+	emu_push(newCurrent);
 	emu_push(emu_cs); emu_push(0x2009); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
 	emu_sp += 2;
 
 	locax = emu_ax;
 
-	emu_push(loc04);
+	emu_push(current);
 	emu_push(emu_cs); emu_push(0x2013); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
 	emu_sp += 2;
 
 	if (locax == emu_ax) {
-		emu_push(loc06);
+		emu_push(newCurrent);
 		emu_push(emu_cs); emu_push(0x2021); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 		emu_sp += 2;
 
 		locax = emu_ax;
 
-		emu_push(loc04);
+		emu_push(current);
 		emu_push(emu_cs); emu_push(0x202B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 		emu_sp += 2;
 
@@ -247,7 +247,7 @@ void GameLoop_Unit()
 			emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 			emu_sp += 8;
 
-			Unit_Unknown1E99(u, (uint8)emu_ax, false, 1);
+			Unit_SetOrientation(u, (int8)emu_ax, false, 1);
 		}
 
 		if (tickUnknown1) {
@@ -268,7 +268,7 @@ void GameLoop_Unit()
 					emu_push(emu_cs); emu_push(0x0413); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 					emu_sp += 8;
 
-					Unit_Unknown1E99(u, (uint8)emu_ax, false, 0);
+					Unit_SetOrientation(u, (int8)emu_ax, false, 0);
 				}
 
 				u->fireDelay--;
@@ -276,8 +276,8 @@ void GameLoop_Unit()
 		}
 
 		if (tickUnknown2) {
-			Unit_Unknown1F55(u, 0);
-			if (ui->flags.s.variable_0040) Unit_Unknown1F55(u, 1);
+			Unit_Rotate(u, 0);
+			if (ui->flags.s.variable_0040) Unit_Rotate(u, 1);
 		}
 
 		if (tickUnknown3 && u->variable_6E != 0) {
@@ -493,10 +493,10 @@ uint8 Unit_MovementStringToType(const char *name)
  * @param typeID The type of the new Unit.
  * @param houseID The House of the new Unit.
  * @param position To where on the map this Unit should be transported, or TILE_INVALID for not on the map yet.
- * @param unknown An unknown parameter.
+ * @param orientation Orientation of the Unit.
  * @return The new created Unit, or NULL if something failed.
  */
-Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint8 unknown)
+Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint8 orientation)
 {
 	csip32 ucsip;
 	UnitInfo *ui;
@@ -515,8 +515,8 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, ui
 
 	u->o.houseID = houseID;
 
-	Unit_Unknown1E99(u, unknown, true, 0);
-	Unit_Unknown1E99(u, unknown, true, 1);
+	Unit_SetOrientation(u, orientation, true, 0);
+	Unit_SetOrientation(u, orientation, true, 1);
 
 	Unit_Unknown204C(u, 0);
 
@@ -1282,7 +1282,7 @@ Unit *Unit_Unknown15F4(Unit *unit)
 bool Unit_Unknown167C(Unit *unit)
 {
 	UnitInfo *ui;
-	uint8 locsi;
+	int8 locsi;
 	csip32 ucsip;
 	uint16 packed;
 	uint16 loc08;
@@ -1298,10 +1298,10 @@ bool Unit_Unknown167C(Unit *unit)
 
 	ui = &g_unitInfo[unit->o.type];
 
-	locsi = (unit->variable_62[0][2] + 16) & 0xE0;
+	locsi = (int8)((unit->orientation[0].current + 16) & 0xE0);
 
-	Unit_Unknown1E99(unit, locsi, true, 0);
-	Unit_Unknown1E99(unit, locsi, false, 1);
+	Unit_SetOrientation(unit, locsi, true, 0);
+	Unit_SetOrientation(unit, locsi, false, 1);
 
 	emu_push(locsi);
 	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
@@ -1560,7 +1560,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	emu_push(distance);
-	emu_push(unit->variable_62[0][2]);
+	emu_push(unit->orientation[0].current);
 	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
 	emu_sp += 8;
@@ -1574,7 +1574,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		if ((ui->variable_36 & 0x80) != 0) {
 			newPosition = unit->o.position;
 
-			Unit_Unknown1E99(unit, unit->variable_62[0][2] + (Tools_Random_256() & 0xF), false, 0);
+			Unit_SetOrientation(unit, unit->orientation[0].current + (Tools_Random_256() & 0xF), false, 0);
 		} else {
 			Unit_Unknown10EC(unit);
 			return true;
@@ -1615,7 +1615,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			emu_sp += 2;
 
 			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->fogOfWar == 0) {
-				emu_push(unit->variable_62[0][2]);
+				emu_push(unit->orientation[0].current);
 				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 				emu_sp += 2;
 
@@ -2010,37 +2010,37 @@ void Unit_UntargetMe(Unit *unit)
 }
 
 /**
- * Unknwown function 1E99.
+ * Set the new orientation of the unit.
  *
  * @param unit The Unit to operate on.
- * @param arg0A ??.
- * @param arg0C ??.
- * @param i ??.
+ * @param orientation The new orientation of the unit.
+ * @param rotateInstantly If true, rotation is instant. Else the unit turns over the next few ticks slowly.
+ * @param level 0 = base, 1 = top (turret etc).
  */
-void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i)
+void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uint16 level)
 {
-	int16 locsi;
+	int16 diff;
 
-	assert(i == 0 || i == 1);
+	assert(level == 0 || level == 1);
 
 	if (unit == NULL) return;
 
-	unit->variable_62[i][0] = 0;
-	unit->variable_62[i][1] = arg0A;
+	unit->orientation[level].speed = 0;
+	unit->orientation[level].target = orientation;
 
-	if (arg0C) {
-		unit->variable_62[i][2] = arg0A;
+	if (rotateInstantly) {
+		unit->orientation[level].current = orientation;
 		return;
 	}
 
-	if (unit->variable_62[i][2] == arg0A) return;
+	if (unit->orientation[level].current == orientation) return;
 
-	unit->variable_62[i][0] = g_unitInfo[unit->o.type].variable_42 << 2;
+	unit->orientation[level].speed = (int8)(g_unitInfo[unit->o.type].variable_42 << 2);
 
-	locsi = arg0A - unit->variable_62[i][2];
+	diff = orientation - unit->orientation[level].current;
 
-	if ((locsi > -128 && locsi < 0) || locsi > 128) {
-		unit->variable_62[i][0] = -unit->variable_62[i][0];
+	if ((diff > -128 && diff < 0) || diff > 128) {
+		unit->orientation[level].speed = -unit->orientation[level].speed;
 	}
 }
 

@@ -231,7 +231,7 @@ void Scenario_Load_House(uint8 houseID)
 
 void Scenario_Load_Units(const char *key, char *value)
 {
-	uint8 index, houseType, unitType, actionType, variable_64;
+	uint8 index, houseType, unitType, actionType, direction;
 	uint16 hitpoints;
 	tile32 position;
 	Unit *u;
@@ -284,8 +284,8 @@ void Scenario_Load_Units(const char *key, char *value)
 	if (split == NULL) return;
 	*split = '\0';
 
-	/* Fifth value is variable_64 */
-	variable_64 = atoi(value);
+	/* Fifth value is direction */
+	direction = atoi(value);
 
 	/* Sixth value is the current state of the unit */
 	value = split + 1;
@@ -299,8 +299,8 @@ void Scenario_Load_Units(const char *key, char *value)
 
 	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
 	u->o.position    = position;
-	u->variable_62[0][2] = variable_64;
-	u->actionID    = actionType;
+	u->orientation[0].current = direction;
+	u->actionID     = actionType;
 	u->nextActionID = ACTION_INVALID;
 
 	/* In case the above function failed and we are passed campaign 2, don't add the unit */
@@ -321,8 +321,8 @@ void Scenario_Load_Units(const char *key, char *value)
 	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 	emu_sp += 6;
 
-	Unit_Unknown1E99(u, u->variable_62[0][2], true, 0);
-	Unit_Unknown1E99(u, u->variable_62[0][2], true, 1);
+	Unit_SetOrientation(u, u->orientation[0].current, true, 0);
+	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
 	Unit_Unknown204C(u, 0);
 }
 

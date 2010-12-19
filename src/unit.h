@@ -95,6 +95,18 @@ typedef enum MovementType {
 
 MSVC_PACKED_BEGIN
 /**
+ * Directional information
+ */
+typedef struct dir24 {
+	/* 0000(1)  */ PACK int8 speed;                        /*!< Speed of direction change. */
+	/* 0001(1)  */ PACK int8 target;                       /*!< Target direction. */
+	/* 0002(1)  */ PACK int8 current;                      /*!< Current direction. */
+} GCC_PACKED dir24;
+MSVC_PACKED_END
+assert_compile(sizeof(dir24) == 0x3);
+
+MSVC_PACKED_BEGIN
+/**
  * A Unit as stored in the memory.
  */
 typedef struct Unit {
@@ -115,7 +127,7 @@ typedef struct Unit {
 	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
 	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
 	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062(6)   */ PACK uint8  variable_62[2][3];          /*!< ?? unknown argument of Unit_Create. */
+	/* 0062(6)   */ PACK dir24  orientation[2];             /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
 	/* 0068(1)   */ PACK uint8  variable_68;                /*!< ?? */
 	/* 0069(1)   */ PACK uint8  variable_69;                /*!< ?? */
 	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
@@ -247,7 +259,7 @@ extern bool Unit_Deviate(Unit *unit, uint16 probability);
 extern bool Unit_Move(Unit *unit, uint16 distance);
 extern bool Unit_Damage(Unit *unit, uint16 damage, uint16 range);
 extern void Unit_UntargetMe(Unit *unit);
-extern void Unit_Unknown1E99(Unit *unit, uint8 arg0A, bool arg0C, uint16 i);
+extern void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uint16 level);
 extern void Unit_Select(Unit *unit);
 extern Unit *Unit_CreateWrapper(uint8 houseID, UnitType type, uint16 location);
 extern uint16 Unit_FindTargetAround(uint16 packed);

@@ -320,8 +320,8 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x0DC2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	Unit_Unknown1E99(u, (uint8)(emu_ax & 0xE0), true, 0);
-	Unit_Unknown1E99(u, u->variable_62[0][2], true, 1);
+	Unit_SetOrientation(u, (int8)(emu_ax & 0xE0), true, 0);
+	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
 
 	if (u->o.houseID == g_global->playerHouseID) {
 		emu_push(0x6A);
