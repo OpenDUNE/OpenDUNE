@@ -647,7 +647,6 @@ extern void f__217E_115A_0021_8FF5();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B503_116F_001B_4CA0();
 extern void f__B4CD_1178_000D_B1D5();
-extern void emu_GUI_Picture();
 extern void emu_Load_SavegameCount();
 extern void f__AB00_1184_0001_6780();
 extern void f__AB00_118F_0029_4B06();

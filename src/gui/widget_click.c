@@ -415,3 +415,33 @@ bool GUI_Widget_Cancel_Click()
 
 	return true;
 }
+
+/**
+ * Handles Click event for current selection picture.
+ *
+ * @return False, always.
+ */
+bool GUI_Widget_Picture_Click()
+{
+	Structure *s;
+
+	if (g_global->selectionUnit.csip != 0x0) {
+		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
+
+		Unit_DisplayStatusText(u);
+
+		return false;
+	}
+
+	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+
+	if (s == NULL || !g_structureInfo[s->o.type].flags.s.factory) return false;
+
+	emu_push(0xFFFF);
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+	emu_push(emu_cs); emu_push(0x11EB); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
+	emu_sp += 6;
+
+	return false;
+}
+

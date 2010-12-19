@@ -23,7 +23,6 @@ extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat_List();
 extern void emu_GUI_Options();
-extern void emu_GUI_Picture();
 extern void emu_GUI_Production_BuildThis();
 extern void emu_GUI_Production_Down();
 extern void emu_GUI_Production_List();
@@ -502,6 +501,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
 					case 0x0AEC0FD8: success = GUI_Widget_Cancel_Click(); break;
 					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
+					case 0x0AEC1181: success = GUI_Widget_Picture_Click(); break;
 					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w, wcsip); break;
 					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
@@ -517,7 +517,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 						emu_ip = w->clickProc.s.ip;
 						emu_cs = w->clickProc.s.cs;
 						switch ((emu_cs << 16) + emu_ip) {
-							case 0x0AEC1181: emu_GUI_Picture(); break;
 							case 0x0AEC11F6: emu_GUI_RepairUpgrade(); break;
 							case 0x34950025: overlay(0x3495, 0); emu_GUI_Production_Down(); break;
 							case 0x3495002A: overlay(0x3495, 0); emu_GUI_Production_Up(); break;
