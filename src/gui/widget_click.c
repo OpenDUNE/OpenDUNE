@@ -22,7 +22,6 @@ extern void f__0C3A_2714_0015_B6F6();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B48B_00F2_0005_601A();
-extern void f__B48B_0127_000E_E325();
 extern void f__B48B_01CE_002B_7574();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1178_000D_B1D5();
@@ -269,11 +268,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	if (u->deviated != 0) {
 		Unit_Deviation_Decrease(u, 5);
 		if (u->deviated == 0) {
-			emu_push(0);
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-			emu_push(emu_cs); emu_push(0x1D66); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0127_000E_E325();
-			emu_sp += 6;
-
+			GUI_Widget_Update(w, false, wcsip);
 			return true;
 		}
 	}
@@ -330,11 +325,9 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 
 	wcsip.s.cs = emu_dx;
 	wcsip.s.ip = emu_ax;
+	w = (Widget *)emu_get_memorycsip(wcsip);
 
-	emu_push(0);
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1E8D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0127_000E_E325();
-	emu_sp += 6;
+	GUI_Widget_Update(w, false, wcsip);
 
 	return true;
 }

@@ -159,7 +159,6 @@ extern void f__10E4_0117_0015_392D();
 extern void f__B4CD_011A_0011_E66F();
 extern void f__28E6_0123_000A_333D();
 extern void f__0F3F_0125_000D_4868();
-extern void f__B48B_0127_000E_E325();
 extern void emu_Math_PercentToValue();
 extern void f__B536_0129_000A_8178();
 extern void f__2AE1_0131_0023_99F9();

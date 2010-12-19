@@ -685,3 +685,56 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	if (retcsip != NULL) *retcsip = wcsip;
 	return w;
 }
+
+/**
+ * Updates a widget.
+ *
+ * @param w The widget to update.
+ * @param clickProc Wether to execute the widget clickProc.
+ * @param wcsip TODO -- TEMPORARY -- The csip to the widget.
+ * @return The widget ?.
+ */
+csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
+{
+	if (w == NULL || (w->flags & 0x8) != 0) return wcsip;
+
+	if ((w->state & 0x1) != 0) {
+		w->state |= 0x8;
+	} else {
+		w->state &= ~0x8;
+	}
+
+	w->state &= ~0x1;
+	w->state &= ~0x2;
+
+	if ((w->state & 0x4) != 0) {
+		w->state |= 0x10;
+	} else {
+		w->state &= ~0x10;
+	}
+
+	w->state &= ~0x4;
+
+	GUI_Widget_Draw(w, wcsip);
+
+	if (!clickProc || w->clickProc.csip == 0x0) return wcsip;
+
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+
+	/* Call based on memory/register values */
+	emu_push(emu_cs); emu_push(0x01C2);
+	emu_ip = w->clickProc.s.ip;
+	emu_cs = w->clickProc.s.cs;
+	switch (w->clickProc.csip) {
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0xB48B; emu_last_ip = 0x01BE; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
+			emu_call();
+			return wcsip;
+	}
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x348B) { overlay(0x348B, 1); }
+	emu_sp += 4;
+
+	return wcsip;
+}

@@ -174,3 +174,26 @@ void emu_GUI_Widget_Allocate()
 	emu_dx = retcsip.s.cs;
 	emu_ax = retcsip.s.ip;
 }
+
+/**
+ * Emulator wrapper around GUI_Widget_Update()
+ *
+ * @name emu_GUI_Widget_Update
+ * @implements B48B:0127:000E:E325 ()
+ */
+void emu_GUI_Widget_Update()
+{
+	csip32 wcsip;
+	uint16 clickProc;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	clickProc = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	wcsip = GUI_Widget_Update((Widget *)emu_get_memorycsip(wcsip), clickProc != 0, wcsip);
+	emu_dx = wcsip.s.cs;
+	emu_ax = wcsip.s.ip;
+}
