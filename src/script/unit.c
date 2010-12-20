@@ -496,7 +496,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	tile32 tile;
 	uint16 distance;
 	int8 orientation;
-	uint16 diff;
+	int16 diff;
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
@@ -534,8 +534,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	Unit_SetOrientation(u, orientation, false, 0);
 
-	diff = orientation - u->orientation[0].current;
-	if ((int16)diff < 0) diff = -diff;
+	diff = abs(orientation - u->orientation[0].current);
 
 	Unit_Unknown204C(u, Tools_AdjustToGameSpeed(min(distance / 8, 255), 25, 255, true) * (255 - diff) / 256);
 
@@ -667,7 +666,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	UnitInfo *ui;
 	uint16 target;
 	UnitType typeID;
-	uint16 diff;
+	int16 diff;
 	uint16 distance;
 	bool loc1A;
 	uint16 damage;
@@ -715,8 +714,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
-		diff = u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - emu_ax;
-		if ((int16)diff < 0) diff = -diff;
+		diff = abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - emu_ax);
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
 	}
 
@@ -879,7 +877,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	if (orientation == current) return 0;
 
-	Unit_SetOrientation(u, orientation & 0xFF, false, locdi);
+	Unit_SetOrientation(u, orientation, false, locdi);
 
 	return 1;
 }
@@ -966,7 +964,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	Unit *u;
 	uint16 target;
 	tile32 tile;
-	uint16 locdi;
+	int8 orientation;
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
@@ -983,15 +981,14 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 	emu_push(emu_cs); emu_push(0x1B95); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
-
-	locdi = emu_ax;
+	orientation = (int8)emu_ax;
 
 	u->targetAttack = target;
 	if (!g_unitInfo[u->o.type].flags.s.hasTurret) {
 		u->targetMove = target;
-		Unit_SetOrientation(u, locdi & 0xFF, false, 0);
+		Unit_SetOrientation(u, orientation, false, 0);
 	}
-	Unit_SetOrientation(u, locdi & 0xFF, false, 1);
+	Unit_SetOrientation(u, orientation, false, 1);
 
 	return u->targetAttack;
 }
@@ -1069,7 +1066,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x1CE1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	Unit_SetOrientation(u, emu_ax & 0xFF, false, 0);
+	Unit_SetOrientation(u, (int8)emu_ax, false, 0);
 
 	return 0;
 }

@@ -231,7 +231,8 @@ void Scenario_Load_House(uint8 houseID)
 
 void Scenario_Load_Units(const char *key, char *value)
 {
-	uint8 index, houseType, unitType, actionType, direction;
+	uint8 index, houseType, unitType, actionType;
+	int8 orientation;
 	uint16 hitpoints;
 	tile32 position;
 	Unit *u;
@@ -284,8 +285,8 @@ void Scenario_Load_Units(const char *key, char *value)
 	if (split == NULL) return;
 	*split = '\0';
 
-	/* Fifth value is direction */
-	direction = atoi(value);
+	/* Fifth value is orientation */
+	orientation = (int8)((uint8)atoi(value));
 
 	/* Sixth value is the current state of the unit */
 	value = split + 1;
@@ -299,7 +300,7 @@ void Scenario_Load_Units(const char *key, char *value)
 
 	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
 	u->o.position    = position;
-	u->orientation[0].current = direction;
+	u->orientation[0].current = orientation;
 	u->actionID     = actionType;
 	u->nextActionID = ACTION_INVALID;
 
