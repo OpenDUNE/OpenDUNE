@@ -46,7 +46,8 @@ void emu_Unit_GetHouseID()
  */
 void emu_Unit_Create()
 {
-	uint16 index, unknown;
+	uint16 index;
+	int8 orientation;
 	uint8 typeID, houseID;
 	tile32 position;
 	Unit *u;
@@ -59,9 +60,9 @@ void emu_Unit_Create()
 	typeID   = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
 	houseID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
 	position =        emu_get_tile32  (emu_ss, emu_sp, 0x6);
-	unknown  =        emu_get_memory16(emu_ss, emu_sp, 0xA);
+	orientation = (int8)emu_get_memory16(emu_ss, emu_sp, 0xA);
 
-	u = Unit_Create(index, typeID, houseID, position, (uint8)unknown);
+	u = Unit_Create(index, typeID, houseID, position, orientation);
 
 	emu_ax = 0x0;
 	emu_dx = 0x0;

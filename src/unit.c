@@ -495,7 +495,7 @@ uint8 Unit_MovementStringToType(const char *name)
  * @param orientation Orientation of the Unit.
  * @return The new created Unit, or NULL if something failed.
  */
-Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, uint8 orientation)
+Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, int8 orientation)
 {
 	csip32 ucsip;
 	UnitInfo *ui;
@@ -2136,7 +2136,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 {
 	tile32 tile;
 	House *h;
-	uint8 loc0E;
+	int8 orientation;
 	Unit *unit;
 	Unit *carryall;
 
@@ -2154,12 +2154,11 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	emu_push(tile.s.y); emu_push(tile.s.x);
 	emu_push(emu_cs); emu_push(0x2375); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
-
-	loc0E = emu_ax & 0xFF;
+	orientation = (int8)emu_ax;
 
 	if (g_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
 		g_global->variable_38BC++;
-		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, loc0E);
+		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, orientation);
 		g_global->variable_38BC--;
 
 		if (unit == NULL) return NULL;
@@ -2174,7 +2173,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	}
 
 	g_global->variable_38BC++;
-	carryall = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, houseID, tile, loc0E);
+	carryall = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, houseID, tile, orientation);
 	g_global->variable_38BC--;
 
 	if (carryall == NULL) {
@@ -2347,7 +2346,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 		case UNIT_MISSILE_TURRET:
 		case UNIT_MISSILE_DEVIATOR:
 		case UNIT_MISSILE_TROOPER: {
-			uint8 loc0E;
+			int8 orientation;
 			Unit *bullet;
 			Unit *u;
 
@@ -2355,10 +2354,9 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			emu_push(position.s.y); emu_push(position.s.x);
 			emu_push(emu_cs); emu_push(0x2569); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 			emu_sp += 8;
+			orientation = (int8)emu_ax;
 
-			loc0E = emu_ax & 0xFF;
-
-			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, loc0E);
+			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, orientation);
 			if (bullet == NULL) return NULL;
 
 			emu_push(position.s.y); emu_push(position.s.x);
@@ -2401,7 +2399,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 		case UNIT_BULLET:
 		case UNIT_SONIC_BLAST: {
-			uint8 loc0E;
+			int8 orientation;
 			tile32 t;
 			Unit *bullet;
 
@@ -2409,8 +2407,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			emu_push(position.s.y); emu_push(position.s.x);
 			emu_push(emu_cs); emu_push(0x26BD); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 			emu_sp += 8;
-
-			loc0E = emu_ax & 0xFF;
+			orientation = (int8)emu_ax;
 
 			emu_push(32);
 			emu_push(0);
@@ -2419,7 +2416,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			emu_sp += 8;
 
 			emu_push(128);
-			emu_push(loc0E);
+			emu_push(orientation);
 			emu_push(emu_dx); emu_push(emu_ax);
 			emu_push(emu_cs); emu_push(0x26F0); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
 			emu_sp += 8;
@@ -2427,7 +2424,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			t.s.y = emu_dx;
 			t.s.x = emu_ax;
 
-			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, t, loc0E);
+			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, t, orientation);
 			if (bullet == NULL) return NULL;
 
 			if (type == UNIT_SONIC_BLAST) {
