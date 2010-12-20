@@ -666,7 +666,6 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	UnitInfo *ui;
 	uint16 target;
 	UnitType typeID;
-	int16 diff;
 	uint16 distance;
 	bool loc1A;
 	uint16 damage;
@@ -706,19 +705,22 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 
-	diff = 0;
 	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
+		int16 diff = 0;
+		int8 orientation;
+
 		tile32 tile = Tools_Index_GetTile(target);
 		emu_push(tile.s.y); emu_push(tile.s.x);
 		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
+		orientation = (int8)emu_ax;
 
-		diff = abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - emu_ax);
+		diff = abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - orientation);
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
-	}
 
-	if (diff >= 8) return 0;
+		if (diff >= 8) return 0;
+	}
 
 	damage = ui->damage;
 	typeID = ui->bulletType;
