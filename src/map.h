@@ -35,6 +35,7 @@ extern bool Map_Load(FILE *fp, uint32 length);
 extern bool Map_IsPositionUnveiled(uint16 position);
 extern bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY);
 extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded);
+extern uint16 Map_B4CD_0750(uint16 packed);
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();
@@ -45,5 +46,6 @@ extern void emu_Map_IsValidPosition();
 extern void emu_Map_IsPositionUnveiled();
 extern void emu_Map_IsPositionInViewport();
 extern void emu_Map_MakeExplosion();
+extern void emu_Map_B4CD_0750();
 
 #endif /* MAP_H */

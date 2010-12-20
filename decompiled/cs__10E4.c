@@ -3015,7 +3015,7 @@ l__1CBB:
 	goto l__1DD9;
 l__1CD9:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A02));
-	emu_push(emu_cs); emu_push(0x1CE2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_push(emu_cs); emu_push(0x1CE2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_B4CD_0750();
 l__1CE2:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;

@@ -31,7 +31,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
 extern void f__B4CD_0000_0011_95D0();
-extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
 extern void overlay(uint16 cs, uint8 force);
@@ -326,10 +325,7 @@ void emu_Unknown_07D4_034D()
 			GUI_DrawSprite(g_global->variable_6C91, loc2A, loc02, loc04, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
-				emu_push(packed);
-				emu_push(emu_cs); emu_push(0x0BFB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-				emu_sp += 2;
-
+				emu_ax = Map_B4CD_0750(packed);
 				if (emu_ax == 8 || emu_ax == 9) {
 					locsi = (u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[locdi][0] * 3);
 

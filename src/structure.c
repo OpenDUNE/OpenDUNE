@@ -31,7 +31,6 @@ extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4CD_0000_0011_95D0();
-extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1816_0033_B55B();
@@ -923,10 +922,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 
 		curPos = position + layoutTile[i];
 
-		emu_push(curPos);
-		emu_push(emu_cs); emu_push(0x0CC1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-		emu_sp += 2;
-		loc10 = emu_ax;
+		loc10 = Map_B4CD_0750(curPos);
 
 		if (g_global->debugScenario != 0) {
 			if (g_global->variable_3A3E[loc10][8] == 0) {
@@ -979,10 +975,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			emu_push(curPos);
-			emu_push(emu_cs); emu_push(0x0DDB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-			emu_sp += 2;
-			loc14 = emu_ax;
+			loc14 = Map_B4CD_0750(curPos);
 			if (loc14 != 10 && loc14 != 11) continue;
 			if (Map_GetTileByPosition(curPos)->houseID != g_global->playerHouseID) continue;
 

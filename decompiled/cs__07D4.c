@@ -276,7 +276,7 @@ l__16B0:
 	goto l__17BA;
 l__16BA:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x16C2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
+	emu_push(emu_cs); emu_push(0x16C2); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_B4CD_0750();
 l__16C2:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x8) = emu_ax;

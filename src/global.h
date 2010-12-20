@@ -445,7 +445,9 @@ typedef struct GlobalData {
 	/* 23BD(13)  */ PACK char   string_23BD[13];            /*!< "WESTWOOD.WSA" NULL terminated. */
 	/* 23CA(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
 	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
-	/* 23D9()    */ PACK uint8   unknown_23D9[0x019B];
+	/* 23D9()    */ PACK uint8   unknown_23D9[0x00DF];
+	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
+	/* 255C()    */ PACK uint8   unknown_255C[0x0018];
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
 	/* 2580(2)   */ PACK uint16 variable_2580;              /*!< ?? */

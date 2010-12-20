@@ -43,7 +43,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
-extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_14CA_0013_F579();
 extern void f__B4CD_154C_0015_B7FB();
@@ -1208,12 +1207,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (unit == NULL || target == NULL) return 0;
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
-
-	emu_push(Tile_PackTile(target->o.position));
-	emu_push(emu_cs); emu_push(0x1557); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	if (g_global->variable_3A3E[emu_ax][7] == 0) return 0;
+	if (g_global->variable_3A3E[Map_B4CD_0750(Tile_PackTile(target->o.position))][7] == 0) return 0;
 
 	switch(g_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
@@ -1318,11 +1312,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if ((int16)locax > 0xFF || locax == 0xFFFF) return false;
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x174A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	loc08 = emu_ax;
+	loc08 = Map_B4CD_0750(packed);
 	if (loc08 == 0xC) loc08 = 0xA;
 
 	locdi = g_global->variable_3A3E[loc08][2 + (ui->movementType / 2)];
@@ -1606,10 +1596,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			u->o.script.returnValue = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x0216); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-			emu_sp += 2;
-
+			emu_ax = Map_B4CD_0750(packed);
 			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->fogOfWar == 0) {
 				emu_push(unit->orientation[0].current);
 				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
@@ -1663,11 +1650,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				emu_push(emu_cs); emu_push(0x0355); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
 				emu_sp += 8;
 			} else {
-				emu_push(packed);
-				emu_push(emu_cs); emu_push(0x0360); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-				emu_sp += 2;
-
-				if (emu_ax == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > damage) Tools_Random_256();
+				if (Map_B4CD_0750(packed) == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > damage) Tools_Random_256();
 			}
 		}
 
@@ -1680,10 +1663,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	} else {
 		if (unit->o.type == UNIT_BULLET) {
-			emu_push(Tile_PackTile(newPosition));
-			emu_push(emu_cs); emu_push(0x0418); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-			emu_sp += 2;
-
+			emu_ax = Map_B4CD_0750(Tile_PackTile(newPosition));
 			if (emu_ax == 11 || emu_ax == 12) {
 				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
 					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->o.houseID) {
@@ -1718,11 +1698,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							Map_MakeExplosion(ui->variable_54, p, 200, 0);
 						}
 					} else if (ui->variable_54 != 0xFFFF) {
-						emu_push(Tile_PackTile(unit->o.position));
-						emu_push(emu_cs); emu_push(0x05D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-						emu_sp += 2;
-
-						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && emu_ax == 0) {
+						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_B4CD_0750(Tile_PackTile(unit->o.position)) == 0) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							emu_push(32);
@@ -1749,17 +1725,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						Unit_Damage(unit, 1, 0);
 					}
 
-					if (unit->o.type == UNIT_SABOTEUR) {
-						emu_push(Tile_PackTile(newPosition));
-						emu_push(emu_cs); emu_push(0x076C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-						emu_sp += 2;
+					if (unit->o.type == UNIT_SABOTEUR && (Map_B4CD_0750(Tile_PackTile(newPosition)) == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
+						Map_MakeExplosion(4, newPosition, 500, 0);
 
-						if (emu_ax == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32)) {
-							Map_MakeExplosion(4, newPosition, 500, 0);
-
-							Unit_Free(unit);
-							return true;
-						}
+						Unit_Free(unit);
+						return true;
 					}
 
 					Unit_Unknown204C(unit, 0);
@@ -2222,11 +2192,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return packed;
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x2FC7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	if (emu_ax == 14) return packed;
+	if (Map_B4CD_0750(packed) == 14) return packed;
 
 	for (i = 0; i < 9; i++) {
 		Unit *u;
@@ -2258,11 +2224,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 	ui = &g_unitInfo[unit->o.type];
 	packed = Tile_PackTile(unit->o.position);
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	loc02 = g_global->variable_3A3E[emu_ax][2 + ui->movementType / 2];
+	loc02 = g_global->variable_3A3E[Map_B4CD_0750(packed)][2 + ui->movementType / 2];
 	loc02 &= ((ui->movementType & 0x1) != 0) ? 0xFF00 : 0x00FF;
 	if (loc02 == 0) return true;
 
@@ -2477,9 +2439,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		stringID = 0x79; /* " is %d percent full" */
 
 		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
-			emu_push(Tile_PackTile(unit->o.position));
-			emu_push(emu_cs); emu_push(0x28A2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-			emu_sp += 2;
+			emu_ax = Map_B4CD_0750(Tile_PackTile(unit->o.position));
 
 			if (emu_ax == 8 || emu_ax == 9) stringID = 0x7A; /* " is %d percent full and harvesting" */
 		}
@@ -2730,11 +2690,7 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 		return -res;
 	}
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x3289); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	loc0E = emu_ax;
+	loc0E = Map_B4CD_0750(packed);
 
 	res = g_global->variable_3A3E[loc0E][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {

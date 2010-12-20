@@ -194,3 +194,22 @@ void emu_Map_MakeExplosion()
 
 	Map_MakeExplosion(type, position, hitpoints, unitOriginEncoded);
 }
+
+/**
+ * Emulator wrapper around Map_B4CD_0750()
+ *
+ * @name emu_Map_B4CD_0750
+ * @implements B4CD:0750:0027:7BA5 ()
+ */
+void emu_Map_B4CD_0750()
+{
+	uint16 packed;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Map_B4CD_0750(packed);
+}

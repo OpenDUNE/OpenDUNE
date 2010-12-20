@@ -33,7 +33,6 @@ extern void f__151A_0114_0022_0B6C();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
-extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_0AFA_0011_D5DB();
 extern void f__B4CD_1086_0040_F11C();
@@ -1324,11 +1323,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x22F0); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
 	emu_sp += 2;
 
-	emu_push(Tile_PackTile(u->o.position));
-	emu_push(emu_cs); emu_push(0x230A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	loc06 = g_global->variable_3A3E[emu_ax][7] != 0 ? 0 : 1;
+	loc06 = g_global->variable_3A3E[Map_B4CD_0750(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
 
 	if (u->o.script.variables[1] == 1) loc06 += 2;
 
@@ -1524,10 +1519,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	packed = Tile_PackTile(u->o.position);
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x2721); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
+	emu_ax = Map_B4CD_0750(packed);
 	if (emu_ax != 8 && emu_ax != 9) return 0;
 
 	u->amount += Tools_Random_256() & 1;

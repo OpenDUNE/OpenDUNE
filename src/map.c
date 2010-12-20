@@ -27,7 +27,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4CD_0000_0011_95D0();
-extern void f__B4CD_0750_0027_7BA5();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -551,11 +550,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	emu_push(positionPacked);
-	emu_push(emu_cs); emu_push(0x0382); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0750_0027_7BA5();
-	emu_sp += 2;
-
-	if (emu_ax == 0xB && hitpoints != 0) {
+	if (Map_B4CD_0750(positionPacked) == 11 && hitpoints != 0) {
 		uint16 loc22;
 
 		loc22 = 0;
@@ -582,4 +577,33 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	emu_push(g_global->variable_3212[type].s.cs); emu_push(g_global->variable_3212[type].s.ip);
 	emu_push(emu_cs); emu_push(0x03F9); f__06F7_0493_0015_AAB2();
 	emu_sp += 8;
+}
+
+/**
+ * Get ??
+ *
+ * @param packed The packed tile to get ??
+ * @return ??
+ */
+uint16 Map_B4CD_0750(uint16 packed)
+{
+	Tile *t;
+	int16 locsi;
+
+	t = Map_GetTileByPosition(packed);
+
+	if (t->spriteID == g_global->variable_39F8) return 10;
+
+	if (t->spriteID == g_global->variable_39F4 || t->spriteID == g_global->variable_39F4 + 1) return 14;
+
+	if (t->spriteID > g_global->variable_39FA && t->spriteID < (uint16)(g_global->variable_39FA + 75)) return 11;
+
+	if (t->fogOfWar == g_global->variable_39FA) return 13;
+
+	if (Structure_Get_ByPackedTile(packed) != NULL) return 12;
+
+	locsi = t->spriteID - g_global->variable_39F6;
+	if (locsi < 0 || locsi > 82) return 4;
+
+	return g_global->variable_24B8[locsi];
 }
