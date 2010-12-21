@@ -30,7 +30,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
-extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
 extern void overlay(uint16 cs, uint8 force);
@@ -759,11 +758,7 @@ void emu_Unknown_07D4_0000()
 			for (loc06 = 0; loc06 < 15; loc06++) {
 				if (loc06 >= locsi && (locsi + loc02) > loc06 && loc08 >= locdi && (locdi + loc04) > loc08 && g_global->variable_3A12 == 0) continue;
 
-				emu_push(1);
-				emu_push(0);
-				emu_push(loc06 + loc0C + loc0A);
-				emu_push(emu_cs); emu_push(0x01E1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-				emu_sp += 6;
+				Map_Update(loc06 + loc0C + loc0A, 0, true);
 			}
 		}
 	}
@@ -789,11 +784,7 @@ void emu_Unknown_07D4_0000()
 		g_global->variable_3346 = g_global->variable_76AC + 60;
 
 		for (loc14 = 0; loc14 < 14; loc14++) {
-			emu_push(1);
-		emu_push(0);
-			emu_push(g_global->viewportPosition + loc14 + 384);
-			emu_push(emu_cs); emu_push(0x02A8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-			emu_sp += 6;
+			Map_Update(g_global->viewportPosition + loc14 + 384, 0, true);
 		}
 	}
 

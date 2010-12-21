@@ -213,3 +213,26 @@ void emu_Map_B4CD_0750()
 
 	emu_ax = Map_B4CD_0750(packed);
 }
+
+/**
+ * Emulator wrapper around Map_Update()
+ *
+ * @name emu_Map_Update
+ * @implements B4CD:0000:0011:95D0 ()
+ */
+void emu_Map_Update()
+{
+	uint16 packed;
+	uint16 type;
+	bool ignoreInvisible;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed          = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	type            = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	ignoreInvisible = emu_get_memory16(emu_ss, emu_sp, 0x6) != 0;
+
+	Map_Update(packed, type, ignoreInvisible);
+}

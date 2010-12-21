@@ -31,7 +31,6 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
-extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1816_0033_B55B();
@@ -574,11 +573,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				if (Map_IsPositionUnveiled(curPos)) t->fogOfWar = 0;
 
-				emu_push(0);
-				emu_push(0);
-				emu_push(curPos);
-				emu_push(emu_cs); emu_push(0x03E7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-				emu_sp += 6;
+				Map_Update(curPos, 0, false);
 
 				result = 1;
 			}
@@ -601,11 +596,7 @@ bool Structure_Place(Structure *s, uint16 position)
 						t->fogOfWar = 0;
 					}
 
-					emu_push(0);
-					emu_push(0);
-					emu_push(curPos);
-					emu_push(emu_cs); emu_push(0x04D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-					emu_sp += 6;
+					Map_Update(curPos, 0, false);
 
 					result = 1;
 				}

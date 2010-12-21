@@ -25,7 +25,6 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -175,11 +174,7 @@ static void Map_InvalidateSelection(uint16 packed, bool enable)
 
 			curPacked = packed + Tile_PackXY(x, y);
 
-			emu_push(0);
-			emu_push(0);
-			emu_push(curPacked);
-			emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-			emu_sp += 6;
+			Map_Update(curPacked, 0, false);
 
 			dest = &g_global->variable_95E5[curPacked >> 3];
 			value = 1 << (curPacked & 0x7);
@@ -596,4 +591,64 @@ uint16 Map_B4CD_0750(uint16 packed)
 	if (locsi < 0 || locsi > 82) return 4;
 
 	return g_global->variable_24B8[locsi];
+}
+
+/**
+ * Checks wether a packed tile is visible in the viewport.
+ *
+ * @param packed The packed tile.
+ * @return True if the tile is visible.
+ */
+static bool Map_IsTileVisible(uint16 packed)
+{
+	uint8 x, y;
+	uint8 x2, y2;
+
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+	x2 = Tile_GetPackedX(g_global->minimapPosition);
+	y2 = Tile_GetPackedY(g_global->minimapPosition);
+
+	return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
+}
+
+/**
+ * Updates ??.
+ *
+ * @param packed The packed tile.
+ * @param type The type of update.
+ * @param ignoreInvisible Wether to ignore tile visibility check.
+ */
+void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
+{
+	if (!ignoreInvisible && !Map_IsTileVisible(packed)) return;
+
+	switch (type) {
+		default:
+		case 0: {
+			uint8 i;
+			uint16 curPacked;
+			uint8 v;
+
+			if ((g_global->variable_8DE5[packed >> 3] & (1 << (packed & 7))) != 0) return;
+
+			g_global->variable_39E2++;
+
+			for (i = 0; i < 9; i++) {
+				curPacked = (packed + g_global->variable_2462[i]) & 0xFFF;
+				v = (1 << (curPacked & 7));
+				g_global->variable_8FE5[curPacked >> 3] |= v;
+				g_global->variable_3A08 |= g_global->variable_95E5[curPacked >> 3] & v;
+			}
+
+			g_global->variable_8DE5[curPacked >> 3] |= v;
+			return;
+		}
+
+		case 1:
+		case 2:
+		case 3:
+			g_global->variable_8FE5[packed >> 3] |= (1 << (packed & 7));
+			return;
+	}
 }

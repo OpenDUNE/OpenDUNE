@@ -28,7 +28,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_0000_0011_95D0();
 extern void f__B4CD_17DC_0019_CB46();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -468,11 +467,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	tile->spriteID = baseSpriteID + rotation;
 	s->variable_49 = rotation;
 
-	emu_push(0);
-	emu_push(0);
-	emu_push(Tile_PackTile(s->o.position));
-	emu_push(emu_cs); emu_push(0x113D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0000_0011_95D0();
-	emu_sp += 6;
+	Map_Update(Tile_PackTile(s->o.position), 0, false);
 
 	return 1;
 }
