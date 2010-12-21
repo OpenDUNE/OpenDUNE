@@ -29,7 +29,6 @@
 extern void f__0C10_0008_0014_19CD();
 extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
-extern void f__0C3A_1216_0013_E56D();
 extern void f__0C3A_2207_001D_EDF2();
 extern void f__0C3A_22CD_0029_8F46();
 extern void f__0F3F_0125_000D_4868();
@@ -1644,11 +1643,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			s = Structure_Get_ByPackedTile(packed);
 
 			if (s != NULL) {
-				emu_push(0);
-				emu_push(damage);
-				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-				emu_push(emu_cs); emu_push(0x0355); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
-				emu_sp += 8;
+				Structure_Damage(s, damage, 0);
 			} else {
 				if (Map_B4CD_0750(packed) == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > damage) Tools_Random_256();
 			}
@@ -2603,20 +2598,15 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		return;
 	}
 
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip       = g_global->structureStartPos;
-	scsip.s.ip += s->o.index * sizeof(Structure);
-
 	if (unit->o.type == UNIT_SABOTEUR) {
-		emu_push(1);
-		emu_push(500);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x2E55); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
-		emu_sp += 8;
-
+		Structure_Damage(s, 500, 1);
 		Unit_Free(unit);
 		return;
 	}
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	scsip       = g_global->structureStartPos;
+	scsip.s.ip += s->o.index * sizeof(Structure);
 
 	if (s->o.hitpoints < si->hitpoints / 4) {
 		House *h;
@@ -2639,11 +2629,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		emu_push(emu_cs); emu_push(0x2F40); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
 		emu_sp += 4;
 	} else {
-		emu_push(1);
-		emu_push(max(unit->o.hitpoints * 2, s->o.hitpoints / 2));
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x2F7B); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
-		emu_sp += 8;
+		Structure_Damage(s, max(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}
 
 	emu_push(scsip.s.cs); emu_push(scsip.s.ip);

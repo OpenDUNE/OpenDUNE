@@ -114,6 +114,7 @@ extern bool Structure_Save(FILE *fp);
 extern bool Structure_Load(FILE *fp, uint32 length);
 extern void Structure_ActivateSpecial(Structure *s);
 extern void Structure_RemoveFog(Structure *s);
+extern bool Structure_Damage(Structure *s, uint16 damage, uint16 range);
 
 
 extern void emu_Structure_Create();

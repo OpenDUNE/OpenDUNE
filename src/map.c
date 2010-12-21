@@ -19,7 +19,6 @@
 extern void emu_Structure_UpdateMap();
 extern void f__06F7_0493_0015_AAB2();
 extern void f__07D4_1625_001A_07E5();
-extern void f__0C3A_1216_0013_E56D();
 extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
 extern void f__24D0_000D_0039_C17D();
@@ -522,14 +521,9 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	}
 
 	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
-		csip32 scsip;
 		Structure *s = Structure_Get_ByPackedTile(positionPacked);
 
 		if (s != NULL) {
-			/* XXX -- Temporary, to keep all the emu_calls workable for now */
-			scsip = g_global->structureStartPos;
-			scsip.s.ip += s->o.index * sizeof(Structure);
-
 			if (type == 2) {
 				StructureInfo *si = &g_structureInfo[s->o.type];
 
@@ -542,11 +536,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x1423; f__1423_0E4F_0010_843C();
 			emu_sp += 2;
 
-			emu_push(0);
-			emu_push(hitpoints);
-			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x0377); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
-			emu_sp += 8;
+			Structure_Damage(s, hitpoints, 0);
 		}
 	}
 

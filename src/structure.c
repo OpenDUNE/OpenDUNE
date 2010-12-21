@@ -22,10 +22,11 @@
 #include "unknown/unknown.h"
 #include "gui/gui.h"
 
-extern void f__0C3A_1216_0013_E56D();
+extern void f__0C3A_0E35_0013_A551();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__0C3A_2814_0015_76F0();
+extern void f__0C3A_2929_0012_B10B();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
@@ -129,11 +130,7 @@ void GameLoop_Structure()
 		}
 
 		if (tickDegrade && s->o.flags.s.degrades && s->o.hitpoints > si->hitpoints / 2) {
-			emu_push(0);
-			emu_push(hi->variable_08 + 1);
-			emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x023F); emu_cs = 0x0C3A; f__0C3A_1216_0013_E56D();
-			emu_sp += 8;
+			Structure_Damage(s, hi->variable_08 + 1, 0);
 		}
 
 		if (tickStructure) {
@@ -807,16 +804,11 @@ void Structure_CalculateHitpointsMax(House *h)
 	find.type    = 0xFFFF;
 
 	while (true) {
-		csip32 scsip;
 		StructureInfo *si;
 		Structure *s;
 
 		s = Structure_Find(&find);
 		if (s == NULL) return;
-
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		scsip = g_global->structureStartPos;
-		scsip.s.ip += s->o.index * sizeof(Structure);
 
 		si = &g_structureInfo[s->o.type];
 
@@ -824,12 +816,7 @@ void Structure_CalculateHitpointsMax(House *h)
 		s->hitpointsMax = max(s->hitpointsMax, si->hitpoints / 2);
 
 		if (s->hitpointsMax >= s->o.hitpoints) continue;
-
-		emu_push(0);
-		emu_push(1);
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x21E0); f__0C3A_1216_0013_E56D();
-		emu_sp += 8;
+		Structure_Damage(s, 1, 0);
 	}
 }
 
@@ -1241,4 +1228,83 @@ void Structure_RemoveFog(Structure *s)
 	if (s == NULL || s->o.houseID != g_global->playerHouseID) return;
 
 	Tile_RemoveFogInRadius(s->o.position, g_structureInfo[s->o.type].fogUncoverRadius);
+}
+
+/**
+ * Damage the structure, and bring the surrounding to an explosion if needed.
+ *
+ * @param s The structure to damage.
+ * @param damage The damage to deal to the structure.
+ * @param range The range in which an explosion should be possible.
+ * @return True if and only if the structure is now destroyed.
+ */
+bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
+{
+	StructureInfo *si;
+
+	if (s == NULL) return false;
+	if (damage == 0) return false;
+	if (s->o.script.variables[0] == 1) return false;
+
+	si = &g_structureInfo[s->o.type];
+
+	if (s->o.hitpoints >= damage) {
+		s->o.hitpoints -= damage;
+	} else {
+		s->o.hitpoints = 0;
+	}
+
+	if (s->o.hitpoints == 0) {
+		csip32 scsip;
+		uint16 score;
+
+		score = si->buildCredits / 100;
+		if (score < 1) score = 1;
+
+		if (House_AreAllied(g_global->playerHouseID, s->o.houseID)) {
+			g_global->scenario.destroyedAllied++;
+			g_global->scenario.score -= score;
+		} else {
+			g_global->scenario.destroyedEnemy++;
+			g_global->scenario.score += score;
+		}
+
+		/* XXX -- Temporary, to keep all the emu_calls workable for now */
+		scsip = g_global->structureStartPos;
+		scsip.s.ip += s->o.index * sizeof(Structure);
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x12E8); f__0C3A_0E35_0013_A551();
+		emu_sp += 4;
+
+		if (g_global->playerHouseID == s->o.houseID) {
+			uint16 locdi;
+
+			switch (s->o.houseID) {
+				case HOUSE_HARKONNEN: locdi = 38; break;
+				case HOUSE_ATREIDES:  locdi = 39; break;
+				case HOUSE_ORDOS:     locdi = 40; break;
+				default: locdi = 0xFFFF; break;
+			}
+
+			emu_push(locdi);
+			emu_push(emu_cs); emu_push(0x132D); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+			emu_sp += 2;
+		} else {
+			emu_push(37);
+			emu_push(emu_cs); emu_push(0x1339); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+			emu_sp += 2;
+		}
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x1345); f__0C3A_2929_0012_B10B();
+		emu_sp += 4;
+
+		return true;
+	}
+
+	if (range == 0) return false;
+
+	Map_MakeExplosion(2, Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]), 0, 0);
+	return false;
 }
