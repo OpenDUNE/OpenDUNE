@@ -573,67 +573,39 @@ static void Gameloop_IntroMenu()
 	*((uint32*)emu_get_memorycsip(csip)) = 0x12345678;
 	csip.s.ip += 4;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1A76); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	g_global->mapPointer = csip;
 	csip.s.ip += 0x4000;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1A9B); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	Unit_Init(csip);
 	csip.s.ip += sizeof(Unit) * UNIT_INDEX_MAX;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1ABE); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	Team_Init(csip);
 	csip.s.ip += sizeof(Team) * TEAM_INDEX_MAX;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1AE1); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	House_Init(csip);
 	csip.s.ip += sizeof(House) * HOUSE_INDEX_MAX;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1B04); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	Structure_Init(csip);
 	csip.s.ip += sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD;
 
 	csip.s.ip += 0x58;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1B2B); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	g_global->variable_3956 = csip;
 	csip.s.ip += 0x770;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1B50); emu_cs = 0x2B0E; emu_Tools_GetSmallestIP();
-	emu_sp += 4;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Tools_GetSmallestIP(csip);
 
 	g_global->variable_395A = csip;
 	csip.s.ip += 0x280;
