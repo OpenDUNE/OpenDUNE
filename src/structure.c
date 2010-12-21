@@ -1261,7 +1261,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 		score = si->buildCredits / 100;
 		if (score < 1) score = 1;
 
-		if (House_AreAllied(g_global->playerHouseID, s->o.houseID)) {
+		if (House_AreAllied((uint8)g_global->playerHouseID, s->o.houseID)) {
 			g_global->scenario.destroyedAllied++;
 			g_global->scenario.score -= score;
 		} else {
