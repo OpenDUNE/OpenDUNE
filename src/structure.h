@@ -82,7 +82,7 @@ typedef struct StructureInfo {
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
 	/* 001A(2)   */ PACK uint16 variable_1A;                /*!< ?? */
-	/* 001C()    */ PACK uint8   unknown_001C[0x0004];
+	/* 001C(4)   */ PACK uint32 variable_1C;                /*!< ?? Bitmask? */
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
 	/* 0022()    */ PACK uint8   unknown_0022[0x0009];
 	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
@@ -91,7 +91,8 @@ typedef struct StructureInfo {
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
-	/* 003C()    */ PACK uint8   unknown_003C[0x0024];
+	/* 003C()    */ PACK uint8   unknown_003C[0x001E];
+	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(StructureInfo) == 0x60);
@@ -115,6 +116,7 @@ extern bool Structure_Load(FILE *fp, uint32 length);
 extern void Structure_ActivateSpecial(Structure *s);
 extern void Structure_RemoveFog(Structure *s);
 extern bool Structure_Damage(Structure *s, uint16 damage, uint16 range);
+extern bool Structure_IsUpgradable(Structure *s);
 
 
 extern void emu_Structure_Create();
@@ -123,5 +125,6 @@ extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
+extern void emu_Structure_IsUpgradable();
 
 #endif /* STRUCTURE_H */

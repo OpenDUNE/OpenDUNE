@@ -36,7 +36,6 @@ extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_ConnectWall();
-extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -148,11 +147,7 @@ void GameLoop_Structure()
 						/* Ordos Heavy Vehicle gets the last upgrade for free */
 						if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 2) s->upgradeLevel = 3;
 
-						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-						emu_push(emu_cs); emu_push(0x02E4); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
-						emu_sp += 2;
-
-						s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
+						s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 					}
 				} else {
 					s->o.flags.s.upgrading = false;
@@ -467,11 +462,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	/* Check if there is an upgrade available */
 	if (si->flags.s.factory) {
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x011A); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
-		emu_sp += 4;
-
-		s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
+		s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 	}
 
 	s->objectType = 0xFFFF;
@@ -486,11 +477,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	/* AIs get the full upgrade immediatly */
 	if (houseID != g_global->playerHouseID) {
 		while (true) {
-			emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-			emu_push(emu_cs); emu_push(0x016E); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
-			emu_sp += 4;
-
-			if (emu_ax == 0) break;
+			if (!Structure_IsUpgradable(s)) break;
 			s->upgradeLevel++;
 		}
 		s->upgradeTimeLeft = 0;
@@ -1042,13 +1029,7 @@ bool Structure_Load(FILE *fp, uint32 length)
 		scsip.s.cs = g_global->structureStartPos.s.cs;
 		scsip.s.ip = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x04B5); emu_cs = 0x0C3A; emu_Structure_IsUpgradable();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
-		emu_sp += 4;
-
-		s->upgradeTimeLeft = (emu_ax == 0) ? 0 : 100;
+		s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 	}
 	if (length != 0) return false;
 
@@ -1297,5 +1278,32 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 	if (range == 0) return false;
 
 	Map_MakeExplosion(2, Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]), 0, 0);
+	return false;
+}
+
+bool Structure_IsUpgradable(Structure *s)
+{
+	StructureInfo *si;
+
+	if (s == NULL) return false;
+
+	si = &g_structureInfo[s->o.type];
+
+	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_HIGH_TECH) return false;
+	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->variable_5A[2] > g_global->campaignID) return false;
+
+	if (si->variable_5A[s->upgradeLevel] != 0 && si->variable_5A[s->upgradeLevel] <= g_global->campaignID + 1) {
+		House *h;
+
+		if (s->o.type != STRUCTURE_CONSTRUCTION_YARD) return true;
+		if (s->upgradeLevel != 1) return true;
+
+		h = House_Get_ByIndex(s->o.houseID);
+		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].variable_1C) == g_structureInfo[STRUCTURE_ROCKET_TURRET].variable_1C) return true;
+
+		return false;
+	}
+
+	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_WOR_TROOPER && s->upgradeLevel == 0 && g_global->campaignID > 3) return true;
 	return false;
 }

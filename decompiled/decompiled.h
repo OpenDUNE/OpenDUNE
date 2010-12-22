@@ -762,7 +762,6 @@ extern void emu_File_LowLevel_Close();
 extern void f__01F7_2412_0011_FC80();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__01F7_2562_0026_6AD7();
-extern void emu_Structure_IsUpgradable();
 extern void f__01F7_260F_0012_C6FD();
 extern void f__AB01_26EB_0047_41F4();
 extern void f__0C3A_2714_0015_B6F6();

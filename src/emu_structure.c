@@ -166,3 +166,26 @@ void emu_Structure_RemoveFog()
 
 	Structure_RemoveFog(s);
 }
+
+/**
+ * Emulator wrapper around Structure_IsUpgradable()
+ *
+ * @name emu_Structure_IsUpgradable
+ * @implements 0C3A:25EC:0011:E453 ()
+ */
+void emu_Structure_IsUpgradable()
+{
+	csip32 scsip;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (scsip.csip == 0x0) return;
+	s = Structure_Get_ByMemory(scsip);
+
+	Structure_IsUpgradable(s);
+}
