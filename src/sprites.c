@@ -13,8 +13,18 @@
 #include "string.h"
 #include "file.h"
 #include "tools.h"
+#include "os/endian.h"
 
 csip32 *g_sprites = NULL;
+
+extern void f__22A6_0EDB_000A_151A();
+extern void f__22A6_1158_0069_1890();
+extern void f__253D_023A_0038_2BAE();
+extern void f__B4B8_09D0_0012_0D7D();
+extern void f__B4B8_2295_0018_A862();
+extern void emu_Tools_Free();
+extern void emu_Tools_Malloc();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Initialize the sprites system.
@@ -187,4 +197,222 @@ uint8 Sprite_GetHeight(csip32 sprite_csip)
 	if (sprite_csip.csip == 0x0) return 0;
 
 	return emu_get_memorycsip(sprite_csip)[2];
+}
+
+/**
+ * Loads an ICN file.
+ *
+ * @param filename The name of the file to load.
+ * @param memory1 The index of a memory block where to store loaded sprites.
+ * @param memory2 The index of a memory block where to store loaded sprites.
+ * @return The number of loaded sprites.
+ */
+static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 memory2)
+{
+	csip32 memBlock1;
+	csip32 memBlock2;
+	uint8  index;
+	uint16 tileSize;
+	uint32 length;
+	int8   info[4];
+	uint16 tileCount = 0;
+
+	emu_push(memory2);
+	emu_push(emu_cs); emu_push(0x001A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock2.s.cs = emu_dx;
+	memBlock2.s.ip = emu_ax;
+
+	emu_push(memory1);
+	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock1.s.cs = emu_dx;
+	memBlock1.s.ip = emu_ax;
+
+	index = ChunkFile_Open(filename);
+
+	ChunkFile_Read(index, HTOBE32('SINF'), info, 4);
+
+	assert(g_global->variable_66DC.csip == 0x22A61158);
+	emu_push(0);
+	emu_push(0);
+	emu_push(info[1]);
+	emu_push(info[0]);
+	emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x22A6; f__22A6_1158_0069_1890();
+	emu_sp += 8;
+
+	tileSize = (info[1] * (info[0] << 3)) * info[3];
+
+	length = ChunkFile_Seek(index, HTOBE32('SSET'));
+
+	if (g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] >= length) {
+		memBlock1.s.cs = g_global->variable_6C93[memory1 >> 1][memory1 & 0x1];
+		memBlock1.s.ip = g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] - length - 8;
+
+		memBlock1 = Tools_GetSmallestIP(memBlock1);
+		memBlock1.s.ip = 0x0;
+
+		ChunkFile_Read(index, HTOBE32('SSET'), (void *)emu_get_memorycsip(memBlock1), length);
+
+		emu_push(memBlock2.s.cs); emu_push(memBlock2.s.ip);
+		emu_push(memBlock1.s.cs); emu_push(memBlock1.s.ip);
+		emu_push(emu_cs); emu_push(0x0149); emu_cs = 0x253D; f__253D_023A_0038_2BAE();
+		emu_sp += 8;
+
+		tileCount = ((emu_dx << 16) + emu_ax) / tileSize;
+		g_global->iconUsedMemory = tileSize * tileCount;
+
+		if (g_global->iconRTBL.csip != 0x0 && g_global->iconRTBLFreed == 0) {
+			emu_push(g_global->iconRTBL.s.cs); emu_push(g_global->iconRTBL.s.ip);
+			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_Free();
+			emu_sp += 4;
+
+			g_global->iconRTBLFreed = 1;
+		}
+
+		if (g_global->iconRPAL.csip != 0x0 && g_global->iconRPALFreed == 0) {
+			emu_push(g_global->iconRPAL.s.cs); emu_push(g_global->iconRPAL.s.ip);
+			emu_push(emu_cs); emu_push(0x01AC); emu_cs = 0x23E1; emu_Tools_Free();
+			emu_sp += 4;
+
+			g_global->iconRPALFreed = 1;
+		}
+
+		if (g_global->variable_6CD3[memory2 >> 1][memory2 & 0x1] - g_global->iconUsedMemory > tileCount) {
+			g_global->iconRTBL = memBlock2;
+			g_global->iconRTBL.csip += g_global->iconUsedMemory;
+
+			g_global->iconRTBL = Tools_GetSmallestIP(g_global->iconRTBL);
+
+			g_global->iconUsedMemory += (tileCount + 0xF) & 0xFFFFFFF0;
+
+			length = ChunkFile_Seek(index, HTOBE32('RPAL'));
+
+			if (g_global->variable_6CD3[memory2 >> 1][memory2 & 0x1] - g_global->iconUsedMemory > length) {
+				g_global->iconRPAL = memBlock2;
+				g_global->iconRPAL.csip += g_global->iconUsedMemory;
+
+				g_global->iconRPAL = Tools_GetSmallestIP(g_global->iconRPAL);
+				g_global->iconRPAL.s.ip = 0x0;
+
+				g_global->iconUsedMemory += length;
+			} else {
+				emu_push(0x30);
+				emu_push(length >> 16); emu_push(length & 0xFFFF);
+				emu_push(emu_cs); emu_push(0x02B0); emu_cs = 0x23E1; emu_Tools_Malloc();
+				emu_sp += 6;
+				g_global->iconRPAL.s.cs = emu_dx;
+				g_global->iconRPAL.s.ip = emu_ax;
+
+				g_global->iconRPALFreed = 0;
+			}
+		} else {
+			emu_push(0x30);
+			emu_push(0); emu_push(tileCount);
+			emu_push(emu_cs); emu_push(0x02CF); emu_cs = 0x23E1; emu_Tools_Malloc();
+			emu_sp += 6;
+			g_global->iconRTBL.s.cs = emu_dx;
+			g_global->iconRTBL.s.ip = emu_ax;
+
+			g_global->iconRTBLFreed = 0;
+
+			emu_push(0x30);
+			emu_push((length >> 16)); emu_push((length & 0xFFFF));
+			emu_push(emu_cs); emu_push(0x02EE); emu_cs = 0x23E1; emu_Tools_Malloc();
+			emu_sp += 6;
+			g_global->iconRPAL.s.cs = emu_dx;
+			g_global->iconRPAL.s.ip = emu_ax;
+
+			g_global->iconRPALFreed = 0;
+		}
+
+		ChunkFile_Read(index, HTOBE32('RTBL'), (void *)emu_get_memorycsip(g_global->iconRTBL), tileCount);
+		ChunkFile_Read(index, HTOBE32('RPAL'), (void *)emu_get_memorycsip(g_global->iconRPAL), length);
+
+		assert(g_global->variable_6674.csip == 0x22A60EDB);
+		emu_push(tileCount);
+		emu_push(g_global->iconRTBL.s.cs); emu_push(g_global->iconRTBL.s.ip);
+		emu_push(g_global->iconRPAL.s.cs); emu_push(g_global->iconRPAL.s.ip);
+		emu_push(memory2);
+		emu_push(emu_cs); emu_push(0x0358); emu_cs = 0x22A6; f__22A6_0EDB_000A_151A();
+		emu_sp += 12;
+	}
+
+	ChunkFile_Close(index);
+
+	return tileCount;
+}
+
+/**
+ * Loads the sprites for tiles.
+ */
+void Sprites_LoadTiles()
+{
+	csip32 memBlock;
+	uint32 memBlockFree;
+	uint32 length;
+	uint16 *iconMap;
+
+	if (g_global->iconLoaded != 0) return;
+
+	g_global->iconLoaded = 1;
+
+	emu_push(5);
+	emu_push(emu_cs); emu_push(0x0D42); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = emu_ax;
+
+	memBlockFree = g_global->variable_6CD3[2][1];
+
+	g_global->iconUsedMemory = 0;
+
+	Sprites_LoadICNFile("ICON.ICN", 5, 5);
+
+	memBlock.csip += g_global->iconUsedMemory;
+	memBlockFree  -= g_global->iconUsedMemory;
+
+	g_global->iconMap = memBlock;
+
+	length = File_ReadBlockFile("ICON.MAP", (void *)emu_get_memorycsip(g_global->iconMap), memBlockFree);
+
+	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	g_global->variable_39F2 = iconMap[iconMap[7] + 16];
+	g_global->variable_39F4 = iconMap[iconMap[10]];
+	g_global->variable_39F8 = iconMap[iconMap[8] + 2];
+	g_global->variable_39F6 = iconMap[iconMap[9]];
+	g_global->variable_39FA = iconMap[iconMap[6]];
+
+	memBlockFree  -= length;
+	memBlock.s.ip += length;
+
+	memBlock = Tools_GetSmallestIP(memBlock);
+
+	g_global->variable_3952 = memBlock;
+
+	memBlockFree  -= 256;
+	memBlock.s.ip += 256;
+
+	emu_push(g_global->variable_3952.s.cs); emu_push(g_global->variable_3952.s.ip);
+	emu_push(emu_cs); emu_push(0x0E8C); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_09D0_0012_0D7D();
+	emu_sp += 4;
+
+	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
+	emu_push(emu_ds); emu_push(0x6168); /* g_global->scriptFunctionsUnit */
+	emu_push(emu_ds); emu_push(0x3902); /* g_global->scriptUnit */
+	emu_push(emu_ds); emu_push(0x2250); /* "UNIT" */
+	emu_push(emu_cs); emu_push(0x0EAA); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_2295_0018_A862();
+	emu_sp += 16;
+	length = emu_ax;
+
+	memBlockFree  -= length;
+	memBlock.s.ip += length;
+}
+
+/**
+ * Unloads the sprites for tiles.
+ */
+void Sprites_UnloadTiles()
+{
+	g_global->iconLoaded = 0;
 }

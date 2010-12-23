@@ -57,8 +57,6 @@ extern void f__2C17_000C_002F_3016();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B4AB_0000_000D_6028();
 extern void f__B4AE_0000_0008_049C();
-extern void f__B4B8_0D23_0010_BA99();
-extern void f__B4B8_0ECE_000B_BD2E();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4B8_2295_0018_A862();
@@ -289,7 +287,7 @@ static void GameLoop_LevelEnd()
 
 			emu_push(emu_cs); emu_push(0x0352); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C35_002A_C70F();
 
-			emu_push(emu_cs); emu_push(0x0357); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ECE_000B_BD2E();
+			Sprites_UnloadTiles();
 
 			g_global->campaignID++;
 
@@ -355,7 +353,7 @@ static void GameLoop_LevelEnd()
 
 			emu_push(emu_cs); emu_push(0x048D); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C64_002A_C757();
 
-			emu_push(emu_cs); emu_push(0x0492); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ECE_000B_BD2E();
+			Sprites_UnloadTiles();
 
 			emu_push(0);
 			emu_push(g_global->campaignID);
@@ -372,7 +370,7 @@ static void GameLoop_LevelEnd()
 
 		Sprites_Load(0, 7, g_sprites);
 
-		emu_push(emu_cs); emu_push(0x04C8); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+		Sprites_LoadTiles();
 
 		g_global->variable_38BE = 1;
 		g_global->debugForceWin = 0;
@@ -948,7 +946,7 @@ static void Gameloop_IntroMenu()
 			emu_push(emu_cs); emu_push(0x21DE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 		}
 
-		emu_push(emu_cs); emu_push(0x21E2); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+		Sprites_LoadTiles();
 
 		emu_push(g_global->playerHouseID);
 		emu_push(emu_cs); emu_push(0x21EA); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
@@ -1046,7 +1044,7 @@ static void GameLoop_Main()
 			emu_push(emu_cs); emu_push(0x0158); emu_cs = 0x24DA; f__24DA_002D_0010_3EB2();
 			emu_sp += 2;
 
-			emu_push(emu_cs); emu_push(0x015E); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+			Sprites_LoadTiles();
 
 			emu_push(g_global->playerHouseID);
 			emu_push(emu_cs); emu_push(0x0167); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();

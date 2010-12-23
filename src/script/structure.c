@@ -428,11 +428,11 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
-		emu_ax = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip, 0x30);
+		emu_ax = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip, 0x30);
 	} else {
-		emu_ax = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip, 0x2E);
+		emu_ax = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip, 0x2E);
 	}
-	baseSpriteID = emu_get_memory16(g_global->variable_39EE.s.cs, g_global->variable_39EE.s.ip + (emu_ax << 1), 0x4);
+	baseSpriteID = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip + (emu_ax << 1), 0x4);
 
 	rotation = tile->spriteID - baseSpriteID;
 	if (rotation < 0 || rotation > 7) return 1;

@@ -19,11 +19,11 @@
 #include "tile.h"
 #include "unit.h"
 #include "file.h"
+#include "sprites.h"
 
 extern void f__01F7_3AF8_001D_A439();
 extern void f__1423_08CD_0012_0004();
 extern void f__B4B8_0000_001F_3BC3();
-extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4CD_14CA_0013_F579();
 extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
@@ -680,9 +680,7 @@ l__0014:
 
 	Scenario_Load_General();
 
-	emu_push(emu_cs); emu_push(0x0207); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
+	Sprites_LoadTiles();
 
 	emu_push(g_global->scenario.mapSeed >> 16); emu_push(g_global->scenario.mapSeed & 0xFFFF);
 	emu_push(emu_cs); emu_push(0x0214); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0000_001F_3BC3();

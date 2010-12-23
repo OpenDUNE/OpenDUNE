@@ -92,7 +92,7 @@ l__009C:
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__00CA:
 	emu_addw(&emu_sp, 0x8);
-	emu_push(emu_cs); emu_push(0x00D2); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ECE_000B_BD2E();
+	emu_push(emu_cs); emu_push(0x00D2); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_UnloadTiles();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__00D2:
@@ -387,7 +387,7 @@ l__02AE:
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 	/* Unresolved jump */ emu_ip = 0x02CC; emu_last_cs = 0xB4F2; emu_last_ip = 0x02CC; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
 l__0309:
-	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_LoadTiles();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__030E:

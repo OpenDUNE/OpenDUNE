@@ -1597,7 +1597,7 @@ l__176C:
 	if (emu_di == 0xFFFF) goto l__1774;
 	goto l__19E7;
 l__1774:
-	emu_push(emu_cs); emu_push(0x1779); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ECE_000B_BD2E();
+	emu_push(emu_cs); emu_push(0x1779); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_UnloadTiles();
 l__1779:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_dx = 0x300;
@@ -1641,7 +1641,7 @@ l__17C5:
 	emu_push(emu_cs); emu_push(0x17D4); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
 l__17D4:
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x17DA); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+	emu_push(emu_cs); emu_push(0x17DA); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Sprites_LoadTiles();
 l__17DA:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C32));

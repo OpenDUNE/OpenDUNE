@@ -12,8 +12,6 @@
 extern void f__10E4_2099_0012_A216();
 extern void f__1DD7_022D_0015_1956();
 extern void f__2B4C_0002_0029_64AF();
-extern void f__B4B8_0D23_0010_BA99();
-extern void f__B4B8_0ECE_000B_BD2E();
 extern void f__B4E0_0000_000F_14AD();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Unknown_B483_0363();
@@ -50,9 +48,7 @@ bool GUI_Widget_Mentat_Click()
 
 	Sound_Play(g_houseInfo[g_global->playerHouseID].variable_18);
 
-	emu_push(emu_cs); emu_push(0x039B); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0ECE_000B_BD2E();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+	Sprites_UnloadTiles();
 
 	Sprites_Load(1, 7, g_sprites);
 
@@ -76,9 +72,7 @@ bool GUI_Widget_Mentat_Click()
 
 	Sprites_Load(0, 7, g_sprites);
 
-	emu_push(emu_cs); emu_push(0x03F3); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+	Sprites_LoadTiles();
 
 	g_global->variable_38C4 = 1;
 

@@ -395,7 +395,7 @@ typedef struct GlobalData {
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
 	/* 2005()    */ PACK uint8   unknown_2005[0x0166];
 	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
-	/* 2177()    */ PACK uint8   unknown_2177[0x0002];
+	/* 2177(2)   */ PACK uint16 iconLoaded;                 /*!< True if ICON.ICN/MAP data are loaded. */
 	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
 	/* 219D(48)  */ PACK uint16 variable_219D[4][6];        /*!< ?? */
 	/* 21CD(59)  */ PACK char   spriteFiles0[59];           /*!< "MOUSE.SHP\0BTTN\0SHAPES.SHP\0UNITS2.SHP\0UNITS1.SHP\0UNITS.SHP\0\0". */
@@ -743,7 +743,9 @@ typedef struct GlobalData {
 	/* 38C4(2)   */ PACK uint16 variable_38C4;              /*!< ?? */
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
 	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
-	/* 38CE()    */ PACK uint8   unknown_38CE[0x000C];
+	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
+	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
+	/* 38D6()    */ PACK uint8   unknown_38D6[0x0004];
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */
@@ -767,7 +769,7 @@ typedef struct GlobalData {
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
-	/* 3952()    */ PACK uint8   unknown_3952[0x0004];
+	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
 	/* 3956(4)   */ PACK csip32 variable_3956;              /*!< ?? */
 	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
 	/* 395E()    */ PACK uint8   unknown_395E[0x0084];
@@ -776,7 +778,7 @@ typedef struct GlobalData {
 	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
 	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32 mapPointer;                 /*!< Pointer to the map. */
-	/* 39EE(4)   */ PACK csip32 variable_39EE;              /*!< ?? Pointer to an array of structure information. */
+	/* 39EE(4)   */ PACK csip32 iconMap;                    /*!< Pointer to content of ICON.MAP. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
 	/* 39F4(2)   */ PACK uint16 variable_39F4;              /*!< ?? Bloom field information? */
 	/* 39F6(2)   */ PACK uint16 variable_39F6;              /*!< ?? */
@@ -880,14 +882,11 @@ typedef struct GlobalData {
 	/* 60D2(13)  */ PACK char   string_60D2[13];            /*!< "Timeout win." NULL terminated. */
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 60E7()    */ PACK uint8   unknown_60E7[0x002D];
-	/* 6114(2)   */ PACK uint16 variable_6114;              /*!< ?? */
-	/* 6116(2)   */ PACK uint16 variable_6116;              /*!< ?? */
-	/* 6118(2)   */ PACK uint16 variable_6118;              /*!< ?? */
-	/* 611A(2)   */ PACK uint16 variable_611A;              /*!< ?? */
-	/* 611C(2)   */ PACK uint16 variable_611C;              /*!< ?? */
-	/* 611E(2)   */ PACK uint16 variable_611E;              /*!< ?? */
-	/* 6120(2)   */ PACK uint16 variable_6120;              /*!< ?? */
-	/* 6122(2)   */ PACK uint16 variable_6122;              /*!< ?? */
+	/* 6114(4)   */ PACK uint32 iconUsedMemory;             /*!< Amount of memory block used when loading ICON.ICN. */
+	/* 6118(4)   */ PACK csip32 iconRPAL;                   /*!< Content of RPAL chunk from ICON.ICN. */
+	/* 611C(2)   */ PACK uint16 iconRPALFreed;              /*!< True if memory at iconRPAL has been freed. */
+	/* 611E(4)   */ PACK csip32 iconRTBL;                   /*!< Content of RTBL chunk from ICON.ICN. */
+	/* 6122(2)   */ PACK uint16 iconRTBLFreed;              /*!< True if memory at iconRTBL has been freed. */
 	/* 6124(4)   */ PACK csip32 teamCurrent;                /*!< Current Team we are handling in GameLoop. */
 	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
@@ -1110,7 +1109,7 @@ typedef struct GlobalData {
 	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
 	/* 6D61(2)   */ PACK uint16 variable_6D61;              /*!< ?? */
 	/* 6D63(2)   */ PACK uint16 variable_6D63;              /*!< ?? */
-	/* 6C65()    */ PACK uint8   unknown_6D65[0x0010];
+	/* 6D65()    */ PACK uint8   unknown_6D65[0x0010];
 	/* 6D75(2)   */ PACK uint16 widgetReset;                /*!< Reset the widget and redraw when non-zero. */
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
 	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */

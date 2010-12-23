@@ -50,7 +50,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B48B_0000_001E_7E97();
 extern void f__B48B_03A4_0005_619A();
-extern void f__B4B8_0D23_0010_BA99();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0AB8_002A_AAB2();
@@ -1916,7 +1915,7 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x1487); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_02E0_0023_E297();
 
-		emu_push(emu_cs); emu_push(0x148C); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0D23_0010_BA99();
+		Sprites_LoadTiles();
 
 		emu_push(oldValue_2598_0000);
 		emu_push(emu_cs); emu_push(0x1494); emu_cs = 0x2598; f__2598_0000_0017_EB80();
