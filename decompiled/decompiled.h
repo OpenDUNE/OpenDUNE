@@ -749,7 +749,6 @@ extern void f__AB01_21E5_0001_6780();
 extern void f__01F7_21FA_0012_B06A();
 extern void f__0C3A_2207_001D_EDF2();
 extern void emu_String_ToInteger();
-extern void f__B4B8_2295_0018_A862();
 extern void f__0C3A_22CD_0029_8F46();
 extern void emu_File_LowLevel_GSAttr();
 extern void f__AB01_2336_002C_4FDC();

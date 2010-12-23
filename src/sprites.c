@@ -21,7 +21,6 @@ extern void f__22A6_0EDB_000A_151A();
 extern void f__22A6_1158_0069_1890();
 extern void f__253D_023A_0038_2BAE();
 extern void f__B4B8_09D0_0012_0D7D();
-extern void f__B4B8_2295_0018_A862();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void overlay(uint16 cs, uint8 force);
@@ -397,13 +396,11 @@ void Sprites_LoadTiles()
 	emu_push(emu_cs); emu_push(0x0E8C); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_09D0_0012_0D7D();
 	emu_sp += 4;
 
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(emu_ds); emu_push(0x6168); /* g_global->scriptFunctionsUnit */
-	emu_push(emu_ds); emu_push(0x3902); /* g_global->scriptUnit */
-	emu_push(emu_ds); emu_push(0x2250); /* "UNIT" */
-	emu_push(emu_cs); emu_push(0x0EAA); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_2295_0018_A862();
-	emu_sp += 16;
-	length = emu_ax;
+	{
+		csip32 functions;
+		functions.csip = 0x353F6168; /* g_global->scriptFunctionsUnit */
+		length = Script_LoadFromFile("UNIT.EMC", &g_global->scriptUnit, functions, memBlock);
+	}
 
 	memBlockFree  -= length;
 	memBlock.s.ip += length;

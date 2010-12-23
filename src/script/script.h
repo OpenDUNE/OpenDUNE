@@ -149,6 +149,5 @@ extern uint16 Script_Unit_Unknown2C73(ScriptEngine *script);
 extern void emu_Script_Reset();
 extern void emu_Script_Load();
 extern void emu_Script_ClearInfo();
-extern void emu_Script_LoadFromFile();
 
 #endif /* SCRIPT_H */

@@ -59,7 +59,6 @@ extern void f__B4AB_0000_000D_6028();
 extern void f__B4AE_0000_0008_049C();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
-extern void f__B4B8_2295_0018_A862();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4E9_0050_003F_292A();
@@ -520,19 +519,21 @@ static void Gameloop_IntroMenu()
 
 	g_global->new8pFnt2 = g_global->new8pFnt;
 
-	emu_push(0); emu_push(0);
-	emu_push(0x353F); emu_push(0x6128); /* g_global->scriptFunctionsTeam */
-	emu_push(0x353F); emu_push(0x392E); /* g_global->scriptTeam */
-	emu_push(0x353F); emu_push(0x22E5); /* "TEAM" NULL terminated. */
-	emu_push(emu_cs); emu_push(0x19BF); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_2295_0018_A862();
-	emu_sp += 16;
+	{
+		csip32 functions;
+		csip32 null;
+		functions.csip = 0x353F6128; /* g_global->scriptFunctionsTeam */
+		null.csip = 0x0;
+		Script_LoadFromFile("TEAM.EMC", &g_global->scriptTeam, functions, null);
+	}
 
-	emu_push(0); emu_push(0);
-	emu_push(0x353F); emu_push(0x33B6); /* g_global->scriptFunctionsStructure */
-	emu_push(0x353F); emu_push(0x3918); /* g_global->scriptStructure */
-	emu_push(0x353F); emu_push(0x22EA); /* "BUILD" NULL terminated. */
-	emu_push(emu_cs); emu_push(0x19DC); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_2295_0018_A862();
-	emu_sp += 16;
+	{
+		csip32 functions;
+		csip32 null;
+		functions.csip = 0x353F33B6; /* g_global->scriptFunctionsStructure */
+		null.csip = 0x0;
+		Script_LoadFromFile("BUILD.EMC", &g_global->scriptStructure, functions, null);
+	}
 
 	if (g_global->playerHouseID != HOUSE_INDEX_INVALID) {
 		emu_push(g_global->playerHouseID);
