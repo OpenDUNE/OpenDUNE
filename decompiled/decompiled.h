@@ -209,7 +209,6 @@ extern void f__01F7_022D_0003_9E5A();
 extern void f__1DD7_022D_0015_1956();
 extern void f__01F7_0231_0021_40ED();
 extern void f__B520_0235_0016_54C9();
-extern void f__253D_023A_0038_2BAE();
 extern void emu_DSP_Reset();
 extern void f__B48B_0242_0017_581D();
 extern void emu_Object_ClearScriptVariable4();

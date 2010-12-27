@@ -14,12 +14,12 @@
 #include "file.h"
 #include "tools.h"
 #include "os/endian.h"
+#include "codec/format80.h"
 
 csip32 *g_sprites = NULL;
 
 extern void f__22A6_0EDB_000A_151A();
 extern void f__22A6_1158_0069_1890();
-extern void f__253D_023A_0038_2BAE();
 extern void f__B4B8_09D0_0012_0D7D();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
@@ -199,6 +199,48 @@ uint8 Sprite_GetHeight(csip32 sprite_csip)
 }
 
 /**
+ * Decodes an image.
+ *
+ * @param source The encoded image.
+ * @param dest The place the decoded image will be.
+ * @return The size of the decoded image.
+ */
+static uint32 Sprites_Decode(uint8 *source, uint8 *dest, csip32 source_csip, csip32 dest_csip)
+{
+	uint32 size = 0;
+
+	switch(*source) {
+		case 0x0:
+			source += 2;
+			size = *((uint32 *)source);
+			source += 4;
+			source += *((uint16 *)source);
+			source += 2;
+			memmove(dest, source, size);
+			break;
+
+		case 0x3:
+			emu_push(dest_csip.s.cs);
+			emu_push(source_csip.s.cs);
+			/* Unresolved call */ emu_push(emu_cs); emu_push(0x02BB); emu_cs = 0x2BD6; emu_ip = 0x0100; emu_last_cs = 0x253D; emu_last_ip = 0x02B6; emu_last_length = 0x0011; emu_last_crc = 0xFC80; emu_call();
+			emu_sp += 4;
+			size = emu_ax;
+			break;
+
+		case 0x4:
+			source += 6;
+			source += *((uint16 *)source);
+			source += 2;
+			size = Format80_Decode(dest, source, 0xFFFF);
+			break;
+
+		default: break;
+	}
+
+	return size;
+}
+
+/**
  * Loads an ICN file.
  *
  * @param filename The name of the file to load.
@@ -253,12 +295,7 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 
 		ChunkFile_Read(index, HTOBE32('SSET'), (void *)emu_get_memorycsip(memBlock1), length);
 
-		emu_push(memBlock2.s.cs); emu_push(memBlock2.s.ip);
-		emu_push(memBlock1.s.cs); emu_push(memBlock1.s.ip);
-		emu_push(emu_cs); emu_push(0x0149); emu_cs = 0x253D; f__253D_023A_0038_2BAE();
-		emu_sp += 8;
-
-		tileCount = ((emu_dx << 16) + emu_ax) / tileSize;
+		tileCount = Sprites_Decode(emu_get_memorycsip(memBlock1), emu_get_memorycsip(memBlock2), memBlock1, memBlock2) / tileSize;
 		g_global->iconUsedMemory = tileSize * tileCount;
 
 		if (g_global->iconRTBL.csip != 0x0 && g_global->iconRTBLFreed == 0) {
@@ -427,6 +464,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 {
 	uint8 index;
 	csip32 memBlock1;
+	csip32 memBlock2;
 	csip32 loc0A;
 	uint16 size;
 	void *buf;
@@ -473,10 +511,8 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	emu_push(memory2);
 	emu_push(emu_cs); emu_push(0x0221); emu_cs = 0x252E; emu_Memory_GetBlock1();
 	emu_sp += 2;
+	memBlock2.s.cs = emu_dx;
+	memBlock2.s.ip = emu_ax;
 
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(loc0A.s.cs); emu_push(loc0A.s.ip);
-	emu_push(emu_cs); emu_push(0x022F); emu_cs = 0x253D; f__253D_023A_0038_2BAE();
-	emu_sp += 8;
-	return (emu_dx << 16) + emu_ax;
+	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock2), loc0A, memBlock2);
 }
