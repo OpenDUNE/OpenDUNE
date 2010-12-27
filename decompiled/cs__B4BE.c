@@ -459,7 +459,7 @@ l__0279:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0282); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
+	emu_push(emu_cs); emu_push(0x0282); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_Sprites_LoadImage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__0282:
@@ -537,7 +537,7 @@ l__0304:
 	emu_push(emu_ds);
 	emu_ax = 0x23CE;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0323); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
+	emu_push(emu_cs); emu_push(0x0323); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_Sprites_LoadImage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34BE) { overlay(0x34BE, 1); }
 l__0323:

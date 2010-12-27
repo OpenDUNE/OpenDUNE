@@ -63,7 +63,6 @@ extern void f__B518_0558_0010_240A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void emu_File_ReadChunkOrLengthFile();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
@@ -1706,14 +1705,7 @@ uint16 GUI_PickHouse()
 			w = (Widget *)emu_get_memorycsip(wcsip);
 		}
 
-		emu_push(1);
-		emu_push(0); emu_push(0);
-		emu_push(3);
-		emu_push(3);
-		String_GenerateFilename("HERALD");
-		emu_push(0x353F); emu_push(emu_Global_GetIP(g_global->stringFilename, 0x353F));
-		emu_push(emu_cs); emu_push(0x10CE); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
-		emu_sp += 14;
+		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, 3, NULL, 1);
 
 		emu_push(0); emu_push(0);
 		emu_push(2);
@@ -1841,14 +1833,7 @@ uint16 GUI_PickHouse()
 		emu_push(emu_cs); emu_push(0x1366); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0E44_000C_24F5();
 		emu_sp += 14;
 
-		emu_push(1);
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(3);
-		emu_push(3);
-		String_GenerateFilename("MISC");
-		emu_push(0x353F); emu_push(emu_Global_GetIP(g_global->stringFilename, 0x353F));
-		emu_push(emu_cs); emu_push(0x1390); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
-		emu_sp += 14;
+		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, emu_get_memorycsip(g_global->variable_3C32), 1);
 
 		emu_push(emu_cs); emu_push(0x1398); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 

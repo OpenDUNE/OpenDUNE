@@ -134,7 +134,7 @@ void emu_Sprites_LoadCPSFile()
 	csip32 filename;
 	uint16 memory1;
 	uint16 memory2;
-	csip32 buffer;
+	csip32 palette;
 	uint32 res;
 
 	/* Pop the return CS:IP. */
@@ -144,10 +144,37 @@ void emu_Sprites_LoadCPSFile()
 	filename = emu_get_csip32  (emu_ss, emu_sp, 0x0);
 	memory1  = emu_get_memory16(emu_ss, emu_sp, 0x4);
 	memory2  = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	buffer   = emu_get_csip32  (emu_ss, emu_sp, 0x8);
+	palette  = emu_get_csip32  (emu_ss, emu_sp, 0x8);
 
-	res = Sprites_LoadCPSFile((char *)emu_get_memorycsip(filename), memory1, memory2, (void *)emu_get_memorycsip(buffer));
+	res = Sprites_LoadCPSFile((char *)emu_get_memorycsip(filename), memory1, memory2, (void *)emu_get_memorycsip(palette));
 
 	emu_dx = res >> 16;
 	emu_ax = res & 0xFFFF;
+}
+
+/**
+ * Emulator wrapper around Sprites_LoadImage()
+ *
+ * @name emu_Sprites_LoadImage
+ * @implements B4CA:020F:0017:A939 ()
+ */
+void emu_Sprites_LoadImage()
+{
+	csip32 filename;
+	uint16 memory1;
+	uint16 memory2;
+	csip32 palette;
+	uint16 arg12;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	filename = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	memory1  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	memory2  = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	palette  = emu_get_csip32  (emu_ss, emu_sp, 0x8);
+	arg12    = emu_get_memory16(emu_ss, emu_sp, 0xC);
+
+	emu_ax = Sprites_LoadImage((char *)emu_get_memorycsip(filename), memory1, memory2, (void *)emu_get_memorycsip(palette), arg12);
 }

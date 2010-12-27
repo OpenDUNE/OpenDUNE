@@ -3282,7 +3282,7 @@ l__126C:
 	emu_push(emu_ds);
 	emu_ax = 0x188E;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x128C); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
+	emu_push(emu_cs); emu_push(0x128C); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_Sprites_LoadImage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__128C:

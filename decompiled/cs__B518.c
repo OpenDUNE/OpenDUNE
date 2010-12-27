@@ -1023,7 +1023,7 @@ l__0B31:
 	emu_push(emu_ds);
 	emu_ax = 0x2C4E;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
+	emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_Sprites_LoadImage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0B53:

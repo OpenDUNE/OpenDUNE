@@ -3314,7 +3314,7 @@ l__20B4:
 	emu_push(emu_ds);
 	emu_ax = 0x3777;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x20D9); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
+	emu_push(emu_cs); emu_push(0x20D9); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_Sprites_LoadImage();
 l__20D9:
 	emu_addw(&emu_sp, 0xE);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C44));

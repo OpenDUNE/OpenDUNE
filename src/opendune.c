@@ -69,7 +69,6 @@ extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
-extern void emu_File_ReadChunkOrLengthFile();
 extern void emu_Gameloop_Intro();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_SaveLoad_List();
@@ -803,17 +802,7 @@ static void Gameloop_IntroMenu()
 				g_global->variable_4062[13][1] = 160 - ((g_global->variable_41B8 * g_global->variable_6C71) >> 1);
 				g_global->variable_4062[13][3] = (g_global->variable_41B8 * g_global->variable_6C71) + 11;
 
-				emu_push(0x353F); emu_push(0x231B); /* "TITLE" NULL terminated. */
-				emu_push(emu_cs); emu_push(0x1F95); emu_cs = 0x0642; emu_String_GenerateFilename();
-				emu_sp += 4;
-
-				emu_push(0);
-				emu_push(0); emu_push(0);
-				emu_push(3);
-				emu_push(3);
-				emu_push(emu_dx); emu_push(emu_ax);
-				emu_push(emu_cs); emu_push(0x1F9E); emu_cs = 0x34CA; overlay(0x34CA, 0); emu_File_ReadChunkOrLengthFile();
-				emu_sp += 14;
+				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, 3, NULL, 0);
 
 				emu_push(emu_cs); emu_push(0x1FA6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 

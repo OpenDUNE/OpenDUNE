@@ -12,6 +12,7 @@ extern uint8 Sprite_GetHeight(csip32 sprite_csip);
 extern void Sprites_LoadTiles();
 extern void Sprites_UnloadTiles();
 extern uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette);
+extern uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette, uint16 arg12);
 
 extern void emu_Sprites_Load();
 extern void emu_Sprites_GetCSIP();
@@ -20,5 +21,6 @@ extern void emu_Sprite_GetHeight();
 extern void emu_Sprites_LoadTiles();
 extern void emu_Sprites_UnloadTiles();
 extern void emu_Sprites_LoadCPSFile();
+extern void emu_Sprites_LoadImage();
 
 #endif /* SPRITES_H */

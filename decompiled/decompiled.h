@@ -201,7 +201,6 @@ extern void f__01F7_01ED_0024_A432();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4ED_0200_000F_1FF4();
 extern void f__217E_020B_0026_BE77();
-extern void emu_File_ReadChunkOrLengthFile();
 extern void f__1DD7_0213_0016_41ED();
 extern void f__B520_0223_000E_38A3();
 extern void emu_Mouse_Init();

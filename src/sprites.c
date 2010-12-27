@@ -454,7 +454,7 @@ void Sprites_UnloadTiles()
 /**
  * Loads a CPS file.
  *
- * @param filename Then name of the file to load.
+ * @param filename The name of the file to load.
  * @param memory1 The index of a memory block where to store loaded data.
  * @param memory2 The index of a memory block where to store loaded data.
  * @param palette Where to store the palette, if any.
@@ -515,4 +515,34 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	memBlock2.s.ip = emu_ax;
 
 	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock2), loc0A, memBlock2);
+}
+
+/**
+ * Loads an image.
+ *
+ * @param filename The name of the file to load.
+ * @param memory1 The index of a memory block where to store loaded data.
+ * @param memory2 The index of a memory block where to store loaded data.
+ * @param palette Where to store the palette, if any.
+ * @param arg12 ??.
+ * @return The size of the loaded image.
+ */
+uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette, uint16 arg12)
+{
+	uint8 index;
+	uint32 header;
+
+	VARIABLE_NOT_USED(arg12); /* used in unresolved code */
+
+	index = File_Open(filename, 1);
+	if (index == 0xFF) return 0;
+
+	File_Read(index, &header, 4);
+	File_Close(index);
+
+	if (header == HTOBE32('FORM')) {
+		/* Unresolved jump */ emu_ip = 0x0299; emu_last_cs = 0xB4CA; emu_last_ip = 0x0263; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call(); return 0;
+	}
+
+	return Sprites_LoadCPSFile(filename, memory1, memory2, (g_global->variable_6C76 == 3) ? palette : NULL) / 8000;
 }
