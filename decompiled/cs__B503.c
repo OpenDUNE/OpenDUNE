@@ -2834,7 +2834,7 @@ l__1038:
 	emu_push(emu_ds);
 	emu_ax = 0x2B6A;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x105E); emu_cs = 0x253D; emu_File_ReadLengthFile();
+	emu_push(emu_cs); emu_push(0x105E); emu_cs = 0x253D; emu_Sprites_LoadCPSFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__105E:

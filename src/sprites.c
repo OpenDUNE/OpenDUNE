@@ -413,3 +413,70 @@ void Sprites_UnloadTiles()
 {
 	g_global->iconLoaded = 0;
 }
+
+/**
+ * Loads a CPS file.
+ *
+ * @param filename Then name of the file to load.
+ * @param memory1 The index of a memory block where to store loaded data.
+ * @param memory2 The index of a memory block where to store loaded data.
+ * @param palette Where to store the palette, if any.
+ * @return The size of the loaded image.
+ */
+uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette)
+{
+	uint8 index;
+	csip32 memBlock1;
+	csip32 loc0A;
+	uint16 size;
+	void *buf;
+	uint16 paletteSize;
+
+	emu_push(memory1);
+	emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock1.s.cs = emu_dx;
+	memBlock1.s.ip = emu_ax;
+	buf = (void *)emu_get_memorycsip(memBlock1);
+
+	index = File_Open(filename, 1);
+
+	File_Read(index, &size, 2);
+
+	File_Read(index, buf, 8);
+
+	size -= 8;
+
+	paletteSize = ((uint16 *)buf)[3];
+
+	if (palette != NULL && paletteSize != 0) {
+		File_Read(index, palette, paletteSize);
+	} else {
+		File_Seek(index, paletteSize, 1);
+	}
+
+	((uint16 *)buf)[3] = 0;
+	size -= paletteSize;
+
+	loc0A.s.cs = g_global->variable_6C93[memory1 >> 1][memory1 & 0x1];
+	loc0A.s.ip = g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] - size - 8;
+
+	loc0A = Tools_GetSmallestIP(loc0A);
+	loc0A.s.ip = 0x0;
+
+	Tools_Memmove(memBlock1, loc0A, 8);
+
+	File_Read(index, (void *)(emu_get_memorycsip(loc0A) + 8), size);
+
+	File_Close(index);
+
+	emu_push(memory2);
+	emu_push(emu_cs); emu_push(0x0221); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+
+	emu_push(emu_dx); emu_push(emu_ax);
+	emu_push(loc0A.s.cs); emu_push(loc0A.s.ip);
+	emu_push(emu_cs); emu_push(0x022F); emu_cs = 0x253D; f__253D_023A_0038_2BAE();
+	emu_sp += 8;
+	return (emu_dx << 16) + emu_ax;
+}

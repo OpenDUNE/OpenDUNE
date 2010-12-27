@@ -82,7 +82,7 @@ l__0278:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x028B); emu_cs = 0x253D; emu_File_ReadLengthFile();
+	emu_push(emu_cs); emu_push(0x028B); emu_cs = 0x253D; emu_Sprites_LoadCPSFile();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CA) { overlay(0x34CA, 1); }
 l__028B:

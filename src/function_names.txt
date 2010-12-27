@@ -118,8 +118,6 @@
 23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
 
-253D:00FA:0010:873D	emu_File_ReadLengthFile	# (filename_csip), read the whole file, where the first 2 bytes are the length of the file
-
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 2756:050F:000B:0871	emu_Interrupt_CustomTimer
