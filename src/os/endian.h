@@ -28,7 +28,7 @@
 #else
 	#define HTOBE32(x) (x)
 	#define BETOH32(x) (x)
-	#define BETOH16(x) (x)
+	#define HTOBE16(x) (x)
 	#define BETOH16(x) (x)
 #endif
 
