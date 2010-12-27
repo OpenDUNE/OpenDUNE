@@ -10,9 +10,11 @@
  * @param source The encoded fragment.
  * @param dest The place the decoded fragment will be loaded.
  * @param destLength The length of the destionation buffer.
+ * @return The length of decoded data.
  */
-void Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
+uint16 Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 {
+	uint8 *start = dest;
 	uint8 *end = dest + destLength;
 
 	while (dest != end) {
@@ -92,5 +94,5 @@ void Format80_Decode(uint8 *dest, uint8 *source, uint16 destLength)
 		}
 	}
 
-	return;
+	return dest - start;
 }
