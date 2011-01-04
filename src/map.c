@@ -15,10 +15,10 @@
 #include "tools.h"
 #include "tile.h"
 #include "unit.h"
+#include "unknown/unknown.h"
 
 extern void emu_Structure_UpdateMap();
 extern void f__06F7_0493_0015_AAB2();
-extern void f__07D4_1625_001A_07E5();
 extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
 extern void f__24D0_000D_0039_C17D();
@@ -244,9 +244,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			curPacked = g_global->minimapPreviousPosition + *m;
 			g_global->variable_93E5[curPacked >> 3] &= ~(1 << (curPacked & 0x7));
 
-			emu_push(curPacked);
-			emu_push(emu_cs); emu_push(0x008C); emu_cs = 0x07D4; f__07D4_1625_001A_07E5();
-			emu_sp += 2;
+			Unknown_07D4_1625(curPacked);
 		}
 	}
 

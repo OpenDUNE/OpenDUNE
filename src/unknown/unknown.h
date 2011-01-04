@@ -8,6 +8,9 @@ extern void emu_Unknown_07AE_00E4();
 extern void emu_Unknown_07AE_0103();
 
 extern void emu_Unknown_07D4_0000();
+extern void emu_Unknown_07D4_02F8();
+extern void emu_Unknown_07D4_159A();
+extern void Unknown_07D4_1625(uint16 packed);
 
 extern void emu_Unknown_07C4_001A();
 

@@ -15,14 +15,15 @@
 #include "../gui/gui.h"
 #include "../structure.h"
 #include "../pool/pool.h"
+#include "../pool/house.h"
 #include "../pool/unit.h"
 #include "../house.h"
 #include "../sprites.h"
 
 extern void f__06F7_0602_0018_CEB0();
-extern void f__07D4_1625_001A_07E5();
 extern void f__151A_0196_0018_AF63();
 extern void f__22A6_0B60_006A_2F61();
+extern void f__22A6_0F76_002C_45CC();
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -526,9 +527,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				emu_sp += 2;
 			}
 
-			emu_push(curPos);
-			emu_push(emu_cs); emu_push(0x12F3); emu_cs = 0x07D4; f__07D4_1625_001A_07E5();
-			emu_sp += 2;
+			Unknown_07D4_1625(curPos);
 
 			if (!update && (g_global->variable_93E5[curPos >> 3] & (1 << (curPos & 7))) != 0) update = true;
 		}
@@ -771,4 +770,184 @@ void emu_Unknown_07D4_0000()
 	Map_UpdateMinimapPosition(g_global->minimapPosition, false);
 
 	emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x2642; f__2642_0069_0008_D517();
+}
+
+/**
+ * C-ified function of f__07D4_159A_001D_F971()
+ *
+ * @name emu_Unknown_07D4_159A
+ * @implements 07D4:159A:001D:F971 ()
+ */
+void emu_Unknown_07D4_159A()
+{
+	bool arg06;
+	uint16 old2598 = 2;
+	uint16 i;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
+
+	if (!arg06) {
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x15B7); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+		old2598 = emu_ax;
+	}
+
+	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
+
+	Map_UpdateMinimapPosition(g_global->minimapPosition, true);
+
+	if (arg06) return;
+
+	emu_push(old2598);
+	emu_push(emu_cs); emu_push(0x15E8); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x15F2); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+	emu_sp += 2;
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(0x40);
+	emu_push(8);
+	emu_push(0x88);
+	emu_push(0x20);
+	emu_push(0x88);
+	emu_push(0x20);
+	emu_push(emu_cs); emu_push(0x1617); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_sp += 16;
+
+	emu_push(emu_cs); emu_push(0x161F); emu_cs = 0x2642; f__2642_0069_0008_D517();
+}
+
+/**
+ * C-ified function of f__07D4_1625_001A_07E5()
+ *
+ * @name Unknown_07D4_1625
+ * @implements 07D4:1625:001A:07E5 ()
+ */
+void Unknown_07D4_1625(uint16 packed)
+{
+	uint16 x;
+	uint16 y;
+	uint16 color;
+	uint16 spriteID;
+	Tile *t;
+	uint16 mapScale;
+
+	color = 12;
+	spriteID = 0xFFFF;
+
+	if (packed > 4096 || !Map_IsValidPosition(packed)) return;
+
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+
+	mapScale = g_global->scenario.mapScale + 1;
+
+	if (mapScale == 0 || (g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0) return;
+
+	t = Map_GetTileByPosition(packed);
+
+	if ((t->isUnveiled && House_Get_ByMemory(g_global->playerHouse)->flags.s.radarActivated) || g_global->debugScenario != 0) {
+		uint16 loc08 = Map_B4CD_0750(packed);
+		Unit *u;
+
+		if (mapScale > 1) {
+			spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[loc08][12] - 1;
+		} else {
+			color = g_global->variable_3A3E[loc08][11];
+		}
+
+		if (g_global->variable_3A3E[loc08][11] == 0xFFFF) {
+			if (mapScale > 1) {
+				spriteID = mapScale + t->houseID * 2 + 29;
+			} else {
+				color = g_houseInfo[t->houseID].variable_0A;
+			}
+		}
+
+		u = Unit_Get_ByPackedTile(packed);
+
+		if (u != NULL) {
+			if (mapScale > 1) {
+				if (u->o.type == UNIT_SANDWORM) {
+					spriteID = mapScale + 53;
+				} else {
+					spriteID = mapScale + Unit_GetHouseID(u) * 2 + 29;
+				}
+			} else {
+				if (u->o.type == UNIT_SANDWORM) {
+					color = 255;
+				} else {
+					color = g_houseInfo[Unit_GetHouseID(u)].variable_0A;
+				}
+			}
+		}
+	} else {
+		Structure *s;
+
+		s = Structure_Get_ByPackedTile(packed);
+
+		if (s != NULL && s->o.houseID == g_global->playerHouseID) {
+			if (mapScale > 1) {
+				spriteID = mapScale + s->o.houseID * 2 + 29;
+			} else {
+				color = g_houseInfo[s->o.houseID].variable_0A;
+			}
+		} else {
+			if (mapScale > 1) {
+				spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[6][12] - 1;
+			} else {
+				color = 12;
+			}
+		}
+	}
+
+	x -= g_global->mapInfo[g_global->scenario.mapScale].minX;
+	y -= g_global->mapInfo[g_global->scenario.mapScale].minY;
+
+	if (spriteID != 0xFFFF) {
+		x *= g_global->scenario.mapScale + 1;
+		y *= g_global->scenario.mapScale + 1;
+		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], x, y, 3, 0x4000);
+	} else {
+		assert(g_global->variable_66A0.csip == 0x22A60F76);
+
+		emu_push(color);
+		emu_push(y + 136);
+		emu_push(x + 256);
+		emu_push(emu_cs); emu_push(0x18B0); emu_cs = 0x22A6; f__22A6_0F76_002C_45CC();
+		emu_sp += 6;
+	}
+
+	g_global->variable_37A6++;
+}
+
+/**
+ * C-ified function of f__07D4_02F8_0055_0679()
+ *
+ * @name emu_Unknown_07D4_02F8
+ * @implements 07D4:02F8:0055:0679 ()
+ */
+void emu_Unknown_07D4_02F8()
+{
+	uint16 packed;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	packed = emu_get_memory16(emu_ss, emu_sp, 0);
+
+	if ((g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0 && g_global->scenario.mapScale + 1 == 0) return;
+
+	g_global->variable_91E5[packed >> 3] |= (1 << (packed & 7));
+
+	if (g_global->variable_3344 < 200) g_global->variable_8290[g_global->variable_3344++] = packed;
 }

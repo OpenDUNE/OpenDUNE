@@ -42,7 +42,7 @@ typedef struct House {
 	/*      0002 */              BITTYPE human:1;           /*!< The House is controlled by a human. */
 	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
 	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE unknown_0010:1;
+	/*      0010 */              BITTYPE radarActivated:1;  /*!< The radar is activated. */
 	/*      0020 */              BITTYPE unknown_0020:1;
 	/*      0040 */              BITTYPE unknown_0040:1;
 	/*      0080 */              BITTYPE unknown_0080:1;
@@ -89,7 +89,7 @@ typedef struct HouseInfo {
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
-	/* 000A()    */ PACK uint8   unknown_000A[0x0002];
+	/* 000A(2)   */ PACK uint16 minimapColor;               /*!< The color used on the minimap. */
 	/* 000C(2)   */ PACK uint16 specialCountDown;           /*!< Time between activation of Special Weapon. */
 	/* 000E(2)   */ PACK uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
 	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */

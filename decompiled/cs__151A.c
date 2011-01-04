@@ -1011,7 +1011,7 @@ l__069A:
 l__06A6:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x06AF); emu_cs = 0x07D4; f__07D4_02F8_0055_0679();
+	emu_push(emu_cs); emu_push(0x06AF); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
 l__06AF:
 	emu_pop(&emu_cx);
 l__06B0:
