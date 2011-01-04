@@ -128,7 +128,7 @@ void emu_Unknown_07D4_034D()
 
 				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->fogOfWar) {
 					emu_push(0xC);
-					emu_push(loc0C +15);
+					emu_push(loc0C + 15);
 					emu_push(loc0A + 15);
 					emu_push(loc0C);
 					emu_push(loc0A);
@@ -501,7 +501,7 @@ void emu_Unknown_07D4_034D()
 					emu_sp += 2;
 					locdi = emu_ax;
 
-					locsi += (g_global->variable_32E4[emu_bx][0] * 3) + g_global->variable_33AE[u->variable_6D & 3];
+					locsi += (g_global->variable_32E4[locdi][0] * 3) + g_global->variable_33AE[u->variable_6D & 3];
 					g_global->variable_8DE3 |= g_global->variable_32E4[locdi][1];
 					break;
 
