@@ -189,3 +189,24 @@ void emu_Structure_IsUpgradable()
 
 	Structure_IsUpgradable(s);
 }
+
+/**
+ * Emulator wrapper around Structure_ConnectWall()
+ *
+ * @name emu_Structure_ConnectWall
+ * @implements 0C3A:076E:0027:991C ()
+ */
+void emu_Structure_ConnectWall()
+{
+	uint16 position;
+	uint16 recurse;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	position = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	recurse  = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = Structure_ConnectWall(position, recurse != 0) ? 1 : 0;
+}

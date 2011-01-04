@@ -35,7 +35,6 @@ extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Structure_ConnectWall();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -530,11 +529,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			if (Map_IsPositionUnveiled(position)) t->fogOfWar = 0;
 
-			emu_push(1);
-			emu_push(position);
-			emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x0C3A; emu_Structure_ConnectWall();
-			emu_sp += 4;
-
+			Structure_ConnectWall(position, true);
 			Structure_Free(s);
 
 		} return true;
@@ -1281,6 +1276,12 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 	return false;
 }
 
+/**
+ * Check wether the given structure is upgradable.
+ *
+ * @param s The Structure to check.
+ * @return True if and only if the structure is upgradable.
+ */
 bool Structure_IsUpgradable(Structure *s)
 {
 	StructureInfo *si;
@@ -1306,4 +1307,67 @@ bool Structure_IsUpgradable(Structure *s)
 
 	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_WOR_TROOPER && s->upgradeLevel == 0 && g_global->campaignID > 3) return true;
 	return false;
+}
+
+/**
+ * Connect walls around the given position.
+ *
+ * @param position The packed position.
+ * @param recurse Wether to recurse.
+ * @return True if and only if a change happened.
+ */
+bool Structure_ConnectWall(uint16 position, bool recurse)
+{
+	uint16 bits = 0;
+	uint16 spriteID;
+	bool isTypeD;
+	uint8 i;
+	Tile *tile;
+
+	if (g_global->variable_3562 == 0) {
+		uint8 *var_2DC9_0000 = &emu_get_memory8(0x2DC9, 0x00, 0x00);
+
+		g_global->variable_3562 = 1;
+
+		for (i = 0; i < 74; i++) g_global->variable_3462[var_2DC9_0000[i]] = i;
+
+		g_global->variable_3462[10]  = 1;
+		g_global->variable_3462[8]   = 1;
+		g_global->variable_3462[1]   = 3;
+		g_global->variable_3462[5]   = 3;
+		g_global->variable_3462[34]  = 13;
+		g_global->variable_3462[136] = 14;
+		g_global->variable_3462[68]  = 17;
+	}
+
+	isTypeD = Map_B4CD_0750(position) == 0xD;
+
+	for (i = 0; i < 4; i++) {
+		uint16 curPos = position + g_global->variable_345A[i];
+
+		if (recurse && Map_B4CD_0750(curPos) == 0xB) Structure_ConnectWall(curPos, false);
+
+		if (isTypeD) continue;
+
+		switch (Map_B4CD_0750(curPos)) {
+			case 0xD: bits |= (1 << (i + 4));
+				/* FALL-THROUGH */
+			case 0xB: bits |= (1 << i);
+				/* FALL-THROUGH */
+			default:  break;
+		}
+	}
+
+	if (isTypeD) return false;
+
+	spriteID = g_global->variable_39FA + g_global->variable_3462[bits] + 1;
+
+	tile = Map_GetTileByPosition(position);
+	if (tile->spriteID == spriteID) return false;
+
+	tile->spriteID = spriteID;
+	g_map[position] |= 0x8000;
+	Map_Update(position, 0, false);
+
+	return true;
 }

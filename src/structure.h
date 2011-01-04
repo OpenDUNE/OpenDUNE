@@ -117,6 +117,7 @@ extern void Structure_ActivateSpecial(Structure *s);
 extern void Structure_RemoveFog(Structure *s);
 extern bool Structure_Damage(Structure *s, uint16 damage, uint16 range);
 extern bool Structure_IsUpgradable(Structure *s);
+extern bool Structure_ConnectWall(uint16 position, bool recurse);
 
 
 extern void emu_Structure_Create();
@@ -126,5 +127,6 @@ extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
 extern void emu_Structure_IsUpgradable();
+extern void emu_Structure_ConnectWall();
 
 #endif /* STRUCTURE_H */
