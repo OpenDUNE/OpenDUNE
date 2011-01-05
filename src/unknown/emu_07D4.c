@@ -868,7 +868,7 @@ void Unknown_07D4_1625(uint16 packed)
 			if (mapScale > 1) {
 				spriteID = mapScale + t->houseID * 2 + 29;
 			} else {
-				color = g_houseInfo[t->houseID].variable_0A;
+				color = g_houseInfo[t->houseID].minimapColor;
 			}
 		}
 
@@ -885,7 +885,7 @@ void Unknown_07D4_1625(uint16 packed)
 				if (u->o.type == UNIT_SANDWORM) {
 					color = 255;
 				} else {
-					color = g_houseInfo[Unit_GetHouseID(u)].variable_0A;
+					color = g_houseInfo[Unit_GetHouseID(u)].minimapColor;
 				}
 			}
 		}
@@ -898,7 +898,7 @@ void Unknown_07D4_1625(uint16 packed)
 			if (mapScale > 1) {
 				spriteID = mapScale + s->o.houseID * 2 + 29;
 			} else {
-				color = g_houseInfo[s->o.houseID].variable_0A;
+				color = g_houseInfo[s->o.houseID].minimapColor;
 			}
 		} else {
 			if (mapScale > 1) {
