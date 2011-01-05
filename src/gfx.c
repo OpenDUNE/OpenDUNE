@@ -53,7 +53,12 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 	for (i = 0; i < 16; i++) {
 		uint8 colour = *iconRPAL++;
 
-		if (colour >= 0x90 && colour <= 0xA0) colour += houseID << 4;
+		/* ENHANCEMENT -- Dune2 recolours too many colours, causing clear graphical glitches in the IX building */
+		if (g_dune2_enhanced) {
+			if (colour >= 0x90 && colour <= 0x96) colour += houseID << 4;
+		} else {
+			if (colour >= 0x90 && colour <= 0xA0) colour += houseID << 4;
+		}
 		pallete[i] = colour;
 	}
 

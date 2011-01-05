@@ -31,6 +31,8 @@ Structure
 - In Script function which finds the closest unit to target, it doesn't pick
     the closest unit within range, but the one with the highest index within
     range.
+- Too many tile colours are remapped with house colours, causing graphical
+    issues with the IX building. It maps 0x90 .. 0xA0 instead of 0x90 .. 0x96.
 
 
 Scenario
