@@ -18,7 +18,7 @@
 #include "unknown/unknown.h"
 
 extern void emu_Structure_UpdateMap();
-extern void f__06F7_0493_0015_AAB2();
+extern void f__06F7_0A6C_0016_FA05();
 extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
 extern void f__24D0_000D_0039_C17D();
@@ -420,6 +420,77 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 }
 
 /**
+ * ??.
+ *
+ * @param packed A packed position.
+ * @return True if and only if something happened.
+ */
+static bool Map_06F7_057C(uint16 packed)
+{
+	Tile *t;
+	uint8 i;
+
+	t = Map_GetTileByPosition(packed);
+
+	if (!t->flag_10) return false;
+
+	for (i = 0; i < 32; i++) {
+		struct_395A s;
+
+		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+
+		if (s.variable_0C.csip == 0x0 || Tile_PackTile(s.position) != packed) continue;
+
+		emu_push(0);
+		emu_push(g_global->variable_395A.s.cs); emu_push(g_global->variable_395A.s.ip + i * sizeof(struct_395A));
+		emu_push(emu_cs); emu_push(0x05EC); emu_cs = 0x06F7; f__06F7_0A6C_0016_FA05();
+		emu_sp += 6;
+	}
+
+	return true;
+}
+
+/**
+ * Init ??.
+ *
+ * @param csip The CSIP to use for init.
+ * @param position The position to use for init.
+ * @return True if and only if an init happened.
+ */
+static bool Map_06F7_0493(csip32 csip, tile32 position)
+{
+	uint16 packed;
+	uint8 i;
+
+	if (csip.csip == 0x0) return false;
+
+	packed = Tile_PackTile(position);
+
+	Map_06F7_057C(packed);
+
+	for (i = 0; i < 32; i++) {
+		struct_395A s;
+
+		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+
+		if (s.variable_0C.csip != 0x0) continue;
+
+		s.variable_04 = i;
+		s.variable_0C = csip;
+		s.variable_09 = 0;
+		s.variable_0A = 0;
+		s.position    = position;
+		s.variable_07 = 0;
+		s.variable_00 = g_global->variable_76AC;
+		g_global->variable_320E = 0;
+		Map_GetTileByPosition(packed)->flag_10 = true;
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Make an explosion on the given position, of a certain type. All units in the
  *  neighbourhoud get an amount of damage related to their distance to the
  *  explosion.
@@ -556,10 +627,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	emu_push(position.s.y); emu_push(position.s.x);
-	emu_push(g_global->variable_3212[type].s.cs); emu_push(g_global->variable_3212[type].s.ip);
-	emu_push(emu_cs); emu_push(0x03F9); f__06F7_0493_0015_AAB2();
-	emu_sp += 8;
+	Map_06F7_0493(g_global->variable_3212[type], position);
 }
 
 /**
@@ -648,5 +716,35 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 		case 3:
 			g_global->variable_8FE5[packed >> 3] |= (1 << (packed & 7));
 			return;
+	}
+}
+
+/**
+ * Make a deviator missile explosion on the given position, of a certain type. All units in the
+ *  given radius may become deviated.
+ * @param type The type of explosion.
+ * @param position The position of the explosion.
+ * @param radius The radius.
+ */
+void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
+{
+	PoolFindStruct find;
+
+	Map_06F7_0493(g_global->variable_3212[type], position);
+
+
+	find.type    = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.houseID = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+
+		if (u == NULL) break;
+		if (Tile_GetDistance(position, u->o.position) / 16 >= radius) continue;
+
+		Unit_Deviate(u, 0);
 	}
 }

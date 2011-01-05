@@ -21,6 +21,24 @@ typedef struct Tile {
 MSVC_PACKED_END
 assert_compile(sizeof(Tile) == 0x04);
 
+MSVC_PACKED_BEGIN
+/**
+ * A struct.
+ */
+typedef struct struct_395A {
+	/* 0000(4)   */ PACK uint32 variable_00;                /*!< ?? */
+	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? an index. */
+	/* 0006(1)   */ PACK uint8  houseID;                    /*!< A houseID. */
+	/* 0007(1)   */ PACK uint8  variable_07;                /*!< ?? a bool. */
+	/* 0008()    */ PACK uint8   unknown_0008[0x01];
+	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
+	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? an index. */
+	/* 000C(4)   */ PACK csip32 variable_0C;                /*!< ?? a CSIP. */
+	/* 0010(4)   */ PACK tile32 position;                   /*!< A position. */
+} GCC_PACKED struct_395A;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_395A) == 0x14);
+
 extern uint16 *g_map;
 
 extern Tile *Map_GetTileByPosition(uint16 position);
@@ -37,6 +55,7 @@ extern bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY
 extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded);
 extern uint16 Map_B4CD_0750(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
+extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();

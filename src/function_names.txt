@@ -80,8 +80,6 @@
 0642:0481:0010:36A4	emu_InGame_Numpad_Move	# When moving with numpad ingame
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
 
-06F7:0402:0020:9091	emu_Map_DeviateArea	# (tile, radius) Try to deviate all units in an area
-
 0C10:00D2:000F:D61E	emu_Object_SetScriptVariable4	# (object_csip, value) sets the script->variables[4] of the given unit/structure (does more if object is a structure)
 0C10:013D:0016:8C5C	emu_Object_IsScriptVariable4NotNull	# (object_csip) returns 1 if script->variables[4] != 0, else 0
 0C10:0168:0014:CEB0	emu_Object_GetScriptVariable4	# (object_csip) returns the script->variables[4] of the given unit/structure

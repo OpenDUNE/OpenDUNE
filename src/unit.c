@@ -50,7 +50,6 @@ extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Map_DeviateArea();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1696,11 +1695,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_B4CD_0750(Tile_PackTile(unit->o.position)) == 0) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
-							emu_push(32);
-							emu_push(newPosition.s.y); emu_push(newPosition.s.x);
-							emu_push(ui->variable_54);
-							emu_push(emu_cs); emu_push(0x0620); emu_cs = 0x06F7; emu_Map_DeviateArea();
-							emu_sp += 8;
+							Map_DeviateArea(ui->variable_54, newPosition, 32);
 						} else {
 							Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}

@@ -90,7 +90,6 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	bool loc12;
 	uint16 old2598;
 	uint16 old07AE;
-	csip32 csip1C;
 	int16 minX[10];
 	int16 maxX[10];
 
@@ -387,28 +386,26 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	}
 
 	for (loc0E = 0; loc0E < 32; loc0E ++) {
-		tile32 position;
+		struct_395A s;
 
-		csip1C = g_global->variable_395A;
-		csip1C.s.ip += loc0E * 0x14;
+		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[loc0E];
 
-		position = emu_get_tile32(csip1C.s.cs, csip1C.s.ip, 0x10);
-		curPos = Tile_PackTile(position);
+		curPos = Tile_PackTile(s.position);
 
-		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) emu_get_memory8(csip1C.s.cs, csip1C.s.ip, 0x7) = 0x1;
+		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) s.variable_07 = 1;
 
-		if (emu_get_csip32(csip1C.s.cs, csip1C.s.ip, 0xC).csip == 0x0) continue;
-		if (emu_get_memory8(csip1C.s.cs, csip1C.s.ip, 0x7) == 0 && !arg06) continue;
-		if (emu_get_memory16(csip1C.s.cs, csip1C.s.ip, 0xA) == 0) continue;
+		if (s.variable_0C.csip == 0x0) continue;
+		if (s.variable_07 == 0 && !arg06) continue;
+		if (s.variable_0A == 0) continue;
 
-		emu_get_memory8(csip1C.s.cs, csip1C.s.ip, 0x7) = 0;
+		s.variable_07 = 0;
 
 		if (!Map_GetTileByPosition(curPos)->isUnveiled && g_global->debugScenario == 0) continue;
-		if (!Map_IsPositionInViewport(position, &x, &y)) continue;
+		if (!Map_IsPositionInViewport(s.position, &x, &y)) continue;
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(emu_get_memory16(csip1C.s.cs, csip1C.s.ip, 0xA), emu_get_memory8(csip1C.s.cs, csip1C.s.ip, 0x6)), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(s.variable_0A, s.houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
