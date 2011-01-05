@@ -408,7 +408,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(emu_get_memory16(csip1C.s.cs, csip1C.s.ip, 0xA), emu_get_memory16(csip1C.s.cs, csip1C.s.ip, 0x6)), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(emu_get_memory16(csip1C.s.cs, csip1C.s.ip, 0xA), emu_get_memory8(csip1C.s.cs, csip1C.s.ip, 0x6)), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
