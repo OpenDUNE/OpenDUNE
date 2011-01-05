@@ -9,6 +9,7 @@
 #include "widget.h"
 #include "gui.h"
 #include "../gfx.h"
+#include "../house.h"
 #include "../string.h"
 #include "../sprites.h"
 
