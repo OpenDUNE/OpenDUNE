@@ -8,6 +8,7 @@
 #include "../src/config.h"
 #include "../src/driver.h"
 #include "../src/file.h"
+#include "../src/gfx.h"
 #include "../src/global.h"
 #include "../src/gui/font.h"
 #include "../src/gui/gui.h"
@@ -484,7 +485,6 @@ extern void f__06F7_0B42_0024_BD9D();
 extern void f__AB00_0B4B_0028_C5A7();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__B4E0_0B5D_0005_6F1A();
-extern void f__22A6_0B60_006A_2F61();
 extern void f__2649_0B64_0011_32F8();
 extern void f__B503_0B68_000D_957E();
 extern void emu_DSP_GetInfo();
@@ -502,7 +502,6 @@ extern void f__AB00_0BC6_0001_6780();
 extern void f__1423_0BCC_0012_111A();
 extern void f__217E_0BD4_0006_FD2F();
 extern void f__B4ED_0BD4_001B_FFBA();
-extern void f__22A6_0BE6_0054_A98E();
 extern void f__B503_0BEE_002A_B077();
 extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__217E_0C03_0003_5D08();
@@ -556,7 +555,6 @@ extern void f__AB00_0DA4_0078_0101();
 extern void f__1423_0DC3_0029_D1E2();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B4F2_0DE3_001F_AB1C();
-extern void f__22A6_0DF8_0022_5FD5();
 extern void f__B503_0DFF_0012_112D();
 extern void f__B4F2_0E16_0019_86E9();
 extern void f__22A6_0E1A_0008_F4AE();

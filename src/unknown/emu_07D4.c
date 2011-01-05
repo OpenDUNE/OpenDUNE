@@ -8,6 +8,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
+#include "../gfx.h"
 #include "../unit.h"
 #include "../tile.h"
 #include "../map.h"
@@ -22,7 +23,6 @@
 
 extern void f__06F7_0602_0018_CEB0();
 extern void f__151A_0196_0018_AF63();
-extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0F76_002C_45CC();
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
@@ -149,21 +149,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					continue;
 				}
 
-				emu_push(t->houseID);
-				emu_push(loc0C);
-				emu_push(loc0A >> 3);
-				emu_push(t->groundSpriteID);
-				emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x22A6; f__22A6_0B60_006A_2F61();
-				emu_sp += 8;
+				GFX_DrawSprite(t->groundSpriteID, loc0A >> 3, loc0C, t->houseID);
 
 				if (t->overlaySpriteID == 0 || g_global->debugScenario != 0x0) continue;
 
-				emu_push(t->houseID);
-				emu_push(loc0C);
-				emu_push(loc0A >> 3);
-				emu_push(t->overlaySpriteID);
-				emu_push(emu_cs); emu_push(0x059F); emu_cs = 0x22A6; f__22A6_0B60_006A_2F61();
-				emu_sp += 8;
+				GFX_DrawSprite(t->overlaySpriteID, loc0A >> 3, loc0C, t->houseID);
 			}
 		}
 		g_global->variable_39E2 = 0;

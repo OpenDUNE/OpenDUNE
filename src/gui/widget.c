@@ -8,10 +8,10 @@
 #include "mentat.h"
 #include "widget.h"
 #include "gui.h"
+#include "../gfx.h"
 #include "../string.h"
 #include "../sprites.h"
 
-extern void f__22A6_0B60_006A_2F61();
 extern void f__22A6_0C69_008C_017F();
 extern void f__2995_0004_001F_FE17();
 extern void f__29E8_072F_000F_651A();
@@ -160,13 +160,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {
-			emu_push(positionTop);
-			emu_push(positionLeft >> 3);
-			emu_push(drawProc.s.cs);
-			emu_push(emu_cs); emu_push(0x0A0B); emu_cs = 0x22A6; f__22A6_0B60_006A_2F61(); break;
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-			emu_sp += 6;
+			GFX_DrawSprite(drawProc.s.cs, positionLeft >> 3, positionTop, HOUSE_HARKONNEN);
 		} break;
 
 		case DRAW_MODE_CUSTOM_PROC: {

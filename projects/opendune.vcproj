@@ -1919,6 +1919,26 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\emu_gfx.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\src\emu_house.c"
 				>
 				<FileConfiguration
@@ -2240,6 +2260,30 @@
 			</File>
 			<File
 				RelativePath="..\src\file.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\gfx.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\gfx.h"
 				>
 			</File>
 			<File
