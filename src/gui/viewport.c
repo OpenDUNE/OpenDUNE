@@ -302,7 +302,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			position = Unit_FindTargetAround(packed);
 		}
 
-		if (Map_GetTileByPosition(position)->fogOfWar != g_global->variable_39F2 || g_global->debugScenario != 0) {
+		if (Map_GetTileByPosition(position)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
 			emu_push(position);
 			emu_push(emu_cs); emu_push(0x076B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
 			emu_sp += 2;

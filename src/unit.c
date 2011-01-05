@@ -1595,7 +1595,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			emu_ax = Map_B4CD_0750(packed);
-			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->fogOfWar == 0) {
+			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
 				emu_push(unit->orientation[0].current);
 				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
 				emu_sp += 2;
@@ -1741,13 +1741,13 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					}
 
 					if (unit->o.type != UNIT_SANDWORM) {
-						if (Map_GetTileByPosition(packed)->spriteID == g_global->variable_39F4) {
-							Map_GetTileByPosition(g_global->selectionPosition)->spriteID = g_map[g_global->selectionPosition] & 0x01FF;
+						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->variable_39F4) {
+							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
 							sprite1 = true;
 						}
 
-						if (Map_GetTileByPosition(packed)->spriteID == g_global->variable_39F4 + 1) {
-							Map_GetTileByPosition(g_global->selectionPosition)->spriteID = g_map[g_global->selectionPosition] & 0x01FF;
+						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->variable_39F4 + 1) {
+							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
 							sprite2 = true;
 						}
 					}

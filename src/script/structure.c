@@ -434,7 +434,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	}
 	baseSpriteID = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip + (emu_ax << 1), 0x4);
 
-	rotation = tile->spriteID - baseSpriteID;
+	rotation = tile->groundSpriteID - baseSpriteID;
 	if (rotation < 0 || rotation > 7) return 1;
 
 	/* Find what rotation we should have to look at the target */
@@ -464,7 +464,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	rotation &= 0x7;
 
 	/* Set the new sprites */
-	tile->spriteID = baseSpriteID + rotation;
+	tile->groundSpriteID = baseSpriteID + rotation;
 	s->variable_49 = rotation;
 
 	Map_Update(Tile_PackTile(s->o.position), 0, false);

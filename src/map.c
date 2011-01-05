@@ -87,7 +87,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	if (Map_GetTileByPosition(packed)->fogOfWar != g_global->variable_39F2 || g_global->debugScenario != 0) {
+	if (Map_GetTileByPosition(packed)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(packed);
@@ -331,7 +331,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = Map_GetTileByPosition(i);
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->flag_08 && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->spriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->flag_08 && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->groundSpriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -355,7 +355,7 @@ bool Map_Load(FILE *fp, uint32 length)
 		Tile *t = Map_GetTileByPosition(i);
 
 		t->isUnveiled = false;
-		t->fogOfWar = g_global->variable_39F2 & 0x7F;
+		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
 	}
 
 	while (length >= sizeof(uint16) + sizeof(Tile)) {
@@ -369,7 +369,7 @@ bool Map_Load(FILE *fp, uint32 length)
 		t = Map_GetTileByPosition(i);
 		if (fread(t, sizeof(Tile), 1, fp) != 1) return false;
 
-		if (g_map[i] != t->spriteID) {
+		if (g_map[i] != t->groundSpriteID) {
 			g_map[i] |= 0x8000;
 		}
 	}
@@ -393,7 +393,7 @@ bool Map_IsPositionUnveiled(uint16 position)
 	t = Map_GetTileByPosition(position);
 
 	if (!t->isUnveiled) return false;
-	if (t->fogOfWar <= g_global->variable_39F2 && g_global->variable_39F2 <= t->fogOfWar + 15) return false;
+	if (t->overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= t->overlaySpriteID + 15) return false;
 
 	return true;
 }
@@ -643,17 +643,17 @@ uint16 Map_B4CD_0750(uint16 packed)
 
 	t = Map_GetTileByPosition(packed);
 
-	if (t->spriteID == g_global->variable_39F8) return 10;
+	if (t->groundSpriteID == g_global->variable_39F8) return 10;
 
-	if (t->spriteID == g_global->variable_39F4 || t->spriteID == g_global->variable_39F4 + 1) return 14;
+	if (t->groundSpriteID == g_global->variable_39F4 || t->groundSpriteID == g_global->variable_39F4 + 1) return 14;
 
-	if (t->spriteID > g_global->variable_39FA && t->spriteID < (uint16)(g_global->variable_39FA + 75)) return 11;
+	if (t->groundSpriteID > g_global->variable_39FA && t->groundSpriteID < (uint16)(g_global->variable_39FA + 75)) return 11;
 
-	if (t->fogOfWar == g_global->variable_39FA) return 13;
+	if (t->overlaySpriteID == g_global->variable_39FA) return 13;
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return 12;
 
-	locsi = t->spriteID - g_global->variable_39F6;
+	locsi = t->groundSpriteID - g_global->variable_39F6;
 	if (locsi < 0 || locsi > 82) return 4;
 
 	return g_global->variable_24B8[locsi];

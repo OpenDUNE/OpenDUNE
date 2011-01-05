@@ -207,7 +207,7 @@ bool SaveFile(char *filename, char *description)
 		for (i = 0; i < 0x1000; i++) {
 			Tile *tile = Map_GetTileByPosition(i);
 			tile->isUnveiled = false;
-			tile->fogOfWar = g_global->variable_39F2 & 0x7F;
+			tile->overlaySpriteID = g_global->variable_39F2 & 0x7F;
 		}
 
 		find.houseID = 0xFFFF;

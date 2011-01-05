@@ -8,8 +8,8 @@ MSVC_PACKED_BEGIN
  * A Tile as stored in the memory in the map.
  */
 typedef struct Tile {
-	PACK uint32 spriteID:9;                                 /*!< The Sprite which is drawn on this Tile. */
-	PACK uint32 fogOfWar:7;                                 /*!< The Fog of War on this Tile. */
+	PACK uint32 groundSpriteID:9;                           /*!< The Sprite which is drawn on this Tile. */
+	PACK uint32 overlaySpriteID:7;                          /*!< The Overlay which is drawn over this Tile. */
 	PACK uint32 houseID:3;                                  /*!< Which House owns this Tile. */
 	PACK uint32 isUnveiled:1;                               /*!< There is no fog on the Tile. */
 	PACK uint32 hasUnit:1;                                  /*!< There is a Unit on the Tile. */

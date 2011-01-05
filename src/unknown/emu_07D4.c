@@ -138,7 +138,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				t = Map_GetTileByPosition(curPos);
 				loc0A = x << 4;
 
-				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->fogOfWar) {
+				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->overlaySpriteID) {
 					emu_push(0xC);
 					emu_push(loc0C + 15);
 					emu_push(loc0A + 15);
@@ -152,16 +152,16 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				emu_push(t->houseID);
 				emu_push(loc0C);
 				emu_push(loc0A >> 3);
-				emu_push(t->spriteID);
+				emu_push(t->groundSpriteID);
 				emu_push(emu_cs); emu_push(0x057A); emu_cs = 0x22A6; f__22A6_0B60_006A_2F61();
 				emu_sp += 8;
 
-				if (t->fogOfWar == 0 || g_global->debugScenario != 0x0) continue;
+				if (t->overlaySpriteID == 0 || g_global->debugScenario != 0x0) continue;
 
 				emu_push(t->houseID);
 				emu_push(loc0C);
 				emu_push(loc0A >> 3);
-				emu_push(t->fogOfWar);
+				emu_push(t->overlaySpriteID);
 				emu_push(emu_cs); emu_push(0x059F); emu_cs = 0x22A6; f__22A6_0B60_006A_2F61();
 				emu_sp += 8;
 			}

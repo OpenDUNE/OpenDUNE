@@ -485,14 +485,14 @@ void Scenario_Load_Map()
 		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
 		emu_sp += 4;
 
-		t->spriteID = emu_ax & 0x01FF;
+		t->groundSpriteID = emu_ax & 0x01FF;
 
 		if (g_map[emu_di] != (emu_ax & 0x01FF)) {
 			g_map[emu_di] |= 0x8000;
 		}
 
 		if (!t->isUnveiled) {
-			t->fogOfWar = g_global->variable_39F2 & 0x7F;
+			t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
 		}
 	}
 }
@@ -887,7 +887,7 @@ l__0014:
 
 		t = Map_GetTileByPosition(position);
 
-		t->spriteID = g_global->variable_39F4 & 0x01FF;
+		t->groundSpriteID = g_global->variable_39F4 & 0x01FF;
 		g_map[position] |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
@@ -939,7 +939,7 @@ l__0014:
 		/* Show where a field started in the preview mode by making it an odd looking sprite */
 		if (g_global->debugScenario) {
 			Tile *t = Map_GetTileByPosition(emu_di);
-			t->spriteID = 0x01FF;
+			t->groundSpriteID = 0x01FF;
 		}
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */
@@ -983,7 +983,7 @@ l__0014:
 		emu_di = emu_ax;
 
 		t = Map_GetTileByPosition(emu_di);
-		t->spriteID = (g_global->variable_39F4 + 1) & 0x01FF;
+		t->groundSpriteID = (g_global->variable_39F4 + 1) & 0x01FF;
 		g_map[emu_di] |= 0x8000;
 
 		emu_push(emu_ds); emu_push(0x1F9C); /* ,\n */

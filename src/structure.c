@@ -519,7 +519,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			if (Structure_IsValidBuildLocation(position, STRUCTURE_WALL) == 0) return false;
 
 			t = Map_GetTileByPosition(position);
-			t->spriteID = (g_global->variable_39FA + 1) & 0x1FF;
+			t->groundSpriteID = (g_global->variable_39FA + 1) & 0x1FF;
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
 			t->houseID  = s->o.houseID;
 
@@ -527,7 +527,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
 
-			if (Map_IsPositionUnveiled(position)) t->fogOfWar = 0;
+			if (Map_IsPositionUnveiled(position)) t->overlaySpriteID = 0;
 
 			Structure_ConnectWall(position, true);
 			Structure_Free(s);
@@ -546,14 +546,14 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-				t->spriteID = g_global->variable_39F8 & 0x01FF;
+				t->groundSpriteID = g_global->variable_39F8 & 0x01FF;
 				t->houseID  = s->o.houseID;
 
 				g_map[curPos] |= 0x8000;
 
 				if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 
-				if (Map_IsPositionUnveiled(curPos)) t->fogOfWar = 0;
+				if (Map_IsPositionUnveiled(curPos)) t->overlaySpriteID = 0;
 
 				Map_Update(curPos, 0, false);
 
@@ -568,14 +568,14 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-					t->spriteID = g_global->variable_39F8 & 0x01FF;
+					t->groundSpriteID = g_global->variable_39F8 & 0x01FF;
 					t->houseID  = s->o.houseID;
 
 					g_map[curPos] |= 0x8000;
 
 					if (s->o.houseID == g_global->playerHouseID) {
 						Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
-						t->fogOfWar = 0;
+						t->overlaySpriteID = 0;
 					}
 
 					Map_Update(curPos, 0, false);
@@ -1363,9 +1363,9 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 	spriteID = g_global->variable_39FA + g_global->variable_3462[bits] + 1;
 
 	tile = Map_GetTileByPosition(position);
-	if (tile->spriteID == spriteID) return false;
+	if (tile->groundSpriteID == spriteID) return false;
 
-	tile->spriteID = spriteID;
+	tile->groundSpriteID = spriteID;
 	g_map[position] |= 0x8000;
 	Map_Update(position, 0, false);
 
