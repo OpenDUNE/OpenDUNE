@@ -21,7 +21,6 @@
 #include "../house.h"
 #include "../sprites.h"
 
-extern void f__06F7_0602_0018_CEB0();
 extern void f__151A_0196_0018_AF63();
 extern void f__22A6_0F76_002C_45CC();
 extern void f__22A6_10DD_0023_B468();
@@ -665,7 +664,7 @@ void emu_Unknown_07D4_0000()
 
 	if (arg06) g_global->variable_3A12 = 1;
 
-	emu_push(emu_cs); emu_push(0x0049); emu_cs = 0x06F7; f__06F7_0602_0018_CEB0();
+	Map_06F7_0602();
 
 	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x151A; f__151A_0196_0018_AF63();
 

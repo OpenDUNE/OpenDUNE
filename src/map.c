@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
@@ -18,13 +19,18 @@
 #include "unknown/unknown.h"
 
 extern void emu_Structure_UpdateMap();
-extern void f__06F7_0A6C_0016_FA05();
 extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
+extern void f__151A_000E_0013_5840();
+extern void f__22A6_1200_007B_0356();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
+extern void f__B483_0000_0019_F96A();
+extern void f__B4CD_04D9_0011_E9EF();
+extern void f__B4CD_0AFA_0011_D5DB();
+extern void f__B4CD_14CA_0013_F579();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -419,6 +425,199 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
 }
 
+static bool Map_06F7_072B(struct_395A *s)
+{
+	uint16 packed;
+	uint16 type;
+	Tile *t;
+	uint16 loc06;
+	uint16 overlaySpriteID;
+	uint16 *icon;
+
+	packed = Tile_PackTile(s->position);
+
+	if (!Map_IsPositionUnveiled(packed)) return false;
+
+	type = Map_B4CD_0750(packed);
+
+	if (type == 0xC || type == 0xD) return false;
+
+	t = Map_GetTileByPosition(packed);
+
+	if (type == 0xA) {
+		t->groundSpriteID = g_map[packed] & 0x1FF;
+		Map_Update(packed, 0, false);
+	}
+
+	loc06 = g_global->variable_329E[g_global->variable_3A3E[type][10]];
+
+	if (loc06 == 0xFFFF) return false;
+
+	overlaySpriteID = t->overlaySpriteID;
+
+	if (g_global->variable_39F2 - 16 < overlaySpriteID && overlaySpriteID <= g_global->variable_39F2) return false;
+
+	icon = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	icon = &icon[icon[loc06]];
+	if (icon[0] <= overlaySpriteID && overlaySpriteID <= icon[10]) {
+		overlaySpriteID -= icon[0];
+		if (overlaySpriteID < 4) overlaySpriteID += 2;
+	} else {
+		overlaySpriteID = Tools_Random_256() & 1;
+	}
+
+	emu_push(0xFFFF);
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x0857); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
+	emu_sp += 4;
+
+	if (t->groundSpriteID == g_global->variable_39F4) {
+		emu_push(g_global->playerHouseID);
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x087B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
+		emu_sp += 4;
+		return false;
+	}
+
+	t->overlaySpriteID = (overlaySpriteID + icon[0]) & 0x7F;
+
+	Map_Update(packed, 0, false);
+
+	return true;
+}
+
+static bool Map_06F7_08BD(struct_395A *s, uint16 arg0A)
+{
+	emu_push(s->position.s.y); emu_push(s->position.s.x);
+	emu_push(arg0A);
+	emu_push(emu_cs); emu_push(0x08D3); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+
+	return true;
+}
+
+static bool Map_06F7_08DD(struct_395A *s)
+{
+	if (!Map_IsPositionUnveiled(Tile_PackTile(s->position))) return true;
+
+	assert(g_global->variable_66E0.csip == 0x22A61200);
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x090B); emu_cs = 0x22A6; f__22A6_1200_007B_0356();
+	emu_sp += 2;
+
+	return true;
+}
+
+static bool Map_06F7_0913(struct_395A *s)
+{
+	uint16 packed;
+
+	packed = Tile_PackTile(s->position);
+
+	if (Map_GetTileByPosition(packed)->groundSpriteID != g_global->variable_39F4) return true;
+
+	emu_push(g_global->playerHouseID);
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x095A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
+	emu_sp += 4;
+
+	return false;
+}
+
+static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
+{
+	uint16 packed;
+
+	packed = Tile_PackTile(s->position);
+
+	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
+
+	emu_push(3);
+	emu_push(s->houseID);
+	emu_push(0);
+	emu_push(s->position.s.y); emu_push(s->position.s.x);
+	emu_push(0x33C8); emu_push(((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_B4CD_0750(packed)][7] != 0 ? 0 : 2)) << 4) + 256);
+	emu_push(emu_cs); emu_push(0x09E5); emu_cs = 0x151A; f__151A_000E_0013_5840();
+	emu_sp += 14;
+
+	return true;
+}
+
+static bool Map_06F7_09F4(struct_395A *s, uint16 arg0A)
+{
+	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
+	s->position.s.x = arg0A;
+	s->position.s.y = 0;
+	return true;
+}
+
+static bool Map_06F7_0A27(struct_395A *s, uint16 arg0A)
+{
+	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
+	s->position.s.x = 0;
+	s->position.s.y = arg0A;
+	return true;
+}
+
+static bool Map_06F7_0A5A(struct_395A *s)
+{
+	s->variable_09 = 0;
+	return true;
+}
+
+static bool Map_06F7_0A6C(struct_395A *s, csip32 csip)
+{
+	Map_GetTileByPosition(Tile_PackTile(s->position))->flag_10 = false;
+
+	emu_push(csip.s.cs); emu_push(csip.s.ip);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0AA7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
+	emu_sp += 6;
+
+	s->variable_0C.csip = 0x0;
+
+	return false;
+}
+
+static bool Map_06F7_0AC1(struct_395A *s, uint16 arg0A)
+{
+	s->variable_00 = g_global->variable_76AC + arg0A;
+	return true;
+}
+
+static bool Map_06F7_0AE2(struct_395A *s, uint16 arg0A)
+{
+	s->variable_00 = g_global->variable_76AC + Tools_RandomRange(0, arg0A);
+	return true;
+}
+
+static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A, csip32 csip)
+{
+	s->variable_0A = arg0A;
+	s->variable_08 = 0;
+
+	emu_push(csip.s.cs); emu_push(csip.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x0B38); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
+	emu_sp += 6;
+
+	return true;
+}
+
+static bool Map_06F7_0B42(struct_395A *s, uint16 arg0A, csip32 csip)
+{
+	s->variable_0A = arg0A;
+	s->variable_08 = 1;
+
+	emu_push(csip.s.cs); emu_push(csip.s.ip);
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x0B38); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
+	emu_sp += 6;
+
+	return true;
+}
+
 /**
  * ??.
  *
@@ -436,15 +635,17 @@ static bool Map_06F7_057C(uint16 packed)
 
 	for (i = 0; i < 32; i++) {
 		struct_395A s;
+		csip32 csip;
 
 		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
 
+		/* Temporary */
+		csip       = g_global->variable_395A;
+		csip.s.ip += i * sizeof(struct_395A);
+
 		if (s.variable_0C.csip == 0x0 || Tile_PackTile(s.position) != packed) continue;
 
-		emu_push(0);
-		emu_push(g_global->variable_395A.s.cs); emu_push(g_global->variable_395A.s.ip + i * sizeof(struct_395A));
-		emu_push(emu_cs); emu_push(0x05EC); emu_cs = 0x06F7; f__06F7_0A6C_0016_FA05();
-		emu_sp += 6;
+		Map_06F7_0A6C(&s, csip);
 	}
 
 	return true;
@@ -747,4 +948,62 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 
 		Unit_Deviate(u, 0);
 	}
+}
+
+/**
+ * ??.
+ *
+ * @return g_global->variable_320E.
+ */
+uint32 Map_06F7_0602()
+{
+	uint8 i;
+
+	if (g_global->variable_320E > g_global->variable_76AC) return g_global->variable_320E;
+
+	g_global->variable_320E += 10000;
+
+	for (i = 0; i < 32; i++) {
+		struct_395A s;
+		csip32 csip;
+
+		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+
+		/* Temporary */
+		csip       = g_global->variable_395A;
+		csip.s.ip += i * sizeof(struct_395A);
+
+		if (s.variable_0C.csip == 0x0) continue;
+
+		if (s.variable_00 <= g_global->variable_76AC) {
+			uint16 data;
+			uint16 action;
+
+			data = ((uint16 *)emu_get_memorycsip(s.variable_0C))[s.variable_09++];
+			action = min((data >> 12) & 0xF, 0xE);
+			data &= 0xFFF;
+
+			switch(action) {
+				case  1: Map_06F7_0B14(&s, data, csip); break;
+				case  2: Map_06F7_0AC1(&s, data); break;
+				case  3: Map_06F7_0AE2(&s, data); break;
+				case  4: Map_06F7_0B42(&s, data, csip); break;
+				case  5: Map_06F7_0A5A(&s); break;
+				case  6: Map_06F7_09F4(&s, data); break;
+				case  7: Map_06F7_0A27(&s, data); break;
+				case  8: Map_06F7_072B(&s); break;
+				case  9: Map_06F7_08BD(&s, data); break;
+				case 10: Map_06F7_08DD(&s); break;
+				case 11: Map_06F7_0967(&s, data); break;
+				case 13: Map_06F7_0913(&s); break;
+				default: Map_06F7_0A6C(&s, csip); break;
+			}
+		}
+
+		if (s.variable_0C.csip == 0x0 || s.variable_00 > g_global->variable_320E) continue;
+
+		g_global->variable_320E = s.variable_00;
+	}
+
+	return g_global->variable_320E;
 }

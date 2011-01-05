@@ -30,7 +30,7 @@ typedef struct struct_395A {
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? an index. */
 	/* 0006(1)   */ PACK uint8  houseID;                    /*!< A houseID. */
 	/* 0007(1)   */ PACK uint8  variable_07;                /*!< ?? a bool. */
-	/* 0008()    */ PACK uint8   unknown_0008[0x01];
+	/* 0008(1)   */ PACK uint8  variable_08;                /*!< ?? */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? an index. */
 	/* 000C(4)   */ PACK csip32 variable_0C;                /*!< ?? a CSIP. */
@@ -56,6 +56,7 @@ extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, ui
 extern uint16 Map_B4CD_0750(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
+extern uint32 Map_06F7_0602();
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();

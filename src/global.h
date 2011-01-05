@@ -652,7 +652,9 @@ typedef struct GlobalData {
 	/* 320D()    */ PACK uint8   unknown_320D[0x0001];
 	/* 320E(4)   */ PACK uint32 variable_320E;              /*!< ?? */
 	/* 3212(64)  */ PACK csip32 variable_3212[14];          /*!< ?? */
-	/* 324A()    */ PACK uint8   unknown_324A[0x005A];
+	/* 324A()    */ PACK uint8   unknown_324A[0x0018];
+	/* 3262(60)  */ PACK csip32 variable_3262[15];          /*!< Array of functions. */
+	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? */
 	/* 32A4(32)  */ PACK uint16 variable_32A4[8][2];        /*!< ?? */
 	/* 32C4(32)  */ PACK uint16 variable_32C4[8][2];        /*!< ?? */
 	/* 32E4(32)  */ PACK uint16 variable_32E4[8][2];        /*!< ?? */
