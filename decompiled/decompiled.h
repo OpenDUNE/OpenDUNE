@@ -304,7 +304,6 @@ extern void emu_Interrupt_Vector_Set();
 extern void f__AB00_04CE_0001_6780();
 extern void emu_GUI_Purchase_Invoice();
 extern void f__AB00_04D8_002F_418B();
-extern void f__B4CD_04D9_0011_E9EF();
 extern void emu_Tools_Divd_Wrapper();
 extern void emu_Tools_Divd();
 extern void emu_Tools_Divd2();

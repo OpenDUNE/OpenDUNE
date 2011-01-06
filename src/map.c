@@ -28,7 +28,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_04D9_0011_E9EF();
 extern void f__B4CD_0AFA_0011_D5DB();
 extern void f__B4CD_14CA_0013_F579();
 extern void f__B4CD_1CDA_000C_C72C();
@@ -425,6 +424,23 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
 }
 
+
+static void Map_B4CD_04D9(uint16 arg06, struct_395A *s, csip32 csip)
+{
+	if (s == NULL) return;
+
+	if (arg06 == 1 && s->variable_07 != 0) return;
+
+	s->variable_07 = (arg06 != 0) ? 1 : 0;
+
+	emu_push(g_global->variable_24AC[arg06].s.cs); emu_push(g_global->variable_24AC[arg06].s.ip);
+	emu_push(csip.s.cs); emu_push(csip.s.ip);
+	emu_push(s->position.s.y); emu_push(s->position.s.x);
+	emu_push(24);
+	emu_push(emu_cs); emu_push(0x0534); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
+	emu_sp += 14;
+}
+
 static bool Map_06F7_072B(struct_395A *s)
 {
 	uint16 packed;
@@ -570,10 +586,7 @@ static bool Map_06F7_0A6C(struct_395A *s, csip32 csip)
 {
 	Map_GetTileByPosition(Tile_PackTile(s->position))->flag_10 = false;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0AA7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
-	emu_sp += 6;
+	Map_B4CD_04D9(0, s, csip);
 
 	s->variable_0C.csip = 0x0;
 
@@ -597,10 +610,7 @@ static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A, csip32 csip)
 	s->variable_0A = arg0A;
 	s->variable_08 = 0;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0B38); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
-	emu_sp += 6;
+	Map_B4CD_04D9(2, s, csip);
 
 	return true;
 }
@@ -610,10 +620,7 @@ static bool Map_06F7_0B42(struct_395A *s, uint16 arg0A, csip32 csip)
 	s->variable_0A = arg0A;
 	s->variable_08 = 1;
 
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0B38); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_04D9_0011_E9EF();
-	emu_sp += 6;
+	Map_B4CD_04D9(2, s, csip);
 
 	return true;
 }

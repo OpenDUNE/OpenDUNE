@@ -447,7 +447,8 @@ typedef struct GlobalData {
 	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x0089];
 	/* 2462(18)  */ PACK uint16 variable_2462[9];           /*!< ?? */
-	/* 2474()    */ PACK uint8   unknown_2474[0x0044];
+	/* 2474()    */ PACK uint8   unknown_2474[0x0038];
+	/* 24AC(12)  */ PACK csip32 variable_24AC[3];           /*!< ?? */
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
 	/* 255C()    */ PACK uint8   unknown_255C[0x0018];
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
@@ -777,7 +778,7 @@ typedef struct GlobalData {
 	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
 	/* 3956(4)   */ PACK csip32 variable_3956;              /*!< ?? */
 	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
-	/* 395E()    */ PACK uint8   unknown_395E[0x0084];
+	/* 395E(132) */ PACK uint32 variable_395E[33];          /*!< ?? */
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
 	/* 39E4(2)   */ PACK uint16 variable_39E4;              /*!< ?? */
 	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
