@@ -9,6 +9,11 @@
 static uint8 *g_iconRTBL = NULL;
 static uint8 *g_iconRPAL = NULL;
 static uint8 *g_spriteInfo = NULL;
+static uint16 g_spriteSpacing = 0;
+static uint16 g_spriteHeight = 0;
+static uint16 g_spriteWidth = 0;
+static uint8 g_spriteMode = 0;
+static uint8 g_spriteInfoSize = 0;
 
 /**
  * Returns the codesegment of an output buffer?
@@ -77,14 +82,14 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 		pallete[i] = colour;
 	}
 
-	if (emu_get_memory16(0x22A6, 0x00, 0x33F) == 4) return;
+	if (g_spriteMode == 4) return;
 
 	wptr = &emu_get_memory8(Unknown_22A6_0DF8(), emu_get_memory16(0x22A6, y * 2, 0x17D), x * 8);
-	rptr = g_spriteInfo + ((spriteID * emu_get_memory16(0x22A6, 0x00, 0x341)) << 4);
+	rptr = g_spriteInfo + ((spriteID * g_spriteInfoSize) << 4);
 
-	spacing = emu_get_memory16(0x22A6, 0x00, 0x339);
-	height  = emu_get_memory16(0x22A6, 0x00, 0x33B);
-	width   = emu_get_memory16(0x22A6, 0x00, 0x33D);
+	spacing = g_spriteSpacing;
+	height  = g_spriteHeight;
+	width   = g_spriteWidth;
 
 	for (j = 0; j < height; j++) {
 		for (i = 0; i < width; i++) {
@@ -115,4 +120,44 @@ void GFX_Init_Sprites(uint16 memoryBlockID, void *iconRPAL, void *iconRTBL)
 
 	g_iconRPAL = iconRPAL;
 	g_iconRTBL = iconRTBL;
+}
+
+/**
+ * Initialize sprite information.
+ *
+ * @param widthSize Value between 0 and 2, indicating the width of the sprite.
+ * @param heightSize Value between 0 and 2, indicating the width of the sprite.
+ */
+void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
+{
+	emu_get_memory16(emu_cs, 0x00, 0x347) = 0; /* Write-only */
+	emu_get_memory16(emu_cs, 0x00, 0x349) = 0; /* Write-only */
+
+	if (widthSize == heightSize && widthSize < 3) {
+		emu_get_memory16(emu_cs, 0x00, 0x34B) = 1; /* Write-only */
+		emu_get_memory16(emu_cs, 0x00, 0x34D) = 1; /* Write-only */
+
+		g_spriteMode = widthSize & 2;
+		g_spriteInfoSize = (2 << widthSize);
+
+		g_spriteWidth   = widthSize << 2;
+		g_spriteHeight  = widthSize << 3;
+		g_spriteSpacing = 320 - emu_cx;
+	} else {
+		emu_get_memory16(emu_cs, 0x00, 0x34B) = widthSize; /* Write-only */
+		emu_get_memory16(emu_cs, 0x00, 0x34D) = heightSize; /* Write-only */
+
+		g_spriteMode = 4;
+		g_spriteInfoSize = 2;
+
+		g_spriteWidth   = 4;
+		g_spriteHeight  = 8;
+		g_spriteSpacing = 312;
+
+		widthSize = 1;
+		heightSize = 1;
+	}
+
+	emu_get_memory16(emu_cs, 0x00, 0x345) = widthSize; /* Write-only */
+	emu_get_memory16(emu_cs, 0x00, 0x343) = heightSize; /* Write-only */
 }

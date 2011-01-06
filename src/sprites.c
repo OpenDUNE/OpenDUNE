@@ -19,7 +19,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__22A6_1158_0069_1890();
 extern void f__B4B8_09D0_0012_0D7D();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
@@ -274,13 +273,7 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 
 	ChunkFile_Read(index, HTOBE32('SINF'), info, 4);
 
-	assert(g_global->variable_66DC.csip == 0x22A61158);
-	emu_push(0);
-	emu_push(0);
-	emu_push(info[1]);
-	emu_push(info[0]);
-	emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x22A6; f__22A6_1158_0069_1890();
-	emu_sp += 8;
+	GFX_Init_SpriteInfo(info[0], info[1]);
 
 	tileSize = (info[1] * (info[0] << 3)) * info[3];
 

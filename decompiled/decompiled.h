@@ -610,7 +610,6 @@ extern void f__01F7_1139_000D_AAB0();
 extern void f__B495_1140_0009_13F2();
 extern void f__01F7_1146_0023_6860();
 extern void emu_String_Format_Callback();
-extern void f__22A6_1158_0069_1890();
 extern void f__217E_115A_0021_8FF5();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B503_116F_001B_4CA0();
