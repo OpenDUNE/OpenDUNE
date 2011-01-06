@@ -450,7 +450,9 @@ typedef struct GlobalData {
 	/* 2474()    */ PACK uint8   unknown_2474[0x0038];
 	/* 24AC(12)  */ PACK csip32 variable_24AC[3];           /*!< ?? */
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
-	/* 255C()    */ PACK uint8   unknown_255C[0x0018];
+	/* 255C()    */ PACK uint8   unknown_255C[0x002];
+	/* 255E(8)   */ PACK uint16 variable_255E[4];           /*!< ?? */
+	/* 2566()    */ PACK uint8   unknown_2566[0x000E];
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
 	/* 2580(2)   */ PACK uint16 variable_2580;              /*!< ?? */

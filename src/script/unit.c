@@ -34,7 +34,6 @@ extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_08E7_002B_DC75();
-extern void f__B4CD_0AFA_0011_D5DB();
 extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1533,10 +1532,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	if ((Tools_Random_256() & 0x1F) != 0) return 1;
 
-	emu_push(0xFFFF);
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x278D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
-	emu_sp += 4;
+	Map_B4CD_0AFA(packed, -1);
 
 	return 0;
 }

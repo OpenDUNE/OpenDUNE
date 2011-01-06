@@ -29,7 +29,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_057B_001A_D066();
-extern void f__B4CD_0AFA_0011_D5DB();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -482,10 +481,7 @@ static bool Map_06F7_072B(struct_395A *s)
 		overlaySpriteID = Tools_Random_256() & 1;
 	}
 
-	emu_push(0xFFFF);
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x0857); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
-	emu_sp += 4;
+	Map_B4CD_0AFA(packed, -1);
 
 	if (t->groundSpriteID == g_global->variable_39F4) {
 		Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
@@ -1049,10 +1045,7 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 
 			if (Map_B4CD_0750(curPacked) == 0x8) continue;
 
-			emu_push(1);
-			emu_push(curPacked);
-			emu_push(emu_cs); emu_push(0x15D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
-			emu_sp += 4;
+			Map_B4CD_0AFA(curPacked, 1);
 
 			if (g_global->debugScenario == 0) continue;
 
@@ -1062,8 +1055,85 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 		}
 	}
 
-	emu_push(1);
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x1604); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
-	emu_sp += 4;
+	Map_B4CD_0AFA(packed, 1);
+}
+
+static void Map_B4CD_0C36(uint16 packed)
+{
+	uint16 type;
+	uint16 spriteID;
+	uint16 *iconMap;
+
+	type = Map_B4CD_0750(packed);
+	spriteID = 0;
+
+	if (type == 0x8 || type == 0x9) {
+		uint8 i;
+
+		for (i = 0; i < 4; i++) {
+			uint16 curPacked = packed + g_global->variable_255E[i];
+			int8 x = Tile_GetPackedX(curPacked);
+			int8 y = Tile_GetPackedY(curPacked);
+			uint16 curType;
+
+			if (x < 0 || x > 64 || y < 0 || y > 64) {
+				if (type == 0x8 || type == 0x9) spriteID |= (1 << type);
+				continue;
+			}
+
+			curType = Map_B4CD_0750(curPacked);
+
+			if (type == 0x8) {
+				if (curType == 0x8 || curType == 0x9) spriteID |= (1 << type);
+				continue;
+			}
+
+			if (curType == 0x9) spriteID |= (1 << type);
+		}
+
+		spriteID += (type == 0x8) ? 49 : 65;
+
+		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+		spriteID = iconMap[iconMap[9] + spriteID] & 0x1FF;
+		g_map[packed] = 0x8000 | spriteID;
+		Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
+	}
+
+	Map_Update(packed, 0, false);
+}
+
+void Map_B4CD_0AFA(uint16 packed, int16 dir)
+{
+	uint16 type;
+	uint16 spriteID;
+	uint16 *iconMap;
+
+	if (dir == 0) return;
+
+	type = Map_B4CD_0750(packed);
+
+	if (type == 0x9 && dir > 0) return;
+	if (type != 0x8 && type != 0x9 && dir < 0) return;
+	if (type != 0x0 && type != 0x2 && type != 0x8 && dir > 0) return;
+
+	if (dir > 0) {
+		type = (type == 0x8) ? 0x9 : 0x8;
+	} else {
+		type = (type == 0x9) ? 0x8 : 0x0;
+	}
+
+	spriteID = 0;
+	if (type == 0x8) spriteID = 49;
+	if (type == 0x9) spriteID = 65;
+
+	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	spriteID = iconMap[iconMap[9] + spriteID] & 0x1FF;
+	g_map[packed] = 0x8000 | spriteID;
+	Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
+
+	Map_B4CD_0C36(packed);
+	Map_B4CD_0C36(packed + 1);
+	Map_B4CD_0C36(packed - 1);
+	Map_B4CD_0C36(packed - 64);
+	Map_B4CD_0C36(packed + 64);
 }
