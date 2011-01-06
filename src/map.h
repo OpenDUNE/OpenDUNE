@@ -57,6 +57,8 @@ extern uint16 Map_B4CD_0750(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
 extern uint32 Map_06F7_0602();
+extern void Map_B4CD_14CA(uint16 packed, uint8 houseID);
+extern void Map_B4CD_154C(uint16 packed, uint16 radius);
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();

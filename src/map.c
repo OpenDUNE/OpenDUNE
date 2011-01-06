@@ -30,7 +30,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_057B_001A_D066();
 extern void f__B4CD_0AFA_0011_D5DB();
-extern void f__B4CD_14CA_0013_F579();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -489,10 +488,7 @@ static bool Map_06F7_072B(struct_395A *s)
 	emu_sp += 4;
 
 	if (t->groundSpriteID == g_global->variable_39F4) {
-		emu_push(g_global->playerHouseID);
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x087B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
-		emu_sp += 4;
+		Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
 		return false;
 	}
 
@@ -534,10 +530,7 @@ static bool Map_06F7_0913(struct_395A *s)
 
 	if (Map_GetTileByPosition(packed)->groundSpriteID != g_global->variable_39F4) return true;
 
-	emu_push(g_global->playerHouseID);
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x095A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
-	emu_sp += 4;
+	Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
 
 	return false;
 }
@@ -1014,4 +1007,63 @@ uint32 Map_06F7_0602()
 	}
 
 	return g_global->variable_320E;
+}
+
+void Map_B4CD_14CA(uint16 packed, uint8 houseID)
+{
+	if (g_global->variable_38BC == 0) {
+		Unit_Unknown10EC(Unit_Get_ByPackedTile(packed));
+		Map_GetTileByPosition(packed)->groundSpriteID = g_map[packed] & 0x1FF;
+		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
+	}
+
+	if (houseID == g_global->playerHouseID) {
+		emu_push(36);
+		emu_push(emu_cs); emu_push(0x153C); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+		emu_sp += 2;
+	}
+
+	Map_B4CD_154C(packed, 5);
+}
+
+void Map_B4CD_154C(uint16 packed, uint16 radius)
+{
+	uint16 x;
+	uint16 y;
+	int i;
+	int j;
+
+	if (radius == 0) return;
+
+	x = Tile_GetPackedX(packed);
+	y = Tile_GetPackedY(packed);
+
+	for (i = -radius; i <= radius; i++) {
+		for (j = -radius; j <= radius; j++) {
+			uint16 curPacked = Tile_PackXY(x + j, y + i);
+			uint16 distance  = Tile_GetDistancePacked(packed, curPacked);
+
+			if (distance > radius) continue;
+
+			if (distance == radius && (Tools_Random_256() & 1) == 0) continue;
+
+			if (Map_B4CD_0750(curPacked) == 0x8) continue;
+
+			emu_push(1);
+			emu_push(curPacked);
+			emu_push(emu_cs); emu_push(0x15D9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
+			emu_sp += 4;
+
+			if (g_global->debugScenario == 0) continue;
+
+			emu_push(curPacked);
+			emu_push(emu_cs); emu_push(0x15EA); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
+			emu_sp += 2;
+		}
+	}
+
+	emu_push(1);
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x1604); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0AFA_0011_D5DB();
+	emu_sp += 4;
 }

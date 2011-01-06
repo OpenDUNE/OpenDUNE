@@ -43,8 +43,6 @@ extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_14CA_0013_F579();
-extern void f__B4CD_154C_0015_B7FB();
 extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
@@ -1771,12 +1769,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		emu_sp += 4;
 	}
 
-	if (sprite1 != 0) {
-		emu_push(Unit_GetHouseID(unit));
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x08ED); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
-		emu_sp += 4;
-	}
+	if (sprite1 != 0) Map_B4CD_14CA(packed, Unit_GetHouseID(unit));
 
 	return ret;
 }
@@ -1821,12 +1814,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	if (unit->o.hitpoints == 0) {
 		Unit_Unknown379B(unit);
 
-		if (unit->o.type == UNIT_HARVESTER) {
-			emu_push(unit->amount / 32);
-			emu_push(Tile_PackTile(unit->o.position));
-			emu_push(emu_cs); emu_push(0x0C4E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_154C_0015_B7FB();
-			emu_sp += 4;
-		}
+		if (unit->o.type == UNIT_HARVESTER) Map_B4CD_154C(Tile_PackTile(unit->o.position), unit->amount / 32);
 
 		if (unit->o.type == UNIT_SABOTEUR) {
 			emu_push(20);

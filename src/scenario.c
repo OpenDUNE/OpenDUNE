@@ -24,7 +24,6 @@
 extern void f__01F7_3AF8_001D_A439();
 extern void f__1423_08CD_0012_0004();
 extern void f__B4B8_0000_001F_3BC3();
-extern void f__B4CD_14CA_0013_F579();
 extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
 extern void emu_String_strupr();
@@ -929,12 +928,7 @@ l__0014:
 		emu_sp += 4;
 
 		emu_di = emu_ax;
-		emu_push(0xFFFF);
-		emu_push(emu_di);
-		emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_14CA_0013_F579();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-		emu_sp += 4;
+		Map_B4CD_14CA(emu_di, HOUSE_INVALID);
 
 		/* Show where a field started in the preview mode by making it an odd looking sprite */
 		if (g_global->debugScenario) {
