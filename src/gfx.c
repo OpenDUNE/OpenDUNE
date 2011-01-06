@@ -6,6 +6,10 @@
 #include "gfx.h"
 #include "house.h"
 
+static uint8 *g_iconRTBL = NULL;
+static uint8 *g_iconRPAL = NULL;
+static uint8 *g_spriteInfo = NULL;
+
 /**
  * Returns the codesegment of an output buffer?
  * @return Some codesegment value.
@@ -21,6 +25,20 @@ uint16 Unknown_22A6_0DF8()
 	ptr2 += (*ptr) & 0x1E;
 
 	return *ptr2;
+}
+
+/**
+ * Returns the codesegment of a memory block buffer?
+ * @return Some codesegment value.
+ */
+uint16 Unknown_22A6_0E1A(uint16 memoryBlockID)
+{
+	uint16 *ptr;
+
+	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
+	ptr += (memoryBlockID & 0x1E) + 1;
+
+	return *ptr;
 }
 
 /**
@@ -44,11 +62,8 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	assert(houseID < HOUSE_MAX);
 
-	iconRTBL = (uint8 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0x31F));
-	iconRPAL = (uint8 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0x31B));
-
-	iconRTBL += spriteID;
-	iconRPAL += (*iconRTBL) << 4;
+	iconRTBL = g_iconRTBL + spriteID;
+	iconRPAL = g_iconRPAL + ((*iconRTBL) << 4);
 
 	for (i = 0; i < 16; i++) {
 		uint8 colour = *iconRPAL++;
@@ -65,7 +80,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 	if (emu_get_memory16(0x22A6, 0x00, 0x33F) == 4) return;
 
 	wptr = &emu_get_memory8(Unknown_22A6_0DF8(), emu_get_memory16(0x22A6, y * 2, 0x17D), x * 8);
-	rptr = &emu_get_memory8(emu_get_memory16(0x22A6, 0x00, 0x325) + spriteID * emu_get_memory16(0x22A6, 0x00, 0x341), 0, emu_get_memory16(0x22A6, 0x00, 0x323));
+	rptr = g_spriteInfo + ((spriteID * emu_get_memory16(0x22A6, 0x00, 0x341)) << 4);
 
 	spacing = emu_get_memory16(0x22A6, 0x00, 0x339);
 	height  = emu_get_memory16(0x22A6, 0x00, 0x33B);
@@ -85,4 +100,19 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 		wptr += spacing;
 	}
+}
+
+/**
+ * Initialize sprite information.
+ *
+ * @param memoryBlockID The memory block the sprites are in.
+ * @param iconRPAL The palette used for sprites.
+ * @param iconRTBL The table to look up sprite information.
+ */
+void GFX_Init_Sprites(uint16 memoryBlockID, void *iconRPAL, void *iconRTBL)
+{
+	g_spriteInfo = &emu_get_memory8(Unknown_22A6_0E1A(memoryBlockID), 0, 0);
+
+	g_iconRPAL = iconRPAL;
+	g_iconRTBL = iconRTBL;
 }

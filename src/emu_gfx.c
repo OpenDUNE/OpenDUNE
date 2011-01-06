@@ -19,5 +19,18 @@ void emu_Unknown_22A6_0DF8()
 
 	/* Return from this function */
 	emu_pop(&emu_ip);
-	return;
+}
+
+/**
+ * Emulator wrapper around Unknown_22A6_0E1A().
+ *
+ * @name f__22A6_0E1A_0008_F4AE
+ * @implements 22A6:0E1A:0008:F4AE ()
+ */
+void emu_Unknown_22A6_0E1A()
+{
+	emu_ax = Unknown_22A6_0E1A(emu_ax);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
 }

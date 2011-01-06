@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "gfx.h"
 #include "sprites.h"
 #include "unknown/unknown.h"
 #include "house.h"
@@ -18,7 +19,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__22A6_0EDB_000A_151A();
 extern void f__22A6_1158_0069_1890();
 extern void f__B4B8_09D0_0012_0D7D();
 extern void emu_Tools_Free();
@@ -365,13 +365,7 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 		ChunkFile_Read(index, HTOBE32('RTBL'), (void *)emu_get_memorycsip(g_global->iconRTBL), tileCount);
 		ChunkFile_Read(index, HTOBE32('RPAL'), (void *)emu_get_memorycsip(g_global->iconRPAL), length);
 
-		assert(g_global->variable_6674.csip == 0x22A60EDB);
-		emu_push(tileCount);
-		emu_push(g_global->iconRTBL.s.cs); emu_push(g_global->iconRTBL.s.ip);
-		emu_push(g_global->iconRPAL.s.cs); emu_push(g_global->iconRPAL.s.ip);
-		emu_push(memory2);
-		emu_push(emu_cs); emu_push(0x0358); emu_cs = 0x22A6; f__22A6_0EDB_000A_151A();
-		emu_sp += 12;
+		GFX_Init_Sprites(memory2, (void *)emu_get_memorycsip(g_global->iconRPAL), (void *)emu_get_memorycsip(g_global->iconRTBL));
 	}
 
 	ChunkFile_Close(index);
