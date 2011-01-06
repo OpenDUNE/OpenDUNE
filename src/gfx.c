@@ -142,7 +142,7 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 
 		g_spriteWidth   = widthSize << 2;
 		g_spriteHeight  = widthSize << 3;
-		g_spriteSpacing = 320 - emu_cx;
+		g_spriteSpacing = 320 - g_spriteHeight;
 	} else {
 		emu_get_memory16(emu_cs, 0x00, 0x34B) = widthSize; /* Write-only */
 		emu_get_memory16(emu_cs, 0x00, 0x34D) = heightSize; /* Write-only */
