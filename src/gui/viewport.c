@@ -30,7 +30,6 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
@@ -313,18 +312,13 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			}
 		}
 
-		if ((w->state & 0x1000) != 0) {
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x07A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
-			emu_sp += 2;
-		}
+		if ((w->state & 0x1000) != 0) Map_SetViewportPosition(packed);
+
 		return true;
 	}
 
 	if ((click || drag) && w->index == 44) {
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x07C2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
-		emu_sp += 2;
+		Map_SetViewportPosition(packed);
 		return true;
 	}
 

@@ -24,7 +24,6 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__B48B_00F2_0005_601A();
 extern void f__B48B_01CE_002B_7574();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1178_000D_B1D5();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -354,10 +353,7 @@ bool GUI_Widget_Name_Click()
 	o = (Object *)emu_get_memorycsip(ocsip);
 	packed = Tile_PackTile(o->position);
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1178_000D_B1D5();
-	emu_sp += 2;
-
+	Map_SetViewportPosition(packed);
 	Map_SetSelection(packed);
 
 	return false;

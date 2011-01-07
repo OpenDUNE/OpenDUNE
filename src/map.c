@@ -1137,3 +1137,25 @@ void Map_B4CD_0AFA(uint16 packed, int16 dir)
 	Map_B4CD_0C36(packed - 64);
 	Map_B4CD_0C36(packed + 64);
 }
+
+/**
+ * Sets the viewport position.
+ *
+ * @param packed The packed position.
+*/
+void Map_SetViewportPosition(uint16 packed)
+{
+	uint16 x;
+	uint16 y;
+	MapInfo *mapInfo;
+
+	x = Tile_GetPackedX(packed) - 7;
+	y = Tile_GetPackedY(packed) - 5;
+
+	mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+
+	x = max(mapInfo->minX, min(mapInfo->minX + mapInfo->sizeX - 15, x));
+	y = max(mapInfo->minY, min(mapInfo->minY + mapInfo->sizeY - 10, y));
+
+	g_global->viewportPosition = Tile_PackXY(x, y);
+}
