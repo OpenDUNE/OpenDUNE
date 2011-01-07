@@ -11,6 +11,7 @@
 #include "os/math.h"
 #include "pool/pool.h"
 #include "pool/unit.h"
+#include "pool/house.h"
 #include "structure.h"
 #include "team.h"
 #include "tools.h"
@@ -19,6 +20,7 @@
 #include "unknown/unknown.h"
 
 extern void emu_Structure_UpdateMap();
+extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
 extern void f__151A_000E_0013_5840();
@@ -1158,4 +1160,110 @@ void Map_SetViewportPosition(uint16 packed)
 	y = max(mapInfo->minY, min(mapInfo->minY + mapInfo->sizeY - 10, y));
 
 	g_global->viewportPosition = Tile_PackXY(x, y);
+}
+
+void Map_B4CD_160C(uint16 packed, uint8 houseID)
+{
+	House *h;
+	PoolFindStruct find;
+	uint8 curHouseID;
+
+	h = House_Get_ByIndex(houseID);
+
+	Map_GetTileByPosition(packed)->groundSpriteID = g_global->variable_39F6 & 0x1FF;
+	g_map[packed] = 0x8000 | g_global->variable_39F6;
+
+	Map_Update(packed, 0, false);
+
+	curHouseID = houseID;
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		if (u->o.houseID == houseID) continue;
+
+		curHouseID = u->o.houseID;
+		break;
+	}
+
+	switch (Tools_Random_256() & 0x3) {
+		case 0:
+			h->credits += Tools_RandomRange(150, 400);
+			break;
+
+		case 1: {
+			tile32 position = Tile_UnpackTile(packed);
+
+			emu_push(1);
+			emu_push(16);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x1701); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+			emu_sp += 8;
+			position.s.x = emu_ax;
+			position.s.y = emu_dx;
+
+			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
+			if (g_dune2_enhanced) {
+				Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, houseID, position, Tools_Random_256());
+			} else {
+				Unit_Create(UNIT_INDEX_INVALID, houseID, UNIT_TRIKE, position, Tools_Random_256());
+			}
+			break;
+		}
+
+		case 2: {
+			tile32 position = Tile_UnpackTile(packed);
+			Unit *u;
+
+			emu_push(1);
+			emu_push(16);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x173C); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+			emu_sp += 8;
+			position.s.x = emu_ax;
+			position.s.y = emu_dx;
+
+			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
+			if (g_dune2_enhanced) {
+				u = Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, curHouseID, position, Tools_Random_256());
+			} else {
+				u = Unit_Create(UNIT_INDEX_INVALID, curHouseID, UNIT_TRIKE, position, Tools_Random_256());
+			}
+
+			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
+			break;
+		}
+
+		case 3: {
+			tile32 position = Tile_UnpackTile(packed);
+			Unit *u;
+
+			emu_push(1);
+			emu_push(16);
+			emu_push(position.s.y); emu_push(position.s.x);
+			emu_push(emu_cs); emu_push(0x1792); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+			emu_sp += 8;
+			position.s.x = emu_ax;
+			position.s.y = emu_dx;
+
+			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
+			if (g_dune2_enhanced) {
+				u = Unit_Create(UNIT_INDEX_INVALID, UNIT_INFANTRY, curHouseID, position, Tools_Random_256());
+			} else {
+				u = Unit_Create(UNIT_INDEX_INVALID, curHouseID, UNIT_INFANTRY, position, Tools_Random_256());
+			}
+
+			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
+			break;
+		}
+
+		default: break;
+	}
 }

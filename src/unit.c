@@ -42,7 +42,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_160C_0014_FAD7();
 extern void f__B4CD_17DC_0019_CB46();
 extern void f__B4CD_17F7_001D_1CA2();
 extern void f__B4CD_1816_0033_B55B();
@@ -1779,12 +1778,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	emu_push(emu_cs); emu_push(0x08B4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
 	emu_sp += 6;
 
-	if (sprite2 != 0) {
-		emu_push(Unit_GetHouseID(unit));
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x08D1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_160C_0014_FAD7();
-		emu_sp += 4;
-	}
+	if (sprite2 != 0) Map_B4CD_160C(packed, Unit_GetHouseID(unit));
 
 	if (sprite1 != 0) Map_B4CD_14CA(packed, Unit_GetHouseID(unit));
 
