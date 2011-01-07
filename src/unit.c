@@ -2423,7 +2423,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		}
 
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
-			emu_si = 0x7B; /* " is %d percent full and heading back" */
+			stringID = 0x7B; /* " is %d percent full and heading back" */
 		} else {
 			if (unit->o.script.variables[4] != 0) {
 				stringID = 0x7C; /* " is %d percent full and awaiting pickup" */
@@ -2669,7 +2669,7 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 	}
 
 	if (unit->o.type == UNIT_SABOTEUR && loc0E == 11) {
-		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) emu_si = 0xFF;
+		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) res = 0xFF;
 	}
 
 	if (res == 0) return 256;
