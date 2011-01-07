@@ -13,6 +13,8 @@ extern void Sprites_LoadTiles();
 extern void Sprites_UnloadTiles();
 extern uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette);
 extern uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette, uint16 arg12);
+extern uint8 Sprites_B4CD_17DC(uint8 orientation);
+extern uint8 Sprites_B4CD_17F7(uint8 orientation);
 
 extern void emu_Sprites_Load();
 extern void emu_Sprites_GetCSIP();
@@ -22,5 +24,6 @@ extern void emu_Sprites_LoadTiles();
 extern void emu_Sprites_UnloadTiles();
 extern void emu_Sprites_LoadCPSFile();
 extern void emu_Sprites_LoadImage();
+extern void emu_Sprites_B4CD_17DC();
 
 #endif /* SPRITES_H */

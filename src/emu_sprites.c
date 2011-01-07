@@ -178,3 +178,22 @@ void emu_Sprites_LoadImage()
 
 	emu_ax = Sprites_LoadImage((char *)emu_get_memorycsip(filename), memory1, memory2, (void *)emu_get_memorycsip(palette), arg12);
 }
+
+/**
+ * Emulator wrapper around Sprites_B4CD_17DC()
+ *
+ * @name emu_Sprites_B4CD_17DC
+ * @implements B4CD:17DC:0019:CB46 ()
+ */
+void emu_Sprites_B4CD_17DC()
+{
+	uint8 orientation;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	orientation = emu_get_memory8(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Sprites_B4CD_17DC(orientation);
+}

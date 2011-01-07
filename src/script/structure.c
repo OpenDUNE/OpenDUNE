@@ -19,6 +19,7 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 #include "../gui/gui.h"
+#include "../sprites.h"
 
 extern void emu_Object_SetScriptVariable4();
 extern void f__0C10_0182_0012_B114();
@@ -28,7 +29,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_17DC_0019_CB46();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -444,10 +444,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	emu_sp += 8;
 	rotationNeeded = emu_ax;
 
-	emu_push(rotationNeeded & 0xFF);
-	emu_push(emu_cs); emu_push(0x10DB); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-	emu_sp += 2;
-	rotationNeeded = emu_ax;
+	rotationNeeded = Sprites_B4CD_17DC(rotationNeeded & 0xFF);
 
 	/* Do we need to rotate */
 	if (rotationNeeded == rotation) return 0;
@@ -500,11 +497,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 	emu_push(emu_cs); emu_push(0x1197); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 	emu_sp += 8;
 
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x11A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-	emu_sp += 2;
-
-	return emu_ax << 5;
+	return Sprites_B4CD_17DC((uint8)emu_ax) << 5;
 }
 
 /**

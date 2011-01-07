@@ -25,6 +25,7 @@
 #include "os/math.h"
 #include "string.h"
 #include "gui/gui.h"
+#include "sprites.h"
 
 extern void f__0C10_0008_0014_19CD();
 extern void emu_Object_SetScriptVariable4();
@@ -42,8 +43,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_17DC_0019_CB46();
-extern void f__B4CD_17F7_001D_1CA2();
 extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -76,7 +75,6 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 	int8 current;
 	int8 newCurrent;
 	int16 diff;
-	uint16 locax;
 
 	assert(level == 0 || level == 1);
 
@@ -103,29 +101,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 
 	unit->orientation[level].current = newCurrent;
 
-	emu_push(newCurrent);
-	emu_push(emu_cs); emu_push(0x2009); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
-	emu_sp += 2;
-
-	locax = emu_ax;
-
-	emu_push(current);
-	emu_push(emu_cs); emu_push(0x2013); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
-	emu_sp += 2;
-
-	if (locax == emu_ax) {
-		emu_push(newCurrent);
-		emu_push(emu_cs); emu_push(0x2021); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-		emu_sp += 2;
-
-		locax = emu_ax;
-
-		emu_push(current);
-		emu_push(emu_cs); emu_push(0x202B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-		emu_sp += 2;
-
-		if (locax == emu_ax) return;
-	}
+	if (Sprites_B4CD_17F7(newCurrent) == Sprites_B4CD_17F7(current) && Sprites_B4CD_17DC(newCurrent) == Sprites_B4CD_17DC(current)) return;
 
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
 	emu_push(2);
@@ -1260,7 +1236,7 @@ Unit *Unit_Unknown15F4(Unit *unit)
 	return res;
 }
 
-static tile32 Unit_B4CD_00A5(tile32 position, uint16 orientation)
+static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 {
 	uint16 x;
 	uint16 y;
@@ -1268,10 +1244,7 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint16 orientation)
 	x = Tile_GetX(position);
 	y = Tile_GetY(position);
 
-	emu_push(orientation);
-	emu_push(emu_cs); emu_push(0x00D4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-	emu_sp += 2;
-	orientation = emu_ax;
+	orientation = Sprites_B4CD_17DC(orientation);
 
 	x += g_global->variable_2474[orientation];
 	y += g_global->variable_2484[orientation];
@@ -1610,15 +1583,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		} else {
 			emu_ax = Map_B4CD_0750(packed);
 			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
-				emu_push(unit->orientation[0].current);
-				emu_push(emu_cs); emu_push(0x0265); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-				emu_sp += 2;
-
 				emu_push(5);
 				emu_push(unit->o.houseID);
 				emu_push(0);
 				emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-				emu_push(0x33C8); emu_push(emu_ax << 4);
+				emu_push(0x33C8); emu_push(Sprites_B4CD_17DC(unit->orientation[0].current) << 4);
 				emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x151A; f__151A_000E_0013_5840();
 				emu_sp += 14;
 			}

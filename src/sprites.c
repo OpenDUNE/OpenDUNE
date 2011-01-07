@@ -533,3 +533,13 @@ uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, u
 
 	return Sprites_LoadCPSFile(filename, memory1, memory2, (g_global->variable_6C76 == 3) ? palette : NULL) / 8000;
 }
+
+uint8 Sprites_B4CD_17DC(uint8 orientation)
+{
+	return emu_get_memorycsip(g_global->variable_3952)[orientation] & 0x7;
+}
+
+uint8 Sprites_B4CD_17F7(uint8 orientation)
+{
+	return emu_get_memorycsip(g_global->variable_3952)[orientation] >> 4;
+}

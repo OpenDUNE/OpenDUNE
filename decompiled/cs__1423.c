@@ -440,7 +440,7 @@ l__0ACA:
 l__0AF6:
 	emu_addw(&emu_sp, 0x8);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0AFF); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	emu_push(emu_cs); emu_push(0x0AFF); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Sprites_B4CD_17DC();
 l__0AFF:
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;

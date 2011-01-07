@@ -29,8 +29,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
-extern void f__B4CD_17DC_0019_CB46();
-extern void f__B4CD_17F7_001D_1CA2();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawLine();
@@ -247,7 +245,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			Unit *u;
 			UnitInfo *ui;
 			uint16 packed;
-			uint16 orientation;
+			uint8 orientation;
 			uint16 index;
 
 			u = Unit_Find(&find);
@@ -271,10 +269,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			x += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x0);
 			y += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x2);
 
-			emu_push(u->orientation[0].current);
-			emu_push(emu_cs); emu_push(0x0A57); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-			emu_sp += 2;
-			orientation = emu_ax;
+			orientation = Sprites_B4CD_17DC(u->orientation[0].current);
 
 			if (u->variable_6D >= 0 || ui->variable_4C == 0) {
 				index = ui->variable_44;
@@ -325,10 +320,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				uint16 offsetY = 0;
 				uint16 index = ui->variable_46;
 
-				emu_push(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
-				emu_push(emu_cs); emu_push(0x0CE4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-				emu_sp += 2;
-				orientation = emu_ax;
+				orientation = Sprites_B4CD_17DC(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
 
 				switch (ui->variable_46) {
 					case 0x8D:
@@ -405,7 +397,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		while (true) {
 			Unit *u;
 			UnitInfo *ui;
-			uint16 orientation;
+			uint8 orientation;
 			csip32 sprite_csip;
 			uint16 index;
 
@@ -437,30 +429,21 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					break;
 
 				case 1:
-					emu_push(orientation);
-					emu_push(emu_cs); emu_push(0x10FA); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-					emu_sp += 2;
-					orientation = emu_ax;
+					orientation = Sprites_B4CD_17DC(orientation);
 
 					index += g_global->variable_32E4[orientation][0];
 					g_global->variable_8DE3 |= g_global->variable_32E4[orientation][1];
 					break;
 
 				case 2:
-					emu_push(orientation);
-					emu_push(emu_cs); emu_push(0x1115); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17F7_001D_1CA2();
-					emu_sp += 2;
-					orientation = emu_ax;
+					orientation = Sprites_B4CD_17F7(orientation);
 
 					index += g_global->variable_3304[orientation][0];
 					g_global->variable_8DE3 |= g_global->variable_3304[orientation][1];
 					break;
 
 				case 5:
-					emu_push(orientation);
-					emu_push(emu_cs); emu_push(0x113A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
-					emu_sp += 2;
-					orientation = emu_ax;
+					orientation = Sprites_B4CD_17DC(orientation);
 
 					index += (g_global->variable_32E4[orientation][0] * 3) + g_global->variable_33AE[u->variable_6D & 3];
 					g_global->variable_8DE3 |= g_global->variable_32E4[orientation][1];

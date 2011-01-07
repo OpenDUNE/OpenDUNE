@@ -2196,38 +2196,6 @@ l__14C4:
 }
 
 /**
- * Decompiled function f__B4CD_17DC_0019_CB46()
- *
- * @name f__B4CD_17DC_0019_CB46
- * @implements B4CD:17DC:0019:CB46 ()
- * @implements B4CD:17F5:0002:2597
- *
- * Called From: 34CD:007F:0005:0000
- * Called From: B4CD:00D1:000A:13D1
- */
-void f__B4CD_17DC_0019_CB46()
-{
-l__17DC:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_andw(&emu_ax, 0xFF);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3952));
-	emu_addw(&emu_bx, emu_ax);
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ah = 0x0;
-	emu_andw(&emu_ax, 0x7);
-	goto l__17F5;
-l__17F5:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4CD_17F7_001D_1CA2()
  *
  * @name f__B4CD_17F7_001D_1CA2
