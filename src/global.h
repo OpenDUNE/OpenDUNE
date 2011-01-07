@@ -447,7 +447,9 @@ typedef struct GlobalData {
 	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x0089];
 	/* 2462(18)  */ PACK uint16 variable_2462[9];           /*!< ?? */
-	/* 2474()    */ PACK uint8   unknown_2474[0x0038];
+	/* 2474(16)  */ PACK uint16 variable_2474[8];           /*!< ?? */
+	/* 2484(16)  */ PACK uint16 variable_2484[8];           /*!< ?? */
+	/* 2494()    */ PACK uint8   unknown_2494[0x0018];
 	/* 24AC(12)  */ PACK csip32 variable_24AC[3];           /*!< ?? */
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
 	/* 255C()    */ PACK uint8   unknown_255C[0x002];

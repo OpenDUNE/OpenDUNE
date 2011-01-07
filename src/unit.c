@@ -40,7 +40,6 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_00A5_0016_24FA();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_160C_0014_FAD7();
@@ -1262,6 +1261,30 @@ Unit *Unit_Unknown15F4(Unit *unit)
 	return res;
 }
 
+static tile32 Unit_B4CD_00A5(tile32 position, uint16 orientation)
+{
+	uint16 x;
+	uint16 y;
+
+	x = Tile_GetX(position);
+	y = Tile_GetY(position);
+
+	emu_push(orientation);
+	emu_push(emu_cs); emu_push(0x00D4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_17DC_0019_CB46();
+	emu_sp += 2;
+	orientation = emu_ax;
+
+	x += g_global->variable_2474[orientation];
+	y += g_global->variable_2484[orientation];
+
+	if (x > 16384 || y > 16384) return position;
+
+	position.s.x = x;
+	position.s.y = y;
+
+	return position;
+}
+
 /**
  * Unknwown function 167C.
  *
@@ -1292,13 +1315,7 @@ bool Unit_Unknown167C(Unit *unit)
 	Unit_SetOrientation(unit, locsi, true, 0);
 	Unit_SetOrientation(unit, locsi, false, 1);
 
-	emu_push(locsi);
-	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x16F8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_00A5_0016_24FA();
-	emu_sp += 6;
-
-	position.s.x = emu_ax;
-	position.s.y = emu_dx;
+	position = Unit_B4CD_00A5(unit->o.position, locsi);
 
 	packed = Tile_PackTile(position);
 
