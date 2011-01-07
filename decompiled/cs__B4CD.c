@@ -2196,39 +2196,6 @@ l__14C4:
 }
 
 /**
- * Decompiled function f__B4CD_17F7_001D_1CA2()
- *
- * @name f__B4CD_17F7_001D_1CA2
- * @implements B4CD:17F7:001D:1CA2 ()
- * @implements B4CD:1814:0002:2597
- *
- * Called From: 34CD:005C:0005:0000
- */
-void f__B4CD_17F7_001D_1CA2()
-{
-l__17F7:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_andw(&emu_ax, 0xFF);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3952));
-	emu_addw(&emu_bx, emu_ax);
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_ah = 0x0;
-	emu_andw(&emu_ax, 0xF0);
-	emu_cl = 0x4;
-	emu_sarw(&emu_ax, emu_cl);
-	goto l__1814;
-l__1814:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4CD_1816_0033_B55B()
  *
  * @name f__B4CD_1816_0033_B55B
