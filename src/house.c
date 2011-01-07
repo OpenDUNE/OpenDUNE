@@ -18,8 +18,8 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 #include "gui/gui.h"
+#include "map.h"
 
-extern void f__B4CD_1816_0033_B55B();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -94,12 +94,7 @@ void GameLoop_House()
 		emu_sp += 2;
 
 		if (g_global->houseMissleCountdown == 0) {
-			emu_push(g_global->playerHouseID);
-			emu_push(4);
-			emu_push(emu_cs); emu_push(0x01DC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-			emu_sp += 4;
-
-			emu_push(emu_ax);
+			emu_push(Map_B4CD_1816(4, (uint8)g_global->playerHouseID));
 			emu_push(emu_cs); emu_push(0x01E4); emu_cs = 0x1423; emu_Unit_LaunchHouseMissle();
 			emu_sp += 2;
 		}
@@ -128,7 +123,6 @@ void GameLoop_House()
 		for (i = 0; i < 16; i++) {
 			uint16 locationID;
 			bool deployed;
-			csip32 ucsip;
 			Unit *u;
 
 			if (g_global->scenario.reinforcement[i].unitID == UNIT_INDEX_INVALID) continue;
@@ -137,37 +131,16 @@ void GameLoop_House()
 
 			u = Unit_Get_ByIndex(g_global->scenario.reinforcement[i].unitID);
 
-			/* XXX -- Temporary, to keep all the emu_calls workable for now */
-			ucsip = g_global->unitStartPos;
-			ucsip.s.ip += u->o.index * sizeof(Unit);
-
 			locationID = g_global->scenario.reinforcement[i].locationID;
 			deployed   = false;
 
 			if (locationID >= 4) {
 				if (nu == NULL) {
-					csip32 nucsip;
-
-					emu_push(u->o.houseID);
-					emu_push(Tools_Random_256() & 3);
-					emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-					emu_sp += 4;
-
-					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->o.houseID, Tile_UnpackTile(emu_ax), 100);
+					nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_CARRYALL, u->o.houseID, Tile_UnpackTile(Map_B4CD_1816(Tools_Random_256() & 3, u->o.houseID)), 100);
 
 					if (nu != NULL) {
-						/* XXX -- Temporary, to keep all the emu_calls workable for now */
-						nucsip = g_global->unitStartPos;
-						nucsip.s.ip += nu->o.index * sizeof(Unit);
-
 						nu->o.flags.s.byScenario = true;
-
-						emu_push(u->o.houseID);
-						emu_push(locationID);
-						emu_push(emu_cs); emu_push(0x0339); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-						emu_sp += 4;
-
-						Unit_SetDestination(nu, Tools_Index_Encode(emu_ax, IT_TILE));
+						Unit_SetDestination(nu, Tools_Index_Encode(Map_B4CD_1816(locationID, u->o.houseID), IT_TILE));
 					}
 				}
 
@@ -182,12 +155,7 @@ void GameLoop_House()
 					g_global->scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
-				emu_push(u->o.houseID);
-				emu_push(locationID);
-				emu_push(emu_cs); emu_push(0x03BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-				emu_sp += 4;
-
-				deployed = Unit_SetPosition(u, Tile_UnpackTile(emu_ax));
+				deployed = Unit_SetPosition(u, Tile_UnpackTile(Map_B4CD_1816(locationID, u->o.houseID)));
 			}
 
 			if (deployed && g_global->scenario.reinforcement[i].repeat != 0) {

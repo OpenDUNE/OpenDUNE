@@ -33,7 +33,6 @@ extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
@@ -1111,11 +1110,7 @@ void Structure_ActivateSpecial(Structure *s)
 			uint16 i;
 
 			/* Find a random location to appear */
-			emu_push(0xFFFF);
-			emu_push(4);
-			emu_push(emu_cs); emu_push(0x0670); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-			emu_sp += 4;
-			location = emu_ax;
+			location = Map_B4CD_1816(4, 0xFFFF);
 
 			for (i = 0; i < 5; i++) {
 				Unit *u;

@@ -12,6 +12,7 @@
 #include "pool/pool.h"
 #include "pool/unit.h"
 #include "pool/house.h"
+#include "pool/structure.h"
 #include "structure.h"
 #include "team.h"
 #include "tools.h"
@@ -31,6 +32,7 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_057B_001A_D066();
+extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1266,4 +1268,137 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 		default: break;
 	}
+}
+
+uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
+{
+	uint16 ret = 0;
+	uint16 loc02;
+
+	loc02 = g_global->variable_256E[g_global->scenario.mapScale];
+
+	if (locationID == 6) {
+		PoolFindStruct find;
+
+		find.houseID = 0xFFFF;
+		find.index   = 0xFFFF;
+		find.type    = 0xFFFF;
+
+		while (true) {
+			Structure *s;
+
+			s = Structure_Find(&find);
+			if (s == NULL) break;
+
+			if (s->o.houseID == houseID) continue;
+
+			houseID = s->o.houseID;
+			break;
+		}
+	}
+
+	while (ret == 0) {
+		switch (locationID) {
+			case 0: {
+				MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + loc02);
+				break;
+			}
+
+			case 1:{
+				MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				break;
+			}
+
+			case 2: {
+				MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - loc02);
+				break;
+			}
+
+			case 3: {
+				MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+				ret = Tile_PackXY(mapInfo->minX + loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
+				break;
+			}
+
+			case 4: {
+				MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
+				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				break;
+			}
+
+			case 5:
+				ret = Tile_PackXY(Tile_GetPackedX(g_global->minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_global->minimapPosition) + Tools_RandomRange(0, 9));
+				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				break;
+
+			case 6:
+			case 7: {
+				PoolFindStruct find;
+				Structure *s;
+
+				find.houseID = houseID;
+				find.index   = 0xFFFF;
+				find.type    = 0xFFFF;
+
+				s = Structure_Find(&find); /* loc06 */
+
+				if (s != NULL) {
+					tile32 position;
+
+					emu_push(1);
+					emu_push(120);
+					emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
+					emu_push(emu_cs); emu_push(0x1A69); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+					emu_sp += 8;
+					position.s.x = emu_ax;
+					position.s.y = emu_dx;
+
+					ret = Tile_PackTile(position);
+				} else {
+					Unit *u;
+					tile32 position;
+
+					find.houseID = houseID;
+					find.index   = 0xFFFF;
+					find.type    = 0xFFFF;
+
+					u = Unit_Find(&find);
+
+					if (u != NULL) {
+						emu_push(1);
+						emu_push(120);
+						emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
+						emu_push(emu_cs); emu_push(0x1AB3); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+						emu_sp += 8;
+						position.s.x = emu_ax;
+						position.s.y = emu_dx;
+
+						ret = Tile_PackTile(position);
+					} else {
+						MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+						ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
+					}
+				}
+
+				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				break;
+			}
+
+			default: return 0;
+		}
+
+		ret &= 0xFFF;
+		if (ret == 0) continue;
+
+		emu_push(ret);
+		emu_push(emu_cs); emu_push(0x1B33); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
+		emu_sp += 2;
+		if ((emu_ax | emu_dx) != 0) ret = 0;
+	}
+
+	return ret;
 }

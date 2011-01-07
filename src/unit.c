@@ -43,7 +43,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1816_0033_B55B();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
@@ -2068,12 +2067,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 	Unit *unit;
 	Unit *carryall;
 
-	emu_push(houseID);
-	emu_push(Tools_Random_256() & 3);
-	emu_push(emu_cs); emu_push(0x2346); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1816_0033_B55B();
-	emu_sp += 4;
-
-	tile = Tile_UnpackTile(emu_ax);
+	tile = Tile_UnpackTile(Map_B4CD_1816(Tools_Random_256() & 3, houseID));
 
 	h = House_Get_ByIndex(houseID);
 
