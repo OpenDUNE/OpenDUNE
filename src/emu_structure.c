@@ -8,6 +8,7 @@
 #include "pool/structure.h"
 #include "house.h"
 #include "structure.h"
+#include "unit.h"
 
 /**
  * Emulator wrapper around Structure_Create().
@@ -209,4 +210,58 @@ void emu_Structure_ConnectWall()
 	recurse  = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = Structure_ConnectWall(position, recurse != 0) ? 1 : 0;
+}
+
+/**
+ * Emulator wrapper around Structure_GetLinkedUnit().
+ *
+ * @name emu_Structure_GetLinkedUnit
+ * @implements 1A34:3491:0032:AFF8 ()
+ */
+void emu_Structure_GetLinkedUnit()
+{
+	csip32 scsip;
+	Structure *s;
+	Unit *u;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+
+	if (scsip.csip == 0x0) return;
+	s = Structure_Get_ByMemory(scsip);
+
+	u = Structure_GetLinkedUnit(s);
+
+	if (u == NULL) return;
+	emu_dx = g_global->unitStartPos.s.cs;
+	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
+}
+
+/**
+ * Emulator wrapper around Structure_UntargetMe().
+ *
+ * @name emu_Structure_UntargetMe
+ * @implements 0C3A:2929:0012:B10B ()
+ */
+void emu_Structure_UntargetMe()
+{
+	csip32 scsip;
+	Structure *s;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (scsip.csip == 0x0) return;
+	s = Structure_Get_ByMemory(scsip);
+
+	Structure_UntargetMe(s);
 }

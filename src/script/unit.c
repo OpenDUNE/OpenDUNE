@@ -21,8 +21,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__0C10_0008_0014_19CD();
-extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_2207_001D_EDF2();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
@@ -138,6 +136,8 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	if (u->o.linkedID == 0xFF) return 0;
@@ -174,10 +174,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 				ret = 1;
 			}
 
-			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0999); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-			emu_sp += 4;
-
+			Object_Script_Variable4_Clear(&u->o);
 			u->targetMove = 0;
 
 			return ret;
@@ -191,11 +188,9 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 			Unit_EnterStructure(Unit_Get_ByIndex(u->o.linkedID), s);
 
-			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0A1F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-			emu_sp += 4;
-
+			Object_Script_Variable4_Clear(&u->o);
 			u->targetMove = 0;
+
 			u->o.linkedID = 0xFF;
 			u->o.flags.s.inTransport = false;
 			u->amount = 0;
@@ -208,10 +203,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			return 1;
 		}
 
-		emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-		emu_push(emu_cs); emu_push(0x0A6D); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-		emu_sp += 4;
-
+		Object_Script_Variable4_Clear(&u->o);
 		u->targetMove = 0;
 
 		return 0;
@@ -240,11 +232,9 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 	if (u->o.linkedID != 0xFF) return 1;
 
 	u->o.flags.s.inTransport = false;
-	u->targetMove = 0;
 
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0BA9); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&u->o);
+	u->targetMove = 0;
 
 	return 1;
 }
@@ -262,6 +252,8 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	if (u->o.linkedID != 0xFF) return 0;
@@ -274,20 +266,14 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			s = Tools_Index_GetStructure(u->targetMove);
 
 			if (s->animation != 2) {
-				emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-				emu_push(emu_cs); emu_push(0x0D69); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-				emu_sp += 4;
-
+				Object_Script_Variable4_Clear(&u->o);
 				u->targetMove = 0;
 				return 0;
 			}
 
 			u->o.flags.s.inTransport = true;
 
-			emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-			emu_push(emu_cs); emu_push(0x0C43); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-			emu_sp += 4;
-
+			Object_Script_Variable4_Clear(&u->o);
 			u->targetMove = 0;
 
 			u2 = Unit_Get_ByIndex(s->o.linkedID);
@@ -373,12 +359,9 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			Unit_Unknown2AAA(u2);
 
-			emu_push(Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
-			emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
-			emu_sp += 4;
+			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 
-			u->targetMove = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+			u->targetMove = u->o.script.variables[4];
 
 			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 			emu_push(2);
@@ -669,6 +652,8 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	bool loc1A;
 	uint16 damage;
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	target = u->targetAttack;
@@ -696,7 +681,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	if (u->fireDelay != 0) return 0;
 
 	emu_push(target);
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
+	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
 	emu_push(emu_cs); emu_push(0x15B0); emu_cs = 0x167E; f__167E_0319_0010_B56F();
 	emu_sp += 6;
 
@@ -1205,6 +1190,8 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 	Unit *u;
 	PoolFindStruct find;
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	if (u->o.linkedID != 0xFF) {
@@ -1217,12 +1204,9 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 
 			encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
-			emu_push(encoded);
-			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
-			emu_push(emu_cs); emu_push(0x21CD); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
-			emu_sp += 4;
+			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), encoded);
 
-			u->targetMove = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+			u->targetMove = u->o.script.variables[4];
 
 			return encoded;
 		}
@@ -1244,10 +1228,7 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 
 		encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
-		emu_push(encoded);
-		emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
-		emu_push(emu_cs); emu_push(0x2243); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
-		emu_sp += 4;
+		Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), encoded);
 
 		u->targetMove = encoded;
 
@@ -1352,31 +1333,24 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 {
 	Unit *u;
 	Unit *u2;
-	uint16 variable4;
 	uint16 encoded;
 	uint16 encoded2;
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	variable4 = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
-
-	if (variable4 != 0) return variable4;
-
+	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
 	if (!g_unitInfo[u->o.type].flags.s.variable_0100 || u->deviated != 0) return 0;
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
 	u2 = Unit_Unknown2BB5(script->stack[script->stackPointer], Unit_GetHouseID(u), encoded, false);
-
 	if (u2 == NULL) return 0;
 
 	encoded2 = Tools_Index_Encode(u2->o.index, IT_UNIT);
 
-	emu_push(encoded2);
-	emu_push(encoded);
-	emu_push(emu_cs); emu_push(0x2539); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
-	emu_sp += 4;
-
+	Object_Script_Variable4_Link(encoded, encoded2);
 	u2->targetMove = encoded;
 
 	return encoded2;
@@ -1393,23 +1367,20 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 uint16 Script_Unit_Unknown2552(ScriptEngine *script)
 {
 	Unit *u;
-	uint16 variable4;
+	Unit *u2;
 
 	VARIABLE_NOT_USED(script);
 
-	variable4 = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* object->script.variables[4] */
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
 
-	if (variable4 == 0) return 0;
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	if (u->o.script.variables[4] == 0) return u->o.script.variables[4];
 
-	u = Tools_Index_GetUnit(variable4);
+	u2 = Tools_Index_GetUnit(u->o.script.variables[4]);
+	if (u2 == NULL || u2->o.type != UNIT_CARRYALL) return 0;
 
-	if (u == NULL || u->o.type != UNIT_CARRYALL) return 0;
-
-	u->targetMove = 0;
-
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x259A); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&u->o);
+	u2->targetMove = 0;
 
 	return 0;
 }
@@ -1778,19 +1749,18 @@ uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
 uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 {
 	Unit *u;
-	uint16 encoded;
 
 	VARIABLE_NOT_USED(script);
 
+	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
+
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	encoded = emu_get_memory16(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x26); /* objectCurrent->script.variables[4] */
-
-	switch (Tools_Index_GetType(encoded)) {
+	switch (Tools_Index_GetType(u->o.script.variables[4])) {
 		case IT_UNIT: {
 			Unit *u2;
 
-			u2 = Tools_Index_GetUnit(encoded);
+			u2 = Tools_Index_GetUnit(u->o.script.variables[4]);
 
 			if (Tools_Index_Encode(u->o.index, IT_UNIT) == u2->o.script.variables[4] && u2->o.houseID == u->o.houseID) return 1;
 
@@ -1800,16 +1770,14 @@ uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 		case IT_STRUCTURE: {
 			Structure *s;
 
-			s = Tools_Index_GetStructure(encoded);
+			s = Tools_Index_GetStructure(u->o.script.variables[4]);
 			if (Tools_Index_Encode(u->o.index, IT_UNIT) == s->o.script.variables[4] && s->o.houseID == u->o.houseID) return 1;
 		} break;
 
 		default: break;
 	}
 
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x2C6A); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&u->o);
 	return 0;
 }
 

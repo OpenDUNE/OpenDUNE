@@ -31,7 +31,7 @@ typedef struct Object {
 	/*  4 - 2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
 	/*  4 - 4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */
 	/*  4 - 8000 */              BITTYPE unknown_4_8000:1;
-	/*  6 - 0001 */              BITTYPE variable_6_0001:1; /*!< Unit ?? */
+	/*  6 - 0001 */              BITTYPE variable_6_0001:1; /*!< Unit ?? If true, this is an unit, otherwise structure? */
 	/*  6 - 0002 */              BITTYPE upgrading:1;       /*!< Structure is being upgraded. */
 	/*  6 - 0004 */              BITTYPE unknown_6_0004:1;
 	/*  6 - 0008 */              BITTYPE unknown_6_0008:1;
@@ -58,5 +58,9 @@ typedef struct Object {
 } GCC_PACKED Object;
 MSVC_PACKED_END
 assert_compile(sizeof(Object) == 0x47);
+
+extern void Object_Script_Variable4_Link(uint16 encodedFrom, uint16 encodedTo);
+extern void Object_Script_Variable4_Set(Object *o, uint16 index);
+extern void Object_Script_Variable4_Clear(Object *object);
 
 #endif /* OBJECT_H */

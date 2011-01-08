@@ -16,7 +16,6 @@
 #include "../sprites.h"
 
 extern void f__01F7_286D_0023_9A13();
-extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_2714_0015_B6F6();
 extern void f__0C3A_2814_0015_76F0();
@@ -289,10 +288,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 		return true;
 	}
 
-	emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-	emu_push(emu_cs); emu_push(0x1DD4); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
-
+	Object_Script_Variable4_Clear(&u->o);
 	u->targetAttack = 0;
 	u->targetMove = 0;
 	u->variable_72[0] = 0xFF;

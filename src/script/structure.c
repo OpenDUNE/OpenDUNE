@@ -21,8 +21,6 @@
 #include "../gui/gui.h"
 #include "../sprites.h"
 
-extern void emu_Object_SetScriptVariable4();
-extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_1002_0013_651A();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__0F3F_0125_000D_4868();
@@ -191,15 +189,10 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 	u = Tools_Index_GetUnit(s->o.script.variables[4]);
 	if (u != NULL) {
 		if (structureIndex == u->o.script.variables[4]) return s->o.script.variables[4];
-
-		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit));
-		emu_push(emu_cs); emu_push(0x0AE2); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-		emu_sp += 4;
+		Object_Script_Variable4_Clear(&u->o);
 	}
 
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0AF1); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&s->o);
 
 	return 0;
 }
@@ -220,6 +213,8 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	uint16 loc06;
 	uint16 loc08;
 	uint16 carryallIndex;
+
+	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
 
 	s = Structure_Get_ByMemory(g_global->structureCurrent);
 
@@ -245,11 +240,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	if (carryall == NULL) return IT_NONE;
 
 	carryallIndex = Tools_Index_Encode(carryall->o.index, IT_UNIT);
-
-	emu_push(carryallIndex);
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0BF5); emu_cs = 0x0C10; emu_Object_SetScriptVariable4();
-	emu_sp += 6;
+	Object_Script_Variable4_Set(&s->o, carryallIndex);
 
 	return carryallIndex;
 }
@@ -270,6 +261,8 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
+	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
+
 	s = Structure_Get_ByMemory(g_global->structureCurrent);
 
 	if (s->o.linkedID == 0xFF) return 0;
@@ -281,10 +274,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		u->o.linkedID = 0xFF;
 
 		if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
-
-		emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-		emu_push(emu_cs); emu_push(0x0D03); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-		emu_sp += 4;
+		Object_Script_Variable4_Clear(&s->o);
 
 		if (s->o.houseID == g_global->playerHouseID) {
 			emu_push(g_global->playerHouseID + 49);
@@ -327,10 +317,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	}
 
 	if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
-
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0E3F); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&s->o);
 
 	if (s->o.houseID != g_global->playerHouseID) return 1;
 	if (s->o.type == STRUCTURE_REPAIR) return 1;
@@ -521,11 +508,9 @@ uint16 Script_Structure_Unknown11B9(ScriptEngine *script)
 	u = Tools_Index_GetUnit(encoded);
 	if (u == NULL) return 0;
 
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit));
-	emu_push(emu_cs); emu_push(0x1202); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
-
+	Object_Script_Variable4_Clear(&u->o);
 	u->targetMove = 0;
+
 	return 0;
 }
 

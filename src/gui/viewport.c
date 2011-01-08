@@ -22,7 +22,6 @@
 #include "../string.h"
 #include "../sprites.h"
 
-extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
@@ -147,10 +146,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		action = g_global->activeAction;
 
-		emu_push(g_global->activeUnit.s.cs); emu_push(g_global->activeUnit.s.ip);
-		emu_push(emu_cs); emu_push(0x0397); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-		emu_sp += 2;
-
+		Object_Script_Variable4_Clear(&u->o);
 		u->targetAttack   = 0;
 		u->targetMove     = 0;
 		u->variable_72[0] = 0xFF;

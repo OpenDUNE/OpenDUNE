@@ -27,9 +27,6 @@
 #include "gui/gui.h"
 #include "sprites.h"
 
-extern void f__0C10_0008_0014_19CD();
-extern void emu_Object_SetScriptVariable4();
-extern void f__0C10_0182_0012_B114();
 extern void f__0C3A_2207_001D_EDF2();
 extern void f__0C3A_22CD_0029_8F46();
 extern void f__0F3F_0125_000D_4868();
@@ -805,10 +802,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 	s = Tools_Index_GetStructure(destination);
 	if (s != NULL && s->o.houseID == Unit_GetHouseID(u)) {
 		if (Unit_IsValidMovementIntoStructure(u, s) == 1 || g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
-			emu_push(destination);
-			emu_push(Tools_Index_Encode(u->o.index, IT_UNIT));
-			emu_push(emu_cs); emu_push(0x1C9A); emu_cs = 0x0C10; f__0C10_0008_0014_19CD();
-			emu_sp += 4;
+			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), destination);
 		}
 	}
 
@@ -1856,27 +1850,16 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 }
 
 /**
- * Untarget the given unit.
+ * Untarget the given Unit.
  *
- * @param unit The unit to untarget.
+ * @param unit The Unit to untarget.
  */
 void Unit_UntargetMe(Unit *unit)
 {
-	csip32 ucsip;
-	uint16 encoded;
 	PoolFindStruct find;
+	uint16 encoded = Tools_Index_Encode(unit->o.index, IT_UNIT);
 
-	if (unit == NULL) return;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
-
-	encoded = Tools_Index_Encode(unit->o.index, IT_UNIT);
-
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x367E); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&unit->o);
 
 	find.houseID = 0xFFFF;
 	find.type    = 0xFFFF;
@@ -1884,22 +1867,13 @@ void Unit_UntargetMe(Unit *unit)
 
 	while (true) {
 		Unit *u;
-		csip32 ucsip2;
 
 		u = Unit_Find(&find);
-
 		if (u == NULL) break;
+
 		if (u->targetMove == encoded) u->targetMove = 0;
 		if (u->targetAttack == encoded) u->targetAttack = 0;
-		if (u->o.script.variables[4] != encoded) continue;
-
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		ucsip2.s.cs = g_global->unitStartPos.s.cs;
-		ucsip2.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
-
-		emu_push(ucsip2.s.cs); emu_push(ucsip2.s.ip);
-		emu_push(emu_cs); emu_push(0x36D7); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-		emu_sp += 4;
+		if (u->o.script.variables[4] == encoded) Object_Script_Variable4_Clear(&u->o);
 	}
 
 	find.houseID = 0xFFFF;
@@ -1910,8 +1884,8 @@ void Unit_UntargetMe(Unit *unit)
 		Structure *s;
 
 		s = Structure_Find(&find);
-
 		if (s == NULL) break;
+
 		if (s->o.type != STRUCTURE_TURRET && s->o.type != STRUCTURE_ROCKET_TURRET) continue;
 		if (s->o.script.variables[2] == encoded) s->o.script.variables[2] = 0;
 	}
@@ -1926,8 +1900,8 @@ void Unit_UntargetMe(Unit *unit)
 		Team *t;
 
 		t = Team_Find(&find);
-
 		if (t == NULL) break;
+
 		if (t->target == encoded) t->target = 0;
 	}
 }
@@ -2495,10 +2469,7 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
 	if (unit != NULL) {
 		unit->targetMove = target;
 
-		emu_push(target);
-		emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit));
-		emu_push(emu_cs); emu_push(0x2C84); emu_cs = 0x0C10; emu_Object_SetScriptVariable4();
-		emu_sp += 6;
+		Object_Script_Variable4_Set(&unit->o, target);
 	}
 
 	return unit;
@@ -2589,9 +2560,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		Structure_Damage(s, max(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}
 
-	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-	emu_push(emu_cs); emu_push(0x2F89); emu_cs = 0x0C10; f__0C10_0182_0012_B114();
-	emu_sp += 4;
+	Object_Script_Variable4_Clear(&s->o);
 
 	Unit_Free(unit);
 }

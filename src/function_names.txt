@@ -80,11 +80,6 @@
 0642:0481:0010:36A4	emu_InGame_Numpad_Move	# When moving with numpad ingame
 0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
 
-0C10:00D2:000F:D61E	emu_Object_SetScriptVariable4	# (object_csip, value) sets the script->variables[4] of the given unit/structure (does more if object is a structure)
-0C10:013D:0016:8C5C	emu_Object_IsScriptVariable4NotNull	# (object_csip) returns 1 if script->variables[4] != 0, else 0
-0C10:0168:0014:CEB0	emu_Object_GetScriptVariable4	# (object_csip) returns the script->variables[4] of the given unit/structure
-0C10:0247:000D:A5E6	emu_Object_ClearScriptVariable4	# (object_csip) clears the script->variables[4] of the given unit/structure (does more if object is a structure)
-
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
 
 10E4:0008:0048:5BD4	emu_GUI_Widget_DrawBorder2	# (x, y, width, height, state, ??) Draw the border of a widget

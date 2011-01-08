@@ -6,10 +6,12 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "gui/gui.h"
 #include "house.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
+#include "pool/team.h"
 #include "pool/unit.h"
 #include "house.h"
 #include "map.h"
@@ -18,15 +20,14 @@
 #include "tile.h"
 #include "string.h"
 #include "structure.h"
+#include "team.h"
 #include "tools.h"
 #include "unknown/unknown.h"
-#include "gui/gui.h"
 
 extern void f__0C3A_0E35_0013_A551();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_247A_0015_EA04();
 extern void f__0C3A_2814_0015_76F0();
-extern void f__0C3A_2929_0012_B10B();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
@@ -1258,10 +1259,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 			emu_sp += 2;
 		}
 
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x1345); f__0C3A_2929_0012_B10B();
-		emu_sp += 4;
-
+		emu_Structure_UntargetMe(s);
 		return true;
 	}
 
@@ -1365,4 +1363,56 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 	Map_Update(position, 0, false);
 
 	return true;
+}
+
+/**
+ * Get the unit linked to this structure, or NULL if there is no.
+ * @param s The structure to get the linked unit from.
+ * @return The linked unit, or NULL if there was none.
+ */
+Unit *Structure_GetLinkedUnit(Structure *s)
+{
+	if (s->o.linkedID == 0xFF) return NULL;
+	return Unit_Get_ByIndex(s->o.linkedID);
+}
+
+/**
+ * Untarget the given Structure.
+ *
+ * @param unit The Structure to untarget.
+ */
+void Structure_UntargetMe(Structure *s)
+{
+	PoolFindStruct find;
+	uint16 encoded = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
+
+	Object_Script_Variable4_Clear(&s->o);
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		if (u->targetMove == encoded) u->targetMove = 0;
+		if (u->targetAttack == encoded) u->targetAttack = 0;
+		if (u->o.script.variables[4] == encoded) Object_Script_Variable4_Clear(&u->o);
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Team *t;
+
+		t = Team_Find(&find);
+		if (t == NULL) break;
+
+		if (t->target == encoded) t->target = 0;
+	}
 }

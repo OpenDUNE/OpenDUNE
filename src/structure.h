@@ -118,6 +118,8 @@ extern void Structure_RemoveFog(Structure *s);
 extern bool Structure_Damage(Structure *s, uint16 damage, uint16 range);
 extern bool Structure_IsUpgradable(Structure *s);
 extern bool Structure_ConnectWall(uint16 position, bool recurse);
+extern struct Unit *Structure_GetLinkedUnit(Structure *s);
+extern void Structure_UntargetMe(Structure *s);
 
 
 extern void emu_Structure_Create();
@@ -128,5 +130,7 @@ extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
 extern void emu_Structure_IsUpgradable();
 extern void emu_Structure_ConnectWall();
+extern void emu_Structure_GetLinkedUnit();
+extern void emu_Structure_UntargetMe();
 
 #endif /* STRUCTURE_H */
