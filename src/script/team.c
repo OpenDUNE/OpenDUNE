@@ -22,7 +22,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
 extern void f__B4CD_1086_0040_F11C();
-extern void f__B4CD_1C1A_001A_9C1B();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -293,13 +292,7 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 		if (t->target == target) return target;
 
 		t->target = target;
-
-		emu_push(Tools_Index_GetPackedTile(target));
-		emu_push(Tile_PackTile(u->o.position));
-		emu_push(emu_cs); emu_push(0x0754); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1C1A_001A_9C1B();
-		emu_sp += 4;
-
-		t->variable_18 = emu_ax;
+		t->variable_18 = Tile_B4CD_1C1A(Tile_PackTile(u->o.position), Tools_Index_GetPackedTile(target));
 		return target;
 	}
 

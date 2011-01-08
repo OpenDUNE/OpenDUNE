@@ -8,7 +8,10 @@
 #include "global.h"
 #include "tile.h"
 #include "map.h"
+#include "tools.h"
 
+extern void f__0F3F_0168_0010_C9EF();
+extern void f__0F3F_028E_0015_1153();
 extern void f__B4CD_1269_0019_A3E5();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -269,4 +272,56 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 			emu_sp += 4;
 		}
 	}
+}
+
+/**
+ * ??.
+ *
+ * @param packed_from The origin.
+ * @param packed_to The destination.
+ * @return A packed tile.
+ */
+uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
+{
+	int16 distance;
+	uint16 loc02;
+	uint8 i;
+
+	if (packed_from == 0 || packed_to == 0) return 0;
+
+	distance = Tile_GetDistancePacked(packed_from, packed_to);
+
+	emu_push(packed_from);
+	emu_push(packed_to);
+	emu_push(emu_cs); emu_push(0x1C4B); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
+	emu_sp += 4;
+	loc02 = emu_ax;
+
+	if (distance <= 10) return 0;
+
+	for (i = 0; i < 4; i++) {
+		int16 locsi;
+		tile32 position;
+		uint16 packed;
+
+		locsi = 29 + (Tools_Random_256() & 0x3F);
+
+		if ((Tools_Random_256() & 1) != 0) locsi = -locsi;
+
+		position = Tile_UnpackTile(packed_to);
+
+		emu_push(min(distance, 20) << 8);
+		emu_push(loc02 + locsi);
+		emu_push(position.s.y); emu_push(position.s.x);
+		emu_push(emu_cs); emu_push(0x1CA7); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
+		emu_sp += 8;
+		position.s.x = emu_ax;
+		position.s.y = emu_dx;
+
+		packed = Tile_PackTile(position);
+
+		if (Map_IsValidPosition(packed)) return packed;
+	}
+
+	return 0;
 }
