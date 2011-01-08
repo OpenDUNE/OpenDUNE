@@ -9,6 +9,7 @@
 #include "tile.h"
 #include "map.h"
 #include "tools.h"
+#include "os/math.h"
 
 extern void f__0F3F_0168_0010_C9EF();
 extern void f__0F3F_028E_0015_1153();
