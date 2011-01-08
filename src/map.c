@@ -1068,6 +1068,7 @@ static void Map_B4CD_0C36(uint16 packed)
 	uint16 spriteID;
 	uint16 *iconMap;
 
+	packed &= 0xFFF;
 	type = Map_B4CD_0750(packed);
 	spriteID = 0;
 
@@ -1081,18 +1082,18 @@ static void Map_B4CD_0C36(uint16 packed)
 			uint16 curType;
 
 			if (x < 0 || x > 64 || y < 0 || y > 64) {
-				if (type == 0x8 || type == 0x9) spriteID |= (1 << type);
+				if (type == 0x8 || type == 0x9) spriteID |= (1 << i);
 				continue;
 			}
 
 			curType = Map_B4CD_0750(curPacked);
 
 			if (type == 0x8) {
-				if (curType == 0x8 || curType == 0x9) spriteID |= (1 << type);
+				if (curType == 0x8 || curType == 0x9) spriteID |= (1 << i);
 				continue;
 			}
 
-			if (curType == 0x9) spriteID |= (1 << type);
+			if (curType == 0x9) spriteID |= (1 << i);
 		}
 
 		spriteID += (type == 0x8) ? 49 : 65;
