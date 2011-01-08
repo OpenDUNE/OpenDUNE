@@ -692,6 +692,24 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 	return false;
 }
 
+static bool Map_UpdateWall(uint16 packed)
+{
+	Tile *t;
+
+	if (Map_B4CD_0750(packed) != 0xB) return 0;
+
+	t = Map_GetTileByPosition(packed);
+
+	t->groundSpriteID = g_map[packed] & 0x1FF;
+
+	if (Map_IsPositionUnveiled(packed)) t->overlaySpriteID = g_global->variable_39FA & 0x7F;
+
+	Structure_ConnectWall(packed, true);
+	Map_Update(packed, 0, false);
+
+	return true;
+}
+
 /**
  * Make an explosion on the given position, of a certain type. All units in the
  *  neighbourhoud get an amount of damage related to their distance to the
@@ -807,26 +825,17 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	}
 
 	if (Map_B4CD_0750(positionPacked) == 11 && hitpoints != 0) {
-		uint16 loc22;
+		bool loc22 = false;
 
-		loc22 = 0;
-		if (g_structureInfo[STRUCTURE_TURRET].hitpoints <= hitpoints) {
-			loc22 = 1;
-		}
+		if (g_structureInfo[STRUCTURE_TURRET].hitpoints <= hitpoints) loc22 = true;
 
-		if (loc22 == 0) {
+		if (!loc22) {
 			uint16 loc24 = hitpoints * 256 / g_structureInfo[STRUCTURE_TURRET].hitpoints;
 
-			if (Tools_Random_256() <= loc24) {
-				loc22 = 1;
-			}
+			if (Tools_Random_256() <= loc24) loc22 = true;
 		}
 
-		if (loc22 != 0) {
-			emu_push(positionPacked);
-			emu_push(emu_cs); emu_push(0x03DF); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1CDA_000C_C72C();
-			emu_sp += 2;
-		}
+		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
 	Map_06F7_0493(g_global->variable_3212[type], position);
