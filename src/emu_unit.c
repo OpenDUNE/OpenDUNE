@@ -431,3 +431,28 @@ void emu_Unit_Unknown3146()
 
 	emu_ax = Unit_Unknown3146(unit, packed, arg0C);
 }
+
+/**
+ * Emulator wrapper around Unit_B4CD_01BF()
+ *
+ * @name emu_Unit_B4CD_01BF
+ * @implements B4CD:01BF:0016:E78F ()
+ */
+void emu_Unit_B4CD_01BF()
+{
+	uint16 arg06;
+	csip32 ucsip;
+	Unit *unit;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	arg06 = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	ucsip = emu_get_csip32  (emu_ss, emu_sp, 0x2);
+
+	if (ucsip.csip == 0x0) return;
+	unit = Unit_Get_ByMemory(ucsip);
+
+	Unit_B4CD_01BF(arg06, unit);
+}

@@ -170,7 +170,7 @@ l__00FE:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A0A));
 	emu_ax = 0x2;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
+	emu_push(emu_cs); emu_push(0x0122); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Unit_B4CD_01BF();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__0122:

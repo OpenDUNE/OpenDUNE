@@ -30,7 +30,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_01BF_0016_E78F();
 extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
@@ -159,10 +158,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 				u->o.flags.s.inTransport = false;
 				u->amount = 0;
 
-				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-				emu_push(2);
-				emu_push(emu_cs); emu_push(0x093E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-				emu_sp += 6;
+				Unit_B4CD_01BF(2, u);
 
 				emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 				emu_push(24);
@@ -195,10 +191,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			u->o.flags.s.inTransport = false;
 			u->amount = 0;
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x0A58); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(2, u);
 
 			return 1;
 		}
@@ -296,10 +289,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 				u->targetMove = Tools_Index_Encode(emu_ax, IT_TILE);
 			}
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x0D51); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(2, u);
 
 			return 1;
 		}
@@ -352,10 +342,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			u->o.linkedID = u2->o.index & 0xFF;
 			u->o.flags.s.inTransport = true;
 
-			emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->o.index * sizeof(Unit));
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x0ED7); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(0, u2);
 
 			Unit_Unknown2AAA(u2);
 
@@ -363,10 +350,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			u->targetMove = u->o.script.variables[4];
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x0F3B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp +=6;
+			Unit_B4CD_01BF(2, u);
 
 			if (u2->o.type != UNIT_HARVESTER) return 0;
 
@@ -406,10 +390,7 @@ uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
 
 	Unit_Unknown204C(u, 0);
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, u);
 
 	return 0;
 }
@@ -455,10 +436,7 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 
 	u->variable_6D = -(script->stack[script->stackPointer] & 0xFF);
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x108F); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, u);
 
 	return 0;
 }
@@ -494,10 +472,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 		u->o.position.s.x += clamp((int16)(tile.s.x - u->o.position.s.x), -16, 16);
 		u->o.position.s.y += clamp((int16)(tile.s.y - u->o.position.s.y), -16, 16);
 
-		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x11BA); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
+		Unit_B4CD_01BF(2, u);
 
 		if ((int16)distance < 32) return 1;
 
@@ -522,10 +497,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 	delay = max((int16)distance / 1024, 1);
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x12A9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, u);
 
 	if (delay != 0) {
 		/* XXX -- Lovely hackish */
@@ -717,10 +689,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		case UNIT_SANDWORM: {
 			Unit *u2;
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x16F6); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(0, u);
 
 			u2 = Tools_Index_GetUnit(target);
 
@@ -743,10 +712,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 			emu_push(emu_cs); emu_push(0x177A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
 			emu_sp += 6;
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x178E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(1, u);
 
 			u->amount--;
 
@@ -795,10 +761,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	u->fireDelay += Tools_Random_256() & 1;
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x1912); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, u);
 
 	return 1;
 }
@@ -1494,10 +1457,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 	u->amount += Tools_Random_256() & 1;
 	u->o.flags.s.inTransport = true;
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x2762); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, u);
 
 	if (u->amount > 100) u->amount = 100;
 
@@ -1606,11 +1566,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 
 	if (movementType == MOVEMENT_FOOT && random > 8) {
 		u->variable_6D = Tools_Random_256() & 0x3F;
-
-		emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x296B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
+		Unit_B4CD_01BF(2, u);
 	}
 
 	if (random > 2) return 0;
@@ -1688,10 +1644,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x2AD3); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(0, u);
 
 	for (i = 0; i < 4; i++) {
 		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + g_global->variable_628C[i]);
@@ -1707,10 +1660,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 		GUI_DisplayText(String_Get_ByIndex(0x14), 0);
 	}
 
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x2B77); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(1, u);
 
 	return 0;
 }

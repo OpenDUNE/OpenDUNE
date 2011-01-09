@@ -38,7 +38,8 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_01BF_0016_E78F();
+extern void f__B4CD_011A_0011_E66F();
+extern void f__B4CD_057B_001A_D066();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -66,7 +67,6 @@ void System_Init_Unit()
  */
 static void Unit_Rotate(Unit *unit, uint16 level)
 {
-	csip32 ucsip;
 	int8 target;
 	int8 current;
 	int8 newCurrent;
@@ -75,10 +75,6 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 	assert(level == 0 || level == 1);
 
 	if (unit->orientation[level].speed == 0) return;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	target = unit->orientation[level].target;
 	current = unit->orientation[level].current;
@@ -99,10 +95,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 
 	if (Sprites_B4CD_17F7(newCurrent) == Sprites_B4CD_17F7(current) && Sprites_B4CD_17DC(newCurrent) == Sprites_B4CD_17DC(current)) return;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x2040); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, unit);
 }
 
 void Unit_Unknown2134(Unit *unit)
@@ -252,10 +245,7 @@ void GameLoop_Unit()
 				u->o.flags.s.variable_0800 = false;
 			}
 
-			emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x04B1); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-			emu_sp += 6;
+			Unit_B4CD_01BF(2, u);
 		}
 
 		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
@@ -265,12 +255,7 @@ void GameLoop_Unit()
 			emu_push(emu_cs); emu_push(0x04F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
 			emu_sp += 2;
 
-			if (emu_ax == 0) {
-				emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-				emu_push(1);
-				emu_push(emu_cs); emu_push(0x0508); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-				emu_sp += 6;
-			}
+			if (emu_ax == 0) Unit_B4CD_01BF(1, u);
 		}
 
 		if (tickUnknown5) {
@@ -280,10 +265,7 @@ void GameLoop_Unit()
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
 
-						emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-						emu_push(2);
-						emu_push(emu_cs); emu_push(0x0571); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-						emu_sp += 6;
+						Unit_B4CD_01BF(2, u);
 
 						u->variable_70 = ui->variable_3E / 5;
 						if (u->o.flags.s.isSmoking) {
@@ -300,10 +282,7 @@ void GameLoop_Unit()
 					u->variable_6D &= 0x3F;
 					u->variable_6D++;
 
-					emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-					emu_push(2);
-					emu_push(emu_cs); emu_push(0x0601); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-					emu_sp += 6;
+					Unit_B4CD_01BF(2, u);
 
 					u->variable_70 = 1;
 				}
@@ -313,18 +292,12 @@ void GameLoop_Unit()
 						u->variable_6D &= 0x3F;
 						u->variable_6D++;
 
-						emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-						emu_push(2);
-						emu_push(emu_cs); emu_push(0x065F); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-						emu_sp += 6;
+						Unit_B4CD_01BF(2, u);
 
 						u->variable_70 = 4;
 					} else {
 						if (u->variable_6D != 0) {
-							emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-							emu_push(2);
-							emu_push(emu_cs); emu_push(0x065F); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-							emu_sp += 6;
+							Unit_B4CD_01BF(2, u);
 
 							u->variable_6D = 0;
 						}
@@ -462,7 +435,6 @@ uint8 Unit_MovementStringToType(const char *name)
  */
 Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, int8 orientation)
 {
-	csip32 ucsip;
 	UnitInfo *ui;
 	Unit *u;
 
@@ -472,10 +444,6 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	ui = &g_unitInfo[typeID];
 	u = Unit_Allocate(index, typeID, houseID);
 	if (u == NULL) return NULL;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip = g_global->unitStartPos;
-	ucsip.s.ip += u->o.index * sizeof(Unit);
 
 	u->o.houseID = houseID;
 
@@ -533,10 +501,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 		return u;
 	}
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(0x01);
-	emu_push(emu_cs); emu_push(0x0B26); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(1, u);
 
 	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->actionsPlayer[3] : ui->actionAI);
 
@@ -1046,10 +1011,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	u->variable_6D = 0;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x2A92); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(1, u);
 
 	return true;
 }
@@ -1078,10 +1040,7 @@ void Unit_Unknown10EC(Unit *u)
 
 	u->o.flags.s.variable_4_0040 = true;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x1143); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(0, u);
 
 	emu_push(0xFFFF);
 	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
@@ -1260,16 +1219,11 @@ bool Unit_Unknown167C(Unit *unit)
 {
 	UnitInfo *ui;
 	int8 locsi;
-	csip32 ucsip;
 	uint16 packed;
 	uint16 loc08;
 	tile32 position;
 	uint16 locdi;
 	uint16 locax;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	if (unit == NULL) return false;
 
@@ -1315,10 +1269,7 @@ bool Unit_Unknown167C(Unit *unit)
 		positionOld = unit->o.position;
 		unit->o.position = position;
 
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x1816); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
+		Unit_B4CD_01BF(1, unit);
 
 		unit->o.position = positionOld;
 	}
@@ -1382,17 +1333,12 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 {
 	UnitInfo *ui;
-	csip32 ucsip;
 
 	if (unit == NULL || unit->deviated == 0) return false;
 
 	ui = &g_unitInfo[unit->o.type];
 
 	if ((ui->variable_36 & 0x8000) == 0) return false;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	if (amount == 0) {
 		amount = g_houseInfo[unit->o.houseID].variable_04;
@@ -1406,10 +1352,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	unit->deviated = 0;
 	unit->o.flags.s.variable_4_0040 = true;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x19E2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, unit);
 
 	unit->o.flags.s.variable_4_0040 = false;
 	if (unit->o.houseID == g_global->playerHouseID) {
@@ -1455,7 +1398,6 @@ void Unit_RemoveFog(Unit *unit)
  */
 bool Unit_Deviate(Unit *unit, uint16 probability)
 {
-	csip32 ucsip;
 	UnitInfo *ui;
 
 	if (unit == NULL) return false;
@@ -1474,16 +1416,9 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	if (Tools_Random_256() >= probability) return false;
 
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
-
 	unit->deviated = 0x78;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x18FC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, unit);
 
 	if (g_global->playerHouseID == HOUSE_ORDOS) {
 		Unit_SetAction(unit, ui->actionsPlayer[3]);
@@ -1505,7 +1440,6 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
  */
 bool Unit_Move(Unit *unit, uint16 distance)
 {
-	csip32 ucsip;
 	UnitInfo *ui;
 	uint16 d;
 	uint16 packed;
@@ -1518,10 +1452,6 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	if (unit == NULL || !unit->o.flags.s.used) return false;
 
 	ui = &g_unitInfo[unit->o.type];
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	emu_push(distance);
 	emu_push(unit->orientation[0].current);
@@ -1587,10 +1517,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	}
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0288); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(0, unit);
 
 	if (ui->movementType == MOVEMENT_WINGER) {
 		unit->o.flags.s.variable_4_0020 = !unit->o.flags.s.variable_4_0020;
@@ -1735,10 +1662,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 	unit->variable_52 = distance;
 	unit->o.position = newPosition;
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x08B4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(1, unit);
 
 	if (sprite2 != 0) Map_B4CD_160C(packed, Unit_GetHouseID(unit));
 
@@ -1757,16 +1681,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
  */
 bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 {
-	csip32 ucsip;
 	UnitInfo *ui;
 	bool alive = false;
 	uint8 houseID;
 
 	if (unit == NULL || !unit->o.flags.s.allocated) return false;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
 
 	ui = &g_unitInfo[unit->o.type];
 
@@ -1830,10 +1749,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		ui = &g_unitInfo[unit->o.type];
 		unit->o.hitpoints = ui->hitpoints;
 
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0DB8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
+		Unit_B4CD_01BF(2, unit);
 
 		if (Tools_Random_256() < g_houseInfo[unit->o.houseID].variable_04) {
 			Unit_SetAction(unit, ACTION_RETREAT);
@@ -1963,15 +1879,11 @@ void Unit_Select(Unit *unit)
 		unit = NULL;
 	}
 
-	if (selected != NULL) {
-		emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0FCD); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-		emu_sp += 6;
-	}
+	if (selected != NULL) Unit_B4CD_01BF(2, selected);
 
 	if (unit == NULL) {
 		g_global->selectionUnit.csip = 0x0;
+		selected = NULL;
 
 		emu_push(4);
 		emu_push(emu_cs); emu_push(0x10E9); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
@@ -2004,6 +1916,7 @@ void Unit_Select(Unit *unit)
 		if (selected != unit) Unit_DisplayStatusText(unit);
 
 		g_global->selectionUnit = ucsip;
+		selected = unit;
 
 		emu_push(1);
 		emu_push(emu_cs); emu_push(0x108F); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
@@ -2011,16 +1924,14 @@ void Unit_Select(Unit *unit)
 	} else {
 		Unit_DisplayStatusText(unit);
 		g_global->selectionUnit = ucsip;
+		selected = unit;
 
 		emu_push(3);
 		emu_push(emu_cs); emu_push(0x10B4); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 		emu_sp += 2;
 	}
 
-	emu_push(g_global->selectionUnit.s.cs); emu_push(g_global->selectionUnit.s.ip);
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x10C6); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(2, selected);
 
 	Map_SetSelectionObjectPosition(0xFFFF);
 }
@@ -2409,10 +2320,7 @@ void Unit_Unknown2AAA(Unit *unit)
 	ucsip       = g_global->unitStartPos;
 	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x2ACD); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_01BF_0016_E78F();
-	emu_sp += 6;
+	Unit_B4CD_01BF(0, unit);
 
 	unit->o.flags.s.variable_4_0040 = false;
 
@@ -2731,4 +2639,97 @@ bool Unit_Unknown379B(Unit *unit)
 	Unit_Select(NULL);
 
 	return true;
+}
+
+void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
+{
+	csip32 ucsip;
+	tile32 position;
+	UnitInfo *ui;
+	uint16 packed;
+	Tile *t;
+	uint16 loc06;
+
+	if (unit == NULL || unit->o.flags.s.beingBuilt || !unit->o.flags.s.used) return;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip       = g_global->unitStartPos;
+	ucsip.s.ip += unit->o.index * sizeof(Unit);
+
+	ui = &g_unitInfo[unit->o.type];
+
+	if (ui->movementType == MOVEMENT_WINGER) {
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(arg06);
+		emu_push(emu_cs); emu_push(0x0218); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_011A_0011_E66F();
+		emu_sp += 6;
+		return;
+	}
+
+	position = unit->o.position;
+	packed = Tile_PackTile(position);
+	t = Map_GetTileByPosition(packed);
+
+	if (t->isUnveiled || unit->o.houseID == g_global->playerHouseID) {
+		emu_push(g_global->playerHouseID);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x027F); emu_cs = 0x1423; f__1423_08CD_0012_0004();
+		emu_sp += 6;
+	} else {
+		emu_push(g_global->playerHouseID);
+		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+		emu_push(emu_cs); emu_push(0x0290); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
+		emu_sp += 6;
+	}
+
+	if (arg06 == 1) {
+		csip32 ocsip;
+
+		if (House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID) && !Map_IsPositionUnveiled(packed) && unit->o.type != UNIT_SANDWORM) {
+			Tile_RemoveFogInRadius(position, 1);
+		}
+
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x02ED); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
+		emu_sp += 2;
+		ocsip.s.cs = emu_dx;
+		ocsip.s.ip = emu_ax;
+
+		if (ocsip.csip == 0x0) {
+			t->index = unit->o.index + 1;
+			t->hasUnit = true;
+		}
+	}
+
+	if (arg06 != 0) {
+		unit->o.flags.s.variable_4_1000 = true;
+		g_global->variable_39E6++;
+	}
+
+	loc06 = ui->variable_38 + 3;
+
+	if (!unit->o.flags.s.variable_4_0040 && !unit->o.flags.s.isSmoking && unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST) loc06 = 33;
+
+	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(position.s.y); emu_push(position.s.x);
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
+	emu_sp += 14;
+
+	if (unit->o.type != UNIT_HARVESTER) return;
+
+	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(unit->variable_5A.s.y); emu_push(unit->variable_5A.s.x);
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x03D4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
+	emu_sp += 14;
+
+	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(unit->variable_5E.s.y); emu_push(unit->variable_5E.s.x);
+	emu_push(loc06);
+	emu_push(emu_cs); emu_push(0x03FE); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
+	emu_sp += 14;
 }

@@ -186,7 +186,8 @@ typedef struct UnitInfo {
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */
-	/* 0038()    */ PACK uint8   unknown_0038[0x0004];
+	/* 0038(2)   */ PACK uint16 variable_38;                /*!< ?? */
+	/* 003A()    */ PACK uint8   unknown_003A[0x0002];
 	/* 003C(2)   */ PACK uint16 movementType;               /*!< MovementType of Unit. */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
@@ -273,6 +274,7 @@ extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
 extern uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
+extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
 
 
 extern void emu_Unit_GetHouseID();
@@ -291,5 +293,6 @@ extern void emu_Unit_Select();
 extern void emu_Unit_CreateBullet();
 extern void emu_Unit_DisplayStatusText();
 extern void emu_Unit_Unknown3146();
+extern void emu_Unit_B4CD_01BF();
 
 #endif /* UNIT_H */
