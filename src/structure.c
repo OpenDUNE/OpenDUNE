@@ -1259,7 +1259,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 			emu_sp += 2;
 		}
 
-		emu_Structure_UntargetMe(s);
+		Structure_UntargetMe(s);
 		return true;
 	}
 
