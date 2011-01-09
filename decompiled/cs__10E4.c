@@ -1452,6 +1452,9 @@ l__1075:
 		emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x2C94;
 		emu_get_memory16(emu_ss, emu_bp, -0x10) = 10 + g_global->activeStructureType * sizeof(StructureInfo);
 
+		emu_get_memory16(emu_ss, emu_bp, -0x12) = 0x2C94;
+		emu_get_memory16(emu_ss, emu_bp, -0x14) = 10 + g_global->activeStructureType * sizeof(StructureInfo);
+
 		emu_get_memory16(emu_ss, emu_bp, -0x20) = g_global->houseStartPos.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0x22) = g_global->houseStartPos.s.ip + g_global->playerHouseID * sizeof(House);
 
@@ -1473,6 +1476,9 @@ l__10A9:
 
 		emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x2C94;
 		emu_get_memory16(emu_ss, emu_bp, -0x10) = 10 + s->o.type * sizeof(StructureInfo);
+
+		emu_get_memory16(emu_ss, emu_bp, -0x12) = 0x2C94;
+		emu_get_memory16(emu_ss, emu_bp, -0x14) = 10 + s->o.type * sizeof(StructureInfo);
 
 		emu_get_memory16(emu_ss, emu_bp, -0x20) = g_global->houseStartPos.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0x22) = g_global->houseStartPos.s.ip + s->o.houseID * sizeof(House);
