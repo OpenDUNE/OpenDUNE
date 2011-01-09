@@ -1592,9 +1592,9 @@ l__1158:
 		uint16 stringID = 0;
 
 		switch (actionType) {
-			case 4: stringID = 13; break;
-			case 5: stringID = 14; break;
-			case 6: stringID = 6; break;
+			case 4: stringID = 13; break; /* Attack */
+			case 5: stringID = 14; break; /* Movement */
+			case 6: stringID = 6; break; /* Harvest */
 
 			case 2: /* Unit */
 			case 3: /* Structure */
