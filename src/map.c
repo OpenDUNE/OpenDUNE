@@ -31,7 +31,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1397,10 +1396,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 		ret &= 0xFFF;
 		if (ret == 0) continue;
 
-		emu_push(ret);
-		emu_push(emu_cs); emu_push(0x1B33); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-		emu_sp += 2;
-		if ((emu_ax | emu_dx) != 0) ret = 0;
+		if (Object_GetByPackedTile(ret) != NULL) ret = 0;
 	}
 
 	return ret;

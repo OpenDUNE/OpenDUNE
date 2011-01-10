@@ -33,7 +33,6 @@ extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4CD_0D74_0020_7CC1();
-extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
@@ -909,10 +908,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 		}
 
-		emu_push(curPos);
-		emu_push(emu_cs); emu_push(0x0D46); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-		emu_sp += 2;
-		if (emu_ax != 0 && emu_dx != 0) {
+		if (Object_GetByPackedTile(curPos) != NULL) {
 			isValid = false;
 			break;
 		}

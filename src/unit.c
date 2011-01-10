@@ -38,7 +38,6 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1269_0019_A3E5();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -249,13 +248,7 @@ void GameLoop_Unit()
 
 		if (tickDeviation) Unit_Deviation_Decrease(u, 1);
 
-		if (ui->movementType != MOVEMENT_WINGER) {
-			emu_push(Tile_PackTile(u->o.position));
-			emu_push(emu_cs); emu_push(0x04F2); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-			emu_sp += 2;
-
-			if (emu_ax == 0) Unit_B4CD_01BF(1, u);
-		}
+		if (ui->movementType != MOVEMENT_WINGER && Object_GetByPackedTile(Tile_PackTile(u->o.position)) == NULL) Unit_B4CD_01BF(1, u);
 
 		if (tickUnknown5) {
 			if (u->variable_70 == 0) {
@@ -2692,19 +2685,11 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	}
 
 	if (arg06 == 1) {
-		csip32 ocsip;
-
 		if (House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID) && !Map_IsPositionUnveiled(packed) && unit->o.type != UNIT_SANDWORM) {
 			Tile_RemoveFogInRadius(position, 1);
 		}
 
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x02ED); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-		emu_sp += 2;
-		ocsip.s.cs = emu_dx;
-		ocsip.s.ip = emu_ax;
-
-		if (ocsip.csip == 0x0) {
+		if (Object_GetByPackedTile(packed) == NULL) {
 			t->index = unit->o.index + 1;
 			t->hasUnit = true;
 		}

@@ -12,6 +12,7 @@
 #include "structure.h"
 #include "tools.h"
 #include "unit.h"
+#include "map.h"
 
 /**
  * Link two variable4 values to eachother, and clean up existing values if
@@ -85,4 +86,21 @@ void Object_Script_Variable4_Clear(Object *object)
 
 	Object_Script_Variable4_Set(object, 0);
 	Object_Script_Variable4_Set(objectVariable, 0);
+}
+
+/**
+ * Get the object on the given packed tile.
+ * @param packed The packed tile to get the object from.
+ * @return The object.
+ */
+Object *Object_GetByPackedTile(uint16 packed)
+{
+	Tile* t;
+
+	if (packed >= 4096) return NULL;
+
+	t = Map_GetTileByPosition(packed);
+	if (t->hasUnit) return &Unit_Get_ByIndex(t->index - 1)->o;
+	if (t->hasStructure) return &Structure_Get_ByIndex(t->index - 1)->o;
+	return NULL;
 }

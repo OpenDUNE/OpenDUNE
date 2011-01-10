@@ -22,7 +22,6 @@ extern void f__0C3A_2814_0015_76F0();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B48B_00F2_0005_601A();
 extern void f__B48B_01CE_002B_7574();
-extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -334,19 +333,13 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
  */
 bool GUI_Widget_Name_Click()
 {
-	csip32 ocsip;
 	Object *o;
 	uint16 packed;
 
-	emu_push(g_global->selectionPosition);
-	emu_push(emu_cs); emu_push(0x0015); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-	emu_sp += 2;
-	ocsip.s.cs = emu_dx;
-	ocsip.s.ip = emu_ax;
+	o = Object_GetByPackedTile(g_global->selectionPosition);
 
-	if (ocsip.csip == 0x0) return false;
+	if (o == NULL) return false;
 
-	o = (Object *)emu_get_memorycsip(ocsip);
 	packed = Tile_PackTile(o->position);
 
 	Map_SetViewportPosition(packed);

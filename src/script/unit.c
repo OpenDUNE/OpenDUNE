@@ -31,7 +31,6 @@ extern void f__151A_0114_0022_0B6C();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_08E7_002B_DC75();
-extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -642,13 +641,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
 
-	if (Tools_Index_GetType(target) == IT_TILE) {
-		emu_push(Tools_Index_GetPackedTile(target));
-		emu_push(emu_cs); emu_push(0x156E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-		emu_sp += 2;
-
-		if (emu_ax != 0) Unit_SetTarget(u, target);
-	}
+	if (Tools_Index_GetType(target) == IT_TILE && Object_GetByPackedTile(Tools_Index_GetPackedTile(target)) != NULL) Unit_SetTarget(u, target);
 
 	if (u->fireDelay != 0) return 0;
 

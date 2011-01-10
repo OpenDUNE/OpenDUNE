@@ -28,7 +28,6 @@ extern void f__10E4_0117_0015_392D();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_0D74_0020_7CC1();
-extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
@@ -298,11 +297,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		}
 
 		if (Map_GetTileByPosition(position)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
-			emu_push(position);
-			emu_push(emu_cs); emu_push(0x076B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-			emu_sp += 2;
-
-			if (emu_ax != 0 || emu_dx != 0 || g_global->debugScenario != 0) {
+			if (Object_GetByPackedTile(position) != NULL || g_global->debugScenario != 0) {
 				Map_SetSelection(position);
 				Unit_DisplayStatusText(g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL);
 			}

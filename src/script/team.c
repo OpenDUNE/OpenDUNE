@@ -21,7 +21,6 @@
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
-extern void f__B4CD_1086_0040_F11C();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -416,11 +415,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 
 		packed = Tile_PackXY(emu_ax, emu_dx);
 
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x093D); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1086_0040_F11C();
-		emu_sp += 2;
-
-		if (emu_ax == 0 && emu_dx == 0) {
+		if (Object_GetByPackedTile(packed) == NULL) {
 			Unit_SetDestination(u, Tools_Index_Encode(packed, IT_TILE));
 		} else {
 			Unit_SetDestination(u, Tools_Index_Encode(Tile_PackTile(tile), IT_TILE));
