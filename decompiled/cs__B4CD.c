@@ -5,68 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4CD_011A_0011_E66F()
- *
- * @name f__B4CD_011A_0011_E66F
- * @implements B4CD:011A:0011:E66F ()
- * @implements B4CD:012B:004D:6862
- * @implements B4CD:013C:003C:41EC
- * @implements B4CD:0178:0007:C555
- *
- * Called From: B4CD:0215:0027:25FD
- */
-void f__B4CD_011A_0011_E66F()
-{
-l__011A:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	if (emu_ax != 0) goto l__012B;
-	/* Unresolved jump */ emu_ip = 0x017C; emu_last_cs = 0xB4CD; emu_last_ip = 0x0129; emu_last_length = 0x0011; emu_last_crc = 0xE66F; emu_call();
-l__012B:
-	emu_orw(&emu_si, emu_si);
-	if (emu_si != 0) {
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-		emu_orw(&emu_get_memory16(emu_es, emu_bx, 0x4), 0x1000);
-		emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x39E8));
-	}
-l__013C:
-	emu_bx = emu_si;
-	emu_cl = 0x2;
-	emu_shlw(&emu_bx, emu_cl);
-	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x2496));
-	emu_push(emu_get_memory16(emu_ds, emu_bx, 0x2494));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xC));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x2);
-	emu_ax = (int8)emu_al;
-	emu_dx = 0x5A;
-	emu_imuluw(&emu_ax, emu_dx);
-	emu_dx = 0x2D07;
-	emu_bx = emu_ax;
-	emu_es = emu_dx;
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0x38));
-	emu_push(emu_cs);
-	emu_push(0x0178); f__B4CD_057B_001A_D066();
-l__0178:
-	emu_addw(&emu_sp, 0xE);
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4CD_017F_0010_C6FC()
  *
  * @name f__B4CD_017F_0010_C6FC

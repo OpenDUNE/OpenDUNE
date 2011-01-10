@@ -449,7 +449,7 @@ typedef struct GlobalData {
 	/* 2462(18)  */ PACK uint16 variable_2462[9];           /*!< ?? */
 	/* 2474(16)  */ PACK uint16 variable_2474[8];           /*!< ?? */
 	/* 2484(16)  */ PACK uint16 variable_2484[8];           /*!< ?? */
-	/* 2494()    */ PACK uint8   unknown_2494[0x000C];
+	/* 2494(12)  */ PACK csip32 variable_2494[3];           /*!< ?? */
 	/* 24A0(12)  */ PACK csip32 variable_24A0[3];           /*!< ?? */
 	/* 24AC(12)  */ PACK csip32 variable_24AC[3];           /*!< ?? */
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */

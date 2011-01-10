@@ -38,7 +38,6 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_011A_0011_E66F();
 extern void f__B4CD_057B_001A_D066();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
@@ -2641,6 +2640,30 @@ bool Unit_Unknown379B(Unit *unit)
 	return true;
 }
 
+static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
+{
+	csip32 ucsip;
+
+	if (unit == NULL) return;
+
+	/* XXX -- Temporary, to keep all the emu_calls workable for now */
+	ucsip       = g_global->unitStartPos;
+	ucsip.s.ip += unit->o.index * sizeof(Unit);
+
+	if (arg06 != 0) {
+		unit->o.flags.s.variable_4_1000 = true;
+		g_global->variable_39E8++;
+	}
+
+	emu_push(g_global->variable_2494[arg06].s.cs); emu_push(g_global->variable_2494[arg06].s.ip);
+	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
+	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
+	emu_push(g_unitInfo[unit->o.type].variable_38);
+	emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
+	emu_sp += 14;
+}
+
+
 void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 {
 	csip32 ucsip;
@@ -2659,10 +2682,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	ui = &g_unitInfo[unit->o.type];
 
 	if (ui->movementType == MOVEMENT_WINGER) {
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(arg06);
-		emu_push(emu_cs); emu_push(0x0218); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_011A_0011_E66F();
-		emu_sp += 6;
+		Unit_B4CD_011A(arg06, unit);
 		return;
 	}
 
