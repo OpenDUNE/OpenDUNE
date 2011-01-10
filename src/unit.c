@@ -39,6 +39,7 @@ extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_1086_0040_F11C();
+extern void f__B4CD_1269_0019_A3E5();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
@@ -2641,20 +2642,14 @@ bool Unit_Unknown379B(Unit *unit)
 
 static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 {
-	csip32 ucsip;
-
 	if (unit == NULL) return;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	if (arg06 != 0) {
 		unit->o.flags.s.variable_4_1000 = true;
 		g_global->variable_39E8++;
 	}
 
-	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, ucsip, g_global->variable_2494[arg06]);
+	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_global->variable_2494[arg06]);
 }
 
 
@@ -2724,10 +2719,46 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (!unit->o.flags.s.variable_4_0040 && !unit->o.flags.s.isSmoking && unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST) loc06 = 33;
 
-	Map_B4CD_057B(loc06, position, ucsip, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, position, unit, g_global->variable_24A0[arg06]);
 
 	if (unit->o.type != UNIT_HARVESTER) return;
 
-	Map_B4CD_057B(loc06, unit->variable_5E, ucsip, g_global->variable_24A0[arg06]);
-	Map_B4CD_057B(loc06, unit->variable_5A, ucsip, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, unit->variable_5E, unit, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, unit->variable_5A, unit, g_global->variable_24A0[arg06]);
+}
+
+/**
+ * Removes the Unit from the given packed tile.
+ *
+ * @param unit The Unit to remove.
+ * @param packed The packed tile.
+ */
+void Unit_RemoveFromTile(Unit *unit, uint16 packed)
+{
+	Tile *t = Map_GetTileByPosition(packed);
+
+	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->variable_49) || unit->o.flags.s.variable_4_0040)) {
+		t->index = 0;
+		t->hasUnit = false;
+	}
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x047C); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
+	emu_sp += 2;
+
+	Map_Update(packed, 0, false);
+}
+
+void Unit_B4CD_048E(Unit *unit, uint16 packed)
+{
+	emu_push(Unit_GetHouseID(unit));
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x04A8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1269_0019_A3E5();
+	emu_sp += 4;
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x04B1); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
+	emu_sp += 2;
+
+	Map_Update(packed, 1, false);
 }

@@ -31,15 +31,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_017F_0010_C6FC();
-extern void f__B4CD_0194_0011_3CAE();
-extern void f__B4CD_01AA_0010_06F1();
-extern void f__B4CD_0408_001F_C54A();
-extern void f__B4CD_048E_0012_3E9E();
-extern void f__B4CD_04C4_0010_846B();
-extern void f__B4CD_053B_0010_C4CD();
-extern void f__B4CD_0550_0010_C4CD();
-extern void f__B4CD_0566_0010_04C2();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
@@ -435,8 +426,7 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
 }
 
-
-static void Map_B4CD_04D9(uint16 arg06, struct_395A *s, csip32 csip)
+static void Map_B4CD_04D9(uint16 arg06, struct_395A *s)
 {
 	if (s == NULL) return;
 
@@ -444,7 +434,7 @@ static void Map_B4CD_04D9(uint16 arg06, struct_395A *s, csip32 csip)
 
 	s->variable_07 = (arg06 != 0) ? 1 : 0;
 
-	Map_B4CD_057B(24, s->position, csip, g_global->variable_24AC[arg06]);
+	Map_B4CD_057B(24, s->position, NULL, g_global->variable_24AC[arg06]);
 }
 
 static bool Map_06F7_072B(struct_395A *s)
@@ -579,11 +569,11 @@ static bool Map_06F7_0A5A(struct_395A *s)
 	return true;
 }
 
-static bool Map_06F7_0A6C(struct_395A *s, csip32 csip)
+static bool Map_06F7_0A6C(struct_395A *s)
 {
 	Map_GetTileByPosition(Tile_PackTile(s->position))->flag_10 = false;
 
-	Map_B4CD_04D9(0, s, csip);
+	Map_B4CD_04D9(0, s);
 
 	s->variable_0C.csip = 0x0;
 
@@ -602,22 +592,22 @@ static bool Map_06F7_0AE2(struct_395A *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A, csip32 csip)
+static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A)
 {
 	s->variable_0A = arg0A;
 	s->variable_08 = 0;
 
-	Map_B4CD_04D9(2, s, csip);
+	Map_B4CD_04D9(2, s);
 
 	return true;
 }
 
-static bool Map_06F7_0B42(struct_395A *s, uint16 arg0A, csip32 csip)
+static bool Map_06F7_0B42(struct_395A *s, uint16 arg0A)
 {
 	s->variable_0A = arg0A;
 	s->variable_08 = 1;
 
-	Map_B4CD_04D9(2, s, csip);
+	Map_B4CD_04D9(2, s);
 
 	return true;
 }
@@ -649,7 +639,7 @@ static bool Map_06F7_057C(uint16 packed)
 
 		if (s.variable_0C.csip == 0x0 || Tile_PackTile(s.position) != packed) continue;
 
-		Map_06F7_0A6C(&s, csip);
+		Map_06F7_0A6C(&s);
 	}
 
 	return true;
@@ -997,10 +987,10 @@ uint32 Map_06F7_0602()
 			data &= 0xFFF;
 
 			switch(action) {
-				case  1: Map_06F7_0B14(&s, data, csip); break;
+				case  1: Map_06F7_0B14(&s, data); break;
 				case  2: Map_06F7_0AC1(&s, data); break;
 				case  3: Map_06F7_0AE2(&s, data); break;
-				case  4: Map_06F7_0B42(&s, data, csip); break;
+				case  4: Map_06F7_0B42(&s, data); break;
 				case  5: Map_06F7_0A5A(&s); break;
 				case  6: Map_06F7_09F4(&s, data); break;
 				case  7: Map_06F7_0A27(&s, data); break;
@@ -1009,7 +999,7 @@ uint32 Map_06F7_0602()
 				case 10: Map_06F7_08DD(&s); break;
 				case 11: Map_06F7_0967(&s, data); break;
 				case 13: Map_06F7_0913(&s); break;
-				default: Map_06F7_0A6C(&s, csip); break;
+				default: Map_06F7_0A6C(&s); break;
 			}
 		}
 
@@ -1416,7 +1406,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	return ret;
 }
 
-void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function)
+void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_csip)
 {
 	uint16 loc0A;
 	tile32 loc12;
@@ -1432,8 +1422,8 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function)
 		int16 j;
 		int16 i;
 
-		for (j = -2; j <= 2; j++) {
-			for (i = -2; i <= 2; i++) {
+		for (i = -2; i <= 2; i++) {
+			for (j = -2; j <= 2; j++) {
 				uint16 curPacked;
 
 				if (x + i < 0 || x + i >= 64 || y + j < 0 || y + j >= 64) continue;
@@ -1442,25 +1432,17 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function)
 				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
 				g_global->variable_39E2++;
 
-				switch (function.csip) {
-					default:
-						emu_push(curPacked);
-						emu_push(csip.s.cs); emu_push(csip.s.ip);
-						emu_push(emu_cs); emu_push(0x0644); emu_cs = 0x34CD; overlay(0x34CD, 0);
-						switch (function.csip) {
-							case 0x34CD0020: f__B4CD_04C4_0010_846B(); break;
-							case 0x34CD0025: f__B4CD_0566_0010_04C2(); break;
-							case 0x34CD002A: f__B4CD_0194_0011_3CAE(); break;
-							case 0x34CD002F: f__B4CD_017F_0010_C6FC(); break;
-							case 0x34CD0034: f__B4CD_0550_0010_C4CD(); break;
-							case 0x34CD0039: f__B4CD_0408_001F_C54A(); break;
-							case 0x34CD003E: f__B4CD_053B_0010_C4CD(); break;
-							case 0x34CD0043: f__B4CD_048E_0012_3E9E(); break;
-							case 0x34CD0048: f__B4CD_01AA_0010_06F1(); break;
-							default: break;
-						}
-						emu_sp += 6;
-						break;
+				switch (function_csip.csip) {
+					case 0x34CD0020: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0025: Map_Update(curPacked, 0, false); break;
+					case 0x34CD002A: Map_Update(curPacked, 3, false); break;
+					case 0x34CD002F: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
+					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
+					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0043: Unit_B4CD_048E(unit, curPacked); break;
+					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
+					default: break;
 				}
 			}
 		}
@@ -1481,25 +1463,17 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function)
 				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
 				g_global->variable_39E2++;
 
-				switch (function.csip) {
-					default:
-						emu_push(curPacked);
-						emu_push(csip.s.cs); emu_push(csip.s.ip);
-						emu_push(emu_cs); emu_push(0x0717); emu_cs = 0x34CD; overlay(0x34CD, 0);
-						switch (function.csip) {
-							case 0x34CD0020: f__B4CD_04C4_0010_846B(); break;
-							case 0x34CD0025: f__B4CD_0566_0010_04C2(); break;
-							case 0x34CD002A: f__B4CD_0194_0011_3CAE(); break;
-							case 0x34CD002F: f__B4CD_017F_0010_C6FC(); break;
-							case 0x34CD0034: f__B4CD_0550_0010_C4CD(); break;
-							case 0x34CD0039: f__B4CD_0408_001F_C54A(); break;
-							case 0x34CD003E: f__B4CD_053B_0010_C4CD(); break;
-							case 0x34CD0043: f__B4CD_048E_0012_3E9E(); break;
-							case 0x34CD0048: f__B4CD_01AA_0010_06F1(); break;
-							default: break;
-						}
-						emu_sp += 6;
-						break;
+				switch (function_csip.csip) {
+					case 0x34CD0020: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0025: Map_Update(curPacked, 0, false); break;
+					case 0x34CD002A: Map_Update(curPacked, 3, false); break;
+					case 0x34CD002F: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
+					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
+					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
+					case 0x34CD0043: Unit_B4CD_048E(unit, curPacked); break;
+					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
+					default: break;
 				}
 
 				loc04 = curPacked;

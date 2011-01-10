@@ -39,6 +39,8 @@ typedef struct struct_395A {
 MSVC_PACKED_END
 assert_compile(sizeof(struct_395A) == 0x14);
 
+struct Unit;
+
 extern uint16 *g_map;
 
 extern Tile *Map_GetTileByPosition(uint16 position);
@@ -63,7 +65,7 @@ extern void Map_B4CD_0AFA(uint16 packed, int16 arg08);
 extern void Map_SetViewportPosition(uint16 packed);
 extern void Map_B4CD_160C(uint16 packed, uint8 houseID);
 extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
-extern void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function);
+extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, csip32 function_csip);
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();

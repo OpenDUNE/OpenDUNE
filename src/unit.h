@@ -275,6 +275,8 @@ extern uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
 extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
+extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
+extern void Unit_B4CD_048E(Unit *unit, uint16 packed);
 
 
 extern void emu_Unit_GetHouseID();
