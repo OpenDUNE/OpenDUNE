@@ -31,7 +31,15 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_057B_001A_D066();
+extern void f__B4CD_017F_0010_C6FC();
+extern void f__B4CD_0194_0011_3CAE();
+extern void f__B4CD_01AA_0010_06F1();
+extern void f__B4CD_0408_001F_C54A();
+extern void f__B4CD_048E_0012_3E9E();
+extern void f__B4CD_04C4_0010_846B();
+extern void f__B4CD_053B_0010_C4CD();
+extern void f__B4CD_0550_0010_C4CD();
+extern void f__B4CD_0566_0010_04C2();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
@@ -436,12 +444,7 @@ static void Map_B4CD_04D9(uint16 arg06, struct_395A *s, csip32 csip)
 
 	s->variable_07 = (arg06 != 0) ? 1 : 0;
 
-	emu_push(g_global->variable_24AC[arg06].s.cs); emu_push(g_global->variable_24AC[arg06].s.ip);
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(s->position.s.y); emu_push(s->position.s.x);
-	emu_push(24);
-	emu_push(emu_cs); emu_push(0x0534); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
-	emu_sp += 14;
+	Map_B4CD_057B(24, s->position, csip, g_global->variable_24AC[arg06]);
 }
 
 static bool Map_06F7_072B(struct_395A *s)
@@ -1411,4 +1414,99 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	}
 
 	return ret;
+}
+
+void Map_B4CD_057B(uint16 arg06, tile32 position, csip32 csip, csip32 function)
+{
+	uint16 loc0A;
+	tile32 loc12;
+	uint16 loc04;
+
+	if (arg06 == 0 || position.tile == 0) return;
+
+	arg06--;
+
+	if (arg06 > 31) {
+		uint16 x = Tile_GetPosX(position);
+		uint16 y = Tile_GetPosY(position);
+		int16 j;
+		int16 i;
+
+		for (j = -2; j <= 2; j++) {
+			for (i = -2; i <= 2; i++) {
+				uint16 curPacked;
+
+				if (x + i < 0 || x + i >= 64 || y + j < 0 || y + j >= 64) continue;
+
+				curPacked = Tile_PackXY(x + i, y + j);
+				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
+				g_global->variable_39E2++;
+
+				switch (function.csip) {
+					default:
+						emu_push(curPacked);
+						emu_push(csip.s.cs); emu_push(csip.s.ip);
+						emu_push(emu_cs); emu_push(0x0644); emu_cs = 0x34CD; overlay(0x34CD, 0);
+						switch (function.csip) {
+							case 0x34CD0020: f__B4CD_04C4_0010_846B(); break;
+							case 0x34CD0025: f__B4CD_0566_0010_04C2(); break;
+							case 0x34CD002A: f__B4CD_0194_0011_3CAE(); break;
+							case 0x34CD002F: f__B4CD_017F_0010_C6FC(); break;
+							case 0x34CD0034: f__B4CD_0550_0010_C4CD(); break;
+							case 0x34CD0039: f__B4CD_0408_001F_C54A(); break;
+							case 0x34CD003E: f__B4CD_053B_0010_C4CD(); break;
+							case 0x34CD0043: f__B4CD_048E_0012_3E9E(); break;
+							case 0x34CD0048: f__B4CD_01AA_0010_06F1(); break;
+							default: break;
+						}
+						emu_sp += 6;
+						break;
+				}
+			}
+		}
+		return;
+	}
+
+	arg06 = max(min(arg06, 32), 15);
+	position.tile -= g_global->variable_395E[arg06];
+	loc12.tile = 0;
+	loc04 = 0;
+	for (loc0A = 0; loc0A < 9; loc0A++) {
+		tile32 loc08 = Tile_AddTileDiff(position, loc12);
+
+		if (Tile_IsValid(loc08)) {
+			uint16 curPacked = Tile_PackTile(loc08);
+
+			if (curPacked != loc04) {
+				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
+				g_global->variable_39E2++;
+
+				switch (function.csip) {
+					default:
+						emu_push(curPacked);
+						emu_push(csip.s.cs); emu_push(csip.s.ip);
+						emu_push(emu_cs); emu_push(0x0717); emu_cs = 0x34CD; overlay(0x34CD, 0);
+						switch (function.csip) {
+							case 0x34CD0020: f__B4CD_04C4_0010_846B(); break;
+							case 0x34CD0025: f__B4CD_0566_0010_04C2(); break;
+							case 0x34CD002A: f__B4CD_0194_0011_3CAE(); break;
+							case 0x34CD002F: f__B4CD_017F_0010_C6FC(); break;
+							case 0x34CD0034: f__B4CD_0550_0010_C4CD(); break;
+							case 0x34CD0039: f__B4CD_0408_001F_C54A(); break;
+							case 0x34CD003E: f__B4CD_053B_0010_C4CD(); break;
+							case 0x34CD0043: f__B4CD_048E_0012_3E9E(); break;
+							case 0x34CD0048: f__B4CD_01AA_0010_06F1(); break;
+							default: break;
+						}
+						emu_sp += 6;
+						break;
+				}
+
+				loc04 = curPacked;
+			}
+		}
+
+		loc12 = emu_get_tile32(0x2DCE, (arg06 + 1) * 32, loc0A * 4);
+		if (loc12.tile == 0) break;
+	}
 }

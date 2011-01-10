@@ -38,7 +38,6 @@ extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_057B_001A_D066();
 extern void f__B4CD_1086_0040_F11C();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -2655,12 +2654,7 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 		g_global->variable_39E8++;
 	}
 
-	emu_push(g_global->variable_2494[arg06].s.cs); emu_push(g_global->variable_2494[arg06].s.ip);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-	emu_push(g_unitInfo[unit->o.type].variable_38);
-	emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
-	emu_sp += 14;
+	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, ucsip, g_global->variable_2494[arg06]);
 }
 
 
@@ -2730,26 +2724,10 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (!unit->o.flags.s.variable_4_0040 && !unit->o.flags.s.isSmoking && unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST) loc06 = 33;
 
-	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(position.s.y); emu_push(position.s.x);
-	emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
-	emu_sp += 14;
+	Map_B4CD_057B(loc06, position, ucsip, g_global->variable_24A0[arg06]);
 
 	if (unit->o.type != UNIT_HARVESTER) return;
 
-	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(unit->variable_5A.s.y); emu_push(unit->variable_5A.s.x);
-	emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x03D4); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
-	emu_sp += 14;
-
-	emu_push(g_global->variable_24A0[arg06].s.cs); emu_push(g_global->variable_24A0[arg06].s.ip);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(unit->variable_5E.s.y); emu_push(unit->variable_5E.s.x);
-	emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x03FE); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_057B_001A_D066();
-	emu_sp += 14;
+	Map_B4CD_057B(loc06, unit->variable_5E, ucsip, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, unit->variable_5A, ucsip, g_global->variable_24A0[arg06]);
 }
