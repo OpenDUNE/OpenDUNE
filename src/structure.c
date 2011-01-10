@@ -26,12 +26,12 @@
 
 extern void f__0C3A_0E35_0013_A551();
 extern void f__0C3A_142D_0018_6667();
-extern void f__0C3A_247A_0015_EA04();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
+extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -1144,11 +1144,7 @@ void Structure_ActivateSpecial(Structure *s)
 			uint16 position;
 
 			/* Find a spot next to the structure */
-			emu_push(0);
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-			emu_push(emu_cs); emu_push(0x0718); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
-			emu_sp += 6;
-			position = emu_ax;
+			position = Structure_0C3A_247A(s, false);
 
 			/* If there is no spot, reset countdown */
 			if (position == 0) {
@@ -1411,4 +1407,71 @@ void Structure_UntargetMe(Structure *s)
 
 		if (t->target == encoded) t->target = 0;
 	}
+}
+
+uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
+{
+	StructureInfo *si;
+	uint16 packed;
+	uint16 loc0C;
+	uint16 bestPacked;
+	uint16 bestDistance;
+	int16 loc12;
+	uint16 i;
+
+	if (s == NULL) return 0;
+
+	si = &g_structureInfo[s->o.type];
+	packed = Tile_PackTile(Tile_Center(s->o.position));
+
+	loc0C = 0;
+
+	if (checkDistance) {
+		emu_push(s->o.houseID);
+		emu_push(10);
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x24F9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
+		emu_sp += 6;
+		loc0C = emu_ax;
+	}
+
+	bestPacked = 0;
+	bestDistance = 0;
+	i = Tools_Random_256() & 0xF;
+	loc12 = 16;
+
+	while (loc12 > 0) {
+		uint16 offset = g_global->layoutTilesAround[si->layout][i];
+
+		if (offset != 0) {
+			uint16 curPacked;
+
+			curPacked = packed + offset;
+
+			if (Map_IsValidPosition(curPacked)) {
+				uint16 type = Map_B4CD_0750(curPacked);
+				Tile *t = Map_GetTileByPosition(curPacked);
+
+				if (!t->hasUnit && !t->hasStructure && type != 0xB && type != 0x6 && type != 0x7) {
+					if (!checkDistance) return curPacked;
+
+					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, loc0C) < bestDistance) {
+						bestPacked = curPacked;
+						bestDistance = Tile_GetDistancePacked(curPacked, loc0C);
+					}
+				}
+			}
+		}
+
+		i++;
+		loc12--;
+		if (i <= 15 && offset != 0) {
+			i++;
+		} else {
+			loc12 -= 16 - i;
+			i = 0;
+		}
+	}
+
+	return bestPacked;
 }

@@ -22,7 +22,6 @@
 #include "../sprites.h"
 
 extern void f__0C3A_1002_0013_651A();
-extern void f__0C3A_247A_0015_EA04();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
@@ -223,11 +222,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	loc06 = script->stack[script->stackPointer];
 
-	emu_push(0);
-	emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0B46); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
-	emu_sp += 6;
-	loc08 = emu_ax;
+	loc08 = Structure_0C3A_247A(s, false);
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
 
@@ -235,7 +230,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 		return IT_NONE;
 	}
 
-	carryall = Unit_Unknown2BB5(loc06, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), loc08 != 0 ? 0 : 1);
+	carryall = Unit_Unknown2BB5(loc06, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), loc08 == 0);
 
 	if (carryall == NULL) return IT_NONE;
 
@@ -284,12 +279,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		return 1;
 	}
 
-	emu_push(u->o.type == UNIT_HARVESTER ? 1 : 0);
-	emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x0D46); emu_cs = 0x0C3A; f__0C3A_247A_0015_EA04();
-	emu_sp += 6;
-
-	emu_si = emu_ax;
+	emu_si = Structure_0C3A_247A(s, u->o.type == UNIT_HARVESTER);
 	if (emu_si == 0) return 0;
 
 	u->o.variable_09 |= s->o.variable_09;

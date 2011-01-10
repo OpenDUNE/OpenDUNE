@@ -120,6 +120,7 @@ extern bool Structure_IsUpgradable(Structure *s);
 extern bool Structure_ConnectWall(uint16 position, bool recurse);
 extern struct Unit *Structure_GetLinkedUnit(Structure *s);
 extern void Structure_UntargetMe(Structure *s);
+extern uint16 Structure_0C3A_247A(Structure *s, bool checkDistance);
 
 
 extern void emu_Structure_Create();
