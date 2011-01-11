@@ -479,122 +479,80 @@ bool House_UpdateRadarState(House *h)
 {
 	csip32 wsaBuffer;
 	WSAHeader *header;
-	uint16 action;
+	uint16 frame;
+	uint16 frameCount;
+	bool activate;
 
 	if (h == NULL || h->index != g_global->playerHouseID) return false;
 
 	wsaBuffer.csip = 0x0;
-	action = 0;
+
+	activate = h->flags.s.radarActivated;
 
 	if (h->flags.s.radarActivated) {
 		/* Deactivate radar */
-		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) == 0 || h->powerProduction < h->powerUsage) action = 2;
+		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) == 0 || h->powerProduction < h->powerUsage) activate = false;
 	} else {
 		/* Activate radar */
-		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0 && h->powerProduction >= h->powerUsage) action = 1;
+		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0 && h->powerProduction >= h->powerUsage) activate = true;
 	}
 
-	if (action != 0) {
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Memory_GetBlock1();
-		emu_sp += 2;
+	if (h->flags.s.radarActivated == activate) return false;
 
-		emu_push(0); emu_push(0);
-		emu_push(1);
-		emu_push(g_global->variable_6CD3[1][1] >> 16); emu_push(g_global->variable_6CD3[1][1] & 0xFFFF);
-		emu_push(emu_dx); emu_push(emu_ax); /* memory block */
-		emu_push(0x353F); emu_push(0x2574); /* "STATIC.WSA" */
-		emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-		emu_sp += 18;
-		wsaBuffer.s.cs = emu_dx;
-		wsaBuffer.s.ip = emu_ax;
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
 
-		header = (WSAHeader *)emu_get_memorycsip(wsaBuffer);
+	emu_push(0); emu_push(0);
+	emu_push(1);
+	emu_push(g_global->variable_6CD3[1][1] >> 16); emu_push(g_global->variable_6CD3[1][1] & 0xFFFF);
+	emu_push(emu_dx); emu_push(emu_ax); /* memory block */
+	emu_push(0x353F); emu_push(0x2574); /* "STATIC.WSA" */
+	emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
+	emu_sp += 18;
+	wsaBuffer.s.cs = emu_dx;
+	wsaBuffer.s.ip = emu_ax;
 
-		g_global->variable_38C4 = 1;
+	header = (WSAHeader *)emu_get_memorycsip(wsaBuffer);
+	frameCount = WSA_GetFrameCount(header);
 
-		emu_push(emu_cs); emu_push(0x0E4B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	g_global->variable_38C4 = 1;
 
-		do {
-			emu_push(emu_cs); emu_push(0x0E52); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
-		} while (emu_ax != 0);
+	emu_push(emu_cs); emu_push(0x0E4B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(0); emu_push(0);
-		emu_push(0x3E);
-		emu_push(emu_cs); emu_push(0x0E65); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-		emu_sp += 6;
+	do {
+		emu_push(emu_cs); emu_push(0x0E52); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
+	} while (emu_ax != 0);
+
+	emu_push(0); emu_push(0);
+	emu_push(0x3E);
+	emu_push(emu_cs); emu_push(0x0E65); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+
+	emu_push(activate ? 0x1C : 0x1D);
+	emu_push(emu_cs); emu_push(0x0E80); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+	emu_sp += 2;
+
+	frameCount = WSA_GetFrameCount(header);
+
+	for (frame = 0; frame < frameCount; frame++) {
+		emu_push(0);
+		emu_push(0);
+		emu_push(136);
+		emu_push(256);
+		emu_push(activate ? frameCount - frame : frame);
+		emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
+		emu_push(emu_cs); emu_push(0x0EAC); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
+		emu_sp += 14;
+
+		GUI_PaletteAnimate();
+
+		g_global->variable_76B4 = 3;
+
+		while (g_global->variable_76B4 != 0);
 	}
 
-	switch (action) {
-		case 1: {
-			uint16 frame;
-			uint16 frameCount;
-
-			emu_push(0x1C);
-			emu_push(emu_cs); emu_push(0x0E80); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
-
-			frameCount = WSA_GetFrameCount(header);
-
-			for (frame = 0; frame < frameCount; frame++) {
-				emu_push(0);
-				emu_push(0);
-				emu_push(136);
-				emu_push(256);
-				emu_push(frameCount - frame);
-				emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-				emu_push(emu_cs); emu_push(0x0EAC); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-				emu_sp += 14;
-
-				GUI_PaletteAnimate();
-
-				g_global->variable_76B4 = 3;
-
-				while (g_global->variable_76B4 != 0);
-			}
-
-			h->flags.s.radarActivated = true;
-			break;
-		}
-
-		case 2: {
-			uint16 frame;
-			uint16 frameCount;
-
-			emu_push(0); emu_push(0);
-			emu_push(0x3E);
-			emu_push(emu_cs); emu_push(0x0EE9); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 6;
-
-			emu_push(0x1D);
-			emu_push(emu_cs); emu_push(0x0EF5); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
-
-			frameCount = WSA_GetFrameCount(header);
-
-			for (frame = 0; frame < frameCount; frame++) {
-				emu_push(0);
-				emu_push(0);
-				emu_push(136);
-				emu_push(256);
-				emu_push(frame);
-				emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-				emu_push(emu_cs); emu_push(0x0F14); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-				emu_sp += 14;
-
-				GUI_PaletteAnimate();
-
-				g_global->variable_76B4 = 3;
-
-				while (g_global->variable_76B4 != 0);
-			}
-
-			h->flags.s.radarActivated = false;
-			break;
-		}
-
-		default: return false;
-	}
+	h->flags.s.radarActivated = activate;
 
 	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
 	emu_push(emu_cs); emu_push(0x0F60); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
@@ -608,5 +566,5 @@ bool House_UpdateRadarState(House *h)
 	emu_push(emu_cs); emu_push(0x0F75); emu_cs = 0x07D4; emu_Unknown_07D4_159A();
 	emu_sp += 2;
 
-	return action == 1;
+	return activate;
 }
