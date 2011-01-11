@@ -147,35 +147,7 @@ MSVC_PACKED_BEGIN
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Unit. */
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Unit. */
-	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Unit. */
-	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK union {
-	                     struct {
-	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
-	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
-	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
-	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
-	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
-	/*      0040 */              BITTYPE hasTurret:1;       /*!< If true, the Unit has a turret seperate from his base unit. */
-	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? Used in Script Commands. */
-	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
-	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */
-	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Unit selectable by pressing tab (which cycles through all Units and Structures). */
-	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Unit is outside viewport, do not slow down scripting. */
-	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
-	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
-	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */
-	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Create a new soldier if rand() < this value. */
-	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Unit. */
-	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
-	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Unit. */
-	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Unit. Upgrading is 50% of this value. */
-	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Unit. */
+	/* 0000(26)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
 	/* 001A()    */ PACK uint8   unknown_001A[0x0008];
 	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
 	/* 002A()    */ PACK uint8   unknown_002A[0x0001];

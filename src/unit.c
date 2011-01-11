@@ -192,7 +192,7 @@ void GameLoop_Unit()
 
 		if (u->o.flags.s.beingBuilt) continue;
 
-		if (tickUnknown4 && u->targetAttack != 0 && ui->flags.s.hasTurret) {
+		if (tickUnknown4 && u->targetAttack != 0 && ui->o.flags.s.hasTurret) {
 			tile32 tile;
 
 			tile = Tools_Index_GetTile(u->targetAttack);
@@ -232,7 +232,7 @@ void GameLoop_Unit()
 
 		if (tickUnknown2) {
 			Unit_Rotate(u, 0);
-			if (ui->flags.s.hasTurret) Unit_Rotate(u, 1);
+			if (ui->o.flags.s.hasTurret) Unit_Rotate(u, 1);
 		}
 
 		if (tickUnknown3 && u->variable_6E != 0) {
@@ -304,7 +304,7 @@ void GameLoop_Unit()
 			if (u->o.scriptDelay == 0) {
 				if (Script_IsLoaded(&u->o.script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
-					if (!ui->flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->o.position, NULL, NULL)) {
+					if (!ui->o.flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->o.position, NULL, NULL)) {
 						g_global->scriptUnitLeft = 1;
 					}
 
@@ -357,7 +357,7 @@ uint8 Unit_StringToType(const char *name)
 	if (name == NULL) return UNIT_INVALID;
 
 	for (type = 0; type < UNIT_MAX; type++) {
-		const char *unitName = (const char *)emu_get_memorycsip(g_unitInfo[type].name);
+		const char *unitName = (const char *)emu_get_memorycsip(g_unitInfo[type].o.name);
 		if (strcasecmp(unitName, name) == 0) return type;
 	}
 
@@ -445,7 +445,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	Unit_Unknown204C(u, 0);
 
 	u->o.position.tile  = position.tile;
-	u->o.hitpoints      = ui->hitpoints;
+	u->o.hitpoints      = ui->o.hitpoints;
 	u->variable_49.tile = 0;
 	u->originEncoded    = 0x0000;
 	u->variable_72[0]   = 0xFF;
@@ -713,7 +713,7 @@ uint16 Unit_IsValidMovementIntoStructure(Unit *unit, Structure *s)
 		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == structEnc) return 2;
 		/* Entering houses is only possible for foot-units and if the structure is conquerable.
 		 * Everyone else can only move close to the building. */
-		if (ui->movementType == MOVEMENT_FOOT && si->flags.s.conquerable) return unit->targetMove == structEnc ? 2 : 1;
+		if (ui->movementType == MOVEMENT_FOOT && si->o.flags.s.conquerable) return unit->targetMove == structEnc ? 2 : 1;
 		return 0;
 	}
 
@@ -872,10 +872,10 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 	unitInfo   = &g_unitInfo[unit->o.type];
 	targetInfo = &g_unitInfo[target->o.type];
 
-	if (!targetInfo->flags.s.priority) return 0;
+	if (!targetInfo->o.flags.s.priority) return 0;
 
 	if (targetInfo->movementType == MOVEMENT_WINGER) {
-		if (!unitInfo->flags.s.targetAir) return 0;
+		if (!unitInfo->o.flags.s.targetAir) return 0;
 		if (target->o.houseID == g_global->playerHouseID && !Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
 	}
 
@@ -1251,7 +1251,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
-	if ((ui->hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
+	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
 	Unit_Unknown204C(unit, locdi);
 
@@ -1309,7 +1309,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 	unit->targetAttack = encoded;
 
-	if (!g_unitInfo[unit->o.type].flags.s.hasTurret) {
+	if (!g_unitInfo[unit->o.type].o.flags.s.hasTurret) {
 		unit->targetMove = encoded;
 		unit->variable_72[0] = 0xFF;
 	}
@@ -1374,7 +1374,7 @@ void Unit_RemoveFog(Unit *unit)
 	if (unit->o.position.tile == 0xFFFFFFFF || unit->o.position.tile == 0) return;
 	if (!House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID)) return;
 
-	fogUncoverRadius = g_unitInfo[unit->o.type].fogUncoverRadius;
+	fogUncoverRadius = g_unitInfo[unit->o.type].o.fogUncoverRadius;
 
 	if (fogUncoverRadius == 0) return;
 
@@ -1705,7 +1705,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 			emu_push(emu_cs); emu_push(0x0C63); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 		} else {
-			if (!ui->flags.s.noMessageOnDeath && alive) {
+			if (!ui->o.flags.s.noMessageOnDeath && alive) {
 				if (houseID == g_global->playerHouseID || g_global->campaignID > 3) {
 					emu_push(houseID + 14);
 					emu_push(emu_cs); emu_push(0x0CAC); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
@@ -1730,7 +1730,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		Unit_SetAction(unit, ACTION_ATTACK);
 	}
 
-	if (unit->o.hitpoints >= ui->hitpoints / 2) return false;
+	if (unit->o.hitpoints >= ui->o.hitpoints / 2) return false;
 
 	if (unit->o.type == UNIT_SANDWORM) {
 		Unit_SetAction(unit, ACTION_DIE);
@@ -1739,7 +1739,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	if (unit->o.type == UNIT_TROOPERS || unit->o.type == UNIT_INFANTRY) {
 		unit->o.type += 2;
 		ui = &g_unitInfo[unit->o.type];
-		unit->o.hitpoints = ui->hitpoints;
+		unit->o.hitpoints = ui->o.hitpoints;
 
 		Unit_B4CD_01BF(2, unit);
 
@@ -1894,7 +1894,7 @@ void Unit_Select(Unit *unit)
 		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 		emu_sp += 2;
 
-		emu_push(ui->spriteID);
+		emu_push(ui->o.spriteID);
 		emu_push(ui->variable_2B);
 		emu_push(emu_cs); emu_push(0x1050); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 		emu_sp += 4;
@@ -2252,13 +2252,13 @@ void Unit_DisplayStatusText(Unit *unit)
 	ui = &g_unitInfo[unit->o.type];
 
 	if (unit->o.type == UNIT_SANDWORM) {
-		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->stringID_abbrev));
+		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 	} else {
 		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
 		if (g_global->language == 1) {
-			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->stringID_abbrev), houseName);
+			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 		} else {
-			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->stringID_abbrev));
+			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
 		}
 	}
 
@@ -2405,19 +2405,19 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	Unit_Unknown2AAA(unit);
 
 	if (House_AreAllied(s->o.houseID, Unit_GetHouseID(unit))) {
-		Structure_SetAnimation(s, si->flags.s.variable_0010 ? 2 : 1);
+		Structure_SetAnimation(s, si->o.flags.s.variable_0010 ? 2 : 1);
 
 		if (s->o.type == STRUCTURE_REPAIR) {
 			uint16 countDown;
 
-			countDown = ((ui->hitpoints - unit->o.hitpoints) * 256 / ui->hitpoints) * (ui->buildTime << 6) / 256;
+			countDown = ((ui->o.hitpoints - unit->o.hitpoints) * 256 / ui->o.hitpoints) * (ui->o.buildTime << 6) / 256;
 
 			if (countDown > 1) {
 				s->countDown = countDown;
 			} else {
 				s->countDown = 1;
 			}
-			unit->o.hitpoints = ui->hitpoints;
+			unit->o.hitpoints = ui->o.hitpoints;
 			unit->o.flags.s.isSmoking = false;
 			unit->variable_6D = 0;
 		}
@@ -2436,7 +2436,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	scsip       = g_global->structureStartPos;
 	scsip.s.ip += s->o.index * sizeof(Structure);
 
-	if (s->o.hitpoints < si->hitpoints / 4) {
+	if (s->o.hitpoints < si->o.hitpoints / 4) {
 		House *h;
 
 		h = House_Get_ByIndex(s->o.houseID);

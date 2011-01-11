@@ -575,7 +575,7 @@ void GUI_UpdateProductionStringID()
 
 	if (s == NULL) return;
 
-	if (g_structureInfo[s->o.type].flags.s.factory) {
+	if (g_structureInfo[s->o.type].o.flags.s.factory) {
 		if (s->o.flags.s.upgrading) {
 			g_global->productionStringID = 0x90; /* "Upgrading|%d%% done" */
 		} else {

@@ -415,7 +415,7 @@ bool GUI_Widget_Picture_Click()
 
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-	if (s == NULL || !g_structureInfo[s->o.type].flags.s.factory) return false;
+	if (s == NULL || !g_structureInfo[s->o.type].o.flags.s.factory) return false;
 
 	emu_push(0xFFFF);
 	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));

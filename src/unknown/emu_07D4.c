@@ -304,7 +304,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			}
 
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.variable_0800) g_global->variable_8DE3 |= 0x100;
-			if (ui->flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
 			GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
 
@@ -320,7 +320,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				uint16 offsetY = 0;
 				uint16 index = ui->variable_46;
 
-				orientation = Sprites_B4CD_17DC(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
+				orientation = Sprites_B4CD_17DC(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 
 				switch (ui->variable_46) {
 					case 0x8D:
@@ -459,9 +459,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->flags.s.variable_0001) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
+			if (ui->o.flags.s.variable_0001) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
 
-			if (ui->flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
 			GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}

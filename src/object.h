@@ -7,7 +7,7 @@
 
 MSVC_PACKED_BEGIN
 /**
- * A Structure as stored in the memory.
+ * Data common to Structure and Unit.
  */
 typedef struct Object {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
@@ -58,6 +58,44 @@ typedef struct Object {
 } GCC_PACKED Object;
 MSVC_PACKED_END
 assert_compile(sizeof(Object) == 0x47);
+
+MSVC_PACKED_BEGIN
+/**
+ * Data common to StructureInfo and UnitInfo.
+ */
+typedef struct ObjectInfo {
+	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Structure. */
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
+	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
+	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
+	/* 000C(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
+	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
+	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
+	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
+	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
+	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
+	/*      0040 */              BITTYPE hasTurret:1;       /*!< If true, the Unit has a turret seperate from his base unit. */
+	/*      0080 */              BITTYPE conquerable:1;     /*!< Structure can be invaded and subsequently conquered when hitpoints are low. */
+	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
+	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */
+	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Unit selectable by pressing tab (which cycles through all Units and Structures). */
+	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Unit is outside viewport, do not slow down scripting. */
+	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
+	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
+	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
+	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Chance of spawning an infanctry on structure destruction. */
+	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
+	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
+	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */
+	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
+	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
+} GCC_PACKED ObjectInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(ObjectInfo) == 0x1A);
 
 extern void Object_Script_Variable4_Link(uint16 encodedFrom, uint16 encodedTo);
 extern void Object_Script_Variable4_Set(Object *o, uint16 index);

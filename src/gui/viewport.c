@@ -247,7 +247,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			g_global->activeStructure.csip = 0x0;
 			g_global->variable_38EC        = 0;
 
-			emu_push(si->spriteID);
+			emu_push(si->o.spriteID);
 			emu_push(si->variable_2B);
 			emu_push(emu_cs); emu_push(0x0650); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 			emu_sp += 4;
@@ -279,7 +279,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_sp += 4;
 
 			/* "Can not place %s here." */
-			GUI_DisplayText(String_Get_ByIndex(0x86), 2, String_Get_ByIndex(si->stringID_abbrev));
+			GUI_DisplayText(String_Get_ByIndex(0x86), 2, String_Get_ByIndex(si->o.stringID_abbrev));
 		}
 		return true;
 	}

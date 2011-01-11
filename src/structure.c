@@ -126,13 +126,13 @@ void GameLoop_Structure()
 			}
 		}
 
-		if (tickDegrade && s->o.flags.s.degrades && s->o.hitpoints > si->hitpoints / 2) {
+		if (tickDegrade && s->o.flags.s.degrades && s->o.hitpoints > si->o.hitpoints / 2) {
 			Structure_Damage(s, hi->variable_08 + 1, 0);
 		}
 
 		if (tickStructure) {
 			if (s->o.flags.s.upgrading) {
-				uint16 upgradeCost = si->buildCredits / 40;
+				uint16 upgradeCost = si->o.buildCredits / 40;
 
 				if (upgradeCost <= h->credits) {
 					h->credits -= upgradeCost;
@@ -156,9 +156,9 @@ void GameLoop_Structure()
 
 				/* ENHANCEMENT -- The calculation of the repaircost is a bit unfair in Dune2, because of rounding errors (they use a 256 float-resolution, which is not sufficient) */
 				if (g_dune2_enhanced) {
-					repairCost = si->buildCredits * 2 / si->hitpoints;
+					repairCost = si->o.buildCredits * 2 / si->o.hitpoints;
 				} else {
-					repairCost = (2 * 256 / si->hitpoints) * si->buildCredits / 256;
+					repairCost = (2 * 256 / si->o.hitpoints) * si->o.buildCredits / 256;
 				}
 
 				if (repairCost <= h->credits) {
@@ -171,8 +171,8 @@ void GameLoop_Structure()
 						s->o.hitpoints += 3;
 					}
 
-					if (s->o.hitpoints > si->hitpoints) {
-						s->o.hitpoints = si->hitpoints;
+					if (s->o.hitpoints > si->o.hitpoints) {
+						s->o.hitpoints = si->o.hitpoints;
 						s->o.flags.s.repairing = false;
 						s->o.flags.s.onHold = false;
 					}
@@ -180,7 +180,7 @@ void GameLoop_Structure()
 					s->o.flags.s.repairing = false;
 				}
 			} else {
-				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->flags.s.factory) {
+				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->o.flags.s.factory) {
 					UnitInfo *ui;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -195,8 +195,8 @@ void GameLoop_Structure()
 					}
 
 					buildSpeed = 256;
-					if (s->o.hitpoints < si->hitpoints) {
-						buildSpeed = s->o.hitpoints * 256 / si->hitpoints;
+					if (s->o.hitpoints < si->o.hitpoints) {
+						buildSpeed = s->o.hitpoints * 256 / si->o.hitpoints;
 					}
 
 					/* For AIs, we slow down building speed in all but the last campaign */
@@ -204,7 +204,7 @@ void GameLoop_Structure()
 						if (buildSpeed > g_global->campaignID * 20 + 95) buildSpeed = g_global->campaignID * 20 + 95;
 					}
 
-					buildCost = ui->buildCredits * 256 / ui->buildTime;
+					buildCost = ui->o.buildCredits * 256 / ui->o.buildTime;
 
 					if (buildSpeed < 256) {
 						buildCost = buildSpeed * buildCost / 256;
@@ -234,7 +234,7 @@ void GameLoop_Structure()
 									if (s->o.type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
 									if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
-									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(ui->stringID_full), String_Get_ByIndex(stringID));
+									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(ui->o.stringID_full), String_Get_ByIndex(stringID));
 
 									emu_push(0);
 									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
@@ -266,7 +266,7 @@ void GameLoop_Structure()
 								if (i == 5) {
 									StructureInfo *nsi = &g_structureInfo[ns->o.type];
 
-									h->credits += nsi->buildCredits;
+									h->credits += nsi->o.buildCredits;
 
 									Structure_Free(ns);
 								}
@@ -292,12 +292,12 @@ void GameLoop_Structure()
 						ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 
 						repairSpeed = 256;
-						if (s->o.hitpoints < si->hitpoints) {
-							repairSpeed = s->o.hitpoints * 256 / si->hitpoints;
+						if (s->o.hitpoints < si->o.hitpoints) {
+							repairSpeed = s->o.hitpoints * 256 / si->o.hitpoints;
 						}
 
 						/* XXX -- This is highly unfair. Repairing becomes more expensive if your structure is more damaged */
-						repairCost = 2 * ui->buildCredits / 256;
+						repairCost = 2 * ui->o.buildCredits / 256;
 
 						if (repairCost < h->credits) {
 							h->credits -= repairCost;
@@ -325,7 +325,7 @@ void GameLoop_Structure()
 				/* AI maintenance on structures */
 				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_global->playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
-					if (s->o.hitpoints < si->hitpoints / 2) {
+					if (s->o.hitpoints < si->o.hitpoints / 2) {
 						emu_push(0); emu_push(0);
 						emu_push(1);
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
@@ -334,7 +334,7 @@ void GameLoop_Structure()
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-					if (si->flags.s.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
+					if (si->o.flags.s.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
 						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; emu_Structure_AI_PickNextToBuild();
 						emu_sp += 4;
@@ -393,7 +393,7 @@ uint8 Structure_StringToType(const char *name)
 	if (name == NULL) return STRUCTURE_INVALID;
 
 	for (type = 0; type < STRUCTURE_MAX; type++) {
-		const char *structureName = (const char *)emu_get_memorycsip(g_structureInfo[type].name);
+		const char *structureName = (const char *)emu_get_memorycsip(g_structureInfo[type].o.name);
 		if (strcasecmp(structureName, name) == 0) return type;
 	}
 
@@ -452,15 +452,15 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 		s->variable_49 = emu_get_memory16(emu_es, emu_bx, 0x2);
 	}
 
-	s->o.hitpoints    = si->hitpoints;
-	s->hitpointsMax = si->hitpoints;
+	s->o.hitpoints  = si->o.hitpoints;
+	s->hitpointsMax = si->o.hitpoints;
 
 	if (houseID == HOUSE_HARKONNEN && typeID == STRUCTURE_LIGHT_VEHICLE) {
 		s->upgradeLevel = 1;
 	}
 
 	/* Check if there is an upgrade available */
-	if (si->flags.s.factory) {
+	if (si->o.flags.s.factory) {
 		s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 	}
 
@@ -611,15 +611,15 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.position.s.y &= 0xFF00;
 
 	s->variable_49  = 0;
-	s->o.hitpoints  = si->hitpoints;
-	s->hitpointsMax = si->hitpoints;
+	s->o.hitpoints  = si->o.hitpoints;
+	s->hitpointsMax = si->o.hitpoints;
 
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
 	if (loc0A < 0) {
 		uint16 tilesWithoutSlab = -(int16)loc0A;
 		uint16 structureTileCount = g_global->layoutTileCount[si->layout];
 
-		s->o.hitpoints -= (si->hitpoints / 2) * tilesWithoutSlab / structureTileCount;
+		s->o.hitpoints -= (si->o.hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
 		s->o.flags.s.degrades = true;
 	} else {
@@ -722,18 +722,18 @@ void Structure_CalculatePowerAndCredit(House *h)
 		}
 
 		/* Negative value and full health means everything goes to production */
-		if (s->o.hitpoints >= si->hitpoints) {
+		if (s->o.hitpoints >= si->o.hitpoints) {
 			h->powerProduction += -si->powerUsage;
 			continue;
 		}
 
 		/* Negative value and partial health, calculate how much should go to production (capped at 50%) */
 		/* ENHANCEMENT -- The 50% cap of Dune2 is silly and disagress with the GUI. If your hp is 10%, so should the production. */
-		if (!g_dune2_enhanced && s->o.hitpoints <= si->hitpoints / 2) {
+		if (!g_dune2_enhanced && s->o.hitpoints <= si->o.hitpoints / 2) {
 			h->powerProduction += (-si->powerUsage) / 2;
 			continue;
 		}
-		h->powerProduction += (-si->powerUsage) * s->o.hitpoints / si->hitpoints;
+		h->powerProduction += (-si->powerUsage) * s->o.hitpoints / si->o.hitpoints;
 	}
 
 	/* Check if we are low on power */
@@ -781,8 +781,8 @@ void Structure_CalculateHitpointsMax(House *h)
 
 		si = &g_structureInfo[s->o.type];
 
-		s->hitpointsMax = si->hitpoints * power / 256;
-		s->hitpointsMax = max(s->hitpointsMax, si->hitpoints / 2);
+		s->hitpointsMax = si->o.hitpoints * power / 256;
+		s->hitpointsMax = max(s->hitpointsMax, si->o.hitpoints / 2);
 
 		if (s->hitpointsMax >= s->o.hitpoints) continue;
 		Structure_Damage(s, 1, 0);
@@ -891,7 +891,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			if (si->flags.s.variable_0008) {
+			if (si->o.flags.s.variable_0008) {
 				if (g_global->variable_3A3E[loc10][8] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
@@ -1179,7 +1179,7 @@ void Structure_RemoveFog(Structure *s)
 {
 	if (s == NULL || s->o.houseID != g_global->playerHouseID) return;
 
-	Tile_RemoveFogInRadius(s->o.position, g_structureInfo[s->o.type].fogUncoverRadius);
+	Tile_RemoveFogInRadius(s->o.position, g_structureInfo[s->o.type].o.fogUncoverRadius);
 }
 
 /**
@@ -1236,7 +1236,7 @@ static void Structure_Destroy(Structure *s)
 
 	h->credits -= min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
 
-	if (s->o.houseID != g_global->playerHouseID) h->credits += si->buildCredits + (g_global->campaignID > 7 ? si->buildCredits / 2 : 0);
+	if (s->o.houseID != g_global->playerHouseID) h->credits += si->o.buildCredits + (g_global->campaignID > 7 ? si->o.buildCredits / 2 : 0);
 
 	if (s->o.type != STRUCTURE_WINDTRAP) return;
 
@@ -1270,7 +1270,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 	if (s->o.hitpoints == 0) {
 		uint16 score;
 
-		score = si->buildCredits / 100;
+		score = si->o.buildCredits / 100;
 		if (score < 1) score = 1;
 
 		if (House_AreAllied((uint8)g_global->playerHouseID, s->o.houseID)) {

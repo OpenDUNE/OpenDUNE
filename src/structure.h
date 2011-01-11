@@ -58,29 +58,7 @@ MSVC_PACKED_BEGIN
  * Static information per Structure type.
  */
 typedef struct StructureInfo {
-	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Structure. */
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
-	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
-	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
-	/* 000C(2)   */ PACK union {
-	                     struct {
-	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
-	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
-	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
-	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
-	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
-	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      0080 */              BITTYPE conquerable:1;     /*!< Structure can be invaded and subsequently conquered when hitpoints are low. */
-	/*      -    */              BITTYPE notused2:8;        /*!< The remaining bits are never used. */
-	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the StructureInfo. */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Chance of spawning an infanctry on structure destruction. */
-	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
-	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
-	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */
-	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
-	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
+	/* 0000(26)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
 	/* 001A(2)   */ PACK uint16 variable_1A;                /*!< ?? */
 	/* 001C(4)   */ PACK uint32 variable_1C;                /*!< ?? Bitmask? */
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */

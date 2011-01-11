@@ -154,7 +154,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		u = Unit_Get_ByMemory(g_global->selectionUnit);
 		ui = &g_unitInfo[u->o.type];
 
-		spriteID = ui->spriteID;
+		spriteID = ui->o.spriteID;
 	} else {
 		StructureInfo *si;
 		Structure *s;
@@ -163,7 +163,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		if (s == NULL) return;
 		si = &g_structureInfo[s->o.type];
 
-		spriteID = si->spriteID;
+		spriteID = si->o.spriteID;
 	}
 
 	old6C91 = g_global->variable_6C91;
@@ -312,12 +312,12 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 					}
 				}
 
-				spriteID = si->spriteID;
+				spriteID = si->o.spriteID;
 			} else {
 				UnitInfo *ui;
 
 				ui = &g_unitInfo[s->objectType];
-				spriteID = ui->spriteID;
+				spriteID = ui->o.spriteID;
 			}
 			break;
 	}
@@ -332,19 +332,19 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			StructureInfo *si;
 
 			si = &g_structureInfo[s->objectType];
-			buildTime = si->buildTime;
+			buildTime = si->o.buildTime;
 		} else if (s->o.type == STRUCTURE_REPAIR) {
 			UnitInfo *ui;
 
 			if (s->o.linkedID == 0xFF) return;
 
 			ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
-			buildTime = ui->buildTime;
+			buildTime = ui->o.buildTime;
 		} else {
 			UnitInfo *ui;
 
 			ui = &g_unitInfo[s->objectType];
-			buildTime = ui->buildTime;
+			buildTime = ui->o.buildTime;
 		}
 
 		timeLeft = buildTime - (s->countDown + 255) / 256;

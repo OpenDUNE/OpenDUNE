@@ -48,7 +48,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	if (Tools_Random_256() >= g_unitInfo[u->o.type].variable_0E) return 0;
+	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.variable_0E) return 0;
 
 	emu_push(1);
 	emu_push(20);
@@ -174,7 +174,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			return ret;
 		}
 
-		if ((s->animation == 0 || (si->flags.s.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
+		if ((s->animation == 0 || (si->o.flags.s.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
 			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 			emu_push(24);
 			emu_push(emu_cs); emu_push(0x09EF); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
@@ -518,7 +518,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 	if (ui->movementType != MOVEMENT_WINGER) {
 		uint16 credits;
 
-		credits = max(ui->buildCredits / 100, 1);
+		credits = max(ui->o.buildCredits / 100, 1);
 
 		if (u->o.houseID == g_global->playerHouseID) {
 			g_global->scenario.killedAllied++;
@@ -554,7 +554,7 @@ uint16 Script_Unit_Unknown1382(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_unitInfo[u->o.type].hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
+	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
 	return 0;
 }
 
@@ -626,7 +626,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	ui = &g_unitInfo[u->o.type];
 
-	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
+	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
 
 	if (Tools_Index_GetType(target) == IT_TILE && Object_GetByPackedTile(Tools_Index_GetPackedTile(target)) != NULL) Unit_SetTarget(u, target);
 
@@ -652,7 +652,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		emu_sp += 8;
 		orientation = (int8)emu_ax;
 
-		diff = abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].current - orientation);
+		diff = abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current - orientation);
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
 
 		if (diff >= 8) return 0;
@@ -661,7 +661,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = (ui->variable_36 & 0x400) != 0 && u->o.hitpoints > ui->hitpoints / 2;
+	loc1A = (ui->variable_36 & 0x400) != 0 && u->o.hitpoints > ui->o.hitpoints / 2;
 
 	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
@@ -789,7 +789,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
-	locdi = ui->flags.s.hasTurret ? 1 : 0;
+	locdi = ui->o.flags.s.hasTurret ? 1 : 0;
 
 	if (u->orientation[locdi].speed != 0) return 1;
 	current = u->orientation[locdi].current;
@@ -913,7 +913,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	orientation = (int8)emu_ax;
 
 	u->targetAttack = target;
-	if (!g_unitInfo[u->o.type].flags.s.hasTurret) {
+	if (!g_unitInfo[u->o.type].o.flags.s.hasTurret) {
 		u->targetMove = target;
 		Unit_SetOrientation(u, orientation, false, 0);
 	}
@@ -1017,7 +1017,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	ui = &g_unitInfo[u->o.type];
 
 	switch (script->stack[script->stackPointer]) {
-		case 0x00: return u->o.hitpoints * 256 / ui->hitpoints;
+		case 0x00: return u->o.hitpoints * 256 / ui->o.hitpoints;
 		case 0x01: return Tools_Index_IsValid(u->targetMove) ? u->targetMove : 0;
 		case 0x02: return ui->variable_50 << 8;
 		case 0x03: return u->o.index;
@@ -1035,8 +1035,8 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x0D: return ui->variable_36 & 0x4;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
-		case 0x10: return u->orientation[ui->flags.s.hasTurret ? 1 : 0].current;
-		case 0x11: return abs(u->orientation[ui->flags.s.hasTurret ? 1 : 0].target - u->orientation[ui->flags.s.hasTurret ? 1 : 0].current);
+		case 0x10: return u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current;
+		case 0x11: return abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].target - u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
 		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
@@ -1284,7 +1284,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
-	if (!g_unitInfo[u->o.type].flags.s.variable_0100 || u->deviated != 0) return 0;
+	if (!g_unitInfo[u->o.type].o.flags.s.variable_0100 || u->deviated != 0) return 0;
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
@@ -1382,9 +1382,9 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 
 	/* "%s %s destroyed." */
 	if (g_global->language == 1) {
-		GUI_DisplayText(String_Get_ByIndex(0x13), 0, String_Get_ByIndex(ui->stringID_abbrev), (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name));
+		GUI_DisplayText(String_Get_ByIndex(0x13), 0, String_Get_ByIndex(ui->o.stringID_abbrev), (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name));
 	} else {
-		GUI_DisplayText(String_Get_ByIndex(0x13), 0, (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name), String_Get_ByIndex(ui->stringID_abbrev));
+		GUI_DisplayText(String_Get_ByIndex(0x13), 0, (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name), String_Get_ByIndex(ui->o.stringID_abbrev));
 	}
 
 	return 0;

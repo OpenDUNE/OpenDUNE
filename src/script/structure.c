@@ -99,7 +99,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	si = &g_structureInfo[s->o.type];
 
-	Tile_RemoveFogInRadius(s->o.position, si->fogUncoverRadius);
+	Tile_RemoveFogInRadius(s->o.position, si->o.fogUncoverRadius);
 
 	return 0;
 }
@@ -132,7 +132,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	u = Unit_Get_ByIndex(s->o.linkedID);
 	si = &g_structureInfo[s->o.type];
 
-	harvesterStep = (s->o.hitpoints * 256 / si->hitpoints) * 3 / 256;
+	harvesterStep = (s->o.hitpoints * 256 / si->o.hitpoints) * 3 / 256;
 
 	if (u->amount < harvesterStep) harvesterStep = u->amount;
 	if (u->amount != 0 && harvesterStep < 1) harvesterStep = 1;
@@ -634,12 +634,12 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
 
-		if (g_structureInfo[s->o.type].variable_0E < Tools_Random_256()) continue;
+		if (g_structureInfo[s->o.type].o.variable_0E < Tools_Random_256()) continue;
 
 		u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, s->o.houseID, tile, Tools_Random_256());
 		if (u == NULL) continue;
 
-		u->o.hitpoints = g_unitInfo[UNIT_SOLDIER].hitpoints * (Tools_Random_256() & 3) / 256;
+		u->o.hitpoints = g_unitInfo[UNIT_SOLDIER].o.hitpoints * (Tools_Random_256() & 3) / 256;
 
 		if (s->o.houseID != g_global->playerHouseID) {
 			Unit_SetAction(u, ACTION_ATTACK);
@@ -665,9 +665,9 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
 	if (g_global->language == 1) {
-		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_structureInfo[s->o.type].stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(0x85));
 	} else {
-		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(g_structureInfo[s->o.type].stringID_full), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), String_Get_ByIndex(0x85));
 	}
 
 	return 0;

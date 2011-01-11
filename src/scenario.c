@@ -297,7 +297,7 @@ void Scenario_Load_Units(const char *key, char *value)
 	if (u == NULL) return;
 	u->o.flags.s.byScenario = true;
 
-	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].hitpoints / 256;
+	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].o.hitpoints / 256;
 	u->o.position    = position;
 	u->orientation[0].current = orientation;
 	u->actionID     = actionType;
@@ -401,7 +401,7 @@ void Scenario_Load_Structures(const char *key, char *value)
 		s = Structure_Create(index, structureType, houseType, position);
 		if (s == NULL) return;
 
-		s->o.hitpoints = hitpoints * g_structureInfo[s->o.type].hitpoints / 256;
+		s->o.hitpoints = hitpoints * g_structureInfo[s->o.type].o.hitpoints / 256;
 		s->o.flags.s.degrades = false;
 		s->animation = 0;
 	}
