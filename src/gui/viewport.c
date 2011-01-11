@@ -27,7 +27,6 @@ extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
@@ -253,9 +252,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			emu_push(emu_cs); emu_push(0x0650); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 			emu_sp += 4;
 
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x065B); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
-			emu_sp += 2;
+			House_UpdateRadarState(h);
 
 			if (h->powerProduction < h->powerUsage) {
 				if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0) {

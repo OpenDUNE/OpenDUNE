@@ -33,7 +33,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
-extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void f__B483_0000_0019_F96A();
@@ -761,11 +760,7 @@ void Structure_CalculateHitpointsMax(House *h)
 
 	if (h == NULL) return;
 
-	if (h->index == g_global->playerHouseID) {
-		emu_push(h->index);
-		emu_push(emu_cs); emu_push(0x2113); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
-		emu_sp += 2;
-	}
+	if (h->index == g_global->playerHouseID) House_UpdateRadarState(h);
 
 	if (h->powerUsage == 0) {
 		power = 256;
@@ -1587,9 +1582,7 @@ void Structure_0C3A_1002(Structure *s)
 			break;
 
 		case STRUCTURE_OUTPOST:
-			emu_push(s->o.houseID);
-			emu_push(emu_cs); emu_push(0x120C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
-			emu_sp += 2;
+			House_UpdateRadarState(h);
 			break;
 
 		default: break;
