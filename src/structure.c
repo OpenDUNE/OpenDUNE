@@ -23,19 +23,26 @@
 #include "team.h"
 #include "tools.h"
 #include "unknown/unknown.h"
+#include "sprites.h"
 
-extern void f__0C3A_142D_0018_6667();
+extern void f__0C3A_0B93_0034_3B6D();
+extern void f__0C3A_1B79_0021_8C40();
+extern void f__0C3A_1E67_0011_E44A();
+extern void f__0C3A_2714_0015_B6F6();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__0F3F_01A1_0018_9631();
+extern void f__10E4_0117_0015_392D();
 extern void f__10E4_0F1A_0088_7622();
 extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
+extern void f__259E_0040_0015_5E4A();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void f__B483_0000_0019_F96A();
+extern void f__B495_0000_0022_1CF6();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -339,12 +346,7 @@ void GameLoop_Structure()
 						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; emu_Structure_AI_PickNextToBuild();
 						emu_sp += 4;
 
-						if (emu_ax != 0xFFFF) {
-							emu_push(emu_ax);
-							emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-							emu_push(emu_cs); emu_push(0x0935); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-							emu_sp += 6;
-						}
+						if (emu_ax != 0xFFFF) Structure_BuildObject(s, emu_ax);
 					}
 				}
 			}
@@ -411,7 +413,6 @@ uint8 Structure_StringToType(const char *name)
  */
 Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position)
 {
-	csip32 scsip;
 	StructureInfo *si;
 	Structure *s;
 
@@ -421,10 +422,6 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	si = &g_structureInfo[typeID];
 	s = Structure_Allocate(index, typeID);
 	if (s == NULL) return NULL;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->o.index * sizeof(Structure);
 
 	s->o.houseID            = houseID;
 	s->variable_47          = houseID;
@@ -466,10 +463,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	s->objectType = 0xFFFF;
 
-	emu_push(0xFFFE);
-	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0145); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-	emu_sp += 6;
+	Structure_BuildObject(s, 0xFFFE);
 
 	s->countDown = 0;
 
@@ -1587,4 +1581,317 @@ void Structure_0C3A_1002(Structure *s)
 
 		default: break;
 	}
+}
+
+/**
+ * Make the given Structure build an object.
+ *
+ * @param s The Structure.
+ * @param objectType The type of the object to build or a special value (0xFFFD, 0xFFFE, 0xFFFF).
+ * @return ??.
+ */
+bool Structure_BuildObject(Structure *s, uint16 objectType)
+{
+	StructureInfo *si;
+	House *h;
+	char *str;
+	Object *o;
+	ObjectInfo *oi;
+
+	if (s == NULL) return false;
+
+	si = &g_structureInfo[s->o.type];
+
+	if (!si->o.flags.s.factory) return false;
+
+	h = House_Get_ByIndex(s->o.houseID);
+
+	emu_push(0); emu_push(0);
+	emu_push(0);
+	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+	emu_push(emu_cs); emu_push(0x149F); emu_cs = 0x0C3A; f__0C3A_2814_0015_76F0();
+	emu_sp += 10;
+
+	if (objectType == 0xFFFD) {
+		emu_push(0); emu_push(0);
+		emu_push(1);
+		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+		emu_push(emu_cs); emu_push(0x182E); emu_cs = 0xC3A; f__0C3A_2714_0015_B6F6();
+		emu_sp += 10;
+
+		return false;
+	}
+
+	if (objectType == 0xFFFF || objectType == 0xFFFE) {
+		uint16 loc1C = 0;
+		uint32 loc22;
+
+		if (Structure_IsUpgradable(s) && si->o.hitpoints == s->o.hitpoints) {
+			loc1C = (si->o.buildCredits + (si->o.buildCredits >> 15)) / 2;
+		}
+
+		if (loc1C != 0 && s->o.type == STRUCTURE_HIGH_TECH && s->o.houseID == HOUSE_HARKONNEN) loc1C = 0;
+		if (s->o.type == STRUCTURE_STARPORT) loc1C = 0;
+
+		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+		emu_push(emu_cs); emu_push(0x1525); emu_cs = 0x0C3A; f__0C3A_1B79_0021_8C40();
+		emu_sp += 4;
+		loc22 = (emu_dx << 16) | emu_ax;
+
+		if (loc22 == 0) {
+			s->objectType = 0;
+			return false;
+		}
+
+		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+			uint8 i;
+
+			g_global->variable_8BE8 = 1;
+
+			for (i = 0; i < STRUCTURE_MAX; i++) {
+				if ((loc22 & (1 << i)) == 0) continue;
+				g_structureInfo[i].variable_2A = 1;
+				if (objectType != 0xFFFE) continue;
+				s->objectType = i;
+				return false;
+			}
+		}
+
+		g_global->variable_8BE8 = 0;
+
+		if (s->o.type == STRUCTURE_STARPORT) {
+			uint8 linkedID = 0xFF;
+			int16 loc60[UNIT_MAX];
+			Unit *u;
+
+			memset(loc60, 0, UNIT_MAX * 2);
+
+			emu_si = 0x1;
+
+			while (emu_si != 0) {
+				uint8 i;
+
+				emu_si = 0;
+
+				for (i = 0; i < UNIT_MAX; i++) {
+					int16 loc2A = g_global->starportAvailable[i];
+
+					if (loc2A == 0) {
+						g_unitInfo[i].variable_2A = 0;
+						continue;
+					}
+
+					if (loc2A < 0) {
+						g_unitInfo[i].variable_2A = 0xFF;
+						continue;
+					}
+
+					if (loc60[i] >= loc2A) continue;
+
+					g_global->variable_38BC++;
+
+					u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
+
+					g_global->variable_38BC--;
+
+					if (u != NULL) {
+						emu_si = 1;
+						u->o.linkedID = linkedID;
+						linkedID = u->o.index & 0xFF;
+						loc60[i]++;
+						g_unitInfo[i].variable_2A = loc60[i] & 0xFF;
+						continue;
+					}
+
+					if (loc60[i] == 0) g_unitInfo[i].variable_2A = 0xFF;
+				}
+			}
+
+			while (linkedID != 0xFF) {
+				u = Unit_Get_ByIndex(linkedID);
+				linkedID = u->o.linkedID;
+				Unit_Free(u);
+			}
+		} else {
+			uint8 i;
+
+			for (i = 0; i < UNIT_MAX; i++) {
+				if ((loc22 & (1 << i)) == 0) continue;
+				g_unitInfo[i].variable_2A = 1;
+				if (objectType != 0xFFFE) continue;
+				s->objectType = i;
+				return false;
+			}
+		}
+
+		if (objectType == 0xFFFF) {
+			uint16 loc1E;
+
+			Sprites_UnloadTiles();
+
+			memmove(g_global->variable_70A2, emu_get_memorycsip(g_global->variable_3C32), 768);
+
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x179D); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+			emu_sp += 2;
+
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x17A6); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
+			emu_sp += 2;
+
+			emu_push(loc1C);
+			emu_push(s->o.type == STRUCTURE_STARPORT ? 1 : 0);
+			emu_push(g_global->variable_8BE8);
+			emu_push(emu_cs); emu_push(0x17C5); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0000_0022_1CF6();
+			emu_sp += 6;
+			loc1E = emu_ax;
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x17D4); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
+			emu_sp += 2;
+
+			Sprites_LoadTiles();
+
+			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+			emu_push(emu_cs); emu_push(0x17E7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+			emu_sp += 4;
+
+			Sprites_Load(0, 7, g_sprites);
+
+			emu_push(4);
+			emu_push(emu_cs); emu_push(0x1809); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+			emu_sp += 2;
+
+			if (loc1E == 0) return false;
+
+			if (loc1E == 2) {
+				emu_push(0); emu_push(0);
+				emu_push(1);
+				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+				emu_push(emu_cs); emu_push(0x182E); emu_cs = 0x0C3A; f__0C3A_2714_0015_B6F6();
+				emu_sp += 10;
+
+				return false;
+			}
+
+			if (loc1E == 1) {
+				uint8 i;
+
+				for (i = 0; i < 25; i++) {
+					UnitInfo *ui;
+					Unit *u;
+
+					if (g_global->variable_8BEA[i][2] == 0) continue;
+					objectType = ((uint16 *)g_global->variable_8BEA[i])[0];
+
+					if (s->o.type != STRUCTURE_STARPORT) {
+						emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+						emu_push(emu_cs); emu_push(0x187C); emu_cs = 0x0C3A; f__0C3A_1E67_0011_E44A();
+						emu_sp += 4;
+
+						s->objectType = objectType;
+
+						if (g_global->variable_8BE8 != 1) continue;
+
+						emu_push(s->o.houseID);
+						emu_push(objectType);
+						emu_push(emu_cs); emu_push(0x189A); emu_cs = 0x0C3A; f__0C3A_0B93_0034_3B6D();
+						emu_sp += 4;
+						if (emu_ax != 0) continue;
+
+						emu_push(g_structureInfo[objectType].o.spriteID);
+						emu_push(0x14);
+						emu_push(emu_cs); emu_push(0x18BC); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
+						emu_sp += 4;
+						if (emu_ax == 0) continue;
+
+						s->objectType = objectType;
+
+						return false;
+					}
+
+					ui = &g_unitInfo[objectType];
+
+					g_global->variable_38BC++;
+					{
+						tile32 tile;
+						tile.tile = 0xFFFFFFFF;
+						u = Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0);
+					}
+					g_global->variable_38BC--;
+
+					if (u == NULL) {
+						h->credits += g_unitInfo[UNIT_CARRYALL].o.buildCredits;
+						if (s->o.houseID != g_global->playerHouseID) continue;
+						/* "Unable to create more." */
+						GUI_DisplayText(String_Get_ByIndex(0x88), 2);
+						continue;
+					}
+
+					g_global->structureIndex = s->o.index;
+
+					if (h->starportTimeLeft == 0) h->starportTimeLeft = g_houseInfo[h->index].starportDeliveryTime;
+
+					u->o.linkedID = h->starportLinkedID & 0xFF;
+					h->starportLinkedID = u->o.index;
+
+					g_global->starportAvailable[objectType]--;
+
+					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = 0xFFFF;
+
+					g_global->variable_8BEA[i][2]--;
+					if (g_global->variable_8BEA[i][2] != 0) i--;
+				}
+			}
+		} else {
+			s->objectType = objectType;
+		}
+	}
+
+	if (s->o.type == STRUCTURE_STARPORT) return true;
+
+	if (s->objectType != objectType) {
+		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
+		emu_push(emu_cs); emu_push(0x1A0C); emu_cs = 0x0C3A; f__0C3A_1E67_0011_E44A();
+		emu_sp += 4;
+	}
+
+	if (s->o.linkedID != 0xFF || objectType == 0xFFFF) return false;
+
+	if (s->o.type != STRUCTURE_CONSTRUCTION_YARD) {
+		tile32 tile;
+		tile.tile = 0xFFFFFFFF;
+
+		oi = &g_unitInfo[objectType].o;
+		o = &Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0)->o;
+		str = String_Get_ByIndex(g_unitInfo[objectType].o.stringID_full);
+	} else {
+		oi = &g_structureInfo[objectType].o;
+		o = &Structure_Create(STRUCTURE_INDEX_INVALID, (uint8)objectType, s->o.houseID, 0xFFFF)->o;
+		str = String_Get_ByIndex(g_structureInfo[objectType].o.stringID_full);
+	}
+
+	s->o.flags.s.onHold = false;
+
+	if (o != NULL) {
+		s->o.linkedID = o->index & 0xFF;
+		s->objectType = objectType;
+		s->countDown = oi->buildTime << 8;
+
+		Structure_SetAnimation(s, 1);
+
+		if (s->o.houseID != g_global->playerHouseID) return true;
+
+		/* "Production of %s has started." */
+		GUI_DisplayText(String_Get_ByIndex(0x89), 2, str);
+
+		return true;
+	}
+
+	if (s->o.houseID != g_global->playerHouseID) return false;
+
+	/* "Unable to create more." */
+	GUI_DisplayText(String_Get_ByIndex(0x88), 2);
+
+	return false;
 }

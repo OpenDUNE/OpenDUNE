@@ -16,7 +16,6 @@
 #include "../sprites.h"
 
 extern void f__01F7_286D_0023_9A13();
-extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_2714_0015_B6F6();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__2B4C_0002_0029_64AF();
@@ -92,10 +91,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 			break;
 
 		case 0x29: /* "Build it" */
-			emu_push(s->objectType);
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-			emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-			emu_sp += 6;
+			Structure_BuildObject(s, s->objectType);
 			break;
 
 		case 0x2A: /* "Launch" */
@@ -417,10 +413,7 @@ bool GUI_Widget_Picture_Click()
 
 	if (s == NULL || !g_structureInfo[s->o.type].o.flags.s.factory) return false;
 
-	emu_push(0xFFFF);
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-	emu_push(emu_cs); emu_push(0x11EB); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-	emu_sp += 6;
+	Structure_BuildObject(s, 0xFFFF);
 
 	return false;
 }

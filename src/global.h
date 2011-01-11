@@ -1195,7 +1195,9 @@ typedef struct GlobalData {
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
-	/* 709A()    */ PACK uint8   unknown_709A[0x0608];
+	/* 709A()    */ PACK uint8   unknown_709A[0x0008];
+	/* 70A2(768) */ PACK uint8  variable_70A2[768];         /*!< ?? */
+	/* 73A2()    */ PACK uint8   unknown_73A2[0x0300];
 	/* 76A2(4)   */ PACK uint8  randomSeed[4];              /*!< Seed for pseudo-random generator. */
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
@@ -1299,7 +1301,9 @@ typedef struct GlobalData {
 	/* 8ADC(2)   */ PACK uint16 variable_8ADC;              /*!< ?? */
 	/* 8ADE(16)  */ PACK uint8  variable_8ADE[16];          /*!< ?? Buffer. */
 	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
-	/* 8BDE()    */ PACK uint8   unknown_8BDE[0x011F];
+	/* 8BDE()    */ PACK uint8   unknown_8BDE[0x000A];
+	/* 8BE8(2)   */ PACK uint16 variable_8BE8;              /*!< ?? */
+	/* 8BEA(275) */ PACK uint8  variable_8BEA[25][11];      /*!< ?? */
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */

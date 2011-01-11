@@ -22,7 +22,6 @@
 #include "../string.h"
 #include "../sprites.h"
 
-extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__10E4_0117_0015_392D();
 extern void f__2B4C_0002_0029_64AF();
@@ -235,12 +234,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				emu_sp += 4;
 				returnValue = (emu_dx << 16) | emu_ax;
 
-				if ((returnValue & (1 << s->objectType)) == 0) {
-					emu_push(0xFFFE);
-					emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-					emu_push(emu_cs); emu_push(0x0622); emu_cs = 0x0C3A; f__0C3A_142D_0018_6667();
-					emu_sp += 6;
-				}
+				if ((returnValue & (1 << s->objectType)) == 0) Structure_BuildObject(s, 0xFFFE);
 			}
 
 			g_global->activeStructureType  = 0xFFFF;

@@ -62,7 +62,8 @@ typedef struct StructureInfo {
 	/* 001A(2)   */ PACK uint16 variable_1A;                /*!< ?? */
 	/* 001C(4)   */ PACK uint32 variable_1C;                /*!< ?? Bitmask? */
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
-	/* 0022()    */ PACK uint8   unknown_0022[0x0009];
+	/* 0022()    */ PACK uint8   unknown_0022[0x0008];
+	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? */
 	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
 	/* 002D()    */ PACK uint8   unknown_002D[0x005];
 	/* 0032(4)   */ PACK uint32 enterFilter;                /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
@@ -101,6 +102,7 @@ extern struct Unit *Structure_GetLinkedUnit(Structure *s);
 extern void Structure_UntargetMe(Structure *s);
 extern uint16 Structure_0C3A_247A(Structure *s, bool checkDistance);
 extern void Structure_0C3A_1002(Structure *s);
+extern bool Structure_BuildObject(Structure *s, uint16 objectType);
 
 
 extern void emu_Structure_Create();
