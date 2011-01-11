@@ -24,16 +24,19 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-extern void f__0C3A_0E35_0013_A551();
 extern void f__0C3A_142D_0018_6667();
 extern void f__0C3A_2814_0015_76F0();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
+extern void f__1423_0DC3_0029_D1E2();
+extern void f__151A_000E_0013_5840();
+extern void f__151A_0114_0022_0B6C();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
+extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -1185,6 +1188,67 @@ void Structure_RemoveFog(Structure *s)
 }
 
 /**
+ * Handles destroying of a structure.
+ *
+ * @param s The Structure.
+ */
+static void Structure_Destroy(Structure *s)
+{
+	uint8 linkedID;
+	House *h;
+	StructureInfo *si;
+
+	if (s == NULL) return;
+
+	if (g_global->debugScenario != 0) {
+		Structure_0C3A_1002(s);
+		return;
+	}
+
+	s->o.script.variables[0] = 1;
+	s->o.flags.s.allocated = false;
+	s->o.flags.s.repairing = false;
+	s->o.scriptDelay = 0;
+
+	Script_Reset(&s->o.script, &g_global->scriptStructure);
+	Script_Load(&s->o.script, s->o.type);
+	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
+
+	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
+	emu_push(0x2C);
+	emu_push(emu_cs); emu_push(0x0EC0); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+
+	linkedID = s->o.linkedID;
+
+	if (linkedID != 0xFF) {
+		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+			Structure_Destroy(Structure_Get_ByIndex(linkedID));
+			s->o.linkedID = 0xFF;
+		} else {
+			while (linkedID != 0xFF) {
+				Unit *u = Unit_Get_ByIndex(linkedID);
+
+				linkedID = u->o.linkedID;
+
+				Unit_Unknown10EC(u);
+			}
+		}
+	}
+
+	h = House_Get_ByIndex(s->o.houseID);
+	si = &g_structureInfo[s->o.type];
+
+	h->credits -= min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
+
+	if (s->o.houseID != g_global->playerHouseID) h->credits += si->buildCredits + (g_global->campaignID > 7 ? si->buildCredits / 2 : 0);
+
+	if (s->o.type != STRUCTURE_WINDTRAP) return;
+
+	h->windtrapCount--;
+}
+
+/**
  * Damage the structure, and bring the surrounding to an explosion if needed.
  *
  * @param s The structure to damage.
@@ -1209,7 +1273,6 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 	}
 
 	if (s->o.hitpoints == 0) {
-		csip32 scsip;
 		uint16 score;
 
 		score = si->buildCredits / 100;
@@ -1223,13 +1286,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 			g_global->scenario.score += score;
 		}
 
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		scsip = g_global->structureStartPos;
-		scsip.s.ip += s->o.index * sizeof(Structure);
-
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x12E8); f__0C3A_0E35_0013_A551();
-		emu_sp += 4;
+		Structure_Destroy(s);
 
 		if (g_global->playerHouseID == s->o.houseID) {
 			uint16 locdi;
@@ -1463,4 +1520,78 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 	}
 
 	return bestPacked;
+}
+
+void Structure_0C3A_1002(Structure *s)
+{
+	uint16 packed;
+	StructureInfo *si;
+	uint16 i;
+	House *h;
+
+	if (s == NULL) return;
+
+	si = &g_structureInfo[s->o.type];
+	packed = Tile_PackTile(s->o.position);
+
+	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+		Tile *t;
+		uint16 curPacked = packed + g_global->layoutTiles[si->layout][i];
+
+		emu_push(curPacked);
+		emu_push(emu_cs); emu_push(0x107B); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
+		emu_sp += 2;
+
+		t = Map_GetTileByPosition(curPacked);
+		t->hasStructure = false;
+
+		if (g_global->debugScenario == 0) continue;
+
+		t->groundSpriteID = g_map[curPacked] & 0x1FF;
+		t->overlaySpriteID = 0;
+	}
+
+	if (g_global->debugScenario == 0) {
+		emu_push(si->variable_3C);
+		emu_push(s->o.houseID);
+		emu_push(si->layout);
+		emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
+		emu_push(0x2C6F); emu_push(0);
+		emu_push(emu_cs); emu_push(0x110D); emu_cs = 0x151A; f__151A_000E_0013_5840();
+		emu_sp += 14;
+	}
+
+	h = House_Get_ByIndex(s->o.houseID);
+
+	for (i = 0; i < 5; i++) {
+		if (h->ai_structureRebuild[i * 2] != 0) continue;
+		h->ai_structureRebuild[i * 2] = s->o.type;
+		h->ai_structureRebuild[i * 2 + 1] = packed;
+		break;
+	}
+
+	Structure_Free(s);
+	Structure_UntargetMe(s);
+
+	h->structuresBuilt = Structure_GetStructuresBuilt(h);
+
+	emu_push(s->o.houseID);
+	emu_push(emu_cs); emu_push(0x11D1); emu_cs = 0x1423; f__1423_0DC3_0029_D1E2();
+	emu_sp += 2;
+
+	if (g_global->debugScenario != 0) return;
+
+	switch (s->o.type) {
+		case STRUCTURE_WINDTRAP:
+			Structure_CalculatePowerAndCredit(h);
+			break;
+
+		case STRUCTURE_OUTPOST:
+			emu_push(s->o.houseID);
+			emu_push(emu_cs); emu_push(0x120C); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_0D74_0020_7CC1();
+			emu_sp += 2;
+			break;
+
+		default: break;
+	}
 }

@@ -91,7 +91,8 @@ typedef struct StructureInfo {
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
-	/* 003C()    */ PACK uint8   unknown_003C[0x001E];
+	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
+	/* 003E()    */ PACK uint8   unknown_003E[0x001C];
 	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END
@@ -121,6 +122,7 @@ extern bool Structure_ConnectWall(uint16 position, bool recurse);
 extern struct Unit *Structure_GetLinkedUnit(Structure *s);
 extern void Structure_UntargetMe(Structure *s);
 extern uint16 Structure_0C3A_247A(Structure *s, bool checkDistance);
+extern void Structure_0C3A_1002(Structure *s);
 
 
 extern void emu_Structure_Create();

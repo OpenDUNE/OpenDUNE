@@ -21,7 +21,6 @@
 #include "../gui/gui.h"
 #include "../sprites.h"
 
-extern void f__0C3A_1002_0013_651A();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
@@ -627,9 +626,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	layout = g_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
-	emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x15CD); emu_cs = 0x0C3A; f__0C3A_1002_0013_651A();
-	emu_sp += 4;
+	Structure_0C3A_1002(s);
 
 	for (i = 0; i < g_global->layoutTileCount[layout]; i++) {
 		tile32 tile;
