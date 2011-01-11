@@ -30,7 +30,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_08E7_002B_DC75();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -279,13 +278,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			if (u2->variable_5A.tile != 0) {
 				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->variable_5A), IT_TILE);
 			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_global->playerHouseID) {
-				emu_push(Unit_GetHouseID(u));
-				emu_push(20);
-				emu_push(Tile_PackTile(u->o.position));
-				emu_push(emu_cs); emu_push(0x0D24); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
-				emu_sp += 6;
-
-				u->targetMove = Tools_Index_Encode(emu_ax, IT_TILE);
+				u->targetMove = Tools_Index_Encode(Map_B4CD_08E7(Tile_PackTile(u->o.position), 20), IT_TILE);
 			}
 
 			Unit_B4CD_01BF(2, u);
@@ -353,13 +346,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			if (u2->o.type != UNIT_HARVESTER) return 0;
 
-			emu_push(Unit_GetHouseID(u2));
-			emu_push(2);
-			emu_push(Tile_PackTile(u2->o.position));
-			emu_push(emu_cs); emu_push(0x0F72); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
-			emu_sp += 6;
-
-			if (emu_ax == 0) {
+			if (Map_B4CD_08E7(Tile_PackTile(u2->o.position), 2) == 0) {
 				u2->variable_5E.tile = 0;
 				u2->variable_5A.tile = 0;
 			}

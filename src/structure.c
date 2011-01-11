@@ -31,7 +31,6 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0F1A_0088_7622();
 extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
-extern void f__B4CD_08E7_002B_DC75();
 extern void f__B4CD_0D74_0020_7CC1();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -1424,17 +1423,7 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 	si = &g_structureInfo[s->o.type];
 	packed = Tile_PackTile(Tile_Center(s->o.position));
 
-	loc0C = 0;
-
-	if (checkDistance) {
-		emu_push(s->o.houseID);
-		emu_push(10);
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x24F9); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
-		emu_sp += 6;
-		loc0C = emu_ax;
-	}
-
+	loc0C = (checkDistance) ? Map_B4CD_08E7(packed, 10) : 0;
 	bestPacked = 0;
 	bestDistance = 0;
 	i = Tools_Random_256() & 0xF;

@@ -16,10 +16,10 @@
 #include "../tools.h"
 #include "../unit.h"
 #include "../gui/gui.h"
+#include "../map.h"
 
 extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_08E7_002B_DC75();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -347,18 +347,15 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 {
 	uint8 houseID;
 	tile32 position;
+	uint16 packed;
 
 	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
 	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
 
-	emu_push(houseID);
-	emu_push(script->stack[script->stackPointer]);
-	emu_push(Tile_PackTile(position));
-	emu_push(emu_cs); emu_push(0x0490); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_08E7_002B_DC75();
-	emu_sp += 6;
+	packed = Map_B4CD_08E7(Tile_PackTile(position), script->stack[script->stackPointer]);
 
-	if (emu_ax == 0) return 0;
-	return Tools_Index_Encode(emu_ax, IT_TILE);
+	if (packed == 0) return 0;
+	return Tools_Index_Encode(packed, IT_TILE);
 }
 
 /**

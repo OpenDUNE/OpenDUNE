@@ -1480,3 +1480,70 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_cs
 		if (loc12.tile == 0) break;
 	}
 }
+
+uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
+{
+	uint16 radius1;
+	uint16 radius2;
+	uint16 packed1;
+	uint16 packed2;
+	uint16 xmin;
+	uint16 xmax;
+	uint16 ymin;
+	uint16 ymax;
+	MapInfo *mapInfo;
+	uint16 x;
+	uint16 y;
+	bool found;
+
+	radius1 = radius + 1;
+	radius2 = radius + 1;
+	packed1 = packed;
+	packed2 = packed;
+
+	found = false;
+
+	mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
+
+	xmin = max(Tile_GetPackedX(packed) - radius, mapInfo->minX);
+	xmax = max(Tile_GetPackedX(packed) + radius, mapInfo->minX + mapInfo->sizeX - 1);
+	ymin = max(Tile_GetPackedY(packed) - radius, mapInfo->minY);
+	ymax = min(Tile_GetPackedY(packed) + radius, mapInfo->minY + mapInfo->sizeY - 1);
+
+	for (y = ymin; y <= ymax; y++) {
+		for (x = xmin; x <= xmax; x++) {
+			uint16 curPacked = Tile_PackXY(x, y);
+			uint16 type;
+			uint16 distance;
+
+			if (!Map_IsValidPosition(curPacked)) continue;
+			if (Map_GetTileByPosition(curPacked)->hasStructure) continue;
+			if (Unit_Get_ByPackedTile(curPacked) != NULL) continue;
+
+			type = Map_B4CD_0750(curPacked);
+			distance = Tile_GetDistancePacked(curPacked, packed);
+
+			if (type == 0x9 && distance < 4) {
+				found = true;
+
+				if (distance <= radius2) {
+					radius2 = distance;
+					packed2 = curPacked;
+				}
+			}
+
+			if (type == 0x8) {
+				found = true;
+
+				if (distance <= radius1) {
+					radius1 = distance;
+					packed1 = curPacked;
+				}
+			}
+		}
+	}
+
+	if (!found) return 0;
+
+	return (radius2 <= radius) ? packed2 : packed1;
+}

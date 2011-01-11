@@ -66,6 +66,8 @@ extern void Map_SetViewportPosition(uint16 packed);
 extern void Map_B4CD_160C(uint16 packed, uint8 houseID);
 extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
 extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, csip32 function_csip);
+extern uint16 Map_B4CD_08E7(uint16 packed, uint16 radius);
+
 
 extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();
