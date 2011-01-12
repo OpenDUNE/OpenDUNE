@@ -24,12 +24,11 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 #include "sprites.h"
+#include "gui/widget.h"
 
 extern void f__0C3A_0B93_0034_3B6D();
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__0C3A_1E67_0011_E44A();
-extern void f__0C3A_2714_0015_B6F6();
-extern void f__0C3A_2814_0015_76F0();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_0F1A_0088_7622();
@@ -43,6 +42,7 @@ extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
+extern void f__B48B_01CE_002B_7574();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -332,11 +332,9 @@ void GameLoop_Structure()
 				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_global->playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->o.hitpoints < si->o.hitpoints / 2) {
-						emu_push(0); emu_push(0);
-						emu_push(1);
-						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-						emu_push(emu_cs); emu_push(0x08EA); emu_cs = 0x0C3A; f__0C3A_2814_0015_76F0();
-						emu_sp += 10;
+						csip32 csip;
+						csip.csip = 0x0;
+						Structure_SetRepairingState(s, 1, NULL, csip);
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
@@ -1605,19 +1603,16 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	h = House_Get_ByIndex(s->o.houseID);
 
-	emu_push(0); emu_push(0);
-	emu_push(0);
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-	emu_push(emu_cs); emu_push(0x149F); emu_cs = 0x0C3A; f__0C3A_2814_0015_76F0();
-	emu_sp += 10;
+	{
+		csip32 csip;
+		csip.csip = 0x0;
+		Structure_SetRepairingState(s, 0, NULL, csip);
+	}
 
 	if (objectType == 0xFFFD) {
-		emu_push(0); emu_push(0);
-		emu_push(1);
-		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-		emu_push(emu_cs); emu_push(0x182E); emu_cs = 0xC3A; f__0C3A_2714_0015_B6F6();
-		emu_sp += 10;
-
+		csip32 csip;
+		csip.csip = 0x0;
+		Structure_SetUpgradingState(s, 1, NULL, csip);
 		return false;
 	}
 
@@ -1661,15 +1656,14 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				uint8 linkedID = 0xFF;
 				int16 loc60[UNIT_MAX];
 				Unit *u;
+				bool loop = true;
 
 				memset(loc60, 0, UNIT_MAX * 2);
 
-				emu_si = 0x1;
-
-				while (emu_si != 0) {
+				while (loop) {
 					uint8 i;
 
-					emu_si = 0;
+					loop = false;
 
 					for (i = 0; i < UNIT_MAX; i++) {
 						int16 loc2A = g_global->starportAvailable[i];
@@ -1693,7 +1687,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						g_global->variable_38BC--;
 
 						if (u != NULL) {
-							emu_si = 1;
+							loop = true;
 							u->o.linkedID = linkedID;
 							linkedID = u->o.index & 0xFF;
 							loc60[i]++;
@@ -1764,12 +1758,9 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			if (loc1E == 0) return false;
 
 			if (loc1E == 2) {
-				emu_push(0); emu_push(0);
-				emu_push(1);
-				emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-				emu_push(emu_cs); emu_push(0x182E); emu_cs = 0x0C3A; f__0C3A_2714_0015_B6F6();
-				emu_sp += 10;
-
+				csip32 csip;
+				csip.csip = 0x0;
+				Structure_SetUpgradingState(s, 1, NULL, csip);
 				return false;
 			}
 
@@ -1893,4 +1884,103 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 	GUI_DisplayText(String_Get_ByIndex(0x88), 2);
 
 	return false;
+}
+
+/**
+ * Sets or toggle the upgrading state of the given Structure.
+ *
+ * @param s The Structure.
+ * @param value The upgrading state, -1 to toggle.
+ * @param w The widget.
+ * @return True if and only if the state changed.
+ */
+bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w, csip32 wcsip)
+{
+	bool ret = false;
+
+	if (s == NULL) return false;
+
+	if (state == -1) state = s->o.flags.s.upgrading ? 0 : 1;
+
+	if (state == 0 && s->o.flags.s.upgrading) {
+		if (s->o.houseID == g_global->playerHouseID) {
+			/* "Upgrading stops." */
+			GUI_DisplayText(String_Get_ByIndex(0x8C), 2);
+		}
+
+		s->o.flags.s.upgrading = false;
+		s->o.flags.s.onHold = false;
+
+		GUI_Widget_Update(w, false, wcsip);
+
+		ret = true;
+	}
+
+	if (state == 0 || s->o.flags.s.upgrading || s->upgradeTimeLeft == 0) return ret;
+
+	if (s->o.houseID == g_global->playerHouseID) {
+		/* "Upgrading starts." */
+		GUI_DisplayText(String_Get_ByIndex(0x8D), 2);
+	}
+
+	s->o.flags.s.onHold = true;
+	s->o.flags.s.repairing = false;
+	s->o.flags.s.upgrading = true;
+
+	emu_push(0);
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x2805); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
+	emu_sp += 6;
+
+	return true;
+}
+
+/**
+ * Sets or toggle the repairing state of the given Structure.
+ *
+ * @param s The Structure.
+ * @param value The repairing state, -1 to toggle.
+ * @param w The widget.
+ * @return True if and only if the state changed.
+ */
+bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w, csip32 wcsip)
+{
+	bool ret = false;
+
+	if (s == NULL) return false;
+
+	if (!s->o.flags.s.allocated) state = 0;
+
+	if (state == -1) state = s->o.flags.s.repairing ? 0 : 1;
+
+	if (state == 0 && s->o.flags.s.repairing) {
+		if (s->o.houseID == g_global->playerHouseID) {
+			/* "Repairing stops." */
+			GUI_DisplayText(String_Get_ByIndex(0x8A), 2);
+		}
+
+		s->o.flags.s.repairing = false;
+		s->o.flags.s.onHold = false;
+
+		GUI_Widget_Update(w, false, wcsip);
+
+		ret = true;
+	}
+
+	if (state == 0 || s->o.flags.s.repairing || s->o.hitpoints == g_structureInfo[s->o.type].o.hitpoints) return ret;
+
+	if (s->o.houseID == g_global->playerHouseID) {
+		/* "Repairing starts." */
+		GUI_DisplayText(String_Get_ByIndex(0x8B), 2);
+	}
+
+	s->o.flags.s.onHold = true;
+	s->o.flags.s.repairing = true;
+
+	emu_push(0);
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x291A); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
+	emu_sp += 6;
+
+	return true;
 }
