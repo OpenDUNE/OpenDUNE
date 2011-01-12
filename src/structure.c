@@ -26,9 +26,7 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__0C3A_0B93_0034_3B6D();
 extern void f__0C3A_1B79_0021_8C40();
-extern void f__0C3A_1E67_0011_E44A();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
 extern void f__10E4_0F1A_0088_7622();
@@ -1198,7 +1196,6 @@ static void Structure_Destroy(Structure *s)
 
 	Script_Reset(&s->o.script, &g_global->scriptStructure);
 	Script_Load(&s->o.script, s->o.type);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
 
 	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
 	emu_push(0x2C);
@@ -1580,6 +1577,65 @@ void Structure_0C3A_1002(Structure *s)
 	}
 }
 
+static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
+{
+	StructureInfo *si;
+	uint16 tileCount;
+	uint16 i;
+
+	si = &g_structureInfo[objectType];
+
+	tileCount = g_global->layoutTileCount[si->layout];
+
+	if (objectType == STRUCTURE_SLAB_1x1 || objectType == STRUCTURE_SLAB_2x2) return true;
+
+	for (i = 0; i < 4096; i++) {
+		bool stop = true;
+		uint16 j;
+
+		for (j = 0; j < tileCount; j++) {
+			uint16 packed = i + g_global->layoutTiles[si->layout][j];
+
+			if (Map_B4CD_0750(packed) == 0xA && Map_GetTileByPosition(packed)->houseID == houseID) continue;
+
+			stop = false;
+			break;
+		}
+
+		if (stop) return true;
+	}
+
+	return false;
+}
+
+/**
+ * Cancel the building of object for given structure.
+ *
+ * @param s The Structure.
+ */
+static void Structure_CancelBuild(Structure *s)
+{
+	ObjectInfo *oi;
+
+	if (s == NULL || s->o.linkedID == 0xFF) return;
+
+	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+		Structure *s2 = Structure_Get_ByIndex(s->o.linkedID);
+		oi = &g_structureInfo[s2->o.type].o;
+		Structure_Free(s2);
+	} else {
+		Unit *u = Unit_Get_ByIndex(s->o.linkedID);
+		oi = &g_unitInfo[u->o.type].o;
+		Unit_Free(u);
+	}
+
+	House_Get_ByIndex(s->o.houseID)->credits += ((oi->buildTime - (s->countDown >> 8)) * 256 / oi->buildTime) * oi->buildCredits / 256;
+
+	s->o.flags.s.onHold = false;
+	s->countDown = 0;
+	s->o.linkedID = 0xFF;
+}
+
 /**
  * Make the given Structure build an object.
  *
@@ -1775,19 +1831,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					objectType = ((uint16 *)g_global->variable_8BEA[i])[0];
 
 					if (s->o.type != STRUCTURE_STARPORT) {
-						emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-						emu_push(emu_cs); emu_push(0x187C); emu_cs = 0x0C3A; f__0C3A_1E67_0011_E44A();
-						emu_sp += 4;
+						Structure_CancelBuild(s);
 
 						s->objectType = objectType;
 
 						if (g_global->variable_8BE8 != 1) continue;
 
-						emu_push(s->o.houseID);
-						emu_push(objectType);
-						emu_push(emu_cs); emu_push(0x189A); emu_cs = 0x0C3A; f__0C3A_0B93_0034_3B6D();
-						emu_sp += 4;
-						if (emu_ax != 0) continue;
+						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
 
 						emu_push(g_structureInfo[objectType].o.spriteID);
 						emu_push(0x14);
@@ -1840,11 +1890,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	if (s->o.type == STRUCTURE_STARPORT) return true;
 
-	if (s->objectType != objectType) {
-		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-		emu_push(emu_cs); emu_push(0x1A0C); emu_cs = 0x0C3A; f__0C3A_1E67_0011_E44A();
-		emu_sp += 4;
-	}
+	if (s->objectType != objectType) Structure_CancelBuild(s);
 
 	if (s->o.linkedID != 0xFF || objectType == 0xFFFF) return false;
 
