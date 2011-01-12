@@ -211,11 +211,11 @@ extern uint16 Unit_IsValidMovementIntoStructure(Unit *unit, struct Structure *s)
 extern void Unit_SetDestination(Unit *u, uint16 destination);
 extern bool Unit_Save(FILE *fp);
 extern bool Unit_Load(FILE *fp, uint32 length);
-extern uint16 Unit_GetTargetPriority(Unit *unit, Unit *target);
+extern uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target);
 extern uint16 Unit_FindClosestRefinery(Unit *unit);
 extern bool Unit_SetPosition(Unit *u, tile32 position);
 extern void Unit_Unknown10EC(Unit *u);
-extern Unit *Unit_FindBestTarget(Unit *u, uint16 mode);
+extern Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode);
 extern Unit *Unit_Unknown15F4(Unit *unit);
 extern bool Unit_Unknown167C(Unit *unit);
 extern void Unit_SetTarget(Unit* unit, uint16 encoded);
@@ -242,6 +242,7 @@ extern bool Unit_Unknown379B(Unit *unit);
 extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
 extern void Unit_B4CD_048E(Unit *unit, uint16 packed);
+extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
 
 
 extern void emu_Unit_GetHouseID();

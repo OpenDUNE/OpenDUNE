@@ -21,7 +21,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__0C3A_2207_001D_EDF2();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1319_002D_0023_320C();
@@ -106,17 +105,12 @@ uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
 	encoded = script->stack[script->stackPointer];
 
 	target = Tools_Index_GetUnit(encoded);
-	if (target != NULL) return Unit_GetTargetPriority(u, target);
+	if (target != NULL) return Unit_GetTargetUnitPriority(u, target);
 
 	s = Tools_Index_GetStructure(encoded);
 	if (s == NULL) return 0;
 
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x084F); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
-	emu_sp += 8;
-
-	return emu_ax;
+	return Unit_GetTargetStructurePriority(u, s);
 }
 
 /**

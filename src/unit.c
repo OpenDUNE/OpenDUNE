@@ -27,8 +27,6 @@
 #include "gui/gui.h"
 #include "sprites.h"
 
-extern void f__0C3A_2207_001D_EDF2();
-extern void f__0C3A_22CD_0029_8F46();
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
@@ -847,14 +845,14 @@ bool Unit_Load(FILE *fp, uint32 length)
 }
 
 /**
- * Get the priority a target has for a given unit. The higher the value,
+ * Get the priority a target unit has for a given unit. The higher the value,
  *  the more serious it should look at the target.
  *
  * @param unit The unit looking at a target.
  * @param target The unit to look at.
  * @return The priority of the target.
  */
-uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
+uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
 {
 	UnitInfo *targetInfo;
 	UnitInfo *unitInfo;
@@ -1045,13 +1043,13 @@ void Unit_Unknown10EC(Unit *u)
 }
 
 /**
- * Gets the best target for the given unit.
+ * Gets the best target unit for the given unit.
  *
  * @param u The Unit to get the best target for.
  * @param mode How to determine the best target.
  * @return The best target or NULL if none found.
  */
-Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
+Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 {
 	tile32 position;
 	uint16 distance;
@@ -1094,7 +1092,7 @@ Unit *Unit_FindBestTarget(Unit *u, uint16 mode)
 			}
 		}
 
-		priority = Unit_GetTargetPriority(u, target);
+		priority = Unit_GetTargetUnitPriority(u, target);
 
 		if ((int16)priority > (int16)priorityMax) {
 			targetBest = target;
@@ -2526,6 +2524,62 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 }
 
 /**
+ * Gets the best target structure for the given unit.
+ *
+ * @param unit The Unit to get the best target for.
+ * @param mode How to determine the best target.
+ * @return The best target or NULL if none found.
+ */
+static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
+{
+	Structure *best = NULL;
+	uint16 bestPriority = 0;
+	tile32 position;
+	uint16 variable_50;
+	PoolFindStruct find;
+
+	if (unit == NULL) return NULL;
+
+	position = Tools_Index_GetTile(unit->originEncoded);
+	variable_50 = g_unitInfo[unit->o.type].variable_50 << 8;
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+		tile32 curPosition;
+		uint16 priority;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		curPosition.tile = s->o.position.tile + g_global->layoutTileDiff[g_structureInfo[s->o.type].layout].tile;
+
+		if (mode != 0 && mode != 4) {
+			if (mode == 1) {
+				if (Tile_GetDistance(unit->o.position, curPosition) > variable_50) continue;
+			} else {
+				if (mode != 2) continue;
+				if (Tile_GetDistance(position, curPosition) > variable_50 * 2) continue;
+			}
+		}
+
+		priority = Unit_GetTargetStructurePriority(unit, s);
+
+		if (priority >= bestPriority) {
+			best = s;
+			bestPriority = priority;
+		}
+	}
+
+	if (bestPriority == 0) best = NULL;
+
+	return best;
+}
+
+/**
  * Gets the best target for the given unit.
  *
  * @param unit The Unit to get the best target for.
@@ -2535,64 +2589,43 @@ uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 {
 	csip32 ucsip;
-	csip32 scsip;
+	Structure *s;
 	Unit *target;
 
 	if (unit == NULL) return 0;
 
-	scsip.csip = 0x0;
+	s = NULL;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
 	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	if (mode == 4) {
-		emu_push(mode);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x3541); emu_cs = 0x0C3A; f__0C3A_22CD_0029_8F46();
-		emu_sp += 6;
+		s = Unit_FindBestTargetStructure(unit, mode);
 
-		scsip.s.cs = emu_dx;
-		scsip.s.ip = emu_ax;
+		if (s != NULL) return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
-		if (scsip.csip != 0x0) {
-			return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
-		}
-
-		target = Unit_FindBestTarget(unit, mode);
+		target = Unit_FindBestTargetUnit(unit, mode);
 
 		if (target == NULL) return 0;
 		return Tools_Index_Encode(target->o.index, IT_UNIT);
 	}
 
-	target = Unit_FindBestTarget(unit, mode);
+	target = Unit_FindBestTargetUnit(unit, mode);
 
-	if (unit->o.type != UNIT_DEVIATOR) {
-		emu_push(mode);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x35A7); emu_cs = 0x0C3A; f__0C3A_22CD_0029_8F46();
-		emu_sp += 6;
+	if (unit->o.type != UNIT_DEVIATOR) s = Unit_FindBestTargetStructure(unit, mode);
 
-		scsip.s.cs = emu_dx;
-		scsip.s.ip = emu_ax;
-	}
-
-	if (target != NULL && scsip.csip != 0x0) {
+	if (target != NULL && s != NULL) {
 		uint16 priority;
 
-		priority = Unit_GetTargetPriority(unit, target);
+		priority = Unit_GetTargetUnitPriority(unit, target);
 
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x35E5); emu_cs = 0x0C3A; f__0C3A_2207_001D_EDF2();
-		emu_sp += 8;
-
-		if (emu_ax >= priority) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
+		if (Unit_GetTargetStructurePriority(unit, s) >= priority) return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 		return Tools_Index_Encode(target->o.index, IT_UNIT);
 	}
 
 	if (target != NULL) return Tools_Index_Encode(target->o.index, IT_UNIT);
-	if (scsip.csip != 0x0) return Tools_Index_Encode(Structure_Get_ByMemory(scsip)->o.index, IT_STRUCTURE);
+	if (s != NULL) return Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
 	return 0;
 }
@@ -2746,4 +2779,32 @@ void Unit_B4CD_048E(Unit *unit, uint16 packed)
 	emu_sp += 2;
 
 	Map_Update(packed, 1, false);
+}
+
+/**
+ * Get the priority a target structure has for a given unit. The higher the value,
+ *  the more serious it should look at the target.
+ *
+ * @param unit The unit looking at a target.
+ * @param target The structure to look at.
+ * @return The priority of the target.
+ */
+uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
+{
+	StructureInfo *si;
+	uint16 priority;
+	uint16 distance;
+
+	if (unit == NULL || target == NULL) return 0;
+
+	if (House_AreAllied(Unit_GetHouseID(unit), target->o.houseID)) return 0;
+
+	if ((target->o.variable_09 & (1 << unit->o.houseID)) == 0) return 0;
+
+	si = &g_structureInfo[target->o.type];
+	priority = si->o.priorityBuild + si->o.priorityTarget;
+	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
+	if (distance != 0) priority /= distance;
+
+	return min(priority, 32000);
 }
