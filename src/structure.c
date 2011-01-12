@@ -1837,7 +1837,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					g_global->starportAvailable[objectType]--;
 
-					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = 0xFFFF;
+					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = -1;
 
 					g_global->variable_8BEA[i][2]--;
 					if (g_global->variable_8BEA[i][2] != 0) i--;
