@@ -1654,72 +1654,72 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				s->objectType = i;
 				return false;
 			}
-		}
+		} else {
+			g_global->variable_8BE8 = 0;
 
-		g_global->variable_8BE8 = 0;
+			if (s->o.type == STRUCTURE_STARPORT) {
+				uint8 linkedID = 0xFF;
+				int16 loc60[UNIT_MAX];
+				Unit *u;
 
-		if (s->o.type == STRUCTURE_STARPORT) {
-			uint8 linkedID = 0xFF;
-			int16 loc60[UNIT_MAX];
-			Unit *u;
+				memset(loc60, 0, UNIT_MAX * 2);
 
-			memset(loc60, 0, UNIT_MAX * 2);
+				emu_si = 0x1;
 
-			emu_si = 0x1;
+				while (emu_si != 0) {
+					uint8 i;
 
-			while (emu_si != 0) {
+					emu_si = 0;
+
+					for (i = 0; i < UNIT_MAX; i++) {
+						int16 loc2A = g_global->starportAvailable[i];
+
+						if (loc2A == 0) {
+							g_unitInfo[i].variable_2A = 0;
+							continue;
+						}
+
+						if (loc2A < 0) {
+							g_unitInfo[i].variable_2A = 0xFF;
+							continue;
+						}
+
+						if (loc60[i] >= loc2A) continue;
+
+						g_global->variable_38BC++;
+
+						u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
+
+						g_global->variable_38BC--;
+
+						if (u != NULL) {
+							emu_si = 1;
+							u->o.linkedID = linkedID;
+							linkedID = u->o.index & 0xFF;
+							loc60[i]++;
+							g_unitInfo[i].variable_2A = loc60[i] & 0xFF;
+							continue;
+						}
+
+						if (loc60[i] == 0) g_unitInfo[i].variable_2A = 0xFF;
+					}
+				}
+
+				while (linkedID != 0xFF) {
+					u = Unit_Get_ByIndex(linkedID);
+					linkedID = u->o.linkedID;
+					Unit_Free(u);
+				}
+			} else {
 				uint8 i;
 
-				emu_si = 0;
-
 				for (i = 0; i < UNIT_MAX; i++) {
-					int16 loc2A = g_global->starportAvailable[i];
-
-					if (loc2A == 0) {
-						g_unitInfo[i].variable_2A = 0;
-						continue;
-					}
-
-					if (loc2A < 0) {
-						g_unitInfo[i].variable_2A = 0xFF;
-						continue;
-					}
-
-					if (loc60[i] >= loc2A) continue;
-
-					g_global->variable_38BC++;
-
-					u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
-
-					g_global->variable_38BC--;
-
-					if (u != NULL) {
-						emu_si = 1;
-						u->o.linkedID = linkedID;
-						linkedID = u->o.index & 0xFF;
-						loc60[i]++;
-						g_unitInfo[i].variable_2A = loc60[i] & 0xFF;
-						continue;
-					}
-
-					if (loc60[i] == 0) g_unitInfo[i].variable_2A = 0xFF;
+					if ((loc22 & (1 << i)) == 0) continue;
+					g_unitInfo[i].variable_2A = 1;
+					if (objectType != 0xFFFE) continue;
+					s->objectType = i;
+					return false;
 				}
-			}
-
-			while (linkedID != 0xFF) {
-				u = Unit_Get_ByIndex(linkedID);
-				linkedID = u->o.linkedID;
-				Unit_Free(u);
-			}
-		} else {
-			uint8 i;
-
-			for (i = 0; i < UNIT_MAX; i++) {
-				if ((loc22 & (1 << i)) == 0) continue;
-				g_unitInfo[i].variable_2A = 1;
-				if (objectType != 0xFFFE) continue;
-				s->objectType = i;
-				return false;
 			}
 		}
 
@@ -1728,7 +1728,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_UnloadTiles();
 
-			memmove(g_global->variable_70A2, emu_get_memorycsip(g_global->variable_3C32), 768);
+			memmove(emu_get_memorycsip(g_global->variable_3C32), g_global->variable_70A2, 768);
 
 			emu_push(0);
 			emu_push(emu_cs); emu_push(0x179D); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
