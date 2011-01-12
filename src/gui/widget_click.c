@@ -237,7 +237,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	u = Unit_Get_ByMemory(g_global->selectionUnit);
 	ui = &g_unitInfo[u->o.type];
 
-	actions = ui->actionsPlayer;
+	actions = ui->o.actionsPlayer;
 	acsip.s.cs = 0x2D07;
 	acsip.s.ip = u->o.type * sizeof(UnitInfo) + 0x22;
 

@@ -103,7 +103,7 @@ void Map_SetSelection(uint16 packed)
 			si = &g_structureInfo[s->o.type];
 			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
 				emu_push(si->o.spriteID);
-				emu_push(si->variable_2B);
+				emu_push(si->o.variable_2B);
 				emu_push(emu_cs); emu_push(0x038B); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 				emu_sp += 4;
 			}
@@ -803,7 +803,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			if (type == 2) {
 				StructureInfo *si = &g_structureInfo[s->o.type];
 
-				if ((si->variable_1A >> 1) > s->o.hitpoints) {
+				if ((si->o.variable_1A >> 1) > s->o.hitpoints) {
 					type = 15;
 				}
 			}

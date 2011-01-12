@@ -962,7 +962,7 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
-	Unit_SetAction(u, g_unitInfo[u->o.type].actionsPlayer[3]);
+	Unit_SetAction(u, g_unitInfo[u->o.type].o.actionsPlayer[3]);
 
 	return 0;
 }

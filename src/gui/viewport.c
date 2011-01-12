@@ -242,7 +242,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			g_global->variable_38EC        = 0;
 
 			emu_push(si->o.spriteID);
-			emu_push(si->variable_2B);
+			emu_push(si->o.variable_2B);
 			emu_push(emu_cs); emu_push(0x0650); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 			emu_sp += 4;
 

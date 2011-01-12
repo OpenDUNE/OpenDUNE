@@ -495,7 +495,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 
 	Unit_B4CD_01BF(1, u);
 
-	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->actionsPlayer[3] : ui->actionAI);
+	Unit_SetAction(u, (houseID == g_global->playerHouseID) ? ui->o.actionsPlayer[3] : ui->actionAI);
 
 	return u;
 }
@@ -887,7 +887,7 @@ uint16 Unit_GetTargetPriority(Unit *unit, Unit *target)
 		if (targetInfo->variable_50 >= distance) return 0;
 	}
 
-	priority = targetInfo->priorityTarget + targetInfo->priorityBuild;
+	priority = targetInfo->o.priorityTarget + targetInfo->o.priorityBuild;
 	if (distance != 0) priority = (priority / distance) + 1;
 
 	if (priority > 0x7D00) return 0x7D00;
@@ -998,7 +998,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	if (u->o.houseID != g_global->playerHouseID || u->o.type == UNIT_HARVESTER || u->o.type == UNIT_SABOTEUR) {
 		Unit_SetAction(u, ui->actionAI);
 	} else {
-		Unit_SetAction(u, ui->actionsPlayer[3]);
+		Unit_SetAction(u, ui->o.actionsPlayer[3]);
 	}
 
 	u->variable_6D = 0;
@@ -1348,7 +1348,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 
 	unit->o.flags.s.variable_4_0040 = false;
 	if (unit->o.houseID == g_global->playerHouseID) {
-		Unit_SetAction(unit, ui->actionsPlayer[3]);
+		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
 	} else {
 		Unit_SetAction(unit, ui->actionAI);
 	}
@@ -1413,7 +1413,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 	Unit_B4CD_01BF(2, unit);
 
 	if (g_global->playerHouseID == HOUSE_ORDOS) {
-		Unit_SetAction(unit, ui->actionsPlayer[3]);
+		Unit_SetAction(unit, ui->o.actionsPlayer[3]);
 	} else {
 		Unit_SetAction(unit, ui->actionAI);
 	}
@@ -1895,7 +1895,7 @@ void Unit_Select(Unit *unit)
 		emu_sp += 2;
 
 		emu_push(ui->o.spriteID);
-		emu_push(ui->variable_2B);
+		emu_push(ui->o.variable_2B);
 		emu_push(emu_cs); emu_push(0x1050); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
 		emu_sp += 4;
 	}

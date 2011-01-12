@@ -1332,7 +1332,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		score += g_structureInfo[s->o.type].variable_20 / 100;
+		score += g_structureInfo[s->o.type].o.variable_20 / 100;
 	}
 
 	g_global->variable_38BC++;

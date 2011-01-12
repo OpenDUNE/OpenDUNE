@@ -147,14 +147,7 @@ MSVC_PACKED_BEGIN
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000(26)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
-	/* 001A()    */ PACK uint8   unknown_001A[0x0008];
-	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
-	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? */
-	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
-	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
-	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
-	/* 0031()    */ PACK uint8   unknown_0031[0x0001];
+	/* 0000(50)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
 	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */

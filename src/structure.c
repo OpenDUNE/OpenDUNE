@@ -1324,7 +1324,7 @@ bool Structure_IsUpgradable(Structure *s)
 		if (s->upgradeLevel != 1) return true;
 
 		h = House_Get_ByIndex(s->o.houseID);
-		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].variable_1C) == g_structureInfo[STRUCTURE_ROCKET_TURRET].variable_1C) return true;
+		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].o.variable_1C) == g_structureInfo[STRUCTURE_ROCKET_TURRET].o.variable_1C) return true;
 
 		return false;
 	}
@@ -1700,7 +1700,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			for (i = 0; i < STRUCTURE_MAX; i++) {
 				if ((loc22 & (1 << i)) == 0) continue;
-				g_structureInfo[i].variable_2A = 1;
+				g_structureInfo[i].o.variable_2A = 1;
 				if (objectType != 0xFFFE) continue;
 				s->objectType = i;
 				return false;
@@ -1725,12 +1725,12 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						int16 loc2A = g_global->starportAvailable[i];
 
 						if (loc2A == 0) {
-							g_unitInfo[i].variable_2A = 0;
+							g_unitInfo[i].o.variable_2A = 0;
 							continue;
 						}
 
 						if (loc2A < 0) {
-							g_unitInfo[i].variable_2A = 0xFF;
+							g_unitInfo[i].o.variable_2A = 0xFF;
 							continue;
 						}
 
@@ -1747,11 +1747,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 							u->o.linkedID = linkedID;
 							linkedID = u->o.index & 0xFF;
 							loc60[i]++;
-							g_unitInfo[i].variable_2A = loc60[i] & 0xFF;
+							g_unitInfo[i].o.variable_2A = loc60[i] & 0xFF;
 							continue;
 						}
 
-						if (loc60[i] == 0) g_unitInfo[i].variable_2A = 0xFF;
+						if (loc60[i] == 0) g_unitInfo[i].o.variable_2A = 0xFF;
 					}
 				}
 
@@ -1765,7 +1765,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 				for (i = 0; i < UNIT_MAX; i++) {
 					if ((loc22 & (1 << i)) == 0) continue;
-					g_unitInfo[i].variable_2A = 1;
+					g_unitInfo[i].o.variable_2A = 1;
 					if (objectType != 0xFFFE) continue;
 					s->objectType = i;
 					return false;
