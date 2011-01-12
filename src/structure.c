@@ -188,17 +188,16 @@ void GameLoop_Structure()
 				}
 			} else {
 				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->o.flags.s.factory) {
-					UnitInfo *ui;
+					ObjectInfo *oi;
 					uint16 buildSpeed;
 					uint16 buildCost;
 
 					if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-						/* XXX -- This is not really pretty */
-						ui = (UnitInfo *)&g_structureInfo[s->objectType];
+						oi = &g_structureInfo[s->objectType].o;
 					} else if (s->o.type == STRUCTURE_REPAIR) {
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
+						oi = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type].o;
 					} else {
-						ui = &g_unitInfo[s->objectType];
+						oi = &g_unitInfo[s->objectType].o;
 					}
 
 					buildSpeed = 256;
@@ -211,7 +210,7 @@ void GameLoop_Structure()
 						if (buildSpeed > g_global->campaignID * 20 + 95) buildSpeed = g_global->campaignID * 20 + 95;
 					}
 
-					buildCost = ui->o.buildCredits * 256 / ui->o.buildTime;
+					buildCost = oi->buildCredits * 256 / oi->buildTime;
 
 					if (buildSpeed < 256) {
 						buildCost = buildSpeed * buildCost / 256;
@@ -241,7 +240,7 @@ void GameLoop_Structure()
 									if (s->o.type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
 									if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) stringID = 0x82; /* "is completed and ready to place." */
 
-									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(ui->o.stringID_full), String_Get_ByIndex(stringID));
+									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(oi->stringID_full), String_Get_ByIndex(stringID));
 
 									emu_push(0);
 									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
