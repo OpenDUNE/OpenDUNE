@@ -31,6 +31,7 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
+extern void f__B4CD_1019_0011_089E();
 extern void f__B4CD_1CDA_000C_C72C();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1546,4 +1547,123 @@ uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
 	if (!found) return 0;
 
 	return (radius2 <= radius) ? packed2 : packed1;
+}
+
+void Map_SelectNext(bool getNext)
+{
+	PoolFindStruct find;
+	Object *selected = NULL;
+	Object *previous = NULL;
+	Object *next = NULL;
+	Object *first = NULL;
+	Object *last = NULL;
+	bool hasPrevious = false;
+	bool hasNext = false;
+
+	if (g_global->selectionUnit.csip != 0) {
+		Unit *u;
+
+		u = Unit_Get_ByMemory(g_global->selectionUnit);
+
+		emu_push(Tile_PackTile(u->o.position));
+		emu_push(emu_cs); emu_push(0x081E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
+		emu_sp += 2;
+		if (emu_ax != 0) selected = &u->o;
+	} else {
+		Structure *s;
+
+		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+
+		emu_push(Tile_PackTile(s->o.position));
+		emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
+		emu_sp += 2;
+		if (emu_ax != 0) selected = &s->o;
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		if (!g_unitInfo[u->o.type].o.flags.s.tabSelectable) continue;
+
+		emu_push(Tile_PackTile(u->o.position));
+		emu_push(emu_cs); emu_push(0x08BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
+		emu_sp += 2;
+		if (emu_ax == 0) continue;
+
+		if ((u->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
+
+		if (first == NULL) first = &u->o;
+		last = &u->o;
+		if (selected == NULL) selected = &u->o;
+
+		if (selected == &u->o) {
+			hasPrevious = true;
+			continue;
+		}
+
+		if (!hasPrevious) {
+			previous = &u->o;
+			continue;
+		}
+
+		if (!hasNext) {
+			next = &u->o;
+			hasNext = true;
+		}
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		emu_push(Tile_PackTile(s->o.position));
+		emu_push(emu_cs); emu_push(0x0997); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
+		emu_sp += 2;
+		if (emu_ax == 0) continue;
+
+		if ((s->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
+
+		if (first == NULL) first = &s->o;
+		last = &s->o;
+		if (selected == NULL) selected = &s->o;
+
+		if (selected == &s->o) {
+			hasPrevious = true;
+			continue;
+		}
+
+		if (!hasPrevious) {
+			previous = &s->o;
+			continue;
+		}
+
+		if (!hasNext) {
+			next = &s->o;
+			hasNext = true;
+		}
+	}
+
+	if (previous == NULL) previous = last;
+	if (next == NULL) next = first;
+	if (previous == NULL) previous = next;
+	if (next == NULL) next = previous;
+
+	selected = getNext ? next : previous;
+
+	if (selected == NULL) return;
+
+	Map_SetSelection(Tile_PackTile(selected->position));
 }

@@ -75,7 +75,6 @@ extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_GUI_Widget_DrawBorder();
-extern void emu_InGame_Numpad_Move();
 extern void emu_Input_History_Clear();
 extern void emu_Terminate_Normal();
 extern void emu_Window_WidgetClick_Create();
@@ -998,6 +997,71 @@ static void Gameloop_IntroMenu()
 	return;
 }
 
+static void InGame_Numpad_Move(uint16 key)
+{
+	if (key == 0) return;
+
+	switch (key) {
+		case 0x0010: /* TAB */
+			Map_SelectNext(true);
+			return;
+
+		case 0x0110: /* SHIFT TAB */
+			Map_SelectNext(false);
+			return;
+
+		case 0x005C: /* NUMPAD 4 / ARROW LEFT */
+		case 0x045C:
+		case 0x055C:
+			Map_MoveDirection(6);
+			return;
+
+		case 0x0066: /* NUMPAD 6 / ARROW RIGHT */
+		case 0x0466:
+		case 0x0566:
+			Map_MoveDirection(2);
+			return;
+
+		case 0x0060: /* NUMPAD 8 / ARROW UP */
+		case 0x0460:
+		case 0x0560:
+			Map_MoveDirection(0);
+			return;
+
+		case 0x0062: /* NUMPAD 2 / ARROW DOWN */
+		case 0x0462:
+		case 0x0562:
+			Map_MoveDirection(4);
+			return;
+
+		case 0x005B: /* NUMPAD 7 / HOME */
+		case 0x045B:
+		case 0x055B:
+			Map_MoveDirection(7);
+			return;
+
+		case 0x005D: /* NUMPAD 1 / END */
+		case 0x045D:
+		case 0x055D:
+			Map_MoveDirection(5);
+			return;
+
+		case 0x0065: /* NUMPAD 9 / PAGE UP */
+		case 0x0465:
+		case 0x0565:
+			Map_MoveDirection(1);
+			return;
+
+		case 0x0067: /* NUMPAD 3 / PAGE DOWN */
+		case 0x0467:
+		case 0x0567:
+			Map_MoveDirection(3);
+			return;
+
+		default: return;
+	}
+}
+
 /**
  * Main game loop.
  */
@@ -1135,9 +1199,7 @@ static void GameLoop_Main()
 			emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
 			emu_sp += 2;
 
-			emu_push(key);
-			emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x0642; emu_InGame_Numpad_Move();
-			emu_sp += 2;
+			InGame_Numpad_Move(key);
 
 			emu_push(0);
 			emu_push(g_global->playerHouseID);
