@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <string.h>
 #include "os/strings.h"
 #include "os/math.h"
 #include "types.h"
