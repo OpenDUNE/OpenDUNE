@@ -1565,19 +1565,13 @@ void Map_SelectNext(bool getNext)
 
 		u = Unit_Get_ByMemory(g_global->selectionUnit);
 
-		emu_push(Tile_PackTile(u->o.position));
-		emu_push(emu_cs); emu_push(0x081E); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
-		emu_sp += 2;
-		if (emu_ax != 0) selected = &u->o;
+		if (Map_IsTileVisible(Tile_PackTile(u->o.position))) selected = &u->o;
 	} else {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-		emu_push(Tile_PackTile(s->o.position));
-		emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
-		emu_sp += 2;
-		if (emu_ax != 0) selected = &s->o;
+		if (Map_IsTileVisible(Tile_PackTile(s->o.position))) selected = &s->o;
 	}
 
 	find.houseID = 0xFFFF;
@@ -1592,10 +1586,7 @@ void Map_SelectNext(bool getNext)
 
 		if (!g_unitInfo[u->o.type].o.flags.s.tabSelectable) continue;
 
-		emu_push(Tile_PackTile(u->o.position));
-		emu_push(emu_cs); emu_push(0x08BC); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
-		emu_sp += 2;
-		if (emu_ax == 0) continue;
+		if (!Map_IsTileVisible(Tile_PackTile(u->o.position))) continue;
 
 		if ((u->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
 
@@ -1629,10 +1620,7 @@ void Map_SelectNext(bool getNext)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		emu_push(Tile_PackTile(s->o.position));
-		emu_push(emu_cs); emu_push(0x0997); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1019_0011_089E();
-		emu_sp += 2;
-		if (emu_ax == 0) continue;
+		if (!Map_IsTileVisible(Tile_PackTile(s->o.position))) continue;
 
 		if ((s->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
 
