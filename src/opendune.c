@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "os/strings.h"
+#include "os/sleep.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -31,6 +32,7 @@
 #include "interrupt.h"
 #include "input/input.h"
 #include "sprites.h"
+#include "wsa.h"
 
 extern void f__10E4_0675_0026_F126();
 extern void f__10E4_0F1A_0088_7622();
@@ -62,6 +64,9 @@ extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4E9_0050_003F_292A();
+extern void f__B4ED_0000_0079_AC5D();
+extern void f__B4ED_0184_0010_CD7E();
+extern void f__B4ED_0200_000F_1FF4();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
 extern void f__B511_001E_0010_AE09();
@@ -69,13 +74,13 @@ extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
-extern void emu_Gameloop_Intro();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Input_History_Clear();
+extern void emu_Input_Keyboard_NextKey();
 extern void emu_Terminate_Normal();
 extern void emu_Window_WidgetClick_Create();
 extern void overlay(uint16 cs, uint8 force);
@@ -377,6 +382,280 @@ static void GameLoop_LevelEnd()
 }
 
 /**
+ * Logos at begin of intro.
+ */
+static void Gameloop_Logos()
+{
+	uint16 old2598;
+	csip32 wsaBuffer;
+	uint16 frame;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x009D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+	old2598 = emu_ax;
+
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x00AE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+
+	assert(g_global->variable_6640.csip == 0x22A60796);
+	emu_push(emu_cs); emu_push(0x00BA); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+
+	File_ReadBlockFile("WESTWOOD.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+
+	emu_push(0); emu_push(0);
+	emu_push(1);
+	{
+		uint32 temp = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
+		emu_push(temp >> 16); emu_push(temp & 0xFFFF);
+	}
+	emu_push(emu_dx); emu_push(emu_ax); /* memory block */
+	emu_push(0x353F); emu_push(0x23BD); /* "WESTWOOD.WSA" */
+	emu_push(emu_cs); emu_push(0x010F); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
+	emu_sp += 18;
+	wsaBuffer.s.cs = emu_dx;
+	wsaBuffer.s.ip = emu_ax;
+
+	frame = 0;
+
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(frame++);
+	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
+	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
+	emu_sp += 14;
+
+	emu_push(0x3C);
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x0148); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	Sound_Play(0x24);
+
+	g_global->variable_76B4 = 0x168;
+
+	while (true) {
+		uint32 loc04;
+
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(frame++);
+		emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
+		emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
+		emu_sp += 14;
+		if (emu_ax == 0) break;
+
+		loc04 = g_global->variable_76AC + 6;
+		while (loc04 > g_global->variable_76AC) sleep(0);
+	}
+
+	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
+	emu_push(emu_cs); emu_push(0x01B9); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
+	emu_sp += 4;
+
+	if (g_global->variable_37B4 == 0) {
+		emu_push(0xFFFF);
+		emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
+		emu_sp += 2;
+	} else {
+		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax == 0 && g_global->variable_37B4 != 0) {
+			emu_push(0xFFFF);
+			emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
+			emu_sp += 2;
+		}
+	}
+
+	while (g_global->variable_76B4 != 0) {
+		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+
+		emu_push(0x1E);
+		emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+		emu_push(emu_cs); emu_push(0x039A); emu_cs = 0x259E; f__259E_0006_0016_858A();
+		emu_sp += 6;
+
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+		emu_sp += 2;
+
+		emu_push(old2598);
+		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+
+		return;
+	}
+
+	emu_push(0x3C);
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x0210); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	while (Driver_Music_IsPlaying());
+
+	while (g_global->variable_76B4 != 0) {
+		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+
+		emu_push(0x1E);
+		emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+		emu_push(emu_cs); emu_push(0x039A); emu_cs = 0x259E; f__259E_0006_0016_858A();
+		emu_sp += 6;
+
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+		emu_sp += 2;
+
+		emu_push(old2598);
+		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+
+		return;
+	}
+
+	emu_push(0x3C);
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x024E); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	assert(g_global->variable_6640.csip == 0x22A60796);
+	emu_push(emu_cs); emu_push(0x025B); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+
+	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(0xC8);
+	emu_push(0x28);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x02A5); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_sp += 16;
+
+	emu_push(0x1E);
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x02B9); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	g_global->variable_76B4 = 0x3C;
+
+	while (g_global->variable_76B4 != 0) {
+		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+
+		emu_push(0x1E);
+		emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+		emu_push(emu_cs); emu_push(0x039A); emu_cs = 0x259E; f__259E_0006_0016_858A();
+		emu_sp += 6;
+
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+		emu_sp += 2;
+
+		emu_push(old2598);
+		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+
+		return;
+	}
+
+	emu_push(0x1E);
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x02F9); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0304); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	Sprites_LoadImage("VIRGIN.CPS", 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(0xC8);
+	emu_push(0x28);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0346); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_sp += 16;
+
+	emu_push(0x1E);
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x035A); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	g_global->variable_76B4 = 0xB4;
+
+	while (g_global->variable_76B4 != 0) {
+		emu_push(emu_cs); emu_push(0x0370); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+	}
+
+	emu_push(0x1E);
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x039A); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	emu_push(old2598);
+	emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+}
+
+/**
+ * The Intro.
+ */
+static void Gameloop_Intro()
+{
+	emu_push(7);
+	emu_push(emu_cs); emu_push(0x000C); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+
+	String_Load("INTRO");
+
+	Gameloop_Logos();
+
+	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	if (emu_ax == 0 || g_global->variable_37B4 == 0) {
+		Sound_Play(0x1B);
+
+		emu_push(0x2C6B); emu_push(0x0);
+		emu_push(0x2C5B); emu_push(0x0);
+		emu_push(0x4A);
+		emu_push(0x2C4D); emu_push(0x0);
+		emu_push(0x2C41); emu_push(0x0);
+		emu_push(emu_cs); emu_push(0x0061); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
+		emu_sp += 18;
+
+		emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0200_000F_1FF4();
+
+		emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+
+		emu_push(emu_cs); emu_push(0x0073); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
+	}
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x007B); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+
+	String_Load(NULL);
+}
+
+/**
  * Intro menu.
  */
 static void Gameloop_IntroMenu()
@@ -649,7 +928,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(emu_cs); emu_push(0x1C61); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 
-					emu_push(emu_cs); emu_push(0x1C66); emu_cs = 0x34BE; overlay(0x34BE, 0); emu_Gameloop_Intro();
+					Gameloop_Intro();
 
 					emu_push(0xFFFE);
 					emu_push(emu_cs); emu_push(0x1C6F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
