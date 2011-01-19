@@ -628,18 +628,13 @@ static bool Map_06F7_057C(uint16 packed)
 	if (!t->flag_10) return false;
 
 	for (i = 0; i < 32; i++) {
-		struct_395A s;
-		csip32 csip;
+		struct_395A *s;
 
-		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
 
-		/* Temporary */
-		csip       = g_global->variable_395A;
-		csip.s.ip += i * sizeof(struct_395A);
+		if (s->variable_0C.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
 
-		if (s.variable_0C.csip == 0x0 || Tile_PackTile(s.position) != packed) continue;
-
-		Map_06F7_0A6C(&s);
+		Map_06F7_0A6C(s);
 	}
 
 	return true;
@@ -664,19 +659,19 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 	Map_06F7_057C(packed);
 
 	for (i = 0; i < 32; i++) {
-		struct_395A s;
+		struct_395A *s;
 
-		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
 
-		if (s.variable_0C.csip != 0x0) continue;
+		if (s->variable_0C.csip != 0x0) continue;
 
-		s.variable_04 = i;
-		s.variable_0C = csip;
-		s.variable_09 = 0;
-		s.variable_0A = 0;
-		s.position    = position;
-		s.variable_07 = 0;
-		s.variable_00 = g_global->variable_76AC;
+		s->variable_04 = i;
+		s->variable_0C = csip;
+		s->variable_09 = 0;
+		s->variable_0A = 0;
+		s->position    = position;
+		s->variable_07 = 0;
+		s->variable_00 = g_global->variable_76AC;
 		g_global->variable_320E = 0;
 		Map_GetTileByPosition(packed)->flag_10 = true;
 		return true;
@@ -967,45 +962,40 @@ uint32 Map_06F7_0602()
 	g_global->variable_320E += 10000;
 
 	for (i = 0; i < 32; i++) {
-		struct_395A s;
-		csip32 csip;
+		struct_395A *s;
 
-		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
 
-		/* Temporary */
-		csip       = g_global->variable_395A;
-		csip.s.ip += i * sizeof(struct_395A);
+		if (s->variable_0C.csip == 0x0) continue;
 
-		if (s.variable_0C.csip == 0x0) continue;
-
-		if (s.variable_00 <= g_global->variable_76AC) {
+		if (s->variable_00 <= g_global->variable_76AC) {
 			uint16 data;
 			uint16 action;
 
-			data = ((uint16 *)emu_get_memorycsip(s.variable_0C))[s.variable_09++];
+			data = ((uint16 *)emu_get_memorycsip(s->variable_0C))[s->variable_09++];
 			action = min((data >> 12) & 0xF, 0xE);
 			data &= 0xFFF;
 
 			switch(action) {
-				case  1: Map_06F7_0B14(&s, data); break;
-				case  2: Map_06F7_0AC1(&s, data); break;
-				case  3: Map_06F7_0AE2(&s, data); break;
-				case  4: Map_06F7_0B42(&s, data); break;
-				case  5: Map_06F7_0A5A(&s); break;
-				case  6: Map_06F7_09F4(&s, data); break;
-				case  7: Map_06F7_0A27(&s, data); break;
-				case  8: Map_06F7_072B(&s); break;
-				case  9: Map_06F7_08BD(&s, data); break;
-				case 10: Map_06F7_08DD(&s); break;
-				case 11: Map_06F7_0967(&s, data); break;
-				case 13: Map_06F7_0913(&s); break;
-				default: Map_06F7_0A6C(&s); break;
+				case  1: Map_06F7_0B14(s, data); break;
+				case  2: Map_06F7_0AC1(s, data); break;
+				case  3: Map_06F7_0AE2(s, data); break;
+				case  4: Map_06F7_0B42(s, data); break;
+				case  5: Map_06F7_0A5A(s); break;
+				case  6: Map_06F7_09F4(s, data); break;
+				case  7: Map_06F7_0A27(s, data); break;
+				case  8: Map_06F7_072B(s); break;
+				case  9: Map_06F7_08BD(s, data); break;
+				case 10: Map_06F7_08DD(s); break;
+				case 11: Map_06F7_0967(s, data); break;
+				case 13: Map_06F7_0913(s); break;
+				default: Map_06F7_0A6C(s); break;
 			}
 		}
 
-		if (s.variable_0C.csip == 0x0 || s.variable_00 > g_global->variable_320E) continue;
+		if (s->variable_0C.csip == 0x0 || s->variable_00 > g_global->variable_320E) continue;
 
-		g_global->variable_320E = s.variable_00;
+		g_global->variable_320E = s->variable_00;
 	}
 
 	return g_global->variable_320E;

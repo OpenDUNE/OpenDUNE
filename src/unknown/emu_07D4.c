@@ -367,26 +367,26 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	}
 
 	for (loc0E = 0; loc0E < 32; loc0E ++) {
-		struct_395A s;
+		struct_395A *s;
 
-		s = ((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[loc0E];
+		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[loc0E];
 
-		curPos = Tile_PackTile(s.position);
+		curPos = Tile_PackTile(s->position);
 
-		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) s.variable_07 = 1;
+		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) s->variable_07 = 1;
 
-		if (s.variable_0C.csip == 0x0) continue;
-		if (s.variable_07 == 0 && !arg06) continue;
-		if (s.variable_0A == 0) continue;
+		if (s->variable_0C.csip == 0x0) continue;
+		if (s->variable_07 == 0 && !arg06) continue;
+		if (s->variable_0A == 0) continue;
 
-		s.variable_07 = 0;
+		s->variable_07 = 0;
 
 		if (!Map_GetTileByPosition(curPos)->isUnveiled && g_global->debugScenario == 0) continue;
-		if (!Map_IsPositionInViewport(s.position, &x, &y)) continue;
+		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(s.variable_0A, s.houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
