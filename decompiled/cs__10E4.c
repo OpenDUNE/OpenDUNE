@@ -1343,6 +1343,7 @@ void f__10E4_0F1A_0088_7622()
 	uint16 actionType;
 	uint16 loc04, loc06;
 	int i;
+	ObjectInfo *oi;
 
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
@@ -1350,6 +1351,8 @@ void f__10E4_0F1A_0088_7622()
 
 	emu_push(emu_si);
 	emu_push(emu_di);
+
+	oi = NULL;
 
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = 0x0;
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = 0x0;
@@ -1407,6 +1410,8 @@ l__0FC3:
 		u = Unit_Get_ByMemory(g_global->unitHouseMissile);
 		ui = &g_unitInfo[u->o.type];
 
+		oi = &ui->o;
+
 		emu_get_memory16(emu_ss, emu_bp, -0xA) = g_global->unitHouseMissile.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0xC) = g_global->unitHouseMissile.s.ip;
 
@@ -1429,6 +1434,8 @@ l__1018:
 		u = Unit_Get_ByMemory(g_global->selectionUnit);
 		ui = &g_unitInfo[u->o.type];
 
+		oi = &ui->o;
+
 		emu_get_memory16(emu_ss, emu_bp, -0xA) = g_global->selectionUnit.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0xC) = g_global->selectionUnit.s.ip;
 
@@ -1448,6 +1455,8 @@ l__1075:
 		StructureInfo *si;
 
 		si = &g_structureInfo[g_global->activeStructureType];
+
+		oi = &si->o;
 
 		emu_get_memory16(emu_ss, emu_bp, -0xE) = 0x2C94;
 		emu_get_memory16(emu_ss, emu_bp, -0x10) = 10 + g_global->activeStructureType * sizeof(StructureInfo);
@@ -1470,6 +1479,8 @@ l__10A9:
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 		si = &g_structureInfo[s->o.type];
+
+		oi = &si->o;
 
 		emu_get_memory16(emu_ss, emu_bp, -0xA) = g_global->structureStartPos.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0xC) = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
@@ -1596,6 +1607,7 @@ l__1158:
 
 	if (actionType > 1) {
 		uint16 stringID = 0;
+		uint16 spriteID = 0xFFFF;
 
 		switch (actionType) {
 			case 4: stringID = 13; break; /* Attack */
@@ -1606,8 +1618,7 @@ l__1158:
 			case 3: /* Structure */
 			case 7: /* Placement */
 			case 8: /* House Missile */
-				emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
-				stringID = emu_get_memory16(emu_es, emu_bx, 0x0);
+				stringID = oi->stringID_abbrev;
 				break;
 
 			default: break;
@@ -1615,85 +1626,39 @@ l__1158:
 
 		if (stringID != 0) GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
 
-	l__1310:
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = 0xFFFF;
-		emu_bx = actionType;
-		emu_subw(&emu_bx, 0x2);
-		emu_cmpw(&emu_bx, 0x6);
-		if (emu_bx > 0x6) goto l__1374;
-		emu_shlw(&emu_bx, 0x1);
+		switch (actionType) {
+			case 3: /* Structure */
+				if (oi->flags.s.factory && emu_get_memory16(emu_ss, emu_bp, -0x8) == 0) {
+					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28));
+					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
+					emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_sp += 4;
+					break;
+				}
+				/* Fall through */
+			case 2: /* Unit */
+			case 7: /* Placement */
+				spriteID = oi->spriteID;
+				break;
 
-		/* Jump based on memory/register values */
-		emu_ip = emu_get_memory16(emu_cs, emu_bx, 0x1BB6);
-		switch (emu_ip) {
-			case 0x1327: goto l__1327;
-			case 0x132E: goto l__132E;
-			case 0x1335: goto l__1335;
-			case 0x133C: goto l__133C;
-			case 0x1348: goto l__1348;
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0x10E4; emu_last_ip = 0x1322; emu_last_length = 0x0017; emu_last_crc = 0x5306;
-				emu_call();
-				return;
+			case 5: /* Movement */
+			case 6: /* Harvest */
+				spriteID = 0x1D;
+				break;
+
+			case 4: /* Attack */
+				spriteID = 0x1C;
+				break;
+
+			case 8: /* House Missile */
+				spriteID = 0x1E;
+				break;
 		}
-	l__1327:
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = 0x1E;
-		goto l__1376;
-	l__132E:
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = 0x1C;
-		goto l__1376;
-	l__1335:
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = 0x1D;
-		goto l__1376;
-	l__133C:
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
-		emu_ax = emu_get_memory16(emu_es, emu_bx, 0x14);
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = emu_ax;
-		goto l__1376;
-	l__1348:
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
-		emu_testw(&emu_get_memory16(emu_es, emu_bx, 0xC), 0x2);
-		if ((emu_get_memory16(emu_es, emu_bx, 0xC) & 0x2) == 0) goto l__1368;
-		emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x8), 0x0);
-		if (emu_get_memory16(emu_ss, emu_bp, -0x8) != 0x0) goto l__1368;
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28));
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
-		emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
-	l__1364:
-		emu_pop(&emu_cx);
-		emu_pop(&emu_cx);
-		goto l__1372;
-	l__1368:
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x10));
-		emu_ax = emu_get_memory16(emu_es, emu_bx, 0x14);
-		emu_get_memory16(emu_ss, emu_bp, -0x1E) = emu_ax;
-	l__1372:
-		goto l__1376;
-	l__1374:
-		goto l__1376;
-	l__1376:
-		emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x1E), 0xFFFF);
-		if (emu_get_memory16(emu_ss, emu_bp, -0x1E) == 0xFFFF) goto l__13AC;
-		emu_xorw(&emu_ax, emu_ax);
-		emu_push(emu_ax);
-		emu_xorw(&emu_ax, emu_ax);
-		emu_push(emu_ax);
-		emu_ax = 0x33;
-		emu_push(emu_ax);
-		emu_ax = 0x102;
-		emu_push(emu_ax);
-		emu_bx = emu_get_memory16(emu_ss, emu_bp, -0x1E);
-		emu_cl = 0x2;
-		emu_shlw(&emu_bx, emu_cl);
-		emu_ax = 0x2DCE;
-		emu_es = emu_ax;
-		emu_push(emu_get_memory16(emu_es, emu_bx, 0x442));
-		emu_push(emu_get_memory16(emu_es, emu_bx, 0x440));
-		emu_push(emu_get_memory16(emu_ds, 0x00, 0x6C91));
-		emu_push(emu_cs); emu_push(0x13A9); emu_cs = 0x2903; emu_GUI_DrawSprite();
-	l__13A9:
-		emu_addw(&emu_sp, 0xE);
+
+		if (spriteID != 0xFFFF) {
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 258, 51, 0, 0);
+		}
+
 	l__13AC:
 		emu_ax = actionType;
 		emu_cmpw(&emu_ax, 0x2);
