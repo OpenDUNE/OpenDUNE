@@ -1276,9 +1276,9 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 			uint16 locdi;
 
 			switch (s->o.houseID) {
-				case HOUSE_HARKONNEN: locdi = 38; break;
-				case HOUSE_ATREIDES:  locdi = 39; break;
-				case HOUSE_ORDOS:     locdi = 40; break;
+				case HOUSE_HARKONNEN: locdi = 22; break;
+				case HOUSE_ATREIDES:  locdi = 23; break;
+				case HOUSE_ORDOS:     locdi = 24; break;
 				default: locdi = 0xFFFF; break;
 			}
 
@@ -1286,7 +1286,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 			emu_push(emu_cs); emu_push(0x132D); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 		} else {
-			emu_push(37);
+			emu_push(21);
 			emu_push(emu_cs); emu_push(0x1339); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 			emu_sp += 2;
 		}
