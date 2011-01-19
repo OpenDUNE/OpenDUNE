@@ -174,7 +174,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (!Map_GetTileByPosition(Tile_PackTile(u->o.position))->isUnveiled && g_global->debugScenario == 0) continue;
 
-		sprite_csip = Unknown_07D4_18BD(g_unitInfo[u->o.type].variable_44, Unit_GetHouseID(u));
+		sprite_csip = Unknown_07D4_18BD(g_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
 		g_global->variable_8DE3 = 0x200;
 
@@ -272,9 +272,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			orientation = Sprites_B4CD_17DC(u->orientation[0].current);
 
 			if (u->variable_6D >= 0 || ui->variable_4C == 0) {
-				index = ui->variable_44;
+				index = ui->spriteID;
 
-				switch (ui->variable_4A) {
+				switch (ui->displayMode) {
 					case 1:
 					case 2:
 						if (ui->movementType == MOVEMENT_SLITHER) break;
@@ -315,28 +315,28 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				}
 			}
 
-			if (u->variable_6D >= 0 && ui->variable_46 != 0xFFFF) {
+			if (u->variable_6D >= 0 && ui->turretSpriteID != 0xFFFF) {
 				uint16 offsetX = 0;
 				uint16 offsetY = 0;
-				uint16 index = ui->variable_46;
+				uint16 index = ui->turretSpriteID;
 
 				orientation = Sprites_B4CD_17DC(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 
-				switch (ui->variable_46) {
-					case 0x8D:
+				switch (ui->turretSpriteID) {
+					case 0x8D: /* sonic tank */
 						offsetY = 0xFFFE;
 						break;
 
-					case 0x92:
+					case 0x92: /* rocket launcher */
 						offsetY = 0xFFFD;
 						break;
 
-					case 0x7E:
+					case 0x7E: /* siege tank */
 						offsetX = g_global->variable_336E[orientation][0];
 						offsetY = g_global->variable_336E[orientation][1];
 						break;
 
-					case 0x88:
+					case 0x88: /* devastator */
 						offsetX = g_global->variable_338E[orientation][0];
 						offsetY = g_global->variable_338E[orientation][1];
 						break;
@@ -419,11 +419,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-			index = ui->variable_44;
+			index = ui->spriteID;
 			orientation = u->orientation[0].current;
 			g_global->variable_8DE3 = 0xC000;
 
-			switch (ui->variable_4A) {
+			switch (ui->displayMode) {
 				case 0:
 					if (u->o.flags.s.variable_4_0040) index++;
 					break;

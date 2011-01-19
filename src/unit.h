@@ -158,10 +158,10 @@ typedef struct UnitInfo {
 	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
 	/* 0042(1)   */ PACK uint8  variable_42;                /*!< ?? */
 	/* 0043()    */ PACK uint8   unknown_0043[0x0001];
-	/* 0044(2)   */ PACK uint16 variable_44;                /*!< ?? */
-	/* 0046(2)   */ PACK uint16 variable_46;                /*!< ?? */
+	/* 0044(2)   */ PACK uint16 spriteID;                   /*!< SpriteID for north direction. */
+	/* 0046(2)   */ PACK uint16 turretSpriteID;             /*!< SpriteID of the turret for north direction. */
 	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
-	/* 004A(2)   */ PACK uint16 variable_4A;                /*!< ?? */
+	/* 004A(2)   */ PACK uint16 displayMode;                /*!< How to draw the unit. */
 	/* 004C(2)   */ PACK uint16 variable_4C;                /*!< ?? */
 	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
 	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
