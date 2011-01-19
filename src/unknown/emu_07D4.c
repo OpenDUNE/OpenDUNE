@@ -288,7 +288,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						g_global->variable_8DE3 = g_global->variable_32C4[orientation][1];
 						break;
 
-					case 5:
+					case 4:
 						index += g_global->variable_32C4[orientation][0] * 4;
 						index += u->variable_6D & 3;
 						g_global->variable_8DE3 = g_global->variable_32C4[orientation][1];
