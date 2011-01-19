@@ -13,6 +13,10 @@
 #include "tools.h"
 #include "unit.h"
 #include "map.h"
+#include "tile.h"
+#include "sprites.h"
+
+extern void f__0F3F_0125_000D_4868();
 
 /**
  * Link two variable4 values to eachother, and clean up existing values if
@@ -103,4 +107,38 @@ Object *Object_GetByPackedTile(uint16 packed)
 	if (t->hasUnit) return &Unit_Get_ByIndex(t->index - 1)->o;
 	if (t->hasStructure) return &Structure_Get_ByIndex(t->index - 1)->o;
 	return NULL;
+}
+
+/**
+ * Gets the distance from the given object to the given encoded index.
+ * @param o The object.
+ * @param encoded The encoded index.
+ * @return The distance.
+ */
+uint16 Object_GetDistanceToEncoded(Object *o, uint16 encoded)
+{
+	Structure *s;
+	tile32 position;
+
+	s = Tools_Index_GetStructure(encoded);
+
+	if (s != NULL) {
+		uint16 packed;
+
+		position = s->o.position;
+		packed = Tile_PackTile(position);
+
+		emu_push(position.s.y); emu_push(position.s.x);
+		emu_push(o->position.s.y); emu_push(o->position.s.x);
+		emu_push(emu_cs); emu_push(0x038C); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+		emu_sp += 8;
+
+		packed += g_global->variable_2CE2[(g_structureInfo[o->type].variable_44 << 2) + ((Sprites_B4CD_17DC(emu_ax & 0xFF) + 4) & 7)];
+
+		position = Tile_UnpackTile(packed);
+	} else {
+		position = Tools_Index_GetTile(encoded);
+	}
+
+	return Tile_GetDistance(o->position, position);
 }

@@ -110,5 +110,6 @@ extern void Object_Script_Variable4_Link(uint16 encodedFrom, uint16 encodedTo);
 extern void Object_Script_Variable4_Set(Object *o, uint16 index);
 extern void Object_Script_Variable4_Clear(Object *object);
 extern Object *Object_GetByPackedTile(uint16 packed);
+extern uint16 Object_GetDistanceToEncoded(Object *o, uint16 encoded);
 
 #endif /* OBJECT_H */

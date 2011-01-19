@@ -27,7 +27,6 @@ extern void f__1319_002D_0023_320C();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
-extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -626,12 +625,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	if (u->fireDelay != 0) return 0;
 
-	emu_push(target);
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x15B0); emu_cs = 0x167E; f__167E_0319_0010_B56F();
-	emu_sp += 6;
-
-	distance = emu_ax;
+	distance = Object_GetDistanceToEncoded(&u->o, target);
 
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 

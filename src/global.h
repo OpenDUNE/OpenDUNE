@@ -540,7 +540,7 @@ typedef struct GlobalData {
 	/* 2C5E(4)   */ PACK uint32 tickEditBox;                /*!< Ticker for cursor blinking (in EditBox) */
 	/* 2C62(2)   */ PACK uint16 editBoxShowCursor;          /*!< Boolean value, when non-zero, cursor is active (in EditBox). */
 	/* 2C64(126) */ PACK uint16 layoutTiles[7][9];          /*!< Array with position offset per tile in a structure layout. */
-	/* 2CE2()    */ PACK uint8   unknown_2CE2[0x0070];
+	/* 2CE2(112) */ PACK uint16 variable_2CE2[56];          /*!< ?? */
 	/* 2D52(14)  */ PACK uint16 layoutTileCount[7];         /*!< Array with amount of tiles in a layout. */
 	/* 2D60(224) */ PACK uint16 layoutTilesAround[7][16];   /*!< Array with position offset per tile around a structure layout. */
 	/* 2E40(28)  */ PACK uint16 layoutSize[7][2];           /*!< Array with size of a layout. */

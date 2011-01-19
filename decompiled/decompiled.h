@@ -230,7 +230,6 @@ extern void f__B4DA_0308_0018_F99F();
 extern void emu_Drive_Set_Default();
 extern void emu_GUI_Production_ResumeGame();
 extern void f__151A_0310_0018_831F();
-extern void f__167E_0319_0010_B56F();
 extern void emu_Empty4();
 extern void emu_Terminate();
 extern void f__217E_0320_0049_4A24();

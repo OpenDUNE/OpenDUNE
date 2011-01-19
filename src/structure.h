@@ -64,7 +64,9 @@ typedef struct StructureInfo {
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
-	/* 003E()    */ PACK uint8   unknown_003E[0x001C];
+	/* 003E()    */ PACK uint8   unknown_003E[0x0006];
+	/* 0044(2)   */ PACK uint16 variable_44;                /*!< ?? */
+	/* 0046()    */ PACK uint8   unknown_0046[0x0014];
 	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END

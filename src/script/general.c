@@ -18,7 +18,6 @@
 #include "../gui/gui.h"
 #include "../map.h"
 
-extern void f__167E_0319_0010_B56F();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -180,12 +179,7 @@ uint16 Script_General_Unknown024B(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
-	emu_push(index);
-	emu_push(g_global->objectCurrent.s.cs); emu_push(g_global->objectCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x027B); emu_cs = 0x167E; f__167E_0319_0010_B56F();
-	emu_sp += 6;
-
-	return emu_ax;
+	return Object_GetDistanceToEncoded((Object *)emu_get_memorycsip(g_global->objectCurrent), index);
 }
 
 /**
