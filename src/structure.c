@@ -1223,7 +1223,7 @@ static void Structure_Destroy(Structure *s)
 	h = House_Get_ByIndex(s->o.houseID);
 	si = &g_structureInfo[s->o.type];
 
-	h->credits -= min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
+	h->credits -= (h->creditsStorage == 0) ? h->credits : min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
 
 	if (s->o.houseID != g_global->playerHouseID) h->credits += si->o.buildCredits + (g_global->campaignID > 7 ? si->o.buildCredits / 2 : 0);
 
