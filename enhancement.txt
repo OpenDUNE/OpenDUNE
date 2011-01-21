@@ -33,6 +33,9 @@ Structure
     range.
 - Too many tile colours are remapped with house colours, causing graphical
     issues with the IX building. It maps 0x90 .. 0xA0 instead of 0x90 .. 0x96.
+- When taking over a building (by having an infantry walk in it while the
+    structure is on low hitpoints), your own units keep firing at it, and will
+    most likely destroy it.
 
 
 Scenario

@@ -2434,6 +2434,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 	scsip       = g_global->structureStartPos;
 	scsip.s.ip += s->o.index * sizeof(Structure);
 
+	/* Take over the building when low on hitpoints */
 	if (s->o.hitpoints < si->o.hitpoints / 4) {
 		House *h;
 
@@ -2454,6 +2455,9 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
 		emu_push(emu_cs); emu_push(0x2F40); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
 		emu_sp += 4;
+
+		/* ENHANCEMENT: When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
+		if (g_dune2_enhanced) Structure_UntargetMe(p);
 	} else {
 		Structure_Damage(s, max(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}
