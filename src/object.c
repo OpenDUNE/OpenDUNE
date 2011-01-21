@@ -133,7 +133,7 @@ uint16 Object_GetDistanceToEncoded(Object *o, uint16 encoded)
 		emu_push(emu_cs); emu_push(0x038C); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
-		packed += g_global->variable_2CE2[(g_structureInfo[o->type].variable_44 << 2) + ((Sprites_B4CD_17DC(emu_ax & 0xFF) + 4) & 7)];
+		packed += g_global->variable_2CE2[(g_structureInfo[o->type].layout << 3) + ((Sprites_B4CD_17DC(emu_ax & 0xFF) + 4) & 7)];
 
 		position = Tile_UnpackTile(packed);
 	} else {
