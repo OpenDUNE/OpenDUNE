@@ -2457,7 +2457,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		emu_sp += 4;
 
 		/* ENHANCEMENT: When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
-		if (g_dune2_enhanced) Structure_UntargetMe(p);
+		if (g_dune2_enhanced) Structure_UntargetMe(s);
 	} else {
 		Structure_Damage(s, max(unit->o.hitpoints * 2, s->o.hitpoints / 2), 1);
 	}
