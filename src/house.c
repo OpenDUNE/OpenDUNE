@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include "os/strings.h"
-#include "os/math.h"
 #include "os/sleep.h"
+#include "os/math.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
