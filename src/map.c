@@ -1142,8 +1142,8 @@ void Map_B4CD_0AFA(uint16 packed, int16 dir)
 */
 void Map_SetViewportPosition(uint16 packed)
 {
-	uint16 x;
-	uint16 y;
+	int16 x;
+	int16 y;
 	MapInfo *mapInfo;
 
 	x = Tile_GetPackedX(packed) - 7;
