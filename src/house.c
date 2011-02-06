@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "os/strings.h"
 #include "os/math.h"
+#include "os/sleep.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -549,7 +550,7 @@ bool House_UpdateRadarState(House *h)
 
 		g_global->variable_76B4 = 3;
 
-		while (g_global->variable_76B4 != 0);
+		while (g_global->variable_76B4 != 0) sleep(0);
 	}
 
 	h->flags.s.radarActivated = activate;
