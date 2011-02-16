@@ -1701,7 +1701,7 @@ l__1158:
 					emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
 					emu_sp += 4;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					goto l__1B3A;
 
 				case 5: /* Movement */
@@ -1709,7 +1709,7 @@ l__1158:
 					emu_push(emu_cs); emu_push(0x1512); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
 					emu_sp += 4;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					goto l__1B3A;
 
 				case 6: /* Harvest */
@@ -1717,7 +1717,7 @@ l__1158:
 					emu_push(emu_cs); emu_push(0x14C7); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
 					emu_sp += 4;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					goto l__1B3A;
 
 				case 7: /* Placement */
@@ -1725,7 +1725,7 @@ l__1158:
 					emu_push(emu_cs); emu_push(0x1457); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
 					emu_sp += 4;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					goto l__1B3A;
 
 				case 8: /* House Missile */
@@ -1733,7 +1733,7 @@ l__1158:
 					int16 count = (int16)g_global->houseMissleCountdown - 1;
 					if (count <= 0) count = 0;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B, 0, 0x11, count);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11, count);
 				} goto l__1B3A;
 
 				default:
