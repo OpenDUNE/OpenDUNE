@@ -35,7 +35,6 @@ extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
-extern void emu_Unit_LaunchHouseMissle();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
@@ -1067,9 +1066,7 @@ void Structure_ActivateSpecial(Structure *s)
 
 					if (House_AreAllied(s->o.houseID, sf->o.houseID)) continue;
 
-					emu_push(Tile_PackTile(sf->o.position));
-					emu_push(emu_cs); emu_push(0x0626); emu_Unit_LaunchHouseMissle();
-					emu_sp += 2;
+					Unit_LaunchHouseMissile(Tile_PackTile(sf->o.position));
 
 					return;
 				}
@@ -1082,7 +1079,7 @@ void Structure_ActivateSpecial(Structure *s)
 			}
 
 			/* Give the user 7 seconds to select their target */
-			g_global->houseMissleCountdown = 7;
+			g_global->houseMissileCountdown = 7;
 
 			emu_push(1);
 			emu_push(emu_cs); emu_push(0x05D5); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();

@@ -243,6 +243,7 @@ extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
 extern void Unit_B4CD_048E(Unit *unit, uint16 packed);
 extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
+extern void Unit_LaunchHouseMissile(uint16 packed);
 
 
 extern void emu_Unit_GetHouseID();

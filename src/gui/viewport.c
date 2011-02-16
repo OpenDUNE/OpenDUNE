@@ -27,7 +27,6 @@ extern void f__10E4_0117_0015_392D();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -133,9 +132,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		GUI_DisplayText(NULL, 0xFFFF);
 
 		if (g_global->unitHouseMissile.csip != 0x0) {
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x0383); emu_cs = 0x1423; emu_Unit_LaunchHouseMissle();
-			emu_sp += 2;
+			Unit_LaunchHouseMissile(packed);
 			return true;
 		}
 

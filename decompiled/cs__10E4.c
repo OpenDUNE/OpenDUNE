@@ -1730,7 +1730,7 @@ l__1158:
 
 				case 8: /* House Missile */
 				{
-					int16 count = (int16)g_global->houseMissleCountdown - 1;
+					int16 count = (int16)g_global->houseMissileCountdown - 1;
 					if (count <= 0) count = 0;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11, count);

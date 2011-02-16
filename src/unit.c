@@ -2812,3 +2812,53 @@ uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 
 	return min(priority, 32000);
 }
+
+void Unit_LaunchHouseMissile(uint16 packed)
+{
+	tile32 tile;
+	bool isAI;
+	Unit *missile;
+	House *h;
+
+	if (g_global->unitHouseMissile.csip == 0x0) return;
+
+	missile = Unit_Get_ByMemory(g_global->unitHouseMissile);
+	h = House_Get_ByIndex(missile->o.houseID);
+
+	tile = Tile_UnpackTile(packed);
+
+	emu_push(0);
+	emu_push(0xA0);
+	emu_push(tile.s.y); emu_push(tile.s.x);
+	emu_push(emu_cs); emu_push(0x07FA); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+	emu_sp += 8;
+	tile.s.y = emu_dx;
+	tile.s.x = emu_ax;
+
+	packed = Tile_PackTile(tile);
+
+	isAI = missile->o.houseID != g_global->playerHouseID;
+
+	Unit_Free(missile);
+
+	emu_push(0xFFFE);
+	emu_push(emu_cs); emu_push(0x0843); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+	emu_sp += 2;
+
+	Unit_CreateBullet(h->palacePosition, missile->o.type, missile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
+
+	if (!isAI) {
+		emu_push(0x27);
+		emu_push(emu_cs); emu_push(0x08A5); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+		emu_sp += 2;
+	}
+
+	g_global->houseMissileCountdown = 0;
+	g_global->unitHouseMissile.csip = 0x0;
+
+	if (isAI) return;
+
+	emu_push(4);
+	emu_push(emu_cs); emu_push(0x08C7); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+	emu_sp += 2;
+}

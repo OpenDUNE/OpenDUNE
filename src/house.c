@@ -25,7 +25,6 @@
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void emu_Unit_LaunchHouseMissle();
 extern void overlay(uint16 cs, uint8 force);
 
 HouseInfo *g_houseInfo = NULL;
@@ -92,17 +91,13 @@ void GameLoop_House()
 		g_global->tickHouseStarportAvailability = g_global->tickGlobal + 1800;
 	}
 
-	if (tickMissileCountdown && g_global->houseMissleCountdown != 0) {
-		g_global->houseMissleCountdown--;
-		emu_push(g_global->houseMissleCountdown + 41);
+	if (tickMissileCountdown && g_global->houseMissileCountdown != 0) {
+		g_global->houseMissileCountdown--;
+		emu_push(g_global->houseMissileCountdown + 41);
 		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 		emu_sp += 2;
 
-		if (g_global->houseMissleCountdown == 0) {
-			emu_push(Map_B4CD_1816(4, (uint8)g_global->playerHouseID));
-			emu_push(emu_cs); emu_push(0x01E4); emu_cs = 0x1423; emu_Unit_LaunchHouseMissle();
-			emu_sp += 2;
-		}
+		if (g_global->houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, (uint8)g_global->playerHouseID));
 	}
 
 	if (tickStarportAvailability) {

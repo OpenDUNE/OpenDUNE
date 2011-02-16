@@ -771,7 +771,7 @@ typedef struct GlobalData {
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32 unitHouseMissile;           /*!< When launching a House Missile, while selecting location, this points to the missile. */
-	/* 38FE(2)   */ PACK uint16 houseMissleCountdown;       /*!< Amount of time the user has to select Missile target. */
+	/* 38FE(2)   */ PACK uint16 houseMissileCountdown;      /*!< Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
