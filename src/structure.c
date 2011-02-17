@@ -40,7 +40,6 @@ extern void f__B4E9_0050_003F_292A();
 extern void emu_Structure_UpdateMap();
 extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
-extern void f__B48B_01CE_002B_7574();
 extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
@@ -330,9 +329,7 @@ void GameLoop_Structure()
 				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_global->playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->o.hitpoints < si->o.hitpoints / 2) {
-						csip32 csip;
-						csip.csip = 0x0;
-						Structure_SetRepairingState(s, 1, NULL, csip);
+						Structure_SetRepairingState(s, 1, NULL);
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
@@ -1657,16 +1654,10 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	h = House_Get_ByIndex(s->o.houseID);
 
-	{
-		csip32 csip;
-		csip.csip = 0x0;
-		Structure_SetRepairingState(s, 0, NULL, csip);
-	}
+	Structure_SetRepairingState(s, 0, NULL);
 
 	if (objectType == 0xFFFD) {
-		csip32 csip;
-		csip.csip = 0x0;
-		Structure_SetUpgradingState(s, 1, NULL, csip);
+		Structure_SetUpgradingState(s, 1, NULL);
 		return false;
 	}
 
@@ -1812,9 +1803,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			if (loc1E == 0) return false;
 
 			if (loc1E == 2) {
-				csip32 csip;
-				csip.csip = 0x0;
-				Structure_SetUpgradingState(s, 1, NULL, csip);
+				Structure_SetUpgradingState(s, 1, NULL);
 				return false;
 			}
 
@@ -1938,7 +1927,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
  * @param w The widget.
  * @return True if and only if the state changed.
  */
-bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w, csip32 wcsip)
+bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w)
 {
 	bool ret = false;
 
@@ -1955,7 +1944,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w, csip32 wcs
 		s->o.flags.s.upgrading = false;
 		s->o.flags.s.onHold = false;
 
-		GUI_Widget_Update(w, false, wcsip);
+		GUI_Widget_MakeNormal(w, false);
 
 		ret = true;
 	}
@@ -1971,10 +1960,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w, csip32 wcs
 	s->o.flags.s.repairing = false;
 	s->o.flags.s.upgrading = true;
 
-	emu_push(0);
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x2805); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-	emu_sp += 6;
+	GUI_Widget_MakeSelected(w, false);
 
 	return true;
 }
@@ -1987,7 +1973,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w, csip32 wcs
  * @param w The widget.
  * @return True if and only if the state changed.
  */
-bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w, csip32 wcsip)
+bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 {
 	bool ret = false;
 
@@ -2006,7 +1992,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w, csip32 wcs
 		s->o.flags.s.repairing = false;
 		s->o.flags.s.onHold = false;
 
-		GUI_Widget_Update(w, false, wcsip);
+		GUI_Widget_MakeNormal(w, false);
 
 		ret = true;
 	}
@@ -2021,10 +2007,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w, csip32 wcs
 	s->o.flags.s.onHold = true;
 	s->o.flags.s.repairing = true;
 
-	emu_push(0);
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x291A); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-	emu_sp += 6;
+	GUI_Widget_MakeSelected(w, false);
 
 	return true;
 }

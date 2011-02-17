@@ -538,8 +538,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					case 0x0AEC0FD8: success = GUI_Widget_Cancel_Click(); break;
 					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
 					case 0x0AEC1181: success = GUI_Widget_Picture_Click(); break;
-					case 0x0AEC11F6: success = GUI_Widget_RepairUpgrade_Click(w, wcsip); break;
-					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w, wcsip); break;
+					case 0x0AEC11F6: success = GUI_Widget_RepairUpgrade_Click(w); break;
+					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w); break;
 					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
 					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w); break;
@@ -731,16 +731,58 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 }
 
 /**
- * Updates a widget.
+ * Make the Widget selected.
  *
- * @param w The widget to update.
+ * @param w The widget to make selected.
  * @param clickProc Wether to execute the widget clickProc.
- * @param wcsip TODO -- TEMPORARY -- The csip to the widget.
- * @return The widget ?.
  */
-csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
+void GUI_Widget_MakeSelected(Widget *w, bool clickProc)
 {
-	if (w == NULL || w->flags.s.invisible) return wcsip;
+	if (w == NULL || w->flags.s.invisible) return;
+
+	if ((w->state & 0x1) != 0) {
+		w->state |= 0x8;
+	} else {
+		w->state &= ~0x8;
+	}
+
+	w->state |= 0x1;
+	GUI_Widget_Draw(w);
+
+	if (!clickProc || w->clickProc.csip == 0x0) return;
+
+	/* XXX -- Code has never been called so far in all runs */
+	{
+		csip32 wcsip = emu_Global_GetCSIP(w);
+
+		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+
+		/* Call based on memory/register values */
+		emu_push(emu_cs); emu_push(0x0236);
+		emu_ip = w->clickProc.s.ip;
+		emu_cs = w->clickProc.s.cs;
+		switch (w->clickProc.csip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0xB48B; emu_last_ip = 0x0232; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
+				emu_call();
+				return;
+		}
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x348B) { overlay(0x348B, 1); }
+		emu_sp += 4;
+	}
+}
+
+/**
+ * Reset the Widget to a normal state (not selected, not clicked).
+ *
+ * @param w The widget to reset.
+ * @param clickProc Wether to execute the widget clickProc.
+ */
+void GUI_Widget_MakeNormal(Widget *w, bool clickProc)
+{
+	if (w == NULL || w->flags.s.invisible) return;
 
 	if ((w->state & 0x1) != 0) {
 		w->state |= 0x8;
@@ -761,24 +803,29 @@ csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
 
 	GUI_Widget_Draw(w);
 
-	if (!clickProc || w->clickProc.csip == 0x0) return wcsip;
+	if (!clickProc || w->clickProc.csip == 0x0) return;
 
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	/* XXX -- Code has never been called so far in all runs */
+	{
+		csip32 wcsip = emu_Global_GetCSIP(w);
 
-	/* Call based on memory/register values */
-	emu_push(emu_cs); emu_push(0x01C2);
-	emu_ip = w->clickProc.s.ip;
-	emu_cs = w->clickProc.s.cs;
-	switch (w->clickProc.csip) {
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0xB48B; emu_last_ip = 0x01BE; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
-			emu_call();
-			return wcsip;
+		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+
+		/* Call based on memory/register values */
+		emu_push(emu_cs); emu_push(0x01C2);
+		emu_ip = w->clickProc.s.ip;
+		emu_cs = w->clickProc.s.cs;
+		switch (w->clickProc.csip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0xB48B; emu_last_ip = 0x01BE; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
+				emu_call();
+				return;
+		}
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x348B) { overlay(0x348B, 1); }
+		emu_sp += 4;
 	}
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x348B) { overlay(0x348B, 1); }
-	emu_sp += 4;
 
-	return wcsip;
+	return;
 }

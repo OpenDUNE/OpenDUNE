@@ -17,7 +17,6 @@
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
-extern void f__B48B_01CE_002B_7574();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -219,7 +218,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
  * @param w The widget.
  * @return True, always.
  */
-bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
+bool GUI_Widget_TextButton_Click(Widget *w)
 {
 	ActionType action;
 	Unit *u;
@@ -255,15 +254,12 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	if (u->deviated != 0) {
 		Unit_Deviation_Decrease(u, 5);
 		if (u->deviated == 0) {
-			GUI_Widget_Update(w, false, wcsip);
+			GUI_Widget_MakeNormal(w, false);
 			return true;
 		}
 	}
 
-	emu_push(0);
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1D7D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-	emu_sp += 6;
+	GUI_Widget_MakeSelected(w, false);
 
 	ai = &g_actionInfo[action];
 
@@ -302,16 +298,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 	loc08.s.ip = emu_ax;
 	if (loc08.csip == 0) return true;
 
-	emu_push(loc08.s.ip - acsip.s.ip + 8);
-	emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-	emu_push(emu_cs); emu_push(0x1E76); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-	emu_sp += 6;
-
-	wcsip.s.cs = emu_dx;
-	wcsip.s.ip = emu_ax;
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Widget_Update(w, false, wcsip);
+	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), loc08.s.ip - acsip.s.ip + 8), false);
 
 	return true;
 }
@@ -418,15 +405,14 @@ bool GUI_Widget_Picture_Click()
  * @param w The widget.
  * @return False, always.
  */
-bool GUI_Widget_RepairUpgrade_Click(Widget *w, csip32 wcsip)
+bool GUI_Widget_RepairUpgrade_Click(Widget *w)
 {
 	Structure *s;
 
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-	if (Structure_SetRepairingState(s, -1, w, wcsip)) return false;
-
-	Structure_SetUpgradingState(s, -1, w, wcsip);
+	if (Structure_SetRepairingState(s, -1, w)) return false;
+	Structure_SetUpgradingState(s, -1, w);
 
 	return false;
 }

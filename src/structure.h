@@ -97,8 +97,8 @@ extern void Structure_UntargetMe(Structure *s);
 extern uint16 Structure_0C3A_247A(Structure *s, bool checkDistance);
 extern void Structure_0C3A_1002(Structure *s);
 extern bool Structure_BuildObject(Structure *s, uint16 objectType);
-extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget *w, csip32 wcsip);
-extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w, csip32 wcsip);
+extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget *w);
+extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w);
 
 
 extern void emu_Structure_Create();

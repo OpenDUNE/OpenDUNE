@@ -1351,7 +1351,8 @@ void f__10E4_0F1A_0088_7622()
 	Structure *s;
 	StructureInfo *si;
 	House *h;
-	csip32 buttons[4];
+	Widget *buttons[4];
+	Widget *widget24, *widget28, *widget2C, *widget30, *widget34;
 
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
@@ -1536,6 +1537,8 @@ l__1158:
 	loc06 = g_global->variable_6D5D;
 
 	if (actionType != 0) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+
 		emu_push(2);
 		emu_push(emu_cs); emu_push(0x1176); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 		emu_sp += 2;
@@ -1546,78 +1549,25 @@ l__1158:
 		emu_sp += 2;
 		loc06 = emu_ax;
 
-		emu_push(7);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x1198); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_get_memory16(emu_ss, emu_bp, -0x30) = emu_dx;
-		emu_get_memory16(emu_ss, emu_bp, -0x32) = emu_ax;
+		widget30 = GUI_Widget_Get_ByIndex(w, 7);
+		GUI_Widget_MakeInvisible(widget30);
 
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-		emu_push(emu_cs); emu_push(0x11AC); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-		emu_sp += 4;
+		widget24 = GUI_Widget_Get_ByIndex(w, 4);
+		GUI_Widget_MakeInvisible(widget24);
 
-		emu_push(4);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x11BF); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_get_memory16(emu_ss, emu_bp, -0x24) = emu_dx;
-		emu_get_memory16(emu_ss, emu_bp, -0x26) = emu_ax;
+		widget28 = GUI_Widget_Get_ByIndex(w, 6);
+		GUI_Widget_MakeInvisible(widget28);
 
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-		emu_push(emu_cs); emu_push(0x11D3); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-		emu_sp += 4;
+		widget2C = GUI_Widget_Get_ByIndex(w, 5);
+		GUI_Widget_MakeInvisible(widget2C);
 
-		emu_push(6);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x11E6); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_get_memory16(emu_ss, emu_bp, -0x28) = emu_dx;
-		emu_get_memory16(emu_ss, emu_bp, -0x2A) = emu_ax;
-
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
-		emu_push(emu_cs); emu_push(0x11FA); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-		emu_sp += 4;
-
-		emu_push(5);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x120D); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_get_memory16(emu_ss, emu_bp, -0x2C) = emu_dx;
-		emu_get_memory16(emu_ss, emu_bp, -0x2E) = emu_ax;
-
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2E));
-		emu_push(emu_cs); emu_push(0x1221); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-		emu_sp += 4;
-
-		emu_push(3);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x1234); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_get_memory16(emu_ss, emu_bp, -0x34) = emu_dx;
-		emu_get_memory16(emu_ss, emu_bp, -0x36) = emu_ax;
-
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x34)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x36));
-		emu_push(emu_cs); emu_push(0x1248); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-		emu_sp += 4;
+		widget34 = GUI_Widget_Get_ByIndex(w, 3);
+		GUI_Widget_MakeInvisible(widget34);
 
 		/* Create the 4 buttons */
 		for (i = 0; i < 4; i++) {
-			emu_push(i + 8);
-			emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-			emu_push(emu_cs); emu_push(0x1261); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-			emu_sp += 6;
-
-			buttons[i].s.cs = emu_dx;
-			buttons[i].s.ip = emu_ax;
-
-			emu_bx = (i << 2) + emu_bp - 0x50;
-			emu_get_memory16(emu_ss, emu_bx, 0x2) = emu_dx;
-			emu_get_memory16(emu_ss, emu_bx, 0x0) = emu_ax;
-
-			emu_push(emu_get_memory16(emu_ss, emu_bx, 0x2)); emu_push(emu_get_memory16(emu_ss, emu_bx, 0x0));
-			emu_push(emu_cs); emu_push(0x128D); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeInvisible();
-			emu_sp += 4;
+			buttons[i] = GUI_Widget_Get_ByIndex(w, i + 8);
+			GUI_Widget_MakeInvisible(buttons[i]);
 		}
 
 		emu_push(0);
@@ -1651,10 +1601,7 @@ l__1158:
 		switch (actionType) {
 			case 3: /* Structure */
 				if (oi->flags.s.factory && emu_get_memory16(emu_ss, emu_bp, -0x8) == 0) {
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28));
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
-					emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
+					GUI_Widget_MakeVisible(widget28);
 					break;
 				}
 				/* Fall through */
@@ -1705,9 +1652,7 @@ l__1158:
 					uint16 actionCurrent;
 					int i;
 
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x34)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x36));
-					emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
+					GUI_Widget_MakeVisible(widget34);
 
 					actionCurrent = (u->nextActionID != ACTION_INVALID) ? u->nextActionID : u->actionID;
 
@@ -1715,108 +1660,59 @@ l__1158:
 					if (isNotPlayerOwned && o->type != UNIT_HARVESTER) actions = g_global->actionsAI;
 
 					for (i = 0; i < 4; i++) {
-						Widget *w;
-						char *name;
-
-						w = (Widget *)emu_get_memorycsip(buttons[i]);
-						w->stringID = g_actionInfo[actions[i]].stringID;
-
-						name = String_Get_ByIndex(w->stringID);
-						w->shortcut = GUI_Widget_GetShortcut(name[0]);
+						buttons[i]->stringID = g_actionInfo[actions[i]].stringID;
+						buttons[i]->shortcut = GUI_Widget_GetShortcut(String_Get_ByIndex(buttons[i]->stringID)[0]);
 
 						if (g_global->language == LANGUAGE_FRENCH) {
-							if (w->stringID == 2) w->shortcut2 = 0x27;
-							if (w->stringID == 7) w->shortcut2 = 0x13;
+							if (buttons[i]->stringID == 2) buttons[i]->shortcut2 = 0x27;
+							if (buttons[i]->stringID == 7) buttons[i]->shortcut2 = 0x13;
 						}
 						if (g_global->language == LANGUAGE_GERMAN) {
-							if (w->stringID == 4) w->shortcut2 = 0x17;
+							if (buttons[i]->stringID == 4) buttons[i]->shortcut2 = 0x17;
 						}
 
-						emu_push(buttons[i].s.cs); emu_push(buttons[i].s.ip);
-						emu_push(emu_cs); emu_push(0x168C); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-						emu_sp += 4;
+						GUI_Widget_MakeVisible(buttons[i]);
 
 						if (actions[i] == actionCurrent) {
-							emu_push(0);
-							emu_push(buttons[i].s.cs); emu_push(buttons[i].s.ip);
-							emu_push(emu_cs); emu_push(0x16B6); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-							emu_sp += 6;
+							GUI_Widget_MakeSelected(buttons[i], false);
 						} else {
-							emu_push(0);
-							emu_push(buttons[i].s.cs); emu_push(buttons[i].s.ip);
-							emu_push(emu_cs); emu_push(0x16D2); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Update();
-							emu_sp += 6;
+							GUI_Widget_MakeNormal(buttons[i], false);
 						}
 					}
 				} break;
 
 				case 3: /* Structure */
 				{
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x34)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x36));
-					emu_push(emu_cs); emu_push(0x16EC); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
+					GUI_Widget_MakeVisible(widget34);
 
 					if (o->flags.s.upgrading) {
-						emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_get_memory16(emu_es, emu_bx, 0x38) = 0x8F; /* Widget->stringID */
+						widget24->stringID = 0x8F;
 
-						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x170D); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-						emu_sp += 4;
-
-						emu_push(0);
-						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x171D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-						emu_sp += 6;
+						GUI_Widget_MakeVisible(widget24);
+						GUI_Widget_MakeSelected(widget24, false);
 					} else if (o->hitpoints != oi->hitpoints) {
 						if (o->flags.s.repairing) {
-							emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_get_memory16(emu_es, emu_bx, 0x38) = 0x23; /* Widget->stringID */
+							widget24->stringID = 0x23;
 
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1752); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-							emu_sp += 4;
-
-							emu_push(0);
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1762); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_01CE_002B_7574();
-							emu_sp += 6;
+							GUI_Widget_MakeVisible(widget24);
+							GUI_Widget_MakeSelected(widget24, false);
 						} else {
-							emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_get_memory16(emu_es, emu_bx, 0x38) = 0x22; /* Widget->stringID */
+							widget24->stringID = 0x22;
 
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1778); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-							emu_sp += 4;
-
-							emu_push(0);
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1788); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Update();
-							emu_sp += 6;
+							GUI_Widget_MakeVisible(widget24);
+							GUI_Widget_MakeNormal(widget24, false);
 						}
 					} else if (s->upgradeTimeLeft != 0) {
-						emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_get_memory16(emu_es, emu_bx, 0x38) = 0x8E; /* Widget->stringID */
+						widget24->stringID = 0x8E;
 
-						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x17AB); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-						emu_sp += 4;
-
-						emu_push(0);
-						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x17BB); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Update();
-						emu_sp += 6;
+						GUI_Widget_MakeVisible(widget24);
+						GUI_Widget_MakeNormal(widget24, false);
 					}
 
 					if (o->type != STRUCTURE_STARPORT) {
 						if (oi->flags.s.factory || (o->type == STRUCTURE_PALACE && s->countDown == 0)) {
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2E));
-							emu_push(emu_cs); emu_push(0x17F2); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-							emu_sp += 4;
-
-							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2E));
-							emu_push(emu_cs); emu_push(0x17FF); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_Draw();
-							emu_sp += 4;
+							GUI_Widget_MakeVisible(widget2C);
+							GUI_Widget_Draw(widget2C);
 						}
 					}
 
@@ -1903,34 +1799,22 @@ l__1158:
 				} break;
 
 				case 4: /* Attack */
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
-
+					GUI_Widget_MakeVisible(widget30);
 					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					break;
 
 				case 5: /* Movement */
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x1512); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
-
+					GUI_Widget_MakeVisible(widget30);
 					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					break;
 
 				case 6: /* Harvest */
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x14C7); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
-
+					GUI_Widget_MakeVisible(widget30);
 					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					break;
 
 				case 7: /* Placement */
-					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x1457); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
-					emu_sp += 4;
-
+					GUI_Widget_MakeVisible(widget30);
 					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11);
 					break;
 

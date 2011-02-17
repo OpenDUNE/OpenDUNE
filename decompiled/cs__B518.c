@@ -903,7 +903,7 @@ l__0AF5:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0B03); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Update();
+	emu_push(emu_cs); emu_push(0x0B03); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeNormal();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0B03:

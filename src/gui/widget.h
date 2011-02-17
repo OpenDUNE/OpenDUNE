@@ -145,7 +145,8 @@ extern void    GUI_Widget_MakeVisible(Widget *w);
 extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A, csip32 *retcsip);
-extern csip32  GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip);
+extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
+extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -155,11 +156,11 @@ extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_Click(Widget *w);
-extern bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip);
+extern bool GUI_Widget_TextButton_Click(Widget *w);
 extern bool GUI_Widget_Name_Click();
 extern bool GUI_Widget_Cancel_Click();
 extern bool GUI_Widget_Picture_Click();
-extern bool GUI_Widget_RepairUpgrade_Click(Widget *w, csip32 wcsip);
+extern bool GUI_Widget_RepairUpgrade_Click(Widget *w);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);
@@ -179,6 +180,7 @@ extern void emu_GUI_Widget_Scrollbar_ArrowUp_Click();
 extern void emu_GUI_Widget_Scrollbar_ArrowDown_Click();
 extern void emu_GUI_Widget_GetShortcut();
 extern void emu_GUI_Widget_Allocate();
-extern void emu_GUI_Widget_Update();
+extern void emu_GUI_Widget_MakeNormal();
+extern void emu_GUI_Widget_MakeSelected();
 
 #endif /* GUI_WIDGET_H */
