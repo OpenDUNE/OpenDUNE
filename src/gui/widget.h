@@ -183,5 +183,6 @@ extern void emu_GUI_Widget_GetShortcut();
 extern void emu_GUI_Widget_Allocate();
 extern void emu_GUI_Widget_MakeNormal();
 extern void emu_GUI_Widget_MakeSelected();
+extern void emu_GUI_Widget_ActionPanel_Draw();
 
 #endif /* GUI_WIDGET_H */

@@ -1647,9 +1647,12 @@ l__2135:
 	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
 l__213F:
 	emu_pop(&emu_cx);
-
-	GUI_Widget_ActionPanel_Draw(1);
-
+	emu_ax = 0x1;
+	emu_push(emu_ax);
+	emu_push(emu_cs);
+	emu_push(0x2148); emu_GUI_Widget_ActionPanel_Draw();
+l__2148:
+	emu_pop(&emu_cx);
 	emu_ax = 0x1;
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C28));
