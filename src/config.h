@@ -18,7 +18,7 @@ typedef struct DuneCfg {
 	/* 0005(1)   */ PACK bool   useXMS;                     /*!< Use Extended Memory. */
 	/* 0006(1)   */ PACK uint8  variable_0006;              /*!< ?? */
 	/* 0007(1)   */ PACK uint8  variable_0007;              /*!< ?? */
-	/* 0008(1)   */ PACK uint8  language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
+	/* 0008(1)   */ PACK uint8  language;                   /*!< @see Language. */
 	/* 0009(1)   */ PACK uint8  checksum;                   /*!< Used to check validity on config data. See Config_Read(). */
 } GCC_PACKED DuneCfg;
 MSVC_PACKED_END

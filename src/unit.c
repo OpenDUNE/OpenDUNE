@@ -2253,7 +2253,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 	} else {
 		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
-		if (g_global->language == 1) {
+		if (g_global->language == LANGUAGE_FRENCH) {
 			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 		} else {
 			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));

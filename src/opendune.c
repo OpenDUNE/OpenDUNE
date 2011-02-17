@@ -792,7 +792,7 @@ static void Gameloop_IntroMenu()
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 
-	g_global->new6pFnt = Font_LoadFile((g_global->language == 2) ? "new6pg.fnt" : "new6p.fnt");
+	g_global->new6pFnt = Font_LoadFile((g_global->language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 
 	g_global->new8pFnt2 = g_global->new8pFnt;
 

@@ -180,7 +180,7 @@ void emu_Unknown_B483_0363()
 		uint8 i;
 
 		for (i = 0; i < 5; i++) {
-			g_global->variable_0218[i] = (g_global->language == 0) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
+			g_global->variable_0218[i] = (g_global->language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
 		}
 	}
 

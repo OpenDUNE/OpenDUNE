@@ -178,7 +178,7 @@ MSVC_PACKED_BEGIN
  * Static information per Action type.
  */
 typedef struct ActionInfo {
-	/* 0000()    */ PACK uint8   unknown_0000[0x0002];
+	/* 0000()    */ PACK uint16 stringID;                   /*!< StringID of Action name. */
 	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
 	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
 	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */

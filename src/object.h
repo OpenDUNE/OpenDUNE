@@ -10,9 +10,9 @@ MSVC_PACKED_BEGIN
  * Data common to Structure and Unit.
  */
 typedef struct Object {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure in the array. */
-	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure. */
-	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/unit we are linked to, or 0xFF if we are not linked to a structure/unit. */
+	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the Structure/Unit in the array. */
+	/* 0002(1)   */ PACK uint8  type;                       /*!< Type of Structure/Unit. */
+	/* 0003(1)   */ PACK uint8  linkedID;                   /*!< Structure/Unit we are linked to, or 0xFF if we are not linked to a Structure/Unit. */
 	/* 0004(4)   */ PACK union {
 	                     struct {
 	/*  4 - 0001 */              BITTYPE used:1;            /*!< The Object is in use (no longer free in the pool). */

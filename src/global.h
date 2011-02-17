@@ -19,6 +19,20 @@
  *   353F -> Global data.
  */
 
+/**
+ * Types of Language available in the game.
+ */
+typedef enum Language {
+	LANGUAGE_ENGLISH     = 0,
+	LANGUAGE_FRENCH      = 1,
+	LANGUAGE_GERMAN      = 2,
+	LANGUAGE_ITALIAN     = 3,
+	LANGUAGE_SPANSIH     = 4,
+
+	LANGUAGE_MAX         = 5,
+	LANGUAGE_INVALID     = 0xFF
+} Language;
+
 MSVC_PACKED_BEGIN
 typedef struct struct_7B68 {
 	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
@@ -735,7 +749,7 @@ typedef struct GlobalData {
 	/* 37B0(2)   */ PACK uint16 debugNoExplosionDamage;     /*!< When non-zero, explosions do no damage to their surrounding. */
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
-	/* 37B6(2)   */ PACK uint16 language;                   /*!< 0:English, 1:French, 2:German, 3:Italian, 4:Spanish. */
+	/* 37B6(2)   */ PACK uint16 language;                   /*!< @see Language. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
 	/* 37BA(2)   */ PACK uint16 variable_37BA;              /*!< ?? */
 	/* 37BC(4)   */ PACK csip32 variable_37BC;              /*!< ?? */

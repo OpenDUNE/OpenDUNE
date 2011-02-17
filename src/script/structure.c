@@ -664,7 +664,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	if (g_global->debugScenario) return 0;
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
-	if (g_global->language == 1) {
+	if (g_global->language == LANGUAGE_FRENCH) {
 		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(0x85));
 	} else {
 		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), String_Get_ByIndex(0x85));
