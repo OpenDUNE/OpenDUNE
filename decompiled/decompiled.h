@@ -538,7 +538,6 @@ extern void f__B4F2_0EE0_000E_BC8E();
 extern void emu_Tools_StoreSegments();
 extern void f__2649_0EFC_003A_7D24();
 extern void f__B503_0F0C_0010_028B();
-extern void f__10E4_0F1A_0088_7622();
 extern void f__B518_0F22_0007_C8B1();
 extern void f__AB01_0F24_0044_3584();
 extern void f__B4F2_0F24_000E_BC8E();

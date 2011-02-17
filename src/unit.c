@@ -25,13 +25,13 @@
 #include "os/math.h"
 #include "string.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "sprites.h"
 
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
 extern void f__10E4_0117_0015_392D();
-extern void f__10E4_0F1A_0088_7622();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
@@ -1908,9 +1908,7 @@ void Unit_Select(Unit *unit)
 		g_global->selectionUnit = ucsip;
 		selected = unit;
 
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x108F); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
-		emu_sp += 2;
+		GUI_Widget_ActionPanel_Draw(1);
 	} else {
 		Unit_DisplayStatusText(unit);
 		g_global->selectionUnit = ucsip;

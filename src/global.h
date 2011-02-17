@@ -726,7 +726,7 @@ typedef struct GlobalData {
 	/* 373A(2)   */ PACK uint16 variable_373A;              /*!< ?? */
 	/* 373C(4)   */ PACK uint32 variable_373C;              /*!< ?? */
 	/* 3740(2)   */ PACK uint16 variable_3740;              /*!< ?? */
-	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< ?? */
+	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< Always zero bytes, used to memset 4 csips. No longer in use. */
 	/* 3752()    */ PACK uint8   unknown_3752[0x001A];
 	/* 376C(2)   */ PACK uint16 variable_376C;              /*!< ?? */
 	/* 376E(2)   */ PACK uint16 variable_376E;              /*!< ?? */

@@ -30,7 +30,6 @@
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__10E4_0117_0015_392D();
-extern void f__10E4_0F1A_0088_7622();
 extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
@@ -118,9 +117,7 @@ void GameLoop_Structure()
 				s->countDown--;
 
 				if (s->o.houseID == g_global->playerHouseID) {
-					emu_push(1);
-					emu_push(emu_cs); emu_push(0x01BA); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
-					emu_sp += 2;
+					GUI_Widget_ActionPanel_Draw(1);
 				}
 			}
 
@@ -1148,9 +1145,7 @@ void Structure_ActivateSpecial(Structure *s)
 	}
 
 	if (s->o.houseID == g_global->playerHouseID) {
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x07B8); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
-		emu_sp += 2;
+		GUI_Widget_ActionPanel_Draw(1);
 	}
 }
 

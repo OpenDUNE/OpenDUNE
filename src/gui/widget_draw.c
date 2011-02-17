@@ -5,6 +5,8 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../house.h"
+#include "../pool/house.h"
 #include "../pool/unit.h"
 #include "../structure.h"
 #include "../unit.h"
@@ -12,13 +14,19 @@
 #include "gui.h"
 #include "../string.h"
 #include "../sprites.h"
+#include "../unknown/unknown.h"
 
+extern void f__10E4_0D58_004B_FEF5();
+extern void f__10E4_1BE0_002F_1A76();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
+extern void f__2642_0069_0008_D517();
+extern void f__2642_0002_005E_87F6();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
+extern void emu_GUI_DrawLine();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_String_Get_ByIndex();
@@ -609,4 +617,429 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 	}
 
 	scrollbar->dirty = 0;
+}
+
+/**
+ * Draw the panel on the right side of the screen, with the actions of the
+ *  selected item.
+ *
+ * @param unknown06 Unknown parameter.
+ */
+void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
+{
+	uint16 actionType;
+	uint16 loc04, loc06;
+	bool isNotPlayerOwned;
+	Object *o;
+	ObjectInfo *oi;
+	Unit *u;
+	UnitInfo *ui;
+	Structure *s;
+	StructureInfo *si;
+	House *h;
+	Widget *buttons[4];
+	Widget *widget24, *widget28, *widget2C, *widget30, *widget34;
+	int i;
+
+	o  = NULL;
+	u  = NULL;
+	s  = NULL;
+	h  = NULL;
+
+	oi = NULL;
+	ui = NULL;
+	si = NULL;
+	isNotPlayerOwned = false;
+
+	emu_push(unknown06);
+	emu_push(emu_cs); emu_push(0x0FAA); emu_cs = 0x10E4; f__10E4_1BE0_002F_1A76();
+	emu_sp += 2;
+	actionType = emu_ax;
+
+	switch (actionType) {
+		case 2: { /* Unit */
+			u  = Unit_Get_ByMemory(g_global->selectionUnit);
+			ui = &g_unitInfo[u->o.type];
+
+			o  = &u->o;
+			oi = &ui->o;
+
+			isNotPlayerOwned = (g_global->playerHouseID == Unit_GetHouseID(u)) ? false : true;
+
+			h = House_Get_ByIndex(u->o.houseID);
+		} break;
+
+		case 3: { /* Structure */
+			s  = Structure_Get_ByPackedTile(g_global->selectionPosition);
+			si = &g_structureInfo[s->o.type];
+
+			o  = &s->o;
+			oi = &si->o;
+
+			isNotPlayerOwned = (g_global->playerHouseID == s->o.houseID) ? false : true;
+
+			h = House_Get_ByIndex(s->o.houseID);
+
+			if (s->upgradeTimeLeft == 0 && Structure_IsUpgradable(s)) s->upgradeTimeLeft = 100;
+			GUI_UpdateProductionStringID();
+		} break;
+
+		case 7: { /* Placement */
+			si = &g_structureInfo[g_global->activeStructureType];
+
+			o = NULL;
+			oi = &si->o;
+
+			isNotPlayerOwned = false;
+
+			h = House_Get_ByIndex((uint8)g_global->playerHouseID);
+		} break;
+
+		case 8: { /* House Missile */
+			u  = Unit_Get_ByMemory(g_global->unitHouseMissile);
+			ui = &g_unitInfo[u->o.type];
+
+			o  = &u->o;
+			oi = &ui->o;
+
+			isNotPlayerOwned = (g_global->playerHouseID == Unit_GetHouseID(u)) ? false : true;
+
+			h = House_Get_ByIndex((uint8)g_global->playerHouseID);
+		} break;
+
+		case 4: /* Attack */
+		case 5: /* Movement */
+		case 6: /* Harvest */
+		default: /* Default */
+			break;
+
+	}
+
+	loc04 = g_global->variable_6C91;
+	loc06 = g_global->variable_6D5D;
+
+	if (actionType != 0) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x1176); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+		loc04 = emu_ax;
+
+		emu_push(6);
+		emu_push(emu_cs); emu_push(0x1183); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+		emu_sp += 2;
+		loc06 = emu_ax;
+
+		widget30 = GUI_Widget_Get_ByIndex(w, 7);
+		GUI_Widget_MakeInvisible(widget30);
+
+		widget24 = GUI_Widget_Get_ByIndex(w, 4);
+		GUI_Widget_MakeInvisible(widget24);
+
+		widget28 = GUI_Widget_Get_ByIndex(w, 6);
+		GUI_Widget_MakeInvisible(widget28);
+
+		widget2C = GUI_Widget_Get_ByIndex(w, 5);
+		GUI_Widget_MakeInvisible(widget2C);
+
+		widget34 = GUI_Widget_Get_ByIndex(w, 3);
+		GUI_Widget_MakeInvisible(widget34);
+
+		/* Create the 4 buttons */
+		for (i = 0; i < 4; i++) {
+			buttons[i] = GUI_Widget_Get_ByIndex(w, i + 8);
+			GUI_Widget_MakeInvisible(buttons[i]);
+		}
+
+		emu_push(0);
+		emu_push(0);
+		emu_push(g_global->variable_6D5D);
+		emu_push(emu_cs); emu_push(0x12A3); emu_GUI_Widget_DrawBorder();
+		emu_sp += 6;
+	}
+
+	if (actionType > 1) {
+		uint16 stringID = 0;
+		uint16 spriteID = 0xFFFF;
+
+		switch (actionType) {
+			case 4: stringID = 13; break; /* Attack */
+			case 5: stringID = 14; break; /* Movement */
+			case 6: stringID = 6;  break; /* Harvest */
+
+			case 2: /* Unit */
+			case 3: /* Structure */
+			case 7: /* Placement */
+			case 8: /* House Missile */
+				stringID = oi->stringID_abbrev;
+				break;
+
+			default: break;
+		}
+
+		if (stringID != 0) GUI_DrawText_Wrapper(String_Get_ByIndex(stringID), 288, 43, 29, 0, 0x111);
+
+		switch (actionType) {
+			case 3: /* Structure */
+				if (oi->flags.s.factory && !isNotPlayerOwned) {
+					GUI_Widget_MakeVisible(widget28);
+					break;
+				}
+				/* Fall through */
+			case 2: /* Unit */
+			case 7: /* Placement */
+				spriteID = oi->spriteID;
+				break;
+
+			case 5: /* Movement */
+			case 6: /* Harvest */
+				spriteID = 0x1D;
+				break;
+
+			case 4: /* Attack */
+				spriteID = 0x1C;
+				break;
+
+			case 8: /* House Missile */
+				spriteID = 0x1E;
+				break;
+
+			default:
+				spriteID = 0xFFFF;
+				break;
+		}
+
+		if (spriteID != 0xFFFF) {
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 258, 51, 0, 0);
+		}
+
+		/* Unit / Structure */
+		if (actionType == 2 || actionType == 3) {
+			emu_push(oi->hitpoints);
+			emu_push(o->hitpoints);
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x13D0); emu_cs = 0x10E4; f__10E4_0D58_004B_FEF5();
+			emu_sp += 6;
+
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[27], 292, 60, 0, 0);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(49), 296, 65, 29, 0, 0x11);
+		}
+
+		if (!isNotPlayerOwned || g_global->debugGame) {
+			switch (actionType) {
+				case 2: /* Unit */
+				{
+					uint16 *actions;
+					uint16 actionCurrent;
+					int i;
+
+					GUI_Widget_MakeVisible(widget34);
+
+					actionCurrent = (u->nextActionID != ACTION_INVALID) ? u->nextActionID : u->actionID;
+
+					actions = oi->actionsPlayer;
+					if (isNotPlayerOwned && o->type != UNIT_HARVESTER) actions = g_global->actionsAI;
+
+					for (i = 0; i < 4; i++) {
+						buttons[i]->stringID = g_actionInfo[actions[i]].stringID;
+						buttons[i]->shortcut = GUI_Widget_GetShortcut(String_Get_ByIndex(buttons[i]->stringID)[0]);
+
+						if (g_global->language == LANGUAGE_FRENCH) {
+							if (buttons[i]->stringID == 2) buttons[i]->shortcut2 = 0x27;
+							if (buttons[i]->stringID == 7) buttons[i]->shortcut2 = 0x13;
+						}
+						if (g_global->language == LANGUAGE_GERMAN) {
+							if (buttons[i]->stringID == 4) buttons[i]->shortcut2 = 0x17;
+						}
+
+						GUI_Widget_MakeVisible(buttons[i]);
+
+						if (actions[i] == actionCurrent) {
+							GUI_Widget_MakeSelected(buttons[i], false);
+						} else {
+							GUI_Widget_MakeNormal(buttons[i], false);
+						}
+					}
+				} break;
+
+				case 3: /* Structure */
+				{
+					GUI_Widget_MakeVisible(widget34);
+
+					if (o->flags.s.upgrading) {
+						widget24->stringID = 0x8F;
+
+						GUI_Widget_MakeVisible(widget24);
+						GUI_Widget_MakeSelected(widget24, false);
+					} else if (o->hitpoints != oi->hitpoints) {
+						if (o->flags.s.repairing) {
+							widget24->stringID = 0x23;
+
+							GUI_Widget_MakeVisible(widget24);
+							GUI_Widget_MakeSelected(widget24, false);
+						} else {
+							widget24->stringID = 0x22;
+
+							GUI_Widget_MakeVisible(widget24);
+							GUI_Widget_MakeNormal(widget24, false);
+						}
+					} else if (s->upgradeTimeLeft != 0) {
+						widget24->stringID = 0x8E;
+
+						GUI_Widget_MakeVisible(widget24);
+						GUI_Widget_MakeNormal(widget24, false);
+					}
+
+					if (o->type != STRUCTURE_STARPORT) {
+						if (oi->flags.s.factory || (o->type == STRUCTURE_PALACE && s->countDown == 0)) {
+							GUI_Widget_MakeVisible(widget2C);
+							GUI_Widget_Draw(widget2C);
+						}
+					}
+
+					switch (o->type) {
+						case STRUCTURE_SLAB_1x1: break;
+						case STRUCTURE_SLAB_2x2: break;
+						case STRUCTURE_PALACE: break;
+						case STRUCTURE_LIGHT_VEHICLE: break;
+						case STRUCTURE_HEAVY_VEHICLE: break;
+						case STRUCTURE_HIGH_TECH: break;
+						case STRUCTURE_HOUSE_OF_IX: break;
+						case STRUCTURE_WOR_TROOPER: break;
+						case STRUCTURE_CONSTRUCTION_YARD: break;
+						case STRUCTURE_BARRACKS: break;
+						case STRUCTURE_WALL: break;
+						case STRUCTURE_TURRET: break;
+						case STRUCTURE_ROCKET_TURRET: break;
+
+						case STRUCTURE_REPAIR: {
+							uint16 percent;
+							uint16 steps;
+							Unit *u;
+
+							u = Structure_GetLinkedUnit(s);
+							if (u == NULL) break;
+
+							GUI_DrawSprite(g_global->variable_6C91, g_sprites[g_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
+
+							steps = g_unitInfo[u->o.type].o.buildTime / 4;
+							percent = (steps - s->countDown / 8) * 100 / steps;
+
+							GUI_DrawText_Wrapper(String_Get_ByIndex(46), 258, 116, 29, 0, 0x11, percent);
+						} break;
+
+						case STRUCTURE_WINDTRAP: {
+							uint16 powerOutput = o->hitpoints * -si->powerUsage / oi->hitpoints;
+							uint16 powerAverage = (h->windtrapCount == 0) ? 0 : h->powerUsage / h->windtrapCount;
+
+							emu_push(16);
+							emu_push(95); emu_push(312);
+							emu_push(95); emu_push(261);
+							emu_push(emu_cs); emu_push(0x1964); emu_cs = 0x22A6; emu_GUI_DrawLine();
+							emu_sp += 10;
+
+							GUI_DrawText_Wrapper(String_Get_ByIndex(89), 258, 88, 29, 0, 0x11);
+							GUI_DrawText_Wrapper(g_global->string_3774, 302, g_global->variable_6C71 * 2 + 80, 29, 0, 0x11, powerAverage);
+							GUI_DrawText_Wrapper(g_global->string_3774, 302, g_global->variable_6C71 * 3 + 80, (powerOutput >= powerAverage) ? 29 : 6, 0, 0x11, powerOutput);
+						} break;
+
+						case STRUCTURE_STARPORT: {
+							if (h->starportLinkedID != 0xFFFF) {
+								GUI_DrawText_Wrapper(String_Get_ByIndex(161), 258, 88, 29, 0, 0x11, h->starportTimeLeft);
+							} else {
+								GUI_DrawText_Wrapper(String_Get_ByIndex(160), 258, 88, 29, 0, 0x11);
+							}
+						} break;
+
+						case STRUCTURE_REFINERY:
+						case STRUCTURE_SILO: {
+							uint16 creditsStored;
+
+							creditsStored = h->credits * si->creditsStorage / h->creditsStorage;
+							if (h->credits > h->creditsStorage) creditsStored = si->creditsStorage;
+
+							emu_push(16);
+							emu_push(95); emu_push(312);
+							emu_push(95); emu_push(261);
+							emu_push(emu_cs); emu_push(0x1AEF); emu_cs = 0x22A6; emu_GUI_DrawLine();
+							emu_sp += 10;
+
+							GUI_DrawText_Wrapper(String_Get_ByIndex(88), 258, 88, 29, 0, 0x11, creditsStored, (si->creditsStorage <= 1000) ? si->creditsStorage : 1000);
+						} break;
+
+						case STRUCTURE_OUTPOST: {
+							emu_push(16);
+							emu_push(95); emu_push(312);
+							emu_push(95); emu_push(261);
+							emu_push(emu_cs); emu_push(0x1A0C); emu_cs = 0x22A6; emu_GUI_DrawLine();
+							emu_sp += 10;
+
+							GUI_DrawText_Wrapper(String_Get_ByIndex(146), 258, 88, 29, 0, 0x11, h->unitCountAllied, h->unitCountEnemy);
+						} break;
+					}
+				} break;
+
+				case 4: /* Attack */
+					GUI_Widget_MakeVisible(widget30);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					break;
+
+				case 5: /* Movement */
+					GUI_Widget_MakeVisible(widget30);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					break;
+
+				case 6: /* Harvest */
+					GUI_Widget_MakeVisible(widget30);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					break;
+
+				case 7: /* Placement */
+					GUI_Widget_MakeVisible(widget30);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					break;
+
+				case 8: /* House Missile */
+				{
+					int16 count = (int16)g_global->houseMissileCountdown - 1;
+					if (count <= 0) count = 0;
+
+					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11, count);
+				} break;
+
+				default:
+					break;
+			}
+		}
+	}
+
+	if (actionType != 0) {
+		emu_push(6);
+		emu_push(emu_cs); emu_push(0x1B49); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+		emu_sp += 2;
+
+		emu_push(0);
+		emu_push(g_global->variable_6C91);
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992F);
+		emu_push(g_global->variable_992B);
+		emu_push(g_global->variable_992D);
+		emu_push(g_global->variable_992B);
+		emu_push(g_global->variable_992D);
+		emu_push(emu_cs); emu_push(0x1B6E); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+		emu_sp += 16;
+
+		emu_push(emu_cs); emu_push(0x1B76); emu_cs = 0x2642; f__2642_0069_0008_D517();
+	}
+
+	if (actionType > 1) {
+		emu_push(loc06);
+		emu_push(emu_cs); emu_push(0x1B84); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+		emu_sp += 2;
+
+		emu_push(loc04);
+		emu_push(emu_cs); emu_push(0x1B8D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+	}
 }

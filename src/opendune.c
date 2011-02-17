@@ -35,7 +35,6 @@
 #include "wsa.h"
 
 extern void f__10E4_0675_0026_F126();
-extern void f__10E4_0F1A_0088_7622();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_0796_000B_9035();
@@ -1474,9 +1473,7 @@ static void GameLoop_Main()
 				}
 			}
 
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x10E4; f__10E4_0F1A_0088_7622();
-			emu_sp += 2;
+			GUI_Widget_ActionPanel_Draw(0);
 
 			InGame_Numpad_Move(key);
 
