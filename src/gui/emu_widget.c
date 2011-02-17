@@ -8,6 +8,41 @@
 #include "widget.h"
 
 /**
+ * Emulator wrapper around GUI_Widget_Get_ByIndex().
+ *
+ * @name emu_GUI_Widget_Get_ByIndex
+ * @implements B48B:00F2:0005:601A ()
+ */
+void emu_GUI_Widget_Get_ByIndex()
+{
+	Widget *w;
+	csip32 wcsip;
+	uint16 index;
+	csip32 ret;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32  (emu_ss, emu_sp, 0x0);
+	index = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	emu_ax = 0;
+	emu_dx = 0;
+
+	if (wcsip.csip == 0x0) return;
+
+	w = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(wcsip), index);
+
+	if (w == NULL) return;
+
+	ret = emu_Global_GetCSIP(w);
+
+	emu_ax = ret.s.ip;
+	emu_dx = ret.s.cs;
+}
+
+/**
  * Emulator wrapper around GUI_Widget_Draw().
  *
  * @name emu_GUI_Widget_Draw

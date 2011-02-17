@@ -833,7 +833,7 @@ typedef struct GlobalData {
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
-	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< ?? */
+	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< First Widget in the linked-list of all Widgets. */
 	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
@@ -1352,6 +1352,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);
 
 extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
+extern csip32 emu_Global_GetCSIP(void *ptr);
 extern uint8 *emu_get_memorycsip(csip32 csip);
 
 extern GlobalData *g_global;

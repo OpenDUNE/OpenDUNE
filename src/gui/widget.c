@@ -43,6 +43,25 @@ Widget *GUI_Widget_GetNext(Widget *w)
 }
 
 /**
+ * Find an existing Widget by the index number. It matches the first hit, and
+ *  returns that widget to you.
+ * @param w The first widget to start searching from.
+ * @param index The index of the widget you are looking for.
+ * @return The widget, or NULL if not found.
+ */
+Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index)
+{
+	if (index == 0) return w;
+
+	while (w != NULL) {
+		if (w->index == index) return w;
+		w = GUI_Widget_GetNext(w);
+	}
+
+	return NULL;
+}
+
+/**
  * Unknown function 0004.
  *
  * @param w The widget to draw.

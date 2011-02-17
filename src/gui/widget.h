@@ -125,6 +125,7 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
 extern WidgetClickInfo *g_widgetClickInfo;
 
 extern Widget *GUI_Widget_GetNext(Widget *w);
+extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);
 extern uint16  GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
 extern void    GUI_Widget_Draw(Widget *w, csip32 wcsip);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
@@ -153,6 +154,7 @@ extern void GUI_Widget_TextButton2_Draw(Widget *w);
 extern void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip);
 
 
+extern void emu_GUI_Widget_Get_ByIndex();
 extern void emu_GUI_Widget_HandleEvents();
 extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_ScrollBar_Draw();

@@ -27,6 +27,21 @@ uint16 emu_Global_GetIP(void *ptr, uint16 segment)
 }
 
 /**
+ * Given a pointer inside the 16bit memory, find a CS:IP to reflect this
+ *  address.
+ * @note Please avoid using.
+ */
+csip32 emu_Global_GetCSIP(void *ptr)
+{
+	csip32 ret;
+
+	ret.s.cs = ((size_t)ptr - (size_t)emu_memory) >> 4;
+	ret.s.ip = (size_t)ptr - (size_t)emu_memory - (ret.s.cs << 4);
+
+	return ret;
+}
+
+/**
  * Get a piece of memory by csip.
  */
 uint8 *emu_get_memorycsip(csip32 csip)

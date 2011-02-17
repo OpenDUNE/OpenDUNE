@@ -17,7 +17,6 @@
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
-extern void f__B48B_00F2_0005_601A();
 extern void f__B48B_01CE_002B_7574();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
@@ -308,7 +307,7 @@ bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip)
 
 	emu_push(loc08.s.ip - acsip.s.ip + 8);
 	emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-	emu_push(emu_cs); emu_push(0x1E76); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00F2_0005_601A();
+	emu_push(emu_cs); emu_push(0x1E76); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
 	emu_sp += 6;
 
 	wcsip.s.cs = emu_dx;
