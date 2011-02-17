@@ -78,7 +78,20 @@ typedef struct Widget {
 	/* 000B(1)   */ PACK uint8  drawModeSelected;           /*!< Draw mode when selected. */
 	/* 000C(1)   */ PACK uint8  drawModeDown;               /*!< Draw mode when down. */
 	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
-	/* 000E(2)   */ PACK uint16 flags;                      /*!< ?? Bitflags. 0x01 - Requires Click, 0x04 - Click as Hover, 0x08 - NoButton, 0x10 - ??, 0x20 - No Other Widgets On Click, 0x40 - Lose Select When Leave. Bitmask. 0x0F00 - Left Button Filter, 0xF000 - Right Button Filter. */
+	/* 000E(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE requiresClick:1;   /*!< Requires click. */
+	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
+	/*      0004 */              BITTYPE clickAsHover:1;    /*!< Click as hover. */
+	/*      0008 */              BITTYPE noButton:1;        /*!< NoButton. */
+	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
+	/*      0020 */              BITTYPE noOthersOnClick:1; /*!< No other widgets on click. */
+	/*      0040 */              BITTYPE loseSelect:1;      /*!< Lose select when leave */
+	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
+	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter */
+	/*      F000 */              BITTYPE buttonFilterRight:4;/*!< Right button filter */
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
 	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when normal. */
 	/* 0014(4)   */ PACK csip32 drawProcSelected;           /*!< Draw proc when selected. */
 	/* 0018(4)   */ PACK csip32 drawProcDown;               /*!< Draw proc when down. */

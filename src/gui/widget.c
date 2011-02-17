@@ -113,8 +113,8 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 
 	if (w == NULL) return;
 
-	if ((w->flags & 0x08) != 0) {
-		if ((w->flags & 0x10) == 0) return;
+	if (w->flags.s.noButton) {
+		if (!w->flags.s.variable_0010) return;
 
 		GUI_Widget_Unknown0004(w, g_global->variable_6D53);
 		/* Check if this overlay should be reloaded */
@@ -336,7 +336,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		/* XXX -- Should be removed */
 		wcsip = l_widget_selected_csip;
 
-		if ((w->flags & 0x08) != 0) {
+		if (w->flags.s.noButton) {
 			l_widget_selected = NULL;
 			/* XXX -- Should be removed */
 			l_widget_selected_csip.csip = 0x0;
@@ -357,7 +357,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		wcsip = wncsip;
 		wncsip = w->next;
 
-		if ((w->flags & 0x08) != 0) continue;
+		if (w->flags.s.noButton) continue;
 
 		/* Store the previous button state */
 		w->state &= 0xFFE7;
@@ -386,8 +386,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			key = 0;
 
 			buttonState = 0;
-			if ((key & 0x7F) == w->shortcut2) buttonState = w->flags & 0xF000;
-			if (buttonState == 0) buttonState = w->flags & 0x0F00;
+			if ((key & 0x7F) == w->shortcut2) buttonState = (w->flags.s.buttonFilterRight) << 12;
+			if (buttonState == 0) buttonState = (w->flags.s.buttonFilterLeft) << 8;
 
 			l_widget_selected = w;
 			/* XXX -- Should be removed */
@@ -398,7 +398,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		w->state &= 0xFFF9;
 		if (widgetHover) {
 			/* Button pressed, and click is hover */
-			if ((buttonState & 0x3300) != 0 && (w->flags & 0x4) != 0 && (w == l_widget_selected || l_widget_selected == NULL)) {
+			if ((buttonState & 0x3300) != 0 && w->flags.s.clickAsHover && (w == l_widget_selected || l_widget_selected == NULL)) {
 				w->state |= 0x0006;
 
 				/* If we don't have a selected widget yet, this will be the one */
@@ -409,14 +409,14 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 				}
 			}
 			/* No button pressed, and click not is hover */
-			if ((buttonState & 0x8800) != 0 && (w->flags & 0x4) == 0) {
+			if ((buttonState & 0x8800) != 0 && !w->flags.s.clickAsHover) {
 				w->state |= 0x0006;
 			}
 		}
 
 		/* Check if we should trigger the hover activation */
 		triggerWidgetHover = widgetHover;
-		if (l_widget_selected != NULL && (l_widget_selected->flags & 0x40) != 0) {
+		if (l_widget_selected != NULL && l_widget_selected->flags.s.loseSelect) {
 			triggerWidgetHover = (l_widget_selected == w) ? true : false;
 		}
 
@@ -431,9 +431,9 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			}
 
 			/* Check if we want to consider this as click */
-			if ((buttonState & w->flags) != 0 && (widgetHover || (w->flags & 0x01) == 0)) {
+			if ((buttonState & w->flags.all) != 0 && (widgetHover || !w->flags.s.requiresClick)) {
 				uint16 buttonStateFilter;
-				buttonStateFilter = buttonState & w->flags;
+				buttonStateFilter = buttonState & w->flags.all;
 
 				if ((buttonStateFilter & 0x1100) != 0) {
 					/* Widget click */
@@ -441,27 +441,27 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					returnValue = w->index | 0x8000;
 					widgetClick = true;
 
-					if ((w->flags & 0x04) != 0) w->state |= 0x0006;
+					if (w->flags.s.clickAsHover) w->state |= 0x0006;
 					l_widget_selected = w;
 					/* XXX -- Should be removed */
 					l_widget_selected_csip = wcsip;
 				} else if ((buttonStateFilter & 0x2200) != 0) {
 					/* Widget was already clicked */
-					if ((w->flags & 0x04) == 0) w->state |= 0x0006;
-					if ((w->flags & 0x01) == 0) widgetClick = true;
+					if (!w->flags.s.clickAsHover) w->state |= 0x0006;
+					if (!w->flags.s.requiresClick) widgetClick = true;
 				} else if ((buttonStateFilter & 0x4400) != 0) {
 					/* Widget release */
-					if ((w->flags & 0x01) == 0 || ((w->flags & 0x01) != 0 && w == l_widget_selected)) {
+					if (!w->flags.s.requiresClick || (w->flags.s.requiresClick && w == l_widget_selected)) {
 						w->state ^= 0x0001;
 						returnValue = w->index | 0x8000;
 						widgetClick = true;
 					}
 
-					if ((w->flags & 0x04) == 0) w->state &= 0xFFF9;
+					if (!w->flags.s.clickAsHover) w->state &= 0xFFF9;
 				} else {
 					/* Widget was already released */
-					if ((w->flags & 0x04) != 0) w->state |= 0x0006;
-					if ((w->flags & 0x01) == 0) widgetClick = true;
+					if (w->flags.s.clickAsHover) w->state |= 0x0006;
+					if (!w->flags.s.requiresClick) widgetClick = true;
 				}
 			}
 		}
@@ -471,7 +471,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		if (widgetHover && (buttonState & 0x2200) != 0) {
 			w->state |= 0x0006;
 
-			if ((w->flags & 0x04) == 0 && (w->state & 0x0001) == 0) {
+			if (!w->flags.s.clickAsHover && (w->state & 0x0001) == 0) {
 				fakeClick = true;
 				w->state |= 0x0001;
 			}
@@ -483,10 +483,10 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			/* XXX -- Should be removed */
 			l_widget_selected_csip.csip = 0x0;
 
-			if (!widgetHover || (w->flags & 0x04) != 0) w->state &= 0xFFF9;
+			if (!widgetHover || w->flags.s.clickAsHover) w->state &= 0xFFF9;
 		}
 
-		if (!widgetHover && l_widget_selected == w && (w->flags & 0x40) == 0) {
+		if (!widgetHover && l_widget_selected == w && !w->flags.s.loseSelect) {
 			l_widget_selected = NULL;
 			/* XXX -- Should be removed */
 			l_widget_selected_csip.csip = 0x0;
@@ -564,11 +564,11 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			}
 
 			/* On click, don't handle any other widgets */
-			if ((w->flags & 0x20) != 0) break;
+			if (w->flags.s.noOthersOnClick) break;
 		}
 
 		/* If we are selected and we lose selection on leave, don't try other widgets */
-		if (w == l_widget_selected && (w->flags & 0x40) != 0) break;
+		if (w == l_widget_selected && w->flags.s.loseSelect) break;
 	}
 
 	if (returnValue != 0) return returnValue;
@@ -639,12 +639,19 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	w->bgColourSelected = 0xC;
 	w->fgColourNormal   = 0xF;
 	w->bgColourNormal   = 0xC;
-	w->flags            = 0x44C5;
 	w->stringID         = stringID;
 	w->variable_3A      = variable_3A;
 	w->state            = 0x0;
 	w->offsetX          = offsetX;
 	w->offsetY          = offsetY;
+
+	w->flags.all = 0x0;
+	w->flags.s.requiresClick = true;
+	w->flags.s.clickAsHover = true;
+	w->flags.s.loseSelect = true;
+	w->flags.s.variable_0080 = true;
+	w->flags.s.buttonFilterLeft = 4;
+	w->flags.s.buttonFilterRight = 4;
 
 	switch ((int16)spriteID + 4) {
 		case 0:
@@ -710,7 +717,7 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
  */
 csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
 {
-	if (w == NULL || (w->flags & 0x8) != 0) return wcsip;
+	if (w == NULL || w->flags.s.noButton) return wcsip;
 
 	if ((w->state & 0x1) != 0) {
 		w->state |= 0x8;

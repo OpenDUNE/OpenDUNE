@@ -521,7 +521,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	assert(g_global->variable_6668.csip == 0x22A60D31);
 
 	if (w == NULL) return;
-	if ((w->flags & 0x08) != 0) return;
+	if (w->flags.s.noButton) return;
 
 	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
 

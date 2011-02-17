@@ -1692,7 +1692,11 @@ uint16 GUI_PickHouse()
 
 			w2 = GUI_Widget_Allocate(i + 1, g_global->variable_2BAC[i][2], g_global->variable_2BAC[i][0], g_global->variable_2BAC[i][1], 0xFFFF, 0, 0, &w2csip);
 
-			w2->flags  = 0x11C0;
+			w2->flags.all = 0x0;
+			w2->flags.s.loseSelect = true;
+			w2->flags.s.variable_0080 = true;
+			w2->flags.s.buttonFilterLeft = 1;
+			w2->flags.s.buttonFilterRight = 1;
 			w2->width  = 96;
 			w2->height = 104;
 
