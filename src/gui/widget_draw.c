@@ -510,7 +510,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
  *
  * @param w The widget (which is a scrollbar) to draw.
  */
-void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
+void GUI_Widget_ScrollBar_Draw(Widget *w)
 {
 	WidgetScrollbar *scrollbar;
 	uint16 positionX, positionY;
@@ -521,7 +521,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 	assert(g_global->variable_6668.csip == 0x22A60D31);
 
 	if (w == NULL) return;
-	if (w->flags.s.noButton) return;
+	if (w->flags.s.invisible) return;
 
 	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
 
@@ -589,6 +589,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip)
 
 	/* Call custom callback function if set */
 	if (scrollbar->drawProc.csip != 0x00000000) {
+		csip32 wcsip = emu_Global_GetCSIP(w);
 		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
 
 		emu_push(emu_cs); emu_push(0x084F);

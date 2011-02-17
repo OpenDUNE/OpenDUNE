@@ -43,6 +43,30 @@ void emu_GUI_Widget_Get_ByIndex()
 }
 
 /**
+ * Emulator wrapper around GUI_Widget_MakeInvisible().
+ *
+ * @name emu_GUI_Widget_MakeInvisible
+ * @implements B48B:0088:0029:3A68 ()
+ */
+void emu_GUI_Widget_MakeInvisible()
+{
+	csip32 wcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = wcsip.s.ip;
+	emu_dx = wcsip.s.cs;
+
+	if (wcsip.csip == 0x0) return;
+
+	GUI_Widget_MakeInvisible((Widget *)emu_get_memorycsip(wcsip));
+}
+
+/**
  * Emulator wrapper around GUI_Widget_Draw().
  *
  * @name emu_GUI_Widget_Draw
@@ -51,7 +75,6 @@ void emu_GUI_Widget_Get_ByIndex()
 void emu_GUI_Widget_Draw()
 {
 	csip32 wcsip;
-	Widget *w;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -60,9 +83,7 @@ void emu_GUI_Widget_Draw()
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	if (wcsip.csip == 0x0) return;
 
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Widget_Draw(w, wcsip);
+	GUI_Widget_Draw((Widget *)emu_get_memorycsip(wcsip));
 }
 
 /**
@@ -74,17 +95,15 @@ void emu_GUI_Widget_Draw()
 void emu_GUI_Widget_HandleEvents()
 {
 	csip32 wcsip;
-	Widget *w;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	if (wcsip.csip == 0x0) return;
 
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	emu_ax = GUI_Widget_HandleEvents(w, wcsip);
+	emu_ax = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip), wcsip);
 }
 
 /**
@@ -96,7 +115,6 @@ void emu_GUI_Widget_HandleEvents()
 void emu_GUI_Widget_ScrollBar_Draw()
 {
 	csip32 wcsip;
-	Widget *w;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -105,9 +123,7 @@ void emu_GUI_Widget_ScrollBar_Draw()
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	if (wcsip.csip == 0x0) return;
 
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Widget_ScrollBar_Draw(w, wcsip);
+	GUI_Widget_ScrollBar_Draw((Widget *)emu_get_memorycsip(wcsip));
 }
 
 /**
@@ -119,7 +135,6 @@ void emu_GUI_Widget_ScrollBar_Draw()
 void emu_GUI_Widget_Scrollbar_ArrowUp_Click()
 {
 	csip32 wcsip;
-	Widget *w;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -128,9 +143,7 @@ void emu_GUI_Widget_Scrollbar_ArrowUp_Click()
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	if (wcsip.csip == 0x0) return;
 
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Widget_Scrollbar_ArrowUp_Click(w);
+	GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(wcsip));
 }
 
 /**
@@ -142,7 +155,6 @@ void emu_GUI_Widget_Scrollbar_ArrowUp_Click()
 void emu_GUI_Widget_Scrollbar_ArrowDown_Click()
 {
 	csip32 wcsip;
-	Widget *w;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -151,9 +163,7 @@ void emu_GUI_Widget_Scrollbar_ArrowDown_Click()
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 	if (wcsip.csip == 0x0) return;
 
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Widget_Scrollbar_ArrowDown_Click(w);
+	GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(wcsip));
 }
 
 /**

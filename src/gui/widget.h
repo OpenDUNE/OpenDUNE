@@ -83,9 +83,9 @@ typedef struct Widget {
 	/*      0001 */              BITTYPE requiresClick:1;   /*!< Requires click. */
 	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
 	/*      0004 */              BITTYPE clickAsHover:1;    /*!< Click as hover. */
-	/*      0008 */              BITTYPE noButton:1;        /*!< NoButton. */
+	/*      0008 */              BITTYPE invisible:1;       /*!< Widget is invisible. */
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
-	/*      0020 */              BITTYPE noOthersOnClick:1; /*!< No other widgets on click. */
+	/*      0020 */              BITTYPE noClickCascade:1;  /*!< Don't cascade the click event to any other widgets. */
 	/*      0040 */              BITTYPE loseSelect:1;      /*!< Lose select when leave */
 	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
 	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter */
@@ -140,10 +140,11 @@ extern WidgetClickInfo *g_widgetClickInfo;
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);
 extern uint16  GUI_Widget_HandleEvents(Widget *w, csip32 wcsip);
-extern void    GUI_Widget_Draw(Widget *w, csip32 wcsip);
+extern void    GUI_Widget_MakeInvisible(Widget *w);
+extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A, csip32 *retcsip);
-extern csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip);
+extern csip32  GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -152,7 +153,7 @@ extern bool GUI_Widget_Viewport_Click(Widget *w);
 extern bool GUI_Widget_SpriteTextButton_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w);
-extern bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip);
+extern bool GUI_Widget_Scrollbar_Click(Widget *w);
 extern bool GUI_Widget_TextButton_Click(Widget *w, csip32 wcsip);
 extern bool GUI_Widget_Name_Click();
 extern bool GUI_Widget_Cancel_Click();
@@ -164,11 +165,12 @@ extern void GUI_Widget_TextButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteTextButton_Draw(Widget *w);
 extern void GUI_Widget_TextButton2_Draw(Widget *w);
-extern void GUI_Widget_ScrollBar_Draw(Widget *w, csip32 wcsip);
+extern void GUI_Widget_ScrollBar_Draw(Widget *w);
 
 
 extern void emu_GUI_Widget_Get_ByIndex();
 extern void emu_GUI_Widget_HandleEvents();
+extern void emu_GUI_Widget_MakeInvisible();
 extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_ScrollBar_Draw();
 extern void emu_GUI_Widget_Scrollbar_ArrowUp_Click();

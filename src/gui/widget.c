@@ -94,12 +94,23 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 }
 
 /**
+ * Make the widget invisible.
+ * @param w The widget to make invisible.
+ */
+void GUI_Widget_MakeInvisible(Widget *w)
+{
+	if (w == NULL || w->flags.s.invisible) return;
+	w->flags.s.invisible = true;
+
+	GUI_Widget_Draw(w);
+}
+
+/**
  * Draw a widget to the display.
  *
  * @param w The widget to draw.
- * @param wcsip TODO -- TEMPORARY -- The csip to the widget.
  */
-void GUI_Widget_Draw(Widget *w, csip32 wcsip)
+void GUI_Widget_Draw(Widget *w)
 {
 	uint16 positionLeft, positionRight;
 	uint16 positionTop, positionBottom;
@@ -113,7 +124,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 
 	if (w == NULL) return;
 
-	if (w->flags.s.noButton) {
+	if (w->flags.s.invisible) {
 		if (!w->flags.s.variable_0010) return;
 
 		GUI_Widget_Unknown0004(w, g_global->variable_6D53);
@@ -191,7 +202,7 @@ void GUI_Widget_Draw(Widget *w, csip32 wcsip)
 				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w);     break;
 				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w);      break;
 				case 0x34F20061: GUI_Widget_TextButton_Draw(w);       break;
-				case 0x3520002A: GUI_Widget_ScrollBar_Draw(w, wcsip); break;
+				case 0x3520002A: GUI_Widget_ScrollBar_Draw(w); break;
 				default: assert(!"GUI_Widget_Draw(): unknown draw function.");
 			}
 		} break;
@@ -288,7 +299,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 
 		/* Draw all the widgets */
 		for (; w != NULL; w = GUI_Widget_GetNext(w)) {
-			GUI_Widget_Draw(w, wcsip);
+			GUI_Widget_Draw(w);
 			wcsip = w->next;
 		}
 	}
@@ -336,7 +347,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		/* XXX -- Should be removed */
 		wcsip = l_widget_selected_csip;
 
-		if (w->flags.s.noButton) {
+		if (w->flags.s.invisible) {
 			l_widget_selected = NULL;
 			/* XXX -- Should be removed */
 			l_widget_selected_csip.csip = 0x0;
@@ -357,7 +368,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 		wcsip = wncsip;
 		wncsip = w->next;
 
-		if (w->flags.s.noButton) continue;
+		if (w->flags.s.invisible) continue;
 
 		/* Store the previous button state */
 		w->state &= 0xFFE7;
@@ -494,7 +505,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 
 		/* When the state changed, redraw */
 		if ((w->state & 0x0018) != ((w->state & 0x0003) << 3)) {
-			GUI_Widget_Draw(w, wcsip);
+			GUI_Widget_Draw(w);
 		}
 
 		/* Reset click state when we were faking it */
@@ -519,7 +530,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w, wcsip); break;
 					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
-					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w, wcsip); break;
+					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w); break;
 					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
 
 					default:
@@ -564,7 +575,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 			}
 
 			/* On click, don't handle any other widgets */
-			if (w->flags.s.noOthersOnClick) break;
+			if (w->flags.s.noClickCascade) break;
 		}
 
 		/* If we are selected and we lose selection on leave, don't try other widgets */
@@ -717,7 +728,7 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
  */
 csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
 {
-	if (w == NULL || w->flags.s.noButton) return wcsip;
+	if (w == NULL || w->flags.s.invisible) return wcsip;
 
 	if ((w->state & 0x1) != 0) {
 		w->state |= 0x8;
@@ -736,7 +747,7 @@ csip32 GUI_Widget_Update(Widget *w, bool clickProc, csip32 wcsip)
 
 	w->state &= ~0x4;
 
-	GUI_Widget_Draw(w, wcsip);
+	GUI_Widget_Draw(w);
 
 	if (!clickProc || w->clickProc.csip == 0x0) return wcsip;
 

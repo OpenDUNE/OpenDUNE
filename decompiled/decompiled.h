@@ -131,7 +131,7 @@ extern void f__2BF2_006A_000E_61D9();
 extern void f__2B6C_006E_002E_4FBC();
 extern void f__B4E6_0074_000C_3554();
 extern void f__2B99_007B_0019_5737();
-extern void f__B48B_0088_0029_3A68();
+extern void emu_GUI_Widget_MakeInvisible();
 extern void f__B4BE_008B_0012_DDEE();
 extern void f__2BF2_008E_0013_1D73();
 extern void f__B511_0091_001D_9C25();

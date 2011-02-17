@@ -43,7 +43,7 @@ void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll, csip
 	emu_push(emu_cs); emu_push(0x068C); f__B520_096E_003C_F7E4();
 	emu_sp += 4;
 
-	GUI_Widget_ScrollBar_Draw((Widget *)emu_get_memorycsip(scrollbar->parent), scrollbar->parent);
+	GUI_Widget_ScrollBar_Draw((Widget *)emu_get_memorycsip(scrollbar->parent));
 }
 
 /**
@@ -136,7 +136,7 @@ bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
  * @param w The widget.
  * @return False, always.
  */
-bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
+bool GUI_Widget_Scrollbar_Click(Widget *w)
 {
 	WidgetScrollbar *scrollbar;
 	uint16 positionX, positionY;
@@ -153,7 +153,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 
 	if ((w->state & 0x4400) != 0) {
 		scrollbar->pressed = 0;
-		GUI_Widget_ScrollBar_Draw(w, wcsip);
+		GUI_Widget_ScrollBar_Draw(w);
 	}
 
 	if ((w->state & 0x1100) != 0) {
@@ -207,10 +207,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w, csip32 wcsip)
 		emu_push(emu_cs); emu_push(0x0605); emu_cs = 0xB520; f__B520_08E6_0038_85A4();
 		emu_sp += 4;
 
-		if (scrollbar->dirty != 0) {
-			assert(scrollbar->parent.csip == wcsip.csip);
-			GUI_Widget_ScrollBar_Draw(w, wcsip);
-		}
+		if (scrollbar->dirty != 0) GUI_Widget_ScrollBar_Draw(w);
 	}
 
 	return false;
