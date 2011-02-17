@@ -106,6 +106,18 @@ void GUI_Widget_MakeInvisible(Widget *w)
 }
 
 /**
+ * Make the widget visible.
+ * @param w The widget to make visible.
+ */
+void GUI_Widget_MakeVisible(Widget *w)
+{
+	if (w == NULL || !w->flags.s.invisible) return;
+	w->flags.s.invisible = false;
+
+	GUI_Widget_Draw(w);
+}
+
+/**
  * Draw a widget to the display.
  *
  * @param w The widget to draw.

@@ -83,51 +83,6 @@ l__0084:
 }
 
 /**
- * Decompiled function f__B48B_00BD_0029_3530()
- *
- * @name f__B48B_00BD_0029_3530
- * @implements B48B:00BD:0029:3530 ()
- * @implements B48B:00E6:000A:9966
- * @implements B48B:00E8:0008:0F0A
- * @implements B48B:00F0:0002:2597
- *
- * Called From: 348B:002A:0005:0000
- */
-void f__B48B_00BD_0029_3530()
-{
-l__00BD:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) goto l__00E8;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_testw(&emu_get_memory16(emu_es, emu_bx, 0xE), 0x8);
-	if ((emu_get_memory16(emu_es, emu_bx, 0xE) & 0x8) == 0) goto l__00E8;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_andw(&emu_get_memory16(emu_es, emu_bx, 0xE), 0xFFF7);
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x00E6); emu_cs = 0x34A2; overlay(0x34A2, 0); emu_GUI_Widget_Draw();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x348B) { overlay(0x348B, 1); }
-l__00E6:
-	emu_pop(&emu_cx);
-	emu_pop(&emu_cx);
-l__00E8:
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	goto l__00F0;
-l__00F0:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B48B_01CE_002B_7574()
  *
  * @name f__B48B_01CE_002B_7574

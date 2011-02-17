@@ -1653,7 +1653,7 @@ l__1158:
 				if (oi->flags.s.factory && emu_get_memory16(emu_ss, emu_bp, -0x8) == 0) {
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28));
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
-					emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 					break;
 				}
@@ -1706,7 +1706,7 @@ l__1158:
 					int i;
 
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x34)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x36));
-					emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					actionCurrent = (u->nextActionID != ACTION_INVALID) ? u->nextActionID : u->actionID;
@@ -1733,7 +1733,7 @@ l__1158:
 						}
 
 						emu_push(buttons[i].s.cs); emu_push(buttons[i].s.ip);
-						emu_push(emu_cs); emu_push(0x168C); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+						emu_push(emu_cs); emu_push(0x168C); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 						emu_sp += 4;
 
 						if (actions[i] == actionCurrent) {
@@ -1753,7 +1753,7 @@ l__1158:
 				case 3: /* Structure */
 				{
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x34)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x36));
-					emu_push(emu_cs); emu_push(0x16EC); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x16EC); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					if (o->flags.s.upgrading) {
@@ -1761,7 +1761,7 @@ l__1158:
 						emu_get_memory16(emu_es, emu_bx, 0x38) = 0x8F; /* Widget->stringID */
 
 						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x170D); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+						emu_push(emu_cs); emu_push(0x170D); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 						emu_sp += 4;
 
 						emu_push(0);
@@ -1774,7 +1774,7 @@ l__1158:
 							emu_get_memory16(emu_es, emu_bx, 0x38) = 0x23; /* Widget->stringID */
 
 							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1752); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+							emu_push(emu_cs); emu_push(0x1752); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 							emu_sp += 4;
 
 							emu_push(0);
@@ -1786,7 +1786,7 @@ l__1158:
 							emu_get_memory16(emu_es, emu_bx, 0x38) = 0x22; /* Widget->stringID */
 
 							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-							emu_push(emu_cs); emu_push(0x1778); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+							emu_push(emu_cs); emu_push(0x1778); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 							emu_sp += 4;
 
 							emu_push(0);
@@ -1799,7 +1799,7 @@ l__1158:
 						emu_get_memory16(emu_es, emu_bx, 0x38) = 0x8E; /* Widget->stringID */
 
 						emu_push(emu_get_memory16(emu_ss, emu_bp, -0x24)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x26));
-						emu_push(emu_cs); emu_push(0x17AB); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+						emu_push(emu_cs); emu_push(0x17AB); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 						emu_sp += 4;
 
 						emu_push(0);
@@ -1811,7 +1811,7 @@ l__1158:
 					if (o->type != STRUCTURE_STARPORT) {
 						if (oi->flags.s.factory || (o->type == STRUCTURE_PALACE && s->countDown == 0)) {
 							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2E));
-							emu_push(emu_cs); emu_push(0x17F2); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+							emu_push(emu_cs); emu_push(0x17F2); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 							emu_sp += 4;
 
 							emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2C)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2E));
@@ -1904,7 +1904,7 @@ l__1158:
 
 				case 4: /* Attack */
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x14EC); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
@@ -1912,7 +1912,7 @@ l__1158:
 
 				case 5: /* Movement */
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x1512); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x1512); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
@@ -1920,7 +1920,7 @@ l__1158:
 
 				case 6: /* Harvest */
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x14C7); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x14C7); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
@@ -1928,7 +1928,7 @@ l__1158:
 
 				case 7: /* Placement */
 					emu_push(emu_get_memory16(emu_ss, emu_bp, -0x30)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x32));
-					emu_push(emu_cs); emu_push(0x1457); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_00BD_0029_3530();
+					emu_push(emu_cs); emu_push(0x1457); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_MakeVisible();
 					emu_sp += 4;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11);

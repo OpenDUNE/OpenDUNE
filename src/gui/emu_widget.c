@@ -67,6 +67,30 @@ void emu_GUI_Widget_MakeInvisible()
 }
 
 /**
+ * Emulator wrapper around GUI_Widget_MakeVisible().
+ *
+ * @name emu_GUI_Widget_MakeVisible
+ * @implements B48B:00BD:0029:3530 ()
+ */
+void emu_GUI_Widget_MakeVisible()
+{
+	csip32 wcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	emu_ax = wcsip.s.ip;
+	emu_dx = wcsip.s.cs;
+
+	if (wcsip.csip == 0x0) return;
+
+	GUI_Widget_MakeVisible((Widget *)emu_get_memorycsip(wcsip));
+}
+
+/**
  * Emulator wrapper around GUI_Widget_Draw().
  *
  * @name emu_GUI_Widget_Draw
