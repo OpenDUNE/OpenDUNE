@@ -247,20 +247,10 @@ extern void Unit_LaunchHouseMissile(uint16 packed);
 
 
 extern void emu_Unit_GetHouseID();
-extern void emu_Unit_Create();
 extern void emu_Unit_SetAction();
-extern void emu_Unit_RemoveFromTeam();
-extern void emu_Unit_GetTeam();
-extern void emu_Unit_Sort();
 extern void emu_Unit_Get_ByPackedTile();
-extern void emu_Unit_Unknown10EC();
-extern void emu_Unit_SetTarget();
 extern void emu_Unit_RemoveFog();
-extern void emu_Unit_Deviate();
-extern void emu_Unit_Damage();
 extern void emu_Unit_Select();
-extern void emu_Unit_CreateBullet();
-extern void emu_Unit_DisplayStatusText();
 extern void emu_Unit_Unknown3146();
 extern void emu_Unit_B4CD_01BF();
 

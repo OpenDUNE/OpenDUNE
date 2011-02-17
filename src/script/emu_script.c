@@ -7,33 +7,6 @@
 #include "script.h"
 
 /**
- * Emulator wrapper around Script_Reset().
- *
- * @name emu_Script_Reset
- * @implements 15C2:0395:0044:304E ()
- */
-void emu_Script_Reset()
-{
-	csip32 scsip, sicsip;
-	ScriptEngine *script;
-	ScriptInfo *scriptInfo;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	scsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	sicsip = emu_get_csip32(emu_ss, emu_sp, 0x4);
-
-	if (scsip.csip == 0x0) return;
-	if (sicsip.csip == 0x0) return;
-	script = Script_Get_ByMemory(scsip);
-	scriptInfo = ScriptInfo_Get_ByMemory(sicsip);
-
-	Script_Reset(script, scriptInfo);
-}
-
-/**
  * Emulator wrapper around Script_Load().
  *
  * @name emu_Script_Load

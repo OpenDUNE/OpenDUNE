@@ -48,59 +48,6 @@ void emu_Unit_Recount()
 }
 
 /**
- * Emulator wrapper around Unit_Allocate().
- *
- * @name emu_Unit_Allocate
- * @implements 0FE4:03A7:0027:85D5 ()
- */
-void emu_Unit_Allocate()
-{
-	uint16 index;
-	uint8 typeID, houseID;
-	Unit *u;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index   = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	typeID  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x2);
-	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	u = Unit_Allocate(index, typeID, houseID);
-
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
-	if (u == NULL) return;
-	emu_dx = g_global->unitStartPos.s.cs;
-	emu_ax = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
-}
-
-/**
- * Emulator wrapper around Unit_Free().
- *
- * @name emu_Unit_Free
- * @implements 0FE4:0568:0018:8258 ()
- */
-void emu_Unit_Free()
-{
-	csip32 ucsip;
-	Unit *u;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (ucsip.csip == 0x0) return;
-	u = Unit_Get_ByMemory(ucsip);
-
-	Unit_Free(u);
-}
-
-/**
  * Get a Unit from the memory by index.
  *
  * @name emu_Unit_Get_ByIndex

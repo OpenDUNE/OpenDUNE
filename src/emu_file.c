@@ -387,31 +387,6 @@ void emu_ChunkFile_Close()
 }
 
 /**
- * Emulator wrapper around ChunkFile_Seek()
- *
- * @name emu_ChunkFile_Seek
- * @implements B4B1:0098:002A:CE8A ()
- */
-void emu_ChunkFile_Seek()
-{
-	uint8 index;
-	uint32 header;
-	uint32 res;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index  = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-	header =        emu_get_memory32(emu_ss, emu_sp, 0x2);
-
-	res = ChunkFile_Seek(index, header);
-
-	emu_dx = res >> 16;
-	emu_ax = res & 0xFFFF;
-}
-
-/**
  * Emulator wrapper around ChunkFile_Read()
  *
  * @name emu_ChunkFile_Read

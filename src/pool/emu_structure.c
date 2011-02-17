@@ -48,29 +48,6 @@ void emu_Structure_Recount()
 }
 
 /**
- * Emulator wrapper around Structure_Free().
- *
- * @name emu_Structure_Free
- * @implements 1082:0325:0018:025E ()
- */
-void emu_Structure_Free()
-{
-	csip32 scsip;
-	Structure *s;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (scsip.csip == 0x0) return;
-	s = Structure_Get_ByMemory(scsip);
-
-	Structure_Free(s);
-}
-
-/**
  * Get a Structure from the memory by index.
  *
  * @name emu_Structure_Get_ByIndex

@@ -70,15 +70,9 @@ extern uint16 Map_B4CD_08E7(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
 
 
-extern void emu_Map_MoveDirection();
 extern void emu_Map_SetSelection();
 extern void emu_Map_SetSelectionSize();
-extern void emu_Map_SetSelectionObjectPosition();
-extern void emu_Map_UpdateMinimapPosition();
-extern void emu_Map_IsValidPosition();
 extern void emu_Map_IsPositionUnveiled();
-extern void emu_Map_IsPositionInViewport();
-extern void emu_Map_MakeExplosion();
 extern void emu_Map_B4CD_0750();
 extern void emu_Map_Update();
 

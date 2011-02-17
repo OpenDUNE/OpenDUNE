@@ -101,15 +101,10 @@ extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget 
 extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w);
 
 
-extern void emu_Structure_Create();
 extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
-extern void emu_Structure_IsUpgradable();
-extern void emu_Structure_ConnectWall();
-extern void emu_Structure_GetLinkedUnit();
-extern void emu_Structure_UntargetMe();
 
 #endif /* STRUCTURE_H */

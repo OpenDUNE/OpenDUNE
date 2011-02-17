@@ -38,7 +38,6 @@ extern void emu_File_Obsolete4();
 extern void emu_File_Obsolete5();
 extern void emu_ChunkFile_Open();
 extern void emu_ChunkFile_Close();
-extern void emu_ChunkFile_Seek();
 extern void emu_ChunkFile_Read();
 
 #endif /* FILE_H */

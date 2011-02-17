@@ -35,18 +35,7 @@ extern bool Tools_Var76B8_Set(uint16 bit, bool set);
 
 
 extern void emu_Tools_Shld();
-extern void emu_Tools_Shrd();
-extern void emu_Tools_Index_GetType();
-extern void emu_Tools_Index_Decode();
-extern void emu_Tools_Index_Encode();
-extern void emu_Tools_Index_IsValid();
-extern void emu_Tools_Index_GetPackedTile();
-extern void emu_Tools_Index_GetTile();
-extern void emu_Tools_Index_GetUnit();
-extern void emu_Tools_Index_GetStructure();
-extern void emu_Tools_Index_GetObject();
 extern void emu_Tools_GetSmallestIP();
-extern void emu_Tools_GetSmallestIP2();
 extern void emu_Tools_Memmove();
 extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();

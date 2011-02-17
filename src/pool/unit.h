@@ -22,8 +22,6 @@ extern void Unit_Free(struct Unit *u);
 
 extern void emu_Unit_Init();
 extern void emu_Unit_Recount();
-extern void emu_Unit_Allocate();
-extern void emu_Unit_Free();
 extern void emu_Unit_Get_ByIndex();
 extern void emu_Unit_FindFirst();
 extern void emu_Unit_FindNext();

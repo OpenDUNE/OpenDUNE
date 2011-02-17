@@ -23,7 +23,5 @@ extern void Team_Free(struct Team *au);
 extern void emu_Team_Init();
 extern void emu_Team_Recount();
 extern void emu_Team_Get_ByIndex();
-extern void emu_Team_FindFirst();
-extern void emu_Team_FindNext();
 
 #endif /* POOL_TEAM_H */

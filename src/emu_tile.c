@@ -8,25 +8,6 @@
 #include "tile.h"
 
 /**
- * Emulator wrapper around Tile_IsValid().
- *
- * @name emu_Tile_IsValid
- * @implements 0F3F:000D:0019:5076 ()
- */
-void emu_Tile_IsValid()
-{
-	tile32 tile;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Tile_IsValid(tile) ? 1 : 0;
-}
-
-/**
  * Emulator wrapper around Tile_GetX() and Tile_GetY().
  *
  * @name emu_Tile_GetXY
@@ -44,64 +25,6 @@ void emu_Tile_GetXY()
 
 	emu_ax = Tile_GetX(tile);
 	emu_dx = Tile_GetY(tile);
-}
-
-/**
- * Emulator wrapper around Tile_GetPosX().
- *
- * @name emu_Tile_GetPosX
- * @implements 0F3F:0046:000C:9E1E ()
- */
-void emu_Tile_GetPosX()
-{
-	tile32 tile;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Tile_GetPosX(tile);
-}
-
-/**
- * Emulator wrapper around Tile_GetPosY().
- *
- * @name emu_Tile_GetPosY
- * @implements 0F3F:0052:000C:9E02 ()
- */
-void emu_Tile_GetPosY()
-{
-	tile32 tile;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Tile_GetPosY(tile);
-}
-
-/**
- * Emulator wrapper around Tile_GetPosX() and Tile_GetPosY().
- *
- * @name emu_Tile_GetSpecialXY
- * @implements 0F3F:0037:000F:E3D8 ()
- */
-void emu_Tile_GetSpecialXY()
-{
-	tile32 tile;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile = emu_get_tile32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Tile_GetSpecialXY(tile) & 0xFFFF;
-	emu_dx = Tile_GetSpecialXY(tile) >> 16;
 }
 
 /**
@@ -246,32 +169,6 @@ void emu_Tile_GetDistance()
 }
 
 /**
- * Emulator wrapper around Tile_AddTileDiff().
- *
- * @name emu_Tile_AddTileDiff
- * @implements 0F3F:00F3:0011:5E67 ()
- */
-void emu_Tile_AddTileDiff()
-{
-	tile32 tile_from;
-	tile32 tile_to;
-	tile32 tile_result;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile_from = emu_get_tile32(emu_ss, emu_sp, 0x0);
-	tile_to   = emu_get_tile32(emu_ss, emu_sp, 0x4);
-
-	tile_result = Tile_AddTileDiff(tile_from, tile_to);
-
-	emu_ax = Tile_GetX(tile_result);
-	emu_dx = Tile_GetY(tile_result);
-}
-
-
-/**
  * Emulator wrapper around Tile_Center().
  *
  * @name emu_Tile_Center
@@ -334,46 +231,4 @@ void emu_Tile_GetDistancePacked()
 	packed_to   = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = Tile_GetDistancePacked(packed_from, packed_to);
-}
-
-/**
- * Emulator wrapper around Tile_GetDistanceRoundedUp().
- *
- * @name emu_Tile_GetDistanceRoundedUp
- * @implements 0F3F:0104:0013:C3B8 ()
- */
-void emu_Tile_GetDistanceRoundedUp()
-{
-	tile32 tile_from;
-	tile32 tile_to;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile_from = emu_get_tile32(emu_ss, emu_sp, 0x0);
-	tile_to   = emu_get_tile32(emu_ss, emu_sp, 0x4);
-
-	emu_ax = Tile_GetDistanceRoundedUp(tile_from, tile_to);
-}
-
-/**
- * Emulator wrapper around Tile_RemoveFogInRadius()
- *
- * @name emu_Tile_RemoveFogInRadius
- * @implements B4CD:07F4:0013:6862 ()
- */
-void emu_Tile_RemoveFogInRadius()
-{
-	tile32 tile;
-	uint16 radius;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	tile   = emu_get_tile32  (emu_ss, emu_sp, 0x0);
-	radius = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	Tile_RemoveFogInRadius(tile, radius);
 }

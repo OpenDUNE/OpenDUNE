@@ -77,17 +77,12 @@
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
-0642:0481:0010:36A4	emu_InGame_Numpad_Move	# When moving with numpad ingame
-0642:07BE:0058:A125	emu_Map_SelectNext	# Select next unit/structure on the screen
-
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
 
 10E4:0008:0048:5BD4	emu_GUI_Widget_DrawBorder2	# (x, y, width, height, state, ??) Draw the border of a widget
 10E4:057F:0052:2B00	emu_GUI_Widget_DrawBorder	# (widgetID, state, unknown) Draw the border and background of a widget
 
 1423:0C74:0015:3419	emu_Structure_AI_PickNextToBuild	# (structure_csip), pick the next unit/structure to build
-
-1A34:3491:0032:AFF8	emu_Structure_GetLinkedUnit	# (structure_csip)
 
 217E:04F9:000E:346A	emu_Overlay_Load
 217E:055F:0008:D2BC	emu_Overlay_LocateMemory

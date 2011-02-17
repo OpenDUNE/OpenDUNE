@@ -13,7 +13,6 @@ extern void f__10E4_2099_0012_A216();
 extern void f__1DD7_022D_0015_1956();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B4E0_0000_000F_14AD();
-extern void f__B4E9_0050_003F_292A();
 extern void emu_Unknown_B483_0363();
 extern void emu_Unknown_B4E9_0000();
 extern void overlay(uint16 cs, uint8 force);
