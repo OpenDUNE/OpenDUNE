@@ -1424,7 +1424,7 @@ l__0FC3:
 		o = &u->o;
 		oi = &ui->o;
 		isNotPlayerOwned = (g_global->playerHouseID == Unit_GetHouseID(u)) ? false : true;
-		h = House_Get_ByIndex(g_global->playerHouseID);
+		h = House_Get_ByIndex((uint8)g_global->playerHouseID);
 
 		emu_get_memory16(emu_ss, emu_bp, -0xA) = g_global->unitHouseMissile.s.cs;
 		emu_get_memory16(emu_ss, emu_bp, -0xC) = g_global->unitHouseMissile.s.ip;
@@ -1467,7 +1467,7 @@ l__1018:
 l__1075:
 	{ /* Placement */
 		si = &g_structureInfo[g_global->activeStructureType];
-		h = House_Get_ByIndex(g_global->playerHouseID);
+		h = House_Get_ByIndex((uint8)g_global->playerHouseID);
 
 		o = NULL;
 		oi = &si->o;
