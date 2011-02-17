@@ -1575,8 +1575,8 @@ l__1158:
 		emu_get_memory16(emu_ss, emu_bp, -0x28) = emu_dx;
 		emu_get_memory16(emu_ss, emu_bp, -0x2A) = emu_ax;
 
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28));
-		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A)); emu_push(emu_cs); emu_push(0x11FA); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0088_0029_3A68();
+		emu_push(emu_get_memory16(emu_ss, emu_bp, -0x28)); emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2A));
+		emu_push(emu_cs); emu_push(0x11FA); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0088_0029_3A68();
 		emu_sp += 4;
 
 		emu_push(5);
