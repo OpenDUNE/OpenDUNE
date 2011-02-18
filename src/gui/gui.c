@@ -9,6 +9,7 @@
 #include "../global.h"
 #include "font.h"
 #include "gui.h"
+#include "../gfx.h"
 #include "../os/strings.h"
 #include "../unknown/unknown.h"
 #include "../house.h"
@@ -32,7 +33,6 @@ extern void f__1DD7_0B53_0025_36F7();
 extern void f__10E4_0675_0026_F126();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
-extern void emu_GUI_PutPixel();
 extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
@@ -2040,17 +2040,8 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 	emu_push(emu_cs); emu_push(0x00D8); emu_cs = 0x22A6; emu_GUI_DrawLine();
 	emu_sp += 10;
 
-	emu_push(colourSchema[3]);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00F3); emu_cs = 0x22A6; emu_GUI_PutPixel();
-	emu_sp += 6;
-
-	emu_push(colourSchema[3]);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x22A6; emu_GUI_PutPixel();
-	emu_sp += 6;
+	GFX_PutPixel(left, top + height, colourSchema[3]);
+	GFX_PutPixel(left + width, top, colourSchema[3]);
 }
 
 /**

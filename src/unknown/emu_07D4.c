@@ -22,7 +22,6 @@
 #include "../sprites.h"
 
 extern void f__151A_0196_0018_AF63();
-extern void emu_GUI_PutPixel();
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -804,12 +803,12 @@ void Unknown_07D4_1625(uint16 packed)
 {
 	uint16 x;
 	uint16 y;
-	uint16 color;
+	uint16 colour;
 	uint16 spriteID;
 	Tile *t;
 	uint16 mapScale;
 
-	color = 12;
+	colour = 12;
 	spriteID = 0xFFFF;
 
 	if (packed > 4096 || !Map_IsValidPosition(packed)) return;
@@ -830,14 +829,14 @@ void Unknown_07D4_1625(uint16 packed)
 		if (mapScale > 1) {
 			spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[loc08][12] - 1;
 		} else {
-			color = g_global->variable_3A3E[loc08][11];
+			colour = g_global->variable_3A3E[loc08][11];
 		}
 
 		if (g_global->variable_3A3E[loc08][11] == 0xFFFF) {
 			if (mapScale > 1) {
 				spriteID = mapScale + t->houseID * 2 + 29;
 			} else {
-				color = g_houseInfo[t->houseID].minimapColor;
+				colour = g_houseInfo[t->houseID].minimapColor;
 			}
 		}
 
@@ -852,9 +851,9 @@ void Unknown_07D4_1625(uint16 packed)
 				}
 			} else {
 				if (u->o.type == UNIT_SANDWORM) {
-					color = 255;
+					colour = 255;
 				} else {
-					color = g_houseInfo[Unit_GetHouseID(u)].minimapColor;
+					colour = g_houseInfo[Unit_GetHouseID(u)].minimapColor;
 				}
 			}
 		}
@@ -867,13 +866,13 @@ void Unknown_07D4_1625(uint16 packed)
 			if (mapScale > 1) {
 				spriteID = mapScale + s->o.houseID * 2 + 29;
 			} else {
-				color = g_houseInfo[s->o.houseID].minimapColor;
+				colour = g_houseInfo[s->o.houseID].minimapColor;
 			}
 		} else {
 			if (mapScale > 1) {
 				spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[6][12] - 1;
 			} else {
-				color = 12;
+				colour = 12;
 			}
 		}
 	}
@@ -886,13 +885,7 @@ void Unknown_07D4_1625(uint16 packed)
 		y *= g_global->scenario.mapScale + 1;
 		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
-		assert(g_global->variable_66A0.csip == 0x22A60F76);
-
-		emu_push(color);
-		emu_push(y + 136);
-		emu_push(x + 256);
-		emu_push(emu_cs); emu_push(0x18B0); emu_cs = 0x22A6; emu_GUI_PutPixel();
-		emu_sp += 6;
+		GFX_PutPixel(x + 256, y + 136, colour);
 	}
 
 	g_global->variable_37A6++;

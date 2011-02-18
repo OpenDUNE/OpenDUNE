@@ -79,8 +79,6 @@
 
 0C3A:092A:0013:A4A8	emu_Structure_UpdateMap	# (structure_csip), Update the map with the latest sprites to represent the structure
 
-10E4:0F76:002C:45CC	emu_GUI_PutPixel	# (left, top, colour) Put a pixel on the given coordinates
-
 1423:0C74:0015:3419	emu_Structure_AI_PickNextToBuild	# (structure_csip), pick the next unit/structure to build
 
 217E:04F9:000E:346A	emu_Overlay_Load

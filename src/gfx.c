@@ -16,10 +16,10 @@ static uint8 g_spriteMode = 0;
 static uint8 g_spriteInfoSize = 0;
 
 /**
- * Returns the codesegment of an output buffer?
- * @return Some codesegment value.
+ * Get the codesegment of the screen buffer.
+ * @return The codesegment of the screen buffer.
  */
-uint16 Unknown_22A6_0DF8()
+uint16 GFX_GetScreenSegment()
 {
 	uint8 *ptr;
 	uint16 *ptr2;
@@ -84,7 +84,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	if (g_spriteMode == 4) return;
 
-	wptr = &emu_get_memory8(Unknown_22A6_0DF8(), emu_get_memory16(0x22A6, y * 2, 0x17D), x * 8);
+	wptr = &emu_get_memory8(GFX_GetScreenSegment(), emu_get_memory16(0x22A6, y * 2, 0x17D), x * 8);
 	rptr = g_spriteInfo + ((spriteID * g_spriteInfoSize) << 4);
 
 	spacing = g_spriteSpacing;
@@ -160,4 +160,22 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 
 	emu_get_memory16(emu_cs, 0x00, 0x345) = widthSize; /* Write-only */
 	emu_get_memory16(emu_cs, 0x00, 0x343) = heightSize; /* Write-only */
+}
+
+/**
+ * Put a pixel on the screen.
+ * @param x The X-coordinate on the screen.
+ * @param y The Y-coordinate on the screen.
+ * @param colour The colour of the pixel to put on the screen.
+ */
+void GFX_PutPixel(uint16 x, uint16 y, uint16 colour)
+{
+	uint16 offset;
+
+	if (y >= 200) return;
+	if (x >= 320) return;;
+
+	offset = emu_get_memory16(0x22A6, y * 2, 0x17D) + x;
+
+	emu_get_memory8(GFX_GetScreenSegment(), offset, 0) = colour;
 }
