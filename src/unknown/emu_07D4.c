@@ -885,7 +885,7 @@ void Unknown_07D4_1625(uint16 packed)
 		y *= g_global->scenario.mapScale + 1;
 		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
-		GFX_PutPixel(x + 256, y + 136, colour);
+		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}
 
 	g_global->variable_37A6++;

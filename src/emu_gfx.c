@@ -55,5 +55,5 @@ void emu_GFX_PutPixel()
 	y      = emu_get_memory16(emu_ss, emu_sp, 0x2);
 	colour = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
-	GFX_PutPixel(x, y, colour);
+	GFX_PutPixel(x, y, colour & 0xFF);
 }

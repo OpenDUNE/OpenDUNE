@@ -2040,8 +2040,8 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 	emu_push(emu_cs); emu_push(0x00D8); emu_cs = 0x22A6; emu_GUI_DrawLine();
 	emu_sp += 10;
 
-	GFX_PutPixel(left, top + height, colourSchema[3]);
-	GFX_PutPixel(left + width, top, colourSchema[3]);
+	GFX_PutPixel(left, top + height, colourSchema[3] & 0xFF);
+	GFX_PutPixel(left + width, top, colourSchema[3] & 0xFF);
 }
 
 /**
