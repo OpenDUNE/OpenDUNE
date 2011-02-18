@@ -2156,7 +2156,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 
 	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
 	emu_push(2);
-	emu_push(200); emu_push(296);
+	emu_push(200); emu_push(320);
 	emu_push(0); emu_push(0);
 	emu_push(emu_cs); emu_push(0x20FB); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
 	emu_sp += 14;
