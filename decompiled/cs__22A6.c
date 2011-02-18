@@ -1679,9 +1679,9 @@ l__0E68:
 }
 
 /**
- * Decompiled function f__22A6_0F76_002C_45CC()
+ * Decompiled function emu_GUI_PutPixel()
  *
- * @name f__22A6_0F76_002C_45CC
+ * @name emu_GUI_PutPixel
  * @implements 22A6:0F76:002C:45CC ()
  * @implements 22A6:0FA2:000C:C3E4
  * @implements 22A6:0FA8:0006:E2AB
@@ -1691,7 +1691,7 @@ l__0E68:
  * Called From: 10E4:0109:001B:D60B
  * Called From: B488:01B0:0011:94F5
  */
-void f__22A6_0F76_002C_45CC()
+void emu_GUI_PutPixel()
 {
 l__0F76:
 	emu_push(emu_bp);

@@ -8,6 +8,7 @@
 #include "global.h"
 #include "file.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "house.h"
 #include "os/strings.h"
 #include "string.h"
@@ -29,7 +30,6 @@ extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_176C_000F_12AD();
 extern void f__B4DA_1860_0008_857D();
 extern void f__B4DA_16F8_001A_D84F();
-extern void emu_GUI_Widget_DrawBorder2();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_WSA_DisplayFrame();
@@ -318,27 +318,8 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		emu_push(1);
-		emu_push(1);
-		emu_push(g_global->variable_9931 + 12);
-		emu_push((g_global->variable_992F << 3) + 12);
-		emu_push(g_global->variable_992B - 6);
-		emu_push((g_global->variable_992D << 3) - 6);
-		emu_push(emu_cs); emu_push(0x1452); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 12;
-
-		emu_push(0);
-		emu_push(2);
-		emu_push(g_global->variable_9931 + 4);
-		emu_push((g_global->variable_992F << 3) + 4);
-		emu_push(g_global->variable_992B - 2);
-		emu_push((g_global->variable_992D << 3) - 2);
-		emu_push(emu_cs); emu_push(0x1485); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 12;
+		GUI_Widget_DrawBorder2((g_global->variable_992D << 3) - 6, g_global->variable_992B - 6, (g_global->variable_992F << 3) + 12, g_global->variable_9931 + 12, 1, true);
+		GUI_Widget_DrawBorder2((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
 
 		emu_push(emu_cs); emu_push(0x148D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */

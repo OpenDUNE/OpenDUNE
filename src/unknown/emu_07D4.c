@@ -22,7 +22,7 @@
 #include "../sprites.h"
 
 extern void f__151A_0196_0018_AF63();
-extern void f__22A6_0F76_002C_45CC();
+extern void emu_GUI_PutPixel();
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -891,7 +891,7 @@ void Unknown_07D4_1625(uint16 packed)
 		emu_push(color);
 		emu_push(y + 136);
 		emu_push(x + 256);
-		emu_push(emu_cs); emu_push(0x18B0); emu_cs = 0x22A6; f__22A6_0F76_002C_45CC();
+		emu_push(emu_cs); emu_push(0x18B0); emu_cs = 0x22A6; emu_GUI_PutPixel();
 		emu_sp += 6;
 	}
 

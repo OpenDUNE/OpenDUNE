@@ -270,7 +270,7 @@ l__01A4:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x66A2);
 	emu_push(0x01B5);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60F76: f__22A6_0F76_002C_45CC(); break;
+		case 0x22A60F76: emu_GUI_PutPixel(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB488; emu_last_ip = 0x01B0; emu_last_length = 0x0011; emu_last_crc = 0x94F5;
