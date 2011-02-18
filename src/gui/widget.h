@@ -180,7 +180,7 @@ extern void GUI_Widget_SpriteButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteTextButton_Draw(Widget *w);
 extern void GUI_Widget_TextButton2_Draw(Widget *w);
 extern void GUI_Widget_ScrollBar_Draw(Widget *w);
-extern void GUI_Widget_ActionPanel_Draw(uint16 unknown06);
+extern void GUI_Widget_ActionPanel_Draw(bool forceDraw);
 extern void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed);
 
 

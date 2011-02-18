@@ -48,6 +48,10 @@ typedef struct Object {
 	/*  6 - 4000 */              BITTYPE unknown_6_4000:1;
 	/*  6 - 8000 */              BITTYPE unknown_6_8000:1;
 	                     } GCC_PACKED s;
+	                     struct {
+	                             uint16 low;
+	                             uint16 high;
+	                     } half;
 	                     uint32 all; } flags;               /*!< General flags of the Structure. */
 	/* 0008(1)   */ PACK uint8  houseID;                    /*!< House of Structure. */
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */

@@ -15,9 +15,9 @@
 #include "../string.h"
 #include "../sprites.h"
 #include "../unknown/unknown.h"
+#include "../map.h"
 
 extern void f__10E4_0D58_004B_FEF5();
-extern void f__10E4_1BE0_002F_1A76();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -589,12 +589,124 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 }
 
 /**
+ * Gets the action type used to determine how to draw the panel on the right side of the screen.
+ *
+ * @param forceDraw Wether to draw the panel even if nothing changed.
+ */
+static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
+{
+	uint16 actionType = 0;
+	Structure *s = NULL;
+	Unit *u = NULL;
+
+	if (g_global->selectionType == 2) {
+		if (g_global->variable_3752 != 7 || forceDraw) actionType = 7; /* Placement */
+	} else if (g_global->unitHouseMissile.csip != 0x0) {
+		if (g_global->variable_3762 != g_global->houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
+	} else if (g_global->selectionUnit.csip != 0x0) {
+		if (g_global->selectionType == 1) {
+			uint16 activeAction = g_global->activeAction;
+
+			if (activeAction != g_global->variable_3760 || forceDraw) {
+				switch (activeAction) {
+					case ACTION_ATTACK: actionType = 4; break; /* Attack */
+					case ACTION_MOVE:   actionType = 5; break; /* Movement */
+					default:            actionType = 6; break; /* Harvest */
+				}
+			}
+
+			if (actionType == g_global->variable_3752 && !forceDraw) actionType = 0;
+		} else {
+			u = Unit_Get_ByMemory(g_global->selectionUnit);
+
+			if (forceDraw
+				|| u->o.index != g_global->variable_3756
+				|| u->o.hitpoints != g_global->variable_3754
+				|| u->o.houseID != g_global->variable_376A
+				|| u->actionID != g_global->variable_3760) {
+				actionType = 2; /* Unit */
+			}
+		}
+	} else if (Map_GetTileByPosition(g_global->selectionPosition)->isUnveiled || g_global->debugScenario != 0) {
+		if (Map_B4CD_0750(g_global->selectionPosition) == 0xC) {
+			s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+
+			if (forceDraw
+				|| s->o.hitpoints != g_global->variable_3754
+				|| s->o.index != g_global->variable_3756
+				|| s->countDown != g_global->variable_3758
+				|| s->upgradeTimeLeft != g_global->variable_3764
+				|| s->o.linkedID != g_global->variable_375E
+				|| s->objectType != g_global->variable_375A
+				|| s->o.flags.half.high != g_global->variable_3766
+				|| s->o.houseID != g_global->variable_376A
+				|| House_Get_ByIndex(s->o.houseID)->starportTimeLeft != g_global->variable_3768
+				|| s->o.flags.half.low != g_global->variable_375C) {
+					g_global->variable_37B2 = (s->o.hitpoints > (g_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
+					actionType = 3; /* Structure */
+			}
+		} else {
+			actionType = 1;
+		}
+	} else {
+		actionType = 1;
+	}
+
+	switch (actionType) {
+		case 8: /* House Missile */
+			g_global->variable_3762 = g_global->houseMissileCountdown;
+			g_global->variable_3756 = 0xFFFF;
+			break;
+
+		case 1:
+		case 4: /* Attack */
+		case 5: /* Movement */
+		case 6: /* Harvest */
+		case 7: /* Placement */
+			g_global->variable_3756 = 0xFFFF;
+			g_global->variable_3762 = 0xFFFF;
+			if (!forceDraw && actionType == g_global->variable_3752) actionType = 0;
+			break;
+
+		case 2: /* Unit */
+			g_global->variable_3754 = u->o.hitpoints;
+			g_global->variable_3756 = u->o.index;
+			g_global->variable_3760 = u->actionID;
+			g_global->variable_3762 = 0xFFFF;
+			g_global->variable_376A = u->o.houseID;
+			break;
+
+		case 3: /* Structure */
+			g_global->variable_3754 = s->o.hitpoints;
+			g_global->variable_3756 = s->o.index;
+			g_global->variable_375A = s->objectType;
+			g_global->variable_3758 = s->countDown;
+			g_global->variable_3764 = s->upgradeTimeLeft;
+			g_global->variable_3766 = s->o.flags.half.high;
+			g_global->variable_375E = s->o.linkedID;
+			g_global->variable_375C = s->o.flags.half.low;
+			g_global->variable_376A = s->o.houseID;
+			g_global->variable_3762 = 0xFFFF;
+			g_global->variable_3768 = House_Get_ByIndex(s->o.houseID)->starportTimeLeft;
+			break;
+
+		case 0:
+		default:
+			break;
+	}
+
+	if (actionType != 0) g_global->variable_3752 = actionType;
+
+	return actionType;
+}
+
+/**
  * Draw the panel on the right side of the screen, with the actions of the
  *  selected item.
  *
- * @param unknown06 Unknown parameter.
+ * @param forceDraw Wether to draw the panel even if nothing changed.
  */
-void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
+void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 {
 	uint16 actionType;
 	uint16 loc04, loc06;
@@ -620,10 +732,7 @@ void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
 	si = NULL;
 	isNotPlayerOwned = false;
 
-	emu_push(unknown06);
-	emu_push(emu_cs); emu_push(0x0FAA); emu_cs = 0x10E4; f__10E4_1BE0_002F_1A76();
-	emu_sp += 2;
-	actionType = emu_ax;
+	actionType = GUI_Widget_ActionPanel_GetActionType(forceDraw);
 
 	switch (actionType) {
 		case 2: { /* Unit */

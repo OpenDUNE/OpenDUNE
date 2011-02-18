@@ -1904,7 +1904,7 @@ void Unit_Select(Unit *unit)
 		g_global->selectionUnit = ucsip;
 		selected = unit;
 
-		GUI_Widget_ActionPanel_Draw(1);
+		GUI_Widget_ActionPanel_Draw(true);
 	} else {
 		Unit_DisplayStatusText(unit);
 		g_global->selectionUnit = ucsip;

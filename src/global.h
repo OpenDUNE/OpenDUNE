@@ -730,7 +730,19 @@ typedef struct GlobalData {
 	/* 373C(4)   */ PACK uint32 variable_373C;              /*!< ?? */
 	/* 3740(2)   */ PACK uint16 variable_3740;              /*!< ?? */
 	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< Always zero bytes, used to memset 4 csips. No longer in use. */
-	/* 3752()    */ PACK uint8   unknown_3752[0x001A];
+	/* 3752(2)   */ PACK uint16 variable_3752;              /*!< ?? */
+	/* 3754(2)   */ PACK uint16 variable_3754;              /*!< ?? */
+	/* 3756(2)   */ PACK uint16 variable_3756;              /*!< ?? */
+	/* 3758(2)   */ PACK uint16 variable_3758;              /*!< ?? */
+	/* 375A(2)   */ PACK uint16 variable_375A;              /*!< ?? */
+	/* 375C(2)   */ PACK uint16 variable_375C;              /*!< ?? */
+	/* 375E(2)   */ PACK uint16 variable_375E;              /*!< ?? */
+	/* 3760(2)   */ PACK uint16 variable_3760;              /*!< ?? */
+	/* 3762(2)   */ PACK uint16 variable_3762;              /*!< ?? */
+	/* 3764(2)   */ PACK uint16 variable_3764;              /*!< ?? */
+	/* 3766(2)   */ PACK uint16 variable_3766;              /*!< ?? */
+	/* 3768(2)   */ PACK uint16 variable_3768;              /*!< ?? */
+	/* 376A(2)   */ PACK uint16 variable_376A;              /*!< ?? */
 	/* 376C(2)   */ PACK uint16 variable_376C;              /*!< ?? */
 	/* 376E(2)   */ PACK uint16 variable_376E;              /*!< ?? */
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */

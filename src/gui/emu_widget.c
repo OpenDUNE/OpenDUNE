@@ -15,15 +15,15 @@
  */
 void emu_GUI_Widget_ActionPanel_Draw()
 {
-	uint16 unknown06;
+	uint16 forceDraw;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	unknown06 = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	forceDraw = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	GUI_Widget_ActionPanel_Draw(unknown06);
+	GUI_Widget_ActionPanel_Draw((forceDraw != 0) ? true : false);
 }
 
 /**

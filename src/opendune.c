@@ -1468,7 +1468,7 @@ static void GameLoop_Main()
 				}
 			}
 
-			GUI_Widget_ActionPanel_Draw(0);
+			GUI_Widget_ActionPanel_Draw(false);
 
 			InGame_Numpad_Move(key);
 

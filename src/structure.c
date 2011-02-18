@@ -116,7 +116,7 @@ void GameLoop_Structure()
 				s->countDown--;
 
 				if (s->o.houseID == g_global->playerHouseID) {
-					GUI_Widget_ActionPanel_Draw(1);
+					GUI_Widget_ActionPanel_Draw(true);
 				}
 			}
 
@@ -1144,7 +1144,7 @@ void Structure_ActivateSpecial(Structure *s)
 	}
 
 	if (s->o.houseID == g_global->playerHouseID) {
-		GUI_Widget_ActionPanel_Draw(1);
+		GUI_Widget_ActionPanel_Draw(true);
 	}
 }
 
