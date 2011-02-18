@@ -19,6 +19,7 @@ extern void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height,
 extern uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID);
 extern void GUI_DrawProgressbar(uint16 current, uint16 max);
 extern void GUI_DrawInterfaceAndRadar(uint16 unknown);
+extern void GUI_DrawCredits(uint8 houseID, uint16 mode);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -35,6 +36,7 @@ extern void emu_GUI_DrawSprite();
 extern void emu_GUI_DrawBorder();
 extern void emu_GUI_DisplayHint();
 extern void emu_GUI_DrawInterfaceAndRadar();
+extern void emu_GUI_DrawCredits();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

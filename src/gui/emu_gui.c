@@ -357,3 +357,24 @@ void emu_GUI_DrawInterfaceAndRadar()
 
 	GUI_DrawInterfaceAndRadar(unknown);
 }
+
+/**
+ * Emulator wrapper around GUI_DrawCredits().
+ *
+ * @name emu_GUI_DrawCredits
+ * @implements 10E4:0675:0026:F126 ()
+ */
+void emu_GUI_DrawCredits()
+{
+	uint16 houseID;
+	uint16 var08;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	var08   = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	GUI_DrawCredits(houseID, var08);
+}

@@ -326,7 +326,6 @@ extern void emu_Tools_SubCSIP();
 extern void f__AB00_0662_0011_6EA3();
 extern void f__2756_066C_0001_6780();
 extern void f__01F7_0675_0020_D684();
-extern void f__10E4_0675_0026_F126();
 extern void emu_Overlay_Activate();
 extern void f__2756_0677_002D_321F();
 extern void emu_Overlay_ReplaceWithJump();

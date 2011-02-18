@@ -719,7 +719,9 @@ typedef struct GlobalData {
 	/* 3604(32)  */ PACK uint16 colourBorderSchema[4][4];   /*!< Colours used for the border of widgets. */
 	/* 3624()    */ PACK uint8   unknown_3624[0x0008];
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
-	/* 3638()    */ PACK uint8   unknown_3638[0x0008];
+	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
+	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
+	/* 3640(4)   */ PACK uint32 tickCreditsAnimation;       /*!< Next tick when credits animation needs an update. */
 	/* 3644(80)  */ PACK char  variable_3644[80];           /*!< ?? */
 	/* 3694(80)  */ PACK char  variable_3694[80];           /*!< ?? */
 	/* 36E4(80)  */ PACK char  variable_36E4[80];           /*!< ?? */
@@ -776,7 +778,7 @@ typedef struct GlobalData {
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
-	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits player has available. */
+	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits shown to player as 'current'. */
 	/* 38B8(4)   */ PACK uint32 tickGameTimeout;            /*!< The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16 variable_38BE;              /*!< ?? */

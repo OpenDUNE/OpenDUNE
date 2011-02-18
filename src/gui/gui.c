@@ -30,7 +30,6 @@ extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
-extern void f__10E4_0675_0026_F126();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_1102_004C_B069();
@@ -2221,10 +2220,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 		emu_push(emu_cs); emu_push(0x223A); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 		emu_sp += 16;
 
-		emu_push((g_global->playerCredits == 0xFFFF) ? 2 : 1);
-		emu_push(g_global->playerHouseID);
-		emu_push(emu_cs); emu_push(0x2255); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
-		emu_sp += 4;
+		GUI_DrawCredits(g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 
 		emu_push(15);
 		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
@@ -2238,10 +2234,135 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 	emu_push(emu_cs); emu_push(0x2276); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 	emu_sp += 2;
 
-	emu_push(2);
-	emu_push(g_global->playerHouseID);
-	emu_push(emu_cs); emu_push(0x2283); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
-	emu_sp += 4;
+	GUI_DrawCredits(g_global->playerHouseID, 2);
 
 	emu_push(emu_cs); emu_push(0x228A); emu_cs = 0x29E8; emu_Input_History_Clear();
+}
+
+/**
+ * Draw the credits on the screen, and animate it when the value is changing.
+ * @param houseID The house to display the credits from.
+ * @param mode The mode of displaying. 0 = animate, 1 = force draw, 2 = reset.
+ */
+void GUI_DrawCredits(uint8 houseID, uint16 mode)
+{
+	uint16 memoryBlockOld;
+	uint16 unknown07AEOld;
+	House *h;
+	char charCreditsOld[7];
+	char charCreditsNew[7];
+	int i;
+	int16 creditsDiff;
+	int16 creditsNew;
+	int16 creditsOld;
+	int16 offset;
+
+	if (g_global->tickCreditsAnimation > g_global->variable_76AC && mode == 0) return;
+	g_global->tickCreditsAnimation = g_global->variable_76AC + 1;
+
+	h = House_Get_ByIndex(houseID);
+
+	if (mode == 2) {
+		g_global->playerCredits = h->credits;
+		g_global->creditsAnimation = h->credits;
+	}
+
+	if (mode == 0 && h->credits == g_global->creditsAnimation && g_global->creditsAnimationOffset == 0) return;
+
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+	memoryBlockOld = emu_ax;
+
+	emu_push(4);
+	emu_push(emu_cs); emu_push(0x070B); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+	unknown07AEOld = emu_ax;
+
+	creditsDiff = h->credits - g_global->creditsAnimation;
+	if (creditsDiff != 0) {
+		int16 diff = creditsDiff / 4;
+		if (diff == 0)   diff = (creditsDiff < 0) ? -1 : 1;
+		if (diff > 128)  diff = 128;
+		if (diff < -128) diff = -128;
+		g_global->creditsAnimationOffset += diff;
+	} else {
+		g_global->creditsAnimationOffset = 0;
+	}
+
+	if (creditsDiff != 0 && (g_global->creditsAnimationOffset < -7 || g_global->creditsAnimationOffset > 7)) {
+		Driver_Sound_Play(creditsDiff > 0 ? 52 : 53, 0xFF);
+	}
+
+	if (g_global->creditsAnimationOffset < 0 && g_global->creditsAnimation == 0) g_global->creditsAnimationOffset = 0;
+
+	g_global->creditsAnimation += g_global->creditsAnimationOffset / 8;
+
+	if (g_global->creditsAnimationOffset > 0) g_global->creditsAnimationOffset &= 7;
+	if (g_global->creditsAnimationOffset < 0) g_global->creditsAnimationOffset = -((-g_global->creditsAnimationOffset) & 7);
+
+	creditsOld = g_global->creditsAnimation;
+	creditsNew = g_global->creditsAnimation;
+	offset = 1;
+
+	if (g_global->creditsAnimationOffset < 0) {
+		creditsOld -= 1;
+		if (creditsOld < 0) creditsOld = 0;
+
+		offset -= 8;
+	}
+
+	if (g_global->creditsAnimationOffset > 0) {
+		creditsNew += 1;
+	}
+
+	GUI_DrawSprite(g_global->variable_6C91, g_sprites[12], 0, 0, 4, 0x4000);
+
+	g_global->playerCredits = creditsOld;
+
+	snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
+	snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
+
+	for (i = 0; i < 6; i++) {
+		uint16 left = i * 10 + 4;
+		uint16 spriteID;
+
+		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
+
+		if (charCreditsOld[i] != charCreditsNew[i]) {
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
+			if (g_global->creditsAnimationOffset == 0) continue;
+
+			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
+
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
+		} else {
+			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, 1, 4, 0x4000);
+		}
+	}
+
+	if (memoryBlockOld != g_global->variable_6C91) {
+		emu_push(5);
+		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+		emu_sp += 2;
+
+		emu_push(memoryBlockOld);
+		emu_push(g_global->variable_6C91);
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992F);
+		emu_push(g_global->variable_992B - 40); emu_push(g_global->variable_992D);
+		emu_push(g_global->variable_992B);      emu_push(g_global->variable_992D);
+		emu_push(emu_cs); emu_push(0x098B); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+		emu_sp += 16;
+
+		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; f__2642_0069_0008_D517();
+	}
+
+	emu_push(memoryBlockOld);
+	emu_push(emu_cs); emu_push(0x099B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(unknown07AEOld);
+	emu_push(emu_cs); emu_push(0x09A4); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
 }

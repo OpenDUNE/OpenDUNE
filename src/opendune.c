@@ -34,7 +34,6 @@
 #include "sprites.h"
 #include "wsa.h"
 
-extern void f__10E4_0675_0026_F126();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_0796_000B_9035();
@@ -1472,10 +1471,7 @@ static void GameLoop_Main()
 
 			InGame_Numpad_Move(key);
 
-			emu_push(0);
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x03BB); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
-			emu_sp += 4;
+			GUI_DrawCredits(g_global->playerHouseID, 0);
 
 			GameLoop_Team();
 			GameLoop_Unit();
