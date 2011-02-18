@@ -338,3 +338,22 @@ void emu_GUI_DisplayHint()
 
 	emu_ax = GUI_DisplayHint(stringID, spriteID);
 }
+
+/**
+ * Emulator wrapper around GUI_DrawInterfaceAndRadar().
+ *
+ * @name emu_GUI_DrawInterfaceAndRadar
+ * @implements 10E4:2099:0012:A216 ()
+ */
+void emu_GUI_DrawInterfaceAndRadar()
+{
+	uint16 unknown;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	unknown = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	GUI_DrawInterfaceAndRadar(unknown);
+}

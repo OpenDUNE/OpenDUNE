@@ -202,7 +202,7 @@ l__0135:
 	emu_get_memory16(emu_ds, 0x00, 0x3A14) = 0x1;
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x10E4; f__10E4_2099_0012_A216();
+	emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x10E4; emu_GUI_DrawInterfaceAndRadar();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 l__0175:

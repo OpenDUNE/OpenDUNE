@@ -7,9 +7,9 @@
 #include "../house.h"
 #include "../sprites.h"
 #include "../tools.h"
+#include "gui.h"
 #include "mentat.h"
 
-extern void f__10E4_2099_0012_A216();
 extern void f__1DD7_022D_0015_1956();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B4E0_0000_000F_14AD();
@@ -75,11 +75,7 @@ bool GUI_Widget_Mentat_Click()
 
 	g_global->variable_38C4 = 1;
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0401); emu_cs = 0x10E4; f__10E4_2099_0012_A216();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-	emu_sp += 2;
+	GUI_DrawInterfaceAndRadar(0);
 
 	Sound_Play(Tools_RandomRange(0, 5) + 8);
 

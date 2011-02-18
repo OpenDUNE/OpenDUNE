@@ -29,6 +29,7 @@ extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
+extern void f__10E4_0675_0026_F126();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
 extern void emu_GUI_PutPixel();
@@ -48,6 +49,7 @@ extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
+extern void f__2BB6_004F_0014_AB2C();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B48B_0000_001E_7E97();
 extern void f__B48B_03A4_0005_619A();
@@ -67,6 +69,7 @@ extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
+extern void emu_Structure_UpdateMap();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -2130,4 +2133,124 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 		emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 		emu_sp += 10;
 	}
+}
+
+/**
+ * Draw the interface (borders etc etc) and radar on the screen.
+ * @param unknown Unknown parameter.
+ */
+void GUI_DrawInterfaceAndRadar(uint16 unknown)
+{
+	PoolFindStruct find;
+	uint16 locdi;
+	Widget *w;
+
+	emu_push((unknown == 0) ? 2 : unknown);
+	emu_push(emu_cs); emu_push(0x20B4); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+	locdi = emu_ax;
+
+	g_global->variable_3A12 = 1;
+
+	Sprites_LoadImage(g_global->string_3777, 3, 3, NULL, 1);
+
+	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
+	emu_push(2);
+	emu_push(200); emu_push(296);
+	emu_push(0); emu_push(0);
+	emu_push(emu_cs); emu_push(0x20FB); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
+	emu_sp += 14;
+
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
+
+	g_global->variable_38C4 = 1;
+
+	emu_push(g_global->variable_6C91);
+	emu_push(emu_cs); emu_push(0x2135); emu_cs = 0x07D4; emu_Unknown_07D4_159A();
+	emu_sp += 2;
+
+	emu_push(g_global->variable_6C91);
+	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
+	emu_sp += 2;
+
+	GUI_Widget_ActionPanel_Draw(true);
+
+	w = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), 1);
+	GUI_Widget_Draw(w);
+
+	w = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), 2);
+	GUI_Widget_Draw(w);
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		csip32 scsip;
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		scsip = g_global->structureStartPos;
+		scsip.s.ip += s->o.index * sizeof(Structure);
+
+		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
+		emu_push(emu_cs); emu_push(0x21A6); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
+		emu_sp += 4;
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		Unit_B4CD_01BF(1, u);
+	}
+
+	if (unknown == 0) {
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x2214); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+		emu_sp += 2;
+
+		emu_push(emu_cs); emu_push(0x221A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		emu_push(0);
+		emu_push(2);
+		emu_push(200); emu_push(40);
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x223A); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+		emu_sp += 16;
+
+		emu_push((g_global->playerCredits == 0xFFFF) ? 2 : 1);
+		emu_push(g_global->playerHouseID);
+		emu_push(emu_cs); emu_push(0x2255); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
+		emu_sp += 4;
+
+		emu_push(15);
+		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+		emu_push(emu_cs); emu_push(0x2268); emu_cs = 0x259E; f__259E_0006_0016_858A();
+		emu_sp += 6;
+
+		emu_push(emu_cs); emu_push(0x2270); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	}
+
+	emu_push(locdi);
+	emu_push(emu_cs); emu_push(0x2276); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(2);
+	emu_push(g_global->playerHouseID);
+	emu_push(emu_cs); emu_push(0x2283); emu_cs = 0x10E4; f__10E4_0675_0026_F126();
+	emu_sp += 4;
+
+	emu_push(emu_cs); emu_push(0x228A); emu_cs = 0x29E8; emu_Input_History_Clear();
 }

@@ -660,7 +660,6 @@ extern void f__01F7_1FB0_0010_CF18();
 extern void f__01F7_1FE1_005F_A74A();
 extern void f__01F7_2040_0033_F011();
 extern void emu_File_LowLevel_IOCtrl();
-extern void f__10E4_2099_0012_A216();
 extern void f__01F7_20A3_0004_C957();
 extern void f__01F7_20B5_0076_64ED();
 extern void f__AB01_20F8_0001_6780();
