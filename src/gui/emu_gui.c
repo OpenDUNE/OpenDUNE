@@ -290,7 +290,7 @@ void emu_GUI_DrawSprite()
 }
 
 /**
- * Emulator wrapper around GUI_DrawBorder()
+ * Emulator wrapper around GUI_DrawBorder().
  *
  * @name emu_GUI_DrawBorder
  * @implements 10E4:0008:0048:5BD4 ()

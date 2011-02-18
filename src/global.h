@@ -716,8 +716,10 @@ typedef struct GlobalData {
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
-	/* 3604(4)   */ PACK uint16 colourBorderSchema[4][4];   /*!< Colours used for the border of widgets. */
-	/* 3624()    */ PACK uint8   unknown_3624[0x0020];
+	/* 3604(32)  */ PACK uint16 colourBorderSchema[4][4];   /*!< Colours used for the border of widgets. */
+	/* 3624()    */ PACK uint8   unknown_3624[0x0008];
+	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
+	/* 3638()    */ PACK uint8   unknown_3638[0x0008];
 	/* 3644(80)  */ PACK char  variable_3644[80];           /*!< ?? */
 	/* 3694(80)  */ PACK char  variable_3694[80];           /*!< ?? */
 	/* 36E4(80)  */ PACK char  variable_36E4[80];           /*!< ?? */

@@ -8,7 +8,6 @@
 #include "global.h"
 #include "file.h"
 #include "gui/gui.h"
-#include "gui/widget.h"
 #include "house.h"
 #include "os/strings.h"
 #include "string.h"

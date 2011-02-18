@@ -30,7 +30,6 @@ extern void emu_GUI_DrawLine();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_String_Get_ByIndex();
-extern void emu_GUI_Widget_DrawBorder();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -67,13 +66,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	state  = ((w->state & 0x0001) != 0) ? 0 : 2;
 	colour = ((w->state & 0x0004) != 0) ? 0xE7 : 0xE8;
 
-	emu_push(1);
-	emu_push(state);
-	emu_push(19);
-	emu_push(emu_cs); emu_push(0x102E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 6;
+	GUI_Widget_DrawBorder(19, state, 1);
 
 	if (w->stringID == 0x1E || w->stringID == 0x66 || w->stringID == 0x6B || w->stringID == 0x6C) {
 		emu_push(0x122);
@@ -728,11 +721,7 @@ void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
 			GUI_Widget_MakeInvisible(buttons[i]);
 		}
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(g_global->variable_6D5D);
-		emu_push(emu_cs); emu_push(0x12A3); emu_GUI_Widget_DrawBorder();
-		emu_sp += 6;
+		GUI_Widget_DrawBorder(g_global->variable_6D5D, 0, 0);
 	}
 
 	if (actionType > 1) {
@@ -1017,5 +1006,45 @@ void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
 		emu_push(loc04);
 		emu_push(emu_cs); emu_push(0x1B8D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 		emu_sp += 2;
+	}
+}
+
+/**
+ * Draw the border around a widget.
+ * @param widgetIndex The widget index to draw the border around.
+ * @param borderType The type of border. 0 = normal, 1 = thick depth, 2 = double, 3 = thin depth.
+ * @param pressed True if the button is pressed.
+ */
+void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
+{
+	uint16 left = g_global->variable_4062[widgetIndex][0] << 3;
+	uint16 top = g_global->variable_4062[widgetIndex][1];
+	uint16 width = g_global->variable_4062[widgetIndex][2] << 3;
+	uint16 height = g_global->variable_4062[widgetIndex][3];
+
+	uint16 colourSchemaIndex = (pressed) ? 2 : 0;
+	uint16 colourSchemaIndexDiff;
+	uint16 size;
+
+	if (g_global->variable_6C91 == 0) {
+		emu_push(top + height);
+		emu_push(left + width);
+		emu_push(top);
+		emu_push(left);
+		emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		emu_sp += 8;
+	}
+
+	GUI_DrawBorder(left, top, width, height, colourSchemaIndex + 1, true);
+
+	colourSchemaIndexDiff = g_global->variable_362C[borderType][0];
+	size = g_global->variable_362C[borderType][1];
+
+	if (size != 0) {
+		GUI_DrawBorder(left + size, top + size, width - (size * 2), height - (size * 2), colourSchemaIndexDiff + colourSchemaIndex, false);
+	}
+
+	if (g_global->variable_6C91 == 0) {
+		emu_push(emu_cs); emu_push(0x066F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }

@@ -314,3 +314,26 @@ void emu_GUI_Widget_MakeNormal()
 
 	GUI_Widget_MakeNormal((Widget *)emu_get_memorycsip(wcsip), (clickProc != 0) ? true : false);
 }
+
+/**
+ * Emulator wrapper around GUI_Widget_DrawBorder().
+ *
+ * @name emu_GUI_Widget_DrawBorder
+ * @implements 10E4:057F:0052:2B00 ()
+ */
+void emu_GUI_Widget_DrawBorder()
+{
+	uint16 widget;
+	uint16 borderType;
+	uint16 pressed;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	widget     = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	borderType = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	pressed    = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	GUI_Widget_DrawBorder(widget, borderType, (pressed != 0) ? true : false);
+}

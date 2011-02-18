@@ -77,7 +77,6 @@ extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
-extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_Terminate_Normal();
@@ -1110,11 +1109,7 @@ static void Gameloop_IntroMenu()
 				emu_push(emu_cs); emu_push(0x203C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
 				emu_sp += 2;
 
-				emu_push(1);
-				emu_push(2);
-				emu_push(13);
-				emu_push(emu_cs); emu_push(0x204E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder();
-				emu_sp += 6;
+				GUI_Widget_DrawBorder(13, 2, 1);
 
 				emu_push(0);
 				emu_push(0);

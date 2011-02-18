@@ -67,7 +67,6 @@ extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -675,11 +674,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_sp += 12;
 	}
 
-	emu_push(1);
-	emu_push(1);
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x03B4); emu_GUI_Widget_DrawBorder();
-	emu_sp += 6;
+	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
 		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 7, 8, 1, 0x4000);
