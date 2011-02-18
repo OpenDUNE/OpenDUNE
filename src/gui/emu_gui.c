@@ -288,3 +288,32 @@ void emu_GUI_DrawSprite()
 		default: assert(0);
 	}
 }
+
+/**
+ * Emulator wrapper around GUI_DrawBorder()
+ *
+ * @name emu_GUI_DrawBorder
+ * @implements 10E4:0008:0048:5BD4 ()
+ */
+void emu_GUI_DrawBorder()
+{
+	uint16 left;
+	uint16 top;
+	uint16 width;
+	uint16 height;
+	uint16 colourSchemaIndex;
+	uint16 fill;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	left              = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	top               = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	width             = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	height            = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	colourSchemaIndex = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	fill              = emu_get_memory16(emu_ss, emu_sp, 0xA);
+
+	GUI_DrawBorder(left, top, width, height, colourSchemaIndex, (fill != 0) ? true : false);
+}

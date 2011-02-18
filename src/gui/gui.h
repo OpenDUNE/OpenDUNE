@@ -15,6 +15,8 @@ extern void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 
 extern void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID);
 extern uint16 GUI_PickHouse();
 extern void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity);
+extern void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill);
+
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
@@ -27,6 +29,7 @@ extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_DisplayModalMessage();
 extern void emu_GUI_SplitText();
 extern void emu_GUI_DrawSprite();
+extern void emu_GUI_DrawBorder();
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
 

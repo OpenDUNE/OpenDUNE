@@ -1141,7 +1141,7 @@ l__0722:
 	emu_shlw(&emu_ax, emu_cl);
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x074E); emu_cs = 0x10E4; emu_GUI_Widget_DrawBorder2();
+	emu_push(emu_cs); emu_push(0x074E); emu_cs = 0x10E4; emu_GUI_DrawBorder();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__074E:

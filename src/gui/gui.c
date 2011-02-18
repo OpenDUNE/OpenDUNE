@@ -31,6 +31,7 @@ extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
+extern void emu_GUI_PutPixel();
 extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
@@ -1978,4 +1979,78 @@ void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, u
 
 		colors[index] = color;
 	}
+}
+
+/**
+ * Draw a border.
+ *
+ * @param left Left position of the border.
+ * @param top Top position of the border.
+ * @param width Width of the border.
+ * @param height Height of the border.
+ * @param colourSchemaIndex Index of the colourSchema used.
+ * @param fill True if you want the border to be filled.
+ */
+void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill)
+{
+	uint16 *colourSchema;
+
+	width  -= 1;
+	height -= 1;
+
+	colourSchema = g_global->colourBorderSchema[colourSchemaIndex];
+
+	if (fill != 0) {
+		emu_push(colourSchema[0]);
+		emu_push(top + height);
+		emu_push(left + width);
+		emu_push(top);
+		emu_push(left);
+		emu_push(emu_cs); emu_push(0x0050); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+		emu_sp += 10;
+	}
+
+	emu_push(colourSchema[1]);
+	emu_push(top + height);
+	emu_push(left + width);
+	emu_push(top + height);
+	emu_push(left);
+	emu_push(emu_cs); emu_push(0x0077); emu_cs = 0x22A6; emu_GUI_DrawLine();
+	emu_sp += 10;
+
+	emu_push(colourSchema[1]);
+	emu_push(top + height);
+	emu_push(left + width);
+	emu_push(top);
+	emu_push(left + width);
+	emu_push(emu_cs); emu_push(0x009E); emu_cs = 0x22A6; emu_GUI_DrawLine();
+	emu_sp += 10;
+
+	emu_push(colourSchema[2]);
+	emu_push(top);
+	emu_push(left + width);
+	emu_push(top);
+	emu_push(left);
+	emu_push(emu_cs); emu_push(0x00BB); emu_cs = 0x22A6; emu_GUI_DrawLine();
+	emu_sp += 10;
+
+	emu_push(colourSchema[2]);
+	emu_push(top + height);
+	emu_push(left);
+	emu_push(top);
+	emu_push(left);
+	emu_push(emu_cs); emu_push(0x00D8); emu_cs = 0x22A6; emu_GUI_DrawLine();
+	emu_sp += 10;
+
+	emu_push(colourSchema[3]);
+	emu_push(top + height);
+	emu_push(left);
+	emu_push(emu_cs); emu_push(0x00F3); emu_cs = 0x22A6; emu_GUI_PutPixel();
+	emu_sp += 6;
+
+	emu_push(colourSchema[3]);
+	emu_push(top);
+	emu_push(left + width);
+	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x22A6; emu_GUI_PutPixel();
+	emu_sp += 6;
 }

@@ -194,7 +194,7 @@ l__05F9:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_cs);
-	emu_push(0x0612); emu_GUI_Widget_DrawBorder2();
+	emu_push(0x0612); emu_GUI_DrawBorder();
 l__0612:
 	emu_addw(&emu_sp, 0xC);
 	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0x8);
@@ -230,7 +230,7 @@ l__0612:
 	emu_addw(&emu_ax, emu_si);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0660); emu_GUI_Widget_DrawBorder2();
+	emu_push(0x0660); emu_GUI_DrawBorder();
 l__0660:
 	emu_addw(&emu_sp, 0xC);
 l__0663:
@@ -838,7 +838,7 @@ l__0E8B:
 	emu_decw(&emu_ax);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0EC8); emu_GUI_Widget_DrawBorder2();
+	emu_push(0x0EC8); emu_GUI_DrawBorder();
 l__0EC8:
 	emu_addw(&emu_sp, 0xC);
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x0);

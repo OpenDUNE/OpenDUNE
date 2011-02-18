@@ -19,7 +19,6 @@
 extern void f__10E4_0D58_004B_FEF5();
 extern void f__10E4_1BE0_002F_1A76();
 extern void f__22A6_034F_000C_5E0A();
-extern void emu_GUI_PutPixel();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2642_0069_0008_D517();
@@ -192,7 +191,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], positionX, positionY, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
 
-	GUI_Widget_DrawBorder2(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
+	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
 
 	if (old6C91 != 0) return;
 
@@ -263,7 +262,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	height    = w->height;
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
-	GUI_Widget_DrawBorder2(positionX, positionY, width, height, buttonDown ? 0 : 1, true);
+	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, true);
 
 	switch (g_global->productionStringID) {
 		case 0x2A: /* "Launch" */
@@ -439,7 +438,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	height    = w->height;
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
-	GUI_Widget_DrawBorder2(positionX, positionY, width, height, buttonDown ? 0 : 1, true);
+	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, true);
 
 	colour = 0xF;
 	if (buttonSelected) {
@@ -1019,78 +1018,4 @@ void GUI_Widget_ActionPanel_Draw(uint16 unknown06)
 		emu_push(emu_cs); emu_push(0x1B8D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 		emu_sp += 2;
 	}
-}
-
-/**
- * Draw a border.
- *
- * @param left Left position of the border.
- * @param top Top position of the border.
- * @param width Width of the border.
- * @param height Height of the border.
- * @param colourSchemaIndex Index of the colourSchema used.
- * @param fill True if you want the border to be filled.
- */
-void GUI_Widget_DrawBorder2(uint16 left, uint16 top, uint16 width, uint16 height, uint16 colourSchemaIndex, bool fill)
-{
-	uint16 *colourSchema;
-
-	width  -= 1;
-	height -= 1;
-
-	colourSchema = g_global->colourBorderSchema[colourSchemaIndex];
-
-	if (fill != 0) {
-		emu_push(colourSchema[0]);
-		emu_push(top + height);
-		emu_push(left + width);
-		emu_push(top);
-		emu_push(left);
-		emu_push(emu_cs); emu_push(0x0050); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-		emu_sp += 10;
-	}
-
-	emu_push(colourSchema[1]);
-	emu_push(top + height);
-	emu_push(left + width);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x0077); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[1]);
-	emu_push(top + height);
-	emu_push(left + width);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(emu_cs); emu_push(0x009E); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[2]);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00BB); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[2]);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00D8); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[3]);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00F3); emu_cs = 0x22A6; emu_GUI_PutPixel();
-	emu_sp += 6;
-
-	emu_push(colourSchema[3]);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x22A6; emu_GUI_PutPixel();
-	emu_sp += 6;
 }

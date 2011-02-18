@@ -318,8 +318,8 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		GUI_Widget_DrawBorder2((g_global->variable_992D << 3) - 6, g_global->variable_992B - 6, (g_global->variable_992F << 3) + 12, g_global->variable_9931 + 12, 1, true);
-		GUI_Widget_DrawBorder2((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
+		GUI_DrawBorder((g_global->variable_992D << 3) - 6, g_global->variable_992B - 6, (g_global->variable_992F << 3) + 12, g_global->variable_9931 + 12, 1, true);
+		GUI_DrawBorder((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
 
 		emu_push(emu_cs); emu_push(0x148D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */
