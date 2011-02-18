@@ -150,12 +150,12 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 	if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
 	positionY += g_global->variable_4062[w->parentID][1];
 
-	if ((w->state & 0x4400) != 0) {
+	if ((w->state.s.buttonState & 0x44) != 0) {
 		scrollbar->pressed = 0;
 		GUI_Widget_ScrollBar_Draw(w);
 	}
 
-	if ((w->state & 0x1100) != 0) {
+	if ((w->state.s.buttonState & 0x11) != 0) {
 		int16 positionCurrent;
 		int16 positionBegin;
 		int16 positionEnd;
@@ -180,7 +180,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 		}
 	}
 
-	if ((w->state & 0x2200) != 0 && scrollbar->pressed != 0) {
+	if ((w->state.s.buttonState & 0x22) != 0 && scrollbar->pressed != 0) {
 		int16 position, size;
 
 		if (w->width > w->height) {

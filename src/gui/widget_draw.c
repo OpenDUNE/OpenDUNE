@@ -63,8 +63,8 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	g_global->variable_4062[19][2] = width >> 3;
 	g_global->variable_4062[19][3] = height;
 
-	state  = ((w->state & 0x0001) != 0) ? 0 : 2;
-	colour = ((w->state & 0x0004) != 0) ? 0xE7 : 0xE8;
+	state  = (w->state.s.selected) ? 0 : 2;
+	colour = (w->state.s.hover2) ? 0xE7 : 0xE8;
 
 	GUI_Widget_DrawBorder(19, state, 1);
 
@@ -173,7 +173,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	buttonDown = ((w->state & 0x0004) != 0) ? true : false;
+	buttonDown = w->state.s.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -247,7 +247,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		emu_sp += 2;
 	}
 
-	buttonDown = ((w->state & 0x0004) != 0) ? true : false;
+	buttonDown = w->state.s.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;
@@ -422,8 +422,8 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	stringID = w->stringID;
 
-	buttonSelected = ((w->state & 0x0001) != 0) ? true : false;
-	buttonDown     = ((w->state & 0x0004) != 0) ? true : false;
+	buttonSelected = w->state.s.selected;
+	buttonDown     = w->state.s.hover2;
 
 	positionX = w->offsetX;
 	positionY = w->offsetY;

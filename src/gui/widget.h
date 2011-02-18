@@ -86,12 +86,12 @@ typedef struct Widget {
 	/*      0008 */              BITTYPE invisible:1;       /*!< Widget is invisible. */
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE noClickCascade:1;  /*!< Don't cascade the click event to any other widgets. */
-	/*      0040 */              BITTYPE loseSelect:1;      /*!< Lose select when leave */
+	/*      0040 */              BITTYPE loseSelect:1;      /*!< Lose select when leave. */
 	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
-	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter */
-	/*      F000 */              BITTYPE buttonFilterRight:4;/*!< Right button filter */
+	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter. */
+	/*      F000 */              BITTYPE buttonFilterRight:4;/*!< Right button filter. */
 	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
+	                     uint16 all; } flags;               /*!< General flags of the Widget. */
 	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when normal. */
 	/* 0014(4)   */ PACK csip32 drawProcSelected;           /*!< Draw proc when selected. */
 	/* 0018(4)   */ PACK csip32 drawProcDown;               /*!< Draw proc when down. */
@@ -107,7 +107,19 @@ typedef struct Widget {
 	/* 002A(1)   */ PACK uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
 	/* 002B(1)   */ PACK uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
 	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
-	/* 002E(2)   */ PACK uint16 state;                      /*!< Bitflags. 0x01 - Selected, 0x02/0x04 - Hover, 0x08 - Last Selected, 0x10/0x20 - Last Hover, 0x80 - Key Selected. */
+	/* 002E(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE selected:1;        /*!< Selected. */
+	/*      0002 */              BITTYPE hover1:1;          /*!< Hover. */
+	/*      0004 */              BITTYPE hover2:1;          /*!< Hover. */
+	/*      0008 */              BITTYPE selectedLast:1;    /*!< Last Selected. */
+	/*      0010 */              BITTYPE hover1Last:1;      /*!< Last Hover. */
+	/*      0020 */              BITTYPE hover2Last:1;      /*!< Last Hover. */
+	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
+	/*      0080 */              BITTYPE keySelected:1;     /*!< Key Selected. */
+	/*      FF00 */              BITTYPE buttonState:8;     /*!< Button state. */
+	                     } GCC_PACKED s;
+	                     uint16 all; } state;               /*!< State of the Widget. */
 	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
 	/* 0034(4)   */ PACK csip32 scrollbar;                  /*!< If non-zero, it points to WidgetScrollbar belonging to this widget. */
 	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
