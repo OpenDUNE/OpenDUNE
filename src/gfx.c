@@ -168,7 +168,7 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
  * @param y The Y-coordinate on the screen.
  * @param colour The colour of the pixel to put on the screen.
  */
-void GFX_PutPixel(uint16 x, uint16 y, uint16 colour)
+void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 {
 	uint16 offset;
 
