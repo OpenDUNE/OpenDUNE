@@ -23,7 +23,6 @@
 
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__10E4_0117_0015_392D();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -299,10 +298,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
 
 	if (u->o.houseID == g_global->playerHouseID) {
-		emu_push(0x6A);
-		emu_push(0x1B);
-		emu_push(emu_cs); emu_push(0x0E12); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-		emu_sp += 4;
+		GUI_DisplayHint(27, 0x6A);
 	}
 
 	if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);

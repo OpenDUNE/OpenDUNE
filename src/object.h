@@ -98,7 +98,7 @@ typedef struct ObjectInfo {
 	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
 	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
 	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? */
-	/* 002B(2)   */ PACK uint16 variable_2B;                /*!< ?? */
+	/* 002B(2)   */ PACK uint16 hintStringID;               /*!< StringID of the hint shown for this Unit/Structure. */
 	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
 	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
 	/* 0031()    */ PACK uint8   unknown_0031[0x0001];

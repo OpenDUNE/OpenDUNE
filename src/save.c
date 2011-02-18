@@ -68,8 +68,8 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (fwrite(&g_global->variable_37F0, sizeof(uint32), 1, fp) != 1) return false;
-	if (fwrite(&g_global->variable_37F4, sizeof(uint32), 1, fp) != 1) return false;
+	if (fwrite(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
+	if (fwrite(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
 
 	{
 		uint32 tickScenarioStart = g_global->tickGlobal - g_global->tickScenarioStart;

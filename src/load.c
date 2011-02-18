@@ -60,8 +60,8 @@ static bool Load_Info(FILE *fp, uint32 length)
 	if (fread(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->variable_37F0, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_global->variable_37F4, sizeof(uint32), 1, fp) != 1) return false;
+	if (fread(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
+	if (fread(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;

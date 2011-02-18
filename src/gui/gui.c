@@ -2049,3 +2049,36 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x22A6; emu_GUI_PutPixel();
 	emu_sp += 6;
 }
+
+/**
+ * Display a hint to the user. Only show each hint exactly once.
+ *
+ * @param stringID The string of the hint to show.
+ * @param spriteID The sprite to show with the hint.
+ * @return Zero or the return value of GUI_DisplayModalMessage.
+ */
+uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
+{
+	uint32 *hintsShown;
+	uint32 mask;
+
+	assert(stringID < 64);
+
+	if (g_global->debugGame) return 0;
+	if (stringID == 0) return 0;
+	if (!g_global->gameConfig.hints) return 0;
+	if (g_global->selectionType == 0) return 0;
+
+	if (stringID < 32) {
+		mask = (1 << stringID);
+		hintsShown = &g_global->hintsShown1;
+	} else {
+		mask = (1 << (stringID - 32));
+		hintsShown = &g_global->hintsShown2;
+	}
+
+	if ((*hintsShown & mask) != 0) return 0;
+	*hintsShown |= mask;
+
+	return GUI_DisplayModalMessage(String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->variable_38C6), stringID), spriteID);
+}

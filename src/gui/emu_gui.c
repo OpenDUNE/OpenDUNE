@@ -317,3 +317,24 @@ void emu_GUI_DrawBorder()
 
 	GUI_DrawBorder(left, top, width, height, colourSchemaIndex, (fill != 0) ? true : false);
 }
+
+/**
+ * Emulator wrapper around emu_GUI_DisplayHint().
+ *
+ * @name emu_GUI_DisplayHint
+ * @implements 10E4:0117:0015:392D ()
+ */
+void emu_GUI_DisplayHint()
+{
+	uint16 stringID;
+	uint16 spriteID;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	stringID = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	spriteID = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = GUI_DisplayHint(stringID, spriteID);
+}

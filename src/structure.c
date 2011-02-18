@@ -29,7 +29,6 @@
 
 extern void f__0C3A_1B79_0021_8C40();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__10E4_0117_0015_392D();
 extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
@@ -1821,11 +1820,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
 
-						emu_push(g_structureInfo[objectType].o.spriteID);
-						emu_push(0x14);
-						emu_push(emu_cs); emu_push(0x18BC); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-						emu_sp += 4;
-						if (emu_ax == 0) continue;
+						if (GUI_DisplayHint(20, g_structureInfo[objectType].o.spriteID) == 0) continue;
 
 						s->objectType = objectType;
 

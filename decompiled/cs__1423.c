@@ -236,7 +236,7 @@ l__0A5A:
 	emu_push(emu_ax);
 	emu_ax = 0x1C;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0A6F); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
+	emu_push(emu_cs); emu_push(0x0A6F); emu_cs = 0x10E4; emu_GUI_DisplayHint();
 l__0A6F:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

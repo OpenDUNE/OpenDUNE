@@ -31,7 +31,6 @@
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
-extern void f__10E4_0117_0015_392D();
 extern void f__1423_08CD_0012_0004();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
@@ -1892,10 +1891,7 @@ void Unit_Select(Unit *unit)
 		emu_push(emu_cs); emu_push(0x1018); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
 		emu_sp += 2;
 
-		emu_push(ui->o.spriteID);
-		emu_push(ui->o.variable_2B);
-		emu_push(emu_cs); emu_push(0x1050); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-		emu_sp += 4;
+		GUI_DisplayHint(ui->o.hintStringID, ui->o.spriteID);
 	}
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */

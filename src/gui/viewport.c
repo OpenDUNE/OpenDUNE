@@ -23,7 +23,6 @@
 #include "../sprites.h"
 
 extern void f__0C3A_1B79_0021_8C40();
-extern void f__10E4_0117_0015_392D();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4E9_0050_003F_292A();
@@ -238,10 +237,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			g_global->activeStructure.csip = 0x0;
 			g_global->variable_38EC        = 0;
 
-			emu_push(si->o.spriteID);
-			emu_push(si->o.variable_2B);
-			emu_push(emu_cs); emu_push(0x0650); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-			emu_sp += 4;
+			GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 
 			House_UpdateRadarState(h);
 
@@ -264,10 +260,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			/* Can not place foundation here. */
 			GUI_DisplayText(String_Get_ByIndex(0x87), 2);
 		} else {
-			emu_push(0xFFFF);
-			emu_push(26);
-			emu_push(emu_cs); emu_push(0x06DC); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-			emu_sp += 4;
+			GUI_DisplayHint(26, 0xFFFF);
 
 			/* "Can not place %s here." */
 			GUI_DisplayText(String_Get_ByIndex(0x86), 2, String_Get_ByIndex(si->o.stringID_abbrev));

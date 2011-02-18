@@ -22,7 +22,6 @@
 
 extern void emu_Structure_UpdateMap();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__10E4_0117_0015_392D();
 extern void f__1423_0E4F_0010_843C();
 extern void f__151A_000E_0013_5840();
 extern void f__22A6_1200_007B_0356();
@@ -101,10 +100,7 @@ void Map_SetSelection(uint16 packed)
 
 			si = &g_structureInfo[s->o.type];
 			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
-				emu_push(si->o.spriteID);
-				emu_push(si->o.variable_2B);
-				emu_push(emu_cs); emu_push(0x038B); emu_cs = 0x10E4; f__10E4_0117_0015_392D();
-				emu_sp += 4;
+				GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 			}
 
 			packed = Tile_PackTile(s->o.position);

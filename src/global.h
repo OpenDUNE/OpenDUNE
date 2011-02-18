@@ -757,8 +757,8 @@ typedef struct GlobalData {
 	/* 37BA(2)   */ PACK uint16 variable_37BA;              /*!< ?? */
 	/* 37BC(4)   */ PACK csip32 variable_37BC;              /*!< ?? */
 	/* 37E0()    */ PACK uint8   unknown_37E0[0x0030];
-	/* 37F0(4)   */ PACK uint32 variable_37F0;              /*!< ?? */
-	/* 37F4(4)   */ PACK uint32 variable_37F4;              /*!< ?? */
+	/* 37F0(4)   */ PACK uint32 hintsShown1;                /*!< A bit-array to indicate which hints has been show already (0-31). */
+	/* 37F4(4)   */ PACK uint32 hintsShown2;                /*!< A bit-array to indicate which hints has been show already (32-63). */
 	/* 37F8(180) */ PACK uint8  donotuse_houseInfo[180];    /*!< Information about the houses. Use g_houseInfo to access. */
 	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
