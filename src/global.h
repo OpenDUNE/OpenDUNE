@@ -837,7 +837,7 @@ typedef struct GlobalData {
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
 	/* 3A14(2)   */ PACK uint16 variable_3A14;              /*!< ?? */
-	/* 3A16()    */ PACK uint8   unknown_3A16[0x0016];
+	/* 3A16(22)  */ PACK uint16 progressbarInfo[11];        /*!< Info about the current progressbar (there is only one in Dune2). */
 	/* 3A2C(4)   */ PACK csip32 new6pFnt;                   /*!< Pointer to content of new6p[g].fnt. */
 	/* 3A30(4)   */ PACK csip32 new8pFnt2;                  /*!< Pointer to content of new8p.fnt (copy of new8pFnt). */
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */

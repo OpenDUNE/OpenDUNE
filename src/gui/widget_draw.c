@@ -17,7 +17,6 @@
 #include "../unknown/unknown.h"
 #include "../map.h"
 
-extern void f__10E4_0D58_004B_FEF5();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -890,12 +889,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 		/* Unit / Structure */
 		if (actionType == 2 || actionType == 3) {
-			emu_push(oi->hitpoints);
-			emu_push(o->hitpoints);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x13D0); emu_cs = 0x10E4; f__10E4_0D58_004B_FEF5();
-			emu_sp += 6;
-
+			GUI_DrawProgressbar(o->hitpoints, oi->hitpoints);
 			GUI_DrawSprite(g_global->variable_6C91, g_sprites[27], 292, 60, 0, 0);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(49), 296, 65, 29, 0, 0x11);
 		}

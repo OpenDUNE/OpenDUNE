@@ -2082,3 +2082,52 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	return GUI_DisplayModalMessage(String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->variable_38C6), stringID), spriteID);
 }
+
+void GUI_DrawProgressbar(uint16 current, uint16 max)
+{
+	uint16 *info;
+	uint16 width;
+	uint16 height;
+	uint16 colour;
+
+	info = g_global->progressbarInfo;
+
+	info[7] = max;
+	info[6] = current;
+
+	if (current > max) current = max;
+	if (max < 1) max = 1;
+
+	width  = info[2];
+	height = info[3];
+
+	/* 0 = Horizontal, 1 = Vertial */
+	if (info[5] == 0) {
+		width = current * width / max;
+		if (width < 1) width = 1;
+	} else {
+		height = current * height / max;
+		if (height < 1) height = 1;
+	}
+
+	colour = info[8];
+	if (current <= max / 2) colour = info[9];
+	if (current <= max / 4) colour = info[10];
+
+	if (current != 0 && width  == 0) width = 1;
+	if (current != 0 && height == 0) height = 1;
+
+	if (height != 0) {
+		GUI_DrawBorder(info[0] - 1, info[1] - 1, info[2] + 2, info[3] + 2, 1, true);
+	}
+
+	if (width != 0) {
+		emu_push(colour);
+
+		emu_push(info[1] + info[3] - 1);      emu_push(info[0] + width - 1);
+		emu_push(info[1] + info[3] - height); emu_push(info[0]);
+
+		emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+		emu_sp += 10;
+	}
+}
