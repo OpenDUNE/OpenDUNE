@@ -92,7 +92,7 @@ void emu_Map_Update()
 {
 	uint16 packed;
 	uint16 type;
-	bool ignoreInvisible;
+	uint16 ignoreInvisible;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -100,7 +100,7 @@ void emu_Map_Update()
 
 	packed          = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	type            = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	ignoreInvisible = emu_get_memory16(emu_ss, emu_sp, 0x6) != 0;
+	ignoreInvisible = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
-	Map_Update(packed, type, ignoreInvisible);
+	Map_Update(packed, type, (ignoreInvisible != 0) ? true : false);
 }
