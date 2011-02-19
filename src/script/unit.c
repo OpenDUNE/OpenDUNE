@@ -1256,7 +1256,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 
 				loc0C = Script_Unit_1319_02AC(locsi, &loc22[0], 1, loc04, function, arg14);
 
-				if (loc0A != 0 || loc0A != 0) break;
+				if (loc0A != 0 || loc0C != 0) break;
 
 				do {
 					if (locsi == packedDest) break;
