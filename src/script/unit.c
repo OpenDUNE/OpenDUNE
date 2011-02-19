@@ -22,11 +22,12 @@
 #include "../string.h"
 
 extern void f__0F3F_0125_000D_4868();
+extern void f__0F3F_0168_0010_C9EF();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__1319_002D_0023_320C();
 extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
+extern void f__176C_1F21_001C_8C6C();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1031,6 +1032,372 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	}
 }
 
+/* This struct is similar to struct_8BDE */
+typedef struct struct_1319 {
+	uint16 packed;
+	uint16 variable_0002;
+	uint16 variable_0004;
+	uint8 *buffer;
+} struct_1319;
+
+static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, csip32 function, int16 arg0E)
+{
+	uint16 packed;
+	uint8 *loc04;
+	uint8 *loc08;
+
+	if (arg06 == NULL || arg06->buffer == NULL || function.csip == 0x0) return 0;
+
+l__03E8:
+	emu_push(emu_bp);
+	emu_bp = emu_sp;
+	emu_subw(&emu_sp, 0xC);
+
+	arg06->buffer[arg06->variable_0004] = 0xFF;
+	packed = arg06->packed;
+
+	if (arg06->variable_0004 > 1) {
+		loc08 = arg06->buffer + 1;
+
+		while (*loc08 != 0xFF) {
+			uint8 loc09;
+			uint8 loc0C;
+
+			loc04 = loc08 - 1;
+
+			while (*loc04 == 0xFE && loc04 != arg06->buffer) loc04--;
+
+			if (*loc04 == 0xFE) {
+				loc08++;
+				continue;
+			}
+
+			loc09 = *loc08 - *loc04;
+			if ((int8)loc09 < 0) loc09 += 8;
+
+			loc09 = g_global->variable_3792[loc09];
+
+			if (loc09 == 3) {
+				*loc04 = 0xFE;
+				*loc08++ = 0xFE;
+				continue;
+			}
+
+			if (loc09 == 0) {
+				packed += g_global->variable_3782[*loc04];
+				loc08++;
+				continue;
+			}
+
+			if ((*loc04 & 0x1) != 0) {
+				loc0C = (*loc04 + ((int8)loc09 < 0 ? -1 : 1)) & 0x7;
+
+				if (abs(loc09) == 1) {
+					emu_push(loc0C);
+					emu_push(packed + g_global->variable_3782[loc0C]);
+					emu_push(emu_cs); emu_push(0x0526);
+					switch (function.csip) {
+						case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+						default:
+							/* In case we don't know the call point yet, call the dynamic call */
+							emu_last_cs = 0x1319; emu_last_ip = 0x0523; emu_last_length = 0x0006; emu_last_crc = 0xFC3B;
+							emu_call();
+							return 0;
+					}
+					emu_sp += 4;
+					if (emu_ax <= arg0E) {
+						*loc08 = loc0C;
+						*loc04 = loc0C;
+					}
+					packed += g_global->variable_3782[*loc04];
+					loc08++;
+					continue;
+				}
+			} else {
+				loc0C = (*loc04 + loc09) & 0x7;
+			}
+
+			*loc08 = loc0C;
+			*loc04 = 0xFE;
+
+			while (*loc04 == 0xFE && arg06->buffer != loc04) loc04--;
+
+			if (*loc04 != 0xFE) {
+				packed += g_global->variable_3782[(*loc04 + 4) & 0x7];
+			} else {
+				packed = arg06->packed;
+			}
+		}
+	}
+
+	loc04 = arg06->buffer;
+	loc08 = arg06->buffer;
+	packed = arg06->packed;
+	arg06->variable_0002 = 0;
+	arg06->variable_0004 = 0;
+
+	for (; *loc08 != 0xFF; loc08++) {
+		if (*loc08 == 0xFE) continue;
+
+		packed += g_global->variable_3782[*loc08];
+
+		emu_push(*loc08);
+		emu_push(packed);
+		emu_push(emu_cs); emu_push(0x063D);
+		switch (function.csip) {
+			case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1319; emu_last_ip = 0x063A; emu_last_length = 0x0010; emu_last_crc = 0xD054;
+				emu_call();
+				return 0;
+		}
+		emu_sp += 4;
+		arg06->variable_0002 = emu_ax;
+		arg06->variable_0004++;
+		*loc04++ = *loc08;
+	}
+
+	arg06->variable_0004++;
+	*loc04 = 0xFF;
+
+	return arg06->variable_0004;
+}
+
+static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C, uint8 arg0E, csip32 function, int16 arg14)
+{
+	uint16 locsi;
+	uint16 loc04;
+	uint8 *loc08;
+	uint16 loc0A;
+
+	if (arg08 == NULL || function.csip == 0x0) return false;
+
+	loc04 = arg08->packed;
+	loc08 = arg08->buffer;
+	loc0A = 0x0;
+
+	while (loc0A < 100) {
+		uint8 loc02 = arg0E;
+
+		while (true) {
+			loc02 = (loc02 + arg0C) & 0x7;
+
+			if ((loc02 & 0x1) != 0 && (loc04 + g_global->variable_3782[(loc02 + arg0C) & 0x7]) == packed) {
+				loc02 = (loc02 + arg0C) & 0x7;
+				locsi = loc04 + g_global->variable_3782[loc02];
+				break;
+			} else {
+				if (loc02 == arg0E) return false;
+
+				locsi = loc04 + g_global->variable_3782[loc02];
+
+				emu_push(loc02);
+				emu_push(locsi);
+				emu_push(emu_cs); emu_push(0x035E);
+				switch (function.csip) {
+					case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+					default:
+						/* In case we don't know the call point yet, call the dynamic call */
+						emu_last_cs = 0x1319; emu_last_ip = 0x035B; emu_last_length = 0x000B; emu_last_crc = 0x6FF3;
+						emu_call();
+						return false;
+				}
+				emu_sp += 4;
+				if (emu_ax <= arg14) break;
+			}
+		}
+
+		*loc08++ = loc02;
+		loc0A++;
+
+		if (locsi == packed) {
+			*loc08 = 0xFF;
+			arg08->variable_0004 = loc0A;
+			Script_Unit_1319_03E8(arg08, function, arg14);
+			arg08->variable_0004--;
+			return true;
+		}
+
+		if (arg08->packed == locsi) return false;
+
+		arg0E = (loc02 - arg0C * 3) & 0x7;
+		loc04 = locsi;
+	}
+
+	return false;
+}
+
+static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, csip32 buffer_csip, int16 arg0E, csip32 function, int16 arg14)
+{
+	uint16 curPacked;
+
+	if (buffer_csip.csip == 0x0 || function.csip == 0x0) return NULL;
+
+	g_global->variable_8BDE.packed = packedSrc;
+	g_global->variable_8BDE.variable_0002 = 0;
+	g_global->variable_8BDE.variable_0004 = 0;
+	g_global->variable_8BDE.buffer_csip = buffer_csip;
+	emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[0] = 0xFF;
+
+	arg0E--;
+	curPacked = packedSrc;
+
+	while (g_global->variable_8BDE.variable_0004 < arg0E) {
+		uint8  loc04;
+		uint16 locsi;
+		uint16 loc08;
+
+		if (curPacked == packedDest) break;
+
+		emu_push(packedDest);
+		emu_push(curPacked);
+		emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
+		emu_sp += 4;
+		loc04 = (emu_ax >> 5) & 7;
+
+		locsi = curPacked + g_global->variable_3782[loc04];
+
+		emu_push(loc04);
+		emu_push(locsi);
+		emu_push(emu_cs); emu_push(0x00B6);
+		switch (function.csip) {
+			case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1319; emu_last_ip = 0x00B3; emu_last_length = 0x000B; emu_last_crc = 0x6FE3;
+				emu_call();
+				return NULL;
+		}
+		emu_sp += 4;
+		loc08 = emu_ax;
+
+		if (loc08 <= arg14) {
+			emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004++] = loc04;
+			g_global->variable_8BDE.variable_0002 += loc08;
+		} else {
+			uint8 loc06;
+			bool loc0A;
+			bool loc0C;
+			int16 loc0E;
+			struct_1319 loc22[2];
+			uint8 loc8C[102];
+			uint8 locF2[102];
+			struct_1319 *loc26;
+
+			while (true) {
+				if (locsi == packedDest) break;
+
+				emu_push(packedDest);
+				emu_push(locsi);
+				emu_push(emu_cs); emu_push(0x00F0); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
+				emu_sp += 4;
+				loc06 = (emu_ax >> 5);
+
+				locsi += g_global->variable_3782[loc06];
+
+				emu_push(loc06);
+				emu_push(locsi);
+				emu_push(emu_cs); emu_push(0x010C);
+				switch (function.csip) {
+					case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+					default:
+						/* In case we don't know the call point yet, call the dynamic call */
+						emu_last_cs = 0x1319; emu_last_ip = 0x0109; emu_last_length = 0x000B; emu_last_crc = 0x6FD3;
+						emu_call();
+						return NULL;
+				}
+				emu_sp += 4;
+				if (emu_ax > arg14) continue;
+
+				loc22[1].packed        = curPacked;
+				loc22[1].variable_0002 = 0;
+				loc22[1].variable_0004 = 0;
+				loc22[1].buffer        = loc8C;
+
+				loc0A = Script_Unit_1319_02AC(locsi, &loc22[1], -1, loc04, function, arg14);
+
+				loc22[0].packed        = curPacked;
+				loc22[0].variable_0002 = 0;
+				loc22[0].variable_0004 = 0;
+				loc22[0].buffer        = locF2;
+
+				loc0C = Script_Unit_1319_02AC(locsi, &loc22[0], 1, loc04, function, arg14);
+
+				if (loc0A != 0 || loc0A != 0) break;
+
+				do {
+					if (locsi == packedDest) break;
+
+					emu_push(packedDest);
+					emu_push(locsi);
+					emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
+					emu_sp += 4;
+					loc06 = emu_ax >> 5;
+
+					locsi += g_global->variable_3782[loc06];
+
+					emu_push(loc06);
+					emu_push(locsi);
+					emu_push(emu_cs); emu_push(0x01C1);
+					switch (function.csip) {
+						case 0x176C1F21: emu_cs = 0x176C; f__176C_1F21_001C_8C6C(); break;
+						default:
+							/* In case we don't know the call point yet, call the dynamic call */
+							emu_last_cs = 0x1319; emu_last_ip = 0x01BE; emu_last_length = 0x000B; emu_last_crc = 0x6FD3;
+							emu_call();
+							return NULL;
+					}
+					emu_sp += 4;
+				} while (emu_ax <= arg14);
+			}
+
+			if (locsi == packedDest) break;
+
+			if (loc0C == 0) {
+				loc26 = &loc22[1];
+			} else if (loc0A == 0) {
+				loc26 = &loc22[0];
+			} else {
+				loc26 = &loc22[loc22[1].variable_0002 < loc22[0].variable_0002 ? 1 : 0];
+			}
+
+			loc0E = min(arg0E - g_global->variable_8BDE.variable_0004, loc26->variable_0004);
+
+			if (loc0E <= 0) break;
+
+			memcpy(&emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004], loc26->buffer, loc0E);
+
+			g_global->variable_8BDE.variable_0004 += loc0E;
+
+			g_global->variable_8BDE.variable_0002 += loc26->variable_0002;
+		}
+
+		curPacked = locsi;
+	}
+
+	if (g_global->variable_8BDE.variable_0004 < arg0E) {
+		emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004++] = 0xFF;
+	}
+
+	{
+		struct_1319 temp;
+
+		temp.packed        = g_global->variable_8BDE.packed;
+		temp.variable_0002 = g_global->variable_8BDE.variable_0002;
+		temp.variable_0004 = g_global->variable_8BDE.variable_0004;
+		temp.buffer = emu_get_memorycsip(g_global->variable_8BDE.buffer_csip);
+
+		Script_Unit_1319_03E8(&temp, function, arg14);
+
+		g_global->variable_8BDE.packed        = temp.packed;
+		g_global->variable_8BDE.variable_0002 = temp.variable_0002;
+		g_global->variable_8BDE.variable_0004 = temp.variable_0004;
+	}
+
+	return &g_global->variable_8BDE;
+}
+
 /**
  * Unknown function 1F51.
  *
@@ -1061,21 +1428,16 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 	}
 
 	if (u->variable_72[0] == 0xFF) {
-		csip32 loc08;
+		struct_8BDE *loc08;
+		csip32 buffer_csip;
+		csip32 function;
 
-		emu_push(255);
-		emu_push(0x176C); emu_push(0x1F21);
-		emu_push(40);
-		emu_push(0x353F); emu_push(0x981E);
-		emu_push(locdi);
-		emu_push(packed);
-		emu_push(emu_cs); emu_push(0x1FFF); emu_cs = 0x1319; f__1319_002D_0023_320C();
-		emu_sp += 16;
+		buffer_csip.csip = 0x353F981E;
+		function.csip = 0x176C1F21;
 
-		loc08.s.cs = emu_dx;
-		loc08.s.ip = emu_ax;
+		loc08 = Script_Unit_1319_002D(packed, locdi, buffer_csip, 40, function, 255);
 
-		memcpy(u->variable_72, emu_get_memorycsip(emu_get_csip32(loc08.s.cs, loc08.s.ip, 0x6)), min(emu_get_memory16(loc08.s.cs, loc08.s.ip, 0x4), 14));
+		memcpy(u->variable_72, emu_get_memorycsip(loc08->buffer_csip), min(loc08->variable_0004, 14));
 
 		if (u->variable_72[0] == 0xFF) {
 			u->targetMove = 0;
