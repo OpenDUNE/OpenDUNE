@@ -1199,6 +1199,66 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 }
 
 /**
+ * Unknwown function 3146.
+ *
+ * @param unit The Unit to operate on.
+ * @param packed The packed tile.
+ * @param arg0C ??.
+ * @return ??.
+ */
+static uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
+{
+	UnitInfo *ui;
+	Unit *u;
+	Structure *s;
+	uint16 loc0E;
+	uint16 res;
+
+	if (unit == NULL) return 0;
+
+	ui = &g_unitInfo[unit->o.type];
+
+	if (!Map_IsValidPosition(packed) && ui->movementType != MOVEMENT_WINGER) return 256;
+
+	u = Unit_Get_ByPackedTile(packed);
+	if (u != NULL && u != unit && unit->o.type != UNIT_SANDWORM) {
+		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->o.index, IT_UNIT)) return 0;
+
+		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
+		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT || (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER)) return 256;
+	}
+
+	s = Structure_Get_ByPackedTile(packed);
+	if (s != NULL) {
+		res = Unit_IsValidMovementIntoStructure(unit, s);
+		if (res == 0) return 256;
+		return -res;
+	}
+
+	loc0E = Map_B4CD_0750(packed);
+
+	res = g_global->variable_3A3E[loc0E][2 + (ui->movementType / 2)];
+	if (ui->movementType % 2 == 0) {
+		res &= 0xFF;
+	} else {
+		res >>= 8;
+	}
+
+	if (unit->o.type == UNIT_SABOTEUR && loc0E == 11) {
+		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) res = 255;
+	}
+
+	if (res == 0) return 256;
+	res ^= 0xFF;
+
+	if ((arg0C & 1) != 0) {
+		res -= res / 4 + res / 8;
+	}
+
+	return res;
+}
+
+/**
  * Unknwown function 167C.
  *
  * @param unit The Unit to operate on.
@@ -2462,66 +2522,6 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 }
 
 /**
- * Unknwown function 3146.
- *
- * @param unit The Unit to operate on.
- * @param packed The packed tile.
- * @param arg0C ??.
- * @return ??.
- */
-uint16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
-{
-	UnitInfo *ui;
-	Unit *u;
-	Structure *s;
-	uint16 loc0E;
-	uint16 res;
-
-	if (unit == NULL) return 0;
-
-	ui = &g_unitInfo[unit->o.type];
-
-	if (!Map_IsValidPosition(packed) && ui->movementType != MOVEMENT_WINGER) return 256;
-
-	u = Unit_Get_ByPackedTile(packed);
-	if (u != NULL && u != unit && unit->o.type != UNIT_SANDWORM) {
-		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->o.index, IT_UNIT)) return 0;
-
-		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
-		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT || (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER)) return 256;
-	}
-
-	s = Structure_Get_ByPackedTile(packed);
-	if (s != NULL) {
-		res = Unit_IsValidMovementIntoStructure(unit, s);
-		if (res == 0) return 256;
-		return -res;
-	}
-
-	loc0E = Map_B4CD_0750(packed);
-
-	res = g_global->variable_3A3E[loc0E][2 + (ui->movementType / 2)];
-	if (ui->movementType % 2 == 0) {
-		res &= 0xFF;
-	} else {
-		res >>= 8;
-	}
-
-	if (unit->o.type == UNIT_SABOTEUR && loc0E == 11) {
-		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) res = 0xFF;
-	}
-
-	if (res == 0) return 256;
-	res ^= 0xFF;
-
-	if ((arg0C & 1) != 0) {
-		res -= res / 4 + res / 8;
-	}
-
-	return res;
-}
-
-/**
  * Gets the best target structure for the given unit.
  *
  * @param unit The Unit to get the best target for.
@@ -2855,4 +2855,27 @@ void Unit_LaunchHouseMissile(uint16 packed)
 	emu_push(4);
 	emu_push(emu_cs); emu_push(0x08C7); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 	emu_sp += 2;
+}
+
+/**
+ * Calls Unit_Unknown3146 for current Unit.
+ *
+ * @param packed The packed tile.
+ * @param arg0C ??.
+ * @return ??.
+ */
+uint16 Unit_176C_1F21(uint16 packed, uint8 arg08)
+{
+	uint16 res;
+	Unit *u;
+
+	if (g_global->unitCurrent.csip == 0x0) return 0;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	res = Unit_Unknown3146(u, packed, arg08 << 5);
+
+	if (res == 0xFFFF) res = 256;
+
+	return res;
 }

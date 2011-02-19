@@ -136,34 +136,6 @@ void emu_Unit_Select()
 }
 
 /**
- * Emulator wrapper around Unit_Unknown3146()
- *
- * @name emu_Unit_Unknown3146
- * @implements 1A34:3146:0018:6887 ()
- */
-void emu_Unit_Unknown3146()
-{
-	csip32 ucsip;
-	Unit *unit;
-	uint16 packed;
-	uint16 arg0C;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip  = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	packed = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	arg0C  = emu_get_memory16(emu_ss, emu_sp, 0x6);
-
-	emu_ax = 0;
-	if (ucsip.csip == 0x0) return;
-	unit = Unit_Get_ByMemory(ucsip);
-
-	emu_ax = Unit_Unknown3146(unit, packed, arg0C);
-}
-
-/**
  * Emulator wrapper around Unit_B4CD_01BF()
  *
  * @name emu_Unit_B4CD_01BF

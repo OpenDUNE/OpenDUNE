@@ -647,7 +647,6 @@ extern void f__AB01_1CA3_0042_C43A();
 extern void f__01F7_1DE5_0036_9480();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_1EDE_0027_0D8F();
-extern void f__176C_1F21_001C_8C6C();
 extern void emu_MPU_Init();
 extern void f__01F7_1FB0_0010_CF18();
 extern void f__01F7_1FE1_005F_A74A();
