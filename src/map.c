@@ -790,7 +790,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			if (type == 2) {
 				StructureInfo *si = &g_structureInfo[s->o.type];
 
-				if ((si->o.variable_1A >> 1) > s->o.hitpoints) {
+				if (si->o.hitpoints / 2 > s->o.hitpoints) {
 					type = 15;
 				}
 			}
