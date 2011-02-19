@@ -37,7 +37,6 @@ extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_1269_0019_A3E5();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Structure_UpdateMap();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -2435,7 +2434,6 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
  */
 void Unit_EnterStructure(Unit *unit, Structure *s)
 {
-	csip32 scsip;
 	Unit *selected;
 	UnitInfo *ui;
 	StructureInfo *si;
@@ -2484,10 +2482,6 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		return;
 	}
 
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip       = g_global->structureStartPos;
-	scsip.s.ip += s->o.index * sizeof(Structure);
-
 	/* Take over the building when low on hitpoints */
 	if (s->o.hitpoints < si->o.hitpoints / 4) {
 		House *h;
@@ -2505,10 +2499,7 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 		}
 
 		Structure_CalculatePowerAndCredit(House_Get_ByIndex(s->o.houseID));
-
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x2F40); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
-		emu_sp += 4;
+		Structure_UpdateMap(s);
 
 		/* ENHANCEMENT: When taking over a structure, untarget it. Else you will destroy the structure you just have taken over very easily */
 		if (g_dune2_enhanced) Structure_UntargetMe(s);

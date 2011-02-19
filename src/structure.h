@@ -64,7 +64,8 @@ typedef struct StructureInfo {
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
-	/* 003E()    */ PACK uint8   unknown_003E[0x001C];
+	/* 003E(12)  */ PACK csip32 variable_3E[3];             /*!< ?? */
+	/* 004A()    */ PACK uint8   unknown_004A[0x0010];
 	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END
@@ -99,6 +100,7 @@ extern void Structure_0C3A_1002(Structure *s);
 extern bool Structure_BuildObject(Structure *s, uint16 objectType);
 extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget *w);
 extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w);
+extern void Structure_UpdateMap(Structure *s);
 
 
 extern void emu_Structure_CalculatePowerAndCredit();

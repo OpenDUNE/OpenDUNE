@@ -68,7 +68,6 @@ extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_Structure_UpdateMap();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -2176,18 +2175,12 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 	find.type    = 0xFFFF;
 
 	while (true) {
-		csip32 scsip;
 		Structure *s;
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		scsip = g_global->structureStartPos;
-		scsip.s.ip += s->o.index * sizeof(Structure);
-
-		emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-		emu_push(emu_cs); emu_push(0x21A6); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
-		emu_sp += 4;
+		Structure_UpdateMap(s);
 	}
 
 	find.houseID = 0xFFFF;

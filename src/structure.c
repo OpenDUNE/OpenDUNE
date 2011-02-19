@@ -35,7 +35,6 @@ extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
 extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4E9_0050_003F_292A();
-extern void emu_Structure_UpdateMap();
 extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
 extern void overlay(uint16 cs, uint8 force);
@@ -481,7 +480,6 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
  */
 bool Structure_Place(Structure *s, uint16 position)
 {
-	csip32 scsip;
 	StructureInfo *si;
 	int16 loc0A;
 
@@ -489,10 +487,6 @@ bool Structure_Place(Structure *s, uint16 position)
 	if (position == 0xFFFF) return false;
 
 	si = &g_structureInfo[s->o.type];
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->o.index * sizeof(Structure);
 
 	switch (s->o.type) {
 		case STRUCTURE_WALL: {
@@ -654,9 +648,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		Structure_CalculatePowerAndCredit(h);
 	}
 
-	emu_push(scsip.s.cs); emu_push(scsip.s.ip);
-	emu_push(emu_cs); emu_push(0x0732); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
-	emu_sp += 4;
+	Structure_UpdateMap(s);
 
 	{
 		House *h;
@@ -782,9 +774,7 @@ void Structure_SetAnimation(Structure *s, int16 animation)
 	if (s == NULL) return;
 	s->animation = animation;
 
-	emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-	emu_push(emu_cs); emu_push(0x13B9); emu_Structure_UpdateMap();
-	emu_sp += 4;
+	Structure_UpdateMap(s);
 }
 
 /**
@@ -2000,4 +1990,73 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 	GUI_Widget_MakeSelected(w, false);
 
 	return true;
+}
+
+/**
+ * Update the map with the right data for this structure.
+ * @param s The structure to update on the map.
+ */
+void Structure_UpdateMap(Structure *s)
+{
+	StructureInfo *si;
+	csip32 animationProc;
+	uint16 layoutSize;
+	uint16 *layout;
+	uint16 *gIconMap;
+	uint16 *iconMap;
+	int i;
+
+	if (s == NULL) return;
+	if (!s->o.flags.s.used) return;
+	if (s->o.flags.s.beingBuilt) return;
+
+	si = &g_structureInfo[s->o.type];
+
+	layout = g_global->layoutTiles[si->layout];
+	layoutSize = g_global->layoutTileCount[si->layout];
+
+	gIconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	iconMap = &gIconMap[gIconMap[si->variable_3C] + layoutSize + layoutSize];
+
+	for (i = 0; i < layoutSize; i++) {
+		uint16 position;
+		Tile *t;
+
+		position = Tile_PackTile(s->o.position) + layout[i];
+
+		t = Map_GetTileByPosition(position);
+		t->houseID = s->o.houseID;
+		t->hasStructure = true;
+		t->index = s->o.index + 1;
+
+		t->groundSpriteID = iconMap[i] + s->variable_49;
+
+		if (t->overlaySpriteID < g_global->variable_39F2 - 15 || t->overlaySpriteID > g_global->variable_39F2) {
+			t->overlaySpriteID = 0;
+		}
+
+		Map_Update(position, 0, false);
+	}
+
+	if (s->animation >= 0) {
+		uint16 animation = (s->animation > 2) ? 2 : s->animation;
+		if (si->variable_3E[animation].csip == 0) animation &= 1;
+
+		animationProc.csip = si->variable_3E[animation].csip;
+	} else {
+		animationProc.s.cs = 0x2C70;
+		animationProc.s.ip = 0x0;
+	}
+
+	s->o.flags.s.variable_4_1000 = true;
+
+	emu_push(si->variable_3C);
+	emu_push(s->o.houseID);
+	emu_push(si->layout);
+	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
+	emu_push(animationProc.s.cs); emu_push(animationProc.s.ip);
+	emu_push(emu_cs); emu_push(0x0B84); emu_cs = 0x151A; f__151A_000E_0013_5840();
+	emu_sp += 14;
+
+	g_global->variable_37A4 = 0;
 }

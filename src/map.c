@@ -20,7 +20,6 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-extern void emu_Structure_UpdateMap();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1423_0E4F_0010_843C();
 extern void f__151A_000E_0013_5840();
@@ -107,9 +106,7 @@ void Map_SetSelection(uint16 packed)
 
 			Map_SetSelectionSize(si->layout);
 
-			emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-			emu_push(emu_cs); emu_push(0x03CA); emu_cs = 0x0C3A; emu_Structure_UpdateMap();
-			emu_sp += 4;
+			Structure_UpdateMap(s);
 		} else {
 			Map_SetSelectionSize(0);
 		}
