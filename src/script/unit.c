@@ -1054,7 +1054,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 		loc08 = arg06->buffer + 1;
 
 		while (*loc08 != 0xFF) {
-			uint8 loc09;
+			int8 loc09;
 			uint8 loc0C;
 
 			loc04 = loc08 - 1;
@@ -1067,7 +1067,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 			}
 
 			loc09 = *loc08 - *loc04;
-			if ((int8)loc09 < 0) loc09 += 8;
+			if (loc09 < 0) loc09 += 8;
 
 			loc09 = g_global->variable_3792[loc09];
 
@@ -1084,7 +1084,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 			}
 
 			if ((*loc04 & 0x1) != 0) {
-				loc0C = (*loc04 + ((int8)loc09 < 0 ? -1 : 1)) & 0x7;
+				loc0C = (*loc04 + (loc09 < 0 ? -1 : 1)) & 0x7;
 
 				if (abs(loc09) == 1) {
 					if (function(packed + g_global->variable_3782[loc0C], loc0C) <= arg0E) {
