@@ -97,15 +97,16 @@ typedef struct ObjectInfo {
 	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */
 	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
-	/* 001A(2)   */ PACK uint16 variable_1A;                /*!< ?? */
-	/* 001C(4)   */ PACK uint32 variable_1C;                /*!< ?? Bitmask? */
-	/* 0020(2)   */ PACK uint16 variable_20;                /*!< ?? */
+	/* 001A(2)   */ PACK uint16 availableCampaign;          /*!< In which campaign (starting at 1) this Structure/Unit is available. */
+	/* 001C(4)   */ PACK uint32 structuresRequired;         /*!< Which structures are required before this Structure/Unit is available. */
+	/* 0020(1)   */ PACK uint8  variable_20;                /*!< ?? */
+	/* 0021(1)   */ PACK uint8  upgradeLevelRequired;       /*!< Which level of upgrade the Structure has to have before this is avialable. */
 	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
-	/* 002A(1)   */ PACK uint8  variable_2A;                /*!< ?? */
+	/* 002A(1)   */ PACK  int8  available;                  /*!< If this Unit/Structure is ordered (Starport) / available (Rest). 1+=yes (volume), 0=no, -1=upgrade-first. */
 	/* 002B(2)   */ PACK uint16 hintStringID;               /*!< StringID of the hint shown for this Unit/Structure. */
 	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
 	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
-	/* 0031()    */ PACK uint8   unknown_0031[0x0001];
+	/* 0031(1)   */ PACK uint8  availableHouse;             /*!< To which house this Structure/Unit is available. */
 } GCC_PACKED ObjectInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ObjectInfo) == 0x32);

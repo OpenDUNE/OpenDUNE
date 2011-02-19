@@ -65,7 +65,7 @@ typedef struct StructureInfo {
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
 	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
 	/* 003E(12)  */ PACK csip32 variable_3E[3];             /*!< ?? */
-	/* 004A()    */ PACK uint8   unknown_004A[0x0010];
+	/* 004A(16)  */ PACK uint16 buildableUnits[8];          /*!< Which units this structure can produce. */
 	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END
@@ -101,6 +101,7 @@ extern bool Structure_BuildObject(Structure *s, uint16 objectType);
 extern bool Structure_SetUpgradingState(Structure *s, int8 value, struct Widget *w);
 extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget *w);
 extern void Structure_UpdateMap(Structure *s);
+extern uint32 Structure_GetBuildable(Structure *s);
 
 
 extern void emu_Structure_CalculatePowerAndCredit();
@@ -108,5 +109,6 @@ extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
+extern void emu_Structure_GetBuildable();
 
 #endif /* STRUCTURE_H */

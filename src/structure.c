@@ -27,7 +27,6 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__0C3A_1B79_0021_8C40();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
@@ -1303,7 +1302,7 @@ bool Structure_IsUpgradable(Structure *s)
 		if (s->upgradeLevel != 1) return true;
 
 		h = House_Get_ByIndex(s->o.houseID);
-		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].o.variable_1C) == g_structureInfo[STRUCTURE_ROCKET_TURRET].o.variable_1C) return true;
+		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
 
 		return false;
 	}
@@ -1647,7 +1646,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	if (objectType == 0xFFFF || objectType == 0xFFFE) {
 		uint16 loc1C = 0;
-		uint32 loc22;
+		uint32 buildable;
 
 		if (Structure_IsUpgradable(s) && si->o.hitpoints == s->o.hitpoints) {
 			loc1C = (si->o.buildCredits + (si->o.buildCredits >> 15)) / 2;
@@ -1656,12 +1655,9 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		if (loc1C != 0 && s->o.type == STRUCTURE_HIGH_TECH && s->o.houseID == HOUSE_HARKONNEN) loc1C = 0;
 		if (s->o.type == STRUCTURE_STARPORT) loc1C = 0;
 
-		emu_push(g_global->structureStartPos.s.cs); emu_push(g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure));
-		emu_push(emu_cs); emu_push(0x1525); emu_cs = 0x0C3A; f__0C3A_1B79_0021_8C40();
-		emu_sp += 4;
-		loc22 = (emu_dx << 16) | emu_ax;
+		buildable = Structure_GetBuildable(s);
 
-		if (loc22 == 0) {
+		if (buildable == 0) {
 			s->objectType = 0;
 			return false;
 		}
@@ -1672,8 +1668,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			g_global->variable_8BE8 = 1;
 
 			for (i = 0; i < STRUCTURE_MAX; i++) {
-				if ((loc22 & (1 << i)) == 0) continue;
-				g_structureInfo[i].o.variable_2A = 1;
+				if ((buildable & (1 << i)) == 0) continue;
+				g_structureInfo[i].o.available = 1;
 				if (objectType != 0xFFFE) continue;
 				s->objectType = i;
 				return false;
@@ -1698,12 +1694,12 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						int16 loc2A = g_global->starportAvailable[i];
 
 						if (loc2A == 0) {
-							g_unitInfo[i].o.variable_2A = 0;
+							g_unitInfo[i].o.available = 0;
 							continue;
 						}
 
 						if (loc2A < 0) {
-							g_unitInfo[i].o.variable_2A = 0xFF;
+							g_unitInfo[i].o.available = -1;
 							continue;
 						}
 
@@ -1720,11 +1716,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 							u->o.linkedID = linkedID;
 							linkedID = u->o.index & 0xFF;
 							loc60[i]++;
-							g_unitInfo[i].o.variable_2A = loc60[i] & 0xFF;
+							g_unitInfo[i].o.available = (int8)loc60[i];
 							continue;
 						}
 
-						if (loc60[i] == 0) g_unitInfo[i].o.variable_2A = 0xFF;
+						if (loc60[i] == 0) g_unitInfo[i].o.available = -1;
 					}
 				}
 
@@ -1737,8 +1733,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				uint8 i;
 
 				for (i = 0; i < UNIT_MAX; i++) {
-					if ((loc22 & (1 << i)) == 0) continue;
-					g_unitInfo[i].o.variable_2A = 1;
+					if ((buildable & (1 << i)) == 0) continue;
+					g_unitInfo[i].o.available = 1;
 					if (objectType != 0xFFFE) continue;
 					s->objectType = i;
 					return false;
@@ -2059,4 +2055,99 @@ void Structure_UpdateMap(Structure *s)
 	emu_sp += 14;
 
 	g_global->variable_37A4 = 0;
+}
+
+uint32 Structure_GetBuildable(Structure *s)
+{
+	StructureInfo *si;
+	uint32 structuresBuilt;
+	uint32 ret = 0;
+	int i;
+
+	if (s == NULL) return 0;
+
+	si = &g_structureInfo[s->o.type];
+
+	structuresBuilt = House_Get_ByIndex(s->o.houseID)->structuresBuilt;
+
+	switch (s->o.type) {
+		case STRUCTURE_LIGHT_VEHICLE:
+		case STRUCTURE_HEAVY_VEHICLE:
+		case STRUCTURE_HIGH_TECH:
+		case STRUCTURE_WOR_TROOPER:
+		case STRUCTURE_BARRACKS:
+			for (i = 0; i < UNIT_MAX; i++) {
+				g_unitInfo[i].o.available = 0;
+			}
+
+			for (i = 0; i < 8; i++) {
+				UnitInfo *ui;
+				uint16 upgradeLevelRequired;
+				uint16 unitType = si->buildableUnits[i];
+
+				if (unitType == 0xFFFF) continue;
+
+				if (unitType == UNIT_TRIKE && s->variable_47 == HOUSE_ORDOS) unitType = UNIT_RAIDER_TRIKE;
+
+				ui = &g_unitInfo[unitType];
+				upgradeLevelRequired = ui->o.upgradeLevelRequired;
+
+				if (unitType == UNIT_SIEGE_TANK && s->variable_47 == HOUSE_ORDOS) upgradeLevelRequired--;
+
+				if ((structuresBuilt & ui->o.structuresRequired) != ui->o.structuresRequired) continue;
+				if ((ui->o.availableHouse & (1 << s->variable_47)) == 0) continue;
+
+				if (s->upgradeLevel >= upgradeLevelRequired) {
+					ui->o.available = 1;
+
+					ret |= (1 << unitType);
+					continue;
+				}
+
+				if (s->upgradeTimeLeft != 0 && s->upgradeLevel + 1 >= upgradeLevelRequired) {
+					ui->o.available = -1;
+				}
+			}
+			return ret;
+
+		case STRUCTURE_CONSTRUCTION_YARD:
+			for (i = 0; i < STRUCTURE_MAX; i++) {
+				StructureInfo *localsi = &g_structureInfo[i];
+				uint16 availableCampaign;
+				uint32 structuresRequired;
+
+				localsi->o.available = 0;
+
+				availableCampaign = localsi->o.availableCampaign;
+				structuresRequired = localsi->o.structuresRequired;
+
+				if (i == STRUCTURE_WOR_TROOPER && s->o.houseID == HOUSE_HARKONNEN && g_global->campaignID >= 1) {
+					structuresRequired &= ~(1 << STRUCTURE_BARRACKS);
+					availableCampaign = 2;
+				}
+
+				if ((structuresBuilt & structuresRequired) == structuresRequired || s->o.houseID != g_global->playerHouseID) {
+					if (s->o.houseID == HOUSE_HARKONNEN && i == STRUCTURE_LIGHT_VEHICLE) {
+						availableCampaign = 2;
+					}
+
+					if (g_global->campaignID >= availableCampaign - 1 && (localsi->o.availableHouse & (1 << s->o.houseID)) != 0) {
+						if (s->upgradeLevel >= localsi->o.upgradeLevelRequired || s->o.houseID != g_global->playerHouseID) {
+							localsi->o.available = 1;
+
+							ret |= (1 << i);
+						} else if (s->upgradeTimeLeft != 0 && s->upgradeLevel + 1 >= localsi->o.upgradeLevelRequired) {
+							localsi->o.available = -1;
+						}
+					}
+				}
+			}
+			return ret;
+
+		case STRUCTURE_STARPORT:
+			return -1;
+
+		default:
+			return 0;
+	}
 }

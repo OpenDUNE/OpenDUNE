@@ -560,7 +560,7 @@ l__0C97:
 	emu_get_memory16(emu_ss, emu_bp, -0xA) = emu_ax;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0CA9); emu_cs = 0x0C3A; f__0C3A_1B79_0021_8C40();
+	emu_push(emu_cs); emu_push(0x0CA9); emu_cs = 0x0C3A; emu_Structure_GetBuildable();
 l__0CA9:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
