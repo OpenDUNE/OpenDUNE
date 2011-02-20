@@ -77,8 +77,6 @@
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
-1423:0C74:0015:3419	emu_Structure_AI_PickNextToBuild	# (structure_csip), pick the next unit/structure to build
-
 217E:04F9:000E:346A	emu_Overlay_Load
 217E:055F:0008:D2BC	emu_Overlay_LocateMemory
 217E:05A9:001A:42B9	emu_Overlay_Load2

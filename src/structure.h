@@ -103,6 +103,7 @@ extern bool Structure_SetRepairingState(Structure *s, int8 value, struct Widget 
 extern void Structure_UpdateMap(Structure *s);
 extern uint32 Structure_GetBuildable(Structure *s);
 extern void Structure_HouseUnderAttack(uint8 houseID);
+extern uint16 Structure_AI_PickNextToBuild(Structure *s);
 
 
 extern void emu_Structure_CalculatePowerAndCredit();

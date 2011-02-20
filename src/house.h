@@ -74,7 +74,7 @@ typedef struct House {
 	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */
 	/* 002A(2)   */ PACK uint16 starportTimeLeft;           /*!< How much time is left before starport transport arrives. */
 	/* 002C(2)   */ PACK uint16 starportLinkedID;           /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
-	/* 002E(20)  */ PACK uint16 ai_structureRebuild[10];    /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
+	/* 002E(20)  */ PACK uint16 ai_structureRebuild[5][2];  /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
 } GCC_PACKED House;
 MSVC_PACKED_END
 assert_compile(sizeof(House) == 0x42);

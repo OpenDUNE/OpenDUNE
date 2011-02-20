@@ -31,7 +31,6 @@ extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
-extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
@@ -249,12 +248,12 @@ void GameLoop_Structure()
 
 								/* Find the position to place the structure */
 								for (i = 0; i < 5; i++) {
-									if (ns->o.type != h->ai_structureRebuild[i * 2]) continue;
+									if (ns->o.type != h->ai_structureRebuild[i][0]) continue;
 
-									if (!Structure_Place(ns, h->ai_structureRebuild[i * 2 + 1])) continue;
+									if (!Structure_Place(ns, h->ai_structureRebuild[i][1])) continue;
 
-									h->ai_structureRebuild[i * 2] = 0;
-									h->ai_structureRebuild[i * 2 + 1] = 0;
+									h->ai_structureRebuild[i][0] = 0;
+									h->ai_structureRebuild[i][1] = 0;
 									break;
 								}
 
@@ -327,11 +326,9 @@ void GameLoop_Structure()
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
 					if (si->o.flags.s.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
-						emu_push(g_global->structureCurrent.s.cs); emu_push(g_global->structureCurrent.s.ip);
-						emu_push(emu_cs); emu_push(0x091E); emu_cs = 0x1423; emu_Structure_AI_PickNextToBuild();
-						emu_sp += 4;
+						uint16 type = Structure_AI_PickNextToBuild(s);
 
-						if (emu_ax != 0xFFFF) Structure_BuildObject(s, emu_ax);
+						if (type != 0xFFFF) Structure_BuildObject(s, type);
 					}
 				}
 			}
@@ -1524,9 +1521,9 @@ void Structure_0C3A_1002(Structure *s)
 	h = House_Get_ByIndex(s->o.houseID);
 
 	for (i = 0; i < 5; i++) {
-		if (h->ai_structureRebuild[i * 2] != 0) continue;
-		h->ai_structureRebuild[i * 2] = s->o.type;
-		h->ai_structureRebuild[i * 2 + 1] = packed;
+		if (h->ai_structureRebuild[i][0] != 0) continue;
+		h->ai_structureRebuild[i][0] = s->o.type;
+		h->ai_structureRebuild[i][1] = packed;
 		break;
 	}
 
@@ -2198,4 +2195,71 @@ void Structure_HouseUnderAttack(uint8 houseID)
 		/* XXX -- Dune2 does something odd here. What was their intention? */
 		if ((u->actionID == ACTION_GUARD && u->actionID == ACTION_AMBUSH) || u->actionID == ACTION_AREA_GUARD) Unit_SetAction(u, ACTION_HUNT);
 	}
+}
+
+/**
+ * Find the next object to build.
+ * @param s The structure in which we can build something.
+ * @return The type (either UnitType or StructureType) of what we should build next.
+ */
+uint16 Structure_AI_PickNextToBuild(Structure *s)
+{
+	PoolFindStruct find;
+	uint16 buildable;
+	uint16 type;
+	House *h;
+	int i;
+
+	if (s == NULL) return 0xFFFF;
+
+	h = House_Get_ByIndex(s->o.houseID);
+	buildable = Structure_GetBuildable(s);
+
+	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+		for (i = 0; i < 5; i++) {
+			uint16 type = h->ai_structureRebuild[i][0];
+
+			if (type == 0) continue;
+			if ((buildable & (1 << type)) == 0) continue;
+
+			return type;
+		}
+
+		return 0xFFFF;
+	}
+
+	if (s->o.type == STRUCTURE_HIGH_TECH) {
+		find.houseID = s->o.houseID;
+		find.index   = 0xFFFF;
+		find.type    = UNIT_CARRYALL;
+
+		while (true) {
+			Unit *u;
+
+			u = Unit_Find(&find);
+			if (u == NULL) break;
+
+			buildable &= ~(1 << UNIT_CARRYALL);
+		}
+	}
+
+	if (s->o.type == STRUCTURE_HEAVY_VEHICLE) {
+		buildable &= ~(1 << UNIT_HARVESTER);
+		buildable &= ~(1 << UNIT_MGV);
+	}
+
+	type = 0xFFFF;
+	for (i = 0; i < UNIT_MAX; i++) {
+		if ((buildable & (1 << i)) == 0) continue;
+
+		if ((Tools_Random_256() % 4) == 0) type = i;
+
+		if (type != 0xFFFF) {
+			if (g_unitInfo[i].o.priorityBuild <= g_unitInfo[type].o.priorityBuild) continue;
+		}
+
+		type = i;
+	}
+
+	return type;
 }

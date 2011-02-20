@@ -469,7 +469,6 @@ extern void f__B491_0C3E_0008_F6B9();
 extern void emu_DSP_TestPort();
 extern void f__B511_0C64_002A_C757();
 extern void f__22A6_0C69_008C_017F();
-extern void emu_Structure_AI_PickNextToBuild();
 extern void f__B511_0C93_0014_2A98();
 extern void emu_MPU_GetInfo();
 extern void f__AB01_0CA9_0001_6780();
