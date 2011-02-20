@@ -411,7 +411,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	s->o.houseID            = houseID;
 	s->variable_47          = houseID;
-	s->o.flags.s.beingBuilt = true;
+	s->o.flags.s.isOnMap = true;
 	s->o.position.tile      = 0;
 	s->o.linkedID           = 0xFF;
 	s->animation            = (g_global->debugScenario) ? 0 : -1;
@@ -579,7 +579,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.variable_09 |= 1 << s->o.houseID;
 	if (s->o.houseID == g_global->playerHouseID) s->o.variable_09 |= 0xFF;
 
-	s->o.flags.s.beingBuilt = false;
+	s->o.flags.s.isOnMap = false;
 
 	s->o.position = Tile_UnpackTile(position);
 	s->o.position.s.x &= 0xFF00;
@@ -816,7 +816,7 @@ uint32 Structure_GetStructuresBuilt(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
-		if (s->o.flags.s.beingBuilt) continue;
+		if (s->o.flags.s.isOnMap) continue;
 		result |= 1 << s->o.type;
 	}
 
@@ -2004,7 +2004,7 @@ void Structure_UpdateMap(Structure *s)
 
 	if (s == NULL) return;
 	if (!s->o.flags.s.used) return;
-	if (s->o.flags.s.beingBuilt) return;
+	if (s->o.flags.s.isOnMap) return;
 
 	si = &g_structureInfo[s->o.type];
 

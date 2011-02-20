@@ -255,7 +255,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.beingBuilt) && !arg06 && (g_global->variable_8FE5[packed >> 3] & (1 << (packed & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isOnMap) && !arg06 && (g_global->variable_8FE5[packed >> 3] & (1 << (packed & 7))) == 0) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 
@@ -408,7 +408,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.beingBuilt) && !arg06 && (g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isOnMap) && !arg06 && (g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) == 0) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 

@@ -370,7 +370,7 @@ uint16 Script_General_Unknown04AE(ScriptEngine *script)
 
 	o = Tools_Index_GetObject(index);
 
-	if (o == NULL || o->flags.s.beingBuilt || !o->flags.s.used) return 0;
+	if (o == NULL || o->flags.s.isOnMap || !o->flags.s.used) return 0;
 
 	res = Script_General_Unknown050C(script);
 

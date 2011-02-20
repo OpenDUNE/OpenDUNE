@@ -17,7 +17,7 @@ typedef struct Object {
 	                     struct {
 	/*  4 - 0001 */              BITTYPE used:1;            /*!< The Object is in use (no longer free in the pool). */
 	/*  4 - 0002 */              BITTYPE allocated:1;       /*!< The Object is allocated (created, and ready to be put on the map). */
-	/*  4 - 0004 */              BITTYPE beingBuilt:1;      /*!< The Object is still under construction. */
+	/*  4 - 0004 */              BITTYPE isOnMap:1;         /*!< The Object is not on the map (under construction, in refinery, etc). */
 	/*  4 - 0008 */              BITTYPE isSmoking:1;       /*!< The Object has a smoke cloud coming out of it. */
 	/*  4 - 0010 */              BITTYPE variable_4_0010:1; /*!< Unit ?? */
 	/*  4 - 0020 */              BITTYPE variable_4_0020:1; /*!< Unit ?? */

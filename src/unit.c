@@ -185,7 +185,7 @@ void GameLoop_Unit()
 		g_global->houseCurrent         = g_global->houseStartPos;
 		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
-		if (u->o.flags.s.beingBuilt) continue;
+		if (u->o.flags.s.isOnMap) continue;
 
 		if (tickUnknown4 && u->targetAttack != 0 && ui->o.flags.s.hasTurret) {
 			tile32 tile;
@@ -484,7 +484,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	}
 
 	if (position.tile == 0xFFFFFFFF) {
-		u->o.flags.s.beingBuilt = true;
+		u->o.flags.s.isOnMap = true;
 		return u;
 	}
 
@@ -512,7 +512,7 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 		u = Unit_Get_ByMemory(g_global->unitArray[i]);
 		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 		if (typeID != UNIT_INVALID && u->o.type != typeID) continue;
-		if (g_global->variable_38BC == 0 && u->o.flags.s.beingBuilt) continue;
+		if (g_global->variable_38BC == 0 && u->o.flags.s.isOnMap) continue;
 
 		return true;
 	}
@@ -637,7 +637,7 @@ void Unit_Sort()
 		u1 = Unit_Get_ByMemory(csip1);
 		u2 = Unit_Get_ByMemory(csip2);
 
-		if ((u1->o.variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->o.flags.s.beingBuilt) {
+		if ((u1->o.variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->o.flags.s.isOnMap) {
 			if (House_AreAllied(u1->o.houseID, (uint8)g_global->playerHouseID)) {
 				h->unitCountAllied++;
 			} else {
@@ -964,7 +964,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	ucsip.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
 	ui = &g_unitInfo[u->o.type];
-	u->o.flags.s.beingBuilt = false;
+	u->o.flags.s.isOnMap = false;
 
 	u->o.position = Tile_Center(position);
 
@@ -973,7 +973,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->o.script.variables[4] = 0;
 
 	if (Unit_Unknown0E2E(u)) {
-		u->o.flags.s.beingBuilt = true;
+		u->o.flags.s.isOnMap = true;
 		return false;
 	}
 
@@ -1422,7 +1422,7 @@ void Unit_RemoveFog(Unit *unit)
 	uint16 fogUncoverRadius;
 
 	if (unit == NULL) return;
-	if (unit->o.flags.s.beingBuilt) return;
+	if (unit->o.flags.s.isOnMap) return;
 	if (unit->o.position.tile == 0xFFFFFFFF || unit->o.position.tile == 0) return;
 	if (!House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID)) return;
 
@@ -2360,7 +2360,7 @@ void Unit_Unknown2AAA(Unit *unit)
 	Script_Reset(&unit->o.script, &g_global->scriptUnit);
 	Unit_UntargetMe(unit);
 
-	unit->o.flags.s.beingBuilt = true;
+	unit->o.flags.s.isOnMap = true;
 	Unit_HouseUnitCount_Remove(unit);
 }
 
@@ -2663,7 +2663,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	Tile *t;
 	uint16 loc06;
 
-	if (unit == NULL || unit->o.flags.s.beingBuilt || !unit->o.flags.s.used) return;
+	if (unit == NULL || unit->o.flags.s.isOnMap || !unit->o.flags.s.used) return;
 
 	/* XXX -- Temporary, to keep all the emu_calls workable for now */
 	ucsip       = g_global->unitStartPos;
