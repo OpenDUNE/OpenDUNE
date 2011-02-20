@@ -795,10 +795,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				}
 			}
 
-			emu_push(s->o.houseID);
-			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x1423; f__1423_0E4F_0010_843C();
-			emu_sp += 2;
-
+			Structure_HouseUnderAttack(s->o.houseID);
 			Structure_Damage(s, hitpoints, 0);
 		}
 	}

@@ -2148,3 +2148,54 @@ uint32 Structure_GetBuildable(Structure *s)
 			return 0;
 	}
 }
+
+/**
+ * The house is under attack in the form of a structure being hit.
+ * @param houseID The house who is being attacked.
+ */
+void Structure_HouseUnderAttack(uint8 houseID)
+{
+	PoolFindStruct find;
+	House *h;
+
+	emu_si = houseID;
+
+	h = House_Get_ByIndex(houseID);
+
+	if (houseID != g_global->playerHouseID && h->flags.s.variable_0004) return;
+
+	h->flags.s.variable_0004 = true;
+
+	if (h->flags.s.human) {
+		if (h->variable_28 != 0) return;
+
+		emu_push(48);
+		emu_push(emu_cs); emu_push(0x0EA2); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+		emu_sp += 2;
+
+		h->variable_28 = 8;
+		return;
+	}
+
+	/* ENHANCEMENT -- Dune2 originally only searches for units with type 0 (Carry-all). In result, the rest of this function does nothing. */
+	if (!g_dune2_enhanced) return;
+
+	find.houseID = houseID;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		UnitInfo *ui;
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		ui = &g_unitInfo[u->o.type];
+
+		if (ui->bulletType == 0xFFFF) continue;
+
+		/* XXX -- Dune2 does something odd here. What was their intention? */
+		if ((u->actionID == ACTION_GUARD && u->actionID == ACTION_AMBUSH) || u->actionID == ACTION_AREA_GUARD) Unit_SetAction(u, ACTION_HUNT);
+	}
+}
