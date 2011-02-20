@@ -32,7 +32,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__0F3F_028E_0015_1153();
 extern void f__1423_08CD_0012_0004();
-extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_1269_0019_A3E5();
@@ -1030,10 +1029,7 @@ void Unit_Unknown10EC(Unit *u)
 
 	Unit_B4CD_01BF(0, u);
 
-	emu_push(0xFFFF);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1155); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
-	emu_sp += 6;
+	Unit_HouseUnitCount_Remove(u);
 
 	Script_Reset(&u->o.script, &g_global->scriptUnit);
 
@@ -2353,15 +2349,9 @@ void Unit_DisplayStatusText(Unit *unit)
  */
 void Unit_Unknown2AAA(Unit *unit)
 {
-	csip32 ucsip;
-
 	if (unit == NULL) return;
 
 	unit->o.flags.s.variable_4_0040 = true;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	Unit_B4CD_01BF(0, unit);
 
@@ -2371,11 +2361,7 @@ void Unit_Unknown2AAA(Unit *unit)
 	Unit_UntargetMe(unit);
 
 	unit->o.flags.s.beingBuilt = true;
-
-	emu_push(g_global->playerHouseID);
-	emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-	emu_push(emu_cs); emu_push(0x2B13); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
-	emu_sp += 6;
+	Unit_HouseUnitCount_Remove(unit);
 }
 
 /**
@@ -2700,10 +2686,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 		emu_push(emu_cs); emu_push(0x027F); emu_cs = 0x1423; f__1423_08CD_0012_0004();
 		emu_sp += 6;
 	} else {
-		emu_push(g_global->playerHouseID);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0290); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
-		emu_sp += 6;
+		Unit_HouseUnitCount_Remove(unit);
 	}
 
 	if (arg06 == 1) {
@@ -2869,4 +2852,38 @@ uint16 Unit_176C_1F21(uint16 packed, uint8 arg08)
 	if (res == 0xFFFF) res = 256;
 
 	return res;
+}
+
+/**
+ * This unit is about to disapear from the map. So remove it from the house
+ *  statistics about allies/enemies.
+ * @param unit The unit to remove.
+ */
+void Unit_HouseUnitCount_Remove(Unit *unit)
+{
+	PoolFindStruct find;
+
+	if (unit == NULL) return;
+	if (unit->o.variable_09 == 0) return;
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		House *h;
+
+		h = House_Find(&find);
+		if (h == NULL) break;
+
+		if ((unit->o.variable_09 & (1 << h->index)) == 0) continue;
+
+		if (!House_AreAllied(h->index, Unit_GetHouseID(unit))) {
+			h->unitCountEnemy--;
+		} else {
+			h->unitCountAllied--;
+		}
+
+		unit->o.variable_09 &= ~(1 << h->index);
+	}
 }

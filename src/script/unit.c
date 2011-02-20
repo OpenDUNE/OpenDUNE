@@ -24,7 +24,6 @@
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_0168_0010_C9EF();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__1423_0BCC_0012_111A();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__B483_0000_0019_F96A();
@@ -522,10 +521,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 		}
 	}
 
-	emu_push(g_global->playerHouseID);
-	emu_push(g_global->unitCurrent.s.cs); emu_push(g_global->unitCurrent.s.ip);
-	emu_push(emu_cs); emu_push(0x134E); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
-	emu_sp += 6;
+	Unit_HouseUnitCount_Remove(u);
 
 	if (u->o.type != UNIT_SABOTEUR) return 0;
 
@@ -664,12 +660,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 			if (u2 != NULL) {
 				u2->o.script.variables[1] = 0xFFFF;
 				Unit_Unknown379B(u2);
-
-				emu_push(g_global->playerHouseID);
-				emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u2->o.index * sizeof(Unit));
-				emu_push(emu_cs); emu_push(0x1733); emu_cs = 0x1423; f__1423_0BCC_0012_111A();
-				emu_sp += 6;
-
+				Unit_HouseUnitCount_Remove(u2);
 				Unit_Unknown10EC(u2);
 			}
 
