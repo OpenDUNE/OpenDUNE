@@ -2855,7 +2855,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 
 		if ((unit->o.variable_09 & (1 << h->index)) == 0) continue;
 
-		if (!House_AreAllied(h->index, Unit_GetHouseID(unit))) {
+		if (!House_AreAllied((uint8)h->index, Unit_GetHouseID(unit))) {
 			h->unitCountEnemy--;
 		} else {
 			h->unitCountAllied--;

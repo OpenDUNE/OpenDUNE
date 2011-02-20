@@ -376,5 +376,5 @@ void emu_GUI_DrawCredits()
 	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	var08   = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
-	GUI_DrawCredits(houseID, var08);
+	GUI_DrawCredits((uint8)houseID, var08);
 }

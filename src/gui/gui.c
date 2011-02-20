@@ -2213,7 +2213,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 		emu_push(emu_cs); emu_push(0x223A); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 		emu_sp += 16;
 
-		GUI_DrawCredits(g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
+		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 
 		emu_push(15);
 		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
@@ -2227,7 +2227,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 	emu_push(emu_cs); emu_push(0x2276); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 	emu_sp += 2;
 
-	GUI_DrawCredits(g_global->playerHouseID, 2);
+	GUI_DrawCredits((uint8)g_global->playerHouseID, 2);
 
 	emu_push(emu_cs); emu_push(0x228A); emu_cs = 0x29E8; emu_Input_History_Clear();
 }

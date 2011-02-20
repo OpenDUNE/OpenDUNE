@@ -1471,7 +1471,7 @@ static void GameLoop_Main()
 
 			InGame_Numpad_Move(key);
 
-			GUI_DrawCredits(g_global->playerHouseID, 0);
+			GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
 
 			GameLoop_Team();
 			GameLoop_Unit();
