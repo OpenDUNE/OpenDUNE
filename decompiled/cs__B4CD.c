@@ -126,7 +126,7 @@ l__130D:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x1423; f__1423_08CD_0012_0004();
+	emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x1423; emu_Unit_HouseUnitCount_Add();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__1315:
@@ -343,7 +343,7 @@ l__1476:
 	emu_pop(&emu_cx);
 	emu_push(emu_dx);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x147E); emu_cs = 0x1423; f__1423_08CD_0012_0004();
+	emu_push(emu_cs); emu_push(0x147E); emu_cs = 0x1423; emu_Unit_HouseUnitCount_Add();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34CD) { overlay(0x34CD, 1); }
 l__147E:

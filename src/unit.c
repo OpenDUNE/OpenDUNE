@@ -30,7 +30,6 @@
 
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__1423_08CD_0012_0004();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_1269_0019_A3E5();
@@ -954,13 +953,8 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
 bool Unit_SetPosition(Unit *u, tile32 position)
 {
 	UnitInfo *ui;
-	csip32 ucsip;
 
 	if (u == NULL) return false;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
 	ui = &g_unitInfo[u->o.type];
 	u->o.flags.s.isOnMap = false;
@@ -983,10 +977,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	if (Map_GetTileByPosition(Tile_PackTile(u->o.position))->flag_10 != 0) {
 		u->o.variable_09 &= ~(1 << u->o.houseID);
 
-		emu_push(g_global->playerHouseID);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x2A38); emu_cs = 0x1423; f__1423_08CD_0012_0004();
-		emu_sp += 6;
+		Unit_HouseUnitCount_Add(u, g_global->playerHouseID);
 	}
 
 	if (u->o.houseID != g_global->playerHouseID || u->o.type == UNIT_HARVESTER || u->o.type == UNIT_SABOTEUR) {
@@ -2635,7 +2626,6 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 
 void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 {
-	csip32 ucsip;
 	tile32 position;
 	UnitInfo *ui;
 	uint16 packed;
@@ -2643,10 +2633,6 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	uint16 loc06;
 
 	if (unit == NULL || unit->o.flags.s.isOnMap || !unit->o.flags.s.used) return;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	ui = &g_unitInfo[unit->o.type];
 
@@ -2660,10 +2646,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	t = Map_GetTileByPosition(packed);
 
 	if (t->isUnveiled || unit->o.houseID == g_global->playerHouseID) {
-		emu_push(g_global->playerHouseID);
-		emu_push(ucsip.s.cs); emu_push(ucsip.s.ip);
-		emu_push(emu_cs); emu_push(0x027F); emu_cs = 0x1423; f__1423_08CD_0012_0004();
-		emu_sp += 6;
+		Unit_HouseUnitCount_Add(unit, g_global->playerHouseID);
 	} else {
 		Unit_HouseUnitCount_Remove(unit);
 	}
@@ -2841,5 +2824,132 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 		}
 
 		unit->o.variable_09 &= ~(1 << h->index);
+	}
+}
+
+/**
+ * This unit is about to appear on the map. So add it from the house
+ *  statistics about allies/enemies, and do some other logic.
+ * @param unit The unit to add.
+ * @param houseID The house registering the add.
+ */
+void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
+{
+	UnitInfo *ui;
+	uint16 loc0A;
+	House *hp;
+	House *h;
+
+	if (unit == NULL) return;
+
+	hp = House_Get_ByIndex(g_global->playerHouseID);
+	ui = &g_unitInfo[unit->o.type];
+	h = House_Get_ByIndex(houseID);
+	loc0A = (1 << houseID);
+
+	if (houseID == HOUSE_ATREIDES && unit->o.type != UNIT_SANDWORM) {
+		loc0A |= (1 << HOUSE_FREMEN);
+	}
+
+	if ((unit->o.variable_09 & loc0A) != 0 && h->flags.s.variable_0008) {
+		unit->o.variable_09 |= loc0A;
+		return;
+	}
+
+	if ((ui->variable_36 & 0x8000) == 0 && unit->o.type != UNIT_SANDWORM) {
+		return;
+	}
+
+	if ((unit->o.variable_09 & loc0A) == 0) {
+		if (House_AreAllied(houseID, Unit_GetHouseID(unit))) {
+			h->unitCountAllied++;
+		} else {
+			h->unitCountEnemy++;
+		}
+	}
+
+	if (ui->movementType != MOVEMENT_WINGER) {
+		if (!House_AreAllied(houseID, Unit_GetHouseID(unit))) {
+			h->flags.s.variable_0008 = true;
+			/* XXX -- This seems like a bug; Shouldn't it be Unit_GetHouseID(unit)? */
+			House_Get_ByIndex(unit->o.houseID)->flags.s.variable_0008 = true;
+		}
+	}
+
+	if (houseID == g_global->playerHouseID && g_global->selectionType != 0) {
+		if (unit->o.type == UNIT_SANDWORM) {
+			if (hp->variable_26 == 0) {
+				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
+
+				emu_push(37);
+				emu_push(emu_cs); emu_push(0x0A5A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+				emu_sp += 2;
+
+				if (g_global->language == LANGUAGE_ENGLISH) {
+					GUI_DisplayHint(28, 105);
+				}
+
+				hp->variable_26 = 8;
+			}
+		} else if (!House_AreAllied(g_global->playerHouseID, Unit_GetHouseID(unit))) {
+			Team *t;
+
+			if (hp->variable_24 == 0) {
+				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
+
+				if (unit->o.type != UNIT_SABOTEUR) {
+					emu_push(12);
+					emu_push(emu_cs); emu_push(0x0AAC); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+					emu_sp += 2;
+				} else {
+					if (g_global->scenarioID < 3) {
+						PoolFindStruct find;
+						Structure *s;
+						uint16 stringID;
+
+						find.houseID = g_global->playerHouseID;
+						find.index   = 0xFFFF;
+						find.type    = STRUCTURE_CONSTRUCTION_YARD;
+
+						s = Structure_Find(&find);
+						if (s != NULL) {
+							emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
+							emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
+							emu_push(emu_cs); emu_push(0x0AF6); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
+							emu_sp += 8;
+
+							emu_push(emu_ax);
+							emu_push(emu_cs); emu_push(0x0AFF); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Sprites_B4CD_17DC();
+							emu_sp += 2;
+
+							stringID = ((emu_ax + 1) & 7) / 2 + 1;
+						} else {
+							stringID = 1;
+						}
+
+						emu_push(stringID);
+						emu_push(emu_cs); emu_push(0x0B1C); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+						emu_sp += 2;
+					} else {
+						emu_push(unit->o.houseID + 6);
+						emu_push(emu_cs); emu_push(0x0B30); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
+						emu_sp += 2;
+					}
+				}
+
+				hp->variable_24 = 8;
+			}
+
+			t = Team_Get_ByIndex(unit->team);
+			if (t != NULL) t->script.variables[4] = 1;
+		}
+	}
+
+	if (!House_AreAllied(houseID, unit->o.houseID) && unit->actionID == ACTION_AMBUSH) Unit_SetAction(unit, ACTION_HUNT);
+
+	if (unit->o.houseID == g_global->playerHouseID || (unit->o.houseID == HOUSE_FREMEN && g_global->playerHouseID == HOUSE_ATREIDES)) {
+		unit->o.variable_09 = 0xFF;
+	} else {
+		unit->o.variable_09 |= loc0A;
 	}
 }

@@ -22,7 +22,6 @@
 #include "sprites.h"
 
 extern void f__01F7_3AF8_001D_A439();
-extern void f__1423_08CD_0012_0004();
 extern void f__B4B8_0000_001F_3BC3();
 extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
@@ -314,12 +313,7 @@ void Scenario_Load_Units(const char *key, char *value)
 
 	u->o.variable_09 = 0x00;
 
-	emu_push(u->o.houseID);
-	emu_push(g_global->unitStartPos.s.cs); emu_push(g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit));
-	emu_push(emu_cs); emu_push(0x05D4); emu_cs = 0x1423; f__1423_08CD_0012_0004();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34B5) { overlay(0x34B5, 1); }
-	emu_sp += 6;
+	Unit_HouseUnitCount_Add(u, u->o.houseID);
 
 	Unit_SetOrientation(u, u->orientation[0].current, true, 0);
 	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
