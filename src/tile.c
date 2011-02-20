@@ -11,7 +11,6 @@
 #include "tools.h"
 #include "os/math.h"
 
-extern void f__0F3F_028E_0015_1153();
 extern void f__B4CD_1269_0019_A3E5();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -305,15 +304,7 @@ uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
 		if ((Tools_Random_256() & 1) != 0) locsi = -locsi;
 
 		position = Tile_UnpackTile(packed_to);
-
-		emu_push(min(distance, 20) << 8);
-		emu_push(loc02 + locsi);
-		emu_push(position.s.y); emu_push(position.s.x);
-		emu_push(emu_cs); emu_push(0x1CA7); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
-		emu_sp += 8;
-		position.s.x = emu_ax;
-		position.s.y = emu_dx;
-
+		position = Tile_MoveByDirection(position, loc02 + locsi, min(distance, 20) << 8);
 		packed = Tile_PackTile(position);
 
 		if (Map_IsValidPosition(packed)) return packed;
@@ -364,4 +355,16 @@ uint8 Tile_GetDirection(uint16 packed_from, uint16 packed_to)
 	}
 
 	return returnValues[index];
+}
+
+tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance)
+{
+	distance = min(distance, 0xFF);
+
+	if (distance == 0) return tile;
+
+	tile.s.x += (64 + g_global->variable_3C4C[orientation & 0xFF] * distance) / 128;
+	tile.s.y += (64 - g_global->variable_3D4C[orientation & 0xFF] * distance) / 128;
+
+	return tile;
 }

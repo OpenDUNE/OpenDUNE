@@ -20,7 +20,6 @@
 
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__0F3F_028E_0015_1153();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -381,7 +380,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 		Unit *u;
 		uint16 distance;
 		uint16 packed;
-		uint16 locsi;
+		int16 orientation;
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
@@ -404,16 +403,10 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 		emu_push(emu_cs); emu_push(0x08F5); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 		emu_sp += 8;
 
-		locsi = (emu_ax & 0xFFC0) + Tools_RandomRange(0, 127);
-		if ((int16)locsi < 0) locsi += 256;
+		orientation = (emu_ax & 0xFFC0) + Tools_RandomRange(0, 127);
+		if (orientation < 0) orientation += 256;
 
-		emu_push(distance);
-		emu_push(locsi);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(emu_cs); emu_push(0x0926); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
-		emu_sp += 8;
-
-		packed = Tile_PackXY(emu_ax, emu_dx);
+		packed = Tile_PackTile(Tile_MoveByDirection(tile, orientation, distance));
 
 		if (Object_GetByPackedTile(packed) == NULL) {
 			Unit_SetDestination(u, Tools_Index_Encode(packed, IT_TILE));

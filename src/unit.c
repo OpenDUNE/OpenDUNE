@@ -30,7 +30,6 @@
 
 extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
-extern void f__0F3F_028E_0015_1153();
 extern void f__1423_08CD_0012_0004();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
@@ -1437,14 +1436,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	ui = &g_unitInfo[unit->o.type];
 
-	emu_push(distance);
-	emu_push(unit->orientation[0].current);
-	emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
-	emu_sp += 8;
-
-	newPosition.s.y = emu_dx;
-	newPosition.s.x = emu_ax;
+	newPosition = Tile_MoveByDirection(unit->o.position, unit->orientation[0].current, distance);
 
 	if (newPosition.tile == unit->o.position.tile) return false;
 
@@ -2187,20 +2179,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			emu_sp += 8;
 			orientation = (int8)emu_ax;
 
-			emu_push(32);
-			emu_push(0);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x26D5); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
-			emu_sp += 8;
-
-			emu_push(128);
-			emu_push(orientation);
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x26F0); emu_cs = 0x0F3F; f__0F3F_028E_0015_1153();
-			emu_sp += 8;
-
-			t.s.y = emu_dx;
-			t.s.x = emu_ax;
+			t = Tile_MoveByDirection(Tile_MoveByDirection(position, 0, 32), orientation, 128);
 
 			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, t, orientation);
 			if (bullet == NULL) return NULL;

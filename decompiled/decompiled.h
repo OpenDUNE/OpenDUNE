@@ -200,7 +200,6 @@ extern void emu_Input_Keyboard_HandleKeys();
 extern void emu_Stderr_Write();
 extern void emu_Error_Abnormal_Termination();
 extern void emu_GUI_Production_BuildThis();
-extern void f__0F3F_028E_0015_1153();
 extern void f__217E_0290_000A_9FBE();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__2AE1_029F_0014_50E5();
