@@ -517,7 +517,7 @@ l__031C:
 	emu_get_memory16(emu_es, emu_bx, 0xE) = emu_ax;
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0xC));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x0));
-	emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x1423; f__1423_0DC3_0029_D1E2();
+	emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x1423; emu_House_UpdateCreditsStorage();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
 l__0333:

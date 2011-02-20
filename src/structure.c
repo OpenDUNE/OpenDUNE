@@ -28,7 +28,6 @@
 #include "gui/widget.h"
 
 extern void f__0F3F_01A1_0018_9631();
-extern void f__1423_0DC3_0029_D1E2();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
@@ -1536,9 +1535,7 @@ void Structure_0C3A_1002(Structure *s)
 
 	h->structuresBuilt = Structure_GetStructuresBuilt(h);
 
-	emu_push(s->o.houseID);
-	emu_push(emu_cs); emu_push(0x11D1); emu_cs = 0x1423; f__1423_0DC3_0029_D1E2();
-	emu_sp += 2;
+	House_UpdateCreditsStorage(s->o.houseID);
 
 	if (g_global->debugScenario != 0) return;
 

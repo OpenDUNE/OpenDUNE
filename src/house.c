@@ -564,3 +564,39 @@ bool House_UpdateRadarState(House *h)
 
 	return activate;
 }
+
+/**
+ * Update the CreditsStorage by walking over all structures and checking what
+ *  they can hold.
+ * @param houseID The house to check the storage for.
+ */
+void House_UpdateCreditsStorage(uint8 houseID)
+{
+	PoolFindStruct find;
+	uint32 creditsStorage;
+
+	uint16 loc06 = g_global->variable_38BC;
+	g_global->variable_38BC = 0;
+
+	find.houseID = houseID;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	creditsStorage = 0;
+	while (true) {
+		StructureInfo *si;
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		si = &g_structureInfo[s->o.type];
+		creditsStorage += creditsStorage;
+	}
+
+	if (creditsStorage > 32000) creditsStorage = 32000;
+
+	House_Get_ByIndex(houseID)->creditsStorage = creditsStorage;
+
+	g_global->variable_38BC	= loc06;
+}
