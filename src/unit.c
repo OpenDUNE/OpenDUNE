@@ -2918,11 +2918,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 							emu_push(emu_cs); emu_push(0x0AF6); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 							emu_sp += 8;
 
-							emu_push(emu_ax);
-							emu_push(emu_cs); emu_push(0x0AFF); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Sprites_B4CD_17DC();
-							emu_sp += 2;
-
-							stringID = ((emu_ax + 1) & 7) / 2 + 1;
+							stringID = ((Sprites_B4CD_17F7(emu_ax) + 1) & 7) / 2 + 1;
 						} else {
 							stringID = 1;
 						}

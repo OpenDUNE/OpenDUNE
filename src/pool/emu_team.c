@@ -46,27 +46,3 @@ void emu_Team_Recount()
 
 	Team_Recount();
 }
-
-/**
- * Get a Team from the memory by index.
- *
- * @name emu_Team_Get_ByIndex
- * @implements 104B:0354:0023:5A6D ()
- */
-void emu_Team_Get_ByIndex()
-{
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	emu_ax = 0x0;
-	emu_dx = 0x0;
-
-	if (index >= TEAM_INDEX_MAX) return;
-	emu_dx = g_global->teamStartPos.s.cs;
-	emu_ax = g_global->teamStartPos.s.ip + index * sizeof(Team);
-}

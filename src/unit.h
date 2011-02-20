@@ -248,8 +248,6 @@ extern void Unit_HouseUnitCount_Remove(Unit *unit);
 extern void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID);
 
 
-extern void emu_Unit_GetHouseID();
-extern void emu_Unit_SetAction();
 extern void emu_Unit_Get_ByPackedTile();
 extern void emu_Unit_RemoveFog();
 extern void emu_Unit_Select();

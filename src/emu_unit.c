@@ -14,56 +14,6 @@
 #include "team.h"
 
 /**
- * Emulator wrapper around Unit_GetHouseID().
- *
- * @name emu_Unit_GetHouseID
- * @implements 1A34:3623:0010:B11C ()
- */
-void emu_Unit_GetHouseID()
-{
-	csip32 ucsip;
-	Unit *u;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = HOUSE_INVALID;
-
-	if (ucsip.csip == 0x0) return;
-	u = Unit_Get_ByMemory(ucsip);
-
-	emu_ax = Unit_GetHouseID(u);
-}
-
-/**
- * Emulator wrapper around Unit_SetAction().
- *
- * @name emu_Unit_SetAction
- * @implements 176C:000E:000E:633D ()
- */
-void emu_Unit_SetAction()
-{
-	csip32 ucsip;
-	Unit *u;
-	ActionType action;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip  = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	action = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	if (ucsip.csip == 0x0) return;
-	u = Unit_Get_ByMemory(ucsip);
-
-	Unit_SetAction(u, action);
-}
-
-/**
  * Emulator wrapper around Unit_Get_ByPackedTile()
  *
  * @name emu_Unit_Get_ByPackedTile

@@ -113,7 +113,6 @@ extern bool House_UpdateRadarState(House *h);
 extern void House_UpdateCreditsStorage(uint8 houseID);
 
 
-extern void emu_House_AreAllied();
 extern void emu_House_UpdateCreditsStorage();
 
 #endif /* HOUSE_H */
