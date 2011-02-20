@@ -158,7 +158,6 @@ extern void f__B536_0148_0060_01F3();
 extern void f__B4E0_0151_000D_E28D();
 extern void emu_Math_ValueToPercent();
 extern void f__01F7_0157_0010_1227();
-extern void f__0F3F_0168_0010_C9EF();
 extern void f__2B6C_0169_001E_6939();
 extern void emu_DSP_Write();
 extern void emu_Empty3();

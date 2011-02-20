@@ -11,7 +11,6 @@
 #include "tools.h"
 #include "os/math.h"
 
-extern void f__0F3F_0168_0010_C9EF();
 extern void f__0F3F_028E_0015_1153();
 extern void f__B4CD_1269_0019_A3E5();
 extern void overlay(uint16 cs, uint8 force);
@@ -285,18 +284,14 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
 {
 	int16 distance;
-	uint16 loc02;
+	uint8 loc02;
 	uint8 i;
 
 	if (packed_from == 0 || packed_to == 0) return 0;
 
 	distance = Tile_GetDistancePacked(packed_from, packed_to);
 
-	emu_push(packed_from);
-	emu_push(packed_to);
-	emu_push(emu_cs); emu_push(0x1C4B); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
-	emu_sp += 4;
-	loc02 = emu_ax;
+	loc02 = Tile_GetDirection(packed_to, packed_from);
 
 	if (distance <= 10) return 0;
 
@@ -325,4 +320,48 @@ uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
 	}
 
 	return 0;
+}
+
+/**
+ * Get to direction to follow to go from packed_from to packed_to.
+ *
+ * @param packed_from The origin.
+ * @param packed_to The destination.
+ * @return The direction.
+ */
+uint8 Tile_GetDirection(uint16 packed_from, uint16 packed_to)
+{
+	static uint8 returnValues[16] = {0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80};
+
+	int16 x1, y1, x2, y2;
+	int16 dx, dy;
+	uint16 index;
+
+	x1 = Tile_GetPackedX(packed_from);
+	y1 = Tile_GetPackedY(packed_from);
+	x2 = Tile_GetPackedX(packed_to);
+	y2 = Tile_GetPackedY(packed_to);
+
+	index = 0;
+
+	dy = y1 - y2;
+	if (dy < 0) {
+		index |= 0x8;
+		dy = -dy;
+	}
+
+	dx = x2 - x1;
+	if (dx < 0) {
+		index |= 0x4;
+		dx = -dx;
+	}
+
+	if (dx >= dy) {
+		if (((dx + 1) / 2) > dy) index |= 0x1;
+	} else {
+		index |= 0x2;
+		if (((dy + 1) / 2) > dx) index |= 0x1;
+	}
+
+	return returnValues[index];
 }

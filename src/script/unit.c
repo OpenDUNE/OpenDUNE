@@ -22,7 +22,6 @@
 #include "../string.h"
 
 extern void f__0F3F_0125_000D_4868();
-extern void f__0F3F_0168_0010_C9EF();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
@@ -1223,11 +1222,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 
 		if (curPacked == packedDest) break;
 
-		emu_push(packedDest);
-		emu_push(curPacked);
-		emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
-		emu_sp += 4;
-		loc04 = (emu_ax >> 5) & 7;
+		loc04 = (Tile_GetDirection(curPacked, packedDest) >> 5) & 7;
 
 		locsi = curPacked + g_global->variable_3782[loc04];
 		loc08 = Script_Unit_176C_1F21(locsi, loc04);
@@ -1247,12 +1242,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 			while (true) {
 				if (locsi == packedDest) break;
 
-				emu_push(packedDest);
-				emu_push(locsi);
-				emu_push(emu_cs); emu_push(0x00F0); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
-				emu_sp += 4;
-				loc06 = (emu_ax >> 5);
-
+				loc06 = Tile_GetDirection(locsi, packedDest) >> 5;
 				locsi += g_global->variable_3782[loc06];
 
 				if (Script_Unit_176C_1F21(locsi, loc06) > arg14) continue;
@@ -1276,12 +1266,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 				do {
 					if (locsi == packedDest) break;
 
-					emu_push(packedDest);
-					emu_push(locsi);
-					emu_push(emu_cs); emu_push(0x01A5); emu_cs = 0x0F3F; f__0F3F_0168_0010_C9EF();
-					emu_sp += 4;
-					loc06 = emu_ax >> 5;
-
+					loc06 = Tile_GetDirection(locsi, packedDest) >> 5;
 					locsi += g_global->variable_3782[loc06];
 				} while (Script_Unit_176C_1F21(locsi, loc06) <= arg14);
 			}
