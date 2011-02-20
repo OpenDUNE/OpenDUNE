@@ -1022,6 +1022,29 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	}
 }
 
+/**
+ * Calls Unit_Unknown3146 for current Unit.
+ *
+ * @param packed The packed tile.
+ * @param arg0C ??.
+ * @return ??.
+ */
+static int16 Script_Unit_176C_1F21(uint16 packed, uint8 arg08)
+{
+	int16 res;
+	Unit *u;
+
+	if (g_global->unitCurrent.csip == 0x0) return 0;
+
+	u = Unit_Get_ByMemory(g_global->unitCurrent);
+
+	res = Unit_Unknown3146(u, packed, arg08 << 5);
+
+	if (res == -1) res = 256;
+
+	return res;
+}
+
 /* This struct is similar to struct_8BDE */
 typedef struct struct_1319 {
 	uint16 packed;
@@ -1030,13 +1053,13 @@ typedef struct struct_1319 {
 	uint8 *buffer;
 } struct_1319;
 
-static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint16, uint8), int16 arg0E)
+static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 {
 	uint16 packed;
 	uint8 *loc04;
 	uint8 *loc08;
 
-	if (arg06 == NULL || arg06->buffer == NULL || function == NULL) return 0;
+	if (arg06 == NULL || arg06->buffer == NULL) return 0;
 
 	arg06->buffer[arg06->variable_0004] = 0xFF;
 	packed = arg06->packed;
@@ -1078,7 +1101,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 				loc0C = (*loc04 + (loc09 < 0 ? -1 : 1)) & 0x7;
 
 				if (abs(loc09) == 1) {
-					if (function(packed + g_global->variable_3782[loc0C], loc0C) <= arg0E) {
+					if (Script_Unit_176C_1F21(packed + g_global->variable_3782[loc0C], loc0C) <= arg0E) {
 						*loc08 = loc0C;
 						*loc04 = loc0C;
 					}
@@ -1113,7 +1136,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 		if (*loc08 == 0xFE) continue;
 
 		packed += g_global->variable_3782[*loc08];
-		arg06->variable_0002 = function(packed, *loc08);
+		arg06->variable_0002 = Script_Unit_176C_1F21(packed, *loc08);
 		arg06->variable_0004++;
 		*loc04++ = *loc08;
 	}
@@ -1124,14 +1147,14 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, uint16 (*function)(uint1
 	return arg06->variable_0004;
 }
 
-static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C, uint8 arg0E, uint16 (*function)(uint16, uint8), int16 arg14)
+static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C, uint8 arg0E, int16 arg14)
 {
 	uint16 locsi;
 	uint16 loc04;
 	uint8 *loc08;
 	uint16 loc0A;
 
-	if (arg08 == NULL || function == NULL) return false;
+	if (arg08 == NULL) return false;
 
 	loc04 = arg08->packed;
 	loc08 = arg08->buffer;
@@ -1152,7 +1175,7 @@ static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C,
 
 				locsi = loc04 + g_global->variable_3782[loc02];
 
-				if (function(locsi, loc02) <= arg14) break;
+				if (Script_Unit_176C_1F21(locsi, loc02) <= arg14) break;
 			}
 		}
 
@@ -1162,7 +1185,7 @@ static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C,
 		if (locsi == packed) {
 			*loc08 = 0xFF;
 			arg08->variable_0004 = loc0A;
-			Script_Unit_1319_03E8(arg08, function, arg14);
+			Script_Unit_1319_03E8(arg08, arg14);
 			arg08->variable_0004--;
 			return true;
 		}
@@ -1176,25 +1199,27 @@ static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C,
 	return false;
 }
 
-static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, csip32 buffer_csip, int16 arg0E, uint16 (*function)(uint16, uint8), int16 arg14)
+static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, csip32 buffer_csip, int16 arg0E, int16 arg14)
 {
 	uint16 curPacked;
+	struct_1319 res;
 
-	if (buffer_csip.csip == 0x0 || function == NULL) return NULL;
+	if (buffer_csip.csip == 0x0) return NULL;
 
-	g_global->variable_8BDE.packed = packedSrc;
-	g_global->variable_8BDE.variable_0002 = 0;
-	g_global->variable_8BDE.variable_0004 = 0;
-	g_global->variable_8BDE.buffer_csip = buffer_csip;
-	emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[0] = 0xFF;
+	res.packed        = packedSrc;
+	res.variable_0002 = 0;
+	res.variable_0004 = 0;
+	res.buffer        = emu_get_memorycsip(buffer_csip);
+
+	res.buffer[0] = 0xFF;
 
 	arg0E--;
 	curPacked = packedSrc;
 
-	while (g_global->variable_8BDE.variable_0004 < arg0E) {
+	while (res.variable_0004 < arg0E) {
 		uint8  loc04;
 		uint16 locsi;
-		uint16 loc08;
+		int16  loc08;
 
 		if (curPacked == packedDest) break;
 
@@ -1205,19 +1230,18 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 		loc04 = (emu_ax >> 5) & 7;
 
 		locsi = curPacked + g_global->variable_3782[loc04];
-		loc08 = function(locsi, loc04);
+		loc08 = Script_Unit_176C_1F21(locsi, loc04);
 
 		if (loc08 <= arg14) {
-			emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004++] = loc04;
-			g_global->variable_8BDE.variable_0002 += loc08;
+			res.buffer[res.variable_0004++] = loc04;
+			res.variable_0002 += loc08;
 		} else {
 			uint8 loc06;
 			bool loc0A;
 			bool loc0C;
 			int16 loc0E;
 			struct_1319 loc22[2];
-			uint8 loc8C[102];
-			uint8 locF2[102];
+			uint8 locF2[2][102];
 			struct_1319 *loc26;
 
 			while (true) {
@@ -1231,23 +1255,23 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 
 				locsi += g_global->variable_3782[loc06];
 
-				if (function(locsi, loc06) > arg14) continue;
+				if (Script_Unit_176C_1F21(locsi, loc06) > arg14) continue;
 
 				loc22[1].packed        = curPacked;
 				loc22[1].variable_0002 = 0;
 				loc22[1].variable_0004 = 0;
-				loc22[1].buffer        = loc8C;
+				loc22[1].buffer        = locF2[0];
 
-				loc0A = Script_Unit_1319_02AC(locsi, &loc22[1], -1, loc04, function, arg14);
+				loc0A = Script_Unit_1319_02AC(locsi, &loc22[1], -1, loc04, arg14);
 
 				loc22[0].packed        = curPacked;
 				loc22[0].variable_0002 = 0;
 				loc22[0].variable_0004 = 0;
-				loc22[0].buffer        = locF2;
+				loc22[0].buffer        = locF2[1];
 
-				loc0C = Script_Unit_1319_02AC(locsi, &loc22[0], 1, loc04, function, arg14);
+				loc0C = Script_Unit_1319_02AC(locsi, &loc22[0], 1, loc04, arg14);
 
-				if (loc0A != 0 || loc0C != 0) break;
+				if (loc0A || loc0C) break;
 
 				do {
 					if (locsi == packedDest) break;
@@ -1259,51 +1283,40 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 					loc06 = emu_ax >> 5;
 
 					locsi += g_global->variable_3782[loc06];
-				} while (function(locsi, loc06) <= arg14);
+				} while (Script_Unit_176C_1F21(locsi, loc06) <= arg14);
 			}
 
 			if (locsi == packedDest) break;
 
-			if (loc0C == 0) {
+			if (!loc0C) {
 				loc26 = &loc22[1];
-			} else if (loc0A == 0) {
+			} else if (!loc0A) {
 				loc26 = &loc22[0];
 			} else {
 				loc26 = &loc22[loc22[1].variable_0002 < loc22[0].variable_0002 ? 1 : 0];
 			}
 
-			loc0E = min(arg0E - g_global->variable_8BDE.variable_0004, loc26->variable_0004);
+			loc0E = min(arg0E - res.variable_0004, loc26->variable_0004);
 
 			if (loc0E <= 0) break;
 
-			memcpy(&emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004], loc26->buffer, loc0E);
+			memcpy(&res.buffer[res.variable_0004], loc26->buffer, loc0E);
 
-			g_global->variable_8BDE.variable_0004 += loc0E;
-
-			g_global->variable_8BDE.variable_0002 += loc26->variable_0002;
+			res.variable_0004 += loc0E;
+			res.variable_0002 += loc26->variable_0002;
 		}
 
 		curPacked = locsi;
 	}
 
-	if (g_global->variable_8BDE.variable_0004 < arg0E) {
-		emu_get_memorycsip(g_global->variable_8BDE.buffer_csip)[g_global->variable_8BDE.variable_0004++] = 0xFF;
-	}
+	if (res.variable_0004 < arg0E) res.buffer[res.variable_0004++] = 0xFF;
 
-	{
-		struct_1319 temp;
+	Script_Unit_1319_03E8(&res, arg14);
 
-		temp.packed        = g_global->variable_8BDE.packed;
-		temp.variable_0002 = g_global->variable_8BDE.variable_0002;
-		temp.variable_0004 = g_global->variable_8BDE.variable_0004;
-		temp.buffer = emu_get_memorycsip(g_global->variable_8BDE.buffer_csip);
-
-		Script_Unit_1319_03E8(&temp, function, arg14);
-
-		g_global->variable_8BDE.packed        = temp.packed;
-		g_global->variable_8BDE.variable_0002 = temp.variable_0002;
-		g_global->variable_8BDE.variable_0004 = temp.variable_0004;
-	}
+	g_global->variable_8BDE.packed        = res.packed;
+	g_global->variable_8BDE.variable_0002 = res.variable_0002;
+	g_global->variable_8BDE.variable_0004 = res.variable_0004;
+	g_global->variable_8BDE.buffer_csip   = buffer_csip;
 
 	return &g_global->variable_8BDE;
 }
@@ -1343,7 +1356,7 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 
 		buffer_csip.csip = 0x353F981E;
 
-		loc08 = Script_Unit_1319_002D(packed, locdi, buffer_csip, 40, &Unit_176C_1F21, 255);
+		loc08 = Script_Unit_1319_002D(packed, locdi, buffer_csip, 40, 255);
 
 		memcpy(u->variable_72, emu_get_memorycsip(loc08->buffer_csip), min(loc08->variable_0004, 14));
 

@@ -236,6 +236,7 @@ extern void Unit_DisplayStatusText(Unit *unit);
 extern void Unit_Unknown2AAA(Unit *unit);
 extern Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C);
 extern void Unit_EnterStructure(Unit *unit, struct Structure *s);
+extern int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C);
 extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
 extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
@@ -243,7 +244,6 @@ extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
 extern void Unit_B4CD_048E(Unit *unit, uint16 packed);
 extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
 extern void Unit_LaunchHouseMissile(uint16 packed);
-extern uint16 Unit_176C_1F21(uint16 packed, uint8 arg08);
 extern void Unit_HouseUnitCount_Remove(Unit *u);
 
 
