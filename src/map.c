@@ -458,7 +458,7 @@ static bool Map_06F7_072B(struct_395A *s)
 
 	overlaySpriteID = t->overlaySpriteID;
 
-	if (g_global->variable_39F2 - 16 < overlaySpriteID && overlaySpriteID <= g_global->variable_39F2) return false;
+	if (overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= overlaySpriteID + 15) return false;
 
 	icon = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	icon = &icon[icon[loc06]];
