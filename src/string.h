@@ -14,7 +14,6 @@ extern uint16 String_LoadFile(char *filename, uint16 index, char *buffer, uint16
 
 extern void emu_String_Decompress();
 extern void emu_String_GenerateFilename();
-extern void emu_String_GetFromBuffer_ByIndex();
 extern void emu_String_Get_ByIndex();
 extern void emu_String_TranslateSpecial();
 extern void emu_String_Load();

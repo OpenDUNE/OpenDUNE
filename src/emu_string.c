@@ -55,33 +55,6 @@ void emu_String_GenerateFilename()
 }
 
 /**
- * Emulator wrapper around String_GetFromBuffer_ByIndex().
- *
- * @name emu_String_GetFromBuffer_ByIndex
- * @implements 2502:0165:0027:41E7 ()
- */
-void emu_String_GetFromBuffer_ByIndex()
-{
-	csip32 csip;
-	char *buffer;
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	csip  =   emu_get_csip32(emu_ss, emu_sp, 0x0);
-	index = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	buffer = (char *)emu_get_memorycsip(csip);
-
-	csip.s.ip += String_GetFromBuffer_ByIndex(buffer, index) - buffer;
-
-	emu_dx = csip.s.cs;
-	emu_ax = csip.s.ip;
-}
-
-/**
  * Emulator wrapper around String_Get_ByIndex().
  *
  * @name emu_String_Get_ByIndex

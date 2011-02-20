@@ -111,6 +111,5 @@ extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();
 extern void emu_Structure_RemoveFog();
-extern void emu_Structure_GetBuildable();
 
 #endif /* STRUCTURE_H */

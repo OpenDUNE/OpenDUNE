@@ -21,7 +21,6 @@
 #include "unknown/unknown.h"
 
 extern void f__0F3F_01A1_0018_9631();
-extern void f__1423_0E4F_0010_843C();
 extern void f__151A_000E_0013_5840();
 extern void f__22A6_1200_007B_0356();
 extern void f__24D0_000D_0039_C17D();

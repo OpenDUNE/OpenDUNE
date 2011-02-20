@@ -136,30 +136,3 @@ void emu_Structure_RemoveFog()
 
 	Structure_RemoveFog(s);
 }
-
-/**
- * Emulator wrapper around emu_Structure_GetBuildable().
- *
- * @name emu_Structure_GetBuildable
- * @implements 0C3A:1B79:0021:8C40 ()
- */
-void emu_Structure_GetBuildable()
-{
-	uint32 ret;
-	csip32 scsip;
-	Structure *s;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	scsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (scsip.csip == 0x0) return;
-	s = Structure_Get_ByMemory(scsip);
-
-	ret = Structure_GetBuildable(s);
-
-	emu_ax = ret & 0xFFFF;
-	emu_dx = ret >> 16;
-}

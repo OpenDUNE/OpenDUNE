@@ -73,7 +73,6 @@ extern void Map_SelectNext(bool arg06);
 extern void emu_Map_SetSelection();
 extern void emu_Map_SetSelectionSize();
 extern void emu_Map_IsPositionUnveiled();
-extern void emu_Map_B4CD_0750();
 extern void emu_Map_Update();
 
 #endif /* MAP_H */
