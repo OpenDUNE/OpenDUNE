@@ -1695,6 +1695,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 bool Map_UnveilTile(uint16 packed, uint8 houseID)
 {
 	Structure *s;
+	Unit *u;
 	Tile *t;
 
 	if (houseID != g_global->playerHouseID) return false;
@@ -1709,7 +1710,8 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	emu_push(emu_cs); emu_push(0x1304); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
 	emu_sp += 2;
 
-	Unit_HouseUnitCount_Add(Unit_Get_ByPackedTile(packed), houseID);
+	u = Unit_Get_ByPackedTile(packed);
+	if (u != NULL) Unit_HouseUnitCount_Add(u, houseID);
 
 	s = Structure_Get_ByPackedTile(packed);
 	if (s != NULL) {
