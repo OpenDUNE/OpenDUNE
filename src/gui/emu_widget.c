@@ -145,7 +145,7 @@ void emu_GUI_Widget_HandleEvents()
 
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	emu_ax = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip), wcsip);
+	emu_ax = GUI_Widget_HandleEvents((wcsip.csip == 0x0) ? NULL : (Widget *)emu_get_memorycsip(wcsip), wcsip);
 }
 
 /**
