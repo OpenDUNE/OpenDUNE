@@ -645,7 +645,6 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 		Unit_SetAction(u, ACTION_MOVE);
 
 		emu_push(1);
-		emu_push(1);
 		emu_push(32);
 		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
 		emu_push(emu_cs); emu_push(0x16BD); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();

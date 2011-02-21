@@ -976,7 +976,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	if (Map_GetTileByPosition(Tile_PackTile(u->o.position))->flag_10 != 0) {
 		u->o.variable_09 &= ~(1 << u->o.houseID);
 
-		Unit_HouseUnitCount_Add(u, g_global->playerHouseID);
+		Unit_HouseUnitCount_Add(u, (uint8)g_global->playerHouseID);
 	}
 
 	if (u->o.houseID != g_global->playerHouseID || u->o.type == UNIT_HARVESTER || u->o.type == UNIT_SABOTEUR) {
@@ -2645,7 +2645,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 	t = Map_GetTileByPosition(packed);
 
 	if (t->isUnveiled || unit->o.houseID == g_global->playerHouseID) {
-		Unit_HouseUnitCount_Add(unit, g_global->playerHouseID);
+		Unit_HouseUnitCount_Add(unit, (uint8)g_global->playerHouseID);
 	} else {
 		Unit_HouseUnitCount_Remove(unit);
 	}
@@ -2838,7 +2838,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 	if (unit == NULL) return;
 
-	hp = House_Get_ByIndex(g_global->playerHouseID);
+	hp = House_Get_ByIndex((uint8)g_global->playerHouseID);
 	ui = &g_unitInfo[unit->o.type];
 	h = House_Get_ByIndex(houseID);
 	loc0A = (1 << houseID);
@@ -2887,7 +2887,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 				hp->variable_26 = 8;
 			}
-		} else if (!House_AreAllied(g_global->playerHouseID, Unit_GetHouseID(unit))) {
+		} else if (!House_AreAllied((uint8)g_global->playerHouseID, Unit_GetHouseID(unit))) {
 			Team *t;
 
 			if (hp->variable_24 == 0) {
@@ -2914,7 +2914,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 							emu_push(emu_cs); emu_push(0x0AF6); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
 							emu_sp += 8;
 
-							stringID = ((Sprites_B4CD_17F7(emu_ax) + 1) & 7) / 2 + 1;
+							stringID = ((Sprites_B4CD_17F7(emu_ax & 0xFF) + 1) & 7) / 2 + 1;
 						} else {
 							stringID = 1;
 						}

@@ -1673,7 +1673,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 
 		if (neighbourVeiled != 15) {
 			Unit *u = Unit_Get_ByPackedTile(packed);
-			if (u != NULL) Unit_HouseUnitCount_Add(u, g_global->playerHouseID);
+			if (u != NULL) Unit_HouseUnitCount_Add(u, (uint8)g_global->playerHouseID);
 		}
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
