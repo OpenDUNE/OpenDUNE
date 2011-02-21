@@ -11,7 +11,6 @@
 #include "tools.h"
 #include "os/math.h"
 
-extern void f__B4CD_1269_0019_A3E5();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -265,10 +264,7 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 
 			if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
 
-			emu_push(g_global->playerHouseID);
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x08CF); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1269_0019_A3E5();
-			emu_sp += 4;
+			Map_UnveilTile(packed, g_global->playerHouseID);
 		}
 	}
 }

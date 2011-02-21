@@ -32,7 +32,6 @@ extern void f__0F3F_0125_000D_4868();
 extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4CD_1269_0019_A3E5();
 extern void f__B4E9_0050_003F_292A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -2701,12 +2700,9 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 	Map_Update(packed, 0, false);
 }
 
-void Unit_B4CD_048E(Unit *unit, uint16 packed)
+void Unit_AddToTile(Unit *unit, uint16 packed)
 {
-	emu_push(Unit_GetHouseID(unit));
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x04A8); emu_cs = 0x34CD; overlay(0x34CD, 0); f__B4CD_1269_0019_A3E5();
-	emu_sp += 4;
+	Map_UnveilTile(packed, Unit_GetHouseID(unit));
 
 	emu_push(packed);
 	emu_push(emu_cs); emu_push(0x04B1); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();

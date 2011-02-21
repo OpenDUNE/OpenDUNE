@@ -241,7 +241,7 @@ extern uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode);
 extern bool Unit_Unknown379B(Unit *unit);
 extern void Unit_B4CD_01BF(uint16 arg06, Unit *unit);
 extern void Unit_RemoveFromTile(Unit *unit, uint16 packed);
-extern void Unit_B4CD_048E(Unit *unit, uint16 packed);
+extern void Unit_AddToTile(Unit *unit, uint16 packed);
 extern uint16 Unit_GetTargetStructurePriority(Unit *unit, struct Structure *s);
 extern void Unit_LaunchHouseMissile(uint16 packed);
 extern void Unit_HouseUnitCount_Remove(Unit *unit);

@@ -10,8 +10,8 @@ MSVC_PACKED_BEGIN
 typedef struct Tile {
 	/* 0000 01FF */ PACK uint32 groundSpriteID:9;           /*!< The Sprite which is drawn on this Tile. */
 	/* 0000 FE00 */ PACK uint32 overlaySpriteID:7;          /*!< The Overlay which is drawn over this Tile. */
-	/* 0003 0000 */ PACK uint32 houseID:3;                  /*!< Which House owns this Tile. */
-	/* 0004 0000 */ PACK uint32 isUnveiled:1;               /*!< There is no fog on the Tile. */
+	/* 0007 0000 */ PACK uint32 houseID:3;                  /*!< Which House owns this Tile. */
+	/* 0008 0000 */ PACK uint32 isUnveiled:1;               /*!< There is no fog on the Tile. */
 	/* 0010 0000 */ PACK uint32 hasUnit:1;                  /*!< There is a Unit on the Tile. */
 	/* 0020 0000 */ PACK uint32 hasStructure:1;             /*!< There is a Structure on the Tile. */
 	/* 0040 0000 */ PACK uint32 flag_08:1;                  /*!< ?? */
@@ -68,11 +68,13 @@ extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
 extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, csip32 function_csip);
 extern uint16 Map_B4CD_08E7(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
+extern bool Map_UnveilTile(uint16 packed, uint8 houseID);
 
 
 extern void emu_Map_SetSelection();
 extern void emu_Map_SetSelectionSize();
 extern void emu_Map_IsPositionUnveiled();
 extern void emu_Map_Update();
+extern void emu_Map_UnveilTile();
 
 #endif /* MAP_H */

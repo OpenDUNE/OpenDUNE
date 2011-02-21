@@ -28,6 +28,7 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
+extern void f__B4CD_1387_002A_D695();
 extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
@@ -1414,7 +1415,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_cs
 					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
 					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
 					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0043: Unit_B4CD_048E(unit, curPacked); break;
+					case 0x34CD0043: Unit_AddToTile(unit, curPacked); break;
 					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
 					default: break;
 				}
@@ -1445,7 +1446,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_cs
 					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
 					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
 					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0043: Unit_B4CD_048E(unit, curPacked); break;
+					case 0x34CD0043: Unit_AddToTile(unit, curPacked); break;
 					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
 					default: break;
 				}
@@ -1631,4 +1632,58 @@ void Map_SelectNext(bool getNext)
 	if (selected == NULL) return;
 
 	Map_SetSelection(Tile_PackTile(selected->position));
+}
+
+/**
+ * Unveil a tile for a House.
+ * @param packed The tile to unveil.
+ * @param houseID The house to unveil for.
+ * @return True if tile was freshly unveiled.
+ */
+bool Map_UnveilTile(uint16 packed, uint8 houseID)
+{
+	Structure *s;
+	Tile *t;
+
+	if (houseID != g_global->playerHouseID) return false;
+	if (Tile_GetPackedX(packed) > 63 || Tile_GetPackedY(packed) > 63) return false;
+
+	t = Map_GetTileByPosition(packed);
+
+	if (t->isUnveiled && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return false;
+	t->isUnveiled = true;
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x1304); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
+	emu_sp += 2;
+
+	Unit_HouseUnitCount_Add(Unit_Get_ByPackedTile(packed), houseID);
+
+	s = Structure_Get_ByPackedTile(packed);
+	if (s != NULL) {
+		s->o.variable_09 |= 1 << houseID;
+		if (s->o.houseID == HOUSE_ATREIDES) s->o.variable_09 |= 1 << HOUSE_FREMEN;
+	}
+
+	emu_push(packed);
+	emu_push(emu_cs); emu_push(0x134D); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
+	emu_sp += 2;
+
+	emu_push(packed + 1);
+	emu_push(emu_cs); emu_push(0x1357); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
+	emu_sp += 2;
+
+	emu_push(packed - 1);
+	emu_push(emu_cs); emu_push(0x1361); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
+	emu_sp += 2;
+
+	emu_push(packed - 64);
+	emu_push(emu_cs); emu_push(0x136D); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
+	emu_sp += 2;
+
+	emu_push(packed + 64);
+	emu_push(emu_cs); emu_push(0x1379); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
+	emu_sp += 2;
+
+	return true;
 }
