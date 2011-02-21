@@ -479,7 +479,7 @@ typedef struct GlobalData {
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
 	/* 255C()    */ PACK uint8   unknown_255C[0x002];
 	/* 255E(8)   */ PACK uint16 variable_255E[4];           /*!< ?? */
-	/* 2566()    */ PACK uint8   unknown_2566[0x0008];
+	/* 2566(8)   */ PACK uint16 variable_2566[4];           /*!< ?? */
 	/* 256E(6)   */ PACK uint16 variable_256E[3];           /*!< ?? */
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];

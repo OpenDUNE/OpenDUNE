@@ -1635,6 +1635,58 @@ void Map_SelectNext(bool getNext)
 }
 
 /**
+ * After unveiling, check neighbour tiles. This function handles one neighbour.
+ * @param packed The neighbour tile of an unveiled tile.
+ */
+static void Map_UnveilTile_Neighbour(uint16 packed)
+{
+	uint16 neighbourVeiled;
+	Tile *t;
+
+	if (Tile_GetPackedX(packed) > 63 || Tile_GetPackedY(packed) > 63) return;
+
+	t = Map_GetTileByPosition(packed);
+
+	neighbourVeiled = 15;
+	if (t->isUnveiled) {
+		int i;
+
+		if (g_global->variable_38BC != 0) return;
+		if (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15) return;
+
+		neighbourVeiled = 0;
+
+		for (i = 0; i < 4; i++) {
+			uint16 neighbour = packed + g_global->variable_2566[i];
+
+			if (Tile_GetPackedX(neighbour) > 63 || Tile_GetPackedY(neighbour) > 63) {
+				neighbourVeiled |= 1 << i;
+				continue;
+			}
+
+			if (!Map_GetTileByPosition(neighbour)->isUnveiled) neighbourVeiled |= 1 << i;
+		}
+	}
+
+	if (neighbourVeiled != 0) {
+		uint16 *iconMap;
+
+		if (neighbourVeiled != 15) {
+			Unit *u = Unit_Get_ByPackedTile(packed);
+			if (u != NULL) Unit_HouseUnitCount_Add(u, g_global->playerHouseID);
+		}
+
+		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+		iconMap = &iconMap[iconMap[7]];
+		neighbourVeiled = iconMap[neighbourVeiled];
+	}
+
+	t->overlaySpriteID = neighbourVeiled & 0x7F;
+
+	Map_Update(packed, 0, false);
+}
+
+/**
  * Unveil a tile for a House.
  * @param packed The tile to unveil.
  * @param houseID The house to unveil for.
@@ -1665,25 +1717,11 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 		if (s->o.houseID == HOUSE_ATREIDES) s->o.variable_09 |= 1 << HOUSE_FREMEN;
 	}
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x134D); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
-	emu_sp += 2;
-
-	emu_push(packed + 1);
-	emu_push(emu_cs); emu_push(0x1357); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
-	emu_sp += 2;
-
-	emu_push(packed - 1);
-	emu_push(emu_cs); emu_push(0x1361); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
-	emu_sp += 2;
-
-	emu_push(packed - 64);
-	emu_push(emu_cs); emu_push(0x136D); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
-	emu_sp += 2;
-
-	emu_push(packed + 64);
-	emu_push(emu_cs); emu_push(0x1379); emu_cs = 0xB4CD; f__B4CD_1387_002A_D695();
-	emu_sp += 2;
+	Map_UnveilTile_Neighbour(packed);
+	Map_UnveilTile_Neighbour(packed + 1);
+	Map_UnveilTile_Neighbour(packed - 1);
+	Map_UnveilTile_Neighbour(packed - 64);
+	Map_UnveilTile_Neighbour(packed + 64);
 
 	return true;
 }
