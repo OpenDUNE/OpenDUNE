@@ -8,7 +8,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
-#include "../animate.h"
+#include "../animation.h"
 #include "../gfx.h"
 #include "../unit.h"
 #include "../tile.h"

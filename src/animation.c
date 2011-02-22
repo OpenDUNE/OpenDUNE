@@ -4,7 +4,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "animate.h"
+#include "animation.h"
 #include "map.h"
 #include "tile.h"
 

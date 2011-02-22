@@ -8,7 +8,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "script.h"
-#include "../animate.h"
+#include "../animation.h"
 #include "../unit.h"
 #include "../pool/unit.h"
 #include "../pool/pool.h"

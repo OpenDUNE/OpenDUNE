@@ -8,7 +8,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "animate.h"
+#include "animation.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"

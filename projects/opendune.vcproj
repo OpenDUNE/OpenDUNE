@@ -1551,7 +1551,7 @@
 			Name="src"
 			>
 			<File
-				RelativePath="..\src\animate.c"
+				RelativePath="..\src\animation.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1571,7 +1571,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\animate.h"
+				RelativePath="..\src\animation.h"
 				>
 			</File>
 			<File
