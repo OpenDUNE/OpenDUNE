@@ -11,7 +11,6 @@
 extern void f__151A_03ED_0014_6217();
 extern void f__151A_046F_0017_2508();
 extern void f__151A_043B_0018_36C4();
-extern void f__151A_02E8_0010_6B15();
 extern void f__151A_02C8_0016_FA9C();
 extern void f__151A_0526_0028_A3A6();
 
@@ -46,6 +45,18 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 	}
 
 	animation->proc.csip = 0x0;
+}
+
+/**
+ * Resets variable 7 of the Animation to zero.
+ * @param animation The Animation to change.
+ * @param parameter Not used.
+ */
+static void Animation_Func_Unknown4(Animation *animation, int16 parameter)
+{
+	VARIABLE_NOT_USED(parameter);
+
+	animation->variable_07 = 0;
 }
 
 /**
@@ -154,13 +165,13 @@ void Animation_Tick()
 
 			switch (command >> 12) {
 				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
+				case 4: Animation_Func_Unknown4(animation, parameter); break;
 				case 7: Animation_Func_Unknown7(animation, parameter); break;
 				case 8: Animation_Func_Unknown8(animation, parameter); break;
 
 				case 1:
 				case 2:
 				case 3:
-				case 4:
 				case 5:
 				case 6:
 					emu_push(parameter);
@@ -170,7 +181,6 @@ void Animation_Tick()
 						case 1: f__151A_03ED_0014_6217(); break;
 						case 2: f__151A_046F_0017_2508(); break;
 						case 3: f__151A_043B_0018_36C4(); break;
-						case 4: f__151A_02E8_0010_6B15(); break;
 						case 5: f__151A_02C8_0016_FA9C(); break;
 						case 6: f__151A_0526_0028_A3A6(); break;
 					}
