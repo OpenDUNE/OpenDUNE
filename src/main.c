@@ -1,3 +1,7 @@
+#if defined(_WIN32)
+#include <io.h>
+#include <windows.h>
+#endif
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
@@ -29,6 +33,18 @@ int SDL_main(int argc, char **argv)
 int main(int argc, char **argv)
 #endif /* __APPLE__ */
 {
+#if defined(_WIN32)
+	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+		int __cdecl __MINGW_NOTHROW	_fileno (FILE*);
+	#endif
+	FILE *err = fopen("error.log", "w");
+	FILE *out = fopen("output.log", "w");
+
+	if (err != NULL) _dup2(_fileno(err), _fileno(stderr));
+	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
+	FreeConsole();
+#endif
+
 	emu_hard_link(0x29E8, 0x0D47, &emu_Input_Keyboard_EventHandler);
 	emu_hard_link(0x0070, 0x00E0, &Interrupt_User_Clock);
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
