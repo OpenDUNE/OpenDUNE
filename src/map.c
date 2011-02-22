@@ -28,7 +28,6 @@ extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4B8_0899_002D_EBA1();
 extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
@@ -1690,6 +1689,52 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 }
 
 /**
+ * Add spice on the given tile.
+ * @param packed The tile.
+ */
+static void Map_AddSpiceOnTile(uint16 packed)
+{
+	Tile *t;
+
+	t = Map_GetTileByPosition(packed);
+
+	switch (t->groundSpriteID) {
+		case 0x8: /* Spice (low) */
+			t->groundSpriteID = 0x9;
+			Map_AddSpiceOnTile(packed);
+			return;
+
+		case 0x9: { /* Spice (high) */
+			int8 i;
+			int8 j;
+
+			for (j = -1; j <= 1; j++) {
+				for (i = -1; i <= 1; i++) {
+					Tile *t2;
+					uint16 packed2 = Tile_PackXY(Tile_GetPackedX(packed) + i, Tile_GetPackedY(packed) + j);
+
+					if (packed2 >= 4096) continue;
+
+					t2 = Map_GetTileByPosition(packed2);
+
+					if (g_global->variable_3A3E[t2->groundSpriteID][9] == 0) {
+						t->groundSpriteID = 0x8;
+						continue;
+					}
+
+					if (t2->groundSpriteID != 0x9) t2->groundSpriteID = 0x8;
+				}
+			}
+			return;
+		}
+
+		default:
+			if (g_global->variable_3A3E[t->groundSpriteID][9] != 0) t->groundSpriteID = 0x8;
+			return;
+	}
+}
+
+/**
  * Creates the landscape using the given seed.
  * @param seed The seed.
  */
@@ -1837,9 +1882,7 @@ void Map_CreateLandscape(uint32 seed)
 				if (packed < 4096) break;
 			}
 
-			emu_push(packed);
-			emu_push(emu_cs); emu_push(0x0582); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0899_002D_EBA1();
-			emu_sp += 2;
+			Map_AddSpiceOnTile(packed);
 		}
 	}
 
