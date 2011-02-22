@@ -273,7 +273,6 @@ extern void f__AB00_0501_0001_6780();
 extern void emu_DSP_SetDMA();
 extern void emu_Interrupt_CustomTimer();
 extern void f__B495_0511_0011_10E0();
-extern void f__151A_0526_0028_A3A6();
 extern void f__29E8_0534_000E_6213();
 extern void f__B518_0558_0010_240A();
 extern void emu_Overlay_LocateMemory();
