@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"
@@ -9,7 +10,6 @@
 #include "tile.h"
 #include "tools.h"
 
-extern void f__151A_046F_0017_2508();
 extern void f__151A_02C8_0016_FA9C();
 extern void f__151A_0526_0028_A3A6();
 
@@ -72,7 +72,30 @@ static void Animation_Func_Abort(Animation *animation, int16 parameter)
  */
 static void Animation_Func_Pause(Animation *animation, int16 parameter)
 {
+	assert(parameter >= 0);
+
 	animation->tickNext = g_global->variable_76AC + parameter + (Tools_Random_256() % 4);
+}
+
+/**
+ * Set the overlay sprite of the tile.
+ * @param animation The Animation for which we change the overlay sprite.
+ * @param parameter The SpriteID to which the overlay sprite is set.
+ */
+static void Animation_Func_SetOverlay(Animation *animation, int16 parameter)
+{
+	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	uint16 packed = Tile_PackTile(animation->tile);
+	Tile *t = Map_GetTileByPosition(packed);
+
+	assert(parameter >= 0);
+
+	if (!Map_IsPositionUnveiled(packed)) return;
+
+	t->overlaySpriteID = iconMap[iconMap[animation->variable_08] + parameter];
+	t->houseID = animation->houseID;
+
+	Map_Update(packed, 0, false);
 }
 
 /**
@@ -104,6 +127,8 @@ static void Animation_Func_Unknown7(Animation *animation, int16 parameter)
  */
 static void Animation_Func_Unknown8(Animation *animation, int16 parameter)
 {
+	assert(parameter >= 0);
+
 	animation->variable_08 = (uint8)parameter;
 }
 
@@ -194,19 +219,18 @@ void Animation_Tick()
 			switch (command >> 12) {
 				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
 				case 1: Animation_Func_Abort(animation, parameter); break;
+				case 2: Animation_Func_SetOverlay(animation, parameter); break;
 				case 3: Animation_Func_Pause(animation, parameter); break;
 				case 4: Animation_Func_Unknown4(animation, parameter); break;
 				case 7: Animation_Func_Unknown7(animation, parameter); break;
 				case 8: Animation_Func_Unknown8(animation, parameter); break;
 
-				case 2:
 				case 5:
 				case 6:
 					emu_push(parameter);
 					emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
 					emu_push(emu_cs); emu_push(0x0); emu_cs = 0x151A;
 					switch (command >> 12) {
-						case 2: f__151A_046F_0017_2508(); break;
 						case 5: f__151A_02C8_0016_FA9C(); break;
 						case 6: f__151A_0526_0028_A3A6(); break;
 					}

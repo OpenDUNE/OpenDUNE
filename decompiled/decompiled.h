@@ -248,7 +248,6 @@ extern void emu_MPU_SetPort();
 extern void emu_MPU_TestPort();
 extern void f__AB00_0467_0001_6780();
 extern void f__217E_046B_0058_3F3A();
-extern void f__151A_046F_0017_2508();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_DSP_UninstallInterrupt();
 extern void emu_Input_Keyboard_HandleKeys2();
