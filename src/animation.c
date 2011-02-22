@@ -8,7 +8,6 @@
 #include "map.h"
 #include "tile.h"
 
-extern void f__151A_0310_0018_831F();
 extern void f__151A_03ED_0014_6217();
 extern void f__151A_046F_0017_2508();
 extern void f__151A_043B_0018_36C4();
@@ -16,7 +15,49 @@ extern void f__151A_02E8_0010_6B15();
 extern void f__151A_02C8_0016_FA9C();
 extern void f__151A_0526_0028_A3A6();
 extern void f__151A_02FA_0014_26F2();
-extern void f__151A_02B0_0011_62B1();
+
+/**
+ * Stop with this Animation.
+ * @param animation The Animation to stop.
+ * @param parameter Not used.
+ */
+static void Animation_Func_Stop(Animation *animation, int16 parameter)
+{
+	uint16 *layout = g_global->layoutTiles[animation->tileLayout];
+	uint16 packed = Tile_PackTile(animation->tile);
+	Tile *t = Map_GetTileByPosition(packed);
+	int i;
+
+	VARIABLE_NOT_USED(parameter);
+
+	t->hasAnimation = false;
+
+	for (i = 0; i < g_global->layoutTileCount[animation->tileLayout]; i++) {
+		uint16 position = packed + (*layout++);
+
+		if (animation->tileLayout != 0) {
+			Map_GetTileByPosition(position)->groundSpriteID = g_map[position];
+		}
+
+		if (Map_IsPositionUnveiled(position)) {
+			Map_GetTileByPosition(position)->overlaySpriteID = 0;
+		}
+
+		Map_Update(position, 0, false);
+	}
+
+	animation->proc.csip = 0x0;
+}
+
+/**
+ * Set variable 8 of the Animation.
+ * @param animation The Animation to change.
+ * @param parameter To what value variable 8 should change.
+ */
+static void Animation_Func_Unknown8(Animation *animation, int16 parameter)
+{
+	animation->variable_08 = parameter;
+}
 
 /**
  * Start an Animation.
@@ -71,23 +112,9 @@ void Animation_Stop_ByTile(uint16 packed)
 		if (animation->proc.csip == 0) continue;
 		if (Tile_PackTile(animation->tile) != packed) continue;
 
-		emu_push(0);
-		emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
-		emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x151A; f__151A_0310_0018_831F();
-		emu_sp += 6;
-
+		Animation_Func_Stop(animation, 0);
 		return;
 	}
-}
-
-/**
- * Set variable 8 of the Animation.
- * @param animation The Animation to change.
- * @param parameter To what value variable 8 should change.
- */
-static void Animation_Func_Unknown8(Animation *animation, int16 parameter)
-{
-	animation->variable_08 = parameter;
 }
 
 /**
@@ -117,14 +144,20 @@ void Animation_Tick()
 			if ((parameter & 0x0800) != 0) parameter |= 0xF000;
 
 			switch (command >> 12) {
+				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
 				case 8: Animation_Func_Unknown8(animation, parameter); break;
 
-				default:
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
 					emu_push(parameter);
 					emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
 					emu_push(emu_cs); emu_push(0x0); emu_cs = 0x151A;
 					switch (command >> 12) {
-						case 0: f__151A_0310_0018_831F(); break;
 						case 1: f__151A_03ED_0014_6217(); break;
 						case 2: f__151A_046F_0017_2508(); break;
 						case 3: f__151A_043B_0018_36C4(); break;
@@ -132,7 +165,6 @@ void Animation_Tick()
 						case 5: f__151A_02C8_0016_FA9C(); break;
 						case 6: f__151A_0526_0028_A3A6(); break;
 						case 7: f__151A_02FA_0014_26F2(); break;
-						case 9: default: f__151A_02B0_0011_62B1(); break;
 					}
 					emu_sp += 6;
 					break;
