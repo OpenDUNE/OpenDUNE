@@ -76,7 +76,7 @@ static void Animation_Func_Unknown7(Animation *animation, int16 parameter)
  */
 static void Animation_Func_Unknown8(Animation *animation, int16 parameter)
 {
-	animation->variable_08 = parameter;
+	animation->variable_08 = (uint8)parameter;
 }
 
 /**
