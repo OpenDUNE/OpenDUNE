@@ -28,8 +28,6 @@
 #include "gui/widget.h"
 #include "sprites.h"
 
-extern void f__0F3F_0125_000D_4868();
-extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4E9_0050_003F_292A();
@@ -189,12 +187,7 @@ void GameLoop_Unit()
 
 			tile = Tools_Index_GetTile(u->targetAttack);
 
-			emu_push(tile.s.y); emu_push(tile.s.x);
-			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-			emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-			emu_sp += 8;
-
-			Unit_SetOrientation(u, (int8)emu_ax, false, 1);
+			Unit_SetOrientation(u, Tile_GetDirection(u->o.position, tile), false, 1);
 		}
 
 		if (tickUnknown1) {
@@ -210,12 +203,7 @@ void GameLoop_Unit()
 						tile = Tools_Index_GetTile(u->targetAttack);
 					}
 
-					emu_push(tile.s.y); emu_push(tile.s.x);
-					emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-					emu_push(emu_cs); emu_push(0x0413); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-					emu_sp += 8;
-
-					Unit_SetOrientation(u, (int8)emu_ax, false, 0);
+					Unit_SetOrientation(u, Tile_GetDirection(u->o.position, tile), false, 0);
 				}
 
 				u->fireDelay--;
@@ -1917,12 +1905,12 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 
 	h = House_Get_ByIndex(houseID);
 
-	emu_push(0x2000);
-	emu_push(0x2000);
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(emu_cs); emu_push(0x2375); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-	orientation = (int8)emu_ax;
+	{
+		tile32 t;
+		t.s.x = 0x2000;
+		t.s.y = 0x2000;
+		orientation = Tile_GetDirection(tile, t);
+	}
 
 	if (g_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
 		g_global->variable_38BC++;
@@ -2110,11 +2098,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			Unit *bullet;
 			Unit *u;
 
-			emu_push(tile.s.y); emu_push(tile.s.x);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x2569); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-			emu_sp += 8;
-			orientation = (int8)emu_ax;
+			orientation = Tile_GetDirection(position, tile);
 
 			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, orientation);
 			if (bullet == NULL) return NULL;
@@ -2129,18 +2113,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->variable_49 = tile;
 
 			if ((ui->variable_36 & 0x4000) != 0) {
-				emu_push(0);
-				if ((Tools_Random_256() & 0xF) != 0) {
-					emu_push(Tile_GetDistance(position, tile) / 256 + 8);
-				} else {
-					emu_push(Tools_Random_256() + 8);
-				}
-				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x2621); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-				emu_sp += 8;
-
-				bullet->variable_49.s.y = emu_dx;
-				bullet->variable_49.s.x = emu_ax;
+				bullet->variable_49 = Tile_MoveByRandom(tile, (Tools_Random_256() & 0xF) != 0 ? Tile_GetDistance(position, tile) / 256 + 8 : Tools_Random_256() + 8, false);
 			}
 
 			bullet->fireDelay = ui->variable_50 & 0xFF;
@@ -2163,11 +2136,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			tile32 t;
 			Unit *bullet;
 
-			emu_push(tile.s.y); emu_push(tile.s.x);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x26BD); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-			emu_sp += 8;
-			orientation = (int8)emu_ax;
+			orientation = Tile_GetDirection(position, tile);
 
 			t = Tile_MoveByDirection(Tile_MoveByDirection(position, 0, 32), orientation, 128);
 
@@ -2752,14 +2721,7 @@ void Unit_LaunchHouseMissile(uint16 packed)
 	h = House_Get_ByIndex(missile->o.houseID);
 
 	tile = Tile_UnpackTile(packed);
-
-	emu_push(0);
-	emu_push(0xA0);
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(emu_cs); emu_push(0x07FA); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-	emu_sp += 8;
-	tile.s.y = emu_dx;
-	tile.s.x = emu_ax;
+	tile = Tile_MoveByRandom(tile, 160, false);
 
 	packed = Tile_PackTile(tile);
 
@@ -2909,12 +2871,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 						s = Structure_Find(&find);
 						if (s != NULL) {
-							emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-							emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-							emu_push(emu_cs); emu_push(0x0AF6); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-							emu_sp += 8;
-
-							stringID = ((Sprites_B4CD_17F7(emu_ax & 0xFF) + 1) & 7) / 2 + 1;
+							stringID = ((Sprites_B4CD_17F7(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
 						} else {
 							stringID = 1;
 						}

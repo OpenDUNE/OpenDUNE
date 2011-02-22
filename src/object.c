@@ -16,8 +16,6 @@
 #include "tile.h"
 #include "sprites.h"
 
-extern void f__0F3F_0125_000D_4868();
-
 /**
  * Link two variable4 values to eachother, and clean up existing values if
  *  needed.
@@ -128,12 +126,7 @@ uint16 Object_GetDistanceToEncoded(Object *o, uint16 encoded)
 		position = s->o.position;
 		packed = Tile_PackTile(position);
 
-		emu_push(position.s.y); emu_push(position.s.x);
-		emu_push(o->position.s.y); emu_push(o->position.s.x);
-		emu_push(emu_cs); emu_push(0x038C); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-		emu_sp += 8;
-
-		packed += g_global->variable_2CE2[(g_structureInfo[o->type].layout << 3) + ((Sprites_B4CD_17DC(emu_ax & 0xFF) + 4) & 7)];
+		packed += g_global->variable_2CE2[(g_structureInfo[o->type].layout << 3) + ((Sprites_B4CD_17DC(Tile_GetDirection(o->position, position)) + 4) & 7)];
 
 		position = Tile_UnpackTile(packed);
 	} else {

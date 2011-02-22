@@ -21,8 +21,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__0F3F_0125_000D_4868();
-extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__B483_0000_0019_F96A();
@@ -46,14 +44,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.variable_0E) return 0;
 
-	emu_push(1);
-	emu_push(20);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x2403); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-	emu_sp += 8;
-
-	position.s.x = emu_ax;
-	position.s.y = emu_dx;
+	position = Tile_MoveByRandom(u->o.position, 20, true);
 
 	nu = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, u->o.houseID, position, Tools_Random_256());
 
@@ -460,11 +451,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 		return 0;
 	}
 
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x11E2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-	orientation = (int8)emu_ax;
+	orientation = Tile_GetDirection(u->o.position, tile);
 
 	Unit_SetOrientation(u, orientation, false, 0);
 
@@ -564,17 +551,7 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 	Map_MakeExplosion(11, u->o.position, Tools_RandomRange(25, 50), 0);
 
 	for (i = 0; i < 7; i++) {
-		tile32 p;
-
-		emu_push(0);
-		emu_push(script->stack[script->stackPointer]);
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(emu_cs); emu_push(0x143A); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-		emu_sp += 8;
-
-		p.s.y = emu_dx;
-		p.s.x = emu_ax;
-		Map_MakeExplosion(11, p, Tools_RandomRange(75, 150), 0);
+		Map_MakeExplosion(11, Tile_MoveByRandom(u->o.position, script->stack[script->stackPointer], false), Tools_RandomRange(75, 150), 0);
 	}
 
 	return 0;
@@ -628,12 +605,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		int16 diff = 0;
 		int8 orientation;
 
-		tile32 tile = Tools_Index_GetTile(target);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(emu_cs); emu_push(0x15E1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-		emu_sp += 8;
-		orientation = (int8)emu_ax;
+		orientation = Tile_GetDirection(u->o.position, Tools_Index_GetTile(target));
 
 		diff = abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current - orientation);
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
@@ -776,11 +748,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	tile = Tools_Index_GetTile(u->targetAttack);
 
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x1A13); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-	orientation = (int8)emu_ax;
+	orientation = Tile_GetDirection(u->o.position, tile);
 
 	if (orientation == current) return 0;
 
@@ -809,12 +777,8 @@ uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
 		tile32 tile;
 
 		tile = Tools_Index_GetTile(encoded);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(emu_cs); emu_push(0x1A89); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-		emu_sp += 8;
 
-		return emu_ax;
+		return Tile_GetDirection(u->o.position, tile);
 	}
 
 	return u->orientation[0].current;
@@ -884,11 +848,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 
 	tile = Tools_Index_GetTile(target);
 
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x1B95); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-	orientation = (int8)emu_ax;
+	orientation = Tile_GetDirection(u->o.position, tile);
 
 	u->targetAttack = target;
 	if (!g_unitInfo[u->o.type].o.flags.s.hasTurret) {
@@ -968,12 +928,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 		u->variable_49 = Tools_Index_GetTile(encoded);
 	}
 
-	emu_push(u->variable_49.s.y); emu_push(u->variable_49.s.x);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x1CE1); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-
-	Unit_SetOrientation(u, (int8)emu_ax, false, 0);
+	Unit_SetOrientation(u, Tile_GetDirection(u->o.position, u->variable_49), false, 0);
 
 	return 0;
 }
@@ -1222,7 +1177,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 
 		if (curPacked == packedDest) break;
 
-		loc04 = (Tile_GetDirection(curPacked, packedDest) >> 5) & 7;
+		loc04 = (Tile_GetDirectionPacked(curPacked, packedDest) >> 5) & 7;
 
 		locsi = curPacked + g_global->variable_3782[loc04];
 		loc08 = Script_Unit_176C_1F21(locsi, loc04);
@@ -1242,7 +1197,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 			while (true) {
 				if (locsi == packedDest) break;
 
-				loc06 = Tile_GetDirection(locsi, packedDest) >> 5;
+				loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
 				locsi += g_global->variable_3782[loc06];
 
 				if (Script_Unit_176C_1F21(locsi, loc06) > arg14) continue;
@@ -1266,7 +1221,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 				do {
 					if (locsi == packedDest) break;
 
-					loc06 = Tile_GetDirection(locsi, packedDest) >> 5;
+					loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
 					locsi += g_global->variable_3782[loc06];
 				} while (Script_Unit_176C_1F21(locsi, loc06) <= arg14);
 			}
@@ -1764,14 +1719,7 @@ uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
 
 	if (Tools_Index_GetType(script->stack[script->stackPointer]) != 1) return 0;
 
-	emu_push(1);
-	emu_push(80);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x28FA); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-	emu_sp += 8;
-
-	tile.s.x = emu_ax;
-	tile.s.y = emu_dx;
+	tile = Tile_MoveByRandom(u->o.position, 80, true);
 
 	return Tools_Index_Encode(Tile_PackTile(tile), IT_TILE);
 }

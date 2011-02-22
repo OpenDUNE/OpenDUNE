@@ -21,7 +21,6 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__22A6_1200_007B_0356();
 extern void f__24D0_000D_0039_C17D();
@@ -1186,13 +1185,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 		case 1: {
 			tile32 position = Tile_UnpackTile(packed);
 
-			emu_push(1);
-			emu_push(16);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x1701); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-			emu_sp += 8;
-			position.s.x = emu_ax;
-			position.s.y = emu_dx;
+			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
 			if (g_dune2_enhanced) {
@@ -1207,13 +1200,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			tile32 position = Tile_UnpackTile(packed);
 			Unit *u;
 
-			emu_push(1);
-			emu_push(16);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x173C); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-			emu_sp += 8;
-			position.s.x = emu_ax;
-			position.s.y = emu_dx;
+			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
 			if (g_dune2_enhanced) {
@@ -1230,13 +1217,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			tile32 position = Tile_UnpackTile(packed);
 			Unit *u;
 
-			emu_push(1);
-			emu_push(16);
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(emu_cs); emu_push(0x1792); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-			emu_sp += 8;
-			position.s.x = emu_ax;
-			position.s.y = emu_dx;
+			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
 			if (g_dune2_enhanced) {
@@ -1327,23 +1308,12 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 				find.index   = 0xFFFF;
 				find.type    = 0xFFFF;
 
-				s = Structure_Find(&find); /* loc06 */
+				s = Structure_Find(&find);
 
 				if (s != NULL) {
-					tile32 position;
-
-					emu_push(1);
-					emu_push(120);
-					emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-					emu_push(emu_cs); emu_push(0x1A69); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-					emu_sp += 8;
-					position.s.x = emu_ax;
-					position.s.y = emu_dx;
-
-					ret = Tile_PackTile(position);
+					ret = Tile_PackTile(Tile_MoveByRandom(s->o.position, 120, true));
 				} else {
 					Unit *u;
-					tile32 position;
 
 					find.houseID = houseID;
 					find.index   = 0xFFFF;
@@ -1352,15 +1322,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 					u = Unit_Find(&find);
 
 					if (u != NULL) {
-						emu_push(1);
-						emu_push(120);
-						emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-						emu_push(emu_cs); emu_push(0x1AB3); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-						emu_sp += 8;
-						position.s.x = emu_ax;
-						position.s.y = emu_dx;
-
-						ret = Tile_PackTile(position);
+						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
 					} else {
 						MapInfo *mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
 						ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
@@ -1873,17 +1835,7 @@ void Map_CreateLandscape(uint32 seed)
 		j = Tools_Random_256() & 0x1F;
 		while (j-- != 0) {
 			while (true) {
-				tile32 tile2;
-
-				emu_push(1);
-				emu_push(Tools_Random_256() & 0x3F);
-				emu_push(tile.s.y); emu_push(tile.s.x);
-				emu_push(emu_cs); emu_push(0x055E); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-				emu_sp += 8;
-				tile2.s.x = emu_ax;
-				tile2.s.y = emu_dx;
-
-				packed = Tile_PackTile(tile2);
+				packed = Tile_PackTile(Tile_MoveByRandom(tile, Tools_Random_256() & 0x3F, true));
 
 				if (packed < 4096) break;
 			}

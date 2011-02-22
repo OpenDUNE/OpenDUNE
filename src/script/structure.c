@@ -21,8 +21,6 @@
 #include "../gui/gui.h"
 #include "../sprites.h"
 
-extern void f__0F3F_0125_000D_4868();
-extern void f__0F3F_01A1_0018_9631();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -289,12 +287,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	s->o.linkedID = u->o.linkedID;
 	u->o.linkedID = 0xFF;
 
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x0DC2); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-
-	Unit_SetOrientation(u, (int8)(emu_ax & 0xE0), true, 0);
+	Unit_SetOrientation(u, Tile_GetDirection(s->o.position, u->o.position) & 0xE0, true, 0);
 	Unit_SetOrientation(u, u->orientation[0].current, true, 1);
 
 	if (u->o.houseID == g_global->playerHouseID) {
@@ -410,13 +403,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	if (rotation < 0 || rotation > 7) return 1;
 
 	/* Find what rotation we should have to look at the target */
-	emu_push(lookAt.s.y); emu_push(lookAt.s.x);
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(emu_cs); emu_push(0x10C9); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-	rotationNeeded = emu_ax;
-
-	rotationNeeded = Sprites_B4CD_17DC(rotationNeeded & 0xFF);
+	rotationNeeded = Sprites_B4CD_17DC(Tile_GetDirection(s->o.position, lookAt));
 
 	/* Do we need to rotate */
 	if (rotationNeeded == rotation) return 0;
@@ -464,12 +451,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 
 	tile = Tools_Index_GetTile(encoded);
 
-	emu_push(tile.s.y); emu_push(tile.s.x);
-	emu_push(s->o.position.s.y + 0x80); emu_push(s->o.position.s.x + 0x80);
-	emu_push(emu_cs); emu_push(0x1197); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-	emu_sp += 8;
-
-	return Sprites_B4CD_17DC((uint8)emu_ax) << 5;
+	return Sprites_B4CD_17DC(Tile_GetDirection(s->o.position, tile)) << 5;
 }
 
 /**
@@ -644,14 +626,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 		Unit_SetAction(u, ACTION_MOVE);
 
-		emu_push(1);
-		emu_push(32);
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(emu_cs); emu_push(0x16BD); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-		emu_sp += 8;
-
-		tile.s.y = emu_dx;
-		tile.s.x = emu_ax;
+		tile = Tile_MoveByRandom(u->o.position, 32, true);
 
 		u->targetMove = Tools_Index_Encode(Tile_PackTile(tile), IT_TILE);
 	}

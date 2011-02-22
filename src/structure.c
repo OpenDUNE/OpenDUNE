@@ -27,7 +27,6 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__0F3F_01A1_0018_9631();
 extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
@@ -1079,13 +1078,7 @@ void Structure_ActivateSpecial(Structure *s)
 				Tools_Random_256();
 
 				position = Tile_UnpackTile(location);
-				emu_push(1);
-				emu_push(32);
-				emu_push(position.s.y); emu_push(position.s.x);
-				emu_push(emu_cs); emu_push(0x0698); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-				emu_sp += 8;
-				position.s.x = emu_ax;
-				position.s.y = emu_dx;
+				position = Tile_MoveByRandom(position, 32, true);
 
 				unitType = (Tools_RandomRange(0, 3) == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 

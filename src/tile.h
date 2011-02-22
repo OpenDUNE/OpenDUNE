@@ -22,19 +22,15 @@ extern tile32 Tile_AddTileDiff(tile32 from, tile32 diff);
 extern tile32 Tile_Center(tile32 tile);
 extern void Tile_RemoveFogInRadius(tile32 tile, uint16 radius);
 extern uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to);
-extern uint8 Tile_GetDirection(uint16 packed_from, uint16 packed_to);
+extern uint8 Tile_GetDirectionPacked(uint16 packed_from, uint16 packed_to);
 extern tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance);
+extern tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool arg0C);
+extern int8 Tile_GetDirection(tile32 from, tile32 to);
 
-extern void emu_Tile_GetX();
-extern void emu_Tile_GetY();
-extern void emu_Tile_GetXY();
 extern void emu_Tile_PackTile();
 extern void emu_Tile_PackXY();
-extern void emu_Tile_Unpack();
 extern void emu_Tile_GetPackX();
 extern void emu_Tile_GetPackY();
-extern void emu_Tile_GetDistance();
 extern void emu_Tile_GetDistancePacked();
-extern void emu_Tile_Center();
 
 #endif /* TILE_H */

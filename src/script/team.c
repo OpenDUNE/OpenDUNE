@@ -18,8 +18,6 @@
 #include "../os/strings.h"
 #include "../gui/gui.h"
 
-extern void f__0F3F_0125_000D_4868();
-extern void f__0F3F_01A1_0018_9631();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -237,14 +235,7 @@ uint16 Script_Team_Unknown0543(ScriptEngine *script)
 		if ((distanceUnitDest < distanceTeamDest && (distance + 2) < distanceUnitTeam) || (distanceUnitDest >= distanceTeamDest && distanceUnitTeam > distance)) {
 			Unit_SetAction(u, ACTION_MOVE);
 
-			emu_push(1);
-			emu_push(distance << 4);
-			emu_push(t->position.s.y); emu_push(t->position.s.x);
-			emu_push(emu_cs); emu_push(0x0666); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
-			emu_sp += 8;
-
-			tile.s.x = emu_ax;
-			tile.s.y = emu_dx;
+			tile = Tile_MoveByRandom(t->position, distance << 4, true);
 
 			Unit_SetDestination(u, Tools_Index_Encode(Tile_PackTile(tile), IT_TILE));
 			count++;
@@ -398,12 +389,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 
 		if (u->actionID != ACTION_ATTACK) Unit_SetAction(u, ACTION_ATTACK);
 
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(tile.s.y); emu_push(tile.s.x);
-		emu_push(emu_cs); emu_push(0x08F5); emu_cs = 0x0F3F; f__0F3F_0125_000D_4868();
-		emu_sp += 8;
-
-		orientation = (emu_ax & 0xFFC0) + Tools_RandomRange(0, 127);
+		orientation = (Tile_GetDirection(tile, u->o.position) & 0xC0) + Tools_RandomRange(0, 127);
 		if (orientation < 0) orientation += 256;
 
 		packed = Tile_PackTile(Tile_MoveByDirection(tile, orientation, distance));

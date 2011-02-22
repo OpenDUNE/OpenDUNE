@@ -286,7 +286,7 @@ uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
 
 	distance = Tile_GetDistancePacked(packed_from, packed_to);
 
-	loc02 = Tile_GetDirection(packed_to, packed_from);
+	loc02 = Tile_GetDirectionPacked(packed_to, packed_from);
 
 	if (distance <= 10) return 0;
 
@@ -316,7 +316,7 @@ uint16 Tile_B4CD_1C1A(uint16 packed_from, uint16 packed_to)
  * @param packed_to The destination.
  * @return The direction.
  */
-uint8 Tile_GetDirection(uint16 packed_from, uint16 packed_to)
+uint8 Tile_GetDirectionPacked(uint16 packed_from, uint16 packed_to)
 {
 	static uint8 returnValues[16] = {0x20, 0x40, 0x20, 0x00, 0xE0, 0xC0, 0xE0, 0x00, 0x60, 0x40, 0x60, 0x80, 0xA0, 0xC0, 0xA0, 0x80};
 
@@ -353,6 +353,14 @@ uint8 Tile_GetDirection(uint16 packed_from, uint16 packed_to)
 	return returnValues[index];
 }
 
+/**
+ * Get the tile from given tile at given distance in given direction.
+ *
+ * @param tile The origin.
+ * @param orientation The direction to follow.
+ * @param distance The distance.
+ * @return The tile.
+ */
 tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance)
 {
 	distance = min(distance, 0xFF);
@@ -363,4 +371,98 @@ tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distance)
 	tile.s.y += (64 - g_global->variable_3D4C[orientation & 0xFF] * distance) / 128;
 
 	return tile;
+}
+
+/**
+ * Get the tile from given tile at given maximum distance in random direction.
+ *
+ * @param tile The origin.
+ * @param distance The distance maximum.
+ * @param center Wether to center the offset of the tile.
+ * @return The tile.
+ */
+tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool center)
+{
+	uint16 x;
+	uint16 y;
+	tile32 ret;
+	uint8 orientation;
+	uint16 newDistance;
+
+	if (distance == 0) return tile;
+
+	x = Tile_GetX(tile);
+	y = Tile_GetY(tile);
+
+	newDistance = Tools_Random_256();
+	while (newDistance > distance) newDistance /= 2;
+	distance = newDistance;
+
+	orientation = Tools_Random_256();
+	x += ((g_global->variable_3C4C[orientation] * distance) / 128) * 16;
+	y -= ((g_global->variable_3D4C[orientation] * distance) / 128) * 16;
+
+	if (x > 16384 || y > 16384) return tile;
+
+	ret.s.x = x;
+	ret.s.y = y;
+
+	return center ? Tile_Center(ret) : ret;
+}
+
+/**
+ * Get to direction to follow to go from from to to.
+ *
+ * @param from The origin.
+ * @param to The destination.
+ * @return The direction.
+ */
+int8 Tile_GetDirection(tile32 from, tile32 to)
+{
+	int32 dx;
+	int32 dy;
+	uint16 loc02;
+	int32 loc06;
+	uint16 loc08;
+	bool invert;
+	uint16 loc0C = 0;
+
+	dx = to.s.x - from.s.x;
+	dy = to.s.y - from.s.y;
+
+	if (abs(dx) + abs(dy) > 8000) {
+		dx /= 2;
+		dy /= 2;
+	}
+
+	if (dy <= 0) {
+		loc0C |= 2;
+		dy = -dy;
+	}
+
+	if (dx < 0) {
+		loc0C |= 1;
+		dx = -dx;
+	}
+
+	loc08 = g_global->variable_23DA[loc0C];
+	invert = false;
+	loc06 = 0x7FFF;
+
+	if (dx >= dy) {
+		if (dy != 0) loc06 = (dx << 8) / dy;
+	} else {
+		invert = true;
+		if (dx != 0) loc06 = (dy << 8) / dx;
+	}
+
+	for (loc02 = 0; loc02 < 32; loc02++) {
+		if (g_global->variable_23E2[loc02] <= loc06) break;
+	}
+
+	if (!invert) loc02 = 64 - loc02;
+
+	if (loc0C == 0 || loc0C == 3) return (loc08 + 64 - loc02) & 0xFF;
+
+	return (loc08 + loc02) & 0xFF;
 }
