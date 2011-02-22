@@ -38,50 +38,6 @@ l__02E6:
 }
 
 /**
- * Decompiled function f__151A_043B_0018_36C4()
- *
- * @name f__151A_043B_0018_36C4
- * @implements 151A:043B:0018:36C4 ()
- * @implements 151A:0453:0019:67AA
- * @implements 151A:046C:0003:2E57
- *
- * Called From: 151A:025B:0012:A9B9
- */
-void f__151A_043B_0018_36C4()
-{
-l__043B:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76AE);
-	emu_dx = emu_get_memory16(emu_ds, 0x00, 0x76AC);
-	emu_addw(&emu_dx, emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_adcw(&emu_ax, 0x0);
-	emu_push(emu_dx);
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x2BB4; emu_Tools_Random_256();
-l__0453:
-	emu_andw(&emu_ax, 0x3);
-	emu_pop(&emu_dx);
-	emu_pop(&emu_bx);
-	emu_addw(&emu_bx, emu_ax);
-	emu_adcw(&emu_dx, 0x0);
-	emu_lfp(&emu_es, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_get_memory16(emu_es, emu_si, 0x2) = emu_dx;
-	emu_get_memory16(emu_es, emu_si, 0x0) = emu_bx;
-	emu_ax = 0x1;
-	goto l__046C;
-l__046C:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__151A_046F_0017_2508()
  *
  * @name f__151A_046F_0017_2508
