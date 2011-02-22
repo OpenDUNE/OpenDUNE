@@ -809,7 +809,7 @@ void Unknown_07D4_1625(uint16 packed)
 	colour = 12;
 	spriteID = 0xFFFF;
 
-	if (packed > 4096 || !Map_IsValidPosition(packed)) return;
+	if (Tile_IsOutOfMap(packed) || !Map_IsValidPosition(packed)) return;
 
 	x = Tile_GetPackedX(packed);
 	y = Tile_GetPackedY(packed);

@@ -1711,7 +1711,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 					Tile *t2;
 					uint16 packed2 = Tile_PackXY(Tile_GetPackedX(packed) + i, Tile_GetPackedY(packed) + j);
 
-					if (packed2 >= 4096) continue;
+					if (Tile_IsOutOfMap(packed2)) continue;
 
 					t2 = Map_GetTileByPosition(packed2);
 
@@ -1877,7 +1877,7 @@ void Map_CreateLandscape(uint32 seed)
 			while (true) {
 				packed = Tile_PackTile(Tile_MoveByRandom(tile, Tools_Random_256() & 0x3F, true));
 
-				if (packed < 4096) break;
+				if (!Tile_IsOutOfMap(packed)) break;
 			}
 
 			Map_AddSpiceOnTile(packed);

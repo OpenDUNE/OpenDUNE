@@ -99,7 +99,7 @@ Object *Object_GetByPackedTile(uint16 packed)
 {
 	Tile* t;
 
-	if (packed >= 4096) return NULL;
+	if (Tile_IsOutOfMap(packed)) return NULL;
 
 	t = Map_GetTileByPosition(packed);
 	if (t->hasUnit) return &Unit_Get_ByIndex(t->index - 1)->o;

@@ -780,7 +780,7 @@ Structure *Structure_Get_ByPackedTile(uint16 packed)
 {
 	Tile *tile;
 
-	if (packed >= 4096) return NULL;
+	if (Tile_IsOutOfMap(packed)) return NULL;
 
 	tile = Map_GetTileByPosition(packed);
 	if (!tile->hasStructure) return NULL;
@@ -1503,7 +1503,7 @@ void Structure_0C3A_1002(Structure *s)
 
 		proc.csip = 0x2C6F0000;
 
-		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
+		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, (uint8)si->variable_3C);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -2028,7 +2028,7 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
+	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, (uint8)si->variable_3C);
 
 	g_global->variable_37A4 = 0;
 }
