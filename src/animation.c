@@ -14,7 +14,6 @@ extern void f__151A_043B_0018_36C4();
 extern void f__151A_02E8_0010_6B15();
 extern void f__151A_02C8_0016_FA9C();
 extern void f__151A_0526_0028_A3A6();
-extern void f__151A_02FA_0014_26F2();
 
 /**
  * Stop with this Animation.
@@ -47,6 +46,16 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 	}
 
 	animation->proc.csip = 0x0;
+}
+
+/**
+ * Adds to variable 7 of the Animation.
+ * @param animation The Animation to change.
+ * @param parameter To what value to variable 7 should be add.
+ */
+static void Animation_Func_Unknown7(Animation *animation, int16 parameter)
+{
+	animation->variable_07 += parameter - 1;
 }
 
 /**
@@ -145,6 +154,7 @@ void Animation_Tick()
 
 			switch (command >> 12) {
 				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
+				case 7: Animation_Func_Unknown7(animation, parameter); break;
 				case 8: Animation_Func_Unknown8(animation, parameter); break;
 
 				case 1:
@@ -153,7 +163,6 @@ void Animation_Tick()
 				case 4:
 				case 5:
 				case 6:
-				case 7:
 					emu_push(parameter);
 					emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
 					emu_push(emu_cs); emu_push(0x0); emu_cs = 0x151A;
@@ -164,7 +173,6 @@ void Animation_Tick()
 						case 4: f__151A_02E8_0010_6B15(); break;
 						case 5: f__151A_02C8_0016_FA9C(); break;
 						case 6: f__151A_0526_0028_A3A6(); break;
-						case 7: f__151A_02FA_0014_26F2(); break;
 					}
 					emu_sp += 6;
 					break;

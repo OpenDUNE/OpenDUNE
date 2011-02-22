@@ -65,35 +65,6 @@ l__02F8:
 }
 
 /**
- * Decompiled function f__151A_02FA_0014_26F2()
- *
- * @name f__151A_02FA_0014_26F2
- * @implements 151A:02FA:0014:26F2 ()
- * @implements 151A:030E:0002:2597
- *
- * Called From: 151A:025B:0012:A9B9
- */
-void f__151A_02FA_0014_26F2()
-{
-l__02FA:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_al = emu_get_memory8(emu_ss, emu_bp,  0xA);
-	emu_decb(&emu_al);
-	emu_addb(&emu_get_memory8(emu_es, emu_bx, 0x7), emu_al);
-	emu_ax = 0x1;
-	goto l__030E;
-l__030E:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__151A_03ED_0014_6217()
  *
  * @name f__151A_03ED_0014_6217
