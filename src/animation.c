@@ -8,7 +8,6 @@
 #include "map.h"
 #include "tile.h"
 
-extern void f__151A_03ED_0014_6217();
 extern void f__151A_046F_0017_2508();
 extern void f__151A_043B_0018_36C4();
 extern void f__151A_02C8_0016_FA9C();
@@ -29,6 +28,7 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 	VARIABLE_NOT_USED(parameter);
 
 	t->hasAnimation = false;
+	animation->proc.csip = 0x0;
 
 	for (i = 0; i < g_global->layoutTileCount[animation->tileLayout]; i++) {
 		uint16 position = packed + (*layout++);
@@ -43,8 +43,25 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 
 		Map_Update(position, 0, false);
 	}
+}
 
+
+/**
+ * Abort this Animation.
+ * @param animation The Animation to abort.
+ * @param parameter Not used.
+ */
+static void Animation_Func_Abort(Animation *animation, int16 parameter)
+{
+	uint16 packed = Tile_PackTile(animation->tile);
+	Tile *t = Map_GetTileByPosition(packed);
+
+	VARIABLE_NOT_USED(parameter);
+
+	t->hasAnimation = false;
 	animation->proc.csip = 0x0;
+
+	Map_Update(packed, 0, false);
 }
 
 /**
@@ -165,11 +182,11 @@ void Animation_Tick()
 
 			switch (command >> 12) {
 				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
+				case 1: Animation_Func_Abort(animation, parameter); break;
 				case 4: Animation_Func_Unknown4(animation, parameter); break;
 				case 7: Animation_Func_Unknown7(animation, parameter); break;
 				case 8: Animation_Func_Unknown8(animation, parameter); break;
 
-				case 1:
 				case 2:
 				case 3:
 				case 5:
@@ -178,7 +195,6 @@ void Animation_Tick()
 					emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
 					emu_push(emu_cs); emu_push(0x0); emu_cs = 0x151A;
 					switch (command >> 12) {
-						case 1: f__151A_03ED_0014_6217(); break;
 						case 2: f__151A_046F_0017_2508(); break;
 						case 3: f__151A_043B_0018_36C4(); break;
 						case 5: f__151A_02C8_0016_FA9C(); break;

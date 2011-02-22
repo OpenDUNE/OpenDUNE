@@ -38,60 +38,6 @@ l__02E6:
 }
 
 /**
- * Decompiled function f__151A_03ED_0014_6217()
- *
- * @name f__151A_03ED_0014_6217
- * @implements 151A:03ED:0014:6217 ()
- * @implements 151A:0401:0021:A7FB
- * @implements 151A:0422:0016:0046
- * @implements 151A:0438:0003:2E57
- *
- * Called From: 151A:025B:0012:A9B9
- */
-void f__151A_03ED_0014_6217()
-{
-l__03ED:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xF));
-	emu_push(emu_get_memory16(emu_es, emu_bx, 0xD));
-	emu_push(emu_cs); emu_push(0x0401); emu_cs = 0x0F3F; emu_Tile_PackTile();
-l__0401:
-	emu_pop(&emu_cx);
-	emu_pop(&emu_cx);
-	emu_si = emu_ax;
-	emu_ax = emu_si;
-	emu_cl = 0x2;
-	emu_shlw(&emu_ax, emu_cl);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EA));
-	emu_addw(&emu_bx, emu_ax);
-	emu_andb(&emu_get_memory8(emu_es, emu_bx, 0x2), 0xBF);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_push(emu_si);
-	emu_push(emu_cs); emu_push(0x0422); emu_cs = 0x34CD; overlay(0x34CD, 0); emu_Map_Update();
-l__0422:
-	emu_addw(&emu_sp, 0x6);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_get_memory16(emu_es, emu_bx, 0xB) = 0x0;
-	emu_get_memory16(emu_es, emu_bx, 0x9) = 0x0;
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__0438;
-l__0438:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__151A_043B_0018_36C4()
  *
  * @name f__151A_043B_0018_36C4

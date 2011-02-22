@@ -234,7 +234,6 @@ extern void f__23E1_03DB_000B_CF65();
 extern void emu_GUI_Purchase_Plus();
 extern void emu_Drive_Get_Curdir();
 extern void f__AB00_03EA_0001_6780();
-extern void f__151A_03ED_0014_6217();
 extern void f__217E_03ED_000A_D326();
 extern void f__AB00_03F7_0007_D805();
 extern void f__1DD7_03FD_000C_8340();
