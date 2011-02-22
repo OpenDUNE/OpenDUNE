@@ -1054,11 +1054,9 @@ static void Map_B4CD_0C36(uint16 packed)
 
 		for (i = 0; i < 4; i++) {
 			uint16 curPacked = packed + g_global->variable_255E[i];
-			int8 x = Tile_GetPackedX(curPacked);
-			int8 y = Tile_GetPackedY(curPacked);
 			uint16 curType;
 
-			if (x < 0 || x > 64 || y < 0 || y > 64) {
+			if (Tile_IsOutOfMap(curPacked)) {
 				if (type == 0x8 || type == 0x9) spriteID |= (1 << i);
 				continue;
 			}
