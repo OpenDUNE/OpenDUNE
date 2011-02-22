@@ -8,6 +8,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
+#include "../animate.h"
 #include "../gfx.h"
 #include "../unit.h"
 #include "../tile.h"
@@ -647,9 +648,7 @@ void emu_Unknown_07D4_0000()
 	if (arg06) g_global->variable_3A12 = 1;
 
 	Map_06F7_0602();
-
-	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x151A; f__151A_0196_0018_AF63();
-
+	Animation_Tick();
 	Unit_Sort();
 
 	if (g_global->variable_3A12 == 0 && g_global->viewportPosition != g_global->minimapPosition) {

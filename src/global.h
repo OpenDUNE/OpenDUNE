@@ -940,7 +940,7 @@ typedef struct GlobalData {
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 60E7()    */ PACK uint8   unknown_60E7[0x0001];
 	/* 60E8(4)   */ PACK uint32 variable_60E8;              /*!< ?? */
-	/* 60EB()    */ PACK uint8   unknown_60EB[0x0028];
+	/* 60EC(4)   */ PACK csip32 animationProc[10];          /*!< Which command ends up in which function. No longer in use. */
 	/* 6114(4)   */ PACK uint32 iconUsedMemory;             /*!< Amount of memory block used when loading ICON.ICN. */
 	/* 6118(4)   */ PACK csip32 iconRPAL;                   /*!< Content of RPAL chunk from ICON.ICN. */
 	/* 611C(2)   */ PACK uint16 iconRPALFreed;              /*!< True if memory at iconRPAL has been freed. */
