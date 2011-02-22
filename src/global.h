@@ -417,7 +417,9 @@ typedef struct GlobalData {
 	/* 1FBC(61)  */ PACK char   string_1FBC[61];            /*!< "0NORTH$1EAST$2SOUTH$3WEST$4AIR$5VISIBLE$6ENEMYBASE$7HOMEBASE" NULL terminated. */
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
-	/* 2005()    */ PACK uint8   unknown_2005[0x0166];
+	/* 2005()    */ PACK uint8   unknown_2005[0x0001];
+	/* 2006(21)  */ PACK int8   variable_2006[21];          /*!< ?? */
+	/* 201B(336) */ PACK uint16 variable_201B[2][21][4];    /*!< ?? */
 	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
 	/* 2177(2)   */ PACK uint16 iconLoaded;                 /*!< True if ICON.ICN/MAP data are loaded. */
 	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */

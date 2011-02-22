@@ -23,7 +23,6 @@
 #include "gui/gui.h"
 #include "sprites.h"
 
-extern void f__B4B8_0000_001F_3BC3();
 extern void f__B511_0091_001D_9C25();
 extern void f__B511_0A8F_000E_EE64();
 extern void overlay(uint16 cs, uint8 force);
@@ -108,11 +107,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 
 	Sprites_LoadTiles();
 
-	emu_push(g_global->scenario.mapSeed >> 16); emu_push(g_global->scenario.mapSeed & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x024B); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0000_001F_3BC3();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34C4) { overlay(0x34C4, 1); }
-	emu_sp += 4;
+	Map_CreateLandscape(g_global->scenario.mapSeed);
 
 	return true;
 }

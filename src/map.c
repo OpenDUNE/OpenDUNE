@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -29,6 +30,7 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4CD_1387_002A_D695();
+extern void f__B4B8_0899_002D_EBA1();
 extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
@@ -1726,4 +1728,236 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	Map_UnveilTile_Neighbour(packed + 64);
 
 	return true;
+}
+
+/**
+ * Creates the landscape using the given seed.
+ * @param seed The seed.
+ */
+void Map_CreateLandscape(uint32 seed)
+{
+	uint16 i;
+	uint16 j;
+	uint16 k;
+	uint8  memory[273];
+	uint16 currentRow[64];
+	uint16 previousRow[64];
+	uint16 spriteID1;
+	uint16 spriteID2;
+	uint16 *iconMap;
+
+	*(uint32 *)g_global->randomSeed = seed;
+
+	/* Place random data on a 4x4 grid. */
+	for (i = 0; i < 272; i++) {
+		memory[i] = Tools_Random_256() & 0xF;
+		if (memory[i] > 0xA) memory[i] = 0xA;
+	}
+
+	i = (Tools_Random_256() & 0xF) + 1;
+	while (i-- != 0) {
+		int16 base = Tools_Random_256();
+
+		for (j = 0; j < 21; j++) {
+			int16 index = min(max(0, base + g_global->variable_2006[j]), 272);
+
+			memory[index] = (memory[index] + (Tools_Random_256() & 0xF)) & 0xF;
+		}
+	}
+
+	i = (Tools_Random_256() & 0x3) + 1;
+	while (i-- != 0) {
+		int16 base = Tools_Random_256();
+
+		for (j = 0; j < 21; j++) {
+			int16 index = min(max(0, base + g_global->variable_2006[j]), 272);
+
+			memory[index] = Tools_Random_256() & 0x3;
+		}
+	}
+
+	for (j = 0; j < 16; j++) {
+		for (i = 0; i < 16; i++) {
+			Map_GetTileByPosition(Tile_PackXY(i * 4, j * 4))->groundSpriteID = memory[j * 16 + i];
+		}
+	}
+
+	/* Average around the 4x4 grid. */
+	for (j = 0; j < 16; j++) {
+		for (i = 0; i < 16; i++) {
+			for (k = 0; k < 21; k++) {
+				uint16 *offsets = g_global->variable_201B[(i + 1) % 2][k];
+				uint16 packed1;
+				uint16 packed2;
+				uint16 packed;
+
+				packed1 = Tile_PackXY(i * 4 + offsets[0], j * 4 + offsets[1]);
+				packed2 = Tile_PackXY(i * 4 + offsets[2], j * 4 + offsets[3]);
+				packed = (packed1 + packed2) / 2;
+
+				if ((packed & 0xF000) != 0) continue;
+
+				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, j * 4 + offsets[1]);
+				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, j * 4 + offsets[3]);
+
+				Map_GetTileByPosition(packed)->groundSpriteID = (Map_GetTileByPosition(packed1)->groundSpriteID + Map_GetTileByPosition(packed2)->groundSpriteID + 1) / 2;
+			}
+		}
+	}
+
+	/* Average each tile with its neighbours. */
+	for (j = 0; j < 64; j++) {
+		Tile *t = Map_GetTileByPosition(j * 64);
+		memcpy(previousRow, currentRow, 128);
+
+		for (i = 0; i < 64; i++) currentRow[i] = t[i].groundSpriteID;
+
+		for (i = 0; i < 64; i++) {
+			uint16 neighbours[9];
+			uint16 total = 0;
+
+			neighbours[0] = (i == 0  || j == 0)  ? currentRow[i] : previousRow[i - 1];
+			neighbours[1] = (           j == 0)  ? currentRow[i] : previousRow[i];
+			neighbours[2] = (i == 63 || j == 0)  ? currentRow[i] : previousRow[i + 1];
+			neighbours[3] = (i == 0)             ? currentRow[i] : currentRow[i - 1];
+			neighbours[4] =                        currentRow[i];
+			neighbours[5] = (i == 63)            ? currentRow[i] : currentRow[i + 1];
+			neighbours[6] = (i == 0  || j == 63) ? currentRow[i] : t[i + 63].groundSpriteID;
+			neighbours[7] = (           j == 63) ? currentRow[i] : t[i + 64].groundSpriteID;
+			neighbours[8] = (i == 63 || j == 63) ? currentRow[i] : t[i + 65].groundSpriteID;
+
+			for (k = 0; k < 9; k++) total += neighbours[k];
+			t[i].groundSpriteID = total / 9;
+		}
+	}
+
+	/* Filter each tile to determine its final type. */
+	spriteID1 = Tools_Random_256() & 0xF;
+	if (spriteID1 < 0x8) spriteID1 = 0x8;
+	if (spriteID1 > 0xC) spriteID1 = 0xC;
+
+	spriteID2 = (Tools_Random_256() & 0x3) - 1;
+	if (spriteID2 > spriteID1 - 3) spriteID2 = spriteID1 - 3;
+
+	for (i = 0; i < 4096; i++) {
+		uint16 spriteID = Map_GetTileByPosition(i)->groundSpriteID;
+
+		if (spriteID > spriteID1 + 4) {
+			spriteID = 0x6; /* Mountain */
+		} else if (spriteID >= spriteID1) {
+			spriteID = 0x4; /* Rock */
+		} else if (spriteID <= spriteID2) {
+			spriteID = 0x2; /* Dunes. */
+		} else {
+			spriteID = 0x0; /* Sand. */
+		}
+
+		Map_GetTileByPosition(i)->groundSpriteID = spriteID;
+	}
+
+	/* Add some spice. */
+	i = Tools_Random_256() & 0x2F;
+	while (i-- != 0) {
+		tile32 tile;
+		uint16 packed;
+
+		while (true) {
+			packed = Tools_Random_256() & 0x3F;
+			packed = Tile_PackXY(Tools_Random_256() & 0x3F, packed);
+
+			if (g_global->variable_3A3E[Map_GetTileByPosition(packed)->groundSpriteID][9] != 0) break;
+		}
+
+		tile = Tile_UnpackTile(packed);
+
+		j = Tools_Random_256() & 0x1F;
+		while (j-- != 0) {
+			while (true) {
+				tile32 tile2;
+
+				emu_push(1);
+				emu_push(Tools_Random_256() & 0x3F);
+				emu_push(tile.s.y); emu_push(tile.s.x);
+				emu_push(emu_cs); emu_push(0x055E); emu_cs = 0x0F3F; f__0F3F_01A1_0018_9631();
+				emu_sp += 8;
+				tile2.s.x = emu_ax;
+				tile2.s.y = emu_dx;
+
+				packed = Tile_PackTile(tile2);
+
+				if (packed < 4096) break;
+			}
+
+			emu_push(packed);
+			emu_push(emu_cs); emu_push(0x0582); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_0899_002D_EBA1();
+			emu_sp += 2;
+		}
+	}
+
+	/* Make everything smoother. */
+	for (j = 0; j < 64; j++) {
+		Tile *t = Map_GetTileByPosition(j * 64);
+
+		memcpy(previousRow, currentRow, 128);
+
+		for (i = 0; i < 64; i++) currentRow[i] = t[i].groundSpriteID;
+
+		for (i = 0; i < 64; i++) {
+			uint16 current = t[i].groundSpriteID;
+			uint16 up      = (j == 0)  ? current : previousRow[i];
+			uint16 left    = (i == 63) ? current : currentRow[i + 1];
+			uint16 down    = (j == 63) ? current : t[i + 64].groundSpriteID;
+			uint16 right   = (i == 0)  ? current : currentRow[i - 1];
+			uint16 spriteID = 0;
+
+			if (up    == current) spriteID |= 1;
+			if (left  == current) spriteID |= 2;
+			if (down  == current) spriteID |= 4;
+			if (right == current) spriteID |= 8;
+
+			switch (current) {
+				case 0x0: spriteID = 0;   break;
+				case 0x4:
+					if (up    == 0x6) spriteID |= 1;
+					if (left  == 0x6) spriteID |= 2;
+					if (down  == 0x6) spriteID |= 4;
+					if (right == 0x6) spriteID |= 8;
+					spriteID++;
+					break;
+				case 0x2: spriteID += 17; break;
+				case 0x6: spriteID += 33; break;
+				case 0x8:
+					if (up    == 0x9) spriteID |= 1;
+					if (left  == 0x9) spriteID |= 2;
+					if (down  == 0x9) spriteID |= 4;
+					if (right == 0x9) spriteID |= 8;
+					spriteID += 49;
+					break;
+				case 0x9: spriteID += 65; break;
+				default: break;
+			}
+
+			t[i].groundSpriteID = spriteID;
+		}
+	}
+
+	/* Finalise the tiles with the real sprites. */
+	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	iconMap = &iconMap[iconMap[9]];
+
+	for (i = 0; i < 4096; i++) {
+		Tile *t = Map_GetTileByPosition(i);
+
+		t->groundSpriteID  = iconMap[t->groundSpriteID];
+		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
+		t->houseID         = HOUSE_HARKONNEN;
+		t->isUnveiled      = false;
+		t->hasUnit         = false;
+		t->hasStructure    = false;
+		t->flag_08         = false;
+		t->flag_10         = false;
+		t->index           = 0;
+	}
+
+	for (i = 0; i < 4096; i++) g_map[i] = Map_GetTileByPosition(i)->groundSpriteID;
 }

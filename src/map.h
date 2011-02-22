@@ -69,6 +69,7 @@ extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, csip
 extern uint16 Map_B4CD_08E7(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
 extern bool Map_UnveilTile(uint16 packed, uint8 houseID);
+extern void Map_CreateLandscape(uint32 seed);
 
 
 extern void emu_Map_SetSelection();
