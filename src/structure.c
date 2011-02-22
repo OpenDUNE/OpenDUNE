@@ -28,7 +28,6 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B483_0000_0019_F96A();
@@ -1488,9 +1487,7 @@ void Structure_0C3A_1002(Structure *s)
 		Tile *t;
 		uint16 curPacked = packed + g_global->layoutTiles[si->layout][i];
 
-		emu_push(curPacked);
-		emu_push(emu_cs); emu_push(0x107B); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
-		emu_sp += 2;
+		Animation_Stop_ByTile(curPacked);
 
 		t = Map_GetTileByPosition(curPacked);
 		t->hasStructure = false;

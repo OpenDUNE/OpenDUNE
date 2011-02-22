@@ -22,7 +22,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__151A_0114_0022_0B6C();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1452,15 +1451,10 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	u = Unit_Get_ByMemory(g_global->unitCurrent);
 
 	position = Tile_PackTile(Tile_Center(u->o.position));
-
-	emu_push(position);
-	emu_push(emu_cs); emu_push(0x22F0); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
-	emu_sp += 2;
+	Animation_Stop_ByTile(position);
 
 	loc06 = g_global->variable_3A3E[Map_B4CD_0750(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
-
 	if (u->o.script.variables[1] == 1) loc06 += 2;
-
 	loc06 = (loc06 << 4) + (g_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
 
 	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);

@@ -8,7 +8,7 @@
 #include "map.h"
 #include "tile.h"
 
-extern void f__151A_0114_0022_0B6C();
+extern void f__151A_0310_0018_831F();
 
 /**
  * Start an animation.
@@ -26,10 +26,7 @@ void Animation_Add(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, u
 	int i;
 
 	t = Map_GetTileByPosition(packed);
-
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x002B); emu_cs = 0x151A; f__151A_0114_0022_0B6C();
-	emu_sp += 2;
+	Animation_Stop_ByTile(packed);
 
 	for (i = 0; i < 112; i++, animation++) {
 		if (animation->proc.csip != 0) continue;
@@ -45,7 +42,32 @@ void Animation_Add(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, u
 		g_global->variable_60E8 = 0;
 
 		t->houseID = houseID;
-		t->flag_08 = true;
+		t->hasAnimation = true;
+		return;
+	}
+}
+
+/**
+ * Unknown.
+ * @param packed
+ */
+void Animation_Stop_ByTile(uint16 packed)
+{
+	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
+	Tile *t = Map_GetTileByPosition(packed);
+	int i;
+
+	if (!t->hasAnimation) return;
+
+	for (i = 0; i < 112; i++, animation++) {
+		if (animation->proc.csip == 0) continue;
+		if (Tile_PackTile(animation->tile) != packed) continue;
+
+		emu_push(0);
+		emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
+		emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x151A; f__151A_0310_0018_831F();
+		emu_sp += 6;
+
 		return;
 	}
 }

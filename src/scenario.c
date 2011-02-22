@@ -461,7 +461,7 @@ void Scenario_Load_Map()
 		t->isUnveiled   = (emu_al & 0x08) != 0 ? true : false;
 		t->hasUnit      = (emu_al & 0x10) != 0 ? true : false;
 		t->hasStructure = (emu_al & 0x20) != 0 ? true : false;
-		t->flag_08      = (emu_al & 0x40) != 0 ? true : false;
+		t->hasAnimation      = (emu_al & 0x40) != 0 ? true : false;
 		t->flag_10      = (emu_al & 0x80) != 0 ? true : false;
 
 		emu_push(emu_ds); emu_push(0x1F83); /* ,\r\n */

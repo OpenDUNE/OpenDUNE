@@ -139,7 +139,6 @@ extern void f__B4AE_00F0_0024_E400();
 extern void emu_GUI_Production_Down();
 extern void f__B4E6_0108_004A_C989();
 extern void f__1DD7_010B_000E_A324();
-extern void f__151A_0114_0022_0B6C();
 extern void f__B520_0114_0016_52C9();
 extern void emu_GUI_DisplayHint();
 extern void f__28E6_0123_000A_333D();

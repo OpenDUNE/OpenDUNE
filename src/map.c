@@ -329,7 +329,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = Map_GetTileByPosition(i);
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->flag_08 && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->groundSpriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->groundSpriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -1911,7 +1911,7 @@ void Map_CreateLandscape(uint32 seed)
 		t->isUnveiled      = false;
 		t->hasUnit         = false;
 		t->hasStructure    = false;
-		t->flag_08         = false;
+		t->hasAnimation         = false;
 		t->flag_10         = false;
 		t->index           = 0;
 	}
