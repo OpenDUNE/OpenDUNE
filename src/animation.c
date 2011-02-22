@@ -206,7 +206,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 		animation->tickNext    = g_global->variable_76AC;
 		animation->tileLayout  = tileLayout;
 		animation->houseID     = houseID;
-		animation->current = 0;
+		animation->current     = 0;
 		animation->iconGroup   = iconGroup;
 		animation->proc.csip   = proc.csip;
 		animation->tile        = tile;

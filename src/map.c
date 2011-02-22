@@ -1600,48 +1600,47 @@ void Map_SelectNext(bool getNext)
  */
 static void Map_UnveilTile_Neighbour(uint16 packed)
 {
-	uint16 neighbourVeiled;
+	uint16 spriteID;
 	Tile *t;
 
 	if (Tile_GetPackedX(packed) > 63 || Tile_GetPackedY(packed) > 63) return;
 
 	t = Map_GetTileByPosition(packed);
 
-	neighbourVeiled = 15;
+	spriteID = 15;
 	if (t->isUnveiled) {
 		int i;
 
 		if (g_global->variable_38BC != 0) return;
 		if (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15) return;
 
-		neighbourVeiled = 0;
+		spriteID = 0;
 
 		for (i = 0; i < 4; i++) {
 			uint16 neighbour = packed + g_global->variable_2566[i];
 
 			if (Tile_GetPackedX(neighbour) > 63 || Tile_GetPackedY(neighbour) > 63) {
-				neighbourVeiled |= 1 << i;
+				spriteID |= 1 << i;
 				continue;
 			}
 
-			if (!Map_GetTileByPosition(neighbour)->isUnveiled) neighbourVeiled |= 1 << i;
+			if (!Map_GetTileByPosition(neighbour)->isUnveiled) spriteID |= 1 << i;
 		}
 	}
 
-	if (neighbourVeiled != 0) {
+	if (spriteID != 0) {
 		uint16 *iconMap;
 
-		if (neighbourVeiled != 15) {
+		if (spriteID != 15) {
 			Unit *u = Unit_Get_ByPackedTile(packed);
 			if (u != NULL) Unit_HouseUnitCount_Add(u, (uint8)g_global->playerHouseID);
 		}
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		iconMap = &iconMap[iconMap[7]];
-		neighbourVeiled = iconMap[neighbourVeiled];
+		spriteID = iconMap[iconMap[7] + spriteID];
 	}
 
-	t->overlaySpriteID = neighbourVeiled & 0x7F;
+	t->overlaySpriteID = spriteID;
 
 	Map_Update(packed, 0, false);
 }
@@ -1954,7 +1953,7 @@ void Map_CreateLandscape(uint32 seed)
 		t->isUnveiled      = false;
 		t->hasUnit         = false;
 		t->hasStructure    = false;
-		t->hasAnimation         = false;
+		t->hasAnimation    = false;
 		t->flag_10         = false;
 		t->index           = 0;
 	}
