@@ -1797,7 +1797,7 @@ void Map_CreateLandscape(uint32 seed)
 				packed2 = Tile_PackXY(i * 4 + offsets[2], j * 4 + offsets[3]);
 				packed = (packed1 + packed2) / 2;
 
-				if ((packed & 0xF000) != 0) continue;
+				if (Tile_IsOutOfMap(packed)) continue;
 
 				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, j * 4 + offsets[1]);
 				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, j * 4 + offsets[3]);
