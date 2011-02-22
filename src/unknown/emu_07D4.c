@@ -22,7 +22,6 @@
 #include "../house.h"
 #include "../sprites.h"
 
-extern void f__151A_0196_0018_AF63();
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();

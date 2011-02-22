@@ -74,8 +74,6 @@ extern void Map_CreateLandscape(uint32 seed);
 
 extern void emu_Map_SetSelection();
 extern void emu_Map_SetSelectionSize();
-extern void emu_Map_IsPositionUnveiled();
-extern void emu_Map_Update();
 extern void emu_Map_UnveilTile();
 
 #endif /* MAP_H */

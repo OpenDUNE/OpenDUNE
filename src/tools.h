@@ -37,7 +37,6 @@ extern bool Tools_Var76B8_Set(uint16 bit, bool set);
 extern void emu_Tools_Shld();
 extern void emu_Tools_GetSmallestIP();
 extern void emu_Tools_Memmove();
-extern void emu_Tools_Random_256();
 extern void emu_Tools_RandomRange();
 extern void emu_Tools_PrintString();
 

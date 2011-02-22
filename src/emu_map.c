@@ -45,48 +45,6 @@ void emu_Map_SetSelectionSize()
 }
 
 /**
- * Emulator wrapper around Map_IsPositionUnveiled().
- *
- * @name emu_Map_IsPositionUnveiled
- * @implements B4CD:1BC4:0013:1AB3 ()
- */
-void emu_Map_IsPositionUnveiled()
-{
-	uint16 position;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	position = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Map_IsPositionUnveiled(position) ? 1 : 0;
-}
-
-/**
- * Emulator wrapper around Map_Update()
- *
- * @name emu_Map_Update
- * @implements B4CD:0000:0011:95D0 ()
- */
-void emu_Map_Update()
-{
-	uint16 packed;
-	uint16 type;
-	uint16 ignoreInvisible;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	packed          = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	type            = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	ignoreInvisible = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	Map_Update(packed, type, (ignoreInvisible != 0) ? true : false);
-}
-
-/**
  * Emulator wrapper around Map_UnveilTile().
  *
  * @name Map_UnveilTile
