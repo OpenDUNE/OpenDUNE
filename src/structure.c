@@ -1503,7 +1503,7 @@ void Structure_0C3A_1002(Structure *s)
 
 		proc.csip = 0x2C6F0000;
 
-		Animation_Add(proc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
+		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -2028,7 +2028,7 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	Animation_Add(animationProc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
+	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
 
 	g_global->variable_37A4 = 0;
 }

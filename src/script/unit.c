@@ -1462,7 +1462,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	proc.s.cs = 0x33C8;
 	proc.s.ip = loc06;
 
-	Animation_Add(proc, u->o.position, 0, Unit_GetHouseID(u), 4);
+	Animation_Start(proc, u->o.position, 0, Unit_GetHouseID(u), 4);
 
 	return 1;
 }

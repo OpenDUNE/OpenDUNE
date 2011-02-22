@@ -18,7 +18,7 @@ extern void f__151A_0310_0018_831F();
  * @param houseID The house of the item being animation.
  * @param unknown2 Unknown.
  */
-void Animation_Add(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 unknown2)
+void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 unknown2)
 {
 	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
 	uint16 packed = Tile_PackTile(tile);

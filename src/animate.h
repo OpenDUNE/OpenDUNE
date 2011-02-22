@@ -23,7 +23,7 @@ typedef struct Animation {
 MSVC_PACKED_END
 assert_compile(sizeof(Animation) == 0x11);
 
-extern void Animation_Add(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 unknown2);
+extern void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 unknown2);
 extern void Animation_Stop_ByTile(uint16 packed);
 
 #endif /* ANIMATE_H */

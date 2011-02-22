@@ -531,7 +531,7 @@ static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
 	proc.s.cs = 0x33C8;
 	proc.s.ip = ((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_B4CD_0750(packed)][7] != 0 ? 0 : 2)) << 4) + 256;
 
-	Animation_Add(proc, s->position, 0, s->houseID, 3);
+	Animation_Start(proc, s->position, 0, s->houseID, 3);
 
 	return true;
 }

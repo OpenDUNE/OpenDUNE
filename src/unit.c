@@ -1465,7 +1465,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				proc.s.cs = 0x33C8;
 				proc.s.ip = Sprites_B4CD_17DC(unit->orientation[0].current) << 4;
 
-				Animation_Add(proc, unit->o.position, 0, unit->o.houseID, 5);
+				Animation_Start(proc, unit->o.position, 0, unit->o.houseID, 5);
 			}
 		}
 	}
