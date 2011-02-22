@@ -156,6 +156,16 @@ uint8 Tile_GetPackedY(uint16 packed)
 }
 
 /**
+ * Check if a packed tile is out of map. Useful after additional or substraction.
+ * @param packed The packed tile to check.
+ * @return True if and only if the tile is out of map.
+ */
+bool Tile_IsOutOfMap(uint16 packed)
+{
+	return (packed & 0xF000) != 0;
+}
+
+/**
  * Calculates the distance between the two given tiles.
  *
  * @param from The origin.

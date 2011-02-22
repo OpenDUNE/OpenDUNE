@@ -1603,7 +1603,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	uint16 spriteID;
 	Tile *t;
 
-	if (Tile_GetPackedX(packed) > 63 || Tile_GetPackedY(packed) > 63) return;
+	if (Tile_IsOutOfMap(packed)) return;
 
 	t = Map_GetTileByPosition(packed);
 
@@ -1611,15 +1611,14 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	if (t->isUnveiled) {
 		int i;
 
-		if (g_global->variable_38BC != 0) return;
-		if (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15) return;
+		if (g_global->variable_38BC == 0 && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return;
 
 		spriteID = 0;
 
 		for (i = 0; i < 4; i++) {
 			uint16 neighbour = packed + g_global->variable_2566[i];
 
-			if (Tile_GetPackedX(neighbour) > 63 || Tile_GetPackedY(neighbour) > 63) {
+			if (Tile_IsOutOfMap(neighbour)) {
 				spriteID |= 1 << i;
 				continue;
 			}
@@ -1658,7 +1657,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	Tile *t;
 
 	if (houseID != g_global->playerHouseID) return false;
-	if (Tile_GetPackedX(packed) > 63 || Tile_GetPackedY(packed) > 63) return false;
+	if (Tile_IsOutOfMap(packed)) return false;
 
 	t = Map_GetTileByPosition(packed);
 

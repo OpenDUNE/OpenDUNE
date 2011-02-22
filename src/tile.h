@@ -15,6 +15,7 @@ extern uint16 Tile_PackXY(uint16 x, uint16 y);
 extern tile32 Tile_UnpackTile(uint16 packed);
 extern uint8 Tile_GetPackedX(uint16 packed);
 extern uint8 Tile_GetPackedY(uint16 packed);
+extern bool Tile_IsOutOfMap(uint16 packed);
 extern uint16 Tile_GetDistance(tile32 from, tile32 to);
 extern uint16 Tile_GetDistancePacked(uint16 packed_from, uint16 packed_to);
 extern uint16 Tile_GetDistanceRoundedUp(tile32 from, tile32 to);
