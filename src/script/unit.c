@@ -8,6 +8,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "script.h"
+#include "../animate.h"
 #include "../unit.h"
 #include "../pool/unit.h"
 #include "../pool/pool.h"
@@ -21,7 +22,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
@@ -1442,6 +1442,7 @@ uint16 Script_Unit_IsInTransport(ScriptEngine *script)
  */
 uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 {
+	csip32 proc;
 	Unit *u;
 	uint16 loc06;
 	uint16 position;
@@ -1464,13 +1465,10 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 
 	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);
 
-	emu_push(4);
-	emu_push(Unit_GetHouseID(u));
-	emu_push(0);
-	emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-	emu_push(0x33C8); emu_push(loc06);
-	emu_push(emu_cs); emu_push(0x23BE); emu_cs = 0x151A; f__151A_000E_0013_5840();
-	emu_sp += 14;
+	proc.s.cs = 0x33C8;
+	proc.s.ip = loc06;
+
+	Animation_Add(proc, u->o.position, 0, Unit_GetHouseID(u), 4);
 
 	return 1;
 }

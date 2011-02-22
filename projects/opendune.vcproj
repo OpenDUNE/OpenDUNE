@@ -1551,6 +1551,30 @@
 			Name="src"
 			>
 			<File
+				RelativePath="..\src\animate.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\animate.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\config.c"
 				>
 				<FileConfiguration

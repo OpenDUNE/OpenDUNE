@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "animate.h"
 #include "gui/gui.h"
 #include "house.h"
 #include "map.h"
@@ -21,7 +22,6 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-extern void f__151A_000E_0013_5840();
 extern void f__22A6_1200_007B_0356();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
@@ -521,19 +521,17 @@ static bool Map_06F7_0913(struct_395A *s)
 
 static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
 {
+	csip32 proc;
 	uint16 packed;
 
 	packed = Tile_PackTile(s->position);
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
 
-	emu_push(3);
-	emu_push(s->houseID);
-	emu_push(0);
-	emu_push(s->position.s.y); emu_push(s->position.s.x);
-	emu_push(0x33C8); emu_push(((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_B4CD_0750(packed)][7] != 0 ? 0 : 2)) << 4) + 256);
-	emu_push(emu_cs); emu_push(0x09E5); emu_cs = 0x151A; f__151A_000E_0013_5840();
-	emu_sp += 14;
+	proc.s.cs = 0x33C8;
+	proc.s.ip = ((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_B4CD_0750(packed)][7] != 0 ? 0 : 2)) << 4) + 256;
+
+	Animation_Add(proc, s->position, 0, s->houseID, 3);
 
 	return true;
 }

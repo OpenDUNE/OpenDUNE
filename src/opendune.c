@@ -875,7 +875,7 @@ static void Gameloop_IntroMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	g_global->variable_3956 = csip;
+	g_global->animations = csip;
 	csip.s.ip += 0x770;
 
 	csip = Tools_GetSmallestIP(csip);

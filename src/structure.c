@@ -7,6 +7,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "animate.h"
 #include "gui/gui.h"
 #include "house.h"
 #include "pool/pool.h"
@@ -27,7 +28,6 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__151A_000E_0013_5840();
 extern void f__151A_0114_0022_0B6C();
 extern void f__259E_0040_0015_5E4A();
 extern void f__B4E9_0050_003F_292A();
@@ -1502,13 +1502,11 @@ void Structure_0C3A_1002(Structure *s)
 	}
 
 	if (g_global->debugScenario == 0) {
-		emu_push(si->variable_3C);
-		emu_push(s->o.houseID);
-		emu_push(si->layout);
-		emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-		emu_push(0x2C6F); emu_push(0);
-		emu_push(emu_cs); emu_push(0x110D); emu_cs = 0x151A; f__151A_000E_0013_5840();
-		emu_sp += 14;
+		csip32 proc;
+
+		proc.csip = 0x2C6F0000;
+
+		Animation_Add(proc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -2033,13 +2031,7 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	emu_push(si->variable_3C);
-	emu_push(s->o.houseID);
-	emu_push(si->layout);
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(animationProc.s.cs); emu_push(animationProc.s.ip);
-	emu_push(emu_cs); emu_push(0x0B84); emu_cs = 0x151A; f__151A_000E_0013_5840();
-	emu_sp += 14;
+	Animation_Add(animationProc, s->o.position, si->layout, s->o.houseID, si->variable_3C);
 
 	g_global->variable_37A4 = 0;
 }

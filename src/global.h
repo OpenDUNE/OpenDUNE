@@ -827,7 +827,7 @@ typedef struct GlobalData {
 	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
-	/* 3956(4)   */ PACK csip32 variable_3956;              /*!< ?? */
+	/* 3956(4)   */ PACK csip32 animations;                 /*!< Pointer to the current animations. */
 	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
 	/* 395E(132) */ PACK uint32 variable_395E[33];          /*!< ?? */
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
@@ -938,7 +938,9 @@ typedef struct GlobalData {
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
 	/* 60D2(13)  */ PACK char   string_60D2[13];            /*!< "Timeout win." NULL terminated. */
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 60E7()    */ PACK uint8   unknown_60E7[0x002D];
+	/* 60E7()    */ PACK uint8   unknown_60E7[0x0001];
+	/* 60E8(4)   */ PACK uint32 variable_60E8;              /*!< ?? */
+	/* 60EB()    */ PACK uint8   unknown_60EB[0x0028];
 	/* 6114(4)   */ PACK uint32 iconUsedMemory;             /*!< Amount of memory block used when loading ICON.ICN. */
 	/* 6118(4)   */ PACK csip32 iconRPAL;                   /*!< Content of RPAL chunk from ICON.ICN. */
 	/* 611C(2)   */ PACK uint16 iconRPALFreed;              /*!< True if memory at iconRPAL has been freed. */

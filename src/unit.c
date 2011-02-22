@@ -8,6 +8,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "animate.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
@@ -28,7 +29,6 @@
 #include "gui/widget.h"
 #include "sprites.h"
 
-extern void f__151A_000E_0013_5840();
 extern void f__B483_0000_0019_F96A();
 extern void f__B4E9_0050_003F_292A();
 extern void overlay(uint16 cs, uint8 force);
@@ -1460,13 +1460,12 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		} else {
 			emu_ax = Map_B4CD_0750(packed);
 			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
-				emu_push(5);
-				emu_push(unit->o.houseID);
-				emu_push(0);
-				emu_push(unit->o.position.s.y); emu_push(unit->o.position.s.x);
-				emu_push(0x33C8); emu_push(Sprites_B4CD_17DC(unit->orientation[0].current) << 4);
-				emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x151A; f__151A_000E_0013_5840();
-				emu_sp += 14;
+				csip32 proc;
+
+				proc.s.cs = 0x33C8;
+				proc.s.ip = Sprites_B4CD_17DC(unit->orientation[0].current) << 4;
+
+				Animation_Add(proc, unit->o.position, 0, unit->o.houseID, 5);
 			}
 		}
 	}
