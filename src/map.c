@@ -1894,7 +1894,7 @@ void Map_CreateLandscape(uint32 seed)
 		}
 	}
 
-	/* Make everything smoother. */
+	/* Make everything smoother and use the right sprite indexes. */
 	for (j = 0; j < 64; j++) {
 		Tile *t = Map_GetTileByPosition(j * 64);
 
@@ -1916,24 +1916,32 @@ void Map_CreateLandscape(uint32 seed)
 			if (right == current) spriteID |= 8;
 
 			switch (current) {
-				case 0x0: spriteID = 0;   break;
-				case 0x4:
+				case 0x0: /* Sand */
+					spriteID = 0;
+					break;
+				case 0x4: /* Rock */
 					if (up    == 0x6) spriteID |= 1;
 					if (left  == 0x6) spriteID |= 2;
 					if (down  == 0x6) spriteID |= 4;
 					if (right == 0x6) spriteID |= 8;
 					spriteID++;
 					break;
-				case 0x2: spriteID += 17; break;
-				case 0x6: spriteID += 33; break;
-				case 0x8:
+				case 0x2: /* Dunes */
+					spriteID += 17;
+					break;
+				case 0x6: /* Mountains */
+					spriteID += 33;
+					break;
+				case 0x8: /* Spice (low) */
 					if (up    == 0x9) spriteID |= 1;
 					if (left  == 0x9) spriteID |= 2;
 					if (down  == 0x9) spriteID |= 4;
 					if (right == 0x9) spriteID |= 8;
 					spriteID += 49;
 					break;
-				case 0x9: spriteID += 65; break;
+				case 0x9: /* Spice (high) */
+					spriteID += 65;
+					break;
 				default: break;
 			}
 
