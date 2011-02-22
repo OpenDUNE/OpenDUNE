@@ -109,28 +109,3 @@ void emu_Unit_B4CD_01BF()
 
 	Unit_B4CD_01BF(arg06, unit);
 }
-
-/**
- * Emulator wrapper around Unit_HouseUnitCount_Add().
- *
- * @name Unit_HouseUnitCount_Add
- * @implements 1423:08CD:0012:0004 ()
- */
-void emu_Unit_HouseUnitCount_Add()
-{
-	csip32 ucsip;
-	uint16 houseID;
-	Unit *u;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip   = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	houseID = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	if (ucsip.csip == 0x0) return;
-	u = Unit_Get_ByMemory(ucsip);
-
-	Unit_HouseUnitCount_Add(u, (uint8)houseID);
-}
