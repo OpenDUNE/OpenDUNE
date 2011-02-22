@@ -15,7 +15,7 @@ typedef struct Animation {
 	/* 0000(4)   */ PACK uint32 tickNext;                   /*!< Which tick this Animation should be called again. */
 	/* 0004(2)   */ PACK uint16 tileLayout;                 /*!< Tile layout of the Animation. */
 	/* 0006(1)   */ PACK uint8  houseID;                    /*!< House of the item being animated. */
-	/* 0007(1)   */ PACK uint8  current;                /*!< At which command we currently are in the Animation. */
+	/* 0007(1)   */ PACK uint8  current;                    /*!< At which command we currently are in the Animation. */
 	/* 0008(1)   */ PACK uint8  iconGroup;                  /*!< Which iconGroup the sprites of the Animation belongs. */
 	/* 0009(4)   */ PACK csip32 proc;                       /*!< Proc to call for Animation. */
 	/* 000D(4)   */ PACK tile32 tile;                       /*!< Top-left tile of Animation. */
