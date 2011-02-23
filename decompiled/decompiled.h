@@ -100,7 +100,6 @@ extern void f__22A3_000D_0010_9291();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
-extern void f__25C4_000E_0019_12FF();
 extern void f__2B1E_000E_003E_B647();
 extern void f__2B6C_000E_0045_C1FE();
 extern void emu_Video_IsInVSync();

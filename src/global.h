@@ -1106,7 +1106,7 @@ typedef struct GlobalData {
 	/* 671E(4)   */ PACK csip32 variable_671E;              /*!< ?? Pointer to string_6834. */
 	/* 6722(4)   */ PACK csip32 variable_6722;              /*!< ?? Pointer to string_6866. */
 	/* 6726(4)   */ PACK csip32 variable_6726;              /*!< ?? Pointer to string_687C. */
-	/* 672C(4)   */ PACK csip32 variable_672C;              /*!< ?? Pointer to string_68BE. */
+	/* 672A(4)   */ PACK csip32 variable_672A;              /*!< ?? Pointer to string_68BE. */
 	/* 672E(4)   */ PACK csip32 variable_672E;              /*!< ?? Pointer to string_68ED. */
 	/* 6732(4)   */ PACK csip32 variable_6732;              /*!< ?? Pointer to string_6911. */
 	/* 6736(4)   */ PACK csip32 variable_6736;              /*!< ?? Pointer to string_692C. */
@@ -1202,14 +1202,10 @@ typedef struct GlobalData {
 	/* 6D8B(2)   */ PACK uint16 variable_6D8B;              /*!< ?? */
 	/* 6D8D(2)   */ PACK uint16 variable_6D8D;              /*!< ?? */
 	/* 6D8F(2)   */ PACK uint16 variable_6D8F;              /*!< ?? */
-	/* 6D91()    */ PACK uint8   unknown_6D91[0x0021];
-	/* 6DB2(4)   */ PACK csip32 variable_6DB2;              /*!< ?? Pointer to string_6DCE. */
-	/* 6DB6(4)   */ PACK csip32 variable_6DB6;              /*!< ?? Pointer to string_6DD6. */
-	/* 6DBA(4)   */ PACK csip32 variable_6DBA;              /*!< ?? Pointer to string_6DDE. */
-	/* 6DBE(4)   */ PACK csip32 variable_6DBE;              /*!< ?? Pointer to string_6DE6. */
-	/* 6DC2(4)   */ PACK csip32 variable_6DC2;              /*!< ?? Pointer to string_6DEE. */
-	/* 6DC6(4)   */ PACK csip32 variable_6DC6;              /*!< ?? Pointer to string_6DF6. */
-	/* 6DCA(4)   */ PACK csip32 variable_6DCA;              /*!< ?? Pointer to string_6DFE. */
+	/* 6D91()    */ PACK uint8   unknown_6D91[0x0001];
+	/* 6D92(16)  */ PACK uint8  variable_6D92[16];          /*!< ?? */
+	/* 6DA2(16)  */ PACK uint8  variable_6DA2[16];          /*!< ?? */
+	/* 6DB2(28)  */ PACK csip32 variable_6DB2[7];           /*!< Array of pointers to string_6DCE - string_6DFE. */
 	/* 6DCE(8)   */ PACK char   string_6DCE[8];             /*!< "cga.ovl" NULL terminated. */
 	/* 6DD6(8)   */ PACK char   string_6DD6[8];             /*!< "tga.ovl" NULL terminated. */
 	/* 6DDE(8)   */ PACK char   string_6DDE[8];             /*!< "ega.ovl" NULL terminated. */
@@ -1391,7 +1387,11 @@ typedef struct GlobalData {
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8  variable_9882[0x005F];      /*!< ?? Buffer. */
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
-	/* 98EB()    */ PACK uint8   unknown_98EB[0x0040];
+	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
+	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
+	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
+	/* 98F1(2)   */ PACK uint16 variable_98F1;              /*!< ?? */
+	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];
 	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
 	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/
 	/* 992F(2)   */ PACK uint16 variable_992F;              /*!< ?? */

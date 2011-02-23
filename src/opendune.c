@@ -34,8 +34,10 @@
 #include "sprites.h"
 #include "wsa.h"
 
+extern void f__01F7_103F_0010_4132();
 extern void f__1DB6_0004_000B_BFBA();
 extern void f__1DD7_0B53_0025_36F7();
+extern void f__22A3_000D_0010_9291();
 extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
 extern void f__23E1_0334_000B_CF65();
@@ -43,16 +45,19 @@ extern void emu_Tools_Free();
 extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
+extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0040_0015_5E4A();
-extern void f__25C4_000E_0019_12FF();
+extern void f__263B_002F_0016_FDB0();
 extern void emu_Unknown_2903_090A();
+extern void f__29E8_07FA_0020_177A();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
+extern void f__2BA5_0006_009C_A3D1();
 extern void f__2C17_000C_002F_3016();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B4AB_0000_000D_6028();
@@ -77,7 +82,9 @@ extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
+extern void emu_Mouse_Init();
 extern void emu_Terminate_Normal();
+extern void emu_Tools_Var79E4_Init();
 extern void emu_Window_WidgetClick_Create();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1605,6 +1612,215 @@ static void GameLoop_Main()
 	emu_sp += 16;
 }
 
+static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool arg0C)
+{
+	switch (graphicMode) {
+		case 3:
+			memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, 64000);
+			break;
+
+		default: break;
+	}
+
+	if (graphicMode != 8) {
+		emu_push(graphicMode);
+		emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+		emu_sp += 2;
+
+		emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
+
+		emu_push(0x353F); emu_push(0x6F22);
+		emu_push(g_global->variable_6DB2[graphicMode].s.cs); emu_push(g_global->variable_6DB2[graphicMode].s.ip);
+		emu_push(emu_cs); emu_push(0x0072); emu_cs = 0x22A3; f__22A3_000D_0010_9291();
+		emu_sp += 8;
+
+		if (emu_ax == 0) {
+			emu_push(9);
+			emu_push(emu_cs); emu_push(0x0082); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+			emu_sp += 2;
+
+			printf("\r\nCould not load overlay \"%s\".  Press a key to return to DOS...\r\n", (char *)emu_get_memorycsip(g_global->variable_6DB2[graphicMode]));
+
+			emu_push(emu_cs); emu_push(0x00B7); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+			emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+
+			return false;
+		}
+	}
+
+	if (arg0C) {
+		uint32 totalSize = 0;
+		uint16 i;
+		csip32 memBlock;
+
+		for (i = 1; i < 8; i++) {
+			uint32 size = (g_global->variable_6CD3[i][1] + 15) & 0xFFFFFFF0;
+
+			if ((size & 0xFF000000) != 0) {
+				emu_push(emu_cs); emu_push(0x011B); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+
+				printf("PageArraySize is negative!\r\n");
+
+				emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+
+				exit(5);
+			}
+
+			g_global->variable_6CD3[i][0] = size;
+			g_global->variable_6CD3[i][1] = size;
+
+			totalSize += size;
+		}
+
+		emu_push(g_global->variable_98F1 | 0x30);
+		emu_push(totalSize >> 16); emu_push(totalSize & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_Malloc();
+		emu_sp += 6;
+		memBlock.s.cs = emu_dx;
+		memBlock.s.ip = emu_ax;
+
+		for (i = 1; i < 8; i++) {
+			if (g_global->variable_6CD3[i][0] == 0) continue;
+
+			g_global->variable_6C93[i][0] = memBlock.s.cs;
+			g_global->variable_6C93[i][1] = memBlock.s.cs;
+
+			memBlock.csip += g_global->variable_6CD3[i][0];
+			memBlock = Tools_GetSmallestIP(memBlock);
+		}
+	} else {
+		uint16 i;
+
+		for (i = 1; i < 8; i++) {
+			if (g_global->variable_6CD3[i][1] == 0) continue;
+
+			emu_push(g_global->variable_98ED | 0x20);
+			emu_push(g_global->variable_6CD3[i][1] >> 16); emu_push(g_global->variable_6CD3[i][1] & 0xFFFF);
+			emu_push(emu_cs); emu_push(0x022F); emu_cs = 0x23E1; emu_Tools_Malloc();
+			emu_sp += 6;
+
+			g_global->variable_6C93[i][0] = emu_ax;
+			g_global->variable_6C93[i][1] = emu_dx;
+		}
+	}
+
+	switch (graphicMode) {
+		case 0:
+		case 1:
+			g_global->variable_6C93[0][0] = 0xB800;
+			g_global->variable_6C93[0][1] = 0xB800;
+			break;
+
+		case 2:
+			g_global->variable_6C93[0][0] = 0xA000;
+			g_global->variable_6C93[1][0] = 0xA200;
+			g_global->variable_6C93[2][0] = 0xA400;
+			g_global->variable_6C93[3][0] = 0xA600;
+			g_global->variable_6C93[4][0] = 0xA800;
+			g_global->variable_6C93[5][0] = 0xAA00;
+			g_global->variable_6C93[6][0] = 0xAC00;
+			g_global->variable_6C93[7][0] = 0xAE00;
+			break;
+
+		case 3:
+		case 6:
+			g_global->variable_6C93[0][0] = 0xA000;
+			g_global->variable_6C93[0][1] = 0xA000;
+			break;
+
+		case 4:
+		case 5:
+			g_global->variable_6C93[0][0] = 0xA000;
+			g_global->variable_6C93[1][0] = 0xA400;
+			g_global->variable_6C93[2][0] = 0xA800;
+			g_global->variable_6C93[3][0] = 0xAC00;
+			break;
+
+		default: break;
+	}
+
+	if (graphicMode != 8) {
+		emu_push(emu_cs); emu_push(0x02CD); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+
+		if (fontFilename != NULL) {
+			g_global->new8pFnt = Font_LoadFile(fontFilename);
+
+			if (g_global->new8pFnt.csip == 0x0) {
+				emu_push(9);
+				emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+				emu_sp += 2;
+
+				printf("\r\nUnable to load font %s\r\nReinstall program.\r\n", fontFilename);
+
+				emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+
+				return false;
+			}
+
+			emu_push(g_global->new8pFnt.s.cs); emu_push(g_global->new8pFnt.s.ip);
+			emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x2605; emu_Font_Select();
+			emu_sp += 4;
+		}
+	}
+
+	emu_push(0x10);
+	emu_push(0); emu_push(0x300);
+	emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	g_global->variable_998A.s.cs = emu_dx;
+	g_global->variable_998A.s.ip = emu_ax;
+
+	switch (graphicMode) {
+		case 5:
+			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6DA2, 16);
+
+			emu_push(16);
+			emu_push(0);
+			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+			emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
+			emu_sp += 8;
+			break;
+
+		case 2:
+			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6D92, 16);
+
+			emu_push(16);
+			emu_push(0);
+			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+			emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
+			emu_sp += 8;
+			break;
+
+		case 3:
+		case 4:
+			memset(&emu_get_memorycsip(g_global->variable_998A)[45], 63, 3);
+
+			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+			emu_push(emu_cs); emu_push(0x03C4); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+			emu_sp += 4;
+			break;
+
+		default: break;
+	}
+
+	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x2533; f__2533_000D_001C_74EC();
+
+	emu_push(0); emu_push(0);
+	emu_push(emu_cs); emu_push(0x03D8); emu_cs = 0x01F7; f__01F7_103F_0010_4132();
+	emu_sp += 4;
+
+	emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
+	emu_sp += 2;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x03E9); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+
+	return true;
+}
+
 void Main()
 {
 	DuneCfg *config;
@@ -1725,12 +1941,7 @@ void Main()
 
 	Drivers_All_Init(config->soundDrv, config->musicDrv, config->voiceDrv);
 
-	emu_push(1);
-	emu_push(g_global->variable_0094.s.cs); emu_push(g_global->variable_0094.s.ip); /* Pointer to "new8p.fnt" */
-	emu_push(g_global->variable_6C76);
-	emu_push(emu_cs); emu_push(0x02A2); emu_cs = 0x25C4; f__25C4_000E_0019_12FF();
-	emu_sp += 8;
-	if (emu_ax == 0) exit(1);
+	if (!Unknown_25C4_000E(g_global->variable_6C76, "new8p.fnt", true)) exit(1);
 
 	g_global->variable_6C80.s.cs = 0x353B; g_global->variable_6C80.s.ip = 0x20; /* emu_File_Error_Wrapper */
 	g_global->variable_6C84 = 0x25284000;
