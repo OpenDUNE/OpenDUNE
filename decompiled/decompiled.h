@@ -63,7 +63,6 @@ extern void emu_Gameloop_Intro();
 extern void f__B4DA_0000_002C_B3C2();
 extern void f__B4E0_0000_000F_14AD();
 extern void f__B4E6_0000_001A_C6C7();
-extern void f__B4ED_0000_0079_AC5D();
 extern void emu_Ini_GetInteger();
 extern void f__B500_0000_0008_FE1F();
 extern void emu_GUI_ShowMap();

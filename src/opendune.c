@@ -49,6 +49,7 @@ extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
+extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__263B_002F_0016_FDB0();
 extern void emu_Unknown_2903_090A();
@@ -66,7 +67,6 @@ extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4E9_0050_003F_292A();
-extern void f__B4ED_0000_0079_AC5D();
 extern void f__B4ED_0200_000F_1FF4();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
@@ -255,6 +255,63 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
+static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 arg10, csip32 arg14)
+{
+	uint8 i;
+	/* XXX -- The next lines should be uint8 values[16] */
+	uint8 *values;
+	emu_sp -= 16;
+	values = &emu_get_memory8(emu_ss, emu_sp, 0x0);
+
+	g_global->variable_805E = arg06;
+	g_global->variable_805A = arg0A;
+	g_global->variable_8056 = arg10;
+	g_global->variable_8062 = arg0E;
+	g_global->variable_6C6C = 0;
+	g_global->variable_8072 = 0;
+	g_global->variable_8070 = 0;
+	g_global->variable_8068 = 0;
+	g_global->variable_80AE = 0;
+	g_global->variable_80AC = 0;
+	g_global->variable_8074 = 0;
+	g_global->variable_806E = 0;
+	g_global->variable_806C = 0;
+	g_global->variable_806A = 0xFFFF;
+
+	emu_push(emu_cs); emu_push(0x0079); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+
+	File_ReadBlockFile("INTRO.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
+
+	memcpy(emu_get_memorycsip(g_global->variable_998A), emu_get_memorycsip(g_global->variable_3C32), 768);
+
+	g_global->introFnt = Font_LoadFile("INTRO.FNT");
+
+	Font_Select(g_global->introFnt);
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x00DB); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
+
+	memset(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], 0, 6 * 3);
+
+	memcpy(g_global->variable_8088, g_global->variable_809A, 6 * 3);
+
+	memset(g_global->variable_8076, 0, 6 * 3);
+
+
+	values[0] = 0;
+	for (i = 0; i < 6; i++) values[i + 1] = 215 + i;
+
+	emu_push(emu_ss); emu_push(emu_sp + 2); /* values */
+	emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x259E; f__259E_0021_001A_E253();
+	emu_sp += 4;
+
+	/* XXX -- Should be removed */
+	emu_sp += 16;
+}
+
 static void GameLoop_B4ED_0184()
 {
 	emu_push(g_global->introFnt.s.cs); emu_push(g_global->introFnt.s.ip);
@@ -345,13 +402,7 @@ static void GameLoop_B4AE_0000()
 		default: return;
 	}
 
-	emu_push(args[3].s.cs); emu_push(args[3].s.ip);
-	emu_push(args[2].s.cs); emu_push(args[2].s.ip);
-	emu_push(0xFFFF);
-	emu_push(args[1].s.cs); emu_push(args[1].s.ip);
-	emu_push(args[0].s.cs); emu_push(args[0].s.ip);
-	emu_push(emu_cs); emu_push(0x0114); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
-	emu_sp += 18;
+	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
 
 	Sound_Play(0x22);
 
@@ -400,13 +451,7 @@ static void GameLoop_B4AB_0000()
 			break;
 	}
 
-	emu_push(args[3].s.cs); emu_push(args[3].s.ip);
-	emu_push(args[2].s.cs); emu_push(args[2].s.ip);
-	emu_push(0xFFFF);
-	emu_push(args[1].s.cs); emu_push(args[1].s.ip);
-	emu_push(args[0].s.cs); emu_push(args[0].s.ip);
-	emu_push(emu_cs); emu_push(0x0049); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
-	emu_sp += 18;
+	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
 
 	Sound_Play(sound);
 
@@ -798,15 +843,16 @@ static void Gameloop_Intro()
 
 	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	if (emu_ax == 0 || g_global->variable_37B4 == 0) {
+		csip32 args[4];
+
 		Sound_Play(0x1B);
 
-		emu_push(0x2C6B); emu_push(0x0);
-		emu_push(0x2C5B); emu_push(0x0);
-		emu_push(0x4A);
-		emu_push(0x2C4D); emu_push(0x0);
-		emu_push(0x2C41); emu_push(0x0);
-		emu_push(emu_cs); emu_push(0x0061); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
-		emu_sp += 18;
+		args[0].csip = 0x2C410000;
+		args[1].csip = 0x2C4D0000;
+		args[2].csip = 0x2C5B0000;
+		args[3].csip = 0x2C6B0000;
+
+		GameLoop_B4ED_0000(args[0], args[1], 0x4A, args[2], args[3]);
 
 		emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0200_000F_1FF4();
 
