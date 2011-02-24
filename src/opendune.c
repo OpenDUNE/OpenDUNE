@@ -1840,9 +1840,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 				return false;
 			}
 
-			emu_push(g_global->new8pFnt.s.cs); emu_push(g_global->new8pFnt.s.ip);
-			emu_push(emu_cs); emu_push(0x0333); emu_cs = 0x2605; emu_Font_Select();
-			emu_sp += 4;
+			Font_Select(g_global->new8pFnt);
 		}
 	}
 

@@ -517,7 +517,7 @@ bool House_UpdateRadarState(House *h)
 	emu_push(emu_cs); emu_push(0x0E4B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	do {
-		emu_push(emu_cs); emu_push(0x0E52); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
+		Driver_Voice_01EB();
 	} while (emu_ax != 0);
 
 	emu_push(0); emu_push(0);
