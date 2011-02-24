@@ -82,7 +82,6 @@ extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_Mouse_Init();
-extern void emu_Terminate_Normal();
 extern void emu_Tools_Var79E4_Init();
 extern void emu_Window_WidgetClick_Create();
 extern void overlay(uint16 cs, uint8 force);
@@ -522,8 +521,7 @@ static void GameLoop_LevelEnd()
 
 				emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x03BE); emu_cs = 0x01F7; emu_Terminate_Normal();
+				exit(0);
 			}
 
 			emu_push(emu_cs); emu_push(0x03C4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -552,7 +550,7 @@ static void GameLoop_LevelEnd()
 				if (!Security_Check()) {
 					emu_push(emu_cs); emu_push(0x0444); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
-					emu_push(emu_cs); emu_push(0x044C); emu_cs = 0x01F7; emu_Terminate_Normal();
+					exit(0);
 				}
 
 				Sprites_Load(0, 7, g_sprites);
@@ -1186,9 +1184,7 @@ static void Gameloop_IntroMenu()
 				case 0x001D: /* Exit Game */
 					emu_push(emu_cs); emu_push(0x1D62); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
-					emu_push(0);
-					emu_push(emu_cs); emu_push(0x1D6A); emu_cs = 0x01F7; emu_Terminate_Normal();
-					emu_sp += 2;
+					exit(0);
 					break;
 
 				case 0x014E: /* Hall of Fame */
