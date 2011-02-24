@@ -262,6 +262,8 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 	emu_sp -= 16;
 	values = &emu_get_memory8(emu_ss, emu_sp, 0x0);
 
+	VARIABLE_NOT_USED(arg14);
+
 	g_global->variable_805E = arg06;
 	g_global->variable_805A = arg0A;
 	g_global->variable_8056 = arg10;
