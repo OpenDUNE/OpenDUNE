@@ -154,7 +154,6 @@ extern void emu_DSP_Write();
 extern void emu_Empty3();
 extern void emu_Exit();
 extern void emu_Interrupt_Vector_Store();
-extern void f__B4ED_0184_0010_CD7E();
 extern void f__2B1E_0189_001B_E6CF();
 extern void emu_DSP_Read();
 extern void f__2B6C_0197_00CE_4D32();

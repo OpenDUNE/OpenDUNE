@@ -67,7 +67,6 @@ extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4E9_0050_003F_292A();
 extern void f__B4ED_0000_0079_AC5D();
-extern void f__B4ED_0184_0010_CD7E();
 extern void f__B4ED_0200_000F_1FF4();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B511_0000_000E_B463();
@@ -256,6 +255,33 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
+static void GameLoop_B4ED_0184()
+{
+	emu_push(g_global->introFnt.s.cs); emu_push(g_global->introFnt.s.ip);
+	emu_push(emu_cs); emu_push(0x0194); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
+
+	emu_push(0x3C);
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x01EE); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x01F4); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	emu_push(7);
+	emu_push(emu_cs); emu_push(0x01FD); emu_cs = 0x24DA; f__24DA_002D_0010_3EB2();
+	emu_sp += 2;
+}
+
+
+
 static void GameLoop_B4AE_0000()
 {
 	csip32 args[4];
@@ -333,7 +359,7 @@ static void GameLoop_B4AE_0000()
 
 	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 
-	emu_push(emu_cs); emu_push(0x012F); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
+	GameLoop_B4ED_0184();
 }
 
 static void GameLoop_B4AB_0000()
@@ -388,7 +414,7 @@ static void GameLoop_B4AB_0000()
 
 	emu_push(emu_cs); emu_push(0x0060); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 
-	emu_push(emu_cs); emu_push(0x0065); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
+	GameLoop_B4ED_0184();
 
 	emu_push(emu_cs); emu_push(0x00B6); emu_cs = 0x3491; overlay(0x3491, 0); f__B491_0819_000C_0B7D();
 }
@@ -786,7 +812,7 @@ static void Gameloop_Intro()
 
 		emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 
-		emu_push(emu_cs); emu_push(0x0073); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
+		GameLoop_B4ED_0184();
 	}
 
 	emu_push(0);
