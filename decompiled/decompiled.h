@@ -59,7 +59,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B48B_0000_001E_7E97();
 extern void f__B491_0000_0022_DD43();
 extern void f__B495_0000_0022_1CF6();
-extern void f__B4AB_0000_000D_6028();
 extern void emu_Gameloop_Intro();
 extern void f__B4DA_0000_002C_B3C2();
 extern void f__B4E0_0000_000F_14AD();

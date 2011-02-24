@@ -60,7 +60,7 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2C17_000C_002F_3016();
 extern void f__B483_04CB_0015_EBB4();
-extern void f__B4AB_0000_000D_6028();
+extern void f__B491_0819_000C_0B7D();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
@@ -336,6 +336,62 @@ static void GameLoop_B4AE_0000()
 	emu_push(emu_cs); emu_push(0x012F); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
 }
 
+static void GameLoop_B4AB_0000()
+{
+	csip32 args[4];
+	uint16 sound;
+
+	String_Load("INTRO");
+
+	emu_push(0xFFFE);
+	emu_push(emu_cs); emu_push(0x0018); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
+	emu_sp += 2;
+
+	switch (g_global->playerHouseID) {
+		case HOUSE_HARKONNEN:
+			args[0].csip = 0x353F1A31;
+			args[1].csip = 0x353F1A91;
+			args[2].csip = 0x353F1AE1;
+			args[3].csip = 0x353F1AF9;
+			sound = 0x1E;
+			break;
+
+		case HOUSE_ORDOS:
+			args[0].csip = 0x353F1AFB;
+			args[1].csip = 0x353F1B6B;
+			args[2].csip = 0x353F1BB1;
+			args[3].csip = 0x353F1BBA;
+			sound = 0x20;
+			break;
+
+		default:
+		case HOUSE_ATREIDES:
+			args[0].csip = 0x353F19A8;
+			args[1].csip = 0x353F19F0;
+			args[2].csip = 0x353F1A2C;
+			args[3].csip = 0x353F1A2F;
+			sound = 0x1F;
+			break;
+	}
+
+	emu_push(args[3].s.cs); emu_push(args[3].s.ip);
+	emu_push(args[2].s.cs); emu_push(args[2].s.ip);
+	emu_push(0xFFFF);
+	emu_push(args[1].s.cs); emu_push(args[1].s.ip);
+	emu_push(args[0].s.cs); emu_push(args[0].s.ip);
+	emu_push(emu_cs); emu_push(0x0049); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0000_0079_AC5D();
+	emu_sp += 18;
+
+	Sound_Play(sound);
+
+	emu_push(emu_cs); emu_push(0x005B); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0200_000F_1FF4();
+
+	emu_push(emu_cs); emu_push(0x0060); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+
+	emu_push(emu_cs); emu_push(0x0065); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0184_0010_CD7E();
+
+	emu_push(emu_cs); emu_push(0x00B6); emu_cs = 0x3491; overlay(0x3491, 0); f__B491_0819_000C_0B7D();
+}
 
 /**
  * Checks if the level comes to an end. If so, it shows all end-level stuff,
@@ -391,7 +447,7 @@ static void GameLoop_LevelEnd()
 				emu_push(emu_cs); emu_push(0x03AB); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
 				emu_sp += 2;
 
-				emu_push(emu_cs); emu_push(0x03B1); emu_cs = 0x34AB; overlay(0x34AB, 0); f__B4AB_0000_000D_6028();
+				GameLoop_B4AB_0000();
 
 				emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
 
