@@ -12,7 +12,8 @@
 #include "structure.h"
 #include "unknown/unknown.h"
 
-extern void f__151A_02C8_0016_FA9C();
+extern void f__B483_0000_0019_F96A();
+extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Stop with this Animation.
@@ -183,6 +184,19 @@ static void Animation_Func_SetIconGroup(Animation *animation, int16 parameter)
 }
 
 /**
+ * Unknown function 5.
+ * @param animation The Animation this function works on.
+ * @param parameter Some parameter.
+ */
+static void Animation_Func_Unknown5(Animation *animation, int16 parameter)
+{
+	emu_push(animation->tile.s.y); emu_push(animation->tile.s.x);
+	emu_push(parameter);
+	emu_push(emu_cs); emu_push(0x02DE); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+}
+
+/**
  * Start an Animation.
  * @param proc The proc to the Animation.
  * @param tile The tile to do the Animation on.
@@ -272,16 +286,10 @@ void Animation_Tick()
 				case 2: Animation_Func_SetOverlaySprite(animation, parameter); break;
 				case 3: Animation_Func_Pause(animation, parameter); break;
 				case 4: Animation_Func_Rewind(animation, parameter); break;
+				case 5: Animation_Func_Unknown5(animation, parameter); break;
 				case 6: Animation_Func_SetGroundSprite(animation, parameter); break;
 				case 7: Animation_Func_Forward(animation, parameter); break;
 				case 8: Animation_Func_SetIconGroup(animation, parameter); break;
-
-				case 5:
-					emu_push(parameter);
-					emu_push(g_global->animations.s.cs); emu_push(g_global->animations.s.ip + i * sizeof(Animation));
-					emu_push(emu_cs); emu_push(0x0); emu_cs = 0x151A; f__151A_02C8_0016_FA9C();
-					emu_sp += 6;
-					break;
 			}
 
 			if (animation->proc.csip == 0) continue;

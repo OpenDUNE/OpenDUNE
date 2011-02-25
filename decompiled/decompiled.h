@@ -192,7 +192,6 @@ extern void f__217E_02A0_002C_0B5F();
 extern void f__AB00_02AB_000F_A43F();
 extern void emu_Print_Error_Overlay();
 extern void emu_Mouse_CallbackClear();
-extern void f__151A_02C8_0016_FA9C();
 extern void emu_Empty5();
 extern void emu_Mouse_InsideRegion();
 extern void f__B4DA_02E0_0023_E297();
