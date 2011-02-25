@@ -335,7 +335,6 @@ extern void f__AB01_07AF_0045_BDCD();
 extern void emu_Overlay_GetTotalSize();
 extern void emu_Tools_Cmpd();
 extern void emu_GUI_DrawChar();
-extern void f__B4ED_07B6_0013_1343();
 extern void f__B536_07CE_0032_AF6A();
 extern void f__2756_07D0_0001_6780();
 extern void emu_Tools_Var79E4_Init();
