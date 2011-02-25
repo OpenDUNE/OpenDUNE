@@ -9,6 +9,7 @@
 #include "../pool/unit.h"
 #include "../structure.h"
 #include "../unit.h"
+#include "gui.h"
 #include "widget.h"
 #include "../unknown/unknown.h"
 #include "../tile.h"
@@ -17,7 +18,6 @@
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
-extern void f__B4E9_0050_003F_292A();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
@@ -74,9 +74,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				g_global->activeStructurePosition = g_global->selectionPosition;
 				s->o.linkedID = STRUCTURE_INVALID;
 
-				emu_push(2);
-				emu_push(emu_cs); emu_push(0x111E); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-				emu_sp += 2;
+				GUI_ChangeSelectionType(2);
 			}
 			break;
 
@@ -266,9 +264,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	if (ai->variable_08 != g_global->selectionType) {
 		g_global->activeUnit = g_global->selectionUnit;
 		g_global->activeAction = action;
-		emu_push(ai->variable_08);
-		emu_push(emu_cs); emu_push(0x1DC3); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(ai->variable_08);
 
 		return true;
 	}
@@ -347,9 +343,7 @@ bool GUI_Widget_Cancel_Click()
 		g_global->activeStructure.csip = 0x0;
 		g_global->activeStructurePosition = 0xFFFF;
 
-		emu_push(4);
-		emu_push(emu_cs); emu_push(0x103A); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(4);
 
 		g_global->variable_38EC = 0;
 	}
@@ -366,9 +360,7 @@ bool GUI_Widget_Cancel_Click()
 	emu_push(emu_cs); emu_push(0x107C); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
 	emu_sp += 8;
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x1088); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-	emu_sp += 2;
+	GUI_ChangeSelectionType(3);
 
 	return true;
 }

@@ -13,6 +13,7 @@
 #include "../os/strings.h"
 #include "../unknown/unknown.h"
 #include "../house.h"
+#include "../map.h"
 #include "../structure.h"
 #include "../unit.h"
 #include "../os/math.h"
@@ -28,6 +29,7 @@
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
+extern void f__01F7_286D_0023_9A13();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_034F_000C_5E0A();
@@ -46,6 +48,7 @@ extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
+extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
@@ -70,6 +73,17 @@ extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
 extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
+
+MSVC_PACKED_BEGIN
+typedef struct struct_B4E9 {
+	/* 0000(4)   */ PACK csip32 variable_00;                /*!< ?? */
+	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
+	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
+	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
+	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
+} GCC_PACKED struct_B4E9;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_B4E9) == 0x0C);
 
 /**
  * Draw a wired rectangle.
@@ -1425,9 +1439,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	emu_push(emu_cs); emu_push(0x005B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-	emu_sp += 2;
+	GUI_ChangeSelectionType(0);
 
 	emu_push(2);
 	emu_push(emu_cs); emu_push(0x006D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
@@ -1860,9 +1872,7 @@ uint16 GUI_PickHouse()
 		emu_push(emu_cs); emu_push(0x13E4); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 		emu_sp += 16;
 
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x13F2); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_03A4_0005_619A();
-		emu_sp += 4;
+		GUI_Widget_DrawAll(w);
 
 		emu_push(emu_cs); emu_push(0x13F9); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2357,5 +2367,170 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	emu_push(unknown07AEOld);
 	emu_push(emu_cs); emu_push(0x09A4); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+	emu_sp += 2;
+}
+
+/**
+ * Change the selection type.
+ * @param selectionType The new selection type.
+ */
+void GUI_ChangeSelectionType(uint16 selectionType)
+{
+	struct_B4E9 *info = (struct_B4E9 *)&emu_get_memory8(0x2E8A, 0, 0xE);
+	uint16 old25980000;
+
+	if (selectionType == 3 && g_global->selectionUnit.csip == 0x0) {
+		selectionType = 4;
+	}
+
+	if (selectionType == 4 && g_global->selectionUnit.csip != 0x0) {
+		g_global->selectionUnit.csip = 0x0;
+	}
+
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x008F); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+	emu_sp += 2;
+	old25980000 = emu_ax;
+
+	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
+		uint16 oldSelectionType = g_global->selectionType;
+
+		Tools_Var76B8_Set(2, false);
+
+		g_global->selectionType = selectionType;
+		g_global->variable_3A10 = selectionType;
+		g_global->variable_37B8 = 1;
+
+		switch (oldSelectionType) {
+			case 1:
+			case 2:
+				Map_SetSelection(g_global->activeStructurePosition);
+				/* Fall-through */
+			case 4:
+				g_global->cursorDefaultSpriteID = 0;
+				GUI_DisplayText(NULL, 0xFFFF);
+				break;
+
+			case 3:
+				if (g_global->selectionUnit.csip != 0x0 && selectionType != 1 && selectionType != 3) {
+					Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
+
+					Unit_B4CD_01BF(2, u);
+
+					g_global->selectionUnit.csip = 0x0;
+				}
+				break;
+
+			default:
+				break;
+		}
+
+		if (info[oldSelectionType].variable_04 != 0 && info[selectionType].variable_06 != 0) {
+			g_global->variable_3A12 = 1;
+			g_global->variable_3A14 = 1;
+
+			GUI_DrawInterfaceAndRadar(0);
+		}
+
+		emu_push(info[selectionType].variable_08);
+		emu_push(emu_cs); emu_push(0x018E); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+		emu_sp += 2;
+
+		if (g_global->variable_6D5D != 0) {
+			GUI_Widget_DrawBorder(g_global->variable_6D5D, 0, false);
+		}
+
+		if (selectionType != 0) {
+			Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+
+			uint8 *loc08 = emu_get_memorycsip(info[selectionType].variable_00);
+
+			while (w != NULL) {
+				w->state.s.selected = false;
+				w->flags.s.invisible = true;
+
+				emu_push(*loc08);
+				emu_push(w->index);
+				emu_push(info[selectionType].variable_00.s.cs); emu_push(info[selectionType].variable_00.s.ip + 1);
+				emu_push(emu_cs); emu_push(0x0209); emu_cs = 0x01F7; f__01F7_286D_0023_9A13();
+				/* Check if this overlay should be reloaded */
+				if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+				emu_sp += 8;
+
+				if (emu_ax != 0 || emu_dx != 0) {
+					w->flags.s.invisible = false;
+				}
+
+				GUI_Widget_Draw(w);
+				w = GUI_Widget_GetNext(w);
+			}
+
+			GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(g_global->variable_3C26));
+			g_global->variable_38C4 = 1;
+		}
+
+		switch (g_global->selectionType) {
+			case 0:
+				if (oldSelectionType != 7) {
+					g_global->cursorSpriteID = 0;
+
+					emu_push(emu_get_memory16(0x2DCE, 0x00, 0x442)); emu_push(emu_get_memory16(0x2DCE, 0x00, 0x440)); /* g_sprites[0] */
+					emu_push(0);
+					emu_push(0);
+					emu_push(emu_cs); emu_push(0x02FE); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
+					/* Check if this overlay should be reloaded */
+					if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+					emu_sp += 8;
+				}
+
+				emu_push(info[selectionType].variable_08);
+				emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
+				/* Check if this overlay should be reloaded */
+				if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
+				emu_sp += 2;
+				break;
+
+			case 1:
+				g_global->activeStructurePosition = g_global->selectionPosition;
+				GUI_Widget_ActionPanel_Draw(true);
+
+				g_global->cursorDefaultSpriteID = 5;
+
+				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				break;
+
+			case 2:
+				Unit_Select(NULL);
+				GUI_Widget_ActionPanel_Draw(true);
+
+				Map_SetSelectionSize(g_structureInfo[g_global->activeStructureType].layout);
+
+				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				break;
+
+			case 3:
+				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+
+				GUI_Widget_ActionPanel_Draw(true);
+				break;
+
+			case 4:
+				GUI_Widget_ActionPanel_Draw(true);
+
+				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				break;
+
+			default: break;
+		}
+	}
+
+	emu_push(old25980000);
+	emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 	emu_sp += 2;
 }

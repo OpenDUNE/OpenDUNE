@@ -68,7 +68,6 @@ extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
-extern void f__B4E9_0050_003F_292A();
 extern void f__B4ED_0AA5_0010_6B85();
 extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__B4ED_0BF4_001B_A3A9();
@@ -914,9 +913,7 @@ static void GameLoop_LevelEnd()
 		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
 		emu_sp += 2;
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x031F); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(0);
 
 		if (GameLoop_IsLevelWon()) {
 			emu_push(0x28);
@@ -1260,8 +1257,7 @@ static void Gameloop_Logos()
  */
 static void Gameloop_Intro()
 {
-	emu_push(7);
-	emu_push(emu_cs); emu_push(0x000C); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
+	GUI_ChangeSelectionType(7);
 
 	String_Load("INTRO");
 
@@ -1287,9 +1283,7 @@ static void Gameloop_Intro()
 		GameLoop_B4ED_0184();
 	}
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x007B); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-
+	GUI_ChangeSelectionType(0);
 	String_Load(NULL);
 }
 
@@ -1888,9 +1882,7 @@ static void Gameloop_IntroMenu()
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push((g_global->debugScenario != 0) ? 5 : 4);
-		emu_push(emu_cs); emu_push(0x226B); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType((g_global->debugScenario != 0) ? 5 : 4);
 	}
 
 	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
@@ -2023,17 +2015,13 @@ static void GameLoop_Main()
 		}
 
 		if (g_global->variable_3A10 != g_global->selectionType) {
-			emu_push(g_global->variable_3A10);
-			emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(g_global->variable_3A10);
 		}
 
 		GUI_PaletteAnimate();
 
 		if (g_global->variable_38BE == 1) {
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x01BC); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(0);
 
 			emu_push(g_global->scenarioID);
 			emu_push(g_global->playerHouseID);
@@ -2042,9 +2030,7 @@ static void GameLoop_Main()
 
 			g_global->variable_38BE = 0;
 
-			emu_push(4);
-			emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(4);
 
 			Sound_Play(Tools_RandomRange(0, 8) + 8);
 			g_global->variable_31BC = g_global->variable_76AC + 300;

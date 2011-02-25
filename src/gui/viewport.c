@@ -24,7 +24,6 @@
 
 extern void f__2B4C_0002_0029_64AF();
 extern void f__B483_0000_0019_F96A();
-extern void f__B4E9_0050_003F_292A();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -178,9 +177,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		g_global->activeUnit.csip = 0x0;
 		g_global->activeAction    = 0xFFFF;
 
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x04D4); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(3);
 		return true;
 	}
 
@@ -216,9 +213,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				}
 			}
 
-			emu_push(4);
-			emu_push(emu_cs); emu_push(0x05D0); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(4);
 
 			s = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
 			if (s != NULL) {

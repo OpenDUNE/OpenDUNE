@@ -30,7 +30,6 @@
 #include "sprites.h"
 
 extern void f__B483_0000_0019_F96A();
-extern void f__B4E9_0050_003F_292A();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -1838,10 +1837,7 @@ void Unit_Select(Unit *unit)
 		g_global->selectionUnit.csip = 0x0;
 		selected = NULL;
 
-		emu_push(4);
-		emu_push(emu_cs); emu_push(0x10E9); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
-
+		GUI_ChangeSelectionType(4);
 		return;
 	}
 
@@ -1874,9 +1870,7 @@ void Unit_Select(Unit *unit)
 		g_global->selectionUnit = ucsip;
 		selected = unit;
 
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x10B4); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(3);
 	}
 
 	Unit_B4CD_01BF(2, selected);
@@ -2568,9 +2562,7 @@ bool Unit_Unknown379B(Unit *unit)
 		g_global->variable_39F4 = 0;
 		g_global->variable_39F6 = 0xFFFF;
 
-		emu_push(4);
-		emu_push(emu_cs); emu_push(0x380C); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-		emu_sp += 2;
+		GUI_ChangeSelectionType(4);
 	}
 
 	Unit_Select(NULL);
@@ -2745,9 +2737,7 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	if (isAI) return;
 
-	emu_push(4);
-	emu_push(emu_cs); emu_push(0x08C7); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-	emu_sp += 2;
+	GUI_ChangeSelectionType(4);
 }
 
 /**

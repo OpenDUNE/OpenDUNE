@@ -1151,3 +1151,15 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 		emu_push(emu_cs); emu_push(0x066F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }
+
+/**
+ * Draw all widgets, starting with the one given by the parameters.
+ * @param w First widget of the chain to draw.
+ */
+void GUI_Widget_DrawAll(Widget *w)
+{
+	while (w != NULL) {
+		GUI_Widget_Draw(w);
+		w = GUI_Widget_GetNext(w);
+	}
+}

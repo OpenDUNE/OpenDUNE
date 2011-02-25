@@ -29,7 +29,6 @@
 #include "gui/widget.h"
 
 extern void f__259E_0040_0015_5E4A();
-extern void f__B4E9_0050_003F_292A();
 extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
 extern void overlay(uint16 cs, uint8 force);
@@ -1057,9 +1056,7 @@ void Structure_ActivateSpecial(Structure *s)
 			/* Give the user 7 seconds to select their target */
 			g_global->houseMissileCountdown = 7;
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x05D5); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(1);
 		} break;
 
 		case HOUSE_WEAPON_FREMEN: {
@@ -1731,9 +1728,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			memmove(emu_get_memorycsip(g_global->variable_3C32), g_global->variable_70A2, 768);
 
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x179D); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(0);
 
 			emu_push(0);
 			emu_push(emu_cs); emu_push(0x17A6); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
@@ -1758,9 +1753,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_Load(0, 7, g_sprites);
 
-			emu_push(4);
-			emu_push(emu_cs); emu_push(0x1809); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
-			emu_sp += 2;
+			GUI_ChangeSelectionType(4);
 
 			if (loc1E == 0) return false;
 

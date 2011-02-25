@@ -336,3 +336,20 @@ void emu_GUI_Widget_DrawBorder()
 
 	GUI_Widget_DrawBorder(widget, borderType, (pressed != 0) ? true : false);
 }
+
+/**
+ * Emulator wrapper around GUI_Widget_DrawAll().
+ *
+ * @name emu_GUI_Widget_DrawAll
+ * @implements B48B:03A4:0005:619A ()
+ */
+void emu_GUI_Widget_DrawAll()
+{
+	csip32 wcsip;
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (wcsip.csip == 0x0) return;
+
+	GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(wcsip));
+}

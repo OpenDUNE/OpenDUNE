@@ -182,6 +182,7 @@ extern void GUI_Widget_TextButton2_Draw(Widget *w);
 extern void GUI_Widget_ScrollBar_Draw(Widget *w);
 extern void GUI_Widget_ActionPanel_Draw(bool forceDraw);
 extern void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed);
+extern void GUI_Widget_DrawAll(Widget *w);
 
 
 extern void emu_GUI_Widget_Get_ByIndex();
@@ -198,5 +199,6 @@ extern void emu_GUI_Widget_MakeNormal();
 extern void emu_GUI_Widget_MakeSelected();
 extern void emu_GUI_Widget_ActionPanel_Draw();
 extern void emu_GUI_Widget_DrawBorder();
+extern void emu_GUI_Widget_DrawAll();
 
 #endif /* GUI_WIDGET_H */
