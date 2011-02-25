@@ -1737,9 +1737,7 @@ static void Gameloop_IntroMenu()
 				GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-				emu_push(13);
-				emu_push(emu_cs); emu_push(0x203C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-				emu_sp += 2;
+				Unknown_07AE_0000(13);
 
 				GUI_Widget_DrawBorder(13, 2, 1);
 
@@ -2123,9 +2121,7 @@ static void GameLoop_Main()
 
 	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0438); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(0);
 
 	emu_push(2);
 	emu_push(emu_cs); emu_push(0x0442); emu_cs = 0x2598; f__2598_0000_0017_EB80();
@@ -2345,9 +2341,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
 	emu_sp += 2;
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x03E9); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(0);
 
 	return true;
 }

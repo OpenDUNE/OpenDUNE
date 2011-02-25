@@ -71,7 +71,6 @@ extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
-extern void emu_Unknown_07AE_0000();
 extern void overlay(uint16 cs, uint8 force);
 
 MSVC_PACKED_BEGIN
@@ -171,7 +170,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 	}
 
 	if (g_global->variable_373A != 0) {
-		uint16 loc04;
+		uint16 oldValue_07AE_0000;
 		uint16 loc06;
 
 		if (buffer[0] != '\0') {
@@ -182,11 +181,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		}
 		if ((int32)g_global->variable_373C > (int32)g_global->variable_76AC) return;
 
-		emu_push(7);
-		emu_push(emu_cs); emu_push(0x0AA4); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		emu_sp += 2;
-
-		loc04 = emu_ax;
+		oldValue_07AE_0000 = Unknown_07AE_0000(7);
 
 		if (g_global->variable_38C4 != 0) {
 			uint16 loc02;
@@ -255,9 +250,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; f__2642_0069_0008_D517();
 
-		emu_push(loc04);
-		emu_push(emu_cs); emu_push(0x0B8D); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		emu_sp += 2;
+		Unknown_07AE_0000(oldValue_07AE_0000);
 
 		if (g_global->variable_3740 != 0) {
 			if ((int16)g_global->variable_3738 <= (int16)g_global->variable_3736) {
@@ -645,16 +638,11 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x02D7); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
-	oldValue_07AE_0000 = emu_ax;
+	oldValue_07AE_0000 = Unknown_07AE_0000(1);
 
 	g_global->variable_4062[1][3] = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(1);
 
 	if (g_global->variable_3600.csip == 0x0) {
 		emu_push(g_global->variable_9931);
@@ -770,9 +758,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_sp += 12;
 	}
 
-	emu_push(oldValue_07AE_0000);
-	emu_push(emu_cs); emu_push(0x053E); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(oldValue_07AE_0000);
 
 	if (size != 0) {
 		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
@@ -2250,7 +2236,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 void GUI_DrawCredits(uint8 houseID, uint16 mode)
 {
 	uint16 memoryBlockOld;
-	uint16 unknown07AEOld;
+	uint16 oldValue_07AE_0000;
 	House *h;
 	char charCreditsOld[7];
 	char charCreditsNew[7];
@@ -2277,10 +2263,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	emu_sp += 2;
 	memoryBlockOld = emu_ax;
 
-	emu_push(4);
-	emu_push(emu_cs); emu_push(0x070B); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
-	unknown07AEOld = emu_ax;
+	oldValue_07AE_0000 = Unknown_07AE_0000(4);
 
 	creditsDiff = h->credits - g_global->creditsAnimation;
 	if (creditsDiff != 0) {
@@ -2365,9 +2348,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	emu_push(emu_cs); emu_push(0x099B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 	emu_sp += 2;
 
-	emu_push(unknown07AEOld);
-	emu_push(emu_cs); emu_push(0x09A4); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(oldValue_07AE_0000);
 }
 
 /**
@@ -2434,11 +2415,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			GUI_DrawInterfaceAndRadar(0);
 		}
 
-		emu_push(info[selectionType].variable_08);
-		emu_push(emu_cs); emu_push(0x018E); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-		emu_sp += 2;
+		Unknown_07AE_0000(info[selectionType].variable_08);
 
 		if (g_global->variable_6D5D != 0) {
 			GUI_Widget_DrawBorder(g_global->variable_6D5D, 0, false);
@@ -2487,11 +2464,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 					emu_sp += 8;
 				}
 
-				emu_push(info[selectionType].variable_08);
-				emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-				emu_sp += 2;
+				Unknown_07AE_0000(info[selectionType].variable_08);
 				break;
 
 			case 1:

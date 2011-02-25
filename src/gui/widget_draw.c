@@ -803,10 +803,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		emu_sp += 2;
 		loc04 = emu_ax;
 
-		emu_push(6);
-		emu_push(emu_cs); emu_push(0x1183); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		emu_sp += 2;
-		loc06 = emu_ax;
+		loc06 = Unknown_07AE_0000(6);
 
 		widget30 = GUI_Widget_Get_ByIndex(w, 7);
 		GUI_Widget_MakeInvisible(widget30);
@@ -1102,9 +1099,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	}
 
 	if (actionType > 1) {
-		emu_push(loc06);
-		emu_push(emu_cs); emu_push(0x1B84); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		emu_sp += 2;
+		Unknown_07AE_0000(loc06);
 
 		emu_push(loc04);
 		emu_push(emu_cs); emu_push(0x1B8D); emu_cs = 0x2598; f__2598_0000_0017_EB80();

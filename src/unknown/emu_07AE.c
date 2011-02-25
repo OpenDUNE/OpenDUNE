@@ -10,21 +10,12 @@
 extern void emu_GUI_DrawFilledRectangle();
 
 /**
- * C-ified function of f__07AE_0000_00DF_A32C().
- *
- * @name emu_Unknown_07AE_0000
- * @implements 07AE:0000:00DF:A32C ()
+ * Unknown function.
+ * @param index
  */
-void emu_Unknown_07AE_0000()
+uint16 Unknown_07AE_0000(uint16 index)
 {
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	emu_ax = g_global->variable_6D5D;
+	uint16 old6D56 = g_global->variable_6D5D;
 	g_global->variable_6D5D = index;
 
 	g_global->variable_992D = g_global->variable_4062[index][0];
@@ -40,6 +31,27 @@ void emu_Unknown_07AE_0000()
 	g_global->variable_6D5F = (g_global->variable_9931 - g_global->variable_6C6E) / (g_global->variable_6C71 + g_global->variable_6C6E);
 	g_global->variable_6D63 = g_global->variable_992F << 3;
 	g_global->variable_6D61 = g_global->variable_6D63 / (g_global->variable_6C70 + g_global->variable_6C6C);
+
+	return old6D56;
+}
+
+/**
+ * C-ified function of f__07AE_0000_00DF_A32C().
+ *
+ * @name emu_Unknown_07AE_0000
+ * @implements 07AE:0000:00DF:A32C ()
+ */
+void emu_Unknown_07AE_0000()
+{
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = Unknown_07AE_0000(index);
 }
 
 /**
@@ -58,11 +70,7 @@ void emu_Unknown_07AE_00E4()
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	emu_push(index);
-	emu_push(emu_cs); emu_push(0x00F1); emu_Unknown_07AE_0000();
-	emu_sp += 2;
-
-	index = emu_ax;
+	index = Unknown_07AE_0000(index);
 
 	emu_push(emu_cs); emu_push(0x00FA); emu_Unknown_07AE_0103();
 

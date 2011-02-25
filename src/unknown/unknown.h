@@ -3,6 +3,7 @@
 #ifndef UNKNOWN_UNKNOWN_H
 #define UNKNOWN_UNKNOWN_H
 
+extern uint16 Unknown_07AE_0000(uint16 index);
 extern void emu_Unknown_07AE_0000();
 extern void emu_Unknown_07AE_00E4();
 extern void emu_Unknown_07AE_0103();

@@ -85,7 +85,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	uint16 curPos;
 	bool loc12;
 	uint16 old2598;
-	uint16 old07AE;
+	uint16 oldValue_07AE_0000;
 	int16 minX[10];
 	int16 maxX[10];
 
@@ -101,10 +101,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	emu_sp += 2;
 	old2598 = emu_ax;
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0399); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
-	old07AE = emu_ax;
+	oldValue_07AE_0000 = Unknown_07AE_0000(2);
 
 	if (g_global->variable_39E2 != 0 || arg06) {
 		for (y = 0; y < 10; y++) {
@@ -610,9 +607,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	emu_push(emu_cs); emu_push(0x1564); emu_cs = 0x2598; f__2598_0000_0017_EB80();
 	emu_sp +=2;
 
-	emu_push(old07AE);
-	emu_push(emu_cs); emu_push(0x156D); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	emu_sp += 2;
+	Unknown_07AE_0000(oldValue_07AE_0000);
 
 	return;
 }

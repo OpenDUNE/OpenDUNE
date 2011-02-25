@@ -49,7 +49,7 @@ bool Security_Check()
 	csip32 wsaHouseFilenamecsip;
 	uint16 questionsCount;
 	uint32 loc0E;
-	uint16 old07AE;
+	uint16 oldValue_07AE_0000;
 	uint16 old2598;
 	uint16 i;
 	bool valid;
@@ -175,12 +175,7 @@ bool Security_Check()
 		questionsCount = atoi(string);
 	}
 
-	emu_push(8);
-	emu_push(emu_cs); emu_push(0x1251); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 2;
-	old07AE = emu_ax;
+	oldValue_07AE_0000 = Unknown_07AE_0000(8);
 
 	emu_push(4);
 	emu_push(emu_cs); emu_push(0x125E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
@@ -198,11 +193,7 @@ bool Security_Check()
 
 		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + 10;
 
-		emu_push(8);
-		emu_push(emu_cs); emu_push(0x1292); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 2;
+		Unknown_07AE_0000(8);
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 1);
 		String_Decompress(compressedString, string);
@@ -280,11 +271,7 @@ bool Security_Check()
 
 		g_global->variable_2582 = g_global->variable_76AC + strlen(string) * 4;
 
-		emu_push(9);
-		emu_push(emu_cs); emu_push(0x13D9); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 2;
+		Unknown_07AE_0000(9);
 
 		emu_push(emu_cs); emu_push(0x13DF); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 		/* Check if this overlay should be reloaded */
@@ -428,11 +415,7 @@ bool Security_Check()
 		emu_push(emu_cs); emu_push(0x168E); f__B4DA_1860_0008_857D();
 	}
 
-	emu_push(old07AE);
-	emu_push(emu_cs); emu_push(0x16A5); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 2;
+	Unknown_07AE_0000(oldValue_07AE_0000);
 
 	emu_push(old2598);
 	emu_push(emu_cs); emu_push(0x16AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();

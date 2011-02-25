@@ -84,12 +84,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		emu_sp += 2;
 		oldValue_2598_0000 = emu_ax;
 
-		emu_push(unknown1);
-		emu_push(emu_cs); emu_push(0x0035); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
-		oldValue_07AE_0000 = emu_ax;
+		oldValue_07AE_0000 = Unknown_07AE_0000(unknown1);
 
 		returnValue = 0x0;
 	}
@@ -237,11 +232,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_0002);
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000);
 
-		emu_push(oldValue_07AE_0000);
-		emu_push(emu_cs); emu_push(0x02A6); emu_cs = 0x07AE; emu_Unknown_07AE_0000();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
+		Unknown_07AE_0000(oldValue_07AE_0000);
 
 		emu_push(oldValue_2598_0000);
 		emu_push(emu_cs); emu_push(0x02AF); emu_cs = 0x2598; f__2598_0000_0017_EB80();
