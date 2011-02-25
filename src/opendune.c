@@ -1888,12 +1888,7 @@ static void Gameloop_IntroMenu()
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_cmpw(&g_global->debugScenario, 0x0);
-		if (g_global->debugScenario != 0) {
-			emu_push(5);
-		} else {
-			emu_push(4);
-		}
+		emu_push((g_global->debugScenario != 0) ? 5 : 4);
 		emu_push(emu_cs); emu_push(0x226B); emu_cs = 0x34E9; overlay(0x34E9, 0); f__B4E9_0050_003F_292A();
 		emu_sp += 2;
 	}
