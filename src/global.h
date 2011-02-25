@@ -45,7 +45,9 @@ assert_compile(sizeof(struct_7B68) == 0x6);
 MSVC_PACKED_BEGIN
 typedef struct struct_19A8 {
 	/* 0000(4)   */ PACK csip32 string;                     /*!< Pointer to a string. */
-	/* 0004()    */ PACK uint8   unknown_0004[0x0004];      /*!< ?? */
+	/* 0004(1)   */ PACK uint8  variable_0004;              /*!< ?? */
+	/* 0005(1)   */ PACK uint8  variable_0005;              /*!< ?? */
+	/* 0006(2)   */ PACK uint16 flags;                      /*!< ?? */
 } GCC_PACKED struct_19A8;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_19A8) == 0x8);
