@@ -67,6 +67,15 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_19F0) == 0xA);
 
 MSVC_PACKED_BEGIN
+typedef struct struct_1A2C {
+	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
+	/* 0001(1)   */ PACK uint8  variable_0001;              /*!< ?? */
+	/* 0002(1)   */ PACK uint8  variable_0002;              /*!< ?? */
+} GCC_PACKED struct_1A2C;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_1A2C) == 0x3);
+
+MSVC_PACKED_BEGIN
 typedef struct struct_8BDE {
 	/* 0000(2)   */ PACK uint16 packed;                     /*!< ?? */
 	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
@@ -381,15 +390,15 @@ typedef struct GlobalData {
 	/* 199D(11)  */ PACK char   string_199D[11];            /*!< "Timed out:" NULL terminated. */
 	/* 19A8(72)  */ PACK struct_19A8 variable_19A8[9];      /*!< ?? */
 	/* 19F0(60)  */ PACK struct_19F0 variable_19F0[6];      /*!< ?? */
-	/* 1A2C(3)   */ PACK uint8  variable_1A2C[1][3];        /*!< ?? */
+	/* 1A2C(3)   */ PACK struct_1A2C variable_1A2C[1];      /*!< ?? */
 	/* 1A2F(2)   */ PACK uint16 variable_1A2F;              /*!< ?? */
 	/* 1A31(96)  */ PACK struct_19A8 variable_1A31[12];     /*!< ?? */
 	/* 1A91(80)  */ PACK struct_19F0 variable_1A91[8];      /*!< ?? */
-	/* 1AE1(3)   */ PACK uint8  variable_1AE1[8][3];        /*!< ?? */
+	/* 1AE1(3)   */ PACK struct_1A2C variable_1AE1[8];      /*!< ?? */
 	/* 1AF9(2)   */ PACK uint16 variable_1AF9;              /*!< ?? */
 	/* 1AFB(112) */ PACK struct_19A8 variable_1AFB[14];     /*!< ?? */
 	/* 1B6B(70)  */ PACK struct_19F0 variable_1B6B[7];      /*!< ?? */
-	/* 1BB1(3)   */ PACK uint8  variable_1BB1[3][3];        /*!< ?? */
+	/* 1BB1(3)   */ PACK struct_1A2C variable_1BB1[3];      /*!< ?? */
 	/* 1BBA(2)   */ PACK uint16 variable_1BBA;              /*!< ?? */
 	/* 1BBC(8)   */ PACK char   string_1BBC[8];             /*!< "AFINALA" NULL terminated. */
 	/* 1BC4(8)   */ PACK char   string_1BC4[8];             /*!< "EFINALA" NULL terminated. */
@@ -405,27 +414,27 @@ typedef struct GlobalData {
 	/* 1C14(6)   */ PACK char   string_1C14[6];             /*!< "INTRO" NULL terminated. */
 	/* 1C1A(40)  */ PACK struct_19A8 variable_1C1A[5];      /*!< ?? */
 	/* 1C42(70)  */ PACK struct_19F0 variable_1C42[7];      /*!< ?? */
-	/* 1C88(3)   */ PACK uint8  variable_1C88[1][3];        /*!< ?? */
+	/* 1C88(3)   */ PACK struct_1A2C variable_1C88[1];      /*!< ?? */
 	/* 1C8B(2)   */ PACK uint16 variable_1C8B;              /*!< ?? */
 	/* 1C8D(32)  */ PACK struct_19A8 variable_1C8D[4];      /*!< ?? */
 	/* 1CAD(60)  */ PACK struct_19F0 variable_1CAD[6];      /*!< ?? */
-	/* 1CE9(3)   */ PACK uint8  variable_1CE9[1][3];        /*!< ?? */
+	/* 1CE9(3)   */ PACK struct_1A2C variable_1CE9[1];      /*!< ?? */
 	/* 1CEC(2)   */ PACK uint16 variable_1CEC;              /*!< ?? */
 	/* 1CEE(40)  */ PACK struct_19A8 variable_1CEE[5];      /*!< ?? */
 	/* 1D16(70)  */ PACK struct_19F0 variable_1D16[7];      /*!< ?? */
-	/* 1D5C(3)   */ PACK uint8  variable_1D5C[1][3];        /*!< ?? */
+	/* 1D5C(3)   */ PACK struct_1A2C variable_1D5C[1];      /*!< ?? */
 	/* 1D5F(2)   */ PACK uint16 variable_1D5F;              /*!< ?? */
 	/* 1D61(32)  */ PACK struct_19A8 variable_1D61[4];      /*!< ?? */
 	/* 1D81(60)  */ PACK struct_19F0 variable_1D81[6];      /*!< ?? */
-	/* 1DBD(3)   */ PACK uint8  variable_1DBD[1][3];        /*!< ?? */
+	/* 1DBD(3)   */ PACK struct_1A2C variable_1DBD[1];      /*!< ?? */
 	/* 1DC0(2)   */ PACK uint16 variable_1DC0;              /*!< ?? */
 	/* 1DC2(40)  */ PACK struct_19A8 variable_1DC2[5];      /*!< ?? */
 	/* 1DEA(70)  */ PACK struct_19F0 variable_1DEA[7];      /*!< ?? */
-	/* 1E30(3)   */ PACK uint8  variable_1E30[1][3];        /*!< ?? */
+	/* 1E30(3)   */ PACK struct_1A2C variable_1E30[1];      /*!< ?? */
 	/* 1E33(2)   */ PACK uint16 variable_1E33;              /*!< ?? */
 	/* 1E35(32)  */ PACK struct_19A8 variable_1E35[4];      /*!< ?? */
 	/* 1E55(70)  */ PACK struct_19F0 variable_1E55[7];      /*!< ?? */
-	/* 1E9B(3)   */ PACK uint8  variable_1E9B[1][3];        /*!< ?? */
+	/* 1E9B(3)   */ PACK struct_1A2C variable_1E9B[1];      /*!< ?? */
 	/* 1E9E(2)   */ PACK uint16 variable_1E9E;              /*!< ?? */
 	/* 1EA0()    */ PACK uint8   unknown_1EA0[0x0001];
 	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */

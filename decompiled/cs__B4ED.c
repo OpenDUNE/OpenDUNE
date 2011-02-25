@@ -5,66 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4ED_075D_002B_59B5()
- *
- * @name f__B4ED_075D_002B_59B5
- * @implements B4ED:075D:002B:59B5 ()
- * @implements B4ED:0788:0023:561F
- * @implements B4ED:07AB:000B:E321
- * @implements B4ED:07B2:0004:893F
- *
- * Called From: B4ED:07C6:0013:1343
- */
-void f__B4ED_075D_002B_59B5()
-{
-l__075D:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x8070);
-	emu_dx = 0x3;
-	emu_imuluw(&emu_ax, emu_dx);
-	emu_dx = emu_get_memory16(emu_ds, 0x00, 0x8058);
-	emu_bx = emu_get_memory16(emu_ds, 0x00, 0x8056);
-	emu_addw(&emu_bx, emu_ax);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_cmpb(&emu_al, emu_get_memory8(emu_ss, emu_bp,  0x6));
-	if (emu_al <= emu_get_memory8(emu_ss, emu_bp,  0x6)) goto l__0788;
-	goto l__07B2;
-l__0788:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x2);
-	emu_ah = 0x0;
-	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x8068));
-	if ((int16)emu_ax > (int16)emu_get_memory16(emu_ds, 0x00, 0x8068)) goto l__07B2;
-	emu_xorw(&emu_ax, emu_ax);
-	emu_xorw(&emu_dx, emu_dx);
-	emu_push(emu_ax);
-	emu_push(emu_dx);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x1);
-	emu_ax = (int8)emu_al;
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x07AB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34ED) { overlay(0x34ED, 1); }
-l__07AB:
-	emu_addw(&emu_sp, 0x6);
-	emu_incw(&emu_get_memory16(emu_ds, 0x00, 0x8070));
-l__07B2:
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4ED_0AA5_0010_6B85()
  *
  * @name f__B4ED_0AA5_0010_6B85

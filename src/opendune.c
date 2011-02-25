@@ -60,6 +60,7 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2C17_000C_002F_3016();
+extern void f__B483_0000_0019_F96A();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0819_000C_0B7D();
@@ -68,7 +69,6 @@ extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4E9_0050_003F_292A();
-extern void f__B4ED_075D_002B_59B5();
 extern void f__B4ED_0AA5_0010_6B85();
 extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__B4ED_0BF4_001B_A3A9();
@@ -342,9 +342,22 @@ static void GameLoop_B4ED_0184()
 	emu_sp += 2;
 }
 
+static void GameLoop_B4ED_075D(uint8 animation)
+{
+	struct_1A2C *var8056 = &((struct_1A2C *)emu_get_memorycsip(g_global->variable_8056))[g_global->variable_8070];
+
+	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
+
+	emu_push(0); emu_push(0);
+	emu_push(var8056->variable_0001);
+	emu_push(emu_cs); emu_push(0x07AB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
+	emu_sp += 6;
+
+	g_global->variable_8070++;
+}
+
 static void GameLoop_B4ED_07B6(uint8 animation)
 {
-	csip32 loc04;
 	struct_19F0 *var805A;
 	uint8 i;
 	/* XXX -- The next lines should be uint8 values[16] */
@@ -354,12 +367,8 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	g_global->variable_8068++;
 
-	emu_push(animation);
-	emu_push(emu_cs); emu_push(0x07C9); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_075D_002B_59B5();
-	emu_sp += 2;
+	GameLoop_B4ED_075D(animation);
 
-	loc04 = g_global->variable_805A;
-	loc04.s.ip += g_global->variable_8072 * 10;
 	var805A = &((struct_19F0 *)emu_get_memorycsip(g_global->variable_805A))[g_global->variable_8072];
 
 	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) { emu_sp += 16; return; } /* XXX -- Should be return */
