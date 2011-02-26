@@ -94,8 +94,9 @@ typedef struct HouseInfo {
 	/* 000E(2)   */ PACK uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
 	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
 	/* 0012(2)   */ PACK uint16 specialWeapon;              /*!< Which Special Weapon this House has. @see HouseWeapon. */
-	/* 0014()    */ PACK uint8   unknown_0014[0x0004];
-	/* 0018(2)   */ PACK uint16 variable_18;                /*!< ?? */
+	/* 0014(2)   */ PACK uint16 musicWin;                   /*!< Music played when you won a mission. */
+	/* 0016(2)   */ PACK uint16 musicLose;                  /*!< Music played when you lose a mission. */
+	/* 0018(2)   */ PACK uint16 musicBriefing;              /*!< Music played during initial briefing of mission. */
 	/* 001A(4)   */ PACK csip32 voiceFilename;              /*!< Pointer to filename with the voices of the house. */
 } GCC_PACKED HouseInfo;
 MSVC_PACKED_END

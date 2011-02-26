@@ -36,7 +36,7 @@ bool GUI_Widget_Mentat_Click()
 	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
 	emu_sp += 4;
 
-	Music_Play(g_houseInfo[g_global->playerHouseID].variable_18);
+	Music_Play(g_houseInfo[g_global->playerHouseID].musicBriefing);
 
 	Sprites_UnloadTiles();
 

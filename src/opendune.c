@@ -73,8 +73,8 @@ extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__B500_0000_0008_FE1F();
 extern void d__B511_0000_000E_B463();
 extern void d__B511_001E_0010_AE09();
-extern void f__B511_0C35_002A_C70F();
-extern void f__B511_0C64_002A_C757();
+extern void d__B511_0C35_002A_C70F();
+extern void d__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
 extern void emu_GUI_DrawFilledRectangle();
@@ -949,7 +949,7 @@ static void GameLoop_LevelEnd()
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
-			emu_push(emu_cs); emu_push(0x0352); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C35_002A_C70F();
+			d__B511_0C35_002A_C70F();
 
 			Sprites_UnloadTiles();
 
@@ -1012,7 +1012,7 @@ static void GameLoop_LevelEnd()
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
-			emu_push(emu_cs); emu_push(0x048D); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0C64_002A_C757();
+			d__B511_0C64_002A_C757();
 
 			Sprites_UnloadTiles();
 
