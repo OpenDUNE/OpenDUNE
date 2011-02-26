@@ -328,6 +328,10 @@ void emu_GUI_Widget_DrawAll()
 {
 	csip32 wcsip;
 
+        /* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
 	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
 	if (wcsip.csip == 0x0) return;
