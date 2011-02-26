@@ -54,7 +54,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B483_04CB_0015_EBB4();
-extern void f__B48B_0000_001E_7E97();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0AB8_002A_AAB2();
@@ -1694,13 +1693,8 @@ uint16 GUI_PickHouse()
 			w2->width  = 96;
 			w2->height = 104;
 
-			emu_push(w2csip.s.cs); emu_push(w2csip.s.ip);
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-			emu_push(emu_cs); emu_push(0x1097); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
-			emu_sp += 8;
-			wcsip.s.cs = emu_dx;
-			wcsip.s.ip = emu_ax;
-			w = (Widget *)emu_get_memorycsip(wcsip);
+			w = GUI_Widget_Link(w, w2);
+			wcsip = emu_Global_GetCSIP(w);
 		}
 
 		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, 3, NULL, 1);
@@ -1782,31 +1776,11 @@ uint16 GUI_PickHouse()
 
 		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
 
-		{
-			csip32 tmp;
-			GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6B)), 168, 168, 0, 0, 0, &tmp); /* "Yes" */
-			emu_push(tmp.s.cs); emu_push(tmp.s.ip);
-		}
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x126A); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
-		emu_sp += 8;
-		wcsip.s.cs = emu_dx;
-		wcsip.s.ip = emu_ax;
-		w = (Widget *)emu_get_memorycsip(wcsip);
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6B)), 168, 168, 0, 0, 0, NULL)); /* "Yes" */
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6C)), 240, 168, 2, 0, 0, NULL)); /* "No" */
+		wcsip = emu_Global_GetCSIP(w);
 
-		{
-			csip32 tmp;
-			GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6C)), 240, 168, 2, 0, 0, &tmp); /* "No" */
-			emu_push(tmp.s.cs); emu_push(tmp.s.ip);
-		}
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x12C2); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
-		emu_sp += 8;
-		wcsip.s.cs = emu_dx;
-		wcsip.s.ip = emu_ax;
-		w = (Widget *)emu_get_memorycsip(wcsip);
-
-		sprintf((char*)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[ret].name));
+		sprintf((char *)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[ret].name));
 
 		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));

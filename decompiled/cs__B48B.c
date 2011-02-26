@@ -5,84 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B48B_0000_001E_7E97()
- *
- * @name f__B48B_0000_001E_7E97
- * @implements B48B:0000:001E:7E97 ()
- * @implements B48B:0024:0002:EF3A
- * @implements B48B:0026:0016:3673
- * @implements B48B:003C:002E:CE21
- * @implements B48B:004C:001E:A15E
- * @implements B48B:006A:001A:DFCC
- * @implements B48B:0076:000E:0C48
- * @implements B48B:0084:0004:893F
- *
- * Called From: 348B:0020:0005:0000
- * Called From: B48B:02F7:003C:DD44
- * Called From: B48B:02F7:0058:1F2E
- */
-void f__B48B_0000_001E_7E97()
-{
-l__0000:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0xC));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x001E; emu_last_cs = 0xB48B; emu_last_ip = 0x000C; emu_last_length = 0x001E; emu_last_crc = 0x7E97; emu_call(); return; }
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_get_memory16(emu_es, emu_bx, 0x2) = 0x0;
-	emu_get_memory16(emu_es, emu_bx, 0x0) = 0x0;
-	goto l__0026;
-l__0024:
-	goto l__0084;
-l__0026:
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) goto l__006A;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-	goto l__004C;
-l__003C:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x2);
-	emu_dx = emu_get_memory16(emu_es, emu_bx, 0x0);
-	emu_get_memory16(emu_ss, emu_bp,  0x8) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp,  0x6) = emu_dx;
-l__004C:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x0);
-	emu_orw(&emu_ax, emu_get_memory16(emu_es, emu_bx, 0x2));
-	if (emu_ax != 0) goto l__003C;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_get_memory16(emu_es, emu_bx, 0x2) = emu_ax;
-	emu_get_memory16(emu_es, emu_bx, 0x0) = emu_dx;
-	goto l__0076;
-l__006A:
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-l__0076:
-	emu_get_memory16(emu_ds, 0x00, 0x6D75) = 0x1;
-	emu_dx = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	goto l__0024;
-l__0084:
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B48B_0242_0017_581D()
  *
  * @name f__B48B_0242_0017_581D
@@ -173,7 +95,7 @@ l__02DA:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_cs);
-	emu_push(0x02FA); f__B48B_0000_001E_7E97();
+	emu_push(0x02FA); emu_GUI_Widget_Link();
 l__02FA:
 	emu_addw(&emu_sp, 0x8);
 	emu_get_memory16(emu_ss, emu_bp,  0x8) = emu_dx;

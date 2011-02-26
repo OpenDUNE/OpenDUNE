@@ -159,6 +159,7 @@ extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A, csip32 *retcsip);
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
 extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);
+extern Widget *GUI_Widget_Link(Widget *w1, Widget *w2);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -199,5 +200,6 @@ extern void emu_GUI_Widget_MakeNormal();
 extern void emu_GUI_Widget_MakeSelected();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawAll();
+extern void emu_GUI_Widget_Link();
 
 #endif /* GUI_WIDGET_H */

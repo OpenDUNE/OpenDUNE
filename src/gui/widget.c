@@ -834,3 +834,26 @@ void GUI_Widget_MakeNormal(Widget *w, bool clickProc)
 
 	return;
 }
+
+/**
+ * Link a widget to another widget, where the new widget is linked at the end
+ *  of the list of the first widget.
+ * @param w1 Widget to which the other widget is added.
+ * @param w2 Widget which is added to the first widget (at the end of his chain).
+ * @return The first widget of the chain.
+ */
+Widget *GUI_Widget_Link(Widget *w1, Widget *w2)
+{
+	Widget *first = w1;
+
+	g_global->widgetReset = true;
+
+	if (w2 == NULL) return w1;
+	w2->next.csip = 0x0;
+	if (w1 == NULL) return w2;
+
+	while (w1->next.csip != 0x0) w1 = GUI_Widget_GetNext(w1);
+
+	w1->next = emu_Global_GetCSIP(w2);
+	return first;
+}

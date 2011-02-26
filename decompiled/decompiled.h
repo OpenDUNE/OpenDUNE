@@ -55,7 +55,6 @@ extern void emu_EntryPoint();
 extern void f__2598_0000_0017_EB80();
 extern void f__2BF2_0000_0007_42B5();
 extern void f__B488_0000_0027_45A9();
-extern void f__B48B_0000_001E_7E97();
 extern void f__B491_0000_0022_DD43();
 extern void f__B495_0000_0022_1CF6();
 extern void emu_Gameloop_Intro();

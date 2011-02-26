@@ -9,7 +9,6 @@ static void d__B511_0C93_0014_2A98(uint8 houseID, uint16 stringID, csip32 wsaFil
 {
 	Widget *w1, *w2;
 	csip32 w1csip, w2csip;
-	csip32 loc02;
 	uint16 loc0A;
 
 	if (g_global->debugSkipDialogs) return;
@@ -19,13 +18,8 @@ static void d__B511_0C93_0014_2A98(uint8 houseID, uint16 stringID, csip32 wsaFil
 	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0, &w1csip);
 	w2 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0, &w2csip);
 
-	emu_push(w2csip.s.cs); emu_push(w2csip.s.ip);
-	emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0D4C); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0000_001E_7E97();
-	emu_sp += 8;
-
-	loc02.s.cs = emu_dx;
-	loc02.s.ip = emu_ax;
+	w1 = GUI_Widget_Link(w1, w2);
+	w1csip = emu_Global_GetCSIP(w1);
 
 	Unknown_B483_0363(0xFFFE);
 
@@ -43,7 +37,7 @@ static void d__B511_0C93_0014_2A98(uint8 houseID, uint16 stringID, csip32 wsaFil
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 
 		emu_push(1);
-		emu_push(loc02.s.cs); emu_push(loc02.s.ip);
+		emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
 		emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
 		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x0DF2); f__B511_0E44_000C_24F5();
@@ -52,12 +46,12 @@ static void d__B511_0C93_0014_2A98(uint8 houseID, uint16 stringID, csip32 wsaFil
 		loc0A = emu_ax;
 	} while (loc0A == 0x8002);
 
-	emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
 	emu_push(w2csip.s.cs); emu_push(w2csip.s.ip);
 	emu_push(emu_cs); emu_push(0x0E1C); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
 	if (musicID != 0xFFFF) {
