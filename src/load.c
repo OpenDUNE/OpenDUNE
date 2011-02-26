@@ -23,7 +23,7 @@
 #include "gui/gui.h"
 #include "sprites.h"
 
-extern void f__B511_0091_001D_9C25();
+extern void d__B511_0091_001D_9C25();
 extern void f__B511_0A8F_000E_EE64();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -271,9 +271,7 @@ bool LoadFile(char *filename)
 		return false;
 	}
 
-	if (g_global->variable_38BE != 1) {
-		emu_push(emu_cs); emu_push(0x071A); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0091_001D_9C25();
-	}
+	if (g_global->variable_38BE != 1) d__B511_0091_001D_9C25();
 
 	return true;
 }
