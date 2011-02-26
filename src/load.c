@@ -23,8 +23,8 @@
 #include "gui/gui.h"
 #include "sprites.h"
 
-extern void d__B511_0091_001D_9C25();
-extern void d__B511_0A8F_000E_EE64();
+extern void Game_Prepare();
+extern void Game_Init();
 
 /**
  * Load all kinds of important info from a file.
@@ -240,7 +240,7 @@ bool LoadFile(char *filename)
 
 	Unknown_B483_0363(0xFFFE);
 
-	d__B511_0A8F_000E_EE64();
+	Game_Init();
 
 	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
 	fp = fopen(filenameComplete, "rb");
@@ -270,7 +270,7 @@ bool LoadFile(char *filename)
 		return false;
 	}
 
-	if (g_global->variable_38BE != 1) d__B511_0091_001D_9C25();
+	if (g_global->variable_38BE != 1) Game_Prepare();
 
 	return true;
 }

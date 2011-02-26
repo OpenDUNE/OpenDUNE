@@ -1,20 +1,98 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include "../os/strings.h"
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "mentat.h"
+#include "gui.h"
+#include "widget.h"
 #include "../house.h"
 #include "../sprites.h"
+#include "../string.h"
 #include "../tools.h"
-#include "gui.h"
-#include "mentat.h"
 #include "../unknown/unknown.h"
 
 extern void f__1DD7_022D_0015_1956();
+extern void f__1DD7_0B53_0025_36F7();
+extern void f__24D0_000D_0039_C17D();
+extern void f__2598_0000_0017_EB80();
+extern void f__259E_0006_0016_858A();
 extern void f__2B4C_0002_0029_64AF();
+extern void f__2B6C_0137_0020_C73F();
+extern void f__2B6C_0169_001E_6939();
+extern void f__B4DA_0000_002C_B3C2();
+extern void f__B4DA_02E0_0023_E297();
+extern void f__B4DA_0308_0018_F99F();
+extern void f__B4DA_0A8E_0025_4AC8();
+extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0000_000F_14AD();
+extern void emu_Tools_Free();
+extern void emu_WSA_Display();
+extern void emu_WSA_DisplayFrame();
+extern void emu_WSA_LoadFile();
+extern void emu_WSA_Unload();
 extern void overlay(uint16 cs, uint8 force);
+
+
+
+
+extern void emu_Input_History_Clear();
+
+
+/**
+ * Show the Mentat screen with a dialog (Proceed / Repeat).
+ * @param houseID The house to show the mentat of.
+ * @param stringID The string to show.
+ * @param wsaFilename The WSA to show.
+ * @param musicID The Music to play.
+ */
+static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFilename, uint16 musicID)
+{
+	Widget *w1, *w2;
+	csip32 w1csip, w2csip;
+
+	if (g_global->debugSkipDialogs) return;
+
+	Sprites_Load(1, 7, g_sprites);
+
+	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0, &w1csip);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0, &w2csip);
+
+	w1 = GUI_Widget_Link(w1, w2);
+	w1csip = emu_Global_GetCSIP(w1);
+
+	Unknown_B483_0363(0xFFFE);
+
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0D6A); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
+	emu_sp += 4;
+
+	Music_Play(musicID);
+
+	do {
+		char filename[10];
+		snprintf(filename, sizeof(filename), "TEXT%c", emu_get_memorycsip(g_houseInfo[houseID].name)[0]);
+		String_LoadFile(String_GenerateFilename(filename), stringID, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
+	} while (GUI_Mentat_Show(g_global->readBuffer, wsaFilename, w1, true) == 0x8002);
+
+	emu_push(w2csip.s.cs); emu_push(w2csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0E1C); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	if (musicID != 0xFFFF) {
+		emu_push(emu_cs); emu_push(0x0E28); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+	}
+
+	Sprites_Load(0, 7, g_sprites);
+}
 
 /**
  * Handle clicks on the Mentat widget.
@@ -63,4 +141,156 @@ bool GUI_Widget_Mentat_Click()
 	Music_Play(Tools_RandomRange(0, 5) + 8);
 
 	return true;
+}
+
+/**
+ * Show the Mentat screen.
+ * @param spriteBuffer The buffer of the strings.
+ * @param wsaFilename The WSA to show.
+ * @param w The widgets to handle. Can be NULL for no widgets.
+ * @param unknown A boolean.
+ * @return Return value of GUI_Widget_HandleEvents() or f__B4DA_0AB8_002A_AAB2() (latter when no widgets).
+ */
+uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool unknown)
+{
+	uint16 ret;
+
+	Sprites_UnloadTiles();
+
+	emu_push(g_global->playerHouseID);
+	emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
+	emu_push(emu_cs); emu_push(0x0E5F); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0000_002C_B3C2();
+	emu_sp += 6;
+
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x0E6B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(8);
+	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x07AE; emu_Unknown_07AE_00E4();
+	emu_sp += 2;
+
+	if (wsaFilename.csip != 0x0) {
+		csip32 wsa;
+
+		emu_push(0); emu_push(0);
+		emu_push(0);
+		emu_push(g_global->variable_6CD3[2][0] >> 16); emu_push(g_global->variable_6CD3[2][0] & 0xFFFF);
+
+		emu_push(5);
+		emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_sp += 2;
+
+		emu_push(emu_dx); emu_push(emu_ax);
+
+		emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
+		emu_push(emu_cs); emu_push(0x0EA6); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
+		emu_sp += 18;
+		wsa.s.cs = emu_dx;
+		wsa.s.ip = emu_ax;
+
+		emu_push(0);
+		emu_push(2);
+		emu_push(g_global->variable_992B); emu_push(g_global->variable_992D * 8);
+		emu_push(0);
+		emu_push(wsa.s.cs); emu_push(wsa.s.ip);
+		emu_push(emu_cs); emu_push(0x0ED0); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
+		emu_sp += 14;
+
+		emu_push(wsa.s.cs); emu_push(wsa.s.ip);
+		emu_push(emu_cs); emu_push(0x0EDE); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
+		emu_sp += 4;
+	}
+
+	emu_push(2);
+	emu_push(emu_cs); emu_push(0x0EE9); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0A8E_0025_4AC8();
+	emu_sp += 2;
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0EF2); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	emu_push(0);
+	emu_push(2);
+	emu_push(200); emu_push(40);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0F18); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_sp += 16;
+
+	emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(15);
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x0F31); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_sp += 6;
+
+	emu_push(0); emu_push(0);
+	emu_push(1);
+	emu_push(stringBuffer.s.cs); emu_push(stringBuffer.s.ip);
+	emu_push(0); emu_push(0);
+	emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
+	emu_push(emu_cs); emu_push(0x0F55); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0AB8_002A_AAB2();
+	emu_sp += 18;
+	ret = emu_ax;
+
+	if (w != NULL) {
+		do {
+			GUI_Widget_DrawAll(w);
+			ret = GUI_Widget_HandleEvents(w);
+
+			GUI_PaletteAnimate();
+
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x0F8B); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0308_0018_F99F();
+			emu_sp += 2;
+		} while ((ret & 0x8000) == 0);
+	}
+
+	emu_push(emu_cs); emu_push(0x0F97); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	if (unknown) {
+		emu_push(emu_cs); emu_push(0x0FA2); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_02E0_0023_E297();
+
+		Sprites_LoadTiles();
+	}
+
+	return ret;
+}
+
+/**
+ * Show the briefing screen.
+ */
+void GUI_Mentat_ShowBriefing()
+{
+	csip32 picture;
+	picture.s.cs = 0x353F;
+	picture.s.ip = 0x8D0D; /* g_global->scenario.pictureBriefing */
+	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_houseInfo[g_global->playerHouseID].musicBriefing);
+}
+
+/**
+ * Show the win screen.
+ */
+void GUI_Mentat_ShowWin()
+{
+	csip32 picture;
+	picture.s.cs = 0x353F;
+	picture.s.ip = 0x8D1B; /* g_global->scenario.pictureWin */
+	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_houseInfo[g_global->playerHouseID].musicWin);
+}
+
+/**
+ * Show the lose screen.
+ */
+void GUI_Mentat_ShowLose()
+{
+	csip32 picture;
+	picture.s.cs = 0x353F;
+	picture.s.ip = 0x8D29; /* g_global->scenario.pictureLose */
+	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_houseInfo[g_global->playerHouseID].musicLose);
 }

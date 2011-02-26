@@ -57,7 +57,7 @@ extern void f__B483_04CB_0015_EBB4();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void d__B511_0E44_000C_24F5();
+extern void GUI_Mentat_Show();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__B518_14D4_0013_5ED7();
@@ -1794,7 +1794,7 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x1343); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-		d__B511_0E44_000C_24F5(g_global->readBuffer, g_global->variable_2BBE[ret], NULL, false);
+		GUI_Mentat_Show(g_global->readBuffer, g_global->variable_2BBE[ret], NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, emu_get_memorycsip(g_global->variable_3C32), 1);
 

@@ -10,12 +10,22 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "animation.h"
+#include "file.h"
+#include "gui/font.h"
+#include "gui/gui.h"
+#include "gui/mentat.h"
+#include "gui/widget.h"
 #include "house.h"
+#include "input/input.h"
+#include "interrupt.h"
+#include "map.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/unit.h"
 #include "pool/structure.h"
 #include "pool/team.h"
+#include "scenario.h"
 #include "security.h"
 #include "string.h"
 #include "structure.h"
@@ -24,15 +34,8 @@
 #include "tools.h"
 #include "unit.h"
 #include "opendune.h"
-#include "unknown/unknown.h"
-#include "gui/widget.h"
-#include "map.h"
-#include "file.h"
-#include "gui/gui.h"
-#include "gui/font.h"
-#include "interrupt.h"
-#include "input/input.h"
 #include "sprites.h"
+#include "unknown/unknown.h"
 #include "wsa.h"
 
 extern void f__01F7_103F_0010_4132();
@@ -71,10 +74,6 @@ extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__B500_0000_0008_FE1F();
-extern void d__B511_0000_000E_B463();
-extern void d__B511_001E_0010_AE09();
-extern void d__B511_0C35_002A_C70F();
-extern void d__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
 extern void emu_GUI_DrawFilledRectangle();
@@ -949,7 +948,7 @@ static void GameLoop_LevelEnd()
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
-			d__B511_0C35_002A_C70F();
+			GUI_Mentat_ShowWin();
 
 			Sprites_UnloadTiles();
 
@@ -1012,7 +1011,7 @@ static void GameLoop_LevelEnd()
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
-			d__B511_0C64_002A_C757();
+			GUI_Mentat_ShowLose();
 
 			Sprites_UnloadTiles();
 
@@ -1882,9 +1881,9 @@ static void Gameloop_IntroMenu()
 		}
 
 		if (g_global->debugSkipDialogs != 0) {
-			d__B511_001E_0010_AE09(g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
 		} else {
-			d__B511_0000_000E_B463(g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario_Special(g_global->playerHouseID, g_global->scenarioID);
 		}
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -2030,7 +2029,7 @@ static void GameLoop_Main()
 		if (g_global->variable_38BE == 1) {
 			GUI_ChangeSelectionType(0);
 
-			d__B511_0000_000E_B463(g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario_Special(g_global->playerHouseID, g_global->scenarioID);
 
 			g_global->variable_38BE = 0;
 
@@ -2504,4 +2503,233 @@ void Main()
 	}
 
 	exit(0);
+}
+
+/**
+ * Prepare the map (after loading scenario or savegame). Does some basic
+ *  sanity-check and corrects stuff all over the place.
+ */
+void Game_Prepare()
+{
+	PoolFindStruct find;
+	uint16 oldSelectionType;
+	Tile *t;
+	int i;
+
+	g_global->variable_38BC++;
+
+	oldSelectionType = g_global->selectionType;
+	g_global->selectionType = 0;
+
+	Structure_Recount();
+	Unit_Recount();
+	Team_Recount();
+
+	t = Map_GetTileByPosition(0);
+	for (i = 0; i < 64 * 64; i++, t++) {
+		Structure *s;
+		Unit *u;
+
+		u = Unit_Get_ByPackedTile(i);
+		s = Structure_Get_ByPackedTile(i);
+
+		if (u == NULL || !u->o.flags.s.used) t->hasUnit = false;
+		if (s == NULL || !s->o.flags.s.used) t->hasStructure = false;
+		if (t->isUnveiled) Map_UnveilTile(i, g_global->playerHouseID);
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Unit *u;
+
+		u = Unit_Find(&find);
+		if (u == NULL) break;
+
+		if (u->o.flags.s.isNotOnMap) continue;
+
+		Unit_RemoveFog(u);
+		Unit_B4CD_01BF(1, u);
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		Structure *s;
+
+		s = Structure_Find(&find);
+		if (s == NULL) break;
+
+		if (s->o.flags.s.isNotOnMap) continue;
+
+		Structure_RemoveFog(s);
+
+		if (s->o.type == STRUCTURE_STARPORT && s->o.linkedID != 0xFF) {
+			Unit *u = Unit_Get_ByIndex(s->o.linkedID);
+
+			if (!u->o.flags.s.used || !u->o.flags.s.isNotOnMap) {
+				s->o.linkedID = 0xFF;
+				s->countDown = 0;
+			} else {
+				Structure_SetAnimation(s, 2);
+			}
+		}
+
+		Script_Load(&s->o.script, s->o.type);
+
+		if (s->o.type == STRUCTURE_PALACE) {
+			House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
+		}
+
+		if (House_Get_ByIndex(s->o.houseID)->palacePosition.tile != 0) continue;
+		House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
+	}
+
+	find.houseID = 0xFFFF;
+	find.index   = 0xFFFF;
+	find.type    = 0xFFFF;
+
+	while (true) {
+		House *h;
+
+		h = House_Find(&find);
+		if (h == NULL) break;
+
+		h->structuresBuilt = Structure_GetStructuresBuilt(h);
+		House_UpdateCreditsStorage(h->index);
+		House_CalculatePowerAndCredit(h);
+	}
+
+	emu_push(g_global->playerHouseID);
+	emu_push(emu_cs); emu_push(0x0364); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
+	emu_sp += 2;
+
+	Sprites_Load(0, 7, g_sprites);
+
+	g_global->scenario.savegameVersion = 0x290;
+
+	Map_SetSelection(g_global->selectionPosition);
+
+	if (g_global->variable_38E8 != 0xFFFF) {
+		Structure *s = Structure_Get_ByIndex(g_global->variable_38E8);
+		g_global->activeStructure.csip = g_global->structureStartPos.csip;
+		g_global->activeStructure.s.ip += s->o.index * sizeof(Structure);
+	} else {
+		g_global->activeStructure.csip = 0x0;
+	}
+
+	if (g_global->activeStructureType != 0xFFFF) {
+		Map_SetSelectionSize(g_structureInfo[g_global->activeStructureType].layout);
+	} else {
+		Structure *s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+
+		if (s != NULL) Map_SetSelectionSize(g_structureInfo[s->o.type].layout);
+	}
+
+	emu_push(g_global->playerHouseID);
+	emu_push(emu_cs); emu_push(0x0415); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
+	emu_sp += 2;
+
+	g_global->variable_38C0 = g_global->tickGlobal + 70;
+	g_global->variable_3A12 = 1;
+	g_global->playerCredits = 0xFFFF;
+
+	g_global->selectionType = oldSelectionType;
+	g_global->variable_38BC--;
+}
+
+/**
+ * Initialize a game, by setting most variables to zero, cleaning the map, etc
+ *  etc.
+ */
+void Game_Init()
+{
+	csip32 null;
+	null.csip = 0x0;
+
+	Unit_Init(null);
+	Structure_Init(null);
+	Team_Init(null);
+	House_Init(null);
+
+	memset(emu_get_memorycsip(g_global->animations), 0, ANIMATION_MAX * sizeof(Animation));
+	memset(emu_get_memorycsip(g_global->variable_395A), 0, 32 * sizeof(struct_395A));
+	memset(emu_get_memorycsip(g_global->mapPointer), 0, 64 * 64 * sizeof(Tile));
+
+	memset(g_global->variable_95E5, 0, 512 * sizeof(uint8));
+	memset(g_global->variable_93E5, 0, 512 * sizeof(uint8));
+	memset(g_global->variable_91E5, 0, 512 * sizeof(uint8));
+	memset(g_global->variable_8FE5, 0, 512 * sizeof(uint8));
+	memset(g_global->variable_8DE5, 0, 512 * sizeof(uint8));
+
+	memset(g_map, 0, 64 * 64 * sizeof(uint16) + 128);
+	memset(g_global->starportAvailable, 0, 27 * sizeof(uint16));
+
+	Unknown_B483_0363(0xFFFE);
+
+	g_global->playerCreditsNoSilo     = 0;
+	g_global->houseMissileCountdown   = 0;
+	g_global->variable_38EC           = 0;
+	g_global->activeStructurePosition = 0;
+
+	g_global->unitHouseMissile.csip   = 0x0;
+	g_global->activeUnit.csip         = 0x0;
+	g_global->activeStructure.csip    = 0x0;
+
+	g_global->activeAction            = 0xFFFF;
+	g_global->activeStructureType     = 0xFFFF;
+	g_global->variable_38EE           = 0xFFFF;
+
+	GUI_DisplayText(NULL, 0xFFFF);
+}
+
+/**
+ * Load a scenario is a safe way, and prepare the game.
+ * @param houseID The House which is going to play the game.
+ * @param scenarioID The Scenario to load.
+ */
+void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
+{
+	Unknown_B483_0363(0xFFFE);
+
+	Game_Init();
+
+	g_global->variable_38BC++;
+
+	emu_push(houseID);
+	emu_push(scenarioID);
+	emu_push(emu_cs); emu_push(0x0041); emu_cs = 0x34B5; overlay(0x34B5, 0); emu_Scenario_Load();
+	emu_sp += 4;
+
+	if (emu_ax == 0) {
+		GUI_DisplayModalMessage(g_global->string_2BCA, 0xFFFF);
+
+		emu_push(emu_cs); emu_push(0x0081); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+		exit(0);
+	}
+
+	Game_Prepare();
+
+	if (scenarioID < 5) {
+		g_global->hintsShown1 = 0;
+		g_global->hintsShown2 = 0;
+	}
+
+	g_global->variable_38BC--;
+}
+
+/**
+ * A special case of the LoadScenario().
+ * @param houseID The House which is going to play the game.
+ * @param scenarioID The Scenario to load.
+ */
+void Game_LoadScenario_Special(uint8 houseID, uint16 scenarioID)
+{
+	Game_LoadScenario(houseID, scenarioID);
+
+	if (!g_global->debugScenario) GUI_Mentat_ShowBriefing();
 }
