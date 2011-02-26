@@ -529,10 +529,8 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	csip = Drivers_GetFunctionCSIP(driver, function);
 	if (csip.csip == 0) return csip;
 
-	/* Fake return CS:IP */
-	emu_sp -= 4;
-
 	/* Call/jump based on memory/register values */
+	emu_push(emu_cs); emu_push(emu_ip);
 	emu_ip = csip.s.ip;
 	emu_cs = csip.s.cs;
 	switch ((emu_cs << 16) + emu_ip) {
