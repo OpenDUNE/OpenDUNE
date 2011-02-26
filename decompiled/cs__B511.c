@@ -16,7 +16,7 @@ static void d__B511_0C93_0014_2A98(uint8 houseID, uint16 stringID, csip32 wsaFil
 	Sprites_Load(1, 7, g_sprites);
 
 	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0, &w1csip);
-	w2 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0, &w2csip);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0, &w2csip);
 
 	w1 = GUI_Widget_Link(w1, w2);
 	w1csip = emu_Global_GetCSIP(w1);
