@@ -12,7 +12,6 @@
 #include "tile.h"
 #include "tools.h"
 
-extern void overlay(uint16 cs, uint8 force);
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0248_0014_9236();
 extern void f__1DD7_0719_0014_A78C();
@@ -89,51 +88,37 @@ void Music_Play(uint16 musicID)
 		g_global->currentMusic.csip = g_global->musics[musicID].string.csip;
 
 		Driver_Music_Stop();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 
 		emu_push(0); emu_push(0);
 		emu_push(emu_cs); emu_push(0x02DF); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 4;
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(emu_cs); emu_push(0x02F8); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 12;
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(emu_cs); emu_push(0x0312); emu_cs = 0x1DD7; f__1DD7_05D0_0014_A7A2();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 12;
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(g_global->currentMusic.s.cs); emu_push(g_global->currentMusic.s.ip);
 		emu_push(emu_cs); emu_push(0x032E); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 12;
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(g_global->currentMusic.s.cs); emu_push(g_global->currentMusic.s.ip);
 		emu_push(emu_cs); emu_push(0x034A); emu_cs = 0x1DD7; f__1DD7_05D0_0014_A7A2();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
-		emu_sp +=12;
+		emu_sp += 12;
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 }
 
 /**
@@ -200,15 +185,11 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 		emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x00EC); emu_cs = 0x2649; f__2649_0BAE_001D_25B1();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 4;
 
 		if (emu_ax != 0) {
 			emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
 			emu_push(emu_cs); emu_push(0x00FD); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 			emu_sp += 4;
 
 			count = (emu_dx << 16) + emu_ax;
@@ -222,8 +203,6 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 		emu_push(g_global->variable_4060);
 		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x0142); emu_cs = 0x1DD7; f__1DD7_0248_0014_9236();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 		emu_sp += 8;
 	} else {
 		Driver_Sound_Play(voiceID, volume);
