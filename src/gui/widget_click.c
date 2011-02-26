@@ -276,11 +276,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	Unit_SetAction(u, action);
 
-	if (ui->movementType == MOVEMENT_FOOT) {
-		emu_push(ai->variable_08);
-		emu_push(emu_cs); emu_push(0x1E39); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
-		emu_sp += 2;
-	}
+	if (ui->movementType == MOVEMENT_FOOT) Unknown_B483_0156(ai->variable_08);
 
 	if (unitAction == action) return true;
 

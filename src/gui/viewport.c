@@ -164,13 +164,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (g_global->variable_6D8F == 0) {
 			Driver_Sound_Play(36, 0xFF);
 		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
-			emu_push(g_actionInfo[action].variable_0A);
-			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
-			emu_sp += 2;
+			Unknown_B483_0156(g_actionInfo[action].variable_0A);
 		} else {
-			emu_push(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
-			emu_push(emu_cs); emu_push(0x04B8); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0156();
-			emu_sp += 2;
+			Unknown_B483_0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}
 
 		g_global->activeUnit.csip = 0x0;

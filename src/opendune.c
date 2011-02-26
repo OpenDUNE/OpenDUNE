@@ -412,9 +412,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	if (g_global->variable_6D8F != 0 && g_global->variable_6D8F != 4 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
 
-		emu_push(loc06);
-		emu_push(emu_cs); emu_push(0x0951); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-		emu_sp += 2;
+		Unknown_B483_0363(loc06);
 
 		if (g_global->variable_0312[loc06][5] != 0) {
 			emu_push(var805A->variable_0005);
@@ -477,7 +475,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 static uint16 GameLoop_B4ED_0AA5(bool arg06)
 {
-	emu_push(emu_cs); emu_push(0x0AB5); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
+	Unknown_B483_0470();
 
 	if (g_global->variable_80AE == 0) return 0;
 
@@ -941,16 +939,12 @@ static void GameLoop_LevelEnd()
 		emu_push(emu_cs); emu_push(0x030A); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
 		emu_sp += 8;
 
-		emu_push(0xFFFE);
-		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-		emu_sp += 2;
+		Unknown_B483_0363(0xFFFE);
 
 		GUI_ChangeSelectionType(0);
 
 		if (GameLoop_IsLevelWon()) {
-			emu_push(0x28);
-			emu_push(emu_cs); emu_push(0x0334); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
+			Unknown_B483_0363(40);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
@@ -1013,9 +1007,7 @@ static void GameLoop_LevelEnd()
 				Sprites_Load(0, 7, g_sprites);
 			}
 		} else {
-			emu_push(0x29);
-			emu_push(emu_cs); emu_push(0x046F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
+			Unknown_B483_0363(41);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
@@ -1594,9 +1586,7 @@ static void Gameloop_IntroMenu()
 
 					Gameloop_Intro();
 
-					emu_push(0xFFFE);
-					emu_push(emu_cs); emu_push(0x1C6F); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-					emu_sp += 2;
+					Unknown_B483_0363(0xFFFE);
 
 					File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
 					Tools_Memmove(g_global->variable_998A, g_global->variable_3C32, 0x300);
@@ -2073,24 +2063,21 @@ static void GameLoop_Main()
 		}
 
 		if (g_global->variable_6D8D != 4 && g_global->variable_6D8D != 5) {
-			if (!Driver_Voice_01EB()) {
-				emu_push(emu_cs); emu_push(0x0251); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
-				if (emu_ax == 0) {
-					if (g_global->musicEnabled == 0) {
-						Music_Play(2);
+			if (!Driver_Voice_01EB() && !Unknown_B483_0470()) {
+				if (g_global->musicEnabled == 0) {
+					Music_Play(2);
 
-						g_global->variable_3E52 = 0;
-					} else if (g_global->variable_3E52 > 0) {
-						Music_Play(Tools_RandomRange(0, 5) + 17);
-						g_global->variable_31BC = g_global->variable_76AC + 300;
-						g_global->variable_3E52 = -1;
-					} else {
-						g_global->variable_3E52 = 0;
-						if (g_global->variable_6D8D != 0 && g_global->variable_76AC > g_global->variable_31BC) {
-							if (!Driver_Music_IsPlaying()) {
-								Music_Play(Tools_RandomRange(0, 8) + 8);
-								g_global->variable_31BC = g_global->variable_76AC + 300;
-							}
+					g_global->variable_3E52 = 0;
+				} else if (g_global->variable_3E52 > 0) {
+					Music_Play(Tools_RandomRange(0, 5) + 17);
+					g_global->variable_31BC = g_global->variable_76AC + 300;
+					g_global->variable_3E52 = -1;
+				} else {
+					g_global->variable_3E52 = 0;
+					if (g_global->variable_6D8D != 0 && g_global->variable_76AC > g_global->variable_31BC) {
+						if (!Driver_Music_IsPlaying()) {
+							Music_Play(Tools_RandomRange(0, 8) + 8);
+							g_global->variable_31BC = g_global->variable_76AC + 300;
 						}
 					}
 				}

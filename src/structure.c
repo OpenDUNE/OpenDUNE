@@ -227,9 +227,7 @@ void GameLoop_Structure()
 
 									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(oi->stringID_full), String_Get_ByIndex(stringID));
 
-									emu_push(0);
-									emu_push(emu_cs); emu_push(0x0632); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-									emu_sp += 2;
+									Unknown_B483_0363(0);
 								}
 							} else if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 								/* An AI immediatly places the structure when it is done building */
@@ -300,11 +298,7 @@ void GameLoop_Structure()
 
 								Structure_SetAnimation(s, 2);
 
-								if (s->o.houseID == g_global->playerHouseID) {
-									emu_push(g_global->playerHouseID + 0x37);
-									emu_push(emu_cs); emu_push(0x085A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-									emu_sp += 2;
-								}
+								if (s->o.houseID == g_global->playerHouseID) Unknown_B483_0363(g_global->playerHouseID + 55);
 							}
 						}
 					} else if (h->credits != 0) {
@@ -1231,22 +1225,18 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 		Structure_Destroy(s);
 
 		if (g_global->playerHouseID == s->o.houseID) {
-			uint16 locdi;
+			uint16 index;
 
 			switch (s->o.houseID) {
-				case HOUSE_HARKONNEN: locdi = 22; break;
-				case HOUSE_ATREIDES:  locdi = 23; break;
-				case HOUSE_ORDOS:     locdi = 24; break;
-				default: locdi = 0xFFFF; break;
+				case HOUSE_HARKONNEN: index = 22; break;
+				case HOUSE_ATREIDES:  index = 23; break;
+				case HOUSE_ORDOS:     index = 24; break;
+				default: index = 0xFFFF; break;
 			}
 
-			emu_push(locdi);
-			emu_push(emu_cs); emu_push(0x132D); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
+			Unknown_B483_0363(index);
 		} else {
-			emu_push(21);
-			emu_push(emu_cs); emu_push(0x1339); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
+			Unknown_B483_0363(21);
 		}
 
 		Structure_UntargetMe(s);
@@ -2137,9 +2127,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 	if (h->flags.s.human) {
 		if (h->variable_28 != 0) return;
 
-		emu_push(48);
-		emu_push(emu_cs); emu_push(0x0EA2); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-		emu_sp += 2;
+		Unknown_B483_0363(48);
 
 		h->variable_28 = 8;
 		return;

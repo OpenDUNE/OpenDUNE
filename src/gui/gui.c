@@ -11,6 +11,7 @@
 #include "gui.h"
 #include "../gfx.h"
 #include "../os/strings.h"
+#include "../os/sleep.h"
 #include "../unknown/unknown.h"
 #include "../house.h"
 #include "../map.h"
@@ -565,7 +566,7 @@ void GUI_PaletteAnimate()
 		g_global->variable_31C6 = g_global->variable_76AC + 5;
 	}
 
-	emu_push(emu_cs); emu_push(0x075A); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
+	Unknown_B483_0470();
 }
 
 /**
@@ -1758,13 +1759,9 @@ uint16 GUI_PickHouse()
 		}
 
 		if (g_global->variable_6D8F != 0) {
-			emu_push(ret + 62);
-			emu_push(emu_cs); emu_push(0x11AD); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-			emu_sp += 2;
+			Unknown_B483_0363(ret + 62);
 
-			do {
-				emu_push(emu_cs); emu_push(0x11B5); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
-			} while (emu_ax != 0);
+			while (Unknown_B483_0470()) sleep(0);
 		}
 
 		while (w != NULL) {

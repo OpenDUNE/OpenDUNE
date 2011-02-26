@@ -92,9 +92,7 @@ void GameLoop_House()
 
 	if (tickMissileCountdown && g_global->houseMissileCountdown != 0) {
 		g_global->houseMissileCountdown--;
-		emu_push(g_global->houseMissileCountdown + 41);
-		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-		emu_sp += 2;
+		Unknown_B483_0363(g_global->houseMissileCountdown + 41);
 
 		if (g_global->houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, (uint8)g_global->playerHouseID));
 	}
@@ -260,9 +258,7 @@ void GameLoop_House()
 						h->starportLinkedID = UNIT_INDEX_INVALID;
 						u->o.flags.s.inTransport = true;
 
-						emu_push(38);
-						emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-						emu_sp += 2;
+						Unknown_B483_0363(38);
 					}
 				} else {
 					PoolFindStruct find2;
@@ -283,9 +279,7 @@ void GameLoop_House()
 							h->starportLinkedID = 0xFFFF;
 							u->o.flags.s.inTransport = true;
 
-							emu_push(38);
-							emu_push(emu_cs); emu_push(0x0696); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-							emu_sp += 2;
+							Unknown_B483_0363(38);
 						}
 					}
 				}
@@ -519,9 +513,7 @@ bool House_UpdateRadarState(House *h)
 
 	Voice_Play(62);
 
-	emu_push(activate ? 0x1C : 0x1D);
-	emu_push(emu_cs); emu_push(0x0E80); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-	emu_sp += 2;
+	Unknown_B483_0363(activate ? 28 : 29);
 
 	frameCount = WSA_GetFrameCount(header);
 

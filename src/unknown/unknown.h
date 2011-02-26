@@ -19,9 +19,10 @@ extern void emu_Memory_GetBlock2();
 extern void emu_Unknown_2903_00CA();
 extern void emu_Unknown_2903_090A();
 
-extern void emu_Unknown_B483_0156();
+extern void Unknown_B483_0156(uint16 index);
 extern void emu_Unknown_B483_0363();
-extern void emu_Unknown_B483_0470();
+extern void Unknown_B483_0363(uint16 index);
+extern bool Unknown_B483_0470();
 extern void emu_Unknown_B483_0823();
 
 extern void emu_Unknown_B4E9_0000();

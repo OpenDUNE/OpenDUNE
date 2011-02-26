@@ -990,11 +990,7 @@ void Map_B4CD_14CA(uint16 packed, uint8 houseID)
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
 	}
 
-	if (houseID == g_global->playerHouseID) {
-		emu_push(36);
-		emu_push(emu_cs); emu_push(0x153C); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-		emu_sp += 2;
-	}
+	if (houseID == g_global->playerHouseID) Unknown_B483_0363(36);
 
 	Map_B4CD_154C(packed, 5);
 }

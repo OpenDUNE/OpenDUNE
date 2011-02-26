@@ -239,13 +239,9 @@ bool LoadFile(char *filename)
 	char filenameComplete[1024];
 	bool res;
 
-	emu_push(0xFFFE);
-	emu_push(emu_cs); emu_push(0x0462); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3511) { overlay(0x3511, 1); }
-	emu_sp += 2;
+	Unknown_B483_0363(0xFFFE);
 
-	emu_push(emu_cs); emu_push(0x0468); f__B511_0A8F_000E_EE64();
+	emu_push(emu_cs); emu_push(0x0468); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0A8F_000E_EE64();
 
 	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
 	fp = fopen(filenameComplete, "rb");
@@ -276,7 +272,7 @@ bool LoadFile(char *filename)
 	}
 
 	if (g_global->variable_38BE != 1) {
-		emu_push(emu_cs); emu_push(0x071A); f__B511_0091_001D_9C25();
+		emu_push(emu_cs); emu_push(0x071A); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0091_001D_9C25();
 	}
 
 	return true;
