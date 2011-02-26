@@ -255,7 +255,7 @@ void GUI_Widget_Draw(Widget *w)
  * @return The last key pressed, or 0 if the key pressed was handled (or if
  *   there was no key press).
  */
-uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
+uint16 GUI_Widget_HandleEvents(Widget *w)
 {
 	static Widget *l_widget_selected     = NULL;
 	static Widget *l_widget_last         = NULL;
@@ -270,7 +270,10 @@ uint16 GUI_Widget_HandleEvents(Widget *w, csip32 wcsip)
 	/* XXX -- Should be removed */
 	static csip32  l_widget_selected_csip;
 	static csip32  l_widget_last_csip;
+	csip32 wcsip;
 	csip32 wncsip;
+
+	wcsip = emu_Global_GetCSIP(w);
 
 	/* Get the key from the buffer, if there was any key pressed */
 	key = 0;

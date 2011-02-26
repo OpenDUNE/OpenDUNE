@@ -154,7 +154,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 			if (returnValue != 0) break;
 		}
 
-		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip), wcsip);
+		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip));
 
 		GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 
