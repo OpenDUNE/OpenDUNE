@@ -57,7 +57,7 @@ typedef struct struct_19F0 {
 	/* 0000(2)   */ PACK uint16 stringID;                   /*!< ?? */
 	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
 	/* 0004(1)   */ PACK uint8  variable_0004;              /*!< ?? */
-	/* 0005(1)   */ PACK uint8  variable_0005;              /*!< ?? */
+	/* 0005(1)   */ PACK uint8  top;                        /*!< ?? */
 	/* 0006(1)   */ PACK uint8  variable_0006;              /*!< ?? */
 	/* 0007(1)   */ PACK uint8  variable_0007;              /*!< ?? */
 	/* 0008(1)   */ PACK uint8  variable_0008;              /*!< ?? */
@@ -562,7 +562,8 @@ typedef struct GlobalData {
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
-	/* 264A()    */ PACK uint8   unknown_264A[0x020F];
+	/* 264A(1)   */ PACK uint8  variable_264A;
+	/* 264B()    */ PACK uint8   unknown_264B[0x020E];
 	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */
 	/* 285D()    */ PACK uint8   unknown_285D[0x0038];
 	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */

@@ -71,8 +71,6 @@ extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
-extern void f__B4ED_0BD4_001B_FFBA();
-extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
@@ -349,6 +347,34 @@ static void GameLoop_B4ED_075D(uint8 animation)
 	g_global->variable_8070++;
 }
 
+static void GameLoop_B4ED_0BF4(char *string, uint16 top)
+{
+	char *s;
+	char *s2;
+
+	s = string;
+	for (s2 = string; *s2 != 0; s2++) *s++ = (*s2 == 0xE1) ? 1 : *s2;
+	*s = 0;
+
+	s = string;
+
+	while (*s != 0 && *s != g_global->variable_264A) s++;
+
+	if (*s != 0) {
+		*s++ = 0;
+	} else {
+		s = NULL;
+	}
+
+	GUI_DrawText_Wrapper(string, 160, top, 215, 0, 0x100);
+
+	if (s == NULL) return;
+
+	GUI_DrawText_Wrapper(s, 160, top + 18, 215, 0, 0x100);
+
+	s[-1] = 0xD;
+}
+
 static void GameLoop_B4ED_07B6(uint8 animation)
 {
 	struct_19F0 *var805A;
@@ -404,7 +430,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	emu_push(0);
 	emu_push(199);
 	emu_push(319);
-	emu_push(var805A->variable_0005 == 85 ? 0 : var805A->variable_0005);
+	emu_push(var805A->top == 85 ? 0 : var805A->top);
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x091B); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 	emu_sp += 10;
@@ -415,23 +441,11 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		Unknown_B483_0363(loc06);
 
 		if (g_global->variable_0312[loc06][5] != 0) {
-			emu_push(var805A->variable_0005);
-			emu_push(var805A->stringID);
-			emu_push(emu_cs); emu_push(0x0978); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x0980); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BF4_001B_A3A9();
-			emu_sp += 6;
+			GameLoop_B4ED_0BF4(String_Get_ByIndex(var805A->stringID), var805A->top);
 		}
 	} else {
 		if (var805A->stringID != 0) {
-			emu_push(var805A->variable_0005);
-			emu_push(var805A->stringID);
-			emu_push(emu_cs); emu_push(0x09A3); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-			emu_sp += 2;
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x09AB); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BF4_001B_A3A9();
-			emu_sp += 6;
+			GameLoop_B4ED_0BF4(String_Get_ByIndex(var805A->stringID), var805A->top);
 		}
 	}
 
@@ -504,9 +518,7 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 
 	if (arg06) return g_global->variable_80AE;
 
-	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-	emu_push(emu_cs); emu_push(0x0BAF); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
-	emu_sp += 4;
+	memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
 	emu_push(221);
 	emu_push(125);
@@ -622,9 +634,7 @@ static void GameLoop_B4ED_0200()
 
 			GameLoop_B4ED_0AA5(true);
 
-			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-			emu_push(emu_cs); emu_push(0x03EE); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
-			emu_sp += 4;
+			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
 
 			emu_push(45);
 			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
@@ -759,9 +769,7 @@ static void GameLoop_B4ED_0200()
 		if ((var805E->flags & 0x10) != 0) {
 			memset(&emu_get_memorycsip(g_global->variable_998A)[3 * 1], 63, 3 * 255);
 
-			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-			emu_push(emu_cs); emu_push(0x06A9); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
-			emu_sp += 4;
+			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
 			emu_push(15);
 			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
@@ -774,9 +782,7 @@ static void GameLoop_B4ED_0200()
 		if ((var805E->flags & 0x8) != 0) {
 			GameLoop_B4ED_0AA5(true);
 
-			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-			emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
-			emu_sp += 4;
+			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
 			emu_push(45);
 			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
