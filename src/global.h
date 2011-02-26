@@ -866,7 +866,7 @@ typedef struct GlobalData {
 	/* 38E8()    */ PACK uint16 variable_38E8;              /*!< ?? */
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
-	/* 38EE()    */ PACK uint8   unknown_38EE[0x0002];
+	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
 	/* 38F0(2)   */ PACK uint16 activeStructurePosition;    /*!< Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */

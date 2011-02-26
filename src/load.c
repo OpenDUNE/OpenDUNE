@@ -24,8 +24,7 @@
 #include "sprites.h"
 
 extern void d__B511_0091_001D_9C25();
-extern void f__B511_0A8F_000E_EE64();
-extern void overlay(uint16 cs, uint8 force);
+extern void d__B511_0A8F_000E_EE64();
 
 /**
  * Load all kinds of important info from a file.
@@ -241,7 +240,7 @@ bool LoadFile(char *filename)
 
 	Unknown_B483_0363(0xFFFE);
 
-	emu_push(emu_cs); emu_push(0x0468); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0A8F_000E_EE64();
+	d__B511_0A8F_000E_EE64();
 
 	snprintf(filenameComplete, sizeof(filenameComplete), "data/%s", filename);
 	fp = fopen(filenameComplete, "rb");

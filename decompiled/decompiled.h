@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 
+#include "../src/animation.h"
 #include "../src/codec/format80.h"
 #include "../src/config.h"
 #include "../src/driver.h"
