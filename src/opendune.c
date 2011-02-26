@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "os/math.h"
 #include "os/strings.h"
 #include "os/sleep.h"
 #include "types.h"
