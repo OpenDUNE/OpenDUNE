@@ -1880,7 +1880,7 @@ static void Gameloop_IntroMenu()
 			g_global->scenarioID = emu_ax;
 		}
 
-		Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
+		Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
 		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -2026,7 +2026,7 @@ static void GameLoop_Main()
 		if (g_global->variable_38BE == 1) {
 			GUI_ChangeSelectionType(0);
 
-			Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
 			if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 			g_global->variable_38BE = 0;
@@ -2533,7 +2533,7 @@ void Game_Prepare()
 
 		if (u == NULL || !u->o.flags.s.used) t->hasUnit = false;
 		if (s == NULL || !s->o.flags.s.used) t->hasStructure = false;
-		if (t->isUnveiled) Map_UnveilTile(i, g_global->playerHouseID);
+		if (t->isUnveiled) Map_UnveilTile(i, (uint8)g_global->playerHouseID);
 	}
 
 	find.houseID = 0xFFFF;
@@ -2598,7 +2598,7 @@ void Game_Prepare()
 		if (h == NULL) break;
 
 		h->structuresBuilt = Structure_GetStructuresBuilt(h);
-		House_UpdateCreditsStorage(h->index);
+		House_UpdateCreditsStorage((uint8)h->index);
 		House_CalculatePowerAndCredit(h);
 	}
 

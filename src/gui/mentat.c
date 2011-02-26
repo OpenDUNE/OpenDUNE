@@ -270,7 +270,7 @@ void GUI_Mentat_ShowBriefing()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D0D; /* g_global->scenario.pictureBriefing */
-	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_houseInfo[g_global->playerHouseID].musicBriefing);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_houseInfo[g_global->playerHouseID].musicBriefing);
 }
 
 /**
@@ -281,7 +281,7 @@ void GUI_Mentat_ShowWin()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D1B; /* g_global->scenario.pictureWin */
-	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_houseInfo[g_global->playerHouseID].musicWin);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_houseInfo[g_global->playerHouseID].musicWin);
 }
 
 /**
@@ -292,5 +292,5 @@ void GUI_Mentat_ShowLose()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D29; /* g_global->scenario.pictureLose */
-	GUI_Mentat_ShowDialog(g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_houseInfo[g_global->playerHouseID].musicLose);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_houseInfo[g_global->playerHouseID].musicLose);
 }
