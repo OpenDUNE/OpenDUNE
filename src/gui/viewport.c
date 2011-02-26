@@ -23,7 +23,6 @@
 #include "../sprites.h"
 
 extern void f__2B4C_0002_0029_64AF();
-extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Handles the Click events for the Viewport widget.

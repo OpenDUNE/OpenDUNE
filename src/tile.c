@@ -11,8 +11,6 @@
 #include "tools.h"
 #include "os/math.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Check whether a tile is valid.
  *

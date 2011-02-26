@@ -18,8 +18,6 @@
 #include "../os/strings.h"
 #include "../gui/gui.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Gets the amount of members in the current team.
  *

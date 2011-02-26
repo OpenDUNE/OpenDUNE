@@ -27,7 +27,6 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
 

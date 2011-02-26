@@ -1716,9 +1716,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GUI_ChangeSelectionType(0);
 
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x17A6); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
-			emu_sp += 2;
+			Tools_Var76B8_Set(2, false);
 
 			emu_push(loc1C);
 			emu_push(s->o.type == STRUCTURE_STARPORT ? 1 : 0);
@@ -1727,9 +1725,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 			emu_sp += 6;
 			loc1E = emu_ax;
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x17D4); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
-			emu_sp += 2;
+			Tools_Var76B8_Set(2, true);
 
 			Sprites_LoadTiles();
 

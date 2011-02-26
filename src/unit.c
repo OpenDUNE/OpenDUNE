@@ -29,8 +29,6 @@
 #include "gui/widget.h"
 #include "sprites.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 UnitInfo *g_unitInfo = NULL;
 ActionInfo *g_actionInfo = NULL;
 

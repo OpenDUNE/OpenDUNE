@@ -39,7 +39,7 @@ void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll, csip
 	if ((int16)scrollbar->scrollPosition <= 0) scrollbar->scrollPosition = 0;
 
 	emu_push(scrollbarcsip.s.cs); emu_push(scrollbarcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x068C); f__B520_096E_003C_F7E4();
+	emu_push(emu_cs); emu_push(0x068C); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_096E_003C_F7E4();
 	emu_sp += 4;
 
 	GUI_Widget_ScrollBar_Draw((Widget *)emu_get_memorycsip(scrollbar->parent));
@@ -201,7 +201,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 		}
 
 		emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-		emu_push(emu_cs); emu_push(0x0605); emu_cs = 0xB520; f__B520_08E6_0038_85A4();
+		emu_push(emu_cs); emu_push(0x0605); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_08E6_0038_85A4();
 		emu_sp += 4;
 
 		if (scrollbar->dirty != 0) GUI_Widget_ScrollBar_Draw(w);

@@ -42,17 +42,13 @@ bool GUI_Widget_Mentat_Click()
 
 	Sprites_Load(1, 7, g_sprites);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x03BA); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
-	emu_sp += 2;
+	Tools_Var76B8_Set(2, false);
 
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0000_000F_14AD();
 	emu_sp += 2;
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x03CC); emu_cs = 0x34E9; overlay(0x34E9, 0); emu_Unknown_B4E9_0000();
-	emu_sp += 2;
+	Tools_Var76B8_Set(2, true);
 
 	Driver_Sound_Play(1, 0xFF);
 

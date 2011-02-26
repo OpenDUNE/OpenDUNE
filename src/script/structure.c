@@ -21,8 +21,6 @@
 #include "../gui/gui.h"
 #include "../sprites.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Get the animation frame of the current structure.
  *
