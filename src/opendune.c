@@ -71,8 +71,8 @@ extern void f__B4E6_0200_0091_FAEA();
 extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__B500_0000_0008_FE1F();
-extern void f__B511_0000_000E_B463();
-extern void f__B511_001E_0010_AE09();
+extern void d__B511_0000_000E_B463();
+extern void d__B511_001E_0010_AE09();
 extern void f__B511_0C35_002A_C70F();
 extern void f__B511_0C64_002A_C757();
 extern void f__B518_0558_0010_240A();
@@ -1873,32 +1873,18 @@ static void Gameloop_IntroMenu()
 
 		emu_push(emu_cs); emu_push(0x21FA); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
+		if (g_global->campaignID != 0) {
+			emu_push(1);
+			emu_push(g_global->campaignID);
+			emu_push(emu_cs); emu_push(0x2215); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
+			emu_sp += 4;
+			g_global->scenarioID = emu_ax;
+		}
+
 		if (g_global->debugSkipDialogs != 0) {
-			if (g_global->campaignID != 0) {
-				emu_push(1);
-				emu_push(g_global->campaignID);
-				emu_push(emu_cs); emu_push(0x2215); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
-				emu_sp += 4;
-				g_global->scenarioID = emu_ax;
-			}
-
-			emu_push(g_global->scenarioID);
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x2227); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_001E_0010_AE09();
-			emu_sp += 4;
+			d__B511_001E_0010_AE09(g_global->playerHouseID, g_global->scenarioID);
 		} else {
-			if (g_global->campaignID != 0) {
-				emu_push(1);
-				emu_push(g_global->campaignID);
-				emu_push(emu_cs); emu_push(0x223D); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
-				emu_sp += 4;
-				g_global->scenarioID = emu_ax;
-			}
-
-			emu_push(g_global->scenarioID);
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x224F); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0000_000E_B463();
-			emu_sp += 4;
+			d__B511_0000_000E_B463(g_global->playerHouseID, g_global->scenarioID);
 		}
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -2044,10 +2030,7 @@ static void GameLoop_Main()
 		if (g_global->variable_38BE == 1) {
 			GUI_ChangeSelectionType(0);
 
-			emu_push(g_global->scenarioID);
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x01CA); emu_cs = 0x3511; overlay(0x3511, 0); f__B511_0000_000E_B463();
-			emu_sp += 4;
+			d__B511_0000_000E_B463(g_global->playerHouseID, g_global->scenarioID);
 
 			g_global->variable_38BE = 0;
 
