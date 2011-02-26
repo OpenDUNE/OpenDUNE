@@ -1880,11 +1880,8 @@ static void Gameloop_IntroMenu()
 			g_global->scenarioID = emu_ax;
 		}
 
-		if (g_global->debugSkipDialogs != 0) {
-			Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
-		} else {
-			Game_LoadScenario_Special(g_global->playerHouseID, g_global->scenarioID);
-		}
+		Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
+		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -2029,7 +2026,8 @@ static void GameLoop_Main()
 		if (g_global->variable_38BE == 1) {
 			GUI_ChangeSelectionType(0);
 
-			Game_LoadScenario_Special(g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario(g_global->playerHouseID, g_global->scenarioID);
+			if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 			g_global->variable_38BE = 0;
 
@@ -2720,16 +2718,4 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 	}
 
 	g_global->variable_38BC--;
-}
-
-/**
- * A special case of the LoadScenario().
- * @param houseID The House which is going to play the game.
- * @param scenarioID The Scenario to load.
- */
-void Game_LoadScenario_Special(uint8 houseID, uint16 scenarioID)
-{
-	Game_LoadScenario(houseID, scenarioID);
-
-	if (!g_global->debugScenario) GUI_Mentat_ShowBriefing();
 }
