@@ -308,7 +308,7 @@ void Scenario_Load_Units(const char *key, char *value)
 	}
 
 	/* XXX -- There is no way this is ever possible, as the beingBuilt flag is unset by Unit_Allocate() */
-	if (!u->o.flags.s.isOnMap) Unit_SetAction(u, u->actionID);
+	if (!u->o.flags.s.isNotOnMap) Unit_SetAction(u, u->actionID);
 
 	u->o.variable_09 = 0x00;
 

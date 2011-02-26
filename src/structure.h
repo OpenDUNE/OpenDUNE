@@ -80,7 +80,6 @@ extern void GameLoop_Structure();
 extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);
 extern bool Structure_Place(Structure *s, uint16 position);
-extern void Structure_CalculatePowerAndCredit(struct House *h);
 extern void Structure_CalculateHitpointsMax(struct House *h);
 extern void Structure_SetAnimation(Structure *s, int16 animation);
 extern Structure *Structure_Get_ByPackedTile(uint16 packed);
@@ -106,7 +105,6 @@ extern void Structure_HouseUnderAttack(uint8 houseID);
 extern uint16 Structure_AI_PickNextToBuild(Structure *s);
 
 
-extern void emu_Structure_CalculatePowerAndCredit();
 extern void emu_Structure_SetAnimation();
 extern void emu_Structure_Get_ByPackedTile();
 extern void emu_Structure_GetStructuresBuilt();

@@ -397,7 +397,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 
 	s->o.houseID            = houseID;
 	s->variable_47          = houseID;
-	s->o.flags.s.isOnMap = true;
+	s->o.flags.s.isNotOnMap = true;
 	s->o.position.tile      = 0;
 	s->o.linkedID           = 0xFF;
 	s->animation            = (g_global->debugScenario) ? 0 : -1;
@@ -565,7 +565,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	s->o.variable_09 |= 1 << s->o.houseID;
 	if (s->o.houseID == g_global->playerHouseID) s->o.variable_09 |= 0xFF;
 
-	s->o.flags.s.isOnMap = false;
+	s->o.flags.s.isNotOnMap = false;
 
 	s->o.position = Tile_UnpackTile(position);
 	s->o.position.s.x &= 0xFF00;
@@ -630,7 +630,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		House *h;
 
 		h = House_Get_ByIndex(s->o.houseID);
-		Structure_CalculatePowerAndCredit(h);
+		House_CalculatePowerAndCredit(h);
 	}
 
 	Structure_UpdateMap(s);
@@ -642,69 +642,6 @@ bool Structure_Place(Structure *s, uint16 position)
 	}
 
 	return true;
-}
-
-/**
- * Calculate the power usage and production, and the credits storage.
- *
- * @param h The house to calculate the numbers for.
- */
-void Structure_CalculatePowerAndCredit(House *h)
-{
-	PoolFindStruct find;
-
-	if (h == NULL) return;
-
-	h->powerUsage      = 0;
-	h->powerProduction = 0;
-	h->creditsStorage  = 0;
-
-	find.houseID = h->index;
-	find.index   = 0xFFFF;
-	find.type    = 0xFFFF;
-
-	while (true) {
-		StructureInfo *si;
-		Structure *s;
-
-		s = Structure_Find(&find);
-		if (s == NULL) break;
-
-		si = &g_structureInfo[s->o.type];
-
-		h->creditsStorage += si->creditsStorage;
-
-		/* Positive values means usage */
-		if (si->powerUsage >= 0) {
-			h->powerUsage += si->powerUsage;
-			continue;
-		}
-
-		/* Negative value and full health means everything goes to production */
-		if (s->o.hitpoints >= si->o.hitpoints) {
-			h->powerProduction += -si->powerUsage;
-			continue;
-		}
-
-		/* Negative value and partial health, calculate how much should go to production (capped at 50%) */
-		/* ENHANCEMENT -- The 50% cap of Dune2 is silly and disagress with the GUI. If your hp is 10%, so should the production. */
-		if (!g_dune2_enhanced && s->o.hitpoints <= si->o.hitpoints / 2) {
-			h->powerProduction += (-si->powerUsage) / 2;
-			continue;
-		}
-		h->powerProduction += (-si->powerUsage) * s->o.hitpoints / si->o.hitpoints;
-	}
-
-	/* Check if we are low on power */
-	if (h->index == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
-		/* "Insufficient power.  Windtrap is needed." */
-		GUI_DisplayText(String_Get_ByIndex(0x10E), 1);
-	}
-
-	/* If there are no buildings left, you lose your right on 'credits without storage' */
-	if (h->index == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
-		g_global->playerCreditsNoSilo = 0;
-	}
 }
 
 /**
@@ -802,7 +739,7 @@ uint32 Structure_GetStructuresBuilt(House *h)
 
 		s = Structure_Find(&find);
 		if (s == NULL) break;
-		if (s->o.flags.s.isOnMap) continue;
+		if (s->o.flags.s.isNotOnMap) continue;
 		result |= 1 << s->o.type;
 	}
 
@@ -1509,7 +1446,7 @@ void Structure_0C3A_1002(Structure *s)
 
 	switch (s->o.type) {
 		case STRUCTURE_WINDTRAP:
-			Structure_CalculatePowerAndCredit(h);
+			House_CalculatePowerAndCredit(h);
 			break;
 
 		case STRUCTURE_OUTPOST:
@@ -1961,7 +1898,7 @@ void Structure_UpdateMap(Structure *s)
 
 	if (s == NULL) return;
 	if (!s->o.flags.s.used) return;
-	if (s->o.flags.s.isOnMap) return;
+	if (s->o.flags.s.isNotOnMap) return;
 
 	si = &g_structureInfo[s->o.type];
 

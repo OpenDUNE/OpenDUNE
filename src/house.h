@@ -112,8 +112,10 @@ extern bool House_Save(FILE *fp);
 extern bool House_Load(FILE *fp, uint32 length);
 extern bool House_UpdateRadarState(House *h);
 extern void House_UpdateCreditsStorage(uint8 houseID);
+extern void House_CalculatePowerAndCredit(struct House *h);
 
 
 extern void emu_House_UpdateCreditsStorage();
+extern void emu_House_CalculatePowerAndCredit();
 
 #endif /* HOUSE_H */

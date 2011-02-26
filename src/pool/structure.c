@@ -57,7 +57,7 @@ Structure *Structure_Find(PoolFindStruct *find)
 
 		s = Structure_Get_ByMemory(pos);
 
-		if (s->o.flags.s.isOnMap && g_global->variable_38BC == 0) continue;
+		if (s->o.flags.s.isNotOnMap && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->o.houseID) continue;
 		if (find->type    != STRUCTURE_INDEX_INVALID && find->type    != s->o.type)  continue;
 

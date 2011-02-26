@@ -11,29 +11,6 @@
 #include "unit.h"
 
 /**
- * Emulator wrapper around Structure_CalculatePowerAndCredit().
- *
- * @name emu_Structure_CalculatePowerAndCredit
- * @implements 0C3A:1F70:0010:8DB3 ()
- */
-void emu_Structure_CalculatePowerAndCredit()
-{
-	uint8 houseID;
-	House *h;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	houseID = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	if (houseID >= HOUSE_MAX) return;
-	h = House_Get_ByIndex(houseID);
-
-	Structure_CalculatePowerAndCredit(h);
-}
-
-/**
  * Emulator wrapper around Structure_SetAnimation().
  *
  * @name emu_Structure_SetAnimation
