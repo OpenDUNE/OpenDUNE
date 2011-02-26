@@ -67,7 +67,6 @@ extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0108_004A_C989();
 extern void f__B4E6_0200_0091_FAEA();
-extern void f__B4ED_0AA5_0010_6B85();
 extern void f__B4ED_0BD4_001B_FFBA();
 extern void f__B4ED_0BF4_001B_A3A9();
 extern void f__B500_0000_0008_FE1F();
@@ -277,7 +276,6 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 	g_global->variable_80AE = 0;
 	g_global->variable_80AC = 0;
 	g_global->variable_8074 = 0;
-	g_global->variable_806E = 0;
 	g_global->variable_806C = 0;
 	g_global->variable_806A = 0xFFFF;
 
@@ -477,6 +475,50 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	emu_sp += 16;
 }
 
+static uint16 GameLoop_B4ED_0AA5(bool arg06)
+{
+	emu_push(emu_cs); emu_push(0x0AB5); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
+
+	if (g_global->variable_80AE == 0) return 0;
+
+	if (g_global->variable_806C >= g_global->variable_76AC && !arg06) return g_global->variable_80AE;
+
+	g_global->variable_806C = g_global->variable_76AC + 7;
+	if (--g_global->variable_80AC == 0 || arg06) {
+		if (g_global->variable_80AE == 1) {
+			memcpy(g_global->variable_8088, g_global->variable_809A, 18);
+		} else {
+			memset(g_global->variable_8088, 0, 18);
+		}
+
+		g_global->variable_80AE = 0;
+	} else {
+		uint8 i;
+
+		for (i = 0; i < 18; i++) {
+			if (g_global->variable_80AE == 1) {
+				g_global->variable_8088[i] = min(g_global->variable_8088[i] + g_global->variable_8076[i], g_global->variable_809A[i]);
+			} else {
+				g_global->variable_8088[i] = max(g_global->variable_8088[i] - g_global->variable_8076[i], 0);
+			}
+		}
+	}
+
+	if (arg06) return g_global->variable_80AE;
+
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x0BAF); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
+	emu_sp += 4;
+
+	emu_push(221);
+	emu_push(125);
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x0BC6); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
+	emu_sp += 8;
+
+	return g_global->variable_80AE;
+}
+
 static void GameLoop_B4ED_0200()
 {
 	struct_19A8 *var805E;
@@ -580,9 +622,7 @@ static void GameLoop_B4ED_0200()
 			emu_push(emu_cs); emu_push(0x03D4); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
 			emu_sp += 14;
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0AA5_0010_6B85();
-			emu_sp += 2;
+			GameLoop_B4ED_0AA5(true);
 
 			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
 			emu_push(emu_cs); emu_push(0x03EE); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();
@@ -699,9 +739,7 @@ static void GameLoop_B4ED_0200()
 			}
 
 			do {
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x060B); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0AA5_0010_6B85();
-				emu_sp += 2;
+				GameLoop_B4ED_0AA5(false);
 			} while (g_global->variable_76B4 != 0 && loc10 > g_global->variable_76AC);
 		}
 
@@ -736,9 +774,7 @@ static void GameLoop_B4ED_0200()
 		}
 
 		if ((var805E->flags & 0x8) != 0) {
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x06F0); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0AA5_0010_6B85();
-			emu_sp += 2;
+			GameLoop_B4ED_0AA5(true);
 
 			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
 			emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x34ED; overlay(0x34ED, 0); f__B4ED_0BD4_001B_FFBA();

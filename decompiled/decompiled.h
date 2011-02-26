@@ -390,7 +390,6 @@ extern void f__B4E0_0A86_000E_D3BB();
 extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B511_0A8F_000E_EE64();
 extern void emu_GUI_HOF_ClearList();
-extern void f__B4ED_0AA5_0010_6B85();
 extern void f__B4E0_0AAD_002E_796D();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__217E_0ABA_001A_9AA0();
