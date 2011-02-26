@@ -1776,8 +1776,8 @@ uint16 GUI_PickHouse()
 
 		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
 
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6B)), 168, 168, 0, 0, 0, NULL)); /* "Yes" */
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(*String_Get_ByIndex(0x6C)), 240, 168, 2, 0, 0, NULL)); /* "No" */
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0, NULL)); /* "Yes" */
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0, NULL)); /* "No" */
 		wcsip = emu_Global_GetCSIP(w);
 
 		sprintf((char *)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[ret].name));
