@@ -13,7 +13,7 @@
  * @name emu_Sound_Play
  * @implements B483:0283:0014:983A ()
  */
-void emu_Sound_Play()
+void emu_Music_Play()
 {
 	uint16 index;
 
@@ -23,5 +23,5 @@ void emu_Sound_Play()
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0);
 
-	Sound_Play(index);
+	Music_Play(index);
 }

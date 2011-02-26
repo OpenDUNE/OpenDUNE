@@ -21,7 +21,6 @@
 #include "../gui/gui.h"
 #include "../sprites.h"
 
-extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -482,14 +481,14 @@ uint16 Script_Structure_Unknown11B9(ScriptEngine *script)
 }
 
 /**
- * Unknown function 133C.
+ * Play a voice on the structure.
  *
- * Stack: *none*
+ * Stack: 0 - The VoiceID to play.
  *
  * @param script The script engine to operate on.
  * @return unknown.
  */
-uint16 Script_Structure_Unknown133C(ScriptEngine *script)
+uint16 Script_Structure_VoicePlay(ScriptEngine *script)
 {
 	Structure *s;
 
@@ -497,10 +496,7 @@ uint16 Script_Structure_Unknown133C(ScriptEngine *script)
 
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(script->stack[script->stackPointer]);
-	emu_push(emu_cs); emu_push(0x1372); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_PlayAtTile(script->stack[script->stackPointer], s->o.position);
 
 	return 0;
 }

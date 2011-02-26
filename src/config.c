@@ -89,5 +89,5 @@ void GameOptions_Save()
 
 	File_Close(index);
 
-	if (g_global->gameConfig.music == 0) Sound_Play(0);
+	if (g_global->gameConfig.music == 0) Music_Play(0);
 }

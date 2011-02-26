@@ -45,7 +45,7 @@ bool GUI_Widget_Mentat_Click()
 	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
 	emu_sp += 4;
 
-	Sound_Play(g_houseInfo[g_global->playerHouseID].variable_18);
+	Music_Play(g_houseInfo[g_global->playerHouseID].variable_18);
 
 	Sprites_UnloadTiles();
 
@@ -77,7 +77,7 @@ bool GUI_Widget_Mentat_Click()
 
 	GUI_DrawInterfaceAndRadar(0);
 
-	Sound_Play(Tools_RandomRange(0, 5) + 8);
+	Music_Play(Tools_RandomRange(0, 5) + 8);
 
 	return true;
 }

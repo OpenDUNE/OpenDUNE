@@ -29,7 +29,6 @@
 #include "gui/widget.h"
 #include "sprites.h"
 
-extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 UnitInfo *g_unitInfo = NULL;
@@ -2096,10 +2095,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, orientation);
 			if (bullet == NULL) return NULL;
 
-			emu_push(position.s.y); emu_push(position.s.x);
-			emu_push(ui->variable_58);
-			emu_push(emu_cs); emu_push(0x25AA); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 6;
+			Voice_PlayAtTile(ui->variable_58, position);
 
 			bullet->targetAttack = target;
 			bullet->o.hitpoints = damage;

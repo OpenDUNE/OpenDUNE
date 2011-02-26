@@ -12,9 +12,6 @@
 #include "structure.h"
 #include "unknown/unknown.h"
 
-extern void f__B483_0000_0019_F96A();
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Stop with this Animation.
  * @param animation The Animation to stop.
@@ -184,16 +181,13 @@ static void Animation_Func_SetIconGroup(Animation *animation, int16 parameter)
 }
 
 /**
- * Unknown function 5.
- * @param animation The Animation this function works on.
- * @param parameter Some parameter.
+ * Play a Voice on the tile of animation.
+ * @param animation The Animation which gives the position the voice plays at.
+ * @param parameter The VoiceID to play.
  */
-static void Animation_Func_Unknown5(Animation *animation, int16 parameter)
+static void Animation_Func_PlayVoice(Animation *animation, int16 parameter)
 {
-	emu_push(animation->tile.s.y); emu_push(animation->tile.s.x);
-	emu_push(parameter);
-	emu_push(emu_cs); emu_push(0x02DE); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_PlayAtTile(parameter, animation->tile);
 }
 
 /**
@@ -286,7 +280,7 @@ void Animation_Tick()
 				case 2: Animation_Func_SetOverlaySprite(animation, parameter); break;
 				case 3: Animation_Func_Pause(animation, parameter); break;
 				case 4: Animation_Func_Rewind(animation, parameter); break;
-				case 5: Animation_Func_Unknown5(animation, parameter); break;
+				case 5: Animation_Func_PlayVoice(animation, parameter); break;
 				case 6: Animation_Func_SetGroundSprite(animation, parameter); break;
 				case 7: Animation_Func_Forward(animation, parameter); break;
 				case 8: Animation_Func_SetIconGroup(animation, parameter); break;

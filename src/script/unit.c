@@ -22,9 +22,6 @@
 #include "../gui/gui.h"
 #include "../string.h"
 
-extern void f__B483_0000_0019_F96A();
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Create a new soldier unit.
  *
@@ -139,10 +136,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 				Unit_B4CD_01BF(2, u);
 
-				emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-				emu_push(24);
-				emu_push(emu_cs); emu_push(0x0956); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-				emu_sp += 6;
+				Voice_PlayAtTile(24, u->o.position);
 
 				Structure_SetAnimation(s, 2);
 
@@ -156,10 +150,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 		}
 
 		if ((s->animation == 0 || (si->o.flags.s.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
-			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-			emu_push(24);
-			emu_push(emu_cs); emu_push(0x09EF); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 6;
+			Voice_PlayAtTile(24, u->o.position);
 
 			Unit_EnterStructure(Unit_Get_ByIndex(u->o.linkedID), s);
 
@@ -188,10 +179,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 	if (!Unit_SetPosition(u2, Tile_Center(u->o.position))) return 0;
 
 	if (u2->o.houseID == g_global->playerHouseID) {
-		emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-		emu_push(24);
-		emu_push(emu_cs); emu_push(0x0B11); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-		emu_sp += 6;
+		Voice_PlayAtTile(24, u->o.position);
 	}
 
 	Unit_SetOrientation(u2, u->orientation[0].current, true, 0);
@@ -636,10 +624,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			Map_MakeExplosion(ui->variable_54, u->o.position, 0, 0);
 
-			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-			emu_push(63);
-			emu_push(emu_cs); emu_push(0x177A); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 6;
+			Voice_PlayAtTile(63, u->o.position);
 
 			Unit_B4CD_01BF(1, u);
 
@@ -668,10 +653,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			bullet->originEncoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
-			emu_push(u->o.position.s.y); emu_push(u->o.position.s.x);
-			emu_push(ui->variable_58);
-			emu_push(emu_cs); emu_push(0x184F); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 6;
+			Voice_PlayAtTile(ui->variable_58, u->o.position);
 
 			Unit_Deviation_Decrease(u, 20);
 		} break;

@@ -27,7 +27,6 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 uint16 *g_map = NULL;
@@ -482,12 +481,9 @@ static bool Map_06F7_072B(struct_395A *s)
 	return true;
 }
 
-static bool Map_06F7_08BD(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_08BD(struct_395A *s, uint16 voiceID)
 {
-	emu_push(s->position.s.y); emu_push(s->position.s.x);
-	emu_push(arg0A);
-	emu_push(emu_cs); emu_push(0x08D3); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_PlayAtTile(voiceID, s->position);
 
 	return true;
 }

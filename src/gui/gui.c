@@ -1462,7 +1462,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 		GUI_DrawText_Wrapper(String_Get_ByIndex(0x14A), loc18 - 4, 101 + (i * 36), 0xF, 0, 0x221);
 	}
 
-	Sound_Play(17 + Tools_RandomRange(0, 5));
+	Music_Play(17 + Tools_RandomRange(0, 5));
 
 	emu_push(0);
 	emu_push(2);
@@ -1908,7 +1908,7 @@ uint16 GUI_PickHouse()
 		if (yes_no == 0x8001) break;
 	}
 
-	Sound_Play(0);
+	Music_Play(0);
 
 	emu_push(ret);
 	emu_push(emu_cs); emu_push(0x14BB); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();

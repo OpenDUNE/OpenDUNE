@@ -193,8 +193,7 @@ typedef struct GlobalData {
 	                                                         *   "DOS prompt memory free must be %ld.\r" NULL terminated. */
 	/* 0217()    */ PACK uint8   unknown_0217;
 	/* 0218(10)  */ PACK uint16 variable_0218[5];           /*!< ?? */
-	/* 0222(10)  */ PACK uint16 variable_0222[5];           /*!< ?? */
-	/* 022C()    */ PACK uint8   unknown_022C[0x00E6];
+	/* 0222(240) */ PACK uint16 variable_0222[120];         /*!< ?? */
 	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
 	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
 	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */

@@ -24,7 +24,6 @@
 
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 HouseInfo *g_houseInfo = NULL;
@@ -518,10 +517,7 @@ bool House_UpdateRadarState(House *h)
 
 	while (Driver_Voice_01EB()) sleep(0);
 
-	emu_push(0); emu_push(0);
-	emu_push(0x3E);
-	emu_push(emu_cs); emu_push(0x0E65); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_Play(62);
 
 	emu_push(activate ? 0x1C : 0x1D);
 	emu_push(emu_cs); emu_push(0x0E80); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0363();

@@ -23,7 +23,6 @@
 #include "../sprites.h"
 
 extern void f__2B4C_0002_0029_64AF();
-extern void f__B483_0000_0019_F96A();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -191,11 +190,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		h = House_Get_ByMemory(g_global->playerHouse);
 
 		if (Structure_Place(s, g_global->selectionPosition)) {
-			emu_push(0);
-			emu_push(0);
-			emu_push(20);
-			emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-			emu_sp += 2;
+			Voice_Play(20);
 
 			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 
@@ -237,11 +232,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			return true;
 		}
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(47);
-		emu_push(emu_cs); emu_push(0x06AD); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-		emu_sp += 6;
+		Voice_Play(47);
 
 		if (g_global->activeStructureType == STRUCTURE_SLAB_1x1 || g_global->activeStructureType == STRUCTURE_SLAB_2x2) {
 			/* Can not place foundation here. */

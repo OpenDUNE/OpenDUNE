@@ -18,9 +18,6 @@
 #include "../gui/gui.h"
 #include "../map.h"
 
-extern void f__B483_0000_0019_F96A();
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Suspend the script execution for a set amount of ticks.
  *
@@ -308,23 +305,20 @@ uint16 Script_General_GetLinkedUnitType(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0426.
+ * Play a voice.
  *
- * Stack: 0 - Unknown.
+ * Stack: 0 - The VoiceID to play.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_General_Unknown0426(ScriptEngine *script)
+uint16 Script_General_VoicePlay(ScriptEngine *script)
 {
 	tile32 position;
 
 	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
 
-	emu_push(position.s.y); emu_push(position.s.x);
-	emu_push(script->stack[script->stackPointer]);
-	emu_push(emu_cs); emu_push(0x044D); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_PlayAtTile(script->stack[script->stackPointer], position);
 
 	return 0;
 }

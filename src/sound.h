@@ -12,10 +12,12 @@ MSVC_PACKED_END
 assert_compile(sizeof(SoundData) == 0x6);
 
 
-extern void Sound_Play(uint16 index);
-extern void Sound_InitMT32(uint16 arg06);
+extern void Music_Play(uint16 musicID);
+extern void Music_InitMT32(uint16 musicID);
+extern void Voice_PlayAtTile(int16 voiceID, tile32 position);
+extern void Voice_Play(int16 voiceID);
 
 
-extern void emu_Sound_Play();
+extern void emu_Music_Play();
 
 #endif /* SOUND_H */

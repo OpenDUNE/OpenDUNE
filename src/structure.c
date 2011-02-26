@@ -29,7 +29,6 @@
 #include "gui/widget.h"
 
 extern void f__259E_0040_0015_5E4A();
-extern void f__B483_0000_0019_F96A();
 extern void f__B495_0000_0022_1CF6();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -1160,10 +1159,7 @@ static void Structure_Destroy(Structure *s)
 	Script_Reset(&s->o.script, &g_global->scriptStructure);
 	Script_Load(&s->o.script, s->o.type);
 
-	emu_push(s->o.position.s.y); emu_push(s->o.position.s.x);
-	emu_push(0x2C);
-	emu_push(emu_cs); emu_push(0x0EC0); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_PlayAtTile(44, s->o.position);
 
 	linkedID = s->o.linkedID;
 

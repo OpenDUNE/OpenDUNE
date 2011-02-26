@@ -60,7 +60,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2C17_000C_002F_3016();
-extern void f__B483_0000_0019_F96A();
 extern void f__B483_04CB_0015_EBB4();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0819_000C_0B7D();
@@ -347,10 +346,7 @@ static void GameLoop_B4ED_075D(uint8 animation)
 
 	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
 
-	emu_push(0); emu_push(0);
-	emu_push(var8056->variable_0001);
-	emu_push(emu_cs); emu_push(0x07AB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_0000_0019_F96A();
-	emu_sp += 6;
+	Voice_Play(var8056->variable_0001);
 
 	g_global->variable_8070++;
 }
@@ -830,7 +826,7 @@ static void GameLoop_B4AE_0000()
 
 	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
 
-	Sound_Play(0x22);
+	Music_Play(0x22);
 
 	GameLoop_B4ED_0200();
 
@@ -879,7 +875,7 @@ static void GameLoop_B4AB_0000()
 
 	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
 
-	Sound_Play(sound);
+	Music_Play(sound);
 
 	GameLoop_B4ED_0200();
 
@@ -899,7 +895,7 @@ static void GameLoop_LevelEnd()
 	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->debugForceWin == 0) return;
 
 	if (GameLoop_IsLevelFinished()) {
-		Sound_Play(0);
+		Music_Play(0);
 
 		g_global->cursorSpriteID = 0;
 
@@ -1071,7 +1067,7 @@ static void Gameloop_Logos()
 	emu_push(emu_cs); emu_push(0x0148); emu_cs = 0x259E; f__259E_0006_0016_858A();
 	emu_sp += 6;
 
-	Sound_Play(0x24);
+	Music_Play(0x24);
 
 	g_global->variable_76B4 = 0x168;
 
@@ -1267,7 +1263,7 @@ static void Gameloop_Intro()
 	if (emu_ax == 0 || g_global->variable_37B4 == 0) {
 		csip32 args[4];
 
-		Sound_Play(0x1B);
+		Music_Play(0x1B);
 
 		args[0].csip = 0x2C410000;
 		args[1].csip = 0x2C4D0000;
@@ -1541,7 +1537,7 @@ static void Gameloop_IntroMenu()
 		while (true) {
 			switch (stringId) {
 				case 0x001C: /* Replay Introduction */
-					Sound_Play(0);
+					Music_Play(0);
 
 					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 					emu_push(emu_cs); emu_push(0x1C19); emu_cs = 0x23E1; emu_Tools_Free();
@@ -1577,7 +1573,7 @@ static void Gameloop_IntroMenu()
 						g_global->variable_37B4 = 1;
 					}
 
-					Sound_Play(0);
+					Music_Play(0);
 
 					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 					emu_push(emu_cs); emu_push(0x1CEB); emu_cs = 0x23E1; emu_Tools_Free();
@@ -1598,7 +1594,7 @@ static void Gameloop_IntroMenu()
 
 					Sprites_Load(0, 7, g_sprites);
 
-					Sound_Play(28);
+					Music_Play(28);
 
 					loc06 = true;
 					break;
@@ -1775,7 +1771,7 @@ static void Gameloop_IntroMenu()
 			if (stringId == 0x1B) break;
 		}
 	} else {
-		Sound_Play(0);
+		Music_Play(0);
 
 		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x20E0); emu_cs = 0x23E1; emu_Tools_Free();
@@ -1971,7 +1967,7 @@ static void GameLoop_Main()
 
 	String_Load("DUNE");
 
-	Sound_InitMT32(0);
+	Music_InitMT32(0);
 
 	Gameloop_IntroMenu();
 
@@ -1979,11 +1975,11 @@ static void GameLoop_Main()
 
 	emu_push(emu_cs); emu_push(0x0113); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	Sound_Play(Tools_RandomRange(0, 5) + 8);
+	Music_Play(Tools_RandomRange(0, 5) + 8);
 
 	while (true) {
 		if (g_global->variable_38BE == 2) {
-			Sound_Play(28);
+			Music_Play(28);
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
 			g_global->playerHouseID = GUI_PickHouse();
@@ -2030,7 +2026,7 @@ static void GameLoop_Main()
 
 			GUI_ChangeSelectionType(4);
 
-			Sound_Play(Tools_RandomRange(0, 8) + 8);
+			Music_Play(Tools_RandomRange(0, 8) + 8);
 			g_global->variable_31BC = g_global->variable_76AC + 300;
 		}
 
@@ -2045,18 +2041,18 @@ static void GameLoop_Main()
 				emu_push(emu_cs); emu_push(0x0251); emu_cs = 0x3483; overlay(0x3483, 0); emu_Unknown_B483_0470();
 				if (emu_ax == 0) {
 					if (g_global->musicEnabled == 0) {
-						Sound_Play(2);
+						Music_Play(2);
 
 						g_global->variable_3E52 = 0;
 					} else if (g_global->variable_3E52 > 0) {
-						Sound_Play(Tools_RandomRange(0, 5) + 17);
+						Music_Play(Tools_RandomRange(0, 5) + 17);
 						g_global->variable_31BC = g_global->variable_76AC + 300;
 						g_global->variable_3E52 = -1;
 					} else {
 						g_global->variable_3E52 = 0;
 						if (g_global->variable_6D8D != 0 && g_global->variable_76AC > g_global->variable_31BC) {
 							if (!Driver_Music_IsPlaying()) {
-								Sound_Play(Tools_RandomRange(0, 8) + 8);
+								Music_Play(Tools_RandomRange(0, 8) + 8);
 								g_global->variable_31BC = g_global->variable_76AC + 300;
 							}
 						}
