@@ -250,7 +250,6 @@ extern void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID);
 
 extern void emu_Unit_Get_ByPackedTile();
 extern void emu_Unit_RemoveFog();
-extern void emu_Unit_Select();
 extern void emu_Unit_B4CD_01BF();
 
 #endif /* UNIT_H */

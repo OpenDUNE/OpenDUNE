@@ -141,54 +141,6 @@ void emu_Driver_Voice_01EB()
 }
 
 /**
- * Emulator wrapper around Driver_Sound_Play()
- *
- * @name emu_Driver_Sound_Play
- * @implements 1DD7:048A:0017:3EEB ()
- */
-void emu_Driver_Sound_Play()
-{
-	csip32 ret;
-	uint16 index;
-	uint16 volume;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
-
-	index  = emu_get_memory16(emu_ss, emu_sp, 0);
-	volume = emu_get_memory16(emu_ss, emu_sp, 2);
-
-	Driver_Sound_Play(index, volume);
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
-}
-
-/**
- * Emulator wrapper around Driver_Sound_Play()
- *
- * @name emu_Driver_Sound_Play_Wrapper
- * @implements 1DD7:0477:000E:5C89 ()
- */
-void emu_Driver_Sound_Play_Wrapper()
-{
-	csip32 ret;
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0);
-
-	Driver_Sound_Play(index, 0xFF);
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
-}
-
-/**
  * Emulator wrapper around Driver_Music_Stop()
  *
  * @name emu_Driver_Music_Stop

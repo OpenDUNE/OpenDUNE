@@ -8,25 +8,6 @@
 #include "widget.h"
 
 /**
- * Emulator wrapper around GUI_Widget_ActionPanel_Draw()
- *
- * @name emu_GUI_Widget_ActionPanel_Draw
- * @implements 10E4:0F1A:0088:7622 ()
- */
-void emu_GUI_Widget_ActionPanel_Draw()
-{
-	uint16 forceDraw;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	forceDraw = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	GUI_Widget_ActionPanel_Draw((forceDraw != 0) ? true : false);
-}
-
-/**
  * Emulator wrapper around GUI_Widget_Get_ByIndex().
  *
  * @name emu_GUI_Widget_Get_ByIndex

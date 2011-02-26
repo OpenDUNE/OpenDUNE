@@ -64,28 +64,6 @@ void emu_Unit_RemoveFog()
 }
 
 /**
- * Emulator wrapper around Unit_Select()
- *
- * @name emu_Unit_Select
- * @implements 1A34:0F48:0018:0DB8 ()
- */
-void emu_Unit_Select()
-{
-	csip32 ucsip;
-	Unit *unit;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ucsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	unit = (ucsip.csip == 0x0) ? NULL : Unit_Get_ByMemory(ucsip);
-
-	Unit_Select(unit);
-}
-
-/**
  * Emulator wrapper around Unit_B4CD_01BF()
  *
  * @name emu_Unit_B4CD_01BF

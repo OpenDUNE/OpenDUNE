@@ -28,7 +28,4 @@ extern tile32 Tile_MoveByDirection(tile32 tile, int16 orientation, uint16 distan
 extern tile32 Tile_MoveByRandom(tile32 tile, uint16 distance, bool arg0C);
 extern int8 Tile_GetDirection(tile32 from, tile32 to);
 
-extern void emu_Tile_PackTile();
-extern void emu_Tile_GetDistancePacked();
-
 #endif /* TILE_H */

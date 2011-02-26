@@ -11,7 +11,6 @@ extern csip32 Font_Select(csip32 font_csip);
 
 extern void emu_Font_GetCharWidth();
 extern void emu_Font_GetStringWidth();
-extern void emu_Font_LoadFile();
 extern void emu_Font_Select();
 
 #endif /* GUI_FONT_H */
