@@ -350,10 +350,10 @@ static void GameLoop_B4ED_075D(uint8 animation)
 static void GameLoop_B4ED_0BF4(char *string, uint16 top)
 {
 	char *s;
-	char *s2;
+	uint8 *s2;
 
 	s = string;
-	for (s2 = string; *s2 != 0; s2++) *s++ = (*s2 == 0xE1) ? 1 : *s2;
+	for (s2 = (uint8 *)string; *s2 != 0; s2++) *s++ = (*s2 == 0xE1) ? 1 : *s2;
 	*s = 0;
 
 	s = string;
