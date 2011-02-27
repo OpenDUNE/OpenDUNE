@@ -556,7 +556,7 @@ typedef struct GlobalData {
 	/* 25CE()    */ PACK uint8   unknown_25CE[0x0008];
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
 	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
-	/* 25E6()    */ PACK uint8   unknown_25E6[0x0002];
+	/* 25E6(2)   */ PACK uint16 variable_25E6;              /*!< ?? */
 	/* 25E8(10)  */ PACK char   string_25E8[10];            /*!< "INTRO.PAL" NULL terminated. */
 	/* 25F2(10)  */ PACK char   string_25F2[10];            /*!< "INTRO.FNT" NULL terminated. */
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
@@ -937,11 +937,7 @@ typedef struct GlobalData {
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
-	/* 4062(320) */ PACK uint16 variable_4062[20][8];       /*!< ?? Position and size of widgets? */
-	/* 41A2()    */ PACK uint8   unknown_41A2[0x0014];
-	/* 41B6(2)   */ PACK uint16 variable_41B6;              /*!< ?? */
-	/* 41B8(2)   */ PACK uint16 variable_41B8;              /*!< ?? */
-	/* 41BA()    */ PACK uint8   unknown_41BA[0x0008];
+	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
 	/* 41C2(10)  */ PACK GameCfg gameConfig;                /*!< Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
@@ -1344,7 +1340,9 @@ typedef struct GlobalData {
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
 	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x001E];
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
-	/* 7FC6()    */ PACK uint8   unknown_7FC6[0x0090];
+	/* 7FC6()    */ PACK uint8   unknown_7FC6[0x008C];
+	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
+	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
 	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
 	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */

@@ -69,7 +69,7 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B491_0819_000C_0B7D();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
-extern void f__B4E6_0108_004A_C989();
+extern void f__B4E6_0000_001A_C6C7();
 extern void f__B4E6_0200_0091_FAEA();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
@@ -98,7 +98,7 @@ static bool GameLoop_IsLevelFinished()
 		emu_push(2);
 		emu_push(0);
 		emu_push(0);
-		emu_push(emu_ds); emu_push(0x60AE);
+		emu_push(0x353F); emu_push(0x60AE);
 		emu_push(emu_cs); emu_push(0x002E); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
 		emu_sp += 10;
 		return true;
@@ -145,7 +145,7 @@ static bool GameLoop_IsLevelFinished()
 			emu_push(2);
 			emu_push(0);
 			emu_push(0);
-			emu_push(emu_ds); emu_push(0x60BA);
+			emu_push(0x353F); emu_push(0x60BA);
 			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
 			emu_sp += 10;
 		}
@@ -163,7 +163,7 @@ static bool GameLoop_IsLevelFinished()
 			emu_push(2);
 			emu_push(0);
 			emu_push(0);
-			emu_push(emu_ds); emu_push(0x60C7);
+			emu_push(0x353F); emu_push(0x60C7);
 			emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
 			emu_sp += 10;
 		}
@@ -180,7 +180,7 @@ static bool GameLoop_IsLevelFinished()
 			emu_push(2);
 			emu_push(0);
 			emu_push(0);
-			emu_push(emu_ds); emu_push(0x60D2);
+			emu_push(0x353F); emu_push(0x60D2);
 			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
 			emu_sp += 10;
 		}
@@ -471,8 +471,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawText_Wrapper("Copyright (c) 1992 Westwood Studios, Inc.", 160, 189, 215, 0, 0x112);
 
-	emu_get_memory16(emu_ds, 0x00, 0x6C6C) = 0x0;
-	emu_get_memory8(emu_ss, emu_bp, -0x16) = 0x0;
+	g_global->variable_6C6C = 0x0;
 
 	values[0] = 0;
 	for (i = 0; i < 6; i++) values[i + 1] = 215 + i;
@@ -1317,6 +1316,58 @@ static void Gameloop_Intro()
 	String_Load(NULL);
 }
 
+static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint16 arg10, uint16 arg12)
+{
+	uint16 *loc04;
+	uint16 loc06;
+	uint16 left;
+	uint16 loc0A;
+	uint16 loc0C;
+	uint16 loc0E;
+	uint16 top;
+	uint8 i;
+
+	loc04 = g_global->variable_4062[21 + arg06];
+	loc06 = g_global->variable_992B + loc04[1];
+	left = (g_global->variable_992D + loc04[0]) << 3;
+
+	emu_push(arg10);
+	emu_push(arg0E);
+	emu_push(arg0C);
+	emu_push(loc04[4]);
+	emu_push(emu_cs); emu_push(0x0152); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+	emu_sp += 8;
+	loc0C = emu_ax;
+
+	loc0E = loc04[3];
+
+	emu_push(emu_cs); emu_push(0x0167); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	for (i = 0; i < loc0E; i++) {
+		emu_push(arg10);
+		emu_push(arg0E);
+		emu_push(arg0C);
+		emu_push(i);
+		emu_push(emu_cs); emu_push(0x0177); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+		emu_sp += 8;
+		loc0A = emu_ax;
+
+		top = loc06 + ((g_global->variable_6C71 + arg12) * i);
+
+		if (loc0A == loc0C && (g_global->variable_25E6 != 0 || g_global->variable_7097 != 0)) {
+			GUI_DrawText_Wrapper(strings[loc0A], left, top, (uint8)loc04[6], 0, 0x22);
+		} else {
+			GUI_DrawText_Wrapper(strings[loc0A], left, top, (uint8)loc04[5], 0, 0x22);
+		}
+	}
+
+	g_global->variable_8052 = arg12;
+
+	emu_push(emu_cs); emu_push(0x01F5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; emu_Input_History_Clear();
+}
+
 /**
  * Intro menu.
  */
@@ -1696,13 +1747,13 @@ static void Gameloop_IntroMenu()
 				uint16 i;
 				char *strings[6];
 
-				g_global->variable_41B8 = 0;
+				g_global->variable_4062[21][3] = 0;
 
 				for (i = 0; i < 6; i++) {
 					strings[i] = NULL;
 
 					if (g_global->variable_219D[index][i] == 0) {
-						if (g_global->variable_41B8 == 0) g_global->variable_41B8 = i;
+						if (g_global->variable_4062[21][3] == 0) g_global->variable_4062[21][3] = i;
 						continue;
 					}
 
@@ -1725,18 +1776,18 @@ static void Gameloop_IntroMenu()
 
 				maxWidth = 0;
 
-				for (i = 0; i < g_global->variable_41B8; i++) {
+				for (i = 0; i < g_global->variable_4062[21][3]; i++) {
 					if (Font_GetStringWidth(strings[i]) <= maxWidth) continue;
 					maxWidth = Font_GetStringWidth(strings[i]);
 				}
 
 				maxWidth += 7;
 
-				g_global->variable_41B6 = maxWidth >> 3;
-				g_global->variable_4062[13][2] = g_global->variable_41B6 + 2;
+				g_global->variable_4062[21][2] = maxWidth >> 3;
+				g_global->variable_4062[13][2] = g_global->variable_4062[21][2] + 2;
 				g_global->variable_4062[13][0] = 19 - (maxWidth >> 4);
-				g_global->variable_4062[13][1] = 160 - ((g_global->variable_41B8 * g_global->variable_6C71) >> 1);
-				g_global->variable_4062[13][3] = (g_global->variable_41B8 * g_global->variable_6C71) + 11;
+				g_global->variable_4062[13][1] = 160 - ((g_global->variable_4062[21][3] * g_global->variable_6C71) >> 1);
+				g_global->variable_4062[13][3] = (g_global->variable_4062[21][3] * g_global->variable_6C71) + 11;
 
 				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, 3, NULL, 0);
 
@@ -1769,15 +1820,7 @@ static void Gameloop_IntroMenu()
 
 				GUI_Widget_DrawBorder(13, 2, 1);
 
-				emu_push(0);
-				emu_push(0);
-				emu_push(0); emu_push(0xFFFF);
-				emu_push(emu_ss); emu_push(emu_bp - 0x2C);
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x206B); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0108_004A_C989();
-				emu_sp += 14;
-
-				emu_push(emu_cs); emu_push(0x2073); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0, 0);
 
 				loc06 = false;
 			}
@@ -1828,7 +1871,7 @@ static void Gameloop_IntroMenu()
 	emu_push(0xC);
 	emu_push(g_global->variable_992B + g_global->variable_9931);
 	emu_push((g_global->variable_992D + g_global->variable_992F) << 3);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x992B));
+	emu_push(g_global->variable_992B);
 	emu_push(g_global->variable_992D << 3);
 	emu_push(emu_cs); emu_push(0x2163); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
 	emu_sp += 10;
@@ -2119,7 +2162,7 @@ static void GameLoop_Main()
 	emu_push(emu_cs); emu_push(0x0414); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	if (g_global->enableLog != 0) {
-		emu_push(emu_ds); emu_push(0x31F9); /* "DUNE.LOG" */
+		emu_push(0x353F); emu_push(0x31F9); /* "DUNE.LOG" */
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x0428); emu_cs = 0x257A; f__257A_000D_001A_3B75();
 		emu_sp += 6;
@@ -2405,7 +2448,7 @@ void Main()
 		emu_push(1);
 		emu_push(0xD); emu_push(0xE2B0);
 		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
-		emu_push(emu_ds); emu_push(0xB2); /* "DUNE2.EXE" */
+		emu_push(0x353F); emu_push(0xB2); /* "DUNE2.EXE" */
 		emu_push(emu_cs); emu_push(0x0114); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
 		emu_sp += 14;
 
@@ -2416,7 +2459,7 @@ void Main()
 		emu_push(0);
 		emu_push(0); emu_push(0);
 		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
-		emu_push(emu_ds); emu_push(0xB2); /* "DUNE2.EXE" */
+		emu_push(0x353F); emu_push(0xB2); /* "DUNE2.EXE" */
 		emu_push(emu_cs); emu_push(0x0149); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
 		emu_sp += 14;
 
