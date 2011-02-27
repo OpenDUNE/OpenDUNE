@@ -1822,6 +1822,8 @@ static void Gameloop_IntroMenu()
 
 				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0, 0);
 
+				emu_push(emu_cs); emu_push(0x2073); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
 				loc06 = false;
 			}
 
