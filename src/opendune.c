@@ -72,8 +72,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B491_0819_000C_0B7D();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
-extern void f__B4E6_0000_001A_C6C7();
-extern void f__B4E6_00E0_0022_452E();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
@@ -1320,48 +1318,49 @@ static void Gameloop_Intro()
 	String_Load(NULL);
 }
 
-static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint16 arg10, uint16 arg12)
+static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)
+{
+	uint16 i = 0;
+
+	if (arg08 == 0xFFFFFFFF) return arg06;
+
+	while (arg06 != 0) {
+		if ((arg08 & (1 << (arg0C + i))) != 0) arg06--;
+		i++;
+	}
+
+	while (true) {
+		if ((arg08 & (1 << (arg0C + i))) != 0) break;
+		i++;
+	}
+
+	return i;
+}
+
+static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint16 arg10, uint16 arg12)
 {
 	uint16 *loc04;
-	uint16 loc06;
 	uint16 left;
-	uint16 loc0A;
-	uint16 loc0C;
-	uint16 loc0E;
+	uint16 old;
 	uint16 top;
 	uint8 i;
 
 	loc04 = g_global->variable_4062[21 + arg06];
-	loc06 = g_global->variable_992B + loc04[1];
+	top = g_global->variable_992B + loc04[1];
 	left = (g_global->variable_992D + loc04[0]) << 3;
 
-	emu_push(arg10);
-	emu_push(arg0E);
-	emu_push(arg0C);
-	emu_push(loc04[4]);
-	emu_push(emu_cs); emu_push(0x0152); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-	emu_sp += 8;
-	loc0C = emu_ax;
-
-	loc0E = loc04[3];
+	old = GameLoop_B4E6_0000(loc04[4], arg0C, arg10);
 
 	emu_push(emu_cs); emu_push(0x0167); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	for (i = 0; i < loc0E; i++) {
-		emu_push(arg10);
-		emu_push(arg0E);
-		emu_push(arg0C);
-		emu_push(i);
-		emu_push(emu_cs); emu_push(0x0177); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-		emu_sp += 8;
-		loc0A = emu_ax;
+	for (i = 0; i < loc04[3]; i++) {
+		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
+		uint16 pos = top + ((g_global->variable_6C71 + arg12) * i);
 
-		top = loc06 + ((g_global->variable_6C71 + arg12) * i);
-
-		if (loc0A == loc0C && (g_global->variable_25E6 != 0 || g_global->variable_7097 != 0)) {
-			GUI_DrawText_Wrapper(strings[loc0A], left, top, (uint8)loc04[6], 0, 0x22);
+		if (index == old && (g_global->variable_25E6 != 0 || g_global->variable_7097 != 0)) {
+			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[6], 0, 0x22);
 		} else {
-			GUI_DrawText_Wrapper(strings[loc0A], left, top, (uint8)loc04[5], 0, 0x22);
+			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[5], 0, 0x22);
 		}
 	}
 
@@ -1395,7 +1394,12 @@ static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgCo
 	}
 }
 
-static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint16 arg10, uint16 arg12, uint16 arg14)
+static bool GameLoop_B4E6_00E0(uint16 x, uint16 y, uint16 minX, uint16 minY, uint16 maxX, uint16 maxY)
+{
+	return x >= minX && x <= maxX && y >= minY && y <= maxY;
+}
+
+static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint32 arg10, uint16 arg14)
 {
 	uint16 last;
 	uint16 result;
@@ -1446,15 +1450,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 	if (g_global->variable_7097 == 0) {
 		uint16 y = g_global->mouseY;
 
-		emu_push(maxY);
-		emu_push(maxX);
-		emu_push(minY);
-		emu_push(minX);
-		emu_push(y);
-		emu_push(g_global->mouseX);
-		emu_push(emu_cs); emu_push(0x0314); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_00E0_0022_452E();
-		emu_sp += 12;
-		if (emu_ax != 0 && g_global->variable_25E6 != 0) {
+		if (GameLoop_B4E6_00E0(g_global->mouseX, y, minX, minY, maxX, maxY) && g_global->variable_25E6 != 0) {
 			current = (y - minY) / lineHeight;
 		}
 	}
@@ -1480,21 +1476,12 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 
 		case 0x41: /* MOUSE LEFT BUTTON */
 		case 0x42: /* MOUSE RIGHT BUTTON */
-			emu_push(maxY);
-			emu_push(maxX);
-			emu_push(minY);
-			emu_push(minX);
-			emu_push(g_global->mouseClickY);
-			emu_push(g_global->mouseClickX);
-			emu_push(emu_cs); emu_push(0x0386); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_00E0_0022_452E();
-			emu_sp += 12;
-			if (emu_ax == 0) {
+			if (GameLoop_B4E6_00E0(g_global->mouseClickX, g_global->mouseClickY, minX, minY, maxX, maxY)) {
+				current = (g_global->mouseClickY - minY) / lineHeight;
+				result = current;
+			} else {
 				g_global->variable_8054 = key;
-				break;
 			}
-
-			current = (g_global->mouseClickY - minY) / lineHeight;
-			result = current;
 			break;
 
 		case 0x2B: /* NUMPAD 5 / RETURN */
@@ -1510,13 +1497,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 				char c1;
 				char c2;
 
-				emu_push(arg14);
-				emu_push(arg12);
-				emu_push(arg10);
-				emu_push(i);
-				emu_push(emu_cs); emu_push(0x03B4); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-				emu_sp += 8;
-				c1 = toupper(*strings[emu_ax]);
+				c1 = toupper(*strings[GameLoop_B4E6_0000(i, arg10, arg14)]);
 
 				emu_push(key & 0xFF);
 				emu_push(emu_cs); emu_push(0x03DB); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
@@ -1539,23 +1520,11 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 
 		emu_push(emu_cs); emu_push(0x0410); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(arg14);
-		emu_push(arg12);
-		emu_push(arg10);
-		emu_push(old);
-		emu_push(emu_cs); emu_push(0x0420); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-		emu_sp += 8;
-		index = emu_ax;
+		index = GameLoop_B4E6_0000(old, arg10, arg14);
 
 		GUI_DrawText_Wrapper(strings[index], left, top + (old * lineHeight), fgColourNormal, 0, 0x22);
 
-		emu_push(arg14);
-		emu_push(arg12);
-		emu_push(arg10);
-		emu_push(current);
-		emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-		emu_sp += 8;
-		index = emu_ax;
+		index = GameLoop_B4E6_0000(current, arg10, arg14);
 
 		GUI_DrawText_Wrapper(strings[index], left, top + (current * lineHeight), fgColourSelected, 0, 0x22);
 
@@ -1566,13 +1535,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 
 	if (result == 0xFFFF) return 0xFFFF;
 
-	emu_push(arg14);
-	emu_push(arg12);
-	emu_push(arg10);
-	emu_push(result);
-	emu_push(emu_cs); emu_push(0x04C2); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
-	emu_sp += 8;
-	result = emu_ax;
+	result = GameLoop_B4E6_0000(result, arg10, arg14);
 
 	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -2020,7 +1983,7 @@ static void Gameloop_IntroMenu()
 
 				GUI_Widget_DrawBorder(13, 2, 1);
 
-				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0, 0);
+				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0);
 
 				emu_push(emu_cs); emu_push(0x2073); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2029,7 +1992,7 @@ static void Gameloop_IntroMenu()
 
 			if (!loc10) break;
 
-			stringId = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0, 0);
+			stringId = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0);
 
 			if (stringId != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
