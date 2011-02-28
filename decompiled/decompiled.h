@@ -426,7 +426,6 @@ extern void emu_MPU_GetInfo();
 extern void f__AB01_0CA9_0001_6780();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__AB01_0CB4_0016_9B28();
-extern void GameLoop_B4ED_0CB5();
 extern void f__2756_0CC9_0001_6780();
 extern void f__217E_0CDA_0007_FC8E();
 extern void f__217E_0D09_000D_D3D3();
