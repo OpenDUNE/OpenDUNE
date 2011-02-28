@@ -114,8 +114,4 @@ extern bool House_UpdateRadarState(House *h);
 extern void House_UpdateCreditsStorage(uint8 houseID);
 extern void House_CalculatePowerAndCredit(struct House *h);
 
-
-extern void emu_House_UpdateCreditsStorage();
-extern void emu_House_CalculatePowerAndCredit();
-
 #endif /* HOUSE_H */

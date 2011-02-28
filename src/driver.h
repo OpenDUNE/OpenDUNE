@@ -69,7 +69,6 @@ extern void Driver_Sound_Stop();
 
 extern void emu_Drivers_EnableSounds();
 extern void emu_Drivers_EnableMusic();
-extern void emu_Drivers_GetFunctionCSIP();
 extern void emu_Drivers_CallFunction();
 extern void emu_Driver_Music_IsPlaying();
 extern void emu_Driver_Voice_01EB();

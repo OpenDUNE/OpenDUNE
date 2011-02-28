@@ -19,8 +19,4 @@ extern void Team_Recount();
 extern struct Team *Team_Allocate(uint16 index);
 extern void Team_Free(struct Team *au);
 
-
-extern void emu_Team_Init();
-extern void emu_Team_Recount();
-
 #endif /* POOL_TEAM_H */

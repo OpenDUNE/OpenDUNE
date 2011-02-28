@@ -71,9 +71,4 @@ extern void Map_SelectNext(bool arg06);
 extern bool Map_UnveilTile(uint16 packed, uint8 houseID);
 extern void Map_CreateLandscape(uint32 seed);
 
-
-extern void emu_Map_SetSelection();
-extern void emu_Map_SetSelectionSize();
-extern void emu_Map_UnveilTile();
-
 #endif /* MAP_H */

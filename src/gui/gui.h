@@ -27,7 +27,6 @@ extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32
 
 
 extern void emu_GUI_DrawWiredRectangle();
-extern void emu_GUI_DisplayText();
 extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_PaletteAnimate();

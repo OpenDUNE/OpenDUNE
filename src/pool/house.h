@@ -18,10 +18,4 @@ extern void House_Init(csip32 address);
 extern struct House *House_Allocate(uint8 index);
 extern void House_Free(struct House *h);
 
-
-extern void emu_House_Init();
-extern void emu_House_Get_ByIndex();
-extern void emu_House_FindFirst();
-extern void emu_House_FindNext();
-
 #endif /* POOL_HOUSE_H */

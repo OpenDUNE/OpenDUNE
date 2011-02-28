@@ -25,10 +25,6 @@ extern struct Structure *Structure_Allocate(uint16 index, uint8 type);
 extern void Structure_Free(struct Structure *s);
 
 
-extern void emu_Structure_Init();
 extern void emu_Structure_Recount();
-extern void emu_Structure_Get_ByIndex();
-extern void emu_Structure_FindFirst();
-extern void emu_Structure_FindNext();
 
 #endif /* POOL_STRUCTURE_H */

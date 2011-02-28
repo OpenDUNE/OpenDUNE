@@ -104,10 +104,4 @@ extern uint32 Structure_GetBuildable(Structure *s);
 extern void Structure_HouseUnderAttack(uint8 houseID);
 extern uint16 Structure_AI_PickNextToBuild(Structure *s);
 
-
-extern void emu_Structure_SetAnimation();
-extern void emu_Structure_Get_ByPackedTile();
-extern void emu_Structure_GetStructuresBuilt();
-extern void emu_Structure_RemoveFog();
-
 #endif /* STRUCTURE_H */

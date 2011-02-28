@@ -20,10 +20,6 @@ extern struct Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID);
 extern void Unit_Free(struct Unit *u);
 
 
-extern void emu_Unit_Init();
 extern void emu_Unit_Recount();
-extern void emu_Unit_Get_ByIndex();
-extern void emu_Unit_FindFirst();
-extern void emu_Unit_FindNext();
 
 #endif /* POOL_UNIT_H */

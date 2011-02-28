@@ -36,28 +36,6 @@ void emu_GUI_DrawWiredRectangle()
 }
 
 /**
- * Emulator wrapper around GUI_DisplayText()
- *
- * @name emu_GUI_DisplayText
- * @implements 10E4:09AB:0031:5E8E ()
- */
-void emu_GUI_DisplayText()
-{
-	csip32 str;
-	uint16 arg0A;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	str     = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	arg0A   = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	/* XXX -- Theorically there can be more args, but this wrapper is always called without any */
-	GUI_DisplayText((char *)emu_get_memorycsip(str), arg0A);
-}
-
-/**
  * Emulator wrapper around GUI_DrawText()
  *
  * @name emu_GUI_DrawText
