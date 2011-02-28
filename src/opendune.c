@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "os/math.h"
 #include "os/strings.h"
 #include "os/sleep.h"
@@ -1416,6 +1417,9 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 	uint16 old;
 	uint16 *loc24;
 	uint16 current;
+
+	VARIABLE_NOT_USED(arg0C);
+	VARIABLE_NOT_USED(arg0E);
 
 	loc24 = g_global->variable_4062[21 + arg06];
 
