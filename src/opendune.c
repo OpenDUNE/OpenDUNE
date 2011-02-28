@@ -49,6 +49,7 @@ extern void emu_Tools_Free();
 extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
+extern void f__24FD_000A_000B_2043();
 extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
@@ -57,7 +58,9 @@ extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__263B_002F_0016_FDB0();
 extern void emu_Unknown_2903_090A();
+extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
+extern void f__29E8_0897_0016_2028();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -70,7 +73,7 @@ extern void f__B491_0819_000C_0B7D();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B4E6_0000_001A_C6C7();
-extern void f__B4E6_0200_0091_FAEA();
+extern void f__B4E6_00E0_0022_452E();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
@@ -80,6 +83,7 @@ extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
+extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Mouse_Init();
 extern void emu_Tools_Var79E4_Init();
 extern void emu_Window_WidgetClick_Create();
@@ -1368,6 +1372,217 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint16 arg0C, uint1
 	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; emu_Input_History_Clear();
 }
 
+static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
+{
+	uint8 i;
+
+	for (i = 0; i < 3; i++) {
+		emu_push(emu_cs); emu_push(0x0085); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		GUI_DrawText_Wrapper(string, left, top, fgColourSelected, bgColour, 0x22);
+
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x00AA); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
+		emu_sp += 2;
+
+		GUI_DrawText_Wrapper(string, left, top, fgColourNormal, bgColour, 0x22);
+
+		emu_push(emu_cs); emu_push(0x00CC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+		emu_push(2);
+		emu_push(emu_cs); emu_push(0x00D5); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
+		emu_sp += 2;
+	}
+}
+
+static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint16 arg10, uint16 arg12, uint16 arg14)
+{
+	uint16 last;
+	uint16 result;
+	uint16 key;
+	uint16 top;
+	uint16 left;
+	uint16 minX;
+	uint16 maxX;
+	uint16 minY;
+	uint16 maxY;
+	uint16 lineHeight;
+	uint8 fgColourNormal;
+	uint8 fgColourSelected;
+	uint16 old;
+	uint16 *loc24;
+	uint16 current;
+
+	loc24 = g_global->variable_4062[21 + arg06];
+
+	last = loc24[3] - 1;
+	old = loc24[4] % (last + 1);
+	current = old;
+
+	result = 0xFFFF;
+
+	top = g_global->variable_992B + loc24[1];
+	left = (g_global->variable_992D + loc24[0]) << 3;
+
+	lineHeight = g_global->variable_6C71 + g_global->variable_8052;
+
+	minX = (g_global->variable_992D << 3) + (g_global->variable_6C70 * loc24[0]);
+	minY = g_global->variable_992B + loc24[1] - (g_global->variable_8052 / 2);
+	maxX = minX + (g_global->variable_6C70 * loc24[2]) - 1;
+	maxY = minY + (loc24[3] * lineHeight) - 1;
+
+	fgColourNormal = loc24[5] & 0xFF;
+	fgColourSelected = loc24[6] & 0xFF;
+
+	g_global->variable_8054 = 0;
+
+	key = 0;
+	emu_push(emu_cs); emu_push(0x0291); emu_cs = 0x29E8; f__29E8_072F_000F_651A();
+	if (emu_ax != 0) {
+		emu_push(emu_cs); emu_push(0x029A); emu_cs = 0x29E8; f__29E8_0897_0016_2028();
+		key = emu_ax & 0x8FF;
+	}
+
+	if (g_global->variable_7097 == 0) {
+		uint16 y = g_global->mouseY;
+
+		emu_push(maxY);
+		emu_push(maxX);
+		emu_push(minY);
+		emu_push(minX);
+		emu_push(y);
+		emu_push(g_global->mouseX);
+		emu_push(emu_cs); emu_push(0x0314); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_00E0_0022_452E();
+		emu_sp += 12;
+		if (emu_ax != 0 && g_global->variable_25E6 != 0) {
+			current = (y - minY) / lineHeight;
+		}
+	}
+
+	switch (key) {
+		case 0x60: /* NUMPAD 8 / ARROW UP */
+			if (current-- == 0) current = last;
+			break;
+
+		case 0x62: /* NUMPAD 2 / ARROW DOWN */
+			if (current++ == last) current = 0;
+			break;
+
+		case 0x5B: /* NUMPAD 7 / HOME */
+		case 0x65: /* NUMPAD 9 / PAGE UP */
+			current = 0;
+			break;
+
+		case 0x5D: /* NUMPAD 1 / END */
+		case 0x67: /* NUMPAD 3 / PAGE DOWN */
+			current = last;
+			break;
+
+		case 0x41: /* MOUSE LEFT BUTTON */
+		case 0x42: /* MOUSE RIGHT BUTTON */
+			emu_push(maxY);
+			emu_push(maxX);
+			emu_push(minY);
+			emu_push(minX);
+			emu_push(g_global->mouseClickY);
+			emu_push(g_global->mouseClickX);
+			emu_push(emu_cs); emu_push(0x0386); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_00E0_0022_452E();
+			emu_sp += 12;
+			if (emu_ax == 0) {
+				g_global->variable_8054 = key;
+				break;
+			}
+
+			current = (g_global->mouseClickY - minY) / lineHeight;
+			result = current;
+			break;
+
+		case 0x2B: /* NUMPAD 5 / RETURN */
+		case 0x3D: /* SPACE */
+		case 0x61:
+			result = current;
+			break;
+
+		default: {
+			uint16 i;
+
+			for (i = 0; i < loc24[3]; i++) {
+				char c1;
+				char c2;
+
+				emu_push(arg14);
+				emu_push(arg12);
+				emu_push(arg10);
+				emu_push(i);
+				emu_push(emu_cs); emu_push(0x03B4); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+				emu_sp += 8;
+				c1 = toupper(*strings[emu_ax]);
+
+				emu_push(key & 0xFF);
+				emu_push(emu_cs); emu_push(0x03DB); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
+				emu_sp += 2;
+				c2 = toupper(emu_ax);
+
+				if (c1 == c2) {
+					result = i;
+					current = i;
+					break;
+				}
+			}
+
+			g_global->variable_8054 = key;
+		} break;
+	}
+
+	if (current != old) {
+		uint16 index;
+
+		emu_push(emu_cs); emu_push(0x0410); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		emu_push(arg14);
+		emu_push(arg12);
+		emu_push(arg10);
+		emu_push(old);
+		emu_push(emu_cs); emu_push(0x0420); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+		emu_sp += 8;
+		index = emu_ax;
+
+		GUI_DrawText_Wrapper(strings[index], left, top + (old * lineHeight), fgColourNormal, 0, 0x22);
+
+		emu_push(arg14);
+		emu_push(arg12);
+		emu_push(arg10);
+		emu_push(current);
+		emu_push(emu_cs); emu_push(0x046B); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+		emu_sp += 8;
+		index = emu_ax;
+
+		GUI_DrawText_Wrapper(strings[index], left, top + (current * lineHeight), fgColourSelected, 0, 0x22);
+
+		emu_push(emu_cs); emu_push(0x04AC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	}
+
+	loc24[4] = current;
+
+	if (result == 0xFFFF) return 0xFFFF;
+
+	emu_push(arg14);
+	emu_push(arg12);
+	emu_push(arg10);
+	emu_push(result);
+	emu_push(emu_cs); emu_push(0x04C2); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0000_001A_C6C7();
+	emu_sp += 8;
+	result = emu_ax;
+
+	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GameLoop_B4E6_0074(strings[result], left, top + (current * lineHeight), fgColourNormal, fgColourSelected, 0);
+
+	emu_push(emu_cs); emu_push(0x0506); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	return result;
+}
+
 /**
  * Intro menu.
  */
@@ -1376,10 +1591,6 @@ static void Gameloop_IntroMenu()
 	bool loc02 = false;
 	bool loc06;
 	csip32 csip;
-
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x2C);
 
 	memcpy(&emu_get_memory8(0x29E8, 0xA, 0x0), g_global->variable_2179, 36);
 
@@ -1620,6 +1831,8 @@ static void Gameloop_IntroMenu()
 		stringId = 0x1C; /* Replay Introduction */
 
 		while (true) {
+			char *strings[6];
+
 			switch (stringId) {
 				case 0x001C: /* Replay Introduction */
 					Music_Play(0);
@@ -1745,7 +1958,6 @@ static void Gameloop_IntroMenu()
 			if (loc06) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 				uint16 i;
-				char *strings[6];
 
 				g_global->variable_4062[21][3] = 0;
 
@@ -1758,18 +1970,6 @@ static void Gameloop_IntroMenu()
 					}
 
 					strings[i] = String_Get_ByIndex(g_global->variable_219D[index][i]);
-				}
-
-				/* Temporary */
-				for (i = 0; i < 6; i++) {
-					csip32 *csip = &emu_get_csip32(emu_ss, emu_bp - 0x2C, 0);
-
-					if (strings[i] == NULL) {
-						csip[i].csip = 0x0;
-						continue;
-					}
-					csip[i] = g_global->strings;
-					csip[i].s.ip += strings[i] - (char *)emu_get_memorycsip(csip[i]);
 				}
 
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
@@ -1829,14 +2029,7 @@ static void Gameloop_IntroMenu()
 
 			if (!loc10) break;
 
-			emu_push(0);
-			emu_push(0); emu_push(0xFF);
-			emu_push(0); emu_push(0);
-			emu_push(emu_ss); emu_push(emu_bp - 0x2C);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x209D); emu_cs = 0x34E6; overlay(0x34E6, 0); f__B4E6_0200_0091_FAEA();
-			emu_sp += 16;
-			stringId = emu_ax;
+			stringId = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0, 0);
 
 			if (stringId != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
@@ -1942,9 +2135,6 @@ static void Gameloop_IntroMenu()
 	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
 	emu_push(emu_cs); emu_push(0x2279); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
 	emu_sp += 4;
-
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
 
 	return;
 }
@@ -2401,10 +2591,6 @@ void Main()
 {
 	DuneCfg *config;
 	uint32 memoryNeeded;
-
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_sp -= 0xCC;
 
 	config = (DuneCfg *)&emu_get_memory8(0x353F, 0x98E1, 0);
 	if (!Config_Read("dune.cfg", config)) {
