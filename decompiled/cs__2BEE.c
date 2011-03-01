@@ -50,10 +50,11 @@ l__0017:
 	emu_shlb(&emu_bl, 0x1);
 	emu_shlb(&emu_bl, 0x1);
 	emu_shlb(&emu_bl, 0x1);
+l__002C:
 	emu_inb(&emu_al, emu_dx);
 	emu_andb(&emu_al, 0x8);
 	emu_xorb(&emu_al, emu_bl);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x002C; emu_last_cs = 0x2BEE; emu_last_ip = 0x0031; emu_last_length = 0x0028; emu_last_crc = 0x0D9F; emu_call(); return; }
+	if (emu_flags.zf) goto l__002C;
 l__0033:
 	emu_inb(&emu_al, emu_dx);
 	emu_andb(&emu_al, 0x8);
