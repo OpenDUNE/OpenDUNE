@@ -73,7 +73,6 @@ extern void f__B483_04CB_0015_EBB4();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0000_0022_DD43();
 extern void f__B491_0A41_0011_85AD();
-extern void f__B491_0C3E_0008_F6B9();
 extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B500_0000_0008_FE1F();
@@ -880,6 +879,58 @@ static void GameLoop_B4AE_0000()
 	GameLoop_B4ED_0184();
 }
 
+static void GameLoop_Uninit()
+{
+	while (g_global->variable_3C26.csip != 0) {
+		csip32 wcsip = g_global->variable_3C26;
+		Widget *w = (Widget *)emu_get_memorycsip(wcsip);
+
+		g_global->variable_3C26 = w->next;
+
+		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+		emu_push(emu_cs); emu_push(0x0C70); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+	}
+
+	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
+	emu_push(emu_cs); emu_push(0x0C8C); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_3C3E.s.cs); emu_push(g_global->variable_3C3E.s.ip);
+	emu_push(emu_cs); emu_push(0x0CA0); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
+	emu_push(emu_cs); emu_push(0x0CB4); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x0CC8); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_38C6.s.cs); emu_push(g_global->variable_38C6.s.ip);
+	emu_push(emu_cs); emu_push(0x0CDC); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_3C46.s.cs); emu_push(g_global->variable_3C46.s.ip);
+	emu_push(emu_cs); emu_push(0x0CF0); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
+	emu_push(emu_cs); emu_push(0x0D04); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
+	emu_push(emu_cs); emu_push(0x0D18); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(g_global->strings.s.cs); emu_push(g_global->strings.s.ip);
+	emu_push(emu_cs); emu_push(0x0D2C); emu_cs = 0x23E1; emu_Tools_Free();
+
+	Script_ClearInfo(&g_global->scriptStructure);
+	Script_ClearInfo(&g_global->scriptTeam);
+}
+
 /**
  * Shows the game credits.
  */
@@ -917,7 +968,7 @@ static void GameLoop_GameCredits()
 
 	Music_Play(0);
 
-	emu_push(emu_cs); emu_push(0x08A2); emu_cs = 0x3491; overlay(0x3491, 0); f__B491_0C3E_0008_F6B9();
+	GameLoop_Uninit();
 
 	Music_Play(33);
 
