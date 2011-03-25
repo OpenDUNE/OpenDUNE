@@ -1159,7 +1159,7 @@ typedef struct GlobalData {
 	/* 677E(4)   */ PACK csip32 variable_677E;              /*!< ?? Pointer to string_6BBB. */
 	/* 6782(4)   */ PACK csip32 variable_6782;              /*!< ?? Pointer to string_6BDD. */
 	/* 6786(4)   */ PACK csip32 variable_6786;              /*!< ?? Pointer to string_6C06. */
-	/* 678C(4)   */ PACK csip32 variable_678C;              /*!< ?? Pointer to string_6C39. */
+	/* 678A(4)   */ PACK csip32 variable_678A;              /*!< ?? Pointer to string_6C39. */
 	/* 678E(4)   */ PACK csip32 variable_678E;              /*!< ?? Pointer to string_6C5F. */
 	/* 6792(48)  */ PACK char   string_6792[48];            /*!< "Ram Free Error! Press any key to exit to DOS.\r\n" NULL terminated. */
 	/* 67C2(55)  */ PACK char   string_67C2[55];            /*!< "Taking advantage of extended memory.\r\nPlease wait...\r\n" NULL terminated. */
@@ -1243,7 +1243,9 @@ typedef struct GlobalData {
 	/* 6DF6(8)   */ PACK char   string_6DF6[8];             /*!< "xga.ovl" NULL terminated. */
 	/* 6DFE(8)   */ PACK char   string_6DFE[8];             /*!< "yga.ovl" NULL terminated. */
 	/* 6E06(29)  */ PACK char   string_6E06[29];            /*!< "PageArraySize is negative!\r\n" NULL terminated. */
-	/* 6E23()    */ PACK uint8   unknown_6E23[0x001B];
+	/* 6E23()    */ PACK uint8   unknown_6E23[0x0003];
+	/* 6E26(2)   */ PACK uint16 variable_6E26;              /*!< ?? */
+	/* 6E28()    */ PACK uint8   unknown_6E28[0x0016];
 	/* 6E3E(4)   */ PACK csip32 variable_6E3E;              /*!< ?? */
 	/* 6E42()    */ PACK uint8   unknown_6E42[0x0004];
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
@@ -1410,7 +1412,9 @@ typedef struct GlobalData {
 	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
 	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
-	/* 981D()    */ PACK uint8   unknown_981D[0x004F];
+	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
+	/* 9846(4)   */ PACK csip32 variable_9846;              /*!< ?? */
+	/* 984A()    */ PACK uint8   unknown_984A[0x0022];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */

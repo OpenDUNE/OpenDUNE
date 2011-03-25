@@ -119,7 +119,6 @@
 29E8:073F:000E:6816	emu_Input_History_Clear
 29E8:0A19:002A:2DE6	emu_Input_History_Add
 
-2BD1:0004:0001:6580	emu_Empty1	# Function does absolutely nothing
 2BD1:0005:0001:6580	emu_Empty2	# Function does absolutely nothing
 
 2BC0:0004:000F:950B	emu_Tools_Swapd	# LE <-> BE for 32bit values

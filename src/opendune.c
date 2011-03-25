@@ -40,8 +40,10 @@
 #include "wsa.h"
 
 extern void f__01F7_103F_0010_4132();
-extern void f__1DB6_0004_000B_BFBA();
+extern void f__01F7_276F_000F_E56B();
 extern void f__1DD7_0B53_0025_36F7();
+extern void f__217E_08F0_0016_CE0F();
+extern void f__217E_0ABA_001A_9AA0();
 extern void f__22A3_000D_0010_9291();
 extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
@@ -51,17 +53,22 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
 extern void f__24FD_000A_000B_2043();
+extern void f__2531_0019_0010_2000();
 extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
+extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
+extern void f__2649_0053_001D_FEB5();
+extern void f__28FD_000C_0007_5DA9();
 extern void emu_Unknown_2903_090A();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
+extern void f__29E8_0971_0071_E515();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -78,6 +85,9 @@ extern void f__B4B8_116F_0013_15F7();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
 extern void f__B536_0129_000A_8178();
+extern void emu_Drive_Get_Default_Wrapper();
+extern void emu_Drive_Set_Default_Wrapper();
+extern void emu_File_LowLevel_Close_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
@@ -85,6 +95,8 @@ extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_Input_Keyboard_HandleKeys2();
+extern void emu_Interrupt_Vector_Get();
+extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
 extern void emu_Tools_Var79E4_Init();
 extern void emu_Window_WidgetClick_Create();
@@ -2737,6 +2749,123 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	return true;
 }
 
+static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool arg12)
+{
+	uint16 drive;
+
+	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; f__263B_0006_001C_9C72();
+	g_global->variable_6E26 = emu_ax;
+
+	emu_push(0x3F);
+	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; emu_Interrupt_Vector_Get();
+	emu_sp += 2;
+	g_global->variable_9846.s.cs = emu_dx;
+	g_global->variable_9846.s.ip = emu_ax;
+
+	if (filename != NULL) {
+		uint8 *var9846 = emu_get_memorycsip(g_global->variable_9846);
+
+		emu_push(0x261F); emu_push(0x8);
+		emu_push(0x3F);
+		emu_push(emu_cs); emu_push(0x003C); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
+		emu_sp += 6;
+
+		memcpy(var9846, g_global->variable_62F7, 9);
+
+		var9846[0x65] = 0xCB;
+	}
+
+	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x01F7; emu_Drive_Get_Default_Wrapper();
+	drive = emu_ax;
+
+	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x2531; f__2531_0019_0010_2000();
+
+	emu_push(emu_cs); emu_push(0x0073); emu_cs = 0x28FD; f__28FD_000C_0007_5DA9();
+
+	if (filename != NULL) {
+		if (emu_get_memory16(0x33F4, 0x00, 0x128) == 0x0) {
+			printf("\r\nBorland overlay manager not enabled.\r\n");
+
+			emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
+			emu_push(0x3F);
+			emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
+			emu_sp += 6;
+
+			return true;
+		}
+
+		emu_push(emu_get_memory16(0x33F4, 0x00, 0x128));
+		emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x01F7; emu_File_LowLevel_Close_Wrapper();
+		emu_sp += 2;
+
+		if (arg12) {;
+			emu_push(0);
+			emu_push(0);
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x00DA); emu_cs = 0x217E; f__217E_08F0_0016_CE0F();
+			emu_sp += 6;
+
+			emu_push(0); emu_push(0);
+			emu_push(0); emu_push(0);
+			emu_push(emu_cs); emu_push(0x00EE); emu_cs = 0x217E; f__217E_0ABA_001A_9AA0();
+			emu_sp += 8;
+		}
+
+		if (!File_Exists(filename)) {
+			printf("\r\nProgram must be run from the source directory.\r\n");
+
+			emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
+			emu_push(0x3F);
+			emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
+			emu_sp += 6;
+
+			return true;
+		}
+
+		emu_push(0x50);
+		emu_push(0x353F); emu_push(0x9882);
+		emu_push(emu_cs); emu_push(0x0110); emu_cs = 0x01F7; f__01F7_276F_000F_E56B();
+		emu_sp += 6;
+
+		strcpy((char *)g_global->variable_998E, (char *)g_global->variable_9882);
+
+		if (g_global->variable_9882[strlen((char *)g_global->variable_9882) - 1] != '\\') {
+			strcat((char *)g_global->variable_9882, "\\");
+		}
+
+		strcat((char *)g_global->variable_9882, filename);
+
+		emu_get_memory16(0x33F4, 0x00, 0x128) = 0xFFFF;
+
+		emu_push(drive);
+		emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();
+		emu_sp += 2;
+	}
+
+	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	if ((uint32)((emu_dx << 16) + emu_ax) < arg0A) {
+		printf("\r\nNot enough memory to run program.\r\n");
+
+		emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
+		emu_push(0x3F);
+		emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
+		emu_sp += 6;
+
+		return true;
+	}
+
+	emu_push(arg0E >> 16); emu_push(arg0E & 0xFFFF);
+	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; f__2649_0053_001D_FEB5();
+	emu_sp += 4;
+
+	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
+
+	g_global->variable_62F6 = 1;
+
+	return false;
+}
+
+
 void Main()
 {
 	DuneCfg *config;
@@ -2781,27 +2910,9 @@ void Main()
 	}
 
 	if (config->useXMS) {
-		uint32 loc = memoryNeeded - g_global->sizeExecutable;
-
-		emu_push(1);
-		emu_push(0xD); emu_push(0xE2B0);
-		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
-		emu_push(0x353F); emu_push(0xB2); /* "DUNE2.EXE" */
-		emu_push(emu_cs); emu_push(0x0114); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
-		emu_sp += 14;
-
-		if (emu_ax != 0) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 910000, true)) exit(1);
 	} else {
-		uint32 loc = memoryNeeded - g_global->sizeExecutable;
-
-		emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(loc >> 16); emu_push(loc & 0xFFFF);
-		emu_push(0x353F); emu_push(0xB2); /* "DUNE2.EXE" */
-		emu_push(emu_cs); emu_push(0x0149); emu_cs = 0x1DB6; f__1DB6_0004_000B_BFBA();
-		emu_sp += 14;
-
-		if (emu_ax != 0) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 0, false)) exit(1);
 	}
 
 	if (config->useXMS) {
