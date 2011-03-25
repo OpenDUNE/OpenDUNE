@@ -40,6 +40,7 @@
 #include "wsa.h"
 
 extern void f__01F7_103F_0010_4132();
+extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
@@ -53,8 +54,6 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24DA_002D_0010_3EB2();
 extern void f__24FD_000A_000B_2043();
-extern void f__2531_0019_0010_2000();
-extern void f__2533_000D_001C_74EC();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
@@ -99,6 +98,7 @@ extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
 extern void emu_Tools_Var79E4_Init();
+extern void emu_Video_IsInVSync();
 extern void emu_Window_WidgetClick_Create();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -2544,6 +2544,25 @@ static void GameLoop_Main()
 	emu_sp += 16;
 }
 
+static void Unknown_2533_000D()
+{
+	uint16 locdi = 0;
+	uint16 locsi = 0;
+
+	g_global->variable_76B4 = 15;
+
+	do {
+		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2BEE; emu_Video_IsInVSync();
+		if (emu_ax != 0) {
+			locdi++;
+		} else {
+			locsi++;
+		}
+	} while (g_global->variable_76B4 != 0);
+
+	g_global->variable_9937 = (locdi > locsi) ? 1 : 0;
+}
+
 static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool arg0C)
 {
 	switch (graphicMode) {
@@ -2734,7 +2753,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 		default: break;
 	}
 
-	emu_push(emu_cs); emu_push(0x03CD); emu_cs = 0x2533; f__2533_000D_001C_74EC();
+	Unknown_2533_000D();
 
 	emu_push(0); emu_push(0);
 	emu_push(emu_cs); emu_push(0x03D8); emu_cs = 0x01F7; f__01F7_103F_0010_4132();
@@ -2747,6 +2766,14 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	Unknown_07AE_0000(0);
 
 	return true;
+}
+
+static void Unknown_2531_0019()
+{
+	emu_push(0x2531);
+	emu_push(0x5);
+	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x01F7; f__01F7_1E5C_000E_B47A();
+	emu_sp += 4;
 }
 
 static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool arg12)
@@ -2778,7 +2805,7 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x01F7; emu_Drive_Get_Default_Wrapper();
 	drive = emu_ax;
 
-	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x2531; f__2531_0019_0010_2000();
+	Unknown_2531_0019();
 
 	emu_push(emu_cs); emu_push(0x0073); emu_cs = 0x28FD; f__28FD_000C_0007_5DA9();
 
