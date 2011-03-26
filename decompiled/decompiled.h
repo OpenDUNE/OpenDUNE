@@ -99,7 +99,6 @@ extern void emu_Tools_Swapw();
 extern void f__217E_0015_0019_BAFF();
 extern void emu_Video_WaitForNextVSync();
 extern void f__259E_0021_001A_E253();
-extern void f__24DA_002D_0010_3EB2();
 extern void f__263B_002F_0016_FDB0();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2BF2_0040_000E_71D1();

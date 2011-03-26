@@ -52,7 +52,6 @@ extern void f__23E1_0334_000B_CF65();
 extern void emu_Tools_Free();
 extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
-extern void f__24DA_002D_0010_3EB2();
 extern void f__24FD_000A_000B_2043();
 extern void f__257A_000D_001A_3B75();
 extern void f__2598_0000_0017_EB80();
@@ -328,6 +327,29 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 	emu_sp += 16;
 }
 
+/**
+ * Clears the given memory block.
+ * @param index The memory block.
+ */
+static void Memory_ClearBlock(uint16 index)
+{
+	csip32 memBlock;
+	uint32 size;
+	uint8 *memory;
+
+	emu_push(index);
+	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = emu_ax;
+
+	memory = emu_get_memorycsip(memBlock);
+
+	size = g_global->variable_6CD3[index >> 1][index & 0x1];
+
+	memset(memory, 0, size);
+}
+
 static void GameLoop_B4ED_0184()
 {
 	emu_push(g_global->introFnt.s.cs); emu_push(g_global->introFnt.s.ip);
@@ -348,9 +370,7 @@ static void GameLoop_B4ED_0184()
 
 	emu_push(emu_cs); emu_push(0x01F4); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	emu_push(7);
-	emu_push(emu_cs); emu_push(0x01FD); emu_cs = 0x24DA; f__24DA_002D_0010_3EB2();
-	emu_sp += 2;
+	Memory_ClearBlock(7);
 }
 
 static void GameLoop_B4ED_075D(uint8 animation)
@@ -1928,9 +1948,7 @@ static void Gameloop_IntroMenu()
 	csip.s.cs = emu_dx;
 	csip.s.ip = emu_ax;
 
-	emu_push(9);
-	emu_push(emu_cs); emu_push(0x1A58); emu_cs = 0x24DA; f__24DA_002D_0010_3EB2();
-	emu_sp += 2;
+	Memory_ClearBlock(9);
 
 	*((uint32*)emu_get_memorycsip(csip)) = 0x12345678;
 	csip.s.ip += 4;
@@ -2398,9 +2416,7 @@ static void GameLoop_Main()
 
 			emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x0158); emu_cs = 0x24DA; f__24DA_002D_0010_3EB2();
-			emu_sp += 2;
+			Memory_ClearBlock(1);
 
 			Sprites_LoadTiles();
 
