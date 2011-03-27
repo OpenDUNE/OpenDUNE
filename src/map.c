@@ -1434,7 +1434,7 @@ uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
 	mapInfo = &g_global->mapInfo[g_global->scenario.mapScale];
 
 	xmin = max(Tile_GetPackedX(packed) - radius, mapInfo->minX);
-	xmax = max(Tile_GetPackedX(packed) + radius, mapInfo->minX + mapInfo->sizeX - 1);
+	xmax = min(Tile_GetPackedX(packed) + radius, mapInfo->minX + mapInfo->sizeX - 1);
 	ymin = max(Tile_GetPackedY(packed) - radius, mapInfo->minY);
 	ymax = min(Tile_GetPackedY(packed) + radius, mapInfo->minY + mapInfo->sizeY - 1);
 
