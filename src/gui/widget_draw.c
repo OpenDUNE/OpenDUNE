@@ -989,7 +989,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							GUI_DrawSprite(g_global->variable_6C91, g_sprites[g_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
 
 							steps = g_unitInfo[u->o.type].o.buildTime / 4;
-							percent = (steps - s->countDown / 8) * 100 / steps;
+							percent = (steps - (s->countDown >> 8)) * 100 / steps;
 
 							GUI_DrawText_Wrapper(String_Get_ByIndex(46), 258, 116, 29, 0, 0x11, percent);
 						} break;
