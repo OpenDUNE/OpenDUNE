@@ -37,7 +37,7 @@ l__0004:
 	emu_bp = emu_sp;
 	emu_subw(&emu_sp, 0x2);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0012); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_push(emu_cs); emu_push(0x0012); emu_cs = 0x2598; emu_Unknown_Set_Global_6C91();
 l__0012:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
@@ -59,7 +59,7 @@ l__0012:
 	}
 l__0020:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_push(emu_cs); emu_push(0x0028); emu_cs = 0x2598; f__2598_0000_0017_EB80();
+	emu_push(emu_cs); emu_push(0x0028); emu_cs = 0x2598; emu_Unknown_Set_Global_6C91();
 l__0028:
 	emu_pop(&emu_cx);
 	emu_sp = emu_bp;

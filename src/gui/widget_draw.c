@@ -19,7 +19,6 @@
 
 extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__2642_0069_0008_D517();
 extern void f__2642_0002_005E_87F6();
 extern void f__2B6C_0197_00CE_4D32();
@@ -38,19 +37,14 @@ extern void overlay(uint16 cs, uint8 force);
  */
 void GUI_Widget_TextButton_Draw(Widget *w)
 {
-	uint16 old6C91;
+	uint16 old_6C91;
 	uint16 positionX, positionY;
 	uint16 width, height;
 	uint16 state, colour;
 
 	if (w == NULL) return;
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0F79); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 2;
-	old6C91 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(2);
 
 	positionX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
 	positionY = w->offsetY +  g_global->variable_4062[w->parentID][1];
@@ -91,7 +85,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 	emu_sp += 14;
 
-	if (old6C91 == 0) {
+	if (old_6C91 == 0) {
 		emu_push(positionY + height);
 		emu_push(positionX + width);
 		emu_push(positionY);
@@ -119,12 +113,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 	}
 
-	emu_push(old6C91);
-	emu_push(emu_cs); emu_push(0x10F5); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 2;
-
+	Unknown_Set_Global_6C91(old_6C91);
 	emu_ax = 0;
 }
 
@@ -135,7 +124,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
  */
 void GUI_Widget_SpriteButton_Draw(Widget *w)
 {
-	uint16 old6C91;
+	uint16 old_6C91;
 	uint16 positionX, positionY;
 	uint16 width, height;
 	uint16 spriteID;
@@ -165,11 +154,9 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		spriteID = si->o.spriteID;
 	}
 
-	old6C91 = g_global->variable_6C91;
-	if (old6C91 == 0) {
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0CC9); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+	old_6C91 = g_global->variable_6C91;
+	if (old_6C91 == 0) {
+		Unknown_Set_Global_6C91(2);
 	}
 
 	buttonDown = w->state.s.hover2;
@@ -185,7 +172,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
 
-	if (old6C91 != 0) return;
+	if (old_6C91 != 0) return;
 
 	emu_push(positionY + height + 1);
 	emu_push(positionX + width + 1);
@@ -207,9 +194,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 }
 
 /**
@@ -219,7 +204,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
  */
 void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 {
-	uint16 old6C91;
+	uint16 old_6C91;
 	Structure *s;
 	uint16 positionX, positionY;
 	uint16 width, height;
@@ -239,11 +224,9 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 	GUI_UpdateProductionStringID();
 
-	old6C91 = g_global->variable_6C91;
-	if (old6C91 == 0) {
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x085B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+	old_6C91 = g_global->variable_6C91;
+	if (old_6C91 == 0) {
+		Unknown_Set_Global_6C91(2);
 	}
 
 	buttonDown = w->state.s.hover2;
@@ -365,7 +348,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_global->productionStringID));
 	}
 
-	if (old6C91 != 0x0) return;
+	if (old_6C91 != 0x0) return;
 
 	emu_push(positionY + height + 1);
 	emu_push(positionX + width + 1);
@@ -387,9 +370,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 	emu_push(emu_cs); emu_push(0x0C6E); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0C76); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 }
 
 /**
@@ -399,7 +380,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
  */
 void GUI_Widget_TextButton2_Draw(Widget *w)
 {
-	uint16 old6C91;
+	uint16 old_6C91;
 	uint16 stringID;
 	uint16 positionX, positionY;
 	uint16 width, height;
@@ -411,12 +392,9 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	if (w == NULL) return;
 
-	old6C91 = g_global->variable_6C91;
-	if (old6C91 == 0) {
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x0E66); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-
+	old_6C91 = g_global->variable_6C91;
+	if (old_6C91 == 0) {
+		Unknown_Set_Global_6C91(2);
 	}
 
 	stringID = w->stringID;
@@ -454,7 +432,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(stringID));
 
-	if (old6C91 != 0) return;
+	if (old_6C91 != 0) return;
 
 	emu_push(positionY + height + 1);
 	emu_push(positionX + width + 1);
@@ -476,9 +454,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0FD1); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 }
 
 /**
@@ -708,7 +684,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 {
 	uint16 actionType;
-	uint16 loc04, loc06;
+	uint16 old_6C91, loc06;
 	bool isNotPlayerOwned;
 	Object *o;
 	ObjectInfo *oi;
@@ -792,16 +768,13 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	}
 
-	loc04 = g_global->variable_6C91;
+	old_6C91 = g_global->variable_6C91;
 	loc06 = g_global->variable_6D5D;
 
 	if (actionType != 0) {
 		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
 
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x1176); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-		loc04 = emu_ax;
+		old_6C91 = Unknown_Set_Global_6C91(2);
 
 		loc06 = Unknown_07AE_0000(6);
 
@@ -1101,9 +1074,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	if (actionType > 1) {
 		Unknown_07AE_0000(loc06);
 
-		emu_push(loc04);
-		emu_push(emu_cs); emu_push(0x1B8D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+		Unknown_Set_Global_6C91(old_6C91);
 	}
 }
 

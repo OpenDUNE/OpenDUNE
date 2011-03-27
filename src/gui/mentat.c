@@ -17,7 +17,6 @@
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -162,9 +161,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	emu_push(emu_cs); emu_push(0x0E5F); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0000_002C_B3C2();
 	emu_sp += 6;
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0E6B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(2);
 
 	emu_push(8);
 	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x07AE; emu_Unknown_07AE_00E4();
@@ -206,9 +203,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	emu_push(emu_cs); emu_push(0x0EE9); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0A8E_0025_4AC8();
 	emu_sp += 2;
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0EF2); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 
 	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 

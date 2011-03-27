@@ -24,7 +24,6 @@
 
 extern void f__22A6_1200_007B_0356();
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 
@@ -220,11 +219,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	if (packed != 0xFFFF && packed == g_global->minimapPreviousPosition && !forceUpdate) return;
 	if (g_global->selectionType == 0) return;
 
-	/* Change a value and store the old one. */
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	backup = emu_ax;
+	backup = Unknown_Set_Global_6C91(2);
 
 	cleared = false;
 
@@ -284,10 +279,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		emu_push(emu_cs); emu_push(0x01A1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}
 
-	/* Restore the old value */
-	emu_push(backup);
-	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(backup);
 
 	g_global->minimapPreviousPosition = packed;
 }

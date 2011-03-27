@@ -54,7 +54,6 @@ extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
 extern void f__24FD_000A_000B_2043();
 extern void f__257A_000D_001A_3B75();
-extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
@@ -303,9 +302,7 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 
 	Font_Select(g_global->introFnt);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x00DB); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 
 	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
 
@@ -1267,14 +1264,11 @@ static void GameLoop_LevelEnd()
  */
 static void Gameloop_Logos()
 {
-	uint16 old2598;
+	uint16 old_6C91;
 	csip32 wsaBuffer;
 	uint16 frame;
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x009D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	old2598 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(0);
 
 	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
 	emu_push(emu_cs); emu_push(0x00AE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
@@ -1369,10 +1363,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
 		emu_sp += 2;
 
-		emu_push(old2598);
-		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-
+		Unknown_Set_Global_6C91(old_6C91);
 		return;
 	}
 
@@ -1396,10 +1387,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
 		emu_sp += 2;
 
-		emu_push(old2598);
-		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-
+		Unknown_Set_Global_6C91(old_6C91);
 		return;
 	}
 
@@ -1444,10 +1432,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
 		emu_sp += 2;
 
-		emu_push(old2598);
-		emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-
+		Unknown_Set_Global_6C91(old_6C91);
 		return;
 	}
 
@@ -1494,9 +1479,7 @@ static void Gameloop_Logos()
 	emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
 	emu_sp += 2;
 
-	emu_push(old2598);
-	emu_push(emu_cs); emu_push(0x03AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 }
 
 /**
@@ -2484,9 +2467,7 @@ static void GameLoop_Main()
 			}
 		}
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+		Unknown_Set_Global_6C91(0);
 
 		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(g_global->variable_3C26));
 
@@ -2542,9 +2523,7 @@ static void GameLoop_Main()
 
 	Unknown_07AE_0000(0);
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0442); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(0);
 
 	emu_push(emu_cs); emu_push(0x044D); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
 

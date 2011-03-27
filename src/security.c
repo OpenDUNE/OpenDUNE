@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
@@ -50,7 +49,7 @@ bool Security_Check()
 	uint16 questionsCount;
 	uint32 loc0E;
 	uint16 oldValue_07AE_0000;
-	uint16 old2598;
+	uint16 old_6C91;
 	uint16 i;
 	bool valid;
 
@@ -177,12 +176,7 @@ bool Security_Check()
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(8);
 
-	emu_push(4);
-	emu_push(emu_cs); emu_push(0x125E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 2;
-	old2598 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(4);
 
 	for (i = 0, valid = false; i < 3 && !valid; i++) {
 		csip32 wsaQuestion;
@@ -294,11 +288,7 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x141B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 2;
+		Unknown_Set_Global_6C91(0);
 
 		emu_push(emu_cs); emu_push(0x1421); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 		/* Check if this overlay should be reloaded */
@@ -417,11 +407,7 @@ bool Security_Check()
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 
-	emu_push(old2598);
-	emu_push(emu_cs); emu_push(0x16AE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */

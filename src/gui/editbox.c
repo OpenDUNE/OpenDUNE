@@ -11,7 +11,6 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__2598_0000_0017_EB80();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_16CB_001D_31CC();
@@ -63,7 +62,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 
 uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
 {
-	uint16 oldValue_2598_0000;
+	uint16 oldValue_6C91;
 	uint16 oldValue_07AE_0000;
 	uint16 positionX;
 	uint16 maxWidth;
@@ -77,12 +76,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_0002);
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
-		oldValue_2598_0000 = emu_ax;
+		oldValue_6C91 = Unknown_Set_Global_6C91(0);
 
 		oldValue_07AE_0000 = Unknown_07AE_0000(unknown1);
 
@@ -234,11 +228,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 		Unknown_07AE_0000(oldValue_07AE_0000);
 
-		emu_push(oldValue_2598_0000);
-		emu_push(emu_cs); emu_push(0x02AF); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-		emu_sp += 2;
+		Unknown_Set_Global_6C91(oldValue_6C91);
 	}
 
 	return returnValue;

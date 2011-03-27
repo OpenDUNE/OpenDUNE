@@ -24,7 +24,6 @@
 
 extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
@@ -84,7 +83,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	uint16 loc0E;
 	uint16 curPos;
 	bool loc12;
-	uint16 old2598;
+	uint16 old_6C91;
 	uint16 oldValue_07AE_0000;
 	int16 minX[10];
 	int16 maxX[10];
@@ -96,10 +95,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	memset(minX, 0xF, 20);
 	memset(maxX, 0, 20);
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x038C); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	old2598 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(2);
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(2);
 
@@ -473,7 +469,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	if (g_global->variable_3344 != 0) {
 		bool init = false;
 		bool update = false;
-		uint16 old2598_2 = 2;
+		uint16 old_6C91_2 = 2;
 
 		for (loc0E = 0; loc0E < g_global->variable_3344; loc0E++) {
 			curPos = g_global->variable_8290[loc0E];
@@ -482,10 +478,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (!init) {
 				init = true;
 
-				emu_push(2);
-				emu_push(emu_cs); emu_push(0x12DE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-				emu_sp += 2;
-				old2598_2 = emu_ax;
+				old_6C91_2 = Unknown_Set_Global_6C91(2);
 
 				emu_push(3);
 				emu_push(emu_cs); emu_push(0x12EB); emu_cs = 0x2642; f__2642_0002_005E_87F6();
@@ -511,9 +504,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			emu_push(emu_cs); emu_push(0x1361); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
 			emu_sp += 16;
 
-			emu_push(old2598_2);
-			emu_push(emu_cs); emu_push(0x136C); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-			emu_sp += 2;
+			Unknown_Set_Global_6C91(old_6C91_2);
 
 			emu_push(emu_cs); emu_push(0x1372); emu_cs = 0x2642; f__2642_0069_0008_D517();
 		}
@@ -603,9 +594,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		}
 	}
 
-	emu_push(old2598);
-	emu_push(emu_cs); emu_push(0x1564); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp +=2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 
@@ -622,7 +611,7 @@ void emu_Unknown_07D4_0000()
 {
 	bool arg06;
 	bool loc10;
-	uint16 old2598;
+	uint16 old_6C91;
 	uint16 loc14;
 
 	/* Pop the return CS:IP. */
@@ -634,10 +623,7 @@ void emu_Unknown_07D4_0000()
 	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
 	loc10 = false;
 
-	emu_push(arg06 ? 1 : 0);
-	emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	old2598 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(arg06 ? 1 : 0);
 
 	if (arg06) g_global->variable_3A12 = 1;
 
@@ -723,9 +709,7 @@ void emu_Unknown_07D4_0000()
 
 	g_global->variable_3A12 = 0;
 
-	emu_push(old2598);
-	emu_push(emu_cs); emu_push(0x02D4); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	Map_SetSelectionObjectPosition(g_global->variable_3A00);
 	Map_UpdateMinimapPosition(g_global->minimapPosition, false);
@@ -742,7 +726,7 @@ void emu_Unknown_07D4_0000()
 void emu_Unknown_07D4_159A()
 {
 	bool arg06;
-	uint16 old2598 = 2;
+	uint16 old_6C91 = 2;
 	uint16 i;
 
 	/* Pop the return CS:IP. */
@@ -752,10 +736,7 @@ void emu_Unknown_07D4_159A()
 	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
 
 	if (!arg06) {
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x15B7); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-		old2598 = emu_ax;
+		old_6C91 = Unknown_Set_Global_6C91(2);
 	}
 
 	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
@@ -764,9 +745,7 @@ void emu_Unknown_07D4_159A()
 
 	if (arg06) return;
 
-	emu_push(old2598);
-	emu_push(emu_cs); emu_push(0x15E8); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	emu_push(3);
 	emu_push(emu_cs); emu_push(0x15F2); emu_cs = 0x2642; f__2642_0002_005E_87F6();

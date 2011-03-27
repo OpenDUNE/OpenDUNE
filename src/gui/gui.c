@@ -41,7 +41,6 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void f__23E1_0334_000B_CF65();
 extern void f__24D0_000D_0039_C17D();
-extern void f__2598_0000_0017_EB80();
 extern void f__259E_0006_0016_858A();
 extern void f__2599_000B_0047_21FD();
 extern void f__259E_0021_001A_E253();
@@ -182,13 +181,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		oldValue_07AE_0000 = Unknown_07AE_0000(7);
 
 		if (g_global->variable_38C4 != 0) {
-			uint16 loc02;
-
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x0ABB); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-			emu_sp += 2;
-
-			loc02 = emu_ax;
+			uint16 old_6C91 = Unknown_Set_Global_6C91(2);
 
 			assert(g_global->variable_6668.csip == 0x22A60D31);
 
@@ -220,9 +213,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 			g_global->variable_38C4 = 0;
 
-			emu_push(loc02);
-			emu_push(emu_cs); emu_push(0x0B34); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-			emu_sp += 2;
+			Unknown_Set_Global_6C91(old_6C91);
 		}
 
 		emu_push(7);
@@ -620,7 +611,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	va_list ap;
 	uint16 oldValue_07AE_0000;
 	uint16 ret;
-	uint16 oldValue_2598_0000;
+	uint16 old_6C91;
 	uint16 size = 0;
 
 	va_start(ap, spriteID);
@@ -629,10 +620,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	emu_push(emu_cs); emu_push(0x02A4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x02AC); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	oldValue_2598_0000 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(0);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -768,9 +756,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		g_global->variable_3A12 = 1;
 	}
 
-	emu_push(oldValue_2598_0000);
-	emu_push(emu_cs); emu_push(0x056E); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	emu_push(emu_cs); emu_push(0x0574); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -1408,7 +1394,7 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
 void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
 {
 	uint16 loc06;
-	uint16 loc14;
+	uint16 old_6C91;
 	uint16 loc16;
 	uint16 loc18;
 	uint16 loc1A;
@@ -1425,10 +1411,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	GUI_ChangeSelectionType(0);
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x006D); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	loc14 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(2);
 
 	emu_push(0);
 	emu_push(score);
@@ -1637,9 +1620,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);
 
-	emu_push(loc14);
-	emu_push(emu_cs); emu_push(0x054C); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 }
@@ -1649,7 +1630,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
  */
 uint16 GUI_PickHouse()
 {
-	uint16 oldValue_2598_0000;
+	uint16 old_6C91;
 	Widget *w = NULL;
 	csip32 wcsip;
 	uint8 *loc314; /* array of 768 bytes, probably a palette */
@@ -1787,10 +1768,7 @@ uint16 GUI_PickHouse()
 
 		g_global->playerHouseID = HOUSE_MERCENARY;
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x133A); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
-		oldValue_2598_0000 = emu_ax;
+		old_6C91 = Unknown_Set_Global_6C91(0);
 
 		emu_push(emu_cs); emu_push(0x1343); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -1863,9 +1841,7 @@ uint16 GUI_PickHouse()
 
 		Sprites_LoadTiles();
 
-		emu_push(oldValue_2598_0000);
-		emu_push(emu_cs); emu_push(0x1494); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+		Unknown_Set_Global_6C91(old_6C91);
 
 		while (Driver_Voice_01EB());
 
@@ -2086,18 +2062,15 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 
 /**
  * Draw the interface (borders etc etc) and radar on the screen.
- * @param unknown Unknown parameter.
+ * @param val6C91 Unknown parameter.
  */
-void GUI_DrawInterfaceAndRadar(uint16 unknown)
+void GUI_DrawInterfaceAndRadar(uint16 val6C91)
 {
 	PoolFindStruct find;
-	uint16 locdi;
+	uint16 old_6C91;
 	Widget *w;
 
-	emu_push((unknown == 0) ? 2 : unknown);
-	emu_push(emu_cs); emu_push(0x20B4); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	locdi = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91((val6C91 == 0) ? 2 : val6C91);
 
 	g_global->variable_3A12 = 1;
 
@@ -2156,10 +2129,8 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 		Unit_B4CD_01BF(1, u);
 	}
 
-	if (unknown == 0) {
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x2214); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-		emu_sp += 2;
+	if (val6C91 == 0) {
+		Unknown_Set_Global_6C91(0);
 
 		emu_push(emu_cs); emu_push(0x221A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -2183,9 +2154,7 @@ void GUI_DrawInterfaceAndRadar(uint16 unknown)
 		emu_push(emu_cs); emu_push(0x2270); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}
 
-	emu_push(locdi);
-	emu_push(emu_cs); emu_push(0x2276); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 2);
 
@@ -2222,10 +2191,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (mode == 0 && h->credits == g_global->creditsAnimation && g_global->creditsAnimationOffset == 0) return;
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x06FE); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
-	memoryBlockOld = emu_ax;
+	memoryBlockOld = Unknown_Set_Global_6C91(2);
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(4);
 
@@ -2308,9 +2274,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; f__2642_0069_0008_D517();
 	}
 
-	emu_push(memoryBlockOld);
-	emu_push(emu_cs); emu_push(0x099B); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(memoryBlockOld);
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 }
@@ -2322,7 +2286,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 void GUI_ChangeSelectionType(uint16 selectionType)
 {
 	struct_B4E9 *info = (struct_B4E9 *)&emu_get_memory8(0x2E8A, 0, 0xE);
-	uint16 old25980000;
+	uint16 old_6C91;
 
 	if (selectionType == 3 && g_global->selectionUnit.csip == 0x0) {
 		selectionType = 4;
@@ -2332,12 +2296,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_global->selectionUnit.csip = 0x0;
 	}
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x008F); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-	emu_sp += 2;
-	old25980000 = emu_ax;
+	old_6C91 = Unknown_Set_Global_6C91(2);
 
 	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
@@ -2465,9 +2424,5 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 	}
 
-	emu_push(old25980000);
-	emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x2598; f__2598_0000_0017_EB80();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-	emu_sp += 2;
+	Unknown_Set_Global_6C91(old_6C91);
 }
