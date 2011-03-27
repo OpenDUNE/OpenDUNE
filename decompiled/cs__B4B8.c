@@ -5,60 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4B8_09D0_0012_0D7D()
- *
- * @name f__B4B8_09D0_0012_0D7D
- * @implements B4B8:09D0:0012:0D7D ()
- * @implements B4B8:09E2:003C:C270
- * @implements B4B8:0A14:000A:5F41
- *
- * Called From: B4B8:0E89:0034:00A7
- */
-void f__B4B8_09D0_0012_0D7D()
-{
-l__09D0:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0A1A; emu_last_cs = 0xB4B8; emu_last_ip = 0x09DC; emu_last_length = 0x0012; emu_last_crc = 0x0D7D; emu_call(); return; }
-	emu_xorw(&emu_dx, emu_dx);
-	goto l__0A14;
-l__09E2:
-	emu_ax = emu_dx;
-	emu_addw(&emu_ax, 0x10);
-	emu_andw(&emu_ax, 0xE0);
-	emu_cl = 0x5;
-	emu_sarw(&emu_ax, emu_cl);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_ax = emu_dx;
-	emu_addw(&emu_ax, 0x8);
-	emu_andw(&emu_ax, 0xF0);
-	emu_cl = 0x4;
-	emu_sarw(&emu_ax, emu_cl);
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
-	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x4);
-	emu_cl = 0x4;
-	emu_shlb(&emu_al, emu_cl);
-	emu_orb(&emu_al, emu_get_memory8(emu_ss, emu_bp, -0x2));
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_get_memory8(emu_es, emu_bx, 0x0) = emu_al;
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_incw(&emu_dx);
-l__0A14:
-	emu_cmpw(&emu_dx, 0x100);
-	if ((int16)emu_dx < (int16)0x100) goto l__09E2;
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Window_WidgetClick_Create()
  *
  * @name emu_Window_WidgetClick_Create

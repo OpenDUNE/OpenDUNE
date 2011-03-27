@@ -19,7 +19,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__B4B8_09D0_0012_0D7D();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void overlay(uint16 cs, uint8 force);
@@ -367,6 +366,25 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 }
 
 /**
+ * Initialize data block.
+ * @param block_csip Start point of the data block (256 bytes long)
+ */
+static void Sprites_Init_DataBlock(csip32 block_csip)
+{
+	uint8 *block = emu_get_memorycsip(block_csip);
+	int16 i;
+
+	if (block == NULL) return;
+
+	for (i = 0; i < 256; i++) {
+		uint8 low  = ((i + 0x10) & 0xE0) >> 5;
+		uint8 hi   = ((i + 0x08) & 0xF0) >> 4;
+		*block = (hi << 4) | low;
+		block++;
+	}
+}
+
+/**
  * Loads the sprites for tiles.
  */
 void Sprites_LoadTiles()
@@ -416,9 +434,7 @@ void Sprites_LoadTiles()
 	memBlockFree  -= 256;
 	memBlock.s.ip += 256;
 
-	emu_push(g_global->variable_3952.s.cs); emu_push(g_global->variable_3952.s.ip);
-	emu_push(emu_cs); emu_push(0x0E8C); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_09D0_0012_0D7D();
-	emu_sp += 4;
+	Sprites_Init_DataBlock(g_global->variable_3952);
 
 	{
 		csip32 functions;
