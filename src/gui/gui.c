@@ -35,14 +35,12 @@ extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
-extern void f__22A6_1102_004C_B069();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void f__23E1_0334_000B_CF65();
 extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
-extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
@@ -305,6 +303,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
  */
 void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
 {
+	uint8 colors[2];
 	uint8 *data;
 	uint16 height;
 	uint16 heightOffset;
@@ -325,15 +324,10 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 	if (left > 320) return;
 	if (top  > 200) return;
 
-	/* XXX -- This of course is not something that should stay in here very long */
-	emu_get_memory8(0x2BC2, 0x00, 0x9) = fgColour;
-	emu_get_memory8(0x2BC2, 0x00, 0x8) = bgColour;
+	colors[0] = bgColour;
+	colors[1] = fgColour;
 
-	emu_push(1);
-	emu_push(0);
-	emu_push(0x2BC2); emu_push(0x8);
-	emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x22A6; f__22A6_1102_004C_B069();
-	emu_sp += 8;
+	GUI_InitColors(colors, 0, 1);
 
 	s = string;
 	x = left;
@@ -424,9 +418,7 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 		g_global->variable_8ADE[1] = fgColour;
 		g_global->variable_8ADE[4] = 6;
 
-		emu_push(0x353F); emu_push(0x8ADE);
-		emu_push(emu_cs); emu_push(0x2006); emu_cs = 0x259E; f__259E_0021_001A_E253();
-		emu_sp += 4;
+		GUI_InitColors(g_global->variable_8ADE, 0, 15);
 
 		g_global->variable_376E = arg2mid;
 	}
@@ -2409,4 +2401,22 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 	}
 
 	Unknown_Set_Global_6C91(old_6C91);
+}
+
+void GUI_InitColors(uint8 *colors, uint8 min, uint8 max)
+{
+	uint8 *dest;
+	uint8 i;
+
+	min &= 0xF;
+	max &= 0xF;
+
+	if (max < min || colors == NULL) return;
+
+	dest = &emu_get_memory8(0x22A6, 0x87, 0x0);
+
+	for (i = 0; i < (max - min) + 1; i++) {
+		dest[min + i] = *colors;
+		dest[(min << 4) + i * 16] = *colors++;
+	}
 }

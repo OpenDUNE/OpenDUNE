@@ -67,55 +67,6 @@ l__001C:
 }
 
 /**
- * Decompiled function f__259E_0021_001A_E253()
- *
- * @name f__259E_0021_001A_E253
- * @implements 259E:0021:001A:E253 ()
- * @implements 259E:003B:0005:6083
- *
- * Called From: 10E4:2001:0016:34AE
- * Called From: B491:099A:000A:9698
- * Called From: B4ED:0179:0023:78FA
- * Called From: B4ED:0A8A:0023:78F0
- */
-void f__259E_0021_001A_E253()
-{
-l__0021:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = 0xF;
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = 0x353F;
-	emu_es = emu_ax;
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_es, 0x00, 0x66D0);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_es, 0x00, 0x66D2);
-	emu_push(0x003B);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A61102: f__22A6_1102_004C_B069(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x259E; emu_last_ip = 0x0036; emu_last_length = 0x001A; emu_last_crc = 0xE253;
-			emu_call();
-			return;
-	}
-l__003B:
-	emu_addw(&emu_sp, 0x8);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__259E_0040_0015_5E4A()
  *
  * @name f__259E_0040_0015_5E4A

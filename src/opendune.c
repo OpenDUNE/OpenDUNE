@@ -55,7 +55,6 @@ extern void f__24DA_0004_000E_FD1B();
 extern void f__24FD_000A_000B_2043();
 extern void f__257A_000D_001A_3B75();
 extern void f__259E_0006_0016_858A();
-extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
@@ -271,10 +270,7 @@ static bool GameLoop_IsLevelWon()
 static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 arg10, csip32 arg14)
 {
 	uint8 i;
-	/* XXX -- The next lines should be uint8 values[16] */
-	uint8 *values;
-	emu_sp -= 16;
-	values = &emu_get_memory8(emu_ss, emu_sp, 0x0);
+	uint8 colors[16];
 
 	VARIABLE_NOT_USED(arg14);
 
@@ -313,15 +309,10 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 	memset(g_global->variable_8076, 0, 6 * 3);
 
 
-	values[0] = 0;
-	for (i = 0; i < 6; i++) values[i + 1] = 215 + i;
+	colors[0] = 0;
+	for (i = 0; i < 6; i++) colors[i + 1] = 215 + i;
 
-	emu_push(emu_ss); emu_push(emu_sp + 2); /* values */
-	emu_push(emu_cs); emu_push(0x017E); emu_cs = 0x259E; f__259E_0021_001A_E253();
-	emu_sp += 4;
-
-	/* XXX -- Should be removed */
-	emu_sp += 16;
+	GUI_InitColors(colors, 0, 15);
 }
 
 /**
@@ -413,10 +404,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 {
 	struct_19F0 *var805A;
 	uint8 i;
-	/* XXX -- The next lines should be uint8 values[16] */
-	uint8 *values;
-	emu_sp -= 16;
-	values = &emu_get_memory8(emu_ss, emu_sp, 0x0);
+	uint8 colors[16];
 
 	g_global->variable_8068++;
 
@@ -424,12 +412,12 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	var805A = &((struct_19F0 *)emu_get_memorycsip(g_global->variable_805A))[g_global->variable_8072];
 
-	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) { emu_sp += 16; return; } /* XXX -- Should be return */
+	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) return;
 
 	if (g_global->variable_8074 != 0) {
 		if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0008;
 
-		if (g_global->variable_806A-- != 0) { emu_sp += 16; return; } /* XXX -- Should be return */
+		if (g_global->variable_806A-- != 0) return;
 
 		g_global->variable_8074 = 0;
 		g_global->variable_8072++;
@@ -445,17 +433,17 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 				if (g_global->variable_8076[i] == 0) g_global->variable_8076[i] = 1;
 			}
 
-			{ emu_sp += 16; return; } /* XXX -- Should be return */
+			return;
 		}
 
 		memcpy(g_global->variable_8076, g_global->variable_809A, 18);
 		g_global->variable_80AC = 1;
-		{ emu_sp += 16; return; } /* XXX -- Should be return */
+		return;
 	}
 
 	if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0006;
 
-	if (g_global->variable_806A-- != 0) { emu_sp += 16; return; } /* XXX -- Should be return */
+	if (g_global->variable_806A-- != 0) return;
 
 	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (var805A->variable_0002 * 16)) * 3], 18);
 
@@ -499,7 +487,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		g_global->variable_80AC = 1;
 	}
 
-	if (g_global->playerHouseID != HOUSE_INDEX_INVALID || g_global->variable_8072 != 2) { emu_sp += 16; return; } /* XXX -- Should be return */
+	if (g_global->playerHouseID != HOUSE_INDEX_INVALID || g_global->variable_8072 != 2) return;
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x21);
 
@@ -507,17 +495,12 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	g_global->variable_6C6C = 0x0;
 
-	values[0] = 0;
-	for (i = 0; i < 6; i++) values[i + 1] = 215 + i;
+	colors[0] = 0;
+	for (i = 0; i < 6; i++) colors[i + 1] = 215 + i;
 
-	emu_push(emu_ss); emu_push(emu_sp + 2); /* values */
-	emu_push(emu_cs); emu_push(0x0A8F); emu_cs = 0x259E; f__259E_0021_001A_E253();
-	emu_sp += 4;
+	GUI_InitColors(colors, 0, 15);
 
 	Font_Select(g_global->introFnt);
-
-	/* XXX -- Should be removed */
-	emu_sp += 16;
 }
 
 static uint16 GameLoop_B4ED_0AA5(bool arg06)
@@ -1049,9 +1032,7 @@ static void GameLoop_GameCredits()
 
 	emu_push(emu_cs); emu_push(0x0995); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0x353F); emu_push(0x1857);
-	emu_push(emu_cs); emu_push(0x099F); emu_cs = 0x259E; f__259E_0021_001A_E253();
-	emu_sp += 4;
+	GUI_InitColors(g_global->variable_1857, 0, 11);
 
 	g_global->variable_6C6C = 0xFFFF;
 
