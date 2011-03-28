@@ -15,7 +15,7 @@ extern void emu_GUI_DrawFilledRectangle();
  */
 uint16 Unknown_07AE_0000(uint16 index)
 {
-	uint16 old6D56 = g_global->variable_6D5D;
+	uint16 old6D5D = g_global->variable_6D5D;
 	g_global->variable_6D5D = index;
 
 	g_global->variable_992D = g_global->variable_4062[index][0];
@@ -32,7 +32,7 @@ uint16 Unknown_07AE_0000(uint16 index)
 	g_global->variable_6D63 = g_global->variable_992F << 3;
 	g_global->variable_6D61 = g_global->variable_6D63 / (g_global->variable_6C70 + g_global->variable_6C6C);
 
-	return old6D56;
+	return old6D5D;
 }
 
 /**

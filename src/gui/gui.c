@@ -42,7 +42,6 @@ extern void emu_Tools_Free();
 extern void f__23E1_0334_000B_CF65();
 extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
-extern void f__2599_000B_0047_21FD();
 extern void f__259E_0021_001A_E253();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
@@ -599,6 +598,16 @@ void GUI_UpdateProductionStringID()
 	}
 }
 
+static void GUI_2599_000B(uint16 index, uint16 arg08, uint16 arg0A, uint16 arg0C, uint16 arg0E)
+{
+	g_global->variable_4062[index][0] = arg08;
+	g_global->variable_4062[index][1] = arg0A;
+	g_global->variable_4062[index][2] = arg0C;
+	g_global->variable_4062[index][3] = arg0E;
+
+	if (g_global->variable_6D5D == index) Unknown_07AE_0000(index);
+}
+
 /**
  * Displays a message and waits for a user action.
  * @param str The text to display.
@@ -667,22 +676,9 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	if (spriteID != 0xFFFF) {
 		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 7, 8, 1, 0x4000);
-
-		emu_push(g_global->variable_9931 - 16);
-		emu_push(g_global->variable_992F - 7);
-		emu_push(g_global->variable_992B + 8);
-		emu_push(g_global->variable_992D + 5);
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x042F); emu_cs = 0x2599; f__2599_000B_0047_21FD();
-		emu_sp += 10;
+		GUI_2599_000B(1, g_global->variable_992D + 5, g_global->variable_992B + 8, g_global->variable_992F - 7, g_global->variable_9931 - 16);
 	} else {
-		emu_push(g_global->variable_9931 - 16);
-		emu_push(g_global->variable_992F - 2);
-		emu_push(g_global->variable_992B + 8);
-		emu_push(g_global->variable_992D + 1);
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x042F); emu_cs = 0x2599; f__2599_000B_0047_21FD();
-		emu_sp += 10;
+		GUI_2599_000B(1, g_global->variable_992D + 1, g_global->variable_992B + 8, g_global->variable_992F - 2, g_global->variable_9931 - 16);
 	}
 
 	g_global->variable_6D59 = 0;
@@ -717,21 +713,9 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	emu_push(emu_cs); emu_push(0x04BF); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	if (spriteID != 0xFFFF) {
-		emu_push(g_global->variable_9931 + 16);
-		emu_push(g_global->variable_992F + 7);
-		emu_push(g_global->variable_992B - 8);
-		emu_push(g_global->variable_992D - 5);
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x2599; f__2599_000B_0047_21FD();
-		emu_sp += 10;
+		GUI_2599_000B(1, g_global->variable_992D - 5, g_global->variable_992B - 8, g_global->variable_992F + 7, g_global->variable_9931 + 16);
 	} else {
-		emu_push(g_global->variable_9931 + 16);
-		emu_push(g_global->variable_992F + 2);
-		emu_push(g_global->variable_992B - 8);
-		emu_push(g_global->variable_992D - 1);
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x2599; f__2599_000B_0047_21FD();
-		emu_sp += 10;
+		GUI_2599_000B(1, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16);
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {
