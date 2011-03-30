@@ -136,42 +136,6 @@ l__01DD:
 }
 
 /**
- * Decompiled function f__1DD7_0213_0016_41ED()
- *
- * @name f__1DD7_0213_0016_41ED
- * @implements 1DD7:0213:0016:41ED ()
- * @implements 1DD7:0229:0004:BEB2
- * @implements 1DD7:022B:0002:2597
- *
- * Called From: B483:0538:0013:6556
- * Called From: B483:0567:0018:6809
- * Called From: B483:05B3:0013:6556
- * Called From: B483:05E1:0018:6C09
- */
-void f__1DD7_0213_0016_41ED()
-{
-l__0213:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) goto l__022B;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0229); emu_cs = 0x23E1; emu_Tools_Free();
-l__0229:
-	emu_pop(&emu_cx);
-	emu_pop(&emu_cx);
-l__022B:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__1DD7_022D_0015_1956()
  *
  * @name f__1DD7_022D_0015_1956
