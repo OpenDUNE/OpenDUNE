@@ -45,7 +45,6 @@ extern void f__01F7_276F_000F_E56B();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
-extern void f__22A3_000D_0010_9291();
 extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
 extern void f__23E1_0334_000B_CF65();
@@ -2556,24 +2555,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 
 		emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
 
-		emu_push(0x353F); emu_push(0x6F22);
-		emu_push(g_global->variable_6DB2[graphicMode].s.cs); emu_push(g_global->variable_6DB2[graphicMode].s.ip);
-		emu_push(emu_cs); emu_push(0x0072); emu_cs = 0x22A3; f__22A3_000D_0010_9291();
-		emu_sp += 8;
-
-		if (emu_ax == 0) {
-			emu_push(9);
-			emu_push(emu_cs); emu_push(0x0082); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
-			emu_sp += 2;
-
-			printf("\r\nCould not load overlay \"%s\".  Press a key to return to DOS...\r\n", (char *)emu_get_memorycsip(g_global->variable_6DB2[graphicMode]));
-
-			emu_push(emu_cs); emu_push(0x00B7); emu_cs = 0x29E8; emu_Input_History_Clear();
-
-			emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
-
-			return false;
-		}
+		g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
 	}
 
 	if (arg0C) {

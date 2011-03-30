@@ -5,38 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__22A6_0004_0003_DA0F()
- *
- * @name f__22A6_0004_0003_DA0F
- * @implements 22A6:0004:0003:DA0F ()
- * @implements 22A6:0EC6:0014:F4ED
- *
- * Called From: 22A3:0018:0010:9291
- */
-void f__22A6_0004_0003_DA0F()
-{
-l__0004:
-	goto l__0EC6;
-l__0EC6:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_cx);
-	emu_bx = 0x13B4;
-	emu_cl = 0x4;
-	emu_shrw(&emu_bx, emu_cl);
-	emu_incw(&emu_bx);
-	emu_dx = emu_bx;
-	emu_ax = 0xE6D;
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__22A6_034F_000C_5E0A()
  *
  * @name f__22A6_034F_000C_5E0A
