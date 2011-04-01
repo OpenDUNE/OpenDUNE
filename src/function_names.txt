@@ -89,7 +89,6 @@
 217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
 22A6:04F8:007A:6E25	emu_GUI_CopyFromBuffer	# (??, ??, ??, ??, buffer_csip) copy from a buffer to the screen
-22A6:07B3:0037:50B9	emu_GUI_DrawChar	# (char, x, y), draw a char on the screen
 22A6:094D:000C:EC7D	emu_GUI_DrawLine	# (x1, y1, x2, y2, colour), draw a line
 22A6:0D31:0015:A4C3	emu_GUI_DrawFilledRectangle	# (x1, y1, x2, y2, colour), draw a rectangle, filled
 22A6:101C:004B:D9F3	emu_GUI_CopyToBuffer	# (??, ??, ??, ??, buffer_csip) copy from the screen to a buffer

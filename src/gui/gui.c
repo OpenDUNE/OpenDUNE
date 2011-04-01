@@ -63,7 +63,6 @@ extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawChar();
 extern void emu_GUI_DrawLine();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -77,6 +76,8 @@ typedef struct struct_B4E9 {
 } GCC_PACKED struct_B4E9;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_B4E9) == 0x0C);
+
+static uint8 g_colors[16];
 
 /**
  * Draw a wired rectangle.
@@ -293,6 +294,84 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 }
 
 /**
+ * Draw a char on the screen.
+ *
+ * @param c The char to draw.
+ * @param x The most left position where to draw the string.
+ * @param y The most top position where to draw the string.
+ */
+static void GUI_DrawChar(char c, uint16 x, uint16 y)
+{
+	csip32 font_csip = emu_get_csip32(0x22A6, 0x00, 0x80);
+	uint8 *font      = emu_get_memorycsip(font_csip);
+	uint8 *screen    = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+
+	uint16 offset;
+	uint16 remainingWidth;
+	uint8  charWidth;
+	uint8  charHeight;
+	uint8  emptyLines;
+	uint8  usedLines;
+	uint8 i;
+
+	if (font == NULL) return;
+
+	offset     = ((uint16 *)font)[emu_get_memory16(0x22A6, 0x00, 0x74) / 2 + c];
+	charWidth  = font[emu_get_memory16(0x22A6, 0x00, 0x76) + c];
+	charHeight = font[emu_get_memory16(0x22A6, 0x00, 0x72) + 4];
+
+	if (offset == 0) return;
+	if (x >= 320 || (x + charWidth) > 320) return;
+	if (y >= 200 || (y + charHeight) > 200) return;
+
+	emptyLines  = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2];
+	usedLines   = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2 + 1];
+	charHeight -= emptyLines + usedLines;
+
+	font += offset;
+
+	x += emu_get_memory16(0x22A6, y * 2, 0x17D);
+	remainingWidth = 320 - charWidth;
+
+	if (emptyLines != 0) {
+		if (g_colors[0] != 0) {
+			while (emptyLines-- != 0) {
+				for (i = 0; i < charWidth; i++) screen[x++] = g_colors[0];
+				x += remainingWidth;
+			}
+		} else {
+			x += emu_get_memory16(0x22A6, emptyLines * 2, 0x17D);
+		}
+	}
+
+	if (usedLines == 0) return;
+
+	while (usedLines-- != 0) {
+		for (i = 0; i < charWidth; i++) {
+			uint8 data = *font++;
+
+			if (g_colors[data & 0xF] != 0) screen[x] = g_colors[data & 0xF];
+			x++;
+
+			if (++i == charWidth) break;
+
+			if (g_colors[(data >> 4) & 0xF] != 0) screen[x] = g_colors[(data >> 4) & 0xF];
+			x++;
+		}
+		x += remainingWidth;
+	}
+
+	if (charHeight <= 0) return;
+
+	if (g_colors[0] == 0) return;
+
+	while (charHeight-- != 0) {
+		for (i = 0; i < charWidth; i++) screen[x++] = g_colors[0];
+		x += remainingWidth;
+	}
+}
+
+/**
  * Draw a string to the screen.
  *
  * @param string The string to draw.
@@ -350,9 +429,7 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 		}
 		if (y > 200) break;
 
-		emu_push(y); emu_push(x);
-		emu_push(*s);
-		emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x22A6; emu_GUI_DrawChar();
+		GUI_DrawChar(*s, x, y);
 		emu_sp += 6;
 
 		x += width;
@@ -2405,7 +2482,6 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 void GUI_InitColors(uint8 *colors, uint8 min, uint8 max)
 {
-	uint8 *dest;
 	uint8 i;
 
 	min &= 0xF;
@@ -2413,10 +2489,5 @@ void GUI_InitColors(uint8 *colors, uint8 min, uint8 max)
 
 	if (max < min || colors == NULL) return;
 
-	dest = &emu_get_memory8(0x22A6, 0x87, 0x0);
-
-	for (i = 0; i < (max - min) + 1; i++) {
-		dest[min + i] = *colors;
-		dest[(min << 4) + i * 16] = *colors++;
-	}
+	for (i = min; i < max + 1; i++) g_colors[i] = *colors++;
 }
