@@ -52,6 +52,22 @@ void emu_Tools_Shld()
 }
 
 /**
+ * 32bits right shift.
+ */
+void emu_Tools_Shrd()
+{
+	uint32 val;
+
+	/* Pop the return CS:IP */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	val = ((emu_dx << 16) | emu_ax) >> emu_cl;
+	emu_ax = val & 0xFFFF;
+	emu_dx = (val >> 16) & 0xFFFF;
+}
+
+/**
  * Emulator wrapper around Tools_GetSmallestIP()
  *
  * @name emu_Tools_GetSmallestIP
