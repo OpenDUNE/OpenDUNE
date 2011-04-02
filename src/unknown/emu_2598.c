@@ -20,7 +20,7 @@ uint16 Unknown_Set_Global_6C91(uint16 newval)
 /**
  * C-ified function of f__2598_0000_0017_EB80()
  *
- * @name emu_Unknown_Set_Global_6C91()
+ * @name emu_Unknown_Set_Global_6C91
  * @implements 2598:0000:0017:EB80 ()
  * @implements 2598:0017:0004:893F
  */
