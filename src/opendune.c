@@ -79,7 +79,6 @@ extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
-extern void f__B536_0129_000A_8178();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
@@ -1755,8 +1754,7 @@ static void Gameloop_IntroMenu()
 	g_global->variable_3A3E[9][12] = 0x35;
 	g_global->selectionType = 0x0;
 	g_global->variable_3A10 = 0x0;
-
-	emu_push(emu_cs); emu_push(0x1764); emu_cs = 0x3536; overlay(0x3536, 0); f__B536_0129_000A_8178();
+	g_global->variable_6C8C = 0; /* Seems never set to any other value. */
 
 	emu_push(0x10);
 	emu_push(0); emu_push(0x300);
