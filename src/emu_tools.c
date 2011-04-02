@@ -13,7 +13,7 @@ extern void emu_Tools_Free();
 /**
  * Call Tools_Free() if the pointer is valid.
  *
- * @name emu_Tools_Free_IfNotNull()
+ * @name emu_Tools_Free_IfNotNull
  * @implements 1DD7:0213:0016:41ED ()
  */
 void emu_Tools_Free_IfNotNull()
