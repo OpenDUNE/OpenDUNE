@@ -8,9 +8,9 @@
 #include "gfx.h"
 
 /**
- * Emulator wrapper around Unknown_22A6_0DF8().
+ * Emulator wrapper around GFX_GetScreenSegment().
  *
- * @name emu_Unknown_22A6_0DF8
+ * @name emu_GFX_GetScreenSegment
  * @implements 22A6:0DF8:0022:5FD5 ()
  */
 void emu_GFX_GetScreenSegment()
@@ -24,7 +24,7 @@ void emu_GFX_GetScreenSegment()
 /**
  * Emulator wrapper around Unknown_22A6_0E1A().
  *
- * @name f__22A6_0E1A_0008_F4AE
+ * @name emu_Unknown_22A6_0E1A
  * @implements 22A6:0E1A:0008:F4AE ()
  */
 void emu_Unknown_22A6_0E1A()

@@ -8,9 +8,9 @@
 #include "sound.h"
 
 /**
- * Emulator wrapper around Sound_Play()
+ * Emulator wrapper around Music_Play()
  *
- * @name emu_Sound_Play
+ * @name emu_Music_Play
  * @implements B483:0283:0014:983A ()
  */
 void emu_Music_Play()
