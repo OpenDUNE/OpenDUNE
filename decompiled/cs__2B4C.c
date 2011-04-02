@@ -152,7 +152,7 @@ l__0068:
 	/* Unresolved jump */ emu_ip = 0x0088; emu_last_cs = 0x2B4C; emu_last_ip = 0x0088; emu_last_length = 0x0020; emu_last_crc = 0xDBA0; emu_call();
 l__009E:
 	emu_push(emu_bx);
-	emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 l__00A4:
 	emu_pop(&emu_bx);
 	emu_orw(&emu_dx, emu_dx);
@@ -203,7 +203,7 @@ l__0104:
 	emu_pop(&emu_bx);
 l__011A:
 	emu_push(emu_bx);
-	emu_push(emu_cs); emu_push(0x0120); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x0120); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 l__0120:
 	emu_pop(&emu_bx);
 	emu_orw(&emu_dx, emu_dx);

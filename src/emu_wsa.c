@@ -12,7 +12,7 @@
 #include "tools.h"
 #include "wsa.h"
 
-extern void f__23E1_0334_000B_CF65();
+extern void emu_Tools_GetFreeMemory();
 extern void f__28E6_000A_0040_D751();
 extern void f__2AE1_029F_0014_50E5();
 extern void emu_Tools_Malloc();
@@ -297,7 +297,7 @@ void emu_WSA_LoadFile()
 			bufferSizeCurrent = bufferSizeMinimal;
 		}
 
-		emu_push(emu_cs); emu_push(0x0); f__23E1_0334_000B_CF65();
+		emu_push(emu_cs); emu_push(0x0); emu_Tools_GetFreeMemory();
 		free = (emu_dx << 16) + emu_ax;
 		if (free < bufferSizeCurrent) {
 			if (free < bufferSizeMinimal) {

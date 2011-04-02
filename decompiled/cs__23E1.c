@@ -83,7 +83,7 @@ l__0004:
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x66FA));
 	if (emu_ax != 0) goto l__001F;
 	emu_push(emu_cs);
-	emu_push(0x0018); f__23E1_0334_000B_CF65();
+	emu_push(0x0018); emu_Tools_GetFreeMemory();
 l__0018:
 	emu_get_memory16(emu_ds, 0x00, 0x66FA) = emu_dx;
 	emu_get_memory16(emu_ds, 0x00, 0x66F8) = emu_ax;
@@ -401,9 +401,9 @@ l__0252:
 }
 
 /**
- * Decompiled function f__23E1_0334_000B_CF65()
+ * Decompiled function emu_Tools_GetFreeMemory()
  *
- * @name f__23E1_0334_000B_CF65
+ * @name emu_Tools_GetFreeMemory
  * @implements 23E1:0334:000B:CF65 ()
  * @implements 23E1:033F:000A:E287
  * @implements 23E1:0349:000D:7816
@@ -428,7 +428,7 @@ l__0252:
  * Called From: B491:0BD3:000E:3BA8
  * Called From: B53B:00FB:0009:0D32
  */
-void f__23E1_0334_000B_CF65()
+void emu_Tools_GetFreeMemory()
 {
 l__0334:
 	emu_push(emu_bp);

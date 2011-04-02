@@ -95,6 +95,7 @@
 
 23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
+23E1:0334:000B:CF65	emu_Tools_GetFreeMemory	# returns uint32
 
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 

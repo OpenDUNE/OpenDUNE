@@ -38,7 +38,7 @@ extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
-extern void f__23E1_0334_000B_CF65();
+extern void emu_Tools_GetFreeMemory();
 extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0040_0015_5E4A();
@@ -715,7 +715,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 		size = emu_ax;
 
-		emu_push(emu_cs); emu_push(0x0351); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+		emu_push(emu_cs); emu_push(0x0351); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 
 		if (((int32)((emu_dx << 16) | emu_ax)) >= size) {
 			emu_push(0);

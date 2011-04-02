@@ -131,7 +131,7 @@ l__00F7:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
 	emu_si = emu_ax;
-	emu_push(emu_cs); emu_push(0x0100); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x0100); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
 l__0100:

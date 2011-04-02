@@ -185,7 +185,7 @@ extern void emu_Empty4();
 extern void emu_Terminate();
 extern void f__217E_0320_0049_4A24();
 extern void f__AB00_0325_0020_80E9();
-extern void f__23E1_0334_000B_CF65();
+extern void emu_Tools_GetFreeMemory();
 extern void f__2649_0336_004C_0948();
 extern void f__22A6_034F_000C_5E0A();
 extern void f__AB00_0364_0014_B343();

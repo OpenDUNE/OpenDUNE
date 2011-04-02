@@ -47,7 +47,7 @@ extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
 extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
-extern void f__23E1_0334_000B_CF65();
+extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
 extern void f__24D0_000D_0039_C17D();
 extern void f__24DA_0004_000E_FD1B();
@@ -2827,7 +2827,7 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 		emu_sp += 2;
 	}
 
-	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 	if ((uint32)((emu_dx << 16) + emu_ax) < arg0A) {
 		printf("\r\nNot enough memory to run program.\r\n");
 
@@ -2886,7 +2886,7 @@ void Main()
 	g_global->sizeExecutable = emu_get_memory16(g_global->PSP - 1, 0, 3) << 4;
 
 	/* Get the amount of free memory */
-	emu_push(emu_cs); emu_push(0x0086); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x0086); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 	g_global->memoryFree = g_global->sizeExecutable + (emu_dx << 16) + emu_ax;
 
 	if (memoryNeeded > g_global->memoryFree) {

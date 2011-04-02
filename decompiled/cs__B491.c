@@ -1239,7 +1239,7 @@ l__0BCA:
 	emu_addw(&emu_sp, 0xC);
 	emu_get_memory16(emu_ss, emu_bp, -0x12) = emu_dx;
 	emu_get_memory16(emu_ss, emu_bp, -0x14) = emu_ax;
-	emu_push(emu_cs); emu_push(0x0BD8); emu_cs = 0x23E1; f__23E1_0334_000B_CF65();
+	emu_push(emu_cs); emu_push(0x0BD8); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__0BD8:
