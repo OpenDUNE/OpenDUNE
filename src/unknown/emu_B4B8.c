@@ -13,16 +13,18 @@
 void Unknown_B4B8_110D(uint8 houseID)
 {
 	int16 i;
+	int16 loc4;
 	int16 loc6;
 	uint8 *ptr;
 
 	ptr = emu_get_memorycsip(g_global->variable_3C42);
 	for (i = 0; i < 0x100; i++, ptr++) {
-		*ptr = i;
+		*ptr = i & 0xFF;
 
 		loc6 = i / 16;
-		if (loc6 == 9) {
-			*ptr = (houseID << 4) + 0x90;
+		loc4 = i % 16;
+		if (loc6 == 9 && loc4 <= 6) {
+			*ptr = (houseID << 4) + 0x90 + loc4;
 		}
 	}
 }
@@ -35,7 +37,7 @@ void Unknown_B4B8_110D(uint8 houseID)
  */
 void emu_Unknown_B4B8_110D()
 {
-	uint8 houseID;
+	uint16 houseID;
 
 	/* Pop return address from the stack. */
 	emu_pop(&emu_ip);
@@ -43,5 +45,5 @@ void emu_Unknown_B4B8_110D()
 
 	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
-	Unknown_B4B8_110D(houseID);
+	Unknown_B4B8_110D((uint8)houseID);
 }

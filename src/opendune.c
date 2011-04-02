@@ -1878,7 +1878,7 @@ static void Gameloop_IntroMenu()
 	}
 
 	if (g_global->playerHouseID != HOUSE_INDEX_INVALID) {
-		Unknown_B4B8_110D(g_global->playerHouseID);
+		Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 	}
 
 	Sprites_Load(0, 7, g_sprites);
@@ -2243,7 +2243,7 @@ static void Gameloop_IntroMenu()
 
 		Sprites_LoadTiles();
 
-		Unknown_B4B8_110D(g_global->playerHouseID);
+		Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
 		emu_push(g_global->playerHouseID);
 		emu_push(emu_cs); emu_push(0x21F4); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
@@ -2375,7 +2375,7 @@ static void GameLoop_Main()
 
 			Sprites_LoadTiles();
 
-			Unknown_B4B8_110D(g_global->playerHouseID);
+			Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
 			emu_push(g_global->playerHouseID);
 			emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
@@ -3075,7 +3075,7 @@ void Game_Prepare()
 		House_CalculatePowerAndCredit(h);
 	}
 
-	Unknown_B4B8_110D(g_global->playerHouseID);
+	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
 	Sprites_Load(0, 7, g_sprites);
 

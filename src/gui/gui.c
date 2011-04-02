@@ -1901,7 +1901,7 @@ uint16 GUI_PickHouse()
 
 	Music_Play(0);
 
-	Unknown_B4B8_110D(ret);
+	Unknown_B4B8_110D((uint8)ret);
 
 	Sprites_Load(0, 7, g_sprites);
 
