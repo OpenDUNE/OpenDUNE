@@ -1022,7 +1022,7 @@ l__0586:
 	emu_push(emu_di);
 	emu_get_memory16(emu_ss, emu_bp, -0x14) = 0x0;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A38));
-	emu_push(emu_cs); emu_push(0x059D); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
+	emu_push(emu_cs); emu_push(0x059D); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Unknown_B4B8_110D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__059D:
@@ -1565,7 +1565,7 @@ l__08DB:
 	emu_push(emu_di);
 	emu_di = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3A38));
-	emu_push(emu_cs); emu_push(0x08EF); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
+	emu_push(emu_cs); emu_push(0x08EF); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Unknown_B4B8_110D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__08EF:
@@ -2427,7 +2427,7 @@ l__0DFF:
 	emu_push(emu_si);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0E11); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
+	emu_push(emu_cs); emu_push(0x0E11); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Unknown_B4B8_110D();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__0E11:

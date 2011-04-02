@@ -59,7 +59,6 @@ extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
 extern void f__2649_0053_001D_FEB5();
 extern void f__28FD_000C_0007_5DA9();
-extern void emu_Unknown_2903_090A();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
@@ -75,7 +74,6 @@ extern void f__B483_04CB_0015_EBB4();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0000_0022_DD43();
 extern void f__B491_0A41_0011_85AD();
-extern void f__B4B8_110D_000D_FD5C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
@@ -1880,9 +1878,7 @@ static void Gameloop_IntroMenu()
 	}
 
 	if (g_global->playerHouseID != HOUSE_INDEX_INVALID) {
-		emu_push(g_global->playerHouseID);
-		emu_push(emu_cs); emu_push(0x19EE); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
-		emu_sp += 2;
+		Unknown_B4B8_110D(g_global->playerHouseID);
 	}
 
 	Sprites_Load(0, 7, g_sprites);
@@ -2247,9 +2243,7 @@ static void Gameloop_IntroMenu()
 
 		Sprites_LoadTiles();
 
-		emu_push(g_global->playerHouseID);
-		emu_push(emu_cs); emu_push(0x21EA); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
-		emu_sp += 2;
+		Unknown_B4B8_110D(g_global->playerHouseID);
 
 		emu_push(g_global->playerHouseID);
 		emu_push(emu_cs); emu_push(0x21F4); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
@@ -2381,9 +2375,7 @@ static void GameLoop_Main()
 
 			Sprites_LoadTiles();
 
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x0167); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
-			emu_sp += 2;
+			Unknown_B4B8_110D(g_global->playerHouseID);
 
 			emu_push(g_global->playerHouseID);
 			emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
@@ -3083,9 +3075,7 @@ void Game_Prepare()
 		House_CalculatePowerAndCredit(h);
 	}
 
-	emu_push(g_global->playerHouseID);
-	emu_push(emu_cs); emu_push(0x0364); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_110D_000D_FD5C();
-	emu_sp += 2;
+	Unknown_B4B8_110D(g_global->playerHouseID);
 
 	Sprites_Load(0, 7, g_sprites);
 

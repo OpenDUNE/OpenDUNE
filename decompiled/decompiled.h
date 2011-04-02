@@ -484,7 +484,6 @@ extern void f__B518_10DC_0011_9EE1();
 extern void f__22A6_10DD_0023_B468();
 extern void emu_File_LowLevel_Delete();
 extern void emu_GUI_YesNo();
-extern void f__B4B8_110D_000D_FD5C();
 extern void f__AB00_1115_0001_6780();
 extern void emu_String_Format();
 extern void f__AB00_1122_001C_9408();

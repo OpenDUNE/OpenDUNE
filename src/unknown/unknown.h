@@ -28,6 +28,9 @@ extern void Unknown_B483_0363(uint16 index);
 extern bool Unknown_B483_0470();
 extern void emu_Unknown_B483_0823();
 
+extern void emu_Unknown_B4B8_110D();
+extern void Unknown_B4B8_110D(uint8 houseID);
+
 extern void emu_Unknown_B4E9_0000();
 
 extern void emu_Unknown_B53B_0000();

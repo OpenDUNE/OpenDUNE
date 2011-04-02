@@ -165,69 +165,6 @@ l__0D1E:
 }
 
 /**
- * Decompiled function f__B4B8_110D_000D_FD5C()
- *
- * @name f__B4B8_110D_000D_FD5C
- * @implements B4B8:110D:000D:FD5C ()
- * @implements B4B8:111A:0055:2891
- * @implements B4B8:1161:000E:7FB5
- * @implements B4B8:1164:000B:43AB
- *
- * Called From: 34B8:002F:0005:0000
- * Called From: B4B8:21E7:0008:5434
- */
-void f__B4B8_110D_000D_FD5C()
-{
-l__110D:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x6);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = 0x0;
-	goto l__1164;
-l__111A:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3C42));
-	emu_addw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0x2));
-	emu_al = emu_get_memory8(emu_ss, emu_bp, -0x2);
-	emu_get_memory8(emu_es, emu_bx, 0x0) = emu_al;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_bx = 0x10;
-	emu_cwd();
-	emu_idivw(&emu_ax, emu_bx);
-	emu_get_memory16(emu_ss, emu_bp, -0x6) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_bx = 0x10;
-	emu_cwd();
-	emu_idivw(&emu_ax, emu_bx);
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x6), 0x9);
-	if (emu_get_memory16(emu_ss, emu_bp, -0x6) == 0x9) {
-		emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x6);
-		if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x4) <= (int16)0x6) {
-			emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x3C42));
-			emu_addw(&emu_bx, emu_get_memory16(emu_ss, emu_bp, -0x2));
-			emu_al = emu_get_memory8(emu_ss, emu_bp,  0x6);
-			emu_cl = 0x4;
-			emu_shlb(&emu_al, emu_cl);
-			emu_addb(&emu_al, emu_get_memory8(emu_ss, emu_bp, -0x4));
-			emu_addb(&emu_al, 0x90);
-			emu_get_memory8(emu_es, emu_bx, 0x0) = emu_al;
-		}
-	}
-l__1161:
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x2));
-l__1164:
-	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp, -0x2), 0x100);
-	if ((int16)emu_get_memory16(emu_ss, emu_bp, -0x2) < (int16)0x100) goto l__111A;
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4B8_116F_0013_15F7()
  *
  * @name f__B4B8_116F_0013_15F7
