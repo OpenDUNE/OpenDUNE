@@ -430,7 +430,6 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 		if (y > 200) break;
 
 		GUI_DrawChar(*s, x, y);
-		emu_sp += 6;
 
 		x += width;
 		s++;
