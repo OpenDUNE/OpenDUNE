@@ -2952,7 +2952,7 @@ void Main()
 	if (!Unknown_25C4_000E(g_global->variable_6C76, "new8p.fnt", true)) exit(1);
 
 	g_global->variable_6C80.s.cs = 0x353B; g_global->variable_6C80.s.ip = 0x20; /* emu_File_Error_Wrapper */
-	g_global->variable_6C84 = 0x25284000;
+	g_global->variable_6C86 = 0x25284000;
 
 	g_global->variable_7097 = 0;
 
