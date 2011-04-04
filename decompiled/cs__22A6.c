@@ -1022,39 +1022,6 @@ l__10C4:
 }
 
 /**
- * Decompiled function f__22A6_10DD_0023_B468()
- *
- * @name f__22A6_10DD_0023_B468
- * @implements 22A6:10DD:0023:B468 ()
- *
- * Called From: 07D4:0880:0044:AA4E
- * Called From: 07D4:08EF:0018:1A52
- * Called From: 07D4:08EF:001B:4B47
- */
-void f__22A6_10DD_0023_B468()
-{
-l__10DD:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ax);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_get_memory16(emu_cs, 0x00, 0x68) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_get_memory16(emu_cs, 0x00, 0x6A) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_get_memory16(emu_cs, 0x00, 0x6C) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	emu_get_memory16(emu_cs, 0x00, 0x6E) = emu_ax;
-	emu_pop(&emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__22A6_1200_007B_0356()
  *
  * @name f__22A6_1200_007B_0356

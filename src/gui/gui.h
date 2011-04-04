@@ -24,6 +24,7 @@ extern void GUI_DrawCredits(uint8 houseID, uint16 mode);
 extern void GUI_ChangeSelectionType(uint16 selectionType);
 extern void GUI_InitColors(uint8 *colors, uint8 first, uint8 last);
 extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
+extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

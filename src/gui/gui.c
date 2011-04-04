@@ -85,7 +85,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(ClippingArea) == 0x08);
 
 static uint8 g_colours[16];
-static ClippingArea *g_clipping = (ClippingArea *)&emu_get_memory8(0x22A6, 0x68, 0x00);
+static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
 /**
  * Draw a wired rectangle.
@@ -2452,10 +2452,10 @@ static uint16 GetNeededClipping(int16 x, int16 y)
 {
 	uint16 flags = 0;
 
-	if (y < g_clipping->top)    flags |= 0x1;
-	if (y > g_clipping->bottom) flags |= 0x2;
-	if (x < g_clipping->left)   flags |= 0x4;
-	if (x > g_clipping->right)  flags |= 0x8;
+	if (y < g_clipping.top)    flags |= 0x1;
+	if (y > g_clipping.bottom) flags |= 0x2;
+	if (x < g_clipping.left)   flags |= 0x4;
+	if (x > g_clipping.right)  flags |= 0x8;
 
 	return flags;
 }
@@ -2469,8 +2469,8 @@ static uint16 GetNeededClipping(int16 x, int16 y)
  */
 static void ClipTop(int16 *x1, int16 *y1, int16 x2, int16 y2)
 {
-	*x1 += (x2 - *x1) * (g_clipping->top - *y1) / (y2 - *y1);
-	*y1 = g_clipping->top;
+	*x1 += (x2 - *x1) * (g_clipping.top - *y1) / (y2 - *y1);
+	*y1 = g_clipping.top;
 }
 
 /**
@@ -2482,8 +2482,8 @@ static void ClipTop(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 static void ClipBottom(int16 *x1, int16 *y1, int16 x2, int16 y2)
 {
-	*x1 += (x2 - *x1) * (*y1 - g_clipping->bottom) / (*y1 - y2);
-	*y1 = g_clipping->bottom;
+	*x1 += (x2 - *x1) * (*y1 - g_clipping.bottom) / (*y1 - y2);
+	*y1 = g_clipping.bottom;
 }
 
 /**
@@ -2495,8 +2495,8 @@ static void ClipBottom(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 static void ClipLeft(int16 *x1, int16 *y1, int16 x2, int16 y2)
 {
-	*y1 += (y2 - *y1) * (g_clipping->left - *x1) / (x2 - *x1);
-	*x1 = g_clipping->left;
+	*y1 += (y2 - *y1) * (g_clipping.left - *x1) / (x2 - *x1);
+	*x1 = g_clipping.left;
 }
 
 /**
@@ -2508,8 +2508,8 @@ static void ClipLeft(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 static void ClipRight(int16 *x1, int16 *y1, int16 x2, int16 y2)
 {
-	*y1 += (y2 - *y1) * (*x1 - g_clipping->right) / (*x1 - x2);
-	*x1 = g_clipping->right;
+	*y1 += (y2 - *y1) * (*x1 - g_clipping.right) / (*x1 - x2);
+	*x1 = g_clipping.right;
 }
 
 /**
@@ -2525,7 +2525,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x00, 0x00);
 	int16 increment = 1;
 
-	if (x1 < g_clipping->left || x1 > g_clipping->right || y1 < g_clipping->top || y1 > g_clipping->bottom || x2 < g_clipping->left || x2 > g_clipping->right || y2 < g_clipping->top || y2 > g_clipping->bottom) {
+	if (x1 < g_clipping.left || x1 > g_clipping.right || y1 < g_clipping.top || y1 > g_clipping.bottom || x2 < g_clipping.left || x2 > g_clipping.right || y2 < g_clipping.top || y2 > g_clipping.bottom) {
 		while (true) {
 			uint16 clip1 = GetNeededClipping(x1, y1);
 			uint16 clip2 = GetNeededClipping(x2, y2);
@@ -2623,4 +2623,19 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 			}
 		}
 	}
+}
+
+/**
+ * Sets the clipping area.
+ * @param left The left clipping.
+ * @param top The top clipping.
+ * @param right The right clipping.
+ * @param bottom The bottom clipping.
+ */
+void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom)
+{
+	g_clipping.left   = left;
+	g_clipping.top    = top;
+	g_clipping.right  = right;
+	g_clipping.bottom = bottom;
 }

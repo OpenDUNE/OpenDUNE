@@ -22,7 +22,6 @@
 #include "../house.h"
 #include "../sprites.h"
 
-extern void f__22A6_10DD_0023_B468();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
@@ -183,13 +182,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		uint16 x2 = x1 + (g_global->selectionWidth << 4) - 1;
 		uint16 y2 = y1 + (g_global->selectionHeight << 4) - 1;
 
-		emu_push(0xC7);
-		emu_push(0xEF);
-		emu_push(0x28);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0885); emu_cs = 0x22A6; f__22A6_10DD_0023_B468();
-		emu_sp += 8;
-
+		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
 		if (g_global->variable_38EC == 0 && g_global->selectionType == 2) {
@@ -197,12 +190,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
 		}
 
-		emu_push(0xC7);
-		emu_push(0x13F);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x22A6; f__22A6_10DD_0023_B468();
-		emu_sp += 8;
+		GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
 		g_global->variable_3A08 = 0;
 	}
