@@ -28,7 +28,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
 extern void overlay(uint16 cs, uint8 force);
-extern void emu_GUI_DrawFilledRectangle();
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -100,10 +99,10 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	if (g_global->variable_39E2 != 0 || arg06) {
 		for (y = 0; y < 10; y++) {
-			uint16 loc0C = (y << 4) + 0x28;
+			uint16 top = (y << 4) + 0x28;
 			for (x = 0; x < (arg0A ? 15 : 16); x++) {
 				Tile *t;
-				uint16 loc0A;
+				uint16 left;
 
 				curPos = g_global->viewportPosition + Tile_PackXY(x, y);
 
@@ -124,24 +123,18 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				}
 
 				t = Map_GetTileByPosition(curPos);
-				loc0A = x << 4;
+				left = x << 4;
 
 				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->overlaySpriteID) {
-					emu_push(0xC);
-					emu_push(loc0C + 15);
-					emu_push(loc0A + 15);
-					emu_push(loc0C);
-					emu_push(loc0A);
-					emu_push(emu_cs); emu_push(0x0544); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-					emu_sp += 10;
+					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
 					continue;
 				}
 
-				GFX_DrawSprite(t->groundSpriteID, loc0A >> 3, loc0C, t->houseID);
+				GFX_DrawSprite(t->groundSpriteID, left >> 3, top, t->houseID);
 
 				if (t->overlaySpriteID == 0 || g_global->debugScenario != 0x0) continue;
 
-				GFX_DrawSprite(t->overlaySpriteID, loc0A >> 3, loc0C, t->houseID);
+				GFX_DrawSprite(t->overlaySpriteID, left >> 3, top, t->houseID);
 			}
 		}
 		g_global->variable_39E2 = 0;

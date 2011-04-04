@@ -407,7 +407,6 @@ extern void f__2756_0D12_0042_A9FA();
 extern void f__217E_0D16_000A_080E();
 extern void f__217E_0D2C_000B_83A7();
 extern void f__01F7_0D2E_0015_C196();
-extern void emu_GUI_DrawFilledRectangle();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__2649_0D40_0019_C58F();
 extern void emu_Input_Keyboard_EventHandler();

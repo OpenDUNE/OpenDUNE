@@ -61,7 +61,6 @@ extern void f__B518_0558_0010_240A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void emu_GUI_DrawFilledRectangle();
 extern void overlay(uint16 cs, uint8 force);
 
 MSVC_PACKED_BEGIN
@@ -102,6 +101,50 @@ void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom
 	GUI_DrawLine(left, bottom, right, bottom, colour);
 	GUI_DrawLine(left, top, left, bottom, colour);
 	GUI_DrawLine(right, top, right, bottom, colour);
+}
+
+/**
+ * Draw a filled rectangle.
+ * @param left The left position of the rectangle.
+ * @param top The top position of the rectangle.
+ * @param right The right position of the rectangle.
+ * @param bottom The bottom position of the rectangle.
+ * @param colour The colour of the rectangle.
+ */
+void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour)
+{
+	uint16 x;
+	uint16 y;
+	uint16 height;
+	uint16 width;
+
+	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+
+	if (left >= SCREEN_WIDTH) return;
+	if (left < 0) left = 0;
+
+	if (top >= SCREEN_HEIGHT) return;
+	if (top < 0) top = 0;
+
+	if (right >= SCREEN_WIDTH) right = SCREEN_WIDTH - 1;
+	if (right < 0) right = 0;
+
+	if (bottom >= SCREEN_HEIGHT) bottom = SCREEN_HEIGHT - 1;
+	if (bottom < 0) bottom = 0;
+
+	if (left > right) return;
+	if (top > bottom) return;
+
+
+	screen += left + top * SCREEN_WIDTH;
+	width = right - left + 1;
+	height = bottom - top + 1;
+	for (y = 0; y < height; y++) {
+		for (x = 0; x < width; x++) {
+			*screen++ = colour;
+		}
+		screen += SCREEN_WIDTH - width;
+	}
 }
 
 /**
@@ -165,13 +208,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 			assert(g_global->variable_6668.csip == 0x22A60D31);
 
-			emu_push(g_global->variable_6D59);
-			emu_push(23);
-			emu_push(319);
-			emu_push(0);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x0ADB); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-			emu_sp += 10;
+			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, (uint8)g_global->variable_6D59);
 
 			GUI_DrawText_Wrapper(
 				g_global->variable_3694,
@@ -1403,15 +1440,8 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
 
 	halfWidth = (Font_GetStringWidth(string) / 2) + 4;
 
-	emu_push(116);
-	emu_push(top + 6);
-	emu_push(160 + halfWidth);
-	emu_push(top);
-	emu_push(160 - halfWidth);
-	emu_push(emu_cs); emu_push(0x0E8C); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-	emu_sp += 10;
-
-	GUI_DrawText_Wrapper(string, 160, top, 0xF, 0, 0x121);
+	GUI_DrawFilledRectangle(SCREEN_WIDTH / 2 - halfWidth, top, SCREEN_WIDTH / 2 + halfWidth, top + 6, 116);
+	GUI_DrawText_Wrapper(string, SCREEN_WIDTH / 2, top, 0xF, 0, 0x121);
 }
 
 /**
@@ -1552,13 +1582,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 			loc10 = loc32[i][loc02][1];
 
 			for (loc0C = 0; loc0C < loc0E; loc0C += loc10) {
-				emu_push(226);
-				emu_push(locdi + 5);
-				emu_push(303);
-				emu_push(locdi);
-				emu_push(271);
-				emu_push(emu_cs); emu_push(0x03A4); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-				emu_sp += 10;
+				GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
 
 				GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0x14, 0, 0x121, loc0C);
 
@@ -1590,13 +1614,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 				emu_sp += 2;
 			}
 
-			emu_push(226);
-			emu_push(locdi + 5);
-			emu_push(303);
-			emu_push(locdi);
-			emu_push(271);
-			emu_push(emu_cs); emu_push(0x0485); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-			emu_sp += 10;
+			GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
 
 			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
 
@@ -1952,15 +1970,7 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 
 	colourSchema = g_global->colourBorderSchema[colourSchemaIndex];
 
-	if (fill != 0) {
-		emu_push(colourSchema[0]);
-		emu_push(top + height);
-		emu_push(left + width);
-		emu_push(top);
-		emu_push(left);
-		emu_push(emu_cs); emu_push(0x0050); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-		emu_sp += 10;
-	}
+	if (fill) GUI_DrawFilledRectangle(left, top, left + width, top + height, colourSchema[0] & 0xFF);
 
 	GUI_DrawLine(left, top + height, left + width, top + height, colourSchema[1] & 0xFF);
 	GUI_DrawLine(left + width, top, left + width, top + height, colourSchema[1] & 0xFF);
@@ -2043,13 +2053,7 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 	}
 
 	if (width != 0) {
-		emu_push(colour);
-
-		emu_push(info[1] + info[3] - 1);      emu_push(info[0] + width - 1);
-		emu_push(info[1] + info[3] - height); emu_push(info[0]);
-
-		emu_push(emu_cs); emu_push(0x0F11); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-		emu_sp += 10;
+		GUI_DrawFilledRectangle(info[0], info[1] + info[3] - height, info[0] + width - 1, info[1] + info[3] - 1, (uint8)colour);
 	}
 }
 

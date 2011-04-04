@@ -16,7 +16,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_16CB_001D_31CC();
 extern void f__B518_14F2_003E_977C();
 extern void emu_Input_Keyboard_HandleKeys2();
-extern void emu_GUI_DrawFilledRectangle();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -45,15 +44,9 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 
-	emu_push((g_global->editBoxShowCursor) ? g_global->variable_6D5B : g_global->variable_6D59);
-	emu_push(g_global->variable_992B + g_global->variable_9931 - 1);
-	emu_push(positionX + Font_GetCharWidth('W'));
-	emu_push(g_global->variable_992B);
-	emu_push(positionX);
-	emu_push(emu_cs); emu_push(0x035F); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
+	GUI_DrawFilledRectangle(positionX, g_global->variable_992B, positionX + Font_GetCharWidth('W'), g_global->variable_992B + g_global->variable_9931 - 1, (g_global->editBoxShowCursor) ? g_global->variable_6D5B : g_global->variable_6D59);
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-	emu_sp += 10;
 
 	emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	/* Check if this overlay should be reloaded */

@@ -36,6 +36,31 @@ void emu_GUI_DrawWiredRectangle()
 }
 
 /**
+ * Decompiled function emu_GUI_DrawFilledRectangle()
+ *
+ * @name emu_GUI_DrawFilledRectangle
+ * @implements 22A6:0D31:0015:A4C3 ()
+ */
+void emu_GUI_DrawFilledRectangle()
+{
+	uint16 left, top;
+	uint16 right, bottom;
+	uint16 colour;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	left   = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	top    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	right  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	bottom = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	colour = emu_get_memory16(emu_ss, emu_sp, 0x8);
+
+	GUI_DrawFilledRectangle(left, top, right, bottom, (uint8)colour);
+}
+
+/**
  * Emulator wrapper around GUI_DrawText()
  *
  * @name emu_GUI_DrawText

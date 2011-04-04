@@ -38,6 +38,7 @@
 #include "sprites.h"
 #include "unknown/unknown.h"
 #include "wsa.h"
+#include "gfx.h"
 
 extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1E5C_000E_B47A();
@@ -80,7 +81,6 @@ extern void f__B518_0558_0010_240A();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
-extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
@@ -445,13 +445,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	g_global->variable_8074 = 1;
 
-	emu_push(0);
-	emu_push(199);
-	emu_push(319);
-	emu_push(var805A->top == 85 ? 0 : var805A->top);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x091B); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-	emu_sp += 10;
+	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
 	if (g_global->variable_6D8F != 0 && g_global->variable_6D8F != 4 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
@@ -2200,13 +2194,7 @@ static void Gameloop_IntroMenu()
 
 	g_global->variable_37B4 = 0;
 
-	emu_push(0xC);
-	emu_push(g_global->variable_992B + g_global->variable_9931);
-	emu_push((g_global->variable_992D + g_global->variable_992F) << 3);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D << 3);
-	emu_push(emu_cs); emu_push(0x2163); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-	emu_sp += 10;
+	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, (g_global->variable_992D + g_global->variable_992F) << 3, g_global->variable_992B + g_global->variable_9931, 12);
 
 	if (!loc02) {
 		emu_push(5);

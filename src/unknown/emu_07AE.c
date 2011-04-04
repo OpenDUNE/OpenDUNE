@@ -6,8 +6,7 @@
 #include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
-
-extern void emu_GUI_DrawFilledRectangle();
+#include "../gui/gui.h"
 
 /**
  * Unknown function.
@@ -91,13 +90,7 @@ void emu_Unknown_07AE_0103()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	emu_push(g_global->variable_6D59);
-	emu_push(g_global->variable_992B + g_global->variable_9931 - 1);
-	emu_push(((g_global->variable_992D + g_global->variable_992F) << 3) - 1);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D << 3);
-	emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x22A6; emu_GUI_DrawFilledRectangle();
-	emu_sp += 10;
+	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, ((g_global->variable_992D + g_global->variable_992F) << 3) - 1, g_global->variable_992B + g_global->variable_9931 - 1, (uint8)g_global->variable_6D59);
 
 	g_global->variable_8225 = 0x0;
 	g_global->variable_9935 = 0x0;
