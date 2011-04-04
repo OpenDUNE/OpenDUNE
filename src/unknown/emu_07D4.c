@@ -495,13 +495,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			emu_push(emu_cs); emu_push(0x1372); emu_cs = 0x2642; f__2642_0069_0008_D517();
 		}
 
-		if (g_global->variable_3344 == 0xC8) {
+		if (g_global->variable_3344 == 200) {
 			g_global->variable_3344 = 0;
 
 			for (loc0E = 0; loc0E < 4096; loc0E++) {
 				if ((g_global->variable_91E5[loc0E >> 3] & (1 << (loc0E & 7))) == 0) continue;
 				g_global->variable_8290[g_global->variable_3344++] = loc0E;
-				if (g_global->variable_3344 == 0xC8) break;
+				if (g_global->variable_3344 == 200) break;
 			}
 		} else {
 			g_global->variable_3344 = 0;

@@ -84,7 +84,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	if (g_spriteMode == 4) return;
 
-	wptr = &emu_get_memory8(GFX_GetScreenSegment(), y * 320, x * 8);
+	wptr = &emu_get_memory8(GFX_GetScreenSegment(), y * SCREEN_WIDTH, x * 8);
 	rptr = g_spriteInfo + ((spriteID * g_spriteInfoSize) << 4);
 
 	spacing = g_spriteSpacing;
@@ -142,7 +142,7 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 
 		g_spriteWidth   = widthSize << 2;
 		g_spriteHeight  = widthSize << 3;
-		g_spriteSpacing = 320 - g_spriteHeight;
+		g_spriteSpacing = SCREEN_WIDTH - g_spriteHeight;
 	} else {
 		emu_get_memory16(emu_cs, 0x00, 0x34B) = widthSize; /* Write-only */
 		emu_get_memory16(emu_cs, 0x00, 0x34D) = heightSize; /* Write-only */
@@ -170,8 +170,8 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
  */
 void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 {
-	if (y >= 200) return;
-	if (x >= 320) return;;
+	if (y >= SCREEN_HEIGHT) return;
+	if (x >= SCREEN_WIDTH) return;;
 
-	emu_get_memory8(GFX_GetScreenSegment(), y * 320, x) = colour;
+	emu_get_memory8(GFX_GetScreenSegment(), y * SCREEN_WIDTH, x) = colour;
 }

@@ -11,6 +11,7 @@
 #include "file.h"
 #include "tools.h"
 #include "wsa.h"
+#include "gfx.h"
 
 extern void emu_Tools_GetFreeMemory();
 extern void f__28E6_000A_0040_D751();
@@ -462,7 +463,7 @@ void emu_WSA_DisplayFrame()
 
 		displayBuffer.s.cs = emu_dx;
 		displayBuffer.s.ip = emu_ax;
-		displayBuffer.s.ip += posX + posY * 320; /* XXX -- 320 is of course screen width, but it is hardcoded! */
+		displayBuffer.s.ip += posX + posY * SCREEN_WIDTH;
 	}
 
 	if (header->frameCurrent == header->frames) {

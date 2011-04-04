@@ -8,6 +8,7 @@
 #include "global.h"
 #include "mouse.h"
 #include "os/math.h"
+#include "gfx.h"
 
 /**
  * Set the region in which the mouse can move.
@@ -31,10 +32,10 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 		bottom = temp;
 	}
 
-	left   = clamp(left,   0, 319);
-	right  = clamp(right,  0, 319);
-	top    = clamp(top,    0, 199);
-	bottom = clamp(bottom, 0, 199);
+	left   = clamp(left,   0, SCREEN_WIDTH - 1);
+	right  = clamp(right,  0, SCREEN_WIDTH - 1);
+	top    = clamp(top,    0, SCREEN_HEIGHT - 1);
+	bottom = clamp(bottom, 0, SCREEN_HEIGHT - 1);
 
 	g_global->mouseRegionLeft   = left;
 	g_global->mouseRegionRight  = right;

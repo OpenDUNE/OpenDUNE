@@ -303,8 +303,8 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 	charHeight = font[emu_get_memory16(0x22A6, 0x00, 0x72) + 4];
 
 	if (offset == 0) return;
-	if (x >= 320 || (x + charWidth) > 320) return;
-	if (y >= 200 || (y + charHeight) > 200) return;
+	if (x >= SCREEN_WIDTH || (x + charWidth) > SCREEN_WIDTH) return;
+	if (y >= SCREEN_HEIGHT || (y + charHeight) > SCREEN_HEIGHT) return;
 
 	emptyLines  = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2];
 	usedLines   = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2 + 1];
@@ -312,8 +312,8 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 
 	font += offset;
 
-	x += y * 320;
-	remainingWidth = 320 - charWidth;
+	x += y * SCREEN_WIDTH;
+	remainingWidth = SCREEN_WIDTH - charWidth;
 
 	if (emptyLines != 0) {
 		if (g_colours[0] != 0) {
@@ -322,7 +322,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 				x += remainingWidth;
 			}
 		} else {
-			x += emptyLines * 320;
+			x += emptyLines * SCREEN_WIDTH;
 		}
 	}
 
@@ -382,8 +382,8 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 
 	if (left < 0) left = 0;
 	if (top  < 0) top  = 0;
-	if (left > 320) return;
-	if (top  > 200) return;
+	if (left > SCREEN_WIDTH) return;
+	if (top  > SCREEN_HEIGHT) return;
 
 	colours[0] = bgColour;
 	colours[1] = fgColour;
@@ -405,11 +405,11 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 
 		width = data[widthOffset + *s] + g_global->variable_6C6C;
 
-		if (x + width > 320) {
+		if (x + width > SCREEN_WIDTH) {
 			x = left;
 			y += height + g_global->variable_6C6E;
 		}
-		if (y > 200) break;
+		if (y > SCREEN_HEIGHT) break;
 
 		GUI_DrawChar(*s, x, y);
 
@@ -1080,7 +1080,7 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 		loc20 = loc16 - loc1E - loc14;
 	}
 
-	loc3A = 320;
+	loc3A = SCREEN_WIDTH;
 	loc22 = posY;
 
 	if ((flags & 0x2) != 0) {
@@ -2557,7 +2557,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 
 		x2 -= x1 - 1;
 
-		screen += y1 * 320 + x1;
+		screen += y1 * SCREEN_WIDTH + x1;
 
 		memset(screen, colour, x2);
 		return;
@@ -2571,7 +2571,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 		y1 -= y2;
 	}
 
-	screen += y1 * 320;
+	screen += y1 * SCREEN_WIDTH;
 
 	x2 -= x1;
 	if (x2 == 0) {
@@ -2579,7 +2579,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 
 		while (y2-- != 0) {
 			*screen = colour;
-			screen += 320;
+			screen += SCREEN_WIDTH;
 		}
 
 		return;
@@ -2597,7 +2597,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 		while (true) {
 			*screen = colour;
 			if (y2-- == 0) return;
-			screen += 320;
+			screen += SCREEN_WIDTH;
 			half -= x2;
 			if (half < 0) {
 				half += full;
@@ -2615,7 +2615,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 			half -= y2;
 			if (half < 0) {
 				half += full;
-				screen += 320;
+				screen += SCREEN_WIDTH;
 			}
 		}
 	}

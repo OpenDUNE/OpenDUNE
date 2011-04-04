@@ -1380,8 +1380,8 @@ static void Gameloop_Logos()
 
 	emu_push(0);
 	emu_push(2);
-	emu_push(0xC8);
-	emu_push(0x28);
+	emu_push(200);
+	emu_push(40);
 	emu_push(0);
 	emu_push(0);
 	emu_push(0);
@@ -1426,8 +1426,8 @@ static void Gameloop_Logos()
 
 	emu_push(0);
 	emu_push(2);
-	emu_push(0xC8);
-	emu_push(0x28);
+	emu_push(200);
+	emu_push(40);
 	emu_push(0);
 	emu_push(0);
 	emu_push(0);
