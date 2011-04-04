@@ -62,7 +62,6 @@ extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawLine();
 extern void overlay(uint16 cs, uint8 force);
 
 MSVC_PACKED_BEGIN
@@ -76,7 +75,18 @@ typedef struct struct_B4E9 {
 MSVC_PACKED_END
 assert_compile(sizeof(struct_B4E9) == 0x0C);
 
-static uint8 g_colors[16];
+MSVC_PACKED_BEGIN
+typedef struct ClippingArea {
+	/* 0000(2)   */ PACK uint16 left;                       /*!< ?? */
+	/* 0002(2)   */ PACK uint16 top;                        /*!< ?? */
+	/* 0004(2)   */ PACK uint16 right;                      /*!< ?? */
+	/* 0006(2)   */ PACK uint16 bottom;                     /*!< ?? */
+} GCC_PACKED ClippingArea;
+MSVC_PACKED_END
+assert_compile(sizeof(ClippingArea) == 0x08);
+
+static uint8 g_colours[16];
+static ClippingArea *g_clipping = (ClippingArea *)&emu_get_memory8(0x22A6, 0x68, 0x00);
 
 /**
  * Draw a wired rectangle.
@@ -86,39 +96,12 @@ static uint8 g_colors[16];
  * @param bottom The bottom position of the rectangle.
  * @param colour The colour of the rectangle.
  */
-void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint16 colour)
+void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour)
 {
-	emu_push(colour);
-	emu_push(top);
-	emu_push(right);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x001E); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colour);
-	emu_push(bottom);
-	emu_push(right);
-	emu_push(bottom);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x0038); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colour);
-	emu_push(bottom);
-	emu_push(left);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colour);
-	emu_push(bottom);
-	emu_push(right);
-	emu_push(top);
-	emu_push(right);
-	emu_push(emu_cs); emu_push(0x0068); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
+	GUI_DrawLine(left, top, right, top, colour);
+	GUI_DrawLine(left, bottom, right, bottom, colour);
+	GUI_DrawLine(left, top, left, bottom, colour);
+	GUI_DrawLine(right, top, right, bottom, colour);
 }
 
 /**
@@ -333,9 +316,9 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 	remainingWidth = 320 - charWidth;
 
 	if (emptyLines != 0) {
-		if (g_colors[0] != 0) {
+		if (g_colours[0] != 0) {
 			while (emptyLines-- != 0) {
-				for (i = 0; i < charWidth; i++) screen[x++] = g_colors[0];
+				for (i = 0; i < charWidth; i++) screen[x++] = g_colours[0];
 				x += remainingWidth;
 			}
 		} else {
@@ -349,12 +332,12 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 		for (i = 0; i < charWidth; i++) {
 			uint8 data = *font++;
 
-			if (g_colors[data & 0xF] != 0) screen[x] = g_colors[data & 0xF];
+			if (g_colours[data & 0xF] != 0) screen[x] = g_colours[data & 0xF];
 			x++;
 
 			if (++i == charWidth) break;
 
-			if (g_colors[(data >> 4) & 0xF] != 0) screen[x] = g_colors[(data >> 4) & 0xF];
+			if (g_colours[(data >> 4) & 0xF] != 0) screen[x] = g_colours[(data >> 4) & 0xF];
 			x++;
 		}
 		x += remainingWidth;
@@ -362,10 +345,10 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 
 	if (charHeight <= 0) return;
 
-	if (g_colors[0] == 0) return;
+	if (g_colours[0] == 0) return;
 
 	while (charHeight-- != 0) {
-		for (i = 0; i < charWidth; i++) screen[x++] = g_colors[0];
+		for (i = 0; i < charWidth; i++) screen[x++] = g_colours[0];
 		x += remainingWidth;
 	}
 }
@@ -381,7 +364,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
  */
 void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour)
 {
-	uint8 colors[2];
+	uint8 colours[2];
 	uint8 *data;
 	uint16 height;
 	uint16 heightOffset;
@@ -402,10 +385,10 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 	if (left > 320) return;
 	if (top  > 200) return;
 
-	colors[0] = bgColour;
-	colors[1] = fgColour;
+	colours[0] = bgColour;
+	colours[1] = fgColour;
 
-	GUI_InitColors(colors, 0, 1);
+	GUI_InitColors(colours, 0, 1);
 
 	s = string;
 	x = left;
@@ -525,26 +508,26 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 }
 
 /**
- * Do something on the given color in the given palette.
+ * Do something on the given colour in the given palette.
  *
  * @param palette The palette to work on.
- * @param color The color to modify.
- * @param reference The color to use as reference.
+ * @param colour The colour to modify.
+ * @param reference The colour to use as reference.
  */
-static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 color, uint16 reference)
+static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 reference)
 {
 	bool ret = false;
 	uint16 i;
 
-	color *= 3;
+	colour *= 3;
 	reference *= 3;
 
 	for (i = 0; i < 3; i++) {
-		if (palette[reference] != palette[color]) {
+		if (palette[reference] != palette[colour]) {
 			ret = true;
-			palette[color] += (palette[color] > palette[reference]) ? -1 : 1;
+			palette[colour] += (palette[colour] > palette[reference]) ? -1 : 1;
 		}
-		color++;
+		colour++;
 		reference++;
 	}
 
@@ -559,14 +542,14 @@ void GUI_PaletteAnimate()
 	uint8 *palette = emu_get_memorycsip(g_global->variable_3C32);
 
 	if (g_global->variable_31CE < g_global->variable_76AC) {
-		uint16 color;
+		uint16 colour;
 		if (g_global->variable_37B2 != 0) {
-			color = 15;
+			colour = 15;
 		} else {
-			color = (g_global->variable_31D2 == 0) ? 15 : 6;
+			colour = (g_global->variable_31D2 == 0) ? 15 : 6;
 		}
 
-		memcpy(palette + 3 * 239, palette + 3 * color, 3);
+		memcpy(palette + 3 * 239, palette + 3 * colour, 3);
 
 		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
 		emu_push(emu_cs); emu_push(0x05C7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
@@ -1551,7 +1534,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
 
 		for (loc02 = 0; loc02 < 2; loc02++) {
-			uint16 loc12;
+			uint8 colour;
 			uint16 loc04;
 			uint16 locdi;
 			uint16 loc0E;
@@ -1560,7 +1543,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 			emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
 
-			loc12 = (loc02 == 0) ? 255 : 209;
+			colour = (loc02 == 0) ? 255 : 209;
 			loc04 = loc18;
 
 			locdi = 93 + (i * 36) + (loc02 * 9);
@@ -1583,23 +1566,11 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 				g_global->variable_76B4 = 1;
 
-				emu_push(loc12);
-				emu_push(locdi + 5);
-				emu_push(loc04);
-				emu_push(locdi);
-				emu_push(loc04);
-				emu_push(emu_cs); emu_push(0x03F5); emu_cs = 0x22A6; emu_GUI_DrawLine();
-				emu_sp += 10;
+				GUI_DrawLine(loc04, locdi, loc04, locdi + 5, colour);
 
 				loc04++;
 
-				emu_push(0xC);
-				emu_push(locdi + 6);
-				emu_push(loc04);
-				emu_push(locdi + 1);
-				emu_push(loc04);
-				emu_push(emu_cs); emu_push(0x0419); emu_cs = 0x22A6; emu_GUI_DrawLine();
-				emu_sp += 10;
+				GUI_DrawLine(loc04, locdi + 1, loc04, locdi + 6, 12);
 
 				emu_push(0);
 				emu_push(2);
@@ -1921,27 +1892,27 @@ uint16 GUI_PickHouse()
 }
 
 /**
- * Creates a palette mapping: color -> color + reference * intensity.
+ * Creates a palette mapping: colour -> colour + reference * intensity.
  *
  * @param palette The palette to create the mapping for.
- * @param colors The resulting mapping.
- * @param reference The color to use as reference.
+ * @param colours The resulting mapping.
+ * @param reference The colour to use as reference.
  * @param intensity The intensity to use.
  */
-void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, uint8 intensity)
+void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colours, uint8 reference, uint8 intensity)
 {
 	uint16 index;
 
-	if (palette == NULL || colors == NULL) return;
+	if (palette == NULL || colours == NULL) return;
 
-	colors[0] = 0;
+	colours[0] = 0;
 
 	for (index = 1; index < 256; index++) {
 		uint16 i;
 		uint8 red   = palette[3 * index + 0] - (((palette[3 * index + 0] - palette[3 * reference + 0]) * (intensity / 2)) >> 7);
 		uint8 blue  = palette[3 * index + 1] - (((palette[3 * index + 1] - palette[3 * reference + 1]) * (intensity / 2)) >> 7);
 		uint8 green = palette[3 * index + 2] - (((palette[3 * index + 2] - palette[3 * reference + 2]) * (intensity / 2)) >> 7);
-		uint8 color = reference;
+		uint8 colour = reference;
 		uint16 sumMin = 0xFFFF;
 
 		for (i = 1; i < 256; i++) {
@@ -1955,10 +1926,10 @@ void GUI_Palette_CreateMapping(uint8 *palette, uint8 *colors, uint8 reference, u
 			if ((i != reference) && (i == index)) continue;
 
 			sumMin = sum;
-			color = i & 0xFF;
+			colour = i & 0xFF;
 		}
 
-		colors[index] = color;
+		colours[index] = colour;
 	}
 }
 
@@ -1991,37 +1962,10 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 		emu_sp += 10;
 	}
 
-	emu_push(colourSchema[1]);
-	emu_push(top + height);
-	emu_push(left + width);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x0077); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[1]);
-	emu_push(top + height);
-	emu_push(left + width);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(emu_cs); emu_push(0x009E); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[2]);
-	emu_push(top);
-	emu_push(left + width);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00BB); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
-
-	emu_push(colourSchema[2]);
-	emu_push(top + height);
-	emu_push(left);
-	emu_push(top);
-	emu_push(left);
-	emu_push(emu_cs); emu_push(0x00D8); emu_cs = 0x22A6; emu_GUI_DrawLine();
-	emu_sp += 10;
+	GUI_DrawLine(left, top + height, left + width, top + height, colourSchema[1] & 0xFF);
+	GUI_DrawLine(left + width, top, left + width, top + height, colourSchema[1] & 0xFF);
+	GUI_DrawLine(left, top, left + width, top, colourSchema[2] & 0xFF);
+	GUI_DrawLine(left, top, left, top + height, colourSchema[2] & 0xFF);
 
 	GFX_PutPixel(left, top + height, colourSchema[3] & 0xFF);
 	GFX_PutPixel(left + width, top, colourSchema[3] & 0xFF);
@@ -2476,14 +2420,203 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 	Unknown_Set_Global_6C91(old_6C91);
 }
 
-void GUI_InitColors(uint8 *colors, uint8 min, uint8 max)
+/**
+ * Sets the colors to be used when drawing chars.
+ * @param colours The colours to use.
+ * @param min The index of the first colour to set.
+ * @param max The index of the last colour to set.
+ */
+void GUI_InitColors(uint8 *colours, uint8 first, uint8 last)
 {
 	uint8 i;
 
-	min &= 0xF;
-	max &= 0xF;
+	first &= 0xF;
+	last &= 0xF;
 
-	if (max < min || colors == NULL) return;
+	if (last < first || colours == NULL) return;
 
-	for (i = min; i < max + 1; i++) g_colors[i] = *colors++;
+	for (i = first; i < last + 1; i++) g_colours[i] = *colours++;
+}
+
+/**
+ * Get how the given point must be clipped.
+ * @param x The X-coordinate of the point.
+ * @param y The Y-coordinate of the point.
+ * @return A bitset.
+ */
+static uint16 GetNeededClipping(int16 x, int16 y)
+{
+	uint16 flags = 0;
+
+	if (y < g_clipping->top)    flags |= 0x1;
+	if (y > g_clipping->bottom) flags |= 0x2;
+	if (x < g_clipping->left)   flags |= 0x4;
+	if (x > g_clipping->right)  flags |= 0x8;
+
+	return flags;
+}
+
+/**
+ * Applies top clipping to a line.
+ * @param x1 Pointer to the X-coordinate of the begin of the line.
+ * @param y1 Pointer to the Y-coordinate of the begin of the line.
+ * @param x2 The X-coordinate of the end of the line.
+ * @param y2 The Y-coordinate of the end of the line.
+ */
+static void ClipTop(int16 *x1, int16 *y1, int16 x2, int16 y2)
+{
+	*x1 += (x2 - *x1) * (g_clipping->top - *y1) / (y2 - *y1);
+	*y1 = g_clipping->top;
+}
+
+/**
+ * Applies bottom clipping to a line.
+ * @param x1 Pointer to the X-coordinate of the begin of the line.
+ * @param y1 Pointer to the Y-coordinate of the begin of the line.
+ * @param x2 The X-coordinate of the end of the line.
+ * @param y2 The Y-coordinate of the end of the line.
+ */
+static void ClipBottom(int16 *x1, int16 *y1, int16 x2, int16 y2)
+{
+	*x1 += (x2 - *x1) * (*y1 - g_clipping->bottom) / (*y1 - y2);
+	*y1 = g_clipping->bottom;
+}
+
+/**
+ * Applies left clipping to a line.
+ * @param x1 Pointer to the X-coordinate of the begin of the line.
+ * @param y1 Pointer to the Y-coordinate of the begin of the line.
+ * @param x2 The X-coordinate of the end of the line.
+ * @param y2 The Y-coordinate of the end of the line.
+ */
+static void ClipLeft(int16 *x1, int16 *y1, int16 x2, int16 y2)
+{
+	*y1 += (y2 - *y1) * (g_clipping->left - *x1) / (x2 - *x1);
+	*x1 = g_clipping->left;
+}
+
+/**
+ * Applies right clipping to a line.
+ * @param x1 Pointer to the X-coordinate of the begin of the line.
+ * @param y1 Pointer to the Y-coordinate of the begin of the line.
+ * @param x2 The X-coordinate of the end of the line.
+ * @param y2 The Y-coordinate of the end of the line.
+ */
+static void ClipRight(int16 *x1, int16 *y1, int16 x2, int16 y2)
+{
+	*y1 += (y2 - *y1) * (*x1 - g_clipping->right) / (*x1 - x2);
+	*x1 = g_clipping->right;
+}
+
+/**
+ * Draws a line from (x1, y1) to (x2, y2) using given colour.
+ * @param x1 The X-coordinate of the begin of the line.
+ * @param y1 The Y-coordinate of the begin of the line.
+ * @param x2 The X-coordinate of the end of the line.
+ * @param y2 The Y-coordinate of the end of the line.
+ * @param colour The colour to use to draw the line.
+ */
+void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
+{
+	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x00, 0x00);
+	int16 increment = 1;
+
+	if (x1 < g_clipping->left || x1 > g_clipping->right || y1 < g_clipping->top || y1 > g_clipping->bottom || x2 < g_clipping->left || x2 > g_clipping->right || y2 < g_clipping->top || y2 > g_clipping->bottom) {
+		while (true) {
+			uint16 clip1 = GetNeededClipping(x1, y1);
+			uint16 clip2 = GetNeededClipping(x2, y2);
+
+			if (clip1 == 0 && clip2 == 0) break;
+			if ((clip1 & clip2) != 0) return;
+
+			switch (clip1) {
+				case 1: case 9:  ClipTop(&x1, &y1, x2, y2); break;
+				case 2: case 6:  ClipBottom(&x1, &y1, x2, y2); break;
+				case 4: case 5:  ClipLeft(&x1, &y1, x2, y2); break;
+				case 8: case 10: ClipRight(&x1, &y1, x2, y2); break;
+				default:
+					switch (clip2) {
+						case 1: case 9:  ClipTop(&x2, &y2, x1, y1); break;
+						case 2: case 6:  ClipBottom(&x2, &y2, x1, y1); break;
+						case 4: case 5:  ClipLeft(&x2, &y2, x1, y1); break;
+						case 8: case 10: ClipRight(&x2, &y2, x1, y1); break;
+						default: break;
+					}
+			}
+		}
+	}
+
+	y2 -= y1;
+
+	if (y2 == 0) {
+		if (x1 >= x2) {
+			int16 x = x1;
+			x1 = x2;
+			x2 = x;
+		}
+
+		x2 -= x1 - 1;
+
+		screen += emu_get_memory16(0x22A6, y1 * 2, 0x17D) + x1;
+
+		memset(screen, colour, x2);
+		return;
+	}
+
+	if (y2 < 0) {
+		int16 x = x1;
+		x1 = x2;
+		x2 = x;
+		y2 = -y2;
+		y1 -= y2;
+	}
+
+	screen += emu_get_memory16(0x22A6, y1 * 2, 0x17D);
+
+	x2 -= x1;
+	if (x2 == 0) {
+		screen += x1;
+
+		while (y2-- != 0) {
+			*screen = colour;
+			screen += 320;
+		}
+
+		return;
+	}
+
+	if (x2 < 0) {
+		x2 = -x2;
+		increment = -1;
+	}
+
+	if (x2 < y2) {
+		int16 full = y2;
+		int16 half = y2 / 2;
+		screen += x1;
+		while (true) {
+			*screen = colour;
+			if (y2-- == 0) return;
+			screen += 320;
+			half -= x2;
+			if (half < 0) {
+				half += full;
+				screen += increment;
+			}
+		}
+	} else {
+		int16 full = x2;
+		int16 half = x2 / 2;
+		screen += x1;
+		while (true) {
+			*screen = colour;
+			if (x2-- == 0) return;
+			screen += increment;
+			half -= y2;
+			if (half < 0) {
+				half += full;
+				screen += 320;
+			}
+		}
+	}
 }

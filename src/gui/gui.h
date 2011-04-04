@@ -3,7 +3,7 @@
 #ifndef GUI_GUI_H
 #define GUI_GUI_H
 
-extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint16 colour);
+extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DisplayText(const char *str, uint16 arg0A, ...);
 extern void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
 extern void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
@@ -21,7 +21,8 @@ extern void GUI_DrawProgressbar(uint16 current, uint16 max);
 extern void GUI_DrawInterfaceAndRadar(uint16 unknown);
 extern void GUI_DrawCredits(uint8 houseID, uint16 mode);
 extern void GUI_ChangeSelectionType(uint16 selectionType);
-extern void GUI_InitColors(uint8 *colors, uint8 min, uint8 max);
+extern void GUI_InitColors(uint8 *colors, uint8 first, uint8 last);
+extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -38,6 +39,7 @@ extern void emu_GUI_DrawBorder();
 extern void emu_GUI_DisplayHint();
 extern void emu_GUI_DrawInterfaceAndRadar();
 extern void emu_GUI_DrawCredits();
+extern void emu_GUI_DrawLine();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

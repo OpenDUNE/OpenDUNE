@@ -24,7 +24,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
-extern void emu_GUI_DrawLine();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_DrawFilledRectangle();
 extern void emu_GUI_String_Get_ByIndex();
@@ -971,12 +970,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							uint16 powerOutput = o->hitpoints * -si->powerUsage / oi->hitpoints;
 							uint16 powerAverage = (h->windtrapCount == 0) ? 0 : h->powerUsage / h->windtrapCount;
 
-							emu_push(16);
-							emu_push(95); emu_push(312);
-							emu_push(95); emu_push(261);
-							emu_push(emu_cs); emu_push(0x1964); emu_cs = 0x22A6; emu_GUI_DrawLine();
-							emu_sp += 10;
-
+							GUI_DrawLine(261, 95, 312, 95, 16);
 							GUI_DrawText_Wrapper(String_Get_ByIndex(89), 258, 88, 29, 0, 0x11);
 							GUI_DrawText_Wrapper(g_global->string_3774, 302, g_global->variable_6C71 * 2 + 80, 29, 0, 0x11, powerAverage);
 							GUI_DrawText_Wrapper(g_global->string_3774, 302, g_global->variable_6C71 * 3 + 80, (powerOutput >= powerAverage) ? 29 : 6, 0, 0x11, powerOutput);
@@ -997,22 +991,12 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							creditsStored = h->credits * si->creditsStorage / h->creditsStorage;
 							if (h->credits > h->creditsStorage) creditsStored = si->creditsStorage;
 
-							emu_push(16);
-							emu_push(95); emu_push(312);
-							emu_push(95); emu_push(261);
-							emu_push(emu_cs); emu_push(0x1AEF); emu_cs = 0x22A6; emu_GUI_DrawLine();
-							emu_sp += 10;
-
+							GUI_DrawLine(261, 95, 312, 95, 16);
 							GUI_DrawText_Wrapper(String_Get_ByIndex(88), 258, 88, 29, 0, 0x11, creditsStored, (si->creditsStorage <= 1000) ? si->creditsStorage : 1000);
 						} break;
 
 						case STRUCTURE_OUTPOST: {
-							emu_push(16);
-							emu_push(95); emu_push(312);
-							emu_push(95); emu_push(261);
-							emu_push(emu_cs); emu_push(0x1A0C); emu_cs = 0x22A6; emu_GUI_DrawLine();
-							emu_sp += 10;
-
+							GUI_DrawLine(261, 95, 312, 95, 16);
 							GUI_DrawText_Wrapper(String_Get_ByIndex(146), 258, 88, 29, 0, 0x11, h->unitCountAllied, h->unitCountEnemy);
 						} break;
 					}

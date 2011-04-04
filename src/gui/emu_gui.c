@@ -32,7 +32,7 @@ void emu_GUI_DrawWiredRectangle()
 	bottom = emu_get_memory16(emu_ss, emu_sp, 0x6);
 	colour = emu_get_memory16(emu_ss, emu_sp, 0x8);
 
-	GUI_DrawWiredRectangle(left, top, right, bottom, colour);
+	GUI_DrawWiredRectangle(left, top, right, bottom, (uint8)colour);
 }
 
 /**
@@ -355,4 +355,31 @@ void emu_GUI_DrawCredits()
 	var08   = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	GUI_DrawCredits((uint8)houseID, var08);
+}
+
+/**
+ * Emulator wrapper around GUI_DrawLine().
+ *
+ * @name emu_GUI_DrawLine
+ * @implements 22A6:094D:000C:EC7D ()
+ */
+void emu_GUI_DrawLine()
+{
+	uint16 x1;
+	uint16 y1;
+	uint16 x2;
+	uint16 y2;
+	uint16 color;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	x1    = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	y1    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	x2    = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	y2    = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	color = emu_get_memory16(emu_ss, emu_sp, 0x8);
+
+	GUI_DrawLine(x1, y1, x2, y2, (uint8)color);
 }

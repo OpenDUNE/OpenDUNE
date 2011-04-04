@@ -29,7 +29,6 @@ extern void f__2642_0069_0008_D517();
 extern void f__2C17_000C_002F_3016();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawLine();
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -201,21 +200,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
 		if (g_global->variable_38EC == 0 && g_global->selectionType == 2) {
-			emu_push(0xFF);
-			emu_push(y2);
-			emu_push(x2);
-			emu_push(y1);
-			emu_push(x1);
-			emu_push(emu_cs); emu_push(0x08C0); emu_cs = 0x22A6; emu_GUI_DrawLine();
-			emu_sp += 10;
-
-			emu_push(0xFF);
-			emu_push(y2);
-			emu_push(x1);
-			emu_push(y1);
-			emu_push(x2);
-			emu_push(emu_cs); emu_push(0x08D9); emu_cs = 0x22A6; emu_GUI_DrawLine();
-			emu_sp += 10;
+			GUI_DrawLine(x1, y1, x2, y2, 0xFF);
+			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
 		}
 
 		emu_push(0xC7);
