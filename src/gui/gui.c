@@ -312,7 +312,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 
 	font += offset;
 
-	x += emu_get_memory16(0x22A6, y * 2, 0x17D);
+	x += y * 320;
 	remainingWidth = 320 - charWidth;
 
 	if (emptyLines != 0) {
@@ -322,7 +322,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 				x += remainingWidth;
 			}
 		} else {
-			x += emu_get_memory16(0x22A6, emptyLines * 2, 0x17D);
+			x += emptyLines * 320;
 		}
 	}
 
@@ -2557,7 +2557,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 
 		x2 -= x1 - 1;
 
-		screen += emu_get_memory16(0x22A6, y1 * 2, 0x17D) + x1;
+		screen += y1 * 320 + x1;
 
 		memset(screen, colour, x2);
 		return;
@@ -2571,7 +2571,7 @@ void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 		y1 -= y2;
 	}
 
-	screen += emu_get_memory16(0x22A6, y1 * 2, 0x17D);
+	screen += y1 * 320;
 
 	x2 -= x1;
 	if (x2 == 0) {
