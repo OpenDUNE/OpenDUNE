@@ -309,11 +309,12 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str, i);
 
-				emu_push(0x353F); emu_push(0x9939); /* g_global->variable_9939 */
-				emu_push(emu_cs); emu_push(0x06BA); emu_Unknown_B483_0823();
-				emu_sp += 4;
-				g_global->variable_3E54[voice].s.cs = emu_dx;
-				g_global->variable_3E54[voice].s.ip = emu_ax;
+				{
+					csip32 csip;
+					csip.s.cs = 0x353F;
+					csip.s.ip = 0x9939;
+					g_global->variable_3E54[voice] = Unknown_B483_0823(g_global->variable_9939, csip);
+				}
 				break;
 
 			case '+':
@@ -326,30 +327,31 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str + 1, i);
 
-				emu_push(0x353F); emu_push(0x9939); /* g_global->variable_9939 */
-				emu_push(emu_cs); emu_push(0x076E); emu_Unknown_B483_0823();
-				emu_sp += 4;
-				g_global->variable_3E54[voice].s.cs = emu_dx;
-				g_global->variable_3E54[voice].s.ip = emu_ax;
+				{
+					csip32 csip;
+					csip.s.cs = 0x353F;
+					csip.s.ip = 0x9939;
+					g_global->variable_3E54[voice] = Unknown_B483_0823(g_global->variable_9939, csip);
+				}
 				break;
 
 			case '-':
 				if (voiceSet != 0xFFFF || g_global->variable_3E54[voice].csip != 0x0) break;
 
-				emu_push(g_global->voices[voice].string.s.cs); emu_push(g_global->voices[voice].string.s.ip + 1); /* str + 1*/
-				emu_push(emu_cs); emu_push(0x06FA); emu_Unknown_B483_0823();
-				emu_sp += 4;
-				g_global->variable_3E54[voice].s.cs = emu_dx;
-				g_global->variable_3E54[voice].s.ip = emu_ax;
+				{
+					csip32 csip = g_global->voices[voice].string;
+					csip.s.ip += 1;
+					g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1, csip);
+				}
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
-				emu_push(g_global->voices[voice].string.s.cs); emu_push(g_global->voices[voice].string.s.ip + 1); /* str + 1 */
-				emu_push(emu_cs); emu_push(0x079D); emu_Unknown_B483_0823();
-				emu_sp += 4;
-				g_global->variable_3E54[voice].s.cs = emu_dx;
-				g_global->variable_3E54[voice].s.ip = emu_ax;
+				{
+					csip32 csip = g_global->voices[voice].string;
+					csip.s.ip += 1;
+					g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1, csip);
+				}
 				break;
 
 			case '?':
@@ -358,11 +360,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 			default:
 				if (g_global->variable_3E54[voice].csip != 0x0) break;
 
-				emu_push(g_global->voices[voice].string.s.cs); emu_push(g_global->voices[voice].string.s.ip); /* str */
-				emu_push(emu_cs); emu_push(0x07D5); emu_Unknown_B483_0823();
-				emu_sp += 4;
-				g_global->variable_3E54[voice].s.cs = emu_dx;
-				g_global->variable_3E54[voice].s.ip = emu_ax;
+				g_global->variable_3E54[voice] = Unknown_B483_0823(str, g_global->voices[voice].string);
 				break;
 		}
 	}

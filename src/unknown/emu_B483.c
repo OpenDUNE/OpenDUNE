@@ -174,41 +174,21 @@ bool Unknown_B483_0470()
 }
 
 /**
- * C-ified function of f__B483_0823_0016_323D()
- *
- * @name emu_Unknown_B483_0823
- * @implements B483:0823:0016:323D ()
+ * ??.
+ * @param filename The name of the file to load.
+ * @return Where the file is loaded.
  */
-void emu_Unknown_B483_0823()
+csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 {
-	char *filename;
-	csip32 fcsip;
-	csip32 ret;
 	uint8 fileIndex;
 	uint32 fileSize;
 	csip32 res;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
+	res.csip = 0x0;
 
-	fcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	if (fcsip.csip == 0) {
-		emu_ax = 0;
-		emu_dx = 0;
-		emu_cs = ret.s.cs;
-		emu_ip = ret.s.ip;
-		return;
-	}
+	assert(filename == (char *)emu_get_memorycsip(fcsip));
 
-	filename = (char *)emu_get_memorycsip(fcsip);
-	if (!File_Exists(filename)) {
-		emu_ax = 0;
-		emu_dx = 0;
-		emu_cs = ret.s.cs;
-		emu_ip = ret.s.ip;
-		return;
-	}
+	if (filename == NULL || !File_Exists(filename)) return res;
 
 	fileIndex = File_Open(filename, 1);
 	fileSize  = File_GetSize(fileIndex);
@@ -221,29 +201,18 @@ void emu_Unknown_B483_0823()
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(fcsip.s.cs); emu_push(fcsip.s.ip);
 	emu_push(emu_cs); emu_push(0x08A7); emu_cs = 0x1DD7; f__1DD7_010B_000E_A324();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 	emu_sp += 12;
 
 	emu_push(0x40);
 	emu_push(fileSize >> 16); emu_push(fileSize & 0xFFFF);
 	emu_push(emu_cs); emu_push(0x08B9); emu_cs = 0x23E1; emu_Tools_Malloc();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 	emu_sp += 6;
-
 	res.s.cs = emu_dx;
 	res.s.ip = emu_ax;
 
 	if (res.csip != 0) {
 		Tools_Memmove(g_global->readBuffer, res, fileSize);
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3483) { overlay(0x3483, 1); }
 	}
 
-	emu_dx = res.s.cs;
-	emu_ax = res.s.ip;
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
+	return res;
 }
