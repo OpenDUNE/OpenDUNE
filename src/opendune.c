@@ -46,7 +46,6 @@ extern void f__01F7_276F_000F_E56B();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
-extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
@@ -284,7 +283,7 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 	g_global->variable_806C = 0;
 	g_global->variable_806A = 0xFFFF;
 
-	emu_push(emu_cs); emu_push(0x0079); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+	GFX_ClearScreen();
 
 	File_ReadBlockFile("INTRO.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
@@ -1054,7 +1053,7 @@ static void GameLoop_GameCredits()
 
 	emu_push(emu_cs); emu_push(0x0A32); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
 
-	emu_push(emu_cs); emu_push(0x0A3C); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+	GFX_ClearScreen();
 }
 
 /**
@@ -1245,8 +1244,7 @@ static void Gameloop_Logos()
 	emu_push(emu_cs); emu_push(0x00AE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
 	emu_sp += 4;
 
-	assert(g_global->variable_6640.csip == 0x22A60796);
-	emu_push(emu_cs); emu_push(0x00BA); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+	GFX_ClearScreen();
 
 	File_ReadBlockFile("WESTWOOD.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
 
@@ -1367,8 +1365,7 @@ static void Gameloop_Logos()
 	emu_push(emu_cs); emu_push(0x024E); emu_cs = 0x259E; f__259E_0006_0016_858A();
 	emu_sp += 6;
 
-	assert(g_global->variable_6640.csip == 0x22A60796);
-	emu_push(emu_cs); emu_push(0x025B); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+	GFX_ClearScreen();
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
@@ -2483,7 +2480,7 @@ static void GameLoop_Main()
 
 	Unknown_Set_Global_6C91(0);
 
-	emu_push(emu_cs); emu_push(0x044D); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+	GFX_ClearScreen();
 
 	emu_push(0);
 	emu_push(2);
@@ -2520,7 +2517,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 {
 	switch (graphicMode) {
 		case 3:
-			memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, 64000);
+			memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 			break;
 
 		default: break;
@@ -2628,7 +2625,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	}
 
 	if (graphicMode != 8) {
-		emu_push(emu_cs); emu_push(0x02CD); emu_cs = 0x22A6; f__22A6_0796_000B_9035();
+		GFX_ClearScreen();
 
 		if (fontFilename != NULL) {
 			g_global->new8pFnt = Font_LoadFile(fontFilename);

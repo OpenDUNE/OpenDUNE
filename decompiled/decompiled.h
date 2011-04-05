@@ -301,7 +301,6 @@ extern void emu_Overlay_ReplaceReturnCS();
 extern void emu_File_LowLevel_Seek();
 extern void f__AB01_0787_0028_C5A7();
 extern void f__217E_078A_001C_ADD5();
-extern void f__22A6_0796_000B_9035();
 extern void emu_Tools_MulCSIP_ip();
 extern void f__B52A_07A5_0010_C5C7();
 extern void emu_Overlay_GetCodeSize();

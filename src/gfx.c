@@ -267,3 +267,13 @@ void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 		src += SCREEN_WIDTH;
 	}
 }
+
+/**
+ * Clears the screen.
+ */
+void GFX_ClearScreen()
+{
+	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+
+	memset(screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+}

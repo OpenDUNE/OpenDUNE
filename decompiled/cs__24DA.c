@@ -50,7 +50,7 @@ l__0012:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6642);
 	emu_push(0x0020);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60796: f__22A6_0796_000B_9035(); break;
+		case 0x22A60796: emu_GFX_ClearScreen(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x24DA; emu_last_ip = 0x001B; emu_last_length = 0x000E; emu_last_crc = 0xD6F0;

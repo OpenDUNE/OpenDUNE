@@ -324,50 +324,6 @@ l__078C:
 }
 
 /**
- * Decompiled function f__22A6_0796_000B_9035()
- *
- * @name f__22A6_0796_000B_9035
- * @implements 22A6:0796:000B:9035 ()
- * @implements 22A6:07A1:0011:14AA
- *
- * Called From: 0642:0448:000B:7BE4
- * Called From: 24DA:001B:000E:D6F0
- * Called From: 25C4:02C8:000F:595C
- * Called From: B491:0A37:000A:5BEF
- * Called From: B4BE:00B5:000C:7E74
- * Called From: B4BE:0256:000D:8FAB
- * Called From: B4ED:0074:0079:AC5D
- */
-void f__22A6_0796_000B_9035()
-{
-l__0796:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ax);
-	emu_push(emu_cx);
-	emu_push(emu_di);
-	emu_push(emu_es);
-	emu_cld();
-	emu_push(0x07A1); emu_GFX_GetScreenSegment();
-l__07A1:
-	emu_es = emu_ax;
-	emu_xorw(&emu_di, emu_di);
-	emu_cx = 0x7D00;
-	emu_xorw(&emu_ax, emu_ax);
-	emu_rep_stosw();
-	emu_pop(&emu_es);
-	emu_pop(&emu_di);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_ax);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__22A6_0C69_008C_017F()
  *
  * @name f__22A6_0C69_008C_017F
