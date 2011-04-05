@@ -70,7 +70,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2C17_000C_002F_3016();
-extern void f__B483_04CB_0015_EBB4();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0000_0022_DD43();
 extern void f__B491_0A41_0011_85AD();
@@ -1066,9 +1065,7 @@ static void GameLoop_GameEnd()
 
 	String_Load("INTRO");
 
-	emu_push(0xFFFE);
-	emu_push(emu_cs); emu_push(0x0018); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-	emu_sp += 2;
+	Voice_LoadVoices(0xFFFE);
 
 	switch (g_global->playerHouseID) {
 		case HOUSE_HARKONNEN:
@@ -1307,15 +1304,11 @@ static void Gameloop_Logos()
 	emu_sp += 4;
 
 	if (g_global->variable_37B4 == 0) {
-		emu_push(0xFFFF);
-		emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-		emu_sp += 2;
+		Voice_LoadVoices(0xFFFF);
 	} else {
 		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax == 0 && g_global->variable_37B4 != 0) {
-			emu_push(0xFFFF);
-			emu_push(emu_cs); emu_push(0x01DB); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-			emu_sp += 2;
+			Voice_LoadVoices(0xFFFF);
 		}
 	}
 
@@ -2194,8 +2187,7 @@ static void Gameloop_IntroMenu()
 	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, (g_global->variable_992D + g_global->variable_992F) << 3, g_global->variable_992B + g_global->variable_9931, 12);
 
 	if (!loc02) {
-		emu_push(5);
-		emu_push(emu_cs); emu_push(0x2175); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
+		Voice_LoadVoices(5);
 
 		emu_push(0xF);
 		emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
@@ -2230,9 +2222,7 @@ static void Gameloop_IntroMenu()
 
 		Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
-		emu_push(g_global->playerHouseID);
-		emu_push(emu_cs); emu_push(0x21F4); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-		emu_sp += 2;
+		Voice_LoadVoices(g_global->playerHouseID);
 
 		emu_push(emu_cs); emu_push(0x21FA); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2362,9 +2352,7 @@ static void GameLoop_Main()
 
 			Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
-			emu_push(g_global->playerHouseID);
-			emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-			emu_sp += 2;
+			Voice_LoadVoices(g_global->playerHouseID);
 
 			emu_push(emu_cs); emu_push(0x0177); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -3084,9 +3072,7 @@ void Game_Prepare()
 		if (s != NULL) Map_SetSelectionSize(g_structureInfo[s->o.type].layout);
 	}
 
-	emu_push(g_global->playerHouseID);
-	emu_push(emu_cs); emu_push(0x0415); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-	emu_sp += 2;
+	Voice_LoadVoices(g_global->playerHouseID);
 
 	g_global->variable_38C0 = g_global->tickGlobal + 70;
 	g_global->variable_3A12 = 1;

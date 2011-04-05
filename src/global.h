@@ -196,9 +196,9 @@ typedef struct GlobalData {
 	/* 0222(240) */ PACK uint16 variable_0222[120];         /*!< ?? */
 	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
 	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
-	/* 0D5A(786) */ PACK SoundData voices[131];             /*!< Array of pointers to voice files names (and something else). */
+	/* 0D5A(786) */ PACK SoundData voices[NUM_VOICES];      /*!< Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
-	/* 1150()    */ PACK uint8   unknown_1150[0x0002];
+	/* 1150(2)   */ PACK uint16 currentVoiceSet;            /*!< Currently loaded set of voices. */
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
 	/* 116C(12)  */ PACK char   string_116C[12];            /*!< "+ROCKET.VOC" NULL terminated. */
@@ -935,7 +935,7 @@ typedef struct GlobalData {
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
 	/* 3E4E(4)   */ PACK csip32 currentMusic;               /*!< ?? */
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
-	/* 3E54(524) */ PACK csip32 variable_3E54[131];         /*!< ?? */
+	/* 3E54(524) */ PACK csip32 variable_3E54[NUM_VOICES];  /*!< ?? */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
 	/* 41C2(10)  */ PACK GameCfg gameConfig;                /*!< Game config (options.cfg). */

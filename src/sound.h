@@ -11,11 +11,14 @@ typedef struct SoundData {
 MSVC_PACKED_END
 assert_compile(sizeof(SoundData) == 0x6);
 
+/** Number of voices in the game. */
+#define NUM_VOICES 131
 
 extern void Music_Play(uint16 musicID);
 extern void Music_InitMT32(uint16 musicID);
 extern void Voice_PlayAtTile(int16 voiceID, tile32 position);
 extern void Voice_Play(int16 voiceID);
+extern void Voice_LoadVoices(uint16 voiceSet);
 
 
 extern void emu_Music_Play();

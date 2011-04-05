@@ -48,7 +48,6 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
-extern void f__B483_04CB_0015_EBB4();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void GUI_Mentat_Show();
@@ -1672,9 +1671,7 @@ uint16 GUI_PickHouse()
 	emu_push(emu_cs); emu_push(0x0FE6); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
 	emu_sp += 4;
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0FF1); emu_cs = 0x3483; overlay(0x3483, 0); f__B483_04CB_0015_EBB4();
-	emu_sp += 2;
+	Voice_LoadVoices(5);
 
 	Sprites_Load(1, 7, g_sprites);
 

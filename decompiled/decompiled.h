@@ -226,7 +226,6 @@ extern void f__22A6_04A5_000F_3B8F();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_Interrupt_Vector_Get();
 extern void f__217E_04CB_0020_3089();
-extern void f__B483_04CB_0015_EBB4();
 extern void emu_Interrupt_Vector_Set();
 extern void f__AB00_04CE_0001_6780();
 extern void emu_GUI_Purchase_Invoice();
