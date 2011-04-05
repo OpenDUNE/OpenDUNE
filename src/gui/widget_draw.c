@@ -16,8 +16,8 @@
 #include "../sprites.h"
 #include "../unknown/unknown.h"
 #include "../map.h"
+#include "../gfx.h"
 
-extern void f__22A6_034F_000C_5E0A();
 extern void f__24D0_000D_0039_C17D();
 extern void f__2642_0069_0008_D517();
 extern void f__2642_0002_005E_87F6();
@@ -179,16 +179,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0DF5); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(height + 2);
-	emu_push(width + 2);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0E27); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
-	emu_sp += 16;
+	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
@@ -355,16 +346,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0C34); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(height + 2);
-	emu_push(width + 2);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0C66); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
-	emu_sp += 16;
+	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0C6E); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
@@ -439,16 +421,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0F8F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(height + 2);
-	emu_push(width + 2);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0FC1); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
-	emu_sp += 16;
+	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 

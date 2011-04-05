@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -42,6 +43,20 @@ uint16 Unknown_22A6_0E1A(uint16 memoryBlockID)
 
 	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
 	ptr += (memoryBlockID & 0x1E) + 1;
+
+	return *ptr;
+}
+
+/**
+ * Returns the codesegment of a memory block buffer?
+ * @return Some codesegment value.
+ */
+uint16 Unknown_22A6_0E22(uint16 memoryBlockID)
+{
+	uint16 *ptr;
+
+	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
+	ptr += (memoryBlockID & 0x1E);
 
 	return *ptr;
 }
@@ -174,4 +189,81 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (x >= SCREEN_WIDTH) return;;
 
 	emu_get_memory8(GFX_GetScreenSegment(), y * SCREEN_WIDTH, x) = colour;
+}
+
+/**
+ * ??.
+ * @param xSrc The X-coordinate on the source.
+ * @param ySrc The Y-coordinate on the source.
+ * @param xDst The X-coordinate on the destination.
+ * @param yDst The Y-coordinate on the destination.
+ * @param width The width.
+ * @param height The height.
+ * @param memBlockSrc The ID of the source memory block.
+ * @param memBlockDst The ID of the destination memory block.
+ * @param skipNull Wether to skip NULL bytes.
+ */
+void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull)
+{
+	uint8 *src;
+	uint8 *dst;
+
+	if (xSrc >= SCREEN_WIDTH) return;
+	if (xSrc < 0) {
+		xDst += xSrc;
+		width += xSrc;
+		xSrc = 0;
+	}
+
+	if (ySrc >= SCREEN_HEIGHT) return;
+	if (xSrc < 0) {
+		yDst += ySrc;
+		height += ySrc;
+		ySrc = 0;
+	}
+
+	if (xDst >= SCREEN_WIDTH) return;
+	if (xDst < 0) {
+		xSrc += xDst;
+		width += xDst;
+		xDst = 0;
+	}
+
+	if (yDst >= SCREEN_HEIGHT) return;
+	if (yDst < 0) {
+		ySrc += yDst;
+		height += yDst;
+		yDst = 0;
+	}
+
+	if (SCREEN_WIDTH - xSrc - width < 0) width = SCREEN_WIDTH - xSrc;
+	if (SCREEN_HEIGHT - ySrc - height < 0) height = SCREEN_HEIGHT - ySrc;
+	if (SCREEN_WIDTH - xDst - width < 0) width = SCREEN_WIDTH - xDst;
+	if (SCREEN_HEIGHT - yDst - height < 0) height = SCREEN_HEIGHT - yDst;
+
+	if (xSrc < 0 || xSrc >= SCREEN_WIDTH) return;
+	if (xDst < 0 || xDst >= SCREEN_WIDTH) return;
+	if (ySrc < 0 || ySrc >= SCREEN_HEIGHT) return;
+	if (yDst < 0 || yDst >= SCREEN_HEIGHT) return;
+	if (width < 0 || width >= SCREEN_WIDTH) return;
+	if (height < 0 || height >= SCREEN_HEIGHT) return;
+
+	src = &emu_get_memory8(Unknown_22A6_0E22(memBlockSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(Unknown_22A6_0E22(memBlockDst), 0x0, 0x0);
+
+	src += xSrc + ySrc * SCREEN_WIDTH;
+	dst += xDst + yDst * SCREEN_WIDTH;
+
+	while (height-- != 0) {
+		if (skipNull) {
+			uint16 i;
+			for (i = 0; i < width; i++) {
+				if (src[i] != 0) dst[i] = src[i];
+			}
+		} else {
+			memcpy(dst, src, width);
+		}
+		dst += SCREEN_WIDTH;
+		src += SCREEN_WIDTH;
+	}
 }

@@ -33,7 +33,6 @@ extern void emu_GUI_CopyToBuffer();
 extern void f__01F7_286D_0023_9A13();
 extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
-extern void f__22A6_034F_000C_5E0A();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
@@ -1596,16 +1595,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 				GUI_DrawLine(loc04, locdi + 1, loc04, locdi + 6, 12);
 
-				emu_push(0);
-				emu_push(2);
-				emu_push(7);
-				emu_push(304);
-				emu_push(locdi);
-				emu_push(loc18);
-				emu_push(locdi);
-				emu_push(loc18);
-				emu_push(emu_cs); emu_push(0x043D); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
-				emu_sp += 16;
+				GFX_22A6_034F(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
 
 				Driver_Sound_Play(52, 0xFF);
 
@@ -1618,16 +1608,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
 
-			emu_push(0);
-			emu_push(2);
-			emu_push(7);
-			emu_push(304);
-			emu_push(locdi);
-			emu_push(loc18);
-			emu_push(locdi);
-			emu_push(loc18);
-			emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x22A6; f__22A6_034F_000C_5E0A();
-			emu_sp += 16;
+			GFX_22A6_034F(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
 
 			Driver_Sound_Play(38, 0xFF);
 

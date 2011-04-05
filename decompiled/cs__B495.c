@@ -2236,7 +2236,7 @@ l__0CFE:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6626);
 	emu_push(0x0D29);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6034F: f__22A6_034F_000C_5E0A(); break;
+		case 0x22A6034F: emu_GFX_22A6_034F(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB495; emu_last_ip = 0x0D24; emu_last_length = 0x002B; emu_last_crc = 0xB990;
@@ -2629,7 +2629,7 @@ l__0F38:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6626);
 	emu_push(0x0F70);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6034F: f__22A6_034F_000C_5E0A(); break;
+		case 0x22A6034F: emu_GFX_22A6_034F(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB495; emu_last_ip = 0x0F6B; emu_last_length = 0x0038; emu_last_crc = 0xE4A8;
@@ -2972,7 +2972,7 @@ l__1155:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6626);
 	emu_push(0x117E);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6034F: f__22A6_034F_000C_5E0A(); break;
+		case 0x22A6034F: emu_GFX_22A6_034F(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB495; emu_last_ip = 0x1179; emu_last_length = 0x0029; emu_last_crc = 0x6D47;
@@ -3076,7 +3076,7 @@ l__11B6:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6626);
 	emu_push(0x11DF);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6034F: f__22A6_034F_000C_5E0A(); break;
+		case 0x22A6034F: emu_GFX_22A6_034F(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB495; emu_last_ip = 0x11DA; emu_last_length = 0x0029; emu_last_crc = 0x6D47;
@@ -3119,7 +3119,7 @@ l__11EC:
 	emu_cs = emu_get_memory16(emu_es, 0x00, 0x6626);
 	emu_push(0x1215);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A6034F: f__22A6_034F_000C_5E0A(); break;
+		case 0x22A6034F: emu_GFX_22A6_034F(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB495; emu_last_ip = 0x1210; emu_last_length = 0x0029; emu_last_crc = 0x6D53;
