@@ -313,7 +313,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 					csip32 csip;
 					csip.s.cs = 0x353F;
 					csip.s.ip = 0x9939;
-					g_global->variable_3E54[voice] = Unknown_B483_0823(g_global->variable_9939, csip);
+					g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939, csip);
 				}
 				break;
 
@@ -331,7 +331,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 					csip32 csip;
 					csip.s.cs = 0x353F;
 					csip.s.ip = 0x9939;
-					g_global->variable_3E54[voice] = Unknown_B483_0823(g_global->variable_9939, csip);
+					g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939, csip);
 				}
 				break;
 
