@@ -12,7 +12,6 @@
 #include "../string.h"
 #include "../tools.h"
 
-extern void f__1DD7_010B_000E_A324();
 extern void f__1DD7_01AB_0007_96C6();
 extern void f__1DD7_022D_0015_1956();
 extern void emu_Tools_Malloc();
@@ -62,11 +61,7 @@ void Unknown_B483_0156(uint16 index)
 		if (filename[0] == '?') {
 			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
 
-			emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-			emu_push(0x353F); emu_push(0x9939);
-			emu_push(emu_cs); emu_push(0x026C); emu_cs = 0x1DD7; f__1DD7_010B_000E_A324();
-			emu_sp += 12;
+			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
 
 			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 			emu_push(emu_cs); emu_push(0x027C); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
@@ -197,11 +192,7 @@ csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 	fileSize += 1;
 	fileSize &= 0xFFFFFFFE;
 
-	emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(fcsip.s.cs); emu_push(fcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x08A7); emu_cs = 0x1DD7; f__1DD7_010B_000E_A324();
-	emu_sp += 12;
+	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
 
 	emu_push(0x40);
 	emu_push(fileSize >> 16); emu_push(fileSize & 0xFFFF);

@@ -19,6 +19,7 @@ extern void f__1DD7_1696_0011_A4E3();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
+extern void f__2649_0B64_0011_32F8();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0A59_0023_D969();
 extern void f__2756_0B8F_0025_D5D8();
@@ -730,4 +731,30 @@ void Driver_Sound_Stop()
 
 		g_global->soundBuffer[i].index = 0xFFFF;
 	}
+}
+
+void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length)
+{
+	assert(buffer == (void *)emu_get_memorycsip(buffer_csip));
+
+	if (filename == NULL) return;
+	if (g_global->voiceDriver.index == 0xFFFF) return;
+	if (!File_Exists(filename)) return;
+
+	if (buffer == NULL) {
+		buffer_csip = File_ReadWholeFile(filename, 0x40);
+
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x015F); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+		emu_sp += 4;
+		length = (emu_dx << 16) + emu_ax;
+	} else {
+		length = File_ReadBlockFile(filename, buffer, length);
+	}
+
+	emu_push(0xFFFF);
+	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+	emu_push(g_global->voiceDriver.index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(g_global->voiceDriver.index, 0x85);
+	emu_sp += 8;
 }

@@ -65,6 +65,7 @@ extern bool Driver_Voice_01EB();
 extern void Driver_Sound_Play(int16 index, int16 volume);
 extern void Driver_Music_Stop();
 extern void Driver_Sound_Stop();
+extern void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length);
 
 
 extern void emu_Drivers_EnableSounds();
