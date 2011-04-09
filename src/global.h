@@ -1031,7 +1031,7 @@ typedef struct GlobalData {
 	/* 636C(6)   */ PACK MSBuffer musicBuffer;              /*!< ?? */
 	/* 6372(2)   */ PACK uint16 variable_6372;              /*!< ?? */
 	/* 6374(38)  */ PACK Driver voiceDriver;                /*!< Voice driver. */
-	/* 639A()    */ PACK uint8   unknown_639A[0x0002];
+	/* 639A(2)   */ PACK uint16 variable_639A;              /*!< ?? */
 	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
 	/* 639E()    */ PACK uint8   unknown_639E[0x000C];
 	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */

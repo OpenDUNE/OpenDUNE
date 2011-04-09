@@ -14,8 +14,6 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-extern void f__1DD7_022D_0015_1956();
-extern void f__1DD7_0248_0014_9236();
 extern void f__1DD7_0719_0014_A78C();
 extern void f__1DD7_05D0_0014_A7A2();
 extern void f__1DD7_0B9C_001D_AF74();
@@ -91,9 +89,11 @@ void Music_Play(uint16 musicID)
 
 		Driver_Music_Stop();
 
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x02DF); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-		emu_sp += 4;
+		{
+			csip32 nullcsip;
+			nullcsip.csip = 0x0;
+			Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+		}
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
@@ -201,11 +201,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 		Tools_Memmove(soundBuffer, g_global->readBuffer, count);
 
-		emu_push(volume);
-		emu_push(g_global->variable_4060);
-		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x0142); emu_cs = 0x1DD7; f__1DD7_0248_0014_9236();
-		emu_sp += 8;
+		Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
 	} else {
 		Driver_Sound_Play(voiceID, volume);
 	}

@@ -160,3 +160,22 @@ void emu_Driver_Sound_Stop()
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around Driver_Voice_0248()
+ *
+ * @name emu_Driver_Voice_022D
+ * @implements 1DD7:022D:0015:1956 ()
+ */
+void emu_Driver_Voice_022D()
+{
+	csip32 buffer_csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	buffer_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	Driver_Voice_0248(emu_get_memorycsip(buffer_csip), buffer_csip, 0xFF, 0xFF);
+}

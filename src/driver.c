@@ -11,21 +11,26 @@
 #include "driver.h"
 #include "mt32mpu.h"
 #include "os/strings.h"
+#include "os/math.h"
 
 extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
+extern void f__1DD7_01AB_0007_96C6();
 extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
+extern void emu_Tools_GetFreeMemory();
 extern void f__2649_0B64_0011_32F8();
+extern void f__2649_0BAE_001D_25B1();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0A59_0023_D969();
 extern void f__2756_0B8F_0025_D5D8();
 extern void f__2756_0C0B_0021_873C();
 extern void f__2756_0C31_0037_2A81();
 extern void f__2756_0D12_0042_A9FA();
+extern void f__2B1E_0189_001B_E6CF();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
 extern void emu_DSP_TestPort();
@@ -757,4 +762,84 @@ void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uin
 	emu_push(g_global->voiceDriver.index); /* unused, but needed for correct param accesses. */
 	Drivers_CallFunction(g_global->voiceDriver.index, 0x85);
 	emu_sp += 8;
+}
+
+void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C)
+{
+	Driver *voice = &g_global->voiceDriver;
+
+	assert(arg06 == emu_get_memorycsip(arg06_csip));
+
+	if (!g_global->soundsEnabled || voice->index == 0xFFFF) return;
+
+	if (arg06 == NULL) {
+		arg0A = 0x100;
+	} else {
+		arg0A = min(arg0A, 0xFF);
+	}
+
+	if (!Driver_Voice_01EB()) g_global->variable_639A = 0xFFFF;
+
+	if (arg0A < (int16)g_global->variable_639A) return;
+
+	emu_push(emu_cs); emu_push(0x029D); emu_cs = 0x1DD7; f__1DD7_01AB_0007_96C6();
+
+	if (arg06 == NULL) return;
+
+	g_global->variable_639A = arg0A;
+
+	emu_push(arg0C / 2);
+	emu_push(voice->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(voice->index, 0x81);
+	emu_sp += 4;
+
+	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x2649; f__2649_0BAE_001D_25B1();
+	emu_sp += 4;
+
+	if (emu_ax != 0) {
+		int32 loc04;
+
+		sprintf((char *)g_global->variable_9939, "Sound1 for %p", arg06);
+
+		emu_push(2);
+		emu_push(1);
+		emu_push(0);
+		emu_push(0x353F); emu_push(0x9939); /* g_global->variable_9939 */
+		emu_push(emu_cs); emu_push(0x02FE); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
+		emu_sp += 10;
+
+		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+		emu_sp += 4;
+		loc04 = (emu_dx << 16) + emu_ax;
+
+		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
+
+		if (((emu_dx << 16) + emu_ax) < loc04) return;
+
+		emu_push(0);
+		emu_push(loc04 >> 16); emu_push(loc04 & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0335); emu_cs = 0x23E1; emu_Tools_Malloc();
+		emu_sp += 6;
+		voice->variable_16.s.cs = emu_dx;
+		voice->variable_16.s.ip = emu_ax;
+
+		voice->variable_22 = 1;
+
+		memmove(emu_get_memorycsip(voice->variable_16), arg06, loc04);
+
+		arg06_csip = voice->variable_16;
+		arg06 = emu_get_memorycsip(arg06_csip);
+	}
+
+	if (arg06 == NULL) return;
+
+	emu_push(0xFFFF);
+	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
+	emu_push(voice->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(voice->index, 0x7B);
+	emu_sp += 8;
+
+	Drivers_CallFunction(voice->index, 0x7D);
 }

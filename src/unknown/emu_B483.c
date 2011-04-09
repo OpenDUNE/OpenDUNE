@@ -13,7 +13,6 @@
 #include "../tools.h"
 
 extern void f__1DD7_01AB_0007_96C6();
-extern void f__1DD7_022D_0015_1956();
 extern void emu_Tools_Malloc();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
@@ -51,9 +50,7 @@ void Unknown_B483_0156(uint16 index)
 
 		Tools_Memmove(csip, g_global->readBuffer, count);
 
-		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x020D); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-		emu_sp += 4;
+		Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
 		char *filename;
 
@@ -63,9 +60,7 @@ void Unknown_B483_0156(uint16 index)
 
 			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
 
-			emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-			emu_push(emu_cs); emu_push(0x027C); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-			emu_sp += 4;
+			Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 		}
 	}
 }

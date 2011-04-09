@@ -14,7 +14,6 @@
 #include "../tools.h"
 #include "../unknown/unknown.h"
 
-extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
@@ -64,10 +63,11 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 
 	Unknown_B483_0363(0xFFFE);
 
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0D6A); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-	emu_sp += 4;
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+	}
 
 	Music_Play(musicID);
 
@@ -109,9 +109,11 @@ bool GUI_Widget_Mentat_Click()
 
 	Unknown_B483_0363(0xFFFE);
 
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-	emu_sp += 4;
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+	}
 
 	Music_Play(g_houseInfo[g_global->playerHouseID].musicBriefing);
 

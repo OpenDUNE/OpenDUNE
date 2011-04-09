@@ -31,7 +31,6 @@
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__01F7_286D_0023_9A13();
-extern void f__1DD7_022D_0015_1956();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_127B_0036_F8C9();
@@ -1667,9 +1666,11 @@ uint16 GUI_PickHouse()
 
 	memset(loc314, 0, 768);
 
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0FE6); emu_cs = 0x1DD7; f__1DD7_022D_0015_1956();
-	emu_sp += 4;
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+	}
 
 	Voice_LoadVoices(5);
 
