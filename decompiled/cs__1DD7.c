@@ -5,51 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__1DD7_01AB_0007_96C6()
- *
- * @name f__1DD7_01AB_0007_96C6
- * @implements 1DD7:01AB:0007:96C6 ()
- * @implements 1DD7:01B2:000E:58D9
- * @implements 1DD7:01C0:0015:4169
- * @implements 1DD7:01C1:0014:43A1
- * @implements 1DD7:01DD:000E:9251
- *
- * Called From: 1DD7:029A:0004:0283
- * Called From: B483:038D:0015:C5B6
- */
-void f__1DD7_01AB_0007_96C6()
-{
-l__01AB:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_cs);
-	emu_push(0x01B2); emu_Driver_Voice_01EB();
-l__01B2:
-	emu_orw(&emu_ax, emu_ax);
-	if (emu_ax == 0) goto l__01C1;
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6374));
-	emu_push(emu_cs); emu_push(0x01C0); emu_cs = 0x2756; f__2756_0E42_0006_85FE();
-l__01C0:
-	emu_pop(&emu_cx);
-l__01C1:
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6396), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x6396) == 0x0) goto l__01DD;
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x638C));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x638A));
-	emu_push(emu_cs); emu_push(0x01D5); emu_cs = 0x23E1; emu_Tools_Free();
-	/* Unresolved jump */ emu_ip = 0x01D5; emu_last_cs = 0x1DD7; emu_last_ip = 0x01D5; emu_last_length = 0x0014; emu_last_crc = 0x43A1; emu_call();
-l__01DD:
-	emu_get_memory16(emu_ds, 0x00, 0x638C) = 0x0;
-	emu_get_memory16(emu_ds, 0x00, 0x638A) = 0x0;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__1DD7_03FD_000C_8340()
  *
  * @name f__1DD7_03FD_000C_8340

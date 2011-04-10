@@ -15,7 +15,6 @@
 
 extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_01AB_0007_96C6();
 extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1696_0011_A4E3();
 extern void f__1DD7_1C3C_0020_9C6E();
@@ -782,7 +781,7 @@ void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 
 	if (arg0A < (int16)g_global->variable_639A) return;
 
-	emu_push(emu_cs); emu_push(0x029D); emu_cs = 0x1DD7; f__1DD7_01AB_0007_96C6();
+	Driver_Voice_01AB();
 
 	if (arg06 == NULL) return;
 
@@ -842,4 +841,21 @@ void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 	emu_sp += 8;
 
 	Drivers_CallFunction(voice->index, 0x7D);
+}
+
+void Driver_Voice_01AB()
+{
+	Driver *voice = &g_global->voiceDriver;
+
+	if (Driver_Voice_01EB()) Drivers_CallFunction(voice->index, 0x7E);
+
+	if (voice->variable_22 != 0) {
+		emu_push(voice->variable_16.s.cs); emu_push(voice->variable_16.s.ip);
+		emu_push(emu_cs); emu_push(0x01D5); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+
+		voice->variable_22 = 0;
+	}
+
+	voice->variable_16.csip = 0x0;
 }

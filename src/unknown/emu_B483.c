@@ -12,7 +12,6 @@
 #include "../string.h"
 #include "../tools.h"
 
-extern void f__1DD7_01AB_0007_96C6();
 extern void emu_Tools_Malloc();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
@@ -99,7 +98,7 @@ void Unknown_B483_0363(uint16 index)
 			g_global->variable_0218[i] = 0xFFFF;
 		}
 
-		emu_push(emu_cs); emu_push(0x0392); emu_cs = 0x1DD7; f__1DD7_01AB_0007_96C6();
+		Driver_Voice_01AB();
 
 		g_global->variable_37BC.csip = 0;
 		if ((g_global->variable_37BA & 1) != 0) {
