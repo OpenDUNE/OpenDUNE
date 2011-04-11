@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 
 extern void f__1DD7_0719_0014_A78C();
-extern void f__1DD7_05D0_0014_A7A2();
 extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
@@ -53,7 +52,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_push(0); emu_push(0);
 	emu_push(g_global->musicBuffer.buffer.s.cs); emu_push(g_global->musicBuffer.buffer.s.ip);
 	emu_push(index);
-	emu_push(g_global->musicDriver.variable_16.s.cs); emu_push(g_global->musicDriver.variable_16.s.ip);
+	emu_push(g_global->musicDriver.content.s.cs); emu_push(g_global->musicDriver.content.s.ip);
 	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
 	g_global->musicBuffer.index = Drivers_CallFunction(g_global->musicDriver.index, 0x97).s.ip;
 	emu_sp += 16;
@@ -82,6 +81,9 @@ static void Driver_Music_Play(int16 index, uint16 volume)
  */
 void Music_Play(uint16 musicID)
 {
+	csip32 nullcsip;
+	nullcsip.csip = 0x0;
+
 	if (musicID == 0xFFFF || musicID >= 38) return;
 
 	if (g_global->musics[musicID].string.csip != g_global->currentMusic.csip) {
@@ -89,11 +91,7 @@ void Music_Play(uint16 musicID)
 
 		Driver_Music_Stop();
 
-		{
-			csip32 nullcsip;
-			nullcsip.csip = 0x0;
-			Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
-		}
+		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
@@ -101,11 +99,7 @@ void Music_Play(uint16 musicID)
 		emu_push(emu_cs); emu_push(0x02F8); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
 		emu_sp += 12;
 
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x0312); emu_cs = 0x1DD7; f__1DD7_05D0_0014_A7A2();
-		emu_sp += 12;
+		Driver_Music_05D0(nullcsip, nullcsip, nullcsip);
 
 		emu_push(0); emu_push(0);
 		emu_push(0); emu_push(0);
@@ -113,11 +107,7 @@ void Music_Play(uint16 musicID)
 		emu_push(emu_cs); emu_push(0x032E); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
 		emu_sp += 12;
 
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(g_global->currentMusic.s.cs); emu_push(g_global->currentMusic.s.ip);
-		emu_push(emu_cs); emu_push(0x034A); emu_cs = 0x1DD7; f__1DD7_05D0_0014_A7A2();
-		emu_sp += 12;
+		Driver_Music_05D0(g_global->currentMusic, nullcsip, nullcsip);
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);

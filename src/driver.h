@@ -36,10 +36,10 @@ typedef struct Driver {
 	/* 000A(4)   */ PACK char   variable_0A[4];             /*!< ?? */
 	/* 000E(4)   */ PACK csip32 dcontent;                   /*!< Pointer to the driver file content. */
 	/* 0012(4)   */ PACK csip32 variable_12;                /*!< ?? */
-	/* 0016(4)   */ PACK csip32 variable_16;                /*!< ?? */
-	/* 001A(4)   */ PACK csip32 variable_1A;                /*!< ?? */
+	/* 0016(4)   */ PACK csip32 content;                    /*!< Pointer to the file to play content. */
+	/* 001A(4)   */ PACK csip32 filename;                   /*!< Pointer to the name of file to play. */
 	/* 001E(4)   */ PACK csip32 variable_1E;                /*!< ?? */
-	/* 0022(2)   */ PACK uint16 variable_22;                /*!< ?? */
+	/* 0022(2)   */ PACK uint16 contentMalloced;            /*!< Wether content pointer is the result of a malloc. */
 	/* 0024(2)   */ PACK uint16 customTimer;                /*!< ?? */
 } GCC_PACKED Driver;
 MSVC_PACKED_END
@@ -68,6 +68,7 @@ extern void Driver_Sound_Stop();
 extern void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length);
 extern void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
 extern void Driver_Voice_01AB();
+extern void Driver_Music_05D0(csip32 arg06, csip32 arg0A, csip32 arg0E);
 
 
 extern void emu_Drivers_EnableSounds();

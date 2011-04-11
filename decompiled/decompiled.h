@@ -249,7 +249,6 @@ extern void f__AB00_058F_000E_41A1();
 extern void f__B4E0_059B_001B_5C8D();
 extern void emu_Overlay_Load2();
 extern void f__01F7_05CF_0015_0AD7();
-extern void f__1DD7_05D0_0014_A7A2();
 extern void f__2649_05DF_0011_F459();
 extern void f__2756_05E6_0038_06ED();
 extern void emu_Tools_AddCSIP_Wrapper();
