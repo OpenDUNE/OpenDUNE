@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	emu_hard_link(0x44AF, 0x058F, &f__AB00_058F_000E_41A1);
 	emu_hard_link(0x47EE, 0x058F, &f__AB00_058F_000E_41A1);
 
-	emu_caption = "OpenDUNE - Pre v0.4";
+	emu_caption = "OpenDUNE - v0.4";
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
