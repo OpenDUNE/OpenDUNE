@@ -1788,6 +1788,8 @@ void Map_CreateLandscape(uint32 seed)
 		}
 	}
 
+	memset(currentRow, 0, 128);
+
 	/* Average each tile with its neighbours. */
 	for (j = 0; j < 64; j++) {
 		Tile *t = Map_GetTileByPosition(j * 64);
