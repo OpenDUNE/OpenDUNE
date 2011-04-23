@@ -179,3 +179,61 @@ void emu_Driver_Voice_022D()
 
 	Driver_Voice_0248(emu_get_memorycsip(buffer_csip), buffer_csip, 0xFF, 0xFF);
 }
+
+/**
+ * Emulator wrapper around Drivers_GenerateFilename()
+ *
+ * @name emu_Drivers_GenerateFilename
+ * @implements 1DD7:177C:0030:42B8 ()
+ */
+void emu_Drivers_GenerateFilename()
+{
+	csip32 name_csip;
+	csip32 driver_csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	name_csip   = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	driver_csip = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	emu_dx = 0x0;
+	emu_ax = 0x0;
+
+	if (name_csip.csip == 0x0 || driver_csip.csip == 0x0) return;
+
+	if (Drivers_GenerateFilename((char *)emu_get_memorycsip(name_csip), (Driver *)emu_get_memorycsip(driver_csip)) == NULL) return;
+
+	emu_dx = 0x353F;
+	emu_ax = emu_Global_GetIP(g_global->variable_984A, emu_dx);
+}
+
+/**
+ * Emulatpr wrapper around Drivers_GenerateFilename2()
+ *
+ * @name emu_Drivers_GenerateFilename2
+ * @implements 1DD7:186C:0030:42BF ()
+ */
+void emu_Drivers_GenerateFilename2()
+{
+	csip32 name_csip;
+	csip32 driver_csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	name_csip   = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	driver_csip = emu_get_csip32(emu_ss, emu_sp, 0x4);
+
+	emu_dx = 0x0;
+	emu_ax = 0x0;
+
+	if (name_csip.csip == 0x0 || driver_csip.csip == 0x0) return;
+
+	if (Drivers_GenerateFilename2((char *)emu_get_memorycsip(name_csip), (Driver *)emu_get_memorycsip(driver_csip)) == NULL) return;
+
+	emu_dx = 0x353F;
+	emu_ax = emu_Global_GetIP(g_global->variable_9858, emu_dx);
+}

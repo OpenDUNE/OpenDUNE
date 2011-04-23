@@ -17,7 +17,7 @@ extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1696_0011_A4E3();
-extern void f__1DD7_177C_0030_42B8();
+extern void emu_Drivers_GenerateFilename();
 extern void f__1DD7_1940_0021_1C0F();
 extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
@@ -283,7 +283,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 		csip.s.cs = emu_dx;
 		csip.s.ip = emu_ax;
 
-		memcpy(driver->variable_0A, &emu_get_memory8(csip.s.cs, csip.s.ip, 4), 4);
+		memcpy(driver->extension2, &emu_get_memory8(csip.s.cs, csip.s.ip, 4), 4);
 		strcpy(driver->extension, "xmi");
 
 		if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
@@ -888,7 +888,7 @@ void Driver_Music_05D0(csip32 musicName, csip32 arg0A, csip32 arg0E)
 
 		emu_push(0x353F); emu_push(0x6302); /* g_global->soundDriver */
 		emu_push(musicName.s.cs); emu_push(musicName.s.ip);
-		emu_push(emu_cs); emu_push(0x0666); emu_cs = 0x1DD7; f__1DD7_177C_0030_42B8();
+		emu_push(emu_cs); emu_push(0x0666); emu_cs = 0x1DD7; emu_Drivers_GenerateFilename();
 		emu_sp += 8;
 		filename = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
 
@@ -923,4 +923,45 @@ void Driver_Music_05D0(csip32 musicName, csip32 arg0A, csip32 arg0E)
 	emu_push(musicName.s.cs); emu_push(musicName.s.ip);
 	emu_push(emu_cs); emu_push(0x06FD); emu_cs = 0x1DD7; f__1DD7_1940_0021_1C0F();
 	emu_sp += 16;
+}
+
+char *Drivers_GenerateFilename(char *name, Driver *driver)
+{
+	if (name == NULL || driver == NULL || driver->index == 0xFFFF || driver->dcontent.csip == 0x0) return NULL;
+
+	strcpy(g_global->variable_984A, name);
+	if (strrchr(g_global->variable_984A, '.') != NULL) *strrchr(g_global->variable_984A, '.') = '\0';
+	strcat(g_global->variable_984A, ".");
+	strcat(g_global->variable_984A, driver->extension);
+
+	if (File_Exists(g_global->variable_984A)) return g_global->variable_984A;
+
+	if (driver->index == 0xFFFF) return NULL;
+
+	strcpy(g_global->variable_984A, name);
+	if (strrchr(g_global->variable_984A, '.') != NULL) *strrchr(g_global->variable_984A, '.') = '\0';
+	strcat(g_global->variable_984A, ".XMI");
+
+	if (File_Exists(g_global->variable_984A)) return g_global->variable_984A;
+
+	return NULL;
+}
+
+char *Drivers_GenerateFilename2(char *name, Driver *driver)
+{
+	if (name == NULL || driver == NULL || driver->index == 0xFFFF || driver->dcontent.csip == 0x0) return NULL;
+
+	strcpy(g_global->variable_9858, name);
+	if (strrchr(g_global->variable_9858, '.') != NULL) *strrchr(g_global->variable_9858, '.') = '\0';
+	strcat(g_global->variable_9858, ".");
+	strcat(g_global->variable_9858, driver->extension2);
+
+	if (File_Exists(g_global->variable_9858)) return g_global->variable_9858;
+
+	strcpy(g_global->variable_9858, "DEFAULT.");
+	strcat(g_global->variable_9858, driver->extension2);
+
+	if (File_Exists(g_global->variable_9858)) return g_global->variable_9858;
+
+	return NULL;
 }

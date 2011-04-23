@@ -1417,7 +1417,9 @@ typedef struct GlobalData {
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
 	/* 9846(4)   */ PACK csip32 variable_9846;              /*!< ?? */
-	/* 984A()    */ PACK uint8   unknown_984A[0x0022];
+	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */
+	/* 9858(14)  */ PACK char   variable_9858[14];          /*!< Buffer to store a filename */
+	/* 9866()    */ PACK uint8   unknown_9866[0x0006];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */

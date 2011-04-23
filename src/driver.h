@@ -33,7 +33,7 @@ typedef struct Driver {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
 	/* 0002(4)   */ PACK csip32 dfilename;                  /*!< Pointer to filename for the driver. */
 	/* 0006(4)   */ PACK char   extension[4];               /*!< Extension used for music file names. */
-	/* 000A(4)   */ PACK char   variable_0A[4];             /*!< ?? */
+	/* 000A(4)   */ PACK char   extension2[4];              /*!< Extension used for ?? */
 	/* 000E(4)   */ PACK csip32 dcontent;                   /*!< Pointer to the driver file content. */
 	/* 0012(4)   */ PACK csip32 variable_12;                /*!< ?? */
 	/* 0016(4)   */ PACK csip32 content;                    /*!< Pointer to the file to play content. */
@@ -69,6 +69,8 @@ extern void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_cs
 extern void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
 extern void Driver_Voice_01AB();
 extern void Driver_Music_05D0(csip32 arg06, csip32 arg0A, csip32 arg0E);
+extern char *Drivers_GenerateFilename(char *name, Driver *driver);
+extern char *Drivers_GenerateFilename2(char *name, Driver *driver);
 
 
 extern void emu_Drivers_EnableSounds();
@@ -81,5 +83,7 @@ extern void emu_Driver_Sound_Play_Wrapper();
 extern void emu_Driver_Music_Stop();
 extern void emu_Driver_Sound_Stop();
 extern void emu_Driver_Voice_022D();
+extern void emu_Drivers_GenerateFilename();
+extern void emu_Drivers_GenerateFilename2();
 
 #endif /* DRIVER_H */
