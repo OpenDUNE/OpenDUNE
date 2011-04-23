@@ -15,7 +15,6 @@
 
 extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1696_0011_A4E3();
 extern void emu_Drivers_GenerateFilename();
 extern void f__1DD7_1940_0021_1C0F();
@@ -652,10 +651,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	g_global->soundBuffer[g_global->soundBufferIndex].index = Drivers_CallFunction(g_global->soundDriver.index, 0x97).s.ip;
 	emu_sp += 16;
 
-	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
-	emu_push(0x353F); emu_push(0x6302);
-	emu_push(emu_cs); emu_push(0x0561); emu_cs = 0x1DD7; f__1DD7_0B9C_001D_AF74();
-	emu_sp += 6;
+	Drivers_1DD7_0B9C(&g_global->soundDriver, g_global->soundBuffer[g_global->soundBufferIndex].index);
 
 	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
 	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
@@ -964,4 +960,88 @@ char *Drivers_GenerateFilename2(char *name, Driver *driver)
 	if (File_Exists(g_global->variable_9858)) return g_global->variable_9858;
 
 	return NULL;
+}
+
+void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex)
+{
+	MSVC_PACKED_BEGIN
+	struct {
+		/* 0000(2)   */ PACK uint16 variable_00;                /*!< ?? */
+		/* 0002(4)   */ PACK uint32 position;                   /*!< Pointer to filename for the driver. */
+	} GCC_PACKED data;
+	MSVC_PACKED_END
+	assert_compile(sizeof(data) == 0x6);
+
+	uint8 file_index = 0xFF;
+	char *filename;
+
+	if (driver == NULL || driver->index == 0xFFFF || bufferIndex == 0xFFFF) return;
+
+	memcpy(&data, g_global->variable_639E, 6);
+
+	while (true) {
+		uint32 position = 0;
+		uint16 locdi;
+
+		emu_push(bufferIndex);
+		emu_push(driver->index); /* unused, but needed for correct param accesses. */
+		locdi = Drivers_CallFunction(driver->index, 0x9B).s.ip;
+		emu_sp += 4;
+
+		if (locdi == 0xFFFF) break;
+
+		if (file_index == 0xFF) {
+			filename = Drivers_GenerateFilename2((char *)emu_get_memorycsip(driver->filename), driver);
+
+			if (filename == NULL || !File_Exists(filename)) return;
+
+			file_index = File_Open(filename, 1);
+		}
+
+		while ((data.variable_00 >> 8) != 0xFF) {
+			uint16 size;
+			csip32 buffer_csip;
+			uint16 *buffer;
+
+			File_Seek(file_index, position, 0);
+
+			File_Read(file_index, &data, 6);
+			position += 6;
+
+			if ((data.variable_00 >> 8) == 0xFF) continue;
+			if (data.variable_00 != locdi) continue;
+
+			File_Seek(file_index, data.position, 0);
+
+			File_Read(file_index, &size, 2);
+
+			emu_push(0);
+			emu_push(0); emu_push(size);
+			emu_push(emu_cs); emu_push(0xCC9); emu_cs = 0x23E1; emu_Tools_Malloc();
+			emu_sp += 6;
+			buffer_csip.s.cs = emu_dx;
+			buffer_csip.s.ip = emu_ax;
+			buffer = (uint16 *)emu_get_memorycsip(buffer_csip);
+
+			buffer[0] = size;
+			size -= 2;
+
+			if (File_Read(file_index, buffer + 2, size) == size) {
+				emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+				emu_push(data.variable_00 & 0xFF); emu_push(data.variable_00 >> 8);
+				emu_push(driver->index); /* unused, but needed for correct param accesses. */
+				Drivers_CallFunction(driver->index, 0x9C);
+				emu_sp += 10;
+			}
+
+			emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+			emu_push(emu_cs); emu_push(0x0D36); emu_cs = 0x23E1; emu_Tools_Free();
+			emu_sp += 4;
+			break;
+		}
+
+		if ((data.variable_00 >> 8) == 0xFF) break;
+	}
+
+	if (file_index != 0xFF) File_Close(file_index);
 }

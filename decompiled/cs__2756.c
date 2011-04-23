@@ -1428,26 +1428,6 @@ l__0E78:
 }
 
 /**
- * Decompiled function f__2756_0E8A_0006_82E0()
- *
- * @name f__2756_0E8A_0006_82E0
- * @implements 2756:04F8:0009:907D ()
- * @implements 2756:0E8A:0006:82E0
- *
- * Called From: 1DD7:0D54:000E:E9B7
- */
-void f__2756_0E8A_0006_82E0()
-{
-	goto l__0E8A;
-	emu_movw(&emu_bx, emu_sp);
-	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
-	emu_calli(-0x45, 0x0501, 0x04FE);
-l__0E8A:
-	emu_ax = 0x9B;
-	emu_Drivers_CallFunction(); return;
-}
-
-/**
  * Decompiled function f__2756_0EA8_0006_0360()
  *
  * @name f__2756_0EA8_0006_0360

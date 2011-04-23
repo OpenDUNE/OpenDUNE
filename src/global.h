@@ -1033,7 +1033,8 @@ typedef struct GlobalData {
 	/* 6374(38)  */ PACK Driver voiceDriver;                /*!< Voice driver. */
 	/* 639A(2)   */ PACK uint16 variable_639A;              /*!< ?? */
 	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
-	/* 639E()    */ PACK uint8   unknown_639E[0x000C];
+	/* 639E(6)   */ PACK uint8  variable_639E[6];           /*!< ?? */
+	/* 63A4(6)   */ PACK uint8  variable_63A4[6];           /*!< ?? */
 	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */
 	/* 63C6(168) */ PACK MSDriver musicDrv[14];             /*!< Informations about the music drivers. */
 	/* 646E(168) */ PACK MSDriver soundDrv[14];             /*!< Informations about the sound drivers. */

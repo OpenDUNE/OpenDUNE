@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 
 extern void f__1DD7_0719_0014_A78C();
-extern void f__1DD7_0B9C_001D_AF74();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
 extern void f__2649_0B64_0011_32F8();
@@ -57,10 +56,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	g_global->musicBuffer.index = Drivers_CallFunction(g_global->musicDriver.index, 0x97).s.ip;
 	emu_sp += 16;
 
-	emu_push(g_global->musicBuffer.index);
-	emu_push(0x353F); emu_push(0x6344);
-	emu_push(emu_cs); emu_push(0x0987); emu_cs = 0x1DD7; f__1DD7_0B9C_001D_AF74();
-	emu_sp += 6;
+	Drivers_1DD7_0B9C(&g_global->musicDriver, g_global->musicBuffer.index);
 
 	emu_push(g_global->musicBuffer.index);
 	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
