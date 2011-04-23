@@ -16,7 +16,6 @@
 extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_1696_0011_A4E3();
-extern void emu_Drivers_GenerateFilename();
 extern void f__1DD7_1940_0021_1C0F();
 extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
@@ -882,11 +881,7 @@ void Driver_Music_05D0(csip32 musicName, csip32 arg0A, csip32 arg0E)
 	if (music->filename.csip != 0x0) {
 		char *filename;
 
-		emu_push(0x353F); emu_push(0x6302); /* g_global->soundDriver */
-		emu_push(musicName.s.cs); emu_push(musicName.s.ip);
-		emu_push(emu_cs); emu_push(0x0666); emu_cs = 0x1DD7; emu_Drivers_GenerateFilename();
-		emu_sp += 8;
-		filename = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		filename = Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), sound);
 
 		if (strcasecmp(filename, (char *)emu_get_memorycsip(music->filename)) == 0) {
 			sound->content = music->content;
