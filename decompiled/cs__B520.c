@@ -302,15 +302,15 @@ l__021F:
 }
 
 /**
- * Decompiled function f__B520_0223_000E_38A3()
+ * Decompiled function emu_Tools_Free_Wrapper()
  *
- * @name f__B520_0223_000E_38A3
+ * @name emu_Tools_Free_Wrapper
  * @implements B520:0223:000E:38A3 ()
  * @implements B520:0231:0004:BEB2
  *
  * Called From: 3520:002F:0005:0000
  */
-void f__B520_0223_000E_38A3()
+void emu_Tools_Free_Wrapper()
 {
 l__0223:
 	emu_push(emu_bp);

@@ -146,7 +146,7 @@ extern void f__29A3_01DB_003D_B0F3();
 extern void f__2AE1_01EA_0020_A570();
 extern void f__01F7_01ED_0024_A432();
 extern void f__217E_020B_0026_BE77();
-extern void f__B520_0223_000E_38A3();
+extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_Init();
 extern void f__01F7_022D_0003_9E5A();
 extern void f__01F7_0231_0021_40ED();
