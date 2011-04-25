@@ -600,15 +600,12 @@ static void GameLoop_B4ED_0200()
 
 			sprintf((char *)g_global->variable_9939, "%s.WSA", emu_get_memorycsip(var805E->string));
 
-			emu_push(0); emu_push(0);
-			emu_push(loc20);
-			emu_push(loc24 >> 16); emu_push(loc24 & 0xFFFF);
-			emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-			emu_push(0x353F); emu_push(0x9939);
-			emu_push(emu_cs); emu_push(0x036C); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-			emu_sp += 18;
-			header_csip.s.cs = emu_dx;
-			header_csip.s.ip = emu_ax;
+			{
+				csip32 null;
+				null.csip = 0x0;
+
+				header_csip = WSA_LoadFile((char *)g_global->variable_9939, header_csip, loc24, loc20, null);
+			}
 		}
 
 		header = (WSAHeader *)emu_get_memorycsip(header_csip);
@@ -626,16 +623,7 @@ static void GameLoop_B4ED_0200()
 
 		if ((var805E->flags & 0x4) != 0) {
 			GameLoop_B4ED_07B6(animation);
-
-			emu_push(0);
-			emu_push(0);
-			emu_push(posY);
-			emu_push(posX);
-			emu_push(frame++);
-			emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-			emu_push(emu_cs); emu_push(0x03D4); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-			emu_sp += 14;
-
+			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
 			GameLoop_B4ED_0AA5(true);
 
 			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
@@ -649,16 +637,7 @@ static void GameLoop_B4ED_0200()
 		} else {
 			if ((var805E->flags & 0x480) != 0) {
 				GameLoop_B4ED_07B6(animation);
-
-				emu_push(0);
-				emu_push(2);
-				emu_push(posY);
-				emu_push(posX);
-				emu_push(frame++);
-				emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x043D); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-				emu_sp += 14;
-
+				WSA_DisplayFrame(header_csip, frame++, posX, posY, 2, 0);
 				locdi++;
 
 				if ((var805E->flags & 0x480) == 0x80) {
@@ -724,15 +703,7 @@ static void GameLoop_B4ED_0200()
 			g_global->variable_76B4 = loc18;
 
 			GameLoop_B4ED_07B6(animation);
-
-			emu_push(0);
-			emu_push(0);
-			emu_push(posY);
-			emu_push(posX);
-			emu_push(frame++);
-			emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-			emu_push(emu_cs); emu_push(0x05CA); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-			emu_sp += 14;
+			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
 
 			if (mode == 1 && frame == loc04) {
 				frame = 0;
@@ -743,10 +714,7 @@ static void GameLoop_B4ED_0200()
 			emu_push(emu_cs); emu_push(0x05E8); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 
 			if (emu_ax != 0 && g_global->variable_37B4 != 0) {
-				emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x05FE); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-				emu_sp += 4;
-
+				WSA_Unload(header_csip);
 				return;
 			}
 
@@ -756,18 +724,11 @@ static void GameLoop_B4ED_0200()
 		}
 
 		if (mode == 2) {
+			uint16 displayed;
 			do {
 				GameLoop_B4ED_07B6(animation);
-
-				emu_push(0);
-				emu_push(0);
-				emu_push(posY);
-				emu_push(posX);
-				emu_push(frame++);
-				emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x066E); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-				emu_sp += 14;
-			} while (emu_ax != 0);
+				displayed = WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
+			} while (displayed != 0);
 		}
 
 		if ((var805E->flags & 0x10) != 0) {
@@ -794,9 +755,7 @@ static void GameLoop_B4ED_0200()
 			emu_sp += 6;
 		}
 
-		emu_push(header_csip.s.cs); emu_push(header_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x071F); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-		emu_sp += 4;
+		WSA_Unload(header_csip);
 
 		animation++;
 		var805E++;
@@ -1245,33 +1204,26 @@ static void Gameloop_Logos()
 
 	File_ReadBlockFile("WESTWOOD.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Memory_GetBlock1();
-	emu_sp += 2;
-
-	emu_push(0); emu_push(0);
-	emu_push(1);
 	{
-		uint32 temp = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
-		emu_push(temp >> 16); emu_push(temp & 0xFFFF);
+		csip32 null;
+		csip32 memBlock;
+		uint32 temp;
+
+		null.csip = 0x0;
+
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_sp += 2;
+		memBlock.s.cs = emu_dx;
+		memBlock.s.ip = emu_ax;
+
+		temp = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
+
+		wsaBuffer = WSA_LoadFile("WESTWOOD.WSA", memBlock, g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], 1, null);
 	}
-	emu_push(emu_dx); emu_push(emu_ax); /* memory block */
-	emu_push(0x353F); emu_push(0x23BD); /* "WESTWOOD.WSA" */
-	emu_push(emu_cs); emu_push(0x010F); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-	emu_sp += 18;
-	wsaBuffer.s.cs = emu_dx;
-	wsaBuffer.s.ip = emu_ax;
 
 	frame = 0;
-
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(frame++);
-	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-	emu_sp += 14;
+	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0, 0);
 
 	emu_push(0x3C);
 	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
@@ -1284,24 +1236,16 @@ static void Gameloop_Logos()
 
 	while (true) {
 		uint32 loc04;
+		uint16 displayed;
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(frame++);
-		emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x01A7); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-		emu_sp += 14;
-		if (emu_ax == 0) break;
+		displayed = WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0, 0);
+		if (displayed == 0) break;
 
 		loc04 = g_global->variable_76AC + 6;
 		while (loc04 > g_global->variable_76AC) sleep(0);
 	}
 
-	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x01B9); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-	emu_sp += 4;
+	WSA_Unload(wsaBuffer);
 
 	if (g_global->variable_37B4 == 0) {
 		Voice_LoadVoices(0xFFFF);

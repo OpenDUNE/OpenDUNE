@@ -12,6 +12,7 @@
 #include "os/strings.h"
 #include "string.h"
 #include "tools.h"
+#include "wsa.h"
 #include "unknown/unknown.h"
 
 extern void f__24D0_000D_0039_C17D();
@@ -30,9 +31,6 @@ extern void f__B4DA_1860_0008_857D();
 extern void f__B4DA_16F8_001A_D84F();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void emu_WSA_DisplayFrame();
-extern void emu_WSA_LoadFile();
-extern void emu_WSA_Unload();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -196,34 +194,15 @@ bool Security_Check()
 		/* XXX -- Copy back to make non-converted functions still work */
 		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
 
-		emu_push(0); emu_push(0);
-		emu_push(0);
-		emu_push(loc0E >> 16); emu_push(loc0E & 0xFFFF);
-		emu_push(memoryBlockcsip.s.cs); emu_push(memoryBlockcsip.s.ip);
-		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x12EB); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 18;
-		wsaQuestion.s.cs = emu_dx;
-		wsaQuestion.s.ip = emu_ax;
+		{
+			csip32 null;
 
-		emu_push(0);
-		emu_push(4);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D << 3);
-		emu_push(0);
-		emu_push(wsaQuestion.s.cs); emu_push(wsaQuestion.s.ip);
-		emu_push(emu_cs); emu_push(0x1315); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 14;
+			null.csip = 0x0;
+			wsaQuestion = WSA_LoadFile((char *)emu_get_memorycsip(readBuffercsip), memoryBlockcsip, loc0E, 0, null);
+		}
 
-		emu_push(wsaQuestion.s.cs); emu_push(wsaQuestion.s.ip);
-		emu_push(emu_cs); emu_push(0x1323); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 4;
+		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4, 0);
+		WSA_Unload(wsaQuestion);
 
 		emu_push(4);
 		emu_push(emu_cs); emu_push(0x132D); f__B4DA_0A8E_0025_4AC8();

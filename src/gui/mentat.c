@@ -12,6 +12,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
+#include "../wsa.h"
 #include "../unknown/unknown.h"
 
 extern void f__1DD7_0B53_0025_36F7();
@@ -27,10 +28,6 @@ extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0000_000F_14AD();
 extern void emu_Tools_Free();
-extern void emu_WSA_Display();
-extern void emu_WSA_DisplayFrame();
-extern void emu_WSA_LoadFile();
-extern void emu_WSA_Unload();
 extern void overlay(uint16 cs, uint8 force);
 
 
@@ -171,34 +168,22 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	if (wsaFilename.csip != 0x0) {
 		csip32 wsa;
+		csip32 memBlock;
+		csip32 null;
 
-		emu_push(0); emu_push(0);
-		emu_push(0);
-		emu_push(g_global->variable_6CD3[2][0] >> 16); emu_push(g_global->variable_6CD3[2][0] & 0xFFFF);
+		null.csip = 0x0;
 
 		emu_push(5);
 		emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x252E; emu_Memory_GetBlock1();
 		emu_sp += 2;
 
-		emu_push(emu_dx); emu_push(emu_ax);
+		memBlock.s.cs = emu_dx;
+		memBlock.s.ip = emu_ax;
 
-		emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
-		emu_push(emu_cs); emu_push(0x0EA6); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-		emu_sp += 18;
-		wsa.s.cs = emu_dx;
-		wsa.s.ip = emu_ax;
+		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), memBlock, g_global->variable_6CD3[2][0], 0, null);
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(g_global->variable_992B); emu_push(g_global->variable_992D * 8);
-		emu_push(0);
-		emu_push(wsa.s.cs); emu_push(wsa.s.ip);
-		emu_push(emu_cs); emu_push(0x0ED0); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-		emu_sp += 14;
-
-		emu_push(wsa.s.cs); emu_push(wsa.s.ip);
-		emu_push(emu_cs); emu_push(0x0EDE); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-		emu_sp += 4;
+		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2, 0);
+		WSA_Unload(wsa);
 	}
 
 	emu_push(2);

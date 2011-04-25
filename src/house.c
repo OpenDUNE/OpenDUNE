@@ -488,19 +488,20 @@ bool House_UpdateRadarState(House *h)
 
 	if (h->flags.s.radarActivated == activate) return false;
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Memory_GetBlock1();
-	emu_sp += 2;
+	{
+		csip32 null;
+		csip32 memBlock;
 
-	emu_push(0); emu_push(0);
-	emu_push(1);
-	emu_push(g_global->variable_6CD3[1][1] >> 16); emu_push(g_global->variable_6CD3[1][1] & 0xFFFF);
-	emu_push(emu_dx); emu_push(emu_ax); /* memory block */
-	emu_push(0x353F); emu_push(0x2574); /* "STATIC.WSA" */
-	emu_push(emu_cs); emu_push(0x0E37); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_LoadFile();
-	emu_sp += 18;
-	wsaBuffer.s.cs = emu_dx;
-	wsaBuffer.s.ip = emu_ax;
+		null.csip = 0x0;
+
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_sp += 2;
+		memBlock.s.cs = emu_dx;
+		memBlock.s.ip = emu_ax;
+
+		wsaBuffer = WSA_LoadFile("STATIC.WSA", memBlock, g_global->variable_6CD3[1][1], 1, null);
+	}
 
 	header = (WSAHeader *)emu_get_memorycsip(wsaBuffer);
 	frameCount = WSA_GetFrameCount(header);
@@ -518,15 +519,7 @@ bool House_UpdateRadarState(House *h)
 	frameCount = WSA_GetFrameCount(header);
 
 	for (frame = 0; frame < frameCount; frame++) {
-		emu_push(0);
-		emu_push(0);
-		emu_push(136);
-		emu_push(256);
-		emu_push(activate ? frameCount - frame : frame);
-		emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x0EAC); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_DisplayFrame();
-		emu_sp += 14;
-
+		WSA_DisplayFrame(wsaBuffer, activate ? frameCount - frame : frame, 256, 136, 0, 0);
 		GUI_PaletteAnimate();
 
 		g_global->variable_76B4 = 3;
@@ -536,9 +529,7 @@ bool House_UpdateRadarState(House *h)
 
 	h->flags.s.radarActivated = activate;
 
-	emu_push(wsaBuffer.s.cs); emu_push(wsaBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x0F60); emu_cs = 0x352A; overlay(0x352A, 0); emu_WSA_Unload();
-	emu_sp += 4;
+	WSA_Unload(wsaBuffer);
 
 	g_global->variable_3A12 = 1;
 

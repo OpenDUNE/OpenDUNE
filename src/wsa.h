@@ -60,6 +60,10 @@ MSVC_PACKED_END
 assert_compile(sizeof(WSAFileHeader) == 0x12);
 
 extern uint16 WSA_GetFrameCount(WSAHeader *header);
+extern uint16 WSA_GotoNextFrame(WSAHeader *header, uint16 frame, csip32 displayBuffer);
+extern csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uint16 reserveDisplayFrame, csip32 bufferSpecial);
+extern void WSA_Unload(csip32 buffer);
+extern uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 posY, uint16 memoryBlock, uint16 unknown);
 
 extern void emu_WSA_GetFrameCount();
 extern void emu_WSA_LoadFile();
