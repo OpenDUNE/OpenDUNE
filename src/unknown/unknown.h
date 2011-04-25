@@ -6,7 +6,9 @@
 extern uint16 Unknown_07AE_0000(uint16 index);
 extern void emu_Unknown_07AE_0000();
 extern void emu_Unknown_07AE_00E4();
+extern uint16 Unknown_07AE_00E4(uint16 index);
 extern void emu_Unknown_07AE_0103();
+extern void Unknown_07AE_0103();
 
 extern void emu_Unknown_07D4_0000();
 extern void emu_Unknown_07D4_02F8();

@@ -54,6 +54,19 @@ void emu_Unknown_07AE_0000()
 }
 
 /**
+ * Unknown function.
+ * @param index
+ */
+uint16 Unknown_07AE_00E4(uint16 index)
+{
+	index = Unknown_07AE_0000(index);
+
+	Unknown_07AE_0103();
+
+	return index;
+}
+
+/**
  * C-ified function of f__07AE_00E4_000D_9955().
  *
  * @name emu_Unknown_07AE_00E4
@@ -68,12 +81,22 @@ void emu_Unknown_07AE_00E4()
 	emu_pop(&emu_cs);
 
 	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	emu_ax = Unknown_07AE_00E4(index);
+}
 
-	index = Unknown_07AE_0000(index);
+/**
+ * Unknown function.
+ */
+void Unknown_07AE_0103()
+{
+	assert(g_global->variable_6668.csip == 0x22A60D31);
 
-	emu_push(emu_cs); emu_push(0x00FA); emu_Unknown_07AE_0103();
+	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, ((g_global->variable_992D + g_global->variable_992F) << 3) - 1, g_global->variable_992B + g_global->variable_9931 - 1, (uint8)g_global->variable_6D59);
 
-	emu_ax = index;
+	g_global->variable_8225 = 0x0;
+	g_global->variable_9935 = 0x0;
+	g_global->variable_9933 = 0x0;
+	g_global->variable_3196 = 0x0;
 }
 
 /**
@@ -84,16 +107,9 @@ void emu_Unknown_07AE_00E4()
  */
 void emu_Unknown_07AE_0103()
 {
-	assert(g_global->variable_6668.csip == 0x22A60D31);
-
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, ((g_global->variable_992D + g_global->variable_992F) << 3) - 1, g_global->variable_992B + g_global->variable_9931 - 1, (uint8)g_global->variable_6D59);
-
-	g_global->variable_8225 = 0x0;
-	g_global->variable_9935 = 0x0;
-	g_global->variable_9933 = 0x0;
-	g_global->variable_3196 = 0x0;
+	Unknown_07AE_0103();
 }

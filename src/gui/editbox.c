@@ -100,11 +100,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 
-	if ((unknown4 & 0x4) != 0) {
-		emu_push(emu_cs); emu_push(0x00B2); emu_cs = 0x07AE; emu_Unknown_07AE_0103();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-	}
+	if ((unknown4 & 0x4) != 0) Unknown_07AE_0103();
 
 	GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text), positionX, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0);
 

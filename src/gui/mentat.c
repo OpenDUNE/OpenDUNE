@@ -162,9 +162,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	Unknown_Set_Global_6C91(2);
 
-	emu_push(8);
-	emu_push(emu_cs); emu_push(0x0E75); emu_cs = 0x07AE; emu_Unknown_07AE_00E4();
-	emu_sp += 2;
+	Unknown_07AE_00E4(8);
 
 	if (wsaFilename.csip != 0x0) {
 		csip32 wsa;
