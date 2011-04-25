@@ -438,7 +438,7 @@ l__0334:
 l__033F:
 	emu_cmpw(&emu_ax, 0xFFFF);
 	if (emu_ax != 0xFFFF) goto l__0367;
-	emu_push(emu_cs); emu_push(0x0349); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+	emu_push(emu_cs); emu_push(0x0349); emu_cs = 0x3500; overlay(0x3500, 0); emu_PrepareEnd();
 l__0349:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6714));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6712));

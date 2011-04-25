@@ -20,3 +20,18 @@ void emu_Main()
 
 	Main();
 }
+
+/**
+ * Emulator wrapper around PrepareEnd().
+ *
+ * @name emu_PrepareEnd
+ * @implements B500:0000:0008:FE1F ()
+ */
+void emu_PrepareEnd()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	PrepareEnd();
+}

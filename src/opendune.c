@@ -40,9 +40,12 @@
 #include "wsa.h"
 #include "gfx.h"
 
+extern void emu_Empty2();
 extern void f__01F7_103F_0010_4132();
+extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
+extern void f__1DD7_03FD_000C_8340();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
@@ -57,11 +60,13 @@ extern void f__259E_0040_0015_5E4A();
 extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
 extern void f__2649_0053_001D_FEB5();
+extern void f__2649_0ADA_000E_EEB3();
 extern void f__28FD_000C_0007_5DA9();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
+extern void f__29E8_0F7A_000D_B1AA();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -73,7 +78,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B491_0000_0022_DD43();
 extern void f__B491_0A41_0011_85AD();
 extern void f__B4B8_116F_0013_15F7();
-extern void f__B500_0000_0008_FE1F();
 extern void f__B518_0558_0010_240A();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
@@ -87,6 +91,7 @@ extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
+extern void emu_Mouse_CallbackClear();
 extern void emu_Tools_Var79E4_Init();
 extern void emu_Video_IsInVSync();
 extern void emu_Window_WidgetClick_Create();
@@ -693,7 +698,7 @@ static void GameLoop_B4ED_0200()
 				break;
 
 			default:
-				emu_push(emu_cs); emu_push(0x0579); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+				PrepareEnd();
 				printf("Bad mode in animation #%i.\r\n", animation);
 				exit(0);
 		}
@@ -1105,9 +1110,7 @@ static void GameLoop_LevelEnd()
 				emu_sp += 2;
 
 				GameLoop_GameEnd();
-
-				emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-
+				PrepareEnd();
 				exit(0);
 			}
 
@@ -1135,8 +1138,7 @@ static void GameLoop_LevelEnd()
 				Sprites_Load(1, 7, g_sprites);
 
 				if (!Security_Check()) {
-					emu_push(emu_cs); emu_push(0x0444); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-
+					PrepareEnd();
 					exit(0);
 				}
 
@@ -1933,8 +1935,7 @@ static void Gameloop_IntroMenu()
 					break;
 
 				case 0x001D: /* Exit Game */
-					emu_push(emu_cs); emu_push(0x1D62); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-
+					PrepareEnd();
 					exit(0);
 					break;
 
@@ -2437,8 +2438,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 			uint32 size = (g_global->variable_6CD3[i][1] + 15) & 0xFFFFFFF0;
 
 			if ((size & 0xFF000000) != 0) {
-				emu_push(emu_cs); emu_push(0x011B); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
-
+				PrepareEnd();
 				printf("PageArraySize is negative!\r\n");
 
 				emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
@@ -2715,8 +2715,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 
 	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
 
-	g_global->variable_62F6 = 1;
-
 	return false;
 }
 
@@ -2827,8 +2825,7 @@ void Main()
 	g_global->variable_7097 = 0;
 
 	GameLoop_Main();
-
-	emu_push(emu_cs); emu_push(0x02DC); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+	PrepareEnd();
 
 	printf("%s", String_Get_ByIndex(0x141)); /* "Thank you for playing Dune II." */
 
@@ -3055,7 +3052,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 	if (emu_ax == 0) {
 		GUI_DisplayModalMessage(g_global->string_2BCA, 0xFFFF);
 
-		emu_push(emu_cs); emu_push(0x0081); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+		PrepareEnd();
 		exit(0);
 	}
 
@@ -3068,3 +3065,63 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 
 	g_global->variable_38BC--;
 }
+
+/**
+ * Close down facilities used by the program such as resetting the interrupt
+ *   vector and clearing the mouse callback.
+ * Always called just before the program terminates.
+ */
+void PrepareEnd()
+{
+	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x1DD7; f__1DD7_03FD_000C_8340();
+
+	if (g_global->mouseInstalled != 0x0) {
+		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Mouse_CallbackClear();
+	}
+
+	if (g_global->variable_7011 != 0xFFFF) {
+		emu_push(0x0); emu_push(0x0);
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x257A; f__257A_000D_001A_3B75();
+		emu_sp += 6;
+	}
+
+	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x2BD1; emu_Empty2();
+
+	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x29E8; f__29E8_0F7A_000D_B1AA();
+
+	if (g_global->variable_6C66.csip != 0x0) {
+		/* Call based on memory/register values */
+		emu_ip = g_global->variable_6C66.s.ip;
+		emu_push(emu_cs);
+		emu_cs = g_global->variable_6C66.s.cs;
+		emu_push(0x004F);
+		switch ((emu_cs << 16) + emu_ip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0xB500; emu_last_ip = 0x004B; emu_last_length = 0x000D; emu_last_crc = 0x7184;
+				emu_call();
+				return;
+		}
+	}
+
+	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; f__263B_0006_001C_9C72();
+
+	if (emu_ax != g_global->variable_6E26) {
+		emu_push(0x9);
+		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+		emu_sp += 2;
+	}
+
+	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; f__2649_0ADA_000E_EEB3();
+
+	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x01F7; f__01F7_1BC3_000F_9450();
+	if (emu_ax == 0xFFFF) printf("\r\nMemory Corrupt!!!\r\n");
+
+	emu_push(g_global->variable_9846.s.cs);
+	emu_push(g_global->variable_9846.s.ip);
+	emu_push(0x3F);
+	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
+	emu_sp += 6;
+}
+

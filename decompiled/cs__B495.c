@@ -4174,7 +4174,7 @@ l__1967:
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__197C:
 	emu_addw(&emu_sp, 0x6);
-	emu_push(emu_cs); emu_push(0x1984); emu_cs = 0x3500; overlay(0x3500, 0); f__B500_0000_0008_FE1F();
+	emu_push(emu_cs); emu_push(0x1984); emu_cs = 0x3500; overlay(0x3500, 0); emu_PrepareEnd();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
 l__1984:

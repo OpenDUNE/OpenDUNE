@@ -1019,7 +1019,7 @@ typedef struct GlobalData {
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
 	/* 62F5()    */ PACK uint8   unknown_62F5[0x0001];
-	/* 62F6(1)   */ PACK uint8  variable_62F6;              /*!< ?? */
+	/* 62F6(1)   */ PACK uint8  not_used_62F6;              /*!< Not used (any more). */
 	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(38)  */ PACK Driver soundDriver;                /*!< Sound driver. */
@@ -1417,7 +1417,7 @@ typedef struct GlobalData {
 	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
 	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
-	/* 9846(4)   */ PACK csip32 variable_9846;              /*!< ?? */
+	/* 9846(4)   */ PACK csip32 variable_9846;              /*!< Stored interrupt vector. */
 	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */
 	/* 9858(14)  */ PACK char   variable_9858[14];          /*!< Buffer to store a filename */
 	/* 9866()    */ PACK uint8   unknown_9866[0x0006];

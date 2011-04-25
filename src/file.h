@@ -33,7 +33,6 @@ extern void emu_File_ReadBlockFile();
 extern void emu_File_ReadWholeFile();
 extern void emu_File_Obsolete1();
 extern void emu_File_Obsolete2();
-extern void emu_File_Obsolete3();
 extern void emu_File_Obsolete5();
 extern void emu_ChunkFile_Open();
 extern void emu_ChunkFile_Close();
