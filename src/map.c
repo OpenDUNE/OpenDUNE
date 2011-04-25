@@ -264,16 +264,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	if (cleared && backup == 0) {
 		emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(64);
-		emu_push(8);
-		emu_push(136);
-		emu_push(32);
-		emu_push(136);
-		emu_push(32);
-		emu_push(emu_cs); emu_push(0x0199); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x01A1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}

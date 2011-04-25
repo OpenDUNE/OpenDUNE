@@ -459,16 +459,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		if (update) Map_UpdateMinimapPosition(g_global->minimapPosition, true);
 
 		if (init) {
-			emu_push(0);
-			emu_push(g_global->variable_6C91);
-			emu_push(0x40);
-			emu_push(0x8);
-			emu_push(0x88);
-			emu_push(0x20);
-			emu_push(0x88);
-			emu_push(0x20);
-			emu_push(emu_cs); emu_push(0x1361); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
-			emu_sp += 16;
+			GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, g_global->variable_6C91, 0);
 
 			Unknown_Set_Global_6C91(old_6C91_2);
 
@@ -542,16 +533,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					g_global->variable_37A4 = 0;
 				}
 
-				emu_push(0);
-				emu_push(g_global->variable_6C91);
-				emu_push(height);
-				emu_push(width);
-				emu_push(y);
-				emu_push(x);
-				emu_push(y);
-				emu_push(x);
-				emu_push(emu_cs); emu_push(0x1544); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
-				emu_sp += 16;
+				GUI_Unknown_24D0_000D(x, y, x, y, width, height, g_global->variable_6C91, 0);
 			}
 
 			if (init) {
@@ -618,16 +600,7 @@ void emu_Unknown_07D4_0000()
 			emu_push(emu_cs); emu_push(0x0112); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 			emu_sp += 2;
 
-			emu_push(2);
-			emu_push(0);
-			emu_push(loc04 << 4);
-			emu_push(loc02 << 1);
-			emu_push(40 + ((locdi < 0) ? 0 : (locdi << 4)));
-			emu_push((locsi < 0) ? 0 : (locsi << 1));
-			emu_push(40 + ((locdi < 0) ? (-locdi << 4) : 0));
-			emu_push((locsi < 0) ? (-locsi << 1) : 0);
-			emu_push(emu_cs); emu_push(0x016F); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
-			emu_sp += 16;
+			GUI_Unknown_24D0_000D(max(-locsi << 1, 0), 40 + max(-locdi << 4, 0), max(0, locsi << 1), 40 + max(0, locdi << 4), loc02 << 1, loc04 << 4, 0, 2);
 		} else {
 			g_global->variable_3A12 = 1;
 		}
@@ -717,16 +690,7 @@ void emu_Unknown_07D4_159A()
 	emu_push(emu_cs); emu_push(0x15F2); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 	emu_sp += 2;
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(0x40);
-	emu_push(8);
-	emu_push(0x88);
-	emu_push(0x20);
-	emu_push(0x88);
-	emu_push(0x20);
-	emu_push(emu_cs); emu_push(0x1617); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
-	emu_sp += 16;
+	GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x161F); emu_cs = 0x2642; f__2642_0069_0008_D517();
 }

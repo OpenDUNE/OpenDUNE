@@ -1772,7 +1772,7 @@ uint16 GUI_PickHouse()
 
 		GUI_Unknown_24D0_000D(0, 0, 0, 0, 26, 24, 2, 0);
 
-		GUI_Unknown_24D0_000D(0, 24 - (ret + 1), 26, 0, 13, 24, 2, 0);
+		GUI_Unknown_24D0_000D(0, 24 * (ret + 1), 26, 0, 13, 24, 2, 0);
 
 		GUI_Widget_DrawAll(w);
 
