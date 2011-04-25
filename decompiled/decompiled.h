@@ -280,7 +280,6 @@ extern void f__217E_06E9_0041_701D();
 extern void f__2756_06FB_0042_E7A6();
 extern void f__AB01_0709_0001_6780();
 extern void f__AB01_0713_0023_9473();
-extern void f__1DD7_0719_0014_A78C();
 extern void f__29E8_072F_000F_651A();
 extern void emu_Overlay_AddToLinkedList();
 extern void emu_Input_History_Clear();

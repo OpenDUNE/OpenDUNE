@@ -13,8 +13,10 @@
 #include "house.h"
 #include "tools.h"
 #include "unknown/unknown.h"
+#include "os/strings.h"
 
-extern void f__1DD7_0719_0014_A78C();
+extern void f__1DD7_1940_0021_1C0F();
+extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
 extern void f__2649_0B64_0011_32F8();
@@ -71,6 +73,62 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_sp += 8;
 }
 
+static void Driver_Music_0719(csip32 musicName, csip32 arg0A, csip32 arg0E)
+{
+	Driver *music = &g_global->musicDriver;
+	Driver *sound = &g_global->soundDriver;
+
+	Driver_Music_Stop();
+
+	if (music->index == 0xFFFF || music->dcontent.csip == 0x0) return;
+
+	if (music->content.csip == sound->content.csip) {
+		music->content.csip     = 0x0;
+		music->variable_1E.csip = 0x0;
+		music->filename.csip    = 0x0;
+		music->contentMalloced  = 0;
+	} else {
+		emu_push(0x353F); emu_push(0x6344); /* g_global->musicDriver */
+		emu_push(emu_cs); emu_push(0x0789); emu_cs = 0x1DD7; f__1DD7_1BB4_002A_17AC();
+		emu_sp += 4;
+	}
+
+	if (sound->filename.csip != 0x0 && musicName.csip != 0 && strcasecmp(Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
+		g_global->musicDriver.content         = g_global->soundDriver.content;
+		g_global->musicDriver.variable_1E     = g_global->soundDriver.variable_1E;
+		g_global->musicDriver.filename        = g_global->soundDriver.filename;
+		g_global->musicDriver.contentMalloced = g_global->soundDriver.contentMalloced;
+
+		if (g_global->musicDriver.index == 0xFFFF) {
+			emu_dx = g_global->musicDriver.content.s.cs;
+			emu_ax = g_global->musicDriver.content.s.ip;
+			emu_bx = 0x4;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_ip = music->dcontent.s.ip;
+			emu_push(emu_cs);
+			emu_cs = music->dcontent.s.cs;
+			emu_push(0x0823);
+			switch ((emu_cs << 16) + emu_ip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x0820; emu_last_length = 0x0007; emu_last_crc = 0x2888;
+					emu_call();
+					return;
+			}
+		}
+		return;
+	}
+
+	emu_push(arg0E.s.cs); emu_push(arg0E.s.ip);
+	emu_push(arg0A.s.cs); emu_push(arg0A.s.ip);
+	emu_push(0x353F); emu_push(0x6344); /* g_global->musicDriver */
+	emu_push(musicName.s.cs); emu_push(musicName.s.ip);
+	emu_push(emu_cs); emu_push(0x0846); emu_cs = 0x1DD7; f__1DD7_1940_0021_1C0F();
+	emu_sp += 16;
+}
+
 /**
  * Plays a music.
  * @param index The index of the music to play.
@@ -89,19 +147,11 @@ void Music_Play(uint16 musicID)
 
 		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
 
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x02F8); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-		emu_sp += 12;
+		Driver_Music_0719(nullcsip, nullcsip, nullcsip);
 
 		Driver_Music_05D0(nullcsip, nullcsip, nullcsip);
 
-		emu_push(0); emu_push(0);
-		emu_push(0); emu_push(0);
-		emu_push(g_global->currentMusic.s.cs); emu_push(g_global->currentMusic.s.ip);
-		emu_push(emu_cs); emu_push(0x032E); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-		emu_sp += 12;
+		Driver_Music_0719(g_global->currentMusic, nullcsip, nullcsip);
 
 		Driver_Music_05D0(g_global->currentMusic, nullcsip, nullcsip);
 	}
@@ -119,11 +169,14 @@ void Music_InitMT32(uint16 musicID)
 
 	if (g_global->variable_6D8D != 6 && g_global->variable_6D8B != 6) return;
 
-	emu_push(0); emu_push(0);
-	emu_push(0); emu_push(0);
-	emu_push(0x353F); emu_push(0x3204); /* "DUNEINIT" */
-	emu_push(emu_cs); emu_push(0x0AFC); emu_cs = 0x1DD7; f__1DD7_0719_0014_A78C();
-	emu_sp += 12;
+	{
+		csip32 nullcsip;
+		csip32 musicName;
+		nullcsip.csip = 0x0;
+		musicName.csip = 0x353F3204; /* "DUNEINIT" */
+
+		Driver_Music_0719(musicName, nullcsip, nullcsip);
+	}
 
 	Driver_Music_Play(musicID, 0xFF);
 
