@@ -12,61 +12,6 @@
 #include "gfx.h"
 
 /**
- * Emulator wrapper around WSA_GetFrameCount()
- *
- * @name emu_WSA_GetFrameCount
- * @implements B52A:06F6:0012:197D ()
- */
-void emu_WSA_GetFrameCount()
-{
-	csip32 buffer;
-
-	WSAHeader *header;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	buffer = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = 0;
-
-	if (buffer.csip == 0x0) return;
-
-	header = (WSAHeader *)emu_get_memorycsip(buffer);
-
-	emu_ax = WSA_GetFrameCount(header);
-	return;
-}
-
-/**
- * Decompiled function emu_WSA_GotoNextFrame()
- *
- * @name emu_WSA_GotoNextFrame
- * @implements B52A:08B3:001B:1BB9 ()
- */
-void emu_WSA_GotoNextFrame()
-{
-	csip32 headercsip;
-	uint16 frame;
-	csip32 displayBuffer;
-
-	WSAHeader *header;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	headercsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	frame = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	displayBuffer = emu_get_csip32(emu_ss, emu_sp, 0x6);
-
-	header = (WSAHeader *)emu_get_memorycsip(headercsip);
-
-	emu_ax = WSA_GotoNextFrame(header, frame, displayBuffer);
-}
-
-/**
  * Decompiled function emu_WSA_LoadFile()
  *
  * @name emu_WSA_LoadFile

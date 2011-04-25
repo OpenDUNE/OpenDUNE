@@ -1051,26 +1051,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\decompiled\cs__B500.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__B503.c"
 				>
 				<FileConfiguration
@@ -2749,26 +2729,6 @@
 			<Filter
 				Name="script"
 				>
-				<File
-					RelativePath="..\src\script\emu_script.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\script\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\script\"
-						/>
-					</FileConfiguration>
-				</File>
 				<File
 					RelativePath="..\src\script\general.c"
 					>

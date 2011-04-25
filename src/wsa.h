@@ -65,7 +65,6 @@ extern csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurre
 extern void WSA_Unload(csip32 buffer);
 extern uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 posY, uint16 memoryBlock, uint16 unknown);
 
-extern void emu_WSA_GetFrameCount();
 extern void emu_WSA_LoadFile();
 extern void emu_WSA_Unload();
 extern void emu_WSA_DisplayFrame();

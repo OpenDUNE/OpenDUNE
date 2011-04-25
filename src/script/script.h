@@ -147,6 +147,4 @@ extern uint16 Script_Unit_Unknown2BD5(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2C73(ScriptEngine *script);
 
 
-extern void emu_Script_ClearInfo();
-
 #endif /* SCRIPT_H */
