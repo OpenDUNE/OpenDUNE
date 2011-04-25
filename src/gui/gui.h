@@ -43,6 +43,8 @@ extern void emu_GUI_DisplayHint();
 extern void emu_GUI_DrawInterfaceAndRadar();
 extern void emu_GUI_DrawCredits();
 extern void emu_GUI_DrawLine();
+extern void emu_GUI_Unknown_24D0_000D();
+extern void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, int16 unknown0C, int16 unknown0E, int16 unknown10, int16 unknown12, int16 unknown14);
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

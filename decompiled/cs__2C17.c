@@ -209,7 +209,7 @@ l__0167:
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
 	emu_addw(&emu_ax, emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x019E); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+	emu_push(emu_cs); emu_push(0x019E); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
 l__019E:
 	emu_addw(&emu_sp, 0x10);
 	emu_incw(&emu_si);

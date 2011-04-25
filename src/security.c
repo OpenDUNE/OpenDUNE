@@ -15,7 +15,6 @@
 #include "wsa.h"
 #include "unknown/unknown.h"
 
-extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
@@ -116,18 +115,7 @@ bool Security_Check()
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(200);
-	emu_push(40);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x11BA); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 16;
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x11C2); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	/* Check if this overlay should be reloaded */
@@ -214,18 +202,7 @@ bool Security_Check()
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 		emu_sp += 2;
 
-		emu_push(0);
-		emu_push(4);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x135C); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 
 		emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x2642; f__2642_0069_0008_D517();
 		/* Check if this overlay should be reloaded */
@@ -250,18 +227,7 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		emu_push(4);
-		emu_push(0);
-		emu_push(g_global->variable_9931 + 16);
-		emu_push(g_global->variable_992F + 2);
-		emu_push(0);
-		emu_push(0);
-		emu_push(g_global->variable_992B - 8);
-		emu_push(g_global->variable_992D - 1);
-		emu_push(emu_cs); emu_push(0x140B); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(g_global->variable_992D - 1, g_global->variable_992B - 8, 0, 0, g_global->variable_992F + 2, g_global->variable_9931 + 16, 0, 4);
 
 		emu_push(emu_cs); emu_push(0x1413); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */
@@ -306,18 +272,7 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		emu_push(0);
-		emu_push(4);
-		emu_push(g_global->variable_9931 + 16);
-		emu_push(g_global->variable_992F + 2);
-		emu_push(g_global->variable_992B - 8);
-		emu_push(g_global->variable_992D - 1);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x1511); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
 
 		emu_push(emu_cs); emu_push(0x1519); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */

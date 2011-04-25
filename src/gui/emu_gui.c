@@ -408,3 +408,36 @@ void emu_GUI_DrawLine()
 
 	GUI_DrawLine(x1, y1, x2, y2, (uint8)color);
 }
+
+/**
+ * Emulator wrapper around GUI_Unknown_24D0_000D().
+ *
+ * @name emu_GUI_Unknown_24D0_000D
+ * @implements 24D0:000D:0039:C17D ()
+ */
+void emu_GUI_Unknown_24D0_000D()
+{
+	int16 loc06;
+	int16 loc08;
+	int16 loc0A;
+	int16 loc0C;
+	int16 loc0E;
+	int16 loc10;
+	int16 loc12;
+	int16 loc14;
+
+	/* Pop the return address from the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	loc06 = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	loc08 = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	loc0A = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	loc0C = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	loc0E = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	loc10 = emu_get_memory16(emu_ss, emu_sp, 0xA);
+	loc12 = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	loc14 = emu_get_memory16(emu_ss, emu_sp, 0xE);
+
+	GUI_Unknown_24D0_000D(loc06, loc08, loc0A, loc0C, loc0E, loc10, loc12, loc14);
+}

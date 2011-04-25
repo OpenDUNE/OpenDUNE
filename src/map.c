@@ -23,7 +23,6 @@
 #include "unknown/unknown.h"
 
 extern void f__22A6_1200_007B_0356();
-extern void f__24D0_000D_0039_C17D();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 
@@ -273,7 +272,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		emu_push(32);
 		emu_push(136);
 		emu_push(32);
-		emu_push(emu_cs); emu_push(0x0199); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
+		emu_push(emu_cs); emu_push(0x0199); emu_cs = 0x24D0; emu_GUI_Unknown_24D0_000D();
 		emu_sp += 16;
 
 		emu_push(emu_cs); emu_push(0x01A1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();

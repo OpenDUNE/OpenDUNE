@@ -33,11 +33,11 @@ extern void emu_GUI_CopyToBuffer();
 extern void f__01F7_286D_0023_9A13();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_04A5_000F_3B8F();
+extern void f__22A6_06D7_006B_B7D6();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
@@ -240,16 +240,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 			loc06 = g_global->variable_9931;
 		}
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(loc06);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(g_global->variable_3740);
-		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x0B7D); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; f__2642_0069_0008_D517();
 
@@ -1506,16 +1497,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	Music_Play(17 + Tools_RandomRange(0, 5));
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(200);
-	emu_push(40);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x01DA); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-	emu_sp += 16;
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -1707,16 +1689,7 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x10F1); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(200);
-		emu_push(40);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x1111); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
 
 		emu_push(0xF);
 		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
@@ -1797,27 +1770,9 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x1398); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(24);
-		emu_push(26);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x13B8); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(0, 0, 0, 0, 26, 24, 2, 0);
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(24);
-		emu_push(13);
-		emu_push(0);
-		emu_push(26);
-		emu_push(24 * (ret + 1));
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x13E4); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(0, 24 - (ret + 1), 26, 0, 13, 24, 2, 0);
 
 		GUI_Widget_DrawAll(w);
 
@@ -2110,15 +2065,7 @@ void GUI_DrawInterfaceAndRadar(uint16 val6C91)
 
 		emu_push(emu_cs); emu_push(0x221A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(200); emu_push(40);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x223A); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2 ,0);
 
 		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 
@@ -2238,14 +2185,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 		emu_sp += 2;
 
-		emu_push(memoryBlockOld);
-		emu_push(g_global->variable_6C91);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B - 40); emu_push(g_global->variable_992D);
-		emu_push(g_global->variable_992B);      emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x098B); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, memoryBlockOld);
 
 		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; f__2642_0069_0008_D517();
 	}
@@ -2617,4 +2557,56 @@ void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	g_clipping.top    = top;
 	g_clipping.right  = right;
 	g_clipping.bottom = bottom;
+}
+
+/**
+ * Unknown GUI function.
+ * Gets triggered on mouse crossing edges of buttons, and lots of times while
+ *  building something.
+ */
+void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, int16 unknown0C, int16 unknown0E, int16 unknown10, int16 unknown12, int16 unknown14)
+{
+	if (unknown0E > 40)  unknown0E = 40;
+	if (unknown10 > 200) unknown10 = 200;
+
+	if (unknown06 < 0) {
+		unknown0A -= unknown06;
+		unknown0E += unknown06;
+		unknown06 = 0;
+	}
+
+	if (unknown06 >= 40 || unknown0A >= 40) return;
+
+	if (unknown0A < 0) {
+		unknown06 -= unknown0A;
+		unknown0E += unknown0A;
+		unknown0A = 0;
+	}
+
+	if (unknown08 < 0) {
+		unknown0C -= unknown08;
+		unknown10 += unknown08;
+		unknown08 = 0;
+	}
+
+	if (unknown0C < 0) {
+		unknown08 -= unknown0C;
+		unknown10 += unknown0C;
+		unknown0C = 0x0;
+	}
+
+	emu_push(unknown14);
+	emu_push(unknown12);
+	emu_push(unknown10);
+	emu_push(unknown0E);
+	emu_push(unknown0C);
+	emu_push(unknown0A);
+	emu_push(unknown08);
+	emu_push(unknown06);
+
+	emu_ip = g_global->variable_663C.s.ip;
+	emu_push(emu_cs);
+	emu_cs = g_global->variable_663C.s.cs;
+	emu_push(0x009D); f__22A6_06D7_006B_B7D6();
+	emu_sp += 0x10;
 }

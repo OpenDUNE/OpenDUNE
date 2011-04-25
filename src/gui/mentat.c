@@ -16,7 +16,6 @@
 #include "../unknown/unknown.h"
 
 extern void f__1DD7_0B53_0025_36F7();
-extern void f__24D0_000D_0039_C17D();
 extern void f__259E_0006_0016_858A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -192,15 +191,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(200); emu_push(40);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0F18); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-	emu_sp += 16;
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 

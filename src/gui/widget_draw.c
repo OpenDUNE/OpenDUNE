@@ -18,7 +18,6 @@
 #include "../map.h"
 #include "../gfx.h"
 
-extern void f__24D0_000D_0039_C17D();
 extern void f__2642_0069_0008_D517();
 extern void f__2642_0002_005E_87F6();
 extern void f__2B6C_0197_00CE_4D32();
@@ -93,18 +92,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		emu_sp += 8;
 
-		emu_push(0);
-		emu_push(2);
-		emu_push(height);
-		emu_push(width >> 3);
-		emu_push(positionY);
-		emu_push(positionX >> 3);
-		emu_push(positionY);
-		emu_push(positionX >> 3);
-		emu_push(emu_cs); emu_push(0x10E5); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(positionX >> 3, positionY, positionX >> 3, positionY, width >> 3, height, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x10ED); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 		/* Check if this overlay should be reloaded */
@@ -1001,16 +989,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		emu_push(emu_cs); emu_push(0x1B49); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 		emu_sp += 2;
 
-		emu_push(0);
-		emu_push(g_global->variable_6C91);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x1B6E); emu_cs = 0x24D0; f__24D0_000D_0039_C17D();
-		emu_sp += 16;
+		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, 0);
 
 		emu_push(emu_cs); emu_push(0x1B76); emu_cs = 0x2642; f__2642_0069_0008_D517();
 	}
