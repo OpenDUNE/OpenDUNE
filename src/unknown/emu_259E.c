@@ -4,8 +4,8 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../os/math.h"
 #include "../os/sleep.h"
+#include "../os/math.h"
 #include "unknown.h"
 
 extern void f__259E_0040_0015_5E4A();
