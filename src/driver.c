@@ -16,7 +16,6 @@
 extern void emu_CustomTimer_AddHandler();
 extern void f__1DD7_0D77_0027_BE74();
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -911,7 +910,7 @@ void Driver_Voice_01AB()
 	voice->content.csip = 0x0;
 }
 
-void Driver_Music_05D0(csip32 musicName, csip32 buf_csip, int32 buf_len)
+void Driver_Sound_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *sound = &g_global->soundDriver;
 	Driver *music = &g_global->musicDriver;
@@ -926,9 +925,7 @@ void Driver_Music_05D0(csip32 musicName, csip32 buf_csip, int32 buf_len)
 		sound->filename.csip = 0x0;
 		sound->contentMalloced = 0;
 	} else {
-		emu_push(0x353F); emu_push(0x6302); /* g_global->soundDriver */
-		emu_push(emu_cs); emu_push(0x0640); emu_cs = 0x1DD7; f__1DD7_1BB4_002A_17AC();
-		emu_sp += 4;
+		Driver_UnloadFile(sound);
 	}
 
 	if (music->filename.csip != 0x0) {
@@ -1198,9 +1195,7 @@ void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_
 
 	if (filename == NULL) return;
 
-	emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1983); emu_cs = 0x1DD7; f__1DD7_1BB4_002A_17AC();
-	emu_sp += 4;
+	Driver_UnloadFile(driver);
 
 	emu_push(0);
 	emu_push(0); emu_push(strlen(filename) + 1);
@@ -1303,4 +1298,26 @@ void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_
 		emu_push(emu_cs); emu_push(0x1BA3); emu_cs = 0x1DD7; f__1DD7_0D77_0027_BE74();
 		emu_sp += 8;
 	}
+}
+
+void Driver_UnloadFile(Driver *driver)
+{
+	if (driver->content.csip != 0x0 && driver->contentMalloced != 0) {
+		emu_push(driver->content.s.cs); emu_push(driver->content.s.ip);
+		emu_push(emu_cs); emu_push(0x1BDE); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+
+		emu_push(driver->variable_1E.s.cs); emu_push(driver->variable_1E.s.ip);
+		emu_push(emu_cs); emu_push(0x1BF0); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+	}
+
+	emu_push(driver->filename.s.cs); emu_push(driver->filename.s.ip);
+	emu_push(emu_cs); emu_push(0x1C02); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	driver->contentMalloced  = 0;
+	driver->filename.csip    = 0x0;
+	driver->content.csip     = 0x0;
+	driver->variable_1E.csip = 0x0;
 }

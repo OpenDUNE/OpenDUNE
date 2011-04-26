@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
-extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
 extern void f__2649_0B64_0011_32F8();
@@ -72,7 +71,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_sp += 8;
 }
 
-static void Driver_Music_0719(csip32 musicName, csip32 buf_csip, int32 buf_len)
+static void Driver_Music_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *music = &g_global->musicDriver;
 	Driver *sound = &g_global->soundDriver;
@@ -87,9 +86,7 @@ static void Driver_Music_0719(csip32 musicName, csip32 buf_csip, int32 buf_len)
 		music->filename.csip    = 0x0;
 		music->contentMalloced  = 0;
 	} else {
-		emu_push(0x353F); emu_push(0x6344); /* g_global->musicDriver */
-		emu_push(emu_cs); emu_push(0x0789); emu_cs = 0x1DD7; f__1DD7_1BB4_002A_17AC();
-		emu_sp += 4;
+		Driver_UnloadFile(music);
 	}
 
 	if (sound->filename.csip != 0x0 && musicName.csip != 0 && strcasecmp(Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
@@ -145,13 +142,13 @@ void Music_Play(uint16 musicID)
 
 		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
 
-		Driver_Music_0719(nullcsip, nullcsip, 0);
+		Driver_Music_LoadFile(nullcsip, nullcsip, 0);
 
-		Driver_Music_05D0(nullcsip, nullcsip, 0);
+		Driver_Sound_LoadFile(nullcsip, nullcsip, 0);
 
-		Driver_Music_0719(g_global->currentMusic, nullcsip, 0);
+		Driver_Music_LoadFile(g_global->currentMusic, nullcsip, 0);
 
-		Driver_Music_05D0(g_global->currentMusic, nullcsip, 0);
+		Driver_Sound_LoadFile(g_global->currentMusic, nullcsip, 0);
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);
@@ -173,7 +170,7 @@ void Music_InitMT32(uint16 musicID)
 		nullcsip.csip = 0x0;
 		musicName.csip = 0x353F3204; /* "DUNEINIT" */
 
-		Driver_Music_0719(musicName, nullcsip, 0);
+		Driver_Music_LoadFile(musicName, nullcsip, 0);
 	}
 
 	Driver_Music_Play(musicID, 0xFF);
