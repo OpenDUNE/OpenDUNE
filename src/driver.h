@@ -72,7 +72,7 @@ extern char *Drivers_GenerateFilename(char *name, Driver *driver);
 extern char *Drivers_GenerateFilename2(char *name, Driver *driver);
 extern void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex);
 extern void Drivers_All_Uninit();
-extern void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_csip, int32 buf_len);
+extern void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 buf_csip, int32 buf_len);
 extern void Driver_UnloadFile(Driver *driver);
 
 

@@ -14,7 +14,6 @@
 #include "os/math.h"
 
 extern void emu_CustomTimer_AddHandler();
-extern void f__1DD7_0D77_0027_BE74();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
@@ -957,11 +956,7 @@ void Driver_Sound_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
 		}
 	}
 
-	{
-		csip32 scsip;
-		scsip.csip = 0x353F6302;
-		Driver_LoadFile(musicName, sound, scsip, buf_csip, buf_len);
-	}
+	Driver_LoadFile(musicName, sound, buf_csip, buf_len);
 }
 
 char *Drivers_GenerateFilename(char *name, Driver *driver)
@@ -1010,7 +1005,7 @@ void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex)
 	MSVC_PACKED_BEGIN
 	struct {
 		/* 0000(2)   */ PACK uint16 variable_00;                /*!< ?? */
-		/* 0002(4)   */ PACK uint32 position;                   /*!< Pointer to filename for the driver. */
+		/* 0002(4)   */ PACK uint32 position;                   /*!< ?? */
 	} GCC_PACKED data;
 	MSVC_PACKED_END
 	assert_compile(sizeof(data) == 0x6);
@@ -1185,7 +1180,78 @@ void Drivers_All_Uninit()
 	Drivers_Voice_Uninit();
 }
 
-void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_csip, int32 buf_len)
+static void Drivers_1DD7_0D77(csip32 musicName, Driver *driver)
+{
+	MSVC_PACKED_BEGIN
+	struct {
+		/* 0000(1)   */ PACK uint8 variable_00;                 /*!< ?? */
+		/* 0001(1)   */ PACK uint8 variable_01;                 /*!< ?? */
+		/* 0002(4)   */ PACK uint32 position;                   /*!< ?? */
+	} GCC_PACKED data;
+	MSVC_PACKED_END
+	assert_compile(sizeof(data) == 0x6);
+
+	char *filename;
+	uint8 fileIndex;
+	uint32 position = 0;
+
+	if (musicName.csip == 0x0 || driver->index == 0xFFFF) return;
+
+	memcpy(&data, g_global->variable_63A4, 6);
+
+	filename = Drivers_GenerateFilename2((char *)emu_get_memorycsip(musicName), driver);
+
+	if (filename == NULL) return;
+
+	fileIndex = File_Open(filename, 1);
+
+	while (data.variable_01 != 0xFF) {
+		uint16 size;
+		csip32 buffer_csip;
+		uint16 *buffer;
+
+		File_Seek(fileIndex, position, 0);
+
+		File_Read(fileIndex, &data, 6);
+		position += 6;
+
+		if (data.variable_01 == 0xFF) continue;
+
+		File_Seek(fileIndex, data.position, 0);
+
+		File_Read(fileIndex, &size, 2);
+
+		emu_push(0);
+		emu_push(0); emu_push(size);
+		emu_push(emu_cs); emu_push(0x0E5C); emu_cs = 0x23E1; emu_Tools_Malloc();
+		emu_sp += 6;
+		buffer_csip.s.cs = emu_dx;
+		buffer_csip.s.ip = emu_ax;
+		buffer = (uint16 *)emu_get_memorycsip(buffer_csip);
+
+		buffer[0] = size;
+		size -= 2;
+
+		if (File_Read(fileIndex, buffer + 2, size) == size) {
+				emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+				emu_push(data.variable_00);
+				emu_push(data.variable_01);
+				emu_push(driver->index); /* unused, but needed for correct param accesses. */
+				Drivers_CallFunction(driver->index, 0x9C);
+				emu_sp += 10;
+		} else {
+			data.variable_01 = 0xFF;
+		}
+
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x0EC5); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+	}
+
+	File_Close(fileIndex);
+}
+
+void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 buf_csip, int32 buf_len)
 {
 	char *filename;
 	uint8 fileIndex;
@@ -1293,10 +1359,7 @@ void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_
 				return;
 		}
 	} else {
-		emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
-		emu_push(musicName.s.cs); emu_push(musicName.s.ip);
-		emu_push(emu_cs); emu_push(0x1BA3); emu_cs = 0x1DD7; f__1DD7_0D77_0027_BE74();
-		emu_sp += 8;
+		Drivers_1DD7_0D77(musicName, driver);
 	}
 }
 

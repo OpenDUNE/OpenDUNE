@@ -117,11 +117,7 @@ static void Driver_Music_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_l
 		return;
 	}
 
-	{
-		csip32 mcsip;
-		mcsip.csip = 0x353F6344;
-		Driver_LoadFile(musicName, music, mcsip, buf_csip, buf_len);
-	}
+	Driver_LoadFile(musicName, music, buf_csip, buf_len);
 }
 
 /**
