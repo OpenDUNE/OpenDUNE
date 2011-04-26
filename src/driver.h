@@ -59,7 +59,6 @@ extern uint16 Drivers_EnableMusic(uint16 music);
 extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
 extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
-extern bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008);
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_01EB();
 extern void Driver_Sound_Play(int16 index, int16 volume);

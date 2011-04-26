@@ -15,7 +15,6 @@
 
 extern void emu_CustomTimer_AddHandler();
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_1696_0011_A4E3();
 extern void f__1DD7_1940_0021_1C0F();
 extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
@@ -26,6 +25,7 @@ extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0827_0035_3DAA();
+extern void f__2756_094F_0029_7838();
 extern void f__2756_0A59_0023_D969();
 extern void f__2756_0B8F_0025_D5D8();
 extern void f__2756_0C0B_0021_873C();
@@ -175,7 +175,69 @@ uint16 Drivers_EnableMusic(uint16 music)
 	return ret;
 }
 
-bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcsip, const char *extension, uint16 variable_0008)
+static void Driver_2756_0B49(uint16 index) {
+	if (emu_get_memory16(0x2756, index * 2, 0x6E) == 2) emu_get_memory16(0x2756, index * 2, 0x6E) = 1;
+}
+
+static void Drivers_Uninit(Driver *driver)
+{
+	if (driver == NULL) return;
+
+	if (driver->customTimer != 0xFFFF) {
+		Driver_2756_0B49(driver->customTimer);
+
+		emu_push(driver->customTimer);
+		emu_push(emu_cs); emu_push(0x16CA); emu_cs = 0x2756; f__2756_0827_0035_3DAA();
+		emu_sp += 2;
+
+		driver->customTimer = 0xFFFF;
+	}
+
+	if (driver->index == 0xFFFF) {
+		if (driver->dcontent.csip != 0) {
+			emu_bx = 0x3;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_ip = driver->dcontent.s.ip;
+			emu_push(emu_cs);
+			emu_cs = driver->dcontent.s.cs;
+			emu_push(0x16FD);
+			switch ((emu_cs << 16) + emu_ip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x16FA; emu_last_length = 0x0029; emu_last_crc = 0x9C96;
+					emu_call();
+					return;
+			}
+		}
+	} else {
+		emu_push(0); emu_push(0);
+		emu_push(driver->index);
+		emu_push(emu_cs); emu_push(0x1710); emu_cs = 0x2756; f__2756_094F_0029_7838();
+		emu_sp += 6;
+
+		emu_push(driver->index);
+		emu_push(emu_cs); emu_push(0x171E); emu_cs = 0x2756; f__2756_0D12_0042_A9FA();
+		emu_sp += 2;
+
+		driver->index = 0xFFFF;
+	}
+
+	emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
+	emu_push(emu_cs); emu_push(0x1737); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(driver->variable_12.s.cs); emu_push(driver->variable_12.s.ip);
+	emu_push(emu_cs); emu_push(0x1749); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	driver->variable_12.csip = 0x0;
+	driver->dcontent.csip    = 0x0;
+	driver->dfilename.csip   = 0x0;
+}
+
+static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, const char *extension, uint16 variable_0008)
 {
 	if (filename == NULL || !File_Exists(filename)) return false;
 
@@ -183,9 +245,7 @@ bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, csip32 dcs
 
 	if (driver->dcontent.csip != 0) {
 		if (strcasecmp((char *)emu_get_memorycsip(driver->dfilename), filename) == 0) return true;
-		emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x1330); f__1DD7_1696_0011_A4E3();
-		emu_sp += 4;
+		Drivers_Uninit(driver);
 	}
 
 	driver->dcontent = Drivers_Load(filename, fcsip);
@@ -386,9 +446,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 	if (music->dfilename.csip != 0x0 && !strcasecmp((char *)emu_get_memorycsip(music->dfilename), filename)) {
 		memcpy(sound, music, sizeof(Driver));
 	} else {
-		csip32 sound_csip;
-		sound_csip.csip = 0x353F6302;
-		if (!Drivers_Init(filename, driver->filename, sound, sound_csip, (char *)emu_get_memorycsip(driver->extension), driver->variable_0008)) return 0;
+		if (!Drivers_Init(filename, driver->filename, sound, (char *)emu_get_memorycsip(driver->extension), driver->variable_0008)) return 0;
 	}
 
 	if (driver->variable_0008 == 0) {
@@ -438,9 +496,7 @@ uint16 Drivers_Music_Init(uint16 index)
 	if (sound->dfilename.csip != 0x0 && !strcasecmp((char *)emu_get_memorycsip(sound->dfilename), filename)) {
 		memcpy(music, sound, sizeof(Driver));
 	} else {
-		csip32 music_csip;
-		music_csip.csip = 0x353F6344;
-		if (!Drivers_Init(filename, driver->filename, music, music_csip, (char *)emu_get_memorycsip(driver->extension), driver->variable_0008)) return 0;
+		if (!Drivers_Init(filename, driver->filename, music, (char *)emu_get_memorycsip(driver->extension), driver->variable_0008)) return 0;
 	}
 
 	g_global->variable_636A = driver->variable_000A;
@@ -465,7 +521,6 @@ uint16 Drivers_Voice_Init(uint16 index)
 	char *filename;
 	DSDriver *driver;
 	Driver *voice;
-	csip32 voice_csip;
 
 	driver = &g_global->voiceDrv[index];
 	voice  = &g_global->voiceDriver;
@@ -473,9 +528,8 @@ uint16 Drivers_Voice_Init(uint16 index)
 	if (driver->filename.csip == 0x0) return index;
 
 	filename = (char *)emu_get_memorycsip(driver->filename);
-	voice_csip.csip = 0x353F6374;
 
-	if (!Drivers_Init(filename, driver->filename, voice, voice_csip, "VOC", 0)) return 0;
+	if (!Drivers_Init(filename, driver->filename, voice, "VOC", 0)) return 0;
 
 	return index;
 }
@@ -1074,9 +1128,7 @@ static void Drivers_Music_Uninit()
 		music->dfilename.csip   = 0x0;
 		music->customTimer      = 0xFFFF;
 	} else {
-		emu_push(0x353F); emu_push(0x6344); /* g_global->musicDriver */
-		emu_push(emu_cs); emu_push(0x10C4); emu_cs = 0x1DD7; f__1DD7_1696_0011_A4E3();
-		emu_sp += 4;
+		Drivers_Uninit(music);
 	}
 }
 
@@ -1117,17 +1169,13 @@ static void Drivers_Sound_Uninit()
 		sound->dfilename.csip   = 0x0;
 		sound->customTimer      = 0xFFFF;
 	} else {
-		emu_push(0x353F); emu_push(0x6302); /* g_global->soundDriver */
-		emu_push(emu_cs); emu_push(0x12C8); emu_cs = 0x1DD7; f__1DD7_1696_0011_A4E3();
-		emu_sp += 4;
+		Drivers_Uninit(sound);
 	}
 }
 
 static void Drivers_Voice_Uninit()
 {
-	emu_push(0x353F); emu_push(0x6374); /* g_global->voiceDriver */
-	emu_push(emu_cs); emu_push(0x0F3E); emu_cs = 0x1DD7; f__1DD7_1696_0011_A4E3();
-	emu_sp += 4;
+	Drivers_Uninit(&g_global->voiceDriver);
 }
 
 void Drivers_All_Uninit()
