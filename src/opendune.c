@@ -45,7 +45,6 @@ extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
-extern void f__1DD7_03FD_000C_8340();
 extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
@@ -3073,7 +3072,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
  */
 void PrepareEnd()
 {
-	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x1DD7; f__1DD7_03FD_000C_8340();
+	Drivers_All_Uninit();
 
 	if (g_global->mouseInstalled != 0x0) {
 		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Mouse_CallbackClear();

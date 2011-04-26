@@ -72,6 +72,7 @@ extern void Driver_Music_05D0(csip32 arg06, csip32 arg0A, csip32 arg0E);
 extern char *Drivers_GenerateFilename(char *name, Driver *driver);
 extern char *Drivers_GenerateFilename2(char *name, Driver *driver);
 extern void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex);
+extern void Drivers_All_Uninit();
 
 
 extern void emu_Drivers_EnableSounds();
