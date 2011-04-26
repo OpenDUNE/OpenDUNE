@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
-extern void f__1DD7_1940_0021_1C0F();
 extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void f__24FD_000A_000B_2043();
@@ -73,7 +72,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_sp += 8;
 }
 
-static void Driver_Music_0719(csip32 musicName, csip32 arg0A, csip32 arg0E)
+static void Driver_Music_0719(csip32 musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *music = &g_global->musicDriver;
 	Driver *sound = &g_global->soundDriver;
@@ -121,12 +120,11 @@ static void Driver_Music_0719(csip32 musicName, csip32 arg0A, csip32 arg0E)
 		return;
 	}
 
-	emu_push(arg0E.s.cs); emu_push(arg0E.s.ip);
-	emu_push(arg0A.s.cs); emu_push(arg0A.s.ip);
-	emu_push(0x353F); emu_push(0x6344); /* g_global->musicDriver */
-	emu_push(musicName.s.cs); emu_push(musicName.s.ip);
-	emu_push(emu_cs); emu_push(0x0846); emu_cs = 0x1DD7; f__1DD7_1940_0021_1C0F();
-	emu_sp += 16;
+	{
+		csip32 mcsip;
+		mcsip.csip = 0x353F6344;
+		Driver_LoadFile(musicName, music, mcsip, buf_csip, buf_len);
+	}
 }
 
 /**
@@ -147,13 +145,13 @@ void Music_Play(uint16 musicID)
 
 		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
 
-		Driver_Music_0719(nullcsip, nullcsip, nullcsip);
+		Driver_Music_0719(nullcsip, nullcsip, 0);
 
-		Driver_Music_05D0(nullcsip, nullcsip, nullcsip);
+		Driver_Music_05D0(nullcsip, nullcsip, 0);
 
-		Driver_Music_0719(g_global->currentMusic, nullcsip, nullcsip);
+		Driver_Music_0719(g_global->currentMusic, nullcsip, 0);
 
-		Driver_Music_05D0(g_global->currentMusic, nullcsip, nullcsip);
+		Driver_Music_05D0(g_global->currentMusic, nullcsip, 0);
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);
@@ -175,7 +173,7 @@ void Music_InitMT32(uint16 musicID)
 		nullcsip.csip = 0x0;
 		musicName.csip = 0x353F3204; /* "DUNEINIT" */
 
-		Driver_Music_0719(musicName, nullcsip, nullcsip);
+		Driver_Music_0719(musicName, nullcsip, 0);
 	}
 
 	Driver_Music_Play(musicID, 0xFF);

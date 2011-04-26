@@ -14,8 +14,8 @@
 #include "os/math.h"
 
 extern void emu_CustomTimer_AddHandler();
+extern void f__1DD7_0D77_0027_BE74();
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_1940_0021_1C0F();
 extern void f__1DD7_1BB4_002A_17AC();
 extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
@@ -70,6 +70,7 @@ static csip32 Drivers_Load(const char *filename, csip32 fcsip)
 static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C, uint16 arg0E)
 {
 	csip32 csip;
+	uint16 locsi;
 
 	if (driver >= 16) return;
 
@@ -79,9 +80,9 @@ static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C,
 	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x2756; f__2756_0C0B_0021_873C();
 	emu_sp += 2;
 
-	emu_si = emu_get_memory16(emu_dx, emu_ax, 0x14);
+	locsi = emu_get_memory16(emu_dx, emu_ax, 0x14);
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
-	if (emu_si != 0xFFFF && csip.csip != 0) {
+	if (locsi != 0xFFFF && csip.csip != 0) {
 		emu_push(csip.s.cs); emu_push(csip.s.ip);
 		emu_push(0x2756); emu_push(0x0DA8); emu_cs = 0x2756; emu_CustomTimer_AddHandler();
 		emu_sp += 4;
@@ -90,7 +91,7 @@ static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C,
 		emu_get_memory16(0x2756, 0x00, 0x1B2) = emu_ax;
 
 		emu_push(0);
-		emu_push(emu_si);
+		emu_push(locsi);
 		emu_push(emu_ax);
 		emu_push(0x2756); emu_push(0x0DC9); emu_cs = 0x2756; f__2756_0B8F_0025_D5D8();
 		emu_sp += 6;
@@ -240,8 +241,6 @@ static void Drivers_Uninit(Driver *driver)
 static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, const char *extension, uint16 variable_0008)
 {
 	if (filename == NULL || !File_Exists(filename)) return false;
-
-	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x12);
 
 	if (driver->dcontent.csip != 0) {
 		if (strcasecmp((char *)emu_get_memorycsip(driver->dfilename), filename) == 0) return true;
@@ -912,7 +911,7 @@ void Driver_Voice_01AB()
 	voice->content.csip = 0x0;
 }
 
-void Driver_Music_05D0(csip32 musicName, csip32 arg0A, csip32 arg0E)
+void Driver_Music_05D0(csip32 musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *sound = &g_global->soundDriver;
 	Driver *music = &g_global->musicDriver;
@@ -957,17 +956,15 @@ void Driver_Music_05D0(csip32 musicName, csip32 arg0A, csip32 arg0E)
 						return;
 				}
 			}
-		l__06DA:
 			return;
 		}
 	}
 
-	emu_push(arg0E.s.cs); emu_push(arg0E.s.ip);
-	emu_push(arg0A.s.cs); emu_push(arg0A.s.ip);
-	emu_push(0x353F); emu_push(0x6302); /* g_global->soundDriver */
-	emu_push(musicName.s.cs); emu_push(musicName.s.ip);
-	emu_push(emu_cs); emu_push(0x06FD); emu_cs = 0x1DD7; f__1DD7_1940_0021_1C0F();
-	emu_sp += 16;
+	{
+		csip32 scsip;
+		scsip.csip = 0x353F6302;
+		Driver_LoadFile(musicName, sound, scsip, buf_csip, buf_len);
+	}
 }
 
 char *Drivers_GenerateFilename(char *name, Driver *driver)
@@ -1189,4 +1186,121 @@ void Drivers_All_Uninit()
 	Drivers_Music_Uninit();
 	Drivers_Sound_Uninit();
 	Drivers_Voice_Uninit();
+}
+
+void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 dcsip, csip32 buf_csip, int32 buf_len)
+{
+	char *filename;
+	uint8 fileIndex;
+	int32 size;
+
+	filename = Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), driver);
+
+	if (filename == NULL) return;
+
+	emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x1983); emu_cs = 0x1DD7; f__1DD7_1BB4_002A_17AC();
+	emu_sp += 4;
+
+	emu_push(0);
+	emu_push(0); emu_push(strlen(filename) + 1);
+	emu_push(emu_cs); emu_push(0x19A0); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	driver->filename.s.cs = emu_dx;
+	driver->filename.s.ip = emu_ax;
+
+	strcpy((char *)emu_get_memorycsip(driver->filename), filename);
+
+	fileIndex = File_Open(filename, 1);
+
+	size = File_GetSize(fileIndex);
+
+	if (buf_csip.csip != 0x0) {
+		if (size > buf_len) {
+			File_Close(fileIndex);
+
+			emu_push(driver->filename.s.cs); emu_push(driver->filename.s.ip);
+			emu_push(emu_cs); emu_push(0x1A19); emu_cs = 0x23E1; emu_Tools_Free();
+			emu_sp += 4;
+
+			driver->filename.csip = 0x0;
+			return;
+		}
+	} else {
+		emu_push(emu_cs); emu_push(0x1A34); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
+
+		if ((int32)((emu_dx << 16) + emu_ax) < (size + 16)) {
+			File_Close(fileIndex);
+
+			emu_push(driver->filename.s.cs); emu_push(driver->filename.s.ip);
+			emu_push(emu_cs); emu_push(0x1A19); emu_cs = 0x23E1; emu_Tools_Free();
+			emu_sp += 4;
+
+			driver->filename.csip = 0x0;
+			return;
+		}
+	}
+
+	if (driver->index == 0xFFFF) {
+		if (buf_csip.csip != 0x0) {
+			driver->variable_1E = buf_csip;
+			buf_csip.csip += 120;
+		} else {
+			emu_push(0);
+			emu_push(0); emu_push(120);
+			emu_push(emu_cs); emu_push(0x1A94); emu_cs = 0x23E1; emu_Tools_Malloc();
+			emu_sp += 6;
+			driver->variable_1E.s.cs = emu_dx;
+			driver->variable_1E.s.ip = emu_ax;
+
+			driver->contentMalloced = 1;
+		}
+
+		size -= 120;
+
+		File_Read(fileIndex, (void *)emu_get_memorycsip(driver->variable_1E), 120);
+	}
+
+	if (buf_csip.csip != 0x0) {
+		driver->content = buf_csip;
+		buf_csip.csip += size;
+	} else {
+		emu_push(0x20);
+		emu_push(size >> 16); emu_push(size & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x1B14); emu_cs = 0x23E1; emu_Tools_Malloc();
+		emu_sp += 6;
+		driver->content.s.cs = emu_dx;
+		driver->content.s.ip = emu_ax;
+
+		driver->contentMalloced = 1;
+	}
+
+	File_Read(fileIndex, (void *)emu_get_memorycsip(driver->content), size);
+
+	File_Close(fileIndex);
+
+	if (driver->index == 0xFFFF) {
+		emu_dx = driver->content.s.cs;
+		emu_ax = driver->content.s.ip;
+		emu_bx = 0x4;
+		emu_pushf();
+
+		/* Call based on memory/register values */
+		emu_ip = driver->dcontent.s.ip;
+		emu_push(emu_cs);
+		emu_cs = driver->dcontent.s.cs;
+		emu_push(0x1B91);
+		switch ((emu_cs << 16) + emu_ip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1DD7; emu_last_ip = 0x1B8E; emu_last_length = 0x003A; emu_last_crc = 0x432B;
+				emu_call();
+				return;
+		}
+	} else {
+		emu_push(dcsip.s.cs); emu_push(dcsip.s.ip);
+		emu_push(musicName.s.cs); emu_push(musicName.s.ip);
+		emu_push(emu_cs); emu_push(0x1BA3); emu_cs = 0x1DD7; f__1DD7_0D77_0027_BE74();
+		emu_sp += 8;
+	}
 }
