@@ -71,7 +71,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_sp += 8;
 }
 
-static void Driver_Music_LoadFile(char *musicName, csip32 buf_csip, int32 buf_len)
+static void Driver_Music_LoadFile(char *musicName)
 {
 	Driver *music = &g_global->musicDriver;
 	Driver *sound = &g_global->soundDriver;
@@ -117,7 +117,7 @@ static void Driver_Music_LoadFile(char *musicName, csip32 buf_csip, int32 buf_le
 		return;
 	}
 
-	Driver_LoadFile(musicName, music, buf_csip, buf_len);
+	Driver_LoadFile(musicName, music);
 }
 
 /**
@@ -138,16 +138,11 @@ void Music_Play(uint16 musicID)
 		currentMusic = (char *)emu_get_memorycsip(g_global->currentMusic);
 
 		Driver_Music_Stop();
-
 		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
-
-		Driver_Music_LoadFile(NULL, nullcsip, 0);
-
-		Driver_Sound_LoadFile(NULL, nullcsip, 0);
-
-		Driver_Music_LoadFile(currentMusic, nullcsip, 0);
-
-		Driver_Sound_LoadFile(currentMusic, nullcsip, 0);
+		Driver_Music_LoadFile(NULL);
+		Driver_Sound_LoadFile(NULL);
+		Driver_Music_LoadFile(currentMusic);
+		Driver_Sound_LoadFile(currentMusic);
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);
@@ -163,11 +158,7 @@ void Music_InitMT32(uint16 musicID)
 
 	if (g_global->variable_6D8D != 6 && g_global->variable_6D8B != 6) return;
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		Driver_Music_LoadFile("DUNEINIT", nullcsip, 0);
-	}
+	Driver_Music_LoadFile("DUNEINIT");
 
 	Driver_Music_Play(musicID, 0xFF);
 
