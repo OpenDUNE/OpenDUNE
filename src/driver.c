@@ -909,7 +909,7 @@ void Driver_Voice_01AB()
 	voice->content.csip = 0x0;
 }
 
-void Driver_Sound_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
+void Driver_Sound_LoadFile(char *musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *sound = &g_global->soundDriver;
 	Driver *music = &g_global->musicDriver;
@@ -930,7 +930,7 @@ void Driver_Sound_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
 	if (music->filename.csip != 0x0) {
 		char *filename;
 
-		filename = Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), sound);
+		filename = Drivers_GenerateFilename(musicName, sound);
 
 		if (strcasecmp(filename, (char *)emu_get_memorycsip(music->filename)) == 0) {
 			sound->content = music->content;
@@ -1180,7 +1180,7 @@ void Drivers_All_Uninit()
 	Drivers_Voice_Uninit();
 }
 
-static void Drivers_1DD7_0D77(csip32 musicName, Driver *driver)
+static void Drivers_1DD7_0D77(char *musicName, Driver *driver)
 {
 	MSVC_PACKED_BEGIN
 	struct {
@@ -1195,11 +1195,11 @@ static void Drivers_1DD7_0D77(csip32 musicName, Driver *driver)
 	uint8 fileIndex;
 	uint32 position = 0;
 
-	if (musicName.csip == 0x0 || driver->index == 0xFFFF) return;
+	if (musicName == NULL || driver->index == 0xFFFF) return;
 
 	memcpy(&data, g_global->variable_63A4, 6);
 
-	filename = Drivers_GenerateFilename2((char *)emu_get_memorycsip(musicName), driver);
+	filename = Drivers_GenerateFilename2(musicName, driver);
 
 	if (filename == NULL) return;
 
@@ -1251,13 +1251,13 @@ static void Drivers_1DD7_0D77(csip32 musicName, Driver *driver)
 	File_Close(fileIndex);
 }
 
-void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 buf_csip, int32 buf_len)
+void Driver_LoadFile(char *musicName, Driver *driver, csip32 buf_csip, int32 buf_len)
 {
 	char *filename;
 	uint8 fileIndex;
 	int32 size;
 
-	filename = Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), driver);
+	filename = Drivers_GenerateFilename(musicName, driver);
 
 	if (filename == NULL) return;
 

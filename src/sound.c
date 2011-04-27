@@ -71,7 +71,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	emu_sp += 8;
 }
 
-static void Driver_Music_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_len)
+static void Driver_Music_LoadFile(char *musicName, csip32 buf_csip, int32 buf_len)
 {
 	Driver *music = &g_global->musicDriver;
 	Driver *sound = &g_global->soundDriver;
@@ -89,7 +89,7 @@ static void Driver_Music_LoadFile(csip32 musicName, csip32 buf_csip, int32 buf_l
 		Driver_UnloadFile(music);
 	}
 
-	if (sound->filename.csip != 0x0 && musicName.csip != 0 && strcasecmp(Drivers_GenerateFilename((char *)emu_get_memorycsip(musicName), music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
+	if (sound->filename.csip != 0x0 && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
 		g_global->musicDriver.content         = g_global->soundDriver.content;
 		g_global->musicDriver.variable_1E     = g_global->soundDriver.variable_1E;
 		g_global->musicDriver.filename        = g_global->soundDriver.filename;
@@ -132,19 +132,22 @@ void Music_Play(uint16 musicID)
 	if (musicID == 0xFFFF || musicID >= 38) return;
 
 	if (g_global->musics[musicID].string.csip != g_global->currentMusic.csip) {
-		g_global->currentMusic.csip = g_global->musics[musicID].string.csip;
+		char *currentMusic;
+
+		g_global->currentMusic = g_global->musics[musicID].string;
+		currentMusic = (char *)emu_get_memorycsip(g_global->currentMusic);
 
 		Driver_Music_Stop();
 
 		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
 
-		Driver_Music_LoadFile(nullcsip, nullcsip, 0);
+		Driver_Music_LoadFile(NULL, nullcsip, 0);
 
-		Driver_Sound_LoadFile(nullcsip, nullcsip, 0);
+		Driver_Sound_LoadFile(NULL, nullcsip, 0);
 
-		Driver_Music_LoadFile(g_global->currentMusic, nullcsip, 0);
+		Driver_Music_LoadFile(currentMusic, nullcsip, 0);
 
-		Driver_Sound_LoadFile(g_global->currentMusic, nullcsip, 0);
+		Driver_Sound_LoadFile(currentMusic, nullcsip, 0);
 	}
 
 	Driver_Music_Play(g_global->musics[musicID].variable_04, 0xFF);
@@ -162,11 +165,8 @@ void Music_InitMT32(uint16 musicID)
 
 	{
 		csip32 nullcsip;
-		csip32 musicName;
 		nullcsip.csip = 0x0;
-		musicName.csip = 0x353F3204; /* "DUNEINIT" */
-
-		Driver_Music_LoadFile(musicName, nullcsip, 0);
+		Driver_Music_LoadFile("DUNEINIT", nullcsip, 0);
 	}
 
 	Driver_Music_Play(musicID, 0xFF);

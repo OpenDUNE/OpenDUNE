@@ -67,12 +67,12 @@ extern void Driver_Sound_Stop();
 extern void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length);
 extern void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
 extern void Driver_Voice_01AB();
-extern void Driver_Sound_LoadFile(csip32 arg06, csip32 buf_csip, int32 buf_len);
+extern void Driver_Sound_LoadFile(char *musicName, csip32 buf_csip, int32 buf_len);
 extern char *Drivers_GenerateFilename(char *name, Driver *driver);
 extern char *Drivers_GenerateFilename2(char *name, Driver *driver);
 extern void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex);
 extern void Drivers_All_Uninit();
-extern void Driver_LoadFile(csip32 musicName, Driver *driver, csip32 buf_csip, int32 buf_len);
+extern void Driver_LoadFile(char *musicName, Driver *driver, csip32 buf_csip, int32 buf_len);
 extern void Driver_UnloadFile(Driver *driver);
 
 
