@@ -25,8 +25,6 @@ extern void f__2756_0827_0035_3DAA();
 extern void f__2756_094F_0029_7838();
 extern void f__2756_0A05_003D_0C0C();
 extern void f__2756_0B8F_0025_D5D8();
-extern void f__2756_0C0B_0021_873C();
-extern void f__2756_0C31_0037_2A81();
 extern void f__2756_0D12_0042_A9FA();
 extern void f__2B1E_0189_001B_E6CF();
 extern void emu_MPU_TestPort();
@@ -71,6 +69,12 @@ static void Drivers_CustomTimer_EnableHandler(uint16 index)
 	if (var6E[index] != 1) return;
 
 	var6E[index] = 2;
+}
+
+static void Drivers_CustomTimer_DisableHandler(uint16 index) {
+	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
+
+	if (var6E[index] == 2) var6E[index] = 1;
 }
 
 static uint16 Drivers_CustomTimer_AddHandler(csip32 csip)
@@ -130,7 +134,33 @@ static csip32 Drivers_Load(const char *filename, csip32 fcsip)
 	return File_ReadWholeFile(filename, 0x20);
 }
 
-static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C, uint16 arg0E)
+MSVC_PACKED_BEGIN
+typedef struct DriverInfo {
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? */
+	/* 0002()    */ PACK uint8  unknown_0002[2];
+	/* 0004(4)   */ PACK char extension[4];                 /*!< ?? */
+	/* 0008()    */ PACK uint8   unknown_0008[4];
+	/* 000C(2)   */ PACK uint16 port;                       /*!< ?? */
+	/* 000E(2)   */ PACK uint16 irq1;                       /*!< ?? */
+	/* 0010(2)   */ PACK uint16 dma;                        /*!< ?? */
+	/* 0012(2)   */ PACK uint16 irq2;                       /*!< ?? */
+	/* 0014(2)   */ PACK uint16 variable_0014;              /*!< ?? */
+} GCC_PACKED DriverInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(DriverInfo) == 0x16);
+
+static DriverInfo *Driver_GetInfo(uint16 driver)
+{
+	csip32 ret;
+
+	emu_push(0x2756); emu_push(0x888);
+	emu_push(driver); /* unused, but needed for correct param accesses. */
+	ret = Drivers_CallFunction(driver, 0x64);
+	emu_sp += 6;
+	return (DriverInfo *)emu_get_memorycsip(ret);
+}
+
+static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uint16 irq2)
 {
 	csip32 csip;
 	uint16 locsi;
@@ -139,11 +169,7 @@ static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C,
 
 	emu_get_memory16(0x2756, 0x00, 0x1B2) = 0xFFFF;
 
-	emu_push(driver);
-	emu_push(emu_cs); emu_push(0x0D7F); emu_cs = 0x2756; f__2756_0C0B_0021_873C();
-	emu_sp += 2;
-
-	locsi = emu_get_memory16(emu_dx, emu_ax, 0x14);
+	locsi = Driver_GetInfo(driver)->variable_0014;
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
 	if (locsi != 0xFFFF && csip.csip != 0) {
 		uint16 handlerId = Drivers_CustomTimer_AddHandler(csip);
@@ -157,10 +183,10 @@ static void Driver_Init(uint16 driver, uint16 arg08, uint16 arg0A, uint16 arg0C,
 		emu_sp += 6;
 	}
 
-	emu_push(arg0E);
-	emu_push(arg0C);
-	emu_push(arg0A);
-	emu_push(arg08);
+	emu_push(irq2);
+	emu_push(dma);
+	emu_push(irq1);
+	emu_push(port);
 	emu_push(driver); /* unused, but needed for correct param accesses. */
 	Drivers_CallFunction(driver, 0x66);
 	emu_sp += 10;
@@ -234,16 +260,12 @@ uint16 Drivers_EnableMusic(uint16 music)
 	return ret;
 }
 
-static void Driver_2756_0B49(uint16 index) {
-	if (emu_get_memory16(0x2756, index * 2, 0x6E) == 2) emu_get_memory16(0x2756, index * 2, 0x6E) = 1;
-}
-
 static void Drivers_Uninit(Driver *driver)
 {
 	if (driver == NULL) return;
 
 	if (driver->customTimer != 0xFFFF) {
-		Driver_2756_0B49(driver->customTimer);
+		Drivers_CustomTimer_DisableHandler(driver->customTimer);
 
 		emu_push(driver->customTimer);
 		emu_push(emu_cs); emu_push(0x16CA); emu_cs = 0x2756; f__2756_0827_0035_3DAA();
@@ -294,6 +316,46 @@ static void Drivers_Uninit(Driver *driver)
 	driver->variable_12.csip = 0x0;
 	driver->dcontent.csip    = 0x0;
 	driver->dfilename.csip   = 0x0;
+}
+
+static uint16 Driver_SetData(csip32 dcontent)
+{
+	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
+	uint16 *var1AC = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x1AC);
+	uint16 *var3BC = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x3BC);
+	uint16 *var460 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x460);
+	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
+	uint16 *var464 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x464);
+	csip32 *var466 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x466);
+	uint8  *content = emu_get_memorycsip(dcontent);
+	DriverInfo *info;
+
+	for (*var1AC = 0; *var1AC < 16; (*var1AC)++) {
+		if (var128[*var1AC].csip == 0) break;
+	}
+	if (*var1AC == 16) return 0xFFFF;
+
+	if (strncmp((char *)(content + 3), "DIGPAK", 6) == 0) {
+		if (*var462 != 0) return 0xFFFF;
+		*var462 = 1;
+		*var460 = 0xFFFF;
+		*var466 = dcontent;
+		var466->s.cs -= 0x10;
+		var466->s.ip += 0x100;
+		var128[*var1AC].csip = 0x275603BE;
+		*var464 = 0;
+		return *var1AC;
+	}
+
+	if (strncmp((char *)(content + 2), "Copy", 4) != 0) return 0xFFFF;
+
+	var128[*var1AC] = dcontent;
+	var128[*var1AC].s.ip += ((uint16 *)content)[0];
+
+	info = Driver_GetInfo(*var1AC);
+	if (info == NULL || info->variable_0000 > *var3BC) return 0xFFFF;
+
+	return *var1AC;
 }
 
 static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, const char *extension, uint16 variable_0008)
@@ -372,13 +434,9 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 
 		strcpy(driver->extension, (strcasecmp(filename, "alfx.drv") == 0) ? "adl" : "snd");
 	} else {
-		csip32 csip;
+		DriverInfo *info;
 
-		emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-		emu_push(emu_cs); emu_push(0x1437); emu_cs = 0x2756; f__2756_0C31_0037_2A81();
-		emu_sp += 4;
-
-		driver->index = emu_ax;
+		driver->index = Driver_SetData(driver->dcontent);
 
 		if (driver->index == 0xFFFF) {
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
@@ -389,54 +447,46 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 			return false;
 		}
 
-		emu_push(driver->index);
-		emu_push(emu_cs); emu_push(0x1456); emu_cs = 0x2756; f__2756_0C0B_0021_873C();
-		emu_sp += 2;
+		info = Driver_GetInfo(driver->index);
 
-		csip.s.cs = emu_dx;
-		csip.s.ip = emu_ax;
-
-		memcpy(driver->extension2, &emu_get_memory8(csip.s.cs, csip.s.ip, 4), 4);
+		memcpy(driver->extension2, info->extension, 4);
 		strcpy(driver->extension, "xmi");
 
 		if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
-			csip32 blaster;
+			char *blaster;
 
 			emu_push(emu_ds); emu_push(0x65FE); /* "BLASTER" */
 			emu_push(emu_cs); emu_push(0x14CF); emu_cs = 0x01F7; f__01F7_27FD_0037_E2C0();
 			emu_sp += 4;
+			blaster = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
 
-			blaster.s.cs = emu_dx;
-			blaster.s.ip = emu_ax;
-
-			if (blaster.csip != 0) {
+			if (blaster != NULL) {
 				char *val;
 
-				val = strchr((char*)emu_get_memorycsip(blaster), 'A');
+				val = strchr(blaster, 'A');
 				if (val != NULL) {
 					val++;
-					emu_get_memory16(csip.s.cs, csip.s.ip, 0xC) = (uint16)strtoul(val, NULL, 16);
+					info->port = (uint16)strtoul(val, NULL, 16);
 				}
 
-				val = strchr((char*)emu_get_memorycsip(blaster), 'I');
+				val = strchr(blaster, 'I');
 				if (val != NULL) {
 					val++;
-					emu_get_memory16(csip.s.cs, csip.s.ip, 0x12) = (uint16)strtoul(val, NULL, 10);
-					emu_get_memory16(csip.s.cs, csip.s.ip, 0xE)  = (uint16)strtoul(val, NULL, 10);
+					info->irq1 = info->irq2 = (uint16)strtoul(val, NULL, 10);
 				}
 
-				val = strchr((char*)emu_get_memorycsip(blaster), 'D');
+				val = strchr(blaster, 'D');
 				if (val != NULL) {
 					val++;
-					emu_get_memory16(csip.s.cs, csip.s.ip, 0x10) = (uint16)strtoul(val, NULL, 10);
+					info->dma = (uint16)strtoul(val, NULL, 10);
 				}
 			}
 		}
 
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0x10));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xE));
-		emu_push(emu_get_memory16(csip.s.cs, csip.s.ip, 0xC));
+		emu_push(info->irq2);
+		emu_push(info->dma);
+		emu_push(info->irq1);
+		emu_push(info->port);
 		emu_push(driver->index); /* unused, but needed for correct param accesses. */
 		emu_ax = Drivers_CallFunction(driver->index, 0x65).s.ip;
 		emu_sp += 8;
@@ -454,7 +504,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 			return false;
 		}
 
-		Driver_Init(driver->index, emu_get_memory16(csip.s.cs, csip.s.ip, 0xC), emu_get_memory16(csip.s.cs, csip.s.ip, 0xE), emu_get_memory16(csip.s.cs, csip.s.ip, 0x10), emu_get_memory16(csip.s.cs, csip.s.ip, 0x12));
+		Driver_Init(driver->index, info->port, info->irq1, info->dma, info->irq2);
 
 		{
 			int32 value = (int32)Drivers_CallFunction(driver->index, 0x99).s.ip;
