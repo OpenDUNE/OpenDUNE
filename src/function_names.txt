@@ -98,7 +98,6 @@
 261F:0008:0033:66ED	emu_Overlay_Interrupt
 
 2756:050F:000B:0871	emu_Interrupt_CustomTimer
-2756:0A81:0022:9F5C	emu_CustomTimer_AddHandler	# (handler_csip), returns handler index
 
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
