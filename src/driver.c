@@ -20,7 +20,7 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
-extern void f__2756_0746_0079_B2E2();
+extern void f__2756_06A9_0015_B76D();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0827_0035_3DAA();
 extern void f__2756_094F_0029_7838();
@@ -76,6 +76,48 @@ static void Drivers_CustomTimer_DisableHandler(uint16 index) {
 	if (var6E[index] == 2) var6E[index] = 1;
 }
 
+static void Drivers_CustomTimer_06D2(uint16 value)
+{
+	if (value >= 54925) {
+		value = 0;
+	} else {
+		value = value * 10000 / 8380;
+	}
+
+	emu_push(emu_cs);
+	emu_push(value);
+	emu_push(0x06F3); emu_cs = 0x2756; f__2756_06A9_0015_B76D();
+	emu_sp += 2;
+	emu_pop(&emu_cs);
+}
+
+static void Drivers_CustomTimer_0746()
+{
+	uint8 i;
+	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
+	uint32 *var90 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x90);
+	uint32 *varD4 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0xD4);
+	uint32 *var118 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x118);
+	uint16 *var120 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x120);
+	uint32 *var122 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x122);
+
+	*var122 = 0xFFFFFFFF;
+
+	for (i = 0; i <= 16; i++) {
+		if (var6E[i] == 0) continue;
+		if (varD4[i] < *var122) *var122 = varD4[i];
+	}
+
+	if (*var122 == *var118) return;
+
+	*var120 = 0xFFFF;
+	*var118 = *var122;
+
+	Drivers_CustomTimer_06D2(*var118 & 0xFFFF);
+
+	memset(var90, 0, 68);
+}
+
 static void Drivers_CustomTimer_SetDelay(uint16 index, uint32 delay)
 {
 	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
@@ -89,7 +131,7 @@ static void Drivers_CustomTimer_SetDelay(uint16 index, uint32 delay)
 	varD4[index] = delay;
 	var90[index] = 0;
 
-	emu_push(emu_cs); emu_push(0x0A42); emu_cs = 0x2756; f__2756_0746_0079_B2E2(); emu_pop(&emu_cs);
+	Drivers_CustomTimer_0746();
 
 	var6E[index] = old6E;
 }
