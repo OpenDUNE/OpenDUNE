@@ -237,3 +237,18 @@ void emu_Drivers_GenerateFilename2()
 	emu_dx = 0x353F;
 	emu_ax = emu_Global_GetIP(g_global->variable_9858, emu_dx);
 }
+
+/**
+ * Emulator wrapper around Drivers_1DD7_0B53()
+ *
+ * @name emu_Drivers_1DD7_0B53
+ * @implements 1DD7:0B53:0025:36F7 ()
+ */
+void emu_Drivers_1DD7_0B53()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	Drivers_1DD7_0B53();
+}

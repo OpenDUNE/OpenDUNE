@@ -601,25 +601,3 @@ l__0EA8:
 	emu_ax = 0xAA;
 	emu_Drivers_CallFunction(); return;
 }
-
-/**
- * Decompiled function f__2756_0ECC_0006_03A3()
- *
- * @name f__2756_0ECC_0006_03A3
- * @implements 2756:04F8:0009:907D ()
- * @implements 2756:0ECC:0006:03A3
- *
- * Called From: 1DD7:05A2:002B:11DD
- * Called From: 1DD7:09B4:0021:161D
- * Called From: 1DD7:0B73:0025:36F7
- */
-void f__2756_0ECC_0006_03A3()
-{
-	goto l__0ECC;
-	emu_movw(&emu_bx, emu_sp);
-	emu_movw(&emu_bx, emu_get_memory16(emu_ss, emu_bx, 0x4));
-	emu_calli(-0x45, 0x0501, 0x04FE);
-l__0ECC:
-	emu_ax = 0xB1;
-	emu_Drivers_CallFunction(); return;
-}

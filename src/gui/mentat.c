@@ -15,7 +15,6 @@
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 
-extern void f__1DD7_0B53_0025_36F7();
 extern void f__259E_0006_0016_858A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
@@ -82,9 +81,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
-	if (musicID != 0xFFFF) {
-		emu_push(emu_cs); emu_push(0x0E28); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
-	}
+	if (musicID != 0xFFFF) Drivers_1DD7_0B53();
 
 	Sprites_Load(0, 7, g_sprites);
 }

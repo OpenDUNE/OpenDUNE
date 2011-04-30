@@ -14,10 +14,10 @@
 #include "os/math.h"
 
 extern void f__01F7_27FD_0037_E2C0();
-extern void f__1DD7_1C3C_0020_9C6E();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
+extern void f__24FD_000A_000B_2043();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2756_06A9_0015_B76D();
@@ -819,53 +819,52 @@ bool Driver_Voice_01EB()
 
 void Driver_Sound_Play(int16 index, int16 volume)
 {
+	Driver *sound = &g_global->soundDriver;
+	MSBuffer *soundBuffer = &g_global->soundBuffer[g_global->soundBufferIndex];
+
 	if (index < 0 || index >= 120) return;
 
 	if (g_global->soundsEnabled == 0 && index > 1) return;
 
-	if (g_global->soundDriver.index == 0xFFFF) {
-		emu_push(volume);
-		emu_push(index);
-		emu_push(0x353F); emu_push(0x6302);
-		emu_push(emu_cs); emu_push(0x05C8); emu_cs = 0x1DD7; f__1DD7_1C3C_0020_9C6E();
-		emu_sp += 8;
+	if (sound->index == 0xFFFF) {
+		Drivers_1DD7_1C3C(sound, index, volume);
 		return;
 	}
 
-	if (g_global->soundBuffer[g_global->soundBufferIndex].index != 0xFFFF) {
-		emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
-		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(g_global->soundDriver.index, 0xAB);
+	if (soundBuffer->index != 0xFFFF) {
+		emu_push(soundBuffer->index);
+		emu_push(sound->index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(sound->index, 0xAB);
 		emu_sp += 4;
 
-		emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
-		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(g_global->soundDriver.index, 0x98);
+		emu_push(soundBuffer->index);
+		emu_push(sound->index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(sound->index, 0x98);
 		emu_sp += 4;
 
-		g_global->soundBuffer[g_global->soundBufferIndex].index = 0xFFFF;
+		soundBuffer->index = 0xFFFF;
 	}
 
 	emu_push(0); emu_push(0);
-	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].buffer.s.cs); emu_push(g_global->soundBuffer[g_global->soundBufferIndex].buffer.s.ip);
+	emu_push(soundBuffer->buffer.s.cs); emu_push(soundBuffer->buffer.s.ip);
 	emu_push(index);
-	emu_push(g_global->soundDriver.content.s.cs); emu_push(g_global->soundDriver.content.s.ip);
-	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-	g_global->soundBuffer[g_global->soundBufferIndex].index = Drivers_CallFunction(g_global->soundDriver.index, 0x97).s.ip;
+	emu_push(sound->content.s.cs); emu_push(sound->content.s.ip);
+	emu_push(sound->index); /* unused, but needed for correct param accesses. */
+	soundBuffer->index = Drivers_CallFunction(sound->index, 0x97).s.ip;
 	emu_sp += 16;
 
-	Drivers_1DD7_0B9C(&g_global->soundDriver, g_global->soundBuffer[g_global->soundBufferIndex].index);
+	Drivers_1DD7_0B9C(&g_global->soundDriver, soundBuffer->index);
 
-	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
-	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(g_global->soundDriver.index, 0xAA);
+	emu_push(soundBuffer->index);
+	emu_push(sound->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(sound->index, 0xAA);
 	emu_sp += 4;
 
 	emu_push(0);
 	emu_push(((volume & 0xFF) * 90) / 256);
-	emu_push(g_global->soundBuffer[g_global->soundBufferIndex].index);
-	emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(g_global->soundDriver.index, 0xB1);
+	emu_push(soundBuffer->index);
+	emu_push(sound->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(sound->index, 0xB1);
 	emu_sp += 8;
 
 	g_global->soundBufferIndex = (g_global->soundBufferIndex + 1) % 4;
@@ -873,36 +872,36 @@ void Driver_Sound_Play(int16 index, int16 volume)
 
 void Driver_Music_Stop()
 {
-	if (g_global->musicDriver.index == 0xFFFF) {
-		if (g_global->musicDriver.dcontent.csip == 0x0) return;
-		emu_push(0);
-		emu_push(0);
-		emu_push(0x353F); emu_push(0x6344);
-		emu_push(emu_cs); emu_push(0x0ACA); emu_cs = 0x1DD7; f__1DD7_1C3C_0020_9C6E();
-		emu_sp += 8;
+	Driver *music = &g_global->musicDriver;
+	MSBuffer *musicBuffer = &g_global->musicBuffer;
+
+	if (music->index == 0xFFFF) {
+		if (music->dcontent.csip == 0x0) return;
+		Drivers_1DD7_1C3C(music, 0, 0);
 	}
 
-	if (g_global->musicBuffer.index == 0xFFFF) return;
+	if (musicBuffer->index == 0xFFFF) return;
 
-	emu_push(g_global->musicBuffer.index);
-	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(g_global->musicDriver.index, 0xAB);
+	emu_push(musicBuffer->index);
+	emu_push(music->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(music->index, 0xAB);
 	emu_sp += 4;
 
-	emu_push(g_global->musicBuffer.index);
-	emu_push(g_global->musicDriver.index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(g_global->musicDriver.index, 0x98);
+	emu_push(musicBuffer->index);
+	emu_push(music->index); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(music->index, 0x98);
 	emu_sp += 4;
 
-	g_global->musicBuffer.index = 0xFFFF;
+	musicBuffer->index = 0xFFFF;
 }
 
 void Driver_Sound_Stop()
 {
+	Driver *sound = &g_global->soundDriver;
 	uint8 i;
 
-	if (g_global->soundDriver.index == 0xFFFF) {
-		if (g_global->soundDriver.dcontent.csip == 0x0) return;
+	if (sound->index == 0xFFFF) {
+		if (sound->dcontent.csip == 0x0) return;
 
 		if (g_global->variable_6372 != 0xFFFF) {
 			emu_push(g_global->variable_6372);
@@ -913,29 +912,26 @@ void Driver_Sound_Stop()
 			g_global->variable_6372 = 0xFFFF;
 		}
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(0x353F); emu_push(0x6302);
-		emu_push(emu_cs); emu_push(0x0A74); emu_cs = 0x1DD7; f__1DD7_1C3C_0020_9C6E();
-		emu_sp += 8;
+		Drivers_1DD7_1C3C(sound, 0, 0);
 
 		return;
 	}
 
 	for (i = 0; i < 4; i++) {
-		if (g_global->soundBuffer[i].index == 0xFFFF) continue;
+		MSBuffer *soundBuffer = &g_global->soundBuffer[i];
+		if (soundBuffer->index == 0xFFFF) continue;
 
-		emu_push(g_global->soundBuffer[i].index);
-		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(g_global->soundDriver.index, 0xAB);
+		emu_push(soundBuffer->index);
+		emu_push(sound->index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(sound->index, 0xAB);
 		emu_sp += 4;
 
-		emu_push(g_global->soundBuffer[i].index);
-		emu_push(g_global->soundDriver.index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(g_global->soundDriver.index, 0x98);
+		emu_push(soundBuffer->index);
+		emu_push(sound->index); /* unused, but needed for correct param accesses. */
+		Drivers_CallFunction(sound->index, 0x98);
 		emu_sp += 4;
 
-		g_global->soundBuffer[i].index = 0xFFFF;
+		soundBuffer->index = 0xFFFF;
 	}
 }
 
@@ -1513,4 +1509,224 @@ void Driver_UnloadFile(Driver *driver)
 	driver->filename.csip    = 0x0;
 	driver->content.csip     = 0x0;
 	driver->variable_1E.csip = 0x0;
+}
+
+void Drivers_1DD7_0B53()
+{
+	Driver *music = &g_global->musicDriver;
+	MSBuffer *musicBuffer = &g_global->musicBuffer;
+
+	if (music->index != 0xFFFF) {
+		if (musicBuffer->index != 0xFFFF) {
+			emu_push(0x7D0);
+			emu_push(0);
+			emu_push(musicBuffer->index);
+			emu_push(music->index); /* unused, but needed for correct param accesses. */
+			Drivers_CallFunction(music->index, 0xB1);
+			emu_sp += 8;
+		}
+		return;
+	}
+
+	if (music->dcontent.csip != 0x0) Drivers_1DD7_1C3C(music, 1, 0);
+}
+
+void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume)
+{
+	if (index == -1 || driver->dcontent.csip == 0x0 || driver->content.csip == 0x0) return;
+
+	index = (int8)emu_get_memorycsip(driver->variable_1E)[index];
+	if (index == -1) return;
+
+	if (strncmp((char *)emu_get_memorycsip(driver->dfilename), "ALFX", 4) == 0) {
+		index &= 0xFF;
+
+		while (true) {
+			emu_ax = 0;
+			emu_bx = 0x10;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1CC2); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1CBF; emu_last_length = 0x0009; emu_last_crc = 0x2391;
+					emu_call();
+					return;
+			}
+			if ((emu_ax & 0x8) == 0) break;
+		}
+
+		if (g_global->variable_6516 != 0xFFFF) {
+			emu_cx = g_global->variable_9868;
+			emu_dx = 1;
+			emu_ax = g_global->variable_6516;
+			emu_bx = 0xA;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1CE4); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1CE1; emu_last_length = 0x0022; emu_last_crc = 0xF69B;
+					emu_call();
+					return;
+			}
+
+			emu_cx = g_global->variable_9866;
+			emu_dx = 3;
+			emu_ax = g_global->variable_6516;
+			emu_bx = 0xA;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1CF5); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1CF2; emu_last_length = 0x0022; emu_last_crc = 0xF69B;
+					emu_call();
+					return;
+			}
+			g_global->variable_6516 = 0xFFFF;
+		}
+
+		emu_dx = 0;
+		emu_ax = index;
+		emu_bx = 0x9;
+		emu_pushf();
+
+		/* Call based on memory/register values */
+		emu_push(emu_cs); emu_push(0x1D08); emu_cs = driver->dcontent.s.cs;
+		switch (driver->dcontent.csip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1DD7; emu_last_ip = 0x1D05; emu_last_length = 0x000D; emu_last_crc = 0xFF6E;
+				emu_call();
+				return;
+		}
+
+		g_global->variable_6516 = 0xFFFF;
+
+		if (volume != 0xFFFF && emu_ax != 9) {
+			g_global->variable_6516 = index;
+
+			emu_dx = 1;
+			emu_ax = index;
+			emu_bx = 0x9;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1D36); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1D33; emu_last_length = 0x000D; emu_last_crc = 0xFF6E;
+					emu_call();
+					return;
+			}
+			g_global->variable_9866 = emu_ax;
+
+			emu_cx = 63 - ((63 - g_global->variable_9866) * volume >> 8);
+			emu_dx = 3;
+			emu_ax = index;
+			emu_bx = 0xA;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1D6C); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1D69; emu_last_length = 0x000D; emu_last_crc = 0xFF6E;
+					emu_call();
+					return;
+			}
+
+			emu_cx = (g_global->variable_9868 * volume) >> 8;
+			emu_dx = 1;
+			emu_ax = 0xA;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1D85); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1D82; emu_last_length = 0x000D; emu_last_crc = 0xFF6E;
+					emu_call();
+					return;
+			}
+		}
+
+		emu_ax = index;
+		emu_bx = 0x6;
+		emu_pushf();
+
+		/* Call based on memory/register values */
+		emu_push(emu_cs); emu_push(0x1D8F); emu_cs = driver->dcontent.s.cs;
+		switch (driver->dcontent.csip) {
+			default:
+				/* In case we don't know the call point yet, call the dynamic call */
+				emu_last_cs = 0x1DD7; emu_last_ip = 0x1D8C; emu_last_length = 0x000A; emu_last_crc = 0x136B;
+				emu_call();
+				return;
+		}
+
+		if (index == 0) {
+			emu_push(5);
+			emu_push(emu_cs); emu_push(0x1D9E); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
+			emu_sp += 2;
+		}
+
+		return;
+	}
+
+	if (g_global->variable_6328 == 1) {
+		if (index < 0) {
+			emu_ax = 4;
+			emu_bx = 0x11;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1DB8); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1DB5; emu_last_length = 0x000A; emu_last_crc = 0x136B;
+					emu_call();
+					return;
+			}
+		} else {
+			emu_ax = 4;
+			emu_bx = 0x10;
+			emu_pushf();
+
+			/* Call based on memory/register values */
+			emu_push(emu_cs); emu_push(0x1DC4); emu_cs = driver->dcontent.s.cs;
+			switch (driver->dcontent.csip) {
+				default:
+					/* In case we don't know the call point yet, call the dynamic call */
+					emu_last_cs = 0x1DD7; emu_last_ip = 0x1DC1; emu_last_length = 0x000A; emu_last_crc = 0x136B;
+					emu_call();
+					return;
+			}
+		}
+	}
+
+	emu_ax = abs(index);
+	emu_bx = 0x10;
+	emu_pushf();
+
+	/* Call based on memory/register values */
+	emu_push(emu_cs); emu_push(0x1DE1); emu_cs = driver->dcontent.s.cs;
+	switch (driver->dcontent.csip) {
+		default:
+			/* In case we don't know the call point yet, call the dynamic call */
+			emu_last_cs = 0x1DD7; emu_last_ip = 0x1DDE; emu_last_length = 0x000A; emu_last_crc = 0x136B;
+			emu_call();
+			return;
+	}
 }

@@ -1038,7 +1038,7 @@ typedef struct GlobalData {
 	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */
 	/* 63C6(168) */ PACK MSDriver musicDrv[14];             /*!< Informations about the music drivers. */
 	/* 646E(168) */ PACK MSDriver soundDrv[14];             /*!< Informations about the sound drivers. */
-	/* 6516()    */ PACK uint8   unknown_6516[0x0002];
+	/* 6516(2)   */ PACK uint16 variable_6516;              /*!< ?? */
 	/* 6518(17)  */ PACK char  string_6518[17];             /*!< "Sound1 for %08lx" NULL terminated. */
 	/* 6529(5)   */ PACK char  string_6529[5];              /*!< ".COM" NULL terminated. */
 	/* 652E(10)  */ PACK char  string_652E[10];             /*!< "SBDIG.ADV" NULL terminated. */
@@ -1420,7 +1420,9 @@ typedef struct GlobalData {
 	/* 9846(4)   */ PACK csip32 variable_9846;              /*!< Stored interrupt vector. */
 	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */
 	/* 9858(14)  */ PACK char   variable_9858[14];          /*!< Buffer to store a filename */
-	/* 9866()    */ PACK uint8   unknown_9866[0x0006];
+	/* 9866(2)   */ PACK uint16 variable_9866;              /*!< ?? */
+	/* 9868(2)   */ PACK uint16 variable_9868;              /*!< ?? */
+	/* 986A()    */ PACK uint8   unknown_986A[0x0002];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */

@@ -74,6 +74,8 @@ extern void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex);
 extern void Drivers_All_Uninit();
 extern void Driver_LoadFile(char *musicName, Driver *driver);
 extern void Driver_UnloadFile(Driver *driver);
+extern void Drivers_1DD7_0B53();
+extern void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume);
 
 
 extern void emu_Drivers_EnableSounds();
@@ -88,5 +90,6 @@ extern void emu_Driver_Sound_Stop();
 extern void emu_Driver_Voice_022D();
 extern void emu_Drivers_GenerateFilename();
 extern void emu_Drivers_GenerateFilename2();
+extern void emu_Drivers_1DD7_0B53();
 
 #endif /* DRIVER_H */

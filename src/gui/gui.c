@@ -31,7 +31,6 @@
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__01F7_286D_0023_9A13();
-extern void f__1DD7_0B53_0025_36F7();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_06D7_006B_B7D6();
 extern void f__22A6_127B_0036_F8C9();
@@ -1623,7 +1622,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	Unknown_Set_Global_6C91(old_6C91);
 
-	emu_push(emu_cs); emu_push(0x0552); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+	Drivers_1DD7_0B53();
 }
 
 /**
@@ -1792,7 +1791,7 @@ uint16 GUI_PickHouse()
 		}
 
 		if (yes_no == 0x8001) {
-			emu_push(emu_cs); emu_push(0x143B); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+			Drivers_1DD7_0B53();
 		} else {
 			emu_push(0xF);
 			emu_push(emu_ss); emu_push(emu_bp - 0x314);

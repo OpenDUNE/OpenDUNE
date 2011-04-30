@@ -5741,45 +5741,6 @@ l__2888:
 }
 
 /**
- * Decompiled function f__01F7_2890_0028_F33A()
- *
- * @name f__01F7_2890_0028_F33A
- * @implements 01F7:2890:0028:F33A ()
- *
- * Called From: 1DD7:1CA5:0019:3AC5
- */
-void f__01F7_2890_0028_F33A()
-{
-l__2890:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_push(emu_di);
-	emu_push(emu_ds);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xE);
-	emu_cx = emu_ax;
-	if (emu_cx == 0) { /* Unresolved jump */ emu_ip = 0x28B1; emu_last_cs = 0x01F7; emu_last_ip = 0x289B; emu_last_length = 0x0028; emu_last_crc = 0xF33A; emu_call(); return; }
-	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_cld();
-	emu_rep_cmpsb(emu_ds);
-	emu_al = emu_get_memory8(emu_ds, emu_si, 0xFFFF);
-	emu_xorb(&emu_ah, emu_ah);
-	emu_cl = emu_get_memory8(emu_es, emu_di, 0xFFFF);
-	emu_xorb(&emu_ch, emu_ch);
-	emu_pop(&emu_ds);
-	emu_subw(&emu_ax, emu_cx);
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Tools_Memcopy()
  *
  * @name emu_Tools_Memcopy

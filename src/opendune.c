@@ -45,7 +45,6 @@ extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
-extern void f__1DD7_0B53_0025_36F7();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
@@ -836,7 +835,7 @@ static void GameLoop_B4AE_0000()
 
 	GameLoop_B4ED_0200();
 
-	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+	Drivers_1DD7_0B53();
 
 	GameLoop_B4ED_0184();
 }
@@ -1003,7 +1002,7 @@ static void GameLoop_GameCredits()
 	emu_push(emu_cs); emu_push(0x0A2A); emu_cs = 0x259E; f__259E_0006_0016_858A();
 	emu_sp += 6;
 
-	emu_push(emu_cs); emu_push(0x0A32); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+	Drivers_1DD7_0B53();
 
 	GFX_ClearScreen();
 }
@@ -1053,7 +1052,7 @@ static void GameLoop_GameEnd()
 
 	GameLoop_B4ED_0200();
 
-	emu_push(emu_cs); emu_push(0x0060); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+	Drivers_1DD7_0B53();
 
 	GameLoop_B4ED_0184();
 
@@ -1386,7 +1385,7 @@ static void Gameloop_Intro()
 
 		GameLoop_B4ED_0200();
 
-		emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+		Drivers_1DD7_0B53();
 
 		GameLoop_B4ED_0184();
 	}
@@ -1890,7 +1889,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(emu_cs); emu_push(0x1C5C); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-					emu_push(emu_cs); emu_push(0x1C61); emu_cs = 0x1DD7; f__1DD7_0B53_0025_36F7();
+					Drivers_1DD7_0B53();
 
 					Gameloop_Intro();
 
