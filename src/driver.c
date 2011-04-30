@@ -24,7 +24,6 @@ extern void f__2756_06A9_0015_B76D();
 extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0827_0035_3DAA();
 extern void f__2756_094F_0029_7838();
-extern void f__2756_0D12_0042_A9FA();
 extern void f__2B1E_0189_001B_E6CF();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
@@ -317,6 +316,19 @@ uint16 Drivers_EnableMusic(uint16 music)
 	return ret;
 }
 
+static void Driver_ClearData(uint16 driver)
+{
+	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
+	uint16 *var460 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x460);
+	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
+
+	if (driver >= 16) return;
+
+	var128[driver].csip = 0x0;
+
+	if (*var462 != 0 && *var460 == driver) *var462 = 0;
+}
+
 static void Drivers_Uninit(Driver *driver)
 {
 	if (driver == NULL) return;
@@ -355,9 +367,7 @@ static void Drivers_Uninit(Driver *driver)
 		emu_push(emu_cs); emu_push(0x1710); emu_cs = 0x2756; f__2756_094F_0029_7838();
 		emu_sp += 6;
 
-		emu_push(driver->index);
-		emu_push(emu_cs); emu_push(0x171E); emu_cs = 0x2756; f__2756_0D12_0042_A9FA();
-		emu_sp += 2;
+		Driver_ClearData(driver->index);
 
 		driver->index = 0xFFFF;
 	}
@@ -542,9 +552,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 		emu_sp += 8;
 
 		if (emu_ax == 0) {
-			emu_push(driver->index);
-			emu_push(emu_cs); emu_push(0x15D8); emu_cs = 0x2756; f__2756_0D12_0042_A9FA();
-			emu_sp += 2;
+			Driver_ClearData(driver->index);
 
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
 			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
