@@ -53,7 +53,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	musicBuffer->index = Drivers_CallFunction(music->index, 0x97).s.ip;
 	emu_sp += 16;
 
-	Drivers_1DD7_0B9C(&g_global->musicDriver, musicBuffer->index);
+	Drivers_1DD7_0B9C(music, musicBuffer->index);
 
 	emu_push(musicBuffer->index);
 	emu_push(music->index); /* unused, but needed for correct param accesses. */
@@ -135,7 +135,7 @@ void Music_Play(uint16 musicID)
 		currentMusic = (char *)emu_get_memorycsip(g_global->currentMusic);
 
 		Driver_Music_Stop();
-		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 		Driver_Music_LoadFile(NULL);
 		Driver_Sound_LoadFile(NULL);
 		Driver_Music_LoadFile(currentMusic);
@@ -219,7 +219,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 		Tools_Memmove(soundBuffer, g_global->readBuffer, count);
 
-		Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
+		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
 	} else {
 		Driver_Sound_Play(voiceID, volume);
 	}

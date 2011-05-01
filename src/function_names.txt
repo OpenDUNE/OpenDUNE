@@ -134,11 +134,13 @@ AB00:0472:0062:026A	emu_DSP_UninstallInterrupt	# ()
 AB00:050B:005F:C2DC	emu_DSP_SetDMA	# (unknown1, unknown2, unknown3)
 AB00:0B73:0019:AD43	emu_DSP_GetInfo	# (unused, unknown_csip)
 AB00:0C3F:006F:09A2	emu_DSP_TestPort # (unused, port, IRQ, DMA, unused)
+AB00:0DA4:0078:0101	emu_DSP_Init # (unused, port, IRQ, DMA, IRQ2)
 
 AB01:0443:0017:B488	emu_MPU_SetPort	# (port)
 AB01:045A:0022:EC86	emu_MPU_TestPort	# (unused, port, unused, unused, unused)
 AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
 AB01:1FA8:0072:8B95	emu_MPU_Init	# (unused, port1, port2, port3, port4)
+AB01:2336:002C:4FDC	emu_MPU_ClearData	# (unused, index)
 
 B495:00FE:0017:4E8B	emu_GUI_Production_Down	# (csip) Handles click on down arrow in production/purchase window
 B495:01CB:0016:9CD0	emu_GUI_Production_Up	# (csip) Handles click on up arrow in production/purchase window

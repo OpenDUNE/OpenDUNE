@@ -1975,9 +1975,9 @@ l__0D99:
 }
 
 /**
- * Decompiled function f__AB00_0DA4_0078_0101()
+ * Decompiled function emu_DSP_Init()
  *
- * @name f__AB00_0DA4_0078_0101
+ * @name emu_DSP_Init
  * @implements AB00:0DA4:0078:0101 ()
  * @implements AB00:0E1C:001B:9801
  * @implements AB00:0E37:0034:388F
@@ -1986,7 +1986,7 @@ l__0D99:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_0DA4_0078_0101()
+void emu_DSP_Init()
 {
 l__0DA4:
 	emu_push(emu_bp);

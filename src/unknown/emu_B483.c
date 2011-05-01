@@ -49,7 +49,7 @@ void Unknown_B483_0156(uint16 index)
 
 		Tools_Memmove(csip, g_global->readBuffer, count);
 
-		Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
 		char *filename;
 
@@ -59,7 +59,7 @@ void Unknown_B483_0156(uint16 index)
 
 			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
 
-			Driver_Voice_0248(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+			Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 		}
 	}
 }
@@ -98,7 +98,7 @@ void Unknown_B483_0363(uint16 index)
 			g_global->variable_0218[i] = 0xFFFF;
 		}
 
-		Driver_Voice_01AB();
+		Driver_Voice_Stop();
 
 		g_global->variable_37BC.csip = 0;
 		if ((g_global->variable_37BA & 1) != 0) {
@@ -148,7 +148,7 @@ bool Unknown_B483_0470()
 {
 	if (g_global->soundsEnabled == 0) return false;
 
-	if (Driver_Voice_01EB()) return true;
+	if (Driver_Voice_IsPlaying()) return true;
 
 	g_global->variable_4060 = 0;
 

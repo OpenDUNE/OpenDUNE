@@ -102,12 +102,12 @@ void emu_Driver_Music_IsPlaying()
 }
 
 /**
- * Decompiled function Driver_Voice_01EB()
+ * Decompiled function Driver_Voice_IsPlaying()
  *
- * @name emu_Driver_Voice_01EB
+ * @name emu_Driver_Voice_IsPlaying
  * @implements 1DD7:01EB:0013:9C3C ()
  */
-void emu_Driver_Voice_01EB()
+void emu_Driver_Voice_IsPlaying()
 {
 	csip32 ret;
 
@@ -115,7 +115,7 @@ void emu_Driver_Voice_01EB()
 	emu_pop(&ret.s.ip);
 	emu_pop(&ret.s.cs);
 
-	emu_ax = Driver_Voice_01EB() ? 1 : 0;
+	emu_ax = Driver_Voice_IsPlaying() ? 1 : 0;
 
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
@@ -162,7 +162,7 @@ void emu_Driver_Sound_Stop()
 }
 
 /**
- * Emulator wrapper around Driver_Voice_0248()
+ * Emulator wrapper around Driver_Voice_Play()
  *
  * @name emu_Driver_Voice_022D
  * @implements 1DD7:022D:0015:1956 ()
@@ -177,7 +177,7 @@ void emu_Driver_Voice_022D()
 
 	buffer_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
 
-	Driver_Voice_0248(emu_get_memorycsip(buffer_csip), buffer_csip, 0xFF, 0xFF);
+	Driver_Voice_Play(emu_get_memorycsip(buffer_csip), buffer_csip, 0xFF, 0xFF);
 }
 
 /**
@@ -239,16 +239,16 @@ void emu_Drivers_GenerateFilename2()
 }
 
 /**
- * Emulator wrapper around Drivers_1DD7_0B53()
+ * Emulator wrapper around Driver_Music_FadeOut()
  *
- * @name emu_Drivers_1DD7_0B53
+ * @name emu_Driver_Music_FadeOut
  * @implements 1DD7:0B53:0025:36F7 ()
  */
-void emu_Drivers_1DD7_0B53()
+void emu_Driver_Music_FadeOut()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	Drivers_1DD7_0B53();
+	Driver_Music_FadeOut();
 }

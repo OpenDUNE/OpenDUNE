@@ -822,7 +822,7 @@ static void GameLoop_B4AE_0000()
 
 	GameLoop_B4ED_0200();
 
-	Drivers_1DD7_0B53();
+	Driver_Music_FadeOut();
 
 	GameLoop_B4ED_0184();
 }
@@ -983,7 +983,7 @@ static void GameLoop_GameCredits()
 
 	Unknown_259E_0006(g_global->variable_3C36, 60);
 
-	Drivers_1DD7_0B53();
+	Driver_Music_FadeOut();
 
 	GFX_ClearScreen();
 }
@@ -1033,7 +1033,7 @@ static void GameLoop_GameEnd()
 
 	GameLoop_B4ED_0200();
 
-	Drivers_1DD7_0B53();
+	Driver_Music_FadeOut();
 
 	GameLoop_B4ED_0184();
 
@@ -1330,7 +1330,7 @@ static void Gameloop_Intro()
 
 		GameLoop_B4ED_0200();
 
-		Drivers_1DD7_0B53();
+		Driver_Music_FadeOut();
 
 		GameLoop_B4ED_0184();
 	}
@@ -1834,7 +1834,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(emu_cs); emu_push(0x1C5C); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-					Drivers_1DD7_0B53();
+					Driver_Music_FadeOut();
 
 					Gameloop_Intro();
 
@@ -2231,7 +2231,7 @@ static void GameLoop_Main()
 		}
 
 		if (g_global->variable_6D8D != 4 && g_global->variable_6D8D != 5) {
-			if (!Driver_Voice_01EB() && !Unknown_B483_0470()) {
+			if (!Driver_Voice_IsPlaying() && !Unknown_B483_0470()) {
 				if (g_global->musicEnabled == 0) {
 					Music_Play(2);
 

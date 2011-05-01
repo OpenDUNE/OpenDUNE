@@ -60,13 +60,13 @@ extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
 extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
 extern bool Driver_Music_IsPlaying();
-extern bool Driver_Voice_01EB();
+extern bool Driver_Voice_IsPlaying();
 extern void Driver_Sound_Play(int16 index, int16 volume);
 extern void Driver_Music_Stop();
 extern void Driver_Sound_Stop();
 extern void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length);
-extern void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
-extern void Driver_Voice_01AB();
+extern void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
+extern void Driver_Voice_Stop();
 extern void Driver_Sound_LoadFile(char *musicName);
 extern char *Drivers_GenerateFilename(char *name, Driver *driver);
 extern char *Drivers_GenerateFilename2(char *name, Driver *driver);
@@ -74,7 +74,7 @@ extern void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex);
 extern void Drivers_All_Uninit();
 extern void Driver_LoadFile(char *musicName, Driver *driver);
 extern void Driver_UnloadFile(Driver *driver);
-extern void Drivers_1DD7_0B53();
+extern void Driver_Music_FadeOut();
 extern void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume);
 
 
@@ -82,7 +82,7 @@ extern void emu_Drivers_EnableSounds();
 extern void emu_Drivers_EnableMusic();
 extern void emu_Drivers_CallFunction();
 extern void emu_Driver_Music_IsPlaying();
-extern void emu_Driver_Voice_01EB();
+extern void emu_Driver_Voice_IsPlaying();
 extern void emu_Driver_Sound_Play();
 extern void emu_Driver_Sound_Play_Wrapper();
 extern void emu_Driver_Music_Stop();
@@ -90,6 +90,6 @@ extern void emu_Driver_Sound_Stop();
 extern void emu_Driver_Voice_022D();
 extern void emu_Drivers_GenerateFilename();
 extern void emu_Drivers_GenerateFilename2();
-extern void emu_Drivers_1DD7_0B53();
+extern void emu_Driver_Music_FadeOut();
 
 #endif /* DRIVER_H */

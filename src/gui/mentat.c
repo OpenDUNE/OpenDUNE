@@ -60,7 +60,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
-		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
 	Music_Play(musicID);
@@ -80,7 +80,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
-	if (musicID != 0xFFFF) Drivers_1DD7_0B53();
+	if (musicID != 0xFFFF) Driver_Music_FadeOut();
 
 	Sprites_Load(0, 7, g_sprites);
 }
@@ -104,7 +104,7 @@ bool GUI_Widget_Mentat_Click()
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
-		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
 	Music_Play(g_houseInfo[g_global->playerHouseID].musicBriefing);

@@ -30,7 +30,7 @@ extern void emu_DSP_TestPort();
 extern void emu_MPU_GetInfo();
 extern void f__AB00_0B91_0014_89BD();
 extern void f__AB00_0C08_0013_3E08();
-extern void f__AB00_0DA4_0078_0101();
+extern void emu_DSP_Init();
 extern void f__AB00_1068_0020_E6F1();
 extern void f__AB00_1122_001C_9408();
 extern void f__AB00_118F_0029_4B06();
@@ -38,7 +38,7 @@ extern void f__AB00_1235_0013_28BA();
 extern void f__AB01_0F24_0044_3584();
 extern void emu_MPU_Init();
 extern void f__AB01_2103_0040_93D2();
-extern void f__AB01_2336_002C_4FDC();
+extern void emu_MPU_ClearData();
 extern void f__AB01_26EB_0047_41F4();
 
 static void Drivers_CustomTimer_Clear()
@@ -774,7 +774,7 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x44AF0C08: case 0x47EE0C08: f__AB00_0C08_0013_3E08(); break; /* 0x81 */
 		case 0x44AF0C3F: case 0x47EE0C3F: emu_DSP_TestPort(); break; /* 0x65 */
 		case 0x44AF0C96: emu_MPU_GetInfo(); break; /* 0x64 */
-		case 0x44AF0DA4: case 0x47EE0DA4: f__AB00_0DA4_0078_0101(); break; /* 0x66 */
+		case 0x44AF0DA4: case 0x47EE0DA4: emu_DSP_Init(); break; /* 0x66 */
 		case 0x44AF0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
 		case 0x44AF0F19: break; /* 0x9A */
 		case 0x44AF0F24: f__AB01_0F24_0044_3584(); break; /* 0x9B */
@@ -786,7 +786,7 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x44AF2103: f__AB01_2103_0040_93D2(); break; /* 0x68 */
 		case 0x44AF2191: emu_MPU_GetDataSize(); break; /* 0x96 */
 		case 0x44AF21F0: emu_MPU_SetData(); break; /* 0x97 */
-		case 0x44AF2336: f__AB01_2336_002C_4FDC(); break; /* 0x98 */
+		case 0x44AF2336: emu_MPU_ClearData(); break; /* 0x98 */
 		case 0x44AF237A: emu_MPU_Play(); break; /* 0xAA */
 		case 0x44AF240F: emu_MPU_Stop(); break; /* 0xAB */
 		case 0x44AF26EB: f__AB01_26EB_0047_41F4(); break; /* 0xB1 */
@@ -835,7 +835,7 @@ bool Driver_Music_IsPlaying()
 	return MPU_IsPlaying(buffer->index) == 1;
 }
 
-bool Driver_Voice_01EB()
+bool Driver_Voice_IsPlaying()
 {
 	if (g_global->voiceDriver.index == 0xFFFF) return false;
 	return Drivers_CallFunction(g_global->voiceDriver.index, 0x7C).s.ip == 2;
@@ -877,7 +877,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	soundBuffer->index = Drivers_CallFunction(sound->index, 0x97).s.ip;
 	emu_sp += 16;
 
-	Drivers_1DD7_0B9C(&g_global->soundDriver, soundBuffer->index);
+	Drivers_1DD7_0B9C(sound, soundBuffer->index);
 
 	emu_push(soundBuffer->index);
 	emu_push(sound->index); /* unused, but needed for correct param accesses. */
@@ -985,7 +985,7 @@ void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uin
 	emu_sp += 8;
 }
 
-void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C)
+void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C)
 {
 	Driver *voice = &g_global->voiceDriver;
 
@@ -999,11 +999,11 @@ void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 		arg0A = min(arg0A, 0xFF);
 	}
 
-	if (!Driver_Voice_01EB()) g_global->variable_639A = 0xFFFF;
+	if (!Driver_Voice_IsPlaying()) g_global->variable_639A = 0xFFFF;
 
 	if (arg0A < (int16)g_global->variable_639A) return;
 
-	Driver_Voice_01AB();
+	Driver_Voice_Stop();
 
 	if (arg06 == NULL) return;
 
@@ -1065,11 +1065,11 @@ void Driver_Voice_0248(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 	Drivers_CallFunction(voice->index, 0x7D);
 }
 
-void Driver_Voice_01AB()
+void Driver_Voice_Stop()
 {
 	Driver *voice = &g_global->voiceDriver;
 
-	if (Driver_Voice_01EB()) Drivers_CallFunction(voice->index, 0x7E);
+	if (Driver_Voice_IsPlaying()) Drivers_CallFunction(voice->index, 0x7E);
 
 	if (voice->contentMalloced != 0) {
 		emu_push(voice->content.s.cs); emu_push(voice->content.s.ip);
@@ -1535,7 +1535,7 @@ void Driver_UnloadFile(Driver *driver)
 	driver->variable_1E.csip = 0x0;
 }
 
-void Drivers_1DD7_0B53()
+void Driver_Music_FadeOut()
 {
 	Driver *music = &g_global->musicDriver;
 	MSBuffer *musicBuffer = &g_global->musicBuffer;

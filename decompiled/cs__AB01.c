@@ -2469,7 +2469,7 @@ l__1BAE:
 	emu_get_memory16(emu_ss, emu_bp,  0x2) = 0x0;
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
-	emu_push(0x1BCF); f__AB01_2336_002C_4FDC();
+	emu_push(0x1BCF); emu_MPU_ClearData();
 	/* Unresolved jump */ emu_ip = 0x1BCF; emu_last_cs = 0xAB01; emu_last_ip = 0x1BCF; emu_last_length = 0x0021; emu_last_crc = 0x22BB; emu_call();
 l__1BD4:
 	emu_ch = 0x0;
@@ -3015,16 +3015,16 @@ l__21E5:
 }
 
 /**
- * Decompiled function f__AB01_2336_002C_4FDC()
+ * Decompiled function emu_MPU_ClearData()
  *
- * @name f__AB01_2336_002C_4FDC
+ * @name emu_MPU_ClearData
  * @implements AB01:2336:002C:4FDC ()
  * @implements AB01:2362:0013:6ECE
  * @implements AB01:2375:0005:C48A
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB01_2336_002C_4FDC()
+void emu_MPU_ClearData()
 {
 l__2336:
 	emu_push(emu_bp);
@@ -3036,17 +3036,18 @@ l__2336:
 	emu_cli();
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x8);
 	emu_cmpw(&emu_si, 0xFFFF);
-	if (emu_si == 0xFFFF) { /* Unresolved jump */ emu_ip = 0x236E; emu_last_cs = 0xAB01; emu_last_ip = 0x2344; emu_last_length = 0x002C; emu_last_crc = 0x4FDC; emu_call(); return; }
+	if (emu_si == 0xFFFF) goto l__236E;
 	emu_cmpw(&emu_get_memory16(emu_cs, emu_si, 0x12F4), 0x0);
-	if (emu_get_memory16(emu_cs, emu_si, 0x12F4) == 0x0) { /* Unresolved jump */ emu_ip = 0x236E; emu_last_cs = 0xAB01; emu_last_ip = 0x234C; emu_last_length = 0x002C; emu_last_crc = 0x4FDC; emu_call(); return; }
+	if (emu_get_memory16(emu_cs, emu_si, 0x12F4) == 0x0) goto l__236E;
 	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_cs, emu_si, 0x12F2));
 	emu_cmpw(&emu_get_memory16(emu_es, emu_di, 0x1A), 0x1);
 	if (emu_get_memory16(emu_es, emu_di, 0x1A) != 0x1) goto l__2362;
 	emu_get_memory16(emu_es, emu_di, 0x1C) = 0x1;
-	/* Unresolved jump */ emu_ip = 0x236E; emu_last_cs = 0xAB01; emu_last_ip = 0x2360; emu_last_length = 0x002C; emu_last_crc = 0x4FDC; emu_call();
+	goto l__236E;
 l__2362:
 	emu_get_memory16(emu_cs, emu_si, 0x12F4) = 0x0;
 	emu_decw(&emu_get_memory16(emu_cs, 0x00, 0x1312));
+l__236E:
 	emu_orb(&emu_bh, 0x0);
 	emu_push(emu_cs);
 	emu_push(0x2375); f__AB01_236F_0001_6780();

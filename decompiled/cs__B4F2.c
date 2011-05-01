@@ -302,7 +302,7 @@ l__023A:
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__024C;
 	emu_xorw(&emu_si, emu_si);
-	emu_push(emu_cs); emu_push(0x0246); emu_cs = 0x1DD7; emu_Drivers_1DD7_0B53();
+	emu_push(emu_cs); emu_push(0x0246); emu_cs = 0x1DD7; emu_Driver_Music_FadeOut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0246:
@@ -333,7 +333,7 @@ l__026F:
 	emu_pop(&emu_cx);
 	goto l__0272;
 l__0272:
-	emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x1DD7; emu_Driver_Voice_01EB();
+	emu_push(emu_cs); emu_push(0x0277); emu_cs = 0x1DD7; emu_Driver_Voice_IsPlaying();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__0277:

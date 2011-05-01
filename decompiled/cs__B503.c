@@ -871,7 +871,7 @@ l__04F5:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
 	goto l__0500;
 l__0500:
-	emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x1DD7; emu_Drivers_1DD7_0B53();
+	emu_push(emu_cs); emu_push(0x0505); emu_cs = 0x1DD7; emu_Driver_Music_FadeOut();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__0505:

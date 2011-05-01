@@ -1621,7 +1621,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	Unknown_Set_Global_6C91(old_6C91);
 
-	Drivers_1DD7_0B53();
+	Driver_Music_FadeOut();
 }
 
 /**
@@ -1652,7 +1652,7 @@ uint16 GUI_PickHouse()
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
-		Driver_Voice_0248(NULL, nullcsip, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
 	Voice_LoadVoices(5);
@@ -1784,7 +1784,7 @@ uint16 GUI_PickHouse()
 		}
 
 		if (yes_no == 0x8001) {
-			Drivers_1DD7_0B53();
+			Driver_Music_FadeOut();
 		} else {
 			Unknown_259E_0006(csip314, 15);
 		}
@@ -1806,7 +1806,7 @@ uint16 GUI_PickHouse()
 
 		Unknown_Set_Global_6C91(old_6C91);
 
-		while (Driver_Voice_01EB());
+		while (Driver_Voice_IsPlaying());
 
 		if (yes_no == 0x8001) break;
 	}
