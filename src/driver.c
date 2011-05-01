@@ -21,7 +21,6 @@ extern void f__24FD_000A_000B_2043();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2756_06A9_0015_B76D();
-extern void f__2756_07DA_0048_9F5D();
 extern void f__2756_0827_0035_3DAA();
 extern void f__2756_094F_0029_7838();
 extern void f__2B1E_0189_001B_E6CF();
@@ -316,7 +315,7 @@ uint16 Drivers_EnableMusic(uint16 music)
 	return ret;
 }
 
-static void Driver_ClearData(uint16 driver)
+static void Driver_Uninstall(uint16 driver)
 {
 	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
 	uint16 *var460 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x460);
@@ -367,7 +366,7 @@ static void Drivers_Uninit(Driver *driver)
 		emu_push(emu_cs); emu_push(0x1710); emu_cs = 0x2756; f__2756_094F_0029_7838();
 		emu_sp += 6;
 
-		Driver_ClearData(driver->index);
+		Driver_Uninstall(driver->index);
 
 		driver->index = 0xFFFF;
 	}
@@ -385,7 +384,7 @@ static void Drivers_Uninit(Driver *driver)
 	driver->dfilename.csip   = 0x0;
 }
 
-static uint16 Driver_SetData(csip32 dcontent)
+static uint16 Driver_Install(csip32 dcontent)
 {
 	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
 	uint16 *var1AC = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x1AC);
@@ -496,7 +495,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 	} else {
 		DriverInfo *info;
 
-		driver->index = Driver_SetData(driver->dcontent);
+		driver->index = Driver_Install(driver->dcontent);
 
 		if (driver->index == 0xFFFF) {
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
@@ -552,7 +551,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 		emu_sp += 8;
 
 		if (emu_ax == 0) {
-			Driver_ClearData(driver->index);
+			Driver_Uninstall(driver->index);
 
 			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
 			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
@@ -697,9 +696,26 @@ uint16 Drivers_Voice_Init(uint16 index)
 	return index;
 }
 
+static void Drivers_Reset()
+{
+	uint16 *var4   = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x4);
+	uint16 *var6   = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6);
+	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
+	uint16 *var168 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x168);
+	uint16 *var188 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x188);
+	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
+
+	*var4 = 0;
+	*var6 = 0;
+	*var462 = 0;
+	memset(var128, 0, 64);
+	memset(var168, 0xFF, 32);
+	memset(var188, 0, 32);
+}
+
 void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 {
-	emu_push(emu_cs); emu_push(0x03A3); emu_cs = 0x2756; f__2756_07DA_0048_9F5D();
+	Drivers_Reset();
 
 	{
 		csip32 csip;
