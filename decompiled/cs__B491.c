@@ -996,7 +996,7 @@ l__07CC:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C38));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C36));
-	emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x259E; f__259E_0006_0016_858A();
+	emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x259E; emu_Unknown_259E_0006();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3491) { overlay(0x3491, 1); }
 l__07DD:

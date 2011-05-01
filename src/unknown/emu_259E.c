@@ -10,7 +10,7 @@
 
 extern void f__259E_0040_0015_5E4A();
 
-void Unknown_259E_00B1(csip32 ptr1, csip32 ptr2, int16 unknown)
+void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 {
 	int16  progress; /* bool */
 	int16  signed04;
@@ -26,6 +26,7 @@ void Unknown_259E_00B1(csip32 ptr1, csip32 ptr2, int16 unknown)
 
 	int i;
 
+	uint8 *ptr1 = g_global->variable_70A2;
 	ptr2data = emu_get_memorycsip(ptr2);
 
 	/* Code below does the equivalent of
@@ -39,12 +40,12 @@ void Unknown_259E_00B1(csip32 ptr1, csip32 ptr2, int16 unknown)
 	base = emu_sp;
 	data = &emu_get_memory8(emu_ss, base, 0x0);
 
-	if (ptr1.csip == 0x0 || ptr2.csip == 0x0) {
+	if (ptr1 == NULL || ptr2.csip == 0x0) {
 		emu_sp += 0x300;
 		return;
 	}
 
-	memcpy(data, emu_get_memorycsip(ptr1), 0x300);
+	memcpy(data, ptr1, 0x300);
 
 	if (g_global->variable_6C76 != 0x3) {
 		emu_push(ptr2.s.cs);
@@ -115,14 +116,13 @@ void Unknown_259E_00B1(csip32 ptr1, csip32 ptr2, int16 unknown)
 }
 
 /**
- * Emulator wrapper around Unknown_259E_00B1().
+ * Emulator wrapper around Unknown_259E_0006().
  *
- * @name emu_Unknown_259E_00B1
- * @implements 259E:00B1:001C:4051 ()
+ * @name emu_Unknown_259E_0006
+ * @implements 259E:0006:0016:858A ()
  */
-void emu_Unknown_259E_00B1()
+void emu_Unknown_259E_0006()
 {
-	csip32 ptr1;
 	csip32 ptr2;
 	int16 unknown;
 
@@ -130,9 +130,8 @@ void emu_Unknown_259E_00B1()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	ptr1    =   emu_get_csip32(emu_ss, emu_sp, 0x0);
-	ptr2    =   emu_get_csip32(emu_ss, emu_sp, 0x4);
-	unknown = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	ptr2    =   emu_get_csip32(emu_ss, emu_sp, 0x0);
+	unknown = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
-	Unknown_259E_00B1(ptr1, ptr2, unknown);
+	Unknown_259E_0006(ptr2, unknown);
 }

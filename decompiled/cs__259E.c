@@ -5,68 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__259E_0006_0016_858A()
- *
- * @name f__259E_0006_0016_858A
- * @implements 259E:0006:0016:858A ()
- * @implements 259E:001C:0005:60C3
- *
- * Called From: 10E4:2263:0013:D274
- * Called From: 1423:039B:0011:194B
- * Called From: 1423:0408:0016:5986
- * Called From: B491:07D8:0011:193C
- * Called From: B491:088C:0014:0DD8
- * Called From: B491:0A25:0015:1784
- * Called From: B4B8:1D7F:0011:195A
- * Called From: B4B8:1FDE:0014:B1DF
- * Called From: B4B8:2188:0018:F01B
- * Called From: B4BE:0143:0014:8DDF
- * Called From: B4BE:020B:001A:F454
- * Called From: B4BE:0249:001A:F45B
- * Called From: B4BE:02B4:0014:0DFA
- * Called From: B4BE:02F4:001A:B479
- * Called From: B4BE:0355:0014:0DFA
- * Called From: B4BE:0395:0011:195A
- * Called From: B4BE:0395:001A:B479
- * Called From: B4DA:117C:0014:31C1
- * Called From: B4DA:11CE:0011:9942
- * Called From: B4ED:01DE:0014:B1F3
- * Called From: B4ED:03FC:0013:D256
- * Called From: B4ED:06B7:0013:6E51
- * Called From: B4ED:070C:0013:525F
- * Called From: B503:006A:0013:BF46
- * Called From: B503:0279:0014:B1CE
- * Called From: B503:0550:0012:7598
- * Called From: B511:0F2C:0011:9942
- * Called From: B511:1120:0014:B1CE
- * Called From: B511:11F6:0025:9022
- * Called From: B511:1447:000F:CDB2
- * Called From: B511:14E7:000F:CDB2
- */
-void f__259E_0006_0016_858A()
-{
-l__0006:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_ds);
-	emu_ax = 0x70A2;
-	emu_push(emu_ax);
-	emu_push(emu_cs);
-	emu_push(0x001C); emu_Unknown_259E_00B1();
-l__001C:
-	emu_addw(&emu_sp, 0xA);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__259E_0040_0015_5E4A()
  *
  * @name f__259E_0040_0015_5E4A

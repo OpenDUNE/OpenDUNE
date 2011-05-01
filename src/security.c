@@ -15,7 +15,6 @@
 #include "wsa.h"
 #include "unknown/unknown.h"
 
-extern void f__259E_0006_0016_858A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2B6C_0137_0020_C73F();
@@ -99,12 +98,7 @@ bool Security_Check()
 		File_Close(file);
 	}
 
-	emu_push(15);
-	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-	emu_push(emu_cs); emu_push(0x1181); emu_cs = 0x259E; f__259E_0006_0016_858A();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 6;
+	Unknown_259E_0006(g_global->variable_3C36, 15);
 
 	emu_push(g_global->playerHouseID);
 	emu_push(wsaHouseFilenamecsip.s.cs); emu_push(wsaHouseFilenamecsip.s.ip);
@@ -121,12 +115,7 @@ bool Security_Check()
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-	emu_push(15);
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x11D3); emu_cs = 0x259E; f__259E_0006_0016_858A();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-	emu_sp += 6;
+	Unknown_259E_0006(g_global->variable_3C32, 15);
 
 	{
 		char string[1024];

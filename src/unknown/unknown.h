@@ -21,8 +21,8 @@ extern void emu_Unknown_Set_Global_6C91();
 extern void emu_Memory_GetBlock1();
 extern void emu_Memory_GetBlock2();
 
-extern void emu_Unknown_259E_00B1();
-extern void Unknown_259E_00B1(csip32 ptr1, csip32 ptr2, int16 unknown);
+extern void emu_Unknown_259E_0006();
+extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);
 
 extern void emu_Unknown_2903_00CA();
 extern void emu_Unknown_2903_090A();

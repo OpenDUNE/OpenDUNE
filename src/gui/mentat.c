@@ -15,7 +15,6 @@
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 
-extern void f__259E_0006_0016_858A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
@@ -192,10 +191,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(15);
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x0F31); emu_cs = 0x259E; f__259E_0006_0016_858A();
-	emu_sp += 6;
+	Unknown_259E_0006(g_global->variable_3C32, 15);
 
 	emu_push(0); emu_push(0);
 	emu_push(1);
