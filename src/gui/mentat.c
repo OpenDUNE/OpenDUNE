@@ -23,7 +23,6 @@ extern void f__22A6_04A5_000F_3B8F();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0308_0018_F99F();
 extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_0AB8_002A_AAB2();
