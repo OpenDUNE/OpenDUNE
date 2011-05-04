@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "file.h"
 #include "house.h"
 #include "map.h"
 #include "os/endian.h"
@@ -273,4 +274,14 @@ bool LoadFile(char *filename)
 	if (g_global->variable_38BE != 1) Game_Prepare();
 
 	return true;
+}
+
+/**
+ * In case the current house is Mercenary, another palette is loaded.
+ */
+void Load_Palette_Mercenaries()
+{
+	if (g_global->playerHouseID == HOUSE_MERCENARY) {
+		File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
+	}
 }

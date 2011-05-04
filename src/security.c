@@ -7,6 +7,7 @@
 #include "libemu.h"
 #include "global.h"
 #include "file.h"
+#include "load.h"
 #include "gui/gui.h"
 #include "gui/mentat.h"
 #include "house.h"
@@ -20,7 +21,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0308_0018_F99F();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4DA_0A8E_0025_4AC8();
@@ -333,7 +333,7 @@ bool Security_Check()
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-	emu_push(emu_cs); emu_push(0x16B8); f__B4DA_02E0_0023_E297();
+	Load_Palette_Mercenaries();
 
 	g_global->variable_2580 = 0;
 	g_global->variable_3C4A = 0;

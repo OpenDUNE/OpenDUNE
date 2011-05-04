@@ -177,7 +177,7 @@ l__00DE:
 l__00EB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
-	emu_push(emu_cs); emu_push(0x00F2); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_02E0_0023_E297();
+	emu_push(emu_cs); emu_push(0x00F2); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_Load_Palette_Mercenaries();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__00F2:

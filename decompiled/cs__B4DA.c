@@ -5,47 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4DA_02E0_0023_E297()
- *
- * @name f__B4DA_02E0_0023_E297
- * @implements B4DA:02E0:0023:E297 ()
- * @implements B4DA:0303:0005:6003
- * @implements B4DA:0306:0002:2597
- *
- * Called From: 34DA:0025:0005:0000
- * Called From: B4DA:16B5:0004:8B0A
- */
-void f__B4DA_02E0_0023_E297()
-{
-l__02E0:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x3A38), 0x5);
-	if (emu_get_memory16(emu_ds, 0x00, 0x3A38) != 0x5) goto l__0306;
-	emu_xorw(&emu_ax, emu_ax);
-	emu_dx = 0x300;
-	emu_push(emu_ax);
-	emu_push(emu_dx);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C32));
-	emu_push(emu_ds);
-	emu_ax = 0x259C;
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0303); emu_cs = 0x253D; emu_File_ReadBlockFile();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-l__0303:
-	emu_addw(&emu_sp, 0xC);
-l__0306:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4DA_0308_0018_F99F()
  *
  * @name f__B4DA_0308_0018_F99F

@@ -11,6 +11,7 @@
 #include "gui.h"
 #include "widget.h"
 #include "../house.h"
+#include "../load.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
@@ -227,8 +228,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	emu_push(emu_cs); emu_push(0x0F97); emu_cs = 0x29E8; emu_Input_History_Clear();
 
 	if (unknown) {
-		emu_push(emu_cs); emu_push(0x0FA2); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_02E0_0023_E297();
-
+		Load_Palette_Mercenaries();
 		Sprites_LoadTiles();
 	}
 

@@ -14,6 +14,7 @@
 #include "../os/sleep.h"
 #include "../unknown/unknown.h"
 #include "../house.h"
+#include "../load.h"
 #include "../map.h"
 #include "../structure.h"
 #include "../unit.h"
@@ -45,7 +46,6 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
-extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void GUI_Mentat_Show();
 extern void f__B518_0B1D_0014_307D();
@@ -1800,8 +1800,7 @@ uint16 GUI_PickHouse()
 			w = (Widget *)emu_get_memorycsip(wcsip);
 		}
 
-		emu_push(emu_cs); emu_push(0x1487); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_02E0_0023_E297();
-
+		Load_Palette_Mercenaries();
 		Sprites_LoadTiles();
 
 		Unknown_Set_Global_6C91(old_6C91);
