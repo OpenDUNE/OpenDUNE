@@ -115,7 +115,7 @@ l__00EB:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x1DD7; emu_Driver_Voice_022D();
+	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x1DD7; emu_Driver_Voice_Play();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 l__00FF:
