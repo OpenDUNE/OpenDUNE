@@ -41,43 +41,60 @@ extern void f__AB01_2103_0040_93D2();
 extern void emu_MPU_ClearData();
 extern void f__AB01_26EB_0047_41F4();
 
+static uint16 _stat04;
+static uint16 _stat06;
+static csip32 _stat08[17];
+static uint16 _stat4C[17];
+static uint16 _stat6E[17];
+static uint32 _stat90[17];
+static uint32 _statD4[17];
+static uint32 _stat118;
+static csip32 _stat11C;
+static uint16 _stat120;
+static uint32 _stat122;
+static uint16 _stat126;
+static csip32 _stat128[16];
+static uint16 _stat168[16];
+static uint16 _stat188[16];
+static uint16 _stat1AC;
+static uint16 _stat1B2;
+static uint32 *_stat1B4 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x1B4);
+static csip32 _stat3B8;
+static uint16 _stat460;
+static uint16 _stat462;
+static uint16 _stat464;
+static csip32 _stat466;
+
 static void Drivers_CustomTimer_Clear()
 {
-	emu_get_memory16(0x2756, 0x00, 0x118) = 0xFFFF;
-	emu_get_memory16(0x2756, 0x00, 0x11A) = 0xFFFF;
-	memset(&emu_get_memory16(0x2756, 0x00, 0x6E), 0, 34);
-	memset(&emu_get_memory16(0x2756, 0x00, 0x90), 0, 68);
-	memset(&emu_get_memory16(0x2756, 0x00, 0xD4), 0, 68);
+	_stat118 = 0xFFFFFFFF;
+	memset(_stat6E, 0, 34);
+	memset(_stat90, 0, 68);
+	memset(_statD4, 0, 68);
 }
 
 static void Drivers_CustomTimer_InstallInterrupt()
 {
-	emu_get_csip32(0x2756, 0x00, 0x11C) = emu_get_csip32(0x00, 0x00, 0x20);
-	emu_get_memory16(0x2756, 0x00, 0x48) = 0x0622;
-	emu_get_memory16(0x2756, 0x00, 0x4A) = 0x2756;
-	emu_get_memory16(0x00, 0x00, 0x20) = 0x050F;
-	emu_get_memory16(0x00, 0x00, 0x22) = 0x2756;
+	_stat11C = emu_get_csip32(0x00, 0x00, 0x20);
+	_stat08[16].csip = 0x27560622;
+	emu_get_csip32(0x00, 0x00, 0x20).csip = 0x2756050F;
 }
 
 static void Drivers_CustomTimer_EnableHandler(uint16 index)
 {
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
+	if (_stat6E[index] != 1) return;
 
-	if (var6E[index] != 1) return;
-
-	var6E[index] = 2;
+	_stat6E[index] = 2;
 }
 
 static void Drivers_CustomTimer_DisableHandler(uint16 index) {
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
-
-	if (var6E[index] == 2) var6E[index] = 1;
+	if (_stat6E[index] == 2) _stat6E[index] = 1;
 }
 
 static void Drivers_CustomTimer_06A9(uint16 value)
 {
 	emu_outb(0x43, 0x36);
-	emu_get_memory16(0x2756, 0x00, 0x126) = value;
+	_stat126 = value;
 	emu_outb(0x40, value & 0xFF);
 	emu_outb(0x40, value >> 8);
 }
@@ -96,46 +113,37 @@ static void Drivers_CustomTimer_06D2(uint16 value)
 static void Drivers_CustomTimer_0746()
 {
 	uint8 i;
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
-	uint32 *var90 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x90);
-	uint32 *varD4 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0xD4);
-	uint32 *var118 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x118);
-	uint16 *var120 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x120);
-	uint32 *var122 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x122);
 
-	*var122 = 0xFFFFFFFF;
+	_stat122 = 0xFFFFFFFF;
 
 	for (i = 0; i <= 16; i++) {
-		if (var6E[i] == 0) continue;
-		if (varD4[i] < *var122) *var122 = varD4[i];
+		if (_stat6E[i] == 0) continue;
+		if (_statD4[i] < _stat122) _stat122 = _statD4[i];
 	}
 
-	if (*var122 == *var118) return;
+	if (_stat122 == _stat118) return;
 
-	*var120 = 0xFFFF;
-	*var118 = *var122;
+	_stat120 = 0xFFFF;
+	_stat118 = _stat122;
 
-	Drivers_CustomTimer_06D2(*var118 & 0xFFFF);
+	Drivers_CustomTimer_06D2(_stat118 & 0xFFFF);
 
-	memset(var90, 0, 68);
+	memset(_stat90, 0, 68);
 }
 
 static void Drivers_CustomTimer_SetDelay(uint16 index, uint32 delay)
 {
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
-	uint32 *var90 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x90);
-	uint32 *varD4 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0xD4);
 	uint16 old6E;
 
-	old6E = var6E[index];
-	var6E[index] = 1;
+	old6E = _stat6E[index];
+	_stat6E[index] = 1;
 
-	varD4[index] = delay;
-	var90[index] = 0;
+	_statD4[index] = delay;
+	_stat90[index] = 0;
 
 	Drivers_CustomTimer_0746();
 
-	var6E[index] = old6E;
+	_stat6E[index] = old6E;
 }
 
 static void Drivers_CustomTimer_SetFrequency(uint16 index, uint32 freq)
@@ -148,25 +156,19 @@ static uint16 Drivers_CustomTimer_AddHandler(csip32 csip)
 {
 	uint8 i;
 
-	uint16 *var04 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x04);
-	csip32 *var08 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x08);
-	uint16 *var4C = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x4C);
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
-	uint16 *var8E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x8E);
-
-	for (i = 0; i < 16; i++) if (var6E[i] == 0) break;
+	for (i = 0; i < 16; i++) if (_stat6E[i] == 0) break;
 	if (i == 16) return 0xFFFF;
 
-	var6E[i] = 1;
-	var4C[i] = 0x353F;
-	var08[i] = csip;
+	_stat6E[i] = 1;
+	_stat4C[i] = 0x353F;
+	_stat08[i] = csip;
 
-	(*var04)++;
-	if (*var04 != 1) return i;
+	_stat04++;
+	if (_stat04 != 1) return i;
 
 	Drivers_CustomTimer_Clear();
 
-	*var8E = 1;
+	_stat6E[16] = 1;
 
 	Drivers_CustomTimer_InstallInterrupt();
 
@@ -174,28 +176,25 @@ static uint16 Drivers_CustomTimer_AddHandler(csip32 csip)
 
 	Drivers_CustomTimer_EnableHandler(16);
 
-	var6E[i] = 1;
+	_stat6E[i] = 1;
 
 	return i;
 }
 
 static void Drivers_CustomTimer_UninstallInterrupt()
 {
-	emu_get_csip32(0x00, 0x00, 0x20) = emu_get_csip32(0x2756, 0x00, 0x11C);
-	emu_get_memory16(0x2756, 0x00, 0x120) = 0xFFFF;
+	emu_get_csip32(0x00, 0x00, 0x20) = _stat11C;
+	_stat120 = 0xFFFF;
 }
 
 static void Drivers_CustomTimer_RemoveHandler(uint16 index)
 {
-	uint16 *var04 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x04);
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
+	if (index == 0xFFFF || _stat6E[index] == 0) return;
 
-	if (index == 0xFFFF || var6E[index] == 0) return;
+	_stat6E[index] = 0;
 
-	var6E[index] = 0;
-
-	(*var04)--;
-	if (*var04 != 0) return;
+	_stat04--;
+	if (_stat04 != 0) return;
 
 	Drivers_CustomTimer_06A9(0);
 
@@ -204,18 +203,8 @@ static void Drivers_CustomTimer_RemoveHandler(uint16 index)
 
 void Drivers_CustomTimer_Interrupt()
 {
-	uint16 *var06 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x06);
-	csip32 *var08 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x08);
-	uint16 *var4C = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x4C);
-	uint16 *var6E = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6E);
-	uint32 *var90 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x90);
-	uint32 *varD4 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0xD4);
-	uint32 *var118 = (uint32 *)&emu_get_memory8(0x2756, 0x00, 0x118);
-	uint16 *var120 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x120);
-	csip32 *var3B8 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x3B8);
-
-	if (*var06 == 0) {
-		*var06 = 1;
+	if (_stat06 == 0) {
+		_stat06 = 1;
 
 		emu_push(emu_ax);
 		emu_push(emu_bx);
@@ -227,23 +216,23 @@ void Drivers_CustomTimer_Interrupt()
 		emu_push(emu_es);
 		emu_push(emu_ds);
 
-		var3B8->s.cs = emu_ss;
-		var3B8->s.ip = emu_sp;
+		_stat3B8.s.cs = emu_ss;
+		_stat3B8.s.ip = emu_sp;
 		emu_ss = 0x2756;
 		emu_sp = 0x03B8;
 
-		for (*var120 = 0; *var120 <= 16; (*var120)++) {
-			if (var6E[*var120] != 2) continue;
+		for (_stat120 = 0; _stat120 <= 16; _stat120++) {
+			if (_stat6E[_stat120] != 2) continue;
 
-			emu_ds = var4C[*var120];
+			emu_ds = _stat4C[_stat120];
 
-			var90[*var120] += *var118;
-			if (var90[*var120] < varD4[*var120]) continue;
-			var90[*var120] -= varD4[*var120];
+			_stat90[_stat120] += _stat118;
+			if (_stat90[_stat120] < _statD4[_stat120]) continue;
+			_stat90[_stat120] -= _statD4[_stat120];
 
 			/* Call based on memory/register values */
-			emu_push(emu_cs); emu_push(0x05A2); emu_cs = var08[*var120].s.cs;
-			switch (var08[*var120].csip) {
+			emu_push(emu_cs); emu_push(0x05A2); emu_cs = _stat08[_stat120].s.cs;
+			switch (_stat08[_stat120].csip) {
 				case 0x27560622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
 				case 0x2BD10006: f__2BD1_0006_004A_CD10(); break;
 				case 0x44AF1CEE: emu_MPU_Interrupt(); break;
@@ -255,8 +244,8 @@ void Drivers_CustomTimer_Interrupt()
 			}
 		}
 
-		emu_ss = var3B8->s.cs;
-		emu_sp = var3B8->s.ip;
+		emu_ss = _stat3B8.s.cs;
+		emu_sp = _stat3B8.s.ip;
 
 		emu_pop(&emu_ds);
 		emu_pop(&emu_es);
@@ -268,17 +257,17 @@ void Drivers_CustomTimer_Interrupt()
 		emu_pop(&emu_bx);
 		emu_pop(&emu_ax);
 
-		*var06 = 0;
+		_stat06 = 0;
 	}
 
 	emu_outb(0x20, 0x20);
 
-	assert(emu_get_memory32(0x2756, 0x00, 0x1B4) == HTOBE32('Test'));
+	assert(*_stat1B4 == HTOBE32('Test'));
 }
 
 void Drivers_CustomTimer_OriginalInterrupt()
 {
-	assert(emu_get_csip32(0x2756, 0x00, 0x11C).csip == 0x00700040);
+	assert(_stat11C.csip == 0x00700040);
 
 	emu_pushf(); emu_push(emu_cs); emu_push(0x0628); emu_cs = 0x0070; Interrupt_Timer();
 }
@@ -334,14 +323,14 @@ static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uin
 
 	if (driver >= 16) return;
 
-	emu_get_memory16(0x2756, 0x00, 0x1B2) = 0xFFFF;
+	_stat1B2 = 0xFFFF;
 
 	locsi = Driver_GetInfo(driver)->variable_0014;
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
 	if (locsi != 0xFFFF && csip.csip != 0) {
 		uint16 handlerId = Drivers_CustomTimer_AddHandler(csip);
-		emu_get_memory16(0x2756, driver * 2, 0x168) = handlerId;
-		emu_get_memory16(0x2756, 0x00, 0x1B2) = handlerId;
+		_stat168[driver] = handlerId;
+		_stat1B2 = handlerId;
 
 		Drivers_CustomTimer_SetFrequency(handlerId, locsi);
 	}
@@ -354,11 +343,9 @@ static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uin
 	Drivers_CallFunction(driver, 0x66);
 	emu_sp += 10;
 
-	emu_get_memory16(0x2756, driver * 2, 0x188) = 1;
+	_stat188[driver] = 1;
 
-	if (emu_get_memory16(0x2756, 0x00, 0x1B2) != 0xFFFF) {
-		Drivers_CustomTimer_EnableHandler(emu_get_memory16(0x2756, 0x00, 0x1B2));
-	}
+	if (_stat1B2 != 0xFFFF) Drivers_CustomTimer_EnableHandler(_stat1B2);
 }
 
 uint16 Drivers_EnableSounds(uint16 sounds)
@@ -425,26 +412,19 @@ uint16 Drivers_EnableMusic(uint16 music)
 
 static void Driver_Uninstall(uint16 driver)
 {
-	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
-	uint16 *var460 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x460);
-	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
-
 	if (driver >= 16) return;
 
-	var128[driver].csip = 0x0;
+	_stat128[driver].csip = 0x0;
 
-	if (*var462 != 0 && *var460 == driver) *var462 = 0;
+	if (_stat462 != 0 && _stat460 == driver) _stat462 = 0;
 }
 
 static void Driver_Uninit(uint16 driver, csip32 arg08)
 {
-	uint16 *var168 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x168);
-	uint16 *var188 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x188);
+	if (driver >= 16 || _stat188[driver] == 0) return;
+	_stat188[driver] = 0;
 
-	if (driver >= 16 || var188[driver] == 0) return;
-	var188[driver] = 0;
-
-	if (var168[driver] != 0xFFFF) Drivers_CustomTimer_RemoveHandler(var168[driver]);
+	if (_stat168[driver] != 0xFFFF) Drivers_CustomTimer_RemoveHandler(_stat168[driver]);
 
 	emu_push(arg08.s.cs); emu_push(arg08.s.ip);
 	emu_push(driver); /* unused, but needed for correct param accesses. */
@@ -508,42 +488,35 @@ static void Drivers_Uninit(Driver *driver)
 
 static uint16 Driver_Install(csip32 dcontent)
 {
-	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
-	uint16 *var1AC = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x1AC);
-	uint16 *var3BC = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x3BC);
-	uint16 *var460 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x460);
-	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
-	uint16 *var464 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x464);
-	csip32 *var466 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x466);
 	uint8  *content = emu_get_memorycsip(dcontent);
 	DriverInfo *info;
 
-	for (*var1AC = 0; *var1AC < 16; (*var1AC)++) {
-		if (var128[*var1AC].csip == 0) break;
+	for (_stat1AC = 0; _stat1AC < 16; _stat1AC++) {
+		if (_stat128[_stat1AC].csip == 0) break;
 	}
-	if (*var1AC == 16) return 0xFFFF;
+	if (_stat1AC == 16) return 0xFFFF;
 
 	if (strncmp((char *)(content + 3), "DIGPAK", 6) == 0) {
-		if (*var462 != 0) return 0xFFFF;
-		*var462 = 1;
-		*var460 = 0xFFFF;
-		*var466 = dcontent;
-		var466->s.cs -= 0x10;
-		var466->s.ip += 0x100;
-		var128[*var1AC].csip = 0x275603BE;
-		*var464 = 0;
-		return *var1AC;
+		if (_stat462 != 0) return 0xFFFF;
+		_stat462 = 1;
+		_stat460 = 0xFFFF;
+		_stat466 = dcontent;
+		_stat466.s.cs -= 0x10;
+		_stat466.s.ip += 0x100;
+		_stat128[_stat1AC].csip = 0x275603BE;
+		_stat464 = 0;
+		return _stat1AC;
 	}
 
 	if (strncmp((char *)(content + 2), "Copy", 4) != 0) return 0xFFFF;
 
-	var128[*var1AC] = dcontent;
-	var128[*var1AC].s.ip += ((uint16 *)content)[0];
+	_stat128[_stat1AC] = dcontent;
+	_stat128[_stat1AC].s.ip += ((uint16 *)content)[0];
 
-	info = Driver_GetInfo(*var1AC);
-	if (info == NULL || info->variable_0000 > *var3BC) return 0xFFFF;
+	info = Driver_GetInfo(_stat1AC);
+	if (info == NULL || info->variable_0000 > 211) return 0xFFFF;
 
-	return *var1AC;
+	return _stat1AC;
 }
 
 static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, const char *extension, uint16 variable_0008)
@@ -820,19 +793,12 @@ uint16 Drivers_Voice_Init(uint16 index)
 
 static void Drivers_Reset()
 {
-	uint16 *var4   = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x4);
-	uint16 *var6   = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x6);
-	csip32 *var128 = (csip32 *)&emu_get_memory8(0x2756, 0x00, 0x128);
-	uint16 *var168 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x168);
-	uint16 *var188 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x188);
-	uint16 *var462 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x462);
-
-	*var4 = 0;
-	*var6 = 0;
-	*var462 = 0;
-	memset(var128, 0, 64);
-	memset(var168, 0xFF, 32);
-	memset(var188, 0, 32);
+	_stat04 = 0;
+	_stat06 = 0;
+	_stat462 = 0;
+	memset(_stat128, 0, 64);
+	memset(_stat168, 0xFF, 32);
+	memset(_stat188, 0, 32);
 }
 
 void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
@@ -863,7 +829,7 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 		return csip;
 	}
 
-	csip = emu_get_csip32(0x2756, driver * 4, 0x128);
+	csip = _stat128[driver];
 	if (csip.csip == 0) return csip;
 
 	for (;; csip.s.ip += 4) {
