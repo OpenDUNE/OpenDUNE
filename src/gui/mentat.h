@@ -10,5 +10,6 @@ extern uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, struct Wi
 extern void GUI_Mentat_ShowBriefing();
 extern void GUI_Mentat_ShowWin();
 extern void GUI_Mentat_ShowLose();
+extern void GUI_Mentat_Display(char *houseFilename, uint16 houseID);
 
 #endif /* GUI_MENTAT_H */

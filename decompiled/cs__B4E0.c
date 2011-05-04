@@ -66,7 +66,7 @@ l__0022:
 	emu_xorw(&emu_dx, emu_dx);
 	emu_push(emu_ax);
 	emu_push(emu_dx);
-	emu_push(emu_cs); emu_push(0x0031); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0000_002C_B3C2();
+	emu_push(emu_cs); emu_push(0x0031); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Display();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0031:

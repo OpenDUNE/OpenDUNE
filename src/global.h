@@ -1346,7 +1346,21 @@ typedef struct GlobalData {
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
 	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x001E];
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
-	/* 7FC6()    */ PACK uint8   unknown_7FC6[0x008C];
+	/* 7FC6(60)  */ PACK csip32 variable_7FC6[3][5];        /*!< Pointers to sprites. */
+	/* 8002(4)   */ PACK csip32 variable_8002;              /*!< ?? */
+	/* 8006(1)   */ PACK uint8  variable_8006;              /*!< Left A ?? */
+	/* 8007(1)   */ PACK uint8  variable_8007;              /*!< Top A ?? */
+	/* 8008(1)   */ PACK uint8  variable_8008;              /*!< Right A ?? */
+	/* 8009(1)   */ PACK uint8  variable_8009;              /*!< Bottom A ?? */
+	/* 800A(1)   */ PACK uint8  variable_800A;              /*!< Left B ?? */
+	/* 800B(1)   */ PACK uint8  variable_800B;              /*!< Top B ?? */
+	/* 800C(1)   */ PACK uint8  variable_800C;              /*!< Right B ?? */
+	/* 800D(1)   */ PACK uint8  variable_800D;              /*!< Bottom B ?? */
+	/* 800E(1)   */ PACK uint8  variable_800E;              /*!< ?? */
+	/* 800F(1)   */ PACK uint8  variable_800F;              /*!< ?? */
+	/* 8010(1)   */ PACK uint8  variable_8010;              /*!< ?? */
+	/* 8011(1)   */ PACK uint8  variable_8011;              /*!< ?? */
+	/* 8012()    */ PACK uint8   unknown_8012[0x0040];
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
 	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */

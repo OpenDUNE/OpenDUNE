@@ -6,6 +6,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "gui.h"
+#include "mentat.h"
 #include "../global.h"
 
 extern void emu_String_sprintf_params();
@@ -440,4 +441,25 @@ void emu_GUI_Unknown_24D0_000D()
 	loc14 = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
 	GUI_Unknown_24D0_000D(loc06, loc08, loc0A, loc0C, loc0E, loc10, loc12, loc14);
+}
+
+/**
+ * Emulator wrapper around GUI_Mentat_Display().
+ *
+ * @name emu_GUI_Mentat_Display()
+ * @implements B4DA:0000:002C:B3C2 ()
+ */
+void emu_GUI_Mentat_Display()
+{
+	csip32 houseFilename;
+	uint16 houseID;
+
+	/* Pop return address off the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	houseFilename = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	houseID = emu_get_memory16(emu_ss, emu_sp, 0x4);
+
+	GUI_Mentat_Display((char *)emu_get_memorycsip(houseFilename), houseID);
 }

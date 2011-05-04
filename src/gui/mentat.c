@@ -1,6 +1,8 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <string.h>
+#include <assert.h>
 #include "../os/strings.h"
 #include "types.h"
 #include "libemu.h"
@@ -12,13 +14,14 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
+#include "../file.h"
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 
+extern void f__22A6_04A5_000F_3B8F();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4DA_0000_002C_B3C2();
 extern void f__B4DA_02E0_0023_E297();
 extern void f__B4DA_0308_0018_F99F();
 extern void f__B4DA_0A8E_0025_4AC8();
@@ -26,11 +29,20 @@ extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0000_000F_14AD();
 extern void emu_Tools_Free();
 extern void overlay(uint16 cs, uint8 force);
-
-
-
-
 extern void emu_Input_History_Clear();
+
+/**
+ * Information about the mentat.
+ */
+static const uint8 unknownHouseData[6][8] = {
+	{0x20,0x58,0x20,0x68,0x00,0x00,0x80,0x68}, /* Harkonnen mentat. */
+	{0x28,0x50,0x28,0x60,0x48,0x98,0x80,0x80}, /* Atreides mentat. */
+	{0x10,0x50,0x10,0x60,0x58,0x90,0x80,0x80}, /* Ordos mentat. */
+	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+	{0x40,0x50,0x38,0x60,0x00,0x00,0x00,0x00}, /* Intro houses (mercenaries) mentat. */
+};
+
 
 
 /**
@@ -150,10 +162,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	Sprites_UnloadTiles();
 
-	emu_push(g_global->playerHouseID);
-	emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
-	emu_push(emu_cs); emu_push(0x0E5F); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0000_002C_B3C2();
-	emu_sp += 6;
+	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaFilename), g_global->playerHouseID);
 
 	Unknown_Set_Global_6C91(2);
 
@@ -258,3 +267,92 @@ void GUI_Mentat_ShowLose()
 	picture.s.ip = 0x8D29; /* g_global->scenario.pictureLose */
 	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_houseInfo[g_global->playerHouseID].musicLose);
 }
+
+/**
+ * Display a mentat.
+ * @param houseFilename Filename of the house.
+ * @param houseID ID of the house.
+ */
+void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
+{
+	uint16 old_6C91;
+	int i;
+
+	char *houseName = (char *)emu_get_memorycsip(g_houseInfo[houseID].name);
+	sprintf((char *)g_global->variable_9939, "MENTAT%c.CPS", houseName[0]);
+
+	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, (void *)emu_get_memorycsip(g_global->variable_998A), 1);
+
+	emu_push(0x0); emu_push(0x0);
+	emu_push(0x2);
+	emu_push(0x3);
+	emu_push(emu_cs); emu_push(0x0068); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
+	emu_sp += 8;
+
+	old_6C91 = Unknown_Set_Global_6C91(2);
+
+	if (houseID == HOUSE_MERCENARY) {
+		File_ReadBlockFile("BENE.PAL", (char *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
+	}
+
+	memset(g_global->variable_7FC6, 0, sizeof(g_global->variable_7FC6));
+
+	g_global->variable_8006 = g_global->variable_8008 = unknownHouseData[houseID][0];
+	g_global->variable_8007 = g_global->variable_8009 = unknownHouseData[houseID][1];
+
+	for (i = 0; i < 5; i++) {
+		g_global->variable_7FC6[0][i] = g_sprites[14 + i];
+	}
+
+	g_global->variable_8008 += Sprite_GetWidth(g_global->variable_7FC6[0][0]);
+	g_global->variable_8009 += Sprite_GetHeight(g_global->variable_7FC6[0][0]);
+
+	g_global->variable_800A = g_global->variable_800C = unknownHouseData[houseID][2];
+	g_global->variable_800B = g_global->variable_800D = unknownHouseData[houseID][3];
+
+	for (i = 0; i < 5; i++) {
+		g_global->variable_7FC6[1][i] = g_sprites[19 + i];
+	}
+
+	g_global->variable_800C += Sprite_GetWidth(g_global->variable_7FC6[1][0]);
+	g_global->variable_800D += Sprite_GetHeight(g_global->variable_7FC6[1][0]);
+
+	g_global->variable_800E = unknownHouseData[houseID][4];
+	g_global->variable_800F = unknownHouseData[houseID][5];
+
+	for (i = 0; i < 4; i++) {
+		g_global->variable_7FC6[2][i] = g_sprites[25 + i];
+	}
+
+	g_global->variable_8010 = unknownHouseData[houseID][6];
+	g_global->variable_8011 = unknownHouseData[houseID][7];
+
+	g_global->variable_8002 = g_sprites[24];
+
+	Unknown_07AE_00E4(8);
+
+	if (houseFilename != NULL) {
+		csip32 locPtr;
+		csip32 null;
+		csip32 memBlock;
+
+		null.csip = 0x0;
+
+		emu_push(0x5);
+		emu_push(emu_cs); emu_push(0x027D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_sp += 2;
+		memBlock.s.cs = emu_dx;
+		memBlock.s.ip = emu_ax;
+
+		locPtr = WSA_LoadFile(houseFilename, memBlock, g_global->variable_6CD3[2][1], 0, null);
+		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2, 0);
+		WSA_Unload(locPtr);
+	}
+
+	emu_push(g_global->variable_6C91);
+	emu_push(emu_cs); emu_push(0x02CE); f__B4DA_0A8E_0025_4AC8();
+	emu_sp += 2;
+
+	Unknown_Set_Global_6C91(old_6C91);
+}
+
