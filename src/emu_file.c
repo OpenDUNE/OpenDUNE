@@ -155,29 +155,6 @@ void emu_File_Seek()
 }
 
 /**
- * Emulator wrapper around File_GetSize().
- *
- * @name emu_File_GetSize
- * @implements 1FB5:16D5:006A:679B ()
- */
-void emu_File_GetSize()
-{
-	uint8 index;
-	uint32 res;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	res = File_GetSize(index);
-
-	emu_dx = res >> 16;
-	emu_ax = res & 0xFFFF;
-}
-
-/**
  * Emulator wrapper around File_Delete().
  *
  * @name emu_File_Delete
@@ -246,31 +223,6 @@ void emu_File_ReadBlockFile()
 
 	emu_dx = res >> 16;
 	emu_ax = res & 0xFFFF;
-}
-
-/**
- * Emulator wrapper around File_ReadWholeFile()
- *
- * @name emu_File_ReadWholeFile
- * @implements 253D:008A:0016:007A ()
- */
-void emu_File_ReadWholeFile()
-{
-	csip32 filename;
-	uint16 arg0A;
-	csip32 res;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	filename  = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	arg0A     = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	res = File_ReadWholeFile((char *)emu_get_memorycsip(filename), arg0A);
-
-	emu_dx = res.s.cs;
-	emu_ax = res.s.ip;
 }
 
 /**
