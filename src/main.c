@@ -10,7 +10,7 @@ extern void emu_Input_Keyboard_EventHandler();
 extern void Interrupt_User_Clock();
 extern void Interrupt_Timer();
 extern void emu_EntryPoint();
-extern void emu_Interrupt_CustomTimer();
+extern void emu_Drivers_CustomTimer_Interrupt();
 extern void emu_Mouse_EventHandler();
 extern void f__AB00_056F_0020_6328();
 extern void f__AB00_058F_000E_41A1();
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 	emu_hard_link(0x0070, 0x00E0, &Interrupt_User_Clock);
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
 	emu_hard_link(0x01F7, 0x0000, &emu_EntryPoint);
-	emu_hard_link(0x2756, 0x050F, &emu_Interrupt_CustomTimer);
+	emu_hard_link(0x2756, 0x050F, &emu_Drivers_CustomTimer_Interrupt);
 	emu_hard_link(0x29A3, 0x0054, &emu_Mouse_EventHandler);
 	emu_hard_link(0x44AF, 0x056F, &f__AB00_056F_0020_6328);
 	emu_hard_link(0x47EE, 0x056F, &f__AB00_056F_0020_6328);

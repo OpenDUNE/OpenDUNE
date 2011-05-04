@@ -76,6 +76,8 @@ extern void Driver_LoadFile(char *musicName, Driver *driver);
 extern void Driver_UnloadFile(Driver *driver);
 extern void Driver_Music_FadeOut();
 extern void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume);
+extern void Drivers_CustomTimer_Interrupt();
+extern void Drivers_CustomTimer_OriginalInterrupt();
 
 
 extern void emu_Drivers_EnableSounds();
@@ -91,5 +93,7 @@ extern void emu_Driver_Voice_022D();
 extern void emu_Drivers_GenerateFilename();
 extern void emu_Drivers_GenerateFilename2();
 extern void emu_Driver_Music_FadeOut();
+extern void emu_Drivers_CustomTimer_Interrupt();
+extern void emu_Drivers_CustomTimer_OriginalInterrupt();
 
 #endif /* DRIVER_H */
