@@ -22,7 +22,6 @@ extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2756_06A9_0015_B76D();
 extern void f__2756_0827_0035_3DAA();
-extern void f__2756_094F_0029_7838();
 extern void f__2B1E_0189_001B_E6CF();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
@@ -328,6 +327,26 @@ static void Driver_Uninstall(uint16 driver)
 	if (*var462 != 0 && *var460 == driver) *var462 = 0;
 }
 
+static void Driver_Uninit(uint16 driver, csip32 arg08)
+{
+	uint16 *var168 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x168);
+	uint16 *var188 = (uint16 *)&emu_get_memory8(0x2756, 0x00, 0x188);
+
+	if (driver >= 16 || var188[driver] == 0) return;
+	var188[driver] = 0;
+
+	if (var168[driver] != 0xFFFF) {
+		emu_push(var168[driver]);
+		emu_push(emu_cs); emu_push(0x0978); f__2756_0827_0035_3DAA();
+		emu_sp += 2;
+	}
+
+	emu_push(arg08.s.cs); emu_push(arg08.s.ip);
+	emu_push(driver); /* unused, but needed for correct param accesses. */
+	Drivers_CallFunction(driver, 0x68);
+	emu_sp += 6;
+}
+
 static void Drivers_Uninit(Driver *driver)
 {
 	if (driver == NULL) return;
@@ -361,10 +380,10 @@ static void Drivers_Uninit(Driver *driver)
 			}
 		}
 	} else {
-		emu_push(0); emu_push(0);
-		emu_push(driver->index);
-		emu_push(emu_cs); emu_push(0x1710); emu_cs = 0x2756; f__2756_094F_0029_7838();
-		emu_sp += 6;
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+
+		Driver_Uninit(driver->index, nullcsip);
 
 		Driver_Uninstall(driver->index);
 
