@@ -812,7 +812,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	return ret;
 }
 
-static void f__B4F2_0D52_0029_1FC2(bool save, bool force)
+static void UpdateArrows(bool save, bool force)
 {
 	if (!force && g_global->variable_2A97 == g_global->variable_2A99) return;
 
@@ -868,7 +868,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 	emu_push(emu_cs); emu_push(0x0522); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
 	emu_sp += 4;
 
-	f__B4F2_0D52_0029_1FC2(save, true);
+	UpdateArrows(save, true);
 
 	loop = true;
 
@@ -876,7 +876,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
 		uint16 key = GUI_Widget_HandleEvents(w);
 
-		f__B4F2_0D52_0029_1FC2(save, false);
+		UpdateArrows(save, false);
 
 		if ((key & 0x8000) != 0) {
 			Widget *w2;
@@ -923,13 +923,13 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					emu_push(emu_cs); emu_push(0x0654); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 					emu_sp += 4;
 
-					f__B4F2_0D52_0029_1FC2(save, true);
+					UpdateArrows(save, true);
 
 					emu_push(0x353F); emu_push(0x2787);
 					emu_push(emu_cs); emu_push(0x066C); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
 					emu_sp += 4;
 
-					f__B4F2_0D52_0029_1FC2(save, true);
+					UpdateArrows(save, true);
 				} break;
 			}
 
