@@ -19,11 +19,13 @@
 #include "../tools.h"
 #include "../os/sleep.h"
 #include "../load.h"
+#include "../file.h"
+#include "../save.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
-extern void emu_GUI_Save_AskName();
+extern void f__2B6C_0169_001E_6939();
 extern void emu_GUI_Option_CreateWindow();
 extern void f__B4F2_0D52_0029_1FC2();
 extern void f__B4F2_0DE3_001F_AB1C();
@@ -31,12 +33,18 @@ extern void f__B4F2_0E16_0019_86E9();
 extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__B4F2_0F24_000E_BC8E();
 extern void emu_GUI_YesNo();
-extern void emu_Load_SavegameCount();
 extern void f__B4F2_11CF_0013_5635();
 extern void f__B4F2_1221_000D_EE32();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
+
+static char *GenerateSavegameFilename(uint16 number)
+{
+	static char filename[13];
+	sprintf(filename, "_save%03d.dat", number);
+	return filename;
+}
 
 /**
  * Handles scrolling of a scrollbar.
@@ -673,18 +681,115 @@ bool GUI_Widget_Options_Click(Widget *w)
 	return false;
 }
 
+static uint16 GetSavegameCount()
+{
+	uint16 i;
+
+	for (i = 0;; i++) {
+		if (!File_Exists(GenerateSavegameFilename(i))) return i;
+	}
+}
+
+/**
+ * Handles Click event for savegame button.
+ *
+ * @param key The index of the clicked button.
+ * @return True if a game has been saved, False otherwise.
+ */
+static bool GUI_Widget_Savegame_Click(uint16 key)
+{
+	bool loop;
+	char *name = g_global->variable_80B4[key];
+	csip32 namecsip = emu_Global_GetCSIP(name);
+	csip32 nullcsip;
+	uint16 loc08;
+	uint16 loc0A;
+	bool ret;
+
+	nullcsip.csip = 0x0;
+
+	if (*name == '[') *name = 0;
+
+	emu_push(0x353F); emu_push(0x27F0);
+	emu_push(emu_cs); emu_push(0x06E3); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
+	emu_sp += 4;
+
+	emu_push(0x353F); emu_push(0x27F0);
+	emu_push(emu_cs); emu_push(0x06EF); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
+	emu_sp += 4;
+
+	ret = false;
+	loop = true;
+	loc08 = 1;
+
+	if (*name == '[') key = g_global->savegameCountOnDisk;
+
+	Unknown_Set_Global_6C91(0);
+
+	Unknown_07AE_0000(15);
+
+	emu_push(emu_cs); emu_push(0x0722); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+
+	GUI_DrawBorder((g_global->variable_992D << 3) - 1, g_global->variable_992B - 1, (g_global->variable_992F << 3) + 2, g_global->variable_9931 + 2, 4, false);
+
+	emu_push(emu_cs); emu_push(0x0756); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+
+	while (loop) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
+
+		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
+
+		loc0A = GUI_EditBox(namecsip, 50, 15, g_global->variable_2A93, nullcsip, loc08);
+		loc08 = 2;
+
+		if ((loc0A & 0x8000) == 0) continue;
+
+		GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(w, loc0A & 0x7FFF), false);
+
+		switch (loc0A & 0x7FFF) {
+			case 0x1E:
+				if (*name == 0) break;
+
+				SaveFile(GenerateSavegameFilename(g_global->variable_2A97 - key), name);
+				loop = false;
+				ret = true;
+				break;
+
+			case 0x1F:
+				loop = false;
+				ret = false;
+
+				emu_push(1);
+				emu_push(emu_cs); emu_push(0x0831); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1221_000D_EE32();
+				emu_sp += 2;
+				break;
+
+			default: break;
+		}
+	}
+
+	emu_push(0x353F); emu_push(0x27F0);
+	emu_push(emu_cs); emu_push(0x0849); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0F24_000E_BC8E();
+	emu_sp += 4;
+
+	return ret;
+}
+
 /**
  * Handles Click event for "Save Game" or "Load Game" button.
  *
- * @param save Wether to open the save window.
- * @return False, always.
+ * @param save Wether to save or load.
+ * @return True if a game has been saved or loaded, False otherwise.
  */
 bool GUI_Widget_SaveLoad_Click(bool save)
 {
 	bool loop;
 
-	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_Load_SavegameCount();
-	g_global->savegameCountOnDisk = emu_ax;
+	g_global->savegameCountOnDisk = GetSavegameCount();
 
 	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1);
 
@@ -750,24 +855,18 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					break;
 
 				default: {
-					char filename[14];
-
 					emu_push(0x353F); emu_push(0x2787);
 					emu_push(emu_cs); emu_push(0x0606); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0F24_000E_BC8E();
-					emu_cs += 4;
+					emu_sp += 4;
 
 					key -= 0x1E;
-					sprintf(filename, "_save%03d.dat", g_global->variable_2A97 - key);
 
 					if (!save) {
-						LoadFile(filename);
+						LoadFile(GenerateSavegameFilename(g_global->variable_2A97 - key));
 						return true;
 					}
 
-					emu_push(key);
-					emu_push(emu_cs); emu_push(0x0628); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Save_AskName();
-					emu_sp += 2;
-					if (emu_ax != 0) return true;
+					if (GUI_Widget_Savegame_Click(key)) return true;
 
 					emu_push(0x353F); emu_push(0x2787);
 					emu_push(emu_cs); emu_push(0x0654); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
