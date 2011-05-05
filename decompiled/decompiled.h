@@ -178,7 +178,6 @@ extern void f__2649_0336_004C_0948();
 extern void f__AB00_0364_0014_B343();
 extern void emu_Terminate_Normal();
 extern void emu_Terminate_Error();
-extern void emu_GUI_GameOptions();
 extern void f__AB00_0398_0001_6780();
 extern void emu_GUI_Production_Upgrade();
 extern void f__B520_039B_001B_4BEB();

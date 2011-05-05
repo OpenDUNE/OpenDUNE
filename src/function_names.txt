@@ -159,8 +159,6 @@ B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent betw
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
-B4F2:009C:002E:D76F	emu_GUI_Options	# (csip) Shows the Options window
-B4F2:0387:000F:A3C2	emu_GUI_GameOptions	# (csip) Shows the Game Options window
 B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
 B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen

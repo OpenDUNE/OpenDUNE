@@ -22,7 +22,6 @@
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
-extern void emu_GUI_GameOptions();
 extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_Option_CreateWindow();
 extern void f__B4F2_0DE3_001F_AB1C();
@@ -419,6 +418,81 @@ bool GUI_Widget_RepairUpgrade_Click(Widget *w)
 }
 
 /**
+ * Handles Click event for "Game controls" button.
+ *
+ * @param w The widget.
+ */
+static void GUI_Widget_GameControls_Click(Widget *w)
+{
+	bool loop;
+	GameCfg *cfg = &g_global->gameConfig;
+
+	emu_push(0x353F); emu_push(0x26B5);
+	emu_push(emu_cs); emu_push(0x0396); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
+	emu_sp += 4;
+
+	emu_push(0x353F); emu_push(0x26B5);
+	emu_push(emu_cs); emu_push(0x03A2); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
+	emu_sp += 4;
+
+	loop = true;
+	while (loop) {
+		Widget *w2 = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
+		uint16 key = GUI_Widget_HandleEvents(w2);
+
+		if ((key & 0x8000) != 0) {
+			w = GUI_Widget_Get_ByIndex(w2, key & 0x7FFF);
+
+			switch ((key & 0x7FFF) - 0x1E) {
+				case 0:
+					cfg->music ^= 0x1;
+					if (cfg->music == 0) {
+						Driver_Music_Stop();
+						g_global->variable_80B0 = 1;
+					}
+					Drivers_EnableMusic(cfg->music);
+					break;
+
+				case 1:
+					cfg->sounds ^= 0x1;
+					if (cfg->sounds == 0) GUI_Widget_MakeNormal(w, false);
+					Drivers_EnableMusic(cfg->sounds);
+					break;
+
+				case 2:
+					if (++cfg->gameSpeed >= 5) cfg->gameSpeed = 0;
+					g_global->gameSpeed = cfg->gameSpeed;
+					break;
+
+				case 3:
+					cfg->hints ^= 0x1;
+					break;
+
+				case 4:
+					cfg->autoScroll ^= 0x1;
+					break;
+
+				case 5:
+					loop = false;
+					break;
+
+				default: break;
+			}
+
+			GUI_Widget_MakeNormal(w, false);
+
+			GUI_Widget_Draw(w);
+		}
+
+		GUI_PaletteAnimate();
+	}
+
+	emu_push(0x353F); emu_push(0x26B5);
+	emu_push(emu_cs); emu_push(0x04A1); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0F24_000E_BC8E();
+	emu_sp += 4;
+}
+
+/**
  * Handles Click event for "Options" button.
  *
  * @param w The widget.
@@ -505,12 +579,9 @@ bool GUI_Widget_Options_Click(Widget *w)
 					if (emu_ax != 0) loop = false;
 					break;
 
-				case 2: {
-					csip32 wcsip = emu_Global_GetCSIP(w);
-					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-					emu_push(emu_cs); emu_push(0x0215); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_GameOptions();
-					emu_sp += 4;
-				} break;
+				case 2:
+					GUI_Widget_GameControls_Click(w);
+					break;
 
 				case 3:
 					emu_push(0x76); /* "Are you sure you wish to restart?" */
