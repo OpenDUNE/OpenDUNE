@@ -357,7 +357,6 @@ extern void f__01F7_0D2E_0015_C196();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__2649_0D40_0019_C58F();
 extern void emu_Input_Keyboard_EventHandler();
-extern void f__B4F2_0D52_0029_1FC2();
 extern void f__01F7_0D59_0022_B62B();
 extern void f__AB00_0D72_0001_6780();
 extern void f__217E_0D90_001F_C453();

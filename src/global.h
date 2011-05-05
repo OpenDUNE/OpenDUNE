@@ -7,6 +7,7 @@
 #include "config.h"
 #include "driver.h"
 #include "sound.h"
+#include "gui/widget.h"
 
 /*
  * Segments:
@@ -571,7 +572,10 @@ typedef struct GlobalData {
 	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */
 	/* 2899()    */ PACK uint8   unknown_2899[0x00EC];
 	/* 2985(4)   */ PACK csip32 variable_2985;              /*!< ?? */
-	/* 2989()    */ PACK uint8   unknown_2989[0x0108];
+	/* 2989()    */ PACK uint8   unknown_2989[0x0074];
+	/* 29FD(60)  */ PACK Widget variable_29FD;              /*!< ?? */
+	/* 2A39(60)  */ PACK Widget variable_2A39;              /*!< ?? */
+	/* 2A75()    */ PACK uint8   unknown_2A75[0x001C];
 	/* 2A91(2)   */ PACK uint16 variable_2A91;              /*!< ?? */
 	/* 2A93(4)   */ PACK csip32 variable_2A93;              /*!< ?? */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
