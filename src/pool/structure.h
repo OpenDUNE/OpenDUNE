@@ -24,7 +24,4 @@ extern void Structure_Recount();
 extern struct Structure *Structure_Allocate(uint16 index, uint8 type);
 extern void Structure_Free(struct Structure *s);
 
-
-extern void emu_Structure_Recount();
-
 #endif /* POOL_STRUCTURE_H */

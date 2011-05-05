@@ -94,36 +94,6 @@ void emu_Sprite_GetHeight()
 }
 
 /**
- * Emulator wrapper around Sprites_LoadTiles()
- *
- * @name emu_Sprites_LoadTiles
- * @implements B4B8:0D23:0010:BA99 ()
- */
-void emu_Sprites_LoadTiles()
-{
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	Sprites_LoadTiles();
-}
-
-/**
- * Emulator wrapper around Sprites_UnloadTiles()
- *
- * @name emu_Sprites_UnloadTiles
- * @implements B4B8:0ECE:000B:BD2E ()
- */
-void emu_Sprites_UnloadTiles()
-{
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	Sprites_UnloadTiles();
-}
-
-/**
  * Emulator wrapper around Sprites_LoadCPSFile()
  *
  * @name emu_Sprites_LoadCPSFile

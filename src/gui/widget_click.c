@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
@@ -15,9 +16,21 @@
 #include "../tile.h"
 #include "../map.h"
 #include "../sprites.h"
+#include "../tools.h"
+#include "../os/sleep.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
+extern void f__2B6C_0137_0020_C73F();
+extern void emu_GUI_GameOptions();
+extern void emu_GUI_SaveLoad_List();
+extern void emu_GUI_Option_CreateWindow();
+extern void f__B4F2_0DE3_001F_AB1C();
+extern void f__B4F2_0E16_0019_86E9();
+extern void f__B4F2_0EE0_000E_BC8E();
+extern void f__B4F2_0F24_000E_BC8E();
+extern void emu_GUI_YesNo();
+extern void f__B4F2_11CF_0013_5635();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
@@ -401,6 +414,192 @@ bool GUI_Widget_RepairUpgrade_Click(Widget *w)
 
 	if (Structure_SetRepairingState(s, -1, w)) return false;
 	Structure_SetUpgradingState(s, -1, w);
+
+	return false;
+}
+
+/**
+ * Handles Click event for "Options" button.
+ *
+ * @param w The widget.
+ * @return False, always.
+ */
+bool GUI_Widget_Options_Click(Widget *w)
+{
+	uint16 cursor = g_global->cursorSpriteID;
+	bool loop;
+
+	g_global->cursorSpriteID = 0;
+
+	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x00CA); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+	emu_sp += 8;
+
+	Sprites_UnloadTiles();
+
+	memmove(emu_get_memorycsip(g_global->variable_998A), g_global->variable_70A2, 0x300);
+
+	g_global->variable_80B0 = 0;
+
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
+	}
+
+	Tools_Var76B8_Set(2, false);
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
+
+	emu_push(0); emu_push(0x7530);
+	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_11CF_0013_5635();
+	emu_sp += 4;
+	g_global->variable_2A91 = emu_ax;
+
+	if (g_global->variable_38D6.csip != 0x0) {
+		emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
+	}
+
+	emu_push(emu_cs); emu_push(0x0173); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0E16_0019_86E9();
+
+	emu_push(0x353F); emu_push(0x264C);
+	emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
+	emu_sp += 4;
+
+	emu_push(0x353F); emu_push(0x264C);
+	emu_push(emu_cs); emu_push(0x0189); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
+	emu_sp += 4;
+
+	loop = true;
+
+	while (loop) {
+		Widget *w2 = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
+		uint16 key = GUI_Widget_HandleEvents(w2);
+
+		if ((key & 0x8000) != 0) {
+			w = GUI_Widget_Get_ByIndex(w2, key);
+
+			emu_push(0x353F); emu_push(0x264C);
+			emu_push(emu_cs); emu_push(0x01CC); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0F24_000E_BC8E();
+			emu_sp += 4;
+
+			switch ((key & 0x7FFF) - 0x1E) {
+				case 0:
+					emu_push(0);
+					emu_push(emu_cs); emu_push(0x01EE); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_SaveLoad_List();
+					emu_sp += 2;
+					if (emu_ax != 0) loop = false;
+					break;
+
+				case 1:
+					emu_push(1);
+					emu_push(emu_cs); emu_push(0x0201); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_SaveLoad_List();
+					emu_sp += 2;
+					if (emu_ax != 0) loop = false;
+					break;
+
+				case 2: {
+					csip32 wcsip = emu_Global_GetCSIP(w);
+					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+					emu_push(emu_cs); emu_push(0x0215); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_GameOptions();
+					emu_sp += 4;
+				} break;
+
+				case 3:
+					emu_push(0x76); /* "Are you sure you wish to restart?" */
+					emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
+					emu_sp += 2;
+					if (emu_ax != 0) {
+						loop = false;
+						g_global->variable_38BE = 1;
+					}
+					break;
+
+				case 4:
+					emu_push(0x77); /* "Are you sure you wish to pick a new house?" */
+					emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
+					emu_sp += 2;
+					if (emu_ax == 0) break;
+
+					loop = false;
+					Driver_Music_FadeOut();
+					g_global->variable_38BE = 2;
+					break;
+
+				case 5:
+					loop = false;
+					break;
+
+				case 6:
+					emu_push(0x65); /* "Are you sure you want to quit playing?" */
+					emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
+					emu_sp += 2;
+					loop = (emu_ax == 0);
+					g_global->variable_38F8 = loop ? 1 : 0;
+
+					Unknown_B483_0363(0xFFFE);
+
+					while (Driver_Voice_IsPlaying()) sleep(0);
+					break;
+
+				default: break;
+			}
+
+			if (g_global->variable_38F8 != 0 && loop) {
+				emu_push(0x353F); emu_push(0x264C);
+				emu_push(emu_cs); emu_push(0x0294); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
+				emu_sp += 4;
+
+				emu_push(0x353F); emu_push(0x264C);
+				emu_push(emu_cs); emu_push(0x02A0); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
+				emu_sp += 4;
+			}
+		}
+
+		GUI_PaletteAnimate();
+	}
+
+	g_global->variable_38C4 = 1;
+
+	if (g_global->variable_38D6.csip != 0) {
+		emu_push(0); emu_push(0xFA00);
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+		/* Unresolved jump */ emu_ip = 0x02CC; emu_last_cs = 0xB4F2; emu_last_ip = 0x02CC; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
+	}
+
+	Sprites_LoadTiles();
+	GUI_DrawInterfaceAndRadar(0);
+
+	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0DE3_001F_AB1C();
+
+	GUI_Widget_MakeSelected(w, false);
+
+	Tools_Var76B8_Set(2, true);
+
+	GameOptions_Save();
+
+	Structure_Recount();
+	Unit_Recount();
+
+	g_global->cursorSpriteID = cursor;
+
+	emu_push(g_sprites[cursor].s.cs); emu_push(g_sprites[cursor].s.ip);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x036C); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+	emu_sp += 8;
 
 	return false;
 }

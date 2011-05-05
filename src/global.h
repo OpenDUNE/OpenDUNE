@@ -569,7 +569,8 @@ typedef struct GlobalData {
 	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */
 	/* 2899()    */ PACK uint8   unknown_2899[0x00EC];
 	/* 2985(4)   */ PACK csip32 variable_2985;              /*!< ?? */
-	/* 2989()    */ PACK uint8   unknown_2989[0x010A];
+	/* 2989()    */ PACK uint8   unknown_2989[0x0108];
+	/* 2A91(2)   */ PACK uint16 variable_2A91;              /*!< ?? */
 	/* 2A93(4)   */ PACK csip32 variable_2A93;              /*!< ?? */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
 	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
@@ -859,7 +860,7 @@ typedef struct GlobalData {
 	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
 	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
-	/* 38D6()    */ PACK uint8   unknown_38D6[0x0004];
+	/* 38D6(4)   */ PACK csip32 variable_38D6;              /*!< ?? */
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */

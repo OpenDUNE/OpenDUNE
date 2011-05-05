@@ -82,9 +82,7 @@ extern void Drivers_CustomTimer_OriginalInterrupt();
 
 extern void emu_Drivers_EnableSounds();
 extern void emu_Drivers_EnableMusic();
-extern void emu_Driver_Voice_IsPlaying();
 extern void emu_Driver_Music_Stop();
-extern void emu_Driver_Voice_Play();
 extern void emu_Driver_Music_FadeOut();
 extern void emu_Drivers_CustomTimer_Interrupt();
 extern void emu_Drivers_CustomTimer_OriginalInterrupt();

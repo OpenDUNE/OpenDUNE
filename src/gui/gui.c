@@ -28,6 +28,7 @@
 #include "../string.h"
 #include "../tools.h"
 #include "widget.h"
+#include "mentat.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -47,7 +48,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void GUI_Mentat_Show();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__B518_14D4_0013_5ED7();

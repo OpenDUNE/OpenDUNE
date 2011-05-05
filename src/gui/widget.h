@@ -174,6 +174,7 @@ extern bool GUI_Widget_Name_Click();
 extern bool GUI_Widget_Cancel_Click();
 extern bool GUI_Widget_Picture_Click();
 extern bool GUI_Widget_RepairUpgrade_Click(Widget *w);
+extern bool GUI_Widget_Options_Click(Widget *w);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);
@@ -197,7 +198,6 @@ extern void emu_GUI_Widget_Scrollbar_ArrowDown_Click();
 extern void emu_GUI_Widget_GetShortcut();
 extern void emu_GUI_Widget_Allocate();
 extern void emu_GUI_Widget_MakeNormal();
-extern void emu_GUI_Widget_MakeSelected();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_DrawAll();
 extern void emu_GUI_Widget_Link();

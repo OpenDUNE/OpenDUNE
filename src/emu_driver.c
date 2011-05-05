@@ -55,26 +55,6 @@ void emu_Drivers_EnableMusic()
 }
 
 /**
- * Decompiled function Driver_Voice_IsPlaying()
- *
- * @name emu_Driver_Voice_IsPlaying
- * @implements 1DD7:01EB:0013:9C3C ()
- */
-void emu_Driver_Voice_IsPlaying()
-{
-	csip32 ret;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
-
-	emu_ax = Driver_Voice_IsPlaying() ? 1 : 0;
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
-}
-
-/**
  * Emulator wrapper around Driver_Music_Stop()
  *
  * @name emu_Driver_Music_Stop
@@ -92,25 +72,6 @@ void emu_Driver_Music_Stop()
 
 	emu_cs = ret.s.cs;
 	emu_ip = ret.s.ip;
-}
-
-/**
- * Emulator wrapper around Driver_Voice_Play()
- *
- * @name emu_Driver_Voice_Play
- * @implements 1DD7:022D:0015:1956 ()
- */
-void emu_Driver_Voice_Play()
-{
-	csip32 buffer_csip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	buffer_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	Driver_Voice_Play(emu_get_memorycsip(buffer_csip), buffer_csip, 0xFF, 0xFF);
 }
 
 /**

@@ -23,7 +23,6 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void emu_GUI_HOF_ClearList();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat_List();
-extern void emu_GUI_Options();
 extern void emu_GUI_Production_BuildThis();
 extern void emu_GUI_Production_Down();
 extern void emu_GUI_Production_List();
@@ -565,6 +564,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
 					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w); break;
 					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
+					case 0x34F20025: success = GUI_Widget_Options_Click(w); break;
 
 					default:
 						emu_push(wcsip.s.cs);
@@ -585,7 +585,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 							case 0x34950048: overlay(0x3495, 0); emu_GUI_Purchase_Minus(); break;
 							case 0x3495004D: overlay(0x3495, 0); emu_GUI_Purchase_Invoice(); break;
 							case 0x34E0002A: overlay(0x34E0, 0); emu_GUI_Mentat_List(); break;
-							case 0x34F20025: overlay(0x34F2, 0); emu_GUI_Options(); break;
 							case 0x35180034: overlay(0x3518, 0); emu_GUI_HOF_ClearList(); break;
 							case 0x35180039: overlay(0x3518, 0); emu_GUI_HOF_ResumeGame(); break;
 							default:

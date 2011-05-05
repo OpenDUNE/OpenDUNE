@@ -65,25 +65,6 @@ void Unknown_B483_0156(uint16 index)
 }
 
 /**
- * C-ified function of f__B483_0363_0016_83DF()
- *
- * @name emu_Unknown_B483_0363
- * @implements B483:0363:0016:83DF ()
- */
-void emu_Unknown_B483_0363()
-{
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0);
-
-	Unknown_B483_0363(index);
-}
-
-/**
  * Unknown function.
  * @param index
  */

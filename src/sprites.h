@@ -20,8 +20,6 @@ extern void emu_Sprites_Load();
 extern void emu_Sprites_GetCSIP();
 extern void emu_Sprite_GetWidth();
 extern void emu_Sprite_GetHeight();
-extern void emu_Sprites_LoadTiles();
-extern void emu_Sprites_UnloadTiles();
 extern void emu_Sprites_LoadCPSFile();
 extern void emu_Sprites_LoadImage();
 

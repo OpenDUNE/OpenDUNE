@@ -40,7 +40,6 @@ extern void emu_GUI_SplitText();
 extern void emu_GUI_DrawSprite();
 extern void emu_GUI_DrawBorder();
 extern void emu_GUI_DisplayHint();
-extern void emu_GUI_DrawInterfaceAndRadar();
 extern void emu_GUI_DrawCredits();
 extern void emu_GUI_DrawLine();
 extern void emu_GUI_Unknown_24D0_000D();

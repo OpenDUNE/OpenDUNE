@@ -137,7 +137,6 @@ extern void emu_Interrupt_Vector_Restore();
 extern void emu_Tools_Free();
 extern void f__217E_01C6_0004_16B8();
 extern void emu_GUI_Production_Up();
-extern void emu_GUI_Widget_MakeSelected();
 extern void f__29A3_01DB_003D_B0F3();
 extern void f__2AE1_01EA_0020_A570();
 extern void f__01F7_01ED_0024_A432();

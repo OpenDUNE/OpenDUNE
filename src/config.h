@@ -43,6 +43,4 @@ extern bool Config_Read(char *filename, DuneCfg *config);
 extern bool GameOptions_Load();
 extern void GameOptions_Save();
 
-extern void emu_GameOptions_Save();
-
 #endif /* CONFIG_H */

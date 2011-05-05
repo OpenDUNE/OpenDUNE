@@ -244,32 +244,6 @@ void emu_GUI_Widget_Allocate()
 }
 
 /**
- * Emulator wrapper around GUI_Widget_MakeSelected()
- *
- * @name emu_GUI_Widget_MakeSelected
- * @implements B48B:01CE:002B:7574 ()
- */
-void emu_GUI_Widget_MakeSelected()
-{
-	csip32 wcsip;
-	uint16 clickProc;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip     = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	clickProc = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	emu_dx = wcsip.s.cs;
-	emu_ax = wcsip.s.ip;
-
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_MakeSelected((Widget *)emu_get_memorycsip(wcsip), (clickProc != 0) ? true : false);
-}
-
-/**
  * Emulator wrapper around GUI_Widget_MakeNormal()
  *
  * @name emu_GUI_Widget_MakeNormal

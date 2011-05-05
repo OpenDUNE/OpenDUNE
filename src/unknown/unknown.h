@@ -28,15 +28,12 @@ extern void emu_Unknown_2903_00CA();
 extern void emu_Unknown_2903_090A();
 
 extern void Unknown_B483_0156(uint16 index);
-extern void emu_Unknown_B483_0363();
 extern void Unknown_B483_0363(uint16 index);
 extern bool Unknown_B483_0470();
 extern csip32 Unknown_B483_0823(char *filename, csip32 fcsip);
 
 extern void emu_Unknown_B4B8_110D();
 extern void Unknown_B4B8_110D(uint8 houseID);
-
-extern void emu_Unknown_B4E9_0000();
 
 extern void emu_Unknown_B53B_0000();
 extern void emu_File_Error_Wrapper();
