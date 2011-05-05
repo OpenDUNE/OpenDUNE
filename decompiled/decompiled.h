@@ -210,7 +210,6 @@ extern void emu_Input_Keyboard_Translate();
 extern void f__AB01_048E_0001_6780();
 extern void emu_Drive_Get_Free_Space();
 extern void f__22A6_04A5_000F_3B8F();
-extern void emu_GUI_SaveLoad_List();
 extern void emu_Interrupt_Vector_Get();
 extern void f__217E_04CB_0020_3089();
 extern void emu_Interrupt_Vector_Set();

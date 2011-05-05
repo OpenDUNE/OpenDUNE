@@ -79,7 +79,6 @@ extern void f__B518_0558_0010_240A();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
-extern void emu_GUI_SaveLoad_List();
 extern void emu_GUI_ShowEndStats();
 extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
@@ -1910,11 +1909,7 @@ static void Gameloop_IntroMenu()
 					emu_push(emu_cs); emu_push(0x1DA2); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
 					emu_sp += 4;
 
-					emu_push(0);
-					emu_push(emu_cs); emu_push(0x1DAC); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_SaveLoad_List();
-					emu_sp += 2;
-
-					if (emu_ax != 0) {
+					if (GUI_Widget_SaveLoad_Click(false)) {
 						loc02 = true;
 						loc10 = false;
 						if (g_global->variable_38BE == 1) break;
