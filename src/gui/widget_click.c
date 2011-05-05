@@ -21,6 +21,7 @@
 #include "../load.h"
 #include "../file.h"
 #include "../save.h"
+#include "../os/endian.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__2B4C_0002_0029_64AF();
@@ -34,7 +35,7 @@ extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__B4F2_0F24_000E_BC8E();
 extern void emu_GUI_YesNo();
 extern void f__B4F2_11CF_0013_5635();
-extern void f__B4F2_1221_000D_EE32();
+extern void emu_GUI_String_Get_ByIndex();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
@@ -690,6 +691,41 @@ static uint16 GetSavegameCount()
 	}
 }
 
+static void FillSavegameDesc(bool save)
+{
+	uint8 i;
+
+	for (i = 0; i < 5; i++) {
+		char *desc = g_global->savegameDesc[i];
+		char *filename;
+		uint8 fileId;
+
+		*desc = '\0';
+
+		if (g_global->variable_2A97 - i < 0) continue;
+
+		if (g_global->variable_2A97 - i == g_global->savegameCountOnDisk) {
+			if (!save) continue;
+
+			emu_push(0x63); /* "[ EMPTY SLOT ]" */
+			emu_push(emu_cs); emu_push(0x1260); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+			emu_sp += 2;
+			strcpy(desc, (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0));
+			continue;
+		}
+
+		filename = GenerateSavegameFilename(g_global->variable_2A97 - i);
+
+		if (!File_Exists(filename)) continue;
+
+		fileId = ChunkFile_Open(filename);
+		ChunkFile_Read(fileId, HTOBE32('NAME'), desc, 50);
+		ChunkFile_Close(fileId);
+		continue;
+	}
+}
+
+
 /**
  * Handles Click event for savegame button.
  *
@@ -699,8 +735,8 @@ static uint16 GetSavegameCount()
 static bool GUI_Widget_Savegame_Click(uint16 key)
 {
 	bool loop;
-	char *name = g_global->variable_80B4[key];
-	csip32 namecsip = emu_Global_GetCSIP(name);
+	char *desc = g_global->savegameDesc[key];
+	csip32 desccsip = emu_Global_GetCSIP(desc);
 	csip32 nullcsip;
 	uint16 loc08;
 	uint16 loc0A;
@@ -708,7 +744,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	nullcsip.csip = 0x0;
 
-	if (*name == '[') *name = 0;
+	if (*desc == '[') *desc = 0;
 
 	emu_push(0x353F); emu_push(0x27F0);
 	emu_push(emu_cs); emu_push(0x06E3); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
@@ -722,7 +758,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	loop = true;
 	loc08 = 1;
 
-	if (*name == '[') key = g_global->savegameCountOnDisk;
+	if (*desc == '[') key = g_global->savegameCountOnDisk;
 
 	Unknown_Set_Global_6C91(0);
 
@@ -743,7 +779,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
 
-		loc0A = GUI_EditBox(namecsip, 50, 15, g_global->variable_2A93, nullcsip, loc08);
+		loc0A = GUI_EditBox(desccsip, 50, 15, g_global->variable_2A93, nullcsip, loc08);
 		loc08 = 2;
 
 		if ((loc0A & 0x8000) == 0) continue;
@@ -752,9 +788,9 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 		switch (loc0A & 0x7FFF) {
 			case 0x1E:
-				if (*name == 0) break;
+				if (*desc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(g_global->variable_2A97 - key), name);
+				SaveFile(GenerateSavegameFilename(g_global->variable_2A97 - key), desc);
 				loop = false;
 				ret = true;
 				break;
@@ -762,10 +798,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 			case 0x1F:
 				loop = false;
 				ret = false;
-
-				emu_push(1);
-				emu_push(emu_cs); emu_push(0x0831); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1221_000D_EE32();
-				emu_sp += 2;
+				FillSavegameDesc(true);
 				break;
 
 			default: break;
@@ -793,9 +826,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1);
 
-	emu_push(save ? 1 : 0);
-	emu_push(emu_cs); emu_push(0x04FC); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1221_000D_EE32();
-	emu_sp += 2;
+	FillSavegameDesc(save);
 
 	g_global->variable_2789 = save ? 0x62 : 0x61; /* "Select a position to save to:" : "Select a saved game to load:" */
 
@@ -833,9 +864,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 				case 0x25:
 					g_global->variable_2A97 = min(g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1, g_global->variable_2A97 + 1);
 
-					emu_push(save ? 1 :0);
-					emu_push(emu_cs); emu_push(0x05C8); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1221_000D_EE32();
-					emu_sp += 2;
+					FillSavegameDesc(save);
 
 					GUI_Widget_DrawAll(w);
 					break;
@@ -843,9 +872,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 				case 0x26:
 					g_global->variable_2A97 = max(0, g_global->variable_2A97 - 1);
 
-					emu_push(save ? 1 :0);
-					emu_push(emu_cs); emu_push(0x05C8); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_1221_000D_EE32();
-					emu_sp += 2;
+					FillSavegameDesc(save);
 
 					GUI_Widget_DrawAll(w);
 					break;
