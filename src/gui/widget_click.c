@@ -24,12 +24,11 @@
 #include "../os/endian.h"
 
 extern void f__01F7_286D_0023_9A13();
+extern void f__259E_0040_0015_5E4A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void emu_GUI_Option_CreateWindow();
-extern void f__B4F2_0DE3_001F_AB1C();
-extern void f__B4F2_0E16_0019_86E9();
 extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__B4F2_0F24_000E_BC8E();
 extern void emu_GUI_YesNo();
@@ -505,6 +504,41 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 	emu_sp += 4;
 }
 
+static void ShadeScreen()
+{
+	uint16 i;
+	uint8 *g3C32;
+	uint8 *g998A;
+	uint16 loc1A[9];
+
+	memcpy(loc1A, g_global->variable_2A9B, 18);
+
+	g3C32 = emu_get_memorycsip(g_global->variable_3C32);
+	g998A = emu_get_memorycsip(g_global->variable_998A);
+
+	memmove(g998A, g3C32, 0x300);
+
+	for (i = 0; i < 0x300; i++) g3C32[i] = g3C32[i] / 2;
+
+	for (i = 0; i < 9; i++) {
+		if (loc1A[i] == 0xFFFF) break;
+		memmove(g3C32 + (loc1A[i] * 3), g998A + (loc1A[i] * 3), 3);
+	}
+
+	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
+	emu_push(emu_cs); emu_push(0x0ED9); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+}
+
+static void UnshadeScreen()
+{
+	memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 0x300);
+
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x0E12); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+}
+
 /**
  * Handles Click event for "Options" button.
  *
@@ -554,7 +588,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
 	}
 
-	emu_push(emu_cs); emu_push(0x0173); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0E16_0019_86E9();
+	ShadeScreen();
 
 	emu_push(0x353F); emu_push(0x264C);
 	emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
@@ -658,7 +692,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	Sprites_LoadTiles();
 	GUI_DrawInterfaceAndRadar(0);
 
-	emu_push(emu_cs); emu_push(0x031C); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0DE3_001F_AB1C();
+	UnshadeScreen();
 
 	GUI_Widget_MakeSelected(w, false);
 
