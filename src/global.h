@@ -564,7 +564,9 @@ typedef struct GlobalData {
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
 	/* 264A(1)   */ PACK uint8  variable_264A;              /*!< ?? */
-	/* 264B()    */ PACK uint8   unknown_264B[0x013E];
+	/* 264B()    */ PACK uint8   unknown_264B[0x00D5];
+	/* 2720(2)   */ PACK uint16 variable_2720;              /*!< ?? */
+	/* 2722()    */ PACK uint8   unknown_2722[0x0067];
 	/* 2789(2)   */ PACK uint16 variable_2789;              /*!< ?? */
 	/* 278B()    */ PACK uint8   unknown_278B[0x00CE];
 	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */

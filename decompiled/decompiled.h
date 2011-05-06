@@ -396,7 +396,6 @@ extern void emu_String_tolower();
 extern void emu_String_toupper();
 extern void f__B518_10DC_0011_9EE1();
 extern void emu_File_LowLevel_Delete();
-extern void emu_GUI_YesNo();
 extern void f__AB00_1115_0001_6780();
 extern void emu_String_Format();
 extern void f__AB00_1122_001C_9408();

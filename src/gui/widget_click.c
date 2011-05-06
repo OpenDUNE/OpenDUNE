@@ -31,7 +31,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void emu_GUI_Option_CreateWindow();
 extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__B4F2_0F24_000E_BC8E();
-extern void emu_GUI_YesNo();
 extern void f__B4F2_11CF_0013_5635();
 extern void emu_GUI_String_Get_ByIndex();
 extern void f__B4F2_13CE_0013_65D7();
@@ -540,6 +539,43 @@ static void UnshadeScreen()
 	emu_sp += 4;
 }
 
+static bool GUI_YesNo(uint16 stringID)
+{
+	bool loop = true;
+	bool ret = false;
+
+	g_global->variable_2720 = stringID;
+
+	emu_push(0x353F); emu_push(0x271E);
+	emu_push(emu_cs); emu_push(0x1119); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
+	emu_sp += 4;
+
+	emu_push(0x353F); emu_push(0x271E);
+	emu_push(emu_cs); emu_push(0x1124); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
+	emu_sp += 4;
+
+	while (loop) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
+		uint16 key = GUI_Widget_HandleEvents(w);
+
+		if ((key & 0x8000) != 0) {
+			switch (key & 0x7FFF) {
+				case 0x1E: ret = true; break;
+				case 0x1F: ret = false; break;
+				default: break;
+			}
+			loop = false;
+		}
+
+		GUI_PaletteAnimate();
+	}
+
+	emu_push(0x353F); emu_push(0x271E);
+	emu_push(emu_cs); emu_push(0x1175); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0F24_000E_BC8E();
+	emu_sp += 4;
+
+	return ret;
+}
 /**
  * Handles Click event for "Options" button.
  *
@@ -626,20 +662,16 @@ bool GUI_Widget_Options_Click(Widget *w)
 					break;
 
 				case 3:
-					emu_push(0x76); /* "Are you sure you wish to restart?" */
-					emu_push(emu_cs); emu_push(0x0222); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
-					emu_sp += 2;
-					if (emu_ax != 0) {
-						loop = false;
-						g_global->variable_38BE = 1;
-					}
+					/* "Are you sure you wish to restart?" */
+					if (!GUI_YesNo(0x76)) break;
+
+					loop = false;
+					g_global->variable_38BE = 1;
 					break;
 
 				case 4:
-					emu_push(0x77); /* "Are you sure you wish to pick a new house?" */
-					emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
-					emu_sp += 2;
-					if (emu_ax == 0) break;
+					/* "Are you sure you wish to pick a new house?" */
+					if (!GUI_YesNo(0x77)) break;
 
 					loop = false;
 					Driver_Music_FadeOut();
@@ -651,10 +683,8 @@ bool GUI_Widget_Options_Click(Widget *w)
 					break;
 
 				case 6:
-					emu_push(0x65); /* "Are you sure you want to quit playing?" */
-					emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
-					emu_sp += 2;
-					loop = (emu_ax == 0);
+					/* "Are you sure you want to quit playing?" */
+					loop = !GUI_YesNo(0x65);
 					g_global->variable_38F8 = loop ? 1 : 0;
 
 					Unknown_B483_0363(0xFFFE);
@@ -989,10 +1019,8 @@ bool GUI_Widget_SaveLoad_Click(bool save)
  */
 bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 {
-	emu_push(0x148); /* "Are you sure you want to clear the high scores?" */
-	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
-	emu_sp += 2;
-	if (emu_ax != 0) {
+	/* "Are you sure you want to clear the high scores?" */
+	if (GUI_YesNo(0x148)) {
 		memset(emu_get_memorycsip(w->scrollbar), 0, 128);
 
 		if (File_Exists("SAVEFAME.DAT")) File_Delete("SAVEFAME.DAT");
