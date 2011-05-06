@@ -18,6 +18,7 @@
 #include "../sprites.h"
 #include "../tools.h"
 #include "../os/sleep.h"
+#include "../os/math.h"
 #include "../load.h"
 #include "../file.h"
 #include "../save.h"
