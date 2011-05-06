@@ -176,6 +176,7 @@ extern bool GUI_Widget_Picture_Click();
 extern bool GUI_Widget_RepairUpgrade_Click(Widget *w);
 extern bool GUI_Widget_Options_Click(Widget *w);
 extern bool GUI_Widget_SaveLoad_Click(bool save);
+extern bool GUI_Widget_HOF_ClearList_Click(Widget *w);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);

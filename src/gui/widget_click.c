@@ -35,6 +35,7 @@ extern void emu_GUI_YesNo();
 extern void f__B4F2_11CF_0013_5635();
 extern void emu_GUI_String_Get_ByIndex();
 extern void f__B4F2_13CE_0013_65D7();
+extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
@@ -978,4 +979,33 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 	emu_sp += 4;
 
 	return false;
+}
+
+/**
+ * Handles Click event for "Clear List" button.
+ *
+ * @param w The widget.
+ * @return True, always.
+ */
+bool GUI_Widget_HOF_ClearList_Click(Widget *w)
+{
+	emu_push(0x148); /* "Are you sure you want to clear the high scores?" */
+	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_YesNo();
+	emu_sp += 2;
+	if (emu_ax != 0) {
+		memset(emu_get_memorycsip(w->scrollbar), 0, 128);
+
+		if (File_Exists("SAVEFAME.DAT")) File_Delete("SAVEFAME.DAT");
+
+		emu_push(1);
+		emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
+		emu_push(emu_cs); emu_push(0x0AEC); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_11C6_0011_1160();
+		emu_sp += 8;
+
+		g_global->variable_81E6 = 1;
+	}
+
+	GUI_Widget_MakeNormal(w, false);
+
+	return true;
 }

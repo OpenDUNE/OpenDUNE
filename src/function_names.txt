@@ -152,18 +152,13 @@ B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invo
 
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
 
-B4BE:0000:000C:E7F4	emu_Gameloop_Intro	# Runs the intro
-
 B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to the max-value given
 B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent between 0 and 255
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
-B4F2:04B7:0015:5960	emu_GUI_SaveLoad_List	# Shows the Savegame list for loading or saving
-B4F2:06AE:0035:32F1	emu_GUI_Save_AskName	# Shows the edit box to give the name of the savegame
 B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
 B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
-B4F2:1181:000B:D4AD	emu_Load_SavegameCount	# () Counts amount of savegames on disk
 B4F2:1303:0017:56DB	emu_GUI_String_Get_ByIndex	# (stringID) Special version of String_Get_ByIndex
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
@@ -172,7 +167,6 @@ B4FC:03C8:002C:9251	emu_Ini_GetString
 B503:0000:0016:B170	emu_GUI_ShowMap	# Shows the map and lets you select next mission
 B503:1029:000F:8100	emu_CPS_LoadRegionClick	# Load the RGNCLK.CPS file and set some things for it
 
-B518:0A91:000C:38F0	emu_GUI_HOF_ClearList	# (csip) Handles click on "Clear List" button in Hall of Fame window
 B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
 
 B520:0223:000E:38A3	emu_Tools_Free_Wrapper	# (csip) Forwards the call to emu_Tools_Free()
