@@ -157,8 +157,6 @@ B4C1:0155:002A:AC43	emu_Math_ValueToPercent	# Makes two values in a percent betw
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
-B4F2:0855:0013:A7FD	emu_GUI_Option_CreateWindow	# (??) Draws a Options-type window to the screen
-B4F2:1100:0019:B3DC	emu_GUI_YesNo	# (stringID) Shows a Yes/No window with the given question
 B4F2:1303:0017:56DB	emu_GUI_String_Get_ByIndex	# (stringID) Special version of String_Get_ByIndex
 
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger

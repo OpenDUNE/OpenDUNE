@@ -564,11 +564,12 @@ typedef struct GlobalData {
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
 	/* 264A(1)   */ PACK uint8  variable_264A;              /*!< ?? */
-	/* 264B()    */ PACK uint8   unknown_264B[0x00D5];
-	/* 2720(2)   */ PACK uint16 variable_2720;              /*!< ?? */
-	/* 2722()    */ PACK uint8   unknown_2722[0x0067];
-	/* 2789(2)   */ PACK uint16 variable_2789;              /*!< ?? */
-	/* 278B()    */ PACK uint8   unknown_278B[0x00CE];
+	/* 264B()    */ PACK uint8   unknown_264B[0x0001];
+	/* 264C(105) */ PACK WindowDesc variable_264C;          /*!< ?? */
+	/* 26B5(105) */ PACK WindowDesc variable_26B5;          /*!< ?? */
+	/* 271E(105) */ PACK WindowDesc variable_271E;          /*!< ?? */
+	/* 2787(105) */ PACK WindowDesc variable_2787;          /*!< ?? */
+	/* 27F0(105) */ PACK WindowDesc variable_27F0;          /*!< ?? */
 	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */
 	/* 285D()    */ PACK uint8   unknown_285D[0x0038];
 	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */
@@ -577,7 +578,7 @@ typedef struct GlobalData {
 	/* 2989()    */ PACK uint8   unknown_2989[0x0074];
 	/* 29FD(60)  */ PACK Widget variable_29FD;              /*!< ?? */
 	/* 2A39(60)  */ PACK Widget variable_2A39;              /*!< ?? */
-	/* 2A75()    */ PACK uint8   unknown_2A75[0x001C];
+	/* 2A75(28)  */ PACK csip32 variable_2A75[7];           /*!< Array of pointers to Widgets. */
 	/* 2A91(2)   */ PACK uint16 variable_2A91;              /*!< ?? */
 	/* 2A93(4)   */ PACK csip32 variable_2A93;              /*!< ?? */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */

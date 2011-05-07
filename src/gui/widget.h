@@ -147,6 +147,28 @@ typedef struct WidgetClickInfo {
 MSVC_PACKED_END
 assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
+MSVC_PACKED_BEGIN
+/**
+ * Static information per WidgetClick type.
+ */
+typedef struct WindowDesc {
+	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
+	/* 0002(2)   */ PACK uint16 stringId;                   /*!< ?? */
+	/* 0004(2)   */ PACK uint16 addArrows;                  /*!< ?? */
+	/* 0006(1)   */ PACK uint8  widgetCount;                /*!< ?? */
+	/* 0007(98)  */ PACK struct {
+	                       PACK uint16 stringId;            /*!< ?? */
+	                       PACK uint16 offsetX;             /*!< ?? */
+	                       PACK uint16 offsetY;             /*!< ?? */
+	                       PACK uint16 width;               /*!< ?? */
+	                       PACK uint16 height;              /*!< ?? */
+	                       PACK uint16 labelStringId;       /*!< ?? */
+	                       PACK uint16 shortcut2;           /*!< ?? */
+	                     } GCC_PACKED widgets[7];           /*!< ?? */
+} GCC_PACKED WindowDesc;
+MSVC_PACKED_END
+assert_compile(sizeof(WindowDesc) == 0x69);
+
 extern WidgetClickInfo *g_widgetClickInfo;
 
 extern Widget *GUI_Widget_GetNext(Widget *w);

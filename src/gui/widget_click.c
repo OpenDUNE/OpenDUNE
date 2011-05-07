@@ -23,13 +23,13 @@
 #include "../file.h"
 #include "../save.h"
 #include "../os/endian.h"
+#include "../string.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void emu_GUI_Option_CreateWindow();
 extern void f__B4F2_0EE0_000E_BC8E();
 extern void f__B4F2_0F24_000E_BC8E();
 extern void f__B4F2_11CF_0013_5635();
@@ -430,6 +430,171 @@ bool GUI_Widget_RepairUpgrade_Click(Widget *w)
 	return false;
 }
 
+static void GUI_CreateWindow(WindowDesc *desc)
+{
+	uint8 i;
+
+	if (desc == NULL) return;
+
+	g_global->variable_2A93.csip = 0x0;
+
+	Unknown_Set_Global_6C91(2);
+
+	Unknown_07AE_0000(desc->index);
+
+	GUI_Widget_DrawBorder(g_global->variable_6D5D, 2, true);
+
+	emu_push(desc->stringId);
+	emu_push(emu_cs); emu_push(0x08AA); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+	emu_sp += 2;
+	if ((emu_ax | emu_dx) != 0) {
+		emu_push(0x122);
+		emu_push(0);
+		emu_push(0xEE);
+		emu_push(g_global->variable_992B + 6 + ((desc == &g_global->variable_271E) ? 2 : 0));
+		emu_push((g_global->variable_992D << 3) + (g_global->variable_992F << 2));
+		emu_push(desc->stringId);
+		emu_push(emu_cs); emu_push(0x08F7); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+		emu_sp += 2;
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x08FF); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
+		emu_sp += 14;
+	}
+
+	emu_push(desc->widgets[0].stringId);
+	emu_push(emu_cs); emu_push(0x090E); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+	emu_sp += 2;
+	emu_orw(&emu_ax, emu_dx);
+	if ((emu_ax | emu_dx) == 0) {
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x151), (g_global->variable_992D + 2) << 3, g_global->variable_992B + 42, 232, 0, 0x22);
+	}
+
+	for (i = 0; i < desc->widgetCount; i++) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A75[i]);
+
+		emu_push(desc->widgets[i].stringId);
+		emu_push(emu_cs); emu_push(0x0980); emu_cs= 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+		emu_sp += 2;
+		if ((emu_ax | emu_dx) == 0) continue;
+
+		w->next.csip = 0x0;
+		w->offsetX   = desc->widgets[i].offsetX;
+		w->offsetY   = desc->widgets[i].offsetY;
+		w->width     = desc->widgets[i].width;
+		w->height    = desc->widgets[i].height;
+		w->shortcut  = 0;
+		w->shortcut2 = 0;
+
+		if (desc != &g_global->variable_27F0) {
+			if (desc->widgets[i].labelStringId != 0) {
+				emu_push(desc->widgets[i].labelStringId);
+			} else {
+				emu_push(desc->widgets[i].stringId);
+			}
+			emu_push(emu_cs); emu_push(0x0A0C); emu_cs= 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+			emu_sp += 2;
+			w->shortcut = GUI_Widget_GetShortcut(emu_get_memory8(emu_dx, emu_ax, 0x0));
+		}
+
+		w->shortcut2 = desc->widgets[i].shortcut2;
+		if (w->shortcut == 0x1B) {
+			w->shortcut2 = 0x13;
+		}
+
+		w->stringID = desc->widgets[i].stringId;
+		w->drawModeNormal   = 4;
+		w->drawModeSelected = 4;
+		w->drawModeDown     = 4;
+		w->drawProcNormal.csip   = 0x34F20061;
+		w->drawProcSelected.csip = 0x34F20061;
+		w->drawProcDown.csip     = 0x34F20061;
+		w->parentID = desc->index;
+		w->state.all = 0x0;
+
+		g_global->variable_2A93 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_2A93), w));
+
+		GUI_Widget_MakeVisible(w);
+		GUI_Widget_MakeNormal(w, false);
+		GUI_Widget_Draw(w);
+
+		if (desc->widgets[i].labelStringId == 0) continue;
+
+		if (g_global->language == LANGUAGE_FRENCH) {
+			emu_push(0x22);
+			emu_push(0);
+			emu_push(0xE8);
+			emu_push(w->offsetY + g_global->variable_4062[w->parentID][1] + 3);
+			emu_push((g_global->variable_4062[w->parentID][0] << 3) + 40);
+			emu_push(desc->widgets[i].labelStringId);
+			emu_push(emu_cs); emu_push(0x0B9A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+			emu_sp += 2;
+			emu_push(emu_dx); emu_push(emu_ax);
+			emu_push(emu_cs); emu_push(0x0BA2); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
+			emu_sp += 14;
+		} else {
+			emu_push(0x222);
+			emu_push(0);
+			emu_push(0xE8);
+			emu_push(w->offsetY + g_global->variable_4062[w->parentID][1] + 3);
+			emu_push(w->offsetX + (g_global->variable_4062[w->parentID][0] << 3) - 10);
+			emu_push(desc->widgets[i].labelStringId);
+			emu_push(emu_cs); emu_push(0x0B9A); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
+			emu_sp += 2;
+			emu_push(emu_dx); emu_push(emu_ax);
+			emu_push(emu_cs); emu_push(0x0BA2); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
+			emu_sp += 14;
+		}
+	}
+
+	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows != 0) {
+		Widget *w = &g_global->variable_29FD;
+
+		w->drawProcNormal   = g_sprites[59];
+		w->drawProcSelected = g_sprites[60];
+		w->drawProcDown     = g_sprites[60];
+		w->next.csip        = 0x0;
+		w->parentID = desc->index;
+
+		GUI_Widget_MakeNormal(w, false);
+		GUI_Widget_MakeInvisible(w);
+
+		emu_push(0xE9);
+		emu_push(0x353F); emu_push(0x29FD);
+		emu_push(emu_cs); emu_push(0x0C4A); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_13CE_0013_65D7();
+		emu_sp += 6;
+
+		g_global->variable_2A93 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_2A93), w));
+
+		w = &g_global->variable_2A39;
+
+		w->drawProcNormal   = g_sprites[61];
+		w->drawProcSelected = g_sprites[62];
+		w->drawProcDown     = g_sprites[62];
+		w->next.csip        = 0x0;
+		w->parentID = desc->index;
+
+		GUI_Widget_MakeNormal(w, false);
+		GUI_Widget_MakeInvisible(w);
+
+		emu_push(0xE9);
+		emu_push(0x353F); emu_push(0x29FD);
+		emu_push(emu_cs); emu_push(0x0CE7); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_13CE_0013_65D7();
+		emu_sp += 6;
+
+		g_global->variable_2A93 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_2A93), w));
+	}
+
+	emu_push(emu_cs); emu_push(0x0D0B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	Unknown_07AE_0000(desc->index);
+
+	GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+
+	emu_push(emu_cs); emu_push(0x0D43); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	Unknown_Set_Global_6C91(0);
+}
+
 /**
  * Handles Click event for "Game controls" button.
  *
@@ -444,9 +609,7 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 	emu_push(emu_cs); emu_push(0x0396); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 	emu_sp += 4;
 
-	emu_push(0x353F); emu_push(0x26B5);
-	emu_push(emu_cs); emu_push(0x03A2); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-	emu_sp += 4;
+	GUI_CreateWindow(&g_global->variable_26B5);
 
 	loop = true;
 	while (loop) {
@@ -545,15 +708,13 @@ static bool GUI_YesNo(uint16 stringID)
 	bool loop = true;
 	bool ret = false;
 
-	g_global->variable_2720 = stringID;
+	g_global->variable_271E.stringId = stringID;
 
 	emu_push(0x353F); emu_push(0x271E);
 	emu_push(emu_cs); emu_push(0x1119); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 	emu_sp += 4;
 
-	emu_push(0x353F); emu_push(0x271E);
-	emu_push(emu_cs); emu_push(0x1124); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-	emu_sp += 4;
+	GUI_CreateWindow(&g_global->variable_271E);
 
 	while (loop) {
 		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
@@ -632,9 +793,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 	emu_sp += 4;
 
-	emu_push(0x353F); emu_push(0x264C);
-	emu_push(emu_cs); emu_push(0x0189); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-	emu_sp += 4;
+	GUI_CreateWindow(&g_global->variable_264C);
 
 	loop = true;
 
@@ -701,9 +860,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 				emu_push(emu_cs); emu_push(0x0294); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 				emu_sp += 4;
 
-				emu_push(0x353F); emu_push(0x264C);
-				emu_push(emu_cs); emu_push(0x02A0); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-				emu_sp += 4;
+				GUI_CreateWindow(&g_global->variable_264C);
 			}
 		}
 
@@ -816,9 +973,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	emu_push(emu_cs); emu_push(0x06E3); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 	emu_sp += 4;
 
-	emu_push(0x353F); emu_push(0x27F0);
-	emu_push(emu_cs); emu_push(0x06EF); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-	emu_sp += 4;
+	GUI_CreateWindow(&g_global->variable_27F0);
 
 	ret = false;
 	loop = true;
@@ -924,15 +1079,13 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	FillSavegameDesc(save);
 
-	g_global->variable_2789 = save ? 0x62 : 0x61; /* "Select a position to save to:" : "Select a saved game to load:" */
+	g_global->variable_2787.stringId = save ? 0x62 : 0x61; /* "Select a position to save to:" : "Select a saved game to load:" */
 
 	emu_push(0x353F); emu_push(0x2787);
 	emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_0EE0_000E_BC8E();
 	emu_sp += 4;
 
-	emu_push(0x353F); emu_push(0x2787);
-	emu_push(emu_cs); emu_push(0x0522); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-	emu_sp += 4;
+	GUI_CreateWindow(&g_global->variable_2787);
 
 	UpdateArrows(save, true);
 
@@ -991,9 +1144,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 					UpdateArrows(save, true);
 
-					emu_push(0x353F); emu_push(0x2787);
-					emu_push(emu_cs); emu_push(0x066C); emu_cs = 0x34F2; overlay(0x34F2, 0); emu_GUI_Option_CreateWindow();
-					emu_sp += 4;
+					GUI_CreateWindow(&g_global->variable_2787);
 
 					UpdateArrows(save, true);
 				} break;
