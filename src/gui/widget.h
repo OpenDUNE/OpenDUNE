@@ -153,11 +153,11 @@ MSVC_PACKED_BEGIN
  */
 typedef struct WindowDesc {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
-	/* 0002(2)   */ PACK uint16 stringId;                   /*!< ?? */
+	/* 0002(2)   */ PACK uint16 stringID;                   /*!< ?? */
 	/* 0004(2)   */ PACK uint16 addArrows;                  /*!< ?? */
 	/* 0006(1)   */ PACK uint8  widgetCount;                /*!< ?? */
 	/* 0007(98)  */ PACK struct {
-	                       PACK uint16 stringId;            /*!< ?? */
+	                       PACK uint16 stringID;            /*!< ?? */
 	                       PACK uint16 offsetX;             /*!< ?? */
 	                       PACK uint16 offsetY;             /*!< ?? */
 	                       PACK uint16 width;               /*!< ?? */

@@ -2667,3 +2667,38 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 	return g_global->variable_7FC0;
 }
+
+char *GUI_String_Get_ByIndex(uint16 stringID)
+{
+	switch (stringID) {
+		case 0xFFFB: case 0xFFFC: case 0xFFFD: case 0xFFFE: case 0xFFFF: {
+			char *s = g_global->savegameDesc[abs((int16)stringID + 1)];
+			if (*s == '\0') return NULL;
+			return s;
+		}
+
+		case 0xFFF6:
+			stringID = (g_global->gameConfig.music != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			break;
+
+		case 0xFFF5:
+			stringID = (g_global->gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			break;
+
+		case 0xFFF4:
+			stringID = g_global->variable_2AAD[g_global->gameSpeed];
+			break;
+
+		case 0xFFF3:
+			stringID = (g_global->gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			break;
+
+		case 0xFFF2:
+			stringID = (g_global->gameConfig.autoScroll != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			break;
+
+		default: break;
+	}
+
+	return String_Get_ByIndex(stringID);
+}

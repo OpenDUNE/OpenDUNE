@@ -416,7 +416,6 @@ extern void f__217E_125C_0001_6580();
 extern void f__22A6_127B_0036_F8C9();
 extern void f__B503_12AC_0013_473F();
 extern void f__B503_1302_0013_473F();
-extern void emu_GUI_String_Get_ByIndex();
 extern void f__B503_1343_003B_6432();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_14D4_0013_5ED7();

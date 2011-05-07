@@ -23,8 +23,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
-extern void emu_GUI_DrawText_Wrapper();
-extern void emu_GUI_String_Get_ByIndex();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -59,28 +57,10 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	GUI_Widget_DrawBorder(19, state, 1);
 
 	if (w->stringID == 0x1E || w->stringID == 0x66 || w->stringID == 0x6B || w->stringID == 0x6C) {
-		emu_push(0x122);
-		emu_push(0x0);
-		emu_push(colour);
-		emu_push(positionY + 2);
-		emu_push(positionX + (width / 2));
+		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(w->stringID), positionX + (width / 2), positionY + 2, colour, 0, 0x122);
 	} else {
-		emu_push(0x22);
-		emu_push(0x0);
-		emu_push(colour);
-		emu_push(positionY + 2);
-		emu_push(positionX + 3);
+		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(w->stringID), positionX + 3, positionY + 2, colour, 0, 0x22);
 	}
-
-	emu_push(w->stringID);
-	emu_push(emu_cs); emu_push(0x1097); overlay(0x34F2, 0); emu_GUI_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x109F); emu_cs = 0x10E4; emu_GUI_DrawText_Wrapper();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 14;
 
 	if (old_6C91 == 0) {
 		emu_push(positionY + height);

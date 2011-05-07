@@ -27,6 +27,7 @@ extern void GUI_InitColors(uint8 *colors, uint8 first, uint8 last);
 extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A);
+extern char *GUI_String_Get_ByIndex(uint16 stringID);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

@@ -584,7 +584,7 @@ typedef struct GlobalData {
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
 	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
 	/* 2A9B(18)  */ PACK uint16 variable_2A9B[9];           /*!< ?? */
-	/* 2AAD()    */ PACK uint8   unknown_2AAD[0x000A];
+	/* 2AAD(10)  */ PACK uint16 variable_2AAD[5];           /*!< ?? */
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
 	/* 2AC3(14)  */ PACK char   string_2AC3[14];            /*!< "_SAVE%03d.DAT" NULL terminated. */
 	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0001];

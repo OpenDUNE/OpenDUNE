@@ -1796,7 +1796,7 @@ static void Gameloop_IntroMenu()
 	emu_push(emu_cs); emu_push(0x1B77); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
 	if (g_global->debugSkipDialogs == 0) {
-		uint16 stringId;
+		uint16 stringID;
 		uint16 maxWidth;
 		bool hasSave;
 		bool hasFame;
@@ -1809,12 +1809,12 @@ static void Gameloop_IntroMenu()
 
 		if (hasSave || File_Exists("ONETIME.DAT")) g_global->variable_37B4 = 1;
 
-		stringId = 0x1C; /* Replay Introduction */
+		stringID = 0x1C; /* Replay Introduction */
 
 		while (true) {
 			char *strings[6];
 
-			switch (stringId) {
+			switch (stringID) {
 				case 0x001C: /* Replay Introduction */
 					Music_Play(0);
 
@@ -1990,16 +1990,16 @@ static void Gameloop_IntroMenu()
 
 			if (!loc10) break;
 
-			stringId = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0);
+			stringID = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0);
 
-			if (stringId != 0xFFFF) {
+			if (stringID != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
-				stringId = g_global->variable_219D[index][stringId];
+				stringID = g_global->variable_219D[index][stringID];
 			}
 
 			GUI_PaletteAnimate();
 
-			if (stringId == 0x1B) break;
+			if (stringID == 0x1B) break;
 		}
 	} else {
 		Music_Play(0);
