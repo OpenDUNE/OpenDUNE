@@ -2633,7 +2633,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 	while (g_global->variable_7FC0 == 0xFFFF) {
 		uint16 event;
 
-		GUI_DrawCredits(g_global->playerHouseID, 0);
+		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
 
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
@@ -2650,7 +2650,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 		GUI_PaletteAnimate();
 	}
 
-	GUI_DrawCredits(g_global->playerHouseID, 1);
+	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
 
 	Unknown_Set_Global_6C91(oldValue_6C91);
 

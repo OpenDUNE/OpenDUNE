@@ -35,7 +35,8 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	uint16 old_6C91;
 	uint16 positionX, positionY;
 	uint16 width, height;
-	uint16 state, colour;
+	uint16 state;
+	uint8 colour;
 
 	if (w == NULL) return;
 
@@ -52,7 +53,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	g_global->variable_4062[19][3] = height;
 
 	state  = (w->state.s.selected) ? 0 : 2;
-	colour = (w->state.s.hover2) ? 0xE7 : 0xE8;
+	colour = (w->state.s.hover2) ? 231 : 232;
 
 	GUI_Widget_DrawBorder(19, state, 1);
 
