@@ -311,7 +311,6 @@ extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__217E_0ABA_001A_9AA0();
 extern void f__2649_0ADA_000E_EEB3();
 extern void f__2649_0B07_000E_F670();
-extern void emu_GUI_HOF_ResumeGame();
 extern void f__B518_0B1D_0014_307D();
 extern void f__2649_0B26_0011_B1B8();
 extern void f__B4E0_0B35_0010_5ED9();

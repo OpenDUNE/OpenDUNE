@@ -1222,3 +1222,15 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 
 	return true;
 }
+
+/**
+ * Handles Click event for "Resume Game" button.
+ *
+ * @return True, always.
+ */
+bool GUI_Widget_HOF_Resume_Click()
+{
+	g_global->variable_81E6 = 1;
+
+	return true;
+}

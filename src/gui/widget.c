@@ -565,6 +565,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
 					case 0x34F20025: success = GUI_Widget_Options_Click(w); break;
 					case 0x35180034: success = GUI_Widget_HOF_ClearList_Click(w); break;
+					case 0x35180039: success = GUI_Widget_HOF_Resume_Click(); break;
 
 					default:
 						emu_push(wcsip.s.cs);
@@ -585,7 +586,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 							case 0x34950048: overlay(0x3495, 0); emu_GUI_Purchase_Minus(); break;
 							case 0x3495004D: overlay(0x3495, 0); emu_GUI_Purchase_Invoice(); break;
 							case 0x34E0002A: overlay(0x34E0, 0); emu_GUI_Mentat_List(); break;
-							case 0x35180039: overlay(0x3518, 0); emu_GUI_HOF_ResumeGame(); break;
 							default:
 								/* In case we don't know the call point yet, call the dynamic call */
 								emu_last_cs = 0xB4A2; emu_last_ip = 0x06AC; emu_last_length = 0x0030; emu_last_crc = 0x38D3;

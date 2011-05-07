@@ -827,32 +827,6 @@ l__0A8A:
 }
 
 /**
- * Decompiled function emu_GUI_HOF_ResumeGame()
- *
- * @name emu_GUI_HOF_ResumeGame
- * @implements B518:0B0D:000E:E283 ()
- * @implements B518:0B1B:0002:2597
- *
- * Called From: 3518:0039:0005:0000
- */
-void emu_GUI_HOF_ResumeGame()
-{
-l__0B0D:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_get_memory16(emu_ds, 0x00, 0x81E6) = 0x1;
-	emu_ax = 0x1;
-	goto l__0B1B;
-l__0B1B:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B518_0B1D_0014_307D()
  *
  * @name f__B518_0B1D_0014_307D

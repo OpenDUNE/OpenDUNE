@@ -164,8 +164,6 @@ B4FC:03C8:002C:9251	emu_Ini_GetString
 B503:0000:0016:B170	emu_GUI_ShowMap	# Shows the map and lets you select next mission
 B503:1029:000F:8100	emu_CPS_LoadRegionClick	# Load the RGNCLK.CPS file and set some things for it
 
-B518:0B0D:000E:E283	emu_GUI_HOF_ResumeGame	# (csip) Handles click on "Resume Game" button in Hall of Fame window
-
 B520:0223:000E:38A3	emu_Tools_Free_Wrapper	# (csip) Forwards the call to emu_Tools_Free()
 
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
