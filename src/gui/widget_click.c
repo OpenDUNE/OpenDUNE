@@ -832,7 +832,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	g_global->variable_2A91 = File_HasFreeSpace(30000) ? 1 : 0;
+	g_global->savegameDiskspaceForNew = File_HasFreeSpace(30000) ? 1 : 0;
 
 	if (g_global->variable_38D6.csip != 0x0) {
 		emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -1095,7 +1095,7 @@ static void UpdateArrows(bool save, bool force)
 	}
 
 	w = &g_global->variable_29FD;
-	if (g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1 > g_global->variable_2A97) {
+	if (g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1 > g_global->variable_2A97) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(&g_global->variable_29FD);
@@ -1116,7 +1116,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	g_global->savegameCountOnDisk = GetSavegameCount();
 
-	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1);
+	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1);
 
 	FillSavegameDesc(save);
 
@@ -1144,7 +1144,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 			switch (key) {
 				case 0x25:
-					g_global->variable_2A97 = min(g_global->savegameCountOnDisk + (save ? g_global->variable_2A91 : 0) - 1, g_global->variable_2A97 + 1);
+					g_global->variable_2A97 = min(g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1, g_global->variable_2A97 + 1);
 
 					FillSavegameDesc(save);
 
