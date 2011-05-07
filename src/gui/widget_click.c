@@ -34,7 +34,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B4F2_11CF_0013_5635();
 extern void emu_GUI_String_Get_ByIndex();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
@@ -833,10 +832,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	emu_push(0); emu_push(0x7530);
-	emu_push(emu_cs); emu_push(0x0134); emu_cs = 0x34F2; overlay(0x34F2, 0); f__B4F2_11CF_0013_5635();
-	emu_sp += 4;
-	g_global->variable_2A91 = emu_ax;
+	g_global->variable_2A91 = File_HasFreeSpace(30000) ? 1 : 0;
 
 	if (g_global->variable_38D6.csip != 0x0) {
 		emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();

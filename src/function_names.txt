@@ -21,7 +21,6 @@
 01F7:0415:0007:3EF0	emu_Time_Get	# (result_csip)
 01F7:0428:0010:87B4	emu_Drive_Get_Default_Wrapper	# ()
 01F7:0442:0015:6A10	emu_Drive_Set_Default_Wrapper	# (drive)
-01F7:0494:000D:EF57	emu_Drive_Get_Free_Space	# (drive, result_csip)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
 01F7:04DD:0007:D823	emu_Tools_Divd_Wrapper	#

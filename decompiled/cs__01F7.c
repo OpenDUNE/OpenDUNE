@@ -1112,41 +1112,6 @@ l__0457:
 }
 
 /**
- * Decompiled function emu_Drive_Get_Free_Space()
- *
- * @name emu_Drive_Get_Free_Space
- * @implements 01F7:0494:000D:EF57 ()
- * @implements 01F7:04A1:001C:75A1
- *
- * Called From: B4F2:11DD:0013:5635
- */
-void emu_Drive_Get_Free_Space()
-{
-l__0494:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x2);
-	emu_ah = 0x36;
-	emu_dl = emu_get_memory8(emu_ss, emu_bp,  0x6);
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x04A1); Interrupt_DOS();
-l__04A1:
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_bx;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_get_memory16(emu_es, emu_bx, 0x6) = emu_ax;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_get_memory16(emu_es, emu_bx, 0x0) = emu_ax;
-	emu_get_memory16(emu_es, emu_bx, 0x2) = emu_dx;
-	emu_get_memory16(emu_es, emu_bx, 0x4) = emu_cx;
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Interrupt_Vector_Get()
  *
  * @name emu_Interrupt_Vector_Get

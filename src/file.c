@@ -488,6 +488,18 @@ csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 }
 
 /**
+ * Check if there is still @size bytes free on the disk.
+ * @param size The size to check for.
+ * @return True if and only if there is still @size bytes free on the disk.
+ * @warning This function returns true, forced. It does no real freespace checks!
+ */
+bool File_HasFreeSpace(uint32 size)
+{
+	uint32 free = 0x8000000;
+	return (size < free);
+}
+
+/**
  * Open a chunk file (starting with FORM) for reading.
  *
  * @param filename The name of the file to open.
