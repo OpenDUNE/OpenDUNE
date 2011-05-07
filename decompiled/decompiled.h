@@ -307,7 +307,6 @@ extern void f__B518_0A3E_0008_F439();
 extern void f__B491_0A41_0011_85AD();
 extern void emu_Input_HandleInput();
 extern void f__B4E0_0A86_000E_D3BB();
-extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4E0_0AAD_002E_796D();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__217E_0ABA_001A_9AA0();

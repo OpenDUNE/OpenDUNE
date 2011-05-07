@@ -5,51 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4DA_0A8E_0025_4AC8()
- *
- * @name f__B4DA_0A8E_0025_4AC8
- * @implements B4DA:0A8E:0025:4AC8 ()
- * @implements B4DA:0AB3:0005:6043
- *
- * Called From: 34DA:002F:0005:0000
- * Called From: B4DA:02CB:000B:CB27
- * Called From: B4DA:02CB:0009:FD6C
- * Called From: B4DA:0FC5:000B:EBA0
- * Called From: B4DA:1031:0009:3AB2
- * Called From: B4DA:132A:000A:EA7C
- */
-void f__B4DA_0A8E_0025_4AC8()
-{
-l__0A8E:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_al = emu_get_memory8(emu_ds, 0x00, 0x8011);
-	emu_ah = 0x0;
-	emu_push(emu_ax);
-	emu_al = emu_get_memory8(emu_ds, 0x00, 0x8010);
-	emu_ah = 0x0;
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8004));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x8002));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0AB3); emu_cs = 0x2903; emu_GUI_DrawSprite();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-l__0AB3:
-	emu_addw(&emu_sp, 0xE);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4DA_0AB8_002A_AAB2()
  *
  * @name f__B4DA_0AB8_002A_AAB2
@@ -806,7 +761,7 @@ l__0FBD:
 	emu_ax = 0x4;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0FC8); f__B4DA_0A8E_0025_4AC8();
+	emu_push(0x0FC8); emu_GUI_DrawSprite_8002();
 l__0FC8:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
@@ -861,7 +816,7 @@ l__102B:
 	emu_ax = 0x4;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1034); f__B4DA_0A8E_0025_4AC8();
+	emu_push(0x1034); emu_GUI_DrawSprite_8002();
 l__1034:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));

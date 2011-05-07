@@ -28,7 +28,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0000_000F_14AD();
 extern void emu_Tools_Free();
@@ -193,10 +192,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 		WSA_Unload(wsa);
 	}
 
-	emu_push(2);
-	emu_push(emu_cs); emu_push(0x0EE9); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0A8E_0025_4AC8();
-	emu_sp += 2;
-
+	GUI_DrawSprite_8002(2);
 	Unknown_Set_Global_6C91(0);
 
 	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
@@ -350,10 +346,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 		WSA_Unload(locPtr);
 	}
 
-	emu_push(g_global->variable_6C91);
-	emu_push(emu_cs); emu_push(0x02CE); f__B4DA_0A8E_0025_4AC8();
-	emu_sp += 2;
-
+	GUI_DrawSprite_8002(g_global->variable_6C91);
 	Unknown_Set_Global_6C91(old_6C91);
 }
 

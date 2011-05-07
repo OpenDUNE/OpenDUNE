@@ -22,7 +22,6 @@ extern void f__2642_0069_0008_D517();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_176C_000F_12AD();
 extern void f__B4DA_1860_0008_857D();
 extern void f__B4DA_16F8_001A_D84F();
@@ -177,9 +176,7 @@ bool Security_Check()
 		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4, 0);
 		WSA_Unload(wsaQuestion);
 
-		emu_push(4);
-		emu_push(emu_cs); emu_push(0x132D); f__B4DA_0A8E_0025_4AC8();
-		emu_sp += 2;
+		GUI_DrawSprite_8002(4);
 
 		emu_push(g_global->variable_6D5D);
 		emu_push(emu_cs); emu_push(0x1337); emu_cs = 0x2642; f__2642_0002_005E_87F6();

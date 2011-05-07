@@ -1344,6 +1344,15 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 }
 
 /**
+ * Draw the sprite of variable_8002 at (variable_8010, variable_8011)
+ * @param memory
+ */
+void GUI_DrawSprite_8002(uint16 memory)
+{
+	GUI_DrawSprite(memory, g_global->variable_8002, g_global->variable_8010, g_global->variable_8011, 0, 0);
+}
+
+/**
  * Updates the score.
  * @param score The base score.
  * @param harvestedAllied Pointer to the total amount of spice harvested by allies.

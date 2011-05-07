@@ -462,3 +462,21 @@ void emu_GUI_Mentat_Animation()
 	unknown = emu_get_memory16(emu_ss, emu_sp, 0);
 	GUI_Mentat_Animation(unknown);
 }
+
+/**
+ * Emulator wrapper around GUI_DrawSprite_8002().
+ *
+ * @name emu_GUI_DrawSprite_8002()
+ * @implements B4DA:0A8E:0025:4AC8 ()
+ */
+void emu_GUI_DrawSprite_8002()
+{
+	uint16 memory;
+
+	/* Pop return address off the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	memory = emu_get_memory16(emu_ss, emu_sp, 0);
+	GUI_DrawSprite_8002(memory);
+}
