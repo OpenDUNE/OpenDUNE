@@ -47,6 +47,10 @@ extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
+extern void f__B495_0DC9_0010_C643();
+extern void f__B495_0F30_0008_857D();
+extern void f__B495_125B_0011_10C0();
+extern void emu_GUI_Production_ResumeGame();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -2598,4 +2602,68 @@ void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, in
 	emu_cs = g_global->variable_663C.s.cs;
 	emu_push(0x009D); f__22A6_06D7_006B_B7D6();
 	emu_sp += 0x10;
+}
+
+/**
+ * Display the window where you can order/build stuff for a structure.
+ * @param var06 Unknown.
+ * @param isStarPort True if this is for a starport.
+ * @param var0A Unknown.
+ * @return Unknown value.
+ */
+uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
+{
+	uint16 oldValue_6C91 = Unknown_Set_Global_6C91(0);
+	uint8 backup[3];
+
+	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 765, backup, 3);
+
+	g_global->variable_8BE8 = var06;
+	g_global->variable_7FC2 = isStarPort;
+	g_global->variable_7FBE = var0A;
+	g_global->variable_7FB6 = 0;
+
+	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_125B_0011_10C0();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x0057); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+	emu_sp += 2;
+
+	g_global->variable_7FC0 = 0xFFFF;
+	while (g_global->variable_7FC0 == 0xFFFF) {
+		uint16 event;
+
+		GUI_DrawCredits(g_global->playerHouseID, 0);
+
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+
+		event = GUI_Widget_HandleEvents((g_global->variable_7FA2.csip == 0x0) ? NULL : (Widget *)emu_get_memorycsip(g_global->variable_7FA2));
+
+		if (event == 0x6E) {
+			emu_push(0); emu_push(0);
+			emu_push(emu_cs); emu_push(0x0096); emu_cs = 0x3495; overlay(0x3495, 0); emu_GUI_Production_ResumeGame();
+			emu_sp += 4;
+		}
+
+		GUI_PaletteAnimate();
+	}
+
+	GUI_DrawCredits(g_global->playerHouseID, 1);
+
+	Unknown_Set_Global_6C91(oldValue_6C91);
+
+	emu_push(emu_cs); emu_push(0x00C1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+	memcpy(backup, emu_get_memorycsip(g_global->variable_3C32) + 765, 3);
+
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x00ED); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+
+	/* Visible credits have to be reset, as it might not be the real value */
+	g_global->playerCredits = 0xFFFF;
+
+	return g_global->variable_7FC0;
 }

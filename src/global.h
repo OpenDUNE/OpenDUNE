@@ -1354,7 +1354,12 @@ typedef struct GlobalData {
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
-	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x001E];
+	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x0010];
+	/* 7FB6(2)   */ PACK uint16 variable_7FB6;              /*!< ?? */
+	/* 7FB8()    */ PACK uint8   unknown_7FB8[0x0006];
+	/* 7FBE(2)   */ PACK uint16 variable_7FBE;              /*!< ?? */
+	/* 7FC0(2)   */ PACK uint16 variable_7FC0;              /*!< ?? */
+	/* 7FC2(2)   */ PACK uint16 variable_7FC2;              /*!< True if the current factory display order is for a starport. */
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
 	/* 7FC6(60)  */ PACK csip32 variable_7FC6[3][5];        /*!< Pointers to sprites. */
 	/* 8002(4)   */ PACK csip32 variable_8002;              /*!< Sprite */

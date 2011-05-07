@@ -29,8 +29,6 @@
 #include "gui/widget.h"
 
 extern void f__259E_0040_0015_5E4A();
-extern void f__B495_0000_0022_1CF6();
-extern void overlay(uint16 cs, uint8 force);
 
 StructureInfo *g_structureInfo = NULL;
 
@@ -1655,12 +1653,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Tools_Var76B8_Set(2, false);
 
-			emu_push(loc1C);
-			emu_push(s->o.type == STRUCTURE_STARPORT ? 1 : 0);
-			emu_push(g_global->variable_8BE8);
-			emu_push(emu_cs); emu_push(0x17C5); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0000_0022_1CF6();
-			emu_sp += 6;
-			loc1E = emu_ax;
+			loc1E = GUI_DisplayFactoryWindow(g_global->variable_8BE8, s->o.type == STRUCTURE_STARPORT ? 1 : 0, loc1C);
 
 			Tools_Var76B8_Set(2, true);
 

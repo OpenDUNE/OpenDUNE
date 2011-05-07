@@ -56,7 +56,6 @@ extern void emu_EntryPoint();
 extern void f__2BF2_0000_0007_42B5();
 extern void f__B488_0000_0027_45A9();
 extern void f__B491_0000_0022_DD43();
-extern void f__B495_0000_0022_1CF6();
 extern void f__B4E0_0000_000F_14AD();
 extern void emu_Ini_GetInteger();
 extern void emu_GUI_ShowMap();
