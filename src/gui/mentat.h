@@ -11,5 +11,6 @@ extern void GUI_Mentat_ShowBriefing();
 extern void GUI_Mentat_ShowWin();
 extern void GUI_Mentat_ShowLose();
 extern void GUI_Mentat_Display(char *houseFilename, uint16 houseID);
+extern void GUI_Mentat_Animation(uint16 inknown);
 
 #endif /* GUI_MENTAT_H */

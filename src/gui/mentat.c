@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -16,6 +17,7 @@
 #include "../string.h"
 #include "../tools.h"
 #include "../file.h"
+#include "../gfx.h"
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 
@@ -23,11 +25,14 @@ extern void f__22A6_04A5_000F_3B8F();
 extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4DA_0308_0018_F99F();
+extern void f__2B6C_0197_00CE_4D32();
+extern void f__2B6C_0292_0028_3AD7();
+extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0000_000F_14AD();
 extern void emu_Tools_Free();
+extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_History_Clear();
 
@@ -217,10 +222,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 			ret = GUI_Widget_HandleEvents(w);
 
 			GUI_PaletteAnimate();
-
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x0F8B); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0308_0018_F99F();
-			emu_sp += 2;
+			GUI_Mentat_Animation(0);
 		} while ((ret & 0x8000) == 0);
 	}
 
@@ -354,4 +356,342 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 
 	Unknown_Set_Global_6C91(old_6C91);
 }
+
+/**
+ * Draw sprites and handle mouse in a mentat screen.
+ * @param unknown
+ */
+void GUI_Mentat_Animation(uint16 unknown)
+{
+	csip32 sprite;
+	uint16 bool06;
+	uint16 i;
+
+	if (g_global->variable_801A < (int32)g_global->variable_76AC && g_global->variable_2580 == 0) {
+		if (g_global->variable_801A != 0) {
+			if (g_global->variable_7FC6[2][1 + abs(g_global->variable_8024)].csip == 0x0) {
+				g_global->variable_8024 = 1 - g_global->variable_8024;
+			} else {
+				g_global->variable_8024++;
+			}
+
+			sprite = g_global->variable_7FC6[2][abs(g_global->variable_8024)];
+
+			emu_push(g_global->variable_800F + Sprite_GetHeight(sprite));
+			emu_push(g_global->variable_800E + Sprite_GetWidth(sprite));
+			emu_push(g_global->variable_800F);
+			emu_push(g_global->variable_800E);
+			emu_push(emu_cs); emu_push(0x03CE); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			emu_sp += 0x8;
+
+			GUI_DrawSprite(0, sprite, g_global->variable_800E, g_global->variable_800F, 0, 0);
+
+			emu_push(emu_cs); emu_push(0x03F9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		}
+
+		switch (g_global->playerHouseID) {
+			case 0:
+				g_global->variable_801A = g_global->variable_76AC + 300 * 60;
+				break;
+			case 1:
+				g_global->variable_801A = g_global->variable_76AC + 60 * Tools_RandomRange(1,3);
+				break;
+			case 2:
+				if (g_global->variable_8024 != 0x0) {
+					g_global->variable_801A = g_global->variable_76AC + 6;
+				} else {
+					g_global->variable_801A = g_global->variable_76AC + 60 * Tools_RandomRange(10, 19);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+
+	if (unknown == 0x1) {
+		if (g_global->variable_8016 < (int32)g_global->variable_76AC) {
+			g_global->variable_8022 = Tools_RandomRange(0, 4);
+			sprite = g_global->variable_7FC6[1][g_global->variable_8022];
+
+			emu_push(g_global->variable_800B + Sprite_GetHeight(sprite));
+			emu_push(g_global->variable_800A + Sprite_GetWidth(sprite));
+			emu_push(g_global->variable_800B);
+			emu_push(g_global->variable_800A);
+			emu_push(emu_cs); emu_push(0x0526); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			emu_sp += 0x8;
+
+			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
+
+			emu_push(emu_cs); emu_push(0x0551); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+
+			switch (g_global->variable_8022) {
+				case 0:
+					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(7, 30);
+					break;
+				case 1:
+				case 2:
+				case 3:
+					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(6, 10);
+					break;
+				case 4:
+					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(5, 6);
+					break;
+				default:
+					break;
+			}
+		}
+	} else {
+		bool06 = 0x0;
+
+		emu_push(0x41);
+		emu_push(emu_cs); emu_push(0x05AC); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		emu_sp += 0x2;
+		if (emu_ax == 0) {
+			emu_push(0x42);
+			emu_push(emu_cs); emu_push(0x05BA); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			emu_sp += 0x2;
+			if (emu_ax == 0) {
+				if (g_global->variable_8022 != 0) {
+					g_global->variable_8022 = 0;
+					g_global->variable_8016 = 0;
+					bool06 = 0x1;
+				}
+				goto l__0634;
+			}
+		}
+
+		emu_push(g_global->variable_800D);
+		emu_push(g_global->variable_800C);
+		emu_push(g_global->variable_800B);
+		emu_push(g_global->variable_800A);
+		emu_push(emu_cs); emu_push(0x05DC); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		emu_sp += 0x8;
+		if (emu_ax != 0) {
+			if (g_global->variable_8016 != -1) {
+				g_global->variable_8016 = -1;
+				g_global->variable_8022 = Tools_RandomRange(1, 4);
+				bool06 = 0x1;
+			}
+		} else {
+			if (g_global->variable_8022 != 0x0) {
+				g_global->variable_8022 = 0x0;
+				g_global->variable_8016 = 0;
+				bool06 = 0x1;
+			}
+		}
+l__0634:
+		if (bool06 != 0x0) {
+			sprite = g_global->variable_7FC6[1][g_global->variable_8022];
+
+			emu_push(g_global->variable_800B + Sprite_GetHeight(sprite));
+			emu_push(g_global->variable_800A + Sprite_GetWidth(sprite));
+			emu_push(g_global->variable_800B);
+			emu_push(g_global->variable_800A);
+			emu_push(emu_cs); emu_push(0x0692); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			emu_sp += 0x8;
+
+			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
+
+			emu_push(emu_cs); emu_push(0x06BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		}
+	}
+
+	bool06 = 0x0;
+
+	emu_push(0x41);
+	emu_push(emu_cs); emu_push(0x06CB); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+	emu_sp += 0x2;
+	if (emu_ax == 0) {
+		emu_push(0x42);
+		emu_push(emu_cs); emu_push(0x06D9); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		emu_sp += 0x2;
+		if (emu_ax == 0) goto l__0738;
+	}
+
+	emu_push(g_global->variable_8009);
+	emu_push(g_global->variable_8008);
+	emu_push(g_global->variable_8007);
+	emu_push(g_global->variable_8006);
+	emu_push(emu_cs); emu_push(0x06FB); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+	emu_sp += 0x8;
+	if (emu_ax != 0) {
+		if (g_global->variable_801E != 0x4) {
+			bool06 = 0x1;
+			g_global->variable_801E = (g_global->variable_801E == 3) ? 4 : 3;
+			g_global->variable_8020 = 0x0;
+			g_global->variable_8012 = 0;
+		}
+		goto l__09F3;
+	}
+l__0738:
+	emu_push(g_global->variable_8009 + 24);
+	emu_push(g_global->variable_8008 + 16);
+	emu_push((int16)g_global->variable_8007 - 8);
+	emu_push((int16)g_global->variable_8006 - 16);
+	emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+	/* Check if this overlay should be reloaded */
+	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+	emu_sp += 0x8;
+	if (emu_ax != 0) {
+		emu_push(SCREEN_HEIGHT - 1);
+		emu_push(g_global->variable_8008 + 8);
+		emu_push(g_global->variable_8009);
+		emu_push((int16)g_global->variable_8006 - 8);
+		emu_push(emu_cs); emu_push(0x078C); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		emu_sp += 0x8;
+		if (emu_ax != 0) {
+			i = 3;
+		} else {
+			emu_push(g_global->variable_8009 + 8);
+			emu_push(g_global->variable_8008 + 16);
+			emu_push((int16)g_global->variable_8007 - 8);
+			emu_push(g_global->variable_8008);
+			emu_push(emu_cs); emu_push(0x07BE); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+			/* Check if this overlay should be reloaded */
+			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			emu_sp += 0x8;
+			if (emu_ax != 0) {
+				i = 2;
+			} else {
+				emu_push(g_global->variable_8009 + 8);
+				emu_push(g_global->variable_8006);
+				emu_push((int16)g_global->variable_8007 - 8);
+				emu_push((int16)g_global->variable_8006 - 16);
+				emu_push(emu_cs); emu_push(0x07F0); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+				/* Check if this overlay should be reloaded */
+				if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+				emu_sp += 0x8;
+				i = (emu_ax == 0) ? 0 : 1;
+			}
+		}
+
+		if (i != g_global->variable_801E) {
+			bool06 = 0x1;
+			g_global->variable_801E = i;
+			g_global->variable_8020 = 0x0;
+			g_global->variable_8012 = g_global->variable_76AC;
+		}
+	} else {
+		if (g_global->variable_8012 >= (int32)g_global->variable_76AC) return;
+
+		bool06 = 0x1;
+		if (g_global->variable_8020 != 0) {
+			g_global->variable_801E = g_global->variable_8020;
+			g_global->variable_8020 = 0x0;
+
+			if (g_global->variable_801E != 0x4) {
+				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(20, 180);
+			} else {
+				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(12, 30);
+			}
+		} else {
+			i = 0;
+			switch (unknown) {
+				case 0:
+					i = Tools_RandomRange(0, 7);
+					if (i > 5) {
+						i = 1;
+					} else {
+						if (i == 5) {
+							i = 4;
+						}
+					}
+					break;
+
+				case 1:
+					if (g_global->variable_801E != ((g_global->variable_3C4A == 0x0) ? 0 : 3)) {
+						i = 0;
+					} else {
+						i = Tools_RandomRange(0, 17);
+						if (i > 9) {
+							i = 0;
+						} else {
+							if (i >= 5) {
+								i = 4;
+							}
+						}
+					}
+					break;
+
+				default:
+					i = Tools_RandomRange(0, 15);
+					if (i > 10) {
+						i = 2;
+					} else {
+						if (i >= 5) {
+							i = 4;
+						}
+					}
+					break;
+			}
+
+			if ((i == 2 && g_global->variable_801E == 1) || (i == 1 && g_global->variable_801E == 2)) {
+				g_global->variable_8020 = i;
+				g_global->variable_801E = 0;
+				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(1, 5);
+			} else {
+				if (i != g_global->variable_801E && (i == 4 || g_global->variable_801E == 4)) {
+					g_global->variable_8020 = i;
+					g_global->variable_801E = 3;
+					g_global->variable_8012 = g_global->variable_76AC;
+				} else {
+					g_global->variable_801E = i;
+					if (i != 4) {
+						g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(15, 180);
+					} else {
+						g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(6, 60);
+					}
+				}
+			}
+
+			if (g_global->variable_3C4A != 0 && g_global->variable_801E == 0) g_global->variable_801E = 3;
+		}
+	}
+l__09F3:
+	if (bool06 != 0x0) {
+		sprite = g_global->variable_7FC6[0][g_global->variable_801E];
+
+		emu_push(g_global->variable_8007 + Sprite_GetHeight(sprite));
+		emu_push(g_global->variable_8006 + Sprite_GetWidth(sprite));
+		emu_push(g_global->variable_8007);
+		emu_push(g_global->variable_8006);
+		emu_push(emu_cs); emu_push(0x0A51); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		emu_sp += 0x8;
+
+		GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
+
+		emu_push(emu_cs); emu_push(0x0A7C); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		/* Check if this overlay should be reloaded */
+		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+	}
+}
+
 

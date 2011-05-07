@@ -21,7 +21,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__B4DA_0308_0018_F99F();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4DA_0A8E_0025_4AC8();
 extern void f__B4DA_176C_000F_12AD();
@@ -312,13 +311,9 @@ bool Security_Check()
 			if (emu_ax != 0) break;
 
 			if (g_global->variable_76AC < tickWaitTill) {
-				emu_push(1);
-				emu_push(emu_cs); emu_push(0x1666); f__B4DA_0308_0018_F99F();
-				emu_sp += 2;
+				GUI_Mentat_Animation(1);
 			} else {
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x1666); f__B4DA_0308_0018_F99F();
-				emu_sp += 2;
+				GUI_Mentat_Animation(0);
 			}
 		}
 

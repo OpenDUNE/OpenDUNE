@@ -444,3 +444,21 @@ void emu_GUI_Mentat_Display()
 
 	GUI_Mentat_Display((char *)emu_get_memorycsip(houseFilename), houseID);
 }
+
+/**
+ * Emu wrapper around #GUI_Mentat_Animation()
+ *
+ * @name emu_GUI_Mentat_Animation();
+ * @implements B4DA:0308:0018:F99F ()
+ */
+void emu_GUI_Mentat_Animation()
+{
+	uint16 unknown;
+
+	/* Pop the return address from the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	unknown = emu_get_memory16(emu_ss, emu_sp, 0);
+	GUI_Mentat_Animation(unknown);
+}

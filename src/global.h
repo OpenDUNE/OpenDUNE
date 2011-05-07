@@ -1370,7 +1370,14 @@ typedef struct GlobalData {
 	/* 800F(1)   */ PACK uint8  variable_800F;              /*!< ?? */
 	/* 8010(1)   */ PACK uint8  variable_8010;              /*!< ?? */
 	/* 8011(1)   */ PACK uint8  variable_8011;              /*!< ?? */
-	/* 8012()    */ PACK uint8   unknown_8012[0x0040];
+	/* 8012(4)   */ PACK int32  variable_8012;              /*!< ?? */
+	/* 8016(4)   */ PACK int32  variable_8016;              /*!< ?? */
+	/* 801A(4)   */ PACK int32  variable_801A;              /*!< ?? */
+	/* 801E(2)   */ PACK uint16 variable_801E;              /*!< ?? */
+	/* 8020(2)   */ PACK uint16 variable_8020;              /*!< ?? */
+	/* 8022(2)   */ PACK uint16 variable_8022;              /*!< ?? */
+	/* 8024(2)   */ PACK int16  variable_8024;              /*!< ?? */
+	/* 8026()    */ PACK uint8   unknown_8026[0x002C];
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
 	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
 	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */

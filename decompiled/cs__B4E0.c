@@ -292,7 +292,7 @@ l__0151:
 l__015E:
 	emu_xorw(&emu_ax, emu_ax);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0166); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0308_0018_F99F();
+	emu_push(emu_cs); emu_push(0x0166); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Animation();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0166:

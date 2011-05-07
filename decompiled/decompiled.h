@@ -165,7 +165,6 @@ extern void emu_Mouse_InsideRegion();
 extern void emu_Drive_Get_Default();
 extern void f__AB00_02FE_0020_41D6();
 extern void emu_GUI_Mentat_List();
-extern void f__B4DA_0308_0018_F99F();
 extern void emu_Drive_Set_Default();
 extern void emu_GUI_Production_ResumeGame();
 extern void emu_Empty4();
