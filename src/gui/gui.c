@@ -30,6 +30,7 @@
 #include "../tools.h"
 #include "widget.h"
 #include "mentat.h"
+#include "../mouse.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -40,18 +41,28 @@ extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
+extern void f__24DA_0004_000E_FD1B();
+extern void f__24FD_000A_000B_2043();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
+extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
+extern void f__B488_0000_0027_45A9();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
 extern void f__B495_125B_0011_10C0();
 extern void emu_GUI_Production_ResumeGame();
 extern void f__B4DA_0AB8_002A_AAB2();
+extern void f__B503_0586_0017_050A();
+extern void f__B503_0B68_000D_957E();
+extern void f__B503_0CB3_001A_FEEE();
+extern void f__B503_0F0C_0010_028B();
+extern void emu_CPS_LoadRegionClick();
+extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__B518_14D4_0013_5ED7();
@@ -2695,4 +2706,281 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 	}
 
 	return String_Get_ByIndex(stringID);
+}
+
+uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
+{
+	uint16 loc02;
+	uint16 loc04;
+	uint16 loc06;
+	uint16 loc08;
+	uint16 loc0A;
+	uint8 *loc30A;
+	uint8 loc316[12];
+	csip32 csip30A;
+	uint16 locdi;
+
+	if (campaignID == 0) return 1;
+
+	emu_sp -= 0x300;
+	csip30A.s.cs = emu_ss;
+	csip30A.s.ip = emu_sp;
+	loc30A = emu_get_memorycsip(csip30A);
+
+	emu_push(0xA);
+	emu_push(emu_cs); emu_push(0x001F); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
+	emu_sp += 2;
+
+	Music_Play(0x1D);
+
+	memset(loc30A, 0, 0x300);
+
+	loc04 = campaignID - (arg08 ? 1 : 0);
+	loc06 = campaignID;
+	loc0A = Unknown_Set_Global_6C91(4);
+
+	Unknown_259E_0006(csip30A, 15);
+
+	Mouse_SetRegion(8, 24, 311, 143);
+
+	emu_push(0x54);
+	emu_push(0xA0);
+	emu_push(emu_cs); emu_push(0x0097); emu_cs = 0x2B99; f__2B99_007B_0019_5737();
+	emu_sp += 4;
+
+	Sprites_LoadImage("MAPMACH.CPS", 5, 5, emu_get_memorycsip(g_global->variable_998A), 1);
+
+	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
+	emu_push(5);
+	emu_push(SCREEN_HEIGHT);
+	emu_push(SCREEN_WIDTH);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x00D9); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
+	emu_sp += 14;
+
+	emu_push(0); emu_push(0);
+	emu_push(4);
+	emu_push(5);
+	emu_push(emu_cs); emu_push(0x00F4); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
+	emu_sp += 8;
+
+	loc08 = 0;
+	locdi = 0;
+
+	switch (g_global->playerHouseID) {
+		case HOUSE_HARKONNEN:
+			locdi = 0;
+			loc08 = 152;
+			break;
+
+		default:
+			locdi = 33;
+			loc08 = 152;
+			break;
+
+		case HOUSE_ORDOS:
+			locdi = 1;
+			loc08 = 24;
+			break;
+	}
+
+	memcpy(loc316, emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), 12);
+	memcpy(g_global->variable_81BA, emu_get_memorycsip(g_global->variable_3C32) + (144 + (g_global->playerHouseID * 16)) * 3, 12);
+	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
+
+	GUI_Unknown_24D0_000D(locdi, loc08, 0, 152, 7, 40, 4, 4);
+	GUI_Unknown_24D0_000D(locdi, loc08, 33, 152, 7, 40, 4, 4);
+
+	switch (g_global->language) {
+		case LANGUAGE_GERMAN:
+			GUI_Unknown_24D0_000D(1, 120, 1, 0, 38, 24, 4, 4);
+			break;
+
+		case LANGUAGE_FRENCH:
+			GUI_Unknown_24D0_000D(1, 96, 1, 0, 38, 24, 4, 4);
+			break;
+
+		default: break;
+	}
+
+	GUI_DrawFilledRectangle(8, 24, 311, 143, 12);
+
+	emu_push(emu_cs); emu_push(0x024A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 4, 0);
+
+	Unknown_259E_0006(g_global->variable_3C32, 15);
+
+	emu_push(emu_cs); emu_push(0x0286); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	g_global->variable_81B4 = 0;
+
+	if (arg08 && campaignID == 1) {
+		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+
+		emu_push(0); emu_push(0);
+		emu_push(2);
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
+		emu_sp += 8;
+
+		emu_push(0x11B); /* "Three Houses have come to Dune." */
+		emu_push(emu_cs); emu_push(0x02E2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+		emu_sp += 2;
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x02EA); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+		emu_sp += 4;
+
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(2);
+		emu_push(120);
+		emu_push(304);
+		emu_push(24);
+		emu_push(8);
+		emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
+		emu_sp += 16;
+
+		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+		g_global->variable_76B4 = 120;
+
+		emu_push(emu_cs); emu_push(0x0327); emu_cs = 0x3503; overlay(0x3503, 0); emu_CPS_LoadRegionClick();
+
+		while (g_global->variable_76B4 != 0) {
+			emu_push(emu_cs); emu_push(0x0337); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
+			if (emu_ax != 0) break;
+		}
+
+		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, emu_get_memorycsip(g_global->variable_998A), 1);
+
+		emu_push(0); emu_push(0);
+		emu_push(2);
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x0374); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
+		emu_sp += 8;
+
+		emu_push(0x11C); /* "To take control of the land." */
+		emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+		emu_sp += 2;
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x0388); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+		emu_sp += 4;
+
+		emu_push(emu_cs); emu_push(0x0392); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
+
+		emu_push(0);
+		emu_push(emu_ax != 0 ? 0 : 1);
+		emu_push(0);
+		emu_push(2);
+		emu_push(120);
+		emu_push(304);
+		emu_push(24);
+		emu_push(8);
+		emu_push(emu_cs); emu_push(0x03BA); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
+		emu_sp += 16;
+
+		g_global->variable_76B4 = 60;
+
+		while (g_global->variable_76B4 != 0) {
+			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
+			if (emu_ax != 0) break;
+		}
+
+		emu_push(0x11D); /* "That has become divided." */
+		emu_push(emu_cs); emu_push(0x03E6); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+		emu_sp += 2;
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x03EE); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+		emu_sp += 4;
+	} else {
+		emu_push(emu_cs); emu_push(0x03F7); emu_cs = 0x3503; overlay(0x3503, 0); emu_CPS_LoadRegionClick();
+	}
+
+	Sprites_LoadImage("DUNERGN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+
+	emu_push(0); emu_push(0);
+	emu_push(2);
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
+	emu_sp += 8;
+
+	Unknown_Set_Global_6C91(2);
+
+	emu_push(loc04);
+	emu_push(emu_cs); emu_push(0x0445); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0B68_000D_957E();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x044B); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
+	if (emu_ax != 0) {
+		GUI_Unknown_24D0_000D(1, 24, 1, 24, 38, 120, 2, 0);
+	} else {
+	l__0475:
+		emu_push(0);
+		emu_push(0);
+		emu_push(0);
+		emu_push(2);
+		emu_push(120);
+		emu_push(304);
+		emu_push(24);
+		emu_push(8);
+		emu_push(emu_cs); emu_push(0x0497); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
+		emu_sp += 16;
+	}
+
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
+
+	if (loc06 != loc04) {
+		emu_push(loc06);
+		emu_push(emu_cs); emu_push(0x04CD); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0CB3_001A_FEEE();
+		emu_sp += 2;
+	}
+
+	emu_push(emu_cs); emu_push(0x04D3); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	if (*(uint16 *)emu_get_memorycsip(g_global->variable_81D2) >= campaignID) {
+		emu_push(0x11E);
+		emu_push(emu_cs); emu_push(0x04E5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+		emu_sp += 2; /* "Select your next region" */
+		emu_push(emu_dx); emu_push(emu_ax);
+		emu_push(emu_cs); emu_push(0x04ED); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+		emu_sp += 4;
+
+		emu_push(campaignID);
+		emu_push(emu_cs); emu_push(0x04F5); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0586_0017_050A();
+		emu_sp += 2;
+		loc02 = emu_ax;
+	} else {
+		loc02 = 0;
+	}
+
+	Driver_Music_FadeOut();
+
+	Unknown_Set_Global_6C91(loc0A);
+
+	Mouse_SetRegion(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+	emu_push(emu_cs); emu_push(0x0529); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	memcpy(emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), loc316, 12);
+
+	Unknown_259E_0006(csip30A, 15);
+
+	emu_push(emu_cs); emu_push(0x055D); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0565); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x056B); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
+	emu_push(emu_cs); emu_push(0x0578); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+	emu_sp += 4;
+
+	emu_sp += 0x300;
+
+	return loc02;
 }

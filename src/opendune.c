@@ -79,7 +79,6 @@ extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
 extern void emu_GUI_ShowEndStats();
-extern void emu_GUI_ShowMap();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_Input_Keyboard_HandleKeys2();
@@ -1092,12 +1091,7 @@ static void GameLoop_LevelEnd()
 
 			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
-			emu_push(1);
-			emu_push(g_global->campaignID);
-			emu_push(emu_cs); emu_push(0x03F7); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
-			emu_sp += 4;
-
-			g_global->scenarioID = emu_ax;
+			g_global->scenarioID = GUI_ShowMap(g_global->campaignID, true);
 
 			Unknown_259E_0006(g_global->variable_3C36, 15);
 
@@ -1120,12 +1114,7 @@ static void GameLoop_LevelEnd()
 
 			Sprites_UnloadTiles();
 
-			emu_push(0);
-			emu_push(g_global->campaignID);
-			emu_push(emu_cs); emu_push(0x049E); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
-			emu_sp += 4;
-
-			g_global->scenarioID = emu_ax;
+			g_global->scenarioID = GUI_ShowMap(g_global->campaignID, false);
 		}
 
 		{
@@ -2054,13 +2043,7 @@ static void Gameloop_IntroMenu()
 
 		emu_push(emu_cs); emu_push(0x21FA); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-		if (g_global->campaignID != 0) {
-			emu_push(1);
-			emu_push(g_global->campaignID);
-			emu_push(emu_cs); emu_push(0x2215); emu_cs = 0x3503; overlay(0x3503, 0); emu_GUI_ShowMap();
-			emu_sp += 4;
-			g_global->scenarioID = emu_ax;
-		}
+		if (g_global->campaignID != 0) g_global->scenarioID = GUI_ShowMap(g_global->campaignID, true);
 
 		Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
 		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
