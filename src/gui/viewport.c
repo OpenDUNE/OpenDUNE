@@ -22,8 +22,6 @@
 #include "../string.h"
 #include "../sprites.h"
 
-extern void f__2B4C_0002_0029_64AF();
-
 /**
  * Handles the Click events for the Viewport widget.
  *
@@ -52,11 +50,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	if (spriteID != g_global->cursorSpriteID) {
 		g_global->tickCursor = g_global->tickGlobal;
 
-		emu_push(g_sprites[spriteID].s.cs); emu_push(g_sprites[spriteID].s.ip);
-		emu_push(g_global->cursorHotSpots[spriteID][1]);
-		emu_push(g_global->cursorHotSpots[spriteID][0]);
-		emu_push(emu_cs); emu_push(0x00E8); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-		emu_sp += 8;
+		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], g_sprites[spriteID]);
 
 		g_global->cursorSpriteID = spriteID;
 	}

@@ -65,7 +65,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void f__2B1E_0189_001B_E6CF();
-extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BA5_0006_009C_A3D1();
@@ -1052,11 +1051,7 @@ static void GameLoop_LevelEnd()
 
 		g_global->cursorSpriteID = 0;
 
-		emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
-		emu_push(0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x030A); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-		emu_sp += 8;
+		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 		Unknown_B483_0363(0xFFFE);
 
@@ -1729,11 +1724,7 @@ static void Gameloop_IntroMenu()
 
 	g_global->cursorSpriteID = 0;
 
-	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x1A25); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-	emu_sp += 8;
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	while (g_global->variable_706A > 1) {
 		emu_push(emu_cs); emu_push(0x1A2F); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();

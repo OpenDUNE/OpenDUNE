@@ -29,7 +29,6 @@ extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_GUI_CopyFromBuffer();
 extern void f__259E_0040_0015_5E4A();
-extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
@@ -374,11 +373,7 @@ bool GUI_Widget_Cancel_Click()
 	g_global->activeAction = 0xFFFF;
 	g_global->cursorSpriteID = 0;
 
-	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x107C); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-	emu_sp += 8;
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	GUI_ChangeSelectionType(3);
 
@@ -765,13 +760,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = 0;
 
-	emu_push(g_sprites[0].s.cs); emu_push(g_sprites[0].s.ip);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x00CA); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 8;
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	Sprites_UnloadTiles();
 
@@ -899,13 +888,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = cursor;
 
-	emu_push(g_sprites[cursor].s.cs); emu_push(g_sprites[cursor].s.ip);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x036C); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-	emu_sp += 8;
+	Sprites_SetMouseSprite(0, 0, g_sprites[cursor]);
 
 	return false;
 }

@@ -22,7 +22,6 @@
 #include "../unknown/unknown.h"
 
 extern void f__22A6_04A5_000F_3B8F();
-extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
@@ -109,11 +108,7 @@ bool GUI_Widget_Mentat_Click()
 {
 	g_global->cursorSpriteID = 0;
 
-	emu_push(emu_get_memory16(0x2DCE, 0x00, 0x442)); emu_push(emu_get_memory16(0x2DCE, 0x00, 0x440)); /* g_sprites */
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0368); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-	emu_sp += 8;
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	Unknown_B483_0363(0xFFFE);
 

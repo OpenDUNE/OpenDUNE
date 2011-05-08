@@ -44,7 +44,6 @@ extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
-extern void f__2B4C_0002_0029_64AF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
@@ -2288,13 +2287,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				if (oldSelectionType != 7) {
 					g_global->cursorSpriteID = 0;
 
-					emu_push(emu_get_memory16(0x2DCE, 0x00, 0x442)); emu_push(emu_get_memory16(0x2DCE, 0x00, 0x440)); /* g_sprites[0] */
-					emu_push(0);
-					emu_push(0);
-					emu_push(emu_cs); emu_push(0x02FE); emu_cs = 0x2B4C; f__2B4C_0002_0029_64AF();
-					/* Check if this overlay should be reloaded */
-					if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-					emu_sp += 8;
+					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
 
 				Unknown_07AE_0000(info[selectionType].variable_08);

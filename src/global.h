@@ -1280,7 +1280,9 @@ typedef struct GlobalData {
 	/* 7015(2)   */ PACK uint16 variable_7015;              /*!< ?? */
 	/* 7017()    */ PACK uint8   unknown_7017[0x0004];
 	/* 701B(2)   */ PACK uint16 variable_701B;              /*!< ?? */
-	/* 701D()    */ PACK uint8   unknown_701D[0x0041];
+	/* 701D()    */ PACK uint8   unknown_701D[0x003D];
+	/* 705A(2)   */ PACK uint16 variable_705A;              /*!< ?? */
+	/* 705C(2)   */ PACK uint16 variable_705C;              /*!< ?? */
 	/* 705E(2)   */ PACK uint16 mouseLock;                  /*!< Lock for when handling mouse movement. */
 	/* 7060(2)   */ PACK uint16 mouseX;                     /*!< Current X position of the mouse. */
 	/* 7062(2)   */ PACK uint16 mouseY;                     /*!< Current Y position of the mouse. */
@@ -1292,7 +1294,10 @@ typedef struct GlobalData {
 	/* 706E(2)   */ PACK uint16 mouseRegionRight;           /*!< Region mouse can be in - right position. */
 	/* 7070(2)   */ PACK uint16 mouseRegionTop;             /*!< Region mouse can be in - top position. */
 	/* 7072(2)   */ PACK uint16 mouseRegionBottom;          /*!< Region mouse can be in - bottom position. */
-	/* 7074(8)   */ PACK uint8   unknown_7074[0x0008];
+	/* 7074(2)   */ PACK uint16 variable_7074;              /*!< ?? */
+	/* 7076(2)   */ PACK uint16 variable_7076;              /*!< ?? */
+	/* 7078(2)   */ PACK uint16 variable_7078;              /*!< ?? */
+	/* 707A(2)   */ PACK uint16 variable_707A;              /*!< ?? */
 	/* 707C(2)   */ PACK uint16 mousePrevX;                 /*!< Previous X position. */
 	/* 707E(2)   */ PACK uint16 mousePrevY;                 /*!< Previous Y position. */
 	/* 7080(2)   */ PACK uint16 regionFlags;                /*!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. */
@@ -1300,7 +1305,8 @@ typedef struct GlobalData {
 	/* 7084(2)   */ PACK uint16 regionMinY;                 /*!< Region - minimum value for Y position. */
 	/* 7086(2)   */ PACK uint16 regionMaxX;                 /*!< Region - maximum value for X position. */
 	/* 7088(2)   */ PACK uint16 regionMaxY;                 /*!< Region - maximum value for Y position. */
-	/* 708A()    */ PACK uint8   unknown_708A[0x0008];
+	/* 708A(4)   */ PACK csip32 variable_708A;              /*!< ?? */
+	/* 708E(4)   */ PACK csip32 variable_708E;              /*!< ?? */
 	/* 7092(2)   */ PACK uint16 variable_7092;              /*!< Parameter 1 for proc at 66B4. */
 	/* 7094(2)   */ PACK uint16 variable_7094;              /*!< Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */

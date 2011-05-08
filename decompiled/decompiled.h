@@ -62,7 +62,6 @@ extern void emu_GUI_ShowMap();
 extern void f__B520_0000_0019_6B99();
 extern void f__B536_0000_004B_3AF8();
 extern void f__2642_0002_005E_87F6();
-extern void f__2B4C_0002_0029_64AF();
 extern void f__2B99_0002_0012_E0C1();
 extern void f__2649_0003_0014_67A9();
 extern void emu_Tools_Malloc();
