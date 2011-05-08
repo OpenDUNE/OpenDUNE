@@ -28,8 +28,6 @@ extern void f__2B6C_006E_002E_4FBC();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
-extern void f__B503_116F_001B_4CA0();
-extern void f__B503_11BE_0016_067A();
 extern void f__B503_122D_002D_E562();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -711,46 +709,36 @@ end:
 void Sprites_CPS_LoadRegionClick()
 {
 	csip32 memBlock;
+	uint8 *buf;
+	uint8 i;
 
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Memory_GetBlock1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
-	g_global->variable_81D6 = memBlock;
+	g_global->RGNCLK_CPS = memBlock;
 
+	buf = emu_get_memorycsip(g_global->RGNCLK_CPS);
 	Sprites_LoadCPSFile("RGNCLK.CPS", 5, 5, NULL);
-
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(emu_cs); emu_push(0x106C); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_116F_001B_4CA0();
-	emu_sp += 4;
-	memBlock.s.ip += emu_ax;
+	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
+	memBlock.s.ip += i * 304;
 	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->variable_81E2 = memBlock;
+	g_global->PIECES_SHP = memBlock;
 
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(0x353F); emu_push(0x2B75); /* "PIECES.SHP" */
-	emu_push(emu_cs); emu_push(0x10A2); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
-	emu_sp += 8;
-	memBlock.s.ip += emu_ax;
+	buf = emu_get_memorycsip(g_global->PIECES_SHP);
+	memBlock.s.ip += File_ReadFile("PIECES.SHP", buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->variable_81DE = memBlock;
+	g_global->ARROWS_SHP = memBlock;
 
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(0x353F); emu_push(0x2B80); /* "ARROWS.SHP" */
-	emu_push(emu_cs); emu_push(0x10D9); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
-	emu_sp += 8;
-	memBlock.s.ip += emu_ax;
+	buf = emu_get_memorycsip(g_global->ARROWS_SHP);
+	memBlock.s.ip += File_ReadFile("ARROWS.SHP", buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->variable_81DA = memBlock;
+	g_global->REGION_INI = memBlock;
 
+	buf = emu_get_memorycsip(g_global->REGION_INI);
 	sprintf((char *)g_global->variable_9939, "REGION%c.INI", emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name)[0]);
-
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(0x353F); emu_push(0x9939);
-	emu_push(emu_cs); emu_push(0x1135); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
-	emu_sp += 8;
-	memBlock.s.ip += emu_ax;
+	memBlock.s.ip += File_ReadFile((char *)g_global->variable_9939, buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
 	g_global->variable_81D2 = memBlock;
 

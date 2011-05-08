@@ -14,6 +14,7 @@ extern void File_Delete(const char *filename);
 extern void File_Create(const char *filename);
 extern uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length);
 extern csip32 File_ReadWholeFile(const char *filename, uint16 arg0A);
+extern uint32 File_ReadFile(const char *filename, void *buf);
 extern bool File_HasFreeSpace(uint32 size);
 extern uint8 ChunkFile_Open(const char *filename);
 extern void ChunkFile_Close(uint8 index);

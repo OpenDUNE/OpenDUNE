@@ -488,6 +488,27 @@ csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 }
 
 /**
+ * Reads the whole file into buffer.
+ *
+ * @param filename The name of the file to open.
+ * @param buf The buffer to read into.
+ * @return The length of the file.
+ */
+uint32 File_ReadFile(const char *filename, void *buf)
+{
+	uint8 index;
+	uint32 length;
+
+	index = File_Open(filename, 1);
+	length = File_Seek(index, 0, 2);
+	File_Seek(index, 0, 0);
+	File_Read(index, buf, length);
+	File_Close(index);
+
+	return length;
+}
+
+/**
  * Check if there is still @size bytes free on the disk.
  * @param size The size to check for.
  * @return True if and only if there is still @size bytes free on the disk.
