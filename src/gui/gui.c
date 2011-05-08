@@ -61,7 +61,6 @@ extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
-extern void emu_CPS_LoadRegionClick();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -2847,7 +2846,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 		g_global->variable_76B4 = 120;
 
-		emu_push(emu_cs); emu_push(0x0327); emu_cs = 0x3503; overlay(0x3503, 0); emu_CPS_LoadRegionClick();
+		Sprites_CPS_LoadRegionClick();
 
 		while (g_global->variable_76B4 != 0) {
 			emu_push(emu_cs); emu_push(0x0337); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
@@ -2896,7 +2895,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 		emu_push(emu_cs); emu_push(0x03EE); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
 		emu_sp += 4;
 	} else {
-		emu_push(emu_cs); emu_push(0x03F7); emu_cs = 0x3503; overlay(0x3503, 0); emu_CPS_LoadRegionClick();
+		Sprites_CPS_LoadRegionClick();
 	}
 
 	Sprites_LoadImage("DUNERGN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);

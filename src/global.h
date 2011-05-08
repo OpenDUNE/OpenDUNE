@@ -1416,7 +1416,10 @@ typedef struct GlobalData {
 	/* 81BA(12)  */ PACK uint8  variable_81BA[12];          /*!< ?? */
 	/* 81C6(12)  */ PACK uint8  variable_81C6[12];          /*!< ?? */
 	/* 81D2(4)   */ PACK csip32 variable_81D2;              /*!< ?? */
-	/* 81D6()    */ PACK uint8   unknown_81D6[0x0010];
+	/* 81D6(4)   */ PACK csip32 variable_81D6;              /*!< ?? */
+	/* 81DA(4)   */ PACK csip32 variable_81DA;              /*!< ?? */
+	/* 81DE(4)   */ PACK csip32 variable_81DE;              /*!< ?? */
+	/* 81E2(4)   */ PACK csip32 variable_81E2;              /*!< ?? */
 	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
 	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */

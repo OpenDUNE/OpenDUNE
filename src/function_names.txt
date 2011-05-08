@@ -159,8 +159,6 @@ B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Menta
 B4FC:0000:0018:E5DC	emu_Ini_GetInteger
 B4FC:03C8:002C:9251	emu_Ini_GetString
 
-B503:1029:000F:8100	emu_CPS_LoadRegionClick	# Load the RGNCLK.CPS file and set some things for it
-
 B520:0223:000E:38A3	emu_Tools_Free_Wrapper	# (csip) Forwards the call to emu_Tools_Free()
 
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors

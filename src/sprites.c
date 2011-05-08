@@ -28,6 +28,9 @@ extern void f__2B6C_006E_002E_4FBC();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
+extern void f__B503_116F_001B_4CA0();
+extern void f__B503_11BE_0016_067A();
+extern void f__B503_122D_002D_E562();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -703,4 +706,53 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 
 end:
 	g_global->mouseLock--;
+}
+
+void Sprites_CPS_LoadRegionClick()
+{
+	csip32 memBlock;
+
+	emu_push(5);
+	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = emu_ax;
+	g_global->variable_81D6 = memBlock;
+
+	Sprites_LoadCPSFile("RGNCLK.CPS", 5, 5, NULL);
+
+	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
+	emu_push(emu_cs); emu_push(0x106C); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_116F_001B_4CA0();
+	emu_sp += 4;
+	memBlock.s.ip += emu_ax;
+	memBlock = Tools_GetSmallestIP(memBlock);
+	g_global->variable_81E2 = memBlock;
+
+	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
+	emu_push(0x353F); emu_push(0x2B75); /* "PIECES.SHP" */
+	emu_push(emu_cs); emu_push(0x10A2); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
+	emu_sp += 8;
+	memBlock.s.ip += emu_ax;
+	memBlock = Tools_GetSmallestIP(memBlock);
+	g_global->variable_81DE = memBlock;
+
+	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
+	emu_push(0x353F); emu_push(0x2B80); /* "ARROWS.SHP" */
+	emu_push(emu_cs); emu_push(0x10D9); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
+	emu_sp += 8;
+	memBlock.s.ip += emu_ax;
+	memBlock = Tools_GetSmallestIP(memBlock);
+	g_global->variable_81DA = memBlock;
+
+	sprintf((char *)g_global->variable_9939, "REGION%c.INI", emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name)[0]);
+
+	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
+	emu_push(0x353F); emu_push(0x9939);
+	emu_push(emu_cs); emu_push(0x1135); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_11BE_0016_067A();
+	emu_sp += 8;
+	memBlock.s.ip += emu_ax;
+	memBlock = Tools_GetSmallestIP(memBlock);
+	g_global->variable_81D2 = memBlock;
+
+	emu_push(emu_cs); emu_push(0x1161); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_122D_002D_E562();
 }

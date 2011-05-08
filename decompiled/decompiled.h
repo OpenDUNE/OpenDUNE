@@ -377,7 +377,6 @@ extern void f__AB01_0F7D_0001_6780();
 extern void f__22A6_0FAE_0027_2378();
 extern void f__22A6_0FD7_0043_ACF9();
 extern void emu_GUI_CopyToBuffer();
-extern void emu_CPS_LoadRegionClick();
 extern void f__01F7_103F_0010_4132();
 extern void f__AB00_1068_0020_E6F1();
 extern void f__2649_106A_0018_BAE3();
