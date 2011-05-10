@@ -25,7 +25,7 @@ extern void emu_Unknown_259E_0006();
 extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);
 
 extern void emu_Unknown_2903_00CA();
-extern void emu_Unknown_2903_090A();
+extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);
 
 extern void Unknown_B483_0156(uint16 index);
 extern void Unknown_B483_0363(uint16 index);

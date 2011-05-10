@@ -39,12 +39,8 @@ void emu_Unknown_2903_00CA()
  * @name emu_Unknown_2903_090A
  * @implements 2903:090A:0019:4354 ()
  */
-void emu_Unknown_2903_090A()
+void Unknown_2903_090A(csip32 arg06, uint16 arg0A)
 {
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	g_global->variable_6F18 = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	g_global->variable_6F1C = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	g_global->variable_6F18 = arg06;
+	g_global->variable_6F1C = arg0A;
 }

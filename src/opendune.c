@@ -72,7 +72,6 @@ extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2C17_000C_002F_3016();
 extern void f__B488_0000_0027_45A9();
-extern void f__B491_0A41_0011_85AD();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
 extern void emu_Drive_Get_Default_Wrapper();
@@ -877,7 +876,7 @@ static void GameLoop_Uninit()
 	Script_ClearInfo(&g_global->scriptTeam);
 }
 
-static void PlayCredits(char *data, uint16 windowID, uint16 memory, uint16 memory2, uint16 delay)
+static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 memory2, uint16 delay)
 {
 	uint16 loc02;
 	uint16 stringCount = 0;
@@ -1111,6 +1110,85 @@ static void PlayCredits(char *data, uint16 windowID, uint16 memory, uint16 memor
 	g_global->variable_1836 = 0;
 }
 
+static void GameCredits_LoadPaletteAndSprites()
+{
+	uint8 *loc04;
+	csip32 csip08;
+	uint8 *loc08;
+	csip32 memBlock;
+	uint32 size;
+	uint16 i;
+	uint16 locdi;
+
+	emu_push(7);
+	emu_push(emu_cs); emu_push(0x0A52); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	g_global->variable_182E.s.cs = emu_dx;
+	g_global->variable_182E.s.ip = emu_ax;
+
+	size = SCREEN_WIDTH * g_global->variable_9931;
+
+	g_global->variable_1832 = g_global->variable_182E;
+	g_global->variable_1832.s.ip += size;
+
+	emu_push(9);
+	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	g_global->variable_3C46.s.cs = emu_dx;
+	g_global->variable_3C46.s.ip = emu_ax;
+
+	Unknown_2903_090A(g_global->variable_3C46, 20000);
+
+	g_global->variable_3C32 = g_global->variable_3C46;
+	g_global->variable_3C32.s.ip += 20000;
+
+	File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_3C32), 0x300);
+
+	loc08 = emu_get_memorycsip(g_global->variable_3C32);
+	csip08 = g_global->variable_3C32;
+
+	for (i = 0; i < 10; i++) {
+		loc04 = emu_get_memorycsip(g_global->variable_3C32);
+
+		for (locdi = 0; locdi < 255 * 3; locdi++) *loc08++ = *loc04++ * (9 - i) / 9;
+
+		*loc08++ = 0x3F;
+		*loc08++ = 0x3F;
+		*loc08++ = 0x3F;
+		csip08.s.ip += 0x300;
+	}
+
+	g_global->variable_3C36 = csip08;
+
+	memset(emu_get_memorycsip(g_global->variable_3C36), 0, 0x300);
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x0B89); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	memBlock.s.cs = emu_dx;
+	memBlock.s.ip = emu_ax;
+
+	for (i = 0; i < 11; i++) {
+		sprintf((char *)g_global->variable_9939, "CREDIT%d.SHP", i + 1);
+
+		size = File_ReadBlockFile((char *)g_global->variable_9939, emu_get_memorycsip(memBlock), 0xFA00);
+
+		emu_push(emu_cs); emu_push(0x0BD8); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
+		if ((uint32)((emu_dx << 16) | emu_ax) <= size) continue;
+
+		emu_push(0);
+		emu_push(size >> 16); emu_push(size & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0BF2); emu_cs = 0x23E1; emu_Tools_Malloc();
+		emu_sp += 6;
+		g_sprites[i].s.cs = emu_dx;
+		g_sprites[i].s.ip = emu_ax;
+
+		memcpy(emu_get_memorycsip(g_sprites[i]), emu_get_memorycsip(memBlock), size);
+	}
+
+	g_sprites[i].csip = 0x0;
+}
+
 /**
  * Shows the game credits.
  */
@@ -1184,7 +1262,7 @@ static void GameLoop_GameCredits()
 	emu_push(emu_cs); emu_push(0x0988); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
 	emu_sp += 16;
 
-	emu_push(emu_cs); emu_push(0x0990); emu_cs = 0x3491; overlay(0x3491, 0); f__B491_0A41_0011_85AD();
+	GameCredits_LoadPaletteAndSprites();
 
 	emu_push(emu_cs); emu_push(0x0995); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -1199,7 +1277,7 @@ static void GameLoop_GameCredits()
 	while (true) {
 		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), g_global->variable_6CD3[3][0]);
 
-		PlayCredits((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
+		GameCredits_Play((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
 
 		emu_push(emu_cs); emu_push(0x0A15); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax != 0) break;
@@ -1907,10 +1985,7 @@ static void Gameloop_IntroMenu()
 	g_global->variable_3C46.s.cs = emu_dx;
 	g_global->variable_3C46.s.ip = emu_ax;
 
-	emu_push(0x5DC);
-	emu_push(g_global->variable_3C46.s.cs); emu_push(g_global->variable_3C46.s.ip);
-	emu_push(emu_cs); emu_push(0x1954); emu_cs = 0x2903; emu_Unknown_2903_090A();
-	emu_sp += 6;
+	Unknown_2903_090A(g_global->variable_3C46, 1500);
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 

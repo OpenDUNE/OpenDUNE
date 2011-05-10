@@ -299,7 +299,6 @@ extern void f__B520_096E_003C_F7E4();
 extern void f__29E8_0971_0071_E515();
 extern void emu_Input_History_Add();
 extern void f__B518_0A3E_0008_F439();
-extern void f__B491_0A41_0011_85AD();
 extern void emu_Input_HandleInput();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void f__B4E0_0AAD_002E_796D();
