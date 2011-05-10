@@ -40,7 +40,6 @@
 #include "wsa.h"
 #include "gfx.h"
 
-extern void emu_Empty2();
 extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
@@ -3301,8 +3300,6 @@ void PrepareEnd()
 		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x257A; f__257A_000D_001A_3B75();
 		emu_sp += 6;
 	}
-
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x2BD1; emu_Empty2();
 
 	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x29E8; f__29E8_0F7A_000D_B1AA();
 

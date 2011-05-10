@@ -5,24 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Empty2()
- *
- * @name emu_Empty2
- * @implements 2BD1:0005:0001:6580 ()
- *
- * Called From: B500:0038:0005:0164
- */
-void emu_Empty2()
-{
-l__0005:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__2BD1_0006_004A_CD10()
  *
  * @name f__2BD1_0006_004A_CD10
