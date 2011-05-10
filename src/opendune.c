@@ -45,6 +45,7 @@ extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
+extern void f__1DD2_0008_004C_D4CF();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
@@ -71,7 +72,6 @@ extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2C17_000C_002F_3016();
 extern void f__B488_0000_0027_45A9();
-extern void f__B491_0000_0022_DD43();
 extern void f__B491_0A41_0011_85AD();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
@@ -88,6 +88,7 @@ extern void emu_Mouse_Init();
 extern void emu_Mouse_CallbackClear();
 extern void emu_Tools_Var79E4_Init();
 extern void emu_Video_IsInVSync();
+extern void emu_Video_WaitForNextVSync();
 extern void emu_Window_WidgetClick_Create();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -876,6 +877,240 @@ static void GameLoop_Uninit()
 	Script_ClearInfo(&g_global->scriptTeam);
 }
 
+static void PlayCredits(char *data, uint16 windowID, uint16 memory, uint16 memory2, uint16 delay)
+{
+	uint16 loc02;
+	uint16 stringCount = 0;
+	uint32 loc0C;
+	uint16 spriteID = 0;
+	bool loc10 = false;
+	uint16 spriteX;
+	uint16 spriteY;
+	uint16 spritePos = 0;
+	struct {
+		uint16 x;
+		uint16 y;
+		char *text;
+		uint8  separator;
+		uint8  charHeight;
+		uint8  type;
+	} strings[33];
+	struct {
+		uint16 x;
+		uint16 y;
+	} positions[6];
+
+	Unknown_07AE_0000(windowID);
+
+	spriteX = (g_global->variable_992F << 3) - Sprite_GetWidth(Sprites_GetCSIP(g_sprites[spriteID], 0));
+	spriteY = g_global->variable_9931 - Sprite_GetHeight(Sprites_GetCSIP(g_sprites[spriteID], 0));
+
+	positions[0].x = spriteX;
+	positions[0].y = 0;
+	positions[1].x = 0;
+	positions[1].y = spriteY / 2;
+	positions[2].x = spriteX;
+	positions[2].y = spriteY;
+	positions[3].x = 0;
+	positions[3].y = 0;
+	positions[4].x = spriteX;
+	positions[4].y = spriteY / 2;
+	positions[5].x = 0;
+	positions[5].y = spriteY;
+
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, memory);
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, memory, memory2);
+
+	emu_push(g_global->variable_182E.s.cs); emu_push(g_global->variable_182E.s.ip);
+	emu_push(memory);
+	emu_push(g_global->variable_9931);
+	emu_push(g_global->variable_992B);
+	emu_push(emu_cs); emu_push(0x01C2); emu_cs = 0x1DD2; f__1DD2_0008_004C_D4CF();
+	emu_sp += 10;
+
+	Unknown_Set_Global_6C91(0);
+	loc0C = g_global->variable_76A8;
+
+	emu_push(emu_cs); emu_push(0x01E0); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	while (true) {
+		while (loc0C > g_global->variable_76A8) sleep(0);
+
+		loc0C = g_global->variable_76A8 + delay;
+
+		while ((g_global->variable_9931 / 6) + 2 > stringCount && *data != 0) {
+			char *text = data;
+			uint16 y;
+
+			if (stringCount != 0) {
+				y = strings[stringCount - 1].y;
+				if (strings[stringCount - 1].separator != 5) y += strings[stringCount - 1].charHeight + strings[stringCount - 1].charHeight / 8;
+			} else {
+				y = g_global->variable_9931;
+			}
+
+			text = data;
+
+			data = strpbrk(data, "\x05\r");
+			if (data == NULL) data = strchr(text, '\0');
+
+			strings[stringCount].separator = *data;
+			*data = '\0';
+			if (strings[stringCount].separator != 0) data++;
+			strings[stringCount].type = 0;
+
+			if (*text == 3 || *text == 4) strings[stringCount].type = *text++;
+
+			if (*text == 1) {
+				text++;
+				Font_Select(g_global->new6pFnt);
+			} else if (*text == 2) {
+				text++;
+				Font_Select(g_global->new8pFnt2);
+			}
+
+			strings[stringCount].charHeight = g_global->variable_6C71;
+
+			switch (strings[stringCount].type) {
+				case 3:
+					strings[stringCount].x = 157 - Font_GetStringWidth(text);
+					break;
+
+				case 4:
+					strings[stringCount].x = 161;
+					break;
+
+				default:
+					strings[stringCount].x = 1 + (SCREEN_WIDTH - Font_GetStringWidth(text)) / 2;
+					break;
+			}
+
+			strings[stringCount].y = y;
+			strings[stringCount].text = text;
+
+			stringCount++;
+		}
+
+		switch (g_global->variable_1836) {
+			case 0:
+				emu_push(memory);
+				emu_push(emu_cs); emu_push(0x04B7); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+				emu_sp += 2;
+
+				if (spriteID == 0) {
+					emu_push(memory2);
+					emu_push(emu_cs); emu_push(0x04C6); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+					emu_sp += 2;
+				}
+
+				g_global->variable_1836++;
+				g_global->variable_1838 = 2;
+				break;
+
+			case 1: case 4:
+				if (g_global->variable_1838-- == 0) {
+					g_global->variable_1838 = 0;
+					g_global->variable_1836++;
+				}
+				break;
+
+			case 2:
+				if (g_sprites[spriteID].csip == 0x0) spriteID = 0;
+
+				GUI_DrawSprite(memory, Sprites_GetCSIP(g_sprites[spriteID], 0), positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
+
+				g_global->variable_1838 = 8;
+				g_global->variable_1836++;
+				spriteID++;
+				if (++spritePos > 5) spritePos = 0;;
+				break;
+
+			case 3:
+				emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip + 0x300 * g_global->variable_1838);
+				emu_push(emu_cs); emu_push(0x058B); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+				emu_sp += 4;
+
+				if (g_global->variable_1838-- == 0) {
+					g_global->variable_1836++;
+					g_global->variable_1838 = 20;
+				}
+				break;
+
+			case 5:
+				emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip + 0x300 * g_global->variable_1838);
+				emu_push(emu_cs); emu_push(0x05D3); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
+				emu_sp += 4;
+
+				if (g_global->variable_1838++ >= 8) g_global->variable_1836 = 0;
+				break;
+
+			default: break;
+		}
+
+		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, memory, memory2);
+
+		for (loc02 = 0; loc02 < stringCount; loc02++) {
+			if ((int16)strings[loc02].y < g_global->variable_9931) {
+				Unknown_Set_Global_6C91(memory2);
+
+				Font_Select(g_global->new8pFnt2);
+
+				if (strings[loc02].charHeight != g_global->variable_6C71) Font_Select(g_global->new6pFnt);
+
+				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_global->variable_992B, 255, 0);
+
+				Unknown_Set_Global_6C91(0);
+			}
+
+			strings[loc02].y--;
+		}
+
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; emu_Video_WaitForNextVSync();
+		emu_sp += 2;
+
+		emu_push(g_global->variable_182E.s.cs); emu_push(g_global->variable_182E.s.ip);
+		emu_push(memory2);
+		emu_push(g_global->variable_9931);
+		emu_push(g_global->variable_992B);
+		emu_push(emu_cs); emu_push(0x071F); emu_cs = 0x1DD2; f__1DD2_0008_004C_D4CF();
+		emu_sp += 10;
+
+		if ((int16)strings[0].y < -10) {
+			strings[0].text += strlen(strings[0].text);
+			*strings[0].text = strings[0].separator;
+			stringCount--;
+			memcpy(&strings[0], &strings[1], stringCount * sizeof(*strings));
+		}
+
+		if ((g_global->variable_9931 / 6 + 2) > stringCount) {
+			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_global->variable_992B + g_global->variable_9931) loc10 = true;
+		}
+
+		if (loc10 && g_global->variable_1836 == 0) break;
+
+		emu_push(emu_cs); emu_push(0x07C5); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+		if (emu_ax != 0) break;
+	}
+
+	Unknown_259E_0006(g_global->variable_3C36, 120);
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x07E8); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	emu_push(memory);
+	emu_push(emu_cs); emu_push(0x07F1); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	emu_push(memory2);
+	emu_push(emu_cs); emu_push(0x07FA); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
+	emu_sp += 2;
+
+	g_global->variable_1838 = 0;
+	g_global->variable_1836 = 0;
+}
+
 /**
  * Shows the game credits.
  */
@@ -964,13 +1199,7 @@ static void GameLoop_GameCredits()
 	while (true) {
 		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), g_global->variable_6CD3[3][0]);
 
-		emu_push(6);
-		emu_push(4);
-		emu_push(2);
-		emu_push(20);
-		emu_push(g_global->variable_1832.s.cs); emu_push(g_global->variable_1832.s.ip);
-		emu_push(emu_cs); emu_push(0x0A0D); emu_cs = 0x3491; overlay(0x3491, 0); f__B491_0000_0022_DD43();
-		emu_sp += 12;
+		PlayCredits((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
 
 		emu_push(emu_cs); emu_push(0x0A15); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax != 0) break;
@@ -1823,10 +2052,10 @@ static void Gameloop_IntroMenu()
 					Tools_Memmove(g_global->variable_998A, g_global->variable_3C32, 0x300);
 
 					if (g_global->variable_37B4 == 0) {
-						uint8 loc14;
+						uint8 fileID;
 
-						loc14 = File_Open("ONETIME.DAT", 2);
-						File_Close(loc14);
+						fileID = File_Open("ONETIME.DAT", 2);
+						File_Close(fileID);
 						g_global->variable_37B4 = 1;
 					}
 

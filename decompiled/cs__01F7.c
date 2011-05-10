@@ -7978,66 +7978,6 @@ l__39C4:
 }
 
 /**
- * Decompiled function f__01F7_39F5_0008_F939()
- *
- * @name f__01F7_39F5_0008_F939
- * @implements 01F7:39F5:0008:F939 ()
- * @implements 01F7:39FD:000E:8182
- * @implements 01F7:3A0B:0016:854A
- * @implements 01F7:3A21:0020:B782
- * @implements 01F7:3A24:001D:388D
- * @implements 01F7:3A30:0011:018B
- * @implements 01F7:3A3D:0004:893F
- *
- * Called From: B491:0283:0022:210C
- * Called From: B491:0283:001C:2A23
- */
-void f__01F7_39F5_0008_F939()
-{
-l__39F5:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	goto l__3A30;
-l__39FD:
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-	goto l__3A24;
-l__3A0B:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_cmpb(&emu_al, emu_get_memory8(emu_es, emu_bx, 0x0));
-	if (emu_al != emu_get_memory8(emu_es, emu_bx, 0x0)) goto l__3A21;
-	emu_dx = emu_get_memory16(emu_ss, emu_bp,  0x8);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	goto l__3A3D;
-l__3A21:
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp, -0x4));
-l__3A24:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
-	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 0x0) goto l__3A0B;
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
-l__3A30:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
-	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 0x0) goto l__39FD;
-	emu_xorw(&emu_dx, emu_dx);
-	emu_xorw(&emu_ax, emu_ax);
-l__3A3D:
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_String_strstr()
  *
  * @name emu_String_strstr

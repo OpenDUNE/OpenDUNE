@@ -358,7 +358,7 @@ typedef struct GlobalData {
 	/* 1836(2)   */ PACK uint16 variable_1836;              /*!< ?? Counter. */
 	/* 1838(2)   */ PACK uint16 variable_1838;              /*!< ?? Counter. */
 	/* 183A()    */ PACK uint8   unknown_183A[0x2];
-	/* 183C(3)   */ PACK char   string_183C[3];             /*!< "|\n" NULL terminated. */
+	/* 183C(3)   */ PACK char   string_183C[3];             /*!< "\x05\r" NULL terminated. */
 	/* 183F(12)  */ PACK char   string_183F[12];            /*!< "BIGPLAN.CPS" NULL terminated. */
 	/* 184B(12)  */ PACK char   string_184B[12];            /*!< "MAPPLAN.CPS" NULL terminated. */
 	/* 1857(12)  */ PACK uint8  variable_1857[12];          /*!< ?? */
