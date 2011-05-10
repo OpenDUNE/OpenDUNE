@@ -49,7 +49,6 @@ extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
-extern void f__24DA_0004_000E_FD1B();
 extern void f__24FD_000A_000B_2043();
 extern void f__257A_000D_001A_3B75();
 extern void f__259E_0040_0015_5E4A();
@@ -339,9 +338,7 @@ static void GameLoop_B4ED_0184()
 
 	Unknown_259E_0006(g_global->variable_3C36, 60);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x01EE); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	emu_push(emu_cs); emu_push(0x01F4); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -569,9 +566,7 @@ static void GameLoop_B4ED_0200()
 			}
 
 			if ((var805E->flags & 0x480) != 0) {
-				emu_push(3);
-				emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-				emu_sp += 2;
+				GUI_ClearScreen(3);
 
 				emu_push(5);
 				emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x252E; emu_Memory_GetBlock1();
@@ -1005,15 +1000,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 		switch (g_global->variable_1836) {
 			case 0:
-				emu_push(memory);
-				emu_push(emu_cs); emu_push(0x04B7); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-				emu_sp += 2;
+				GUI_ClearScreen(memory);
 
-				if (spriteID == 0) {
-					emu_push(memory2);
-					emu_push(emu_cs); emu_push(0x04C6); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-					emu_sp += 2;
-				}
+				if (spriteID == 0) GUI_ClearScreen(memory2);
 
 				g_global->variable_1836++;
 				g_global->variable_1838 = 2;
@@ -1102,17 +1091,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	Unknown_259E_0006(g_global->variable_3C36, 120);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x07E8); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
-
-	emu_push(memory);
-	emu_push(emu_cs); emu_push(0x07F1); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
-
-	emu_push(memory2);
-	emu_push(emu_cs); emu_push(0x07FA); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
+	GUI_ClearScreen(memory);
+	GUI_ClearScreen(memory2);
 
 	g_global->variable_1838 = 0;
 	g_global->variable_1836 = 0;
@@ -1212,9 +1193,7 @@ static void GameLoop_GameCredits()
 
 	Sprites_LoadImage("BIGPLAN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0858); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
@@ -1388,11 +1367,7 @@ static void GameLoop_LevelEnd()
 				emu_push(emu_cs); emu_push(0x038F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 				Unknown_259E_0006(g_global->variable_3C36, 15);
-
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x03AB); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-				emu_sp += 2;
-
+				GUI_ClearScreen(0);
 				GameLoop_GameEnd();
 				PrepareEnd();
 				exit(0);
@@ -1522,9 +1497,7 @@ static void Gameloop_Logos()
 
 		Unknown_259E_0006(g_global->variable_3C36, 30);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-		emu_sp += 2;
+		GUI_ClearScreen(0);
 
 		Unknown_Set_Global_6C91(old_6C91);
 		return;
@@ -1540,9 +1513,7 @@ static void Gameloop_Logos()
 
 		Unknown_259E_0006(g_global->variable_3C36, 30);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-		emu_sp += 2;
+		GUI_ClearScreen(0);
 
 		Unknown_Set_Global_6C91(old_6C91);
 		return;
@@ -1550,7 +1521,7 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_global->variable_3C36, 60);
 
-	GFX_ClearScreen();
+	GFX_ClearScreen(0);
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
@@ -1566,9 +1537,7 @@ static void Gameloop_Logos()
 
 		Unknown_259E_0006(g_global->variable_3C36, 30);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-		emu_sp += 2;
+		GUI_ClearScreen(0);
 
 		Unknown_Set_Global_6C91(old_6C91);
 		return;
@@ -1576,9 +1545,7 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_global->variable_3C36, 30);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0304); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	Sprites_LoadImage("VIRGIN.CPS", 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
@@ -1595,9 +1562,7 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_global->variable_3C36, 30);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x03A5); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	Unknown_Set_Global_6C91(old_6C91);
 }
@@ -1940,9 +1905,7 @@ static void Gameloop_IntroMenu()
 
 	Tools_Memmove(g_global->variable_998A, g_global->variable_3C32, 0x300);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x1841); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	emu_push(emu_es);
 	emu_es = g_global->variable_3C32.s.cs;
@@ -2191,9 +2154,7 @@ static void Gameloop_IntroMenu()
 
 					Unknown_259E_0006(g_global->variable_3C36, 30);
 
-					emu_push(0);
-					emu_push(emu_cs); emu_push(0x1D8F); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-					emu_sp += 2;
+					GUI_ClearScreen(0);
 
 					emu_push(emu_cs); emu_push(0x1D95); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2258,9 +2219,7 @@ static void Gameloop_IntroMenu()
 
 				emu_push(emu_cs); emu_push(0x1FA6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x1FAE); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-				emu_sp += 2;
+				GUI_ClearScreen(0);
 
 				GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
 
@@ -2323,9 +2282,7 @@ static void Gameloop_IntroMenu()
 
 		Unknown_259E_0006(g_global->variable_3C36, 15);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x2198); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-		emu_sp += 2;
+		GUI_ClearScreen(0);
 	}
 
 	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; emu_Input_History_Clear();

@@ -104,18 +104,3 @@ void emu_GFX_22A6_034F()
 
 	GFX_22A6_034F(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst, false);
 }
-
-/**
- * Emulator wrapper around GFX_ClearScreen()
- *
- * @name emu_GFX_ClearScreen
- * @implements 22A6:0796:000B:9035 ()
- */
-void emu_GFX_ClearScreen()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GFX_ClearScreen();
-}

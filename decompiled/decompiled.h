@@ -63,7 +63,6 @@ extern void f__2642_0002_005E_87F6();
 extern void f__2B99_0002_0012_E0C1();
 extern void f__2649_0003_0014_67A9();
 extern void emu_Tools_Malloc();
-extern void f__24DA_0004_000E_FD1B();
 extern void f__2995_0004_001F_FE17();
 extern void emu_Tools_Swapd();
 extern void f__263B_0006_001C_9C72();

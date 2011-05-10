@@ -29,6 +29,7 @@ extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bo
 extern uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A);
 extern char *GUI_String_Get_ByIndex(uint16 stringID);
 extern uint16 GUI_ShowMap(uint16 campaignID, bool arg08);
+extern void GUI_ClearScreen(uint16 arg06);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

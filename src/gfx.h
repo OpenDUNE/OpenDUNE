@@ -23,6 +23,5 @@ extern void emu_Unknown_22A6_0E1A();
 extern void emu_Unknown_22A6_0E22();
 extern void emu_GFX_PutPixel();
 extern void emu_GFX_22A6_034F();
-extern void emu_GFX_ClearScreen();
 
 #endif /* GFX_H */

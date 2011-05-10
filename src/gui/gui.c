@@ -41,7 +41,6 @@ extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void f__24DA_0004_000E_FD1B();
 extern void f__24FD_000A_000B_2043();
 extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
@@ -2969,9 +2968,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	emu_push(emu_cs); emu_push(0x055D); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0565); emu_cs = 0x24DA; f__24DA_0004_000E_FD1B();
-	emu_sp += 2;
+	GUI_ClearScreen(0);
 
 	emu_push(emu_cs); emu_push(0x056B); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2982,4 +2979,13 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	emu_sp += 0x300;
 
 	return loc02;
+}
+
+void GUI_ClearScreen(uint16 arg06)
+{
+	uint16 old = Unknown_Set_Global_6C91(arg06);
+
+	GFX_ClearScreen();
+
+	Unknown_Set_Global_6C91(old);
 }
