@@ -45,7 +45,6 @@ extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
-extern void f__1DD2_0008_004C_D4CF();
 extern void f__217E_08F0_0016_CE0F();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
@@ -876,6 +875,26 @@ static void GameLoop_Uninit()
 	Script_ClearInfo(&g_global->scriptTeam);
 }
 
+static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
+{
+	uint16 *data = (uint16 *)emu_get_memorycsip(g_global->variable_66EC);
+	uint16 *esdi = (uint16 *)emu_get_memorycsip(arg0C);
+	uint16 *dssi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[arg0A >> 1][arg0A & 1], data[arg06], 0x0);
+	uint16 *essi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[0][0], data[arg06], 0x0);
+	uint16 count = data[arg08] / 2;
+
+	while (count-- != 0) {
+		if (*esdi++ != *dssi++) {
+			if (count == 0) return;
+			esdi--;
+			dssi--;
+			*esdi++ = *dssi;
+			*essi = *dssi++;
+		}
+		essi++;
+	}
+}
+
 static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 memory2, uint16 delay)
 {
 	uint16 loc02;
@@ -920,12 +939,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, memory);
 	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, memory, memory2);
 
-	emu_push(g_global->variable_182E.s.cs); emu_push(g_global->variable_182E.s.ip);
-	emu_push(memory);
-	emu_push(g_global->variable_9931);
-	emu_push(g_global->variable_992B);
-	emu_push(emu_cs); emu_push(0x01C2); emu_cs = 0x1DD2; f__1DD2_0008_004C_D4CF();
-	emu_sp += 10;
+	GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory, g_global->variable_182E);
 
 	Unknown_Set_Global_6C91(0);
 	loc0C = g_global->variable_76A8;
@@ -1068,12 +1082,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; emu_Video_WaitForNextVSync();
 		emu_sp += 2;
 
-		emu_push(g_global->variable_182E.s.cs); emu_push(g_global->variable_182E.s.ip);
-		emu_push(memory2);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992B);
-		emu_push(emu_cs); emu_push(0x071F); emu_cs = 0x1DD2; f__1DD2_0008_004C_D4CF();
-		emu_sp += 10;
+		GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory2, g_global->variable_182E);
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);

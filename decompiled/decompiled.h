@@ -71,7 +71,6 @@ extern void f__263B_0006_001C_9C72();
 extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BD1_0006_004A_CD10();
 extern void emu_GUI_DrawBorder();
-extern void f__1DD2_0008_004C_D4CF();
 extern void emu_Overlay_Interrupt();
 extern void f__24FD_000A_000B_2043();
 extern void f__28E6_000A_0040_D751();
