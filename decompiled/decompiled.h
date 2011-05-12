@@ -75,7 +75,6 @@ extern void f__28E6_000A_0040_D751();
 extern void f__28FD_000C_0007_5DA9();
 extern void emu_Mouse_CheckButtons();
 extern void f__2C17_000C_002F_3016();
-extern void f__257A_000D_001A_3B75();
 extern void f__2B1E_000E_003E_B647();
 extern void f__2B6C_000E_0045_C1FE();
 extern void emu_Video_IsInVSync();

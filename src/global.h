@@ -1275,10 +1275,12 @@ typedef struct GlobalData {
 	/* 700C(2)   */ PACK uint16 musicEnabled;               /*!< 1 if music is enabled in game options, 0 otherwise. */
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
 	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
-	/* 7011(2)   */ PACK uint16 variable_7011;              /*!< ?? */
+	/* 7011(1)   */ PACK uint8  mouseFileID;                /*!< ?? */
+	/* 7012(1)   */ PACK uint8  mouseFileIDHigh;            /*!< ?? */
 	/* 7013(2)   */ PACK uint16 variable_7013;              /*!< ?? */
 	/* 7015(2)   */ PACK uint16 variable_7015;              /*!< ?? */
-	/* 7017()    */ PACK uint8   unknown_7017[0x0004];
+	/* 7017(2)   */ PACK uint16 variable_7017;              /*!< ?? */
+	/* 7019(2)   */ PACK uint16 variable_7019;              /*!< ?? */
 	/* 701B(2)   */ PACK uint16 variable_701B;              /*!< ?? */
 	/* 701D()    */ PACK uint8   unknown_701D[0x003D];
 	/* 705A(2)   */ PACK uint16 variable_705A;              /*!< ?? */

@@ -29,8 +29,8 @@ typedef enum InputFlagsEnum {
  */
 typedef enum InputMouseMode {
 	INPUT_MOUSE_MODE_NORMAL = 0,                            /*!< Normal mouse mode. */
-	INPUT_MOUSE_MODE_1      = 1,                            /*!< ?? */
-	INPUT_MOUSE_MODE_2      = 2                             /*!< ?? Only button clicks. */
+	INPUT_MOUSE_MODE_RECORD = 1,                            /*!< Record mouse events to a file. */
+	INPUT_MOUSE_MODE_PLAY   = 2                             /*!< Plays mouse events from a file. */
 } InputMouseMode;
 
 MSVC_PACKED_BEGIN

@@ -39,6 +39,7 @@
 #include "unknown/unknown.h"
 #include "wsa.h"
 #include "gfx.h"
+#include "mouse.h"
 
 extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
@@ -50,7 +51,6 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
 extern void f__24FD_000A_000B_2043();
-extern void f__257A_000D_001A_3B75();
 extern void f__259E_0040_0015_5E4A();
 extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
@@ -2287,12 +2287,7 @@ static void Gameloop_IntroMenu()
 
 	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	if (g_global->enableLog != 0) {
-		emu_push(0x353F); emu_push(0x2327); /* "DUNE.LOG" NULL terminated. */
-		emu_push(g_global->enableLog);
-		emu_push(emu_cs); emu_push(0x21B3); emu_cs = 0x257A; f__257A_000D_001A_3B75();
-		emu_sp += 6;
-	}
+	if (g_global->enableLog != 0) Mouse_SetMouseMode(g_global->enableLog, "DUNE.LOG");
 
 	if (!loc02) {
 		if (g_global->playerHouseID == HOUSE_INDEX_INVALID) {
@@ -2535,12 +2530,7 @@ static void GameLoop_Main()
 
 	emu_push(emu_cs); emu_push(0x0414); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	if (g_global->enableLog != 0) {
-		emu_push(0x353F); emu_push(0x31F9); /* "DUNE.LOG" */
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0428); emu_cs = 0x257A; f__257A_000D_001A_3B75();
-		emu_sp += 6;
-	}
+	if (g_global->enableLog != 0) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
 
 	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -3251,12 +3241,7 @@ void PrepareEnd()
 		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Mouse_CallbackClear();
 	}
 
-	if (g_global->variable_7011 != 0xFFFF) {
-		emu_push(0x0); emu_push(0x0);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x257A; f__257A_000D_001A_3B75();
-		emu_sp += 6;
-	}
+	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x29E8; f__29E8_0F7A_000D_B1AA();
 

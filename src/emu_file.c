@@ -244,21 +244,6 @@ void emu_File_Obsolete1()
  * This function is obsolete. Please remove any reference to it as soon as
  *  you can.
  *
- * @name emu_File_Obsolete2
- * @implements 1FB5:17D7:0018:F3C7 ()
- */
-void emu_File_Obsolete2()
-{
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * This function is obsolete. Please remove any reference to it as soon as
- *  you can.
- *
  * @name emu_File_Obsolete5
  * @implements 1FB5:017A:001C:0508 ()
  */
