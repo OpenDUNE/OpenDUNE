@@ -12,13 +12,13 @@
 #include "tools.h"
 #include "gfx.h"
 #include "wsa.h"
+#include "os/math.h"
 
 extern void f__2AE1_029F_0014_50E5();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Memory_GetBlock2();
-extern void f__28E6_000A_0040_D751();
 
 /**
  * Get the amount of frames a WSA has.
@@ -338,6 +338,61 @@ void WSA_Unload(csip32 buffer)
 	emu_sp += 4;
 }
 
+static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, csip32 displayBuffer)
+{
+	int16 left;
+	int16 right;
+	int16 top;
+	int16 bottom;
+	int16 skipBefore;
+	int16 skipAfter;
+	uint8 *src = emu_get_memorycsip(displayBuffer);
+	uint8 *dst;
+
+	emu_push(g_global->variable_6C91);
+	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; emu_Memory_GetBlock2();
+	emu_sp += 2;
+	dst = &emu_get_memory8(emu_dx, 0x0, 0x0);
+
+	left   = g_global->variable_4062[windowID][0] << 3;
+	right  = left + (g_global->variable_4062[windowID][2] << 3);
+	top    = g_global->variable_4062[windowID][1];
+	bottom = top + g_global->variable_4062[windowID][3];
+
+	if (y - top < 0) {
+		if (y - top + height <= 0) return;
+		height += y - top;
+		src += (top - y) * width;
+		y += top - y;
+	}
+
+	if (bottom - y <= 0) return;
+	height = min(bottom - y, height);
+
+	skipBefore = 0;
+	if (x - left < 0) {
+		skipBefore = left - x;
+		x += skipBefore;
+		width -= skipBefore;
+	}
+
+	skipAfter = 0;
+	if (right - x <= 0) return;
+	if (right - x < width) {
+		skipAfter = width - right + x;
+		width = right - x;
+	}
+
+	dst += ((uint16 *)emu_get_memorycsip(g_global->variable_66EC))[y] + x;
+
+	while (height-- != 0) {
+		src += skipBefore;
+		memcpy(dst, src, width);
+		src += width + skipAfter;
+		dst += SCREEN_WIDTH;
+	}
+}
+
 /**
  * Display a frame.
  * @param buffer
@@ -348,7 +403,7 @@ void WSA_Unload(csip32 buffer)
  * @paramvar12
  * @return 0 on failure, 1 on success.
  */
-uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 posY, uint16 memoryBlock, uint16 unknown)
+uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 posY, uint16 memoryBlock)
 {
 	WSAHeader *header;
 	csip32 displayBuffer;
@@ -447,14 +502,7 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 		uint16 oldMemoryBlock = g_global->variable_6C91;
 		g_global->variable_6C91 = memoryBlock;
 
-		emu_push((unknown & 0xFF00) >> 14);
-		emu_push(displayBuffer.s.cs); emu_push(displayBuffer.s.ip);
-		emu_push(unknown & 0x00FF);
-		emu_push(0);
-		emu_push(header->height); emu_push(header->width);
-		emu_push(posY); emu_push(posX);
-		emu_push(emu_cs); emu_push(0x06E1); emu_cs = 0x28E6; f__28E6_000A_0040_D751();
-		emu_sp += 18;
+		WSA_DrawFrame(posX, posY, header->width, header->height, 0, displayBuffer);
 
 		g_global->variable_6C91 = oldMemoryBlock;
 	}

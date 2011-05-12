@@ -173,7 +173,7 @@ bool Security_Check()
 			wsaQuestion = WSA_LoadFile((char *)emu_get_memorycsip(readBuffercsip), memoryBlockcsip, loc0E, 0, null);
 		}
 
-		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4, 0);
+		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
 		WSA_Unload(wsaQuestion);
 
 		GUI_DrawSprite_8002(4);

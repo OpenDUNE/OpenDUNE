@@ -183,7 +183,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), memBlock, g_global->variable_6CD3[2][0], 0, null);
 
-		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2, 0);
+		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(wsa);
 	}
 
@@ -337,7 +337,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 		memBlock.s.ip = emu_ax;
 
 		locPtr = WSA_LoadFile(houseFilename, memBlock, g_global->variable_6CD3[2][1], 0, null);
-		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2, 0);
+		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(locPtr);
 	}
 

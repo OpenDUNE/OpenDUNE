@@ -89,5 +89,5 @@ void emu_WSA_DisplayFrame()
 	memoryBlock = emu_get_memory16(emu_ss, emu_sp, 0xA);
 	unknown     = emu_get_memory16(emu_ss, emu_sp, 0xC);
 
-	emu_ax = WSA_DisplayFrame(buffer, frameNext, posX, posY, memoryBlock, unknown);
+	emu_ax = WSA_DisplayFrame(buffer, frameNext, posX, posY, memoryBlock);
 }

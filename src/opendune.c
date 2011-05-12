@@ -611,7 +611,7 @@ static void GameLoop_B4ED_0200()
 
 		if ((var805E->flags & 0x4) != 0) {
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
+			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
 			GameLoop_B4ED_0AA5(true);
 
 			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
@@ -622,7 +622,7 @@ static void GameLoop_B4ED_0200()
 		} else {
 			if ((var805E->flags & 0x480) != 0) {
 				GameLoop_B4ED_07B6(animation);
-				WSA_DisplayFrame(header_csip, frame++, posX, posY, 2, 0);
+				WSA_DisplayFrame(header_csip, frame++, posX, posY, 2);
 				locdi++;
 
 				if ((var805E->flags & 0x480) == 0x80) {
@@ -688,7 +688,7 @@ static void GameLoop_B4ED_0200()
 			g_global->variable_76B4 = loc18;
 
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
+			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
 
 			if (mode == 1 && frame == loc04) {
 				frame = 0;
@@ -712,7 +712,7 @@ static void GameLoop_B4ED_0200()
 			uint16 displayed;
 			do {
 				GameLoop_B4ED_07B6(animation);
-				displayed = WSA_DisplayFrame(header_csip, frame++, posX, posY, 0, 0);
+				displayed = WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
 			} while (displayed != 0);
 		}
 
@@ -1461,7 +1461,7 @@ static void Gameloop_Logos()
 	}
 
 	frame = 0;
-	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0, 0);
+	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 60);
 
@@ -1473,7 +1473,7 @@ static void Gameloop_Logos()
 		uint32 loc04;
 		uint16 displayed;
 
-		displayed = WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0, 0);
+		displayed = WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
 		if (displayed == 0) break;
 
 		loc04 = g_global->variable_76AC + 6;

@@ -519,7 +519,7 @@ bool House_UpdateRadarState(House *h)
 	frameCount = WSA_GetFrameCount(header);
 
 	for (frame = 0; frame < frameCount; frame++) {
-		WSA_DisplayFrame(wsaBuffer, activate ? frameCount - frame : frame, 256, 136, 0, 0);
+		WSA_DisplayFrame(wsaBuffer, activate ? frameCount - frame : frame, 256, 136, 0);
 		GUI_PaletteAnimate();
 
 		g_global->variable_76B4 = 3;
