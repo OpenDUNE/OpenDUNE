@@ -2287,7 +2287,7 @@ static void Gameloop_IntroMenu()
 
 	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	if (g_global->enableLog != 0) Mouse_SetMouseMode(g_global->enableLog, "DUNE.LOG");
+	if (g_global->enableLog != 0) Mouse_SetMouseMode((uint8)g_global->enableLog, "DUNE.LOG");
 
 	if (!loc02) {
 		if (g_global->playerHouseID == HOUSE_INDEX_INVALID) {
