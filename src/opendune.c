@@ -56,7 +56,6 @@ extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
 extern void f__2649_0053_001D_FEB5();
 extern void f__2649_0ADA_000E_EEB3();
-extern void f__28FD_000C_0007_5DA9();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
@@ -2796,8 +2795,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 	drive = emu_ax;
 
 	Unknown_2531_0019();
-
-	emu_push(emu_cs); emu_push(0x0073); emu_cs = 0x28FD; f__28FD_000C_0007_5DA9();
 
 	if (filename != NULL) {
 		if (emu_get_memory16(0x33F4, 0x00, 0x128) == 0x0) {
