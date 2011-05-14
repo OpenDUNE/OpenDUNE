@@ -134,7 +134,6 @@ extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_Init();
 extern void f__01F7_022D_0003_9E5A();
 extern void f__01F7_0231_0021_40ED();
-extern void f__B520_0235_0016_54C9();
 extern void emu_DSP_Reset();
 extern void f__B48B_0242_0017_581D();
 extern void f__AB00_0264_0047_2B67();

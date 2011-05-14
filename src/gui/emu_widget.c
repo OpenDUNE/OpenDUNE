@@ -244,6 +244,44 @@ void emu_GUI_Widget_Allocate()
 }
 
 /**
+ * Emulator wrapper around #GUI_Widget_Allocate2.
+ *
+ * @name emu_GUI_Widget_Allocate2
+ * @implements B520:0235:0016:54C9 ()
+ */
+void emu_GUI_Widget_Allocate2()
+{
+	uint16 index;
+	uint16 parentID;
+	uint16 offsetX;
+	uint16 offsetY;
+	int16 width;
+	int16 height;
+	csip32 drawProc;
+
+	Widget *w;
+	csip32 retcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index         = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	parentID      = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	offsetX       = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	offsetY       = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	width         = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	height        = emu_get_memory16(emu_ss, emu_sp, 0xA);
+	drawProc.csip = emu_get_memory32(emu_ss, emu_sp, 0xC);
+
+	w = GUI_Widget_Allocate2(index, parentID, offsetX, offsetY, width, height, drawProc);
+	retcsip = emu_Global_GetCSIP(w);
+
+	emu_dx = retcsip.s.cs;
+	emu_ax = retcsip.s.ip;
+}
+
+/**
  * Emulator wrapper around GUI_Widget_MakeNormal()
  *
  * @name emu_GUI_Widget_MakeNormal

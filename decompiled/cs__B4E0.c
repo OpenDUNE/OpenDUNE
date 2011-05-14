@@ -2013,7 +2013,7 @@ l__0D00:
 	emu_push(emu_ax);
 	emu_ax = 0xF;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0D2B); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_0235_0016_54C9();
+	emu_push(emu_cs); emu_push(0x0D2B); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Allocate2();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0D2B:

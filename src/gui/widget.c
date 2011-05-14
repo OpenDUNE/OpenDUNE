@@ -20,6 +20,8 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
+extern void f__B520_085F_003A_87ED();
+extern void f__B520_096E_003C_F7E4();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat_List();
 extern void emu_GUI_Production_BuildThis();
@@ -746,6 +748,92 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	w->drawProcSelected = (spriteID == 0x19) ? drawProc2 : drawProc1;
 
 	if (retcsip != NULL) *retcsip = wcsip;
+	return w;
+}
+
+/**
+ * Allocate a #Widget and a #WidgetScrollbar.
+ * @param index Index of the new widget.
+ * @param parentID Parent ID of the new widget.
+ * @param offsetX Horizontal offset of the new widget.
+ * @param offsetY Vertical offset of the new widget.
+ * @param width Width of the new widget.
+ * @param height Height of the new widget.
+ * @param drawProc Procedure for drawing.
+ * @return Address of the new widget.
+ */
+Widget *GUI_Widget_Allocate2(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc)
+{
+	csip32 csip04;
+	csip32 csip08;
+	Widget *w;
+	WidgetScrollbar *ws;
+
+	emu_push(0x10);
+	emu_push(0); emu_push(0x3C);
+	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	csip04.s.cs = emu_dx;
+	csip04.s.ip = emu_ax;
+	w = (Widget *)emu_get_memorycsip(csip04);
+
+	w->index    = index;
+	w->parentID = parentID;
+	w->offsetX  = offsetX;
+	w->offsetY  = offsetY;
+	w->width    = width;
+	w->height   = height;
+
+	w->fgColourSelected = 10;
+	w->bgColourSelected = 12;
+
+	w->fgColourNormal = 15;
+	w->bgColourNormal = 12;
+
+	w->flags.all = 0;
+	w->flags.s.buttonFilterLeft = 7;
+	w->flags.s.loseSelect = true;
+
+	w->state.all = 0;
+	w->state.s.hover2Last = true;
+
+	w->drawModeNormal   = DRAW_MODE_CUSTOM_PROC;
+	w->drawModeSelected = DRAW_MODE_CUSTOM_PROC;
+
+	w->drawProcNormal.csip   = 0x3520002A;
+	w->drawProcSelected.csip = 0x3520002A;
+	w->clickProc.csip        = 0x35200043;
+
+	emu_push(0x10);
+	emu_push(0); emu_push(0x16);
+	emu_push(emu_cs); emu_push(0x030F); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	csip08.s.cs = emu_dx;
+	csip08.s.ip = emu_ax;
+	ws = (WidgetScrollbar *)emu_get_memorycsip(csip08);
+
+	w->scrollbar = csip08; /* ws */
+
+	ws->parent   = csip04; /* w */
+
+	ws->scrollMax      = 1;
+	ws->scrollPageSize = 1;
+	ws->scrollPosition = 0;
+	ws->pressed        = 0;
+	ws->dirty          = 0;
+
+	ws->drawProc = drawProc;
+
+	emu_push(csip08.s.cs); /* ws */
+	emu_push(csip08.s.ip);
+	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_085F_003A_87ED();
+	emu_sp += 4;
+
+	emu_push(csip08.s.cs); /* ws */
+	emu_push(csip08.s.ip);
+	emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_096E_003C_F7E4();
+	emu_sp += 4;
+
 	return w;
 }
 
