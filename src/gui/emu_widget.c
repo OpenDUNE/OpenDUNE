@@ -282,6 +282,48 @@ void emu_GUI_Widget_Allocate2()
 }
 
 /**
+ * Emulator wrapper around #GUI_Widget_Allocate3
+ *
+ * @name emu_GUI_Widget_Allocate3
+ * @implements B520:0114:0016:52C9 ()
+ */
+void emu_GUI_Widget_Allocate3()
+{
+	uint16 index;
+	uint16 parentID;
+	uint16 offsetX;
+	uint16 offsetY;
+	csip32 csipSprite1;
+	csip32 csipSprite2;
+	csip32 csipWidget2;
+	uint16 unknown1A;
+
+	Widget *w;
+	csip32 retcsip;
+
+	/* Pop return address off the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	index            = emu_get_memory16(emu_ss, emu_sp, 0x00);
+	parentID         = emu_get_memory16(emu_ss, emu_sp, 0x02);
+	offsetX          = emu_get_memory16(emu_ss, emu_sp, 0x04);
+	offsetY          = emu_get_memory16(emu_ss, emu_sp, 0x06);
+	csipSprite1.csip = emu_get_memory32(emu_ss, emu_sp, 0x08);
+	csipSprite2.csip = emu_get_memory32(emu_ss, emu_sp, 0x0C);
+	csipWidget2.csip = emu_get_memory32(emu_ss, emu_sp, 0x10);
+	unknown1A        = emu_get_memory16(emu_ss, emu_sp, 0x14);
+
+	w = (Widget *)emu_get_memorycsip(csipWidget2);
+
+	w = GUI_Widget_Allocate3(index, parentID, offsetX, offsetY, csipSprite1, csipSprite2, w, unknown1A);
+	retcsip = emu_Global_GetCSIP(w);
+
+	emu_dx = retcsip.s.cs;
+	emu_ax = retcsip.s.ip;
+}
+
+/**
  * Emulator wrapper around GUI_Widget_MakeNormal()
  *
  * @name emu_GUI_Widget_MakeNormal

@@ -98,7 +98,6 @@ extern void f__2BF2_00B7_000E_61C1();
 extern void emu_Mouse_HandleMovement();
 extern void f__B520_00E3_0028_2188();
 extern void emu_GUI_Production_Down();
-extern void f__B520_0114_0016_52C9();
 extern void emu_GUI_DisplayHint();
 extern void f__28E6_0123_000A_333D();
 extern void emu_Math_PercentToValue();

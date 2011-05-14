@@ -2062,7 +2062,7 @@ l__0D71:
 	emu_push(emu_ax);
 	emu_ax = 0x10;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0DA8); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_0114_0016_52C9();
+	emu_push(emu_cs); emu_push(0x0DA8); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Allocate3();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0DA8:
@@ -2118,7 +2118,7 @@ l__0E08:
 	emu_push(emu_ax);
 	emu_ax = 0x11;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0E3F); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_0114_0016_52C9();
+	emu_push(emu_cs); emu_push(0x0E3F); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Allocate3();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0E3F:

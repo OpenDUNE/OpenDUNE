@@ -838,6 +838,57 @@ Widget *GUI_Widget_Allocate2(uint16 index, uint16 parentID, uint16 offsetX, uint
 }
 
 /**
+ * Allocate a widget.
+ * @return Allocated widget.
+ */
+Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, csip32 csipSprite1, csip32 csipSprite2, Widget *widget2, uint16 unknown1A)
+{
+	csip32 csipW;
+	Widget *w;
+
+	emu_push(0x10);
+	emu_push(0); emu_push(0x3c);
+	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x23E1; emu_Tools_Malloc();
+	emu_sp += 6;
+	csipW.s.cs = emu_dx;
+	csipW.s.ip = emu_ax;
+	w = (Widget *)emu_get_memorycsip(csipW);
+
+	w->index    = index;
+	w->parentID = parentID;
+	w->offsetX  = offsetX;
+	w->offsetY  = offsetY;
+
+	w->drawModeNormal   = DRAW_MODE_SPRITE;
+	w->drawModeDown     = DRAW_MODE_SPRITE;
+	w->drawModeSelected = DRAW_MODE_SPRITE;
+
+	w->width  = Sprite_GetWidth(csipSprite1) * 8;
+	w->height = Sprite_GetHeight(csipSprite1);
+
+	w->flags.all = 0;
+	w->flags.s.requiresClick     = true;
+	w->flags.s.clickAsHover      = true;
+	w->flags.s.loseSelect        = true;
+	w->flags.s.variable_0080     = true;
+	w->flags.s.buttonFilterLeft  = 1;
+	w->flags.s.buttonFilterRight = 1;
+
+	w->drawProcNormal   = csipSprite1;
+	w->drawProcSelected = csipSprite1;
+	w->drawProcDown     = csipSprite2;
+
+	if (unknown1A != 0x0) {
+		w->clickProc.csip = 0x3520003E;
+	} else {
+		w->clickProc.csip = 0x35200039;
+	}
+
+	w->scrollbar = widget2->scrollbar;
+	return w;
+}
+
+/**
  * Make the Widget selected.
  *
  * @param w The widget to make selected.
