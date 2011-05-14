@@ -20,6 +20,7 @@
 #include "../gfx.h"
 #include "../wsa.h"
 #include "../unknown/unknown.h"
+#include "../input/input.h"
 
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__2B6C_0137_0020_C73F();
@@ -28,8 +29,13 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B4E0_0000_000F_14AD();
+extern void f__B4E0_0151_000D_E28D();
+extern void f__B4E0_041D_0017_C8A5();
+extern void f__B4E0_0847_0019_A380();
+extern void f__B4E0_0B86_001E_9967();
+extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
+extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_History_Clear();
@@ -101,6 +107,74 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 }
 
 /**
+ * Shows the Help window.
+ * @param proceed Display a "Proceed" button if true, "Exit" otherwise.
+ */
+static void GUI_Mentat_ShowHelpList(bool proceed)
+{
+	uint16 old6C91;
+	Widget *w;
+
+	old6C91 = Unknown_Set_Global_6C91(2);
+
+	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
+
+	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	GUI_Mentat_Display(NULL, g_global->playerHouseID);
+
+	w = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1, &g_global->variable_8026);
+
+	w->shortcut2 = 'n';
+
+	emu_push(emu_cs); emu_push(0x008F); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0B86_001E_9967();
+
+	emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+
+	emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_041D_0017_C8A5();
+	emu_sp += 2;
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
+	emu_sp += 2;
+
+	Unknown_Set_Global_6C91(0);
+
+	emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0151_000D_E28D();
+
+	emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip); /* w */
+	emu_push(emu_cs); emu_push(0x00EB); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	Load_Palette_Mercenaries();
+
+	emu_push(g_global->variable_8036.s.cs); emu_push(g_global->variable_8036.s.ip);
+	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_039B_001B_4BEB();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_8032.s.cs); emu_push(g_global->variable_8032.s.ip);
+	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+	emu_sp += 4;
+
+	emu_push(g_global->variable_802E.s.cs); emu_push(g_global->variable_802E.s.ip);
+	emu_push(emu_cs); emu_push(0x011D); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+	emu_sp += 4;
+
+	g_global->variable_802E.csip = 0x0;
+	g_global->variable_8032.csip = 0x0;
+	g_global->variable_8036.csip = 0x0;
+
+	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
+
+	Unknown_Set_Global_6C91(old6C91);
+}
+
+/**
  * Handle clicks on the Mentat widget.
  * @return True, always.
  */
@@ -126,9 +200,7 @@ bool GUI_Widget_Mentat_Click()
 
 	Tools_Var76B8_Set(2, false);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0000_000F_14AD();
-	emu_sp += 2;
+	GUI_Mentat_ShowHelpList(false);
 
 	Tools_Var76B8_Set(2, true);
 

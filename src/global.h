@@ -1390,7 +1390,11 @@ typedef struct GlobalData {
 	/* 8020(2)   */ PACK uint16 variable_8020;              /*!< ?? */
 	/* 8022(2)   */ PACK uint16 variable_8022;              /*!< ?? */
 	/* 8024(2)   */ PACK int16  variable_8024;              /*!< ?? */
-	/* 8026()    */ PACK uint8   unknown_8026[0x0014];
+	/* 8026(4)   */ PACK csip32 variable_8026;              /*!< ?? */
+	/* 802A()    */ PACK uint8   unknown_802A[0x0004];
+	/* 802E(4)   */ PACK csip32 variable_802E;              /*!< ?? */
+	/* 8032(4)   */ PACK csip32 variable_8032;              /*!< ?? */
+	/* 8036(4)   */ PACK csip32 variable_8036;              /*!< ?? */
 	/* 803A(2)   */ PACK uint16 numberHelpSubjects;         /*!< Number of help subjects. */
 	/* 803C()    */ PACK uint8   unknown_803C[0x0002];
 	/* 803E(2)   */ PACK uint16   topHelpList;              /*!< Top of the mentat help subjects list being displayed currently. */
