@@ -106,7 +106,6 @@ extern void f__01F7_0138_0019_8DC5();
 extern void emu_Mouse_CheckMovement();
 extern void f__217E_0145_0010_73C0();
 extern void f__B536_0148_0060_01F3();
-extern void f__B4E0_0151_000D_E28D();
 extern void emu_Math_ValueToPercent();
 extern void f__01F7_0157_0010_1227();
 extern void f__2B6C_0169_001E_6939();

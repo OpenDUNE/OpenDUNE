@@ -29,10 +29,10 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B4E0_0151_000D_E28D();
 extern void f__B4E0_041D_0017_C8A5();
 extern void f__B4E0_0847_0019_A380();
 extern void f__B4E0_0B86_001E_9967();
+extern void emu_GUI_Mentat_List();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
 extern void emu_Tools_Free_Wrapper();
@@ -106,6 +106,96 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	Sprites_Load(0, 7, g_sprites);
 }
 
+static void GUI_Mentat_Loop()
+{
+	uint16 key = 0;
+
+	while (key != 0x8001) {
+		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_802A);
+
+		GUI_Mentat_Animation(0);
+
+		key = GUI_Widget_HandleEvents(w);
+
+		if ((key & 0x800) != 0) key = 0;
+
+		if (key == 0x8001) break;
+
+		key &= 0x80FF;
+
+		g_global->variable_25CE = 1;
+
+		switch (key) {
+			case 0x0053:
+			case 0x0060: /* NUMPAD 8 / ARROW UP */
+			case 0x0453:
+			case 0x0460:
+				if (g_global->variable_803C != 0) {
+					csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 2));
+
+					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+					emu_push(emu_cs); emu_push(0x01D8); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
+					emu_sp += 4;
+					break;
+				}
+
+				GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				break;
+
+			case 0x0054:
+			case 0x0062: /* NUMPAD 2 / ARROW DOWN */
+			case 0x0454:
+			case 0x0462:
+				if (g_global->variable_803C < 10) {
+					csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 4));
+
+					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+					emu_push(emu_cs); emu_push(0x0214); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
+					emu_sp += 4;
+					break;
+				}
+
+				GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				break;
+
+			case 0x0055:
+			case 0x0065: /* NUMPAD 9 / PAGE UP */
+			case 0x0455:
+			case 0x0465: {
+				uint8 i;
+				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+			} break;
+
+			case 0x0056:
+			case 0x0067: /* NUMPAD 3 / PAGE DOWN */
+			case 0x0456:
+			case 0x0467: {
+				uint8 i;
+				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+			} break;
+
+			case 0x0041: /* MOUSE LEFT BUTTON */
+				if (!g_global->config.useMouse) break;
+				/* FALL THROUGH */
+
+			case 0x002B: /* NUMPAD 5 / RETURN */
+			case 0x003D: /* SPACE */
+			case 0x042B:
+			case 0x043D: {
+				csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 3));
+
+				emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+				emu_push(emu_cs); emu_push(0x028D); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
+				emu_sp += 4;
+			} break;
+
+			default: break;
+		}
+
+		g_global->variable_25CE = 0;
+	}
+}
+
 /**
  * Shows the Help window.
  * @param proceed Display a "Proceed" button if true, "Exit" otherwise.
@@ -145,7 +235,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	Unknown_Set_Global_6C91(0);
 
-	emu_push(emu_cs); emu_push(0x00DE); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0151_000D_E28D();
+	GUI_Mentat_Loop();
 
 	emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip); /* w */
 	emu_push(emu_cs); emu_push(0x00EB); emu_cs = 0x23E1; emu_Tools_Free();
