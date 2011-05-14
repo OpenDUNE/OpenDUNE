@@ -682,4 +682,42 @@ l__09F3:
 	}
 }
 
+/**
+ * Select a new subject, move the list of help subjects displayed, if necessary.
+ * @param difference Number of subjects to jump.
+ */
+void GUI_Mentat_SelectHelpSubject(int16 difference)
+{
+	uint8 *tmpPtr; /* Needed for converting g_global->numberHelpSubjects */
 
+	if (difference > 0) {
+		if (difference + g_global->topHelpList + 11 > g_global->numberHelpSubjects) {
+			difference = g_global->numberHelpSubjects - (g_global->topHelpList + 11);
+		}
+		g_global->topHelpList += difference;
+
+		tmpPtr = emu_get_memorycsip(g_global->string_804D);
+		while (difference-- != 0) {
+			tmpPtr = String_NextString(tmpPtr);
+		}
+		g_global->string_804D = emu_Global_GetCSIP(tmpPtr);
+		return;
+	}
+
+	if (difference < 0) {
+		difference = -difference;
+
+		if ((int16)g_global->topHelpList < difference) {
+			difference = g_global->topHelpList;
+		}
+
+		g_global->topHelpList -= difference;
+
+		tmpPtr = emu_get_memorycsip(g_global->string_804D);
+		while (difference-- != 0) {
+			tmpPtr = String_PrevString(tmpPtr);
+		}
+		g_global->string_804D = emu_Global_GetCSIP(tmpPtr);
+		return;
+	}
+}

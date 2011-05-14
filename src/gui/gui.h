@@ -52,6 +52,7 @@ extern void emu_GUI_Unknown_24D0_000D();
 extern void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, int16 unknown0C, int16 unknown0E, int16 unknown10, int16 unknown12, int16 unknown14);
 extern void emu_GUI_Mentat_Display();
 extern void emu_GUI_Mentat_Animation();
+extern void emu_GUI_Mentat_SelectHelpSubject();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

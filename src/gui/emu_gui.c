@@ -480,3 +480,21 @@ void emu_GUI_DrawSprite_8002()
 	memory = emu_get_memory16(emu_ss, emu_sp, 0);
 	GUI_DrawSprite_8002(memory);
 }
+
+/**
+ * Emulation wrapper around #GUI_Mentat_SelectHelpSubject
+ *
+ * @name emu_GUI_Mentat_SelectHelpSubject
+ * @implements B4E0:0AAD:002E:796D ()
+ */
+void emu_GUI_Mentat_SelectHelpSubject()
+{
+	int16 difference;
+
+	/* Pop return address off the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	difference = emu_get_memory16(emu_ss, emu_sp, 0);
+	GUI_Mentat_SelectHelpSubject(difference);
+}
