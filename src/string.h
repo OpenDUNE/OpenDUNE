@@ -10,6 +10,8 @@ extern char *String_Get_ByIndex(uint16 index);
 extern void String_TranslateSpecial(char *source, char *dest);
 extern void String_Load(char *name);
 extern uint16 String_LoadFile(char *filename, uint16 index, char *buffer, uint16 buflen);
+extern uint8 *String_NextString(uint8 *ptr);
+extern uint8 *String_PrevString(uint8 *ptr);
 
 
 extern void emu_String_Decompress();
@@ -18,5 +20,7 @@ extern void emu_String_Get_ByIndex();
 extern void emu_String_TranslateSpecial();
 extern void emu_String_Load();
 extern void emu_String_LoadFile();
+extern void emu_String_NextString();
+extern void emu_String_PrevString();
 
 #endif /* STRING_H */

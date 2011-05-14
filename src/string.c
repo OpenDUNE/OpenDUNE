@@ -154,3 +154,29 @@ uint16 String_LoadFile(char *filename, uint16 index, char *buffer, uint16 buflen
 	memmove(s, buffer, len);
 	return String_Decompress(s, buffer);
 }
+
+/**
+ * Go to the next string.
+ * @param ptr Pointer to the current string.
+ * @return Pointer to the next string.
+ */
+uint8 *String_NextString(uint8* ptr)
+{
+	ptr += *ptr;
+	while (*ptr == 0) ptr++;
+	return ptr;
+}
+
+/**
+ * Go to the previous string.
+ * @param ptr Pointer to the current string.
+ * @return Pointer to the previous string.
+ */
+uint8 *String_PrevString(uint8 *ptr)
+{
+	do {
+		ptr--;
+	} while (*ptr == 0);
+	ptr -= *ptr - 1;
+	return ptr;
+}
