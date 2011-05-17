@@ -54,7 +54,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
 extern void f__B495_125B_0011_10C0();
-extern void emu_GUI_Production_ResumeGame();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2644,11 +2643,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 		event = GUI_Widget_HandleEvents((g_global->variable_7FA2.csip == 0x0) ? NULL : (Widget *)emu_get_memorycsip(g_global->variable_7FA2));
 
-		if (event == 0x6E) {
-			emu_push(0); emu_push(0);
-			emu_push(emu_cs); emu_push(0x0096); emu_cs = 0x3495; overlay(0x3495, 0); emu_GUI_Production_ResumeGame();
-			emu_sp += 4;
-		}
+		if (event == 0x6E) GUI_Production_ResumeGame_Click(NULL);
 
 		GUI_PaletteAnimate();
 	}

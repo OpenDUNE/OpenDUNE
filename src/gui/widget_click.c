@@ -24,6 +24,7 @@
 #include "../save.h"
 #include "../os/endian.h"
 #include "../string.h"
+#include "../house.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
@@ -1192,6 +1193,50 @@ bool GUI_Production_List_Click(Widget *w)
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x03DC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
 	emu_sp += 2;
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Resume Game" button in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_ResumeGame_Click(Widget *w)
+{
+	g_global->variable_7FC0 = 0;
+
+	if (g_global->variable_7FC2 != 0) {
+		uint8 i = 0;
+		House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+		while (g_global->variable_7FB6 != 0) {
+			if (g_global->variable_8BEA[i][8] != 0) {
+				h->credits += g_global->variable_8BEA[i][2] * g_global->variable_8BEA[i][3];
+				g_global->variable_7FB6 -= g_global->variable_8BEA[i][2];
+				g_global->variable_8BEA[i][2] = 0;
+			}
+
+			i++;
+
+			GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+		}
+	}
+
+	if (w != NULL) GUI_Widget_MakeNormal(w, false);
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Ugrade" button in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_Upgrade_Click(Widget *w)
+{
+	GUI_Widget_MakeNormal(w, false);
+
+	g_global->variable_7FC0 = 2;
 
 	return true;
 }
