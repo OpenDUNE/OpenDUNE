@@ -514,3 +514,23 @@ void emu_GUI_Mentat_Create_HelpScreen_Widgets()
 	GUI_Mentat_Create_HelpScreen_Widgets();
 }
 
+/**
+ * Emulation wrapper around #GUI_Get_Scrollbar_Position
+ *
+ * @name emu_GUI_Get_Scrollbar_Position
+ * @implements B520:00E3:0028:2188 ()
+ */
+void emu_GUI_Get_Scrollbar_Position()
+{
+	csip32 csip_w;
+	Widget *w;
+
+	/* Pop return address off the stack. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	csip_w = emu_get_csip32(emu_ss, emu_sp, 0);
+	w = (Widget *)emu_get_memorycsip(csip_w);
+
+	emu_ax = GUI_Get_Scrollbar_Position(w);
+}

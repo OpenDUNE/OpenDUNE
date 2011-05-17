@@ -3,6 +3,8 @@
 #ifndef GUI_GUI_H
 #define GUI_GUI_H
 
+struct Widget;
+
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 extern void GUI_DisplayText(const char *str, uint16 arg0A, ...);
@@ -30,6 +32,7 @@ extern uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var
 extern char *GUI_String_Get_ByIndex(uint16 stringID);
 extern uint16 GUI_ShowMap(uint16 campaignID, bool arg08);
 extern void GUI_ClearScreen(uint16 arg06);
+extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -54,6 +57,7 @@ extern void emu_GUI_Mentat_Display();
 extern void emu_GUI_Mentat_Animation();
 extern void emu_GUI_Mentat_SelectHelpSubject();
 extern void emu_GUI_Mentat_Create_HelpScreen_Widgets();
+extern void emu_GUI_Get_Scrollbar_Position();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

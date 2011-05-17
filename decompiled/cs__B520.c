@@ -34,7 +34,7 @@ l__0000:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0019); f__B520_00E3_0028_2188();
+	emu_push(0x0019); emu_GUI_Get_Scrollbar_Position();
 l__0019:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -135,43 +135,6 @@ l__00D6:
 l__00DD:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__B520_00E3_0028_2188()
- *
- * @name f__B520_00E3_0028_2188
- * @implements B520:00E3:0028:2188 ()
- * @implements B520:0110:0004:893F
- *
- * Called From: 3520:0048:0005:0000
- * Called From: B520:0016:0019:6B99
- */
-void f__B520_00E3_0028_2188()
-{
-l__00E3:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_orw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x8));
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x010B; emu_last_cs = 0xB520; emu_last_ip = 0x00EF; emu_last_length = 0x0028; emu_last_crc = 0x2188; emu_call(); return; }
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x36);
-	emu_dx = emu_get_memory16(emu_es, emu_bx, 0x34);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp, -0x4));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0xC);
-	goto l__0110;
-l__0110:
 	emu_sp = emu_bp;
 	emu_pop(&emu_bp);
 

@@ -997,3 +997,18 @@ Widget *GUI_Widget_Link(Widget *w1, Widget *w2)
 	w1->next = emu_Global_GetCSIP(w2);
 	return first;
 }
+
+/**
+ * Get scrollbar position.
+ * @param w Widget.
+ * @return Scrollbar position, or \c 0xFFFF if no widget supplied.
+ */
+uint16 GUI_Get_Scrollbar_Position(Widget *w)
+{
+	WidgetScrollbar *ws;
+
+	if (w == NULL) return 0xFFFF;
+
+	ws = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+	return ws->scrollPosition;
+}

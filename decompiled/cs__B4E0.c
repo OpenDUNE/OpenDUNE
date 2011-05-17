@@ -1116,7 +1116,7 @@ l__0A86:
 	emu_bp = emu_sp;
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs); emu_push(0x0A94); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_00E3_0028_2188();
+	emu_push(emu_cs); emu_push(0x0A94); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Get_Scrollbar_Position();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34E0) { overlay(0x34E0, 1); }
 l__0A94:
