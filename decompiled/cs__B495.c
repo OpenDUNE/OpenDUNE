@@ -480,50 +480,6 @@ l__03B7:
 }
 
 /**
- * Decompiled function emu_GUI_Production_List()
- *
- * @name emu_GUI_Production_List
- * @implements B495:03B9:0008:D80E ()
- * @implements B495:03C1:0012:9714
- * @implements B495:03D3:0009:FC66
- * @implements B495:03DC:0006:B1FB
- * @implements B495:03E2:0002:2597
- *
- * Called From: 3495:003E:0005:0000
- */
-void emu_GUI_Production_List()
-{
-l__03B9:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_cs);
-	emu_push(0x03C1); f__B495_0F30_0008_857D();
-l__03C1:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_ax = emu_get_memory16(emu_es, emu_bx, 0x4);
-	emu_subw(&emu_ax, 0x2E);
-	emu_get_memory16(emu_ds, 0x00, 0x7FBC) = emu_ax;
-	emu_push(emu_cs);
-	emu_push(0x03D3); f__B495_089A_0011_B26C();
-l__03D3:
-	emu_ax = 0x1;
-	emu_push(emu_ax);
-	emu_push(emu_cs);
-	emu_push(0x03DC); f__B495_0DC9_0010_C643();
-l__03DC:
-	emu_pop(&emu_cx);
-	emu_ax = 0x1;
-	goto l__03E2;
-l__03E2:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_GUI_Purchase_Plus()
  *
  * @name emu_GUI_Purchase_Plus

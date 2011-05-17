@@ -33,6 +33,9 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
+extern void f__B495_089A_0011_B26C();
+extern void f__B495_0DC9_0010_C643();
+extern void f__B495_0F30_0008_857D();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -1169,6 +1172,26 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 bool GUI_Widget_HOF_Resume_Click()
 {
 	g_global->variable_81E6 = 1;
+
+	return true;
+}
+
+/**
+ * Handles Click event for the list in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_List_Click(Widget *w)
+{
+	emu_push(emu_cs); emu_push(0x03C1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+	g_global->variable_7FBC = w->index - 46;
+
+	emu_push(emu_cs); emu_push(0x03D3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x03DC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+	emu_sp += 2;
 
 	return true;
 }
