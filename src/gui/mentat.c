@@ -31,7 +31,6 @@ extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_041D_0017_C8A5();
 extern void f__B4E0_0847_0019_A380();
-extern void f__B4E0_0B86_001E_9967();
 extern void emu_GUI_Mentat_List();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
@@ -217,7 +216,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	w->shortcut2 = 'n';
 
-	emu_push(emu_cs); emu_push(0x008F); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0B86_001E_9967();
+	GUI_Mentat_Create_HelpScreen_Widgets();
 
 	emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -882,4 +881,119 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 		g_global->string_804D = emu_Global_GetCSIP(tmpPtr);
 		return;
 	}
+}
+
+/** Create the widgets of the mentat help screen. */
+void GUI_Mentat_Create_HelpScreen_Widgets()
+{
+	uint16 ypos;
+	Widget *w, *w8;
+	int i;
+
+	if (g_global->variable_8036.csip != 0x0) {
+		emu_push(g_global->variable_8036.s.cs);
+		emu_push(g_global->variable_8036.s.ip);
+		emu_push(emu_cs); emu_push(0x0BA4); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_039B_001B_4BEB();
+		emu_sp += 4;
+	}
+
+	if (g_global->variable_8032.csip != 0x0) {
+		emu_push(g_global->variable_8032.s.cs);
+		emu_push(g_global->variable_8032.s.ip);
+		emu_push(emu_cs); emu_push(0x0BBC); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+		emu_sp += 4;
+	}
+
+	if (g_global->variable_802E.csip != 0x0) {
+		emu_push(g_global->variable_802E.s.cs);
+		emu_push(g_global->variable_802E.s.ip);
+		emu_push(emu_cs); emu_push(0x0BD4); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+		emu_sp += 4;
+	}
+
+	g_global->variable_802A.csip = 0x0;
+	ypos = 8;
+
+	{
+		csip32 csip_widget;
+
+		emu_push(5);
+		emu_push(emu_cs); emu_push(0x0BEE); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_sp += 2;
+		csip_widget.s.cs = emu_dx;
+		csip_widget.s.ip = emu_ax;
+		w = (Widget *)emu_get_memorycsip(csip_widget);
+	}
+
+	memset(w, 0, 13 * sizeof(Widget));
+
+	for (i = 0; i < 13; i++) {
+		w->index = i + 2;
+
+		w->flags.all = 0;
+		w->flags.s.buttonFilterLeft = 9;
+		w->flags.s.buttonFilterRight = 1;
+
+		w->clickProc.csip = 0x34E0002A;
+
+		w->drawProcDown.csip     = 0x353F25DE; /* "" NULL terminated. */
+		w->drawProcSelected.csip = 0x353F25DE; /* "" NULL terminated. */
+		w->drawProcNormal.csip   = 0x353F25DE; /* "" NULL terminated. */
+
+		w->drawModeNormal = DRAW_MODE_TEXT;
+		w->variable_0D    = 1;
+
+		w->state.all      = 0;
+
+		w->offsetX        = 24;
+		w->offsetY        = ypos;
+		w->width          = 0x88;
+		w->height         = 8;
+		w->parentID       = 8;
+
+		if (g_global->variable_802A.csip != 0x0) {
+			g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w));
+		} else {
+			g_global->variable_802A = emu_Global_GetCSIP(w);
+		}
+
+		ypos += 8;
+		w++;
+	}
+
+	GUI_Widget_MakeInvisible((Widget *)emu_get_memorycsip(g_global->variable_802A));
+	GUI_Widget_MakeInvisible(w - 1);
+
+	{
+		csip32 drawProc;
+		drawProc.csip = 0x34E0003E;
+		g_global->variable_8036 = emu_Global_GetCSIP(GUI_Widget_Allocate2(15, 8, 168, 24, 8, 72, drawProc));
+	}
+
+	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A),
+			(Widget *)emu_get_memorycsip(g_global->variable_8036)));
+
+	w8 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13],
+			GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), 15), 1);
+	g_global->variable_8032 = emu_Global_GetCSIP(w8);
+
+	w8->shortcut  = 0;
+	w8->shortcut2 = 0;
+	w8->parentID  = 8;
+
+	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w8));
+
+	w8 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11],
+			GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), 15), 0);
+	g_global->variable_802E = emu_Global_GetCSIP(w8);
+
+	w8->shortcut  = 0;
+	w8->shortcut2 = 0;
+	w8->parentID  = 8;
+
+	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w8));
+	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A),
+			(Widget *)emu_get_memorycsip(g_global->variable_8026)));
+
+	GUI_Widget_Draw((Widget *)emu_get_memorycsip(g_global->variable_8026));
 }

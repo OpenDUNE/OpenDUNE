@@ -13,5 +13,6 @@ extern void GUI_Mentat_ShowLose();
 extern void GUI_Mentat_Display(char *houseFilename, uint16 houseID);
 extern void GUI_Mentat_Animation(uint16 unknown);
 extern void GUI_Mentat_SelectHelpSubject(int16 difference);
+extern void GUI_Mentat_Create_HelpScreen_Widgets();
 
 #endif /* GUI_MENTAT_H */

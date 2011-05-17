@@ -302,7 +302,6 @@ extern void f__2649_0B64_0011_32F8();
 extern void f__B503_0B68_000D_957E();
 extern void emu_DSP_GetInfo();
 extern void f__AB00_0B86_0001_6780();
-extern void f__B4E0_0B86_001E_9967();
 extern void f__AB00_0B91_0014_89BD();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__B495_0BB9_0011_11A0();
