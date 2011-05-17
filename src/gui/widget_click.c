@@ -37,6 +37,8 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B495_089A_0011_B26C();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
+extern void f__B495_1140_0009_13F2();
+extern void f__B495_119D_0009_53E9();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -1237,6 +1239,126 @@ bool GUI_Production_Upgrade_Click(Widget *w)
 	GUI_Widget_MakeNormal(w, false);
 
 	g_global->variable_7FC0 = 2;
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Down" button in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_Down_Click(Widget *w)
+{
+	bool locdi = false;
+
+	if (g_global->variable_7FBC < 3 && (g_global->variable_7FBC + 1) < g_global->variable_7FBA) {
+		g_global->variable_76B4 = 10;
+
+		emu_push(emu_cs); emu_push(0x0137); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+		g_global->variable_7FBC++;
+
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x0144); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+
+		locdi = true;
+	} else {
+		if (g_global->variable_7FB8 + 4 < g_global->variable_7FBA) {
+			g_global->variable_76B4 = 10;
+			g_global->variable_7FB8++;
+			locdi = true;
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x0173); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1140_0009_13F2();
+			emu_sp += 2;
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+			emu_sp += 2;
+		} else {
+			locdi = false;
+
+			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x0190); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_119D_0009_53E9();
+			emu_sp += 2;
+		}
+	}
+
+	do {
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x019E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+	} while (g_global->variable_76B4 != 0);
+
+	if (locdi) {
+		emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	}
+
+	GUI_Widget_MakeNormal(w, false);
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Up" button in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_Up_Click(Widget *w)
+{
+	bool locdi = false;
+
+	if (g_global->variable_7FBC != 0) {
+		g_global->variable_76B4 = 10;
+
+		emu_push(emu_cs); emu_push(0x01F9); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+		g_global->variable_7FBC--;
+
+		emu_push(1);
+		emu_push(emu_cs); emu_push(0x0206); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+
+		locdi = true;
+	} else {
+		if (g_global->variable_7FB8 != 0) {
+			g_global->variable_76B4 = 10;
+			g_global->variable_7FB8--;
+			locdi = true;
+
+			emu_push(0xFFFF);
+			emu_push(emu_cs); emu_push(0x022D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1140_0009_13F2();
+			emu_sp += 2;
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+			emu_sp += 2;
+		} else {
+			locdi = false;
+
+			emu_push(emu_cs); emu_push(0x0244); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+
+			emu_push(1);
+			emu_push(emu_cs); emu_push(0x024D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_119D_0009_53E9();
+			emu_sp += 2;
+		}
+	}
+
+	do {
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x025B); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+	} while (g_global->variable_76B4 != 0);
+
+	if (locdi) {
+		emu_push(emu_cs); emu_push(0x026E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	}
+
+	GUI_Widget_MakeNormal(w, false);
 
 	return true;
 }

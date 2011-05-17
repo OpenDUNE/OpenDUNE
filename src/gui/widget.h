@@ -205,6 +205,8 @@ extern bool GUI_Widget_HOF_Resume_Click();
 extern bool GUI_Production_List_Click(Widget *w);
 extern bool GUI_Production_Upgrade_Click(Widget *w);
 extern bool GUI_Production_ResumeGame_Click(Widget *w);
+extern bool GUI_Production_Down_Click(Widget *w);
+extern bool GUI_Production_Up_Click(Widget *w);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);

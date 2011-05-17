@@ -25,8 +25,6 @@ extern void f__B520_096E_003C_F7E4();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_GUI_Mentat_List();
 extern void emu_GUI_Production_BuildThis();
-extern void emu_GUI_Production_Down();
-extern void emu_GUI_Production_Up();
 extern void emu_GUI_Purchase_Invoice();
 extern void emu_GUI_Purchase_Minus();
 extern void emu_GUI_Purchase_Plus();
@@ -558,6 +556,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 					case 0x0AEC1181: success = GUI_Widget_Picture_Click(); break;
 					case 0x0AEC11F6: success = GUI_Widget_RepairUpgrade_Click(w); break;
 					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w); break;
+					case 0x34950025: success = GUI_Production_Down_Click(w); break;
+					case 0x3495002A: success = GUI_Production_Up_Click(w); break;
 					case 0x34950034: success = GUI_Production_ResumeGame_Click(w); break;
 					case 0x34950039: success = GUI_Production_Upgrade_Click(w); break;
 					case 0x3495003E: success = GUI_Production_List_Click(w); break;
@@ -578,8 +578,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 						emu_ip = w->clickProc.s.ip;
 						emu_cs = w->clickProc.s.cs;
 						switch ((emu_cs << 16) + emu_ip) {
-							case 0x34950025: overlay(0x3495, 0); emu_GUI_Production_Down(); break;
-							case 0x3495002A: overlay(0x3495, 0); emu_GUI_Production_Up(); break;
 							case 0x3495002F: overlay(0x3495, 0); emu_GUI_Production_BuildThis(); break;
 							case 0x34950043: overlay(0x3495, 0); emu_GUI_Purchase_Plus(); break;
 							case 0x34950048: overlay(0x3495, 0); emu_GUI_Purchase_Minus(); break;
