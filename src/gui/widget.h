@@ -207,6 +207,8 @@ extern bool GUI_Production_Upgrade_Click(Widget *w);
 extern bool GUI_Production_ResumeGame_Click(Widget *w);
 extern bool GUI_Production_Down_Click(Widget *w);
 extern bool GUI_Production_Up_Click(Widget *w);
+extern bool GUI_Purchase_Invoice_Click(Widget *w);
+extern bool GUI_Production_BuildThis_Click(Widget *w);
 
 /* widget_draw.c */
 extern void GUI_Widget_TextButton_Draw(Widget *w);

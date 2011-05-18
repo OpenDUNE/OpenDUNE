@@ -34,11 +34,13 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
+extern void f__B495_0511_0011_10E0();
 extern void f__B495_089A_0011_B26C();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
 extern void f__B495_1140_0009_13F2();
 extern void f__B495_119D_0009_53E9();
+extern void f__B495_1230_001B_A160();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -1356,6 +1358,60 @@ bool GUI_Production_Up_Click(Widget *w)
 
 	if (locdi) {
 		emu_push(emu_cs); emu_push(0x026E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	}
+
+	GUI_Widget_MakeNormal(w, false);
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Invoice" button in starport window.
+ *
+ * @return True, always.
+ */
+bool GUI_Purchase_Invoice_Click(Widget *w)
+{
+	GUI_Widget_MakeInvisible(w);
+
+	emu_push(emu_cs); emu_push(0x04EC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0511_0011_10E0();
+
+	GUI_Widget_MakeVisible(w);
+
+	GUI_Widget_MakeNormal(w, false);
+
+	return true;
+}
+
+/**
+ * Handles Click event for the "Build this" button in production window.
+ *
+ * @return True, always.
+ */
+bool GUI_Production_BuildThis_Click(Widget *w)
+{
+	if (g_global->variable_7FC2 != 0) {
+		if (g_global->variable_7FB6 == 0) {
+			GUI_Widget_MakeInvisible(w);
+
+			emu_push(emu_cs); emu_push(0x02AE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0511_0011_10E0();
+
+			GUI_Widget_MakeVisible(w);
+		} else {
+			g_global->variable_7FC0 = 1;
+		}
+	} else {
+		struct_8BEA *loc04;
+
+		emu_push(g_global->variable_7FBC);
+		emu_push(emu_cs); emu_push(0x02CE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
+		emu_sp += 2;
+		loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+		if ((int8)emu_get_memorycsip(loc04->variable_0007)[0x2A] > 0) {
+			loc04->variable_0002 = 1;
+			g_global->variable_7FC0 = 1;
+		}
 	}
 
 	GUI_Widget_MakeNormal(w, false);
