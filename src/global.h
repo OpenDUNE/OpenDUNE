@@ -87,6 +87,17 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_8BDE) == 0xA);
 
 MSVC_PACKED_BEGIN
+typedef struct struct_8BEA {
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? */
+	/* 0002(1)   */ PACK int8   variable_0002;              /*!< ?? */
+	/* 0003(2)   */ PACK uint16 variable_0003;              /*!< ?? */
+	/* 0005(2)   */ PACK uint16 variable_0005;              /*!< ?? */
+	/* 0007(4)   */ PACK csip32 variable_0007;              /*!< ?? */
+} GCC_PACKED struct_8BEA;
+MSVC_PACKED_END
+assert_compile(sizeof(struct_8BEA) == 0xB);
+
+MSVC_PACKED_BEGIN
 /**
  * Inside the GlobalData is information about the map. This is the layout of
  *  that data.
@@ -1473,7 +1484,7 @@ typedef struct GlobalData {
 	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
 	/* 8BE8(2)   */ PACK uint16 variable_8BE8;              /*!< ?? */
-	/* 8BEA(275) */ PACK uint8  variable_8BEA[25][11];      /*!< ?? */
+	/* 8BEA(275) */ PACK struct_8BEA variable_8BEA[25];     /*!< ?? */
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */

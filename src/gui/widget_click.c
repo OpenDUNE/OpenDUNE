@@ -1212,10 +1212,10 @@ bool GUI_Production_ResumeGame_Click(Widget *w)
 		uint8 i = 0;
 		House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
 		while (g_global->variable_7FB6 != 0) {
-			if (g_global->variable_8BEA[i][8] != 0) {
-				h->credits += g_global->variable_8BEA[i][2] * g_global->variable_8BEA[i][3];
-				g_global->variable_7FB6 -= g_global->variable_8BEA[i][2];
-				g_global->variable_8BEA[i][2] = 0;
+			if (g_global->variable_8BEA[i].variable_0002 != 0) {
+				h->credits += g_global->variable_8BEA[i].variable_0002 * g_global->variable_8BEA[i].variable_0003;
+				g_global->variable_7FB6 -= g_global->variable_8BEA[i].variable_0002;
+				g_global->variable_8BEA[i].variable_0002 = 0;
 			}
 
 			i++;
