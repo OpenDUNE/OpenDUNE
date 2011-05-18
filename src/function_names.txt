@@ -72,6 +72,7 @@
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
 01F7:39C4:0031:EE87	emu_String_strncpy	# (to_csip, from_csip, count)
 01F7:3A8A:0018:E4EE	emu_String_strstr	# (string1_csip, string2_csip)
+01F7:3AF8:001D:A439	emu_String_strtok	# (string_csip, delimiters_csip)
 01F7:3CD5:000D:9D98	emu_String_strupr	# (csip)
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)

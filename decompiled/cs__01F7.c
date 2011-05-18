@@ -8068,9 +8068,9 @@ l__3AEE:
 }
 
 /**
- * Decompiled function f__01F7_3AF8_001D_A439()
+ * Decompiled function emu_String_strtok()
  *
- * @name f__01F7_3AF8_001D_A439
+ * @name emu_String_strtok
  * @implements 01F7:3AF8:001D:A439 ()
  * @implements 01F7:3B15:000E:8402
  * @implements 01F7:3B23:0042:18E1
@@ -8119,7 +8119,7 @@ l__3AEE:
  * Called From: B4B5:0F42:001B:0EE0
  * Called From: B4B5:0F61:0015:FC7B
  */
-void f__01F7_3AF8_001D_A439()
+void emu_String_strtok()
 {
 l__3AF8:
 	emu_push(emu_bp);

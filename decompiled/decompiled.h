@@ -491,7 +491,7 @@ extern void emu_String_strcasecmp();
 extern void emu_String_strlen();
 extern void emu_String_strncpy();
 extern void emu_String_strstr();
-extern void f__01F7_3AF8_001D_A439();
+extern void emu_String_strtok();
 extern void f__01F7_3BBF_0022_A35A();
 extern void f__01F7_3BE6_000B_8F48();
 extern void emu_String_strupr();
