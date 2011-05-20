@@ -36,6 +36,8 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B495_0511_0011_10E0();
 extern void f__B495_089A_0011_B26C();
+extern void f__B495_0BB9_0011_11A0();
+extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
 extern void f__B495_1140_0009_13F2();
@@ -1415,6 +1417,64 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 	}
 
 	GUI_Widget_MakeNormal(w, false);
+
+	return true;
+}
+
+bool GUI_Purchase_Plus_Click(Widget *w)
+{
+	struct_8BEA *loc04;
+	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+
+	GUI_Widget_MakeNormal(w, false);
+
+	emu_push(g_global->variable_7FBC);
+	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
+	emu_sp += 2;
+	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+	if (loc04->variable_0002 < emu_get_memorycsip(loc04->variable_0007)[0x2A] && loc04->variable_0003 <= h->credits) {
+		loc04->variable_0002++;
+
+		emu_push(emu_cs); emu_push(0x044A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+
+		g_global->variable_7FB6++;
+
+		h->credits -= loc04->variable_0003;
+
+		emu_push(0); emu_push(0);
+		emu_push(emu_cs); emu_push(0x0466); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
+		emu_sp += 4;
+	}
+
+	return true;
+}
+
+bool GUI_Purchase_Minus_Click(Widget *w)
+{
+	struct_8BEA *loc04;
+	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+
+	GUI_Widget_MakeNormal(w, false);
+
+	emu_push(g_global->variable_7FBC);
+	emu_push(emu_cs); emu_push(0x0491); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
+	emu_sp += 2;
+	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+	if (loc04->variable_0002 != 0) {
+		loc04->variable_0002--;
+
+		emu_push(emu_cs); emu_push(0x04AE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+
+		g_global->variable_7FB6--;
+
+		h->credits += loc04->variable_0003;
+
+		emu_push(0); emu_push(0);
+		emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
+		emu_sp += 4;
+	}
 
 	return true;
 }

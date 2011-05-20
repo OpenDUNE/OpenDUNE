@@ -138,16 +138,6 @@ AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
 AB01:1FA8:0072:8B95	emu_MPU_Init	# (unused, port1, port2, port3, port4)
 AB01:2336:002C:4FDC	emu_MPU_ClearData	# (unused, index)
 
-B495:00FE:0017:4E8B	emu_GUI_Production_Down	# (csip) Handles click on down arrow in production/purchase window
-B495:01CB:0016:9CD0	emu_GUI_Production_Up	# (csip) Handles click on up arrow in production/purchase window
-B495:0288:001F:5BC7	emu_GUI_Production_BuildThis	# (csip) Handles click on "Build This"/"Send Order" button in production/purchase window
-B495:030B:001D:B90C	emu_GUI_Production_ResumeGame	# (csip) Handles click on "Resume game" button in production/purchase window
-B495:0398:0011:7346	emu_GUI_Production_Upgrade	# (csip) Handles click on "Upgrade" button in production/purchase window
-B495:03B9:0008:D80E	emu_GUI_Production_List	# (csip) Handles click on the list in production/purchase window
-B495:03E4:0014:917E	emu_GUI_Purchase_Plus	# (csip) Handles click on the "+" button in purchase window
-B495:0471:0014:897E	emu_GUI_Purchase_Minus	# (csip) Handles click on the "-" button in purchase window
-B495:04D7:000E:C317	emu_GUI_Purchase_Invoice	# (csip) Handles click on the "Invoice" button in purchase window
-
 B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
 
 B4C1:0129:0028:FB8E	emu_Math_PercentToValue	# Makes a value between 0 and 255 to the max-value given
