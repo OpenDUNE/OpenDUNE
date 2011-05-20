@@ -25,6 +25,7 @@
 #include "../os/endian.h"
 #include "../string.h"
 #include "../house.h"
+#include "../gfx.h"
 
 extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
@@ -42,8 +43,7 @@ extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F30_0008_857D();
-extern void f__B495_1140_0009_13F2();
-extern void f__B495_119D_0009_53E9();
+extern void f__B495_0F7A_000B_410C();
 extern void f__B495_1230_001B_A160();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
@@ -1249,6 +1249,57 @@ bool GUI_Production_Upgrade_Click(Widget *w)
 	return true;
 }
 
+static void GUI_Production_B495_1140(int16 arg06)
+{
+	uint16 i;
+	uint16 y = 32;
+
+	emu_push(emu_cs); emu_push(0x1149); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+	emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	for (i = 0; i < 32; i++) {
+		y += arg06;
+		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+	}
+
+	emu_push(emu_cs); emu_push(0x118C); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(emu_cs); emu_push(0x1190); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x1198); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+	emu_sp += 2;
+}
+
+static void GUI_Production_B495_119D(int16 arg06)
+{
+	uint16 i;
+	uint16 y = 32;
+
+	emu_push(emu_cs); emu_push(0x11A6); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+	emu_push(emu_cs); emu_push(0x11AE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	emu_push(emu_cs); emu_push(0x11B2); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+
+	for (i = 0; i < 6; i++) {
+		y += arg06;
+		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+	}
+
+	for (i = 0; i < 6; i++) {
+		y -= arg06;
+		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+	}
+
+	emu_push(emu_cs); emu_push(0x1223); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x122B); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+	emu_sp += 2;
+}
+
 /**
  * Handles Click event for the "Down" button in production window.
  *
@@ -1276,9 +1327,7 @@ bool GUI_Production_Down_Click(Widget *w)
 			g_global->variable_7FB8++;
 			locdi = true;
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x0173); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1140_0009_13F2();
-			emu_sp += 2;
+			GUI_Production_B495_1140(1);
 
 			emu_push(1);
 			emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
@@ -1288,9 +1337,7 @@ bool GUI_Production_Down_Click(Widget *w)
 
 			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x0190); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_119D_0009_53E9();
-			emu_sp += 2;
+			GUI_Production_B495_119D(1);
 		}
 	}
 
@@ -1336,9 +1383,7 @@ bool GUI_Production_Up_Click(Widget *w)
 			g_global->variable_7FB8--;
 			locdi = true;
 
-			emu_push(0xFFFF);
-			emu_push(emu_cs); emu_push(0x022D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1140_0009_13F2();
-			emu_sp += 2;
+			GUI_Production_B495_1140(-1);
 
 			emu_push(1);
 			emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
@@ -1348,9 +1393,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 			emu_push(emu_cs); emu_push(0x0244); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x024D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_119D_0009_53E9();
-			emu_sp += 2;
+			GUI_Production_B495_119D(1);
 		}
 	}
 
