@@ -2984,3 +2984,25 @@ void GUI_ClearScreen(uint16 arg06)
 
 	Unknown_Set_Global_6C91(old);
 }
+
+/**
+ * Draw a string to the screen using a fixed width for each char.
+ *
+ * @param string The string to draw.
+ * @param left The most left position where to draw the string.
+ * @param top The most top position where to draw the string.
+ * @param fgColour The foreground colour of the text.
+ * @param bgColour The background colour of the text.
+ * @param charWidth The width of a char.
+ */
+void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColour, uint8 bgColour, uint16 charWidth)
+{
+	char s[2] = " ";
+
+	while (*string != '\0') {
+		*s = *string++;
+		GUI_DrawText(s, left, top, fgColour, bgColour);
+		left += charWidth;
+	}
+}
+

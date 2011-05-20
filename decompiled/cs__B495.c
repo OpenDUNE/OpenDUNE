@@ -5,61 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B495_0854_0012_008A()
- *
- * @name f__B495_0854_0012_008A
- * @implements B495:0854:0012:008A ()
- * @implements B495:0866:0020:FCC2
- * @implements B495:0886:0014:5132
- * @implements B495:088C:000E:5C4F
- *
- * Called From: B495:0640:0017:0880
- * Called From: B495:0733:001F:5DA5
- */
-void f__B495_0854_0012_008A()
-{
-l__0854:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x2);
-	emu_push(emu_si);
-	emu_si = emu_get_memory16(emu_ss, emu_bp,  0xA);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x1880);
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	goto l__088C;
-l__0866:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_al = emu_get_memory8(emu_es, emu_bx, 0x0);
-	emu_get_memory8(emu_ss, emu_bp, -0x2) = emu_al;
-	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_push(emu_si);
-	emu_push(emu_ss);
-	emu_movw(&emu_ax, emu_bp - 0x2);
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0886); emu_cs = 0x2BC2; emu_GUI_DrawText();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3495) { overlay(0x3495, 1); }
-l__0886:
-	emu_addw(&emu_sp, 0xC);
-	emu_addw(&emu_si, emu_get_memory16(emu_ss, emu_bp,  0x12));
-l__088C:
-	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_cmpb(&emu_get_memory8(emu_es, emu_bx, 0x0), 0x0);
-	if (emu_get_memory8(emu_es, emu_bx, 0x0) != 0x0) goto l__0866;
-	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B495_089A_0011_B26C()
  *
  * @name f__B495_089A_0011_B26C

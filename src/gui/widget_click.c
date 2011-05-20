@@ -37,7 +37,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0854_0012_008A();
 extern void f__B495_089A_0011_B26C();
 extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
@@ -1376,7 +1375,7 @@ static void GUI_Purchase_ShowInvoice()
 	uint16 old6C91 = Unknown_Set_Global_6C91(2);
 	uint16 y = 48;
 	uint16 total = 0;
-	uint16 length;
+	uint16 x;
 
 	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
@@ -1403,14 +1402,7 @@ static void GUI_Purchase_ShowInvoice()
 
 			GUI_DrawText_Wrapper(String_Get_ByIndex(((uint16 *)emu_get_memorycsip(g_global->variable_8BEA[i].variable_0007))[3]), 128, y, 8, 0, 0x11);
 
-			emu_push(6);
-			emu_push(0);
-			emu_push(15);
-			emu_push(y);
-			emu_push(311 - strlen((char *)g_global->variable_9939) * 6);
-			emu_push(0x353F); emu_push(0x9939);
-			emu_push(emu_cs); emu_push(0x0643); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0854_0012_008A();
-			emu_sp += 14;
+			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
 
 			y += 8;
 		}
@@ -1424,19 +1416,12 @@ static void GUI_Purchase_ShowInvoice()
 
 	sprintf((char *)g_global->variable_9939, "%d", total);
 
-	length = 311 - strlen((char *)g_global->variable_9939) * 6;
+	x = 311 - strlen((char *)g_global->variable_9939) * 6;
 
 	/* "Total Cost :" */
-	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(0xB8), length - 3, 152, 11, 0, 0x211);
+	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(0xB8), x - 3, 152, 11, 0, 0x211);
 
-	emu_push(6);
-	emu_push(0);
-	emu_push(11);
-	emu_push(152);
-	emu_push(length);
-	emu_push(0x353F); emu_push(0x9939);
-	emu_push(emu_cs); emu_push(0x0736); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0854_0012_008A();
-	emu_sp += 14;
+	GUI_DrawText_Monospace((char *)g_global->variable_9939, x, 152, 11, 0, 6);
 
 	emu_push(emu_cs); emu_push(0x073E); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
