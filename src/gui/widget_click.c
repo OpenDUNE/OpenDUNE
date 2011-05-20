@@ -30,11 +30,14 @@ extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_GUI_CopyFromBuffer();
 extern void f__259E_0040_0015_5E4A();
+extern void emu_Input_History_Clear();
+extern void emu_Mouse_InsideRegion();
+extern void f__29E8_08B5_000A_FC14();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0511_0011_10E0();
+extern void f__B495_0854_0012_008A();
 extern void f__B495_089A_0011_B26C();
 extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
@@ -1367,6 +1370,135 @@ bool GUI_Production_Up_Click(Widget *w)
 	return true;
 }
 
+static void GUI_Purchase_ShowInvoice()
+{
+	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_7FA2);
+	uint16 old6C91 = Unknown_Set_Global_6C91(2);
+	uint16 y = 48;
+	uint16 total = 0;
+	uint16 length;
+
+	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
+
+	/* "Item Name                 Qty Total" */
+	GUI_DrawText_Wrapper(String_Get_ByIndex(0xB6), 128, y, 12, 0, 0x11);
+
+	y += 7;
+
+	GUI_DrawLine(129, y, 310, y, 12);
+
+	y += 2;
+
+	if (g_global->variable_7FB6 != 0) {
+		uint16 i;
+
+		for (i = 0; i < g_global->variable_7FBA; i++) {
+			uint16 amount;
+			if (g_global->variable_8BEA[i].variable_0002 == 0) continue;
+
+			amount = g_global->variable_8BEA[i].variable_0002 * g_global->variable_8BEA[i].variable_0003;
+			total += amount;
+
+			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->variable_8BEA[i].variable_0002, amount);
+
+			GUI_DrawText_Wrapper(String_Get_ByIndex(((uint16 *)emu_get_memorycsip(g_global->variable_8BEA[i].variable_0007))[3]), 128, y, 8, 0, 0x11);
+
+			emu_push(6);
+			emu_push(0);
+			emu_push(15);
+			emu_push(y);
+			emu_push(311 - strlen((char *)g_global->variable_9939) * 6);
+			emu_push(0x353F); emu_push(0x9939);
+			emu_push(emu_cs); emu_push(0x0643); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0854_0012_008A();
+			emu_sp += 14;
+
+			y += 8;
+		}
+	} else {
+		/* "NO UNITS ON ORDER" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB5), 220, 99, 6, 0, 0x112);
+	}
+
+	GUI_DrawLine(129, 148, 310, 148, 12);
+	GUI_DrawLine(129, 150, 310, 150, 12);
+
+	sprintf((char *)g_global->variable_9939, "%d", total);
+
+	length = 311 - strlen((char *)g_global->variable_9939) * 6;
+
+	/* "Total Cost :" */
+	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(0xB8), length - 3, 152, 11, 0, 0x211);
+
+	emu_push(6);
+	emu_push(0);
+	emu_push(11);
+	emu_push(152);
+	emu_push(length);
+	emu_push(0x353F); emu_push(0x9939);
+	emu_push(emu_cs); emu_push(0x0736); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0854_0012_008A();
+	emu_sp += 14;
+
+	emu_push(emu_cs); emu_push(0x073E); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(16, 48, 16, 48, 23, 112, 2, 0);
+
+	emu_push(emu_cs); emu_push(0x076A); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	Unknown_Set_Global_6C91(0);
+
+	emu_push(0xB7); /* "Invoice of Units on Order" */
+	emu_push(emu_cs); emu_push(0x077C); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
+	emu_sp += 2;
+
+	emu_push(emu_dx); emu_push(emu_ax);
+	emu_push(emu_cs); emu_push(0x0784); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	while (GUI_Widget_HandleEvents(w) == 0) {
+		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+
+		emu_push(0);
+		emu_push(emu_cs); emu_push(0x07A3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
+		emu_sp += 2;
+
+		GUI_PaletteAnimate();
+	}
+
+	Unknown_Set_Global_6C91(old6C91);
+
+	w = GUI_Widget_Get_ByIndex(w, 10);
+
+	if (w != NULL) {
+		emu_push(w->offsetY + w->height);
+		emu_push(w->offsetX + w->width);
+		emu_push(w->offsetY);
+		emu_push(w->offsetX);
+		emu_push(emu_cs); emu_push(0x0818); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
+		emu_sp += 8;
+		if (emu_ax != 0) {
+			while (true) {
+				emu_push(0x41);
+				emu_push(emu_cs); emu_push(0x082A); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+				emu_sp += 2;
+				if (emu_ax != 0) continue;
+
+				emu_push(0x42);
+				emu_push(emu_cs); emu_push(0x0838); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
+				emu_sp += 2;
+				if (emu_ax == 0) break;
+			}
+
+			emu_push(emu_cs); emu_push(0x0842); emu_cs = 0x29E8; emu_Input_History_Clear();
+		}
+	}
+
+	if (g_global->variable_7FC0 == 0xFFFF) {
+		emu_push(emu_cs); emu_push(0x084E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	}
+}
+
 /**
  * Handles Click event for the "Invoice" button in starport window.
  *
@@ -1375,13 +1507,9 @@ bool GUI_Production_Up_Click(Widget *w)
 bool GUI_Purchase_Invoice_Click(Widget *w)
 {
 	GUI_Widget_MakeInvisible(w);
-
-	emu_push(emu_cs); emu_push(0x04EC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0511_0011_10E0();
-
+	GUI_Purchase_ShowInvoice();
 	GUI_Widget_MakeVisible(w);
-
 	GUI_Widget_MakeNormal(w, false);
-
 	return true;
 }
 
@@ -1395,9 +1523,7 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 	if (g_global->variable_7FC2 != 0) {
 		if (g_global->variable_7FB6 == 0) {
 			GUI_Widget_MakeInvisible(w);
-
-			emu_push(emu_cs); emu_push(0x02AE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0511_0011_10E0();
-
+			GUI_Purchase_ShowInvoice();
 			GUI_Widget_MakeVisible(w);
 		} else {
 			g_global->variable_7FC0 = 1;
@@ -1421,6 +1547,11 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 	return true;
 }
 
+/**
+ * Handles Click event for the "+" button in starport window.
+ *
+ * @return True, always.
+ */
 bool GUI_Purchase_Plus_Click(Widget *w)
 {
 	struct_8BEA *loc04;
@@ -1450,6 +1581,11 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 	return true;
 }
 
+/**
+ * Handles Click event for the "-" button in startport window.
+ *
+ * @return True, always.
+ */
 bool GUI_Purchase_Minus_Click(Widget *w)
 {
 	struct_8BEA *loc04;
