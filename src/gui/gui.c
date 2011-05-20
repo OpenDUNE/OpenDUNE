@@ -52,7 +52,6 @@ extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
 extern void f__B495_0DC9_0010_C643();
-extern void f__B495_0F30_0008_857D();
 extern void f__B495_125B_0011_10C0();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
@@ -2652,7 +2651,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 	Unknown_Set_Global_6C91(oldValue_6C91);
 
-	emu_push(emu_cs); emu_push(0x00C1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+	GUI_FactoryWindow_B495_0F30();
 
 	memcpy(backup, emu_get_memorycsip(g_global->variable_3C32) + 765, 3);
 
@@ -3006,3 +3005,11 @@ void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColou
 	}
 }
 
+void GUI_FactoryWindow_B495_0F30()
+{
+	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GFX_22A6_034F(69, ((g_global->variable_7FBC + 1) << 5) + 5, 69, (g_global->variable_7FBC << 5) + 21, 38, 30, 2, 0, false);
+
+	emu_push(emu_cs); emu_push(0x0F78); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+}

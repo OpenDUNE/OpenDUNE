@@ -34,6 +34,7 @@ extern uint16 GUI_ShowMap(uint16 campaignID, bool arg08);
 extern void GUI_ClearScreen(uint16 arg06);
 extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 extern void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColour, uint8 bgColour, uint16 charWidth);
+extern void GUI_FactoryWindow_B495_0F30();
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

@@ -42,7 +42,6 @@ extern void f__B495_089A_0011_B26C();
 extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
-extern void f__B495_0F30_0008_857D();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B495_1230_001B_A160();
 extern void f__B518_11C6_0011_1160();
@@ -1192,7 +1191,7 @@ bool GUI_Widget_HOF_Resume_Click()
  */
 bool GUI_Production_List_Click(Widget *w)
 {
-	emu_push(emu_cs); emu_push(0x03C1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+	GUI_FactoryWindow_B495_0F30();
 
 	g_global->variable_7FBC = w->index - 46;
 
@@ -1254,7 +1253,7 @@ static void GUI_Production_B495_1140(int16 arg06)
 	uint16 i;
 	uint16 y = 32;
 
-	emu_push(emu_cs); emu_push(0x1149); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+	GUI_FactoryWindow_B495_0F30();
 
 	emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -1277,11 +1276,11 @@ static void GUI_Production_B495_119D(int16 arg06)
 	uint16 i;
 	uint16 y = 32;
 
-	emu_push(emu_cs); emu_push(0x11A6); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+	GUI_FactoryWindow_B495_0F30();
 
 	emu_push(emu_cs); emu_push(0x11AE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	emu_push(emu_cs); emu_push(0x11B2); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
+	GUI_FactoryWindow_B495_0F30();
 
 	for (i = 0; i < 6; i++) {
 		y += arg06;
@@ -1311,9 +1310,7 @@ bool GUI_Production_Down_Click(Widget *w)
 
 	if (g_global->variable_7FBC < 3 && (g_global->variable_7FBC + 1) < g_global->variable_7FBA) {
 		g_global->variable_76B4 = 10;
-
-		emu_push(emu_cs); emu_push(0x0137); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
-
+		GUI_FactoryWindow_B495_0F30();
 		g_global->variable_7FBC++;
 
 		emu_push(1);
@@ -1367,9 +1364,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 	if (g_global->variable_7FBC != 0) {
 		g_global->variable_76B4 = 10;
-
-		emu_push(emu_cs); emu_push(0x01F9); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F30_0008_857D();
-
+		GUI_FactoryWindow_B495_0F30();
 		g_global->variable_7FBC--;
 
 		emu_push(1);
