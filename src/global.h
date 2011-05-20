@@ -1374,7 +1374,10 @@ typedef struct GlobalData {
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
-	/* 7FA6()    */ PACK uint8   unknown_7FA6[0x0010];
+	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
+	/* 7FAA(4)   */ PACK csip32 variable_7FAA;              /*!< ?? */
+	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
+	/* 7FB2(4)   */ PACK csip32 variable_7FB2;              /*!< ?? */
 	/* 7FB6(2)   */ PACK uint16 variable_7FB6;              /*!< ?? */
 	/* 7FB8(2)   */ PACK uint16 variable_7FB8;              /*!< ?? */
 	/* 7FBA(2)   */ PACK uint16 variable_7FBA;              /*!< ?? */

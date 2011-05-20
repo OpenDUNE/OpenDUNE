@@ -31,12 +31,14 @@
 #include "widget.h"
 #include "mentat.h"
 #include "../mouse.h"
+#include "../wsa.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__01F7_286D_0023_9A13();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_06D7_006B_B7D6();
+extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -51,8 +53,13 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
+extern void f__B495_089A_0011_B26C();
+extern void f__B495_0F7A_000B_410C();
 extern void f__B495_0DC9_0010_C643();
-extern void f__B495_125B_0011_10C0();
+extern void f__B495_1230_001B_A160();
+extern void f__B495_159D_0027_1B29();
+extern void f__B495_17E6_002B_0A6D();
+extern void f__B495_1A29_0012_DF2C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2605,6 +2612,121 @@ void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, in
 	emu_sp += 0x10;
 }
 
+static void GUI_FactoryWindow_Init()
+{
+	uint16 old6C91;
+	csip32 loc04;
+	uint16 loc0A;
+	uint16 locdi;
+	uint32 loc0E;
+	int16 i;
+	ObjectInfo *oi;
+
+	old6C91 = Unknown_Set_Global_6C91(2);
+
+	Sprites_LoadImage("CHOAM.CPS", 3, 3, NULL, 1);
+
+	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
+	emu_push(2);
+	emu_push(SCREEN_HEIGHT);
+	emu_push(SCREEN_WIDTH);
+	emu_push(0);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x12AE); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
+	emu_sp += 14;
+
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
+
+	loc0A = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB6);
+	locdi = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB7);
+
+	GUI_Unknown_24D0_000D(loc0A, locdi, 0, 8, 7, 40, 2, 2);
+	GUI_Unknown_24D0_000D(loc0A, locdi, 0, 152, 7, 40, 2, 2);
+
+	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
+
+	emu_push(5);
+	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_sp += 2;
+	g_global->variable_7FB2.s.cs = emu_dx;
+	g_global->variable_7FB2.s.ip = emu_ax;
+
+	emu_push(emu_cs); emu_push(0x136C); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_159D_0027_1B29();
+	loc0E = emu_ax;
+
+	g_global->variable_7FA6 -= loc0E;
+
+	g_global->variable_7FAA = g_global->variable_7FB2;
+	g_global->variable_7FAA.csip += loc0E;
+
+	emu_push(emu_cs); emu_push(0x1398); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1A29_0012_DF2C();
+	loc0E = (emu_dx << 16) | emu_ax;
+
+	g_global->variable_7FAE = g_global->variable_7FAA;
+	g_global->variable_7FAE.csip += loc0E;
+
+	g_global->variable_7FA6 -= loc0E;
+
+	emu_push(emu_cs); emu_push(0x13C2); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_17E6_002B_0A6D();
+
+	for (i = g_global->variable_7FBA; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
+
+	for (i = 0; i < 4; i++) {
+		struct_8BEA *loc12;
+
+		emu_push(i);
+		emu_push(emu_cs); emu_push(0x13FA); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
+		emu_sp += 2;
+		loc12 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+		if (loc12 == NULL) continue;
+
+		oi = (ObjectInfo *)emu_get_memorycsip(loc12->variable_0007);
+		if (oi->available == -1) {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->variable_7FAA), 1);
+		} else {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
+		}
+	}
+
+	g_global->variable_7FB8 = 0;
+	g_global->variable_7FBC = 0;
+
+	oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[0].variable_0007);
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		loc04 = WSA_LoadFile(emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
+	}
+
+	WSA_DisplayFrame(loc04, 0, 128, 48, 2);
+
+	WSA_Unload(loc04);
+
+	emu_push(emu_cs); emu_push(0x1510); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+
+	emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(23);
+	emu_push(72);
+	emu_push(emu_cs); emu_push(0x154A); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
+	emu_sp += 4;
+
+	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, (uint8)emu_ax);
+
+	emu_push(emu_cs); emu_push(0x1572); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
+
+	Unknown_Set_Global_6C91(0);
+
+	emu_push(emu_cs); emu_push(0x157F); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+
+	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
+
+	Unknown_Set_Global_6C91(old6C91);
+}
+
 /**
  * Display the window where you can order/build stuff for a structure.
  * @param var06 Unknown.
@@ -2624,7 +2746,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 	g_global->variable_7FBE = var0A;
 	g_global->variable_7FB6 = 0;
 
-	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_125B_0011_10C0();
+	GUI_FactoryWindow_Init();
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x0057); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();

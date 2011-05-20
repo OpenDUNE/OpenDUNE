@@ -1430,6 +1430,7 @@ static void GUI_Purchase_ShowInvoice()
 		uint16 i;
 
 		for (i = 0; i < g_global->variable_7FBA; i++) {
+			ObjectInfo *oi;
 			uint16 amount;
 			if (g_global->variable_8BEA[i].variable_0002 == 0) continue;
 
@@ -1438,7 +1439,8 @@ static void GUI_Purchase_ShowInvoice()
 
 			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->variable_8BEA[i].variable_0002, amount);
 
-			GUI_DrawText_Wrapper(String_Get_ByIndex(((uint16 *)emu_get_memorycsip(g_global->variable_8BEA[i].variable_0007))[3]), 128, y, 8, 0, 0x11);
+			oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[i].variable_0007);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
 			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
 
@@ -1553,13 +1555,15 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 		}
 	} else {
 		struct_8BEA *loc04;
+		ObjectInfo *oi;
 
 		emu_push(g_global->variable_7FBC);
 		emu_push(emu_cs); emu_push(0x02CE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
 		emu_sp += 2;
 		loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		oi = (ObjectInfo *)emu_get_memorycsip(loc04->variable_0007);
 
-		if ((int8)emu_get_memorycsip(loc04->variable_0007)[0x2A] > 0) {
+		if (oi->available > 0) {
 			loc04->variable_0002 = 1;
 			g_global->variable_7FC0 = 1;
 		}
@@ -1578,6 +1582,7 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 bool GUI_Purchase_Plus_Click(Widget *w)
 {
 	struct_8BEA *loc04;
+	ObjectInfo *oi;
 	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
 
 	GUI_Widget_MakeNormal(w, false);
@@ -1586,8 +1591,9 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
 	emu_sp += 2;
 	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+	oi = (ObjectInfo *)emu_get_memorycsip(loc04->variable_0007);
 
-	if (loc04->variable_0002 < emu_get_memorycsip(loc04->variable_0007)[0x2A] && loc04->variable_0003 <= h->credits) {
+	if (loc04->variable_0002 < oi->available && loc04->variable_0003 <= h->credits) {
 		loc04->variable_0002++;
 
 		emu_push(emu_cs); emu_push(0x044A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
