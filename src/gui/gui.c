@@ -32,6 +32,7 @@
 #include "mentat.h"
 #include "../mouse.h"
 #include "../wsa.h"
+#include "../file.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -57,9 +58,7 @@ extern void f__B495_089A_0011_B26C();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_1230_001B_A160();
-extern void f__B495_159D_0027_1B29();
 extern void f__B495_17E6_002B_0A6D();
-extern void f__B495_1A29_0012_DF2C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2612,13 +2611,93 @@ void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, in
 	emu_sp += 0x10;
 }
 
+static uint32 GUI_FactoryWindow_CreateWidgets()
+{
+	MSVC_PACKED_BEGIN
+	typedef struct WidgetInfo {
+		/* 0000(1)   */ PACK uint8  offsetX;      /*!< ?? */
+		/* 0001(1)   */ PACK uint8  offsetY;      /*!< ?? */
+		/* 0002(2)   */ PACK uint16 spriteID;     /*!< ?? */
+		/* 0004(1)   */ PACK uint8  width;        /*!< ?? */
+		/* 0005(1)   */ PACK uint8  height;       /*!< ?? */
+		/* 0006(2)   */ PACK int16  shortcut;     /*!< ?? */
+		/* 0008(2)   */ PACK uint16 flags;        /*!< ?? */
+		/* 000A(4)   */ PACK csip32 clickProc;    /*!< ?? */
+	} GCC_PACKED WidgetInfo;
+	MSVC_PACKED_END
+	assert_compile(sizeof(WidgetInfo) == 0xE);
+
+	uint16 i;
+	uint16 count = 0;
+	WidgetInfo *wi = (WidgetInfo *)&emu_get_memory8(0x2C34, 0x00, 0x00);
+	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_7FB2);
+
+	memset(w, 0, 13 * sizeof(Widget));
+
+	Sprites_Load(2, 7, g_sprites);
+
+	for (i = 0; i < 13; i++, wi++) {
+		if ((i == 8 || i == 9 || i == 10 || i == 12) && g_global->variable_7FC2 == 0) continue;
+		if (i == 11 && g_global->variable_7FC2 != 0) continue;
+		if (i == 7 && g_global->variable_7FBE == 0) continue;
+
+		count++;
+
+		w->index     = i + 46;
+		w->state.all = 0x0;
+		w->offsetX   = wi->offsetX << 3;
+		w->offsetY   = wi->offsetY;
+		w->flags.all = wi->flags;
+		w->shortcut  = (wi->shortcut < 0) ? abs(wi->shortcut) : GUI_Widget_GetShortcut(*String_Get_ByIndex(wi->shortcut));
+		w->clickProc = wi->clickProc;
+		w->width     = wi->width << 3;
+		w->height    = wi->height;
+
+		if (wi->spriteID == 0xFFFF) {
+			w->drawModeNormal   = DRAW_MODE_NONE;
+			w->drawModeSelected = DRAW_MODE_NONE;
+			w->drawModeDown     = DRAW_MODE_NONE;
+		} else {
+			w->drawModeNormal   = DRAW_MODE_SPRITE;
+			w->drawModeSelected = DRAW_MODE_SPRITE;
+			w->drawModeDown     = DRAW_MODE_SPRITE;
+			w->drawProcNormal   = g_sprites[wi->spriteID];
+			w->drawProcSelected = g_sprites[wi->spriteID + 1];
+			w->drawProcDown     = g_sprites[wi->spriteID + 1];
+		}
+
+		if (i != 0) {
+			g_global->variable_7FA2 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_7FA2), w));
+		} else {
+			g_global->variable_7FA2 = emu_Global_GetCSIP(w);
+		}
+
+		w++;
+	}
+
+	GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(g_global->variable_7FA2));
+
+	return count * sizeof(Widget);
+}
+
+static uint32 GUI_FactoryWindow_LoadGraymapTbl()
+{
+	uint8 fileID;
+
+	fileID = File_Open("GRAYRMAP.TBL", 1);
+	File_Read(fileID, emu_get_memorycsip(g_global->variable_7FAA), 256);
+	File_Close(fileID);
+
+	return 256;
+}
+
 static void GUI_FactoryWindow_Init()
 {
 	uint16 old6C91;
-	csip32 loc04;
+	csip32 wsaBuffer;
 	uint16 loc0A;
 	uint16 locdi;
-	uint32 loc0E;
+	uint32 size;
 	int16 i;
 	ObjectInfo *oi;
 
@@ -2651,21 +2730,19 @@ static void GUI_FactoryWindow_Init()
 	g_global->variable_7FB2.s.cs = emu_dx;
 	g_global->variable_7FB2.s.ip = emu_ax;
 
-	emu_push(emu_cs); emu_push(0x136C); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_159D_0027_1B29();
-	loc0E = emu_ax;
+	size = GUI_FactoryWindow_CreateWidgets();
 
-	g_global->variable_7FA6 -= loc0E;
+	g_global->variable_7FA6 -= size;
 
 	g_global->variable_7FAA = g_global->variable_7FB2;
-	g_global->variable_7FAA.csip += loc0E;
+	g_global->variable_7FAA.csip += size;
 
-	emu_push(emu_cs); emu_push(0x1398); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1A29_0012_DF2C();
-	loc0E = (emu_dx << 16) | emu_ax;
+	size = GUI_FactoryWindow_LoadGraymapTbl();
 
 	g_global->variable_7FAE = g_global->variable_7FAA;
-	g_global->variable_7FAE.csip += loc0E;
+	g_global->variable_7FAE.csip += size;
 
-	g_global->variable_7FA6 -= loc0E;
+	g_global->variable_7FA6 -= size;
 
 	emu_push(emu_cs); emu_push(0x13C2); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_17E6_002B_0A6D();
 
@@ -2696,12 +2773,12 @@ static void GUI_FactoryWindow_Init()
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
-		loc04 = WSA_LoadFile(emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
+		wsaBuffer = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
 	}
 
-	WSA_DisplayFrame(loc04, 0, 128, 48, 2);
+	WSA_DisplayFrame(wsaBuffer, 0, 128, 48, 2);
 
-	WSA_Unload(loc04);
+	WSA_Unload(wsaBuffer);
 
 	emu_push(emu_cs); emu_push(0x1510); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
