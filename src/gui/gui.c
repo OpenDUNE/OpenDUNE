@@ -61,7 +61,6 @@ extern void f__B495_089A_0011_B26C();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_1230_001B_A160();
-extern void f__B495_19B0_0016_09F7();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2694,6 +2693,13 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 	return 256;
 }
 
+static uint16 GUI_FactoryWindow_CalculateStarportPrice(uint16 credits)
+{
+	credits = (credits / 10) * 4 + (credits / 10) * (Tools_RandomRange(0, 6) + Tools_RandomRange(0, 6));
+
+	return min(credits, 999);
+}
+
 static void GUI_FactoryWindow_InitVar8BEA()
 {
 	g_global->variable_7FBA = 0;
@@ -2726,10 +2732,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 			g_global->variable_8BEA[g_global->variable_7FBA].objectType = i;
 
 			if (g_global->variable_7FC2 != 0) {
-				emu_push(oi->buildCredits);
-				emu_push(emu_cs); emu_push(0x18C3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_19B0_0016_09F7();
-				emu_sp += 2;
-				g_global->variable_8BEA[g_global->variable_7FBA].credits = emu_ax;
+				g_global->variable_8BEA[g_global->variable_7FBA].credits = GUI_FactoryWindow_CalculateStarportPrice(oi->buildCredits);
 			} else {
 				g_global->variable_8BEA[g_global->variable_7FBA].credits = oi->buildCredits;
 			}
