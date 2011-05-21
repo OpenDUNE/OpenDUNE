@@ -33,10 +33,13 @@
 #include "../mouse.h"
 #include "../wsa.h"
 #include "../file.h"
+#include "../opendune.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
+extern void emu_Tools_Var79E4_Init();
 extern void f__01F7_286D_0023_9A13();
+extern void f__01F7_325B_0026_C673();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_06D7_006B_B7D6();
 extern void f__22A6_0E34_002B_E39A();
@@ -58,7 +61,7 @@ extern void f__B495_089A_0011_B26C();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_1230_001B_A160();
-extern void f__B495_17E6_002B_0A6D();
+extern void f__B495_19B0_0016_09F7();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2691,6 +2694,83 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 	return 256;
 }
 
+static void GUI_FactoryWindow_InitVar8BEA()
+{
+	g_global->variable_7FBA = 0;
+	g_global->variable_7FBC = 0;
+	g_global->variable_7FB8 = 0;
+
+	memset(g_global->variable_8BEA, 0, 25 * sizeof(struct_8BEA));
+
+	if (g_global->variable_7FC2 != 0) {
+		uint16 seconds = (g_global->tickGlobal - g_global->tickScenarioStart) / 60;
+		uint16 seed = (seconds / 60) + g_global->scenarioID + g_global->playerHouseID;
+		seed *= seed;
+
+		emu_push(seed);
+		emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
+		emu_sp += 2;
+
+		sprintf((char *)g_global->variable_9939, "sec(%u) seed(%u) ", seconds, seed);
+	}
+
+	if (g_global->variable_8BE8 == 0) {
+		uint16 i;
+
+		for (i = 0; i < UNIT_MAX; i++) {
+			ObjectInfo *oi = &g_unitInfo[i].o;
+
+			if (oi->available == 0) continue;
+
+			g_global->variable_8BEA[g_global->variable_7FBA].objectInfo = emu_Global_GetCSIP(oi);
+			g_global->variable_8BEA[g_global->variable_7FBA].objectType = i;
+
+			if (g_global->variable_7FC2 != 0) {
+				emu_push(oi->buildCredits);
+				emu_push(emu_cs); emu_push(0x18C3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_19B0_0016_09F7();
+				emu_sp += 2;
+				g_global->variable_8BEA[g_global->variable_7FBA].credits = emu_ax;
+			} else {
+				g_global->variable_8BEA[g_global->variable_7FBA].credits = oi->buildCredits;
+			}
+
+			g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = oi->variable_20;
+
+			g_global->variable_7FBA++;
+		}
+	} else {
+		uint16 i;
+
+		for (i = 0; i < STRUCTURE_MAX; i++) {
+			ObjectInfo *oi = &g_structureInfo[i].o;
+
+			if (oi->available == 0) continue;
+
+			g_global->variable_8BEA[g_global->variable_7FBA].objectInfo    = emu_Global_GetCSIP(oi);
+			g_global->variable_8BEA[g_global->variable_7FBA].objectType    = i;
+			g_global->variable_8BEA[g_global->variable_7FBA].credits       = oi->buildCredits;
+			g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = oi->variable_20;
+
+			if (i == 0 || i == 1) g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = 0x64;
+
+			g_global->variable_7FBA++;
+		}
+	}
+
+	if (g_global->variable_7FBA == 0) {
+		GUI_DisplayModalMessage("ERROR: No items in construction list!", 0xFFFF);
+		PrepareEnd();
+		exit(0);
+	}
+
+	emu_push(0x3495); emu_push(0x98);
+	emu_push(11);
+	emu_push(g_global->variable_7FBA);
+	emu_push(0x353F); emu_push(0x8BEA);
+	emu_push(emu_cs); emu_push(0x19A7); emu_cs = 0x01F7; f__01F7_325B_0026_C673();
+	emu_sp += 12;
+}
+
 static void GUI_FactoryWindow_Init()
 {
 	uint16 old6C91;
@@ -2744,7 +2824,7 @@ static void GUI_FactoryWindow_Init()
 
 	g_global->variable_7FA6 -= size;
 
-	emu_push(emu_cs); emu_push(0x13C2); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_17E6_002B_0A6D();
+	GUI_FactoryWindow_InitVar8BEA();
 
 	for (i = g_global->variable_7FBA; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
 
