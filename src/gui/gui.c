@@ -965,15 +965,11 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 
 	loc34 = 0;
 
-	emu_push(emu_ax);
-	emu_push(emu_dx);
 	emu_push(memory);
 	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Memory_GetBlock2();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = g_global->variable_4062[windowID][0] << 3;
-	emu_pop(&emu_dx);
-	emu_pop(&emu_ax);
 
 	buf = emu_get_memorycsip(memBlock);
 
@@ -2837,7 +2833,7 @@ static void GUI_FactoryWindow_Init()
 		emu_push(i);
 		emu_push(emu_cs); emu_push(0x13FA); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
 		emu_sp += 2;
-		loc12 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		loc12 = ((emu_dx | emu_ax) == 0) ? NULL : (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
 
 		if (loc12 == NULL) continue;
 
