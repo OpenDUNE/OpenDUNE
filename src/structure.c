@@ -1681,8 +1681,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					UnitInfo *ui;
 					Unit *u;
 
-					if (g_global->variable_8BEA[i].variable_0002 == 0) continue;
-					objectType = g_global->variable_8BEA[i].variable_0000;
+					if (g_global->variable_8BEA[i].amount == 0) continue;
+					objectType = g_global->variable_8BEA[i].objectType;
 
 					if (s->o.type != STRUCTURE_STARPORT) {
 						Structure_CancelBuild(s);
@@ -1729,8 +1729,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = -1;
 
-					g_global->variable_8BEA[i].variable_0002--;
-					if (g_global->variable_8BEA[i].variable_0002 != 0) i--;
+					g_global->variable_8BEA[i].amount--;
+					if (g_global->variable_8BEA[i].amount != 0) i--;
 				}
 			}
 		} else {

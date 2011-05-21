@@ -1217,10 +1217,10 @@ bool GUI_Production_ResumeGame_Click(Widget *w)
 		uint8 i = 0;
 		House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
 		while (g_global->variable_7FB6 != 0) {
-			if (g_global->variable_8BEA[i].variable_0002 != 0) {
-				h->credits += g_global->variable_8BEA[i].variable_0002 * g_global->variable_8BEA[i].variable_0003;
-				g_global->variable_7FB6 -= g_global->variable_8BEA[i].variable_0002;
-				g_global->variable_8BEA[i].variable_0002 = 0;
+			if (g_global->variable_8BEA[i].amount != 0) {
+				h->credits += g_global->variable_8BEA[i].amount * g_global->variable_8BEA[i].credits;
+				g_global->variable_7FB6 -= g_global->variable_8BEA[i].amount;
+				g_global->variable_8BEA[i].amount = 0;
 			}
 
 			i++;
@@ -1432,14 +1432,14 @@ static void GUI_Purchase_ShowInvoice()
 		for (i = 0; i < g_global->variable_7FBA; i++) {
 			ObjectInfo *oi;
 			uint16 amount;
-			if (g_global->variable_8BEA[i].variable_0002 == 0) continue;
+			if (g_global->variable_8BEA[i].amount == 0) continue;
 
-			amount = g_global->variable_8BEA[i].variable_0002 * g_global->variable_8BEA[i].variable_0003;
+			amount = g_global->variable_8BEA[i].amount * g_global->variable_8BEA[i].credits;
 			total += amount;
 
-			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->variable_8BEA[i].variable_0002, amount);
+			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->variable_8BEA[i].amount, amount);
 
-			oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[i].variable_0007);
+			oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[i].objectInfo);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
 			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
@@ -1561,10 +1561,10 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 		emu_push(emu_cs); emu_push(0x02CE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
 		emu_sp += 2;
 		loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
-		oi = (ObjectInfo *)emu_get_memorycsip(loc04->variable_0007);
+		oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
 
 		if (oi->available > 0) {
-			loc04->variable_0002 = 1;
+			loc04->amount = 1;
 			g_global->variable_7FC0 = 1;
 		}
 	}
@@ -1591,16 +1591,16 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
 	emu_sp += 2;
 	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
-	oi = (ObjectInfo *)emu_get_memorycsip(loc04->variable_0007);
+	oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
 
-	if (loc04->variable_0002 < oi->available && loc04->variable_0003 <= h->credits) {
-		loc04->variable_0002++;
+	if (loc04->amount < oi->available && loc04->credits <= h->credits) {
+		loc04->amount++;
 
 		emu_push(emu_cs); emu_push(0x044A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
 
 		g_global->variable_7FB6++;
 
-		h->credits -= loc04->variable_0003;
+		h->credits -= loc04->credits;
 
 		emu_push(0); emu_push(0);
 		emu_push(emu_cs); emu_push(0x0466); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
@@ -1627,14 +1627,14 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 	emu_sp += 2;
 	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
 
-	if (loc04->variable_0002 != 0) {
-		loc04->variable_0002--;
+	if (loc04->amount != 0) {
+		loc04->amount--;
 
 		emu_push(emu_cs); emu_push(0x04AE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
 
 		g_global->variable_7FB6--;
 
-		h->credits += loc04->variable_0003;
+		h->credits += loc04->credits;
 
 		emu_push(0); emu_push(0);
 		emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();

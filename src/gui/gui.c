@@ -2630,7 +2630,7 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 	uint16 i;
 	uint16 count = 0;
 	WidgetInfo *wi = (WidgetInfo *)&emu_get_memory8(0x2C34, 0x00, 0x00);
-	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_7FB2);
+	Widget *w = (Widget *)emu_get_memorycsip(g_global->factoryWindowWidgets);
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -2685,7 +2685,7 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 	uint8 fileID;
 
 	fileID = File_Open("GRAYRMAP.TBL", 1);
-	File_Read(fileID, emu_get_memorycsip(g_global->variable_7FAA), 256);
+	File_Read(fileID, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 256);
 	File_Close(fileID);
 
 	return 256;
@@ -2727,19 +2727,19 @@ static void GUI_FactoryWindow_Init()
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Memory_GetBlock1();
 	emu_sp += 2;
-	g_global->variable_7FB2.s.cs = emu_dx;
-	g_global->variable_7FB2.s.ip = emu_ax;
+	g_global->factoryWindowWidgets.s.cs = emu_dx;
+	g_global->factoryWindowWidgets.s.ip = emu_ax;
 
 	size = GUI_FactoryWindow_CreateWidgets();
 
 	g_global->variable_7FA6 -= size;
 
-	g_global->variable_7FAA = g_global->variable_7FB2;
-	g_global->variable_7FAA.csip += size;
+	g_global->factoryWindowGraymapTbl = g_global->factoryWindowWidgets;
+	g_global->factoryWindowGraymapTbl.csip += size;
 
 	size = GUI_FactoryWindow_LoadGraymapTbl();
 
-	g_global->variable_7FAE = g_global->variable_7FAA;
+	g_global->variable_7FAE = g_global->factoryWindowGraymapTbl;
 	g_global->variable_7FAE.csip += size;
 
 	g_global->variable_7FA6 -= size;
@@ -2758,9 +2758,9 @@ static void GUI_FactoryWindow_Init()
 
 		if (loc12 == NULL) continue;
 
-		oi = (ObjectInfo *)emu_get_memorycsip(loc12->variable_0007);
+		oi = (ObjectInfo *)emu_get_memorycsip(loc12->objectInfo);
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->variable_7FAA), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
@@ -2769,7 +2769,7 @@ static void GUI_FactoryWindow_Init()
 	g_global->variable_7FB8 = 0;
 	g_global->variable_7FBC = 0;
 
-	oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[0].variable_0007);
+	oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[0].objectInfo);
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;

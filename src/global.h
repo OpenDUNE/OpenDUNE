@@ -88,11 +88,11 @@ assert_compile(sizeof(struct_8BDE) == 0xA);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_8BEA {
-	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? */
-	/* 0002(1)   */ PACK int8   variable_0002;              /*!< ?? */
-	/* 0003(2)   */ PACK uint16 variable_0003;              /*!< ?? */
+	/* 0000(2)   */ PACK uint16 objectType;                 /*!< ?? */
+	/* 0002(1)   */ PACK int8   amount;                     /*!< ?? */
+	/* 0003(2)   */ PACK uint16 credits;                    /*!< ?? */
 	/* 0005(2)   */ PACK uint16 variable_0005;              /*!< ?? */
-	/* 0007(4)   */ PACK csip32 variable_0007;              /*!< ?? */
+	/* 0007(4)   */ PACK csip32 objectInfo;                 /*!< ?? */
 } GCC_PACKED struct_8BEA;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_8BEA) == 0xB);
@@ -1375,9 +1375,9 @@ typedef struct GlobalData {
 	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
 	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
-	/* 7FAA(4)   */ PACK csip32 variable_7FAA;              /*!< ?? */
+	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
 	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
-	/* 7FB2(4)   */ PACK csip32 variable_7FB2;              /*!< ?? */
+	/* 7FB2(4)   */ PACK csip32 factoryWindowWidgets;       /*!< ?? */
 	/* 7FB6(2)   */ PACK uint16 variable_7FB6;              /*!< ?? */
 	/* 7FB8(2)   */ PACK uint16 variable_7FB8;              /*!< ?? */
 	/* 7FBA(2)   */ PACK uint16 variable_7FBA;              /*!< ?? */
