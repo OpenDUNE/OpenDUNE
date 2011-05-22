@@ -329,29 +329,29 @@ void emu_GUI_DisplayHint()
  */
 void emu_GUI_Unknown_24D0_000D()
 {
-	int16 loc06;
-	int16 loc08;
-	int16 loc0A;
-	int16 loc0C;
-	int16 loc0E;
-	int16 loc10;
-	int16 loc12;
-	int16 loc14;
+	uint16 xSrc;
+	uint16 ySrc;
+	uint16 xDst;
+	uint16 yDst;
+	uint16 width;
+	uint16 height;
+	uint16 memBlockSrc;
+	uint16 memBlockDst;
 
-	/* Pop the return address from the stack. */
+	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	loc06 = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	loc08 = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	loc0A = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	loc0C = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	loc0E = emu_get_memory16(emu_ss, emu_sp, 0x8);
-	loc10 = emu_get_memory16(emu_ss, emu_sp, 0xA);
-	loc12 = emu_get_memory16(emu_ss, emu_sp, 0xC);
-	loc14 = emu_get_memory16(emu_ss, emu_sp, 0xE);
+	xSrc        = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	ySrc        = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	xDst        = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	yDst        = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	width       = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	height      = emu_get_memory16(emu_ss, emu_sp, 0xA);
+	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GUI_Unknown_24D0_000D(loc06, loc08, loc0A, loc0C, loc0E, loc10, loc12, loc14);
+	GUI_Unknown_24D0_000D(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
 }
 
 /**

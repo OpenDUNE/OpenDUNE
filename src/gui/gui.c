@@ -41,7 +41,6 @@ extern void emu_Tools_Var79E4_Init();
 extern void f__01F7_286D_0023_9A13();
 extern void f__01F7_325B_0026_C673();
 extern void f__22A6_04A5_000F_3B8F();
-extern void f__22A6_06D7_006B_B7D6();
 extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
@@ -2560,51 +2559,38 @@ void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom)
  * Gets triggered on mouse crossing edges of buttons, and lots of times while
  *  building something.
  */
-void GUI_Unknown_24D0_000D(int16 unknown06, int16 unknown08, int16 unknown0A, int16 unknown0C, int16 unknown0E, int16 unknown10, int16 unknown12, int16 unknown14)
+void GUI_Unknown_24D0_000D(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst)
 {
-	if (unknown0E > 40)  unknown0E = 40;
-	if (unknown10 > 200) unknown10 = 200;
+	if (width > 40)   width = 40;
+	if (height > 200) height = 200;
 
-	if (unknown06 < 0) {
-		unknown0A -= unknown06;
-		unknown0E += unknown06;
-		unknown06 = 0;
+	if (xSrc < 0) {
+		xDst -= xSrc;
+		width += xSrc;
+		xSrc = 0;
 	}
 
-	if (unknown06 >= 40 || unknown0A >= 40) return;
+	if (xSrc >= 40 || xDst >= 40) return;
 
-	if (unknown0A < 0) {
-		unknown06 -= unknown0A;
-		unknown0E += unknown0A;
-		unknown0A = 0;
+	if (xDst < 0) {
+		xSrc -= xDst;
+		width += xDst;
+		xDst = 0;
 	}
 
-	if (unknown08 < 0) {
-		unknown0C -= unknown08;
-		unknown10 += unknown08;
-		unknown08 = 0;
+	if (ySrc < 0) {
+		yDst -= ySrc;
+		height += ySrc;
+		ySrc = 0;
 	}
 
-	if (unknown0C < 0) {
-		unknown08 -= unknown0C;
-		unknown10 += unknown0C;
-		unknown0C = 0x0;
+	if (yDst < 0) {
+		ySrc -= yDst;
+		height += yDst;
+		yDst = 0;
 	}
 
-	emu_push(unknown14);
-	emu_push(unknown12);
-	emu_push(unknown10);
-	emu_push(unknown0E);
-	emu_push(unknown0C);
-	emu_push(unknown0A);
-	emu_push(unknown08);
-	emu_push(unknown06);
-
-	emu_ip = g_global->variable_663C.s.ip;
-	emu_push(emu_cs);
-	emu_cs = g_global->variable_663C.s.cs;
-	emu_push(0x009D); f__22A6_06D7_006B_B7D6();
-	emu_sp += 0x10;
+	GFX_22A6_06D7(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
 }
 
 static uint32 GUI_FactoryWindow_CreateWidgets()

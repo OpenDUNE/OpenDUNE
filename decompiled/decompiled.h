@@ -225,7 +225,6 @@ extern void f__AB00_06A2_003A_A0A5();
 extern void f__217E_06B6_0014_B057();
 extern void emu_Device_Get_Info();
 extern void f__01F7_06D1_004A_EF77();
-extern void f__22A6_06D7_006B_B7D6();
 extern void f__217E_06E9_0041_701D();
 extern void f__AB01_0709_0001_6780();
 extern void f__AB01_0713_0023_9473();

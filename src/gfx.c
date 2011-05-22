@@ -216,7 +216,7 @@ void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 	}
 
 	if (ySrc >= SCREEN_HEIGHT) return;
-	if (xSrc < 0) {
+	if (ySrc < 0) {
 		yDst += ySrc;
 		height += ySrc;
 		ySrc = 0;
@@ -263,6 +263,58 @@ void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 		} else {
 			memcpy(dst, src, width);
 		}
+		dst += SCREEN_WIDTH;
+		src += SCREEN_WIDTH;
+	}
+}
+
+/**
+ * ??.
+ * @param xSrc The X-coordinate on the source.
+ * @param ySrc The Y-coordinate on the source.
+ * @param xDst The X-coordinate on the destination.
+ * @param yDst The Y-coordinate on the destination.
+ * @param width The width.
+ * @param height The height.
+ * @param memBlockSrc The ID of the source memory block.
+ * @param memBlockDst The ID of the destination memory block.
+ * @param skipNull Wether to skip NULL bytes.
+ */
+void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst)
+{
+	uint8 *src;
+	uint8 *dst;
+
+	if (xSrc >= 40) return;
+	if (xSrc < 0) xSrc = 0;
+	xSrc *= 8;
+
+	if (ySrc >= SCREEN_HEIGHT) return;
+	if (ySrc < 0) ySrc = 0;
+
+	if (xDst >= 40) return;
+	if (xDst < 0) xDst = 0;
+	xDst *= 8;
+
+	if ((yDst + height) > SCREEN_HEIGHT) {
+		height = SCREEN_HEIGHT - 1 - yDst;
+	}
+	if (height < 0) return;
+
+	if (yDst >= SCREEN_HEIGHT) return;
+	if (yDst < 0) yDst = 0;
+
+	src = &emu_get_memory8(Unknown_22A6_0E22(memBlockSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(Unknown_22A6_0E22(memBlockDst), 0x0, 0x0);
+
+	src += xSrc + ySrc * SCREEN_WIDTH;
+	dst += xDst + yDst * SCREEN_WIDTH;
+
+	if (width > 40 || width < 1) return;
+	width *= 8;
+
+	while (height-- != 0) {
+		memcpy(dst, src, width);
 		dst += SCREEN_WIDTH;
 		src += SCREEN_WIDTH;
 	}

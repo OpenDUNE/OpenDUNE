@@ -16,6 +16,7 @@ extern uint16 GFX_GetScreenSegment();
 extern uint16 Unknown_22A6_0E1A(uint16 memoryBlockID);
 extern uint16 Unknown_22A6_0E22(uint16 memoryBlockID);
 extern void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull);
+extern void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst);
 extern void GFX_ClearScreen();
 
 extern void emu_GFX_GetScreenSegment();
