@@ -2593,7 +2593,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 			emu_push(emu_cs); emu_push(0x022F); emu_cs = 0x23E1; emu_Tools_Malloc();
 			emu_sp += 6;
 
-			g_global->variable_6C93[i][0] = emu_ax;
+			g_global->variable_6C93[i][0] = emu_dx;
 			g_global->variable_6C93[i][1] = emu_dx;
 		}
 	}
