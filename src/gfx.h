@@ -18,11 +18,14 @@ extern uint16 Unknown_22A6_0E22(uint16 memoryBlockID);
 extern void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull);
 extern void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst);
 extern void GFX_ClearScreen();
+extern void GFX_SetPalette(uint8 *palette);
 
 extern void emu_GFX_GetScreenSegment();
 extern void emu_Unknown_22A6_0E1A();
 extern void emu_Unknown_22A6_0E22();
 extern void emu_GFX_PutPixel();
 extern void emu_GFX_22A6_034F();
+extern void emu_GFX_SetPalette();
+extern void emu_GFX_SetPalette2();
 
 #endif /* GFX_H */

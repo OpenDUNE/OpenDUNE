@@ -30,7 +30,6 @@
 extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_GUI_CopyFromBuffer();
-extern void f__259E_0040_0015_5E4A();
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
@@ -707,18 +706,14 @@ static void ShadeScreen()
 		memmove(g3C32 + (loc1A[i] * 3), g998A + (loc1A[i] * 3), 3);
 	}
 
-	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-	emu_push(emu_cs); emu_push(0x0ED9); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
 }
 
 static void UnshadeScreen()
 {
 	memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 0x300);
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x0E12); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 }
 
 static bool GUI_YesNo(uint16 stringID)

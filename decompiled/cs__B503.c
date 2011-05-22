@@ -2097,7 +2097,7 @@ l__13A5:
 	emu_push(emu_ax);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C34));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x3C32));
-	emu_push(emu_cs); emu_push(0x13BD); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
+	emu_push(emu_cs); emu_push(0x13BD); emu_cs = 0x2BA5; emu_GFX_SetPalette();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3503) { overlay(0x3503, 1); }
 l__13BD:

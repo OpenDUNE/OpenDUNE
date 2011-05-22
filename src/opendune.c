@@ -51,7 +51,6 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
 extern void f__24FD_000A_000B_2043();
-extern void f__259E_0040_0015_5E4A();
 extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
 extern void f__2649_0053_001D_FEB5();
@@ -64,7 +63,6 @@ extern void f__29E8_0F7A_000D_B1AA();
 extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
-extern void f__2BA5_0006_009C_A3D1();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2C17_000C_002F_3016();
 extern void f__B488_0000_0027_45A9();
@@ -513,11 +511,7 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 
 	memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
-	emu_push(221);
-	emu_push(125);
-	emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-	emu_push(emu_cs); emu_push(0x0BC6); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
-	emu_sp += 8;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
 
 	return g_global->variable_80AE;
 }
@@ -1026,9 +1020,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 3:
-				emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip + 0x300 * g_global->variable_1838);
-				emu_push(emu_cs); emu_push(0x058B); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-				emu_sp += 4;
+				GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32) + 0x300 * g_global->variable_1838);
 
 				if (g_global->variable_1838-- == 0) {
 					g_global->variable_1836++;
@@ -1037,9 +1029,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 5:
-				emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip + 0x300 * g_global->variable_1838);
-				emu_push(emu_cs); emu_push(0x05D3); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-				emu_sp += 4;
+				GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32) + 0x300 * g_global->variable_1838);
 
 				if (g_global->variable_1838++ >= 8) g_global->variable_1836 = 0;
 				break;
@@ -1256,9 +1246,7 @@ static void GameLoop_GameCredits()
 
 	g_global->variable_6C6C = 0xFFFF;
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x09B7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	while (true) {
 		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), g_global->variable_6CD3[3][0]);
@@ -1433,10 +1421,7 @@ static void Gameloop_Logos()
 
 	old_6C91 = Unknown_Set_Global_6C91(0);
 
-	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-	emu_push(emu_cs); emu_push(0x00AE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
-
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 	GFX_ClearScreen();
 
 	File_ReadBlockFile("WESTWOOD.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
@@ -1916,13 +1901,8 @@ static void Gameloop_IntroMenu()
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x1852); Interrupt_Video();
 	emu_pop(&emu_es);
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x1860); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-	emu_push(emu_cs); emu_push(0x186F); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
 	emu_push(0);
 	emu_push(0); emu_push(0x100);
@@ -2140,9 +2120,7 @@ static void Gameloop_IntroMenu()
 					emu_push(emu_cs); emu_push(0x1DFF); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0558_0010_240A();
 					emu_sp += 2;
 
-					emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-					emu_push(emu_cs); emu_push(0x1E0D); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-					emu_sp += 4;
+					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
 					hasFame = File_Exists("SAVEFAME.DAT");
 					loc06 = true;
@@ -2157,9 +2135,7 @@ static void Gameloop_IntroMenu()
 
 					emu_push(emu_cs); emu_push(0x1D95); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-					emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-					emu_push(emu_cs); emu_push(0x1DA2); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-					emu_sp += 4;
+					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 					if (GUI_Widget_SaveLoad_Click(false)) {
 						loc02 = true;
@@ -2169,9 +2145,7 @@ static void Gameloop_IntroMenu()
 
 						Sprites_Load(0, 7, g_sprites);
 					} else {
-						emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-						emu_push(emu_cs); emu_push(0x1DED); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-						emu_sp += 4;
+						GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
 						loc06 = true;
 					}
@@ -2316,9 +2290,7 @@ static void Gameloop_IntroMenu()
 		GUI_ChangeSelectionType((g_global->debugScenario != 0) ? 5 : 4);
 	}
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x2279); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	return;
 }
@@ -2713,30 +2685,20 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 		case 5:
 			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6DA2, 16);
 
-			emu_push(16);
-			emu_push(0);
-			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-			emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
-			emu_sp += 8;
+			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
 			break;
 
 		case 2:
 			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6D92, 16);
 
-			emu_push(16);
-			emu_push(0);
-			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-			emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x2BA5; f__2BA5_0006_009C_A3D1();
-			emu_sp += 8;
+			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
 			break;
 
 		case 3:
 		case 4:
 			memset(&emu_get_memorycsip(g_global->variable_998A)[45], 63, 3);
 
-			emu_push(g_global->variable_998A.s.cs); emu_push(g_global->variable_998A.s.ip);
-			emu_push(emu_cs); emu_push(0x03C4); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-			emu_sp += 4;
+			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
 			break;
 
 		default: break;

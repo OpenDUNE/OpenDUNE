@@ -5,6 +5,7 @@
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
+#include "global.h"
 #include "gfx.h"
 
 /**
@@ -103,4 +104,47 @@ void emu_GFX_22A6_034F()
 	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
 	GFX_22A6_034F(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst, false);
+}
+
+/**
+ * Emulator wrapper around GFX_SetPalette().
+ *
+ * @name emu_GFX_SetPalette
+ * @implements 2BA5:0006:009C:A3D1 ()
+ */
+void emu_GFX_SetPalette()
+{
+	csip32 pcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	pcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+	/* Two more parameters are send, but never used. */
+
+	if (pcsip.csip == 0x0) return;
+
+	GFX_SetPalette(emu_get_memorycsip(pcsip));
+}
+
+/**
+ * Emulator wrapper around GFX_SetPalette().
+ *
+ * @name emu_GFX_SetPalette2
+ * @implements 259E:0040:0015:5E4A ()
+ */
+void emu_GFX_SetPalette2()
+{
+	csip32 pcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	pcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	if (pcsip.csip == 0x0) return;
+
+	GFX_SetPalette(emu_get_memorycsip(pcsip));
 }

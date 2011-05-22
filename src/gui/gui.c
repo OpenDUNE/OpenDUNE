@@ -47,7 +47,6 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void f__24FD_000A_000B_2043();
-extern void f__259E_0040_0015_5E4A();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
@@ -590,9 +589,7 @@ void GUI_PaletteAnimate()
 
 		memcpy(palette + 3 * 239, palette + 3 * colour, 3);
 
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x05C7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-		emu_sp += 4;
+		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 		g_global->variable_31D2 = (g_global->variable_31D2 == 0) ? 1 : 0;
 		g_global->variable_31CE = g_global->variable_76AC + 60;
@@ -619,9 +616,7 @@ void GUI_PaletteAnimate()
 			}
 		}
 
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x06BE); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-		emu_sp += 4;
+		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 		g_global->variable_31CA = g_global->variable_76AC + 3;
 	}
@@ -637,9 +632,7 @@ void GUI_PaletteAnimate()
 			}
 		}
 
-		emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-		emu_push(emu_cs); emu_push(0x073F); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-		emu_sp += 4;
+		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 		g_global->variable_31C6 = g_global->variable_76AC + 5;
 	}
@@ -776,9 +769,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_DrawText(g_global->variable_87D8, g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF);
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x046E); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	emu_push(emu_cs); emu_push(0x0475); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2912,9 +2903,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 	memcpy(backup, emu_get_memorycsip(g_global->variable_3C32) + 765, 3);
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x00ED); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	/* Visible credits have to be reset, as it might not be the real value */
 	g_global->playerCredits = 0xFFFF;
@@ -3223,9 +3212,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	emu_push(emu_cs); emu_push(0x056B); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x0578); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-	emu_sp += 4;
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	emu_sp += 0x300;
 

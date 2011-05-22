@@ -6,9 +6,8 @@
 #include "../global.h"
 #include "../os/sleep.h"
 #include "../os/math.h"
+#include "../gfx.h"
 #include "unknown.h"
-
-extern void f__259E_0040_0015_5E4A();
 
 void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 {
@@ -21,39 +20,19 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 	uint16 loc12;
 
 	uint8 *ptr2data; /* Local pointer for ptr2 */
-	uint8 *data;
-	uint16 base;
+	uint8 data[768];
 
 	int i;
 
 	uint8 *ptr1 = g_global->variable_70A2;
 	ptr2data = emu_get_memorycsip(ptr2);
 
-	/* Code below does the equivalent of
-	 * uint8 data[0x300]
-	 * except the array must be at the emulated stack to make it available for sub-functions.
-	 *
-	 * When removing it, don't forget to also remove the 'emu_sp += 0x300;' before every
-	 * exit of this function.
-	 */
-	emu_sp -= 0x300;
-	base = emu_sp;
-	data = &emu_get_memory8(emu_ss, base, 0x0);
-
-	if (ptr1 == NULL || ptr2.csip == 0x0) {
-		emu_sp += 0x300;
-		return;
-	}
+	if (ptr1 == NULL || ptr2.csip == 0x0) return;
 
 	memcpy(data, ptr1, 0x300);
 
 	if (g_global->variable_6C76 != 0x3) {
-		emu_push(ptr2.s.cs);
-		emu_push(ptr2.s.ip);
-		emu_push(emu_cs); emu_push(0x00F6); f__259E_0040_0015_5E4A();
-		emu_sp += 4;
-
-		emu_sp += 0x300;
+		GFX_SetPalette(ptr2data);
 		return;
 	}
 
@@ -104,15 +83,11 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 		}
 
 		if (progress != 0x0) {
-			emu_push(emu_ss); emu_push(base);
-			emu_push(emu_cs); emu_push(0x0228); f__259E_0040_0015_5E4A();
-			emu_sp += 4;
+			GFX_SetPalette(data);
 
 			while (g_global->variable_76A8 < loc0C) sleep(0); /* Spin-lock */
 		}
 	} while (progress != 0);
-
-	emu_sp += 0x300;
 }
 
 /**

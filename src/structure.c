@@ -8,6 +8,7 @@
 #include "libemu.h"
 #include "global.h"
 #include "animation.h"
+#include "gfx.h"
 #include "gui/gui.h"
 #include "house.h"
 #include "pool/pool.h"
@@ -28,7 +29,7 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void f__259E_0040_0015_5E4A();
+extern void emu_GFX_SetPalette2();
 
 StructureInfo *g_structureInfo = NULL;
 
@@ -1659,9 +1660,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_LoadTiles();
 
-			emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-			emu_push(emu_cs); emu_push(0x17E7); emu_cs = 0x259E; f__259E_0040_0015_5E4A();
-			emu_sp += 4;
+			GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 			Sprites_Load(0, 7, g_sprites);
 

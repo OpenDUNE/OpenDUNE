@@ -329,3 +329,21 @@ void GFX_ClearScreen()
 
 	memset(screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
+
+/**
+ * Set a new palette for the screen.
+ * @param palette The palette in RGB order.
+ */
+void GFX_SetPalette(uint8 *palette)
+{
+	uint8 *dest = g_global->variable_70A2;
+	int i;
+
+	/* Set DAC write-index to 0 */
+	emu_outb(0x3C8, 0);
+
+	for (i = 0; i < 768; i++) {
+		emu_outb(0x3C9, *palette);
+		*dest++ = *palette++;
+	}
+}
