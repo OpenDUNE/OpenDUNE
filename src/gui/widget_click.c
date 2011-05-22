@@ -581,7 +581,7 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	emu_push(emu_cs); emu_push(0x0EF4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	emu_push(emu_dx); emu_push(emu_ax);
 	emu_push(g_global->variable_9931);
@@ -601,7 +601,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0F41); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0F41); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	emu_push(emu_dx); emu_push(emu_ax);
 	emu_push(g_global->variable_9931);
@@ -867,7 +867,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	if (g_global->variable_38D6.csip != 0) {
 		emu_push(0); emu_push(0xFA00);
 		emu_push(0);
-		emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		/* Unresolved jump */ emu_ip = 0x02CC; emu_last_cs = 0xB4F2; emu_last_ip = 0x02CC; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();

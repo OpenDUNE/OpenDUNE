@@ -42,7 +42,7 @@ l__0004:
 	if (emu_ax != 0x3) goto l__003D;
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x6C91);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x252E; emu_Memory_GetBlock2();
+	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_2();
 l__0023:
 	emu_pop(&emu_ax);
 	emu_es = emu_dx;

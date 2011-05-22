@@ -33,7 +33,7 @@ void emu_Unknown_22A6_0E1A()
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = GFX_Screen_GetSegmentByID2(emu_ax);
+	emu_ax = GFX_Screen_GetSegment_ByIndex2(emu_ax);
 }
 
 /**
@@ -47,7 +47,7 @@ void emu_Unknown_22A6_0E22()
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = GFX_Screen_GetSegmentByID(emu_ax);
+	emu_ax = GFX_Screen_GetSegment_ByIndex(emu_ax);
 }
 
 /**

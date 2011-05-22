@@ -72,7 +72,7 @@ bool Security_Check()
 	}
 
 	emu_push(3);
-	emu_push(emu_cs); emu_push(0x10E4); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x10E4); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 	emu_sp += 2;

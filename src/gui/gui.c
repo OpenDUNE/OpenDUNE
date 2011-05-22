@@ -955,7 +955,7 @@ void GUI_DrawSprite(uint16 screenID, csip32 sprite_csip, int16 posX, int16 posY,
 	loc34 = 0;
 
 	emu_push(screenID);
-	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Memory_GetBlock2();
+	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_2();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = g_global->variable_4062[windowID][0] << 3;
@@ -2786,7 +2786,7 @@ static void GUI_FactoryWindow_Init()
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	g_global->factoryWindowWidgets.s.cs = emu_dx;
 	g_global->factoryWindowWidgets.s.ip = emu_ax;

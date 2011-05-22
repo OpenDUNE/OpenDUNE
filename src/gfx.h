@@ -13,8 +13,8 @@ extern void GFX_Init_Sprites(uint16 memoryBlockID, void *iconRPAL, void *iconRTB
 extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
 extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);
 extern uint16 GFX_Screen_GetSegementActive();
-extern uint16 GFX_Screen_GetSegmentByID2(uint16 memoryBlockID);
-extern uint16 GFX_Screen_GetSegmentByID(uint16 memoryBlockID);
+extern uint16 GFX_Screen_GetSegment_ByIndex2(uint16 memoryBlockID);
+extern uint16 GFX_Screen_GetSegment_ByIndex(uint16 memoryBlockID);
 extern void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull);
 extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst);
 extern void GFX_ClearScreen();

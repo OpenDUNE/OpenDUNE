@@ -9,10 +9,10 @@
 /**
  * C-ified function of f__252E_0001_0018_08B3().
  *
- * @name emu_Memory_GetBlock1
+ * @name emu_Screen_GetSegment_ByIndex_1
  * @implements 252E:0001:0018:08B3 ()
  */
-void emu_Memory_GetBlock1()
+void emu_Screen_GetSegment_ByIndex_1()
 {
 	uint16 index;
 
@@ -30,10 +30,10 @@ void emu_Memory_GetBlock1()
 /**
  * C-ified function of f__252E_001B_0018_EA2C().
  *
- * @name emu_Memory_GetBlock2
+ * @name emu_Screen_GetSegment_ByIndex_2
  * @implements 252E:001B:0018:EA2C ()
  */
-void emu_Memory_GetBlock2()
+void emu_Screen_GetSegment_ByIndex_2()
 {
 	uint16 index;
 

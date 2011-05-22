@@ -150,7 +150,7 @@ l__0AEF:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6CDF));
 	emu_ax = 0x3;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0B1F); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0B1F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__0B1F:

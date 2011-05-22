@@ -34,7 +34,7 @@ l__004F:
 	emu_push(emu_di);
 	emu_cld();
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
-	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 l__0063:
 	emu_addw(&emu_sp, 0x2);
 	emu_es = emu_dx;

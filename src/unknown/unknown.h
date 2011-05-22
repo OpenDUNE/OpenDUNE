@@ -15,8 +15,8 @@ extern void emu_Unknown_07D4_02F8();
 extern void emu_Unknown_07D4_159A();
 extern void Unknown_07D4_1625(uint16 packed);
 
-extern void emu_Memory_GetBlock1();
-extern void emu_Memory_GetBlock2();
+extern void emu_Screen_GetSegment_ByIndex_1();
+extern void emu_Screen_GetSegment_ByIndex_2();
 
 extern void emu_Unknown_259E_0006();
 extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);

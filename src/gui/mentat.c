@@ -336,7 +336,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 		null.csip = 0x0;
 
 		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		emu_sp += 2;
 
 		memBlock.s.cs = emu_dx;
@@ -492,7 +492,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 		null.csip = 0x0;
 
 		emu_push(0x5);
-		emu_push(emu_cs); emu_push(0x027D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x027D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		emu_sp += 2;
 		memBlock.s.cs = emu_dx;
 		memBlock.s.ip = emu_ax;
@@ -918,7 +918,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 		csip32 csip_widget;
 
 		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0BEE); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x0BEE); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		emu_sp += 2;
 		csip_widget.s.cs = emu_dx;
 		csip_widget.s.ip = emu_ax;

@@ -311,7 +311,7 @@ static void Memory_ClearBlock(uint16 index)
 	uint8 *memory;
 
 	emu_push(index);
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
@@ -561,7 +561,7 @@ static void GameLoop_B4ED_0200()
 				GUI_ClearScreen(3);
 
 				emu_push(5);
-				emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x252E; emu_Memory_GetBlock1();
+				emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 				emu_sp += 2;
 				header_csip.s.cs = emu_dx;
 				header_csip.s.ip = emu_ax;
@@ -570,7 +570,7 @@ static void GameLoop_B4ED_0200()
 				loc20 = 0x0;
 			} else {
 				emu_push(3);
-				emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x252E; emu_Memory_GetBlock1();
+				emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 				emu_sp += 2;
 				header_csip.s.cs = emu_dx;
 				header_csip.s.ip = emu_ax;
@@ -1089,7 +1089,7 @@ static void GameCredits_LoadPaletteAndSprites()
 	uint16 locdi;
 
 	emu_push(7);
-	emu_push(emu_cs); emu_push(0x0A52); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0A52); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	g_global->variable_182E.s.cs = emu_dx;
 	g_global->variable_182E.s.ip = emu_ax;
@@ -1100,7 +1100,7 @@ static void GameCredits_LoadPaletteAndSprites()
 	g_global->variable_1832.s.ip += size;
 
 	emu_push(9);
-	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	g_global->variable_3C46.s.cs = emu_dx;
 	g_global->variable_3C46.s.ip = emu_ax;
@@ -1131,7 +1131,7 @@ static void GameCredits_LoadPaletteAndSprites()
 	memset(emu_get_memorycsip(g_global->variable_3C36), 0, 0x300);
 
 	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0B89); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0B89); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
@@ -1185,7 +1185,7 @@ static void GameLoop_GameCredits()
 	Music_Play(33);
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x08B5); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x08B5); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
@@ -1424,7 +1424,7 @@ static void Gameloop_Logos()
 		null.csip = 0x0;
 
 		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		emu_sp += 2;
 		memBlock.s.cs = emu_dx;
 		memBlock.s.ip = emu_ax;
@@ -1968,7 +1968,7 @@ static void Gameloop_IntroMenu()
 	GameOptions_Load();
 
 	emu_push(9);
-	emu_push(emu_cs); emu_push(0x1A48); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x1A48); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	csip.s.cs = emu_dx;
 	csip.s.ip = emu_ax;

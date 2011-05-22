@@ -97,7 +97,7 @@ l__0585:
 l__058B:
 	emu_ax = 0x5;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0594); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0594); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0594:

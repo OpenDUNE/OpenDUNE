@@ -103,7 +103,7 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 	uint16 i;
 
 	emu_push(memory);
-	emu_push(emu_cs); emu_push(0x0A4C); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0A4C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
@@ -265,13 +265,13 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 	uint16 tileCount = 0;
 
 	emu_push(memory2);
-	emu_push(emu_cs); emu_push(0x001A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x001A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock2.s.cs = emu_dx;
 	memBlock2.s.ip = emu_ax;
 
 	emu_push(memory1);
-	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock1.s.cs = emu_dx;
 	memBlock1.s.ip = emu_ax;
@@ -407,7 +407,7 @@ void Sprites_LoadTiles()
 	g_global->iconLoaded = 1;
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0D42); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0D42); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;
@@ -482,7 +482,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	uint16 paletteSize;
 
 	emu_push(memory1);
-	emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock1.s.cs = emu_dx;
 	memBlock1.s.ip = emu_ax;
@@ -520,7 +520,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	File_Close(index);
 
 	emu_push(memory2);
-	emu_push(emu_cs); emu_push(0x0221); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x0221); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock2.s.cs = emu_dx;
 	memBlock2.s.ip = emu_ax;
@@ -713,7 +713,7 @@ void Sprites_CPS_LoadRegionClick()
 	uint8 i;
 
 	emu_push(5);
-	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Memory_GetBlock1();
+	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
 	memBlock.s.ip = emu_ax;

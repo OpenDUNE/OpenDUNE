@@ -38,7 +38,7 @@ uint16 GFX_Screen_GetSegementActive()
  * @param screenID The screenID to get the segment of.
  * @return Some codesegment value.
  */
-uint16 GFX_Screen_GetSegmentByID2(uint16 screenID)
+uint16 GFX_Screen_GetSegment_ByIndex2(uint16 screenID)
 {
 	uint16 *ptr;
 
@@ -53,7 +53,7 @@ uint16 GFX_Screen_GetSegmentByID2(uint16 screenID)
  * @param screenID The screenID to get the segment of.
  * @return Some codesegment value.
  */
-uint16 GFX_Screen_GetSegmentByID(uint16 screenID)
+uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID)
 {
 	uint16 *ptr;
 
@@ -133,7 +133,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
  */
 void GFX_Init_Sprites(uint16 screenID, void *iconRPAL, void *iconRTBL)
 {
-	g_spriteInfo = &emu_get_memory8(GFX_Screen_GetSegmentByID2(screenID), 0, 0);
+	g_spriteInfo = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex2(screenID), 0, 0);
 
 	g_iconRPAL = iconRPAL;
 	g_iconRTBL = iconRTBL;
@@ -250,8 +250,8 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	if (width < 0 || width >= SCREEN_WIDTH) return;
 	if (height < 0 || height >= SCREEN_HEIGHT) return;
 
-	src = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenDst), 0x0, 0x0);
+	src = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenDst), 0x0, 0x0);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
@@ -305,8 +305,8 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	if (yDst >= SCREEN_HEIGHT) return;
 	if (yDst < 0) yDst = 0;
 
-	src = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenDst), 0x0, 0x0);
+	src = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenDst), 0x0, 0x0);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;

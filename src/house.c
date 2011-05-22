@@ -495,7 +495,7 @@ bool House_UpdateRadarState(House *h)
 		null.csip = 0x0;
 
 		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Memory_GetBlock1();
+		emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 		emu_sp += 2;
 		memBlock.s.cs = emu_dx;
 		memBlock.s.ip = emu_ax;
