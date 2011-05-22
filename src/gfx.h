@@ -26,6 +26,5 @@ extern void emu_Unknown_22A6_0E22();
 extern void emu_GFX_PutPixel();
 extern void emu_GFX_22A6_034F();
 extern void emu_GFX_SetPalette();
-extern void emu_GFX_SetPalette2();
 
 #endif /* GFX_H */

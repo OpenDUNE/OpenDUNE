@@ -127,24 +127,3 @@ void emu_GFX_SetPalette()
 
 	GFX_SetPalette(emu_get_memorycsip(pcsip));
 }
-
-/**
- * Emulator wrapper around GFX_SetPalette().
- *
- * @name emu_GFX_SetPalette2
- * @implements 259E:0040:0015:5E4A ()
- */
-void emu_GFX_SetPalette2()
-{
-	csip32 pcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	pcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (pcsip.csip == 0x0) return;
-
-	GFX_SetPalette(emu_get_memorycsip(pcsip));
-}

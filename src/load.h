@@ -6,7 +6,4 @@
 extern bool LoadFile(char *filename);
 extern void Load_Palette_Mercenaries();
 
-
-extern void emu_Load_Palette_Mercenaries();
-
 #endif /* LOAD_H */
