@@ -1464,33 +1464,6 @@ l__058B:
 }
 
 /**
- * Decompiled function f__01F7_05CF_0015_0AD7()
- *
- * @name f__01F7_05CF_0015_0AD7
- * @implements 01F7:05CF:0015:0AD7 ()
- *
- * Called From: 2649:0141:0049:FCE0
- */
-void f__01F7_05CF_0015_0AD7()
-{
-l__05CF:
-	emu_cmpb(&emu_cl, 0x10);
-	if (emu_cl >= 0x10) { /* Unresolved jump */ emu_ip = 0x05E4; emu_last_cs = 0x01F7; emu_last_ip = 0x05D2; emu_last_length = 0x0015; emu_last_crc = 0x0AD7; emu_call(); return; }
-	emu_bx = emu_dx;
-	emu_shrw(&emu_ax, emu_cl);
-	emu_shrw(&emu_dx, emu_cl);
-	emu_negb(&emu_cl, emu_cl);
-	emu_addb(&emu_cl, 0x10);
-	emu_shlw(&emu_bx, emu_cl);
-	emu_orw(&emu_ax, emu_bx);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Tools_AddCSIP_Wrapper()
  *
  * @name emu_Tools_AddCSIP_Wrapper

@@ -185,7 +185,7 @@ l__012D:
 	emu_addw(&emu_ax, 0x3FF);
 	emu_adcw(&emu_dx, 0x0);
 	emu_cl = 0xA;
-	emu_push(emu_cs); emu_push(0x0146); emu_cs = 0x01F7; f__01F7_05CF_0015_0AD7();
+	emu_push(emu_cs); emu_push(0x0146); emu_cs = 0x01F7; emu_Tools_UShrd();
 l__0146:
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_ax;
