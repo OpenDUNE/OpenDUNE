@@ -66,7 +66,7 @@ l__089A:
 	emu_push(emu_di);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7FBC));
 	emu_push(emu_cs);
-	emu_push(0x08AB); f__B495_1230_001B_A160();
+	emu_push(0x08AB); emu_GUI_FactoryWindow_GetStruct8BEA();
 l__08AB:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_dx;
@@ -581,7 +581,7 @@ l__0C1D:
 l__0C23:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7FBC));
 	emu_push(emu_cs);
-	emu_push(0x0C2C); f__B495_1230_001B_A160();
+	emu_push(0x0C2C); emu_GUI_FactoryWindow_GetStruct8BEA();
 l__0C2C:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -790,7 +790,7 @@ l__0D3E:
 	emu_subw(&emu_sp, 0x4);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7FBC));
 	emu_push(emu_cs);
-	emu_push(0x0D4D); f__B495_1230_001B_A160();
+	emu_push(0x0D4D); emu_GUI_FactoryWindow_GetStruct8BEA();
 l__0D4D:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -1137,7 +1137,7 @@ l__0FB1:
 	emu_ax = 0xFFFF;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0FBA); f__B495_1230_001B_A160();
+	emu_push(0x0FBA); emu_GUI_FactoryWindow_GetStruct8BEA();
 l__0FBA:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -1230,7 +1230,7 @@ l__1077:
 	emu_ax = 0x4;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x1080); f__B495_1230_001B_A160();
+	emu_push(0x1080); emu_GUI_FactoryWindow_GetStruct8BEA();
 l__1080:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_dx;
@@ -1321,61 +1321,6 @@ l__1139:
 	emu_addw(&emu_sp, 0x10);
 l__113C:
 	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__B495_1230_001B_A160()
- *
- * @name f__B495_1230_001B_A160
- * @implements B495:1230:001B:A160 ()
- * @implements B495:1245:0006:25A9
- * @implements B495:1249:0002:C73A
- * @implements B495:124B:000E:7B97
- * @implements B495:1259:0002:2597
- *
- * Called From: B495:02CB:0009:351E
- * Called From: B495:0401:000C:3C25
- * Called From: B495:048E:000C:FD89
- * Called From: B495:08A8:0011:B26C
- * Called From: B495:0C29:0009:B187
- * Called From: B495:0D4A:000F:31B8
- * Called From: B495:0FB7:0009:C63E
- * Called From: B495:107D:000C:3159
- * Called From: B495:107D:0009:BD71
- * Called From: B495:13F7:0005:00BD
- */
-void f__B495_1230_001B_A160()
-{
-l__1230:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7FB8);
-	emu_addw(&emu_ax, emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_bx = emu_ax;
-	emu_orw(&emu_bx, emu_bx);
-	if (!(emu_flags.sf != emu_flags.of)) {
-		emu_cmpw(&emu_bx, emu_get_memory16(emu_ds, 0x00, 0x7FBA));
-		if ((int16)emu_bx < (int16)emu_get_memory16(emu_ds, 0x00, 0x7FBA)) goto l__124B;
-	}
-l__1245:
-	emu_xorw(&emu_dx, emu_dx);
-	emu_xorw(&emu_ax, emu_ax);
-l__1249:
-	goto l__1259;
-l__124B:
-	emu_ax = emu_bx;
-	emu_dx = 0xB;
-	emu_imuluw(&emu_ax, emu_dx);
-	emu_dx = emu_ds;
-	emu_addw(&emu_ax, 0x8BEA);
-	goto l__1249;
-l__1259:
 	emu_pop(&emu_bp);
 
 	/* Return from this function */

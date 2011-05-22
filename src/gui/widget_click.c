@@ -43,7 +43,6 @@ extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
-extern void f__B495_1230_001B_A160();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -1557,10 +1556,7 @@ bool GUI_Production_BuildThis_Click(Widget *w)
 		struct_8BEA *loc04;
 		ObjectInfo *oi;
 
-		emu_push(g_global->variable_7FBC);
-		emu_push(emu_cs); emu_push(0x02CE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
-		emu_sp += 2;
-		loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
 		oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
 
 		if (oi->available > 0) {
@@ -1587,10 +1583,7 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 
 	GUI_Widget_MakeNormal(w, false);
 
-	emu_push(g_global->variable_7FBC);
-	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
-	emu_sp += 2;
-	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+	loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
 	oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
 
 	if (loc04->amount < oi->available && loc04->credits <= h->credits) {
@@ -1622,10 +1615,7 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 
 	GUI_Widget_MakeNormal(w, false);
 
-	emu_push(g_global->variable_7FBC);
-	emu_push(emu_cs); emu_push(0x0491); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
-	emu_sp += 2;
-	loc04 = (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+	loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
 
 	if (loc04->amount != 0) {
 		loc04->amount--;

@@ -60,7 +60,6 @@ extern void f__B488_0000_0027_45A9();
 extern void f__B495_089A_0011_B26C();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B495_0DC9_0010_C643();
-extern void f__B495_1230_001B_A160();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2828,12 +2827,7 @@ static void GUI_FactoryWindow_Init()
 	for (i = g_global->variable_7FBA; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
 
 	for (i = 0; i < 4; i++) {
-		struct_8BEA *loc12;
-
-		emu_push(i);
-		emu_push(emu_cs); emu_push(0x13FA); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_1230_001B_A160();
-		emu_sp += 2;
-		loc12 = ((emu_dx | emu_ax) == 0) ? NULL : (struct_8BEA *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		struct_8BEA *loc12 = GUI_FactoryWindow_GetStruct8BEA(i);
 
 		if (loc12 == NULL) continue;
 
@@ -3290,4 +3284,13 @@ void GUI_FactoryWindow_B495_0F30()
 	GFX_22A6_034F(69, ((g_global->variable_7FBC + 1) << 5) + 5, 69, (g_global->variable_7FBC << 5) + 21, 38, 30, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0F78); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+}
+
+struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset)
+{
+	offset += g_global->variable_7FB8;
+
+	if (offset < 0 || offset >= g_global->variable_7FBA) return NULL;
+
+	return &g_global->variable_8BEA[offset];
 }
