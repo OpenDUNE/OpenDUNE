@@ -29,8 +29,6 @@
 #include "sprites.h"
 #include "gui/widget.h"
 
-extern void emu_GFX_SetPalette2();
-
 StructureInfo *g_structureInfo = NULL;
 
 /**
