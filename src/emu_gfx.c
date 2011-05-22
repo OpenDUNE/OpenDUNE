@@ -74,12 +74,12 @@ void emu_GFX_PutPixel()
 }
 
 /**
- * Emulator wrapper around GFX_22A6_034F()
+ * Emulator wrapper around GFX_Screen_Copy2()
  *
- * @name emu_GFX_22A6_034F
+ * @name emu_GFX_Screen_Copy2
  * @implements 22A6:034F:000C:5E0A ()
  */
-void emu_GFX_22A6_034F()
+void emu_GFX_Screen_Copy2()
 {
 	uint16 xSrc;
 	uint16 ySrc;
@@ -103,7 +103,7 @@ void emu_GFX_22A6_034F()
 	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
 	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GFX_22A6_034F(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst, false);
+	GFX_Screen_Copy2(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst, false);
 }
 
 /**

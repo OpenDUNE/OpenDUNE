@@ -213,12 +213,12 @@ uint16 Map_SetSelectionObjectPosition(uint16 packed)
 void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 {
 	bool cleared;
-	uint16 backup;
+	uint16 oldScreenID;
 
 	if (packed != 0xFFFF && packed == g_global->minimapPreviousPosition && !forceUpdate) return;
 	if (g_global->selectionType == 0) return;
 
-	backup = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	cleared = false;
 
@@ -261,15 +261,15 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		}
 	}
 
-	if (cleared && backup == 0) {
+	if (cleared && oldScreenID == 0) {
 		emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, 2, 0);
+		GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x01A1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}
 
-	Unknown_Set_Global_6C91(backup);
+	GUI_Screen_SetActive(oldScreenID);
 
 	g_global->minimapPreviousPosition = packed;
 }

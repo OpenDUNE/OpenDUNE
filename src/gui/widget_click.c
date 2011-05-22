@@ -443,7 +443,7 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 	width = w->width;
 	height = w->height;
 
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(offsetY + height);
 		emu_push(offsetX + width);
 		emu_push(offsetY);
@@ -454,7 +454,7 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 
 	GUI_DrawFilledRectangle(offsetX, offsetY, offsetX + width, offsetY + height, colour);
 
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(emu_cs); emu_push(0x1470); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }
@@ -467,7 +467,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	g_global->variable_2A93.csip = 0x0;
 
-	Unknown_Set_Global_6C91(2);
+	GUI_Screen_SetActive(2);
 
 	Unknown_07AE_0000(desc->index);
 
@@ -567,11 +567,11 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	Unknown_07AE_0000(desc->index);
 
-	GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x0D43); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 }
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
@@ -967,7 +967,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	if (*saveDesc == '[') key = g_global->savegameCountOnDisk;
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	Unknown_07AE_0000(15);
 
@@ -1247,7 +1247,7 @@ static void GUI_Production_B495_1140(int16 arg06)
 
 	for (i = 0; i < 32; i++) {
 		y += arg06;
-		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
 	emu_push(emu_cs); emu_push(0x118C); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
@@ -1270,12 +1270,12 @@ static void GUI_Production_B495_119D(int16 arg06)
 
 	for (i = 0; i < 6; i++) {
 		y += arg06;
-		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
 	for (i = 0; i < 6; i++) {
 		y -= arg06;
-		GFX_22A6_034F(72, y, 72, 16, 32, 136, 2, 0, false);
+		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
 	emu_push(emu_cs); emu_push(0x1223); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
@@ -1378,7 +1378,7 @@ bool GUI_Production_Up_Click(Widget *w)
 static void GUI_Purchase_ShowInvoice()
 {
 	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_7FA2);
-	uint16 old6C91 = Unknown_Set_Global_6C91(2);
+	uint16 oldScreenID = GUI_Screen_SetActive(2);
 	uint16 y = 48;
 	uint16 total = 0;
 	uint16 x;
@@ -1433,11 +1433,11 @@ static void GUI_Purchase_ShowInvoice()
 
 	emu_push(emu_cs); emu_push(0x073E); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(16, 48, 16, 48, 23, 112, 2, 0);
+	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x076A); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	/* "Invoice of Units on Order" */
 	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(0xB7));
@@ -1452,7 +1452,7 @@ static void GUI_Purchase_ShowInvoice()
 		GUI_PaletteAnimate();
 	}
 
-	Unknown_Set_Global_6C91(old6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	w = GUI_Widget_Get_ByIndex(w, 10);
 

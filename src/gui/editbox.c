@@ -55,7 +55,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 
 uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
 {
-	uint16 oldValue_6C91;
+	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
 	uint16 positionX;
 	uint16 maxWidth;
@@ -69,7 +69,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_0002);
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
-		oldValue_6C91 = Unknown_Set_Global_6C91(0);
+		oldScreenID = GUI_Screen_SetActive(0);
 
 		oldValue_07AE_0000 = Unknown_07AE_0000(unknown1);
 
@@ -217,7 +217,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 		Unknown_07AE_0000(oldValue_07AE_0000);
 
-		Unknown_Set_Global_6C91(oldValue_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 	}
 
 	return returnValue;

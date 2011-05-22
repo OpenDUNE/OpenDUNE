@@ -201,10 +201,10 @@ static void GUI_Mentat_Loop()
  */
 static void GUI_Mentat_ShowHelpList(bool proceed)
 {
-	uint16 old6C91;
+	uint16 oldScreenID;
 	Widget *w;
 
-	old6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
 
@@ -220,7 +220,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -232,7 +232,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
 	emu_sp += 2;
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	GUI_Mentat_Loop();
 
@@ -260,7 +260,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
 
-	Unknown_Set_Global_6C91(old6C91);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -324,7 +324,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaFilename), g_global->playerHouseID);
 
-	Unknown_Set_Global_6C91(2);
+	GUI_Screen_SetActive(2);
 
 	Unknown_07AE_00E4(8);
 
@@ -349,11 +349,11 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	}
 
 	GUI_DrawSprite_8002(2);
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -428,7 +428,7 @@ void GUI_Mentat_ShowLose()
  */
 void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 {
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	int i;
 
 	char *houseName = (char *)emu_get_memorycsip(g_houseInfo[houseID].name);
@@ -442,7 +442,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 	emu_push(emu_cs); emu_push(0x0068); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
 	emu_sp += 8;
 
-	old_6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	if (houseID == HOUSE_MERCENARY) {
 		File_ReadBlockFile("BENE.PAL", (char *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
@@ -502,8 +502,8 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 		WSA_Unload(locPtr);
 	}
 
-	GUI_DrawSprite_8002(g_global->variable_6C91);
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_DrawSprite_8002(g_global->screenActiveID);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**

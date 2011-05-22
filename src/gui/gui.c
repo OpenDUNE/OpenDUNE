@@ -215,7 +215,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		oldValue_07AE_0000 = Unknown_07AE_0000(7);
 
 		if (g_global->variable_38C4 != 0) {
-			uint16 old_6C91 = Unknown_Set_Global_6C91(2);
+			uint16 oldScreenID = GUI_Screen_SetActive(2);
 
 			assert(g_global->variable_6668.csip == 0x22A60D31);
 
@@ -241,7 +241,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 			g_global->variable_38C4 = 0;
 
-			Unknown_Set_Global_6C91(old_6C91);
+			GUI_Screen_SetActive(oldScreenID);
 		}
 
 		emu_push(7);
@@ -254,7 +254,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 			loc06 = g_global->variable_9931;
 		}
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; f__2642_0069_0008_D517();
 
@@ -703,7 +703,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	va_list ap;
 	uint16 oldValue_07AE_0000;
 	uint16 ret;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 size = 0;
 
 	va_start(ap, spriteID);
@@ -712,7 +712,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	emu_push(emu_cs); emu_push(0x02A4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	old_6C91 = Unknown_Set_Global_6C91(0);
+	oldScreenID = GUI_Screen_SetActive(0);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -758,7 +758,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
-		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 7, 8, 1, 0x4000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
 		GUI_2599_000B(1, g_global->variable_992D + 5, g_global->variable_992B + 8, g_global->variable_992F - 7, g_global->variable_9931 - 16);
 	} else {
 		GUI_2599_000B(1, g_global->variable_992D + 1, g_global->variable_992B + 8, g_global->variable_992F - 2, g_global->variable_9931 - 16);
@@ -821,7 +821,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		g_global->variable_3A12 = 1;
 	}
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	emu_push(emu_cs); emu_push(0x0574); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -1457,7 +1457,7 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
 void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
 {
 	uint16 loc06;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 loc16;
 	uint16 loc18;
 	uint16 loc1A;
@@ -1474,7 +1474,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	GUI_ChangeSelectionType(0);
 
-	old_6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	emu_push(0);
 	emu_push(score);
@@ -1508,7 +1508,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	Music_Play(17 + Tools_RandomRange(0, 5));
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -1586,7 +1586,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 				GUI_DrawLine(loc04, locdi + 1, loc04, locdi + 6, 12);
 
-				GFX_22A6_034F(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
+				GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
 
 				Driver_Sound_Play(52, 0xFF);
 
@@ -1599,7 +1599,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 			GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0xF, 0, 0x121, loc0E);
 
-			GFX_22A6_034F(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
+			GFX_Screen_Copy2(loc18, locdi, loc18, locdi, 304, 7, 2, 0, false);
 
 			Driver_Sound_Play(38, 0xFF);
 
@@ -1632,7 +1632,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	Driver_Music_FadeOut();
 }
@@ -1642,7 +1642,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
  */
 uint16 GUI_PickHouse()
 {
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	Widget *w = NULL;
 	csip32 wcsip;
 	uint8 *loc314; /* array of 768 bytes, probably a palette */
@@ -1703,7 +1703,7 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x10F1); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+		GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 		Unknown_259E_0006(g_global->variable_3C32, 15);
 
@@ -1765,7 +1765,7 @@ uint16 GUI_PickHouse()
 
 		g_global->playerHouseID = HOUSE_MERCENARY;
 
-		old_6C91 = Unknown_Set_Global_6C91(0);
+		oldScreenID = GUI_Screen_SetActive(0);
 
 		emu_push(emu_cs); emu_push(0x1343); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -1775,9 +1775,9 @@ uint16 GUI_PickHouse()
 
 		emu_push(emu_cs); emu_push(0x1398); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		GUI_Unknown_24D0_000D(0, 0, 0, 0, 26, 24, 2, 0);
+		GUI_Screen_Copy(0, 0, 0, 0, 26, 24, 2, 0);
 
-		GUI_Unknown_24D0_000D(0, 24 * (ret + 1), 26, 0, 13, 24, 2, 0);
+		GUI_Screen_Copy(0, 24 * (ret + 1), 26, 0, 13, 24, 2, 0);
 
 		GUI_Widget_DrawAll(w);
 
@@ -1816,7 +1816,7 @@ uint16 GUI_PickHouse()
 		Load_Palette_Mercenaries();
 		Sprites_LoadTiles();
 
-		Unknown_Set_Global_6C91(old_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 
 		while (Driver_Voice_IsPlaying());
 
@@ -1991,15 +1991,15 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 
 /**
  * Draw the interface (borders etc etc) and radar on the screen.
- * @param val6C91 Unknown parameter.
+ * @param screenID The screen to draw the radar on.
  */
-void GUI_DrawInterfaceAndRadar(uint16 val6C91)
+void GUI_DrawInterfaceAndRadar(uint16 screenID)
 {
 	PoolFindStruct find;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	Widget *w;
 
-	old_6C91 = Unknown_Set_Global_6C91((val6C91 == 0) ? 2 : val6C91);
+	oldScreenID = GUI_Screen_SetActive((screenID == 0) ? 2 : screenID);
 
 	g_global->variable_3A12 = 1;
 
@@ -2016,11 +2016,11 @@ void GUI_DrawInterfaceAndRadar(uint16 val6C91)
 
 	g_global->variable_38C4 = 1;
 
-	emu_push(g_global->variable_6C91);
+	emu_push(g_global->screenActiveID);
 	emu_push(emu_cs); emu_push(0x2135); emu_cs = 0x07D4; emu_Unknown_07D4_159A();
 	emu_sp += 2;
 
-	emu_push(g_global->variable_6C91);
+	emu_push(g_global->screenActiveID);
 	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
 	emu_sp += 2;
 
@@ -2058,19 +2058,19 @@ void GUI_DrawInterfaceAndRadar(uint16 val6C91)
 		Unit_B4CD_01BF(1, u);
 	}
 
-	if (val6C91 == 0) {
-		Unknown_Set_Global_6C91(0);
+	if (screenID == 0) {
+		GUI_Screen_SetActive(0);
 
 		emu_push(emu_cs); emu_push(0x221A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-		GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2 ,0);
+		GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2 ,0);
 		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 		Unknown_259E_0006(g_global->variable_3C32, 15);
 
 		emu_push(emu_cs); emu_push(0x2270); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 2);
 
@@ -2084,7 +2084,7 @@ void GUI_DrawInterfaceAndRadar(uint16 val6C91)
  */
 void GUI_DrawCredits(uint8 houseID, uint16 mode)
 {
-	uint16 memoryBlockOld;
+	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
 	House *h;
 	char charCreditsOld[7];
@@ -2107,7 +2107,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (mode == 0 && h->credits == g_global->creditsAnimation && g_global->creditsAnimationOffset == 0) return;
 
-	memoryBlockOld = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(4);
 
@@ -2148,7 +2148,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		creditsNew += 1;
 	}
 
-	GUI_DrawSprite(g_global->variable_6C91, g_sprites[12], 0, 0, 4, 0x4000);
+	GUI_DrawSprite(g_global->screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
 
 	g_global->playerCredits = creditsOld;
 
@@ -2162,28 +2162,28 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
 			if (g_global->creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
 		} else {
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], left, 1, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
 		}
 	}
 
-	if (memoryBlockOld != g_global->variable_6C91) {
+	if (oldScreenID != g_global->screenActiveID) {
 		emu_push(5);
 		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 		emu_sp += 2;
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, memoryBlockOld);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, oldScreenID);
 
 		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; f__2642_0069_0008_D517();
 	}
 
-	Unknown_Set_Global_6C91(memoryBlockOld);
+	GUI_Screen_SetActive(oldScreenID);
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 }
@@ -2195,7 +2195,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 void GUI_ChangeSelectionType(uint16 selectionType)
 {
 	struct_B4E9 *info = (struct_B4E9 *)&emu_get_memory8(0x2E8A, 0, 0xE);
-	uint16 old_6C91;
+	uint16 oldScreenID;
 
 	if (selectionType == 3 && g_global->selectionUnit.csip == 0x0) {
 		selectionType = 4;
@@ -2205,7 +2205,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_global->selectionUnit.csip = 0x0;
 	}
 
-	old_6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
@@ -2327,7 +2327,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 	}
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2547,14 +2547,20 @@ void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom)
 }
 
 /**
- * Unknown GUI function.
- * Gets triggered on mouse crossing edges of buttons, and lots of times while
- *  building something.
+ * Wrapper around GFX_Screen_Copy. Protects against wrong input values.
+ * @param xSrc The X-coordinate on the source divided by 8.
+ * @param ySrc The Y-coordinate on the source.
+ * @param xDst The X-coordinate on the destination divided by 8.
+ * @param yDst The Y-coordinate on the destination.
+ * @param width The width divided by 8.
+ * @param height The height.
+ * @param memBlockSrc The ID of the source memory block.
+ * @param memBlockDst The ID of the destination memory block.
  */
-void GUI_Unknown_24D0_000D(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst)
+void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst)
 {
-	if (width > 40)   width = 40;
-	if (height > 200) height = 200;
+	if (width  > SCREEN_WIDTH / 8) width  = SCREEN_WIDTH / 8;
+	if (height > SCREEN_HEIGHT)    height = SCREEN_HEIGHT;
 
 	if (xSrc < 0) {
 		xDst -= xSrc;
@@ -2562,7 +2568,7 @@ void GUI_Unknown_24D0_000D(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16
 		xSrc = 0;
 	}
 
-	if (xSrc >= 40 || xDst >= 40) return;
+	if (xSrc >= SCREEN_WIDTH / 8 || xDst >= SCREEN_WIDTH / 8) return;
 
 	if (xDst < 0) {
 		xSrc -= xDst;
@@ -2582,7 +2588,7 @@ void GUI_Unknown_24D0_000D(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16
 		yDst = 0;
 	}
 
-	GFX_22A6_06D7(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+	GFX_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
 }
 
 static uint32 GUI_FactoryWindow_CreateWidgets()
@@ -2748,7 +2754,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 
 static void GUI_FactoryWindow_Init()
 {
-	uint16 old6C91;
+	uint16 oldScreenID;
 	csip32 wsaBuffer;
 	uint16 loc0A;
 	uint16 locdi;
@@ -2756,7 +2762,7 @@ static void GUI_FactoryWindow_Init()
 	int16 i;
 	ObjectInfo *oi;
 
-	old6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	Sprites_LoadImage("CHOAM.CPS", 3, 3, NULL, 1);
 
@@ -2774,8 +2780,8 @@ static void GUI_FactoryWindow_Init()
 	loc0A = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB6);
 	locdi = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB7);
 
-	GUI_Unknown_24D0_000D(loc0A, locdi, 0, 8, 7, 40, 2, 2);
-	GUI_Unknown_24D0_000D(loc0A, locdi, 0, 152, 7, 40, 2, 2);
+	GUI_Screen_Copy(loc0A, locdi, 0, 8, 7, 40, 2, 2);
+	GUI_Screen_Copy(loc0A, locdi, 0, 152, 7, 40, 2, 2);
 
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
@@ -2832,7 +2838,7 @@ static void GUI_FactoryWindow_Init()
 
 	emu_push(emu_cs); emu_push(0x1510); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
@@ -2845,13 +2851,13 @@ static void GUI_FactoryWindow_Init()
 
 	emu_push(emu_cs); emu_push(0x1572); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	GUI_FactoryWindow_DrawDetails();
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
 
-	Unknown_Set_Global_6C91(old6C91);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2863,7 +2869,7 @@ static void GUI_FactoryWindow_Init()
  */
 uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 {
-	uint16 oldValue_6C91 = Unknown_Set_Global_6C91(0);
+	uint16 oldScreenID = GUI_Screen_SetActive(0);
 	uint8 backup[3];
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 765, backup, 3);
@@ -2894,7 +2900,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
 
-	Unknown_Set_Global_6C91(oldValue_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	GUI_FactoryWindow_B495_0F30();
 
@@ -2949,7 +2955,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	uint16 loc04;
 	uint16 loc06;
 	uint16 loc08;
-	uint16 loc0A;
+	uint16 oldScreenID;
 	uint8 *loc30A;
 	uint8 loc316[12];
 	csip32 csip30A;
@@ -2972,7 +2978,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	loc04 = campaignID - (arg08 ? 1 : 0);
 	loc06 = campaignID;
-	loc0A = Unknown_Set_Global_6C91(4);
+	oldScreenID = GUI_Screen_SetActive(4);
 
 	Unknown_259E_0006(csip30A, 15);
 
@@ -3024,16 +3030,16 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	memcpy(g_global->variable_81BA, emu_get_memorycsip(g_global->variable_3C32) + (144 + (g_global->playerHouseID * 16)) * 3, 12);
 	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
 
-	GUI_Unknown_24D0_000D(locdi, loc08, 0, 152, 7, 40, 4, 4);
-	GUI_Unknown_24D0_000D(locdi, loc08, 33, 152, 7, 40, 4, 4);
+	GUI_Screen_Copy(locdi, loc08, 0, 152, 7, 40, 4, 4);
+	GUI_Screen_Copy(locdi, loc08, 33, 152, 7, 40, 4, 4);
 
 	switch (g_global->language) {
 		case LANGUAGE_GERMAN:
-			GUI_Unknown_24D0_000D(1, 120, 1, 0, 38, 24, 4, 4);
+			GUI_Screen_Copy(1, 120, 1, 0, 38, 24, 4, 4);
 			break;
 
 		case LANGUAGE_FRENCH:
-			GUI_Unknown_24D0_000D(1, 96, 1, 0, 38, 24, 4, 4);
+			GUI_Screen_Copy(1, 96, 1, 0, 38, 24, 4, 4);
 			break;
 
 		default: break;
@@ -3043,7 +3049,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	emu_push(emu_cs); emu_push(0x024A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 4, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 4, 0);
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);
 
@@ -3142,7 +3148,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
 	emu_sp += 8;
 
-	Unknown_Set_Global_6C91(2);
+	GUI_Screen_SetActive(2);
 
 	emu_push(loc04);
 	emu_push(emu_cs); emu_push(0x0445); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0B68_000D_957E();
@@ -3150,7 +3156,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	emu_push(emu_cs); emu_push(0x044B); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
 	if (emu_ax != 0) {
-		GUI_Unknown_24D0_000D(1, 24, 1, 24, 38, 120, 2, 0);
+		GUI_Screen_Copy(1, 24, 1, 24, 38, 120, 2, 0);
 	} else {
 	l__0475:
 		emu_push(0);
@@ -3165,7 +3171,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 		emu_sp += 16;
 	}
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
 
 	if (loc06 != loc04) {
 		emu_push(loc06);
@@ -3193,7 +3199,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	Driver_Music_FadeOut();
 
-	Unknown_Set_Global_6C91(loc0A);
+	GUI_Screen_SetActive(oldScreenID);
 
 	Mouse_SetRegion(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
@@ -3216,13 +3222,17 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	return loc02;
 }
 
-void GUI_ClearScreen(uint16 arg06)
+/**
+ * Clear the screen.
+ * @param screenID Which screen to clear.
+ */
+void GUI_ClearScreen(uint16 screenID)
 {
-	uint16 old = Unknown_Set_Global_6C91(arg06);
+	uint16 oldScreenID = GUI_Screen_SetActive(screenID);
 
 	GFX_ClearScreen();
 
-	Unknown_Set_Global_6C91(old);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -3250,7 +3260,7 @@ void GUI_FactoryWindow_B495_0F30()
 {
 	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GFX_22A6_034F(69, ((g_global->variable_7FBC + 1) << 5) + 5, 69, (g_global->variable_7FBC << 5) + 21, 38, 30, 2, 0, false);
+	GFX_Screen_Copy2(69, ((g_global->variable_7FBC + 1) << 5) + 5, 69, (g_global->variable_7FBC << 5) + 21, 38, 30, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0F78); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
@@ -3266,12 +3276,12 @@ struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset)
 
 void GUI_FactoryWindow_DrawDetails()
 {
-	uint16 old6C91;
+	uint16 oldScreenID;
 	struct_8BEA *loc06 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
 	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc06->objectInfo);
 	csip32 wsa;
 
-	old6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	{
 		csip32 nullcsip;
@@ -3291,7 +3301,7 @@ void GUI_FactoryWindow_DrawDetails()
 		uint16 i;
 		uint16 j;
 
-		GUI_DrawSprite(g_global->variable_6C91, g_sprites[64], x, y, 0, 0);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[64], x, y, 0, 0);
 		x++;
 		y++;
 
@@ -3301,7 +3311,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
 			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {
-				GUI_DrawSprite(g_global->variable_6C91, sprite, x + i * width, y + j * width, 0, 0);
+				GUI_DrawSprite(g_global->screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
 			}
 		}
 	}
@@ -3333,8 +3343,8 @@ void GUI_FactoryWindow_DrawDetails()
 		}
 	} else {
 		if (g_global->variable_7FC2 != 0) {
-			GUI_Unknown_24D0_000D(16, 99, 16, 160, 23, 9, 2, 2);
-			GUI_Unknown_24D0_000D(16, 99, 16, 169, 23, 9, 2, 2);
+			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, 2, 2);
+			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, 2, 2);
 			/* "OUT OF STOCK" */
 			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB9), 220, 169, 6, 0, 0x132);
 
@@ -3344,20 +3354,20 @@ void GUI_FactoryWindow_DrawDetails()
 
 	emu_push(emu_cs); emu_push(0x0B71); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(16, 48, 16, 48, 23, 112, 2, old6C91);
+	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, oldScreenID);
 
 	emu_push(emu_cs); emu_push(0x0B9D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	Unknown_Set_Global_6C91(old6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	GUI_FactoryWindow_DrawCaption(NULL);
 }
 
 void GUI_FactoryWindow_DrawCaption(char *caption)
 {
-	uint16 old6C91;
+	uint16 oldScreenID;
 
-	old6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	GUI_DrawFilledRectangle(128, 21, 310, 35, 116);
 
@@ -3387,11 +3397,11 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 
 	emu_push(emu_cs); emu_push(0x0CFE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	if (old6C91 == 0) GFX_22A6_034F(128, 21, 128, 21, 182, 14, 3, old6C91, false);
+	if (oldScreenID == 0) GFX_Screen_Copy2(128, 21, 128, 21, 182, 14, 3, oldScreenID, false);
 
 	emu_push(emu_cs); emu_push(0x0D31); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	Unknown_Set_Global_6C91(old6C91);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 void GUI_FactoryWindow_UpdateDetails()
@@ -3403,7 +3413,7 @@ void GUI_FactoryWindow_UpdateDetails()
 
 	emu_push(emu_cs); emu_push(0x0D67); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Unknown_24D0_000D(16, (oi->available == loc04->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->variable_6C91);
+	GUI_Screen_Copy(16, (oi->available == loc04->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->screenActiveID);
 
 	emu_push(emu_cs); emu_push(0x0DC5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
@@ -3467,11 +3477,11 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 
 /**
  * Fade in parts of the screen from one screenbuffer to the other screenbuffer.
- * @param xSrc The X-position to start in the source screenbuffer.
+ * @param xSrc The X-position to start in the source screenbuffer divided by 8.
  * @param ySrc The Y-position to start in the source screenbuffer.
- * @param xDst The X-position to start in the destination screenbuffer.
+ * @param xDst The X-position to start in the destination screenbuffer divided by 8.
  * @param yDst The Y-position to start in the destination screenbuffer.
- * @param width The width of the screen to copy.
+ * @param width The width of the screen to copy divided by 8.
  * @param height The height of the screen to copy.
  * @param memBlockSrc Which screenbuffer to use as source.
  * @param memBlockDst Which screenbuffer to use as destination.
@@ -3524,7 +3534,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 			offsetX = offsetsX[x];
 			offsetY = offsetsY[y2];
 
-			GUI_Unknown_24D0_000D(xSrc + offsetX, ySrc + offsetY * 2, xDst + offsetX, yDst + offsetY * 2, 1, 2, memBlockSrc, memBlockDst);
+			GUI_Screen_Copy(xSrc + offsetX, ySrc + offsetY * 2, xDst + offsetX, yDst + offsetY * 2, 1, 2, memBlockSrc, memBlockDst);
 
 			y2++;
 			if (y2 == height) y2 = 0;
@@ -3538,4 +3548,16 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	if (memBlockDst == 0) {
 		emu_push(emu_cs); emu_push(0x01BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
+}
+
+/**
+ * Change the current active screen to the new value.
+ * @param screenID The new screen to get active.
+ * @return Old screenID that was currently active.
+ */
+uint16 GUI_Screen_SetActive(uint16 screenID)
+{
+	uint16 oldScreen = g_global->screenActiveID;
+	g_global->screenActiveID = screenID;
+	return oldScreen;
 }

@@ -60,7 +60,7 @@ Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index)
  */
 void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 {
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(w->offsetY + w->height);
 		emu_push(w->offsetX + w->width);
 		emu_push(w->offsetY);
@@ -69,7 +69,7 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 		emu_sp += 8;
 	}
 
-	GUI_DrawSprite(g_global->variable_6C91, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
+	GUI_DrawSprite(g_global->screenActiveID, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
 
 	emu_push(unknown);
 	emu_push(w->height);
@@ -79,7 +79,7 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 	emu_push(emu_cs); emu_push(0x0095); emu_cs = 0x2995; f__2995_0004_001F_FE17();
 	emu_sp += 10;
 
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }
@@ -171,7 +171,7 @@ void GUI_Widget_Draw(Widget *w)
 	positionBottom = positionTop + w->height - 1;
 
 	assert(drawMode < DRAW_MODE_MAX);
-	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->variable_6C91 == 0) {
+	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->screenActiveID == 0) {
 		emu_push(positionBottom);
 		emu_push(positionRight);
 		emu_push(positionTop);
@@ -186,7 +186,7 @@ void GUI_Widget_Draw(Widget *w)
 		case DRAW_MODE_NONE: break;
 
 		case DRAW_MODE_SPRITE: {
-			GUI_DrawSprite(g_global->variable_6C91, drawProc, offsetX, offsetY, w->parentID, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, drawProc, offsetX, offsetY, w->parentID, 0x4000);
 		} break;
 
 		case DRAW_MODE_TEXT: {
@@ -229,7 +229,7 @@ void GUI_Widget_Draw(Widget *w)
 		} break;
 	}
 
-	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->variable_6C91 == 0) {
+	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->screenActiveID == 0) {
 		emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }

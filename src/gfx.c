@@ -192,7 +192,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 }
 
 /**
- * ??.
+ * Copy information from one screenbuffer to the other.
  * @param xSrc The X-coordinate on the source.
  * @param ySrc The Y-coordinate on the source.
  * @param xDst The X-coordinate on the destination.
@@ -201,9 +201,9 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
  * @param height The height.
  * @param memBlockSrc The ID of the source memory block.
  * @param memBlockDst The ID of the destination memory block.
- * @param skipNull Wether to skip NULL bytes.
+ * @param skipNull Wether to skip pixel colour 0.
  */
-void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull)
+void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull)
 {
 	uint8 *src;
 	uint8 *dst;
@@ -269,18 +269,17 @@ void GFX_22A6_034F(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 }
 
 /**
- * ??.
- * @param xSrc The X-coordinate on the source.
+ * Copy information from one screenbuffer to the other.
+ * @param xSrc The X-coordinate on the source divided by 8.
  * @param ySrc The Y-coordinate on the source.
- * @param xDst The X-coordinate on the destination.
+ * @param xDst The X-coordinate on the destination divided by 8.
  * @param yDst The Y-coordinate on the destination.
- * @param width The width.
+ * @param width The width divided by 8.
  * @param height The height.
  * @param memBlockSrc The ID of the source memory block.
  * @param memBlockDst The ID of the destination memory block.
- * @param skipNull Wether to skip NULL bytes.
  */
-void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst)
+void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst)
 {
 	uint8 *src;
 	uint8 *dst;

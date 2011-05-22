@@ -322,12 +322,12 @@ void emu_GUI_DisplayHint()
 }
 
 /**
- * Emulator wrapper around GUI_Unknown_24D0_000D().
+ * Emulator wrapper around GUI_Screen_Copy().
  *
- * @name emu_GUI_Unknown_24D0_000D
+ * @name emu_GUI_Screen_Copy
  * @implements 24D0:000D:0039:C17D ()
  */
-void emu_GUI_Unknown_24D0_000D()
+void emu_GUI_Screen_Copy()
 {
 	uint16 xSrc;
 	uint16 ySrc;
@@ -351,7 +351,7 @@ void emu_GUI_Unknown_24D0_000D()
 	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
 	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GUI_Unknown_24D0_000D(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+	GUI_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
 }
 
 /**
@@ -498,4 +498,24 @@ void emu_GUI_Screen_FadeIn()
 	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
 	GUI_Screen_FadeIn(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+}
+
+/**
+ * Emulator wrapper around GUI_Screen_SetActive().
+ *
+ * @name emu_GUI_Screen_SetActive
+ * @implements 2598:0000:0017:EB80 ()
+ * @implements 2598:0017:0004:893F
+ */
+void emu_GUI_Screen_SetActive()
+{
+	uint16 screenID;
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	screenID = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	emu_ax = GUI_Screen_SetActive(screenID);
 }

@@ -32,7 +32,7 @@ extern void overlay(uint16 cs, uint8 force);
  */
 void GUI_Widget_TextButton_Draw(Widget *w)
 {
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 positionX, positionY;
 	uint16 width, height;
 	uint16 state;
@@ -40,7 +40,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 
 	if (w == NULL) return;
 
-	old_6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	positionX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
 	positionY = w->offsetY +  g_global->variable_4062[w->parentID][1];
@@ -63,7 +63,7 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(w->stringID), positionX + 3, positionY + 2, colour, 0, 0x22);
 	}
 
-	if (old_6C91 == 0) {
+	if (oldScreenID == 0) {
 		emu_push(positionY + height);
 		emu_push(positionX + width);
 		emu_push(positionY);
@@ -73,14 +73,14 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		emu_sp += 8;
 
-		GUI_Unknown_24D0_000D(positionX >> 3, positionY, positionX >> 3, positionY, width >> 3, height, 2, 0);
+		GUI_Screen_Copy(positionX >> 3, positionY, positionX >> 3, positionY, width >> 3, height, 2, 0);
 
 		emu_push(emu_cs); emu_push(0x10ED); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 	}
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 	emu_ax = 0;
 }
 
@@ -121,9 +121,9 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		spriteID = si->o.spriteID;
 	}
 
-	old_6C91 = g_global->variable_6C91;
+	old_6C91 = g_global->screenActiveID;
 	if (old_6C91 == 0) {
-		Unknown_Set_Global_6C91(2);
+		GUI_Screen_SetActive(2);
 	}
 
 	buttonDown = w->state.s.hover2;
@@ -135,7 +135,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
-	GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], positionX, positionY, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
+	GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], positionX, positionY, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
 
 	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
 
@@ -148,11 +148,11 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0DF5); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
+	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 }
 
 /**
@@ -182,9 +182,9 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 	GUI_UpdateProductionStringID();
 
-	old_6C91 = g_global->variable_6C91;
+	old_6C91 = g_global->screenActiveID;
 	if (old_6C91 == 0) {
-		Unknown_Set_Global_6C91(2);
+		GUI_Screen_SetActive(2);
 	}
 
 	buttonDown = w->state.s.hover2;
@@ -225,7 +225,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				uint16 spriteWidth;
 				uint16 x, y;
 
-				GUI_DrawSprite(g_global->variable_6C91, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
+				GUI_DrawSprite(g_global->screenActiveID, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
 
 				spriteWidth = Sprite_GetWidth(g_sprites[24]) + 1;
 
@@ -233,7 +233,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
 					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
-						GUI_DrawSprite(g_global->variable_6C91, g_sprites[24], positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
+						GUI_DrawSprite(g_global->screenActiveID, g_sprites[24], positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
 					}
 				}
 
@@ -247,7 +247,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			break;
 	}
 
-	if (spriteID != 0) GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], positionX + 2, positionY + 2, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
+	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], positionX + 2, positionY + 2, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
 
 	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;
@@ -315,11 +315,11 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0C34); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
+	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0C6E); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 }
 
 /**
@@ -341,9 +341,9 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	if (w == NULL) return;
 
-	old_6C91 = g_global->variable_6C91;
+	old_6C91 = g_global->screenActiveID;
 	if (old_6C91 == 0) {
-		Unknown_Set_Global_6C91(2);
+		GUI_Screen_SetActive(2);
 	}
 
 	stringID = w->stringID;
@@ -390,11 +390,11 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	emu_push(emu_cs); emu_push(0x0F8F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
 	emu_sp += 8;
 
-	GFX_22A6_034F(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
+	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 }
 
 /**
@@ -440,7 +440,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 		scrollBottom = scrollTop + scrollbar->size - 1;
 	}
 
-	if (g_global->variable_6C91 == 0x0) {
+	if (g_global->screenActiveID == 0x0) {
 		emu_push(positionY + height - 1);
 		emu_push(positionX + width - 1);
 		emu_push(positionY);
@@ -461,7 +461,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 
-	if (g_global->variable_6C91 == 0x0) {
+	if (g_global->screenActiveID == 0x0) {
 		emu_push(emu_cs); emu_push(0x0835); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
@@ -612,7 +612,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 {
 	uint16 actionType;
-	uint16 old_6C91, loc06;
+	uint16 oldScreenID, loc06;
 	bool isNotPlayerOwned;
 	Object *o;
 	ObjectInfo *oi;
@@ -696,13 +696,13 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	}
 
-	old_6C91 = g_global->variable_6C91;
+	oldScreenID = g_global->screenActiveID;
 	loc06 = g_global->variable_6D5D;
 
 	if (actionType != 0) {
 		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
 
-		old_6C91 = Unknown_Set_Global_6C91(2);
+		oldScreenID = GUI_Screen_SetActive(2);
 
 		loc06 = Unknown_07AE_0000(6);
 
@@ -782,13 +782,13 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		}
 
 		if (spriteID != 0xFFFF) {
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], 258, 51, 0, 0);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 258, 51, 0, 0);
 		}
 
 		/* Unit / Structure */
 		if (actionType == 2 || actionType == 3) {
 			GUI_DrawProgressbar(o->hitpoints, oi->hitpoints);
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[27], 292, 60, 0, 0);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[27], 292, 60, 0, 0);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(49), 296, 65, 29, 0, 0x11);
 		}
 
@@ -887,7 +887,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							u = Structure_GetLinkedUnit(s);
 							if (u == NULL) break;
 
-							GUI_DrawSprite(g_global->variable_6C91, g_sprites[g_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
+							GUI_DrawSprite(g_global->screenActiveID, g_sprites[g_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
 
 							steps = g_unitInfo[u->o.type].o.buildTime / 4;
 							percent = (steps - (s->countDown >> 8)) * 100 / steps;
@@ -970,7 +970,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		emu_push(emu_cs); emu_push(0x1B49); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 		emu_sp += 2;
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, 0);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
 
 		emu_push(emu_cs); emu_push(0x1B76); emu_cs = 0x2642; f__2642_0069_0008_D517();
 	}
@@ -978,7 +978,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	if (actionType > 1) {
 		Unknown_07AE_0000(loc06);
 
-		Unknown_Set_Global_6C91(old_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 	}
 }
 
@@ -999,7 +999,7 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 	uint16 colourSchemaIndexDiff;
 	uint16 size;
 
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(top + height);
 		emu_push(left + width);
 		emu_push(top);
@@ -1017,7 +1017,7 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 		GUI_DrawBorder(left + size, top + size, width - (size * 2), height - (size * 2), colourSchemaIndexDiff + colourSchemaIndex, false);
 	}
 
-	if (g_global->variable_6C91 == 0) {
+	if (g_global->screenActiveID == 0) {
 		emu_push(emu_cs); emu_push(0x066F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }

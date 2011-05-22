@@ -52,8 +52,8 @@ void emu_File_Error_Wrapper()
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	oldVariable_6C91 = g_global->variable_6C91;
-	g_global->variable_6C91 = 0x0;
+	oldVariable_6C91 = g_global->screenActiveID;
+	g_global->screenActiveID = 0x0;
 
 	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x2));
@@ -61,7 +61,7 @@ void emu_File_Error_Wrapper()
 	emu_push(emu_cs); emu_push(0x02A8); emu_File_Error();
 	emu_sp += 6;
 
-	g_global->variable_6C91 = oldVariable_6C91;
+	g_global->screenActiveID = oldVariable_6C91;
 
 	emu_ax = 0x1;
 }

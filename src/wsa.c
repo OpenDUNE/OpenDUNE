@@ -349,7 +349,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	uint8 *src = emu_get_memorycsip(displayBuffer);
 	uint8 *dst;
 
-	emu_push(g_global->variable_6C91);
+	emu_push(g_global->screenActiveID);
 	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; emu_Memory_GetBlock2();
 	emu_sp += 2;
 	dst = &emu_get_memory8(emu_dx, 0x0, 0x0);
@@ -499,12 +499,12 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 	header->frameCurrent = frameNext;
 
 	if (header->flags.s.displayInBuffer) {
-		uint16 oldMemoryBlock = g_global->variable_6C91;
-		g_global->variable_6C91 = memoryBlock;
+		uint16 oldMemoryBlock = g_global->screenActiveID;
+		g_global->screenActiveID = memoryBlock;
 
 		WSA_DrawFrame(posX, posY, header->width, header->height, 0, displayBuffer);
 
-		g_global->variable_6C91 = oldMemoryBlock;
+		g_global->screenActiveID = oldMemoryBlock;
 	}
 	return 1;
 }

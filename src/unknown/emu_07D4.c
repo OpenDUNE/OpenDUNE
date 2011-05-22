@@ -78,7 +78,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	uint16 loc0E;
 	uint16 curPos;
 	bool loc12;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
 	int16 minX[10];
 	int16 maxX[10];
@@ -90,7 +90,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	memset(minX, 0xF, 20);
 	memset(maxX, 0, 20);
 
-	old_6C91 = Unknown_Set_Global_6C91(2);
+	oldScreenID = GUI_Screen_SetActive(2);
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(2);
 
@@ -159,17 +159,17 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0x200;
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
 		if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-		GUI_DrawSprite(g_global->variable_6C91, g_sprites[6], x, y, 2, 0xC000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
 	g_global->variable_39E4 = 0;
@@ -263,12 +263,12 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.variable_0800) g_global->variable_8DE3 |= 0x100;
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
+			GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_B4CD_0750(packed);
 				if (type == 8 || type == 9) {
-					GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
 				}
 			}
 
@@ -305,19 +305,19 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				g_global->variable_8DE3 = g_global->variable_32A4[orientation][1];
 				index += g_global->variable_32A4[orientation][0];
 
-				GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
+				GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
 			if (u->o.flags.s.isSmoking) {
 				uint16 spriteID = 180 + (u->variable_6D & 3);
 				if (spriteID == 183) spriteID = 181;
 
-				GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], x, y - 14, 2, 0xC000);
+				GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
 			}
 
 			if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
 
-			GUI_DrawSprite(g_global->variable_6C91, g_sprites[6], x, y, 2, 0xC000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}
 
 		g_global->variable_39E6 = 0;
@@ -343,7 +343,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->variable_6C91, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
@@ -416,11 +416,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.variable_0001) GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
+			if (ui->o.flags.s.variable_0001) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
 
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->variable_6C91, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
+			GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}
 
 		g_global->variable_39E8 = 0;
@@ -434,7 +434,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	if (g_global->variable_3344 != 0) {
 		bool init = false;
 		bool update = false;
-		uint16 old_6C91_2 = 2;
+		uint16 oldScreenID2 = 2;
 
 		for (loc0E = 0; loc0E < g_global->variable_3344; loc0E++) {
 			curPos = g_global->variable_8290[loc0E];
@@ -443,7 +443,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (!init) {
 				init = true;
 
-				old_6C91_2 = Unknown_Set_Global_6C91(2);
+				oldScreenID2 = GUI_Screen_SetActive(2);
 
 				emu_push(3);
 				emu_push(emu_cs); emu_push(0x12EB); emu_cs = 0x2642; f__2642_0002_005E_87F6();
@@ -458,9 +458,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		if (update) Map_UpdateMinimapPosition(g_global->minimapPosition, true);
 
 		if (init) {
-			GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, g_global->variable_6C91, 0);
+			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_global->screenActiveID, 0);
 
-			Unknown_Set_Global_6C91(old_6C91_2);
+			GUI_Screen_SetActive(oldScreenID2);
 
 			emu_push(emu_cs); emu_push(0x1372); emu_cs = 0x2642; f__2642_0069_0008_D517();
 		}
@@ -490,7 +490,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 			emu_sp += 2;
 
-			GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, 0);
+			GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
 
 			emu_push(emu_cs); emu_push(0x1475); emu_cs = 0x2642; f__2642_0069_0008_D517();
 
@@ -523,7 +523,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					g_global->variable_37A4 = 0;
 				}
 
-				GUI_Unknown_24D0_000D(x, y, x, y, width, height, g_global->variable_6C91, 0);
+				GUI_Screen_Copy(x, y, x, y, width, height, g_global->screenActiveID, 0);
 			}
 
 			if (init) {
@@ -532,7 +532,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		}
 	}
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 
@@ -549,7 +549,7 @@ void emu_Unknown_07D4_0000()
 {
 	bool arg06;
 	bool loc10;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 loc14;
 
 	/* Pop the return CS:IP. */
@@ -561,7 +561,7 @@ void emu_Unknown_07D4_0000()
 	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
 	loc10 = false;
 
-	old_6C91 = Unknown_Set_Global_6C91(arg06 ? 1 : 0);
+	oldScreenID = GUI_Screen_SetActive(arg06 ? 1 : 0);
 
 	if (arg06) g_global->variable_3A12 = 1;
 
@@ -590,7 +590,7 @@ void emu_Unknown_07D4_0000()
 			emu_push(emu_cs); emu_push(0x0112); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 			emu_sp += 2;
 
-			GUI_Unknown_24D0_000D(max(-locsi << 1, 0), 40 + max(-locdi << 4, 0), max(0, locsi << 1), 40 + max(0, locdi << 4), loc02 << 1, loc04 << 4, 0, 2);
+			GUI_Screen_Copy(max(-locsi << 1, 0), 40 + max(-locdi << 4, 0), max(0, locsi << 1), 40 + max(0, locdi << 4), loc02 << 1, loc04 << 4, 0, 2);
 		} else {
 			g_global->variable_3A12 = 1;
 		}
@@ -638,7 +638,7 @@ void emu_Unknown_07D4_0000()
 
 	g_global->variable_3A12 = 0;
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	Map_SetSelectionObjectPosition(g_global->variable_3A00);
 	Map_UpdateMinimapPosition(g_global->minimapPosition, false);
@@ -655,7 +655,7 @@ void emu_Unknown_07D4_0000()
 void emu_Unknown_07D4_159A()
 {
 	bool arg06;
-	uint16 old_6C91 = 2;
+	uint16 oldScreenID = 2;
 	uint16 i;
 
 	/* Pop the return CS:IP. */
@@ -665,7 +665,7 @@ void emu_Unknown_07D4_159A()
 	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
 
 	if (!arg06) {
-		old_6C91 = Unknown_Set_Global_6C91(2);
+		oldScreenID = GUI_Screen_SetActive(2);
 	}
 
 	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
@@ -674,13 +674,13 @@ void emu_Unknown_07D4_159A()
 
 	if (arg06) return;
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	emu_push(3);
 	emu_push(emu_cs); emu_push(0x15F2); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 	emu_sp += 2;
 
-	GUI_Unknown_24D0_000D(32, 136, 32, 136, 8, 64, 2, 0);
+	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x161F); emu_cs = 0x2642; f__2642_0069_0008_D517();
 }
@@ -775,7 +775,7 @@ void Unknown_07D4_1625(uint16 packed)
 	if (spriteID != 0xFFFF) {
 		x *= g_global->scenario.mapScale + 1;
 		y *= g_global->scenario.mapScale + 1;
-		GUI_DrawSprite(g_global->variable_6C91, g_sprites[spriteID], x, y, 3, 0x4000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}

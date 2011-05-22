@@ -2502,26 +2502,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\src\unknown\emu_2598.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\unknown\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\unknown\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\src\unknown\emu_259E.c"
 					>
 					<FileConfiguration

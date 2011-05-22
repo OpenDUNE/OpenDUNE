@@ -43,7 +43,7 @@ bool Security_Check()
 	uint16 questionsCount;
 	uint32 loc0E;
 	uint16 oldValue_07AE_0000;
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	uint16 i;
 	bool valid;
 
@@ -104,7 +104,7 @@ bool Security_Check()
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x11C2); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	/* Check if this overlay should be reloaded */
@@ -146,7 +146,7 @@ bool Security_Check()
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(8);
 
-	old_6C91 = Unknown_Set_Global_6C91(4);
+	oldScreenID = GUI_Screen_SetActive(4);
 
 	for (i = 0, valid = false; i < 3 && !valid; i++) {
 		csip32 wsaQuestion;
@@ -184,7 +184,7 @@ bool Security_Check()
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 		emu_sp += 2;
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 
 		emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x2642; f__2642_0069_0008_D517();
 		/* Check if this overlay should be reloaded */
@@ -209,13 +209,13 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D - 1, g_global->variable_992B - 8, 0, 0, g_global->variable_992F + 2, g_global->variable_9931 + 16, 0, 4);
+		GUI_Screen_Copy(g_global->variable_992D - 1, g_global->variable_992B - 8, 0, 0, g_global->variable_992F + 2, g_global->variable_9931 + 16, 0, 4);
 
 		emu_push(emu_cs); emu_push(0x1413); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		Unknown_Set_Global_6C91(0);
+		GUI_Screen_SetActive(0);
 
 		emu_push(emu_cs); emu_push(0x1421); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 		/* Check if this overlay should be reloaded */
@@ -254,7 +254,7 @@ bool Security_Check()
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
-		GUI_Unknown_24D0_000D(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
+		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
 
 		emu_push(emu_cs); emu_push(0x1519); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 		/* Check if this overlay should be reloaded */
@@ -319,7 +319,7 @@ bool Security_Check()
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 
 	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; emu_Input_History_Clear();
 	/* Check if this overlay should be reloaded */

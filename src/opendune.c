@@ -283,7 +283,7 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 
 	Font_Select(g_global->introFnt);
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 
 	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
 
@@ -872,7 +872,7 @@ static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip
 	}
 }
 
-static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 memory2, uint16 delay)
+static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 screenID, uint16 delay)
 {
 	uint16 loc02;
 	uint16 stringCount = 0;
@@ -913,12 +913,12 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	positions[5].x = 0;
 	positions[5].y = spriteY;
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, memory);
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, SCREEN_HEIGHT, memory, memory2);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, memory);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, memory, screenID);
 
 	GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory, g_global->variable_182E);
 
-	Unknown_Set_Global_6C91(0);
+	GUI_Screen_SetActive(0);
 	loc0C = g_global->variable_76A8;
 
 	emu_push(emu_cs); emu_push(0x01E0); emu_cs = 0x29E8; emu_Input_History_Clear();
@@ -985,7 +985,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			case 0:
 				GUI_ClearScreen(memory);
 
-				if (spriteID == 0) GUI_ClearScreen(memory2);
+				if (spriteID == 0) GUI_ClearScreen(screenID);
 
 				g_global->variable_1836++;
 				g_global->variable_1838 = 2;
@@ -1027,11 +1027,11 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			default: break;
 		}
 
-		GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, memory, memory2);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, memory, screenID);
 
 		for (loc02 = 0; loc02 < stringCount; loc02++) {
 			if ((int16)strings[loc02].y < g_global->variable_9931) {
-				Unknown_Set_Global_6C91(memory2);
+				GUI_Screen_SetActive(screenID);
 
 				Font_Select(g_global->new8pFnt2);
 
@@ -1039,7 +1039,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_global->variable_992B, 255, 0);
 
-				Unknown_Set_Global_6C91(0);
+				GUI_Screen_SetActive(0);
 			}
 
 			strings[loc02].y--;
@@ -1049,7 +1049,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; emu_Video_WaitForNextVSync();
 		emu_sp += 2;
 
-		GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory2, g_global->variable_182E);
+		GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, screenID, g_global->variable_182E);
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);
@@ -1072,7 +1072,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	GUI_ClearScreen(0);
 	GUI_ClearScreen(memory);
-	GUI_ClearScreen(memory2);
+	GUI_ClearScreen(screenID);
 
 	g_global->variable_1838 = 0;
 	g_global->variable_1836 = 0;
@@ -1174,7 +1174,7 @@ static void GameLoop_GameCredits()
 
 	GUI_ClearScreen(0);
 
-	GUI_Unknown_24D0_000D(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 60);
 
@@ -1405,11 +1405,11 @@ static void GameLoop_LevelEnd()
  */
 static void Gameloop_Logos()
 {
-	uint16 old_6C91;
+	uint16 oldScreenID;
 	csip32 wsaBuffer;
 	uint16 frame;
 
-	old_6C91 = Unknown_Set_Global_6C91(0);
+	oldScreenID = GUI_Screen_SetActive(0);
 
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 	GFX_ClearScreen();
@@ -1473,7 +1473,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		Unknown_Set_Global_6C91(old_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1489,7 +1489,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		Unknown_Set_Global_6C91(old_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1499,7 +1499,7 @@ static void Gameloop_Logos()
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 30);
 
@@ -1513,7 +1513,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		Unknown_Set_Global_6C91(old_6C91);
+		GUI_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1523,7 +1523,7 @@ static void Gameloop_Logos()
 
 	Sprites_LoadImage("VIRGIN.CPS", 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
-	GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 30);
 
@@ -1538,7 +1538,7 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	Unknown_Set_Global_6C91(old_6C91);
+	GUI_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2184,7 +2184,7 @@ static void Gameloop_IntroMenu()
 
 				GUI_ClearScreen(0);
 
-				GUI_Unknown_24D0_000D(0, 0, 0, 0, 40, 200, 2, 0);
+				GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
 
 				Unknown_259E_0006(g_global->variable_3C32, 30);
 
@@ -2446,7 +2446,7 @@ static void GameLoop_Main()
 			}
 		}
 
-		Unknown_Set_Global_6C91(0);
+		GUI_Screen_SetActive(0);
 
 		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(g_global->variable_3C26));
 
@@ -2497,7 +2497,7 @@ static void GameLoop_Main()
 
 	Unknown_07AE_0000(0);
 
-	Unknown_Set_Global_6C91(2);
+	GUI_Screen_SetActive(2);
 
 	GFX_ClearScreen();
 
