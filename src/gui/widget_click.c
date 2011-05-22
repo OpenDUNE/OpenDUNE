@@ -37,7 +37,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
@@ -1188,9 +1187,7 @@ bool GUI_Production_List_Click(Widget *w)
 
 	GUI_FactoryWindow_DrawDetails();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x03DC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-	emu_sp += 2;
+	GUI_FactoryWindow_UpdateSelection(true);
 
 	return true;
 }
@@ -1257,9 +1254,7 @@ static void GUI_Production_B495_1140(int16 arg06)
 
 	emu_push(emu_cs); emu_push(0x1190); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x1198); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-	emu_sp += 2;
+	GUI_FactoryWindow_UpdateSelection(true);
 }
 
 static void GUI_Production_B495_119D(int16 arg06)
@@ -1285,9 +1280,7 @@ static void GUI_Production_B495_119D(int16 arg06)
 
 	emu_push(emu_cs); emu_push(0x1223); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x122B); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-	emu_sp += 2;
+	GUI_FactoryWindow_UpdateSelection(true);
 }
 
 /**
@@ -1304,9 +1297,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		GUI_FactoryWindow_B495_0F30();
 		g_global->variable_7FBC++;
 
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x0144); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
@@ -1317,9 +1308,7 @@ bool GUI_Production_Down_Click(Widget *w)
 
 			GUI_Production_B495_1140(1);
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x017D); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-			emu_sp += 2;
+			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
 			locdi = false;
 
@@ -1330,9 +1319,7 @@ bool GUI_Production_Down_Click(Widget *w)
 	}
 
 	do {
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x019E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(false);
 	} while (g_global->variable_76B4 != 0);
 
 	if (locdi) GUI_FactoryWindow_DrawDetails();
@@ -1356,9 +1343,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		GUI_FactoryWindow_B495_0F30();
 		g_global->variable_7FBC--;
 
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x0206); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
@@ -1369,9 +1354,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 			GUI_Production_B495_1140(-1);
 
-			emu_push(1);
-			emu_push(emu_cs); emu_push(0x023A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-			emu_sp += 2;
+			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
 			locdi = false;
 
@@ -1382,9 +1365,7 @@ bool GUI_Production_Up_Click(Widget *w)
 	}
 
 	do {
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x025B); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(false);
 	} while (g_global->variable_76B4 != 0);
 
 	if (locdi) GUI_FactoryWindow_DrawDetails();
@@ -1466,9 +1447,7 @@ static void GUI_Purchase_ShowInvoice()
 	while (GUI_Widget_HandleEvents(w) == 0) {
 		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x07A3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(false);
 
 		GUI_PaletteAnimate();
 	}

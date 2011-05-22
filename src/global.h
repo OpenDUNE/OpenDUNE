@@ -1372,7 +1372,10 @@ typedef struct GlobalData {
 	/* 7B1E(2)   */ PACK uint16 variable_7B1E;              /*!< ?? variable_77CA[1] init state. */
 	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
 	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
-	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0416];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7B8C()    */ PACK uint8   unknown_7B8C[0x0410];      /*!< ?? 0x1F62 bytes cleared at start. */
+	/* 7F9C(4)   */ PACK uint32 variable_7F9C;              /*!< ?? Also a tick counter.. */
+	/* 7FA0(1)   */ PACK uint8  variable_7FA0;              /*!< ?? */
+	/* 7FA1(1)   */ PACK uint8  variable_7FA1;              /*!< ?? */
 	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
 	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
 	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */

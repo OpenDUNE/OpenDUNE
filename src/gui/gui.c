@@ -55,7 +55,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
-extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
@@ -2874,9 +2873,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 	GUI_FactoryWindow_Init();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x0057); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-	emu_sp += 2;
+	GUI_FactoryWindow_UpdateSelection(true);
 
 	g_global->variable_7FC0 = 0xFFFF;
 	while (g_global->variable_7FC0 == 0xFFFF) {
@@ -2884,9 +2881,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 
 		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
 
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x0076); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
-		emu_sp += 2;
+		GUI_FactoryWindow_UpdateSelection(false);
 
 		event = GUI_Widget_HandleEvents((g_global->variable_7FA2.csip == 0x0) ? NULL : (Widget *)emu_get_memorycsip(g_global->variable_7FA2));
 
@@ -3409,4 +3404,61 @@ void GUI_FactoryWindow_UpdateDetails()
 	GUI_Unknown_24D0_000D(16, (oi->available == loc04->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->variable_6C91);
 
 	emu_push(emu_cs); emu_push(0x0DC5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+}
+
+void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
+{
+	uint8 *palette = emu_get_memorycsip(g_global->variable_3C32);
+
+	if (selectionChanged) {
+		uint16 y;
+
+		memset(palette + 255 * 3, 0x3F, 3);
+
+		GFX_SetPalette(palette);
+
+		g_global->variable_7F9C = 0;
+		g_global->variable_7FA0 = 0;
+		g_global->variable_7FA1 = 8;
+
+		y = g_global->variable_7FBC * 32 + 24;
+
+		emu_push(emu_cs); emu_push(0x0E33); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		GUI_DrawWiredRectangle(71, y - 1, 104, y + 24, 255);
+		GUI_DrawWiredRectangle(72, y, 103, y + 23, 255);
+
+		emu_push(emu_cs); emu_push(0x0E71); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	} else {
+		if (g_global->variable_7F9C > g_global->variable_76AC) return;
+	}
+
+	g_global->variable_7F9C = g_global->variable_76AC + 3;
+	g_global->variable_7FA0 += g_global->variable_7FA1;
+
+	if ((int8)g_global->variable_7FA0 < 0 || g_global->variable_7FA0 > 63) {
+		g_global->variable_7FA1 = -g_global->variable_7FA1;
+		g_global->variable_7FA0 += g_global->variable_7FA1;
+	}
+
+	switch (g_global->playerHouseID) {
+		case HOUSE_HARKONNEN:
+			*(palette + 255 * 3 + 1) = g_global->variable_7FA0;
+			*(palette + 255 * 3 + 2) = g_global->variable_7FA0;
+			break;
+
+		case HOUSE_ATREIDES:
+			*(palette + 255 * 3 + 0) = g_global->variable_7FA0;
+			*(palette + 255 * 3 + 1) = g_global->variable_7FA0;
+			break;
+
+		case HOUSE_ORDOS:
+			*(palette + 255 * 3 + 0) = g_global->variable_7FA0;
+			*(palette + 255 * 3 + 2) = g_global->variable_7FA0;
+			break;
+
+		default: break;
+	}
+
+	GFX_SetPalette(palette);
 }
