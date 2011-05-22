@@ -289,7 +289,6 @@ extern void emu_DSP_GetInfo();
 extern void f__AB00_0B86_0001_6780();
 extern void f__AB00_0B91_0014_89BD();
 extern void f__2649_0BAE_001D_25B1();
-extern void f__B495_0BB9_0011_11A0();
 extern void emu_Window_WidgetClick_Create();
 extern void f__AB00_0BC6_0001_6780();
 extern void f__217E_0BD4_0006_FD2F();

@@ -38,7 +38,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
@@ -1465,13 +1464,8 @@ static void GUI_Purchase_ShowInvoice()
 
 	Unknown_Set_Global_6C91(0);
 
-	emu_push(0xB7); /* "Invoice of Units on Order" */
-	emu_push(emu_cs); emu_push(0x077C); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-	emu_sp += 2;
-
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0784); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
-	emu_sp += 2;
+	/* "Invoice of Units on Order" */
+	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(0xB7));
 
 	emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -1588,9 +1582,7 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 
 		h->credits -= loc04->credits;
 
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x0466); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
-		emu_sp += 4;
+		GUI_FactoryWindow_DrawCaption(NULL);
 	}
 
 	return true;
@@ -1619,9 +1611,7 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 
 		h->credits += loc04->credits;
 
-		emu_push(0); emu_push(0);
-		emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
-		emu_sp += 4;
+		GUI_FactoryWindow_DrawCaption(NULL);
 	}
 
 	return true;

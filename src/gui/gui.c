@@ -57,7 +57,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
-extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
@@ -3382,7 +3381,46 @@ void GUI_FactoryWindow_DrawDetails()
 
 	Unknown_Set_Global_6C91(old6C91);
 
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x0BB1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
-	emu_sp += 4;
+	GUI_FactoryWindow_DrawCaption(NULL);
+}
+
+void GUI_FactoryWindow_DrawCaption(char *caption)
+{
+	uint16 old6C91;
+
+	old6C91 = Unknown_Set_Global_6C91(2);
+
+	GUI_DrawFilledRectangle(128, 21, 310, 35, 116);
+
+	if (caption != NULL && *caption != '\0') {
+		GUI_DrawText_Wrapper(caption, 128, 23, 12, 0, 0x12);
+	} else {
+		struct_8BEA *loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+		uint16 width;
+
+		GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, 23, 12, 0, 0x12);
+
+		/* "Cost: 999" */
+		width = Font_GetStringWidth(String_Get_ByIndex(0xB2));
+
+		/* "Cost: %3d" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB1), 310 - width, 23, 12, 0, 0x12, loc04->credits);
+
+		if (g_global->variable_7FC2 != 0) {
+			/* "Qty: 99" */
+			width += Font_GetStringWidth(String_Get_ByIndex(0xB4)) + 2;
+
+			/* "Qty: %2d" */
+			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB3), 310 - width, 23, 12, 0, 0x12, loc04->amount);
+		}
+	}
+
+	emu_push(emu_cs); emu_push(0x0CFE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	if (old6C91 == 0) GFX_22A6_034F(128, 21, 128, 21, 182, 14, 3, old6C91, false);
+
+	emu_push(emu_cs); emu_push(0x0D31); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	Unknown_Set_Global_6C91(old6C91);
 }
