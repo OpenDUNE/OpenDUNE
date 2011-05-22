@@ -37,7 +37,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0F7A_000B_410C();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -1236,7 +1235,7 @@ bool GUI_Production_Upgrade_Click(Widget *w)
 	return true;
 }
 
-static void GUI_Production_B495_1140(int16 arg06)
+static void GUI_FactoryWindow_ScrollList(int16 step)
 {
 	uint16 i;
 	uint16 y = 32;
@@ -1246,18 +1245,18 @@ static void GUI_Production_B495_1140(int16 arg06)
 	emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	for (i = 0; i < 32; i++) {
-		y += arg06;
+		y += step;
 		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
 	emu_push(emu_cs); emu_push(0x118C); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(emu_cs); emu_push(0x1190); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
+	GUI_FactoryWindow_PrepareScrollList();
 
 	GUI_FactoryWindow_UpdateSelection(true);
 }
 
-static void GUI_Production_B495_119D(int16 arg06)
+static void GUI_FactoryWindow_FailScrollList(int16 step)
 {
 	uint16 i;
 	uint16 y = 32;
@@ -1269,12 +1268,12 @@ static void GUI_Production_B495_119D(int16 arg06)
 	GUI_FactoryWindow_B495_0F30();
 
 	for (i = 0; i < 6; i++) {
-		y += arg06;
+		y += step;
 		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
 	for (i = 0; i < 6; i++) {
-		y -= arg06;
+		y -= step;
 		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
@@ -1306,7 +1305,7 @@ bool GUI_Production_Down_Click(Widget *w)
 			g_global->variable_7FB8++;
 			locdi = true;
 
-			GUI_Production_B495_1140(1);
+			GUI_FactoryWindow_ScrollList(1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
@@ -1314,7 +1313,7 @@ bool GUI_Production_Down_Click(Widget *w)
 
 			GUI_FactoryWindow_DrawDetails();
 
-			GUI_Production_B495_119D(1);
+			GUI_FactoryWindow_FailScrollList(1);
 		}
 	}
 
@@ -1352,7 +1351,7 @@ bool GUI_Production_Up_Click(Widget *w)
 			g_global->variable_7FB8--;
 			locdi = true;
 
-			GUI_Production_B495_1140(-1);
+			GUI_FactoryWindow_ScrollList(-1);
 
 			GUI_FactoryWindow_UpdateSelection(true);
 		} else {
@@ -1360,7 +1359,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 			GUI_FactoryWindow_DrawDetails();
 
-			GUI_Production_B495_119D(1);
+			GUI_FactoryWindow_FailScrollList(-1);
 		}
 	}
 

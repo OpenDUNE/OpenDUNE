@@ -57,7 +57,6 @@ extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
-extern void f__B495_0F7A_000B_410C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2849,7 +2848,7 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, (uint8)emu_ax);
 
-	emu_push(emu_cs); emu_push(0x1572); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0F7A_000B_410C();
+	GUI_FactoryWindow_PrepareScrollList();
 
 	GUI_Screen_SetActive(0);
 
@@ -3260,7 +3259,7 @@ void GUI_FactoryWindow_B495_0F30()
 {
 	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GFX_Screen_Copy2(69, ((g_global->variable_7FBC + 1) << 5) + 5, 69, (g_global->variable_7FBC << 5) + 21, 38, 30, 2, 0, false);
+	GFX_Screen_Copy2(69, ((g_global->variable_7FBC + 1) * 32) + 5, 69, (g_global->variable_7FBC * 32) + 21, 38, 30, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0F78); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
@@ -3560,4 +3559,43 @@ uint16 GUI_Screen_SetActive(uint16 screenID)
 	uint16 oldScreen = g_global->screenActiveID;
 	g_global->screenActiveID = screenID;
 	return oldScreen;
+}
+
+void GUI_FactoryWindow_PrepareScrollList()
+{
+	struct_8BEA *loc04;
+
+	emu_push(emu_cs); emu_push(0x0F85); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Screen_Copy(9, 24, 9, 40, 4, 128, 0, 2);
+
+	emu_push(emu_cs); emu_push(0x0FB1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	loc04 = GUI_FactoryWindow_GetStruct8BEA(-1);
+
+	if (loc04 != NULL) {
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+
+		if (oi->available == -1) {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+		} else {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0);
+		}
+	} else {
+		GUI_Screen_Copy(9, 32, 9, 24, 4, 8, 2, 2);
+	}
+
+	loc04 = GUI_FactoryWindow_GetStruct8BEA(4);
+
+	if (loc04 != NULL) {
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+
+		if (oi->available == -1) {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+		} else {
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0);
+		}
+	} else {
+		GUI_Screen_Copy(9, 0, 9, 168, 4, 8, 2, 2);
+	}
 }
