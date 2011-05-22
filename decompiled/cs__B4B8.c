@@ -355,7 +355,7 @@ l__1540:
 	emu_push(emu_ss);
 	emu_movw(&emu_ax, emu_bp - 0xA4);
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x154E); emu_cs = 0x34FC; overlay(0x34FC, 0); f__B4FC_07E2_0012_911F();
+	emu_push(emu_cs); emu_push(0x154E); emu_cs = 0x34FC; overlay(0x34FC, 0); emu_String_Trim();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34B8) { overlay(0x34B8, 1); }
 l__154E:

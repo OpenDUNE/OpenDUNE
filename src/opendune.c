@@ -3203,12 +3203,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 
 	g_global->variable_38BC++;
 
-	emu_push(houseID);
-	emu_push(scenarioID);
-	emu_push(emu_cs); emu_push(0x0041); emu_cs = 0x34B5; overlay(0x34B5, 0); emu_Scenario_Load();
-	emu_sp += 4;
-
-	if (emu_ax == 0) {
+	if (!Scenario_Load(scenarioID, houseID)) {
 		GUI_DisplayModalMessage(g_global->string_2BCA, 0xFFFF);
 
 		PrepareEnd();

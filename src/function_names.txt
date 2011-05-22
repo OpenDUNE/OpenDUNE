@@ -142,9 +142,6 @@ B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
 
 B4E0:0300:001B:4F41	emu_GUI_Mentat_List	# (csip) Handles events on list in Mentat window
 
-B4FC:0000:0018:E5DC	emu_Ini_GetInteger
-B4FC:03C8:002C:9251	emu_Ini_GetString
-
 B520:0223:000E:38A3	emu_Tools_Free_Wrapper	# (csip) Forwards the call to emu_Tools_Free()
 
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors

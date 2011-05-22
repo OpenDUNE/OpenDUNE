@@ -15,6 +15,7 @@
 #include "../src/gui/gui.h"
 #include "../src/gui/widget.h"
 #include "../src/house.h"
+#include "../src/ini.h"
 #include "../src/input/input.h"
 #include "../src/interrupt.h"
 #include "../src/load.h"
@@ -55,7 +56,6 @@ extern void overlay(uint16 cs, uint8 force);
 extern void emu_EntryPoint();
 extern void f__2BF2_0000_0007_42B5();
 extern void f__B488_0000_0027_45A9();
-extern void emu_Ini_GetInteger();
 extern void f__B520_0000_0019_6B99();
 extern void f__B536_0000_004B_3AF8();
 extern void f__2642_0002_005E_87F6();
@@ -159,7 +159,6 @@ extern void f__AB00_0398_0001_6780();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_DSP_SetTimeConst();
 extern void emu_Tools_MulCSIP_csip();
-extern void emu_Ini_GetString();
 extern void emu_Tools_MemcopyCX();
 extern void f__23E1_03DB_000B_CF65();
 extern void emu_Drive_Get_Curdir();
@@ -248,7 +247,6 @@ extern void emu_Overlay_GetTotalSize();
 extern void emu_Tools_Cmpd();
 extern void f__B536_07CE_0032_AF6A();
 extern void emu_Tools_Var79E4_Init();
-extern void f__B4FC_07E2_0012_911F();
 extern void emu_Tools_Var79E4_Update();
 extern void f__AB00_07EB_0026_ECEA();
 extern void f__29E8_07FA_0020_177A();
