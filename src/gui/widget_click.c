@@ -38,7 +38,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B518_11C6_0011_1160();
@@ -1576,7 +1575,7 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 	if (loc04->amount < oi->available && loc04->credits <= h->credits) {
 		loc04->amount++;
 
-		emu_push(emu_cs); emu_push(0x044A); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+		GUI_FactoryWindow_UpdateDetails();
 
 		g_global->variable_7FB6++;
 
@@ -1605,7 +1604,7 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 	if (loc04->amount != 0) {
 		loc04->amount--;
 
-		emu_push(emu_cs); emu_push(0x04AE); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+		GUI_FactoryWindow_UpdateDetails();
 
 		g_global->variable_7FB6--;
 

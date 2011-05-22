@@ -39,6 +39,7 @@ extern void GUI_FactoryWindow_B495_0F30();
 extern struct struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset);
 extern void GUI_FactoryWindow_DrawDetails();
 extern void GUI_FactoryWindow_DrawCaption(char *caption);
+extern void GUI_FactoryWindow_UpdateDetails();
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

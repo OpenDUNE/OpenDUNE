@@ -57,7 +57,6 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
-extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B4DA_0AB8_002A_AAB2();
@@ -3369,7 +3368,7 @@ void GUI_FactoryWindow_DrawDetails()
 			/* "OUT OF STOCK" */
 			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB9), 220, 169, 6, 0, 0x132);
 
-			emu_push(emu_cs); emu_push(0x0B6C); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+			GUI_FactoryWindow_UpdateDetails();
 		}
 	}
 
@@ -3423,4 +3422,18 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 	emu_push(emu_cs); emu_push(0x0D31); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
 	Unknown_Set_Global_6C91(old6C91);
+}
+
+void GUI_FactoryWindow_UpdateDetails()
+{
+	struct_8BEA *loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
+	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+
+	if (oi->available == -1) return;
+
+	emu_push(emu_cs); emu_push(0x0D67); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(16, (oi->available == loc04->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->variable_6C91);
+
+	emu_push(emu_cs); emu_push(0x0DC5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
