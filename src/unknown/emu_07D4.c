@@ -24,7 +24,6 @@
 
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
-extern void f__2C17_000C_002F_3016();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -491,16 +490,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x2642; f__2642_0002_005E_87F6();
 			emu_sp += 2;
 
-			emu_push(0);
-			emu_push(g_global->variable_6C91);
-			emu_push(g_global->variable_9931);
-			emu_push(g_global->variable_992F);
-			emu_push(g_global->variable_992B);
-			emu_push(g_global->variable_992D);
-			emu_push(g_global->variable_992B);
-			emu_push(g_global->variable_992D);
-			emu_push(emu_cs); emu_push(0x146D); emu_cs = 0x2C17; f__2C17_000C_002F_3016();
-			emu_sp += 16;
+			GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->variable_6C91, 0);
 
 			emu_push(emu_cs); emu_push(0x1475); emu_cs = 0x2642; f__2642_0069_0008_D517();
 

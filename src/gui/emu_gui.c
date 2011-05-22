@@ -466,3 +466,36 @@ void emu_GUI_FactoryWindow_GetStruct8BEA()
 	emu_dx = ret.s.cs;
 	emu_ax = ret.s.ip;
 }
+
+/**
+ * Emulator wrapper around GUI_Screen_FadeIn().
+ *
+ * @name emu_GUI_Screen_FadeIn
+ * @implements 2C17:000C:002F:3016 ()
+ */
+void emu_GUI_Screen_FadeIn()
+{
+	uint16 xSrc;
+	uint16 ySrc;
+	uint16 xDst;
+	uint16 yDst;
+	uint16 width;
+	uint16 height;
+	uint16 memBlockSrc;
+	uint16 memBlockDst;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	xSrc        = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	ySrc        = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	xDst        = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	yDst        = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	width       = emu_get_memory16(emu_ss, emu_sp, 0x8);
+	height      = emu_get_memory16(emu_ss, emu_sp, 0xA);
+	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
+
+	GUI_Screen_FadeIn(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+}

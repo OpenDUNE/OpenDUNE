@@ -52,8 +52,10 @@ extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
+extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
+extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B495_0F7A_000B_410C();
 extern void f__B4DA_0AB8_002A_AAB2();
@@ -3461,4 +3463,79 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 	}
 
 	GFX_SetPalette(palette);
+}
+
+/**
+ * Fade in parts of the screen from one screenbuffer to the other screenbuffer.
+ * @param xSrc The X-position to start in the source screenbuffer.
+ * @param ySrc The Y-position to start in the source screenbuffer.
+ * @param xDst The X-position to start in the destination screenbuffer.
+ * @param yDst The Y-position to start in the destination screenbuffer.
+ * @param width The width of the screen to copy.
+ * @param height The height of the screen to copy.
+ * @param memBlockSrc Which screenbuffer to use as source.
+ * @param memBlockDst Which screenbuffer to use as destination.
+ */
+void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 memBlockSrc, uint16 memBlockDst)
+{
+	uint16 offsetsY[100];
+	uint16 offsetsX[40];
+	int x, y;
+
+	if (memBlockDst == 0) {
+		emu_push((xDst + width) << 3); emu_push(yDst + height);
+		emu_push(xDst << 3); emu_push(yDst);
+		emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		emu_sp += 8;
+	}
+
+	height /= 2;
+
+	for (x = 0; x < width;  x++) offsetsX[x] = x;
+	for (y = 0; y < height; y++) offsetsY[y] = y;
+
+	for (x = 0; x < width; x++) {
+		uint16 index;
+		uint16 temp;
+
+		index = Tools_RandomRange(0, width - 1);
+
+		temp = offsetsX[index];
+		offsetsX[index] = offsetsX[x];
+		offsetsX[x] = temp;
+	}
+
+	for (y = 0; y < height; y++) {
+		uint16 index;
+		uint16 temp;
+
+		index = Tools_RandomRange(0, height - 1);
+
+		temp = offsetsY[index];
+		offsetsY[index] = offsetsY[y];
+		offsetsY[y] = temp;
+	}
+
+	for (y = 0; y < height; y++) {
+		uint16 y2 = y;
+		for (x = 0; x < width; x++) {
+			uint16 offsetX, offsetY;
+
+			offsetX = offsetsX[x];
+			offsetY = offsetsY[y2];
+
+			GUI_Unknown_24D0_000D(xSrc + offsetX, ySrc + offsetY * 2, xDst + offsetX, yDst + offsetY * 2, 1, 2, memBlockSrc, memBlockDst);
+
+			y2++;
+			if (y2 == height) y2 = 0;
+
+			/* XXX -- This delays the system so you can in fact see the animation */
+			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) == 0);
+			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) != 0);
+		}
+	}
+
+	if (memBlockDst == 0) {
+		emu_push(emu_cs); emu_push(0x01BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	}
 }

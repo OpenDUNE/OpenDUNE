@@ -1420,7 +1420,7 @@ l__0EEE:
 	emu_push(emu_ax);
 	emu_ax = 0xA;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0F1B); emu_cs = 0x2C17; f__2C17_000C_002F_3016();
+	emu_push(emu_cs); emu_push(0x0F1B); emu_cs = 0x2C17; emu_GUI_Screen_FadeIn();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0F1B:

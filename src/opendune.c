@@ -64,7 +64,6 @@ extern void f__2B1E_0189_001B_E6CF();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
-extern void f__2C17_000C_002F_3016();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
@@ -630,16 +629,7 @@ static void GameLoop_B4ED_0200()
 					emu_push(emu_cs); emu_push(0x047B); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
 					emu_sp += 16;
 				} else if ((var805E->flags & 0x480) == 0x400) {
-					emu_push(0);
-					emu_push(2);
-					emu_push(120);
-					emu_push(38);
-					emu_push(24);
-					emu_push(1);
-					emu_push(24);
-					emu_push(1);
-					emu_push(emu_cs); emu_push(0x04A4); emu_cs = 0x2C17; f__2C17_000C_002F_3016();
-					emu_sp += 16;
+					GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, 2, 0);
 				}
 			}
 		}
@@ -2507,20 +2497,11 @@ static void GameLoop_Main()
 
 	Unknown_07AE_0000(0);
 
-	Unknown_Set_Global_6C91(0);
+	Unknown_Set_Global_6C91(2);
 
 	GFX_ClearScreen();
 
-	emu_push(0);
-	emu_push(2);
-	emu_push(g_global->variable_9931);
-	emu_push(g_global->variable_992F);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D);
-	emu_push(emu_cs); emu_push(0x0471); emu_cs = 0x2C17; f__2C17_000C_002F_3016();
-	emu_sp += 16;
+	GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 }
 
 static void Unknown_2533_000D()

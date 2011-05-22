@@ -42,6 +42,7 @@ extern void GUI_FactoryWindow_DrawDetails();
 extern void GUI_FactoryWindow_DrawCaption(char *caption);
 extern void GUI_FactoryWindow_UpdateDetails();
 extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
+extern void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 memBlockSrc, uint16 memBlockDst);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -63,6 +64,7 @@ extern void emu_GUI_Mentat_SelectHelpSubject();
 extern void emu_GUI_Mentat_Create_HelpScreen_Widgets();
 extern void emu_GUI_Get_Scrollbar_Position();
 extern void emu_GUI_FactoryWindow_GetStruct8BEA();
+extern void emu_GUI_Screen_FadeIn();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
