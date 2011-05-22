@@ -285,14 +285,14 @@ void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 	uint8 *src;
 	uint8 *dst;
 
-	if (xSrc >= 40) return;
+	if (xSrc >= SCREEN_WIDTH / 8) return;
 	if (xSrc < 0) xSrc = 0;
 	xSrc *= 8;
 
 	if (ySrc >= SCREEN_HEIGHT) return;
 	if (ySrc < 0) ySrc = 0;
 
-	if (xDst >= 40) return;
+	if (xDst >= SCREEN_WIDTH / 8) return;
 	if (xDst < 0) xDst = 0;
 	xDst *= 8;
 
@@ -310,7 +310,7 @@ void GFX_22A6_06D7(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
 
-	if (width > 40 || width < 1) return;
+	if (width > SCREEN_WIDTH / 8 || width < 1) return;
 	width *= 8;
 
 	while (height-- != 0) {
