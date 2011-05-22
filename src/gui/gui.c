@@ -57,9 +57,10 @@ extern void f__2B6C_0169_001E_6939();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B488_0000_0027_45A9();
-extern void f__B495_089A_0011_B26C();
-extern void f__B495_0F7A_000B_410C();
+extern void f__B495_0BB9_0011_11A0();
+extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
+extern void f__B495_0F7A_000B_410C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0586_0017_050A();
 extern void f__B503_0B68_000D_957E();
@@ -2870,7 +2871,7 @@ static void GUI_FactoryWindow_Init()
 
 	Unknown_Set_Global_6C91(0);
 
-	emu_push(emu_cs); emu_push(0x157F); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	GUI_FactoryWindow_DrawDetails();
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
 
@@ -3293,4 +3294,95 @@ struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset)
 	if (offset < 0 || offset >= g_global->variable_7FBA) return NULL;
 
 	return &g_global->variable_8BEA[offset];
+}
+
+void GUI_FactoryWindow_DrawDetails()
+{
+	uint16 old6C91;
+	struct_8BEA *loc06 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
+	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc06->objectInfo);
+	csip32 wsa;
+
+	old6C91 = Unknown_Set_Global_6C91(2);
+
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
+	}
+
+	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
+	WSA_Unload(wsa);
+
+	if (g_global->variable_8BE8 != 0) {
+		int16 x = 288;
+		int16 y = 136;
+		csip32 sprite;
+		uint16 width;
+		StructureInfo *si;
+		uint16 i;
+		uint16 j;
+
+		GUI_DrawSprite(g_global->variable_6C91, g_sprites[64], x, y, 0, 0);
+		x++;
+		y++;
+
+		sprite = g_sprites[24];
+		width = Sprite_GetWidth(sprite) + 1;
+		si = &g_structureInfo[loc06->objectType];
+
+		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
+			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {
+				GUI_DrawSprite(g_global->variable_6C91, sprite, x + i * width, y + j * width, 0, 0);
+			}
+		}
+	}
+
+	if (oi->available == -1) {
+		emu_push(g_global->factoryWindowGraymapTbl.s.cs); emu_push(g_global->factoryWindowGraymapTbl.s.ip);
+		emu_push(2);
+		emu_push(112);
+		emu_push(184);
+		emu_push(48);
+		emu_push(128);
+		emu_push(emu_cs); emu_push(0x0A30); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
+		emu_sp += 14;
+
+		if (g_global->variable_7FC2 != 0) {
+			/* "OUT OF STOCK" */
+			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB9), 220, 99, 6, 0, 0x132);
+		} else {
+			/* "NEED STRUCTURE UPGRADE" */
+			GUI_DrawText_Wrapper(String_Get_ByIndex(0xBA), 220, 94, 6, 0, 0x132);
+
+			if (g_global->variable_7FBE != 0) {
+				/* "Upgrade Cost : %d" */
+				GUI_DrawText_Wrapper(String_Get_ByIndex(0xBB), 220, 104, 6, 0, 0x132, g_global->variable_7FBE);
+			} else {
+				/* "Repair structure first" */
+				GUI_DrawText_Wrapper(String_Get_ByIndex(0x14D), 220, 104, 6, 0, 0x132);
+			}
+		}
+	} else {
+		if (g_global->variable_7FC2 != 0) {
+			GUI_Unknown_24D0_000D(16, 99, 16, 160, 23, 9, 2, 2);
+			GUI_Unknown_24D0_000D(16, 99, 16, 169, 23, 9, 2, 2);
+			/* "OUT OF STOCK" */
+			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB9), 220, 169, 6, 0, 0x132);
+
+			emu_push(emu_cs); emu_push(0x0B6C); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0D3E_000F_31B8();
+		}
+	}
+
+	emu_push(emu_cs); emu_push(0x0B71); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GUI_Unknown_24D0_000D(16, 48, 16, 48, 23, 112, 2, old6C91);
+
+	emu_push(emu_cs); emu_push(0x0B9D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	Unknown_Set_Global_6C91(old6C91);
+
+	emu_push(0); emu_push(0);
+	emu_push(emu_cs); emu_push(0x0BB1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0BB9_0011_11A0();
+	emu_sp += 4;
 }

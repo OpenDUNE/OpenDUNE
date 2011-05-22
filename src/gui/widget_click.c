@@ -38,7 +38,6 @@ extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B495_089A_0011_B26C();
 extern void f__B495_0BB9_0011_11A0();
 extern void f__B495_0D3E_000F_31B8();
 extern void f__B495_0DC9_0010_C643();
@@ -1194,7 +1193,7 @@ bool GUI_Production_List_Click(Widget *w)
 
 	g_global->variable_7FBC = w->index - 46;
 
-	emu_push(emu_cs); emu_push(0x03D3); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+	GUI_FactoryWindow_DrawDetails();
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x03DC); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_0DC9_0010_C643();
@@ -1331,7 +1330,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		} else {
 			locdi = false;
 
-			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+			GUI_FactoryWindow_DrawDetails();
 
 			GUI_Production_B495_119D(1);
 		}
@@ -1343,9 +1342,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		emu_sp += 2;
 	} while (g_global->variable_76B4 != 0);
 
-	if (locdi) {
-		emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
-	}
+	if (locdi) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1385,7 +1382,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		} else {
 			locdi = false;
 
-			emu_push(emu_cs); emu_push(0x0244); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
+			GUI_FactoryWindow_DrawDetails();
 
 			GUI_Production_B495_119D(1);
 		}
@@ -1397,9 +1394,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		emu_sp += 2;
 	} while (g_global->variable_76B4 != 0);
 
-	if (locdi) {
-		emu_push(emu_cs); emu_push(0x026E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
-	}
+	if (locdi) GUI_FactoryWindow_DrawDetails();
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1518,9 +1513,7 @@ static void GUI_Purchase_ShowInvoice()
 		}
 	}
 
-	if (g_global->variable_7FC0 == 0xFFFF) {
-		emu_push(emu_cs); emu_push(0x084E); emu_cs = 0x3495; overlay(0x3495, 0); f__B495_089A_0011_B26C();
-	}
+	if (g_global->variable_7FC0 == 0xFFFF) GUI_FactoryWindow_DrawDetails();
 }
 
 /**

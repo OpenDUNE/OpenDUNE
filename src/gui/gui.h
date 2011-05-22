@@ -37,6 +37,7 @@ extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 extern void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColour, uint8 bgColour, uint16 charWidth);
 extern void GUI_FactoryWindow_B495_0F30();
 extern struct struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset);
+extern void GUI_FactoryWindow_DrawDetails();
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
