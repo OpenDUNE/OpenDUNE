@@ -129,7 +129,7 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	uint16 height;
 	uint16 width;
 
-	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x0, 0x0);
 
 	if (left >= SCREEN_WIDTH) return;
 	if (left < 0) left = 0;
@@ -325,7 +325,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 {
 	csip32 font_csip = emu_get_csip32(0x22A6, 0x00, 0x80);
 	uint8 *font      = emu_get_memorycsip(font_csip);
-	uint8 *screen    = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+	uint8 *screen    = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x0, 0x0);
 
 	uint16 offset;
 	uint16 remainingWidth;
@@ -860,7 +860,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
 
 /**
  * Draws a sprite.
- * @param memory The index of the memory block where the drawing is done.
+ * @param screenID On which screen to draw the sprite.
  * @param sprite_csip The CS:IP of the sprite to draw.
  * @param posX ??.
  * @param posY ??.
@@ -868,7 +868,7 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  * @param flags The flags.
  * @param ... The extra args, flags dependant.
  */
-void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
+void GUI_DrawSprite(uint16 screenID, csip32 sprite_csip, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
 	static uint16 s_variable_0E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07A7, 0x0857, 0x07A7, 0x0857};
 	static uint16 s_variable_1E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07ED, 0x089D, 0x07ED, 0x089D};
@@ -954,7 +954,7 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 
 	loc34 = 0;
 
-	emu_push(memory);
+	emu_push(screenID);
 	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Memory_GetBlock2();
 	emu_sp += 2;
 	memBlock.s.cs = emu_dx;
@@ -1349,11 +1349,11 @@ void GUI_DrawSprite(uint16 memory, csip32 sprite_csip, int16 posX, int16 posY, u
 
 /**
  * Draw the sprite of variable_8002 at (variable_8010, variable_8011)
- * @param memory
+ * @param screenID The screen to draw at.
  */
-void GUI_DrawSprite_8002(uint16 memory)
+void GUI_DrawSprite_8002(uint16 screenID)
 {
-	GUI_DrawSprite(memory, g_global->variable_8002, g_global->variable_8010, g_global->variable_8011, 0, 0);
+	GUI_DrawSprite(screenID, g_global->variable_8002, g_global->variable_8010, g_global->variable_8011, 0, 0);
 }
 
 /**
@@ -2428,7 +2428,7 @@ static void ClipRight(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 {
-	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x00, 0x00);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x00, 0x00);
 	int16 increment = 1;
 
 	if (x1 < g_clipping.left || x1 > g_clipping.right || y1 < g_clipping.top || y1 > g_clipping.bottom || x2 < g_clipping.left || x2 > g_clipping.right || y2 < g_clipping.top || y2 > g_clipping.bottom) {
@@ -2554,10 +2554,10 @@ void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom)
  * @param yDst The Y-coordinate on the destination.
  * @param width The width divided by 8.
  * @param height The height.
- * @param memBlockSrc The ID of the source memory block.
- * @param memBlockDst The ID of the destination memory block.
+ * @param screenSrc The ID of the source screen.
+ * @param screenDst The ID of the destination screen.
  */
-void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst)
+void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 screenSrc, int16 screenDst)
 {
 	if (width  > SCREEN_WIDTH / 8) width  = SCREEN_WIDTH / 8;
 	if (height > SCREEN_HEIGHT)    height = SCREEN_HEIGHT;
@@ -2588,7 +2588,7 @@ void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 		yDst = 0;
 	}
 
-	GFX_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+	GFX_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, screenSrc, screenDst);
 }
 
 static uint32 GUI_FactoryWindow_CreateWidgets()
@@ -3483,16 +3483,16 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
  * @param yDst The Y-position to start in the destination screenbuffer.
  * @param width The width of the screen to copy divided by 8.
  * @param height The height of the screen to copy.
- * @param memBlockSrc Which screenbuffer to use as source.
- * @param memBlockDst Which screenbuffer to use as destination.
+ * @param screenSrc The ID of the source screen.
+ * @param screenDst The ID of the destination screen.
  */
-void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 memBlockSrc, uint16 memBlockDst)
+void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 screenSrc, uint16 screenDst)
 {
 	uint16 offsetsY[100];
 	uint16 offsetsX[40];
 	int x, y;
 
-	if (memBlockDst == 0) {
+	if (screenDst == 0) {
 		emu_push((xDst + width) << 3); emu_push(yDst + height);
 		emu_push(xDst << 3); emu_push(yDst);
 		emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
@@ -3534,7 +3534,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 			offsetX = offsetsX[x];
 			offsetY = offsetsY[y2];
 
-			GUI_Screen_Copy(xSrc + offsetX, ySrc + offsetY * 2, xDst + offsetX, yDst + offsetY * 2, 1, 2, memBlockSrc, memBlockDst);
+			GUI_Screen_Copy(xSrc + offsetX, ySrc + offsetY * 2, xDst + offsetX, yDst + offsetY * 2, 1, 2, screenSrc, screenDst);
 
 			y2++;
 			if (y2 == height) y2 = 0;
@@ -3545,7 +3545,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 		}
 	}
 
-	if (memBlockDst == 0) {
+	if (screenDst == 0) {
 		emu_push(emu_cs); emu_push(0x01BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
 	}
 }

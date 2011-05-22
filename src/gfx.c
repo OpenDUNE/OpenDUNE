@@ -17,10 +17,10 @@ static uint8 g_spriteMode = 0;
 static uint8 g_spriteInfoSize = 0;
 
 /**
- * Get the codesegment of the screen buffer.
+ * Get the codesegment of the active screen buffer.
  * @return The codesegment of the screen buffer.
  */
-uint16 GFX_GetScreenSegment()
+uint16 GFX_Screen_GetSegementActive()
 {
 	uint8 *ptr;
 	uint16 *ptr2;
@@ -34,29 +34,31 @@ uint16 GFX_GetScreenSegment()
 }
 
 /**
- * Returns the codesegment of a memory block buffer?
+ * Returns the codesegment of a screenbuffer.
+ * @param screenID The screenID to get the segment of.
  * @return Some codesegment value.
  */
-uint16 Unknown_22A6_0E1A(uint16 memoryBlockID)
+uint16 GFX_Screen_GetSegmentByID2(uint16 screenID)
 {
 	uint16 *ptr;
 
 	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
-	ptr += (memoryBlockID & 0x1E) + 1;
+	ptr += (screenID & 0x1E) + 1;
 
 	return *ptr;
 }
 
 /**
- * Returns the codesegment of a memory block buffer?
+ * Returns the codesegment of a screenbuffer.
+ * @param screenID The screenID to get the segment of.
  * @return Some codesegment value.
  */
-uint16 Unknown_22A6_0E22(uint16 memoryBlockID)
+uint16 GFX_Screen_GetSegmentByID(uint16 screenID)
 {
 	uint16 *ptr;
 
 	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
-	ptr += (memoryBlockID & 0x1E);
+	ptr += (screenID & 0x1E);
 
 	return *ptr;
 }
@@ -99,7 +101,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	if (g_spriteMode == 4) return;
 
-	wptr = &emu_get_memory8(GFX_GetScreenSegment(), y * SCREEN_WIDTH, x * 8);
+	wptr = &emu_get_memory8(GFX_Screen_GetSegementActive(), y * SCREEN_WIDTH, x * 8);
 	rptr = g_spriteInfo + ((spriteID * g_spriteInfoSize) << 4);
 
 	spacing = g_spriteSpacing;
@@ -125,13 +127,13 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 /**
  * Initialize sprite information.
  *
- * @param memoryBlockID The memory block the sprites are in.
+ * @param screenID The screenID the sprites are in.
  * @param iconRPAL The palette used for sprites.
  * @param iconRTBL The table to look up sprite information.
  */
-void GFX_Init_Sprites(uint16 memoryBlockID, void *iconRPAL, void *iconRTBL)
+void GFX_Init_Sprites(uint16 screenID, void *iconRPAL, void *iconRTBL)
 {
-	g_spriteInfo = &emu_get_memory8(Unknown_22A6_0E1A(memoryBlockID), 0, 0);
+	g_spriteInfo = &emu_get_memory8(GFX_Screen_GetSegmentByID2(screenID), 0, 0);
 
 	g_iconRPAL = iconRPAL;
 	g_iconRTBL = iconRTBL;
@@ -188,7 +190,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (y >= SCREEN_HEIGHT) return;
 	if (x >= SCREEN_WIDTH) return;;
 
-	emu_get_memory8(GFX_GetScreenSegment(), y * SCREEN_WIDTH, x) = colour;
+	emu_get_memory8(GFX_Screen_GetSegementActive(), y * SCREEN_WIDTH, x) = colour;
 }
 
 /**
@@ -199,11 +201,11 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
  * @param yDst The Y-coordinate on the destination.
  * @param width The width.
  * @param height The height.
- * @param memBlockSrc The ID of the source memory block.
- * @param memBlockDst The ID of the destination memory block.
+ * @param screenSrc The ID of the source screen.
+ * @param screenDst The ID of the destination screen.
  * @param skipNull Wether to skip pixel colour 0.
  */
-void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull)
+void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, bool skipNull)
 {
 	uint8 *src;
 	uint8 *dst;
@@ -248,8 +250,8 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	if (width < 0 || width >= SCREEN_WIDTH) return;
 	if (height < 0 || height >= SCREEN_HEIGHT) return;
 
-	src = &emu_get_memory8(Unknown_22A6_0E22(memBlockSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(Unknown_22A6_0E22(memBlockDst), 0x0, 0x0);
+	src = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenDst), 0x0, 0x0);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
@@ -276,10 +278,10 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
  * @param yDst The Y-coordinate on the destination.
  * @param width The width divided by 8.
  * @param height The height.
- * @param memBlockSrc The ID of the source memory block.
- * @param memBlockDst The ID of the destination memory block.
+ * @param screenSrc The ID of the source screen.
+ * @param screenDst The ID of the destination screen.
  */
-void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst)
+void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 screenSrc, uint16 screenDst)
 {
 	uint8 *src;
 	uint8 *dst;
@@ -303,8 +305,8 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	if (yDst >= SCREEN_HEIGHT) return;
 	if (yDst < 0) yDst = 0;
 
-	src = &emu_get_memory8(Unknown_22A6_0E22(memBlockSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(Unknown_22A6_0E22(memBlockDst), 0x0, 0x0);
+	src = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenSrc), 0x0, 0x0);
+	dst = &emu_get_memory8(GFX_Screen_GetSegmentByID(screenDst), 0x0, 0x0);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
@@ -324,7 +326,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
  */
 void GFX_ClearScreen()
 {
-	uint8 *screen = &emu_get_memory8(GFX_GetScreenSegment(), 0x0, 0x0);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x0, 0x0);
 
 	memset(screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }

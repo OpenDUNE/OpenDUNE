@@ -19,7 +19,7 @@ void emu_GFX_GetScreenSegment()
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = GFX_GetScreenSegment();
+	emu_ax = GFX_Screen_GetSegementActive();
 }
 
 /**
@@ -33,7 +33,7 @@ void emu_Unknown_22A6_0E1A()
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = Unknown_22A6_0E1A(emu_ax);
+	emu_ax = GFX_Screen_GetSegmentByID2(emu_ax);
 }
 
 /**
@@ -47,7 +47,7 @@ void emu_Unknown_22A6_0E22()
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = Unknown_22A6_0E22(emu_ax);
+	emu_ax = GFX_Screen_GetSegmentByID(emu_ax);
 }
 
 /**
@@ -87,8 +87,8 @@ void emu_GFX_Screen_Copy2()
 	uint16 yDst;
 	uint16 width;
 	uint16 height;
-	uint16 memBlockSrc;
-	uint16 memBlockDst;
+	uint16 screenSrc;
+	uint16 screenDst;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -100,10 +100,10 @@ void emu_GFX_Screen_Copy2()
 	yDst        = emu_get_memory16(emu_ss, emu_sp, 0x6);
 	width       = emu_get_memory16(emu_ss, emu_sp, 0x8);
 	height      = emu_get_memory16(emu_ss, emu_sp, 0xA);
-	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
-	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
+	screenSrc   = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	screenDst   = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GFX_Screen_Copy2(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst, false);
+	GFX_Screen_Copy2(xSrc, ySrc, xDst, yDst, width, height, screenSrc, screenDst, false);
 }
 
 /**

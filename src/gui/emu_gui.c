@@ -335,8 +335,8 @@ void emu_GUI_Screen_Copy()
 	uint16 yDst;
 	uint16 width;
 	uint16 height;
-	uint16 memBlockSrc;
-	uint16 memBlockDst;
+	uint16 screenSrc;
+	uint16 screenDst;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -348,10 +348,10 @@ void emu_GUI_Screen_Copy()
 	yDst        = emu_get_memory16(emu_ss, emu_sp, 0x6);
 	width       = emu_get_memory16(emu_ss, emu_sp, 0x8);
 	height      = emu_get_memory16(emu_ss, emu_sp, 0xA);
-	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
-	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
+	screenSrc   = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	screenDst   = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GUI_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+	GUI_Screen_Copy(xSrc, ySrc, xDst, yDst, width, height, screenSrc, screenDst);
 }
 
 /**
@@ -481,8 +481,8 @@ void emu_GUI_Screen_FadeIn()
 	uint16 yDst;
 	uint16 width;
 	uint16 height;
-	uint16 memBlockSrc;
-	uint16 memBlockDst;
+	uint16 screenSrc;
+	uint16 screenDst;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -494,10 +494,10 @@ void emu_GUI_Screen_FadeIn()
 	yDst        = emu_get_memory16(emu_ss, emu_sp, 0x6);
 	width       = emu_get_memory16(emu_ss, emu_sp, 0x8);
 	height      = emu_get_memory16(emu_ss, emu_sp, 0xA);
-	memBlockSrc = emu_get_memory16(emu_ss, emu_sp, 0xC);
-	memBlockDst = emu_get_memory16(emu_ss, emu_sp, 0xE);
+	screenSrc   = emu_get_memory16(emu_ss, emu_sp, 0xC);
+	screenDst   = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
-	GUI_Screen_FadeIn(xSrc, ySrc, xDst, yDst, width, height, memBlockSrc, memBlockDst);
+	GUI_Screen_FadeIn(xSrc, ySrc, xDst, yDst, width, height, screenSrc, screenDst);
 }
 
 /**
