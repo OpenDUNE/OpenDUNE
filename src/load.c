@@ -9,6 +9,7 @@
 #include "file.h"
 #include "house.h"
 #include "map.h"
+#include "opendune.h"
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
@@ -23,9 +24,6 @@
 #include "unknown/unknown.h"
 #include "gui/gui.h"
 #include "sprites.h"
-
-extern void Game_Prepare();
-extern void Game_Init();
 
 /**
  * Load all kinds of important info from a file.
