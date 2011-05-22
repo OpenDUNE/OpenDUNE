@@ -2278,26 +2278,6 @@
 				Name="input"
 				>
 				<File
-					RelativePath="..\src\input\emu_input.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\input\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\input\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\src\input\input.c"
 					>
 					<FileConfiguration

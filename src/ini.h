@@ -8,7 +8,6 @@ extern void Ini_GetString(const char *category, const char *key, const char *def
 extern int Ini_GetInteger(const char *category, const char *key, int defaultValue, const char *source);
 
 extern void emu_String_Trim();
-extern void emu_Ini_GetInteger();
 extern void emu_Ini_GetString();
 
 #endif /* INI_H */

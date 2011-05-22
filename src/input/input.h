@@ -94,7 +94,4 @@ extern void System_Init_Input();
 extern uint16 Input_Flags_ClearBits(uint16 bits);
 extern uint16 Input_Flags_SetBits(uint16 bits);
 
-extern void emu_Input_Flags_ClearBits();
-extern void emu_Input_Flags_SetBits();
-
 #endif /* INTPUT_H */

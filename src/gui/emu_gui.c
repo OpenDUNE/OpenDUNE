@@ -144,28 +144,6 @@ void emu_GUI_PaletteAnimate()
 }
 
 /**
- * Emulator wrapper around GUI_DisplayModalMessage()
- *
- * @name emu_GUI_DisplayModalMessage
- * @implements 10E4:0273:0029:DCE5 ()
- */
-void emu_GUI_DisplayModalMessage()
-{
-	csip32 str;
-	uint16 arg0A;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	str     = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	arg0A   = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	/* XXX -- Theorically there can be more args, but this wrapper is always called without any */
-	emu_ax = GUI_DisplayModalMessage((char *)emu_get_memorycsip(str), arg0A);
-}
-
-/**
  * Emulator wrapper around GUI_SplitText()
  *
  * @name emu_GUI_SplitText
@@ -344,54 +322,6 @@ void emu_GUI_DisplayHint()
 }
 
 /**
- * Emulator wrapper around GUI_DrawCredits().
- *
- * @name emu_GUI_DrawCredits
- * @implements 10E4:0675:0026:F126 ()
- */
-void emu_GUI_DrawCredits()
-{
-	uint16 houseID;
-	uint16 var08;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	var08   = emu_get_memory16(emu_ss, emu_sp, 0x2);
-
-	GUI_DrawCredits((uint8)houseID, var08);
-}
-
-/**
- * Emulator wrapper around GUI_DrawLine().
- *
- * @name emu_GUI_DrawLine
- * @implements 22A6:094D:000C:EC7D ()
- */
-void emu_GUI_DrawLine()
-{
-	uint16 x1;
-	uint16 y1;
-	uint16 x2;
-	uint16 y2;
-	uint16 color;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	x1    = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	y1    = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	x2    = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	y2    = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	color = emu_get_memory16(emu_ss, emu_sp, 0x8);
-
-	GUI_DrawLine(x1, y1, x2, y2, (uint8)color);
-}
-
-/**
  * Emulator wrapper around GUI_Unknown_24D0_000D().
  *
  * @name emu_GUI_Unknown_24D0_000D
@@ -422,27 +352,6 @@ void emu_GUI_Unknown_24D0_000D()
 	loc14 = emu_get_memory16(emu_ss, emu_sp, 0xE);
 
 	GUI_Unknown_24D0_000D(loc06, loc08, loc0A, loc0C, loc0E, loc10, loc12, loc14);
-}
-
-/**
- * Emulator wrapper around GUI_Mentat_Display().
- *
- * @name emu_GUI_Mentat_Display()
- * @implements B4DA:0000:002C:B3C2 ()
- */
-void emu_GUI_Mentat_Display()
-{
-	csip32 houseFilename;
-	uint16 houseID;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	houseFilename = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	houseID = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	GUI_Mentat_Display((char *)emu_get_memorycsip(houseFilename), houseID);
 }
 
 /**

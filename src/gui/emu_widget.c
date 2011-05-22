@@ -43,54 +43,6 @@ void emu_GUI_Widget_Get_ByIndex()
 }
 
 /**
- * Emulator wrapper around GUI_Widget_MakeInvisible().
- *
- * @name emu_GUI_Widget_MakeInvisible
- * @implements B48B:0088:0029:3A68 ()
- */
-void emu_GUI_Widget_MakeInvisible()
-{
-	csip32 wcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = wcsip.s.ip;
-	emu_dx = wcsip.s.cs;
-
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_MakeInvisible((Widget *)emu_get_memorycsip(wcsip));
-}
-
-/**
- * Emulator wrapper around GUI_Widget_MakeVisible().
- *
- * @name emu_GUI_Widget_MakeVisible
- * @implements B48B:00BD:0029:3530 ()
- */
-void emu_GUI_Widget_MakeVisible()
-{
-	csip32 wcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = wcsip.s.ip;
-	emu_dx = wcsip.s.cs;
-
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_MakeVisible((Widget *)emu_get_memorycsip(wcsip));
-}
-
-/**
  * Emulator wrapper around GUI_Widget_Draw().
  *
  * @name emu_GUI_Widget_Draw
@@ -150,65 +102,6 @@ void emu_GUI_Widget_ScrollBar_Draw()
 }
 
 /**
- * Emulator wrapper around GUI_Widget_Scrollbar_ArrowUp_Click().
- *
- * @name emu_GUI_Widget_Scrollbar_ArrowUp_Click
- * @implements B520:03C7:0017:65D1 ()
- */
-void emu_GUI_Widget_Scrollbar_ArrowUp_Click()
-{
-	csip32 wcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(wcsip));
-}
-
-/**
- * Emulator wrapper around GUI_Widget_Scrollbar_ArrowDown_Click().
- *
- * @name emu_GUI_Widget_Scrollbar_ArrowDown_Click
- * @implements B520:03E7:0017:BA36 ()
- */
-void emu_GUI_Widget_Scrollbar_ArrowDown_Click()
-{
-	csip32 wcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(wcsip));
-}
-
-/**
- * Emulator wrapper around GUI_Widget_GetShortcut()
- *
- * @name emu_GUI_Widget_GetShortcut
- * @implements 29DA:00D0:0013:E21A ()
- */
-void emu_GUI_Widget_GetShortcut()
-{
-	uint16 c;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	c = emu_get_memory16(emu_ss, emu_sp, 0);
-
-	emu_ax = GUI_Widget_GetShortcut(c & 0xFF);
-}
-
-/**
  * Emulator wrapper around GUI_Widget_Allocate()
  *
  * @name emu_GUI_Widget_Allocate
@@ -238,86 +131,6 @@ void emu_GUI_Widget_Allocate()
 	variable_3A = emu_get_memory16(emu_ss, emu_sp, 0xC);
 
 	GUI_Widget_Allocate(index, shortcut, offsetX, offsetY, spriteID, stringID, variable_3A, &retcsip);
-
-	emu_dx = retcsip.s.cs;
-	emu_ax = retcsip.s.ip;
-}
-
-/**
- * Emulator wrapper around #GUI_Widget_Allocate2.
- *
- * @name emu_GUI_Widget_Allocate2
- * @implements B520:0235:0016:54C9 ()
- */
-void emu_GUI_Widget_Allocate2()
-{
-	uint16 index;
-	uint16 parentID;
-	uint16 offsetX;
-	uint16 offsetY;
-	int16 width;
-	int16 height;
-	csip32 drawProc;
-
-	Widget *w;
-	csip32 retcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index         = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	parentID      = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	offsetX       = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	offsetY       = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	width         = emu_get_memory16(emu_ss, emu_sp, 0x8);
-	height        = emu_get_memory16(emu_ss, emu_sp, 0xA);
-	drawProc.csip = emu_get_memory32(emu_ss, emu_sp, 0xC);
-
-	w = GUI_Widget_Allocate2(index, parentID, offsetX, offsetY, width, height, drawProc);
-	retcsip = emu_Global_GetCSIP(w);
-
-	emu_dx = retcsip.s.cs;
-	emu_ax = retcsip.s.ip;
-}
-
-/**
- * Emulator wrapper around #GUI_Widget_Allocate3
- *
- * @name emu_GUI_Widget_Allocate3
- * @implements B520:0114:0016:52C9 ()
- */
-void emu_GUI_Widget_Allocate3()
-{
-	uint16 index;
-	uint16 parentID;
-	uint16 offsetX;
-	uint16 offsetY;
-	csip32 csipSprite1;
-	csip32 csipSprite2;
-	csip32 csipWidget2;
-	uint16 unknown1A;
-
-	Widget *w;
-	csip32 retcsip;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index            = emu_get_memory16(emu_ss, emu_sp, 0x00);
-	parentID         = emu_get_memory16(emu_ss, emu_sp, 0x02);
-	offsetX          = emu_get_memory16(emu_ss, emu_sp, 0x04);
-	offsetY          = emu_get_memory16(emu_ss, emu_sp, 0x06);
-	csipSprite1.csip = emu_get_memory32(emu_ss, emu_sp, 0x08);
-	csipSprite2.csip = emu_get_memory32(emu_ss, emu_sp, 0x0C);
-	csipWidget2.csip = emu_get_memory32(emu_ss, emu_sp, 0x10);
-	unknown1A        = emu_get_memory16(emu_ss, emu_sp, 0x14);
-
-	w = (Widget *)emu_get_memorycsip(csipWidget2);
-
-	w = GUI_Widget_Allocate3(index, parentID, offsetX, offsetY, csipSprite1, csipSprite2, w, unknown1A);
-	retcsip = emu_Global_GetCSIP(w);
 
 	emu_dx = retcsip.s.cs;
 	emu_ax = retcsip.s.ip;
@@ -370,27 +183,6 @@ void emu_GUI_Widget_DrawBorder()
 	pressed    = emu_get_memory16(emu_ss, emu_sp, 0x4);
 
 	GUI_Widget_DrawBorder(widget, borderType, (pressed != 0) ? true : false);
-}
-
-/**
- * Emulator wrapper around GUI_Widget_DrawAll().
- *
- * @name emu_GUI_Widget_DrawAll
- * @implements B48B:03A4:0005:619A ()
- */
-void emu_GUI_Widget_DrawAll()
-{
-	csip32 wcsip;
-
-        /* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (wcsip.csip == 0x0) return;
-
-	GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(wcsip));
 }
 
 /**

@@ -225,19 +225,11 @@ extern void GUI_Widget_DrawAll(Widget *w);
 
 extern void emu_GUI_Widget_Get_ByIndex();
 extern void emu_GUI_Widget_HandleEvents();
-extern void emu_GUI_Widget_MakeInvisible();
-extern void emu_GUI_Widget_MakeVisible();
 extern void emu_GUI_Widget_Draw();
 extern void emu_GUI_Widget_ScrollBar_Draw();
-extern void emu_GUI_Widget_Scrollbar_ArrowUp_Click();
-extern void emu_GUI_Widget_Scrollbar_ArrowDown_Click();
-extern void emu_GUI_Widget_GetShortcut();
 extern void emu_GUI_Widget_Allocate();
-extern void emu_GUI_Widget_Allocate2();
-extern void emu_GUI_Widget_Allocate3();
 extern void emu_GUI_Widget_MakeNormal();
 extern void emu_GUI_Widget_DrawBorder();
-extern void emu_GUI_Widget_DrawAll();
 extern void emu_GUI_Widget_Link();
 
 #endif /* GUI_WIDGET_H */

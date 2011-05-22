@@ -28,8 +28,6 @@ extern void emu_File_Close();
 extern void emu_File_Read();
 extern void emu_File_Write();
 extern void emu_File_Seek();
-extern void emu_File_Delete();
-extern void emu_File_Create();
 extern void emu_File_ReadBlockFile();
 extern void emu_File_Obsolete1();
 extern void emu_File_Obsolete5();

@@ -155,50 +155,6 @@ void emu_File_Seek()
 }
 
 /**
- * Emulator wrapper around File_Delete().
- *
- * @name emu_File_Delete
- * @implements 1FB5:17FE:0011:2DA9 ()
- */
-void emu_File_Delete()
-{
-	csip32 filename;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	filename = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	if (filename.csip == 0x0) return;
-
-	File_Delete((char *)emu_get_memorycsip(filename));
-}
-
-/**
- * Emulator wrapper around File_Create().
- *
- * @name emu_File_Create
- * @implements 1FB5:189B:0010:8453 ()
- */
-void emu_File_Create()
-{
-	csip32 filename;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	filename = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = 0;
-
-	if (filename.csip == 0x0) return;
-
-	File_Create((char *)emu_get_memorycsip(filename));
-}
-
-/**
  * Emulator wrapper around File_ReadBlockFile()
  *
  * @name emu_File_ReadBlockFile
