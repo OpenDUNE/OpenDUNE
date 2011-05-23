@@ -4,7 +4,7 @@
 #define INI_H
 
 extern void String_Trim(char *string);
-extern void Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, const char *source);
+extern bool Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, const char *source);
 extern int Ini_GetInteger(const char *category, const char *key, int defaultValue, const char *source);
 
 extern void emu_String_Trim();

@@ -40,6 +40,7 @@ void emu_Ini_GetString()
 	csip32 dcsip;
 	uint16 length;
 	csip32 scsip;
+	bool ret;
 
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -52,5 +53,9 @@ void emu_Ini_GetString()
 	length = emu_get_memory16(emu_ss, emu_sp, 0x10);
 	scsip  =   emu_get_csip32(emu_ss, emu_sp, 0x12);
 
-	Ini_GetString((char *)emu_get_memorycsip(ccsip), (char *)emu_get_memorycsip(kcsip), (char *)emu_get_memorycsip(dvcsip), (char *)emu_get_memorycsip(dcsip), length, (char *)emu_get_memorycsip(scsip));
+	ret = Ini_GetString((char *)emu_get_memorycsip(ccsip), (char *)emu_get_memorycsip(kcsip), (char *)emu_get_memorycsip(dvcsip), (char *)emu_get_memorycsip(dcsip), length, (char *)emu_get_memorycsip(scsip));
+
+	emu_ax = 0x0;
+	emu_dx = 0x0;
+	if (ret) emu_ax = 1;
 }

@@ -17,21 +17,21 @@ void String_Trim(char *string)
 	}
 }
 
-void Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, const char *source)
+bool Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, const char *source)
 {
 	char *s;
 	char buffer[1024];
 	uint16 catLength;
 	const char *current;
 
-	if (dest == NULL) return;
+	if (dest == NULL) return false;
 
 	/* Set the default value in case we jump out early */
 	if (defaultValue != NULL) strncpy(dest, defaultValue, length);
 
 	dest[length - 1] = '\0';
 
-	if (source == NULL) return;
+	if (source == NULL) return false;
 
 	sprintf(buffer, "[%s]", category);
 	for (s = buffer; *s != '\0'; s++) if (*s >= 'a' && *s <= 'z') *s -= 32;
@@ -99,12 +99,12 @@ void Ini_GetString(const char *category, const char *key, const char *defaultVal
 				*(dest + len) = '\0';
 
 				String_Trim(dest);
-				return;
+				return true;
 			}
 
 			/* Failed to find the key. Return anyway. */
 			*dest = '\0';
-			return;
+			return false;
 		}
 
 		/* Read all the keys from this section */
@@ -132,8 +132,10 @@ void Ini_GetString(const char *category, const char *key, const char *defaultVal
 		*dest++ = '\0';
 		*dest++ = '\0';
 
-		return;
+		return true;
 	}
+
+	return false;
 }
 
 int Ini_GetInteger(const char *category, const char *key, int defaultValue, const char *source)
