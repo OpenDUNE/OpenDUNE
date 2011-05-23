@@ -56,7 +56,6 @@ extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B503_088B_000B_B072();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
@@ -3030,16 +3029,29 @@ static void GUI_StrategicMap_Var2AF4_Set(uint16 region, bool set)
 	}
 }
 
+static int16 GUI_StrategicMap_ClickedRegion()
+{
+	emu_push(emu_cs); emu_push(0x0896); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+
+	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	if (emu_ax == 0) return 0;
+
+	emu_push(emu_cs); emu_push(0x08A8); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+	if (emu_ax != 0xC6 && emu_ax != 0xC7) return 0;
+
+	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_global->mouseClickY - 24) * 304 + g_global->mouseClickX - 8];
+}
+
 static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 {
 	uint16 count;
 	char key[6];
-	bool loc10 = false;
+	bool loop = true;
 	bool loc12 = true;
-	uint16 loc14 = 0;
 	char category[16];
 	StrategicMapData data[20];
-	uint16 ret;
+	uint16 scenarioID;
+	uint16 region;
 	uint16 i;
 
 	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
@@ -3086,39 +3098,36 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	emu_push(emu_cs); emu_push(0x07F2); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	ret = 0;
+	while (loop) {
+		region = GUI_StrategicMap_ClickedRegion();
 
-	while (!loc10) {
-		emu_push(emu_cs); emu_push(0x0800); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_088B_000B_B072();
-		ret = emu_ax;
-
-		if (ret == 0) continue;
+		if (region == 0) continue;
 
 		for (i = 0; i < count; i++) {
 			emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
 
-			if (data[i].index == ret) {
-				loc10 = true;
-				loc14 = i;
+			if (data[i].index == region) {
+				loop = false;
+				scenarioID = i;
 				break;
 			}
 		}
 	}
 
-	GUI_StrategicMap_Var2AF4_Set(ret, true);
+	GUI_StrategicMap_Var2AF4_Set(region, true);
 
 	emu_push(0x353F); emu_push(0x2B1D); /* "" */
 	emu_push(emu_cs); emu_push(0x0851); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
 	emu_sp += 4;
 
-	GUI_StrategicMap_AnimateSelected(ret, data);
+	GUI_StrategicMap_AnimateSelected(region, data);
 
-	ret = (campaignID - 1) * 3 + loc14 + 2;
+	scenarioID += (campaignID - 1) * 3 + 2;
 
-	if (campaignID > 7) ret--;
-	if (campaignID > 8) ret--;
+	if (campaignID > 7) scenarioID--;
+	if (campaignID > 8) scenarioID--;
 
-	return ret;
+	return scenarioID;
 }
 
 uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
