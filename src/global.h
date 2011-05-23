@@ -91,7 +91,7 @@ typedef struct struct_8BEA {
 	/* 0000(2)   */ PACK uint16 objectType;                 /*!< ?? */
 	/* 0002(1)   */ PACK int8   amount;                     /*!< ?? */
 	/* 0003(2)   */ PACK uint16 credits;                    /*!< ?? */
-	/* 0005(2)   */ PACK uint16 variable_0005;              /*!< ?? */
+	/* 0005(2)   */ PACK uint16 sortPriority;               /*!< ?? */
 	/* 0007(4)   */ PACK csip32 objectInfo;                 /*!< ?? */
 } GCC_PACKED struct_8BEA;
 MSVC_PACKED_END

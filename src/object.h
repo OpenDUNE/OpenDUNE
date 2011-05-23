@@ -99,7 +99,7 @@ typedef struct ObjectInfo {
 	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
 	/* 001A(2)   */ PACK uint16 availableCampaign;          /*!< In which campaign (starting at 1) this Structure/Unit is available. */
 	/* 001C(4)   */ PACK uint32 structuresRequired;         /*!< Which structures are required before this Structure/Unit is available. */
-	/* 0020(1)   */ PACK uint8  variable_20;                /*!< ?? */
+	/* 0020(1)   */ PACK uint8  sortPriority;               /*!< ?? */
 	/* 0021(1)   */ PACK uint8  upgradeLevelRequired;       /*!< Which level of upgrade the Structure has to have before this is avialable. */
 	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
 	/* 002A(1)   */ PACK  int8  available;                  /*!< If this Unit/Structure is ordered (Starport) / available (Rest). 1+=yes (volume), 0=no, -1=upgrade-first. */

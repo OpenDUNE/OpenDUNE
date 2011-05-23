@@ -39,7 +39,6 @@ extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_Tools_Var79E4_Init();
 extern void f__01F7_286D_0023_9A13();
-extern void f__01F7_325B_0026_C673();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
@@ -2677,6 +2676,14 @@ static uint16 GUI_FactoryWindow_CalculateStarportPrice(uint16 credits)
 	return min(credits, 999);
 }
 
+static int GUI_FactoryWindow_Sorter(const void *a, const void *b)
+{
+	const struct_8BEA *pa = a;
+	const struct_8BEA *pb = b;
+
+	return pb->sortPriority - pa->sortPriority;
+}
+
 static void GUI_FactoryWindow_InitVar8BEA()
 {
 	g_global->variable_7FBA = 0;
@@ -2714,7 +2721,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 				g_global->variable_8BEA[g_global->variable_7FBA].credits = oi->buildCredits;
 			}
 
-			g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = oi->variable_20;
+			g_global->variable_8BEA[g_global->variable_7FBA].sortPriority = oi->sortPriority;
 
 			g_global->variable_7FBA++;
 		}
@@ -2729,9 +2736,9 @@ static void GUI_FactoryWindow_InitVar8BEA()
 			g_global->variable_8BEA[g_global->variable_7FBA].objectInfo    = emu_Global_GetCSIP(oi);
 			g_global->variable_8BEA[g_global->variable_7FBA].objectType    = i;
 			g_global->variable_8BEA[g_global->variable_7FBA].credits       = oi->buildCredits;
-			g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = oi->variable_20;
+			g_global->variable_8BEA[g_global->variable_7FBA].sortPriority  = oi->sortPriority;
 
-			if (i == 0 || i == 1) g_global->variable_8BEA[g_global->variable_7FBA].variable_0005 = 0x64;
+			if (i == 0 || i == 1) g_global->variable_8BEA[g_global->variable_7FBA].sortPriority = 0x64;
 
 			g_global->variable_7FBA++;
 		}
@@ -2743,12 +2750,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 		exit(0);
 	}
 
-	emu_push(0x3495); emu_push(0x98);
-	emu_push(11);
-	emu_push(g_global->variable_7FBA);
-	emu_push(0x353F); emu_push(0x8BEA);
-	emu_push(emu_cs); emu_push(0x19A7); emu_cs = 0x01F7; f__01F7_325B_0026_C673();
-	emu_sp += 12;
+	qsort(g_global->variable_8BEA, g_global->variable_7FBA, sizeof(struct_8BEA), GUI_FactoryWindow_Sorter);
 }
 
 static void GUI_FactoryWindow_Init()
