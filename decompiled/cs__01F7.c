@@ -5638,47 +5638,6 @@ l__2867:
 }
 
 /**
- * Decompiled function f__01F7_286D_0023_9A13()
- *
- * @name f__01F7_286D_0023_9A13
- * @implements 01F7:286D:0023:9A13 ()
- * @implements 01F7:2888:0008:580E
- *
- * Called From: 1A34:1E49:0014:E870
- * Called From: 1A34:1E49:0015:EAB8
- * Called From: B4E9:0204:002D:A3B3
- */
-void f__01F7_286D_0023_9A13()
-{
-l__286D:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_di);
-	emu_lfp(&emu_es, &emu_di, &emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_cx = emu_get_memory16(emu_ss, emu_bp,  0xC);
-	if (emu_cx == 0) { /* Unresolved jump */ emu_ip = 0x2881; emu_last_cs = 0x01F7; emu_last_ip = 0x2877; emu_last_length = 0x0023; emu_last_crc = 0x9A13; emu_call(); return; }
-	emu_al = emu_get_memory8(emu_ss, emu_bp,  0xA);
-	emu_cld();
-	emu_repne_scasb();
-	if (!emu_flags.zf) {
-		emu_xorw(&emu_di, emu_di);
-		emu_es = emu_di;
-		emu_di = 0x1;
-	}
-l__2888:
-	emu_decw(&emu_di);
-	emu_ax = emu_di;
-	emu_dx = emu_es;
-	emu_pop(&emu_di);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Tools_Memcopy()
  *
  * @name emu_Tools_Memcopy

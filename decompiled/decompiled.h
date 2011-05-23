@@ -431,7 +431,6 @@ extern void f__AB01_275D_0001_6780();
 extern void f__01F7_276F_000F_E56B();
 extern void f__01F7_27FD_0037_E2C0();
 extern void f__AB01_281A_003D_9A17();
-extern void f__01F7_286D_0023_9A13();
 extern void f__AB01_2892_0001_6780();
 extern void f__AB01_289D_0017_6184();
 extern void emu_Tools_Memcopy();

@@ -38,7 +38,6 @@
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_Tools_Var79E4_Init();
-extern void f__01F7_286D_0023_9A13();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
@@ -2260,17 +2259,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				w->state.s.selected = false;
 				w->flags.s.invisible = true;
 
-				emu_push(*loc08);
-				emu_push(w->index);
-				emu_push(info[selectionType].variable_00.s.cs); emu_push(info[selectionType].variable_00.s.ip + 1);
-				emu_push(emu_cs); emu_push(0x0209); emu_cs = 0x01F7; f__01F7_286D_0023_9A13();
-				/* Check if this overlay should be reloaded */
-				if (emu_cs == 0x34E9) { overlay(0x34E9, 1); }
-				emu_sp += 8;
-
-				if (emu_ax != 0 || emu_dx != 0) {
-					w->flags.s.invisible = false;
-				}
+				if (memchr(loc08 + 1, w->index, *loc08) != NULL) w->flags.s.invisible = false;
 
 				GUI_Widget_Draw(w);
 				w = GUI_Widget_GetNext(w);

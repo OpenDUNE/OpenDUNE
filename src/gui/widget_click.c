@@ -27,7 +27,6 @@
 #include "../house.h"
 #include "../gfx.h"
 
-extern void f__01F7_286D_0023_9A13();
 extern void emu_GUI_CopyToBuffer();
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_Input_History_Clear();
@@ -249,8 +248,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	Unit *u;
 	UnitInfo *ui;
 	uint16 *actions;
-	csip32 acsip;
-	csip32 loc08;
+	uint16 *found;
 	ActionType unitAction;
 	ActionInfo *ai;
 
@@ -258,14 +256,10 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	ui = &g_unitInfo[u->o.type];
 
 	actions = ui->o.actionsPlayer;
-	acsip.s.cs = 0x2D07;
-	acsip.s.ip = u->o.type * sizeof(UnitInfo) + 0x22;
 
 	if (Unit_GetHouseID(u) != g_global->playerHouseID) {
 		if (u->o.type != UNIT_SIEGE_TANK) {
 			actions = g_global->actionsAI;
-			acsip.s.cs = 0x353F;
-			acsip.s.ip = 0x3C2A;
 		}
 	}
 
@@ -307,17 +301,10 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	if (unitAction == action) return true;
 
-	emu_push(4);
-	emu_push(unitAction);
-	emu_push(acsip.s.cs); emu_push(acsip.s.ip);
-	emu_push(emu_cs); emu_push(0x1E4E); emu_cs = 0x01F7; f__01F7_286D_0023_9A13();
-	emu_sp += 8;
+	found = memchr(actions, unitAction, 4);
+	if (found == NULL) return true;
 
-	loc08.s.cs = emu_dx;
-	loc08.s.ip = emu_ax;
-	if (loc08.csip == 0) return true;
-
-	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), loc08.s.ip - acsip.s.ip + 8), false);
+	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), found - actions + 8), false);
 
 	return true;
 }
