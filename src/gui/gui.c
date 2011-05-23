@@ -34,6 +34,7 @@
 #include "../wsa.h"
 #include "../file.h"
 #include "../opendune.h"
+#include "../ini.h"
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
@@ -55,10 +56,14 @@ extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B503_0586_0017_050A();
+extern void f__B503_088B_000B_B072();
+extern void f__B503_08DB_0014_ECA4();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
+extern void f__B503_12AC_0013_473F();
+extern void f__B503_1302_0013_473F();
+extern void f__B503_1343_003B_6432();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -2936,17 +2941,139 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 	return String_Get_ByIndex(stringID);
 }
 
-uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
+static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 {
-	uint16 loc02;
+	MSVC_PACKED_BEGIN
+	typedef struct Data {
+		/* 0000(2)   */ PACK uint16 variable_0;      /*!< ?? */
+		/* 0002(2)   */ PACK uint16 variable_2;      /*!< ?? */
+		/* 0004(2)   */ PACK uint16 variable_4;      /*!< ?? */
+		/* 0006(2)   */ PACK uint16 variable_6;      /*!< ?? */
+	} GCC_PACKED Data;
+	MSVC_PACKED_END
+	assert_compile(sizeof(Data) == 0x8);
+
+	uint16 count;
+	char key[6];
+	bool loc10 = false;
+	bool loc12 = true;
+	uint16 loc14 = 0;
+	char category[16];
+	Data *locC4; /* locC4[20][4] */
+	uint16 ret;
+	uint16 i;
+
+	emu_sp -= 0xC4;
+
+	locC4 = (Data *)&emu_get_memory8(emu_ss, emu_sp, 0x0);
+
+	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+
+	sprintf(category, "GROUP%d", campaignID);
+
+	memset(locC4, 0, 160);
+
+	for (i = 0; i < 20; i++) {
+		sprintf(key, "REG%d", i + 1);
+
+		if (!Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) break;
+
+		sscanf((char *)g_global->variable_9939, "%d,%d,%d,%d", &locC4[i].variable_0, &locC4[i].variable_2, &locC4[i].variable_4, &locC4[i].variable_6);
+
+		emu_push(locC4[i].variable_0);
+		emu_push(emu_cs); emu_push(0x0668); emu_cs = 0x3503; overlay(0x3503, 0), f__B503_1302_0013_473F();
+		emu_sp += 2;
+		if (emu_ax == 0) loc12 = false;
+
+		GFX_Screen_Copy2(locC4[i].variable_4, locC4[i].variable_6, i * 16, 152, 16, 16, 2, 2, false);
+		GFX_Screen_Copy2(locC4[i].variable_4, locC4[i].variable_6, i * 16, 0, 16, 16, 2, 2, false);
+		GUI_DrawSprite(2, Sprites_GetCSIP(g_global->ARROWS_SHP, locC4[i].variable_2), i * 16, 152, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	}
+
+	count = i;
+
+	if (loc12) {
+		for (i = 0; i < count; i++) {
+			emu_push(0);
+			emu_push(locC4[i].variable_0);
+			emu_push(emu_cs); emu_push(0x074A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_12AC_0013_473F();
+			emu_sp += 4;
+		}
+	} else {
+		for (i = 0; i < count; i++) {
+			emu_push(locC4[i].variable_0);
+			emu_push(emu_cs); emu_push(0x0771); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1302_0013_473F();
+			emu_sp += 2;
+			if (emu_ax != 0) locC4[i].variable_0 = 0;
+		}
+	}
+
+	emu_push(emu_cs); emu_push(0x079C); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	for (i = 0; i < count; i++) {
+		if (locC4[i].variable_0 == 0) continue;
+
+		GFX_Screen_Copy2(i * 16, 152, locC4[i].variable_4, locC4[i].variable_6, 16, 16, 2, 0, false);
+	}
+
+	emu_push(emu_cs); emu_push(0x07ED); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	emu_push(emu_cs); emu_push(0x07F2); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	ret = 0;
+
+	while (!loc10) {
+		emu_push(emu_cs); emu_push(0x0800); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_088B_000B_B072();
+		ret = emu_ax;
+
+		if (ret == 0) continue;
+
+		for (i = 0; i < count; i++) {
+			emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+
+			if (locC4[i].variable_0 == ret) {
+				loc10 = true;
+				loc14 = i;
+				break;
+			}
+		}
+	}
+
+	emu_push(1);
+	emu_push(ret);
+	emu_push(emu_cs); emu_push(0x0845); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_12AC_0013_473F();
+	emu_sp += 4;
+
+	emu_push(0x353F); emu_push(0x2B1D); /* "" */
+	emu_push(emu_cs); emu_push(0x0851); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+	emu_sp += 4;
+
+	emu_push(emu_ss); emu_push(emu_sp + 2); /* locC4 */
+	emu_push(ret);
+	emu_push(emu_cs); emu_push(0x085F); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_08DB_0014_ECA4();
+	emu_sp += 6;
+
+	ret = (campaignID - 1) * 3 + loc14 + 2;
+
+	if (campaignID > 7) ret--;
+	if (campaignID > 8) ret--;
+
+	emu_sp += 0xC4;
+
+	return ret;
+}
+
+uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
+{
+	uint16 scenarioID;
 	uint16 loc04;
 	uint16 loc06;
-	uint16 loc08;
+	uint16 x;
+	uint16 y;
 	uint16 oldScreenID;
 	uint8 *loc30A;
 	uint8 loc316[12];
 	csip32 csip30A;
-	uint16 locdi;
 
 	if (campaignID == 0) return 1;
 
@@ -2963,7 +3090,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	memset(loc30A, 0, 0x300);
 
-	loc04 = campaignID - (arg08 ? 1 : 0);
+	loc04 = campaignID - (showStory ? 1 : 0);
 	loc06 = campaignID;
 	oldScreenID = GUI_Screen_SetActive(4);
 
@@ -2993,23 +3120,23 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	emu_push(emu_cs); emu_push(0x00F4); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
 	emu_sp += 8;
 
-	loc08 = 0;
-	locdi = 0;
+	x = 0;
+	y = 0;
 
 	switch (g_global->playerHouseID) {
 		case HOUSE_HARKONNEN:
-			locdi = 0;
-			loc08 = 152;
+			x = 0;
+			y = 152;
 			break;
 
 		default:
-			locdi = 33;
-			loc08 = 152;
+			x = 33;
+			y = 152;
 			break;
 
 		case HOUSE_ORDOS:
-			locdi = 1;
-			loc08 = 24;
+			x = 1;
+			y = 24;
 			break;
 	}
 
@@ -3017,8 +3144,8 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 	memcpy(g_global->variable_81BA, emu_get_memorycsip(g_global->variable_3C32) + (144 + (g_global->playerHouseID * 16)) * 3, 12);
 	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
 
-	GUI_Screen_Copy(locdi, loc08, 0, 152, 7, 40, 4, 4);
-	GUI_Screen_Copy(locdi, loc08, 33, 152, 7, 40, 4, 4);
+	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
+	GUI_Screen_Copy(x, y, 33, 152, 7, 40, 4, 4);
 
 	switch (g_global->language) {
 		case LANGUAGE_GERMAN:
@@ -3044,7 +3171,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	g_global->variable_81B4 = 0;
 
-	if (arg08 && campaignID == 1) {
+	if (showStory && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
 		emu_push(0); emu_push(0);
@@ -3176,12 +3303,9 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 		emu_push(emu_cs); emu_push(0x04ED); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
 		emu_sp += 4;
 
-		emu_push(campaignID);
-		emu_push(emu_cs); emu_push(0x04F5); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0586_0017_050A();
-		emu_sp += 2;
-		loc02 = emu_ax;
+		scenarioID = GUI_StrategicMap_ScenarioSelection(campaignID);
 	} else {
-		loc02 = 0;
+		scenarioID = 0;
 	}
 
 	Driver_Music_FadeOut();
@@ -3206,7 +3330,7 @@ uint16 GUI_ShowMap(uint16 campaignID, bool arg08)
 
 	emu_sp += 0x300;
 
-	return loc02;
+	return scenarioID;
 }
 
 /**

@@ -1357,7 +1357,7 @@ static void GameLoop_LevelEnd()
 
 			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
-			g_global->scenarioID = GUI_ShowMap(g_global->campaignID, true);
+			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
 
 			Unknown_259E_0006(g_global->variable_3C36, 15);
 
@@ -1380,7 +1380,7 @@ static void GameLoop_LevelEnd()
 
 			Sprites_UnloadTiles();
 
-			g_global->scenarioID = GUI_ShowMap(g_global->campaignID, false);
+			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, false);
 		}
 
 		{
@@ -2269,7 +2269,7 @@ static void Gameloop_IntroMenu()
 
 		emu_push(emu_cs); emu_push(0x21FA); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-		if (g_global->campaignID != 0) g_global->scenarioID = GUI_ShowMap(g_global->campaignID, true);
+		if (g_global->campaignID != 0) g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
 
 		Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
 		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
