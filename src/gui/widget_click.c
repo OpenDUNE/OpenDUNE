@@ -1169,7 +1169,7 @@ bool GUI_Production_List_Click(Widget *w)
 {
 	GUI_FactoryWindow_B495_0F30();
 
-	g_global->variable_7FBC = w->index - 46;
+	g_global->factoryWindowSelected = w->index - 46;
 
 	GUI_FactoryWindow_DrawDetails();
 
@@ -1185,16 +1185,16 @@ bool GUI_Production_List_Click(Widget *w)
  */
 bool GUI_Production_ResumeGame_Click(Widget *w)
 {
-	g_global->variable_7FC0 = 0;
+	g_global->factoryWindowResult = FACTORY_RESUME;
 
-	if (g_global->variable_7FC2 != 0) {
+	if (g_global->factoryWindowStarport != 0) {
 		uint8 i = 0;
 		House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
-		while (g_global->variable_7FB6 != 0) {
-			if (g_global->variable_8BEA[i].amount != 0) {
-				h->credits += g_global->variable_8BEA[i].amount * g_global->variable_8BEA[i].credits;
-				g_global->variable_7FB6 -= g_global->variable_8BEA[i].amount;
-				g_global->variable_8BEA[i].amount = 0;
+		while (g_global->factoryWindowOrdered != 0) {
+			if (g_global->factoryWindowItems[i].amount != 0) {
+				h->credits += g_global->factoryWindowItems[i].amount * g_global->factoryWindowItems[i].credits;
+				g_global->factoryWindowOrdered -= g_global->factoryWindowItems[i].amount;
+				g_global->factoryWindowItems[i].amount = 0;
 			}
 
 			i++;
@@ -1217,7 +1217,7 @@ bool GUI_Production_Upgrade_Click(Widget *w)
 {
 	GUI_Widget_MakeNormal(w, false);
 
-	g_global->variable_7FC0 = 2;
+	g_global->factoryWindowResult = FACTORY_UPGRADE;
 
 	return true;
 }
@@ -1278,18 +1278,18 @@ bool GUI_Production_Down_Click(Widget *w)
 {
 	bool locdi = false;
 
-	if (g_global->variable_7FBC < 3 && (g_global->variable_7FBC + 1) < g_global->variable_7FBA) {
+	if (g_global->factoryWindowSelected < 3 && (g_global->factoryWindowSelected + 1) < g_global->factoryWindowTotal) {
 		g_global->variable_76B4 = 10;
 		GUI_FactoryWindow_B495_0F30();
-		g_global->variable_7FBC++;
+		g_global->factoryWindowSelected++;
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
-		if (g_global->variable_7FB8 + 4 < g_global->variable_7FBA) {
+		if (g_global->factoryWindowBase + 4 < g_global->factoryWindowTotal) {
 			g_global->variable_76B4 = 10;
-			g_global->variable_7FB8++;
+			g_global->factoryWindowBase++;
 			locdi = true;
 
 			GUI_FactoryWindow_ScrollList(1);
@@ -1324,18 +1324,18 @@ bool GUI_Production_Up_Click(Widget *w)
 {
 	bool locdi = false;
 
-	if (g_global->variable_7FBC != 0) {
+	if (g_global->factoryWindowSelected != 0) {
 		g_global->variable_76B4 = 10;
 		GUI_FactoryWindow_B495_0F30();
-		g_global->variable_7FBC--;
+		g_global->factoryWindowSelected--;
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
-		if (g_global->variable_7FB8 != 0) {
+		if (g_global->factoryWindowBase != 0) {
 			g_global->variable_76B4 = 10;
-			g_global->variable_7FB8--;
+			g_global->factoryWindowBase--;
 			locdi = true;
 
 			GUI_FactoryWindow_ScrollList(-1);
@@ -1380,20 +1380,20 @@ static void GUI_Purchase_ShowInvoice()
 
 	y += 2;
 
-	if (g_global->variable_7FB6 != 0) {
+	if (g_global->factoryWindowOrdered != 0) {
 		uint16 i;
 
-		for (i = 0; i < g_global->variable_7FBA; i++) {
+		for (i = 0; i < g_global->factoryWindowTotal; i++) {
 			ObjectInfo *oi;
 			uint16 amount;
-			if (g_global->variable_8BEA[i].amount == 0) continue;
+			if (g_global->factoryWindowItems[i].amount == 0) continue;
 
-			amount = g_global->variable_8BEA[i].amount * g_global->variable_8BEA[i].credits;
+			amount = g_global->factoryWindowItems[i].amount * g_global->factoryWindowItems[i].credits;
 			total += amount;
 
-			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->variable_8BEA[i].amount, amount);
+			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->factoryWindowItems[i].amount, amount);
 
-			oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[i].objectInfo);
+			oi = (ObjectInfo *)emu_get_memorycsip(g_global->factoryWindowItems[i].objectInfo);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
 			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
@@ -1466,7 +1466,7 @@ static void GUI_Purchase_ShowInvoice()
 		}
 	}
 
-	if (g_global->variable_7FC0 == 0xFFFF) GUI_FactoryWindow_DrawDetails();
+	if (g_global->factoryWindowResult == FACTORY_CONTINUE) GUI_FactoryWindow_DrawDetails();
 }
 
 /**
@@ -1490,24 +1490,24 @@ bool GUI_Purchase_Invoice_Click(Widget *w)
  */
 bool GUI_Production_BuildThis_Click(Widget *w)
 {
-	if (g_global->variable_7FC2 != 0) {
-		if (g_global->variable_7FB6 == 0) {
+	if (g_global->factoryWindowStarport != 0) {
+		if (g_global->factoryWindowOrdered == 0) {
 			GUI_Widget_MakeInvisible(w);
 			GUI_Purchase_ShowInvoice();
 			GUI_Widget_MakeVisible(w);
 		} else {
-			g_global->variable_7FC0 = 1;
+			g_global->factoryWindowResult = FACTORY_BUY;
 		}
 	} else {
-		struct_8BEA *loc04;
+		FactoryWindowItem *item;
 		ObjectInfo *oi;
 
-		loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
-		oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+		item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+		oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 
 		if (oi->available > 0) {
-			loc04->amount = 1;
-			g_global->variable_7FC0 = 1;
+			item->amount = 1;
+			g_global->factoryWindowResult = FACTORY_BUY;
 		}
 	}
 
@@ -1523,23 +1523,23 @@ bool GUI_Production_BuildThis_Click(Widget *w)
  */
 bool GUI_Purchase_Plus_Click(Widget *w)
 {
-	struct_8BEA *loc04;
+	FactoryWindowItem *item;
 	ObjectInfo *oi;
 	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
 
 	GUI_Widget_MakeNormal(w, false);
 
-	loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
-	oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+	item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+	oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 
-	if (loc04->amount < oi->available && loc04->credits <= h->credits) {
-		loc04->amount++;
+	if (item->amount < oi->available && item->credits <= h->credits) {
+		item->amount++;
 
 		GUI_FactoryWindow_UpdateDetails();
 
-		g_global->variable_7FB6++;
+		g_global->factoryWindowOrdered++;
 
-		h->credits -= loc04->credits;
+		h->credits -= item->credits;
 
 		GUI_FactoryWindow_DrawCaption(NULL);
 	}
@@ -1554,21 +1554,21 @@ bool GUI_Purchase_Plus_Click(Widget *w)
  */
 bool GUI_Purchase_Minus_Click(Widget *w)
 {
-	struct_8BEA *loc04;
+	FactoryWindowItem *item;
 	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
 
 	GUI_Widget_MakeNormal(w, false);
 
-	loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
+	item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
 
-	if (loc04->amount != 0) {
-		loc04->amount--;
+	if (item->amount != 0) {
+		item->amount--;
 
 		GUI_FactoryWindow_UpdateDetails();
 
-		g_global->variable_7FB6--;
+		g_global->factoryWindowOrdered--;
 
-		h->credits += loc04->credits;
+		h->credits += item->credits;
 
 		GUI_FactoryWindow_DrawCaption(NULL);
 	}

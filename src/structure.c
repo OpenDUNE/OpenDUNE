@@ -1544,15 +1544,15 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 	}
 
 	if (objectType == 0xFFFF || objectType == 0xFFFE) {
-		uint16 loc1C = 0;
+		uint16 upgradeCost = 0;
 		uint32 buildable;
 
 		if (Structure_IsUpgradable(s) && si->o.hitpoints == s->o.hitpoints) {
-			loc1C = (si->o.buildCredits + (si->o.buildCredits >> 15)) / 2;
+			upgradeCost = (si->o.buildCredits + (si->o.buildCredits >> 15)) / 2;
 		}
 
-		if (loc1C != 0 && s->o.type == STRUCTURE_HIGH_TECH && s->o.houseID == HOUSE_HARKONNEN) loc1C = 0;
-		if (s->o.type == STRUCTURE_STARPORT) loc1C = 0;
+		if (upgradeCost != 0 && s->o.type == STRUCTURE_HIGH_TECH && s->o.houseID == HOUSE_HARKONNEN) upgradeCost = 0;
+		if (s->o.type == STRUCTURE_STARPORT) upgradeCost = 0;
 
 		buildable = Structure_GetBuildable(s);
 
@@ -1564,7 +1564,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 			uint8 i;
 
-			g_global->variable_8BE8 = 1;
+			g_global->factoryWindowConstructionYard = 1;
 
 			for (i = 0; i < STRUCTURE_MAX; i++) {
 				if ((buildable & (1 << i)) == 0) continue;
@@ -1574,7 +1574,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				return false;
 			}
 		} else {
-			g_global->variable_8BE8 = 0;
+			g_global->factoryWindowConstructionYard = 0;
 
 			if (s->o.type == STRUCTURE_STARPORT) {
 				uint8 linkedID = 0xFF;
@@ -1642,7 +1642,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		}
 
 		if (objectType == 0xFFFF) {
-			uint16 loc1E;
+			FactoryResult res;
 
 			Sprites_UnloadTiles();
 
@@ -1652,7 +1652,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Tools_Var76B8_Set(2, false);
 
-			loc1E = GUI_DisplayFactoryWindow(g_global->variable_8BE8, s->o.type == STRUCTURE_STARPORT ? 1 : 0, loc1C);
+			res = GUI_DisplayFactoryWindow(g_global->factoryWindowConstructionYard != 0, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
 			Tools_Var76B8_Set(2, true);
 
@@ -1664,29 +1664,29 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GUI_ChangeSelectionType(4);
 
-			if (loc1E == 0) return false;
+			if (res == FACTORY_RESUME) return false;
 
-			if (loc1E == 2) {
+			if (res == FACTORY_UPGRADE) {
 				Structure_SetUpgradingState(s, 1, NULL);
 				return false;
 			}
 
-			if (loc1E == 1) {
+			if (res == FACTORY_BUY) {
 				uint8 i;
 
 				for (i = 0; i < 25; i++) {
 					UnitInfo *ui;
 					Unit *u;
 
-					if (g_global->variable_8BEA[i].amount == 0) continue;
-					objectType = g_global->variable_8BEA[i].objectType;
+					if (g_global->factoryWindowItems[i].amount == 0) continue;
+					objectType = g_global->factoryWindowItems[i].objectType;
 
 					if (s->o.type != STRUCTURE_STARPORT) {
 						Structure_CancelBuild(s);
 
 						s->objectType = objectType;
 
-						if (g_global->variable_8BE8 != 1) continue;
+						if (g_global->factoryWindowConstructionYard != 1) continue;
 
 						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
 
@@ -1726,8 +1726,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = -1;
 
-					g_global->variable_8BEA[i].amount--;
-					if (g_global->variable_8BEA[i].amount != 0) i--;
+					g_global->factoryWindowItems[i].amount--;
+					if (g_global->factoryWindowItems[i].amount != 0) i--;
 				}
 			}
 		} else {

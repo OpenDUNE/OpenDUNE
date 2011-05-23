@@ -2603,9 +2603,9 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 	Sprites_Load(2, 7, g_sprites);
 
 	for (i = 0; i < 13; i++, wi++) {
-		if ((i == 8 || i == 9 || i == 10 || i == 12) && g_global->variable_7FC2 == 0) continue;
-		if (i == 11 && g_global->variable_7FC2 != 0) continue;
-		if (i == 7 && g_global->variable_7FBE == 0) continue;
+		if ((i == 8 || i == 9 || i == 10 || i == 12) && g_global->factoryWindowStarport == 0) continue;
+		if (i == 11 && g_global->factoryWindowStarport != 0) continue;
+		if (i == 7 && g_global->factoryWindowUpgradeCost == 0) continue;
 
 		count++;
 
@@ -2666,21 +2666,21 @@ static uint16 GUI_FactoryWindow_CalculateStarportPrice(uint16 credits)
 
 static int GUI_FactoryWindow_Sorter(const void *a, const void *b)
 {
-	const struct_8BEA *pa = a;
-	const struct_8BEA *pb = b;
+	const FactoryWindowItem *pa = a;
+	const FactoryWindowItem *pb = b;
 
 	return pb->sortPriority - pa->sortPriority;
 }
 
-static void GUI_FactoryWindow_InitVar8BEA()
+static void GUI_FactoryWindow_InitItems()
 {
-	g_global->variable_7FBA = 0;
-	g_global->variable_7FBC = 0;
-	g_global->variable_7FB8 = 0;
+	g_global->factoryWindowTotal = 0;
+	g_global->factoryWindowSelected = 0;
+	g_global->factoryWindowBase = 0;
 
-	memset(g_global->variable_8BEA, 0, 25 * sizeof(struct_8BEA));
+	memset(g_global->factoryWindowItems, 0, 25 * sizeof(FactoryWindowItem));
 
-	if (g_global->variable_7FC2 != 0) {
+	if (g_global->factoryWindowStarport != 0) {
 		uint16 seconds = (g_global->tickGlobal - g_global->tickScenarioStart) / 60;
 		uint16 seed = (seconds / 60) + g_global->scenarioID + g_global->playerHouseID;
 		seed *= seed;
@@ -2690,7 +2690,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 		sprintf((char *)g_global->variable_9939, "sec(%u) seed(%u) ", seconds, seed);
 	}
 
-	if (g_global->variable_8BE8 == 0) {
+	if (g_global->factoryWindowConstructionYard == 0) {
 		uint16 i;
 
 		for (i = 0; i < UNIT_MAX; i++) {
@@ -2698,18 +2698,18 @@ static void GUI_FactoryWindow_InitVar8BEA()
 
 			if (oi->available == 0) continue;
 
-			g_global->variable_8BEA[g_global->variable_7FBA].objectInfo = emu_Global_GetCSIP(oi);
-			g_global->variable_8BEA[g_global->variable_7FBA].objectType = i;
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].objectInfo = emu_Global_GetCSIP(oi);
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].objectType = i;
 
-			if (g_global->variable_7FC2 != 0) {
-				g_global->variable_8BEA[g_global->variable_7FBA].credits = GUI_FactoryWindow_CalculateStarportPrice(oi->buildCredits);
+			if (g_global->factoryWindowStarport != 0) {
+				g_global->factoryWindowItems[g_global->factoryWindowTotal].credits = GUI_FactoryWindow_CalculateStarportPrice(oi->buildCredits);
 			} else {
-				g_global->variable_8BEA[g_global->variable_7FBA].credits = oi->buildCredits;
+				g_global->factoryWindowItems[g_global->factoryWindowTotal].credits = oi->buildCredits;
 			}
 
-			g_global->variable_8BEA[g_global->variable_7FBA].sortPriority = oi->sortPriority;
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].sortPriority = oi->sortPriority;
 
-			g_global->variable_7FBA++;
+			g_global->factoryWindowTotal++;
 		}
 	} else {
 		uint16 i;
@@ -2719,24 +2719,24 @@ static void GUI_FactoryWindow_InitVar8BEA()
 
 			if (oi->available == 0) continue;
 
-			g_global->variable_8BEA[g_global->variable_7FBA].objectInfo    = emu_Global_GetCSIP(oi);
-			g_global->variable_8BEA[g_global->variable_7FBA].objectType    = i;
-			g_global->variable_8BEA[g_global->variable_7FBA].credits       = oi->buildCredits;
-			g_global->variable_8BEA[g_global->variable_7FBA].sortPriority  = oi->sortPriority;
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].objectInfo    = emu_Global_GetCSIP(oi);
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].objectType    = i;
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].credits       = oi->buildCredits;
+			g_global->factoryWindowItems[g_global->factoryWindowTotal].sortPriority  = oi->sortPriority;
 
-			if (i == 0 || i == 1) g_global->variable_8BEA[g_global->variable_7FBA].sortPriority = 0x64;
+			if (i == 0 || i == 1) g_global->factoryWindowItems[g_global->factoryWindowTotal].sortPriority = 0x64;
 
-			g_global->variable_7FBA++;
+			g_global->factoryWindowTotal++;
 		}
 	}
 
-	if (g_global->variable_7FBA == 0) {
+	if (g_global->factoryWindowTotal == 0) {
 		GUI_DisplayModalMessage("ERROR: No items in construction list!", 0xFFFF);
 		PrepareEnd();
 		exit(0);
 	}
 
-	qsort(g_global->variable_8BEA, g_global->variable_7FBA, sizeof(struct_8BEA), GUI_FactoryWindow_Sorter);
+	qsort(g_global->factoryWindowItems, g_global->factoryWindowTotal, sizeof(FactoryWindowItem), GUI_FactoryWindow_Sorter);
 }
 
 static void GUI_FactoryWindow_Init()
@@ -2792,16 +2792,16 @@ static void GUI_FactoryWindow_Init()
 
 	g_global->variable_7FA6 -= size;
 
-	GUI_FactoryWindow_InitVar8BEA();
+	GUI_FactoryWindow_InitItems();
 
-	for (i = g_global->variable_7FBA; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
+	for (i = g_global->factoryWindowTotal; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
 
 	for (i = 0; i < 4; i++) {
-		struct_8BEA *loc12 = GUI_FactoryWindow_GetStruct8BEA(i);
+		FactoryWindowItem *item = GUI_FactoryWindow_GetItem(i);
 
-		if (loc12 == NULL) continue;
+		if (item == NULL) continue;
 
-		oi = (ObjectInfo *)emu_get_memorycsip(loc12->objectInfo);
+		oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 		if (oi->available == -1) {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
 		} else {
@@ -2809,10 +2809,10 @@ static void GUI_FactoryWindow_Init()
 		}
 	}
 
-	g_global->variable_7FB8 = 0;
-	g_global->variable_7FBC = 0;
+	g_global->factoryWindowBase = 0;
+	g_global->factoryWindowSelected = 0;
 
-	oi = (ObjectInfo *)emu_get_memorycsip(g_global->variable_8BEA[0].objectInfo);
+	oi = (ObjectInfo *)emu_get_memorycsip(g_global->factoryWindowItems[0].objectInfo);
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
@@ -2854,24 +2854,24 @@ static void GUI_FactoryWindow_Init()
  * @param var0A Unknown.
  * @return Unknown value.
  */
-uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
+FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost)
 {
 	uint16 oldScreenID = GUI_Screen_SetActive(0);
 	uint8 backup[3];
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 765, backup, 3);
 
-	g_global->variable_8BE8 = var06;
-	g_global->variable_7FC2 = isStarPort;
-	g_global->variable_7FBE = var0A;
-	g_global->variable_7FB6 = 0;
+	g_global->factoryWindowConstructionYard = isConstructionYard;
+	g_global->factoryWindowStarport = isStarPort;
+	g_global->factoryWindowUpgradeCost = upgradeCost;
+	g_global->factoryWindowOrdered = 0;
 
 	GUI_FactoryWindow_Init();
 
 	GUI_FactoryWindow_UpdateSelection(true);
 
-	g_global->variable_7FC0 = 0xFFFF;
-	while (g_global->variable_7FC0 == 0xFFFF) {
+	g_global->factoryWindowResult = FACTORY_CONTINUE;
+	while (g_global->factoryWindowResult == FACTORY_CONTINUE) {
 		uint16 event;
 
 		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
@@ -2898,7 +2898,7 @@ uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A)
 	/* Visible credits have to be reset, as it might not be the real value */
 	g_global->playerCredits = 0xFFFF;
 
-	return g_global->variable_7FC0;
+	return g_global->factoryWindowResult;
 }
 
 char *GUI_String_Get_ByIndex(uint16 stringID)
@@ -3247,25 +3247,25 @@ void GUI_FactoryWindow_B495_0F30()
 {
 	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GFX_Screen_Copy2(69, ((g_global->variable_7FBC + 1) * 32) + 5, 69, (g_global->variable_7FBC * 32) + 21, 38, 30, 2, 0, false);
+	GFX_Screen_Copy2(69, ((g_global->factoryWindowSelected + 1) * 32) + 5, 69, (g_global->factoryWindowSelected * 32) + 21, 38, 30, 2, 0, false);
 
 	emu_push(emu_cs); emu_push(0x0F78); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
 
-struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset)
+FactoryWindowItem *GUI_FactoryWindow_GetItem(int16 offset)
 {
-	offset += g_global->variable_7FB8;
+	offset += g_global->factoryWindowBase;
 
-	if (offset < 0 || offset >= g_global->variable_7FBA) return NULL;
+	if (offset < 0 || offset >= g_global->factoryWindowTotal) return NULL;
 
-	return &g_global->variable_8BEA[offset];
+	return &g_global->factoryWindowItems[offset];
 }
 
 void GUI_FactoryWindow_DrawDetails()
 {
 	uint16 oldScreenID;
-	struct_8BEA *loc06 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
-	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc06->objectInfo);
+	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 	csip32 wsa;
 
 	oldScreenID = GUI_Screen_SetActive(2);
@@ -3279,7 +3279,7 @@ void GUI_FactoryWindow_DrawDetails()
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
-	if (g_global->variable_8BE8 != 0) {
+	if (g_global->factoryWindowConstructionYard != 0) {
 		int16 x = 288;
 		int16 y = 136;
 		csip32 sprite;
@@ -3294,7 +3294,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 		sprite = g_sprites[24];
 		width = Sprite_GetWidth(sprite) + 1;
-		si = &g_structureInfo[loc06->objectType];
+		si = &g_structureInfo[item->objectType];
 
 		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
 			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {
@@ -3313,23 +3313,23 @@ void GUI_FactoryWindow_DrawDetails()
 		emu_push(emu_cs); emu_push(0x0A30); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
 		emu_sp += 14;
 
-		if (g_global->variable_7FC2 != 0) {
+		if (g_global->factoryWindowStarport != 0) {
 			/* "OUT OF STOCK" */
 			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB9), 220, 99, 6, 0, 0x132);
 		} else {
 			/* "NEED STRUCTURE UPGRADE" */
 			GUI_DrawText_Wrapper(String_Get_ByIndex(0xBA), 220, 94, 6, 0, 0x132);
 
-			if (g_global->variable_7FBE != 0) {
+			if (g_global->factoryWindowUpgradeCost != 0) {
 				/* "Upgrade Cost : %d" */
-				GUI_DrawText_Wrapper(String_Get_ByIndex(0xBB), 220, 104, 6, 0, 0x132, g_global->variable_7FBE);
+				GUI_DrawText_Wrapper(String_Get_ByIndex(0xBB), 220, 104, 6, 0, 0x132, g_global->factoryWindowUpgradeCost);
 			} else {
 				/* "Repair structure first" */
 				GUI_DrawText_Wrapper(String_Get_ByIndex(0x14D), 220, 104, 6, 0, 0x132);
 			}
 		}
 	} else {
-		if (g_global->variable_7FC2 != 0) {
+		if (g_global->factoryWindowStarport != 0) {
 			GUI_Screen_Copy(16, 99, 16, 160, 23, 9, 2, 2);
 			GUI_Screen_Copy(16, 99, 16, 169, 23, 9, 2, 2);
 			/* "OUT OF STOCK" */
@@ -3361,8 +3361,8 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 	if (caption != NULL && *caption != '\0') {
 		GUI_DrawText_Wrapper(caption, 128, 23, 12, 0, 0x12);
 	} else {
-		struct_8BEA *loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
-		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+		FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 		uint16 width;
 
 		GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, 23, 12, 0, 0x12);
@@ -3371,14 +3371,14 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 		width = Font_GetStringWidth(String_Get_ByIndex(0xB2));
 
 		/* "Cost: %3d" */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB1), 310 - width, 23, 12, 0, 0x12, loc04->credits);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0xB1), 310 - width, 23, 12, 0, 0x12, item->credits);
 
-		if (g_global->variable_7FC2 != 0) {
+		if (g_global->factoryWindowStarport != 0) {
 			/* "Qty: 99" */
 			width += Font_GetStringWidth(String_Get_ByIndex(0xB4)) + 2;
 
 			/* "Qty: %2d" */
-			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB3), 310 - width, 23, 12, 0, 0x12, loc04->amount);
+			GUI_DrawText_Wrapper(String_Get_ByIndex(0xB3), 310 - width, 23, 12, 0, 0x12, item->amount);
 		}
 	}
 
@@ -3393,14 +3393,14 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 
 void GUI_FactoryWindow_UpdateDetails()
 {
-	struct_8BEA *loc04 = GUI_FactoryWindow_GetStruct8BEA(g_global->variable_7FBC);
-	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 
 	if (oi->available == -1) return;
 
 	emu_push(emu_cs); emu_push(0x0D67); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
-	GUI_Screen_Copy(16, (oi->available == loc04->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->screenActiveID);
+	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->screenActiveID);
 
 	emu_push(emu_cs); emu_push(0x0DC5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 }
@@ -3420,7 +3420,7 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 		g_global->variable_7FA0 = 0;
 		g_global->variable_7FA1 = 8;
 
-		y = g_global->variable_7FBC * 32 + 24;
+		y = g_global->factoryWindowSelected * 32 + 24;
 
 		emu_push(emu_cs); emu_push(0x0E33); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -3551,7 +3551,7 @@ uint16 GUI_Screen_SetActive(uint16 screenID)
 
 void GUI_FactoryWindow_PrepareScrollList()
 {
-	struct_8BEA *loc04;
+	FactoryWindowItem *item;
 
 	emu_push(emu_cs); emu_push(0x0F85); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -3559,10 +3559,10 @@ void GUI_FactoryWindow_PrepareScrollList()
 
 	emu_push(emu_cs); emu_push(0x0FB1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	loc04 = GUI_FactoryWindow_GetStruct8BEA(-1);
+	item = GUI_FactoryWindow_GetItem(-1);
 
-	if (loc04 != NULL) {
-		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+	if (item != NULL) {
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 
 		if (oi->available == -1) {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
@@ -3573,10 +3573,10 @@ void GUI_FactoryWindow_PrepareScrollList()
 		GUI_Screen_Copy(9, 32, 9, 24, 4, 8, 2, 2);
 	}
 
-	loc04 = GUI_FactoryWindow_GetStruct8BEA(4);
+	item = GUI_FactoryWindow_GetItem(4);
 
-	if (loc04 != NULL) {
-		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(loc04->objectInfo);
+	if (item != NULL) {
+		ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
 
 		if (oi->available == -1) {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);

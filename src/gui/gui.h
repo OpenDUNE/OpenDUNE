@@ -3,8 +3,18 @@
 #ifndef GUI_GUI_H
 #define GUI_GUI_H
 
+/**
+ * Factory results.
+ */
+typedef enum FactoryResult {
+	FACTORY_RESUME       = 0,
+	FACTORY_BUY          = 1,
+	FACTORY_UPGRADE      = 2,
+	FACTORY_CONTINUE     = 0xFFFF
+} FactoryResult;
+
 struct Widget;
-struct struct_8BEA;
+struct FactoryWindowItem;
 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
@@ -30,14 +40,14 @@ extern void GUI_InitColors(uint8 *colors, uint8 first, uint8 last);
 extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst);
-extern uint16 GUI_DisplayFactoryWindow(uint16 var06, bool isStarPort, uint16 var0A);
+extern FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost);
 extern char *GUI_String_Get_ByIndex(uint16 stringID);
 extern uint16 GUI_ShowMap(uint16 campaignID, bool arg08);
 extern void GUI_ClearScreen(uint16 arg06);
 extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);
 extern void GUI_DrawText_Monospace(char *string, uint16 left, uint16 top, uint8 fgColour, uint8 bgColour, uint16 charWidth);
 extern void GUI_FactoryWindow_B495_0F30();
-extern struct struct_8BEA *GUI_FactoryWindow_GetStruct8BEA(int16 offset);
+extern struct FactoryWindowItem *GUI_FactoryWindow_GetItem(int16 offset);
 extern void GUI_FactoryWindow_DrawDetails();
 extern void GUI_FactoryWindow_DrawCaption(char *caption);
 extern void GUI_FactoryWindow_UpdateDetails();
@@ -65,7 +75,7 @@ extern void emu_GUI_Mentat_Animation();
 extern void emu_GUI_Mentat_SelectHelpSubject();
 extern void emu_GUI_Mentat_Create_HelpScreen_Widgets();
 extern void emu_GUI_Get_Scrollbar_Position();
-extern void emu_GUI_FactoryWindow_GetStruct8BEA();
+extern void emu_GUI_FactoryWindow_GetItem();
 extern void emu_GUI_Screen_FadeIn();
 extern void emu_GUI_Screen_SetActive();
 
