@@ -59,7 +59,6 @@ extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
-extern void f__B503_1343_003B_6432();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -2947,6 +2946,23 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 	return String_Get_ByIndex(stringID);
 }
 
+static void GUI_StrategicMap_AnimateArrows()
+{
+	uint8 *palette;
+
+	if (g_global->variable_81B6 >= g_global->variable_76AC) return;
+
+	g_global->variable_81B6 = g_global->variable_76AC + 7;
+
+	g_global->variable_2B10 = (g_global->variable_2B10 + 1) % 4;
+
+	palette = emu_get_memorycsip(g_global->variable_3C32);
+
+	memcpy(palette + 251 * 3, g_global->variable_81BA + g_global->variable_2B10 * 3, 4 * 3);
+
+	GFX_SetPalette(palette);
+}
+
 static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *data)
 {
 	char key[4];
@@ -2960,7 +2976,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
 	for (i = 0; i < 20; i++) {
-		emu_push(emu_cs); emu_push(0x090A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+		GUI_StrategicMap_AnimateArrows();
 
 		if (data[i].index == 0 || data[i].index == selected) continue;
 
@@ -2994,7 +3010,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	GUI_DrawSprite(2, sprite, 16, 16, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
 
 	for (i = 0; i < 20; i++) {
-		emu_push(emu_cs); emu_push(0x0A99); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+		GUI_StrategicMap_AnimateArrows();
 
 		if (data[i].index != selected) continue;
 
@@ -3010,7 +3026,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 		g_global->variable_76B4 = 20;
 		while (g_global->variable_76B4 != 0) {
-			emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+			GUI_StrategicMap_AnimateArrows();
 		}
 	}
 }
@@ -3031,7 +3047,7 @@ static void GUI_StrategicMap_Var2AF4_Set(uint16 region, bool set)
 
 static int16 GUI_StrategicMap_ClickedRegion()
 {
-	emu_push(emu_cs); emu_push(0x0896); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+	GUI_StrategicMap_AnimateArrows();
 
 	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	if (emu_ax == 0) return 0;
@@ -3104,7 +3120,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 		if (region == 0) continue;
 
 		for (i = 0; i < count; i++) {
-			emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+			GUI_StrategicMap_AnimateArrows();
 
 			if (data[i].index == region) {
 				loop = false;

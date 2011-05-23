@@ -612,7 +612,8 @@ typedef struct GlobalData {
 	/* 2B00(4)   */ PACK char   string_2B00[4];             /*!< "GER" NULL terminated. */
 	/* 2B04(4)   */ PACK char   string_2B04[4];             /*!< "ITA" NULL terminated. */
 	/* 2B08(4)   */ PACK char   string_2B08[4];             /*!< "SPA" NULL terminated. */
-	/* 2B0C()    */ PACK uint8   unknown_2B0C[0x0006];
+	/* 2B0C()    */ PACK uint8   unknown_2B0C[0x0004];
+	/* 2B10(2)   */ PACK uint16 variable_2B10;              /*!< ?? */
 	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */
 	/* 2B1E(11)  */ PACK char   string_2B1E[11];            /*!< "PLANET.CPS" NULL terminated. */
 	/* 2B29(12)  */ PACK char   string_2B29[12];            /*!< "DUNEMAP.CPS" NULL terminated. */
@@ -1444,7 +1445,7 @@ typedef struct GlobalData {
 	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];
 	/* 81B4(2)   */ PACK uint16 variable_81B4;              /*!< ?? */
-	/* 81B6()    */ PACK uint8   unknown_81B6[0x0004];
+	/* 81B6(4)   */ PACK uint32 variable_81B6;              /*!< ?? */
 	/* 81BA(12)  */ PACK uint8  variable_81BA[12];          /*!< ?? */
 	/* 81C6(12)  */ PACK uint8  variable_81C6[12];          /*!< ?? */
 	/* 81D2(4)   */ PACK csip32 variable_81D2;              /*!< ?? */
