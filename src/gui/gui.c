@@ -37,7 +37,6 @@
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
-extern void emu_Tools_Var79E4_Init();
 extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
@@ -2686,9 +2685,7 @@ static void GUI_FactoryWindow_InitVar8BEA()
 		uint16 seed = (seconds / 60) + g_global->scenarioID + g_global->playerHouseID;
 		seed *= seed;
 
-		emu_push(seed);
-		emu_push(emu_cs); emu_push(0x1863); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
-		emu_sp += 2;
+		srand(seed);
 
 		sprintf((char *)g_global->variable_9939, "sec(%u) seed(%u) ", seconds, seed);
 	}

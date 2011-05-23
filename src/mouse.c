@@ -3,6 +3,7 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -15,7 +16,6 @@
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void emu_Input_HandleInput();
-extern void emu_Tools_Var79E4_Init();
 
 /**
  * Set the region in which the mouse can move.
@@ -83,9 +83,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			File_Delete(filename);
 			File_Create(filename);
 
-			emu_push(0x1234);
-			emu_push(emu_cs); emu_push(0x0090); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
-			emu_sp += 2;
+			srand(0x1234);
 
 			g_global->randomSeed[0] = 0x21;
 			g_global->randomSeed[1] = 0x43;
@@ -107,9 +105,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			if (g_global->mouseFileID == 0xFF) {
 				g_global->mouseFileID = File_Open(filename, 1);
 
-				emu_push(0x1234);
-				emu_push(emu_cs); emu_push(0x00FD); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
-				emu_sp += 2;
+				srand(0x1234);
 
 				g_global->randomSeed[0] = 0x21;
 				g_global->randomSeed[1] = 0x43;

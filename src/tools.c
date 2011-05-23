@@ -1,6 +1,7 @@
 /* $Id$ */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "os/strings.h"
 #include "types.h"
@@ -15,7 +16,6 @@
 
 extern void f__2649_0C09_0019_459F();
 extern void f__2649_0D40_0019_C58F();
-extern void emu_Tools_Var79E4_Update();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -328,8 +328,7 @@ uint16 Tools_RandomRange(uint16 min, uint16 max)
 	}
 
 	do {
-		emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x01F7; emu_Tools_Var79E4_Update();
-		value = (int32)emu_ax;
+		value = rand();
 		value *= max - min + 1;
 		value /= 0x8000;
 		value += min;

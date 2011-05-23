@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "os/math.h"
 #include "os/strings.h"
 #include "os/sleep.h"
@@ -41,7 +42,6 @@
 #include "gfx.h"
 #include "mouse.h"
 
-extern void f__01F7_103F_0010_4132();
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
@@ -78,7 +78,6 @@ extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
 extern void emu_Mouse_CallbackClear();
-extern void emu_Tools_Var79E4_Init();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 extern void emu_Window_WidgetClick_Create();
@@ -2687,13 +2686,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 
 	Unknown_2533_000D();
 
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x03D8); emu_cs = 0x01F7; f__01F7_103F_0010_4132();
-	emu_sp += 4;
-
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03E0); emu_cs = 0x01F7; emu_Tools_Var79E4_Init();
-	emu_sp += 2;
+	srand((unsigned)time(NULL));
 
 	Unknown_07AE_0000(0);
 
