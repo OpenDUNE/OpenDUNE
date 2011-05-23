@@ -57,7 +57,6 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_088B_000B_B072();
-extern void f__B503_08DB_0014_ECA4();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
@@ -95,6 +94,16 @@ typedef struct ClippingArea {
 } GCC_PACKED ClippingArea;
 MSVC_PACKED_END
 assert_compile(sizeof(ClippingArea) == 0x08);
+
+MSVC_PACKED_BEGIN
+typedef struct StrategicMapData {
+	/* 0000(2)   */ PACK int16 index;      /*!< ?? */
+	/* 0002(2)   */ PACK int16 arrow;      /*!< ?? */
+	/* 0004(2)   */ PACK int16 offsetX;    /*!< ?? */
+	/* 0006(2)   */ PACK int16 offsetY;    /*!< ?? */
+} GCC_PACKED StrategicMapData;
+MSVC_PACKED_END
+assert_compile(sizeof(StrategicMapData) == 0x8);
 
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
@@ -2941,53 +2950,107 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 	return String_Get_ByIndex(stringID);
 }
 
+static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *data)
+{
+	char key[4];
+	int16 x;
+	int16 y;
+	csip32 sprite;
+	uint16 width;
+	uint16 height;
+	uint16 i;
+
+	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+
+	for (i = 0; i < 20; i++) {
+		emu_push(emu_cs); emu_push(0x090A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+
+		if (data[i].index == 0 || data[i].index == selected) continue;
+
+		emu_push(emu_cs); emu_push(0x0920); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		GFX_Screen_Copy2(i * 16, 0, data[i].offsetX, data[i].offsetY, 16, 16, 2, 0, false);
+
+		emu_push(emu_cs); emu_push(0x0955); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	}
+
+	sprintf(key, "%d", selected);
+
+	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
+
+	sprite = Sprites_GetCSIP(g_global->PIECES_SHP, selected);
+	width = Sprite_GetWidth(sprite);
+	height = Sprite_GetHeight(sprite);
+
+	x += 8;
+	y += 24;
+
+	emu_push(emu_cs); emu_push(0x09FF); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+	GFX_Screen_Copy2(x, y, 16, 16, width, height, 0, 2, false);
+
+	emu_push(emu_cs); emu_push(0x0A2C); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+	GFX_Screen_Copy2(16, 16, 176, 16, width, height, 2, 2, false);
+
+	GUI_DrawSprite(2, sprite, 16, 16, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+
+	for (i = 0; i < 20; i++) {
+		emu_push(emu_cs); emu_push(0x0A99); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+
+		if (data[i].index != selected) continue;
+
+		GUI_DrawSprite(2, Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	}
+
+	for (i = 0; i < 4; i++) {
+		emu_push(emu_cs); emu_push(0x0B08); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+
+		GFX_Screen_Copy2((i % 2 == 0) ? 16 : 176, 16, x, y, width, height, 2, 0, false);
+
+		emu_push(emu_cs); emu_push(0x0B40); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+
+		g_global->variable_76B4 = 20;
+		while (g_global->variable_76B4 != 0) {
+			emu_push(emu_cs); emu_push(0x0B53); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
+		}
+	}
+}
+
 static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 {
-	MSVC_PACKED_BEGIN
-	typedef struct Data {
-		/* 0000(2)   */ PACK uint16 variable_0;      /*!< ?? */
-		/* 0002(2)   */ PACK uint16 variable_2;      /*!< ?? */
-		/* 0004(2)   */ PACK uint16 variable_4;      /*!< ?? */
-		/* 0006(2)   */ PACK uint16 variable_6;      /*!< ?? */
-	} GCC_PACKED Data;
-	MSVC_PACKED_END
-	assert_compile(sizeof(Data) == 0x8);
-
 	uint16 count;
 	char key[6];
 	bool loc10 = false;
 	bool loc12 = true;
 	uint16 loc14 = 0;
 	char category[16];
-	Data *locC4; /* locC4[20][4] */
+	StrategicMapData data[20];
 	uint16 ret;
 	uint16 i;
-
-	emu_sp -= 0xC4;
-
-	locC4 = (Data *)&emu_get_memory8(emu_ss, emu_sp, 0x0);
 
 	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
 
 	sprintf(category, "GROUP%d", campaignID);
 
-	memset(locC4, 0, 160);
+	memset(data, 0, 20 * sizeof(StrategicMapData));
 
 	for (i = 0; i < 20; i++) {
 		sprintf(key, "REG%d", i + 1);
 
 		if (!Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) break;
 
-		sscanf((char *)g_global->variable_9939, "%d,%d,%d,%d", &locC4[i].variable_0, &locC4[i].variable_2, &locC4[i].variable_4, &locC4[i].variable_6);
+		sscanf((char *)g_global->variable_9939, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
-		emu_push(locC4[i].variable_0);
+		emu_push(data[i].index);
 		emu_push(emu_cs); emu_push(0x0668); emu_cs = 0x3503; overlay(0x3503, 0), f__B503_1302_0013_473F();
 		emu_sp += 2;
 		if (emu_ax == 0) loc12 = false;
 
-		GFX_Screen_Copy2(locC4[i].variable_4, locC4[i].variable_6, i * 16, 152, 16, 16, 2, 2, false);
-		GFX_Screen_Copy2(locC4[i].variable_4, locC4[i].variable_6, i * 16, 0, 16, 16, 2, 2, false);
-		GUI_DrawSprite(2, Sprites_GetCSIP(g_global->ARROWS_SHP, locC4[i].variable_2), i * 16, 152, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
+		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
+		GUI_DrawSprite(2, Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow), i * 16, 152, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
 	}
 
 	count = i;
@@ -2995,25 +3058,25 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	if (loc12) {
 		for (i = 0; i < count; i++) {
 			emu_push(0);
-			emu_push(locC4[i].variable_0);
+			emu_push(data[i].index);
 			emu_push(emu_cs); emu_push(0x074A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_12AC_0013_473F();
 			emu_sp += 4;
 		}
 	} else {
 		for (i = 0; i < count; i++) {
-			emu_push(locC4[i].variable_0);
+			emu_push(data[i].index);
 			emu_push(emu_cs); emu_push(0x0771); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1302_0013_473F();
 			emu_sp += 2;
-			if (emu_ax != 0) locC4[i].variable_0 = 0;
+			if (emu_ax != 0) data[i].index = 0;
 		}
 	}
 
 	emu_push(emu_cs); emu_push(0x079C); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 	for (i = 0; i < count; i++) {
-		if (locC4[i].variable_0 == 0) continue;
+		if (data[i].index == 0) continue;
 
-		GFX_Screen_Copy2(i * 16, 152, locC4[i].variable_4, locC4[i].variable_6, 16, 16, 2, 0, false);
+		GFX_Screen_Copy2(i * 16, 152, data[i].offsetX, data[i].offsetY, 16, 16, 2, 0, false);
 	}
 
 	emu_push(emu_cs); emu_push(0x07ED); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
@@ -3031,7 +3094,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 		for (i = 0; i < count; i++) {
 			emu_push(emu_cs); emu_push(0x0819); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1343_003B_6432();
 
-			if (locC4[i].variable_0 == ret) {
+			if (data[i].index == ret) {
 				loc10 = true;
 				loc14 = i;
 				break;
@@ -3048,17 +3111,12 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	emu_push(emu_cs); emu_push(0x0851); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
 	emu_sp += 4;
 
-	emu_push(emu_ss); emu_push(emu_sp + 2); /* locC4 */
-	emu_push(ret);
-	emu_push(emu_cs); emu_push(0x085F); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_08DB_0014_ECA4();
-	emu_sp += 6;
+	GUI_StrategicMap_AnimateSelected(ret, data);
 
 	ret = (campaignID - 1) * 3 + loc14 + 2;
 
 	if (campaignID > 7) ret--;
 	if (campaignID > 8) ret--;
-
-	emu_sp += 0xC4;
 
 	return ret;
 }
