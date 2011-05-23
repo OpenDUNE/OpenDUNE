@@ -60,8 +60,6 @@ extern void f__B503_088B_000B_B072();
 extern void f__B503_0B68_000D_957E();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
-extern void f__B503_12AC_0013_473F();
-extern void f__B503_1302_0013_473F();
 extern void f__B503_1343_003B_6432();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
@@ -3018,6 +3016,20 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	}
 }
 
+static bool GUI_StrategicMap_Var2AF4_Get(uint16 region)
+{
+	return (g_global->variable_2AF4 & (1 << region)) != 0;
+}
+
+static void GUI_StrategicMap_Var2AF4_Set(uint16 region, bool set)
+{
+	if (set) {
+		g_global->variable_2AF4 |= (1 << region);
+	} else {
+		g_global->variable_2AF4 &= ~(1 << region);
+	}
+}
+
 static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 {
 	uint16 count;
@@ -3043,10 +3055,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		sscanf((char *)g_global->variable_9939, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
-		emu_push(data[i].index);
-		emu_push(emu_cs); emu_push(0x0668); emu_cs = 0x3503; overlay(0x3503, 0), f__B503_1302_0013_473F();
-		emu_sp += 2;
-		if (emu_ax == 0) loc12 = false;
+		if (!GUI_StrategicMap_Var2AF4_Get(data[i].index)) loc12 = false;
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
@@ -3057,17 +3066,11 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	if (loc12) {
 		for (i = 0; i < count; i++) {
-			emu_push(0);
-			emu_push(data[i].index);
-			emu_push(emu_cs); emu_push(0x074A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_12AC_0013_473F();
-			emu_sp += 4;
+			GUI_StrategicMap_Var2AF4_Set(data[i].index, false);
 		}
 	} else {
 		for (i = 0; i < count; i++) {
-			emu_push(data[i].index);
-			emu_push(emu_cs); emu_push(0x0771); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_1302_0013_473F();
-			emu_sp += 2;
-			if (emu_ax != 0) data[i].index = 0;
+			if (GUI_StrategicMap_Var2AF4_Get(data[i].index)) data[i].index = 0;
 		}
 	}
 
@@ -3102,10 +3105,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 		}
 	}
 
-	emu_push(1);
-	emu_push(ret);
-	emu_push(emu_cs); emu_push(0x0845); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_12AC_0013_473F();
-	emu_sp += 4;
+	GUI_StrategicMap_Var2AF4_Set(ret, true);
 
 	emu_push(0x353F); emu_push(0x2B1D); /* "" */
 	emu_push(emu_cs); emu_push(0x0851); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
