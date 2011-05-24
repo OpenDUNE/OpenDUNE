@@ -55,6 +55,7 @@ extern void GUI_FactoryWindow_UpdateSelection(bool selectionChanged);
 extern void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint16 width, uint16 height, uint16 memBlockSrc, uint16 memBlockDst);
 extern uint16 GUI_Screen_SetActive(uint16 newval);
 extern void GUI_FactoryWindow_PrepareScrollList();
+extern void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, uint16 arg12, bool arg14);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

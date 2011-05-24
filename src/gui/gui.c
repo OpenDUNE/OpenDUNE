@@ -54,7 +54,6 @@ extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
-extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -3234,16 +3233,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	if (!progressive) return;
 
-	emu_push(0);
-	emu_push(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1);
-	emu_push(0);
-	emu_push(2);
-	emu_push(Sprite_GetHeight(sprite));
-	emu_push(Sprite_GetWidth(sprite));
-	emu_push(y + 24);
-	emu_push(x + 8);
-	emu_push(emu_cs); emu_push(0x0F04); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
-	emu_sp += 16;
+	GUI_Screen_FadeIn2(x + 8, y + 24, Sprite_GetWidth(sprite), Sprite_GetHeight(sprite), 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 }
 
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
@@ -3420,16 +3410,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		/* "Three Houses have come to Dune." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11B));
 
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(2);
-		emu_push(120);
-		emu_push(304);
-		emu_push(24);
-		emu_push(8);
-		emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
-		emu_sp += 16;
+		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 0, false);
 
 		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -3452,16 +3433,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		/* "To take control of the land." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11C));
 
-		emu_push(0);
-		emu_push(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1);
-		emu_push(0);
-		emu_push(2);
-		emu_push(120);
-		emu_push(304);
-		emu_push(24);
-		emu_push(8);
-		emu_push(emu_cs); emu_push(0x03BA); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
-		emu_sp += 16;
+		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 
 		g_global->variable_76B4 = 60;
 
@@ -3490,16 +3462,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	if (GUI_StrategicMap_FastForwardToggleWithESC()) {
 		GUI_Screen_Copy(1, 24, 1, 24, 38, 120, 2, 0);
 	} else {
-		emu_push(0);
-		emu_push(0);
-		emu_push(0);
-		emu_push(2);
-		emu_push(120);
-		emu_push(304);
-		emu_push(24);
-		emu_push(8);
-		emu_push(emu_cs); emu_push(0x0497); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
-		emu_sp += 16;
+		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 0, false);
 	}
 
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
@@ -3919,4 +3882,93 @@ void GUI_FactoryWindow_PrepareScrollList()
 	} else {
 		GUI_Screen_Copy(9, 0, 9, 168, 4, 8, 2, 2);
 	}
+}
+
+/**
+ * Fade in parts of the screen from one screenbuffer to the other screenbuffer.
+ * @param x The X-position in the source and destination screenbuffers.
+ * @param y The Y-position in the source and destination screenbuffer.
+ * @param width The width of the screen to copy.
+ * @param height The height of the screen to copy.
+ * @param screenSrc The ID of the source screen.
+ * @param screenDst The ID of the destination screen.
+ * @param delay The delay.
+ * @param skipNull Wether to copy pixels with color 0.
+ */
+void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, uint16 delay, bool skipNull)
+{
+	uint16 oldScreenID;
+	uint16 i;
+	uint16 j;
+
+	if (screenDst == 0) {
+		emu_push(y + height);
+		emu_push(x + width);
+		emu_push(y);
+		emu_push(x);
+		emu_push(emu_cs); emu_push(0x0027); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
+		emu_sp += 8;
+	}
+
+	for (i = 0; i < width; i++)  g_global->variable_7B8C[i] = i;
+	for (i = 0; i < height; i++) g_global->variable_7E0C[i] = i;
+
+	for (i = 0; i < width; i++) {
+		uint16 tmp;
+
+		j = Tools_RandomRange(0, width - 1);
+
+		tmp = g_global->variable_7B8C[j];
+		g_global->variable_7B8C[j] = g_global->variable_7B8C[i];
+		g_global->variable_7B8C[i] = tmp;
+	}
+
+	for (i = 0; i < height; i++) {
+		uint16 tmp;
+
+		j = Tools_RandomRange(0, height - 1);
+
+		tmp = g_global->variable_7E0C[j];
+		g_global->variable_7E0C[j] = g_global->variable_7E0C[i];
+		g_global->variable_7E0C[i] = tmp;
+	}
+
+	oldScreenID = GUI_Screen_SetActive(screenDst);
+
+	for (j = 0; j < height; j++) {
+		uint16 j2 = j;
+		uint32 tick;
+
+		for (i = 0; i < width; i++) {
+			uint8 colour;
+			uint16 curX = x + g_global->variable_7B8C[i];
+			uint16 curY = y + g_global->variable_7E0C[j2];
+
+			if (++j2 >= height) j2 = 0;
+
+			GUI_Screen_SetActive(screenSrc);
+
+			emu_push(curY);
+			emu_push(curX);
+			emu_push(emu_cs); emu_push(0x0184); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
+			emu_sp += 4;
+			colour = (uint8)emu_ax;
+
+			GUI_Screen_SetActive(screenDst);
+
+			if (skipNull && colour == 0) continue;
+
+			GFX_PutPixel(curX, curY, colour);
+		}
+
+		tick = g_global->variable_76A8 + delay;
+
+		while (g_global->variable_76A8 < tick) sleep(0);
+	}
+
+	if (screenDst == 0) {
+		emu_push(emu_cs); emu_push(0x0202); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	}
+
+	GUI_Screen_SetActive(oldScreenID);
 }

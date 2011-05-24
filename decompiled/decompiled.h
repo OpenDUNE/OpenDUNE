@@ -55,7 +55,6 @@
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_EntryPoint();
 extern void f__2BF2_0000_0007_42B5();
-extern void f__B488_0000_0027_45A9();
 extern void f__B520_0000_0019_6B99();
 extern void f__B536_0000_004B_3AF8();
 extern void f__2642_0002_005E_87F6();

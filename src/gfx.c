@@ -80,7 +80,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 	uint8 *iconRPAL;
 	uint8 *wptr;
 	uint8 *rptr;
-	uint8 pallete[16];
+	uint8 palette[16];
 
 	assert(houseID < HOUSE_MAX);
 
@@ -96,7 +96,7 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 		} else {
 			if (colour >= 0x90 && colour <= 0xA0) colour += houseID << 4;
 		}
-		pallete[i] = colour;
+		palette[i] = colour;
 	}
 
 	if (g_spriteMode == 4) return;
@@ -114,9 +114,9 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 			uint8 right = (*rptr) & 0xF;
 			rptr++;
 
-			if (pallete[left] != 0) *wptr = pallete[left];
+			if (palette[left] != 0) *wptr = palette[left];
 			wptr++;
-			if (pallete[right] != 0) *wptr = pallete[right];
+			if (palette[right] != 0) *wptr = palette[right];
 			wptr++;
 		}
 
