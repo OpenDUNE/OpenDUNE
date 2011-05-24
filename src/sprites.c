@@ -21,8 +21,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__22A6_0FAE_0027_2378();
-extern void f__22A6_0FD7_0043_ACF9();
 extern void f__22A6_127B_0036_F8C9();
 extern void f__2B6C_000E_0045_C1FE();
 extern void f__2B6C_006E_002E_4FBC();
@@ -589,14 +587,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 
 	g_global->mouseLock++;
 
-	emu_push(g_global->variable_7094);
-	emu_push(g_global->variable_7092);
-	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x22A6; f__22A6_0FD7_0043_ACF9();
-	emu_sp += 4;
-
 	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
-
-	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x22A6; f__22A6_0FAE_0027_2378();
 
 	emu_push(sprite[5]);
 	emu_push((*(uint16 *)(sprite + 3) << 3) + 2);
@@ -693,14 +684,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 	g_global->variable_7074 = sprite[5];
 	g_global->variable_7076 = (*(uint16 *)(sprite + 3) << 3) + 2;
 
-	emu_push(g_global->variable_7094);
-	emu_push(g_global->variable_7092);
-	emu_push(emu_cs); emu_push(0x01E5); emu_cs = 0x22A6; f__22A6_0FD7_0043_ACF9();
-	emu_sp += 4;
-
 	emu_push(emu_cs); emu_push(0x01ED); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
-
-	emu_push(emu_cs); emu_push(0x01F1); emu_cs = 0x22A6; f__22A6_0FAE_0027_2378();
 
 end:
 	g_global->mouseLock--;
