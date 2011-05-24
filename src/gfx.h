@@ -20,6 +20,7 @@ extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int1
 extern void GFX_ClearScreen();
 extern void GFX_SetPalette(uint8 *palette);
 extern uint8 GFX_GetPixel(uint16 x, uint16 y);
+extern void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst);
 
 extern void emu_GFX_GetScreenSegment();
 extern void emu_Unknown_22A6_0E1A();

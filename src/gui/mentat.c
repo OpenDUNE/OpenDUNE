@@ -22,7 +22,6 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__22A6_04A5_000F_3B8F();
 extern void f__2B6C_0137_0020_C73F();
 extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
@@ -436,11 +435,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 
 	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, (void *)emu_get_memorycsip(g_global->variable_998A), 1);
 
-	emu_push(0x0); emu_push(0x0);
-	emu_push(0x2);
-	emu_push(0x3);
-	emu_push(emu_cs); emu_push(0x0068); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-	emu_sp += 8;
+	GFX_Screen_Copy3(3, 2);
 
 	oldScreenID = GUI_Screen_SetActive(2);
 

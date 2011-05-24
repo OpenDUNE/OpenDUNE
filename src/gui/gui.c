@@ -38,7 +38,6 @@
 
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
-extern void f__22A6_04A5_000F_3B8F();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -1695,11 +1694,7 @@ uint16 GUI_PickHouse()
 
 		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, 3, NULL, 1);
 
-		emu_push(0); emu_push(0);
-		emu_push(2);
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x10E9); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-		emu_sp += 8;
+		GFX_Screen_Copy3(3, 2);
 
 		emu_push(emu_cs); emu_push(0x10F1); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
@@ -3331,11 +3326,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	emu_push(emu_cs); emu_push(0x00D9); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
 	emu_sp += 14;
 
-	emu_push(0); emu_push(0);
-	emu_push(4);
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x00F4); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-	emu_sp += 8;
+	GFX_Screen_Copy3(5, 4);
 
 	x = 0;
 	y = 0;
@@ -3391,11 +3382,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
-		emu_push(0); emu_push(0);
-		emu_push(2);
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-		emu_sp += 8;
+		GFX_Screen_Copy3(3, 2);
 
 		/* "Three Houses have come to Dune." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11B));
@@ -3414,11 +3401,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
-		emu_push(0); emu_push(0);
-		emu_push(2);
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0374); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-		emu_sp += 8;
+		GFX_Screen_Copy3(3, 2);
 
 		/* "To take control of the land." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11C));
@@ -3439,11 +3422,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Sprites_LoadImage("DUNERGN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
-	emu_push(0); emu_push(0);
-	emu_push(2);
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
-	emu_sp += 8;
+	GFX_Screen_Copy3(3, 2);
 
 	GUI_Screen_SetActive(2);
 

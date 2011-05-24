@@ -362,3 +362,13 @@ uint8 GFX_GetPixel(uint16 x, uint16 y)
 
 	return emu_get_memory8(GFX_Screen_GetSegementActive(), y * SCREEN_WIDTH, x);
 }
+
+void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst)
+{
+	screenSrc = GFX_Screen_GetSegment_ByIndex2(screenSrc);
+	screenDst = GFX_Screen_GetSegment_ByIndex(screenDst);
+
+	if (screenSrc == 0x0 || screenDst == 0x0 || screenSrc == screenDst) return;
+
+	memcpy(&emu_get_memory8(screenDst, 0x0, 0x0), &emu_get_memory8(screenSrc, 0x0, 0x0), 64000);
+}
