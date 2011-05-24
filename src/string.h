@@ -21,6 +21,5 @@ extern void emu_String_TranslateSpecial();
 extern void emu_String_Load();
 extern void emu_String_LoadFile();
 extern void emu_String_NextString();
-extern void emu_String_PrevString();
 
 #endif /* STRING_H */

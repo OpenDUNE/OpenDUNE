@@ -445,29 +445,6 @@ void emu_GUI_Get_Scrollbar_Position()
 }
 
 /**
- * Emulator wrapper around GUI_FactoryWindow_GetItem()
- *
- * @name emu_GUI_FactoryWindow_GetItem
- * @implements B495:1230:001B:A160 ()
- */
-void emu_GUI_FactoryWindow_GetItem()
-{
-	uint16 offset;
-	csip32 ret;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	offset = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	ret = emu_Global_GetCSIP(GUI_FactoryWindow_GetItem(offset));
-
-	emu_dx = ret.s.cs;
-	emu_ax = ret.s.ip;
-}
-
-/**
  * Emulator wrapper around GUI_Screen_FadeIn().
  *
  * @name emu_GUI_Screen_FadeIn

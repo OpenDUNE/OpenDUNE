@@ -177,27 +177,3 @@ void emu_String_NextString()
 	emu_ax = csip06.s.ip;
 }
 
-/**
- * Emulation wrapper for emu_String_PrevString()
- *
- * @name emu_String_PrevString
- * @implements B4E0:0B5D:0005:6F1A ()
- */
-void emu_String_PrevString()
-{
-	csip32 csip06;
-	uint8 *ptr;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	csip06 = emu_get_csip32(emu_ss, emu_sp,  0);
-	ptr = emu_get_memorycsip(csip06);
-
-	ptr = String_PrevString(ptr);
-	csip06.s.ip = emu_Global_GetIP(ptr, csip06.s.cs);
-
-	emu_dx = csip06.s.cs;
-	emu_ax = csip06.s.ip;
-}

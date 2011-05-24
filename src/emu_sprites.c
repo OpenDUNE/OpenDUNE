@@ -31,69 +31,6 @@ void emu_Sprites_Load()
 }
 
 /**
- * Emulator wrapper around Sprites_GetCSIP()
- *
- * @name emu_Sprites_GetCSIP
- * @implements 2903:007A:0032:762D ()
- */
-void emu_Sprites_GetCSIP()
-{
-	csip32 buffer_csip;
-	uint16 index;
-	csip32 ret;
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	buffer_csip = emu_get_csip32  (emu_ss, emu_sp, 0x0);
-	index       = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	ret = Sprites_GetCSIP(buffer_csip, index);
-
-	emu_dx = ret.s.cs;
-	emu_ax = ret.s.ip;
-}
-
-/**
- * Emulator wrapper around Sprite_GetWidth()
- *
- * @name emu_Sprite_GetWidth
- * @implements 260F:003A:0014:CA10 ()
- */
-void emu_Sprite_GetWidth()
-{
-	csip32 sprite_csip;
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	sprite_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Sprite_GetWidth(sprite_csip);
-}
-
-/**
- * Emulator wrapper around Sprite_GetHeight()
- *
- * @name emu_Sprite_GetHeight
- * @implements 260F:0054:0016:0011 ()
- */
-void emu_Sprite_GetHeight()
-{
-	csip32 sprite_csip;
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	sprite_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Sprite_GetHeight(sprite_csip);
-}
-
-/**
  * Emulator wrapper around Sprites_LoadImage()
  *
  * @name emu_Sprites_LoadImage
