@@ -56,7 +56,6 @@ extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B503_0BEE_002A_B077();
 extern void f__B503_0DFF_0012_112D();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
@@ -3147,31 +3146,41 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	return scenarioID;
 }
 
+static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
+{
+	char key[4];
+	char buffer[100];
+	char *s = buffer;
+	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
+
+	strncpy(key, (char *)emu_get_memorycsip(g_houseInfo[houseID].name), 3);
+	key[3] = '\0';
+
+	sprintf((char *)g_global->variable_9939, "GROUP%d", campaignID);
+
+	if (!Ini_GetString((char *)g_global->variable_9939, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI))) return;
+
+	while (*s != '\0') {
+		uint16 region = atoi(s);
+
+		if (region != 0) regions[region] = houseID;
+
+		while (*s != '\0') {
+			if (*s++ == ',') break;
+		}
+	}
+}
+
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 {
 	uint16 i;
 	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 
 	for (i = 0; i < campaignID; i++) {
-		emu_push(i + 1);
-		emu_push(HOUSE_HARKONNEN);
-		emu_push(emu_cs); emu_push(0x0B7E); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
-		emu_sp += 4;
-
-		emu_push(i + 1);
-		emu_push(HOUSE_ATREIDES);
-		emu_push(emu_cs); emu_push(0x0B8A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
-		emu_sp += 4;
-
-		emu_push(i + 1);
-		emu_push(HOUSE_ORDOS);
-		emu_push(emu_cs); emu_push(0x0B96); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
-		emu_sp += 4;
-
-		emu_push(i + 1);
-		emu_push(HOUSE_SARDAUKAR);
-		emu_push(emu_cs); emu_push(0x0BA2); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
-		emu_sp += 4;
+		GUI_StrategicMap_ReadHouseRegions(HOUSE_HARKONNEN, i + 1);
+		GUI_StrategicMap_ReadHouseRegions(HOUSE_ATREIDES, i + 1);
+		GUI_StrategicMap_ReadHouseRegions(HOUSE_ORDOS, i + 1);
+		GUI_StrategicMap_ReadHouseRegions(HOUSE_SARDAUKAR, i + 1);
 	}
 
 	for (i = 0; i < regions[0]; i++) {
