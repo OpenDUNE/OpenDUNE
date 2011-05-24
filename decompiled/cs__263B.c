@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__263B_0006_001C_9C72()
+ * Decompiled function emu_Video_GetMode()
  *
- * @name f__263B_0006_001C_9C72
+ * @name emu_Video_GetMode
  * @implements 263B:0006:001C:9C72 ()
  * @implements 263B:0022:000B:A4FA
  * @implements 263B:002D:0002:2597
@@ -15,7 +15,7 @@
  * Called From: 1DB6:000A:000B:BFBA
  * Called From: B500:004F:0005:B7DE
  */
-void f__263B_0006_001C_9C72()
+void emu_Video_GetMode()
 {
 l__0006:
 	emu_push(emu_bp);
@@ -29,7 +29,7 @@ l__0006:
 	emu_push(emu_ax);
 	emu_ax = 0x10;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x01F7; f__01F7_1FB0_0010_CF18();
+	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x01F7; emu_Interrupt_Video();
 l__0022:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x99F8);
@@ -45,9 +45,9 @@ l__002D:
 }
 
 /**
- * Decompiled function f__263B_002F_0016_FDB0()
+ * Decompiled function emu_Video_SetMode()
  *
- * @name f__263B_002F_0016_FDB0
+ * @name emu_Video_SetMode
  * @implements 263B:002F:0016:FDB0 ()
  * @implements 263B:0045:0027:058F
  * @implements 263B:0048:0024:9FBD
@@ -58,7 +58,7 @@ l__002D:
  * Called From: 25C4:02F6:001B:40E8
  * Called From: B500:005E:000F:ACF6
  */
-void f__263B_002F_0016_FDB0()
+void emu_Video_SetMode()
 {
 l__002F:
 	emu_push(emu_bp);
@@ -88,7 +88,7 @@ l__0048:
 	emu_push(emu_ax);
 	emu_ax = 0x10;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x006C); emu_cs = 0x01F7; f__01F7_1FB0_0010_CF18();
+	emu_push(emu_cs); emu_push(0x006C); emu_cs = 0x01F7; emu_Interrupt_Video();
 l__006C:
 	emu_addw(&emu_sp, 0xA);
 	emu_pop(&emu_si);

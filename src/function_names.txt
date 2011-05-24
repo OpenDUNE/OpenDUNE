@@ -39,6 +39,8 @@
 01F7:10EF:000B:AF8B	emu_File_LowLevel_Delete	# (filename_csip)
 01F7:111F:001A:B513	emu_String_Format	# (params_ip, format_csip, data_csip, callback_ip) data_csip depends on callback
 01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
+01F7:1FB0:0010:CF18	emu_Interrupt_Video
+01F7:1FE1:005F:A74A	emu_Interrupt_Video_Internal
 01F7:207A:0014:31F0	emu_File_LowLevel_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:22E8:0011:1764	emu_File_LowLevel_GSAttr	# (filename_csip, type, attribute)
@@ -106,6 +108,9 @@
 29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
 29E8:073F:000E:6816	emu_Input_History_Clear
 29E8:0A19:002A:2DE6	emu_Input_History_Add
+
+263B:0006:001C:9C72	emu_Video_GetMode
+263B:002F:0016:FDB0	emu_Video_SetMode
 
 2BC0:0004:000F:950B	emu_Tools_Swapd	# LE <-> BE for 32bit values
 2BC0:0013:000A:39BD	emu_Tools_Swapw	# LE <-> BE for 16bit values

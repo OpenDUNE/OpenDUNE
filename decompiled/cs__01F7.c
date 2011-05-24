@@ -4342,9 +4342,9 @@ l__1F05:
 }
 
 /**
- * Decompiled function f__01F7_1FB0_0010_CF18()
+ * Decompiled function emu_Interrupt_Video()
  *
- * @name f__01F7_1FB0_0010_CF18
+ * @name emu_Interrupt_Video
  * @implements 01F7:1FB0:0010:CF18 ()
  * @implements 01F7:1FC0:001A:86D3
  * @implements 01F7:1FDA:0007:984A
@@ -4353,7 +4353,7 @@ l__1F05:
  * Called From: 263B:0067:0024:9FBD
  * Called From: 263B:0067:0027:058F
  */
-void f__01F7_1FB0_0010_CF18()
+void emu_Interrupt_Video()
 {
 l__1FB0:
 	emu_push(emu_bp);
@@ -4376,7 +4376,7 @@ l__1FC0:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x1FDA); f__01F7_1FE1_005F_A74A();
+	emu_push(0x1FDA); emu_Interrupt_Video_Internal();
 l__1FDA:
 	emu_addw(&emu_sp, 0xE);
 	emu_sp = emu_bp;
@@ -4389,15 +4389,15 @@ l__1FDA:
 }
 
 /**
- * Decompiled function f__01F7_1FE1_005F_A74A()
+ * Decompiled function emu_Interrupt_Video_Internal()
  *
- * @name f__01F7_1FE1_005F_A74A
+ * @name emu_Interrupt_Video_Internal
  * @implements 01F7:1FE1:005F:A74A ()
  * @implements 01F7:201F:0021:24DC
  *
  * Called From: 01F7:1FD7:001A:86D3
  */
-void f__01F7_1FE1_005F_A74A()
+void emu_Interrupt_Video_Internal()
 {
 l__1FE1:
 	emu_push(emu_bp);

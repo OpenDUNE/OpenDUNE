@@ -537,7 +537,7 @@ l__03E6:
 	if (emu_ax != 0xFFFF) goto l__0418;
 	emu_ax = 0x9;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x03F4); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+	emu_push(emu_cs); emu_push(0x03F4); emu_cs = 0x263B; emu_Video_SetMode();
 l__03F4:
 	emu_pop(&emu_cx);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6714));

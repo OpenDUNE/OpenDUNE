@@ -51,8 +51,8 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
 extern void emu_Tools_Sleep();
-extern void f__263B_0006_001C_9C72();
-extern void f__263B_002F_0016_FDB0();
+extern void emu_Video_GetMode();
+extern void emu_Video_SetMode();
 extern void f__2649_0053_001D_FEB5();
 extern void f__2649_0ADA_000E_EEB3();
 extern void f__29E8_072F_000F_651A();
@@ -2527,7 +2527,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 
 	if (graphicMode != 8) {
 		emu_push(graphicMode);
-		emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+		emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_SetMode();
 		emu_sp += 2;
 
 		emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
@@ -2633,7 +2633,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 
 			if (g_global->new8pFnt.csip == 0x0) {
 				emu_push(9);
-				emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+				emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; emu_Video_SetMode();
 				emu_sp += 2;
 
 				printf("\r\nUnable to load font %s\r\nReinstall program.\r\n", fontFilename);
@@ -2698,8 +2698,8 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 {
 	uint16 drive;
 
-	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; f__263B_0006_001C_9C72();
-	g_global->variable_6E26 = emu_ax;
+	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; emu_Video_GetMode();
+	g_global->originalVideoMode = emu_ax;
 
 	emu_push(0x3F);
 	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; emu_Interrupt_Vector_Get();
@@ -3181,11 +3181,11 @@ void PrepareEnd()
 		}
 	}
 
-	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; f__263B_0006_001C_9C72();
+	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_GetMode();
 
-	if (emu_ax != g_global->variable_6E26) {
+	if (emu_ax != g_global->originalVideoMode) {
 		emu_push(0x9);
-		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; f__263B_002F_0016_FDB0();
+		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; emu_Video_SetMode();
 		emu_sp += 2;
 	}
 

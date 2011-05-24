@@ -1267,7 +1267,7 @@ typedef struct GlobalData {
 	/* 6DFE(8)   */ PACK char   string_6DFE[8];             /*!< "yga.ovl" NULL terminated. */
 	/* 6E06(29)  */ PACK char   string_6E06[29];            /*!< "PageArraySize is negative!\r\n" NULL terminated. */
 	/* 6E23()    */ PACK uint8   unknown_6E23[0x0003];
-	/* 6E26(2)   */ PACK uint16 variable_6E26;              /*!< ?? */
+	/* 6E26(2)   */ PACK uint16 originalVideoMode;          /*!< The videomode when the game starts. It switches back to this on terminate. */
 	/* 6E28()    */ PACK uint8   unknown_6E28[0x0016];
 	/* 6E3E(4)   */ PACK csip32 variable_6E3E;              /*!< ?? */
 	/* 6E42()    */ PACK uint8   unknown_6E42[0x0004];
