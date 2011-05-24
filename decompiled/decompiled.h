@@ -313,7 +313,6 @@ extern void f__2649_0EBE_003A_3C21();
 extern void f__217E_0ED2_001F_0CC9();
 extern void emu_Tools_StoreSegments();
 extern void f__2649_0EFC_003A_7D24();
-extern void f__B503_0F0C_0010_028B();
 extern void f__B518_0F22_0007_C8B1();
 extern void f__AB01_0F24_0044_3584();
 extern void f__2649_0F3A_0034_A58B();

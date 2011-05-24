@@ -57,7 +57,6 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0DFF_0012_112D();
-extern void f__B503_0F0C_0010_028B();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -3057,6 +3056,43 @@ static int16 GUI_StrategicMap_ClickedRegion()
 	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_global->mouseClickY - 24) * 304 + g_global->mouseClickX - 8];
 }
 
+static void GUI_StrategicMap_DrawText(char *string)
+{
+	uint16 oldScreenID;
+	uint16 y;
+
+	oldScreenID = GUI_Screen_SetActive(2);
+
+	GUI_Screen_Copy(8, 165, 8, 186, 24, 14, 0, 2);
+
+	emu_push(186);
+	emu_push(64);
+	emu_push(emu_cs); emu_push(0x0F59); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
+	emu_sp += 4;
+	GUI_DrawFilledRectangle(64, 172, 255, 185, (uint8)emu_ax);
+
+	GUI_DrawText_Wrapper(string, 64, 175, 12, 0, 0x12);
+
+	while (g_global->variable_76AC + 90 < g_global->variable_2B0C) sleep(0);
+
+	for (y = 185; y > 172; y--) {
+		GUI_Screen_Copy(8, y, 8, 165, 24, 14, 2, 0);
+
+		g_global->variable_76B4 = 3;
+
+		while (true) {
+			if (g_global->variable_76B4 == 0) break;
+
+			emu_push(emu_cs); emu_push(0x0FFC); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
+			if (emu_ax == 0) continue;
+		}
+	}
+
+	g_global->variable_2B0C = g_global->variable_76AC + 90;
+
+	GUI_Screen_SetActive(oldScreenID);
+}
+
 static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 {
 	uint16 count;
@@ -3131,9 +3167,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	GUI_StrategicMap_Var2AF4_Set(region, true);
 
-	emu_push(0x353F); emu_push(0x2B1D); /* "" */
-	emu_push(emu_cs); emu_push(0x0851); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-	emu_sp += 4;
+	GUI_StrategicMap_DrawText("");
 
 	GUI_StrategicMap_AnimateSelected(region, data);
 
@@ -3218,9 +3252,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->language], region);
 
 				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) {
-					emu_push(0x353F); emu_push(0x9939);
-					emu_push(emu_cs); emu_push(0x0DAF); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-					emu_sp += 4;
+					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
 				}
 
 				emu_push(1);
@@ -3236,9 +3268,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 		}
 	}
 
-	emu_push(0x353F); emu_push(0x2B1D); /* "" */
-	emu_push(emu_cs); emu_push(0x0DF7); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-	emu_sp += 4;
+	GUI_StrategicMap_DrawText("");
 }
 
 uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
@@ -3356,12 +3386,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		emu_push(emu_cs); emu_push(0x02D6); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
 		emu_sp += 8;
 
-		emu_push(0x11B); /* "Three Houses have come to Dune." */
-		emu_push(emu_cs); emu_push(0x02E2); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x02EA); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-		emu_sp += 4;
+		/* "Three Houses have come to Dune." */
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11B));
 
 		emu_push(0);
 		emu_push(0);
@@ -3393,12 +3419,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		emu_push(emu_cs); emu_push(0x0374); emu_cs = 0x22A6; f__22A6_04A5_000F_3B8F();
 		emu_sp += 8;
 
-		emu_push(0x11C); /* "To take control of the land." */
-		emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x0388); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-		emu_sp += 4;
+		/* "To take control of the land." */
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11C));
 
 		emu_push(emu_cs); emu_push(0x0392); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
 
@@ -3420,12 +3442,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			if (emu_ax != 0) break;
 		}
 
-		emu_push(0x11D); /* "That has become divided." */
-		emu_push(emu_cs); emu_push(0x03E6); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x03EE); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-		emu_sp += 4;
+		/* "That has become divided." */
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11D));
 	} else {
 		Sprites_CPS_LoadRegionClick();
 	}
@@ -3466,12 +3484,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	emu_push(emu_cs); emu_push(0x04D3); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
 	if (*(uint16 *)emu_get_memorycsip(g_global->regions) >= campaignID) {
-		emu_push(0x11E);
-		emu_push(emu_cs); emu_push(0x04E5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2; /* "Select your next region" */
-		emu_push(emu_dx); emu_push(emu_ax);
-		emu_push(emu_cs); emu_push(0x04ED); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
-		emu_sp += 4;
+		/* "Select your next region" */
+		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11E));
 
 		scenarioID = GUI_StrategicMap_ScenarioSelection(campaignID);
 	} else {
