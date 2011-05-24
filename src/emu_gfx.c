@@ -127,3 +127,24 @@ void emu_GFX_SetPalette()
 
 	GFX_SetPalette(emu_get_memorycsip(pcsip));
 }
+
+/**
+ * Emulator wrapper around GFX_GetSize().
+ *
+ * @name emu_GFX_GetSize
+ * @implements 22A6:127B:0036:F8C9 ()
+ */
+void emu_GFX_GetSize()
+{
+	uint16 width;
+	uint16 height;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	width  = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	height = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	emu_ax = GFX_GetSize(width, height);
+}

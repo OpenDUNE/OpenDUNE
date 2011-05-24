@@ -21,7 +21,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__22A6_127B_0036_F8C9();
 extern void f__2B6C_000E_0045_C1FE();
 extern void f__2B6C_006E_002E_4FBC();
 extern void emu_Tools_Free();
@@ -573,27 +572,13 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 
 	if (sprite == NULL || g_global->variable_7097 != 0) return;
 
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0xA);
-	emu_push(emu_bx);
-	emu_push(emu_cx);
-	emu_push(emu_ds);
-	emu_push(emu_si);
-	emu_push(emu_es);
-	emu_push(emu_di);
-
 	while (g_global->mouseLock != 0) sleep(0);
 
 	g_global->mouseLock++;
 
 	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
 
-	emu_push(sprite[5]);
-	emu_push((*(uint16 *)(sprite + 3) << 3) + 2);
-	emu_push(emu_cs); emu_push(0x0068); emu_cs = 0x22A6; f__22A6_127B_0036_F8C9();
-	emu_sp += 4;
-	size = emu_ax;
+	size = GFX_GetSize((*(uint16 *)(sprite + 3) << 3) + 2, sprite[5]);
 
 	if (g_global->variable_705A < size) {
 		if (g_global->variable_708A.csip != 0x0) {

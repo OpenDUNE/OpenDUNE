@@ -38,7 +38,6 @@
 
 extern void emu_GFX_CopyFromBuffer();
 extern void emu_GFX_CopyToBuffer();
-extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
@@ -722,12 +721,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	Unknown_07AE_0000(1);
 
 	if (g_global->variable_3600.csip == 0x0) {
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(emu_cs); emu_push(0x0348); emu_cs = 0x22A6; f__22A6_127B_0036_F8C9();
-		emu_sp += 4;
-
-		size = emu_ax;
+		size = GFX_GetSize(g_global->variable_992F, g_global->variable_9931);
 
 		emu_push(emu_cs); emu_push(0x0351); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
 
