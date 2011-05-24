@@ -27,8 +27,8 @@
 #include "../house.h"
 #include "../gfx.h"
 
-extern void emu_GUI_CopyToBuffer();
-extern void emu_GUI_CopyFromBuffer();
+extern void emu_GFX_CopyToBuffer();
+extern void emu_GFX_CopyFromBuffer();
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
@@ -574,7 +574,7 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	emu_push(g_global->variable_992F);
 	emu_push(g_global->variable_992B);
 	emu_push(g_global->variable_992D);
-	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x22A6; emu_GUI_CopyToBuffer();
+	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
 	emu_sp += 12;
 
 	emu_push(emu_cs); emu_push(0x0F22); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
@@ -594,7 +594,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	emu_push(g_global->variable_992F);
 	emu_push(g_global->variable_992B);
 	emu_push(g_global->variable_992D);
-	emu_push(emu_cs); emu_push(0x0F5E); emu_cs = 0x22A6; emu_GUI_CopyFromBuffer();
+	emu_push(emu_cs); emu_push(0x0F5E); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
 	emu_sp += 12;
 
 	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();

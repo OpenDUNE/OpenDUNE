@@ -83,10 +83,10 @@
 217E:07A6:000C:1B04	emu_Overlay_GetCodeSize
 217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
-22A6:04F8:007A:6E25	emu_GUI_CopyFromBuffer	# (??, ??, ??, ??, buffer_csip) copy from a buffer to the screen
+22A6:04F8:007A:6E25	emu_GFX_CopyFromBuffer	# (??, ??, ??, ??, buffer_csip) copy from a buffer to the screen
 22A6:0FAE:0027:2378	emu_GFX_Ignore2
 22A6:0FD7:0043:ACF9	emu_GFX_Ignore1
-22A6:101C:004B:D9F3	emu_GUI_CopyToBuffer	# (??, ??, ??, ??, buffer_csip) copy from the screen to a buffer
+22A6:101C:004B:D9F3	emu_GFX_CopyToBuffer	# (??, ??, ??, ??, buffer_csip) copy from the screen to a buffer
 
 23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)

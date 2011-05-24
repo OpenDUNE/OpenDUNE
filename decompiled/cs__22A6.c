@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_GUI_CopyFromBuffer()
+ * Decompiled function emu_GFX_CopyFromBuffer()
  *
- * @name emu_GUI_CopyFromBuffer
+ * @name emu_GFX_CopyFromBuffer
  * @implements 22A6:04F8:007A:6E25 ()
  * @implements 22A6:0517:005B:75B3
  * @implements 22A6:051F:0053:AB4B
@@ -23,7 +23,7 @@
  * Called From: B4F2:0F59:001D:FF8F
  * Called From: B53B:0233:0029:5454
  */
-void emu_GUI_CopyFromBuffer()
+void emu_GFX_CopyFromBuffer()
 {
 l__04F8:
 	emu_push(emu_bp);
@@ -294,9 +294,9 @@ void emu_GFX_Ignore1()
 }
 
 /**
- * Decompiled function emu_GUI_CopyToBuffer()
+ * Decompiled function emu_GFX_CopyToBuffer()
  *
- * @name emu_GUI_CopyToBuffer
+ * @name emu_GFX_CopyToBuffer
  * @implements 22A6:101C:004B:D9F3 ()
  * @implements 22A6:103A:002D:1381
  * @implements 22A6:1042:0025:252F
@@ -318,7 +318,7 @@ void emu_GFX_Ignore1()
  * Called From: B4F2:0F15:001D:FFB4
  * Called From: B53B:0147:0028:D443
  */
-void emu_GUI_CopyToBuffer()
+void emu_GFX_CopyToBuffer()
 {
 l__101C:
 	emu_push(emu_bp);

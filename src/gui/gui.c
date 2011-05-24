@@ -36,8 +36,8 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_GUI_CopyFromBuffer();
-extern void emu_GUI_CopyToBuffer();
+extern void emu_GFX_CopyFromBuffer();
+extern void emu_GFX_CopyToBuffer();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -750,7 +750,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_push(g_global->variable_992F);
 		emu_push(g_global->variable_992B);
 		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; emu_GUI_CopyToBuffer();
+		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
 		emu_sp += 12;
 	}
 
@@ -804,7 +804,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		emu_push(g_global->variable_992F);
 		emu_push(g_global->variable_992B);
 		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; emu_GUI_CopyFromBuffer();
+		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
 		emu_sp += 12;
 	}
 
