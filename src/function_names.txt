@@ -41,7 +41,6 @@
 01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
 01F7:207A:0014:31F0	emu_File_LowLevel_IOCtrl	# (file, function, buffer_csip, buflen)
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
-01F7:2252:0045:03CB	emu_String_ToInteger	# (string_csip)
 01F7:22E8:0011:1764	emu_File_LowLevel_GSAttr	# (filename_csip, type, attribute)
 01F7:23CC:0013:6B52	emu_File_LowLevel_Close_Wrapper	# (file) Manages closing of a file
 01F7:23F4:000A:3443	emu_File_LowLevel_Close	# (file)
@@ -65,7 +64,6 @@
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:3964:0041:7552	emu_String_strcasecmp	# (string1_csip, string2_csip) Case insensitive compare
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
-01F7:39C4:0031:EE87	emu_String_strncpy	# (to_csip, from_csip, count)
 01F7:3A8A:0018:E4EE	emu_String_strstr	# (string1_csip, string2_csip)
 01F7:3AF8:001D:A439	emu_String_strtok	# (string_csip, delimiters_csip)
 01F7:3CD5:000D:9D98	emu_String_strupr	# (csip)

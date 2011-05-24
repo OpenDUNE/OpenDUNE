@@ -607,11 +607,7 @@ typedef struct GlobalData {
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
 	/* 2AF3(1)   */ PACK uint8  variable_2AF3;              /*!< ?? */
 	/* 2AF4(2)   */ PACK uint32 variable_2AF4;              /*!< ?? */
-	/* 2AF8(4)   */ PACK char   string_2AF8[4];             /*!< "ENG" NULL terminated. */
-	/* 2AFC(4)   */ PACK char   string_2AFC[4];             /*!< "FRE" NULL terminated. */
-	/* 2B00(4)   */ PACK char   string_2B00[4];             /*!< "GER" NULL terminated. */
-	/* 2B04(4)   */ PACK char   string_2B04[4];             /*!< "ITA" NULL terminated. */
-	/* 2B08(4)   */ PACK char   string_2B08[4];             /*!< "SPA" NULL terminated. */
+	/* 2AF8(20)  */ PACK char   string_2AF8[5][4];          /*!< "ENG\0FRE\0GER\0ITA\0SPA" NULL terminated. */
 	/* 2B0C()    */ PACK uint8   unknown_2B0C[0x0004];
 	/* 2B10(2)   */ PACK uint16 variable_2B10;              /*!< ?? */
 	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */

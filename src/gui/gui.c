@@ -57,7 +57,6 @@ extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B503_0DFF_0012_112D();
-extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
 extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
@@ -3194,6 +3193,54 @@ static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 	}
 }
 
+static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
+{
+	char key[10];
+	char category[10];
+	char buffer[100];
+	uint16 i;
+
+	sprintf(category, "GROUP%d", campaignID);
+
+	for (i = 0; i < 6; i++) {
+		uint8 houseID = (g_global->playerHouseID + i) % 6;
+		char *s = buffer;
+
+		strncpy(key, (char *)emu_get_memorycsip(g_houseInfo[houseID].name), 3);
+		key[3] = '\0';
+
+		if (!Ini_GetString(category, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI))) continue;
+
+		while (*s != '\0') {
+			uint16 region = atoi(s);
+
+			if (region != 0) {
+				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->language], region);
+
+				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) {
+					emu_push(0x353F); emu_push(0x9939);
+					emu_push(emu_cs); emu_push(0x0DAF); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+					emu_sp += 4;
+				}
+
+				emu_push(1);
+				emu_push(region);
+				emu_push(houseID);
+				emu_push(emu_cs); emu_push(0x0DBE); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0DFF_0012_112D();
+				emu_sp += 6;
+			}
+
+			while (*s != '\0') {
+				if (*s++ == ',') break;
+			}
+		}
+	}
+
+	emu_push(0x353F); emu_push(0x2B1D); /* "" */
+	emu_push(emu_cs); emu_push(0x0DF7); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0F0C_0010_028B();
+	emu_sp += 4;
+}
+
 uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 {
 	uint16 scenarioID;
@@ -3414,11 +3461,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
 
-	if (campaignID != previousCampaignID) {
-		emu_push(campaignID);
-		emu_push(emu_cs); emu_push(0x04CD); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0CB3_001A_FEEE();
-		emu_sp += 2;
-	}
+	if (campaignID != previousCampaignID) GUI_StrategicMap_ShowProgression(campaignID);
 
 	emu_push(emu_cs); emu_push(0x04D3); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
