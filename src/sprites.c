@@ -17,6 +17,7 @@
 #include "os/endian.h"
 #include "codec/format80.h"
 #include "os/sleep.h"
+#include "ini.h"
 
 csip32 *g_sprites = NULL;
 
@@ -28,7 +29,6 @@ extern void f__2B6C_006E_002E_4FBC();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
-extern void f__B503_122D_002D_E562();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -706,6 +706,18 @@ end:
 	g_global->mouseLock--;
 }
 
+static void InitRegions()
+{
+	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
+	uint16 i;
+
+	Ini_GetString("INFO", "TOTAL REGIONS", NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
+
+	sscanf((char *)g_global->variable_9939, "%hu", &regions[0]);
+
+	for (i = 0; i < regions[0]; i++) regions[i + 1] = 0xFFFF;
+}
+
 void Sprites_CPS_LoadRegionClick()
 {
 	csip32 memBlock;
@@ -742,5 +754,5 @@ void Sprites_CPS_LoadRegionClick()
 	memBlock = Tools_GetSmallestIP(memBlock);
 	g_global->regions = memBlock;
 
-	emu_push(emu_cs); emu_push(0x1161); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_122D_002D_E562();
+	InitRegions();
 }
