@@ -1440,7 +1440,7 @@ typedef struct GlobalData {
 	/* 80B2(2)   */ PACK uint16 savegameCountOnDisk;        /*!< Amount of savegames on disk. */
 	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];
-	/* 81B4(2)   */ PACK uint16 variable_81B4;              /*!< ?? */
+	/* 81B4(2)   */ PACK uint16 strategicMapFastForward;    /*!< ?? */
 	/* 81B6(4)   */ PACK uint32 variable_81B6;              /*!< ?? */
 	/* 81BA(12)  */ PACK uint8  variable_81BA[12];          /*!< ?? */
 	/* 81C6(12)  */ PACK uint8  variable_81C6[12];          /*!< ?? */

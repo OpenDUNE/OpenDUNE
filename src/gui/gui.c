@@ -56,8 +56,6 @@ extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B503_0DFF_0012_112D();
-extern void f__B503_13C2_0008_C4BB();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__B518_14D4_0013_5ED7();
@@ -3056,6 +3054,21 @@ static int16 GUI_StrategicMap_ClickedRegion()
 	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_global->mouseClickY - 24) * 304 + g_global->mouseClickX - 8];
 }
 
+static bool GUI_StrategicMap_FastForwardToggleWithESC()
+{
+	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
+	if (emu_ax == 0) return g_global->strategicMapFastForward != 0;
+
+	emu_push(emu_cs); emu_push(0x13D3); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+	if (emu_ax != 0x1B) return g_global->strategicMapFastForward != 0;
+
+	g_global->strategicMapFastForward = (g_global->strategicMapFastForward == 0) ? 1 : 0;
+
+	emu_push(emu_cs); emu_push(0x13E8); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	return g_global->strategicMapFastForward != 0;
+}
+
 static void GUI_StrategicMap_DrawText(char *string)
 {
 	uint16 oldScreenID;
@@ -3080,11 +3093,8 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 		g_global->variable_76B4 = 3;
 
-		while (true) {
-			if (g_global->variable_76B4 == 0) break;
-
-			emu_push(emu_cs); emu_push(0x0FFC); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
-			if (emu_ax == 0) continue;
+		while (g_global->variable_76B4 != 0) {
+			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 	}
 
@@ -3204,6 +3214,38 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 	}
 }
 
+static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progressive)
+{
+	char key[4];
+	int16 x;
+	int16 y;
+	csip32 sprite;
+
+	Unknown_B4B8_110D(houseId);
+
+	sprintf(key, "%d", region);
+
+	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
+
+	sprite = Sprites_GetCSIP(g_global->PIECES_SHP, region);
+
+	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+
+	if (!progressive) return;
+
+	emu_push(0);
+	emu_push(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1);
+	emu_push(0);
+	emu_push(2);
+	emu_push(Sprite_GetHeight(sprite));
+	emu_push(Sprite_GetWidth(sprite));
+	emu_push(y + 24);
+	emu_push(x + 8);
+	emu_push(emu_cs); emu_push(0x0F04); emu_cs = 0x3488; overlay(0x3488, 0); f__B488_0000_0027_45A9();
+	emu_sp += 16;
+}
+
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 {
 	uint16 i;
@@ -3219,11 +3261,7 @@ static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 	for (i = 0; i < regions[0]; i++) {
 		if (regions[i + 1] == 0xFFFF) continue;
 
-		emu_push(0);
-		emu_push(i + 1);
-		emu_push(regions[i + 1]);
-		emu_push(emu_cs); emu_push(0x0BD7); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0DFF_0012_112D();
-		emu_sp += 6;
+		GUI_StrategicMap_DrawRegion((uint8)regions[i + 1], i + 1, false);
 	}
 }
 
@@ -3255,11 +3293,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
 				}
 
-				emu_push(1);
-				emu_push(region);
-				emu_push(houseID);
-				emu_push(emu_cs); emu_push(0x0DBE); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0DFF_0012_112D();
-				emu_sp += 6;
+				GUI_StrategicMap_DrawRegion(houseID, region, true);
 			}
 
 			while (*s != '\0') {
@@ -3375,7 +3409,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	emu_push(emu_cs); emu_push(0x0286); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	g_global->variable_81B4 = 0;
+	g_global->strategicMapFastForward = 0;
 
 	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
@@ -3407,8 +3441,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		Sprites_CPS_LoadRegionClick();
 
 		while (g_global->variable_76B4 != 0) {
-			emu_push(emu_cs); emu_push(0x0337); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
-			if (emu_ax != 0) break;
+			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
 		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, emu_get_memorycsip(g_global->variable_998A), 1);
@@ -3422,10 +3455,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		/* "To take control of the land." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11C));
 
-		emu_push(emu_cs); emu_push(0x0392); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
-
 		emu_push(0);
-		emu_push(emu_ax != 0 ? 0 : 1);
+		emu_push(GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1);
 		emu_push(0);
 		emu_push(2);
 		emu_push(120);
@@ -3438,8 +3469,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		g_global->variable_76B4 = 60;
 
 		while (g_global->variable_76B4 != 0) {
-			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
-			if (emu_ax != 0) break;
+			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
 		/* "That has become divided." */
@@ -3460,11 +3490,9 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_StrategicMap_PrepareRegions(previousCampaignID);
 
-	emu_push(emu_cs); emu_push(0x044B); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
-	if (emu_ax != 0) {
+	if (GUI_StrategicMap_FastForwardToggleWithESC()) {
 		GUI_Screen_Copy(1, 24, 1, 24, 38, 120, 2, 0);
 	} else {
-	l__0475:
 		emu_push(0);
 		emu_push(0);
 		emu_push(0);
