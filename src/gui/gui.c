@@ -56,7 +56,8 @@ extern void f__2BB6_004F_0014_AB2C();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B488_0000_0027_45A9();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B503_0B68_000D_957E();
+extern void f__B503_0BEE_002A_B077();
+extern void f__B503_0DFF_0012_112D();
 extern void f__B503_0CB3_001A_FEEE();
 extern void f__B503_0F0C_0010_028B();
 extern void f__B503_13C2_0008_C4BB();
@@ -3146,11 +3147,48 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	return scenarioID;
 }
 
-uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
+static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
+{
+	uint16 i;
+	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
+
+	for (i = 0; i < campaignID; i++) {
+		emu_push(i + 1);
+		emu_push(HOUSE_HARKONNEN);
+		emu_push(emu_cs); emu_push(0x0B7E); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
+		emu_sp += 4;
+
+		emu_push(i + 1);
+		emu_push(HOUSE_ATREIDES);
+		emu_push(emu_cs); emu_push(0x0B8A); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
+		emu_sp += 4;
+
+		emu_push(i + 1);
+		emu_push(HOUSE_ORDOS);
+		emu_push(emu_cs); emu_push(0x0B96); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
+		emu_sp += 4;
+
+		emu_push(i + 1);
+		emu_push(HOUSE_SARDAUKAR);
+		emu_push(emu_cs); emu_push(0x0BA2); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0BEE_002A_B077();
+		emu_sp += 4;
+	}
+
+	for (i = 0; i < regions[0]; i++) {
+		if (regions[i + 1] == 0xFFFF) continue;
+
+		emu_push(0);
+		emu_push(i + 1);
+		emu_push(regions[i + 1]);
+		emu_push(emu_cs); emu_push(0x0BD7); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0DFF_0012_112D();
+		emu_sp += 6;
+	}
+}
+
+uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 {
 	uint16 scenarioID;
-	uint16 loc04;
-	uint16 loc06;
+	uint16 previousCampaignID;
 	uint16 x;
 	uint16 y;
 	uint16 oldScreenID;
@@ -3173,8 +3211,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
 
 	memset(loc30A, 0, 0x300);
 
-	loc04 = campaignID - (showStory ? 1 : 0);
-	loc06 = campaignID;
+	previousCampaignID = campaignID - (win ? 1 : 0);
 	oldScreenID = GUI_Screen_SetActive(4);
 
 	Unknown_259E_0006(csip30A, 15);
@@ -3254,7 +3291,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
 
 	g_global->variable_81B4 = 0;
 
-	if (showStory && campaignID == 1) {
+	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
 		emu_push(0); emu_push(0);
@@ -3347,9 +3384,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
 
 	GUI_Screen_SetActive(2);
 
-	emu_push(loc04);
-	emu_push(emu_cs); emu_push(0x0445); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0B68_000D_957E();
-	emu_sp += 2;
+	GUI_StrategicMap_PrepareRegions(previousCampaignID);
 
 	emu_push(emu_cs); emu_push(0x044B); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_13C2_0008_C4BB();
 	if (emu_ax != 0) {
@@ -3370,15 +3405,15 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool showStory)
 
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
 
-	if (loc06 != loc04) {
-		emu_push(loc06);
+	if (campaignID != previousCampaignID) {
+		emu_push(campaignID);
 		emu_push(emu_cs); emu_push(0x04CD); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_0CB3_001A_FEEE();
 		emu_sp += 2;
 	}
 
 	emu_push(emu_cs); emu_push(0x04D3); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	if (*(uint16 *)emu_get_memorycsip(g_global->variable_81D2) >= campaignID) {
+	if (*(uint16 *)emu_get_memorycsip(g_global->regions) >= campaignID) {
 		emu_push(0x11E);
 		emu_push(emu_cs); emu_push(0x04E5); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
 		emu_sp += 2; /* "Select your next region" */

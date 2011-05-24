@@ -1448,7 +1448,7 @@ typedef struct GlobalData {
 	/* 81B6(4)   */ PACK uint32 variable_81B6;              /*!< ?? */
 	/* 81BA(12)  */ PACK uint8  variable_81BA[12];          /*!< ?? */
 	/* 81C6(12)  */ PACK uint8  variable_81C6[12];          /*!< ?? */
-	/* 81D2(4)   */ PACK csip32 variable_81D2;              /*!< ?? */
+	/* 81D2(4)   */ PACK csip32 regions;                    /*!< Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */
 	/* 81D6(4)   */ PACK csip32 RGNCLK_CPS;                 /*!< Pointer to content of RGNCLK.CPS file. */
 	/* 81DA(4)   */ PACK csip32 REGION_INI;                 /*!< Pointer to content of REGION[AHO].INI file. */
 	/* 81DE(4)   */ PACK csip32 ARROWS_SHP;                 /*!< Pointer to content of ARROWS.SHP file. */

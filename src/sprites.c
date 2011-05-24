@@ -740,7 +740,7 @@ void Sprites_CPS_LoadRegionClick()
 	sprintf((char *)g_global->variable_9939, "REGION%c.INI", emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name)[0]);
 	memBlock.s.ip += File_ReadFile((char *)g_global->variable_9939, buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->variable_81D2 = memBlock;
+	g_global->regions = memBlock;
 
 	emu_push(emu_cs); emu_push(0x1161); emu_cs = 0x3503; overlay(0x3503, 0); f__B503_122D_002D_E562();
 }
