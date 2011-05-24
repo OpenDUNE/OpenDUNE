@@ -188,7 +188,7 @@ void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 {
 	if (y >= SCREEN_HEIGHT) return;
-	if (x >= SCREEN_WIDTH) return;;
+	if (x >= SCREEN_WIDTH) return;
 
 	emu_get_memory8(GFX_Screen_GetSegementActive(), y * SCREEN_WIDTH, x) = colour;
 }
@@ -347,4 +347,18 @@ void GFX_SetPalette(uint8 *palette)
 		emu_outb(0x3C9, *palette);
 		*dest++ = *palette++;
 	}
+}
+
+/**
+ * Get a pixel on the screen.
+ * @param x The X-coordinate on the screen.
+ * @param y The Y-coordinate on the screen.
+ * @return The colour of the pixel.
+ */
+uint8 GFX_GetPixel(uint16 x, uint16 y)
+{
+	if (y >= SCREEN_HEIGHT) return 0;
+	if (x >= SCREEN_WIDTH) return 0;
+
+	return emu_get_memory8(GFX_Screen_GetSegementActive(), y * SCREEN_WIDTH, x);
 }

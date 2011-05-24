@@ -304,7 +304,6 @@ extern void f__AB00_0D99_0001_6780();
 extern void f__AB01_0DA1_0077_69FE();
 extern void emu_DSP_Init();
 extern void f__AB01_0E1C_0001_6780();
-extern void f__22A6_0E34_002B_E39A();
 extern void f__AB00_0E65_0001_6780();
 extern void f__B518_0EB1_000E_D2F5();
 extern void f__2649_0EBE_003A_3C21();

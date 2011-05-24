@@ -39,7 +39,6 @@
 extern void emu_GUI_CopyFromBuffer();
 extern void emu_GUI_CopyToBuffer();
 extern void f__22A6_04A5_000F_3B8F();
-extern void f__22A6_0E34_002B_E39A();
 extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
@@ -2834,12 +2833,7 @@ static void GUI_FactoryWindow_Init()
 
 	emu_push(emu_cs); emu_push(0x1538); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 
-	emu_push(23);
-	emu_push(72);
-	emu_push(emu_cs); emu_push(0x154A); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
-	emu_sp += 4;
-
-	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, (uint8)emu_ax);
+	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, GFX_GetPixel(72, 32));
 
 	GUI_FactoryWindow_PrepareScrollList();
 
@@ -3077,11 +3071,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 	GUI_Screen_Copy(8, 165, 8, 186, 24, 14, 0, 2);
 
-	emu_push(186);
-	emu_push(64);
-	emu_push(emu_cs); emu_push(0x0F59); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
-	emu_sp += 4;
-	GUI_DrawFilledRectangle(64, 172, 255, 185, (uint8)emu_ax);
+	GUI_DrawFilledRectangle(64, 172, 255, 185, GFX_GetPixel(64, 186));
 
 	GUI_DrawText_Wrapper(string, 64, 175, 12, 0, 0x12);
 
@@ -3948,11 +3938,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 			GUI_Screen_SetActive(screenSrc);
 
-			emu_push(curY);
-			emu_push(curX);
-			emu_push(emu_cs); emu_push(0x0184); emu_cs = 0x22A6; f__22A6_0E34_002B_E39A();
-			emu_sp += 4;
-			colour = (uint8)emu_ax;
+			colour = GFX_GetPixel(curX, curY);
 
 			GUI_Screen_SetActive(screenDst);
 
