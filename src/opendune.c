@@ -50,7 +50,7 @@ extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
-extern void f__24FD_000A_000B_2043();
+extern void emu_Tools_Sleep();
 extern void f__263B_0006_001C_9C72();
 extern void f__263B_002F_0016_FDB0();
 extern void f__2649_0053_001D_FEB5();
@@ -1636,18 +1636,11 @@ static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgCo
 		emu_push(emu_cs); emu_push(0x0085); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourSelected, bgColour, 0x22);
-
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x00AA); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
-		emu_sp += 2;
+		Tools_Sleep(2);
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourNormal, bgColour, 0x22);
-
 		emu_push(emu_cs); emu_push(0x00CC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-
-		emu_push(2);
-		emu_push(emu_cs); emu_push(0x00D5); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
-		emu_sp += 2;
+		Tools_Sleep(2);
 	}
 }
 

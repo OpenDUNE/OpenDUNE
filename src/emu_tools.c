@@ -175,3 +175,22 @@ void emu_Tools_PrintString()
 	string = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
 	printf("%s\n", string);
 }
+
+/**
+ * Emulator wrapper around Tools_Sleep().
+ *
+ * @name emu_Tools_Sleep
+ * @implements 24FD:000A:000B:2043 ()
+ */
+void emu_Tools_Sleep()
+{
+	uint16 ticks;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	ticks = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	Tools_Sleep(ticks);
+}

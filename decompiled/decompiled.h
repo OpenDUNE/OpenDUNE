@@ -68,7 +68,7 @@ extern void f__263B_0006_001C_9C72();
 extern void f__2BD1_0006_004A_CD10();
 extern void emu_GUI_DrawBorder();
 extern void emu_Overlay_Interrupt();
-extern void f__24FD_000A_000B_2043();
+extern void emu_Tools_Sleep();
 extern void emu_Mouse_CheckButtons();
 extern void f__2B1E_000E_003E_B647();
 extern void f__2B6C_000E_0045_C1FE();

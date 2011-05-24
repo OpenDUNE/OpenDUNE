@@ -7,19 +7,20 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "file.h"
-#include "driver.h"
-#include "mt32mpu.h"
-#include "os/strings.h"
-#include "os/math.h"
-#include "interrupt.h"
 #include "os/endian.h"
+#include "os/math.h"
+#include "os/strings.h"
+#include "driver.h"
+#include "file.h"
+#include "interrupt.h"
+#include "mt32mpu.h"
+#include "tools.h"
 
 extern void f__01F7_27FD_0037_E2C0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void f__24FD_000A_000B_2043();
+extern void emu_Tools_Sleep();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2BD1_0006_004A_CD10();
@@ -1786,9 +1787,7 @@ void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume)
 		}
 
 		if (index == 0) {
-			emu_push(5);
-			emu_push(emu_cs); emu_push(0x1D9E); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
-			emu_sp += 2;
+			Tools_Sleep(5);
 		}
 
 		return;

@@ -5,7 +5,7 @@
 
 #if defined(_WIN32)
 	#include <windows.h>
-	#define sleep Sleep
+	#define sleep Tools_Sleep
 #else
 	#include <unistd.h>
 #endif /* _WIN32 */

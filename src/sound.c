@@ -15,7 +15,7 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
-extern void f__24FD_000A_000B_2043();
+extern void emu_Tools_Sleep();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 
@@ -162,12 +162,9 @@ void Music_InitMT32(uint16 musicID)
 	GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
 
 	while (Driver_Music_IsPlaying()) {
-		emu_push(60);
-		emu_push(emu_cs); emu_push(0x0B2C); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
-		emu_sp += 2;
+		Tools_Sleep(60);
 
 		left += 6;
-
 		GUI_DrawText(".", left, 10, 15, 12);
 	}
 }

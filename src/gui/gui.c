@@ -44,7 +44,7 @@ extern void f__22A6_127B_0036_F8C9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void f__24FD_000A_000B_2043();
+extern void emu_Tools_Sleep();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
@@ -3323,10 +3323,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	csip30A.s.ip = emu_sp;
 	loc30A = emu_get_memorycsip(csip30A);
 
-	emu_push(0xA);
-	emu_push(emu_cs); emu_push(0x001F); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
-	emu_sp += 2;
-
+	Tools_Sleep(10);
 	Music_Play(0x1D);
 
 	memset(loc30A, 0, 0x300);

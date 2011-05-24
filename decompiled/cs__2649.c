@@ -2077,7 +2077,7 @@ l__10B7:
 	emu_addw(&emu_sp, 0xA);
 	emu_ax = 0x3C;
 	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x10C3); emu_cs = 0x24FD; f__24FD_000A_000B_2043();
+	emu_push(emu_cs); emu_push(0x10C3); emu_cs = 0x24FD; emu_Tools_Sleep();
 l__10C3:
 	emu_pop(&emu_cx);
 	emu_push(emu_cs); emu_push(0x10C9); emu_cs = 0x29E8; emu_Input_History_Clear();

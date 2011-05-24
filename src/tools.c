@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "os/sleep.h"
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
@@ -359,4 +360,17 @@ bool Tools_Var76B8_Set(uint16 bit, bool set)
 	}
 
 	return ret;
+}
+
+/**
+ * Sleep for an amount of ticks.
+ * @param ticks The amount of ticks to sleep.
+ */
+void Tools_Sleep(uint16 ticks)
+{
+	while (ticks-- > 0) {
+		uint32 tick = g_global->variable_76A8 + 1;
+
+		while (tick >= g_global->variable_76A8) sleep(0);
+	}
 }

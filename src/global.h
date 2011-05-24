@@ -1329,7 +1329,7 @@ typedef struct GlobalData {
 	/* 73A2()    */ PACK uint8   unknown_73A2[0x0300];
 	/* 76A2(4)   */ PACK uint8  randomSeed[4];              /*!< Seed for pseudo-random generator. */
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
-	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? */
+	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? Also a tick counter.. */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
 	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? */
