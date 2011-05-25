@@ -64,7 +64,7 @@ extern void GUI_Mouse_Show_InRegion();
 extern void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern void GUI_Mouse_Show_InWidget();
 extern void GUI_Mouse_Hide_InWidget(uint16 widgetIndex);
-extern void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint16 colour);
+extern void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint8 colour);
 extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
 
 /* editbox.c */

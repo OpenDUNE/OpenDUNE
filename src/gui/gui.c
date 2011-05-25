@@ -4070,7 +4070,7 @@ void GUI_Mouse_Hide_InWidget(uint16 widgetIndex)
  * @param height The height of the rectangle.
  * @param colour The colour of the rectangle.
  */
-void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint16 colour)
+void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint8 colour)
 {
 	uint8 *screen;
 

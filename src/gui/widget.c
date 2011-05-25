@@ -54,7 +54,7 @@ Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index)
  * @param w The widget to draw.
  * @param colour The colour of the chess pattern.
  */
-void GUI_Widget_DrawBlocked(Widget *w, uint16 colour)
+static void GUI_Widget_DrawBlocked(Widget *w, uint8 colour)
 {
 	if (g_global->screenActiveID == 0) {
 		GUI_Mouse_Hide_InRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height);
@@ -115,7 +115,7 @@ void GUI_Widget_Draw(Widget *w)
 	if (w->flags.s.invisible) {
 		if (!w->flags.s.variable_0010) return;
 
-		GUI_Widget_DrawBlocked(w, g_global->variable_6D53);
+		GUI_Widget_DrawBlocked(w, (uint8)g_global->variable_6D53);
 		return;
 	}
 
