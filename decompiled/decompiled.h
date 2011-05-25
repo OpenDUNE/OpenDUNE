@@ -326,7 +326,7 @@ extern void f__AB00_1235_0013_28BA();
 extern void f__AB00_1242_0001_6780();
 extern void emu_Overlay_Empty2();
 extern void emu_Overlay_Empty();
-extern void emu_GUI_HallOfFame_Internal_14D4();
+extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_GUI_HallOfFame_Tick();
 extern void emu_GUI_HallOfFame_Internal_1570();
 extern void emu_GUI_HallOfFame_Internal_15A9();

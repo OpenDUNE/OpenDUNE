@@ -2164,7 +2164,7 @@ l__14CE:
  * Called From: B518:04DF:000A:2421
  * Called From: B518:04F5:0009:826A
  */
-void emu_GUI_HallOfFame_Internal_14D4()
+void emu_GUI_EndStats_Internal_14D4()
 {
 l__14D4:
 	emu_push(emu_bp);

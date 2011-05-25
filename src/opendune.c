@@ -1277,7 +1277,7 @@ static void GameLoop_LevelEnd()
 
 			g_global->campaignID++;
 
-			GUI_ShowEndStats(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_global->playerHouseID);
+			GUI_EndStats_Show(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_global->playerHouseID);
 
 			if (g_global->campaignID == 9) {
 				GUI_Mouse_Hide_Safe();

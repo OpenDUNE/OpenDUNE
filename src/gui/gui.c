@@ -47,7 +47,7 @@ extern void f__29E8_07FA_0020_177A();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
-extern void emu_GUI_HallOfFame_Internal_14D4();
+extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_GUI_HallOfFame_Tick();
 extern void emu_GUI_HallOfFame_Show();
 extern void emu_Input_HandleInput();
@@ -1425,7 +1425,7 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
  * @param score The base score.
  * @param houseID The houseID of the player.
  */
-void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
+void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
 {
 	uint16 loc06;
 	uint16 oldScreenID;
@@ -1507,7 +1507,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 	}
 
 	emu_push(45);
-	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
+	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
 	emu_sp += 2;
 
 	emu_push(1);
@@ -1516,7 +1516,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 	emu_sp += 4;
 
 	emu_push(45);
-	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
+	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
 	emu_sp += 2;
 
 	for (i = 0; i < loc16; i++) {
@@ -1562,7 +1562,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 				Driver_Sound_Play(52, 0xFF);
 
 				emu_push(g_global->variable_76B4);
-				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
+				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
 				emu_sp += 2;
 			}
 
@@ -1575,12 +1575,12 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 			Driver_Sound_Play(38, 0xFF);
 
 			emu_push(12);
-			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
+			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
 			emu_sp += 2;
 		}
 
 		emu_push(60);
-		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
+		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
 		emu_sp += 2;
 	}
 
