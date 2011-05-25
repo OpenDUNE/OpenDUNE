@@ -451,3 +451,41 @@ void emu_GUI_Mouse_Show_Safe()
 
 	GUI_Mouse_Show_Safe();
 }
+
+/**
+ * Emulator wrapper around GUI_Mouse_Show_InRegion().
+ *
+ * @name emu_GUI_Mouse_Show_InRegion
+ * @implements 2B6C:0292:0028:3AD7 ()
+ */
+void emu_GUI_Mouse_Show_InRegion()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Show_InRegion();
+}
+
+/**
+ * Emulator wrapper around GUI_Mouse_Hide_InRegion().
+ *
+ * @name emu_GUI_Mouse_Hide_Condition
+ * @implements 2B6C:0197:00CE:4D32 ()
+ */
+void emu_GUI_Mouse_Hide_InRegion()
+{
+	uint16 left, top;
+	uint16 right, bottom;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	left   = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	top    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	right  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	bottom = emu_get_memory16(emu_ss, emu_sp, 0x6);
+
+	GUI_Mouse_Hide_InRegion(left, top, right, bottom);
+}

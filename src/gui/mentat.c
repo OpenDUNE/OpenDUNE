@@ -22,8 +22,6 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__2B6C_0197_00CE_4D32();
-extern void f__2B6C_0292_0028_3AD7();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_041D_0017_C8A5();
@@ -515,20 +513,9 @@ void GUI_Mentat_Animation(uint16 unknown)
 
 			sprite = g_global->variable_7FC6[2][abs(g_global->variable_8024)];
 
-			emu_push(g_global->variable_800F + Sprite_GetHeight(sprite));
-			emu_push(g_global->variable_800E + Sprite_GetWidth(sprite));
-			emu_push(g_global->variable_800F);
-			emu_push(g_global->variable_800E);
-			emu_push(emu_cs); emu_push(0x03CE); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-			emu_sp += 0x8;
-
+			GUI_Mouse_Hide_InRegion(g_global->variable_800E, g_global->variable_800F, g_global->variable_800E + Sprite_GetWidth(sprite), g_global->variable_800F + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800E, g_global->variable_800F, 0, 0);
-
-			emu_push(emu_cs); emu_push(0x03F9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			GUI_Mouse_Show_InRegion();
 		}
 
 		switch (g_global->playerHouseID) {
@@ -555,20 +542,9 @@ void GUI_Mentat_Animation(uint16 unknown)
 			g_global->variable_8022 = Tools_RandomRange(0, 4);
 			sprite = g_global->variable_7FC6[1][g_global->variable_8022];
 
-			emu_push(g_global->variable_800B + Sprite_GetHeight(sprite));
-			emu_push(g_global->variable_800A + Sprite_GetWidth(sprite));
-			emu_push(g_global->variable_800B);
-			emu_push(g_global->variable_800A);
-			emu_push(emu_cs); emu_push(0x0526); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-			emu_sp += 0x8;
-
+			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
-
-			emu_push(emu_cs); emu_push(0x0551); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			GUI_Mouse_Show_InRegion();
 
 			switch (g_global->variable_8022) {
 				case 0:
@@ -635,20 +611,9 @@ l__0634:
 		if (bool06 != 0x0) {
 			sprite = g_global->variable_7FC6[1][g_global->variable_8022];
 
-			emu_push(g_global->variable_800B + Sprite_GetHeight(sprite));
-			emu_push(g_global->variable_800A + Sprite_GetWidth(sprite));
-			emu_push(g_global->variable_800B);
-			emu_push(g_global->variable_800A);
-			emu_push(emu_cs); emu_push(0x0692); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-			emu_sp += 0x8;
-
+			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
-
-			emu_push(emu_cs); emu_push(0x06BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+			GUI_Mouse_Show_InRegion();
 		}
 	}
 
@@ -815,20 +780,9 @@ l__09F3:
 	if (bool06 != 0x0) {
 		sprite = g_global->variable_7FC6[0][g_global->variable_801E];
 
-		emu_push(g_global->variable_8007 + Sprite_GetHeight(sprite));
-		emu_push(g_global->variable_8006 + Sprite_GetWidth(sprite));
-		emu_push(g_global->variable_8007);
-		emu_push(g_global->variable_8006);
-		emu_push(emu_cs); emu_push(0x0A51); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 0x8;
-
+		GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
 		GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
-
-		emu_push(emu_cs); emu_push(0x0A7C); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		GUI_Mouse_Show_InRegion();
 	}
 }
 

@@ -45,10 +45,8 @@ extern void emu_Tools_Sleep();
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
 extern void f__29E8_07FA_0020_177A();
-extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
-extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -3711,10 +3709,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	int x, y;
 
 	if (screenDst == 0) {
-		emu_push((xDst + width) << 3); emu_push(yDst + height);
-		emu_push(xDst << 3); emu_push(yDst);
-		emu_push(emu_cs); emu_push(0x003B); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(xDst << 3, yDst, (xDst + width) << 3, yDst + height);
 	}
 
 	height /= 2;
@@ -3764,7 +3759,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	}
 
 	if (screenDst == 0) {
-		emu_push(emu_cs); emu_push(0x01BD); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		GUI_Mouse_Show_InRegion();
 	}
 }
 
@@ -3835,12 +3830,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 	uint16 j;
 
 	if (screenDst == 0) {
-		emu_push(y + height);
-		emu_push(x + width);
-		emu_push(y);
-		emu_push(x);
-		emu_push(emu_cs); emu_push(0x0027); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(x, y, x + width, y + height);
 	}
 
 	for (i = 0; i < width; i++)  g_global->variable_7B8C[i] = i;
@@ -3896,7 +3886,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 	}
 
 	if (screenDst == 0) {
-		emu_push(emu_cs); emu_push(0x0202); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		GUI_Mouse_Show_InRegion();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);
@@ -3911,9 +3901,7 @@ void GUI_Mouse_Show()
 	int left, top;
 
 	if (g_global->variable_7097) return;
-	if (g_global->mouseHiddenDepth == 0) return;
-	g_global->mouseHiddenDepth--;
-	if (g_global->mouseHiddenDepth != 0) return;
+	if (g_global->mouseHiddenDepth == 0 || --g_global->mouseHiddenDepth != 0) return;
 
 	left = g_global->mouseX - g_global->mouseSpriteHotspotX;
 	top = g_global->mouseY - g_global->mouseSpriteHotspotY;
@@ -3973,10 +3961,13 @@ void GUI_Mouse_Hide()
  */
 void GUI_Mouse_Hide_Safe()
 {
-	if (g_global->variable_7097) return;
-
 	while (g_global->mouseLock != 0) sleep(0);
 	g_global->mouseLock++;
+
+	if (g_global->variable_7097) {
+		g_global->mouseLock--;
+		return;
+	}
 
 	GUI_Mouse_Hide();
 
@@ -3989,12 +3980,94 @@ void GUI_Mouse_Hide_Safe()
  */
 void GUI_Mouse_Show_Safe()
 {
-	if (g_global->variable_7097) return;
+	while (g_global->mouseLock != 0) sleep(0);
+	g_global->mouseLock++;
+
+	if (g_global->variable_7097) {
+		g_global->mouseLock--;
+		return;
+	}
+
+	GUI_Mouse_Show();
+
+	g_global->mouseLock--;
+}
+
+/**
+ * Show the mouse if needed. Should be used in combination with
+ *  GUI_Mouse_Hide_InRegion().
+ */
+void GUI_Mouse_Show_InRegion()
+{
+	uint8 counter;
 
 	while (g_global->mouseLock != 0) sleep(0);
 	g_global->mouseLock++;
 
-	GUI_Mouse_Show();
+	counter = g_global->regionFlags & 0xFF;
+	if (counter == 0 || --counter != 0) {
+		g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (counter & 0xFF);
+		g_global->mouseLock--;
+		return;
+	}
+
+	if ((g_global->regionFlags & 0x4000) != 0) {
+		GUI_Mouse_Show();
+	}
+
+	g_global->regionFlags = 0;
+	g_global->mouseLock--;
+}
+
+/**
+ * Hide the mouse when it is inside the specified region. Works with
+ *  GUI_Mouse_Show_InRegion(), which only calls GUI_Mouse_Show() when
+ *  mouse was really hidden.
+ */
+void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
+{
+	int minx, miny;
+	int maxx, maxy;
+
+	minx = left - ((g_global->mouseWidth - 1) << 3) + g_global->mouseSpriteHotspotX;
+	if (minx < 0) minx = 0;
+
+	miny = top - g_global->mouseHeight + g_global->mouseSpriteHotspotY;
+	if (miny < 0) miny = 0;
+
+	maxx = right + g_global->mouseSpriteHotspotX;
+	if (maxx > SCREEN_WIDTH - 1) maxx = SCREEN_WIDTH - 1;
+
+	maxy = bottom + g_global->mouseSpriteHotspotY;
+	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
+
+	while (g_global->mouseLock != 0) sleep(0);
+	g_global->mouseLock++;
+
+	if (g_global->regionFlags == 0) {
+		g_global->regionMinX = minx;
+		g_global->regionMinY = miny;
+		g_global->regionMaxX = maxx;
+		g_global->regionMaxY = maxy;
+	}
+
+	if (minx > g_global->regionMinX) g_global->regionMinX = minx;
+	if (miny > g_global->regionMinY) g_global->regionMinY = miny;
+	if (maxx < g_global->regionMaxX) g_global->regionMaxX = maxx;
+	if (maxy < g_global->regionMaxY) g_global->regionMaxY = maxy;
+
+	if ((g_global->regionFlags & 0x4000) == 0 &&
+	     g_global->mouseX >= g_global->regionMinX &&
+	     g_global->mouseX <= g_global->regionMaxX &&
+	     g_global->mouseY >= g_global->regionMinY &&
+	     g_global->mouseY <= g_global->regionMaxY) {
+		GUI_Mouse_Hide();
+
+		g_global->regionFlags |= 0x4000;
+	}
+
+	g_global->regionFlags |= 0x8000;
+	g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (((g_global->regionFlags & 0x00FF) + 1) & 0xFF);
 
 	g_global->mouseLock--;
 }

@@ -32,8 +32,6 @@ extern void emu_GFX_CopyFromBuffer();
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__2B6C_0197_00CE_4D32();
-extern void f__2B6C_0292_0028_3AD7();
 extern void f__B518_11C6_0011_1160();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
@@ -428,18 +426,13 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 	height = w->height;
 
 	if (g_global->screenActiveID == 0) {
-		emu_push(offsetY + height);
-		emu_push(offsetX + width);
-		emu_push(offsetY);
-		emu_push(offsetX);
-		emu_push(emu_cs); emu_push(0x1441); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(offsetX, offsetY, offsetX + width, offsetY + height);
 	}
 
 	GUI_DrawFilledRectangle(offsetX, offsetY, offsetX + width, offsetY + height, colour);
 
 	if (g_global->screenActiveID == 0) {
-		emu_push(emu_cs); emu_push(0x1470); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		GUI_Mouse_Show_InRegion();
 	}
 }
 

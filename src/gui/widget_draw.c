@@ -20,8 +20,6 @@
 
 extern void f__2642_0069_0008_D517();
 extern void f__2642_0002_005E_87F6();
-extern void f__2B6C_0197_00CE_4D32();
-extern void f__2B6C_0292_0028_3AD7();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -64,20 +62,9 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	}
 
 	if (oldScreenID == 0) {
-		emu_push(positionY + height);
-		emu_push(positionX + width);
-		emu_push(positionY);
-		emu_push(positionX);
-		emu_push(emu_cs); emu_push(0x10BB); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-		emu_sp += 8;
-
+		GUI_Mouse_Hide_InRegion(positionX, positionY, positionX + width, positionY + height);
 		GUI_Screen_Copy(positionX >> 3, positionY, positionX >> 3, positionY, width >> 3, height, 2, 0);
-
-		emu_push(emu_cs); emu_push(0x10ED); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+		GUI_Mouse_Show_InRegion();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);
@@ -141,16 +128,9 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	if (old_6C91 != 0) return;
 
-	emu_push(positionY + height + 1);
-	emu_push(positionX + width + 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0DF5); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-	emu_sp += 8;
-
+	GUI_Mouse_Hide_InRegion(positionX - 1, positionY - 1, positionX + width + 1, positionY + height + 1);
 	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
-
-	emu_push(emu_cs); emu_push(0x0E2F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	GUI_Mouse_Show_InRegion();
 
 	GUI_Screen_SetActive(0);
 }
@@ -308,16 +288,9 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 	if (old_6C91 != 0x0) return;
 
-	emu_push(positionY + height + 1);
-	emu_push(positionX + width + 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0C34); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-	emu_sp += 8;
-
+	GUI_Mouse_Hide_InRegion(positionX - 1, positionY - 1, positionX + width + 1, positionY + height + 1);
 	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
-
-	emu_push(emu_cs); emu_push(0x0C6E); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	GUI_Mouse_Show_InRegion();
 
 	GUI_Screen_SetActive(0);
 }
@@ -383,16 +356,9 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 
 	if (old_6C91 != 0) return;
 
-	emu_push(positionY + height + 1);
-	emu_push(positionX + width + 1);
-	emu_push(positionY - 1);
-	emu_push(positionX - 1);
-	emu_push(emu_cs); emu_push(0x0F8F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-	emu_sp += 8;
-
+	GUI_Mouse_Hide_InRegion(positionX - 1, positionY - 1, positionX + width + 1, positionY + height + 1);
 	GFX_Screen_Copy2(positionX - 1, positionY - 1, positionX - 1, positionY - 1, width + 2, height + 2, 2, 0, false);
-
-	emu_push(emu_cs); emu_push(0x0FC9); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+	GUI_Mouse_Show_InRegion();
 
 	GUI_Screen_SetActive(0);
 }
@@ -441,14 +407,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 	}
 
 	if (g_global->screenActiveID == 0x0) {
-		emu_push(positionY + height - 1);
-		emu_push(positionX + width - 1);
-		emu_push(positionY);
-		emu_push(positionX);
-		emu_push(emu_cs); emu_push(0x07BD); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(positionX, positionY, positionX + width - 1, positionY + height - 1);
 	}
 
 	/* Draw background */
@@ -462,9 +421,7 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 
 	if (g_global->screenActiveID == 0x0) {
-		emu_push(emu_cs); emu_push(0x0835); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
+		GUI_Mouse_Show_InRegion();
 	}
 
 	/* Call custom callback function if set */
@@ -1000,12 +957,7 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 	uint16 size;
 
 	if (g_global->screenActiveID == 0) {
-		emu_push(top + height);
-		emu_push(left + width);
-		emu_push(top);
-		emu_push(left);
-		emu_push(emu_cs); emu_push(0x05F6); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(left, top, left + width, top + height);
 	}
 
 	GUI_DrawBorder(left, top, width, height, colourSchemaIndex + 1, true);
@@ -1018,7 +970,7 @@ void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 	}
 
 	if (g_global->screenActiveID == 0) {
-		emu_push(emu_cs); emu_push(0x066F); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		GUI_Mouse_Show_InRegion();
 	}
 }
 

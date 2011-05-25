@@ -18,8 +18,6 @@ extern void f__2995_0004_001F_FE17();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__2B6C_0197_00CE_4D32();
-extern void f__2B6C_0292_0028_3AD7();
 extern void f__B520_085F_003A_87ED();
 extern void f__B520_096E_003C_F7E4();
 extern void emu_GUI_HOF_ResumeGame();
@@ -61,12 +59,7 @@ Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index)
 void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 {
 	if (g_global->screenActiveID == 0) {
-		emu_push(w->offsetY + w->height);
-		emu_push(w->offsetX + w->width);
-		emu_push(w->offsetY);
-		emu_push(w->offsetX);
-		emu_push(emu_cs); emu_push(0x003F); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height);
 	}
 
 	GUI_DrawSprite(g_global->screenActiveID, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
@@ -80,7 +73,7 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 	emu_sp += 10;
 
 	if (g_global->screenActiveID == 0) {
-		emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
+		GUI_Mouse_Show_InRegion();
 	}
 }
 
@@ -172,14 +165,7 @@ void GUI_Widget_Draw(Widget *w)
 
 	assert(drawMode < DRAW_MODE_MAX);
 	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->screenActiveID == 0) {
-		emu_push(positionBottom);
-		emu_push(positionRight);
-		emu_push(positionTop);
-		emu_push(positionLeft);
-		emu_push(emu_cs); emu_push(0x08C2); emu_cs = 0x2B6C; f__2B6C_0197_00CE_4D32();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-		emu_sp += 8;
+		GUI_Mouse_Hide_InRegion(positionLeft, positionTop, positionRight, positionBottom);
 	}
 
 	switch (drawMode) {
@@ -230,9 +216,7 @@ void GUI_Widget_Draw(Widget *w)
 	}
 
 	if (drawMode != DRAW_MODE_NONE && drawMode != DRAW_MODE_CUSTOM_PROC && g_global->screenActiveID == 0) {
-		emu_push(emu_cs); emu_push(0x08F4); emu_cs = 0x2B6C; f__2B6C_0292_0028_3AD7();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+		GUI_Mouse_Show_InRegion();
 	}
 }
 

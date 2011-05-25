@@ -60,6 +60,8 @@ extern void GUI_Mouse_Show();
 extern void GUI_Mouse_Hide();
 extern void GUI_Mouse_Show_Safe();
 extern void GUI_Mouse_Hide_Safe();
+extern void GUI_Mouse_Show_InRegion();
+extern void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 bottom);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -85,6 +87,8 @@ extern void emu_GUI_Mouse_Show();
 extern void emu_GUI_Mouse_Hide();
 extern void emu_GUI_Mouse_Show_Safe();
 extern void emu_GUI_Mouse_Hide_Safe();
+extern void emu_GUI_Mouse_Show_InRegion();
+extern void emu_GUI_Mouse_Hide_InRegion();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();
