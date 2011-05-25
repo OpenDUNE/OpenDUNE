@@ -17,8 +17,6 @@
 #include "wsa.h"
 #include "unknown/unknown.h"
 
-extern void emu_GUI_Mouse_Hide_InWidget();
-extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4DA_176C_000F_12AD();
 extern void f__B4DA_1860_0008_857D();
@@ -170,17 +168,9 @@ bool Security_Check()
 
 		GUI_DrawSprite_8002(4);
 
-		emu_push(g_global->variable_6D5D);
-		emu_push(emu_cs); emu_push(0x1337); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-		emu_sp += 2;
-
+		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
-
-		emu_push(emu_cs); emu_push(0x1364); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		GUI_Mouse_Show_InWidget();
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex);
 		String_Decompress(compressedString, string);

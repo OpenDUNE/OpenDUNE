@@ -236,9 +236,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 			GUI_Screen_SetActive(oldScreenID);
 		}
 
-		emu_push(7);
-		emu_push(emu_cs); emu_push(0x0B3E); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-		emu_sp += 2;
+		GUI_Mouse_Hide_InWidget(7);
 
 		if (g_global->variable_3740 + g_global->variable_9931 > 24) {
 			loc06 = 24 - g_global->variable_3740;
@@ -247,8 +245,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		}
 
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
-
-		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+		GUI_Mouse_Show_InWidget();
 
 		Unknown_07AE_0000(oldValue_07AE_0000);
 
@@ -2142,13 +2139,9 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	}
 
 	if (oldScreenID != g_global->screenActiveID) {
-		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-		emu_sp += 2;
-
+		GUI_Mouse_Hide_InWidget(5);
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, oldScreenID);
-
-		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+		GUI_Mouse_Show_InWidget();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);
@@ -4042,4 +4035,32 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (((g_global->regionFlags & 0x00FF) + 1) & 0xFF);
 
 	g_global->mouseLock--;
+}
+
+/**
+ * Show the mouse if needed. Should be used in combination with
+ *  GUI_Mouse_Hide_InWidget().
+ */
+void GUI_Mouse_Show_InWidget()
+{
+	GUI_Mouse_Show_InRegion();
+}
+
+/**
+ * Hide the mouse when it is inside the specified widget. Works with
+ *  GUI_Mouse_Show_InWidget(), which only calls GUI_Mouse_Show() when
+ *  mouse was really hidden.
+ * @param widgetIndex The index of the widget to check on.
+ */
+void GUI_Mouse_Hide_InWidget(uint16 widgetIndex)
+{
+	uint16 left, top;
+	uint16 width, height;
+
+	left   = g_global->variable_4062[widgetIndex][0] << 3;
+	top    = g_global->variable_4062[widgetIndex][1];
+	width  = g_global->variable_4062[widgetIndex][2] << 3;
+	height = g_global->variable_4062[widgetIndex][3];
+
+	GUI_Mouse_Hide_InRegion(left, top, left + width - 1, top + height - 1);
 }

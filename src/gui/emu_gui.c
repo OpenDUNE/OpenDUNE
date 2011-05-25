@@ -489,3 +489,37 @@ void emu_GUI_Mouse_Hide_InRegion()
 
 	GUI_Mouse_Hide_InRegion(left, top, right, bottom);
 }
+
+/**
+ * Emulator wrapper around GUI_Mouse_Show_InWidget().
+ *
+ * @name emu_GUI_Mouse_Show_InWidget
+ * @implements 2642:0069:0008:D517 ()
+ */
+void emu_GUI_Mouse_Show_InWidget()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Show_InWidget();
+}
+
+/**
+ * Emulator wrapper around GUI_Mouse_Hide_InWidget().
+ *
+ * @name emu_GUI_Mouse_Hide_InWidget
+ * @implements 2642:0002:005E:87F6 ()
+ */
+void emu_GUI_Mouse_Hide_InWidget()
+{
+	uint16 widgetIndex;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	widgetIndex = emu_get_memory16(emu_ss, emu_sp, 0x0);
+
+	GUI_Mouse_Hide_InWidget(widgetIndex);
+}
