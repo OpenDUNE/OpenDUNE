@@ -261,7 +261,7 @@ l__0152:
 	}
 l__0169:
 	emu_addw(&emu_sp, 0x4);
-	emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
+	emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide();
 l__0171:
 
 	/* Call based on memory/register values */
@@ -309,7 +309,7 @@ l__019D:
 	}
 l__01A9:
 	emu_addw(&emu_sp, 0x4);
-	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
+	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; emu_GUI_Mouse_Show();
 l__01B1:
 
 	/* Call based on memory/register values */

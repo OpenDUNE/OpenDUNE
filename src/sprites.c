@@ -9,6 +9,7 @@
 #include "gfx.h"
 #include "sprites.h"
 #include "unknown/unknown.h"
+#include "gui/gui.h"
 #include "house.h"
 #include "pool/house.h"
 #include "string.h"
@@ -21,8 +22,6 @@
 
 csip32 *g_sprites = NULL;
 
-extern void f__2B6C_000E_0045_C1FE();
-extern void f__2B6C_006E_002E_4FBC();
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
@@ -576,17 +575,17 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 
 	g_global->mouseLock++;
 
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
+	GUI_Mouse_Hide();
 
 	size = GFX_GetSize((*(uint16 *)(sprite + 3) >> 3) + 2, sprite[5]);
 
 	if (g_global->variable_705A < size) {
-		if (g_global->variable_708A.csip != 0x0) {
-			emu_push(g_global->variable_708A.s.cs); emu_push(g_global->variable_708A.s.ip);
+		if (g_global->mouseSpriteBuffer.csip != 0x0) {
+			emu_push(g_global->mouseSpriteBuffer.s.cs); emu_push(g_global->mouseSpriteBuffer.s.ip);
 			emu_push(emu_cs); emu_push(0x0088); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 
-			g_global->variable_708A.csip = 0x0;
+			g_global->mouseSpriteBuffer.csip = 0x0;
 			g_global->variable_705A = 0;
 		}
 
@@ -599,8 +598,8 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 		emu_sp += 6;
 		if (emu_dx == 0) goto end;
 
-		g_global->variable_708A.s.cs = emu_dx;
-		g_global->variable_708A.s.ip = emu_ax;
+		g_global->mouseSpriteBuffer.s.cs = emu_dx;
+		g_global->mouseSpriteBuffer.s.ip = emu_ax;
 		g_global->variable_705A = size;
 	}
 
@@ -608,12 +607,12 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 	if ((*(uint16 *)sprite & 0x1) != 0) size += 16;
 
 	if (g_global->variable_705C < size) {
-		if (g_global->variable_708E.csip != 0x0) {
-			emu_push(g_global->variable_708E.s.cs); emu_push(g_global->variable_708E.s.ip);
+		if (g_global->mouseSprite.csip != 0x0) {
+			emu_push(g_global->mouseSprite.s.cs); emu_push(g_global->mouseSprite.s.ip);
 			emu_push(emu_cs); emu_push(0x0104); emu_cs = 0x23E1; emu_Tools_Free();
 			emu_sp += 4;
 
-			g_global->variable_708E.csip = 0x0;
+			g_global->mouseSprite.csip = 0x0;
 			g_global->variable_705C = 0;
 		}
 
@@ -626,15 +625,15 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 		emu_sp += 6;
 		if (emu_dx == 0) goto end;
 
-		g_global->variable_708E.s.cs = emu_dx;
-		g_global->variable_708E.s.ip = emu_ax;
+		g_global->mouseSprite.s.cs = emu_dx;
+		g_global->mouseSprite.s.ip = emu_ax;
 		g_global->variable_705C = size;
 	}
 
 	if ((*(uint16 *)sprite & 0x2) != 0) {
-		memcpy(emu_get_memorycsip(g_global->variable_708E), sprite, *(uint16 *)(sprite + 6) * 2);
+		memcpy(emu_get_memorycsip(g_global->mouseSprite), sprite, *(uint16 *)(sprite + 6) * 2);
 	} else {
-		uint8 *dst = emu_get_memorycsip(g_global->variable_708E);
+		uint8 *dst = emu_get_memorycsip(g_global->mouseSprite);
 		uint8 *buf = emu_get_memorycsip(g_global->variable_6F18);
 		uint16 flags = *(uint16 *)sprite | 0x2;
 
@@ -662,14 +661,14 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 		memcpy(dst, buf, size);
 	}
 
-	g_global->variable_7078 = hotSpotX;
-	g_global->variable_707A = hotSpotY;
+	g_global->mouseSpriteHotspotX = hotSpotX;
+	g_global->mouseSpriteHotspotY = hotSpotY;
 
-	sprite = emu_get_memorycsip(g_global->variable_708E);
-	g_global->variable_7074 = sprite[5];
-	g_global->variable_7076 = (*(uint16 *)(sprite + 3) >> 3) + 2;
+	sprite = emu_get_memorycsip(g_global->mouseSprite);
+	g_global->mouseHeight = sprite[5];
+	g_global->mouseWidth = (*(uint16 *)(sprite + 3) >> 3) + 2;
 
-	emu_push(emu_cs); emu_push(0x01ED); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
+	GUI_Mouse_Show();
 
 end:
 	g_global->mouseLock--;

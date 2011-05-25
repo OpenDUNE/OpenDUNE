@@ -3931,3 +3931,68 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 	GUI_Screen_SetActive(oldScreenID);
 }
+
+/**
+ * Show the mouse on the screen. Copy the screen behind the mouse in a safe
+ *  buffer.
+ */
+void GUI_Mouse_Show()
+{
+	int left, top;
+
+	if (g_global->variable_7097) return;
+	if (g_global->mouseHiddenDepth == 0) return;
+	g_global->mouseHiddenDepth--;
+	if (g_global->mouseHiddenDepth != 0) return;
+
+	left = g_global->mouseX - g_global->mouseSpriteHotspotX;
+	top = g_global->mouseY - g_global->mouseSpriteHotspotY;
+
+	g_global->mouseSpriteLeft = (left < 0) ? 0 : (left >> 3);
+	g_global->mouseSpriteTop = (top < 0) ? 0 : top;
+
+	g_global->mouseSpriteWidth = g_global->mouseWidth;
+	if ((left >> 3) + g_global->mouseWidth >= SCREEN_WIDTH / 8) g_global->mouseSpriteWidth -= (left >> 3) + g_global->mouseWidth - SCREEN_WIDTH / 8;
+
+	g_global->mouseSpriteHeight = g_global->mouseHeight;
+	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) g_global->mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
+
+	if (g_global->mouseSpriteBuffer.csip != 0) {
+		emu_push(g_global->mouseSpriteBuffer.s.ip);
+		emu_push(g_global->mouseSpriteBuffer.s.cs);
+		emu_push(g_global->mouseSpriteHeight);
+		emu_push(g_global->mouseSpriteWidth);
+		emu_push(g_global->mouseSpriteTop);
+		emu_push(g_global->mouseSpriteLeft);
+		emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
+		emu_sp += 12;
+	}
+
+	GUI_DrawSprite(0, g_global->mouseSprite, left, top, 0, 0);
+}
+
+/**
+ * Hide the mouse from the screen. Do this by copying the mouse buffer back to
+ *  the screen.
+ */
+void GUI_Mouse_Hide()
+{
+	if (g_global->variable_7097) return;
+
+	if (g_global->mouseHiddenDepth == 0 && g_global->mouseSpriteWidth != 0) {
+		if (g_global->mouseSpriteBuffer.csip != 0) {
+			emu_push(g_global->mouseSpriteBuffer.s.ip);
+			emu_push(g_global->mouseSpriteBuffer.s.cs);
+			emu_push(g_global->mouseSpriteHeight);
+			emu_push(g_global->mouseSpriteWidth);
+			emu_push(g_global->mouseSpriteTop);
+			emu_push(g_global->mouseSpriteLeft);
+			emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
+			emu_sp += 12;
+		}
+
+		g_global->mouseSpriteWidth = 0;
+	}
+
+	g_global->mouseHiddenDepth++;
+}

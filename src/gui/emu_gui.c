@@ -496,3 +496,33 @@ void emu_GUI_Screen_SetActive()
 
 	emu_ax = GUI_Screen_SetActive(screenID);
 }
+
+/**
+ * Emulator wrapper around GUI_Mouse_Show().
+ *
+ * @name emu_GUI_Mouse_Show
+ * @implements 2B6C:006E:002E:4FBC ()
+ */
+void emu_GUI_Mouse_Show()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Show();
+}
+
+/**
+ * Emulator wrapper around GUI_Mouse_Hide().
+ *
+ * @name emu_GUI_Mouse_Hide
+ * @implements 2B6C:000E:0045:C1FE ()
+ */
+void emu_GUI_Mouse_Hide()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Hide();
+}

@@ -1932,7 +1932,7 @@ static void Gameloop_IntroMenu()
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-	while (g_global->variable_706A > 1) {
+	while (g_global->mouseHiddenDepth > 1) {
 		emu_push(emu_cs); emu_push(0x1A2F); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
 	}
 

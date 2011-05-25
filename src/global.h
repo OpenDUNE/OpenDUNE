@@ -1300,15 +1300,15 @@ typedef struct GlobalData {
 	/* 7064(2)   */ PACK uint16 mouseClickX;                /*!< X position of last mouse click. */
 	/* 7066(2)   */ PACK uint16 mouseClickY;                /*!< Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16 doubleWidth;                /*!< If non-zero, the X-position given by mouse is twice the real value. */
-	/* 706A(2)   */ PACK uint16 variable_706A;              /*!< ?? If non-zero, mouse movement is not registered. */
+	/* 706A(2)   */ PACK uint16 mouseHiddenDepth;           /*!< If zero, mouse is drawn. Otherwise, it is not (also no movement is registered). */
 	/* 706C(2)   */ PACK uint16 mouseRegionLeft;            /*!< Region mouse can be in - left position. */
 	/* 706E(2)   */ PACK uint16 mouseRegionRight;           /*!< Region mouse can be in - right position. */
 	/* 7070(2)   */ PACK uint16 mouseRegionTop;             /*!< Region mouse can be in - top position. */
 	/* 7072(2)   */ PACK uint16 mouseRegionBottom;          /*!< Region mouse can be in - bottom position. */
-	/* 7074(2)   */ PACK uint16 variable_7074;              /*!< ?? */
-	/* 7076(2)   */ PACK uint16 variable_7076;              /*!< ?? */
-	/* 7078(2)   */ PACK uint16 variable_7078;              /*!< ?? */
-	/* 707A(2)   */ PACK uint16 variable_707A;              /*!< ?? */
+	/* 7074(2)   */ PACK uint16 mouseHeight;                /*!< The height of the mouse cursor. */
+	/* 7076(2)   */ PACK uint16 mouseWidth;                 /*!< The width of the mouse cursor. */
+	/* 7078(2)   */ PACK uint16 mouseSpriteHotspotX;        /*!< The X position of the hotspot of the mouse cursor (where you really click). */
+	/* 707A(2)   */ PACK uint16 mouseSpriteHotspotY;        /*!< The T position of the hotspot of the mouse cursor (where you really click). */
 	/* 707C(2)   */ PACK uint16 mousePrevX;                 /*!< Previous X position. */
 	/* 707E(2)   */ PACK uint16 mousePrevY;                 /*!< Previous Y position. */
 	/* 7080(2)   */ PACK uint16 regionFlags;                /*!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. */
@@ -1316,15 +1316,18 @@ typedef struct GlobalData {
 	/* 7084(2)   */ PACK uint16 regionMinY;                 /*!< Region - minimum value for Y position. */
 	/* 7086(2)   */ PACK uint16 regionMaxX;                 /*!< Region - maximum value for X position. */
 	/* 7088(2)   */ PACK uint16 regionMaxY;                 /*!< Region - maximum value for Y position. */
-	/* 708A(4)   */ PACK csip32 variable_708A;              /*!< ?? */
-	/* 708E(4)   */ PACK csip32 variable_708E;              /*!< ?? */
+	/* 708A(4)   */ PACK csip32 mouseSpriteBuffer;          /*!< The temporary buffer with what was behind the mouse cursor. */
+	/* 708E(4)   */ PACK csip32 mouseSprite;                /*!< The sprite for the mouse cursor. */
 	/* 7092(2)   */ PACK uint16 variable_7092;              /*!< Parameter 1 for proc at 66B4. */
 	/* 7094(2)   */ PACK uint16 variable_7094;              /*!< Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
-	/* 709A()    */ PACK uint8   unknown_709A[0x0008];
+	/* 709A(2)   */ PACK uint16 mouseSpriteLeft;            /*!< Left of the mouse sprite region (which is copied in the buffer). */
+	/* 709C(2)   */ PACK uint16 mouseSpriteTop;             /*!< Top of the mouse sprite region (which is copied in the buffer). */
+	/* 709E(2)   */ PACK uint16 mouseSpriteWidth;           /*!< Width of the mouse sprite region (which is copied in the buffer). */
+	/* 70A0(2)   */ PACK uint16 mouseSpriteHeight;          /*!< Height of the mouse sprite region (which is copied in the buffer). */
 	/* 70A2(768) */ PACK uint8  variable_70A2[768];         /*!< ?? */
 	/* 73A2()    */ PACK uint8   unknown_73A2[0x0300];
 	/* 76A2(4)   */ PACK uint8  randomSeed[4];              /*!< Seed for pseudo-random generator. */

@@ -1211,9 +1211,9 @@ l__0C12:
 	emu_get_memory16(emu_ds, 0x00, 0x7062) = emu_bx;
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705E), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x705E) != 0x0) goto l__0C38;
-	emu_push(emu_cs); emu_push(0x0C33); emu_cs = 0x2B6C; f__2B6C_000E_0045_C1FE();
+	emu_push(emu_cs); emu_push(0x0C33); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide();
 l__0C33:
-	emu_push(emu_cs); emu_push(0x0C38); emu_cs = 0x2B6C; f__2B6C_006E_002E_4FBC();
+	emu_push(emu_cs); emu_push(0x0C38); emu_cs = 0x2B6C; emu_GUI_Mouse_Show();
 l__0C38:
 	emu_ax = 0x2D;
 l__0C3B:
