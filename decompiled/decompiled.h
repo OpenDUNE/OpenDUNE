@@ -279,7 +279,7 @@ extern void f__217E_0D09_000D_D3D3();
 extern void f__217E_0D16_000A_080E();
 extern void f__217E_0D2C_000B_83A7();
 extern void f__01F7_0D2E_0015_C196();
-extern void f__2649_0D40_0019_C58F();
+extern void emu_Highmem_Memmove_FromHighmem();
 extern void emu_Input_Keyboard_EventHandler();
 extern void f__01F7_0D59_0022_B62B();
 extern void f__AB00_0D72_0001_6780();
