@@ -27,8 +27,6 @@
 #include "../house.h"
 #include "../gfx.h"
 
-extern void emu_GFX_CopyToBuffer();
-extern void emu_GFX_CopyFromBuffer();
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
@@ -553,6 +551,8 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
 {
+	csip32 buffer_csip;
+
 	Unknown_07AE_0000(desc->index);
 
 	GUI_Mouse_Hide_Safe();
@@ -560,19 +560,18 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(g_global->variable_9931);
-	emu_push(g_global->variable_992F);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D);
-	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
-	emu_sp += 12;
+	buffer_csip.s.cs = emu_dx;
+	buffer_csip.s.ip = emu_ax;
+
+	GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(buffer_csip));
 
 	GUI_Mouse_Show_Safe();
 }
 
 static void GUI_Window_RestoreScreen(WindowDesc *desc)
 {
+	csip32 buffer_csip;
+
 	Unknown_07AE_0000(desc->index);
 
 	GUI_Mouse_Hide_Safe();
@@ -580,13 +579,10 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x0F41); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
-	emu_push(emu_dx); emu_push(emu_ax);
-	emu_push(g_global->variable_9931);
-	emu_push(g_global->variable_992F);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D);
-	emu_push(emu_cs); emu_push(0x0F5E); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
-	emu_sp += 12;
+	buffer_csip.s.cs = emu_dx;
+	buffer_csip.s.ip = emu_ax;
+
+	GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(buffer_csip));
 
 	GUI_Mouse_Show_Safe();
 }

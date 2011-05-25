@@ -36,8 +36,6 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_GFX_CopyFromBuffer();
-extern void emu_GFX_CopyToBuffer();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
@@ -123,7 +121,7 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	uint16 height;
 	uint16 width;
 
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x0, 0x0);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
 
 	if (left >= SCREEN_WIDTH) return;
 	if (left < 0) left = 0;
@@ -319,7 +317,7 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 {
 	csip32 font_csip = emu_get_csip32(0x22A6, 0x00, 0x80);
 	uint8 *font      = emu_get_memorycsip(font_csip);
-	uint8 *screen    = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x0, 0x0);
+	uint8 *screen    = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
 
 	uint16 offset;
 	uint16 remainingWidth;
@@ -735,13 +733,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {
-		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x03A0); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
-		emu_sp += 12;
+		GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(g_global->variable_3600));
 	}
 
 	GUI_Widget_DrawBorder(1, 1, 1);
@@ -789,13 +781,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {
-		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
-		emu_push(g_global->variable_9931);
-		emu_push(g_global->variable_992F);
-		emu_push(g_global->variable_992B);
-		emu_push(g_global->variable_992D);
-		emu_push(emu_cs); emu_push(0x0533); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
-		emu_sp += 12;
+		GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(g_global->variable_3600));
 	}
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
@@ -2400,7 +2386,7 @@ static void ClipRight(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 {
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegementActive(), 0x00, 0x00);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x00, 0x00);
 	int16 increment = 1;
 
 	if (x1 < g_clipping.left || x1 > g_clipping.right || y1 < g_clipping.top || y1 > g_clipping.bottom || x2 < g_clipping.left || x2 > g_clipping.right || y2 < g_clipping.top || y2 > g_clipping.bottom) {
@@ -3916,14 +3902,7 @@ void GUI_Mouse_Show()
 	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) g_global->mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
 
 	if (g_global->mouseSpriteBuffer.csip != 0) {
-		emu_push(g_global->mouseSpriteBuffer.s.ip);
-		emu_push(g_global->mouseSpriteBuffer.s.cs);
-		emu_push(g_global->mouseSpriteHeight);
-		emu_push(g_global->mouseSpriteWidth);
-		emu_push(g_global->mouseSpriteTop);
-		emu_push(g_global->mouseSpriteLeft);
-		emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
-		emu_sp += 12;
+		GFX_CopyToBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, emu_get_memorycsip(g_global->mouseSpriteBuffer));
 	}
 
 	GUI_DrawSprite(0, g_global->mouseSprite, left, top, 0, 0);
@@ -3939,14 +3918,7 @@ void GUI_Mouse_Hide()
 
 	if (g_global->mouseHiddenDepth == 0 && g_global->mouseSpriteWidth != 0) {
 		if (g_global->mouseSpriteBuffer.csip != 0) {
-			emu_push(g_global->mouseSpriteBuffer.s.ip);
-			emu_push(g_global->mouseSpriteBuffer.s.cs);
-			emu_push(g_global->mouseSpriteHeight);
-			emu_push(g_global->mouseSpriteWidth);
-			emu_push(g_global->mouseSpriteTop);
-			emu_push(g_global->mouseSpriteLeft);
-			emu_push(emu_cs); emu_push(0x0053); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
-			emu_sp += 12;
+			GFX_CopyFromBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, emu_get_memorycsip(g_global->mouseSpriteBuffer));
 		}
 
 		g_global->mouseSpriteWidth = 0;

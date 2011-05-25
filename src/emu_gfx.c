@@ -11,29 +11,15 @@
 /**
  * Emulator wrapper around GFX_GetScreenSegment().
  *
- * @name emu_GFX_GetScreenSegment
+ * @name emu_GFX_Screen_GetSegmentActive
  * @implements 22A6:0DF8:0022:5FD5 ()
  */
-void emu_GFX_GetScreenSegment()
+void emu_GFX_Screen_GetSegmentActive()
 {
 	/* Return from this function */
 	emu_pop(&emu_ip);
 
-	emu_ax = GFX_Screen_GetSegementActive();
-}
-
-/**
- * Emulator wrapper around Unknown_22A6_0E22().
- *
- * @name emu_Unknown_22A6_0E22
- * @implements 22A6:0E22:0012:7FC4 ()
- */
-void emu_GFX_GetSegment_ByIndex()
-{
-	/* Return from this function */
-	emu_pop(&emu_ip);
-
-	emu_ax = GFX_Screen_GetSegment_ByIndex(emu_ax);
+	emu_ax = GFX_Screen_GetSegmentActive();
 }
 
 /**
@@ -110,4 +96,58 @@ void emu_GFX_GetSize()
 	height = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	emu_ax = GFX_GetSize(width, height);
+}
+
+/**
+ * Emulator wrapper around GFX_CopyFromBuffer()
+ *
+ * @name emu_GFX_CopyFromBuffer
+ * @implements 22A6:04F8:007A:6E25 ()
+ */
+void emu_GFX_CopyFromBuffer()
+{
+	uint16 left;
+	uint16 top;
+	uint16 width;
+	uint16 height;
+	csip32 buffer;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	left   = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	top    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	width  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	height = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	buffer = emu_get_csip32  (emu_ss, emu_sp, 0x8);
+
+	GFX_CopyFromBuffer(left, top, width, height, emu_get_memorycsip(buffer));
+}
+
+/**
+ * Emulator wrapper around GFX_CopyToBuffer()
+ *
+ * @name emu_GFX_CopyToBuffer
+ * @implements 22A6:101C:004B:D9F3 ()
+ */
+void emu_GFX_CopyToBuffer()
+{
+	uint16 left;
+	uint16 top;
+	uint16 width;
+	uint16 height;
+	csip32 buffer;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	left   = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	top    = emu_get_memory16(emu_ss, emu_sp, 0x2);
+	width  = emu_get_memory16(emu_ss, emu_sp, 0x4);
+	height = emu_get_memory16(emu_ss, emu_sp, 0x6);
+	buffer = emu_get_csip32  (emu_ss, emu_sp, 0x8);
+
+	GFX_CopyToBuffer(left, top, width, height, emu_get_memorycsip(buffer));
 }
