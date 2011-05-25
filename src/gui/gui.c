@@ -2779,7 +2779,7 @@ static void GUI_FactoryWindow_Init()
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, GFX_GetPixel(72, 32));
+	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, GFX_GetPixel(72, 23));
 
 	GUI_FactoryWindow_PrepareScrollList();
 
