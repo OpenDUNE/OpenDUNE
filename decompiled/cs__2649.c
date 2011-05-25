@@ -90,7 +90,7 @@ l__0051:
  *
  * Called From: 1DB6:01A4:000B:5DBC
  */
-void f__2649_0053_001D_FEB5()
+void emu_Highmem_Initialize()
 {
 l__0053:
 	emu_push(emu_bp);
@@ -341,7 +341,7 @@ l__02B5:
  * Called From: 23E1:002F:001C:B654
  * Called From: 23E1:002F:0015:7A84
  */
-void f__2649_0336_004C_0948()
+void emu_Highmem_Alloc()
 {
 l__0336:
 	emu_push(emu_bp);
@@ -697,7 +697,7 @@ l__05DA:
  *
  * Called From: 23E1:01EA:0011:2432
  */
-void f__2649_05DF_0011_F459()
+void emu_Highmem_Free()
 {
 l__05DF:
 	emu_push(emu_bp);
@@ -706,7 +706,7 @@ l__05DF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x05F0); f__2649_0BAE_001D_25B1();
+	emu_push(0x05F0); emu_Highmem_IsInHighmem();
 l__05F0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1255,7 +1255,7 @@ l__0AD6:
  * Called From: B500:0064:0006:928E
  * Called From: B500:0064:0005:F68F
  */
-void f__2649_0ADA_000E_EEB3()
+void emu_Highmem_Uninitialize()
 {
 l__0ADA:
 	emu_push(emu_bp);
@@ -1384,7 +1384,7 @@ l__0B60:
  * Called From: B483:00F8:0011:5422
  * Called From: B483:01C8:0011:7C21
  */
-void f__2649_0B64_0011_32F8()
+void emu_Highmem_GetSize()
 {
 l__0B64:
 	emu_push(emu_bp);
@@ -1393,7 +1393,7 @@ l__0B64:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0B75); f__2649_0BAE_001D_25B1();
+	emu_push(0x0B75); emu_Highmem_IsInHighmem();
 l__0B75:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1457,7 +1457,7 @@ l__0BAA:
  * Called From: B483:00E7:0031:F9F6
  * Called From: B483:01B7:0037:9CAC
  */
-void f__2649_0BAE_001D_25B1()
+void emu_Highmem_IsInHighmem()
 {
 l__0BAE:
 	emu_push(emu_bp);
@@ -1549,7 +1549,7 @@ static void f__2649_0E96()
  *
  * Called From: 2B0E:005E:0005:C642
  */
-void f__2649_0C09_0019_459F()
+void emu_Highmem_Memmove_ToHighmem()
 {
 l__0C09:
 	emu_push(emu_bp);
@@ -1605,7 +1605,7 @@ l__0C59:
 	emu_movw(&emu_ax, emu_bp - 0x2);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0C7D); f__2649_0C09_0019_459F();
+	emu_push(0x0C7D); emu_Highmem_Memmove_ToHighmem();
 l__0C7D:
 	emu_sp += 12;
 	emu_incw(&emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -1657,7 +1657,7 @@ l__0CC0:
 	emu_movw(&emu_ax, emu_bp - 0x2);
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x0CF0); f__2649_0C09_0019_459F();
+	emu_push(0x0CF0); emu_Highmem_Memmove_ToHighmem();
 l__0CF0:
 	emu_sp += 12;
 l__0CF3:

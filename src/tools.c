@@ -15,8 +15,8 @@
 #include "tools.h"
 #include "unit.h"
 
-extern void f__2649_0C09_0019_459F();
-extern void f__2649_0D40_0019_C58F();
+extern void emu_Highmem_Memmove_ToHighmem();
+extern void emu_Highmem_Memmove_FromHighmem();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -260,13 +260,13 @@ void Tools_Memmove(csip32 src, csip32 dst, uint32 count)
 		emu_push(count >> 16); emu_push(count & 0xFFFF);
 		emu_push(dst.s.cs); emu_push(dst.s.ip);
 		emu_push(src.s.cs); emu_push(src.s.ip);
-		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x2649; f__2649_0C09_0019_459F();
+		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x2649; emu_Highmem_Memmove_ToHighmem();
 		emu_sp += 12;
 	} else if (src.s.cs >= 0xF000) {
 		emu_push(count >> 16); emu_push(count & 0xFFFF);
 		emu_push(dst.s.cs); emu_push(dst.s.ip);
 		emu_push(src.s.cs); emu_push(src.s.ip);
-		emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; f__2649_0D40_0019_C58F();
+		emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; emu_Highmem_Memmove_FromHighmem();
 		emu_sp += 12;
 	} else {
 		memmove(emu_get_memorycsip(dst), emu_get_memorycsip(src), count);

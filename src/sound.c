@@ -16,8 +16,8 @@
 #include "os/strings.h"
 
 extern void emu_Tools_Sleep();
-extern void f__2649_0B64_0011_32F8();
-extern void f__2649_0BAE_001D_25B1();
+extern void emu_Highmem_GetSize();
+extern void emu_Highmem_IsInHighmem();
 
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
@@ -201,12 +201,12 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 		soundBuffer.csip = g_global->variable_3E54[index].csip;
 
 		emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x00EC); emu_cs = 0x2649; f__2649_0BAE_001D_25B1();
+		emu_push(emu_cs); emu_push(0x00EC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
 		emu_sp += 4;
 
 		if (emu_ax != 0) {
 			emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
-			emu_push(emu_cs); emu_push(0x00FD); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+			emu_push(emu_cs); emu_push(0x00FD); emu_cs = 0x2649; emu_Highmem_GetSize();
 			emu_sp += 4;
 
 			count = (emu_dx << 16) + emu_ax;

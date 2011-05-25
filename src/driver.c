@@ -21,8 +21,8 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
-extern void f__2649_0B64_0011_32F8();
-extern void f__2649_0BAE_001D_25B1();
+extern void emu_Highmem_GetSize();
+extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_MPU_TestPort();
@@ -1060,7 +1060,7 @@ void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uin
 		buffer_csip = File_ReadWholeFile(filename, 0x40);
 
 		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x015F); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+		emu_push(emu_cs); emu_push(0x015F); emu_cs = 0x2649; emu_Highmem_GetSize();
 		emu_sp += 4;
 		length = (emu_dx << 16) + emu_ax;
 	} else {
@@ -1104,14 +1104,14 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 	emu_sp += 4;
 
 	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x2649; f__2649_0BAE_001D_25B1();
+	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
 	emu_sp += 4;
 
 	if (emu_ax != 0) {
 		int32 loc04;
 
 		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+		emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x2649; emu_Highmem_GetSize();
 		emu_sp += 4;
 		loc04 = (emu_dx << 16) + emu_ax;
 

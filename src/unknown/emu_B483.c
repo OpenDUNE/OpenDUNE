@@ -13,8 +13,8 @@
 #include "../tools.h"
 
 extern void emu_Tools_Malloc();
-extern void f__2649_0B64_0011_32F8();
-extern void f__2649_0BAE_001D_25B1();
+extern void emu_Highmem_GetSize();
+extern void emu_Highmem_IsInHighmem();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -34,12 +34,12 @@ void Unknown_B483_0156(uint16 index)
 		csip = g_global->variable_3E54[index];
 
 		emu_push(csip.s.cs); emu_push(csip.s.ip);
-		emu_push(emu_cs); emu_push(0x01BC); emu_cs = 0x2649; f__2649_0BAE_001D_25B1();
+		emu_push(emu_cs); emu_push(0x01BC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
 		emu_sp += 4;
 
 		if (emu_ax != 0) {
 			emu_push(csip.s.cs); emu_push(csip.s.ip);
-			emu_push(emu_cs); emu_push(0x01CD); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
+			emu_push(emu_cs); emu_push(0x01CD); emu_cs = 0x2649; emu_Highmem_GetSize();
 			emu_sp += 4;
 
 			count = (emu_dx << 16) | emu_ax;

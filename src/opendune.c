@@ -53,8 +53,8 @@ extern void emu_Tools_Free();
 extern void emu_Tools_Sleep();
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
-extern void f__2649_0053_001D_FEB5();
-extern void f__2649_0ADA_000E_EEB3();
+extern void emu_Highmem_Initialize();
+extern void emu_Highmem_Uninitialize();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
@@ -2739,7 +2739,7 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 	}
 
 	emu_push(arg0E >> 16); emu_push(arg0E & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; f__2649_0053_001D_FEB5();
+	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; emu_Highmem_Initialize();
 	emu_sp += 4;
 
 	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
@@ -3130,7 +3130,7 @@ void PrepareEnd()
 		emu_sp += 2;
 	}
 
-	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; f__2649_0ADA_000E_EEB3();
+	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; emu_Highmem_Uninitialize();
 
 	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x01F7; f__01F7_1BC3_000F_9450();
 	if (emu_ax == 0xFFFF) printf("\r\nMemory Corrupt!!!\r\n");
