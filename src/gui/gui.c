@@ -15,6 +15,7 @@
 #include "../os/sleep.h"
 #include "../unknown/unknown.h"
 #include "../house.h"
+#include "../interrupt.h"
 #include "../load.h"
 #include "../map.h"
 #include "../structure.h"
@@ -43,7 +44,6 @@ extern void emu_Tools_Sleep();
 extern void emu_GUI_Mouse_Hide_InWidget();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
-extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B518_0B1D_0014_307D();
@@ -3268,10 +3268,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Mouse_SetRegion(8, 24, 311, 143);
 
-	emu_push(0x54);
-	emu_push(0xA0);
-	emu_push(emu_cs); emu_push(0x0097); emu_cs = 0x2B99; f__2B99_007B_0019_5737();
-	emu_sp += 4;
+	GUI_Mouse_SetPosition(160, 84);
 
 	Sprites_LoadImage("MAPMACH.CPS", 5, 5, emu_get_memorycsip(g_global->variable_998A), 1);
 
@@ -4119,4 +4116,44 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 
 		screen += SCREEN_WIDTH - width - (height & 1);
 	}
+}
+
+/**
+ * Set the mouse to the given position on the screen.
+ *
+ * @param x The new X-position of the mouse.
+ * @param y The new Y-position of the mouse.
+ */
+void GUI_Mouse_SetPosition(uint16 x, uint16 y)
+{
+	emu_cx = x;
+	emu_dx = y;
+
+	while (g_global->mouseLock != 0) sleep(0);
+	g_global->mouseLock++;
+
+	if (x < g_global->mouseRegionLeft)   x = g_global->mouseRegionLeft;
+	if (x > g_global->mouseRegionRight)  x = g_global->mouseRegionRight;
+	if (y < g_global->mouseRegionTop)    y = g_global->mouseRegionTop;
+	if (y > g_global->mouseRegionBottom) y = g_global->mouseRegionBottom;
+
+	g_global->mouseX = x;
+	g_global->mouseY = y;
+
+	if (g_global->mouseInstalled) {
+		if (g_global->doubleWidth) x *= 2;
+
+		emu_ax = 4;
+		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();
+	}
+
+	if (g_global->mouseX == g_global->mousePrevX && g_global->mouseY == g_global->mousePrevY) {
+		g_global->mouseLock--;
+		return;
+	}
+
+	GUI_Mouse_Hide();
+	GUI_Mouse_Show();
+
+	g_global->mouseLock--;
 }
