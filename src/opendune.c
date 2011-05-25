@@ -60,7 +60,7 @@ extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
-extern void f__2B1E_0189_001B_E6CF();
+extern void emu_Tools_PrintDebug();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
@@ -89,15 +89,7 @@ static bool GameLoop_IsLevelFinished()
 {
 	bool finish = false;
 
-	if (g_global->debugForceWin) {
-		emu_push(2);
-		emu_push(0);
-		emu_push(0);
-		emu_push(0x353F); emu_push(0x60AE);
-		emu_push(emu_cs); emu_push(0x002E); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-		emu_sp += 10;
-		return true;
-	}
+	if (g_global->debugForceWin) return true;
 
 	/* You have to play at least 7200 ticks before you can win the game */
 	if (g_global->tickGlobal - g_global->tickScenarioStart < 7200) return false;
@@ -135,15 +127,6 @@ static bool GameLoop_IsLevelFinished()
 		if ((g_global->scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0) {
 			finish = true;
 		}
-
-		if (finish) {
-			emu_push(2);
-			emu_push(0);
-			emu_push(0);
-			emu_push(0x353F); emu_push(0x60BA);
-			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-			emu_sp += 10;
-		}
 	}
 
 	/* Check for reaching spice quota */
@@ -154,13 +137,6 @@ static bool GameLoop_IsLevelFinished()
 
 		if (g_global->playerCredits >= h->creditsQuota) {
 			finish = true;
-
-			emu_push(2);
-			emu_push(0);
-			emu_push(0);
-			emu_push(0x353F); emu_push(0x60C7);
-			emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-			emu_sp += 10;
 		}
 	}
 
@@ -171,13 +147,6 @@ static bool GameLoop_IsLevelFinished()
 		 *  were. This at least makes it sensible. */
 		if (g_global->tickGlobal >= g_global->tickGameTimeout) {
 			finish = true;
-
-			emu_push(2);
-			emu_push(0);
-			emu_push(0);
-			emu_push(0x353F); emu_push(0x60D2);
-			emu_push(emu_cs); emu_push(0x00FB); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-			emu_sp += 10;
 		}
 	}
 

@@ -2063,18 +2063,9 @@ l__1082:
 	emu_push(emu_cs); emu_push(0x10A0); emu_cs = 0x01F7; emu_String_sprintf();
 l__10A0:
 	emu_addw(&emu_sp, 0xE);
-	emu_ax = 0x2;
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_xorw(&emu_ax, emu_ax);
-	emu_push(emu_ax);
-	emu_push(emu_ds);
-	emu_ax = 0x9939;
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x10B7); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-l__10B7:
-	emu_addw(&emu_sp, 0xA);
+
+	/* Removed printf to stderr */
+
 	emu_ax = 0x3C;
 	emu_push(emu_ax);
 	emu_push(emu_cs); emu_push(0x10C3); emu_cs = 0x24FD; emu_Tools_Sleep();

@@ -24,7 +24,7 @@ extern void emu_Tools_Sleep();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
 extern void f__2BD1_0006_004A_CD10();
-extern void f__2B1E_0189_001B_E6CF();
+extern void emu_Tools_PrintDebug();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
 extern void emu_DSP_TestPort();
@@ -1109,15 +1109,6 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 
 	if (emu_ax != 0) {
 		int32 loc04;
-
-		sprintf((char *)g_global->variable_9939, "Sound1 for %p", arg06);
-
-		emu_push(2);
-		emu_push(1);
-		emu_push(0);
-		emu_push(0x353F); emu_push(0x9939); /* g_global->variable_9939 */
-		emu_push(emu_cs); emu_push(0x02FE); emu_cs = 0x2B1E; f__2B1E_0189_001B_E6CF();
-		emu_sp += 10;
 
 		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
 		emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x2649; f__2649_0B64_0011_32F8();
