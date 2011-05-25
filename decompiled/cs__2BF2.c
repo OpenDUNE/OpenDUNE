@@ -16,7 +16,7 @@
  *
  * Called From: 2649:001A:0008:33E4
  */
-void XMS_Init()
+void emu_XMS_Init()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -36,7 +36,7 @@ void XMS_Init()
  *
  * Called From: 2649:002C:0008:E3E9
  */
-void XMS_GetFreeMemory()
+void emu_XMS_GetFreeMemory()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -62,7 +62,7 @@ void XMS_GetFreeMemory()
  *
  * Called From: 2649:014F:000E:B2AC
  */
-void XMS_Allocate()
+void emu_XMS_Allocate()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -93,7 +93,7 @@ void XMS_Allocate()
  * Called From: 2649:0EF3:003A:3C21
  * Called From: 2649:0F31:003A:7D24
  */
-void XMS_MoveToMemory()
+void emu_XMS_MoveToMemory()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
@@ -125,7 +125,7 @@ void XMS_MoveToMemory()
  *
  * Called From: 2649:0AF3:0010:11AB
  */
-void XMS_Free()
+void emu_XMS_Free()
 {
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
