@@ -17,10 +17,10 @@
 #include "../unknown/unknown.h"
 #include "../map.h"
 #include "../gfx.h"
+#include "mentat.h"
 
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void emu_GUI_Mouse_Hide_InWidget();
-extern void f__B4E0_0A86_000E_D3BB();
 extern void overlay(uint16 cs, uint8 force);
 
 /**
@@ -426,23 +426,8 @@ void GUI_Widget_ScrollBar_Draw(Widget *w)
 
 	/* Call custom callback function if set */
 	if (scrollbar->drawProc.csip != 0x00000000) {
-		csip32 wcsip = emu_Global_GetCSIP(w);
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-
-		emu_push(emu_cs); emu_push(0x084F);
-		emu_ip = scrollbar->drawProc.s.ip;
-		emu_cs = scrollbar->drawProc.s.cs;
-		switch ((emu_cs << 16) + emu_ip) {
-			case 0x34E0003E: overlay(0x34E0, 0); f__B4E0_0A86_000E_D3BB(); break;
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0xB520; emu_last_ip = 0x084B; emu_last_length = 0x001A; emu_last_crc = 0xD0A3;
-				emu_call();
-				return;
-		}
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3520) { overlay(0x3520, 1); }
-		emu_sp += 4;
+		assert(scrollbar->drawProc.csip == 0x34E0003E);
+		GUI_Mentat_ScrollBar_Draw(w);
 	}
 
 	scrollbar->dirty = 0;

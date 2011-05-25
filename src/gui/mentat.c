@@ -1142,3 +1142,12 @@ bool GUI_Mentat_List_Click(Widget *w)
 
 	return false;
 }
+
+void GUI_Mentat_ScrollBar_Draw(Widget *w)
+{
+	GUI_Mentat_SelectHelpSubject(GUI_Get_Scrollbar_Position(w) - g_global->topHelpList);
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0AA8); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
+	emu_sp += 2;
+}

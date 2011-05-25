@@ -95,6 +95,7 @@ extern void emu_GUI_Mouse_Show_InRegion();
 extern void emu_GUI_Mouse_Hide_InRegion();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void emu_GUI_Mouse_Hide_InWidget();
+extern void emu_GUI_Mentat_ScrollBar_Draw();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

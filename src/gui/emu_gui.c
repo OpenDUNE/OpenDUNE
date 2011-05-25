@@ -508,3 +508,25 @@ void emu_GUI_Mouse_Hide_InWidget()
 
 	GUI_Mouse_Hide_InWidget(widgetIndex);
 }
+
+/**
+ * Emulator wrapper around GUI_Mentat_ScrollBar_Draw()
+ *
+ * @name emu_GUI_Mentat_ScrollBar_Draw
+ * @implements B4E0:0A86:000E:D3BB ()
+ */
+void emu_GUI_Mentat_ScrollBar_Draw()
+{
+	Widget *w;
+	csip32 wcsip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
+
+	w = (Widget *)emu_get_memorycsip(wcsip);
+
+	GUI_Mentat_ScrollBar_Draw(w);
+}

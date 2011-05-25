@@ -118,7 +118,7 @@ l__00BA:
 	emu_cs = emu_get_memory16(emu_es, emu_bx, 0x14);
 	emu_push(0x00D6);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x34E0003E: overlay(0x34E0, 0); f__B4E0_0A86_000E_D3BB(); break;
+		case 0x34E0003E: overlay(0x34E0, 0); emu_GUI_Mentat_ScrollBar_Draw(); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0xB520; emu_last_ip = 0x00D2; emu_last_length = 0x001C; emu_last_crc = 0xE198;

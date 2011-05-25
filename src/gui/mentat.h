@@ -15,5 +15,6 @@ extern void GUI_Mentat_Animation(uint16 unknown);
 extern void GUI_Mentat_SelectHelpSubject(int16 difference);
 extern void GUI_Mentat_Create_HelpScreen_Widgets();
 extern bool GUI_Mentat_List_Click(struct Widget *w);
+extern void GUI_Mentat_ScrollBar_Draw(struct Widget *w);
 
 #endif /* GUI_MENTAT_H */

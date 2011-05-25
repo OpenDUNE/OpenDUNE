@@ -243,7 +243,6 @@ extern void f__29E8_0971_0071_E515();
 extern void emu_Input_History_Add();
 extern void f__B518_0A3E_0008_F439();
 extern void emu_Input_HandleInput();
-extern void f__B4E0_0A86_000E_D3BB();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Highmem_Uninitialize();
