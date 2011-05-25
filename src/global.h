@@ -1335,8 +1335,8 @@ typedef struct GlobalData {
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? Also a tick counter.. */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
-	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? */
-	/* 76B8(2)   */ PACK uint16 variable_76B8;              /*!< ?? */
+	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? Also a tick counter, but counts down. */
+	/* 76B8(2)   */ PACK uint16 timersActive;               /*!< Which timers are active. 1 = variable_76AC, 2 = tickGlobal. */
 	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
 	/* 76BD(256) */ PACK uint8  characterClass[256];        /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. */

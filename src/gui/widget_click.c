@@ -748,7 +748,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
-	Tools_Var76B8_Set(2, false);
+	Game_Timer_SetState(2, false);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -853,7 +853,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_Widget_MakeSelected(w, false);
 
-	Tools_Var76B8_Set(2, true);
+	Game_Timer_SetState(2, true);
 
 	GameOptions_Save();
 

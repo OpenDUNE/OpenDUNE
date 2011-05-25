@@ -23,7 +23,7 @@ extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__2649_0B64_0011_32F8();
 extern void f__2649_0BAE_001D_25B1();
-extern void f__2BD1_0006_004A_CD10();
+extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_MPU_TestPort();
 extern void emu_DSP_GetInfo();
@@ -235,7 +235,7 @@ void Drivers_CustomTimer_Interrupt()
 			emu_push(emu_cs); emu_push(0x05A2); emu_cs = _stat08[_stat120].s.cs;
 			switch (_stat08[_stat120].csip) {
 				case 0x27560622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
-				case 0x2BD10006: f__2BD1_0006_004A_CD10(); break;
+				case 0x2BD10006: Game_Timer_Interrupt(); break;
 				case 0x44AF1CEE: emu_MPU_Interrupt(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */

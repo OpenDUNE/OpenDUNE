@@ -341,22 +341,23 @@ uint16 Tools_RandomRange(uint16 min, uint16 max)
 }
 
 /**
- * Get the state of a bit in g_global->variable_76B8, and sets/resets the previous bit.
+ * Set timers on and off.
  *
- * @param bit The bit to get the state for.
- * @param set Wether to set or reset the previous bit.
- * @return True if bit is set, false if it is not set.
+ * @param timer 1 = variable_76AC timer, 0 = tickGlobal timer.
+ * @param set True sets the timer on, false sets it off.
+ * @return True if timer was set, false if it was not set.
  */
-bool Tools_Var76B8_Set(uint16 bit, bool set)
+bool Game_Timer_SetState(uint16 timer, bool set)
 {
-	bool ret = (g_global->variable_76B8 & (1 << bit)) != 0;
+	bool ret;
 
-	bit--;
+	timer = (1 << (timer - 1));
+	ret = (g_global->timersActive & timer) != 0;
 
 	if (set) {
-		g_global->variable_76B8 |= (1 << bit);
+		g_global->timersActive |= timer;
 	} else {
-		g_global->variable_76B8 &= ~(1 << bit);
+		g_global->timersActive &= ~timer;
 	}
 
 	return ret;

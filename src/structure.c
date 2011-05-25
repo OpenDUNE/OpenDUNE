@@ -1650,11 +1650,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GUI_ChangeSelectionType(0);
 
-			Tools_Var76B8_Set(2, false);
+			Game_Timer_SetState(2, false);
 
 			res = GUI_DisplayFactoryWindow(g_global->factoryWindowConstructionYard != 0, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
-			Tools_Var76B8_Set(2, true);
+			Game_Timer_SetState(2, true);
 
 			Sprites_LoadTiles();
 

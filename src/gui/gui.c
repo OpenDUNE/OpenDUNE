@@ -2171,7 +2171,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
 
-		Tools_Var76B8_Set(2, false);
+		Game_Timer_SetState(2, false);
 
 		g_global->selectionType = selectionType;
 		g_global->variable_3A10 = selectionType;
@@ -2250,7 +2250,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				g_global->cursorDefaultSpriteID = 5;
 
-				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			case 2:
@@ -2259,11 +2259,11 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				Map_SetSelectionSize(g_structureInfo[g_global->activeStructureType].layout);
 
-				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			case 3:
-				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 
 				GUI_Widget_ActionPanel_Draw(true);
 				break;
@@ -2271,7 +2271,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			case 4:
 				GUI_Widget_ActionPanel_Draw(true);
 
-				Tools_Var76B8_Set(2, (g_global->variable_37AA != 0) ? true : false);
+				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			default: break;

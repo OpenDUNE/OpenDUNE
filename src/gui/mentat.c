@@ -269,11 +269,11 @@ bool GUI_Widget_Mentat_Click()
 
 	Sprites_Load(1, 7, g_sprites);
 
-	Tools_Var76B8_Set(2, false);
+	Game_Timer_SetState(2, false);
 
 	GUI_Mentat_ShowHelpList(false);
 
-	Tools_Var76B8_Set(2, true);
+	Game_Timer_SetState(2, true);
 
 	Driver_Sound_Play(1, 0xFF);
 

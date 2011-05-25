@@ -63,7 +63,6 @@ extern void f__2649_0003_0014_67A9();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Swapd();
 extern void emu_Video_GetMode();
-extern void f__2BD1_0006_004A_CD10();
 extern void emu_GUI_DrawBorder();
 extern void emu_Overlay_Interrupt();
 extern void emu_Tools_Sleep();

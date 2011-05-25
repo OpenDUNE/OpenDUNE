@@ -31,7 +31,7 @@ extern csip32 Tools_GetSmallestIP(csip32 csip);
 extern void Tools_Memmove(csip32 src, csip32 dst, uint32 count);
 extern uint8 Tools_Random_256();
 extern uint16 Tools_RandomRange(uint16 min, uint16 max);
-extern bool Tools_Var76B8_Set(uint16 bit, bool set);
+extern bool Game_Timer_SetState(uint16 bit, bool set);
 extern void Tools_Sleep(uint16 ticks);
 
 

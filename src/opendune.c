@@ -1758,7 +1758,7 @@ static void Gameloop_IntroMenu()
 	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
 	                      INPUT_FLAG_UNKNOWN_0008 | INPUT_FLAG_UNKNOWN_0004 | INPUT_FLAG_UNKNOWN_0002);
 
-	Tools_Var76B8_Set(1, true);
+	Game_Timer_SetState(1, true);
 
 	g_global->campaignID = 0x0;
 	g_global->scenarioID = 0x1;
@@ -2300,7 +2300,7 @@ static void GameLoop_Main()
 
 	Gameloop_IntroMenu();
 
-	Tools_Var76B8_Set(2, g_global->variable_37AA != 0);
+	Game_Timer_SetState(2, g_global->variable_37AA != 0);
 
 	GUI_Mouse_Show_Safe();
 
@@ -3142,3 +3142,14 @@ void PrepareEnd()
 	emu_sp += 6;
 }
 
+void Game_Timer_Interrupt()
+{
+	uint16 timers = g_global->timersActive;
+
+	if ((timers & 0x1) != 0) g_global->variable_76AC++;
+	if ((timers & 0x2) != 0) g_global->tickGlobal++;
+	g_global->variable_76A6++;
+	g_global->variable_76A8++;
+
+	if (g_global->variable_76B4 != 0) g_global->variable_76B4--;
+}
