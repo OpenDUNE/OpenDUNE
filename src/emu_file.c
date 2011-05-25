@@ -128,33 +128,6 @@ void emu_File_Write()
 }
 
 /**
- * Emulator wrapper around File_Seek().
- *
- * @name emu_File_Seek
- * @implements 1FB5:1207:001B:2A6C ()
- */
-void emu_File_Seek()
-{
-	uint8 index;
-	uint32 position;
-	uint8 mode;
-	uint32 res;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index    = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x0);
-	position =        emu_get_memory32(emu_ss, emu_sp, 0x2);
-	mode     = (uint8)emu_get_memory16(emu_ss, emu_sp, 0x6);
-
-	res = File_Seek(index, position, mode);
-
-	emu_dx = res >> 16;
-	emu_ax = res & 0xFFFF;
-}
-
-/**
  * Emulator wrapper around File_ReadBlockFile()
  *
  * @name emu_File_ReadBlockFile
