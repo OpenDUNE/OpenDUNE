@@ -150,7 +150,6 @@ extern void f__AB00_03EA_0001_6780();
 extern void emu_Overlay_Internal_03ED();
 extern void f__AB00_03F7_0007_D805();
 extern void emu_DSP_InstallInterrupt();
-extern void f__B4E0_041D_0017_C8A5();
 extern void emu_Overlay_Internal_0426();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();

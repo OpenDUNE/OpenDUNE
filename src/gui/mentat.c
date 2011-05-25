@@ -25,7 +25,6 @@
 
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B4E0_041D_0017_C8A5();
 extern void f__B4E0_0847_0019_A380();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
@@ -179,6 +178,64 @@ static void GUI_Mentat_Loop()
 	}
 }
 
+static void GUI_Mentat_LoadHelpSubjects(bool init)
+{
+	uint8 fileID;
+	uint32 length;
+	uint32 counter;
+	uint8 *helpSubjects;
+	uint16 i;
+
+	if (init) {
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x0434); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
+		emu_sp += 2;
+		g_global->variable_25D0.s.cs = emu_dx;
+		g_global->variable_25D0.s.ip = emu_ax;
+
+		g_global->topHelpList = 0;
+		g_global->selectedHelpSubject = 0;
+
+		sprintf(g_global->mentatFilename, "MENTAT%c", *emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name));
+		strcpy(g_global->mentatFilename, String_GenerateFilename(g_global->mentatFilename));
+	}
+
+	fileID = ChunkFile_Open(g_global->mentatFilename);
+	length = ChunkFile_Read(fileID, HTOBE32('NAME'), emu_get_memorycsip(g_global->variable_25D0), g_global->variable_6CD3[1][1]);
+	ChunkFile_Close(fileID);
+
+	emu_get_memory16(emu_ss, emu_bp, -0x6) = 0x0;
+	emu_get_memory16(emu_ss, emu_bp, -0x8) = 0x0;
+	emu_get_memory16(emu_ds, 0x00, 0x803A) = 0x0;
+
+	g_global->numberHelpSubjects = 0;
+	helpSubjects = emu_get_memorycsip(g_global->variable_25D0);
+
+	counter = 0;
+	while (counter < length) {
+		uint8 size = *helpSubjects;
+
+		counter += size;
+
+		if (helpSubjects[size - 1] > g_global->campaignID - 1) {
+			while (size-- != 0) *helpSubjects++ = '\0';
+			continue;
+		}
+
+		helpSubjects[size - 1] = size;
+		helpSubjects += size;
+		g_global->numberHelpSubjects++;
+	}
+
+	helpSubjects = emu_get_memorycsip(g_global->variable_25D0);
+
+	while (*helpSubjects == '\0') helpSubjects++;
+
+	for (i = 0; i < g_global->topHelpList; i++) helpSubjects = String_NextString(helpSubjects);
+
+	g_global->helpSubjects = emu_Global_GetCSIP(helpSubjects);
+}
+
 /**
  * Shows the Help window.
  * @param proceed Display a "Proceed" button if true, "Exit" otherwise.
@@ -206,9 +263,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_041D_0017_C8A5();
-	emu_sp += 2;
+	GUI_Mentat_LoadHelpSubjects(true);
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
@@ -781,7 +836,7 @@ l__09F3:
  */
 void GUI_Mentat_SelectHelpSubject(int16 difference)
 {
-	uint8 *tmpPtr; /* Needed for converting g_global->numberHelpSubjects */
+	uint8 *helpSujects; /* Needed for converting g_global->numberHelpSubjects */
 
 	if (difference > 0) {
 		if (difference + g_global->topHelpList + 11 > g_global->numberHelpSubjects) {
@@ -789,11 +844,11 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 		}
 		g_global->topHelpList += difference;
 
-		tmpPtr = emu_get_memorycsip(g_global->string_804D);
+		helpSujects = emu_get_memorycsip(g_global->helpSubjects);
 		while (difference-- != 0) {
-			tmpPtr = String_NextString(tmpPtr);
+			helpSujects = String_NextString(helpSujects);
 		}
-		g_global->string_804D = emu_Global_GetCSIP(tmpPtr);
+		g_global->helpSubjects = emu_Global_GetCSIP(helpSujects);
 		return;
 	}
 
@@ -806,11 +861,11 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 
 		g_global->topHelpList -= difference;
 
-		tmpPtr = emu_get_memorycsip(g_global->string_804D);
+		helpSujects = emu_get_memorycsip(g_global->helpSubjects);
 		while (difference-- != 0) {
-			tmpPtr = String_PrevString(tmpPtr);
+			helpSujects = String_PrevString(helpSujects);
 		}
-		g_global->string_804D = emu_Global_GetCSIP(tmpPtr);
+		g_global->helpSubjects = emu_Global_GetCSIP(helpSujects);
 		return;
 	}
 }
@@ -948,7 +1003,7 @@ static void GUI_Mentat_ShowHelp()
 	char *text;
 	bool loc12;
 
-	subject = emu_get_memorycsip(g_global->string_804D);
+	subject = emu_get_memorycsip(g_global->helpSubjects);
 
 	for (i = 0; i < g_global->selectedHelpSubject; i++) subject = String_NextString(subject);
 
@@ -1018,9 +1073,7 @@ static void GUI_Mentat_ShowHelp()
 
 	GUI_Widget_MakeNormal((Widget *)emu_get_memorycsip(g_global->variable_8026), false);
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0831); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_041D_0017_C8A5();
-	emu_sp += 2;
+	GUI_Mentat_LoadHelpSubjects(false);
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
 

@@ -566,7 +566,8 @@ typedef struct GlobalData {
 	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
 	/* 25CE(2)   */ PACK uint16 variable_25CE;              /*!< ?? */
-	/* 25D0()    */ PACK uint8   unknown_25D0[0x0006];
+	/* 25D0(4)   */ PACK csip32 variable_25D0;              /*!< ?? */
+	/* 25D4()    */ PACK uint8   unknown_25D4[0x0002];
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
 	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
 	/* 25E6(2)   */ PACK uint16 variable_25E6;              /*!< ?? */
@@ -1418,9 +1419,9 @@ typedef struct GlobalData {
 	/* 8036(4)   */ PACK csip32 variable_8036;              /*!< ?? */
 	/* 803A(2)   */ PACK uint16 numberHelpSubjects;         /*!< Number of help subjects. */
 	/* 803C(2)   */ PACK uint16 selectedHelpSubject;        /*!< Index of selected subject. */
-	/* 803E(2)   */ PACK uint16   topHelpList;              /*!< Top of the mentat help subjects list being displayed currently. */
+	/* 803E(2)   */ PACK uint16 topHelpList;                /*!< Top of the mentat help subjects list being displayed currently. */
 	/* 8040(13)  */ PACK char   mentatFilename[13];         /*!< buffer for "MENTAT[AHO].[ENG|FRE|GER]". */
-	/* 804D(4)   */ PACK csip32   string_804D;              /*!< String pointer. */
+	/* 804D(4)   */ PACK csip32 helpSubjects;               /*!< String pointer. */
 	/* 8051()    */ PACK uint8   unknown_8051;
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
 	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
