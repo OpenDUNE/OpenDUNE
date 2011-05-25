@@ -2682,7 +2682,7 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 		emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x01F7; emu_File_LowLevel_Close_Wrapper();
 		emu_sp += 2;
 
-		if (arg12) {;
+		if (arg12) {
 			emu_push(0);
 			emu_push(0);
 			emu_push(0);
