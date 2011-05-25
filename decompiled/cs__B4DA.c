@@ -106,7 +106,7 @@
  * Called From: 34DA:0034:0005:0000
  * Called From: B4DA:11F3:0023:09B4
  */
-void emu_GUI_Mentat_Loop()
+void emu_GUI_Mentat_Loop2()
 {
 l__0AB8:
 	emu_push(emu_bp);

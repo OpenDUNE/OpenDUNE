@@ -243,7 +243,7 @@ extern void f__29E8_0971_0071_E515();
 extern void emu_Input_History_Add();
 extern void emu_GUI_HallOfFame_Internal_0A3E();
 extern void emu_Input_HandleInput();
-extern void emu_GUI_Mentat_Loop();
+extern void emu_GUI_Mentat_Loop2();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Highmem_Uninitialize();
 extern void emu_Highmem_Internal_0B07();

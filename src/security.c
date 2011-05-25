@@ -17,7 +17,7 @@
 #include "wsa.h"
 #include "unknown/unknown.h"
 
-extern void emu_GUI_Mentat_Loop();
+extern void emu_GUI_Mentat_Loop2();
 extern void emu_GUI_Security_Internal_176C();
 extern void emu_GUI_Security_Internal_1860();
 extern void emu_GUI_Security_Internal_16F8();
@@ -119,7 +119,7 @@ bool GUI_Security_Show()
 	emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
 	emu_push(0); emu_push(0);
 	emu_push(wsaHouseFilenamecsip.s.cs); emu_push(wsaHouseFilenamecsip.s.ip);
-	emu_push(emu_cs); emu_push(0x11F6); emu_GUI_Mentat_Loop();
+	emu_push(emu_cs); emu_push(0x11F6); emu_GUI_Mentat_Loop2();
 	emu_sp += 18;
 
 	/* In the first string is the amount of questions available */

@@ -24,7 +24,7 @@
 #include "../os/endian.h"
 
 extern void f__29E8_08B5_000A_FC14();
-extern void emu_GUI_Mentat_Loop();
+extern void emu_GUI_Mentat_Loop2();
 extern void f__B4E0_0847_0019_A380();
 extern void emu_GUI_Widget_Free_WithScrollbar();
 extern void emu_Tools_Free();
@@ -399,7 +399,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	emu_push(stringBuffer.s.cs); emu_push(stringBuffer.s.ip);
 	emu_push(0); emu_push(0);
 	emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
-	emu_push(emu_cs); emu_push(0x0F55); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop();
+	emu_push(emu_cs); emu_push(0x0F55); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop2();
 	emu_sp += 18;
 	ret = emu_ax;
 
@@ -1067,7 +1067,7 @@ static void GUI_Mentat_ShowHelp()
 		emu_push(text_csip.s.cs); emu_push(text_csip.s.ip);
 		emu_push(desc_csip.s.cs); emu_push(desc_csip.s.ip);
 		emu_push(picture_csip.s.cs); emu_push(picture_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop();
+		emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop2();
 		emu_sp += 18;
 	}
 
