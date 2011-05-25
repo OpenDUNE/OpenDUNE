@@ -58,6 +58,8 @@ extern void GUI_FactoryWindow_PrepareScrollList();
 extern void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, uint16 arg12, bool arg14);
 extern void GUI_Mouse_Show();
 extern void GUI_Mouse_Hide();
+extern void GUI_Mouse_Show_Safe();
+extern void GUI_Mouse_Hide_Safe();
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
@@ -81,6 +83,8 @@ extern void emu_GUI_Screen_FadeIn();
 extern void emu_GUI_Screen_SetActive();
 extern void emu_GUI_Mouse_Show();
 extern void emu_GUI_Mouse_Hide();
+extern void emu_GUI_Mouse_Show_Safe();
+extern void emu_GUI_Mouse_Hide_Safe();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

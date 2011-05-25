@@ -421,3 +421,33 @@ void emu_GUI_Mouse_Hide()
 
 	GUI_Mouse_Hide();
 }
+
+/**
+ * Emulator wrapper around GUI_Mouse_Hide_Safe().
+ *
+ * @name GUI_Mouse_Hide_Safe
+ * @implements 2B6C:0137:0020:C73F ()
+ */
+void emu_GUI_Mouse_Hide_Safe()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Hide_Safe();
+}
+
+/**
+ * Emulator wrapper around GUI_Mouse_Show_Safe().
+ *
+ * @name GUI_Mouse_Show_Safe
+ * @implements 2B6C:0169:001E:6939 ()
+ */
+void emu_GUI_Mouse_Show_Safe()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	GUI_Mouse_Show_Safe();
+}

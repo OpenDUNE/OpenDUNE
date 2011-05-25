@@ -1187,7 +1187,7 @@ void f__B4DA_1860_0008_857D()
 l__1860:
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
-	emu_push(emu_cs); emu_push(0x1868); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	emu_push(emu_cs); emu_push(0x1868); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1868:
@@ -1212,7 +1212,7 @@ l__1868:
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1889:
 	emu_addw(&emu_sp, 0x10);
-	emu_push(emu_cs); emu_push(0x1891); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	emu_push(emu_cs); emu_push(0x1891); emu_cs = 0x2B6C; emu_GUI_Mouse_Show_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 l__1891:

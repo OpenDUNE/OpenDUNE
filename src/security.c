@@ -19,8 +19,6 @@
 
 extern void f__2642_0002_005E_87F6();
 extern void f__2642_0069_0008_D517();
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4DA_176C_000F_12AD();
 extern void f__B4DA_1860_0008_857D();
@@ -100,15 +98,9 @@ bool Security_Check()
 
 	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaHouseFilenamecsip), g_global->playerHouseID);
 
-	emu_push(emu_cs); emu_push(0x119A); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-
+	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
-
-	emu_push(emu_cs); emu_push(0x11C2); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+	GUI_Mouse_Show_Safe();
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);
 
@@ -205,28 +197,16 @@ bool Security_Check()
 
 		Unknown_07AE_0000(9);
 
-		emu_push(emu_cs); emu_push(0x13DF); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-
+		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(g_global->variable_992D - 1, g_global->variable_992B - 8, 0, 0, g_global->variable_992F + 2, g_global->variable_9931 + 16, 0, 4);
-
-		emu_push(emu_cs); emu_push(0x1413); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		GUI_Mouse_Show_Safe();
 
 		GUI_Screen_SetActive(0);
 
-		emu_push(emu_cs); emu_push(0x1421); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-
+		GUI_Mouse_Hide_Safe();
 		GUI_DrawBorder((g_global->variable_992D << 3) - 6, g_global->variable_992B - 6, (g_global->variable_992F << 3) + 12, g_global->variable_9931 + 12, 1, true);
 		GUI_DrawBorder((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
-
-		emu_push(emu_cs); emu_push(0x148D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		GUI_Mouse_Show_Safe();
 
 		emu_push(emu_cs); emu_push(0x1492); emu_cs = 0x29E8; emu_Input_History_Clear();
 		/* Check if this overlay should be reloaded */
@@ -250,15 +230,9 @@ bool Security_Check()
 
 		emu_push(emu_cs); emu_push(0x14E0); f__B4DA_1860_0008_857D();
 
-		emu_push(emu_cs); emu_push(0x14E5); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
-
+		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
-
-		emu_push(emu_cs); emu_push(0x1519); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
+		GUI_Mouse_Show_Safe();
 
 		emu_push(emu_ds); emu_push(0x9939);
 		emu_push(emu_cs); emu_push(0x1523); f__B4DA_16F8_001A_D84F();

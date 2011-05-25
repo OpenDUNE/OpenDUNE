@@ -61,8 +61,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void f__2B1E_0189_001B_E6CF();
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
@@ -1155,7 +1153,7 @@ static void GameLoop_GameCredits()
 	csip32 memBlock;
 	uint8 *memory;
 
-	emu_push(emu_cs); emu_push(0x0825); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	Unknown_07AE_0000(20);
 
@@ -1210,7 +1208,7 @@ static void GameLoop_GameCredits()
 
 	GameCredits_LoadPaletteAndSprites();
 
-	emu_push(emu_cs); emu_push(0x0995); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	GUI_InitColors(g_global->variable_1857, 0, 11);
 
@@ -1321,7 +1319,7 @@ static void GameLoop_LevelEnd()
 			GUI_ShowEndStats(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_global->playerHouseID);
 
 			if (g_global->campaignID == 9) {
-				emu_push(emu_cs); emu_push(0x038F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+				GUI_Mouse_Hide_Safe();
 
 				Unknown_259E_0006(g_global->variable_3C36, 15);
 				GUI_ClearScreen(0);
@@ -1330,11 +1328,9 @@ static void GameLoop_LevelEnd()
 				exit(0);
 			}
 
-			emu_push(emu_cs); emu_push(0x03C4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+			GUI_Mouse_Hide_Safe();
 			GameLoop_B4AE_0000();
-
-			emu_push(emu_cs); emu_push(0x03CE); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+			GUI_Mouse_Show_Safe();
 
 			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
@@ -1589,7 +1585,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 
 	old = GameLoop_B4E6_0000(loc04[4], arg0C, arg10);
 
-	emu_push(emu_cs); emu_push(0x0167); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	for (i = 0; i < loc04[3]; i++) {
 		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
@@ -1604,7 +1600,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 
 	g_global->variable_8052 = arg12;
 
-	emu_push(emu_cs); emu_push(0x01F5); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; emu_Input_History_Clear();
 }
@@ -1614,13 +1610,13 @@ static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgCo
 	uint8 i;
 
 	for (i = 0; i < 3; i++) {
-		emu_push(emu_cs); emu_push(0x0085); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+		GUI_Mouse_Hide_Safe();
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourSelected, bgColour, 0x22);
 		Tools_Sleep(2);
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourNormal, bgColour, 0x22);
-		emu_push(emu_cs); emu_push(0x00CC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+		GUI_Mouse_Show_Safe();
 		Tools_Sleep(2);
 	}
 }
@@ -1752,7 +1748,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 	if (current != old) {
 		uint16 index;
 
-		emu_push(emu_cs); emu_push(0x0410); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+		GUI_Mouse_Hide_Safe();
 
 		index = GameLoop_B4E6_0000(old, arg10, arg14);
 
@@ -1762,7 +1758,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 
 		GUI_DrawText_Wrapper(strings[index], left, top + (current * lineHeight), fgColourSelected, 0, 0x22);
 
-		emu_push(emu_cs); emu_push(0x04AC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+		GUI_Mouse_Show_Safe();
 	}
 
 	loc24[4] = current;
@@ -1771,11 +1767,9 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 
 	result = GameLoop_B4E6_0000(result, arg10, arg14);
 
-	emu_push(emu_cs); emu_push(0x04CC); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+	GUI_Mouse_Hide_Safe();
 	GameLoop_B4E6_0074(strings[result], left, top + (current * lineHeight), fgColourNormal, fgColourSelected, 0);
-
-	emu_push(emu_cs); emu_push(0x0506); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	return result;
 }
@@ -1933,7 +1927,7 @@ static void Gameloop_IntroMenu()
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	while (g_global->mouseHiddenDepth > 1) {
-		emu_push(emu_cs); emu_push(0x1A2F); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+		GUI_Mouse_Show_Safe();
 	}
 
 	emu_push(emu_cs); emu_push(0x1A3A); emu_cs = 0x34B8; overlay(0x34B8, 0); emu_Window_WidgetClick_Create();
@@ -1990,7 +1984,7 @@ static void Gameloop_IntroMenu()
 
 	loc06 = true;
 
-	emu_push(emu_cs); emu_push(0x1B77); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	if (g_global->debugSkipDialogs == 0) {
 		uint16 stringID;
@@ -2028,7 +2022,7 @@ static void Gameloop_IntroMenu()
 					g_global->readBuffer.s.cs = emu_dx;
 					g_global->readBuffer.s.ip = emu_ax;
 
-					emu_push(emu_cs); emu_push(0x1C5C); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+					GUI_Mouse_Hide_Safe();
 
 					Driver_Music_FadeOut();
 
@@ -2064,7 +2058,7 @@ static void Gameloop_IntroMenu()
 					g_global->readBuffer.s.cs = emu_dx;
 					g_global->readBuffer.s.ip = emu_ax;
 
-					emu_push(emu_cs); emu_push(0x1D3A); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+					GUI_Mouse_Show_Safe();
 
 					Sprites_Load(0, 7, g_sprites);
 
@@ -2090,13 +2084,10 @@ static void Gameloop_IntroMenu()
 					break;
 
 				case 0x0153: /* Load Game */
-					emu_push(emu_cs); emu_push(0x1D73); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+					GUI_Mouse_Hide_Safe();
 					Unknown_259E_0006(g_global->variable_3C36, 30);
-
 					GUI_ClearScreen(0);
-
-					emu_push(emu_cs); emu_push(0x1D95); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+					GUI_Mouse_Show_Safe();
 
 					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
@@ -2153,7 +2144,7 @@ static void Gameloop_IntroMenu()
 
 				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, 3, NULL, 0);
 
-				emu_push(emu_cs); emu_push(0x1FA6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+				GUI_Mouse_Hide_Safe();
 
 				GUI_ClearScreen(0);
 
@@ -2170,7 +2161,7 @@ static void Gameloop_IntroMenu()
 
 				GameLoop_B4E6_0108(0, strings, 0xFFFF, 0, 0);
 
-				emu_push(emu_cs); emu_push(0x2073); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+				GUI_Mouse_Show_Safe();
 
 				loc06 = false;
 			}
@@ -2207,7 +2198,7 @@ static void Gameloop_IntroMenu()
 		g_global->readBuffer.s.ip = emu_ax;
 	}
 
-	emu_push(emu_cs); emu_push(0x212F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	g_global->variable_37B4 = 0;
 
@@ -2227,12 +2218,12 @@ static void Gameloop_IntroMenu()
 
 	if (!loc02) {
 		if (g_global->playerHouseID == HOUSE_INDEX_INVALID) {
-			emu_push(emu_cs); emu_push(0x21CB); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+			GUI_Mouse_Show_Safe();
 
 			g_global->playerHouseID = HOUSE_MERCENARY;
 			g_global->playerHouseID = GUI_PickHouse();
 
-			emu_push(emu_cs); emu_push(0x21DE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+			GUI_Mouse_Hide_Safe();
 		}
 
 		Sprites_LoadTiles();
@@ -2241,14 +2232,14 @@ static void Gameloop_IntroMenu()
 
 		Voice_LoadVoices(g_global->playerHouseID);
 
-		emu_push(emu_cs); emu_push(0x21FA); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+		GUI_Mouse_Show_Safe();
 
 		if (g_global->campaignID != 0) g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
 
 		Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
 		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
-		emu_push(emu_cs); emu_push(0x2256); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+		GUI_Mouse_Hide_Safe();
 
 		GUI_ChangeSelectionType((g_global->debugScenario != 0) ? 5 : 4);
 	}
@@ -2342,7 +2333,7 @@ static void GameLoop_Main()
 
 	Tools_Var76B8_Set(2, g_global->variable_37AA != 0);
 
-	emu_push(emu_cs); emu_push(0x0113); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	Music_Play(Tools_RandomRange(0, 5) + 8);
 
@@ -2353,7 +2344,7 @@ static void GameLoop_Main()
 			g_global->playerHouseID = HOUSE_MERCENARY;
 			g_global->playerHouseID = GUI_PickHouse();
 
-			emu_push(emu_cs); emu_push(0x014F); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+			GUI_Mouse_Hide_Safe();
 
 			Memory_ClearBlock(1);
 
@@ -2363,7 +2354,7 @@ static void GameLoop_Main()
 
 			Voice_LoadVoices(g_global->playerHouseID);
 
-			emu_push(emu_cs); emu_push(0x0177); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+			GUI_Mouse_Show_Safe();
 
 			g_global->variable_38BE = 1;
 			g_global->scenarioID    = 1;
@@ -2462,11 +2453,11 @@ static void GameLoop_Main()
 		if (g_global->variable_38F8 == 0) break;
 	}
 
-	emu_push(emu_cs); emu_push(0x0414); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	if (g_global->enableLog != 0) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
 
-	emu_push(emu_cs); emu_push(0x0430); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	Unknown_07AE_0000(0);
 

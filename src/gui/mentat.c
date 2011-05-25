@@ -22,8 +22,6 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__29E8_08B5_000A_FC14();
@@ -217,11 +215,9 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
 
-	emu_push(emu_cs); emu_push(0x0094); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
-
-	emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_041D_0017_C8A5();
@@ -350,11 +346,9 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	GUI_DrawSprite_8002(2);
 	GUI_Screen_SetActive(0);
 
-	emu_push(emu_cs); emu_push(0x0EF8); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
-
-	emu_push(emu_cs); emu_push(0x0F20); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);
 

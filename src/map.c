@@ -23,8 +23,6 @@
 #include "unknown/unknown.h"
 
 extern void f__22A6_1200_007B_0356();
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 
 uint16 *g_map = NULL;
 
@@ -262,11 +260,9 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	}
 
 	if (cleared && oldScreenID == 0) {
-		emu_push(emu_cs); emu_push(0x0175); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
-
-		emu_push(emu_cs); emu_push(0x01A1); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+		GUI_Mouse_Show_Safe();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);

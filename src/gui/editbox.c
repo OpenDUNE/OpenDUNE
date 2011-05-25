@@ -11,8 +11,6 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void f__B4DA_16CB_001D_31CC();
 extern void f__B518_14F2_003E_977C();
 extern void emu_Input_Keyboard_HandleKeys2();
@@ -40,17 +38,9 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 
 	g_global->editBoxShowCursor = (g_global->editBoxShowCursor == 0) ? 1 : 0;
 
-	emu_push(emu_cs); emu_push(0x0329); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-
+	GUI_Mouse_Hide_Safe();
 	GUI_DrawFilledRectangle(positionX, g_global->variable_992B, positionX + Font_GetCharWidth('W'), g_global->variable_992B + g_global->variable_9931 - 1, (g_global->editBoxShowCursor) ? g_global->variable_6D5B : g_global->variable_6D59);
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-
-	emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
+	GUI_Mouse_Show_Safe();
 }
 
 uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
@@ -96,9 +86,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		unknown4 |= 0x4;
 	}
 
-	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
+	GUI_Mouse_Hide_Safe();
 
 	if ((unknown4 & 0x4) != 0) Unknown_07AE_0103();
 
@@ -106,9 +94,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 	GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 
-	emu_push(emu_cs); emu_push(0x00E8); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3527) { overlay(0x3527, 1); }
+	GUI_Mouse_Show_Safe();
 
 	while (true) {
 		uint16 keyWidth;
@@ -192,18 +178,14 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		*(++t) = '\0';
 		textLength++;
 
-		emu_push(emu_cs); emu_push(0x0228); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
+		GUI_Mouse_Hide_Safe();
 
 		GUI_EditBox_BlinkCursor(positionX + textWidth, true);
 
 		/* Draw new character */
 		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text) + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0x020);
 
-		emu_push(emu_cs); emu_push(0x0261); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
+		GUI_Mouse_Show_Safe();
 
 		textWidth += keyWidth;
 

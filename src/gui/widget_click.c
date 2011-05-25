@@ -32,8 +32,6 @@ extern void emu_GFX_CopyFromBuffer();
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void f__2B6C_0197_00CE_4D32();
 extern void f__2B6C_0292_0028_3AD7();
 extern void f__B518_11C6_0011_1160();
@@ -549,13 +547,13 @@ static void GUI_Window_Create(WindowDesc *desc)
 		g_global->variable_2A93 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_2A93), w));
 	}
 
-	emu_push(emu_cs); emu_push(0x0D0B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	Unknown_07AE_0000(desc->index);
 
 	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
-	emu_push(emu_cs); emu_push(0x0D43); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	GUI_Screen_SetActive(0);
 }
@@ -564,7 +562,7 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 {
 	Unknown_07AE_0000(desc->index);
 
-	emu_push(emu_cs); emu_push(0x0EF4); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
@@ -577,14 +575,14 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	emu_push(emu_cs); emu_push(0x0F1A); emu_cs = 0x22A6; emu_GFX_CopyToBuffer();
 	emu_sp += 12;
 
-	emu_push(emu_cs); emu_push(0x0F22); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 }
 
 static void GUI_Window_RestoreScreen(WindowDesc *desc)
 {
 	Unknown_07AE_0000(desc->index);
 
-	emu_push(emu_cs); emu_push(0x0F38); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x0F41); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
@@ -597,7 +595,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	emu_push(emu_cs); emu_push(0x0F5E); emu_cs = 0x22A6; emu_GFX_CopyFromBuffer();
 	emu_sp += 12;
 
-	emu_push(emu_cs); emu_push(0x0F66); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 }
 
 /**
@@ -768,7 +766,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	g_global->savegameDiskspaceForNew = File_HasFreeSpace(30000) ? 1 : 0;
 
 	if (g_global->variable_38D6.csip != 0x0) {
-		emu_push(emu_cs); emu_push(0x0147); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+		GUI_Mouse_Hide_Safe();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
@@ -957,15 +955,9 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	Unknown_07AE_0000(15);
 
-	emu_push(emu_cs); emu_push(0x0722); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
-
+	GUI_Mouse_Hide_Safe();
 	GUI_DrawBorder((g_global->variable_992D << 3) - 1, g_global->variable_992B - 1, (g_global->variable_992F << 3) + 2, g_global->variable_9931 + 2, 4, false);
-
-	emu_push(emu_cs); emu_push(0x0756); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
+	GUI_Mouse_Show_Safe();
 
 	while (loop) {
 		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A93);
@@ -1229,14 +1221,14 @@ static void GUI_FactoryWindow_ScrollList(int16 step)
 
 	GUI_FactoryWindow_B495_0F30();
 
-	emu_push(emu_cs); emu_push(0x1151); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	for (i = 0; i < 32; i++) {
 		y += step;
 		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
-	emu_push(emu_cs); emu_push(0x118C); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	GUI_FactoryWindow_PrepareScrollList();
 
@@ -1250,7 +1242,7 @@ static void GUI_FactoryWindow_FailScrollList(int16 step)
 
 	GUI_FactoryWindow_B495_0F30();
 
-	emu_push(emu_cs); emu_push(0x11AE); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	GUI_FactoryWindow_B495_0F30();
 
@@ -1264,7 +1256,7 @@ static void GUI_FactoryWindow_FailScrollList(int16 step)
 		GFX_Screen_Copy2(72, y, 72, 16, 32, 136, 2, 0, false);
 	}
 
-	emu_push(emu_cs); emu_push(0x1223); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	GUI_FactoryWindow_UpdateSelection(true);
 }
@@ -1417,11 +1409,9 @@ static void GUI_Purchase_ShowInvoice()
 
 	GUI_DrawText_Monospace((char *)g_global->variable_9939, x, 152, 11, 0, 6);
 
-	emu_push(emu_cs); emu_push(0x073E); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-
+	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, 0);
-
-	emu_push(emu_cs); emu_push(0x076A); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	GUI_Screen_SetActive(0);
 

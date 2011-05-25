@@ -10,11 +10,10 @@
 #include "mouse.h"
 #include "os/math.h"
 #include "gfx.h"
+#include "gui/gui.h"
 #include "input/input.h"
 #include "file.h"
 
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
 extern void emu_Input_HandleInput();
 
 /**
@@ -125,8 +124,8 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 					g_global->mouseY = g_global->variable_7019;
 					g_global->prevButtonState = 0;
 
-					emu_push(emu_cs); emu_push(0x01B3); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
-					emu_push(emu_cs); emu_push(0x01B8); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+					GUI_Mouse_Hide_Safe();
+					GUI_Mouse_Show_Safe();
 
 					g_global->variable_701B = 0;
 					break;

@@ -49,7 +49,7 @@ l__005C:
 	emu_push(emu_si);
 	emu_push(emu_di);
 	emu_xorw(&emu_si, emu_si);
-	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	emu_push(emu_cs); emu_push(0x006B); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
 l__006B:
@@ -329,7 +329,7 @@ l__026B:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ds, 0x00, 0x31B4) = 0x0;
 	emu_get_memory16(emu_ds, 0x00, 0x31B2) = 0x0;
-	emu_push(emu_cs); emu_push(0x027E); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	emu_push(emu_cs); emu_push(0x027E); emu_cs = 0x2B6C; emu_GUI_Mouse_Show_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x353B) { overlay(0x353B, 1); }
 l__027E:

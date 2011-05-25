@@ -22,10 +22,6 @@
 #include "map.h"
 #include "wsa.h"
 
-extern void f__2B6C_0137_0020_C73F();
-extern void f__2B6C_0169_001E_6939();
-extern void overlay(uint16 cs, uint8 force);
-
 HouseInfo *g_houseInfo = NULL;
 
 /**
@@ -508,7 +504,7 @@ bool House_UpdateRadarState(House *h)
 
 	g_global->variable_38C4 = 1;
 
-	emu_push(emu_cs); emu_push(0x0E4B); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	GUI_Mouse_Hide_Safe();
 
 	while (Driver_Voice_IsPlaying()) sleep(0);
 
@@ -533,7 +529,7 @@ bool House_UpdateRadarState(House *h)
 
 	g_global->variable_3A12 = 1;
 
-	emu_push(emu_cs); emu_push(0x0F6D); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	GUI_Mouse_Show_Safe();
 
 	emu_push(0);
 	emu_push(emu_cs); emu_push(0x0F75); emu_cs = 0x07D4; emu_Unknown_07D4_159A();

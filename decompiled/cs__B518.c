@@ -71,7 +71,7 @@ l__0558:
 	emu_push(emu_si);
 	emu_push(emu_di);
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	emu_push(emu_cs); emu_push(0x0568); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0568:
@@ -88,7 +88,7 @@ l__0577:
 	emu_pop(&emu_cx);
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__0585;
-	emu_push(emu_cs); emu_push(0x0582); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	emu_push(emu_cs); emu_push(0x0582); emu_cs = 0x2B6C; emu_GUI_Mouse_Show_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 	/* Unresolved jump */ emu_ip = 0x0582; emu_last_cs = 0xB518; emu_last_ip = 0x0582; emu_last_length = 0x000B; emu_last_crc = 0xD7C9; emu_call();
@@ -440,7 +440,7 @@ l__0813:
 l__0822:
 	emu_pop(&emu_cx);
 l__0823:
-	emu_push(emu_cs); emu_push(0x0828); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	emu_push(emu_cs); emu_push(0x0828); emu_cs = 0x2B6C; emu_GUI_Mouse_Show_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__0828:
@@ -2101,7 +2101,7 @@ l__1481:
 l__1489:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0xA), 0x0);
 	if (emu_get_memory16(emu_ss, emu_bp,  0xA) == 0x0) goto l__14C0;
-	emu_push(emu_cs); emu_push(0x1494); emu_cs = 0x2B6C; f__2B6C_0137_0020_C73F();
+	emu_push(emu_cs); emu_push(0x1494); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__1494:
@@ -2126,7 +2126,7 @@ l__1494:
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__14B8:
 	emu_addw(&emu_sp, 0x10);
-	emu_push(emu_cs); emu_push(0x14C0); emu_cs = 0x2B6C; f__2B6C_0169_001E_6939();
+	emu_push(emu_cs); emu_push(0x14C0); emu_cs = 0x2B6C; emu_GUI_Mouse_Show_Safe();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3518) { overlay(0x3518, 1); }
 l__14C0:
