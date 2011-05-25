@@ -14,7 +14,6 @@
 #include "../sprites.h"
 
 extern void f__22A6_0C69_008C_017F();
-extern void f__2995_0004_001F_FE17();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
@@ -50,12 +49,12 @@ Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index)
 }
 
 /**
- * Unknown function 0004.
+ * Draw a chess-pattern filled rectangle over the widget.
  *
  * @param w The widget to draw.
- * @param unknown ??.
+ * @param colour The colour of the chess pattern.
  */
-void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
+void GUI_Widget_DrawBlocked(Widget *w, uint16 colour)
 {
 	if (g_global->screenActiveID == 0) {
 		GUI_Mouse_Hide_InRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height);
@@ -63,13 +62,7 @@ void GUI_Widget_Unknown0004(Widget *w, uint16 unknown)
 
 	GUI_DrawSprite(g_global->screenActiveID, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
 
-	emu_push(unknown);
-	emu_push(w->height);
-	emu_push(w->width);
-	emu_push(w->offsetY);
-	emu_push(w->offsetX);
-	emu_push(emu_cs); emu_push(0x0095); emu_cs = 0x2995; f__2995_0004_001F_FE17();
-	emu_sp += 10;
+	GUI_DrawBlockedRectangle(w->offsetX, w->offsetY, w->width, w->height, colour);
 
 	if (g_global->screenActiveID == 0) {
 		GUI_Mouse_Show_InRegion();
@@ -122,9 +115,7 @@ void GUI_Widget_Draw(Widget *w)
 	if (w->flags.s.invisible) {
 		if (!w->flags.s.variable_0010) return;
 
-		GUI_Widget_Unknown0004(w, g_global->variable_6D53);
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
+		GUI_Widget_DrawBlocked(w, g_global->variable_6D53);
 		return;
 	}
 

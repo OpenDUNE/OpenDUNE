@@ -4064,3 +4064,59 @@ void GUI_Mouse_Hide_InWidget(uint16 widgetIndex)
 
 	GUI_Mouse_Hide_InRegion(left, top, left + width - 1, top + height - 1);
 }
+
+/**
+ * Draws a chess-pattern filled rectangle.
+ * @param left The X-position of the rectangle.
+ * @param top The Y-position of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param colour The colour of the rectangle.
+ */
+void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint16 colour)
+{
+	uint8 *screen;
+
+	if (g_global->variable_6C76 != 3) return;
+
+	if (width <= 0) return;
+	if (height <= 0) return;
+	if (left >= SCREEN_WIDTH) return;
+	if (top >= SCREEN_HEIGHT) return;
+
+	if (left < 0) {
+		if (left + width <= 0) return;
+		width += left;
+		left = 0;
+	}
+	if (top < 0) {
+		if (top + height <= 0) return;
+		height += top;
+		top = 0;
+	}
+
+	if (left + width >= SCREEN_WIDTH) {
+		width = SCREEN_WIDTH - left;
+	}
+	if (top + height >= SCREEN_HEIGHT) {
+		height = SCREEN_HEIGHT - top;
+	}
+
+	screen = &emu_get_memory8(g_global->variable_6C93[g_global->screenActiveID >> 1][0], 0, 0);
+	screen += top * SCREEN_WIDTH + left;
+	for (; height > 0; height--) {
+		int i = width;
+
+		if ((height & 1) != (width & 1)) {
+			screen++;
+			i--;
+		}
+
+		for (; i > 0; i -= 2) {
+			*screen = colour;
+			screen += 2;
+		}
+
+		screen += SCREEN_WIDTH - width - (height & 1);
+	}
+}

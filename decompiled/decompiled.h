@@ -61,7 +61,6 @@ extern void emu_GUI_Mouse_Hide_InWidget();
 extern void f__2B99_0002_0012_E0C1();
 extern void f__2649_0003_0014_67A9();
 extern void emu_Tools_Malloc();
-extern void f__2995_0004_001F_FE17();
 extern void emu_Tools_Swapd();
 extern void emu_Video_GetMode();
 extern void f__2BD1_0006_004A_CD10();
