@@ -45,11 +45,11 @@ extern void emu_GUI_Mouse_Hide_InWidget();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
 extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B518_0B1D_0014_307D();
-extern void f__B518_0EB1_000E_D2F5();
-extern void f__B518_14D4_0013_5ED7();
-extern void f__B518_14F2_003E_977C();
-extern void f__B518_0558_0010_240A();
+extern void emu_GUI_HallOfFame_Internal_0B1D();
+extern void emu_GUI_HallOfFame_Internal_0EB1();
+extern void emu_GUI_HallOfFame_Internal_14D4();
+extern void emu_GUI_HallOfFame_Tick();
+extern void emu_GUI_HallOfFame_Show();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
@@ -1449,7 +1449,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 	emu_push(0);
 	emu_push(score);
-	emu_push(emu_cs); emu_push(0x007C); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0B1D_0014_307D();
+	emu_push(emu_cs); emu_push(0x007C); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0B1D();
 	emu_sp += 4;
 
 	/* "Spice Harvested By" */
@@ -1507,22 +1507,22 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 	}
 
 	emu_push(45);
-	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
 	emu_sp += 2;
 
 	emu_push(1);
 	emu_push(score);
-	emu_push(emu_cs); emu_push(0x0303); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0EB1_000E_D2F5();
+	emu_push(emu_cs); emu_push(0x0303); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0EB1();
 	emu_sp += 4;
 
 	emu_push(45);
-	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
 	emu_sp += 2;
 
 	for (i = 0; i < loc16; i++) {
 		uint16 loc02;
 
-		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
 
 		for (loc02 = 0; loc02 < 2; loc02++) {
 			uint8 colour;
@@ -1532,7 +1532,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 			uint16 loc10;
 			uint16 loc0C;
 
-			emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+			emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
 
 			colour = (loc02 == 0) ? 255 : 209;
 			loc04 = loc18;
@@ -1547,7 +1547,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 
 				GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0x14, 0, 0x121, loc0C);
 
-				emu_push(emu_cs); emu_push(0x03CF); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+				emu_push(emu_cs); emu_push(0x03CF); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
 
 				g_global->variable_76B4 = 1;
 
@@ -1562,7 +1562,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 				Driver_Sound_Play(52, 0xFF);
 
 				emu_push(g_global->variable_76B4);
-				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
 				emu_sp += 2;
 			}
 
@@ -1575,12 +1575,12 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 			Driver_Sound_Play(38, 0xFF);
 
 			emu_push(12);
-			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
 			emu_sp += 2;
 		}
 
 		emu_push(60);
-		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14D4_0013_5ED7();
+		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_14D4();
 		emu_sp += 2;
 	}
 
@@ -1589,7 +1589,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; emu_Input_History_Clear();
 
 	while (true) {
-		emu_push(emu_cs); emu_push(0x0511); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_14F2_003E_977C();
+		emu_push(emu_cs); emu_push(0x0511); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
 
 		emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax != 0) break;
@@ -1598,7 +1598,7 @@ void GUI_ShowEndStats(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedA
 	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; emu_Input_History_Clear();
 
 	emu_push(score);
-	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0558_0010_240A();
+	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Show();
 	emu_sp += 2;
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);

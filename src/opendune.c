@@ -62,7 +62,7 @@ extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
 extern void f__B4B8_116F_0013_15F7();
-extern void f__B518_0558_0010_240A();
+extern void emu_GUI_HallOfFame_Show();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
@@ -2035,7 +2035,7 @@ static void Gameloop_IntroMenu()
 
 				case 0x014E: /* Hall of Fame */
 					emu_push(0xFFFF);
-					emu_push(emu_cs); emu_push(0x1DFF); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_0558_0010_240A();
+					emu_push(emu_cs); emu_push(0x1DFF); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Show();
 					emu_sp += 2;
 
 					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));

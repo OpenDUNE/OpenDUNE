@@ -12,7 +12,7 @@
 #include "../input/input.h"
 
 extern void f__B4DA_16CB_001D_31CC();
-extern void f__B518_14F2_003E_977C();
+extern void emu_GUI_HallOfFame_Tick();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -109,7 +109,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 			switch ((emu_cs << 16) + emu_ip) {
 				case 0x34DA003E: overlay(0x34DA, 0); f__B4DA_16CB_001D_31CC(); break;
-				case 0x35180066: overlay(0x3518, 0); f__B518_14F2_003E_977C(); break;
+				case 0x35180066: overlay(0x3518, 0); emu_GUI_HallOfFame_Tick(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */
 					emu_last_cs = 0xB527; emu_last_ip = 0x00F8; emu_last_length = 0x000B; emu_last_crc = 0xFF42;

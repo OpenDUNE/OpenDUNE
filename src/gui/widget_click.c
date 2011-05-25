@@ -30,7 +30,7 @@
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__B518_11C6_0011_1160();
+extern void emu_GUI_HallOfFame_Internal_11C6();
 extern void f__B520_08E6_0038_85A4();
 extern void f__B520_096E_003C_F7E4();
 extern void overlay(uint16 cs, uint8 force);
@@ -1118,7 +1118,7 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 
 		emu_push(1);
 		emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-		emu_push(emu_cs); emu_push(0x0AEC); emu_cs = 0x3518; overlay(0x3518, 0); f__B518_11C6_0011_1160();
+		emu_push(emu_cs); emu_push(0x0AEC); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
 		emu_sp += 8;
 
 		g_global->variable_81E6 = 1;

@@ -62,7 +62,7 @@
  * Called From: 3518:0025:0005:0000
  * Called From: B518:0524:0008:0E60
  */
-void f__B518_0558_0010_240A()
+void emu_GUI_HallOfFame_Show()
 {
 l__0558:
 	emu_push(emu_bp);
@@ -129,7 +129,7 @@ l__05BD:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x05CB); f__B518_1570_0016_F4CA();
+	emu_push(0x05CB); emu_GUI_HallOfFame_Internal_1570();
 l__05CB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -187,7 +187,7 @@ l__062A:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x0638); f__B518_15A9_0016_F4CA();
+	emu_push(0x0638); emu_GUI_HallOfFame_Internal_15A9();
 l__0638:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -195,7 +195,7 @@ l__0638:
 	emu_push(emu_ax);
 	emu_push(emu_si);
 	emu_push(emu_cs);
-	emu_push(0x0644); f__B518_0B1D_0014_307D();
+	emu_push(0x0644); emu_GUI_HallOfFame_Internal_0B1D();
 l__0644:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -208,7 +208,7 @@ l__0652:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x065E); f__B518_10DC_0011_9EE1();
+	emu_push(0x065E); emu_GUI_HallOfFame_Internal_10DC();
 l__065E:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ss, emu_bp, -0xC) = emu_ax;
@@ -218,7 +218,7 @@ l__0664:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x0672); f__B518_11C6_0011_1160();
+	emu_push(0x0672); emu_GUI_HallOfFame_Internal_11C6();
 l__0672:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
@@ -398,13 +398,13 @@ l__07CB:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x07DD); f__B518_11C6_0011_1160();
+	emu_push(0x07DD); emu_GUI_HallOfFame_Internal_11C6();
 l__07DD:
 	emu_addw(&emu_sp, 0x6);
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x07EB); f__B518_1570_0016_F4CA();
+	emu_push(0x07EB); emu_GUI_HallOfFame_Internal_1570();
 l__07EB:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -447,7 +447,7 @@ l__0828:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x4));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x6));
 	emu_push(emu_cs);
-	emu_push(0x0833); f__B518_089C_001A_542C();
+	emu_push(0x0833); emu_GUI_HallOfFame_Internal_089C();
 l__0833:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -479,7 +479,7 @@ l__085A:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x12));
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x14));
 	emu_push(emu_cs);
-	emu_push(0x086E); f__B518_0A3E_0008_F439();
+	emu_push(0x086E); emu_GUI_HallOfFame_Internal_0A3E();
 l__086E:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -541,7 +541,7 @@ l__0896:
  *
  * Called From: B518:0830:000B:5394
  */
-void f__B518_089C_001A_542C()
+void emu_GUI_HallOfFame_Internal_089C()
 {
 l__089C:
 	emu_push(emu_bp);
@@ -775,7 +775,7 @@ l__0A39:
  *
  * Called From: B518:086B:0014:A312
  */
-void f__B518_0A3E_0008_F439()
+void emu_GUI_HallOfFame_Internal_0A3E()
 {
 l__0A3E:
 	emu_push(emu_bp);
@@ -876,7 +876,7 @@ l__0A8A:
  * Called From: B518:0079:000F:D58C
  * Called From: B518:0641:000C:688C
  */
-void f__B518_0B1D_0014_307D()
+void emu_GUI_HallOfFame_Internal_0B1D()
 {
 l__0B1D:
 	emu_push(emu_bp);
@@ -1042,7 +1042,7 @@ l__0C19:
 	emu_push(emu_ax);
 	emu_push(emu_si);
 	emu_push(emu_cs);
-	emu_push(0x0C2A); f__B518_0EB1_000E_D2F5();
+	emu_push(0x0C2A); emu_GUI_HallOfFame_Internal_0EB1();
 l__0C2A:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
@@ -1330,7 +1330,7 @@ l__0E09:
 	emu_cmpw(&emu_get_memory16(emu_ss, emu_bp,  0x8), 0x0);
 	if (emu_get_memory16(emu_ss, emu_bp,  0x8) == 0x0) {
 		emu_push(emu_cs);
-		emu_push(0x0E1E); f__B518_14F2_003E_977C();
+		emu_push(0x0E1E); emu_GUI_HallOfFame_Tick();
 	}
 l__0E1E:
 	emu_push(emu_get_memory16(emu_ss, emu_bp, -0x2));
@@ -1364,7 +1364,7 @@ l__0E26:
  * Called From: B518:0300:000D:286D
  * Called From: B518:0C27:0011:0A68
  */
-void f__B518_0EB1_000E_D2F5()
+void emu_GUI_HallOfFame_Internal_0EB1()
 {
 l__0EB1:
 	emu_push(emu_bp);
@@ -1372,7 +1372,7 @@ l__0EB1:
 	emu_subw(&emu_sp, 0x2);
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x0EBF); f__B518_0F22_0007_C8B1();
+	emu_push(0x0EBF); emu_GUI_HallOfFame_Internal_0F22();
 l__0EBF:
 	emu_pop(&emu_cx);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
@@ -1451,7 +1451,7 @@ l__0F1E:
  * Called From: B518:0EBC:000E:D2F5
  * Called From: B518:1163:0019:C8A2
  */
-void f__B518_0F22_0007_C8B1()
+void emu_GUI_HallOfFame_Internal_0F22()
 {
 l__0F22:
 	emu_push(emu_bp);
@@ -1512,7 +1512,7 @@ l__0F52:
  *
  * Called From: B518:065B:000C:93F1
  */
-void f__B518_10DC_0011_9EE1()
+void emu_GUI_HallOfFame_Internal_10DC()
 {
 l__10DC:
 	emu_push(emu_bp);
@@ -1579,7 +1579,7 @@ l__114D:
 	emu_get_memory16(emu_es, emu_bx, 0xC) = emu_ax;
 	emu_push(emu_di);
 	emu_push(emu_cs);
-	emu_push(0x1166); f__B518_0F22_0007_C8B1();
+	emu_push(0x1166); emu_GUI_HallOfFame_Internal_0F22();
 l__1166:
 	emu_pop(&emu_cx);
 	emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ss, emu_bp,  0x6));
@@ -1683,7 +1683,7 @@ l__11C0:
  * Called From: B518:07DA:0012:801B
  * Called From: B518:0AE9:0016:F50A
  */
-void f__B518_11C6_0011_1160()
+void emu_GUI_HallOfFame_Internal_11C6()
 {
 l__11C6:
 	emu_push(emu_bp);
@@ -2164,7 +2164,7 @@ l__14CE:
  * Called From: B518:04DF:000A:2421
  * Called From: B518:04F5:0009:826A
  */
-void f__B518_14D4_0013_5ED7()
+void emu_GUI_HallOfFame_Internal_14D4()
 {
 l__14D4:
 	emu_push(emu_bp);
@@ -2175,7 +2175,7 @@ l__14D4:
 	emu_get_memory16(emu_ds, 0x00, 0x76B4) = emu_ax;
 l__14E2:
 	emu_push(emu_cs);
-	emu_push(0x14E7); f__B518_14F2_003E_977C();
+	emu_push(0x14E7); emu_GUI_HallOfFame_Tick();
 l__14E7:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x76B4);
 	emu_orw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76B6));
@@ -2209,7 +2209,7 @@ l__14E7:
  * Called From: B518:14E4:0013:5ED7
  * Called From: B518:14E4:0005:3982
  */
-void f__B518_14F2_003E_977C()
+void emu_GUI_HallOfFame_Tick()
 {
 l__14F2:
 	emu_push(emu_bp);
@@ -2280,7 +2280,7 @@ l__156E:
  * Called From: B518:05C8:000E:76AD
  * Called From: B518:07E8:000E:7745
  */
-void f__B518_1570_0016_F4CA()
+void emu_GUI_HallOfFame_Internal_1570()
 {
 l__1570:
 	emu_push(emu_bp);
@@ -2324,7 +2324,7 @@ l__159F:
  *
  * Called From: B518:0635:000E:76D8
  */
-void f__B518_15A9_0016_F4CA()
+void emu_GUI_HallOfFame_Internal_15A9()
 {
 l__15A9:
 	emu_push(emu_bp);
