@@ -310,7 +310,7 @@ extern void f__AB01_0F7D_0001_6780();
 extern void emu_GFX_Ignore2();
 extern void emu_GFX_Ignore1();
 extern void f__AB00_1068_0020_E6F1();
-extern void f__2649_106A_0018_BAE3();
+extern void emu_Tools_CheckXMSReturnValueAndComplainIfWrong();
 extern void f__217E_1082_0015_F4CE();
 extern void emu_String_tolower();
 extern void emu_String_toupper();

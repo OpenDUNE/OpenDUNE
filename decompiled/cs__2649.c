@@ -2034,7 +2034,7 @@ l__0F8E:
  *
  * Called From: 2BF2:00AA:000E:FF03
  */
-void f__2649_106A_0018_BAE3()
+void emu_Tools_CheckXMSReturnValueAndComplainIfWrong()
 {
 l__106A:
 	emu_push(emu_bp);
