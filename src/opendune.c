@@ -61,7 +61,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
-extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4B8_116F_0013_15F7();
 extern void f__B518_0558_0010_240A();
 extern void emu_Drive_Get_Default_Wrapper();
@@ -1164,14 +1163,7 @@ static void GameLoop_GameCredits()
 
 	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
 
-	emu_push(memBlock.s.cs); emu_push(memBlock.s.ip);
-	emu_push(2);
-	emu_push(g_global->variable_9931);
-	emu_push(g_global->variable_992F << 3);
-	emu_push(g_global->variable_992B);
-	emu_push(g_global->variable_992D << 3);
-	emu_push(emu_cs); emu_push(0x095A); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
-	emu_sp += 14;
+	GUI_Palette_RemapScreen(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, memBlock);
 
 	GUI_Screen_FadeIn2(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, 0, 1, false);
 

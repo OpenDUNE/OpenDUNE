@@ -73,7 +73,6 @@ extern void emu_Overlay_Internal_0015();
 extern void emu_Video_WaitForNextVSync();
 extern void emu_Video_SetMode();
 extern void emu_XMS_GetFreeMemory();
-extern void f__2BB6_004F_0014_AB2C();
 extern void emu_Highmem_Initialize();
 extern void emu_Mouse_EventHandler();
 extern void emu_File_Error();

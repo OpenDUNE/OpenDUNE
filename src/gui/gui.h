@@ -66,6 +66,7 @@ extern void GUI_Mouse_Show_InWidget();
 extern void GUI_Mouse_Hide_InWidget(uint16 widgetIndex);
 extern void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint8 colour);
 extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
+extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, csip32 remapcsip);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);

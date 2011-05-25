@@ -44,7 +44,6 @@ extern void emu_Tools_Sleep();
 extern void emu_GUI_Mouse_Hide_InWidget();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
-extern void f__2BB6_004F_0014_AB2C();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B518_0B1D_0014_307D();
 extern void f__B518_0EB1_000E_D2F5();
@@ -1970,12 +1969,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	Sprites_LoadImage(g_global->string_3777, 3, 3, NULL, 1);
 
-	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
-	emu_push(2);
-	emu_push(200); emu_push(320);
-	emu_push(0); emu_push(0);
-	emu_push(emu_cs); emu_push(0x20FB); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
-	emu_sp += 14;
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_global->variable_3C42);
 
 	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
@@ -2718,14 +2712,7 @@ static void GUI_FactoryWindow_Init()
 
 	Sprites_LoadImage("CHOAM.CPS", 3, 3, NULL, 1);
 
-	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
-	emu_push(2);
-	emu_push(SCREEN_HEIGHT);
-	emu_push(SCREEN_WIDTH);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x12AE); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
-	emu_sp += 14;
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_global->variable_3C42);
 
 	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
@@ -3272,14 +3259,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Sprites_LoadImage("MAPMACH.CPS", 5, 5, emu_get_memorycsip(g_global->variable_998A), 1);
 
-	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
-	emu_push(5);
-	emu_push(SCREEN_HEIGHT);
-	emu_push(SCREEN_WIDTH);
-	emu_push(0);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x00D9); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
-	emu_sp += 14;
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_global->variable_3C42);
 
 	GFX_Screen_Copy3(5, 4);
 
@@ -3517,14 +3497,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	if (oi->available == -1) {
-		emu_push(g_global->factoryWindowGraymapTbl.s.cs); emu_push(g_global->factoryWindowGraymapTbl.s.ip);
-		emu_push(2);
-		emu_push(112);
-		emu_push(184);
-		emu_push(48);
-		emu_push(128);
-		emu_push(emu_cs); emu_push(0x0A30); emu_cs = 0x2BB6; f__2BB6_004F_0014_AB2C();
-		emu_sp += 14;
+		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, g_global->factoryWindowGraymapTbl);
 
 		if (g_global->factoryWindowStarport != 0) {
 			/* "OUT OF STOCK" */
@@ -4156,4 +4129,29 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	GUI_Mouse_Show();
 
 	g_global->mouseLock--;
+}
+
+/**
+ * Remap all the colours in the region with the ones indicated by the remap palette.
+ * @param left The left of the region to remap.
+ * @param top The top of the region to remap.
+ * @param width The width of the region to remap.
+ * @param height The height of the region to remap.
+ * @param screenID The screen to do the remapping on.
+ * @param remapcsip The pointer to the remap palette.
+ */
+void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, csip32 remapcsip)
+{
+	uint8 *screen = &emu_get_memory8(g_global->variable_6C93[screenID >> 1][1], 0, 0);
+	uint8 *remap = emu_get_memorycsip(remapcsip);
+
+	screen += top * SCREEN_WIDTH + left;
+	for (; height > 0; height--) {
+		int i;
+		for (i = width; i > 0; i--) {
+			uint8 pixel = *screen;
+			*screen++ = remap[pixel];
+		}
+		screen += SCREEN_WIDTH - width;
+	}
 }
