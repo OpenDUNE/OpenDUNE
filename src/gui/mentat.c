@@ -25,13 +25,14 @@
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_041D_0017_C8A5();
+extern void f__B4E0_059B_001B_5C8D();
 extern void f__B4E0_0847_0019_A380();
-extern void emu_GUI_Mentat_List();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
 extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
+extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 
 /**
@@ -124,12 +125,8 @@ static void GUI_Mentat_Loop()
 			case 0x0060: /* NUMPAD 8 / ARROW UP */
 			case 0x0453:
 			case 0x0460:
-				if (g_global->variable_803C != 0) {
-					csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 2));
-
-					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-					emu_push(emu_cs); emu_push(0x01D8); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
-					emu_sp += 4;
+				if (g_global->selectedHelpSubject != 0) {
+					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 2));
 					break;
 				}
 
@@ -140,12 +137,8 @@ static void GUI_Mentat_Loop()
 			case 0x0062: /* NUMPAD 2 / ARROW DOWN */
 			case 0x0454:
 			case 0x0462:
-				if (g_global->variable_803C < 10) {
-					csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 4));
-
-					emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-					emu_push(emu_cs); emu_push(0x0214); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
-					emu_sp += 4;
+				if (g_global->selectedHelpSubject < 10) {
+					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 4));
 					break;
 				}
 
@@ -175,13 +168,9 @@ static void GUI_Mentat_Loop()
 			case 0x002B: /* NUMPAD 5 / RETURN */
 			case 0x003D: /* SPACE */
 			case 0x042B:
-			case 0x043D: {
-				csip32 wcsip = emu_Global_GetCSIP(GUI_Widget_Get_ByIndex(w, g_global->variable_803C + 3));
-
-				emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-				emu_push(emu_cs); emu_push(0x028D); emu_cs = 0x34E0; overlay(0x34E0, 0); emu_GUI_Mentat_List();
-				emu_sp += 4;
-			} break;
+			case 0x043D:
+				GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 3));
+				break;
 
 			default: break;
 		}
@@ -939,4 +928,65 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 			(Widget *)emu_get_memorycsip(g_global->variable_8026)));
 
 	GUI_Widget_Draw((Widget *)emu_get_memorycsip(g_global->variable_8026));
+}
+
+/**
+ * Handles Click event for list in mentat window.
+ *
+ * @param w The widget.
+ */
+bool GUI_Mentat_List_Click(Widget *w)
+{
+	uint16 index;
+	Widget *w2;
+
+	index = g_global->selectedHelpSubject + 3;
+
+	if (w->index != index) {
+		w2 = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), index);
+
+		GUI_Widget_MakeNormal(w, false);
+		GUI_Widget_MakeNormal(w2, false);
+
+		if (w2->stringID == 0x31) {
+			w2->variable_2C    = 15;
+			w2->fgColourDown   = 15;
+			w2->fgColourNormal = 15;
+
+			GUI_Widget_Draw(w2);
+		}
+
+		if (w->stringID == 0x31) {
+			w->variable_2C    = 8;
+			w->fgColourDown   = 8;
+			w->fgColourNormal = 8;
+
+			GUI_Widget_Draw(w);
+		}
+
+		g_global->selectedHelpSubject = w->index - 3;
+		return true;
+	}
+
+	if ((w->state.s.buttonState & 0x11) == 0 && g_global->variable_25CE == 0) return true;
+
+	if (w->stringID != 0x31) return true;
+
+	GUI_Widget_MakeNormal(w, false);
+
+	emu_push(emu_cs); emu_push(0x03F1); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_059B_001B_5C8D();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x03FA); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
+	emu_sp += 2;
+
+	emu_push(0x841);
+	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x29E8; emu_Input_HandleInput();
+	emu_sp += 2;
+
+	emu_push(0x842);
+	emu_push(emu_cs); emu_push(0x040E); emu_cs = 0x29E8; emu_Input_HandleInput();
+	emu_sp += 2;
+
+	return false;
 }

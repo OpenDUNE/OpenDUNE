@@ -21,7 +21,6 @@ extern void f__29E8_08B5_000A_FC14();
 extern void f__B520_085F_003A_87ED();
 extern void f__B520_096E_003C_F7E4();
 extern void emu_GUI_HOF_ResumeGame();
-extern void emu_GUI_Mentat_List();
 extern void emu_Tools_Malloc();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -545,6 +544,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 					case 0x34950043: success = GUI_Purchase_Plus_Click(w); break;
 					case 0x34950048: success = GUI_Purchase_Minus_Click(w); break;
 					case 0x3495004D: success = GUI_Purchase_Invoice_Click(w); break;
+					case 0x34E0002A: success = GUI_Mentat_List_Click(w); break;
 					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
 					case 0x34F20025: success = GUI_Widget_Options_Click(w); break;
 					case 0x35180034: success = GUI_Widget_HOF_ClearList_Click(w); break;
@@ -553,29 +553,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
 					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w); break;
 
-					default:
-						emu_push(wcsip.s.cs);
-						emu_push(wcsip.s.ip);
-
-						/* Call based on memory/register values */
-						emu_push(emu_cs); emu_push(0x06B0);
-						emu_ip = w->clickProc.s.ip;
-						emu_cs = w->clickProc.s.cs;
-						switch ((emu_cs << 16) + emu_ip) {
-							case 0x34E0002A: overlay(0x34E0, 0); emu_GUI_Mentat_List(); break;
-							default:
-								/* In case we don't know the call point yet, call the dynamic call */
-								emu_last_cs = 0xB4A2; emu_last_ip = 0x06AC; emu_last_length = 0x0030; emu_last_crc = 0x38D3;
-								emu_call();
-								return key & 0x7FFF;
-						}
-
-						/* Check if this overlay should be reloaded */
-						if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
-						emu_sp += 4;
-
-						success = (emu_ax != 0) ? true : false;
-						break;
+					default: assert(0); break;
 				}
 
 				/* If Click was successful, don't handle any other widgets */

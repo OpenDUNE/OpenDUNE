@@ -106,7 +106,8 @@ typedef struct Widget {
 	/* 0029(1)   */ PACK uint8  bgColourSelected;           /*!< Background colour for draw proc when selected. */
 	/* 002A(1)   */ PACK uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
 	/* 002B(1)   */ PACK uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
-	/* 002C()    */ PACK uint8   unknown_002C[0x0002];
+	/* 002C(1)   */ PACK uint8  variable_2C;                /*!< ?? */
+	/* 002D()    */ PACK uint8   unknown_002D[0x0001];
 	/* 002E(2)   */ PACK union {
 	                     struct {
 	/*      0001 */              BITTYPE selected:1;        /*!< Selected. */
