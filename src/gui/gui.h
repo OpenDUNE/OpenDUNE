@@ -69,7 +69,6 @@ extern void emu_GUI_DrawText();
 extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_SplitText();
-extern void emu_GUI_DrawSprite();
 extern void emu_GUI_DrawSprite_8002();
 extern void emu_GUI_DrawBorder();
 extern void emu_GUI_DisplayHint();
