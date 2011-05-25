@@ -256,37 +256,21 @@ csip32 Tools_GetSmallestIP(csip32 csip)
  */
 void Tools_Memmove(csip32 src, csip32 dst, uint32 count)
 {
-	uint8 type;
-
-	type = 0;
-	if (src.s.cs >= 0xF000) type |= 1;
-	if (dst.s.cs >= 0xF000) type |= 2;
-
-	if (type == 0) {
-		memmove(emu_get_memorycsip(dst), emu_get_memorycsip(src), count);
-		return;
-	}
-
-	emu_push(count >> 16); emu_push(count & 0xFFFF);
-	emu_push(dst.s.cs); emu_push(dst.s.ip);
-	emu_push(src.s.cs); emu_push(src.s.ip);
-
-	if (type != 1) {
+	if (dst.s.cs >= 0xF000) {
+		emu_push(count >> 16); emu_push(count & 0xFFFF);
+		emu_push(dst.s.cs); emu_push(dst.s.ip);
+		emu_push(src.s.cs); emu_push(src.s.ip);
 		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x2649; f__2649_0C09_0019_459F();
 		emu_sp += 12;
-		return;
-	}
-
-	if (type != 3) {
+	} else if (src.s.cs >= 0xF000) {
+		emu_push(count >> 16); emu_push(count & 0xFFFF);
+		emu_push(dst.s.cs); emu_push(dst.s.ip);
+		emu_push(src.s.cs); emu_push(src.s.ip);
 		emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; f__2649_0D40_0019_C58F();
 		emu_sp += 12;
-		return;
+	} else {
+		memmove(emu_get_memorycsip(dst), emu_get_memorycsip(src), count);
 	}
-
-	/* Unresolved call */ emu_push(emu_cs); emu_push(0x0059); emu_cs = 0x2649; /* f__2649_0E39_XXXX_XXXX(); */ emu_ip = 0x0E39; emu_last_cs = 0x2B0E; emu_last_ip = 0x0054; emu_last_length = 0x0026; emu_last_crc = 0x299A; emu_call(); return;
-	emu_sp += 12;
-	return;
-
 }
 
 /**
