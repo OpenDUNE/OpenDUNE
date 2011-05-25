@@ -706,7 +706,7 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
  * @param drawProc Procedure for drawing.
  * @return Address of the new widget.
  */
-Widget *GUI_Widget_Allocate2(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc)
+Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc)
 {
 	csip32 csip04;
 	csip32 csip08;

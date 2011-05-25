@@ -184,7 +184,7 @@ l__0231:
  *
  * Called From: 3520:0034:0005:0000
  */
-void f__B520_039B_001B_4BEB()
+void emu_GUI_Widget_Free_WithScrollbar()
 {
 l__039B:
 	emu_push(emu_bp);

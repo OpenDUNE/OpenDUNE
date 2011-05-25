@@ -26,7 +26,7 @@
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_0847_0019_A380();
-extern void f__B520_039B_001B_4BEB();
+extern void emu_GUI_Widget_Free_WithScrollbar();
 extern void emu_Tools_Free();
 extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_InsideRegion();
@@ -280,7 +280,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	Load_Palette_Mercenaries();
 
 	emu_push(g_global->variable_8036.s.cs); emu_push(g_global->variable_8036.s.ip);
-	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_039B_001B_4BEB();
+	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Free_WithScrollbar();
 	emu_sp += 4;
 
 	emu_push(g_global->variable_8032.s.cs); emu_push(g_global->variable_8032.s.ip);
@@ -880,7 +880,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	if (g_global->variable_8036.csip != 0x0) {
 		emu_push(g_global->variable_8036.s.cs);
 		emu_push(g_global->variable_8036.s.ip);
-		emu_push(emu_cs); emu_push(0x0BA4); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_039B_001B_4BEB();
+		emu_push(emu_cs); emu_push(0x0BA4); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Free_WithScrollbar();
 		emu_sp += 4;
 	}
 
@@ -954,7 +954,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	{
 		csip32 drawProc;
 		drawProc.csip = 0x34E0003E;
-		g_global->variable_8036 = emu_Global_GetCSIP(GUI_Widget_Allocate2(15, 8, 168, 24, 8, 72, drawProc));
+		g_global->variable_8036 = emu_Global_GetCSIP(GUI_Widget_Allocate_WithScrollbar(15, 8, 168, 24, 8, 72, drawProc));
 	}
 
 	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A),

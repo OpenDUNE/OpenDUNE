@@ -139,7 +139,7 @@ extern void f__AB00_0364_0014_B343();
 extern void emu_Terminate_Normal();
 extern void emu_Terminate_Error();
 extern void f__AB00_0398_0001_6780();
-extern void f__B520_039B_001B_4BEB();
+extern void emu_GUI_Widget_Free_WithScrollbar();
 extern void emu_DSP_SetTimeConst();
 extern void emu_Tools_MulCSIP_csip();
 extern void emu_Tools_MemcopyCX();
