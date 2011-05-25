@@ -17,10 +17,10 @@
 #include "wsa.h"
 #include "unknown/unknown.h"
 
-extern void f__B4DA_0AB8_002A_AAB2();
-extern void f__B4DA_176C_000F_12AD();
-extern void f__B4DA_1860_0008_857D();
-extern void f__B4DA_16F8_001A_D84F();
+extern void emu_GUI_Mentat_Loop();
+extern void emu_GUI_Security_Internal_176C();
+extern void emu_GUI_Security_Internal_1860();
+extern void emu_GUI_Security_Internal_16F8();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void overlay(uint16 cs, uint8 force);
@@ -31,7 +31,7 @@ extern void overlay(uint16 cs, uint8 force);
  * @return True if and only if the user answered one of the three questions
  *   correct.
  */
-bool Security_Check()
+bool GUI_Security_Show()
 {
 	csip32 memoryBlockcsip;
 	csip32 readBuffercsip;
@@ -119,7 +119,7 @@ bool Security_Check()
 	emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
 	emu_push(0); emu_push(0);
 	emu_push(wsaHouseFilenamecsip.s.cs); emu_push(wsaHouseFilenamecsip.s.ip);
-	emu_push(emu_cs); emu_push(0x11F6); f__B4DA_0AB8_002A_AAB2();
+	emu_push(emu_cs); emu_push(0x11F6); emu_GUI_Mentat_Loop();
 	emu_sp += 18;
 
 	/* In the first string is the amount of questions available */
@@ -180,7 +180,7 @@ bool Security_Check()
 		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
 
 		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x13A4); f__B4DA_176C_000F_12AD();
+		emu_push(emu_cs); emu_push(0x13A4); emu_GUI_Security_Internal_176C();
 		emu_sp += 4;
 
 		g_global->variable_2582 = g_global->variable_76AC + strlen(string) * 4;
@@ -218,14 +218,14 @@ bool Security_Check()
 			GUI_EditBox(text, 80, 9, wcsip, callback, 0);
 		}
 
-		emu_push(emu_cs); emu_push(0x14E0); f__B4DA_1860_0008_857D();
+		emu_push(emu_cs); emu_push(0x14E0); emu_GUI_Security_Internal_1860();
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
 		GUI_Mouse_Show_Safe();
 
 		emu_push(emu_ds); emu_push(0x9939);
-		emu_push(emu_cs); emu_push(0x1523); f__B4DA_16F8_001A_D84F();
+		emu_push(emu_cs); emu_push(0x1523); emu_GUI_Security_Internal_16F8();
 		emu_sp += 4;
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 2);
@@ -236,7 +236,7 @@ bool Security_Check()
 		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
 
 		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x156A); f__B4DA_16F8_001A_D84F();
+		emu_push(emu_cs); emu_push(0x156A); emu_GUI_Security_Internal_16F8();
 		emu_sp += 4;
 
 		if (strcasecmp(string, (char *)&emu_get_memory8(0x353F, 0x9939, 0)) != 0) {
@@ -255,7 +255,7 @@ bool Security_Check()
 		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
 
 		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x1615); f__B4DA_176C_000F_12AD();
+		emu_push(emu_cs); emu_push(0x1615); emu_GUI_Security_Internal_176C();
 		emu_sp += 4;
 
 		tickWaitTill = g_global->variable_76AC + strlen(string) * 4;
@@ -278,7 +278,7 @@ bool Security_Check()
 			}
 		}
 
-		emu_push(emu_cs); emu_push(0x168E); f__B4DA_1860_0008_857D();
+		emu_push(emu_cs); emu_push(0x168E); emu_GUI_Security_Internal_1860();
 	}
 
 	Unknown_07AE_0000(oldValue_07AE_0000);

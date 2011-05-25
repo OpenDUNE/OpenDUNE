@@ -1302,7 +1302,7 @@ static void GameLoop_LevelEnd()
 			if (g_global->campaignID == 1 || g_global->campaignID == 7) {
 				Sprites_Load(1, 7, g_sprites);
 
-				if (!Security_Check()) {
+				if (!GUI_Security_Show()) {
 					PrepareEnd();
 					exit(0);
 				}

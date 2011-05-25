@@ -3,6 +3,6 @@
 #ifndef SECURITY_H
 #define SECURITY_H
 
-bool Security_Check();
+bool GUI_Security_Show();
 
 #endif /* SECURITY_H */

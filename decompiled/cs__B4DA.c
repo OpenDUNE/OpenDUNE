@@ -106,7 +106,7 @@
  * Called From: 34DA:0034:0005:0000
  * Called From: B4DA:11F3:0023:09B4
  */
-void f__B4DA_0AB8_002A_AAB2()
+void emu_GUI_Mentat_Loop()
 {
 l__0AB8:
 	emu_push(emu_bp);
@@ -233,7 +233,7 @@ l__0BA2:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x10));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xE));
 	emu_push(emu_cs);
-	emu_push(0x0BB4); f__B4DA_1893_001C_7AC4();
+	emu_push(0x0BB4); emu_GUI_Mentat_Internal_1893();
 l__0BB4:
 	emu_addw(&emu_sp, 0x6);
 	emu_get_memory16(emu_ss, emu_bp, -0x28) = emu_ax;
@@ -755,7 +755,7 @@ l__0F8D:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xC));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0xA));
 	emu_push(emu_cs);
-	emu_push(0x0FBD); f__B4DA_19E6_0016_C1CB();
+	emu_push(0x0FBD); emu_GUI_Mentat_Internal_19E6();
 l__0FBD:
 	emu_addw(&emu_sp, 0x12);
 	emu_ax = 0x4;
@@ -887,7 +887,7 @@ l__1087:
  *
  * Called From: 34DA:003E:0005:0000
  */
-void f__B4DA_16CB_001D_31CC()
+void emu_GUI_Mentat_Tick()
 {
 l__16CB:
 	emu_push(emu_bp);
@@ -938,7 +938,7 @@ l__16F5:
  * Called From: B4DA:1520:000A:C6DA
  * Called From: B4DA:1567:000E:B9A4
  */
-void f__B4DA_16F8_001A_D84F()
+void emu_GUI_Security_Internal_16F8()
 {
 l__16F8:
 	emu_push(emu_bp);
@@ -1019,7 +1019,7 @@ l__1758:
  * Called From: B4DA:1612:000B:DB18
  * Called From: B4DA:1612:0013:480E
  */
-void f__B4DA_176C_000F_12AD()
+void emu_GUI_Security_Internal_176C()
 {
 l__176C:
 	emu_push(emu_bp);
@@ -1097,7 +1097,7 @@ l__17DF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x8));
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
-	emu_push(0x17F1); f__B4DA_1893_001C_7AC4();
+	emu_push(0x17F1); emu_GUI_Mentat_Internal_1893();
 l__17F1:
 	emu_addw(&emu_sp, 0x6);
 	emu_ax = 0x32;
@@ -1182,7 +1182,7 @@ l__185B:
  * Called From: B4DA:168B:0005:7934
  * Called From: B4DA:168B:0009:CDDB
  */
-void f__B4DA_1860_0008_857D()
+void emu_GUI_Security_Internal_1860()
 {
 l__1860:
 	emu_push(emu_bp);
@@ -1255,7 +1255,7 @@ l__1891:
  * Called From: B4DA:0BB1:0012:DA23
  * Called From: B4DA:17EE:0012:BC2E
  */
-void f__B4DA_1893_001C_7AC4()
+void emu_GUI_Mentat_Internal_1893()
 {
 l__1893:
 	emu_push(emu_bp);
@@ -1441,7 +1441,7 @@ l__19E0:
  * Called From: B4DA:0FBA:003B:FFB1
  * Called From: B4DA:0FBA:0030:D5CF
  */
-void f__B4DA_19E6_0016_C1CB()
+void emu_GUI_Mentat_Internal_19E6()
 {
 l__19E6:
 	emu_push(emu_bp);

@@ -44,7 +44,7 @@ extern void emu_Tools_Sleep();
 extern void emu_GUI_Mouse_Hide_InWidget();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
-extern void f__B4DA_0AB8_002A_AAB2();
+extern void emu_GUI_Mentat_Loop();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_EndStats_Internal_14D4();
@@ -1753,7 +1753,7 @@ uint16 GUI_PickHouse()
 			emu_push(0); emu_push(0);
 			emu_push(0); emu_push(0);
 			emu_push(g_global->variable_2BBE[ret].s.cs); emu_push(g_global->variable_2BBE[ret].s.ip);
-			emu_push(emu_cs); emu_push(0x1422); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0AB8_002A_AAB2();
+			emu_push(emu_cs); emu_push(0x1422); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop();
 			emu_sp += 18;
 			yes_no = emu_ax;
 

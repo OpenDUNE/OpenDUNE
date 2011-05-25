@@ -11,7 +11,7 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 
-extern void f__B4DA_16CB_001D_31CC();
+extern void emu_GUI_Mentat_Tick();
 extern void emu_GUI_HallOfFame_Tick();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void overlay(uint16 cs, uint8 force);
@@ -108,7 +108,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 			emu_cs = callbackcsip.s.cs;
 
 			switch ((emu_cs << 16) + emu_ip) {
-				case 0x34DA003E: overlay(0x34DA, 0); f__B4DA_16CB_001D_31CC(); break;
+				case 0x34DA003E: overlay(0x34DA, 0); emu_GUI_Mentat_Tick(); break;
 				case 0x35180066: overlay(0x3518, 0); emu_GUI_HallOfFame_Tick(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */
