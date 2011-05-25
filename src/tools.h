@@ -41,7 +41,6 @@ extern void emu_Tools_Shrd();
 extern void emu_Tools_UShrd();
 extern void emu_Tools_GetSmallestIP();
 extern void emu_Tools_Memmove();
-extern void emu_Tools_RandomRange();
 extern void emu_Tools_PrintString();
 extern void emu_Tools_Sleep();
 

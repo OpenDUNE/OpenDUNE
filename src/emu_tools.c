@@ -136,27 +136,6 @@ void emu_Tools_Memmove()
 }
 
 /**
- * Emulator wrapper around Tools_RandomRange()
- *
- * @name emu_Tools_RandomRange
- * @implements 2537:000C:001C:86CB ()
- */
-void emu_Tools_RandomRange()
-{
-	uint16 min;
-	uint16 max;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	min = emu_get_memory16(emu_ss, emu_sp, 0);
-	max = emu_get_memory16(emu_ss, emu_sp, 2);
-
-	emu_ax = Tools_RandomRange(min, max);
-}
-
-/**
  * Print a string to the stdout.
  * @note Please replace this function as soon as you find it. It is silly for
  *  modern applications.

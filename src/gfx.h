@@ -24,9 +24,7 @@ extern void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst);
 extern uint16 GFX_GetSize(int16 width, int16 height);
 
 extern void emu_GFX_GetScreenSegment();
-extern void emu_Unknown_22A6_0E1A();
-extern void emu_Unknown_22A6_0E22();
-extern void emu_GFX_PutPixel();
+extern void emu_GFX_GetSegment_ByIndex();
 extern void emu_GFX_Screen_Copy2();
 extern void emu_GFX_SetPalette();
 extern void emu_GFX_GetSize();

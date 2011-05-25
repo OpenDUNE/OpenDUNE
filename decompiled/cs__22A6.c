@@ -92,7 +92,7 @@ l__0555:
 	emu_shlw(&emu_bx, 0x1);
 	emu_shlw(&emu_bx, 0x1);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_push(0x0572); emu_Unknown_22A6_0E22();
+	emu_push(0x0572); emu_GFX_GetSegment_ByIndex();
 l__0572:
 	emu_es = emu_ax;
 	emu_si = emu_get_memory16(emu_ss, emu_bp,  0xE);
@@ -407,7 +407,7 @@ l__109E:
 	emu_shlw(&emu_bx, 0x1);
 	emu_shlw(&emu_bx, 0x1);
 	emu_ax = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_push(0x10BB); emu_Unknown_22A6_0E22();
+	emu_push(0x10BB); emu_GFX_GetSegment_ByIndex();
 l__10BB:
 	emu_ds = emu_ax;
 	emu_ax = 0xA0;
