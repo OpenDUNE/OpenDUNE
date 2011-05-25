@@ -42,8 +42,8 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
-extern void f__2642_0002_005E_87F6();
-extern void f__2642_0069_0008_D517();
+extern void emu_GUI_Mouse_Hide_InWidget();
+extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
 extern void f__2B99_007B_0019_5737();
 extern void f__2BB6_004F_0014_AB2C();
@@ -239,7 +239,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		}
 
 		emu_push(7);
-		emu_push(emu_cs); emu_push(0x0B3E); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+		emu_push(emu_cs); emu_push(0x0B3E); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 		emu_sp += 2;
 
 		if (g_global->variable_3740 + g_global->variable_9931 > 24) {
@@ -250,7 +250,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
 
-		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x0B85); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 
 		Unknown_07AE_0000(oldValue_07AE_0000);
 
@@ -2157,12 +2157,12 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (oldScreenID != g_global->screenActiveID) {
 		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+		emu_push(emu_cs); emu_push(0x0963); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 		emu_sp += 2;
 
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, oldScreenID);
 
-		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x0993); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);

@@ -5,9 +5,9 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__2642_0002_005E_87F6()
+ * Decompiled function emu_GUI_Mouse_Hide_InWidget()
  *
- * @name f__2642_0002_005E_87F6
+ * @name emu_GUI_Mouse_Hide_InWidget
  * @implements 2642:0002:005E:87F6 ()
  * @implements 2642:0060:0009:B39F
  *
@@ -27,7 +27,7 @@
  * Called From: B536:01A3:0060:01F3
  * Called From: B536:0327:0013:1C1F
  */
-void f__2642_0002_005E_87F6()
+void emu_GUI_Mouse_Hide_InWidget()
 {
 l__0002:
 	emu_push(emu_bp);
@@ -85,9 +85,9 @@ l__0060:
 }
 
 /**
- * Decompiled function f__2642_0069_0008_D517()
+ * Decompiled function emu_GUI_Mouse_Show_InWidget()
  *
- * @name f__2642_0069_0008_D517
+ * @name emu_GUI_Mouse_Show_InWidget
  * @implements 2642:0069:0008:D517 ()
  * @implements 2642:0071:0002:2597
  *
@@ -106,7 +106,7 @@ l__0060:
  * Called From: B536:02FC:0015:7F44
  * Called From: B536:04F5:004E:C8CD
  */
-void f__2642_0069_0008_D517()
+void emu_GUI_Mouse_Show_InWidget()
 {
 l__0069:
 	emu_push(emu_bp);

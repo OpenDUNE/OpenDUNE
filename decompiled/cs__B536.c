@@ -81,7 +81,7 @@ l__007D:
 	emu_addw(&emu_sp, 0xC);
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) == 0x0) {
-		emu_push(emu_cs); emu_push(0x008C); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x008C); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 	}
@@ -97,7 +97,7 @@ l__0096:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) != 0x0) { /* Unresolved jump */ emu_ip = 0x00A7; emu_last_cs = 0xB536; emu_last_ip = 0x009B; emu_last_length = 0x0010; emu_last_crc = 0x094E; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
-	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+	emu_push(emu_cs); emu_push(0x00A6); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 l__00A6:
@@ -211,7 +211,7 @@ l__0148:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) != 0x0) goto l__01A9;
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
-	emu_push(emu_cs); emu_push(0x01A8); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+	emu_push(emu_cs); emu_push(0x01A8); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 l__01A8:
@@ -300,7 +300,7 @@ l__02EC:
 	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x032D; emu_last_cs = 0xB536; emu_last_ip = 0x02F3; emu_last_length = 0x0015; emu_last_crc = 0x7F44; emu_call(); return; }
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) == 0x0) {
-		emu_push(emu_cs); emu_push(0x0301); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x0301); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 	}
@@ -331,7 +331,7 @@ l__0319:
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) != 0x0) { /* Unresolved jump */ emu_ip = 0x032D; emu_last_cs = 0xB536; emu_last_ip = 0x0321; emu_last_length = 0x0013; emu_last_crc = 0x1C1F; emu_call(); return; }
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D5D));
-	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+	emu_push(emu_cs); emu_push(0x032C); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 	/* Check if this overlay should be reloaded */
 	if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 l__032C:
@@ -402,7 +402,7 @@ l__04AC:
 	emu_get_memory16(emu_ds, emu_bx, 0x406C) = emu_ax;
 	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x6C91), 0x0);
 	if (emu_get_memory16(emu_ds, 0x00, 0x6C91) == 0x0) {
-		emu_push(emu_cs); emu_push(0x04FA); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x04FA); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 		/* Check if this overlay should be reloaded */
 		if (emu_cs == 0x3536) { overlay(0x3536, 1); }
 	}

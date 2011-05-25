@@ -18,8 +18,8 @@
 #include "../map.h"
 #include "../gfx.h"
 
-extern void f__2642_0069_0008_D517();
-extern void f__2642_0002_005E_87F6();
+extern void emu_GUI_Mouse_Show_InWidget();
+extern void emu_GUI_Mouse_Hide_InWidget();
 extern void f__B4E0_0A86_000E_D3BB();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -924,12 +924,12 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	if (actionType != 0) {
 		emu_push(6);
-		emu_push(emu_cs); emu_push(0x1B49); emu_cs = 0x2642; f__2642_0002_005E_87F6();
+		emu_push(emu_cs); emu_push(0x1B49); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
 		emu_sp += 2;
 
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
 
-		emu_push(emu_cs); emu_push(0x1B76); emu_cs = 0x2642; f__2642_0069_0008_D517();
+		emu_push(emu_cs); emu_push(0x1B76); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
 	}
 
 	if (actionType > 1) {
