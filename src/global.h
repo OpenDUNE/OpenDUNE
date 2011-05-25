@@ -1269,7 +1269,7 @@ typedef struct GlobalData {
 	/* 6E23()    */ PACK uint8   unknown_6E23[0x0003];
 	/* 6E26(2)   */ PACK uint16 originalVideoMode;          /*!< The videomode when the game starts. It switches back to this on terminate. */
 	/* 6E28()    */ PACK uint8   unknown_6E28[0x0016];
-	/* 6E3E(4)   */ PACK csip32 variable_6E3E;              /*!< ?? */
+	/* 6E3E(4)   */ PACK csip32 xmsHandler;                 /*!< Pointer to XMS handler. */
 	/* 6E42()    */ PACK uint8   unknown_6E42[0x0004];
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
