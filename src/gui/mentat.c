@@ -21,11 +21,11 @@
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 #include "../input/input.h"
+#include "../os/endian.h"
 
 extern void f__29E8_08B5_000A_FC14();
 extern void f__B4DA_0AB8_002A_AAB2();
 extern void f__B4E0_041D_0017_C8A5();
-extern void f__B4E0_059B_001B_5C8D();
 extern void f__B4E0_0847_0019_A380();
 extern void f__B520_039B_001B_4BEB();
 extern void emu_Tools_Free();
@@ -930,6 +930,105 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	GUI_Widget_Draw((Widget *)emu_get_memorycsip(g_global->variable_8026));
 }
 
+static void GUI_Mentat_ShowHelp()
+{
+	struct {
+		uint8  unknown_00[4];
+		uint32 variable_04;
+		uint32 variable_08;
+	} info;
+	uint8 *subject;
+	uint16 i;
+	bool noDesc;
+	uint8 fileID;
+	uint32 offset;
+	char *compressedText;
+	char *desc;
+	char *picture;
+	char *text;
+	bool loc12;
+
+	subject = emu_get_memorycsip(g_global->string_804D);
+
+	for (i = 0; i < g_global->selectedHelpSubject; i++) subject = String_NextString(subject);
+
+	noDesc = (subject[5] == '0');
+	offset = HTOBE32(*(uint32 *)(subject + 1));
+
+	fileID = ChunkFile_Open(g_global->mentatFilename);
+	ChunkFile_Read(fileID, HTOBE32('INFO'), &info, 12);
+	ChunkFile_Close(fileID);
+
+	info.variable_04 = HTOBE32(info.variable_04);
+	info.variable_08 = HTOBE32(info.variable_08);
+
+	text = (char *)emu_get_memorycsip(g_global->readBuffer);
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x067C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
+	emu_sp += 2;
+	compressedText = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+	fileID = File_Open(g_global->mentatFilename, 1);
+	File_Seek(fileID, offset, 0);
+	File_Read(fileID, compressedText, info.variable_08);
+	String_Decompress(compressedText, text);
+	String_TranslateSpecial(text, text);
+	File_Close(fileID);
+
+	while (*text != '*' && *text != '?') text++;
+
+	loc12 = (*text == '*');
+
+	*text++ = '\0';
+
+	if (noDesc) {
+		uint16 index;
+
+		picture = g_global->scenario.pictureBriefing;
+		desc    = NULL;
+		text    = (char *)emu_get_memorycsip(g_global->readBuffer);
+
+		index = *text - 44 + g_global->campaignID * 4;
+
+		sprintf((char *)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name));
+		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), index, text, g_global->readBufferSize);
+		String_TranslateSpecial(text, text);
+	} else {
+		picture = (char *)emu_get_memorycsip(g_global->readBuffer);
+		desc    = text;
+
+		while (*text != '\0' && *text != 0xC) text++;
+		if (*text != '\0') *text++ = '\0';
+	}
+
+	{
+		csip32 picture_csip = emu_Global_GetCSIP(picture);
+		csip32 desc_csip    = emu_Global_GetCSIP(desc);
+		csip32 text_csip    = emu_Global_GetCSIP(text);
+
+		emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip);
+		emu_push(loc12 ? 1 : 0);
+		emu_push(text_csip.s.cs); emu_push(text_csip.s.ip);
+		emu_push(desc_csip.s.cs); emu_push(desc_csip.s.ip);
+		emu_push(picture_csip.s.cs); emu_push(picture_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x34DA; overlay(0x34DA, 0); f__B4DA_0AB8_002A_AAB2();
+		emu_sp += 18;
+	}
+
+	GUI_Widget_MakeNormal((Widget *)emu_get_memorycsip(g_global->variable_8026), false);
+
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0831); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_041D_0017_C8A5();
+	emu_sp += 2;
+
+	GUI_Mentat_Create_HelpScreen_Widgets();
+
+	emu_push(1);
+	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
+	emu_sp += 2;
+}
+
 /**
  * Handles Click event for list in mentat window.
  *
@@ -974,7 +1073,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 
 	GUI_Widget_MakeNormal(w, false);
 
-	emu_push(emu_cs); emu_push(0x03F1); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_059B_001B_5C8D();
+	GUI_Mentat_ShowHelp();
 
 	emu_push(1);
 	emu_push(emu_cs); emu_push(0x03FA); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();

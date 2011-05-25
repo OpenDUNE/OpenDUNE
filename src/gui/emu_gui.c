@@ -304,21 +304,6 @@ void emu_GUI_Mentat_SelectHelpSubject()
 }
 
 /**
- * Emulator wrapper around GUI_Mentat_Create_HelpScreen_Widgets
- *
- * @name emu_GUI_Mentat_Create_HelpScreen_Widgets
- * @implements B4E0:0B86:001E:9967 ()
- */
-void emu_GUI_Mentat_Create_HelpScreen_Widgets()
-{
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	GUI_Mentat_Create_HelpScreen_Widgets();
-}
-
-/**
  * Emulation wrapper around #GUI_Get_Scrollbar_Position
  *
  * @name emu_GUI_Get_Scrollbar_Position

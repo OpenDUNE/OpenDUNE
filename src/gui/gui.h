@@ -82,7 +82,6 @@ extern void emu_GUI_DisplayHint();
 extern void emu_GUI_Screen_Copy();
 extern void emu_GUI_Mentat_Animation();
 extern void emu_GUI_Mentat_SelectHelpSubject();
-extern void emu_GUI_Mentat_Create_HelpScreen_Widgets();
 extern void emu_GUI_Get_Scrollbar_Position();
 extern void emu_GUI_Screen_FadeIn();
 extern void emu_GUI_Screen_SetActive();

@@ -184,7 +184,6 @@ extern void f__AB00_056F_0020_6328();
 extern void emu_GUI_Widget_DrawBorder();
 extern void emu_Tools_Shld_Wrapper();
 extern void f__AB00_058F_000E_41A1();
-extern void f__B4E0_059B_001B_5C8D();
 extern void emu_Overlay_Load2();
 extern void f__01F7_05CF_0015_0AD7();
 extern void f__2649_05DF_0011_F459();
