@@ -79,12 +79,8 @@ extern void emu_GUI_DrawText_Wrapper();
 extern void emu_GUI_PaletteAnimate();
 extern void emu_GUI_SplitText();
 extern void emu_GUI_DrawSprite_8002();
-extern void emu_GUI_DrawBorder();
-extern void emu_GUI_DisplayHint();
 extern void emu_GUI_Screen_Copy();
 extern void emu_GUI_Mentat_Animation();
-extern void emu_GUI_Mentat_SelectHelpSubject();
-extern void emu_GUI_Get_Scrollbar_Position();
 extern void emu_GUI_Screen_FadeIn();
 extern void emu_GUI_Screen_SetActive();
 extern void emu_GUI_Mouse_Show();
@@ -95,7 +91,6 @@ extern void emu_GUI_Mouse_Show_InRegion();
 extern void emu_GUI_Mouse_Hide_InRegion();
 extern void emu_GUI_Mouse_Show_InWidget();
 extern void emu_GUI_Mouse_Hide_InWidget();
-extern void emu_GUI_Mentat_ScrollBar_Draw();
 
 /* emu_editbox.c */
 extern void emu_GUI_EditBox();

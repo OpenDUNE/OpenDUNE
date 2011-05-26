@@ -167,56 +167,6 @@ void emu_GUI_SplitText()
 }
 
 /**
- * Emulator wrapper around GUI_DrawBorder().
- *
- * @name emu_GUI_DrawBorder
- * @implements 10E4:0008:0048:5BD4 ()
- */
-void emu_GUI_DrawBorder()
-{
-	uint16 left;
-	uint16 top;
-	uint16 width;
-	uint16 height;
-	uint16 colourSchemaIndex;
-	uint16 fill;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	left              = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	top               = emu_get_memory16(emu_ss, emu_sp, 0x2);
-	width             = emu_get_memory16(emu_ss, emu_sp, 0x4);
-	height            = emu_get_memory16(emu_ss, emu_sp, 0x6);
-	colourSchemaIndex = emu_get_memory16(emu_ss, emu_sp, 0x8);
-	fill              = emu_get_memory16(emu_ss, emu_sp, 0xA);
-
-	GUI_DrawBorder(left, top, width, height, colourSchemaIndex, (fill != 0) ? true : false);
-}
-
-/**
- * Emulator wrapper around emu_GUI_DisplayHint().
- *
- * @name emu_GUI_DisplayHint
- * @implements 10E4:0117:0015:392D ()
- */
-void emu_GUI_DisplayHint()
-{
-	uint16 stringID;
-	uint16 spriteID;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	stringID = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	spriteID = emu_get_memory16(emu_ss, emu_sp, 0x2);
-
-	emu_ax = GUI_DisplayHint(stringID, spriteID);
-}
-
-/**
  * Emulator wrapper around GUI_Screen_Copy().
  *
  * @name emu_GUI_Screen_Copy
@@ -283,45 +233,6 @@ void emu_GUI_DrawSprite_8002()
 
 	memory = emu_get_memory16(emu_ss, emu_sp, 0);
 	GUI_DrawSprite_8002(memory);
-}
-
-/**
- * Emulation wrapper around #GUI_Mentat_SelectHelpSubject
- *
- * @name emu_GUI_Mentat_SelectHelpSubject
- * @implements B4E0:0AAD:002E:796D ()
- */
-void emu_GUI_Mentat_SelectHelpSubject()
-{
-	int16 difference;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	difference = emu_get_memory16(emu_ss, emu_sp, 0);
-	GUI_Mentat_SelectHelpSubject(difference);
-}
-
-/**
- * Emulation wrapper around #GUI_Get_Scrollbar_Position
- *
- * @name emu_GUI_Get_Scrollbar_Position
- * @implements B520:00E3:0028:2188 ()
- */
-void emu_GUI_Get_Scrollbar_Position()
-{
-	csip32 csip_w;
-	Widget *w;
-
-	/* Pop return address off the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	csip_w = emu_get_csip32(emu_ss, emu_sp, 0);
-	w = (Widget *)emu_get_memorycsip(csip_w);
-
-	emu_ax = GUI_Get_Scrollbar_Position(w);
 }
 
 /**
@@ -507,26 +418,4 @@ void emu_GUI_Mouse_Hide_InWidget()
 	widgetIndex = emu_get_memory16(emu_ss, emu_sp, 0x0);
 
 	GUI_Mouse_Hide_InWidget(widgetIndex);
-}
-
-/**
- * Emulator wrapper around GUI_Mentat_ScrollBar_Draw()
- *
- * @name emu_GUI_Mentat_ScrollBar_Draw
- * @implements B4E0:0A86:000E:D3BB ()
- */
-void emu_GUI_Mentat_ScrollBar_Draw()
-{
-	Widget *w;
-	csip32 wcsip;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	wcsip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	w = (Widget *)emu_get_memorycsip(wcsip);
-
-	GUI_Mentat_ScrollBar_Draw(w);
 }

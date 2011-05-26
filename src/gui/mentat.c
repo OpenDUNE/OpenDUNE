@@ -22,6 +22,7 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 #include "../os/endian.h"
+#include "../os/math.h"
 
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_Mentat_Loop2();
@@ -32,7 +33,8 @@ extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
-extern void f__B520_0000_0019_6B99();
+extern void f__B520_085F_003A_87ED();
+extern void f__B520_096E_003C_F7E4();
 
 /**
  * Information about the mentat.
@@ -236,6 +238,38 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	g_global->helpSubjects = emu_Global_GetCSIP(helpSubjects);
 }
 
+static uint16 GUI_Widget_ScrollBar_Init(Widget *w, int16 scrollMax, int16 scrollPageSize, int16 scrollPosition)
+{
+	uint16 position;
+	WidgetScrollbar *scrollbar;
+
+	if (w == NULL) return 0xFFFF;
+
+	position = GUI_Get_Scrollbar_Position(w);
+	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+
+	if (scrollMax > 0) scrollbar->scrollMax = scrollMax;
+	if (scrollPageSize >= 0) scrollbar->scrollPageSize = min(scrollPageSize, scrollbar->scrollMax);
+	if (scrollPosition >= 0) scrollbar->scrollPosition = min(scrollPosition, scrollbar->scrollMax - scrollbar->scrollPageSize);
+
+	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
+	emu_push(emu_cs); emu_push(0x00A0); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_085F_003A_87ED();
+	emu_sp += 4;
+
+	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
+	emu_push(emu_cs); emu_push(0x00AD); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_096E_003C_F7E4();
+	emu_sp += 4;
+
+	GUI_Widget_ScrollBar_Draw(w);
+
+	if (scrollbar->drawProc.csip != 0x0) {
+		assert(scrollbar->drawProc.csip == 0x34E0003E);
+		GUI_Mentat_ScrollBar_Draw(w);
+	}
+
+	return position;
+}
+
 static void GUI_Mentat_Draw(bool force)
 {
 	uint16 oldScreenID;
@@ -288,18 +322,7 @@ static void GUI_Mentat_Draw(bool force)
 		helpSubjects = String_NextString(helpSubjects);
 	}
 
-	emu_push(g_global->topHelpList);
-	emu_push(11);
-	emu_push(g_global->numberHelpSubjects);
-	{
-		emu_push(15);
-		emu_push(g_global->variable_802A.s.cs); emu_push(g_global->variable_802A.s.ip);
-		emu_push(emu_cs); emu_push(0x09FE); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
-		emu_sp += 6;
-		emu_push(emu_dx); emu_push(emu_ax);
-	}
-	emu_push(emu_cs); emu_push(0x0A08); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_0000_0019_6B99();
-	emu_sp += 10;
+	GUI_Widget_ScrollBar_Init(GUI_Widget_Get_ByIndex(w, 15), g_global->numberHelpSubjects, 11, g_global->topHelpList);
 
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 16));
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));

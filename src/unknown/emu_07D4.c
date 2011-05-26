@@ -22,8 +22,6 @@
 #include "../house.h"
 #include "../sprites.h"
 
-extern void emu_GUI_Mouse_Hide_InWidget();
-extern void emu_GUI_Mouse_Show_InWidget();
 extern void overlay(uint16 cs, uint8 force);
 
 /**

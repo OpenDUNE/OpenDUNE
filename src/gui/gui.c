@@ -41,8 +41,6 @@ extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
-extern void emu_GUI_Mouse_Hide_InWidget();
-extern void emu_GUI_Mouse_Show_InWidget();
 extern void f__29E8_07FA_0020_177A();
 extern void emu_GUI_Mentat_Loop2();
 extern void emu_GUI_HallOfFame_Internal_0B1D();

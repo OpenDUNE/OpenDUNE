@@ -224,13 +224,8 @@ extern void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pr
 extern void GUI_Widget_DrawAll(Widget *w);
 
 
-extern void emu_GUI_Widget_Get_ByIndex();
 extern void emu_GUI_Widget_HandleEvents();
-extern void emu_GUI_Widget_Draw();
-extern void emu_GUI_Widget_ScrollBar_Draw();
 extern void emu_GUI_Widget_Allocate();
-extern void emu_GUI_Widget_MakeNormal();
-extern void emu_GUI_Widget_DrawBorder();
 extern void emu_GUI_Widget_Link();
 
 #endif /* GUI_WIDGET_H */
