@@ -185,6 +185,10 @@ extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offset
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
 extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);
 extern Widget *GUI_Widget_Link(Widget *w1, Widget *w2);
+extern uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scrollPageSize, int16 scrollPosition);
+extern uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar);
+extern uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar);
+extern void GUI_Widget_Free_WithScrollbar(csip32 wcsip);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -218,7 +222,7 @@ extern void GUI_Widget_TextButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteButton_Draw(Widget *w);
 extern void GUI_Widget_SpriteTextButton_Draw(Widget *w);
 extern void GUI_Widget_TextButton2_Draw(Widget *w);
-extern void GUI_Widget_ScrollBar_Draw(Widget *w);
+extern void GUI_Widget_Scrollbar_Draw(Widget *w);
 extern void GUI_Widget_ActionPanel_Draw(bool forceDraw);
 extern void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed);
 extern void GUI_Widget_DrawAll(Widget *w);

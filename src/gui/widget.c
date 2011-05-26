@@ -12,15 +12,15 @@
 #include "../house.h"
 #include "../string.h"
 #include "../sprites.h"
+#include "../os/math.h"
 
 extern void f__22A6_0C69_008C_017F();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
-extern void f__B520_085F_003A_87ED();
-extern void f__B520_096E_003C_F7E4();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_Tools_Malloc();
+extern void emu_Tools_Free();
 extern void overlay(uint16 cs, uint8 force);
 
 Widget *GUI_Widget_GetNext(Widget *w)
@@ -181,7 +181,7 @@ void GUI_Widget_Draw(Widget *w)
 				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w);     break;
 				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w);      break;
 				case 0x34F20061: GUI_Widget_TextButton_Draw(w);       break;
-				case 0x3520002A: GUI_Widget_ScrollBar_Draw(w); break;
+				case 0x3520002A: GUI_Widget_Scrollbar_Draw(w); break;
 				default: assert(!"GUI_Widget_Draw(): unknown draw function.");
 			}
 		} break;
@@ -695,6 +695,25 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	return w;
 }
 
+static uint16 GUI_Widget_Scrollbar_CalculateSize(WidgetScrollbar *scrollbar)
+{
+	Widget *w;
+	uint16 size;
+
+	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+
+	if (w == NULL) return 0;
+
+	size = scrollbar->scrollPageSize * (max(w->width, w->height) - 2) / scrollbar->scrollMax;
+
+	if (scrollbar->size != size) {
+		scrollbar->size = size;
+		scrollbar->dirty = 1;
+	}
+
+	return size;
+}
+
 /**
  * Allocate a #Widget and a #WidgetScrollbar.
  * @param index Index of the new widget.
@@ -768,15 +787,8 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 
 	ws->drawProc = drawProc;
 
-	emu_push(csip08.s.cs); /* ws */
-	emu_push(csip08.s.ip);
-	emu_push(emu_cs); emu_push(0x0380); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_085F_003A_87ED();
-	emu_sp += 4;
-
-	emu_push(csip08.s.cs); /* ws */
-	emu_push(csip08.s.ip);
-	emu_push(emu_cs); emu_push(0x038D); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_096E_003C_F7E4();
-	emu_sp += 4;
+	GUI_Widget_Scrollbar_CalculateSize(ws);
+	GUI_Widget_Scrollbar_CalculatePosition(ws);
 
 	return w;
 }
@@ -955,4 +967,76 @@ uint16 GUI_Get_Scrollbar_Position(Widget *w)
 
 	ws = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
 	return ws->scrollPosition;
+}
+
+uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scrollPageSize, int16 scrollPosition)
+{
+	uint16 position;
+	WidgetScrollbar *scrollbar;
+
+	if (w == NULL) return 0xFFFF;
+
+	position = GUI_Get_Scrollbar_Position(w);
+	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+
+	if (scrollMax > 0) scrollbar->scrollMax = scrollMax;
+	if (scrollPageSize >= 0) scrollbar->scrollPageSize = min(scrollPageSize, scrollbar->scrollMax);
+	if (scrollPosition >= 0) scrollbar->scrollPosition = min(scrollPosition, scrollbar->scrollMax - scrollbar->scrollPageSize);
+
+	GUI_Widget_Scrollbar_CalculateSize(scrollbar);
+	GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
+	GUI_Widget_Scrollbar_Draw(w);
+
+	if (scrollbar->drawProc.csip != 0x0) {
+		assert(scrollbar->drawProc.csip == 0x34E0003E);
+		GUI_Mentat_ScrollBar_Draw(w);
+	}
+
+	return position;
+}
+
+uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar)
+{
+	Widget *w;
+	uint16 position;
+
+	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+	if (w == NULL) return 0xFFFF;
+
+	position = scrollbar->scrollMax - scrollbar->scrollPageSize;
+
+	if (position != 0) position = scrollbar->scrollPosition * (max(w->width, w->height) - 2 - scrollbar->size) / position;
+
+	if (scrollbar->position != position) {
+		scrollbar->position = position;
+		scrollbar->dirty = 1;
+	}
+
+	return position;
+}
+
+uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar)
+{
+	Widget *w;
+
+	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+	if (w == NULL) return 0xFFFF;
+
+	scrollbar->scrollPosition = scrollbar->position * (scrollbar->scrollMax - scrollbar->scrollPageSize) / (max(w->width, w->height) - 2 - scrollbar->size);
+
+	return scrollbar->scrollPosition;
+}
+
+void GUI_Widget_Free_WithScrollbar(csip32 wcsip)
+{
+	Widget *w = (Widget *)emu_get_memorycsip(wcsip);
+	if (w == NULL) return;
+
+	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
+	emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
+
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x23E1; emu_Tools_Free();
+	emu_sp += 4;
 }

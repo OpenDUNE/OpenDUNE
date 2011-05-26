@@ -22,19 +22,14 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 #include "../os/endian.h"
-#include "../os/math.h"
 
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_Mentat_Loop2();
-extern void emu_GUI_Widget_Free_WithScrollbar();
 extern void emu_Tools_Free();
-extern void emu_Tools_Free_Wrapper();
 extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
-extern void f__B520_085F_003A_87ED();
-extern void f__B520_096E_003C_F7E4();
 
 /**
  * Information about the mentat.
@@ -238,38 +233,6 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	g_global->helpSubjects = emu_Global_GetCSIP(helpSubjects);
 }
 
-static uint16 GUI_Widget_ScrollBar_Init(Widget *w, int16 scrollMax, int16 scrollPageSize, int16 scrollPosition)
-{
-	uint16 position;
-	WidgetScrollbar *scrollbar;
-
-	if (w == NULL) return 0xFFFF;
-
-	position = GUI_Get_Scrollbar_Position(w);
-	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
-
-	if (scrollMax > 0) scrollbar->scrollMax = scrollMax;
-	if (scrollPageSize >= 0) scrollbar->scrollPageSize = min(scrollPageSize, scrollbar->scrollMax);
-	if (scrollPosition >= 0) scrollbar->scrollPosition = min(scrollPosition, scrollbar->scrollMax - scrollbar->scrollPageSize);
-
-	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x00A0); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_085F_003A_87ED();
-	emu_sp += 4;
-
-	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x00AD); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_096E_003C_F7E4();
-	emu_sp += 4;
-
-	GUI_Widget_ScrollBar_Draw(w);
-
-	if (scrollbar->drawProc.csip != 0x0) {
-		assert(scrollbar->drawProc.csip == 0x34E0003E);
-		GUI_Mentat_ScrollBar_Draw(w);
-	}
-
-	return position;
-}
-
 static void GUI_Mentat_Draw(bool force)
 {
 	uint16 oldScreenID;
@@ -322,7 +285,7 @@ static void GUI_Mentat_Draw(bool force)
 		helpSubjects = String_NextString(helpSubjects);
 	}
 
-	GUI_Widget_ScrollBar_Init(GUI_Widget_Get_ByIndex(w, 15), g_global->numberHelpSubjects, 11, g_global->topHelpList);
+	GUI_Widget_Scrollbar_Init(GUI_Widget_Get_ByIndex(w, 15), g_global->numberHelpSubjects, 11, g_global->topHelpList);
 
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 16));
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));
@@ -374,16 +337,14 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	Load_Palette_Mercenaries();
 
-	emu_push(g_global->variable_8036.s.cs); emu_push(g_global->variable_8036.s.ip);
-	emu_push(emu_cs); emu_push(0x00FF); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Free_WithScrollbar();
-	emu_sp += 4;
+	GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
 
 	emu_push(g_global->variable_8032.s.cs); emu_push(g_global->variable_8032.s.ip);
-	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
 	emu_push(g_global->variable_802E.s.cs); emu_push(g_global->variable_802E.s.ip);
-	emu_push(emu_cs); emu_push(0x011D); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+	emu_push(emu_cs); emu_push(0x011D); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 
 	g_global->variable_802E.csip = 0x0;
@@ -972,24 +933,19 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	Widget *w, *w8;
 	int i;
 
-	if (g_global->variable_8036.csip != 0x0) {
-		emu_push(g_global->variable_8036.s.cs);
-		emu_push(g_global->variable_8036.s.ip);
-		emu_push(emu_cs); emu_push(0x0BA4); emu_cs = 0x3520; overlay(0x3520, 0); emu_GUI_Widget_Free_WithScrollbar();
-		emu_sp += 4;
-	}
+	if (g_global->variable_8036.csip != 0x0) GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
 
 	if (g_global->variable_8032.csip != 0x0) {
 		emu_push(g_global->variable_8032.s.cs);
 		emu_push(g_global->variable_8032.s.ip);
-		emu_push(emu_cs); emu_push(0x0BBC); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+		emu_push(emu_cs); emu_push(0x0BBC); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
 		emu_sp += 4;
 	}
 
 	if (g_global->variable_802E.csip != 0x0) {
 		emu_push(g_global->variable_802E.s.cs);
 		emu_push(g_global->variable_802E.s.ip);
-		emu_push(emu_cs); emu_push(0x0BD4); emu_cs = 0x3520; overlay(0x3520, 0); emu_Tools_Free_Wrapper();
+		emu_push(emu_cs); emu_push(0x0BD4); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
 		emu_sp += 4;
 	}
 

@@ -366,7 +366,7 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
  *
  * @param w The widget (which is a scrollbar) to draw.
  */
-void GUI_Widget_ScrollBar_Draw(Widget *w)
+void GUI_Widget_Scrollbar_Draw(Widget *w)
 {
 	WidgetScrollbar *scrollbar;
 	uint16 positionX, positionY;
