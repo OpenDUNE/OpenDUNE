@@ -567,7 +567,7 @@ typedef struct GlobalData {
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
 	/* 25CE(2)   */ PACK uint16 variable_25CE;              /*!< ?? */
 	/* 25D0(4)   */ PACK csip32 variable_25D0;              /*!< ?? */
-	/* 25D4()    */ PACK uint8   unknown_25D4[0x0002];
+	/* 25D4(2)   */ PACK uint16 variable_25D4;              /*!< ?? */
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
 	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
 	/* 25E6(2)   */ PACK uint16 variable_25E6;              /*!< ?? */

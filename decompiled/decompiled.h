@@ -226,7 +226,6 @@ extern void f__AB01_07FC_0036_425C();
 extern void emu_File_LowLevel_Read();
 extern void f__AB00_0816_0055_489B();
 extern void emu_String_sscanf_callback();
-extern void f__B4E0_0847_0019_A380();
 extern void f__01F7_084E_0011_B741();
 extern void f__B520_085F_003A_87ED();
 extern void f__AB01_0869_0035_F60C();

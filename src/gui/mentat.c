@@ -25,7 +25,6 @@
 
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_Mentat_Loop2();
-extern void f__B4E0_0847_0019_A380();
 extern void emu_GUI_Widget_Free_WithScrollbar();
 extern void emu_Tools_Free();
 extern void emu_Tools_Free_Wrapper();
@@ -33,6 +32,7 @@ extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
+extern void f__B520_0000_0019_6B99();
 
 /**
  * Information about the mentat.
@@ -236,6 +236,80 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	g_global->helpSubjects = emu_Global_GetCSIP(helpSubjects);
 }
 
+static void GUI_Mentat_Draw(bool force)
+{
+	uint16 oldScreenID;
+	Widget *line;
+	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_802A);
+	uint8 *helpSubjects = emu_get_memorycsip(g_global->helpSubjects);
+	uint16 i;
+
+	if (!force && g_global->topHelpList == g_global->variable_25D4) return;
+
+	g_global->variable_25D4 = g_global->topHelpList;
+
+	oldScreenID = GUI_Screen_SetActive(2);
+
+	Unknown_07AE_00E4(8);
+
+	GUI_DrawSprite_8002(2);
+
+	/* "Select Subject:" */
+	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_global->variable_992D << 3) + 16, g_global->variable_992B + 2, 12, 0, 0x12);
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
+
+	line = GUI_Widget_Get_ByIndex(w, 3);
+	for (i = 0; i < 11; i++) {
+		csip32 text_csip = emu_Global_GetCSIP(helpSubjects);
+		text_csip.s.ip += 7;
+		line->drawProcDown     = text_csip;
+		line->drawProcSelected = text_csip;
+		line->drawProcNormal   = text_csip;
+
+		if (helpSubjects[6] == '0') {
+			line->offsetX          = 16;
+			line->fgColourSelected = 11;
+			line->fgColourDown     = 11;
+			line->fgColourNormal   = 11;
+			line->stringID         = 0x30;
+		} else {
+			uint8 colour = (i == g_global->selectedHelpSubject) ? 8 : 15;
+			line->offsetX          = 24;
+			line->fgColourSelected = colour;
+			line->fgColourDown     = colour;
+			line->fgColourNormal   = colour;
+			line->stringID         = 0x31;
+		}
+
+		GUI_Widget_MakeNormal(line, false);
+		GUI_Widget_Draw(line);
+
+		line = GUI_Widget_GetNext(line);
+		helpSubjects = String_NextString(helpSubjects);
+	}
+
+	emu_push(g_global->topHelpList);
+	emu_push(11);
+	emu_push(g_global->numberHelpSubjects);
+	{
+		emu_push(15);
+		emu_push(g_global->variable_802A.s.cs); emu_push(g_global->variable_802A.s.ip);
+		emu_push(emu_cs); emu_push(0x09FE); emu_cs = 0x348B; overlay(0x348B, 0); emu_GUI_Widget_Get_ByIndex();
+		emu_sp += 6;
+		emu_push(emu_dx); emu_push(emu_ax);
+	}
+	emu_push(emu_cs); emu_push(0x0A08); emu_cs = 0x3520; overlay(0x3520, 0); f__B520_0000_0019_6B99();
+	emu_sp += 10;
+
+	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 16));
+	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));
+
+	GUI_Mouse_Hide_Safe();
+	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Mouse_Show_Safe();
+	GUI_Screen_SetActive(oldScreenID);
+}
+
 /**
  * Shows the Help window.
  * @param proceed Display a "Proceed" button if true, "Exit" otherwise.
@@ -265,9 +339,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_LoadHelpSubjects(true);
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x00CF); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
-	emu_sp += 2;
+	GUI_Mentat_Draw(true);
 
 	GUI_Screen_SetActive(0);
 
@@ -1077,9 +1149,7 @@ static void GUI_Mentat_ShowHelp()
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
-	emu_sp += 2;
+	GUI_Mentat_Draw(true);
 }
 
 /**
@@ -1128,9 +1198,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 
 	GUI_Mentat_ShowHelp();
 
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x03FA); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
-	emu_sp += 2;
+	GUI_Mentat_Draw(true);
 
 	emu_push(0x841);
 	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x29E8; emu_Input_HandleInput();
@@ -1146,8 +1214,5 @@ bool GUI_Mentat_List_Click(Widget *w)
 void GUI_Mentat_ScrollBar_Draw(Widget *w)
 {
 	GUI_Mentat_SelectHelpSubject(GUI_Get_Scrollbar_Position(w) - g_global->topHelpList);
-
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0AA8); emu_cs = 0x34E0; overlay(0x34E0, 0); f__B4E0_0847_0019_A380();
-	emu_sp += 2;
+	GUI_Mentat_Draw(false);
 }
