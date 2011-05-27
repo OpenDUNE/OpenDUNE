@@ -46,7 +46,7 @@ static char *GenerateSavegameFilename(uint16 number)
  * @param scrollbar The scrollbar.
  * @param scroll The amount of scrolling.
  */
-void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll, csip32 scrollbarcsip)
+void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll)
 {
 	scrollbar->scrollPosition += scroll;
 
@@ -125,7 +125,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 {
-	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), -1, w->scrollbar);
+	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), -1);
 
 	return false;
 }
@@ -138,7 +138,7 @@ bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
 {
-	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), 1, w->scrollbar);
+	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), 1);
 
 	return false;
 }
@@ -190,7 +190,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 			scrollbar->pressed = 1;
 			scrollbar->pressedPosition = positionCurrent - positionBegin;
 		} else {
-			GUI_Widget_Scrollbar_Scroll(scrollbar, (positionCurrent < positionBegin ? -scrollbar->scrollPageSize : scrollbar->scrollPageSize), w->scrollbar);
+			GUI_Widget_Scrollbar_Scroll(scrollbar, (positionCurrent < positionBegin ? -scrollbar->scrollPageSize : scrollbar->scrollPageSize));
 		}
 	}
 

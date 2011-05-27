@@ -22,14 +22,16 @@
 #include "../unknown/unknown.h"
 #include "../input/input.h"
 #include "../os/endian.h"
+#include "../os/sleep.h"
 
 extern void f__29E8_08B5_000A_FC14();
-extern void emu_GUI_Mentat_Loop2();
 extern void emu_Tools_Free();
 extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
+extern void GUI_Mentat_SplitText();
+extern void emu_GUI_Mentat_Internal_19E6();
 
 /**
  * Information about the mentat.
@@ -97,7 +99,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	Sprites_Load(0, 7, g_sprites);
 }
 
-static void GUI_Mentat_Loop()
+static void GUI_Mentat_HelpListLoop()
 {
 	uint16 key = 0;
 
@@ -325,7 +327,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Screen_SetActive(0);
 
-	GUI_Mentat_Loop();
+	GUI_Mentat_HelpListLoop();
 
 	emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip); /* w */
 	emu_push(emu_cs); emu_push(0x00EB); emu_cs = 0x23E1; emu_Tools_Free();
@@ -446,14 +448,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);
 
-	emu_push(0); emu_push(0);
-	emu_push(1);
-	emu_push(stringBuffer.s.cs); emu_push(stringBuffer.s.ip);
-	emu_push(0); emu_push(0);
-	emu_push(wsaFilename.s.cs); emu_push(wsaFilename.s.ip);
-	emu_push(emu_cs); emu_push(0x0F55); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop2();
-	emu_sp += 18;
-	ret = emu_ax;
+	ret = GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaFilename), NULL, (char *)emu_get_memorycsip(stringBuffer), true, NULL);
 
 	if (w != NULL) {
 		do {
@@ -1104,19 +1099,7 @@ static void GUI_Mentat_ShowHelp()
 		if (*text != '\0') *text++ = '\0';
 	}
 
-	{
-		csip32 picture_csip = emu_Global_GetCSIP(picture);
-		csip32 desc_csip    = emu_Global_GetCSIP(desc);
-		csip32 text_csip    = emu_Global_GetCSIP(text);
-
-		emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip);
-		emu_push(loc12 ? 1 : 0);
-		emu_push(text_csip.s.cs); emu_push(text_csip.s.ip);
-		emu_push(desc_csip.s.cs); emu_push(desc_csip.s.ip);
-		emu_push(picture_csip.s.cs); emu_push(picture_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x0814); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop2();
-		emu_sp += 18;
-	}
+	GUI_Mentat_Loop(picture, desc, text, loc12 ? 1 : 0, (Widget *)emu_get_memorycsip(g_global->variable_8026));
 
 	GUI_Widget_MakeNormal((Widget *)emu_get_memorycsip(g_global->variable_8026), false);
 
@@ -1190,4 +1173,254 @@ void GUI_Mentat_ScrollBar_Draw(Widget *w)
 {
 	GUI_Mentat_SelectHelpSubject(GUI_Get_Scrollbar_Position(w) - g_global->topHelpList);
 	GUI_Mentat_Draw(false);
+}
+
+uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool arg12, Widget *w)
+{
+	uint16 oldScreenID;
+	uint16 old07AE;
+	csip32 wsa;
+	uint16 descLines;
+	bool dirty;
+	bool done;
+	bool textDone;
+	uint16 frame;
+	uint32 descTick;
+	uint16 mentatAnimation;
+	uint16 result;
+	uint32 textTick;
+	uint32 textDelay;
+	uint16 loc26;
+	uint16 textLines;
+	uint16 step;
+
+	dirty = false;
+	textTick = 0;
+	textDelay = 0;
+
+	old07AE = Unknown_07AE_0000(8);
+	oldScreenID = GUI_Screen_SetActive(4);
+
+	wsa.csip = 0x0;
+
+	if (pictureName != NULL) {
+		csip32 buffer_csip;
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+
+		emu_push(3);
+		emu_push(emu_cs); emu_push(0x0B1F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
+		emu_sp += 2;
+		buffer_csip.s.cs = emu_dx;
+		buffer_csip.s.ip = emu_ax;
+
+		wsa = WSA_LoadFile(pictureName, buffer_csip, g_global->variable_6CD3[1][1], 0, nullcsip);
+	}
+
+	step = 0;
+	if (wsa.csip == 0x0) {
+		Unknown_07AE_0103();
+		step = 1;
+	}
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x31);
+
+	descLines = GUI_SplitText(pictureDetails, (g_global->variable_992F << 3) + 10, '\0');
+
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x32);
+
+	{
+		csip32 text_csip = emu_Global_GetCSIP(text);
+
+		emu_push(0x130);
+		emu_push(text_csip.s.cs);
+		emu_push(text_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x0BB4); emu_cs = 0x34DA; overlay(0x34DA, 0); GUI_Mentat_SplitText();
+		emu_sp += 6;
+		textLines = emu_ax;
+	}
+
+	mentatAnimation = 2;
+	loc26 = 0;
+	frame = 0;
+	g_global->variable_76B4 = 0;
+	descTick = g_global->variable_76AC + 30;
+
+	emu_push(emu_cs); emu_push(0x0BF3); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	textDone = false;
+	done = false;
+	result = 0;
+	while (!done) {
+		uint16 key;
+
+		GUI_Screen_SetActive(0);
+
+		key = GUI_Widget_HandleEvents(w);
+
+		GUI_PaletteAnimate();
+
+		if (key != 0) {
+			if ((key & 0x800) == 0) {
+				if (w != NULL) {
+					if ((key & 0x8000) != 0 && result == 0) result = key;
+				} else {
+					if (textDone) result = key;
+				}
+			} else {
+				key = 0;
+			}
+		}
+
+		switch (step) {
+			case 0:
+				if (key == 0) break;
+				step = 1;
+				/* FALL-THROUGH */
+
+			case 1:
+				if (key != 0) {
+					if (result != 0) {
+						step = 5;
+						break;
+					}
+					loc26 = descLines;
+					dirty = true;
+				} else {
+					if (g_global->variable_76AC > descTick) {
+						descTick = g_global->variable_76AC + 15;
+						loc26++;
+						dirty = true;
+					}
+				}
+
+				if (loc26 < descLines && loc26 <= 12) break;
+
+				step = (text != NULL) ? 2 : 4;
+				loc26 = descLines;
+				break;
+
+			case 2:
+				GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
+				GUI_Screen_Copy(0, 0, 0, 160, 40, 40, 0, 4);
+				GUI_Mouse_Show_InRegion();
+
+				step = 3;
+				key = 1;
+				/* FALL-THROUGH */
+
+			case 3:
+				if (mentatAnimation == 2 && textTick < g_global->variable_76AC) key = 1;
+
+				if ((key != 0 && textDone) || result != 0) {
+					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
+					GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 0);
+					GUI_Mouse_Show_InRegion();
+
+					step = 4;
+					mentatAnimation = 0;
+					break;
+				}
+
+				if (key != 0) {
+					GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 4);
+
+					if (textLines-- != 0) {
+						GUI_Screen_SetActive(4);
+						GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
+						mentatAnimation = 1;
+						textDelay = strlen(text) * 4;
+						textTick = g_global->variable_76AC + textDelay;
+
+						if (textLines != 0) {
+							while (*text++ != '\0') sleep(0);
+						} else {
+							textDone = true;
+						}
+
+						GUI_Screen_SetActive(0);
+					}
+
+					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
+					GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 4, 0);
+					GUI_Mouse_Show_InRegion();
+					break;
+				}
+
+				if (mentatAnimation == 0 || textTick > g_global->variable_76AC) break;
+
+				mentatAnimation = 2;
+				textTick += textDelay + textDelay / 2;
+				break;
+
+			case 4:
+				if (result != 0 || w == NULL) step = 5;
+				break;
+
+			case 5:
+				dirty = true;
+				done = true;
+				break;
+
+			default: break;
+		}
+
+		GUI_Mentat_Animation(mentatAnimation);
+
+		if (wsa.csip != 0x0 && g_global->variable_76B4 == 0) {
+			g_global->variable_76B4 = 7;
+
+			do {
+				if (step == 0 && frame > 4) step = 1;
+
+				if (WSA_DisplayFrame(wsa, frame++, g_global->variable_992D << 3, g_global->variable_992B, 4) == 0) {
+					if (step == 0) step = 1;
+
+					if (arg12 != 0) {
+						frame = 0;
+					} else {
+						WSA_Unload(wsa);
+						wsa.csip = 0x0;
+					}
+				}
+			} while (frame == 0);
+			dirty = true;
+		}
+
+		if (!dirty) continue;
+
+		{
+			csip32 desc_csip = emu_Global_GetCSIP(pictureDetails);
+			emu_push(0x31);
+			emu_push(0);
+			emu_push(loc26);
+			emu_push(0);
+			emu_push(8);
+			emu_push(g_global->variable_992B + 3);
+			emu_push((g_global->variable_992D << 3) + 5);
+			emu_push(desc_csip.s.cs); emu_push(desc_csip.s.ip);
+			emu_push(emu_cs); emu_push(0x0FBD); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Internal_19E6();
+			emu_sp += 18;
+		}
+
+		GUI_DrawSprite_8002(4);
+		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
+		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+		GUI_Mouse_Show_InWidget();
+		dirty = false;
+	}
+
+	if (wsa.csip != 0x0) WSA_Unload(wsa);
+
+	GUI_Screen_SetActive(4);
+	GUI_DrawSprite_8002(4);
+	GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
+	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+	GUI_Mouse_Show_InWidget();
+	Unknown_07AE_0000(old07AE);
+	GUI_Screen_SetActive(oldScreenID);
+
+	emu_push(emu_cs); emu_push(0x1082); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	return result;
 }

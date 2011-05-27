@@ -42,7 +42,6 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
-extern void emu_GUI_Mentat_Loop2();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_EndStats_Internal_14D4();
@@ -1746,14 +1745,7 @@ uint16 GUI_PickHouse()
 		GUI_Mouse_Show_Safe();
 
 		while (true) {
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-			emu_push(1);
-			emu_push(0); emu_push(0);
-			emu_push(0); emu_push(0);
-			emu_push(g_global->variable_2BBE[ret].s.cs); emu_push(g_global->variable_2BBE[ret].s.ip);
-			emu_push(emu_cs); emu_push(0x1422); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Loop2();
-			emu_sp += 18;
-			yes_no = emu_ax;
+			yes_no = GUI_Mentat_Loop((char *)emu_get_memorycsip(g_global->variable_2BBE[ret]), NULL, NULL, true, w);
 
 			if ((yes_no & 0x8000) != 0) break;
 		}
