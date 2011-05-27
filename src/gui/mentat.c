@@ -1464,3 +1464,10 @@ uint16 GUI_Mentat_SplitText(char *str, uint16 maxWidth)
 
 	return lines;
 }
+
+uint16 GUI_Mentat_Tick()
+{
+	GUI_Mentat_Animation((g_global->variable_2582 < g_global->variable_76AC) ? 0 : 1);
+
+	return 0;
+}

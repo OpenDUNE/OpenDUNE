@@ -18,5 +18,6 @@ extern bool GUI_Mentat_List_Click(struct Widget *w);
 extern void GUI_Mentat_ScrollBar_Draw(struct Widget *w);
 extern uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool arg0C, struct Widget *w);
 extern uint16 GUI_Mentat_SplitText(char *str, uint16 maxWidth);
+extern uint16 GUI_Mentat_Tick();
 
 #endif /* GUI_MENTAT_H */

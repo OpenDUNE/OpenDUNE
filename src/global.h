@@ -636,7 +636,9 @@ typedef struct GlobalData {
 	/* 2BF5(10)  */ PACK char   string_2BF5[10];            /*!< "FARTR.WSA" NULL terminated. */
 	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
-	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x002F];
+	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x0029];
+	/* 2C38(2)   */ PACK uint16 variable_2C38;              /*!< ?? */
+	/* 2C3A(4)   */ PACK uint32 variable_2C3A;              /*!< ?? */
 	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
 	/* 2C41(13)  */ PACK char   string_2C41[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
 	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */

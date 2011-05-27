@@ -5,56 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__B4DA_16CB_001D_31CC()
- *
- * @name f__B4DA_16CB_001D_31CC
- * @implements B4DA:16CB:001D:31CC ()
- * @implements B4DA:16E4:0004:EF79
- * @implements B4DA:16E8:0008:37B4
- * @implements B4DA:16EB:0005:89B6
- * @implements B4DA:16F0:0005:EAF1
- * @implements B4DA:16F5:0003:2E57
- *
- * Called From: 34DA:003E:0005:0000
- */
-void emu_GUI_Mentat_Tick()
-{
-l__16CB:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x2584);
-	emu_dx = emu_get_memory16(emu_ds, 0x00, 0x2582);
-	emu_cmpw(&emu_ax, emu_get_memory16(emu_ds, 0x00, 0x76AE));
-	if ((int16)emu_ax > (int16)emu_get_memory16(emu_ds, 0x00, 0x76AE)) goto l__16E8;
-	if ((int16)emu_ax >= (int16)emu_get_memory16(emu_ds, 0x00, 0x76AE)) {
-		emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x76AC));
-		if (emu_dx >= emu_get_memory16(emu_ds, 0x00, 0x76AC)) goto l__16E8;
-	}
-l__16E4:
-	emu_xorw(&emu_si, emu_si);
-	goto l__16EB;
-l__16E8:
-	emu_si = 0x1;
-l__16EB:
-	emu_push(emu_si);
-	emu_push(emu_cs);
-	emu_push(0x16F0); emu_GUI_Mentat_Animation();
-l__16F0:
-	emu_pop(&emu_cx);
-	emu_xorw(&emu_ax, emu_ax);
-	goto l__16F5;
-l__16F5:
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__B4DA_16F8_001A_D84F()
  *
  * @name f__B4DA_16F8_001A_D84F

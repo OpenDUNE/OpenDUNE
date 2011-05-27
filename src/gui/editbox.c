@@ -10,9 +10,8 @@
 #include "widget.h"
 #include "../unknown/unknown.h"
 #include "../input/input.h"
+#include "mentat.h"
 
-extern void emu_GUI_Mentat_Tick();
-extern void emu_GUI_HallOfFame_Tick();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void overlay(uint16 cs, uint8 force);
 
@@ -101,25 +100,11 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		uint16 key;
 
 		if (callbackcsip.csip != 0x0) {
-			/* Call based on memory/register values */
-			emu_push(emu_cs); emu_push(0x00FB);
-
-			emu_ip = callbackcsip.s.ip;
-			emu_cs = callbackcsip.s.cs;
-
-			switch ((emu_cs << 16) + emu_ip) {
-				case 0x34DA003E: overlay(0x34DA, 0); emu_GUI_Mentat_Tick(); break;
-				case 0x35180066: overlay(0x3518, 0); emu_GUI_HallOfFame_Tick(); break;
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0xB527; emu_last_ip = 0x00F8; emu_last_length = 0x000B; emu_last_crc = 0xFF42;
-					emu_call();
-					return 0;
+			switch (callbackcsip.csip) {
+				case 0x34DA003E: returnValue = GUI_Mentat_Tick(); break;
+				case 0x35180066: returnValue = GUI_HallOfFame_Tick(); break;
+				default: assert(0);
 			}
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x3527) { overlay(0x3527, 1); }
-
-			returnValue = emu_ax;
 			if (returnValue != 0) break;
 		}
 

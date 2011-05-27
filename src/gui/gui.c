@@ -45,7 +45,6 @@ extern void f__29E8_07FA_0020_177A();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_EndStats_Internal_14D4();
-extern void emu_GUI_HallOfFame_Tick();
 extern void emu_GUI_HallOfFame_Show();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -1519,7 +1518,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	for (i = 0; i < loc16; i++) {
 		uint16 loc02;
 
-		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
+		GUI_HallOfFame_Tick();
 
 		for (loc02 = 0; loc02 < 2; loc02++) {
 			uint8 colour;
@@ -1529,7 +1528,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 			uint16 loc10;
 			uint16 loc0C;
 
-			emu_push(emu_cs); emu_push(0x0326); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
+			GUI_HallOfFame_Tick();
 
 			colour = (loc02 == 0) ? 255 : 209;
 			loc04 = loc18;
@@ -1544,7 +1543,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 				GUI_DrawText_Wrapper("%u", 287, locdi - 1, 0x14, 0, 0x121, loc0C);
 
-				emu_push(emu_cs); emu_push(0x03CF); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
+				GUI_HallOfFame_Tick();
 
 				g_global->variable_76B4 = 1;
 
@@ -1586,7 +1585,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; emu_Input_History_Clear();
 
 	while (true) {
-		emu_push(emu_cs); emu_push(0x0511); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Tick();
+		GUI_HallOfFame_Tick();
 
 		emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax != 0) break;
@@ -4144,4 +4143,25 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 		}
 		screen += SCREEN_WIDTH - width;
 	}
+}
+
+uint16 GUI_HallOfFame_Tick()
+{
+	uint8 *var81ED = emu_get_memorycsip(g_global->variable_81ED);
+
+	if (g_global->variable_2C3A >= g_global->variable_76AC) return 0;
+
+	g_global->variable_2C3A = g_global->variable_76AC + 2;
+
+	if (*var81ED >= 63) {
+		g_global->variable_2C38 = 0xFFFF;
+	} else if (*var81ED <= 35) {
+		g_global->variable_2C38 = 1;
+	}
+
+	*var81ED += g_global->variable_2C38;
+
+	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+
+	return 0;
 }

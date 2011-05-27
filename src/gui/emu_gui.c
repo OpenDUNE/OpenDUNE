@@ -419,3 +419,18 @@ void emu_GUI_Mouse_Hide_InWidget()
 
 	GUI_Mouse_Hide_InWidget(widgetIndex);
 }
+
+/**
+ * Emulator wrapper around GUI_HallOfFame_Tick().
+ *
+ * @name emu_GUI_HallOfFame_Tick
+ * @implements B518:14F2:003E:977C ()
+ */
+void emu_GUI_HallOfFame_Tick()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	emu_ax = GUI_HallOfFame_Tick();
+}
