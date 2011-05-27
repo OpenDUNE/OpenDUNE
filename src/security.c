@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -18,8 +19,6 @@
 #include "unknown/unknown.h"
 #include "gfx.h"
 
-extern void emu_GUI_Security_Internal_1860();
-extern void emu_GUI_Security_Internal_16F8();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void overlay(uint16 cs, uint8 force);
@@ -47,6 +46,30 @@ static void GUI_Security_DrawText(char *text)
 	GUI_Screen_SetActive(oldScreenID);
 }
 
+static void GUI_Security_UndrawText()
+{
+	GUI_Mouse_Hide_Safe();
+	GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 0);
+	GUI_Mouse_Show_Safe();
+}
+
+static void GUI_Security_NormaliseText(char *str)
+{
+	char *s = str;
+
+	while (*s != '\0') {
+		if (isalnum(*s)) {
+			if (islower(*s)) {
+				*s = toupper(*s);
+			}
+			*str++ = *s;
+		}
+		s++;
+	}
+
+	*str = '\0';
+}
+
 /**
  * Ask the security question to the user. Give him 3 times. If he fails,
  *  return false, otherwise true.
@@ -56,7 +79,6 @@ static void GUI_Security_DrawText(char *text)
 bool GUI_Security_Show()
 {
 	csip32 memoryBlockcsip;
-	csip32 readBuffercsip;
 	csip32 wsaHouseFilenamecsip;
 	uint16 questionsCount;
 	uint32 loc0E;
@@ -93,9 +115,6 @@ bool GUI_Security_Show()
 	memoryBlockcsip.s.ip = emu_ax;
 
 	loc0E = g_global->variable_6CD3[1][2];
-
-	readBuffercsip.csip = g_global->readBuffer.csip;
-	readBuffercsip.s.ip += g_global->readBufferSize - 1000;
 
 	{
 		char *filename;
@@ -217,26 +236,19 @@ bool GUI_Security_Show()
 			GUI_EditBox(text, 80, 9, wcsip, callback, 0);
 		}
 
-		emu_push(emu_cs); emu_push(0x14E0); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_1860();
+		GUI_Security_UndrawText();
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
 		GUI_Mouse_Show_Safe();
 
-		emu_push(emu_ds); emu_push(0x9939);
-		emu_push(emu_cs); emu_push(0x1523); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_16F8();
-		emu_sp += 4;
+		GUI_Security_NormaliseText((char *)g_global->variable_9939);
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 2);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		/* XXX -- Copy back to make non-converted functions still work */
-		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
-
-		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x156A); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_16F8();
-		emu_sp += 4;
+		GUI_Security_NormaliseText(string);
 
 		if (strcasecmp(string, (char *)&emu_get_memory8(0x353F, 0x9939, 0)) != 0) {
 			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_global->playerHouseID * 3 + 3);
@@ -268,7 +280,7 @@ bool GUI_Security_Show()
 			}
 		}
 
-		emu_push(emu_cs); emu_push(0x168E); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_1860();
+		GUI_Security_UndrawText();
 	}
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
