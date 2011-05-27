@@ -16,13 +16,36 @@
 #include "tools.h"
 #include "wsa.h"
 #include "unknown/unknown.h"
+#include "gfx.h"
 
-extern void emu_GUI_Security_Internal_176C();
 extern void emu_GUI_Security_Internal_1860();
 extern void emu_GUI_Security_Internal_16F8();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void overlay(uint16 cs, uint8 force);
+
+static void GUI_Security_DrawText(char *text)
+{
+	uint16 oldScreenID;
+
+	oldScreenID = GUI_Screen_SetActive(4);
+
+	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 0, 4);
+	GUI_Mouse_Show_InRegion();
+
+	GUI_Screen_Copy(0, 0, 0, 160, 40, 40, 4, 4);
+
+	GUI_Mentat_SplitText(text, 304);
+
+	GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
+
+	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
+	GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 4, 0);
+	GUI_Mouse_Show_InRegion();
+
+	GUI_Screen_SetActive(oldScreenID);
+}
 
 /**
  * Ask the security question to the user. Give him 3 times. If he fails,
@@ -41,9 +64,6 @@ bool GUI_Security_Show()
 	uint16 oldScreenID;
 	uint16 i;
 	bool valid;
-
-	/* Load in our overlay, as a few sub-functions need access to 'cs' */
-	emu_push(emu_cs); emu_push(0x043B); emu_cs = 0x34DA; overlay(0x34DA, 0);
 
 	g_global->variable_2580 = 1;
 	g_global->variable_3C4A = 1;
@@ -68,8 +88,6 @@ bool GUI_Security_Show()
 
 	emu_push(3);
 	emu_push(emu_cs); emu_push(0x10E4); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 	emu_sp += 2;
 	memoryBlockcsip.s.cs = emu_dx;
 	memoryBlockcsip.s.ip = emu_ax;
@@ -109,11 +127,9 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		/* XXX -- Copy back to make non-converted functions still work */
-		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
+		GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaHouseFilenamecsip), NULL, string, true, NULL);
 	}
 
-	GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaHouseFilenamecsip), NULL, (char *)emu_get_memorycsip(readBuffercsip), true, NULL);
 
 	/* In the first string is the amount of questions available */
 	{
@@ -146,14 +162,11 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		/* XXX -- Copy back to make non-converted functions still work */
-		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
-
 		{
 			csip32 null;
 
 			null.csip = 0x0;
-			wsaQuestion = WSA_LoadFile((char *)emu_get_memorycsip(readBuffercsip), memoryBlockcsip, loc0E, 0, null);
+			wsaQuestion = WSA_LoadFile(string, memoryBlockcsip, loc0E, 0, null);
 		}
 
 		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
@@ -169,12 +182,7 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		/* XXX -- Copy back to make non-converted functions still work */
-		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
-
-		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x13A4); emu_GUI_Security_Internal_176C();
-		emu_sp += 4;
+		GUI_Security_DrawText(string);
 
 		g_global->variable_2582 = g_global->variable_76AC + strlen(string) * 4;
 
@@ -192,8 +200,6 @@ bool GUI_Security_Show()
 		GUI_Mouse_Show_Safe();
 
 		emu_push(emu_cs); emu_push(0x1492); emu_cs = 0x29E8; emu_Input_History_Clear();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
 		g_global->variable_9939[0] = 0;
 
@@ -211,14 +217,14 @@ bool GUI_Security_Show()
 			GUI_EditBox(text, 80, 9, wcsip, callback, 0);
 		}
 
-		emu_push(emu_cs); emu_push(0x14E0); emu_GUI_Security_Internal_1860();
+		emu_push(emu_cs); emu_push(0x14E0); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_1860();
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
 		GUI_Mouse_Show_Safe();
 
 		emu_push(emu_ds); emu_push(0x9939);
-		emu_push(emu_cs); emu_push(0x1523); emu_GUI_Security_Internal_16F8();
+		emu_push(emu_cs); emu_push(0x1523); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_16F8();
 		emu_sp += 4;
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 2);
@@ -229,7 +235,7 @@ bool GUI_Security_Show()
 		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
 
 		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x156A); emu_GUI_Security_Internal_16F8();
+		emu_push(emu_cs); emu_push(0x156A); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_16F8();
 		emu_sp += 4;
 
 		if (strcasecmp(string, (char *)&emu_get_memory8(0x353F, 0x9939, 0)) != 0) {
@@ -244,24 +250,15 @@ bool GUI_Security_Show()
 			valid = true;
 		}
 
-		/* XXX -- Copy back to make non-converted functions still work */
-		strcpy((char *)emu_get_memorycsip(readBuffercsip), string);
-
-		emu_push(readBuffercsip.s.cs); emu_push(readBuffercsip.s.ip);
-		emu_push(emu_cs); emu_push(0x1615); emu_GUI_Security_Internal_176C();
-		emu_sp += 4;
+		GUI_Security_DrawText(string);
 
 		tickWaitTill = g_global->variable_76AC + strlen(string) * 4;
 
 		emu_push(emu_cs); emu_push(0x1644); emu_cs = 0x29E8; emu_Input_History_Clear();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
 		/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
 		while (g_global->variable_76AC + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0)) {
 			emu_push(emu_cs); emu_push(0x1685); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 			if (emu_ax != 0) break;
 
 			if (g_global->variable_76AC < tickWaitTill) {
@@ -271,7 +268,7 @@ bool GUI_Security_Show()
 			}
 		}
 
-		emu_push(emu_cs); emu_push(0x168E); emu_GUI_Security_Internal_1860();
+		emu_push(emu_cs); emu_push(0x168E); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Security_Internal_1860();
 	}
 
 	Unknown_07AE_0000(oldValue_07AE_0000);
@@ -279,14 +276,11 @@ bool GUI_Security_Show()
 	GUI_Screen_SetActive(oldScreenID);
 
 	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; emu_Input_History_Clear();
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x34DA) { overlay(0x34DA, 1); }
 
 	Load_Palette_Mercenaries();
 
 	g_global->variable_2580 = 0;
 	g_global->variable_3C4A = 0;
 
-	emu_pop(&emu_ip); emu_pop(&emu_cs);
 	return valid;
 }

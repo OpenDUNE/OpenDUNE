@@ -23,6 +23,7 @@
 #include "../input/input.h"
 #include "../os/endian.h"
 #include "../os/sleep.h"
+#include "./font.h"
 
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_Tools_Free();
@@ -30,7 +31,6 @@ extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
-extern void GUI_Mentat_SplitText();
 extern void emu_GUI_Mentat_Internal_19E6();
 
 /**
@@ -1229,16 +1229,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x32);
 
-	{
-		csip32 text_csip = emu_Global_GetCSIP(text);
-
-		emu_push(0x130);
-		emu_push(text_csip.s.cs);
-		emu_push(text_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x0BB4); emu_cs = 0x34DA; overlay(0x34DA, 0); GUI_Mentat_SplitText();
-		emu_sp += 6;
-		textLines = emu_ax;
-	}
+	textLines = GUI_Mentat_SplitText(text, 304);
 
 	mentatAnimation = 2;
 	loc26 = 0;
@@ -1423,4 +1414,45 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	emu_push(emu_cs); emu_push(0x1082); emu_cs = 0x29E8; emu_Input_History_Clear();
 
 	return result;
+}
+
+uint16 GUI_Mentat_SplitText(char *str, uint16 maxWidth)
+{
+	uint16 lines = 0;
+	uint16 height = 0;
+
+	if (str == NULL) return 0;
+
+	while (*str != '\0') {
+		uint16 width = 0;
+
+		while (width < maxWidth && *str != '.' && *str != '!' && *str != '?' && *str != '\0' && *str != '\r') {
+			width += Font_GetCharWidth(*str++);
+		}
+
+		if (width >= maxWidth) {
+			while (*str != ' ') width -= Font_GetCharWidth(*str--);
+		}
+
+		height++;
+
+		if ((*str != '\0' && (*str == '.' || *str == '!' || *str == '?' || *str == '\r')) || height >= 3) {
+			while (*str != '\0' && (*str == ' ' || *str == '.' || *str == '!' || *str == '?' || *str == '\r')) str++;
+
+			if (*str != '\0') str[-1] = '\0';
+			height = 0;
+			lines++;
+			continue;
+		}
+
+		if (*str == '\0') {
+			lines++;
+			height = 0;
+			continue;
+		}
+
+		*str++ = '\r';
+	}
+
+	return lines;
 }
