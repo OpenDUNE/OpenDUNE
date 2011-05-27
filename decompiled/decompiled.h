@@ -334,7 +334,6 @@ extern void f__AB01_184D_004F_7B67();
 extern void f__01F7_1855_0053_AC2D();
 extern void emu_GUI_Security_Internal_1860();
 extern void f__AB01_18AC_0082_307C();
-extern void emu_GUI_Mentat_Internal_19E6();
 extern void f__01F7_1A33_002B_B2CA();
 extern void f__AB01_1A90_002B_D292();
 extern void f__01F7_1AA9_0014_FC63();

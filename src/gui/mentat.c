@@ -31,7 +31,6 @@ extern void emu_Mouse_InsideRegion();
 extern void overlay(uint16 cs, uint8 force);
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
-extern void emu_GUI_Mentat_Internal_19E6();
 
 /**
  * Information about the mentat.
@@ -1175,6 +1174,27 @@ void GUI_Mentat_ScrollBar_Draw(Widget *w)
 	GUI_Mentat_Draw(false);
 }
 
+static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 height, uint16 skip, int16 lines, uint16 flags)
+{
+	uint16 oldScreenID;
+
+	if (lines <= 0) return false;
+
+	oldScreenID = GUI_Screen_SetActive(4);
+
+	while (skip-- != 0) text += strlen(text) + 1;
+
+	while (lines-- != 0) {
+		if (*text != '\0') GUI_DrawText_Wrapper(text, left, top, (uint8)g_global->variable_6D5B, 0, flags);
+		top += height;
+		text += strlen(text) + 1;
+	}
+
+	GUI_Screen_SetActive(oldScreenID);
+
+	return true;
+}
+
 uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool arg12, Widget *w)
 {
 	uint16 oldScreenID;
@@ -1190,7 +1210,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	uint16 result;
 	uint32 textTick;
 	uint32 textDelay;
-	uint16 loc26;
+	uint16 lines;
 	uint16 textLines;
 	uint16 step;
 
@@ -1232,7 +1252,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	textLines = GUI_Mentat_SplitText(text, 304);
 
 	mentatAnimation = 2;
-	loc26 = 0;
+	lines = 0;
 	frame = 0;
 	g_global->variable_76B4 = 0;
 	descTick = g_global->variable_76AC + 30;
@@ -1275,20 +1295,20 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 						step = 5;
 						break;
 					}
-					loc26 = descLines;
+					lines = descLines;
 					dirty = true;
 				} else {
 					if (g_global->variable_76AC > descTick) {
 						descTick = g_global->variable_76AC + 15;
-						loc26++;
+						lines++;
 						dirty = true;
 					}
 				}
 
-				if (loc26 < descLines && loc26 <= 12) break;
+				if (lines < descLines && lines <= 12) break;
 
 				step = (text != NULL) ? 2 : 4;
-				loc26 = descLines;
+				lines = descLines;
 				break;
 
 			case 2:
@@ -1380,19 +1400,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 		if (!dirty) continue;
 
-		{
-			csip32 desc_csip = emu_Global_GetCSIP(pictureDetails);
-			emu_push(0x31);
-			emu_push(0);
-			emu_push(loc26);
-			emu_push(0);
-			emu_push(8);
-			emu_push(g_global->variable_992B + 3);
-			emu_push((g_global->variable_992D << 3) + 5);
-			emu_push(desc_csip.s.cs); emu_push(desc_csip.s.ip);
-			emu_push(emu_cs); emu_push(0x0FBD); emu_cs = 0x34DA; overlay(0x34DA, 0); emu_GUI_Mentat_Internal_19E6();
-			emu_sp += 18;
-		}
+		GUI_Mentat_DrawInfo(pictureDetails, (g_global->variable_992D << 3) + 5, g_global->variable_992B + 3, 8, 0, lines, 0x31);
 
 		GUI_DrawSprite_8002(4);
 		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
