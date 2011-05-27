@@ -58,8 +58,8 @@ static void GUI_Security_NormaliseText(char *str)
 	char *s = str;
 
 	while (*s != '\0') {
-		if (isalnum(*s)) {
-			if (islower(*s)) {
+		if (isalnum((uint8)*s)) {
+			if (islower((uint8)*s)) {
 				*s = toupper(*s);
 			}
 			*str++ = *s;

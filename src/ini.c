@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
@@ -11,7 +12,7 @@
 void String_Trim(char *string)
 {
 	char *s = string + strlen(string) - 1;
-	while (s >= string && (g_global->characterClass[(uint8)*s] & 0x1) != 0) {
+	while (s >= string && isspace((uint8)*s)) {
 		*s = '\0';
 		s--;
 	}
@@ -49,7 +50,7 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 		if (*(current - 1) != '\r' && *(current - 1) != '\n') continue;
 
 		current += catLength;
-		while ((g_global->characterClass[(uint8)*current] & 0x1) != 0) current++;
+		while (isspace((uint8)*current)) current++;
 
 		/* Find the end of this block */
 		for (end = current; end != NULL; end++) {
@@ -72,13 +73,13 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 
 				/* Check to see if there is nothing behind the key ('a' should not match 'aa') */
 				value = current + keyLength;
-				while ((g_global->characterClass[(uint8)*value] & 0x1) != 0) value++;
+				while (isspace((uint8)*value)) value++;
 
 				/* Now validate the size and if we match at all */
 				if (*value != '=' || strncasecmp(current, key, keyLength) != 0) {
 					current = strchr(current, '\r');
 					if (current == NULL) break;
-					while ((g_global->characterClass[(uint8)*current] & 0x1) != 0) current++;
+					while (isspace((uint8)*current)) current++;
 					if (current > end) break;
 
 					continue;
@@ -90,7 +91,7 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 				/* Find the end of the line */
 				lineEnd = strchr(current, '\r');
 				if (lineEnd == NULL) break;
-				while ((g_global->characterClass[(uint8)*lineEnd] & 0x1) != 0) lineEnd++;
+				while (isspace((uint8)*lineEnd)) lineEnd++;
 				if (lineEnd > end) break;
 
 				/* Copy the value */
@@ -125,7 +126,7 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 			/* Find the next line, ignoring all \r\n */
 			current = strchr(current, '\r');
 			if (current == NULL) break;
-			while ((g_global->characterClass[(uint8)*current] & 0x1) != 0) current++;
+			while (isspace((uint8)*current)) current++;
 			if (current > end) break;
 		}
 
