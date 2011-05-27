@@ -201,10 +201,6 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	length = ChunkFile_Read(fileID, HTOBE32('NAME'), emu_get_memorycsip(g_global->variable_25D0), g_global->variable_6CD3[1][1]);
 	ChunkFile_Close(fileID);
 
-	emu_get_memory16(emu_ss, emu_bp, -0x6) = 0x0;
-	emu_get_memory16(emu_ss, emu_bp, -0x8) = 0x0;
-	emu_get_memory16(emu_ds, 0x00, 0x803A) = 0x0;
-
 	g_global->numberHelpSubjects = 0;
 	helpSubjects = emu_get_memorycsip(g_global->variable_25D0);
 
@@ -214,7 +210,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 
 		counter += size;
 
-		if (helpSubjects[size - 1] > g_global->campaignID - 1) {
+		if (helpSubjects[size - 1] > g_global->campaignID + 1) {
 			while (size-- != 0) *helpSubjects++ = '\0';
 			continue;
 		}
