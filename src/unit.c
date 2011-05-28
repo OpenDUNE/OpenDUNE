@@ -1496,7 +1496,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (s != NULL) {
 				Structure_Damage(s, damage, 0);
 			} else {
-				if (Map_B4CD_0750(packed) == 11 && emu_get_memory16(0x2C94, 0x00, 0x55A) > damage) Tools_Random_256();
+				if (Map_B4CD_0750(packed) == 11 && g_structureInfo[STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
 			}
 		}
 
