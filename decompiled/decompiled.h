@@ -242,7 +242,6 @@ extern void emu_DSP_GetInfo();
 extern void f__AB00_0B86_0001_6780();
 extern void f__AB00_0B91_0014_89BD();
 extern void emu_Highmem_IsInHighmem();
-extern void emu_Window_WidgetClick_Create();
 extern void f__AB00_0BC6_0001_6780();
 extern void emu_Overlay_Internal_0BD4();
 extern void emu_Overlay_Internal_0C03();

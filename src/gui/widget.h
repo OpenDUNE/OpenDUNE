@@ -134,16 +134,17 @@ MSVC_PACKED_BEGIN
  * Static information per WidgetClick type.
  */
 typedef struct WidgetClickInfo {
-	/* 0000(2)   */ PACK uint16 variable_00;                /*!< ?? */
-	/* 0002(4)   */ PACK csip32 procClick;                  /*!< Function to execute when widget is pressed. */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-	/* 000C(2)   */ PACK uint16 variable_0C;                /*!< ?? */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? */
-	/* 0010()    */ PACK uint8   unknown_0010[0x0004];
-	/* 0014(2)   */ PACK uint16 variable_14;                /*!< ?? */
-	/* 0016(2)   */ PACK uint16 variable_16;                /*!< ?? */
+	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
+	/* 0002(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
+	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< ?? */
+	/* 0008(2)   */ PACK uint16 flags;                      /*!< ?? */
+	/* 000A(2)   */ PACK int16  spriteID;                   /*!< ?? */
+	/* 000C(2)   */ PACK uint16 offsetX;                    /*!< ?? */
+	/* 000E(2)   */ PACK uint16 offsetY;                    /*!< ?? */
+	/* 0010(2)   */ PACK uint16 width;                      /*!< ?? */
+	/* 0012(2)   */ PACK uint16 height;                     /*!< ?? */
+	/* 0014(2)   */ PACK uint16 stringID;                   /*!< ?? */
+	/* 0016(2)   */ PACK uint16 variable_3A;                /*!< ?? */
 } GCC_PACKED WidgetClickInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(WidgetClickInfo) == 0x18);
