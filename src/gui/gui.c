@@ -42,10 +42,15 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
+extern void emu_GUI_HallOfFame_Internal_089C();
+extern void emu_GUI_HallOfFame_Internal_0A3E();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
+extern void emu_GUI_HallOfFame_Internal_10DC();
+extern void emu_GUI_HallOfFame_Internal_11C6();
+extern void emu_GUI_HallOfFame_Internal_1570();
+extern void emu_GUI_HallOfFame_Internal_15A9();
 extern void emu_GUI_EndStats_Internal_14D4();
-extern void emu_GUI_HallOfFame_Show();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
@@ -1475,7 +1480,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	Music_Play(17 + Tools_RandomRange(0, 5));
 
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
 	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -1593,9 +1598,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; emu_Input_History_Clear();
 
-	emu_push(score);
-	emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Show();
-	emu_sp += 2;
+	GUI_HallOfFame_Show(score);
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);
 
@@ -1665,7 +1668,7 @@ uint16 GUI_PickHouse()
 		GFX_Screen_Copy3(3, 2);
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 		Unknown_259E_0006(g_global->variable_3C32, 15);
 		GUI_Mouse_Show_Safe();
 
@@ -2011,7 +2014,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 		GUI_Mouse_Hide_Safe();
 
-		GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2 ,0);
+		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
 		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 		Unknown_259E_0006(g_global->variable_3C32, 15);
 
@@ -2765,7 +2768,7 @@ static void GUI_FactoryWindow_Init()
 	WSA_Unload(wsaBuffer);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_DrawFilledRectangle(64, 0, 112, SCREEN_HEIGHT - 1, GFX_GetPixel(72, 23));
@@ -3294,7 +3297,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_DrawFilledRectangle(8, 24, 311, 143, 12);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 4, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 4, 0);
 	Unknown_259E_0006(g_global->variable_3C32, 15);
 	GUI_Mouse_Show_Safe();
 
@@ -3355,7 +3358,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 0, false);
 	}
 
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, 2);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, 2);
 
 	if (campaignID != previousCampaignID) GUI_StrategicMap_ShowProgression(campaignID);
 
@@ -4164,4 +4167,158 @@ uint16 GUI_HallOfFame_Tick()
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
 	return 0;
+}
+
+void GUI_HallOfFame_Show(uint16 score)
+{
+	uint16 loc02;
+	csip32 buffer_csip;
+	uint16 editLine;
+	csip32 wcsip;
+	uint8 fileID;
+	char *buffer;
+
+	GUI_Mouse_Hide_Safe();
+
+	if (score == 0xFFFF) {
+		if (!File_Exists("SAVEFAME.DAT")) {
+			GUI_Mouse_Show_Safe();
+			return;
+		}
+		g_global->variable_81EB = 0;
+	}
+
+	emu_push(5);
+	emu_push(emu_cs); emu_push(0x0594); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
+	emu_sp += 2;
+	buffer_csip.s.cs = emu_dx;
+	buffer_csip.s.ip = emu_ax;
+	buffer = (char *)emu_get_memorycsip(buffer_csip);
+
+	if (!File_Exists("SAVEFAME.DAT")) {
+		uint16 written;
+
+		memset(buffer, 0, 128);
+
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x05CB); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_1570();
+		emu_sp += 4;
+
+		fileID = File_Open("SAVEFAME.DAT", 2);
+		written = File_Write(fileID, buffer, 128);
+		File_Close(fileID);
+
+		if (written != 128) return;
+	}
+
+	File_ReadBlockFile("SAVEFAME.DAT", buffer, 128);
+
+	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0638); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_15A9();
+	emu_sp += 4;
+
+	emu_push(1);
+	emu_push(score);
+	emu_push(emu_cs); emu_push(0x0644); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0B1D();
+	emu_sp += 4;
+
+	if (score == 0xFFFF) {
+		editLine = 0;
+	} else {
+		emu_push(score);
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x065E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_10DC();
+		emu_sp += 6;
+		editLine = emu_ax;
+	}
+
+	emu_push(0);
+	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
+	emu_sp += 6;
+	loc02 = emu_ax;
+
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
+
+	if (editLine != 0) {
+		uint16 backup_4062[16];
+		char *line;
+
+		line = buffer + (editLine - 1) * 16;
+
+		memcpy(backup_4062, g_global->variable_4062[19], 16);
+
+		g_global->variable_4062[19][0] = 4;
+		g_global->variable_4062[19][1] = (editLine - 1) * 11 + 90;
+		g_global->variable_4062[19][2] = loc02 / 8;
+		g_global->variable_4062[19][3] = 11;
+		g_global->variable_4062[19][4] = 6;
+		g_global->variable_4062[19][5] = 116;
+
+		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
+
+		while (*line == '\0') {
+			char *lineEnd;
+			uint16 oldScreenID;
+
+			oldScreenID = GUI_Screen_SetActive(0);
+			Unknown_07AE_00E4(19);
+			GUI_Screen_SetActive(oldScreenID);
+
+			{
+				csip32 null;
+				csip32 tick;
+				null.csip = 0x0;
+				tick.csip = 0x35180066;
+				GUI_EditBox(emu_Global_GetCSIP(line), 5, 19, null, tick, 0);
+			}
+
+			if (*line == '\0') continue;
+
+			lineEnd = line + strlen(line) - 1;
+
+			while (*lineEnd <= ' ' && lineEnd >= line) *lineEnd-- = '\0';
+		}
+
+		memcpy(g_global->variable_4062[19], backup_4062, 16);
+
+		emu_push(1);
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
+		emu_sp += 6;
+
+		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x07EB); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_1570();
+		emu_sp += 4;
+
+		fileID = File_Open("SAVEFAME.DAT", 2);
+		File_Write(fileID, buffer, 128);
+		File_Close(fileID);
+	}
+
+	GUI_Mouse_Show_Safe();
+
+	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0833); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_089C();
+	emu_sp += 4;
+	wcsip.s.cs = emu_dx;
+	wcsip.s.ip = emu_ax;
+
+	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	GUI_Screen_SetActive(0);
+
+	g_global->variable_81E6 = 0;
+
+	while (g_global->variable_81E6 == 0) GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip));
+
+	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+	emu_push(emu_cs); emu_push(0x086E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0A3E();
+	emu_sp += 4;
+
+	emu_push(emu_cs); emu_push(0x0875); emu_cs = 0x29E8; emu_Input_History_Clear();
+
+	if (score == 0xFFFF) return;
+
+	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 255 * 3, g_global->variable_81E8, 3);
 }

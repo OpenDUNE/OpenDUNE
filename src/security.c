@@ -30,17 +30,17 @@ static void GUI_Security_DrawText(char *text)
 	oldScreenID = GUI_Screen_SetActive(4);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 0, 4);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 0, 4);
 	GUI_Mouse_Show_InRegion();
 
-	GUI_Screen_Copy(0, 0, 0, 160, 40, 40, 4, 4);
+	GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, 4, 4);
 
 	GUI_Mentat_SplitText(text, 304);
 
 	GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 4, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
 	GUI_Mouse_Show_InRegion();
 
 	GUI_Screen_SetActive(oldScreenID);
@@ -49,7 +49,7 @@ static void GUI_Security_DrawText(char *text)
 static void GUI_Security_UndrawText()
 {
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 0);
+	GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -133,7 +133,7 @@ bool GUI_Security_Show()
 	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaHouseFilenamecsip), g_global->playerHouseID);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);

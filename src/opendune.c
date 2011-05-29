@@ -62,7 +62,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
-extern void emu_GUI_HallOfFame_Show();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
 extern void emu_File_LowLevel_Close_Wrapper();
@@ -868,8 +867,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	positions[5].x = 0;
 	positions[5].y = spriteY;
 
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 0, memory);
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, memory, screenID);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, memory);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
 	GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory, g_global->variable_182E);
 
@@ -1436,7 +1435,7 @@ static void Gameloop_Logos()
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 30);
 
@@ -1460,7 +1459,7 @@ static void Gameloop_Logos()
 
 	Sprites_LoadImage("VIRGIN.CPS", 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
 
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
 	Unknown_259E_0006(g_global->variable_998A, 30);
 
@@ -2181,9 +2180,7 @@ static void Gameloop_IntroMenu()
 					break;
 
 				case 0x014E: /* Hall of Fame */
-					emu_push(0xFFFF);
-					emu_push(emu_cs); emu_push(0x1DFF); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Show();
-					emu_sp += 2;
+					GUI_HallOfFame_Show(0xFFFF);
 
 					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
@@ -2256,7 +2253,7 @@ static void Gameloop_IntroMenu()
 
 				GUI_ClearScreen(0);
 
-				GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
 				Unknown_259E_0006(g_global->variable_3C32, 30);
 

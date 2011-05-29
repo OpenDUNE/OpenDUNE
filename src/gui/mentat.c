@@ -317,7 +317,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	GUI_Mentat_Create_HelpScreen_Widgets();
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, 40, SCREEN_HEIGHT, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
 	GUI_Mentat_LoadHelpSubjects(true);
@@ -442,7 +442,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	GUI_Screen_SetActive(0);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(0, 0, 0, 0, 40, 200, 2, 0);
+	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
 	Unknown_259E_0006(g_global->variable_3C32, 15);
@@ -1313,7 +1313,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 			case 2:
 				GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-				GUI_Screen_Copy(0, 0, 0, 160, 40, 40, 0, 4);
+				GUI_Screen_Copy(0, 0, 0, 160, SCREEN_WIDTH / 8, 40, 0, 4);
 				GUI_Mouse_Show_InRegion();
 
 				step = 3;
@@ -1325,7 +1325,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 				if ((key != 0 && textDone) || result != 0) {
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-					GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 0);
+					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
 					GUI_Mouse_Show_InRegion();
 
 					step = 4;
@@ -1334,7 +1334,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 				}
 
 				if (key != 0) {
-					GUI_Screen_Copy(0, 160, 0, 0, 40, 40, 4, 4);
+					GUI_Screen_Copy(0, 160, 0, 0, SCREEN_WIDTH / 8, 40, 4, 4);
 
 					if (textLines-- != 0) {
 						GUI_Screen_SetActive(4);
@@ -1353,7 +1353,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 					}
 
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
-					GUI_Screen_Copy(0, 0, 0, 0, 40, 40, 4, 0);
+					GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
 					GUI_Mouse_Show_InRegion();
 					break;
 				}

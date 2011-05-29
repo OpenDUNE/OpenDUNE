@@ -166,7 +166,6 @@ extern void f__29E8_04FC_0028_0C66();
 extern void f__AB00_0501_0001_6780();
 extern void emu_DSP_SetDMA();
 extern void f__29E8_0534_000E_6213();
-extern void emu_GUI_HallOfFame_Show();
 extern void emu_Overlay_LocateMemory();
 extern void f__AB00_0564_0001_6780();
 extern void f__AB01_0564_0050_E6D5();
