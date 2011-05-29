@@ -42,8 +42,7 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
-extern void emu_GUI_HallOfFame_Internal_089C();
-extern void emu_GUI_HallOfFame_Internal_0A3E();
+extern void f__B48B_0242_0017_581D();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_HallOfFame_Internal_10DC();
@@ -4169,12 +4168,70 @@ uint16 GUI_HallOfFame_Tick()
 	return 0;
 }
 
+static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
+{
+	char *resumeString;
+	char *clearString;
+	Widget *wClear;
+	Widget *wResume;
+	csip32 wClear_csip;
+	csip32 wResume_csip;
+	uint16 width;
+
+	memcpy(g_global->variable_81F1, g_global->colourBorderSchema, 40);
+	memcpy(g_global->colourBorderSchema, g_global->variable_2C10, 40);
+
+	resumeString = String_Get_ByIndex(0x146); /* "Resume Game" */
+	clearString  = String_Get_ByIndex(0x147); /* "Clear List" */
+
+	width = min(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
+
+	/* "Clear List" */
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFF, 0x147, 0, &wClear_csip);
+	wClear->width          = width;
+	wClear->height         = 10;
+	wClear->clickProc.csip = 0x35180034;
+	wClear->flags.all      = 0x44C5;
+	wClear->scrollbar      = emu_Global_GetCSIP(buffer);
+
+	/* "Resume Game" */
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0, &wResume_csip);
+	wResume->width          = width;
+	wResume->height         = 10;
+	wResume->clickProc.csip = 0x35180039;
+	wResume->flags.all      = 0x44C5;
+	wResume->scrollbar      = emu_Global_GetCSIP(buffer);
+
+	emu_push(wClear_csip.s.cs); emu_push(wClear_csip.s.ip);
+	emu_push(wResume_csip.s.cs); emu_push(wResume_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x0A28); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0242_0017_581D();
+	emu_sp += 8;
+	wResume_csip.s.cs = emu_dx;
+	wResume_csip.s.ip = emu_ax;
+
+	return (Widget *)emu_get_memorycsip(wResume_csip);
+}
+
+static void GUI_HallOfFame_DeleteButtons(Widget *w)
+{
+	while (w != NULL) {
+		csip32 wcsip = emu_Global_GetCSIP(w);
+		w = GUI_Widget_GetNext(w);
+
+		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
+		emu_push(emu_cs); emu_push(0x0A6D); emu_cs = 0x23E1; emu_Tools_Free();
+		emu_sp += 4;
+	}
+
+	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);
+}
+
 void GUI_HallOfFame_Show(uint16 score)
 {
 	uint16 loc02;
 	csip32 buffer_csip;
 	uint16 editLine;
-	csip32 wcsip;
+	Widget *w;
 	uint8 fileID;
 	char *buffer;
 
@@ -4298,11 +4355,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	GUI_Mouse_Show_Safe();
 
-	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0833); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_089C();
-	emu_sp += 4;
-	wcsip.s.cs = emu_dx;
-	wcsip.s.ip = emu_ax;
+	w = GUI_HallOfFame_CreateButtons(buffer);
 
 	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -4310,11 +4363,9 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	g_global->variable_81E6 = 0;
 
-	while (g_global->variable_81E6 == 0) GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip));
+	while (g_global->variable_81E6 == 0) GUI_Widget_HandleEvents(w);
 
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x086E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0A3E();
-	emu_sp += 4;
+	GUI_HallOfFame_DeleteButtons(w);
 
 	emu_push(emu_cs); emu_push(0x0875); emu_cs = 0x29E8; emu_Input_History_Clear();
 

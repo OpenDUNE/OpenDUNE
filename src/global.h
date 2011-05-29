@@ -636,7 +636,8 @@ typedef struct GlobalData {
 	/* 2BF5(10)  */ PACK char   string_2BF5[10];            /*!< "FARTR.WSA" NULL terminated. */
 	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
-	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x0029];
+	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x1];
+	/* 2C10(40)  */ PACK uint16 variable_2C10[5][4];        /*!< ?? */
 	/* 2C38(2)   */ PACK uint16 variable_2C38;              /*!< ?? */
 	/* 2C3A(4)   */ PACK uint32 variable_2C3A;              /*!< ?? */
 	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
@@ -809,8 +810,7 @@ typedef struct GlobalData {
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
-	/* 3604(32)  */ PACK uint16 colourBorderSchema[4][4];   /*!< Colours used for the border of widgets. */
-	/* 3624()    */ PACK uint8   unknown_3624[0x0008];
+	/* 3604(40)  */ PACK uint16 colourBorderSchema[5][4];   /*!< Colours used for the border of widgets. */
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
@@ -1460,7 +1460,7 @@ typedef struct GlobalData {
 	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
 	/* 81ED(4)   */ PACK csip32 variable_81ED;              /*!< ?? */
-	/* 81F1(40)  */ PACK uint8  variable_81F1[40];          /*!< ?? */
+	/* 81F1(40)  */ PACK uint16 variable_81F1[5][4];        /*!< ?? */
 	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
 	/* 821A(1)   */ PACK uint8  variable_821A;              /*!< ?? */
 	/* 821B(1)   */ PACK uint8  variable_821B;              /*!< ?? */
