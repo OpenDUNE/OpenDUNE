@@ -30,7 +30,6 @@
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
-extern void emu_GUI_HallOfFame_Internal_11C6();
 extern void overlay(uint16 cs, uint8 force);
 
 static char *GenerateSavegameFilename(uint16 number)
@@ -1106,14 +1105,13 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 {
 	/* "Are you sure you want to clear the high scores?" */
 	if (GUI_YesNo(0x148)) {
-		memset(emu_get_memorycsip(w->scrollbar), 0, 128);
+		HallOfFameData *data = (HallOfFameData *)emu_get_memorycsip(w->scrollbar);
+
+		memset(data, 0, 128);
 
 		if (File_Exists("SAVEFAME.DAT")) File_Delete("SAVEFAME.DAT");
 
-		emu_push(1);
-		emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-		emu_push(emu_cs); emu_push(0x0AEC); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
-		emu_sp += 8;
+		GUI_HallOfFame_DrawData(data, true);
 
 		g_global->variable_81E6 = 1;
 	}

@@ -45,7 +45,6 @@ extern void f__29E8_07FA_0020_177A();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_HallOfFame_Internal_0F22();
-extern void emu_GUI_HallOfFame_Internal_11C6();
 extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -82,18 +81,6 @@ typedef struct StrategicMapData {
 } GCC_PACKED StrategicMapData;
 MSVC_PACKED_END
 assert_compile(sizeof(StrategicMapData) == 0x8);
-
-MSVC_PACKED_BEGIN
-typedef struct HallOfFameData {
-	/* 0000(6)   */ PACK char name[6];      /*!< ?? */
-	/* 0006(2)   */ PACK uint16 score;      /*!< ?? */
-	/* 0008(2)   */ PACK uint16 rank;       /*!< ?? */
-	/* 000A(2)   */ PACK uint16 campaignID; /*!< ?? */
-	/* 000C(2)   */ PACK uint16 houseID;    /*!< ?? */
-	/* 000E(2)   */ PACK uint16 variable_E; /*!< ?? */
-} GCC_PACKED HallOfFameData;
-MSVC_PACKED_END
-assert_compile(sizeof(HallOfFameData) == 0x10);
 
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
@@ -4268,7 +4255,7 @@ static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 
 void GUI_HallOfFame_Show(uint16 score)
 {
-	uint16 loc02;
+	uint16 width;
 	csip32 data_csip;
 	uint16 editLine;
 	Widget *w;
@@ -4321,11 +4308,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		editLine = GUI_HallOfFame_InsertScore(data, score);
 	}
 
-	emu_push(0);
-	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
-	emu_sp += 6;
-	loc02 = emu_ax;
+	width = GUI_HallOfFame_DrawData(data, false);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -4339,7 +4322,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		g_global->variable_4062[19][0] = 4;
 		g_global->variable_4062[19][1] = (editLine - 1) * 11 + 90;
-		g_global->variable_4062[19][2] = loc02 / 8;
+		g_global->variable_4062[19][2] = width / 8;
 		g_global->variable_4062[19][3] = 11;
 		g_global->variable_4062[19][4] = 6;
 		g_global->variable_4062[19][5] = 116;
@@ -4371,10 +4354,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		memcpy(g_global->variable_4062[19], backup_4062, 16);
 
-		emu_push(1);
-		emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
-		emu_sp += 6;
+		GUI_HallOfFame_DrawData(data, true);
 
 		GUI_HallOfFame_Encode(data);
 
@@ -4402,4 +4382,73 @@ void GUI_HallOfFame_Show(uint16 score)
 	if (score == 0xFFFF) return;
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 255 * 3, g_global->variable_81E8, 3);
+}
+
+uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
+{
+	uint16 oldScreenID;
+	char *scoreString;
+	char *battleString;
+	uint16 width = 0;
+	uint16 offsetY;
+	uint16 scoreX;
+	uint16 battleX;
+	uint8 i;
+
+	oldScreenID = GUI_Screen_SetActive(2);
+	GUI_DrawFilledRectangle(8, 80, 311, 178, 116);
+	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
+
+	battleString = String_Get_ByIndex(0x144); /* "Battle" */
+	scoreString = String_Get_ByIndex(0x145); /* "Score" */
+
+	scoreX = 320 - Font_GetStringWidth(scoreString) / 2 - 12;
+	battleX = scoreX - Font_GetStringWidth(scoreString) / 2 - 8 - Font_GetStringWidth(battleString) / 2;
+	offsetY = 80;
+
+	/* "Name and Rank" */
+	GUI_DrawText_Wrapper(String_Get_ByIndex(0x143), 32, offsetY, 8, 0, 0x22);
+
+	/* "Battle" */
+	GUI_DrawText_Wrapper(battleString, battleX, offsetY, 8, 0, 0x122);
+
+	/* "Score" */
+	GUI_DrawText_Wrapper(scoreString, scoreX, offsetY, 8, 0, 0x122);
+
+	offsetY = 90;
+	for (i = 0; i < 8; i++, offsetY += 11) {
+		if (data[i].score == 0) break;
+
+		strcpy((char *)g_global->variable_9939, data[i].name);
+		strcat((char *)g_global->variable_9939, ", ");
+		if (g_global->language == LANGUAGE_FRENCH) {
+			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
+			strcat((char *)g_global->variable_9939, " ");
+			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));
+		} else {
+			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));
+			strcat((char *)g_global->variable_9939, " ");
+			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
+		}
+
+		if (*data[i].name == '\0') {
+			width = battleX - 36 - Font_GetStringWidth((char *)g_global->variable_9939);
+		} else {
+			GUI_DrawText_Wrapper((char *)g_global->variable_9939, 32, offsetY, 15, 0, 0x22);
+		}
+
+		GUI_DrawText_Wrapper("%u.", 24, offsetY, 15, 0, 0x222, i + 1);
+		GUI_DrawText_Wrapper("%u", battleX, offsetY, 15, 0, 0x122, data[i].campaignID);
+		GUI_DrawText_Wrapper("%u", scoreX, offsetY, 15, 0, 0x122, data[i].score);
+	}
+
+	if (show) {
+		GUI_Mouse_Hide_Safe();
+		GUI_Screen_Copy(1, 80, 1, 80, 38, 100, 2, 0);
+		GUI_Mouse_Show_Safe();
+	}
+
+	GUI_Screen_SetActive(oldScreenID);
+
+	return width;
 }

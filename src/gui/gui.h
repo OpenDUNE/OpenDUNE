@@ -13,6 +13,18 @@ typedef enum FactoryResult {
 	FACTORY_CONTINUE     = 0xFFFF
 } FactoryResult;
 
+MSVC_PACKED_BEGIN
+typedef struct HallOfFameData {
+	/* 0000(6)   */ PACK char name[6];      /*!< ?? */
+	/* 0006(2)   */ PACK uint16 score;      /*!< ?? */
+	/* 0008(2)   */ PACK uint16 rank;       /*!< ?? */
+	/* 000A(2)   */ PACK uint16 campaignID; /*!< ?? */
+	/* 000C(2)   */ PACK uint16 houseID;    /*!< ?? */
+	/* 000E(2)   */ PACK uint16 variable_E; /*!< ?? */
+} GCC_PACKED HallOfFameData;
+MSVC_PACKED_END
+assert_compile(sizeof(HallOfFameData) == 0x10);
+
 struct Widget;
 struct FactoryWindowItem;
 
@@ -69,6 +81,7 @@ extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
 extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, csip32 remapcsip);
 extern uint16 GUI_HallOfFame_Tick();
 extern void GUI_HallOfFame_Show(uint16 score);
+extern uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show);
 
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
