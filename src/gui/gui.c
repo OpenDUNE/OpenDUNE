@@ -44,7 +44,7 @@ extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
-extern void emu_GUI_HallOfFame_Internal_10DC();
+extern void emu_GUI_HallOfFame_Internal_0F22();
 extern void emu_GUI_HallOfFame_Internal_11C6();
 extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_Input_HandleInput();
@@ -4228,6 +4228,30 @@ static void GUI_HallOfFame_Decode(char *buffer)
 	for (i = 0; i < 128; i++, buffer++) *buffer = (*buffer ^ 0xA7) - i;
 }
 
+static uint16 GUI_HallOfFame_InsertScore(char *buffer, uint16 score)
+{
+	uint16 i;
+	for (i = 0; i < 8; i++, buffer += 16) {
+		if (*(uint16 *)(buffer + 6) >= score) continue;
+
+		memmove(buffer + 16, buffer, 128);
+		memset(buffer, 0, 6);
+		*(uint16 *)(buffer + 6) = score;
+		*(uint16 *)(buffer + 12) = g_global->playerHouseID;
+
+		emu_push(score);
+		emu_push(emu_cs); emu_push(0x1166); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0F22();
+		emu_sp += 2;
+		*(uint16 *)(buffer + 8) = emu_ax;
+		*(uint16 *)(buffer + 10) = g_global->campaignID;
+		*(uint16 *)(buffer + 14) = 0;
+
+		return i + 1;
+	}
+
+	return 0;
+}
+
 void GUI_HallOfFame_Show(uint16 score)
 {
 	uint16 loc02;
@@ -4280,11 +4304,7 @@ void GUI_HallOfFame_Show(uint16 score)
 	if (score == 0xFFFF) {
 		editLine = 0;
 	} else {
-		emu_push(score);
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x065E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_10DC();
-		emu_sp += 6;
-		editLine = emu_ax;
+		editLine = GUI_HallOfFame_InsertScore(buffer, score);
 	}
 
 	emu_push(0);

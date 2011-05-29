@@ -288,7 +288,6 @@ extern void emu_Tools_CheckXMSReturnValueAndComplainIfWrong();
 extern void emu_Overlay_Internal_1082();
 extern void emu_String_tolower();
 extern void emu_String_toupper();
-extern void emu_GUI_HallOfFame_Internal_10DC();
 extern void emu_File_LowLevel_Delete();
 extern void f__AB00_1115_0001_6780();
 extern void emu_String_Format();
