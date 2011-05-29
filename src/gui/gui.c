@@ -83,6 +83,18 @@ typedef struct StrategicMapData {
 MSVC_PACKED_END
 assert_compile(sizeof(StrategicMapData) == 0x8);
 
+MSVC_PACKED_BEGIN
+typedef struct HallOfFameData {
+	/* 0000(6)   */ PACK char name[6];      /*!< ?? */
+	/* 0006(2)   */ PACK uint16 score;      /*!< ?? */
+	/* 0008(2)   */ PACK uint16 rank;       /*!< ?? */
+	/* 000A(2)   */ PACK uint16 campaignID; /*!< ?? */
+	/* 000C(2)   */ PACK uint16 houseID;    /*!< ?? */
+	/* 000E(2)   */ PACK uint16 variable_E; /*!< ?? */
+} GCC_PACKED HallOfFameData;
+MSVC_PACKED_END
+assert_compile(sizeof(HallOfFameData) == 0x10);
+
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
@@ -4165,7 +4177,7 @@ uint16 GUI_HallOfFame_Tick()
 	return 0;
 }
 
-static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
+static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 {
 	char *resumeString;
 	char *clearString;
@@ -4187,7 +4199,7 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	wClear->height         = 10;
 	wClear->clickProc.csip = 0x35180034;
 	wClear->flags.all      = 0x44C5;
-	wClear->scrollbar      = emu_Global_GetCSIP(buffer);
+	wClear->scrollbar      = emu_Global_GetCSIP(data);
 
 	/* "Resume Game" */
 	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0, NULL);
@@ -4195,7 +4207,7 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	wResume->height         = 10;
 	wResume->clickProc.csip = 0x35180039;
 	wResume->flags.all      = 0x44C5;
-	wResume->scrollbar      = emu_Global_GetCSIP(buffer);
+	wResume->scrollbar      = emu_Global_GetCSIP(data);
 
 	return GUI_Widget_Insert(wClear, wResume);
 }
@@ -4214,37 +4226,39 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);
 }
 
-static void GUI_HallOfFame_Encode(char *buffer)
+static void GUI_HallOfFame_Encode(HallOfFameData *data)
 {
 	uint8 i;
+	uint8 *d;
 
-	for (i = 0; i < 128; i++, buffer++) *buffer = (*buffer + i) ^ 0xA7;
+	for (d = (uint8 *)data, i = 0; i < 128; i++, d++) *d = (*d + i) ^ 0xA7;
 }
 
-static void GUI_HallOfFame_Decode(char *buffer)
+static void GUI_HallOfFame_Decode(HallOfFameData *data)
 {
 	uint8 i;
+	uint8 *d;
 
-	for (i = 0; i < 128; i++, buffer++) *buffer = (*buffer ^ 0xA7) - i;
+	for (d = (uint8 *)data, i = 0; i < 128; i++, d++) *d = (*d ^ 0xA7) - i;
 }
 
-static uint16 GUI_HallOfFame_InsertScore(char *buffer, uint16 score)
+static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 {
 	uint16 i;
-	for (i = 0; i < 8; i++, buffer += 16) {
-		if (*(uint16 *)(buffer + 6) >= score) continue;
+	for (i = 0; i < 8; i++, data++) {
+		if (data->score >= score) continue;
 
-		memmove(buffer + 16, buffer, 128);
-		memset(buffer, 0, 6);
-		*(uint16 *)(buffer + 6) = score;
-		*(uint16 *)(buffer + 12) = g_global->playerHouseID;
+		memmove(data + 1, data, 128);
+		memset(data->name, 0, 6);
+		data->score = score;
+		data->houseID = g_global->playerHouseID;
 
 		emu_push(score);
 		emu_push(emu_cs); emu_push(0x1166); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0F22();
 		emu_sp += 2;
-		*(uint16 *)(buffer + 8) = emu_ax;
-		*(uint16 *)(buffer + 10) = g_global->campaignID;
-		*(uint16 *)(buffer + 14) = 0;
+		data->rank = emu_ax;
+		data->campaignID = g_global->campaignID;
+		data->variable_E = 0;
 
 		return i + 1;
 	}
@@ -4255,11 +4269,11 @@ static uint16 GUI_HallOfFame_InsertScore(char *buffer, uint16 score)
 void GUI_HallOfFame_Show(uint16 score)
 {
 	uint16 loc02;
-	csip32 buffer_csip;
+	csip32 data_csip;
 	uint16 editLine;
 	Widget *w;
 	uint8 fileID;
-	char *buffer;
+	HallOfFameData *data;
 
 	GUI_Mouse_Hide_Safe();
 
@@ -4274,27 +4288,27 @@ void GUI_HallOfFame_Show(uint16 score)
 	emu_push(5);
 	emu_push(emu_cs); emu_push(0x0594); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
 	emu_sp += 2;
-	buffer_csip.s.cs = emu_dx;
-	buffer_csip.s.ip = emu_ax;
-	buffer = (char *)emu_get_memorycsip(buffer_csip);
+	data_csip.s.cs = emu_dx;
+	data_csip.s.ip = emu_ax;
+	data = (HallOfFameData *)emu_get_memorycsip(data_csip);
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;
 
-		memset(buffer, 0, 128);
+		memset(data, 0, 128);
 
-		GUI_HallOfFame_Encode(buffer);
+		GUI_HallOfFame_Encode(data);
 
 		fileID = File_Open("SAVEFAME.DAT", 2);
-		written = File_Write(fileID, buffer, 128);
+		written = File_Write(fileID, data, 128);
 		File_Close(fileID);
 
 		if (written != 128) return;
 	}
 
-	File_ReadBlockFile("SAVEFAME.DAT", buffer, 128);
+	File_ReadBlockFile("SAVEFAME.DAT", data, 128);
 
-	GUI_HallOfFame_Decode(buffer);
+	GUI_HallOfFame_Decode(data);
 
 	emu_push(1);
 	emu_push(score);
@@ -4304,11 +4318,11 @@ void GUI_HallOfFame_Show(uint16 score)
 	if (score == 0xFFFF) {
 		editLine = 0;
 	} else {
-		editLine = GUI_HallOfFame_InsertScore(buffer, score);
+		editLine = GUI_HallOfFame_InsertScore(data, score);
 	}
 
 	emu_push(0);
-	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 	emu_push(emu_cs); emu_push(0x0672); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
 	emu_sp += 6;
 	loc02 = emu_ax;
@@ -4317,9 +4331,9 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	if (editLine != 0) {
 		uint16 backup_4062[16];
-		char *line;
+		char *name;
 
-		line = buffer + (editLine - 1) * 16;
+		name = data[editLine - 1].name;
 
 		memcpy(backup_4062, g_global->variable_4062[19], 16);
 
@@ -4332,8 +4346,8 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-		while (*line == '\0') {
-			char *lineEnd;
+		while (*name == '\0') {
+			char *nameEnd;
 			uint16 oldScreenID;
 
 			oldScreenID = GUI_Screen_SetActive(0);
@@ -4345,33 +4359,33 @@ void GUI_HallOfFame_Show(uint16 score)
 				csip32 tick;
 				null.csip = 0x0;
 				tick.csip = 0x35180066;
-				GUI_EditBox(emu_Global_GetCSIP(line), 5, 19, null, tick, 0);
+				GUI_EditBox(emu_Global_GetCSIP(name), 5, 19, null, tick, 0);
 			}
 
-			if (*line == '\0') continue;
+			if (*name == '\0') continue;
 
-			lineEnd = line + strlen(line) - 1;
+			nameEnd = name + strlen(name) - 1;
 
-			while (*lineEnd <= ' ' && lineEnd >= line) *lineEnd-- = '\0';
+			while (*nameEnd <= ' ' && nameEnd >= name) *nameEnd-- = '\0';
 		}
 
 		memcpy(g_global->variable_4062[19], backup_4062, 16);
 
 		emu_push(1);
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
+		emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 		emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
 		emu_sp += 6;
 
-		GUI_HallOfFame_Encode(buffer);
+		GUI_HallOfFame_Encode(data);
 
 		fileID = File_Open("SAVEFAME.DAT", 2);
-		File_Write(fileID, buffer, 128);
+		File_Write(fileID, data, 128);
 		File_Close(fileID);
 	}
 
 	GUI_Mouse_Show_Safe();
 
-	w = GUI_HallOfFame_CreateButtons(buffer);
+	w = GUI_HallOfFame_CreateButtons(data);
 
 	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; emu_Input_History_Clear();
 
