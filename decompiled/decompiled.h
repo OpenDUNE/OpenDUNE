@@ -308,8 +308,6 @@ extern void f__AB00_1242_0001_6780();
 extern void emu_Overlay_Empty2();
 extern void emu_Overlay_Empty();
 extern void emu_GUI_EndStats_Internal_14D4();
-extern void emu_GUI_HallOfFame_Internal_1570();
-extern void emu_GUI_HallOfFame_Internal_15A9();
 extern void f__AB01_15E1_0068_0B9B();
 extern void f__01F7_160D_001B_4171();
 extern void f__01F7_1670_003F_2D8D();

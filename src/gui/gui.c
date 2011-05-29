@@ -46,8 +46,6 @@ extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_HallOfFame_Internal_10DC();
 extern void emu_GUI_HallOfFame_Internal_11C6();
-extern void emu_GUI_HallOfFame_Internal_1570();
-extern void emu_GUI_HallOfFame_Internal_15A9();
 extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -4216,6 +4214,20 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);
 }
 
+static void GUI_HallOfFame_Encode(char *buffer)
+{
+	uint8 i;
+
+	for (i = 0; i < 128; i++, buffer++) *buffer = (*buffer + i) ^ 0xA7;
+}
+
+static void GUI_HallOfFame_Decode(char *buffer)
+{
+	uint8 i;
+
+	for (i = 0; i < 128; i++, buffer++) *buffer = (*buffer ^ 0xA7) - i;
+}
+
 void GUI_HallOfFame_Show(uint16 score)
 {
 	uint16 loc02;
@@ -4247,9 +4259,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 		memset(buffer, 0, 128);
 
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x05CB); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_1570();
-		emu_sp += 4;
+		GUI_HallOfFame_Encode(buffer);
 
 		fileID = File_Open("SAVEFAME.DAT", 2);
 		written = File_Write(fileID, buffer, 128);
@@ -4260,9 +4270,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	File_ReadBlockFile("SAVEFAME.DAT", buffer, 128);
 
-	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0638); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_15A9();
-	emu_sp += 4;
+	GUI_HallOfFame_Decode(buffer);
 
 	emu_push(1);
 	emu_push(score);
@@ -4334,9 +4342,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		emu_push(emu_cs); emu_push(0x07DD); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_11C6();
 		emu_sp += 6;
 
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x07EB); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_1570();
-		emu_sp += 4;
+		GUI_HallOfFame_Encode(buffer);
 
 		fileID = File_Open("SAVEFAME.DAT", 2);
 		File_Write(fileID, buffer, 128);
