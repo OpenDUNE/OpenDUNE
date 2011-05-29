@@ -18,27 +18,27 @@ void String_Trim(char *string)
 	}
 }
 
-bool Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, const char *source)
+char *Ini_GetString(const char *category, const char *key, const char *defaultValue, char *dest, uint16 length, char *source)
 {
 	char *s;
 	char buffer[1024];
 	uint16 catLength;
-	const char *current;
+	char *current;
+	char *ret;
 
-	if (dest == NULL) return false;
+	if (dest != NULL) {
+		/* Set the default value in case we jump out early */
+		if (defaultValue != NULL) strncpy(dest, defaultValue, length);
+		dest[length - 1] = '\0';
+	}
 
-	/* Set the default value in case we jump out early */
-	if (defaultValue != NULL) strncpy(dest, defaultValue, length);
-
-	dest[length - 1] = '\0';
-
-	if (source == NULL) return false;
+	if (source == NULL) return NULL;
 
 	sprintf(buffer, "[%s]", category);
-	for (s = buffer; *s != '\0'; s++) if (*s >= 'a' && *s <= 'z') *s -= 32;
+	for (s = buffer; *s != '\0'; s++) *s = toupper(*s);
 	catLength = strlen(buffer);
 
-	current = source;
+	ret = source;
 
 	for (current = source; current != NULL; current++) {
 		const char *end;
@@ -66,10 +66,11 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 		if (key != NULL) {
 			uint16 keyLength = strlen(key);
 
+			ret = current;
+
 			while (true) {
-				const char *value;
+				char *value;
 				char *lineEnd;
-				uint16 len;
 
 				/* Check to see if there is nothing behind the key ('a' should not match 'aa') */
 				value = current + keyLength;
@@ -85,6 +86,8 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 					continue;
 				}
 
+				ret = current;
+
 				/* Get the value */
 				current = value + 1;
 
@@ -95,18 +98,24 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 				if (lineEnd > end) break;
 
 				/* Copy the value */
-				len = lineEnd - current;
-				memcpy(dest, current, len);
-				*(dest + len) = '\0';
+				if (dest != NULL) {
+					uint16 len = lineEnd - current;
+					memcpy(dest, current, len);
+					*(dest + len) = '\0';
 
-				String_Trim(dest);
-				return true;
+					String_Trim(dest);
+				}
+
+				return ret;
 			}
 
 			/* Failed to find the key. Return anyway. */
-			*dest = '\0';
-			return false;
+			if (dest != NULL) *dest = '\0';
+			return ret;
 		}
+
+		ret = current;
+		if (dest == NULL) return ret;
 
 		/* Read all the keys from this section */
 		while (true) {
@@ -133,13 +142,13 @@ bool Ini_GetString(const char *category, const char *key, const char *defaultVal
 		*dest++ = '\0';
 		*dest++ = '\0';
 
-		return true;
+		return ret;
 	}
 
-	return false;
+	return ret;
 }
 
-int Ini_GetInteger(const char *category, const char *key, int defaultValue, const char *source)
+int Ini_GetInteger(const char *category, const char *key, int defaultValue, char *source)
 {
 	char value[16];
 	char buffer[16];
@@ -148,4 +157,37 @@ int Ini_GetInteger(const char *category, const char *key, int defaultValue, cons
 
 	Ini_GetString(category, key, value, buffer, 15, source);
 	return atoi(buffer);
+}
+
+void Ini_SetString(const char *category, const char *key, const char *value, char *source)
+{
+	char *s;
+	char buffer[120];
+
+	if (source == NULL || category == NULL) return;
+
+	s = Ini_GetString(category, NULL, NULL, NULL, 0, source);
+	if (s == NULL && key != NULL) {
+		sprintf(buffer, "\r\n[%s]\r\n", category);
+		strcat(source, buffer);
+	}
+
+	s = Ini_GetString(category, key, NULL, NULL, 0, source);
+	if (s != NULL) {
+		uint16 count = strcspn(s, "\r\n");
+		if (count != 0) {
+			strcpy(s, s + count + 1);
+		}
+		if (*s == '\n') {
+			strcpy(s, s + 1);
+		}
+	} else {
+		s = Ini_GetString(category, NULL, NULL, NULL, 0, source);
+	}
+
+	if (value != NULL) {
+		sprintf(buffer, "%s=%s\r\n", key, value);
+		memmove(s + strlen(buffer), s, strlen(s) + 1);
+		memcpy(s, buffer, strlen(buffer));
+	}
 }

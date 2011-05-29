@@ -502,7 +502,7 @@ typedef struct GlobalData {
 	/* 225F(24)  */ PACK char   string_225F[24];            /*!< "%d,%d,%d,%d,%d,%d,%d,%d" NULL terminated. */
 	/* 2277(35)  */ PACK char   string_2277[35];            /*!< "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d" NULL terminated. */
 	/* 229A(7)   */ PACK char   string_229A[7];             /*!< "combat" NULL terminated. */
-	/* 22A1(7)   */ PACK char   string_22A1[19];             /*!< "%*s%4d,%4d,%4d,%4d" NULL terminated. */
+	/* 22A1(7)   */ PACK char   string_22A1[19];            /*!< "%*s%4d,%4d,%4d,%4d" NULL terminated. */
 	/* 22B4(12)  */ PACK char   string_22B4[12];            /*!< "PROFILE.INI" NULL terminated. */
 	/* 22C0(8)   */ PACK char   string_22C0[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 22C8(8)   */ PACK char   string_22C8[8];             /*!< "MESSAGE" NULL terminated. */

@@ -41,6 +41,7 @@
 #include "wsa.h"
 #include "gfx.h"
 #include "mouse.h"
+#include "ini.h"
 
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
@@ -61,7 +62,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
-extern void f__B4B8_116F_0013_15F7();
 extern void emu_GUI_HallOfFame_Show();
 extern void emu_Drive_Get_Default_Wrapper();
 extern void emu_Drive_Set_Default_Wrapper();
@@ -1762,6 +1762,128 @@ static void Window_WidgetClick_Create()
 	}
 }
 
+static void ReadProfileIni(char *filename)
+{
+	char *source;
+	char *key;
+	char *keys;
+	char buffer[120];
+	uint16 locsi;
+
+	if (filename == NULL) return;
+	if (!File_Exists(filename)) return;
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x119F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
+	emu_sp += 2;
+	source = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+
+	memset(source, 0, 32000);
+	File_ReadBlockFile(filename, source, g_global->variable_6CD3[1][1]);
+
+	keys = source + strlen(source) + 5000;
+	*keys = '\0';
+
+	Ini_GetString("construct", NULL, keys, keys, 2000, source);
+
+	for (key = keys; *key != '\0'; key += strlen(key) + 1) {
+		ObjectInfo *oi = NULL;
+		uint16 count;
+		uint8 type;
+		uint16 buildCredits;
+		uint16 buildTime;
+		uint16 fogUncoverRadius;
+		uint16 availableCampaign;
+		uint16 sortPriority;
+		uint16 priorityBuild;
+		uint16 priorityTarget;
+		uint16 hitpoints;
+
+		type = Unit_StringToType(key);
+		if (type != UNIT_INVALID) {
+			oi = &g_unitInfo[type].o;
+		} else {
+			type = Structure_StringToType(key);
+			if (type != STRUCTURE_INVALID) oi = &g_structureInfo[type].o;
+		}
+
+		if (oi == NULL) continue;
+
+		Ini_GetString("construct", key, buffer, buffer, 120, source);
+		count = sscanf(buffer, "%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu", &buildCredits, &buildTime, &hitpoints, &fogUncoverRadius, &availableCampaign, &priorityBuild, &priorityTarget, &sortPriority);
+		oi->buildCredits      = buildCredits;
+		oi->buildTime         = buildTime;
+		oi->hitpoints         = hitpoints;
+		oi->fogUncoverRadius  = fogUncoverRadius;
+		oi->availableCampaign = availableCampaign;
+		oi->priorityBuild     = priorityBuild;
+		oi->priorityTarget    = priorityTarget;
+		if (count <= 7) continue;
+		oi->sortPriority = (uint8)sortPriority;
+	}
+
+	if (g_global->debugGame != 0) {
+		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
+			ObjectInfo *oi = &g_unitInfo[locsi].o;
+			char *name = (char *)emu_get_memorycsip(oi->name);
+
+			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
+				15 - strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
+
+			Ini_SetString("construct", name, buffer, source);
+		}
+
+		for (locsi = 0; locsi < STRUCTURE_MAX; locsi++) {
+			ObjectInfo *oi = &g_unitInfo[locsi].o;
+			char *name = (char *)emu_get_memorycsip(oi->name);
+
+			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
+				15 - strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
+
+			Ini_SetString("construct", name, buffer, source);
+		}
+	}
+
+	*keys = '\0';
+
+	Ini_GetString("combat", NULL, keys, keys, 2000, source);
+
+	for (key = keys; *key != '\0'; key += strlen(key) + 1) {
+		uint16 damage;
+		uint16 variable_40;
+		uint16 fireDelay;
+		uint16 variable_50;
+
+		Ini_GetString("combat", key, buffer, buffer, 120, source);
+		String_Trim(buffer);
+		if (sscanf(buffer, "%hu,%hu,%hu,%hu", &variable_50, &damage, &fireDelay, &variable_40) < 4) continue;
+
+		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
+			UnitInfo *ui = &g_unitInfo[locsi];
+
+			if (strcasecmp((char *)emu_get_memorycsip(ui->o.name), key) != 0) continue;
+
+			ui->damage      = damage;
+			ui->variable_40 = variable_40;
+			ui->fireDelay   = fireDelay;
+			ui->variable_50 = variable_50;
+			break;
+		}
+	}
+
+	if (g_global->debugGame == 0) return;
+
+	for (locsi = 0; locsi < UNIT_MAX; locsi++) {
+		UnitInfo *ui = &g_unitInfo[locsi];
+		char *name = (char *)emu_get_memorycsip(ui->o.name);
+
+		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - strlen(name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
+		Ini_SetString("combat", name, buffer, source);
+	}
+}
+
 /**
  * Intro menu.
  */
@@ -1820,9 +1942,7 @@ static void Gameloop_IntroMenu()
 	g_global->readBuffer.s.cs = emu_dx;
 	g_global->readBuffer.s.ip = emu_ax;
 
-	emu_push(0x353F); emu_push(0x22B4); /* "PROFILE.INI" NULL terminated. */
-	emu_push(emu_cs); emu_push(0x17E1); emu_cs = 0x34B8; overlay(0x34B8, 0); f__B4B8_116F_0013_15F7();
-	emu_sp += 4;
+	ReadProfileIni("PROFILE.INI");
 
 	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
 	emu_push(emu_cs); emu_push(0x17F0); emu_cs = 0x23E1; emu_Tools_Free();

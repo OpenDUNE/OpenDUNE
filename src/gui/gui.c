@@ -3042,7 +3042,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	for (i = 0; i < 20; i++) {
 		sprintf(key, "REG%d", i + 1);
 
-		if (!Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) break;
+		if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) break;
 
 		sscanf((char *)g_global->variable_9939, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
@@ -3119,7 +3119,7 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 
 	sprintf((char *)g_global->variable_9939, "GROUP%d", campaignID);
 
-	if (!Ini_GetString((char *)g_global->variable_9939, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI))) return;
+	if (Ini_GetString((char *)g_global->variable_9939, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) return;
 
 	while (*s != '\0') {
 		uint16 region = atoi(s);
@@ -3190,7 +3190,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 		strncpy(key, (char *)emu_get_memorycsip(g_houseInfo[houseID].name), 3);
 		key[3] = '\0';
 
-		if (!Ini_GetString(category, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI))) continue;
+		if (Ini_GetString(category, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) continue;
 
 		while (*s != '\0') {
 			uint16 region = atoi(s);
@@ -3198,7 +3198,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 			if (region != 0) {
 				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->language], region);
 
-				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI))) {
+				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
 					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
 				}
 

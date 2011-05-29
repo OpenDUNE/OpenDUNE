@@ -301,7 +301,6 @@ extern void f__01F7_1139_000D_AAB0();
 extern void f__01F7_1146_0023_6860();
 extern void emu_String_Format_Callback();
 extern void emu_Overlay_Internal_115A();
-extern void f__B4B8_116F_0013_15F7();
 extern void f__AB00_1184_0001_6780();
 extern void f__AB00_118F_0029_4B06();
 extern void emu_Overlay_Internal_11AE();

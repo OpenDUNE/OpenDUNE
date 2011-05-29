@@ -136,9 +136,5 @@ AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
 AB01:1FA8:0072:8B95	emu_MPU_Init	# (unused, port1, port2, port3, port4)
 AB01:2336:002C:4FDC	emu_MPU_ClearData	# (unused, index)
 
-B4B8:0BC1:000C:1630	emu_Window_WidgetClick_Create	# (??) Create a widget click
-
-B520:0223:000E:38A3	emu_Tools_Free_Wrapper	# (csip) Forwards the call to emu_Tools_Free()
-
 B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
 
