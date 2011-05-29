@@ -42,7 +42,6 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
-extern void f__B48B_0242_0017_581D();
 extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_HallOfFame_Internal_10DC();
@@ -4174,8 +4173,6 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	char *clearString;
 	Widget *wClear;
 	Widget *wResume;
-	csip32 wClear_csip;
-	csip32 wResume_csip;
 	uint16 width;
 
 	memcpy(g_global->variable_81F1, g_global->colourBorderSchema, 40);
@@ -4187,7 +4184,7 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0, &wClear_csip);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0, NULL);
 	wClear->width          = width;
 	wClear->height         = 10;
 	wClear->clickProc.csip = 0x35180034;
@@ -4195,21 +4192,14 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	wClear->scrollbar      = emu_Global_GetCSIP(buffer);
 
 	/* "Resume Game" */
-	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0, &wResume_csip);
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0, NULL);
 	wResume->width          = width;
 	wResume->height         = 10;
 	wResume->clickProc.csip = 0x35180039;
 	wResume->flags.all      = 0x44C5;
 	wResume->scrollbar      = emu_Global_GetCSIP(buffer);
 
-	emu_push(wResume_csip.s.cs); emu_push(wResume_csip.s.ip);
-	emu_push(wClear_csip.s.cs); emu_push(wClear_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0A28); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0242_0017_581D();
-	emu_sp += 8;
-	wClear_csip.s.cs = emu_dx;
-	wClear_csip.s.ip = emu_ax;
-
-	return (Widget *)emu_get_memorycsip(wClear_csip);
+	return GUI_Widget_Insert(wClear, wResume);
 }
 
 static void GUI_HallOfFame_DeleteButtons(Widget *w)

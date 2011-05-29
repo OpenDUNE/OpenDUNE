@@ -1040,3 +1040,42 @@ void GUI_Widget_Free_WithScrollbar(csip32 wcsip)
 	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x23E1; emu_Tools_Free();
 	emu_sp += 4;
 }
+
+/**
+ * Insert a widget into a list of widgets.
+ * @param w1 Widget to which the other widget is added.
+ * @param w2 Widget which is added to the first widget (ordered by index).
+ * @return The first widget of the chain.
+ */
+Widget *GUI_Widget_Insert(Widget *w1, Widget *w2)
+{
+	Widget *first;
+	Widget *prev;
+
+	if (w1 == NULL) return w2;
+	if (w2 == NULL) return w1;
+
+	if (w2->index <= w1->index) {
+		w2->next = emu_Global_GetCSIP(w1);
+		return w2;
+	}
+
+	first = w1;
+	prev = w1;
+
+	while (w2->index > w1->index && w1->next.csip != 0x0) {
+		prev = w1;
+		w1 = GUI_Widget_GetNext(w1);
+	}
+
+	if (w2->index > w1->index) {
+		w1 = GUI_Widget_Link(first, w2);
+	} else {
+		prev->next = emu_Global_GetCSIP(w2);
+		w2->next = emu_Global_GetCSIP(w1);
+	}
+
+	g_global->widgetReset = 1;
+
+	return first;
+}

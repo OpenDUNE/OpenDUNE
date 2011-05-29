@@ -76,7 +76,6 @@ extern void emu_Mouse_CallbackClear();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 extern void overlay(uint16 cs, uint8 force);
-extern void f__B48B_0242_0017_581D();
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -1737,12 +1736,14 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 static void Window_WidgetClick_Create()
 {
 	WidgetClickInfo *wci;
+	Widget *w3C26;
+
+	w3C26 = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
 
 	for (wci = &g_widgetClickInfo[0]; wci->index != 0xFFFF; wci++) {
 		Widget *w;
-		csip32 wcsip;
 
-		w = GUI_Widget_Allocate(wci->index, wci->shortcut, wci->offsetX, wci->offsetY, wci->spriteID, wci->stringID, wci->variable_3A, &wcsip);
+		w = GUI_Widget_Allocate(wci->index, wci->shortcut, wci->offsetX, wci->offsetY, wci->spriteID, wci->stringID, wci->variable_3A, NULL);
 
 		if (wci->spriteID < 0) {
 			w->width  = wci->width;
@@ -1752,13 +1753,11 @@ static void Window_WidgetClick_Create()
 		w->clickProc = wci->clickProc;
 		w->flags.all = wci->flags;
 
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(g_global->variable_3C26.s.cs); emu_push(g_global->variable_3C26.s.ip);
-		emu_push(emu_cs); emu_push(0x0CFA); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0242_0017_581D();
-		emu_sp += 8;
-		g_global->variable_3C26.s.cs = emu_dx;
-		g_global->variable_3C26.s.ip = emu_ax;
+		w3C26 = GUI_Widget_Insert(w3C26, w);
+
 	}
+
+	g_global->variable_3C26 = emu_Global_GetCSIP(w3C26);
 }
 
 static void ReadProfileIni(char *filename)

@@ -190,6 +190,7 @@ extern uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scroll
 extern uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar);
 extern uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar);
 extern void GUI_Widget_Free_WithScrollbar(csip32 wcsip);
+extern Widget *GUI_Widget_Insert(Widget *w1, Widget *w2);
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);
@@ -227,10 +228,5 @@ extern void GUI_Widget_Scrollbar_Draw(Widget *w);
 extern void GUI_Widget_ActionPanel_Draw(bool forceDraw);
 extern void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed);
 extern void GUI_Widget_DrawAll(Widget *w);
-
-
-extern void emu_GUI_Widget_HandleEvents();
-extern void emu_GUI_Widget_Allocate();
-extern void emu_GUI_Widget_Link();
 
 #endif /* GUI_WIDGET_H */

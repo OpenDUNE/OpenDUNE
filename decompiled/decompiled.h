@@ -106,7 +106,6 @@ extern void emu_Mouse_Init();
 extern void f__01F7_022D_0003_9E5A();
 extern void f__01F7_0231_0021_40ED();
 extern void emu_DSP_Reset();
-extern void f__B48B_0242_0017_581D();
 extern void f__AB00_0264_0047_2B67();
 extern void emu_Overlay_Internal_0268();
 extern void emu_Input_Keyboard_HandleKeys();
