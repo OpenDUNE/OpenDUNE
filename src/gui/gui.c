@@ -4184,10 +4184,10 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	resumeString = String_Get_ByIndex(0x146); /* "Resume Game" */
 	clearString  = String_Get_ByIndex(0x147); /* "Clear List" */
 
-	width = min(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
+	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFF, 0x147, 0, &wClear_csip);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0, &wClear_csip);
 	wClear->width          = width;
 	wClear->height         = 10;
 	wClear->clickProc.csip = 0x35180034;
@@ -4202,14 +4202,14 @@ static Widget *GUI_HallOfFame_CreateButtons(char *buffer)
 	wResume->flags.all      = 0x44C5;
 	wResume->scrollbar      = emu_Global_GetCSIP(buffer);
 
-	emu_push(wClear_csip.s.cs); emu_push(wClear_csip.s.ip);
 	emu_push(wResume_csip.s.cs); emu_push(wResume_csip.s.ip);
+	emu_push(wClear_csip.s.cs); emu_push(wClear_csip.s.ip);
 	emu_push(emu_cs); emu_push(0x0A28); emu_cs = 0x348B; overlay(0x348B, 0); f__B48B_0242_0017_581D();
 	emu_sp += 8;
-	wResume_csip.s.cs = emu_dx;
-	wResume_csip.s.ip = emu_ax;
+	wClear_csip.s.cs = emu_dx;
+	wClear_csip.s.ip = emu_ax;
 
-	return (Widget *)emu_get_memorycsip(wResume_csip);
+	return (Widget *)emu_get_memorycsip(wClear_csip);
 }
 
 static void GUI_HallOfFame_DeleteButtons(Widget *w)
