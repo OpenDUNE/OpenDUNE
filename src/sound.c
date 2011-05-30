@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
-extern void emu_Tools_Sleep();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 
@@ -214,7 +213,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 			count = g_global->readBufferSize;
 		}
 
-		Tools_Memmove(soundBuffer, g_global->readBuffer, count);
+		memmove(emu_get_memorycsip(g_global->readBuffer), emu_get_memorycsip(soundBuffer), count);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
 	} else {

@@ -20,7 +20,6 @@ extern void f__01F7_27FD_0037_E2C0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void emu_Tools_Sleep();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();

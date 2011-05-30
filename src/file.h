@@ -22,16 +22,8 @@ extern uint32 ChunkFile_Seek(uint8 index, uint32 header);
 extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 buflen);
 
 
-extern void emu_File_Exists();
-extern void emu_File_Open();
-extern void emu_File_Close();
 extern void emu_File_Read();
 extern void emu_File_Write();
-extern void emu_File_ReadBlockFile();
-extern void emu_File_Obsolete1();
 extern void emu_File_Obsolete5();
-extern void emu_ChunkFile_Open();
-extern void emu_ChunkFile_Close();
-extern void emu_ChunkFile_Read();
 
 #endif /* FILE_H */

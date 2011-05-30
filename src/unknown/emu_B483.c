@@ -46,7 +46,7 @@ void Unknown_B483_0156(uint16 index)
 			count = g_global->readBufferSize;
 		}
 
-		Tools_Memmove(csip, g_global->readBuffer, count);
+		memmove(emu_get_memorycsip(g_global->readBuffer), emu_get_memorycsip(csip), count);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
@@ -93,12 +93,7 @@ void Unknown_B483_0363(uint16 index)
 	if (g_global->variable_6D8F == 0 || g_global->soundsEnabled == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
 		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
 
-		emu_push(g_global->variable_0312[index][5]);
-		emu_push(emu_cs); emu_push(0x03FF); emu_cs = 0x0FCB; emu_String_Get_ByIndex();
-		emu_sp += 2;
-
-		g_global->variable_37BC.s.cs = emu_dx;
-		g_global->variable_37BC.s.ip = emu_ax;
+		g_global->variable_37BC = emu_Global_GetCSIP(String_Get_ByIndex(g_global->variable_0312[index][5]));
 
 		if ((g_global->variable_37BA & 1) != 0) {
 			g_global->variable_3A12 = 1;
@@ -175,9 +170,7 @@ csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 	res.s.cs = emu_dx;
 	res.s.ip = emu_ax;
 
-	if (res.csip != 0) {
-		Tools_Memmove(g_global->readBuffer, res, fileSize);
-	}
+	if (res.csip != 0) memmove(emu_get_memorycsip(res), emu_get_memorycsip(g_global->readBuffer), fileSize);
 
 	return res;
 }

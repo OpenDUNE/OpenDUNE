@@ -109,33 +109,6 @@ void emu_Tools_GetSmallestIP()
 }
 
 /**
- * Emulator wrapper around Tools_Memmove()
- *
- * @name emu_Tools_Memmove
- * @implements 2B0E:0006:0049:87B1 ()
- */
-void emu_Tools_Memmove()
-{
-	csip32 src;
-	csip32 dst;
-	uint32 count;
-	csip32 ret;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
-
-	src   = emu_get_csip32(emu_ss, emu_sp, 0);
-	dst   = emu_get_csip32(emu_ss, emu_sp, 4);
-	count = emu_get_memory32(emu_ss, emu_sp, 8);
-
-	Tools_Memmove(src, dst, count);
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
-}
-
-/**
  * Print a string to the stdout.
  * @note Please replace this function as soon as you find it. It is silly for
  *  modern applications.
@@ -153,23 +126,4 @@ void emu_Tools_PrintString()
 
 	string = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
 	printf("%s\n", string);
-}
-
-/**
- * Emulator wrapper around Tools_Sleep().
- *
- * @name emu_Tools_Sleep
- * @implements 24FD:000A:000B:2043 ()
- */
-void emu_Tools_Sleep()
-{
-	uint16 ticks;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ticks = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	Tools_Sleep(ticks);
 }

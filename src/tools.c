@@ -248,32 +248,6 @@ csip32 Tools_GetSmallestIP(csip32 csip)
 }
 
 /**
- * Moves count bytes from src to dst.
- *
- * @param src The source CS:IP.
- * @param dst The destination CS:IP.
- * @param count How many bytes to move.
- */
-void Tools_Memmove(csip32 src, csip32 dst, uint32 count)
-{
-	if (dst.s.cs >= 0xF000) {
-		emu_push(count >> 16); emu_push(count & 0xFFFF);
-		emu_push(dst.s.cs); emu_push(dst.s.ip);
-		emu_push(src.s.cs); emu_push(src.s.ip);
-		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x2649; emu_Highmem_Memmove_ToHighmem();
-		emu_sp += 12;
-	} else if (src.s.cs >= 0xF000) {
-		emu_push(count >> 16); emu_push(count & 0xFFFF);
-		emu_push(dst.s.cs); emu_push(dst.s.ip);
-		emu_push(src.s.cs); emu_push(src.s.ip);
-		emu_push(emu_cs); emu_push(0x004F); emu_cs = 0x2649; emu_Highmem_Memmove_FromHighmem();
-		emu_sp += 12;
-	} else {
-		memmove(emu_get_memorycsip(dst), emu_get_memorycsip(src), count);
-	}
-}
-
-/**
  * Get a random value between 0 and 255.
  *
  * @return The random value.

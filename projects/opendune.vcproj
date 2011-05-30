@@ -623,26 +623,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\emu_mouse.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\emu_mt32mpu.c"
 				>
 				<FileConfiguration
@@ -683,87 +663,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\src\emu_sound.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\emu_sprites.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\emu_string.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\emu_tools.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\emu_wsa.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1479,46 +1379,6 @@
 				>
 				<File
 					RelativePath="..\src\gui\editbox.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\gui\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\gui\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\gui\emu_editbox.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\gui\"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)\src\gui\"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\src\gui\emu_font.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

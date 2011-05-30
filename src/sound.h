@@ -21,6 +21,4 @@ extern void Voice_Play(int16 voiceID);
 extern void Voice_LoadVoices(uint16 voiceSet);
 
 
-extern void emu_Music_Play();
-
 #endif /* SOUND_H */

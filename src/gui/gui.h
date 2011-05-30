@@ -87,28 +87,7 @@ extern uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show);
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
 
-extern void emu_GUI_DrawWiredRectangle();
-extern void emu_GUI_DrawFilledRectangle();
-extern void emu_GUI_DrawText();
-extern void emu_GUI_DrawText_Wrapper();
-extern void emu_GUI_PaletteAnimate();
-extern void emu_GUI_SplitText();
-extern void emu_GUI_DrawSprite_8002();
-extern void emu_GUI_Screen_Copy();
-extern void emu_GUI_Mentat_Animation();
-extern void emu_GUI_Screen_FadeIn();
-extern void emu_GUI_Screen_SetActive();
 extern void emu_GUI_Mouse_Show();
 extern void emu_GUI_Mouse_Hide();
-extern void emu_GUI_Mouse_Show_Safe();
-extern void emu_GUI_Mouse_Hide_Safe();
-extern void emu_GUI_Mouse_Show_InRegion();
-extern void emu_GUI_Mouse_Hide_InRegion();
-extern void emu_GUI_Mouse_Show_InWidget();
-extern void emu_GUI_Mouse_Hide_InWidget();
-extern void emu_GUI_HallOfFame_Tick();
-
-/* emu_editbox.c */
-extern void emu_GUI_EditBox();
 
 #endif /* GUI_GUI_H */

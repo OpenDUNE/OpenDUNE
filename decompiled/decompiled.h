@@ -59,7 +59,6 @@ extern void emu_Highmem_Internal_0003();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Swapd();
 extern void emu_Video_GetMode();
-extern void emu_Tools_Sleep();
 extern void emu_Mouse_CheckButtons();
 extern void emu_Video_IsInVSync();
 extern void emu_Tools_Swapw();

@@ -19,7 +19,4 @@ extern void Sprites_SetMouseSprite(uint16 x, uint16 y, csip32 spritecsip);
 extern void Sprites_CPS_LoadRegionClick();
 
 
-extern void emu_Sprites_Load();
-extern void emu_Sprites_LoadImage();
-
 #endif /* SPRITES_H */

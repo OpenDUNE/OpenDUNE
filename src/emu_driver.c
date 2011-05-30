@@ -9,21 +9,6 @@
 #include "global.h"
 
 /**
- * Emulator wrapper around Driver_Music_FadeOut()
- *
- * @name emu_Driver_Music_FadeOut
- * @implements 1DD7:0B53:0025:36F7 ()
- */
-void emu_Driver_Music_FadeOut()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	Driver_Music_FadeOut();
-}
-
-/**
  * Emulator wrapper around Drivers_CustomTimer_Interrupt()
  *
  * @name emu_Drivers_CustomTimer_Interrupt

@@ -51,7 +51,6 @@ extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
-extern void emu_Tools_Sleep();
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
 extern void emu_Highmem_Initialize();
@@ -1949,7 +1948,7 @@ static void Gameloop_IntroMenu()
 
 	File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
 
-	Tools_Memmove(g_global->variable_998A, g_global->variable_3C32, 0x300);
+	memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 3 * 256);
 
 	GUI_ClearScreen(0);
 
@@ -2135,8 +2134,8 @@ static void Gameloop_IntroMenu()
 
 					Unknown_B483_0363(0xFFFE);
 
-					File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
-					Tools_Memmove(g_global->variable_998A, g_global->variable_3C32, 0x300);
+					File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 3 * 256);
+					memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 3 * 256);
 
 					if (g_global->variable_37B4 == 0) {
 						uint8 fileID;

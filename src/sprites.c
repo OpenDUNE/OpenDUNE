@@ -508,7 +508,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	loc0A = Tools_GetSmallestIP(loc0A);
 	loc0A.s.ip = 0x0;
 
-	Tools_Memmove(memBlock1, loc0A, 8);
+	memmove(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock1), 8);
 
 	File_Read(index, (void *)(emu_get_memorycsip(loc0A) + 8), size);
 

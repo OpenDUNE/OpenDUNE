@@ -40,7 +40,6 @@
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
-extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();

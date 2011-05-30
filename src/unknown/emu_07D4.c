@@ -441,9 +441,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 				oldScreenID2 = GUI_Screen_SetActive(2);
 
-				emu_push(3);
-				emu_push(emu_cs); emu_push(0x12EB); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-				emu_sp += 2;
+				GUI_Mouse_Hide_InWidget(3);
 			}
 
 			Unknown_07D4_1625(curPos);
@@ -458,7 +456,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			GUI_Screen_SetActive(oldScreenID2);
 
-			emu_push(emu_cs); emu_push(0x1372); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+			GUI_Mouse_Show_InWidget();
 		}
 
 		if (g_global->variable_3344 == 200) {
@@ -482,13 +480,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	if (loc12 && !arg0A) {
 		if (g_global->variable_3A14 != 0) {
-			emu_push(g_global->variable_6D5D);
-			emu_push(emu_cs); emu_push(0x1448); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-			emu_sp += 2;
-
+			GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 			GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
-
-			emu_push(emu_cs); emu_push(0x1475); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+			GUI_Mouse_Show_InWidget();
 
 			g_global->variable_3A14 = 0;
 		} else {
@@ -511,9 +505,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				height = 16;
 
 				if (!init) {
-					emu_push(g_global->variable_6D5D);
-					emu_push(emu_cs); emu_push(0x151C); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-					emu_sp += 2;
+					GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 
 					init = true;
 					g_global->variable_37A4 = 0;
@@ -522,9 +514,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				GUI_Screen_Copy(x, y, x, y, width, height, g_global->screenActiveID, 0);
 			}
 
-			if (init) {
-				emu_push(emu_cs); emu_push(0x155C); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
-			}
+			if (init) GUI_Mouse_Show_InWidget();
 		}
 	}
 
@@ -582,9 +572,7 @@ void emu_Unknown_07D4_0000()
 			Map_SetSelectionObjectPosition(0xFFFF);
 			loc10 = true;
 
-			emu_push(2);
-			emu_push(emu_cs); emu_push(0x0112); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-			emu_sp += 2;
+			GUI_Mouse_Hide_InWidget(2);
 
 			GUI_Screen_Copy(max(-locsi << 1, 0), 40 + max(-locdi << 4, 0), max(0, locsi << 1), 40 + max(0, locdi << 4), loc02 << 1, loc04 << 4, 0, 2);
 		} else {
@@ -639,7 +627,7 @@ void emu_Unknown_07D4_0000()
 	Map_SetSelectionObjectPosition(g_global->variable_3A00);
 	Map_UpdateMinimapPosition(g_global->minimapPosition, false);
 
-	emu_push(emu_cs); emu_push(0x02F2); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+	GUI_Mouse_Show_InWidget();
 }
 
 /**
@@ -672,13 +660,9 @@ void emu_Unknown_07D4_159A()
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x15F2); emu_cs = 0x2642; emu_GUI_Mouse_Hide_InWidget();
-	emu_sp += 2;
-
+	GUI_Mouse_Hide_InWidget(3);
 	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
-
-	emu_push(emu_cs); emu_push(0x161F); emu_cs = 0x2642; emu_GUI_Mouse_Show_InWidget();
+	GUI_Mouse_Show_InWidget();
 }
 
 /**

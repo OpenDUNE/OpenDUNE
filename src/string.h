@@ -14,8 +14,4 @@ extern uint8 *String_NextString(uint8 *ptr);
 extern uint8 *String_PrevString(uint8 *ptr);
 
 
-extern void emu_String_GenerateFilename();
-extern void emu_String_Get_ByIndex();
-extern void emu_String_NextString();
-
 #endif /* STRING_H */

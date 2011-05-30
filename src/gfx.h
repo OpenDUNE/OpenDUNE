@@ -26,10 +26,5 @@ extern void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 heigh
 extern void GFX_CopyToBuffer(int16 left, int16 top, uint16 width, uint16 height, uint8 *buffer);
 
 extern void emu_GFX_Screen_GetSegmentActive();
-extern void emu_GFX_Screen_Copy2();
-extern void emu_GFX_SetPalette();
-extern void emu_GFX_GetSize();
-extern void emu_GFX_CopyFromBuffer();
-extern void emu_GFX_CopyToBuffer();
 
 #endif /* GFX_H */

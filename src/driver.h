@@ -80,7 +80,6 @@ extern void Drivers_CustomTimer_Interrupt();
 extern void Drivers_CustomTimer_OriginalInterrupt();
 
 
-extern void emu_Driver_Music_FadeOut();
 extern void emu_Drivers_CustomTimer_Interrupt();
 extern void emu_Drivers_CustomTimer_OriginalInterrupt();
 

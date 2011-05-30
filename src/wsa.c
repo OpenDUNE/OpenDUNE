@@ -107,11 +107,7 @@ uint16 WSA_GotoNextFrame(WSAHeader *header, uint16 frame, csip32 displayBuffer)
 		positionFrame.csip = csip32_add(header->fileContent, positionStart);
 		dest.csip = csip32_add(dest, header->bufferLength - length);
 
-		emu_push(length >> 16); emu_push(length & 0xFFFF);
-		emu_push(dest.s.cs); emu_push(dest.s.ip);
-		emu_push(positionFrame.s.cs); emu_push(positionFrame.s.ip);
-		emu_push(emu_cs); emu_push(0x0986); emu_cs = 0x2B0E; emu_Tools_Memmove();
-		emu_sp += 12;
+		memmove(emu_get_memorycsip(dest), emu_get_memorycsip(positionFrame), length);
 	} else if (header->flags.s.dataOnDisk) {
 		uint8 fileno;
 		uint32 positionStart;
