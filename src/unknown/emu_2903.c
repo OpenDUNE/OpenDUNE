@@ -13,24 +13,15 @@
  * @name emu_Unknown_2903_00CA
  * @implements 2903:00CA:0015:756E ()
  */
-void emu_Unknown_2903_00CA()
+uint16 Unknown_2903_00CA(csip32 sprite_csip)
 {
-	csip32 sprite_csip;
 	uint8 *sprite;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	sprite_csip = emu_get_csip32(emu_ss, emu_sp, 0x0);
-
-	emu_ax = 0;
-
-	if (sprite_csip.csip == 0x0) return;
+	if (sprite_csip.csip == 0x0) return 0;
 
 	sprite = emu_get_memorycsip(sprite_csip);
 
-	emu_ax = *(uint16 *)sprite;
+	return *(uint16 *)sprite;
 }
 
 /**

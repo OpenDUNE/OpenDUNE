@@ -490,11 +490,7 @@ bool House_UpdateRadarState(House *h)
 
 		null.csip = 0x0;
 
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0E2A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		memBlock.s.cs = emu_dx;
-		memBlock.s.ip = emu_ax;
+		memBlock = Screen_GetSegment_ByIndex_1(3);
 
 		wsaBuffer = WSA_LoadFile("STATIC.WSA", memBlock, g_global->variable_6CD3[1][1], 1, null);
 	}
@@ -531,9 +527,7 @@ bool House_UpdateRadarState(House *h)
 
 	GUI_Mouse_Show_Safe();
 
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0F75); emu_cs = 0x07D4; emu_Unknown_07D4_159A();
-	emu_sp += 2;
+	Unknown_07D4_159A(0);
 
 	return activate;
 }

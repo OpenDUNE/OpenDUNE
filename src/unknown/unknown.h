@@ -4,24 +4,20 @@
 #define UNKNOWN_UNKNOWN_H
 
 extern uint16 Unknown_07AE_0000(uint16 index);
-extern void emu_Unknown_07AE_0000();
-extern void emu_Unknown_07AE_00E4();
 extern uint16 Unknown_07AE_00E4(uint16 index);
-extern void emu_Unknown_07AE_0103();
 extern void Unknown_07AE_0103();
 
-extern void emu_Unknown_07D4_0000();
-extern void emu_Unknown_07D4_02F8();
-extern void emu_Unknown_07D4_159A();
+extern void Unknown_07D4_0000(uint16 screenID);
+extern void Unknown_07D4_02F8(uint16 packed);
+extern void Unknown_07D4_159A(uint16 screenID);
 extern void Unknown_07D4_1625(uint16 packed);
 
-extern void emu_Screen_GetSegment_ByIndex_1();
-extern void emu_Screen_GetSegment_ByIndex_2();
+extern csip32 Screen_GetSegment_ByIndex_1(uint16 index);
+extern csip32 Screen_GetSegment_ByIndex_2(uint16 index);
 
-extern void emu_Unknown_259E_0006();
 extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);
 
-extern void emu_Unknown_2903_00CA();
+extern uint16 Unknown_2903_00CA(csip32 sprite_csip);
 extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);
 
 extern void Unknown_B483_0156(uint16 index);
@@ -29,9 +25,6 @@ extern void Unknown_B483_0363(uint16 index);
 extern bool Unknown_B483_0470();
 extern csip32 Unknown_B483_0823(char *filename, csip32 fcsip);
 
-extern void emu_Unknown_B4B8_110D();
 extern void Unknown_B4B8_110D(uint8 houseID);
-
-extern void emu_Unknown_B53B_0000();
 
 #endif /* UNKNOWN_UNKNOWN_H */

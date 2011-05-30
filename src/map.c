@@ -999,9 +999,7 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 
 			if (g_global->debugScenario == 0) continue;
 
-			emu_push(curPacked);
-			emu_push(emu_cs); emu_push(0x15EA); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
-			emu_sp += 2;
+			Unknown_07D4_02F8(curPacked);
 		}
 	}
 
@@ -1631,9 +1629,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	if (t->isUnveiled && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return false;
 	t->isUnveiled = true;
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x1304); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
-	emu_sp += 2;
+	Unknown_07D4_02F8(packed);
 
 	u = Unit_Get_ByPackedTile(packed);
 	if (u != NULL) Unit_HouseUnitCount_Add(u, houseID);

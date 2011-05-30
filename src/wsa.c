@@ -13,12 +13,12 @@
 #include "gfx.h"
 #include "wsa.h"
 #include "os/math.h"
+#include "unknown/unknown.h"
 
 extern void f__2AE1_029F_0014_50E5();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
-extern void emu_Screen_GetSegment_ByIndex_2();
 
 /**
  * Get the amount of frames a WSA has.
@@ -345,10 +345,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	uint8 *src = emu_get_memorycsip(displayBuffer);
 	uint8 *dst;
 
-	emu_push(g_global->screenActiveID);
-	emu_push(emu_cs); emu_push(0x004A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_2();
-	emu_sp += 2;
-	dst = &emu_get_memory8(emu_dx, 0x0, 0x0);
+	dst = emu_get_memorycsip(Screen_GetSegment_ByIndex_2(g_global->screenActiveID));
 
 	left   = g_global->variable_4062[windowID][0] << 3;
 	right  = left + (g_global->variable_4062[windowID][2] << 3);
@@ -421,12 +418,7 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 	if (header->flags.s.displayInBuffer) {
 		displayBuffer.csip = csip32_add(buffer, 33);
 	} else {
-		emu_push(memoryBlock);
-		emu_push(emu_cs); emu_push(0x0527); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_2();
-		emu_sp += 2;
-
-		displayBuffer.s.cs = emu_dx;
-		displayBuffer.s.ip = emu_ax;
+		displayBuffer = Screen_GetSegment_ByIndex_2(memoryBlock);
 		displayBuffer.s.ip += posX + posY * SCREEN_WIDTH;
 	}
 

@@ -41,11 +41,7 @@ static csip32 Unknown_07D4_18BD(uint16 index, uint16 houseID)
 
 	if (ret_csip.csip == 0x0) return ret_csip;
 
-	emu_push(ret_csip.s.cs); emu_push(ret_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x1904); emu_cs = 0x2903; emu_Unknown_2903_00CA();
-	emu_sp += 4;
-
-	if ((emu_ax & 0x1) == 0) return ret_csip;
+	if ((Unknown_2903_00CA(ret_csip) & 0x1) == 0) return ret_csip;
 
 	for (i = 0; i < 16; i++) {
 		uint8 v = emu_get_memory8(ret_csip.s.cs, ret_csip.s.ip, 10 + i);
@@ -531,25 +527,19 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
  * @name emu_Unknown_07D4_0000
  * @implements 07D4:0000:0027:FA61 ()
  */
-void emu_Unknown_07D4_0000()
+void Unknown_07D4_0000(uint16 screenID)
 {
-	bool arg06;
 	bool loc10;
 	uint16 oldScreenID;
 	uint16 loc14;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
 	if (g_global->selectionType < 1 || g_global->selectionType > 4) return;
 
-	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
 	loc10 = false;
 
-	oldScreenID = GUI_Screen_SetActive(arg06 ? 1 : 0);
+	oldScreenID = GUI_Screen_SetActive(screenID);
 
-	if (arg06) g_global->variable_3A12 = 1;
+	if (screenID != 0) g_global->variable_3A12 = 1;
 
 	Map_06F7_0602();
 	Animation_Tick();
@@ -618,7 +608,7 @@ void emu_Unknown_07D4_0000()
 		}
 	}
 
-	Unknown_07D4_034D(g_global->variable_3A12 != 0, loc10, arg06);
+	Unknown_07D4_034D(g_global->variable_3A12 != 0, loc10, screenID != 0);
 
 	g_global->variable_3A12 = 0;
 
@@ -636,27 +626,18 @@ void emu_Unknown_07D4_0000()
  * @name emu_Unknown_07D4_159A
  * @implements 07D4:159A:001D:F971 ()
  */
-void emu_Unknown_07D4_159A()
+void Unknown_07D4_159A(uint16 screenID)
 {
-	bool arg06;
 	uint16 oldScreenID = 2;
 	uint16 i;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	arg06 = emu_get_memory16(emu_ss, emu_sp, 0) != 0;
-
-	if (!arg06) {
-		oldScreenID = GUI_Screen_SetActive(2);
-	}
+	if (screenID == 0) oldScreenID = GUI_Screen_SetActive(2);
 
 	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
 
 	Map_UpdateMinimapPosition(g_global->minimapPosition, true);
 
-	if (arg06) return;
+	if (screenID != 0) return;
 
 	GUI_Screen_SetActive(oldScreenID);
 
@@ -769,16 +750,8 @@ void Unknown_07D4_1625(uint16 packed)
  * @name emu_Unknown_07D4_02F8
  * @implements 07D4:02F8:0055:0679 ()
  */
-void emu_Unknown_07D4_02F8()
+void Unknown_07D4_02F8(uint16 packed)
 {
-	uint16 packed;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	packed = emu_get_memory16(emu_ss, emu_sp, 0);
-
 	if ((g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0 && g_global->scenario.mapScale + 1 == 0) return;
 
 	g_global->variable_91E5[packed >> 3] |= (1 << (packed & 7));

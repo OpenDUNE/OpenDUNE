@@ -28,22 +28,3 @@ void Unknown_B4B8_110D(uint8 houseID)
 		}
 	}
 }
-
-/**
- * Emulator wrapper around #Unknown_B4B8_110D
- *
- * @name emu_Unknown_B4B8_110D
- * @implements B4B8:110D:000D:FD5C ()
- */
-void emu_Unknown_B4B8_110D()
-{
-	uint16 houseID;
-
-	/* Pop return address from the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	houseID = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	Unknown_B4B8_110D((uint8)houseID);
-}

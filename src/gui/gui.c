@@ -915,10 +915,7 @@ void GUI_DrawSprite(uint16 screenID, csip32 sprite_csip, int16 posX, int16 posY,
 
 	loc34 = 0;
 
-	emu_push(screenID);
-	emu_push(emu_cs); emu_push(0x0263); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_2();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
+	memBlock = Screen_GetSegment_ByIndex_2(screenID);
 	memBlock.s.ip = g_global->variable_4062[windowID][0] << 3;
 
 	buf = emu_get_memorycsip(memBlock);
@@ -2047,13 +2044,9 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_global->variable_38C4 = 1;
 
-	emu_push(g_global->screenActiveID);
-	emu_push(emu_cs); emu_push(0x2135); emu_cs = 0x07D4; emu_Unknown_07D4_159A();
-	emu_sp += 2;
+	Unknown_07D4_159A(g_global->screenActiveID);
 
-	emu_push(g_global->screenActiveID);
-	emu_push(emu_cs); emu_push(0x213F); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
-	emu_sp += 2;
+	Unknown_07D4_0000(g_global->screenActiveID);
 
 	GUI_Widget_ActionPanel_Draw(true);
 
@@ -2796,11 +2789,7 @@ static void GUI_FactoryWindow_Init()
 
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x135F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	g_global->factoryWindowWidgets.s.cs = emu_dx;
-	g_global->factoryWindowWidgets.s.ip = emu_ax;
+	g_global->factoryWindowWidgets = Screen_GetSegment_ByIndex_1(5);
 
 	size = GUI_FactoryWindow_CreateWidgets();
 
@@ -4351,11 +4340,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		g_global->variable_81EB = 0;
 	}
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0594); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	data_csip.s.cs = emu_dx;
-	data_csip.s.ip = emu_ax;
+	data_csip = Screen_GetSegment_ByIndex_1(5);
 	data = (HallOfFameData *)emu_get_memorycsip(data_csip);
 
 	if (!File_Exists("SAVEFAME.DAT")) {

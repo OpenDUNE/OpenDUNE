@@ -35,25 +35,6 @@ uint16 Unknown_07AE_0000(uint16 index)
 }
 
 /**
- * C-ified function of f__07AE_0000_00DF_A32C().
- *
- * @name emu_Unknown_07AE_0000
- * @implements 07AE:0000:00DF:A32C ()
- */
-void emu_Unknown_07AE_0000()
-{
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
-
-	emu_ax = Unknown_07AE_0000(index);
-}
-
-/**
  * Unknown function.
  * @param index
  */
@@ -64,24 +45,6 @@ uint16 Unknown_07AE_00E4(uint16 index)
 	Unknown_07AE_0103();
 
 	return index;
-}
-
-/**
- * C-ified function of f__07AE_00E4_000D_9955().
- *
- * @name emu_Unknown_07AE_00E4
- * @implements 07AE:00E4:000D:9955 ()
- */
-void emu_Unknown_07AE_00E4()
-{
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
-	emu_ax = Unknown_07AE_00E4(index);
 }
 
 /**
@@ -97,19 +60,4 @@ void Unknown_07AE_0103()
 	g_global->variable_9935 = 0x0;
 	g_global->variable_9933 = 0x0;
 	g_global->variable_3196 = 0x0;
-}
-
-/**
- * C-ified function of f__07AE_0103_004C_B43B().
- *
- * @name emu_Unknown_07AE_0103
- * @implements 07AE:0103:004C:B43B ()
- */
-void emu_Unknown_07AE_0103()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	Unknown_07AE_0103();
 }

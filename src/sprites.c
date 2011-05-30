@@ -97,11 +97,7 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 	uint8 *buffer;
 	uint16 i;
 
-	emu_push(memory);
-	emu_push(emu_cs); emu_push(0x0A4C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(memory);
 	buffer = emu_get_memorycsip(memBlock);
 
 	files = spriteFiles[index];
@@ -259,17 +255,8 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 	int8   info[4];
 	uint16 tileCount = 0;
 
-	emu_push(memory2);
-	emu_push(emu_cs); emu_push(0x001A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock2.s.cs = emu_dx;
-	memBlock2.s.ip = emu_ax;
-
-	emu_push(memory1);
-	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock1.s.cs = emu_dx;
-	memBlock1.s.ip = emu_ax;
+	memBlock2 = Screen_GetSegment_ByIndex_1(memory2);
+	memBlock1 = Screen_GetSegment_ByIndex_1(memory1);
 
 	index = ChunkFile_Open(filename);
 
@@ -401,11 +388,7 @@ void Sprites_LoadTiles()
 
 	g_global->iconLoaded = 1;
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0D42); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(5);
 
 	memBlockFree = g_global->variable_6CD3[2][1];
 
@@ -469,19 +452,13 @@ void Sprites_UnloadTiles()
 uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette)
 {
 	uint8 index;
-	csip32 memBlock1;
-	csip32 memBlock2;
+	csip32 memBlock;
 	csip32 loc0A;
 	uint16 size;
 	void *buf;
 	uint16 paletteSize;
 
-	emu_push(memory1);
-	emu_push(emu_cs); emu_push(0x010A); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock1.s.cs = emu_dx;
-	memBlock1.s.ip = emu_ax;
-	buf = (void *)emu_get_memorycsip(memBlock1);
+	buf = (void *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(memory1));
 
 	index = File_Open(filename, 1);
 
@@ -508,19 +485,15 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 	loc0A = Tools_GetSmallestIP(loc0A);
 	loc0A.s.ip = 0x0;
 
-	memmove(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock1), 8);
+	memmove(emu_get_memorycsip(loc0A), buf, 8);
 
 	File_Read(index, (void *)(emu_get_memorycsip(loc0A) + 8), size);
 
 	File_Close(index);
 
-	emu_push(memory2);
-	emu_push(emu_cs); emu_push(0x0221); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock2.s.cs = emu_dx;
-	memBlock2.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(memory2);
 
-	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock2), loc0A, memBlock2);
+	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock), loc0A, memBlock);
 }
 
 /**
@@ -691,11 +664,7 @@ void Sprites_CPS_LoadRegionClick()
 	uint8 *buf;
 	uint8 i;
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x1038); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(5);
 	g_global->RGNCLK_CPS = memBlock;
 
 	buf = emu_get_memorycsip(g_global->RGNCLK_CPS);

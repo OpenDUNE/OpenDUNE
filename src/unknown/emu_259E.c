@@ -89,24 +89,3 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 		}
 	} while (progress != 0);
 }
-
-/**
- * Emulator wrapper around Unknown_259E_0006().
- *
- * @name emu_Unknown_259E_0006
- * @implements 259E:0006:0016:858A ()
- */
-void emu_Unknown_259E_0006()
-{
-	csip32 ptr2;
-	int16 unknown;
-
-	/* Pop return address from the stack. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ptr2    =   emu_get_csip32(emu_ss, emu_sp, 0x0);
-	unknown = emu_get_memory16(emu_ss, emu_sp, 0x4);
-
-	Unknown_259E_0006(ptr2, unknown);
-}

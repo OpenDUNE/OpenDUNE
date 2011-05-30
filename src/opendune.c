@@ -266,17 +266,10 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
  */
 static void Memory_ClearBlock(uint16 index)
 {
-	csip32 memBlock;
 	uint32 size;
 	uint8 *memory;
 
-	emu_push(index);
-	emu_push(emu_cs); emu_push(0x003D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
-
-	memory = emu_get_memorycsip(memBlock);
+	memory = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(index));
 
 	size = g_global->variable_6CD3[index >> 1][index & 0x1];
 
@@ -520,20 +513,12 @@ static void GameLoop_B4ED_0200()
 			if ((var805E->flags & 0x480) != 0) {
 				GUI_ClearScreen(3);
 
-				emu_push(5);
-				emu_push(emu_cs); emu_push(0x02E0); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-				emu_sp += 2;
-				header_csip.s.cs = emu_dx;
-				header_csip.s.ip = emu_ax;
+				header_csip = Screen_GetSegment_ByIndex_1(5);
 
 				loc24 = g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 				loc20 = 0x0;
 			} else {
-				emu_push(3);
-				emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-				emu_sp += 2;
-				header_csip.s.cs = emu_dx;
-				header_csip.s.ip = emu_ax;
+				header_csip = Screen_GetSegment_ByIndex_1(3);
 
 				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 			}
@@ -1039,22 +1024,14 @@ static void GameCredits_LoadPaletteAndSprites()
 	uint16 i;
 	uint16 locdi;
 
-	emu_push(7);
-	emu_push(emu_cs); emu_push(0x0A52); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	g_global->variable_182E.s.cs = emu_dx;
-	g_global->variable_182E.s.ip = emu_ax;
+	g_global->variable_182E = Screen_GetSegment_ByIndex_1(7);
 
 	size = SCREEN_WIDTH * g_global->variable_9931;
 
 	g_global->variable_1832 = g_global->variable_182E;
 	g_global->variable_1832.s.ip += size;
 
-	emu_push(9);
-	emu_push(emu_cs); emu_push(0x0A9D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	g_global->variable_3C46.s.cs = emu_dx;
-	g_global->variable_3C46.s.ip = emu_ax;
+	g_global->variable_3C46 = Screen_GetSegment_ByIndex_1(9);
 
 	Unknown_2903_090A(g_global->variable_3C46, 20000);
 
@@ -1081,11 +1058,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	memset(emu_get_memorycsip(g_global->variable_3C36), 0, 0x300);
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0B89); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(3);
 
 	for (i = 0; i < 11; i++) {
 		sprintf((char *)g_global->variable_9939, "CREDIT%d.SHP", i + 1);
@@ -1135,11 +1108,7 @@ static void GameLoop_GameCredits()
 
 	Music_Play(33);
 
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x08B5); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Screen_GetSegment_ByIndex_1(5);
 
 	memory = emu_get_memorycsip(memBlock);
 
@@ -1356,11 +1325,7 @@ static void Gameloop_Logos()
 
 		null.csip = 0x0;
 
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0102); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		memBlock.s.cs = emu_dx;
-		memBlock.s.ip = emu_ax;
+		memBlock = Screen_GetSegment_ByIndex_1(3);
 
 		temp = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 
@@ -1769,10 +1734,7 @@ static void ReadProfileIni(char *filename)
 	if (filename == NULL) return;
 	if (!File_Exists(filename)) return;
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x119F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	source = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+	source = (char *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
 
 	memset(source, 0, 32000);
 	File_ReadBlockFile(filename, source, g_global->variable_6CD3[1][1]);
@@ -2038,11 +2000,7 @@ static void Gameloop_IntroMenu()
 
 	GameOptions_Load();
 
-	emu_push(9);
-	emu_push(emu_cs); emu_push(0x1A48); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
+	csip = Screen_GetSegment_ByIndex_1(9);
 
 	Memory_ClearBlock(9);
 
@@ -2541,9 +2499,7 @@ static void GameLoop_Main()
 			GameLoop_Structure();
 			GameLoop_House();
 
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x03D9); emu_cs = 0x07D4; emu_Unknown_07D4_0000();
-			emu_sp += 2;
+			Unknown_07D4_0000(0);
 		}
 
 		GUI_DisplayText(NULL, 0);

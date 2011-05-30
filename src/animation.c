@@ -151,9 +151,7 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 
 		Map_Update(position, 0, false);
 
-		emu_push(position);
-		emu_push(emu_cs); emu_push(0x06AF); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
-		emu_sp += 2;
+		Unknown_07D4_02F8(position);
 	}
 }
 

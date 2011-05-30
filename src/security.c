@@ -107,11 +107,7 @@ bool GUI_Security_Show()
 			return true;
 	}
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x10E4); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	memoryBlockcsip.s.cs = emu_dx;
-	memoryBlockcsip.s.ip = emu_ax;
+	memoryBlockcsip = Screen_GetSegment_ByIndex_1(3);
 
 	loc0E = g_global->variable_6CD3[1][2];
 

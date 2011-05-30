@@ -2635,9 +2635,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 		t->hasUnit = false;
 	}
 
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x047C); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
-	emu_sp += 2;
+	Unknown_07D4_02F8(packed);
 
 	Map_Update(packed, 0, false);
 }
@@ -2645,11 +2643,7 @@ void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 void Unit_AddToTile(Unit *unit, uint16 packed)
 {
 	Map_UnveilTile(packed, Unit_GetHouseID(unit));
-
-	emu_push(packed);
-	emu_push(emu_cs); emu_push(0x04B1); emu_cs = 0x07D4; emu_Unknown_07D4_02F8();
-	emu_sp += 2;
-
+	Unknown_07D4_02F8(packed);
 	Map_Update(packed, 1, false);
 }
 

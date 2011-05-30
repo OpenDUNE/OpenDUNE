@@ -184,11 +184,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	uint16 i;
 
 	if (init) {
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0434); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		g_global->variable_25D0.s.cs = emu_dx;
-		g_global->variable_25D0.s.ip = emu_ax;
+		g_global->variable_25D0 = Screen_GetSegment_ByIndex_1(3);
 
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
@@ -424,12 +420,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 		null.csip = 0x0;
 
-		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0E98); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-
-		memBlock.s.cs = emu_dx;
-		memBlock.s.ip = emu_ax;
+		memBlock = Screen_GetSegment_ByIndex_1(5);
 
 		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), memBlock, g_global->variable_6CD3[2][0], 0, null);
 
@@ -567,11 +558,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 
 		null.csip = 0x0;
 
-		emu_push(0x5);
-		emu_push(emu_cs); emu_push(0x027D); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		memBlock.s.cs = emu_dx;
-		memBlock.s.ip = emu_ax;
+		memBlock = Screen_GetSegment_ByIndex_1(5);
 
 		locPtr = WSA_LoadFile(houseFilename, memBlock, g_global->variable_6CD3[2][1], 0, null);
 		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
@@ -921,16 +908,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	g_global->variable_802A.csip = 0x0;
 	ypos = 8;
 
-	{
-		csip32 csip_widget;
-
-		emu_push(5);
-		emu_push(emu_cs); emu_push(0x0BEE); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		csip_widget.s.cs = emu_dx;
-		csip_widget.s.ip = emu_ax;
-		w = (Widget *)emu_get_memorycsip(csip_widget);
-	}
+	w = (Widget *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -1039,10 +1017,7 @@ static void GUI_Mentat_ShowHelp()
 
 	text = (char *)emu_get_memorycsip(g_global->readBuffer);
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x067C); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	compressedText = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+	compressedText = (char *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
 
 	fileID = File_Open(g_global->mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
@@ -1207,11 +1182,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
 
-		emu_push(3);
-		emu_push(emu_cs); emu_push(0x0B1F); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		emu_sp += 2;
-		buffer_csip.s.cs = emu_dx;
-		buffer_csip.s.ip = emu_ax;
+		buffer_csip = Screen_GetSegment_ByIndex_1(3);
 
 		wsa = WSA_LoadFile(pictureName, buffer_csip, g_global->variable_6CD3[1][1], 0, nullcsip);
 	}

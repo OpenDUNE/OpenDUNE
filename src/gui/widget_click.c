@@ -543,39 +543,19 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
 {
-	csip32 buffer_csip;
-
 	Unknown_07AE_0000(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0EFD); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	buffer_csip.s.cs = emu_dx;
-	buffer_csip.s.ip = emu_ax;
-
-	GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(buffer_csip));
-
+	GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 	GUI_Mouse_Show_Safe();
 }
 
 static void GUI_Window_RestoreScreen(WindowDesc *desc)
 {
-	csip32 buffer_csip;
-
 	Unknown_07AE_0000(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-
-	emu_push(5);
-	emu_push(emu_cs); emu_push(0x0F41); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-	emu_sp += 2;
-	buffer_csip.s.cs = emu_dx;
-	buffer_csip.s.ip = emu_ax;
-
-	GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(buffer_csip));
-
+	GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 	GUI_Mouse_Show_Safe();
 }
 
@@ -828,10 +808,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	g_global->variable_38C4 = 1;
 
 	if (g_global->variable_38D6.csip != 0) {
-		emu_push(0); emu_push(0xFA00);
-		emu_push(0);
-		emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		/* Unresolved jump */ emu_ip = 0x02CC; emu_last_cs = 0xB4F2; emu_last_ip = 0x02CC; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
+		/* Unresolved jump */ emu_ip = 0x02BD; emu_last_cs = 0xB4F2; emu_last_ip = 0x02BD; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
 	}
 
 	Sprites_LoadTiles();

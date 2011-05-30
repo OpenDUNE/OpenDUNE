@@ -12,19 +12,16 @@
  * @name emu_Screen_GetSegment_ByIndex_1
  * @implements 252E:0001:0018:08B3 ()
  */
-void emu_Screen_GetSegment_ByIndex_1()
+csip32 Screen_GetSegment_ByIndex_1(uint16 index)
 {
-	uint16 index;
+	csip32 ret;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	index &= 0xF;
 
-	emu_dx = g_global->variable_6C93[index >> 1][1];
-	emu_ax = 0x0;
+	ret.s.cs = g_global->variable_6C93[index >> 1][1];
+	ret.s.ip = 0x0;
+
+	return ret;
 }
 
 /**
@@ -33,17 +30,14 @@ void emu_Screen_GetSegment_ByIndex_1()
  * @name emu_Screen_GetSegment_ByIndex_2
  * @implements 252E:001B:0018:EA2C ()
  */
-void emu_Screen_GetSegment_ByIndex_2()
+csip32 Screen_GetSegment_ByIndex_2(uint16 index)
 {
-	uint16 index;
+	csip32 ret;
 
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	index = emu_get_memory16(emu_ss, emu_sp, 0x0);
 	index &= 0xF;
 
-	emu_dx = g_global->variable_6C93[index >> 1][0];
-	emu_ax = 0x0;
+	ret.s.cs = g_global->variable_6C93[index >> 1][0];
+	ret.s.ip = 0x0;
+
+	return ret;
 }
