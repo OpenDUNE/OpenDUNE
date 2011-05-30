@@ -15,7 +15,6 @@
 extern void emu_Tools_Malloc();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
-extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Unknown function.

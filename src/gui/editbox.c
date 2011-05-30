@@ -13,7 +13,6 @@
 #include "mentat.h"
 
 extern void emu_Input_Keyboard_HandleKeys2();
-extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Draw a blinking cursor, used inside the EditBox.
@@ -143,8 +142,6 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 		emu_push(key);
 		emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x3527) { overlay(0x3527, 1); }
 		emu_sp += 2;
 		key = emu_ax & 0xFF;
 

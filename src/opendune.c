@@ -75,7 +75,6 @@ extern void emu_Mouse_Init();
 extern void emu_Mouse_CallbackClear();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
-extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Check if a level is finished, based on the values in WinFlags.

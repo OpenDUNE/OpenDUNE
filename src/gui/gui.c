@@ -45,7 +45,6 @@ extern void f__29E8_07FA_0020_177A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void overlay(uint16 cs, uint8 force);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_B4E9 {

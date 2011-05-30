@@ -30,7 +30,6 @@
 extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
-extern void overlay(uint16 cs, uint8 force);
 
 static char *GenerateSavegameFilename(uint16 number)
 {
@@ -749,8 +748,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	if (g_global->variable_38D6.csip != 0x0) {
 		GUI_Mouse_Hide_Safe();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
 	}
 
@@ -834,8 +831,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 		emu_push(0); emu_push(0xFA00);
 		emu_push(0);
 		emu_push(emu_cs); emu_push(0x02CC); emu_cs = 0x252E; emu_Screen_GetSegment_ByIndex_1();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34F2) { overlay(0x34F2, 1); }
 		/* Unresolved jump */ emu_ip = 0x02CC; emu_last_cs = 0xB4F2; emu_last_ip = 0x02CC; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
 	}
 

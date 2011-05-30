@@ -21,7 +21,6 @@
 
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
-extern void overlay(uint16 cs, uint8 force);
 
 static void GUI_Security_DrawText(char *text)
 {

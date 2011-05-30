@@ -21,7 +21,6 @@ extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_HOF_ResumeGame();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
-extern void overlay(uint16 cs, uint8 force);
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {
@@ -188,8 +187,6 @@ void GUI_Widget_Draw(Widget *w)
 
 		case DRAW_MODE_WIRED_RECTANGLE: {
 			GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		} break;
 
 		case DRAW_MODE_UNKNOWN6: {
@@ -199,8 +196,6 @@ void GUI_Widget_Draw(Widget *w)
 			emu_push(positionTop);
 			emu_push(positionLeft);
 			emu_push(emu_cs); emu_push(0x09CE); emu_cs = 0x22A6; f__22A6_0C69_008C_017F();
-			/* Check if this overlay should be reloaded */
-			if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 			emu_sp += 10;
 		} break;
 	}
@@ -264,16 +259,12 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		/* Check for left click */
 		emu_push(0x41);
 		emu_push(emu_cs); emu_push(0x00B5); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		emu_sp += 2;
 		if (emu_ax != 0) l_widget_button_state |= 0x0200;
 
 		/* Check for right click */
 		emu_push(0x42);
 		emu_push(emu_cs); emu_push(0x00C9); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x34A2) { overlay(0x34A2, 1); }
 		emu_sp += 2;
 		if (emu_ax != 0) l_widget_button_state |= 0x2000;
 
@@ -879,8 +870,6 @@ void GUI_Widget_MakeSelected(Widget *w, bool clickProc)
 				emu_call();
 				return;
 		}
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x348B) { overlay(0x348B, 1); }
 		emu_sp += 4;
 	}
 }
@@ -923,8 +912,6 @@ void GUI_Widget_MakeNormal(Widget *w, bool clickProc)
 				emu_call();
 				return;
 		}
-		/* Check if this overlay should be reloaded */
-		if (emu_cs == 0x348B) { overlay(0x348B, 1); }
 		emu_sp += 4;
 	}
 

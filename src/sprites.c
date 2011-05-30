@@ -25,7 +25,6 @@ csip32 *g_sprites = NULL;
 extern void emu_Tools_Free();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
-extern void overlay(uint16 cs, uint8 force);
 
 /**
  * Initialize the sprites system.

@@ -22,8 +22,6 @@
 #include "../house.h"
 #include "../sprites.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
  *

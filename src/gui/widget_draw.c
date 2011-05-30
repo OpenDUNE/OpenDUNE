@@ -19,8 +19,6 @@
 #include "../gfx.h"
 #include "mentat.h"
 
-extern void overlay(uint16 cs, uint8 force);
-
 /**
  * Draw a text button widget to the display, relative to its parent.
  *
@@ -410,13 +408,9 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 
 	/* Draw background */
 	GUI_DrawFilledRectangle(positionX, positionY, positionX + width - 1, positionY + height - 1, w->bgColourNormal);
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 
 	/* Draw where we currently are */
 	GUI_DrawFilledRectangle(positionX + scrollLeft, positionY + scrollTop, positionX + scrollRight, positionY + scrollBottom, (scrollbar->pressed == 0) ? w->fgColourNormal : w->fgColourSelected);
-	/* Check if this overlay should be reloaded */
-	if (emu_cs == 0x3520) { overlay(0x3520, 1); }
 
 	if (g_global->screenActiveID == 0x0) {
 		GUI_Mouse_Show_InRegion();
