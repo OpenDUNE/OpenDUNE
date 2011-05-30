@@ -42,7 +42,6 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
-extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_GUI_HallOfFame_Internal_0EB1();
 extern void emu_GUI_HallOfFame_Internal_0F22();
 extern void emu_GUI_EndStats_Internal_14D4();
@@ -1410,6 +1409,93 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
 	GUI_DrawText_Wrapper(string, SCREEN_WIDTH / 2, top, 0xF, 0, 0x121);
 }
 
+static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
+{
+	uint16 oldScreenID;
+	uint16 xSrc;
+	uint16 colour;
+	uint16 offset;
+
+	oldScreenID = GUI_Screen_SetActive(2);;
+
+	Sprites_LoadImage("FAME.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+
+	xSrc = 1;
+	if ((int16)g_global->playerHouseID >= HOUSE_HARKONNEN && (int16)g_global->playerHouseID <= HOUSE_ORDOS) {
+		xSrc = (g_global->playerHouseID * 56 + 8) / 8;
+	}
+
+	GUI_Screen_Copy(xSrc, 136, 0, 8, 7, 56, 2, 2);
+
+	if ((int16)g_global->playerHouseID < HOUSE_HARKONNEN || (int16)g_global->playerHouseID > HOUSE_ORDOS) {
+		xSrc += 7;
+	}
+
+	GUI_Screen_Copy(xSrc, 136, 33, 8, 7, 56, 2, 2);
+
+	GUI_DrawFilledRectangle(8, 136, 175, 191, 116);
+
+	if (hallOfFame) {
+		GUI_DrawFilledRectangle(8, 80, 311, 191, 116);
+		if (score != 0xFFFF) {
+			emu_push(0);
+			emu_push(score);
+			emu_push(emu_cs); emu_push(0x0C2A); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0EB1();
+			emu_sp += 4;
+		}
+	} else {
+		GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, 2, 2, false);
+		if (g_global->scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, 2, 2, false);
+	}
+
+	if (score != 0xFFFF) {
+		/* "Time: %dh %dm" */
+		sprintf((char *)g_global->variable_9939, String_Get_ByIndex(0x16), g_global->variable_81EB / 60, g_global->variable_81EB % 60);
+
+		if (g_global->variable_81EB < 60) {
+			char *hours = strchr((char *)g_global->variable_9939, '0');
+			while (*hours != ' ') strcpy(hours, hours + 1);
+		}
+
+		/* "Score: %d" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x15), 72, 15, 15, 0, 0x22, score);
+		GUI_DrawText_Wrapper((char *)g_global->variable_9939, 248, 15, 15, 0, 0x222);
+		/* "You have attained the rank of" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x17), SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
+	} else {
+		/* "Hall of Fame" */
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x150), SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
+	}
+
+	switch (g_global->playerHouseID) {
+		case HOUSE_HARKONNEN:
+			colour = 149;
+			offset = 0;
+			break;
+
+		default:
+			colour = 165;
+			offset = 2;
+			break;
+
+		case HOUSE_ORDOS:
+			colour = 181;
+			offset = 1;
+			break;
+	}
+
+	g_global->variable_81ED = g_global->variable_3C32;
+	g_global->variable_81ED.s.ip += 255 * 3;
+
+	memcpy(emu_get_memorycsip(g_global->variable_81ED), emu_get_memorycsip(g_global->variable_3C32) + colour * 3, 3);
+
+	g_global->variable_81ED.s.ip += offset;
+
+	if (!hallOfFame) GUI_HallOfFame_Tick();
+
+	GUI_Screen_SetActive(oldScreenID);
+}
+
 /**
  * Shows the stats at end of scenario.
  * @param killedAllied The amount of destroyed allied units.
@@ -1443,10 +1529,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	emu_push(0);
-	emu_push(score);
-	emu_push(emu_cs); emu_push(0x007C); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0B1D();
-	emu_sp += 4;
+	GUI_HallOfFame_DrawBackground(score, false);
 
 	/* "Spice Harvested By" */
 	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x1A), 83);
@@ -2263,7 +2346,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 }
 
 /**
- * Sets the colors to be used when drawing chars.
+ * Sets the colours to be used when drawing chars.
  * @param colours The colours to use.
  * @param min The index of the first colour to set.
  * @param max The index of the last colour to set.
@@ -3757,7 +3840,7 @@ void GUI_FactoryWindow_PrepareScrollList()
  * @param screenSrc The ID of the source screen.
  * @param screenDst The ID of the destination screen.
  * @param delay The delay.
- * @param skipNull Wether to copy pixels with color 0.
+ * @param skipNull Wether to copy pixels with colour 0.
  */
 void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 screenSrc, uint16 screenDst, uint16 delay, bool skipNull)
 {
@@ -4157,7 +4240,7 @@ uint16 GUI_HallOfFame_Tick()
 		g_global->variable_2C38 = 1;
 	}
 
-	*var81ED += g_global->variable_2C38;
+	*var81ED += (int16)g_global->variable_2C38;
 
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
@@ -4297,10 +4380,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	GUI_HallOfFame_Decode(data);
 
-	emu_push(1);
-	emu_push(score);
-	emu_push(emu_cs); emu_push(0x0644); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0B1D();
-	emu_sp += 4;
+	GUI_HallOfFame_DrawBackground(score, true);
 
 	if (score == 0xFFFF) {
 		editLine = 0;

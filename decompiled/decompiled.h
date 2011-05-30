@@ -230,7 +230,6 @@ extern void emu_Input_HandleInput();
 extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Highmem_Uninitialize();
 extern void emu_Highmem_Internal_0B07();
-extern void emu_GUI_HallOfFame_Internal_0B1D();
 extern void emu_Highmem_Internal_0B26();
 extern void f__AB00_0B4B_0028_C5A7();
 extern void emu_Highmem_GetSize();
