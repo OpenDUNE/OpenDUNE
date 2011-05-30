@@ -46,7 +46,7 @@ void Unknown_B483_0156(uint16 index)
 			count = g_global->readBufferSize;
 		}
 
-		memmove(emu_get_memorycsip(g_global->readBuffer), emu_get_memorycsip(csip), count);
+		Tools_Memmove(csip, g_global->readBuffer, count);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
@@ -170,7 +170,7 @@ csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 	res.s.cs = emu_dx;
 	res.s.ip = emu_ax;
 
-	if (res.csip != 0) memmove(emu_get_memorycsip(res), emu_get_memorycsip(g_global->readBuffer), fileSize);
+	if (res.csip != 0) Tools_Memmove(g_global->readBuffer, res, fileSize);
 
 	return res;
 }

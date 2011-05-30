@@ -213,7 +213,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 			count = g_global->readBufferSize;
 		}
 
-		memmove(emu_get_memorycsip(g_global->readBuffer), emu_get_memorycsip(soundBuffer), count);
+		Tools_Memmove(soundBuffer, g_global->readBuffer, count);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
 	} else {

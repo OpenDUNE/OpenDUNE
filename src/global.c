@@ -51,5 +51,6 @@ csip32 emu_Global_GetCSIP(void *ptr)
 uint8 *emu_get_memorycsip(csip32 csip)
 {
 	if (csip.csip == 0) return NULL;
+	assert(csip.s.cs < 0xF000);
 	return &emu_get_memory8(csip.s.cs, csip.s.ip, 0x0);
 }
