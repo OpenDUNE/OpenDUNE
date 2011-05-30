@@ -33,6 +33,5 @@ extern void emu_Unknown_B4B8_110D();
 extern void Unknown_B4B8_110D(uint8 houseID);
 
 extern void emu_Unknown_B53B_0000();
-extern void emu_File_Error_Wrapper();
 
 #endif /* UNKNOWN_UNKNOWN_H */

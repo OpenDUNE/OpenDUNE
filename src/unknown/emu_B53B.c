@@ -7,8 +7,6 @@
 #include "../global.h"
 #include "unknown.h"
 
-extern void emu_File_Error();
-
 /**
  * C-ified function of f__B53B_0000_0050_FEA6().
  *
@@ -36,32 +34,3 @@ void emu_Unknown_B53B_0000()
 	g_global->variable_9933 = 0x0;
 	g_global->variable_9935 = 0x0;
 }
-
-/**
- * C-ified function of f__B53B_0289_001F_95C1().
- *
- * @name emu_File_Error_Wrapper
- * @implements B53B:0289:001F:95C1 ()
- */
-void emu_File_Error_Wrapper()
-{
-	uint16 oldVariable_6C91;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	oldVariable_6C91 = g_global->screenActiveID;
-	g_global->screenActiveID = 0x0;
-
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x4));
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x2));
-	emu_push(emu_get_memory16(emu_ss, emu_sp, 0x0));
-	emu_push(emu_cs); emu_push(0x02A8); emu_File_Error();
-	emu_sp += 6;
-
-	g_global->screenActiveID = oldVariable_6C91;
-
-	emu_ax = 0x1;
-}
-

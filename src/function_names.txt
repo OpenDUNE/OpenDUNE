@@ -90,8 +90,6 @@
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
 23E1:0334:000B:CF65	emu_Tools_GetFreeMemory	# returns uint32
 
-261F:0008:0033:66ED	emu_Overlay_Interrupt
-
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init
@@ -135,6 +133,4 @@ AB01:045A:0022:EC86	emu_MPU_TestPort	# (unused, port, unused, unused, unused)
 AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
 AB01:1FA8:0072:8B95	emu_MPU_Init	# (unused, port1, port2, port3, port4)
 AB01:2336:002C:4FDC	emu_MPU_ClearData	# (unused, index)
-
-B53B:005C:000F:A920	emu_File_Error	# Some handling of file errors
 

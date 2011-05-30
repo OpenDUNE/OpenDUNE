@@ -159,7 +159,7 @@ l__0138:
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6F));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6D));
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x6B));
-	emu_push(emu_cs); emu_push(0x0151); emu_cs = 0x3480; overlay(0x3480, 0); emu_Main();
+	emu_push(emu_cs); emu_push(0x0151); emu_cs = 0x3480; emu_Main();
 l__0151:
 	emu_push(emu_ax);
 	emu_push(emu_cs);
