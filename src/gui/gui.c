@@ -42,9 +42,6 @@ extern void emu_Tools_Free();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Sleep();
 extern void f__29E8_07FA_0020_177A();
-extern void emu_GUI_HallOfFame_Internal_0EB1();
-extern void emu_GUI_HallOfFame_Internal_0F22();
-extern void emu_GUI_EndStats_Internal_14D4();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
@@ -1409,6 +1406,26 @@ static void GUI_DrawTextOnFilledRectangle(char *string, uint16 top)
 	GUI_DrawText_Wrapper(string, SCREEN_WIDTH / 2, top, 0xF, 0, 0x121);
 }
 
+static uint16 GUI_HallOfFame_GetRank(uint16 score)
+{
+	uint8 i;
+
+	for (i = 0; i < 12; i++) {
+		if (g_global->variable_37C0[i][1] > score) break;
+	}
+
+	return min(i, 11);
+}
+
+static void GUI_HallOfFame_DrawRank(uint16 score, bool fadeIn)
+{
+	GUI_DrawText_Wrapper(String_Get_ByIndex(g_global->variable_37C0[GUI_HallOfFame_GetRank(score)][0]), SCREEN_WIDTH / 2, 49, 6, 0, 0x122);
+
+	if (!fadeIn) return;
+
+	GUI_Screen_FadeIn(10, 49, 10, 49, 20, 12, 2, 0);
+}
+
 static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 {
 	uint16 oldScreenID;
@@ -1437,12 +1454,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	if (hallOfFame) {
 		GUI_DrawFilledRectangle(8, 80, 311, 191, 116);
-		if (score != 0xFFFF) {
-			emu_push(0);
-			emu_push(score);
-			emu_push(emu_cs); emu_push(0x0C2A); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0EB1();
-			emu_sp += 4;
-		}
+		if (score != 0xFFFF) GUI_HallOfFame_DrawRank(score, false);
 	} else {
 		GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, 2, 2, false);
 		if (g_global->scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, 2, 2, false);
@@ -1494,6 +1506,13 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	if (!hallOfFame) GUI_HallOfFame_Tick();
 
 	GUI_Screen_SetActive(oldScreenID);
+}
+
+static void GUI_EndStats_Sleep(uint16 delay)
+{
+	g_global->variable_76B4 = delay;
+
+	while (g_global->variable_76B4 != 0) GUI_HallOfFame_Tick();
 }
 
 /**
@@ -1585,18 +1604,9 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 		loc32[i][1][1] = 1 + ((loc06 > loc1A) ? (loc06 / loc1A) : 0);
 	}
 
-	emu_push(45);
-	emu_push(emu_cs); emu_push(0x02F6); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
-	emu_sp += 2;
-
-	emu_push(1);
-	emu_push(score);
-	emu_push(emu_cs); emu_push(0x0303); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0EB1();
-	emu_sp += 4;
-
-	emu_push(45);
-	emu_push(emu_cs); emu_push(0x030E); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
-	emu_sp += 2;
+	GUI_EndStats_Sleep(45);
+	GUI_HallOfFame_DrawRank(score, true);
+	GUI_EndStats_Sleep(45);
 
 	for (i = 0; i < loc16; i++) {
 		uint16 loc02;
@@ -1640,9 +1650,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 				Driver_Sound_Play(52, 0xFF);
 
-				emu_push(g_global->variable_76B4);
-				emu_push(emu_cs); emu_push(0x0453); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
-				emu_sp += 2;
+				GUI_EndStats_Sleep(g_global->variable_76B4);
 			}
 
 			GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
@@ -1653,14 +1661,10 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 			Driver_Sound_Play(38, 0xFF);
 
-			emu_push(12);
-			emu_push(emu_cs); emu_push(0x04E2); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
-			emu_sp += 2;
+			GUI_EndStats_Sleep(12);
 		}
 
-		emu_push(60);
-		emu_push(emu_cs); emu_push(0x04F8); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_EndStats_Internal_14D4();
-		emu_sp += 2;
+		GUI_EndStats_Sleep(60);
 	}
 
 	GUI_Mouse_Show_Safe();
@@ -3024,9 +3028,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 		GUI_Mouse_Show_Safe();
 
 		g_global->variable_76B4 = 20;
-		while (g_global->variable_76B4 != 0) {
-			GUI_StrategicMap_AnimateArrows();
-		}
+		while (g_global->variable_76B4 != 0) GUI_StrategicMap_AnimateArrows();
 	}
 }
 
@@ -4322,11 +4324,7 @@ static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 		memset(data->name, 0, 6);
 		data->score = score;
 		data->houseID = g_global->playerHouseID;
-
-		emu_push(score);
-		emu_push(emu_cs); emu_push(0x1166); emu_cs = 0x3518; overlay(0x3518, 0); emu_GUI_HallOfFame_Internal_0F22();
-		emu_sp += 2;
-		data->rank = emu_ax;
+		data->rank = GUI_HallOfFame_GetRank(score);
 		data->campaignID = g_global->campaignID;
 		data->variable_E = 0;
 
