@@ -1,5 +1,6 @@
 /* $Id$ */
 
+#include <assert.h>
 #include "types.h"
 #include "libemu.h"
 #include "decompiled.h"
@@ -23,6 +24,8 @@ void emu_XMS_Init()
 	emu_pop(&emu_cs);
 
 	g_global->xmsHandler.csip = 0x007007D0;
+	emu_dx = 0x0070;
+	emu_ax = 0x07D0;
 }
 
 /**
@@ -48,6 +51,8 @@ void emu_XMS_GetFreeMemory()
 	emu_ah = 0x8; /* QUERY FREE EXTENDED MEMORY */
 	emu_push(emu_cs); emu_push(0x004E); emu_cs = 0x0070; Handler_XMS();
 
+	assert(emu_ax != 0);
+
 	emu_pop(&emu_dx);
 	emu_pop(&emu_bx);
 }
@@ -71,10 +76,12 @@ void emu_XMS_Allocate()
 	emu_push(emu_bx);
 	emu_push(emu_dx);
 
-	emu_dx = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	emu_dx = emu_get_memory16(emu_ss, emu_sp, 0x4); /* 0 = emu_dx, 2 = emu_bx */
 	emu_ah = 0x9; /* ALLOCATED EXTENDED MEMORY BLOCK */
 	emu_push(emu_cs); emu_push(0x0078); emu_cs = 0x0070; Handler_XMS();
 	emu_ax = emu_dx; /* File Handler */
+
+	assert(emu_ax != 0);
 
 	emu_pop(&emu_dx);
 	emu_pop(&emu_bx);
@@ -109,6 +116,8 @@ void emu_XMS_MoveToMemory()
 	emu_ah = 0xB; /* MOVE EXTENDED MEMORY BLOCK */
 	emu_push(emu_cs); emu_push(0x00A1); emu_cs = 0x0070; Handler_XMS();
 
+	assert(emu_ax != 0);
+
 	emu_pop(&emu_dx);
 	emu_pop(&emu_bx);
 	emu_pop(&emu_si);
@@ -134,9 +143,11 @@ void emu_XMS_Free()
 	emu_push(emu_bx);
 	emu_push(emu_dx);
 
-	emu_dx = emu_get_memory16(emu_ss, emu_sp, 0x0);
+	emu_dx = emu_get_memory16(emu_ss, emu_sp, 0x4); /* 0 = emu_dx, 2 = emu_bx */
 	emu_ah = 0xA; /* FREE EXTENDED MEMORY BLOCK */
 	emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x0070; Handler_XMS();
+
+	assert(emu_ax != 0);
 
 	emu_pop(&emu_dx);
 	emu_pop(&emu_bx);
