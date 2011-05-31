@@ -105,20 +105,16 @@ void emu_MPU_SetData()
  */
 void emu_MPU_Play()
 {
-	csip32 ret;
 	uint16 index;
 
 	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
 
 	/* First arg was not for us so we skipped it. */
 	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	MPU_Play(index);
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
 }
 
 /**
@@ -129,20 +125,16 @@ void emu_MPU_Play()
  */
 void emu_MPU_Stop()
 {
-	csip32 ret;
 	uint16 index;
 
 	/* Pop the return CS:IP. */
-	emu_pop(&ret.s.ip);
-	emu_pop(&ret.s.cs);
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
 
 	/* First arg was not for us so we skipped it. */
 	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
 
 	MPU_Stop(index);
-
-	emu_cs = ret.s.cs;
-	emu_ip = ret.s.ip;
 }
 
 /**
@@ -173,4 +165,19 @@ void emu_MPU_GetUnknownSize()
 	emu_pop(&emu_cs);
 
 	emu_ax = MPU_GetUnknownSize();
+}
+
+/**
+ * Emulator wrapper around MPU_Init()
+ *
+ * @name emu_MPU_Init
+ * @implements AB01:1FA8:0072:8B95 ()
+ */
+void emu_MPU_Init()
+{
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	MPU_Init();
 }

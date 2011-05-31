@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
@@ -9,6 +10,9 @@
 #include "os/math.h"
 #include "os/endian.h"
 
+extern void f__AB01_0564_0050_E6D5();
+extern void f__AB01_0610_0050_6DE0();
+extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_08CE_005F_AC14();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_184D_004F_7B67();
@@ -16,6 +20,7 @@ extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
 extern void f__AB01_1B48_0023_740C();
 extern void f__AB01_1C49_0022_C4C7();
+extern void f__AB01_21CE_001D_E2A5();
 
 uint16 g_mt32mpu_cs;
 
@@ -142,7 +147,7 @@ void MPU_Interrupt()
 				emu_push(0);
 				emu_push(note);
 				emu_push(0x80 | chan);
-				emu_push(emu_cs); emu_push(0x1E10); f__AB01_08CE_005F_AC14();
+				emu_push(emu_cs); emu_push(0x1E10); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 				emu_sp += 6;
 
 				data->noteOnCount--;
@@ -178,9 +183,9 @@ void MPU_Interrupt()
 					if (status >= 0xF0) {
 						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 						if (chan != 0xF) {
-							emu_push(emu_cs); emu_push(0x1EA8); f__AB01_1C49_0022_C4C7();
+							emu_push(emu_cs); emu_push(0x1EA8); emu_cs = g_mt32mpu_cs; f__AB01_1C49_0022_C4C7();
 						} else {
-							emu_push(emu_cs); emu_push(0x1EB5); f__AB01_1B48_0023_740C();
+							emu_push(emu_cs); emu_push(0x1EB5); emu_cs = g_mt32mpu_cs; f__AB01_1B48_0023_740C();
 						}
 						emu_sp += 4;
 						nb = emu_ax;
@@ -193,7 +198,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x3;
@@ -202,7 +207,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x2;
@@ -213,7 +218,7 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x2;
@@ -221,8 +226,8 @@ void MPU_Interrupt()
 						emu_push(data2);
 						emu_push(data1);
 						emu_push(chan);
-						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1EC5); f__AB01_18AC_0082_307C();
+						emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
+						emu_push(emu_cs); emu_push(0x1EC5); emu_cs = g_mt32mpu_cs; f__AB01_18AC_0082_307C();
 						emu_sp += 10;
 						nb = 0x3;
 					} else if (status >= 0xA0) {
@@ -230,13 +235,13 @@ void MPU_Interrupt()
 							emu_push(data2);
 							emu_push(data1);
 							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); f__AB01_08CE_005F_AC14();
+							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 							emu_sp += 6;
 						}
 						nb = 0x3;
 					} else {
-						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1E96); f__AB01_1A90_002B_D292();
+						emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
+						emu_push(emu_cs); emu_push(0x1E96); emu_cs = g_mt32mpu_cs; f__AB01_1A90_002B_D292();
 						emu_sp += 4;
 						nb = emu_ax;
 					}
@@ -292,8 +297,8 @@ void MPU_Interrupt()
 				} else {
 					data->variable_0024 = min(data->variable_0024 + i, data->variable_0026);
 				}
-				emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x1FA2); f__AB01_184D_004F_7B67();
+				emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
+				emu_push(emu_cs); emu_push(0x1FA2); emu_cs = g_mt32mpu_cs; f__AB01_184D_004F_7B67();
 				emu_sp += 4;
 			}
 		}
@@ -473,7 +478,7 @@ void MPU_StopAllNotes(MSData *data)
 		emu_push(0);
 		emu_push(note);
 		emu_push(0x80 | chan);
-		emu_push(emu_cs); emu_push(0x16A2); f__AB01_08CE_005F_AC14();
+		emu_push(emu_cs); emu_push(0x16A2); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
 		emu_sp += 6;
 	}
 
@@ -497,8 +502,8 @@ void MPU_Stop(uint16 index)
 
 	MPU_StopAllNotes(data);
 
-	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x2441); f__AB01_16B7_0039_7EF1();
+	emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
+	emu_push(emu_cs); emu_push(0x2441); emu_cs = g_mt32mpu_cs; f__AB01_16B7_0039_7EF1();
 	emu_sp += 4;
 
 	data->playing = 0;
@@ -523,4 +528,89 @@ uint16 MPU_GetDataSize()
 uint16 MPU_GetUnknownSize()
 {
 	return 0;
+}
+
+void MPU_Init()
+{
+	uint8 i;
+	uint8 j;
+
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312) = 0;
+	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x131E), 0xFF, 192);
+	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x11F2), 0xFF, 256);
+	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x12F2), 0x00, 32);
+	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x13EE), 0x00, 16);
+
+	for (i = 0; i < 9; i++) {
+		uint16 index = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
+		emu_get_memory8(g_mt32mpu_cs, index, 0x11F2) = i * 16;
+	}
+
+	MPU_Reset();
+	MPU_UART();
+
+	emu_push(emu_cs); emu_push(0x2029); emu_cs = g_mt32mpu_cs; f__AB01_0564_0050_E6D5();
+
+	emu_push(emu_cs); emu_push(0x202D); emu_cs = g_mt32mpu_cs; f__AB01_0610_0050_6DE0();
+
+	emu_push(emu_cs); emu_push(0x2031); emu_cs = g_mt32mpu_cs; f__AB01_21CE_001D_E2A5();
+
+	for (i = 0; i < 9; i++) {
+		for (j = 0; j < 9; j++) {
+			uint16 index;
+			uint16 index2;
+			uint8 value;
+
+			value = emu_get_memory8(g_mt32mpu_cs, i, 0x11E0);
+
+			if (value == 0xFF) break;
+
+			index  = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
+			index2 = emu_get_memory8(g_mt32mpu_cs, index, 0x11F2);
+			index2 += j + 1;
+
+			emu_get_memory8(g_mt32mpu_cs, index2, 0x131E) = value;
+
+			emu_push(value);
+			emu_push(index);
+			emu_push((j + 1) | 0xB0);
+			emu_push(emu_cs); emu_push(0x2062); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
+			emu_sp += 6;
+		}
+	}
+
+	emu_push(10);
+	emu_push(emu_cs); emu_push(0x207F); emu_cs = g_mt32mpu_cs; f__AB01_0787_0028_C5A7();
+	emu_sp += 2;
+
+	for (j = 0; j < 9; j++) {
+		uint8 value;
+
+		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13BE) = 0x0;
+		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13CE) = 0x40;
+
+		emu_push(64);
+		emu_push(0);
+		emu_push((j + 1) | 0xE0);
+		emu_push(emu_cs); emu_push(0x20AF); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
+		emu_sp += 6;
+
+		value = emu_get_memory8(g_mt32mpu_cs, j + 1, 0x11E8);
+
+		if (value == 0xFF) continue;
+
+		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13AE) = value;
+
+		emu_push(0);
+		emu_push(value);
+		emu_push((j + 1) | 0xC0);
+		emu_push(emu_cs); emu_push(0x20D6); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
+		emu_sp += 6;
+	}
+
+	emu_push(10);
+	emu_push(emu_cs); emu_push(0x20ED); emu_cs = g_mt32mpu_cs; f__AB01_0787_0028_C5A7();
+	emu_sp += 2;
+
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
 }
