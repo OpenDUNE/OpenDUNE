@@ -1731,9 +1731,9 @@ l__0E1C:
 }
 
 /**
- * Decompiled function f__AB01_0F24_0044_3584()
+ * Decompiled function emu_MPU_NeedTimbre()
  *
- * @name f__AB01_0F24_0044_3584
+ * @name emu_MPU_NeedTimbre
  * @implements AB01:0F24:0044:3584 ()
  * @implements AB01:0F53:0015:CA73
  * @implements AB01:0F70:0005:8C45
@@ -1742,7 +1742,7 @@ l__0E1C:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB01_0F24_0044_3584()
+void emu_MPU_NeedTimbre()
 {
 l__0F24:
 	emu_push(emu_bp);
@@ -2863,9 +2863,9 @@ l__20F8:
 }
 
 /**
- * Decompiled function f__AB01_2103_0040_93D2()
+ * Decompiled function emu_MPU_Uninit()
  *
- * @name f__AB01_2103_0040_93D2
+ * @name emu_MPU_Uninit
  * @implements AB01:2103:0040:93D2 ()
  * @implements AB01:215D:0004:4F00
  * @implements AB01:2161:0014:8AD4
@@ -2875,7 +2875,7 @@ l__20F8:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB01_2103_0040_93D2()
+void emu_MPU_Uninit()
 {
 l__2103:
 	emu_push(emu_bp);
@@ -3083,9 +3083,9 @@ l__236F:
 }
 
 /**
- * Decompiled function f__AB01_26EB_0047_41F4()
+ * Decompiled function emu_MPU_SetVolume()
  *
- * @name f__AB01_26EB_0047_41F4
+ * @name emu_MPU_SetVolume
  * @implements AB01:26EB:0047:41F4 ()
  * @implements AB01:2732:001E:6677
  * @implements AB01:273E:0012:51C3
@@ -3096,7 +3096,7 @@ l__236F:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB01_26EB_0047_41F4()
+void emu_MPU_SetVolume()
 {
 l__26EB:
 	emu_push(emu_bp);

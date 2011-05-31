@@ -1621,9 +1621,9 @@ l__0B86:
 }
 
 /**
- * Decompiled function f__AB00_0B91_0014_89BD()
+ * Decompiled function emu_DSP_Uninit()
  *
- * @name f__AB00_0B91_0014_89BD
+ * @name emu_DSP_Uninit
  * @implements AB00:0B91:0014:89BD ()
  * @implements AB00:0BA5:000E:9248
  * @implements AB00:0BB3:0007:AEA0
@@ -1634,7 +1634,7 @@ l__0B86:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_0B91_0014_89BD()
+void emu_DSP_Uninit()
 {
 l__0B91:
 	emu_push(emu_bp);
@@ -1659,7 +1659,7 @@ l__0BA5:
 l__0BB3:
 	emu_addw(&emu_sp, 0x2);
 	emu_push(emu_cs);
-	emu_push(0x0BBA); f__AB00_118F_0029_4B06();
+	emu_push(0x0BBA); emu_DSP_Stop();
 l__0BBA:
 	emu_push(emu_cs);
 	emu_push(0x0BBE); emu_DSP_Reset();
@@ -1702,16 +1702,16 @@ l__0BC6:
 }
 
 /**
- * Decompiled function f__AB00_0C08_0013_3E08()
+ * Decompiled function emu_DSP_SetVolume()
  *
- * @name f__AB00_0C08_0013_3E08
+ * @name emu_DSP_SetVolume
  * @implements AB00:0C08:0013:3E08 ()
  * @implements AB00:0C1B:0007:3FBD
  * @implements AB00:0C22:0005:C48A
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_0C08_0013_3E08()
+void emu_DSP_SetVolume()
 {
 l__0C08:
 	emu_push(emu_bp);
@@ -2083,9 +2083,9 @@ l__0E65:
 }
 
 /**
- * Decompiled function f__AB00_1068_0020_E6F1()
+ * Decompiled function emu_DSP_Play()
  *
- * @name f__AB00_1068_0020_E6F1
+ * @name emu_DSP_Play
  * @implements AB00:1068:0020:E6F1 ()
  * @implements AB00:1088:006D:FEDA
  * @implements AB00:110D:000E:872A
@@ -2093,7 +2093,7 @@ l__0E65:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_1068_0020_E6F1()
+void emu_DSP_Play()
 {
 l__1068:
 	emu_push(emu_bp);
@@ -2111,7 +2111,7 @@ l__1068:
 	emu_get_memory16(emu_ss, emu_bp,  0x2) = 0x0;
 	emu_pop(&emu_bp);
 	emu_push(emu_cs);
-	emu_push(0x1088); f__AB00_118F_0029_4B06();
+	emu_push(0x1088); emu_DSP_Stop();
 l__1088:
 	emu_addw(&emu_sp, 0x2);
 	emu_get_memory16(emu_cs, 0x00, 0x14A) = 0x0;
@@ -2195,9 +2195,9 @@ l__1115:
 }
 
 /**
- * Decompiled function f__AB00_1122_001C_9408()
+ * Decompiled function emu_DSP_Start()
  *
- * @name f__AB00_1122_001C_9408
+ * @name emu_DSP_Start
  * @implements AB00:1122:001C:9408 ()
  * @implements AB00:1162:0021:7380
  * @implements AB00:1183:0007:3FBD
@@ -2205,7 +2205,7 @@ l__1115:
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_1122_001C_9408()
+void emu_DSP_Start()
 {
 l__1122:
 	emu_push(emu_bp);
@@ -2267,9 +2267,9 @@ l__1184:
 }
 
 /**
- * Decompiled function f__AB00_118F_0029_4B06()
+ * Decompiled function emu_DSP_Stop()
  *
- * @name f__AB00_118F_0029_4B06
+ * @name emu_DSP_Stop
  * @implements AB00:118F:0029:4B06 ()
  * @implements AB00:11AD:000B:B9EA
  * @implements AB00:11B8:0005:4719
@@ -2280,7 +2280,7 @@ l__1184:
  * Called From: AB00:0BB7:0007:AEA0
  * Called From: AB00:1085:0020:E6F1
  */
-void f__AB00_118F_0029_4B06()
+void emu_DSP_Stop()
 {
 l__118F:
 	emu_push(emu_bp);
@@ -2345,15 +2345,15 @@ l__11CF:
 }
 
 /**
- * Decompiled function f__AB00_1235_0013_28BA()
+ * Decompiled function emu_DSP_GetStatus()
  *
- * @name f__AB00_1235_0013_28BA
+ * @name emu_DSP_GetStatus
  * @implements AB00:1235:0013:28BA ()
  * @implements AB00:1248:0005:C48A
  *
  * Called From: 2756:050D:0003:6FD4
  */
-void f__AB00_1235_0013_28BA()
+void emu_DSP_GetStatus()
 {
 l__1235:
 	emu_push(emu_bp);
