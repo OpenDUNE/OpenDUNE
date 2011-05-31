@@ -3761,6 +3761,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 			if (y2 == height) y2 = 0;
 
 			/* XXX -- This delays the system so you can in fact see the animation */
+			if ((x % 10) != 0) continue;
 			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) == 0);
 			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) != 0);
 		}
