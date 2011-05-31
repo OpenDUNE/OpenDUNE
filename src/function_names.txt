@@ -98,9 +98,6 @@
 263B:0006:001C:9C72	emu_Video_GetMode
 263B:002F:0016:FDB0	emu_Video_SetMode
 
-2BC0:0004:000F:950B	emu_Tools_Swapd	# LE <-> BE for 32bit values
-2BC0:0013:000A:39BD	emu_Tools_Swapw	# LE <-> BE for 16bit values
-
 2BEE:000E:0009:8881	emu_Video_IsInVSync	# Returns non-zero if in vsync
 2BEE:0017:0028:0D9F	emu_Video_WaitForNextVSync	# (vsync), waits for next vsync (or lack thereof)
 
