@@ -44,7 +44,6 @@
 #include "ini.h"
 
 extern void f__01F7_1BC3_000F_9450();
-extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
