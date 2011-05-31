@@ -232,10 +232,10 @@ void Drivers_CustomTimer_Interrupt()
 
 			/* Call based on memory/register values */
 			emu_push(emu_cs); emu_push(0x05A2); emu_cs = _stat08[_stat120].s.cs;
-			switch (_stat08[_stat120].csip) {
-				case 0x27560622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
-				case 0x2BD10006: Game_Timer_Interrupt(); break;
-				case 0x44AF1CEE: emu_MPU_Interrupt(); break;
+			switch (_stat08[_stat120].s.ip) {
+				case 0x0622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
+				case 0x0006: Game_Timer_Interrupt(); break;
+				case 0x1CEE: emu_MPU_Interrupt(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */
 					emu_last_cs = 0x2756; emu_last_ip = 0x059D; emu_last_length = 0x0019; emu_last_crc = 0x7966;
@@ -846,38 +846,42 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 
 csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 {
+	extern uint16 g_mt32mpu_cs;
+
 	csip32 csip;
 
 	csip = Drivers_GetFunctionCSIP(driver, function);
 	if (csip.csip == 0) return csip;
 
+	g_mt32mpu_cs = csip.s.cs;
+
 	/* Call/jump based on memory/register values */
 	emu_push(emu_cs); emu_push(emu_ip);
 	emu_ip = csip.s.ip;
 	emu_cs = csip.s.cs;
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x44AF045A: emu_MPU_TestPort(); break; /* 0x65 */
-		case 0x44AF0B73: case 0x47EE0B73: emu_DSP_GetInfo(); break; /* 0x64 */
-		case 0x44AF0B91: case 0x47EE0B91: f__AB00_0B91_0014_89BD(); break; /* 0x68 */
-		case 0x44AF0C08: case 0x47EE0C08: f__AB00_0C08_0013_3E08(); break; /* 0x81 */
-		case 0x44AF0C3F: case 0x47EE0C3F: emu_DSP_TestPort(); break; /* 0x65 */
-		case 0x44AF0C96: emu_MPU_GetInfo(); break; /* 0x64 */
-		case 0x44AF0DA4: case 0x47EE0DA4: emu_DSP_Init(); break; /* 0x66 */
-		case 0x44AF0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
-		case 0x44AF0F19: break; /* 0x9A */
-		case 0x44AF0F24: f__AB01_0F24_0044_3584(); break; /* 0x9B */
-		case 0x44AF1068: case 0x47EE1068: f__AB00_1068_0020_E6F1(); break; /* 0x7B */
-		case 0x44AF1122: case 0x47EE1122: f__AB00_1122_001C_9408(); break; /* 0x7D */
-		case 0x44AF118F: case 0x47EE118F: f__AB00_118F_0029_4B06(); break; /* 0x7E */
-		case 0x44AF1235: case 0x47EE1235: f__AB00_1235_0013_28BA(); break; /* 0x7C */
-		case 0x44AF1FA8: emu_MPU_Init(); break; /* 0x66 */
-		case 0x44AF2103: f__AB01_2103_0040_93D2(); break; /* 0x68 */
-		case 0x44AF2191: emu_MPU_GetDataSize(); break; /* 0x96 */
-		case 0x44AF21F0: emu_MPU_SetData(); break; /* 0x97 */
-		case 0x44AF2336: emu_MPU_ClearData(); break; /* 0x98 */
-		case 0x44AF237A: emu_MPU_Play(); break; /* 0xAA */
-		case 0x44AF240F: emu_MPU_Stop(); break; /* 0xAB */
-		case 0x44AF26EB: f__AB01_26EB_0047_41F4(); break; /* 0xB1 */
+	switch (emu_ip) {
+		case 0x045A: emu_MPU_TestPort(); break; /* 0x65 */
+		case 0x0B73: emu_DSP_GetInfo(); break; /* 0x64 */
+		case 0x0B91: f__AB00_0B91_0014_89BD(); break; /* 0x68 */
+		case 0x0C08: f__AB00_0C08_0013_3E08(); break; /* 0x81 */
+		case 0x0C3F: emu_DSP_TestPort(); break; /* 0x65 */
+		case 0x0C96: emu_MPU_GetInfo(); break; /* 0x64 */
+		case 0x0DA4: emu_DSP_Init(); break; /* 0x66 */
+		case 0x0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
+		case 0x0F19: break; /* 0x9A */
+		case 0x0F24: f__AB01_0F24_0044_3584(); break; /* 0x9B */
+		case 0x1068: f__AB00_1068_0020_E6F1(); break; /* 0x7B */
+		case 0x1122: f__AB00_1122_001C_9408(); break; /* 0x7D */
+		case 0x118F: f__AB00_118F_0029_4B06(); break; /* 0x7E */
+		case 0x1235: f__AB00_1235_0013_28BA(); break; /* 0x7C */
+		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
+		case 0x2103: f__AB01_2103_0040_93D2(); break; /* 0x68 */
+		case 0x2191: emu_MPU_GetDataSize(); break; /* 0x96 */
+		case 0x21F0: emu_MPU_SetData(); break; /* 0x97 */
+		case 0x2336: emu_MPU_ClearData(); break; /* 0x98 */
+		case 0x237A: emu_MPU_Play(); break; /* 0xAA */
+		case 0x240F: emu_MPU_Stop(); break; /* 0xAB */
+		case 0x26EB: f__AB01_26EB_0047_41F4(); break; /* 0xB1 */
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
