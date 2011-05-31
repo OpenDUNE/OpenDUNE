@@ -127,7 +127,6 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	if (left > right) return;
 	if (top > bottom) return;
 
-
 	screen += left + top * SCREEN_WIDTH;
 	width = right - left + 1;
 	height = bottom - top + 1;
@@ -4513,4 +4512,47 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 	GUI_Screen_SetActive(oldScreenID);
 
 	return width;
+}
+
+/**
+ * Draw a filled rectangle using xor.
+ * @param left The left position of the rectangle.
+ * @param top The top position of the rectangle.
+ * @param right The right position of the rectangle.
+ * @param bottom The bottom position of the rectangle.
+ * @param colour The colour of the rectangle.
+ */
+void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour)
+{
+	uint16 x;
+	uint16 y;
+	uint16 height;
+	uint16 width;
+
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
+
+	if (left >= SCREEN_WIDTH) return;
+	if (left < 0) left = 0;
+
+	if (top >= SCREEN_HEIGHT) return;
+	if (top < 0) top = 0;
+
+	if (right >= SCREEN_WIDTH) right = SCREEN_WIDTH - 1;
+	if (right < 0) right = 0;
+
+	if (bottom >= SCREEN_HEIGHT) bottom = SCREEN_HEIGHT - 1;
+	if (bottom < 0) bottom = 0;
+
+	if (left > right) return;
+	if (top > bottom) return;
+
+	screen += left + top * SCREEN_WIDTH;
+	width = right - left + 1;
+	height = bottom - top + 1;
+	for (y = 0; y < height; y++) {
+		for (x = 0; x < width; x++) {
+			*screen++ ^= colour;
+		}
+		screen += SCREEN_WIDTH - width;
+	}
 }

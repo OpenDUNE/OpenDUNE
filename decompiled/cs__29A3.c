@@ -242,44 +242,12 @@ l__0152:
 	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7080);
 	emu_andw(&emu_ax, 0xC000);
 	emu_cmpw(&emu_ax, 0xC000);
-	if (emu_ax == 0xC000) { /* Unresolved jump */ emu_ip = 0x017D; emu_last_cs = 0x29A3; emu_last_ip = 0x015B; emu_last_length = 0x0017; emu_last_crc = 0x5360; emu_call(); return; }
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7094));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7092));
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x66B4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x66B6);
-	emu_push(0x0169);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60FD7: emu_GFX_Ignore1(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x29A3; emu_last_ip = 0x0165; emu_last_length = 0x0017; emu_last_crc = 0x5360;
-			emu_call();
-			return;
-	}
-l__0169:
-	emu_addw(&emu_sp, 0x4);
+	if (emu_ax == 0xC000) goto l__017D;
 	emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide();
 l__0171:
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x66A4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x66A6);
-	emu_push(0x0175);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60FAE: emu_GFX_Ignore2(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x29A3; emu_last_ip = 0x0171; emu_last_length = 0x0004; emu_last_crc = 0xC0E6;
-			emu_call();
-			return;
-	}
-l__0175:
 	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x7080), 0x8000);
 	if ((emu_get_memory16(emu_ds, 0x00, 0x7080) & 0x8000) == 0) goto l__019D;
+l__017D:
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x7082));
 	if (emu_cx < emu_get_memory16(emu_ds, 0x00, 0x7082)) goto l__019D;
 	emu_cmpw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x7086));
@@ -291,40 +259,7 @@ l__0175:
 	emu_orw(&emu_get_memory16(emu_ds, 0x00, 0x7080), 0x4000);
 	goto l__01B5;
 l__019D:
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7094));
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7092));
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x66B4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x66B6);
-	emu_push(0x01A9);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60FD7: emu_GFX_Ignore1(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x29A3; emu_last_ip = 0x01A5; emu_last_length = 0x000C; emu_last_crc = 0x9EC2;
-			emu_call();
-			return;
-	}
-l__01A9:
-	emu_addw(&emu_sp, 0x4);
 	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; emu_GUI_Mouse_Show();
-l__01B1:
-
-	/* Call based on memory/register values */
-	emu_ip = emu_get_memory16(emu_ds, 0x00, 0x66A4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ds, 0x00, 0x66A6);
-	emu_push(0x01B5);
-	switch ((emu_cs << 16) + emu_ip) {
-		case 0x22A60FAE: emu_GFX_Ignore2(); break;
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x29A3; emu_last_ip = 0x01B1; emu_last_length = 0x0004; emu_last_crc = 0xC0E6;
-			emu_call();
-			return;
-	}
 l__01B5:
 	emu_get_memory16(emu_ds, 0x00, 0x707C) = emu_cx;
 	emu_get_memory16(emu_ds, 0x00, 0x707E) = emu_dx;

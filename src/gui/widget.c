@@ -14,7 +14,6 @@
 #include "../sprites.h"
 #include "../os/math.h"
 
-extern void f__22A6_0C69_008C_017F();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
@@ -189,14 +188,8 @@ void GUI_Widget_Draw(Widget *w)
 			GUI_DrawWiredRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
 		} break;
 
-		case DRAW_MODE_UNKNOWN6: {
-			emu_push(fgColour);
-			emu_push(positionBottom);
-			emu_push(positionRight);
-			emu_push(positionTop);
-			emu_push(positionLeft);
-			emu_push(emu_cs); emu_push(0x09CE); emu_cs = 0x22A6; f__22A6_0C69_008C_017F();
-			emu_sp += 10;
+		case DRAW_MODE_XORFILLED_RECTANGLE: {
+			GUI_DrawXorFilledRectangle(positionLeft, positionTop, positionRight, positionBottom, fgColour);
 		} break;
 	}
 

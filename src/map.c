@@ -22,8 +22,6 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-extern void f__22A6_1200_007B_0356();
-
 uint16 *g_map = NULL;
 
 /**
@@ -467,14 +465,7 @@ static bool Map_06F7_08BD(struct_395A *s, uint16 voiceID)
 
 static bool Map_06F7_08DD(struct_395A *s)
 {
-	if (!Map_IsPositionUnveiled(Tile_PackTile(s->position))) return true;
-
-	assert(g_global->variable_66E0.csip == 0x22A61200);
-
-	emu_push(1);
-	emu_push(emu_cs); emu_push(0x090B); emu_cs = 0x22A6; f__22A6_1200_007B_0356();
-	emu_sp += 2;
-
+	VARIABLE_NOT_USED(s);
 	return true;
 }
 

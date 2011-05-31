@@ -33,9 +33,6 @@
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
 
-22A6:0FAE:0027:2378	emu_GFX_Ignore2
-22A6:0FD7:0043:ACF9	emu_GFX_Ignore1
-
 23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
 23E1:0334:000B:CF65	emu_Tools_GetFreeMemory	# returns uint32
