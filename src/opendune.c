@@ -44,7 +44,6 @@
 #include "ini.h"
 
 extern void f__01F7_1BC3_000F_9450();
-extern void f__01F7_276F_000F_E56B();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
@@ -2753,19 +2752,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemS
 
 			return true;
 		}
-
-		emu_push(0x50);
-		emu_push(0x353F); emu_push(0x9882);
-		emu_push(emu_cs); emu_push(0x0110); emu_cs = 0x01F7; f__01F7_276F_000F_E56B();
-		emu_sp += 6;
-
-		strcpy((char *)g_global->variable_998E, (char *)g_global->variable_9882);
-
-		if (g_global->variable_9882[strlen((char *)g_global->variable_9882) - 1] != '\\') {
-			strcat((char *)g_global->variable_9882, "\\");
-		}
-
-		strcat((char *)g_global->variable_9882, filename);
 
 		emu_push(drive);
 		emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();

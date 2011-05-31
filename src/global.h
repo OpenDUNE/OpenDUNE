@@ -1515,7 +1515,7 @@ typedef struct GlobalData {
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
-	/* 9882()    */ PACK uint8  variable_9882[0x005F];      /*!< ?? Buffer. */
+	/* 9882()    */ PACK uint8  notused_9882[0x005F];       /*!< Used to contain current directory. */
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
@@ -1531,7 +1531,7 @@ typedef struct GlobalData {
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
-	/* 998E(97)  */ PACK uint8  variable_998E[97];          /*!< ?? Buffer. */
+	/* 998E(97)  */ PACK uint8  notused_998E[97];           /*!< Used to contain current directory. */
 	/* 99EF(4)   */ PACK csip32 new8pFnt;                   /*!< Pointer to content of new8p.fnt. */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
 } GCC_PACKED GlobalData;

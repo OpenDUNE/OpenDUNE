@@ -31,7 +31,6 @@
 01F7:2923:0024:671B	emu_Tools_Memset_Internal	# (csip, count, value)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
-01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
 
 23E1:0004:0014:2BC0	emu_Tools_Malloc	# (size32, type)
 23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
