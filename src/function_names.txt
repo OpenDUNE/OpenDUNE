@@ -5,15 +5,10 @@
 01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
-01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
-01F7:0309:000C:E723	emu_Drive_Set_Default	# (drive, num_drive_csip)
 01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
 01F7:0320:000D:74B7	emu_Terminate	# (error, ?, code)
 01F7:0377:000D:81BB	emu_Terminate_Normal	# (code)
 01F7:0386:0010:FC59	emu_Terminate_Error	# (code)
-01F7:03E5:000F:055B	emu_Drive_Get_Curdir	# (drive, buffer_csip)
-01F7:0428:0010:87B4	emu_Drive_Get_Default_Wrapper	# ()
-01F7:0442:0015:6A10	emu_Drive_Set_Default_Wrapper	# (drive)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
 01F7:058B:0018:D9CF	emu_Tools_Shld_Wrapper	# stupid wrapper

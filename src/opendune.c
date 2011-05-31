@@ -56,9 +56,6 @@ extern void f__29E8_0897_0016_2028();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
-extern void emu_Drive_Get_Default_Wrapper();
-extern void emu_Drive_Set_Default_Wrapper();
-extern void emu_File_LowLevel_Close_Wrapper();
 extern void emu_GUI_ShowEndStats();
 extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
@@ -2713,8 +2710,6 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 
 static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemSize)
 {
-	uint16 drive;
-
 	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; emu_Video_GetMode();
 	g_global->originalVideoMode = emu_ax;
 
@@ -2737,9 +2732,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemS
 		var9846[0x65] = 0xCB;
 	}
 
-	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x01F7; emu_Drive_Get_Default_Wrapper();
-	drive = emu_ax;
-
 	if (filename != NULL) {
 		if (!File_Exists(filename)) {
 			printf("\r\nProgram must be run from the source directory.\r\n");
@@ -2751,10 +2743,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemS
 
 			return true;
 		}
-
-		emu_push(drive);
-		emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();
-		emu_sp += 2;
 	}
 
 	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
