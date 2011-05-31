@@ -1786,7 +1786,7 @@ static void ReadProfileIni(char *filename)
 			char *name = (char *)emu_get_memorycsip(oi->name);
 
 			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
-				15 - strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				15 - (int)strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
 				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
 			Ini_SetString("construct", name, buffer, source);
@@ -1797,7 +1797,7 @@ static void ReadProfileIni(char *filename)
 			char *name = (char *)emu_get_memorycsip(oi->name);
 
 			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
-				15 - strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				15 - (int)strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
 				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
 			Ini_SetString("construct", name, buffer, source);
@@ -1837,7 +1837,7 @@ static void ReadProfileIni(char *filename)
 		UnitInfo *ui = &g_unitInfo[locsi];
 		char *name = (char *)emu_get_memorycsip(ui->o.name);
 
-		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - strlen(name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
+		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
 		Ini_SetString("combat", name, buffer, source);
 	}
 }
