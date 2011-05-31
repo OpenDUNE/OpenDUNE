@@ -15,6 +15,7 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
+extern void emu_Tools_Free();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 
@@ -251,9 +252,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 				if (g_global->language != LANGUAGE_ENGLISH || g_global->currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
-				emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-				emu_push(emu_cs); emu_push(0x053D); emu_cs = 0x1DD7; emu_Tools_Free_IfNotNull();
-				emu_sp += 4;
+				if (g_global->variable_3E54[voice].csip != 0x0) {
+					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
+					emu_push(emu_cs); emu_push(0x053D); emu_cs = 0x1DD7; emu_Tools_Free();
+					emu_sp += 4;
+				}
 
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
@@ -261,18 +264,23 @@ void Voice_LoadVoices(uint16 voiceSet)
 			case '+':
 				if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 
-				emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-				emu_push(emu_cs); emu_push(0x05B8); emu_cs = 0x1DD7; emu_Tools_Free_IfNotNull();
-				emu_sp += 4;
+				if (g_global->variable_3E54[voice].csip != 0x0) {
+					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
+					emu_push(emu_cs); emu_push(0x05B8); emu_cs = 0x1DD7; emu_Tools_Free();
+					emu_sp += 4;
+				}
 
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			case '-':
 				if (voiceSet == 0xFFFF) break;
-				emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-				emu_push(emu_cs); emu_push(0x056C); emu_cs = 0x1DD7; emu_Tools_Free_IfNotNull();
-				emu_sp += 4;
+
+				if (g_global->variable_3E54[voice].csip != 0x0) {
+					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
+					emu_push(emu_cs); emu_push(0x056C); emu_cs = 0x1DD7; emu_Tools_Free();
+					emu_sp += 4;
+				}
 
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
@@ -280,9 +288,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-				emu_push(emu_cs); emu_push(0x05E6); emu_cs = 0x1DD7; emu_Tools_Free_IfNotNull();
-				emu_sp += 4;
+				if (g_global->variable_3E54[voice].csip != 0x0) {
+					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
+					emu_push(emu_cs); emu_push(0x05E6); emu_cs = 0x1DD7; emu_Tools_Free();
+					emu_sp += 4;
+				}
 
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;

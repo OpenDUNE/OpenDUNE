@@ -8,30 +8,6 @@
 #include "tools.h"
 #include "unit.h"
 
-extern void emu_Tools_Free();
-
-/**
- * Call Tools_Free() if the pointer is valid.
- *
- * @name emu_Tools_Free_IfNotNull
- * @implements 1DD7:0213:0016:41ED ()
- */
-void emu_Tools_Free_IfNotNull()
-{
-	csip32 ptr;
-
-	/* Pop the return CS:IP */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	ptr = emu_get_csip32(emu_ss, emu_sp, 0);
-	if (ptr.csip == 0x0) return;
-
-	emu_push(ptr.s.cs); emu_push(ptr.s.ip);
-	emu_push(emu_cs); emu_push(0x0229); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-}
-
 /**
  * 32bits left shift.
  *
