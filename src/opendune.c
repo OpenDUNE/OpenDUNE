@@ -43,7 +43,6 @@
 #include "mouse.h"
 #include "ini.h"
 
-extern void f__01F7_1BC3_000F_9450();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
@@ -3163,9 +3162,6 @@ void PrepareEnd()
 	}
 
 	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; emu_Highmem_Uninitialize();
-
-	emu_push(emu_cs); emu_push(0x006E); emu_cs = 0x01F7; f__01F7_1BC3_000F_9450();
-	if (emu_ax == 0xFFFF) printf("\r\nMemory Corrupt!!!\r\n");
 
 	emu_push(g_global->variable_9846.s.cs);
 	emu_push(g_global->variable_9846.s.ip);
