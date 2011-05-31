@@ -51,10 +51,8 @@ int main(int argc, char **argv)
 	emu_hard_link(0x01F7, 0x0000, &emu_EntryPoint);
 	emu_hard_link(0x2756, 0x050F, &emu_Drivers_CustomTimer_Interrupt);
 	emu_hard_link(0x29A3, 0x0054, &emu_Mouse_EventHandler);
-	emu_hard_link(0x44AF, 0x056F, &f__AB00_056F_0020_6328);
-	emu_hard_link(0x47EE, 0x056F, &f__AB00_056F_0020_6328);
-	emu_hard_link(0x44AF, 0x058F, &f__AB00_058F_000E_41A1);
-	emu_hard_link(0x47EE, 0x058F, &f__AB00_058F_000E_41A1);
+	emu_hard_link(0x4352, 0x056F, &f__AB00_056F_0020_6328);
+	emu_hard_link(0x4352, 0x058F, &f__AB00_058F_000E_41A1);
 
 	emu_caption = "OpenDUNE - Pre v0.5";
 
