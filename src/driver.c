@@ -41,6 +41,8 @@ extern void f__AB01_2103_0040_93D2();
 extern void emu_MPU_ClearData();
 extern void f__AB01_26EB_0047_41F4();
 
+extern uint16 g_mt32mpu_cs;
+
 static uint16 _stat04;
 static uint16 _stat06;
 static csip32 _stat08[17];
@@ -847,8 +849,6 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 
 csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 {
-	extern uint16 g_mt32mpu_cs;
-
 	csip32 csip;
 
 	csip = Drivers_GetFunctionCSIP(driver, function);
