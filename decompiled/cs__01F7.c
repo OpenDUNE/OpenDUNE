@@ -381,7 +381,7 @@ l__0211:
 	emu_push(0x0226);
 	switch ((emu_cs << 16) + emu_ip) {
 		case 0x01F74027: f__01F7_4027_0011_8951(); break;
-		case 0x217E0D2C: f__217E_0D2C_000B_83A7(); break;
+		case 0x217E0D2C: emu_pop(&emu_ip); emu_pop(&emu_cs); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x01F7; emu_last_ip = 0x0222; emu_last_length = 0x0015; emu_last_crc = 0xAC4F;
@@ -464,7 +464,7 @@ l__0252:
 	emu_cs = emu_get_memory16(emu_es, emu_bx, 0x4);
 	emu_push(0x0267);
 	switch ((emu_cs << 16) + emu_ip) {
-		case 0x217E0198: f__217E_0198_0015_D478(); break;
+		case 0x217E0198: emu_pop(&emu_ip); emu_pop(&emu_cs); break;
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x01F7; emu_last_ip = 0x0263; emu_last_length = 0x0015; emu_last_crc = 0xAC4F;
@@ -539,37 +539,6 @@ l__0288:
 	emu_push(emu_cs);
 	emu_push(0x0291); emu_Terminate_Error();
 	/* Unresolved jump */ emu_ip = 0x0291; emu_last_cs = 0x01F7; emu_last_ip = 0x0291; emu_last_length = 0x0009; emu_last_crc = 0xFAE0; emu_call();
-}
-
-/**
- * Decompiled function emu_Print_Error_Overlay()
- *
- * @name emu_Print_Error_Overlay
- * @implements 01F7:02AC:000F:B26A ()
- * @implements 01F7:02BB:000E:6145
- *
- * Called From: 217E:061F:0005:07A7
- * Called From: 217E:0BFD:0007:1341
- * Called From: 217E:0C21:0007:1341
- */
-void emu_Print_Error_Overlay()
-{
-l__02AC:
-	emu_cx = 0x17;
-	emu_dx = 0x295;
-	emu_push(emu_cs);
-	emu_pop(&emu_ds);
-	emu_ah = 0x40;
-	emu_bx = 0x2;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02BB); Interrupt_DOS();
-l__02BB:
-	emu_ax = 0x4;
-	emu_push(emu_ax);
-	emu_ax = 0x353F;
-	emu_ds = emu_ax;
-	emu_push(emu_cs);
-	emu_push(0x02C9); emu_Terminate_Error();
-	emu_Empty5(); return;
 }
 
 /**

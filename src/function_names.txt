@@ -6,7 +6,6 @@
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
 01F7:28DC:0009:EE56	emu_String_strncasecmp	# (string1_csip, string2_csip, n) Case insensitive compare up to n chars
-01F7:02AC:000F:B26A	emu_Print_Error_Overlay	# ()
 01F7:02C9:0001:6580	emu_Empty5	# Function does absolutely nothing
 01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
 01F7:0309:000C:E723	emu_Drive_Set_Default	# (drive, num_drive_csip)
@@ -71,17 +70,6 @@
 01F7:3CD5:000D:9D98	emu_String_strupr	# (csip)
 01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
 01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
-
-217E:04F9:000E:346A	emu_Overlay_Load
-217E:055F:0008:D2BC	emu_Overlay_LocateMemory
-217E:05A9:001A:42B9	emu_Overlay_Load2
-217E:0677:0009:9C4F	emu_Overlay_Activate
-217E:0698:001E:EA6B	emu_Overlay_ReplaceWithJump
-217E:073A:0003:5D1A	emu_Overlay_AddToLinkedList
-217E:0758:0003:5D02	emu_Overlay_ReplaceReturnCSIP
-217E:0764:0006:1247	emu_Overlay_ReplaceReturnCS
-217E:07A6:000C:1B04	emu_Overlay_GetCodeSize
-217E:07B2:0018:C2D5	emu_Overlay_GetTotalSize
 
 22A6:0FAE:0027:2378	emu_GFX_Ignore2
 22A6:0FD7:0043:ACF9	emu_GFX_Ignore1

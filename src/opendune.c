@@ -46,8 +46,6 @@
 extern void f__01F7_1BC3_000F_9450();
 extern void f__01F7_1E5C_000E_B47A();
 extern void f__01F7_276F_000F_E56B();
-extern void f__217E_08F0_0016_CE0F();
-extern void f__217E_0ABA_001A_9AA0();
 extern void emu_Tools_Malloc();
 extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
@@ -2724,7 +2722,7 @@ static void Unknown_2531_0019()
 	emu_sp += 4;
 }
 
-static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool arg12)
+static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemSize)
 {
 	uint16 drive;
 
@@ -2756,34 +2754,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 	Unknown_2531_0019();
 
 	if (filename != NULL) {
-		if (emu_get_memory16(0x33F4, 0x00, 0x128) == 0x0) {
-			printf("\r\nBorland overlay manager not enabled.\r\n");
-
-			emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
-			emu_push(0x3F);
-			emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
-			emu_sp += 6;
-
-			return true;
-		}
-
-		emu_push(emu_get_memory16(0x33F4, 0x00, 0x128));
-		emu_push(emu_cs); emu_push(0x00C5); emu_cs = 0x01F7; emu_File_LowLevel_Close_Wrapper();
-		emu_sp += 2;
-
-		if (arg12) {
-			emu_push(0);
-			emu_push(0);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x00DA); emu_cs = 0x217E; f__217E_08F0_0016_CE0F();
-			emu_sp += 6;
-
-			emu_push(0); emu_push(0);
-			emu_push(0); emu_push(0);
-			emu_push(emu_cs); emu_push(0x00EE); emu_cs = 0x217E; f__217E_0ABA_001A_9AA0();
-			emu_sp += 8;
-		}
-
 		if (!File_Exists(filename)) {
 			printf("\r\nProgram must be run from the source directory.\r\n");
 
@@ -2808,15 +2778,13 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 
 		strcat((char *)g_global->variable_9882, filename);
 
-		emu_get_memory16(0x33F4, 0x00, 0x128) = 0xFFFF;
-
 		emu_push(drive);
 		emu_push(emu_cs); emu_push(0x0174); emu_cs = 0x01F7; emu_Drive_Set_Default_Wrapper();
 		emu_sp += 2;
 	}
 
 	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-	if ((uint32)((emu_dx << 16) + emu_ax) < arg0A) {
+	if ((uint32)((emu_dx << 16) + emu_ax) < memorySize) {
 		printf("\r\nNot enough memory to run program.\r\n");
 
 		emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
@@ -2827,7 +2795,7 @@ static bool Unknown_1DB6_0004(char *filename, uint32 arg0A, uint32 arg0E, bool a
 		return true;
 	}
 
-	emu_push(arg0E >> 16); emu_push(arg0E & 0xFFFF);
+	emu_push(highmemSize >> 16); emu_push(highmemSize & 0xFFFF);
 	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; emu_Highmem_Initialize();
 	emu_sp += 4;
 
@@ -2881,9 +2849,9 @@ void Main()
 	}
 
 	if (config->useXMS) {
-		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 910000, true)) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 910000)) exit(1);
 	} else {
-		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 0, false)) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", memoryNeeded - g_global->sizeExecutable, 0)) exit(1);
 	}
 
 	if (config->useXMS) {
