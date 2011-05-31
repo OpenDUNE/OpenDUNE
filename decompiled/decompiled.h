@@ -237,8 +237,6 @@ extern void f__01F7_1BC3_000F_9450();
 extern void f__AB01_1C49_0022_C4C7();
 extern void f__AB01_1CA3_0042_C43A();
 extern void f__01F7_1DE5_0036_9480();
-extern void f__01F7_1E5C_000E_B47A();
-extern void f__01F7_1EDE_0027_0D8F();
 extern void emu_MPU_Init();
 extern void emu_Interrupt_Video();
 extern void emu_Interrupt_Video_Internal();

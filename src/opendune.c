@@ -2714,14 +2714,6 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	return true;
 }
 
-static void Unknown_2531_0019()
-{
-	emu_push(0x2531);
-	emu_push(0x5);
-	emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x01F7; f__01F7_1E5C_000E_B47A();
-	emu_sp += 4;
-}
-
 static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemSize)
 {
 	uint16 drive;
@@ -2750,8 +2742,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemS
 
 	emu_push(emu_cs); emu_push(0x0066); emu_cs = 0x01F7; emu_Drive_Get_Default_Wrapper();
 	drive = emu_ax;
-
-	Unknown_2531_0019();
 
 	if (filename != NULL) {
 		if (!File_Exists(filename)) {
