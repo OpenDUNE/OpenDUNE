@@ -5,7 +5,6 @@
 01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
-01F7:02C9:0001:6580	emu_Empty5	# Function does absolutely nothing
 01F7:02F7:0007:3850	emu_Drive_Get_Default	# (drive_csip)
 01F7:0309:000C:E723	emu_Drive_Set_Default	# (drive, num_drive_csip)
 01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
@@ -25,20 +24,14 @@
 01F7:0773:001E:D7DA	emu_File_LowLevel_Seek	# (file, position32, method)
 01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
 01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments	# (csip) stores es, cs, ss and ds in "array" at csip
-01F7:111F:001A:B513	emu_String_Format	# (params_ip, format_csip, data_csip, callback_ip) data_csip depends on callback
-01F7:114F:001A:962D	emu_String_Format_Callback	# (params_ip, format_csip, data_csip, callback_ip) only data_csip and callback_ip are used, data_csip depends on callback
 01F7:1FB0:0010:CF18	emu_Interrupt_Video
 01F7:1FE1:005F:A74A	emu_Interrupt_Video_Internal
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:28B8:0024:83C9	emu_Tools_Memcopy	# (to_csip, from_csip, count)
 01F7:2923:0024:671B	emu_Tools_Memset_Internal	# (csip, count, value)
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
-01F7:2DA4:001B:CF3B	emu_String_Format_Callback_2D4A	# (data_csip, count, from_csip) Write 'count' bytes from 'from_csip' buffer to a file, data_csip points to file infos
-01F7:374D:001D:AA1B	emu_String_Format_Callback_374D	# (data_csip, count, from_csip) Move 'count' bytes from 'from_csip' buffer to a buffer, data_csip points to buffer csip
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 01F7:39A5:001F:1A5D	emu_String_strlen	# (string_csip)
-01F7:42F4:0019:54E2	emu_File_LowLevel_Write_Wrapper	# (file, buffer_csip, buflen) Manages writing to a file
-01F7:4445:0016:943B	emu_File_LowLevel_Write	# (file, buffer_csip, buflen)
 
 22A6:0FAE:0027:2378	emu_GFX_Ignore2
 22A6:0FD7:0043:ACF9	emu_GFX_Ignore1
