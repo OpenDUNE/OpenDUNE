@@ -1468,7 +1468,7 @@ l__1733:
  * Called From: 23E1:0247:0006:9688
  * Called From: 23E1:0247:0011:0456
  */
-void f__01F7_1741_001B_9E34()
+void emu_Tools_Free_Internal()
 {
 l__1741:
 	emu_push(emu_bp);
@@ -1740,7 +1740,7 @@ l__18C9:
  * Called From: 217E:0D5E:0010:E0EA
  * Called From: 23E1:006C:000B:8D1F
  */
-void f__01F7_1855_0053_AC2D()
+void emu_Tools_Malloc_Internal()
 {
 l__1855:
 	emu_push(emu_bp);
@@ -1855,6 +1855,7 @@ l__1A5E:
 		emu_subw(&emu_si, emu_get_memory16(emu_ds, 0x00, 0x7B));
 	}
 l__1A76:
+			printf("%d\n", emu_si);
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B));
 	emu_push(emu_cs);
@@ -3272,7 +3273,7 @@ l__33C8:
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0xA));
 	emu_push(emu_get_memory16(emu_es, emu_bx, 0x8));
 	emu_push(emu_cs);
-	emu_push(0x33E0); f__01F7_1741_001B_9E34();
+	emu_push(0x33E0); emu_Tools_Free_Internal();
 l__33E0:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);
