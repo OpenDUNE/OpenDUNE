@@ -100,7 +100,7 @@ void Unit_Unknown2134(Unit *unit)
 }
 
 /**
- * Loop over all units, preforming various of tasks.
+ * Loop over all units, performing various of tasks.
  */
 void GameLoop_Unit()
 {
@@ -167,12 +167,9 @@ void GameLoop_Unit()
 		h  = House_Get_ByIndex(u->o.houseID);
 		hi = &g_houseInfo[h->index];
 
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->unitCurrent          = g_global->unitStartPos;
-		g_global->unitCurrent.s.ip    += u->o.index * sizeof(Unit);
-		g_global->objectCurrent        = g_global->unitCurrent;
-		g_global->unitInfoCurrent.s.cs = 0x2D07;
-		g_global->unitInfoCurrent.s.ip = u->o.type * sizeof(UnitInfo);
+		g_scriptCurrentObject    = &u->o;
+		g_scriptCurrentStructure = NULL;
+		g_scriptCurrentUnit      = u;
 
 		if (u->o.flags.s.isNotOnMap) continue;
 

@@ -91,12 +91,9 @@ void GameLoop_Structure()
 		h  = House_Get_ByIndex(s->o.houseID);
 		hi = &g_houseInfo[h->index];
 
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->structureCurrent          = g_global->structureStartPos;
-		g_global->structureCurrent.s.ip    += s->o.index * sizeof(Structure);
-		g_global->objectCurrent             = g_global->structureCurrent;
-		g_global->structureInfoCurrent.s.cs = 0x2C94;
-		g_global->structureInfoCurrent.s.ip = 0xA + s->o.type * sizeof(StructureInfo);
+		g_scriptCurrentObject    = &s->o;
+		g_scriptCurrentStructure = s;
+		g_scriptCurrentUnit      = NULL;
 
 		if (tickPalace && s->o.type == STRUCTURE_PALACE) {
 			if (s->countDown != 0) {
@@ -107,7 +104,7 @@ void GameLoop_Structure()
 				}
 			}
 
-			/* Check if we have to fire the weapon for the AI immediatly */
+			/* Check if we have to fire the weapon for the AI immediately */
 			if (s->countDown == 0 && !h->flags.s.human && h->flags.s.variable_0008) {
 				Structure_ActivateSpecial(s);
 			}

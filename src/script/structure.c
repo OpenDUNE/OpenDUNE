@@ -35,7 +35,7 @@ uint16 Script_Structure_GetAnimation(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	return s->animation;
 }
 
@@ -52,7 +52,7 @@ uint16 Script_Structure_SetAnimation(ScriptEngine *script)
 	Structure *s;
 	int16 animation;
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	animation = script->stack[script->stackPointer];
 
 	if (animation == -2) {
@@ -88,7 +88,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
 	si = &g_structureInfo[s->o.type];
@@ -116,7 +116,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	if (s->o.linkedID == 0xFF) {
 		Structure_SetAnimation(s, 0);
@@ -172,9 +172,7 @@ uint16 Script_Structure_Unknown0A81(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
-
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	structureIndex = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
 
@@ -206,9 +204,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	uint16 loc08;
 	uint16 carryallIndex;
 
-	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
-
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	if (s->animation != 2) return IT_NONE;
 	if (s->o.linkedID == 0xFF) return IT_NONE;
@@ -249,9 +245,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->structureCurrent.csip == g_global->objectCurrent.csip);
-
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	if (s->o.linkedID == 0xFF) return 0;
 
@@ -316,7 +310,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 	uint32 distanceCurrent;
 	uint32 targetRange;
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	targetRange = script->stack[script->stackPointer];
 	distanceCurrent = 32000;
 	u = NULL;
@@ -379,7 +373,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	if (encoded == 0) return 0;
 
-	s      = Structure_Get_ByMemory(g_global->structureCurrent);
+	s      = g_scriptCurrentStructure;
 	lookAt = Tools_Index_GetTile(encoded);
 	tile   = Map_GetTileByPosition(Tile_PackTile(s->o.position));
 
@@ -436,7 +430,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 	tile32 tile;
 	uint16 encoded;
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	encoded = script->stack[script->stackPointer];
 
 	if (!Tools_Index_IsValid(encoded)) return s->variable_49 << 5;
@@ -485,7 +479,7 @@ uint16 Script_Structure_VoicePlay(ScriptEngine *script)
 {
 	Structure *s;
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
@@ -513,7 +507,7 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 	uint16 fireDelay;
 	uint16 type;
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 
 	target = script->variables[2];
 	if (target == 0) return 0;
@@ -557,7 +551,7 @@ uint16 Script_Structure_Unknown1524(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	layout = g_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
@@ -589,7 +583,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	s = Structure_Get_ByMemory(g_global->structureCurrent);
+	s = g_scriptCurrentStructure;
 	layout = g_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 

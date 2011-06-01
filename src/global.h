@@ -903,8 +903,8 @@ typedef struct GlobalData {
 	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
-	/* 394A(4)   */ PACK csip32 notused_394A;               /*!< REMOVED - Current House we are handling in GameLoop. */
-	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
+	/* 394A(4)   */ PACK csip32 removed_394A;               /*!< REMOVED - Current House we are handling in GameLoop. */
+	/* 394E(4)   */ PACK csip32 removed_394E;               /*!< REMOVED - Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
 	/* 3956(4)   */ PACK csip32 animations;                 /*!< Pointer to the current animations. */
 	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
@@ -1025,8 +1025,8 @@ typedef struct GlobalData {
 	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
-	/* 6268(4)   */ PACK csip32 unitCurrent;                /*!< Current Unit we are handling in GameLoop. */
-	/* 626C(4)   */ PACK csip32 unitInfoCurrent;            /*!< Current UnitInfo we are handling in the GameLoop. */
+	/* 6268(4)   */ PACK csip32 removed_6268;               /*!< REMOVED - Current Unit we are handling in GameLoop. */
+	/* 626C(4)   */ PACK csip32 removed_626C;               /*!< REMOVED - Current UnitInfo we are handling in the GameLoop. */
 	/* 6270(4)   */ PACK uint32 tickUnitUnknown1;           /*!< Indicates next time Unit runs Unknown1 function. */
 	/* 6274(4)   */ PACK uint32 tickUnitUnknown2;           /*!< Indicates next time Unit runs Unknown2 function. */
 	/* 6278(4)   */ PACK uint32 tickUnitUnknown3;           /*!< Indicates next time Unit runs Unknown3 function. */
@@ -1475,8 +1475,8 @@ typedef struct GlobalData {
 	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
 	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
-	/* 8430(4)   */ PACK csip32 structureInfoCurrent;       /*!< Current StructureInfo we are handling in the GameLoop. */
-	/* 8434(4)   */ PACK csip32 structureCurrent;           /*!< Current Structure we are handling in the GameLoop. */
+	/* 8430(4)   */ PACK csip32 removed_8430;               /*!< REMOVED - Current StructureInfo we are handling in the GameLoop. */
+	/* 8434(4)   */ PACK csip32 removed_8434;               /*!< REMOVED - Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of Unit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  teamFindStruct[6];          /*!< Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
@@ -1515,7 +1515,7 @@ typedef struct GlobalData {
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
-	/* 9882()    */ PACK uint8  notused_9882[0x005F];       /*!< REMOVED - Current directory. */
+	/* 9882()    */ PACK uint8  removed_9882[0x005F];       /*!< REMOVED - Current directory. */
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
@@ -1531,7 +1531,7 @@ typedef struct GlobalData {
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
-	/* 998E(97)  */ PACK uint8  notused_998E[97];           /*!< REMOVED - Current directory. */
+	/* 998E(97)  */ PACK uint8  removed_998E[97];           /*!< REMOVED - Current directory. */
 	/* 99EF(4)   */ PACK csip32 new8pFnt;                   /*!< Pointer to content of new8p.fnt. */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
 } GCC_PACKED GlobalData;

@@ -36,7 +36,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 	Unit *nu;
 	tile32 position;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.variable_0E) return 0;
 
@@ -65,7 +65,7 @@ uint16 Script_Unit_FindBestTarget(ScriptEngine *script)
 {
 	Unit *u;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	return Unit_FindBestTargetEncoded(u, script->stack[script->stackPointer]);
 }
@@ -85,7 +85,7 @@ uint16 Script_Unit_GetTargetPriority(ScriptEngine *script)
 	Structure *s;
 	uint16 encoded;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 
 	target = Tools_Index_GetUnit(encoded);
@@ -111,9 +111,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.linkedID == 0xFF) return 0;
 	if (Tools_Index_GetType(u->targetMove) == IT_UNIT) return 0;
@@ -212,9 +210,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.linkedID != 0xFF) return 0;
 
@@ -341,7 +337,7 @@ uint16 Script_Unit_Unknown0FA2(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Unit_Unknown204C(u, 0);
 
@@ -363,7 +359,7 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 	Unit *u;
 	uint16 param;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	param = clamp(script->stack[script->stackPointer], 0, 255);
 
 	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
@@ -387,7 +383,7 @@ uint16 Script_Unit_Unknown105E(ScriptEngine *script)
 {
 	Unit *u;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	u->variable_6D = -(script->stack[script->stackPointer] & 0xFF);
 
@@ -413,7 +409,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	int8 orientation;
 	int16 diff;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->targetMove == 0) return 0;
 
@@ -475,7 +471,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	ui = &g_unitInfo[u->o.type];
 
 	Unit_Unknown10EC(u);
@@ -514,7 +510,7 @@ uint16 Script_Unit_Unknown1382(ScriptEngine *script)
 {
 	Unit *u;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
 	return 0;
@@ -533,7 +529,7 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
 	Unit *u;
 	uint8 i;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Map_MakeExplosion(11, u->o.position, Tools_RandomRange(25, 50), 0);
 
@@ -562,9 +558,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	bool loc1A;
 	uint16 damage;
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	target = u->targetAttack;
 	if (target == 0 || !Tools_Index_IsValid(target)) return 0;
@@ -689,7 +683,7 @@ uint16 Script_Unit_GetOrientation(ScriptEngine *script)
 {
 	Unit *u;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Unit_SetOrientation(u, (int8)script->stack[script->stackPointer], false, 0);
 
@@ -715,7 +709,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	ui = &g_unitInfo[u->o.type];
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
@@ -751,7 +745,7 @@ uint16 Script_Unit_Unknown1A40(ScriptEngine *script)
 	Unit *u;
 	uint16 encoded;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 
 	if (Tools_Index_IsValid(encoded)) {
@@ -778,7 +772,7 @@ uint16 Script_Unit_Unknown1A9F(ScriptEngine *script)
 	Unit *u;
 	uint16 encoded;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 
 	if (encoded == 0 || !Tools_Index_IsValid(encoded)) {
@@ -818,7 +812,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	tile32 tile;
 	int8 orientation;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	target = script->stack[script->stackPointer];
 
@@ -854,7 +848,7 @@ uint16 Script_Unit_SetAction(ScriptEngine *script)
 	Unit *u;
 	ActionType action;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	action = script->stack[script->stackPointer];
 
@@ -879,7 +873,7 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Unit_SetAction(u, g_unitInfo[u->o.type].o.actionsPlayer[3]);
 
@@ -903,7 +897,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(encoded)) return 0;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->variable_49.tile == 0 || (g_unitInfo[u->o.type].variable_36 & 0x8000) != 0) {
 		u->variable_49 = Tools_Index_GetTile(encoded);
@@ -927,7 +921,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	Unit *u;
 	UnitInfo *ui;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	ui = &g_unitInfo[u->o.type];
 
 	switch (script->stack[script->stackPointer]) {
@@ -969,9 +963,9 @@ static int16 Script_Unit_176C_1F21(uint16 packed, uint8 arg08)
 	int16 res;
 	Unit *u;
 
-	if (g_global->unitCurrent.csip == 0x0) return 0;
+	if (g_scriptCurrentUnit == NULL) return 0;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	res = Unit_Unknown3146(u, packed, arg08 << 5);
 
@@ -1257,7 +1251,7 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 	uint16 packed;
 	uint16 locdi;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 
 	if (u->variable_49.tile != 0 || !Tools_Index_IsValid(encoded)) return 1;
@@ -1325,9 +1319,7 @@ uint16 Script_Unit_Unknown212E(ScriptEngine *script)
 	Unit *u;
 	PoolFindStruct find;
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.linkedID != 0xFF) {
 		Structure *s;
@@ -1387,7 +1379,7 @@ uint16 Script_Unit_GetAmount(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.linkedID == 0xFF) return u->amount;
 
@@ -1408,7 +1400,7 @@ uint16 Script_Unit_IsInTransport(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	return u->o.flags.s.inTransport ? 1 : 0;
 }
@@ -1430,7 +1422,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	position = Tile_PackTile(Tile_Center(u->o.position));
 	Animation_Stop_ByTile(position);
@@ -1464,9 +1456,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 	uint16 encoded;
 	uint16 encoded2;
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
 	if (!g_unitInfo[u->o.type].o.flags.s.variable_0100 || u->deviated != 0) return 0;
@@ -1499,9 +1489,7 @@ uint16 Script_Unit_Unknown2552(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	if (u->o.script.variables[4] == 0) return u->o.script.variables[4];
 
 	u2 = Tools_Index_GetUnit(u->o.script.variables[4]);
@@ -1526,7 +1514,7 @@ uint16 Script_Unit_FindStructure(ScriptEngine *script)
 	Unit *u;
 	PoolFindStruct find;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	find.houseID = Unit_GetHouseID(u);
 	find.index   = 0xFFFF;
@@ -1562,7 +1550,7 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	ui = &g_unitInfo[u->o.type];
 
 	/* "%s %s destroyed." */
@@ -1589,7 +1577,7 @@ uint16 Script_Unit_RemoveFog(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	Unit_RemoveFog(u);
 	return 0;
 }
@@ -1609,7 +1597,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (u->o.type != UNIT_HARVESTER) return 0;
 	if (u->amount >= 100) return 0;
@@ -1648,7 +1636,7 @@ uint16 Script_Unit_Unknown27A4(ScriptEngine *script)
 	uint16 encoded;
 	uint16 index;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	encoded = script->stack[script->stackPointer];
 	index = Tools_Index_Decode(encoded);
 
@@ -1689,7 +1677,7 @@ uint16 Script_Unit_Unknown28B1(ScriptEngine *script)
 	Unit *u;
 	tile32 tile;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	if (Tools_Index_GetType(script->stack[script->stackPointer]) != 1) return 0;
 
@@ -1715,7 +1703,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	random = Tools_RandomRange(0, 10);
 	movementType = g_unitInfo[u->o.type].movementType;
@@ -1751,7 +1739,7 @@ uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script)
 	PoolFindStruct find;
 	uint16 distanceMin =0;
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	find.houseID = Unit_GetHouseID(u);
 	find.index   = 0xFFFF;
@@ -1800,7 +1788,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	Unit_B4CD_01BF(0, u);
 
@@ -1838,7 +1826,7 @@ uint16 Script_Unit_Unknown2B97(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	u2 = Unit_Unknown15F4(u);
 	if (u2 == NULL) return 0;
@@ -1860,9 +1848,7 @@ uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	assert(g_global->unitCurrent.csip == g_global->objectCurrent.csip);
-
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 
 	switch (Tools_Index_GetType(u->o.script.variables[4])) {
 		case IT_UNIT: {
@@ -1903,7 +1889,7 @@ uint16 Script_Unit_Unknown2C73(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	u = Unit_Get_ByMemory(g_global->unitCurrent);
+	u = g_scriptCurrentUnit;
 	u->variable_6E = 32;
 	return 0;
 }

@@ -11,6 +11,10 @@
 
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 
+struct Object *g_scriptCurrentObject;
+struct Structure *g_scriptCurrentStructure;
+struct Unit *g_scriptCurrentUnit;
+
 extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 

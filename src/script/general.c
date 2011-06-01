@@ -73,15 +73,15 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
  */
 uint16 Script_General_GetDistance(ScriptEngine *script)
 {
-	Unit *u;
+	Object *o;
 	uint16 objectID;
 
 	objectID = script->stack[script->stackPointer];
-	u = Unit_Get_ByMemory(g_global->objectCurrent);
+	o = g_scriptCurrentObject;
 
 	if (!Tools_Index_IsValid(objectID)) return 0xFFFF;
 
-	return Tile_GetDistance(u->o.position, Tools_Index_GetTile(objectID));
+	return Tile_GetDistance(o->position, Tools_Index_GetTile(objectID));
 }
 
 /**
@@ -176,7 +176,7 @@ uint16 Script_General_Unknown024B(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(index)) return 0xFFFF;
 
-	return Object_GetDistanceToEncoded((Object *)emu_get_memorycsip(g_global->objectCurrent), index);
+	return Object_GetDistanceToEncoded(g_scriptCurrentObject, index);
 }
 
 /**
@@ -232,7 +232,7 @@ uint16 Script_General_UnitCount(ScriptEngine *script)
 	uint16 count = 0;
 	PoolFindStruct find;
 
-	find.houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 8); /* object->o.houseID */
+	find.houseID = g_scriptCurrentObject->houseID;
 	find.type    = script->stack[script->stackPointer];
 	find.index   = 0xFFFF;
 
@@ -297,7 +297,7 @@ uint16 Script_General_GetLinkedUnitType(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	linkedID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 3); /* object->linkedID */
+	linkedID = g_scriptCurrentObject->linkedID;
 
 	if (linkedID == 0xFF) return 0xFFFF;
 
@@ -316,7 +316,7 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
 {
 	tile32 position;
 
-	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
+	position = g_scriptCurrentObject->position;
 
 	Voice_PlayAtTile(script->stack[script->stackPointer], position);
 
@@ -337,8 +337,8 @@ uint16 Script_General_Unknown0456(ScriptEngine *script)
 	tile32 position;
 	uint16 packed;
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
-	position = emu_get_tile32(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0xA); /* object->position */
+	houseID = g_scriptCurrentObject->houseID;
+	position = g_scriptCurrentObject->position;
 
 	packed = Map_B4CD_08E7(Tile_PackTile(position), script->stack[script->stackPointer]);
 
@@ -388,7 +388,7 @@ uint16 Script_General_Unknown050C(ScriptEngine *script)
 
 	if (!Tools_Index_IsValid(index)) return 0;
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
+	houseID = g_scriptCurrentObject->houseID;
 
 	switch (Tools_Index_GetType(index)) {
 		case IT_UNIT:      return (Unit_GetHouseID(Tools_Index_GetUnit(index)) != houseID) ? 1 : 0;
@@ -414,7 +414,7 @@ uint16 Script_General_Unknown0594(ScriptEngine *script)
 
 	index = script->stack[script->stackPointer];
 
-	houseID = emu_get_memory8(g_global->objectCurrent.s.cs, g_global->objectCurrent.s.ip, 0x8); /* object->o.houseID */
+	houseID = g_scriptCurrentObject->houseID;
 
 	if ((index & 0xC000) != 0) {
 		if (Tools_Index_GetType(index) != IT_STRUCTURE) return 0;
