@@ -208,7 +208,7 @@ void GameLoop_Unit()
 
 		if (tickBlinking && u->blinkCounter != 0) {
 			u->blinkCounter--;
-			if ((u->blinkCounter % 1) != 0) {
+			if ((u->blinkCounter % 2) != 0) {
 				u->o.flags.s.isHighlighted = true;
 			} else {
 				u->o.flags.s.isHighlighted = false;
