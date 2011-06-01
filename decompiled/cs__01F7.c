@@ -1855,7 +1855,6 @@ l__1A5E:
 		emu_subw(&emu_si, emu_get_memory16(emu_ds, 0x00, 0x7B));
 	}
 l__1A76:
-			printf("%d\n", emu_si);
 	emu_push(emu_si);
 	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7B));
 	emu_push(emu_cs);
