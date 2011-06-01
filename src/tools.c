@@ -15,10 +15,13 @@
 #include "tools.h"
 #include "unit.h"
 
+extern void emu_Tools_Free_Internal();
 extern void emu_Tools_Malloc_Internal();
+extern void emu_Highmem_IsInHighmem();
 extern void emu_Highmem_Memmove_FromHighmem();
 extern void emu_Highmem_Memmove_ToHighmem();
 extern void emu_Highmem_Alloc();
+extern void emu_Highmem_Free();
 extern void f__23E1_03DB_000B_CF65();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
@@ -442,4 +445,43 @@ csip32 Tools_Malloc(uint32 size, uint8 flags)
 	g_global->variable_66F8++;
 
 	return ret;
+}
+
+/**
+ * Free a malloc'd pointer.
+ * @param ptr The pointer to free.
+ */
+void Tools_Free(csip32 ptr)
+{
+	uint8 flags;
+	uint8 *buf;
+
+	if (ptr.csip == 0x0) return;
+
+	emu_push(ptr.s.cs); emu_push(ptr.s.ip);
+	emu_push(emu_cs); emu_push(0x01DE); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
+	emu_sp += 4;
+
+	if (emu_ax != 0) {
+		emu_push(ptr.s.cs); emu_push(ptr.s.ip);
+		emu_push(emu_cs); emu_push(0x01EF); emu_cs = 0x2649; emu_Highmem_Free();
+		emu_sp += 4;
+
+		return;
+	}
+
+	buf = emu_get_memorycsip(ptr) - 1;
+	flags = *buf;
+
+	if ((flags & 0x20) != 0) {
+		emu_push(ptr.s.cs - 1); emu_push(ptr.s.ip + 15 - (flags & 0xF));
+		emu_push(emu_cs); emu_push(0x0228); emu_cs = 0x01F7; emu_Tools_Free_Internal();
+		emu_sp += 4;
+
+		return;
+	}
+
+	emu_push(ptr.s.cs); emu_push(ptr.s.ip - 1);
+	emu_push(emu_cs); emu_push(0x0228); emu_cs = 0x01F7; emu_Tools_Free_Internal();
+	emu_sp += 4;
 }

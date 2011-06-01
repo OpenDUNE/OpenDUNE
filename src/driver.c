@@ -17,7 +17,6 @@
 #include "tools.h"
 
 extern void f__01F7_27FD_0037_E2C0();
-extern void emu_Tools_Free();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();
@@ -384,9 +383,7 @@ static void Drivers_Uninit(Driver *driver)
 
 	driver->index = 0xFFFF;
 
-	emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-	emu_push(emu_cs); emu_push(0x1737); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(driver->dcontent);
 
 	driver->dcontent.csip  = 0x0;
 	driver->dfilename.csip = 0x0;
@@ -443,10 +440,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 	driver->index = Driver_Install(driver->dcontent);
 
 	if (driver->index == 0xFFFF) {
-		emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-		emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
+		Tools_Free(driver->dcontent);
 		driver->dcontent.csip = 0;
 		return false;
 	}
@@ -893,10 +887,7 @@ void Driver_Voice_Stop()
 	if (Driver_Voice_IsPlaying()) Drivers_CallFunction(voice->index, 0x7E);
 
 	if (voice->contentMalloced != 0) {
-		emu_push(voice->content.s.cs); emu_push(voice->content.s.ip);
-		emu_push(emu_cs); emu_push(0x01D5); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
+		Tools_Free(voice->content);
 		voice->contentMalloced = 0;
 	}
 
@@ -1046,9 +1037,7 @@ void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex)
 				emu_sp += 10;
 			}
 
-			emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-			emu_push(emu_cs); emu_push(0x0D36); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
+			Tools_Free(buffer_csip);
 			break;
 		}
 
@@ -1079,9 +1068,7 @@ static void Drivers_Music_Uninit()
 			buffer->index = 0xFFFF;
 		}
 
-		emu_push(buffer->buffer.s.cs); emu_push(buffer->buffer.s.ip);
-		emu_push(emu_cs); emu_push(0x106E); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(buffer->buffer);
 		buffer->buffer.csip = 0x0;
 	}
 
@@ -1119,9 +1106,7 @@ static void Drivers_Sound_Uninit()
 				buffer->index = 0xFFFF;
 			}
 
-			emu_push(buffer->buffer.s.cs); emu_push(buffer->buffer.s.ip);
-			emu_push(emu_cs); emu_push(0x1260); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
+			Tools_Free(buffer->buffer);
 			buffer->buffer.csip = 0x0;
 		}
 	}
@@ -1210,9 +1195,7 @@ static void Drivers_1DD7_0D77(char *musicName, Driver *driver)
 			data.variable_01 = 0xFF;
 		}
 
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x0EC5); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(buffer_csip);
 	}
 
 	File_Close(fileIndex);
@@ -1250,18 +1233,11 @@ void Driver_LoadFile(char *musicName, Driver *driver)
 void Driver_UnloadFile(Driver *driver)
 {
 	if (driver->content.csip != 0x0 && driver->contentMalloced != 0) {
-		emu_push(driver->content.s.cs); emu_push(driver->content.s.ip);
-		emu_push(emu_cs); emu_push(0x1BDE); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
-		emu_push(driver->variable_1E.s.cs); emu_push(driver->variable_1E.s.ip);
-		emu_push(emu_cs); emu_push(0x1BF0); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(driver->content);
+		Tools_Free(driver->variable_1E);
 	}
 
-	emu_push(driver->filename.s.cs); emu_push(driver->filename.s.ip);
-	emu_push(emu_cs); emu_push(0x1C02); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(driver->filename);
 
 	driver->contentMalloced  = 0;
 	driver->filename.csip    = 0x0;

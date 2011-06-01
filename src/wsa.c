@@ -16,7 +16,6 @@
 #include "unknown/unknown.h"
 
 extern void f__2AE1_029F_0014_50E5();
-extern void emu_Tools_Free();
 
 /**
  * Get the amount of frames a WSA has.
@@ -306,9 +305,7 @@ void WSA_Unload(csip32 buffer)
 
 	if (!header->flags.s.malloced) return;
 
-	emu_push(buffer.s.cs); emu_push(buffer.s.ip);
-	emu_push(emu_cs); emu_push(0x04A6); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(buffer);
 }
 
 static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, csip32 displayBuffer)

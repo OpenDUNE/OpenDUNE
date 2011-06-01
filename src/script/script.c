@@ -16,8 +16,6 @@ struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;
 struct Unit *g_scriptCurrentUnit;
 
-extern void emu_Tools_Free();
-
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
  */
@@ -538,23 +536,9 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
 	if (scriptInfo == NULL) return;
 
 	if (scriptInfo->isAllocated != 0) {
-		if (scriptInfo->text.csip != 0x0) {
-			emu_push(scriptInfo->text.s.cs); emu_push(scriptInfo->text.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
-		}
-
-		if (scriptInfo->offsets.csip != 0x0) {
-			emu_push(scriptInfo->offsets.s.cs); emu_push(scriptInfo->offsets.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
-		}
-
-		if (scriptInfo->start.csip != 0x0) {
-			emu_push(scriptInfo->start.s.cs); emu_push(scriptInfo->start.s.ip);
-			emu_push(emu_cs); emu_push(0x003E); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
-		}
+		Tools_Free(scriptInfo->text);
+		Tools_Free(scriptInfo->offsets);
+		Tools_Free(scriptInfo->start);
 	}
 
 	scriptInfo->text.csip = 0x0;

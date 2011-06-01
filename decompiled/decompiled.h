@@ -78,7 +78,6 @@ extern void emu_Interrupt_Vector_Store();
 extern void emu_DSP_Read();
 extern void emu_DSP_WriteAndWait();
 extern void emu_Interrupt_Vector_Restore();
-extern void emu_Tools_Free();
 extern void f__29A3_01DB_003D_B0F3();
 extern void f__2AE1_01EA_0020_A570();
 extern void f__01F7_01ED_0024_A432();

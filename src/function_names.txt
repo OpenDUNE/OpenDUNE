@@ -27,8 +27,6 @@
 01F7:2947:0014:02B8	emu_Tools_Memset	# (csip, value, count)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 
-23E1:01C2:0011:24E8	emu_Tools_Free	# (csip)
-
 29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init

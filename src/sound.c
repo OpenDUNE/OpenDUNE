@@ -15,7 +15,6 @@
 #include "unknown/unknown.h"
 #include "os/strings.h"
 
-extern void emu_Tools_Free();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 
@@ -230,55 +229,37 @@ void Voice_LoadVoices(uint16 voiceSet)
 				if (g_global->language != LANGUAGE_ENGLISH || g_global->currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
-				if (g_global->variable_3E54[voice].csip != 0x0) {
-					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-					emu_push(emu_cs); emu_push(0x053D); emu_cs = 0x1DD7; emu_Tools_Free();
-					emu_sp += 4;
-				}
 
+				Tools_Free(g_global->variable_3E54[voice]);
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			case '+':
 				if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 
-				if (g_global->variable_3E54[voice].csip != 0x0) {
-					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-					emu_push(emu_cs); emu_push(0x05B8); emu_cs = 0x1DD7; emu_Tools_Free();
-					emu_sp += 4;
-				}
-
+				Tools_Free(g_global->variable_3E54[voice]);
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			case '-':
 				if (voiceSet == 0xFFFF) break;
 
-				if (g_global->variable_3E54[voice].csip != 0x0) {
-					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-					emu_push(emu_cs); emu_push(0x056C); emu_cs = 0x1DD7; emu_Tools_Free();
-					emu_sp += 4;
-				}
-
+				Tools_Free(g_global->variable_3E54[voice]);
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				if (g_global->variable_3E54[voice].csip != 0x0) {
-					emu_push(g_global->variable_3E54[voice].s.cs); emu_push(g_global->variable_3E54[voice].s.ip);
-					emu_push(emu_cs); emu_push(0x05E6); emu_cs = 0x1DD7; emu_Tools_Free();
-					emu_sp += 4;
-				}
-
+				Tools_Free(g_global->variable_3E54[voice]);
 				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			case '?':
-				if (voiceSet != 0xFFFF) {
-					g_global->variable_3E54[voice].csip = 0x0;
-				}
+				if (voiceSet == 0xFFFF) break;
+
+				/* No free() as there was never a malloc(). */
+				g_global->variable_3E54[voice].csip = 0x0;
 				break;
 
 			default:

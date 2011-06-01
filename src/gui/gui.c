@@ -37,7 +37,6 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_Tools_Free();
 extern void f__29E8_07FA_0020_177A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -758,11 +757,8 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	Unknown_07AE_0000(oldValue_07AE_0000);
 
 	if (size != 0) {
-		emu_push(g_global->variable_3600.s.cs); emu_push(g_global->variable_3600.s.ip);
-		emu_push(emu_cs); emu_push(0x0550); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
-		g_global->variable_3600.csip = 0;
+		Tools_Free(g_global->variable_3600);
+		g_global->variable_3600.csip = 0x0;
 	} else {
 		g_global->variable_3A12 = 1;
 	}
@@ -1767,9 +1763,7 @@ uint16 GUI_PickHouse()
 		while (w != NULL) {
 			csip32 next = w->next;
 
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-			emu_push(emu_cs); emu_push(0x11D6); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
+			Tools_Free(wcsip);
 
 			wcsip = next;
 			w = (Widget *)emu_get_memorycsip(wcsip);
@@ -1823,9 +1817,7 @@ uint16 GUI_PickHouse()
 		while (w != NULL) {
 			csip32 next = w->next;
 
-			emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-			emu_push(emu_cs); emu_push(0x146C); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
+			Tools_Free(wcsip);
 
 			wcsip = next;
 			w = (Widget *)emu_get_memorycsip(wcsip);
@@ -4263,9 +4255,7 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 		csip32 wcsip = emu_Global_GetCSIP(w);
 		w = GUI_Widget_GetNext(w);
 
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0A6D); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(wcsip);
 	}
 
 	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);

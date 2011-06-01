@@ -8,8 +8,7 @@
 #include "string.h"
 #include "os/strings.h"
 #include "file.h"
-
-extern void emu_Tools_Free();
+#include "tools.h"
 
 /**
  * Decompress a string.
@@ -109,11 +108,8 @@ void String_Load(char *name)
 	char *filename;
 
 	if (g_global->strings.csip != 0) {
-		emu_push(g_global->strings.s.cs); emu_push(g_global->strings.s.ip);
-		emu_push(emu_cs); emu_push(0x0026); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
-		g_global->strings.csip = 0;
+		Tools_Free(g_global->strings);
+		g_global->strings.csip = 0x0;
 	}
 
 	if (name == NULL) return;

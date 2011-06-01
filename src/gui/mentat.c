@@ -26,7 +26,6 @@
 #include "./font.h"
 
 extern void f__29E8_08B5_000A_FC14();
-extern void emu_Tools_Free();
 extern void emu_Mouse_InsideRegion();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -84,13 +83,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 	} while (GUI_Mentat_Show(g_global->readBuffer, wsaFilename, w1, true) == 0x8002);
 
-	emu_push(w2csip.s.cs); emu_push(w2csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0E1C); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(w1csip.s.cs); emu_push(w1csip.s.ip);
-	emu_push(emu_cs); emu_push(0x0E0F); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(w2csip);
+	Tools_Free(w1csip);
 
 	if (musicID != 0xFFFF) Driver_Music_FadeOut();
 
@@ -323,21 +317,14 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_HelpListLoop();
 
-	emu_push(g_global->variable_8026.s.cs); emu_push(g_global->variable_8026.s.ip); /* w */
-	emu_push(emu_cs); emu_push(0x00EB); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(g_global->variable_8026); /* w */
 
 	Load_Palette_Mercenaries();
 
 	GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
 
-	emu_push(g_global->variable_8032.s.cs); emu_push(g_global->variable_8032.s.ip);
-	emu_push(emu_cs); emu_push(0x010E); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_802E.s.cs); emu_push(g_global->variable_802E.s.ip);
-	emu_push(emu_cs); emu_push(0x011D); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(g_global->variable_8032);
+	Tools_Free(g_global->variable_802E);
 
 	g_global->variable_802E.csip = 0x0;
 	g_global->variable_8032.csip = 0x0;
@@ -891,19 +878,8 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	if (g_global->variable_8036.csip != 0x0) GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
 
-	if (g_global->variable_8032.csip != 0x0) {
-		emu_push(g_global->variable_8032.s.cs);
-		emu_push(g_global->variable_8032.s.ip);
-		emu_push(emu_cs); emu_push(0x0BBC); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-	}
-
-	if (g_global->variable_802E.csip != 0x0) {
-		emu_push(g_global->variable_802E.s.cs);
-		emu_push(g_global->variable_802E.s.ip);
-		emu_push(emu_cs); emu_push(0x0BD4); emu_cs = 0x3520; emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-	}
+	Tools_Free(g_global->variable_8032);
+	Tools_Free(g_global->variable_802E);
 
 	g_global->variable_802A.csip = 0x0;
 	ypos = 8;

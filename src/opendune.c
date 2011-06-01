@@ -43,7 +43,6 @@
 #include "mouse.h"
 #include "ini.h"
 
-extern void emu_Tools_Free();
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
 extern void emu_Highmem_Initialize();
@@ -268,9 +267,7 @@ static void Memory_ClearBlock(uint16 index)
 
 static void GameLoop_B4ED_0184()
 {
-	emu_push(g_global->introFnt.s.cs); emu_push(g_global->introFnt.s.ip);
-	emu_push(emu_cs); emu_push(0x0194); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(g_global->introFnt);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
@@ -734,45 +731,18 @@ static void GameLoop_Uninit()
 
 		g_global->variable_3C26 = w->next;
 
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-		emu_push(emu_cs); emu_push(0x0C70); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(wcsip);
 	}
 
-	emu_push(g_global->variable_3C36.s.cs); emu_push(g_global->variable_3C36.s.ip);
-	emu_push(emu_cs); emu_push(0x0C8C); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C3E.s.cs); emu_push(g_global->variable_3C3E.s.ip);
-	emu_push(emu_cs); emu_push(0x0CA0); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C3A.s.cs); emu_push(g_global->variable_3C3A.s.ip);
-	emu_push(emu_cs); emu_push(0x0CB4); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C32.s.cs); emu_push(g_global->variable_3C32.s.ip);
-	emu_push(emu_cs); emu_push(0x0CC8); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_38C6.s.cs); emu_push(g_global->variable_38C6.s.ip);
-	emu_push(emu_cs); emu_push(0x0CDC); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C46.s.cs); emu_push(g_global->variable_3C46.s.ip);
-	emu_push(emu_cs); emu_push(0x0CF0); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->variable_3C42.s.cs); emu_push(g_global->variable_3C42.s.ip);
-	emu_push(emu_cs); emu_push(0x0D04); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x0D18); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(g_global->strings.s.cs); emu_push(g_global->strings.s.ip);
-	emu_push(emu_cs); emu_push(0x0D2C); emu_cs = 0x23E1; emu_Tools_Free();
+	Tools_Free(g_global->variable_3C36);
+	Tools_Free(g_global->variable_3C3E);
+	Tools_Free(g_global->variable_3C3A);
+	Tools_Free(g_global->variable_3C32);
+	Tools_Free(g_global->variable_38C6);
+	Tools_Free(g_global->variable_3C46);
+	Tools_Free(g_global->variable_3C42);
+	Tools_Free(g_global->readBuffer);
+	Tools_Free(g_global->strings);
 
 	Script_ClearInfo(&g_global->scriptStructure);
 	Script_ClearInfo(&g_global->scriptTeam);
@@ -1862,10 +1832,7 @@ static void Gameloop_IntroMenu()
 
 	ReadProfileIni("PROFILE.INI");
 
-	emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-	emu_push(emu_cs); emu_push(0x17F0); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
+	Tools_Free(g_global->readBuffer);
 	g_global->readBuffer.csip = 0x0;
 
 	File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
@@ -2014,10 +1981,7 @@ static void Gameloop_IntroMenu()
 				case 0x001C: /* Replay Introduction */
 					Music_Play(0);
 
-					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-					emu_push(emu_cs); emu_push(0x1C19); emu_cs = 0x23E1; emu_Tools_Free();
-					emu_sp += 4;
-
+					Tools_Free(g_global->readBuffer);
 					g_global->readBufferSize = (g_global->variable_6D8F == 0) ? 0x2EE0 : 0x6D60;
 					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
@@ -2042,9 +2006,7 @@ static void Gameloop_IntroMenu()
 
 					Music_Play(0);
 
-					emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-					emu_push(emu_cs); emu_push(0x1CEB); emu_cs = 0x23E1; emu_Tools_Free();
-					emu_sp += 4;
+					Tools_Free(g_global->readBuffer);
 
 					String_Load("DUNE");
 
@@ -2173,9 +2135,7 @@ static void Gameloop_IntroMenu()
 	} else {
 		Music_Play(0);
 
-		emu_push(g_global->readBuffer.s.cs); emu_push(g_global->readBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x20E0); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
+		Tools_Free(g_global->readBuffer);
 
 		String_Load("DUNE");
 

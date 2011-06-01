@@ -19,7 +19,6 @@ extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_HOF_ResumeGame();
-extern void emu_Tools_Free();
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {
@@ -992,13 +991,8 @@ void GUI_Widget_Free_WithScrollbar(csip32 wcsip)
 	Widget *w = (Widget *)emu_get_memorycsip(wcsip);
 	if (w == NULL) return;
 
-	emu_push(w->scrollbar.s.cs); emu_push(w->scrollbar.s.ip);
-	emu_push(emu_cs); emu_push(0x03B6); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
-
-	emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-	emu_push(emu_cs); emu_push(0x03C3); emu_cs = 0x23E1; emu_Tools_Free();
-	emu_sp += 4;
+	Tools_Free(w->scrollbar);
+	Tools_Free(wcsip);
 }
 
 /**
