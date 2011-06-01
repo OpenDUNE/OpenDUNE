@@ -26,10 +26,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 
 	if (index < 0 || index > 120 || g_global->musicEnabled == 0) return;
 
-	if (music->index == 0xFFFF) {
-		if (music->dcontent.csip != 0x0) Drivers_1DD7_1C3C(music, index, volume);
-		return;
-	}
+	if (music->index == 0xFFFF) return;
 
 	if (musicBuffer->index != 0xFFFF) {
 		emu_push(musicBuffer->index);
@@ -75,7 +72,7 @@ static void Driver_Music_LoadFile(char *musicName)
 
 	Driver_Music_Stop();
 
-	if (music->index == 0xFFFF || music->dcontent.csip == 0x0) return;
+	if (music->index == 0xFFFF) return;
 
 	if (music->content.csip == sound->content.csip) {
 		music->content.csip     = 0x0;
@@ -92,25 +89,6 @@ static void Driver_Music_LoadFile(char *musicName)
 		g_global->musicDriver.filename        = g_global->soundDriver.filename;
 		g_global->musicDriver.contentMalloced = g_global->soundDriver.contentMalloced;
 
-		if (g_global->musicDriver.index == 0xFFFF) {
-			emu_dx = g_global->musicDriver.content.s.cs;
-			emu_ax = g_global->musicDriver.content.s.ip;
-			emu_bx = 0x4;
-			emu_pushf();
-
-			/* Call based on memory/register values */
-			emu_ip = music->dcontent.s.ip;
-			emu_push(emu_cs);
-			emu_cs = music->dcontent.s.cs;
-			emu_push(0x0823);
-			switch ((emu_cs << 16) + emu_ip) {
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0x1DD7; emu_last_ip = 0x0820; emu_last_length = 0x0007; emu_last_crc = 0x2888;
-					emu_call();
-					return;
-			}
-		}
 		return;
 	}
 

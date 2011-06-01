@@ -90,7 +90,6 @@ extern void Drivers_All_Uninit();
 extern void Driver_LoadFile(char *musicName, Driver *driver);
 extern void Driver_UnloadFile(Driver *driver);
 extern void Driver_Music_FadeOut();
-extern void Drivers_1DD7_1C3C(Driver *driver, int16 index, uint16 volume);
 extern void Drivers_CustomTimer_Interrupt();
 extern void Drivers_CustomTimer_OriginalInterrupt();
 
