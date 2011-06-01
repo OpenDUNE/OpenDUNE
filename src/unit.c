@@ -173,8 +173,6 @@ void GameLoop_Unit()
 		g_global->objectCurrent        = g_global->unitCurrent;
 		g_global->unitInfoCurrent.s.cs = 0x2D07;
 		g_global->unitInfoCurrent.s.ip = u->o.type * sizeof(UnitInfo);
-		g_global->houseCurrent         = g_global->houseStartPos;
-		g_global->houseCurrent.s.ip   += h->index * sizeof(House);
 
 		if (u->o.flags.s.isNotOnMap) continue;
 

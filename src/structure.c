@@ -97,8 +97,6 @@ void GameLoop_Structure()
 		g_global->objectCurrent             = g_global->structureCurrent;
 		g_global->structureInfoCurrent.s.cs = 0x2C94;
 		g_global->structureInfoCurrent.s.ip = 0xA + s->o.type * sizeof(StructureInfo);
-		g_global->houseCurrent              = g_global->houseStartPos;
-		g_global->houseCurrent.s.ip        += h->index * sizeof(House);
 
 		if (tickPalace && s->o.type == STRUCTURE_PALACE) {
 			if (s->countDown != 0) {

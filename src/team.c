@@ -42,8 +42,6 @@ void GameLoop_Team()
 		/* XXX -- Temporary, to keep all the emu_calls workable for now */
 		g_global->teamCurrent        = g_global->teamStartPos;
 		g_global->teamCurrent.s.ip  += t->index * sizeof(Team);
-		g_global->houseCurrent       = g_global->houseStartPos;
-		g_global->houseCurrent.s.ip += h->index * sizeof(House);
 
 		if (!h->flags.s.variable_0008) continue;
 

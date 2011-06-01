@@ -167,24 +167,6 @@ void GameLoop_House()
 		}
 	}
 
-	/* ENHANCEMENT -- This seems oddly wrong placed, as 'houseCurrent' is not alternating between houses over multiple runs. So we moved this inside the house loop below */
-	if (!g_dune2_enhanced) {
-		h = House_Get_ByMemory(g_global->houseCurrent);
-		if (h->index != g_global->playerHouseID) {
-			if (h->creditsStorage < h->credits) {
-				h->credits = h->creditsStorage;
-			}
-		} else {
-			uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
-			if (h->credits > maxCredits) {
-				h->credits = maxCredits;
-
-				/* "Insufficient spice storage available.  Spice is lost." */
-				GUI_DisplayText(String_Get_ByIndex(0x91), 1);
-			}
-		}
-	}
-
 	find.houseID = 0xFFFF;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
@@ -193,25 +175,20 @@ void GameLoop_House()
 		h = House_Find(&find);
 		if (h == NULL) break;
 
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		g_global->houseCurrent = g_global->houseStartPos;
-		g_global->houseCurrent.s.ip += h->index * sizeof(House);
-
 		if (tickHouse) {
-			/* ENHANCEMENT -- Originally this code was outside the house loop, which seems very odd */
-			if (g_dune2_enhanced) {
-				if (h->index != g_global->playerHouseID) {
-					if (h->creditsStorage < h->credits) {
-						h->credits = h->creditsStorage;
-					}
-				} else {
-					uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
-					if (h->credits > maxCredits) {
-						h->credits = maxCredits;
+			/* ENHANCEMENT -- Originally this code was outside the house loop, which seems very odd.
+			 *  This problem is considered to be so bad, that the original code has been removed. */
+			if (h->index != g_global->playerHouseID) {
+				if (h->creditsStorage < h->credits) {
+					h->credits = h->creditsStorage;
+				}
+			} else {
+				uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
+				if (h->credits > maxCredits) {
+					h->credits = maxCredits;
 
-						/* "Insufficient spice storage available.  Spice is lost." */
-						GUI_DisplayText(String_Get_ByIndex(0x91), 1);
-					}
+					/* "Insufficient spice storage available.  Spice is lost." */
+					GUI_DisplayText(String_Get_ByIndex(0x91), 1);
 				}
 			}
 

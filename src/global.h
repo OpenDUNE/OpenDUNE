@@ -903,7 +903,7 @@ typedef struct GlobalData {
 	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
-	/* 394A(4)   */ PACK csip32 houseCurrent;               /*!< Current House we are handling in GameLoop. */
+	/* 394A(4)   */ PACK csip32 notused_394A;               /*!< REMOVED - Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 objectCurrent;              /*!< Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
 	/* 3956(4)   */ PACK csip32 animations;                 /*!< Pointer to the current animations. */
@@ -1515,7 +1515,7 @@ typedef struct GlobalData {
 	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
-	/* 9882()    */ PACK uint8  notused_9882[0x005F];       /*!< Used to contain current directory. */
+	/* 9882()    */ PACK uint8  notused_9882[0x005F];       /*!< REMOVED - Current directory. */
 	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
@@ -1531,7 +1531,7 @@ typedef struct GlobalData {
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
-	/* 998E(97)  */ PACK uint8  notused_998E[97];           /*!< Used to contain current directory. */
+	/* 998E(97)  */ PACK uint8  notused_998E[97];           /*!< REMOVED - Current directory. */
 	/* 99EF(4)   */ PACK csip32 new8pFnt;                   /*!< Pointer to content of new8p.fnt. */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
 } GCC_PACKED GlobalData;
