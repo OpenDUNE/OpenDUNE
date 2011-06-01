@@ -619,25 +619,6 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 		}
 
 		Driver_Init(driver->index, info->port, info->irq1, info->dma, info->drq);
-
-		{
-			int32 value = (int32)Drivers_CallFunction(driver->index, 0x99).s.ip;
-			if (value != 0) {
-				emu_push(0);
-				emu_push(value >> 16); emu_push(value & 0xFFFF);
-				emu_push(emu_cs); emu_push(0x1625); emu_cs = 0x23E1; emu_Tools_Malloc();
-				emu_sp += 6;
-
-				driver->variable_12.s.cs = emu_dx;
-				driver->variable_12.s.ip = emu_ax;
-
-				emu_push(value & 0xFFFF);
-				emu_push(driver->variable_12.s.cs); emu_push(driver->variable_12.s.ip);
-				emu_push(driver->index); /* unused, but needed for correct param accesses. */
-				Drivers_CallFunction(driver->index, 0x9A);
-				emu_sp += 8;
-			}
-		}
 	}
 
 	driver->dfilename = fcsip;
@@ -834,8 +815,6 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x2191: emu_MPU_GetDataSize(); break; /* 0x96 */
 		case 0x21F0: emu_MPU_SetData(); break; /* 0x97 */
 		case 0x2336: emu_MPU_ClearData(); break; /* 0x98 */
-		case 0x0F02: emu_MPU_GetUnknownSize(); break; /* 0x99 */
-		case 0x0F19: break; /* 0x9A */
 		case 0x0F24: emu_MPU_NeedTimbre(); break; /* 0x9B */
 		case 0x237A: emu_MPU_Play(); break; /* 0xAA */
 		case 0x240F: emu_MPU_Stop(); break; /* 0xAB */

@@ -527,11 +527,6 @@ uint16 MPU_GetDataSize()
 	return sizeof(MSData);
 }
 
-uint16 MPU_GetUnknownSize()
-{
-	return 0;
-}
-
 void MPU_Init()
 {
 	uint8 i;

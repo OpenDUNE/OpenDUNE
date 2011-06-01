@@ -153,21 +153,6 @@ void emu_MPU_GetDataSize()
 }
 
 /**
- * Emulator wrapper around MPU_GetUnknownSize()
- *
- * @name emu_MPU_GetUnknownSize
- * @implements AB01:0F02:0012:D841 ()
- */
-void emu_MPU_GetUnknownSize()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	emu_ax = MPU_GetUnknownSize();
-}
-
-/**
  * Emulator wrapper around MPU_Init()
  *
  * @name emu_MPU_Init
