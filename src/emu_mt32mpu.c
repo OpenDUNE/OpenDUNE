@@ -181,3 +181,43 @@ void emu_MPU_Init()
 
 	MPU_Init();
 }
+
+/**
+ * Emulator wrapper around MPU_Uninit()
+ *
+ * @name emu_MPU_Uninit
+ * @implements AB01:2103:0040:93D2 ()
+ */
+void emu_MPU_Uninit()
+{
+	csip32 csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	/* First arg was not for us so we skipped it. */
+	csip = emu_get_csip32(emu_ss, emu_sp, 0x2);
+
+	MPU_Uninit(csip);
+}
+
+/**
+ * Emulator wrapper around MPU_ClearData()
+ *
+ * @name emu_MPU_ClearData
+ * @implements AB01:2336:002C:4FDC ()
+ */
+void emu_MPU_ClearData()
+{
+	uint16 index;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	/* First arg was not for us so we skipped it. */
+	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
+
+	MPU_ClearData(index);
+}

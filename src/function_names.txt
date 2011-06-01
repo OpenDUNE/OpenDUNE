@@ -67,5 +67,4 @@ AB00:0C3F:006F:09A2	emu_DSP_TestPort # (unused, port, IRQ, DMA, unused)
 AB00:0DA4:0078:0101	emu_DSP_Init # (unused, port, IRQ, DMA, IRQ2)
 
 AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
-AB01:2336:002C:4FDC	emu_MPU_ClearData	# (unused, index)
 

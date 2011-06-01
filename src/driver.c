@@ -35,8 +35,6 @@ extern void emu_DSP_Start();
 extern void emu_DSP_Stop();
 extern void emu_DSP_GetStatus();
 extern void emu_MPU_NeedTimbre();
-extern void emu_MPU_Uninit();
-extern void emu_MPU_ClearData();
 extern void emu_MPU_SetVolume();
 
 extern uint16 g_mt32mpu_cs;

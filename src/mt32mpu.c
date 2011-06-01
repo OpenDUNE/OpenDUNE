@@ -14,6 +14,7 @@ extern void f__AB01_0564_0050_E6D5();
 extern void f__AB01_0610_0050_6DE0();
 extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_08CE_005F_AC14();
+extern void f__AB01_0DA1_0077_69FE();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_184D_004F_7B67();
 extern void f__AB01_18AC_0082_307C();
@@ -613,4 +614,48 @@ void MPU_Init()
 	emu_sp += 2;
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
+}
+
+void MPU_Uninit(csip32 csip)
+{
+	uint16 i;
+
+	if (emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) == 0) return;
+
+	for (i = 0; i < emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312); i++) {
+		if (emu_get_memory16(g_mt32mpu_cs, i * 4, 0x12F4) == 0) continue;
+		MPU_Stop(i * 4);
+		MPU_ClearData(i * 4);
+	}
+
+	emu_push(emu_cs); emu_push(0x2161); emu_cs = g_mt32mpu_cs; f__AB01_0564_0050_E6D5();
+
+	emu_push(csip.s.cs); emu_push(csip.s.ip);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x2175); emu_cs = g_mt32mpu_cs; f__AB01_0DA1_0077_69FE();
+	emu_sp += 6;
+
+	MPU_Reset();
+
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0;
+}
+
+void MPU_ClearData(uint16 index)
+{
+	MSData *data;
+	csip32 data_csip;
+
+	if (index == 0xFFFF) return;
+
+	if (emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) == 0) return;
+
+	data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
+	data = (MSData *)emu_get_memorycsip(data_csip);
+
+	if (data->playing == 1) {
+		data->variable_001C = 1;
+	} else {
+		emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) = 0;
+		emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312)--;
+	}
 }

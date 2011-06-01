@@ -61,6 +61,8 @@ extern uint16 MPU_IsPlaying(uint16 index);
 extern uint16 MPU_GetDataSize();
 extern uint16 MPU_GetUnknownSize();
 extern void MPU_Init();
+extern void MPU_Uninit(csip32 csip);
+extern void MPU_ClearData(uint16 index);
 
 
 extern void emu_MPU_Reset();
@@ -74,5 +76,7 @@ extern void emu_MPU_GetDataSize();
 extern void emu_MPU_GetUnknownSize();
 extern void emu_MPU_Init();
 #define emu_MPU_TestPort() emu_MPU_Reset();
+extern void emu_MPU_Uninit();
+extern void emu_MPU_ClearData();
 
 #endif /* MT32MPU_H */
