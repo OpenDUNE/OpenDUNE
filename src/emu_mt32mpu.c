@@ -221,3 +221,23 @@ void emu_MPU_ClearData()
 
 	MPU_ClearData(index);
 }
+
+/**
+ * Emulator wrapper around MPU_GetInfo()
+ *
+ * @name emu_MPU_GetInfo
+ * @implements AB01:0C96:0019:A7D9 ()
+ */
+void emu_MPU_GetInfo()
+{
+	csip32 info_csip;
+
+	/* Pop the return CS:IP. */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+
+	info_csip = emu_Global_GetCSIP(MPU_GetInfo());
+
+	emu_dx = info_csip.s.cs;
+	emu_ax = info_csip.s.ip;
+}

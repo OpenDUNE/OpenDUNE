@@ -65,6 +65,3 @@ AB00:050B:005F:C2DC	emu_DSP_SetDMA	# (unknown1, unknown2, unknown3)
 AB00:0B73:0019:AD43	emu_DSP_GetInfo	# (unused, unknown_csip)
 AB00:0C3F:006F:09A2	emu_DSP_TestPort # (unused, port, IRQ, DMA, unused)
 AB00:0DA4:0078:0101	emu_DSP_Init # (unused, port, IRQ, DMA, IRQ2)
-
-AB01:0C96:0019:A7D9	emu_MPU_GetInfo	# (unused, unknown_csip)
-

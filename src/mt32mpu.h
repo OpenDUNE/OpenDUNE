@@ -49,6 +49,8 @@ typedef struct MSData {
 MSVC_PACKED_END
 assert_compile(sizeof(MSData) == 0x208);
 
+struct DriverInfo;
+
 extern bool MPU_Reset();
 extern void MPU_UART();
 extern void MPU_WriteData(uint8 data);
@@ -63,6 +65,7 @@ extern uint16 MPU_GetUnknownSize();
 extern void MPU_Init();
 extern void MPU_Uninit(csip32 csip);
 extern void MPU_ClearData(uint16 index);
+extern struct DriverInfo *MPU_GetInfo();
 
 
 extern void emu_MPU_Reset();
@@ -78,5 +81,6 @@ extern void emu_MPU_Init();
 #define emu_MPU_TestPort() emu_MPU_Reset();
 extern void emu_MPU_Uninit();
 extern void emu_MPU_ClearData();
+extern void emu_MPU_GetInfo();
 
 #endif /* MT32MPU_H */

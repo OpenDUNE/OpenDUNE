@@ -53,6 +53,21 @@ typedef struct MSBuffer {
 MSVC_PACKED_END
 assert_compile(sizeof(MSBuffer) == 0x06);
 
+MSVC_PACKED_BEGIN
+typedef struct DriverInfo {
+	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? */
+	/* 0002()    */ PACK uint8  unknown_0002[2];
+	/* 0004(4)   */ PACK char extension[4];                 /*!< ?? */
+	/* 0008(4)   */ PACK csip32 variable_0008;              /*!< ?? */
+	/* 000C(2)   */ PACK uint16 port;                       /*!< ?? */
+	/* 000E(2)   */ PACK uint16 irq1;                       /*!< ?? */
+	/* 0010(2)   */ PACK uint16 dma;                        /*!< ?? */
+	/* 0012(2)   */ PACK uint16 drq;                        /*!< ?? */
+	/* 0014(2)   */ PACK uint16 variable_0014;              /*!< ?? */
+} GCC_PACKED DriverInfo;
+MSVC_PACKED_END
+assert_compile(sizeof(DriverInfo) == 0x16);
+
 
 extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);

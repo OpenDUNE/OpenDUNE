@@ -1274,62 +1274,6 @@ l__0C8E:
 }
 
 /**
- * Decompiled function emu_MPU_GetInfo()
- *
- * @name emu_MPU_GetInfo
- * @implements AB01:0C96:0019:A7D9 ()
- * @implements AB01:0CAF:0005:C48A
- *
- * Called From: 2756:050D:0003:6FD4
- */
-void emu_MPU_GetInfo()
-{
-l__0C96:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ds);
-	emu_push(emu_si);
-	emu_push(emu_di);
-	emu_pushf();
-	emu_cli();
-	emu_dx = emu_cs;
-	emu_get_memory16(emu_cs, 0x00, 0xD1) = emu_dx;
-	emu_ax = 0xC7;
-	emu_orb(&emu_bh, 0x0);
-	emu_push(emu_cs);
-	emu_push(0x0CAF); f__AB01_0CA9_0001_6780();
-l__0CAF:
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__AB01_0CA9_0001_6780()
- *
- * @name f__AB01_0CA9_0001_6780
- * @implements AB01:0CA9:0001:6780 ()
- *
- * Called From: AB01:0CAC:0019:A7D9
- */
-void f__AB01_0CA9_0001_6780()
-{
-l__0CA9:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
  * Decompiled function f__AB01_0CB4_0016_9B28()
  *
  * @name f__AB01_0CB4_0016_9B28

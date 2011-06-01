@@ -26,7 +26,6 @@ extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_DSP_GetInfo();
 extern void emu_DSP_TestPort();
-extern void emu_MPU_GetInfo();
 extern void emu_DSP_Uninit();
 extern void emu_DSP_SetVolume();
 extern void emu_DSP_Init();
@@ -288,21 +287,6 @@ static csip32 Drivers_Load(const char *filename, csip32 fcsip)
 	return File_ReadWholeFile(filename, 0x20);
 }
 
-MSVC_PACKED_BEGIN
-typedef struct DriverInfo {
-	/* 0000(2)   */ PACK uint16 variable_0000;              /*!< ?? */
-	/* 0002()    */ PACK uint8  unknown_0002[2];
-	/* 0004(4)   */ PACK char extension[4];                 /*!< ?? */
-	/* 0008()    */ PACK uint8   unknown_0008[4];
-	/* 000C(2)   */ PACK uint16 port;                       /*!< ?? */
-	/* 000E(2)   */ PACK uint16 irq1;                       /*!< ?? */
-	/* 0010(2)   */ PACK uint16 dma;                        /*!< ?? */
-	/* 0012(2)   */ PACK uint16 irq2;                       /*!< ?? */
-	/* 0014(2)   */ PACK uint16 variable_0014;              /*!< ?? */
-} GCC_PACKED DriverInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(DriverInfo) == 0x16);
-
 static DriverInfo *Driver_GetInfo(uint16 driver)
 {
 	csip32 ret;
@@ -314,7 +298,7 @@ static DriverInfo *Driver_GetInfo(uint16 driver)
 	return (DriverInfo *)emu_get_memorycsip(ret);
 }
 
-static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uint16 irq2)
+static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uint16 drq)
 {
 	csip32 csip;
 	uint16 locsi;
@@ -333,7 +317,7 @@ static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uin
 		Drivers_CustomTimer_SetFrequency(handlerId, locsi);
 	}
 
-	emu_push(irq2);
+	emu_push(drq);
 	emu_push(dma);
 	emu_push(irq1);
 	emu_push(port);
@@ -624,7 +608,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 				val = strchr(blaster, 'I');
 				if (val != NULL) {
 					val++;
-					info->irq1 = info->irq2 = (uint16)strtoul(val, NULL, 10);
+					info->irq1 = info->drq = (uint16)strtoul(val, NULL, 10);
 				}
 
 				val = strchr(blaster, 'D');
@@ -635,7 +619,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 			}
 		}
 
-		emu_push(info->irq2);
+		emu_push(info->drq);
 		emu_push(info->dma);
 		emu_push(info->irq1);
 		emu_push(info->port);
@@ -654,7 +638,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 			return false;
 		}
 
-		Driver_Init(driver->index, info->port, info->irq1, info->dma, info->irq2);
+		Driver_Init(driver->index, info->port, info->irq1, info->dma, info->drq);
 
 		{
 			int32 value = (int32)Drivers_CallFunction(driver->index, 0x99).s.ip;

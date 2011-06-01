@@ -9,6 +9,7 @@
 #include "mt32mpu.h"
 #include "os/math.h"
 #include "os/endian.h"
+#include "driver.h"
 
 extern void f__AB01_0564_0050_E6D5();
 extern void f__AB01_0610_0050_6DE0();
@@ -658,4 +659,12 @@ void MPU_ClearData(uint16 index)
 		emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) = 0;
 		emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312)--;
 	}
+}
+
+DriverInfo *MPU_GetInfo()
+{
+	DriverInfo *info;
+	info = (DriverInfo *)&emu_get_memory8(g_mt32mpu_cs, 0x00, 0xC7);
+	info->variable_0008.s.cs = g_mt32mpu_cs;
+	return info;
 }
