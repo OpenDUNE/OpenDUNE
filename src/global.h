@@ -1223,14 +1223,14 @@ typedef struct GlobalData {
 	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
 	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
 	/* 6C72(4)   */ PACK csip32 variable_6C72;              /*!< ?? Pointer to an array. */
-	/* 6C76(2)   */ PACK uint16 variable_6C76;              /*!< ?? */
+	/* 6C76(2)   */ PACK uint16 graphicMode;                /*!< The GraphicMode the game will be playing in. */
 	/* 6C78(2)   */ PACK uint16 snapX;                      /*!< Snap mouse to grid, x-axis. */
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */
 	/* 6C7E(2)   */ PACK uint16 snapGreyY;                  /*!< Grey zone for snapping, y-axis. */
-	/* 6C80(4)   */ PACK csip32 variable_6C80;              /*!< CS:IP of a function. */
+	/* 6C80(4)   */ PACK csip32 removed_6C80;               /*!< REMOVED - CS:IP of File_Error_Wrapper. */
 	/* 6C84()    */ PACK uint8   unknown_6C84[0x0002];
-	/* 6C86(4)   */ PACK uint32 variable_6C86;              /*!< ?? */
+	/* 6C86(4)   */ PACK uint32 removed_6C86;               /*!< REMOVED - ?? */
 	/* 6C8A()    */ PACK uint8   unknown_6C8A[0x0002];
 	/* 6C8C(1)   */ PACK uint8  variable_6C8C;              /*!< ?? */
 	/* 6C8D()    */ PACK uint8   unknown_6C8D[0x0004];

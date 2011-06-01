@@ -31,7 +31,7 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 
 	memcpy(data, ptr1, 0x300);
 
-	if (g_global->variable_6C76 != 0x3) {
+	if (g_global->graphicMode != 3) {
 		GFX_SetPalette(ptr2data);
 		return;
 	}
