@@ -2784,22 +2784,6 @@ void Main()
 		if (Unknown_1DB6_0004("DUNE2.EXE", 339024, 910000)) exit(1);
 	} else {
 		if (Unknown_1DB6_0004("DUNE2.EXE", 339024, 0)) exit(1);
-	}
-
-	if (config->useXMS) {
-		emu_push(0x40);
-		emu_push(0); emu_push(1);
-		emu_push(emu_cs); emu_push(0x0169); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-
-		if (emu_ax == 0 && emu_dx == 0) {
-			config->voiceDrv = 0;
-		} else {
-			emu_push(emu_dx); emu_push(emu_ax);
-			emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
-		}
-	} else {
 		config->voiceDrv = 0;
 	}
 
