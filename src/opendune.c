@@ -2772,7 +2772,7 @@ void Main()
 	DuneCfg *config;
 	uint32 memoryNeeded;
 
-	config = (DuneCfg *)&emu_get_memory8(0x353F, 0x98E1, 0);
+	config = &g_global->config;
 	if (!Config_Read("dune.cfg", config)) {
 		printf("\r\nThe setup program must be run first.\r\n"
 		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
