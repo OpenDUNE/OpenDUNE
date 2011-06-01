@@ -78,7 +78,6 @@ extern void emu_MPU_Stop();
 extern void emu_MPU_GetDataSize();
 extern void emu_MPU_GetUnknownSize();
 extern void emu_MPU_Init();
-#define emu_MPU_TestPort() emu_MPU_Reset();
 extern void emu_MPU_Uninit();
 extern void emu_MPU_ClearData();
 extern void emu_MPU_GetInfo();

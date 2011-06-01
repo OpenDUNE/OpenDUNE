@@ -25,7 +25,6 @@ extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_DSP_GetInfo();
-extern void emu_DSP_TestPort();
 extern void emu_DSP_Uninit();
 extern void emu_DSP_SetVolume();
 extern void emu_DSP_Init();
@@ -619,25 +618,6 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 			}
 		}
 
-		emu_push(info->drq);
-		emu_push(info->dma);
-		emu_push(info->irq1);
-		emu_push(info->port);
-		emu_push(driver->index); /* unused, but needed for correct param accesses. */
-		emu_ax = Drivers_CallFunction(driver->index, 0x65).s.ip;
-		emu_sp += 8;
-
-		if (emu_ax == 0) {
-			Driver_Uninstall(driver->index);
-
-			emu_push(driver->dcontent.s.cs); emu_push(driver->dcontent.s.ip);
-			emu_push(emu_cs); emu_push(0x13B2); emu_cs = 0x23E1; emu_Tools_Free();
-			emu_sp += 4;
-
-			driver->dcontent.csip = 0;
-			return false;
-		}
-
 		Driver_Init(driver->index, info->port, info->irq1, info->dma, info->drq);
 
 		{
@@ -842,8 +822,6 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	switch (emu_ip) {
 		case 0x0B73: emu_DSP_GetInfo(); break; /* 0x64 */
 		case 0x0C96: emu_MPU_GetInfo(); break; /* 0x64 */
-		case 0x0C3F: emu_DSP_TestPort(); break; /* 0x65 */
-		case 0x045A: emu_MPU_TestPort(); break; /* 0x65 */
 		case 0x0DA4: emu_DSP_Init(); break; /* 0x66 */
 		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
 		case 0x0B91: emu_DSP_Uninit(); break; /* 0x68 */
