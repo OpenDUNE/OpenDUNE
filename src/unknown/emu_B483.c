@@ -12,7 +12,6 @@
 #include "../string.h"
 #include "../tools.h"
 
-extern void emu_Tools_Malloc();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 
@@ -163,12 +162,7 @@ csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 
 	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
 
-	emu_push(0x40);
-	emu_push(fileSize >> 16); emu_push(fileSize & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x08B9); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	res.s.cs = emu_dx;
-	res.s.ip = emu_ax;
+	res = Tools_Malloc(fileSize, 0x40);
 
 	if (res.csip != 0) Tools_Memmove(g_global->readBuffer, res, fileSize);
 

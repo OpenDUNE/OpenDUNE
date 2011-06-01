@@ -11,8 +11,7 @@
 #include "file.h"
 #include "os/endian.h"
 #include "os/math.h"
-
-extern void emu_Tools_Malloc();
+#include "tools.h"
 
 enum {
 	FILEINFO_MAX     = 676,
@@ -458,10 +457,10 @@ uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
  * Reads the whole file in the memory.
  *
  * @param filename The name of the file to open.
- * @param arg0A The type of memory to allocate.
+ * @param mallocFlags The type of memory to allocate.
  * @return The CS:IP of the allocated memory where the file has been read.
  */
-csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
+csip32 File_ReadWholeFile(const char *filename, uint8 mallocFlags)
 {
 	uint8 index;
 	uint32 length;
@@ -470,13 +469,7 @@ csip32 File_ReadWholeFile(const char *filename, uint16 arg0A)
 	index = File_Open(filename, 1);
 	length = File_GetSize(index);
 
-	emu_push(arg0A);
-	emu_push(length >> 16); emu_push(length & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x00C0); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-
-	memBlock.s.cs = emu_dx;
-	memBlock.s.ip = emu_ax;
+	memBlock = Tools_Malloc(length, mallocFlags);
 
 	if (memBlock.csip != 0x0) {
 		File_Read(index, (void *)emu_get_memorycsip(memBlock), length);

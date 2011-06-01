@@ -15,8 +15,11 @@
 #include "tools.h"
 #include "unit.h"
 
+extern void emu_Tools_Malloc_Internal();
 extern void emu_Highmem_Memmove_FromHighmem();
 extern void emu_Highmem_Memmove_ToHighmem();
+extern void emu_Highmem_Alloc();
+extern void f__23E1_03DB_000B_CF65();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -358,4 +361,85 @@ void Tools_Sleep(uint16 ticks)
 
 		while (tick >= g_global->variable_76A8) sleep(0);
 	}
+}
+
+/**
+ * Allocate memory.
+ *
+ * @param size The size of the memory to allocate.
+ * @param flags 0x10 - memset memory, 0x20 - align on codesegment, 0x40 - use highmem
+ */
+csip32 Tools_Malloc(uint32 size, uint8 flags)
+{
+	uint32 sizeUser = size;
+	uint32 loc0A;
+	uint8 *buf;
+	csip32 ret;
+
+	if (g_global->variable_66F8 == 0) {
+		/* XXX -- Hardcoded the amount of free memory on startup.
+		 *   This to avoid calling 01F7 layer. Should be removed ASAP. */
+		g_global->variable_66F8 = 392880;
+	}
+
+	if ((flags & 0x40) != 0) {
+		emu_push(0);
+		emu_push(size >> 16); emu_push(size & 0xFFFF);
+		emu_push(emu_cs); emu_push(0x0034); emu_cs = 0x2649; emu_Highmem_Alloc();
+		emu_sp += 6;
+
+		ret.s.cs = emu_dx;
+		ret.s.ip = emu_ax;
+		return ret;
+	}
+
+	if ((flags & 0x20) != 0) {
+		size += 16;
+	} else {
+		size += 1;
+	}
+
+	emu_push(size >> 16); emu_push(size & 0xFFFF);
+	emu_push(emu_cs); emu_push(0x0071); emu_cs = 0x01F7; emu_Tools_Malloc_Internal();
+	emu_sp += 4;
+
+	ret.s.cs = emu_dx + (emu_ax >> 4);
+	ret.s.ip = emu_ax & 0xF;
+	buf = emu_get_memorycsip(ret);
+
+	if ((flags & 0x20) != 0) {
+		uint8 alignment;
+
+		alignment = 15 - ret.s.ip;
+
+		buf += alignment;
+		*buf = alignment | flags;
+
+		ret.s.cs += 1;
+		ret.s.ip = 0;
+		buf += 1;
+	} else {
+		*buf = flags;
+
+		ret.s.ip += 1;
+		buf += 1;
+	}
+
+	if ((flags & 0x10) != 0) {
+		memset(buf, 0, sizeUser);
+	}
+
+	emu_push(emu_cs); emu_push(0x015B); f__23E1_03DB_000B_CF65();
+	loc0A = (emu_dx << 16) | emu_ax;
+
+	if (loc0A < g_global->variable_66F0) {
+		g_global->variable_66F0 = loc0A;
+	}
+
+	if (g_global->variable_66F4 < g_global->variable_66F8 - loc0A) {
+		g_global->variable_66F4 = g_global->variable_66F8 - loc0A;
+	}
+	g_global->variable_66F8++;
+
+	return ret;
 }

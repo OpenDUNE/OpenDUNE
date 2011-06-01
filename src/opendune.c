@@ -43,8 +43,6 @@
 #include "mouse.h"
 #include "ini.h"
 
-extern void emu_Tools_Malloc();
-extern void emu_Tools_GetFreeMemory();
 extern void emu_Tools_Free();
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
@@ -1057,15 +1055,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 		size = File_ReadBlockFile((char *)g_global->variable_9939, emu_get_memorycsip(memBlock), 0xFA00);
 
-		emu_push(emu_cs); emu_push(0x0BD8); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-		if ((uint32)((emu_dx << 16) | emu_ax) <= size) continue;
-
-		emu_push(0);
-		emu_push(size >> 16); emu_push(size & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0BF2); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		g_sprites[i].s.cs = emu_dx;
-		g_sprites[i].s.ip = emu_ax;
+		g_sprites[i] = Tools_Malloc(size, 0x0);
 
 		memcpy(emu_get_memorycsip(g_sprites[i]), emu_get_memorycsip(memBlock), size);
 	}
@@ -1863,34 +1853,12 @@ static void Gameloop_IntroMenu()
 	g_global->variable_3A10 = 0x0;
 	g_global->variable_6C8C = 0; /* Seems never set to any other value. */
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x300);
-	emu_push(emu_cs); emu_push(0x1774); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C36.s.cs = emu_dx;
-	g_global->variable_3C36.s.ip = emu_ax;
-
-	emu_push(0x10);
-	emu_push(0); emu_push(0x300);
-	emu_push(emu_cs); emu_push(0x178E); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C32.s.cs = emu_dx;
-	g_global->variable_3C32.s.ip = emu_ax;
-
-	emu_push(0);
-	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x17A7); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C42.s.cs = emu_dx;
-	g_global->variable_3C42.s.ip = emu_ax;
+	g_global->variable_3C36 = Tools_Malloc(768, 0x10);
+	g_global->variable_3C32 = Tools_Malloc(768, 0x10);
+	g_global->variable_3C42 = Tools_Malloc(256, 0x0);
 
 	g_global->readBufferSize = 0x2EE0;
-	emu_push(0x20);
-	emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x17CE); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->readBuffer.s.cs = emu_dx;
-	g_global->readBuffer.s.ip = emu_ax;
+	g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 	ReadProfileIni("PROFILE.INI");
 
@@ -1919,19 +1887,8 @@ static void Gameloop_IntroMenu()
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
-	emu_push(0);
-	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x1880); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C3A.s.cs = emu_dx;
-	g_global->variable_3C3A.s.ip = emu_ax;
-
-	emu_push(0);
-	emu_push(0); emu_push(0x100);
-	emu_push(emu_cs); emu_push(0x1899); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C3E.s.cs = emu_dx;
-	g_global->variable_3C3E.s.ip = emu_ax;
+	g_global->variable_3C3A = Tools_Malloc(256, 0x0);
+	g_global->variable_3C3E = Tools_Malloc(256, 0x0);
 
 	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_3C3A), 0xC, 0x55);
 	emu_get_memorycsip(g_global->variable_3C3A)[0xFF] = 0xFF;
@@ -1943,13 +1900,7 @@ static void Gameloop_IntroMenu()
 	emu_get_memorycsip(g_global->variable_3C3E)[0xDF] = 0xDF;
 	emu_get_memorycsip(g_global->variable_3C3E)[0xEF] = 0xEF;
 
-	emu_push(0x30);
-	emu_push(0); emu_push(0x5DC);
-	emu_push(emu_cs); emu_push(0x1939); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_3C46.s.cs = emu_dx;
-	g_global->variable_3C46.s.ip = emu_ax;
-
+	g_global->variable_3C46 = Tools_Malloc(1500, 0x30);
 	Unknown_2903_090A(g_global->variable_3C46, 1500);
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
@@ -2068,13 +2019,7 @@ static void Gameloop_IntroMenu()
 					emu_sp += 4;
 
 					g_global->readBufferSize = (g_global->variable_6D8F == 0) ? 0x2EE0 : 0x6D60;
-
-					emu_push(0x20);
-					emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-					emu_push(emu_cs); emu_push(0x1C4D); emu_cs = 0x23E1; emu_Tools_Malloc();
-					emu_sp += 6;
-					g_global->readBuffer.s.cs = emu_dx;
-					g_global->readBuffer.s.ip = emu_ax;
+					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Hide_Safe();
 
@@ -2104,13 +2049,7 @@ static void Gameloop_IntroMenu()
 					String_Load("DUNE");
 
 					g_global->readBufferSize = (g_global->variable_6D8F == 0) ? 0x2EE0 : 0x4E20;
-
-					emu_push(0x20);
-					emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-					emu_push(emu_cs); emu_push(0x1D2B); emu_cs = 0x23E1; emu_Tools_Malloc();
-					emu_sp += 6;
-					g_global->readBuffer.s.cs = emu_dx;
-					g_global->readBuffer.s.ip = emu_ax;
+					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Show_Safe();
 
@@ -2241,13 +2180,7 @@ static void Gameloop_IntroMenu()
 		String_Load("DUNE");
 
 		g_global->readBufferSize = (g_global->variable_6D8F == 0) ? 0x2EE0 : 0x4E20;
-
-		emu_push(0x20);
-		emu_push(g_global->readBufferSize >> 16); emu_push(g_global->readBufferSize & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x2120); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		g_global->readBuffer.s.cs = emu_dx;
-		g_global->readBuffer.s.ip = emu_ax;
+		g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 	}
 
 	GUI_Mouse_Hide_Safe();
@@ -2580,12 +2513,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 			totalSize += size;
 		}
 
-		emu_push(g_global->variable_98F1 | 0x30);
-		emu_push(totalSize >> 16); emu_push(totalSize & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		memBlock.s.cs = emu_dx;
-		memBlock.s.ip = emu_ax;
+		memBlock = Tools_Malloc(totalSize, g_global->variable_98F1 | 0x30);
 
 		for (i = 1; i < 8; i++) {
 			if (g_global->variable_6CD3[i][0] == 0) continue;
@@ -2602,13 +2530,8 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 		for (i = 1; i < 8; i++) {
 			if (g_global->variable_6CD3[i][1] == 0) continue;
 
-			emu_push(g_global->variable_98ED | 0x20);
-			emu_push(g_global->variable_6CD3[i][1] >> 16); emu_push(g_global->variable_6CD3[i][1] & 0xFFFF);
-			emu_push(emu_cs); emu_push(0x022F); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-
-			g_global->variable_6C93[i][0] = emu_dx;
-			g_global->variable_6C93[i][1] = emu_dx;
+			g_global->variable_6C93[i][0] = Tools_Malloc(g_global->variable_6CD3[i][1], g_global->variable_98ED | 0x20).s.cs;
+			g_global->variable_6C93[i][1] = g_global->variable_6C93[i][0];
 		}
 	}
 
@@ -2669,12 +2592,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 		}
 	}
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x300);
-	emu_push(emu_cs); emu_push(0x0345); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	g_global->variable_998A.s.cs = emu_dx;
-	g_global->variable_998A.s.ip = emu_ax;
+	g_global->variable_998A = Tools_Malloc(768, 0x10);
 
 	switch (graphicMode) {
 		case 5:
@@ -2708,7 +2626,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	return true;
 }
 
-static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemSize)
+static bool Unknown_1DB6_0004(char *filename, uint32 highmemSize)
 {
 	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; emu_Video_GetMode();
 	g_global->originalVideoMode = emu_ax;
@@ -2745,18 +2663,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 memorySize, uint32 highmemS
 		}
 	}
 
-	emu_push(emu_cs); emu_push(0x0187); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-	if ((uint32)((emu_dx << 16) + emu_ax) < memorySize) {
-		printf("\r\nNot enough memory to run program.\r\n");
-
-		emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
-		emu_push(0x3F);
-		emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
-		emu_sp += 6;
-
-		return true;
-	}
-
 	emu_push(highmemSize >> 16); emu_push(highmemSize & 0xFFFF);
 	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; emu_Highmem_Initialize();
 	emu_sp += 4;
@@ -2781,9 +2687,9 @@ void Main()
 	}
 
 	if (config->useXMS) {
-		if (Unknown_1DB6_0004("DUNE2.EXE", 339024, 910000)) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", 910000)) exit(1);
 	} else {
-		if (Unknown_1DB6_0004("DUNE2.EXE", 339024, 0)) exit(1);
+		if (Unknown_1DB6_0004("DUNE2.EXE", 0)) exit(1);
 		config->voiceDrv = 0;
 	}
 

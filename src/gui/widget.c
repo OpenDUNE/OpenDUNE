@@ -13,12 +13,12 @@
 #include "../string.h"
 #include "../sprites.h"
 #include "../os/math.h"
+#include "../tools.h"
 
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_0897_0016_2028();
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_HOF_ResumeGame();
-extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 
 Widget *GUI_Widget_GetNext(Widget *w)
@@ -595,12 +595,7 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	csip32 drawProc1;
 	csip32 drawProc2;
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x3C);
-	emu_push(emu_cs); emu_push(0x0EF7); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	wcsip.s.cs = emu_dx;
-	wcsip.s.ip = emu_ax;
+	wcsip = Tools_Malloc(sizeof(Widget), 0x10);
 	w = (Widget *)emu_get_memorycsip(wcsip);
 
 	w->index            = index;
@@ -711,18 +706,13 @@ static uint16 GUI_Widget_Scrollbar_CalculateSize(WidgetScrollbar *scrollbar)
  */
 Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc)
 {
-	csip32 csip04;
-	csip32 csip08;
+	csip32 wcsip;
+	csip32 wscsip;
 	Widget *w;
 	WidgetScrollbar *ws;
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x3C);
-	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	csip04.s.cs = emu_dx;
-	csip04.s.ip = emu_ax;
-	w = (Widget *)emu_get_memorycsip(csip04);
+	wcsip = Tools_Malloc(sizeof(Widget), 0x10);
+	w = (Widget *)emu_get_memorycsip(wcsip);
 
 	w->index    = index;
 	w->parentID = parentID;
@@ -751,17 +741,12 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 	w->drawProcSelected.csip = 0x3520002A;
 	w->clickProc.csip        = 0x35200043;
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x16);
-	emu_push(emu_cs); emu_push(0x030F); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	csip08.s.cs = emu_dx;
-	csip08.s.ip = emu_ax;
-	ws = (WidgetScrollbar *)emu_get_memorycsip(csip08);
+	wscsip = Tools_Malloc(sizeof(WidgetScrollbar), 0x10);
+	ws = (WidgetScrollbar *)emu_get_memorycsip(wscsip);
 
-	w->scrollbar = csip08; /* ws */
+	w->scrollbar = wscsip; /* ws */
 
-	ws->parent   = csip04; /* w */
+	ws->parent   = wcsip; /* w */
 
 	ws->scrollMax      = 1;
 	ws->scrollPageSize = 1;
@@ -783,16 +768,11 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
  */
 Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, csip32 csipSprite1, csip32 csipSprite2, Widget *widget2, uint16 unknown1A)
 {
-	csip32 csipW;
+	csip32 wcsip;
 	Widget *w;
 
-	emu_push(0x10);
-	emu_push(0); emu_push(0x3c);
-	emu_push(emu_cs); emu_push(0x012A); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	csipW.s.cs = emu_dx;
-	csipW.s.ip = emu_ax;
-	w = (Widget *)emu_get_memorycsip(csipW);
+	wcsip = Tools_Malloc(sizeof(Widget), 0x10);
+	w = (Widget *)emu_get_memorycsip(wcsip);
 
 	w->index    = index;
 	w->parentID = parentID;

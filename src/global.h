@@ -1144,11 +1144,9 @@ typedef struct GlobalData {
 	/* 66E4(4)   */ PACK csip32 variable_66E4;              /*!< CS:IP of routine. */
 	/* 66E8(4)   */ PACK csip32 variable_66E8;              /*!< CS:IP of routine (not called). */
 	/* 66EC(4)   */ PACK csip32 variable_66EC;              /*!< CS:IP of routine. Contains array with Y-offsets on the screen (so index * 320). */
-	/* 66F0(2)   */ PACK uint16 variable_66F0;              /*!< ?? */
-	/* 66F2(2)   */ PACK uint16 variable_66F2;              /*!< ?? */
+	/* 66F0(4)   */ PACK uint32 variable_66F0;              /*!< ?? */
 	/* 66F4(4)   */ PACK uint32 variable_66F4;              /*!< ?? */
-	/* 66F8(2)   */ PACK uint16 variable_66F8;              /*!< ?? */
-	/* 66FA(2)   */ PACK uint16 variable_66FA;              /*!< ?? */
+	/* 66F8(4)   */ PACK uint32 variable_66F8;              /*!< ?? */
 	/* 66FC()    */ PACK uint8   unknown_66FC[0x0004];
 	/* 6700(33)  */ PACK char   string_6700[17];            /*!< "0123456789ABCDEF" NULL terminated. */
 	/* 6711()    */ PACK uint8   unknown_6711[0x0001];

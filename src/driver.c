@@ -17,9 +17,7 @@
 #include "tools.h"
 
 extern void f__01F7_27FD_0037_E2C0();
-extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
-extern void emu_Tools_GetFreeMemory();
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();
@@ -528,14 +526,8 @@ uint16 Drivers_Sound_Init(uint16 index)
 		for (i = 0; i < 4; i++) {
 			MSBuffer *buf = &g_global->soundBuffer[i];
 
-			emu_push(0x10);
-			emu_push(value >> 16); emu_push(value & 0xFFFF);
-			emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-
-			buf->buffer.s.cs = emu_dx;
-			buf->buffer.s.ip = emu_ax;
-			buf->index       = 0xFFFF;
+			buf->buffer = Tools_Malloc(value, 0x10);
+			buf->index  = 0xFFFF;
 		}
 		g_global->soundBufferIndex = 0;
 	}
@@ -574,14 +566,8 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	value = (int32)Drivers_CallFunction(music->index, 0x96).s.ip;
 
-	emu_push(0x10);
-	emu_push(value >> 16); emu_push(value & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x1014); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-
-	g_global->musicBuffer.buffer.s.cs = emu_dx;
-	g_global->musicBuffer.buffer.s.ip = emu_ax;
-	g_global->musicBuffer.index       = 0xFFFF;
+	g_global->musicBuffer.buffer = Tools_Malloc(value, 0x10);
+	g_global->musicBuffer.index  = 0xFFFF;
 
 	return index;
 }
@@ -880,17 +866,7 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 		emu_sp += 4;
 		loc04 = (emu_dx << 16) + emu_ax;
 
-		emu_push(emu_cs); emu_push(0x0319); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-
-		if (((emu_dx << 16) + emu_ax) < loc04) return;
-
-		emu_push(0);
-		emu_push(loc04 >> 16); emu_push(loc04 & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0335); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		voice->content.s.cs = emu_dx;
-		voice->content.s.ip = emu_ax;
-
+		voice->content = Tools_Malloc(loc04, 0x0);
 		voice->contentMalloced = 1;
 
 		memmove(emu_get_memorycsip(voice->content), arg06, loc04);
@@ -1056,12 +1032,7 @@ void Drivers_1DD7_0B9C(Driver *driver, uint16 bufferIndex)
 
 			File_Read(file_index, &size, 2);
 
-			emu_push(0);
-			emu_push(0); emu_push(size);
-			emu_push(emu_cs); emu_push(0xCC9); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-			buffer_csip.s.cs = emu_dx;
-			buffer_csip.s.ip = emu_ax;
+			buffer_csip = Tools_Malloc(size, 0x0);
 			buffer = (uint16 *)emu_get_memorycsip(buffer_csip);
 
 			buffer[0] = size;
@@ -1222,12 +1193,7 @@ static void Drivers_1DD7_0D77(char *musicName, Driver *driver)
 
 		File_Read(fileIndex, &size, 2);
 
-		emu_push(0);
-		emu_push(0); emu_push(size);
-		emu_push(emu_cs); emu_push(0x0E5C); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		buffer_csip.s.cs = emu_dx;
-		buffer_csip.s.ip = emu_ax;
+		buffer_csip = Tools_Malloc(size, 0x0);
 		buffer = (uint16 *)emu_get_memorycsip(buffer_csip);
 
 		buffer[0] = size;
@@ -1264,39 +1230,14 @@ void Driver_LoadFile(char *musicName, Driver *driver)
 
 	Driver_UnloadFile(driver);
 
-	emu_push(0);
-	emu_push(0); emu_push(strlen(filename) + 1);
-	emu_push(emu_cs); emu_push(0x19A0); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	driver->filename.s.cs = emu_dx;
-	driver->filename.s.ip = emu_ax;
-
+	driver->filename = Tools_Malloc(strlen(filename) + 1, 0x0);
 	strcpy((char *)emu_get_memorycsip(driver->filename), filename);
 
 	fileIndex = File_Open(filename, 1);
 
 	size = File_GetSize(fileIndex);
 
-	emu_push(emu_cs); emu_push(0x1A34); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-
-	if ((int32)((emu_dx << 16) + emu_ax) < (size + 16)) {
-		File_Close(fileIndex);
-
-		emu_push(driver->filename.s.cs); emu_push(driver->filename.s.ip);
-		emu_push(emu_cs); emu_push(0x1A19); emu_cs = 0x23E1; emu_Tools_Free();
-		emu_sp += 4;
-
-		driver->filename.csip = 0x0;
-		return;
-	}
-
-	emu_push(0x20);
-	emu_push(size >> 16); emu_push(size & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x1B14); emu_cs = 0x23E1; emu_Tools_Malloc();
-	emu_sp += 6;
-	driver->content.s.cs = emu_dx;
-	driver->content.s.ip = emu_ax;
-
+	driver->content = Tools_Malloc(size, 0x20);
 	driver->contentMalloced = 1;
 
 	File_Read(fileIndex, (void *)emu_get_memorycsip(driver->content), size);

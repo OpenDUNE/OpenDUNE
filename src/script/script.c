@@ -8,6 +8,7 @@
 #include "script.h"
 #include "../file.h"
 #include "../os/endian.h"
+#include "../tools.h"
 
 typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 
@@ -15,7 +16,6 @@ struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;
 struct Unit *g_scriptCurrentUnit;
 
-extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 
 /**
@@ -598,13 +598,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 			scriptInfo->text = data;
 			data.csip += length;
 		} else {
-			emu_push(0x30);
-			emu_push(length >> 16); emu_push(length & 0xFFFF);
-			emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-
-			scriptInfo->text.s.cs = emu_dx;
-			scriptInfo->text.s.ip = emu_ax;
+			scriptInfo->text = Tools_Malloc(length, 0x30);
 		}
 
 		ChunkFile_Read(index, HTOBE32('TEXT'), (void *)emu_get_memorycsip(scriptInfo->text), length);
@@ -623,13 +617,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 		scriptInfo->offsets = data;
 		data.csip += length;
 	} else {
-		emu_push(0x30);
-		emu_push(length >> 16); emu_push(length & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-
-		scriptInfo->offsets.s.cs = emu_dx;
-		scriptInfo->offsets.s.ip = emu_ax;
+		scriptInfo->offsets = Tools_Malloc(length, 0x30);
 	}
 
 	scriptInfo->offsetsCount = (length >> 1) & 0xFFFF;
@@ -652,13 +640,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 
 		scriptInfo->start = data;
 		data.csip += length;
 	} else {
-		emu_push(0x30);
-		emu_push(length >> 16); emu_push(length & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0195); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-
-		scriptInfo->start.s.cs = emu_dx;
-		scriptInfo->start.s.ip = emu_ax;
+		scriptInfo->start = Tools_Malloc(length, 0x30);
 	}
 
 	scriptInfo->startCount = (length >> 1) & 0xFFFF;

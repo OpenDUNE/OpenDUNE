@@ -23,8 +23,6 @@
 csip32 *g_sprites = NULL;
 
 extern void emu_Tools_Free();
-extern void emu_Tools_Malloc();
-extern void emu_Tools_GetFreeMemory();
 
 /**
  * Initialize the sprites system.
@@ -315,32 +313,14 @@ static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 m
 
 				g_global->iconUsedMemory += length;
 			} else {
-				emu_push(0x30);
-				emu_push(length >> 16); emu_push(length & 0xFFFF);
-				emu_push(emu_cs); emu_push(0x02B0); emu_cs = 0x23E1; emu_Tools_Malloc();
-				emu_sp += 6;
-				g_global->iconRPAL.s.cs = emu_dx;
-				g_global->iconRPAL.s.ip = emu_ax;
-
+				g_global->iconRPAL = Tools_Malloc(length, 0x30);
 				g_global->iconRPALFreed = 0;
 			}
 		} else {
-			emu_push(0x30);
-			emu_push(0); emu_push(tileCount);
-			emu_push(emu_cs); emu_push(0x02CF); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-			g_global->iconRTBL.s.cs = emu_dx;
-			g_global->iconRTBL.s.ip = emu_ax;
-
+			g_global->iconRTBL = Tools_Malloc(tileCount, 0x30);
 			g_global->iconRTBLFreed = 0;
 
-			emu_push(0x30);
-			emu_push((length >> 16)); emu_push((length & 0xFFFF));
-			emu_push(emu_cs); emu_push(0x02EE); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-			g_global->iconRPAL.s.cs = emu_dx;
-			g_global->iconRPAL.s.ip = emu_ax;
-
+			g_global->iconRPAL = Tools_Malloc(length, 0x30);
 			g_global->iconRPALFreed = 0;
 		}
 
@@ -561,17 +541,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 			g_global->variable_705A = 0;
 		}
 
-		emu_push(emu_cs); emu_push(0x00A4); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-		if (((emu_dx << 16) | emu_ax) < size) goto end;
-
-		emu_push(0);
-		emu_push(0); emu_push(size);
-		emu_push(emu_cs); emu_push(0x00BE); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		if (emu_dx == 0) goto end;
-
-		g_global->mouseSpriteBuffer.s.cs = emu_dx;
-		g_global->mouseSpriteBuffer.s.ip = emu_ax;
+		g_global->mouseSpriteBuffer = Tools_Malloc(size, 0x0);
 		g_global->variable_705A = size;
 	}
 
@@ -588,17 +558,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 			g_global->variable_705C = 0;
 		}
 
-		emu_push(emu_cs); emu_push(0x0120); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-		if (((emu_dx << 16) | emu_ax) < size) goto end;
-
-		emu_push(0);
-		emu_push(0); emu_push(size);
-		emu_push(emu_cs); emu_push(0x013A); emu_cs = 0x23E1; emu_Tools_Malloc();
-		emu_sp += 6;
-		if (emu_dx == 0) goto end;
-
-		g_global->mouseSprite.s.cs = emu_dx;
-		g_global->mouseSprite.s.ip = emu_ax;
+		g_global->mouseSprite = Tools_Malloc(size, 0x0);
 		g_global->variable_705C = size;
 	}
 

@@ -16,8 +16,6 @@
 #include "unknown/unknown.h"
 
 extern void f__2AE1_029F_0014_50E5();
-extern void emu_Tools_GetFreeMemory();
-extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
 
 /**
@@ -224,8 +222,6 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	if (bufferSizeCurrent == 1) bufferSizeCurrent = bufferSizeMinimal;
 
 	if (buffer.csip == 0) {
-		uint32 free;
-
 		if (bufferSizeCurrent == 0) {
 			bufferSizeCurrent = bufferSizeOptimal;
 		} else if (bufferSizeCurrent == 1) {
@@ -236,26 +232,7 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 			bufferSizeCurrent = bufferSizeMinimal;
 		}
 
-		emu_push(emu_cs); emu_push(0x0); emu_Tools_GetFreeMemory();
-		free = (emu_dx << 16) + emu_ax;
-		if (free < bufferSizeCurrent) {
-			if (free < bufferSizeMinimal) {
-				File_Close(fileno);
-
-				buffer.csip = 0x0;
-				return buffer;
-			}
-			bufferSizeCurrent = bufferSizeMinimal;
-		}
-
-		emu_push(0x30);
-		emu_push(bufferSizeCurrent >> 16); emu_push(bufferSizeCurrent & 0xFFFF);
-		emu_push(emu_cs); emu_push(0x0); emu_Tools_Malloc();
-		emu_sp += 6;
-
-		buffer.s.cs = emu_dx;
-		buffer.s.ip = emu_ax;
-
+		buffer = Tools_Malloc(bufferSizeCurrent, 0x30);
 		flags.s.malloced = true;
 	} else {
 		flags.s.notmalloced = true;

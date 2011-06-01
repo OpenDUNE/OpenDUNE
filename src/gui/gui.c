@@ -37,9 +37,7 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_Tools_Malloc();
 extern void emu_Tools_Free();
-extern void emu_Tools_GetFreeMemory();
 extern void f__29E8_07FA_0020_177A();
 extern void emu_Input_HandleInput();
 extern void emu_Input_History_Clear();
@@ -702,19 +700,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	if (g_global->variable_3600.csip == 0x0) {
 		size = GFX_GetSize(g_global->variable_992F, g_global->variable_9931);
 
-		emu_push(emu_cs); emu_push(0x0351); emu_cs = 0x23E1; emu_Tools_GetFreeMemory();
-
-		if (((int32)((emu_dx << 16) | emu_ax)) >= size) {
-			emu_push(0);
-			emu_push(0); emu_push(size);
-			emu_push(emu_cs); emu_push(0x0367); emu_cs = 0x23E1; emu_Tools_Malloc();
-			emu_sp += 6;
-
-			g_global->variable_3600.s.cs = emu_dx;
-			g_global->variable_3600.s.ip = emu_ax;
-		} else {
-			size = 0;
-		}
+		g_global->variable_3600 = Tools_Malloc(size, 0x0);
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {

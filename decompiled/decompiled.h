@@ -55,7 +55,6 @@
 extern void emu_EntryPoint();
 extern void emu_XMS_Init();
 extern void emu_Highmem_Internal_0003();
-extern void emu_Tools_Malloc();
 extern void emu_Video_GetMode();
 extern void emu_Mouse_CheckButtons();
 extern void emu_Video_IsInVSync();
@@ -99,7 +98,6 @@ extern void f__AB00_02FE_0020_41D6();
 extern void emu_Empty4();
 extern void emu_Terminate();
 extern void f__AB00_0325_0020_80E9();
-extern void emu_Tools_GetFreeMemory();
 extern void emu_Highmem_Alloc();
 extern void f__AB00_0364_0014_B343();
 extern void emu_Terminate_Normal();
