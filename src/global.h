@@ -1029,7 +1029,7 @@ typedef struct GlobalData {
 	/* 626C(4)   */ PACK csip32 removed_626C;               /*!< REMOVED - Current UnitInfo we are handling in the GameLoop. */
 	/* 6270(4)   */ PACK uint32 tickUnitUnknown1;           /*!< Indicates next time Unit runs Unknown1 function. */
 	/* 6274(4)   */ PACK uint32 tickUnitUnknown2;           /*!< Indicates next time Unit runs Unknown2 function. */
-	/* 6278(4)   */ PACK uint32 tickUnitUnknown3;           /*!< Indicates next time Unit runs Unknown3 function. */
+	/* 6278(4)   */ PACK uint32 tickUnitBlinking;           /*!< Indicates next time Unit runs Blinking function. */
 	/* 627C(4)   */ PACK uint32 tickUnitUnknown4;           /*!< Indicates next time Unit runs Unknown4 function. */
 	/* 6280(4)   */ PACK uint32 tickUnitScript;             /*!< Indicates next time Unit runs Script function. */
 	/* 6284(4)   */ PACK uint32 tickUnitUnknown5;           /*!< Indicates next time Unit runs Unknown5 function. */

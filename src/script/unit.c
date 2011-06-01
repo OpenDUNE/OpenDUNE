@@ -1876,20 +1876,20 @@ uint16 Script_Unit_Unknown2BD5(ScriptEngine *script)
 }
 
 /**
- * Unknown function 2C73.
+ * Blink the unit for 32 ticks.
  *
  * Stack: *none*.
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown2C73(ScriptEngine *script)
+uint16 Script_Unit_Blink(ScriptEngine *script)
 {
 	Unit *u;
 
 	VARIABLE_NOT_USED(script);
 
 	u = g_scriptCurrentUnit;
-	u->variable_6E = 32;
+	u->blinkCounter = 32;
 	return 0;
 }

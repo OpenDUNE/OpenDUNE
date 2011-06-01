@@ -107,7 +107,7 @@ void GameLoop_Unit()
 	PoolFindStruct find;
 	bool tickUnknown1  = false;
 	bool tickUnknown2  = false;
-	bool tickUnknown3  = false;
+	bool tickBlinking  = false;
 	bool tickUnknown4  = false;
 	bool tickScript    = false;
 	bool tickUnknown5  = false;
@@ -125,9 +125,9 @@ void GameLoop_Unit()
 		g_global->tickUnitUnknown2 = g_global->tickGlobal + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
-	if (g_global->tickUnitUnknown3 <= g_global->tickGlobal) {
-		tickUnknown3 = true;
-		g_global->tickUnitUnknown3 = g_global->tickGlobal + 3;
+	if (g_global->tickUnitBlinking <= g_global->tickGlobal) {
+		tickBlinking = true;
+		g_global->tickUnitBlinking = g_global->tickGlobal + 3;
 	}
 
 	if (g_global->tickUnitUnknown4 <= g_global->tickGlobal) {
@@ -206,12 +206,12 @@ void GameLoop_Unit()
 			if (ui->o.flags.s.hasTurret) Unit_Rotate(u, 1);
 		}
 
-		if (tickUnknown3 && u->variable_6E != 0) {
-			u->variable_6E--;
-			if ((u->variable_6E & 0x01) != 0) {
-				u->o.flags.s.variable_0800 = true;
+		if (tickBlinking && u->blinkCounter != 0) {
+			u->blinkCounter--;
+			if ((u->blinkCounter % 1) != 0) {
+				u->o.flags.s.isHighlighted = true;
 			} else {
-				u->o.flags.s.variable_0800 = false;
+				u->o.flags.s.isHighlighted = false;
 			}
 
 			Unit_B4CD_01BF(2, u);
@@ -431,13 +431,13 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->o.scriptDelay = 0;
 	u->actionID      = ACTION_GUARD;
 	u->nextActionID  = ACTION_INVALID;
-	u->fireDelay     = 0x00;
+	u->fireDelay     = 0;
 	u->variable_52   = 0x7FFF;
 	u->targetMove    = 0x0000;
-	u->amount        = 0x00;
+	u->amount        = 0;
 	u->variable_6C   = 0x00;
 	u->variable_6D   = 0x00;
-	u->variable_6E   = 0x00;
+	u->blinkCounter  = 0;
 	u->variable_70   = 0x0000;
 
 	Script_Reset(&u->o.script, &g_global->scriptUnit);

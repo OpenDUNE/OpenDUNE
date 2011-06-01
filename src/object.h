@@ -26,7 +26,7 @@ typedef struct Object {
 	/*  4 - 0100 */              BITTYPE inTransport:1;     /*!< The Unit is in transport (spaceport, reinforcement, harvester). */
 	/*  4 - 0200 */              BITTYPE byScenario:1;      /*!< The Unit is created by the scenario. */
 	/*  4 - 0400 */              BITTYPE degrades:1;        /*!< Structure degrades. Unit ?? */
-	/*  4 - 0800 */              BITTYPE variable_0800:1;   /*!< Unit ?? */
+	/*  4 - 0800 */              BITTYPE isHighlighted:1;   /*!< The Object is currently highlighted. */
 	/*  4 - 1000 */              BITTYPE variable_4_1000:1; /*!< Unit ?? */
 	/*  4 - 2000 */              BITTYPE repairing:1;       /*!< Structure is being repaired. */
 	/*  4 - 4000 */              BITTYPE onHold:1;          /*!< Structure is on hold. */

@@ -148,7 +148,7 @@ extern uint16 Script_Unit_GoToClosestStructure(ScriptEngine *script);
 extern uint16 Script_Unit_MCVDeploy(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2B97(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown2BD5(ScriptEngine *script);
-extern uint16 Script_Unit_Unknown2C73(ScriptEngine *script);
+extern uint16 Script_Unit_Blink(ScriptEngine *script);
 
 
 #endif /* SCRIPT_H */

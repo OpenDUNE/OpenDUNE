@@ -134,8 +134,8 @@ typedef struct Unit {
 	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
 	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
 	/* 006D(1)   */ PACK  int8  variable_6D;                /*!< ?? */
-	/* 006E(1)   */ PACK uint8  variable_6E;                /*!< ?? */
-	/* 006F(1)   */ PACK uint8  team;                       /*!< If not zero, unit is part of team. Value 1 means team 0, etc. */
+	/* 006E(1)   */ PACK uint8  blinkCounter;               /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
+	/* 006F(1)   */ PACK uint8  team;                       /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
 	/* 0070(1)   */ PACK uint16 variable_70;                /*!< ?? */
 	/* 0072(1)   */ PACK uint8  variable_72[14];            /*!< ?? */
 } GCC_PACKED Unit;

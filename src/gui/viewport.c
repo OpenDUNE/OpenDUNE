@@ -151,7 +151,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			Unit_SetTarget(u, encoded);
 			target = Tools_Index_GetUnit(u->targetAttack);
-			if (target != NULL) target->variable_6E = 8;
+			if (target != NULL) target->blinkCounter = 8;
 		}
 
 		if (g_global->variable_6D8F == 0) {

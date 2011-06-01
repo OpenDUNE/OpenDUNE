@@ -64,7 +64,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 08 */ &Script_Unit_Fire,
 	/* 09 */ &Script_Unit_MCVDeploy,
 	/* 0A */ &Script_Unit_SetActionDefault,
-	/* 0B */ &Script_Unit_Unknown2C73,
+	/* 0B */ &Script_Unit_Blink,
 	/* 0C */ &Script_Unit_Unknown1F51,
 	/* 0D */ &Script_General_Unknown050C,
 	/* 0E */ &Script_Unit_Unknown1382,
