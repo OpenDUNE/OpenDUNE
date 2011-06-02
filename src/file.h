@@ -24,6 +24,5 @@ extern uint32 ChunkFile_Read(uint8 index, uint32 header, void *buffer, uint32 bu
 
 extern void emu_File_Read();
 extern void emu_File_Write();
-extern void emu_File_Obsolete5();
 
 #endif /* FILE_H */
