@@ -957,7 +957,7 @@ typedef struct GlobalData {
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
 	/* 3E4E(4)   */ PACK csip32 currentMusic;               /*!< ?? */
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
-	/* 3E54(524) */ PACK csip32 variable_3E54[NUM_VOICES];  /*!< ?? */
+	/* 3E54(524) */ PACK csip32 removed_3E54[NUM_VOICES];   /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
 	/* 41C2(10)  */ PACK GameCfg gameConfig;                /*!< Game config (options.cfg). */

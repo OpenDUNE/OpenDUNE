@@ -45,8 +45,6 @@
 
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
-extern void emu_Highmem_Initialize();
-extern void emu_Highmem_Uninitialize();
 extern void f__29E8_072F_000F_651A();
 extern void f__29E8_07FA_0020_177A();
 extern void f__29E8_0897_0016_2028();
@@ -2582,7 +2580,7 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 	return true;
 }
 
-static bool Unknown_1DB6_0004(char *filename, uint32 highmemSize)
+static bool Unknown_1DB6_0004(char *filename)
 {
 	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; emu_Video_GetMode();
 	g_global->originalVideoMode = emu_ax;
@@ -2619,10 +2617,6 @@ static bool Unknown_1DB6_0004(char *filename, uint32 highmemSize)
 		}
 	}
 
-	emu_push(highmemSize >> 16); emu_push(highmemSize & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x01A9); emu_cs = 0x2649; emu_Highmem_Initialize();
-	emu_sp += 4;
-
 	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
 
 	return false;
@@ -2642,10 +2636,8 @@ void Main()
 		exit(1);
 	}
 
-	if (config->useXMS) {
-		if (Unknown_1DB6_0004("DUNE2.EXE", 910000)) exit(1);
-	} else {
-		if (Unknown_1DB6_0004("DUNE2.EXE", 0)) exit(1);
+	if (Unknown_1DB6_0004("DUNE2.EXE")) exit(1);
+	if (!config->useXMS) {
 		config->voiceDrv = 0;
 	}
 
@@ -2934,8 +2926,6 @@ void PrepareEnd()
 		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; emu_Video_SetMode();
 		emu_sp += 2;
 	}
-
-	emu_push(emu_cs); emu_push(0x0069); emu_cs = 0x2649; emu_Highmem_Uninitialize();
 
 	emu_push(g_global->variable_9846.s.cs);
 	emu_push(g_global->variable_9846.s.ip);

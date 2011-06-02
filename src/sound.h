@@ -22,6 +22,6 @@ extern void Voice_LoadVoices(uint16 voiceSet);
 extern void Sound_Unknown0156(uint16 index);
 extern void Sound_Unknown0363(uint16 index);
 extern bool Sound_Unknown0470();
-extern csip32 Sound_Unknown0823(char *filename);
+extern void *Sound_Unknown0823(char *filename, uint32 *retFileSize);
 
 #endif /* SOUND_H */

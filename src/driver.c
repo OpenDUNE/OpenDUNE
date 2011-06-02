@@ -17,8 +17,6 @@
 #include "tools.h"
 
 extern void f__01F7_27FD_0037_E2C0();
-extern void emu_Highmem_GetSize();
-extern void emu_Highmem_IsInHighmem();
 extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_DSP_GetInfo();
@@ -790,27 +788,6 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 	emu_push(voice->index); /* unused, but needed for correct param accesses. */
 	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_SetVolume();
 	emu_sp += 4;
-
-	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x02C8); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
-	emu_sp += 4;
-
-	if (emu_ax != 0) {
-		int32 loc04;
-
-		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x030C); emu_cs = 0x2649; emu_Highmem_GetSize();
-		emu_sp += 4;
-		loc04 = (emu_dx << 16) + emu_ax;
-
-		voice->content = Tools_Malloc(loc04, 0x0);
-		voice->contentMalloced = 1;
-
-		memmove(emu_get_memorycsip(voice->content), arg06, loc04);
-
-		arg06_csip = voice->content;
-		arg06 = emu_get_memorycsip(arg06_csip);
-	}
 
 	if (arg06 == NULL) return;
 

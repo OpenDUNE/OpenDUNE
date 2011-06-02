@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
@@ -17,8 +18,8 @@
 #include "os/strings.h"
 #include "mt32mpu.h"
 
-extern void emu_Highmem_GetSize();
-extern void emu_Highmem_IsInHighmem();
+static void *g_variable_3E54[NUM_VOICES];
+static uint32 g_variable_3E54_size[NUM_VOICES];
 
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
@@ -133,28 +134,9 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_global->variable_0222[voiceID];
 
-	if (index != 0xFFFF && g_global->variable_3E54[index].csip != 0x0 && g_global->voices[index].variable_04 >= g_global->variable_4060) {
-		uint32 count;
-		csip32 soundBuffer;
-
+	if (index != 0xFFFF && g_variable_3E54[index] != NULL && g_global->voices[index].variable_04 >= g_global->variable_4060) {
 		g_global->variable_4060 = g_global->voices[index].variable_04;
-		soundBuffer = g_global->variable_3E54[index];
-
-		emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x00EC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
-		emu_sp += 4;
-
-		if (emu_ax != 0) {
-			emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
-			emu_push(emu_cs); emu_push(0x00FD); emu_cs = 0x2649; emu_Highmem_GetSize();
-			emu_sp += 4;
-
-			count = (emu_dx << 16) + emu_ax;
-		} else {
-			count = g_global->readBufferSize;
-		}
-
-		Tools_Memmove(soundBuffer, g_global->readBuffer, count);
+		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
 	} else {
@@ -192,36 +174,36 @@ void Voice_LoadVoices(uint16 voiceSet)
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
-				Tools_Free(g_global->variable_3E54[voice]);
-				g_global->variable_3E54[voice].csip = 0x0;
+				free(g_variable_3E54[voice]);
+				g_variable_3E54[voice] = NULL;
 				break;
 
 			case '+':
 				if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 
-				Tools_Free(g_global->variable_3E54[voice]);
-				g_global->variable_3E54[voice].csip = 0x0;
+				free(g_variable_3E54[voice]);
+				g_variable_3E54[voice] = NULL;
 				break;
 
 			case '-':
 				if (voiceSet == 0xFFFF) break;
 
-				Tools_Free(g_global->variable_3E54[voice]);
-				g_global->variable_3E54[voice].csip = 0x0;
+				free(g_variable_3E54[voice]);
+				g_variable_3E54[voice] = NULL;
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
 
-				Tools_Free(g_global->variable_3E54[voice]);
-				g_global->variable_3E54[voice].csip = 0x0;
+				free(g_variable_3E54[voice]);
+				g_variable_3E54[voice] = NULL;
 				break;
 
 			case '?':
 				if (voiceSet == 0xFFFF) break;
 
 				/* No free() as there was never a malloc(). */
-				g_global->variable_3E54[voice].csip = 0x0;
+				g_variable_3E54[voice] = NULL;
 				break;
 
 			default:
@@ -235,7 +217,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 		char *str = (char *)emu_get_memorycsip(g_global->voices[voice].string);
 		switch (*str) {
 			case '%':
-				if (g_global->variable_3E54[voice].csip != 0x0 ||
+				if (g_variable_3E54[voice] != NULL ||
 						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
 				switch (g_global->language) {
@@ -245,11 +227,11 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str, i);
 
-				g_global->variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939);
+				g_variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939, &g_variable_3E54_size[voice]);
 				break;
 
 			case '+':
-				if (voiceSet == 0xFFFF || g_global->variable_3E54[voice].csip != 0x0) break;
+				if (voiceSet == 0xFFFF || g_variable_3E54[voice] != NULL) break;
 
 				switch (g_global->language) {
 					case LANGUAGE_FRENCH:  i = 'F'; break;
@@ -258,27 +240,28 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str + 1, i);
 
-				g_global->variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939);
+				g_variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939, &g_variable_3E54_size[voice]);
 				break;
 
 			case '-':
-				if (voiceSet != 0xFFFF || g_global->variable_3E54[voice].csip != 0x0) break;
+				if (voiceSet != 0xFFFF || g_variable_3E54[voice] != NULL) break;
 
-				g_global->variable_3E54[voice] = Sound_Unknown0823(str + 1);
+				g_variable_3E54[voice] = Sound_Unknown0823(str + 1, &g_variable_3E54_size[voice]);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
-				g_global->variable_3E54[voice] = Sound_Unknown0823(str + 1);
+
+				g_variable_3E54[voice] = Sound_Unknown0823(str + 1, &g_variable_3E54_size[voice]);
 				break;
 
 			case '?':
 				break;
 
 			default:
-				if (g_global->variable_3E54[voice].csip != 0x0) break;
+				if (g_variable_3E54[voice] != NULL) break;
 
-				g_global->variable_3E54[voice] = Sound_Unknown0823(str);
+				g_variable_3E54[voice] = Sound_Unknown0823(str, &g_variable_3E54_size[voice]);
 				break;
 		}
 	}
@@ -295,28 +278,8 @@ void Sound_Unknown0156(uint16 index)
 
 	g_global->variable_4060 = g_global->voices[index].variable_04;
 
-	if (g_global->variable_3E54[index].csip != 0x0) {
-		csip32 csip;
-		uint32 count;
-
-		csip = g_global->variable_3E54[index];
-
-		emu_push(csip.s.cs); emu_push(csip.s.ip);
-		emu_push(emu_cs); emu_push(0x01BC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
-		emu_sp += 4;
-
-		if (emu_ax != 0) {
-			emu_push(csip.s.cs); emu_push(csip.s.ip);
-			emu_push(emu_cs); emu_push(0x01CD); emu_cs = 0x2649; emu_Highmem_GetSize();
-			emu_sp += 4;
-
-			count = (emu_dx << 16) | emu_ax;
-		} else {
-			count = g_global->readBufferSize;
-		}
-
-		Tools_Memmove(csip, g_global->readBuffer, count);
-
+	if (g_variable_3E54[index] != NULL) {
+		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
 		char *filename;
@@ -397,15 +360,13 @@ bool Sound_Unknown0470()
  * @param filename The name of the file to load.
  * @return Where the file is loaded.
  */
-csip32 Sound_Unknown0823(char *filename)
+void *Sound_Unknown0823(char *filename, uint32 *retFileSize)
 {
 	uint8 fileIndex;
 	uint32 fileSize;
-	csip32 res;
+	void *res;
 
-	res.csip = 0x0;
-
-	if (filename == NULL || !File_Exists(filename)) return res;
+	if (filename == NULL || !File_Exists(filename)) return NULL;
 
 	fileIndex = File_Open(filename, 1);
 	fileSize  = File_GetSize(fileIndex);
@@ -416,8 +377,9 @@ csip32 Sound_Unknown0823(char *filename)
 
 	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 
-	res = Tools_Malloc(fileSize, 0x40);
+	*retFileSize = fileSize;
+	res = malloc(fileSize);
+	memcpy(res, emu_get_memorycsip(g_global->readBuffer), fileSize);
 
-	if (res.csip != 0) Tools_Memmove(g_global->readBuffer, res, fileSize);
 	return res;
 }
