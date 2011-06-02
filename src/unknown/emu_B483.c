@@ -55,7 +55,7 @@ void Unknown_B483_0156(uint16 index)
 		if (filename[0] == '?') {
 			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
 
-			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
+			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 
 			Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 		}
@@ -144,7 +144,7 @@ csip32 Unknown_B483_0823(char *filename)
 	fileSize += 1;
 	fileSize &= 0xFFFFFFFE;
 
-	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->readBufferSize);
+	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 
 	res = Tools_Malloc(fileSize, 0x40);
 

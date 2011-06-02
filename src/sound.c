@@ -40,8 +40,6 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 		musicBuffer->index = MPU_SetData(music->content, index, musicBuffer->buffer, nullcsip);
 	}
 
-	Drivers_1DD7_0B9C(music, musicBuffer->index);
-
 	MPU_Play(musicBuffer->index);
 
 	emu_push(0);
