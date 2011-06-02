@@ -2577,7 +2577,7 @@ l__268C:
  * Called From: 01F7:4035:0011:8951
  * Called From: 1DD7:14CA:000A:A995
  */
-void f__01F7_27FD_0037_E2C0()
+void emu_Tools_Getenv()
 {
 l__27FD:
 	emu_push(emu_bp);
@@ -2878,7 +2878,7 @@ l__4027:
 	emu_ax = 0x7B54;
 	emu_push(emu_ax);
 	emu_push(emu_cs);
-	emu_push(0x4038); f__01F7_27FD_0037_E2C0();
+	emu_push(0x4038); emu_Tools_Getenv();
 l__4038:
 	emu_pop(&emu_cx);
 	emu_pop(&emu_cx);

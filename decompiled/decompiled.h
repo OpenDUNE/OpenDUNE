@@ -205,7 +205,7 @@ extern void f__01F7_2412_0011_FC80();
 extern void f__01F7_260F_0012_C6FD();
 extern void emu_MPU_SetVolume();
 extern void f__AB01_275D_0001_6780();
-extern void f__01F7_27FD_0037_E2C0();
+extern void emu_Tools_Getenv();
 extern void f__AB01_281A_003D_9A17();
 extern void f__AB01_2892_0001_6780();
 extern void f__AB01_289D_0017_6184();
