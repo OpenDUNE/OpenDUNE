@@ -15,8 +15,6 @@
 #include "os/math.h"
 #include "unknown/unknown.h"
 
-extern void f__2AE1_029F_0014_50E5();
-
 /**
  * Get the amount of frames a WSA has.
  */
@@ -70,6 +68,233 @@ static uint32 csip32_add(csip32 csip, uint32 add) {
 	csip.s.cs += add >> 4;
 	csip.s.ip += add & 0xF;
 	return csip.csip;
+}
+
+/**
+ * Xor a rectangle from a compressed data source to the screen.
+ * @param base Base of the rectangle (top-left pixel).
+ * @param source Data source.
+ * @param width Width of the rectangle.
+ * Decompiled function f__2AE1_0131_0023_99F9()
+ */
+static void XorToScreen(uint8 *base, uint8 *source, uint16 width)
+{
+	uint8 *dest;
+	uint16 length;
+
+	dest = base;
+	length = 0;
+
+	while (true) {
+		uint16 flag;
+
+		flag = *source++;
+
+		if (flag == 0) {
+			uint8 value;
+
+			flag = *source++;
+			value = *source++;
+			do {
+				*dest++ ^= value;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		if (flag < 128) {
+			do {
+				*dest++ ^= *source++;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		if (flag > 128) {
+			dest   += flag & 0x7F;
+			length += flag & 0x7F;
+			while (length >= width) {
+				length -= width;
+				base += SCREEN_WIDTH;
+				dest = base + length;
+			}
+			continue;
+		}
+
+		flag = *source | (source[1] << 8);
+		source += 2;
+
+		if (flag == 0) break;
+
+		if (flag < 0x8000) {
+			dest   += flag;
+			length += flag;
+			while (length >= width) {
+				length -= width;
+				base += SCREEN_WIDTH;
+				dest = base + length;
+			}
+			continue;
+		}
+
+		if ((flag & 0x4000) == 0) {
+			flag &= 0x3FFF;
+			do {
+				*dest++ ^= *source++;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		{
+			uint8 value;
+
+			flag &= 0x3FFF;
+			value = *source++;
+			do {
+				*dest++ ^= value;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+	}
+}
+
+/**
+ * Copy a rectangle from a compressed data source to the screen.
+ * @param base Base of the rectangle (top-left pixel).
+ * @param source Data source.
+ * @param width Width of the rectangle.
+ */
+static void CopyToScreen(uint8 *base, uint8 *source, uint16 width)
+{
+	uint8 *dest;
+	uint16 length;
+
+	dest = base;
+	length = 0;
+
+	while (true) {
+		uint16 flag;
+
+		flag = *source++;
+
+		if (flag == 0) {
+			uint8 value;
+
+			flag  = *source++;
+			value = *source++;
+			do {
+				*dest++ = value;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		if (flag < 128) {
+			do {
+				*dest++ = *source++;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		if (flag > 128) {
+			dest   += flag & 0x7F;
+			length += flag & 0x7F;
+			while (length >= width) {
+				length -= width;
+				base += SCREEN_WIDTH;
+				dest = base + length;
+			}
+			continue;
+		}
+
+		flag = *source | (source[1] << 8);
+		source += 2;
+
+		if (flag == 0) break;
+
+		if (flag < 0x8000) {
+			dest   += flag;
+			length += flag;
+			while (length >= width) {
+				length -= width;
+				base += SCREEN_WIDTH;
+				dest = base + length;
+			}
+			continue;
+		}
+
+		if ((flag & 0x4000) == 0) {
+			flag &= 0x3FFF;
+			do {
+				*dest++ = *source++;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+
+		{
+			uint8 value;
+
+			flag &= 0x3FFF;
+			value = *source++;
+			do {
+				*dest++ = value;
+				length++;
+				if (length == width) {
+					length = 0;
+					base += SCREEN_WIDTH;
+					dest = base;
+				}
+				flag--;
+			} while (flag != 0);
+			continue;
+		}
+	}
 }
 
 /**
@@ -140,12 +365,7 @@ uint16 WSA_GotoNextFrame(WSAHeader *header, uint16 frame, csip32 displayBuffer)
 	if (header->flags.s.displayInBuffer) {
 		Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
 	} else {
-		emu_push(0);
-		emu_push(header->width);
-		emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-		emu_push(displayBuffer.s.cs); emu_push(displayBuffer.s.ip);
-		emu_push(emu_cs); emu_push(0x0ABF); emu_cs = 0x2AE1; f__2AE1_029F_0014_50E5();
-		emu_sp += 12;
+		XorToScreen(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer), header->width);
 	}
 
 	return 1;
@@ -399,12 +619,7 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 	if (header->frameCurrent == header->frames) {
 		if (!header->flags.s.variable_0040) {
 			if (!header->flags.s.displayInBuffer) {
-				emu_push(1);
-				emu_push(header->width);
-				emu_push(header->buffer.s.cs); emu_push(header->buffer.s.ip);
-				emu_push(displayBuffer.s.cs); emu_push(displayBuffer.s.ip);
-				emu_push(emu_cs); emu_push(0x057E); emu_cs = 0x2AE1; f__2AE1_029F_0014_50E5();
-				emu_sp += 12;
+				CopyToScreen(emu_get_memorycsip(displayBuffer),  emu_get_memorycsip(header->buffer), header->width);
 			} else {
 				Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
 			}
