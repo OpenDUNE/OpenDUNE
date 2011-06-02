@@ -1833,7 +1833,7 @@ uint16 GUI_PickHouse()
 
 	Music_Play(0);
 
-	Unknown_B4B8_110D((uint8)ret);
+	GUI_Palette_CreateRemap((uint8)ret);
 
 	Sprites_Load(0, 7, g_sprites);
 
@@ -2944,7 +2944,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	uint16 height;
 	uint16 i;
 
-	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
@@ -3078,7 +3078,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	uint16 region;
 	uint16 i;
 
-	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 
 	sprintf(category, "GROUP%d", campaignID);
 
@@ -3184,7 +3184,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 	int16 y;
 	csip32 sprite;
 
-	Unknown_B4B8_110D(houseId);
+	GUI_Palette_CreateRemap(houseId);
 
 	sprintf(key, "%d", region);
 
@@ -4528,5 +4528,28 @@ void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom
 			*screen++ ^= colour;
 		}
 		screen += SCREEN_WIDTH - width;
+	}
+}
+
+/**
+ * Create the remap palette for the givern house.
+ * @param houseID The house ID.
+ */
+void GUI_Palette_CreateRemap(uint8 houseID)
+{
+	int16 i;
+	int16 loc4;
+	int16 loc6;
+	uint8 *ptr;
+
+	ptr = emu_get_memorycsip(g_global->variable_3C42);
+	for (i = 0; i < 0x100; i++, ptr++) {
+		*ptr = i & 0xFF;
+
+		loc6 = i / 16;
+		loc4 = i % 16;
+		if (loc6 == 9 && loc4 <= 6) {
+			*ptr = (houseID << 4) + 0x90 + loc4;
+		}
 	}
 }

@@ -1893,7 +1893,7 @@ static void Gameloop_IntroMenu()
 	}
 
 	if (g_global->playerHouseID != HOUSE_INDEX_INVALID) {
-		Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+		GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 	}
 
 	Sprites_Load(0, 7, g_sprites);
@@ -2173,7 +2173,7 @@ static void Gameloop_IntroMenu()
 
 		Sprites_LoadTiles();
 
-		Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+		GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 
 		Voice_LoadVoices(g_global->playerHouseID);
 
@@ -2293,7 +2293,7 @@ static void GameLoop_Main()
 
 			Sprites_LoadTiles();
 
-			Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+			GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 
 			Voice_LoadVoices(g_global->playerHouseID);
 
@@ -2786,7 +2786,7 @@ void Game_Prepare()
 		House_CalculatePowerAndCredit(h);
 	}
 
-	Unknown_B4B8_110D((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
 
 	Sprites_Load(0, 7, g_sprites);
 

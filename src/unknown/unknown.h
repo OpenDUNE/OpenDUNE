@@ -20,6 +20,4 @@ extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);
 extern uint16 Unknown_2903_00CA(csip32 sprite_csip);
 extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);
 
-extern void Unknown_B4B8_110D(uint8 houseID);
-
 #endif /* UNKNOWN_UNKNOWN_H */
