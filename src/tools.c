@@ -22,7 +22,6 @@ extern void emu_Highmem_Memmove_FromHighmem();
 extern void emu_Highmem_Memmove_ToHighmem();
 extern void emu_Highmem_Alloc();
 extern void emu_Highmem_Free();
-extern void f__23E1_03DB_000B_CF65();
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
@@ -431,18 +430,6 @@ csip32 Tools_Malloc(uint32 size, uint8 flags)
 	if ((flags & 0x10) != 0) {
 		memset(buf, 0, sizeUser);
 	}
-
-	emu_push(emu_cs); emu_push(0x015B); f__23E1_03DB_000B_CF65();
-	loc0A = (emu_dx << 16) | emu_ax;
-
-	if (loc0A < g_global->variable_66F0) {
-		g_global->variable_66F0 = loc0A;
-	}
-
-	if (g_global->variable_66F4 < g_global->variable_66F8 - loc0A) {
-		g_global->variable_66F4 = g_global->variable_66F8 - loc0A;
-	}
-	g_global->variable_66F8++;
 
 	return ret;
 }

@@ -41,6 +41,5 @@ extern void Tools_Free(csip32 ptr);
 extern void emu_Tools_Shld();
 extern void emu_Tools_Shrd();
 extern void emu_Tools_UShrd();
-extern void emu_Tools_PrintString();
 
 #endif /* TOOLS_H */

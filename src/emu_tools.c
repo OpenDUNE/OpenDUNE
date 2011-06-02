@@ -62,22 +62,3 @@ void emu_Tools_UShrd()
 	emu_dx = (val >> 16) & 0xFFFF;
 }
 
-/**
- * Print a string to the stdout.
- * @note Please replace this function as soon as you find it. It is silly for
- *  modern applications.
- *
- * @name emu_Tools_PrintString
- * @implements 28E4:0002:0017:0B15 ()
- */
-void emu_Tools_PrintString()
-{
-	char *string;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	string = (char *)emu_get_memorycsip(emu_get_csip32(emu_ss, emu_sp, 0x0));
-	printf("%s\n", string);
-}
