@@ -11,6 +11,5 @@ extern void PrepareEnd();
 
 
 extern void emu_Main();
-extern void emu_PrepareEnd();
 
 #endif /* OPENDUNE_H */
