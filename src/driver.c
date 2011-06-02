@@ -16,7 +16,6 @@
 #include "mt32mpu.h"
 #include "tools.h"
 
-extern void f__01F7_27FD_0037_E2C0();
 extern void Game_Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_DSP_GetInfo();
