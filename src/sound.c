@@ -14,6 +14,7 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 #include "os/strings.h"
+#include "mt32mpu.h"
 
 extern void emu_Highmem_GetSize();
 extern void emu_Highmem_IsInHighmem();
@@ -28,33 +29,20 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	if (music->index == 0xFFFF) return;
 
 	if (musicBuffer->index != 0xFFFF) {
-		emu_push(musicBuffer->index);
-		emu_push(music->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(music->index, 0xAB);
-		emu_sp += 4;
-
-		emu_push(musicBuffer->index);
-		emu_push(music->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(music->index, 0x98);
-		emu_sp += 4;
-
+		MPU_Stop(musicBuffer->index);
+		MPU_ClearData(musicBuffer->index);
 		musicBuffer->index = 0xFFFF;
 	}
 
-	emu_push(0); emu_push(0);
-	emu_push(musicBuffer->buffer.s.cs); emu_push(musicBuffer->buffer.s.ip);
-	emu_push(index);
-	emu_push(music->content.s.cs); emu_push(music->content.s.ip);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	musicBuffer->index = Drivers_CallFunction(music->index, 0x97).s.ip;
-	emu_sp += 16;
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		musicBuffer->index = MPU_SetData(music->content, index, musicBuffer->buffer, nullcsip);
+	}
 
 	Drivers_1DD7_0B9C(music, musicBuffer->index);
 
-	emu_push(musicBuffer->index);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(music->index, 0xAA);
-	emu_sp += 4;
+	MPU_Play(musicBuffer->index);
 
 	emu_push(0);
 	emu_push(((volume & 0xFF) * 90) / 256);
@@ -123,30 +111,6 @@ void Music_Play(uint16 musicID)
 }
 
 /**
- * Initialises the MT-32.
- * @param index The index of the music to play.
- */
-void Music_InitMT32(uint16 musicID)
-{
-	uint16 left = 0;
-
-	if (g_global->variable_6D8D != 6 && g_global->variable_6D8B != 6) return;
-
-	Driver_Music_LoadFile("DUNEINIT");
-
-	Driver_Music_Play(musicID, 0xFF);
-
-	GUI_DrawText(String_Get_ByIndex(15), 0, 0, 15, 12); /* "Initializing the MT-32" */
-
-	while (Driver_Music_IsPlaying()) {
-		Tools_Sleep(60);
-
-		left += 6;
-		GUI_DrawText(".", left, 10, 15, 12);
-	}
-}
-
-/**
  * Play a voice. Volume is based on distance to position.
  * @param voiceID Which voice to play.
  * @param position Which position to play it on.
@@ -170,12 +134,12 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_global->variable_0222[voiceID];
 
-	if (g_global->variable_6D8F != 0x0 && index != 0xFFFF && g_global->variable_3E54[index].csip != 0x0 && g_global->voices[index].variable_04 >= g_global->variable_4060) {
+	if (index != 0xFFFF && g_global->variable_3E54[index].csip != 0x0 && g_global->voices[index].variable_04 >= g_global->variable_4060) {
 		uint32 count;
 		csip32 soundBuffer;
 
 		g_global->variable_4060 = g_global->voices[index].variable_04;
-		soundBuffer.csip = g_global->variable_3E54[index].csip;
+		soundBuffer = g_global->variable_3E54[index];
 
 		emu_push(soundBuffer.s.cs); emu_push(soundBuffer.s.ip);
 		emu_push(emu_cs); emu_push(0x00EC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
@@ -217,16 +181,15 @@ void Voice_Play(int16 voiceID)
  */
 void Voice_LoadVoices(uint16 voiceSet)
 {
+	static uint16 currentVoiceSet = 0xFFFE;
 	uint16 i;
 	uint16 voice;
-
-	if (g_global->variable_6D8F == 0) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
 		char *str = (char *)emu_get_memorycsip(g_global->voices[voice].string);
 		switch (*str) {
 			case '%':
-				if (g_global->language != LANGUAGE_ENGLISH || g_global->currentVoiceSet == voiceSet) {
+				if (g_global->language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
@@ -267,19 +230,14 @@ void Voice_LoadVoices(uint16 voiceSet)
 		}
 	}
 
-	if (g_global->currentVoiceSet == voiceSet) return;
-
-	if (g_global->variable_6D8F == 0x0) {
-		g_global->currentVoiceSet = voiceSet;
-		return;
-	}
+	if (currentVoiceSet == voiceSet) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
 		char *str = (char *)emu_get_memorycsip(g_global->voices[voice].string);
 		switch (*str) {
 			case '%':
 				if (g_global->variable_3E54[voice].csip != 0x0 ||
-						g_global->currentVoiceSet == voiceSet || voiceSet == 0xFFFF) break;
+						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
 				switch (g_global->language) {
 					case LANGUAGE_FRENCH: i = 'F'; break;
@@ -288,12 +246,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str, i);
 
-				{
-					csip32 csip;
-					csip.s.cs = 0x353F;
-					csip.s.ip = 0x9939;
-					g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939, csip);
-				}
+				g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939);
 				break;
 
 			case '+':
@@ -306,31 +259,18 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str + 1, i);
 
-				{
-					csip32 csip;
-					csip.s.cs = 0x353F;
-					csip.s.ip = 0x9939;
-					g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939, csip);
-				}
+				g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939);
 				break;
 
 			case '-':
 				if (voiceSet != 0xFFFF || g_global->variable_3E54[voice].csip != 0x0) break;
 
-				{
-					csip32 csip = g_global->voices[voice].string;
-					csip.s.ip += 1;
-					g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1, csip);
-				}
+				g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
-				{
-					csip32 csip = g_global->voices[voice].string;
-					csip.s.ip += 1;
-					g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1, csip);
-				}
+				g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1);
 				break;
 
 			case '?':
@@ -339,9 +279,9 @@ void Voice_LoadVoices(uint16 voiceSet)
 			default:
 				if (g_global->variable_3E54[voice].csip != 0x0) break;
 
-				g_global->variable_3E54[voice] = Unknown_B483_0823(str, g_global->voices[voice].string);
+				g_global->variable_3E54[voice] = Unknown_B483_0823(str);
 				break;
 		}
 	}
-	g_global->currentVoiceSet = voiceSet;
+	currentVoiceSet = voiceSet;
 }

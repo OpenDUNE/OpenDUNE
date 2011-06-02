@@ -89,20 +89,6 @@ void Unknown_B483_0363(uint16 index)
 		return;
 	}
 
-	if (g_global->variable_6D8F == 0 || g_global->soundsEnabled == 0 || (g_global->selectionType == 7 && g_global->variable_6D8F == 4)) {
-		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
-
-		g_global->variable_37BC = emu_Global_GetCSIP(String_Get_ByIndex(g_global->variable_0312[index][5]));
-
-		if ((g_global->variable_37BA & 1) != 0) {
-			g_global->variable_3A12 = 1;
-		}
-
-		g_global->variable_37BA = 4;
-
-		return;
-	}
-
 	if (g_global->variable_0218[0] == 0xFFFF) {
 		uint8 i;
 
@@ -141,15 +127,13 @@ bool Unknown_B483_0470()
  * @param filename The name of the file to load.
  * @return Where the file is loaded.
  */
-csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
+csip32 Unknown_B483_0823(char *filename)
 {
 	uint8 fileIndex;
 	uint32 fileSize;
 	csip32 res;
 
 	res.csip = 0x0;
-
-	assert(filename == (char *)emu_get_memorycsip(fcsip));
 
 	if (filename == NULL || !File_Exists(filename)) return res;
 
@@ -165,6 +149,5 @@ csip32 Unknown_B483_0823(char *filename, csip32 fcsip)
 	res = Tools_Malloc(fileSize, 0x40);
 
 	if (res.csip != 0) Tools_Memmove(g_global->readBuffer, res, fileSize);
-
 	return res;
 }

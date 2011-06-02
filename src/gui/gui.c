@@ -1754,11 +1754,9 @@ uint16 GUI_PickHouse()
 			break;
 		}
 
-		if (g_global->variable_6D8F != 0) {
-			Unknown_B483_0363(ret + 62);
+		Unknown_B483_0363(ret + 62);
 
-			while (Unknown_B483_0470()) sleep(0);
-		}
+		while (Unknown_B483_0470()) sleep(0);
 
 		while (w != NULL) {
 			csip32 next = w->next;

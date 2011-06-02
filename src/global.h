@@ -210,7 +210,7 @@ typedef struct GlobalData {
 	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
 	/* 0D5A(786) */ PACK SoundData voices[NUM_VOICES];      /*!< Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
-	/* 1150(2)   */ PACK uint16 currentVoiceSet;            /*!< Currently loaded set of voices. */
+	/* 1150(2)   */ PACK uint16 removed_1150;               /*!< REMOVED - Currently loaded set of voices. */
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
 	/* 116C(12)  */ PACK char   string_116C[12];            /*!< "+ROCKET.VOC" NULL terminated. */
@@ -1252,9 +1252,9 @@ typedef struct GlobalData {
 	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
 	/* 6D83(4)   */ PACK char   string_6D83[4];             /*!< "ITA" NULL terminated. */
 	/* 6D87(4)   */ PACK char   string_6D87[4];             /*!< "SPA" NULL terminated. */
-	/* 6D8B(2)   */ PACK uint16 variable_6D8B;              /*!< ?? */
-	/* 6D8D(2)   */ PACK uint16 variable_6D8D;              /*!< ?? */
-	/* 6D8F(2)   */ PACK uint16 variable_6D8F;              /*!< ?? */
+	/* 6D8B(2)   */ PACK uint16 removed_6D8B;               /*!< REMOVED - Index of loaded sound driver. */
+	/* 6D8D(2)   */ PACK uint16 removed_6D8D;               /*!< REMOVED - Index of loaded music driver. */
+	/* 6D8F(2)   */ PACK uint16 removed_6D8F;               /*!< REMOVED - Index of loaded voice driver. */
 	/* 6D91()    */ PACK uint8   unknown_6D91[0x0001];
 	/* 6D92(16)  */ PACK uint8  variable_6D92[16];          /*!< ?? */
 	/* 6DA2(16)  */ PACK uint8  variable_6DA2[16];          /*!< ?? */

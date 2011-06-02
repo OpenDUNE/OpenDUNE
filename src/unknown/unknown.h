@@ -23,7 +23,7 @@ extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);
 extern void Unknown_B483_0156(uint16 index);
 extern void Unknown_B483_0363(uint16 index);
 extern bool Unknown_B483_0470();
-extern csip32 Unknown_B483_0823(char *filename, csip32 fcsip);
+extern csip32 Unknown_B483_0823(char *filename);
 
 extern void Unknown_B4B8_110D(uint8 houseID);
 

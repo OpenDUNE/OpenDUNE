@@ -515,7 +515,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 		uint8 i;
 		int32 value;
 
-		value = (int32)Drivers_CallFunction(sound->index, 0x96).s.ip;
+		value = MPU_GetDataSize();
 
 		for (i = 0; i < 4; i++) {
 			MSBuffer *buf = &g_global->soundBuffer[i];
@@ -558,7 +558,7 @@ uint16 Drivers_Music_Init(uint16 index)
 	g_global->variable_636A = driver->variable_000A;
 	if (driver->variable_0008 != 0) return index;
 
-	value = (int32)Drivers_CallFunction(music->index, 0x96).s.ip;
+	value = MPU_GetDataSize();
 
 	g_global->musicBuffer.buffer = Tools_Malloc(value, 0x10);
 	g_global->musicBuffer.index  = 0xFFFF;
@@ -608,9 +608,9 @@ void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 
 	Drivers_CustomTimer_EnableHandler(g_global->variable_639C);
 
-	g_global->variable_6D8D = Drivers_Music_Init(music);
-	g_global->variable_6D8B = Drivers_Sound_Init(sound);
-	g_global->variable_6D8F = Drivers_Voice_Init(voice);
+	assert(Drivers_Music_Init(music) == music);
+	assert(Drivers_Sound_Init(sound) == sound);
+	assert(Drivers_Voice_Init(voice) == voice);
 }
 
 csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
@@ -657,17 +657,7 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
 		case 0x0B91: emu_DSP_Uninit(); break; /* 0x68 */
 		case 0x2103: emu_MPU_Uninit(); break; /* 0x68 */
-		case 0x1068: emu_DSP_Play(); break; /* 0x7B */
-		case 0x1235: emu_DSP_GetStatus(); break; /* 0x7C */
-		case 0x1122: emu_DSP_Start(); break; /* 0x7D */
-		case 0x118F: emu_DSP_Stop(); break; /* 0x7E */
-		case 0x0C08: emu_DSP_SetVolume(); break; /* 0x81 */
-		case 0x2191: emu_MPU_GetDataSize(); break; /* 0x96 */
-		case 0x21F0: emu_MPU_SetData(); break; /* 0x97 */
-		case 0x2336: emu_MPU_ClearData(); break; /* 0x98 */
 		case 0x0F24: emu_MPU_NeedTimbre(); break; /* 0x9B */
-		case 0x237A: emu_MPU_Play(); break; /* 0xAA */
-		case 0x240F: emu_MPU_Stop(); break; /* 0xAB */
 		case 0x26EB: emu_MPU_SetVolume(); break; /* 0xB1 */
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
@@ -694,7 +684,8 @@ bool Driver_Music_IsPlaying()
 bool Driver_Voice_IsPlaying()
 {
 	if (g_global->voiceDriver.index == 0xFFFF) return false;
-	return Drivers_CallFunction(g_global->voiceDriver.index, 0x7C).s.ip == 2;
+	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_GetStatus();
+	return emu_ax == 2;
 }
 
 void Driver_Sound_Play(int16 index, int16 volume)
@@ -709,33 +700,20 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	if (sound->index == 0xFFFF) return;
 
 	if (soundBuffer->index != 0xFFFF) {
-		emu_push(soundBuffer->index);
-		emu_push(sound->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(sound->index, 0xAB);
-		emu_sp += 4;
-
-		emu_push(soundBuffer->index);
-		emu_push(sound->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(sound->index, 0x98);
-		emu_sp += 4;
-
+		MPU_Stop(soundBuffer->index);
+		MPU_ClearData(soundBuffer->index);
 		soundBuffer->index = 0xFFFF;
 	}
 
-	emu_push(0); emu_push(0);
-	emu_push(soundBuffer->buffer.s.cs); emu_push(soundBuffer->buffer.s.ip);
-	emu_push(index);
-	emu_push(sound->content.s.cs); emu_push(sound->content.s.ip);
-	emu_push(sound->index); /* unused, but needed for correct param accesses. */
-	soundBuffer->index = Drivers_CallFunction(sound->index, 0x97).s.ip;
-	emu_sp += 16;
+	{
+		csip32 nullcsip;
+		nullcsip.csip = 0x0;
+		soundBuffer->index = MPU_SetData(sound->content, index, soundBuffer->buffer, nullcsip);
+	}
 
 	Drivers_1DD7_0B9C(sound, soundBuffer->index);
 
-	emu_push(soundBuffer->index);
-	emu_push(sound->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(sound->index, 0xAA);
-	emu_sp += 4;
+	MPU_Play(soundBuffer->index);
 
 	emu_push(0);
 	emu_push(((volume & 0xFF) * 90) / 256);
@@ -755,16 +733,8 @@ void Driver_Music_Stop()
 	if (music->index == 0xFFFF) return;
 	if (musicBuffer->index == 0xFFFF) return;
 
-	emu_push(musicBuffer->index);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(music->index, 0xAB);
-	emu_sp += 4;
-
-	emu_push(musicBuffer->index);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(music->index, 0x98);
-	emu_sp += 4;
-
+	MPU_Stop(musicBuffer->index);
+	MPU_ClearData(musicBuffer->index);
 	musicBuffer->index = 0xFFFF;
 }
 
@@ -779,16 +749,8 @@ void Driver_Sound_Stop()
 		MSBuffer *soundBuffer = &g_global->soundBuffer[i];
 		if (soundBuffer->index == 0xFFFF) continue;
 
-		emu_push(soundBuffer->index);
-		emu_push(sound->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(sound->index, 0xAB);
-		emu_sp += 4;
-
-		emu_push(soundBuffer->index);
-		emu_push(sound->index); /* unused, but needed for correct param accesses. */
-		Drivers_CallFunction(sound->index, 0x98);
-		emu_sp += 4;
-
+		MPU_Stop(soundBuffer->index);
+		MPU_ClearData(soundBuffer->index);
 		soundBuffer->index = 0xFFFF;
 	}
 }
@@ -845,7 +807,7 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 
 	emu_push(arg0C / 2);
 	emu_push(voice->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(voice->index, 0x81);
+	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_SetVolume();
 	emu_sp += 4;
 
 	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
@@ -874,17 +836,19 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 	emu_push(0xFFFF);
 	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
 	emu_push(voice->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(voice->index, 0x7B);
+	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Play();
 	emu_sp += 8;
 
-	Drivers_CallFunction(voice->index, 0x7D);
+	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Start();
 }
 
 void Driver_Voice_Stop()
 {
 	Driver *voice = &g_global->voiceDriver;
 
-	if (Driver_Voice_IsPlaying()) Drivers_CallFunction(voice->index, 0x7E);
+	if (Driver_Voice_IsPlaying()) {
+		emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Stop();
+	}
 
 	if (voice->contentMalloced != 0) {
 		Tools_Free(voice->content);
@@ -1055,16 +1019,8 @@ static void Drivers_Music_Uninit()
 		MSBuffer *buffer = &g_global->musicBuffer;
 
 		if (buffer->index != 0xFFFF) {
-			emu_push(buffer->index);
-			emu_push(music->index); /* unused, but needed for correct param accesses. */
-			Drivers_CallFunction(music->index, 0xAB);
-			emu_sp += 4;
-
-			emu_push(buffer->index);
-			emu_push(music->index); /* unused, but needed for correct param accesses. */
-			Drivers_CallFunction(music->index, 0x98);
-			emu_sp += 4;
-
+			MPU_Stop(buffer->index);
+			MPU_ClearData(buffer->index);
 			buffer->index = 0xFFFF;
 		}
 
@@ -1093,16 +1049,8 @@ static void Drivers_Sound_Uninit()
 			MSBuffer *buffer = &g_global->soundBuffer[i];
 
 			if (buffer->index != 0xFFFF) {
-				emu_push(buffer->index);
-				emu_push(sound->index); /* unused, but needed for correct param accesses. */
-				Drivers_CallFunction(sound->index, 0xAB);
-				emu_sp += 4;
-
-				emu_push(buffer->index);
-				emu_push(sound->index); /* unused, but needed for correct param accesses. */
-				Drivers_CallFunction(sound->index, 0x98);
-				emu_sp += 4;
-
+				MPU_Stop(buffer->index);
+				MPU_ClearData(buffer->index);
 				buffer->index = 0xFFFF;
 			}
 

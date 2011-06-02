@@ -154,9 +154,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			if (target != NULL) target->blinkCounter = 8;
 		}
 
-		if (g_global->variable_6D8F == 0) {
-			Driver_Sound_Play(36, 0xFF);
-		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
+		if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
 			Unknown_B483_0156(g_actionInfo[action].variable_0A);
 		} else {
 			Unknown_B483_0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
