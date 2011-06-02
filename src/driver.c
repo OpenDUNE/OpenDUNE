@@ -757,22 +757,14 @@ void Driver_Sound_Stop()
 
 void Driver_Voice_LoadFile(char *filename, void *buffer, csip32 buffer_csip, uint32 length)
 {
+	assert(buffer != NULL);
 	assert(buffer == (void *)emu_get_memorycsip(buffer_csip));
 
 	if (filename == NULL) return;
 	if (g_global->voiceDriver.index == 0xFFFF) return;
 	if (!File_Exists(filename)) return;
 
-	if (buffer == NULL) {
-		buffer_csip = File_ReadWholeFile(filename, 0x40);
-
-		emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x015F); emu_cs = 0x2649; emu_Highmem_GetSize();
-		emu_sp += 4;
-		length = (emu_dx << 16) + emu_ax;
-	} else {
-		length = File_ReadBlockFile(filename, buffer, length);
-	}
+	length = File_ReadBlockFile(filename, buffer, length);
 
 	emu_push(0xFFFF);
 	emu_push(buffer_csip.s.cs); emu_push(buffer_csip.s.ip);
