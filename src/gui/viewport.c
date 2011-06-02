@@ -155,9 +155,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		}
 
 		if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
-			Unknown_B483_0156(g_actionInfo[action].variable_0A);
+			Sound_Unknown0156(g_actionInfo[action].variable_0A);
 		} else {
-			Unknown_B483_0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
+			Sound_Unknown0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}
 
 		g_global->activeUnit.csip = 0x0;

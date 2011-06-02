@@ -374,7 +374,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	if (g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
 
-		Unknown_B483_0363(loc06);
+		Sound_Unknown0363(loc06);
 
 		if (g_global->variable_0312[loc06][5] != 0) {
 			GameLoop_B4ED_0BF4(String_Get_ByIndex(var805A->stringID), var805A->top);
@@ -419,7 +419,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 static uint16 GameLoop_B4ED_0AA5(bool arg06)
 {
-	Unknown_B483_0470();
+	Sound_Unknown0470();
 
 	if (g_global->variable_80AE == 0) return 0;
 
@@ -1179,12 +1179,12 @@ static void GameLoop_LevelEnd()
 
 		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-		Unknown_B483_0363(0xFFFE);
+		Sound_Unknown0363(0xFFFE);
 
 		GUI_ChangeSelectionType(0);
 
 		if (GameLoop_IsLevelWon()) {
-			Unknown_B483_0363(40);
+			Sound_Unknown0363(40);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
@@ -1227,7 +1227,7 @@ static void GameLoop_LevelEnd()
 				Sprites_Load(0, 7, g_sprites);
 			}
 		} else {
-			Unknown_B483_0363(41);
+			Sound_Unknown0363(41);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
@@ -1991,7 +1991,7 @@ static void Gameloop_IntroMenu()
 
 					Gameloop_Intro();
 
-					Unknown_B483_0363(0xFFFE);
+					Sound_Unknown0363(0xFFFE);
 
 					File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 3 * 256);
 					memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 3 * 256);
@@ -2331,7 +2331,7 @@ static void GameLoop_Main()
 			g_global->variable_31C0 = g_global->variable_38EC;
 		}
 
-		if (!Driver_Voice_IsPlaying() && !Unknown_B483_0470()) {
+		if (!Driver_Voice_IsPlaying() && !Sound_Unknown0470()) {
 			if (g_global->musicEnabled == 0) {
 				Music_Play(2);
 
@@ -2847,7 +2847,7 @@ void Game_Init()
 	memset(g_map, 0, 64 * 64 * sizeof(uint16) + 128);
 	memset(g_global->starportAvailable, 0, 27 * sizeof(uint16));
 
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	g_global->playerCreditsNoSilo     = 0;
 	g_global->houseMissileCountdown   = 0;
@@ -2872,7 +2872,7 @@ void Game_Init()
  */
 void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 {
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	Game_Init();
 

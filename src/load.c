@@ -237,7 +237,7 @@ bool LoadFile(char *filename)
 	char filenameComplete[1024];
 	bool res;
 
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	Game_Init();
 

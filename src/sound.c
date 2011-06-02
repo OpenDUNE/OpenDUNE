@@ -7,6 +7,7 @@
 #include "libemu.h"
 #include "global.h"
 #include "sound.h"
+#include "file.h"
 #include "gui/gui.h"
 #include "string.h"
 #include "tile.h"
@@ -244,7 +245,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str, i);
 
-				g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939);
+				g_global->variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939);
 				break;
 
 			case '+':
@@ -257,18 +258,18 @@ void Voice_LoadVoices(uint16 voiceSet)
 				}
 				sprintf((char *)g_global->variable_9939, str + 1, i);
 
-				g_global->variable_3E54[voice] = Unknown_B483_0823((char *)g_global->variable_9939);
+				g_global->variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939);
 				break;
 
 			case '-':
 				if (voiceSet != 0xFFFF || g_global->variable_3E54[voice].csip != 0x0) break;
 
-				g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1);
+				g_global->variable_3E54[voice] = Sound_Unknown0823(str + 1);
 				break;
 
 			case '/':
 				if (voiceSet != 0xFFFE) break;
-				g_global->variable_3E54[voice] = Unknown_B483_0823(str + 1);
+				g_global->variable_3E54[voice] = Sound_Unknown0823(str + 1);
 				break;
 
 			case '?':
@@ -277,9 +278,146 @@ void Voice_LoadVoices(uint16 voiceSet)
 			default:
 				if (g_global->variable_3E54[voice].csip != 0x0) break;
 
-				g_global->variable_3E54[voice] = Unknown_B483_0823(str);
+				g_global->variable_3E54[voice] = Sound_Unknown0823(str);
 				break;
 		}
 	}
 	currentVoiceSet = voiceSet;
+}
+
+/**
+ * Unknown function.
+ * @param index
+ */
+void Sound_Unknown0156(uint16 index)
+{
+	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)g_global->voices[index].variable_04 < (int16)g_global->variable_4060) return;
+
+	g_global->variable_4060 = g_global->voices[index].variable_04;
+
+	if (g_global->variable_3E54[index].csip != 0x0) {
+		csip32 csip;
+		uint32 count;
+
+		csip = g_global->variable_3E54[index];
+
+		emu_push(csip.s.cs); emu_push(csip.s.ip);
+		emu_push(emu_cs); emu_push(0x01BC); emu_cs = 0x2649; emu_Highmem_IsInHighmem();
+		emu_sp += 4;
+
+		if (emu_ax != 0) {
+			emu_push(csip.s.cs); emu_push(csip.s.ip);
+			emu_push(emu_cs); emu_push(0x01CD); emu_cs = 0x2649; emu_Highmem_GetSize();
+			emu_sp += 4;
+
+			count = (emu_dx << 16) | emu_ax;
+		} else {
+			count = g_global->readBufferSize;
+		}
+
+		Tools_Memmove(csip, g_global->readBuffer, count);
+
+		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+	} else {
+		char *filename;
+
+		filename = (char *)emu_get_memorycsip(g_global->voices[index].string);
+		if (filename[0] == '?') {
+			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
+
+			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+
+			Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+		}
+	}
+}
+
+/**
+ * Unknown function.
+ * @param index
+ */
+void Sound_Unknown0363(uint16 index)
+{
+	if (index == 0xFFFF) return;
+
+	if (index == 0xFFFE) {
+		uint8 i;
+
+		for (i = 0; i < 5; i++) {
+			g_global->variable_0218[i] = 0xFFFF;
+		}
+
+		Driver_Voice_Stop();
+
+		g_global->variable_37BC.csip = 0;
+		if ((g_global->variable_37BA & 1) != 0) {
+			g_global->variable_3A12 = 1;
+			g_global->variable_37BA = 0;
+		}
+		g_global->variable_4060 = 0;
+
+		return;
+	}
+
+	if (g_global->variable_0218[0] == 0xFFFF) {
+		uint8 i;
+
+		for (i = 0; i < 5; i++) {
+			g_global->variable_0218[i] = (g_global->language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
+		}
+	}
+
+	Sound_Unknown0470();
+}
+
+/**
+ * Unknown function.
+ * @return ??
+ */
+bool Sound_Unknown0470()
+{
+	if (g_global->soundsEnabled == 0) return false;
+
+	if (Driver_Voice_IsPlaying()) return true;
+
+	g_global->variable_4060 = 0;
+
+	if (g_global->variable_0218[0] == 0xFFFF) return false;
+
+	Sound_Unknown0156(g_global->variable_0218[0]);
+
+	memmove(&g_global->variable_0218[0], &g_global->variable_0218[1], 8);
+	g_global->variable_0218[4] = 0xFFFF;
+
+	return true;
+}
+
+/**
+ * ??.
+ * @param filename The name of the file to load.
+ * @return Where the file is loaded.
+ */
+csip32 Sound_Unknown0823(char *filename)
+{
+	uint8 fileIndex;
+	uint32 fileSize;
+	csip32 res;
+
+	res.csip = 0x0;
+
+	if (filename == NULL || !File_Exists(filename)) return res;
+
+	fileIndex = File_Open(filename, 1);
+	fileSize  = File_GetSize(fileIndex);
+	File_Close(fileIndex);
+
+	fileSize += 1;
+	fileSize &= 0xFFFFFFFE;
+
+	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+
+	res = Tools_Malloc(fileSize, 0x40);
+
+	if (res.csip != 0) Tools_Memmove(g_global->readBuffer, res, fileSize);
+	return res;
 }

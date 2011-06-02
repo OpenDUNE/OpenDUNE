@@ -66,7 +66,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 	w1 = GUI_Widget_Link(w1, w2);
 	w1csip = emu_Global_GetCSIP(w1);
 
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	{
 		csip32 nullcsip;
@@ -345,7 +345,7 @@ bool GUI_Widget_Mentat_Click()
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	{
 		csip32 nullcsip;

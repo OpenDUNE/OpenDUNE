@@ -219,7 +219,7 @@ void GameLoop_Structure()
 
 									GUI_DisplayText("%s %s", 0, String_Get_ByIndex(oi->stringID_full), String_Get_ByIndex(stringID));
 
-									Unknown_B483_0363(0);
+									Sound_Unknown0363(0);
 								}
 							} else if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 								/* An AI immediatly places the structure when it is done building */
@@ -290,7 +290,7 @@ void GameLoop_Structure()
 
 								Structure_SetAnimation(s, 2);
 
-								if (s->o.houseID == g_global->playerHouseID) Unknown_B483_0363(g_global->playerHouseID + 55);
+								if (s->o.houseID == g_global->playerHouseID) Sound_Unknown0363(g_global->playerHouseID + 55);
 							}
 						}
 					} else if (h->credits != 0) {
@@ -1163,9 +1163,9 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 				default: index = 0xFFFF; break;
 			}
 
-			Unknown_B483_0363(index);
+			Sound_Unknown0363(index);
 		} else {
-			Unknown_B483_0363(21);
+			Sound_Unknown0363(21);
 		}
 
 		Structure_UntargetMe(s);
@@ -2045,7 +2045,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 	if (h->flags.s.human) {
 		if (h->variable_28 != 0) return;
 
-		Unknown_B483_0363(48);
+		Sound_Unknown0363(48);
 
 		h->variable_28 = 8;
 		return;

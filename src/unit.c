@@ -1653,10 +1653,10 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		if (unit->o.type == UNIT_HARVESTER) Map_B4CD_154C(Tile_PackTile(unit->o.position), unit->amount / 32);
 
 		if (unit->o.type == UNIT_SABOTEUR) {
-			Unknown_B483_0363(20);
+			Sound_Unknown0363(20);
 		} else {
 			if (!ui->o.flags.s.noMessageOnDeath && alive) {
-				Unknown_B483_0363((houseID == g_global->playerHouseID || g_global->campaignID > 3) ? houseID + 14 : 13);
+				Sound_Unknown0363((houseID == g_global->playerHouseID || g_global->campaignID > 3) ? houseID + 14 : 13);
 			}
 		}
 
@@ -1829,7 +1829,7 @@ void Unit_Select(Unit *unit)
 		ui = &g_unitInfo[unit->o.type];
 
 		/* Plays the 'reporting' sound file. */
-		Unknown_B483_0156(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
+		Sound_Unknown0156(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
 
 		GUI_DisplayHint(ui->o.hintStringID, ui->o.spriteID);
 	}
@@ -2691,11 +2691,11 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	Unit_Free(missile);
 
-	Unknown_B483_0363(0xFFFE);
+	Sound_Unknown0363(0xFFFE);
 
 	Unit_CreateBullet(h->palacePosition, missile->o.type, missile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
 
-	if (!isAI) Unknown_B483_0363(39);
+	if (!isAI) Sound_Unknown0363(39);
 
 	g_global->houseMissileCountdown = 0;
 	g_global->unitHouseMissile.csip = 0x0;
@@ -2793,7 +2793,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 			if (hp->variable_26 == 0) {
 				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
 
-				Unknown_B483_0363(37);
+				Sound_Unknown0363(37);
 
 				if (g_global->language == LANGUAGE_ENGLISH) {
 					GUI_DisplayHint(28, 105);
@@ -2808,7 +2808,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
 
 				if (unit->o.type != UNIT_SABOTEUR) {
-					Unknown_B483_0363(12);
+					Sound_Unknown0363(12);
 				} else {
 					if (g_global->scenarioID < 3) {
 						PoolFindStruct find;
@@ -2826,9 +2826,9 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 							stringID = 1;
 						}
 
-						Unknown_B483_0363(stringID);
+						Sound_Unknown0363(stringID);
 					} else {
-						Unknown_B483_0363(unit->o.houseID + 6);
+						Sound_Unknown0363(unit->o.houseID + 6);
 					}
 				}
 

@@ -283,7 +283,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	Unit_SetAction(u, action);
 
-	if (ui->movementType == MOVEMENT_FOOT) Unknown_B483_0156(ai->variable_08);
+	if (ui->movementType == MOVEMENT_FOOT) Sound_Unknown0156(ai->variable_08);
 
 	if (unitAction == action) return true;
 
@@ -787,7 +787,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 					loop = !GUI_YesNo(0x65);
 					g_global->variable_38F8 = loop ? 1 : 0;
 
-					Unknown_B483_0363(0xFFFE);
+					Sound_Unknown0363(0xFFFE);
 
 					while (Driver_Voice_IsPlaying()) sleep(0);
 					break;

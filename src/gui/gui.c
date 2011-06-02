@@ -612,7 +612,7 @@ void GUI_PaletteAnimate()
 		g_global->variable_31C6 = g_global->variable_76AC + 5;
 	}
 
-	Unknown_B483_0470();
+	Sound_Unknown0470();
 }
 
 /**
@@ -1754,9 +1754,9 @@ uint16 GUI_PickHouse()
 			break;
 		}
 
-		Unknown_B483_0363(ret + 62);
+		Sound_Unknown0363(ret + 62);
 
-		while (Unknown_B483_0470()) sleep(0);
+		while (Sound_Unknown0470()) sleep(0);
 
 		while (w != NULL) {
 			csip32 next = w->next;
