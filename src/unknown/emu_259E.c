@@ -9,7 +9,7 @@
 #include "../gfx.h"
 #include "unknown.h"
 
-void Unknown_259E_0006(csip32 ptr2, int16 unknown)
+void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 {
 	int16  progress; /* bool */
 	int16  signed04;
@@ -18,27 +18,24 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 	int16  signed0E;
 	int16  signed10;
 	uint16 loc12;
-
-	uint8 *ptr2data; /* Local pointer for ptr2 */
 	uint8 data[768];
 
 	int i;
 
 	uint8 *ptr1 = g_global->variable_70A2;
-	ptr2data = emu_get_memorycsip(ptr2);
 
-	if (ptr1 == NULL || ptr2.csip == 0x0) return;
+	if (ptr1 == NULL || ptr2 == NULL) return;
 
 	memcpy(data, ptr1, 0x300);
 
 	if (g_global->graphicMode != 3) {
-		GFX_SetPalette(ptr2data);
+		GFX_SetPalette(ptr2);
 		return;
 	}
 
 	signed0E = 0;
 	for (i = 0; i < 0x300; i++) {
-		int16 diff = (int16)ptr2data[i] - (int16)data[i];
+		int16 diff = (int16)ptr2[i] - (int16)data[i];
 		if (diff < 0) diff = -diff;
 		signed0E = max(signed0E, diff);
 	}
@@ -64,7 +61,7 @@ void Unknown_259E_0006(csip32 ptr2, int16 unknown)
 		loc12 &= 0xFF;
 
 		for (i = 0; i < 0x300; i++) {
-			int16 locdi = ptr2data[i];
+			int16 locdi = ptr2[i];
 			int16 signed08 = data[i];
 
 			if (signed08 == locdi) continue;

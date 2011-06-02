@@ -15,7 +15,7 @@ extern void Unknown_07D4_1625(uint16 packed);
 extern csip32 Screen_GetSegment_ByIndex_1(uint16 index);
 extern csip32 Screen_GetSegment_ByIndex_2(uint16 index);
 
-extern void Unknown_259E_0006(csip32 ptr2, int16 unknown);
+extern void Unknown_259E_0006(uint8 *ptr2data, int16 unknown);
 
 extern uint16 Unknown_2903_00CA(csip32 sprite_csip);
 extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);

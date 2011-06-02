@@ -123,7 +123,7 @@ bool GUI_Security_Show()
 		File_Close(file);
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 15);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
 
 	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaHouseFilenamecsip), g_global->playerHouseID);
 
@@ -131,7 +131,7 @@ bool GUI_Security_Show()
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(g_global->variable_3C32, 15);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 
 	{
 		char string[1024];

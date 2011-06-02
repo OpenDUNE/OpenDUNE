@@ -422,7 +422,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(g_global->variable_3C32, 15);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 
 	ret = GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaFilename), NULL, (char *)emu_get_memorycsip(stringBuffer), true, NULL);
 

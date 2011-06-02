@@ -272,7 +272,7 @@ static void GameLoop_B4ED_0184()
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
 
-	Unknown_259E_0006(g_global->variable_3C36, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
 
 	GUI_ClearScreen(0);
 
@@ -540,7 +540,7 @@ static void GameLoop_B4ED_0200()
 
 			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(g_global->variable_3C32, 45);
+			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 45);
 
 			locdi++;
 		} else {
@@ -627,7 +627,7 @@ static void GameLoop_B4ED_0200()
 
 			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(g_global->variable_998A, 15);
+			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 15);
 
 			memcpy(emu_get_memorycsip(g_global->variable_998A), emu_get_memorycsip(g_global->variable_3C32), 3 * 256);
 		}
@@ -637,7 +637,7 @@ static void GameLoop_B4ED_0200()
 
 			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(g_global->variable_998A, 45);
+			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 45);
 		}
 
 		WSA_Unload(header_csip);
@@ -964,7 +964,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		if (emu_ax != 0) break;
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 120);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 120);
 
 	GUI_ClearScreen(0);
 	GUI_ClearScreen(memory);
@@ -1052,7 +1052,7 @@ static void GameLoop_GameCredits()
 
 	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
-	Unknown_259E_0006(g_global->variable_998A, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 60);
 
 	Music_Play(0);
 
@@ -1105,7 +1105,7 @@ static void GameLoop_GameCredits()
 		Music_Play(33);
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
 
 	Driver_Music_FadeOut();
 
@@ -1199,7 +1199,7 @@ static void GameLoop_LevelEnd()
 			if (g_global->campaignID == 9) {
 				GUI_Mouse_Hide_Safe();
 
-				Unknown_259E_0006(g_global->variable_3C36, 15);
+				Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
 				GUI_ClearScreen(0);
 				GameLoop_GameEnd();
 				PrepareEnd();
@@ -1214,7 +1214,7 @@ static void GameLoop_LevelEnd()
 
 			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
 
-			Unknown_259E_0006(g_global->variable_3C36, 15);
+			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
 
 			if (g_global->campaignID == 1 || g_global->campaignID == 7) {
 				Sprites_Load(1, 7, g_sprites);
@@ -1287,7 +1287,7 @@ static void Gameloop_Logos()
 	frame = 0;
 	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
 
-	Unknown_259E_0006(g_global->variable_998A, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 60);
 
 	Music_Play(0x24);
 
@@ -1319,7 +1319,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(g_global->variable_3C36, 30);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
 		GUI_ClearScreen(0);
 
@@ -1327,7 +1327,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
 
 	while (Driver_Music_IsPlaying());
 
@@ -1335,7 +1335,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(g_global->variable_3C36, 30);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
 		GUI_ClearScreen(0);
 
@@ -1343,7 +1343,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 60);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
 
 	GFX_ClearScreen(0);
 
@@ -1351,7 +1351,7 @@ static void Gameloop_Logos()
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(g_global->variable_998A, 30);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 30);
 
 	g_global->variable_76B4 = 0x3C;
 
@@ -1359,7 +1359,7 @@ static void Gameloop_Logos()
 		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(g_global->variable_3C36, 30);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
 		GUI_ClearScreen(0);
 
@@ -1367,7 +1367,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 30);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
 	GUI_ClearScreen(0);
 
@@ -1375,7 +1375,7 @@ static void Gameloop_Logos()
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(g_global->variable_998A, 30);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 30);
 
 	g_global->variable_76B4 = 0xB4;
 
@@ -1384,7 +1384,7 @@ static void Gameloop_Logos()
 		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
 	}
 
-	Unknown_259E_0006(g_global->variable_3C36, 30);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
 	GUI_ClearScreen(0);
 
@@ -2038,7 +2038,7 @@ static void Gameloop_IntroMenu()
 
 				case 0x0153: /* Load Game */
 					GUI_Mouse_Hide_Safe();
-					Unknown_259E_0006(g_global->variable_3C36, 30);
+					Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 					GUI_ClearScreen(0);
 					GUI_Mouse_Show_Safe();
 
@@ -2103,7 +2103,7 @@ static void Gameloop_IntroMenu()
 
 				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-				Unknown_259E_0006(g_global->variable_3C32, 30);
+				Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 30);
 
 				GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
@@ -2152,7 +2152,7 @@ static void Gameloop_IntroMenu()
 	if (!loc02) {
 		Voice_LoadVoices(5);
 
-		Unknown_259E_0006(g_global->variable_3C36, 15);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
 
 		GUI_ClearScreen(0);
 	}

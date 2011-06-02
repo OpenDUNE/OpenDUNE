@@ -1673,20 +1673,12 @@ uint16 GUI_PickHouse()
 	uint16 oldScreenID;
 	Widget *w = NULL;
 	csip32 wcsip;
-	uint8 *loc314; /* array of 768 bytes, probably a palette */
-	csip32 csip314;
+	uint8 loc314[3 * 256]; /* array of 768 bytes, probably a palette */
 	uint16 i;
 	uint16 ret;
 
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x314);
-
-	ret = 0x5;
+	ret = HOUSE_MERCENARY;
 	wcsip.csip = 0x0;
-	csip314.s.cs = emu_ss;
-	csip314.s.ip = emu_bp - 0x314;
-	loc314 = emu_get_memorycsip(csip314);
 
 	memset(loc314, 0, 768);
 
@@ -1727,7 +1719,7 @@ uint16 GUI_PickHouse()
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
-		Unknown_259E_0006(g_global->variable_3C32, 15);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 		GUI_Mouse_Show_Safe();
 
 		ret = 0xFFFE;
@@ -1750,7 +1742,7 @@ uint16 GUI_PickHouse()
 		GUI_Mouse_Hide_Safe();
 
 		if (ret == 0xFFFF) {
-			Unknown_259E_0006(csip314, 15);
+			Unknown_259E_0006(loc314, 15);
 			break;
 		}
 
@@ -1767,7 +1759,7 @@ uint16 GUI_PickHouse()
 			w = (Widget *)emu_get_memorycsip(wcsip);
 		}
 
-		Unknown_259E_0006(csip314, 15);
+		Unknown_259E_0006(loc314, 15);
 
 		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
 
@@ -1809,7 +1801,7 @@ uint16 GUI_PickHouse()
 		if (yes_no == 0x8001) {
 			Driver_Music_FadeOut();
 		} else {
-			Unknown_259E_0006(csip314, 15);
+			Unknown_259E_0006(loc314, 15);
 		}
 
 		while (w != NULL) {
@@ -1841,10 +1833,7 @@ uint16 GUI_PickHouse()
 
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(csip314, 15);
-
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
+	Unknown_259E_0006(loc314, 15);
 
 	return ret;
 }
@@ -2064,7 +2053,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
 		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
-		Unknown_259E_0006(g_global->variable_3C32, 15);
+		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 
 		GUI_Mouse_Show_Safe();
 	}
@@ -3266,16 +3255,10 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	uint16 x;
 	uint16 y;
 	uint16 oldScreenID;
-	uint8 *loc30A;
+	uint8 loc30A[3 * 256];
 	uint8 loc316[12];
-	csip32 csip30A;
 
 	if (campaignID == 0) return 1;
-
-	emu_sp -= 0x300;
-	csip30A.s.cs = emu_ss;
-	csip30A.s.ip = emu_sp;
-	loc30A = emu_get_memorycsip(csip30A);
 
 	Tools_Sleep(10);
 	Music_Play(0x1D);
@@ -3285,7 +3268,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	previousCampaignID = campaignID - (win ? 1 : 0);
 	oldScreenID = GUI_Screen_SetActive(4);
 
-	Unknown_259E_0006(csip30A, 15);
+	Unknown_259E_0006(loc30A, 15);
 
 	Mouse_SetRegion(8, 24, 311, 143);
 
@@ -3340,7 +3323,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 4, 0);
-	Unknown_259E_0006(g_global->variable_3C32, 15);
+	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 	GUI_Mouse_Show_Safe();
 
 	g_global->strategicMapFastForward = 0;
@@ -3425,15 +3408,13 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), loc316, 12);
 
-	Unknown_259E_0006(csip30A, 15);
+	Unknown_259E_0006(loc30A, 15);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_ClearScreen(0);
 	GUI_Mouse_Show_Safe();
 
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
-
-	emu_sp += 0x300;
 
 	return scenarioID;
 }
