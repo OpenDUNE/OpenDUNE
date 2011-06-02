@@ -448,12 +448,8 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 	strcpy(driver->extension, "xmi");
 
 	if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
-		char *blaster;
-
-		emu_push(emu_ds); emu_push(0x65FE); /* "BLASTER" */
-		emu_push(emu_cs); emu_push(0x14CF); emu_cs = 0x01F7; f__01F7_27FD_0037_E2C0();
-		emu_sp += 4;
-		blaster = (char *)&emu_get_memory8(emu_dx, emu_ax, 0x0);
+		/* XXX -- Hard coded driver information. */
+		const char *blaster = "A220 I7 D1 H5 T6";
 
 		if (blaster != NULL) {
 			char *val;
