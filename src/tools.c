@@ -374,15 +374,8 @@ void Tools_Sleep(uint16 ticks)
 csip32 Tools_Malloc(uint32 size, uint8 flags)
 {
 	uint32 sizeUser = size;
-	uint32 loc0A;
 	uint8 *buf;
 	csip32 ret;
-
-	if (g_global->variable_66F8 == 0) {
-		/* XXX -- Hardcoded the amount of free memory on startup.
-		 *   This to avoid calling 01F7 layer. Should be removed ASAP. */
-		g_global->variable_66F8 = 392880;
-	}
 
 	if ((flags & 0x40) != 0) {
 		emu_push(0);
