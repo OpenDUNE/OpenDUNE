@@ -354,10 +354,9 @@ static void Driver_Uninit(uint16 driver)
 
 	if (_stat168[driver] != 0xFFFF) Drivers_CustomTimer_RemoveHandler(_stat168[driver]);
 
-	emu_push(0); emu_push(0);
 	emu_push(driver); /* unused, but needed for correct param accesses. */
 	Drivers_CallFunction(driver, 0x68);
-	emu_sp += 6;
+	emu_sp += 2;
 }
 
 static void Drivers_Uninit(Driver *driver)

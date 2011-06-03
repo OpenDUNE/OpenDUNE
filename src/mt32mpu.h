@@ -62,7 +62,7 @@ extern void MPU_Stop(uint16 index);
 extern uint16 MPU_IsPlaying(uint16 index);
 extern uint16 MPU_GetDataSize();
 extern void MPU_Init();
-extern void MPU_Uninit(csip32 csip);
+extern void MPU_Uninit();
 extern void MPU_ClearData(uint16 index);
 extern struct DriverInfo *MPU_GetInfo();
 extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);

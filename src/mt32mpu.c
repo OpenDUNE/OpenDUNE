@@ -12,18 +12,15 @@
 #include "os/endian.h"
 #include "driver.h"
 
-extern void f__AB01_0564_0050_E6D5();
-extern void f__AB01_0610_0050_6DE0();
 extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_08CE_005F_AC14();
-extern void f__AB01_0DA1_0077_69FE();
+extern void f__AB01_0CB4_0016_9B28();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_184D_004F_7B67();
 extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
 extern void f__AB01_1B48_0023_740C();
 extern void f__AB01_1C49_0022_C4C7();
-extern void f__AB01_21CE_001D_E2A5();
 
 uint16 g_mt32mpu_cs;
 
@@ -528,6 +525,75 @@ uint16 MPU_GetDataSize()
 	return sizeof(MSData);
 }
 
+static void MPU_0564()
+{
+	emu_push(12);
+	emu_push(1);
+	emu_push(g_mt32mpu_cs); emu_push(0x12B);
+	emu_push(0);
+	emu_push(0);
+	emu_push(127);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x05B4); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
+	emu_sp += 16;
+
+	emu_push(4);
+	emu_push(9);
+	emu_push(g_mt32mpu_cs); emu_push(0x12B);
+	emu_push(13);
+	emu_push(0);
+	emu_push(16);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0602); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
+	emu_sp += 16;
+}
+
+static void MPU_0610()
+{
+	uint8 i;
+
+	emu_push(4);
+	emu_push(9);
+	emu_push(g_mt32mpu_cs); emu_push(0x134);
+	emu_push(4);
+	emu_push(0);
+	emu_push(16);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x0660); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
+	emu_sp += 16;
+
+	emu_push(4);
+	emu_push(3);
+	emu_push(g_mt32mpu_cs); emu_push(0x128);
+	emu_push(1);
+	emu_push(0);
+	emu_push(16);
+	emu_push(0);
+	emu_push(emu_cs); emu_push(0x06AE); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
+	emu_sp += 16;
+
+	for (i = 0; i < 3; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x248) = 0;
+
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x24B) = 0;
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x24D) = 0;
+
+	for (i = 0; i < 64; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x3CF) = 0x0;
+
+	for (i = 0; i < 16; i++) {
+		emu_get_memory8(g_mt32mpu_cs, i, 0x40F) = 0xFF;
+		emu_get_memory8(g_mt32mpu_cs, i, 0x42F) = 0xFF;
+		emu_get_memory8(g_mt32mpu_cs, i, 0x41F) = 0;
+	}
+
+	for (i = 0; i < 128; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x13D) = 0x0;
+}
+
+static void MPU_21CE()
+{
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x131A) = 0x0;
+	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x131C) = 0x0;
+}
+
 void MPU_Init()
 {
 	uint8 i;
@@ -546,12 +612,9 @@ void MPU_Init()
 
 	MPU_Reset();
 	MPU_UART();
-
-	emu_push(emu_cs); emu_push(0x2029); emu_cs = g_mt32mpu_cs; f__AB01_0564_0050_E6D5();
-
-	emu_push(emu_cs); emu_push(0x202D); emu_cs = g_mt32mpu_cs; f__AB01_0610_0050_6DE0();
-
-	emu_push(emu_cs); emu_push(0x2031); emu_cs = g_mt32mpu_cs; f__AB01_21CE_001D_E2A5();
+	MPU_0564();
+	MPU_0610();
+	MPU_21CE();
 
 	for (i = 0; i < 9; i++) {
 		for (j = 0; j < 9; j++) {
@@ -613,7 +676,7 @@ void MPU_Init()
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
 }
 
-void MPU_Uninit(csip32 csip)
+void MPU_Uninit()
 {
 	uint16 i;
 
@@ -625,13 +688,7 @@ void MPU_Uninit(csip32 csip)
 		MPU_ClearData(i * 4);
 	}
 
-	emu_push(emu_cs); emu_push(0x2161); emu_cs = g_mt32mpu_cs; f__AB01_0564_0050_E6D5();
-
-	emu_push(csip.s.cs); emu_push(csip.s.ip);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x2175); emu_cs = g_mt32mpu_cs; f__AB01_0DA1_0077_69FE();
-	emu_sp += 6;
-
+	MPU_0564();
 	MPU_Reset();
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0;

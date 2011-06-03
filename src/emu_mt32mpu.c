@@ -94,16 +94,11 @@ void emu_MPU_Init()
  */
 void emu_MPU_Uninit()
 {
-	csip32 csip;
-
 	/* Pop the return CS:IP. */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
 
-	/* First arg was not for us so we skipped it. */
-	csip = emu_get_csip32(emu_ss, emu_sp, 0x2);
-
-	MPU_Uninit(csip);
+	MPU_Uninit();
 }
 
 /**
