@@ -20,7 +20,6 @@ extern void f__AB01_184D_004F_7B67();
 extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
 extern void f__AB01_1B48_0023_740C();
-extern void f__AB01_1C49_0022_C4C7();
 
 uint16 g_mt32mpu_cs;
 
@@ -76,6 +75,36 @@ void MPU_WriteData(uint8 data)
 	}
 
 	emu_outb(0x330, data);
+}
+
+static void MPU_074E(uint8 *sound, uint16 arg0A, uint16 arg0C)
+{
+	if (arg0A == 0xF0) MPU_WriteData(0xF0);
+	if (arg0C == 0) return;
+
+	while (arg0C-- != 0) MPU_WriteData(*sound++);
+}
+
+static uint16 MPU_1C49(MSData *data)
+{
+	uint8 *sound = emu_get_memorycsip(data->sound);
+	uint16 loc02;
+	uint16 loc04 = *sound;
+	uint8 *s = sound + 1;
+	uint32 flag = 0;
+
+	while (true) {
+		uint8 v = *s++;
+		flag |= v & 0x7F;
+		if ((v & 0x80) == 0) break;
+		flag <<= 6;
+	}
+
+	loc02 = sound - s + (flag & 0xFFFF);
+
+	MPU_074E(s, loc04, flag & 0xFFFF);
+
+	return loc02;
 }
 
 void MPU_Interrupt()
@@ -181,14 +210,14 @@ void MPU_Interrupt()
 					data2 = emu_get_memorycsip(data->sound)[2];
 
 					if (status >= 0xF0) {
-						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 						if (chan != 0xF) {
-							emu_push(emu_cs); emu_push(0x1EA8); emu_cs = g_mt32mpu_cs; f__AB01_1C49_0022_C4C7();
+							nb = MPU_1C49(data);
 						} else {
+							emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 							emu_push(emu_cs); emu_push(0x1EB5); emu_cs = g_mt32mpu_cs; f__AB01_1B48_0023_740C();
+							emu_sp += 4;
+							nb = emu_ax;
 						}
-						emu_sp += 4;
-						nb = emu_ax;
 					} else if (status >= 0xE0) {
 						data->pitchWheelLSB[chan] = data1;
 						data->pitchWheelMSB[chan] = data2;
