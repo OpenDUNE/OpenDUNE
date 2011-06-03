@@ -283,9 +283,9 @@ l__01C3:
 }
 
 /**
- * Decompiled function f__29A3_01DB_003D_B0F3()
+ * Decompiled function emu_Mouse_HandleMovementIfMoved()
  *
- * @name f__29A3_01DB_003D_B0F3
+ * @name emu_Mouse_HandleMovementIfMoved
  * @implements 29A3:01DB:003D:B0F3 ()
  * @implements 29A3:01F6:0022:FFCE
  * @implements 29A3:0208:0010:8923
@@ -294,7 +294,7 @@ l__01C3:
  *
  * Called From: 29E8:0613:0020:55D6
  */
-void f__29A3_01DB_003D_B0F3()
+void emu_Mouse_HandleMovementIfMoved()
 {
 l__01DB:
 	emu_push(emu_bp);
