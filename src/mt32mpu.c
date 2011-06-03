@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
@@ -662,4 +663,37 @@ DriverInfo *MPU_GetInfo()
 	info = (DriverInfo *)&emu_get_memory8(g_mt32mpu_cs, 0x00, 0xC7);
 	info->variable_0008.s.cs = g_mt32mpu_cs;
 	return info;
+}
+
+void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
+{
+	MSData *data;
+	csip32 data_csip;
+	uint16 diff;
+
+	if (index == 0xFFFF) return;
+
+	data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
+	data = (MSData *)emu_get_memorycsip(data_csip);
+
+	data->variable_0026 = volume;
+
+	if (arg0C == 0) {
+		data->variable_0024 = volume;
+
+		emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
+		emu_push(emu_cs); emu_push(0x2759); emu_cs = g_mt32mpu_cs; f__AB01_184D_004F_7B67();
+		emu_sp += 4;
+
+		return;
+	}
+
+	diff = data->variable_0026 - data->variable_0024;
+	if (diff == 0) return;
+
+	emu_cx = abs(diff);
+
+	data->variable_002C = 10 * arg0C / diff;
+	if (data->variable_002C == 0) data->variable_002C = 1;
+	data->variable_0028 = 0;
 }

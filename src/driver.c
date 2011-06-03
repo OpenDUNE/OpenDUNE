@@ -26,7 +26,6 @@ extern void emu_DSP_Play();
 extern void emu_DSP_Start();
 extern void emu_DSP_Stop();
 extern void emu_DSP_GetStatus();
-extern void emu_MPU_SetVolume();
 
 extern uint16 g_mt32mpu_cs;
 
@@ -649,7 +648,6 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
 		case 0x0B91: emu_DSP_Uninit(); break; /* 0x68 */
 		case 0x2103: emu_MPU_Uninit(); break; /* 0x68 */
-		case 0x26EB: emu_MPU_SetVolume(); break; /* 0xB1 */
 		default:
 			/* In case we don't know the call point yet, call the dynamic call */
 			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
@@ -703,13 +701,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 	}
 
 	MPU_Play(soundBuffer->index);
-
-	emu_push(0);
-	emu_push(((volume & 0xFF) * 90) / 256);
-	emu_push(soundBuffer->index);
-	emu_push(sound->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(sound->index, 0xB1);
-	emu_sp += 8;
+	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
 
 	g_global->soundBufferIndex = (g_global->soundBufferIndex + 1) % 4;
 }
@@ -990,13 +982,7 @@ void Driver_Music_FadeOut()
 	MSBuffer *musicBuffer = &g_global->musicBuffer;
 
 	if (music->index == 0xFFFF) return;
-
 	if (musicBuffer->index == 0xFFFF) return;
 
-	emu_push(0x7D0);
-	emu_push(0);
-	emu_push(musicBuffer->index);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(music->index, 0xB1);
-	emu_sp += 8;
+	MPU_SetVolume(musicBuffer->index, 0, 2000);
 }

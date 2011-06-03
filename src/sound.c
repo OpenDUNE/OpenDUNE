@@ -43,13 +43,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 	}
 
 	MPU_Play(musicBuffer->index);
-
-	emu_push(0);
-	emu_push(((volume & 0xFF) * 90) / 256);
-	emu_push(musicBuffer->index);
-	emu_push(music->index); /* unused, but needed for correct param accesses. */
-	Drivers_CallFunction(music->index, 0xB1);
-	emu_sp += 8;
+	MPU_SetVolume(musicBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
 }
 
 static void Driver_Music_LoadFile(char *musicName)
