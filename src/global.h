@@ -1528,7 +1528,7 @@ typedef struct GlobalData {
 	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
 	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
-	/* 998A(4)   */ PACK csip32 variable_998A;              /*!< ?? */
+	/* 998A(4)   */ PACK csip32 removed_998A;               /*!< REMOVED - A palette. */
 	/* 998E(97)  */ PACK uint8  removed_998E[97];           /*!< REMOVED - Current directory. */
 	/* 99EF(4)   */ PACK csip32 new8pFnt;                   /*!< Pointer to content of new8p.fnt. */
 	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */

@@ -224,7 +224,7 @@ static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 
 
 	File_ReadBlockFile("INTRO.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
 
-	memcpy(emu_get_memorycsip(g_global->variable_998A), emu_get_memorycsip(g_global->variable_3C32), 768);
+	memcpy(g_palette_998A, emu_get_memorycsip(g_global->variable_3C32), 768);
 
 	g_global->introFnt = Font_LoadFile("INTRO.FNT");
 
@@ -446,9 +446,9 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 
 	if (arg06) return g_global->variable_80AE;
 
-	memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
+	memcpy(&g_palette_998A[215 * 3], g_global->variable_8088, 18);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
+	GFX_SetPalette(g_palette_998A);
 
 	return g_global->variable_80AE;
 }
@@ -621,21 +621,21 @@ static void GameLoop_B4ED_0200()
 		}
 
 		if ((var805E->flags & 0x10) != 0) {
-			memset(&emu_get_memorycsip(g_global->variable_998A)[3 * 1], 63, 3 * 255);
+			memset(&g_palette_998A[3 * 1], 63, 3 * 255);
 
-			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
+			memcpy(&g_palette_998A[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 15);
+			Unknown_259E_0006(g_palette_998A, 15);
 
-			memcpy(emu_get_memorycsip(g_global->variable_998A), emu_get_memorycsip(g_global->variable_3C32), 3 * 256);
+			memcpy(g_palette_998A, emu_get_memorycsip(g_global->variable_3C32), 3 * 256);
 		}
 
 		if ((var805E->flags & 0x8) != 0) {
 			GameLoop_B4ED_0AA5(true);
 
-			memcpy(&emu_get_memorycsip(g_global->variable_998A)[215 * 3], g_global->variable_8088, 18);
+			memcpy(&g_palette_998A[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 45);
+			Unknown_259E_0006(g_palette_998A, 45);
 		}
 
 		WSA_Unload(header_csip);
@@ -1044,13 +1044,13 @@ static void GameLoop_GameCredits()
 
 	Unknown_07AE_0000(20);
 
-	Sprites_LoadImage("BIGPLAN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage("BIGPLAN.CPS", 3, 3, g_palette_998A, 1);
 
 	GUI_ClearScreen(0);
 
 	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 60);
+	Unknown_259E_0006(g_palette_998A, 60);
 
 	Music_Play(0);
 
@@ -1076,7 +1076,7 @@ static void GameLoop_GameCredits()
 		}
 	}
 
-	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, g_palette_998A, 1);
 
 	GUI_Palette_RemapScreen(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, memBlock);
 
@@ -1266,7 +1266,7 @@ static void Gameloop_Logos()
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 	GFX_ClearScreen();
 
-	File_ReadBlockFile("WESTWOOD.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
+	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 0x300);
 
 	{
 		csip32 null;
@@ -1285,7 +1285,7 @@ static void Gameloop_Logos()
 	frame = 0;
 	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 60);
+	Unknown_259E_0006(g_palette_998A, 60);
 
 	Music_Play(0x24);
 
@@ -1345,11 +1345,11 @@ static void Gameloop_Logos()
 
 	GFX_ClearScreen(0);
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 30);
+	Unknown_259E_0006(g_palette_998A, 30);
 
 	g_global->variable_76B4 = 0x3C;
 
@@ -1369,11 +1369,11 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	Sprites_LoadImage("VIRGIN.CPS", 2, 2, emu_get_memorycsip(g_global->variable_998A), g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage("VIRGIN.CPS", 2, 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_998A), 30);
+	Unknown_259E_0006(g_palette_998A, 30);
 
 	g_global->variable_76B4 = 0xB4;
 
@@ -1833,9 +1833,9 @@ static void Gameloop_IntroMenu()
 	Tools_Free(g_global->readBuffer);
 	g_global->readBuffer.csip = 0x0;
 
-	File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 0x300);
+	File_ReadBlockFile("IBM.PAL", g_palette_998A, 0x300);
 
-	memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 3 * 256);
+	memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 3 * 256);
 
 	GUI_ClearScreen(0);
 
@@ -1991,8 +1991,8 @@ static void Gameloop_IntroMenu()
 
 					Sound_Unknown0363(0xFFFE);
 
-					File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_998A), 3 * 256);
-					memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 3 * 256);
+					File_ReadBlockFile("IBM.PAL", g_palette_998A, 3 * 256);
+					memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 3 * 256);
 
 					if (g_global->variable_37B4 == 0) {
 						uint8 fileID;
@@ -2546,26 +2546,26 @@ static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool
 		}
 	}
 
-	g_global->variable_998A = Tools_Malloc(768, 0x10);
+	g_palette_998A = calloc(256 * 3, sizeof(uint8));
 
 	switch (graphicMode) {
 		case 5:
-			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6DA2, 16);
+			memcpy(g_palette_998A, g_global->variable_6DA2, 16);
 
-			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
+			GFX_SetPalette(g_palette_998A);
 			break;
 
 		case 2:
-			memcpy(emu_get_memorycsip(g_global->variable_998A), g_global->variable_6D92, 16);
+			memcpy(g_palette_998A, g_global->variable_6D92, 16);
 
-			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
+			GFX_SetPalette(g_palette_998A);
 			break;
 
 		case 3:
 		case 4:
-			memset(&emu_get_memorycsip(g_global->variable_998A)[45], 63, 3);
+			memset(&g_palette_998A[45], 63, 3);
 
-			GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
+			GFX_SetPalette(g_palette_998A);
 			break;
 
 		default: break;

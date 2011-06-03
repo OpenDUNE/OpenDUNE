@@ -25,6 +25,8 @@ typedef struct HallOfFameData {
 MSVC_PACKED_END
 assert_compile(sizeof(HallOfFameData) == 0x10);
 
+extern uint8 *g_palette_998A;
+
 struct Widget;
 struct FactoryWindowItem;
 

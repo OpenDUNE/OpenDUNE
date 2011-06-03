@@ -75,6 +75,7 @@ assert_compile(sizeof(StrategicMapData) == 0x8);
 
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
+uint8 *g_palette_998A = NULL;
 
 /**
  * Draw a wired rectangle.
@@ -1411,7 +1412,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	oldScreenID = GUI_Screen_SetActive(2);;
 
-	Sprites_LoadImage("FAME.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage("FAME.CPS", 3, 3, g_palette_998A, 1);
 
 	xSrc = 1;
 	if ((int16)g_global->playerHouseID >= HOUSE_HARKONNEN && (int16)g_global->playerHouseID <= HOUSE_ORDOS) {
@@ -3274,7 +3275,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_SetPosition(160, 84);
 
-	Sprites_LoadImage("MAPMACH.CPS", 5, 5, emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage("MAPMACH.CPS", 5, 5, g_palette_998A, 1);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_global->variable_3C42);
 
@@ -3329,7 +3330,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	g_global->strategicMapFastForward = 0;
 
 	if (win && campaignID == 1) {
-		Sprites_LoadImage("PLANET.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+		Sprites_LoadImage("PLANET.CPS", 3, 3, g_palette_998A, 1);
 
 		GFX_Screen_Copy3(3, 2);
 
@@ -3348,7 +3349,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
-		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, emu_get_memorycsip(g_global->variable_998A), 1);
+		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, g_palette_998A, 1);
 
 		GFX_Screen_Copy3(3, 2);
 
@@ -3369,7 +3370,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		Sprites_CPS_LoadRegionClick();
 	}
 
-	Sprites_LoadImage("DUNERGN.CPS", 3, 3, emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage("DUNERGN.CPS", 3, 3, g_palette_998A, 1);
 
 	GFX_Screen_Copy3(3, 2);
 

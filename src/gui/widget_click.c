@@ -633,29 +633,27 @@ static void ShadeScreen()
 {
 	uint16 i;
 	uint8 *g3C32;
-	uint8 *g998A;
 	uint16 loc1A[9];
 
 	memcpy(loc1A, g_global->variable_2A9B, 18);
 
 	g3C32 = emu_get_memorycsip(g_global->variable_3C32);
-	g998A = emu_get_memorycsip(g_global->variable_998A);
 
-	memmove(g998A, g3C32, 0x300);
+	memmove(g_palette_998A, g3C32, 0x300);
 
 	for (i = 0; i < 0x300; i++) g3C32[i] = g3C32[i] / 2;
 
 	for (i = 0; i < 9; i++) {
 		if (loc1A[i] == 0xFFFF) break;
-		memmove(g3C32 + (loc1A[i] * 3), g998A + (loc1A[i] * 3), 3);
+		memmove(g3C32 + (loc1A[i] * 3), &g_palette_998A[loc1A[i] * 3], 3);
 	}
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_998A));
+	GFX_SetPalette(g_palette_998A);
 }
 
 static void UnshadeScreen()
 {
-	memmove(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_998A), 0x300);
+	memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 0x300);
 
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 }
@@ -710,7 +708,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	Sprites_UnloadTiles();
 
-	memmove(emu_get_memorycsip(g_global->variable_998A), g_global->variable_70A2, 0x300);
+	memmove(g_palette_998A, g_global->variable_70A2, 0x300);
 
 	g_global->variable_80B0 = 0;
 

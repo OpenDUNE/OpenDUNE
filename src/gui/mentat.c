@@ -492,7 +492,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 	char *houseName = (char *)emu_get_memorycsip(g_houseInfo[houseID].name);
 	sprintf((char *)g_global->variable_9939, "MENTAT%c.CPS", houseName[0]);
 
-	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, (void *)emu_get_memorycsip(g_global->variable_998A), 1);
+	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, g_palette_998A, 1);
 
 	GFX_Screen_Copy3(3, 2);
 
