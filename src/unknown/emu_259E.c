@@ -28,11 +28,6 @@ void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 
 	memcpy(data, ptr1, 0x300);
 
-	if (g_global->graphicMode != 3) {
-		GFX_SetPalette(ptr2);
-		return;
-	}
-
 	signed0E = 0;
 	for (i = 0; i < 0x300; i++) {
 		int16 diff = (int16)ptr2[i] - (int16)data[i];

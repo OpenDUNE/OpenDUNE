@@ -1221,7 +1221,7 @@ typedef struct GlobalData {
 	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
 	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
 	/* 6C72(4)   */ PACK csip32 variable_6C72;              /*!< ?? Pointer to an array. */
-	/* 6C76(2)   */ PACK uint16 graphicMode;                /*!< The GraphicMode the game will be playing in. */
+	/* 6C76(2)   */ PACK uint16 removed_6C76;               /*!< REMOVED - The GraphicMode the game will be playing in. */
 	/* 6C78(2)   */ PACK uint16 snapX;                      /*!< Snap mouse to grid, x-axis. */
 	/* 6C7A(2)   */ PACK uint16 snapY;                      /*!< Snap mouse to grid, y-axis. */
 	/* 6C7C(2)   */ PACK uint16 snapGreyX;                  /*!< Grey zone for snapping, x-axis. */

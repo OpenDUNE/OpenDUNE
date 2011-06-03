@@ -2424,152 +2424,78 @@ static void Unknown_2533_000D()
 	g_global->variable_9937 = (locdi > locsi) ? 1 : 0;
 }
 
-static bool Unknown_25C4_000E(uint16 graphicMode, const char *fontFilename, bool arg0C)
+static bool Unknown_25C4_000E()
 {
-	switch (graphicMode) {
-		case 3:
-			memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
-			break;
+	uint32 totalSize = 0;
+	uint16 i;
+	csip32 memBlock;
 
-		default: break;
+	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+
+	emu_push(3);
+	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_SetMode();
+	emu_sp += 2;
+
+	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
+
+	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
+
+	for (i = 1; i < 8; i++) {
+		uint32 size = (g_global->variable_6CD3[i][1] + 15) & 0xFFFFFFF0;
+
+		if ((size & 0xFF000000) != 0) {
+			PrepareEnd();
+			printf("PageArraySize is negative!\r\n");
+
+			emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+
+			exit(5);
+		}
+
+		g_global->variable_6CD3[i][0] = size;
+		g_global->variable_6CD3[i][1] = size;
+
+		totalSize += size;
 	}
 
-	if (graphicMode != 8) {
-		emu_push(graphicMode);
-		emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_SetMode();
+	memBlock = Tools_Malloc(totalSize, g_global->variable_98F1 | 0x30);
+
+	for (i = 1; i < 8; i++) {
+		if (g_global->variable_6CD3[i][0] == 0) continue;
+
+		g_global->variable_6C93[i][0] = memBlock.s.cs;
+		g_global->variable_6C93[i][1] = memBlock.s.cs;
+
+		memBlock.csip += g_global->variable_6CD3[i][0];
+		memBlock = Tools_GetSmallestIP(memBlock);
+	}
+
+	g_global->variable_6C93[0][0] = 0xA000;
+	g_global->variable_6C93[0][1] = 0xA000;
+
+	GFX_ClearScreen();
+
+	g_global->new8pFnt = Font_LoadFile("new8p.fnt");
+
+	if (g_global->new8pFnt.csip == 0x0) {
+		emu_push(9);
+		emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; emu_Video_SetMode();
 		emu_sp += 2;
 
-		emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
+		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
 
-		g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
+		emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+
+		return false;
 	}
 
-	if (arg0C) {
-		uint32 totalSize = 0;
-		uint16 i;
-		csip32 memBlock;
-
-		for (i = 1; i < 8; i++) {
-			uint32 size = (g_global->variable_6CD3[i][1] + 15) & 0xFFFFFFF0;
-
-			if ((size & 0xFF000000) != 0) {
-				PrepareEnd();
-				printf("PageArraySize is negative!\r\n");
-
-				emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
-
-				exit(5);
-			}
-
-			g_global->variable_6CD3[i][0] = size;
-			g_global->variable_6CD3[i][1] = size;
-
-			totalSize += size;
-		}
-
-		memBlock = Tools_Malloc(totalSize, g_global->variable_98F1 | 0x30);
-
-		for (i = 1; i < 8; i++) {
-			if (g_global->variable_6CD3[i][0] == 0) continue;
-
-			g_global->variable_6C93[i][0] = memBlock.s.cs;
-			g_global->variable_6C93[i][1] = memBlock.s.cs;
-
-			memBlock.csip += g_global->variable_6CD3[i][0];
-			memBlock = Tools_GetSmallestIP(memBlock);
-		}
-	} else {
-		uint16 i;
-
-		for (i = 1; i < 8; i++) {
-			if (g_global->variable_6CD3[i][1] == 0) continue;
-
-			g_global->variable_6C93[i][0] = Tools_Malloc(g_global->variable_6CD3[i][1], g_global->variable_98ED | 0x20).s.cs;
-			g_global->variable_6C93[i][1] = g_global->variable_6C93[i][0];
-		}
-	}
-
-	switch (graphicMode) {
-		case 0:
-		case 1:
-			g_global->variable_6C93[0][0] = 0xB800;
-			g_global->variable_6C93[0][1] = 0xB800;
-			break;
-
-		case 2:
-			g_global->variable_6C93[0][0] = 0xA000;
-			g_global->variable_6C93[1][0] = 0xA200;
-			g_global->variable_6C93[2][0] = 0xA400;
-			g_global->variable_6C93[3][0] = 0xA600;
-			g_global->variable_6C93[4][0] = 0xA800;
-			g_global->variable_6C93[5][0] = 0xAA00;
-			g_global->variable_6C93[6][0] = 0xAC00;
-			g_global->variable_6C93[7][0] = 0xAE00;
-			break;
-
-		case 3:
-		case 6:
-			g_global->variable_6C93[0][0] = 0xA000;
-			g_global->variable_6C93[0][1] = 0xA000;
-			break;
-
-		case 4:
-		case 5:
-			g_global->variable_6C93[0][0] = 0xA000;
-			g_global->variable_6C93[1][0] = 0xA400;
-			g_global->variable_6C93[2][0] = 0xA800;
-			g_global->variable_6C93[3][0] = 0xAC00;
-			break;
-
-		default: break;
-	}
-
-	if (graphicMode != 8) {
-		GFX_ClearScreen();
-
-		if (fontFilename != NULL) {
-			g_global->new8pFnt = Font_LoadFile(fontFilename);
-
-			if (g_global->new8pFnt.csip == 0x0) {
-				emu_push(9);
-				emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; emu_Video_SetMode();
-				emu_sp += 2;
-
-				printf("\r\nUnable to load font %s\r\nReinstall program.\r\n", fontFilename);
-
-				emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
-
-				return false;
-			}
-
-			Font_Select(g_global->new8pFnt);
-		}
-	}
+	Font_Select(g_global->new8pFnt);
 
 	g_palette_998A = calloc(256 * 3, sizeof(uint8));
 
-	switch (graphicMode) {
-		case 5:
-			memcpy(g_palette_998A, g_global->variable_6DA2, 16);
+	memset(&g_palette_998A[45], 63, 3);
 
-			GFX_SetPalette(g_palette_998A);
-			break;
-
-		case 2:
-			memcpy(g_palette_998A, g_global->variable_6D92, 16);
-
-			GFX_SetPalette(g_palette_998A);
-			break;
-
-		case 3:
-		case 4:
-			memset(&g_palette_998A[45], 63, 3);
-
-			GFX_SetPalette(g_palette_998A);
-			break;
-
-		default: break;
-	}
+	GFX_SetPalette(g_palette_998A);
 
 	Unknown_2533_000D();
 
@@ -2643,17 +2569,6 @@ void Main()
 
 	if (!config->useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
 
-	g_global->graphicMode = 3;
-
-	if (config->graphicDrv < 7 || config->graphicDrv > 12 || config->graphicDrv == 9) {
-		printf("Unrecognized graphic mode!\n");
-		exit(1);
-	}
-
-	if (config->musicDrv >= 8 && config->musicDrv <= 12) {
-		config->musicDrv = 1;
-	}
-
 	g_global->variable_6CD3[0][0] = 0xFA00;
 	g_global->variable_6CD3[0][1] = 0xFA00;
 	g_global->variable_6CD3[1][0] = 0xFBF4;
@@ -2667,7 +2582,7 @@ void Main()
 
 	Drivers_All_Init(config->soundDrv, config->musicDrv, config->voiceDrv);
 
-	if (!Unknown_25C4_000E(g_global->graphicMode, "new8p.fnt", true)) exit(1);
+	if (!Unknown_25C4_000E()) exit(1);
 
 	g_global->variable_7097 = 0;
 

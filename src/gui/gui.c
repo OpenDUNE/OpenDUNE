@@ -4064,8 +4064,6 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 {
 	uint8 *screen;
 
-	if (g_global->graphicMode != 3) return;
-
 	if (width <= 0) return;
 	if (height <= 0) return;
 	if (left >= SCREEN_WIDTH) return;
