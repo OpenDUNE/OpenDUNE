@@ -683,10 +683,10 @@ static void GameLoop_B4AE_0000()
 		case 8:
 			switch (g_global->playerHouseID) {
 				case HOUSE_ATREIDES:
-					args[0].csip = 0x353F1CEC;
-					args[1].csip = 0x353F1CE9;
-					args[2].csip = 0x353F1CAD;
-					args[3].csip = 0x353F1C8D;
+					args[0].csip = 0x353F1C8D;
+					args[1].csip = 0x353F1CAD;
+					args[2].csip = 0x353F1CE9;
+					args[3].csip = 0x353F1CEC;
 					break;
 
 				case HOUSE_ORDOS:
