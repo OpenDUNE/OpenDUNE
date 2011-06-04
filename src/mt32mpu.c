@@ -16,7 +16,6 @@ extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_08CE_005F_AC14();
 extern void f__AB01_0CB4_0016_9B28();
 extern void f__AB01_16B7_0039_7EF1();
-extern void f__AB01_184D_004F_7B67();
 extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
 extern void f__AB01_1B48_0023_740C();
@@ -105,6 +104,30 @@ static uint16 MPU_1C49(MSData *data)
 	MPU_074E(s, loc04, flag & 0xFFFF);
 
 	return loc02;
+}
+
+static void MPU_ApplyVolume(MSData *data)
+{
+	uint8 i;
+
+	for (i = 0; i < 16; i++) {
+		uint8 volume;
+
+		volume = data->variable_00B8[i];
+		if (volume == 0xFF) continue;
+
+		volume = min((volume * data->variable_0024) / 100, 127);
+
+		emu_get_memory8(g_mt32mpu_cs, i, 0x131E) = volume;
+
+		if ((emu_get_memory8(g_mt32mpu_cs, i, 0x13EE) & 0x80) != 0) continue;
+
+		emu_push(volume);
+		emu_push(7);
+		emu_push(data->chanMaps[i] | 0xB0);
+		emu_push(emu_cs); emu_push(0x189C); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
+		emu_sp += 6;
+	}
 }
 
 void MPU_Interrupt()
@@ -326,9 +349,7 @@ void MPU_Interrupt()
 				} else {
 					data->variable_0024 = min(data->variable_0024 + i, data->variable_0026);
 				}
-				emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
-				emu_push(emu_cs); emu_push(0x1FA2); emu_cs = g_mt32mpu_cs; f__AB01_184D_004F_7B67();
-				emu_sp += 4;
+				MPU_ApplyVolume(data);
 			}
 		}
 	}
@@ -766,11 +787,7 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 
 	if (arg0C == 0) {
 		data->variable_0024 = volume;
-
-		emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-		emu_push(emu_cs); emu_push(0x2759); emu_cs = g_mt32mpu_cs; f__AB01_184D_004F_7B67();
-		emu_sp += 4;
-
+		MPU_ApplyVolume(data);
 		return;
 	}
 
