@@ -199,12 +199,10 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
-static void GameLoop_B4ED_0000(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 arg10, csip32 arg14)
+static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 arg10)
 {
 	uint8 i;
 	uint8 colors[16];
-
-	VARIABLE_NOT_USED(arg14);
 
 	g_global->variable_805E = arg06;
 	g_global->variable_805A = arg0A;
@@ -263,7 +261,7 @@ static void Memory_ClearBlock(uint16 index)
 	memset(memory, 0, size);
 }
 
-static void GameLoop_B4ED_0184()
+static void GameLoop_FinishAnimation()
 {
 	Tools_Free(g_global->introFnt);
 
@@ -279,7 +277,7 @@ static void GameLoop_B4ED_0184()
 	Memory_ClearBlock(7);
 }
 
-static void GameLoop_B4ED_075D(uint8 animation)
+static void GameLoop_PlaySoundEffect(uint8 animation)
 {
 	struct_1A2C *var8056 = &((struct_1A2C *)emu_get_memorycsip(g_global->variable_8056))[g_global->variable_8070];
 
@@ -290,7 +288,7 @@ static void GameLoop_B4ED_075D(uint8 animation)
 	g_global->variable_8070++;
 }
 
-static void GameLoop_B4ED_0BF4(char *string, uint16 top)
+static void GameLoop_DrawText(char *string, uint16 top)
 {
 	char *s;
 	uint8 *s2;
@@ -326,7 +324,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	g_global->variable_8068++;
 
-	GameLoop_B4ED_075D(animation);
+	GameLoop_PlaySoundEffect(animation);
 
 	var805A = &((struct_19F0 *)emu_get_memorycsip(g_global->variable_805A))[g_global->variable_8072];
 
@@ -375,11 +373,11 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		Sound_Unknown0363(loc06);
 
 		if (g_global->variable_0312[loc06][5] != 0) {
-			GameLoop_B4ED_0BF4(String_Get_ByIndex(var805A->stringID), var805A->top);
+			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
 		}
 	} else {
 		if (var805A->stringID != 0) {
-			GameLoop_B4ED_0BF4(String_Get_ByIndex(var805A->stringID), var805A->top);
+			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
 		}
 	}
 
@@ -453,7 +451,7 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 	return g_global->variable_80AE;
 }
 
-static void GameLoop_B4ED_0200()
+static void GameLoop_PlayAnimation()
 {
 	struct_19A8 *var805E;
 	uint8 animation = 0;
@@ -647,9 +645,9 @@ static void GameLoop_B4ED_0200()
 	}
 }
 
-static void GameLoop_B4AE_0000()
+static void GameLoop_LevelEndAnimation()
 {
-	csip32 args[4];
+	csip32 args[3];
 
 	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x29E8; emu_Input_History_Clear();
 
@@ -660,21 +658,18 @@ static void GameLoop_B4AE_0000()
 					args[0].csip = 0x353F1C1A;
 					args[1].csip = 0x353F1C42;
 					args[2].csip = 0x353F1C88;
-					args[3].csip = 0x353F1C8B;
 					break;
 
 				case HOUSE_ORDOS:
 					args[0].csip = 0x353F1CEE;
 					args[1].csip = 0x353F1D16;
 					args[2].csip = 0x353F1D5C;
-					args[3].csip = 0x353F1D5F;
 					break;
 
 				case HOUSE_HARKONNEN:
 					args[0].csip = 0x353F1DC2;
 					args[1].csip = 0x353F1DEA;
 					args[2].csip = 0x353F1E30;
-					args[3].csip = 0x353F1E33;
 					break;
 
 				default: return;
@@ -686,21 +681,18 @@ static void GameLoop_B4AE_0000()
 					args[0].csip = 0x353F1C8D;
 					args[1].csip = 0x353F1CAD;
 					args[2].csip = 0x353F1CE9;
-					args[3].csip = 0x353F1CEC;
 					break;
 
 				case HOUSE_ORDOS:
 					args[0].csip = 0x353F1D61;
 					args[1].csip = 0x353F1D81;
 					args[2].csip = 0x353F1DBD;
-					args[3].csip = 0x353F1DC0;
 					break;
 
 				case HOUSE_HARKONNEN:
 					args[0].csip = 0x353F1E35;
 					args[1].csip = 0x353F1E55;
 					args[2].csip = 0x353F1E9B;
-					args[3].csip = 0x353F1E9E;
 					break;
 
 				default: return;
@@ -710,15 +702,15 @@ static void GameLoop_B4AE_0000()
 		default: return;
 	}
 
-	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
+	GameLoop_PrepareAnimation(args[0], args[1], 0xFFFF, args[2]);
 
 	Music_Play(0x22);
 
-	GameLoop_B4ED_0200();
+	GameLoop_PlayAnimation();
 
 	Driver_Music_FadeOut();
 
-	GameLoop_B4ED_0184();
+	GameLoop_FinishAnimation();
 }
 
 static void GameLoop_Uninit()
@@ -1113,9 +1105,9 @@ static void GameLoop_GameCredits()
 /**
  * Shows the end game "movie"
  */
-static void GameLoop_GameEnd()
+static void GameLoop_GameEndAnimation()
 {
-	csip32 args[4];
+	csip32 args[3];
 	uint16 sound;
 
 	String_Load("INTRO");
@@ -1127,7 +1119,6 @@ static void GameLoop_GameEnd()
 			args[0].csip = 0x353F1A31;
 			args[1].csip = 0x353F1A91;
 			args[2].csip = 0x353F1AE1;
-			args[3].csip = 0x353F1AF9;
 			sound = 0x1E;
 			break;
 
@@ -1135,7 +1126,6 @@ static void GameLoop_GameEnd()
 			args[0].csip = 0x353F1AFB;
 			args[1].csip = 0x353F1B6B;
 			args[2].csip = 0x353F1BB1;
-			args[3].csip = 0x353F1BBA;
 			sound = 0x20;
 			break;
 
@@ -1144,20 +1134,19 @@ static void GameLoop_GameEnd()
 			args[0].csip = 0x353F19A8;
 			args[1].csip = 0x353F19F0;
 			args[2].csip = 0x353F1A2C;
-			args[3].csip = 0x353F1A2F;
 			sound = 0x1F;
 			break;
 	}
 
-	GameLoop_B4ED_0000(args[0], args[1], 0xFFFF, args[2], args[3]);
+	GameLoop_PrepareAnimation(args[0], args[1], 0xFFFF, args[2]);
 
 	Music_Play(sound);
 
-	GameLoop_B4ED_0200();
+	GameLoop_PlayAnimation();
 
 	Driver_Music_FadeOut();
 
-	GameLoop_B4ED_0184();
+	GameLoop_FinishAnimation();
 
 	GameLoop_GameCredits();
 }
@@ -1199,13 +1188,13 @@ static void GameLoop_LevelEnd()
 
 				Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
 				GUI_ClearScreen(0);
-				GameLoop_GameEnd();
+				GameLoop_GameEndAnimation();
 				PrepareEnd();
 				exit(0);
 			}
 
 			GUI_Mouse_Hide_Safe();
-			GameLoop_B4AE_0000();
+			GameLoop_LevelEndAnimation();
 			GUI_Mouse_Show_Safe();
 
 			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
@@ -1392,7 +1381,7 @@ static void Gameloop_Logos()
 /**
  * The Intro.
  */
-static void Gameloop_Intro()
+static void GameLoop_GameIntroAnimation()
 {
 	GUI_ChangeSelectionType(7);
 
@@ -1402,22 +1391,21 @@ static void Gameloop_Intro()
 
 	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	if (emu_ax == 0 || g_global->variable_37B4 == 0) {
-		csip32 args[4];
+		csip32 args[3];
 
 		Music_Play(0x1B);
 
 		args[0].csip = 0x2C410000;
 		args[1].csip = 0x2C4D0000;
 		args[2].csip = 0x2C5B0000;
-		args[3].csip = 0x2C6B0000;
 
-		GameLoop_B4ED_0000(args[0], args[1], 0x4A, args[2], args[3]);
+		GameLoop_PrepareAnimation(args[0], args[1], 0x4A, args[2]);
 
-		GameLoop_B4ED_0200();
+		GameLoop_PlayAnimation();
 
 		Driver_Music_FadeOut();
 
-		GameLoop_B4ED_0184();
+		GameLoop_FinishAnimation();
 	}
 
 	GUI_ChangeSelectionType(0);
@@ -1498,7 +1486,7 @@ static bool GameLoop_B4E6_00E0(uint16 x, uint16 y, uint16 minX, uint16 minY, uin
 	return x >= minX && x <= maxX && y >= minY && y <= maxY;
 }
 
-static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uint16 arg0E, uint32 arg10, uint16 arg14)
+static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uint16 arg14)
 {
 	uint16 last;
 	uint16 result;
@@ -1515,9 +1503,6 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint16 arg0C, uin
 	uint16 old;
 	uint16 *loc24;
 	uint16 current;
-
-	VARIABLE_NOT_USED(arg0C);
-	VARIABLE_NOT_USED(arg0E);
 
 	loc24 = g_global->variable_4062[21 + arg06];
 
@@ -1795,7 +1780,7 @@ static void ReadProfileIni(char *filename)
 /**
  * Intro menu.
  */
-static void Gameloop_IntroMenu()
+static void GameLoop_GameIntroAnimationMenu()
 {
 	bool loc02 = false;
 	bool loc06;
@@ -1987,7 +1972,7 @@ static void Gameloop_IntroMenu()
 
 					Driver_Music_FadeOut();
 
-					Gameloop_Intro();
+					GameLoop_GameIntroAnimation();
 
 					Sound_Unknown0363(0xFFFE);
 
@@ -2119,7 +2104,7 @@ static void Gameloop_IntroMenu()
 
 			if (!loc10) break;
 
-			stringID = GameLoop_B4E6_0200(0, strings, 0, 0, 0xFF, 0);
+			stringID = GameLoop_B4E6_0200(0, strings, 0xFF, 0);
 
 			if (stringID != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
@@ -2270,7 +2255,7 @@ static void GameLoop_Main()
 
 	String_Load("DUNE");
 
-	Gameloop_IntroMenu();
+	GameLoop_GameIntroAnimationMenu();
 
 	Game_Timer_SetState(2, g_global->variable_37AA != 0);
 
