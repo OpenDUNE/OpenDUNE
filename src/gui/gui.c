@@ -1747,9 +1747,11 @@ uint16 GUI_PickHouse()
 			break;
 		}
 
-		Sound_Unknown0363(ret + 62);
+		if (g_global->config.voiceDrv != 0) {
+			Sound_Unknown0363(ret + 62);
 
-		while (Sound_Unknown0470()) sleep(0);
+			while (Sound_Unknown0470()) sleep(0);
+		}
 
 		while (w != NULL) {
 			csip32 next = w->next;

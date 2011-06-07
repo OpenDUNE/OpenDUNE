@@ -70,7 +70,7 @@ assert_compile(sizeof(struct_19F0) == 0xA);
 MSVC_PACKED_BEGIN
 typedef struct struct_1A2C {
 	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
-	/* 0001(1)   */ PACK uint8  variable_0001;              /*!< ?? */
+	/* 0001(1)   */ PACK uint8  voiceID;                    /*!< ?? */
 	/* 0002(1)   */ PACK uint8  variable_0002;              /*!< ?? */
 } GCC_PACKED struct_1A2C;
 MSVC_PACKED_END
@@ -1432,8 +1432,8 @@ typedef struct GlobalData {
 	/* 8064(4)   */ PACK csip32 introFnt;                   /*!< Pointer to content of intro.fnt. */
 	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
 	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
-	/* 806C(4)   */ PACK uint32 variable_806C;              /*!< ?? */
-	/* 8070(2)   */ PACK uint16 variable_8070;              /*!< ?? */
+	/* 806C(4)   */ PACK uint32 animationTick;              /*!< ?? */
+	/* 8070(2)   */ PACK uint16 animationSoundEffect;       /*!< ?? */
 	/* 8072(2)   */ PACK uint16 variable_8072;              /*!< ?? */
 	/* 8074(2)   */ PACK uint16 variable_8074;              /*!< ?? */
 	/* 8076(18)  */ PACK uint8  variable_8076[18];          /*!< ?? */

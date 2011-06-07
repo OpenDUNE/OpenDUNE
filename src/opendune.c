@@ -210,12 +210,12 @@ static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, 
 	g_global->variable_8062 = arg0E;
 	g_global->variable_6C6C = 0;
 	g_global->variable_8072 = 0;
-	g_global->variable_8070 = 0;
+	g_global->animationSoundEffect = 0;
 	g_global->variable_8068 = 0;
 	g_global->variable_80AE = 0;
 	g_global->variable_80AC = 0;
 	g_global->variable_8074 = 0;
-	g_global->variable_806C = 0;
+	g_global->animationTick = 0;
 	g_global->variable_806A = 0xFFFF;
 
 	GFX_ClearScreen();
@@ -279,13 +279,13 @@ static void GameLoop_FinishAnimation()
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
 {
-	struct_1A2C *var8056 = &((struct_1A2C *)emu_get_memorycsip(g_global->variable_8056))[g_global->variable_8070];
+	struct_1A2C *var8056 = &((struct_1A2C *)emu_get_memorycsip(g_global->variable_8056))[g_global->animationSoundEffect];
 
 	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
 
-	Voice_Play(var8056->variable_0001);
+	Voice_Play(var8056->voiceID);
 
-	g_global->variable_8070++;
+	g_global->animationSoundEffect++;
 }
 
 static void GameLoop_DrawText(char *string, uint16 top)
@@ -367,7 +367,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
+	if (g_global->config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
 
 		Sound_Unknown0363(loc06);
@@ -403,7 +403,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawText_Wrapper("Copyright (c) 1992 Westwood Studios, Inc.", 160, 189, 215, 0, 0x112);
 
-	g_global->variable_6C6C = 0x0;
+	g_global->variable_6C6C = 0;
 
 	colors[0] = 0;
 	for (i = 0; i < 6; i++) colors[i + 1] = 215 + i;
@@ -419,9 +419,9 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 
 	if (g_global->variable_80AE == 0) return 0;
 
-	if (g_global->variable_806C >= g_global->variable_76AC && !arg06) return g_global->variable_80AE;
+	if (g_global->animationTick >= g_global->variable_76AC && !arg06) return g_global->variable_80AE;
 
-	g_global->variable_806C = g_global->variable_76AC + 7;
+	g_global->animationTick = g_global->variable_76AC + 7;
 	if (--g_global->variable_80AC == 0 || arg06) {
 		if (g_global->variable_80AE == 1) {
 			memcpy(g_global->variable_8088, g_global->variable_809A, 18);
@@ -1080,7 +1080,7 @@ static void GameLoop_GameCredits()
 
 	GUI_InitColors(g_global->variable_1857, 0, 11);
 
-	g_global->variable_6C6C = 0xFFFF;
+	g_global->variable_6C6C = -1;
 
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 
@@ -1965,7 +1965,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					Music_Play(0);
 
 					Tools_Free(g_global->readBuffer);
-					g_global->readBufferSize = 0x6D60;
+					g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
 					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Hide_Safe();
@@ -1993,7 +1993,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					String_Load("DUNE");
 
-					g_global->readBufferSize = 0x4E20;
+					g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
 					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Show_Safe();
@@ -2122,7 +2122,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 		String_Load("DUNE");
 
-		g_global->readBufferSize = 0x4E20;
+		g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
 		g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 	}
 
@@ -2325,7 +2325,7 @@ static void GameLoop_Main()
 				g_global->variable_3E52 = -1;
 			} else {
 				g_global->variable_3E52 = 0;
-				if (g_global->variable_76AC > g_global->variable_31BC) {
+				if (g_global->config.musicDrv != 0 && g_global->variable_76AC > g_global->variable_31BC) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
 						g_global->variable_31BC = g_global->variable_76AC + 300;
