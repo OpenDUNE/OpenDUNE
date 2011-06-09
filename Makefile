@@ -102,5 +102,8 @@ clean:
 	@echo "[Cleaning] opendune"
 	$(Q)rm -f Makefile.dep opendune$(EXTENSION) $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 
+run: all
+	./opendune$(EXTENSION)
+
 FORCE:
 
