@@ -75,12 +75,12 @@ See changelog.txt.
 Credits
 -------
 The OpenDUNE team (in alphabetical order):
+  Albert Hofkamp (Alberth)             - Refactoring Dude
   Loic Guilloux (glx)                  - Windows Guru
   Patric Stout (TrueBrain)             - Lead Developer
   Steven Noorbergen (Xaroth)           - Lead Manager
 
 Thanks To (in alphabetical order):
-  Albert Hofkamp (Alberth)             - For his many bug-reports
   Szabolcs Nagy (nsz)                  - ANSI C Guru
   Ingo von Borstel (planetmaker)       - For his many bug-reports
   tneo                                 - For his many bug-reports
