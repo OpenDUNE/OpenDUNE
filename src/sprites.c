@@ -346,6 +346,8 @@ static void Sprites_Init_DataBlock(csip32 block_csip)
 	}
 }
 
+static bool _iconLoaded = false;
+
 /**
  * Loads the sprites for tiles.
  */
@@ -356,9 +358,9 @@ void Sprites_LoadTiles()
 	uint32 length;
 	uint16 *iconMap;
 
-	if (g_global->iconLoaded != 0) return;
+	if (_iconLoaded) return;
 
-	g_global->iconLoaded = 1;
+	_iconLoaded = true;
 
 	memBlock = Screen_GetSegment_ByIndex_1(5);
 
@@ -409,7 +411,7 @@ void Sprites_LoadTiles()
  */
 void Sprites_UnloadTiles()
 {
-	g_global->iconLoaded = 0;
+	_iconLoaded = false;
 }
 
 /**

@@ -1142,6 +1142,8 @@ Unit *Unit_Unknown15F4(Unit *unit)
 
 static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 {
+	uint16 xOffsets[8] = {0, 256, 256, 256, 0, -256, -256, -256};
+	uint16 yOffsets[8] = {-256, -256, 0, 256, 256, 256, 0, -256};
 	uint16 x;
 	uint16 y;
 
@@ -1150,8 +1152,8 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 
 	orientation = Sprites_B4CD_17DC(orientation);
 
-	x += g_global->variable_2474[orientation];
-	y += g_global->variable_2484[orientation];
+	x += xOffsets[orientation];
+	y += yOffsets[orientation];
 
 	if (x > 16384 || y > 16384) return position;
 
@@ -2556,7 +2558,7 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 		g_global->variable_39E8++;
 	}
 
-	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_global->variable_2494[arg06]);
+	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
 }
 
 
@@ -2607,12 +2609,12 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (!unit->o.flags.s.variable_4_0040 && !unit->o.flags.s.isSmoking && unit->o.type == UNIT_HARVESTER && unit->actionID == ACTION_HARVEST) loc06 = 33;
 
-	Map_B4CD_057B(loc06, position, unit, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, position, unit, g_functions[1][arg06]);
 
 	if (unit->o.type != UNIT_HARVESTER) return;
 
-	Map_B4CD_057B(loc06, unit->variable_5E, unit, g_global->variable_24A0[arg06]);
-	Map_B4CD_057B(loc06, unit->variable_5A, unit, g_global->variable_24A0[arg06]);
+	Map_B4CD_057B(loc06, unit->variable_5E, unit, g_functions[1][arg06]);
+	Map_B4CD_057B(loc06, unit->variable_5A, unit, g_functions[1][arg06]);
 }
 
 /**

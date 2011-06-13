@@ -23,6 +23,7 @@
 #include "unknown/unknown.h"
 
 uint16 *g_map = NULL;
+uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
 
 /**
  * Initialize the map.
@@ -398,7 +399,7 @@ static void Map_B4CD_04D9(uint16 arg06, struct_395A *s)
 
 	s->variable_07 = (arg06 != 0) ? 1 : 0;
 
-	Map_B4CD_057B(24, s->position, NULL, g_global->variable_24AC[arg06]);
+	Map_B4CD_057B(24, s->position, NULL, g_functions[2][arg06]);
 }
 
 static bool Map_06F7_072B(struct_395A *s)
@@ -835,6 +836,18 @@ static bool Map_IsTileVisible(uint16 packed)
  */
 void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 {
+	static int16 offsets[9] = {
+		-64, /* up */
+		-63, /* up right */
+		1,   /* right */
+		65,  /* down rigth */
+		64,  /* down */
+		63,  /* down left */
+		-1,  /* left */
+		-65, /* up left */
+		0
+	};
+
 	if (!ignoreInvisible && !Map_IsTileVisible(packed)) return;
 
 	switch (type) {
@@ -849,7 +862,7 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 			g_global->variable_39E2++;
 
 			for (i = 0; i < 9; i++) {
-				curPacked = (packed + g_global->variable_2462[i]) & 0xFFF;
+				curPacked = (packed + offsets[i]) & 0xFFF;
 				v = (1 << (curPacked & 7));
 				g_global->variable_8FE5[curPacked >> 3] |= v;
 				g_global->variable_3A08 |= g_global->variable_95E5[curPacked >> 3] & v;
@@ -1297,7 +1310,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	return ret;
 }
 
-void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_csip)
+void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 {
 	uint16 loc0A;
 	tile32 loc12;
@@ -1323,16 +1336,11 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_cs
 				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
 				g_global->variable_39E2++;
 
-				switch (function_csip.csip) {
-					case 0x34CD0020: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0025: Map_Update(curPacked, 0, false); break;
-					case 0x34CD002A: Map_Update(curPacked, 3, false); break;
-					case 0x34CD002F: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
-					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
-					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0043: Unit_AddToTile(unit, curPacked); break;
-					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
+				switch (function) {
+					case 0: Map_Update(curPacked, 0, false); break;
+					case 1: Map_Update(curPacked, 3, false); break;
+					case 2: Unit_RemoveFromTile(unit, curPacked); break;
+					case 3: Unit_AddToTile(unit, curPacked); break;
 					default: break;
 				}
 			}
@@ -1354,16 +1362,11 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, csip32 function_cs
 				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
 				g_global->variable_39E2++;
 
-				switch (function_csip.csip) {
-					case 0x34CD0020: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0025: Map_Update(curPacked, 0, false); break;
-					case 0x34CD002A: Map_Update(curPacked, 3, false); break;
-					case 0x34CD002F: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0034: Map_Update(curPacked, 3, false); break;
-					case 0x34CD0039: Unit_RemoveFromTile(unit, curPacked); break;
-					case 0x34CD003E: Map_Update(curPacked, 0, false); break;
-					case 0x34CD0043: Unit_AddToTile(unit, curPacked); break;
-					case 0x34CD0048: Map_Update(curPacked, 0, false); break;
+				switch (function) {
+					case 0: Map_Update(curPacked, 0, false); break;
+					case 1: Map_Update(curPacked, 3, false); break;
+					case 2: Unit_RemoveFromTile(unit, curPacked); break;
+					case 3: Unit_AddToTile(unit, curPacked); break;
 					default: break;
 				}
 

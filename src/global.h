@@ -496,12 +496,12 @@ typedef struct GlobalData {
 	/* 2006(21)  */ PACK int8   variable_2006[21];          /*!< ?? */
 	/* 201B(336) */ PACK uint16 variable_201B[2][21][4];    /*!< ?? */
 	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
-	/* 2177(2)   */ PACK uint16 iconLoaded;                 /*!< True if ICON.ICN/MAP data are loaded. */
+	/* 2177(2)   */ PACK uint16 removed_2177;               /*!< REMOVED - True if ICON.ICN/MAP data are loaded. */
 	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
 	/* 219D(48)  */ PACK uint16 variable_219D[4][6];        /*!< ?? */
-	/* 21CD(59)  */ PACK char   spriteFiles0[59];           /*!< "MOUSE.SHP\0BTTN\0SHAPES.SHP\0UNITS2.SHP\0UNITS1.SHP\0UNITS.SHP\0\0". */
-	/* 2208(21)  */ PACK char   spriteFiles1[21];           /*!< "MENTAT\0MENSHP%c.SHP\0\0". */
-	/* 221D(33)  */ PACK char   spriteFiles2[33];           /*!< "MOUSE.SHP\0BTTN\0SHAPES.SHP\0CHOAM\0\0". */
+	/* 21CD(59)  */ PACK char   removed_21CD[59];           /*!< REMOVED - "MOUSE.SHP\0BTTN\0SHAPES.SHP\0UNITS2.SHP\0UNITS1.SHP\0UNITS.SHP\0\0". */
+	/* 2208(21)  */ PACK char   removed_2208[21];           /*!< REMOVED - "MENTAT\0MENSHP%c.SHP\0\0". */
+	/* 221D(33)  */ PACK char   removed_221D[33];           /*!< REMOVED - "MOUSE.SHP\0BTTN\0SHAPES.SHP\0CHOAM\0\0". */
 	/* 223E(9)   */ PACK char   string_223E[9];             /*!< "ICON.ICN" NULL terminated. */
 	/* 2247(9)   */ PACK char   string_2247[9];             /*!< "ICON.MAP" NULL terminated. */
 	/* 2250(5)   */ PACK char   string_2250[5];             /*!< "UNIT" NULL terminated. */
@@ -549,12 +549,10 @@ typedef struct GlobalData {
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x0001];
 	/* 23DA(8)   */ PACK uint16 variable_23DA[4];           /*!< ?? */
 	/* 23E2(128) */ PACK int32  variable_23E2[32];          /*!< ?? */
-	/* 2462(18)  */ PACK uint16 variable_2462[9];           /*!< ?? */
-	/* 2474(16)  */ PACK uint16 variable_2474[8];           /*!< ?? */
-	/* 2484(16)  */ PACK uint16 variable_2484[8];           /*!< ?? */
-	/* 2494(12)  */ PACK csip32 variable_2494[3];           /*!< ?? */
-	/* 24A0(12)  */ PACK csip32 variable_24A0[3];           /*!< ?? */
-	/* 24AC(12)  */ PACK csip32 variable_24AC[3];           /*!< ?? */
+	/* 2462(18)  */ PACK uint16 removed_2462[9];            /*!< REMOVED - Tile offsets. */
+	/* 2474(16)  */ PACK uint16 removed_2474[8];            /*!< REMOVED - X offsets for unit position. */
+	/* 2484(16)  */ PACK uint16 removed_2484[8];            /*!< REMOVED - Y offsets for unit position. */
+	/* 2494(36)  */ PACK csip32 removed_2494[3][3];         /*!< REMOVED - Pointers to functions used in Map_B4CD_057B(). */
 	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
 	/* 255C()    */ PACK uint8   unknown_255C[0x002];
 	/* 255E(8)   */ PACK uint16 variable_255E[4];           /*!< ?? */

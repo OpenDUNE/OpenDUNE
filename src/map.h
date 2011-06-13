@@ -42,6 +42,7 @@ assert_compile(sizeof(struct_395A) == 0x14);
 struct Unit;
 
 extern uint16 *g_map;
+extern uint8 g_functions[3][3];
 
 extern Tile *Map_GetTileByPosition(uint16 position);
 extern uint16 Map_MoveDirection(uint16 direction);
@@ -65,7 +66,7 @@ extern void Map_B4CD_0AFA(uint16 packed, int16 arg08);
 extern void Map_SetViewportPosition(uint16 packed);
 extern void Map_B4CD_160C(uint16 packed, uint8 houseID);
 extern uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID);
-extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, csip32 function_csip);
+extern void Map_B4CD_057B(uint16 arg06, tile32 position, struct Unit *unit, uint8 function);
 extern uint16 Map_B4CD_08E7(uint16 packed, uint16 radius);
 extern void Map_SelectNext(bool arg06);
 extern bool Map_UnveilTile(uint16 packed, uint8 houseID);
