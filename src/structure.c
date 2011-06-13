@@ -985,6 +985,7 @@ void Structure_ActivateSpecial(Structure *s)
 			for (i = 0; i < 5; i++) {
 				Unit *u;
 				tile32 position;
+				uint16 orientation;
 				uint16 unitType;
 
 				Tools_Random_256();
@@ -992,10 +993,11 @@ void Structure_ActivateSpecial(Structure *s)
 				position = Tile_UnpackTile(location);
 				position = Tile_MoveByRandom(position, 32, true);
 
-				unitType = (Tools_RandomRange(0, 3) == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
+				orientation = Tools_RandomRange(0, 3);
+				unitType = (orientation == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
 				g_global->variable_38BC++;
-				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, (int8)emu_ax);
+				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, (int8)orientation);
 				g_global->variable_38BC--;
 
 				if (u == NULL) continue;
