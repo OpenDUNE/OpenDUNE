@@ -54,7 +54,6 @@
 
 extern void emu_EntryPoint();
 extern void emu_Video_GetMode();
-extern void emu_Mouse_CheckButtons();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 extern void emu_Video_SetMode();

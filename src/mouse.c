@@ -140,3 +140,40 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 	g_global->variable_76A6 = 0;
 	g_global->mouseMode = mouseMode;
 }
+
+/**
+ * Compare mouse button state with previous value, and report changes.
+ * @param newButtonState New button state.
+ * @return \c 0x2D if no change, \c 0x41 for change in first button state,
+ *     \c 0x42 for change in second button state, bit 11 means 'button released'.
+ */
+uint16 Mouse_CheckButtons(uint16 newButtonState)
+{
+	uint8 change;
+	uint16 result;
+
+	newButtonState &= 0xFF;
+
+	result = 0x2D;
+	change = newButtonState ^ g_global->prevButtonState;
+	if (change == 0) return result;
+
+	g_global->prevButtonState = newButtonState;
+
+	if ((change & 0x2) != 0) {
+		result = 0x42;
+		if ((newButtonState & 0x2) == 0) {
+			result |= 0x800;
+		}
+	}
+
+	if ((change & 0x1) != 0) {
+		result = 0x41;
+		if ((newButtonState & 0x1) == 0) {
+			result |= 0x800;
+		}
+	}
+
+	return result;
+}
+
