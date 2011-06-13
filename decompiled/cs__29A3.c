@@ -21,10 +21,10 @@
  */
 void emu_Mouse_EventHandler()
 {
-l__0054:
+	uint16 newButtonState, mouseX, mouseY;
+
 	emu_push(emu_bp);
 	emu_bp = emu_sp;
-	emu_subw(&emu_sp, 0x4);
 	emu_push(emu_ax);
 	emu_push(emu_bx);
 	emu_push(emu_cx);
@@ -33,48 +33,28 @@ l__0054:
 	emu_push(emu_si);
 	emu_push(emu_es);
 	emu_push(emu_di);
-	emu_get_memory16(emu_ss, emu_bp, -0x4) = emu_bx;
-	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_ax;
-	emu_ax = 0x353F;
-	emu_ds = emu_ax;
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7097), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7097) != 0x0) goto l__00CA;
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7098), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7098) == 0x0) goto l__00CA;
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x1);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x1) {
-		emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x986C), 0x0);
-		if (emu_get_memory8(emu_ds, 0x00, 0x986C) != 0x0) goto l__00CA;
-	}
-l__0089:
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x7068), 0x1);
-	if (emu_get_memory16(emu_ds, 0x00, 0x7068) != 0x1) { /* Unresolved jump */ emu_ip = 0x0092; emu_last_cs = 0x29A3; emu_last_ip = 0x008E; emu_last_length = 0x0027; emu_last_crc = 0x69FF; emu_call(); return; }
-	emu_shrw(&emu_cx, 0x1);
-	emu_cmpw(&emu_cx, 0x13F);
-	if (emu_cx > 0x13F) {
-		emu_cx = 0x13F;
-	}
-l__009B:
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) != 0x0) goto l__00BC;
-	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x700E), 0x1000);
-	if ((emu_get_memory16(emu_ds, 0x00, 0x700E) & 0x1000) != 0) goto l__00BC;
 
-	emu_ax = Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
+	newButtonState = emu_bx;
+	mouseX         = emu_cx;
+	mouseY         = emu_dx;
 
-	Input_HandleInput(emu_ax);
-l__00BC:
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) != 0x2) {
-		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x705E), 0x0);
-		if (emu_get_memory16(emu_ds, 0x00, 0x705E) == 0x0) {
-			Mouse_HandleMovement(emu_get_memory16(emu_ss, emu_bp, -0x4), emu_cx, emu_dx);
-			goto l__01C3;
+	if (g_global->variable_7097 == 0 && g_global->variable_7098 != 0 &&
+			(g_global->mouseMode != 1 || g_global->ignoreInput == 0)) {
+
+		if (g_global->doubleWidth == 0x1) mouseX /= 2;
+
+		if (mouseX > SCREEN_WIDTH - 1) mouseX = SCREEN_WIDTH - 1;
+
+
+		if (g_global->mouseMode == 0 && (g_global->inputFlags & 0x1000) == 0) {
+			Input_HandleInput(Mouse_CheckButtons(newButtonState));
+		}
+
+		if (g_global->mouseMode != 0x2 && g_global->mouseLock == 0x0) {
+			Mouse_HandleMovement(newButtonState, mouseX, mouseY);
 		}
 	}
-l__00CA:
-	goto l__01C3;
-l__01C3:
+
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
 	emu_pop(&emu_si);
