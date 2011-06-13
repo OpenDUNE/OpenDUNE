@@ -120,7 +120,6 @@ extern void f__AB00_06A2_003A_A0A5();
 extern void emu_Device_Get_Info();
 extern void f__AB01_0713_0023_9473();
 extern void emu_Input_IsInputAvailable();
-extern void emu_Input_ReadHistory();
 extern void emu_File_LowLevel_Seek();
 extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_07AF_0045_BDCD();

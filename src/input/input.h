@@ -94,5 +94,6 @@ extern void System_Init_Input();
 extern uint16 Input_Flags_ClearBits(uint16 bits);
 extern uint16 Input_Flags_SetBits(uint16 bits);
 extern void Input_History_Clear();
+extern uint16 Input_ReadHistory(uint16 index);
 
 #endif /* INTPUT_H */
