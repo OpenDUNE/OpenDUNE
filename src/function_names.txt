@@ -23,18 +23,11 @@
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 
-29A3:02DA:003B:81C9	emu_Mouse_InsideRegion
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init
 29A3:0054:005C:47DC	emu_Mouse_EventHandler
-29A3:013F:002A:CFEE	emu_Mouse_CheckMovement
-29A3:000C:0048:00FE	emu_Mouse_CheckButtons
 
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
-29E8:0A4A:0040:5428	emu_Input_HandleInput
-29E8:0643:0008:ED98	emu_Input_Keyboard_NextKey
-29E8:0479:0009:A77A	emu_Input_Keyboard_HandleKeys2
-29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
 
 263B:0006:001C:9C72	emu_Video_GetMode
 263B:002F:0016:FDB0	emu_Video_SetMode
