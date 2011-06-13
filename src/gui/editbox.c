@@ -12,8 +12,6 @@
 #include "../input/input.h"
 #include "mentat.h"
 
-extern void emu_Input_Keyboard_HandleKeys2();
-
 /**
  * Draw a blinking cursor, used inside the EditBox.
  *
@@ -140,10 +138,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 			continue;
 		}
 
-		emu_push(key);
-		emu_push(emu_cs); emu_push(0x01CF); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
-		emu_sp += 2;
-		key = emu_ax & 0xFF;
+		key = Input_Keyboard_HandleKeys(key) & 0xFF;
 
 		/* Names can't start with a space, and should be alpha-numeric */
 		if (key == 0x20 && textLength == 0) continue;

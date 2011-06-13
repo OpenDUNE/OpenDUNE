@@ -5,174 +5,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function emu_Input_Keyboard_HandleKeys()
- *
- * @name emu_Input_Keyboard_HandleKeys
- * @implements 29E8:026C:0015:3543 ()
- * @implements 29E8:027A:0007:5A2E
- * @implements 29E8:0281:0012:4D00
- * @implements 29E8:0293:0015:08FC
- * @implements 29E8:02B6:0025:93AF
- * @implements 29E8:02BB:0020:2395
- * @implements 29E8:02D9:0002:F53A
- * @implements 29E8:02DB:0028:AB44
- * @implements 29E8:030D:002A:00F8
- * @implements 29E8:0331:0006:D00A
- * @implements 29E8:0337:0008:6739
- * @implements 29E8:033F:0004:113A
- * @implements 29E8:0343:0007:372B
- * @implements 29E8:0345:0005:5A4B
- *
- * Called From: 29E8:047F:0009:A77A
- * Called From: 29E8:06B5:0012:72C8
- * Called From: 29E8:06B5:0014:5ACB
- * Called From: 29E8:083D:0023:1368
- */
-void emu_Input_Keyboard_HandleKeys()
-{
-l__026C:
-	emu_push(emu_bx);
-	emu_push(emu_cx);
-	emu_push(emu_di);
-	emu_push(emu_ds);
-	emu_testw(&emu_ax, 0x8000);
-	if ((emu_ax & 0x8000) == 0) {
-		emu_testb(&emu_ah, 0x8);
-		if ((emu_ah & 0x8) == 0) goto l__0281;
-	}
-l__027A:
-	emu_xorw(&emu_ax, emu_ax);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_di);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-l__0281:
-	emu_push(emu_cs);
-	emu_pop(&emu_ds);
-	emu_push(emu_ax);
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x700E);
-	emu_get_memory16(emu_cs, 0x00, 0x1B3) = emu_ax;
-	emu_pop(&emu_ax);
-	emu_cmpb(&emu_al, 0x6E);
-	if (emu_al != 0x6E) goto l__0293;
-	goto l__0343;
-l__0293:
-	emu_cmpb(&emu_al, 0x3E);
-	if (emu_al >= 0x3E) goto l__02DB;
-	emu_bx = emu_ax;
-	emu_andw(&emu_bx, 0x3F);
-	emu_testb(&emu_ah, 0x1);
-	if ((emu_ah & 0x1) != 0) goto l__02B6;
-	emu_al = emu_get_memory8(emu_cs, emu_bx, 0x34A);
-	goto l__02BB;
-l__02B6:
-	emu_al = emu_get_memory8(emu_cs, emu_bx, 0x388);
-l__02BB:
-	emu_testb(&emu_ah, 0x2);
-	if ((emu_ah & 0x2) != 0) {
-		emu_di = emu_bx;
-		emu_andw(&emu_di, 0x7);
-		emu_cl = emu_get_memory8(emu_cs, emu_di, 0x2E);
-		emu_shrw(&emu_bx, 0x1);
-		emu_shrw(&emu_bx, 0x1);
-		emu_shrw(&emu_bx, 0x1);
-		emu_testb(&emu_cl, emu_get_memory8(emu_cs, emu_bx, 0x212));
-		if ((emu_cl & emu_get_memory8(emu_cs, emu_bx, 0x212)) != 0) {
-			emu_andb(&emu_al, 0x1F);
-		}
-	}
-l__02D9:
-	goto l__0345;
-l__02DB:
-	emu_cmpb(&emu_al, 0x4B);
-	if (emu_al < 0x4B) goto l__0337;
-	emu_cmpb(&emu_al, 0x6E);
-	if (emu_al >= 0x6E) goto l__030D;
-	emu_xorb(&emu_bh, emu_bh);
-	emu_bl = emu_al;
-	emu_subb(&emu_bl, 0x4B);
-	emu_testw(&emu_get_memory16(emu_cs, 0x00, 0x1B3), 0x200);
-	if ((emu_get_memory16(emu_cs, 0x00, 0x1B3) & 0x200) != 0) { /* Unresolved jump */ emu_ip = 0x02FC; emu_last_cs = 0x29E8; emu_last_ip = 0x02F1; emu_last_length = 0x0028; emu_last_crc = 0xAB44; emu_call(); return; }
-	emu_testw(&emu_get_memory16(emu_cs, 0x00, 0x1B7), 0x2);
-	if ((emu_get_memory16(emu_cs, 0x00, 0x1B7) & 0x2) != 0) { /* Unresolved jump */ emu_ip = 0x0303; emu_last_cs = 0x29E8; emu_last_ip = 0x02FA; emu_last_length = 0x0028; emu_last_crc = 0xAB44; emu_call(); return; }
-	emu_al = emu_get_memory8(emu_cs, emu_bx, 0x442);
-	goto l__0345;
-l__030D:
-	emu_cmpb(&emu_al, 0x70);
-	if (emu_al < 0x70) goto l__033F;
-	emu_cmpb(&emu_al, 0x79);
-	if (emu_al > 0x79) goto l__033F;
-	emu_bl = emu_al;
-	emu_subb(&emu_bl, 0x70);
-	emu_bh = 0xC5;
-	emu_testb(&emu_ah, 0x7);
-	if ((emu_ah & 0x7) != 0) {
-		emu_bh = 0x98;
-		emu_testb(&emu_ah, 0x4);
-		if ((emu_ah & 0x4) == 0) {
-			emu_bh = 0xA2;
-			emu_testb(&emu_ah, 0x2);
-			if ((emu_ah & 0x2) == 0) {
-				emu_bh = 0xAC;
-			}
-		}
-	}
-l__0331:
-	emu_subb(&emu_bh, emu_bl);
-	emu_al = emu_bh;
-	goto l__0345;
-l__0337:
-	emu_cmpb(&emu_al, 0x41);
-	if (emu_al < 0x41) goto l__033F;
-	emu_addb(&emu_al, 0x85);
-	goto l__0345;
-l__033F:
-	emu_orb(&emu_al, 0x80);
-	goto l__0345;
-l__0343:
-	emu_al = 0x1B;
-l__0345:
-	emu_pop(&emu_ds);
-	emu_pop(&emu_di);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-}
-
-/**
- * Decompiled function emu_Input_Keyboard_HandleKeys2()
- *
- * @name emu_Input_Keyboard_HandleKeys2
- * @implements 29E8:0479:0009:A77A ()
- * @implements 29E8:0482:0002:2597
- *
- * Called From: B4E6:03D6:000E:C8A0
- * Called From: B527:01CA:0008:8702
- */
-void emu_Input_Keyboard_HandleKeys2()
-{
-l__0479:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_push(0x0482); emu_Input_Keyboard_HandleKeys();
-l__0482:
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_Keyboard_NextKey()
  *
  * @name emu_Input_Keyboard_NextKey
@@ -265,7 +97,7 @@ l__06A6:
 	emu_sti();
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax == 0) goto l__06BA;
-	emu_push(0x06B8); emu_Input_Keyboard_HandleKeys();
+	emu_ax = Input_Keyboard_HandleKeys(emu_ax);
 l__06B8:
 	emu_xorb(&emu_ah, emu_ah);
 l__06BA:
@@ -337,7 +169,7 @@ l__081D:
 	if ((emu_ah & 0x8) != 0) goto l__0804;
 	emu_cmpb(&emu_al, 0x7A);
 	if (emu_al >= 0x7A) goto l__0804;
-	emu_push(0x0840); emu_Input_Keyboard_HandleKeys();
+	emu_ax = Input_Keyboard_HandleKeys(emu_ax);
 l__0840:
 	Input_ReadInputFromFile();
 l__0843:

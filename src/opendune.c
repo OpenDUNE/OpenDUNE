@@ -51,7 +51,6 @@ extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
 extern void emu_GUI_ShowEndStats();
 extern void emu_Input_Keyboard_NextKey();
-extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
@@ -1580,11 +1579,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 				char c2;
 
 				c1 = toupper(*strings[GameLoop_B4E6_0000(i, arg10, arg14)]);
-
-				emu_push(key & 0xFF);
-				emu_push(emu_cs); emu_push(0x03DB); emu_cs = 0x29E8; emu_Input_Keyboard_HandleKeys2();
-				emu_sp += 2;
-				c2 = toupper(emu_ax);
+				c2 = toupper(Input_Keyboard_HandleKeys(key & 0xFF));
 
 				if (c1 == c2) {
 					result = i;

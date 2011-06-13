@@ -411,3 +411,79 @@ uint16 Input_Test(uint16 value)
 	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
 }
 
+/**
+ * Handle keyboard input.
+ * @param value Combined keycode and modifier flags.
+ * @return key value and modifier flags.
+ * @todo Most users seem to ignore the returned high byte, perhaps make it a
+ *      uint8 at some time in the future?
+ */
+uint16 Input_Keyboard_HandleKeys(uint16 value)
+{
+	uint8 keyValue;
+	uint16 keyFlags;
+
+	keyValue = value & 0x00FF;
+	keyFlags = value & 0xFF00;
+
+	if ((keyFlags & 0x8000) != 0 || (keyFlags & 0x800) != 0) {
+		return 0;
+	}
+
+	s_input_local->flags = 0x1100; /* cs:700E instead of ds:700E (value obtained at run-time). */
+
+	if (keyValue == 0x6E) {
+		return keyFlags | 0x1B;
+	}
+
+	if (keyValue < 0x3E) {
+		uint8 keySave = keyValue & 0x3F;
+
+		if ((keyFlags & 0x100) != 0) {
+			keyValue = s_input_local->keymap_shift[keySave];
+		} else {
+			keyValue = s_input_local->keymap_normal[keySave];
+		}
+
+		if ((keyFlags & 0x200) != 0) {
+			if ((s_input_local->bitmask[keySave & 7] & s_input_local->keymap_special_mask[keySave >> 3]) != 0) {
+				keyValue &= 0x1F;
+			}
+		}
+		return keyFlags | keyValue;
+	}
+
+	if (keyValue < 0x4B) {
+		if (keyValue >= 0x41) {
+			return keyFlags | (keyValue + 0x85);
+		}
+		return keyFlags | keyValue | 0x80;
+	}
+
+	if (keyValue < 0x6E) {
+		uint8 keySave = keyValue - 0x4B;
+
+		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->variable_01B7 & 0x2) != 0) {
+			keyValue = s_input_local->keymap_numlock[keySave - 0xF];
+		} else {
+			keyValue = s_input_local->keymap_numpad[keySave];
+		}
+		return keyValue;
+	}
+
+	if (keyValue < 0x70 || keyValue > 0x79) {
+		return keyFlags | keyValue | 0x80;
+	}
+	keyValue -= 0x70;
+	if ((keyFlags & 0x700) != 0) {
+		if ((keyFlags & 0x400) == 0) {
+			if ((keyFlags & 0x200) == 0) {
+				return keyFlags | (0xAC - keyValue);
+			}
+			return keyFlags | (0xA2 - keyValue);
+		}
+		return keyFlags | (0x98 - keyValue);
+	}
+	return keyFlags | (0xC5 - keyValue);
+}
+
