@@ -29,6 +29,7 @@
 #include "../pool/unit.h"
 #include "../string.h"
 #include "../tools.h"
+#include "../input/input.h"
 #include "widget.h"
 #include "mentat.h"
 #include "../mouse.h"
@@ -39,7 +40,6 @@
 
 extern void emu_Input_WaitForValidInput();
 extern void emu_Input_HandleInput();
-extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 
 MSVC_PACKED_BEGIN
@@ -730,7 +730,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	while (g_global->variable_76B4 != 0) GUI_PaletteAnimate();
 
-	emu_push(emu_cs); emu_push(0x0496); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	do {
 		GUI_PaletteAnimate();
@@ -1556,7 +1556,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-	emu_push(emu_cs); emu_push(0x01E2); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	loc32[0][0][0] = harvestedAllied;
 	loc32[0][1][0] = harvestedEnemy;
@@ -1646,7 +1646,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_Mouse_Show_Safe();
 
-	emu_push(emu_cs); emu_push(0x050C); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	while (true) {
 		GUI_HallOfFame_Tick();
@@ -1655,7 +1655,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 		if (emu_ax != 0) break;
 	}
 
-	emu_push(emu_cs); emu_push(0x051F); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	GUI_HallOfFame_Show(score);
 
@@ -1832,7 +1832,7 @@ uint16 GUI_PickHouse()
 
 	Sprites_Load(0, 7, g_sprites);
 
-	emu_push(emu_cs); emu_push(0x14D8); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	GUI_Mouse_Show_Safe();
 
@@ -2065,7 +2065,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	GUI_DrawCredits((uint8)g_global->playerHouseID, 2);
 
-	emu_push(emu_cs); emu_push(0x228A); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 }
 
 /**
@@ -3023,7 +3023,7 @@ static bool GUI_StrategicMap_FastForwardToggleWithESC()
 
 	g_global->strategicMapFastForward = (g_global->strategicMapFastForward == 0) ? 1 : 0;
 
-	emu_push(emu_cs); emu_push(0x13E8); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	return g_global->strategicMapFastForward != 0;
 }
@@ -3111,8 +3111,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	}
 
 	GUI_Mouse_Show_Safe();
-
-	emu_push(emu_cs); emu_push(0x07F2); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	while (loop) {
 		region = GUI_StrategicMap_ClickedRegion();
@@ -3341,7 +3340,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 0, false);
 
-		emu_push(emu_cs); emu_push(0x0316); emu_cs = 0x29E8; emu_Input_History_Clear();
+		Input_History_Clear();
 
 		g_global->variable_76B4 = 120;
 
@@ -3407,7 +3406,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Mouse_SetRegion(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-	emu_push(emu_cs); emu_push(0x0529); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	memcpy(emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), loc316, 12);
 
@@ -4384,7 +4383,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	w = GUI_HallOfFame_CreateButtons(data);
 
-	emu_push(emu_cs); emu_push(0x0840); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	GUI_Screen_SetActive(0);
 
@@ -4394,7 +4393,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	GUI_HallOfFame_DeleteButtons(w);
 
-	emu_push(emu_cs); emu_push(0x0875); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	if (score == 0xFFFF) return;
 

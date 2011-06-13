@@ -9,6 +9,7 @@
 #include "global.h"
 #include "file.h"
 #include "load.h"
+#include "input/input.h"
 #include "gui/gui.h"
 #include "gui/mentat.h"
 #include "house.h"
@@ -19,7 +20,6 @@
 #include "unknown/unknown.h"
 #include "gfx.h"
 
-extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 
 static void GUI_Security_DrawText(char *text)
@@ -213,7 +213,7 @@ bool GUI_Security_Show()
 		GUI_DrawBorder((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
 		GUI_Mouse_Show_Safe();
 
-		emu_push(emu_cs); emu_push(0x1492); emu_cs = 0x29E8; emu_Input_History_Clear();
+		Input_History_Clear();
 
 		g_global->variable_9939[0] = 0;
 
@@ -261,7 +261,7 @@ bool GUI_Security_Show()
 
 		tickWaitTill = g_global->variable_76AC + strlen(string) * 4;
 
-		emu_push(emu_cs); emu_push(0x1644); emu_cs = 0x29E8; emu_Input_History_Clear();
+		Input_History_Clear();
 
 		/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
 		while (g_global->variable_76AC + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0)) {
@@ -282,7 +282,7 @@ bool GUI_Security_Show()
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	emu_push(emu_cs); emu_push(0x16B4); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	Load_Palette_Mercenaries();
 

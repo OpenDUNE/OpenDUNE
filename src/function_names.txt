@@ -37,7 +37,6 @@
 29E8:0484:002B:0A28	emu_Input_Keyboard_Translate
 29E8:0479:0009:A77A	emu_Input_Keyboard_HandleKeys2
 29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
-29E8:073F:000E:6816	emu_Input_History_Clear
 29E8:0A19:002A:2DE6	emu_Input_History_Add
 
 263B:0006:001C:9C72	emu_Video_GetMode

@@ -22,12 +22,12 @@
 #include "../load.h"
 #include "../file.h"
 #include "../save.h"
+#include "../input/input.h"
 #include "../os/endian.h"
 #include "../string.h"
 #include "../house.h"
 #include "../gfx.h"
 
-extern void emu_Input_History_Clear();
 extern void emu_Mouse_InsideRegion();
 extern void f__29E8_08B5_000A_FC14();
 
@@ -1369,7 +1369,7 @@ static void GUI_Purchase_ShowInvoice()
 	/* "Invoice of Units on Order" */
 	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(0xB7));
 
-	emu_push(emu_cs); emu_push(0x078B); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	while (GUI_Widget_HandleEvents(w) == 0) {
 		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
@@ -1403,7 +1403,7 @@ static void GUI_Purchase_ShowInvoice()
 				if (emu_ax == 0) break;
 			}
 
-			emu_push(emu_cs); emu_push(0x0842); emu_cs = 0x29E8; emu_Input_History_Clear();
+			Input_History_Clear();
 		}
 	}
 

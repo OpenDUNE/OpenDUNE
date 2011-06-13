@@ -28,7 +28,6 @@
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_Mouse_InsideRegion();
 extern void emu_Input_HandleInput();
-extern void emu_Input_History_Clear();
 
 /**
  * Information about the mentat.
@@ -294,8 +293,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	oldScreenID = GUI_Screen_SetActive(2);
 
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
-
-	emu_push(emu_cs); emu_push(0x0022); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	GUI_Mentat_Display(NULL, g_global->playerHouseID);
 
@@ -436,7 +434,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 		} while ((ret & 0x8000) == 0);
 	}
 
-	emu_push(emu_cs); emu_push(0x0F97); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	if (unknown) {
 		Load_Palette_Mercenaries();
@@ -1183,7 +1181,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	g_global->variable_76B4 = 0;
 	descTick = g_global->variable_76AC + 30;
 
-	emu_push(emu_cs); emu_push(0x0BF3); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	textDone = false;
 	done = false;
@@ -1345,7 +1343,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	Unknown_07AE_0000(old07AE);
 	GUI_Screen_SetActive(oldScreenID);
 
-	emu_push(emu_cs); emu_push(0x1082); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	return result;
 }

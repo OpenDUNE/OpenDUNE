@@ -49,3 +49,9 @@ uint16 Input_Flags_SetBits(uint16 bits)
 
 	return g_global->inputFlags;
 }
+
+/** Clear the history buffer. */
+void Input_History_Clear()
+{
+	s_input_local->historyTail = s_input_local->historyHead;
+}

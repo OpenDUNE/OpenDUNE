@@ -52,7 +52,6 @@ extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
 extern void emu_GUI_ShowEndStats();
-extern void emu_Input_History_Clear();
 extern void emu_Input_Keyboard_NextKey();
 extern void emu_Input_Keyboard_HandleKeys2();
 extern void emu_Interrupt_Vector_Get();
@@ -272,7 +271,7 @@ static void GameLoop_FinishAnimation()
 
 	GUI_ClearScreen(0);
 
-	emu_push(emu_cs); emu_push(0x01F4); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	Memory_ClearBlock(7);
 }
@@ -649,7 +648,7 @@ static void GameLoop_LevelEndAnimation()
 {
 	csip32 args[3];
 
-	emu_push(emu_cs); emu_push(0x0008); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	switch (g_global->campaignID) {
 		case 4:
@@ -807,7 +806,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_Screen_SetActive(0);
 	loc0C = g_global->variable_76A8;
 
-	emu_push(emu_cs); emu_push(0x01E0); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	while (true) {
 		while (loc0C > g_global->variable_76A8) sleep(0);
@@ -1462,7 +1461,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 
 	GUI_Mouse_Show_Safe();
 
-	emu_push(emu_cs); emu_push(0x01FA); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 }
 
 static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgColourNormal, uint8 fgColourSelected, uint8 bgColour)
@@ -2140,7 +2139,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		GUI_ClearScreen(0);
 	}
 
-	emu_push(emu_cs); emu_push(0x219E); emu_cs = 0x29E8; emu_Input_History_Clear();
+	Input_History_Clear();
 
 	if (g_global->enableLog != 0) Mouse_SetMouseMode((uint8)g_global->enableLog, "DUNE.LOG");
 

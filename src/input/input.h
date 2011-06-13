@@ -93,5 +93,6 @@ assert_compile(sizeof(InputLocalData) == 0x0F95);
 extern void System_Init_Input();
 extern uint16 Input_Flags_ClearBits(uint16 bits);
 extern uint16 Input_Flags_SetBits(uint16 bits);
+extern void Input_History_Clear();
 
 #endif /* INTPUT_H */
