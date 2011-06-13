@@ -16,7 +16,6 @@
 #include "../os/math.h"
 #include "../tools.h"
 
-extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_HOF_ResumeGame();
 
 Widget *GUI_Widget_GetNext(Widget *w)
@@ -246,16 +245,10 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		l_widget_selected_csip.csip = 0x0;
 
 		/* Check for left click */
-		emu_push(0x41);
-		emu_push(emu_cs); emu_push(0x00B5); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-		emu_sp += 2;
-		if (emu_ax != 0) l_widget_button_state |= 0x0200;
+		if (Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
 
 		/* Check for right click */
-		emu_push(0x42);
-		emu_push(emu_cs); emu_push(0x00C9); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-		emu_sp += 2;
-		if (emu_ax != 0) l_widget_button_state |= 0x2000;
+		if (Input_Test(0x42) != 0) l_widget_button_state |= 0x2000;
 
 		/* Draw all the widgets */
 		for (; w != NULL; w = GUI_Widget_GetNext(w)) {

@@ -398,4 +398,16 @@ uint16 Input_Wait()
 	return value;
 }
 
+/**
+ * Test whether \a value is available in the input.
+ * @param value Input value.
+ * @return \c 0 means not available.
+ */
+uint16 Input_Test(uint16 value)
+{
+	Input_AddHistory(value); /* 'value' seems to be the best approximation to emu_ax. */
+	value = Input_Keyboard_Translate(value);
+
+	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
+}
 

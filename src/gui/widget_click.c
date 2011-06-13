@@ -29,7 +29,6 @@
 #include "../gfx.h"
 
 extern void emu_Mouse_InsideRegion();
-extern void f__29E8_08B5_000A_FC14();
 
 static char *GenerateSavegameFilename(uint16 number)
 {
@@ -1391,18 +1390,9 @@ static void GUI_Purchase_ShowInvoice()
 		emu_push(emu_cs); emu_push(0x0818); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
 		emu_sp += 8;
 		if (emu_ax != 0) {
-			while (true) {
-				emu_push(0x41);
-				emu_push(emu_cs); emu_push(0x082A); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-				emu_sp += 2;
-				if (emu_ax != 0) continue;
-
-				emu_push(0x42);
-				emu_push(emu_cs); emu_push(0x0838); emu_cs = 0x29E8; f__29E8_08B5_000A_FC14();
-				emu_sp += 2;
-				if (emu_ax == 0) break;
+			while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
+				sleep(0); /* Spin-lock */
 			}
-
 			Input_History_Clear();
 		}
 	}

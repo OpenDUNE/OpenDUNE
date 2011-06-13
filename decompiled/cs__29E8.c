@@ -355,57 +355,6 @@ l__0843:
 }
 
 /**
- * Decompiled function f__29E8_08B5_000A_FC14()
- *
- * @name f__29E8_08B5_000A_FC14
- * @implements 29E8:08B5:000A:FC14 ()
- * @implements 29E8:08BF:0007:D960
- * @implements 29E8:08C6:001F:C389
- *
- * Called From: B4A2:00B0:001B:68B5
- * Called From: B4A2:00B0:0034:D555
- * Called From: B4A2:00C4:0009:433C
- * Called From: B4A2:00C4:0014:CD20
- * Called From: B4DA:05A7:000E:7C82
- * Called From: B4DA:05B5:000E:B5D6
- * Called From: B4DA:06C6:000E:7C82
- * Called From: B4DA:06D4:000E:B5D6
- */
-void f__29E8_08B5_000A_FC14()
-{
-l__08B5:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_bx);
-	emu_push(emu_cx);
-	emu_push(emu_di);
-	emu_push(emu_ds);
-
-	emu_ax = Input_AddHistory(emu_ax);
-	emu_ax = Input_Keyboard_Translate(emu_get_memory16(emu_ss, emu_bp,  0x6));
-
-	emu_xorb(&emu_ah, emu_ah);
-	emu_di = emu_ax;
-	emu_cl = 0x3;
-	emu_shrw(&emu_di, emu_cl);
-	emu_cl = emu_al;
-	emu_andb(&emu_cl, 0x7);
-	emu_al = 0x1;
-	emu_shlb(&emu_al, emu_cl);
-	emu_andb(&emu_al, emu_get_memory8(emu_cs, emu_di, 0x232));
-	emu_pop(&emu_ds);
-	emu_pop(&emu_di);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__29E8_0971_0071_E515()
  *
  * @name f__29E8_0971_0071_E515
