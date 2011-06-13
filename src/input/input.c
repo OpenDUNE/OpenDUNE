@@ -487,3 +487,36 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 	return keyFlags | (0xC5 - keyValue);
 }
 
+/**
+ * Wait for valid input.
+ * @return Read input.
+ */
+uint16 Input_WaitForValidInput()
+{
+	uint16 index = 0;
+	uint16 value, i;
+
+	do {
+		for (;;) {
+			emu_cli();
+			if (g_global->mouseMode == 0x2) break;
+
+			index = s_input_local->historyHead;
+			if (index != s_input_local->historyTail) break;
+
+			emu_sti();
+			sleep(0); /* Spin-lock */
+		}
+
+		value = Input_ReadHistory(index);
+		emu_sti();
+		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
+			if ((value & 0xFF) == s_input_local->keymap_ignore[i]) break;
+		}
+	} while (i < lengthof(s_input_local->keymap_ignore) || (value & 0x800) != 0 || (value & 0xFF) >= 0x7A);
+
+	value = Input_Keyboard_HandleKeys(value);
+	Input_ReadInputFromFile();
+	return value & 0xFF;
+}
+

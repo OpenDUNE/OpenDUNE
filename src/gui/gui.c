@@ -39,7 +39,6 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_Input_WaitForValidInput();
 extern void emu_Input_Keyboard_NextKey();
 
 MSVC_PACKED_BEGIN
@@ -735,8 +734,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	do {
 		GUI_PaletteAnimate();
 
-		emu_push(emu_cs); emu_push(0x04A0); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
-		ret = emu_ax;
+		ret = Input_WaitForValidInput();
 	} while (ret == 0 || (ret & 0x800) != 0);
 
 	Input_HandleInput(0x841);
@@ -3000,13 +2998,15 @@ static void GUI_StrategicMap_Var2AF4_Set(uint16 region, bool set)
 
 static int16 GUI_StrategicMap_ClickedRegion()
 {
+	uint16 key;
+
 	GUI_StrategicMap_AnimateArrows();
 
 	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	if (emu_ax == 0) return 0;
 
-	emu_push(emu_cs); emu_push(0x08A8); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
-	if (emu_ax != 0xC6 && emu_ax != 0xC7) return 0;
+	key = Input_WaitForValidInput();
+	if (key != 0xC6 && key != 0xC7) return 0;
 
 	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_global->mouseClickY - 24) * 304 + g_global->mouseClickX - 8];
 }
@@ -3016,8 +3016,7 @@ static bool GUI_StrategicMap_FastForwardToggleWithESC()
 	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
 	if (emu_ax == 0) return g_global->strategicMapFastForward != 0;
 
-	emu_push(emu_cs); emu_push(0x13D3); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
-	if (emu_ax != 0x1B) return g_global->strategicMapFastForward != 0;
+	if (Input_WaitForValidInput() != 0x1B) return g_global->strategicMapFastForward != 0;
 
 	g_global->strategicMapFastForward = (g_global->strategicMapFastForward == 0) ? 1 : 0;
 

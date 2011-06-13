@@ -107,6 +107,7 @@ extern void Input_ReadInputFromFile();
 extern uint16 Input_IsInputAvailable();
 extern uint16 Input_Wait();
 extern uint16 Input_Test(uint16 value);
+extern uint16 Input_WaitForValidInput();
 extern uint16 Input_Keyboard_HandleKeys(uint16 value);
 
 #endif /* INTPUT_H */

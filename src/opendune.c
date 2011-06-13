@@ -45,7 +45,6 @@
 
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
-extern void emu_Input_WaitForValidInput();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
@@ -2422,8 +2421,7 @@ static bool Unknown_25C4_000E()
 			PrepareEnd();
 			printf("PageArraySize is negative!\r\n");
 
-			emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
-
+			Input_WaitForValidInput();
 			exit(5);
 		}
 
@@ -2459,8 +2457,7 @@ static bool Unknown_25C4_000E()
 
 		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
 
-		emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
-
+		Input_WaitForValidInput();
 		return false;
 	}
 

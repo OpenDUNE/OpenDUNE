@@ -114,7 +114,6 @@ extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_07AF_0045_BDCD();
 extern void emu_Tools_Cmpd();
 extern void f__AB00_07EB_0026_ECEA();
-extern void emu_Input_WaitForValidInput();
 extern void f__AB01_07FC_0036_425C();
 extern void f__AB00_0816_0055_489B();
 extern void f__AB01_0869_0035_F60C();
