@@ -45,9 +45,9 @@
 
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
-extern void f__29E8_072F_000F_651A();
-extern void f__29E8_07FA_0020_177A();
-extern void f__29E8_0897_0016_2028();
+extern void emu_Input_IsInputAvailable();
+extern void emu_Input_WaitForValidInput();
+extern void emu_Input_Wait();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
@@ -1528,9 +1528,9 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	g_global->variable_8054 = 0;
 
 	key = 0;
-	emu_push(emu_cs); emu_push(0x0291); emu_cs = 0x29E8; f__29E8_072F_000F_651A();
+	emu_push(emu_cs); emu_push(0x0291); emu_cs = 0x29E8; emu_Input_IsInputAvailable();
 	if (emu_ax != 0) {
-		emu_push(emu_cs); emu_push(0x029A); emu_cs = 0x29E8; f__29E8_0897_0016_2028();
+		emu_push(emu_cs); emu_push(0x029A); emu_cs = 0x29E8; emu_Input_Wait();
 		key = emu_ax & 0x8FF;
 	}
 
@@ -2432,7 +2432,7 @@ static bool Unknown_25C4_000E()
 			PrepareEnd();
 			printf("PageArraySize is negative!\r\n");
 
-			emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+			emu_push(emu_cs); emu_push(0x012C); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
 
 			exit(5);
 		}
@@ -2469,7 +2469,7 @@ static bool Unknown_25C4_000E()
 
 		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
 
-		emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; f__29E8_07FA_0020_177A();
+		emu_push(emu_cs); emu_push(0x00BC); emu_cs = 0x29E8; emu_Input_WaitForValidInput();
 
 		return false;
 	}

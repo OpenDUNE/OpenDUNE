@@ -15,8 +15,8 @@
 #include "../os/math.h"
 #include "../tools.h"
 
-extern void f__29E8_072F_000F_651A();
-extern void f__29E8_0897_0016_2028();
+extern void emu_Input_IsInputAvailable();
+extern void emu_Input_Wait();
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_GUI_HOF_ResumeGame();
 
@@ -229,9 +229,9 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 
 	/* Get the key from the buffer, if there was any key pressed */
 	key = 0;
-	emu_push(emu_cs); emu_push(0x0044); emu_cs = 0x29E8; f__29E8_072F_000F_651A();
+	emu_push(emu_cs); emu_push(0x0044); emu_cs = 0x29E8; emu_Input_IsInputAvailable();
 	if (emu_ax != 0) {
-		emu_push(emu_cs); emu_push(0x004D); emu_cs = 0x29E8; f__29E8_0897_0016_2028();
+		emu_push(emu_cs); emu_push(0x004D); emu_cs = 0x29E8; emu_Input_Wait();
 		key = emu_ax;
 	}
 

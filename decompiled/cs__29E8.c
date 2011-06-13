@@ -217,9 +217,9 @@ l__04AA:
 }
 
 /**
- * Decompiled function f__29E8_04FC_0028_0C66()
+ * Decompiled function emu_Input_AddHistory()
  *
- * @name f__29E8_04FC_0028_0C66
+ * @name emu_Input_AddHistory
  * @implements 29E8:04FC:0028:0C66 ()
  * @implements 29E8:0524:0010:2577
  * @implements 29E8:0527:000D:25CF
@@ -229,7 +229,7 @@ l__04AA:
  * Called From: 29E8:073B:000F:651A
  * Called From: 29E8:08BC:000A:FC14
  */
-void f__29E8_04FC_0028_0C66()
+void emu_Input_AddHistory()
 {
 l__04FC:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x0);
@@ -244,7 +244,7 @@ l__04FC:
 			emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7013);
 			emu_cmpb(&emu_al, 0x2D);
 			if (emu_al != 0x2D) goto l__0527;
-			emu_push(0x0524); f__29E8_0534_000E_6213();
+			emu_push(0x0524); emu_Input_ReadInputFromFile();
 		}
 	}
 l__0524:
@@ -262,9 +262,9 @@ l__0533:
 }
 
 /**
- * Decompiled function f__29E8_0534_000E_6213()
+ * Decompiled function emu_Input_ReadInputFromFile()
  *
- * @name f__29E8_0534_000E_6213
+ * @name emu_Input_ReadInputFromFile
  * @implements 29E8:0534:000E:6213 ()
  * @implements 29E8:0542:000D:DF7C
  * @implements 29E8:054F:0018:AF1C
@@ -280,7 +280,7 @@ l__0533:
  * Called From: 29E8:0840:0003:233C
  * Called From: 29E8:08B1:0004:D32F
  */
-void f__29E8_0534_000E_6213()
+void emu_Input_ReadInputFromFile()
 {
 l__0534:
 	emu_push(emu_ax);
@@ -429,7 +429,7 @@ l__0643:
 	emu_push(emu_di);
 	emu_push(emu_si);
 	emu_pushf();
-	emu_push(0x064B); f__29E8_04FC_0028_0C66();
+	emu_push(0x064B); emu_Input_AddHistory();
 l__064B:
 	emu_cld();
 	emu_ax = emu_cs;
@@ -499,16 +499,16 @@ l__06BA:
 }
 
 /**
- * Decompiled function f__29E8_072F_000F_651A()
+ * Decompiled function emu_Input_IsInputAvailable()
  *
- * @name f__29E8_072F_000F_651A
+ * @name emu_Input_IsInputAvailable
  * @implements 29E8:072F:000F:651A ()
  * @implements 29E8:073E:0001:6580
  *
  * Called From: B4A2:003F:000B:EC51
  * Called From: B4E6:028C:0091:FAEA
  */
-void f__29E8_072F_000F_651A()
+void emu_Input_IsInputAvailable()
 {
 l__072F:
 	emu_pushf();
@@ -516,7 +516,7 @@ l__072F:
 	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x1AF);
 	emu_xorw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x1B1));
 	emu_popf();
-	emu_push(0x073E); f__29E8_04FC_0028_0C66();
+	emu_push(0x073E); emu_Input_AddHistory();
 l__073E:
 
 	/* Return from this function */
@@ -580,9 +580,9 @@ l__073F:
 }
 
 /**
- * Decompiled function f__29E8_074D_0066_6E9B()
+ * Decompiled function emu_Input_ReadHistory()
  *
- * @name f__29E8_074D_0066_6E9B
+ * @name emu_Input_ReadHistory
  * @implements 29E8:074D:0066:6E9B ()
  * @implements 29E8:0765:004E:D57F
  * @implements 29E8:0787:002C:CB98
@@ -594,7 +594,7 @@ l__073F:
  * Called From: 29E8:081A:0003:628C
  * Called From: 29E8:08AD:0003:2227
  */
-void f__29E8_074D_0066_6E9B()
+void emu_Input_ReadHistory()
 {
 l__074D:
 	emu_push(emu_ds);
@@ -673,9 +673,9 @@ l__07F7:
 }
 
 /**
- * Decompiled function f__29E8_07FA_0020_177A()
+ * Decompiled function emu_Input_WaitForValidInput()
  *
- * @name f__29E8_07FA_0020_177A
+ * @name emu_Input_WaitForValidInput
  * @implements 29E8:07FA:0020:177A ()
  * @implements 29E8:0804:0016:2028
  * @implements 29E8:081A:0003:628C
@@ -693,7 +693,7 @@ l__07F7:
  * Called From: B536:0091:0005:B085
  * Called From: B53B:01D1:0005:B085
  */
-void f__29E8_07FA_0020_177A()
+void emu_Input_WaitForValidInput()
 {
 l__07FA:
 	emu_push(emu_bx);
@@ -714,7 +714,7 @@ l__0804:
 	emu_sti();
 	goto l__0804;
 l__081A:
-	emu_push(0x081D); f__29E8_074D_0066_6E9B();
+	emu_push(0x081D); emu_Input_ReadHistory();
 l__081D:
 	emu_cx = emu_get_memory16(emu_cs, 0x00, 0x1B5);
 	emu_get_memory16(emu_cs, 0x00, 0x1B7) = emu_cx;
@@ -730,7 +730,7 @@ l__081D:
 	if (emu_al >= 0x7A) goto l__0804;
 	emu_push(0x0840); emu_Input_Keyboard_HandleKeys();
 l__0840:
-	emu_push(0x0843); f__29E8_0534_000E_6213();
+	emu_push(0x0843); emu_Input_ReadInputFromFile();
 l__0843:
 	emu_xorb(&emu_ah, emu_ah);
 	emu_pop(&emu_ds);
@@ -746,9 +746,9 @@ l__0843:
 }
 
 /**
- * Decompiled function f__29E8_0897_0016_2028()
+ * Decompiled function emu_Input_Wait()
  *
- * @name f__29E8_0897_0016_2028
+ * @name emu_Input_Wait
  * @implements 29E8:0897:0016:2028 ()
  * @implements 29E8:08AD:0003:2227
  * @implements 29E8:08B0:0004:D32F
@@ -758,7 +758,7 @@ l__0843:
  * Called From: B4A2:0048:0009:3D8E
  * Called From: B4E6:0295:0009:0D8E
  */
-void f__29E8_0897_0016_2028()
+void emu_Input_Wait()
 {
 l__0897:
 	emu_cli();
@@ -770,10 +770,10 @@ l__0897:
 	emu_sti();
 	goto l__0897;
 l__08AD:
-	emu_push(0x08B0); f__29E8_074D_0066_6E9B();
+	emu_push(0x08B0); emu_Input_ReadHistory();
 l__08B0:
 	emu_sti();
-	emu_push(0x08B4); f__29E8_0534_000E_6213();
+	emu_push(0x08B4); emu_Input_ReadInputFromFile();
 l__08B4:
 
 	/* Return from this function */
@@ -808,7 +808,7 @@ l__08B5:
 	emu_push(emu_cx);
 	emu_push(emu_di);
 	emu_push(emu_ds);
-	emu_push(0x08BF); f__29E8_04FC_0028_0C66();
+	emu_push(0x08BF); emu_Input_AddHistory();
 l__08BF:
 	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
 	emu_push(emu_cs);
