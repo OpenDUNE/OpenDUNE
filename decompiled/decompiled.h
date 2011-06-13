@@ -67,7 +67,6 @@ extern void emu_Interrupt_Vector_Store();
 extern void emu_DSP_Read();
 extern void emu_DSP_WriteAndWait();
 extern void emu_Interrupt_Vector_Restore();
-extern void emu_Mouse_HandleMovementIfMoved();
 extern void f__01F7_01ED_0024_A432();
 extern void emu_Mouse_Init();
 extern void f__01F7_022D_0003_9E5A();

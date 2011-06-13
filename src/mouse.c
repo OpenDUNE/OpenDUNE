@@ -233,3 +233,15 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 	Mouse_CheckMovement(mouseX, mouseY);
 }
 
+/**
+ * Perform handling of mouse movement iff the mouse position changed.
+ * @param newButtonState New button state.
+ */
+void Mouse_HandleMovementIfMoved(uint16 newButtonState)
+{
+	if (abs((int16)g_global->mouseX - (int16)g_global->mousePrevX) >= 1 ||
+			abs((int16)g_global->mouseY - (int16)g_global->mousePrevY) >= 1) {
+		Mouse_HandleMovement(newButtonState, g_global->mouseX, g_global->mouseY);
+	}
+}
+

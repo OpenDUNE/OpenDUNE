@@ -285,7 +285,7 @@ l__05F8:
 	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x641);
 	emu_get_memory16(emu_ds, 0x00, 0x7019) = emu_ax;
 	emu_get_memory16(emu_ds, 0x00, 0x7062) = emu_ax;
-	emu_push(emu_cs); emu_push(0x0618); emu_cs = 0x29A3; emu_Mouse_HandleMovementIfMoved();
+	Mouse_HandleMovementIfMoved(emu_ax);
 l__0618:
 	emu_get_memory16(emu_ds, 0x00, 0x76A6) = 0x0;
 	goto l__0632;
