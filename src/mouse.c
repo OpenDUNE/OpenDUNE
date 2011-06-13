@@ -180,7 +180,7 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
 	change = newButtonState ^ g_global->prevButtonState;
 	if (change == 0) return result;
 
-	g_global->prevButtonState = newButtonState;
+	g_global->prevButtonState = newButtonState & 0xFF;
 
 	if ((change & 0x2) != 0) {
 		result = 0x42;

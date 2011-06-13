@@ -4,9 +4,13 @@
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
-#include "../decompiled/decompiled.h"
 #include "../global.h"
 #include "input.h"
+#include "../os/sleep.h"
+#include "../gfx.h"
+#include "../gui/gui.h"
+#include "../file.h"
+#include "../mouse.h"
 
 static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 
@@ -234,11 +238,11 @@ void Input_HandleInput(uint16 input)
 				s_input_local->mouseX = xy->x;
 				s_input_local->mouseY = xy->y;
 			} else {
-				static const int8 small[3] = { -1, 0,  1};
-				static const int8 big[3]   = {-16, 0, 16};
+				static const int8 offsetSmall[3] = { -1, 0,  1};
+				static const int8 offsetBig[3]   = {-16, 0, 16};
 				const int8 *change;
 
-				change = ((input & 0x100) == 0) ? &small[1] : &big[1];
+				change = ((input & 0x100) == 0) ? &offsetSmall[1] : &offsetBig[1];
 
 				s_input_local->mouseX += change[dx];
 				s_input_local->mouseY += change[dy];
@@ -534,7 +538,7 @@ uint16 Input_Keyboard_NextKey()
 	Input_AddHistory(0);
 
 	for (;;) {
-		uint8 index;
+		uint16 index;
 
 		emu_cli();
 
