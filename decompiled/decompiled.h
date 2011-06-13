@@ -98,7 +98,6 @@ extern void emu_DSP_InstallInterrupt();
 extern void f__AB00_0467_0001_6780();
 extern void emu_DSP_UninstallInterrupt();
 extern void emu_Input_Keyboard_HandleKeys2();
-extern void emu_Input_Keyboard_Translate();
 extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void f__AB00_04CE_0001_6780();

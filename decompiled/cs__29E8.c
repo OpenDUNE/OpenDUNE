@@ -173,50 +173,6 @@ l__0482:
 }
 
 /**
- * Decompiled function emu_Input_Keyboard_Translate()
- *
- * @name emu_Input_Keyboard_Translate
- * @implements 29E8:0484:002B:0A28 ()
- * @implements 29E8:04AA:0005:5C4F
- *
- * Called From: 29E8:08C3:0007:D960
- * Called From: 29E8:0E72:000A:53F7
- */
-void emu_Input_Keyboard_Translate()
-{
-l__0484:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_cx);
-	emu_push(emu_es);
-	emu_push(emu_di);
-	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x700E), 0x2);
-	if ((emu_get_memory16(emu_ds, 0x00, 0x700E) & 0x2) == 0) {
-		emu_cx = 0x10;
-		emu_push(emu_cs);
-		emu_pop(&emu_es);
-		emu_di = 0x8E;
-		emu_repne_scasb();
-		if (emu_cx == 0) goto l__04AA;
-		emu_di = 0xAE;
-		emu_decw(&emu_di);
-		emu_subw(&emu_di, emu_cx);
-		emu_al = emu_get_memory8(emu_es, emu_di, 0x0);
-	}
-l__04AA:
-	emu_pop(&emu_di);
-	emu_pop(&emu_es);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_AddHistory()
  *
  * @name emu_Input_AddHistory
@@ -662,12 +618,9 @@ l__08B5:
 	emu_push(emu_di);
 	emu_push(emu_ds);
 	emu_push(0x08BF); emu_Input_AddHistory();
-l__08BF:
-	emu_push(emu_get_memory16(emu_ss, emu_bp,  0x6));
-	emu_push(emu_cs);
-	emu_push(0x08C6); emu_Input_Keyboard_Translate();
-l__08C6:
-	emu_addw(&emu_sp, 0x2);
+
+	emu_ax = Input_Keyboard_Translate(emu_get_memory16(emu_ss, emu_bp,  0x6));
+
 	emu_xorb(&emu_ah, emu_ah);
 	emu_di = emu_ax;
 	emu_cl = 0x3;
@@ -1340,14 +1293,10 @@ l__0E60:
 	if ((emu_get_memory8(emu_cs, 0x00, 0x239) & 0x50) != 0) {
 		emu_orb(&emu_ah, 0x4);
 	}
-l__0E6B:
-	emu_push(emu_ax);
-	emu_ax = 0x353F;
-	emu_ds = emu_ax;
-	emu_push(emu_cs);
-	emu_push(0x0E75); emu_Input_Keyboard_Translate();
-l__0E75:
-	emu_addw(&emu_sp, 0x2);
+
+	emu_ax = Input_Keyboard_Translate(emu_ax);
+
+	emu_ds = 0x353F;;
 	emu_push(emu_cs);
 	emu_pop(&emu_ds);
 	emu_testb(&emu_get_memory8(emu_cs, 0x00, 0x237), 0x10);

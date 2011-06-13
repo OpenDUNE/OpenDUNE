@@ -88,3 +88,23 @@ uint16 Input_ReadHistory(uint16 index)
 	return value;
 }
 
+/**
+ * Translate keyboard input.
+ * @param keyValue Entered key value.
+ * @return Translated key value.
+ */
+uint16 Input_Keyboard_Translate(uint16 keyValue)
+{
+	uint16 i;
+
+	if ((g_global->inputFlags & 0x2) == 0) {
+		for (i = 0; i < lengthof(s_input_local->translateMap); i++) {
+			if (s_input_local->translateMap[i] == (uint8)(keyValue & 0xFF)) {
+				keyValue = s_input_local->translateTo[i] | (keyValue & 0xFF00);
+				break;
+			}
+		}
+	}
+	return keyValue;
+}
+

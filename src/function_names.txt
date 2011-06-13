@@ -34,7 +34,6 @@
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
 29E8:0A4A:0040:5428	emu_Input_HandleInput
 29E8:0643:0008:ED98	emu_Input_Keyboard_NextKey
-29E8:0484:002B:0A28	emu_Input_Keyboard_Translate
 29E8:0479:0009:A77A	emu_Input_Keyboard_HandleKeys2
 29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
 29E8:0A19:002A:2DE6	emu_Input_History_Add
