@@ -39,7 +39,6 @@
 #include "../ini.h"
 
 extern void emu_Input_WaitForValidInput();
-extern void emu_Input_HandleInput();
 extern void emu_Input_Keyboard_NextKey();
 
 MSVC_PACKED_BEGIN
@@ -739,9 +738,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		ret = emu_ax;
 	} while (ret == 0 || (ret & 0x800) != 0);
 
-	emu_push(0x841);
-	emu_push(emu_cs); emu_push(0x04B9); emu_cs = 0x29E8; emu_Input_HandleInput();
-	emu_sp += 2;
+	Input_HandleInput(0x841);
 
 	GUI_Mouse_Hide_Safe();
 

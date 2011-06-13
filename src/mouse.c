@@ -14,8 +14,6 @@
 #include "input/input.h"
 #include "file.h"
 
-extern void emu_Input_HandleInput();
-
 /**
  * Set the region in which the mouse can move.
  * @note This limits the mouse movement in the hardware.
@@ -95,9 +93,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 
 			Input_Flags_SetBits(INPUT_FLAG_KEY_RELEASE);
 
-			emu_push(0x2D);
-			emu_push(emu_cs); emu_push(0x00D4); emu_cs = 0x29E8; emu_Input_HandleInput();
-			emu_sp += 2;
+			Input_HandleInput(0x2D);
 			break;
 
 		case INPUT_MOUSE_MODE_PLAY:

@@ -149,3 +149,167 @@ uint16 Input_AddHistory(uint16 value)
 	return value;
 }
 
+/** X and Y coordinate. */
+typedef struct XY {
+	uint16 x; /*!< X coordinate. */
+	uint16 y; /*!< Y coordinate. */
+} XYPosition;
+
+/**
+ * Handle input.
+ * @param input New input.
+ */
+void Input_HandleInput(uint16 input)
+{
+	uint16 oldTail;
+	uint16 saveSize;
+
+	uint16 index;
+	uint16 value;
+	uint8  bit_value;
+
+	emu_pushf();
+	emu_cli();
+
+	s_input_local->flags = g_global->inputFlags;
+	s_input_local->mouseX = g_global->mouseX;
+	s_input_local->mouseY = g_global->mouseY;
+
+	if (g_global->mouseMode == 1) {
+		saveSize = 4;
+		if (g_global->ignoreInput != 0) {
+			emu_popf();
+			return;
+		}
+	}
+
+	if (input == 0) {
+		emu_popf();
+		return;
+	}
+
+	value = input & 0xFF;
+	if ((s_input_local->flags & 0x1000) != 0 && (input & 0x400) == 0) {
+
+		if (((s_input_local->flags & 0x2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
+			input = 0x41 | (input & 0xFF00);
+			g_global->prevButtonState |= 1;
+			if ((input & 0x800) != 0) {
+				g_global->prevButtonState &= 0xFE; /* ~1 */
+			}
+		} else if (value == 0x68) {
+			input = 0x42 | (input & 0xFF00);
+			g_global->prevButtonState |= 2;
+			if ((input & 0x800) != 0) {
+				g_global->prevButtonState &= 0xFD; /* ~2 */
+			}
+		} else if ((input & 0x800) == 0 && (value == 0x61 || (value >= 0x5B && value <= 0x67 &&
+				(value <= 0x5D || value >= 0x65 || value == 0x60 || value == 0x62)))) {
+
+			/* Copied from 29E8:0A9C - 29E8:0AB6 */
+			static const int8 data_0A9C[13][2] =
+			{
+				{-1, -1}, {-1,  0}, {-1,  1}, { 0,  0},
+				{ 0,  0}, { 0, -1}, { 0,  0}, { 0,  1},
+				{ 0,  0}, { 0,  0}, { 1, -1}, { 1,  0},
+				{ 1,  1},
+			};
+			int8 dx, dy;
+
+			dx = data_0A9C[value - 0x5B][0];
+			dy = data_0A9C[value - 0x5B][1];
+
+			if ((input & 0x200) != 0) {
+				/* Copied from 29E8:0AB6 - 29E8:0AD6 */
+				static const uint16 data_0AB6[16] = {8, 2, 8, 6, 4, 3, 8, 5,  8, 8, 8, 8, 0, 1, 8, 7};
+				/* Copied from 29E8:000A - 29E8:002E */
+				static const XYPosition mousePos[9] = {
+					{0x0a0, 0x000}, {0x13f, 0x000}, {0x13f, 0x045}, {0x13f, 0x089},
+					{0x0a0, 0x089}, {0x000, 0x089}, {0x000, 0x045}, {0x000, 0x000},
+					{0x0a0, 0x045}
+				};
+				const XYPosition *xy;
+
+				xy = mousePos + data_0AB6[((dy & 3) << 2) | (dx & 3)];
+				s_input_local->mouseX = xy->x;
+				s_input_local->mouseY = xy->y;
+			} else {
+				static const int8 small[3] = { -1, 0,  1};
+				static const int8 big[3]   = {-16, 0, 16};
+				const int8 *change;
+
+				change = ((input & 0x100) == 0) ? &small[1] : &big[1];
+
+				s_input_local->mouseX += change[dx];
+				s_input_local->mouseY += change[dy];
+				if (s_input_local->mouseX >= 0x8000) s_input_local->mouseX = 0;
+				if (s_input_local->mouseY >= 0x8000) s_input_local->mouseY = 0;
+				if ((int16)s_input_local->mouseX > SCREEN_WIDTH - 1)  s_input_local->mouseX = SCREEN_WIDTH - 1;
+				if ((int16)s_input_local->mouseY > SCREEN_HEIGHT - 1) s_input_local->mouseY = SCREEN_HEIGHT - 1;
+			}
+
+			g_global->mouseX = s_input_local->mouseX;
+			g_global->mouseY = s_input_local->mouseY;
+			if (g_global->mouseLock == 0) {
+				GUI_Mouse_Hide();
+				GUI_Mouse_Show();
+			}
+			input = 0x2D;
+		}
+	}
+
+	oldTail = s_input_local->historyTail;
+
+	if (Input_History_Add(input) != 0) {
+		s_input_local->historyTail = oldTail;
+		emu_popf();
+		return;
+	}
+
+	value = input & 0xFF;
+	if (value == 0x2D || value == 0x41 || value == 0x42) {
+
+		if (Input_History_Add(s_input_local->mouseX) != 0) {
+			s_input_local->historyTail = oldTail;
+			emu_popf();
+			return;
+		}
+		saveSize += 2;
+
+		if (Input_History_Add(s_input_local->mouseY) != 0) {
+			s_input_local->historyTail = oldTail;
+			emu_popf();
+			return;
+		}
+		saveSize += 2;
+	}
+
+	bit_value = 1;
+	value = input & 0xFF;
+	if (value != 0x2D && value != 0x7F && (input & 0x800) != 0) bit_value = 0;
+
+	if (value == 0x2D || value == 0x7F ||
+			((input & 0x800) != 0 && (s_input_local->flags & 0x800) == 0 && value != 0x41 && value != 0x42)) {
+		s_input_local->historyTail = oldTail;
+	}
+
+	index = (value & 0x7F) >> 3;
+	bit_value <<= (value & 7);
+	if ((bit_value & s_input_local->activeInputMap[index]) != 0 && (s_input_local->flags & 1) == 0) {
+		s_input_local->historyTail = oldTail;
+	}
+	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
+	s_input_local->activeInputMap[index] |= bit_value;
+
+	if (g_global->mouseMode != 0x1 || value == 0x7D) {
+		emu_popf();
+		return;
+	}
+	s_input_local->variable_0A94 = input;
+	s_input_local->variable_0A96 = g_global->variable_76A6;
+
+	File_Write(g_global->mouseFileID, &s_input_local->variable_0A94, saveSize);
+	g_global->variable_76A6 = 0x0;
+
+	emu_popf();
+}

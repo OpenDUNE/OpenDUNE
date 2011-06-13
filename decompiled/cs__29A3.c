@@ -62,10 +62,7 @@ l__009B:
 
 	emu_ax = Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x00B9); emu_cs = 0x29E8; emu_Input_HandleInput();
-l__00B9:
-	emu_addw(&emu_sp, 0x2);
+	Input_HandleInput(emu_ax);
 l__00BC:
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
 	if (emu_get_memory8(emu_ds, 0x00, 0x7010) != 0x2) {
@@ -149,10 +146,7 @@ l__010F:
 
 	emu_ax = Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
-	emu_push(emu_ax);
-	emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x29E8; emu_Input_HandleInput();
-l__013C:
-	emu_addw(&emu_sp, 0x2);
+	Input_HandleInput(emu_ax);
 l__01C3:
 	Mouse_CheckMovement(emu_cx, emu_dx);
 	emu_pop(&emu_di);

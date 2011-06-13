@@ -27,7 +27,6 @@
 
 extern void f__29E8_08B5_000A_FC14();
 extern void emu_Mouse_InsideRegion();
-extern void emu_Input_HandleInput();
 
 /**
  * Information about the mentat.
@@ -1085,14 +1084,8 @@ bool GUI_Mentat_List_Click(Widget *w)
 
 	GUI_Mentat_Draw(true);
 
-	emu_push(0x841);
-	emu_push(emu_cs); emu_push(0x0404); emu_cs = 0x29E8; emu_Input_HandleInput();
-	emu_sp += 2;
-
-	emu_push(0x842);
-	emu_push(emu_cs); emu_push(0x040E); emu_cs = 0x29E8; emu_Input_HandleInput();
-	emu_sp += 2;
-
+	Input_HandleInput(0x841);
+	Input_HandleInput(0x842);
 	return false;
 }
 

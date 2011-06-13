@@ -38,8 +38,9 @@ MSVC_PACKED_BEGIN
  * Local input variables at segment 29E8.
  */
 typedef struct InputLocalData {
-	/* 0000()    */ PACK uint8   unknown_0000[0x000A];
-	/* 000A(36)  */ PACK uint8  variable_000A[36];
+	/* 0000()    */ PACK uint8   unknown_0000[4];
+	/* 0004(6)   */ PACK uint8      data_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
+	/* 000A(36)  */ PACK uint32 mouseCoord[9];              /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 002E(8)   */ PACK uint8  bitmask[8];                 /*!< The value of (1 << N), with N from 0 to 7. */
 	/* 0036()    */ PACK uint8   unknown_0036[0x0058];
 	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Some kind of translation map. */
@@ -80,7 +81,8 @@ typedef struct InputLocalData {
 	/* 0A98(2)   */ PACK uint16 mouseX;                     /*!< Current X position of the mouse. */
 	/* 0A9A(2)   */ PACK uint16 mouseY;                     /*!< Current Y position of the mouse. */
 
-	/* 0A9C()    */ PACK uint8   unknown_0A9C[0x003A];
+	/* 0A9C(26)  */ PACK uint16     data_0A9C[13];          /*!< REMOVED Copied into the Input_HandleInput function. */
+	/* 0AB6(32)  */ PACK uint16     data_0AB6[0x10];        /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 0AD6(16)  */ PACK uint8      code_0AD6[16];
 	/* 0AE6()    */ PACK uint8   unknown_0AE6[0x015A];
 	/* 0C40(263) */ PACK uint8      code_0C40[263];
@@ -98,5 +100,6 @@ extern uint16 Input_ReadHistory(uint16 index);
 extern uint16 Input_Keyboard_Translate(uint16 keyValue);
 extern uint16 Input_History_Add(uint16 value);
 extern uint16 Input_AddHistory(uint16 value);
+extern void Input_HandleInput(uint16 input);
 
 #endif /* INTPUT_H */
