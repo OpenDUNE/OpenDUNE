@@ -39,18 +39,18 @@ void emu_Mouse_EventHandler()
 	mouseY         = emu_dx;
 
 	if (g_global->variable_7097 == 0 && g_global->variable_7098 != 0 &&
-			(g_global->mouseMode != 1 || g_global->ignoreInput == 0)) {
+			(g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_global->ignoreInput == 0)) {
 
 		if (g_global->doubleWidth == 0x1) mouseX /= 2;
 
 		if (mouseX > SCREEN_WIDTH - 1) mouseX = SCREEN_WIDTH - 1;
 
 
-		if (g_global->mouseMode == 0 && (g_global->inputFlags & 0x1000) == 0) {
+		if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
 
-		if (g_global->mouseMode != 0x2 && g_global->mouseLock == 0x0) {
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_global->mouseLock == 0x0) {
 			Mouse_HandleMovement(newButtonState, mouseX, mouseY);
 		}
 	}

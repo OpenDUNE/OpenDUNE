@@ -70,25 +70,25 @@ uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
-	value = g_global->variable_7013 = (g_global->mouseMode == 2) ? g_global->variable_7013 : s_input_local->history[index / 2];
+	value = g_global->variable_7013 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7013 : s_input_local->history[index / 2];
 	index = (index + 2) & 0xFF;
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			g_global->mouseClickX = g_global->variable_7017 = (g_global->mouseMode == 2) ? g_global->variable_7017 : s_input_local->history[index / 2];
+			g_global->mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_global->mouseClickY = g_global->variable_7019 = (g_global->mouseMode == 2) ? g_global->variable_7019 : s_input_local->history[index / 2];
+			g_global->mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
-			g_global->variable_7017 = (g_global->mouseMode == 2) ? g_global->variable_7017 : s_input_local->history[index / 2];
+			g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_global->variable_7019 = (g_global->mouseMode == 2) ? g_global->variable_7019 : s_input_local->history[index / 2];
+			g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 		}
 	}
-	if (g_global->mouseMode != 0x2) s_input_local->historyHead = index;
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) s_input_local->historyHead = index;
 	return value;
 }
 
@@ -136,7 +136,7 @@ uint16 Input_History_Add(uint16 value)
  */
 uint16 Input_AddHistory(uint16 value)
 {
-	if (g_global->mouseMode == 0 || g_global->mouseMode == 1) return value;
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) return value;
 
 	if (g_global->variable_701B != 0) {
 		value = 0;
@@ -179,7 +179,7 @@ void Input_HandleInput(uint16 input)
 	s_input_local->mouseX = g_global->mouseX;
 	s_input_local->mouseY = g_global->mouseY;
 
-	if (g_global->mouseMode == 1) {
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
 		if (g_global->ignoreInput != 0) {
 			emu_popf();
@@ -305,7 +305,7 @@ void Input_HandleInput(uint16 input)
 	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
 	s_input_local->activeInputMap[index] |= bit_value;
 
-	if (g_global->mouseMode != 0x1 || value == 0x7D) {
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) {
 		emu_popf();
 		return;
 	}
@@ -323,7 +323,7 @@ void Input_ReadInputFromFile()
 {
 	uint16 value;
 
-	if (g_global->mouseMode == 0 || g_global->mouseMode != 2) return;
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) return;
 
 	File_Read(g_global->mouseFileID, s_input_local->variable_063B[0], 4); /* Read failure not translated. */
 
@@ -386,7 +386,7 @@ uint16 Input_Wait()
 
 	for (;;) {
 		emu_cli();
-		if (g_global->mouseMode == 2) break;
+		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 		value = s_input_local->historyHead;
 		if (value != s_input_local->historyTail) break;
@@ -503,7 +503,7 @@ uint16 Input_WaitForValidInput()
 	do {
 		for (;;) {
 			emu_cli();
-			if (g_global->mouseMode == 0x2) break;
+			if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 			index = s_input_local->historyHead;
 			if (index != s_input_local->historyTail) break;
@@ -543,13 +543,13 @@ uint16 Input_Keyboard_NextKey()
 		emu_cli();
 
 		index = s_input_local->historyHead;
-		if (g_global->mouseMode != 0x2 && index == s_input_local->historyTail) {
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_input_local->historyTail) {
 			value = 0;
 			break;
 		}
 
 		value = s_input_local->history[index / 2];
-		if (g_global->mouseMode == 0x2 && value == 0) break;
+		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY && value == 0) break;
 
 		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
 			if (s_input_local->keymap_ignore[i] == (value & 0xFF)) break;

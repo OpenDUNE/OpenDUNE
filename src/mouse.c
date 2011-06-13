@@ -252,7 +252,7 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 
 	g_global->mouseX = mouseX;
 	g_global->mouseY = mouseY;
-	if (g_global->mouseMode != 2 && g_global->mouseMode != 0 && (g_global->inputFlags & 0x1000) == 0) {
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_global->mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
 		Input_HandleInput(Mouse_CheckButtons(newButtonState));
 	}
 
