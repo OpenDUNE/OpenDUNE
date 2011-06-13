@@ -27,7 +27,6 @@
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0224:0009:AA5D	emu_Mouse_Init
 29A3:0054:005C:47DC	emu_Mouse_EventHandler
-29A3:00CD:0066:C700	emu_Mouse_HandleMovement
 29A3:013F:002A:CFEE	emu_Mouse_CheckMovement
 29A3:000C:0048:00FE	emu_Mouse_CheckButtons
 

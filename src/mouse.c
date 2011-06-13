@@ -207,3 +207,29 @@ void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 	g_global->mouseLock = 0;
 }
 
+/**
+ * Handle movement of the mouse.
+ * @param newButtonState State of the mouse buttons.
+ * @param mouseX Horizontal position of the mouse cursor.
+ * @param mouseY Vertical position of the mouse cursor.
+ */
+void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
+{
+	g_global->mouseLock = 0x1;
+
+	if (g_global->snapX != 0) {
+		mouseX = ((mouseX - g_global->snapGreyX) / g_global->snapX) * g_global->snapX + g_global->snapGreyX;
+	}
+	if (g_global->snapY != 0) {
+		mouseY = ((mouseY - g_global->snapGreyY) / g_global->snapY) * g_global->snapY + g_global->snapGreyY;
+	}
+
+	g_global->mouseX = mouseX;
+	g_global->mouseY = mouseY;
+	if (g_global->mouseMode != 2 && g_global->mouseMode != 0 && (g_global->inputFlags & 0x1000) == 0) {
+		Input_HandleInput(Mouse_CheckButtons(newButtonState));
+	}
+
+	Mouse_CheckMovement(mouseX, mouseY);
+}
+

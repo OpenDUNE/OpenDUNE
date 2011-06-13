@@ -58,7 +58,6 @@ extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 extern void emu_Video_SetMode();
 extern void emu_Mouse_EventHandler();
-extern void emu_Mouse_HandleMovement();
 extern void f__01F7_0138_0019_8DC5();
 extern void f__01F7_0157_0010_1227();
 extern void emu_DSP_Write();
