@@ -356,3 +356,19 @@ void Input_ReadInputFromFile()
 	g_global->variable_76A6 = 0x0;
 }
 
+/**
+ * Is input available?
+ * @return \c 0 if no input, else a value.
+ */
+uint16 Input_IsInputAvailable()
+{
+	uint16 value;
+
+	emu_pushf();
+	emu_cli();
+	value = s_input_local->historyHead ^ s_input_local->historyTail;
+	emu_popf();
+
+	return Input_AddHistory(value);
+}
+

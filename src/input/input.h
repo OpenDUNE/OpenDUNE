@@ -104,5 +104,6 @@ extern uint16 Input_History_Add(uint16 value);
 extern uint16 Input_AddHistory(uint16 value);
 extern void Input_HandleInput(uint16 input);
 extern void Input_ReadInputFromFile();
+extern uint16 Input_IsInputAvailable();
 
 #endif /* INTPUT_H */

@@ -282,33 +282,6 @@ l__06BA:
 }
 
 /**
- * Decompiled function emu_Input_IsInputAvailable()
- *
- * @name emu_Input_IsInputAvailable
- * @implements 29E8:072F:000F:651A ()
- * @implements 29E8:073E:0001:6580
- *
- * Called From: B4A2:003F:000B:EC51
- * Called From: B4E6:028C:0091:FAEA
- */
-void emu_Input_IsInputAvailable()
-{
-l__072F:
-	emu_pushf();
-	emu_cli();
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x1AF);
-	emu_xorw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x1B1));
-	emu_popf();
-	emu_ax = Input_AddHistory(emu_ax);
-l__073E:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_WaitForValidInput()
  *
  * @name emu_Input_WaitForValidInput
