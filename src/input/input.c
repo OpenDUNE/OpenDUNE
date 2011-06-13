@@ -166,7 +166,7 @@ typedef struct XY {
 void Input_HandleInput(uint16 input)
 {
 	uint16 oldTail;
-	uint16 saveSize;
+	uint16 saveSize = 0;
 
 	uint16 index;
 	uint16 value;
