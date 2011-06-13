@@ -125,3 +125,27 @@ uint16 Input_History_Add(uint16 value)
 	return 0;
 }
 
+/**
+ * Get input, and add it to the history.
+ * @param value Old value.
+ * @return Added input value.
+ */
+uint16 Input_AddHistory(uint16 value)
+{
+	if (g_global->mouseMode == 0 || g_global->mouseMode == 1) return value;
+
+	if (g_global->variable_701B != 0) {
+		value = 0;
+	} else if (g_global->variable_76A6 < g_global->variable_7015) {
+		value = 0;
+	} else if (g_global->variable_7013 == 0x2D) {
+		emu_push(0x0524); emu_Input_ReadInputFromFile();
+		value = 0;
+	} else {
+		value = g_global->variable_7013;
+	}
+
+	s_input_local->history[s_input_local->historyHead / 2] = value;
+	return value;
+}
+

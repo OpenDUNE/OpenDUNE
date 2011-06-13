@@ -173,51 +173,6 @@ l__0482:
 }
 
 /**
- * Decompiled function emu_Input_AddHistory()
- *
- * @name emu_Input_AddHistory
- * @implements 29E8:04FC:0028:0C66 ()
- * @implements 29E8:0524:0010:2577
- * @implements 29E8:0527:000D:25CF
- * @implements 29E8:0533:0001:6180
- *
- * Called From: 29E8:0648:0008:ED98
- * Called From: 29E8:073B:000F:651A
- * Called From: 29E8:08BC:000A:FC14
- */
-void emu_Input_AddHistory()
-{
-l__04FC:
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x0) goto l__0533;
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x1);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x1) goto l__0533;
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x701B), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x701B) == 0x0) {
-		emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7015);
-		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x76A6), emu_ax);
-		if (emu_get_memory16(emu_ds, 0x00, 0x76A6) >= emu_ax) {
-			emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7013);
-			emu_cmpb(&emu_al, 0x2D);
-			if (emu_al != 0x2D) goto l__0527;
-			emu_push(0x0524); emu_Input_ReadInputFromFile();
-		}
-	}
-l__0524:
-	emu_ax = 0x0;
-l__0527:
-	emu_push(emu_di);
-	emu_di = emu_get_memory16(emu_cs, 0x00, 0x1AF);
-	emu_get_memory16(emu_cs, emu_di, 0xAF) = emu_ax;
-	emu_pop(&emu_di);
-l__0533:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_ReadInputFromFile()
  *
  * @name emu_Input_ReadInputFromFile
@@ -385,7 +340,7 @@ l__0643:
 	emu_push(emu_di);
 	emu_push(emu_si);
 	emu_pushf();
-	emu_push(0x064B); emu_Input_AddHistory();
+	emu_ax = Input_AddHistory(emu_ax);
 l__064B:
 	emu_cld();
 	emu_ax = emu_cs;
@@ -472,7 +427,7 @@ l__072F:
 	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x1AF);
 	emu_xorw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x1B1));
 	emu_popf();
-	emu_push(0x073E); emu_Input_AddHistory();
+	emu_ax = Input_AddHistory(emu_ax);
 l__073E:
 
 	/* Return from this function */
@@ -617,8 +572,8 @@ l__08B5:
 	emu_push(emu_cx);
 	emu_push(emu_di);
 	emu_push(emu_ds);
-	emu_push(0x08BF); emu_Input_AddHistory();
 
+	emu_ax = Input_AddHistory(emu_ax);
 	emu_ax = Input_Keyboard_Translate(emu_get_memory16(emu_ss, emu_bp,  0x6));
 
 	emu_xorb(&emu_ah, emu_ah);

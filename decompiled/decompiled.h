@@ -102,7 +102,6 @@ extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void f__AB00_04CE_0001_6780();
 extern void f__AB00_04D8_002F_418B();
-extern void emu_Input_AddHistory();
 extern void f__AB00_0501_0001_6780();
 extern void emu_DSP_SetDMA();
 extern void emu_Input_ReadInputFromFile();
