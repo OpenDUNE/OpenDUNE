@@ -20,8 +20,6 @@
 #include "unknown/unknown.h"
 #include "gfx.h"
 
-extern void emu_Input_Keyboard_NextKey();
-
 static void GUI_Security_DrawText(char *text)
 {
 	uint16 oldScreenID;
@@ -265,8 +263,7 @@ bool GUI_Security_Show()
 
 		/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
 		while (g_global->variable_76AC + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0)) {
-			emu_push(emu_cs); emu_push(0x1685); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-			if (emu_ax != 0) break;
+			if (Input_Keyboard_NextKey() != 0) break;
 
 			if (g_global->variable_76AC < tickWaitTill) {
 				GUI_Mentat_Animation(1);

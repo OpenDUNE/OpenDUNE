@@ -49,7 +49,6 @@ extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
 extern void emu_GUI_ShowEndStats();
-extern void emu_Input_Keyboard_NextKey();
 extern void emu_Interrupt_Vector_Get();
 extern void emu_Interrupt_Vector_Set();
 extern void emu_Mouse_Init();
@@ -593,9 +592,7 @@ static void GameLoop_PlayAnimation()
 				if (mode == 3) frame--;
 			}
 
-			emu_push(emu_cs); emu_push(0x05E8); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-
-			if (emu_ax != 0 && g_global->variable_37B4 != 0) {
+			if (Input_Keyboard_NextKey() != 0 && g_global->variable_37B4 != 0) {
 				WSA_Unload(header_csip);
 				return;
 			}
@@ -945,8 +942,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 		if (loc10 && g_global->variable_1836 == 0) break;
 
-		emu_push(emu_cs); emu_push(0x07C5); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax != 0) break;
+		if (Input_Keyboard_NextKey() != 0) break;
 	}
 
 	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 120);
@@ -1084,8 +1080,7 @@ static void GameLoop_GameCredits()
 
 		GameCredits_Play((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
 
-		emu_push(emu_cs); emu_push(0x0A15); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax != 0) break;
+		if (Input_Keyboard_NextKey() != 0) break;
 
 		Music_Play(33);
 	}
@@ -1291,15 +1286,13 @@ static void Gameloop_Logos()
 	if (g_global->variable_37B4 == 0) {
 		Voice_LoadVoices(0xFFFF);
 	} else {
-		emu_push(emu_cs); emu_push(0x01C7); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax == 0 && g_global->variable_37B4 != 0) {
+		if (Input_Keyboard_NextKey() == 0 && g_global->variable_37B4 != 0) {
 			Voice_LoadVoices(0xFFFF);
 		}
 	}
 
 	while (g_global->variable_76B4 != 0) {
-		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
@@ -1314,8 +1307,7 @@ static void Gameloop_Logos()
 	while (Driver_Music_IsPlaying());
 
 	while (g_global->variable_76B4 != 0) {
-		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
@@ -1338,8 +1330,7 @@ static void Gameloop_Logos()
 	g_global->variable_76B4 = 0x3C;
 
 	while (g_global->variable_76B4 != 0) {
-		emu_push(emu_cs); emu_push(0x01E3); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
 
@@ -1362,8 +1353,7 @@ static void Gameloop_Logos()
 	g_global->variable_76B4 = 0xB4;
 
 	while (g_global->variable_76B4 != 0) {
-		emu_push(emu_cs); emu_push(0x0370); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 	}
 
 	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
@@ -1384,8 +1374,7 @@ static void GameLoop_GameIntroAnimation()
 
 	Gameloop_Logos();
 
-	emu_push(emu_cs); emu_push(0x0023); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-	if (emu_ax == 0 || g_global->variable_37B4 == 0) {
+	if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) {
 		csip32 args[3];
 
 		Music_Play(0x1B);

@@ -39,8 +39,6 @@
 #include "../opendune.h"
 #include "../ini.h"
 
-extern void emu_Input_Keyboard_NextKey();
-
 MSVC_PACKED_BEGIN
 typedef struct struct_B4E9 {
 	/* 0000(4)   */ PACK csip32 variable_00;                /*!< ?? */
@@ -1646,9 +1644,8 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	while (true) {
 		GUI_HallOfFame_Tick();
-
-		emu_push(emu_cs); emu_push(0x0516); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-		if (emu_ax != 0) break;
+		if (Input_Keyboard_NextKey() != 0) break;
+		sleep(0); /* Spin-lock? */
 	}
 
 	Input_History_Clear();
@@ -3002,8 +2999,7 @@ static int16 GUI_StrategicMap_ClickedRegion()
 
 	GUI_StrategicMap_AnimateArrows();
 
-	emu_push(emu_cs); emu_push(0x089B); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-	if (emu_ax == 0) return 0;
+	if (Input_Keyboard_NextKey() == 0) return 0;
 
 	key = Input_WaitForValidInput();
 	if (key != 0xC6 && key != 0xC7) return 0;
@@ -3013,8 +3009,7 @@ static int16 GUI_StrategicMap_ClickedRegion()
 
 static bool GUI_StrategicMap_FastForwardToggleWithESC()
 {
-	emu_push(emu_cs); emu_push(0x13CA); emu_cs = 0x29E8; emu_Input_Keyboard_NextKey();
-	if (emu_ax == 0) return g_global->strategicMapFastForward != 0;
+	if (Input_Keyboard_NextKey() == 0) return g_global->strategicMapFastForward != 0;
 
 	if (Input_WaitForValidInput() != 0x1B) return g_global->strategicMapFastForward != 0;
 

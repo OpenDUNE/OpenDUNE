@@ -520,3 +520,55 @@ uint16 Input_WaitForValidInput()
 	return value & 0xFF;
 }
 
+/**
+ * Get the next key.
+ * @return Next key.
+ */
+uint16 Input_Keyboard_NextKey()
+{
+	uint16 i;
+	uint16 value;
+
+	emu_pushf();
+
+	Input_AddHistory(0);
+
+	for (;;) {
+		uint8 index;
+
+		emu_cli();
+
+		index = s_input_local->historyHead;
+		if (g_global->mouseMode != 0x2 && index == s_input_local->historyTail) {
+			value = 0;
+			break;
+		}
+
+		value = s_input_local->history[index / 2];
+		if (g_global->mouseMode == 0x2 && value == 0) break;
+
+		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
+			if (s_input_local->keymap_ignore[i] == (value & 0xFF)) break;
+		}
+
+		if (i == lengthof(s_input_local->keymap_ignore) && (value & 0x800) == 0 && (value & 0xFF) < 0x7A) break;
+
+		if ((value & 0xFF) >= 0x41 && (value & 0xFF) <= 0x44) index += 4;
+
+		s_input_local->historyHead = index + 2;
+
+		emu_sti();
+		sleep(0); /* Spin-lock */
+	}
+
+	s_input_local->variable_01B7 = s_input_local->variable_01B5;
+	emu_sti();
+
+	if (value != 0) {
+		value = Input_Keyboard_HandleKeys(value) & 0xFF;
+	}
+
+	emu_popf();
+	return value;
+}
+

@@ -103,7 +103,6 @@ extern void emu_Tools_Shld_Wrapper();
 extern void f__AB00_058F_000E_41A1();
 extern void emu_Tools_AddCSIP_Wrapper();
 extern void emu_Tools_AddCSIP();
-extern void emu_Input_Keyboard_NextKey();
 extern void f__AB00_0662_0011_6EA3();
 extern void f__01F7_0675_0020_D684();
 extern void f__AB00_06A2_003A_A0A5();
