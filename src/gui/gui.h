@@ -90,8 +90,4 @@ extern void GUI_Palette_CreateRemap(uint8 houseID);
 /* editbox.c */
 extern uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 uknown3, uint16 unknown4);
 
-
-extern void emu_GUI_Mouse_Show();
-extern void emu_GUI_Mouse_Hide();
-
 #endif /* GUI_GUI_H */
