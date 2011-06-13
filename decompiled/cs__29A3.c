@@ -141,11 +141,11 @@ l__010F:
 	emu_get_memory16(emu_ds, 0x00, 0x7060) = emu_cx;
 	emu_get_memory16(emu_ds, 0x00, 0x7062) = emu_dx;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x2) { emu_Mouse_CheckMovement(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x2) goto l__01C3;
 	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x0) { emu_Mouse_CheckMovement(); return; }
+	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x0) goto l__01C3;
 	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x700E), 0x1000);
-	if ((emu_get_memory16(emu_ds, 0x00, 0x700E) & 0x1000) != 0) { emu_Mouse_CheckMovement(); return; }
+	if ((emu_get_memory16(emu_ds, 0x00, 0x700E) & 0x1000) != 0) goto l__01C3;
 
 	emu_ax = Mouse_CheckButtons(emu_get_memory16(emu_ss, emu_bp, -0x4));
 
@@ -153,64 +153,8 @@ l__010F:
 	emu_push(emu_cs); emu_push(0x013C); emu_cs = 0x29E8; emu_Input_HandleInput();
 l__013C:
 	emu_addw(&emu_sp, 0x2);
-	emu_Mouse_CheckMovement(); return;
-}
-
-/**
- * Decompiled function emu_Mouse_CheckMovement()
- *
- * @name emu_Mouse_CheckMovement
- * @implements 29A3:013F:002A:CFEE ()
- * @implements 29A3:0152:0017:5360
- * @implements 29A3:0169:0008:63C3
- * @implements 29A3:0171:0004:C0E6
- * @implements 29A3:0175:0028:0C94
- * @implements 29A3:019D:000C:9EC2
- * @implements 29A3:01A9:0008:63C5
- * @implements 29A3:01B1:0004:C0E6
- * @implements 29A3:01B5:001A:784E
- * @implements 29A3:01C3:000C:CF33
- *
- * Called From: 29A3:011C:0024:C7FA
- * Called From: 29A3:0123:0024:C7FA
- */
-void emu_Mouse_CheckMovement()
-{
-l__013F:
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x706A), 0x0);
-	if (emu_get_memory16(emu_ds, 0x00, 0x706A) != 0x0) goto l__01B5;
-	emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x707C), emu_cx);
-	if (emu_get_memory16(emu_ds, 0x00, 0x707C) == emu_cx) {
-		emu_cmpw(&emu_get_memory16(emu_ds, 0x00, 0x707E), emu_dx);
-		if (emu_get_memory16(emu_ds, 0x00, 0x707E) == emu_dx) goto l__01B5;
-	}
-l__0152:
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7080);
-	emu_andw(&emu_ax, 0xC000);
-	emu_cmpw(&emu_ax, 0xC000);
-	if (emu_ax == 0xC000) goto l__017D;
-	emu_push(emu_cs); emu_push(0x0171); emu_cs = 0x2B6C; emu_GUI_Mouse_Hide();
-l__0171:
-	emu_testw(&emu_get_memory16(emu_ds, 0x00, 0x7080), 0x8000);
-	if ((emu_get_memory16(emu_ds, 0x00, 0x7080) & 0x8000) == 0) goto l__019D;
-l__017D:
-	emu_cmpw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x7082));
-	if (emu_cx < emu_get_memory16(emu_ds, 0x00, 0x7082)) goto l__019D;
-	emu_cmpw(&emu_cx, emu_get_memory16(emu_ds, 0x00, 0x7086));
-	if (emu_cx > emu_get_memory16(emu_ds, 0x00, 0x7086)) goto l__019D;
-	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x7084));
-	if (emu_dx < emu_get_memory16(emu_ds, 0x00, 0x7084)) goto l__019D;
-	emu_cmpw(&emu_dx, emu_get_memory16(emu_ds, 0x00, 0x7088));
-	if (emu_dx > emu_get_memory16(emu_ds, 0x00, 0x7088)) goto l__019D;
-	emu_orw(&emu_get_memory16(emu_ds, 0x00, 0x7080), 0x4000);
-	goto l__01B5;
-l__019D:
-	emu_push(emu_cs); emu_push(0x01B1); emu_cs = 0x2B6C; emu_GUI_Mouse_Show();
-l__01B5:
-	emu_get_memory16(emu_ds, 0x00, 0x707C) = emu_cx;
-	emu_get_memory16(emu_ds, 0x00, 0x707E) = emu_dx;
-	emu_get_memory16(emu_ds, 0x00, 0x705E) = 0x0;
 l__01C3:
+	Mouse_CheckMovement(emu_cx, emu_dx);
 	emu_pop(&emu_di);
 	emu_pop(&emu_es);
 	emu_pop(&emu_si);

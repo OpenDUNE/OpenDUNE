@@ -177,3 +177,37 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
 	return result;
 }
 
+/**
+ * If the mouse has moved, update its coordinates, and update the region flags.
+ * @param mouseX New mouse X coordinate.
+ * @param mouseY New mouse Y coordinate.
+ */
+void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
+{
+	if (g_global->mouseHiddenDepth == 0 && (g_global->mousePrevX != mouseX || g_global->mousePrevY != mouseY)) {
+
+		if ((g_global->regionFlags & 0xC000) != 0xC000) {
+			GUI_Mouse_Hide();
+
+			if ((g_global->regionFlags & 0x8000) == 0) {
+				GUI_Mouse_Show();
+				g_global->mousePrevX = mouseX;
+				g_global->mousePrevY = mouseY;
+				g_global->mouseLock = 0;
+				return;
+			}
+		}
+
+		if (mouseX >= g_global->regionMinX && mouseX <= g_global->regionMaxX &&
+				mouseY >= g_global->regionMinY && mouseY <= g_global->regionMaxY) {
+			g_global->regionFlags |= 0x4000;
+		} else {
+			GUI_Mouse_Show();
+		}
+	}
+
+	g_global->mousePrevX = mouseX;
+	g_global->mousePrevY = mouseY;
+	g_global->mouseLock = 0;
+}
+
