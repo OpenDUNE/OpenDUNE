@@ -752,56 +752,6 @@ l__0A13:
 }
 
 /**
- * Decompiled function emu_Input_History_Add()
- *
- * @name emu_Input_History_Add
- * @implements 29E8:0A19:002A:2DE6 ()
- * @implements 29E8:0A43:0007:9B22
- *
- * Called From: 29E8:0C4F:0012:D969
- * Called From: 29E8:0C4F:0017:C1F9
- * Called From: 29E8:0C4F:001A:6FEF
- * Called From: 29E8:0C73:0009:DC81
- * Called From: 29E8:0C87:0014:0C0D
- */
-void emu_Input_History_Add()
-{
-l__0A19:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_si);
-	emu_push(emu_bx);
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x1B1);
-	emu_si = emu_ax;
-	emu_addw(&emu_ax, 0x2);
-	emu_andw(&emu_ax, 0xFF);
-	emu_cmpw(&emu_get_memory16(emu_cs, 0x00, 0x1AF), emu_ax);
-	if (emu_get_memory16(emu_cs, 0x00, 0x1AF) == emu_ax) goto l__0A43;
-	emu_bx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	emu_get_memory16(emu_cs, emu_si, 0xAF) = emu_bx;
-	emu_get_memory16(emu_cs, 0x00, 0x1B1) = emu_ax;
-	emu_xorw(&emu_ax, emu_ax);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-l__0A43:
-	emu_ax = 0x1;
-	emu_pop(&emu_bx);
-	emu_pop(&emu_si);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_HandleInput()
  *
  * @name emu_Input_HandleInput
@@ -1030,11 +980,9 @@ l__0C40:
 	emu_si = emu_get_memory16(emu_cs, 0x00, 0x1B1);
 	emu_get_memory16(emu_ss, emu_bp, -0x2) = emu_si;
 	emu_di = emu_get_memory16(emu_cs, 0x00, 0x1AF);
-	emu_push(emu_ax);
-	emu_push(emu_cs);
-	emu_push(0x0C52); emu_Input_History_Add();
-l__0C52:
-	emu_addw(&emu_sp, 0x2);
+
+	emu_ax = Input_History_Add(emu_ax);
+
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__0C6A;
 	emu_ax = emu_get_memory16(emu_ss, emu_bp,  0x6);
@@ -1048,19 +996,14 @@ l__0C52:
 l__0C6A:
 	goto l__0D31;
 l__0C6D:
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0xA98));
-	emu_push(emu_cs);
-	emu_push(0x0C76); emu_Input_History_Add();
-l__0C76:
-	emu_addw(&emu_sp, 0x2);
+	emu_ax = Input_History_Add(emu_get_memory16(emu_cs, 0x00, 0xA98));
+
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__0C6A;
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x2);
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0xA9A));
-	emu_push(emu_cs);
-	emu_push(0x0C8A); emu_Input_History_Add();
-l__0C8A:
-	emu_addw(&emu_sp, 0x2);
+
+	emu_ax = Input_History_Add(emu_get_memory16(emu_cs, 0x00, 0xA9A));
+
 	emu_orw(&emu_ax, emu_ax);
 	if (emu_ax != 0) goto l__0C6A;
 	emu_addw(&emu_get_memory16(emu_ss, emu_bp, -0x4), 0x2);

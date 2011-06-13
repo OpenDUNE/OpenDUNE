@@ -108,3 +108,20 @@ uint16 Input_Keyboard_Translate(uint16 keyValue)
 	return keyValue;
 }
 
+/**
+ * Add a value to the history buffer.
+ * @param value New value to add.
+ * @return \c 1 if adding fails, \c 0 if successful.
+ */
+uint16 Input_History_Add(uint16 value)
+{
+	uint16 index;
+
+	index = (s_input_local->historyTail + 2) & 0xFF;
+	if (index == s_input_local->historyHead) return 1;
+
+	s_input_local->history[s_input_local->historyTail / 2] = value;
+	s_input_local->historyTail = index;
+	return 0;
+}
+

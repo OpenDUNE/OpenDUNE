@@ -133,7 +133,6 @@ extern void emu_Input_Wait();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__AB01_08CE_005F_AC14();
 extern void f__29E8_0971_0071_E515();
-extern void emu_Input_History_Add();
 extern void emu_Input_HandleInput();
 extern void f__AB00_0B4B_0028_C5A7();
 extern void emu_DSP_GetInfo();

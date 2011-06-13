@@ -36,7 +36,6 @@
 29E8:0643:0008:ED98	emu_Input_Keyboard_NextKey
 29E8:0479:0009:A77A	emu_Input_Keyboard_HandleKeys2
 29E8:026C:0015:3543	emu_Input_Keyboard_HandleKeys
-29E8:0A19:002A:2DE6	emu_Input_History_Add
 
 263B:0006:001C:9C72	emu_Video_GetMode
 263B:002F:0016:FDB0	emu_Video_SetMode
