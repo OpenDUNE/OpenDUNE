@@ -139,7 +139,7 @@ uint16 Input_AddHistory(uint16 value)
 	} else if (g_global->variable_76A6 < g_global->variable_7015) {
 		value = 0;
 	} else if (g_global->variable_7013 == 0x2D) {
-		emu_push(0x0524); emu_Input_ReadInputFromFile();
+		Input_ReadInputFromFile();
 		value = 0;
 	} else {
 		value = g_global->variable_7013;
@@ -313,3 +313,46 @@ void Input_HandleInput(uint16 input)
 
 	emu_popf();
 }
+
+/** Read input event from file. */
+void Input_ReadInputFromFile()
+{
+	uint16 value;
+
+	if (g_global->mouseMode == 0 || g_global->mouseMode != 2) return;
+
+	File_Read(g_global->mouseFileID, s_input_local->variable_063B[0], 4); /* Read failure not translated. */
+
+	g_global->variable_7015 = s_input_local->variable_063B[0][1];
+	value = g_global->variable_7013 = s_input_local->variable_063B[0][0];
+
+	if ((value & 0xFF) != 0x2D) {
+		uint8 idx, bit;
+
+		idx = (value & 0xFF) >> 3;
+		bit = 1 << (value & 7);
+
+		s_input_local->activeInputMap[idx] &= ~bit;
+		if ((value & 0x800) == 0) s_input_local->activeInputMap[idx] |= bit;
+
+		if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44) {
+			g_global->variable_76A6 = 0;
+			return;
+		}
+
+		value -= 0x41;
+		if ((value & 0xFF) <= 0x2) {
+			g_global->prevButtonState &= ~(1 << (value & 0xFF));
+			g_global->prevButtonState |= (((value & 0x800) >> (3+8)) ^ 1) << (value & 0xFF);
+		}
+	}
+
+	File_Read(g_global->mouseFileID, s_input_local->variable_063B[1], 4); /* Read failure not translated. */
+
+	g_global->mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
+	value = g_global->mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
+
+	Mouse_HandleMovementIfMoved(value);
+	g_global->variable_76A6 = 0x0;
+}
+

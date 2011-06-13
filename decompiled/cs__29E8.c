@@ -173,134 +173,6 @@ l__0482:
 }
 
 /**
- * Decompiled function emu_Input_ReadInputFromFile()
- *
- * @name emu_Input_ReadInputFromFile
- * @implements 29E8:0534:000E:6213 ()
- * @implements 29E8:0542:000D:DF7C
- * @implements 29E8:054F:0018:AF1C
- * @implements 29E8:0567:000A:C414
- * @implements 29E8:0571:0087:C5AD
- * @implements 29E8:058D:006B:8F0C
- * @implements 29E8:05DD:001B:2E47
- * @implements 29E8:05F8:0020:55D6
- * @implements 29E8:0618:0008:9584
- * @implements 29E8:0632:0005:F80B
- *
- * Called From: 29E8:0521:0028:0C66
- * Called From: 29E8:0840:0003:233C
- * Called From: 29E8:08B1:0004:D32F
- */
-void emu_Input_ReadInputFromFile()
-{
-l__0534:
-	emu_push(emu_ax);
-	emu_push(emu_bx);
-	emu_push(emu_cx);
-	emu_push(emu_di);
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x0);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) != 0x0) goto l__0542;
-	goto l__0632;
-l__0542:
-	emu_ax = emu_get_memory16(emu_ds, 0x00, 0x7013);
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x2) goto l__054F;
-	goto l__0632;
-l__054F:
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0x639));
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0x637));
-	emu_push(emu_cs);
-	emu_ax = 0x63B;
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x0567); emu_cs = 0x1FB5; emu_File_Read();
-l__0567:
-	emu_addw(&emu_sp, 0xA);
-	emu_orw(&emu_ax, emu_ax);
-	if (emu_ax != 0) goto l__0571;
-	/* Unresolved jump */ emu_ip = 0x0620; emu_last_cs = 0x29E8; emu_last_ip = 0x056E; emu_last_length = 0x000A; emu_last_crc = 0xC414; emu_call();
-l__0571:
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x63D);
-	emu_get_memory16(emu_ds, 0x00, 0x7015) = emu_ax;
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x63B);
-	emu_get_memory16(emu_ds, 0x00, 0x7013) = emu_ax;
-	emu_cmpb(&emu_al, 0x2D);
-	if (emu_al == 0x2D) goto l__05DD;
-	emu_bx = 0x101;
-	emu_testb(&emu_ah, 0x8);
-	if ((emu_ah & 0x8) != 0) {
-		emu_xorb(&emu_bl, emu_bl);
-	}
-l__058D:
-	emu_push(emu_ax);
-	emu_xorb(&emu_ah, emu_ah);
-	emu_di = emu_ax;
-	emu_shrw(&emu_di, 0x1);
-	emu_shrw(&emu_di, 0x1);
-	emu_shrw(&emu_di, 0x1);
-	emu_cl = emu_al;
-	emu_andb(&emu_cl, 0x7);
-	emu_shlw(&emu_bx, emu_cl);
-	emu_notb(&emu_bh, emu_bh);
-	emu_cl = emu_get_memory8(emu_cs, emu_di, 0x232);
-	emu_andb(&emu_cl, emu_bl);
-	emu_andb(&emu_get_memory8(emu_cs, emu_di, 0x232), emu_bh);
-	emu_orb(&emu_get_memory8(emu_cs, emu_di, 0x232), emu_bl);
-	emu_pop(&emu_ax);
-	emu_cmpb(&emu_al, 0x41);
-	if (emu_al < 0x41) goto l__0618;
-	emu_cmpb(&emu_al, 0x44);
-	if (emu_al > 0x44) goto l__0618;
-	emu_subb(&emu_al, 0x41);
-	emu_cmpb(&emu_al, 0x2);
-	if (emu_al <= 0x2) {
-		emu_andb(&emu_ah, 0x8);
-		emu_cl = 0x3;
-		emu_shrb(&emu_ah, emu_cl);
-		emu_xorb(&emu_ah, 0x1);
-		emu_cl = emu_al;
-		emu_al = 0x1;
-		emu_shlb(&emu_ah, emu_cl);
-		emu_shlb(&emu_al, emu_cl);
-		emu_notb(&emu_al, emu_al);
-		emu_andb(&emu_get_memory8(emu_ds, 0x00, 0x7099), emu_al);
-		emu_orb(&emu_get_memory8(emu_ds, 0x00, 0x7099), emu_ah);
-	}
-l__05DD:
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0x639));
-	emu_push(emu_get_memory16(emu_cs, 0x00, 0x637));
-	emu_push(emu_cs);
-	emu_ax = 0x63B;
-	emu_addw(&emu_ax, 0x4);
-	emu_push(emu_ax);
-	emu_push(emu_get_memory16(emu_ds, 0x00, 0x7011));
-	emu_push(emu_cs); emu_push(0x05F8); emu_cs = 0x1FB5; emu_File_Read();
-l__05F8:
-	emu_addw(&emu_sp, 0xA);
-	emu_orw(&emu_ax, emu_ax);
-	if (emu_ax == 0) { /* Unresolved jump */ emu_ip = 0x0620; emu_last_cs = 0x29E8; emu_last_ip = 0x05FD; emu_last_length = 0x0020; emu_last_crc = 0x55D6; emu_call(); return; }
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x63F);
-	emu_get_memory16(emu_ds, 0x00, 0x7017) = emu_ax;
-	emu_get_memory16(emu_ds, 0x00, 0x7060) = emu_ax;
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x641);
-	emu_get_memory16(emu_ds, 0x00, 0x7019) = emu_ax;
-	emu_get_memory16(emu_ds, 0x00, 0x7062) = emu_ax;
-	Mouse_HandleMovementIfMoved(emu_ax);
-l__0618:
-	emu_get_memory16(emu_ds, 0x00, 0x76A6) = 0x0;
-	goto l__0632;
-l__0632:
-	emu_pop(&emu_di);
-	emu_pop(&emu_cx);
-	emu_pop(&emu_bx);
-	emu_pop(&emu_ax);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	return;
-}
-
-/**
  * Decompiled function emu_Input_Keyboard_NextKey()
  *
  * @name emu_Input_Keyboard_NextKey
@@ -494,7 +366,7 @@ l__081D:
 	if (emu_al >= 0x7A) goto l__0804;
 	emu_push(0x0840); emu_Input_Keyboard_HandleKeys();
 l__0840:
-	emu_push(0x0843); emu_Input_ReadInputFromFile();
+	Input_ReadInputFromFile();
 l__0843:
 	emu_xorb(&emu_ah, emu_ah);
 	emu_pop(&emu_ds);
@@ -537,7 +409,7 @@ l__08AD:
 	emu_ax = Input_ReadHistory(emu_ax);
 l__08B0:
 	emu_sti();
-	emu_push(0x08B4); emu_Input_ReadInputFromFile();
+	Input_ReadInputFromFile();
 l__08B4:
 
 	/* Return from this function */

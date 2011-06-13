@@ -100,7 +100,6 @@ extern void f__AB00_04CE_0001_6780();
 extern void f__AB00_04D8_002F_418B();
 extern void f__AB00_0501_0001_6780();
 extern void emu_DSP_SetDMA();
-extern void emu_Input_ReadInputFromFile();
 extern void f__AB00_0564_0001_6780();
 extern void f__AB00_056F_0020_6328();
 extern void emu_Tools_Shld_Wrapper();

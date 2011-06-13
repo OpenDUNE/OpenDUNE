@@ -69,7 +69,9 @@ typedef struct InputLocalData {
 	/* 0465(20)  */ PACK uint8  keymap_numlock[20];         /*!< Keymap to convert scancode to for numpad with numlock on. */
 
 	/* 0479(185) */ PACK uint8      code_0479[187];
-	/* 0534()    */ PACK uint8   unknown_0534[0x010F];
+	/* 0534()    */ PACK uint8   unknown_0534[0x0103];
+	/* 0637(4)   */ PACK uint32  removed_0637;              /*!< REMOVED: File length to read (4L) for variable_063B[x]. */
+	/* 063B(8)   */ PACK uint16 variable_063B[2][2];        /*!< ?? */
 	/* 0643(125) */ PACK uint8      code_0643[125];
 	/* 06C0()    */ PACK uint8   unknown_06C0[0x007F];
 	/* 073F(14)  */ PACK uint8      code_073F[14];
@@ -101,5 +103,6 @@ extern uint16 Input_Keyboard_Translate(uint16 keyValue);
 extern uint16 Input_History_Add(uint16 value);
 extern uint16 Input_AddHistory(uint16 value);
 extern void Input_HandleInput(uint16 input);
+extern void Input_ReadInputFromFile();
 
 #endif /* INTPUT_H */
