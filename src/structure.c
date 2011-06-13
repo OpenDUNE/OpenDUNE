@@ -395,22 +395,16 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->animation            = (g_global->debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
-		emu_ax = emu_get_memory16(emu_es, emu_bx, 0x2E) * 2;
+		uint16 *iconMap;
 
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
-		emu_bx += emu_ax;
-
-		s->variable_49 = emu_get_memory16(emu_es, emu_bx, 0x2);
+		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+		s->variable_49 = iconMap[iconMap[23] + 1];
 	}
 	if (typeID == STRUCTURE_ROCKET_TURRET) {
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
-		emu_ax = emu_get_memory16(emu_es, emu_bx, 0x30) * 2;
+		uint16 *iconMap;
 
-		emu_lfp(&emu_es, &emu_bx, &emu_get_memory16(emu_ds, 0x00, 0x39EE));
-		emu_bx += emu_ax;
-
-		s->variable_49 = emu_get_memory16(emu_es, emu_bx, 0x2);
+		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+		s->variable_49 = iconMap[iconMap[24] + 1];
 	}
 
 	s->o.hitpoints  = si->o.hitpoints;
