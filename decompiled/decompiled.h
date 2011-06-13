@@ -78,7 +78,6 @@ extern void emu_Stderr_Write();
 extern void emu_Error_Abnormal_Termination();
 extern void f__AB00_02AB_000F_A43F();
 extern void emu_Mouse_CallbackClear();
-extern void emu_Mouse_InsideRegion();
 extern void f__AB00_02FE_0020_41D6();
 extern void emu_Empty4();
 extern void emu_Terminate();

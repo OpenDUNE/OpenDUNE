@@ -23,12 +23,11 @@
 #include "../file.h"
 #include "../save.h"
 #include "../input/input.h"
+#include "../mouse.h"
 #include "../os/endian.h"
 #include "../string.h"
 #include "../house.h"
 #include "../gfx.h"
-
-extern void emu_Mouse_InsideRegion();
 
 static char *GenerateSavegameFilename(uint16 number)
 {
@@ -1382,19 +1381,11 @@ static void GUI_Purchase_ShowInvoice()
 
 	w = GUI_Widget_Get_ByIndex(w, 10);
 
-	if (w != NULL) {
-		emu_push(w->offsetY + w->height);
-		emu_push(w->offsetX + w->width);
-		emu_push(w->offsetY);
-		emu_push(w->offsetX);
-		emu_push(emu_cs); emu_push(0x0818); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-		emu_sp += 8;
-		if (emu_ax != 0) {
-			while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
-				sleep(0); /* Spin-lock */
-			}
-			Input_History_Clear();
+	if (w != NULL && Mouse_InsideRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height) != 0) {
+		while (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
+			sleep(0); /* Spin-lock */
 		}
+		Input_History_Clear();
 	}
 
 	if (g_global->factoryWindowResult == FACTORY_CONTINUE) GUI_FactoryWindow_DrawDetails();

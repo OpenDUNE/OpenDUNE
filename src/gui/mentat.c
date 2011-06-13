@@ -21,11 +21,10 @@
 #include "../wsa.h"
 #include "../unknown/unknown.h"
 #include "../input/input.h"
+#include "../mouse.h"
 #include "../os/endian.h"
 #include "../os/sleep.h"
 #include "./font.h"
-
-extern void emu_Mouse_InsideRegion();
 
 /**
  * Information about the mentat.
@@ -630,16 +629,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 				g_global->variable_8016 = 0;
 				bool06 = 0x1;
 			}
-			goto l__0634;
-		}
-
-		emu_push(g_global->variable_800D);
-		emu_push(g_global->variable_800C);
-		emu_push(g_global->variable_800B);
-		emu_push(g_global->variable_800A);
-		emu_push(emu_cs); emu_push(0x05DC); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-		emu_sp += 0x8;
-		if (emu_ax != 0) {
+		} else if (Mouse_InsideRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800C, g_global->variable_800D) != 0) {
 			if (g_global->variable_8016 != -1) {
 				g_global->variable_8016 = -1;
 				g_global->variable_8022 = Tools_RandomRange(1, 4);
@@ -652,7 +642,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 				bool06 = 0x1;
 			}
 		}
-l__0634:
+
 		if (bool06 != 0x0) {
 			sprite = g_global->variable_7FC6[1][g_global->variable_8022];
 
@@ -665,13 +655,7 @@ l__0634:
 	bool06 = 0x0;
 
 	if (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
-		emu_push(g_global->variable_8009);
-		emu_push(g_global->variable_8008);
-		emu_push(g_global->variable_8007);
-		emu_push(g_global->variable_8006);
-		emu_push(emu_cs); emu_push(0x06FB); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-		emu_sp += 0x8;
-		if (emu_ax != 0) {
+		if (Mouse_InsideRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8008, g_global->variable_8009) != 0) {
 			if (g_global->variable_801E != 0x4) {
 				bool06 = 0x1;
 				g_global->variable_801E = (g_global->variable_801E == 3) ? 4 : 3;
@@ -682,38 +666,14 @@ l__0634:
 		}
 	}
 
-	emu_push(g_global->variable_8009 + 24);
-	emu_push(g_global->variable_8008 + 16);
-	emu_push((int16)g_global->variable_8007 - 8);
-	emu_push((int16)g_global->variable_8006 - 16);
-	emu_push(emu_cs); emu_push(0x0761); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-	emu_sp += 0x8;
-	if (emu_ax != 0) {
-		emu_push(SCREEN_HEIGHT - 1);
-		emu_push(g_global->variable_8008 + 8);
-		emu_push(g_global->variable_8009);
-		emu_push((int16)g_global->variable_8006 - 8);
-		emu_push(emu_cs); emu_push(0x078C); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-		emu_sp += 0x8;
-		if (emu_ax != 0) {
+	if (Mouse_InsideRegion((int16)g_global->variable_8006 - 16, (int16)g_global->variable_8007 - 8, g_global->variable_8008 + 16, g_global->variable_8009 + 24) != 0) {
+		if (Mouse_InsideRegion((int16)g_global->variable_8006 - 8, g_global->variable_8009, g_global->variable_8008 + 8, SCREEN_HEIGHT - 1) != 0) {
 			i = 3;
 		} else {
-			emu_push(g_global->variable_8009 + 8);
-			emu_push(g_global->variable_8008 + 16);
-			emu_push((int16)g_global->variable_8007 - 8);
-			emu_push(g_global->variable_8008);
-			emu_push(emu_cs); emu_push(0x07BE); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-			emu_sp += 0x8;
-			if (emu_ax != 0) {
+			if (Mouse_InsideRegion(g_global->variable_8008, (int16)g_global->variable_8007 - 8, g_global->variable_8008 + 16, g_global->variable_8009 + 8) != 0) {
 				i = 2;
 			} else {
-				emu_push(g_global->variable_8009 + 8);
-				emu_push(g_global->variable_8006);
-				emu_push((int16)g_global->variable_8007 - 8);
-				emu_push((int16)g_global->variable_8006 - 16);
-				emu_push(emu_cs); emu_push(0x07F0); emu_cs = 0x29A3; emu_Mouse_InsideRegion();
-				emu_sp += 0x8;
-				i = (emu_ax == 0) ? 0 : 1;
+				i = (Mouse_InsideRegion((int16)g_global->variable_8006 - 16, (int16)g_global->variable_8007 - 8, g_global->variable_8006, g_global->variable_8009 + 8) == 0) ? 0 : 1;
 			}
 		}
 

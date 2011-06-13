@@ -13,6 +13,7 @@
 #include "gui/gui.h"
 #include "input/input.h"
 #include "file.h"
+#include "os/sleep.h"
 
 /**
  * Set the region in which the mouse can move.
@@ -57,6 +58,31 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 		emu_ax = 0x8;
 		emu_syscall(0x33); /* Mouse Interrupt */
 	}
+}
+
+/**
+ * Test whether the mouse cursor is at the border or inside the given rectangle.
+ * @param left Left edge.
+ * @param top  Top edge.
+ * @param right Right edge.
+ * @param bottom Bottom edge.
+ * @return Mouse is at the border or inside the rectangle.
+ */
+uint16 Mouse_InsideRegion(int16 left, int16 top, int16 right, int16 bottom)
+{
+	int16 mx, my;
+	uint16 inside;
+
+	while (g_global->mouseLock != 0) sleep(0); /* Spin-lock. */
+	g_global->mouseLock++;
+
+	mx = g_global->mouseX;
+	my = g_global->mouseY;
+
+	inside = (mx < left || mx > right || my < top || my > bottom) ? 0 : 1;
+
+	g_global->mouseLock--;
+	return inside;
 }
 
 void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)

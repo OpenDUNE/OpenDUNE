@@ -30,6 +30,7 @@
 #include "../string.h"
 #include "../tools.h"
 #include "../input/input.h"
+#include "../mouse.h"
 #include "widget.h"
 #include "mentat.h"
 #include "../mouse.h"
