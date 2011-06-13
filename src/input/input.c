@@ -372,3 +372,30 @@ uint16 Input_IsInputAvailable()
 	return Input_AddHistory(value);
 }
 
+/**
+ * Wait for input, and return the read event.
+ * @return New input.
+ */
+uint16 Input_Wait()
+{
+	uint16 value = 0;
+
+	for (;;) {
+		emu_cli();
+		if (g_global->mouseMode == 2) break;
+
+		value = s_input_local->historyHead;
+		if (value != s_input_local->historyTail) break;
+
+		emu_sti();
+		sleep(0); /* Spin-lock */
+	}
+
+	value = Input_ReadHistory(value);
+	emu_sti();
+
+	Input_ReadInputFromFile();
+	return value;
+}
+
+

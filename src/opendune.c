@@ -46,7 +46,6 @@
 extern void emu_Video_GetMode();
 extern void emu_Video_SetMode();
 extern void emu_Input_WaitForValidInput();
-extern void emu_Input_Wait();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
@@ -1527,8 +1526,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 
 	key = 0;
 	if (Input_IsInputAvailable() != 0) {
-		emu_push(emu_cs); emu_push(0x029A); emu_cs = 0x29E8; emu_Input_Wait();
-		key = emu_ax & 0x8FF;
+		key = Input_Wait() & 0x8FF;
 	}
 
 	if (g_global->variable_7097 == 0) {

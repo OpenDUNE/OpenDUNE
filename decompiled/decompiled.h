@@ -122,7 +122,6 @@ extern void f__AB01_07FC_0036_425C();
 extern void f__AB00_0816_0055_489B();
 extern void f__AB01_0869_0035_F60C();
 extern void f__AB00_086B_0007_9A8B();
-extern void emu_Input_Wait();
 extern void f__29E8_08B5_000A_FC14();
 extern void f__AB01_08CE_005F_AC14();
 extern void f__29E8_0971_0071_E515();

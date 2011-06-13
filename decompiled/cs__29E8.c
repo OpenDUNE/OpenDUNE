@@ -355,43 +355,6 @@ l__0843:
 }
 
 /**
- * Decompiled function emu_Input_Wait()
- *
- * @name emu_Input_Wait
- * @implements 29E8:0897:0016:2028 ()
- * @implements 29E8:08AD:0003:2227
- * @implements 29E8:08B0:0004:D32F
- * @implements 29E8:08B4:0001:6580
- *
- * Called From: 29E8:08AB:0016:2028
- * Called From: B4A2:0048:0009:3D8E
- * Called From: B4E6:0295:0009:0D8E
- */
-void emu_Input_Wait()
-{
-l__0897:
-	emu_cli();
-	emu_cmpb(&emu_get_memory8(emu_ds, 0x00, 0x7010), 0x2);
-	if (emu_get_memory8(emu_ds, 0x00, 0x7010) == 0x2) goto l__08AD;
-	emu_ax = emu_get_memory16(emu_cs, 0x00, 0x1AF);
-	emu_cmpw(&emu_ax, emu_get_memory16(emu_cs, 0x00, 0x1B1));
-	if (emu_ax != emu_get_memory16(emu_cs, 0x00, 0x1B1)) goto l__08AD;
-	emu_sti();
-	goto l__0897;
-l__08AD:
-	emu_ax = Input_ReadHistory(emu_ax);
-l__08B0:
-	emu_sti();
-	Input_ReadInputFromFile();
-l__08B4:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__29E8_08B5_000A_FC14()
  *
  * @name f__29E8_08B5_000A_FC14
