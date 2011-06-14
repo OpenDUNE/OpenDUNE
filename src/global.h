@@ -1523,7 +1523,7 @@ typedef struct GlobalData {
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
-	/* 98F1(2)   */ PACK uint16 variable_98F1;              /*!< ?? */
+	/* 98F1(2)   */ PACK uint16 removed_98F1;               /*!< REMOVED - If screen memory has to go in highermemory (0x40 or 0x0). Always 0x0. */
 	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];
 	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
 	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/

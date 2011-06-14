@@ -2420,7 +2420,7 @@ static bool Unknown_25C4_000E()
 		totalSize += size;
 	}
 
-	memBlock = Tools_Malloc(totalSize, g_global->variable_98F1 | 0x30);
+	memBlock = Tools_Malloc(totalSize, 0x30);
 
 	for (i = 1; i < 8; i++) {
 		if (g_global->variable_6CD3[i][0] == 0) continue;
