@@ -100,11 +100,11 @@ void GameLoop_House()
 		type = Tools_RandomRange(0, UNIT_MAX - 1);
 
 		/* Increase how many of this unit is available via starport by one */
-		if (g_global->starportAvailable[emu_ax] != 0 && g_global->starportAvailable[emu_ax] < 10) {
-			if (g_global->starportAvailable[emu_ax] == -1) {
-				g_global->starportAvailable[emu_ax] = 1;
+		if (g_global->starportAvailable[type] != 0 && g_global->starportAvailable[type] < 10) {
+			if (g_global->starportAvailable[type] == -1) {
+				g_global->starportAvailable[type] = 1;
 			} else {
-				g_global->starportAvailable[emu_ax]++;
+				g_global->starportAvailable[type]++;
 			}
 		}
 	}
