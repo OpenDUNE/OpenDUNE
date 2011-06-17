@@ -159,7 +159,6 @@ extern void f__AB01_1A90_002B_D292();
 extern void f__01F7_1AA9_0014_FC63();
 extern void f__01F7_1AE8_0010_0EEE();
 extern void f__AB01_1B48_0023_740C();
-extern void f__01F7_2040_0033_F011();
 extern void f__01F7_20B5_0076_64ED();
 extern void f__01F7_2148_0028_6CAC();
 extern void emu_Tools_Realloc();

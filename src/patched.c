@@ -9,10 +9,8 @@
 extern void f__01F7_0138_0019_8DC5();
 extern void f__01F7_022D_0003_9E5A();
 extern void f__01F7_0F45_004B_44A0();
-extern void f__01F7_2040_0033_F011();
 extern void f__01F7_20B5_0076_64ED();
 extern void f__01F7_21FA_0012_B06A();
-extern void Interrupt_Video();
 
 /**
  * Decompiled function f__01F7_0229_0004_BEF7()
@@ -45,47 +43,4 @@ void p__01F7_0229_0004_BEF7()
 		case 0x022D: f__01F7_022D_0003_9E5A(); return;
 		default: exit(1);
 	}
-}
-
-/**
- * Decompiled function f__01F7_201F_0021_24DC()
- *  Patched to remove decompiled functions duplications.
- *
- * @name p__01F7_201F_0021_24DC
- * @implements 01F7:201F:0021:24DC ()
- */
-void p__01F7_201F_0021_24DC()
-{
-l__201F:
-	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_push(emu_get_memory16(emu_ds, emu_si, 0x0));
-	emu_push(emu_get_memory16(emu_ds, emu_si, 0x6));
-	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x8));
-	emu_ax = emu_get_memory16(emu_ds, emu_si, 0x0);
-	emu_bx = emu_get_memory16(emu_ds, emu_si, 0x2);
-	emu_cx = emu_get_memory16(emu_ds, emu_si, 0x4);
-	emu_dx = emu_get_memory16(emu_ds, emu_si, 0x6);
-	emu_di = emu_get_memory16(emu_ds, emu_si, 0xA);
-	emu_si = emu_get_memory16(emu_ds, emu_si, 0x8);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_es);
-
-	emu_ip = emu_get_memory16(emu_ss, emu_bp, -0x4);
-	emu_push(emu_cs);
-	emu_cs = emu_get_memory16(emu_ss, emu_bp, -0x2);
-	emu_push(0x2040);
-	switch (emu_get_memory8(emu_ss, emu_bp, 0x6)) {
-		case 0x10:
-			emu_push(emu_bp);
-			emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(emu_ip + 3); Interrupt_Video();
-			emu_pop(&emu_bp);
-			break;
-
-		default:
-			assert(!"Invalid video mode call");
-	}
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	f__01F7_2040_0033_F011();
 }

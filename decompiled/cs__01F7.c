@@ -1852,53 +1852,6 @@ l__1B65:
 }
 
 /**
- * Decompiled function f__01F7_2040_0033_F011()
- *
- * @name f__01F7_2040_0033_F011
- * @implements 01F7:2040:0033:F011 ()
- * @implements 01F7:2073:0007:F77E
- *
- */
-void f__01F7_2040_0033_F011()
-{
-l__2040:
-	emu_pushf();
-	emu_pushf();
-	emu_push(emu_si);
-	emu_push(emu_ds);
-	emu_push(emu_es);
-	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0x10));
-	emu_pop(&emu_get_memory16(emu_ds, emu_si, 0x0));
-	emu_pop(&emu_get_memory16(emu_ds, emu_si, 0x6));
-	emu_lfp(&emu_ds, &emu_si, &emu_get_memory16(emu_ss, emu_bp,  0xC));
-	emu_pop(&emu_get_memory16(emu_ds, emu_si, 0x8));
-	emu_pop(&emu_get_memory16(emu_ds, emu_si, 0xE));
-	emu_pop(&emu_get_memory16(emu_ds, emu_si, 0xC));
-	emu_andw(&emu_get_memory16(emu_ds, emu_si, 0xC), 0x1);
-	emu_get_memory16(emu_ds, emu_si, 0xA) = emu_di;
-	emu_get_memory16(emu_ds, emu_si, 0x6) = emu_dx;
-	emu_get_memory16(emu_ds, emu_si, 0x4) = emu_cx;
-	emu_get_memory16(emu_ds, emu_si, 0x2) = emu_bx;
-	emu_get_memory16(emu_ds, emu_si, 0x0) = emu_ax;
-	emu_pop(&emu_ds);
-	if (emu_flags.zf) { /* Unresolved jump */ emu_ip = 0x2074; emu_last_cs = 0x01F7; emu_last_ip = 0x206C; emu_last_length = 0x0033; emu_last_crc = 0xF011; emu_call(); return; }
-	emu_push(emu_ax);
-	emu_push(emu_ax);
-	emu_push(0x2073); f__01F7_0675_0020_D684();
-l__2073:
-	emu_pop(&emu_ax);
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_sp = emu_bp;
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__01F7_20B5_0076_64ED()
  *
  * @name f__01F7_20B5_0076_64ED
