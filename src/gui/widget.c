@@ -16,8 +16,6 @@
 #include "../os/math.h"
 #include "../tools.h"
 
-extern void emu_GUI_HOF_ResumeGame();
-
 Widget *GUI_Widget_GetNext(Widget *w)
 {
 	if (w->next.csip == 0x0) return NULL;
