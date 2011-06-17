@@ -12,8 +12,39 @@
 #include "gfx.h"
 #include "gui/gui.h"
 #include "input/input.h"
+#include "interrupt.h"
 #include "file.h"
 #include "os/sleep.h"
+
+/**
+ * Initialize the mouse driver.
+ */
+void Mouse_Init()
+{
+	emu_ax = 0x3533;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_DOS();
+
+	g_global->mouseX = SCREEN_WIDTH / 2;
+	g_global->mouseY = SCREEN_HEIGHT / 2;
+	g_global->mouseHiddenDepth = 1;
+	g_global->regionFlags = 0;
+	g_global->mouseRegionRight = SCREEN_WIDTH - 1;
+	g_global->mouseRegionBottom = SCREEN_HEIGHT - 1;
+
+	g_global->doubleWidth = true;
+	g_global->mouseInstalled = true;
+	g_global->variable_7097 = true;
+
+	emu_cx = SCREEN_WIDTH;
+	emu_dx = SCREEN_HEIGHT / 2;
+	emu_ax = 0x4;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02A8); Interrupt_Mouse();
+
+	emu_cx = 31;
+	emu_es = 0x29A3; emu_dx = 0x0054; /* emu_Mouse_EventHandler() */
+	emu_ax = 12;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02B5); Interrupt_Mouse();
+}
 
 /**
  * Set the region in which the mouse can move.

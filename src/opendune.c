@@ -2402,8 +2402,7 @@ static bool Unknown_25C4_000E()
 	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 
 	Video_Init();
-
-	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
+	Mouse_Init();
 
 	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
 
