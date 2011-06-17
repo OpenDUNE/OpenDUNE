@@ -1,13 +1,10 @@
-01F7:0000:000C:3D76	emu_EntryPoint
 01F7:016A:0001:6580	emu_Empty3	# Function does absolutely nothing
 01F7:016B:0009:694B	emu_Exit	# (code)
-01F7:017D:0006:2BD3	emu_Interrupt_Vector_Store	#
 01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
 01F7:0272:0007:7402	emu_Stderr_Write	# ()
 01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
 01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
 01F7:0320:000D:74B7	emu_Terminate	# (error, ?, code)
-01F7:0377:000D:81BB	emu_Terminate_Normal	# (code)
 01F7:0386:0010:FC59	emu_Terminate_Error	# (code)
 01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
 01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)

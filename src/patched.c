@@ -6,7 +6,6 @@
 #include "types.h"
 #include "libemu.h"
 
-extern void f__01F7_0138_0019_8DC5();
 extern void f__01F7_022D_0003_9E5A();
 extern void f__01F7_0F45_004B_44A0();
 extern void f__01F7_20B5_0076_64ED();
@@ -39,7 +38,6 @@ void p__01F7_0229_0004_BEF7()
 	 *  function but some other function. For now we capture this in this
 	 *  way. */
 	switch (emu_ip) {
-		case 0x0138: f__01F7_0138_0019_8DC5(); return;
 		case 0x022D: f__01F7_022D_0003_9E5A(); return;
 		default: exit(1);
 	}

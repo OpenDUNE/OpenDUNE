@@ -9,7 +9,4 @@ extern void Game_Init();
 extern void Game_LoadScenario(uint8 houseID, uint16 scenarioID);
 extern void PrepareEnd();
 
-
-extern void emu_Main();
-
 #endif /* OPENDUNE_H */
