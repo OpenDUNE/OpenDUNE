@@ -2466,46 +2466,6 @@ static bool Unknown_25C4_000E()
 	return true;
 }
 
-static bool Unknown_1DB6_0004(char *filename)
-{
-	emu_push(0x3F);
-	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; emu_Interrupt_Vector_Get();
-	emu_sp += 2;
-	g_global->variable_9846.s.cs = emu_dx;
-	g_global->variable_9846.s.ip = emu_ax;
-
-	if (filename != NULL) {
-		uint8 *var9846 = emu_get_memorycsip(g_global->variable_9846);
-
-		emu_push(0x261F); emu_push(0x8);
-		emu_push(0x3F);
-		emu_push(emu_cs); emu_push(0x003C); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
-		emu_sp += 6;
-
-		memcpy(var9846, g_global->variable_62F7, 9);
-
-		var9846[0x65] = 0xCB;
-	}
-
-	if (filename != NULL) {
-		if (!File_Exists(filename)) {
-			printf("\r\nProgram must be run from the source directory.\r\n");
-
-			emu_push(g_global->variable_9846.s.cs); emu_push(g_global->variable_9846.s.ip);
-			emu_push(0x3F);
-			emu_push(emu_cs); emu_push(0x00AB); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
-			emu_sp += 6;
-
-			return true;
-		}
-	}
-
-	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
-
-	return false;
-}
-
-
 void Main()
 {
 	DuneCfg *config;
@@ -2519,7 +2479,7 @@ void Main()
 		exit(1);
 	}
 
-	if (Unknown_1DB6_0004("DUNE2.EXE")) exit(1);
+	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
 	if (!config->useXMS) {
 		config->voiceDrv = 0;
 	}
@@ -2775,27 +2735,6 @@ void PrepareEnd()
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x29E8; f__29E8_0F7A_000D_B1AA();
-
-	if (g_global->variable_6C66.csip != 0x0) {
-		/* Call based on memory/register values */
-		emu_ip = g_global->variable_6C66.s.ip;
-		emu_push(emu_cs);
-		emu_cs = g_global->variable_6C66.s.cs;
-		emu_push(0x004F);
-		switch ((emu_cs << 16) + emu_ip) {
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0xB500; emu_last_ip = 0x004B; emu_last_length = 0x000D; emu_last_crc = 0x7184;
-				emu_call();
-				return;
-		}
-	}
-
-	emu_push(g_global->variable_9846.s.cs);
-	emu_push(g_global->variable_9846.s.ip);
-	emu_push(0x3F);
-	emu_push(emu_cs); emu_push(0x0093); emu_cs = 0x01F7; emu_Interrupt_Vector_Set();
-	emu_sp += 6;
 }
 
 void Game_Timer_Interrupt()
