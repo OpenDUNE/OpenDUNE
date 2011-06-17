@@ -1594,6 +1594,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 packed;
+	uint16 locax;
 
 	VARIABLE_NOT_USED(script);
 
@@ -1604,8 +1605,8 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	packed = Tile_PackTile(u->o.position);
 
-	emu_ax = Map_B4CD_0750(packed);
-	if (emu_ax != 8 && emu_ax != 9) return 0;
+	locax = Map_B4CD_0750(packed);
+	if (locax != 8 && locax != 9) return 0;
 
 	u->amount += Tools_Random_256() & 1;
 	u->o.flags.s.inTransport = true;

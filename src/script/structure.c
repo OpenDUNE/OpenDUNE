@@ -242,6 +242,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	tile32 tile;
 	Structure *s;
 	Unit *u;
+	uint16 locsi;
 
 	VARIABLE_NOT_USED(script);
 
@@ -263,12 +264,12 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		return 1;
 	}
 
-	emu_si = Structure_0C3A_247A(s, u->o.type == UNIT_HARVESTER);
-	if (emu_si == 0) return 0;
+	locsi = Structure_0C3A_247A(s, u->o.type == UNIT_HARVESTER);
+	if (locsi == 0) return 0;
 
 	u->o.variable_09 |= s->o.variable_09;
 
-	tile = Tile_Center(Tile_UnpackTile(emu_si));
+	tile = Tile_Center(Tile_UnpackTile(locsi));
 
 	if (!Unit_SetPosition(u, tile)) return 0;
 

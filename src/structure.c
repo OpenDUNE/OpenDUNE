@@ -2030,8 +2030,6 @@ void Structure_HouseUnderAttack(uint8 houseID)
 	PoolFindStruct find;
 	House *h;
 
-	emu_si = houseID;
-
 	h = House_Get_ByIndex(houseID);
 
 	if (houseID != g_global->playerHouseID && h->flags.s.variable_0004) return;

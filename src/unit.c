@@ -1451,8 +1451,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			u->o.script.returnValue = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
-			emu_ax = Map_B4CD_0750(packed);
-			if ((emu_ax == 0 || emu_ax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
+			uint16 locax = Map_B4CD_0750(packed);
+			if ((locax == 0 || locax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
 				csip32 proc;
 
 				proc.s.cs = 0x33C8;
@@ -1506,16 +1506,16 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	} else {
 		if (unit->o.type == UNIT_BULLET) {
-			emu_ax = Map_B4CD_0750(Tile_PackTile(newPosition));
-			if (emu_ax == 11 || emu_ax == 12) {
+			uint16 locax = Map_B4CD_0750(Tile_PackTile(newPosition));
+			if (locax == 11 || locax == 12) {
 				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
 					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->o.houseID) {
-						emu_ax = 0;
+						locax = 0;
 					}
 				}
 			}
 
-			if (emu_ax == 11 || emu_ax == 12 || emu_ax == 6) {
+			if (locax == 11 || locax == 12 || locax == 6) {
 				unit->o.position = newPosition;
 
 				Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
@@ -2165,9 +2165,9 @@ void Unit_DisplayStatusText(Unit *unit)
 		stringID = 0x79; /* " is %d percent full" */
 
 		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
-			emu_ax = Map_B4CD_0750(Tile_PackTile(unit->o.position));
+			uint16 locax = Map_B4CD_0750(Tile_PackTile(unit->o.position));
 
-			if (emu_ax == 8 || emu_ax == 9) stringID = 0x7A; /* " is %d percent full and harvesting" */
+			if (locax == 8 || locax == 9) stringID = 0x7A; /* " is %d percent full and harvesting" */
 		}
 
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {

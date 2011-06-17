@@ -64,7 +64,6 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 	}
 
 	GUI_Screen_SetActive(oldScreenID);
-	emu_ax = 0;
 }
 
 /**
