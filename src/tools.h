@@ -36,7 +36,4 @@ extern void Tools_Sleep(uint16 ticks);
 extern csip32 Tools_Malloc(uint32 size, uint8 flags);
 extern void Tools_Free(csip32 ptr);
 
-
-extern void emu_Tools_Shld();
-
 #endif /* TOOLS_H */

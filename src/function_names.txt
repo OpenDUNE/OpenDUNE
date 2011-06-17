@@ -1,22 +1,3 @@
-01F7:016A:0001:6580	emu_Empty3	# Function does absolutely nothing
-01F7:016B:0009:694B	emu_Exit	# (code)
-01F7:01C0:000A:F393	emu_Interrupt_Vector_Restore	#
-01F7:0272:0007:7402	emu_Stderr_Write	# ()
-01F7:027A:000E:2C9D	emu_Error_Abnormal_Termination	# ()
-01F7:031F:0001:6580	emu_Empty4	# Function does absolutely nothing
-01F7:0320:000D:74B7	emu_Terminate	# (error, ?, code)
-01F7:0386:0010:FC59	emu_Terminate_Error	# (code)
-01F7:04BD:000A:984A	emu_Interrupt_Vector_Get	# (interrupt)
-01F7:04CC:000E:D711	emu_Interrupt_Vector_Set	# (interrupt, pointer_csip)
-01F7:058B:0018:D9CF	emu_Tools_Shld_Wrapper	# stupid wrapper
-01F7:05ED:0013:E7F6	emu_Tools_AddCSIP_Wrapper	# stupid wrapper
-01F7:05F0:0010:6415	emu_Tools_AddCSIP	# (dx:ax + cx:bx -> dx:ax, and makes dx as big as possible)
-01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
-01F7:0773:001E:D7DA	emu_File_LowLevel_Seek	# (file, position32, method)
-01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
-01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
-01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
-
 29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0054:005C:47DC	emu_Mouse_EventHandler
 
