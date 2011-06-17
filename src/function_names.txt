@@ -17,9 +17,6 @@
 01F7:06C0:000B:9E93	emu_Device_Get_Info	# (file)
 01F7:0773:001E:D7DA	emu_File_LowLevel_Seek	# (file, position32, method)
 01F7:07B3:0021:4ED6	emu_Tools_Cmpd	# cmp(dx:ax, cx:bx)
-01F7:0EFB:0020:CAA8	emu_Tools_StoreSegments	# (csip) stores es, cs, ss and ds in "array" at csip
-01F7:1FB0:0010:CF18	emu_Interrupt_Video
-01F7:1FE1:005F:A74A	emu_Interrupt_Video_Internal
 01F7:21DE:000D:9231	emu_Tools_Realloc	# (block, size)
 01F7:38F6:0029:8B99	emu_String_strcpy	# (to_csip, from_csip)
 
@@ -28,9 +25,6 @@
 29A3:0054:005C:47DC	emu_Mouse_EventHandler
 
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
-
-263B:0006:001C:9C72	emu_Video_GetMode
-263B:002F:0016:FDB0	emu_Video_SetMode
 
 2BEE:000E:0009:8881	emu_Video_IsInVSync	# Returns non-zero if in vsync
 2BEE:0017:0028:0D9F	emu_Video_WaitForNextVSync	# (vsync), waits for next vsync (or lack thereof)

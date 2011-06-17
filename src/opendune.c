@@ -43,8 +43,6 @@
 #include "mouse.h"
 #include "ini.h"
 
-extern void emu_Video_GetMode();
-extern void emu_Video_SetMode();
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_Tools_PrintDebug();
@@ -55,6 +53,16 @@ extern void emu_Mouse_Init();
 extern void emu_Mouse_CallbackClear();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
+
+/**
+ * Initialize the video driver.
+ */
+void Video_Init()
+{
+	emu_ah = 0x0;
+	emu_al = 19;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_Video();
+}
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -2393,9 +2401,7 @@ static bool Unknown_25C4_000E()
 
 	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 
-	emu_push(3);
-	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_SetMode();
-	emu_sp += 2;
+	Video_Init();
 
 	emu_push(emu_cs); emu_push(0x005A); emu_cs = 0x29A3; emu_Mouse_Init();
 
@@ -2438,10 +2444,6 @@ static bool Unknown_25C4_000E()
 	g_global->new8pFnt = Font_LoadFile("new8p.fnt");
 
 	if (g_global->new8pFnt.csip == 0x0) {
-		emu_push(9);
-		emu_push(emu_cs); emu_push(0x02FB); emu_cs = 0x263B; emu_Video_SetMode();
-		emu_sp += 2;
-
 		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
 
 		Input_WaitForValidInput();
@@ -2467,9 +2469,6 @@ static bool Unknown_25C4_000E()
 
 static bool Unknown_1DB6_0004(char *filename)
 {
-	emu_push(emu_cs); emu_push(0x000F); emu_cs = 0x263B; emu_Video_GetMode();
-	g_global->originalVideoMode = emu_ax;
-
 	emu_push(0x3F);
 	emu_push(emu_cs); emu_push(0x001B); emu_cs = 0x01F7; emu_Interrupt_Vector_Get();
 	emu_sp += 2;
@@ -2791,14 +2790,6 @@ void PrepareEnd()
 				emu_call();
 				return;
 		}
-	}
-
-	emu_push(emu_cs); emu_push(0x0054); emu_cs = 0x263B; emu_Video_GetMode();
-
-	if (emu_ax != g_global->originalVideoMode) {
-		emu_push(0x9);
-		emu_push(emu_cs); emu_push(0x0063); emu_cs = 0x263B; emu_Video_SetMode();
-		emu_sp += 2;
 	}
 
 	emu_push(g_global->variable_9846.s.cs);

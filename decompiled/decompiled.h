@@ -53,10 +53,8 @@
 #undef DECOMPILED_INCLUDE
 
 extern void emu_EntryPoint();
-extern void emu_Video_GetMode();
 extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
-extern void emu_Video_SetMode();
 extern void emu_Mouse_EventHandler();
 extern void f__01F7_0138_0019_8DC5();
 extern void f__01F7_0157_0010_1227();
@@ -134,7 +132,6 @@ extern void f__AB01_0D96_0001_6780();
 extern void f__AB00_0D99_0001_6780();
 extern void emu_DSP_Init();
 extern void f__AB00_0E65_0001_6780();
-extern void emu_Tools_StoreSegments();
 extern void f__01F7_0F45_004B_44A0();
 extern void f__29E8_0F7A_000D_B1AA();
 extern void emu_DSP_Play();
@@ -162,8 +159,6 @@ extern void f__AB01_1A90_002B_D292();
 extern void f__01F7_1AA9_0014_FC63();
 extern void f__01F7_1AE8_0010_0EEE();
 extern void f__AB01_1B48_0023_740C();
-extern void emu_Interrupt_Video();
-extern void emu_Interrupt_Video_Internal();
 extern void f__01F7_2040_0033_F011();
 extern void f__01F7_20B5_0076_64ED();
 extern void f__01F7_2148_0028_6CAC();
