@@ -45,13 +45,6 @@
 
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
-extern void emu_Tools_PrintDebug();
-extern void emu_GUI_ShowEndStats();
-extern void emu_Interrupt_Vector_Get();
-extern void emu_Interrupt_Vector_Set();
-extern void emu_Mouse_Init();
-extern void emu_Mouse_CallbackClear();
-extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 
 /**

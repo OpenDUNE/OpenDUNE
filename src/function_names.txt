@@ -1,9 +1,7 @@
-29A3:02BD:0018:A1B5	emu_Mouse_CallbackClear
 29A3:0054:005C:47DC	emu_Mouse_EventHandler
 
 29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
 
-2BEE:000E:0009:8881	emu_Video_IsInVSync	# Returns non-zero if in vsync
 2BEE:0017:0028:0D9F	emu_Video_WaitForNextVSync	# (vsync), waits for next vsync (or lack thereof)
 
 AB00:0169:001D:2693	emu_DSP_Write	# (value)

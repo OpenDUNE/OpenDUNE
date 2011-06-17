@@ -51,7 +51,6 @@
 
 #undef DECOMPILED_INCLUDE
 
-extern void emu_Video_IsInVSync();
 extern void emu_Video_WaitForNextVSync();
 extern void emu_Mouse_EventHandler();
 extern void emu_DSP_Write();
@@ -60,7 +59,6 @@ extern void emu_DSP_WriteAndWait();
 extern void emu_DSP_Reset();
 extern void f__AB00_0264_0047_2B67();
 extern void f__AB00_02AB_000F_A43F();
-extern void emu_Mouse_CallbackClear();
 extern void f__AB00_02FE_0020_41D6();
 extern void f__AB00_0325_0020_80E9();
 extern void f__AB00_0364_0014_B343();
