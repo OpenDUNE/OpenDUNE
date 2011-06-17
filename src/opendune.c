@@ -2374,25 +2374,6 @@ static void GameLoop_Main()
 	GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
 }
 
-static void Unknown_2533_000D()
-{
-	uint16 locdi = 0;
-	uint16 locsi = 0;
-
-	g_global->variable_76B4 = 15;
-
-	do {
-		emu_push(emu_cs); emu_push(0x0029); emu_cs = 0x2BEE; emu_Video_IsInVSync();
-		if (emu_ax != 0) {
-			locdi++;
-		} else {
-			locsi++;
-		}
-	} while (g_global->variable_76B4 != 0);
-
-	g_global->variable_9937 = (locdi > locsi) ? 1 : 0;
-}
-
 static bool Unknown_25C4_000E()
 {
 	uint32 totalSize = 0;
@@ -2456,8 +2437,6 @@ static bool Unknown_25C4_000E()
 	memset(&g_palette_998A[45], 63, 3);
 
 	GFX_SetPalette(g_palette_998A);
-
-	Unknown_2533_000D();
 
 	srand((unsigned)time(NULL));
 

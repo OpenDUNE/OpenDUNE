@@ -1532,7 +1532,7 @@ typedef struct GlobalData {
 	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? Height of edit box. */
 	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
 	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
-	/* 9937(2)   */ PACK uint16 variable_9937;              /*!< ?? */
+	/* 9937(2)   */ PACK uint16 removed_9937;               /*!< REMOVED - True if video is vsync'd. */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 removed_998A;               /*!< REMOVED - A palette. */
 	/* 998E(97)  */ PACK uint8  removed_998E[97];           /*!< REMOVED - Current directory. */
