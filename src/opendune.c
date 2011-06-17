@@ -2728,9 +2728,7 @@ void PrepareEnd()
 {
 	Drivers_All_Uninit();
 
-	if (g_global->mouseInstalled != 0x0) {
-		emu_push(emu_cs); emu_push(0x0014); emu_cs = 0x29A3; emu_Mouse_CallbackClear();
-	}
+	Mouse_CallbackClear();
 
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 

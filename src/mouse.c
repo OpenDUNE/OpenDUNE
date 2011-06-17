@@ -47,6 +47,19 @@ void Mouse_Init()
 }
 
 /**
+ * Remove the interrupt callback for the mouse.
+ */
+void Mouse_CallbackClear()
+{
+	if (!g_global->mouseInstalled) return;
+
+	emu_cx = 0x0;
+	emu_es = 0x29A3; emu_dx = 0x54;
+	emu_ax = 0xC;
+	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02D5); Interrupt_Mouse();
+}
+
+/**
  * Set the region in which the mouse can move.
  * @note This limits the mouse movement in the hardware.
  *
