@@ -3224,7 +3224,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 			uint16 region = atoi(s);
 
 			if (region != 0) {
-				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->language], region);
+				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->config.language], region);
 
 				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
 					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
@@ -3301,7 +3301,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
 	GUI_Screen_Copy(x, y, 33, 152, 7, 40, 4, 4);
 
-	switch (g_global->language) {
+	switch (g_global->config.language) {
 		case LANGUAGE_GERMAN:
 			GUI_Screen_Copy(1, 120, 1, 0, 38, 24, 4, 4);
 			break;
@@ -4429,7 +4429,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 
 		strcpy((char *)g_global->variable_9939, data[i].name);
 		strcat((char *)g_global->variable_9939, ", ");
-		if (g_global->language == LANGUAGE_FRENCH) {
+		if (g_global->config.language == LANGUAGE_FRENCH) {
 			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
 			strcat((char *)g_global->variable_9939, " ");
 			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));

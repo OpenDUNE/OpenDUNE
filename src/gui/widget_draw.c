@@ -744,11 +744,11 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 						buttons[i]->stringID = g_actionInfo[actions[i]].stringID;
 						buttons[i]->shortcut = GUI_Widget_GetShortcut(String_Get_ByIndex(buttons[i]->stringID)[0]);
 
-						if (g_global->language == LANGUAGE_FRENCH) {
+						if (g_global->config.language == LANGUAGE_FRENCH) {
 							if (buttons[i]->stringID == 2) buttons[i]->shortcut2 = 0x27;
 							if (buttons[i]->stringID == 7) buttons[i]->shortcut2 = 0x13;
 						}
-						if (g_global->language == LANGUAGE_GERMAN) {
+						if (g_global->config.language == LANGUAGE_GERMAN) {
 							if (buttons[i]->stringID == 4) buttons[i]->shortcut2 = 0x17;
 						}
 

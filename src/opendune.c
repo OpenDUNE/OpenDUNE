@@ -361,7 +361,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_global->config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->language == LANGUAGE_ENGLISH) {
+	if (g_global->config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->config.language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
 
 		Sound_Unknown0363(loc06);
@@ -1833,7 +1833,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 
-	g_global->new6pFnt = Font_LoadFile((g_global->language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
+	g_global->new6pFnt = Font_LoadFile((g_global->config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 
 	g_global->new8pFnt2 = g_global->new8pFnt;
 
@@ -2228,8 +2228,6 @@ static void GameLoop_Main()
 	uint16 key;
 
 	assert(g_global->variable_6640.csip == 0x22A60796);
-
-	g_global->language = g_global->config.language;
 
 	String_Load("DUNE");
 

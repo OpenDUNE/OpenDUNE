@@ -864,7 +864,7 @@ typedef struct GlobalData {
 	/* 37B0(2)   */ PACK uint16 debugNoExplosionDamage;     /*!< When non-zero, explosions do no damage to their surrounding. */
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
-	/* 37B6(2)   */ PACK uint16 language;                   /*!< @see Language. */
+	/* 37B6(2)   */ PACK uint16 removed_37B6;               /*!< REMOVED - @see Language. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
 	/* 37BA(2)   */ PACK uint16 variable_37BA;              /*!< ?? */
 	/* 37BC(4)   */ PACK csip32 variable_37BC;              /*!< ?? */

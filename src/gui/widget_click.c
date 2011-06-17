@@ -491,7 +491,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		if (desc->widgets[i].labelStringId == 0) continue;
 
-		if (g_global->language == LANGUAGE_FRENCH) {
+		if (g_global->config.language == LANGUAGE_FRENCH) {
 			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), (g_global->variable_4062[w->parentID][0] << 3) + 40, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x22);
 		} else {
 			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), w->offsetX + (g_global->variable_4062[w->parentID][0] << 3) - 10, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x222);

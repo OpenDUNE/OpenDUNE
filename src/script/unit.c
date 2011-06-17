@@ -1554,7 +1554,7 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 	ui = &g_unitInfo[u->o.type];
 
 	/* "%s %s destroyed." */
-	if (g_global->language == LANGUAGE_FRENCH) {
+	if (g_global->config.language == LANGUAGE_FRENCH) {
 		GUI_DisplayText(String_Get_ByIndex(0x13), 0, String_Get_ByIndex(ui->o.stringID_abbrev), (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name));
 	} else {
 		GUI_DisplayText(String_Get_ByIndex(0x13), 0, (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(u)].name), String_Get_ByIndex(ui->o.stringID_abbrev));

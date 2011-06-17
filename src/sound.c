@@ -166,7 +166,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 		char *str = (char *)emu_get_memorycsip(g_global->voices[voice].string);
 		switch (*str) {
 			case '%':
-				if (g_global->language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
+				if (g_global->config.language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
@@ -216,7 +216,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				if (g_variable_3E54[voice] != NULL ||
 						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
-				switch (g_global->language) {
+				switch (g_global->config.language) {
 					case LANGUAGE_FRENCH: i = 'F'; break;
 					case LANGUAGE_GERMAN: i = 'G'; break;
 					default: i = g_houseInfo[voiceSet].prefixChar;
@@ -229,7 +229,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 			case '+':
 				if (voiceSet == 0xFFFF || g_variable_3E54[voice] != NULL) break;
 
-				switch (g_global->language) {
+				switch (g_global->config.language) {
 					case LANGUAGE_FRENCH:  i = 'F'; break;
 					case LANGUAGE_GERMAN:  i = 'G'; break;
 					default: i = 'Z'; break;
@@ -336,7 +336,7 @@ void Sound_Unknown0363(uint16 index)
 		uint8 i;
 
 		for (i = 0; i < 5; i++) {
-			g_global->variable_0218[i] = (g_global->language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
+			g_global->variable_0218[i] = (g_global->config.language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
 		}
 	}
 
