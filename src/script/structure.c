@@ -368,6 +368,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	int16 rotation;
 	int16 rotationNeeded;
 	int16 rotateDiff;
+	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 
 	encoded = script->stack[script->stackPointer];
 
@@ -379,11 +380,10 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
-		emu_ax = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip, 0x30);
+		baseSpriteID = iconMap[iconMap[24] + 2];
 	} else {
-		emu_ax = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip, 0x2E);
+		baseSpriteID = iconMap[iconMap[23] + 2];
 	}
-	baseSpriteID = emu_get_memory16(g_global->iconMap.s.cs, g_global->iconMap.s.ip + (emu_ax << 1), 0x4);
 
 	rotation = tile->groundSpriteID - baseSpriteID;
 	if (rotation < 0 || rotation > 7) return 1;
