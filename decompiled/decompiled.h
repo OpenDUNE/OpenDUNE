@@ -156,7 +156,6 @@ extern void f__01F7_176A_000D_8D0C();
 extern void f__01F7_17CE_0015_8AC2();
 extern void f__01F7_1828_0023_D335();
 extern void f__01F7_184B_000A_9146();
-extern void emu_Tools_Malloc_Internal();
 extern void f__AB01_18AC_0082_307C();
 extern void f__01F7_1A33_002B_B2CA();
 extern void f__AB01_1A90_002B_D292();

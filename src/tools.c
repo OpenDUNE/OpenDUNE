@@ -16,9 +16,6 @@
 #include "tools.h"
 #include "unit.h"
 
-extern void emu_Tools_Free_Internal();
-extern void emu_Tools_Malloc_Internal();
-
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
 	uint16 gameSpeed = g_global->gameSpeed;
