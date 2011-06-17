@@ -45,7 +45,6 @@
 
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
-extern void emu_Video_WaitForNextVSync();
 
 /**
  * Initialize the video driver.
@@ -923,10 +922,6 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 			strings[loc02].y--;
 		}
-
-		emu_push(1);
-		emu_push(emu_cs); emu_push(0x0706); emu_cs = 0x2BEE; emu_Video_WaitForNextVSync();
-		emu_sp += 2;
 
 		GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, screenID, g_global->variable_182E);
 

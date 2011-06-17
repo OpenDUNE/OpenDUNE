@@ -51,7 +51,6 @@
 
 #undef DECOMPILED_INCLUDE
 
-extern void emu_Video_WaitForNextVSync();
 extern void emu_Mouse_EventHandler();
 extern void emu_DSP_Write();
 extern void emu_DSP_Read();
