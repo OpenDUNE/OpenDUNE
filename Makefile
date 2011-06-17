@@ -105,5 +105,8 @@ clean:
 run: all
 	./opendune$(EXTENSION)
 
+run-gdb: all
+	gdb --ex run --args ./opendune$(EXTENSION)
+
 FORCE:
 
