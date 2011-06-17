@@ -335,6 +335,85 @@ void Tools_Sleep(uint16 ticks)
 	}
 }
 
+static csip32 g_tools_alloc = { { 0x0, 0x4012 } };
+
+/**
+ * Internal handling of Malloc, only here for historical reasons.
+ * @param size The size to allocate.
+ * @return A 16bit pointer to a piece of memory of at least size big.
+ */
+csip32 Tools_Malloc_Internal(uint32 size)
+{
+	uint8 *buf;
+	csip32 ret;
+
+	/* Align to page */
+	size = (size + 15 + 4) >> 4;
+
+	buf = emu_get_memorycsip(g_tools_alloc);
+
+	while (true) {
+		/* Find the next free block */
+		while (*(uint16 *)(buf + 0) != 0 && *(uint16 *)(buf + 2) != 0) {
+			buf += (*(uint16 *)(buf + 0)) << 4;
+		}
+
+		/* Is this block allocated? */
+		if (*(uint16 *)(buf + 0) == 0) {
+			*(uint16 *)(buf + 0) = size;
+			*(uint16 *)(buf + 2) = 1;
+
+			/* Ensure the next block is set */
+			*(uint16 *)(buf + (size << 4) + 0) = 0;
+			*(uint16 *)(buf + (size << 4) + 2) = 0;
+
+			ret = emu_Global_GetCSIP(buf);
+			break;
+		}
+
+		/* Is the allocated block of correct size? */
+		if (*(uint16 *)(buf + 0) == size) {
+			*(uint16 *)(buf + 2) = 1;
+
+			ret = emu_Global_GetCSIP(buf);
+			break;
+		}
+
+		/* Does the size fit in the allocated block? */
+		if (*(uint16 *)(buf + 0) > size) {
+			*(uint16 *)(buf + 0) -= size;
+			buf += (*(uint16 *)(buf + 0)) << 4;
+
+			*(uint16 *)(buf + 0) = size;
+			*(uint16 *)(buf + 2) = 1;
+
+			ret = emu_Global_GetCSIP(buf);
+			break;
+		}
+
+		/* Go to the next block */
+		buf += (*(uint16 *)(buf + 0)) << 4;
+	}
+	assert(ret.csip >= 0x40100000 && ret.csip <= 0xA0000000);
+
+	ret.s.ip = 4;
+	return ret;
+}
+
+/**
+ * Internal handling of Free, only here for historical reasons.
+ * @param ptr the pointer to free.
+ */
+void Tools_Free_Internal(csip32 ptr)
+{
+	uint8 *buf;
+
+	ptr.s.ip -= 4;
+	buf = emu_get_memorycsip(ptr);
+
+	*(uint16 *)(buf + 2) = 0;
+}
+
 /**
  * Allocate memory.
  *
@@ -355,12 +434,7 @@ csip32 Tools_Malloc(uint32 size, uint8 flags)
 		size += 1;
 	}
 
-	emu_push(size >> 16); emu_push(size & 0xFFFF);
-	emu_push(emu_cs); emu_push(0x0071); emu_cs = 0x01F7; emu_Tools_Malloc_Internal();
-	emu_sp += 4;
-
-	ret.s.cs = emu_dx + (emu_ax >> 4);
-	ret.s.ip = emu_ax & 0xF;
+	ret = Tools_Malloc_Internal(size);
 	buf = emu_get_memorycsip(ret);
 
 	if ((flags & 0x20) != 0) {
@@ -403,14 +477,11 @@ void Tools_Free(csip32 ptr)
 	flags = *buf;
 
 	if ((flags & 0x20) != 0) {
-		emu_push(ptr.s.cs - 1); emu_push(ptr.s.ip + 15 - (flags & 0xF));
-		emu_push(emu_cs); emu_push(0x0228); emu_cs = 0x01F7; emu_Tools_Free_Internal();
-		emu_sp += 4;
-
-		return;
+		ptr.s.cs -= 1;
+		ptr.s.ip += 15 - (flags & 0xF);
+	} else {
+		ptr.s.ip -= 1;
 	}
 
-	emu_push(ptr.s.cs); emu_push(ptr.s.ip - 1);
-	emu_push(emu_cs); emu_push(0x0228); emu_cs = 0x01F7; emu_Tools_Free_Internal();
-	emu_sp += 4;
+	Tools_Free_Internal(ptr);
 }
