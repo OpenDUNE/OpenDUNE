@@ -1227,7 +1227,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 			do {
 				if (step == 0 && frame > 4) step = 1;
 
-				if (WSA_DisplayFrame(wsa, frame++, g_global->variable_992D << 3, g_global->variable_992B, 4) == 0) {
+				if (!WSA_DisplayFrame(wsa, frame++, g_global->variable_992D << 3, g_global->variable_992B, 4)) {
 					if (step == 0) step = 1;
 
 					if (arg12 != 0) {
