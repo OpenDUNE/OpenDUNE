@@ -83,7 +83,7 @@ typedef enum IconMapEntries {
 	ICM_ICONGROUP_BASE_ROCKET_TURRET     = 24, /*!< Rocket turret spriteIDs. */
 	ICM_ICONGROUP_SPICE_STORAGE_SILO     = 25, /*!< Spice storage spriteIDs. */
 	ICM_ICONGROUP_RADAR_OUTPOST          = 26, /*!< Radar outpost spriteIDs. */
-	ICM_ICONGROUP_EOF                    = 27, /*!< End of file spriteIDs. */
+	ICM_ICONGROUP_EOF                    = 27  /*!< End of file spriteIDs. */
 } IconMapEntries;
 
 MSVC_PACKED_BEGIN
