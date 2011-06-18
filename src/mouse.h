@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/mouse.h Mouse definitions. */
+
 #ifndef MOUSE_H
 #define MOUSE_H
 

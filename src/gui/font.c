@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/font.c Font routines. */
+
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"

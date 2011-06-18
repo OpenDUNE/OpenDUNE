@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/tools.c Various routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

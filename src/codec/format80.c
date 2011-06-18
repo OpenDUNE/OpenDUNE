@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/codec/format80.c Decoder for 'format80' files. */
+
 #include <stdio.h>
 #include <string.h>
 #include "types.h"

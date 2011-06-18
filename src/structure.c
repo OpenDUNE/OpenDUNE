@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/structure.c %Structure handling routines. */
+
 #include <stdio.h>
 #include <string.h>
 #include "os/strings.h"

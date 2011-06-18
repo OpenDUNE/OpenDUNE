@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/pool.h %Generic pool definitions. */
+
 #ifndef POOL_POOL_H
 #define POOL_POOL_H
 

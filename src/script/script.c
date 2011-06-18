@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/script/script.c Script routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

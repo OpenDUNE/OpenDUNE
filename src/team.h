@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/team.h %Team definitions. */
+
 #ifndef TEAM_H
 #define TEAM_H
 

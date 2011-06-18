@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/structure.h %Structure handling definitions. */
+
 #ifndef STRUCTURE_H
 #define STRUCTURE_H
 

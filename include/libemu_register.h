@@ -1,3 +1,4 @@
+/** @file include/libemu_register.h Emulated flags register routines. */
 
 extern void emu_flags_pf (uint16 value);
 extern void emu_flags_zf (uint16 value);

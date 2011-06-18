@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/script/general.c Generic script routines. */
+
 #include <stdio.h>
 #include <string.h>
 #include "types.h"

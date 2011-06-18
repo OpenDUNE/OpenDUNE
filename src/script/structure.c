@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/script/structure.c %Structure script routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

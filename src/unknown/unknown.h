@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/unknown/unknown.h Definitions of unknown converted routines. */
+
 #ifndef UNKNOWN_UNKNOWN_H
 #define UNKNOWN_UNKNOWN_H
 

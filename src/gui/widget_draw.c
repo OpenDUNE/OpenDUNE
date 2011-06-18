@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/widget_draw.c %Widget drawing routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

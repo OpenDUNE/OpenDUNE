@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/opendune.c Gameloop and other main routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

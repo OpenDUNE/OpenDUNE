@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/tile.h %Tile definitions. */
+
 #ifndef TILE_H
 #define TILE_H
 

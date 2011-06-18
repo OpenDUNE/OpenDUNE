@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/driver.h %Driver definitions. */
+
 #ifndef DRIVER_H
 #define DRIVER_H
 

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/animation.h %Animation definitions. */
+
 #ifndef ANIMATE_H
 #define ANIMATE_H
 

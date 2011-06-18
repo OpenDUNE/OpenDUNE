@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/mentat.h Mentat gui definitions. */
+
 #ifndef GUI_MENTAT_H
 #define GUI_MENTAT_H
 

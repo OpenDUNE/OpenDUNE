@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/ini.c INI file reading routines. */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

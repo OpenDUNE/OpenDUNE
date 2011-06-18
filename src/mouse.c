@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/* $Id$ */
+/** @file src/mouse.c Mouse routines. */
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/sound.c Sound routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

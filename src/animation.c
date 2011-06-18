@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/animation.c %Animation routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

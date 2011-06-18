@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/emu_mt32mpu.c Emulated MPU routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

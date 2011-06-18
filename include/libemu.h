@@ -1,6 +1,8 @@
 #ifndef LIBEMU_H
 #define LIBEMU_H
 
+/** @file include/libemu.h Emulated memory. */
+
 extern uint8 emu_memory[];
 
 /* A single register */

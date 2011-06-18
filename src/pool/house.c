@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/house.c %House pool routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

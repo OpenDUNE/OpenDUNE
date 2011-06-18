@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/emu_driver.c Emulated driver wrapper routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

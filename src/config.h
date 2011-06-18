@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/config.h Configuration and options load and save definitions. */
+
 #ifndef CONFIG_H
 #define CONFIG_H
 

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/structure.c %Structure pool routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

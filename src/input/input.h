@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/input/input.h Input definitions. */
+
 #ifndef INPUT_H
 #define INPUT_H
 

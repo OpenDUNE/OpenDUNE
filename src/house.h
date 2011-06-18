@@ -1,10 +1,12 @@
 /* $Id$ */
 
+/** @file src/house.h %House management definitions. */
+
 #ifndef HOUSE_H
 #define HOUSE_H
 
 /**
- * Types of Houses available in the game.
+ * Types of %Houses available in the game.
  */
 typedef enum HouseType {
 	HOUSE_HARKONNEN = 0,
@@ -19,7 +21,7 @@ typedef enum HouseType {
 } HouseType;
 
 /**
- * Types of special House Weapons there ar ein the game.
+ * Types of special %House Weapons available in the game.
  */
 typedef enum HouseWeapon {
 	HOUSE_WEAPON_MISSLE   = 1,
@@ -31,7 +33,7 @@ typedef enum HouseWeapon {
 
 MSVC_PACKED_BEGIN
 /**
- * An House as stored in the memory.
+ * A %House as stored in the memory.
  */
 typedef struct House {
 	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the House in the array. */

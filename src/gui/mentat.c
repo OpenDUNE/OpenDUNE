@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/mentat.c Mentat gui routines. */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/string.h String definitions. */
+
 #ifndef STRING_H
 #define STRING_H
 

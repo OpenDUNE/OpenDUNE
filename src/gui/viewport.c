@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/viewport.c Viewport routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

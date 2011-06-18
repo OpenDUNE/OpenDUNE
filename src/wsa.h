@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/wsa.h WSA definitions. */
+
 #ifndef WSA_H
 #define WSA_H
 

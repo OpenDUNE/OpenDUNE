@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/gui.h Generic GUI definitions. */
+
 #ifndef GUI_GUI_H
 #define GUI_GUI_H
 

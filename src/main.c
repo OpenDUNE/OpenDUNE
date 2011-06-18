@@ -1,3 +1,7 @@
+/* $Id$ */
+
+/** @file src/main.c Main program file. */
+
 #if defined(_WIN32)
 #include <io.h>
 #include <windows.h>

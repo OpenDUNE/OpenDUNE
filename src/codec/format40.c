@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/codec/format40.c Decoder for 'format40' files. */
+
 #include <stdio.h>
 #include "types.h"
 #include "format40.h"

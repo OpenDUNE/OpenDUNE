@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/house.h %House pool definitions. */
+
 #ifndef POOL_HOUSE_H
 #define POOL_HOUSE_H
 

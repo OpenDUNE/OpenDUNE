@@ -1,11 +1,13 @@
 /* $Id$ */
 
+/** @file src/gfx.h Graphics definitions. */
+
 #ifndef GFX_H
 #define GFX_H
 
 enum {
-	SCREEN_WIDTH  = 320,
-	SCREEN_HEIGHT = 200
+	SCREEN_WIDTH  = 320, /*!< Width of the screen in pixels. */
+	SCREEN_HEIGHT = 200  /*!< Height of the screen in pixels. */
 };
 
 extern void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID);

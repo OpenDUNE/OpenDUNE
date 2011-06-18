@@ -1,3 +1,4 @@
+/** @file include/libemu_call.h Emulated call and jump functions. */
 
 #define emu_call() emu_call2(__FILE__, __LINE__)
 extern void emu_call2(char *filename, int lineno);

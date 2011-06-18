@@ -1,3 +1,4 @@
+/** @file include/libemu_bios.h Emulated BIOS functions. */
 
 extern void emu_inb(uint8 *dest, uint16 port);
 extern void emu_inw(uint16 *dest, uint16 port);

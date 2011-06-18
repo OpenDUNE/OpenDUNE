@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/sound.h Sound definitions. */
+
 #ifndef SOUND_H
 #define SOUND_H
 

@@ -1,3 +1,4 @@
+/** @file include/libemu_mov.h Emulated data movement routines. */
 
 extern void emu_xchgb(uint8 *val1, uint8 *val2);
 extern void emu_xchgw(uint16 *val1, uint16 *val2);

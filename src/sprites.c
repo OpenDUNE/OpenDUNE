@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/sprites.c Sprite routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

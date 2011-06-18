@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/object.c %Object routines. */
+
 #include <stdio.h>
 #include <string.h>
 #include "types.h"

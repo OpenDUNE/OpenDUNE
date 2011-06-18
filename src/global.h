@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/global.h Global data definitions. */
+
 #ifndef GLOBAL_H
 #define GLOBAL_H
 

@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+/** @file include/types.h Basic definitions and data types. */
+
 #if defined(__TINYC__)
 	/* Some includes set __attribute__ to nothing, making it fail */
 	#undef __attribute__

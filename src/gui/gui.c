@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/gui.c Generic GUI definitions. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

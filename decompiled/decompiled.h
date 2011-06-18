@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file decompiled/decompiled.h Decompiled functions. */
+
 #define DECOMPILED_INCLUDE
 
 #include <stdio.h>

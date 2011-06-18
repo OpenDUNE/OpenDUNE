@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/team.c %Team routines. */
+
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"

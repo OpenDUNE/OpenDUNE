@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/driver.c %Driver functions. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/scenario.c %Scenario handling routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

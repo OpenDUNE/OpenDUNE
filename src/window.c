@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/window.c Window routines. */
+
 #include <stdio.h>
 #include "types.h"
 #include "libemu.h"

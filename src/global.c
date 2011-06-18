@@ -1,3 +1,7 @@
+/* $Id$ */
+
+/** @file src/global.c Global data routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

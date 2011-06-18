@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/script/unit.c %Unit script routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

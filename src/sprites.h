@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/sprites.h Sprite definitions. */
+
 #ifndef SPRITES_H
 #define SPRITES_H
 

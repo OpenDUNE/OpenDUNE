@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/team.h %Team pool definitions. */
+
 #ifndef POOL_TEAM_H
 #define POOL_TEAM_H
 

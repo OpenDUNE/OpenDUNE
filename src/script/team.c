@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/script/team.c %Team script routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

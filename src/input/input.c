@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/input/input.c Input routines. */
+
 #include <stdio.h>
 #include <string.h>
 #include "types.h"

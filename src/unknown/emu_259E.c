@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/unknown/emu_259E.c Unknown converted routines from segment 259E. */
+
 #include <string.h>
 #include "types.h"
 #include "libemu.h"

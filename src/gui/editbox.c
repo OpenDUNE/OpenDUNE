@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/gui/editbox.c Editbox routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"

@@ -1,3 +1,7 @@
+/* $Id$ */
+
+/** @file src/gfx.c Graphics routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/unit.h %Unit definitions. */
+
 #ifndef UNIT_H
 #define UNIT_H
 

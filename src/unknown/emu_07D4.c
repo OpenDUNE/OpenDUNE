@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/unknown/emu_07D4.c Unknown converted routines from segment 07D4. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

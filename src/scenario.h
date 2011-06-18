@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/scenario.h %Scenario handling definitions. */
+
 #ifndef SCENARIO_H
 #define SCENARIO_H
 

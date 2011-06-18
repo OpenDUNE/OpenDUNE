@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/wsa.c WSA routines. */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

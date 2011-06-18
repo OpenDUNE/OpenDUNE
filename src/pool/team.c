@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/pool/team.c %Team pool routines. */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

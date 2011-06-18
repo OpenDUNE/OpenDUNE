@@ -1,5 +1,7 @@
 /* $Id$ */
 
+/** @file src/string.c String routines. */
+
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
