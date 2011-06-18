@@ -18,6 +18,56 @@
 #include "unknown/unknown.h"
 
 /**
+ * The flags of a WSA Header.
+ */
+typedef union WSAFlags {
+	struct {
+		BITTYPE notmalloced:1;                          /*!< If the WSA is in memory of the caller. */
+		BITTYPE malloced:1;                             /*!< If the WSA is malloc'd by us. */
+		BITTYPE dataOnDisk:1;                           /*!< Only the header is in the memory. Rest is on disk. */
+		BITTYPE dataInMemory:1;                         /*!< The whole WSA is in memory. */
+		BITTYPE displayInBuffer:1;                      /*!< The output display is in the buffer. */
+		BITTYPE noAnimation:1;                          /*!< If the WSA has animation or not. */
+		BITTYPE variable_0040:1;                        /*!< ?? */
+		BITTYPE variable_0080:1;                        /*!< ?? */
+		BITTYPE isSpecial:1;                            /*!< Indicates if the WSA has a special buffer. */
+		BITTYPE notused:7;                              /*!< The remaining bits are never used. */
+	} s;
+	uint16 all;
+}  WSAFlags;
+
+/**
+ * The header of a WSA file that is being read.
+ */
+typedef struct WSAHeader {
+	uint16 frameCurrent;                                    /*!< Current frame displaying. */
+	uint16 frames;                                          /*!< Total frames in WSA. */
+	uint16 width;                                           /*!< Width of WSA. */
+	uint16 height;                                          /*!< Height of WSA. */
+	uint16 bufferLength;                                    /*!< Length of the buffer. */
+	csip32 buffer;                                          /*!< The buffer. */
+	csip32 fileContent;                                     /*!< ?? */
+	char   filename[13];                                    /*!< Filename of WSA. */
+	WSAFlags flags;                                         /*!< Flags of WSA. */
+} WSAHeader;
+
+MSVC_PACKED_BEGIN
+/**
+ * The header of a WSA file as on the disk.
+ */
+typedef struct WSAFileHeader {
+	/* 0000(2)   */ PACK uint16 frames;                     /*!< Amount of animation frames in this WSA. */
+	/* 0002(2)   */ PACK uint16 width;                      /*!< Width of WSA. */
+	/* 0004(2)   */ PACK uint16 height;                     /*!< Height of WSA. */
+	/* 0006(2)   */ PACK uint16 requiredBufferSize;         /*!< The size the buffer has to be at least to process this WSA. */
+	/* 0008(2)   */ PACK uint16 isSpecial;                  /*!< Indicates if the WSA has a special buffer. */
+	/* 000A(4)   */ PACK uint32 animationOffsetStart;       /*!< Offset where animation starts. */
+	/* 000E(4)   */ PACK uint32 animationOffsetEnd;         /*!< Offset where animation ends. */
+} GCC_PACKED WSAFileHeader;
+MSVC_PACKED_END
+assert_compile(sizeof(WSAFileHeader) == 0x12);
+
+/**
  * Get the amount of frames a WSA has.
  */
 uint16 WSA_GetFrameCount(void *wsa)
@@ -206,7 +256,7 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 		displaySize = fileheader.width * fileheader.height;
 	}
 
-	bufferSizeMinimal = displaySize + fileheader.requiredBufferSize;
+	bufferSizeMinimal = displaySize + fileheader.requiredBufferSize - 33 + sizeof(WSAHeader);
 	bufferSizeOptimal = bufferSizeMinimal + lengthFileContent;
 
 	if (bufferSizeCurrent > 1 && bufferSizeCurrent < bufferSizeMinimal) {
@@ -255,7 +305,7 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	header->frames = fileheader.frames;
 	header->width = fileheader.width;
 	header->height = fileheader.height;
-	header->bufferLength = fileheader.requiredBufferSize - sizeof(WSAHeader);
+	header->bufferLength = fileheader.requiredBufferSize + 33 - sizeof(WSAHeader);
 	header->buffer.csip = b.csip;
 	strcpy(header->filename, filename);
 
@@ -388,7 +438,7 @@ uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, 
 	}
 
 	if (header->flags.s.displayInBuffer) {
-		displayBuffer.csip = csip32_add(wsa, 33);
+		displayBuffer.csip = csip32_add(wsa, sizeof(WSAHeader));
 	} else {
 		displayBuffer = Screen_GetSegment_ByIndex_2(screenID);
 		displayBuffer.s.ip += posX + posY * SCREEN_WIDTH;
