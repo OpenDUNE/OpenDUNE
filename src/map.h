@@ -5,6 +5,25 @@
 #ifndef MAP_H
 #define MAP_H
 
+/** Types of available landscapes. */
+typedef enum LandscapeType {
+	LST_NORMAL_SAND       =  0, /*<! Flat sand. */
+	LST_PARTIAL_ROCK      =  1, /*!< Edge of a rocky area (mostly sand). */
+	LST_ENTRIELY_DUNE     =  2, /*!< Entirely sand dunes. */
+	LST_PARTIAL_DUNE      =  3, /*!< Partial sand dunes. */
+	LST_ENTIRELY_ROCK     =  4, /*!< Center part of rocky area. */
+	LST_MOSTLY_ROCK       =  5, /*!< Edge of a rocky area (mostly rocky). */
+	LST_ENTRIELY_MOUNTAIN =  6, /*!< Center part of the mountain. */
+	LST_PARTIAL_MOUNTAIN  =  7, /*!< Edge of a mountain. */
+	LST_SPICE             =  8, /*!< Sand with spice. */
+	LST_THICK_SPICE       =  9, /*!< Sand with thick spice. */
+	LST_CONCRETE_SLAB     = 10, /*!< Concrete slab. */
+	LST_WALL              = 11, /*!< Wall. */
+	LST_STRUCTURE         = 12, /*!< Structure. */
+	LST_DESTROYED_WALL    = 13, /*!< Destroyed wall. */
+	LST_BLOOM_FIELD       = 14  /*!< Bloom field. */
+} LandscapeType;
+
 MSVC_PACKED_BEGIN
 /**
  * A Tile as stored in the memory in the map.
@@ -58,7 +77,7 @@ extern bool Map_Load(FILE *fp, uint32 length);
 extern bool Map_IsPositionUnveiled(uint16 position);
 extern bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY);
 extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 unitOriginEncoded);
-extern uint16 Map_B4CD_0750(uint16 packed);
+extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
 extern uint32 Map_06F7_0602();

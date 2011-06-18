@@ -756,14 +756,14 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	isValid = true;
 	neededSlabs = 0;
 	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
-		uint16 loc10;
+		uint16 type;
 
 		curPos = position + layoutTile[i];
 
-		loc10 = Map_B4CD_0750(curPos);
+		type = Map_GetLandscapeType(curPos);
 
 		if (g_global->debugScenario != 0) {
-			if (g_global->variable_3A3E[loc10][8] == 0) {
+			if (g_global->variable_3A3E[type][8] == 0) {
 				isValid = false;
 				break;
 			}
@@ -774,16 +774,16 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->o.flags.s.variable_0008) {
-				if (g_global->variable_3A3E[loc10][8] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[type][8] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (g_global->variable_3A3E[loc10][6] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[type][6] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
 				}
-				if (loc10 != 10) neededSlabs++;
+				if (type != LST_CONCRETE_SLAB) neededSlabs++;
 			}
 		}
 
@@ -796,7 +796,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	if (g_global->variable_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && g_global->debugScenario == 0) {
 		isValid = false;
 		for (i = 0; i < 16; i++) {
-			uint16 offset, loc14;
+			uint16 offset, type;
 			Structure *s;
 
 			offset = g_global->layoutTilesAround[si->layout][i];
@@ -810,8 +810,8 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			loc14 = Map_B4CD_0750(curPos);
-			if (loc14 != 10 && loc14 != 11) continue;
+			type = Map_GetLandscapeType(curPos);
+			if (type != LST_CONCRETE_SLAB && type != LST_WALL) continue;
 			if (Map_GetTileByPosition(curPos)->houseID != g_global->playerHouseID) continue;
 
 			isValid = true;
@@ -1220,7 +1220,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 {
 	uint16 bits = 0;
 	uint16 spriteID;
-	bool isTypeD;
+	bool isDestroyedWall;
 	uint8 i;
 	Tile *tile;
 
@@ -1240,25 +1240,25 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 		g_global->variable_3462[68]  = 17;
 	}
 
-	isTypeD = Map_B4CD_0750(position) == 0xD;
+	isDestroyedWall = Map_GetLandscapeType(position) == LST_DESTROYED_WALL;
 
 	for (i = 0; i < 4; i++) {
 		uint16 curPos = position + g_global->variable_345A[i];
 
-		if (recurse && Map_B4CD_0750(curPos) == 0xB) Structure_ConnectWall(curPos, false);
+		if (recurse && Map_GetLandscapeType(curPos) == LST_WALL) Structure_ConnectWall(curPos, false);
 
-		if (isTypeD) continue;
+		if (isDestroyedWall) continue;
 
-		switch (Map_B4CD_0750(curPos)) {
-			case 0xD: bits |= (1 << (i + 4));
+		switch (Map_GetLandscapeType(curPos)) {
+			case LST_DESTROYED_WALL: bits |= (1 << (i + 4));
 				/* FALL-THROUGH */
-			case 0xB: bits |= (1 << i);
+			case LST_WALL: bits |= (1 << i);
 				/* FALL-THROUGH */
 			default:  break;
 		}
 	}
 
-	if (isTypeD) return false;
+	if (isDestroyedWall) return false;
 
 	spriteID = g_global->wallSpriteID + g_global->variable_3462[bits] + 1;
 
@@ -1354,10 +1354,10 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 			curPacked = packed + offset;
 
 			if (Map_IsValidPosition(curPacked)) {
-				uint16 type = Map_B4CD_0750(curPacked);
+				uint16 type = Map_GetLandscapeType(curPacked);
 				Tile *t = Map_GetTileByPosition(curPacked);
 
-				if (!t->hasUnit && !t->hasStructure && type != 0xB && type != 0x6 && type != 0x7) {
+				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTRIELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
 					if (!checkDistance) return curPacked;
 
 					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, loc0C) < bestDistance) {
@@ -1466,7 +1466,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 		for (j = 0; j < tileCount; j++) {
 			uint16 packed = i + g_global->layoutTiles[si->layout][j];
 
-			if (Map_B4CD_0750(packed) == 0xA && Map_GetTileByPosition(packed)->houseID == houseID) continue;
+			if (Map_GetLandscapeType(packed) == LST_CONCRETE_SLAB && Map_GetTileByPosition(packed)->houseID == houseID) continue;
 
 			stop = false;
 			break;

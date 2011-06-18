@@ -1083,7 +1083,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (unit == NULL || target == NULL) return 0;
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
-	if (g_global->variable_3A3E[Map_B4CD_0750(Tile_PackTile(target->o.position))][7] == 0) return 0;
+	if (g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(target->o.position))][7] == 0) return 0;
 
 	switch(g_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
@@ -1176,7 +1176,7 @@ bool Unit_Unknown167C(Unit *unit)
 	UnitInfo *ui;
 	int8 locsi;
 	uint16 packed;
-	uint16 loc08;
+	uint16 type;
 	tile32 position;
 	uint16 locdi;
 	int16 locax;
@@ -1200,20 +1200,20 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if (locax > 255 || locax == -1) return false;
 
-	loc08 = Map_B4CD_0750(packed);
-	if (loc08 == 0xC) loc08 = 0xA;
+	type = Map_GetLandscapeType(packed);
+	if (type == LST_STRUCTURE) type = LST_CONCRETE_SLAB;
 
-	locdi = g_global->variable_3A3E[loc08][2 + (ui->movementType / 2)];
+	locdi = g_global->variable_3A3E[type][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {
 		locdi &= 0xFF;
 	} else {
 		locdi >>= 8;
 	}
 
-	if (unit->o.type == UNIT_SABOTEUR && loc08 == 0xB) locdi = 0xFF;
+	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) locdi = 0xFF;
 	unit->o.flags.s.isSmoking = false;
 
-	if (g_global->variable_3A3E[loc08][5] != 0) unit->o.flags.s.variable_4_0080 = true;
+	if (g_global->variable_3A3E[type][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
 	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
@@ -1453,8 +1453,8 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			u->o.script.returnValue = 1;
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
-			uint16 locax = Map_B4CD_0750(packed);
-			if ((locax == 0 || locax == 2) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
+			uint16 type = Map_GetLandscapeType(packed);
+			if ((type == LST_NORMAL_SAND || type == LST_ENTRIELY_DUNE) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
 				csip32 proc;
 
 				proc.s.cs = 0x33C8;
@@ -1495,7 +1495,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (s != NULL) {
 				Structure_Damage(s, damage, 0);
 			} else {
-				if (Map_B4CD_0750(packed) == 11 && g_structureInfo[STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
+				if (Map_GetLandscapeType(packed) == LST_WALL && g_structureInfo[STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
 			}
 		}
 
@@ -1508,16 +1508,16 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		}
 	} else {
 		if (unit->o.type == UNIT_BULLET) {
-			uint16 locax = Map_B4CD_0750(Tile_PackTile(newPosition));
-			if (locax == 11 || locax == 12) {
+			uint16 type = Map_GetLandscapeType(Tile_PackTile(newPosition));
+			if (type == LST_WALL || type == LST_STRUCTURE) {
 				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
 					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->o.houseID) {
-						locax = 0;
+						type = LST_NORMAL_SAND;
 					}
 				}
 			}
 
-			if (locax == 11 || locax == 12 || locax == 6) {
+			if (type == LST_WALL || type == LST_STRUCTURE || type == LST_ENTRIELY_MOUNTAIN) {
 				unit->o.position = newPosition;
 
 				Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
@@ -1543,7 +1543,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							Map_MakeExplosion(ui->variable_54, p, 200, 0);
 						}
 					} else if (ui->variable_54 != 0xFFFF) {
-						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_B4CD_0750(Tile_PackTile(unit->o.position)) == 0) {
+						if ((ui->variable_36 & 0x800) != 0 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							Map_DeviateArea(ui->variable_54, newPosition, 32);
@@ -1566,7 +1566,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						Unit_Damage(unit, 1, 0);
 					}
 
-					if (unit->o.type == UNIT_SABOTEUR && (Map_B4CD_0750(Tile_PackTile(newPosition)) == 11 || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
+					if (unit->o.type == UNIT_SABOTEUR && (Map_GetLandscapeType(Tile_PackTile(newPosition)) == LST_WALL || (unit->targetMove != 0 && Tile_GetDistance(unit->o.position, Tools_Index_GetTile(unit->targetMove)) < 32))) {
 						Map_MakeExplosion(4, newPosition, 500, 0);
 
 						Unit_Free(unit);
@@ -1955,7 +1955,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return packed;
 
-	if (Map_B4CD_0750(packed) == 14) return packed;
+	if (Map_GetLandscapeType(packed) == LST_BLOOM_FIELD) return packed;
 
 	for (i = 0; i < 9; i++) {
 		Unit *u;
@@ -1987,7 +1987,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 	ui = &g_unitInfo[unit->o.type];
 	packed = Tile_PackTile(unit->o.position);
 
-	loc02 = g_global->variable_3A3E[Map_B4CD_0750(packed)][2 + ui->movementType / 2];
+	loc02 = g_global->variable_3A3E[Map_GetLandscapeType(packed)][2 + ui->movementType / 2];
 	loc02 &= ((ui->movementType & 0x1) != 0) ? 0xFF00 : 0x00FF;
 	if (loc02 == 0) return true;
 
@@ -2167,9 +2167,9 @@ void Unit_DisplayStatusText(Unit *unit)
 		stringID = 0x79; /* " is %d percent full" */
 
 		if (unit->actionID == ACTION_HARVEST && unit->amount < 100) {
-			uint16 locax = Map_B4CD_0750(Tile_PackTile(unit->o.position));
+			uint16 type = Map_GetLandscapeType(Tile_PackTile(unit->o.position));
 
-			if (locax == 8 || locax == 9) stringID = 0x7A; /* " is %d percent full and harvesting" */
+			if (type == LST_SPICE || type == LST_THICK_SPICE) stringID = 0x7A; /* " is %d percent full and harvesting" */
 		}
 
 		if (unit->actionID == ACTION_MOVE && Tools_Index_GetStructure(unit->targetMove) != NULL) {
@@ -2419,7 +2419,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 	UnitInfo *ui;
 	Unit *u;
 	Structure *s;
-	uint16 loc0E;
+	uint16 type;
 	int16 res;
 
 	if (unit == NULL) return 0;
@@ -2443,16 +2443,16 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 		return -res;
 	}
 
-	loc0E = Map_B4CD_0750(packed);
+	type = Map_GetLandscapeType(packed);
 
-	res = g_global->variable_3A3E[loc0E][2 + (ui->movementType / 2)];
+	res = g_global->variable_3A3E[type][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {
 		res &= 0xFF;
 	} else {
 		res >>= 8;
 	}
 
-	if (unit->o.type == UNIT_SABOTEUR && loc0E == 11) {
+	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) {
 		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) res = 255;
 	}
 

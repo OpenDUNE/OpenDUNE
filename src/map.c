@@ -417,7 +417,7 @@ static bool Map_06F7_072B(struct_395A *s)
 
 	if (!Map_IsPositionUnveiled(packed)) return false;
 
-	type = Map_B4CD_0750(packed);
+	type = Map_GetLandscapeType(packed);
 
 	if (type == 0xC || type == 0xD) return false;
 
@@ -495,7 +495,7 @@ static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
 	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
 
 	proc.s.cs = 0x33C8;
-	proc.s.ip = ((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_B4CD_0750(packed)][7] != 0 ? 0 : 2)) << 4) + 256;
+	proc.s.ip = ((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_GetLandscapeType(packed)][7] != 0 ? 0 : 2)) << 4) + 256;
 
 	Animation_Start(proc, s->position, 0, s->houseID, 3);
 
@@ -639,7 +639,7 @@ static bool Map_UpdateWall(uint16 packed)
 {
 	Tile *t;
 
-	if (Map_B4CD_0750(packed) != 0xB) return 0;
+	if (Map_GetLandscapeType(packed) != LST_WALL) return 0;
 
 	t = Map_GetTileByPosition(packed);
 
@@ -764,7 +764,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	if (Map_B4CD_0750(positionPacked) == 11 && hitpoints != 0) {
+	if (Map_GetLandscapeType(positionPacked) == LST_WALL && hitpoints != 0) {
 		bool loc22 = false;
 
 		if (g_structureInfo[STRUCTURE_TURRET].o.hitpoints <= hitpoints) loc22 = true;
@@ -787,7 +787,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
  * 0=normal sand, 1=partial rock, 5=mostly rock, 4=entirely rock,
  * 3=partial sand dunes, 2=entirely sand dunes, 7=partial mountain,
  * 6=entirely mountain, 8=spice, 9=thick spice
- * @see Map_B4CD_0750
+ * @see Map_GetLandscapeType
  */
 static const uint16 _landscapeSpriteMap[81] = {
 	0, 1, 1, 1, 5, 1, 5, 5, 5, 5, /* Sprites 127-136 */
@@ -807,25 +807,25 @@ static const uint16 _landscapeSpriteMap[81] = {
  * @param packed The packed tile to examine.
  * @return The type of landscape at the tile.
  */
-uint16 Map_B4CD_0750(uint16 packed)
+uint16 Map_GetLandscapeType(uint16 packed)
 {
 	Tile *t;
 	int16 spriteOffset;
 
 	t = Map_GetTileByPosition(packed);
 
-	if (t->groundSpriteID == g_global->builtSlabSpriteID) return 10;
+	if (t->groundSpriteID == g_global->builtSlabSpriteID) return LST_CONCRETE_SLAB;
 
-	if (t->groundSpriteID == g_global->bloomSpriteID || t->groundSpriteID == g_global->bloomSpriteID + 1) return 14;
+	if (t->groundSpriteID == g_global->bloomSpriteID || t->groundSpriteID == g_global->bloomSpriteID + 1) return LST_BLOOM_FIELD;
 
-	if (t->groundSpriteID > g_global->wallSpriteID && t->groundSpriteID < (uint16)(g_global->wallSpriteID + 75)) return 11;
+	if (t->groundSpriteID > g_global->wallSpriteID && t->groundSpriteID < (uint16)(g_global->wallSpriteID + 75)) return LST_WALL;
 
-	if (t->overlaySpriteID == g_global->wallSpriteID) return 13;
+	if (t->overlaySpriteID == g_global->wallSpriteID) return LST_DESTROYED_WALL;
 
-	if (Structure_Get_ByPackedTile(packed) != NULL) return 12;
+	if (Structure_Get_ByPackedTile(packed) != NULL) return LST_STRUCTURE;
 
 	spriteOffset = t->groundSpriteID - g_global->landscapeSpriteID; /* Offset in the landscape icon group. */
-	if (spriteOffset < 0 || spriteOffset > 80) return 4;
+	if (spriteOffset < 0 || spriteOffset > 80) return LST_ENTIRELY_ROCK;
 
 	return _landscapeSpriteMap[spriteOffset];
 }
@@ -1019,7 +1019,7 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 
 			if (distance == radius && (Tools_Random_256() & 1) == 0) continue;
 
-			if (Map_B4CD_0750(curPacked) == 0x8) continue;
+			if (Map_GetLandscapeType(curPacked) == LST_SPICE) continue;
 
 			Map_B4CD_0AFA(curPacked, 1);
 
@@ -1039,10 +1039,10 @@ static void Map_B4CD_0C36(uint16 packed)
 	uint16 *iconMap;
 
 	packed &= 0xFFF;
-	type = Map_B4CD_0750(packed);
+	type = Map_GetLandscapeType(packed);
 	spriteID = 0;
 
-	if (type == 0x8 || type == 0x9) {
+	if (type == LST_SPICE || type == LST_THICK_SPICE) {
 		uint8 i;
 
 		for (i = 0; i < 4; i++) {
@@ -1050,21 +1050,21 @@ static void Map_B4CD_0C36(uint16 packed)
 			uint16 curType;
 
 			if (Tile_IsOutOfMap(curPacked)) {
-				if (type == 0x8 || type == 0x9) spriteID |= (1 << i);
+				if (type == LST_SPICE || type == LST_THICK_SPICE) spriteID |= (1 << i);
 				continue;
 			}
 
-			curType = Map_B4CD_0750(curPacked);
+			curType = Map_GetLandscapeType(curPacked);
 
-			if (type == 0x8) {
-				if (curType == 0x8 || curType == 0x9) spriteID |= (1 << i);
+			if (type == LST_SPICE) {
+				if (curType == LST_SPICE || curType == LST_THICK_SPICE) spriteID |= (1 << i);
 				continue;
 			}
 
-			if (curType == 0x9) spriteID |= (1 << i);
+			if (curType == LST_THICK_SPICE) spriteID |= (1 << i);
 		}
 
-		spriteID += (type == 0x8) ? 49 : 65;
+		spriteID += (type == LST_SPICE) ? 49 : 65;
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 		spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
@@ -1083,21 +1083,21 @@ void Map_B4CD_0AFA(uint16 packed, int16 dir)
 
 	if (dir == 0) return;
 
-	type = Map_B4CD_0750(packed);
+	type = Map_GetLandscapeType(packed);
 
-	if (type == 0x9 && dir > 0) return;
-	if (type != 0x8 && type != 0x9 && dir < 0) return;
-	if (type != 0x0 && type != 0x2 && type != 0x8 && dir > 0) return;
+	if (type == LST_THICK_SPICE && dir > 0) return;
+	if (type != LST_SPICE && type != LST_THICK_SPICE && dir < 0) return;
+	if (type != LST_NORMAL_SAND && type != LST_ENTRIELY_DUNE && type != LST_SPICE && dir > 0) return;
 
 	if (dir > 0) {
-		type = (type == 0x8) ? 0x9 : 0x8;
+		type = (type == LST_SPICE) ? LST_THICK_SPICE : LST_SPICE;
 	} else {
-		type = (type == 0x9) ? 0x8 : 0x0;
+		type = (type == LST_THICK_SPICE) ? LST_SPICE : LST_NORMAL_SAND;
 	}
 
 	spriteID = 0;
-	if (type == 0x8) spriteID = 49;
-	if (type == 0x9) spriteID = 65;
+	if (type == LST_SPICE) spriteID = 49;
+	if (type == LST_THICK_SPICE) spriteID = 65;
 
 	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
@@ -1440,10 +1440,10 @@ uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
 			if (Map_GetTileByPosition(curPacked)->hasStructure) continue;
 			if (Unit_Get_ByPackedTile(curPacked) != NULL) continue;
 
-			type = Map_B4CD_0750(curPacked);
+			type = Map_GetLandscapeType(curPacked);
 			distance = Tile_GetDistancePacked(curPacked, packed);
 
-			if (type == 0x9 && distance < 4) {
+			if (type == LST_THICK_SPICE && distance < 4) {
 				found = true;
 
 				if (distance <= radius2) {
@@ -1452,7 +1452,7 @@ uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
 				}
 			}
 
-			if (type == 0x8) {
+			if (type == LST_SPICE) {
 				found = true;
 
 				if (distance <= radius1) {

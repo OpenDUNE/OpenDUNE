@@ -1429,7 +1429,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	position = Tile_PackTile(Tile_Center(u->o.position));
 	Animation_Stop_ByTile(position);
 
-	loc06 = g_global->variable_3A3E[Map_B4CD_0750(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
+	loc06 = g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
 	if (u->o.script.variables[1] == 1) loc06 += 2;
 	loc06 = (loc06 << 4) + (g_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
 
@@ -1596,7 +1596,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 {
 	Unit *u;
 	uint16 packed;
-	uint16 locax;
+	uint16 type;
 
 	VARIABLE_NOT_USED(script);
 
@@ -1607,8 +1607,8 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	packed = Tile_PackTile(u->o.position);
 
-	locax = Map_B4CD_0750(packed);
-	if (locax != 8 && locax != 9) return 0;
+	type = Map_GetLandscapeType(packed);
+	if (type != LST_SPICE && type != LST_THICK_SPICE) return 0;
 
 	u->amount += Tools_Random_256() & 1;
 	u->o.flags.s.inTransport = true;

@@ -260,8 +260,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
-				uint16 type = Map_B4CD_0750(packed);
-				if (type == 8 || type == 9) {
+				uint16 type = Map_GetLandscapeType(packed);
+				if (type == LST_SPICE || type == LST_THICK_SPICE) {
 					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
 				}
 			}
@@ -678,16 +678,16 @@ void Unknown_07D4_1625(uint16 packed)
 	t = Map_GetTileByPosition(packed);
 
 	if ((t->isUnveiled && House_Get_ByMemory(g_global->playerHouse)->flags.s.radarActivated) || g_global->debugScenario != 0) {
-		uint16 loc08 = Map_B4CD_0750(packed);
+		uint16 type = Map_GetLandscapeType(packed);
 		Unit *u;
 
 		if (mapScale > 1) {
-			spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[loc08][12] - 1;
+			spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[type][12] - 1;
 		} else {
-			colour = g_global->variable_3A3E[loc08][11];
+			colour = g_global->variable_3A3E[type][11];
 		}
 
-		if (g_global->variable_3A3E[loc08][11] == 0xFFFF) {
+		if (g_global->variable_3A3E[type][11] == 0xFFFF) {
 			if (mapScale > 1) {
 				spriteID = mapScale + t->houseID * 2 + 29;
 			} else {
