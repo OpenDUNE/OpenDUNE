@@ -378,11 +378,11 @@ void Sprites_LoadTiles()
 	length = File_ReadBlockFile("ICON.MAP", (void *)emu_get_memorycsip(g_global->iconMap), memBlockFree);
 
 	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	g_global->variable_39F2 = iconMap[iconMap[7] + 16];
-	g_global->variable_39F4 = iconMap[iconMap[10]];
-	g_global->variable_39F8 = iconMap[iconMap[8] + 2];
-	g_global->variable_39F6 = iconMap[iconMap[9]];
-	g_global->variable_39FA = iconMap[iconMap[6]];
+	g_global->variable_39F2     = iconMap[iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
+	g_global->bloomSpriteID     = iconMap[iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
+	g_global->builtSlabSpriteID = iconMap[iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
+	g_global->landscapeSpriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE]];
+	g_global->wallSpriteID      = iconMap[iconMap[ICM_ICONGROUP_WALLS]];
 
 	memBlockFree  -= length;
 	memBlock.s.ip += length;

@@ -445,7 +445,7 @@ static bool Map_06F7_072B(struct_395A *s)
 
 	Map_B4CD_0AFA(packed, -1);
 
-	if (t->groundSpriteID == g_global->variable_39F4) {
+	if (t->groundSpriteID == g_global->bloomSpriteID) {
 		Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
 		return false;
 	}
@@ -476,7 +476,7 @@ static bool Map_06F7_0913(struct_395A *s)
 
 	packed = Tile_PackTile(s->position);
 
-	if (Map_GetTileByPosition(packed)->groundSpriteID != g_global->variable_39F4) return true;
+	if (Map_GetTileByPosition(packed)->groundSpriteID != g_global->bloomSpriteID) return true;
 
 	Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
 
@@ -643,7 +643,7 @@ static bool Map_UpdateWall(uint16 packed)
 
 	t->groundSpriteID = g_map[packed] & 0x1FF;
 
-	if (Map_IsPositionUnveiled(packed)) t->overlaySpriteID = g_global->variable_39FA & 0x7F;
+	if (Map_IsPositionUnveiled(packed)) t->overlaySpriteID = g_global->wallSpriteID & 0x7F;
 
 	Structure_ConnectWall(packed, true);
 	Map_Update(packed, 0, false);
@@ -792,17 +792,17 @@ uint16 Map_B4CD_0750(uint16 packed)
 
 	t = Map_GetTileByPosition(packed);
 
-	if (t->groundSpriteID == g_global->variable_39F8) return 10;
+	if (t->groundSpriteID == g_global->builtSlabSpriteID) return 10;
 
-	if (t->groundSpriteID == g_global->variable_39F4 || t->groundSpriteID == g_global->variable_39F4 + 1) return 14;
+	if (t->groundSpriteID == g_global->bloomSpriteID || t->groundSpriteID == g_global->bloomSpriteID + 1) return 14;
 
-	if (t->groundSpriteID > g_global->variable_39FA && t->groundSpriteID < (uint16)(g_global->variable_39FA + 75)) return 11;
+	if (t->groundSpriteID > g_global->wallSpriteID && t->groundSpriteID < (uint16)(g_global->wallSpriteID + 75)) return 11;
 
-	if (t->overlaySpriteID == g_global->variable_39FA) return 13;
+	if (t->overlaySpriteID == g_global->wallSpriteID) return 13;
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return 12;
 
-	locsi = t->groundSpriteID - g_global->variable_39F6;
+	locsi = t->groundSpriteID - g_global->landscapeSpriteID;
 	if (locsi < 0 || locsi > 82) return 4;
 
 	return g_global->variable_24B8[locsi];
@@ -1045,7 +1045,7 @@ static void Map_B4CD_0C36(uint16 packed)
 		spriteID += (type == 0x8) ? 49 : 65;
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		spriteID = iconMap[iconMap[9] + spriteID] & 0x1FF;
+		spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
 		g_map[packed] = 0x8000 | spriteID;
 		Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
 	}
@@ -1078,7 +1078,7 @@ void Map_B4CD_0AFA(uint16 packed, int16 dir)
 	if (type == 0x9) spriteID = 65;
 
 	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	spriteID = iconMap[iconMap[9] + spriteID] & 0x1FF;
+	spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
 	g_map[packed] = 0x8000 | spriteID;
 	Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
 
@@ -1119,8 +1119,8 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 
-	Map_GetTileByPosition(packed)->groundSpriteID = g_global->variable_39F6 & 0x1FF;
-	g_map[packed] = 0x8000 | g_global->variable_39F6;
+	Map_GetTileByPosition(packed)->groundSpriteID = g_global->landscapeSpriteID & 0x1FF;
+	g_map[packed] = 0x8000 | g_global->landscapeSpriteID;
 
 	Map_Update(packed, 0, false);
 
@@ -1595,7 +1595,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 		}
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		spriteID = iconMap[iconMap[7] + spriteID];
+		spriteID = iconMap[iconMap[ICM_ICONGROUP_FOG_OF_WAR] + spriteID];
 	}
 
 	t->overlaySpriteID = spriteID;
@@ -1900,7 +1900,7 @@ void Map_CreateLandscape(uint32 seed)
 
 	/* Finalise the tiles with the real sprites. */
 	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	iconMap = &iconMap[iconMap[9]];
+	iconMap = &iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE]];
 
 	for (i = 0; i < 4096; i++) {
 		Tile *t = Map_GetTileByPosition(i);

@@ -316,7 +316,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 
 static void Scenario_Load_Map_Bloom(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = g_global->variable_39F4 & 0x01FF;
+	t->groundSpriteID = g_global->bloomSpriteID & 0x01FF;
 	g_map[packed] |= 0x8000;
 }
 
@@ -332,7 +332,7 @@ static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
 
 static void Scenario_Load_Map_Special(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = (g_global->variable_39F4 + 1) & 0x01FF;
+	t->groundSpriteID = (g_global->bloomSpriteID + 1) & 0x01FF;
 	g_map[packed] |= 0x8000;
 }
 

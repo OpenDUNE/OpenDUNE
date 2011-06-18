@@ -381,9 +381,9 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
-		baseSpriteID = iconMap[iconMap[24] + 2];
+		baseSpriteID = iconMap[iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
 	} else {
-		baseSpriteID = iconMap[iconMap[23] + 2];
+		baseSpriteID = iconMap[iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
 	}
 
 	rotation = tile->groundSpriteID - baseSpriteID;

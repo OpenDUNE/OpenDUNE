@@ -1590,12 +1590,12 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					}
 
 					if (unit->o.type != UNIT_SANDWORM) {
-						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->variable_39F4) {
+						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->bloomSpriteID) {
 							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
 							sprite1 = true;
 						}
 
-						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->variable_39F4 + 1) {
+						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->bloomSpriteID + 1) {
 							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
 							sprite2 = true;
 						}
@@ -2538,8 +2538,8 @@ bool Unit_Unknown379B(Unit *unit)
 
 	if (g_global->selectionType == 1) {
 		g_global->variable_39F2 = 0;
-		g_global->variable_39F4 = 0;
-		g_global->variable_39F6 = 0xFFFF;
+		g_global->bloomSpriteID = 0;
+		g_global->landscapeSpriteID = 0xFFFF;
 
 		GUI_ChangeSelectionType(4);
 	}

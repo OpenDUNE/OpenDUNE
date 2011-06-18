@@ -398,13 +398,13 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 		uint16 *iconMap;
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		s->variable_49 = iconMap[iconMap[23] + 1];
+		s->variable_49 = iconMap[iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
 	}
 	if (typeID == STRUCTURE_ROCKET_TURRET) {
 		uint16 *iconMap;
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		s->variable_49 = iconMap[iconMap[24] + 1];
+		s->variable_49 = iconMap[iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
 	}
 
 	s->o.hitpoints  = si->o.hitpoints;
@@ -466,7 +466,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			if (Structure_IsValidBuildLocation(position, STRUCTURE_WALL) == 0) return false;
 
 			t = Map_GetTileByPosition(position);
-			t->groundSpriteID = (g_global->variable_39FA + 1) & 0x1FF;
+			t->groundSpriteID = (g_global->wallSpriteID + 1) & 0x1FF;
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
 			t->houseID  = s->o.houseID;
 
@@ -493,7 +493,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-				t->groundSpriteID = g_global->variable_39F8 & 0x01FF;
+				t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
 				t->houseID  = s->o.houseID;
 
 				g_map[curPos] |= 0x8000;
@@ -515,7 +515,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-					t->groundSpriteID = g_global->variable_39F8 & 0x01FF;
+					t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
 					t->houseID  = s->o.houseID;
 
 					g_map[curPos] |= 0x8000;
@@ -1258,7 +1258,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 
 	if (isTypeD) return false;
 
-	spriteID = g_global->variable_39FA + g_global->variable_3462[bits] + 1;
+	spriteID = g_global->wallSpriteID + g_global->variable_3462[bits] + 1;
 
 	tile = Map_GetTileByPosition(position);
 	if (tile->groundSpriteID == spriteID) return false;
