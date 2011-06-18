@@ -159,7 +159,7 @@ bool GUI_Security_Show()
 	oldScreenID = GUI_Screen_SetActive(4);
 
 	for (i = 0, valid = false; i < 3 && !valid; i++) {
-		csip32 wsaQuestion;
+		void *wsa;
 		uint16 questionIndex;
 		uint32 tickWaitTill;
 		char string[1024];
@@ -173,15 +173,9 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		{
-			csip32 null;
-
-			null.csip = 0x0;
-			wsaQuestion = WSA_LoadFile(string, Screen_GetSegment_ByIndex_1(3), loc0E, 0, null);
-		}
-
-		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
-		WSA_Unload(wsaQuestion);
+		wsa = WSA_LoadFile(string, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), loc0E, false);
+		WSA_DisplayFrame(wsa, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
+		WSA_Unload(wsa);
 
 		GUI_DrawSprite_8002(4);
 

@@ -441,7 +441,6 @@ bool House_Load(FILE *fp, uint32 length)
  */
 bool House_UpdateRadarState(House *h)
 {
-	csip32 wsaBuffer;
 	void *wsa;
 	uint16 frame;
 	uint16 frameCount;
@@ -449,7 +448,7 @@ bool House_UpdateRadarState(House *h)
 
 	if (h == NULL || h->index != g_global->playerHouseID) return false;
 
-	wsaBuffer.csip = 0x0;
+	wsa = NULL;
 
 	activate = h->flags.s.radarActivated;
 
@@ -463,14 +462,7 @@ bool House_UpdateRadarState(House *h)
 
 	if (h->flags.s.radarActivated == activate) return false;
 
-	{
-		csip32 null;
-		null.csip = 0x0;
-
-		wsaBuffer = WSA_LoadFile("STATIC.WSA", Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1], 1, null);
-	}
-
-	wsa = emu_get_memorycsip(wsaBuffer);
+	wsa = WSA_LoadFile("STATIC.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], true);
 	frameCount = WSA_GetFrameCount(wsa);
 
 	g_global->variable_38C4 = 1;
@@ -486,7 +478,7 @@ bool House_UpdateRadarState(House *h)
 	frameCount = WSA_GetFrameCount(wsa);
 
 	for (frame = 0; frame < frameCount; frame++) {
-		WSA_DisplayFrame(wsaBuffer, activate ? frameCount - frame : frame, 256, 136, 0);
+		WSA_DisplayFrame(wsa, activate ? frameCount - frame : frame, 256, 136, 0);
 		GUI_PaletteAnimate();
 
 		g_global->variable_76B4 = 3;
@@ -496,7 +488,7 @@ bool House_UpdateRadarState(House *h)
 
 	h->flags.s.radarActivated = activate;
 
-	WSA_Unload(wsaBuffer);
+	WSA_Unload(wsa);
 
 	g_global->variable_3A12 = 1;
 

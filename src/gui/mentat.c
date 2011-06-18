@@ -398,12 +398,9 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 	Unknown_07AE_00E4(8);
 
 	if (wsaFilename.csip != 0x0) {
-		csip32 wsa;
-		csip32 null;
+		void *wsa;
 
-		null.csip = 0x0;
-
-		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), Screen_GetSegment_ByIndex_1(5), g_global->variable_6CD3[2][0], 0, null);
+		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][0], false);
 		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(wsa);
 	}
@@ -532,14 +529,11 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 	Unknown_07AE_00E4(8);
 
 	if (houseFilename != NULL) {
-		csip32 locPtr;
-		csip32 null;
+		void *wsa;
 
-		null.csip = 0x0;
-
-		locPtr = WSA_LoadFile(houseFilename, Screen_GetSegment_ByIndex_1(5), g_global->variable_6CD3[2][1], 0, null);
-		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
-		WSA_Unload(locPtr);
+		wsa = WSA_LoadFile(houseFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][1], false);
+		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
+		WSA_Unload(wsa);
 	}
 
 	GUI_DrawSprite_8002(g_global->screenActiveID);
@@ -1058,7 +1052,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 {
 	uint16 oldScreenID;
 	uint16 old07AE;
-	csip32 wsa;
+	void *wsa;
 	uint16 descLines;
 	bool dirty;
 	bool done;
@@ -1080,17 +1074,14 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	old07AE = Unknown_07AE_0000(8);
 	oldScreenID = GUI_Screen_SetActive(4);
 
-	wsa.csip = 0x0;
+	wsa = NULL;
 
 	if (pictureName != NULL) {
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-
-		wsa = WSA_LoadFile(pictureName, Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1], 0, nullcsip);
+		wsa = WSA_LoadFile(pictureName, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], false);
 	}
 
 	step = 0;
-	if (wsa.csip == 0x0) {
+	if (wsa == NULL) {
 		Unknown_07AE_0103();
 		step = 1;
 	}
@@ -1230,7 +1221,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 		GUI_Mentat_Animation(mentatAnimation);
 
-		if (wsa.csip != 0x0 && g_global->variable_76B4 == 0) {
+		if (wsa != NULL && g_global->variable_76B4 == 0) {
 			g_global->variable_76B4 = 7;
 
 			do {
@@ -1243,7 +1234,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 						frame = 0;
 					} else {
 						WSA_Unload(wsa);
-						wsa.csip = 0x0;
+						wsa = NULL;
 					}
 				}
 			} while (frame == 0);
@@ -1261,7 +1252,7 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 		dirty = false;
 	}
 
-	if (wsa.csip != 0x0) WSA_Unload(wsa);
+	if (wsa != NULL) WSA_Unload(wsa);
 
 	GUI_Screen_SetActive(4);
 	GUI_DrawSprite_8002(4);

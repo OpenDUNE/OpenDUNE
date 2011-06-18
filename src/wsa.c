@@ -45,8 +45,8 @@ typedef struct WSAHeader {
 	uint16 width;                                           /*!< Width of WSA. */
 	uint16 height;                                          /*!< Height of WSA. */
 	uint16 bufferLength;                                    /*!< Length of the buffer. */
-	csip32 buffer;                                          /*!< The buffer. */
-	csip32 fileContent;                                     /*!< ?? */
+	uint8 *buffer;                                          /*!< The buffer. */
+	uint8 *fileContent;                                     /*!< ?? */
 	char   filename[13];                                    /*!< Filename of WSA. */
 	WSAFlags flags;                                         /*!< Flags of WSA. */
 } WSAHeader;
@@ -89,7 +89,7 @@ static uint32 WSA_GetFrameOffset_FromMemory(WSAHeader *header, uint16 frame)
 	uint16 lengthAnimation = 0;
 	uint32 *animationArray;
 
-	animationArray = (uint32 *)emu_get_memorycsip(header->fileContent);
+	animationArray = (uint32 *)header->fileContent;
 
 	if (animationArray[frame] == 0) return 0;
 
@@ -117,47 +117,38 @@ static uint32 WSA_GetFrameOffset_FromDisk(uint8 fileno, uint16 frame)
 	return length;
 }
 
-
-static uint32 csip32_add(csip32 csip, uint32 add) {
-	csip.s.cs += add >> 4;
-	csip.s.ip += add & 0xF;
-	return csip.csip;
-}
-
 /**
  * Go to the next frame in the animation.
- * @param header Animation.
- * @param frame Frame number
- * @param displayBuffer Destination.
+ * @param wsa WSA pointer.
+ * @param frame Frame number to go to.
+ * @param dst Destination buffer to write the animation to.
  * @return 1 on success, 0 on failure.
  */
-uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, csip32 displayBuffer)
+static uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, uint8 *dst)
 {
 	WSAHeader *header = (WSAHeader *)wsa;
 	uint16 lengthSpecial;
-	csip32 dest;
+	uint8 *buffer;
 
 	lengthSpecial = 0;
-	if (header->flags.s.isSpecial) {
-		lengthSpecial = 0x300;
-	}
+	if (header->flags.s.isSpecial) lengthSpecial = 0x300;
 
-	dest.csip = header->buffer.csip;
+	buffer = header->buffer;
 
 	if (header->flags.s.dataInMemory) {
 		uint32 positionStart;
 		uint32 positionEnd;
 		uint32 length;
-		csip32 positionFrame;
+		uint8 *positionFrame;
 
 		positionStart = WSA_GetFrameOffset_FromMemory(header, frame);
 		positionEnd = WSA_GetFrameOffset_FromMemory(header, frame + 1);
 		length = positionEnd - positionStart;
 
-		positionFrame.csip = csip32_add(header->fileContent, positionStart);
-		dest.csip = csip32_add(dest, header->bufferLength - length);
+		positionFrame = header->fileContent + positionStart;
+		buffer += header->bufferLength - length;
 
-		memmove(emu_get_memorycsip(dest), emu_get_memorycsip(positionFrame), length);
+		memmove(buffer, positionFrame, length);
 	} else if (header->flags.s.dataOnDisk) {
 		uint8 fileno;
 		uint32 positionStart;
@@ -176,39 +167,35 @@ uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, csip32 displayBuffer)
 			return 0;
 		}
 
+		buffer += header->bufferLength - length;
+
 		File_Seek(fileno, positionStart + lengthSpecial, 0);
-
-		dest.csip = csip32_add(dest, header->bufferLength - length);
-
-		res = File_Read(fileno, emu_get_memorycsip(dest), length);
+		res = File_Read(fileno, buffer, length);
 		File_Close(fileno);
 
-		if (res != length) {
-			return 0;
-		}
+		if (res != length) return 0;
 	}
 
-	Format80_Decode(emu_get_memorycsip(header->buffer), emu_get_memorycsip(dest), header->bufferLength);
+	Format80_Decode(header->buffer, buffer, header->bufferLength);
 
 	if (header->flags.s.displayInBuffer) {
-		Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
+		Format40_Decode(dst, header->buffer);
 	} else {
-		Format40_Decode_XorToScreen(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer), header->width);
+		Format40_Decode_XorToScreen(dst, header->buffer, header->width);
 	}
 
 	return 1;
 }
 
 /**
- * Load a file.
- * @param filename Name of the file
- * @param buffer Data buffer
- * @param bufferSizeCurrent Current size of buffer
- * @param reserveDisplayFrame
- * @param bufferSpecial
- * @return Address of loaded file, or 0x0
+ * Load a WSA file.
+ * @param filename Name of the file.
+ * @param wsa Data buffer for the WSA.
+ * @param wsaSize Current size of buffer.
+ * @param reserveDisplayFrame True if we need to reserve the display frame.
+ * @return Address of loaded WSA file, or NULL.
  */
-csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uint16 reserveDisplayFrame, csip32 bufferSpecial)
+void *WSA_LoadFile(char *filename, void *wsa, uint32 wsaSize, bool reserveDisplayFrame)
 {
 	WSAFlags flags;
 	WSAFileHeader fileheader;
@@ -221,7 +208,7 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	uint16 lengthAnimation;
 	uint32 lengthFileContent;
 	uint32 displaySize;
-	csip32 b;
+	uint8 *buffer;
 
 	flags.all = 0;
 
@@ -233,10 +220,6 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 		flags.s.isSpecial = true;
 
 		lengthSpecial = 0x300;
-		if (bufferSpecial.csip != 0) {
-			File_Seek(fileno, fileheader.frames * 4, 1);
-			File_Read(fileno, emu_get_memorycsip(bufferSpecial), 0x300);
-		}
 	}
 
 	lengthFileContent = File_Seek(fileno, 0, 2);
@@ -259,42 +242,41 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	bufferSizeMinimal = displaySize + fileheader.requiredBufferSize - 33 + sizeof(WSAHeader);
 	bufferSizeOptimal = bufferSizeMinimal + lengthFileContent;
 
-	if (bufferSizeCurrent > 1 && bufferSizeCurrent < bufferSizeMinimal) {
+	if (wsaSize > 1 && wsaSize < bufferSizeMinimal) {
 		File_Close(fileno);
 
-		buffer.csip = 0x0;
-		return buffer;
+		return NULL;
 	}
-	if (bufferSizeCurrent == 0) bufferSizeCurrent = bufferSizeOptimal;
-	if (bufferSizeCurrent == 1) bufferSizeCurrent = bufferSizeMinimal;
+	if (wsaSize == 0) wsaSize = bufferSizeOptimal;
+	if (wsaSize == 1) wsaSize = bufferSizeMinimal;
 
-	if (buffer.csip == 0) {
-		if (bufferSizeCurrent == 0) {
-			bufferSizeCurrent = bufferSizeOptimal;
-		} else if (bufferSizeCurrent == 1) {
-			bufferSizeCurrent = bufferSizeMinimal;
-		} else if (bufferSizeCurrent >= bufferSizeOptimal) {
-			bufferSizeCurrent = bufferSizeOptimal;
+	if (wsa == NULL) {
+		if (wsaSize == 0) {
+			wsaSize = bufferSizeOptimal;
+		} else if (wsaSize == 1) {
+			wsaSize = bufferSizeMinimal;
+		} else if (wsaSize >= bufferSizeOptimal) {
+			wsaSize = bufferSizeOptimal;
 		} else {
-			bufferSizeCurrent = bufferSizeMinimal;
+			wsaSize = bufferSizeMinimal;
 		}
 
-		buffer = Tools_Malloc(bufferSizeCurrent, 0x30);
+		wsa = emu_get_memorycsip(Tools_Malloc(wsaSize, 0x30));
 		flags.s.malloced = true;
 	} else {
 		flags.s.notmalloced = true;
 	}
 
-	header = (WSAHeader *)emu_get_memorycsip(buffer);
-	b.csip = csip32_add(buffer, sizeof(WSAHeader));
+	header = (WSAHeader *)wsa;
+	buffer = (uint8 *)wsa + sizeof(WSAHeader);
 
 	header->flags.all = flags.all;
 
 	if (reserveDisplayFrame) {
-		memset(emu_get_memorycsip(b), 0, displaySize);
+		memset(buffer, 0, displaySize);
 	}
 
-	b.csip = csip32_add(b, displaySize);
+	buffer += displaySize;
 
 	if ((fileheader.frames & 0x8000) != 0) {
 		header->flags.s.variable_0080 = true;
@@ -302,22 +284,22 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	}
 
 	header->frameCurrent = fileheader.frames;
-	header->frames = fileheader.frames;
-	header->width = fileheader.width;
-	header->height = fileheader.height;
+	header->frames       = fileheader.frames;
+	header->width        = fileheader.width;
+	header->height       = fileheader.height;
 	header->bufferLength = fileheader.requiredBufferSize + 33 - sizeof(WSAHeader);
-	header->buffer.csip = b.csip;
+	header->buffer       = buffer;
 	strcpy(header->filename, filename);
 
 	lengthHeader = (fileheader.frames + 2) * 4;
 
-	if (bufferSizeCurrent >= bufferSizeOptimal) {
-		header->fileContent.csip = csip32_add(b, header->bufferLength);
+	if (wsaSize >= bufferSizeOptimal) {
+		header->fileContent = buffer + header->bufferLength;
 
 		File_Seek(fileno, 10, 0);
-		File_Read(fileno, emu_get_memorycsip(header->fileContent), lengthHeader);
+		File_Read(fileno, header->fileContent, lengthHeader);
 		File_Seek(fileno, lengthAnimation + lengthSpecial, 1);
-		File_Read(fileno, emu_get_memorycsip(header->fileContent) + lengthHeader, lengthFileContent - lengthHeader);
+		File_Read(fileno, header->fileContent + lengthHeader, lengthFileContent - lengthHeader);
 
 		header->flags.s.dataInMemory = true;
 		if (WSA_GetFrameOffset_FromMemory(header, header->frames + 1) == 0) header->flags.s.noAnimation = true;
@@ -327,36 +309,42 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
 	}
 
 	{
-		csip32 loc28;
-		loc28.csip = csip32_add(b, header->bufferLength - lengthAnimation);
+		uint8 *b;
+		b = buffer + header->bufferLength - lengthAnimation;
 
 		File_Seek(fileno, lengthHeader + lengthSpecial + 10, 0);
-		File_Read(fileno, emu_get_memorycsip(loc28), lengthAnimation);
+		File_Read(fileno, b, lengthAnimation);
 		File_Close(fileno);
 
-		Format80_Decode(emu_get_memorycsip(b), emu_get_memorycsip(loc28), header->bufferLength);
+		Format80_Decode(buffer, b, header->bufferLength);
 	}
-	return buffer;
+	return wsa;
 }
 
 /**
  * Unload the WSA.
- * @param buffer No longer needed buffer.
+ * @param wsa The pointer to the WSA.
  */
-void WSA_Unload(csip32 wsa)
+void WSA_Unload(void *wsa)
 {
-	WSAHeader *header;
+	WSAHeader *header = (WSAHeader *)wsa;
 
-	if (wsa.csip == 0) return;
-
-	header = (WSAHeader *)emu_get_memorycsip(wsa);
-
+	if (wsa == NULL) return;
 	if (!header->flags.s.malloced) return;
 
-	Tools_Free(wsa);
+	Tools_Free(emu_Global_GetCSIP(wsa));
 }
 
-static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, csip32 displayBuffer)
+/**
+ * Draw a frame on the buffer.
+ * @param x The X-position to start drawing.
+ * @param y The Y-position to start drawing.
+ * @param width The width of the image.
+ * @param height The height of the image.
+ * @param windowID The windowID.
+ * @param src The source for the frame.
+ */
+static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, uint8 *src)
 {
 	int16 left;
 	int16 right;
@@ -364,7 +352,6 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	int16 bottom;
 	int16 skipBefore;
 	int16 skipAfter;
-	uint8 *src = emu_get_memorycsip(displayBuffer);
 	uint8 *dst;
 
 	dst = emu_get_memorycsip(Screen_GetSegment_ByIndex_2(g_global->screenActiveID));
@@ -410,46 +397,38 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 
 /**
  * Display a frame.
- * @param buffer
- * @param frameNext
- * @param posX
- * @param posY
- * @param memoryBlock
- * @paramvar12
- * @return 0 on failure, 1 on success.
+ * @param wsa The pointer to the WSA.
+ * @param frameNext The next frame to display.
+ * @param posX The X-position of the WSA.
+ * @param posY The Y-position of the WSA.
+ * @param screenID The screenID to draw on.
+ * @return False on failure, true on success.
  */
-uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, uint16 screenID)
+bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uint16 screenID)
 {
-	WSAHeader *header;
-	csip32 displayBuffer;
+	WSAHeader *header = (WSAHeader *)wsa;
+	uint8 *dst;
 
 	int16 frameDiff;
 	int16 direction;
 	int16 frameCount;
 
-	if (wsa.csip == 0) {
-		return 0;
-	}
-
-	header = (WSAHeader *)emu_get_memorycsip(wsa);
-
-	if (frameNext >= header->frames) {
-		return 0;
-	}
+	if (wsa == NULL) return false;
+	if (frameNext >= header->frames) return false;
 
 	if (header->flags.s.displayInBuffer) {
-		displayBuffer.csip = csip32_add(wsa, sizeof(WSAHeader));
+		dst = (uint8 *)wsa + sizeof(WSAHeader);
 	} else {
-		displayBuffer = Screen_GetSegment_ByIndex_2(screenID);
-		displayBuffer.s.ip += posX + posY * SCREEN_WIDTH;
+		dst = emu_get_memorycsip(Screen_GetSegment_ByIndex_2(screenID));
+		dst += posX + posY * SCREEN_WIDTH;
 	}
 
 	if (header->frameCurrent == header->frames) {
 		if (!header->flags.s.variable_0040) {
 			if (!header->flags.s.displayInBuffer) {
-				Format40_Decode_ToScreen(emu_get_memorycsip(displayBuffer),  emu_get_memorycsip(header->buffer), header->width);
+				Format40_Decode_ToScreen(dst, header->buffer, header->width);
 			} else {
-				Format40_Decode(emu_get_memorycsip(displayBuffer), emu_get_memorycsip(header->buffer));
+				Format40_Decode(dst, header->buffer);
 			}
 		}
 
@@ -484,7 +463,7 @@ uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, 
 		for (i = 0; i < frameCount; i++) {
 			frame += direction;
 
-			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(wsa), frame, displayBuffer);
+			WSA_GotoNextFrame(wsa, frame, dst);
 
 			if (frame == header->frames) frame = 0;
 		}
@@ -495,7 +474,7 @@ uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, 
 		for (i = 0; i < frameCount; i++) {
 			if (frame == 0) frame = header->frames;
 
-			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(wsa), frame, displayBuffer);
+			WSA_GotoNextFrame(wsa, frame, dst);
 
 			frame += direction;
 		}
@@ -507,10 +486,10 @@ uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, 
 		uint16 oldScreenID = g_global->screenActiveID;
 		g_global->screenActiveID = screenID;
 
-		WSA_DrawFrame(posX, posY, header->width, header->height, 0, displayBuffer);
+		WSA_DrawFrame(posX, posY, header->width, header->height, 0, dst);
 
 		g_global->screenActiveID = oldScreenID;
 	}
-	return 1;
-}
 
+	return true;
+}

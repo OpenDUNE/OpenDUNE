@@ -2728,7 +2728,7 @@ static void GUI_FactoryWindow_InitItems()
 static void GUI_FactoryWindow_Init()
 {
 	uint16 oldScreenID;
-	csip32 wsaBuffer;
+	void *wsa;
 	uint16 loc0A;
 	uint16 locdi;
 	uint32 size;
@@ -2788,15 +2788,10 @@ static void GUI_FactoryWindow_Init()
 	g_global->factoryWindowSelected = 0;
 
 	oi = (ObjectInfo *)emu_get_memorycsip(g_global->factoryWindowItems[0].objectInfo);
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		wsaBuffer = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
-	}
 
-	WSA_DisplayFrame(wsaBuffer, 0, 128, 48, 2);
-
-	WSA_Unload(wsaBuffer);
+	wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
+	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
+	WSA_Unload(wsa);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
@@ -3470,16 +3465,11 @@ void GUI_FactoryWindow_DrawDetails()
 	uint16 oldScreenID;
 	FactoryWindowItem *item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
 	ObjectInfo *oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
-	csip32 wsa;
+	void *wsa;
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), g_global->variable_7FAE, g_global->variable_7FA6, 0, nullcsip);
-	}
-
+	wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 

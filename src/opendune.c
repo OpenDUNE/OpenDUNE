@@ -458,13 +458,12 @@ static void GameLoop_PlayAnimation()
 		uint16 loc04;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		csip32 wsa_csip;
 		uint32 loc10 = g_global->variable_76AC + var805E->variable_0004 * 6;
 		uint32 loc14 = loc10 + 30;
 		uint32 loc18;
 		uint32 loc1C;
 		uint16 mode = var805E->flags & 0x3;
-		uint16 loc20;
+		bool loc20;
 		uint32 loc24;
 		uint16 locdi;
 		uint16 frame;
@@ -478,41 +477,34 @@ static void GameLoop_PlayAnimation()
 		g_global->variable_8068 = 0;
 
 		if (mode == 0) {
-			wsa_csip.csip = 0;
+			wsa = NULL;
 			frame = 0;
 		} else {
 			if (mode == 3) {
 				frame = var805E->variable_0005;
-				loc20 = 0x1;
+				loc20 = true;
 			} else {
 				frame = 0;
-				loc20 = var805E->flags & 0x40;
+				loc20 = ((var805E->flags & 0x40) != 0) ? true : false;
 			}
 
 			if ((var805E->flags & 0x480) != 0) {
 				GUI_ClearScreen(3);
 
-				wsa_csip = Screen_GetSegment_ByIndex_1(5);
+				wsa = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
 
 				loc24 = g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
-				loc20 = 0x0;
+				loc20 = false;
 			} else {
-				wsa_csip = Screen_GetSegment_ByIndex_1(3);
+				wsa = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
 
 				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 			}
 
 			sprintf((char *)g_global->variable_9939, "%s.WSA", emu_get_memorycsip(var805E->string));
 
-			{
-				csip32 null;
-				null.csip = 0x0;
-
-				wsa_csip = WSA_LoadFile((char *)g_global->variable_9939, wsa_csip, loc24, loc20, null);
-			}
+			wsa = WSA_LoadFile((char *)g_global->variable_9939, wsa, loc24, loc20);
 		}
-
-		wsa = emu_get_memorycsip(wsa_csip);
 
 		locdi = 0;
 		if ((var805E->flags & 0x8) != 0) {
@@ -527,7 +519,7 @@ static void GameLoop_PlayAnimation()
 
 		if ((var805E->flags & 0x4) != 0) {
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			GameLoop_B4ED_0AA5(true);
 
 			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
@@ -538,7 +530,7 @@ static void GameLoop_PlayAnimation()
 		} else {
 			if ((var805E->flags & 0x480) != 0) {
 				GameLoop_B4ED_07B6(animation);
-				WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 2);
+				WSA_DisplayFrame(wsa, frame++, posX, posY, 2);
 				locdi++;
 
 				if ((var805E->flags & 0x480) == 0x80) {
@@ -586,7 +578,7 @@ static void GameLoop_PlayAnimation()
 			g_global->variable_76B4 = loc18;
 
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 
 			if (mode == 1 && frame == loc04) {
 				frame = 0;
@@ -595,7 +587,7 @@ static void GameLoop_PlayAnimation()
 			}
 
 			if (Input_Keyboard_NextKey() != 0 && g_global->variable_37B4 != 0) {
-				WSA_Unload(wsa_csip);
+				WSA_Unload(wsa);
 				return;
 			}
 
@@ -605,11 +597,11 @@ static void GameLoop_PlayAnimation()
 		}
 
 		if (mode == 2) {
-			uint16 displayed;
+			bool displayed;
 			do {
 				GameLoop_B4ED_07B6(animation);
-				displayed = WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
-			} while (displayed != 0);
+				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
+			} while (displayed);
 		}
 
 		if ((var805E->flags & 0x10) != 0) {
@@ -630,7 +622,7 @@ static void GameLoop_PlayAnimation()
 			Unknown_259E_0006(g_palette_998A, 45);
 		}
 
-		WSA_Unload(wsa_csip);
+		WSA_Unload(wsa);
 
 		animation++;
 		var805E++;
@@ -1235,7 +1227,7 @@ static void GameLoop_LevelEnd()
 static void Gameloop_Logos()
 {
 	uint16 oldScreenID;
-	csip32 wsaBuffer;
+	void *wsa;
 	uint16 frame;
 
 	oldScreenID = GUI_Screen_SetActive(0);
@@ -1245,15 +1237,9 @@ static void Gameloop_Logos()
 
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 0x300);
 
-	{
-		csip32 null;
-		null.csip = 0x0;
-
-		wsaBuffer = WSA_LoadFile("WESTWOOD.WSA", Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], 1, null);
-	}
-
 	frame = 0;
-	WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
+	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
+	WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
 
 	Unknown_259E_0006(g_palette_998A, 60);
 
@@ -1263,16 +1249,16 @@ static void Gameloop_Logos()
 
 	while (true) {
 		uint32 loc04;
-		uint16 displayed;
+		bool displayed;
 
-		displayed = WSA_DisplayFrame(wsaBuffer, frame++, 0, 0, 0);
-		if (displayed == 0) break;
+		displayed = WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
+		if (!displayed) break;
 
 		loc04 = g_global->variable_76AC + 6;
 		while (loc04 > g_global->variable_76AC) sleep(0);
 	}
 
-	WSA_Unload(wsaBuffer);
+	WSA_Unload(wsa);
 
 	if (g_global->variable_37B4 == 0) {
 		Voice_LoadVoices(0xFFFF);
