@@ -782,15 +782,35 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 }
 
 /**
- * Get ??
+ * Type of landscape for the landscape sprites.
  *
- * @param packed The packed tile to get ??
- * @return ??
+ * 0=normal sand, 1=partial rock, 5=mostly rock, 4=entirely rock,
+ * 3=partial sand dunes, 2=entirely sand dunes, 7=partial mountain,
+ * 6=entirely mountain, 8=spice, 9=thick spice
+ * @see Map_B4CD_0750
+ */
+static const uint16 _landscapeSpriteMap[81] = {
+	0, 1, 1, 1, 5, 1, 5, 5, 5, 5, /* Sprites 127-136 */
+	5, 5, 5, 5, 5, 5, 4, 3, 3, 3, /* Sprites 137-146 */
+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, /* Sprites 147-156 */
+	3, 3, 2, 7, 7, 7, 7, 7, 7, 7, /* Sprites 157-166 */
+	7, 7, 7, 7, 7, 7, 7, 7, 6, 8, /* Sprites 167-176 */
+	8, 8, 8, 8, 8, 8, 8, 8, 8, 8, /* Sprites 177-186 */
+	8, 8, 8, 8, 8, 9, 9, 9, 9, 9, /* Sprites 187-196 */
+	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, /* Sprites 197-206 */
+	9,                            /* Sprite  207 (bloom sprites 208 and 209 are already caught). */
+};
+
+/**
+ * Get type of landscape of a tile.
+ *
+ * @param packed The packed tile to examine.
+ * @return The type of landscape at the tile.
  */
 uint16 Map_B4CD_0750(uint16 packed)
 {
 	Tile *t;
-	int16 locsi;
+	int16 spriteOffset;
 
 	t = Map_GetTileByPosition(packed);
 
@@ -804,10 +824,10 @@ uint16 Map_B4CD_0750(uint16 packed)
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return 12;
 
-	locsi = t->groundSpriteID - g_global->landscapeSpriteID;
-	if (locsi < 0 || locsi > 82) return 4;
+	spriteOffset = t->groundSpriteID - g_global->landscapeSpriteID; /* Offset in the landscape icon group. */
+	if (spriteOffset < 0 || spriteOffset > 80) return 4;
 
-	return g_global->variable_24B8[locsi];
+	return _landscapeSpriteMap[spriteOffset];
 }
 
 /**

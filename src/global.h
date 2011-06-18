@@ -600,8 +600,7 @@ typedef struct GlobalData {
 	/* 2474(16)  */ PACK uint16 removed_2474[8];            /*!< REMOVED - X offsets for unit position. */
 	/* 2484(16)  */ PACK uint16 removed_2484[8];            /*!< REMOVED - Y offsets for unit position. */
 	/* 2494(36)  */ PACK csip32 removed_2494[3][3];         /*!< REMOVED - Pointers to functions used in Map_B4CD_057B(). */
-	/* 24B8(164) */ PACK uint16 variable_24B8[82];          /*!< ?? */
-	/* 255C()    */ PACK uint8   unknown_255C[0x002];
+	/* 24B8(166) */ PACK uint16 variable_24B8[83];          /*!< REMOVED - Mapping of landscape sprites to landscape type. @see _landscapeSpriteMap */
 	/* 255E(8)   */ PACK uint16 variable_255E[4];           /*!< ?? */
 	/* 2566(8)   */ PACK uint16 variable_2566[4];           /*!< ?? */
 	/* 256E(6)   */ PACK uint16 variable_256E[3];           /*!< ?? */
