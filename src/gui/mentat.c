@@ -399,15 +399,11 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	if (wsaFilename.csip != 0x0) {
 		csip32 wsa;
-		csip32 memBlock;
 		csip32 null;
 
 		null.csip = 0x0;
 
-		memBlock = Screen_GetSegment_ByIndex_1(5);
-
-		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), memBlock, g_global->variable_6CD3[2][0], 0, null);
-
+		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), Screen_GetSegment_ByIndex_1(5), g_global->variable_6CD3[2][0], 0, null);
 		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(wsa);
 	}
@@ -538,13 +534,10 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 	if (houseFilename != NULL) {
 		csip32 locPtr;
 		csip32 null;
-		csip32 memBlock;
 
 		null.csip = 0x0;
 
-		memBlock = Screen_GetSegment_ByIndex_1(5);
-
-		locPtr = WSA_LoadFile(houseFilename, memBlock, g_global->variable_6CD3[2][1], 0, null);
+		locPtr = WSA_LoadFile(houseFilename, Screen_GetSegment_ByIndex_1(5), g_global->variable_6CD3[2][1], 0, null);
 		WSA_DisplayFrame(locPtr, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(locPtr);
 	}
@@ -1090,13 +1083,10 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 	wsa.csip = 0x0;
 
 	if (pictureName != NULL) {
-		csip32 buffer_csip;
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
 
-		buffer_csip = Screen_GetSegment_ByIndex_1(3);
-
-		wsa = WSA_LoadFile(pictureName, buffer_csip, g_global->variable_6CD3[1][1], 0, nullcsip);
+		wsa = WSA_LoadFile(pictureName, Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1], 0, nullcsip);
 	}
 
 	step = 0;

@@ -20,8 +20,10 @@
 /**
  * Get the amount of frames a WSA has.
  */
-uint16 WSA_GetFrameCount(WSAHeader *header)
+uint16 WSA_GetFrameCount(void *wsa)
 {
+	WSAHeader *header = (WSAHeader *)wsa;
+
 	return header->frames;
 }
 
@@ -79,8 +81,9 @@ static uint32 csip32_add(csip32 csip, uint32 add) {
  * @param displayBuffer Destination.
  * @return 1 on success, 0 on failure.
  */
-uint16 WSA_GotoNextFrame(WSAHeader *header, uint16 frame, csip32 displayBuffer)
+uint16 WSA_GotoNextFrame(void *wsa, uint16 frame, csip32 displayBuffer)
 {
+	WSAHeader *header = (WSAHeader *)wsa;
 	uint16 lengthSpecial;
 	csip32 dest;
 
@@ -290,17 +293,17 @@ csip32 WSA_LoadFile(char *filename, csip32 buffer, uint32 bufferSizeCurrent, uin
  * Unload the WSA.
  * @param buffer No longer needed buffer.
  */
-void WSA_Unload(csip32 buffer)
+void WSA_Unload(csip32 wsa)
 {
 	WSAHeader *header;
 
-	if (buffer.csip == 0) return;
+	if (wsa.csip == 0) return;
 
-	header = (WSAHeader *)emu_get_memorycsip(buffer);
+	header = (WSAHeader *)emu_get_memorycsip(wsa);
 
 	if (!header->flags.s.malloced) return;
 
-	Tools_Free(buffer);
+	Tools_Free(wsa);
 }
 
 static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 windowID, csip32 displayBuffer)
@@ -365,7 +368,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
  * @paramvar12
  * @return 0 on failure, 1 on success.
  */
-uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 posY, uint16 memoryBlock)
+uint16 WSA_DisplayFrame(csip32 wsa, uint16 frameNext, uint16 posX, uint16 posY, uint16 screenID)
 {
 	WSAHeader *header;
 	csip32 displayBuffer;
@@ -374,20 +377,20 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 	int16 direction;
 	int16 frameCount;
 
-	if (buffer.csip == 0) {
+	if (wsa.csip == 0) {
 		return 0;
 	}
 
-	header = (WSAHeader *)emu_get_memorycsip(buffer);
+	header = (WSAHeader *)emu_get_memorycsip(wsa);
 
 	if (frameNext >= header->frames) {
 		return 0;
 	}
 
 	if (header->flags.s.displayInBuffer) {
-		displayBuffer.csip = csip32_add(buffer, 33);
+		displayBuffer.csip = csip32_add(wsa, 33);
 	} else {
-		displayBuffer = Screen_GetSegment_ByIndex_2(memoryBlock);
+		displayBuffer = Screen_GetSegment_ByIndex_2(screenID);
 		displayBuffer.s.ip += posX + posY * SCREEN_WIDTH;
 	}
 
@@ -431,7 +434,7 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 		for (i = 0; i < frameCount; i++) {
 			frame += direction;
 
-			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(buffer), frame, displayBuffer);
+			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(wsa), frame, displayBuffer);
 
 			if (frame == header->frames) frame = 0;
 		}
@@ -442,7 +445,7 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 		for (i = 0; i < frameCount; i++) {
 			if (frame == 0) frame = header->frames;
 
-			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(buffer), frame, displayBuffer);
+			WSA_GotoNextFrame((WSAHeader *)emu_get_memorycsip(wsa), frame, displayBuffer);
 
 			frame += direction;
 		}
@@ -451,12 +454,12 @@ uint16 WSA_DisplayFrame(csip32 buffer, uint16 frameNext, uint16 posX, uint16 pos
 	header->frameCurrent = frameNext;
 
 	if (header->flags.s.displayInBuffer) {
-		uint16 oldMemoryBlock = g_global->screenActiveID;
-		g_global->screenActiveID = memoryBlock;
+		uint16 oldScreenID = g_global->screenActiveID;
+		g_global->screenActiveID = screenID;
 
 		WSA_DrawFrame(posX, posY, header->width, header->height, 0, displayBuffer);
 
-		g_global->screenActiveID = oldMemoryBlock;
+		g_global->screenActiveID = oldScreenID;
 	}
 	return 1;
 }

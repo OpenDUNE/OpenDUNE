@@ -77,7 +77,6 @@ static void GUI_Security_NormaliseText(char *str)
  */
 bool GUI_Security_Show()
 {
-	csip32 memoryBlockcsip;
 	csip32 wsaHouseFilenamecsip;
 	uint16 questionsCount;
 	uint32 loc0E;
@@ -106,8 +105,6 @@ bool GUI_Security_Show()
 		default:
 			return true;
 	}
-
-	memoryBlockcsip = Screen_GetSegment_ByIndex_1(3);
 
 	loc0E = g_global->variable_6CD3[1][2];
 
@@ -180,7 +177,7 @@ bool GUI_Security_Show()
 			csip32 null;
 
 			null.csip = 0x0;
-			wsaQuestion = WSA_LoadFile(string, memoryBlockcsip, loc0E, 0, null);
+			wsaQuestion = WSA_LoadFile(string, Screen_GetSegment_ByIndex_1(3), loc0E, 0, null);
 		}
 
 		WSA_DisplayFrame(wsaQuestion, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);

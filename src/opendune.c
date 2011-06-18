@@ -458,7 +458,7 @@ static void GameLoop_PlayAnimation()
 		uint16 loc04;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		csip32 header_csip;
+		csip32 wsa_csip;
 		uint32 loc10 = g_global->variable_76AC + var805E->variable_0004 * 6;
 		uint32 loc14 = loc10 + 30;
 		uint32 loc18;
@@ -468,7 +468,7 @@ static void GameLoop_PlayAnimation()
 		uint32 loc24;
 		uint16 locdi;
 		uint16 frame;
-		WSAHeader *header;
+		void *wsa;
 
 		if ((var805E->flags & 0x20) == 0) {
 			posX = 8;
@@ -478,7 +478,7 @@ static void GameLoop_PlayAnimation()
 		g_global->variable_8068 = 0;
 
 		if (mode == 0) {
-			header_csip.csip = 0;
+			wsa_csip.csip = 0;
 			frame = 0;
 		} else {
 			if (mode == 3) {
@@ -492,12 +492,12 @@ static void GameLoop_PlayAnimation()
 			if ((var805E->flags & 0x480) != 0) {
 				GUI_ClearScreen(3);
 
-				header_csip = Screen_GetSegment_ByIndex_1(5);
+				wsa_csip = Screen_GetSegment_ByIndex_1(5);
 
 				loc24 = g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 				loc20 = 0x0;
 			} else {
-				header_csip = Screen_GetSegment_ByIndex_1(3);
+				wsa_csip = Screen_GetSegment_ByIndex_1(3);
 
 				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 			}
@@ -508,11 +508,11 @@ static void GameLoop_PlayAnimation()
 				csip32 null;
 				null.csip = 0x0;
 
-				header_csip = WSA_LoadFile((char *)g_global->variable_9939, header_csip, loc24, loc20, null);
+				wsa_csip = WSA_LoadFile((char *)g_global->variable_9939, wsa_csip, loc24, loc20, null);
 			}
 		}
 
-		header = (WSAHeader *)emu_get_memorycsip(header_csip);
+		wsa = emu_get_memorycsip(wsa_csip);
 
 		locdi = 0;
 		if ((var805E->flags & 0x8) != 0) {
@@ -527,7 +527,7 @@ static void GameLoop_PlayAnimation()
 
 		if ((var805E->flags & 0x4) != 0) {
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
 			GameLoop_B4ED_0AA5(true);
 
 			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
@@ -538,7 +538,7 @@ static void GameLoop_PlayAnimation()
 		} else {
 			if ((var805E->flags & 0x480) != 0) {
 				GameLoop_B4ED_07B6(animation);
-				WSA_DisplayFrame(header_csip, frame++, posX, posY, 2);
+				WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 2);
 				locdi++;
 
 				if ((var805E->flags & 0x480) == 0x80) {
@@ -560,12 +560,12 @@ static void GameLoop_PlayAnimation()
 				break;
 
 			case 1:
-				loc04 = WSA_GetFrameCount(header);
+				loc04 = WSA_GetFrameCount(wsa);
 				loc18 = loc1C / var805E->variable_0005;
 				break;
 
 			case 2:
-				loc04 = WSA_GetFrameCount(header) - locdi;
+				loc04 = WSA_GetFrameCount(wsa) - locdi;
 				loc18 = loc1C / loc04;
 				loc10 -= loc18;
 				break;
@@ -586,7 +586,7 @@ static void GameLoop_PlayAnimation()
 			g_global->variable_76B4 = loc18;
 
 			GameLoop_B4ED_07B6(animation);
-			WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
+			WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
 
 			if (mode == 1 && frame == loc04) {
 				frame = 0;
@@ -595,7 +595,7 @@ static void GameLoop_PlayAnimation()
 			}
 
 			if (Input_Keyboard_NextKey() != 0 && g_global->variable_37B4 != 0) {
-				WSA_Unload(header_csip);
+				WSA_Unload(wsa_csip);
 				return;
 			}
 
@@ -608,7 +608,7 @@ static void GameLoop_PlayAnimation()
 			uint16 displayed;
 			do {
 				GameLoop_B4ED_07B6(animation);
-				displayed = WSA_DisplayFrame(header_csip, frame++, posX, posY, 0);
+				displayed = WSA_DisplayFrame(wsa_csip, frame++, posX, posY, 0);
 			} while (displayed != 0);
 		}
 
@@ -630,7 +630,7 @@ static void GameLoop_PlayAnimation()
 			Unknown_259E_0006(g_palette_998A, 45);
 		}
 
-		WSA_Unload(header_csip);
+		WSA_Unload(wsa_csip);
 
 		animation++;
 		var805E++;
@@ -1247,16 +1247,9 @@ static void Gameloop_Logos()
 
 	{
 		csip32 null;
-		csip32 memBlock;
-		uint32 temp;
-
 		null.csip = 0x0;
 
-		memBlock = Screen_GetSegment_ByIndex_1(3);
-
-		temp = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
-
-		wsaBuffer = WSA_LoadFile("WESTWOOD.WSA", memBlock, g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], 1, null);
+		wsaBuffer = WSA_LoadFile("WESTWOOD.WSA", Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], 1, null);
 	}
 
 	frame = 0;

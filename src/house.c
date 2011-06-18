@@ -442,7 +442,7 @@ bool House_Load(FILE *fp, uint32 length)
 bool House_UpdateRadarState(House *h)
 {
 	csip32 wsaBuffer;
-	WSAHeader *header;
+	void *wsa;
 	uint16 frame;
 	uint16 frameCount;
 	bool activate;
@@ -465,17 +465,13 @@ bool House_UpdateRadarState(House *h)
 
 	{
 		csip32 null;
-		csip32 memBlock;
-
 		null.csip = 0x0;
 
-		memBlock = Screen_GetSegment_ByIndex_1(3);
-
-		wsaBuffer = WSA_LoadFile("STATIC.WSA", memBlock, g_global->variable_6CD3[1][1], 1, null);
+		wsaBuffer = WSA_LoadFile("STATIC.WSA", Screen_GetSegment_ByIndex_1(3), g_global->variable_6CD3[1][1], 1, null);
 	}
 
-	header = (WSAHeader *)emu_get_memorycsip(wsaBuffer);
-	frameCount = WSA_GetFrameCount(header);
+	wsa = emu_get_memorycsip(wsaBuffer);
+	frameCount = WSA_GetFrameCount(wsa);
 
 	g_global->variable_38C4 = 1;
 
@@ -487,7 +483,7 @@ bool House_UpdateRadarState(House *h)
 
 	Sound_Unknown0363(activate ? 28 : 29);
 
-	frameCount = WSA_GetFrameCount(header);
+	frameCount = WSA_GetFrameCount(wsa);
 
 	for (frame = 0; frame < frameCount; frame++) {
 		WSA_DisplayFrame(wsaBuffer, activate ? frameCount - frame : frame, 256, 136, 0);
