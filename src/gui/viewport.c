@@ -104,10 +104,10 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		y = (y - 40) / 16 + Tile_GetPackedY(g_global->minimapPosition);
 	} else if (w->index == 44) {
 		uint16 mapScale;
-		MapInfo *mapInfo;
+		const MapInfo *mapInfo;
 
 		mapScale = g_global->scenario.mapScale;
-		mapInfo = &g_global->mapInfo[mapScale];
+		mapInfo = &_mapInfos[mapScale];
 
 		x = min((max(x, 256) - 256) / (mapScale + 1), mapInfo->sizeX - 1) + mapInfo->minX;
 		y = min((max(y, 136) - 136) / (mapScale + 1), mapInfo->sizeY - 1) + mapInfo->minY;

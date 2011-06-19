@@ -153,20 +153,6 @@ assert_compile(sizeof(FactoryWindowItem) == 0xB);
 
 MSVC_PACKED_BEGIN
 /**
- * Inside the GlobalData is information about the map. This is the layout of
- *  that data.
- */
-typedef struct MapInfo {
-	/* 0000(2)   */ PACK uint16 minX;                       /*!< Minimal X position of the map. */
-	/* 0002(2)   */ PACK uint16 minY;                       /*!< Minimal Y position of the map. */
-	/* 0004(2)   */ PACK uint16 sizeX;                      /*!< Width of the map. */
-	/* 0006(2)   */ PACK uint16 sizeY;                      /*!< Height of the map. */
-} GCC_PACKED MapInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(MapInfo) == 0x08);
-
-MSVC_PACKED_BEGIN
-/**
  * Inside the Scenario is information about reinforcements in the scenario.
  *  This is the layout of that data.
  */
@@ -993,7 +979,7 @@ typedef struct GlobalData {
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
-	/* 3C0E(24)  */ PACK MapInfo mapInfo[3];                /*!< Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
+	/* 3C0E(24)  */ PACK uint8 removed_mapInfo[3][8];       /*!< REMOVED Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< First Widget in the linked-list of all Widgets. */
 	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */

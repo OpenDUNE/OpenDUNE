@@ -732,8 +732,8 @@ void Unknown_07D4_1625(uint16 packed)
 		}
 	}
 
-	x -= g_global->mapInfo[g_global->scenario.mapScale].minX;
-	y -= g_global->mapInfo[g_global->scenario.mapScale].minY;
+	x -= _mapInfos[g_global->scenario.mapScale].minX;
+	y -= _mapInfos[g_global->scenario.mapScale].minY;
 
 	if (spriteID != 0xFFFF) {
 		x *= g_global->scenario.mapScale + 1;

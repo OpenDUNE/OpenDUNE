@@ -60,10 +60,20 @@ typedef struct struct_395A {
 MSVC_PACKED_END
 assert_compile(sizeof(struct_395A) == 0x14);
 
+/** Definition of the map size of a map scale. */
+typedef struct MapInfo {
+	uint16 minX;  /*!< Minimal X position of the map. */
+	uint16 minY;  /*!< Minimal Y position of the map. */
+	uint16 sizeX; /*!< Width of the map. */
+	uint16 sizeY; /*!< Height of the map. */
+} MapInfo;
+
 struct Unit;
 
 extern uint16 *g_map;
 extern uint8 g_functions[3][3];
+
+extern const MapInfo _mapInfos[3];
 
 extern Tile *Map_GetTileByPosition(uint16 position);
 extern uint16 Map_MoveDirection(uint16 direction);
