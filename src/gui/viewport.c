@@ -81,8 +81,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	if (direction != 0xFFFF) {
 		if (!click && !drag) {
 			if (g_global->tickMapScroll + 10 >= g_global->tickGlobal || g_global->tickCursor + 20 >= g_global->tickGlobal) return true;
-			if (g_global->gameConfig.autoScroll == 0) return true;
-			if (!g_global->config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return true;
+			if (g_gameConfig.autoScroll == 0) return true;
+			if (!g_config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return true;
 		}
 
 		g_global->tickMapScroll = g_global->tickGlobal;
@@ -156,7 +156,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			if (target != NULL) target->blinkCounter = 8;
 		}
 
-		if (g_global->config.voiceDrv == 0) {
+		if (g_config.voiceDrv == 0) {
 			Driver_Sound_Play(36, 0xFF);
 		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
 			Sound_Unknown0156(g_actionInfo[action].variable_0A);

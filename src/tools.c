@@ -20,7 +20,7 @@
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
-	uint16 gameSpeed = g_global->gameConfig.gameSpeed;
+	uint16 gameSpeed = g_gameConfig.gameSpeed;
 
 	if (gameSpeed == 2) return normal;
 	if (gameSpeed > 4) return normal;

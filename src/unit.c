@@ -2154,7 +2154,7 @@ void Unit_DisplayStatusText(Unit *unit)
 		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 	} else {
 		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
-		if (g_global->config.language == LANGUAGE_FRENCH) {
+		if (g_config.language == LANGUAGE_FRENCH) {
 			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 		} else {
 			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
@@ -2799,7 +2799,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 				Sound_Unknown0363(37);
 
-				if (g_global->config.language == LANGUAGE_ENGLISH) {
+				if (g_config.language == LANGUAGE_ENGLISH) {
 					GUI_DisplayHint(28, 105);
 				}
 

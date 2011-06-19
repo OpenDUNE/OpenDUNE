@@ -40,6 +40,8 @@ typedef struct GameCfg {
 MSVC_PACKED_END
 assert_compile(sizeof(GameCfg) == 0xA);
 
+extern GameCfg g_gameConfig;
+extern DuneCfg g_config;
 
 extern bool Config_Read(char *filename, DuneCfg *config);
 extern bool GameOptions_Load();

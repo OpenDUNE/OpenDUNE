@@ -1742,7 +1742,7 @@ uint16 GUI_PickHouse()
 			break;
 		}
 
-		if (g_global->config.voiceDrv != 0) {
+		if (g_config.voiceDrv != 0) {
 			Sound_Unknown0363(ret + 62);
 
 			while (Sound_Unknown0470()) sleep(0);
@@ -1924,7 +1924,7 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	if (g_global->debugGame) return 0;
 	if (stringID == 0) return 0;
-	if (!g_global->gameConfig.hints) return 0;
+	if (!g_gameConfig.hints) return 0;
 	if (g_global->selectionType == 0) return 0;
 
 	if (stringID < 32) {
@@ -2874,11 +2874,11 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 		}
 
 		case 0xFFF6:
-			stringID = (g_global->gameConfig.music != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.music != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
 		case 0xFFF5:
-			stringID = (g_global->gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
 		case 0xFFF4: {
@@ -2890,15 +2890,15 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 				0x75  /* "Fastest" */
 			};
 
-			stringID = gameSpeedStrings[g_global->gameConfig.gameSpeed];
+			stringID = gameSpeedStrings[g_gameConfig.gameSpeed];
 		} break;
 
 		case 0xFFF3:
-			stringID = (g_global->gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
 		case 0xFFF2:
-			stringID = (g_global->gameConfig.autoScroll != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
+			stringID = (g_gameConfig.autoScroll != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
 		default: break;
@@ -3229,7 +3229,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 			uint16 region = atoi(s);
 
 			if (region != 0) {
-				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_global->config.language], region);
+				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_config.language], region);
 
 				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
 					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
@@ -3306,7 +3306,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
 	GUI_Screen_Copy(x, y, 33, 152, 7, 40, 4, 4);
 
-	switch (g_global->config.language) {
+	switch (g_config.language) {
 		case LANGUAGE_GERMAN:
 			GUI_Screen_Copy(1, 120, 1, 0, 38, 24, 4, 4);
 			break;
@@ -4429,7 +4429,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 
 		strcpy((char *)g_global->variable_9939, data[i].name);
 		strcat((char *)g_global->variable_9939, ", ");
-		if (g_global->config.language == LANGUAGE_FRENCH) {
+		if (g_config.language == LANGUAGE_FRENCH) {
 			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
 			strcat((char *)g_global->variable_9939, " ");
 			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));

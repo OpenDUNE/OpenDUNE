@@ -11,6 +11,9 @@
 #include "global.h"
 #include "file.h"
 
+GameCfg g_gameConfig;
+DuneCfg g_config;
+
 /**
  * Reads and decode the config.
  *
@@ -67,11 +70,11 @@ bool GameOptions_Load()
 {
 	if (!File_Exists(g_global->string_2AB7)) return false;
 
-	File_ReadBlockFile(g_global->string_2AB7, &g_global->gameConfig, sizeof(g_global->gameConfig));
+	File_ReadBlockFile(g_global->string_2AB7, &g_gameConfig, sizeof(g_gameConfig));
 
-	Drivers_EnableMusic(g_global->gameConfig.music);
+	Drivers_EnableMusic(g_gameConfig.music);
 
-	Drivers_EnableSounds(g_global->gameConfig.sounds);
+	Drivers_EnableSounds(g_gameConfig.sounds);
 
 	return true;
 }
@@ -85,9 +88,9 @@ void GameOptions_Save()
 
 	index = File_Open(g_global->string_2AB7, 2);
 
-	File_Write(index, &g_global->gameConfig, sizeof(g_global->gameConfig));
+	File_Write(index, &g_gameConfig, sizeof(g_gameConfig));
 
 	File_Close(index);
 
-	if (g_global->gameConfig.music == 0) Music_Play(0);
+	if (g_gameConfig.music == 0) Music_Play(0);
 }

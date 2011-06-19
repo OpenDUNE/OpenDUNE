@@ -493,7 +493,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		if (desc->widgets[i].labelStringId == 0) continue;
 
-		if (g_global->config.language == LANGUAGE_FRENCH) {
+		if (g_config.language == LANGUAGE_FRENCH) {
 			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), (g_global->variable_4062[w->parentID][0] << 3) + 40, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x22);
 		} else {
 			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), w->offsetX + (g_global->variable_4062[w->parentID][0] << 3) - 10, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x222);
@@ -568,7 +568,6 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 {
 	WindowDesc *desc = &g_global->variable_26B5;
 	bool loop;
-	GameCfg *cfg = &g_global->gameConfig;
 
 	GUI_Window_BackupScreen(desc);
 
@@ -584,30 +583,30 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 
 			switch ((key & 0x7FFF) - 0x1E) {
 				case 0:
-					cfg->music ^= 0x1;
-					if (cfg->music == 0) {
+					g_gameConfig.music ^= 0x1;
+					if (g_gameConfig.music == 0) {
 						Driver_Music_Stop();
 						g_global->variable_80B0 = 1;
 					}
-					Drivers_EnableMusic(cfg->music);
+					Drivers_EnableMusic(g_gameConfig.music);
 					break;
 
 				case 1:
-					cfg->sounds ^= 0x1;
-					if (cfg->sounds == 0) GUI_Widget_MakeNormal(w, false);
-					Drivers_EnableMusic(cfg->sounds);
+					g_gameConfig.sounds ^= 0x1;
+					if (g_gameConfig.sounds == 0) GUI_Widget_MakeNormal(w, false);
+					Drivers_EnableMusic(g_gameConfig.sounds);
 					break;
 
 				case 2:
-					if (++cfg->gameSpeed >= 5) cfg->gameSpeed = 0;
+					if (++g_gameConfig.gameSpeed >= 5) g_gameConfig.gameSpeed = 0;
 					break;
 
 				case 3:
-					cfg->hints ^= 0x1;
+					g_gameConfig.hints ^= 0x1;
 					break;
 
 				case 4:
-					cfg->autoScroll ^= 0x1;
+					g_gameConfig.autoScroll ^= 0x1;
 					break;
 
 				case 5:

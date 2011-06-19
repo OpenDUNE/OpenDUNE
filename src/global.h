@@ -1011,7 +1011,7 @@ typedef struct GlobalData {
 	/* 3E54(524) */ PACK csip32 removed_3E54[NUM_VOICES];   /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
-	/* 41C2(10)  */ PACK GameCfg gameConfig;                /*!< Game config (options.cfg). */
+	/* 41C2(10)  */ PACK GameCfg removed_41C2;              /*!< REMOVED - Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
 	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
@@ -1566,7 +1566,7 @@ typedef struct GlobalData {
 	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8  removed_9882[0x005F];       /*!< REMOVED - Current directory. */
-	/* 98E1(10)  */ PACK DuneCfg config;                    /*!< Config data (dune.cfg). */
+	/* 98E1(10)  */ PACK DuneCfg removed_98E1;              /*!< REMOVED - Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];

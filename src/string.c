@@ -50,7 +50,7 @@ uint16 String_Decompress(char *source, char *dest)
  */
 char *String_GenerateFilename(char *name)
 {
-	snprintf(g_global->stringFilename, sizeof(g_global->stringFilename), "%s.%s", name, g_global->string_31D8 + g_global->config.language * 4);
+	snprintf(g_global->stringFilename, sizeof(g_global->stringFilename), "%s.%s", name, g_global->string_31D8 + g_config.language * 4);
 	return g_global->stringFilename;
 }
 

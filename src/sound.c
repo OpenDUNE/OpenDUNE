@@ -130,7 +130,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	index = g_global->variable_0222[voiceID];
 
-	if (g_global->config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_global->voices[index].variable_04 >= g_global->variable_4060) {
+	if (g_config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_global->voices[index].variable_04 >= g_global->variable_4060) {
 		g_global->variable_4060 = g_global->voices[index].variable_04;
 		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
 
@@ -162,13 +162,13 @@ void Voice_LoadVoices(uint16 voiceSet)
 	uint16 i;
 	uint16 voice;
 
-	if (g_global->config.voiceDrv == 0) return;
+	if (g_config.voiceDrv == 0) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
 		char *str = (char *)emu_get_memorycsip(g_global->voices[voice].string);
 		switch (*str) {
 			case '%':
-				if (g_global->config.language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
+				if (g_config.language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
 				}
 
@@ -218,7 +218,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				if (g_variable_3E54[voice] != NULL ||
 						currentVoiceSet == voiceSet || voiceSet == 0xFFFF || voiceSet == 0xFFFE) break;
 
-				switch (g_global->config.language) {
+				switch (g_config.language) {
 					case LANGUAGE_FRENCH: i = 'F'; break;
 					case LANGUAGE_GERMAN: i = 'G'; break;
 					default: i = g_houseInfo[voiceSet].prefixChar;
@@ -231,7 +231,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 			case '+':
 				if (voiceSet == 0xFFFF || g_variable_3E54[voice] != NULL) break;
 
-				switch (g_global->config.language) {
+				switch (g_config.language) {
 					case LANGUAGE_FRENCH:  i = 'F'; break;
 					case LANGUAGE_GERMAN:  i = 'G'; break;
 					default: i = 'Z'; break;
@@ -320,7 +320,7 @@ void Sound_Unknown0363(uint16 index)
 		return;
 	}
 
-	if (g_global->config.voiceDrv == 0 || g_global->soundsEnabled == 0) {
+	if (g_config.voiceDrv == 0 || g_global->soundsEnabled == 0) {
 		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
 
 		g_global->variable_37BC = emu_Global_GetCSIP(String_Get_ByIndex(g_global->variable_0312[index][5]));
@@ -338,7 +338,7 @@ void Sound_Unknown0363(uint16 index)
 		uint8 i;
 
 		for (i = 0; i < 5; i++) {
-			g_global->variable_0218[i] = (g_global->config.language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
+			g_global->variable_0218[i] = (g_config.language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
 		}
 	}
 

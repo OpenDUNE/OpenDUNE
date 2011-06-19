@@ -363,7 +363,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_global->config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_global->config.language == LANGUAGE_ENGLISH) {
+	if (g_config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
 
 		Sound_Unknown0363(loc06);
@@ -1810,7 +1810,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 
-	g_global->new6pFnt = Font_LoadFile((g_global->config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
+	g_global->new6pFnt = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 
 	g_global->new8pFnt2 = g_global->new8pFnt;
 
@@ -1920,7 +1920,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					Music_Play(0);
 
 					Tools_Free(g_global->readBuffer);
-					g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
+					g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
 					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Hide_Safe();
@@ -1948,7 +1948,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					String_Load("DUNE");
 
-					g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+					g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
 					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Show_Safe();
@@ -2077,7 +2077,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 		String_Load("DUNE");
 
-		g_global->readBufferSize = (g_global->config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+		g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
 		g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 	}
 
@@ -2278,7 +2278,7 @@ static void GameLoop_Main()
 				g_global->variable_3E52 = -1;
 			} else {
 				g_global->variable_3E52 = 0;
-				if (g_global->config.musicDrv != 0 && g_global->variable_76AC > g_global->variable_31BC) {
+				if (g_config.musicDrv != 0 && g_global->variable_76AC > g_global->variable_31BC) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
 						g_global->variable_31BC = g_global->variable_76AC + 300;
@@ -2416,10 +2416,7 @@ static bool Unknown_25C4_000E()
 
 void Main()
 {
-	DuneCfg *config;
-
-	config = &g_global->config;
-	if (!Config_Read("dune.cfg", config)) {
+	if (!Config_Read("dune.cfg", &g_config)) {
 		printf("\r\nThe setup program must be run first.\r\n"
 		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
 		       "\r\nLe programme de configuration doit d'abord être lancé.\r\n"
@@ -2428,11 +2425,11 @@ void Main()
 	}
 
 	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
-	if (!config->useXMS) {
-		config->voiceDrv = 0;
+	if (!g_config.useXMS) {
+		g_config.voiceDrv = 0;
 	}
 
-	if (!config->useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
+	if (!g_config.useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
 
 	g_global->variable_6CD3[0][0] = 0xFA00;
 	g_global->variable_6CD3[0][1] = 0xFA00;
@@ -2445,7 +2442,7 @@ void Main()
 	g_global->variable_6CD3[4][0] = 0xA044;
 	g_global->variable_6CD3[4][1] = 0xA044;
 
-	Drivers_All_Init(config->soundDrv, config->musicDrv, config->voiceDrv);
+	Drivers_All_Init(g_config.soundDrv, g_config.musicDrv, g_config.voiceDrv);
 
 	if (!Unknown_25C4_000E()) exit(1);
 
