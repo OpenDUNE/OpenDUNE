@@ -1015,7 +1015,7 @@ void Structure_ActivateSpecial(Structure *s)
 			uint16 position;
 
 			/* Find a spot next to the structure */
-			position = Structure_0C3A_247A(s, false);
+			position = Structure_FindFreePosition(s, false);
 
 			/* If there is no spot, reset countdown */
 			if (position == 0) {
@@ -1324,7 +1324,13 @@ void Structure_UntargetMe(Structure *s)
 	}
 }
 
-uint16 Structure_0C3A_247A(Structure *s, bool checkForSpice)
+/**
+ * Find a free spot for units next to a structure.
+ * @param s Structure that needs a free spot.
+ * @param checkForSpice Spot should be as close to spice as possible.
+ * @return Position of the free spot, or \c 0 if no free spot available.
+ */
+uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 {
 	StructureInfo *si;
 	uint16 packed;

@@ -203,7 +203,7 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 	Unit *u;
 	Unit *carryall;
 	uint16 loc06;
-	uint16 loc08;
+	uint16 position;
 	uint16 carryallIndex;
 
 	s = g_scriptCurrentStructure;
@@ -213,15 +213,15 @@ uint16 Script_Structure_Unknown0AFC(ScriptEngine *script)
 
 	loc06 = script->stack[script->stackPointer];
 
-	loc08 = Structure_0C3A_247A(s, false);
+	position = Structure_FindFreePosition(s, false);
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
 
-	if (g_global->playerHouseID == s->o.houseID && u->o.type == UNIT_HARVESTER && u->variable_5A.tile == 0 && loc08 != 0) {
+	if (g_global->playerHouseID == s->o.houseID && u->o.type == UNIT_HARVESTER && u->variable_5A.tile == 0 && position != 0) {
 		return IT_NONE;
 	}
 
-	carryall = Unit_Unknown2BB5(loc06, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), loc08 == 0);
+	carryall = Unit_Unknown2BB5(loc06, s->o.houseID, Tools_Index_Encode(s->o.index, IT_STRUCTURE), position == 0);
 
 	if (carryall == NULL) return IT_NONE;
 
@@ -244,7 +244,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	tile32 tile;
 	Structure *s;
 	Unit *u;
-	uint16 locsi;
+	uint16 position;
 
 	VARIABLE_NOT_USED(script);
 
@@ -266,12 +266,12 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		return 1;
 	}
 
-	locsi = Structure_0C3A_247A(s, u->o.type == UNIT_HARVESTER);
-	if (locsi == 0) return 0;
+	position = Structure_FindFreePosition(s, u->o.type == UNIT_HARVESTER);
+	if (position == 0) return 0;
 
 	u->o.variable_09 |= s->o.variable_09;
 
-	tile = Tile_Center(Tile_UnpackTile(locsi));
+	tile = Tile_Center(Tile_UnpackTile(position));
 
 	if (!Unit_SetPosition(u, tile)) return 0;
 
