@@ -648,7 +648,7 @@ typedef struct GlobalData {
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
 	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
 	/* 2A9B(18)  */ PACK uint16 variable_2A9B[9];           /*!< ?? */
-	/* 2AAD(10)  */ PACK uint16 variable_2AAD[5];           /*!< ?? */
+	/* 2AAD(10)  */ PACK uint16 removed_2AAD[5];            /*!< REMOVED - StringID for game speed. */
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */
 	/* 2AC3(14)  */ PACK char   string_2AC3[14];            /*!< "_SAVE%03d.DAT" NULL terminated. */
 	/* 2AD1()    */ PACK uint8   unknown_2AD1[0x0001];
@@ -947,7 +947,7 @@ typedef struct GlobalData {
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32 unitHouseMissile;           /*!< When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16 houseMissileCountdown;      /*!< Amount of time the user has to select Missile target. */
-	/* 3900(2)   */ PACK uint16 gameSpeed;                  /*!< Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
+	/* 3900(2)   */ PACK uint16 removed_3900;               /*!< REMOVED - Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
 	/* 392E(22)  */ PACK ScriptInfo scriptTeam;             /*!< Script information for Teams. */

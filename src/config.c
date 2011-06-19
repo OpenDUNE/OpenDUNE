@@ -73,8 +73,6 @@ bool GameOptions_Load()
 
 	Drivers_EnableSounds(g_global->gameConfig.sounds);
 
-	g_global->gameSpeed = g_global->gameConfig.gameSpeed;
-
 	return true;
 }
 

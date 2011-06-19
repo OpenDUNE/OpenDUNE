@@ -600,7 +600,6 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 
 				case 2:
 					if (++cfg->gameSpeed >= 5) cfg->gameSpeed = 0;
-					g_global->gameSpeed = cfg->gameSpeed;
 					break;
 
 				case 3:

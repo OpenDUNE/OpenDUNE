@@ -2881,9 +2881,17 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 			stringID = (g_global->gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
-		case 0xFFF4:
-			stringID = g_global->variable_2AAD[g_global->gameSpeed];
-			break;
+		case 0xFFF4: {
+			static uint16 gameSpeedStrings[] = {
+				0x71, /* "Slowest" */
+				0x72, /* "Slow" */
+				0x73, /* "Normal" */
+				0x74, /* "Fast" */
+				0x75  /* "Fastest" */
+			};
+
+			stringID = gameSpeedStrings[g_global->gameConfig.gameSpeed];
+		} break;
 
 		case 0xFFF3:
 			stringID = (g_global->gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
