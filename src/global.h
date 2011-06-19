@@ -248,161 +248,161 @@ typedef struct GlobalData {
 	/* 0222(240) */ PACK uint16 variable_0222[120];         /*!< ?? */
 	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
 	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
-	/* 0D5A(786) */ PACK SoundData voices[NUM_VOICES];      /*!< Array of pointers to voice files names (and something else). */
-	/* 106C(228) */ PACK SoundData musics[38];              /*!< Array of pointers to music files names (and something else). */
+	/* 0D5A(786) */ PACK uint8 removed_voices[131][6];      /*!< REMOVED - Array of pointers to voice files names (and something else). */
+	/* 106C(228) */ PACK uint8 removed_musics[38][6];       /*!< REMOVED - Array of pointers to music files names (and something else). */
 	/* 1150(2)   */ PACK uint16 removed_1150;               /*!< REMOVED - Currently loaded set of voices. */
-	/* 1152(14)  */ PACK char   string_1152[14];            /*!< "+VSCREAM1.VOC" NULL terminated. */
-	/* 1160(12)  */ PACK char   string_1160[12];            /*!< "+EXSAND.VOC" NULL terminated. */
-	/* 116C(12)  */ PACK char   string_116C[12];            /*!< "+ROCKET.VOC" NULL terminated. */
-	/* 1178(12)  */ PACK char   string_1178[12];            /*!< "+BUTTON.VOC" NULL terminated. */
-	/* 1184(14)  */ PACK char   string_1184[14];            /*!< "+VSCREAM5.VOC" NULL terminated. */
-	/* 1192(13)  */ PACK char   string_1192[13];            /*!< "+CRUMBLE.VOC" NULL terminated. */
-	/* 119F(13)  */ PACK char   string_119F[13];            /*!< "+EXSMALL.VOC" NULL terminated. */
-	/* 11AC(11)  */ PACK char   string_11AC[11];            /*!< "+EXMED.VOC" NULL terminated. */
-	/* 11B7(13)  */ PACK char   string_11B7[13];            /*!< "+EXLARGE.VOC" NULL terminated. */
-	/* 11C4(14)  */ PACK char   string_11C4[14];            /*!< "+EXCANNON.VOC" NULL terminated. */
-	/* 11D2(14)  */ PACK char   string_11D2[14];            /*!< "+GUNMULTI.VOC" NULL terminated. */
-	/* 11E0(9)   */ PACK char   string_11E0[9];             /*!< "+GUN.VOC" NULL terminated. */
-	/* 11E9(11)  */ PACK char   string_11E9[11];            /*!< "+EXGAS.VOC" NULL terminated. */
-	/* 11F4(11)  */ PACK char   string_11F4[11];            /*!< "+EXDUD.VOC" NULL terminated. */
-	/* 11FF(14)  */ PACK char   string_11FF[14];            /*!< "+VSCREAM2.VOC" NULL terminated. */
-	/* 120D(14)  */ PACK char   string_120D[14];            /*!< "+VSCREAM3.VOC" NULL terminated. */
-	/* 121B(14)  */ PACK char   string_121B[14];            /*!< "+VSCREAM4.VOC" NULL terminated. */
-	/* 1229(14)  */ PACK char   string_1229[14];            /*!< "+%cAFFIRM.VOC" NULL terminated. */
-	/* 1237(15)  */ PACK char   string_1237[15];            /*!< "+%cREPORT1.VOC" NULL terminated. */
-	/* 1246(15)  */ PACK char   string_1246[15];            /*!< "+%cREPORT2.VOC" NULL terminated. */
-	/* 1255(15)  */ PACK char   string_1255[15];            /*!< "+%cREPORT3.VOC" NULL terminated. */
-	/* 1264(15)  */ PACK char   string_1264[15];            /*!< "+%cOVEROUT.VOC" NULL terminated. */
-	/* 1273(15)  */ PACK char   string_1273[15];            /*!< "+%cMOVEOUT.VOC" NULL terminated. */
-	/* 1282(11)  */ PACK char   string_1282[11];            /*!< "?POPPA.VOC" NULL terminated. */
-	/* 128D(13)  */ PACK char   string_128D[13];            /*!< "?SANDBUG.VOC" NULL terminated. */
-	/* 129A(13)  */ PACK char   string_129A[13];            /*!< "+STATICP.VOC" NULL terminated. */
-	/* 12A7(14)  */ PACK char   string_12A7[14];            /*!< "+WORMET3P.VOC" NULL terminated. */
-	/* 12B5(14)  */ PACK char   string_12B5[14];            /*!< "+MISLTINP.VOC" NULL terminated. */
-	/* 12C3(13)  */ PACK char   string_12C3[13];            /*!< "+SQUISH2.VOC" NULL terminated. */
-	/* 12D0(12)  */ PACK char   string_12D0[12];            /*!< "%cENEMY.VOC" NULL terminated. */
-	/* 12DC(11)  */ PACK char   string_12DC[11];            /*!< "%cHARK.VOC" NULL terminated. */
-	/* 12E7(11)  */ PACK char   string_12E7[11];            /*!< "%cATRE.VOC" NULL terminated. */
-	/* 12F2(12)  */ PACK char   string_12F2[12];            /*!< "%cORDOS.VOC" NULL terminated. */
-	/* 12FE(13)  */ PACK char   string_12FE[13];            /*!< "%cFREMEN.VOC" NULL terminated. */
-	/* 130B(11)  */ PACK char   string_130B[11];            /*!< "%cSARD.VOC" NULL terminated. */
-	/* 1316(11)  */ PACK char   string_1316[11];            /*!< "FILLER.VOC" NULL terminated. */
-	/* 1321(11)  */ PACK char   string_1321[11];            /*!< "%cUNIT.VOC" NULL terminated. */
-	/* 132C(13)  */ PACK char   string_132C[13];            /*!< "%cSTRUCT.VOC" NULL terminated. */
-	/* 1339(10)  */ PACK char   string_1339[10];            /*!< "%cONE.VOC" NULL terminated. */
-	/* 1343(10)  */ PACK char   string_1343[10];            /*!< "%cTWO.VOC" NULL terminated. */
-	/* 134D(12)  */ PACK char   string_134D[12];            /*!< "%cTHREE.VOC" NULL terminated. */
-	/* 1359(11)  */ PACK char   string_1359[11];            /*!< "%cFOUR.VOC" NULL terminated. */
-	/* 1364(11)  */ PACK char   string_1364[11];            /*!< "%cFIVE.VOC" NULL terminated. */
-	/* 136F(12)  */ PACK char   string_136F[12];            /*!< "%cCONST.VOC" NULL terminated. */
-	/* 137B(12)  */ PACK char   string_137B[12];            /*!< "%cRADAR.VOC" NULL terminated. */
-	/* 1387(10)  */ PACK char   string_1387[10];            /*!< "%cOFF.VOC" NULL terminated. */
-	/* 1391(9)   */ PACK char   string_1391[9];             /*!< "%cON.VOC" NULL terminated. */
-	/* 139A(14)  */ PACK char   string_139A[14];            /*!< "%cFRIGATE.VOC" NULL terminated. */
-	/* 13A8(14)  */ PACK char   string_13A8[14];            /*!< "?%cARRIVE.VOC" NULL terminated. */
-	/* 13B6(14)  */ PACK char   string_13B6[14];            /*!< "%cWARNING.VOC" NULL terminated. */
-	/* 13C4(12)  */ PACK char   string_13C4[12];            /*!< "%cSABOT.VOC" NULL terminated. */
-	/* 13D0(14)  */ PACK char   string_13D0[14];            /*!< "%cMISSILE.VOC" NULL terminated. */
-	/* 13DE(12)  */ PACK char   string_13DE[12];            /*!< "%cBLOOM.VOC" NULL terminated. */
-	/* 13EA(14)  */ PACK char   string_13EA[14];            /*!< "%cDESTROY.VOC" NULL terminated. */
-	/* 13F8(13)  */ PACK char   string_13F8[13];            /*!< "%cDEPLOY.VOC" NULL terminated. */
-	/* 1405(13)  */ PACK char   string_1405[13];            /*!< "%cAPPRCH.VOC" NULL terminated. */
-	/* 1412(14)  */ PACK char   string_1412[14];            /*!< "%cLOCATED.VOC" NULL terminated. */
-	/* 1420(12)  */ PACK char   string_1420[12];            /*!< "%cNORTH.VOC" NULL terminated. */
-	/* 142C(11)  */ PACK char   string_142C[11];            /*!< "%cEAST.VOC" NULL terminated. */
-	/* 1437(12)  */ PACK char   string_1437[12];            /*!< "%cSOUTH.VOC" NULL terminated. */
-	/* 1443(11)  */ PACK char   string_1443[11];            /*!< "%cWEST.VOC" NULL terminated. */
-	/* 144E(11)  */ PACK char   string_144E[11];            /*!< "?%cWIN.VOC" NULL terminated. */
-	/* 1459(12)  */ PACK char   string_1459[12];            /*!< "?%cLOSE.VOC" NULL terminated. */
-	/* 1465(13)  */ PACK char   string_1465[13];            /*!< "%cLAUNCH.VOC" NULL terminated. */
-	/* 1472(13)  */ PACK char   string_1472[13];            /*!< "%cATTACK.VOC" NULL terminated. */
-	/* 147F(14)  */ PACK char   string_147F[14];            /*!< "%cVEHICLE.VOC" NULL terminated. */
-	/* 148D(13)  */ PACK char   string_148D[13];            /*!< "%cREPAIR.VOC" NULL terminated. */
-	/* 149A(14)  */ PACK char   string_149A[14];            /*!< "%cHARVEST.VOC" NULL terminated. */
-	/* 14A8(12)  */ PACK char   string_14A8[12];            /*!< "%cWORMY.VOC" NULL terminated. */
-	/* 14B4(14)  */ PACK char   string_14B4[14];            /*!< "%cCAPTURE.VOC" NULL terminated. */
-	/* 14C3(11)  */ PACK char   string_14C3[11];            /*!< "%cNEXT.VOC" NULL terminated. */
-	/* 14CE(12)  */ PACK char   string_14CE[12];            /*!< "%cNEXT2.VOC" NULL terminated. */
-	/* 14DA(13)  */ PACK char   string_14DA[13];            /*!< "/BLASTER.VOC" NULL terminated. */
-	/* 14E6(12)  */ PACK char   string_14E6[12];            /*!< "/GLASS6.VOC" NULL terminated. */
-	/* 14F2(13)  */ PACK char   string_14F2[13];            /*!< "/LIZARD1.VOC" NULL terminated. */
-	/* 14FF(11)  */ PACK char   string_14FF[11];            /*!< "/FLESH.VOC" NULL terminated. */
-	/* 150A(11)  */ PACK char   string_150A[11];            /*!< "/CLICK.VOC" NULL terminated. */
-	/* 1515(13)  */ PACK char   string_1515[13];            /*!< "-3HOUSES.VOC" NULL terminated. */
-	/* 1522(12)  */ PACK char   string_1522[12];            /*!< "-ANDNOW.VOC" NULL terminated. */
-	/* 152E(13)  */ PACK char   string_152E[13];            /*!< "-ARRIVED.VOC" NULL terminated. */
-	/* 153B(12)  */ PACK char   string_153B[12];            /*!< "-BATTLE.VOC" NULL terminated. */
-	/* 1547(12)  */ PACK char   string_1547[12];            /*!< "-BEGINS.VOC" NULL terminated. */
-	/* 1553(12)  */ PACK char   string_1553[12];            /*!< "-BLDING.VOC" NULL terminated. */
-	/* 155F(14)  */ PACK char   string_155F[14];            /*!< "-CONTROL2.VOC" NULL terminated. */
-	/* 156D(14)  */ PACK char   string_156D[14];            /*!< "-CONTROL3.VOC" NULL terminated. */
-	/* 157B(14)  */ PACK char   string_157B[14];            /*!< "-CONTROL4.VOC" NULL terminated. */
-	/* 1589(14)  */ PACK char   string_1589[14];            /*!< "-CONTROLS.VOC" NULL terminated. */
-	/* 1597(10)  */ PACK char   string_1597[10];            /*!< "-DUNE.VOC" NULL terminated. */
-	/* 15A1(13)  */ PACK char   string_15A1[13];            /*!< "-DYNASTY.VOC" NULL terminated. */
-	/* 15AE(14)  */ PACK char   string_15AE[14];            /*!< "-EACHHOME.VOC" NULL terminated. */
-	/* 15BC(12)  */ PACK char   string_15BC[12];            /*!< "-EANDNO.VOC" NULL terminated. */
-	/* 15C8(14)  */ PACK char   string_15C8[14];            /*!< "-ECONTROL.VOC" NULL terminated. */
-	/* 15D6(12)  */ PACK char   string_15D6[12];            /*!< "-EHOUSE.VOC" NULL terminated. */
-	/* 15E2(12)  */ PACK char   string_15E2[12];            /*!< "-EMPIRE.VOC" NULL terminated. */
-	/* 15EE(14)  */ PACK char   string_15EE[14];            /*!< "-EPRODUCE.VOC" NULL terminated. */
-	/* 15FC(12)  */ PACK char   string_15FC[12];            /*!< "-ERULES.VOC" NULL terminated. */
-	/* 1608(13)  */ PACK char   string_1608[13];            /*!< "-ETERRIT.VOC" NULL terminated. */
-	/* 1615(11)  */ PACK char   string_1615[11];            /*!< "-EMOST.VOC" NULL terminated. */
-	/* 1620(12)  */ PACK char   string_1620[12];            /*!< "-ENOSET.VOC" NULL terminated. */
-	/* 162C(10)  */ PACK char   string_162C[10];            /*!< "-EVIL.VOC" NULL terminated. */
-	/* 1636(10)  */ PACK char   string_1636[10];            /*!< "-HARK.VOC" NULL terminated. */
-	/* 1640(10)  */ PACK char   string_1640[10];            /*!< "-HOME.VOC" NULL terminated. */
-	/* 164A(12)  */ PACK char   string_164A[12];            /*!< "-HOUSE2.VOC" NULL terminated. */
-	/* 1656(11)  */ PACK char   string_1656[11];            /*!< "-INSID.VOC" NULL terminated. */
-	/* 1661(10)  */ PACK char   string_1661[10];            /*!< "-KING.VOC" NULL terminated. */
-	/* 166B(11)  */ PACK char   string_166B[11];            /*!< "-KNOWN.VOC" NULL terminated. */
-	/* 1676(13)  */ PACK char   string_1676[13];            /*!< "-MELANGE.VOC" NULL terminated. */
-	/* 1683(11)  */ PACK char   string_1683[11];            /*!< "-NOBLE.VOC" NULL terminated. */
-	/* 168E(9)   */ PACK char   string_168E[9];             /*!< "?NOW.VOC" NULL terminated. */
-	/* 1697(12)  */ PACK char   string_1697[12];            /*!< "-OFDUNE.VOC" NULL terminated. */
-	/* 16A3(9)   */ PACK char   string_16A3[9];             /*!< "-ORD.VOC" NULL terminated. */
-	/* 16AC(12)  */ PACK char   string_16AC[12];            /*!< "-PLANET.VOC" NULL terminated. */
-	/* 16B8(13)  */ PACK char   string_16B8[13];            /*!< "-PREVAIL.VOC" NULL terminated. */
-	/* 16C5(14)  */ PACK char   string_16C5[14];            /*!< "-PROPOSED.VOC" NULL terminated. */
-	/* 16D3(14)  */ PACK char   string_16D3[14];            /*!< "-SANDLAND.VOC" NULL terminated. */
-	/* 16E1(11)  */ PACK char   string_16E1[11];            /*!< "-SPICE.VOC" NULL terminated. */
-	/* 16EC(12)  */ PACK char   string_16EC[12];            /*!< "-SPICE2.VOC" NULL terminated. */
-	/* 16F8(10)  */ PACK char   string_16F8[10];            /*!< "-VAST.VOC" NULL terminated. */
-	/* 1702(13)  */ PACK char   string_1702[13];            /*!< "-WHOEVER.VOC" NULL terminated. */
-	/* 170F(10)  */ PACK char   string_170F[10];            /*!< "?YOUR.VOC" NULL terminated. */
-	/* 1719(12)  */ PACK char   string_1719[12];            /*!< "?FILLER.VOC" NULL terminated. */
-	/* 1725(14)  */ PACK char   string_1725[14];            /*!< "-DROPEQ2P.VOC" NULL terminated. */
-	/* 1733(12)  */ PACK char   string_1733[12];            /*!< "/EXTINY.VOC" NULL terminated. */
-	/* 173F(13)  */ PACK char   string_173F[13];            /*!< "-WIND2BP.VOC" NULL terminated. */
-	/* 174C(14)  */ PACK char   string_174C[14];            /*!< "-BRAKES2P.VOC" NULL terminated. */
-	/* 175A(13)  */ PACK char   string_175A[13];            /*!< "-GUNSHOT.VOC" NULL terminated. */
-	/* 1767(11)  */ PACK char   string_1767[11];            /*!< "-GLASS.VOC" NULL terminated. */
-	/* 1772(13)  */ PACK char   string_1772[13];            /*!< "-MISSLE8.VOC" NULL terminated. */
-	/* 177F(11)  */ PACK char   string_177F[11];            /*!< "-CLANK.VOC" NULL terminated. */
-	/* 178A(13)  */ PACK char   string_178A[13];            /*!< "-BLOWUP1.VOC" NULL terminated. */
-	/* 1797(13)  */ PACK char   string_1797[13];            /*!< "-BLOWUP2.VOC" NULL terminated. */
-	/* 17A4(6)   */ PACK char   string_17A4[6];             /*!< "dune1" NULL terminated. */
-	/* 17AA(7)   */ PACK char   string_17AA[7];             /*!< "dune17" NULL terminated. */
-	/* 17B1(6)   */ PACK char   string_17B1[6];             /*!< "dune8" NULL terminated. */
-	/* 17B7(6)   */ PACK char   string_17B7[6];             /*!< "dune2" NULL terminated. */
-	/* 17BD(6)   */ PACK char   string_17BD[6];             /*!< "dune3" NULL terminated. */
-	/* 17C3(6)   */ PACK char   string_17C3[6];             /*!< "dune4" NULL terminated. */
-	/* 17C9(6)   */ PACK char   string_17C9[6];             /*!< "dune5" NULL terminated. */
-	/* 17CF(6)   */ PACK char   string_17CF[6];             /*!< "dune6" NULL terminated. */
-	/* 17D5(6)   */ PACK char   string_17D5[6];             /*!< "dune9" NULL terminated. */
-	/* 17DB(7)   */ PACK char   string_17DB[7];             /*!< "dune18" NULL terminated. */
-	/* 17E2(7)   */ PACK char   string_17E2[7];             /*!< "dune10" NULL terminated. */
-	/* 17E9(7)   */ PACK char   string_17E9[7];             /*!< "dune11" NULL terminated. */
-	/* 17F0(7)   */ PACK char   string_17F0[7];             /*!< "dune12" NULL terminated. */
-	/* 17F7(7)   */ PACK char   string_17F7[7];             /*!< "dune13" NULL terminated. */
-	/* 17FE(7)   */ PACK char   string_17FE[7];             /*!< "dune14" NULL terminated. */
-	/* 1805(7)   */ PACK char   string_1805[7];             /*!< "dune15" NULL terminated. */
-	/* 180C(6)   */ PACK char   string_180C[6];             /*!< "dune7" NULL terminated. */
-	/* 1812(6)   */ PACK char   string_1812[6];             /*!< "dune0" NULL terminated. */
-	/* 1818(7)   */ PACK char   string_1818[7];             /*!< "dune16" NULL terminated. */
-	/* 181F(7)   */ PACK char   string_181F[7];             /*!< "dune19" NULL terminated. */
-	/* 1826(7)   */ PACK char   string_1826[7];             /*!< "dune20" NULL terminated. */
+	/* 1152(14)  */ PACK char   string_1152[14];            /*!< REMOVED - "+VSCREAM1.VOC" NULL terminated. */
+	/* 1160(12)  */ PACK char   string_1160[12];            /*!< REMOVED - "+EXSAND.VOC" NULL terminated. */
+	/* 116C(12)  */ PACK char   string_116C[12];            /*!< REMOVED - "+ROCKET.VOC" NULL terminated. */
+	/* 1178(12)  */ PACK char   string_1178[12];            /*!< REMOVED - "+BUTTON.VOC" NULL terminated. */
+	/* 1184(14)  */ PACK char   string_1184[14];            /*!< REMOVED - "+VSCREAM5.VOC" NULL terminated. */
+	/* 1192(13)  */ PACK char   string_1192[13];            /*!< REMOVED - "+CRUMBLE.VOC" NULL terminated. */
+	/* 119F(13)  */ PACK char   string_119F[13];            /*!< REMOVED - "+EXSMALL.VOC" NULL terminated. */
+	/* 11AC(11)  */ PACK char   string_11AC[11];            /*!< REMOVED - "+EXMED.VOC" NULL terminated. */
+	/* 11B7(13)  */ PACK char   string_11B7[13];            /*!< REMOVED - "+EXLARGE.VOC" NULL terminated. */
+	/* 11C4(14)  */ PACK char   string_11C4[14];            /*!< REMOVED - "+EXCANNON.VOC" NULL terminated. */
+	/* 11D2(14)  */ PACK char   string_11D2[14];            /*!< REMOVED - "+GUNMULTI.VOC" NULL terminated. */
+	/* 11E0(9)   */ PACK char   string_11E0[9];             /*!< REMOVED - "+GUN.VOC" NULL terminated. */
+	/* 11E9(11)  */ PACK char   string_11E9[11];            /*!< REMOVED - "+EXGAS.VOC" NULL terminated. */
+	/* 11F4(11)  */ PACK char   string_11F4[11];            /*!< REMOVED - "+EXDUD.VOC" NULL terminated. */
+	/* 11FF(14)  */ PACK char   string_11FF[14];            /*!< REMOVED - "+VSCREAM2.VOC" NULL terminated. */
+	/* 120D(14)  */ PACK char   string_120D[14];            /*!< REMOVED - "+VSCREAM3.VOC" NULL terminated. */
+	/* 121B(14)  */ PACK char   string_121B[14];            /*!< REMOVED - "+VSCREAM4.VOC" NULL terminated. */
+	/* 1229(14)  */ PACK char   string_1229[14];            /*!< REMOVED - "+%cAFFIRM.VOC" NULL terminated. */
+	/* 1237(15)  */ PACK char   string_1237[15];            /*!< REMOVED - "+%cREPORT1.VOC" NULL terminated. */
+	/* 1246(15)  */ PACK char   string_1246[15];            /*!< REMOVED - "+%cREPORT2.VOC" NULL terminated. */
+	/* 1255(15)  */ PACK char   string_1255[15];            /*!< REMOVED - "+%cREPORT3.VOC" NULL terminated. */
+	/* 1264(15)  */ PACK char   string_1264[15];            /*!< REMOVED - "+%cOVEROUT.VOC" NULL terminated. */
+	/* 1273(15)  */ PACK char   string_1273[15];            /*!< REMOVED - "+%cMOVEOUT.VOC" NULL terminated. */
+	/* 1282(11)  */ PACK char   string_1282[11];            /*!< REMOVED - "?POPPA.VOC" NULL terminated. */
+	/* 128D(13)  */ PACK char   string_128D[13];            /*!< REMOVED - "?SANDBUG.VOC" NULL terminated. */
+	/* 129A(13)  */ PACK char   string_129A[13];            /*!< REMOVED - "+STATICP.VOC" NULL terminated. */
+	/* 12A7(14)  */ PACK char   string_12A7[14];            /*!< REMOVED - "+WORMET3P.VOC" NULL terminated. */
+	/* 12B5(14)  */ PACK char   string_12B5[14];            /*!< REMOVED - "+MISLTINP.VOC" NULL terminated. */
+	/* 12C3(13)  */ PACK char   string_12C3[13];            /*!< REMOVED - "+SQUISH2.VOC" NULL terminated. */
+	/* 12D0(12)  */ PACK char   string_12D0[12];            /*!< REMOVED - "%cENEMY.VOC" NULL terminated. */
+	/* 12DC(11)  */ PACK char   string_12DC[11];            /*!< REMOVED - "%cHARK.VOC" NULL terminated. */
+	/* 12E7(11)  */ PACK char   string_12E7[11];            /*!< REMOVED - "%cATRE.VOC" NULL terminated. */
+	/* 12F2(12)  */ PACK char   string_12F2[12];            /*!< REMOVED - "%cORDOS.VOC" NULL terminated. */
+	/* 12FE(13)  */ PACK char   string_12FE[13];            /*!< REMOVED - "%cFREMEN.VOC" NULL terminated. */
+	/* 130B(11)  */ PACK char   string_130B[11];            /*!< REMOVED - "%cSARD.VOC" NULL terminated. */
+	/* 1316(11)  */ PACK char   string_1316[11];            /*!< REMOVED - "FILLER.VOC" NULL terminated. */
+	/* 1321(11)  */ PACK char   string_1321[11];            /*!< REMOVED - "%cUNIT.VOC" NULL terminated. */
+	/* 132C(13)  */ PACK char   string_132C[13];            /*!< REMOVED - "%cSTRUCT.VOC" NULL terminated. */
+	/* 1339(10)  */ PACK char   string_1339[10];            /*!< REMOVED - "%cONE.VOC" NULL terminated. */
+	/* 1343(10)  */ PACK char   string_1343[10];            /*!< REMOVED - "%cTWO.VOC" NULL terminated. */
+	/* 134D(12)  */ PACK char   string_134D[12];            /*!< REMOVED - "%cTHREE.VOC" NULL terminated. */
+	/* 1359(11)  */ PACK char   string_1359[11];            /*!< REMOVED - "%cFOUR.VOC" NULL terminated. */
+	/* 1364(11)  */ PACK char   string_1364[11];            /*!< REMOVED - "%cFIVE.VOC" NULL terminated. */
+	/* 136F(12)  */ PACK char   string_136F[12];            /*!< REMOVED - "%cCONST.VOC" NULL terminated. */
+	/* 137B(12)  */ PACK char   string_137B[12];            /*!< REMOVED - "%cRADAR.VOC" NULL terminated. */
+	/* 1387(10)  */ PACK char   string_1387[10];            /*!< REMOVED - "%cOFF.VOC" NULL terminated. */
+	/* 1391(9)   */ PACK char   string_1391[9];             /*!< REMOVED - "%cON.VOC" NULL terminated. */
+	/* 139A(14)  */ PACK char   string_139A[14];            /*!< REMOVED - "%cFRIGATE.VOC" NULL terminated. */
+	/* 13A8(14)  */ PACK char   string_13A8[14];            /*!< REMOVED - "?%cARRIVE.VOC" NULL terminated. */
+	/* 13B6(14)  */ PACK char   string_13B6[14];            /*!< REMOVED - "%cWARNING.VOC" NULL terminated. */
+	/* 13C4(12)  */ PACK char   string_13C4[12];            /*!< REMOVED - "%cSABOT.VOC" NULL terminated. */
+	/* 13D0(14)  */ PACK char   string_13D0[14];            /*!< REMOVED - "%cMISSILE.VOC" NULL terminated. */
+	/* 13DE(12)  */ PACK char   string_13DE[12];            /*!< REMOVED - "%cBLOOM.VOC" NULL terminated. */
+	/* 13EA(14)  */ PACK char   string_13EA[14];            /*!< REMOVED - "%cDESTROY.VOC" NULL terminated. */
+	/* 13F8(13)  */ PACK char   string_13F8[13];            /*!< REMOVED - "%cDEPLOY.VOC" NULL terminated. */
+	/* 1405(13)  */ PACK char   string_1405[13];            /*!< REMOVED - "%cAPPRCH.VOC" NULL terminated. */
+	/* 1412(14)  */ PACK char   string_1412[14];            /*!< REMOVED - "%cLOCATED.VOC" NULL terminated. */
+	/* 1420(12)  */ PACK char   string_1420[12];            /*!< REMOVED - "%cNORTH.VOC" NULL terminated. */
+	/* 142C(11)  */ PACK char   string_142C[11];            /*!< REMOVED - "%cEAST.VOC" NULL terminated. */
+	/* 1437(12)  */ PACK char   string_1437[12];            /*!< REMOVED - "%cSOUTH.VOC" NULL terminated. */
+	/* 1443(11)  */ PACK char   string_1443[11];            /*!< REMOVED - "%cWEST.VOC" NULL terminated. */
+	/* 144E(11)  */ PACK char   string_144E[11];            /*!< REMOVED - "?%cWIN.VOC" NULL terminated. */
+	/* 1459(12)  */ PACK char   string_1459[12];            /*!< REMOVED - "?%cLOSE.VOC" NULL terminated. */
+	/* 1465(13)  */ PACK char   string_1465[13];            /*!< REMOVED - "%cLAUNCH.VOC" NULL terminated. */
+	/* 1472(13)  */ PACK char   string_1472[13];            /*!< REMOVED - "%cATTACK.VOC" NULL terminated. */
+	/* 147F(14)  */ PACK char   string_147F[14];            /*!< REMOVED - "%cVEHICLE.VOC" NULL terminated. */
+	/* 148D(13)  */ PACK char   string_148D[13];            /*!< REMOVED - "%cREPAIR.VOC" NULL terminated. */
+	/* 149A(14)  */ PACK char   string_149A[14];            /*!< REMOVED - "%cHARVEST.VOC" NULL terminated. */
+	/* 14A8(12)  */ PACK char   string_14A8[12];            /*!< REMOVED - "%cWORMY.VOC" NULL terminated. */
+	/* 14B4(14)  */ PACK char   string_14B4[14];            /*!< REMOVED - "%cCAPTURE.VOC" NULL terminated. */
+	/* 14C3(11)  */ PACK char   string_14C3[11];            /*!< REMOVED - "%cNEXT.VOC" NULL terminated. */
+	/* 14CE(12)  */ PACK char   string_14CE[12];            /*!< REMOVED - "%cNEXT2.VOC" NULL terminated. */
+	/* 14DA(13)  */ PACK char   string_14DA[13];            /*!< REMOVED - "/BLASTER.VOC" NULL terminated. */
+	/* 14E6(12)  */ PACK char   string_14E6[12];            /*!< REMOVED - "/GLASS6.VOC" NULL terminated. */
+	/* 14F2(13)  */ PACK char   string_14F2[13];            /*!< REMOVED - "/LIZARD1.VOC" NULL terminated. */
+	/* 14FF(11)  */ PACK char   string_14FF[11];            /*!< REMOVED - "/FLESH.VOC" NULL terminated. */
+	/* 150A(11)  */ PACK char   string_150A[11];            /*!< REMOVED - "/CLICK.VOC" NULL terminated. */
+	/* 1515(13)  */ PACK char   string_1515[13];            /*!< REMOVED - "-3HOUSES.VOC" NULL terminated. */
+	/* 1522(12)  */ PACK char   string_1522[12];            /*!< REMOVED - "-ANDNOW.VOC" NULL terminated. */
+	/* 152E(13)  */ PACK char   string_152E[13];            /*!< REMOVED - "-ARRIVED.VOC" NULL terminated. */
+	/* 153B(12)  */ PACK char   string_153B[12];            /*!< REMOVED - "-BATTLE.VOC" NULL terminated. */
+	/* 1547(12)  */ PACK char   string_1547[12];            /*!< REMOVED - "-BEGINS.VOC" NULL terminated. */
+	/* 1553(12)  */ PACK char   string_1553[12];            /*!< REMOVED - "-BLDING.VOC" NULL terminated. */
+	/* 155F(14)  */ PACK char   string_155F[14];            /*!< REMOVED - "-CONTROL2.VOC" NULL terminated. */
+	/* 156D(14)  */ PACK char   string_156D[14];            /*!< REMOVED - "-CONTROL3.VOC" NULL terminated. */
+	/* 157B(14)  */ PACK char   string_157B[14];            /*!< REMOVED - "-CONTROL4.VOC" NULL terminated. */
+	/* 1589(14)  */ PACK char   string_1589[14];            /*!< REMOVED - "-CONTROLS.VOC" NULL terminated. */
+	/* 1597(10)  */ PACK char   string_1597[10];            /*!< REMOVED - "-DUNE.VOC" NULL terminated. */
+	/* 15A1(13)  */ PACK char   string_15A1[13];            /*!< REMOVED - "-DYNASTY.VOC" NULL terminated. */
+	/* 15AE(14)  */ PACK char   string_15AE[14];            /*!< REMOVED - "-EACHHOME.VOC" NULL terminated. */
+	/* 15BC(12)  */ PACK char   string_15BC[12];            /*!< REMOVED - "-EANDNO.VOC" NULL terminated. */
+	/* 15C8(14)  */ PACK char   string_15C8[14];            /*!< REMOVED - "-ECONTROL.VOC" NULL terminated. */
+	/* 15D6(12)  */ PACK char   string_15D6[12];            /*!< REMOVED - "-EHOUSE.VOC" NULL terminated. */
+	/* 15E2(12)  */ PACK char   string_15E2[12];            /*!< REMOVED - "-EMPIRE.VOC" NULL terminated. */
+	/* 15EE(14)  */ PACK char   string_15EE[14];            /*!< REMOVED - "-EPRODUCE.VOC" NULL terminated. */
+	/* 15FC(12)  */ PACK char   string_15FC[12];            /*!< REMOVED - "-ERULES.VOC" NULL terminated. */
+	/* 1608(13)  */ PACK char   string_1608[13];            /*!< REMOVED - "-ETERRIT.VOC" NULL terminated. */
+	/* 1615(11)  */ PACK char   string_1615[11];            /*!< REMOVED - "-EMOST.VOC" NULL terminated. */
+	/* 1620(12)  */ PACK char   string_1620[12];            /*!< REMOVED - "-ENOSET.VOC" NULL terminated. */
+	/* 162C(10)  */ PACK char   string_162C[10];            /*!< REMOVED - "-EVIL.VOC" NULL terminated. */
+	/* 1636(10)  */ PACK char   string_1636[10];            /*!< REMOVED - "-HARK.VOC" NULL terminated. */
+	/* 1640(10)  */ PACK char   string_1640[10];            /*!< REMOVED - "-HOME.VOC" NULL terminated. */
+	/* 164A(12)  */ PACK char   string_164A[12];            /*!< REMOVED - "-HOUSE2.VOC" NULL terminated. */
+	/* 1656(11)  */ PACK char   string_1656[11];            /*!< REMOVED - "-INSID.VOC" NULL terminated. */
+	/* 1661(10)  */ PACK char   string_1661[10];            /*!< REMOVED - "-KING.VOC" NULL terminated. */
+	/* 166B(11)  */ PACK char   string_166B[11];            /*!< REMOVED - "-KNOWN.VOC" NULL terminated. */
+	/* 1676(13)  */ PACK char   string_1676[13];            /*!< REMOVED - "-MELANGE.VOC" NULL terminated. */
+	/* 1683(11)  */ PACK char   string_1683[11];            /*!< REMOVED - "-NOBLE.VOC" NULL terminated. */
+	/* 168E(9)   */ PACK char   string_168E[9];             /*!< REMOVED - "?NOW.VOC" NULL terminated. */
+	/* 1697(12)  */ PACK char   string_1697[12];            /*!< REMOVED - "-OFDUNE.VOC" NULL terminated. */
+	/* 16A3(9)   */ PACK char   string_16A3[9];             /*!< REMOVED - "-ORD.VOC" NULL terminated. */
+	/* 16AC(12)  */ PACK char   string_16AC[12];            /*!< REMOVED - "-PLANET.VOC" NULL terminated. */
+	/* 16B8(13)  */ PACK char   string_16B8[13];            /*!< REMOVED - "-PREVAIL.VOC" NULL terminated. */
+	/* 16C5(14)  */ PACK char   string_16C5[14];            /*!< REMOVED - "-PROPOSED.VOC" NULL terminated. */
+	/* 16D3(14)  */ PACK char   string_16D3[14];            /*!< REMOVED - "-SANDLAND.VOC" NULL terminated. */
+	/* 16E1(11)  */ PACK char   string_16E1[11];            /*!< REMOVED - "-SPICE.VOC" NULL terminated. */
+	/* 16EC(12)  */ PACK char   string_16EC[12];            /*!< REMOVED - "-SPICE2.VOC" NULL terminated. */
+	/* 16F8(10)  */ PACK char   string_16F8[10];            /*!< REMOVED - "-VAST.VOC" NULL terminated. */
+	/* 1702(13)  */ PACK char   string_1702[13];            /*!< REMOVED - "-WHOEVER.VOC" NULL terminated. */
+	/* 170F(10)  */ PACK char   string_170F[10];            /*!< REMOVED - "?YOUR.VOC" NULL terminated. */
+	/* 1719(12)  */ PACK char   string_1719[12];            /*!< REMOVED - "?FILLER.VOC" NULL terminated. */
+	/* 1725(14)  */ PACK char   string_1725[14];            /*!< REMOVED - "-DROPEQ2P.VOC" NULL terminated. */
+	/* 1733(12)  */ PACK char   string_1733[12];            /*!< REMOVED - "/EXTINY.VOC" NULL terminated. */
+	/* 173F(13)  */ PACK char   string_173F[13];            /*!< REMOVED - "-WIND2BP.VOC" NULL terminated. */
+	/* 174C(14)  */ PACK char   string_174C[14];            /*!< REMOVED - "-BRAKES2P.VOC" NULL terminated. */
+	/* 175A(13)  */ PACK char   string_175A[13];            /*!< REMOVED - "-GUNSHOT.VOC" NULL terminated. */
+	/* 1767(11)  */ PACK char   string_1767[11];            /*!< REMOVED - "-GLASS.VOC" NULL terminated. */
+	/* 1772(13)  */ PACK char   string_1772[13];            /*!< REMOVED - "-MISSLE8.VOC" NULL terminated. */
+	/* 177F(11)  */ PACK char   string_177F[11];            /*!< REMOVED - "-CLANK.VOC" NULL terminated. */
+	/* 178A(13)  */ PACK char   string_178A[13];            /*!< REMOVED - "-BLOWUP1.VOC" NULL terminated. */
+	/* 1797(13)  */ PACK char   string_1797[13];            /*!< REMOVED - "-BLOWUP2.VOC" NULL terminated. */
+	/* 17A4(6)   */ PACK char   string_17A4[6];             /*!< REMOVED - "dune1" NULL terminated. */
+	/* 17AA(7)   */ PACK char   string_17AA[7];             /*!< REMOVED - "dune17" NULL terminated. */
+	/* 17B1(6)   */ PACK char   string_17B1[6];             /*!< REMOVED - "dune8" NULL terminated. */
+	/* 17B7(6)   */ PACK char   string_17B7[6];             /*!< REMOVED - "dune2" NULL terminated. */
+	/* 17BD(6)   */ PACK char   string_17BD[6];             /*!< REMOVED - "dune3" NULL terminated. */
+	/* 17C3(6)   */ PACK char   string_17C3[6];             /*!< REMOVED - "dune4" NULL terminated. */
+	/* 17C9(6)   */ PACK char   string_17C9[6];             /*!< REMOVED - "dune5" NULL terminated. */
+	/* 17CF(6)   */ PACK char   string_17CF[6];             /*!< REMOVED - "dune6" NULL terminated. */
+	/* 17D5(6)   */ PACK char   string_17D5[6];             /*!< REMOVED - "dune9" NULL terminated. */
+	/* 17DB(7)   */ PACK char   string_17DB[7];             /*!< REMOVED - "dune18" NULL terminated. */
+	/* 17E2(7)   */ PACK char   string_17E2[7];             /*!< REMOVED - "dune10" NULL terminated. */
+	/* 17E9(7)   */ PACK char   string_17E9[7];             /*!< REMOVED - "dune11" NULL terminated. */
+	/* 17F0(7)   */ PACK char   string_17F0[7];             /*!< REMOVED - "dune12" NULL terminated. */
+	/* 17F7(7)   */ PACK char   string_17F7[7];             /*!< REMOVED - "dune13" NULL terminated. */
+	/* 17FE(7)   */ PACK char   string_17FE[7];             /*!< REMOVED - "dune14" NULL terminated. */
+	/* 1805(7)   */ PACK char   string_1805[7];             /*!< REMOVED - "dune15" NULL terminated. */
+	/* 180C(6)   */ PACK char   string_180C[6];             /*!< REMOVED - "dune7" NULL terminated. */
+	/* 1812(6)   */ PACK char   string_1812[6];             /*!< REMOVED - "dune0" NULL terminated. */
+	/* 1818(7)   */ PACK char   string_1818[7];             /*!< REMOVED - "dune16" NULL terminated. */
+	/* 181F(7)   */ PACK char   string_181F[7];             /*!< REMOVED - "dune19" NULL terminated. */
+	/* 1826(7)   */ PACK char   string_1826[7];             /*!< REMOVED - "dune20" NULL terminated. */
 	/* 182D()    */ PACK uint8   unknown_182D[0x1];
 	/* 182E(4)   */ PACK csip32 variable_182E;              /*!< ?? */
 	/* 1832(4)   */ PACK csip32 variable_1832;              /*!< ?? */
@@ -992,9 +992,9 @@ typedef struct GlobalData {
 	/* 3C4C(256) */ PACK int8  variable_3C4C[256];          /*!< ?? */
 	/* 3D4C(256) */ PACK int8  variable_3D4C[256];          /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
-	/* 3E4E(4)   */ PACK csip32 currentMusic;               /*!< ?? */
+	/* 3E4E(4)   */ PACK csip32 removed_currentMusic;       /*!< REMOVED - Currently loaded music file. */
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
-	/* 3E54(524) */ PACK csip32 removed_3E54[NUM_VOICES];   /*!< REMOVED - Pointer to loaded voice. */
+	/* 3E54(524) */ PACK csip32 removed_3E54[131];          /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
 	/* 41C2(10)  */ PACK GameCfg removed_41C2;              /*!< REMOVED - Game config (options.cfg). */

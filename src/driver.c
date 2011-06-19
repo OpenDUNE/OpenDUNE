@@ -737,7 +737,7 @@ void Driver_Sound_Stop()
 	}
 }
 
-void Driver_Voice_LoadFile(char *filename, void *buffer, uint32 length)
+void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 {
 	assert(buffer != NULL);
 
@@ -804,7 +804,7 @@ void Driver_Voice_Stop()
 	voice->content.csip = 0x0;
 }
 
-void Driver_Sound_LoadFile(char *musicName)
+void Driver_Sound_LoadFile(const char *musicName)
 {
 	Driver *sound = &g_global->soundDriver;
 	Driver *music = &g_global->musicDriver;
@@ -839,7 +839,7 @@ void Driver_Sound_LoadFile(char *musicName)
 	Driver_LoadFile(musicName, sound);
 }
 
-char *Drivers_GenerateFilename(char *name, Driver *driver)
+char *Drivers_GenerateFilename(const char *name, Driver *driver)
 {
 	if (name == NULL || driver == NULL || driver->index == 0xFFFF) return NULL;
 
@@ -935,7 +935,7 @@ void Drivers_All_Uninit()
 	Drivers_Voice_Uninit();
 }
 
-void Driver_LoadFile(char *musicName, Driver *driver)
+void Driver_LoadFile(const char *musicName, Driver *driver)
 {
 	char *filename;
 	uint8 fileIndex;
