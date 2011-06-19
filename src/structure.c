@@ -1324,13 +1324,13 @@ void Structure_UntargetMe(Structure *s)
 	}
 }
 
-uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
+uint16 Structure_0C3A_247A(Structure *s, bool checkForSpice)
 {
 	StructureInfo *si;
 	uint16 packed;
-	uint16 loc0C;
+	uint16 spicePacked;  /* Position of the spice, or 0 if not used or if no spice. */
 	uint16 bestPacked;
-	uint16 bestDistance;
+	uint16 bestDistance; /* If > 0, distance to the spice from bestPacked. */
 	int16 loc12;
 	uint16 i;
 
@@ -1339,7 +1339,7 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 	si = &g_structureInfo[s->o.type];
 	packed = Tile_PackTile(Tile_Center(s->o.position));
 
-	loc0C = (checkDistance) ? Map_B4CD_08E7(packed, 10) : 0;
+	spicePacked = (checkForSpice) ? Map_SearchSpice(packed, 10) : 0;
 	bestPacked = 0;
 	bestDistance = 0;
 	i = Tools_Random_256() & 0xF;
@@ -1358,11 +1358,11 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 				Tile *t = Map_GetTileByPosition(curPacked);
 
 				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTIRELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
-					if (!checkDistance) return curPacked;
+					if (!checkForSpice) return curPacked;
 
-					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, loc0C) < bestDistance) {
+					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, spicePacked) < bestDistance) {
 						bestPacked = curPacked;
-						bestDistance = Tile_GetDistancePacked(curPacked, loc0C);
+						bestDistance = Tile_GetDistancePacked(curPacked, spicePacked);
 					}
 				}
 			}

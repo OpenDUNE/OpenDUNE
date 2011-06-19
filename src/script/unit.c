@@ -245,7 +245,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			if (u2->variable_5A.tile != 0) {
 				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->variable_5A), IT_TILE);
 			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_global->playerHouseID) {
-				u->targetMove = Tools_Index_Encode(Map_B4CD_08E7(Tile_PackTile(u->o.position), 20), IT_TILE);
+				u->targetMove = Tools_Index_Encode(Map_SearchSpice(Tile_PackTile(u->o.position), 20), IT_TILE);
 			}
 
 			Unit_B4CD_01BF(2, u);
@@ -313,7 +313,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			if (u2->o.type != UNIT_HARVESTER) return 0;
 
-			if (Map_B4CD_08E7(Tile_PackTile(u2->o.position), 2) == 0) {
+			if (Map_SearchSpice(Tile_PackTile(u2->o.position), 2) == 0) {
 				u2->variable_5E.tile = 0;
 				u2->variable_5A.tile = 0;
 			}

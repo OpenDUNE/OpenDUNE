@@ -1401,7 +1401,13 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 	}
 }
 
-uint16 Map_B4CD_08E7(uint16 packed, uint16 radius)
+/**
+ * Search for spice around a position. Thick spice is preferred if it is not too far away.
+ * @param packed Center position.
+ * @param radius Radius of the search.
+ * @return Best position with spice, or \c 0 if no spice found.
+ */
+uint16 Map_SearchSpice(uint16 packed, uint16 radius)
 {
 	uint16 radius1;
 	uint16 radius2;

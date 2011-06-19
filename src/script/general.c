@@ -326,26 +326,26 @@ uint16 Script_General_VoicePlay(ScriptEngine *script)
 }
 
 /**
- * Unknown function 0456.
+ * Get position of spice.
  *
- * Stack: 0 - Unknown.
+ * Stack: 0 - Radius of the search.
  *
  * @param script The script engine to operate on.
- * @return Unknown.
+ * @return Encoded position with spice, or \c 0 if no spice nearby.
  */
 uint16 Script_General_Unknown0456(ScriptEngine *script)
 {
 	uint8 houseID;
 	tile32 position;
-	uint16 packed;
+	uint16 packedSpicePos;
 
 	houseID = g_scriptCurrentObject->houseID;
 	position = g_scriptCurrentObject->position;
 
-	packed = Map_B4CD_08E7(Tile_PackTile(position), script->stack[script->stackPointer]);
+	packedSpicePos = Map_SearchSpice(Tile_PackTile(position), script->stack[script->stackPointer]);
 
-	if (packed == 0) return 0;
-	return Tools_Index_Encode(packed, IT_TILE);
+	if (packedSpicePos == 0) return 0;
+	return Tools_Index_Encode(packedSpicePos, IT_TILE);
 }
 
 /**
