@@ -725,7 +725,7 @@ void Unknown_07D4_1625(uint16 packed)
 			}
 		} else {
 			if (mapScale > 1) {
-				spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[6][12] - 1;
+				spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[LST_ENTIRELY_MOUNTAIN][12] - 1;
 			} else {
 				colour = 12;
 			}

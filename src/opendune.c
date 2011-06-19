@@ -1753,10 +1753,10 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->scenarioID = 0x1;
 	g_global->playerHouseID = HOUSE_INDEX_INVALID;
 	g_global->debugScenario = 0x0;
-	g_global->variable_3A3E[8][11] = 0xD7;
-	g_global->variable_3A3E[8][12] = 0x35;
-	g_global->variable_3A3E[9][11] = 0xD8;
-	g_global->variable_3A3E[9][12] = 0x35;
+	g_global->variable_3A3E[LST_SPICE][11] = 0xD7;
+	g_global->variable_3A3E[LST_SPICE][12] = 0x35;
+	g_global->variable_3A3E[LST_THICK_SPICE][11] = 0xD8;
+	g_global->variable_3A3E[LST_THICK_SPICE][12] = 0x35;
 	g_global->selectionType = 0x0;
 	g_global->variable_3A10 = 0x0;
 	g_global->variable_6C8C = 0; /* Seems never set to any other value. */
