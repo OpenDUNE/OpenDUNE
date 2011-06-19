@@ -1087,7 +1087,7 @@ void Map_B4CD_0AFA(uint16 packed, int16 dir)
 
 	if (type == LST_THICK_SPICE && dir > 0) return;
 	if (type != LST_SPICE && type != LST_THICK_SPICE && dir < 0) return;
-	if (type != LST_NORMAL_SAND && type != LST_ENTRIELY_DUNE && type != LST_SPICE && dir > 0) return;
+	if (type != LST_NORMAL_SAND && type != LST_ENTIRELY_DUNE && type != LST_SPICE && dir > 0) return;
 
 	if (dir > 0) {
 		type = (type == LST_SPICE) ? LST_THICK_SPICE : LST_SPICE;

@@ -1357,7 +1357,7 @@ uint16 Structure_0C3A_247A(Structure *s, bool checkDistance)
 				uint16 type = Map_GetLandscapeType(curPacked);
 				Tile *t = Map_GetTileByPosition(curPacked);
 
-				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTRIELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
+				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTIRELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
 					if (!checkDistance) return curPacked;
 
 					if (bestDistance == 0 || Tile_GetDistancePacked(curPacked, loc0C) < bestDistance) {

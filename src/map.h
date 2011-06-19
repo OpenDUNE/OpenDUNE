@@ -9,11 +9,11 @@
 typedef enum LandscapeType {
 	LST_NORMAL_SAND       =  0, /*<! Flat sand. */
 	LST_PARTIAL_ROCK      =  1, /*!< Edge of a rocky area (mostly sand). */
-	LST_ENTRIELY_DUNE     =  2, /*!< Entirely sand dunes. */
+	LST_ENTIRELY_DUNE     =  2, /*!< Entirely sand dunes. */
 	LST_PARTIAL_DUNE      =  3, /*!< Partial sand dunes. */
 	LST_ENTIRELY_ROCK     =  4, /*!< Center part of rocky area. */
 	LST_MOSTLY_ROCK       =  5, /*!< Edge of a rocky area (mostly rocky). */
-	LST_ENTRIELY_MOUNTAIN =  6, /*!< Center part of the mountain. */
+	LST_ENTIRELY_MOUNTAIN =  6, /*!< Center part of the mountain. */
 	LST_PARTIAL_MOUNTAIN  =  7, /*!< Edge of a mountain. */
 	LST_SPICE             =  8, /*!< Sand with spice. */
 	LST_THICK_SPICE       =  9, /*!< Sand with thick spice. */

@@ -1454,7 +1454,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
-			if ((type == LST_NORMAL_SAND || type == LST_ENTRIELY_DUNE) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
+			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
 				csip32 proc;
 
 				proc.s.cs = 0x33C8;
@@ -1517,7 +1517,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				}
 			}
 
-			if (type == LST_WALL || type == LST_STRUCTURE || type == LST_ENTRIELY_MOUNTAIN) {
+			if (type == LST_WALL || type == LST_STRUCTURE || type == LST_ENTIRELY_MOUNTAIN) {
 				unit->o.position = newPosition;
 
 				Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
