@@ -525,14 +525,14 @@ void House_UpdateCreditsStorage(uint8 houseID)
 		if (s == NULL) break;
 
 		si = &g_structureInfo[s->o.type];
-		creditsStorage += creditsStorage;
+		creditsStorage += si->creditsStorage;
 	}
 
 	if (creditsStorage > 32000) creditsStorage = 32000;
 
 	House_Get_ByIndex(houseID)->creditsStorage = creditsStorage;
 
-	g_global->variable_38BC	= loc06;
+	g_global->variable_38BC = loc06;
 }
 
 /**
