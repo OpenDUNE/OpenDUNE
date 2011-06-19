@@ -470,8 +470,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		}
 	}
 
-	if ((g_global->variable_37BA & 0x1) != 0 && g_global->variable_37BC.csip != 0x0 && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
-		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(g_global->variable_37BC), 112, 139, 15, 0, 0x132);
+	if ((g_global->viewportMessageCounter & 0x1) != 0 && g_global->viewportMessageText.csip != 0x0 && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
+		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(g_global->viewportMessageText), 112, 139, 15, 0, 0x132);
 		minX[6] = -1;
 		maxX[6] = 14;
 	}
@@ -533,7 +533,7 @@ void Unknown_07D4_0000(uint16 screenID)
 {
 	bool loc10;
 	uint16 oldScreenID;
-	uint16 loc14;
+	uint16 xpos;
 
 	if (g_global->selectionType < 1 || g_global->selectionType > 4) return;
 
@@ -588,8 +588,8 @@ void Unknown_07D4_0000(uint16 screenID)
 	if (loc10) {
 		Map_SetSelectionObjectPosition(0xFFFF);
 
-		for (loc14 = 0; loc14 < 14; loc14++) {
-			uint16 v = g_global->minimapPosition + loc14 + 384;
+		for (xpos = 0; xpos < 14; xpos++) {
+			uint16 v = g_global->minimapPosition + xpos + 6*64;
 
 			g_global->variable_8FE5[v >> 3] |= 1 << (v & 7);
 			g_global->variable_8DE5[v >> 3] |= 1 << (v & 7);
@@ -601,12 +601,12 @@ void Unknown_07D4_0000(uint16 screenID)
 	g_global->minimapPosition = g_global->viewportPosition;
 	g_global->variable_3A00 = g_global->selectionPosition;
 
-	if (g_global->variable_37BA != 0 && g_global->variable_3346 < g_global->variable_76AC) {
-		g_global->variable_37BA--;
-		g_global->variable_3346 = g_global->variable_76AC + 60;
+	if (g_global->viewportMessageCounter != 0 && g_global->viewportMessageTime < g_global->variable_76AC) {
+		g_global->viewportMessageCounter--;
+		g_global->viewportMessageTime = g_global->variable_76AC + 60;
 
-		for (loc14 = 0; loc14 < 14; loc14++) {
-			Map_Update(g_global->viewportPosition + loc14 + 384, 0, true);
+		for (xpos = 0; xpos < 14; xpos++) {
+			Map_Update(g_global->viewportPosition + xpos + 6*64, 0, true);
 		}
 	}
 

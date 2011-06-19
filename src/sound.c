@@ -310,10 +310,10 @@ void Sound_Unknown0363(uint16 index)
 
 		Driver_Voice_Stop();
 
-		g_global->variable_37BC.csip = 0;
-		if ((g_global->variable_37BA & 1) != 0) {
+		g_global->viewportMessageText.csip = 0;
+		if ((g_global->viewportMessageCounter & 1) != 0) {
 			g_global->variable_3A12 = 1;
-			g_global->variable_37BA = 0;
+			g_global->viewportMessageCounter = 0;
 		}
 		g_global->variable_4060 = 0;
 
@@ -323,13 +323,13 @@ void Sound_Unknown0363(uint16 index)
 	if (g_config.voiceDrv == 0 || g_global->soundsEnabled == 0) {
 		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
 
-		g_global->variable_37BC = emu_Global_GetCSIP(String_Get_ByIndex(g_global->variable_0312[index][5]));
+		g_global->viewportMessageText = emu_Global_GetCSIP(String_Get_ByIndex(g_global->variable_0312[index][5]));
 
-		if ((g_global->variable_37BA & 1) != 0) {
+		if ((g_global->viewportMessageCounter & 1) != 0) {
 			g_global->variable_3A12 = 1;
 		}
 
-		g_global->variable_37BA = 4;
+		g_global->viewportMessageCounter = 4;
 
 		return;
 	}

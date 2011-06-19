@@ -827,7 +827,7 @@ typedef struct GlobalData {
 	/* 3304(32)  */ PACK uint16 variable_3304[8][2];        /*!< ?? */
 	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
 	/* 3344(2)   */ PACK uint16 variable_3344;              /*!< ?? */
-	/* 3346(4)   */ PACK uint32 variable_3346;              /*!< ?? */
+	/* 3346(4)   */ PACK uint32 viewportMessageTime;        /*!< Keeps track when to decrease #viewportMessageCounter. */
 	/* 334A(4)   */ PACK uint8  variable_334A[4];           /*!< ?? */
 	/* 334E(32)  */ PACK uint16 variable_334E[8][2];        /*!< ?? */
 	/* 336E(32)  */ PACK uint16 variable_336E[8][2];        /*!< ?? */
@@ -912,8 +912,8 @@ typedef struct GlobalData {
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 removed_37B6;               /*!< REMOVED - @see Language. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
-	/* 37BA(2)   */ PACK uint16 variable_37BA;              /*!< ?? */
-	/* 37BC(4)   */ PACK csip32 variable_37BC;              /*!< ?? */
+	/* 37BA(2)   */ PACK uint16 viewportMessageCounter;     /*!< Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
+	/* 37BC(4)   */ PACK csip32 viewportMessageText;        /*!< If not \c NULL, message text displayed in the viewport. */
 	/* 37C0(48)  */ PACK uint16 variable_37C0[12][2];       /*!< Array of ranks. */
 	/* 37F0(4)   */ PACK uint32 hintsShown1;                /*!< A bit-array to indicate which hints has been show already (0-31). */
 	/* 37F4(4)   */ PACK uint32 hintsShown2;                /*!< A bit-array to indicate which hints has been show already (32-63). */
