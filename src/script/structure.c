@@ -154,7 +154,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	u->amount -= harvesterStep;
 
 	if (u->amount == 0) u->o.flags.s.inTransport = false;
-	s->o.scriptDelay = 6;
+	s->o.script.delay = 6;
 	return 1;
 }
 

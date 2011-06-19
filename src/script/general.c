@@ -37,8 +37,7 @@ uint16 Script_General_Delay(ScriptEngine *script)
 
 	delay = script->stack[script->stackPointer] / 5;
 
-	/* XXX -- Lovely hackish */
-	*(((uint16 *)script) - 1) = delay;
+	script->delay = delay;
 
 	return delay;
 }
@@ -59,8 +58,7 @@ uint16 Script_General_DelayRandom(ScriptEngine *script)
 	delay = Tools_Random_256() * script->stack[script->stackPointer] / 256;
 	delay /= 5;
 
-	/* XXX -- Lovely hackish */
-	*(((uint16 *)script) - 1) = delay;
+	script->delay = delay;
 
 	return delay;
 }

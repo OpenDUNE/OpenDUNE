@@ -168,7 +168,7 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 	s->o.linkedID          = 0xFF;
 	s->o.flags.s.used      = true;
 	s->o.flags.s.allocated = true;
-	s->o.scriptDelay       = 0;
+	s->o.script.delay = 0;
 
 	g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
 	g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);

@@ -47,8 +47,8 @@ void GameLoop_Team()
 
 		if (!h->flags.s.variable_0008) continue;
 
-		if (t->scriptDelay != 0) {
-			t->scriptDelay--;
+		if (t->script.delay != 0) {
+			t->script.delay--;
 			continue;
 		}
 
@@ -175,7 +175,7 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	Script_Reset(&t->script, &g_global->scriptTeam);
 	Script_Load(&t->script, teamActionType);
 
-	t->scriptDelay = 0;
+	t->script.delay = 0;
 
 	return t;
 }

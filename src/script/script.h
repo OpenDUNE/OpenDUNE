@@ -16,17 +16,18 @@ MSVC_PACKED_BEGIN
  * A ScriptEngine as stored in the memory.
  */
 typedef struct ScriptEngine {
-	/* 0000(4)   */ PACK csip32 script;                     /*!< Pointer to the script we are executing. */
-	/* 0004(4)   */ PACK csip32 scriptInfo;                 /*!< Pointer to a struct with script information (g_global->scriptStructure/scriptUnit). */
-	/* 0008(2)   */ PACK uint16 returnValue;                /*!< Return value from sub-routines. */
-	/* 000A(1)   */ PACK uint8  framePointer;               /*!< Frame pointer. */
-	/* 000B(1)   */ PACK uint8  stackPointer;               /*!< Stack pointer. */
-	/* 000C(10)  */ PACK uint16 variables[5];               /*!< Variables to store values in (outside the stack). Accessed by all kinds of routines outside the scripts! */
-	/* 0016(30)  */ PACK uint16 stack[15];                  /*!< Stack of the script engine, starting at the end. */
-	/* 0034(1)   */ PACK uint8  variable_34;                /*!< ?? */
+	/* 0000(2)   */ PACK uint16 delay;                      /*!< How many more ticks the script is suspended (or zero if not suspended). */
+	/* 0002(4)   */ PACK csip32 script;                     /*!< Pointer to the script we are executing. */
+	/* 0006(4)   */ PACK csip32 scriptInfo;                 /*!< Pointer to a struct with script information (g_global->scriptStructure/scriptUnit). */
+	/* 000A(2)   */ PACK uint16 returnValue;                /*!< Return value from sub-routines. */
+	/* 000C(1)   */ PACK uint8  framePointer;               /*!< Frame pointer. */
+	/* 000D(1)   */ PACK uint8  stackPointer;               /*!< Stack pointer. */
+	/* 000E(10)  */ PACK uint16 variables[5];               /*!< Variables to store values in (outside the stack). Accessed by all kinds of routines outside the scripts! */
+	/* 0018(30)  */ PACK uint16 stack[15];                  /*!< Stack of the script engine, starting at the end. */
+	/* 0036(1)   */ PACK uint8  variable_34;                /*!< ?? */
 } GCC_PACKED ScriptEngine;
 MSVC_PACKED_END
-assert_compile(sizeof(ScriptEngine) == 0x35);
+assert_compile(sizeof(ScriptEngine) == 0x37);
 
 MSVC_PACKED_BEGIN
 /**

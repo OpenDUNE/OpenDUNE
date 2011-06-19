@@ -52,8 +52,7 @@ typedef struct Team {
 	/* 0014(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 0018(2)   */ PACK uint16 variable_18;                /*!< ?? */
 	/* 001A(2)   */ PACK uint16 target;                     /*!< Current target of team (encoded index). */
-	/* 001C(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
-	/* 001E(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Team. */
+	/* 001C(55)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Team. */
 } GCC_PACKED Team;
 MSVC_PACKED_END
 assert_compile(sizeof(Team) == 0x53);

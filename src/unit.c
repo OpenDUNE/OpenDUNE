@@ -274,7 +274,7 @@ void GameLoop_Unit()
 		}
 
 		if (tickScript) {
-			if (u->o.scriptDelay == 0) {
+			if (u->o.script.delay == 0) {
 				if (Script_IsLoaded(&u->o.script)) {
 					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
 					if (!ui->o.flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->o.position, NULL, NULL)) {
@@ -283,7 +283,7 @@ void GameLoop_Unit()
 
 					u->o.script.variables[3] = g_global->playerHouseID;
 
-					for (; g_global->scriptUnitLeft >= -1 && u->o.scriptDelay == 0; g_global->scriptUnitLeft--) {
+					for (; g_global->scriptUnitLeft >= -1 && u->o.script.delay == 0; g_global->scriptUnitLeft--) {
 						g_global->variable_37A4 = 0;
 						g_global->variable_37A2++;
 
@@ -295,7 +295,7 @@ void GameLoop_Unit()
 					}
 				}
 			} else {
-				u->o.scriptDelay--;
+				u->o.script.delay--;
 			}
 		}
 
@@ -430,7 +430,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	}
 
 	u->o.linkedID    = 0xFF;
-	u->o.scriptDelay = 0;
+	u->o.script.delay = 0;
 	u->actionID      = ACTION_GUARD;
 	u->nextActionID  = ACTION_INVALID;
 	u->fireDelay     = 0;
@@ -523,7 +523,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 			u->actionID = action;
 			u->nextActionID = ACTION_INVALID;
 			u->variable_49.tile = 0;
-			u->o.scriptDelay = 0;
+			u->o.script.delay = 0;
 			Script_Reset(&u->o.script, &g_global->scriptUnit);
 			u->o.script.variables[0] = action;
 			Script_Load(&u->o.script, u->o.type);
@@ -800,7 +800,7 @@ bool Unit_Load(FILE *fp, uint32 length)
 			ul.o.script.script = g_global->scriptUnit.start;
 			ul.o.script.script.s.ip += lineno * 2;
 		}
-		ul.o.scriptDelay = 0;
+		ul.o.script.delay = 0;
 		ul.variable_70 = 0;
 
 		/* Get the Structure from the pool */

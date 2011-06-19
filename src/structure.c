@@ -319,8 +319,8 @@ void GameLoop_Structure()
 		}
 
 		if (tickScript) {
-			if (s->o.scriptDelay != 0) {
-				s->o.scriptDelay--;
+			if (s->o.script.delay != 0) {
+				s->o.script.delay--;
 			} else {
 				if (Script_IsLoaded(&s->o.script)) {
 					uint8 i;
@@ -585,7 +585,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
-		s->o.scriptDelay = 0;
+		s->o.script.delay = 0;
 		Script_Reset(&s->o.script, ScriptInfo_Get_ByMemory(s->o.script.scriptInfo));
 		Script_Load(&s->o.script, s->o.type);
 	}
@@ -1075,7 +1075,7 @@ static void Structure_Destroy(Structure *s)
 	s->o.script.variables[0] = 1;
 	s->o.flags.s.allocated = false;
 	s->o.flags.s.repairing = false;
-	s->o.scriptDelay = 0;
+	s->o.script.delay = 0;
 
 	Script_Reset(&s->o.script, &g_global->scriptStructure);
 	Script_Load(&s->o.script, s->o.type);

@@ -59,8 +59,7 @@ typedef struct Object {
 	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
 	/* 000A(4)   */ PACK tile32 position;                   /*!< Position on the map. */
 	/* 000E(2)   */ PACK uint16 hitpoints;                  /*!< Current hitpoints left. */
-	/* 0010(2)   */ PACK uint16 scriptDelay;                /*!< How many more ticks the script is suspended (or zero if not suspended). */
-	/* 0012(53)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
+	/* 0010(55)  */ PACK ScriptEngine script;               /*!< The script engine instance of this Structure. */
 } GCC_PACKED Object;
 MSVC_PACKED_END
 assert_compile(sizeof(Object) == 0x47);
