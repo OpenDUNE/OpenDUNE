@@ -12,6 +12,10 @@ enum {
 };
 
 struct PoolFindStruct;
+
+extern struct Unit *g_unitFindArray[UNIT_INDEX_MAX];
+extern uint16 g_unitFindCount;
+
 extern struct Unit *Unit_Get_ByIndex(uint16 index);
 extern struct Unit *Unit_Get_ByMemory(csip32 address);
 extern struct Unit *Unit_Find(struct PoolFindStruct *find);

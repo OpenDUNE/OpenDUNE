@@ -484,10 +484,10 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
 {
 	uint16 i;
 
-	for (i = 0; i < g_global->unitCount; i++) {
+	for (i = 0; i < g_unitFindCount; i++) {
 		Unit *u;
 
-		u = Unit_Get_ByMemory(g_global->unitArray[i]);
+		u = g_unitFindArray[i];
 		if (houseID != HOUSE_INVALID && Unit_GetHouseID(u) != houseID) continue;
 		if (typeID != UNIT_INVALID && u->o.type != typeID) continue;
 		if (g_global->variable_38BC == 0 && u->o.flags.s.isNotOnMap) continue;
@@ -601,19 +601,14 @@ void Unit_Sort()
 	h->unitCountEnemy = 0;
 	h->unitCountAllied = 0;
 
-	for (i = 0; i < g_global->unitCount - 1; i++) {
-		csip32 csip1;
-		csip32 csip2;
+	for (i = 0; i < g_unitFindCount - 1; i++) {
 		Unit *u1;
 		Unit *u2;
 		uint16 y1;
 		uint16 y2;
 
-		csip1 = g_global->unitArray[i];
-		csip2 = g_global->unitArray[i + 1];
-
-		u1 = Unit_Get_ByMemory(csip1);
-		u2 = Unit_Get_ByMemory(csip2);
+		u1 = g_unitFindArray[i];
+		u2 = g_unitFindArray[i + 1];
 
 		if ((u1->o.variable_09 & (1 << g_global->playerHouseID)) != 0 && !u1->o.flags.s.isNotOnMap) {
 			if (House_AreAllied(u1->o.houseID, (uint8)g_global->playerHouseID)) {
@@ -628,8 +623,8 @@ void Unit_Sort()
 		if (g_unitInfo[u2->o.type].movementType == MOVEMENT_FOOT) y2 -= 0x100;
 
 		if ((int16)y1 > (int16)y2) {
-			g_global->unitArray[i] = csip2;
-			g_global->unitArray[i + 1] = csip1;
+			g_unitFindArray[i] = u2;
+			g_unitFindArray[i + 1] = u1;
 		}
 	}
 }

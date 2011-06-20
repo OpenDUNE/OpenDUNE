@@ -15,6 +15,9 @@
 #include "house.h"
 #include "unit.h"
 
+struct Unit *g_unitFindArray[UNIT_INDEX_MAX];
+uint16 g_unitFindCount;
+
 /**
  * Get a Unit from the pool with the indicated index.
  *
@@ -49,15 +52,12 @@ Unit *Unit_Get_ByMemory(csip32 address)
  */
 Unit *Unit_Find(PoolFindStruct *find)
 {
-	if (find->index >= g_global->unitCount && find->index != 0xFFFF) return NULL;
+	if (find->index >= g_unitFindCount && find->index != 0xFFFF) return NULL;
 	find->index++; /* First, we always go to the next index */
 
-	for (; find->index < g_global->unitCount; find->index++) {
-		csip32 pos = g_global->unitArray[find->index];
-		Unit *u;
-		if (pos.csip == 0x0) continue;
-
-		u = Unit_Get_ByMemory(pos);
+	for (; find->index < g_unitFindCount; find->index++) {
+		Unit *u = g_unitFindArray[find->index];
+		if (u == NULL) continue;
 
 		if (u->o.flags.s.isNotOnMap && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != Unit_GetHouseID(u)) continue;
@@ -76,7 +76,8 @@ Unit *Unit_Find(PoolFindStruct *find)
  */
 void Unit_Init(csip32 address)
 {
-	g_global->unitCount = 0;
+	memset(g_unitFindArray, 0, sizeof(g_unitFindArray));
+	g_unitFindCount = 0;
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
@@ -104,7 +105,7 @@ void Unit_Recount()
 		h = House_Find(&find);
 	}
 
-	g_global->unitCount = 0;
+	g_unitFindCount = 0;
 
 	for (index = 0; index < UNIT_INDEX_MAX; index++) {
 		Unit *u = Unit_Get_ByIndex(index);
@@ -113,9 +114,7 @@ void Unit_Recount()
 		h = House_Get_ByIndex(u->o.houseID);
 		h->unitCount++;
 
-		g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
-		g_global->unitArray[g_global->unitCount].s.ip += index * sizeof(Unit);
-		g_global->unitCount++;
+		g_unitFindArray[g_unitFindCount++] = u;
 	}
 }
 
@@ -172,9 +171,7 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	u->variable_72[0]            = 0xFF;
 	if (type == UNIT_SANDWORM) u->amount = 3;
 
-	g_global->unitArray[g_global->unitCount] = g_global->unitStartPos;
-	g_global->unitArray[g_global->unitCount].s.ip += index * sizeof(Unit);
-	g_global->unitCount++;
+	g_unitFindArray[g_unitFindCount++] = u;
 
 	return u;
 }
@@ -186,25 +183,20 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
  */
 void Unit_Free(Unit *u)
 {
-	csip32 ucsip;
 	int i;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip = g_global->unitStartPos;
-	ucsip.s.ip += u->o.index * sizeof(Unit);
 
 	u->o.flags.all = 0x0000;
 
 	Script_Reset(&u->o.script, &g_global->scriptUnit);
 
 	/* Walk the array to find the Unit we are removing */
-	for (i = 0; i < g_global->unitCount; i++) {
-		if (g_global->unitArray[i].csip != ucsip.csip) continue;
+	for (i = 0; i < g_unitFindCount; i++) {
+		if (g_unitFindArray[i] != u) continue;
 		break;
 	}
-	assert(i < g_global->unitCount); /* We should always find an entry */
+	assert(i < g_unitFindCount); /* We should always find an entry */
 
-	g_global->unitCount--;
+	g_unitFindCount--;
 
 	{
 		House *h = House_Get_ByIndex(u->o.houseID);
@@ -212,6 +204,6 @@ void Unit_Free(Unit *u)
 	}
 
 	/* If needed, close the gap */
-	if (i == g_global->unitCount) return;
-	memmove(&g_global->unitArray[i], &g_global->unitArray[i + 1], (g_global->unitCount - i) * sizeof(g_global->unitArray[0]));
+	if (i == g_unitFindCount) return;
+	memmove(&g_unitFindArray[i], &g_unitFindArray[i + 1], (g_unitFindCount - i) * sizeof(g_unitFindArray[0]));
 }

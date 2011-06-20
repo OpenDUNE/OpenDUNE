@@ -839,7 +839,7 @@ typedef struct GlobalData {
 	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
 	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
-	/* 35EC(2)   */ PACK uint16 unitCount;                  /*!< Amount of Units on the map. */
+	/* 35EC(2)   */ PACK uint16 removed_35EC;               /*!< REMOVED - Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
 	/* 35F2(2)   */ PACK uint16 teamCount;                  /*!< Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 structureStartPos;          /*!< CS:IP of Structure array. */
@@ -1513,8 +1513,8 @@ typedef struct GlobalData {
 	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
 	/* 8430(4)   */ PACK csip32 removed_8430;               /*!< REMOVED - Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32 removed_8434;               /*!< REMOVED - Current Structure we are handling in the GameLoop. */
-	/* 8438(6)   */ PACK uint8  unitFindStruct[6];          /*!< Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
-	/* 843E(408) */ PACK csip32 unitArray[102];             /*!< Array with CS:IP of Unit, always gap-less. */
+	/* 8438(6)   */ PACK uint8  removed_8438[6];            /*!< REMOVED - Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
+	/* 843E(408) */ PACK csip32 removed_843E[102];          /*!< REMOVED - Array with CS:IP of Unit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  teamFindStruct[6];          /*!< Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
 	/* 85DC(64)  */ PACK csip32 teamArray[16];              /*!< Array with CS:IP of Team, always gap-less. */
 	/* 861C(6)   */ PACK uint8  structureFindStruct[6];     /*!< Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
