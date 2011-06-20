@@ -2470,17 +2470,12 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
  */
 uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
 {
-	csip32 ucsip;
 	Structure *s;
 	Unit *target;
 
 	if (unit == NULL) return 0;
 
 	s = NULL;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip       = g_global->unitStartPos;
-	ucsip.s.ip += unit->o.index * sizeof(Unit);
 
 	if (mode == 4) {
 		s = Unit_FindBestTargetStructure(unit, mode);
