@@ -2562,11 +2562,9 @@ void Game_Prepare()
 	Map_SetSelection(g_global->selectionPosition);
 
 	if (g_global->variable_38E8 != 0xFFFF) {
-		Structure *s = Structure_Get_ByIndex(g_global->variable_38E8);
-		g_global->activeStructure.csip = g_global->structureStartPos.csip;
-		g_global->activeStructure.s.ip += s->o.index * sizeof(Structure);
+		g_structureActive = Structure_Get_ByIndex(g_global->variable_38E8);
 	} else {
-		g_global->activeStructure.csip = 0x0;
+		g_structureActive = NULL;
 	}
 
 	if (g_global->activeStructureType != 0xFFFF) {
@@ -2623,7 +2621,7 @@ void Game_Init()
 
 	g_unitHouseMissile = NULL;
 	g_unitActive = NULL;
-	g_global->activeStructure.csip    = 0x0;
+	g_structureActive = NULL;
 
 	g_global->activeAction            = 0xFFFF;
 	g_global->activeStructureType     = 0xFFFF;

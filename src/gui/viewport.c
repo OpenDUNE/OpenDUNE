@@ -176,7 +176,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		StructureInfo *si;
 		House *h;
 
-		s = Structure_Get_ByMemory(g_global->activeStructure);
+		s = g_structureActive;
 		si = &g_structureInfo[g_global->activeStructureType];
 		h = House_Get_ByMemory(g_global->playerHouse);
 
@@ -206,9 +206,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				if ((Structure_GetBuildable(s) & (1 << s->objectType)) == 0) Structure_BuildObject(s, 0xFFFE);
 			}
 
-			g_global->activeStructureType  = 0xFFFF;
-			g_global->activeStructure.csip = 0x0;
-			g_global->variable_38EC        = 0;
+			g_global->activeStructureType = 0xFFFF;
+			g_structureActive             = NULL;
+			g_global->variable_38EC       = 0;
 
 			GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 

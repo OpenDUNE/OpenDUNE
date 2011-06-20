@@ -31,18 +31,6 @@ Structure *Structure_Get_ByIndex(uint16 index)
 }
 
 /**
- * Get a Structure from the pool at the indicated address.
- *
- * @param address The address of the Structure to get.
- * @return The Structure.
- */
-Structure *Structure_Get_ByMemory(csip32 address)
-{
-	assert(g_global->structureStartPos.csip <= address.csip && address.csip < g_global->structureStartPos.csip + sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD);
-	return (Structure *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
-}
-
-/**
  * Find the first matching Structure based on the PoolFindStruct filter data.
  *
  * @param find A pointer to a PoolFindStruct which contains filter data and

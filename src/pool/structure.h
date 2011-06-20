@@ -18,7 +18,6 @@ enum {
 
 struct PoolFindStruct;
 extern struct Structure *Structure_Get_ByIndex(uint16 index);
-extern struct Structure *Structure_Get_ByMemory(csip32 address);
 extern struct Structure *Structure_Find(struct PoolFindStruct *find);
 
 extern void Structure_Init(csip32 address);

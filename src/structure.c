@@ -33,6 +33,8 @@
 
 StructureInfo *g_structureInfo = NULL;
 
+Structure *g_structureActive = NULL;
+
 /**
  * Initialize the structure system.
  *
@@ -868,7 +870,6 @@ bool Structure_Save(FILE *fp)
 bool Structure_Load(FILE *fp, uint32 length)
 {
 	while (length >= sizeof(Structure)) {
-		csip32 scsip;
 		Structure *s;
 		Structure sl;
 
@@ -894,10 +895,6 @@ bool Structure_Load(FILE *fp, uint32 length)
 		*s = sl;
 
 		if (s->upgradeTimeLeft != 0) continue;
-
-		/* XXX -- Temporary, to keep all the emu_calls workable for now */
-		scsip.s.cs = g_global->structureStartPos.s.cs;
-		scsip.s.ip = g_global->structureStartPos.s.ip + s->o.index * sizeof(Structure);
 
 		s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 	}

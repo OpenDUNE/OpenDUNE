@@ -41,8 +41,7 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->activeStructurePosition, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (g_global->activeStructureType != 0xFFFF) {
-		Structure *s = Structure_Get_ByMemory(g_global->activeStructure);
-		if (fwrite(&s->o.index, sizeof(uint16), 1, fp) != 1) return false;
+		if (fwrite(&g_structureActive->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;

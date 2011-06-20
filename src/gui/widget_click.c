@@ -81,8 +81,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				Structure *ns;
 
 				ns = Structure_Get_ByIndex(s->o.linkedID);
-				g_global->activeStructure = g_global->structureStartPos;
-				g_global->activeStructure.s.ip += ns->o.index * sizeof(Structure);
+				g_structureActive = ns;
 				g_global->activeStructureType = s->objectType;
 				g_global->variable_38EC = Structure_IsValidBuildLocation(g_global->variable_3A00, g_global->activeStructureType);
 				g_global->activeStructurePosition = g_global->selectionPosition;
@@ -326,7 +325,7 @@ bool GUI_Widget_Cancel_Click()
 {
 	if (g_global->activeStructureType != 0xFFFF) {
 		Structure *s  = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
-		Structure *s2 = Structure_Get_ByMemory(g_global->activeStructure);
+		Structure *s2 = g_structureActive;
 
 		assert(s2 != NULL);
 
@@ -336,7 +335,7 @@ bool GUI_Widget_Cancel_Click()
 			Structure_Free(s2);
 		}
 
-		g_global->activeStructure.csip = 0x0;
+		g_structureActive = NULL;
 		g_global->activeStructurePosition = 0xFFFF;
 
 		GUI_ChangeSelectionType(4);
