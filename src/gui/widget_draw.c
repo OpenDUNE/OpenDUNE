@@ -86,12 +86,10 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	if (w == NULL) return;
 
 	spriteID = 0;
-	if (g_global->selectionUnit.csip != 0x0) {
+	if (g_unitSelected != NULL) {
 		UnitInfo *ui;
-		Unit *u;
 
-		u = Unit_Get_ByMemory(g_global->selectionUnit);
-		ui = &g_unitInfo[u->o.type];
+		ui = &g_unitInfo[g_unitSelected->o.type];
 
 		spriteID = ui->o.spriteID;
 	} else {
@@ -439,9 +437,9 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 
 	if (g_global->selectionType == 2) {
 		if (g_global->variable_3752 != 7 || forceDraw) actionType = 7; /* Placement */
-	} else if (g_global->unitHouseMissile.csip != 0x0) {
+	} else if (g_unitHouseMissile != NULL) {
 		if (g_global->variable_3762 != g_global->houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
-	} else if (g_global->selectionUnit.csip != 0x0) {
+	} else if (g_unitSelected != NULL) {
 		if (g_global->selectionType == 1) {
 			uint16 activeAction = g_global->activeAction;
 
@@ -455,7 +453,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 
 			if (actionType == g_global->variable_3752 && !forceDraw) actionType = 0;
 		} else {
-			u = Unit_Get_ByMemory(g_global->selectionUnit);
+			u = g_unitSelected;
 
 			if (forceDraw
 				|| u->o.index != g_global->variable_3756
@@ -574,7 +572,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	switch (actionType) {
 		case 2: { /* Unit */
-			u  = Unit_Get_ByMemory(g_global->selectionUnit);
+			u  = g_unitSelected;
 			ui = &g_unitInfo[u->o.type];
 
 			o  = &u->o;
@@ -612,7 +610,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		} break;
 
 		case 8: { /* House Missile */
-			u  = Unit_Get_ByMemory(g_global->unitHouseMissile);
+			u  = g_unitHouseMissile;
 			ui = &g_unitInfo[u->o.type];
 
 			o  = &u->o;

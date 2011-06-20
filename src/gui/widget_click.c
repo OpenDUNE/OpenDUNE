@@ -238,7 +238,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	ActionType unitAction;
 	ActionInfo *ai;
 
-	u = Unit_Get_ByMemory(g_global->selectionUnit);
+	u = g_unitSelected;
 	ui = &g_unitInfo[u->o.type];
 
 	actions = ui->o.actionsPlayer;
@@ -269,7 +269,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	ai = &g_actionInfo[action];
 
 	if (ai->variable_08 != g_global->selectionType) {
-		g_global->activeUnit = g_global->selectionUnit;
+		g_unitActive = g_unitSelected;
 		g_global->activeAction = action;
 		GUI_ChangeSelectionType(ai->variable_08);
 
@@ -344,9 +344,9 @@ bool GUI_Widget_Cancel_Click()
 		g_global->variable_38EC = 0;
 	}
 
-	if (g_global->activeUnit.csip == 0x0) return true;
+	if (g_unitActive == NULL) return true;
 
-	g_global->activeUnit.csip = 0x0;
+	g_unitActive = NULL;
 	g_global->activeAction = 0xFFFF;
 	g_global->cursorSpriteID = 0;
 
@@ -366,10 +366,8 @@ bool GUI_Widget_Picture_Click()
 {
 	Structure *s;
 
-	if (g_global->selectionUnit.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-
-		Unit_DisplayStatusText(u);
+	if (g_unitSelected != NULL) {
+		Unit_DisplayStatusText(g_unitSelected);
 
 		return false;
 	}

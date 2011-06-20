@@ -928,10 +928,10 @@ typedef struct GlobalData {
 	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
 	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
 	/* 38F0(2)   */ PACK uint16 activeStructurePosition;    /*!< Position of the structure being placed. */
-	/* 38F2(4)   */ PACK csip32 activeUnit;                 /*!< Unit currently controlled by player. */
+	/* 38F2(4)   */ PACK csip32 removed_38F2;               /*!< REMOVED - Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
-	/* 38FA(4)   */ PACK csip32 unitHouseMissile;           /*!< When launching a House Missile, while selecting location, this points to the missile. */
+	/* 38FA(4)   */ PACK csip32 removed_38FA;               /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16 houseMissileCountdown;      /*!< Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16 removed_3900;               /*!< REMOVED - Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
@@ -964,7 +964,7 @@ typedef struct GlobalData {
 	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
 	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
 	/* 3A08(2)   */ PACK uint16 variable_3A08;              /*!< ?? */
-	/* 3A0A(4)   */ PACK csip32 selectionUnit;              /*!< Current selected unit. */
+	/* 3A0A(4)   */ PACK csip32 removed_3A0A;               /*!< REMOVED - Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure, 7 = intro. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
 	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
@@ -979,7 +979,7 @@ typedef struct GlobalData {
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
-	/* 3C0E(24)  */ PACK uint8 removed_mapInfo[3][8];       /*!< REMOVED Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
+	/* 3C0E(24)  */ PACK uint8 removed_mapInfo[3][8];       /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< First Widget in the linked-list of all Widgets. */
 	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */

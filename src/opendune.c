@@ -2292,16 +2292,14 @@ static void GameLoop_Main()
 		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(g_global->variable_3C26));
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
-			if (g_global->selectionUnit.csip != 0x00000000) {
-				Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-
+			if (g_unitSelected != NULL) {
 				if (g_global->variable_31C2 < g_global->tickGlobal) {
-					Unit_DisplayStatusText(u);
+					Unit_DisplayStatusText(g_unitSelected);
 					g_global->variable_31C2 = g_global->tickGlobal + 300;
 				}
 
 				if (g_global->selectionType != 1) {
-					g_global->selectionPosition = Tile_PackTile(Tile_Center(u->o.position));
+					g_global->selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected->o.position));
 				}
 			}
 
@@ -2623,8 +2621,8 @@ void Game_Init()
 	g_global->variable_38EC           = 0;
 	g_global->activeStructurePosition = 0;
 
-	g_global->unitHouseMissile.csip   = 0x0;
-	g_global->activeUnit.csip         = 0x0;
+	g_unitHouseMissile = NULL;
+	g_unitActive = NULL;
 	g_global->activeStructure.csip    = 0x0;
 
 	g_global->activeAction            = 0xFFFF;

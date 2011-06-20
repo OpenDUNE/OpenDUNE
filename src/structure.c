@@ -935,11 +935,8 @@ void Structure_ActivateSpecial(Structure *s)
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->o.houseID, position, Tools_Random_256());
 			g_global->variable_38BC--;
 
-			g_global->unitHouseMissile.csip = 0x0;
+			g_unitHouseMissile = u;
 			if (u == NULL) break;
-
-			g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
-			g_global->unitHouseMissile.s.ip += u->o.index * sizeof(Unit);
 
 			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
 
@@ -966,7 +963,7 @@ void Structure_ActivateSpecial(Structure *s)
 
 				/* We failed to find a target, so remove the missile */
 				Unit_Free(u);
-				g_global->unitHouseMissile.csip = 0x0;
+				g_unitHouseMissile = NULL;
 
 				return;
 			}

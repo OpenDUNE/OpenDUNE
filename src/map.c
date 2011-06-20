@@ -124,7 +124,7 @@ void Map_SetSelection(uint16 packed)
 					Unit_Select(u);
 				}
 			} else {
-				if (g_global->selectionUnit.csip != 0x0) {
+				if (g_unitSelected != NULL) {
 					Unit_Select(NULL);
 				}
 			}
@@ -1495,12 +1495,8 @@ void Map_SelectNext(bool getNext)
 	bool hasPrevious = false;
 	bool hasNext = false;
 
-	if (g_global->selectionUnit.csip != 0) {
-		Unit *u;
-
-		u = Unit_Get_ByMemory(g_global->selectionUnit);
-
-		if (Map_IsTileVisible(Tile_PackTile(u->o.position))) selected = &u->o;
+	if (g_unitSelected != NULL) {
+		if (Map_IsTileVisible(Tile_PackTile(g_unitSelected->o.position))) selected = &g_unitSelected->o;
 	} else {
 		Structure *s;
 

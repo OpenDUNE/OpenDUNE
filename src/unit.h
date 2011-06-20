@@ -195,6 +195,10 @@ struct Structure;
 extern UnitInfo *g_unitInfo;
 extern ActionInfo *g_actionInfo;
 
+extern Unit *g_unitActive;
+extern Unit *g_unitHouseMissile;
+extern Unit *g_unitSelected;
+
 extern void GameLoop_Unit();
 extern uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);

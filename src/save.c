@@ -48,17 +48,15 @@ static bool Save_Info(FILE *fp)
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
 	}
 
-	if (g_global->selectionUnit.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
+	if (g_unitSelected != NULL) {
+		if (fwrite(&g_unitSelected->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
 	}
 
-	if (g_global->activeUnit.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->activeUnit);
-		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
+	if (g_unitActive != NULL) {
+		if (fwrite(&g_unitActive->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
@@ -82,9 +80,8 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
 	if (fwrite(&g_global->houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (g_global->unitHouseMissile.csip != 0x0) {
-		Unit *u = Unit_Get_ByMemory(g_global->unitHouseMissile);
-		if (fwrite(&u->o.index, sizeof(uint16), 1, fp) != 1) return false;
+	if (g_unitHouseMissile != NULL) {
+		if (fwrite(&g_unitHouseMissile->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
 		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;

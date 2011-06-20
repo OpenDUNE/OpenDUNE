@@ -122,12 +122,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		GUI_DisplayText(NULL, 0xFFFF);
 
-		if (g_global->unitHouseMissile.csip != 0x0) {
+		if (g_unitHouseMissile != NULL) {
 			Unit_LaunchHouseMissile(packed);
 			return true;
 		}
 
-		u = Unit_Get_ByMemory(g_global->activeUnit);
+		u = g_unitActive;
 
 		action = g_global->activeAction;
 
@@ -164,7 +164,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			Sound_Unknown0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}
 
-		g_global->activeUnit.csip = 0x0;
+		g_unitActive = NULL;
 		g_global->activeAction    = 0xFFFF;
 
 		GUI_ChangeSelectionType(3);
@@ -249,7 +249,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (Map_GetTileByPosition(position)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
 			if (Object_GetByPackedTile(position) != NULL || g_global->debugScenario != 0) {
 				Map_SetSelection(position);
-				Unit_DisplayStatusText(g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL);
+				Unit_DisplayStatusText(g_unitSelected);
 			}
 		}
 

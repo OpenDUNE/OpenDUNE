@@ -294,8 +294,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 			if (s == NULL) return 0;
 
 			{
-				Unit *selected = (g_global->selectionUnit.csip == 0) ? NULL : Unit_Get_ByMemory(g_global->selectionUnit);
-				if (u2 == selected) Unit_Select(NULL);
+				if (u2 == g_unitSelected) Unit_Select(NULL);
 			}
 
 			u->o.linkedID = u2->o.index & 0xFF;

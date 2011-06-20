@@ -159,7 +159,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
+		if (u != g_unitSelected) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
@@ -168,7 +168,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	g_global->variable_39E4 = 0;
 
-	if (g_global->selectionUnit.csip == 0x0 && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_global->debugScenario != 0)) {
+	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_global->debugScenario != 0)) {
 		uint16 x1 = (Tile_GetPackedX(g_global->variable_3A00) - Tile_GetPackedX(g_global->minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_global->variable_3A00) - Tile_GetPackedY(g_global->minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_global->selectionWidth << 4) - 1;
@@ -309,7 +309,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
 			}
 
-			if (g_global->selectionUnit.csip == 0x0 || u != Unit_Get_ByMemory(g_global->selectionUnit)) continue;
+			if (u != g_unitSelected) continue;
 
 			GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}

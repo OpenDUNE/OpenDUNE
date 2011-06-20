@@ -81,8 +81,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		if (selectionUnit >= UNIT_INDEX_MAX) return false;
 		u = Unit_Get_ByIndex(selectionUnit);
 
-		g_global->selectionUnit.csip = g_global->unitStartPos.csip;
-		g_global->selectionUnit.s.ip += u->o.index * sizeof(Unit);
+		g_unitSelected = u;
 	}
 
 	if (activeUnit != 0xFFFF) {
@@ -90,8 +89,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		if (activeUnit >= UNIT_INDEX_MAX) return false;
 		u = Unit_Get_ByIndex(activeUnit);
 
-		g_global->activeUnit.csip = g_global->unitStartPos.csip;
-		g_global->activeUnit.s.ip += u->o.index * sizeof(Unit);
+		g_unitActive = u;
 	}
 
 	g_global->tickScenarioStart = g_global->tickGlobal - tickScenarioStart;
@@ -101,8 +99,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 		if (variable_38FA >= UNIT_INDEX_MAX) return false;
 		u = Unit_Get_ByIndex(variable_38FA);
 
-		g_global->unitHouseMissile.csip = g_global->unitStartPos.csip;
-		g_global->unitHouseMissile.s.ip += u->o.index * sizeof(Unit);
+		g_unitHouseMissile = u;
 	}
 
 	Sprites_LoadTiles();

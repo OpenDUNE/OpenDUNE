@@ -2179,12 +2179,12 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 	struct_B4E9 *info = (struct_B4E9 *)&emu_get_memory8(0x2E8A, 0, 0xE);
 	uint16 oldScreenID;
 
-	if (selectionType == 3 && g_global->selectionUnit.csip == 0x0) {
+	if (selectionType == 3 && g_unitSelected == NULL) {
 		selectionType = 4;
 	}
 
-	if (selectionType == 4 && g_global->selectionUnit.csip != 0x0) {
-		g_global->selectionUnit.csip = 0x0;
+	if (selectionType == 4 && g_unitSelected != NULL) {
+		g_unitSelected = NULL;
 	}
 
 	oldScreenID = GUI_Screen_SetActive(2);
@@ -2209,12 +2209,9 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				break;
 
 			case 3:
-				if (g_global->selectionUnit.csip != 0x0 && selectionType != 1 && selectionType != 3) {
-					Unit *u = Unit_Get_ByMemory(g_global->selectionUnit);
-
-					Unit_B4CD_01BF(2, u);
-
-					g_global->selectionUnit.csip = 0x0;
+				if (g_unitSelected != NULL && selectionType != 1 && selectionType != 3) {
+					Unit_B4CD_01BF(2, g_unitSelected);
+					g_unitSelected = NULL;
 				}
 				break;
 

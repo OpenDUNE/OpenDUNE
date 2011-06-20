@@ -34,6 +34,10 @@
 UnitInfo *g_unitInfo = NULL;
 ActionInfo *g_actionInfo = NULL;
 
+Unit *g_unitActive = NULL;
+Unit *g_unitHouseMissile = NULL;
+Unit *g_unitSelected = NULL;
+
 /**
  * Initialize the unit system.
  *
@@ -975,20 +979,12 @@ bool Unit_SetPosition(Unit *u, tile32 position)
  */
 void Unit_Unknown10EC(Unit *u)
 {
-	csip32 ucsip;
-
 	if (u == NULL) return;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + u->o.index * sizeof(Unit);
 
 	u->o.flags.s.allocated = true;
 	Unit_UntargetMe(u);
 
-	if (ucsip.csip == g_global->selectionUnit.csip) {
-		Unit_Select(NULL);
-	}
+	if (u == g_unitSelected) Unit_Select(NULL);
 
 	u->o.flags.s.variable_4_0040 = true;
 
@@ -1440,9 +1436,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		u = Unit_Get_ByPackedTile(packed);
 
 		if (u != NULL && g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT && u->o.flags.s.allocated) {
-			if (g_global->selectionUnit.csip != 0x0 && u == Unit_Get_ByMemory(g_global->selectionUnit)) {
-				Unit_Select(NULL);
-			}
+			if (u == g_unitSelected) Unit_Select(NULL);
 
 			Unit_UntargetMe(u);
 			u->o.script.returnValue = 1;
@@ -1797,12 +1791,7 @@ void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uin
  */
 void Unit_Select(Unit *unit)
 {
-	csip32 ucsip;
-	Unit *selected;
-
-	selected = (g_global->selectionUnit.csip != 0x0) ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
-
-	if (unit == selected) return;
+	if (unit == g_unitSelected) return;
 
 	if (unit != NULL && !unit->o.flags.s.allocated && g_global->debugGame == 0) {
 		unit = NULL;
@@ -1812,11 +1801,10 @@ void Unit_Select(Unit *unit)
 		unit = NULL;
 	}
 
-	if (selected != NULL) Unit_B4CD_01BF(2, selected);
+	if (g_unitSelected != NULL) Unit_B4CD_01BF(2, g_unitSelected);
 
 	if (unit == NULL) {
-		g_global->selectionUnit.csip = 0x0;
-		selected = NULL;
+		g_unitSelected = NULL;
 
 		GUI_ChangeSelectionType(4);
 		return;
@@ -1833,26 +1821,20 @@ void Unit_Select(Unit *unit)
 		GUI_DisplayHint(ui->o.hintStringID, ui->o.spriteID);
 	}
 
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	ucsip.s.cs = g_global->unitStartPos.s.cs;
-	ucsip.s.ip = g_global->unitStartPos.s.ip + unit->o.index * sizeof(Unit);
+	if (g_unitSelected != NULL) {
+		if (g_unitSelected != unit) Unit_DisplayStatusText(unit);
 
-	if (selected != NULL) {
-		if (selected != unit) Unit_DisplayStatusText(unit);
-
-		g_global->selectionUnit = ucsip;
-		selected = unit;
+		g_unitSelected = unit;
 
 		GUI_Widget_ActionPanel_Draw(true);
 	} else {
 		Unit_DisplayStatusText(unit);
-		g_global->selectionUnit = ucsip;
-		selected = unit;
+		g_unitSelected = unit;
 
 		GUI_ChangeSelectionType(3);
 	}
 
-	Unit_B4CD_01BF(2, selected);
+	Unit_B4CD_01BF(2, g_unitSelected);
 
 	Map_SetSelectionObjectPosition(0xFFFF);
 }
@@ -2267,14 +2249,12 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
  */
 void Unit_EnterStructure(Unit *unit, Structure *s)
 {
-	Unit *selected;
 	UnitInfo *ui;
 	StructureInfo *si;
 
 	if (unit == NULL || s == NULL) return;
-	selected = g_global->selectionUnit.csip != 0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
 
-	if (unit == selected) Unit_Select(NULL);
+	if (unit == g_unitSelected) Unit_Select(NULL);
 
 	ui = &g_unitInfo[unit->o.type];
 	si = &g_structureInfo[s->o.type];
@@ -2515,8 +2495,6 @@ uint16 Unit_FindBestTargetEncoded(Unit *unit, uint16 mode)
  */
 bool Unit_Unknown379B(Unit *unit)
 {
-	Unit *selected;
-
 	if (unit == NULL) return false;
 	if (Unit_GetHouseID(unit) != g_global->playerHouseID) return false;
 	if (!unit->o.flags.s.allocated) return false;
@@ -2524,9 +2502,7 @@ bool Unit_Unknown379B(Unit *unit)
 	unit->o.flags.s.allocated = false;
 	Unit_RemoveFromTeam(unit);
 
-	selected = g_global->selectionUnit.csip != 0x0 ? Unit_Get_ByMemory(g_global->selectionUnit) : NULL;
-
-	if (unit != selected) return true;
+	if (unit != g_unitSelected) return true;
 
 	if (g_global->selectionType == 1) {
 		g_global->variable_39F2 = 0;
@@ -2668,31 +2644,29 @@ void Unit_LaunchHouseMissile(uint16 packed)
 {
 	tile32 tile;
 	bool isAI;
-	Unit *missile;
 	House *h;
 
-	if (g_global->unitHouseMissile.csip == 0x0) return;
+	if (g_unitHouseMissile == NULL) return;
 
-	missile = Unit_Get_ByMemory(g_global->unitHouseMissile);
-	h = House_Get_ByIndex(missile->o.houseID);
+	h = House_Get_ByIndex(g_unitHouseMissile->o.houseID);
 
 	tile = Tile_UnpackTile(packed);
 	tile = Tile_MoveByRandom(tile, 160, false);
 
 	packed = Tile_PackTile(tile);
 
-	isAI = missile->o.houseID != g_global->playerHouseID;
+	isAI = g_unitHouseMissile->o.houseID != g_global->playerHouseID;
 
-	Unit_Free(missile);
+	Unit_Free(g_unitHouseMissile);
 
 	Sound_Unknown0363(0xFFFE);
 
-	Unit_CreateBullet(h->palacePosition, missile->o.type, missile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
+	Unit_CreateBullet(h->palacePosition, g_unitHouseMissile->o.type, g_unitHouseMissile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
 
 	if (!isAI) Sound_Unknown0363(39);
 
 	g_global->houseMissileCountdown = 0;
-	g_global->unitHouseMissile.csip = 0x0;
+	g_unitHouseMissile = NULL;
 
 	if (isAI) return;
 
