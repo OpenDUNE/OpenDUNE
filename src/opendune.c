@@ -1877,7 +1877,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	Structure_Init(csip);
+	Structure_Init();
 	csip.s.ip += sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD;
 
 	csip.s.ip += 0x58;
@@ -2595,7 +2595,7 @@ void Game_Init()
 	null.csip = 0x0;
 
 	Unit_Init();
-	Structure_Init(null);
+	Structure_Init();
 	Team_Init(null);
 	House_Init(null);
 

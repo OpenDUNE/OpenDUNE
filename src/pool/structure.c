@@ -15,6 +15,7 @@
 #include "structure.h"
 #include "house.h"
 
+static struct Structure g_structureArray[STRUCTURE_INDEX_MAX_HARD];
 static struct Structure *g_structureFindArray[STRUCTURE_INDEX_MAX_HARD];
 static uint16 g_structureFindCount;
 
@@ -27,7 +28,7 @@ static uint16 g_structureFindCount;
 Structure *Structure_Get_ByIndex(uint16 index)
 {
 	assert(index < STRUCTURE_INDEX_MAX_HARD);
-	return (Structure *)&emu_get_memory8(g_global->structureStartPos.s.cs, g_global->structureStartPos.s.ip, index * sizeof(Structure));
+	return &g_structureArray[index];
 }
 
 /**
@@ -62,17 +63,11 @@ Structure *Structure_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the Structure array.
  */
-void Structure_Init(csip32 address)
+void Structure_Init()
 {
+	memset(g_structureArray, 0, sizeof(g_structureArray));
+	memset(g_structureFindArray, 0, sizeof(g_structureFindArray));
 	g_structureFindCount = 0;
-
-	if (address.csip != 0x0) {
-		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->structureStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
-		g_global->structureStartPos.s.ip = address.s.ip & 0x000F;
-	}
-
-	if (g_global->structureStartPos.csip == 0x0) return;
 
 	memset(Structure_Get_ByIndex(0), 0, sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD);
 }
@@ -112,8 +107,6 @@ void Structure_Recount()
 Structure *Structure_Allocate(uint16 index, uint8 type)
 {
 	Structure *s = NULL;
-
-	if (g_global->structureStartPos.csip == 0x0) return NULL;
 
 	switch (type) {
 		case STRUCTURE_SLAB_1x1:

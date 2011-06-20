@@ -15,7 +15,7 @@
 #include "house.h"
 #include "unit.h"
 
-struct Unit g_unitArray[UNIT_INDEX_MAX];
+static struct Unit g_unitArray[UNIT_INDEX_MAX];
 struct Unit *g_unitFindArray[UNIT_INDEX_MAX];
 uint16 g_unitFindCount;
 
