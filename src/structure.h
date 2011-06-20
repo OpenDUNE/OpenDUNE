@@ -65,10 +65,10 @@ typedef struct StructureInfo {
 	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
 	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
-	/* 003C(2)   */ PACK uint16 variable_3C;                /*!< ?? */
-	/* 003E(12)  */ PACK csip32 variable_3E[3];             /*!< ?? */
+	/* 003C(2)   */ PACK uint16 iconGroup;                  /*!< In which IconGroup the sprites of the Structure belongs. */
+	/* 003E(12)  */ PACK csip32 animationProc[3];           /*!< The procs to the Animation of the Structure. */
 	/* 004A(16)  */ PACK uint16 buildableUnits[8];          /*!< Which units this structure can produce. */
-	/* 005A(6)   */ PACK uint16 variable_5A[3];             /*!< ?? */
+	/* 005A(6)   */ PACK uint16 upgradeCampaign[3];         /*!< Minimum campaign for upgrades. */
 } GCC_PACKED StructureInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(StructureInfo) == 0x60);

@@ -1185,9 +1185,9 @@ bool Structure_IsUpgradable(Structure *s)
 	si = &g_structureInfo[s->o.type];
 
 	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_HIGH_TECH) return false;
-	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->variable_5A[2] > g_global->campaignID) return false;
+	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->upgradeCampaign[2] > g_global->campaignID) return false;
 
-	if (si->variable_5A[s->upgradeLevel] != 0 && si->variable_5A[s->upgradeLevel] <= g_global->campaignID + 1) {
+	if (si->upgradeCampaign[s->upgradeLevel] != 0 && si->upgradeCampaign[s->upgradeLevel] <= g_global->campaignID + 1) {
 		House *h;
 
 		if (s->o.type != STRUCTURE_CONSTRUCTION_YARD) return true;
@@ -1413,7 +1413,7 @@ void Structure_0C3A_1002(Structure *s)
 
 		proc.csip = 0x2C6F0000;
 
-		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, (uint8)si->variable_3C);
+		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -1889,7 +1889,7 @@ void Structure_UpdateMap(Structure *s)
 	layoutSize = g_global->layoutTileCount[si->layout];
 
 	gIconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	iconMap = &gIconMap[gIconMap[si->variable_3C] + layoutSize + layoutSize];
+	iconMap = &gIconMap[gIconMap[si->iconGroup] + layoutSize + layoutSize];
 
 	for (i = 0; i < layoutSize; i++) {
 		uint16 position;
@@ -1913,9 +1913,9 @@ void Structure_UpdateMap(Structure *s)
 
 	if (s->animation >= 0) {
 		uint16 animation = (s->animation > 2) ? 2 : s->animation;
-		if (si->variable_3E[animation].csip == 0) animation &= 1;
+		if (si->animationProc[animation].csip == 0) animation &= 1;
 
-		animationProc.csip = si->variable_3E[animation].csip;
+		animationProc.csip = si->animationProc[animation].csip;
 	} else {
 		animationProc.s.cs = 0x2C70;
 		animationProc.s.ip = 0x0;
@@ -1923,7 +1923,7 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, (uint8)si->variable_3C);
+	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 
 	g_global->variable_37A4 = 0;
 }
