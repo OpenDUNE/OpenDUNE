@@ -843,7 +843,7 @@ typedef struct GlobalData {
 	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
 	/* 35F2(2)   */ PACK uint16 teamCount;                  /*!< Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 structureStartPos;          /*!< CS:IP of Structure array. */
-	/* 35F8(2)   */ PACK uint16 structureCount;             /*!< Amount of Structures on the map. */
+	/* 35F8(2)   */ PACK uint16 removed_35F8;               /*!< REMOVED - Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 houseCount;                 /*!< Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
@@ -1517,8 +1517,8 @@ typedef struct GlobalData {
 	/* 843E(408) */ PACK csip32 removed_843E[102];          /*!< REMOVED - Array with CS:IP of Unit, always gap-less. */
 	/* 85D6(6)   */ PACK uint8  teamFindStruct[6];          /*!< Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
 	/* 85DC(64)  */ PACK csip32 teamArray[16];              /*!< Array with CS:IP of Team, always gap-less. */
-	/* 861C(6)   */ PACK uint8  structureFindStruct[6];     /*!< Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
-	/* 8622(328) */ PACK csip32 structureArray[82];         /*!< Array with CS:IP of Structure, always gap-less. */
+	/* 861C(6)   */ PACK uint8  removed_861C[6];            /*!< REMOVED - Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
+	/* 8622(328) */ PACK csip32 removed_8622[82];           /*!< REMOVED - Array with CS:IP of Structure, always gap-less. */
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
 	/* 87BA(6)   */ PACK uint8  houseFindStruct[6];         /*!< Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 houseArray[6];              /*!< Array with CS:IP of House, always gap-less. */

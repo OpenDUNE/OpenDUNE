@@ -15,6 +15,9 @@
 #include "structure.h"
 #include "house.h"
 
+static struct Structure *g_structureFindArray[STRUCTURE_INDEX_MAX_HARD];
+static uint16 g_structureFindCount;
+
 /**
  * Get a Structure from the pool with the indicated index.
  *
@@ -49,15 +52,12 @@ Structure *Structure_Get_ByMemory(csip32 address)
  */
 Structure *Structure_Find(PoolFindStruct *find)
 {
-	if (find->index >= g_global->structureCount && find->index != 0xFFFF) return NULL;
+	if (find->index >= g_structureFindCount && find->index != 0xFFFF) return NULL;
 	find->index++; /* First, we always go to the next index */
 
-	for (; find->index < g_global->structureCount; find->index++) {
-		csip32 pos = g_global->structureArray[find->index];
-		Structure *s;
-		if (pos.csip == 0x0) continue;
-
-		s = Structure_Get_ByMemory(pos);
+	for (; find->index < g_structureFindCount; find->index++) {
+		Structure *s = g_structureFindArray[find->index];
+		if (s == NULL) continue;
 
 		if (s->o.flags.s.isNotOnMap && g_global->variable_38BC == 0) continue;
 		if (find->houseID != HOUSE_INDEX_INVALID     && find->houseID != s->o.houseID) continue;
@@ -76,7 +76,7 @@ Structure *Structure_Find(PoolFindStruct *find)
  */
 void Structure_Init(csip32 address)
 {
-	g_global->structureCount = 0;
+	g_structureFindCount = 0;
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
@@ -104,15 +104,13 @@ void Structure_Recount()
 		h = House_Find(&find);
 	}
 
-	g_global->structureCount = 0;
+	g_structureFindCount = 0;
 
 	for (index = 0; index < STRUCTURE_INDEX_MAX_HARD; index++) {
 		Structure *s = Structure_Get_ByIndex(index);
 		if (!s->o.flags.s.used) continue;
 
-		g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
-		g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
-		g_global->structureCount++;
+		g_structureFindArray[g_structureFindCount++] = s;
 	}
 }
 
@@ -170,9 +168,7 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
 	s->o.flags.s.allocated = true;
 	s->o.script.delay = 0;
 
-	g_global->structureArray[g_global->structureCount] = g_global->structureStartPos;
-	g_global->structureArray[g_global->structureCount].s.ip += index * sizeof(Structure);
-	g_global->structureCount++;
+	g_structureFindArray[g_structureFindCount++] = s;
 
 	return s;
 }
@@ -184,27 +180,22 @@ Structure *Structure_Allocate(uint16 index, uint8 type)
  */
 void Structure_Free(Structure *s)
 {
-	csip32 scsip;
 	int i;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	scsip = g_global->structureStartPos;
-	scsip.s.ip += s->o.index * sizeof(Structure);
 
 	s->o.flags.all = 0x0000;
 
 	Script_Reset(&s->o.script, &g_global->scriptStructure);
 
 	/* Walk the array to find the Structure we are removing */
-	for (i = 0; i < g_global->structureCount; i++) {
-		if (g_global->structureArray[i].csip != scsip.csip) continue;
+	for (i = 0; i < g_structureFindCount; i++) {
+		if (g_structureFindArray[i] != s) continue;
 		break;
 	}
-	assert(i < g_global->structureCount); /* We should always find an entry */
+	assert(i < g_structureFindCount); /* We should always find an entry */
 
-	g_global->structureCount--;
+	g_structureFindCount--;
 
 	/* If needed, close the gap */
-	if (i == g_global->structureCount) return;
-	memmove(&g_global->structureArray[i], &g_global->structureArray[i + 1], (g_global->structureCount - i) * sizeof(g_global->structureArray[0]));
+	if (i == g_structureFindCount) return;
+	memmove(&g_structureFindArray[i], &g_structureFindArray[i + 1], (g_structureFindCount - i) * sizeof(g_structureFindArray[0]));
 }
