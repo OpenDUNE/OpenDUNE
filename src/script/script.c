@@ -141,17 +141,6 @@ ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 };
 
 /**
- * Get a ScriptEngine from the memory.
- *
- * @param address The address of the ScriptEngine to get.
- * @return The ScriptEngine.
- */
-ScriptEngine *Script_Get_ByMemory(csip32 address)
-{
-	return (ScriptEngine *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
-}
-
-/**
  * Get a ScriptInfo from the memory.
  *
  * @param address The address of the ScriptInfo to get.
