@@ -15,6 +15,7 @@
 #include "house.h"
 #include "unit.h"
 
+struct Unit g_unitArray[UNIT_INDEX_MAX];
 struct Unit *g_unitFindArray[UNIT_INDEX_MAX];
 uint16 g_unitFindCount;
 
@@ -27,7 +28,7 @@ uint16 g_unitFindCount;
 Unit *Unit_Get_ByIndex(uint16 index)
 {
 	assert(index < UNIT_INDEX_MAX);
-	return (Unit *)&emu_get_memory8(g_global->unitStartPos.s.cs, g_global->unitStartPos.s.ip, index * sizeof(Unit));
+	return &g_unitArray[index];
 }
 
 /**
@@ -59,23 +60,12 @@ Unit *Unit_Find(PoolFindStruct *find)
 
 /**
  * Initialize the Unit array.
- *
- * @param address If non-zero, the new location of the Unit array.
  */
-void Unit_Init(csip32 address)
+void Unit_Init()
 {
+	memset(g_unitArray, 0, sizeof(g_unitArray));
 	memset(g_unitFindArray, 0, sizeof(g_unitFindArray));
 	g_unitFindCount = 0;
-
-	if (address.csip != 0x0) {
-		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->unitStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
-		g_global->unitStartPos.s.ip = address.s.ip & 0x000F;
-	}
-
-	if (g_global->unitStartPos.csip == 0x0) return;
-
-	memset(Unit_Get_ByIndex(0), 0, sizeof(Unit) * UNIT_INDEX_MAX);
 }
 
 /**
@@ -120,7 +110,6 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 	Unit *u = NULL;
 
 	if (type == 0xFF || houseID == 0xFF) return NULL;
-	if (g_global->unitStartPos.csip == 0x0) return NULL;
 
 	h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->unitCountMax) {

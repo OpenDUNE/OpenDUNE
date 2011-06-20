@@ -838,7 +838,7 @@ typedef struct GlobalData {
 	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
 	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
 	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
-	/* 35E8(4)   */ PACK csip32 unitStartPos;               /*!< CS:IP of Unit array. */
+	/* 35E8(4)   */ PACK csip32 removed_35E8;               /*!< REMOVED - CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 removed_35EC;               /*!< REMOVED - Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
 	/* 35F2(2)   */ PACK uint16 teamCount;                  /*!< Amount of Teams on the map. */

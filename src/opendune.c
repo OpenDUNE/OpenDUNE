@@ -1862,7 +1862,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	Unit_Init(csip);
+	Unit_Init();
 	csip.s.ip += sizeof(Unit) * UNIT_INDEX_MAX;
 
 	csip = Tools_GetSmallestIP(csip);
@@ -2596,7 +2596,7 @@ void Game_Init()
 	csip32 null;
 	null.csip = 0x0;
 
-	Unit_Init(null);
+	Unit_Init();
 	Structure_Init(null);
 	Team_Init(null);
 	House_Init(null);
