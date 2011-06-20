@@ -31,18 +31,6 @@ Unit *Unit_Get_ByIndex(uint16 index)
 }
 
 /**
- * Get a Unit from the pool at the indicated address.
- *
- * @param address The address of the Unit to get.
- * @return The Unit.
- */
-Unit *Unit_Get_ByMemory(csip32 address)
-{
-	assert(g_global->unitStartPos.csip <= address.csip && address.csip < g_global->unitStartPos.csip + sizeof(Unit) * UNIT_INDEX_MAX);
-	return (Unit *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
-}
-
-/**
  * Find the first matching Unit based on the PoolFindStruct filter data.
  *
  * @param find A pointer to a PoolFindStruct which contains filter data and
