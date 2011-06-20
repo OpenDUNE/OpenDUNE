@@ -93,8 +93,8 @@ void Music_Play(uint16 musicID)
 
 	if (musicID == 0xFFFF || musicID >= 38) return;
 
-	if (_musics[musicID].string != _currentMusic) {
-		_currentMusic = _musics[musicID].string;
+	if (g_musics[musicID].string != _currentMusic) {
+		_currentMusic = g_musics[musicID].string;
 
 		Driver_Music_Stop();
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
@@ -104,7 +104,7 @@ void Music_Play(uint16 musicID)
 		Driver_Sound_LoadFile(_currentMusic);
 	}
 
-	Driver_Music_Play(_musics[musicID].variable_04, 0xFF);
+	Driver_Music_Play(g_musics[musicID].variable_04, 0xFF);
 }
 
 /**
@@ -129,10 +129,10 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 		volume = 255 - (volume * 255 / 80);
 	}
 
-	index = g_global->variable_0222[voiceID];
+	index = g_voiceMapping[voiceID];
 
-	if (g_config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && _voices[index].variable_04 >= g_global->variable_4060) {
-		g_global->variable_4060 = _voices[index].variable_04;
+	if (g_config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_voices[index].variable_04 >= g_global->variable_4060) {
+		g_global->variable_4060 = g_voices[index].variable_04;
 		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
 
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
@@ -166,7 +166,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 	if (g_config.voiceDrv == 0) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
-		switch (_voices[voice].string[0]) {
+		switch (g_voices[voice].string[0]) {
 			case '%':
 				if (g_config.language != LANGUAGE_ENGLISH || currentVoiceSet == voiceSet) {
 					if (voiceSet != 0xFFFF && voiceSet != 0xFFFE) break;
@@ -212,7 +212,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 	if (currentVoiceSet == voiceSet) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
-		const char *str = _voices[voice].string;
+		const char *str = g_voices[voice].string;
 		switch (*str) {
 			case '%':
 				if (g_variable_3E54[voice] != NULL ||
@@ -272,9 +272,9 @@ void Voice_LoadVoices(uint16 voiceSet)
  */
 void Sound_Unknown0156(uint16 index)
 {
-	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)_voices[index].variable_04 < (int16)g_global->variable_4060) return;
+	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)g_voices[index].variable_04 < (int16)g_global->variable_4060) return;
 
-	g_global->variable_4060 = _voices[index].variable_04;
+	g_global->variable_4060 = g_voices[index].variable_04;
 
 	if (g_variable_3E54[index] != NULL) {
 		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
@@ -282,7 +282,7 @@ void Sound_Unknown0156(uint16 index)
 	} else {
 		const char *filename;
 
-		filename = _voices[index].string;
+		filename = g_voices[index].string;
 		if (filename[0] == '?') {
 			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
 

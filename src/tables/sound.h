@@ -9,10 +9,10 @@ typedef struct SoundData {
 } SoundData;
 
 /** Number of voices in the game. */
-#define NUM_VOICES lengthof(_voices)
+#define NUM_VOICES lengthof(g_voices)
 
 /** Available voices. */
-static const SoundData _voices[] = {
+static const SoundData g_voices[] = {
 	{"+VSCREAM1.VOC",  11}, /*   0 */
 	{"+EXSAND.VOC",    10}, /*   1 */
 	{"+ROCKET.VOC",    11}, /*   2 */
@@ -172,7 +172,7 @@ static const char _music_dune20[] = "dune20";
  * Available music.
  * @note The code compares pointers rather than the text itself, thus strings must be unique.
  */
-static SoundData _musics[] = {
+static SoundData g_musics[] = {
 	{NULL,          0}, /*  0 */
 	{_music_dune01, 2}, /*  1 */
 	{_music_dune01, 3}, /*  2 */
@@ -213,3 +213,128 @@ static SoundData _musics[] = {
 	{_music_dune00, 5}, /* 37 */
 };
 
+/**
+ * Mapping soundID -> voice.
+ */
+static uint16 g_voiceMapping[] = {
+	0xFFFF, /*   0 */
+	0xFFFF, /*   1 */
+	0xFFFF, /*   2 */
+	0xFFFF, /*   3 */
+	0xFFFF, /*   4 */
+	0xFFFF, /*   5 */
+	0xFFFF, /*   6 */
+	0xFFFF, /*   7 */
+	0xFFFF, /*   8 */
+	0xFFFF, /*   9 */
+	0xFFFF, /*  10 */
+	0xFFFF, /*  11 */
+	0xFFFF, /*  12 */
+	0xFFFF, /*  13 */
+	0xFFFF, /*  14 */
+	0xFFFF, /*  15 */
+	0xFFFF, /*  16 */
+	0xFFFF, /*  17 */
+	0xFFFF, /*  18 */
+	0xFFFF, /*  19 */
+	13,     /*  20 */
+	0xFFFF, /*  21 */
+	0xFFFF, /*  22 */
+	0xFFFF, /*  23 */
+	121,    /*  24 */
+	0xFFFF, /*  25 */
+	0xFFFF, /*  26 */
+	0xFFFF, /*  27 */
+	0xFFFF, /*  28 */
+	0xFFFF, /*  29 */
+	0,      /*  30 */
+	4,      /*  31 */
+	14,     /*  32 */
+	15,     /*  33 */
+	16,     /*  34 */
+	28,     /*  35 */
+	0xFFFF, /*  36 */
+	0xFFFF, /*  37 */
+	3,      /*  38 */
+	12,     /*  39 */
+	1,      /*  40 */
+	7,      /*  41 */
+	2,      /*  42 */
+	0xFFFF, /*  43 */
+	5,      /*  44 */
+	0xFFFF, /*  45 */
+	0xFFFF, /*  46 */
+	0xFFFF, /*  47 */
+	0xFFFF, /*  48 */
+	7,      /*  49 */
+	6,      /*  50 */
+	8,      /*  51 */
+	0xFFFF, /*  52 */
+	0xFFFF, /*  53 */
+	122,    /*  54 */
+	0xFFFF, /*  55 */
+	9,      /*  56 */
+	9,      /*  57 */
+	11,     /*  58 */
+	10,     /*  59 */
+	43,     /*  60 */
+	0xFFFF, /*  61 */
+	25,     /*  62 */
+	26,     /*  63 */
+	27,     /*  64 */
+	72,     /*  65 */
+	73,     /*  66 */
+	74,     /*  67 */
+	75,     /*  68 */
+	76,     /*  69 */
+	0xFFFF, /*  70 */
+	0xFFFF, /*  71 */
+	0xFFFF, /*  72 */
+	0xFFFF, /*  73 */
+	0xFFFF, /*  74 */
+	0xFFFF, /*  75 */
+	0xFFFF, /*  76 */
+	0xFFFF, /*  77 */
+	0xFFFF, /*  78 */
+	0xFFFF, /*  79 */
+	0xFFFF, /*  80 */
+	0xFFFF, /*  81 */
+	0xFFFF, /*  82 */
+	0xFFFF, /*  83 */
+	0xFFFF, /*  84 */
+	0xFFFF, /*  85 */
+	0xFFFF, /*  86 */
+	0xFFFF, /*  87 */
+	0xFFFF, /*  88 */
+	0xFFFF, /*  89 */
+	0xFFFF, /*  90 */
+	0xFFFF, /*  91 */
+	0xFFFF, /*  92 */
+	0xFFFF, /*  93 */
+	0xFFFF, /*  94 */
+	0xFFFF, /*  95 */
+	0xFFFF, /*  96 */
+	0xFFFF, /*  97 */
+	0xFFFF, /*  98 */
+	0xFFFF, /*  99 */
+	0xFFFF, /* 100 */
+	0xFFFF, /* 101 */
+	0xFFFF, /* 102 */
+	0xFFFF, /* 103 */
+	0xFFFF, /* 104 */
+	0xFFFF, /* 105 */
+	0xFFFF, /* 106 */
+	0xFFFF, /* 107 */
+	123,    /* 108 */
+	0xFFFF, /* 109 */
+	124,    /* 110 */
+	0xFFFF, /* 111 */
+	125,    /* 112 */
+	126,    /* 113 */
+	127,    /* 114 */
+	0xFFFF, /* 115 */
+	0xFFFF, /* 116 */
+	128,    /* 117 */
+	129,    /* 118 */
+	130     /* 119 */
+};

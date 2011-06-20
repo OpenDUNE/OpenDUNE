@@ -170,7 +170,7 @@ typedef struct UnitInfo {
 	/* 0052(2)   */ PACK uint16 damage;                     /*!< ?? */
 	/* 0054(2)   */ PACK uint16 variable_54;                /*!< ?? */
 	/* 0056(2)   */ PACK uint16 bulletType;                 /*!< Type of the bullets of Unit */
-	/* 0058(2)   */ PACK uint16 variable_58;                /*!< ?? */
+	/* 0058(2)   */ PACK uint16 bulletSound;                /*!< Sound for the bullets. */
 } GCC_PACKED UnitInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);

@@ -2057,7 +2057,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet = Unit_Create(UNIT_INDEX_INVALID, type, houseID, position, orientation);
 			if (bullet == NULL) return NULL;
 
-			Voice_PlayAtTile(ui->variable_58, position);
+			Voice_PlayAtTile(ui->bulletSound, position);
 
 			bullet->targetAttack = target;
 			bullet->o.hitpoints = damage;
