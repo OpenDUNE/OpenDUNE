@@ -9,18 +9,19 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+
 #include "sound.h"
+#include "table/sound.h"
+
 #include "file.h"
 #include "gui/gui.h"
+#include "house.h"
+#include "mt32mpu.h"
 #include "string.h"
 #include "tile.h"
-#include "house.h"
 #include "tools.h"
 #include "unknown/unknown.h"
-#include "os/strings.h"
-#include "mt32mpu.h"
-
-#include "tables/sound.h"
 
 
 static void *g_variable_3E54[NUM_VOICES];

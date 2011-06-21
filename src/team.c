@@ -9,7 +9,7 @@
 #include "os/strings.h"
 
 #include "team.h"
-#include "tables/team.h"
+#include "table/team.h"
 
 #include "house.h"
 #include "pool/pool.h"
