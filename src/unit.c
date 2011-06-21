@@ -33,8 +33,6 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-#include "table/actioninfo.h"
-
 UnitInfo *g_unitInfo = NULL;
 
 Unit *g_unitActive = NULL;

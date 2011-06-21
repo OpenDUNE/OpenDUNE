@@ -1518,8 +1518,24 @@
 				Name="table"
 				>
 				<File
-					RelativePath="..\src\table\actioninfo.h"
+					RelativePath="..\src\table\actioninfo.c"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\src\table\sound.h"

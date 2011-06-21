@@ -32,8 +32,6 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
-#include "../table/actioninfo.h"
-
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];

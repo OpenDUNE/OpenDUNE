@@ -195,6 +195,7 @@ struct Team;
 struct Structure;
 
 extern UnitInfo *g_unitInfo;
+extern const ActionInfo g_table_actionInfo[];
 
 extern Unit *g_unitActive;
 extern Unit *g_unitHouseMissile;

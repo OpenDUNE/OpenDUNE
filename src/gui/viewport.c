@@ -24,8 +24,6 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
-#include "../table/actioninfo.h"
-
 /**
  * Handles the Click events for the Viewport widget.
  *

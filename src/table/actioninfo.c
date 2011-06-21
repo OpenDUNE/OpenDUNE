@@ -1,8 +1,12 @@
 /* $Id$ */
 
-/** @file src/table/actioninfo.h Action file tables. */
+/** @file src/table/actioninfo.c Action file tables. */
 
-static const ActionInfo g_table_actionInfo[] = {
+#include <stdio.h>
+#include "types.h"
+#include "../unit.h"
+
+const ActionInfo g_table_actionInfo[] = {
 	{
 		/* stringID    */ 1,
 		/* name        */ "Attack",

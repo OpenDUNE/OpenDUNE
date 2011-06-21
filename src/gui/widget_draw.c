@@ -21,8 +21,6 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
-#include "../table/actioninfo.h"
-
 /**
  * Draw a text button widget to the display, relative to its parent.
  *
