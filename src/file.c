@@ -17,29 +17,6 @@
 
 #include "tools.h"
 
-enum {
-	FILEINFO_MAX     = 676,
-	FILEINFO_INVALID = 0xFFFF,
-
-	FILE_MAX = 20,
-	FILE_INVALID = 0xFF
-};
-
-MSVC_PACKED_BEGIN
-/**
- * Static information about files and their location.
- */
-typedef struct FileInfo {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Name of the file. */
-	/* 0004(4)   */ PACK uint32 fileSize;                   /*!< The size of this file. */
-	/* 0008(4)   */ PACK csip32 buffer;                     /*!< In case the file is read in the memory, this is the location of the data. */
-	/* 000C(4)   */ PACK uint32 filePosition;               /*!< Where in the file we currently are (doesn't have to start at zero when in PAK file). */
-	/* 0010(1)   */ PACK uint8  parentIndex;                /*!< In which FileInfo this file can be found. */
-	/* 0011(1)   */ PACK uint8  variable_11;                /*!< ?? */
-	/* 0012(1)   */ PACK uint8  variable_12;                /*!< Bitflags. 0x01 - Is mapped, 0x02 / 0x04 - If either flag is on, file is read in memory (in malloced area) on open, 0x10 - Resides in other file. */
-} GCC_PACKED FileInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(FileInfo) == 0x13);
 
 /**
  * Static information about opened files.
@@ -51,18 +28,7 @@ typedef struct File {
 	uint32 position;
 } File;
 
-static FileInfo *s_fileInfo = NULL;
 static File s_file[FILE_MAX];
-
-/**
- * Initialize the file system.
- *
- * @init System_Init_File
- */
-void System_Init_File()
-{
-	s_fileInfo = (FileInfo *)&emu_get_memory8(0x2E9C, 0x0, 0x0);
-}
 
 /**
  * Find the FileInfo index for the given filename.
@@ -75,7 +41,7 @@ static uint16 FileInfo_FindIndex_ByName(const char *filename)
 	uint16 index;
 
 	for (index = 0; index < FILEINFO_MAX; index++) {
-		if (!strcasecmp((char *)emu_get_memorycsip(s_fileInfo[index].filename), filename)) return index;
+		if (!strcasecmp(g_table_fileInfo[index].filename, filename)) return index;
 	}
 
 	return FILEINFO_INVALID;
@@ -90,9 +56,9 @@ static uint16 FileInfo_FindIndex_ByName(const char *filename)
  */
 static uint8 _File_Open(const char *filename, uint8 mode)
 {
+	const char *pakName;
 	char filenameComplete[1024];
 	char pakNameComplete[1024];
-	char *pakName;
 	uint8 fileIndex;
 	uint16 fileInfoIndex;
 
@@ -139,9 +105,9 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileInfoIndex == FILEINFO_INVALID) return FILE_INVALID;
 
 	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
-	if ((s_fileInfo[fileInfoIndex].variable_12 & 0x10) == 0) return FILE_INVALID;
+	if (!g_table_fileInfo[fileInfoIndex].flags.s.inPAKFile) return FILE_INVALID;
 
-	pakName = (char *)&emu_get_memory8(s_fileInfo[s_fileInfo[fileInfoIndex].parentIndex].filename.s.cs, s_fileInfo[s_fileInfo[fileInfoIndex].parentIndex].filename.s.ip, 0);
+	pakName = g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename;
 	snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakName);
 	/* XXX -- This should be removed when all references are changed to lowercase */
 	{
@@ -156,7 +122,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* If this file is not yet read from the PAK, read the complete index
 	 *  of the PAK and index all files */
-	if ((s_fileInfo[fileInfoIndex].variable_12 & 0x01) == 0) {
+	if (!g_table_fileInfo[fileInfoIndex].flags.s.isLoaded) {
 		uint16 pakIndexLast;
 
 		pakIndexLast = FILEINFO_INVALID;
@@ -192,12 +158,12 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			/* Check if we expected this file in this PAK */
 			pakIndex = FileInfo_FindIndex_ByName(pakFilename);
 			if (pakIndex == FILEINFO_INVALID) continue;
-			if (s_fileInfo[pakIndex].parentIndex != s_fileInfo[fileInfoIndex].parentIndex) continue;
+			if (g_table_fileInfo[pakIndex].parentIndex != g_table_fileInfo[fileInfoIndex].parentIndex) continue;
 
 			/* Update the information of the file */
-			s_fileInfo[pakIndex].variable_12 |= 0x01;
-			s_fileInfo[pakIndex].filePosition = pakPosition;
-			if (pakIndexLast != FILEINFO_INVALID) s_fileInfo[pakIndexLast].fileSize = pakPosition - s_fileInfo[pakIndexLast].filePosition;
+			g_table_fileInfo[pakIndex].flags.s.isLoaded = true;
+			g_table_fileInfo[pakIndex].filePosition = pakPosition;
+			if (pakIndexLast != FILEINFO_INVALID) g_table_fileInfo[pakIndexLast].fileSize = pakPosition - g_table_fileInfo[pakIndexLast].filePosition;
 
 			pakIndexLast = pakIndex;
 		}
@@ -205,19 +171,19 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 		/* Make sure we set the right size of the last entry */
 		if (pakIndexLast != FILEINFO_INVALID) {
 			fseek(s_file[fileIndex].fp, 0, SEEK_END);
-			s_fileInfo[pakIndexLast].fileSize = ftell(s_file[fileIndex].fp) - s_fileInfo[pakIndexLast].filePosition;
+			g_table_fileInfo[pakIndexLast].fileSize = ftell(s_file[fileIndex].fp) - g_table_fileInfo[pakIndexLast].filePosition;
 		}
 	}
 
 	/* Check if the file is inside the PAK file */
-	if ((s_fileInfo[fileInfoIndex].variable_12 & 0x01) == 0) {
+	if (!g_table_fileInfo[fileInfoIndex].flags.s.isLoaded) {
 		fclose(s_file[fileIndex].fp);
 		return FILE_INVALID;
 	}
 
-	s_file[fileIndex].start    = s_fileInfo[fileInfoIndex].filePosition;
+	s_file[fileIndex].start    = g_table_fileInfo[fileInfoIndex].filePosition;
 	s_file[fileIndex].position = 0;
-	s_file[fileIndex].size     = s_fileInfo[fileInfoIndex].fileSize;
+	s_file[fileIndex].size     = g_table_fileInfo[fileInfoIndex].fileSize;
 
 	/* Go to the start of the file now */
 	fseek(s_file[fileIndex].fp, s_file[fileIndex].start, SEEK_SET);
