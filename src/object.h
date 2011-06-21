@@ -69,9 +69,9 @@ MSVC_PACKED_BEGIN
  * Data common to StructureInfo and UnitInfo.
  */
 typedef struct ObjectInfo {
-	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Structure. */
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure. */
-	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure. */
+	/* 0000(2)   */ PACK uint16 stringID_abbrev;            /*!< StringID of abbreviated name of Structure / Unit. */
+	/* 0002(4)   */ PACK csip32 name;                       /*!< Pointer to name of Structure / Unit. */
+	/* 0006(2)   */ PACK uint16 stringID_full;              /*!< StringID of full name of Structure / Unit. */
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK union {
 	                     struct {
@@ -84,30 +84,30 @@ typedef struct ObjectInfo {
 	/*      0040 */              BITTYPE hasTurret:1;       /*!< If true, the Unit has a turret seperate from his base unit. */
 	/*      0080 */              BITTYPE conquerable:1;     /*!< Structure can be invaded and subsequently conquered when hitpoints are low. */
 	/*      0100 */              BITTYPE variable_0100:1;   /*!< ?? Used in Script Commands. */
-	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Unit is destroyed. */
-	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Unit selectable by pressing tab (which cycles through all Units and Structures). */
-	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Unit is outside viewport, do not slow down scripting. */
+	/*      0200 */              BITTYPE noMessageOnDeath:1;/*!< Do not show a message (or sound) when this Structure / Unit is destroyed. */
+	/*      0400 */              BITTYPE tabSelectable:1;   /*!< Is Structure / Unit selectable by pressing tab (which cycles through all Units and Structures). */
+	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Structure / Unit is outside viewport, do not slow down scripting. */
 	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
 	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
 	/*      -    */              BITTYPE notused_4000:2;    /*!< Never used - remaining bits. */
 	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
+	                     uint16 all; } flags;               /*!< General flags of the ObjectInfo. */
 	/* 000E(2)   */ PACK uint16 spawnChance;                /*!< Chance of spawning a Unit (if Structure: on destroying of Structure). */
-	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
+	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure / Unit. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
-	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */
-	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure. Upgrading is 50% of this value. */
-	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure. */
-	/* 001A(2)   */ PACK uint16 availableCampaign;          /*!< In which campaign (starting at 1) this Structure/Unit is available. */
-	/* 001C(4)   */ PACK uint32 structuresRequired;         /*!< Which structures are required before this Structure/Unit is available. */
+	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure / Unit. */
+	/* 0016(2)   */ PACK uint16 buildCredits;               /*!< How much credits it cost to build this Structure / Unit. Upgrading is 50% of this value. */
+	/* 0018(2)   */ PACK uint16 buildTime;                  /*!< Time required to build this Structure / Unit. */
+	/* 001A(2)   */ PACK uint16 availableCampaign;          /*!< In which campaign (starting at 1) this Structure / Unit is available. */
+	/* 001C(4)   */ PACK uint32 structuresRequired;         /*!< Which structures are required before this Structure / Unit is available. */
 	/* 0020(1)   */ PACK uint8  sortPriority;               /*!< ?? */
-	/* 0021(1)   */ PACK uint8  upgradeLevelRequired;       /*!< Which level of upgrade the Structure has to have before this is avialable. */
-	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player units. */
-	/* 002A(1)   */ PACK  int8  available;                  /*!< If this Unit/Structure is ordered (Starport) / available (Rest). 1+=yes (volume), 0=no, -1=upgrade-first. */
-	/* 002B(2)   */ PACK uint16 hintStringID;               /*!< StringID of the hint shown for this Unit/Structure. */
-	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Unit has when a new Unit has to be build. */
-	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Unit has when being targetted. */
-	/* 0031(1)   */ PACK uint8  availableHouse;             /*!< To which house this Structure/Unit is available. */
+	/* 0021(1)   */ PACK uint8  upgradeLevelRequired;       /*!< Which level of upgrade the Structure / Unit has to have before this is avialable. */
+	/* 0022(8)   */ PACK uint16 actionsPlayer[4];           /*!< Actions for player Structure / Unit. */
+	/* 002A(1)   */ PACK  int8  available;                  /*!< If this Structure / Unit is ordered (Starport) / available (Rest). 1+=yes (volume), 0=no, -1=upgrade-first. */
+	/* 002B(2)   */ PACK uint16 hintStringID;               /*!< StringID of the hint shown for this Structure / Unit. */
+	/* 002D(2)   */ PACK uint16 priorityBuild;              /*!< The amount of priority a Structure / Unit has when a new Structure / Unit has to be build. */
+	/* 002F(2)   */ PACK uint16 priorityTarget;             /*!< The amount of priority a Structure / Unit has when being targetted. */
+	/* 0031(1)   */ PACK uint8  availableHouse;             /*!< To which house this Structure / Unit is available. */
 } GCC_PACKED ObjectInfo;
 MSVC_PACKED_END
 assert_compile(sizeof(ObjectInfo) == 0x32);
