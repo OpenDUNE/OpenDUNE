@@ -1509,7 +1509,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (type == LST_WALL || type == LST_STRUCTURE || type == LST_ENTIRELY_MOUNTAIN) {
 				unit->o.position = newPosition;
 
-				Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
+				Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 10) & 3, unit->o.position, unit->o.hitpoints, unit->originEncoded);
 
 				Unit_Unknown10EC(unit);
 				return true;
@@ -1529,15 +1529,15 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							p.s.y += g_global->variable_6294[i].s.y;
 							p.s.x += g_global->variable_6294[i].s.x;
 
-							Map_MakeExplosion(ui->variable_54, p, 200, 0);
+							Map_MakeExplosion(ui->explosionType, p, 200, 0);
 						}
-					} else if (ui->variable_54 != 0xFFFF) {
+					} else if (ui->explosionType != 0xFFFF) {
 						if (ui->flags.s.variable_0800 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
-							Map_DeviateArea(ui->variable_54, newPosition, 32);
+							Map_DeviateArea(ui->explosionType, newPosition, 32);
 						} else {
-							Map_MakeExplosion((ui->variable_54 + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
+							Map_MakeExplosion((ui->explosionType + unit->o.hitpoints / 20) & 3, newPosition, unit->o.hitpoints, unit->originEncoded);
 						}
 					}
 
@@ -1775,7 +1775,7 @@ void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uin
 
 	if (unit->orientation[level].current == orientation) return;
 
-	unit->orientation[level].speed = (int8)(g_unitInfo[unit->o.type].variable_42 << 2);
+	unit->orientation[level].speed = g_unitInfo[unit->o.type].speed * 4;
 
 	diff = orientation - unit->orientation[level].current;
 

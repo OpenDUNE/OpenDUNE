@@ -617,7 +617,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 				Unit_Unknown10EC(u2);
 			}
 
-			Map_MakeExplosion(ui->variable_54, u->o.position, 0, 0);
+			Map_MakeExplosion(ui->explosionType, u->o.position, 0, 0);
 
 			Voice_PlayAtTile(63, u->o.position);
 
