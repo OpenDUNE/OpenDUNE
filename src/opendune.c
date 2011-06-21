@@ -1729,7 +1729,6 @@ static void GameLoop_GameIntroAnimationMenu()
 {
 	bool loc02 = false;
 	bool loc06;
-	csip32 csip;
 
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE | INPUT_FLAG_UNKNOWN_0400 | INPUT_FLAG_UNKNOWN_0100 |
 	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
@@ -1833,30 +1832,11 @@ static void GameLoop_GameIntroAnimationMenu()
 	}
 
 	Window_WidgetClick_Create();
-
 	GameOptions_Load();
-
-	csip = Screen_GetSegment_ByIndex_1(9);
-
-	Memory_ClearBlock(9);
-
-	*((uint32*)emu_get_memorycsip(csip)) = 0x12345678;
-	csip.s.ip += 4;
-
-	csip = Tools_GetSmallestIP(csip);
-
 	Unit_Init();
 	Team_Init();
 	House_Init();
 	Structure_Init();
-
-	g_global->animations = csip;
-	csip.s.ip += 0x770;
-
-	csip = Tools_GetSmallestIP(csip);
-
-	g_global->variable_395A = csip;
-	csip.s.ip += 0x280;
 
 	loc06 = true;
 
@@ -2565,8 +2545,8 @@ void Game_Init()
 	Team_Init();
 	House_Init();
 
-	memset(emu_get_memorycsip(g_global->animations), 0, ANIMATION_MAX * sizeof(Animation));
-	memset(emu_get_memorycsip(g_global->variable_395A), 0, 32 * sizeof(struct_395A));
+	memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
+	memset(g_map395A, 0, 32 * sizeof(struct_395A));
 	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
 	memset(g_global->variable_95E5, 0, 512 * sizeof(uint8));

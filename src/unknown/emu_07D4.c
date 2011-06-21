@@ -321,7 +321,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	for (loc0E = 0; loc0E < 32; loc0E ++) {
 		struct_395A *s;
 
-		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[loc0E];
+		s = &g_map395A[loc0E];
 
 		curPos = Tile_PackTile(s->position);
 

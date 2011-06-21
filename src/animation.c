@@ -15,6 +15,8 @@
 #include "structure.h"
 #include "unknown/unknown.h"
 
+Animation g_animations[ANIMATION_MAX];
+
 /**
  * Stop with this Animation.
  * @param animation The Animation to stop.
@@ -201,7 +203,7 @@ static void Animation_Func_PlayVoice(Animation *animation, int16 parameter)
  */
 void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup)
 {
-	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
+	Animation *animation = g_animations;
 	uint16 packed = Tile_PackTile(tile);
 	Tile *t;
 	int i;
@@ -234,7 +236,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
  */
 void Animation_Stop_ByTile(uint16 packed)
 {
-	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
+	Animation *animation = g_animations;
 	Tile *t = &g_map[packed];
 	int i;
 
@@ -254,7 +256,7 @@ void Animation_Stop_ByTile(uint16 packed)
  */
 void Animation_Tick()
 {
-	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
+	Animation *animation = g_animations;
 	int i;
 
 	if (g_global->variable_60E8 > g_global->variable_76AC) return;

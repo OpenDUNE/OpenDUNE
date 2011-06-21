@@ -73,6 +73,7 @@ struct Unit;
 extern uint16 g_mapSpriteID[];
 extern Tile g_map[];
 extern uint8 g_functions[3][3];
+extern struct_395A g_map395A[];
 
 extern const MapInfo g_mapInfos[3];
 

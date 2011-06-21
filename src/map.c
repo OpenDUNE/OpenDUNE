@@ -30,6 +30,7 @@
 uint16 g_mapSpriteID[64 * 64];
 Tile g_map[64 * 64];
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
+struct_395A g_map395A[32];
 
 /**
  * Map definitions.
@@ -584,7 +585,7 @@ static bool Map_06F7_057C(uint16 packed)
 	for (i = 0; i < 32; i++) {
 		struct_395A *s;
 
-		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &g_map395A[i];
 
 		if (s->variable_0C.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
 
@@ -615,7 +616,7 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 	for (i = 0; i < 32; i++) {
 		struct_395A *s;
 
-		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &g_map395A[i];
 
 		if (s->variable_0C.csip != 0x0) continue;
 
@@ -947,7 +948,7 @@ uint32 Map_06F7_0602()
 	for (i = 0; i < 32; i++) {
 		struct_395A *s;
 
-		s = &((struct_395A *)emu_get_memorycsip(g_global->variable_395A))[i];
+		s = &g_map395A[i];
 
 		if (s->variable_0C.csip == 0x0) continue;
 

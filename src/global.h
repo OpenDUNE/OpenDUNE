@@ -932,8 +932,8 @@ typedef struct GlobalData {
 	/* 394A(4)   */ PACK csip32 removed_394A;               /*!< REMOVED - Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 removed_394E;               /*!< REMOVED - Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
-	/* 3956(4)   */ PACK csip32 animations;                 /*!< Pointer to the current animations. */
-	/* 395A(4)   */ PACK csip32 variable_395A;              /*!< ?? */
+	/* 3956(4)   */ PACK csip32 removed_3956;               /*!< REMOVED - Pointer to the current animations. */
+	/* 395A(4)   */ PACK csip32 removed_395A;               /*!< REMOVED - ?? */
 	/* 395E(132) */ PACK uint32 variable_395E[33];          /*!< ?? */
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
 	/* 39E4(2)   */ PACK uint16 variable_39E4;              /*!< ?? */
