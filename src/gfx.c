@@ -8,7 +8,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+
 #include "gfx.h"
+
 #include "house.h"
 
 static uint8 *g_iconRTBL = NULL;

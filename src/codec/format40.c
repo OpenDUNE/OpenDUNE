@@ -4,7 +4,9 @@
 
 #include <stdio.h>
 #include "types.h"
+
 #include "format40.h"
+
 #include "../gfx.h"
 
 /**

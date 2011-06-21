@@ -5,8 +5,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+
+#include "save.h"
+
 #include "house.h"
 #include "map.h"
 #include "os/endian.h"
@@ -15,7 +17,6 @@
 #include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
-#include "save.h"
 #include "structure.h"
 #include "team.h"
 #include "unit.h"

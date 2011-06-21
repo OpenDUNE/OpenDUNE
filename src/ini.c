@@ -6,10 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "os/strings.h"
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+
+#include "ini.h"
+
 
 void String_Trim(char *string)
 {

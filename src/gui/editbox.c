@@ -5,14 +5,14 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+
 #include "font.h"
 #include "gui.h"
-#include "widget.h"
-#include "../unknown/unknown.h"
-#include "../input/input.h"
 #include "mentat.h"
+#include "widget.h"
+#include "../input/input.h"
+#include "../unknown/unknown.h"
 
 /**
  * Draw a blinking cursor, used inside the EditBox.

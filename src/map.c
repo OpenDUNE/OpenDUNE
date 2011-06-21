@@ -8,11 +8,13 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/math.h"
+
+#include "map.h"
+
 #include "animation.h"
 #include "gui/gui.h"
 #include "house.h"
-#include "map.h"
-#include "os/math.h"
 #include "pool/pool.h"
 #include "pool/unit.h"
 #include "pool/house.h"

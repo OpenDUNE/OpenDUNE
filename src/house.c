@@ -3,25 +3,27 @@
 /** @file src/house.c %House management routines. */
 
 #include <stdio.h>
-#include "os/strings.h"
-#include "os/sleep.h"
-#include "os/math.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+#include "os/sleep.h"
+#include "os/math.h"
+
+#include "house.h"
+
+#include "gui/gui.h"
+#include "map.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
-#include "house.h"
 #include "string.h"
 #include "structure.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
-#include "gui/gui.h"
-#include "map.h"
 #include "wsa.h"
 
 HouseInfo *g_houseInfo = NULL;

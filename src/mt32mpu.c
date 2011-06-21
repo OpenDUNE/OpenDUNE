@@ -9,9 +9,11 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "mt32mpu.h"
 #include "os/math.h"
 #include "os/endian.h"
+
+#include "mt32mpu.h"
+
 #include "driver.h"
 
 extern void f__AB01_0787_0028_C5A7();

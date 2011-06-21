@@ -6,15 +6,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+#include "os/math.h"
+
+#include "wsa.h"
+
 #include "codec/format40.h"
 #include "codec/format80.h"
 #include "file.h"
-#include "tools.h"
 #include "gfx.h"
-#include "wsa.h"
-#include "os/math.h"
+#include "tools.h"
 #include "unknown/unknown.h"
 
 /**

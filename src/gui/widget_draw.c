@@ -5,21 +5,21 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+
+#include "gui.h"
+#include "mentat.h"
+#include "widget.h"
+#include "../gfx.h"
 #include "../house.h"
+#include "../map.h"
 #include "../pool/house.h"
 #include "../pool/unit.h"
+#include "../sprites.h"
+#include "../string.h"
 #include "../structure.h"
 #include "../unit.h"
-#include "widget.h"
-#include "gui.h"
-#include "../string.h"
-#include "../sprites.h"
 #include "../unknown/unknown.h"
-#include "../map.h"
-#include "../gfx.h"
-#include "mentat.h"
 
 /**
  * Draw a text button widget to the display, relative to its parent.

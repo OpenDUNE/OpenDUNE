@@ -6,30 +6,32 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/math.h"
+#include "os/strings.h"
+
+#include "unit.h"
+
 #include "animation.h"
+#include "gui/gui.h"
+#include "gui/widget.h"
+#include "house.h"
+#include "map.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "pool/team.h"
-#include "house.h"
-#include "map.h"
 #include "script/script.h"
+#include "sprites.h"
+#include "string.h"
+#include "structure.h"
+#include "team.h"
 #include "tile.h"
 #include "tools.h"
-#include "unit.h"
-#include "team.h"
-#include "structure.h"
 #include "unknown/unknown.h"
-#include "os/math.h"
-#include "string.h"
-#include "gui/gui.h"
-#include "gui/widget.h"
-#include "sprites.h"
 
 UnitInfo *g_unitInfo = NULL;
 ActionInfo *g_actionInfo = NULL;

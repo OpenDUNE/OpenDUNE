@@ -6,27 +6,28 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include "../os/strings.h"
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+#include "../os/endian.h"
+#include "../os/sleep.h"
+#include "../os/strings.h"
+
 #include "mentat.h"
+
+#include "font.h"
 #include "gui.h"
 #include "widget.h"
+#include "../file.h"
+#include "../gfx.h"
 #include "../house.h"
+#include "../input/input.h"
 #include "../load.h"
+#include "../mouse.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
-#include "../file.h"
-#include "../gfx.h"
 #include "../wsa.h"
 #include "../unknown/unknown.h"
-#include "../input/input.h"
-#include "../mouse.h"
-#include "../os/endian.h"
-#include "../os/sleep.h"
-#include "./font.h"
 
 /**
  * Information about the mentat.

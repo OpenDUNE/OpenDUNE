@@ -5,14 +5,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "os/file.h"
-#include "os/strings.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "file.h"
 #include "os/endian.h"
+#include "os/file.h"
 #include "os/math.h"
+#include "os/strings.h"
+
+#include "file.h"
+
 #include "tools.h"
 
 enum {

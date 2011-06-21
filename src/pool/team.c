@@ -6,12 +6,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
-#include "../team.h"
-#include "pool.h"
-#include "house.h"
+
 #include "team.h"
+
+#include "house.h"
+#include "pool.h"
+#include "../team.h"
 
 static struct Team g_teamArray[TEAM_INDEX_MAX];
 static struct Team *g_teamFindArray[TEAM_INDEX_MAX];

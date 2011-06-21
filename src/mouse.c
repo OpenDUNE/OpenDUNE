@@ -7,14 +7,16 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "mouse.h"
 #include "os/math.h"
+#include "os/sleep.h"
+
+#include "mouse.h"
+
+#include "file.h"
 #include "gfx.h"
 #include "gui/gui.h"
 #include "input/input.h"
 #include "interrupt.h"
-#include "file.h"
-#include "os/sleep.h"
 
 /**
  * Initialize the mouse driver.

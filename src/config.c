@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "config.h"
 #include "global.h"
+
+#include "config.h"
+
 #include "file.h"
 
 GameCfg g_gameConfig;

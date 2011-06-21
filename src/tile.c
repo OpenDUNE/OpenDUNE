@@ -6,12 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+#include "os/math.h"
+
 #include "tile.h"
+
 #include "map.h"
 #include "tools.h"
-#include "os/math.h"
 
 /**
  * Check whether a tile is valid.

@@ -6,10 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "os/strings.h"
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+
+#include "scenario.h"
+
 #include "file.h"
 #include "house.h"
 #include "ini.h"
@@ -18,7 +20,6 @@
 #include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
-#include "scenario.h"
 #include "sprites.h"
 #include "structure.h"
 #include "team.h"

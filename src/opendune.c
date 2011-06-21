@@ -8,22 +8,28 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#include "os/math.h"
-#include "os/strings.h"
-#include "os/sleep.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/math.h"
+#include "os/strings.h"
+#include "os/sleep.h"
+
+#include "opendune.h"
+
 #include "animation.h"
 #include "file.h"
+#include "gfx.h"
 #include "gui/font.h"
 #include "gui/gui.h"
 #include "gui/mentat.h"
 #include "gui/widget.h"
 #include "house.h"
+#include "ini.h"
 #include "input/input.h"
 #include "interrupt.h"
 #include "map.h"
+#include "mouse.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/unit.h"
@@ -31,19 +37,15 @@
 #include "pool/team.h"
 #include "scenario.h"
 #include "security.h"
+#include "sprites.h"
 #include "string.h"
 #include "structure.h"
 #include "team.h"
 #include "tile.h"
 #include "tools.h"
 #include "unit.h"
-#include "opendune.h"
-#include "sprites.h"
 #include "unknown/unknown.h"
 #include "wsa.h"
-#include "gfx.h"
-#include "mouse.h"
-#include "ini.h"
 
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();

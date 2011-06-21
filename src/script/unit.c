@@ -7,22 +7,23 @@
 #include <string.h>
 #include <stdlib.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+#include "../os/math.h"
+
 #include "script.h"
+
 #include "../animation.h"
-#include "../unit.h"
+#include "../gui/gui.h"
+#include "../house.h"
+#include "../map.h"
 #include "../pool/unit.h"
 #include "../pool/pool.h"
-#include "../structure.h"
 #include "../pool/structure.h"
+#include "../structure.h"
 #include "../tools.h"
 #include "../tile.h"
-#include "../os/math.h"
-#include "../map.h"
-#include "../house.h"
-#include "../gui/gui.h"
 #include "../string.h"
+#include "../unit.h"
 
 /**
  * Create a new soldier unit.

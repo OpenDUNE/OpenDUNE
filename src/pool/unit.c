@@ -6,14 +6,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+
+#include "unit.h"
+
+#include "pool.h"
+#include "house.h"
 #include "../house.h"
 #include "../script/script.h"
 #include "../unit.h"
-#include "pool.h"
-#include "house.h"
-#include "unit.h"
 
 static struct Unit g_unitArray[UNIT_INDEX_MAX];
 struct Unit *g_unitFindArray[UNIT_INDEX_MAX];

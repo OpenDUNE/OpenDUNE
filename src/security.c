@@ -9,18 +9,19 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+
 #include "file.h"
-#include "load.h"
-#include "input/input.h"
+#include "gfx.h"
 #include "gui/gui.h"
 #include "gui/mentat.h"
 #include "house.h"
+#include "input/input.h"
+#include "load.h"
 #include "os/strings.h"
 #include "string.h"
 #include "tools.h"
-#include "wsa.h"
 #include "unknown/unknown.h"
-#include "gfx.h"
+#include "wsa.h"
 
 static void GUI_Security_DrawText(char *text)
 {

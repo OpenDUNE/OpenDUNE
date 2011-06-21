@@ -8,17 +8,19 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "script.h"
-#include "../team.h"
-#include "../pool/team.h"
-#include "../pool/pool.h"
-#include "../unit.h"
-#include "../pool/unit.h"
-#include "../tile.h"
-#include "../tools.h"
 #include "../os/endian.h"
 #include "../os/strings.h"
+
+#include "script.h"
+
 #include "../gui/gui.h"
+#include "../pool/team.h"
+#include "../pool/pool.h"
+#include "../pool/unit.h"
+#include "../team.h"
+#include "../tile.h"
+#include "../tools.h"
+#include "../unit.h"
 
 /**
  * Gets the amount of members in the current team.

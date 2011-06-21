@@ -6,26 +6,28 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
-#include "file.h"
-#include "house.h"
-#include "map.h"
-#include "opendune.h"
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
+
+#include "load.h"
+
+#include "file.h"
+#include "gui/gui.h"
+#include "house.h"
+#include "map.h"
+#include "opendune.h"
 #include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "save.h"
+#include "sprites.h"
 #include "string.h"
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
 #include "unknown/unknown.h"
-#include "gui/gui.h"
-#include "sprites.h"
 
 /**
  * Load all kinds of important info from a file.

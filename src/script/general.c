@@ -9,16 +9,18 @@
 #include "../global.h"
 #include "../os/endian.h"
 #include "../os/strings.h"
+
+#include "script.h"
+
+#include "../gui/gui.h"
+#include "../map.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
-#include "script.h"
 #include "../structure.h"
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
-#include "../gui/gui.h"
-#include "../map.h"
 
 /**
  * Suspend the script execution for a set amount of ticks.

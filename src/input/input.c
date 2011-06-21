@@ -7,11 +7,13 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "input.h"
 #include "../os/sleep.h"
+
+#include "input.h"
+
+#include "../file.h"
 #include "../gfx.h"
 #include "../gui/gui.h"
-#include "../file.h"
 #include "../mouse.h"
 
 static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */

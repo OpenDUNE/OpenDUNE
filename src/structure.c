@@ -4,32 +4,33 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "os/strings.h"
-#include "os/math.h"
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+#include "os/math.h"
+
+#include "structure.h"
+
 #include "animation.h"
 #include "gfx.h"
 #include "gui/gui.h"
+#include "gui/widget.h"
 #include "house.h"
+#include "map.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "pool/team.h"
 #include "pool/unit.h"
-#include "house.h"
-#include "map.h"
 #include "script/script.h"
-#include "unit.h"
-#include "tile.h"
-#include "string.h"
-#include "structure.h"
-#include "team.h"
-#include "tools.h"
-#include "unknown/unknown.h"
 #include "sprites.h"
-#include "gui/widget.h"
+#include "string.h"
+#include "team.h"
+#include "tile.h"
+#include "tools.h"
+#include "unit.h"
+#include "unknown/unknown.h"
 
 StructureInfo *g_structureInfo = NULL;
 

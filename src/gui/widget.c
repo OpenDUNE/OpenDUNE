@@ -7,15 +7,17 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "mentat.h"
+#include "../os/math.h"
+
 #include "widget.h"
+
+#include "mentat.h"
 #include "gui.h"
 #include "../input/input.h"
 #include "../gfx.h"
 #include "../house.h"
 #include "../string.h"
 #include "../sprites.h"
-#include "../os/math.h"
 #include "../tools.h"
 
 Widget *GUI_Widget_GetNext(Widget *w)

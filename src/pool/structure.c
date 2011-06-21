@@ -6,14 +6,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+
+#include "structure.h"
+
+#include "house.h"
+#include "pool.h"
 #include "../house.h"
 #include "../script/script.h"
 #include "../structure.h"
-#include "pool.h"
-#include "structure.h"
-#include "house.h"
 
 static struct Structure g_structureArray[STRUCTURE_INDEX_MAX_HARD];
 static struct Structure *g_structureFindArray[STRUCTURE_INDEX_MAX_HARD];

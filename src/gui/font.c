@@ -6,7 +6,9 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+
 #include "font.h"
+
 #include "../file.h"
 #include "../tools.h"
 

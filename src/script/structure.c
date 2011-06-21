@@ -5,23 +5,24 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
+
+#include "script.h"
+
+#include "../gui/gui.h"
+#include "../house.h"
 #include "../map.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
-#include "../house.h"
-#include "script.h"
+#include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
 #include "../tile.h"
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
-#include "../gui/gui.h"
-#include "../sprites.h"
 
 /**
  * Get the animation frame of the current structure.

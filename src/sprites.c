@@ -8,19 +8,21 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
-#include "gfx.h"
+#include "os/endian.h"
+#include "os/sleep.h"
+
 #include "sprites.h"
-#include "unknown/unknown.h"
-#include "gui/gui.h"
+
+#include "codec/format80.h"
+#include "file.h"
+#include "gfx.h"
 #include "house.h"
+#include "ini.h"
+#include "gui/gui.h"
 #include "pool/house.h"
 #include "string.h"
-#include "file.h"
 #include "tools.h"
-#include "os/endian.h"
-#include "codec/format80.h"
-#include "os/sleep.h"
-#include "ini.h"
+#include "unknown/unknown.h"
 
 csip32 *g_sprites = NULL;
 

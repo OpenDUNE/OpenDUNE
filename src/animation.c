@@ -5,9 +5,10 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+
 #include "animation.h"
+
 #include "map.h"
 #include "tile.h"
 #include "tools.h"

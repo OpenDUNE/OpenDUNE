@@ -6,16 +6,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
+#include "global.h"
 #include "os/sleep.h"
 #include "os/strings.h"
-#include "types.h"
-#include "libemu.h"
-#include "global.h"
+
+#include "tools.h"
+
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "structure.h"
 #include "tile.h"
-#include "tools.h"
 #include "unit.h"
 
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)

@@ -5,10 +5,11 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
-#include "string.h"
 #include "os/strings.h"
+
+#include "string.h"
+
 #include "file.h"
 #include "tools.h"
 

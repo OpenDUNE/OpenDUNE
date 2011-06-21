@@ -6,12 +6,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
-#include "../house.h"
+
+#include "house.h"
+
 #include "pool.h"
 #include "unit.h"
-#include "house.h"
+#include "../house.h"
 
 static struct House g_houseArray[HOUSE_INDEX_MAX];
 static struct House *g_houseFindArray[HOUSE_INDEX_MAX];

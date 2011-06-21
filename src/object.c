@@ -5,18 +5,19 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
+
 #include "object.h"
+
+#include "map.h"
 #include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
+#include "sprites.h"
 #include "structure.h"
+#include "tile.h"
 #include "tools.h"
 #include "unit.h"
-#include "map.h"
-#include "tile.h"
-#include "sprites.h"
 
 /**
  * Link two variable4 values to eachother, and clean up existing values if

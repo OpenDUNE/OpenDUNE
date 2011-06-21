@@ -12,7 +12,9 @@
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
+
 #include "driver.h"
+
 #include "file.h"
 #include "interrupt.h"
 #include "mt32mpu.h"
