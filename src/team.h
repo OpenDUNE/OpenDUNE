@@ -8,12 +8,19 @@
 #include "script/script.h"
 
 /**
- * Types of Teams available in the game.
- * TODO -- Complete the enum.
+ * Types of TeamActions available in the game.
  */
-typedef enum TeamType {
-	TEAM_INVALID = 0xFFFF
-} TeamType;
+typedef enum TeamActionType {
+	TEAM_ACTION_NORMAL   = 0,
+	TEAM_ACTION_STAGING  = 1,
+	TEAM_ACTION_FLEE     = 2,
+	TEAM_ACTION_KAMIKAZE = 3,
+	TEAM_ACTION_GUARD    = 4,
+
+	TEAM_ACTION_MAX      = 5,
+	TEAM_ACTION_INVALID  = 0xFF
+} TeamActionType;
+
 
 MSVC_PACKED_BEGIN
 /**
@@ -24,21 +31,7 @@ typedef struct Team {
 	/* 0002(2)   */ PACK union {
 	                     struct {
 	/*      0001 */              BITTYPE used:1;            /*!< The Team is in use (no longer free in the pool). */
-	/*      0002 */              BITTYPE unknown_0002:1;
-	/*      0004 */              BITTYPE unknown_0004:1;
-	/*      0008 */              BITTYPE unknown_0008:1;
-	/*      0010 */              BITTYPE unknown_0010:1;
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE unknown_0200:1;
-	/*      0400 */              BITTYPE unknown_0400:1;
-	/*      0800 */              BITTYPE unknown_0800:1;
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE unknown_2000:1;
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
+	/*      0002 */              BITTYPE notused_0002:15;   /*!< Never used - remaining bits. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the Team. */
 	/* 0004(2)   */ PACK uint16 members;                    /*!< Amount of members in team. */
@@ -61,5 +54,6 @@ extern void GameLoop_Team();
 extern bool Team_Save(FILE *fp);
 extern bool Team_Load(FILE *fp, uint32 length);
 extern Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint16 unknown1, uint16 unknown2);
+extern uint8 Team_ActionStringToType(const char *name);
 
 #endif /* TEAM_H */

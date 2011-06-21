@@ -9,10 +9,10 @@ typedef struct SoundData {
 } SoundData;
 
 /** Number of voices in the game. */
-#define NUM_VOICES lengthof(g_voices)
+#define NUM_VOICES lengthof(g_table_voices)
 
 /** Available voices. */
-static const SoundData g_voices[] = {
+static const SoundData g_table_voices[] = {
 	{"+VSCREAM1.VOC",  11}, /*   0 */
 	{"+EXSAND.VOC",    10}, /*   1 */
 	{"+ROCKET.VOC",    11}, /*   2 */
@@ -172,7 +172,7 @@ static const char _music_dune20[] = "dune20";
  * Available music.
  * @note The code compares pointers rather than the text itself, thus strings must be unique.
  */
-static SoundData g_musics[] = {
+static SoundData g_table_musics[] = {
 	{NULL,          0}, /*  0 */
 	{_music_dune01, 2}, /*  1 */
 	{_music_dune01, 3}, /*  2 */
@@ -216,7 +216,7 @@ static SoundData g_musics[] = {
 /**
  * Mapping soundID -> voice.
  */
-static uint16 g_voiceMapping[] = {
+static uint16 g_table_voiceMapping[] = {
 	0xFFFF, /*   0 */
 	0xFFFF, /*   1 */
 	0xFFFF, /*   2 */

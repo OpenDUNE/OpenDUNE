@@ -6,12 +6,16 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/strings.h"
+
+#include "team.h"
+#include "tables/team.h"
+
+#include "house.h"
 #include "pool/pool.h"
 #include "pool/team.h"
 #include "pool/house.h"
-#include "team.h"
 #include "tools.h"
-#include "house.h"
 
 /**
  * Loop over all teams, performing various of tasks.
@@ -176,4 +180,20 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	t->script.delay = 0;
 
 	return t;
+}
+
+/**
+ * Convert the name of a team action to the type value of that team action, or
+ *  TEAM_ACTION_INVALID if not found.
+ */
+uint8 Team_ActionStringToType(const char *name)
+{
+	uint8 type;
+	if (name == NULL) return TEAM_ACTION_INVALID;
+
+	for (type = 0; type < TEAM_ACTION_MAX; type++) {
+		if (strcasecmp(g_table_teamActionName[type], name) == 0) return type;
+	}
+
+	return TEAM_ACTION_INVALID;
 }

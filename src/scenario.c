@@ -427,7 +427,7 @@ static void Scenario_Load_Team(const char *key, char *settings)
 	*split = '\0';
 
 	/* Second value is the teamAction type */
-	teamActionType = Unit_TeamActionStringToType(settings);
+	teamActionType = Team_ActionStringToType(settings);
 	if (teamActionType == TEAM_ACTION_INVALID) return;
 
 	/* Find the next value in the ',' separated list */

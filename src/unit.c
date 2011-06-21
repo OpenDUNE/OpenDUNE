@@ -359,23 +359,6 @@ uint8 Unit_ActionStringToType(const char *name)
 }
 
 /**
- * Convert the name of a team action to the type value of that team action, or
- *  TEAM_ACTION_INVALID if not found.
- */
-uint8 Unit_TeamActionStringToType(const char *name)
-{
-	uint8 type;
-	if (name == NULL) return TEAM_ACTION_INVALID;
-
-	for (type = 0; type < TEAM_ACTION_MAX; type++) {
-		const char *teamActionName = (const char *)emu_get_memorycsip(g_global->teamActionName[type]);
-		if (strcasecmp(teamActionName, name) == 0) return type;
-	}
-
-	return TEAM_ACTION_INVALID;
-}
-
-/**
  * Convert the name of a movement to the type value of that movement, or
  *  MOVEMENT_INVALID if not found.
  */

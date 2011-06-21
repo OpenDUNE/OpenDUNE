@@ -248,8 +248,8 @@ typedef struct GlobalData {
 	/* 0222(240) */ PACK uint16 removed_0222[120];          /*!< REMOVED - Mapping of voiceID -> voice files */
 	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
 	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
-	/* 0D5A(786) */ PACK uint8 removed_voices[131][6];      /*!< REMOVED - Array of pointers to voice files names (and something else). */
-	/* 106C(228) */ PACK uint8 removed_musics[38][6];       /*!< REMOVED - Array of pointers to music files names (and something else). */
+	/* 0D5A(786) */ PACK uint8  removed_0D5A[131][6];       /*!< REMOVED - Array of pointers to voice files names (and something else). */
+	/* 106C(228) */ PACK uint8  removed_106C[38][6];        /*!< REMOVED - Array of pointers to music files names (and something else). */
 	/* 1150(2)   */ PACK uint16 removed_1150;               /*!< REMOVED - Currently loaded set of voices. */
 	/* 1152(14)  */ PACK char   string_1152[14];            /*!< REMOVED - "+VSCREAM1.VOC" NULL terminated. */
 	/* 1160(12)  */ PACK char   string_1160[12];            /*!< REMOVED - "+EXSAND.VOC" NULL terminated. */
@@ -978,8 +978,8 @@ typedef struct GlobalData {
 	/* 3A3A(4)   */ PACK csip32 removed_3A3A;               /*!< REMOVED - Pointer to the house the player is controlling. */
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
-	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */
-	/* 3C0E(24)  */ PACK uint8 removed_mapInfo[3][8];       /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
+	/* 3BFA(20)  */ PACK csip32 removed_3BFA[5];            /*!< REMOVED - Pointer to the name of the TeamActionType. */
+	/* 3C0E(24)  */ PACK uint8  removed_3C0E[3][8];         /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< First Widget in the linked-list of all Widgets. */
 	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
 	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
@@ -992,7 +992,7 @@ typedef struct GlobalData {
 	/* 3C4C(256) */ PACK int8  variable_3C4C[256];          /*!< ?? */
 	/* 3D4C(256) */ PACK int8  variable_3D4C[256];          /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
-	/* 3E4E(4)   */ PACK csip32 removed_currentMusic;       /*!< REMOVED - Currently loaded music file. */
+	/* 3E4E(4)   */ PACK csip32 removed_3E4E;               /*!< REMOVED - Currently loaded music file. */
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 removed_3E54[131];          /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
@@ -1016,11 +1016,11 @@ typedef struct GlobalData {
 	/* 4255(8)   */ PACK char   string_4255[8];             /*!< "Wheeled" NULL terminated. */
 	/* 425D(7)   */ PACK char   string_425D[7];             /*!< "Winged" NULL terminated. */
 	/* 4264(8)   */ PACK char   string_4264[8];             /*!< "Slither" NULL terminated. */
-	/* 426C(7)   */ PACK char   string_426C[7];             /*!< "Normal" NULL terminated. */
-	/* 4273(8)   */ PACK char   string_4273[8];             /*!< "Staging" NULL terminated. */
-	/* 427B(5)   */ PACK char   string_427B[5];             /*!< "Flee" NULL terminated. */
-	/* 4280(9)   */ PACK char   string_4280[9];             /*!< "Kamikaze" NULL terminated. */
-	/* 4289(6)   */ PACK char   string_4289[6];             /*!< "Guard" NULL terminated. */
+	/* 426C(7)   */ PACK char   string_426C[7];             /*!< REMOVED - "Normal" NULL terminated. */
+	/* 4273(8)   */ PACK char   string_4273[8];             /*!< REMOVED - "Staging" NULL terminated. */
+	/* 427B(5)   */ PACK char   string_427B[5];             /*!< REMOVED - "Flee" NULL terminated. */
+	/* 4280(9)   */ PACK char   string_4280[9];             /*!< REMOVED - "Kamikaze" NULL terminated. */
+	/* 4289(6)   */ PACK char   string_4289[6];             /*!< REMOVED - "Guard" NULL terminated. */
 	/* 428F(7)   */ PACK char   string_428F[7];             /*!< "Attack" NULL terminated. */
 	/* 4296(5)   */ PACK char   string_4296[5];             /*!< "Move" NULL terminated. */
 	/* 429B(8)   */ PACK char   string_429B[8];             /*!< "Retreat" NULL terminated. */

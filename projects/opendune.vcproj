@@ -1521,6 +1521,10 @@
 					RelativePath="..\src\tables\sound.h"
 					>
 				</File>
+				<File
+					RelativePath="..\src\tables\team.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="unknown"

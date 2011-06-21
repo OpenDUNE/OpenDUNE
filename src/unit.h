@@ -67,20 +67,6 @@ typedef enum ActionType {
 } ActionType;
 
 /**
- * Types of TeamActions available in the game.
- */
-typedef enum TeamActionType {
-	TEAM_ACTION_NORMAL   = 0,
-	TEAM_ACTION_STAGING  = 1,
-	TEAM_ACTION_FLEE     = 2,
-	TEAM_ACTION_KAMIKAZE = 3,
-	TEAM_ACTION_GUARD    = 4,
-
-	TEAM_ACTION_MAX      = 5,
-	TEAM_ACTION_INVALID  = 0xFF
-} TeamActionType;
-
-/**
  * Types of Movements available in the game.
  */
 typedef enum MovementType {
@@ -222,7 +208,6 @@ extern void GameLoop_Unit();
 extern uint8 Unit_GetHouseID(Unit *u);
 extern uint8 Unit_StringToType(const char *name);
 extern uint8 Unit_ActionStringToType(const char *name);
-extern uint8 Unit_TeamActionStringToType(const char *name);
 extern uint8 Unit_MovementStringToType(const char *name);
 extern struct Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, int8 orientation);
 extern bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID);
