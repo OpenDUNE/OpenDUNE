@@ -638,7 +638,7 @@ void GUI_UpdateProductionStringID()
 
 	if (s == NULL) return;
 
-	if (g_structureInfo[s->o.type].o.flags.s.factory) {
+	if (g_table_structureInfo[s->o.type].o.flags.s.factory) {
 		if (s->o.flags.s.upgrading) {
 			g_global->productionStringID = 0x90; /* "Upgrading|%d%% done" */
 		} else {
@@ -1329,7 +1329,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		score += g_structureInfo[s->o.type].o.buildCredits / 100;
+		score += g_table_structureInfo[s->o.type].o.buildCredits / 100;
 	}
 
 	g_global->variable_38BC++;
@@ -2285,7 +2285,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Unit_Select(NULL);
 				GUI_Widget_ActionPanel_Draw(true);
 
-				Map_SetSelectionSize(g_structureInfo[g_global->activeStructureType].layout);
+				Map_SetSelectionSize(g_table_structureInfo[g_global->activeStructureType].layout);
 
 				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
@@ -2687,7 +2687,7 @@ static void GUI_FactoryWindow_InitItems()
 		uint16 i;
 
 		for (i = 0; i < UNIT_MAX; i++) {
-			ObjectInfo *oi = &g_unitInfo[i].o;
+			ObjectInfo *oi = &g_table_unitInfo[i].o;
 
 			if (oi->available == 0) continue;
 
@@ -2708,7 +2708,7 @@ static void GUI_FactoryWindow_InitItems()
 		uint16 i;
 
 		for (i = 0; i < STRUCTURE_MAX; i++) {
-			ObjectInfo *oi = &g_structureInfo[i].o;
+			ObjectInfo *oi = &g_table_structureInfo[i].o;
 
 			if (oi->available == 0) continue;
 
@@ -2796,7 +2796,7 @@ static void GUI_FactoryWindow_Init()
 
 	oi = g_factoryWindowItems[0].objectInfo;
 
-	wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
+	wsa = WSA_LoadFile(oi->wsa, emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -3484,7 +3484,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	wsa = WSA_LoadFile((char *)emu_get_memorycsip(oi->wsa), emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
+	wsa = WSA_LoadFile(oi->wsa, emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -3503,7 +3503,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 		sprite = g_sprites[24];
 		width = Sprite_GetWidth(sprite) + 1;
-		si = &g_structureInfo[item->objectType];
+		si = &g_table_structureInfo[item->objectType];
 
 		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
 			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {

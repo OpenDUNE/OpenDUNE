@@ -26,6 +26,7 @@
 #include "unknown/unknown.h"
 #include "wsa.h"
 
+
 HouseInfo *g_houseInfo = NULL;
 House *g_playerHouse = NULL;
 
@@ -526,7 +527,7 @@ void House_UpdateCreditsStorage(uint8 houseID)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 		creditsStorage += si->creditsStorage;
 	}
 
@@ -563,7 +564,7 @@ void House_CalculatePowerAndCredit(House *h)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 
 		h->creditsStorage += si->creditsStorage;
 

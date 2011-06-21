@@ -130,15 +130,14 @@ typedef struct Unit {
 MSVC_PACKED_END
 assert_compile(sizeof(Unit) == 0x80);
 
-MSVC_PACKED_BEGIN
 /**
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000(50)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
-	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
-	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
-	/* 0036(2)   */ PACK union {
+	/* 0000(50)  */ ObjectInfo o;                           /*!< Common to UnitInfo and StructureInfo. */
+	/* 0032(2)   */ uint16 indexStart;                      /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
+	/* 0034(2)   */ uint16 indexEnd;                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
+	/* 0036(2)   */ union {
 	                     struct {
 	/*      0001 */              BITTYPE notused_0001:1;    /*!< Not used. */
 	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
@@ -156,29 +155,27 @@ typedef struct UnitInfo {
 	/*      2000 */              BITTYPE variable_2000:1;   /*!< ?? */
 	/*      4000 */              BITTYPE variable_4000:1;   /*!< ?? */
 	/*      8000 */              BITTYPE variable_8000:1;   /*!< ?? */
-	                     } GCC_PACKED s;
+	                     } s;
 	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
-	/* 0038(2)   */ PACK uint16 variable_38;                /*!< ?? */
-	/* 003A()    */ PACK uint8   unknown_003A[0x0002];
-	/* 003C(2)   */ PACK uint16 movementType;               /*!< MovementType of Unit. */
-	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
-	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
-	/* 0042(1)   */ PACK uint8  turningSpeed;               /*!< Speed of orientation change of the Unit. */
-	/* 0043()    */ PACK uint8   unknown_0043[0x0001];
-	/* 0044(2)   */ PACK uint16 spriteID;                   /*!< SpriteID for north direction. */
-	/* 0046(2)   */ PACK uint16 turretSpriteID;             /*!< SpriteID of the turret for north direction. */
-	/* 0048(2)   */ PACK uint16 actionAI;                   /*!< Default action for AI units. */
-	/* 004A(2)   */ PACK uint16 displayMode;                /*!< How to draw the Unit. */
-	/* 004C(2)   */ PACK uint16 variable_4C;                /*!< ?? */
-	/* 004E(2)   */ PACK uint16 fireDelay;                  /*!< Time between firing at Normal speed. */
-	/* 0050(2)   */ PACK uint16 variable_50;                /*!< ?? */
-	/* 0052(2)   */ PACK uint16 damage;                     /*!< Damage this Unit does to other Units. */
-	/* 0054(2)   */ PACK uint16 explosionType;              /*!< Type of the explosion of Unit. */
-	/* 0056(2)   */ PACK uint16 bulletType;                 /*!< Type of the bullets of Unit. */
-	/* 0058(2)   */ PACK uint16 bulletSound;                /*!< Sound for the bullets. */
-} GCC_PACKED UnitInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(UnitInfo) == 0x5A);
+	/* 0038(2)   */ uint16 variable_38;                     /*!< ?? */
+	/* 003A()    */ uint8   unknown_003A[0x0002];
+	/* 003C(2)   */ uint16 movementType;                    /*!< MovementType of Unit. */
+	/* 003E(2)   */ uint16 variable_3E;                     /*!< ?? */
+	/* 0040(2)   */ uint16 variable_40;                     /*!< ?? */
+	/* 0042(1)   */ uint8  turningSpeed;                    /*!< Speed of orientation change of the Unit. */
+	/* 0043()    */ uint8   unknown_0043[0x0001];
+	/* 0044(2)   */ uint16 spriteID;                        /*!< SpriteID for north direction. */
+	/* 0046(2)   */ uint16 turretSpriteID;                  /*!< SpriteID of the turret for north direction. */
+	/* 0048(2)   */ uint16 actionAI;                        /*!< Default action for AI units. */
+	/* 004A(2)   */ uint16 displayMode;                     /*!< How to draw the Unit. */
+	/* 004C(2)   */ uint16 variable_4C;                     /*!< ?? */
+	/* 004E(2)   */ uint16 fireDelay;                       /*!< Time between firing at Normal speed. */
+	/* 0050(2)   */ uint16 variable_50;                     /*!< ?? */
+	/* 0052(2)   */ uint16 damage;                          /*!< Damage this Unit does to other Units. */
+	/* 0054(2)   */ uint16 explosionType;                   /*!< Type of the explosion of Unit. */
+	/* 0056(2)   */ uint16 bulletType;                      /*!< Type of the bullets of Unit. */
+	/* 0058(2)   */ uint16 bulletSound;                     /*!< Sound for the bullets. */
+} UnitInfo;
 
 /**
  * Static information per Action type.
@@ -194,8 +191,8 @@ typedef struct ActionInfo {
 struct Team;
 struct Structure;
 
-extern UnitInfo *g_unitInfo;
 extern const ActionInfo g_table_actionInfo[];
+extern UnitInfo g_table_unitInfo[];
 
 extern Unit *g_unitActive;
 extern Unit *g_unitHouseMissile;

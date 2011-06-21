@@ -55,28 +55,25 @@ typedef struct Structure {
 MSVC_PACKED_END
 assert_compile(sizeof(Structure) == 0x58);
 
-MSVC_PACKED_BEGIN
 /**
  * Static information per Structure type.
  */
 typedef struct StructureInfo {
-	/* 0000(50)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
-	/* 0032(4)   */ PACK uint32 enterFilter;                /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
-	/* 0036(2)   */ PACK uint16 creditsStorage;             /*!< How many credits this Structure can store. */
-	/* 0038(2)   */ PACK  int16 powerUsage;                 /*!< How much power this Structure uses (positive value) or produces (negative value). */
-	/* 003A(2)   */ PACK uint16 layout;                     /*!< Layout type of Structure. */
-	/* 003C(2)   */ PACK uint16 iconGroup;                  /*!< In which IconGroup the sprites of the Structure belongs. */
-	/* 003E(12)  */ PACK csip32 animationProc[3];           /*!< The procs to the Animation of the Structure. */
-	/* 004A(16)  */ PACK uint16 buildableUnits[8];          /*!< Which units this structure can produce. */
-	/* 005A(6)   */ PACK uint16 upgradeCampaign[3];         /*!< Minimum campaign for upgrades. */
-} GCC_PACKED StructureInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(StructureInfo) == 0x60);
+	/* 0000(50)  */ ObjectInfo o;                           /*!< Common to UnitInfo and StructureInfo. */
+	/* 0032(4)   */ uint32 enterFilter;                     /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
+	/* 0036(2)   */ uint16 creditsStorage;                  /*!< How many credits this Structure can store. */
+	/* 0038(2)   */  int16 powerUsage;                      /*!< How much power this Structure uses (positive value) or produces (negative value). */
+	/* 003A(2)   */ uint16 layout;                          /*!< Layout type of Structure. */
+	/* 003C(2)   */ uint16 iconGroup;                       /*!< In which IconGroup the sprites of the Structure belongs. */
+	/* 003E(12)  */ csip32 animationProc[3];                /*!< The procs to the Animation of the Structure. */
+	/* 004A(16)  */ uint16 buildableUnits[8];               /*!< Which units this structure can produce. */
+	/* 005A(6)   */ uint16 upgradeCampaign[3];              /*!< Minimum campaign for upgrades. */
+} StructureInfo;
 
 struct House;
 struct Widget;
 
-extern StructureInfo *g_structureInfo;
+extern StructureInfo g_table_structureInfo[];
 
 extern Structure *g_structureActive;
 

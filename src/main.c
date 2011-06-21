@@ -19,10 +19,8 @@ extern void emu_Mouse_EventHandler();
 extern void f__AB00_056F_0020_6328();
 extern void f__AB00_058F_000E_41A1();
 
-extern void System_Init_Structure();
 extern void System_Init_Input();
 extern void System_Init_Global();
-extern void System_Init_Unit();
 extern void System_Init_House();
 extern void System_Init_File();
 extern void System_Init_Map();
@@ -62,10 +60,8 @@ int main(int argc, char **argv)
 	emu_init(argc, argv);
 	emu_overlay = 1;
 
-	System_Init_Structure();
 	System_Init_Input();
 	System_Init_Global();
-	System_Init_Unit();
 	System_Init_House();
 	System_Init_File();
 	System_Init_Map();

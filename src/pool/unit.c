@@ -16,6 +16,7 @@
 #include "../script/script.h"
 #include "../unit.h"
 
+
 static struct Unit g_unitArray[UNIT_INDEX_MAX];
 struct Unit *g_unitFindArray[UNIT_INDEX_MAX];
 uint16 g_unitFindCount;
@@ -114,14 +115,14 @@ Unit *Unit_Allocate(uint16 index, uint8 type, uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 	if (h->unitCount >= h->unitCountMax) {
-		if (g_unitInfo[type].movementType != MOVEMENT_WINGER && g_unitInfo[type].movementType != MOVEMENT_SLITHER) {
+		if (g_table_unitInfo[type].movementType != MOVEMENT_WINGER && g_table_unitInfo[type].movementType != MOVEMENT_SLITHER) {
 			if (g_global->variable_38BC == 0x00) return NULL;
 		}
 	}
 
 	if (index == 0 || index == UNIT_INDEX_INVALID) {
-		uint16 indexStart = g_unitInfo[type].indexStart;
-		uint16 indexEnd   = g_unitInfo[type].indexEnd;
+		uint16 indexStart = g_table_unitInfo[type].indexStart;
+		uint16 indexEnd   = g_table_unitInfo[type].indexEnd;
 
 		for (index = indexStart; index <= indexEnd; index++) {
 			u = Unit_Get_ByIndex(index);

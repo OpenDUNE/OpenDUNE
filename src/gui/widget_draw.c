@@ -21,6 +21,7 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+
 /**
  * Draw a text button widget to the display, relative to its parent.
  *
@@ -89,7 +90,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	if (g_unitSelected != NULL) {
 		UnitInfo *ui;
 
-		ui = &g_unitInfo[g_unitSelected->o.type];
+		ui = &g_table_unitInfo[g_unitSelected->o.type];
 
 		spriteID = ui->o.spriteID;
 	} else {
@@ -98,7 +99,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 		if (s == NULL) return;
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 
 		spriteID = si->o.spriteID;
 	}
@@ -204,7 +205,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				spriteWidth = Sprite_GetWidth(g_sprites[24]) + 1;
 
-				si = &g_structureInfo[s->objectType];
+				si = &g_table_structureInfo[s->objectType];
 
 				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
 					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
@@ -216,7 +217,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			} else {
 				UnitInfo *ui;
 
-				ui = &g_unitInfo[s->objectType];
+				ui = &g_table_unitInfo[s->objectType];
 				spriteID = ui->o.spriteID;
 			}
 			break;
@@ -231,19 +232,19 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 			StructureInfo *si;
 
-			si = &g_structureInfo[s->objectType];
+			si = &g_table_structureInfo[s->objectType];
 			buildTime = si->o.buildTime;
 		} else if (s->o.type == STRUCTURE_REPAIR) {
 			UnitInfo *ui;
 
 			if (s->o.linkedID == 0xFF) return;
 
-			ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
+			ui = &g_table_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 			buildTime = ui->o.buildTime;
 		} else {
 			UnitInfo *ui;
 
-			ui = &g_unitInfo[s->objectType];
+			ui = &g_table_unitInfo[s->objectType];
 			buildTime = ui->o.buildTime;
 		}
 
@@ -478,7 +479,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				|| s->o.houseID != g_global->variable_376A
 				|| House_Get_ByIndex(s->o.houseID)->starportTimeLeft != g_global->variable_3768
 				|| s->o.flags.half.low != g_global->variable_375C) {
-					g_global->variable_37B2 = (s->o.hitpoints > (g_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
+					g_global->variable_37B2 = (s->o.hitpoints > (g_table_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
 					actionType = 3; /* Structure */
 			}
 		} else {
@@ -573,7 +574,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	switch (actionType) {
 		case 2: { /* Unit */
 			u  = g_unitSelected;
-			ui = &g_unitInfo[u->o.type];
+			ui = &g_table_unitInfo[u->o.type];
 
 			o  = &u->o;
 			oi = &ui->o;
@@ -585,7 +586,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 		case 3: { /* Structure */
 			s  = Structure_Get_ByPackedTile(g_global->selectionPosition);
-			si = &g_structureInfo[s->o.type];
+			si = &g_table_structureInfo[s->o.type];
 
 			o  = &s->o;
 			oi = &si->o;
@@ -599,7 +600,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		} break;
 
 		case 7: { /* Placement */
-			si = &g_structureInfo[g_global->activeStructureType];
+			si = &g_table_structureInfo[g_global->activeStructureType];
 
 			o = NULL;
 			oi = &si->o;
@@ -611,7 +612,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 		case 8: { /* House Missile */
 			u  = g_unitHouseMissile;
-			ui = &g_unitInfo[u->o.type];
+			ui = &g_table_unitInfo[u->o.type];
 
 			o  = &u->o;
 			oi = &ui->o;
@@ -820,9 +821,9 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							u = Structure_GetLinkedUnit(s);
 							if (u == NULL) break;
 
-							GUI_DrawSprite(g_global->screenActiveID, g_sprites[g_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
+							GUI_DrawSprite(g_global->screenActiveID, g_sprites[g_table_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
 
-							steps = g_unitInfo[u->o.type].o.buildTime / 4;
+							steps = g_table_unitInfo[u->o.type].o.buildTime / 4;
 							percent = (steps - (s->countDown >> 8)) * 100 / steps;
 
 							GUI_DrawText_Wrapper(String_Get_ByIndex(46), 258, 116, 29, 0, 0x11, percent);

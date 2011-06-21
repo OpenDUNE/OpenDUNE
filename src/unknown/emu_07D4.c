@@ -24,6 +24,7 @@
 #include "../house.h"
 #include "../sprites.h"
 
+
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
  *
@@ -149,7 +150,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (!Map_GetTileByPosition(Tile_PackTile(u->o.position))->isUnveiled && g_global->debugScenario == 0) continue;
 
-		sprite_csip = Unknown_07D4_18BD(g_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
+		sprite_csip = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
 		g_global->variable_8DE3 = 0x200;
 
@@ -213,7 +214,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (!Map_GetTileByPosition(packed)->isUnveiled && g_global->debugScenario == 0) continue;
 
-			ui = &g_unitInfo[u->o.type];
+			ui = &g_table_unitInfo[u->o.type];
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
@@ -366,7 +367,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (!Map_GetTileByPosition(curPos)->isUnveiled && g_global->debugScenario == 0) continue;
 
-			ui = &g_unitInfo[u->o.type];
+			ui = &g_table_unitInfo[u->o.type];
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 

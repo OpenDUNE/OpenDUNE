@@ -19,6 +19,7 @@
 #include "tools.h"
 #include "unit.h"
 
+
 /**
  * Link two variable4 values to eachother, and clean up existing values if
  *  needed.
@@ -67,7 +68,7 @@ void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 
 	if (o->flags.s.variable_6_0001) return;
 
-	si = &g_structureInfo[o->type];
+	si = &g_table_structureInfo[o->type];
 	if (!si->o.flags.s.variable_0010) return;
 
 	s = (Structure *)o;
@@ -129,7 +130,7 @@ uint16 Object_GetDistanceToEncoded(Object *o, uint16 encoded)
 		position = s->o.position;
 		packed = Tile_PackTile(position);
 
-		packed += g_global->variable_2CE2[(g_structureInfo[o->type].layout << 3) + ((Sprites_B4CD_17DC(Tile_GetDirection(o->position, position)) + 4) & 7)];
+		packed += g_global->variable_2CE2[(g_table_structureInfo[o->type].layout << 3) + ((Sprites_B4CD_17DC(Tile_GetDirection(o->position, position)) + 4) & 7)];
 
 		position = Tile_UnpackTile(packed);
 	} else {

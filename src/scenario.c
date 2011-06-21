@@ -26,6 +26,7 @@
 #include "tile.h"
 #include "unit.h"
 
+
 static void Scenario_Load_General()
 {
 	char *readBuffer = (char *)emu_get_memorycsip(g_global->readBuffer);
@@ -177,7 +178,7 @@ static void Scenario_Load_Unit(const char *key, char *settings)
 	if (u == NULL) return;
 	u->o.flags.s.byScenario = true;
 
-	u->o.hitpoints   = hitpoints * g_unitInfo[unitType].o.hitpoints / 256;
+	u->o.hitpoints   = hitpoints * g_table_unitInfo[unitType].o.hitpoints / 256;
 	u->o.position    = position;
 	u->orientation[0].current = orientation;
 	u->actionID     = actionType;
@@ -276,7 +277,7 @@ static void Scenario_Load_Structure(const char *key, char *settings)
 		s = Structure_Create(index, structureType, houseType, position);
 		if (s == NULL) return;
 
-		s->o.hitpoints = hitpoints * g_structureInfo[s->o.type].o.hitpoints / 256;
+		s->o.hitpoints = hitpoints * g_table_structureInfo[s->o.type].o.hitpoints / 256;
 		s->o.flags.s.degrades = false;
 		s->animation = 0;
 	}

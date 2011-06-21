@@ -26,6 +26,7 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
+
 uint16 *g_map = NULL;
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
 
@@ -103,7 +104,7 @@ void Map_SetSelection(uint16 packed)
 		if (s != NULL) {
 			StructureInfo *si;
 
-			si = &g_structureInfo[s->o.type];
+			si = &g_table_structureInfo[s->o.type];
 			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
 				GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 			}
@@ -696,7 +697,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			u = Unit_Find(&find);
 			if (u == NULL) break;
 
-			ui = &g_unitInfo[u->o.type];
+			ui = &g_table_unitInfo[u->o.type];
 
 			distance = Tile_GetDistance(position, u->o.position) >> 4;
 			if (distance >= reactionDistance) continue;
@@ -726,13 +727,13 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				target = Tools_Index_GetUnit(t->target);
 				if (target == NULL) continue;
 
-				targetInfo = &g_unitInfo[target->o.type];
+				targetInfo = &g_table_unitInfo[target->o.type];
 				if (targetInfo->bulletType == 0xFFFF) t->target = unitOriginEncoded;
 				continue;
 			}
 
 			if (u->o.type == UNIT_HARVESTER) {
-				UnitInfo *uis = &g_unitInfo[us->o.type];
+				UnitInfo *uis = &g_table_unitInfo[us->o.type];
 
 				if (uis->movementType == MOVEMENT_FOOT && u->targetMove == 0) {
 					if (u->actionID != ACTION_MOVE) Unit_SetAction(u, ACTION_MOVE);
@@ -764,7 +765,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 
 		if (s != NULL) {
 			if (type == 2) {
-				StructureInfo *si = &g_structureInfo[s->o.type];
+				StructureInfo *si = &g_table_structureInfo[s->o.type];
 
 				if (si->o.hitpoints / 2 > s->o.hitpoints) {
 					type = 15;
@@ -779,10 +780,10 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	if (Map_GetLandscapeType(positionPacked) == LST_WALL && hitpoints != 0) {
 		bool loc22 = false;
 
-		if (g_structureInfo[STRUCTURE_TURRET].o.hitpoints <= hitpoints) loc22 = true;
+		if (g_table_structureInfo[STRUCTURE_TURRET].o.hitpoints <= hitpoints) loc22 = true;
 
 		if (!loc22) {
-			uint16 loc24 = hitpoints * 256 / g_structureInfo[STRUCTURE_TURRET].o.hitpoints;
+			uint16 loc24 = hitpoints * 256 / g_table_structureInfo[STRUCTURE_TURRET].o.hitpoints;
 
 			if (Tools_Random_256() <= loc24) loc22 = true;
 		}
@@ -1505,7 +1506,7 @@ void Map_SelectNext(bool getNext)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		if (!g_unitInfo[u->o.type].o.flags.s.tabSelectable) continue;
+		if (!g_table_unitInfo[u->o.type].o.flags.s.tabSelectable) continue;
 
 		if (!Map_IsTileVisible(Tile_PackTile(u->o.position))) continue;
 

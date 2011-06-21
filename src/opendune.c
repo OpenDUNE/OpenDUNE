@@ -47,6 +47,7 @@
 #include "unknown/unknown.h"
 #include "wsa.h"
 
+
 extern void f__29E8_0971_0071_E515();
 extern void f__29E8_0F7A_000D_B1AA();
 
@@ -1641,10 +1642,10 @@ static void ReadProfileIni(char *filename)
 
 		type = Unit_StringToType(key);
 		if (type != UNIT_INVALID) {
-			oi = &g_unitInfo[type].o;
+			oi = &g_table_unitInfo[type].o;
 		} else {
 			type = Structure_StringToType(key);
-			if (type != STRUCTURE_INVALID) oi = &g_structureInfo[type].o;
+			if (type != STRUCTURE_INVALID) oi = &g_table_structureInfo[type].o;
 		}
 
 		if (oi == NULL) continue;
@@ -1664,25 +1665,23 @@ static void ReadProfileIni(char *filename)
 
 	if (g_global->debugGame != 0) {
 		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
-			ObjectInfo *oi = &g_unitInfo[locsi].o;
-			char *name = (char *)emu_get_memorycsip(oi->name);
+			ObjectInfo *oi = &g_table_unitInfo[locsi].o;
 
 			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
-				15 - (int)strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				15 - (int)strlen(oi->name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
 				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-			Ini_SetString("construct", name, buffer, source);
+			Ini_SetString("construct", oi->name, buffer, source);
 		}
 
 		for (locsi = 0; locsi < STRUCTURE_MAX; locsi++) {
-			ObjectInfo *oi = &g_unitInfo[locsi].o;
-			char *name = (char *)emu_get_memorycsip(oi->name);
+			ObjectInfo *oi = &g_table_unitInfo[locsi].o;
 
 			sprintf(buffer, "%*s%4d,%4d,%4d,%4d,%4d,%4d,%4d,%4d",
-				15 - (int)strlen(name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
+				15 - (int)strlen(oi->name), "", oi->buildCredits, oi->buildTime, oi->hitpoints, oi->fogUncoverRadius,
 				oi->availableCampaign, oi->priorityBuild, oi->priorityTarget, oi->sortPriority);
 
-			Ini_SetString("construct", name, buffer, source);
+			Ini_SetString("construct", oi->name, buffer, source);
 		}
 	}
 
@@ -1701,9 +1700,9 @@ static void ReadProfileIni(char *filename)
 		if (sscanf(buffer, "%hu,%hu,%hu,%hu", &variable_50, &damage, &fireDelay, &variable_40) < 4) continue;
 
 		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
-			UnitInfo *ui = &g_unitInfo[locsi];
+			UnitInfo *ui = &g_table_unitInfo[locsi];
 
-			if (strcasecmp((char *)emu_get_memorycsip(ui->o.name), key) != 0) continue;
+			if (strcasecmp(ui->o.name, key) != 0) continue;
 
 			ui->damage      = damage;
 			ui->variable_40 = variable_40;
@@ -1716,11 +1715,10 @@ static void ReadProfileIni(char *filename)
 	if (g_global->debugGame == 0) return;
 
 	for (locsi = 0; locsi < UNIT_MAX; locsi++) {
-		UnitInfo *ui = &g_unitInfo[locsi];
-		char *name = (char *)emu_get_memorycsip(ui->o.name);
+		UnitInfo *ui = &g_table_unitInfo[locsi];
 
-		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
-		Ini_SetString("combat", name, buffer, source);
+		sprintf(buffer, "%*s%4d,%4d,%4d,%4d", 15 - (int)strlen(ui->o.name), "", ui->variable_50, ui->damage, ui->fireDelay, ui->variable_40);
+		Ini_SetString("combat", ui->o.name, buffer, source);
 	}
 }
 
@@ -2560,11 +2558,11 @@ void Game_Prepare()
 	}
 
 	if (g_global->activeStructureType != 0xFFFF) {
-		Map_SetSelectionSize(g_structureInfo[g_global->activeStructureType].layout);
+		Map_SetSelectionSize(g_table_structureInfo[g_global->activeStructureType].layout);
 	} else {
 		Structure *s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-		if (s != NULL) Map_SetSelectionSize(g_structureInfo[s->o.type].layout);
+		if (s != NULL) Map_SetSelectionSize(g_table_structureInfo[s->o.type].layout);
 	}
 
 	Voice_LoadVoices(g_global->playerHouseID);

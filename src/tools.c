@@ -19,6 +19,7 @@
 #include "tile.h"
 #include "unit.h"
 
+
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
 	uint16 gameSpeed = g_gameConfig.gameSpeed;
@@ -169,7 +170,7 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 			if (index >= STRUCTURE_INDEX_MAX_HARD) return tile;
 
 			s = Structure_Get_ByIndex(index);
-			si = &g_structureInfo[s->o.type];
+			si = &g_table_structureInfo[s->o.type];
 
 			return Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]);
 		}

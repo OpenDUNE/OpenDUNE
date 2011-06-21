@@ -24,6 +24,7 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+
 /**
  * Get the animation frame of the current structure.
  *
@@ -94,7 +95,7 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 	s = g_scriptCurrentStructure;
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	Tile_RemoveFogInRadius(s->o.position, si->o.fogUncoverRadius);
 
@@ -127,7 +128,7 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	}
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	harvesterStep = (s->o.hitpoints * 256 / si->o.hitpoints) * 3 / 256;
 
@@ -255,7 +256,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 
 	u = Unit_Get_ByIndex(s->o.linkedID);
 
-	if (g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER && Unit_SetPosition(u, s->o.position)) {
+	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER && Unit_SetPosition(u, s->o.position)) {
 		s->o.linkedID = u->o.linkedID;
 		u->o.linkedID = 0xFF;
 
@@ -519,11 +520,11 @@ uint16 Script_Structure_Fire(ScriptEngine *script)
 	if (s->o.type == STRUCTURE_ROCKET_TURRET && Tile_GetDistance(Tools_Index_GetTile(target), s->o.position) >= 0x300) {
 		type      = UNIT_MISSILE_TURRET;
 		damage    = 30;
-		fireDelay = Tools_AdjustToGameSpeed(g_unitInfo[UNIT_LAUNCHER].fireDelay, 1, 255, true);
+		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_LAUNCHER].fireDelay, 1, 255, true);
 	} else {
 		type      = UNIT_BULLET;
 		damage    = 20;
-		fireDelay = Tools_AdjustToGameSpeed(g_unitInfo[UNIT_TANK].fireDelay, 1, 255, true);
+		fireDelay = Tools_AdjustToGameSpeed(g_table_unitInfo[UNIT_TANK].fireDelay, 1, 255, true);
 	}
 
 	position.tile = s->o.position.tile;
@@ -556,7 +557,7 @@ uint16 Script_Structure_Unknown1524(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	s = g_scriptCurrentStructure;
-	layout = g_structureInfo[s->o.type].layout;
+	layout = g_table_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
 	for (i = 0; i < g_global->layoutTileCount[layout]; i++) {
@@ -588,7 +589,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	s = g_scriptCurrentStructure;
-	layout = g_structureInfo[s->o.type].layout;
+	layout = g_table_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
 	Structure_0C3A_1002(s);
@@ -599,12 +600,12 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
 
-		if (g_structureInfo[s->o.type].o.spawnChance < Tools_Random_256()) continue;
+		if (g_table_structureInfo[s->o.type].o.spawnChance < Tools_Random_256()) continue;
 
 		u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, s->o.houseID, tile, Tools_Random_256());
 		if (u == NULL) continue;
 
-		u->o.hitpoints = g_unitInfo[UNIT_SOLDIER].o.hitpoints * (Tools_Random_256() & 3) / 256;
+		u->o.hitpoints = g_table_unitInfo[UNIT_SOLDIER].o.hitpoints * (Tools_Random_256() & 3) / 256;
 
 		if (s->o.houseID != g_global->playerHouseID) {
 			Unit_SetAction(u, ACTION_ATTACK);
@@ -622,9 +623,9 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 	if (s->o.houseID != g_global->playerHouseID) return 0;
 
 	if (g_config.language == LANGUAGE_FRENCH) {
-		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, String_Get_ByIndex(g_table_structureInfo[s->o.type].o.stringID_full), (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(0x85));
 	} else {
-		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(g_structureInfo[s->o.type].o.stringID_full), String_Get_ByIndex(0x85));
+		GUI_DisplayText("%s %s %s", 0, (char *)emu_get_memorycsip(g_houseInfo[s->o.houseID].name), String_Get_ByIndex(g_table_structureInfo[s->o.type].o.stringID_full), String_Get_ByIndex(0x85));
 	}
 
 	return 0;

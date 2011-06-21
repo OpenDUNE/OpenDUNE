@@ -1558,7 +1558,47 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\table\structureinfo.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\table\teamaction.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\table\unitinfo.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

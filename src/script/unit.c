@@ -25,6 +25,7 @@
 #include "../string.h"
 #include "../unit.h"
 
+
 /**
  * Create a new soldier unit.
  *
@@ -41,7 +42,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.spawnChance) return 0;
+	if (Tools_Random_256() >= g_table_unitInfo[u->o.type].o.spawnChance) return 0;
 
 	position = Tile_MoveByRandom(u->o.position, 20, true);
 
@@ -124,7 +125,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 		StructureInfo *si;
 
 		s = Tools_Index_GetStructure(u->targetMove);
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 
 		if (s->o.type == STRUCTURE_STARPORT) {
 			uint16 ret = 0;
@@ -366,7 +367,7 @@ uint16 Script_Unit_Unknown0FD2(ScriptEngine *script)
 
 	if (!u->o.flags.s.byScenario) param = param * 192 / 256;
 
-	if (g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
+	if (g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) param = Tools_AdjustToGameSpeed(param, 0, 255, true);
 
 	Unit_Unknown204C(u, param);
 
@@ -474,7 +475,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = g_scriptCurrentUnit;
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	Unit_Unknown10EC(u);
 
@@ -514,7 +515,7 @@ uint16 Script_Unit_Unknown1382(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
+	Map_MakeExplosion(script->stack[script->stackPointer], u->o.position, g_table_unitInfo[u->o.type].o.hitpoints, Tools_Index_Encode(u->o.index, IT_UNIT));
 	return 0;
 }
 
@@ -572,7 +573,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 		return 0;
 	}
 
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
 
@@ -584,7 +585,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	if ((int16)(ui->variable_50 << 8) < (int16)distance) return 0;
 
-	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
+	if (u->o.type != UNIT_SANDWORM && (Tools_Index_GetType(target) != IT_UNIT || g_table_unitInfo[Tools_Index_GetUnit(target)->o.type].movementType != MOVEMENT_WINGER)) {
 		int16 diff = 0;
 		int8 orientation;
 
@@ -712,7 +713,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = g_scriptCurrentUnit;
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
@@ -828,7 +829,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	orientation = Tile_GetDirection(u->o.position, tile);
 
 	u->targetAttack = target;
-	if (!g_unitInfo[u->o.type].o.flags.s.hasTurret) {
+	if (!g_table_unitInfo[u->o.type].o.flags.s.hasTurret) {
 		u->targetMove = target;
 		Unit_SetOrientation(u, orientation, false, 0);
 	}
@@ -877,7 +878,7 @@ uint16 Script_Unit_SetActionDefault(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	Unit_SetAction(u, g_unitInfo[u->o.type].o.actionsPlayer[3]);
+	Unit_SetAction(u, g_table_unitInfo[u->o.type].o.actionsPlayer[3]);
 
 	return 0;
 }
@@ -901,7 +902,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (u->variable_49.tile == 0 || g_unitInfo[u->o.type].flags.s.variable_8000) {
+	if (u->variable_49.tile == 0 || g_table_unitInfo[u->o.type].flags.s.variable_8000) {
 		u->variable_49 = Tools_Index_GetTile(encoded);
 	}
 
@@ -924,7 +925,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 	UnitInfo *ui;
 
 	u = g_scriptCurrentUnit;
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	switch (script->stack[script->stackPointer]) {
 		case 0x00: return u->o.hitpoints * 256 / ui->o.hitpoints;
@@ -1431,7 +1432,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 
 	loc06 = g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
 	if (u->o.script.variables[1] == 1) loc06 += 2;
-	loc06 = (loc06 << 4) + (g_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
+	loc06 = (loc06 << 4) + (g_table_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
 
 	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);
 
@@ -1461,7 +1462,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 
 	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
-	if (!g_unitInfo[u->o.type].o.flags.s.variable_0100 || u->deviated != 0) return 0;
+	if (!g_table_unitInfo[u->o.type].o.flags.s.variable_0100 || u->deviated != 0) return 0;
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 
@@ -1553,7 +1554,7 @@ uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 	VARIABLE_NOT_USED(script);
 
 	u = g_scriptCurrentUnit;
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	/* "%s %s destroyed." */
 	if (g_config.language == LANGUAGE_FRENCH) {
@@ -1709,7 +1710,7 @@ uint16 Script_Unit_Unknown291A(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 
 	random = Tools_RandomRange(0, 10);
-	movementType = g_unitInfo[u->o.type].movementType;
+	movementType = g_table_unitInfo[u->o.type].movementType;
 
 	if (movementType != MOVEMENT_FOOT && movementType != MOVEMENT_TRACKED && movementType != MOVEMENT_WHEELED) return 0;
 

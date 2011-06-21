@@ -32,19 +32,8 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-StructureInfo *g_structureInfo = NULL;
 
 Structure *g_structureActive = NULL;
-
-/**
- * Initialize the structure system.
- *
- * @init System_Init_Structure
- */
-void System_Init_Structure()
-{
-	g_structureInfo = (StructureInfo *)&emu_get_memory8(0x2C94, 0x0, 0x0A);
-}
 
 /**
  * Loop over all structures, preforming various of tasks.
@@ -92,7 +81,7 @@ void GameLoop_Structure()
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 		h  = House_Get_ByIndex(s->o.houseID);
 		hi = &g_houseInfo[h->index];
 
@@ -175,11 +164,11 @@ void GameLoop_Structure()
 					uint16 buildCost;
 
 					if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-						oi = &g_structureInfo[s->objectType].o;
+						oi = &g_table_structureInfo[s->objectType].o;
 					} else if (s->o.type == STRUCTURE_REPAIR) {
-						oi = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type].o;
+						oi = &g_table_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type].o;
 					} else {
-						oi = &g_unitInfo[s->objectType].o;
+						oi = &g_table_unitInfo[s->objectType].o;
 					}
 
 					buildSpeed = 256;
@@ -250,7 +239,7 @@ void GameLoop_Structure()
 
 								/* If the AI no longer had in memory where to store the structure, free it and forget about it */
 								if (i == 5) {
-									StructureInfo *nsi = &g_structureInfo[ns->o.type];
+									StructureInfo *nsi = &g_table_structureInfo[ns->o.type];
 
 									h->credits += nsi->o.buildCredits;
 
@@ -275,7 +264,7 @@ void GameLoop_Structure()
 						uint16 repairSpeed;
 						uint16 repairCost;
 
-						ui = &g_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
+						ui = &g_table_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 
 						repairSpeed = 256;
 						if (s->o.hitpoints < si->o.hitpoints) {
@@ -364,8 +353,7 @@ uint8 Structure_StringToType(const char *name)
 	if (name == NULL) return STRUCTURE_INVALID;
 
 	for (type = 0; type < STRUCTURE_MAX; type++) {
-		const char *structureName = (const char *)emu_get_memorycsip(g_structureInfo[type].o.name);
-		if (strcasecmp(structureName, name) == 0) return type;
+		if (strcasecmp(g_table_structureInfo[type].o.name, name) == 0) return type;
 	}
 
 	return STRUCTURE_INVALID;
@@ -388,7 +376,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	if (houseID >= HOUSE_MAX) return NULL;
 	if (typeID >= STRUCTURE_MAX) return NULL;
 
-	si = &g_structureInfo[typeID];
+	si = &g_table_structureInfo[typeID];
 	s = Structure_Allocate(index, typeID);
 	if (s == NULL) return NULL;
 
@@ -462,7 +450,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	if (s == NULL) return false;
 	if (position == 0xFFFF) return false;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	switch (s->o.type) {
 		case STRUCTURE_WALL: {
@@ -666,7 +654,7 @@ void Structure_CalculateHitpointsMax(House *h)
 		s = Structure_Find(&find);
 		if (s == NULL) return;
 
-		si = &g_structureInfo[s->o.type];
+		si = &g_table_structureInfo[s->o.type];
 
 		s->hitpointsMax = si->o.hitpoints * power / 256;
 		s->hitpointsMax = max(s->hitpointsMax, si->o.hitpoints / 2);
@@ -753,7 +741,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 	bool isValid;
 	uint16 curPos;
 
-	si = &g_structureInfo[type];
+	si = &g_table_structureInfo[type];
 	layoutTile = g_global->layoutTiles[si->layout];
 
 	isValid = true;
@@ -1046,7 +1034,7 @@ void Structure_RemoveFog(Structure *s)
 {
 	if (s == NULL || s->o.houseID != g_global->playerHouseID) return;
 
-	Tile_RemoveFogInRadius(s->o.position, g_structureInfo[s->o.type].o.fogUncoverRadius);
+	Tile_RemoveFogInRadius(s->o.position, g_table_structureInfo[s->o.type].o.fogUncoverRadius);
 }
 
 /**
@@ -1095,7 +1083,7 @@ static void Structure_Destroy(Structure *s)
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	h->credits -= (h->creditsStorage == 0) ? h->credits : min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
 
@@ -1122,7 +1110,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 	if (damage == 0) return false;
 	if (s->o.script.variables[0] == 1) return false;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	if (s->o.hitpoints >= damage) {
 		s->o.hitpoints -= damage;
@@ -1183,7 +1171,7 @@ bool Structure_IsUpgradable(Structure *s)
 
 	if (s == NULL) return false;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_HIGH_TECH) return false;
 	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->upgradeCampaign[2] > g_global->campaignID) return false;
@@ -1195,7 +1183,7 @@ bool Structure_IsUpgradable(Structure *s)
 		if (s->upgradeLevel != 1) return true;
 
 		h = House_Get_ByIndex(s->o.houseID);
-		if ((h->structuresBuilt & g_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
+		if ((h->structuresBuilt & g_table_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) == g_table_structureInfo[STRUCTURE_ROCKET_TURRET].o.structuresRequired) return true;
 
 		return false;
 	}
@@ -1337,7 +1325,7 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 
 	if (s == NULL) return 0;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 	packed = Tile_PackTile(Tile_Center(s->o.position));
 
 	spicePacked = (checkForSpice) ? Map_SearchSpice(packed, 10) : 0;
@@ -1391,7 +1379,7 @@ void Structure_0C3A_1002(Structure *s)
 
 	if (s == NULL) return;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 	packed = Tile_PackTile(s->o.position);
 
 	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
@@ -1454,7 +1442,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 	uint16 tileCount;
 	uint16 i;
 
-	si = &g_structureInfo[objectType];
+	si = &g_table_structureInfo[objectType];
 
 	tileCount = g_global->layoutTileCount[si->layout];
 
@@ -1492,11 +1480,11 @@ static void Structure_CancelBuild(Structure *s)
 
 	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 		Structure *s2 = Structure_Get_ByIndex(s->o.linkedID);
-		oi = &g_structureInfo[s2->o.type].o;
+		oi = &g_table_structureInfo[s2->o.type].o;
 		Structure_Free(s2);
 	} else {
 		Unit *u = Unit_Get_ByIndex(s->o.linkedID);
-		oi = &g_unitInfo[u->o.type].o;
+		oi = &g_table_unitInfo[u->o.type].o;
 		Unit_Free(u);
 	}
 
@@ -1524,7 +1512,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	if (s == NULL) return false;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	if (!si->o.flags.s.factory) return false;
 
@@ -1562,7 +1550,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			for (i = 0; i < STRUCTURE_MAX; i++) {
 				if ((buildable & (1 << i)) == 0) continue;
-				g_structureInfo[i].o.available = 1;
+				g_table_structureInfo[i].o.available = 1;
 				if (objectType != 0xFFFE) continue;
 				s->objectType = i;
 				return false;
@@ -1587,12 +1575,12 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						int16 loc2A = g_global->starportAvailable[i];
 
 						if (loc2A == 0) {
-							g_unitInfo[i].o.available = 0;
+							g_table_unitInfo[i].o.available = 0;
 							continue;
 						}
 
 						if (loc2A < 0) {
-							g_unitInfo[i].o.available = -1;
+							g_table_unitInfo[i].o.available = -1;
 							continue;
 						}
 
@@ -1609,11 +1597,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 							u->o.linkedID = linkedID;
 							linkedID = u->o.index & 0xFF;
 							loc60[i]++;
-							g_unitInfo[i].o.available = (int8)loc60[i];
+							g_table_unitInfo[i].o.available = (int8)loc60[i];
 							continue;
 						}
 
-						if (loc60[i] == 0) g_unitInfo[i].o.available = -1;
+						if (loc60[i] == 0) g_table_unitInfo[i].o.available = -1;
 					}
 				}
 
@@ -1627,7 +1615,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 				for (i = 0; i < UNIT_MAX; i++) {
 					if ((buildable & (1 << i)) == 0) continue;
-					g_unitInfo[i].o.available = 1;
+					g_table_unitInfo[i].o.available = 1;
 					if (objectType != 0xFFFE) continue;
 					s->objectType = i;
 					return false;
@@ -1684,14 +1672,14 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
 
-						if (GUI_DisplayHint(20, g_structureInfo[objectType].o.spriteID) == 0) continue;
+						if (GUI_DisplayHint(20, g_table_structureInfo[objectType].o.spriteID) == 0) continue;
 
 						s->objectType = objectType;
 
 						return false;
 					}
 
-					ui = &g_unitInfo[objectType];
+					ui = &g_table_unitInfo[objectType];
 
 					g_global->variable_38BC++;
 					{
@@ -1702,7 +1690,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					g_global->variable_38BC--;
 
 					if (u == NULL) {
-						h->credits += g_unitInfo[UNIT_CARRYALL].o.buildCredits;
+						h->credits += g_table_unitInfo[UNIT_CARRYALL].o.buildCredits;
 						if (s->o.houseID != g_global->playerHouseID) continue;
 						/* "Unable to create more." */
 						GUI_DisplayText(String_Get_ByIndex(0x88), 2);
@@ -1739,13 +1727,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		tile32 tile;
 		tile.tile = 0xFFFFFFFF;
 
-		oi = &g_unitInfo[objectType].o;
+		oi = &g_table_unitInfo[objectType].o;
 		o = &Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0)->o;
-		str = String_Get_ByIndex(g_unitInfo[objectType].o.stringID_full);
+		str = String_Get_ByIndex(g_table_unitInfo[objectType].o.stringID_full);
 	} else {
-		oi = &g_structureInfo[objectType].o;
+		oi = &g_table_structureInfo[objectType].o;
 		o = &Structure_Create(STRUCTURE_INDEX_INVALID, (uint8)objectType, s->o.houseID, 0xFFFF)->o;
-		str = String_Get_ByIndex(g_structureInfo[objectType].o.stringID_full);
+		str = String_Get_ByIndex(g_table_structureInfo[objectType].o.stringID_full);
 	}
 
 	s->o.flags.s.onHold = false;
@@ -1851,7 +1839,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 		ret = true;
 	}
 
-	if (state == 0 || s->o.flags.s.repairing || s->o.hitpoints == g_structureInfo[s->o.type].o.hitpoints) return ret;
+	if (state == 0 || s->o.flags.s.repairing || s->o.hitpoints == g_table_structureInfo[s->o.type].o.hitpoints) return ret;
 
 	if (s->o.houseID == g_global->playerHouseID) {
 		/* "Repairing starts." */
@@ -1884,7 +1872,7 @@ void Structure_UpdateMap(Structure *s)
 	if (!s->o.flags.s.used) return;
 	if (s->o.flags.s.isNotOnMap) return;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	layout = g_global->layoutTiles[si->layout];
 	layoutSize = g_global->layoutTileCount[si->layout];
@@ -1938,7 +1926,7 @@ uint32 Structure_GetBuildable(Structure *s)
 
 	if (s == NULL) return 0;
 
-	si = &g_structureInfo[s->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	structuresBuilt = House_Get_ByIndex(s->o.houseID)->structuresBuilt;
 
@@ -1949,7 +1937,7 @@ uint32 Structure_GetBuildable(Structure *s)
 		case STRUCTURE_WOR_TROOPER:
 		case STRUCTURE_BARRACKS:
 			for (i = 0; i < UNIT_MAX; i++) {
-				g_unitInfo[i].o.available = 0;
+				g_table_unitInfo[i].o.available = 0;
 			}
 
 			for (i = 0; i < 8; i++) {
@@ -1961,7 +1949,7 @@ uint32 Structure_GetBuildable(Structure *s)
 
 				if (unitType == UNIT_TRIKE && s->variable_47 == HOUSE_ORDOS) unitType = UNIT_RAIDER_TRIKE;
 
-				ui = &g_unitInfo[unitType];
+				ui = &g_table_unitInfo[unitType];
 				upgradeLevelRequired = ui->o.upgradeLevelRequired;
 
 				if (unitType == UNIT_SIEGE_TANK && s->variable_47 == HOUSE_ORDOS) upgradeLevelRequired--;
@@ -1984,7 +1972,7 @@ uint32 Structure_GetBuildable(Structure *s)
 
 		case STRUCTURE_CONSTRUCTION_YARD:
 			for (i = 0; i < STRUCTURE_MAX; i++) {
-				StructureInfo *localsi = &g_structureInfo[i];
+				StructureInfo *localsi = &g_table_structureInfo[i];
 				uint16 availableCampaign;
 				uint32 structuresRequired;
 
@@ -2062,7 +2050,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		ui = &g_unitInfo[u->o.type];
+		ui = &g_table_unitInfo[u->o.type];
 
 		if (ui->bulletType == 0xFFFF) continue;
 
@@ -2129,7 +2117,7 @@ uint16 Structure_AI_PickNextToBuild(Structure *s)
 		if ((Tools_Random_256() % 4) == 0) type = i;
 
 		if (type != 0xFFFF) {
-			if (g_unitInfo[i].o.priorityBuild <= g_unitInfo[type].o.priorityBuild) continue;
+			if (g_table_unitInfo[i].o.priorityBuild <= g_table_unitInfo[type].o.priorityBuild) continue;
 		}
 
 		type = i;

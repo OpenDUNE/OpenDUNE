@@ -22,6 +22,7 @@
 #include "../tools.h"
 #include "../unit.h"
 
+
 /**
  * Gets the amount of members in the current team.
  *
@@ -100,7 +101,7 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 		if (u == NULL) break;
 		if (!u->o.flags.s.byScenario) continue;
 		if (u->o.type == UNIT_SABOTEUR) continue;
-		if (g_unitInfo[u->o.type].movementType != t->movementType) continue;
+		if (g_table_unitInfo[u->o.type].movementType != t->movementType) continue;
 		if (u->team == 0) {
 			distance = Tile_GetDistance(t->position, u->o.position);
 			if (distance >= minDistance && minDistance != 0) continue;
@@ -383,7 +384,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 			continue;
 		}
 
-		distance = g_unitInfo[u->o.type].variable_50 << 8;
+		distance = g_table_unitInfo[u->o.type].variable_50 << 8;
 		if (u->actionID == ACTION_ATTACK && u->targetAttack == t->target) {
 			if (u->targetMove != 0) continue;
 			if (Tile_GetDistance(u->o.position, tile) >= distance) continue;

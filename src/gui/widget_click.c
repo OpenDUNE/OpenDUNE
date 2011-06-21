@@ -32,6 +32,7 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];
@@ -239,7 +240,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	const ActionInfo *ai;
 
 	u = g_unitSelected;
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 
 	actions = ui->o.actionsPlayer;
 
@@ -374,7 +375,7 @@ bool GUI_Widget_Picture_Click()
 
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-	if (s == NULL || !g_structureInfo[s->o.type].o.flags.s.factory) return false;
+	if (s == NULL || !g_table_structureInfo[s->o.type].o.flags.s.factory) return false;
 
 	Structure_BuildObject(s, 0xFFFF);
 

@@ -33,21 +33,10 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-UnitInfo *g_unitInfo = NULL;
 
 Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
 Unit *g_unitSelected = NULL;
-
-/**
- * Initialize the unit system.
- *
- * @init System_Init_Unit
- */
-void System_Init_Unit()
-{
-	g_unitInfo = (UnitInfo *)&emu_get_memory8(0x2D07, 0x0, 0x0);
-}
 
 /**
  * Rotate a unit (or his top).
@@ -169,7 +158,7 @@ void GameLoop_Unit()
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		ui = &g_unitInfo[u->o.type];
+		ui = &g_table_unitInfo[u->o.type];
 		h  = House_Get_ByIndex(u->o.houseID);
 		hi = &g_houseInfo[h->index];
 
@@ -196,7 +185,7 @@ void GameLoop_Unit()
 
 					tile = u->variable_49;
 
-					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].movementType == MOVEMENT_WINGER) {
+					if (Tools_Index_GetType(u->targetAttack) == IT_UNIT && g_table_unitInfo[Tools_Index_GetUnit(u->targetAttack)->o.type].movementType == MOVEMENT_WINGER) {
 						tile = Tools_Index_GetTile(u->targetAttack);
 					}
 
@@ -334,8 +323,7 @@ uint8 Unit_StringToType(const char *name)
 	if (name == NULL) return UNIT_INVALID;
 
 	for (type = 0; type < UNIT_MAX; type++) {
-		const char *unitName = (const char *)emu_get_memorycsip(g_unitInfo[type].o.name);
-		if (strcasecmp(unitName, name) == 0) return type;
+		if (strcasecmp(g_table_unitInfo[type].o.name, name) == 0) return type;
 	}
 
 	return UNIT_INVALID;
@@ -392,7 +380,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	if (houseID >= HOUSE_MAX) return NULL;
 	if (typeID >= UNIT_MAX) return NULL;
 
-	ui = &g_unitInfo[typeID];
+	ui = &g_table_unitInfo[typeID];
 	u = Unit_Allocate(index, typeID, houseID);
 	if (u == NULL) return NULL;
 
@@ -605,8 +593,8 @@ void Unit_Sort()
 		}
 		y1 = Tile_GetY(u1->o.position);
 		y2 = Tile_GetY(u2->o.position);
-		if (g_unitInfo[u1->o.type].movementType == MOVEMENT_FOOT) y1 -= 0x100;
-		if (g_unitInfo[u2->o.type].movementType == MOVEMENT_FOOT) y2 -= 0x100;
+		if (g_table_unitInfo[u1->o.type].movementType == MOVEMENT_FOOT) y1 -= 0x100;
+		if (g_table_unitInfo[u2->o.type].movementType == MOVEMENT_FOOT) y2 -= 0x100;
 
 		if ((int16)y1 > (int16)y2) {
 			g_unitFindArray[i] = u2;
@@ -655,8 +643,8 @@ uint16 Unit_IsValidMovementIntoStructure(Unit *unit, Structure *s)
 
 	if (unit == NULL || s == NULL) return 0;
 
-	si = &g_structureInfo[s->o.type];
-	ui = &g_unitInfo[unit->o.type];
+	si = &g_table_structureInfo[s->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	unitEnc = Tools_Index_Encode(unit->o.index, IT_UNIT);
 	structEnc = Tools_Index_Encode(s->o.index, IT_STRUCTURE);
@@ -712,7 +700,7 @@ void Unit_SetDestination(Unit *u, uint16 destination)
 
 	s = Tools_Index_GetStructure(destination);
 	if (s != NULL && s->o.houseID == Unit_GetHouseID(u)) {
-		if (Unit_IsValidMovementIntoStructure(u, s) == 1 || g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
+		if (Unit_IsValidMovementIntoStructure(u, s) == 1 || g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
 			Object_Script_Variable4_Link(Tools_Index_Encode(u->o.index, IT_UNIT), destination);
 		}
 	}
@@ -828,8 +816,8 @@ uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
 
 	if (House_AreAllied(Unit_GetHouseID(unit), Unit_GetHouseID(target))) return 0;
 
-	unitInfo   = &g_unitInfo[unit->o.type];
-	targetInfo = &g_unitInfo[target->o.type];
+	unitInfo   = &g_table_unitInfo[unit->o.type];
+	targetInfo = &g_table_unitInfo[target->o.type];
 
 	if (!targetInfo->o.flags.s.priority) return 0;
 
@@ -922,7 +910,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 
 	if (u == NULL) return false;
 
-	ui = &g_unitInfo[u->o.type];
+	ui = &g_table_unitInfo[u->o.type];
 	u->o.flags.s.isNotOnMap = false;
 
 	u->o.position = Tile_Center(position);
@@ -1008,7 +996,7 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 		position = Tools_Index_GetTile(u->originEncoded);
 	}
 
-	distance = g_unitInfo[u->o.type].variable_50 << 8;
+	distance = g_table_unitInfo[u->o.type].variable_50 << 8;
 	if (mode == 2) distance <<= 1;
 
 	find.houseID = 0xFFFF;
@@ -1063,7 +1051,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
 	if (g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(target->o.position))][7] == 0) return 0;
 
-	switch(g_unitInfo[target->o.type].movementType) {
+	switch(g_table_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
 		case MOVEMENT_TRACKED:   res = 0x3E8;  break;
 		case MOVEMENT_HARVESTER: res = 0x3E8;  break;
@@ -1161,7 +1149,7 @@ bool Unit_Unknown167C(Unit *unit)
 
 	if (unit == NULL) return false;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	locsi = (int8)((unit->orientation[0].current + 16) & 0xE0);
 
@@ -1251,7 +1239,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
 
 	unit->targetAttack = encoded;
 
-	if (!g_unitInfo[unit->o.type].o.flags.s.hasTurret) {
+	if (!g_table_unitInfo[unit->o.type].o.flags.s.hasTurret) {
 		unit->targetMove = encoded;
 		unit->variable_72[0] = 0xFF;
 	}
@@ -1270,7 +1258,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 
 	if (unit == NULL || unit->deviated == 0) return false;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (!ui->flags.s.variable_8000) return false;
 
@@ -1316,7 +1304,7 @@ void Unit_RemoveFog(Unit *unit)
 	if (unit->o.position.tile == 0xFFFFFFFF || unit->o.position.tile == 0) return;
 	if (!House_AreAllied(Unit_GetHouseID(unit), (uint8)g_global->playerHouseID)) return;
 
-	fogUncoverRadius = g_unitInfo[unit->o.type].o.fogUncoverRadius;
+	fogUncoverRadius = g_table_unitInfo[unit->o.type].o.fogUncoverRadius;
 
 	if (fogUncoverRadius == 0) return;
 
@@ -1336,7 +1324,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 
 	if (unit == NULL) return false;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (!ui->flags.s.variable_8000) return false;
 	if (unit->deviated != 0) return false;
@@ -1385,7 +1373,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	if (unit == NULL || !unit->o.flags.s.used) return false;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	newPosition = Tile_MoveByDirection(unit->o.position, unit->orientation[0].current, distance);
 
@@ -1422,7 +1410,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		Unit *u;
 		u = Unit_Get_ByPackedTile(packed);
 
-		if (u != NULL && g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT && u->o.flags.s.allocated) {
+		if (u != NULL && g_table_unitInfo[u->o.type].movementType == MOVEMENT_FOOT && u->o.flags.s.allocated) {
 			if (u == g_unitSelected) Unit_Select(NULL);
 
 			Unit_UntargetMe(u);
@@ -1460,7 +1448,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		u = Unit_Get_ByPackedTile(packed);
 
 		if (u != NULL) {
-			if (!g_unitInfo[u->o.type].flags.s.sonicProtection) {
+			if (!g_table_unitInfo[u->o.type].flags.s.sonicProtection) {
 				Unit_Damage(u, damage, 0);
 			}
 		} else {
@@ -1471,7 +1459,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			if (s != NULL) {
 				Structure_Damage(s, damage, 0);
 			} else {
-				if (Map_GetLandscapeType(packed) == LST_WALL && g_structureInfo[STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
+				if (Map_GetLandscapeType(packed) == LST_WALL && g_table_structureInfo[STRUCTURE_WALL].o.hitpoints > damage) Tools_Random_256();
 			}
 		}
 
@@ -1611,7 +1599,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 	if (unit == NULL || !unit->o.flags.s.allocated) return false;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (!ui->flags.s.variable_8000 && unit->o.type != UNIT_SANDWORM) return false;
 
@@ -1660,7 +1648,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 	if (unit->o.type == UNIT_TROOPERS || unit->o.type == UNIT_INFANTRY) {
 		unit->o.type += 2;
-		ui = &g_unitInfo[unit->o.type];
+		ui = &g_table_unitInfo[unit->o.type];
 		unit->o.hitpoints = ui->o.hitpoints;
 
 		Unit_B4CD_01BF(2, unit);
@@ -1762,7 +1750,7 @@ void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uin
 
 	if (unit->orientation[level].current == orientation) return;
 
-	unit->orientation[level].speed = g_unitInfo[unit->o.type].turningSpeed * 4;
+	unit->orientation[level].speed = g_table_unitInfo[unit->o.type].turningSpeed * 4;
 
 	diff = orientation - unit->orientation[level].current;
 
@@ -1800,7 +1788,7 @@ void Unit_Select(Unit *unit)
 	if (Unit_GetHouseID(unit) == g_global->playerHouseID) {
 		UnitInfo *ui;
 
-		ui = &g_unitInfo[unit->o.type];
+		ui = &g_table_unitInfo[unit->o.type];
 
 		/* Plays the 'reporting' sound file. */
 		Sound_Unknown0156(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
@@ -1853,7 +1841,7 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
 		orientation = Tile_GetDirection(tile, t);
 	}
 
-	if (g_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
+	if (g_table_unitInfo[typeID].movementType == MOVEMENT_WINGER) {
 		g_global->variable_38BC++;
 		unit = Unit_Create(UNIT_INDEX_INVALID, typeID, houseID, tile, orientation);
 		g_global->variable_38BC--;
@@ -1948,7 +1936,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 
 	if (unit == NULL) return true;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 	packed = Tile_PackTile(unit->o.position);
 
 	loc02 = g_global->variable_3A3E[Map_GetLandscapeType(packed)][2 + ui->movementType / 2];
@@ -1961,7 +1949,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 	if (u != NULL && u != unit) {
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return true;
 		if (ui->movementType != MOVEMENT_TRACKED) return true;
-		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT) return true;
+		if (g_table_unitInfo[u->o.type].movementType != MOVEMENT_FOOT) return true;
 	}
 
 	return (Structure_Get_ByPackedTile(packed) != NULL);
@@ -1994,7 +1982,7 @@ void Unit_Unknown204C(Unit *unit, uint16 arg0A)
 	}
 
 	unit->variable_6B = arg0A & 0xFF;
-	arg0A = (g_unitInfo[unit->o.type].variable_40 * arg0A) / 256;
+	arg0A = (g_table_unitInfo[unit->o.type].variable_40 * arg0A) / 256;
 	arg0A = Tools_AdjustToGameSpeed(arg0A, 1, 255, false);
 	loc02 = arg0A << 4;
 	arg0A >>= 4;
@@ -2026,7 +2014,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 
 	if (!Tools_Index_IsValid(target)) return NULL;
 
-	ui = &g_unitInfo[type];
+	ui = &g_table_unitInfo[type];
 	tile = Tools_Index_GetTile(target);
 
 	switch (type) {
@@ -2057,7 +2045,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 			bullet->fireDelay = ui->variable_50 & 0xFF;
 
 			u = Tools_Index_GetUnit(target);
-			if (u != NULL && g_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
+			if (u != NULL && g_table_unitInfo[u->o.type].movementType == MOVEMENT_WINGER) {
 				bullet->fireDelay <<= 1;
 			}
 
@@ -2112,7 +2100,7 @@ void Unit_DisplayStatusText(Unit *unit)
 
 	if (unit == NULL) return;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (unit->o.type == UNIT_SANDWORM) {
 		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
@@ -2243,8 +2231,8 @@ void Unit_EnterStructure(Unit *unit, Structure *s)
 
 	if (unit == g_unitSelected) Unit_Select(NULL);
 
-	ui = &g_unitInfo[unit->o.type];
-	si = &g_structureInfo[s->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
+	si = &g_table_structureInfo[s->o.type];
 
 	if (!unit->o.flags.s.allocated || s->o.hitpoints == 0) {
 		Unit_Unknown10EC(unit);
@@ -2330,7 +2318,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 	if (unit == NULL) return NULL;
 
 	position = Tools_Index_GetTile(unit->originEncoded);
-	variable_50 = g_unitInfo[unit->o.type].variable_50 << 8;
+	variable_50 = g_table_unitInfo[unit->o.type].variable_50 << 8;
 
 	find.houseID = 0xFFFF;
 	find.index   = 0xFFFF;
@@ -2344,7 +2332,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		curPosition.tile = s->o.position.tile + g_global->layoutTileDiff[g_structureInfo[s->o.type].layout].tile;
+		curPosition.tile = s->o.position.tile + g_global->layoutTileDiff[g_table_structureInfo[s->o.type].layout].tile;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {
@@ -2386,7 +2374,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	if (unit == NULL) return 0;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (!Map_IsValidPosition(packed) && ui->movementType != MOVEMENT_WINGER) return 256;
 
@@ -2395,7 +2383,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 		if (unit->o.type == UNIT_SABOTEUR && unit->targetMove == Tools_Index_Encode(u->o.index, IT_UNIT)) return 0;
 
 		if (House_AreAllied(Unit_GetHouseID(u), Unit_GetHouseID(unit))) return 256;
-		if (g_unitInfo[u->o.type].movementType != MOVEMENT_FOOT || (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER)) return 256;
+		if (g_table_unitInfo[u->o.type].movementType != MOVEMENT_FOOT || (ui->movementType != MOVEMENT_TRACKED && ui->movementType != MOVEMENT_HARVESTER)) return 256;
 	}
 
 	s = Structure_Get_ByPackedTile(packed);
@@ -2513,7 +2501,7 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 		g_global->variable_39E8++;
 	}
 
-	Map_B4CD_057B(g_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
+	Map_B4CD_057B(g_table_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
 }
 
 
@@ -2527,7 +2515,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (unit == NULL || unit->o.flags.s.isNotOnMap || !unit->o.flags.s.used) return;
 
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 
 	if (ui->movementType == MOVEMENT_WINGER) {
 		Unit_B4CD_011A(arg06, unit);
@@ -2619,7 +2607,7 @@ uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 
 	if ((target->o.variable_09 & (1 << unit->o.houseID)) == 0) return 0;
 
-	si = &g_structureInfo[target->o.type];
+	si = &g_table_structureInfo[target->o.type];
 	priority = si->o.priorityBuild + si->o.priorityTarget;
 	distance = Tile_GetDistanceRoundedUp(unit->o.position, target->o.position);
 	if (distance != 0) priority /= distance;
@@ -2710,7 +2698,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	if (unit == NULL) return;
 
 	hp = House_Get_ByIndex((uint8)g_global->playerHouseID);
-	ui = &g_unitInfo[unit->o.type];
+	ui = &g_table_unitInfo[unit->o.type];
 	h = House_Get_ByIndex(houseID);
 	loc0A = (1 << houseID);
 
