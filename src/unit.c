@@ -493,7 +493,7 @@ bool Unit_IsTypeOnMap(uint8 houseID, uint8 typeID)
  */
 void Unit_SetAction(Unit *u, ActionType action)
 {
-	ActionInfo *ai;
+	const ActionInfo *ai;
 
 	if (u == NULL) return;
 	if (u->actionID == ACTION_DESTRUCT || u->actionID == ACTION_DIE || action == ACTION_INVALID) return;

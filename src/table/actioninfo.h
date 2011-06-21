@@ -2,7 +2,7 @@
 
 /** @file src/table/actioninfo.h Action file tables. */
 
-static ActionInfo g_table_actionInfo[] = {
+static const ActionInfo g_table_actionInfo[] = {
 	{
 		/* stringID    */ 1,
 		/* name        */ "Attack",

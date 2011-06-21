@@ -238,7 +238,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	uint16 *actions;
 	uint16 *found;
 	ActionType unitAction;
-	ActionInfo *ai;
+	const ActionInfo *ai;
 
 	u = g_unitSelected;
 	ui = &g_unitInfo[u->o.type];
