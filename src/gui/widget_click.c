@@ -1108,7 +1108,7 @@ bool GUI_Production_List_Click(Widget *w)
 {
 	GUI_FactoryWindow_B495_0F30();
 
-	g_global->factoryWindowSelected = w->index - 46;
+	g_factoryWindowSelected = w->index - 46;
 
 	GUI_FactoryWindow_DrawDetails();
 
@@ -1124,16 +1124,16 @@ bool GUI_Production_List_Click(Widget *w)
  */
 bool GUI_Production_ResumeGame_Click(Widget *w)
 {
-	g_global->factoryWindowResult = FACTORY_RESUME;
+	g_factoryWindowResult = FACTORY_RESUME;
 
-	if (g_global->factoryWindowStarport != 0) {
+	if (g_factoryWindowStarport) {
 		uint8 i = 0;
 		House *h = g_playerHouse;
-		while (g_global->factoryWindowOrdered != 0) {
-			if (g_global->factoryWindowItems[i].amount != 0) {
-				h->credits += g_global->factoryWindowItems[i].amount * g_global->factoryWindowItems[i].credits;
-				g_global->factoryWindowOrdered -= g_global->factoryWindowItems[i].amount;
-				g_global->factoryWindowItems[i].amount = 0;
+		while (g_factoryWindowOrdered != 0) {
+			if (g_factoryWindowItems[i].amount != 0) {
+				h->credits += g_factoryWindowItems[i].amount * g_factoryWindowItems[i].credits;
+				g_factoryWindowOrdered -= g_factoryWindowItems[i].amount;
+				g_factoryWindowItems[i].amount = 0;
 			}
 
 			i++;
@@ -1156,7 +1156,7 @@ bool GUI_Production_Upgrade_Click(Widget *w)
 {
 	GUI_Widget_MakeNormal(w, false);
 
-	g_global->factoryWindowResult = FACTORY_UPGRADE;
+	g_factoryWindowResult = FACTORY_UPGRADE;
 
 	return true;
 }
@@ -1217,18 +1217,18 @@ bool GUI_Production_Down_Click(Widget *w)
 {
 	bool locdi = false;
 
-	if (g_global->factoryWindowSelected < 3 && (g_global->factoryWindowSelected + 1) < g_global->factoryWindowTotal) {
+	if (g_factoryWindowSelected < 3 && (g_factoryWindowSelected + 1) < g_factoryWindowTotal) {
 		g_global->variable_76B4 = 10;
 		GUI_FactoryWindow_B495_0F30();
-		g_global->factoryWindowSelected++;
+		g_factoryWindowSelected++;
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
-		if (g_global->factoryWindowBase + 4 < g_global->factoryWindowTotal) {
+		if (g_factoryWindowBase + 4 < g_factoryWindowTotal) {
 			g_global->variable_76B4 = 10;
-			g_global->factoryWindowBase++;
+			g_factoryWindowBase++;
 			locdi = true;
 
 			GUI_FactoryWindow_ScrollList(1);
@@ -1263,18 +1263,18 @@ bool GUI_Production_Up_Click(Widget *w)
 {
 	bool locdi = false;
 
-	if (g_global->factoryWindowSelected != 0) {
+	if (g_factoryWindowSelected != 0) {
 		g_global->variable_76B4 = 10;
 		GUI_FactoryWindow_B495_0F30();
-		g_global->factoryWindowSelected--;
+		g_factoryWindowSelected--;
 
 		GUI_FactoryWindow_UpdateSelection(true);
 
 		locdi = true;
 	} else {
-		if (g_global->factoryWindowBase != 0) {
+		if (g_factoryWindowBase != 0) {
 			g_global->variable_76B4 = 10;
-			g_global->factoryWindowBase--;
+			g_factoryWindowBase--;
 			locdi = true;
 
 			GUI_FactoryWindow_ScrollList(-1);
@@ -1319,20 +1319,20 @@ static void GUI_Purchase_ShowInvoice()
 
 	y += 2;
 
-	if (g_global->factoryWindowOrdered != 0) {
+	if (g_factoryWindowOrdered != 0) {
 		uint16 i;
 
-		for (i = 0; i < g_global->factoryWindowTotal; i++) {
+		for (i = 0; i < g_factoryWindowTotal; i++) {
 			ObjectInfo *oi;
 			uint16 amount;
-			if (g_global->factoryWindowItems[i].amount == 0) continue;
+			if (g_factoryWindowItems[i].amount == 0) continue;
 
-			amount = g_global->factoryWindowItems[i].amount * g_global->factoryWindowItems[i].credits;
+			amount = g_factoryWindowItems[i].amount * g_factoryWindowItems[i].credits;
 			total += amount;
 
-			sprintf((char *)g_global->variable_9939, "%02d %5d", g_global->factoryWindowItems[i].amount, amount);
+			sprintf((char *)g_global->variable_9939, "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
-			oi = (ObjectInfo *)emu_get_memorycsip(g_global->factoryWindowItems[i].objectInfo);
+			oi = g_factoryWindowItems[i].objectInfo;
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
 			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
@@ -1386,7 +1386,7 @@ static void GUI_Purchase_ShowInvoice()
 		Input_History_Clear();
 	}
 
-	if (g_global->factoryWindowResult == FACTORY_CONTINUE) GUI_FactoryWindow_DrawDetails();
+	if (g_factoryWindowResult == FACTORY_CONTINUE) GUI_FactoryWindow_DrawDetails();
 }
 
 /**
@@ -1410,24 +1410,24 @@ bool GUI_Purchase_Invoice_Click(Widget *w)
  */
 bool GUI_Production_BuildThis_Click(Widget *w)
 {
-	if (g_global->factoryWindowStarport != 0) {
-		if (g_global->factoryWindowOrdered == 0) {
+	if (g_factoryWindowStarport) {
+		if (g_factoryWindowOrdered == 0) {
 			GUI_Widget_MakeInvisible(w);
 			GUI_Purchase_ShowInvoice();
 			GUI_Widget_MakeVisible(w);
 		} else {
-			g_global->factoryWindowResult = FACTORY_BUY;
+			g_factoryWindowResult = FACTORY_BUY;
 		}
 	} else {
 		FactoryWindowItem *item;
 		ObjectInfo *oi;
 
-		item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
-		oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
+		item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
+		oi = item->objectInfo;
 
 		if (oi->available > 0) {
 			item->amount = 1;
-			g_global->factoryWindowResult = FACTORY_BUY;
+			g_factoryWindowResult = FACTORY_BUY;
 		}
 	}
 
@@ -1449,15 +1449,15 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 
 	GUI_Widget_MakeNormal(w, false);
 
-	item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
-	oi = (ObjectInfo *)emu_get_memorycsip(item->objectInfo);
+	item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
+	oi = item->objectInfo;
 
 	if (item->amount < oi->available && item->credits <= h->credits) {
 		item->amount++;
 
 		GUI_FactoryWindow_UpdateDetails();
 
-		g_global->factoryWindowOrdered++;
+		g_factoryWindowOrdered++;
 
 		h->credits -= item->credits;
 
@@ -1479,14 +1479,14 @@ bool GUI_Purchase_Minus_Click(Widget *w)
 
 	GUI_Widget_MakeNormal(w, false);
 
-	item = GUI_FactoryWindow_GetItem(g_global->factoryWindowSelected);
+	item = GUI_FactoryWindow_GetItem(g_factoryWindowSelected);
 
 	if (item->amount != 0) {
 		item->amount--;
 
 		GUI_FactoryWindow_UpdateDetails();
 
-		g_global->factoryWindowOrdered--;
+		g_factoryWindowOrdered--;
 
 		h->credits += item->credits;
 

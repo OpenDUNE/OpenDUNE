@@ -27,10 +27,25 @@ typedef struct HallOfFameData {
 MSVC_PACKED_END
 assert_compile(sizeof(HallOfFameData) == 0x10);
 
+typedef struct FactoryWindowItem {
+	/* 0000(2)   */ uint16 objectType;                 /*!< ?? */
+	/* 0002(1)   */ int8   amount;                     /*!< ?? */
+	/* 0003(2)   */ uint16 credits;                    /*!< ?? */
+	/* 0005(2)   */ uint16 sortPriority;               /*!< ?? */
+	/* 0007(4)   */ struct ObjectInfo *objectInfo;     /*!< ?? */
+} FactoryWindowItem;
+
 extern uint8 *g_palette_998A;
+extern FactoryWindowItem g_factoryWindowItems[];
+extern uint16 g_factoryWindowOrdered;
+extern uint16 g_factoryWindowBase;
+extern uint16 g_factoryWindowTotal;
+extern uint16 g_factoryWindowSelected;
+extern uint16 g_factoryWindowUpgradeCost;
+extern FactoryResult g_factoryWindowResult;
+extern bool g_factoryWindowStarport;
 
 struct Widget;
-struct FactoryWindowItem;
 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);

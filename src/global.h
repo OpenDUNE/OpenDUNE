@@ -141,17 +141,6 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_8BDE) == 0xA);
 
 MSVC_PACKED_BEGIN
-typedef struct FactoryWindowItem {
-	/* 0000(2)   */ PACK uint16 objectType;                 /*!< ?? */
-	/* 0002(1)   */ PACK int8   amount;                     /*!< ?? */
-	/* 0003(2)   */ PACK uint16 credits;                    /*!< ?? */
-	/* 0005(2)   */ PACK uint16 sortPriority;               /*!< ?? */
-	/* 0007(4)   */ PACK csip32 objectInfo;                 /*!< ?? */
-} GCC_PACKED FactoryWindowItem;
-MSVC_PACKED_END
-assert_compile(sizeof(FactoryWindowItem) == 0xB);
-
-MSVC_PACKED_BEGIN
 /**
  * Inside the Scenario is information about reinforcements in the scenario.
  *  This is the layout of that data.
@@ -1421,13 +1410,13 @@ typedef struct GlobalData {
 	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
 	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
 	/* 7FB2(4)   */ PACK csip32 factoryWindowWidgets;       /*!< ?? */
-	/* 7FB6(2)   */ PACK uint16 factoryWindowOrdered;       /*!< Number of items in the invoice. */
-	/* 7FB8(2)   */ PACK uint16 factoryWindowBase;          /*!< Item index for the first miniature. */
-	/* 7FBA(2)   */ PACK uint16 factoryWindowTotal;         /*!< Number of items. */
-	/* 7FBC(2)   */ PACK uint16 factoryWindowSelected;      /*!< Selected miniature. */
-	/* 7FBE(2)   */ PACK uint16 factoryWindowUpgradeCost;   /*!< Cost for structure upgrade. */
-	/* 7FC0(2)   */ PACK uint16 factoryWindowResult;        /*!< 0 = resume game, 1 = buy, 2 = upgrade, 0xFFFF = none */
-	/* 7FC2(2)   */ PACK uint16 factoryWindowStarport;      /*!< True if the current factory display order is for a starport. */
+	/* 7FB6(2)   */ PACK uint16 removed_7FB6;               /*!< REMOVED - Number of items in the invoice. */
+	/* 7FB8(2)   */ PACK uint16 removed_7FB8;               /*!< REMOVED - Item index for the first miniature. */
+	/* 7FBA(2)   */ PACK uint16 removed_7FBA;               /*!< REMOVED - Number of items. */
+	/* 7FBC(2)   */ PACK uint16 removed_7FBC;               /*!< REMOVED - Selected miniature. */
+	/* 7FBE(2)   */ PACK uint16 removed_7FBE;               /*!< REMOVED - Cost for structure upgrade. */
+	/* 7FC0(2)   */ PACK uint16 removed_7FC0;               /*!< REMOVED - 0 = resume game, 1 = buy, 2 = upgrade, 0xFFFF = none */
+	/* 7FC2(2)   */ PACK uint16 removed_7FC2;               /*!< REMOVED - True if the current factory display order is for a starport. */
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
 	/* 7FC6(60)  */ PACK csip32 variable_7FC6[3][5];        /*!< Pointers to sprites. */
 	/* 8002(4)   */ PACK csip32 variable_8002;              /*!< Sprite */
@@ -1530,7 +1519,7 @@ typedef struct GlobalData {
 	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
-	/* 8BEA(275) */ PACK FactoryWindowItem factoryWindowItems[25]; /*!< Items for the factory window. */
+	/* 8BEA(275) */ PACK uint8 removed_8BEA[25][11];        /*!< REMOVED - Items for the factory window. */
 	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
