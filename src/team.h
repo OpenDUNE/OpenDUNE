@@ -31,7 +31,8 @@ typedef struct Team {
 	/* 0002(2)   */ PACK union {
 	                     struct {
 	/*      0001 */              BITTYPE used:1;            /*!< The Team is in use (no longer free in the pool). */
-	/*      0002 */              BITTYPE notused_0002:15;   /*!< Never used - remaining bits. */
+	/*      0002 */              BITTYPE notused_0002:7;    /*!< Never used - remaining bits. */
+	/*      0100 */              BITTYPE notused_0100:8;    /*!< Never used - remaining bits. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the Team. */
 	/* 0004(2)   */ PACK uint16 members;                    /*!< Amount of members in team. */
