@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/tables/sound.h Sound file tables. */
+/** @file src/table/sound.h Sound file tables. */
 
 /** Information about sound files. */
 typedef struct SoundData {
