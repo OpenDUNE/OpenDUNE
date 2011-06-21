@@ -103,13 +103,13 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 	files = spriteFiles[index];
 
 	while (*files != '\0') {
+		const HouseInfo *hi;
 		uint32 length;
-		HouseInfo *hi;
 		char *filename = (char *)g_global->variable_9939;
 
-		hi = &g_houseInfo[(g_global->playerHouseID == HOUSE_INDEX_INVALID) ? HOUSE_ATREIDES : g_global->playerHouseID];
+		hi = &g_table_houseInfo[(g_global->playerHouseID == HOUSE_INDEX_INVALID) ? HOUSE_ATREIDES : g_global->playerHouseID];
 
-		sprintf(filename, files, *(char *)emu_get_memorycsip(hi->name));
+		sprintf(filename, files, hi->name);
 
 		if (strchr(filename, '.') == NULL) {
 			filename = String_GenerateFilename(filename);
@@ -637,7 +637,7 @@ void Sprites_CPS_LoadRegionClick()
 	g_global->REGION_INI = memBlock;
 
 	buf = emu_get_memorycsip(g_global->REGION_INI);
-	sprintf((char *)g_global->variable_9939, "REGION%c.INI", emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name)[0]);
+	sprintf((char *)g_global->variable_9939, "REGION%c.INI", g_table_houseInfo[g_global->playerHouseID].name[0]);
 	memBlock.s.ip += File_ReadFile((char *)g_global->variable_9939, buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
 	g_global->regions = memBlock;

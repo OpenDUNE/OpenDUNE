@@ -27,18 +27,7 @@
 #include "wsa.h"
 
 
-HouseInfo *g_houseInfo = NULL;
 House *g_playerHouse = NULL;
-
-/**
- * Initialize the house system.
- *
- * @init System_Init_House
- */
-void System_Init_House()
-{
-	g_houseInfo = (HouseInfo *)&emu_get_memory8(0x353F, 0x0, 0x37F8);
-}
 
 /**
  * Loop over all houses, preforming various of tasks.
@@ -263,7 +252,7 @@ void GameLoop_House()
 					}
 				}
 
-				h->starportTimeLeft = (u != NULL) ? g_houseInfo[h->index].starportDeliveryTime : 1;
+				h->starportTimeLeft = (u != NULL) ? g_table_houseInfo[h->index].starportDeliveryTime : 1;
 			}
 		}
 
@@ -294,8 +283,7 @@ uint8 House_StringToType(const char *name)
 	if (name == NULL) return HOUSE_INVALID;
 
 	for (index = 0; index < 6; index++) {
-		const char *houseName = (const char *)emu_get_memorycsip(g_houseInfo[index].name);
-		if (strcasecmp(houseName, name) == 0) return index;
+		if (strcasecmp(g_table_houseInfo[index].name, name) == 0) return index;
 	}
 
 	return HOUSE_INVALID;

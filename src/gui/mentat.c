@@ -77,7 +77,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFile
 
 	do {
 		char filename[10];
-		snprintf(filename, sizeof(filename), "TEXT%c", emu_get_memorycsip(g_houseInfo[houseID].name)[0]);
+		snprintf(filename, sizeof(filename), "TEXT%c", g_table_houseInfo[houseID].name[0]);
 		String_LoadFile(String_GenerateFilename(filename), stringID, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 	} while (GUI_Mentat_Show(g_global->readBuffer, wsaFilename, w1, true) == 0x8002);
@@ -182,7 +182,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
 
-		sprintf(g_global->mentatFilename, "MENTAT%c", *emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name));
+		sprintf(g_global->mentatFilename, "MENTAT%c", g_table_houseInfo[g_global->playerHouseID].name[0]);
 		strcpy(g_global->mentatFilename, String_GenerateFilename(g_global->mentatFilename));
 	}
 
@@ -351,7 +351,7 @@ bool GUI_Widget_Mentat_Click()
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
-	Music_Play(g_houseInfo[g_global->playerHouseID].musicBriefing);
+	Music_Play(g_table_houseInfo[g_global->playerHouseID].musicBriefing);
 
 	Sprites_UnloadTiles();
 
@@ -445,7 +445,7 @@ void GUI_Mentat_ShowBriefing()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D0D; /* g_global->scenario.pictureBriefing */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_houseInfo[g_global->playerHouseID].musicBriefing);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_table_houseInfo[g_global->playerHouseID].musicBriefing);
 }
 
 /**
@@ -456,7 +456,7 @@ void GUI_Mentat_ShowWin()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D1B; /* g_global->scenario.pictureWin */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_houseInfo[g_global->playerHouseID].musicWin);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_table_houseInfo[g_global->playerHouseID].musicWin);
 }
 
 /**
@@ -467,7 +467,7 @@ void GUI_Mentat_ShowLose()
 	csip32 picture;
 	picture.s.cs = 0x353F;
 	picture.s.ip = 0x8D29; /* g_global->scenario.pictureLose */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_houseInfo[g_global->playerHouseID].musicLose);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_table_houseInfo[g_global->playerHouseID].musicLose);
 }
 
 /**
@@ -480,8 +480,7 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 	uint16 oldScreenID;
 	int i;
 
-	char *houseName = (char *)emu_get_memorycsip(g_houseInfo[houseID].name);
-	sprintf((char *)g_global->variable_9939, "MENTAT%c.CPS", houseName[0]);
+	sprintf((char *)g_global->variable_9939, "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
 
 	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, g_palette_998A, 1);
 
@@ -947,7 +946,7 @@ static void GUI_Mentat_ShowHelp()
 
 		index = *text - 44 + g_global->campaignID * 4;
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[g_global->playerHouseID].name));
+		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[g_global->playerHouseID].name[0]);
 		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), index, text, g_global->readBufferSize);
 		String_TranslateSpecial(text, text);
 	} else {

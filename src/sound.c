@@ -220,7 +220,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 				switch (g_config.language) {
 					case LANGUAGE_FRENCH: i = 'F'; break;
 					case LANGUAGE_GERMAN: i = 'G'; break;
-					default: i = g_houseInfo[voiceSet].prefixChar;
+					default: i = g_table_houseInfo[voiceSet].prefixChar;
 				}
 				sprintf((char *)g_global->variable_9939, str, i);
 
@@ -283,7 +283,7 @@ void Sound_Unknown0156(uint16 index)
 
 		filename = g_table_voices[index].string;
 		if (filename[0] == '?') {
-			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_houseInfo[g_global->playerHouseID].prefixChar : ' ');
+			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_global->playerHouseID].prefixChar : ' ');
 
 			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 

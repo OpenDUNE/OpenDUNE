@@ -81,30 +81,27 @@ typedef struct House {
 MSVC_PACKED_END
 assert_compile(sizeof(House) == 0x42);
 
-MSVC_PACKED_BEGIN
 /**
- * Inside the GlobalData is information about houses. This is the layout of
- *  that data.
+ * Static information per House type.
  */
 typedef struct HouseInfo {
-	/* 0000(4)   */ PACK csip32 name;                       /*!< Pointer to name of house. */
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
-	/* 000A(2)   */ PACK uint16 minimapColor;               /*!< The color used on the minimap. */
-	/* 000C(2)   */ PACK uint16 specialCountDown;           /*!< Time between activation of Special Weapon. */
-	/* 000E(2)   */ PACK uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
-	/* 0010(2)   */ PACK uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
-	/* 0012(2)   */ PACK uint16 specialWeapon;              /*!< Which Special Weapon this House has. @see HouseWeapon. */
-	/* 0014(2)   */ PACK uint16 musicWin;                   /*!< Music played when you won a mission. */
-	/* 0016(2)   */ PACK uint16 musicLose;                  /*!< Music played when you lose a mission. */
-	/* 0018(2)   */ PACK uint16 musicBriefing;              /*!< Music played during initial briefing of mission. */
-	/* 001A(4)   */ PACK csip32 voiceFilename;              /*!< Pointer to filename with the voices of the house. */
-} GCC_PACKED HouseInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(HouseInfo) == 0x1E);
+	const char *name;                  /*!< Pointer to name of house. */
+	uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
+	uint16 variable_06;                /*!< ?? */
+	uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
+	uint16 minimapColor;               /*!< The color used on the minimap. */
+	uint16 specialCountDown;           /*!< Time between activation of Special Weapon. */
+	uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
+	uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
+	uint16 specialWeapon;              /*!< Which Special Weapon this House has. @see HouseWeapon. */
+	uint16 musicWin;                   /*!< Music played when you won a mission. */
+	uint16 musicLose;                  /*!< Music played when you lose a mission. */
+	uint16 musicBriefing;              /*!< Music played during initial briefing of mission. */
+	const char *voiceFilename;         /*!< Pointer to filename with the voices of the house. */
+} HouseInfo;
 
-extern HouseInfo *g_houseInfo;
+extern const HouseInfo g_table_houseInfo[];
+
 extern House *g_playerHouse;
 
 extern void GameLoop_House();

@@ -150,17 +150,17 @@ void GameLoop_Unit()
 	find.type    = 0xFFFF;
 
 	while (true) {
-		UnitInfo *ui;
-		Unit *u;
-		HouseInfo *hi;
+		const HouseInfo *hi;
+		const UnitInfo *ui;
 		House *h;
+		Unit *u;
 
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
 		ui = &g_table_unitInfo[u->o.type];
 		h  = House_Get_ByIndex(u->o.houseID);
-		hi = &g_houseInfo[h->index];
+		hi = &g_table_houseInfo[h->index];
 
 		g_scriptCurrentObject    = &u->o;
 		g_scriptCurrentStructure = NULL;
@@ -421,7 +421,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->o.flags.s.allocated = true;
 
 	if (ui->movementType == MOVEMENT_TRACKED) {
-		if (Tools_Random_256() < g_houseInfo[houseID].variable_06) {
+		if (Tools_Random_256() < g_table_houseInfo[houseID].variable_06) {
 			u->o.flags.s.degrades = true;
 		}
 	}
@@ -1263,7 +1263,7 @@ bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 	if (!ui->flags.s.variable_8000) return false;
 
 	if (amount == 0) {
-		amount = g_houseInfo[unit->o.houseID].variable_04;
+		amount = g_table_houseInfo[unit->o.houseID].variable_04;
 	}
 
 	if (unit->deviated > amount) {
@@ -1330,7 +1330,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
 	if (unit->deviated != 0) return false;
 	if (ui->flags.s.deviateProtection) return false;
 
-	if (probability == 0) probability = g_houseInfo[unit->o.houseID].variable_04;
+	if (probability == 0) probability = g_table_houseInfo[unit->o.houseID].variable_04;
 
 	if (unit->o.houseID != g_global->playerHouseID) {
 		probability -= probability / 8;
@@ -1653,7 +1653,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 
 		Unit_B4CD_01BF(2, unit);
 
-		if (Tools_Random_256() < g_houseInfo[unit->o.houseID].variable_04) {
+		if (Tools_Random_256() < g_table_houseInfo[unit->o.houseID].variable_04) {
 			Unit_SetAction(unit, ACTION_RETREAT);
 		}
 	}
@@ -2105,7 +2105,7 @@ void Unit_DisplayStatusText(Unit *unit)
 	if (unit->o.type == UNIT_SANDWORM) {
 		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 	} else {
-		char *houseName = (char *)emu_get_memorycsip(g_houseInfo[Unit_GetHouseID(unit)].name);
+		const char *houseName = g_table_houseInfo[Unit_GetHouseID(unit)].name;
 		if (g_config.language == LANGUAGE_FRENCH) {
 			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 		} else {

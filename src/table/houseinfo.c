@@ -1,0 +1,106 @@
+/* $Id$ */
+
+/** @file src/table/houseinfo.c House file tables. */
+
+#include <stdio.h>
+#include "types.h"
+
+#include "../house.h"
+
+const HouseInfo g_table_houseInfo[] = {
+	{
+		/* name                 */ "Harkonnen",
+		/* variable_04          */ 200,
+		/* variable_06          */ 85,
+		/* variable_08          */ 2,
+		/* minimapColor         */ 144,
+		/* specialCountDown     */ 600,
+		/* starportDeliveryTime */ 10,
+		/* prefixChar           */ 'H',
+		/* specialWeapon        */ 1,
+		/* musicWin             */ 6,
+		/* musicLose            */ 3,
+		/* musicBriefing        */ 24,
+		/* voiceFilename        */ "nhark.voc"
+	},
+
+	{
+		/* name                 */ "Atreides",
+		/* variable_04          */ 77,
+		/* variable_06          */ 0,
+		/* variable_08          */ 0,
+		/* minimapColor         */ 160,
+		/* specialCountDown     */ 300,
+		/* starportDeliveryTime */ 10,
+		/* prefixChar           */ 'A',
+		/* specialWeapon        */ 2,
+		/* musicWin             */ 7,
+		/* musicLose            */ 4,
+		/* musicBriefing        */ 25,
+		/* voiceFilename        */ "nattr.voc"
+	},
+
+	{
+		/* name                 */ "Ordos",
+		/* variable_04          */ 128,
+		/* variable_06          */ 10,
+		/* variable_08          */ 1,
+		/* minimapColor         */ 176,
+		/* specialCountDown     */ 300,
+		/* starportDeliveryTime */ 10,
+		/* prefixChar           */ 'O',
+		/* specialWeapon        */ 3,
+		/* musicWin             */ 5,
+		/* musicLose            */ 2,
+		/* musicBriefing        */ 26,
+		/* voiceFilename        */ "nordo.voc"
+	},
+
+	{
+		/* name                 */ "Fremen",
+		/* variable_04          */ 10,
+		/* variable_06          */ 0,
+		/* variable_08          */ 0,
+		/* minimapColor         */ 192,
+		/* specialCountDown     */ 300,
+		/* starportDeliveryTime */ 0,
+		/* prefixChar           */ 'O',
+		/* specialWeapon        */ 2,
+		/* musicWin             */ 5,
+		/* musicLose            */ 2,
+		/* musicBriefing        */ 65535,
+		/* voiceFilename        */ "afremen.voc"
+	},
+
+	{
+		/* name                 */ "Sardaukar",
+		/* variable_04          */ 10,
+		/* variable_06          */ 0,
+		/* variable_08          */ 0,
+		/* minimapColor         */ 208,
+		/* specialCountDown     */ 600,
+		/* starportDeliveryTime */ 0,
+		/* prefixChar           */ 'H',
+		/* specialWeapon        */ 1,
+		/* musicWin             */ 6,
+		/* musicLose            */ 3,
+		/* musicBriefing        */ 65535,
+		/* voiceFilename        */ "asard.voc"
+	},
+
+	{
+		/* name                 */ "Mercenary",
+		/* variable_04          */ 0,
+		/* variable_06          */ 0,
+		/* variable_08          */ 0,
+		/* minimapColor         */ 224,
+		/* specialCountDown     */ 300,
+		/* starportDeliveryTime */ 0,
+		/* prefixChar           */ 'M',
+		/* specialWeapon        */ 3,
+		/* musicWin             */ 7,
+		/* musicLose            */ 4,
+		/* musicBriefing        */ 65535,
+		/* voiceFilename        */ "amerc.voc"
+	}
+};

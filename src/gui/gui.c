@@ -661,7 +661,7 @@ void GUI_UpdateProductionStringID()
 			}
 		}
 	} else {
-		if (s->o.type == STRUCTURE_PALACE) g_global->productionStringID = g_houseInfo[s->o.houseID].specialWeapon + 0x29;
+		if (s->o.type == STRUCTURE_PALACE) g_global->productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
 	}
 }
 
@@ -1775,7 +1775,7 @@ uint16 GUI_PickHouse()
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0, NULL)); /* "No" */
 		wcsip = emu_Global_GetCSIP(w);
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", *emu_get_memorycsip(g_houseInfo[ret].name));
+		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[ret].name[0]);
 
 		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
@@ -3154,7 +3154,7 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 	char *s = buffer;
 	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 
-	strncpy(key, (char *)emu_get_memorycsip(g_houseInfo[houseID].name), 3);
+	strncpy(key, g_table_houseInfo[houseID].name, 3);
 	key[3] = '\0';
 
 	sprintf((char *)g_global->variable_9939, "GROUP%d", campaignID);
@@ -3227,7 +3227,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 		uint8 houseID = (g_global->playerHouseID + i) % 6;
 		char *s = buffer;
 
-		strncpy(key, (char *)emu_get_memorycsip(g_houseInfo[houseID].name), 3);
+		strncpy(key, g_table_houseInfo[houseID].name, 3);
 		key[3] = '\0';
 
 		if (Ini_GetString(category, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) continue;
@@ -4439,9 +4439,9 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 		if (g_config.language == LANGUAGE_FRENCH) {
 			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
 			strcat((char *)g_global->variable_9939, " ");
-			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));
+			strcat((char *)g_global->variable_9939, g_table_houseInfo[data[i].houseID].name);
 		} else {
-			strcat((char *)g_global->variable_9939, (char *)emu_get_memorycsip(g_houseInfo[data[i].houseID].name));
+			strcat((char *)g_global->variable_9939, g_table_houseInfo[data[i].houseID].name);
 			strcat((char *)g_global->variable_9939, " ");
 			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
 		}

@@ -73,9 +73,9 @@ void GameLoop_Structure()
 	if (g_global->debugScenario) return;
 
 	while (true) {
-		StructureInfo *si;
+		const StructureInfo *si;
+		const HouseInfo *hi;
 		Structure *s;
-		HouseInfo *hi;
 		House *h;
 
 		s = Structure_Find(&find);
@@ -83,7 +83,7 @@ void GameLoop_Structure()
 
 		si = &g_table_structureInfo[s->o.type];
 		h  = House_Get_ByIndex(s->o.houseID);
-		hi = &g_houseInfo[h->index];
+		hi = &g_table_houseInfo[h->index];
 
 		g_scriptCurrentObject    = &s->o;
 		g_scriptCurrentStructure = s;
@@ -909,7 +909,7 @@ void Structure_ActivateSpecial(Structure *s)
 	h = House_Get_ByIndex(s->o.houseID);
 	if (!h->flags.s.used) return;
 
-	switch (g_houseInfo[s->o.houseID].specialWeapon) {
+	switch (g_table_houseInfo[s->o.houseID].specialWeapon) {
 		case HOUSE_WEAPON_MISSLE: {
 			Unit *u;
 			tile32 position;
@@ -924,7 +924,7 @@ void Structure_ActivateSpecial(Structure *s)
 			g_unitHouseMissile = u;
 			if (u == NULL) break;
 
-			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
+			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 
 			if (!h->flags.s.human) {
 				PoolFindStruct find;
@@ -990,7 +990,7 @@ void Structure_ActivateSpecial(Structure *s)
 				Unit_SetAction(u, ACTION_HUNT);
 			}
 
-			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
+			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 		} break;
 
 		case HOUSE_WEAPON_SABOTEUR: {
@@ -1010,7 +1010,7 @@ void Structure_ActivateSpecial(Structure *s)
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->o.houseID, Tile_UnpackTile(position), Tools_Random_256());
 			g_global->variable_38BC--;
 
-			s->countDown = g_houseInfo[s->o.houseID].specialCountDown;
+			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 
 			if (u == NULL) return;
 
@@ -1699,7 +1699,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					g_global->structureIndex = s->o.index;
 
-					if (h->starportTimeLeft == 0) h->starportTimeLeft = g_houseInfo[h->index].starportDeliveryTime;
+					if (h->starportTimeLeft == 0) h->starportTimeLeft = g_table_houseInfo[h->index].starportDeliveryTime;
 
 					u->o.linkedID = h->starportLinkedID & 0xFF;
 					h->starportLinkedID = u->o.index;

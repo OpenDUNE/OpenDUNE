@@ -21,7 +21,6 @@ extern void f__AB00_058F_000E_41A1();
 
 extern void System_Init_Input();
 extern void System_Init_Global();
-extern void System_Init_House();
 extern void System_Init_File();
 extern void System_Init_Map();
 extern void System_Init_Window();
@@ -62,7 +61,6 @@ int main(int argc, char **argv)
 
 	System_Init_Input();
 	System_Init_Global();
-	System_Init_House();
 	System_Init_File();
 	System_Init_Map();
 	System_Init_Window();

@@ -49,8 +49,8 @@ static void Scenario_Load_General()
 
 static void Scenario_Load_House(uint8 houseID)
 {
+	const char *houseName = g_table_houseInfo[houseID].name;
 	char *readBuffer = (char *)emu_get_memorycsip(g_global->readBuffer);
-	char *houseName = (char *)emu_get_memorycsip(g_houseInfo[houseID].name);
 	char *houseType;
 	char buf[128];
 	char *b;
@@ -528,7 +528,7 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	memset(readBuffer, 0, g_global->readBufferSize);
 
 	/* Load scenario file */
-	sprintf(filename, "SCEN%c%03d.INI", emu_get_memorycsip(g_houseInfo[houseID].name)[0], scenarioID);
+	sprintf(filename, "SCEN%c%03d.INI", g_table_houseInfo[houseID].name[0], scenarioID);
 	if (!File_Exists(filename)) return false;
 	File_ReadBlockFile(filename, readBuffer, g_global->readBufferSize);
 
