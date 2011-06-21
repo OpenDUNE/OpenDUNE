@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/table/unitinfo.c Unit file tables. */
+/** @file src/table/unitinfo.c UnitInfo file table. */
 
 #include <stdio.h>
 #include "types.h"
@@ -8,7 +8,7 @@
 #include "../unit.h"
 
 UnitInfo g_table_unitInfo[] = {
-	{
+	{ /* 0 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 194,
 		/* name                 */ "Carryall",
@@ -88,7 +88,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 1 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 196,
 		/* name                 */ "'Thopter",
@@ -168,7 +168,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 2 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 198,
 		/* name                 */ "Infantry",
@@ -248,7 +248,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 58
 	},
 
-	{
+	{ /* 3 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 200,
 		/* name                 */ "Troopers",
@@ -328,7 +328,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 59
 	},
 
-	{
+	{ /* 4 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 202,
 		/* name                 */ "Soldier",
@@ -408,7 +408,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 58
 	},
 
-	{
+	{ /* 5 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 204,
 		/* name                 */ "Trooper",
@@ -488,7 +488,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 59
 	},
 
-	{
+	{ /* 6 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 44,
 		/* name                 */ "Saboteur",
@@ -568,7 +568,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 58
 	},
 
-	{
+	{ /* 7 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 208,
 		/* name                 */ "Launcher",
@@ -648,7 +648,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ -1
 	},
 
-	{
+	{ /* 8 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 210,
 		/* name                 */ "Deviator",
@@ -728,7 +728,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ -1
 	},
 
-	{
+	{ /* 9 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 212,
 		/* name                 */ "Tank",
@@ -808,7 +808,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 57
 	},
 
-	{
+	{ /* 10 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 214,
 		/* name                 */ "Siege Tank",
@@ -888,7 +888,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 57
 	},
 
-	{
+	{ /* 11 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 216,
 		/* name                 */ "Devastator",
@@ -968,7 +968,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 57
 	},
 
-	{
+	{ /* 12 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 218,
 		/* name                 */ "Sonic Tank",
@@ -1048,7 +1048,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 43
 	},
 
-	{
+	{ /* 13 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 220,
 		/* name                 */ "Trike",
@@ -1128,7 +1128,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 59
 	},
 
-	{
+	{ /* 14 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 222,
 		/* name                 */ "Raider Trike",
@@ -1208,7 +1208,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 59
 	},
 
-	{
+	{ /* 15 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 224,
 		/* name                 */ "Quad",
@@ -1288,7 +1288,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 59
 	},
 
-	{
+	{ /* 16 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 226,
 		/* name                 */ "Harvester",
@@ -1368,7 +1368,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 0
 	},
 
-	{
+	{ /* 17 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 228,
 		/* name                 */ "MCV",
@@ -1448,7 +1448,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 0
 	},
 
-	{
+	{ /* 18 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "Death Hand",
@@ -1528,7 +1528,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 19 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "Rocket",
@@ -1608,7 +1608,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 20 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "ARocket",
@@ -1688,7 +1688,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 21 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "GRocket",
@@ -1768,7 +1768,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 42
 	},
 
-	{
+	{ /* 22 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "MiniRocket",
@@ -1848,7 +1848,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 64
 	},
 
-	{
+	{ /* 23 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "Bullet",
@@ -1928,7 +1928,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ -1
 	},
 
-	{
+	{ /* 24 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "Sonic Blast",
@@ -2008,7 +2008,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ -1
 	},
 
-	{
+	{ /* 25 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 230,
 		/* name                 */ "Sandworm",
@@ -2088,7 +2088,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* bulletSound          */ 63
 	},
 
-	{
+	{ /* 26 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 0,
 		/* name                 */ "Frigate",

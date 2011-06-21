@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/table/teamaction.c Team file tables. */
+/** @file src/table/teamaction.c TeamAction file table. */
 
 #include <stdio.h>
 #include "types.h"

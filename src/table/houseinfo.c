@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/table/houseinfo.c House file tables. */
+/** @file src/table/houseinfo.c HouseInfo file table. */
 
 #include <stdio.h>
 #include "types.h"
@@ -8,7 +8,7 @@
 #include "../house.h"
 
 const HouseInfo g_table_houseInfo[] = {
-	{
+	{ /* 0 */
 		/* name                 */ "Harkonnen",
 		/* variable_04          */ 200,
 		/* variable_06          */ 85,
@@ -24,7 +24,7 @@ const HouseInfo g_table_houseInfo[] = {
 		/* voiceFilename        */ "nhark.voc"
 	},
 
-	{
+	{ /* 1 */
 		/* name                 */ "Atreides",
 		/* variable_04          */ 77,
 		/* variable_06          */ 0,
@@ -40,7 +40,7 @@ const HouseInfo g_table_houseInfo[] = {
 		/* voiceFilename        */ "nattr.voc"
 	},
 
-	{
+	{ /* 2 */
 		/* name                 */ "Ordos",
 		/* variable_04          */ 128,
 		/* variable_06          */ 10,
@@ -56,7 +56,7 @@ const HouseInfo g_table_houseInfo[] = {
 		/* voiceFilename        */ "nordo.voc"
 	},
 
-	{
+	{ /* 3 */
 		/* name                 */ "Fremen",
 		/* variable_04          */ 10,
 		/* variable_06          */ 0,
@@ -72,7 +72,7 @@ const HouseInfo g_table_houseInfo[] = {
 		/* voiceFilename        */ "afremen.voc"
 	},
 
-	{
+	{ /* 4 */
 		/* name                 */ "Sardaukar",
 		/* variable_04          */ 10,
 		/* variable_06          */ 0,
@@ -88,7 +88,7 @@ const HouseInfo g_table_houseInfo[] = {
 		/* voiceFilename        */ "asard.voc"
 	},
 
-	{
+	{ /* 5 */
 		/* name                 */ "Mercenary",
 		/* variable_04          */ 0,
 		/* variable_06          */ 0,

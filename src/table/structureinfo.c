@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/table/structureinfo.c Structure file tables. */
+/** @file src/table/structureinfo.c StructureInfo file table. */
 
 #include <stdio.h>
 #include "types.h"
@@ -8,7 +8,7 @@
 #include "../structure.h"
 
 StructureInfo g_table_structureInfo[] = {
-	{
+	{ /* 0 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 232,
 		/* name                 */ "Concrete",
@@ -75,7 +75,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 1 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 234,
 		/* name                 */ "Concrete4",
@@ -142,7 +142,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 2 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 236,
 		/* name                 */ "Palace",
@@ -209,7 +209,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 3 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 238,
 		/* name                 */ "Light Fctry",
@@ -276,7 +276,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 4 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 240,
 		/* name                 */ "Heavy Fctry",
@@ -343,7 +343,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 5 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 242,
 		/* name                 */ "Hi-Tech",
@@ -410,7 +410,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 6 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 244,
 		/* name                 */ "IX",
@@ -477,7 +477,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 7 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 246,
 		/* name                 */ "WOR",
@@ -544,7 +544,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 8 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 248,
 		/* name                 */ "Const Yard",
@@ -611,7 +611,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 9 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 250,
 		/* name                 */ "Windtrap",
@@ -678,7 +678,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 10 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 252,
 		/* name                 */ "Barracks",
@@ -745,7 +745,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 11 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 254,
 		/* name                 */ "Starport",
@@ -812,7 +812,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 12 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 256,
 		/* name                 */ "Refinery",
@@ -879,7 +879,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 13 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 258,
 		/* name                 */ "Repair",
@@ -946,7 +946,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 14 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 260,
 		/* name                 */ "Wall",
@@ -1013,7 +1013,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 15 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 262,
 		/* name                 */ "Turret",
@@ -1080,7 +1080,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 16 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 264,
 		/* name                 */ "R-Turret",
@@ -1147,7 +1147,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 17 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 266,
 		/* name                 */ "Spice Silo",
@@ -1214,7 +1214,7 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	},
 
-	{
+	{ /* 18 */
 		{ /* objectInfo */
 		/* stringID_abbrev      */ 268,
 		/* name                 */ "Outpost",
