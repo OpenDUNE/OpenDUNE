@@ -615,7 +615,7 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
 
 	if (Tile_IsOutOfMap(packed)) return NULL;
 
-	tile = Map_GetTileByPosition(packed);
+	tile = &g_map[packed];
 	if (!tile->hasUnit) return NULL;
 	return Unit_Get_ByIndex(tile->index - 1);
 }
@@ -928,7 +928,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
-	if (Map_GetTileByPosition(Tile_PackTile(u->o.position))->flag_10 != 0) {
+	if (g_map[Tile_PackTile(u->o.position)].flag_10 != 0) {
 		u->o.variable_09 &= ~(1 << u->o.houseID);
 
 		Unit_HouseUnitCount_Add(u, (uint8)g_global->playerHouseID);
@@ -1418,7 +1418,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			Unit_SetAction(u, ACTION_DIE);
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
-			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && Map_GetTileByPosition(packed)->overlaySpriteID == 0) {
+			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && g_map[packed].overlaySpriteID == 0) {
 				csip32 proc;
 
 				proc.s.cs = 0x33C8;
@@ -1475,7 +1475,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 			uint16 type = Map_GetLandscapeType(Tile_PackTile(newPosition));
 			if (type == LST_WALL || type == LST_STRUCTURE) {
 				if (Tools_Index_GetType(unit->originEncoded) == IT_STRUCTURE) {
-					if (Map_GetTileByPosition(Tile_PackTile(newPosition))->houseID == unit->o.houseID) {
+					if (g_map[Tile_PackTile(newPosition)].houseID == unit->o.houseID) {
 						type = LST_NORMAL_SAND;
 					}
 				}
@@ -1507,7 +1507,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 							Map_MakeExplosion(ui->explosionType, p, 200, 0);
 						}
 					} else if (ui->explosionType != 0xFFFF) {
-						if (ui->flags.s.variable_0800 && Map_GetTileByPosition(Tile_PackTile(unit->o.position))->index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
+						if (ui->flags.s.variable_0800 && g_map[Tile_PackTile(unit->o.position)].index == 0 && Map_GetLandscapeType(Tile_PackTile(unit->o.position)) == LST_NORMAL_SAND) {
 							Map_MakeExplosion(8, newPosition, unit->o.hitpoints, unit->originEncoded);
 						} else if (unit->o.type == UNIT_MISSILE_DEVIATOR) {
 							Map_DeviateArea(ui->explosionType, newPosition, 32);
@@ -1556,13 +1556,13 @@ bool Unit_Move(Unit *unit, uint16 distance)
 					}
 
 					if (unit->o.type != UNIT_SANDWORM) {
-						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->bloomSpriteID) {
-							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
+						if (g_map[packed].groundSpriteID == g_global->bloomSpriteID) {
+							g_map[g_global->selectionPosition].groundSpriteID = g_mapSpriteID[g_global->selectionPosition] & 0x01FF;
 							sprite1 = true;
 						}
 
-						if (Map_GetTileByPosition(packed)->groundSpriteID == g_global->bloomSpriteID + 1) {
-							Map_GetTileByPosition(g_global->selectionPosition)->groundSpriteID = g_map[g_global->selectionPosition] & 0x01FF;
+						if (g_map[packed].groundSpriteID == g_global->bloomSpriteID + 1) {
+							g_map[g_global->selectionPosition].groundSpriteID = g_mapSpriteID[g_global->selectionPosition] & 0x01FF;
 							sprite2 = true;
 						}
 					}
@@ -2403,7 +2403,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 	}
 
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) {
-		if (!House_AreAllied(Map_GetTileByPosition(packed)->houseID, unit->o.houseID)) res = 255;
+		if (!House_AreAllied(g_map[packed].houseID, unit->o.houseID)) res = 255;
 	}
 
 	if (res == 0) return 256;
@@ -2524,7 +2524,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	position = unit->o.position;
 	packed = Tile_PackTile(position);
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if (t->isUnveiled || unit->o.houseID == g_global->playerHouseID) {
 		Unit_HouseUnitCount_Add(unit, (uint8)g_global->playerHouseID);
@@ -2568,7 +2568,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
  */
 void Unit_RemoveFromTile(Unit *unit, uint16 packed)
 {
-	Tile *t = Map_GetTileByPosition(packed);
+	Tile *t = &g_map[packed];
 
 	if (t->hasUnit && Unit_Get_ByPackedTile(packed) == unit && (packed != Tile_PackTile(unit->variable_49) || unit->o.flags.s.variable_4_0040)) {
 		t->index = 0;

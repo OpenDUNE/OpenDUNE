@@ -114,7 +114,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					if (minX[y] > x) minX[y] = x;
 				}
 
-				t = Map_GetTileByPosition(curPos);
+				t = &g_map[curPos];
 				left = x << 4;
 
 				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->overlaySpriteID) {
@@ -148,7 +148,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		u->o.flags.s.variable_4_1000 = false;
 
-		if (!Map_GetTileByPosition(Tile_PackTile(u->o.position))->isUnveiled && g_global->debugScenario == 0) continue;
+		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && g_global->debugScenario == 0) continue;
 
 		sprite_csip = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
@@ -212,7 +212,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			u->o.flags.s.variable_4_1000 = false;
 
-			if (!Map_GetTileByPosition(packed)->isUnveiled && g_global->debugScenario == 0) continue;
+			if (!g_map[packed].isUnveiled && g_global->debugScenario == 0) continue;
 
 			ui = &g_table_unitInfo[u->o.type];
 
@@ -333,7 +333,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		s->variable_07 = 0;
 
-		if (!Map_GetTileByPosition(curPos)->isUnveiled && g_global->debugScenario == 0) continue;
+		if (!g_map[curPos].isUnveiled && g_global->debugScenario == 0) continue;
 		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
 
 		g_global->variable_8DE3 = 0xC000;
@@ -365,7 +365,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			u->o.flags.s.variable_4_1000 = false;
 
-			if (!Map_GetTileByPosition(curPos)->isUnveiled && g_global->debugScenario == 0) continue;
+			if (!g_map[curPos].isUnveiled && g_global->debugScenario == 0) continue;
 
 			ui = &g_table_unitInfo[u->o.type];
 
@@ -676,7 +676,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	if (mapScale == 0 || (g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0) return;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if ((t->isUnveiled && g_playerHouse->flags.s.radarActivated) || g_global->debugScenario != 0) {
 		uint16 type = Map_GetLandscapeType(packed);

@@ -464,7 +464,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				actionType = 2; /* Unit */
 			}
 		}
-	} else if (Map_GetTileByPosition(g_global->selectionPosition)->isUnveiled || g_global->debugScenario != 0) {
+	} else if (g_map[g_global->selectionPosition].isUnveiled || g_global->debugScenario != 0) {
 		if (Map_GetLandscapeType(g_global->selectionPosition) == LST_STRUCTURE) {
 			s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 

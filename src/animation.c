@@ -24,7 +24,7 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 {
 	uint16 *layout = g_global->layoutTiles[animation->tileLayout];
 	uint16 packed = Tile_PackTile(animation->tile);
-	Tile *t = Map_GetTileByPosition(packed);
+	Tile *t = &g_map[packed];
 	int i;
 
 	VARIABLE_NOT_USED(parameter);
@@ -36,11 +36,11 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 		uint16 position = packed + (*layout++);
 
 		if (animation->tileLayout != 0) {
-			Map_GetTileByPosition(position)->groundSpriteID = g_map[position];
+			g_map[position].groundSpriteID = g_mapSpriteID[position];
 		}
 
 		if (Map_IsPositionUnveiled(position)) {
-			Map_GetTileByPosition(position)->overlaySpriteID = 0;
+			g_map[position].overlaySpriteID = 0;
 		}
 
 		Map_Update(position, 0, false);
@@ -56,7 +56,7 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 static void Animation_Func_Abort(Animation *animation, int16 parameter)
 {
 	uint16 packed = Tile_PackTile(animation->tile);
-	Tile *t = Map_GetTileByPosition(packed);
+	Tile *t = &g_map[packed];
 
 	VARIABLE_NOT_USED(parameter);
 
@@ -88,7 +88,7 @@ static void Animation_Func_SetOverlaySprite(Animation *animation, int16 paramete
 {
 	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	uint16 packed = Tile_PackTile(animation->tile);
-	Tile *t = Map_GetTileByPosition(packed);
+	Tile *t = &g_map[packed];
 
 	assert(parameter >= 0);
 
@@ -142,7 +142,7 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 	for (i = 0; i < layoutTileCount; i++) {
 		uint16 position = packed + (*layout++);
 		uint16 spriteID = *iconMap++;
-		Tile *t = Map_GetTileByPosition(position);
+		Tile *t = &g_map[position];
 
 		if (t->groundSpriteID == spriteID) continue;
 		t->groundSpriteID = spriteID;
@@ -206,7 +206,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 	Tile *t;
 	int i;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 	Animation_Stop_ByTile(packed);
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
@@ -235,7 +235,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 void Animation_Stop_ByTile(uint16 packed)
 {
 	Animation *animation = (Animation *)emu_get_memorycsip(g_global->animations);
-	Tile *t = Map_GetTileByPosition(packed);
+	Tile *t = &g_map[packed];
 	int i;
 
 	if (!t->hasAnimation) return;

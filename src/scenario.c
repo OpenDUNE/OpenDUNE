@@ -297,7 +297,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 	posY[2] = '\0';
 
 	packed = Tile_PackXY(atoi(posY), atoi(key + 6)) & 0xFFF;
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	s = strtok(settings, ",\r\n");
 	value = atoi(s);
@@ -310,7 +310,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 
 	s = strtok(NULL, ",\r\n");
 	t->groundSpriteID = atoi(s) & 0x01FF;
-	if (g_map[packed] != t->groundSpriteID) g_map[packed] |= 0x8000;
+	if (g_mapSpriteID[packed] != t->groundSpriteID) g_mapSpriteID[packed] |= 0x8000;
 
 	if (!t->isUnveiled) {
 		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
@@ -320,7 +320,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 static void Scenario_Load_Map_Bloom(uint16 packed, Tile *t)
 {
 	t->groundSpriteID = g_global->bloomSpriteID & 0x01FF;
-	g_map[packed] |= 0x8000;
+	g_mapSpriteID[packed] |= 0x8000;
 }
 
 static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
@@ -336,7 +336,7 @@ static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
 static void Scenario_Load_Map_Special(uint16 packed, Tile *t)
 {
 	t->groundSpriteID = (g_global->bloomSpriteID + 1) & 0x01FF;
-	g_map[packed] |= 0x8000;
+	g_mapSpriteID[packed] |= 0x8000;
 }
 
 static void Scenario_Load_Reinforcement(const char *key, char *settings)
@@ -487,7 +487,7 @@ static void Scenario_Load_MapParts(const char *key, void (*ptr)(uint16 packed, T
 		Tile *t;
 
 		packed = atoi(s);
-		t = Map_GetTileByPosition(packed);
+		t = &g_map[packed];
 
 		(*ptr)(packed, t);
 

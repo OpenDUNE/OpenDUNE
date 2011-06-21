@@ -247,7 +247,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			position = Unit_FindTargetAround(packed);
 		}
 
-		if (Map_GetTileByPosition(position)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
+		if (g_map[position].overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
 			if (Object_GetByPackedTile(position) != NULL || g_global->debugScenario != 0) {
 				Map_SetSelection(position);
 				Unit_DisplayStatusText(g_unitSelected);

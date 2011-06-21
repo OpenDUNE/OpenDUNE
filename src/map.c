@@ -27,7 +27,8 @@
 #include "unknown/unknown.h"
 
 
-uint16 *g_map = NULL;
+uint16 g_mapSpriteID[64 * 64];
+Tile g_map[64 * 64];
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
 
 /**
@@ -39,21 +40,6 @@ const MapInfo g_mapInfos[3] = {
 	{16, 16, 32, 32},
 	{21, 21, 21, 21}
 };
-
-/**
- * Initialize the map.
- *
- * @init System_Init_Map
- */
-void System_Init_Map()
-{
-	g_map = (uint16 *)&emu_get_memory8(0x2E9C, 0x323F, 0x0);
-}
-
-Tile *Map_GetTileByPosition(uint16 position)
-{
-	return (Tile *)&emu_get_memory8(g_global->mapPointer.s.cs, g_global->mapPointer.s.ip, position * sizeof(Tile));
-}
 
 /**
  * Move the viewport position in the given direction.
@@ -97,7 +83,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	if (Map_GetTileByPosition(packed)->overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
+	if (g_map[packed].overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(packed);
@@ -315,10 +301,10 @@ bool Map_Save(FILE *fp)
 	uint16 i;
 
 	for (i = 0; i < 0x1000; i++) {
-		Tile *tile = Map_GetTileByPosition(i);
+		Tile *tile = &g_map[i];
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->flag_10 && (g_map[i] & 0x8000) == 0 && g_map[i] == tile->groundSpriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->flag_10 && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -339,7 +325,7 @@ bool Map_Load(FILE *fp, uint32 length)
 	uint16 i;
 
 	for (i = 0; i < 0x1000; i++) {
-		Tile *t = Map_GetTileByPosition(i);
+		Tile *t = &g_map[i];
 
 		t->isUnveiled = false;
 		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
@@ -353,11 +339,11 @@ bool Map_Load(FILE *fp, uint32 length)
 		if (fread(&i, sizeof(uint16), 1, fp) != 1) return false;
 		if (i >= 0x1000) return false;
 
-		t = Map_GetTileByPosition(i);
+		t = &g_map[i];
 		if (fread(t, sizeof(Tile), 1, fp) != 1) return false;
 
-		if (g_map[i] != t->groundSpriteID) {
-			g_map[i] |= 0x8000;
+		if (g_mapSpriteID[i] != t->groundSpriteID) {
+			g_mapSpriteID[i] |= 0x8000;
 		}
 	}
 	if (length != 0) return false;
@@ -377,7 +363,7 @@ bool Map_IsPositionUnveiled(uint16 position)
 
 	if (g_global->debugScenario) return true;
 
-	t = Map_GetTileByPosition(position);
+	t = &g_map[position];
 
 	if (!t->isUnveiled) return false;
 	if (t->overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= t->overlaySpriteID + 15) return false;
@@ -434,10 +420,10 @@ static bool Map_06F7_072B(struct_395A *s)
 
 	if (type == 0xC || type == 0xD) return false;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if (type == 0xA) {
-		t->groundSpriteID = g_map[packed] & 0x1FF;
+		t->groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 		Map_Update(packed, 0, false);
 	}
 
@@ -491,7 +477,7 @@ static bool Map_06F7_0913(struct_395A *s)
 
 	packed = Tile_PackTile(s->position);
 
-	if (Map_GetTileByPosition(packed)->groundSpriteID != g_global->bloomSpriteID) return true;
+	if (g_map[packed].groundSpriteID != g_global->bloomSpriteID) return true;
 
 	Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
 
@@ -539,7 +525,7 @@ static bool Map_06F7_0A5A(struct_395A *s)
 
 static bool Map_06F7_0A6C(struct_395A *s)
 {
-	Map_GetTileByPosition(Tile_PackTile(s->position))->flag_10 = false;
+	g_map[Tile_PackTile(s->position)].flag_10 = false;
 
 	Map_B4CD_04D9(0, s);
 
@@ -591,7 +577,7 @@ static bool Map_06F7_057C(uint16 packed)
 	Tile *t;
 	uint8 i;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if (!t->flag_10) return false;
 
@@ -641,7 +627,7 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 		s->variable_07 = 0;
 		s->variable_00 = g_global->variable_76AC;
 		g_global->variable_320E = 0;
-		Map_GetTileByPosition(packed)->flag_10 = true;
+		g_map[packed].flag_10 = true;
 		return true;
 	}
 
@@ -654,9 +640,9 @@ static bool Map_UpdateWall(uint16 packed)
 
 	if (Map_GetLandscapeType(packed) != LST_WALL) return 0;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
-	t->groundSpriteID = g_map[packed] & 0x1FF;
+	t->groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 
 	if (Map_IsPositionUnveiled(packed)) t->overlaySpriteID = g_global->wallSpriteID & 0x7F;
 
@@ -825,7 +811,7 @@ uint16 Map_GetLandscapeType(uint16 packed)
 	Tile *t;
 	int16 spriteOffset;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if (t->groundSpriteID == g_global->builtSlabSpriteID) return LST_CONCRETE_SLAB;
 
@@ -1002,7 +988,7 @@ void Map_B4CD_14CA(uint16 packed, uint8 houseID)
 {
 	if (g_global->variable_38BC == 0) {
 		Unit_Unknown10EC(Unit_Get_ByPackedTile(packed));
-		Map_GetTileByPosition(packed)->groundSpriteID = g_map[packed] & 0x1FF;
+		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
 	}
 
@@ -1086,8 +1072,8 @@ static void Map_B4CD_0C36(uint16 packed)
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 		spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
-		g_map[packed] = 0x8000 | spriteID;
-		Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
+		g_mapSpriteID[packed] = 0x8000 | spriteID;
+		g_map[packed].groundSpriteID = spriteID;
 	}
 
 	Map_Update(packed, 0, false);
@@ -1124,8 +1110,8 @@ void Map_ChangeSpiceAmount(uint16 packed, int16 dir)
 
 	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
-	g_map[packed] = 0x8000 | spriteID;
-	Map_GetTileByPosition(packed)->groundSpriteID = spriteID;
+	g_mapSpriteID[packed] = 0x8000 | spriteID;
+	g_map[packed].groundSpriteID = spriteID;
 
 	Map_B4CD_0C36(packed);
 	Map_B4CD_0C36(packed + 1);
@@ -1164,8 +1150,8 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 
-	Map_GetTileByPosition(packed)->groundSpriteID = g_global->landscapeSpriteID & 0x1FF;
-	g_map[packed] = 0x8000 | g_global->landscapeSpriteID;
+	g_map[packed].groundSpriteID = g_global->landscapeSpriteID & 0x1FF;
+	g_mapSpriteID[packed] = 0x8000 | g_global->landscapeSpriteID;
 
 	Map_Update(packed, 0, false);
 
@@ -1454,7 +1440,7 @@ uint16 Map_SearchSpice(uint16 packed, uint16 radius)
 			uint16 distance;
 
 			if (!Map_IsValidPosition(curPacked)) continue;
-			if (Map_GetTileByPosition(curPacked)->hasStructure) continue;
+			if (g_map[curPacked].hasStructure) continue;
 			if (Unit_Get_ByPackedTile(curPacked) != NULL) continue;
 
 			type = Map_GetLandscapeType(curPacked);
@@ -1599,7 +1585,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 
 	if (Tile_IsOutOfMap(packed)) return;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	spriteID = 15;
 	if (t->isUnveiled) {
@@ -1617,7 +1603,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 				continue;
 			}
 
-			if (!Map_GetTileByPosition(neighbour)->isUnveiled) spriteID |= 1 << i;
+			if (!g_map[neighbour].isUnveiled) spriteID |= 1 << i;
 		}
 	}
 
@@ -1653,7 +1639,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	if (houseID != g_global->playerHouseID) return false;
 	if (Tile_IsOutOfMap(packed)) return false;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	if (t->isUnveiled && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return false;
 	t->isUnveiled = true;
@@ -1686,7 +1672,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 {
 	Tile *t;
 
-	t = Map_GetTileByPosition(packed);
+	t = &g_map[packed];
 
 	switch (t->groundSpriteID) {
 		case 0x8: /* Spice (low) */
@@ -1705,7 +1691,7 @@ static void Map_AddSpiceOnTile(uint16 packed)
 
 					if (Tile_IsOutOfMap(packed2)) continue;
 
-					t2 = Map_GetTileByPosition(packed2);
+					t2 = &g_map[packed2];
 
 					if (g_global->variable_3A3E[t2->groundSpriteID][9] == 0) {
 						t->groundSpriteID = 0x8;
@@ -1772,7 +1758,7 @@ void Map_CreateLandscape(uint32 seed)
 
 	for (j = 0; j < 16; j++) {
 		for (i = 0; i < 16; i++) {
-			Map_GetTileByPosition(Tile_PackXY(i * 4, j * 4))->groundSpriteID = memory[j * 16 + i];
+			g_map[Tile_PackXY(i * 4, j * 4)].groundSpriteID = memory[j * 16 + i];
 		}
 	}
 
@@ -1794,7 +1780,7 @@ void Map_CreateLandscape(uint32 seed)
 				packed1 = Tile_PackXY((i * 4 + offsets[0]) & 0x3F, j * 4 + offsets[1]);
 				packed2 = Tile_PackXY((i * 4 + offsets[2]) & 0x3F, j * 4 + offsets[3]);
 
-				Map_GetTileByPosition(packed)->groundSpriteID = (Map_GetTileByPosition(packed1)->groundSpriteID + Map_GetTileByPosition(packed2)->groundSpriteID + 1) / 2;
+				g_map[packed].groundSpriteID = (g_map[packed1].groundSpriteID + g_map[packed2].groundSpriteID + 1) / 2;
 			}
 		}
 	}
@@ -1803,7 +1789,7 @@ void Map_CreateLandscape(uint32 seed)
 
 	/* Average each tile with its neighbours. */
 	for (j = 0; j < 64; j++) {
-		Tile *t = Map_GetTileByPosition(j * 64);
+		Tile *t = &g_map[j * 64];
 		memcpy(previousRow, currentRow, 128);
 
 		for (i = 0; i < 64; i++) currentRow[i] = t[i].groundSpriteID;
@@ -1836,7 +1822,7 @@ void Map_CreateLandscape(uint32 seed)
 	if (spriteID2 > spriteID1 - 3) spriteID2 = spriteID1 - 3;
 
 	for (i = 0; i < 4096; i++) {
-		uint16 spriteID = Map_GetTileByPosition(i)->groundSpriteID;
+		uint16 spriteID = g_map[i].groundSpriteID;
 
 		if (spriteID > spriteID1 + 4) {
 			spriteID = 0x6; /* Mountain */
@@ -1848,7 +1834,7 @@ void Map_CreateLandscape(uint32 seed)
 			spriteID = 0x0; /* Sand. */
 		}
 
-		Map_GetTileByPosition(i)->groundSpriteID = spriteID;
+		g_map[i].groundSpriteID = spriteID;
 	}
 
 	/* Add some spice. */
@@ -1861,7 +1847,7 @@ void Map_CreateLandscape(uint32 seed)
 			packed = Tools_Random_256() & 0x3F;
 			packed = Tile_PackXY(Tools_Random_256() & 0x3F, packed);
 
-			if (g_global->variable_3A3E[Map_GetTileByPosition(packed)->groundSpriteID][9] != 0) break;
+			if (g_global->variable_3A3E[g_map[packed].groundSpriteID][9] != 0) break;
 		}
 
 		tile = Tile_UnpackTile(packed);
@@ -1880,7 +1866,7 @@ void Map_CreateLandscape(uint32 seed)
 
 	/* Make everything smoother and use the right sprite indexes. */
 	for (j = 0; j < 64; j++) {
-		Tile *t = Map_GetTileByPosition(j * 64);
+		Tile *t = &g_map[j * 64];
 
 		memcpy(previousRow, currentRow, 128);
 
@@ -1938,7 +1924,7 @@ void Map_CreateLandscape(uint32 seed)
 	iconMap = &iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE]];
 
 	for (i = 0; i < 4096; i++) {
-		Tile *t = Map_GetTileByPosition(i);
+		Tile *t = &g_map[i];
 
 		t->groundSpriteID  = iconMap[t->groundSpriteID];
 		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
@@ -1951,5 +1937,5 @@ void Map_CreateLandscape(uint32 seed)
 		t->index           = 0;
 	}
 
-	for (i = 0; i < 4096; i++) g_map[i] = Map_GetTileByPosition(i)->groundSpriteID;
+	for (i = 0; i < 4096; i++) g_mapSpriteID[i] = g_map[i].groundSpriteID;
 }

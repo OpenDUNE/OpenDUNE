@@ -458,12 +458,12 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			if (Structure_IsValidBuildLocation(position, STRUCTURE_WALL) == 0) return false;
 
-			t = Map_GetTileByPosition(position);
+			t = &g_map[position];
 			t->groundSpriteID = (g_global->wallSpriteID + 1) & 0x1FF;
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
 			t->houseID  = s->o.houseID;
 
-			g_map[position] |= 0x8000;
+			g_mapSpriteID[position] |= 0x8000;
 
 			if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
 
@@ -482,14 +482,14 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
 				uint16 curPos = position + g_global->layoutTiles[si->layout][i];
-				Tile *t = Map_GetTileByPosition(curPos);
+				Tile *t = &g_map[curPos];
 
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 				t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
 				t->houseID  = s->o.houseID;
 
-				g_map[curPos] |= 0x8000;
+				g_mapSpriteID[curPos] |= 0x8000;
 
 				if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 
@@ -504,14 +504,14 @@ bool Structure_Place(Structure *s, uint16 position)
 			if (s->o.type == STRUCTURE_SLAB_2x2) {
 				for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
 					uint16 curPos = position + g_global->layoutTiles[si->layout][i];
-					Tile *t = Map_GetTileByPosition(curPos);
+					Tile *t = &g_map[curPos];
 
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
 					t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
 					t->houseID  = s->o.houseID;
 
-					g_map[curPos] |= 0x8000;
+					g_mapSpriteID[curPos] |= 0x8000;
 
 					if (s->o.houseID == g_global->playerHouseID) {
 						Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
@@ -690,7 +690,7 @@ Structure *Structure_Get_ByPackedTile(uint16 packed)
 
 	if (Tile_IsOutOfMap(packed)) return NULL;
 
-	tile = Map_GetTileByPosition(packed);
+	tile = &g_map[packed];
 	if (!tile->hasStructure) return NULL;
 	return Structure_Get_ByIndex(tile->index - 1);
 }
@@ -803,7 +803,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 
 			type = Map_GetLandscapeType(curPos);
 			if (type != LST_CONCRETE_SLAB && type != LST_WALL) continue;
-			if (Map_GetTileByPosition(curPos)->houseID != g_global->playerHouseID) continue;
+			if (g_map[curPos].houseID != g_global->playerHouseID) continue;
 
 			isValid = true;
 			break;
@@ -1245,11 +1245,11 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 
 	spriteID = g_global->wallSpriteID + g_global->variable_3462[bits] + 1;
 
-	tile = Map_GetTileByPosition(position);
+	tile = &g_map[position];
 	if (tile->groundSpriteID == spriteID) return false;
 
 	tile->groundSpriteID = spriteID;
-	g_map[position] |= 0x8000;
+	g_mapSpriteID[position] |= 0x8000;
 	Map_Update(position, 0, false);
 
 	return true;
@@ -1344,7 +1344,7 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 
 			if (Map_IsValidPosition(curPacked)) {
 				uint16 type = Map_GetLandscapeType(curPacked);
-				Tile *t = Map_GetTileByPosition(curPacked);
+				Tile *t = &g_map[curPacked];
 
 				if (!t->hasUnit && !t->hasStructure && type != LST_WALL && type != LST_ENTIRELY_MOUNTAIN && type != LST_PARTIAL_MOUNTAIN) {
 					if (!checkForSpice) return curPacked;
@@ -1388,12 +1388,12 @@ void Structure_0C3A_1002(Structure *s)
 
 		Animation_Stop_ByTile(curPacked);
 
-		t = Map_GetTileByPosition(curPacked);
+		t = &g_map[curPacked];
 		t->hasStructure = false;
 
 		if (g_global->debugScenario == 0) continue;
 
-		t->groundSpriteID = g_map[curPacked] & 0x1FF;
+		t->groundSpriteID = g_mapSpriteID[curPacked] & 0x1FF;
 		t->overlaySpriteID = 0;
 	}
 
@@ -1455,7 +1455,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 		for (j = 0; j < tileCount; j++) {
 			uint16 packed = i + g_global->layoutTiles[si->layout][j];
 
-			if (Map_GetLandscapeType(packed) == LST_CONCRETE_SLAB && Map_GetTileByPosition(packed)->houseID == houseID) continue;
+			if (Map_GetLandscapeType(packed) == LST_CONCRETE_SLAB && g_map[packed].houseID == houseID) continue;
 
 			stop = false;
 			break;
@@ -1886,7 +1886,7 @@ void Structure_UpdateMap(Structure *s)
 
 		position = Tile_PackTile(s->o.position) + layout[i];
 
-		t = Map_GetTileByPosition(position);
+		t = &g_map[position];
 		t->houseID = s->o.houseID;
 		t->hasStructure = true;
 		t->index = s->o.index + 1;

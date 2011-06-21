@@ -1847,7 +1847,6 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	g_global->mapPointer = csip;
 	csip.s.ip += 0x4000;
 
 	csip = Tools_GetSmallestIP(csip);
@@ -2464,7 +2463,7 @@ void Game_Prepare()
 	Unit_Recount();
 	Team_Recount();
 
-	t = Map_GetTileByPosition(0);
+	t = &g_map[0];
 	for (i = 0; i < 64 * 64; i++, t++) {
 		Structure *s;
 		Unit *u;
@@ -2591,7 +2590,7 @@ void Game_Init()
 
 	memset(emu_get_memorycsip(g_global->animations), 0, ANIMATION_MAX * sizeof(Animation));
 	memset(emu_get_memorycsip(g_global->variable_395A), 0, 32 * sizeof(struct_395A));
-	memset(emu_get_memorycsip(g_global->mapPointer), 0, 64 * 64 * sizeof(Tile));
+	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
 	memset(g_global->variable_95E5, 0, 512 * sizeof(uint8));
 	memset(g_global->variable_93E5, 0, 512 * sizeof(uint8));
@@ -2599,7 +2598,7 @@ void Game_Init()
 	memset(g_global->variable_8FE5, 0, 512 * sizeof(uint8));
 	memset(g_global->variable_8DE5, 0, 512 * sizeof(uint8));
 
-	memset(g_map, 0, 64 * 64 * sizeof(uint16) + 128);
+	memset(g_mapSpriteID, 0, 64 * 64 * sizeof(uint16));
 	memset(g_global->starportAvailable, 0, 27 * sizeof(uint16));
 
 	Sound_Unknown0363(0xFFFE);

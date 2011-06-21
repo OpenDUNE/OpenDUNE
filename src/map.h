@@ -70,12 +70,12 @@ typedef struct MapInfo {
 
 struct Unit;
 
-extern uint16 *g_map;
+extern uint16 g_mapSpriteID[];
+extern Tile g_map[];
 extern uint8 g_functions[3][3];
 
 extern const MapInfo g_mapInfos[3];
 
-extern Tile *Map_GetTileByPosition(uint16 position);
 extern uint16 Map_MoveDirection(uint16 direction);
 extern void Map_SetSelection(uint16 packed);
 extern uint16 Map_SetSelectionSize(uint16 layout);

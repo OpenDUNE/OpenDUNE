@@ -1434,7 +1434,7 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	if (u->o.script.variables[1] == 1) loc06 += 2;
 	loc06 = (loc06 << 4) + (g_table_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
 
-	Map_GetTileByPosition(position)->houseID = Unit_GetHouseID(u);
+	g_map[position].houseID = Unit_GetHouseID(u);
 
 	proc.s.cs = 0x33C8;
 	proc.s.ip = loc06;

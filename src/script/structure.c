@@ -381,7 +381,7 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	s      = g_scriptCurrentStructure;
 	lookAt = Tools_Index_GetTile(encoded);
-	tile   = Map_GetTileByPosition(Tile_PackTile(s->o.position));
+	tile   = &g_map[Tile_PackTile(s->o.position)];
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
