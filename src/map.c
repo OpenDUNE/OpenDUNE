@@ -1185,11 +1185,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-			if (g_dune2_enhanced) {
-				Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, houseID, position, Tools_Random_256());
-			} else {
-				Unit_Create(UNIT_INDEX_INVALID, houseID, UNIT_TRIKE, position, Tools_Random_256());
-			}
+			Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, houseID, position, Tools_Random_256());
 			break;
 		}
 
@@ -1200,11 +1196,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-			if (g_dune2_enhanced) {
-				u = Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, curHouseID, position, Tools_Random_256());
-			} else {
-				u = Unit_Create(UNIT_INDEX_INVALID, curHouseID, UNIT_TRIKE, position, Tools_Random_256());
-			}
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_TRIKE, curHouseID, position, Tools_Random_256());
 
 			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
 			break;
@@ -1217,11 +1209,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 			position = Tile_MoveByRandom(position, 16, true);
 
 			/* ENHANCEMENT -- Dune2 inverted houseID and typeID arguments. */
-			if (g_dune2_enhanced) {
-				u = Unit_Create(UNIT_INDEX_INVALID, UNIT_INFANTRY, curHouseID, position, Tools_Random_256());
-			} else {
-				u = Unit_Create(UNIT_INDEX_INVALID, curHouseID, UNIT_INFANTRY, position, Tools_Random_256());
-			}
+			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_INFANTRY, curHouseID, position, Tools_Random_256());
 
 			if (u != NULL) Unit_SetAction(u, ACTION_HUNT);
 			break;

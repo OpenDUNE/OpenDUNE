@@ -844,7 +844,7 @@ typedef struct GlobalData {
 	/* 35F2(2)   */ PACK uint16 removed_35F2;               /*!< REMOVED - Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 removed_35F4;               /*!< REMOVED - CS:IP of Structure array. */
 	/* 35F8(2)   */ PACK uint16 removed_35F8;               /*!< REMOVED - Amount of Structures on the map. */
-	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
+	/* 35FA(4)   */ PACK csip32 removed_35FA;               /*!< REMOVED - CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 removed_35FE;               /*!< REMOVED - Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
 	/* 3604(40)  */ PACK uint16 colourBorderSchema[5][4];   /*!< Colours used for the border of widgets. */

@@ -80,3 +80,9 @@ Map
 ---
 - When a unit moves over the top of a mound, you never get abandoned vehicles
     nor hiding enemy units
+- When getting free Trikes on the map, you never got ownership of them. The
+    parameter order is switched, where the type of the unit becomes the number
+    of the house, and the house becomes the value of Trike (13). This also
+    means that these vehicles read/write outside the house struct, which in
+    terms results in random artifects.
+

@@ -13,6 +13,7 @@
 #include "unit.h"
 #include "house.h"
 
+static struct House g_houseArray[HOUSE_INDEX_MAX];
 static struct House *g_houseFindArray[HOUSE_INDEX_MAX];
 static uint16 g_houseFindCount;
 
@@ -24,9 +25,8 @@ static uint16 g_houseFindCount;
  */
 House *House_Get_ByIndex(uint8 index)
 {
-	/* XXX -- For some reasons when loading a savegame index '13' is loaded */
-	assert(index < HOUSE_INDEX_MAX || index == 13);
-	return (House *)&emu_get_memory8(g_global->houseStartPos.s.cs, g_global->houseStartPos.s.ip, index * sizeof(House));
+	assert(index < HOUSE_INDEX_MAX);
+	return &g_houseArray[index];
 }
 
 /**
@@ -57,19 +57,11 @@ House *House_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the House array.
  */
-void House_Init(csip32 address)
+void House_Init()
 {
+	memset(g_houseArray, 0, sizeof(g_houseArray));
+	memset(g_houseFindArray, 0, sizeof(g_houseFindArray));
 	g_houseFindCount = 0;
-
-	if (address.csip != 0x0) {
-		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->houseStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
-		g_global->houseStartPos.s.ip = address.s.ip & 0x000F;
-	}
-
-	if (g_global->houseStartPos.csip == 0x0) return;
-
-	memset(House_Get_ByIndex(0), 0, sizeof(House) * HOUSE_INDEX_MAX);
 }
 
 /**
@@ -82,7 +74,6 @@ House* House_Allocate(uint8 index)
 {
 	House *h;
 
-	if (g_global->houseStartPos.csip == 0x0) return NULL;
 	if (index >= HOUSE_INDEX_MAX) return NULL;
 
 	h = House_Get_ByIndex(index);
@@ -106,12 +97,7 @@ House* House_Allocate(uint8 index)
  */
 void House_Free(House *h)
 {
-	csip32 hcsip;
 	int i;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	hcsip = g_global->houseStartPos;
-	hcsip.s.ip += h->index * sizeof(House);
 
 	/* Walk the array to find the House we are removing */
 	for (i = 0; i < g_houseFindCount; i++) {

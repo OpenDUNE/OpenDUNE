@@ -802,6 +802,11 @@ bool Unit_Load(FILE *fp, uint32 length)
 		ul.o.script.delay = 0;
 		ul.variable_70 = 0;
 
+		/* ENHANCEMENT -- Due to wrong parameter orders of Unit_Create in original Dune2,
+		 *  it happened that units exists with houseID 13. This in fact are Trikes with
+		 *  the wrong houseID. So remove those units completely from the savegame. */
+		if (ul.o.houseID == 13) continue;
+
 		/* Get the Structure from the pool */
 		u = Unit_Get_ByIndex(ul.o.index);
 		if (u == NULL) return false;
