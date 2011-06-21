@@ -458,7 +458,7 @@ static bool Map_06F7_072B(struct_395A *s)
 		overlaySpriteID = Tools_Random_256() & 1;
 	}
 
-	Map_B4CD_0AFA(packed, -1);
+	Map_ChangeSpiceAmount(packed, -1);
 
 	if (t->groundSpriteID == g_global->bloomSpriteID) {
 		Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
@@ -1008,10 +1008,15 @@ void Map_B4CD_14CA(uint16 packed, uint8 houseID)
 
 	if (houseID == g_global->playerHouseID) Sound_Unknown0363(36);
 
-	Map_B4CD_154C(packed, 5);
+	Map_FillCircleWithSpice(packed, 5);
 }
 
-void Map_B4CD_154C(uint16 packed, uint16 radius)
+/**
+ * Fill a circular area with spice.
+ * @param packed Center position of the area.
+ * @param radius Radius of the circle.
+ */
+void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
 {
 	uint16 x;
 	uint16 y;
@@ -1034,7 +1039,7 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 
 			if (Map_GetLandscapeType(curPacked) == LST_SPICE) continue;
 
-			Map_B4CD_0AFA(curPacked, 1);
+			Map_ChangeSpiceAmount(curPacked, 1);
 
 			if (g_global->debugScenario == 0) continue;
 
@@ -1042,7 +1047,7 @@ void Map_B4CD_154C(uint16 packed, uint16 radius)
 		}
 	}
 
-	Map_B4CD_0AFA(packed, 1);
+	Map_ChangeSpiceAmount(packed, 1);
 }
 
 static void Map_B4CD_0C36(uint16 packed)
@@ -1088,7 +1093,12 @@ static void Map_B4CD_0C36(uint16 packed)
 	Map_Update(packed, 0, false);
 }
 
-void Map_B4CD_0AFA(uint16 packed, int16 dir)
+/**
+ * Change amount of spice at \a packed position.
+ * @param packed Position in the world to modify.
+ * @param direction of change, > 0 means add spice, < 0 means remove spice.
+ */
+void Map_ChangeSpiceAmount(uint16 packed, int16 dir)
 {
 	uint16 type;
 	uint16 spriteID;

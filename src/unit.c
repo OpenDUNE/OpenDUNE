@@ -1618,7 +1618,7 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 	if (unit->o.hitpoints == 0) {
 		Unit_Unknown379B(unit);
 
-		if (unit->o.type == UNIT_HARVESTER) Map_B4CD_154C(Tile_PackTile(unit->o.position), unit->amount / 32);
+		if (unit->o.type == UNIT_HARVESTER) Map_FillCircleWithSpice(Tile_PackTile(unit->o.position), unit->amount / 32);
 
 		if (unit->o.type == UNIT_SABOTEUR) {
 			Sound_Unknown0363(20);

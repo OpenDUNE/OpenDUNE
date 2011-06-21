@@ -1620,7 +1620,7 @@ uint16 Script_Unit_Harvest(ScriptEngine *script)
 
 	if ((Tools_Random_256() & 0x1F) != 0) return 1;
 
-	Map_B4CD_0AFA(packed, -1);
+	Map_ChangeSpiceAmount(packed, -1);
 
 	return 0;
 }
