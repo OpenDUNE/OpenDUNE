@@ -1847,31 +1847,10 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	csip.s.ip += 0x4000;
-
-	csip = Tools_GetSmallestIP(csip);
-
 	Unit_Init();
-	csip.s.ip += sizeof(Unit) * UNIT_INDEX_MAX;
-
-	csip = Tools_GetSmallestIP(csip);
-
 	Team_Init();
-	csip.s.ip += sizeof(Team) * TEAM_INDEX_MAX;
-
-	csip = Tools_GetSmallestIP(csip);
-
 	House_Init();
-	csip.s.ip += sizeof(House) * HOUSE_INDEX_MAX;
-
-	csip = Tools_GetSmallestIP(csip);
-
 	Structure_Init();
-	csip.s.ip += sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD;
-
-	csip.s.ip += 0x58;
-
-	csip = Tools_GetSmallestIP(csip);
 
 	g_global->animations = csip;
 	csip.s.ip += 0x770;
