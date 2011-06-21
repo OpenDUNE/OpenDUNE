@@ -68,8 +68,6 @@ void Structure_Init()
 	memset(g_structureArray, 0, sizeof(g_structureArray));
 	memset(g_structureFindArray, 0, sizeof(g_structureFindArray));
 	g_structureFindCount = 0;
-
-	memset(Structure_Get_ByIndex(0), 0, sizeof(Structure) * STRUCTURE_INDEX_MAX_HARD);
 }
 
 /**

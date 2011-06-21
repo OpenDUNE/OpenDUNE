@@ -13,6 +13,7 @@
 #include "house.h"
 #include "team.h"
 
+static struct Team g_teamArray[TEAM_INDEX_MAX];
 static struct Team *g_teamFindArray[TEAM_INDEX_MAX];
 static uint16 g_teamFindCount;
 
@@ -25,7 +26,7 @@ static uint16 g_teamFindCount;
 Team *Team_Get_ByIndex(uint16 index)
 {
 	assert(index < TEAM_INDEX_MAX);
-	return (Team *)&emu_get_memory8(g_global->teamStartPos.s.cs, g_global->teamStartPos.s.ip, index * sizeof(Team));
+	return &g_teamArray[index];
 }
 
 /**
@@ -60,18 +61,9 @@ Team *Team_Find(PoolFindStruct *find)
  */
 void Team_Init(csip32 address)
 {
+	memset(g_teamArray, 0, sizeof(g_teamArray));
 	memset(g_teamFindArray, 0, sizeof(g_teamFindArray));
 	g_teamFindCount = 0;
-
-	if (address.csip != 0x0) {
-		/* Try to make the IP empty by moving as much as possible to the CS */
-		g_global->teamStartPos.s.cs = address.s.cs + (address.s.ip >> 4);
-		g_global->teamStartPos.s.ip = address.s.ip & 0x000F;
-	}
-
-	if (g_global->teamStartPos.csip == 0x0) return;
-
-	memset(Team_Get_ByIndex(0), 0, sizeof(Team) * TEAM_INDEX_MAX);
 }
 
 /**
@@ -100,8 +92,6 @@ void Team_Recount()
 Team *Team_Allocate(uint16 index)
 {
 	Team *t = NULL;
-
-	if (g_global->teamStartPos.csip == 0x0) return NULL;
 
 	if (index == TEAM_INDEX_INVALID) {
 		/* Find the first unused index */

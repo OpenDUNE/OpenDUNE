@@ -840,7 +840,7 @@ typedef struct GlobalData {
 	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32 removed_35E8;               /*!< REMOVED - CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 removed_35EC;               /*!< REMOVED - Amount of Units on the map. */
-	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
+	/* 35EE(4)   */ PACK csip32 removed_35EE;               /*!< REMOVED - CS:IP of Team array. */
 	/* 35F2(2)   */ PACK uint16 removed_35F2;               /*!< REMOVED - Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 removed_35F4;               /*!< REMOVED - CS:IP of Structure array. */
 	/* 35F8(2)   */ PACK uint16 removed_35F8;               /*!< REMOVED - Amount of Structures on the map. */
