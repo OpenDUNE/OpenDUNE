@@ -32,6 +32,8 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+#include "../table/actioninfo.h"
+
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];
@@ -266,7 +268,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	GUI_Widget_MakeSelected(w, false);
 
-	ai = &g_actionInfo[action];
+	ai = &g_table_actionInfo[action];
 
 	if (ai->variable_08 != g_global->selectionType) {
 		g_unitActive = g_unitSelected;

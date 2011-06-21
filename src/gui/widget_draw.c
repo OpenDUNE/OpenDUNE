@@ -21,6 +21,8 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+#include "../table/actioninfo.h"
+
 /**
  * Draw a text button widget to the display, relative to its parent.
  *
@@ -741,7 +743,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 					if (isNotPlayerOwned && o->type != UNIT_HARVESTER) actions = g_global->actionsAI;
 
 					for (i = 0; i < 4; i++) {
-						buttons[i]->stringID = g_actionInfo[actions[i]].stringID;
+						buttons[i]->stringID = g_table_actionInfo[actions[i]].stringID;
 						buttons[i]->shortcut = GUI_Widget_GetShortcut(String_Get_ByIndex(buttons[i]->stringID)[0]);
 
 						if (g_config.language == LANGUAGE_FRENCH) {

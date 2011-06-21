@@ -33,8 +33,9 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
+#include "table/actioninfo.h"
+
 UnitInfo *g_unitInfo = NULL;
-ActionInfo *g_actionInfo = NULL;
 
 Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
@@ -48,7 +49,6 @@ Unit *g_unitSelected = NULL;
 void System_Init_Unit()
 {
 	g_unitInfo = (UnitInfo *)&emu_get_memory8(0x2D07, 0x0, 0x0);
-	g_actionInfo = (ActionInfo *)&emu_get_memory8(0x2E8A, 0x0, 0x6E);
 }
 
 /**
@@ -353,8 +353,7 @@ uint8 Unit_ActionStringToType(const char *name)
 	if (name == NULL) return ACTION_INVALID;
 
 	for (type = 0; type < ACTION_MAX; type++) {
-		const char *actionName = (const char *)emu_get_memorycsip(g_actionInfo[type].name);
-		if (strcasecmp(actionName, name) == 0) return type;
+		if (strcasecmp(g_table_actionInfo[type].name, name) == 0) return type;
 	}
 
 	return ACTION_INVALID;
@@ -499,7 +498,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 	if (u == NULL) return;
 	if (u->actionID == ACTION_DESTRUCT || u->actionID == ACTION_DIE || action == ACTION_INVALID) return;
 
-	ai = &g_actionInfo[action];
+	ai = &g_table_actionInfo[action];
 
 	switch (ai->variable_06) {
 		case 0:

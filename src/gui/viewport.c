@@ -24,6 +24,8 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+#include "../table/actioninfo.h"
+
 /**
  * Handles the Click events for the Viewport widget.
  *
@@ -159,7 +161,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (g_config.voiceDrv == 0) {
 			Driver_Sound_Play(36, 0xFF);
 		} else if (g_unitInfo[u->o.type].movementType == MOVEMENT_FOOT) {
-			Sound_Unknown0156(g_actionInfo[action].variable_0A);
+			Sound_Unknown0156(g_table_actionInfo[action].variable_0A);
 		} else {
 			Sound_Unknown0156(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}

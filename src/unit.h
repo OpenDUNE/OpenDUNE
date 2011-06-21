@@ -180,25 +180,21 @@ typedef struct UnitInfo {
 MSVC_PACKED_END
 assert_compile(sizeof(UnitInfo) == 0x5A);
 
-MSVC_PACKED_BEGIN
 /**
  * Static information per Action type.
  */
 typedef struct ActionInfo {
-	/* 0000()    */ PACK uint16 stringID;                   /*!< StringID of Action name. */
-	/* 0002(4)   */ PACK csip32 name;                       /*!< Name of Action. */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-} GCC_PACKED ActionInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(ActionInfo) == 0x0C);
+	/* 0000()    */ uint16 stringID;                   /*!< StringID of Action name. */
+	/* 0002(4)   */ const char *name;                  /*!< Name of Action. */
+	/* 0006(2)   */ uint16 variable_06;                /*!< ?? */
+	/* 0008(2)   */ uint16 variable_08;                /*!< ?? */
+	/* 000A(2)   */ uint16 variable_0A;                /*!< ?? */
+} ActionInfo;
 
 struct Team;
 struct Structure;
 
 extern UnitInfo *g_unitInfo;
-extern ActionInfo *g_actionInfo;
 
 extern Unit *g_unitActive;
 extern Unit *g_unitHouseMissile;
