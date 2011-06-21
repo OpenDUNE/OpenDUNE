@@ -59,7 +59,7 @@ Team *Team_Find(PoolFindStruct *find)
  *
  * @param address If non-zero, the new location of the Team array.
  */
-void Team_Init(csip32 address)
+void Team_Init()
 {
 	memset(g_teamArray, 0, sizeof(g_teamArray));
 	memset(g_teamFindArray, 0, sizeof(g_teamFindArray));

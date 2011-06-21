@@ -1857,7 +1857,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	csip = Tools_GetSmallestIP(csip);
 
-	Team_Init(csip);
+	Team_Init();
 	csip.s.ip += sizeof(Team) * TEAM_INDEX_MAX;
 
 	csip = Tools_GetSmallestIP(csip);
@@ -2586,7 +2586,7 @@ void Game_Init()
 
 	Unit_Init();
 	Structure_Init();
-	Team_Init(null);
+	Team_Init();
 	House_Init(null);
 
 	memset(emu_get_memorycsip(g_global->animations), 0, ANIMATION_MAX * sizeof(Animation));
