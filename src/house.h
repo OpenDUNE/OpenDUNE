@@ -85,19 +85,19 @@ assert_compile(sizeof(House) == 0x42);
  * Static information per House type.
  */
 typedef struct HouseInfo {
-	const char *name;                  /*!< Pointer to name of house. */
-	uint16 variable_04;                /*!< ?? Default amount of deviation decreased? */
-	uint16 variable_06;                /*!< ?? */
-	uint16 variable_08;                /*!< ?? Amount of damage per 'degrade' round? */
-	uint16 minimapColor;               /*!< The color used on the minimap. */
-	uint16 specialCountDown;           /*!< Time between activation of Special Weapon. */
-	uint16 starportDeliveryTime;       /*!< Time it takes for a starport delivery. */
-	uint16 prefixChar;                 /*!< Char used as prefix for some filenames. */
-	uint16 specialWeapon;              /*!< Which Special Weapon this House has. @see HouseWeapon. */
-	uint16 musicWin;                   /*!< Music played when you won a mission. */
-	uint16 musicLose;                  /*!< Music played when you lose a mission. */
-	uint16 musicBriefing;              /*!< Music played during initial briefing of mission. */
-	const char *voiceFilename;         /*!< Pointer to filename with the voices of the house. */
+	const char *name;                                       /*!< Pointer to name of house. */
+	uint16 variable_04;                                     /*!< ?? Default amount of deviation decreased? */
+	uint16 variable_06;                                     /*!< ?? */
+	uint16 variable_08;                                     /*!< ?? Amount of damage per 'degrade' round? */
+	uint16 minimapColor;                                    /*!< The color used on the minimap. */
+	uint16 specialCountDown;                                /*!< Time between activation of Special Weapon. */
+	uint16 starportDeliveryTime;                            /*!< Time it takes for a starport delivery. */
+	uint16 prefixChar;                                      /*!< Char used as prefix for some filenames. */
+	uint16 specialWeapon;                                   /*!< Which Special Weapon this House has. @see HouseWeapon. */
+	uint16 musicWin;                                        /*!< Music played when you won a mission. */
+	uint16 musicLose;                                       /*!< Music played when you lose a mission. */
+	uint16 musicBriefing;                                   /*!< Music played during initial briefing of mission. */
+	const char *voiceFilename;                              /*!< Pointer to filename with the voices of the house. */
 } HouseInfo;
 
 extern const HouseInfo g_table_houseInfo[];

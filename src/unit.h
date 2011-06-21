@@ -181,11 +181,11 @@ typedef struct UnitInfo {
  * Static information per Action type.
  */
 typedef struct ActionInfo {
-	/* 0000()    */ uint16 stringID;                   /*!< StringID of Action name. */
-	/* 0002(4)   */ const char *name;                  /*!< Name of Action. */
-	/* 0006(2)   */ uint16 variable_06;                /*!< ?? */
-	/* 0008(2)   */ uint16 variable_08;                /*!< ?? */
-	/* 000A(2)   */ uint16 variable_0A;                /*!< ?? */
+	/* 0000()    */ uint16 stringID;                        /*!< StringID of Action name. */
+	/* 0002(4)   */ const char *name;                       /*!< Name of Action. */
+	/* 0006(2)   */ uint16 variable_06;                     /*!< ?? */
+	/* 0008(2)   */ uint16 variable_08;                     /*!< ?? */
+	/* 000A(2)   */ uint16 variable_0A;                     /*!< ?? */
 } ActionInfo;
 
 struct Team;
