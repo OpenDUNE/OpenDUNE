@@ -4352,13 +4352,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			Unknown_07AE_00E4(19);
 			GUI_Screen_SetActive(oldScreenID);
 
-			{
-				csip32 null;
-				csip32 tick;
-				null.csip = 0x0;
-				tick.csip = 0x35180066;
-				GUI_EditBox(name, 5, 19, null, tick, 0);
-			}
+			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, 0);
 
 			if (*name == '\0') continue;
 

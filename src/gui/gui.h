@@ -105,6 +105,6 @@ extern void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16
 extern void GUI_Palette_CreateRemap(uint8 houseID);
 
 /* editbox.c */
-extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4);
+extern uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(), uint16 unknown4);
 
 #endif /* GUI_GUI_H */

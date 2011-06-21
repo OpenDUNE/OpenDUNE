@@ -211,15 +211,7 @@ bool GUI_Security_Show()
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-		{
-			csip32 callback;
-			csip32 wcsip;
-
-			callback.csip = 0x34DA003E;
-			wcsip.csip = 0x0;
-
-			GUI_EditBox((char *)g_global->variable_9939, 80, 9, wcsip, callback, 0);
-		}
+		GUI_EditBox((char *)g_global->variable_9939, 80, 9, NULL, &GUI_Mentat_Tick, 0);
 
 		GUI_Security_UndrawText();
 

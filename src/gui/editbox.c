@@ -44,12 +44,12 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
  * @param text The text to edit. Uses the pointer to make the modifications.
  * @param maxLength The maximum length of the text.
  * @param unknown1 Unknown.
- * @param wcsip The widget this editbox is attached to.
- * @param callbackcsip The callback to call during editing.
+ * @param w The widget this editbox is attached to.
+ * @param tickProc The function to call every tick, for animation etc.
  * @param unknown4 Unknown.
  * @return Unknown.
  */
-uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
+uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uint16 (*tickProc)(), uint16 unknown4)
 {
 	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
@@ -106,16 +106,12 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, csip32 wcsip, 
 		uint16 keyWidth;
 		uint16 key;
 
-		if (callbackcsip.csip != 0x0) {
-			switch (callbackcsip.csip) {
-				case 0x34DA003E: returnValue = GUI_Mentat_Tick(); break;
-				case 0x35180066: returnValue = GUI_HallOfFame_Tick(); break;
-				default: assert(0);
-			}
+		if (tickProc != NULL) {
+			returnValue = tickProc();
 			if (returnValue != 0) break;
 		}
 
-		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(wcsip));
+		key = GUI_Widget_HandleEvents(w);
 
 		GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 

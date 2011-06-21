@@ -880,12 +880,9 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	WindowDesc *desc = &g_global->variable_27F0;
 	bool loop;
 	char *saveDesc = g_global->savegameDesc[key];
-	csip32 nullcsip;
 	uint16 loc08;
 	uint16 loc0A;
 	bool ret;
-
-	nullcsip.csip = 0x0;
 
 	if (*saveDesc == '[') *saveDesc = 0;
 
@@ -912,7 +909,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
 
-		loc0A = GUI_EditBox(saveDesc, 50, 15, g_global->variable_2A93, nullcsip, loc08);
+		loc0A = GUI_EditBox(saveDesc, 50, 15, (Widget *)emu_get_memorycsip(g_global->variable_2A93), NULL, loc08);
 		loc08 = 2;
 
 		if ((loc0A & 0x8000) == 0) continue;
