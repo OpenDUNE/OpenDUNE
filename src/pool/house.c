@@ -13,6 +13,9 @@
 #include "unit.h"
 #include "house.h"
 
+static struct House *g_houseFindArray[HOUSE_INDEX_MAX];
+static uint16 g_houseFindCount;
+
 /**
  * Get a House from the pool with the indicated index.
  *
@@ -48,15 +51,13 @@ House *House_Get_ByMemory(csip32 address)
  */
 House *House_Find(PoolFindStruct *find)
 {
-	if (find->index >= g_global->houseCount && find->index != 0xFFFF) return NULL;
+	if (find->index >= g_houseFindCount && find->index != 0xFFFF) return NULL;
 	find->index++; /* First, we always go to the next index */
 
-	for (; find->index < g_global->houseCount; find->index++) {
-		csip32 pos = g_global->houseArray[find->index];
-		House *h;
-		if (pos.csip == 0x0) continue;
+	for (; find->index < g_houseFindCount; find->index++) {
+		House *h = g_houseFindArray[find->index];
+		if (h == NULL) continue;
 
-		h = House_Get_ByMemory(pos);
 		return h;
 	}
 
@@ -70,7 +71,7 @@ House *House_Find(PoolFindStruct *find)
  */
 void House_Init(csip32 address)
 {
-	g_global->houseCount = 0;
+	g_houseFindCount = 0;
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
@@ -105,9 +106,7 @@ House* House_Allocate(uint8 index)
 	h->flags.s.used     = true;
 	h->starportLinkedID = UNIT_INDEX_INVALID;
 
-	g_global->houseArray[g_global->houseCount] = g_global->houseStartPos;
-	g_global->houseArray[g_global->houseCount].s.ip += index * sizeof(House);
-	g_global->houseCount++;
+	g_houseFindArray[g_houseFindCount++] = h;
 
 	return h;
 }
@@ -127,15 +126,15 @@ void House_Free(House *h)
 	hcsip.s.ip += h->index * sizeof(House);
 
 	/* Walk the array to find the House we are removing */
-	for (i = 0; i < g_global->houseCount; i++) {
-		if (g_global->houseArray[i].csip != hcsip.csip) continue;
+	for (i = 0; i < g_houseFindCount; i++) {
+		if (g_houseFindArray[i] != h) continue;
 		break;
 	}
-	assert(i < g_global->houseCount); /* We should always find an entry */
+	assert(i < g_houseFindCount); /* We should always find an entry */
 
-	g_global->houseCount--;
+	g_houseFindCount--;
 
 	/* If needed, close the gap */
-	if (i == g_global->houseCount) return;
-	memmove(&g_global->houseArray[i], &g_global->houseArray[i + 1], (g_global->houseCount - i) * sizeof(g_global->houseArray[0]));
+	if (i == g_houseFindCount) return;
+	memmove(&g_houseFindArray[i], &g_houseFindArray[i + 1], (g_houseFindCount - i) * sizeof(g_houseFindArray[0]));
 }
