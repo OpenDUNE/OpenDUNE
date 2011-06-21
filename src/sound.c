@@ -11,7 +11,6 @@
 #include "os/strings.h"
 
 #include "sound.h"
-#include "table/sound.h"
 
 #include "file.h"
 #include "gui/gui.h"

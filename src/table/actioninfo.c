@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "types.h"
+
 #include "../unit.h"
 
 const ActionInfo g_table_actionInfo[] = {
