@@ -214,13 +214,11 @@ bool GUI_Security_Show()
 		{
 			csip32 callback;
 			csip32 wcsip;
-			csip32 text;
 
 			callback.csip = 0x34DA003E;
 			wcsip.csip = 0x0;
-			text.csip = 0x353F9939;
 
-			GUI_EditBox(text, 80, 9, wcsip, callback, 0);
+			GUI_EditBox((char *)g_global->variable_9939, 80, 9, wcsip, callback, 0);
 		}
 
 		GUI_Security_UndrawText();

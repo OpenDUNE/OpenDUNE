@@ -22,8 +22,6 @@
  */
 static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 {
-	assert(g_global->variable_6668.csip == 0x22A60D31);
-
 	if (resetBlink) {
 		g_global->tickEditBox = 0;
 		g_global->editBoxShowCursor = 1;
@@ -41,7 +39,17 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	GUI_Mouse_Show_Safe();
 }
 
-uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
+/**
+ * Show an EditBox and handles the input.
+ * @param text The text to edit. Uses the pointer to make the modifications.
+ * @param maxLength The maximum length of the text.
+ * @param unknown1 Unknown.
+ * @param wcsip The widget this editbox is attached to.
+ * @param callbackcsip The callback to call during editing.
+ * @param unknown4 Unknown.
+ * @return Unknown.
+ */
+uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, csip32 wcsip, csip32 callbackcsip, uint16 unknown4)
 {
 	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
@@ -69,7 +77,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 	textWidth = 0;
 	textLength = 0;
 	maxWidth = (g_global->variable_992F << 3) - Font_GetCharWidth('W') - 1;
-	t = (char *)emu_get_memorycsip(text);
+	t = text;
 
 	/* Calculate the length and width of the current string */
 	for (; *t != '\0'; t++) {
@@ -88,7 +96,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 
 	if ((unknown4 & 0x4) != 0) Unknown_07AE_0103();
 
-	GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text), positionX, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0);
+	GUI_DrawText_Wrapper(text, positionX, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0);
 
 	GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 
@@ -162,7 +170,7 @@ uint16 GUI_EditBox(csip32 text, uint16 maxLength, uint16 unknown1, csip32 wcsip,
 		GUI_EditBox_BlinkCursor(positionX + textWidth, true);
 
 		/* Draw new character */
-		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(text) + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0x020);
+		GUI_DrawText_Wrapper(text + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0x020);
 
 		GUI_Mouse_Show_Safe();
 
