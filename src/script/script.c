@@ -17,6 +17,7 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
 struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;
 struct Unit *g_scriptCurrentUnit;
+struct Team *g_scriptCurrentTeam;
 
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.

@@ -31,7 +31,7 @@
 uint16 Script_Team_GetMembers(ScriptEngine *script)
 {
 	VARIABLE_NOT_USED(script);
-	return Team_Get_ByMemory(g_global->teamCurrent)->members;
+	return g_scriptCurrentTeam->members;
 }
 
 /**
@@ -45,7 +45,7 @@ uint16 Script_Team_GetMembers(ScriptEngine *script)
 uint16 Script_Team_GetVariable6(ScriptEngine *script)
 {
 	VARIABLE_NOT_USED(script);
-	return Team_Get_ByMemory(g_global->teamCurrent)->variable_06;
+	return g_scriptCurrentTeam->variable_06;
 }
 
 /**
@@ -59,7 +59,7 @@ uint16 Script_Team_GetVariable6(ScriptEngine *script)
 uint16 Script_Team_GetTarget(ScriptEngine *script)
 {
 	VARIABLE_NOT_USED(script);
-	return Team_Get_ByMemory(g_global->teamCurrent)->target;
+	return g_scriptCurrentTeam->target;
 }
 
 /**
@@ -81,7 +81,7 @@ uint16 Script_Team_AddCloserUnit(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 
 	if (t->members >= t->maxMembers) return 0;
 
@@ -143,7 +143,7 @@ uint16 Script_Team_GetAverageDistance(ScriptEngine *script)
 
 	position.tile = 0;
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 
 	find.houseID = t->houseID;
 	find.index   = 0xFFFF;
@@ -203,7 +203,7 @@ uint16 Script_Team_Unknown0543(ScriptEngine *script)
 	uint16 distance;
 	PoolFindStruct find;
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 	distance = script->stack[script->stackPointer];
 
 	find.houseID = t->houseID;
@@ -263,7 +263,7 @@ uint16 Script_Team_FindBestTarget(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 
 	find.houseID = t->houseID;
 	find.index   = 0xFFFF;
@@ -301,7 +301,7 @@ uint16 Script_Team_Load(ScriptEngine *script)
 	Team *t;
 	uint16 type;
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 	type = script->stack[script->stackPointer];
 
 	if (t->variable_0C == type) return 0;
@@ -329,7 +329,7 @@ uint16 Script_Team_Load2(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 	type = t->variable_0E;
 
 	if (t->variable_0C == type) return 0;
@@ -358,7 +358,7 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 
 	VARIABLE_NOT_USED(script);
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 	if (t->target == 0) return 0;
 
 	tile = Tools_Index_GetTile(t->target);
@@ -422,7 +422,7 @@ uint16 Script_Team_DisplayText(ScriptEngine *script)
 	csip32 text;
 	uint16 offset;
 
-	t = Team_Get_ByMemory(g_global->teamCurrent);
+	t = g_scriptCurrentTeam;
 	if (t->houseID == g_global->playerHouseID) return 0;
 
 	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);

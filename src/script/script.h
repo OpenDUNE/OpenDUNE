@@ -48,6 +48,7 @@ assert_compile(sizeof(ScriptInfo) == 0x16);
 extern struct Object *g_scriptCurrentObject;
 extern struct Structure *g_scriptCurrentStructure;
 extern struct Unit *g_scriptCurrentUnit;
+extern struct Team *g_scriptCurrentTeam;
 
 extern ScriptInfo *ScriptInfo_Get_ByMemory(csip32 address);
 void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);

@@ -1058,7 +1058,7 @@ typedef struct GlobalData {
 	/* 611C(2)   */ PACK uint16 iconRPALFreed;              /*!< True if memory at iconRPAL has been freed. */
 	/* 611E(4)   */ PACK csip32 iconRTBL;                   /*!< Content of RTBL chunk from ICON.ICN. */
 	/* 6122(2)   */ PACK uint16 iconRTBLFreed;              /*!< True if memory at iconRTBL has been freed. */
-	/* 6124(4)   */ PACK csip32 teamCurrent;                /*!< Current Team we are handling in GameLoop. */
+	/* 6124(4)   */ PACK csip32 removed_6124;               /*!< REMOVED - Current Team we are handling in GameLoop. */
 	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
