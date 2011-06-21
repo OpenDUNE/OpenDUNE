@@ -239,7 +239,7 @@ void GameLoop_Structure()
 
 								/* If the AI no longer had in memory where to store the structure, free it and forget about it */
 								if (i == 5) {
-									StructureInfo *nsi = &g_table_structureInfo[ns->o.type];
+									const StructureInfo *nsi = &g_table_structureInfo[ns->o.type];
 
 									h->credits += nsi->o.buildCredits;
 
@@ -260,7 +260,7 @@ void GameLoop_Structure()
 
 				if (s->o.type == STRUCTURE_REPAIR) {
 					if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF) {
-						UnitInfo *ui;
+						const UnitInfo *ui;
 						uint16 repairSpeed;
 						uint16 repairCost;
 
@@ -370,7 +370,7 @@ uint8 Structure_StringToType(const char *name)
  */
 Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	Structure *s;
 
 	if (houseID >= HOUSE_MAX) return NULL;
@@ -444,7 +444,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
  */
 bool Structure_Place(Structure *s, uint16 position)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	int16 loc0A;
 
 	if (s == NULL) return false;
@@ -648,7 +648,7 @@ void Structure_CalculateHitpointsMax(House *h)
 	find.type    = 0xFFFF;
 
 	while (true) {
-		StructureInfo *si;
+		const StructureInfo *si;
 		Structure *s;
 
 		s = Structure_Find(&find);
@@ -734,7 +734,7 @@ uint32 Structure_GetStructuresBuilt(House *h)
  */
 int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	uint16 *layoutTile;
 	uint8 i;
 	uint16 neededSlabs;
@@ -1044,9 +1044,9 @@ void Structure_RemoveFog(Structure *s)
  */
 static void Structure_Destroy(Structure *s)
 {
+	const StructureInfo *si;
 	uint8 linkedID;
 	House *h;
-	StructureInfo *si;
 
 	if (s == NULL) return;
 
@@ -1104,7 +1104,7 @@ static void Structure_Destroy(Structure *s)
  */
 bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 
 	if (s == NULL) return false;
 	if (damage == 0) return false;
@@ -1167,7 +1167,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
  */
 bool Structure_IsUpgradable(Structure *s)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 
 	if (s == NULL) return false;
 
@@ -1315,7 +1315,7 @@ void Structure_UntargetMe(Structure *s)
  */
 uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	uint16 packed;
 	uint16 spicePacked;  /* Position of the spice, or 0 if not used or if no spice. */
 	uint16 bestPacked;
@@ -1372,8 +1372,8 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 
 void Structure_0C3A_1002(Structure *s)
 {
+	const StructureInfo *si;
 	uint16 packed;
-	StructureInfo *si;
 	uint16 i;
 	House *h;
 
@@ -1438,7 +1438,7 @@ void Structure_0C3A_1002(Structure *s)
 
 static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	uint16 tileCount;
 	uint16 i;
 
@@ -1504,7 +1504,7 @@ static void Structure_CancelBuild(Structure *s)
  */
 bool Structure_BuildObject(Structure *s, uint16 objectType)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	House *h;
 	char *str;
 	Object *o;
@@ -1657,7 +1657,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				uint8 i;
 
 				for (i = 0; i < 25; i++) {
-					UnitInfo *ui;
+					const UnitInfo *ui;
 					Unit *u;
 
 					if (g_factoryWindowItems[i].amount == 0) continue;
@@ -1860,7 +1860,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
  */
 void Structure_UpdateMap(Structure *s)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	csip32 animationProc;
 	uint16 layoutSize;
 	uint16 *layout;
@@ -1919,7 +1919,7 @@ void Structure_UpdateMap(Structure *s)
 
 uint32 Structure_GetBuildable(Structure *s)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	uint32 structuresBuilt;
 	uint32 ret = 0;
 	int i;
@@ -2044,7 +2044,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 	find.type    = 0xFFFF;
 
 	while (true) {
-		UnitInfo *ui;
+		const UnitInfo *ui;
 		Unit *u;
 
 		u = Unit_Find(&find);

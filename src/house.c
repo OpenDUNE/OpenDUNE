@@ -509,7 +509,7 @@ void House_UpdateCreditsStorage(uint8 houseID)
 
 	creditsStorage = 0;
 	while (true) {
-		StructureInfo *si;
+		const StructureInfo *si;
 		Structure *s;
 
 		s = Structure_Find(&find);
@@ -546,7 +546,7 @@ void House_CalculatePowerAndCredit(House *h)
 	find.type    = 0xFFFF;
 
 	while (true) {
-		StructureInfo *si;
+		const StructureInfo *si;
 		Structure *s;
 
 		s = Structure_Find(&find);

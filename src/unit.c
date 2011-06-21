@@ -374,7 +374,7 @@ uint8 Unit_MovementStringToType(const char *name)
  */
 Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, int8 orientation)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	Unit *u;
 
 	if (houseID >= HOUSE_MAX) return NULL;
@@ -636,8 +636,8 @@ Unit *Unit_Get_ByPackedTile(uint16 packed)
  */
 uint16 Unit_IsValidMovementIntoStructure(Unit *unit, Structure *s)
 {
-	StructureInfo *si;
-	UnitInfo *ui;
+	const StructureInfo *si;
+	const UnitInfo *ui;
 	uint16 unitEnc;
 	uint16 structEnc;
 
@@ -803,8 +803,8 @@ bool Unit_Load(FILE *fp, uint32 length)
  */
 uint16 Unit_GetTargetUnitPriority(Unit *unit, Unit *target)
 {
-	UnitInfo *targetInfo;
-	UnitInfo *unitInfo;
+	const UnitInfo *targetInfo;
+	const UnitInfo *unitInfo;
 	uint16 distance;
 	uint16 priority;
 
@@ -906,7 +906,7 @@ uint16 Unit_FindClosestRefinery(Unit *unit)
  */
 bool Unit_SetPosition(Unit *u, tile32 position)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 
 	if (u == NULL) return false;
 
@@ -1139,7 +1139,7 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
  */
 bool Unit_Unknown167C(Unit *unit)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	int8 locsi;
 	uint16 packed;
 	uint16 type;
@@ -1254,7 +1254,7 @@ void Unit_SetTarget(Unit *unit, uint16 encoded)
  */
 bool Unit_Deviation_Decrease(Unit *unit, uint16 amount)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 
 	if (unit == NULL || unit->deviated == 0) return false;
 
@@ -1320,7 +1320,7 @@ void Unit_RemoveFog(Unit *unit)
  */
 bool Unit_Deviate(Unit *unit, uint16 probability)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 
 	if (unit == NULL) return false;
 
@@ -1362,7 +1362,7 @@ bool Unit_Deviate(Unit *unit, uint16 probability)
  */
 bool Unit_Move(Unit *unit, uint16 distance)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	uint16 d;
 	uint16 packed;
 	tile32 newPosition;
@@ -1593,7 +1593,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
  */
 bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	bool alive = false;
 	uint8 houseID;
 
@@ -1786,7 +1786,7 @@ void Unit_Select(Unit *unit)
 	}
 
 	if (Unit_GetHouseID(unit) == g_global->playerHouseID) {
-		UnitInfo *ui;
+		const UnitInfo *ui;
 
 		ui = &g_table_unitInfo[unit->o.type];
 
@@ -1929,7 +1929,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
  */
 bool Unit_Unknown0E2E(Unit *unit)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	uint16 packed;
 	Unit *u;
 	uint16 loc02;
@@ -2009,7 +2009,7 @@ void Unit_Unknown204C(Unit *unit, uint16 arg0A)
  */
 Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 damage, uint16 target)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	tile32 tile;
 
 	if (!Tools_Index_IsValid(target)) return NULL;
@@ -2096,7 +2096,7 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
  */
 void Unit_DisplayStatusText(Unit *unit)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 
 	if (unit == NULL) return;
 
@@ -2224,8 +2224,8 @@ Unit *Unit_Unknown2BB5(UnitType type, uint8 houseID, uint16 target, bool arg0C)
  */
 void Unit_EnterStructure(Unit *unit, Structure *s)
 {
-	UnitInfo *ui;
-	StructureInfo *si;
+	const StructureInfo *si;
+	const UnitInfo *ui;
 
 	if (unit == NULL || s == NULL) return;
 
@@ -2366,7 +2366,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
  */
 int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	Unit *u;
 	Structure *s;
 	uint16 type;
@@ -2507,8 +2507,8 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 
 void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 {
+	const UnitInfo *ui;
 	tile32 position;
-	UnitInfo *ui;
 	uint16 packed;
 	Tile *t;
 	uint16 loc06;
@@ -2597,7 +2597,7 @@ void Unit_AddToTile(Unit *unit, uint16 packed)
  */
 uint16 Unit_GetTargetStructurePriority(Unit *unit, Structure *target)
 {
-	StructureInfo *si;
+	const StructureInfo *si;
 	uint16 priority;
 	uint16 distance;
 
@@ -2690,7 +2690,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
  */
 void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 {
-	UnitInfo *ui;
+	const UnitInfo *ui;
 	uint16 loc0A;
 	House *hp;
 	House *h;

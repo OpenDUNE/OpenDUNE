@@ -121,8 +121,8 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 	if (Tools_Index_GetType(u->targetMove) == IT_UNIT) return 0;
 
 	if (Tools_Index_GetType(u->targetMove) == IT_STRUCTURE) {
+		const StructureInfo *si;
 		Structure *s;
-		StructureInfo *si;
 
 		s = Tools_Index_GetStructure(u->targetMove);
 		si = &g_table_structureInfo[s->o.type];
@@ -469,8 +469,8 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
  */
 uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 {
+	const UnitInfo *ui;
 	Unit *u;
-	UnitInfo *ui;
 
 	VARIABLE_NOT_USED(script);
 
@@ -553,8 +553,8 @@ uint16 Script_Unit_Unknown13CD(ScriptEngine *script)
  */
 uint16 Script_Unit_Fire(ScriptEngine *script)
 {
+	const UnitInfo *ui;
 	Unit *u;
-	UnitInfo *ui;
 	uint16 target;
 	UnitType typeID;
 	uint16 distance;
@@ -703,8 +703,8 @@ uint16 Script_Unit_GetOrientation(ScriptEngine *script)
  */
 uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 {
+	const UnitInfo *ui;
 	Unit *u;
-	UnitInfo *ui;
 	uint16 locdi;
 	int8 current;
 	tile32 tile;
@@ -921,8 +921,8 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
  */
 uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 {
+	const UnitInfo *ui;
 	Unit *u;
-	UnitInfo *ui;
 
 	u = g_scriptCurrentUnit;
 	ui = &g_table_unitInfo[u->o.type];
@@ -1548,8 +1548,8 @@ uint16 Script_Unit_FindStructure(ScriptEngine *script)
  */
 uint16 Script_Unit_DisplayDestroyedText(ScriptEngine *script)
 {
+	const UnitInfo *ui;
 	Unit *u;
-	UnitInfo *ui;
 
 	VARIABLE_NOT_USED(script);
 

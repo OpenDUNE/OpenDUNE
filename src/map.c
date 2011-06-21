@@ -102,7 +102,7 @@ void Map_SetSelection(uint16 packed)
 
 		s = Structure_Get_ByPackedTile(packed);
 		if (s != NULL) {
-			StructureInfo *si;
+			const StructureInfo *si;
 
 			si = &g_table_structureInfo[s->o.type];
 			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
@@ -687,9 +687,9 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		find.type    = 0xFFFF;
 
 		while (true) {
+			const UnitInfo *ui;
 			uint16 distance;
 			Team *t;
-			UnitInfo *ui;
 			Unit *u;
 			Unit *us;
 			Unit *attack;
@@ -715,7 +715,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 
 			t = Unit_GetTeam(u);
 			if (t != NULL) {
-				UnitInfo *targetInfo;
+				const UnitInfo *targetInfo;
 				Unit *target;
 
 				if (t->variable_0C == 1) {
@@ -733,7 +733,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 			}
 
 			if (u->o.type == UNIT_HARVESTER) {
-				UnitInfo *uis = &g_table_unitInfo[us->o.type];
+				const UnitInfo *uis = &g_table_unitInfo[us->o.type];
 
 				if (uis->movementType == MOVEMENT_FOOT && u->targetMove == 0) {
 					if (u->actionID != ACTION_MOVE) Unit_SetAction(u, ACTION_MOVE);
@@ -765,7 +765,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 
 		if (s != NULL) {
 			if (type == 2) {
-				StructureInfo *si = &g_table_structureInfo[s->o.type];
+				const StructureInfo *si = &g_table_structureInfo[s->o.type];
 
 				if (si->o.hitpoints / 2 > s->o.hitpoints) {
 					type = 15;

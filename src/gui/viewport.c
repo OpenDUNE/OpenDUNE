@@ -173,8 +173,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (click && g_global->selectionType == 2) {
+		const StructureInfo *si;
 		Structure *s;
-		StructureInfo *si;
 		House *h;
 
 		s = g_structureActive;

@@ -3489,11 +3489,11 @@ void GUI_FactoryWindow_DrawDetails()
 	WSA_Unload(wsa);
 
 	if (g_global->factoryWindowConstructionYard != 0) {
+		const StructureInfo *si;
 		int16 x = 288;
 		int16 y = 136;
 		csip32 sprite;
 		uint16 width;
-		StructureInfo *si;
 		uint16 i;
 		uint16 j;
 

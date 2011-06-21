@@ -88,13 +88,13 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	spriteID = 0;
 	if (g_unitSelected != NULL) {
-		UnitInfo *ui;
+		const UnitInfo *ui;
 
 		ui = &g_table_unitInfo[g_unitSelected->o.type];
 
 		spriteID = ui->o.spriteID;
 	} else {
-		StructureInfo *si;
+		const StructureInfo *si;
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
@@ -197,7 +197,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		case 0x29: /* "Build it" */
 		case 0x2E: /* "%d%% done" */
 			if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-				StructureInfo *si;
+				const StructureInfo *si;
 				uint16 spriteWidth;
 				uint16 x, y;
 
@@ -215,7 +215,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				spriteID = si->o.spriteID;
 			} else {
-				UnitInfo *ui;
+				const UnitInfo *ui;
 
 				ui = &g_table_unitInfo[s->objectType];
 				spriteID = ui->o.spriteID;
@@ -230,19 +230,19 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		uint16 timeLeft;
 
 		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-			StructureInfo *si;
+			const StructureInfo *si;
 
 			si = &g_table_structureInfo[s->objectType];
 			buildTime = si->o.buildTime;
 		} else if (s->o.type == STRUCTURE_REPAIR) {
-			UnitInfo *ui;
+			const UnitInfo *ui;
 
 			if (s->o.linkedID == 0xFF) return;
 
 			ui = &g_table_unitInfo[Unit_Get_ByIndex(s->o.linkedID)->o.type];
 			buildTime = ui->o.buildTime;
 		} else {
-			UnitInfo *ui;
+			const UnitInfo *ui;
 
 			ui = &g_table_unitInfo[s->objectType];
 			buildTime = ui->o.buildTime;
@@ -545,15 +545,15 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
  */
 void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 {
+	const StructureInfo *si;
+	const ObjectInfo *oi;
+	const UnitInfo *ui;
 	uint16 actionType;
 	uint16 oldScreenID, loc06;
 	bool isNotPlayerOwned;
 	Object *o;
-	ObjectInfo *oi;
 	Unit *u;
-	UnitInfo *ui;
 	Structure *s;
-	StructureInfo *si;
 	House *h;
 	Widget *buttons[4];
 	Widget *widget24, *widget28, *widget2C, *widget30, *widget34;
@@ -730,7 +730,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			switch (actionType) {
 				case 2: /* Unit */
 				{
-					uint16 *actions;
+					const uint16 *actions;
 					uint16 actionCurrent;
 					int i;
 

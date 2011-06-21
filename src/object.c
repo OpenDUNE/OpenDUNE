@@ -59,8 +59,8 @@ void Object_Script_Variable4_Link(uint16 encodedFrom, uint16 encodedTo)
  */
 void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 {
-	Structure *s;
 	StructureInfo *si;
+	Structure *s;
 
 	if (o == NULL) return;
 

@@ -231,13 +231,13 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
  */
 bool GUI_Widget_TextButton_Click(Widget *w)
 {
+	const UnitInfo *ui;
+	const ActionInfo *ai;
+	const uint16 *actions;
 	ActionType action;
 	Unit *u;
-	UnitInfo *ui;
-	uint16 *actions;
 	uint16 *found;
 	ActionType unitAction;
-	const ActionInfo *ai;
 
 	u = g_unitSelected;
 	ui = &g_table_unitInfo[u->o.type];

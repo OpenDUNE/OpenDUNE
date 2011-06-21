@@ -87,8 +87,8 @@ uint16 Script_Structure_SetAnimation(ScriptEngine *script)
  */
 uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
 {
+	const StructureInfo *si;
 	Structure *s;
-	StructureInfo *si;
 
 	VARIABLE_NOT_USED(script);
 
@@ -112,8 +112,8 @@ uint16 Script_Structure_RemoveFogAroundTile(ScriptEngine *script)
  */
 uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 {
+	const StructureInfo *si;
 	Structure *s;
-	StructureInfo *si;
 	Unit *u;
 	House *h;
 	uint16 harvesterStep, creditsStep;

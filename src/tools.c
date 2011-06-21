@@ -164,8 +164,8 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 		case IT_TILE: return Tile_UnpackTile(index);
 		case IT_UNIT: return (index < UNIT_INDEX_MAX) ? Unit_Get_ByIndex(index)->o.position : tile;
 		case IT_STRUCTURE: {
+			const StructureInfo *si;
 			Structure *s;
-			StructureInfo *si;
 
 			if (index >= STRUCTURE_INDEX_MAX_HARD) return tile;
 
