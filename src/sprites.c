@@ -109,7 +109,7 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 
 		hi = &g_table_houseInfo[(g_global->playerHouseID == HOUSE_INDEX_INVALID) ? HOUSE_ATREIDES : g_global->playerHouseID];
 
-		sprintf(filename, files, hi->name);
+		sprintf(filename, files, hi->name[0]);
 
 		if (strchr(filename, '.') == NULL) {
 			filename = String_GenerateFilename(filename);
