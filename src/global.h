@@ -519,7 +519,7 @@ typedef struct GlobalData {
 	/* 201B(336) */ PACK uint16 variable_201B[2][21][4];    /*!< ?? */
 	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
 	/* 2177(2)   */ PACK uint16 removed_2177;               /*!< REMOVED - True if ICON.ICN/MAP data are loaded. */
-	/* 2179(36)  */ PACK uint8  variable_2179[0x0024];      /*!< ?? */
+	/* 2179(36)  */ PACK uint8  removed_2179[0x0024];       /*!< REMOVED - ?? */
 	/* 219D(48)  */ PACK uint16 variable_219D[4][6];        /*!< ?? */
 	/* 21CD(59)  */ PACK char   removed_21CD[59];           /*!< REMOVED - "MOUSE.SHP\0BTTN\0SHAPES.SHP\0UNITS2.SHP\0UNITS1.SHP\0UNITS.SHP\0\0". */
 	/* 2208(21)  */ PACK char   removed_2208[21];           /*!< REMOVED - "MENTAT\0MENSHP%c.SHP\0\0". */
