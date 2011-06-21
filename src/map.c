@@ -1036,8 +1036,15 @@ void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
 	Map_ChangeSpiceAmount(packed, 1);
 }
 
-static void Map_B4CD_0C36(uint16 packed)
+/**
+ * Fixes edges of spice / thick spice to show sand / normal spice for better looks.
+ * @param packed Position to check and possible fix edges of.
+ */
+static void Map_FixupSpiceEdges(uint16 packed)
 {
+	/* Relative steps in the map array for moving up, right, down, left. */
+	static const int16 _mapDifference[] = {-64, 1, 64, -1};
+
 	uint16 type;
 	uint16 spriteID;
 	uint16 *iconMap;
@@ -1050,7 +1057,7 @@ static void Map_B4CD_0C36(uint16 packed)
 		uint8 i;
 
 		for (i = 0; i < 4; i++) {
-			uint16 curPacked = packed + g_global->variable_255E[i];
+			uint16 curPacked = packed + _mapDifference[i];
 			uint16 curType;
 
 			if (Tile_IsOutOfMap(curPacked)) {
@@ -1113,11 +1120,11 @@ void Map_ChangeSpiceAmount(uint16 packed, int16 dir)
 	g_mapSpriteID[packed] = 0x8000 | spriteID;
 	g_map[packed].groundSpriteID = spriteID;
 
-	Map_B4CD_0C36(packed);
-	Map_B4CD_0C36(packed + 1);
-	Map_B4CD_0C36(packed - 1);
-	Map_B4CD_0C36(packed - 64);
-	Map_B4CD_0C36(packed + 64);
+	Map_FixupSpiceEdges(packed);
+	Map_FixupSpiceEdges(packed + 1);
+	Map_FixupSpiceEdges(packed - 1);
+	Map_FixupSpiceEdges(packed - 64);
+	Map_FixupSpiceEdges(packed + 64);
 }
 
 /**
