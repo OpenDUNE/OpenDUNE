@@ -13,6 +13,9 @@
 #include "house.h"
 #include "team.h"
 
+static struct Team *g_teamFindArray[TEAM_INDEX_MAX];
+static uint16 g_teamFindCount;
+
 /**
  * Get a Team from the pool with the indicated index.
  *
@@ -47,15 +50,12 @@ Team *Team_Get_ByMemory(csip32 address)
  */
 Team *Team_Find(PoolFindStruct *find)
 {
-	if (find->index >= g_global->teamCount && find->index != 0xFFFF) return NULL;
+	if (find->index >= g_teamFindCount && find->index != 0xFFFF) return NULL;
 	find->index++; /* First, we always go to the next index */
 
-	for (; find->index < g_global->teamCount; find->index++) {
-		csip32 pos = g_global->teamArray[find->index];
-		Team *t;
-		if (pos.csip == 0x0) continue;
-
-		t = Team_Get_ByMemory(pos);
+	for (; find->index < g_teamFindCount; find->index++) {
+		Team *t = g_teamFindArray[find->index];
+		if (t == NULL) continue;
 
 		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != t->houseID) continue;
 
@@ -72,7 +72,8 @@ Team *Team_Find(PoolFindStruct *find)
  */
 void Team_Init(csip32 address)
 {
-	g_global->teamCount = 0;
+	memset(g_teamFindArray, 0, sizeof(g_teamFindArray));
+	g_teamFindCount = 0;
 
 	if (address.csip != 0x0) {
 		/* Try to make the IP empty by moving as much as possible to the CS */
@@ -92,15 +93,13 @@ void Team_Recount()
 {
 	uint16 index;
 
-	g_global->teamCount = 0;
+	g_teamFindCount = 0;
 
 	for (index = 0; index < TEAM_INDEX_MAX; index++) {
 		Team *t = Team_Get_ByIndex(index);
 		if (!t->flags.s.used) continue;
 
-		g_global->teamArray[g_global->teamCount] = g_global->teamStartPos;
-		g_global->teamArray[g_global->teamCount].s.ip += index * sizeof(Team);
-		g_global->teamCount++;
+		g_teamFindArray[g_teamFindCount++] = t;
 	}
 }
 
@@ -134,9 +133,7 @@ Team *Team_Allocate(uint16 index)
 	t->index        = index;
 	t->flags.s.used = true;
 
-	g_global->teamArray[g_global->teamCount] = g_global->teamStartPos;
-	g_global->teamArray[g_global->teamCount].s.ip += index * sizeof(Team);
-	g_global->teamCount++;
+	g_teamFindArray[g_teamFindCount++] = t;
 
 	return t;
 }
@@ -148,25 +145,20 @@ Team *Team_Allocate(uint16 index)
  */
 void Team_Free(Team *t)
 {
-	csip32 tcsip;
 	int i;
-
-	/* XXX -- Temporary, to keep all the emu_calls workable for now */
-	tcsip = g_global->teamStartPos;
-	tcsip.s.ip += t->index * sizeof(Team);
 
 	t->flags.all = 0x0000;
 
 	/* Walk the array to find the Team we are removing */
-	for (i = 0; i < g_global->teamCount; i++) {
-		if (g_global->teamArray[i].csip != tcsip.csip) continue;
+	for (i = 0; i < g_teamFindCount; i++) {
+		if (g_teamFindArray[i] != t) continue;
 		break;
 	}
-	assert(i < g_global->teamCount); /* We should always find an entry */
+	assert(i < g_teamFindCount); /* We should always find an entry */
 
-	g_global->teamCount--;
+	g_teamFindCount--;
 
 	/* If needed, close the gap */
-	if (i == g_global->teamCount) return;
-	memmove(&g_global->teamArray[i], &g_global->teamArray[i + 1], (g_global->teamCount - i) * sizeof(g_global->teamArray[0]));
+	if (i == g_teamFindCount) return;
+	memmove(&g_teamFindArray[i], &g_teamFindArray[i + 1], (g_teamFindCount - i) * sizeof(g_teamFindArray[0]));
 }

@@ -841,7 +841,7 @@ typedef struct GlobalData {
 	/* 35E8(4)   */ PACK csip32 removed_35E8;               /*!< REMOVED - CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16 removed_35EC;               /*!< REMOVED - Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32 teamStartPos;               /*!< CS:IP of Team array. */
-	/* 35F2(2)   */ PACK uint16 teamCount;                  /*!< Amount of Teams on the map. */
+	/* 35F2(2)   */ PACK uint16 removed_35F2;               /*!< REMOVED - Amount of Teams on the map. */
 	/* 35F4(4)   */ PACK csip32 removed_35F4;               /*!< REMOVED - CS:IP of Structure array. */
 	/* 35F8(2)   */ PACK uint16 removed_35F8;               /*!< REMOVED - Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 houseStartPos;              /*!< CS:IP of house array. */
@@ -1515,8 +1515,8 @@ typedef struct GlobalData {
 	/* 8434(4)   */ PACK csip32 removed_8434;               /*!< REMOVED - Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8  removed_8438[6];            /*!< REMOVED - Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
 	/* 843E(408) */ PACK csip32 removed_843E[102];          /*!< REMOVED - Array with CS:IP of Unit, always gap-less. */
-	/* 85D6(6)   */ PACK uint8  teamFindStruct[6];          /*!< Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
-	/* 85DC(64)  */ PACK csip32 teamArray[16];              /*!< Array with CS:IP of Team, always gap-less. */
+	/* 85D6(6)   */ PACK uint8  removed_85D6[6];            /*!< REMOVED - Default find struct used if noone given to emu_Team_FindFirst/FindNext. */
+	/* 85DC(64)  */ PACK csip32 removed_85DC[16];           /*!< REMOVED - Array with CS:IP of Team, always gap-less. */
 	/* 861C(6)   */ PACK uint8  removed_861C[6];            /*!< REMOVED - Default find struct used if none given to emu_Structure_FindFirst/FindNext. */
 	/* 8622(328) */ PACK csip32 removed_8622[82];           /*!< REMOVED - Array with CS:IP of Structure, always gap-less. */
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
