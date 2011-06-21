@@ -109,11 +109,7 @@ static bool GameLoop_IsLevelFinished()
 
 	/* Check for reaching spice quota */
 	if ((g_global->scenario.winFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
-		House *h;
-
-		h = House_Get_ByMemory(g_global->playerHouse);
-
-		if (g_global->playerCredits >= h->creditsQuota) {
+		if (g_global->playerCredits >= g_playerHouse->creditsQuota) {
 			finish = true;
 		}
 	}
@@ -181,10 +177,7 @@ static bool GameLoop_IsLevelWon()
 
 	/* Check for reaching spice quota */
 	if (!win && (g_global->scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
-		House *h;
-
-		h = House_Get_ByMemory(g_global->playerHouse);
-		win = (g_global->playerCredits >= h->creditsQuota);
+		win = (g_global->playerCredits >= g_playerHouse->creditsQuota);
 	}
 
 	/* Check for reaching timeout */
@@ -1205,10 +1198,7 @@ static void GameLoop_LevelEnd()
 			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, false);
 		}
 
-		{
-			House *h = House_Get_ByMemory(g_global->playerHouse);
-			h->flags.s.variable_0004 = false;
-		}
+		g_playerHouse->flags.s.variable_0004 = false;
 
 		Sprites_Load(0, 7, g_sprites);
 

@@ -105,6 +105,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(HouseInfo) == 0x1E);
 
 extern HouseInfo *g_houseInfo;
+extern House *g_playerHouse;
 
 extern void GameLoop_House();
 extern uint8 House_StringToType(const char *name);

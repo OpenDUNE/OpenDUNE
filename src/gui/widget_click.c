@@ -1127,7 +1127,7 @@ bool GUI_Production_ResumeGame_Click(Widget *w)
 
 	if (g_global->factoryWindowStarport != 0) {
 		uint8 i = 0;
-		House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+		House *h = g_playerHouse;
 		while (g_global->factoryWindowOrdered != 0) {
 			if (g_global->factoryWindowItems[i].amount != 0) {
 				h->credits += g_global->factoryWindowItems[i].amount * g_global->factoryWindowItems[i].credits;
@@ -1444,7 +1444,7 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 {
 	FactoryWindowItem *item;
 	ObjectInfo *oi;
-	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+	House *h = g_playerHouse;
 
 	GUI_Widget_MakeNormal(w, false);
 
@@ -1474,7 +1474,7 @@ bool GUI_Purchase_Plus_Click(Widget *w)
 bool GUI_Purchase_Minus_Click(Widget *w)
 {
 	FactoryWindowItem *item;
-	House *h = (House *)emu_get_memorycsip(g_global->playerHouse);
+	House *h = g_playerHouse;
 
 	GUI_Widget_MakeNormal(w, false);
 

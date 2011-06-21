@@ -677,7 +677,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	t = Map_GetTileByPosition(packed);
 
-	if ((t->isUnveiled && House_Get_ByMemory(g_global->playerHouse)->flags.s.radarActivated) || g_global->debugScenario != 0) {
+	if ((t->isUnveiled && g_playerHouse->flags.s.radarActivated) || g_global->debugScenario != 0) {
 		uint16 type = Map_GetLandscapeType(packed);
 		Unit *u;
 

@@ -975,7 +975,7 @@ typedef struct GlobalData {
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
 	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
-	/* 3A3A(4)   */ PACK csip32 playerHouse;                /*!< Pointer to the house the player is controlling. */
+	/* 3A3A(4)   */ PACK csip32 removed_3A3A;               /*!< REMOVED - Pointer to the house the player is controlling. */
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32 teamActionName[5];          /*!< Pointer to the name of the TeamActionType. */

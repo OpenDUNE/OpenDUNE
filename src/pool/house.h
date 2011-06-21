@@ -12,8 +12,8 @@ enum {
 };
 
 struct PoolFindStruct;
+
 extern struct House *House_Get_ByIndex(uint8 index);
-extern struct House *House_Get_ByMemory(csip32 address);
 extern struct House *House_Find(struct PoolFindStruct *find);
 
 extern void House_Init(csip32 address);

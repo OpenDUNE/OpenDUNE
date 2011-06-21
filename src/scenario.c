@@ -73,8 +73,7 @@ static void Scenario_Load_House(uint8 houseID)
 	h->flags.s.human = true;
 
 	g_global->playerHouseID       = houseID;
-	g_global->playerHouse         = g_global->houseStartPos;
-	g_global->playerHouse.s.ip   += h->index * sizeof(House);
+	g_playerHouse                 = h;
 	g_global->playerCreditsNoSilo = h->credits;
 }
 
@@ -87,7 +86,7 @@ static void Scenario_Load_Houses()
 		Scenario_Load_House(houseID);
 	}
 
-	h = House_Get_ByMemory(g_global->playerHouse);
+	h = g_playerHouse;
 	/* In case there was no unitCountMax in the scenario, calculate
 	 *  it based on values used for the AI controlled houses. */
 	if (h->unitCountMax == 0) {

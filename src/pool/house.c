@@ -30,18 +30,6 @@ House *House_Get_ByIndex(uint8 index)
 }
 
 /**
- * Get a House from the pool at the indicated address.
- *
- * @param address The address of the House to get.
- * @return The House.
- */
-House *House_Get_ByMemory(csip32 address)
-{
-	assert(g_global->houseStartPos.csip <= address.csip && address.csip < g_global->houseStartPos.csip + sizeof(House) * HOUSE_INDEX_MAX);
-	return (House *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
-}
-
-/**
  * Find the first matching House based on the PoolFindStruct filter data.
  *
  * @param find A pointer to a PoolFindStruct which contains filter data and

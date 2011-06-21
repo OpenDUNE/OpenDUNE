@@ -25,6 +25,7 @@
 #include "wsa.h"
 
 HouseInfo *g_houseInfo = NULL;
+House *g_playerHouse = NULL;
 
 /**
  * Initialize the house system.
@@ -423,8 +424,7 @@ bool House_Load(FILE *fp, uint32 length)
 		/* See if it is a human house */
 		if (h->flags.s.human) {
 			g_global->playerHouseID = h->index;
-			g_global->playerHouse.s.cs = g_global->houseStartPos.s.cs;
-			g_global->playerHouse.s.ip = g_global->houseStartPos.s.ip + h->index * sizeof(House);
+			g_playerHouse = h;
 
 			if (h->starportLinkedID != 0xFFFF && h->starportTimeLeft == 0) h->starportTimeLeft = 1;
 		}

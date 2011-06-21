@@ -601,7 +601,7 @@ void Unit_Sort()
 	House *h;
 	uint16 i;
 
-	h = House_Get_ByMemory(g_global->playerHouse);
+	h = g_playerHouse;
 	h->unitCountEnemy = 0;
 	h->unitCountAllied = 0;
 

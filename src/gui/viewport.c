@@ -178,7 +178,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		s = g_structureActive;
 		si = &g_structureInfo[g_global->activeStructureType];
-		h = House_Get_ByMemory(g_global->playerHouse);
+		h = g_playerHouse;
 
 		if (Structure_Place(s, g_global->selectionPosition)) {
 			Voice_Play(20);
