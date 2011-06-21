@@ -1025,13 +1025,13 @@ typedef struct GlobalData {
 	/* 42E2(9)   */ PACK char   string_42E2[9];             /*!< "Destruct" NULL terminated. */
 	/* 42EB()    */ PACK uint8   unknown_42EB[0x1D67];      /*!< list of all files. */
 	/* 6052()    */ PACK uint8   unknown_6052[0x0034];
-	/* 6086(4)   */ PACK uint32 tickHouseHouse;             /*!< Indicates next time House runs House function. */
-	/* 608A(4)   */ PACK uint32 tickHousePowerMaintenance;  /*!< Indicates next time House runs Power Maintenance function. */
-	/* 608E(4)   */ PACK uint32 tickHouseStarport;          /*!< Indicates next time House runs Starport function. */
-	/* 6092(4)   */ PACK uint32 tickHouseReinforcement;     /*!< Indicates next time House runs Reinforcement function. */
-	/* 6096(4)   */ PACK uint32 tickHouseUnused;            /*!< Indicates next time House runs Unused function. */
-	/* 609A(4)   */ PACK uint32 tickHouseMissileCountdown;  /*!< Indicates next time House runs Unknown function. */
-	/* 609E(4)   */ PACK uint32 tickHouseStarportAvailability;/*!< Indicates next time House runs Starport Availability function. */
+	/* 6086(4)   */ PACK uint32 removed_6086;               /*!< REMOVED - Indicates next time House runs House function. */
+	/* 608A(4)   */ PACK uint32 removed_608A;               /*!< REMOVED - Indicates next time House runs Power Maintenance function. */
+	/* 608E(4)   */ PACK uint32 removed_608E;               /*!< REMOVED - Indicates next time House runs Starport function. */
+	/* 6092(4)   */ PACK uint32 removed_6092;               /*!< REMOVED - Indicates next time House runs Reinforcement function. */
+	/* 6096(4)   */ PACK uint32 removed_6096;               /*!< REMOVED - Indicates next time House runs Unused function. */
+	/* 609A(4)   */ PACK uint32 removed_609A;               /*!< REMOVED - Indicates next time House runs Unknown function. */
+	/* 609E(4)   */ PACK uint32 removed_609E;               /*!< REMOVED - Indicates next time House runs Starport Availability function. */
 	/* 60A2(4)   */ PACK uint32 variable_60A2;              /*!< ?? */
 	/* 60A6(8)   */ PACK uint16 donotuse_60A6[4];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
