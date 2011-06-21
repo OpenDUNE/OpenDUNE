@@ -598,7 +598,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
 
-		if (g_structureInfo[s->o.type].o.variable_0E < Tools_Random_256()) continue;
+		if (g_structureInfo[s->o.type].o.spawnChance < Tools_Random_256()) continue;
 
 		u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SOLDIER, s->o.houseID, tile, Tools_Random_256());
 		if (u == NULL) continue;

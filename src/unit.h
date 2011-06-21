@@ -152,7 +152,26 @@ typedef struct UnitInfo {
 	/* 0000(50)  */ PACK ObjectInfo o;                      /*!< Common to UnitInfo and StructureInfo. */
 	/* 0032(2)   */ PACK uint16 indexStart;                 /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	/* 0034(2)   */ PACK uint16 indexEnd;                   /*!< At Unit create, between indexStart and this (including) a free index is picked. */
-	/* 0036(2)   */ PACK uint16 variable_36;                /*!< ?? */
+	/* 0036(2)   */ PACK union {
+	                     struct {
+	/*      0001 */              BITTYPE notused_0001:1;    /*!< Not used. */
+	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
+	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
+	/*      0008 */              BITTYPE sonicProtection:1; /*!< If true, the Unit receives no damage of a sonic blast. */
+	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
+	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
+	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
+	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
+	/*      0100 */              BITTYPE notused_1000:1;    /*!< Not used. */
+	/*      0200 */              BITTYPE notused_0200:1;    /*!< Not used. */
+	/*      0400 */              BITTYPE variable_0400:1;   /*!< ?? */
+	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
+	/*      1000 */              BITTYPE deviateProtection:1; /*!< If true, the Unit can't be deviated. */
+	/*      2000 */              BITTYPE variable_2000:1;   /*!< ?? */
+	/*      4000 */              BITTYPE variable_4000:1;   /*!< ?? */
+	/*      8000 */              BITTYPE variable_8000:1;   /*!< ?? */
+	                     } GCC_PACKED s;
+	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
 	/* 0038(2)   */ PACK uint16 variable_38;                /*!< ?? */
 	/* 003A()    */ PACK uint8   unknown_003A[0x0002];
 	/* 003C(2)   */ PACK uint16 movementType;               /*!< MovementType of Unit. */

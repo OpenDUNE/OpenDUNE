@@ -77,7 +77,7 @@ typedef struct ObjectInfo {
 	                     struct {
 	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
 	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
-	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
+	/*      0004 */              BITTYPE notused_0004:1;    /*!< Never used. */
 	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
 	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
 	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
@@ -89,10 +89,10 @@ typedef struct ObjectInfo {
 	/*      0800 */              BITTYPE scriptNoSlowdown:1;/*!< If Unit is outside viewport, do not slow down scripting. */
 	/*      1000 */              BITTYPE targetAir:1;       /*!< Can target (and shoot) air units. */
 	/*      2000 */              BITTYPE priority:1;        /*!< If not set, it is never seen as any priority for Units (for auto-attack). */
-	/*      -    */              BITTYPE notused:2;         /*!< The remaining bits are never used. */
+	/*      -    */              BITTYPE notused_4000:2;    /*!< Never used - remaining bits. */
 	                     } GCC_PACKED s;
 	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
-	/* 000E(2)   */ PACK uint16 variable_0E;                /*!< ?? Chance of spawning an infanctry on structure destruction. */
+	/* 000E(2)   */ PACK uint16 spawnChance;                /*!< Chance of spawning a Unit (if Structure: on destroying of Structure). */
 	/* 0010(2)   */ PACK uint16 hitpoints;                  /*!< Default hitpoints for this Structure. */
 	/* 0012(2)   */ PACK uint16 fogUncoverRadius;           /*!< Radius of fog to uncover. */
 	/* 0014(2)   */ PACK uint16 spriteID;                   /*!< SpriteID of Structure. */

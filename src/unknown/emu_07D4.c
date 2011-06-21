@@ -405,7 +405,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					break;
 			}
 
-			if ((ui->variable_36 & 0x2000) != 0 && u->o.flags.s.variable_4_0020) index += 5;
+			if (ui->flags.s.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
 
 			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));

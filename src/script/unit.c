@@ -40,7 +40,7 @@ uint16 Script_Unit_RandomSoldier(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.variable_0E) return 0;
+	if (Tools_Random_256() >= g_unitInfo[u->o.type].o.spawnChance) return 0;
 
 	position = Tile_MoveByRandom(u->o.position, 20, true);
 
@@ -598,7 +598,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = (ui->variable_36 & 0x400) != 0 && u->o.hitpoints > ui->o.hitpoints / 2;
+	loc1A = ui->flags.s.variable_0400 && u->o.hitpoints > ui->o.hitpoints / 2;
 
 	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
@@ -900,7 +900,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (u->variable_49.tile == 0 || (g_unitInfo[u->o.type].variable_36 & 0x8000) != 0) {
+	if (u->variable_49.tile == 0 || g_unitInfo[u->o.type].flags.s.variable_8000) {
 		u->variable_49 = Tools_Index_GetTile(encoded);
 	}
 
@@ -941,7 +941,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x0A: return abs(u->orientation[0].target - u->orientation[0].current);
 		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
-		case 0x0D: return ui->variable_36 & 0x4;
+		case 0x0D: return ui->flags.s.variable_0004;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
 		case 0x10: return u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current;
