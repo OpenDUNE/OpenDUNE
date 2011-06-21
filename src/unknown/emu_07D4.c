@@ -410,7 +410,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.variable_0001) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
+			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, sprite_csip, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
 
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 

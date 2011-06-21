@@ -75,7 +75,7 @@ typedef struct ObjectInfo {
 	/* 0008(4)   */ PACK csip32 wsa;                        /*!< Pointer to name of .wsa file. */
 	/* 000C(2)   */ PACK union {
 	                     struct {
-	/*      0001 */              BITTYPE variable_0001:1;   /*!< ?? */
+	/*      0001 */              BITTYPE hasShadow:1;       /*!< If true, the Unit has a shadow below it. */
 	/*      0002 */              BITTYPE factory:1;         /*!< Structure can build other Structures or Units. */
 	/*      0004 */              BITTYPE notused_0004:1;    /*!< Never used. */
 	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */

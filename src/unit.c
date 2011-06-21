@@ -1775,7 +1775,7 @@ void Unit_SetOrientation(Unit *unit, int8 orientation, bool rotateInstantly, uin
 
 	if (unit->orientation[level].current == orientation) return;
 
-	unit->orientation[level].speed = g_unitInfo[unit->o.type].speed * 4;
+	unit->orientation[level].speed = g_unitInfo[unit->o.type].turningSpeed * 4;
 
 	diff = orientation - unit->orientation[level].current;
 

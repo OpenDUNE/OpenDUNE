@@ -177,7 +177,7 @@ typedef struct UnitInfo {
 	/* 003C(2)   */ PACK uint16 movementType;               /*!< MovementType of Unit. */
 	/* 003E(2)   */ PACK uint16 variable_3E;                /*!< ?? */
 	/* 0040(2)   */ PACK uint16 variable_40;                /*!< ?? */
-	/* 0042(1)   */ PACK uint8  speed;                      /*!< Speed of the Unit. */
+	/* 0042(1)   */ PACK uint8  turningSpeed;               /*!< Speed of orientation change of the Unit. */
 	/* 0043()    */ PACK uint8   unknown_0043[0x0001];
 	/* 0044(2)   */ PACK uint16 spriteID;                   /*!< SpriteID for north direction. */
 	/* 0046(2)   */ PACK uint16 turretSpriteID;             /*!< SpriteID of the turret for north direction. */
