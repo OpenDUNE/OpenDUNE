@@ -1405,7 +1405,7 @@ typedef struct GlobalData {
 	/* 7F9C(4)   */ PACK uint32 variable_7F9C;              /*!< ?? Also a tick counter.. */
 	/* 7FA0(1)   */ PACK uint8  variable_7FA0;              /*!< ?? */
 	/* 7FA1(1)   */ PACK uint8  variable_7FA1;              /*!< ?? */
-	/* 7FA2(4)   */ PACK csip32 variable_7FA2;              /*!< ?? */
+	/* 7FA2(4)   */ PACK csip32 removed_7FA2;               /*!< REMOVED - Last widget in the Invoice window. */
 	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
 	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
 	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
@@ -1439,11 +1439,11 @@ typedef struct GlobalData {
 	/* 8020(2)   */ PACK uint16 variable_8020;              /*!< ?? */
 	/* 8022(2)   */ PACK uint16 variable_8022;              /*!< ?? */
 	/* 8024(2)   */ PACK int16  variable_8024;              /*!< ?? */
-	/* 8026(4)   */ PACK csip32 variable_8026;              /*!< ?? */
-	/* 802A(4)   */ PACK csip32 variable_802A;              /*!< ?? */
-	/* 802E(4)   */ PACK csip32 variable_802E;              /*!< ?? */
-	/* 8032(4)   */ PACK csip32 variable_8032;              /*!< ?? */
-	/* 8036(4)   */ PACK csip32 variable_8036;              /*!< ?? */
+	/* 8026(4)   */ PACK csip32 removed_8026;               /*!< REMOVED - Widget pointing to HelpList. */
+	/* 802A(4)   */ PACK csip32 removed_802A;               /*!< REMOVED - Widget pointing to Mentat. */
+	/* 802E(4)   */ PACK csip32 removed_802E;               /*!< REMOVED - Widget pointing to a Widget in Mentat. */
+	/* 8032(4)   */ PACK csip32 removed_8032;               /*!< REMOVED - Widget pointing to a Widget in Mentat. */
+	/* 8036(4)   */ PACK csip32 removed_8036;               /*!< REMOVED - Widget pointing to a Widget in Mentat. */
 	/* 803A(2)   */ PACK uint16 numberHelpSubjects;         /*!< Number of help subjects. */
 	/* 803C(2)   */ PACK uint16 selectedHelpSubject;        /*!< Index of selected subject. */
 	/* 803E(2)   */ PACK uint16 topHelpList;                /*!< Top of the mentat help subjects list being displayed currently. */

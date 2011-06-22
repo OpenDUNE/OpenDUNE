@@ -1295,7 +1295,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 static void GUI_Purchase_ShowInvoice()
 {
-	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_7FA2);
+	Widget *w = g_widgetInvoiceTail;
 	uint16 oldScreenID = GUI_Screen_SetActive(2);
 	uint16 y = 48;
 	uint16 total = 0;

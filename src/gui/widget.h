@@ -184,7 +184,13 @@ extern uint8 *g_paletteMapping1;
 extern uint8 *g_paletteMapping2;
 
 extern Widget *g_widgetLinkedListHead;
-extern  Widget *g_widgetLinkedListTail;
+extern Widget *g_widgetLinkedListTail;
+extern Widget *g_widgetInvoiceTail;
+extern Widget *g_widgetMentatFirst;
+extern Widget *g_widgetMentatTail;
+extern Widget *g_widgetMentatUnknown1;
+extern Widget *g_widgetMentatUnknown2;
+extern Widget *g_widgetMentatScrollbar;
 
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);

@@ -96,7 +96,7 @@ static void GUI_Mentat_HelpListLoop()
 	uint16 key = 0;
 
 	while (key != 0x8001) {
-		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_802A);
+		Widget *w = g_widgetMentatTail;
 
 		GUI_Mentat_Animation(0);
 
@@ -120,7 +120,7 @@ static void GUI_Mentat_HelpListLoop()
 					break;
 				}
 
-				GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				GUI_Widget_Scrollbar_ArrowUp_Click(g_widgetMentatScrollbar);
 				break;
 
 			case 0x0054:
@@ -132,7 +132,7 @@ static void GUI_Mentat_HelpListLoop()
 					break;
 				}
 
-				GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				GUI_Widget_Scrollbar_ArrowDown_Click(g_widgetMentatScrollbar);
 				break;
 
 			case 0x0055:
@@ -140,7 +140,7 @@ static void GUI_Mentat_HelpListLoop()
 			case 0x0455:
 			case 0x0465: {
 				uint8 i;
-				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowUp_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowUp_Click(g_widgetMentatScrollbar);
 			} break;
 
 			case 0x0056:
@@ -148,7 +148,7 @@ static void GUI_Mentat_HelpListLoop()
 			case 0x0456:
 			case 0x0467: {
 				uint8 i;
-				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowDown_Click((Widget *)emu_get_memorycsip(g_global->variable_8036));
+				for (i = 0; i < 11; i++) GUI_Widget_Scrollbar_ArrowDown_Click(g_widgetMentatScrollbar);
 			} break;
 
 			case 0x0041: /* MOUSE LEFT BUTTON */
@@ -223,7 +223,7 @@ static void GUI_Mentat_Draw(bool force)
 {
 	uint16 oldScreenID;
 	Widget *line;
-	Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_802A);
+	Widget *w = g_widgetMentatTail;
 	uint8 *helpSubjects = emu_get_memorycsip(g_global->helpSubjects);
 	uint16 i;
 
@@ -289,7 +289,6 @@ static void GUI_Mentat_Draw(bool force)
 static void GUI_Mentat_ShowHelpList(bool proceed)
 {
 	uint16 oldScreenID;
-	Widget *w;
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
@@ -298,9 +297,8 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_global->playerHouseID);
 
-	w = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1, &g_global->variable_8026);
-
-	w->shortcut2 = 'n';
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1, NULL);
+	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
 
@@ -316,18 +314,18 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_HelpListLoop();
 
-	Tools_Free(g_global->variable_8026); /* w */
+	Tools_Free(emu_Global_GetCSIP(g_widgetMentatFirst));
 
 	Load_Palette_Mercenaries();
 
-	GUI_Widget_Free_WithScrollbar((Widget *)emu_get_memorycsip(g_global->variable_8036));
+	GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
 
-	Tools_Free(g_global->variable_8032);
-	Tools_Free(g_global->variable_802E);
+	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown1));
+	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown2));
 
-	g_global->variable_802E.csip = 0x0;
-	g_global->variable_8032.csip = 0x0;
-	g_global->variable_8036.csip = 0x0;
+	g_widgetMentatUnknown1 = NULL;
+	g_widgetMentatUnknown2 = NULL;
+	g_widgetMentatScrollbar = NULL;
 
 	Input_Flags_ClearBits(INPUT_FLAG_KEY_REPEAT);
 
@@ -803,15 +801,15 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 void GUI_Mentat_Create_HelpScreen_Widgets()
 {
 	uint16 ypos;
-	Widget *w, *w8;
+	Widget *w;
 	int i;
 
-	if (g_global->variable_8036.csip != 0x0) GUI_Widget_Free_WithScrollbar((Widget *)emu_get_memorycsip(g_global->variable_8036));
+	if (g_widgetMentatScrollbar != NULL) GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
 
-	Tools_Free(g_global->variable_8032);
-	Tools_Free(g_global->variable_802E);
+	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown2));
+	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown1));
 
-	g_global->variable_802A.csip = 0x0;
+	g_widgetMentatTail = NULL;
 	ypos = 8;
 
 	w = (Widget *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
@@ -842,51 +840,42 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 		w->height         = 8;
 		w->parentID       = 8;
 
-		if (g_global->variable_802A.csip != 0x0) {
-			g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w));
+		if (g_widgetMentatTail != NULL) {
+			g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, w);
 		} else {
-			g_global->variable_802A = emu_Global_GetCSIP(w);
+			g_widgetMentatTail = w;
 		}
 
 		ypos += 8;
 		w++;
 	}
 
-	GUI_Widget_MakeInvisible((Widget *)emu_get_memorycsip(g_global->variable_802A));
+	GUI_Widget_MakeInvisible(g_widgetMentatTail);
 	GUI_Widget_MakeInvisible(w - 1);
 
 	{
 		csip32 drawProc;
 		drawProc.csip = 0x34E0003E;
-		g_global->variable_8036 = emu_Global_GetCSIP(GUI_Widget_Allocate_WithScrollbar(15, 8, 168, 24, 8, 72, drawProc));
+		g_widgetMentatScrollbar= GUI_Widget_Allocate_WithScrollbar(15, 8, 168, 24, 8, 72, drawProc);
 	}
 
-	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A),
-			(Widget *)emu_get_memorycsip(g_global->variable_8036)));
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	w8 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13],
-			GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), 15), 1);
-	g_global->variable_8032 = emu_Global_GetCSIP(w8);
+	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatUnknown2->shortcut  = 0;
+	g_widgetMentatUnknown2->shortcut2 = 0;
+	g_widgetMentatUnknown2->parentID  = 8;
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown2);
 
-	w8->shortcut  = 0;
-	w8->shortcut2 = 0;
-	w8->parentID  = 8;
+	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatUnknown1->shortcut  = 0;
+	g_widgetMentatUnknown1->shortcut2 = 0;
+	g_widgetMentatUnknown1->parentID  = 8;
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown1);
 
-	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w8));
+	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatFirst);
 
-	w8 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11],
-			GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), 15), 0);
-	g_global->variable_802E = emu_Global_GetCSIP(w8);
-
-	w8->shortcut  = 0;
-	w8->shortcut2 = 0;
-	w8->parentID  = 8;
-
-	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A), w8));
-	g_global->variable_802A = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_802A),
-			(Widget *)emu_get_memorycsip(g_global->variable_8026)));
-
-	GUI_Widget_Draw((Widget *)emu_get_memorycsip(g_global->variable_8026));
+	GUI_Widget_Draw(g_widgetMentatFirst);
 }
 
 static void GUI_Mentat_ShowHelp()
@@ -958,9 +947,9 @@ static void GUI_Mentat_ShowHelp()
 		if (*text != '\0') *text++ = '\0';
 	}
 
-	GUI_Mentat_Loop(picture, desc, text, loc12 ? 1 : 0, (Widget *)emu_get_memorycsip(g_global->variable_8026));
+	GUI_Mentat_Loop(picture, desc, text, loc12 ? 1 : 0, g_widgetMentatFirst);
 
-	GUI_Widget_MakeNormal((Widget *)emu_get_memorycsip(g_global->variable_8026), false);
+	GUI_Widget_MakeNormal(g_widgetMentatFirst, false);
 
 	GUI_Mentat_LoadHelpSubjects(false);
 
@@ -982,7 +971,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 	index = g_global->selectedHelpSubject + 3;
 
 	if (w->index != index) {
-		w2 = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_802A), index);
+		w2 = GUI_Widget_Get_ByIndex(g_widgetMentatTail, index);
 
 		GUI_Widget_MakeNormal(w, false);
 		GUI_Widget_MakeNormal(w2, false);

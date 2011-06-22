@@ -28,6 +28,12 @@ uint8 *g_paletteMapping2 = NULL;
 
 Widget *g_widgetLinkedListHead = NULL;
 Widget *g_widgetLinkedListTail = NULL;
+Widget *g_widgetInvoiceTail = NULL;
+Widget *g_widgetMentatFirst = NULL;
+Widget *g_widgetMentatTail = NULL;
+Widget *g_widgetMentatUnknown1 = NULL;
+Widget *g_widgetMentatUnknown2 = NULL;
+Widget *g_widgetMentatScrollbar = NULL;
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {

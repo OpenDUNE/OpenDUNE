@@ -87,6 +87,8 @@ uint16 g_factoryWindowUpgradeCost = 0;
 FactoryResult g_factoryWindowResult = FACTORY_RESUME;
 bool g_factoryWindowStarport = false;
 
+Widget *g_factoryWindowWidgets = NULL;
+
 /**
  * Draw a wired rectangle.
  * @param left The left position of the rectangle.
@@ -2582,7 +2584,7 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 	uint16 i;
 	uint16 count = 0;
 	WidgetInfo *wi = (WidgetInfo *)&emu_get_memory8(0x2C34, 0x00, 0x00);
-	Widget *w = (Widget *)emu_get_memorycsip(g_global->factoryWindowWidgets);
+	Widget *w = g_factoryWindowWidgets;
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -2619,15 +2621,15 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 		}
 
 		if (i != 0) {
-			g_global->variable_7FA2 = emu_Global_GetCSIP(GUI_Widget_Link((Widget *)emu_get_memorycsip(g_global->variable_7FA2), w));
+			g_widgetInvoiceTail = GUI_Widget_Link(g_widgetInvoiceTail, w);
 		} else {
-			g_global->variable_7FA2 = emu_Global_GetCSIP(w);
+			g_widgetInvoiceTail = w;
 		}
 
 		w++;
 	}
 
-	GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(g_global->variable_7FA2));
+	GUI_Widget_DrawAll(g_widgetInvoiceTail);
 
 	return count * sizeof(Widget);
 }
@@ -2751,13 +2753,13 @@ static void GUI_FactoryWindow_Init()
 
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
-	g_global->factoryWindowWidgets = Screen_GetSegment_ByIndex_1(5);
+	g_factoryWindowWidgets = (Widget *)Screen_GetSegment_ByIndex_1(5);
 
 	size = GUI_FactoryWindow_CreateWidgets();
 
 	g_global->variable_7FA6 -= size;
 
-	g_global->factoryWindowGraymapTbl = g_global->factoryWindowWidgets;
+	g_global->factoryWindowGraymapTbl = Screen_GetSegment_ByIndex_1(5);
 	g_global->factoryWindowGraymapTbl.csip += size;
 
 	size = GUI_FactoryWindow_LoadGraymapTbl();
@@ -2769,7 +2771,7 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_FactoryWindow_InitItems();
 
-	for (i = g_factoryWindowTotal; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_7FA2), i + 46));
+	for (i = g_factoryWindowTotal; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex(g_widgetInvoiceTail, i + 46));
 
 	for (i = 0; i < 4; i++) {
 		FactoryWindowItem *item = GUI_FactoryWindow_GetItem(i);
@@ -2841,7 +2843,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 		GUI_FactoryWindow_UpdateSelection(false);
 
-		event = GUI_Widget_HandleEvents((g_global->variable_7FA2.csip == 0x0) ? NULL : (Widget *)emu_get_memorycsip(g_global->variable_7FA2));
+		event = GUI_Widget_HandleEvents(g_widgetInvoiceTail);
 
 		if (event == 0x6E) GUI_Production_ResumeGame_Click(NULL);
 
