@@ -54,8 +54,6 @@ uint16 Unknown_07AE_00E4(uint16 index)
  */
 void Unknown_07AE_0103()
 {
-	assert(g_global->variable_6668.csip == 0x22A60D31);
-
 	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, ((g_global->variable_992D + g_global->variable_992F) << 3) - 1, g_global->variable_992B + g_global->variable_9931 - 1, (uint8)g_global->variable_6D59);
 
 	g_global->variable_8225 = 0x0;

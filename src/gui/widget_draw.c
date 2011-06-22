@@ -82,8 +82,6 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 	uint16 spriteID;
 	bool buttonDown;
 
-	assert(g_global->variable_6624.csip == 0x22A6034F);
-
 	if (w == NULL) return;
 
 	spriteID = 0;
@@ -145,8 +143,6 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	uint16 spriteID;
 	uint16 percentDone;
 	bool buttonDown;
-
-	assert(g_global->variable_6624.csip == 0x22A6034F);
 
 	if (w == NULL) return;
 
@@ -306,8 +302,6 @@ void GUI_Widget_TextButton2_Draw(Widget *w)
 	bool buttonSelected;
 	bool buttonDown;
 
-	assert(g_global->variable_6624.csip == 0x22A6034F);
-
 	if (w == NULL) return;
 
 	old_6C91 = g_global->screenActiveID;
@@ -371,8 +365,6 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 	uint16 width, height;
 	uint16 scrollLeft, scrollTop;
 	uint16 scrollRight, scrollBottom;
-
-	assert(g_global->variable_6668.csip == 0x22A60D31);
 
 	if (w == NULL) return;
 	if (w->flags.s.invisible) return;

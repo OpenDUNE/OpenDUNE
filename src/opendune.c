@@ -2149,8 +2149,6 @@ static void GameLoop_Main()
 {
 	uint16 key;
 
-	assert(g_global->variable_6640.csip == 0x22A60796);
-
 	String_Load("DUNE");
 
 	GameLoop_GameIntroAnimationMenu();

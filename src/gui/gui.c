@@ -204,8 +204,6 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		if (g_global->variable_38C4 != 0) {
 			uint16 oldScreenID = GUI_Screen_SetActive(2);
 
-			assert(g_global->variable_6668.csip == 0x22A60D31);
-
 			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, (uint8)g_global->variable_6D59);
 
 			GUI_DrawText_Wrapper(

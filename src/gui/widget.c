@@ -104,9 +104,6 @@ void GUI_Widget_Draw(Widget *w)
 	uint8 fgColour, bgColour;
 	csip32 drawProc;
 
-	assert(g_global->variable_6660.csip == 0x22A60C69);
-	assert(g_global->variable_665C.csip == 0x22A60B60);
-
 	if (w == NULL) return;
 
 	if (w->flags.s.invisible) {
