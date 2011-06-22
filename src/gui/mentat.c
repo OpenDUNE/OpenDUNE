@@ -42,6 +42,7 @@ static const uint8 unknownHouseData[6][8] = {
 };
 
 
+static uint8 *_mentatSprites[3][5];
 
 /**
  * Show the Mentat screen with a dialog (Proceed / Repeat).
@@ -483,33 +484,33 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		File_ReadBlockFile("BENE.PAL", (char *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
 	}
 
-	memset(g_global->variable_7FC6, 0, sizeof(g_global->variable_7FC6));
+	memset(_mentatSprites, 0, sizeof(_mentatSprites));
 
 	g_global->variable_8006 = g_global->variable_8008 = unknownHouseData[houseID][0];
 	g_global->variable_8007 = g_global->variable_8009 = unknownHouseData[houseID][1];
 
 	for (i = 0; i < 5; i++) {
-		g_global->variable_7FC6[0][i] = g_sprites[14 + i];
+		_mentatSprites[0][i] = emu_get_memorycsip(g_sprites[14 + i]);
 	}
 
-	g_global->variable_8008 += Sprite_GetWidth(emu_get_memorycsip(g_global->variable_7FC6[0][0]));
-	g_global->variable_8009 += Sprite_GetHeight(emu_get_memorycsip(g_global->variable_7FC6[0][0]));
+	g_global->variable_8008 += Sprite_GetWidth(_mentatSprites[0][0]);
+	g_global->variable_8009 += Sprite_GetHeight(_mentatSprites[0][0]);
 
 	g_global->variable_800A = g_global->variable_800C = unknownHouseData[houseID][2];
 	g_global->variable_800B = g_global->variable_800D = unknownHouseData[houseID][3];
 
 	for (i = 0; i < 5; i++) {
-		g_global->variable_7FC6[1][i] = g_sprites[19 + i];
+		_mentatSprites[1][i] = emu_get_memorycsip(g_sprites[19 + i]);
 	}
 
-	g_global->variable_800C += Sprite_GetWidth(emu_get_memorycsip(g_global->variable_7FC6[1][0]));
-	g_global->variable_800D += Sprite_GetHeight(emu_get_memorycsip(g_global->variable_7FC6[1][0]));
+	g_global->variable_800C += Sprite_GetWidth(_mentatSprites[1][0]);
+	g_global->variable_800D += Sprite_GetHeight(_mentatSprites[1][0]);
 
 	g_global->variable_800E = unknownHouseData[houseID][4];
 	g_global->variable_800F = unknownHouseData[houseID][5];
 
 	for (i = 0; i < 4; i++) {
-		g_global->variable_7FC6[2][i] = g_sprites[25 + i];
+		_mentatSprites[2][i] = emu_get_memorycsip(g_sprites[25 + i]);
 	}
 
 	g_global->variable_8010 = unknownHouseData[houseID][6];
@@ -543,13 +544,13 @@ void GUI_Mentat_Animation(uint16 unknown)
 
 	if (g_global->variable_801A < (int32)g_global->variable_76AC && g_global->variable_2580 == 0) {
 		if (g_global->variable_801A != 0) {
-			if (g_global->variable_7FC6[2][1 + abs(g_global->variable_8024)].csip == 0x0) {
+			if (_mentatSprites[2][1 + abs(g_global->variable_8024)] == NULL) {
 				g_global->variable_8024 = 1 - g_global->variable_8024;
 			} else {
 				g_global->variable_8024++;
 			}
 
-			sprite = emu_get_memorycsip(g_global->variable_7FC6[2][abs(g_global->variable_8024)]);
+			sprite = _mentatSprites[2][abs(g_global->variable_8024)];
 
 			GUI_Mouse_Hide_InRegion(g_global->variable_800E, g_global->variable_800F, g_global->variable_800E + Sprite_GetWidth(sprite), g_global->variable_800F + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800E, g_global->variable_800F, 0, 0);
@@ -578,7 +579,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 	if (unknown == 0x1) {
 		if (g_global->variable_8016 < (int32)g_global->variable_76AC) {
 			g_global->variable_8022 = Tools_RandomRange(0, 4);
-			sprite = emu_get_memorycsip(g_global->variable_7FC6[1][g_global->variable_8022]);
+			sprite = _mentatSprites[1][g_global->variable_8022];
 
 			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
@@ -624,7 +625,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 
 		if (bool06 != 0x0) {
-			sprite = emu_get_memorycsip(g_global->variable_7FC6[1][g_global->variable_8022]);
+			sprite = _mentatSprites[1][g_global->variable_8022];
 
 			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
@@ -642,7 +643,16 @@ void GUI_Mentat_Animation(uint16 unknown)
 				g_global->variable_8020 = 0x0;
 				g_global->variable_8012 = 0;
 			}
-			goto l__09F3;
+
+			if (bool06 != 0x0) {
+				sprite = _mentatSprites[0][g_global->variable_801E];
+
+				GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
+				GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
+				GUI_Mouse_Show_InRegion();
+			}
+
+			return;
 		}
 	}
 
@@ -739,9 +749,9 @@ void GUI_Mentat_Animation(uint16 unknown)
 			if (g_global->variable_3C4A != 0 && g_global->variable_801E == 0) g_global->variable_801E = 3;
 		}
 	}
-l__09F3:
+
 	if (bool06 != 0x0) {
-		sprite = emu_get_memorycsip(g_global->variable_7FC6[0][g_global->variable_801E]);
+		sprite = _mentatSprites[0][g_global->variable_801E];
 
 		GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
 		GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);

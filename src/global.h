@@ -1418,7 +1418,7 @@ typedef struct GlobalData {
 	/* 7FC0(2)   */ PACK uint16 removed_7FC0;               /*!< REMOVED - 0 = resume game, 1 = buy, 2 = upgrade, 0xFFFF = none */
 	/* 7FC2(2)   */ PACK uint16 removed_7FC2;               /*!< REMOVED - True if the current factory display order is for a starport. */
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
-	/* 7FC6(60)  */ PACK csip32 variable_7FC6[3][5];        /*!< Pointers to sprites. */
+	/* 7FC6(60)  */ PACK csip32 removed_7FC6[3][5];         /*!< REMOVED - Pointers to sprites. */
 	/* 8002(4)   */ PACK csip32 variable_8002;              /*!< Sprite */
 	/* 8006(1)   */ PACK uint8  variable_8006;              /*!< Left A ?? */
 	/* 8007(1)   */ PACK uint8  variable_8007;              /*!< Top A ?? */
