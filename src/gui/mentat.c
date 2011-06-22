@@ -80,7 +80,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 		snprintf(filename, sizeof(filename), "TEXT%c", g_table_houseInfo[houseID].name[0]);
 		String_LoadFile(String_GenerateFilename(filename), stringID, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
-	} while (GUI_Mentat_Show(g_global->readBuffer, wsaFilename, w1, true) == 0x8002);
+	} while (GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), wsaFilename, w1, true) == 0x8002);
 
 	Tools_Free(w2csip);
 	Tools_Free(w1csip);
@@ -386,7 +386,7 @@ bool GUI_Widget_Mentat_Click()
  * @param unknown A boolean.
  * @return Return value of GUI_Widget_HandleEvents() or f__B4DA_0AB8_002A_AAB2() (latter when no widgets).
  */
-uint16 GUI_Mentat_Show(csip32 stringBuffer, const char *wsaFilename, Widget *w, bool unknown)
+uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, bool unknown)
 {
 	uint16 ret;
 
@@ -415,7 +415,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, const char *wsaFilename, Widget *w, 
 
 	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 
-	ret = GUI_Mentat_Loop(wsaFilename, NULL, (char *)emu_get_memorycsip(stringBuffer), true, NULL);
+	ret = GUI_Mentat_Loop(wsaFilename, NULL, stringBuffer, true, NULL);
 
 	if (w != NULL) {
 		do {

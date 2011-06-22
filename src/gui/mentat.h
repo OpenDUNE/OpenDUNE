@@ -8,7 +8,7 @@
 struct Widget;
 
 extern bool GUI_Widget_Mentat_Click();
-extern uint16 GUI_Mentat_Show(csip32 stringBuffer, const char *wsaFilename, struct Widget *w, bool unknown);
+extern uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, struct Widget *w, bool unknown);
 extern void GUI_Mentat_ShowBriefing();
 extern void GUI_Mentat_ShowWin();
 extern void GUI_Mentat_ShowLose();
