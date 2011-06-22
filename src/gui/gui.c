@@ -4140,7 +4140,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  * @param width The width of the region to remap.
  * @param height The height of the region to remap.
  * @param screenID The screen to do the remapping on.
- * @param remapcsip The pointer to the remap palette.
+ * @param remap The pointer to the remap palette.
  */
 void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap)
 {

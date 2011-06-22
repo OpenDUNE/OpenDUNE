@@ -205,8 +205,7 @@ void GUI_Widget_Draw(Widget *w)
  *
  * @param w The widget to handle events for. If the widget has a valid next
  *   pointer, those widgets are handled too.
- * @param wcsip TODO -- TEMPORARY -- The csip to the widget.
- * @return The last key pressed, or 0 if the key pressed was handled (or if
+  * @return The last key pressed, or 0 if the key pressed was handled (or if
  *   there was no key press).
  */
 uint16 GUI_Widget_HandleEvents(Widget *w)
