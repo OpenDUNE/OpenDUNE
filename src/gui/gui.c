@@ -2930,7 +2930,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	char key[4];
 	int16 x;
 	int16 y;
-	csip32 sprite_csip;
+	uint8 *sprite;
 	uint16 width;
 	uint16 height;
 	uint16 i;
@@ -2952,9 +2952,9 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
 	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
 
-	sprite_csip = Sprites_GetCSIP(g_global->PIECES_SHP, selected);
-	width = Sprite_GetWidth(sprite_csip);
-	height = Sprite_GetHeight(sprite_csip);
+	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_global->PIECES_SHP, selected));
+	width = Sprite_GetWidth(sprite);
+	height = Sprite_GetHeight(sprite);
 
 	x += 8;
 	y += 24;
@@ -2965,7 +2965,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 	GFX_Screen_Copy2(16, 16, 176, 16, width, height, 2, 2, false);
 
-	GUI_DrawSprite(2, emu_get_memorycsip(sprite_csip), 16, 16, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	GUI_DrawSprite(2, sprite, 16, 16, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
@@ -3171,7 +3171,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 	char key[4];
 	int16 x;
 	int16 y;
-	csip32 sprite_csip;
+	uint8 *sprite;
 
 	GUI_Palette_CreateRemap(houseId);
 
@@ -3180,13 +3180,13 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
 	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
 
-	sprite_csip = Sprites_GetCSIP(g_global->PIECES_SHP, region);
+	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_global->PIECES_SHP, region));
 
-	GUI_DrawSprite(3, emu_get_memorycsip(sprite_csip), x + 8, y + 24, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
 
 	if (!progressive) return;
 
-	GUI_Screen_FadeIn2(x + 8, y + 24, Sprite_GetWidth(sprite_csip), Sprite_GetHeight(sprite_csip), 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
+	GUI_Screen_FadeIn2(x + 8, y + 24, Sprite_GetWidth(sprite), Sprite_GetHeight(sprite), 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 }
 
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
@@ -3486,7 +3486,7 @@ void GUI_FactoryWindow_DrawDetails()
 		const StructureInfo *si;
 		int16 x = 288;
 		int16 y = 136;
-		csip32 sprite_csip;
+		uint8 *sprite;
 		uint16 width;
 		uint16 i;
 		uint16 j;
@@ -3495,13 +3495,13 @@ void GUI_FactoryWindow_DrawDetails()
 		x++;
 		y++;
 
-		sprite_csip = g_sprites[24];
-		width = Sprite_GetWidth(sprite_csip) + 1;
+		sprite = emu_get_memorycsip(g_sprites[24]);
+		width = Sprite_GetWidth(sprite) + 1;
 		si = &g_table_structureInfo[item->objectType];
 
 		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
 			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {
-				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x + i * width, y + j * width, 0, 0);
+				GUI_DrawSprite(g_global->screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
 			}
 		}
 	}

@@ -196,16 +196,18 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				const StructureInfo *si;
 				uint16 spriteWidth;
 				uint16 x, y;
+				uint8 *sprite;
 
 				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[63]), positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
 
-				spriteWidth = Sprite_GetWidth(g_sprites[24]) + 1;
+				sprite = emu_get_memorycsip(g_sprites[24]);
+				spriteWidth = Sprite_GetWidth(sprite) + 1;
 
 				si = &g_table_structureInfo[s->objectType];
 
 				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
 					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
-						GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[24]), positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
+						GUI_DrawSprite(g_global->screenActiveID, sprite, positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
 					}
 				}
 

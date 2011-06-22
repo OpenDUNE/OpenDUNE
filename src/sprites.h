@@ -9,8 +9,8 @@ extern csip32 *g_sprites;
 
 extern void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites);
 extern csip32 Sprites_GetCSIP(csip32 buffer_csip, uint16 index);
-extern uint8 Sprite_GetWidth(csip32 sprite_csip);
-extern uint8 Sprite_GetHeight(csip32 sprite_csip);
+extern uint8 Sprite_GetWidth(uint8 *sprite);
+extern uint8 Sprite_GetHeight(uint8 *sprite);
 extern void Sprites_LoadTiles();
 extern void Sprites_UnloadTiles();
 extern uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette);

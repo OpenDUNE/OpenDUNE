@@ -646,8 +646,8 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 
 			if (drawProc1.csip == 0x0) break;
 
-			w->width  = Sprite_GetWidth(drawProc1);
-			w->height = Sprite_GetHeight(drawProc1);
+			w->width  = Sprite_GetWidth(emu_get_memorycsip(drawProc1));
+			w->height = Sprite_GetHeight(emu_get_memorycsip(drawProc1));
 			break;
 	}
 
@@ -771,8 +771,8 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->drawModeDown     = DRAW_MODE_SPRITE;
 	w->drawModeSelected = DRAW_MODE_SPRITE;
 
-	w->width  = Sprite_GetWidth(csipSprite1) * 8;
-	w->height = Sprite_GetHeight(csipSprite1);
+	w->width  = Sprite_GetWidth(emu_get_memorycsip(csipSprite1)) * 8;
+	w->height = Sprite_GetHeight(emu_get_memorycsip(csipSprite1));
 
 	w->flags.all = 0;
 	w->flags.s.requiresClick     = true;

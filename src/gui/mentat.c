@@ -492,8 +492,8 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		g_global->variable_7FC6[0][i] = g_sprites[14 + i];
 	}
 
-	g_global->variable_8008 += Sprite_GetWidth(g_global->variable_7FC6[0][0]);
-	g_global->variable_8009 += Sprite_GetHeight(g_global->variable_7FC6[0][0]);
+	g_global->variable_8008 += Sprite_GetWidth(emu_get_memorycsip(g_global->variable_7FC6[0][0]));
+	g_global->variable_8009 += Sprite_GetHeight(emu_get_memorycsip(g_global->variable_7FC6[0][0]));
 
 	g_global->variable_800A = g_global->variable_800C = unknownHouseData[houseID][2];
 	g_global->variable_800B = g_global->variable_800D = unknownHouseData[houseID][3];
@@ -502,8 +502,8 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		g_global->variable_7FC6[1][i] = g_sprites[19 + i];
 	}
 
-	g_global->variable_800C += Sprite_GetWidth(g_global->variable_7FC6[1][0]);
-	g_global->variable_800D += Sprite_GetHeight(g_global->variable_7FC6[1][0]);
+	g_global->variable_800C += Sprite_GetWidth(emu_get_memorycsip(g_global->variable_7FC6[1][0]));
+	g_global->variable_800D += Sprite_GetHeight(emu_get_memorycsip(g_global->variable_7FC6[1][0]));
 
 	g_global->variable_800E = unknownHouseData[houseID][4];
 	g_global->variable_800F = unknownHouseData[houseID][5];
@@ -537,7 +537,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
  */
 void GUI_Mentat_Animation(uint16 unknown)
 {
-	csip32 sprite_csip;
+	uint8 *sprite;
 	uint16 bool06;
 	uint16 i;
 
@@ -549,10 +549,10 @@ void GUI_Mentat_Animation(uint16 unknown)
 				g_global->variable_8024++;
 			}
 
-			sprite_csip = g_global->variable_7FC6[2][abs(g_global->variable_8024)];
+			sprite = emu_get_memorycsip(g_global->variable_7FC6[2][abs(g_global->variable_8024)]);
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800E, g_global->variable_800F, g_global->variable_800E + Sprite_GetWidth(sprite_csip), g_global->variable_800F + Sprite_GetHeight(sprite_csip));
-			GUI_DrawSprite(0, emu_get_memorycsip(sprite_csip), g_global->variable_800E, g_global->variable_800F, 0, 0);
+			GUI_Mouse_Hide_InRegion(g_global->variable_800E, g_global->variable_800F, g_global->variable_800E + Sprite_GetWidth(sprite), g_global->variable_800F + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, g_global->variable_800E, g_global->variable_800F, 0, 0);
 			GUI_Mouse_Show_InRegion();
 		}
 
@@ -578,10 +578,10 @@ void GUI_Mentat_Animation(uint16 unknown)
 	if (unknown == 0x1) {
 		if (g_global->variable_8016 < (int32)g_global->variable_76AC) {
 			g_global->variable_8022 = Tools_RandomRange(0, 4);
-			sprite_csip = g_global->variable_7FC6[1][g_global->variable_8022];
+			sprite = emu_get_memorycsip(g_global->variable_7FC6[1][g_global->variable_8022]);
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite_csip), g_global->variable_800B + Sprite_GetHeight(sprite_csip));
-			GUI_DrawSprite(0, emu_get_memorycsip(sprite_csip), g_global->variable_800A, g_global->variable_800B, 0, 0);
+			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
 			GUI_Mouse_Show_InRegion();
 
 			switch (g_global->variable_8022) {
@@ -624,10 +624,10 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 
 		if (bool06 != 0x0) {
-			sprite_csip = g_global->variable_7FC6[1][g_global->variable_8022];
+			sprite = emu_get_memorycsip(g_global->variable_7FC6[1][g_global->variable_8022]);
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite_csip), g_global->variable_800B + Sprite_GetHeight(sprite_csip));
-			GUI_DrawSprite(0, emu_get_memorycsip(sprite_csip), g_global->variable_800A, g_global->variable_800B, 0, 0);
+			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
 			GUI_Mouse_Show_InRegion();
 		}
 	}
@@ -741,10 +741,10 @@ void GUI_Mentat_Animation(uint16 unknown)
 	}
 l__09F3:
 	if (bool06 != 0x0) {
-		sprite_csip = g_global->variable_7FC6[0][g_global->variable_801E];
+		sprite = emu_get_memorycsip(g_global->variable_7FC6[0][g_global->variable_801E]);
 
-		GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite_csip), g_global->variable_8007 + Sprite_GetHeight(sprite_csip));
-		GUI_DrawSprite(0, emu_get_memorycsip(sprite_csip), g_global->variable_8006, g_global->variable_8007, 0, 0);
+		GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
+		GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
 		GUI_Mouse_Show_InRegion();
 	}
 }

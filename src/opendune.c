@@ -747,6 +747,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	uint32 loc0C;
 	uint16 spriteID = 0;
 	bool loc10 = false;
+	uint8 *sprite;
 	uint16 spriteX;
 	uint16 spriteY;
 	uint16 spritePos = 0;
@@ -765,8 +766,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	Unknown_07AE_0000(windowID);
 
-	spriteX = (g_global->variable_992F << 3) - Sprite_GetWidth(Sprites_GetCSIP(g_sprites[spriteID], 0));
-	spriteY = g_global->variable_9931 - Sprite_GetHeight(Sprites_GetCSIP(g_sprites[spriteID], 0));
+	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_sprites[spriteID], 0));
+	spriteX = (g_global->variable_992F << 3) - Sprite_GetWidth(sprite);
+	spriteY = g_global->variable_9931 - Sprite_GetHeight(sprite);
 
 	positions[0].x = spriteX;
 	positions[0].y = 0;
@@ -869,7 +871,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			case 2:
 				if (g_sprites[spriteID].csip == 0x0) spriteID = 0;
 
-				GUI_DrawSprite(memory, emu_get_memorycsip(Sprites_GetCSIP(g_sprites[spriteID], 0)), positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
+				GUI_DrawSprite(memory, sprite, positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
 				g_global->variable_1838 = 8;
 				g_global->variable_1836++;
