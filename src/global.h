@@ -604,11 +604,11 @@ typedef struct GlobalData {
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
 	/* 264A(1)   */ PACK uint8  variable_264A;              /*!< ?? */
 	/* 264B()    */ PACK uint8   unknown_264B[0x0001];
-	/* 264C(105) */ PACK WindowDesc variable_264C;          /*!< ?? */
-	/* 26B5(105) */ PACK WindowDesc variable_26B5;          /*!< ?? */
-	/* 271E(105) */ PACK WindowDesc variable_271E;          /*!< ?? */
-	/* 2787(105) */ PACK WindowDesc variable_2787;          /*!< ?? */
-	/* 27F0(105) */ PACK WindowDesc variable_27F0;          /*!< ?? */
+	/* 264C(105) */ PACK uint8 removed_264C[105];           /*!< REMOVED - Options WindowDesc. */
+	/* 26B5(105) */ PACK uint8 removed_26B5[105];           /*!< REMOVED - GameControl WindowDesc. */
+	/* 271E(105) */ PACK uint8 removed_271E[105];           /*!< REMOVED - YesNo WindowDesc. */
+	/* 2787(105) */ PACK uint8 removed_2787[105];           /*!< REMOVED - SaveLoad WindowDesc. */
+	/* 27F0(105) */ PACK uint8 removed_27F0[105];           /*!< REMOVED - SavegameName WindowDesc. */
 	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */
 	/* 285D()    */ PACK uint8   unknown_285D[0x0038];
 	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */

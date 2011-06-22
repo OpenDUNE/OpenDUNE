@@ -440,7 +440,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 	GUI_Widget_DrawBorder(g_global->variable_6D5D, 2, true);
 
 	if (GUI_String_Get_ByIndex(desc->stringID) != NULL) {
-		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->stringID), (g_global->variable_992D << 3) + (g_global->variable_992F << 2), g_global->variable_992B + 6 + ((desc == &g_global->variable_271E) ? 2 : 0), 238, 0, 0x122);
+		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->stringID), (g_global->variable_992D << 3) + (g_global->variable_992F << 2), g_global->variable_992B + 6 + ((desc == &g_yesNoWindowDesc) ? 2 : 0), 238, 0, 0x122);
 	}
 
 	if (GUI_String_Get_ByIndex(desc->widgets[0].stringID) == NULL) {
@@ -461,7 +461,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		w->shortcut  = 0;
 		w->shortcut2 = 0;
 
-		if (desc != &g_global->variable_27F0) {
+		if (desc != &g_savegameNameWindowDesc) {
 			if (desc->widgets[i].labelStringId != 0) {
 				w->shortcut = GUI_Widget_GetShortcut(*GUI_String_Get_ByIndex(desc->widgets[i].labelStringId));
 			} else {
@@ -499,7 +499,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		}
 	}
 
-	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows != 0) {
+	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
 		Widget *w = &g_global->variable_29FD;
 
 		w->drawProcNormal   = g_sprites[59];
@@ -565,7 +565,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
  */
 static void GUI_Widget_GameControls_Click(Widget *w)
 {
-	WindowDesc *desc = &g_global->variable_26B5;
+	WindowDesc *desc = &g_gameControlWindowDesc;
 	bool loop;
 
 	GUI_Window_BackupScreen(desc);
@@ -654,7 +654,7 @@ static void UnshadeScreen()
 
 static bool GUI_YesNo(uint16 stringID)
 {
-	WindowDesc *desc = &g_global->variable_271E;
+	WindowDesc *desc = &g_yesNoWindowDesc;
 	bool loop = true;
 	bool ret = false;
 
@@ -692,7 +692,7 @@ static bool GUI_YesNo(uint16 stringID)
  */
 bool GUI_Widget_Options_Click(Widget *w)
 {
-	WindowDesc *desc = &g_global->variable_264C;
+	WindowDesc *desc = &g_optionsWindowDesc;
 	uint16 cursor = g_global->cursorSpriteID;
 	bool loop;
 
@@ -874,7 +874,7 @@ static void FillSavegameDesc(bool save)
  */
 static bool GUI_Widget_Savegame_Click(uint16 key)
 {
-	WindowDesc *desc = &g_global->variable_27F0;
+	WindowDesc *desc = &g_savegameNameWindowDesc;
 	bool loop;
 	char *saveDesc = g_global->savegameDesc[key];
 	uint16 loc08;
@@ -970,7 +970,7 @@ static void UpdateArrows(bool save, bool force)
  */
 bool GUI_Widget_SaveLoad_Click(bool save)
 {
-	WindowDesc *desc = &g_global->variable_2787;
+	WindowDesc *desc = &g_saveLoadWindowDesc;
 	bool loop;
 
 	g_global->savegameCountOnDisk = GetSavegameCount();

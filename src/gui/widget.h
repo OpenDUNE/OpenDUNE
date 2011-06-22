@@ -151,29 +151,32 @@ typedef struct WidgetClickInfo {
 MSVC_PACKED_END
 assert_compile(sizeof(WidgetClickInfo) == 0x18);
 
-MSVC_PACKED_BEGIN
 /**
  * Static information per WidgetClick type.
  */
 typedef struct WindowDesc {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
-	/* 0002(2)   */ PACK uint16 stringID;                   /*!< ?? */
-	/* 0004(2)   */ PACK uint16 addArrows;                  /*!< ?? */
-	/* 0006(1)   */ PACK uint8  widgetCount;                /*!< ?? */
-	/* 0007(98)  */ PACK struct {
-	                       PACK uint16 stringID;            /*!< ?? */
-	                       PACK uint16 offsetX;             /*!< ?? */
-	                       PACK uint16 offsetY;             /*!< ?? */
-	                       PACK uint16 width;               /*!< ?? */
-	                       PACK uint16 height;              /*!< ?? */
-	                       PACK uint16 labelStringId;       /*!< ?? */
-	                       PACK uint16 shortcut2;           /*!< ?? */
-	                     } GCC_PACKED widgets[7];           /*!< ?? */
-} GCC_PACKED WindowDesc;
-MSVC_PACKED_END
-assert_compile(sizeof(WindowDesc) == 0x69);
+	/* 0000(2)   */ uint16 index;                      /*!< ?? */
+	/* 0002(2)   */ uint16 stringID;                   /*!< ?? */
+	/* 0004(2)   */ bool   addArrows;                  /*!< ?? */
+	/* 0006(1)   */ uint8  widgetCount;                /*!< ?? */
+	/* 0007(98)  */ struct {
+	                       uint16 stringID;            /*!< ?? */
+	                       uint16 offsetX;             /*!< ?? */
+	                       uint16 offsetY;             /*!< ?? */
+	                       uint16 width;               /*!< ?? */
+	                       uint16 height;              /*!< ?? */
+	                       uint16 labelStringId;       /*!< ?? */
+	                       uint16 shortcut2;           /*!< ?? */
+	                     } widgets[7];                 /*!< ?? */
+} WindowDesc;
 
 extern WidgetClickInfo *g_widgetClickInfo;
+
+extern WindowDesc g_optionsWindowDesc;
+extern WindowDesc g_gameControlWindowDesc;
+extern WindowDesc g_yesNoWindowDesc;
+extern WindowDesc g_saveLoadWindowDesc;
+extern WindowDesc g_savegameNameWindowDesc;
 
 extern uint8 *g_palette1;
 extern uint8 *g_palette2;
