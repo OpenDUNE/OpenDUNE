@@ -514,9 +514,8 @@ uint8 Sprites_B4CD_17F7(uint8 orientation)
 	return emu_get_memorycsip(g_global->variable_3952)[orientation] >> 4;
 }
 
-void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
+void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 {
-	uint8 *sprite = emu_get_memorycsip(spritecsip);
 	uint16 size;
 
 	if (sprite == NULL || g_global->variable_7097 != 0) return;
@@ -594,7 +593,6 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, csip32 spritecsip)
 
 	GUI_Mouse_Show();
 
-end:
 	g_global->mouseLock--;
 }
 

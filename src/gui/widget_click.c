@@ -351,7 +351,7 @@ bool GUI_Widget_Cancel_Click()
 	g_global->activeAction = 0xFFFF;
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 
 	GUI_ChangeSelectionType(3);
 
@@ -701,7 +701,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 
 	Sprites_UnloadTiles();
 
@@ -822,7 +822,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = cursor;
 
-	Sprites_SetMouseSprite(0, 0, g_sprites[cursor]);
+	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[cursor]));
 
 	return false;
 }

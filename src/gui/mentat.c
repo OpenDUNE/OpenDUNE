@@ -342,7 +342,7 @@ bool GUI_Widget_Mentat_Click()
 {
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 
 	Sound_Unknown0363(0xFFFE);
 

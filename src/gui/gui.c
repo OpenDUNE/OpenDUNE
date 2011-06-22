@@ -2260,7 +2260,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				if (oldSelectionType != 7) {
 					g_global->cursorSpriteID = 0;
 
-					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+					Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 				}
 
 				Unknown_07AE_0000(info[selectionType].variable_08);

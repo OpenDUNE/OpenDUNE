@@ -1142,7 +1142,7 @@ static void GameLoop_LevelEnd()
 
 		g_global->cursorSpriteID = 0;
 
-		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+		Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 
 		Sound_Unknown0363(0xFFFE);
 
@@ -1826,7 +1826,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
+	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
 
 	while (g_global->mouseHiddenDepth > 1) {
 		GUI_Mouse_Show_Safe();
