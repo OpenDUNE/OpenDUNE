@@ -116,7 +116,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
-	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX, positionY, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
+	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX, positionY, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
 
 	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
 
@@ -198,7 +198,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				uint16 x, y;
 				uint8 *sprite;
 
-				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[63]), positionX + 37, positionY + 5, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 2 : 0);
+				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[63]), positionX + 37, positionY + 5, 0, 0x100, g_paletteMapping1, buttonDown ? 2 : 0);
 
 				sprite = emu_get_memorycsip(g_sprites[24]);
 				spriteWidth = Sprite_GetWidth(sprite) + 1;
@@ -221,7 +221,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			break;
 	}
 
-	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX + 2, positionY + 2, 0, 0x100, emu_get_memorycsip(g_global->variable_3C3A), buttonDown ? 1 : 0);
+	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX + 2, positionY + 2, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
 
 	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;

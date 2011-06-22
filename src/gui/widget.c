@@ -20,6 +20,9 @@
 #include "../sprites.h"
 #include "../tools.h"
 
+uint8 *g_paletteMapping1 = NULL;
+uint8 *g_paletteMapping2 = NULL;
+
 Widget *GUI_Widget_GetNext(Widget *w)
 {
 	if (w->next.csip == 0x0) return NULL;

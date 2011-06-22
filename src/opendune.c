@@ -707,8 +707,8 @@ static void GameLoop_Uninit()
 	}
 
 	Tools_Free(g_global->variable_3C36);
-	Tools_Free(g_global->variable_3C3E);
-	Tools_Free(g_global->variable_3C3A);
+	Tools_Free(emu_Global_GetCSIP(g_paletteMapping2));
+	Tools_Free(emu_Global_GetCSIP(g_paletteMapping1));
 	Tools_Free(g_global->variable_3C32);
 	Tools_Free(g_global->variable_38C6);
 	Tools_Free(g_global->variable_3C46);
@@ -1779,18 +1779,18 @@ static void GameLoop_GameIntroAnimationMenu()
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
 	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
 
-	g_global->variable_3C3A = Tools_Malloc(256, 0x0);
-	g_global->variable_3C3E = Tools_Malloc(256, 0x0);
+	g_paletteMapping1 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
+	g_paletteMapping2 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
 
-	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_3C3A), 0xC, 0x55);
-	emu_get_memorycsip(g_global->variable_3C3A)[0xFF] = 0xFF;
-	emu_get_memorycsip(g_global->variable_3C3A)[0xDF] = 0xDF;
-	emu_get_memorycsip(g_global->variable_3C3A)[0xEF] = 0xEF;
+	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), g_paletteMapping1, 0xC, 0x55);
+	g_paletteMapping1[0xFF] = 0xFF;
+	g_paletteMapping1[0xDF] = 0xDF;
+	g_paletteMapping1[0xEF] = 0xEF;
 
-	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), emu_get_memorycsip(g_global->variable_3C3E), 0xF, 0x55);
-	emu_get_memorycsip(g_global->variable_3C3E)[0xFF] = 0xFF;
-	emu_get_memorycsip(g_global->variable_3C3E)[0xDF] = 0xDF;
-	emu_get_memorycsip(g_global->variable_3C3E)[0xEF] = 0xEF;
+	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), g_paletteMapping2, 0xF, 0x55);
+	g_paletteMapping2[0xFF] = 0xFF;
+	g_paletteMapping2[0xDF] = 0xDF;
+	g_paletteMapping2[0xEF] = 0xEF;
 
 	g_global->variable_3C46 = Tools_Malloc(1500, 0x30);
 	Unknown_2903_090A(g_global->variable_3C46, 1500);

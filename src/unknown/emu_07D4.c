@@ -258,7 +258,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) g_global->variable_8DE3 |= 0x100;
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u))), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, emu_get_memorycsip(g_global->variable_3C3E), 1);
+			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u))), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -411,7 +411,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, emu_get_memorycsip(g_global->variable_3C3A), 1);
+			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
