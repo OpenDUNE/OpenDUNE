@@ -42,7 +42,7 @@ void System_Init_Sprites()
  * @param sprite_csip The CSIP of the sprite to work on.
  * @param arg0A_csip ??.
  */
-static void Sprites_Unknown_2BB6_000C(uint8 *sprite, uint8 *remap)
+static void Sprites_Remap(uint8 *sprite, uint8 *remap)
 {
 	uint8 i;
 
@@ -123,11 +123,11 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 
 	switch (index) {
 		case 0:
-			for (i = 7; i < 12; i++) Sprites_Unknown_2BB6_000C(emu_get_memorycsip(g_sprites[i]), g_remap);
+			for (i = 7; i < 12; i++) Sprites_Remap(emu_get_memorycsip(g_sprites[i]), g_remap);
 			break;
 
 		case 2:
-			for (i = 111; i < 129; i++) Sprites_Unknown_2BB6_000C(emu_get_memorycsip(g_sprites[i]), g_remap);
+			for (i = 111; i < 129; i++) Sprites_Remap(emu_get_memorycsip(g_sprites[i]), g_remap);
 			break;
 
 		default: break;
