@@ -869,7 +869,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			case 2:
 				if (g_sprites[spriteID].csip == 0x0) spriteID = 0;
 
-				GUI_DrawSprite(memory, Sprites_GetCSIP(g_sprites[spriteID], 0), positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
+				GUI_DrawSprite(memory, emu_get_memorycsip(Sprites_GetCSIP(g_sprites[spriteID], 0)), positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
 				g_global->variable_1838 = 8;
 				g_global->variable_1836++;

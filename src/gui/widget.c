@@ -57,7 +57,7 @@ static void GUI_Widget_DrawBlocked(Widget *w, uint8 colour)
 		GUI_Mouse_Hide_InRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height);
 	}
 
-	GUI_DrawSprite(g_global->screenActiveID, w->drawProcNormal, w->offsetX, w->offsetY, w->parentID, 0);
+	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(w->drawProcNormal), w->offsetX, w->offsetY, w->parentID, 0);
 
 	GUI_DrawBlockedRectangle(w->offsetX, w->offsetY, w->width, w->height, colour);
 
@@ -156,7 +156,7 @@ void GUI_Widget_Draw(Widget *w)
 		case DRAW_MODE_NONE: break;
 
 		case DRAW_MODE_SPRITE: {
-			GUI_DrawSprite(g_global->screenActiveID, drawProc, offsetX, offsetY, w->parentID, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(drawProc), offsetX, offsetY, w->parentID, 0x4000);
 		} break;
 
 		case DRAW_MODE_TEXT: {
