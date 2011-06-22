@@ -628,7 +628,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	loc06 = g_global->variable_6D5D;
 
 	if (actionType != 0) {
-		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+		Widget *w = g_widgetLinkedListHead;
 
 		oldScreenID = GUI_Screen_SetActive(2);
 

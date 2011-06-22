@@ -33,8 +33,6 @@
 #include "../unknown/unknown.h"
 
 
-static Widget *s_widgetLinkedListTail;
-
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];
@@ -293,7 +291,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	found = memchr(actions, unitAction, 4);
 	if (found == NULL) return true;
 
-	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), found - actions + 8), false);
+	GUI_Widget_MakeNormal(GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, found - actions + 8), false);
 
 	return true;
 }
@@ -433,7 +431,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	if (desc == NULL) return;
 
-	s_widgetLinkedListTail = NULL;
+	g_widgetLinkedListTail = NULL;
 
 	GUI_Screen_SetActive(2);
 
@@ -486,7 +484,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		w->parentID = desc->index;
 		w->state.all = 0x0;
 
-		s_widgetLinkedListTail = GUI_Widget_Link(s_widgetLinkedListTail, w);
+		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
 		GUI_Widget_MakeVisible(w);
 		GUI_Widget_MakeNormal(w, false);
@@ -514,7 +512,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		GUI_Widget_MakeInvisible(w);
 		GUI_Widget_Undraw(w, 233);
 
-		s_widgetLinkedListTail = GUI_Widget_Link(s_widgetLinkedListTail, w);
+		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
 		w = &g_global->variable_2A39;
 
@@ -528,7 +526,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		GUI_Widget_MakeInvisible(w);
 		GUI_Widget_Undraw(w, 233);
 
-		s_widgetLinkedListTail = GUI_Widget_Link(s_widgetLinkedListTail, w);
+		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 	}
 
 	GUI_Mouse_Hide_Safe();
@@ -576,7 +574,7 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 
 	loop = true;
 	while (loop) {
-		Widget *w2 = s_widgetLinkedListTail;
+		Widget *w2 = g_widgetLinkedListTail;
 		uint16 key = GUI_Widget_HandleEvents(w2);
 
 		if ((key & 0x8000) != 0) {
@@ -667,7 +665,7 @@ static bool GUI_YesNo(uint16 stringID)
 	GUI_Window_Create(desc);
 
 	while (loop) {
-		uint16 key = GUI_Widget_HandleEvents(s_widgetLinkedListTail);
+		uint16 key = GUI_Widget_HandleEvents(g_widgetLinkedListTail);
 
 		if ((key & 0x8000) != 0) {
 			switch (key & 0x7FFF) {
@@ -733,7 +731,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	loop = true;
 
 	while (loop) {
-		Widget *w2 = s_widgetLinkedListTail;
+		Widget *w2 = g_widgetLinkedListTail;
 		uint16 key = GUI_Widget_HandleEvents(w2);
 
 		if ((key & 0x8000) != 0) {
@@ -903,11 +901,11 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	GUI_Mouse_Show_Safe();
 
 	while (loop) {
-		Widget *w = s_widgetLinkedListTail;
+		Widget *w = g_widgetLinkedListTail;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 232, 235, 0x22);
 
-		loc0A = GUI_EditBox(saveDesc, 50, 15, s_widgetLinkedListTail, NULL, loc08);
+		loc0A = GUI_EditBox(saveDesc, 50, 15, g_widgetLinkedListTail, NULL, loc08);
 		loc08 = 2;
 
 		if ((loc0A & 0x8000) == 0) continue;
@@ -991,7 +989,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 	loop = true;
 
 	while (loop) {
-		Widget *w = s_widgetLinkedListTail;
+		Widget *w = g_widgetLinkedListTail;
 		uint16 key = GUI_Widget_HandleEvents(w);
 
 		UpdateArrows(save, false);

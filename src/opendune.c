@@ -697,13 +697,11 @@ static void GameLoop_LevelEndAnimation()
 
 static void GameLoop_Uninit()
 {
-	while (g_global->variable_3C26.csip != 0) {
-		csip32 wcsip = g_global->variable_3C26;
-		Widget *w = (Widget *)emu_get_memorycsip(wcsip);
+	while (g_widgetLinkedListHead != NULL) {
+		Widget *w = g_widgetLinkedListHead;
+		g_widgetLinkedListHead = (Widget *)emu_get_memorycsip(w->next);
 
-		g_global->variable_3C26 = w->next;
-
-		Tools_Free(wcsip);
+		Tools_Free(emu_Global_GetCSIP(w));
 	}
 
 	Tools_Free(emu_Global_GetCSIP(g_palette1));
@@ -1579,9 +1577,6 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 static void Window_WidgetClick_Create()
 {
 	WidgetClickInfo *wci;
-	Widget *w3C26;
-
-	w3C26 = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
 
 	for (wci = &g_widgetClickInfo[0]; wci->index != 0xFFFF; wci++) {
 		Widget *w;
@@ -1596,11 +1591,8 @@ static void Window_WidgetClick_Create()
 		w->clickProc = wci->clickProc;
 		w->flags.all = wci->flags;
 
-		w3C26 = GUI_Widget_Insert(w3C26, w);
-
+		g_widgetLinkedListHead = GUI_Widget_Insert(g_widgetLinkedListHead, w);
 	}
-
-	g_global->variable_3C26 = emu_Global_GetCSIP(w3C26);
 }
 
 static void ReadProfileIni(char *filename)
@@ -2228,7 +2220,7 @@ static void GameLoop_Main()
 
 		GUI_Screen_SetActive(0);
 
-		key = GUI_Widget_HandleEvents((Widget *)emu_get_memorycsip(g_global->variable_3C26));
+		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_unitSelected != NULL) {

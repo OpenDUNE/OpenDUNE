@@ -183,6 +183,9 @@ extern uint8 *g_palette2;
 extern uint8 *g_paletteMapping1;
 extern uint8 *g_paletteMapping2;
 
+extern Widget *g_widgetLinkedListHead;
+extern  Widget *g_widgetLinkedListTail;
+
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);
 extern uint16  GUI_Widget_HandleEvents(Widget *w);

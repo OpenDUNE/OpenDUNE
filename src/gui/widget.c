@@ -20,10 +20,14 @@
 #include "../sprites.h"
 #include "../tools.h"
 
+
 uint8 *g_palette1 = NULL;
 uint8 *g_palette2 = NULL;
 uint8 *g_paletteMapping1 = NULL;
 uint8 *g_paletteMapping2 = NULL;
+
+Widget *g_widgetLinkedListHead = NULL;
+Widget *g_widgetLinkedListTail = NULL;
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {

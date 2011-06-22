@@ -2015,10 +2015,10 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	GUI_Widget_ActionPanel_Draw(true);
 
-	w = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), 1);
+	w = GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, 1);
 	GUI_Widget_Draw(w);
 
-	w = GUI_Widget_Get_ByIndex((Widget *)emu_get_memorycsip(g_global->variable_3C26), 2);
+	w = GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, 2);
 	GUI_Widget_Draw(w);
 
 	find.houseID = 0xFFFF;
@@ -2236,7 +2236,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 
 		if (selectionType != 0) {
-			Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_3C26);
+			Widget *w = g_widgetLinkedListHead;
 
 			uint8 *loc08 = emu_get_memorycsip(info[selectionType].variable_00);
 
@@ -2250,7 +2250,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				w = GUI_Widget_GetNext(w);
 			}
 
-			GUI_Widget_DrawAll((Widget *)emu_get_memorycsip(g_global->variable_3C26));
+			GUI_Widget_DrawAll(g_widgetLinkedListHead);
 			g_global->variable_38C4 = 1;
 		}
 
