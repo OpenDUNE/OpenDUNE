@@ -17,9 +17,7 @@ void *g_fontNew6p = NULL;
 void *g_fontNew8p = NULL;
 void *g_fontNew8p2 = NULL;
 
-void *g_fontCurrent = NULL;
-
-static uint8 *s_fontCurrentWidth = NULL;
+FontHeader *g_fontCurrent = NULL;
 
 /**
  * Get the width of a char in pixels.
@@ -31,7 +29,7 @@ uint16 Font_GetCharWidth(char c)
 {
 	uint16 width;
 
-	width = *(s_fontCurrentWidth + c);
+	width = *((uint8 *)g_fontCurrent + g_fontCurrent->widthOffset + c);
 	return width + g_global->variable_6C6C;
 }
 
@@ -97,25 +95,14 @@ void *Font_LoadFile(const char *filename)
  */
 void Font_Select(void *font)
 {
-	uint8 *f = font;
+	FontHeader *f = (FontHeader *)font;
 
 	if (f == NULL) return;
 
-	g_fontCurrent = font;
+	g_fontCurrent = f;
 
-	s_fontCurrentWidth = (f + ((uint16 *)f)[4]);
-
-	emu_get_csip32  (0x22A6, 0x00, 0x80) = emu_Global_GetCSIP(f);
-	emu_get_memory16(0x22A6, 0x00, 0x72) = ((uint16 *)f)[2]; /* heightOffset */
-	emu_get_memory16(0x22A6, 0x00, 0x74) = ((uint16 *)f)[3];
-	emu_get_memory16(0x22A6, 0x00, 0x76) = ((uint16 *)f)[4]; /* widthOffset */
-	emu_get_memory16(0x22A6, 0x00, 0x78) = ((uint16 *)f)[5];
-	emu_get_memory16(0x22A6, 0x00, 0x7A) = ((uint16 *)f)[6];
-
-	f += ((uint16 *)f)[2]; /* heightOffset */
-
-	g_global->variable_6C71 = f[4];
-	g_global->variable_6C70 = f[5];
+	g_global->variable_6C71 = ((uint8 *)f + f->heightOffset)[4];
+	g_global->variable_6C70 = ((uint8 *)f + f->heightOffset)[5];
 
 	g_global->variable_6D5F = g_global->variable_9931 / g_global->variable_6C71;
 	g_global->variable_6D63 = g_global->variable_992F << 3;

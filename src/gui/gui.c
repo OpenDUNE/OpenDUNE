@@ -305,9 +305,8 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
  */
 static void GUI_DrawChar(char c, uint16 x, uint16 y)
 {
-	csip32 font_csip = emu_get_csip32(0x22A6, 0x00, 0x80);
-	uint8 *font      = emu_get_memorycsip(font_csip);
-	uint8 *screen    = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
+	uint8 *font   = (uint8 *)g_fontCurrent;
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
 
 	uint16 offset;
 	uint16 remainingWidth;
@@ -319,16 +318,16 @@ static void GUI_DrawChar(char c, uint16 x, uint16 y)
 
 	if (font == NULL) return;
 
-	offset     = ((uint16 *)font)[emu_get_memory16(0x22A6, 0x00, 0x74) / 2 + c];
-	charWidth  = font[emu_get_memory16(0x22A6, 0x00, 0x76) + c];
-	charHeight = font[emu_get_memory16(0x22A6, 0x00, 0x72) + 4];
+	offset     = ((uint16 *)font)[g_fontCurrent->dataOffset / 2 + c];
+	charWidth  = font[g_fontCurrent->widthOffset + c];
+	charHeight = font[g_fontCurrent->heightOffset + 4];
 
 	if (offset == 0) return;
 	if (x >= SCREEN_WIDTH || (x + charWidth) > SCREEN_WIDTH) return;
 	if (y >= SCREEN_HEIGHT || (y + charHeight) > SCREEN_HEIGHT) return;
 
-	emptyLines  = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2];
-	usedLines   = font[emu_get_memory16(0x22A6, 0x00, 0x7A) + c * 2 + 1];
+	emptyLines  = font[g_fontCurrent->lineUsage + c * 2];
+	usedLines   = font[g_fontCurrent->lineUsage + c * 2 + 1];
 	charHeight -= emptyLines + usedLines;
 
 	font += offset;
