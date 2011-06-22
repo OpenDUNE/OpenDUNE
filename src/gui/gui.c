@@ -396,7 +396,7 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 	uint16 y;
 	char *s;
 
-	data = (uint8 *)emu_get_memorycsip(g_global->variable_99F3);
+	data = (uint8 *)g_fontCurrent;
 	if (data == NULL) return;
 
 	heightOffset = ((uint16 *)data)[2];
@@ -458,9 +458,9 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 
 	if ((arg12low != g_global->variable_376C && arg12low != 0) || string == NULL) {
 		switch (arg12low) {
-			case 1:  Font_Select(g_global->new6pFnt);  break;
-			case 2:  Font_Select(g_global->new8pFnt2); break;
-			default: Font_Select(g_global->new8pFnt);  break;
+			case 1:  Font_Select(g_fontNew6p);  break;
+			case 2:  Font_Select(g_fontNew8p2); break;
+			default: Font_Select(g_fontNew8p);  break;
 		}
 
 		g_global->variable_376C = arg12low;

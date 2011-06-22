@@ -216,9 +216,9 @@ static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, 
 
 	memcpy(g_palette_998A, emu_get_memorycsip(g_global->variable_3C32), 768);
 
-	g_global->introFnt = Font_LoadFile("INTRO.FNT");
+	g_fontIntro = Font_LoadFile("INTRO.FNT");
 
-	Font_Select(g_global->introFnt);
+	Font_Select(g_fontIntro);
 
 	GUI_Screen_SetActive(0);
 
@@ -255,7 +255,7 @@ static void Memory_ClearBlock(uint16 index)
 
 static void GameLoop_FinishAnimation()
 {
-	Tools_Free(g_global->introFnt);
+	Tools_Free(emu_Global_GetCSIP(g_fontIntro));
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
@@ -402,7 +402,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_InitColors(colors, 0, 15);
 
-	Font_Select(g_global->introFnt);
+	Font_Select(g_fontIntro);
 }
 
 static uint16 GameLoop_B4ED_0AA5(bool arg06)
@@ -821,10 +821,10 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 			if (*text == 1) {
 				text++;
-				Font_Select(g_global->new6pFnt);
+				Font_Select(g_fontNew6p);
 			} else if (*text == 2) {
 				text++;
-				Font_Select(g_global->new8pFnt2);
+				Font_Select(g_fontNew8p2);
 			}
 
 			strings[stringCount].charHeight = g_global->variable_6C71;
@@ -901,9 +901,9 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			if ((int16)strings[loc02].y < g_global->variable_9931) {
 				GUI_Screen_SetActive(screenID);
 
-				Font_Select(g_global->new8pFnt2);
+				Font_Select(g_fontNew8p2);
 
-				if (strings[loc02].charHeight != g_global->variable_6C71) Font_Select(g_global->new6pFnt);
+				if (strings[loc02].charHeight != g_global->variable_6C71) Font_Select(g_fontNew6p);
 
 				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_global->variable_992B, 255, 0);
 
@@ -1797,9 +1797,8 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 
-	g_global->new6pFnt = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
-
-	g_global->new8pFnt2 = g_global->new8pFnt;
+	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
+	g_fontNew8p2 = g_fontNew8p;
 
 	{
 		csip32 functions;
@@ -2334,16 +2333,16 @@ static bool Unknown_25C4_000E()
 
 	GFX_ClearScreen();
 
-	g_global->new8pFnt = Font_LoadFile("new8p.fnt");
+	g_fontNew8p = Font_LoadFile("new8p.fnt");
 
-	if (g_global->new8pFnt.csip == 0x0) {
+	if (g_fontNew8p == NULL) {
 		printf("\r\nUnable to load font new8p.fnt\r\nReinstall program.\r\n");
 
 		Input_WaitForValidInput();
 		return false;
 	}
 
-	Font_Select(g_global->new8pFnt);
+	Font_Select(g_fontNew8p);
 
 	g_palette_998A = calloc(256 * 3, sizeof(uint8));
 

@@ -12,17 +12,26 @@
 #include "../file.h"
 #include "../tools.h"
 
+void *g_fontIntro = NULL;
+void *g_fontNew6p = NULL;
+void *g_fontNew8p = NULL;
+void *g_fontNew8p2 = NULL;
+
+void *g_fontCurrent = NULL;
+
+static uint8 *s_fontCurrentWidth = NULL;
+
 /**
  * Get the width of a char in pixels.
  *
- * @param c The char to ge the width of.
+ * @param c The char to get the width of.
  * @return The width of the char in pixels.
  */
 uint16 Font_GetCharWidth(char c)
 {
 	uint16 width;
 
-	width = emu_get_memory8(g_global->variable_6C72.s.cs, g_global->variable_6C72.s.ip, c);
+	width = *(s_fontCurrentWidth + c);
 	return width + g_global->variable_6C6C;
 }
 
@@ -49,72 +58,66 @@ uint16 Font_GetStringWidth(char *string)
  * Load a font file.
  *
  * @param filename The name of the font file.
- * @return The CS:IP of the allocated memory where the file has been read.
+ * @return The pointer of the allocated memory where the file has been read.
  */
-csip32 Font_LoadFile(const char *filename)
+void *Font_LoadFile(const char *filename)
 {
 	uint8 index;
 	uint16 length;
-	csip32 memBlock;
 	uint8 *buf;
 
-	memBlock.csip = 0;
-
-	if (!File_Exists(filename)) return memBlock;
+	if (!File_Exists(filename)) return NULL;
 
 	index = File_Open(filename, 1);
 
 	if (File_Read(index, &length, 2) != 2) {
 		File_Close(index);
-		return memBlock;
+		return NULL;
 	}
 
-	memBlock = Tools_Malloc(length, 0x10);
-	buf = emu_get_memorycsip(memBlock);
+	buf = emu_get_memorycsip(Tools_Malloc(length, 0x10));
 
 	*(uint16 *)buf = length;
 
 	File_Read(index, buf + 2, length - 2);
 	File_Close(index);
 
-	if (buf[2] != 0 || buf[3] != 5) memBlock.csip = 0;
+	if (buf[2] != 0 || buf[3] != 5) {
+		Tools_Free(emu_Global_GetCSIP(buf));
+		return NULL;
+	}
 
-	return memBlock;
+	return buf;
 }
 
 /**
  * Select a font.
  *
- * @param font_csip The CS:IP of the font to use.
- * @return The CS:IP of the previous selected font.
+ * @param font The pointer of the font to use.
  */
-csip32 Font_Select(csip32 font_csip)
+void Font_Select(void *font)
 {
-	csip32 ret = g_global->variable_99F3;
-	uint8 *font = emu_get_memorycsip(font_csip);
+	uint8 *f = font;
 
-	if (font_csip.csip == 0x0) return ret;
+	if (f == NULL) return;
 
-	g_global->variable_99F3 = font_csip;
+	g_fontCurrent = font;
 
-	g_global->variable_6C72 = font_csip;
-	g_global->variable_6C72.s.ip += ((uint16 *)font)[4]; /* widthOffset */
+	s_fontCurrentWidth = (f + ((uint16 *)f)[4]);
 
-	emu_get_csip32  (0x22A6, 0x00, 0x80) = font_csip;
-	emu_get_memory16(0x22A6, 0x00, 0x72) = ((uint16 *)font)[2]; /* heightOffset */
-	emu_get_memory16(0x22A6, 0x00, 0x74) = ((uint16 *)font)[3];
-	emu_get_memory16(0x22A6, 0x00, 0x76) = ((uint16 *)font)[4]; /* widthOffset */
-	emu_get_memory16(0x22A6, 0x00, 0x78) = ((uint16 *)font)[5];
-	emu_get_memory16(0x22A6, 0x00, 0x7A) = ((uint16 *)font)[6];
+	emu_get_csip32  (0x22A6, 0x00, 0x80) = emu_Global_GetCSIP(f);
+	emu_get_memory16(0x22A6, 0x00, 0x72) = ((uint16 *)f)[2]; /* heightOffset */
+	emu_get_memory16(0x22A6, 0x00, 0x74) = ((uint16 *)f)[3];
+	emu_get_memory16(0x22A6, 0x00, 0x76) = ((uint16 *)f)[4]; /* widthOffset */
+	emu_get_memory16(0x22A6, 0x00, 0x78) = ((uint16 *)f)[5];
+	emu_get_memory16(0x22A6, 0x00, 0x7A) = ((uint16 *)f)[6];
 
-	font += ((uint16 *)font)[2]; /* heightOffset */
+	f += ((uint16 *)f)[2]; /* heightOffset */
 
-	g_global->variable_6C71 = font[4];
-	g_global->variable_6C70 = font[5];
+	g_global->variable_6C71 = f[4];
+	g_global->variable_6C70 = f[5];
 
 	g_global->variable_6D5F = g_global->variable_9931 / g_global->variable_6C71;
 	g_global->variable_6D63 = g_global->variable_992F << 3;
 	g_global->variable_6D61 = g_global->variable_6D63 / g_global->variable_6C70;
-
-	return ret;
 }
