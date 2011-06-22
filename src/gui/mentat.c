@@ -414,7 +414,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
+	Unknown_259E_0006(g_palette1, 15);
 
 	ret = GUI_Mentat_Loop(wsaFilename, NULL, stringBuffer, true, NULL);
 
@@ -481,7 +481,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 	oldScreenID = GUI_Screen_SetActive(2);
 
 	if (houseID == HOUSE_MERCENARY) {
-		File_ReadBlockFile("BENE.PAL", (char *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
+		File_ReadBlockFile("BENE.PAL", g_palette1, 0x300);
 	}
 
 	memset(_mentatSprites, 0, sizeof(_mentatSprites));

@@ -281,6 +281,6 @@ bool LoadFile(char *filename)
 void Load_Palette_Mercenaries()
 {
 	if (g_global->playerHouseID == HOUSE_MERCENARY) {
-		File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 0x300);
+		File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
 	}
 }

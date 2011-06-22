@@ -175,6 +175,8 @@ assert_compile(sizeof(WindowDesc) == 0x69);
 
 extern WidgetClickInfo *g_widgetClickInfo;
 
+extern uint8 *g_palette1;
+extern uint8 *g_palette2;
 extern uint8 *g_paletteMapping1;
 extern uint8 *g_paletteMapping2;
 

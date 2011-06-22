@@ -629,20 +629,17 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 static void ShadeScreen()
 {
 	uint16 i;
-	uint8 *g3C32;
 	uint16 loc1A[9];
 
 	memcpy(loc1A, g_global->variable_2A9B, 18);
 
-	g3C32 = emu_get_memorycsip(g_global->variable_3C32);
+	memmove(g_palette_998A, g_palette1, 0x300);
 
-	memmove(g_palette_998A, g3C32, 0x300);
-
-	for (i = 0; i < 0x300; i++) g3C32[i] = g3C32[i] / 2;
+	for (i = 0; i < 0x300; i++) g_palette1[i] = g_palette1[i] / 2;
 
 	for (i = 0; i < 9; i++) {
 		if (loc1A[i] == 0xFFFF) break;
-		memmove(g3C32 + (loc1A[i] * 3), &g_palette_998A[loc1A[i] * 3], 3);
+		memmove(g_palette1 + (loc1A[i] * 3), &g_palette_998A[loc1A[i] * 3], 3);
 	}
 
 	GFX_SetPalette(g_palette_998A);
@@ -650,9 +647,9 @@ static void ShadeScreen()
 
 static void UnshadeScreen()
 {
-	memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 0x300);
+	memmove(g_palette1, g_palette_998A, 0x300);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 }
 
 static bool GUI_YesNo(uint16 stringID)

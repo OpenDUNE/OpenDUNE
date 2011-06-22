@@ -971,10 +971,10 @@ typedef struct GlobalData {
 	/* 3C0E(24)  */ PACK uint8  removed_3C0E[3][8];         /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 variable_3C26;              /*!< First Widget in the linked-list of all Widgets. */
 	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
-	/* 3C32(4)   */ PACK csip32 variable_3C32;              /*!< ?? */
-	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
-	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */
-	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
+	/* 3C32(4)   */ PACK csip32 removed_3C32;               /*!< REMOVED - Main palette. */
+	/* 3C36(4)   */ PACK csip32 removed_3C36;               /*!< REMOVED - Secondary palette. */
+	/* 3C3A(4)   */ PACK csip32 removed_3C3A;               /*!< REMOVED - Palette mapping. */
+	/* 3C3E(4)   */ PACK csip32 removed_3C3E;               /*!< REMOVED - Palette mapping. */
 	/* 3C42(4)   */ PACK csip32 removed_3C42;               /*!< REMOVED - Pointer to color remap. */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
 	/* 3C4A(2)   */ PACK uint16 variable_3C4A;              /*!< ?? */

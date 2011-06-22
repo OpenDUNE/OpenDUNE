@@ -1628,7 +1628,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_UnloadTiles();
 
-			memmove(emu_get_memorycsip(g_global->variable_3C32), g_global->variable_70A2, 768);
+			memmove(g_palette1, g_global->variable_70A2, 768);
 
 			GUI_ChangeSelectionType(0);
 
@@ -1640,7 +1640,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_LoadTiles();
 
-			GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+			GFX_SetPalette(g_palette1);
 
 			Sprites_Load(0, 7, g_sprites);
 

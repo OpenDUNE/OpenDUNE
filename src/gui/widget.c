@@ -20,6 +20,8 @@
 #include "../sprites.h"
 #include "../tools.h"
 
+uint8 *g_palette1 = NULL;
+uint8 *g_palette2 = NULL;
 uint8 *g_paletteMapping1 = NULL;
 uint8 *g_paletteMapping2 = NULL;
 

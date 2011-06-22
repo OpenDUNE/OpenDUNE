@@ -212,9 +212,9 @@ static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, 
 
 	GFX_ClearScreen();
 
-	File_ReadBlockFile("INTRO.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
+	File_ReadBlockFile("INTRO.PAL", g_palette1, 768);
 
-	memcpy(g_palette_998A, emu_get_memorycsip(g_global->variable_3C32), 768);
+	memcpy(g_palette_998A, g_palette1, 768);
 
 	g_fontIntro = Font_LoadFile("INTRO.FNT");
 
@@ -222,9 +222,9 @@ static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, 
 
 	GUI_Screen_SetActive(0);
 
-	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
+	memcpy(g_global->variable_809A, &g_palette1[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
 
-	memset(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], 0, 6 * 3);
+	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
 	memcpy(g_global->variable_8088, g_global->variable_809A, 6 * 3);
 
@@ -260,7 +260,7 @@ static void GameLoop_FinishAnimation()
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
+	Unknown_259E_0006(g_palette2, 60);
 
 	GUI_ClearScreen(0);
 
@@ -353,7 +353,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	if (g_global->variable_806A-- != 0) return;
 
-	memcpy(g_global->variable_809A, &emu_get_memorycsip(g_global->variable_3C32)[(144 + (var805A->variable_0002 * 16)) * 3], 18);
+	memcpy(g_global->variable_809A, &g_palette1[(144 + (var805A->variable_0002 * 16)) * 3], 18);
 
 	g_global->variable_8074 = 1;
 
@@ -518,9 +518,9 @@ static void GameLoop_PlayAnimation()
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			GameLoop_B4ED_0AA5(true);
 
-			memcpy(&emu_get_memorycsip(g_global->variable_3C32)[215 * 3], g_global->variable_8088, 18);
+			memcpy(&g_palette1[215 * 3], g_global->variable_8088, 18);
 
-			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 45);
+			Unknown_259E_0006(g_palette1, 45);
 
 			locdi++;
 		} else {
@@ -607,7 +607,7 @@ static void GameLoop_PlayAnimation()
 
 			Unknown_259E_0006(g_palette_998A, 15);
 
-			memcpy(g_palette_998A, emu_get_memorycsip(g_global->variable_3C32), 3 * 256);
+			memcpy(g_palette_998A, g_palette1, 3 * 256);
 		}
 
 		if ((var805E->flags & 0x8) != 0) {
@@ -706,10 +706,10 @@ static void GameLoop_Uninit()
 		Tools_Free(wcsip);
 	}
 
-	Tools_Free(g_global->variable_3C36);
-	Tools_Free(emu_Global_GetCSIP(g_paletteMapping2));
+	Tools_Free(emu_Global_GetCSIP(g_palette1));
+	Tools_Free(emu_Global_GetCSIP(g_palette2));
 	Tools_Free(emu_Global_GetCSIP(g_paletteMapping1));
-	Tools_Free(g_global->variable_3C32);
+	Tools_Free(emu_Global_GetCSIP(g_paletteMapping2));
 	Tools_Free(g_global->variable_38C6);
 	Tools_Free(g_global->variable_3C46);
 	Tools_Free(g_global->readBuffer);
@@ -879,7 +879,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 3:
-				GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32) + 0x300 * g_global->variable_1838);
+				GFX_SetPalette(g_palette1 + 0x300 * g_global->variable_1838);
 
 				if (g_global->variable_1838-- == 0) {
 					g_global->variable_1836++;
@@ -888,7 +888,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 5:
-				GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32) + 0x300 * g_global->variable_1838);
+				GFX_SetPalette(g_palette1 + 0x300 * g_global->variable_1838);
 
 				if (g_global->variable_1838++ >= 8) g_global->variable_1836 = 0;
 				break;
@@ -932,7 +932,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		if (Input_Keyboard_NextKey() != 0) break;
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 120);
+	Unknown_259E_0006(g_palette2, 120);
 
 	GUI_ClearScreen(0);
 	GUI_ClearScreen(memory);
@@ -945,7 +945,6 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 static void GameCredits_LoadPaletteAndSprites()
 {
 	uint8 *loc04;
-	csip32 csip08;
 	uint8 *loc08;
 	csip32 memBlock;
 	uint32 size;
@@ -963,28 +962,25 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	Unknown_2903_090A(g_global->variable_3C46, 20000);
 
-	g_global->variable_3C32 = g_global->variable_3C46;
-	g_global->variable_3C32.s.ip += 20000;
+	g_palette1 = emu_get_memorycsip(g_global->variable_3C46) + 20000;
 
-	File_ReadBlockFile("IBM.PAL", emu_get_memorycsip(g_global->variable_3C32), 0x300);
+	File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
 
-	loc08 = emu_get_memorycsip(g_global->variable_3C32);
-	csip08 = g_global->variable_3C32;
+	loc08 = g_palette1;
 
 	for (i = 0; i < 10; i++) {
-		loc04 = emu_get_memorycsip(g_global->variable_3C32);
+		loc04 = g_palette1;
 
 		for (locdi = 0; locdi < 255 * 3; locdi++) *loc08++ = *loc04++ * (9 - i) / 9;
 
 		*loc08++ = 0x3F;
 		*loc08++ = 0x3F;
 		*loc08++ = 0x3F;
-		csip08.s.ip += 0x300;
 	}
 
-	g_global->variable_3C36 = csip08;
+	g_palette2 = loc08;
 
-	memset(emu_get_memorycsip(g_global->variable_3C36), 0, 0x300);
+	memset(g_palette2, 0, 0x300);
 
 	memBlock = Screen_GetSegment_ByIndex_1(3);
 
@@ -1060,7 +1056,7 @@ static void GameLoop_GameCredits()
 
 	g_global->variable_6C6C = -1;
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	while (true) {
 		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), g_global->variable_6CD3[3][0]);
@@ -1072,7 +1068,7 @@ static void GameLoop_GameCredits()
 		Music_Play(33);
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
+	Unknown_259E_0006(g_palette2, 60);
 
 	Driver_Music_FadeOut();
 
@@ -1163,7 +1159,7 @@ static void GameLoop_LevelEnd()
 			if (g_global->campaignID == 9) {
 				GUI_Mouse_Hide_Safe();
 
-				Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
+				Unknown_259E_0006(g_palette2, 15);
 				GUI_ClearScreen(0);
 				GameLoop_GameEndAnimation();
 				PrepareEnd();
@@ -1174,11 +1170,11 @@ static void GameLoop_LevelEnd()
 			GameLoop_LevelEndAnimation();
 			GUI_Mouse_Show_Safe();
 
-			File_ReadBlockFile("IBM.PAL", (void *)emu_get_memorycsip(g_global->variable_3C32), 768);
+			File_ReadBlockFile("IBM.PAL", g_palette1, 768);
 
 			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
 
-			Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
+			Unknown_259E_0006(g_palette2, 15);
 
 			if (g_global->campaignID == 1 || g_global->campaignID == 7) {
 				Sprites_Load(1, 7, g_sprites);
@@ -1226,7 +1222,7 @@ static void Gameloop_Logos()
 
 	oldScreenID = GUI_Screen_SetActive(0);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
+	GFX_SetPalette(g_palette2);
 	GFX_ClearScreen();
 
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 0x300);
@@ -1265,7 +1261,7 @@ static void Gameloop_Logos()
 	while (g_global->variable_76B4 != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+		Unknown_259E_0006(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1273,14 +1269,14 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
+	Unknown_259E_0006(g_palette2, 60);
 
 	while (Driver_Music_IsPlaying());
 
 	while (g_global->variable_76B4 != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+		Unknown_259E_0006(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1288,7 +1284,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 60);
+	Unknown_259E_0006(g_palette2, 60);
 
 	GFX_ClearScreen(0);
 
@@ -1303,7 +1299,7 @@ static void Gameloop_Logos()
 	while (g_global->variable_76B4 != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+		Unknown_259E_0006(g_palette2, 30);
 
 		GUI_ClearScreen(0);
 
@@ -1311,7 +1307,7 @@ static void Gameloop_Logos()
 		return;
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+	Unknown_259E_0006(g_palette2, 30);
 
 	GUI_ClearScreen(0);
 
@@ -1327,7 +1323,7 @@ static void Gameloop_Logos()
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 	}
 
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+	Unknown_259E_0006(g_palette2, 30);
 
 	GUI_ClearScreen(0);
 
@@ -1749,8 +1745,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->variable_3A10 = 0x0;
 	g_global->variable_6C8C = 0; /* Seems never set to any other value. */
 
-	g_global->variable_3C36 = Tools_Malloc(768, 0x10);
-	g_global->variable_3C32 = Tools_Malloc(768, 0x10);
+	g_palette2 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
+	g_palette1 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
 
 	g_global->readBufferSize = 0x2EE0;
 	g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
@@ -1762,13 +1758,13 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	File_ReadBlockFile("IBM.PAL", g_palette_998A, 0x300);
 
-	memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 3 * 256);
+	memmove(g_palette1, g_palette_998A, 3 * 256);
 
 	GUI_ClearScreen(0);
 
 	emu_push(emu_es);
-	emu_es = g_global->variable_3C32.s.cs;
-	emu_dx = g_global->variable_3C32.s.ip;
+	emu_es = emu_Global_GetCSIP(g_palette1).s.cs;
+	emu_dx = emu_Global_GetCSIP(g_palette1).s.ip;
 	emu_cx = 0x100;
 	emu_bx = 0;
 	emu_al = 0x12;
@@ -1776,18 +1772,18 @@ static void GameLoop_GameIntroAnimationMenu()
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x1852); Interrupt_Video();
 	emu_pop(&emu_es);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
+	GFX_SetPalette(g_palette1);
+	GFX_SetPalette(g_palette2);
 
 	g_paletteMapping1 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
 	g_paletteMapping2 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
 
-	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), g_paletteMapping1, 0xC, 0x55);
+	GUI_Palette_CreateMapping(g_palette1, g_paletteMapping1, 0xC, 0x55);
 	g_paletteMapping1[0xFF] = 0xFF;
 	g_paletteMapping1[0xDF] = 0xDF;
 	g_paletteMapping1[0xEF] = 0xEF;
 
-	GUI_Palette_CreateMapping(emu_get_memorycsip(g_global->variable_3C32), g_paletteMapping2, 0xF, 0x55);
+	GUI_Palette_CreateMapping(g_palette1, g_paletteMapping2, 0xF, 0x55);
 	g_paletteMapping2[0xFF] = 0xFF;
 	g_paletteMapping2[0xDF] = 0xDF;
 	g_paletteMapping2[0xEF] = 0xEF;
@@ -1877,7 +1873,7 @@ static void GameLoop_GameIntroAnimationMenu()
 					Sound_Unknown0363(0xFFFE);
 
 					File_ReadBlockFile("IBM.PAL", g_palette_998A, 3 * 256);
-					memmove(emu_get_memorycsip(g_global->variable_3C32), g_palette_998A, 3 * 256);
+					memmove(g_palette1, g_palette_998A, 3 * 256);
 
 					if (g_global->variable_37B4 == 0) {
 						uint8 fileID;
@@ -1913,7 +1909,7 @@ static void GameLoop_GameIntroAnimationMenu()
 				case 0x014E: /* Hall of Fame */
 					GUI_HallOfFame_Show(0xFFFF);
 
-					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
+					GFX_SetPalette(g_palette2);
 
 					hasFame = File_Exists("SAVEFAME.DAT");
 					loc06 = true;
@@ -1921,11 +1917,11 @@ static void GameLoop_GameIntroAnimationMenu()
 
 				case 0x0153: /* Load Game */
 					GUI_Mouse_Hide_Safe();
-					Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 30);
+					Unknown_259E_0006(g_palette2, 30);
 					GUI_ClearScreen(0);
 					GUI_Mouse_Show_Safe();
 
-					GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+					GFX_SetPalette(g_palette1);
 
 					if (GUI_Widget_SaveLoad_Click(false)) {
 						loc02 = true;
@@ -1935,7 +1931,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 						Sprites_Load(0, 7, g_sprites);
 					} else {
-						GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C36));
+						GFX_SetPalette(g_palette2);
 
 						loc06 = true;
 					}
@@ -1986,7 +1982,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 				GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
-				Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 30);
+				Unknown_259E_0006(g_palette1, 30);
 
 				GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
@@ -2035,7 +2031,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	if (!loc02) {
 		Voice_LoadVoices(5);
 
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C36), 15);
+		Unknown_259E_0006(g_palette2, 15);
 
 		GUI_ClearScreen(0);
 	}
@@ -2072,7 +2068,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		GUI_ChangeSelectionType((g_global->debugScenario != 0) ? 5 : 4);
 	}
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	return;
 }

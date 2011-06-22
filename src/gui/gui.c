@@ -560,8 +560,6 @@ static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 referenc
  */
 void GUI_PaletteAnimate()
 {
-	uint8 *palette = emu_get_memorycsip(g_global->variable_3C32);
-
 	if (g_global->variable_31CE < g_global->variable_76AC) {
 		uint16 colour;
 		if (g_global->variable_37B2 != 0) {
@@ -570,20 +568,20 @@ void GUI_PaletteAnimate()
 			colour = (g_global->variable_31D2 == 0) ? 15 : 6;
 		}
 
-		memcpy(palette + 3 * 239, palette + 3 * colour, 3);
+		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
 
-		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+		GFX_SetPalette(g_palette1);
 
 		g_global->variable_31D2 = (g_global->variable_31D2 == 0) ? 1 : 0;
 		g_global->variable_31CE = g_global->variable_76AC + 60;
 	}
 
 	if (g_global->variable_31CA < g_global->variable_76AC && g_global->selectionType != 0) {
-		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
-		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
-		GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4);
+		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
+		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
+		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
 
-		if (!GUI_Palette_2BA5_00A2(palette, 255, g_global->variable_31D4)) {
+		if (!GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4)) {
 			if (g_global->variable_31D4 == 13) {
 				g_global->variable_31D4 = 15;
 
@@ -599,15 +597,15 @@ void GUI_PaletteAnimate()
 			}
 		}
 
-		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+		GFX_SetPalette(g_palette1);
 
 		g_global->variable_31CA = g_global->variable_76AC + 3;
 	}
 
 	if (g_global->variable_31C6 < g_global->variable_76AC) {
-		GUI_Palette_2BA5_00A2(palette, 223, g_global->variable_31D6);
+		GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6);
 
-		if (!GUI_Palette_2BA5_00A2(palette, 223, g_global->variable_31D6)) {
+		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6)) {
 			if (g_global->variable_31D6 == 12) {
 				g_global->variable_31D6 = 10;
 			} else {
@@ -615,7 +613,7 @@ void GUI_PaletteAnimate()
 			}
 		}
 
-		GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+		GFX_SetPalette(g_palette1);
 
 		g_global->variable_31C6 = g_global->variable_76AC + 5;
 	}
@@ -729,7 +727,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_DrawText(g_global->variable_87D8, g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	GUI_Mouse_Show_Safe();
 
@@ -1474,10 +1472,10 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 			break;
 	}
 
-	g_global->variable_81ED = g_global->variable_3C32;
+	g_global->variable_81ED = emu_Global_GetCSIP(g_palette1);
 	g_global->variable_81ED.s.ip += 255 * 3;
 
-	memcpy(emu_get_memorycsip(g_global->variable_81ED), emu_get_memorycsip(g_global->variable_3C32) + colour * 3, 3);
+	memcpy(emu_get_memorycsip(g_global->variable_81ED), g_palette1 + colour * 3, 3);
 
 	g_global->variable_81ED.s.ip += offset;
 
@@ -1659,7 +1657,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_HallOfFame_Show(score);
 
-	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 0x2FD, g_global->variable_81E8, 3);
+	memcpy(g_palette1 + 0x2FD, g_global->variable_81E8, 3);
 
 	GUI_Screen_SetActive(oldScreenID);
 
@@ -1720,7 +1718,7 @@ uint16 GUI_PickHouse()
 
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
+		Unknown_259E_0006(g_palette1, 15);
 		GUI_Mouse_Show_Safe();
 
 		ret = 0xFFFE;
@@ -1783,7 +1781,7 @@ uint16 GUI_PickHouse()
 
 		GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->variable_2BBE[ret]), NULL, false);
 
-		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, emu_get_memorycsip(g_global->variable_3C32), 1);
+		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, g_palette1, 1);
 
 		GUI_Mouse_Hide_Safe();
 
@@ -2056,7 +2054,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
 		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
-		Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
+		Unknown_259E_0006(g_palette1, 15);
 
 		GUI_Mouse_Show_Safe();
 	}
@@ -2824,7 +2822,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	uint16 oldScreenID = GUI_Screen_SetActive(0);
 	uint8 backup[3];
 
-	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 765, backup, 3);
+	memcpy(g_palette1 + 765, backup, 3);
 
 	g_global->factoryWindowConstructionYard = isConstructionYard;
 	g_factoryWindowStarport = isStarPort;
@@ -2856,9 +2854,9 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	GUI_FactoryWindow_B495_0F30();
 
-	memcpy(backup, emu_get_memorycsip(g_global->variable_3C32) + 765, 3);
+	memcpy(backup, g_palette1 + 765, 3);
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	/* Visible credits have to be reset, as it might not be the real value */
 	g_global->playerCredits = 0xFFFF;
@@ -2911,19 +2909,15 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 
 static void GUI_StrategicMap_AnimateArrows()
 {
-	uint8 *palette;
-
 	if (g_global->variable_81B6 >= g_global->variable_76AC) return;
 
 	g_global->variable_81B6 = g_global->variable_76AC + 7;
 
 	g_global->variable_2B10 = (g_global->variable_2B10 + 1) % 4;
 
-	palette = emu_get_memorycsip(g_global->variable_3C32);
+	memcpy(g_palette1 + 251 * 3, g_global->variable_81BA + g_global->variable_2B10 * 3, 4 * 3);
 
-	memcpy(palette + 251 * 3, g_global->variable_81BA + g_global->variable_2B10 * 3, 4 * 3);
-
-	GFX_SetPalette(palette);
+	GFX_SetPalette(g_palette1);
 }
 
 static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *data)
@@ -3301,8 +3295,8 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			break;
 	}
 
-	memcpy(loc316, emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), 12);
-	memcpy(g_global->variable_81BA, emu_get_memorycsip(g_global->variable_3C32) + (144 + (g_global->playerHouseID * 16)) * 3, 12);
+	memcpy(loc316, g_palette1 + (251 * 3), 12);
+	memcpy(g_global->variable_81BA, g_palette1 + (144 + (g_global->playerHouseID * 16)) * 3, 12);
 	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
 
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
@@ -3324,7 +3318,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 4, 0);
-	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
+	Unknown_259E_0006(g_palette1, 15);
 	GUI_Mouse_Show_Safe();
 
 	g_global->strategicMapFastForward = 0;
@@ -3407,7 +3401,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Input_History_Clear();
 
-	memcpy(emu_get_memorycsip(g_global->variable_3C32) + (251 * 3), loc316, 12);
+	memcpy(g_palette1 + (251 * 3), loc316, 12);
 
 	Unknown_259E_0006(loc30A, 15);
 
@@ -3415,7 +3409,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	GUI_ClearScreen(0);
 	GUI_Mouse_Show_Safe();
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	return scenarioID;
 }
@@ -3598,14 +3592,12 @@ void GUI_FactoryWindow_UpdateDetails()
 
 void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 {
-	uint8 *palette = emu_get_memorycsip(g_global->variable_3C32);
-
 	if (selectionChanged) {
 		uint16 y;
 
-		memset(palette + 255 * 3, 0x3F, 3);
+		memset(g_palette1 + 255 * 3, 0x3F, 3);
 
-		GFX_SetPalette(palette);
+		GFX_SetPalette(g_palette1);
 
 		g_global->variable_7F9C = 0;
 		g_global->variable_7FA0 = 0;
@@ -3631,24 +3623,24 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 
 	switch (g_global->playerHouseID) {
 		case HOUSE_HARKONNEN:
-			*(palette + 255 * 3 + 1) = g_global->variable_7FA0;
-			*(palette + 255 * 3 + 2) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 1) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 2) = g_global->variable_7FA0;
 			break;
 
 		case HOUSE_ATREIDES:
-			*(palette + 255 * 3 + 0) = g_global->variable_7FA0;
-			*(palette + 255 * 3 + 1) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 0) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 1) = g_global->variable_7FA0;
 			break;
 
 		case HOUSE_ORDOS:
-			*(palette + 255 * 3 + 0) = g_global->variable_7FA0;
-			*(palette + 255 * 3 + 2) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 0) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 2) = g_global->variable_7FA0;
 			break;
 
 		default: break;
 	}
 
-	GFX_SetPalette(palette);
+	GFX_SetPalette(g_palette1);
 }
 
 /**
@@ -4181,7 +4173,7 @@ uint16 GUI_HallOfFame_Tick()
 
 	*var81ED += (int16)g_global->variable_2C38;
 
-	GFX_SetPalette(emu_get_memorycsip(g_global->variable_3C32));
+	GFX_SetPalette(g_palette1);
 
 	return 0;
 }
@@ -4384,7 +4376,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	if (score == 0xFFFF) return;
 
-	memcpy(emu_get_memorycsip(g_global->variable_3C32) + 255 * 3, g_global->variable_81E8, 3);
+	memcpy(g_palette1 + 255 * 3, g_global->variable_81E8, 3);
 }
 
 uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
