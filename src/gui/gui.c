@@ -2753,7 +2753,7 @@ static void GUI_FactoryWindow_Init()
 
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
-	g_factoryWindowWidgets = (Widget *)Screen_GetSegment_ByIndex_1(5);
+	g_factoryWindowWidgets = (Widget *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
 
 	size = GUI_FactoryWindow_CreateWidgets();
 

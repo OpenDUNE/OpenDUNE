@@ -1409,7 +1409,7 @@ typedef struct GlobalData {
 	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
 	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
 	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
-	/* 7FB2(4)   */ PACK csip32 factoryWindowWidgets;       /*!< ?? */
+	/* 7FB2(4)   */ PACK csip32 removed_7FB2;               /*!< REMOVED - Factory window widgets. */
 	/* 7FB6(2)   */ PACK uint16 removed_7FB6;               /*!< REMOVED - Number of items in the invoice. */
 	/* 7FB8(2)   */ PACK uint16 removed_7FB8;               /*!< REMOVED - Item index for the first miniature. */
 	/* 7FBA(2)   */ PACK uint16 removed_7FBA;               /*!< REMOVED - Number of items. */
