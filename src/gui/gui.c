@@ -1783,7 +1783,7 @@ uint16 GUI_PickHouse()
 
 		GUI_Mouse_Show_Safe();
 
-		GUI_Mentat_Show(g_global->readBuffer, g_global->variable_2BBE[ret], NULL, false);
+		GUI_Mentat_Show(g_global->readBuffer, (char *)emu_get_memorycsip(g_global->variable_2BBE[ret]), NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, emu_get_memorycsip(g_global->variable_3C32), 1);
 

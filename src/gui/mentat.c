@@ -50,7 +50,7 @@ static const uint8 unknownHouseData[6][8] = {
  * @param wsaFilename The WSA to show.
  * @param musicID The Music to play.
  */
-static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, csip32 wsaFilename, uint16 musicID)
+static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *wsaFilename, uint16 musicID)
 {
 	Widget *w1, *w2;
 	csip32 w1csip, w2csip;
@@ -386,22 +386,22 @@ bool GUI_Widget_Mentat_Click()
  * @param unknown A boolean.
  * @return Return value of GUI_Widget_HandleEvents() or f__B4DA_0AB8_002A_AAB2() (latter when no widgets).
  */
-uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool unknown)
+uint16 GUI_Mentat_Show(csip32 stringBuffer, const char *wsaFilename, Widget *w, bool unknown)
 {
 	uint16 ret;
 
 	Sprites_UnloadTiles();
 
-	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaFilename), g_global->playerHouseID);
+	GUI_Mentat_Display(wsaFilename, g_global->playerHouseID);
 
 	GUI_Screen_SetActive(2);
 
 	Unknown_07AE_00E4(8);
 
-	if (wsaFilename.csip != 0x0) {
+	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile((char *)emu_get_memorycsip(wsaFilename), emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][0], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][0], false);
 		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(wsa);
 	}
@@ -415,7 +415,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
 
 	Unknown_259E_0006(emu_get_memorycsip(g_global->variable_3C32), 15);
 
-	ret = GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaFilename), NULL, (char *)emu_get_memorycsip(stringBuffer), true, NULL);
+	ret = GUI_Mentat_Loop(wsaFilename, NULL, (char *)emu_get_memorycsip(stringBuffer), true, NULL);
 
 	if (w != NULL) {
 		do {
@@ -442,10 +442,7 @@ uint16 GUI_Mentat_Show(csip32 stringBuffer, csip32 wsaFilename, Widget *w, bool 
  */
 void GUI_Mentat_ShowBriefing()
 {
-	csip32 picture;
-	picture.s.cs = 0x353F;
-	picture.s.ip = 0x8D0D; /* g_global->scenario.pictureBriefing */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, picture, g_table_houseInfo[g_global->playerHouseID].musicBriefing);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, g_global->scenario.pictureBriefing, g_table_houseInfo[g_global->playerHouseID].musicBriefing);
 }
 
 /**
@@ -453,10 +450,7 @@ void GUI_Mentat_ShowBriefing()
  */
 void GUI_Mentat_ShowWin()
 {
-	csip32 picture;
-	picture.s.cs = 0x353F;
-	picture.s.ip = 0x8D1B; /* g_global->scenario.pictureWin */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, picture, g_table_houseInfo[g_global->playerHouseID].musicWin);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, g_global->scenario.pictureWin, g_table_houseInfo[g_global->playerHouseID].musicWin);
 }
 
 /**
@@ -464,10 +458,7 @@ void GUI_Mentat_ShowWin()
  */
 void GUI_Mentat_ShowLose()
 {
-	csip32 picture;
-	picture.s.cs = 0x353F;
-	picture.s.ip = 0x8D29; /* g_global->scenario.pictureLose */
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, picture, g_table_houseInfo[g_global->playerHouseID].musicLose);
+	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, g_global->scenario.pictureLose, g_table_houseInfo[g_global->playerHouseID].musicLose);
 }
 
 /**
@@ -475,7 +466,7 @@ void GUI_Mentat_ShowLose()
  * @param houseFilename Filename of the house.
  * @param houseID ID of the house.
  */
-void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
+void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 {
 	uint16 oldScreenID;
 	int i;
@@ -528,10 +519,10 @@ void GUI_Mentat_Display(char *houseFilename, uint16 houseID)
 
 	Unknown_07AE_00E4(8);
 
-	if (houseFilename != NULL) {
+	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(houseFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][1], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][1], false);
 		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
 		WSA_Unload(wsa);
 	}
@@ -1048,7 +1039,7 @@ static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 heig
 	return true;
 }
 
-uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool arg12, Widget *w)
+uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text, bool arg12, Widget *w)
 {
 	uint16 oldScreenID;
 	uint16 old07AE;
@@ -1076,8 +1067,8 @@ uint16 GUI_Mentat_Loop(char *pictureName, char *pictureDetails, char *text, bool
 
 	wsa = NULL;
 
-	if (pictureName != NULL) {
-		wsa = WSA_LoadFile(pictureName, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], false);
+	if (wsaFilename != NULL) {
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], false);
 	}
 
 	step = 0;
