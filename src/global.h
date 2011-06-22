@@ -619,7 +619,7 @@ typedef struct GlobalData {
 	/* 2A39(60)  */ PACK Widget variable_2A39;              /*!< ?? */
 	/* 2A75(28)  */ PACK csip32 variable_2A75[7];           /*!< Array of pointers to Widgets. */
 	/* 2A91(2)   */ PACK uint16 savegameDiskspaceForNew;    /*!< Zero or one. One if and only if there is room for at least one more savegame on disk. */
-	/* 2A93(4)   */ PACK csip32 variable_2A93;              /*!< ?? */
+	/* 2A93(4)   */ PACK csip32 removed_2A93;               /*!< REMOVED - The last Widget in the linkedlist. */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
 	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
 	/* 2A9B(18)  */ PACK uint16 variable_2A9B[9];           /*!< ?? */
