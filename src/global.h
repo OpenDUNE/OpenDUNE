@@ -975,7 +975,7 @@ typedef struct GlobalData {
 	/* 3C36(4)   */ PACK csip32 variable_3C36;              /*!< ?? */
 	/* 3C3A(4)   */ PACK csip32 variable_3C3A;              /*!< ?? */
 	/* 3C3E(4)   */ PACK csip32 variable_3C3E;              /*!< ?? */
-	/* 3C42(4)   */ PACK csip32 variable_3C42;              /*!< ?? */
+	/* 3C42(4)   */ PACK csip32 removed_3C42;               /*!< REMOVED - Pointer to color remap. */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
 	/* 3C4A(2)   */ PACK uint16 variable_3C4A;              /*!< ?? */
 	/* 3C4C(256) */ PACK int8  variable_3C4C[256];          /*!< ?? */

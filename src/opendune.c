@@ -712,7 +712,6 @@ static void GameLoop_Uninit()
 	Tools_Free(g_global->variable_3C32);
 	Tools_Free(g_global->variable_38C6);
 	Tools_Free(g_global->variable_3C46);
-	Tools_Free(g_global->variable_3C42);
 	Tools_Free(g_global->readBuffer);
 	Tools_Free(g_global->strings);
 
@@ -1049,7 +1048,7 @@ static void GameLoop_GameCredits()
 
 	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, g_palette_998A, 1);
 
-	GUI_Palette_RemapScreen(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, memBlock);
+	GUI_Palette_RemapScreen(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, emu_get_memorycsip(memBlock));
 
 	GUI_Screen_FadeIn2(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, 0, 1, false);
 
@@ -1752,7 +1751,6 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->variable_3C36 = Tools_Malloc(768, 0x10);
 	g_global->variable_3C32 = Tools_Malloc(768, 0x10);
-	g_global->variable_3C42 = Tools_Malloc(256, 0x0);
 
 	g_global->readBufferSize = 0x2EE0;
 	g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);

@@ -77,6 +77,7 @@ assert_compile(sizeof(StrategicMapData) == 0x8);
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 uint8 *g_palette_998A = NULL;
+uint8 g_remap[256];
 FactoryWindowItem g_factoryWindowItems[25];
 uint16 g_factoryWindowOrdered = 0;
 uint16 g_factoryWindowBase = 0;
@@ -2004,7 +2005,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	Sprites_LoadImage(g_global->string_3777, 3, 3, NULL, 1);
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_global->variable_3C42);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
 	GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[11]), 192, 0, 0, 0);
 
@@ -2740,7 +2741,7 @@ static void GUI_FactoryWindow_Init()
 
 	Sprites_LoadImage("CHOAM.CPS", 3, 3, NULL, 1);
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_global->variable_3C42);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
 	GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[11]), 192, 0, 0, 0);
 
@@ -2965,14 +2966,14 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 	GFX_Screen_Copy2(16, 16, 176, 16, width, height, 2, 2, false);
 
-	GUI_DrawSprite(2, sprite, 16, 16, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	GUI_DrawSprite(2, sprite, 16, 16, 0, 0x100, g_remap, 1);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -3085,7 +3086,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
-		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), i * 16, 152, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), i * 16, 152, 0, 0x100, g_remap, 1);
 	}
 
 	count = i;
@@ -3182,7 +3183,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_global->PIECES_SHP, region));
 
-	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, emu_get_memorycsip(g_global->variable_3C42), 1);
+	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
 
 	if (!progressive) return;
 
@@ -3276,7 +3277,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Sprites_LoadImage("MAPMACH.CPS", 5, 5, g_palette_998A, 1);
 
-	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_global->variable_3C42);
+	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_remap);
 
 	GFX_Screen_Copy3(5, 4);
 
@@ -3507,7 +3508,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	if (oi->available == -1) {
-		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, g_global->factoryWindowGraymapTbl);
+		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, emu_get_memorycsip(g_global->factoryWindowGraymapTbl));
 
 		if (g_factoryWindowStarport) {
 			/* "OUT OF STOCK" */
@@ -4149,10 +4150,9 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  * @param screenID The screen to do the remapping on.
  * @param remapcsip The pointer to the remap palette.
  */
-void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, csip32 remapcsip)
+void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap)
 {
 	uint8 *screen = &emu_get_memory8(g_global->variable_6C93[screenID >> 1][1], 0, 0);
-	uint8 *remap = emu_get_memorycsip(remapcsip);
 
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
@@ -4508,16 +4508,16 @@ void GUI_Palette_CreateRemap(uint8 houseID)
 	int16 i;
 	int16 loc4;
 	int16 loc6;
-	uint8 *ptr;
+	uint8 *remap;
 
-	ptr = emu_get_memorycsip(g_global->variable_3C42);
-	for (i = 0; i < 0x100; i++, ptr++) {
-		*ptr = i & 0xFF;
+	remap = g_remap;
+	for (i = 0; i < 0x100; i++, remap++) {
+		*remap = i & 0xFF;
 
 		loc6 = i / 16;
 		loc4 = i % 16;
 		if (loc6 == 9 && loc4 <= 6) {
-			*ptr = (houseID << 4) + 0x90 + loc4;
+			*remap = (houseID << 4) + 0x90 + loc4;
 		}
 	}
 }

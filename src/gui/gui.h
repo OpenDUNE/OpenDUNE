@@ -36,6 +36,7 @@ typedef struct FactoryWindowItem {
 } FactoryWindowItem;
 
 extern uint8 *g_palette_998A;
+extern uint8 g_remap[];
 extern FactoryWindowItem g_factoryWindowItems[];
 extern uint16 g_factoryWindowOrdered;
 extern uint16 g_factoryWindowBase;
@@ -97,7 +98,7 @@ extern void GUI_Mouse_Show_InWidget();
 extern void GUI_Mouse_Hide_InWidget(uint16 widgetIndex);
 extern void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, uint8 colour);
 extern void GUI_Mouse_SetPosition(uint16 x, uint16 y);
-extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, csip32 remapcsip);
+extern void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap);
 extern uint16 GUI_HallOfFame_Tick();
 extern void GUI_HallOfFame_Show(uint16 score);
 extern uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show);
