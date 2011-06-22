@@ -320,7 +320,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	Load_Palette_Mercenaries();
 
-	GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
+	GUI_Widget_Free_WithScrollbar((Widget *)emu_get_memorycsip(g_global->variable_8036));
 
 	Tools_Free(g_global->variable_8032);
 	Tools_Free(g_global->variable_802E);
@@ -806,7 +806,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	Widget *w, *w8;
 	int i;
 
-	if (g_global->variable_8036.csip != 0x0) GUI_Widget_Free_WithScrollbar(g_global->variable_8036);
+	if (g_global->variable_8036.csip != 0x0) GUI_Widget_Free_WithScrollbar((Widget *)emu_get_memorycsip(g_global->variable_8036));
 
 	Tools_Free(g_global->variable_8032);
 	Tools_Free(g_global->variable_802E);

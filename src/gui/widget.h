@@ -191,7 +191,7 @@ extern Widget *GUI_Widget_Link(Widget *w1, Widget *w2);
 extern uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scrollPageSize, int16 scrollPosition);
 extern uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar);
 extern uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar);
-extern void GUI_Widget_Free_WithScrollbar(csip32 wcsip);
+extern void GUI_Widget_Free_WithScrollbar(Widget *w);
 extern Widget *GUI_Widget_Insert(Widget *w1, Widget *w2);
 
 /* viewport.c */
