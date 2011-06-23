@@ -1581,7 +1581,7 @@ static void Window_WidgetClick_Create()
 	for (wci = &g_widgetClickInfo[0]; wci->index != 0xFFFF; wci++) {
 		Widget *w;
 
-		w = GUI_Widget_Allocate(wci->index, wci->shortcut, wci->offsetX, wci->offsetY, wci->spriteID, wci->stringID, wci->variable_3A, NULL);
+		w = GUI_Widget_Allocate(wci->index, wci->shortcut, wci->offsetX, wci->offsetY, wci->spriteID, wci->stringID, wci->variable_3A);
 
 		if (wci->spriteID < 0) {
 			w->width  = wci->width;

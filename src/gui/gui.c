@@ -1673,13 +1673,11 @@ uint16 GUI_PickHouse()
 {
 	uint16 oldScreenID;
 	Widget *w = NULL;
-	csip32 wcsip;
 	uint8 loc314[3 * 256]; /* array of 768 bytes, probably a palette */
 	uint16 i;
 	uint16 ret;
 
 	ret = HOUSE_MERCENARY;
-	wcsip.csip = 0x0;
 
 	memset(loc314, 0, 768);
 
@@ -1698,9 +1696,8 @@ uint16 GUI_PickHouse()
 
 		for (i = 0; i < 3; i++) {
 			Widget *w2;
-			csip32 w2csip;
 
-			w2 = GUI_Widget_Allocate(i + 1, g_global->variable_2BAC[i][2], g_global->variable_2BAC[i][0], g_global->variable_2BAC[i][1], 0xFFFF, 0, 0, &w2csip);
+			w2 = GUI_Widget_Allocate(i + 1, g_global->variable_2BAC[i][2], g_global->variable_2BAC[i][0], g_global->variable_2BAC[i][1], 0xFFFF, 0, 0);
 
 			w2->flags.all = 0x0;
 			w2->flags.s.loseSelect = true;
@@ -1711,7 +1708,6 @@ uint16 GUI_PickHouse()
 			w2->height = 104;
 
 			w = GUI_Widget_Link(w, w2);
-			wcsip = emu_Global_GetCSIP(w);
 		}
 
 		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, 3, NULL, 1);
@@ -1756,19 +1752,17 @@ uint16 GUI_PickHouse()
 		while (w != NULL) {
 			csip32 next = w->next;
 
-			Tools_Free(wcsip);
+			Tools_Free(emu_Global_GetCSIP(w));
 
-			wcsip = next;
-			w = (Widget *)emu_get_memorycsip(wcsip);
+			w = (Widget *)emu_get_memorycsip(next);
 		}
 
 		Unknown_259E_0006(loc314, 15);
 
 		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
 
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0, NULL)); /* "Yes" */
-		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0, NULL)); /* "No" */
-		wcsip = emu_Global_GetCSIP(w);
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0)); /* "Yes" */
+		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
 
 		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[ret].name[0]);
 
@@ -1810,10 +1804,9 @@ uint16 GUI_PickHouse()
 		while (w != NULL) {
 			csip32 next = w->next;
 
-			Tools_Free(wcsip);
+			Tools_Free(emu_Global_GetCSIP(w));
 
-			wcsip = next;
-			w = (Widget *)emu_get_memorycsip(wcsip);
+			w = (Widget *)emu_get_memorycsip(next);
 		}
 
 		Load_Palette_Mercenaries();
@@ -4197,7 +4190,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	width = max(Font_GetStringWidth(resumeString), Font_GetStringWidth(clearString)) + 6;
 
 	/* "Clear List" */
-	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0, NULL);
+	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0);
 	wClear->width          = width;
 	wClear->height         = 10;
 	wClear->clickProc.csip = 0x35180034;
@@ -4205,7 +4198,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	wClear->scrollbar      = emu_Global_GetCSIP(data);
 
 	/* "Resume Game" */
-	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0, NULL);
+	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0);
 	wResume->width          = width;
 	wResume->height         = 10;
 	wResume->clickProc.csip = 0x35180039;
@@ -4218,10 +4211,11 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 static void GUI_HallOfFame_DeleteButtons(Widget *w)
 {
 	while (w != NULL) {
-		csip32 wcsip = emu_Global_GetCSIP(w);
-		w = GUI_Widget_GetNext(w);
+		csip32 next = w->next;
 
-		Tools_Free(wcsip);
+		Tools_Free(emu_Global_GetCSIP(w));
+
+		w = (Widget *)emu_get_memorycsip(next);
 	}
 
 	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);

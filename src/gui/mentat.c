@@ -54,17 +54,15 @@ static uint8 *_mentatSprites[3][5];
 static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *wsaFilename, uint16 musicID)
 {
 	Widget *w1, *w2;
-	csip32 w1csip, w2csip;
 
 	if (g_global->debugSkipDialogs) return;
 
 	Sprites_Load(1, 7, g_sprites);
 
-	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0, &w1csip);
-	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0, &w2csip);
+	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0);
+	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0);
 
 	w1 = GUI_Widget_Link(w1, w2);
-	w1csip = emu_Global_GetCSIP(w1);
 
 	Sound_Unknown0363(0xFFFE);
 
@@ -83,8 +81,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 	} while (GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), wsaFilename, w1, true) == 0x8002);
 
-	Tools_Free(w2csip);
-	Tools_Free(w1csip);
+	Tools_Free(emu_Global_GetCSIP(w2));
+	Tools_Free(emu_Global_GetCSIP(w1));
 
 	if (musicID != 0xFFFF) Driver_Music_FadeOut();
 
@@ -297,7 +295,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_Display(NULL, g_global->playerHouseID);
 
-	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1, NULL);
+	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1);
 	g_widgetMentatFirst->shortcut2 = 'n';
 
 	GUI_Mentat_Create_HelpScreen_Widgets();
