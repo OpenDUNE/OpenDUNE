@@ -2606,9 +2606,9 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 			w->drawModeNormal   = DRAW_MODE_SPRITE;
 			w->drawModeSelected = DRAW_MODE_SPRITE;
 			w->drawModeDown     = DRAW_MODE_SPRITE;
-			w->drawProcNormal   = g_sprites[wi->spriteID];
-			w->drawProcSelected = g_sprites[wi->spriteID + 1];
-			w->drawProcDown     = g_sprites[wi->spriteID + 1];
+			w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[wi->spriteID]);
+			w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[wi->spriteID + 1]);
+			w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[wi->spriteID + 1]);
 		}
 
 		if (i != 0) {

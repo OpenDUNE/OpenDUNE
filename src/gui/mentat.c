@@ -241,11 +241,9 @@ static void GUI_Mentat_Draw(bool force)
 
 	line = GUI_Widget_Get_ByIndex(w, 3);
 	for (i = 0; i < 11; i++) {
-		csip32 text_csip = emu_Global_GetCSIP(helpSubjects);
-		text_csip.s.ip += 7;
-		line->drawProcDown     = text_csip;
-		line->drawProcSelected = text_csip;
-		line->drawProcNormal   = text_csip;
+		line->drawParameterDown.text     = (char *)helpSubjects + 7;
+		line->drawParameterSelected.text = (char *)helpSubjects + 7;
+		line->drawParameterNormal.text   = (char *)helpSubjects + 7;
 
 		if (helpSubjects[6] == '0') {
 			line->offsetX          = 16;
@@ -798,6 +796,7 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 /** Create the widgets of the mentat help screen. */
 void GUI_Mentat_Create_HelpScreen_Widgets()
 {
+	static char empty[2] = "";
 	uint16 ypos;
 	Widget *w;
 	int i;
@@ -823,9 +822,9 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 		w->clickProc.csip = 0x34E0002A;
 
-		w->drawProcDown.csip     = 0x353F25DE; /* "" NULL terminated. */
-		w->drawProcSelected.csip = 0x353F25DE; /* "" NULL terminated. */
-		w->drawProcNormal.csip   = 0x353F25DE; /* "" NULL terminated. */
+		w->drawParameterDown.text     = empty;
+		w->drawParameterSelected.text = empty;
+		w->drawParameterNormal.text   = empty;
 
 		w->drawModeNormal = DRAW_MODE_TEXT;
 		w->variable_0D    = 1;

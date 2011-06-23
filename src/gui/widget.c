@@ -72,7 +72,7 @@ static void GUI_Widget_DrawBlocked(Widget *w, uint8 colour)
 		GUI_Mouse_Hide_InRegion(w->offsetX, w->offsetY, w->offsetX + w->width, w->offsetY + w->height);
 	}
 
-	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(w->drawProcNormal), w->offsetX, w->offsetY, w->parentID, 0);
+	GUI_DrawSprite(g_global->screenActiveID, w->drawParameterNormal.sprite, w->offsetX, w->offsetY, w->parentID, 0);
 
 	GUI_DrawBlockedRectangle(w->offsetX, w->offsetY, w->width, w->height, colour);
 
@@ -117,7 +117,7 @@ void GUI_Widget_Draw(Widget *w)
 	uint16 offsetX, offsetY;
 	uint16 drawMode;
 	uint8 fgColour, bgColour;
-	csip32 drawProc;
+	WidgetDrawParameter drawParam;
 
 	if (w == NULL) return;
 
@@ -130,22 +130,22 @@ void GUI_Widget_Draw(Widget *w)
 
 	if (!w->state.s.hover2) {
 		if (!w->state.s.selected) {
-			drawMode = w->drawModeNormal;
-			drawProc = w->drawProcNormal;
-			fgColour = w->fgColourNormal;
-			bgColour = w->bgColourNormal;
+			drawMode  = w->drawModeNormal;
+			drawParam = w->drawParameterNormal;
+			fgColour  = w->fgColourNormal;
+			bgColour  = w->bgColourNormal;
 		} else {
-			drawMode = w->drawModeSelected;
-			drawProc = w->drawProcSelected;
-			fgColour = w->fgColourSelected;
-			bgColour = w->bgColourSelected;
+			drawMode  = w->drawModeSelected;
+			drawParam = w->drawParameterSelected;
+			fgColour  = w->fgColourSelected;
+			bgColour  = w->bgColourSelected;
 
 		}
 	} else {
-		drawMode = w->drawModeDown;
-		drawProc = w->drawProcDown;
-		fgColour = w->fgColourDown;
-		bgColour = w->bgColourDown;
+		drawMode  = w->drawModeDown;
+		drawParam = w->drawParameterDown;
+		fgColour  = w->fgColourDown;
+		bgColour  = w->bgColourDown;
 	}
 
 	offsetX = w->offsetX;
@@ -171,28 +171,20 @@ void GUI_Widget_Draw(Widget *w)
 		case DRAW_MODE_NONE: break;
 
 		case DRAW_MODE_SPRITE: {
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(drawProc), offsetX, offsetY, w->parentID, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, drawParam.sprite, offsetX, offsetY, w->parentID, 0x4000);
 		} break;
 
 		case DRAW_MODE_TEXT: {
-			GUI_DrawText((char *)emu_get_memorycsip(drawProc), positionLeft, positionTop, fgColour, bgColour);
+			GUI_DrawText(drawParam.text, positionLeft, positionTop, fgColour, bgColour);
 		} break;
 
 		case DRAW_MODE_UNKNOWN3: {
-			GFX_DrawSprite(drawProc.s.cs, positionLeft >> 3, positionTop, HOUSE_HARKONNEN);
+			GFX_DrawSprite(drawParam.unknown, positionLeft >> 3, positionTop, HOUSE_HARKONNEN);
 		} break;
 
 		case DRAW_MODE_CUSTOM_PROC: {
-			if (drawProc.csip == 0x0) return;
-
-			switch (drawProc.csip) {
-				case 0x0AEC0809: GUI_Widget_SpriteTextButton_Draw(w); break;
-				case 0x0AEC0CA1: GUI_Widget_SpriteButton_Draw(w);     break;
-				case 0x0AEC0E3E: GUI_Widget_TextButton2_Draw(w);      break;
-				case 0x34F20061: GUI_Widget_TextButton_Draw(w);       break;
-				case 0x3520002A: GUI_Widget_Scrollbar_Draw(w); break;
-				default: assert(!"GUI_Widget_Draw(): unknown draw function.");
-			}
+			if (drawParam.proc == NULL) return;
+			drawParam.proc(w);
 		} break;
 
 		case DRAW_MODE_WIRED_RECTANGLE: {
@@ -556,8 +548,8 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 {
 	Widget *w;
 	uint8  drawMode;
-	csip32 drawProc1;
-	csip32 drawProc2;
+	WidgetDrawParameter drawParam1;
+	WidgetDrawParameter drawParam2;
 
 	w = (Widget *)emu_get_memorycsip(Tools_Malloc(sizeof(Widget), 0x10));
 
@@ -585,15 +577,15 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 
 	switch ((int16)spriteID + 4) {
 		case 0:
-			drawMode       = DRAW_MODE_CUSTOM_PROC;
-			drawProc1.csip = 0x0AEC0CA1; /* GUI_Widget_SpriteButton_Draw */
-			drawProc2.csip = 0x0AEC0CA1; /* GUI_Widget_SpriteButton_Draw */
+			drawMode        = DRAW_MODE_CUSTOM_PROC;
+			drawParam1.proc = &GUI_Widget_SpriteButton_Draw;
+			drawParam2.proc = &GUI_Widget_SpriteButton_Draw;
 			break;
 
 		case 1:
-			drawMode       = DRAW_MODE_CUSTOM_PROC;
-			drawProc1.csip = 0x0AEC0809; /* GUI_Widget_SpriteTextButton_Draw */
-			drawProc2.csip = 0x0AEC0809; /* GUI_Widget_SpriteTextButton_Draw */
+			drawMode        = DRAW_MODE_CUSTOM_PROC;
+			drawParam1.proc = &GUI_Widget_SpriteTextButton_Draw;
+			drawParam2.proc = &GUI_Widget_SpriteTextButton_Draw;
 
 			if (stringID == 0) break;
 
@@ -603,35 +595,33 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 			break;
 
 		case 2:
-			drawMode       = DRAW_MODE_CUSTOM_PROC;
-			drawProc1.csip = 0x0AEC0E3E; /* GUI_Widget_TextButton2_Draw */
-			drawProc2.csip = 0x0AEC0E3E; /* GUI_Widget_TextButton2_Draw */
+			drawMode        = DRAW_MODE_CUSTOM_PROC;
+			drawParam1.proc = &GUI_Widget_TextButton2_Draw;
+			drawParam2.proc = &GUI_Widget_TextButton2_Draw;
 			break;
 
 		case 3:
-			drawMode       = DRAW_MODE_NONE;
-			drawProc1.csip = 0x0;
-			drawProc2.csip = 0x0;
+			drawMode        = DRAW_MODE_NONE;
 			break;
 
 		default:
-			drawMode  = DRAW_MODE_SPRITE;
-			drawProc1 = g_sprites[spriteID];
-			drawProc2 = g_sprites[spriteID + 1];
+			drawMode = DRAW_MODE_SPRITE;
+			drawParam1.sprite = emu_get_memorycsip(g_sprites[spriteID]);
+			drawParam2.sprite = emu_get_memorycsip(g_sprites[spriteID + 1]);
 
-			if (drawProc1.csip == 0x0) break;
+			if (drawParam1.sprite == NULL) break;
 
-			w->width  = Sprite_GetWidth(emu_get_memorycsip(drawProc1));
-			w->height = Sprite_GetHeight(emu_get_memorycsip(drawProc1));
+			w->width  = Sprite_GetWidth(drawParam1.sprite);
+			w->height = Sprite_GetHeight(drawParam1.sprite);
 			break;
 	}
 
 	w->drawModeSelected = drawMode;
 	w->drawModeDown     = drawMode;
 	w->drawModeNormal   = drawMode;
-	w->drawProcNormal   = drawProc1;
-	w->drawProcDown     = drawProc2;
-	w->drawProcSelected = (spriteID == 0x19) ? drawProc2 : drawProc1;
+	w->drawParameterNormal   = drawParam1;
+	w->drawParameterDown     = drawParam2;
+	w->drawParameterSelected = (spriteID == 0x19) ? drawParam2 : drawParam1;
 
 	return w;
 }
@@ -696,8 +686,8 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 	w->drawModeNormal   = DRAW_MODE_CUSTOM_PROC;
 	w->drawModeSelected = DRAW_MODE_CUSTOM_PROC;
 
-	w->drawProcNormal.csip   = 0x3520002A;
-	w->drawProcSelected.csip = 0x3520002A;
+	w->drawParameterNormal.proc   = &GUI_Widget_Scrollbar_Draw;
+	w->drawParameterSelected.proc = &GUI_Widget_Scrollbar_Draw;
 	w->clickProc.csip        = 0x35200043;
 
 	ws = (WidgetScrollbar *)emu_get_memorycsip(Tools_Malloc(sizeof(WidgetScrollbar), 0x10));
@@ -750,9 +740,9 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->flags.s.buttonFilterLeft  = 1;
 	w->flags.s.buttonFilterRight = 1;
 
-	w->drawProcNormal   = csipSprite1;
-	w->drawProcSelected = csipSprite1;
-	w->drawProcDown     = csipSprite2;
+	w->drawParameterNormal.sprite   = emu_get_memorycsip(csipSprite1);
+	w->drawParameterSelected.sprite = emu_get_memorycsip(csipSprite1);
+	w->drawParameterDown.sprite     = emu_get_memorycsip(csipSprite2);
 
 	if (unknown1A != 0x0) {
 		w->clickProc.csip = 0x3520003E;

@@ -37,16 +37,28 @@ typedef enum WidgetClickType {
  * Types of DrawMode available in the game.
  */
 typedef enum DrawMode {
-	DRAW_MODE_NONE                = 0,               /*!< Draw nothing. */
-	DRAW_MODE_SPRITE              = 1,               /*!< Draw a sprite. */
-	DRAW_MODE_TEXT                = 2,               /*!< Draw text. */
+	DRAW_MODE_NONE                = 0,                      /*!< Draw nothing. */
+	DRAW_MODE_SPRITE              = 1,                      /*!< Draw a sprite. */
+	DRAW_MODE_TEXT                = 2,                      /*!< Draw text. */
 	DRAW_MODE_UNKNOWN3            = 3,
-	DRAW_MODE_CUSTOM_PROC         = 4,               /*!< Draw via a custom defined function. */
-	DRAW_MODE_WIRED_RECTANGLE     = 5,               /*!< Draw a wired rectangle. */
-	DRAW_MODE_XORFILLED_RECTANGLE = 6,               /*!< Draw a filled rectangle using xor. */
+	DRAW_MODE_CUSTOM_PROC         = 4,                      /*!< Draw via a custom defined function. */
+	DRAW_MODE_WIRED_RECTANGLE     = 5,                      /*!< Draw a wired rectangle. */
+	DRAW_MODE_XORFILLED_RECTANGLE = 6,                      /*!< Draw a filled rectangle using xor. */
 
 	DRAW_MODE_MAX             = 7
 } DrawMode;
+
+struct Widget;
+
+/**
+ * The parameter for a given DrawMode.
+ */
+typedef union WidgetDrawParameter {
+	uint16 unknown;                                         /*!< Parameter for DRAW_MODE_UNKNOWN3. */
+	void *sprite;                                           /*!< Parameter for DRAW_MODE_SPRITE. */
+	char *text;                                             /*!< Parameter for DRAW_MODE_TEXT. */
+	void (*proc)(struct Widget *);                          /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */
+} WidgetDrawParameter;
 
 /**
  * A Widget as stored in the memory.
@@ -62,21 +74,21 @@ typedef struct Widget {
 	uint8  variable_0D;                                     /*!< ?? */
 	union {
 		struct {
-			BITTYPE requiresClick:1;                /*!< Requires click. */
-			BITTYPE variable_0002:1;                /*!< ?? */
-			BITTYPE clickAsHover:1;                 /*!< Click as hover. */
-			BITTYPE invisible:1;                    /*!< Widget is invisible. */
-			BITTYPE variable_0010:1;                /*!< ?? */
-			BITTYPE noClickCascade:1;               /*!< Don't cascade the click event to any other widgets. */
-			BITTYPE loseSelect:1;                   /*!< Lose select when leave. */
-			BITTYPE variable_0080:1;                /*!< ?? */
-			BITTYPE buttonFilterLeft:4;             /*!< Left button filter. */
-			BITTYPE buttonFilterRight:4;            /*!< Right button filter. */
+			BITTYPE requiresClick:1;                        /*!< Requires click. */
+			BITTYPE variable_0002:1;                        /*!< ?? */
+			BITTYPE clickAsHover:1;                         /*!< Click as hover. */
+			BITTYPE invisible:1;                            /*!< Widget is invisible. */
+			BITTYPE variable_0010:1;                        /*!< ?? */
+			BITTYPE noClickCascade:1;                       /*!< Don't cascade the click event to any other widgets. */
+			BITTYPE loseSelect:1;                           /*!< Lose select when leave. */
+			BITTYPE variable_0080:1;                        /*!< ?? */
+			BITTYPE buttonFilterLeft:4;                     /*!< Left button filter. */
+			BITTYPE buttonFilterRight:4;                    /*!< Right button filter. */
 		} s;
-		uint16 all; } flags;                            /*!< General flags of the Widget. */
-	csip32 drawProcNormal;                                  /*!< Draw proc when normal. */
-	csip32 drawProcSelected;                                /*!< Draw proc when selected. */
-	csip32 drawProcDown;                                    /*!< Draw proc when down. */
+		uint16 all; } flags;                                /*!< General flags of the Widget. */
+	WidgetDrawParameter drawParameterNormal;                /*!< Draw parameter when normal. */
+	WidgetDrawParameter drawParameterSelected;              /*!< Draw parameter when selected. */
+	WidgetDrawParameter drawParameterDown;                  /*!< Draw parameter when down. */
 	uint16 parentID;                                        /*!< Parent window we are nested in. */
 	 int16 offsetX;                                         /*!< X position from parent we are at, in pixels. */
 	 int16 offsetY;                                         /*!< Y position from parent we are at, in pixels. */
@@ -92,17 +104,17 @@ typedef struct Widget {
 	uint8   unknown_002D[0x0001];
 	union {
 		struct {
-			BITTYPE selected:1;                     /*!< Selected. */
-			BITTYPE hover1:1;                       /*!< Hover. */
-			BITTYPE hover2:1;                       /*!< Hover. */
-			BITTYPE selectedLast:1;                 /*!< Last Selected. */
-			BITTYPE hover1Last:1;                   /*!< Last Hover. */
-			BITTYPE hover2Last:1;                   /*!< Last Hover. */
-			BITTYPE variable_0040:1;                /*!< ?? */
-			BITTYPE keySelected:1;                  /*!< Key Selected. */
-			BITTYPE buttonState:8;                  /*!< Button state. */
+			BITTYPE selected:1;                             /*!< Selected. */
+			BITTYPE hover1:1;                               /*!< Hover. */
+			BITTYPE hover2:1;                               /*!< Hover. */
+			BITTYPE selectedLast:1;                         /*!< Last Selected. */
+			BITTYPE hover1Last:1;                           /*!< Last Hover. */
+			BITTYPE hover2Last:1;                           /*!< Last Hover. */
+			BITTYPE variable_0040:1;                        /*!< ?? */
+			BITTYPE keySelected:1;                          /*!< Key Selected. */
+			BITTYPE buttonState:8;                          /*!< Button state. */
 		} s;
-		uint16 all; } state;                            /*!< State of the Widget. */
+		uint16 all; } state;                                /*!< State of the Widget. */
 	csip32 clickProc;                                       /*!< Function to execute when widget is pressed. */
 	void *data;                                             /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
 	uint16 stringID;                                        /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
@@ -156,13 +168,13 @@ typedef struct WindowDesc {
 	bool   addArrows;                                       /*!< If true, arrows are added to the Window. */
 	uint8  widgetCount;                                     /*!< Amount of widgets following. */
 	struct {
-		uint16 stringID;                                /*!< String of the Widget. */
-		uint16 offsetX;                                 /*!< Offset in X-position of the Widget (relative to Window). */
-		uint16 offsetY;                                 /*!< Offset in Y-position of the Widget (relative to Window). */
-		uint16 width;                                   /*!< Width of the Widget. */
-		uint16 height;                                  /*!< Height of the Widget. */
-		uint16 labelStringId;                           /*!< Label of the Widget. */
-		uint16 shortcut2;                               /*!< The shortcut to trigger the Widget. */
+		uint16 stringID;                                    /*!< String of the Widget. */
+		uint16 offsetX;                                     /*!< Offset in X-position of the Widget (relative to Window). */
+		uint16 offsetY;                                     /*!< Offset in Y-position of the Widget (relative to Window). */
+		uint16 width;                                       /*!< Width of the Widget. */
+		uint16 height;                                      /*!< Height of the Widget. */
+		uint16 labelStringId;                               /*!< Label of the Widget. */
+		uint16 shortcut2;                                   /*!< The shortcut to trigger the Widget. */
 	} widgets[7];                                           /*!< The Widgets belonging to the Window. */
 } WindowDesc;
 

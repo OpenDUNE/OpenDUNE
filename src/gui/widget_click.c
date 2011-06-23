@@ -478,9 +478,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 		w->drawModeNormal   = DRAW_MODE_CUSTOM_PROC;
 		w->drawModeSelected = DRAW_MODE_CUSTOM_PROC;
 		w->drawModeDown     = DRAW_MODE_CUSTOM_PROC;
-		w->drawProcNormal.csip   = 0x34F20061;
-		w->drawProcSelected.csip = 0x34F20061;
-		w->drawProcDown.csip     = 0x34F20061;
+		w->drawParameterNormal.proc   = &GUI_Widget_TextButton_Draw;
+		w->drawParameterSelected.proc = &GUI_Widget_TextButton_Draw;
+		w->drawParameterDown.proc     = &GUI_Widget_TextButton_Draw;
 		w->parentID = desc->index;
 		w->state.all = 0x0;
 
@@ -502,9 +502,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
 		Widget *w = &g_table_windowWidgets[7];
 
-		w->drawProcNormal   = g_sprites[59];
-		w->drawProcSelected = g_sprites[60];
-		w->drawProcDown     = g_sprites[60];
+		w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[59]);
+		w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[60]);
+		w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[60]);
 		w->next             = NULL;
 		w->parentID         = desc->index;
 
@@ -516,9 +516,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		w = &g_table_windowWidgets[8];
 
-		w->drawProcNormal   = g_sprites[61];
-		w->drawProcSelected = g_sprites[62];
-		w->drawProcDown     = g_sprites[62];
+		w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[61]);
+		w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[62]);
+		w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[62]);
 		w->next             = NULL;
 		w->parentID         = desc->index;
 
