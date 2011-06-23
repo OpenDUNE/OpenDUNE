@@ -103,8 +103,4 @@ void Font_Select(void *font)
 
 	g_global->variable_6C71 = ((uint8 *)f + f->heightOffset)[4];
 	g_global->variable_6C70 = ((uint8 *)f + f->heightOffset)[5];
-
-	g_global->variable_6D5F = g_global->variable_9931 / g_global->variable_6C71;
-	g_global->variable_6D63 = g_global->variable_992F << 3;
-	g_global->variable_6D61 = g_global->variable_6D63 / g_global->variable_6C70;
 }

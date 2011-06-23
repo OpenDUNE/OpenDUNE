@@ -724,8 +724,6 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	}
 
 	g_global->variable_6D59 = 0;
-	g_global->variable_9933 = 0;
-	g_global->variable_9935 = 0;
 
 	GUI_DrawText(g_global->variable_87D8, g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF);
 

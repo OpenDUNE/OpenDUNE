@@ -756,7 +756,7 @@ typedef struct GlobalData {
 	/* 3184(9)   */ PACK char   string_3184[9];             /*!< "Sandworm" NULL terminated. */
 	/* 318D(8)   */ PACK char   string_318D[8];             /*!< "Frigate" NULL terminated. */
 	/* 3195()    */ PACK uint8   unknown_3195[0x0001];
-	/* 3196()    */ PACK uint16 variable_3196;              /*!< ?? A counter. */
+	/* 3196()    */ PACK uint16  removed_3196;              /*!< REMOVED - A counter (never read, only assigned 0). */
 	/* 3198()    */ PACK uint8   unknown_3198[0x0007];
 	/* 319F(7)   */ PACK char   string_319F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
@@ -1261,9 +1261,9 @@ typedef struct GlobalData {
 	/* 6D59(2)   */ PACK uint16 variable_6D59;              /*!< ?? Non-blink colour for cursor in edit box. */
 	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? Blink colour for cursor in edit box. */
 	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
-	/* 6D5F(2)   */ PACK uint16 variable_6D5F;              /*!< ?? */
-	/* 6D61(2)   */ PACK uint16 variable_6D61;              /*!< ?? */
-	/* 6D63(2)   */ PACK uint16 variable_6D63;              /*!< ?? */
+	/* 6D5F(2)   */ PACK uint16  removed_6D5F;              /*!< REMOVED - ?? (Write-only var with font property?) */
+	/* 6D61(2)   */ PACK uint16  removed_6D61;              /*!< REMOVED - ?? (Write-only var with font property?) */
+	/* 6D63(2)   */ PACK uint16  removed_6D63;              /*!< REMOVED - ?? (Write-only var with font property?) */
 	/* 6D65()    */ PACK uint8   unknown_6D65[0x0010];
 	/* 6D75(2)   */ PACK uint16 widgetReset;                /*!< Reset the widget and redraw when non-zero. */
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
@@ -1485,7 +1485,7 @@ typedef struct GlobalData {
 	/* 821C(1)   */ PACK uint8  variable_821C;              /*!< ?? */
 	/* 821D(4)   */ PACK csip32 variable_821D;              /*!< ?? Pointer to an element in an array of uint8. */
 	/* 8221(4)   */ PACK csip32 variable_8221;              /*!< ?? Pointer to an element in an array of uint8. */
-	/* 8225(2)   */ PACK uint16 variable_8225;              /*!< ?? */
+	/* 8225(2)   */ PACK uint16  removed_8225;              /*!< REMOVED (never read) */
 	/* 8227(2)   */ PACK uint16 variable_8227;              /*!< ?? */
 	/* 8229(2)   */ PACK uint16 variable_8229;              /*!< ?? */
 	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
@@ -1544,8 +1544,8 @@ typedef struct GlobalData {
 	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/
 	/* 992F(2)   */ PACK uint16 variable_992F;              /*!< ?? */
 	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? Height of edit box. */
-	/* 9933(2)   */ PACK uint16 variable_9933;              /*!< ?? A counter. */
-	/* 9935(2)   */ PACK uint16 variable_9935;              /*!< ?? */
+	/* 9933(2)   */ PACK uint16  removed_9933;              /*!< REMOVED - A counter (write-only). */
+	/* 9935(2)   */ PACK uint16  removed_9935;              /*!< REMOVED - ?? (write-only) */
 	/* 9937(2)   */ PACK uint16 removed_9937;               /*!< REMOVED - True if video is vsync'd. */
 	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
 	/* 998A(4)   */ PACK csip32 removed_998A;               /*!< REMOVED - A palette. */
