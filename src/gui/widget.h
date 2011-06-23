@@ -150,19 +150,19 @@ assert_compile(sizeof(WidgetClickInfo) == 0x18);
  * Static information per WidgetClick type.
  */
 typedef struct WindowDesc {
-	/* 0000(2)   */ uint16 index;                      /*!< ?? */
-	/* 0002(2)   */ uint16 stringID;                   /*!< ?? */
-	/* 0004(2)   */ bool   addArrows;                  /*!< ?? */
-	/* 0006(1)   */ uint8  widgetCount;                /*!< ?? */
-	/* 0007(98)  */ struct {
-	                       uint16 stringID;            /*!< ?? */
-	                       uint16 offsetX;             /*!< ?? */
-	                       uint16 offsetY;             /*!< ?? */
-	                       uint16 width;               /*!< ?? */
-	                       uint16 height;              /*!< ?? */
-	                       uint16 labelStringId;       /*!< ?? */
-	                       uint16 shortcut2;           /*!< ?? */
-	                     } widgets[7];                 /*!< ?? */
+	uint16 index;                                           /*!< Index of the Window. */
+	uint16 stringID;                                        /*!< String for the Window. */
+	bool   addArrows;                                       /*!< If true, arrows are added to the Window. */
+	uint8  widgetCount;                                     /*!< Amount of widgets following. */
+	struct {
+		uint16 stringID;                                /*!< String of the Widget. */
+		uint16 offsetX;                                 /*!< Offset in X-position of the Widget (relative to Window). */
+		uint16 offsetY;                                 /*!< Offset in Y-position of the Widget (relative to Window). */
+		uint16 width;                                   /*!< Width of the Widget. */
+		uint16 height;                                  /*!< Height of the Widget. */
+		uint16 labelStringId;                           /*!< Label of the Widget. */
+		uint16 shortcut2;                               /*!< The shortcut to trigger the Widget. */
+	} widgets[7];                                           /*!< The Widgets belonging to the Window. */
 } WindowDesc;
 
 extern WidgetClickInfo *g_widgetClickInfo;
