@@ -430,8 +430,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 		if ((int16)distance < 32) return 1;
 
-		/* XXX -- Lovely hackish */
-		*(((uint16 *)script) - 1) = 2;
+		script->delay = 2;
 
 		script->script.s.ip -= 2;
 		return 0;
@@ -450,8 +449,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	Unit_B4CD_01BF(2, u);
 
 	if (delay != 0) {
-		/* XXX -- Lovely hackish */
-		*(((uint16 *)script) - 1) = delay;
+		script->delay = delay;
 
 		script->script.s.ip -= 2;
 	}
@@ -627,8 +625,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 			u->amount--;
 
-			/* XXX -- Lovely hackish */
-			*(((uint16 *)script) - 1) = 12;
+			script->delay = 12;
 
 			if ((int8)u->amount < 1) Unit_SetAction(u, ACTION_DIE);
 		} break;
@@ -1281,8 +1278,7 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 		if (u->variable_72[0] == 0xFF) {
 			u->targetMove = 0;
 			if (u->o.type == UNIT_SANDWORM) {
-				/* XXX -- Lovely hackish */
-				*(((uint16 *)script) - 1) = 720;
+				script->delay = 720;
 			}
 		}
 	} else {
