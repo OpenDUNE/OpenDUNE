@@ -851,11 +851,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	GUI_Widget_MakeInvisible(g_widgetMentatTail);
 	GUI_Widget_MakeInvisible(w - 1);
 
-	{
-		csip32 drawProc;
-		drawProc.csip = 0x34E0003E;
-		g_widgetMentatScrollbar= GUI_Widget_Allocate_WithScrollbar(15, 8, 168, 24, 8, 72, drawProc);
-	}
+	g_widgetMentatScrollbar = GUI_Widget_Allocate_WithScrollbar(15, 8, 168, 24, 8, 72, &GUI_Mentat_ScrollBar_Draw);
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 

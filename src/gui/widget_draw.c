@@ -411,10 +411,7 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 	}
 
 	/* Call custom callback function if set */
-	if (scrollbar->drawProc.csip != 0x00000000) {
-		assert(scrollbar->drawProc.csip == 0x34E0003E);
-		GUI_Mentat_ScrollBar_Draw(w);
-	}
+	if (scrollbar->drawProc != NULL) scrollbar->drawProc(w);
 
 	scrollbar->dirty = 0;
 }

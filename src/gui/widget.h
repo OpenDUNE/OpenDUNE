@@ -109,6 +109,7 @@ typedef struct Widget {
 	uint16 variable_3A;                                     /*!< ?? */
 } Widget;
 
+typedef void (ScrollbarDrawProc)(Widget *);
 
 /**
  * Scrollbar information as stored in the memory.
@@ -123,7 +124,7 @@ typedef struct WidgetScrollbar {
 	uint8  pressed;                                         /*!< If non-zero, the scrollbar is currently pressed. */
 	uint8  dirty;                                           /*!< If non-zero, the scrollbar is dirty (requires repaint). */
 	uint16 pressedPosition;                                 /*!< Position where we clicked on the scrollbar when pressed. */
-	csip32 drawProc;                                        /*!< Draw proc (called on every draw). Can be null. */
+	ScrollbarDrawProc *drawProc;                            /*!< Draw proc (called on every draw). Can be null. */
 } WidgetScrollbar;
 
 MSVC_PACKED_BEGIN
@@ -197,7 +198,7 @@ extern void    GUI_Widget_MakeVisible(Widget *w);
 extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A);
-extern Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc);
+extern Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, ScrollbarDrawProc *drawProc);
 extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, csip32 csipSprite1, csip32 csipSprite2, Widget *widget2, uint16 unknown1A);
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
 extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);

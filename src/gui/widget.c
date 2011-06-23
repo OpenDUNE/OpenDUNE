@@ -666,7 +666,7 @@ static uint16 GUI_Widget_Scrollbar_CalculateSize(WidgetScrollbar *scrollbar)
  * @param drawProc Procedure for drawing.
  * @return Address of the new widget.
  */
-Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, csip32 drawProc)
+Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, ScrollbarDrawProc *drawProc)
 {
 	Widget *w;
 	WidgetScrollbar *ws;
@@ -903,10 +903,7 @@ uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scrollPageSiz
 	GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
 	GUI_Widget_Scrollbar_Draw(w);
 
-	if (scrollbar->drawProc.csip != 0x0) {
-		assert(scrollbar->drawProc.csip == 0x34E0003E);
-		GUI_Mentat_ScrollBar_Draw(w);
-	}
+	if (scrollbar->drawProc != NULL) scrollbar->drawProc(w);
 
 	return position;
 }
