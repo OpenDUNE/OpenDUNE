@@ -39,24 +39,10 @@ void Input_Init()
 	emu_ds = 0x29E8; emu_dx = 0x0D47;
 	emu_ax = 0x2509;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x09F8); Interrupt_DOS();
-
-	emu_ax = 0x3523;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x09FD); Interrupt_DOS();
-	s_input_local->interruptVector23.s.cs = emu_es;
-	s_input_local->interruptVector23.s.ip = emu_bx;
-
-	emu_ds = 0x29E8; emu_dx = 0x0F79;
-	emu_ax = 0x2523;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0A13); Interrupt_DOS();
 }
 
 void Input_Uninit()
 {
-	emu_ds = s_input_local->interruptVector23.s.cs;
-	emu_dx = s_input_local->interruptVector23.s.ip;
-	emu_ax = 0x2523;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0F87); Interrupt_DOS();
-
 	emu_ds = s_input_local->interruptVector09.s.cs;
 	emu_dx = s_input_local->interruptVector09.s.ip;
 	emu_ax = 0x2509;
