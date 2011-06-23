@@ -4258,7 +4258,6 @@ static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 void GUI_HallOfFame_Show(uint16 score)
 {
 	uint16 width;
-	csip32 data_csip;
 	uint16 editLine;
 	Widget *w;
 	uint8 fileID;
@@ -4274,8 +4273,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		g_global->variable_81EB = 0;
 	}
 
-	data_csip = Screen_GetSegment_ByIndex_1(5);
-	data = (HallOfFameData *)emu_get_memorycsip(data_csip);
+	data = (HallOfFameData *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;
