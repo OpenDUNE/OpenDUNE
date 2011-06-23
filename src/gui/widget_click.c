@@ -449,7 +449,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 	}
 
 	for (i = 0; i < desc->widgetCount; i++) {
-		Widget *w = (Widget *)emu_get_memorycsip(g_global->variable_2A75[i]);
+		Widget *w = &g_global->windowWidgets[i];
 
 		if (GUI_String_Get_ByIndex(desc->widgets[i].stringID) == NULL) continue;
 
@@ -500,7 +500,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 	}
 
 	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
-		Widget *w = &g_global->variable_29FD;
+		Widget *w = &g_global->windowWidgets[7];
 
 		w->drawProcNormal   = g_sprites[59];
 		w->drawProcSelected = g_sprites[60];
@@ -514,7 +514,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
-		w = &g_global->variable_2A39;
+		w = &g_global->windowWidgets[8];
 
 		w->drawProcNormal   = g_sprites[61];
 		w->drawProcSelected = g_sprites[62];
@@ -944,7 +944,7 @@ static void UpdateArrows(bool save, bool force)
 
 	g_global->variable_2A99 = g_global->variable_2A97;
 
-	w = &g_global->variable_2A39;
+	w = &g_global->windowWidgets[8];
 	if (g_global->variable_2A97 >= 5) {
 		GUI_Widget_MakeVisible(w);
 	} else {
@@ -952,11 +952,11 @@ static void UpdateArrows(bool save, bool force)
 		GUI_Widget_Undraw(w, 233);
 	}
 
-	w = &g_global->variable_29FD;
+	w = &g_global->windowWidgets[7];
 	if (g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1 > g_global->variable_2A97) {
 		GUI_Widget_MakeVisible(w);
 	} else {
-		GUI_Widget_MakeInvisible(&g_global->variable_29FD);
+		GUI_Widget_MakeInvisible(w);
 		GUI_Widget_Undraw(w, 233);
 	}
 }

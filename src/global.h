@@ -609,15 +609,8 @@ typedef struct GlobalData {
 	/* 271E(105) */ PACK uint8 removed_271E[105];           /*!< REMOVED - YesNo WindowDesc. */
 	/* 2787(105) */ PACK uint8 removed_2787[105];           /*!< REMOVED - SaveLoad WindowDesc. */
 	/* 27F0(105) */ PACK uint8 removed_27F0[105];           /*!< REMOVED - SavegameName WindowDesc. */
-	/* 2859(4)   */ PACK csip32 variable_2859;              /*!< ?? */
-	/* 285D()    */ PACK uint8   unknown_285D[0x0038];
-	/* 2895(4)   */ PACK csip32 variable_2895;              /*!< ?? */
-	/* 2899()    */ PACK uint8   unknown_2899[0x00EC];
-	/* 2985(4)   */ PACK csip32 variable_2985;              /*!< ?? */
-	/* 2989()    */ PACK uint8   unknown_2989[0x0074];
-	/* 29FD(60)  */ PACK Widget variable_29FD;              /*!< ?? */
-	/* 2A39(60)  */ PACK Widget variable_2A39;              /*!< ?? */
-	/* 2A75(28)  */ PACK csip32 variable_2A75[7];           /*!< Array of pointers to Widgets. */
+	/* 2859(540) */ PACK Widget windowWidgets[9];           /*!< Widgets for windows defined via WindowDesc. */
+	/* 2A75(28)  */ PACK csip32 removed_2A75[7];            /*!< REMOVED - Array of pointers to Widgets. */
 	/* 2A91(2)   */ PACK uint16 savegameDiskspaceForNew;    /*!< Zero or one. One if and only if there is room for at least one more savegame on disk. */
 	/* 2A93(4)   */ PACK csip32 removed_2A93;               /*!< REMOVED - The last Widget in the linkedlist. */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
