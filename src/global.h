@@ -1275,8 +1275,8 @@ typedef struct GlobalData {
 	/* 6D8D(2)   */ PACK uint16 removed_6D8D;               /*!< REMOVED - Index of loaded music driver. */
 	/* 6D8F(2)   */ PACK uint16 removed_6D8F;               /*!< REMOVED - Index of loaded voice driver. */
 	/* 6D91()    */ PACK uint8   unknown_6D91[0x0001];
-	/* 6D92(16)  */ PACK uint8  variable_6D92[16];          /*!< ?? */
-	/* 6DA2(16)  */ PACK uint8  variable_6DA2[16];          /*!< ?? */
+	/* 6D92(16)  */ PACK uint8  removed_6D92[16];           /*!< REMOVED - Copy of palette data */
+	/* 6DA2(16)  */ PACK uint8  removed_6DA2[16];           /*!< REMOVED - Copy of palette data */
 	/* 6DB2(28)  */ PACK csip32 variable_6DB2[7];           /*!< Array of pointers to string_6DCE - string_6DFE. */
 	/* 6DCE(8)   */ PACK char   string_6DCE[8];             /*!< "cga.ovl" NULL terminated. */
 	/* 6DD6(8)   */ PACK char   string_6DD6[8];             /*!< "tga.ovl" NULL terminated. */
