@@ -211,7 +211,7 @@ extern void    GUI_Widget_Draw(Widget *w);
 extern uint8   GUI_Widget_GetShortcut(uint8 c);
 extern Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint16 offsetY, uint16 spriteID, uint16 stringID, uint16 variable_3A);
 extern Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, int16 width, int16 height, ScrollbarDrawProc *drawProc);
-extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, csip32 csipSprite1, csip32 csipSprite2, Widget *widget2, uint16 unknown1A);
+extern Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, uint16 unknown1A);
 extern void    GUI_Widget_MakeNormal(Widget *w, bool clickProc);
 extern void    GUI_Widget_MakeSelected(Widget *w, bool clickProc);
 extern Widget *GUI_Widget_Link(Widget *w1, Widget *w2);

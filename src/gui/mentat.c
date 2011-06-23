@@ -854,13 +854,13 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, emu_get_memorycsip(g_sprites[12]), emu_get_memorycsip(g_sprites[13]), GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
 	g_widgetMentatUnknown2->shortcut  = 0;
 	g_widgetMentatUnknown2->shortcut2 = 0;
 	g_widgetMentatUnknown2->parentID  = 8;
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown2);
 
-	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, emu_get_memorycsip(g_sprites[10]), emu_get_memorycsip(g_sprites[11]), GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
 	g_widgetMentatUnknown1->shortcut  = 0;
 	g_widgetMentatUnknown1->shortcut2 = 0;
 	g_widgetMentatUnknown1->parentID  = 8;

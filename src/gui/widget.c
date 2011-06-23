@@ -714,7 +714,7 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
  * Allocate a widget.
  * @return Allocated widget.
  */
-Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, csip32 csipSprite1, csip32 csipSprite2, Widget *widget2, uint16 unknown1A)
+Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint16 offsetY, void *sprite1, void *sprite2, Widget *widget2, uint16 unknown1A)
 {
 	Widget *w;
 
@@ -729,8 +729,8 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->drawModeDown     = DRAW_MODE_SPRITE;
 	w->drawModeSelected = DRAW_MODE_SPRITE;
 
-	w->width  = Sprite_GetWidth(emu_get_memorycsip(csipSprite1)) * 8;
-	w->height = Sprite_GetHeight(emu_get_memorycsip(csipSprite1));
+	w->width  = Sprite_GetWidth(sprite1) * 8;
+	w->height = Sprite_GetHeight(sprite1);
 
 	w->flags.all = 0;
 	w->flags.s.requiresClick     = true;
@@ -740,9 +740,9 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->flags.s.buttonFilterLeft  = 1;
 	w->flags.s.buttonFilterRight = 1;
 
-	w->drawParameterNormal.sprite   = emu_get_memorycsip(csipSprite1);
-	w->drawParameterSelected.sprite = emu_get_memorycsip(csipSprite1);
-	w->drawParameterDown.sprite     = emu_get_memorycsip(csipSprite2);
+	w->drawParameterNormal.sprite   = sprite1;
+	w->drawParameterSelected.sprite = sprite1;
+	w->drawParameterDown.sprite     = sprite2;
 
 	if (unknown1A != 0x0) {
 		w->clickProc.csip = 0x3520003E;
