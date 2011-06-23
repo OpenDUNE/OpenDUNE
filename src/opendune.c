@@ -48,8 +48,8 @@
 #include "wsa.h"
 
 
-extern void f__29E8_0971_0071_E515();
-extern void f__29E8_0F7A_000D_B1AA();
+extern void Input_Init();
+extern void Input_Uninit();
 
 /**
  * Initialize the video driver.
@@ -2353,7 +2353,7 @@ void Main()
 		exit(1);
 	}
 
-	emu_push(emu_cs); emu_push(0x01B0); emu_cs = 0x29E8; f__29E8_0971_0071_E515();
+	Input_Init();
 	if (!g_config.useXMS) {
 		g_config.voiceDrv = 0;
 	}
@@ -2604,7 +2604,7 @@ void PrepareEnd()
 
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
-	emu_push(emu_cs); emu_push(0x0042); emu_cs = 0x29E8; f__29E8_0F7A_000D_B1AA();
+	Input_Uninit();
 }
 
 void Game_Timer_Interrupt()

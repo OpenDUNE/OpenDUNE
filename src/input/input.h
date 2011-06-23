@@ -58,7 +58,11 @@ typedef struct InputLocalData {
 	/* 0212(8)   */ PACK uint8  keymap_special_mask[8];     /*!< Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
-	/* 0242()    */ PACK uint8   unknown_0242[0x001E];
+	/* 0242()    */ PACK uint8   unknown_0242[0x0014];
+	/* 0256(1)   */ PACK uint8  variable_0256;              /*!< ?? */
+	/* 0257(1)   */ PACK uint8  variable_0257;              /*!< ?? */
+	/* 0258(4)   */ PACK csip32 interruptVector09;          /*!< Location of original Interrupt Vector 09. */
+	/* 025C(4)   */ PACK csip32 interruptVector23;          /*!< Location of original Interrupt Vector 23. */
 	/* 0260(11)  */ PACK uint8  keymap_ignore[11];          /*!< Keys to ignore when reading. */
 	/* 026B()    */ PACK uint8   unknown_026B[0x0001];
 
@@ -97,6 +101,8 @@ MSVC_PACKED_END
 assert_compile(sizeof(InputLocalData) == 0x0F95);
 
 extern void System_Init_Input();
+extern void Input_Init();
+extern void Input_Uninit();
 extern uint16 Input_Flags_ClearBits(uint16 bits);
 extern uint16 Input_Flags_SetBits(uint16 bits);
 extern void Input_History_Clear();
