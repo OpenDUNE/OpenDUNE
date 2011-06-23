@@ -49,81 +49,82 @@ typedef enum DrawMode {
 } DrawMode;
 
 /**
- * Scrollbar information as stored in the memory.
- */
-typedef struct WidgetScrollbar {
-	/* 0000(4)   */ struct Widget *parent;             /*!< Parent widget we belong to. */
-	/* 0004(2)   */ uint16 size;                       /*!< Size (in pixels) of the scrollbar. */
-	/* 0006(2)   */ uint16 position;                   /*!< Current position of the scrollbar. */
-	/* 0008(2)   */ uint16 scrollMax;                  /*!< Maximum position of the scrollbar cursor. */
-	/* 000A(2)   */ uint16 scrollPageSize;             /*!< Amount of elements to scroll per page. */
-	/* 000C(2)   */ uint16 scrollPosition;             /*!< Current position of the scrollbar cursor. */
-	/* 000E(1)   */ uint8  pressed;                    /*!< If non-zero, the scrollbar is currently pressed. */
-	/* 000F(1)   */ uint8  dirty;                      /*!< If non-zero, the scrollbar is dirty (requires repaint). */
-	/* 0010(2)   */ uint16 pressedPosition;            /*!< Position where we clicked on the scrollbar when pressed. */
-	/* 0012(4)   */ csip32 drawProc;                   /*!< Draw proc (called on every draw). Can be null. */
-} WidgetScrollbar;
-
-/**
  * A Widget as stored in the memory.
  */
 typedef struct Widget {
-	/* 0000(4)   */ struct Widget *next;               /*!< Next widget in the list. */
-	/* 0004(2)   */ uint16 index;                      /*!< Index of the widget. */
-	/* 0006(2)   */ uint16 shortcut;                   /*!< What key triggers this widget. */
-	/* 0008(2)   */ uint16 shortcut2;                  /*!< What key (also) triggers this widget. */
-	/* 000A(1)   */ uint8  drawModeNormal;             /*!< Draw mode when normal. */
-	/* 000B(1)   */ uint8  drawModeSelected;           /*!< Draw mode when selected. */
-	/* 000C(1)   */ uint8  drawModeDown;               /*!< Draw mode when down. */
-	/* 000D(1)   */ uint8  variable_0D;                /*!< ?? */
-	/* 000E(2)   */ union {
-	                     struct {
-	/*      0001 */              BITTYPE requiresClick:1;   /*!< Requires click. */
-	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
-	/*      0004 */              BITTYPE clickAsHover:1;    /*!< Click as hover. */
-	/*      0008 */              BITTYPE invisible:1;       /*!< Widget is invisible. */
-	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
-	/*      0020 */              BITTYPE noClickCascade:1;  /*!< Don't cascade the click event to any other widgets. */
-	/*      0040 */              BITTYPE loseSelect:1;      /*!< Lose select when leave. */
-	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
-	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter. */
-	/*      F000 */              BITTYPE buttonFilterRight:4;/*!< Right button filter. */
-	                     } s;
-	                     uint16 all; } flags;               /*!< General flags of the Widget. */
-	/* 0010(4)   */ csip32 drawProcNormal;             /*!< Draw proc when normal. */
-	/* 0014(4)   */ csip32 drawProcSelected;           /*!< Draw proc when selected. */
-	/* 0018(4)   */ csip32 drawProcDown;               /*!< Draw proc when down. */
-	/* 001C(2)   */ uint16 parentID;                   /*!< Parent window we are nested in. */
-	/* 001E(2)   */  int16 offsetX;                    /*!< X position from parent we are at, in pixels. */
-	/* 0020(2)   */  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
-	/* 0022(2)   */ uint16 width;                      /*!< Width of widget in pixels. */
-	/* 0024(2)   */ uint16 height;                     /*!< Height of widget in pixels. */
-	/* 0026(1)   */ uint8  fgColourNormal;             /*!< Foregroud colour for draw proc when normal. */
-	/* 0027(1)   */ uint8  bgColourNormal;             /*!< Background colour for draw proc when normal. */
-	/* 0028(1)   */ uint8  fgColourSelected;           /*!< Foregroud colour for draw proc when selected. */
-	/* 0029(1)   */ uint8  bgColourSelected;           /*!< Background colour for draw proc when selected. */
-	/* 002A(1)   */ uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
-	/* 002B(1)   */ uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
-	/* 002C(1)   */ uint8  variable_2C;                /*!< ?? */
-	/* 002D()    */ uint8   unknown_002D[0x0001];
-	/* 002E(2)   */ union {
-	                     struct {
-	/*      0001 */              BITTYPE selected:1;        /*!< Selected. */
-	/*      0002 */              BITTYPE hover1:1;          /*!< Hover. */
-	/*      0004 */              BITTYPE hover2:1;          /*!< Hover. */
-	/*      0008 */              BITTYPE selectedLast:1;    /*!< Last Selected. */
-	/*      0010 */              BITTYPE hover1Last:1;      /*!< Last Hover. */
-	/*      0020 */              BITTYPE hover2Last:1;      /*!< Last Hover. */
-	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      0080 */              BITTYPE keySelected:1;     /*!< Key Selected. */
-	/*      FF00 */              BITTYPE buttonState:8;     /*!< Button state. */
-	                     } s;
-	                     uint16 all; } state;               /*!< State of the Widget. */
-	/* 0030(4)   */ csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
-	/* 0034(4)   */ void *data;                        /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
-	/* 0038(2)   */ uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
-	/* 003A(2)   */ uint16 variable_3A;                /*!< ?? */
+	struct Widget *next;                                    /*!< Next widget in the list. */
+	uint16 index;                                           /*!< Index of the widget. */
+	uint16 shortcut;                                        /*!< What key triggers this widget. */
+	uint16 shortcut2;                                       /*!< What key (also) triggers this widget. */
+	uint8  drawModeNormal;                                  /*!< Draw mode when normal. */
+	uint8  drawModeSelected;                                /*!< Draw mode when selected. */
+	uint8  drawModeDown;                                    /*!< Draw mode when down. */
+	uint8  variable_0D;                                     /*!< ?? */
+	union {
+		struct {
+			BITTYPE requiresClick:1;                /*!< Requires click. */
+			BITTYPE variable_0002:1;                /*!< ?? */
+			BITTYPE clickAsHover:1;                 /*!< Click as hover. */
+			BITTYPE invisible:1;                    /*!< Widget is invisible. */
+			BITTYPE variable_0010:1;                /*!< ?? */
+			BITTYPE noClickCascade:1;               /*!< Don't cascade the click event to any other widgets. */
+			BITTYPE loseSelect:1;                   /*!< Lose select when leave. */
+			BITTYPE variable_0080:1;                /*!< ?? */
+			BITTYPE buttonFilterLeft:4;             /*!< Left button filter. */
+			BITTYPE buttonFilterRight:4;            /*!< Right button filter. */
+		} s;
+		uint16 all; } flags;                            /*!< General flags of the Widget. */
+	csip32 drawProcNormal;                                  /*!< Draw proc when normal. */
+	csip32 drawProcSelected;                                /*!< Draw proc when selected. */
+	csip32 drawProcDown;                                    /*!< Draw proc when down. */
+	uint16 parentID;                                        /*!< Parent window we are nested in. */
+	 int16 offsetX;                                         /*!< X position from parent we are at, in pixels. */
+	 int16 offsetY;                                         /*!< Y position from parent we are at, in pixels. */
+	uint16 width;                                           /*!< Width of widget in pixels. */
+	uint16 height;                                          /*!< Height of widget in pixels. */
+	uint8  fgColourNormal;                                  /*!< Foregroud colour for draw proc when normal. */
+	uint8  bgColourNormal;                                  /*!< Background colour for draw proc when normal. */
+	uint8  fgColourSelected;                                /*!< Foregroud colour for draw proc when selected. */
+	uint8  bgColourSelected;                                /*!< Background colour for draw proc when selected. */
+	uint8  fgColourDown;                                    /*!< Foregroud colour for draw proc when down. */
+	uint8  bgColourDown;                                    /*!< Background colour for draw proc when down. */
+	uint8  variable_2C;                                     /*!< ?? */
+	uint8   unknown_002D[0x0001];
+	union {
+		struct {
+			BITTYPE selected:1;                     /*!< Selected. */
+			BITTYPE hover1:1;                       /*!< Hover. */
+			BITTYPE hover2:1;                       /*!< Hover. */
+			BITTYPE selectedLast:1;                 /*!< Last Selected. */
+			BITTYPE hover1Last:1;                   /*!< Last Hover. */
+			BITTYPE hover2Last:1;                   /*!< Last Hover. */
+			BITTYPE variable_0040:1;                /*!< ?? */
+			BITTYPE keySelected:1;                  /*!< Key Selected. */
+			BITTYPE buttonState:8;                  /*!< Button state. */
+		} s;
+		uint16 all; } state;                            /*!< State of the Widget. */
+	csip32 clickProc;                                       /*!< Function to execute when widget is pressed. */
+	void *data;                                             /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
+	uint16 stringID;                                        /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
+	uint16 variable_3A;                                     /*!< ?? */
 } Widget;
+
+
+/**
+ * Scrollbar information as stored in the memory.
+ */
+typedef struct WidgetScrollbar {
+	Widget *parent;                                         /*!< Parent widget we belong to. */
+	uint16 size;                                            /*!< Size (in pixels) of the scrollbar. */
+	uint16 position;                                        /*!< Current position of the scrollbar. */
+	uint16 scrollMax;                                       /*!< Maximum position of the scrollbar cursor. */
+	uint16 scrollPageSize;                                  /*!< Amount of elements to scroll per page. */
+	uint16 scrollPosition;                                  /*!< Current position of the scrollbar cursor. */
+	uint8  pressed;                                         /*!< If non-zero, the scrollbar is currently pressed. */
+	uint8  dirty;                                           /*!< If non-zero, the scrollbar is dirty (requires repaint). */
+	uint16 pressedPosition;                                 /*!< Position where we clicked on the scrollbar when pressed. */
+	csip32 drawProc;                                        /*!< Draw proc (called on every draw). Can be null. */
+} WidgetScrollbar;
 
 MSVC_PACKED_BEGIN
 /**
