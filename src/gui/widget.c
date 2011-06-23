@@ -601,7 +601,9 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 			break;
 
 		case 3:
-			drawMode        = DRAW_MODE_NONE;
+			drawMode           = DRAW_MODE_NONE;
+			drawParam1.unknown = 0;
+			drawParam2.unknown = 0;
 			break;
 
 		default:
