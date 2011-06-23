@@ -35,6 +35,8 @@ typedef struct FactoryWindowItem {
 	/* 0007(4)   */ struct ObjectInfo *objectInfo;     /*!< ?? */
 } FactoryWindowItem;
 
+struct Widget;
+
 extern uint8 *g_palette_998A;
 extern uint8 g_remap[];
 extern FactoryWindowItem g_factoryWindowItems[];
@@ -45,8 +47,7 @@ extern uint16 g_factoryWindowSelected;
 extern uint16 g_factoryWindowUpgradeCost;
 extern FactoryResult g_factoryWindowResult;
 extern bool g_factoryWindowStarport;
-
-struct Widget;
+extern Widget *g_factoryWindowWidgets;
 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
