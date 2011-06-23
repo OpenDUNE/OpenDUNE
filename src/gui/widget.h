@@ -48,39 +48,35 @@ typedef enum DrawMode {
 	DRAW_MODE_MAX             = 7
 } DrawMode;
 
-MSVC_PACKED_BEGIN
 /**
  * Scrollbar information as stored in the memory.
  */
 typedef struct WidgetScrollbar {
-	/* 0000(4)   */ PACK csip32 parent;                     /*!< Parent widget we belong to. */
-	/* 0004(2)   */ PACK uint16 size;                       /*!< Size (in pixels) of the scrollbar. */
-	/* 0006(2)   */ PACK uint16 position;                   /*!< Current position of the scrollbar. */
-	/* 0008(2)   */ PACK uint16 scrollMax;                  /*!< Maximum position of the scrollbar cursor. */
-	/* 000A(2)   */ PACK uint16 scrollPageSize;             /*!< Amount of elements to scroll per page. */
-	/* 000C(2)   */ PACK uint16 scrollPosition;             /*!< Current position of the scrollbar cursor. */
-	/* 000E(1)   */ PACK uint8  pressed;                    /*!< If non-zero, the scrollbar is currently pressed. */
-	/* 000F(1)   */ PACK uint8  dirty;                      /*!< If non-zero, the scrollbar is dirty (requires repaint). */
-	/* 0010(2)   */ PACK uint16 pressedPosition;            /*!< Position where we clicked on the scrollbar when pressed. */
-	/* 0012(4)   */ PACK csip32 drawProc;                   /*!< Draw proc (called on every draw). Can be null. */
-} GCC_PACKED WidgetScrollbar;
-MSVC_PACKED_END
-assert_compile(sizeof(WidgetScrollbar) == 0x16);
+	/* 0000(4)   */ struct Widget *parent;             /*!< Parent widget we belong to. */
+	/* 0004(2)   */ uint16 size;                       /*!< Size (in pixels) of the scrollbar. */
+	/* 0006(2)   */ uint16 position;                   /*!< Current position of the scrollbar. */
+	/* 0008(2)   */ uint16 scrollMax;                  /*!< Maximum position of the scrollbar cursor. */
+	/* 000A(2)   */ uint16 scrollPageSize;             /*!< Amount of elements to scroll per page. */
+	/* 000C(2)   */ uint16 scrollPosition;             /*!< Current position of the scrollbar cursor. */
+	/* 000E(1)   */ uint8  pressed;                    /*!< If non-zero, the scrollbar is currently pressed. */
+	/* 000F(1)   */ uint8  dirty;                      /*!< If non-zero, the scrollbar is dirty (requires repaint). */
+	/* 0010(2)   */ uint16 pressedPosition;            /*!< Position where we clicked on the scrollbar when pressed. */
+	/* 0012(4)   */ csip32 drawProc;                   /*!< Draw proc (called on every draw). Can be null. */
+} WidgetScrollbar;
 
-MSVC_PACKED_BEGIN
 /**
  * A Widget as stored in the memory.
  */
 typedef struct Widget {
-	/* 0000(4)   */ PACK csip32 next;                       /*!< Next widget in the list. */
-	/* 0004(2)   */ PACK uint16 index;                      /*!< Index of the widget. */
-	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< What key triggers this widget. */
-	/* 0008(2)   */ PACK uint16 shortcut2;                  /*!< What key (also) triggers this widget. */
-	/* 000A(1)   */ PACK uint8  drawModeNormal;             /*!< Draw mode when normal. */
-	/* 000B(1)   */ PACK uint8  drawModeSelected;           /*!< Draw mode when selected. */
-	/* 000C(1)   */ PACK uint8  drawModeDown;               /*!< Draw mode when down. */
-	/* 000D(1)   */ PACK uint8  variable_0D;                /*!< ?? */
-	/* 000E(2)   */ PACK union {
+	/* 0000(4)   */ struct Widget *next;               /*!< Next widget in the list. */
+	/* 0004(2)   */ uint16 index;                      /*!< Index of the widget. */
+	/* 0006(2)   */ uint16 shortcut;                   /*!< What key triggers this widget. */
+	/* 0008(2)   */ uint16 shortcut2;                  /*!< What key (also) triggers this widget. */
+	/* 000A(1)   */ uint8  drawModeNormal;             /*!< Draw mode when normal. */
+	/* 000B(1)   */ uint8  drawModeSelected;           /*!< Draw mode when selected. */
+	/* 000C(1)   */ uint8  drawModeDown;               /*!< Draw mode when down. */
+	/* 000D(1)   */ uint8  variable_0D;                /*!< ?? */
+	/* 000E(2)   */ union {
 	                     struct {
 	/*      0001 */              BITTYPE requiresClick:1;   /*!< Requires click. */
 	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
@@ -92,25 +88,25 @@ typedef struct Widget {
 	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
 	/*      0F00 */              BITTYPE buttonFilterLeft:4;/*!< Left button filter. */
 	/*      F000 */              BITTYPE buttonFilterRight:4;/*!< Right button filter. */
-	                     } GCC_PACKED s;
+	                     } s;
 	                     uint16 all; } flags;               /*!< General flags of the Widget. */
-	/* 0010(4)   */ PACK csip32 drawProcNormal;             /*!< Draw proc when normal. */
-	/* 0014(4)   */ PACK csip32 drawProcSelected;           /*!< Draw proc when selected. */
-	/* 0018(4)   */ PACK csip32 drawProcDown;               /*!< Draw proc when down. */
-	/* 001C(2)   */ PACK uint16 parentID;                   /*!< Parent window we are nested in. */
-	/* 001E(2)   */ PACK  int16 offsetX;                    /*!< X position from parent we are at, in pixels. */
-	/* 0020(2)   */ PACK  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
-	/* 0022(2)   */ PACK uint16 width;                      /*!< Width of widget in pixels. */
-	/* 0024(2)   */ PACK uint16 height;                     /*!< Height of widget in pixels. */
-	/* 0026(1)   */ PACK uint8  fgColourNormal;             /*!< Foregroud colour for draw proc when normal. */
-	/* 0027(1)   */ PACK uint8  bgColourNormal;             /*!< Background colour for draw proc when normal. */
-	/* 0028(1)   */ PACK uint8  fgColourSelected;           /*!< Foregroud colour for draw proc when selected. */
-	/* 0029(1)   */ PACK uint8  bgColourSelected;           /*!< Background colour for draw proc when selected. */
-	/* 002A(1)   */ PACK uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
-	/* 002B(1)   */ PACK uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
-	/* 002C(1)   */ PACK uint8  variable_2C;                /*!< ?? */
-	/* 002D()    */ PACK uint8   unknown_002D[0x0001];
-	/* 002E(2)   */ PACK union {
+	/* 0010(4)   */ csip32 drawProcNormal;             /*!< Draw proc when normal. */
+	/* 0014(4)   */ csip32 drawProcSelected;           /*!< Draw proc when selected. */
+	/* 0018(4)   */ csip32 drawProcDown;               /*!< Draw proc when down. */
+	/* 001C(2)   */ uint16 parentID;                   /*!< Parent window we are nested in. */
+	/* 001E(2)   */  int16 offsetX;                    /*!< X position from parent we are at, in pixels. */
+	/* 0020(2)   */  int16 offsetY;                    /*!< Y position from parent we are at, in pixels. */
+	/* 0022(2)   */ uint16 width;                      /*!< Width of widget in pixels. */
+	/* 0024(2)   */ uint16 height;                     /*!< Height of widget in pixels. */
+	/* 0026(1)   */ uint8  fgColourNormal;             /*!< Foregroud colour for draw proc when normal. */
+	/* 0027(1)   */ uint8  bgColourNormal;             /*!< Background colour for draw proc when normal. */
+	/* 0028(1)   */ uint8  fgColourSelected;           /*!< Foregroud colour for draw proc when selected. */
+	/* 0029(1)   */ uint8  bgColourSelected;           /*!< Background colour for draw proc when selected. */
+	/* 002A(1)   */ uint8  fgColourDown;               /*!< Foregroud colour for draw proc when down. */
+	/* 002B(1)   */ uint8  bgColourDown;               /*!< Background colour for draw proc when down. */
+	/* 002C(1)   */ uint8  variable_2C;                /*!< ?? */
+	/* 002D()    */ uint8   unknown_002D[0x0001];
+	/* 002E(2)   */ union {
 	                     struct {
 	/*      0001 */              BITTYPE selected:1;        /*!< Selected. */
 	/*      0002 */              BITTYPE hover1:1;          /*!< Hover. */
@@ -121,15 +117,13 @@ typedef struct Widget {
 	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
 	/*      0080 */              BITTYPE keySelected:1;     /*!< Key Selected. */
 	/*      FF00 */              BITTYPE buttonState:8;     /*!< Button state. */
-	                     } GCC_PACKED s;
+	                     } s;
 	                     uint16 all; } state;               /*!< State of the Widget. */
-	/* 0030(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
-	/* 0034(4)   */ PACK csip32 scrollbar;                  /*!< If non-zero, it points to WidgetScrollbar belonging to this widget. */
-	/* 0038(2)   */ PACK uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
-	/* 003A(2)   */ PACK uint16 variable_3A;                /*!< ?? */
-} GCC_PACKED Widget;
-MSVC_PACKED_END
-assert_compile(sizeof(Widget) == 0x3C);
+	/* 0030(4)   */ csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
+	/* 0034(4)   */ void *data;                        /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
+	/* 0038(2)   */ uint16 stringID;                   /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
+	/* 003A(2)   */ uint16 variable_3A;                /*!< ?? */
+} Widget;
 
 MSVC_PACKED_BEGIN
 /**

@@ -699,7 +699,7 @@ static void GameLoop_Uninit()
 {
 	while (g_widgetLinkedListHead != NULL) {
 		Widget *w = g_widgetLinkedListHead;
-		g_widgetLinkedListHead = (Widget *)emu_get_memorycsip(w->next);
+		g_widgetLinkedListHead = w->next;
 
 		Tools_Free(emu_Global_GetCSIP(w));
 	}

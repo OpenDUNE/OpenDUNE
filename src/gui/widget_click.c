@@ -58,7 +58,7 @@ void GUI_Widget_Scrollbar_Scroll(WidgetScrollbar *scrollbar, uint16 scroll)
 
 	GUI_Widget_Scrollbar_CalculatePosition(scrollbar);
 
-	GUI_Widget_Scrollbar_Draw((Widget *)emu_get_memorycsip(scrollbar->parent));
+	GUI_Widget_Scrollbar_Draw(scrollbar->parent);
 }
 
 /**
@@ -124,7 +124,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
 {
-	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), -1);
+	GUI_Widget_Scrollbar_Scroll(w->data, -1);
 
 	return false;
 }
@@ -137,7 +137,7 @@ bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w)
  */
 bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w)
 {
-	GUI_Widget_Scrollbar_Scroll((WidgetScrollbar *)emu_get_memorycsip(w->scrollbar), 1);
+	GUI_Widget_Scrollbar_Scroll(w->data, 1);
 
 	return false;
 }
@@ -153,7 +153,7 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 	WidgetScrollbar *scrollbar;
 	uint16 positionX, positionY;
 
-	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+	scrollbar = w->data;
 
 	positionX = w->offsetX;
 	if (w->offsetX < 0) positionX += g_global->variable_4062[w->parentID][2] << 3;
@@ -449,11 +449,11 @@ static void GUI_Window_Create(WindowDesc *desc)
 	}
 
 	for (i = 0; i < desc->widgetCount; i++) {
-		Widget *w = &g_global->windowWidgets[i];
+		Widget *w = &g_table_windowWidgets[i];
 
 		if (GUI_String_Get_ByIndex(desc->widgets[i].stringID) == NULL) continue;
 
-		w->next.csip = 0x0;
+		w->next      = NULL;
 		w->offsetX   = desc->widgets[i].offsetX;
 		w->offsetY   = desc->widgets[i].offsetY;
 		w->width     = desc->widgets[i].width;
@@ -500,13 +500,13 @@ static void GUI_Window_Create(WindowDesc *desc)
 	}
 
 	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
-		Widget *w = &g_global->windowWidgets[7];
+		Widget *w = &g_table_windowWidgets[7];
 
 		w->drawProcNormal   = g_sprites[59];
 		w->drawProcSelected = g_sprites[60];
 		w->drawProcDown     = g_sprites[60];
-		w->next.csip        = 0x0;
-		w->parentID = desc->index;
+		w->next             = NULL;
+		w->parentID         = desc->index;
 
 		GUI_Widget_MakeNormal(w, false);
 		GUI_Widget_MakeInvisible(w);
@@ -514,13 +514,13 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		g_widgetLinkedListTail = GUI_Widget_Link(g_widgetLinkedListTail, w);
 
-		w = &g_global->windowWidgets[8];
+		w = &g_table_windowWidgets[8];
 
 		w->drawProcNormal   = g_sprites[61];
 		w->drawProcSelected = g_sprites[62];
 		w->drawProcDown     = g_sprites[62];
-		w->next.csip        = 0x0;
-		w->parentID = desc->index;
+		w->next             = NULL;
+		w->parentID         = desc->index;
 
 		GUI_Widget_MakeNormal(w, false);
 		GUI_Widget_MakeInvisible(w);
@@ -944,7 +944,7 @@ static void UpdateArrows(bool save, bool force)
 
 	g_global->variable_2A99 = g_global->variable_2A97;
 
-	w = &g_global->windowWidgets[8];
+	w = &g_table_windowWidgets[8];
 	if (g_global->variable_2A97 >= 5) {
 		GUI_Widget_MakeVisible(w);
 	} else {
@@ -952,7 +952,7 @@ static void UpdateArrows(bool save, bool force)
 		GUI_Widget_Undraw(w, 233);
 	}
 
-	w = &g_global->windowWidgets[7];
+	w = &g_table_windowWidgets[7];
 	if (g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1 > g_global->variable_2A97) {
 		GUI_Widget_MakeVisible(w);
 	} else {
@@ -1064,7 +1064,7 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
 {
 	/* "Are you sure you want to clear the high scores?" */
 	if (GUI_YesNo(0x148)) {
-		HallOfFameData *data = (HallOfFameData *)emu_get_memorycsip(w->scrollbar);
+		HallOfFameData *data = w->data;
 
 		memset(data, 0, 128);
 

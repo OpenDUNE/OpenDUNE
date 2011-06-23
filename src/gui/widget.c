@@ -37,8 +37,8 @@ Widget *g_widgetMentatScrollbar = NULL;
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {
-	if (w->next.csip == 0x0) return NULL;
-	return (Widget *)emu_get_memorycsip(w->next);
+	if (w->next == NULL) return NULL;
+	return w->next;
 }
 
 /**
@@ -641,7 +641,7 @@ static uint16 GUI_Widget_Scrollbar_CalculateSize(WidgetScrollbar *scrollbar)
 	Widget *w;
 	uint16 size;
 
-	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+	w = scrollbar->parent;
 
 	if (w == NULL) return 0;
 
@@ -702,9 +702,9 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 
 	ws = (WidgetScrollbar *)emu_get_memorycsip(Tools_Malloc(sizeof(WidgetScrollbar), 0x10));
 
-	w->scrollbar = emu_Global_GetCSIP(ws);
+	w->data = ws;
 
-	ws->parent   = emu_Global_GetCSIP(w);
+	ws->parent = w;
 
 	ws->scrollMax      = 1;
 	ws->scrollPageSize = 1;
@@ -760,7 +760,7 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 		w->clickProc.csip = 0x35200039;
 	}
 
-	w->scrollbar = widget2->scrollbar;
+	w->data = widget2->data;
 	return w;
 }
 
@@ -861,12 +861,12 @@ Widget *GUI_Widget_Link(Widget *w1, Widget *w2)
 	g_global->widgetReset = true;
 
 	if (w2 == NULL) return w1;
-	w2->next.csip = 0x0;
+	w2->next = NULL;
 	if (w1 == NULL) return w2;
 
-	while (w1->next.csip != 0x0) w1 = GUI_Widget_GetNext(w1);
+	while (w1->next != NULL) w1 = w1->next;
 
-	w1->next = emu_Global_GetCSIP(w2);
+	w1->next = w2;
 	return first;
 }
 
@@ -881,7 +881,7 @@ uint16 GUI_Get_Scrollbar_Position(Widget *w)
 
 	if (w == NULL) return 0xFFFF;
 
-	ws = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+	ws = w->data;
 	return ws->scrollPosition;
 }
 
@@ -893,7 +893,7 @@ uint16 GUI_Widget_Scrollbar_Init(Widget *w, int16 scrollMax, int16 scrollPageSiz
 	if (w == NULL) return 0xFFFF;
 
 	position = GUI_Get_Scrollbar_Position(w);
-	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+	scrollbar = w->data;
 
 	if (scrollMax > 0) scrollbar->scrollMax = scrollMax;
 	if (scrollPageSize >= 0) scrollbar->scrollPageSize = min(scrollPageSize, scrollbar->scrollMax);
@@ -916,7 +916,7 @@ uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar)
 	Widget *w;
 	uint16 position;
 
-	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+	w = scrollbar->parent;
 	if (w == NULL) return 0xFFFF;
 
 	position = scrollbar->scrollMax - scrollbar->scrollPageSize;
@@ -935,7 +935,7 @@ uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar)
 {
 	Widget *w;
 
-	w = (Widget *)emu_get_memorycsip(scrollbar->parent);
+	w = scrollbar->parent;
 	if (w == NULL) return 0xFFFF;
 
 	scrollbar->scrollPosition = scrollbar->position * (scrollbar->scrollMax - scrollbar->scrollPageSize) / (max(w->width, w->height) - 2 - scrollbar->size);
@@ -947,7 +947,7 @@ void GUI_Widget_Free_WithScrollbar(Widget *w)
 {
 	if (w == NULL) return;
 
-	Tools_Free(w->scrollbar);
+	Tools_Free(emu_Global_GetCSIP(w->data));
 	Tools_Free(emu_Global_GetCSIP(w));
 }
 
@@ -966,23 +966,23 @@ Widget *GUI_Widget_Insert(Widget *w1, Widget *w2)
 	if (w2 == NULL) return w1;
 
 	if (w2->index <= w1->index) {
-		w2->next = emu_Global_GetCSIP(w1);
+		w2->next = w1;
 		return w2;
 	}
 
 	first = w1;
 	prev = w1;
 
-	while (w2->index > w1->index && w1->next.csip != 0x0) {
+	while (w2->index > w1->index && w1->next != NULL) {
 		prev = w1;
-		w1 = GUI_Widget_GetNext(w1);
+		w1 = w1->next;
 	}
 
 	if (w2->index > w1->index) {
 		w1 = GUI_Widget_Link(first, w2);
 	} else {
-		prev->next = emu_Global_GetCSIP(w2);
-		w2->next = emu_Global_GetCSIP(w1);
+		prev->next = w2;
+		w2->next = w1;
 	}
 
 	g_global->widgetReset = 1;

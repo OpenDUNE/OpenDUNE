@@ -371,7 +371,7 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 	if (w == NULL) return;
 	if (w->flags.s.invisible) return;
 
-	scrollbar = (WidgetScrollbar *)emu_get_memorycsip(w->scrollbar);
+	scrollbar = w->data;
 
 	width  = w->width;
 	height = w->height;

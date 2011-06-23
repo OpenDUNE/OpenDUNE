@@ -1750,11 +1750,11 @@ uint16 GUI_PickHouse()
 		}
 
 		while (w != NULL) {
-			csip32 next = w->next;
+			Widget *next = w->next;
 
 			Tools_Free(emu_Global_GetCSIP(w));
 
-			w = (Widget *)emu_get_memorycsip(next);
+			w = next;
 		}
 
 		Unknown_259E_0006(loc314, 15);
@@ -1802,11 +1802,11 @@ uint16 GUI_PickHouse()
 		}
 
 		while (w != NULL) {
-			csip32 next = w->next;
+			Widget *next = w->next;
 
 			Tools_Free(emu_Global_GetCSIP(w));
 
-			w = (Widget *)emu_get_memorycsip(next);
+			w = next;
 		}
 
 		Load_Palette_Mercenaries();
@@ -4195,7 +4195,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	wClear->height         = 10;
 	wClear->clickProc.csip = 0x35180034;
 	wClear->flags.all      = 0x44C5;
-	wClear->scrollbar      = emu_Global_GetCSIP(data);
+	wClear->data           = data;
 
 	/* "Resume Game" */
 	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0);
@@ -4203,7 +4203,7 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	wResume->height         = 10;
 	wResume->clickProc.csip = 0x35180039;
 	wResume->flags.all      = 0x44C5;
-	wResume->scrollbar      = emu_Global_GetCSIP(data);
+	wResume->data           = data;
 
 	return GUI_Widget_Insert(wClear, wResume);
 }
@@ -4211,11 +4211,11 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 static void GUI_HallOfFame_DeleteButtons(Widget *w)
 {
 	while (w != NULL) {
-		csip32 next = w->next;
+		Widget *next = w->next;
 
 		Tools_Free(emu_Global_GetCSIP(w));
 
-		w = (Widget *)emu_get_memorycsip(next);
+		w = next;
 	}
 
 	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);
