@@ -11,7 +11,7 @@
 #include "libemu.h"
 #include "opendune.h"
 
-extern void emu_Input_Keyboard_EventHandler();
+extern void Input_EventHandler();
 extern void Interrupt_User_Clock();
 extern void Interrupt_Timer();
 extern void emu_Drivers_CustomTimer_Interrupt();
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 
-	emu_hard_link(0x29E8, 0x0D47, &emu_Input_Keyboard_EventHandler);
+	emu_hard_link(0x29E8, 0x0D47, &Input_EventHandler);
 	emu_hard_link(0x0070, 0x00E0, &Interrupt_User_Clock);
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
 	emu_hard_link(0x2756, 0x050F, &emu_Drivers_CustomTimer_Interrupt);

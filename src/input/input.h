@@ -44,7 +44,10 @@ typedef struct InputLocalData {
 	/* 0004(6)   */ PACK uint8      data_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 000A(36)  */ PACK uint32 mouseCoord[9];              /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 002E(8)   */ PACK uint8  bitmask[8];                 /*!< The value of (1 << N), with N from 0 to 7. */
-	/* 0036()    */ PACK uint8   unknown_0036[0x0058];
+	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? */
+	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? */
+	/* 007A()    */ PACK uint8   unknown_007A[0x0004];
+	/* 007E(16)  */ PACK uint8  translateExtendedMap[16];   /*!< ?? Some kind of translation map for extended keys. */
 	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Some kind of translation map. */
 	/* 009E(16)  */ PACK uint8  translateTo[16];            /*!< ?? To what a match in the above map translates. */
 	/* 00AE(1)   */ PACK uint8   unknown_00AE[1];
@@ -52,20 +55,19 @@ typedef struct InputLocalData {
 	/* 01AF(2)   */ PACK uint16 historyHead;                /*!< The current head inside the history array. */
 	/* 01B1(2)   */ PACK uint16 historyTail;                /*!< The current tail inside the history array. */
 	/* 01B3(2)   */ PACK uint16 flags;                      /*!< Mask for allowed input types. See InputFlagsEnum. */
-	/* 01B5()    */ PACK uint16 variable_01B5;              /*!< ?? */
-	/* 01B7(2)   */ PACK uint16 variable_01B7;              /*!< ?? */
-	/* 01B9()    */ PACK uint8   unknown_01B9[0x0059];
+	/* 01B5()    */ PACK uint16 controlKeys;                /*!< Which control keys are pressed. */
+	/* 01B7(2)   */ PACK uint16 controlKeys2;               /*!< Copy of controlKeys */
+	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? */
 	/* 0212(8)   */ PACK uint8  keymap_special_mask[8];     /*!< Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
 	/* 0242()    */ PACK uint8   unknown_0242[0x0014];
-	/* 0256(1)   */ PACK uint8  variable_0256;              /*!< ?? */
-	/* 0257(1)   */ PACK uint8  variable_0257;              /*!< ?? */
+	/* 0256(1)   */ PACK uint8  extendedKey;                /*!< Reading extended key. */
+	/* 0257(1)   */ PACK uint8  extendedSpecialKey;         /*!< Reading extended special key. */
 	/* 0258(4)   */ PACK csip32 interruptVector09;          /*!< Location of original Interrupt Vector 09. */
 	/* 025C(4)   */ PACK csip32 interruptVector23;          /*!< Location of original Interrupt Vector 23. */
 	/* 0260(11)  */ PACK uint8  keymap_ignore[11];          /*!< Keys to ignore when reading. */
-	/* 026B()    */ PACK uint8   unknown_026B[0x0001];
-
+	/* 026B(1)   */ PACK uint8  variable_02B6;              /*!< ?? */
 	/* 026C(222) */ PACK uint8      code_026C[222];
 	/* 034A(62)  */ PACK uint8  keymap_normal[62];          /*!< Keymap to convert scancode to ASCII with capslock off and shift released. */
 	/* 0388(62)  */ PACK uint8  keymap_shift[62];           /*!< Keymap to convert scancode to ASCII with capslock off and shift pressed. */

@@ -98,7 +98,6 @@ extern void emu_DSP_SetVolume();
 extern void f__AB00_0C1C_0001_6780();
 extern void f__AB01_0C38_001F_B3E4();
 extern void f__AB01_0CB4_0016_9B28();
-extern void emu_Input_Keyboard_EventHandler();
 extern void f__AB01_0D96_0001_6780();
 extern void f__AB00_0D99_0001_6780();
 extern void emu_DSP_Init();

@@ -6,7 +6,6 @@
 #define INTERRUPT_H
 
 extern void Interrupt_Timer();
-extern void Interrupt_Keyboard();
 extern void Interrupt_Video();
 extern void Interrupt_System();
 extern void Interrupt_Clock();

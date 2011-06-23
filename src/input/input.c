@@ -49,6 +49,76 @@ void Input_Uninit()
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0F91); Interrupt_DOS();
 }
 
+void Input_EventHandler()
+{
+	uint8 key;
+	uint8 state;
+	uint8 i;
+
+	s_input_local->flags = g_global->inputFlags;
+
+	state = 0;
+	emu_inb(&key, 0x60); /* Pop key from buffer */
+
+	if (key == 0xE0) {
+		s_input_local->extendedKey = 1;
+		goto event_exit;
+	}
+
+	/* Key up */
+	if ((key & 0x80) != 0) {
+		key &= 0x7F;
+		state |= 0x08;
+	}
+
+	if (s_input_local->extendedKey != 0) {
+		s_input_local->extendedKey = 0;
+
+		for (i = 0; i < 16; i++) {
+			if (s_input_local->translateExtendedMap[i] == key) {
+				key = s_input_local->translateMap[i];
+				break;
+			}
+		}
+		if (i == 16) goto event_exit;
+	} else if (key == 0x7A) {
+		key = 0x80;
+	} else {
+		key = s_input_local->variable_01B9[key & 0x7F];
+	}
+
+	if ((s_input_local->activeInputMap[7] & 0x4) != 0) goto event_exit;
+	if ((s_input_local->activeInputMap[7] & 0x50) != 0) state |= 0x04;
+
+	key = Input_Keyboard_Translate(key);
+
+	if ((s_input_local->activeInputMap[7] & 0x2) != 0) state |= 0x01;
+
+	if (state == 0x06 && emu_ax == 0x668) goto event_exit;
+	if (state == 0x06 && emu_ax == 0x64C) goto event_exit;
+
+	Input_HandleInput((state << 8) | key);
+
+	for (i = 0; i < 10; i++) {
+		if (s_input_local->keymap_ignore[i] == key) goto event_exit;
+	}
+	for (i = 0; i < 17; i++) {
+		if (s_input_local->variable_0036[i] == key) {
+			if ((s_input_local->variable_0058[i] & s_input_local->flags) != 0) goto event_exit;
+			break;
+		}
+	}
+
+event_exit:
+	emu_outb(0x20, 0x20);
+
+	/* Return from this function */
+	emu_pop(&emu_ip);
+	emu_pop(&emu_cs);
+	emu_popf();
+	return;
+}
+
 /**
  * Clears the given bits in input flags.
  *
@@ -492,7 +562,7 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 	if (keyValue < 0x6E) {
 		uint8 keySave = keyValue - 0x4B;
 
-		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->variable_01B7 & 0x2) != 0) {
+		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->controlKeys2 & 0x2) != 0) {
 			keyValue = s_input_local->keymap_numlock[keySave - 0xF];
 		} else {
 			keyValue = s_input_local->keymap_numpad[keySave];
@@ -590,7 +660,7 @@ uint16 Input_Keyboard_NextKey()
 		sleep(0); /* Spin-lock */
 	}
 
-	s_input_local->variable_01B7 = s_input_local->variable_01B5;
+	s_input_local->controlKeys2 = s_input_local->controlKeys;
 	emu_sti();
 
 	if (value != 0) {

@@ -26,23 +26,6 @@ void Interrupt_Timer()
 }
 
 /**
- * Keyboard Interrupt.
- *
- * @name Interrupt_Keyboard
- * @implements 0070:0048:0005:E15B ()
- */
-void Interrupt_Keyboard()
-{
-	emu_syscall(0x9);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
  * Video Interrupt.
  *
  * @name Interrupt_Video
