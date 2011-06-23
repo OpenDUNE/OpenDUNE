@@ -60,6 +60,8 @@ typedef union WidgetDrawParameter {
 	void (*proc)(struct Widget *);                          /*!< Parameter for DRAW_MODE_CUSTOM_PROC. */
 } WidgetDrawParameter;
 
+typedef bool (ClickProc)(struct Widget *);
+
 /**
  * A Widget as stored in the memory.
  */
@@ -115,7 +117,7 @@ typedef struct Widget {
 			BITTYPE buttonState:8;                          /*!< Button state. */
 		} s;
 		uint16 all; } state;                                /*!< State of the Widget. */
-	csip32 clickProc;                                       /*!< Function to execute when widget is pressed. */
+	ClickProc *clickProc;                                   /*!< Function to execute when widget is pressed. */
 	void *data;                                             /*!< If non-NULL, it points to WidgetScrollbar or HallOfFameData belonging to this widget. */
 	uint16 stringID;                                        /*!< Strings to print on the widget. Index above 0xFFF2 are special. */
 	uint16 variable_3A;                                     /*!< ?? */
@@ -139,25 +141,23 @@ typedef struct WidgetScrollbar {
 	ScrollbarDrawProc *drawProc;                            /*!< Draw proc (called on every draw). Can be null. */
 } WidgetScrollbar;
 
-MSVC_PACKED_BEGIN
+
 /**
  * Static information per WidgetClick type.
  */
-typedef struct WidgetClickInfo {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
-	/* 0002(4)   */ PACK csip32 clickProc;                  /*!< Function to execute when widget is pressed. */
-	/* 0006(2)   */ PACK uint16 shortcut;                   /*!< ?? */
-	/* 0008(2)   */ PACK uint16 flags;                      /*!< ?? */
-	/* 000A(2)   */ PACK int16  spriteID;                   /*!< ?? */
-	/* 000C(2)   */ PACK uint16 offsetX;                    /*!< ?? */
-	/* 000E(2)   */ PACK uint16 offsetY;                    /*!< ?? */
-	/* 0010(2)   */ PACK uint16 width;                      /*!< ?? */
-	/* 0012(2)   */ PACK uint16 height;                     /*!< ?? */
-	/* 0014(2)   */ PACK uint16 stringID;                   /*!< ?? */
-	/* 0016(2)   */ PACK uint16 variable_3A;                /*!< ?? */
-} GCC_PACKED WidgetClickInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(WidgetClickInfo) == 0x18);
+typedef struct WidgetInfo {
+	int16 index;                       /*!< ?? */
+	ClickProc *clickProc;              /*!< Function to execute when widget is pressed. */
+	int16 shortcut;                    /*!< ?? */
+	uint16 flags;                      /*!< ?? */
+	int16  spriteID;                   /*!< ?? */
+	uint16 offsetX;                    /*!< ?? */
+	uint16 offsetY;                    /*!< ?? */
+	uint16 width;                      /*!< ?? */
+	uint16 height;                     /*!< ?? */
+	uint16 stringID;                   /*!< ?? */
+	uint16 variable_3A;                /*!< ?? */
+} WidgetInfo;
 
 /**
  * Static information per WidgetClick type.
@@ -178,7 +178,8 @@ typedef struct WindowDesc {
 	} widgets[7];                                           /*!< The Widgets belonging to the Window. */
 } WindowDesc;
 
-extern WidgetClickInfo *g_widgetClickInfo;
+extern WidgetInfo g_table_gameWidgetInfo[];
+extern WidgetInfo g_table_factoryWidgetInfo[];
 
 extern WindowDesc g_optionsWindowDesc;
 extern WindowDesc g_gameControlWindowDesc;
@@ -230,14 +231,14 @@ extern bool GUI_Widget_Scrollbar_ArrowUp_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_ArrowDown_Click(Widget *w);
 extern bool GUI_Widget_Scrollbar_Click(Widget *w);
 extern bool GUI_Widget_TextButton_Click(Widget *w);
-extern bool GUI_Widget_Name_Click();
-extern bool GUI_Widget_Cancel_Click();
-extern bool GUI_Widget_Picture_Click();
+extern bool GUI_Widget_Name_Click(Widget *w);
+extern bool GUI_Widget_Cancel_Click(Widget *w);
+extern bool GUI_Widget_Picture_Click(Widget *w);
 extern bool GUI_Widget_RepairUpgrade_Click(Widget *w);
 extern bool GUI_Widget_Options_Click(Widget *w);
 extern bool GUI_Widget_SaveLoad_Click(bool save);
 extern bool GUI_Widget_HOF_ClearList_Click(Widget *w);
-extern bool GUI_Widget_HOF_Resume_Click();
+extern bool GUI_Widget_HOF_Resume_Click(Widget *w);
 extern bool GUI_Production_List_Click(Widget *w);
 extern bool GUI_Production_Upgrade_Click(Widget *w);
 extern bool GUI_Production_ResumeGame_Click(Widget *w);

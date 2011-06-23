@@ -332,8 +332,10 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
  * Handle clicks on the Mentat widget.
  * @return True, always.
  */
-bool GUI_Widget_Mentat_Click()
+bool GUI_Widget_Mentat_Click(Widget *w)
 {
+	VARIABLE_NOT_USED(w);
+
 	g_global->cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
@@ -820,7 +822,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 		w->flags.s.buttonFilterLeft = 9;
 		w->flags.s.buttonFilterRight = 1;
 
-		w->clickProc.csip = 0x34E0002A;
+		w->clickProc = &GUI_Mentat_List_Click;
 
 		w->drawParameterDown.text     = empty;
 		w->drawParameterSelected.text = empty;

@@ -455,41 +455,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		if (widgetClick) {
 			w->state.s.buttonState = buttonState >> 8;
 
-			if (w->clickProc.csip != 0x0) {
-				bool success = false;
-
-				switch (w->clickProc.csip) {
-					case 0x0AEC0005: success = GUI_Widget_Name_Click(); break;
-					case 0x0AEC004F: success = GUI_Widget_Viewport_Click(w); break;
-					case 0x0AEC0FD8: success = GUI_Widget_Cancel_Click(); break;
-					case 0x0AEC1093: success = GUI_Widget_SpriteTextButton_Click(w); break;
-					case 0x0AEC1181: success = GUI_Widget_Picture_Click(); break;
-					case 0x0AEC11F6: success = GUI_Widget_RepairUpgrade_Click(w); break;
-					case 0x1A341CB1: success = GUI_Widget_TextButton_Click(w); break;
-					case 0x34950025: success = GUI_Production_Down_Click(w); break;
-					case 0x3495002A: success = GUI_Production_Up_Click(w); break;
-					case 0x3495002F: success = GUI_Production_BuildThis_Click(w); break;
-					case 0x34950034: success = GUI_Production_ResumeGame_Click(w); break;
-					case 0x34950039: success = GUI_Production_Upgrade_Click(w); break;
-					case 0x3495003E: success = GUI_Production_List_Click(w); break;
-					case 0x34950043: success = GUI_Purchase_Plus_Click(w); break;
-					case 0x34950048: success = GUI_Purchase_Minus_Click(w); break;
-					case 0x3495004D: success = GUI_Purchase_Invoice_Click(w); break;
-					case 0x34E0002A: success = GUI_Mentat_List_Click(w); break;
-					case 0x34E9002F: success = GUI_Widget_Mentat_Click(); break;
-					case 0x34F20025: success = GUI_Widget_Options_Click(w); break;
-					case 0x35180034: success = GUI_Widget_HOF_ClearList_Click(w); break;
-					case 0x35180039: success = GUI_Widget_HOF_Resume_Click(); break;
-					case 0x35200039: success = GUI_Widget_Scrollbar_ArrowUp_Click(w); break;
-					case 0x3520003E: success = GUI_Widget_Scrollbar_ArrowDown_Click(w); break;
-					case 0x35200043: success = GUI_Widget_Scrollbar_Click(w); break;
-
-					default: assert(0); break;
-				}
-
-				/* If Click was successful, don't handle any other widgets */
-				if (success) break;
-			}
+			/* If Click was successful, don't handle any other widgets */
+			if (w->clickProc != NULL && w->clickProc(w)) break;
 
 			/* On click, don't handle any other widgets */
 			if (w->flags.s.noClickCascade) break;
@@ -690,7 +657,7 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 
 	w->drawParameterNormal.proc   = &GUI_Widget_Scrollbar_Draw;
 	w->drawParameterSelected.proc = &GUI_Widget_Scrollbar_Draw;
-	w->clickProc.csip        = 0x35200043;
+	w->clickProc                  = &GUI_Widget_Scrollbar_Click;
 
 	ws = (WidgetScrollbar *)emu_get_memorycsip(Tools_Malloc(sizeof(WidgetScrollbar), 0x10));
 
@@ -747,9 +714,9 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 	w->drawParameterDown.sprite     = sprite2;
 
 	if (unknown1A != 0x0) {
-		w->clickProc.csip = 0x3520003E;
+		w->clickProc = &GUI_Widget_Scrollbar_ArrowDown_Click;
 	} else {
-		w->clickProc.csip = 0x35200039;
+		w->clickProc = &GUI_Widget_Scrollbar_ArrowUp_Click;
 	}
 
 	w->data = widget2->data;
@@ -772,27 +739,9 @@ void GUI_Widget_MakeSelected(Widget *w, bool clickProc)
 
 	GUI_Widget_Draw(w);
 
-	if (!clickProc || w->clickProc.csip == 0x0) return;
+	if (!clickProc || w->clickProc == NULL) return;
 
-	/* XXX -- Code has never been called so far in all runs */
-	{
-		csip32 wcsip = emu_Global_GetCSIP(w);
-
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-
-		/* Call based on memory/register values */
-		emu_push(emu_cs); emu_push(0x0236);
-		emu_ip = w->clickProc.s.ip;
-		emu_cs = w->clickProc.s.cs;
-		switch (w->clickProc.csip) {
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0xB48B; emu_last_ip = 0x0232; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
-				emu_call();
-				return;
-		}
-		emu_sp += 4;
-	}
+	w->clickProc(w);
 }
 
 /**
@@ -814,29 +763,9 @@ void GUI_Widget_MakeNormal(Widget *w, bool clickProc)
 
 	GUI_Widget_Draw(w);
 
-	if (!clickProc || w->clickProc.csip == 0x0) return;
+	if (!clickProc || w->clickProc == NULL) return;
 
-	/* XXX -- Code has never been called so far in all runs */
-	{
-		csip32 wcsip = emu_Global_GetCSIP(w);
-
-		emu_push(wcsip.s.cs); emu_push(wcsip.s.ip);
-
-		/* Call based on memory/register values */
-		emu_push(emu_cs); emu_push(0x01C2);
-		emu_ip = w->clickProc.s.ip;
-		emu_cs = w->clickProc.s.cs;
-		switch (w->clickProc.csip) {
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0xB48B; emu_last_ip = 0x01BE; emu_last_length = 0x0022; emu_last_crc = 0x19B9;
-				emu_call();
-				return;
-		}
-		emu_sp += 4;
-	}
-
-	return;
+	w->clickProc(w);
 }
 
 /**

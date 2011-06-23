@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/table/widget.c Windget file table. */
+/** @file src/table/widget.c Widget file table. */
 
 #include <stdio.h>
 #include "types.h"
@@ -56,7 +56,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -109,7 +109,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -162,7 +162,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -215,7 +215,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -268,7 +268,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -321,7 +321,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -374,7 +374,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -427,7 +427,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,
@@ -480,7 +480,7 @@ Widget g_table_windowWidgets[] = {
 		/* keySelected           */ false,
 		/* buttonState           */ 0,
 		} },
-		/* clickProc             */ { { 0x0, 0x0 } },
+		/* clickProc             */ NULL,
 		/* data                  */ NULL,
 		/* stringID              */ 0,
 		/* variable_3A           */ 0,

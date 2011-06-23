@@ -975,26 +975,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\window.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\src\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\src\wsa.c"
 				>
 				<FileConfiguration
@@ -1659,6 +1639,26 @@
 				</File>
 				<File
 					RelativePath="..\src\table\widget.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\table\widgetinfo.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"

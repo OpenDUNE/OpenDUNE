@@ -301,10 +301,12 @@ bool GUI_Widget_TextButton_Click(Widget *w)
  *
  * @return False, always.
  */
-bool GUI_Widget_Name_Click()
+bool GUI_Widget_Name_Click(Widget *w)
 {
 	Object *o;
 	uint16 packed;
+
+	VARIABLE_NOT_USED(w);
 
 	o = Object_GetByPackedTile(g_global->selectionPosition);
 
@@ -323,8 +325,10 @@ bool GUI_Widget_Name_Click()
  *
  * @return True, always.
  */
-bool GUI_Widget_Cancel_Click()
+bool GUI_Widget_Cancel_Click(Widget *w)
 {
+	VARIABLE_NOT_USED(w);
+
 	if (g_global->activeStructureType != 0xFFFF) {
 		Structure *s  = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
 		Structure *s2 = g_structureActive;
@@ -363,9 +367,11 @@ bool GUI_Widget_Cancel_Click()
  *
  * @return False, always.
  */
-bool GUI_Widget_Picture_Click()
+bool GUI_Widget_Picture_Click(Widget *w)
 {
 	Structure *s;
+
+	VARIABLE_NOT_USED(w);
 
 	if (g_unitSelected != NULL) {
 		Unit_DisplayStatusText(g_unitSelected);
@@ -1085,8 +1091,10 @@ bool GUI_Widget_HOF_ClearList_Click(Widget *w)
  *
  * @return True, always.
  */
-bool GUI_Widget_HOF_Resume_Click()
+bool GUI_Widget_HOF_Resume_Click(Widget *w)
 {
+	VARIABLE_NOT_USED(w);
+
 	g_global->variable_81E6 = 1;
 
 	return true;

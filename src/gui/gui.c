@@ -2558,23 +2558,9 @@ void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 
 static uint32 GUI_FactoryWindow_CreateWidgets()
 {
-	MSVC_PACKED_BEGIN
-	typedef struct WidgetInfo {
-		/* 0000(1)   */ PACK uint8  offsetX;      /*!< ?? */
-		/* 0001(1)   */ PACK uint8  offsetY;      /*!< ?? */
-		/* 0002(2)   */ PACK uint16 spriteID;     /*!< ?? */
-		/* 0004(1)   */ PACK uint8  width;        /*!< ?? */
-		/* 0005(1)   */ PACK uint8  height;       /*!< ?? */
-		/* 0006(2)   */ PACK int16  shortcut;     /*!< ?? */
-		/* 0008(2)   */ PACK uint16 flags;        /*!< ?? */
-		/* 000A(4)   */ PACK csip32 clickProc;    /*!< ?? */
-	} GCC_PACKED WidgetInfo;
-	MSVC_PACKED_END
-	assert_compile(sizeof(WidgetInfo) == 0xE);
-
 	uint16 i;
 	uint16 count = 0;
-	WidgetInfo *wi = (WidgetInfo *)&emu_get_memory8(0x2C34, 0x00, 0x00);
+	WidgetInfo *wi = g_table_factoryWidgetInfo;
 	Widget *w = g_factoryWindowWidgets;
 
 	memset(w, 0, 13 * sizeof(Widget));
@@ -2590,15 +2576,15 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 
 		w->index     = i + 46;
 		w->state.all = 0x0;
-		w->offsetX   = wi->offsetX << 3;
+		w->offsetX   = wi->offsetX;
 		w->offsetY   = wi->offsetY;
 		w->flags.all = wi->flags;
 		w->shortcut  = (wi->shortcut < 0) ? abs(wi->shortcut) : GUI_Widget_GetShortcut(*String_Get_ByIndex(wi->shortcut));
 		w->clickProc = wi->clickProc;
-		w->width     = wi->width << 3;
+		w->width     = wi->width;
 		w->height    = wi->height;
 
-		if (wi->spriteID == 0xFFFF) {
+		if (wi->spriteID < 0) {
 			w->drawModeNormal   = DRAW_MODE_NONE;
 			w->drawModeSelected = DRAW_MODE_NONE;
 			w->drawModeDown     = DRAW_MODE_NONE;
@@ -4189,19 +4175,19 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 
 	/* "Clear List" */
 	wClear = GUI_Widget_Allocate(100, *clearString, 160 - width - 18, 180, 0xFFFE, 0x147, 0);
-	wClear->width          = width;
-	wClear->height         = 10;
-	wClear->clickProc.csip = 0x35180034;
-	wClear->flags.all      = 0x44C5;
-	wClear->data           = data;
+	wClear->width     = width;
+	wClear->height    = 10;
+	wClear->clickProc = &GUI_Widget_HOF_ClearList_Click;
+	wClear->flags.all = 0x44C5;
+	wClear->data      = data;
 
 	/* "Resume Game" */
 	wResume = GUI_Widget_Allocate(101, *resumeString, 178, 180, 0xFFFE, 0x146, 0);
-	wResume->width          = width;
-	wResume->height         = 10;
-	wResume->clickProc.csip = 0x35180039;
-	wResume->flags.all      = 0x44C5;
-	wResume->data           = data;
+	wResume->width     = width;
+	wResume->height    = 10;
+	wResume->clickProc = &GUI_Widget_HOF_Resume_Click;
+	wResume->flags.all = 0x44C5;
+	wResume->data      = data;
 
 	return GUI_Widget_Insert(wClear, wResume);
 }

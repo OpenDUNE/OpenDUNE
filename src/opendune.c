@@ -1576,20 +1576,20 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 
 static void Window_WidgetClick_Create()
 {
-	WidgetClickInfo *wci;
+	WidgetInfo *wi;
 
-	for (wci = &g_widgetClickInfo[0]; wci->index != 0xFFFF; wci++) {
+	for (wi = g_table_gameWidgetInfo; wi->index >= 0; wi++) {
 		Widget *w;
 
-		w = GUI_Widget_Allocate(wci->index, wci->shortcut, wci->offsetX, wci->offsetY, wci->spriteID, wci->stringID, wci->variable_3A);
+		w = GUI_Widget_Allocate(wi->index, wi->shortcut, wi->offsetX, wi->offsetY, wi->spriteID, wi->stringID, wi->variable_3A);
 
-		if (wci->spriteID < 0) {
-			w->width  = wci->width;
-			w->height = wci->height;
+		if (wi->spriteID < 0) {
+			w->width  = wi->width;
+			w->height = wi->height;
 		}
 
-		w->clickProc = wci->clickProc;
-		w->flags.all = wci->flags;
+		w->clickProc = wi->clickProc;
+		w->flags.all = wi->flags;
 
 		g_widgetLinkedListHead = GUI_Widget_Insert(g_widgetLinkedListHead, w);
 	}
