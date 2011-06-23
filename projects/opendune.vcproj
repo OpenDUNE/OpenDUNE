@@ -1658,6 +1658,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\table\widget.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\table\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\table\windowdesc.c"
 					>
 					<FileConfiguration

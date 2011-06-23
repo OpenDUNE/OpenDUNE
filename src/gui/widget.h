@@ -192,6 +192,8 @@ extern Widget *g_widgetMentatUnknown1;
 extern Widget *g_widgetMentatUnknown2;
 extern Widget *g_widgetMentatScrollbar;
 
+extern Widget g_table_windowWidgets[];
+
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);
 extern uint16  GUI_Widget_HandleEvents(Widget *w);
