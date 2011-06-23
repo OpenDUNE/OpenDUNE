@@ -230,14 +230,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	uint16 key;
 	bool fakeClick;
 
-	/* XXX -- Should be removed */
-	static csip32  l_widget_selected_csip;
-	static csip32  l_widget_last_csip;
-	csip32 wcsip;
-	csip32 wncsip;
-
-	wcsip = emu_Global_GetCSIP(w);
-
 	/* Get the key from the buffer, if there was any key pressed */
 	key = 0;
 	if (Input_IsInputAvailable() != 0) {
@@ -253,10 +245,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		l_widget_button_state = 0x0;
 		g_global->widgetReset = 0;
 
-		/* XXX -- Should be removed */
-		l_widget_last_csip = wcsip;
-		l_widget_selected_csip.csip = 0x0;
-
 		/* Check for left click */
 		if (Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
 
@@ -266,7 +254,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		/* Draw all the widgets */
 		for (; w != NULL; w = GUI_Widget_GetNext(w)) {
 			GUI_Widget_Draw(w);
-			wcsip = w->next;
 		}
 	}
 
@@ -306,22 +293,13 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	}
 
 	w = l_widget_last;
-	/* XXX -- Should be removed */
-	wcsip = l_widget_last_csip;
 	if (l_widget_selected != NULL) {
 		w = l_widget_selected;
-		/* XXX -- Should be removed */
-		wcsip = l_widget_selected_csip;
 
 		if (w->flags.s.invisible) {
 			l_widget_selected = NULL;
-			/* XXX -- Should be removed */
-			l_widget_selected_csip.csip = 0x0;
 		}
 	}
-
-	/* XXX -- Should be removed */
-	wncsip = wcsip;
 
 	returnValue = 0;
 	for (; w != NULL; w = GUI_Widget_GetNext(w)) {
@@ -329,10 +307,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		bool triggerWidgetHover;
 		bool widgetHover;
 		bool widgetClick;
-
-		/* XXX -- Should be removed */
-		wcsip = wncsip;
-		wncsip = w->next;
 
 		if (w->flags.s.invisible) continue;
 
@@ -367,8 +341,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 			if (buttonState == 0) buttonState = (w->flags.s.buttonFilterLeft) << 8;
 
 			l_widget_selected = w;
-			/* XXX -- Should be removed */
-			l_widget_selected_csip = wcsip;
 		}
 
 		/* Update the hover state */
@@ -383,8 +355,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 				/* If we don't have a selected widget yet, this will be the one */
 				if (l_widget_selected == NULL) {
 					l_widget_selected = w;
-					/* XXX -- Should be removed */
-					l_widget_selected_csip = wcsip;
 				}
 			}
 			/* No button pressed, and click not is hover */
@@ -406,8 +376,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 			if ((buttonState & 0x1100) != 0 && l_widget_selected == NULL) {
 				l_widget_selected = w;
 				key = 0;
-				/* XXX -- Should be removed */
-				l_widget_selected_csip = wcsip;
 			}
 
 			/* Check if we want to consider this as click */
@@ -426,8 +394,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 						w->state.s.hover2 = true;
 					}
 					l_widget_selected = w;
-					/* XXX -- Should be removed */
-					l_widget_selected_csip = wcsip;
 				} else if ((buttonStateFilter & 0x2200) != 0) {
 					/* Widget was already clicked */
 					if (!w->flags.s.clickAsHover) {
@@ -473,8 +439,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		/* Check if we are not pressing a button */
 		if ((buttonState & 0x8800) == 0x8800) {
 			l_widget_selected = NULL;
-			/* XXX -- Should be removed */
-			l_widget_selected_csip.csip = 0x0;
 
 			if (!widgetHover || w->flags.s.clickAsHover) {
 				w->state.s.hover1 = false;
@@ -484,8 +448,6 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 
 		if (!widgetHover && l_widget_selected == w && !w->flags.s.loseSelect) {
 			l_widget_selected = NULL;
-			/* XXX -- Should be removed */
-			l_widget_selected_csip.csip = 0x0;
 		}
 
 		/* When the state changed, redraw */
