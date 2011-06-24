@@ -717,7 +717,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
-		GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), 7, 8, 1, 0x4000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
 		GUI_2599_000B(1, g_global->variable_992D + 5, g_global->variable_992B + 8, g_global->variable_992F - 7, g_global->variable_9931 - 16);
 	} else {
 		GUI_2599_000B(1, g_global->variable_992D + 1, g_global->variable_992B + 8, g_global->variable_992F - 2, g_global->variable_9931 - 16);
@@ -1284,15 +1284,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		if ((loc34 & 0xFF00) == 0) goto l__04A4;
 		sprite = loc38;
 	}
-}
-
-/**
- * Draw the sprite of variable_8002 at (variable_8010, variable_8011)
- * @param screenID The screen to draw at.
- */
-void GUI_DrawSprite_8002(uint16 screenID)
-{
-	GUI_DrawSprite(screenID, emu_get_memorycsip(g_global->variable_8002), g_global->variable_8010, g_global->variable_8011, 0, 0);
 }
 
 /**
@@ -1998,7 +1989,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
-	GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[11]), 192, 0, 0, 0);
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
 	g_global->variable_38C4 = 1;
 
@@ -2130,7 +2121,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		creditsNew += 1;
 	}
 
-	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[12]), 0, 0, 4, 0x4000);
+	GUI_DrawSprite(g_global->screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
 
 	g_global->playerCredits = creditsOld;
 
@@ -2144,14 +2135,14 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
 			if (g_global->creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
 		} else {
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), left, 1, 4, 0x4000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
 		}
 	}
 
@@ -2252,7 +2243,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				if (oldSelectionType != 7) {
 					g_global->cursorSpriteID = 0;
 
-					Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
 
 				Unknown_07AE_0000(info[selectionType].variable_08);
@@ -2592,9 +2583,9 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 			w->drawModeNormal   = DRAW_MODE_SPRITE;
 			w->drawModeSelected = DRAW_MODE_SPRITE;
 			w->drawModeDown     = DRAW_MODE_SPRITE;
-			w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[wi->spriteID]);
-			w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[wi->spriteID + 1]);
-			w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[wi->spriteID + 1]);
+			w->drawParameterNormal.sprite   = g_sprites[wi->spriteID];
+			w->drawParameterSelected.sprite = g_sprites[wi->spriteID + 1];
+			w->drawParameterDown.sprite     = g_sprites[wi->spriteID + 1];
 		}
 
 		if (i != 0) {
@@ -2720,7 +2711,7 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
-	GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[11]), 192, 0, 0, 0);
+	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
 	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 8, 7, 40, 2, 2);
 	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 152, 7, 40, 2, 2);
@@ -2754,9 +2745,9 @@ static void GUI_FactoryWindow_Init()
 
 		oi = item->objectInfo;
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
 		} else {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 24 + i * 32, 0, 0);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
 	}
 
@@ -2923,8 +2914,8 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
 	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
 
-	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_global->PIECES_SHP, selected));
-	width = Sprite_GetWidth(sprite);
+	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), selected);
+	width  = Sprite_GetWidth(sprite);
 	height = Sprite_GetHeight(sprite);
 
 	x += 8;
@@ -2943,7 +2934,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, Sprites_GetSprite(emu_get_memorycsip(g_global->ARROWS_SHP), data[i].arrow), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -3056,7 +3047,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
-		GUI_DrawSprite(2, emu_get_memorycsip(Sprites_GetCSIP(g_global->ARROWS_SHP, data[i].arrow)), i * 16, 152, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, Sprites_GetSprite(emu_get_memorycsip(g_global->ARROWS_SHP), data[i].arrow), i * 16, 152, 0, 0x100, g_remap, 1);
 	}
 
 	count = i;
@@ -3151,7 +3142,7 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
 	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
 
-	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_global->PIECES_SHP, region));
+	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), region);
 
 	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
 
@@ -3462,11 +3453,11 @@ void GUI_FactoryWindow_DrawDetails()
 		uint16 i;
 		uint16 j;
 
-		GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[64]), x, y, 0, 0);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[64], x, y, 0, 0);
 		x++;
 		y++;
 
-		sprite = emu_get_memorycsip(g_sprites[24]);
+		sprite = g_sprites[24];
 		width = Sprite_GetWidth(sprite) + 1;
 		si = &g_table_structureInfo[item->objectType];
 
@@ -3718,9 +3709,9 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 8, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
 		} else {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 8, 0, 0);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0);
 		}
 	} else {
 		GUI_Screen_Copy(9, 32, 9, 24, 4, 8, 2, 2);
@@ -3732,9 +3723,9 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 168, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
 		} else {
-			GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[oi->spriteID]), 72, 168, 0, 0);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0);
 		}
 	} else {
 		GUI_Screen_Copy(9, 0, 9, 168, 4, 8, 2, 2);

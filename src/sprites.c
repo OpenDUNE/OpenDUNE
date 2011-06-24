@@ -24,17 +24,7 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-csip32 *g_sprites = NULL;
-
-/**
- * Initialize the sprites system.
- *
- * @init System_Init_Sprites
- */
-void System_Init_Sprites()
-{
-	g_sprites = (csip32 *)&emu_get_memory8(0x2DCE, 0x0, 0x440);
-}
+uint8 *g_sprites[355];
 
 /**
  * ??.
@@ -65,7 +55,7 @@ static void Sprites_Remap(uint8 *sprite, uint8 *remap)
  * @param memory The index of memory block where to store loaded sprites.
  * @param sprites The array where to store CSIP for each loaded sprite.
  */
-void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
+void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites)
 {
 #define M(x) x "\0"
 	static const char *spriteFiles[3] = {
@@ -113,21 +103,20 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 		length = File_ReadBlockFile(filename, buffer, 0xFDE8);
 
 		for (i = 0; i < *(uint16 *)buffer; i++) {
-			*sprites++ = Sprites_GetCSIP(memBlock, i);
+			*sprites++ = Sprites_GetSprite(buffer, i);
 		}
 
 		files += strlen(files) + 1;
-		memBlock.csip += length;
 		buffer += length;
 	}
 
 	switch (index) {
 		case 0:
-			for (i = 7; i < 12; i++) Sprites_Remap(emu_get_memorycsip(g_sprites[i]), g_remap);
+			for (i = 7; i < 12; i++) Sprites_Remap(g_sprites[i], g_remap);
 			break;
 
 		case 2:
-			for (i = 111; i < 129; i++) Sprites_Remap(emu_get_memorycsip(g_sprites[i]), g_remap);
+			for (i = 111; i < 129; i++) Sprites_Remap(g_sprites[i], g_remap);
 			break;
 
 		default: break;
@@ -135,39 +124,32 @@ void Sprites_Load(uint16 index, uint16 memory, csip32 *sprites)
 }
 
 /**
- * Gets the CSIP of the given sprite inside the given buffer.
+ * Gets the given sprite inside the given buffer.
  *
- * @param buffer_csip The CSIP of the buffer containing sprites.
- * @param index The index of the sprite to get the CSIP for.
- * @return The CSIP.
+ * @param buffer The buffer containing sprites.
+ * @param index The index of the sprite to get.
+ * @return The sprite.
  */
-csip32 Sprites_GetCSIP(csip32 buffer_csip, uint16 index)
+uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index)
 {
-	csip32 ret;
-	uint16 *buffer;
+	uint32 offset;
 
-	ret.csip = 0;
+	if (buffer == NULL) return NULL;
+	if (*(uint16 *)buffer <= index) return NULL;
 
-	if (buffer_csip.s.cs == 0) return ret;
+	buffer += 2;
 
-	buffer = (uint16 *)emu_get_memorycsip(buffer_csip);
+	offset = *(uint32*)(buffer + 4 * index);
 
-	if (*buffer++ <= index) return ret;
+	if (offset == 0) return NULL;
 
-	buffer += 2 * index;
-
-	if (*buffer == 0) return ret;
-
-	buffer_csip.s.cs += buffer[1];
-	buffer_csip.s.ip += buffer[0] + 2;
-
-	return Tools_GetSmallestIP(buffer_csip);
+	return buffer + offset;
 }
 
 /**
  * Gets the width of the given sprite.
  *
- * @param sprite_csip The CSIP of the sprite.
+ * @param sprite The sprite.
  * @return The width.
  */
 uint8 Sprite_GetWidth(uint8 *sprite)
@@ -180,7 +162,7 @@ uint8 Sprite_GetWidth(uint8 *sprite)
 /**
  * Gets the height of the given sprite.
  *
- * @param sprite_csip The CSIP of the sprite.
+ * @param sprite The sprite.
  * @return The height.
  */
 uint8 Sprite_GetHeight(uint8 *sprite)
@@ -188,6 +170,19 @@ uint8 Sprite_GetHeight(uint8 *sprite)
 	if (sprite == NULL) return 0;
 
 	return sprite[2];
+}
+
+/**
+ * Gets the type of the given sprite.
+ *
+ * @param sprite The sprite.
+ * @return The type.
+ */
+uint16 Sprites_GetType(uint8 *sprite)
+{
+	if (sprite == NULL) return 0;
+
+	return *(uint16 *)sprite;
 }
 
 /**

@@ -763,7 +763,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	Unknown_07AE_0000(windowID);
 
-	sprite = emu_get_memorycsip(Sprites_GetCSIP(g_sprites[spriteID], 0));
+	sprite = Sprites_GetSprite(g_sprites[spriteID], 0);
 	spriteX = (g_global->variable_992F << 3) - Sprite_GetWidth(sprite);
 	spriteY = g_global->variable_9931 - Sprite_GetHeight(sprite);
 
@@ -866,7 +866,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 2:
-				if (g_sprites[spriteID].csip == 0x0) spriteID = 0;
+				if (g_sprites[spriteID] == NULL) spriteID = 0;
 
 				GUI_DrawSprite(memory, sprite, positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
@@ -987,12 +987,12 @@ static void GameCredits_LoadPaletteAndSprites()
 
 		size = File_ReadBlockFile((char *)g_global->variable_9939, emu_get_memorycsip(memBlock), 0xFA00);
 
-		g_sprites[i] = Tools_Malloc(size, 0x0);
+		g_sprites[i] = emu_get_memorycsip(Tools_Malloc(size, 0x0));
 
-		memcpy(emu_get_memorycsip(g_sprites[i]), emu_get_memorycsip(memBlock), size);
+		memcpy(g_sprites[i], emu_get_memorycsip(memBlock), size);
 	}
 
-	g_sprites[i].csip = 0x0;
+	g_sprites[i] = NULL;
 }
 
 /**
@@ -1135,7 +1135,7 @@ static void GameLoop_LevelEnd()
 
 		g_global->cursorSpriteID = 0;
 
-		Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 		Sound_Unknown0363(0xFFFE);
 
@@ -1812,7 +1812,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	while (g_global->mouseHiddenDepth > 1) {
 		GUI_Mouse_Show_Safe();

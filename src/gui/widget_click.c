@@ -355,7 +355,7 @@ bool GUI_Widget_Cancel_Click(Widget *w)
 	g_global->activeAction = 0xFFFF;
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	GUI_ChangeSelectionType(3);
 
@@ -508,9 +508,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
 		Widget *w = &g_table_windowWidgets[7];
 
-		w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[59]);
-		w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[60]);
-		w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[60]);
+		w->drawParameterNormal.sprite   = g_sprites[59];
+		w->drawParameterSelected.sprite = g_sprites[60];
+		w->drawParameterDown.sprite     = g_sprites[60];
 		w->next             = NULL;
 		w->parentID         = desc->index;
 
@@ -522,9 +522,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 		w = &g_table_windowWidgets[8];
 
-		w->drawParameterNormal.sprite   = emu_get_memorycsip(g_sprites[61]);
-		w->drawParameterSelected.sprite = emu_get_memorycsip(g_sprites[62]);
-		w->drawParameterDown.sprite     = emu_get_memorycsip(g_sprites[62]);
+		w->drawParameterNormal.sprite   = g_sprites[61];
+		w->drawParameterSelected.sprite = g_sprites[62];
+		w->drawParameterDown.sprite     = g_sprites[62];
 		w->next             = NULL;
 		w->parentID         = desc->index;
 
@@ -703,7 +703,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	Sprites_UnloadTiles();
 
@@ -824,7 +824,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	g_global->cursorSpriteID = cursor;
 
-	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[cursor]));
+	Sprites_SetMouseSprite(0, 0, g_sprites[cursor]);
 
 	return false;
 }

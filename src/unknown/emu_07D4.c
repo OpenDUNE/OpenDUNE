@@ -31,23 +31,21 @@
  * @name Unknown_07D4_18BD
  * @implements 07D4:18BD:0016:68BB ()
  */
-static csip32 Unknown_07D4_18BD(uint16 index, uint16 houseID)
+static uint8 *Unknown_07D4_18BD(uint16 index, uint16 houseID)
 {
-	csip32 ret_csip;
+	uint8 *sprite;
 	uint8 i;
 
-	ret_csip.csip = 0x0;
+	if (index > 355) return NULL;
 
-	if (index > 355) return ret_csip;
+	sprite = g_sprites[index];
 
-	ret_csip = g_sprites[index];
+	if (sprite == NULL) return NULL;
 
-	if (ret_csip.csip == 0x0) return ret_csip;
-
-	if ((Unknown_2903_00CA(ret_csip) & 0x1) == 0) return ret_csip;
+	if ((Sprites_GetType(sprite) & 0x1) == 0) return sprite;
 
 	for (i = 0; i < 16; i++) {
-		uint8 v = emu_get_memory8(ret_csip.s.cs, ret_csip.s.ip, 10 + i);
+		uint8 v = sprite[10 + i];
 
 		if (v >= 0x90 && v <= 0x98) {
 			if (v == 0xFF) break;
@@ -57,7 +55,7 @@ static csip32 Unknown_07D4_18BD(uint16 index, uint16 houseID)
 		g_global->variable_8420[i] = v;
 	}
 
-	return ret_csip;
+	return sprite;
 }
 
 /**
@@ -138,7 +136,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	while (true) {
 		Unit *u;
-		csip32 sprite_csip;
+		uint8 *sprite;
 
 		u = Unit_Find(&find);
 
@@ -150,21 +148,21 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && g_global->debugScenario == 0) continue;
 
-		sprite_csip = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
+		sprite = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
 		g_global->variable_8DE3 = 0x200;
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-		GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[6]), x, y, 2, 0xC000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
 	g_global->variable_39E4 = 0;
@@ -258,12 +256,12 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) g_global->variable_8DE3 |= 0x100;
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u))), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
 				if (type == LST_SPICE || type == LST_THICK_SPICE) {
-					GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u))), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
 				}
 			}
 
@@ -300,19 +298,19 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				g_global->variable_8DE3 = g_global->variable_32A4[orientation][1];
 				index += g_global->variable_32A4[orientation][0];
 
-				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD(index, Unit_GetHouseID(u))), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
+				GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
 			if (u->o.flags.s.isSmoking) {
 				uint16 spriteID = 180 + (u->variable_6D & 3);
 				if (spriteID == 183) spriteID = 181;
 
-				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), x, y - 14, 2, 0xC000);
+				GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
 			}
 
 			if (u != g_unitSelected) continue;
 
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[6]), x, y, 2, 0xC000);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}
 
 		g_global->variable_39E6 = 0;
@@ -338,7 +336,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(Unknown_07D4_18BD(s->variable_0A, s->houseID)), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
@@ -350,7 +348,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			Unit *u;
 			UnitInfo *ui;
 			uint8 orientation;
-			csip32 sprite_csip;
+			uint8 *sprite;
 			uint16 index;
 
 			u = Unit_Find(&find);
@@ -409,13 +407,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (ui->flags.s.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
 
-			sprite_csip = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
+			sprite = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(sprite_csip), x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
+			GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}
 
 		g_global->variable_39E8 = 0;
@@ -739,7 +737,7 @@ void Unknown_07D4_1625(uint16 packed)
 	if (spriteID != 0xFFFF) {
 		x *= g_global->scenario.mapScale + 1;
 		y *= g_global->scenario.mapScale + 1;
-		GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), x, y, 3, 0x4000);
+		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}

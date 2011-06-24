@@ -233,7 +233,7 @@ static void GUI_Mentat_Draw(bool force)
 
 	Unknown_07AE_00E4(8);
 
-	GUI_DrawSprite_8002(2);
+	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
 
 	/* "Select Subject:" */
 	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_global->variable_992D << 3) + 16, g_global->variable_992B + 2, 12, 0, 0x12);
@@ -338,7 +338,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	g_global->cursorSpriteID = 0;
 
-	Sprites_SetMouseSprite(0, 0, emu_get_memorycsip(g_sprites[0]));
+	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
 	Sound_Unknown0363(0xFFFE);
 
@@ -403,7 +403,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite_8002(2);
+	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
 	GUI_Screen_SetActive(0);
 
 	GUI_Mouse_Hide_Safe();
@@ -486,7 +486,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 	g_global->variable_8007 = g_global->variable_8009 = unknownHouseData[houseID][1];
 
 	for (i = 0; i < 5; i++) {
-		_mentatSprites[0][i] = emu_get_memorycsip(g_sprites[14 + i]);
+		_mentatSprites[0][i] = g_sprites[14 + i];
 	}
 
 	g_global->variable_8008 += Sprite_GetWidth(_mentatSprites[0][0]);
@@ -496,7 +496,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 	g_global->variable_800B = g_global->variable_800D = unknownHouseData[houseID][3];
 
 	for (i = 0; i < 5; i++) {
-		_mentatSprites[1][i] = emu_get_memorycsip(g_sprites[19 + i]);
+		_mentatSprites[1][i] = g_sprites[19 + i];
 	}
 
 	g_global->variable_800C += Sprite_GetWidth(_mentatSprites[1][0]);
@@ -506,13 +506,11 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 	g_global->variable_800F = unknownHouseData[houseID][5];
 
 	for (i = 0; i < 4; i++) {
-		_mentatSprites[2][i] = emu_get_memorycsip(g_sprites[25 + i]);
+		_mentatSprites[2][i] = g_sprites[25 + i];
 	}
 
 	g_global->variable_8010 = unknownHouseData[houseID][6];
 	g_global->variable_8011 = unknownHouseData[houseID][7];
-
-	g_global->variable_8002 = g_sprites[24];
 
 	Unknown_07AE_00E4(8);
 
@@ -524,7 +522,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite_8002(g_global->screenActiveID);
+	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
 	GUI_Screen_SetActive(oldScreenID);
 }
 
@@ -856,13 +854,13 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatScrollbar);
 
-	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, emu_get_memorycsip(g_sprites[12]), emu_get_memorycsip(g_sprites[13]), GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
+	g_widgetMentatUnknown2 = GUI_Widget_Allocate3(16, 0, 168, 96, g_sprites[12], g_sprites[13], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 1);
 	g_widgetMentatUnknown2->shortcut  = 0;
 	g_widgetMentatUnknown2->shortcut2 = 0;
 	g_widgetMentatUnknown2->parentID  = 8;
 	g_widgetMentatTail = GUI_Widget_Link(g_widgetMentatTail, g_widgetMentatUnknown2);
 
-	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, emu_get_memorycsip(g_sprites[10]), emu_get_memorycsip(g_sprites[11]), GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
+	g_widgetMentatUnknown1 = GUI_Widget_Allocate3(17, 0, 168, 16, g_sprites[10], g_sprites[11], GUI_Widget_Get_ByIndex(g_widgetMentatTail, 15), 0);
 	g_widgetMentatUnknown1->shortcut  = 0;
 	g_widgetMentatUnknown1->shortcut2 = 0;
 	g_widgetMentatUnknown1->parentID  = 8;
@@ -1230,7 +1228,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_global->variable_992D << 3) + 5, g_global->variable_992B + 3, 8, 0, lines, 0x31);
 
-		GUI_DrawSprite_8002(4);
+		GUI_DrawSprite(4, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
 		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 		GUI_Mouse_Show_InWidget();
@@ -1240,7 +1238,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	if (wsa != NULL) WSA_Unload(wsa);
 
 	GUI_Screen_SetActive(4);
-	GUI_DrawSprite_8002(4);
+	GUI_DrawSprite(4, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
 	GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 	GUI_Mouse_Show_InWidget();

@@ -53,7 +53,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	if (spriteID != g_global->cursorSpriteID) {
 		g_global->tickCursor = g_global->tickGlobal;
 
-		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], emu_get_memorycsip(g_sprites[spriteID]));
+		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], g_sprites[spriteID]);
 
 		g_global->cursorSpriteID = spriteID;
 	}

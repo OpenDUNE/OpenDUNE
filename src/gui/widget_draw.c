@@ -116,7 +116,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 
-	GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX, positionY, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
+	GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], positionX, positionY, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
 
 	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, false);
 
@@ -198,9 +198,9 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 				uint16 x, y;
 				uint8 *sprite;
 
-				GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[63]), positionX + 37, positionY + 5, 0, 0x100, g_paletteMapping1, buttonDown ? 2 : 0);
+				GUI_DrawSprite(g_global->screenActiveID, g_sprites[63], positionX + 37, positionY + 5, 0, 0x100, g_paletteMapping1, buttonDown ? 2 : 0);
 
-				sprite = emu_get_memorycsip(g_sprites[24]);
+				sprite = g_sprites[24];
 				spriteWidth = Sprite_GetWidth(sprite) + 1;
 
 				si = &g_table_structureInfo[s->objectType];
@@ -221,7 +221,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 			break;
 	}
 
-	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), positionX + 2, positionY + 2, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
+	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], positionX + 2, positionY + 2, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
 
 	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;
@@ -707,13 +707,13 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		}
 
 		if (spriteID != 0xFFFF) {
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[spriteID]), 258, 51, 0, 0);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 258, 51, 0, 0);
 		}
 
 		/* Unit / Structure */
 		if (actionType == 2 || actionType == 3) {
 			GUI_DrawProgressbar(o->hitpoints, oi->hitpoints);
-			GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[27]), 292, 60, 0, 0);
+			GUI_DrawSprite(g_global->screenActiveID, g_sprites[27], 292, 60, 0, 0);
 			GUI_DrawText_Wrapper(String_Get_ByIndex(49), 296, 65, 29, 0, 0x11);
 		}
 
@@ -812,7 +812,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 							u = Structure_GetLinkedUnit(s);
 							if (u == NULL) break;
 
-							GUI_DrawSprite(g_global->screenActiveID, emu_get_memorycsip(g_sprites[g_table_unitInfo[u->o.type].o.spriteID]), 260, 89, 0, 0);
+							GUI_DrawSprite(g_global->screenActiveID, g_sprites[g_table_unitInfo[u->o.type].o.spriteID], 260, 89, 0, 0);
 
 							steps = g_table_unitInfo[u->o.type].o.buildTime / 4;
 							percent = (steps - (s->countDown >> 8)) * 100 / steps;

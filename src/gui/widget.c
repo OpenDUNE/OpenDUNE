@@ -574,8 +574,8 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 
 		default:
 			drawMode = DRAW_MODE_SPRITE;
-			drawParam1.sprite = emu_get_memorycsip(g_sprites[spriteID]);
-			drawParam2.sprite = emu_get_memorycsip(g_sprites[spriteID + 1]);
+			drawParam1.sprite = g_sprites[spriteID];
+			drawParam2.sprite = g_sprites[spriteID + 1];
 
 			if (drawParam1.sprite == NULL) break;
 
