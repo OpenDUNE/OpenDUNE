@@ -4,7 +4,6 @@
 
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
 #include "../os/sleep.h"
 #include "../os/math.h"

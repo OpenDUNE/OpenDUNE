@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
 #include "unknown.h"
 #include "../gui/gui.h"
