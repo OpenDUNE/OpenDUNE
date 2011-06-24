@@ -1201,32 +1201,36 @@ bool Structure_IsUpgradable(Structure *s)
  */
 bool Structure_ConnectWall(uint16 position, bool recurse)
 {
+	static const int16 offset[] = { -64, 1, 64, -1 };
+	static const uint8 wall[] = {
+		 0,  3,  1,  2,  3,  3,  4,  5,  1,  6,  1,  7,  8,  9, 10, 11,
+		 1, 12,  1, 19,  1, 16,  1, 31,  1, 28,  1, 52,  1, 45,  1, 59,
+		 3,  3, 13, 20,  3,  3, 22, 32,  3,  3, 13, 53,  3,  3, 38, 60,
+		 5,  6,  7, 21,  5,  6,  7, 33,  5,  6,  7, 54,  5,  6,  7, 61,
+		 9,  9,  9,  9, 17, 17, 23, 34,  9,  9,  9,  9, 25, 46, 39, 62,
+		11, 12, 11, 12, 13, 18, 13, 35, 11, 12, 11, 12, 13, 47, 13, 63,
+		15, 15, 16, 16, 17, 17, 24, 36, 15, 15, 16, 16, 17, 17, 40, 64,
+		19, 20, 21, 22, 23, 24, 25, 37, 19, 20, 21, 22, 23, 24, 25, 65,
+		27, 27, 27, 27, 27, 27, 27, 27, 14, 29, 14, 55, 26, 48, 41, 66,
+		29, 30, 29, 30, 29, 30, 29, 30, 31, 30, 31, 56, 31, 49, 31, 67,
+		33, 33, 34, 34, 33, 33, 34, 34, 35, 35, 15, 57, 35, 35, 42, 68,
+		37, 38, 39, 40, 37, 38, 39, 40, 41, 42, 43, 58, 41, 42, 43, 69,
+		45, 45, 45, 45, 46, 46, 46, 46, 47, 47, 47, 47, 27, 50, 43, 70,
+		49, 50, 49, 50, 51, 52, 51, 52, 53, 54, 53, 54, 55, 51, 55, 71,
+		57, 57, 58, 58, 59, 59, 60, 60, 61, 61, 62, 62, 63, 63, 44, 72,
+		65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 73
+	};
+
 	uint16 bits = 0;
 	uint16 spriteID;
 	bool isDestroyedWall;
 	uint8 i;
 	Tile *tile;
 
-	if (g_global->variable_3562 == 0) {
-		uint8 *var_2DC9_0000 = &emu_get_memory8(0x2DC9, 0x00, 0x00);
-
-		g_global->variable_3562 = 1;
-
-		for (i = 0; i < 74; i++) g_global->variable_3462[var_2DC9_0000[i]] = i;
-
-		g_global->variable_3462[10]  = 1;
-		g_global->variable_3462[8]   = 1;
-		g_global->variable_3462[1]   = 3;
-		g_global->variable_3462[5]   = 3;
-		g_global->variable_3462[34]  = 13;
-		g_global->variable_3462[136] = 14;
-		g_global->variable_3462[68]  = 17;
-	}
-
 	isDestroyedWall = Map_GetLandscapeType(position) == LST_DESTROYED_WALL;
 
 	for (i = 0; i < 4; i++) {
-		uint16 curPos = position + g_global->variable_345A[i];
+		uint16 curPos = position + offset[i];
 
 		if (recurse && Map_GetLandscapeType(curPos) == LST_WALL) Structure_ConnectWall(curPos, false);
 
@@ -1243,7 +1247,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 
 	if (isDestroyedWall) return false;
 
-	spriteID = g_global->wallSpriteID + g_global->variable_3462[bits] + 1;
+	spriteID = g_global->wallSpriteID + wall[bits] + 1;
 
 	tile = &g_map[position];
 	if (tile->groundSpriteID == spriteID) return false;

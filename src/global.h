@@ -812,9 +812,9 @@ typedef struct GlobalData {
 	/* 343A(4)   */ PACK uint32 tickCursor;                 /*!< Stores last time Viewport changed the cursor spriteID. */
 	/* 343E(4)   */ PACK uint32 tickMapScroll;              /*!< Stores last time Viewport ran MapScroll function. */
 	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< HotSpots for different cursor types. */
-	/* 345A(8)   */ PACK uint16 variable_345A[4];           /*!< ?? */
-	/* 3462(256) */ PACK uint8  variable_3462[256];         /*!< ?? */
-	/* 3562(2)   */ PACK uint16 variable_3562;              /*!< ?? */
+	/* 345A(8)   */ PACK uint16 removed_345A[4];            /*!< REMOVED - ?? */
+	/* 3462(256) */ PACK uint8  removed_3462[256];          /*!< REMOVED - ?? */
+	/* 3562(2)   */ PACK uint16 removed_3562;               /*!< REMOVED - ?? */
 	/* 3564(2)   */ PACK uint16 minimapPreviousPosition;    /*!< Previous minimap position (top-left tile, packed). */
 	/* 3566(94)  */ PACK uint16 variable_3566[47];          /*!< ?? */
 	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
