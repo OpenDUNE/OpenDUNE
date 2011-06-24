@@ -94,8 +94,8 @@ void Input_EventHandler()
 
 	if ((s_input_local->activeInputMap[7] & 0x2) != 0) state |= 0x01;
 
-	if (state == 0x06 && emu_ax == 0x668) goto event_exit;
-	if (state == 0x06 && emu_ax == 0x64C) goto event_exit;
+	if (state == 0x06 && key == 0x68) goto event_exit;
+	if (state == 0x06 && key == 0x4C) goto event_exit;
 
 	Input_HandleInput((state << 8) | key);
 
