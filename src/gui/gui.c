@@ -2706,10 +2706,10 @@ static void GUI_FactoryWindow_InitItems()
 
 static void GUI_FactoryWindow_Init()
 {
+	static uint8 xSrc[HOUSE_MAX] = { 0, 0, 16, 0, 0, 0 };
+	static uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
 	uint16 oldScreenID;
 	void *wsa;
-	uint16 loc0A;
-	uint16 locdi;
 	uint32 size;
 	int16 i;
 	ObjectInfo *oi;
@@ -2722,11 +2722,8 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_DrawSprite(2, emu_get_memorycsip(g_sprites[11]), 192, 0, 0, 0);
 
-	loc0A = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB6);
-	locdi = emu_get_memory8(0x2C34, g_global->playerHouseID * 2, 0xB7);
-
-	GUI_Screen_Copy(loc0A, locdi, 0, 8, 7, 40, 2, 2);
-	GUI_Screen_Copy(loc0A, locdi, 0, 152, 7, 40, 2, 2);
+	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 8, 7, 40, 2, 2);
+	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 152, 7, 40, 2, 2);
 
 	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
 
