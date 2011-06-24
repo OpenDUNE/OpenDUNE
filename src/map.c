@@ -1401,7 +1401,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 			}
 		}
 
-		loc12 = emu_get_tile32(0x2DCE, (arg06 + 1) * 32, loc0A * 4);
+		loc12 = g_table_tilediff[arg06 + 1][loc0A];
 		if (loc12.tile == 0) break;
 	}
 }

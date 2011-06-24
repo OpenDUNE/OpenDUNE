@@ -218,8 +218,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-			x += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x0);
-			y += emu_get_memory16(0x2DCE, u->variable_6C * 4, 0x2);
+			x += g_table_tilediff[0][u->variable_6C].s.x;
+			y += g_table_tilediff[0][u->variable_6C].s.y;
 
 			orientation = Sprites_B4CD_17DC(u->orientation[0].current);
 

@@ -76,6 +76,7 @@ extern uint8 g_functions[3][3];
 extern struct_395A g_map395A[];
 
 extern const MapInfo g_mapInfos[3];
+extern const tile32 g_table_tilediff[][8];
 
 extern uint16 Map_MoveDirection(uint16 direction);
 extern void Map_SetSelection(uint16 packed);
