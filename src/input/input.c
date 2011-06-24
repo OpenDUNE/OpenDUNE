@@ -90,7 +90,7 @@ void Input_EventHandler()
 	if ((s_input_local->activeInputMap[7] & 0x4) != 0) goto event_exit;
 	if ((s_input_local->activeInputMap[7] & 0x50) != 0) state |= 0x04;
 
-	key = Input_Keyboard_Translate(key);
+	key = Input_Keyboard_Translate(key) & 0xFF;
 
 	if ((s_input_local->activeInputMap[7] & 0x2) != 0) state |= 0x01;
 
