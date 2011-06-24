@@ -98,7 +98,7 @@ WidgetInfo g_table_gameWidgetInfo[] = {
 		/* offsetY     */ 110,
 		/* width       */ 58,
 		/* height      */ 11,
-		/* stringID    */ 30,
+		/* stringID    */ 30, /* "Cancel" */
 		/* variable_3A */ 1
 	},
 	{ /* 7 */

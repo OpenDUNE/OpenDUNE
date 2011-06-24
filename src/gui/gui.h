@@ -74,7 +74,7 @@ extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst);
 extern FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost);
-extern char *GUI_String_Get_ByIndex(uint16 stringID);
+extern char *GUI_String_Get_ByIndex(int16 stringID);
 extern uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win);
 extern void GUI_ClearScreen(uint16 arg06);
 extern uint16 GUI_Get_Scrollbar_Position(struct Widget *w);

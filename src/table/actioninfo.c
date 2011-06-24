@@ -9,7 +9,7 @@
 
 const ActionInfo g_table_actionInfo[] = {
 	{ /* 0 */
-		/* stringID    */ 1,
+		/* stringID    */ 1, /* "Attack" */
 		/* name        */ "Attack",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -17,7 +17,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 1 */
-		/* stringID    */ 2,
+		/* stringID    */ 2, /* "Move" */
 		/* name        */ "Move",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -25,7 +25,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 2 */
-		/* stringID    */ 3,
+		/* stringID    */ 3, /* "Retreat" */
 		/* name        */ "Retreat",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -33,7 +33,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 3 */
-		/* stringID    */ 4,
+		/* stringID    */ 4, /* "Guard" */
 		/* name        */ "Guard",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -41,7 +41,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 4 */
-		/* stringID    */ 5,
+		/* stringID    */ 5, /* "Area Guard" */
 		/* name        */ "Area Guard",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -49,7 +49,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 5 */
-		/* stringID    */ 6,
+		/* stringID    */ 6, /* "Harvest" */
 		/* name        */ "Harvest",
 		/* variable_06 */ 0,
 		/* variable_08 */ 1,
@@ -57,7 +57,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 6 */
-		/* stringID    */ 7,
+		/* stringID    */ 7, /* "Return" */
 		/* name        */ "Return",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -65,7 +65,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 7 */
-		/* stringID    */ 37,
+		/* stringID    */ 37, /* "Stop" */
 		/* name        */ "Stop",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -73,7 +73,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 8 */
-		/* stringID    */ 9,
+		/* stringID    */ 9, /* "Ambush" */
 		/* name        */ "Ambush",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -81,7 +81,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 9 */
-		/* stringID    */ 10,
+		/* stringID    */ 10, /* "Sabotage" */
 		/* name        */ "Sabotage",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -89,7 +89,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 10 */
-		/* stringID    */ 11,
+		/* stringID    */ 11, /* "Die" */
 		/* name        */ "Die",
 		/* variable_06 */ 1,
 		/* variable_08 */ 3,
@@ -97,7 +97,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 11 */
-		/* stringID    */ 12,
+		/* stringID    */ 12, /* "Hunt" */
 		/* name        */ "Hunt",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -105,7 +105,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 12 */
-		/* stringID    */ 31,
+		/* stringID    */ 31, /* "Deploy" */
 		/* name        */ "Deploy",
 		/* variable_06 */ 0,
 		/* variable_08 */ 3,
@@ -113,7 +113,7 @@ const ActionInfo g_table_actionInfo[] = {
 	},
 
 	{ /* 13 */
-		/* stringID    */ 153,
+		/* stringID    */ 153, /* "Destruct" */
 		/* name        */ "Destruct",
 		/* variable_06 */ 1,
 		/* variable_08 */ 3,

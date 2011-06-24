@@ -2843,24 +2843,24 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	return g_factoryWindowResult;
 }
 
-char *GUI_String_Get_ByIndex(uint16 stringID)
+char *GUI_String_Get_ByIndex(int16 stringID)
 {
 	switch (stringID) {
-		case 0xFFFB: case 0xFFFC: case 0xFFFD: case 0xFFFE: case 0xFFFF: {
+		case -5: case -4: case -3: case -2: case -1: {
 			char *s = g_global->savegameDesc[abs((int16)stringID + 1)];
 			if (*s == '\0') return NULL;
 			return s;
 		}
 
-		case 0xFFF6:
+		case -10:
 			stringID = (g_gameConfig.music != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
-		case 0xFFF5:
+		case -11:
 			stringID = (g_gameConfig.sounds != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
-		case 0xFFF4: {
+		case -12: {
 			static uint16 gameSpeedStrings[] = {
 				0x71, /* "Slowest" */
 				0x72, /* "Slow" */
@@ -2872,11 +2872,11 @@ char *GUI_String_Get_ByIndex(uint16 stringID)
 			stringID = gameSpeedStrings[g_gameConfig.gameSpeed];
 		} break;
 
-		case 0xFFF3:
+		case -13:
 			stringID = (g_gameConfig.hints != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 
-		case 0xFFF2:
+		case -14:
 			stringID = (g_gameConfig.autoScroll != 0) ? 0x69 : 0x6A; /* "ON" : "OFF" */
 			break;
 

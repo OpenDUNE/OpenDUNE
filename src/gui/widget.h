@@ -164,7 +164,7 @@ typedef struct WidgetInfo {
  */
 typedef struct WindowDesc {
 	uint16 index;                                           /*!< Index of the Window. */
-	uint16 stringID;                                        /*!< String for the Window. */
+	int16 stringID;                                         /*!< String for the Window. */
 	bool   addArrows;                                       /*!< If true, arrows are added to the Window. */
 	uint8  widgetCount;                                     /*!< Amount of widgets following. */
 	struct {

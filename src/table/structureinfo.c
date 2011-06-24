@@ -10,9 +10,9 @@
 StructureInfo g_table_structureInfo[] = {
 	{ /* 0 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 232,
+		/* stringID_abbrev      */ 232, /* "Concrete" */
 		/* name                 */ "Concrete",
-		/* stringID_full        */ 233,
+		/* stringID_full        */ 233, /* "Small Concrete Slab" */
 		/* wsa                  */ "slab.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -77,9 +77,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 1 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 234,
+		/* stringID_abbrev      */ 234, /* "Concrete 4" */
 		/* name                 */ "Concrete4",
-		/* stringID_full        */ 235,
+		/* stringID_full        */ 235, /* "Large Concrete Slab" */
 		/* wsa                  */ "4slab.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -144,9 +144,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 2 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 236,
+		/* stringID_abbrev      */ 236, /* "Palace" */
 		/* name                 */ "Palace",
-		/* stringID_full        */ 237,
+		/* stringID_full        */ 237, /* "House Palace" */
 		/* wsa                  */ "palace.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -211,9 +211,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 3 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 238,
+		/* stringID_abbrev      */ 238, /* "Light Fctry" */
 		/* name                 */ "Light Fctry",
-		/* stringID_full        */ 239,
+		/* stringID_full        */ 239, /* "Light Vehicle Factory" */
 		/* wsa                  */ "liteftry.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -278,9 +278,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 4 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 240,
+		/* stringID_abbrev      */ 240, /* "Heavy Fctry" */
 		/* name                 */ "Heavy Fctry",
-		/* stringID_full        */ 241,
+		/* stringID_full        */ 241, /* "Heavy Vehicle Factory" */
 		/* wsa                  */ "hvyftry.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -345,9 +345,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 5 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 242,
+		/* stringID_abbrev      */ 242, /* "High-Tech" */
 		/* name                 */ "Hi-Tech",
-		/* stringID_full        */ 243,
+		/* stringID_full        */ 243, /* "High-Tech Factory" */
 		/* wsa                  */ "hitcftry.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -412,9 +412,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 6 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 244,
+		/* stringID_abbrev      */ 244, /* "IX" */
 		/* name                 */ "IX",
-		/* stringID_full        */ 245,
+		/* stringID_full        */ 245, /* "House of IX" */
 		/* wsa                  */ "ix.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -479,9 +479,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 7 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 246,
+		/* stringID_abbrev      */ 246, /* "WOR" */
 		/* name                 */ "WOR",
-		/* stringID_full        */ 247,
+		/* stringID_full        */ 247, /* "WOR Trooper Facility" */
 		/* wsa                  */ "wor.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -546,9 +546,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 8 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 248,
+		/* stringID_abbrev      */ 248, /* "Const. Yard" */
 		/* name                 */ "Const Yard",
-		/* stringID_full        */ 249,
+		/* stringID_full        */ 249, /* "Construction Yard" */
 		/* wsa                  */ "construc.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -613,9 +613,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 9 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 250,
+		/* stringID_abbrev      */ 250, /* "Windtrap" */
 		/* name                 */ "Windtrap",
-		/* stringID_full        */ 251,
+		/* stringID_full        */ 251, /* "Windtrap Power Center" */
 		/* wsa                  */ "windtrap.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -680,9 +680,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 10 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 252,
+		/* stringID_abbrev      */ 252, /* "Barracks" */
 		/* name                 */ "Barracks",
-		/* stringID_full        */ 253,
+		/* stringID_full        */ 253, /* "Infantry Barracks" */
 		/* wsa                  */ "barrac.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -747,9 +747,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 11 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 254,
+		/* stringID_abbrev      */ 254, /* "Starport" */
 		/* name                 */ "Starport",
-		/* stringID_full        */ 255,
+		/* stringID_full        */ 255, /* "Starport Facility" */
 		/* wsa                  */ "starport.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -814,9 +814,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 12 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 256,
+		/* stringID_abbrev      */ 256, /* "Refinery" */
 		/* name                 */ "Refinery",
-		/* stringID_full        */ 257,
+		/* stringID_full        */ 257, /* "Spice Refinery" */
 		/* wsa                  */ "refinery.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -881,9 +881,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 13 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 258,
+		/* stringID_abbrev      */ 258, /* "Repair" */
 		/* name                 */ "Repair",
-		/* stringID_full        */ 259,
+		/* stringID_full        */ 259, /* "Repair Facility" */
 		/* wsa                  */ "repair.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -948,9 +948,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 14 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 260,
+		/* stringID_abbrev      */ 260, /* "Wall" */
 		/* name                 */ "Wall",
-		/* stringID_full        */ 261,
+		/* stringID_full        */ 261, /* "Base Defense Wall" */
 		/* wsa                  */ "wall.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1015,9 +1015,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 15 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 262,
+		/* stringID_abbrev      */ 262, /* "Turret" */
 		/* name                 */ "Turret",
-		/* stringID_full        */ 263,
+		/* stringID_full        */ 263, /* "Cannon Turret" */
 		/* wsa                  */ "turret.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1082,9 +1082,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 16 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 264,
+		/* stringID_abbrev      */ 264, /* "R-Turret" */
 		/* name                 */ "R-Turret",
-		/* stringID_full        */ 265,
+		/* stringID_full        */ 265, /* "Rocket Turret" */
 		/* wsa                  */ "rturret.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1149,9 +1149,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 17 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 266,
+		/* stringID_abbrev      */ 266, /* "Spice Silo" */
 		/* name                 */ "Spice Silo",
-		/* stringID_full        */ 267,
+		/* stringID_full        */ 267, /* "Spice Storage Silo" */
 		/* wsa                  */ "storage.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1216,9 +1216,9 @@ StructureInfo g_table_structureInfo[] = {
 
 	{ /* 18 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 268,
+		/* stringID_abbrev      */ 268, /* "Outpost" */
 		/* name                 */ "Outpost",
-		/* stringID_full        */ 269,
+		/* stringID_full        */ 269, /* "Radar Outpost" */
 		/* wsa                  */ "headqrts.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,

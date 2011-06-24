@@ -10,9 +10,9 @@
 UnitInfo g_table_unitInfo[] = {
 	{ /* 0 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 194,
+		/* stringID_abbrev      */ 194, /* "Carryall" */
 		/* name                 */ "Carryall",
-		/* stringID_full        */ 195,
+		/* stringID_full        */ 195, /* "All-Purpose Carryall" */
 		/* wsa                  */ "carryall.wsa",
 		{ { /* flags */
 		/* hasShadow            */ true,
@@ -90,9 +90,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 1 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 196,
+		/* stringID_abbrev      */ 196, /* "'Thopter" */
 		/* name                 */ "'Thopter",
-		/* stringID_full        */ 197,
+		/* stringID_full        */ 197, /* "Ornithipter" */
 		/* wsa                  */ "orni.wsa",
 		{ { /* flags */
 		/* hasShadow            */ true,
@@ -170,9 +170,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 2 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 198,
+		/* stringID_abbrev      */ 198, /* "Infantry" */
 		/* name                 */ "Infantry",
-		/* stringID_full        */ 199,
+		/* stringID_full        */ 199, /* "Light Infantry Squad" */
 		/* wsa                  */ "infantry.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -250,9 +250,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 3 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 200,
+		/* stringID_abbrev      */ 200, /* "Troopers" */
 		/* name                 */ "Troopers",
-		/* stringID_full        */ 201,
+		/* stringID_full        */ 201, /* "Heavy Trooper Squad" */
 		/* wsa                  */ "hyinfy.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -330,9 +330,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 4 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 202,
+		/* stringID_abbrev      */ 202, /* "Soldier" */
 		/* name                 */ "Soldier",
-		/* stringID_full        */ 203,
+		/* stringID_full        */ 203, /* "Infantry Soldier" */
 		/* wsa                  */ "infantry.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -410,9 +410,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 5 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 204,
+		/* stringID_abbrev      */ 204, /* "Trooper" */
 		/* name                 */ "Trooper",
-		/* stringID_full        */ 205,
+		/* stringID_full        */ 205, /* "Heavy Trooper" */
 		/* wsa                  */ "hyinfy.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -490,9 +490,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 6 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 44,
+		/* stringID_abbrev      */ 44, /* "Saboteur" */
 		/* name                 */ "Saboteur",
-		/* stringID_full        */ 44,
+		/* stringID_full        */ 44, /* "Insidious Saboteur" */
 		/* wsa                  */ "saboture.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -570,9 +570,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 7 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 208,
+		/* stringID_abbrev      */ 208, /* "Launcher" */
 		/* name                 */ "Launcher",
-		/* stringID_full        */ 209,
+		/* stringID_full        */ 209, /* "Rocket Launcher" */
 		/* wsa                  */ "rtank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -650,9 +650,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 8 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 210,
+		/* stringID_abbrev      */ 210, /* "Deviator" */
 		/* name                 */ "Deviator",
-		/* stringID_full        */ 211,
+		/* stringID_full        */ 211, /* "Deviator launcher" */
 		/* wsa                  */ "ordrtank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -730,9 +730,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 9 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 212,
+		/* stringID_abbrev      */ 212, /* "Tank" */
 		/* name                 */ "Tank",
-		/* stringID_full        */ 213,
+		/* stringID_full        */ 213, /* "Combat Tank" */
 		/* wsa                  */ "ltank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -810,9 +810,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 10 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 214,
+		/* stringID_abbrev      */ 214, /* "Siege Tank" */
 		/* name                 */ "Siege Tank",
-		/* stringID_full        */ 215,
+		/* stringID_full        */ 215, /* "Heavy Siege Tank" */
 		/* wsa                  */ "htank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -890,9 +890,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 11 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 216,
+		/* stringID_abbrev      */ 216, /* "Devastator" */
 		/* name                 */ "Devastator",
-		/* stringID_full        */ 217,
+		/* stringID_full        */ 217, /* "Devastator Tank" */
 		/* wsa                  */ "harktank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -970,9 +970,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 12 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 218,
+		/* stringID_abbrev      */ 218, /* "Sonic Tank" */
 		/* name                 */ "Sonic Tank",
-		/* stringID_full        */ 219,
+		/* stringID_full        */ 219, /* "Sonic Wave Tank" */
 		/* wsa                  */ "stank.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1050,9 +1050,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 13 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 220,
+		/* stringID_abbrev      */ 220, /* "Trike" */
 		/* name                 */ "Trike",
-		/* stringID_full        */ 221,
+		/* stringID_full        */ 221, /* "Light Attack Trike" */
 		/* wsa                  */ "trike.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1130,9 +1130,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 14 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 222,
+		/* stringID_abbrev      */ 222, /* "Raider Trike" */
 		/* name                 */ "Raider Trike",
-		/* stringID_full        */ 223,
+		/* stringID_full        */ 223, /* "Fast Raider Trike" */
 		/* wsa                  */ "otrike.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1210,9 +1210,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 15 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 224,
+		/* stringID_abbrev      */ 224, /* "Quad" */
 		/* name                 */ "Quad",
-		/* stringID_full        */ 225,
+		/* stringID_full        */ 225, /* "Heavy Attack Quad" */
 		/* wsa                  */ "quad.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1290,9 +1290,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 16 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 226,
+		/* stringID_abbrev      */ 226, /* "Harvester" */
 		/* name                 */ "Harvester",
-		/* stringID_full        */ 227,
+		/* stringID_full        */ 227, /* "Spice Harvester" */
 		/* wsa                  */ "harvest.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -1370,9 +1370,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 17 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 228,
+		/* stringID_abbrev      */ 228, /* "MCV" */
 		/* name                 */ "MCV",
-		/* stringID_full        */ 229,
+		/* stringID_full        */ 229, /* "Mobile Const. Vehicle" */
 		/* wsa                  */ "mcv.wsa",
 		{ { /* flags */
 		/* hasShadow            */ false,
@@ -2010,9 +2010,9 @@ UnitInfo g_table_unitInfo[] = {
 
 	{ /* 25 */
 		{ /* objectInfo */
-		/* stringID_abbrev      */ 230,
+		/* stringID_abbrev      */ 230, /* "Sandworm" */
 		/* name                 */ "Sandworm",
-		/* stringID_full        */ 231,
+		/* stringID_full        */ 231, /* "Sandworm" */
 		/* wsa                  */ NULL,
 		{ { /* flags */
 		/* hasShadow            */ false,
