@@ -28,15 +28,7 @@ static uint8 g_spriteInfoSize = 0;
  */
 uint16 GFX_Screen_GetSegmentActive()
 {
-	uint8 *ptr;
-	uint16 *ptr2;
-
-	ptr  = (uint8 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xF));
-	ptr2 = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
-
-	ptr2 += (*ptr) & 0x1E;
-
-	return *ptr2;
+	return g_global->variable_6C93[g_global->screenActiveID >> 1][0];
 }
 
 /**
@@ -46,12 +38,7 @@ uint16 GFX_Screen_GetSegmentActive()
  */
 uint16 GFX_Screen_GetSegment_ByIndex2(uint16 screenID)
 {
-	uint16 *ptr;
-
-	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
-	ptr += (screenID & 0x1E) + 1;
-
-	return *ptr;
+	return g_global->variable_6C93[screenID >> 1][1];
 }
 
 /**
@@ -61,12 +48,7 @@ uint16 GFX_Screen_GetSegment_ByIndex2(uint16 screenID)
  */
 uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID)
 {
-	uint16 *ptr;
-
-	ptr = (uint16 *)emu_get_memorycsip(emu_get_csip32(0x22A6, 0x00, 0xB));
-	ptr += (screenID & 0x1E);
-
-	return *ptr;
+	return g_global->variable_6C93[screenID >> 1][0];
 }
 
 /**
