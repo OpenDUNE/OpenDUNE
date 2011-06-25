@@ -484,7 +484,7 @@ void GUI_Mentat_ShowLose()
  * @param houseFilename Filename of the house.
  * @param houseID ID of the house.
  */
-void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
+void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 {
 	uint16 oldScreenID;
 	int i;

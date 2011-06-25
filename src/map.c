@@ -669,7 +669,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 
 	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
 		PoolFindStruct find;
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
 		find.type    = 0xFFFF;
 
@@ -918,7 +918,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 
 	while (true) {
 		Unit *u;
@@ -1165,7 +1165,7 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 	curHouseID = houseID;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -1236,7 +1236,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	if (locationID == 6) {
 		PoolFindStruct find;
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
 		find.type    = 0xFFFF;
 
@@ -1500,7 +1500,7 @@ void Map_SelectNext(bool getNext)
 		if (Map_IsTileVisible(Tile_PackTile(s->o.position))) selected = &s->o;
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -1536,7 +1536,7 @@ void Map_SelectNext(bool getNext)
 		}
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 

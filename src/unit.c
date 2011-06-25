@@ -145,7 +145,7 @@ void GameLoop_Unit()
 		g_global->tickUnitDeviation = g_global->tickGlobal + 60;
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -718,7 +718,7 @@ bool Unit_Save(FILE *fp)
 {
 	PoolFindStruct find;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -999,7 +999,7 @@ Unit *Unit_FindBestTargetUnit(Unit *u, uint16 mode)
 	distance = g_table_unitInfo[u->o.type].variable_50 << 8;
 	if (mode == 2) distance <<= 1;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -1083,7 +1083,7 @@ Unit *Unit_Unknown15F4(Unit *unit)
 
 	if (unit == NULL) return NULL;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -1679,7 +1679,7 @@ void Unit_UntargetMe(Unit *unit)
 
 	Object_Script_Variable4_Clear(&unit->o);
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -1694,7 +1694,7 @@ void Unit_UntargetMe(Unit *unit)
 		if (u->o.script.variables[4] == encoded) Object_Script_Variable4_Clear(&u->o);
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -1710,7 +1710,7 @@ void Unit_UntargetMe(Unit *unit)
 
 	Unit_RemoveFromTeam(unit);
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -2320,7 +2320,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 	position = Tools_Index_GetTile(unit->originEncoded);
 	variable_50 = g_table_unitInfo[unit->o.type].variable_50 << 8;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -2660,7 +2660,7 @@ void Unit_HouseUnitCount_Remove(Unit *unit)
 	if (unit == NULL) return;
 	if (unit->o.variable_09 == 0) return;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 

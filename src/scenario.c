@@ -97,7 +97,7 @@ static void Scenario_Load_Houses()
 		uint8 max;
 		House *h;
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
 		find.type    = 0xFFFF;
 

@@ -320,7 +320,7 @@ uint16 Script_Structure_FindTargetUnit(ScriptEngine *script)
 	distanceCurrent = 32000;
 	u = NULL;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 

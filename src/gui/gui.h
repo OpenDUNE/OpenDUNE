@@ -15,17 +15,13 @@ typedef enum FactoryResult {
 	FACTORY_CONTINUE     = 0xFFFF
 } FactoryResult;
 
-MSVC_PACKED_BEGIN
 typedef struct HallOfFameData {
-	/* 0000(6)   */ PACK char name[6];      /*!< ?? */
-	/* 0006(2)   */ PACK uint16 score;      /*!< ?? */
-	/* 0008(2)   */ PACK uint16 rank;       /*!< ?? */
-	/* 000A(2)   */ PACK uint16 campaignID; /*!< ?? */
-	/* 000C(2)   */ PACK uint16 houseID;    /*!< ?? */
-	/* 000E(2)   */ PACK uint16 variable_E; /*!< ?? */
-} GCC_PACKED HallOfFameData;
-MSVC_PACKED_END
-assert_compile(sizeof(HallOfFameData) == 0x10);
+	char name[6];      /*!< ?? */
+	uint16 score;      /*!< ?? */
+	uint16 rank;       /*!< ?? */
+	uint16 campaignID; /*!< ?? */
+	uint8  houseID;    /*!< ?? */
+} HallOfFameData;
 
 typedef struct FactoryWindowItem {
 	/* 0000(2)   */ uint16 objectType;                 /*!< ?? */

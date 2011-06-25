@@ -210,7 +210,7 @@ bool SaveFile(char *filename, char *description)
 			tile->overlaySpriteID = g_global->variable_39F2 & 0x7F;
 		}
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 
@@ -224,7 +224,7 @@ bool SaveFile(char *filename, char *description)
 			Unit_RemoveFog(u);
 		}
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 

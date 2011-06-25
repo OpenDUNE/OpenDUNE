@@ -31,7 +31,7 @@
  * @name Unknown_07D4_18BD
  * @implements 07D4:18BD:0016:68BB ()
  */
-static uint8 *Unknown_07D4_18BD(uint16 index, uint16 houseID)
+static uint8 *Unknown_07D4_18BD(uint16 index, uint8 houseID)
 {
 	uint8 *sprite;
 	uint8 i;
@@ -132,7 +132,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	find.type    = UNIT_SANDWORM;
 	find.index   = 0xFFFF;
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 
 	while (true) {
 		Unit *u;
@@ -189,7 +189,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	if (g_global->variable_39E6 != 0 || arg06 || loc12) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 
 		while (true) {
 			Unit *u;
@@ -342,7 +342,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 
 		while (true) {
 			Unit *u;

@@ -31,55 +31,42 @@ typedef enum HouseWeapon {
 	HOUSE_WEAPON_INVALID = 0xFF
 } HouseWeapon;
 
-MSVC_PACKED_BEGIN
 /**
  * A %House as stored in the memory.
  */
 typedef struct House {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< The index of the House in the array. */
-	/* 0002(2)   */ PACK uint16 variable_02;                /*!< ?? */
-	/* 0004(2)   */ PACK union {
-	                     struct {
-	/*      0001 */              BITTYPE used:1;            /*!< The House is in use (no longer free in the pool). */
-	/*      0002 */              BITTYPE human:1;           /*!< The House is controlled by a human. */
-	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
-	/*      0008 */              BITTYPE variable_0008:1;   /*!< ?? */
-	/*      0010 */              BITTYPE radarActivated:1;  /*!< The radar is activated. */
-	/*      0020 */              BITTYPE unknown_0020:1;
-	/*      0040 */              BITTYPE unknown_0040:1;
-	/*      0080 */              BITTYPE unknown_0080:1;
-	/*      0100 */              BITTYPE unknown_0100:1;
-	/*      0200 */              BITTYPE unknown_0200:1;
-	/*      0400 */              BITTYPE unknown_0400:1;
-	/*      0800 */              BITTYPE unknown_0800:1;
-	/*      1000 */              BITTYPE unknown_1000:1;
-	/*      2000 */              BITTYPE unknown_2000:1;
-	/*      4000 */              BITTYPE unknown_4000:1;
-	/*      8000 */              BITTYPE unknown_8000:1;
-	                     } GCC_PACKED s;
-	                     uint16 all; } flags;               /*!< General flags of the House. */
-	/* 0006(2)   */ PACK uint16 unitCount;                  /*!< Amount of units owned by House. */
-	/* 0008(2)   */ PACK uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */
-	/* 000A(2)   */ PACK uint16 unitCountEnemy;             /*!< ?? Amount of units owned by allied. */
-	/* 000C(2)   */ PACK uint16 unitCountAllied;            /*!< ?? Amount of units owned by enemy. */
-	/* 000E(4)   */ PACK uint32 structuresBuilt;            /*!< The Nth bit active means the Nth structure type is built (one or more). */
-	/* 0012(2)   */ PACK uint16 credits;                    /*!< Amount of credits the House currently has. */
-	/* 0014(2)   */ PACK uint16 creditsStorage;             /*!< Amount of credits the House can store. */
-	/* 0016(2)   */ PACK uint16 powerProduction;            /*!< Amount of power the House produces. */
-	/* 0018(2)   */ PACK uint16 powerUsage;                 /*!< Amount of power the House requires. */
-	/* 001A(2)   */ PACK uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
-	/* 001C(2)   */ PACK uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
-	/* 001E(4)   */ PACK tile32 palacePosition;             /*!< Position of the Palace. */
-	/* 0022()    */ PACK uint8  unknown_0022[0x0002];
-	/* 0024(2)   */ PACK uint16 variable_24;                /*!< ?? */
-	/* 0026(2)   */ PACK uint16 variable_26;                /*!< ?? */
-	/* 0028(2)   */ PACK uint16 variable_28;                /*!< ?? */
-	/* 002A(2)   */ PACK uint16 starportTimeLeft;           /*!< How much time is left before starport transport arrives. */
-	/* 002C(2)   */ PACK uint16 starportLinkedID;           /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
-	/* 002E(20)  */ PACK uint16 ai_structureRebuild[5][2];  /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
-} GCC_PACKED House;
-MSVC_PACKED_END
-assert_compile(sizeof(House) == 0x42);
+	uint8  index;                      /*!< The index of the House in the array. */
+	uint16 variable_02;                /*!< ?? */
+	union {
+	    struct {
+	        BITTYPE used:1;            /*!< The House is in use (no longer free in the pool). */
+	        BITTYPE human:1;           /*!< The House is controlled by a human. */
+	        BITTYPE variable_0004:1;   /*!< ?? */
+	        BITTYPE variable_0008:1;   /*!< ?? */
+	        BITTYPE radarActivated:1;  /*!< The radar is activated. */
+	        BITTYPE unused_0020:3;     /*!< Unused */
+	    } s;
+	    uint8 all;
+	} flags;                           /*!< General flags of the House. */
+	uint16 unitCount;                  /*!< Amount of units owned by House. */
+	uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */
+	uint16 unitCountEnemy;             /*!< ?? Amount of units owned by allied. */
+	uint16 unitCountAllied;            /*!< ?? Amount of units owned by enemy. */
+	uint32 structuresBuilt;            /*!< The Nth bit active means the Nth structure type is built (one or more). */
+	uint16 credits;                    /*!< Amount of credits the House currently has. */
+	uint16 creditsStorage;             /*!< Amount of credits the House can store. */
+	uint16 powerProduction;            /*!< Amount of power the House produces. */
+	uint16 powerUsage;                 /*!< Amount of power the House requires. */
+	uint16 windtrapCount;              /*!< Amount of windtraps the House currently has. */
+	uint16 creditsQuota;               /*!< Quota house has to reach to win the mission. */
+	tile32 palacePosition;             /*!< Position of the Palace. */
+	uint16 variable_24;                /*!< ?? */
+	uint16 variable_26;                /*!< ?? */
+	uint16 variable_28;                /*!< ?? */
+	uint16 starportTimeLeft;           /*!< How much time is left before starport transport arrives. */
+	uint16 starportLinkedID;           /*!< If there is a starport delivery, this indicates the first unit of the linked list. Otherwise it is 0xFFFF. */
+	uint16 ai_structureRebuild[5][2];  /*!< An array for the AI which stores the type and position of a destroyed structure, for rebuilding. */
+} House;
 
 /**
  * Static information per House type.

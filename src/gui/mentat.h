@@ -18,7 +18,7 @@ extern uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, struc
 extern void GUI_Mentat_ShowBriefing();
 extern void GUI_Mentat_ShowWin();
 extern void GUI_Mentat_ShowLose();
-extern void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID);
+extern void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID);
 extern void GUI_Mentat_Animation(uint16 speakingMode);
 extern void GUI_Mentat_SelectHelpSubject(int16 difference);
 extern void GUI_Mentat_Create_HelpScreen_Widgets();

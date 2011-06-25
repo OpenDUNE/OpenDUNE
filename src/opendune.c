@@ -82,7 +82,7 @@ static bool GameLoop_IsLevelFinished()
 		uint16 countStructureEnemy = 0;
 		uint16 countStructureFriendly = 0;
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 
@@ -148,7 +148,7 @@ static bool GameLoop_IsLevelWon()
 		uint16 countStructureEnemy = 0;
 		uint16 countStructureFriendly = 0;
 
-		find.houseID = 0xFFFF;
+		find.houseID = HOUSE_INVALID;
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 
@@ -2416,7 +2416,7 @@ void Game_Prepare()
 		if (t->isUnveiled) Map_UnveilTile(i, g_playerHouseID);
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -2432,7 +2432,7 @@ void Game_Prepare()
 		Unit_B4CD_01BF(1, u);
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -2467,7 +2467,7 @@ void Game_Prepare()
 		House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 

@@ -51,7 +51,7 @@ Unit *Unit_Find(PoolFindStruct *find)
 		if (u == NULL) continue;
 
 		if (u->o.flags.s.isNotOnMap && g_global->variable_38BC == 0) continue;
-		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != Unit_GetHouseID(u)) continue;
+		if (find->houseID != HOUSE_INVALID       && find->houseID != Unit_GetHouseID(u)) continue;
 		if (find->type    != UNIT_INDEX_INVALID  && find->type    != u->o.type)  continue;
 
 		return u;

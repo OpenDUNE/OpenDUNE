@@ -30,7 +30,7 @@ void GameLoop_Team()
 
 	if (!tick) return;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -81,7 +81,7 @@ bool Team_Save(FILE *fp)
 {
 	PoolFindStruct find;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 

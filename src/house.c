@@ -172,7 +172,7 @@ void GameLoop_House()
 		}
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -382,7 +382,7 @@ bool House_Save(FILE *fp)
 {
 	PoolFindStruct find;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 

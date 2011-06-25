@@ -10,7 +10,7 @@
 
 #include "team.h"
 
-#include "house.h"
+#include "../house.h"
 #include "pool.h"
 #include "../team.h"
 
@@ -47,7 +47,7 @@ Team *Team_Find(PoolFindStruct *find)
 		Team *t = g_teamFindArray[find->index];
 		if (t == NULL) continue;
 
-		if (find->houseID != HOUSE_INDEX_INVALID && find->houseID != t->houseID) continue;
+		if (find->houseID != HOUSE_INVALID && find->houseID != t->houseID) continue;
 
 		return t;
 	}

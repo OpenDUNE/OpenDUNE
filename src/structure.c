@@ -66,7 +66,7 @@ void GameLoop_Structure()
 		g_global->tickStructurePalace = g_global->tickGlobal + 60;
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -824,7 +824,7 @@ bool Structure_Save(FILE *fp)
 {
 	PoolFindStruct find;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = 0xFFFF;
 	find.index   = 0xFFFF;
 
@@ -929,7 +929,7 @@ void Structure_ActivateSpecial(Structure *s)
 			if (!h->flags.s.human) {
 				PoolFindStruct find;
 
-				find.houseID = 0xFFFF;
+				find.houseID = HOUSE_INVALID;
 				find.type    = 0xFFFF;
 				find.index   = 0xFFFF;
 
@@ -1282,7 +1282,7 @@ void Structure_UntargetMe(Structure *s)
 
 	Object_Script_Variable4_Clear(&s->o);
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -1297,7 +1297,7 @@ void Structure_UntargetMe(Structure *s)
 		if (u->o.script.variables[4] == encoded) Object_Script_Variable4_Clear(&u->o);
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 

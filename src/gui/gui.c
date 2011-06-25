@@ -1319,7 +1319,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 
 	g_global->variable_38BC++;
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.type    = UNIT_HARVESTER;
 	find.index   = 0xFFFF;
 
@@ -2001,7 +2001,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 	w = GUI_Widget_Get_ByIndex(g_widgetLinkedListHead, 2);
 	GUI_Widget_Draw(w);
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -2014,7 +2014,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 		Structure_UpdateMap(s);
 	}
 
-	find.houseID = 0xFFFF;
+	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
@@ -4218,7 +4218,6 @@ static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 		data->houseID = g_playerHouseID;
 		data->rank = GUI_HallOfFame_GetRank(score);
 		data->campaignID = g_campaignID;
-		data->variable_E = 0;
 
 		return i + 1;
 	}
