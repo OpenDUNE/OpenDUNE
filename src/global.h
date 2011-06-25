@@ -582,7 +582,7 @@ typedef struct GlobalData {
 	/* 256E(6)   */ PACK uint16 variable_256E[3];           /*!< ?? */
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
-	/* 2580(2)   */ PACK uint16 variable_2580;              /*!< ?? */
+	/* 2580(2)   */ PACK uint16  removed_2580;              /*!< REMOVED - disable movement of 'other' mentat object */
 	/* 2582(4)   */ PACK uint32 variable_2582;              /*!< ?? Ticker inside Security_Check(). */
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
@@ -971,7 +971,7 @@ typedef struct GlobalData {
 	/* 3C3E(4)   */ PACK csip32 removed_3C3E;               /*!< REMOVED - Palette mapping. */
 	/* 3C42(4)   */ PACK csip32 removed_3C42;               /*!< REMOVED - Pointer to color remap. */
 	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
-	/* 3C4A(2)   */ PACK uint16 variable_3C4A;              /*!< ?? */
+	/* 3C4A(2)   */ PACK uint16  removed_3C4A;              /*!< REMOVED - mentat interrogation flag */
 	/* 3C4C(256) */ PACK int8  variable_3C4C[256];          /*!< ?? */
 	/* 3D4C(256) */ PACK int8  variable_3D4C[256];          /*!< ?? */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
@@ -1426,13 +1426,13 @@ typedef struct GlobalData {
 	/* 800F(1)   */ PACK uint8   removed_800F;              /*!< REMOVED - ?? */
 	/* 8010(1)   */ PACK uint8   removed_8010;              /*!< REMOVED X pos of #variable_8002 */
 	/* 8011(1)   */ PACK uint8   removed_8011;              /*!< REMOVED Y pos of #variable_8002 */
-	/* 8012(4)   */ PACK int32  variable_8012;              /*!< ?? */
-	/* 8016(4)   */ PACK int32  variable_8016;              /*!< ?? */
-	/* 801A(4)   */ PACK int32  variable_801A;              /*!< ?? */
-	/* 801E(2)   */ PACK uint16 variable_801E;              /*!< ?? */
-	/* 8020(2)   */ PACK uint16 variable_8020;              /*!< ?? */
-	/* 8022(2)   */ PACK uint16 variable_8022;              /*!< ?? */
-	/* 8024(2)   */ PACK int16  variable_8024;              /*!< ?? */
+	/* 8012(4)   */ PACK int32   removed_8012;              /*!< REMOVED - movingEyesTimer */
+	/* 8016(4)   */ PACK int32   removed_8016;              /*!< REMOVED - movingMouthTimer */
+	/* 801A(4)   */ PACK int32   removed_801A;              /*!< REMOVED - movingOtherTimer */
+	/* 801E(2)   */ PACK uint16  removed_801E;              /*!< REMOVED - movingEyesSprite */
+	/* 8020(2)   */ PACK uint16  removed_8020;              /*!< REMOVED - movingEyesNextSprite */
+	/* 8022(2)   */ PACK uint16  removed_8022;              /*!< REMOVED - movingMouthSprite */
+	/* 8024(2)   */ PACK int16   removed_8024;              /*!< REMOVED - otherSprite */
 	/* 8026(4)   */ PACK csip32 removed_8026;               /*!< REMOVED - Widget pointing to HelpList. */
 	/* 802A(4)   */ PACK csip32 removed_802A;               /*!< REMOVED - Widget pointing to Mentat. */
 	/* 802E(4)   */ PACK csip32 removed_802E;               /*!< REMOVED - Widget pointing to a Widget in Mentat. */

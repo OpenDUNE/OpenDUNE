@@ -44,6 +44,7 @@ static const uint8 unknownHouseData[6][8] = {
 
 static uint8 *_mentatSprites[3][5];
 
+bool g_interrogation;      /*!< Asking a security question (changes mentat eye movement). */
 static uint8 _eyesLeft;    /*!< Left of the changing eyes. */
 static uint8 _eyesTop;     /*!< Top of the changing eyes. */
 static uint8 _eyesRight;   /*!< Right of the changing eyes. */
@@ -56,6 +57,7 @@ static uint8 _mouthBottom; /*!< Bottom of the moving mouth. */
 
 static uint8 otherLeft; /*!< Left of the other object (ring of Ordos mentat, book of atreides mentat). */
 static uint8 otherTop;  /*!< Top of the other object (ring of Ordos mentat, book of atreides mentat). */
+bool g_disableOtherMovement; /*!< Disable moving of the other object. */
 
 uint8 g_shoulderLeft; /*!< Left of the right shoulder of the house mentats (to put them in front of the display in the background). */
 uint8 g_shoulderTop;  /*!< Top of the right shoulder of the house mentats (to put them in front of the display in the background). */
@@ -516,7 +518,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		_mentatSprites[1][i] = g_sprites[19 + i];
 	}
 
-	_mouthRight += Sprite_GetWidth(_mentatSprites[1][0]);
+	_mouthRight  += Sprite_GetWidth(_mentatSprites[1][0]);
 	_mouthBottom += Sprite_GetHeight(_mentatSprites[1][0]);
 
 	otherLeft = unknownHouseData[houseID][4];
@@ -549,19 +551,30 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
  */
 void GUI_Mentat_Animation(uint16 unknown)
 {
-	uint8 *sprite;
-	uint16 bool06;
+	static int32  movingEyesTimer;      /* timer when to change the eyes sprite. */
+	static uint16 movingEyesSprite;     /* index in _mentatSprites of the displayed moving eyes. */
+	static uint16 movingEyesNextSprite; /* If not 0, it decides the movingEyesNextSprite */
+
+	static int32  movingMouthTimer;
+	static uint16 movingMouthSprite;
+
+	static int32 movingOtherTimer;
+	static int16 otherSprite;
+
+	bool partNeedsRedraw;
 	uint16 i;
 
-	if (g_global->variable_801A < (int32)g_global->variable_76AC && g_global->variable_2580 == 0) {
-		if (g_global->variable_801A != 0) {
-			if (_mentatSprites[2][1 + abs(g_global->variable_8024)] == NULL) {
-				g_global->variable_8024 = 1 - g_global->variable_8024;
+	if (movingOtherTimer < (int32)g_global->variable_76AC && !g_disableOtherMovement) {
+		if (movingOtherTimer != 0) {
+			uint8 *sprite;
+
+			if (_mentatSprites[2][1 + abs(otherSprite)] == NULL) {
+				otherSprite = 1 - otherSprite;
 			} else {
-				g_global->variable_8024++;
+				otherSprite++;
 			}
 
-			sprite = _mentatSprites[2][abs(g_global->variable_8024)];
+			sprite = _mentatSprites[2][abs(otherSprite)];
 
 			GUI_Mouse_Hide_InRegion(otherLeft, otherTop, otherLeft + Sprite_GetWidth(sprite), otherTop + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, otherLeft, otherTop, 0, 0);
@@ -569,17 +582,17 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 
 		switch (g_global->playerHouseID) {
-			case 0:
-				g_global->variable_801A = g_global->variable_76AC + 300 * 60;
+			case HOUSE_HARKONNEN:
+				movingOtherTimer = g_global->variable_76AC + 300 * 60;
 				break;
-			case 1:
-				g_global->variable_801A = g_global->variable_76AC + 60 * Tools_RandomRange(1,3);
+			case HOUSE_ATREIDES:
+				movingOtherTimer = g_global->variable_76AC + 60 * Tools_RandomRange(1,3);
 				break;
-			case 2:
-				if (g_global->variable_8024 != 0x0) {
-					g_global->variable_801A = g_global->variable_76AC + 6;
+			case HOUSE_ORDOS:
+				if (otherSprite != 0) {
+					movingOtherTimer = g_global->variable_76AC + 6;
 				} else {
-					g_global->variable_801A = g_global->variable_76AC + 60 * Tools_RandomRange(10, 19);
+					movingOtherTimer = g_global->variable_76AC + 60 * Tools_RandomRange(10, 19);
 				}
 				break;
 			default:
@@ -588,55 +601,59 @@ void GUI_Mentat_Animation(uint16 unknown)
 	}
 
 	if (unknown == 0x1) {
-		if (g_global->variable_8016 < (int32)g_global->variable_76AC) {
-			g_global->variable_8022 = Tools_RandomRange(0, 4);
-			sprite = _mentatSprites[1][g_global->variable_8022];
+		if (movingMouthTimer < (int32)g_global->variable_76AC) {
+			uint8 *sprite;
+
+			movingMouthSprite = Tools_RandomRange(0, 4);
+			sprite = _mentatSprites[1][movingMouthSprite];
 
 			GUI_Mouse_Hide_InRegion(_mouthLeft, _mouthTop, _mouthLeft + Sprite_GetWidth(sprite), _mouthTop + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, _mouthLeft, _mouthTop, 0, 0);
 			GUI_Mouse_Show_InRegion();
 
-			switch (g_global->variable_8022) {
+			switch (movingMouthSprite) {
 				case 0:
-					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(7, 30);
+					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(7, 30);
 					break;
 				case 1:
 				case 2:
 				case 3:
-					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(6, 10);
+					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(6, 10);
 					break;
 				case 4:
-					g_global->variable_8016 = g_global->variable_76AC + Tools_RandomRange(5, 6);
+					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(5, 6);
 					break;
 				default:
 					break;
 			}
 		}
 	} else {
-		bool06 = 0x0;
+		partNeedsRedraw = false;
 
 		if (Input_Test(0x41) == 0 && Input_Test(0x42) == 0) {
-			if (g_global->variable_8022 != 0) {
-				g_global->variable_8022 = 0;
-				g_global->variable_8016 = 0;
-				bool06 = 0x1;
+			if (movingMouthSprite != 0) {
+				movingMouthSprite = 0;
+				movingMouthTimer = 0;
+				partNeedsRedraw = true;
 			}
 		} else if (Mouse_InsideRegion(_mouthLeft, _mouthTop, _mouthRight, _mouthBottom) != 0) {
-			if (g_global->variable_8016 != -1) {
-				g_global->variable_8016 = -1;
-				g_global->variable_8022 = Tools_RandomRange(1, 4);
-				bool06 = 0x1;
+			if (movingMouthTimer != -1) {
+				movingMouthTimer = -1;
+				movingMouthSprite = Tools_RandomRange(1, 4);
+				partNeedsRedraw = true;
 			}
 		} else {
-			if (g_global->variable_8022 != 0x0) {
-				g_global->variable_8022 = 0x0;
-				g_global->variable_8016 = 0;
-				bool06 = 0x1;
+			if (movingMouthSprite != 0) {
+				movingMouthSprite = 0;
+				movingMouthTimer = 0;
+				partNeedsRedraw = true;
 			}
 		}
 
-		if (bool06 != 0x0) {
-			sprite = _mentatSprites[1][g_global->variable_8022];
+		if (partNeedsRedraw) {
+			uint8 *sprite;
+
+			sprite = _mentatSprites[1][movingMouthSprite];
 
 			GUI_Mouse_Hide_InRegion(_mouthLeft, _mouthTop, _mouthLeft + Sprite_GetWidth(sprite), _mouthTop + Sprite_GetHeight(sprite));
 			GUI_DrawSprite(0, sprite, _mouthLeft, _mouthTop, 0, 0);
@@ -644,19 +661,21 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 	}
 
-	bool06 = 0x0;
+	partNeedsRedraw = false;
 
 	if (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
 		if (Mouse_InsideRegion(_eyesLeft, _eyesTop, _eyesRight, _eyesBottom) != 0) {
-			if (g_global->variable_801E != 0x4) {
-				bool06 = 0x1;
-				g_global->variable_801E = (g_global->variable_801E == 3) ? 4 : 3;
-				g_global->variable_8020 = 0x0;
-				g_global->variable_8012 = 0;
+			if (movingEyesSprite != 0x4) {
+				partNeedsRedraw = true;
+				movingEyesSprite = (movingEyesSprite == 3) ? 4 : 3;
+				movingEyesNextSprite = 0;
+				movingEyesTimer = 0;
 			}
 
-			if (bool06 != 0x0) {
-				sprite = _mentatSprites[0][g_global->variable_801E];
+			if (partNeedsRedraw) {
+				uint8 *sprite;
+
+				sprite = _mentatSprites[0][movingEyesSprite];
 
 				GUI_Mouse_Hide_InRegion(_eyesLeft, _eyesTop, _eyesLeft + Sprite_GetWidth(sprite), _eyesTop + Sprite_GetHeight(sprite));
 				GUI_DrawSprite(0, sprite, _eyesLeft, _eyesTop, 0, 0);
@@ -678,24 +697,24 @@ void GUI_Mentat_Animation(uint16 unknown)
 			}
 		}
 
-		if (i != g_global->variable_801E) {
-			bool06 = 0x1;
-			g_global->variable_801E = i;
-			g_global->variable_8020 = 0x0;
-			g_global->variable_8012 = g_global->variable_76AC;
+		if (i != movingEyesSprite) {
+			partNeedsRedraw = true;
+			movingEyesSprite = i;
+			movingEyesNextSprite = 0;
+			movingEyesTimer = g_global->variable_76AC;
 		}
 	} else {
-		if (g_global->variable_8012 >= (int32)g_global->variable_76AC) return;
+		if (movingEyesTimer >= (int32)g_global->variable_76AC) return;
 
-		bool06 = 0x1;
-		if (g_global->variable_8020 != 0) {
-			g_global->variable_801E = g_global->variable_8020;
-			g_global->variable_8020 = 0x0;
+		partNeedsRedraw = true;
+		if (movingEyesNextSprite != 0) {
+			movingEyesSprite = movingEyesNextSprite;
+			movingEyesNextSprite = 0;
 
-			if (g_global->variable_801E != 0x4) {
-				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(20, 180);
+			if (movingEyesSprite != 4) {
+				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(20, 180);
 			} else {
-				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(12, 30);
+				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(12, 30);
 			}
 		} else {
 			i = 0;
@@ -712,7 +731,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 					break;
 
 				case 1:
-					if (g_global->variable_801E != ((g_global->variable_3C4A == 0x0) ? 0 : 3)) {
+					if (movingEyesSprite != ((!g_interrogation) ? 0 : 3)) {
 						i = 0;
 					} else {
 						i = Tools_RandomRange(0, 17);
@@ -738,31 +757,33 @@ void GUI_Mentat_Animation(uint16 unknown)
 					break;
 			}
 
-			if ((i == 2 && g_global->variable_801E == 1) || (i == 1 && g_global->variable_801E == 2)) {
-				g_global->variable_8020 = i;
-				g_global->variable_801E = 0;
-				g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(1, 5);
+			if ((i == 2 && movingEyesSprite == 1) || (i == 1 && movingEyesSprite == 2)) {
+				movingEyesNextSprite = i;
+				movingEyesSprite = 0;
+				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(1, 5);
 			} else {
-				if (i != g_global->variable_801E && (i == 4 || g_global->variable_801E == 4)) {
-					g_global->variable_8020 = i;
-					g_global->variable_801E = 3;
-					g_global->variable_8012 = g_global->variable_76AC;
+				if (i != movingEyesSprite && (i == 4 || movingEyesSprite == 4)) {
+					movingEyesNextSprite = i;
+					movingEyesSprite = 3;
+					movingEyesTimer = g_global->variable_76AC;
 				} else {
-					g_global->variable_801E = i;
+					movingEyesSprite = i;
 					if (i != 4) {
-						g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(15, 180);
+						movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(15, 180);
 					} else {
-						g_global->variable_8012 = g_global->variable_76AC + Tools_RandomRange(6, 60);
+						movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(6, 60);
 					}
 				}
 			}
 
-			if (g_global->variable_3C4A != 0 && g_global->variable_801E == 0) g_global->variable_801E = 3;
+			if (g_interrogation && movingEyesSprite == 0) movingEyesSprite = 3;
 		}
 	}
 
-	if (bool06 != 0x0) {
-		sprite = _mentatSprites[0][g_global->variable_801E];
+	if (partNeedsRedraw) {
+		uint8 *sprite;
+
+		sprite = _mentatSprites[0][movingEyesSprite];
 
 		GUI_Mouse_Hide_InRegion(_eyesLeft, _eyesTop, _eyesLeft + Sprite_GetWidth(sprite), _eyesTop + Sprite_GetHeight(sprite));
 		GUI_DrawSprite(0, sprite, _eyesLeft, _eyesTop, 0, 0);

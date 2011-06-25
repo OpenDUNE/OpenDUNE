@@ -87,8 +87,8 @@ bool GUI_Security_Show()
 	uint16 i;
 	bool valid;
 
-	g_global->variable_2580 = 1;
-	g_global->variable_3C4A = 1;
+	g_disableOtherMovement = true;
+	g_interrogation = true;
 
 	wsaHouseFilenamecsip.s.cs = 0x353F;
 	switch (g_global->playerHouseID) {
@@ -268,8 +268,8 @@ bool GUI_Security_Show()
 
 	Load_Palette_Mercenaries();
 
-	g_global->variable_2580 = 0;
-	g_global->variable_3C4A = 0;
+	g_disableOtherMovement = false;
+	g_interrogation = false;
 
 	return valid;
 }

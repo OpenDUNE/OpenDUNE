@@ -7,6 +7,8 @@
 
 extern uint8 g_shoulderLeft;
 extern uint8 g_shoulderTop;
+extern bool g_disableOtherMovement;
+extern bool g_interrogation;
 
 struct Widget;
 
