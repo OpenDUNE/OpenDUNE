@@ -3557,8 +3557,20 @@ void GUI_FactoryWindow_UpdateDetails()
 	GUI_Mouse_Show_Safe();
 }
 
+/**
+ * Update the selection in the factory window.
+ * If \a selectionChanged, it draws the rectangle around the new entry.
+ * In addition, the palette colour of the rectangle is slowly changed back and
+ * forth between white and the house colour by palette changes, thus giving it
+ * the appearance of glowing.
+ * @param selectionChanged User has selected a new thing to build.
+ */
 void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 {
+	static uint32 paletteChangeTimer;
+	static int8 paletteColour;
+	static int8 paletteChange;
+
 	if (selectionChanged) {
 		uint16 y;
 
@@ -3566,9 +3578,9 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_7F9C = 0;
-		g_global->variable_7FA0 = 0;
-		g_global->variable_7FA1 = 8;
+		paletteChangeTimer = 0;
+		paletteColour = 0;
+		paletteChange = 8;
 
 		y = g_factoryWindowSelected * 32 + 24;
 
@@ -3577,31 +3589,31 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 		GUI_DrawWiredRectangle(72, y, 103, y + 23, 255);
 		GUI_Mouse_Show_Safe();
 	} else {
-		if (g_global->variable_7F9C > g_global->variable_76AC) return;
+		if (paletteChangeTimer > g_global->variable_76AC) return;
 	}
 
-	g_global->variable_7F9C = g_global->variable_76AC + 3;
-	g_global->variable_7FA0 += g_global->variable_7FA1;
+	paletteChangeTimer = g_global->variable_76AC + 3;
+	paletteColour += paletteChange;
 
-	if ((int8)g_global->variable_7FA0 < 0 || g_global->variable_7FA0 > 63) {
-		g_global->variable_7FA1 = -g_global->variable_7FA1;
-		g_global->variable_7FA0 += g_global->variable_7FA1;
+	if (paletteColour < 0 || paletteColour > 63) {
+		paletteChange = -paletteChange;
+		paletteColour += paletteChange;
 	}
 
 	switch (g_global->playerHouseID) {
 		case HOUSE_HARKONNEN:
-			*(g_palette1 + 255 * 3 + 1) = g_global->variable_7FA0;
-			*(g_palette1 + 255 * 3 + 2) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 1) = paletteColour;
+			*(g_palette1 + 255 * 3 + 2) = paletteColour;
 			break;
 
 		case HOUSE_ATREIDES:
-			*(g_palette1 + 255 * 3 + 0) = g_global->variable_7FA0;
-			*(g_palette1 + 255 * 3 + 1) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 0) = paletteColour;
+			*(g_palette1 + 255 * 3 + 1) = paletteColour;
 			break;
 
 		case HOUSE_ORDOS:
-			*(g_palette1 + 255 * 3 + 0) = g_global->variable_7FA0;
-			*(g_palette1 + 255 * 3 + 2) = g_global->variable_7FA0;
+			*(g_palette1 + 255 * 3 + 0) = paletteColour;
+			*(g_palette1 + 255 * 3 + 2) = paletteColour;
 			break;
 
 		default: break;

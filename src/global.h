@@ -1396,9 +1396,9 @@ typedef struct GlobalData {
 	/* 7B68(36)  */ PACK struct_7B68 removed_7B68[6];       /*!< REMOVED - ?? (apparently never ever used) */
 	/* 7B8C(640) */ PACK uint16  removed_7B8C[320];         /*!< REMOVED - screen columns swapping indices in fade-in */
 	/* 7E0C(400) */ PACK uint16  removed_7E0C[200];         /*!< REMOVED - screen line swapping indices used in fade-in */
-	/* 7F9C(4)   */ PACK uint32 variable_7F9C;              /*!< ?? Also a tick counter.. */
-	/* 7FA0(1)   */ PACK uint8  variable_7FA0;              /*!< ?? */
-	/* 7FA1(1)   */ PACK uint8  variable_7FA1;              /*!< ?? */
+	/* 7F9C(4)   */ PACK uint32  removed_7F9C;              /*!< REMOVED - ?? Also a tick counter.. */
+	/* 7FA0(1)   */ PACK uint8   removed_7FA0;              /*!< REMOVED - palette colour of glowing rectangle in factory window */
+	/* 7FA1(1)   */ PACK uint8   removed_7FA1;              /*!< REMOVED - step size of change in the palette colour above */
 	/* 7FA2(4)   */ PACK csip32 removed_7FA2;               /*!< REMOVED - Last widget in the Invoice window. */
 	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
 	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
