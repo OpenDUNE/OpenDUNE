@@ -12,7 +12,15 @@
 #include "../pool/pool.h"
 #include "../unit.h"
 
+static const SaveLoadDesc s_saveUnitOrientation[] = {
+	SLD_ENTRY (dir24, SLDT_INT8,  speed),
+	SLD_ENTRY (dir24, SLDT_INT8,  target),
+	SLD_ENTRY (dir24, SLDT_INT8,  current),
+	SLD_END
+};
+
 static const SaveLoadDesc s_saveUnit[] = {
+	SLD_SLD   (Unit, o, g_saveObject),
 	SLD_ENTRY (Unit, SLDT_UINT16, unknown_0047),
 	SLD_ENTRY (Unit, SLDT_UINT32, variable_49),
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),
@@ -26,7 +34,7 @@ static const SaveLoadDesc s_saveUnit[] = {
 	SLD_ENTRY (Unit, SLDT_UINT8,  deviated),
 	SLD_ENTRY (Unit, SLDT_UINT32, variable_5A),
 	SLD_ENTRY (Unit, SLDT_UINT32, variable_5E),
-	SLD_ARRAY (Unit, SLDT_DIR24,  orientation, 2),
+	SLD_SLD2  (Unit, orientation, s_saveUnitOrientation, 2),
 	SLD_ENTRY (Unit, SLDT_UINT8,  variable_68),
 	SLD_ENTRY (Unit, SLDT_UINT8,  variable_69),
 	SLD_ENTRY (Unit, SLDT_UINT8,  variable_6A),
@@ -56,8 +64,6 @@ bool Unit_Load(FILE *fp, uint32 length)
 		length -= sizeof(Unit);
 
 		/* Read the next Structure from disk */
-		if (!SaveLoad_Load(g_saveObject, fp, &ul.o)) return false;
-		if (!SaveLoad_Load(g_saveScriptEngine, fp, &ul.o.script)) return false;
 		if (!SaveLoad_Load(s_saveUnit, fp, &ul)) return false;
 
 		ul.o.script.scriptInfo.s.cs = 0x353F;
@@ -120,8 +126,6 @@ bool Unit_Save(FILE *fp)
 		}
 		su.o.script.scriptInfo.csip = 0x00000000;
 
-		if (!SaveLoad_Save(g_saveObject, fp, &su.o)) return false;
-		if (!SaveLoad_Save(g_saveScriptEngine, fp, &su.o.script)) return false;
 		if (!SaveLoad_Save(s_saveUnit, fp, &su)) return false;
 	}
 

@@ -13,6 +13,7 @@
 #include "../pool/pool.h"
 
 static const SaveLoadDesc s_saveStructure[] = {
+	SLD_SLD   (Structure, o, g_saveObject),
 	SLD_ENTRY (Structure, SLDT_UINT16, variable_47),
 	SLD_ENTRY (Structure, SLDT_UINT16, variable_49),
 	SLD_ENTRY (Structure, SLDT_UINT8,  variable_4B),
@@ -41,8 +42,6 @@ bool Structure_Load(FILE *fp, uint32 length)
 		length -= sizeof(Structure);
 
 		/* Read the next Structure from disk */
-		if (!SaveLoad_Load(g_saveObject, fp, &sl.o)) return false;
-		if (!SaveLoad_Load(g_saveScriptEngine, fp, &sl.o.script)) return false;
 		if (!SaveLoad_Load(s_saveStructure, fp, &sl)) return false;
 
 		sl.o.script.scriptInfo.s.cs = 0x353F;
@@ -99,8 +98,6 @@ bool Structure_Save(FILE *fp)
 		}
 		ss.o.script.scriptInfo.csip = 0x00000000;
 
-		if (!SaveLoad_Save(g_saveObject, fp, &ss.o)) return false;
-		if (!SaveLoad_Save(g_saveScriptEngine, fp, &ss.o.script)) return false;
 		if (!SaveLoad_Save(s_saveStructure, fp, &ss)) return false;
 	}
 

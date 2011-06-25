@@ -21,13 +21,13 @@ uint32 SaveLoad_GetLength(const SaveLoadDesc *sld)
 	while (sld->type_disk != SLDT_NULL) {
 		switch (sld->type_disk) {
 			case SLDT_NULL:   length += 0; break;
-			case SLDT_UINT8:  length += sizeof(uint8)  * sld->count; break;
-			case SLDT_UINT16: length += sizeof(uint16) * sld->count; break;
-			case SLDT_UINT32: length += sizeof(uint32) * sld->count; break;
-			case SLDT_INT8:   length += sizeof(int8)   * sld->count; break;
-			case SLDT_INT16:  length += sizeof(int16)  * sld->count; break;
-			case SLDT_INT32:  length += sizeof(int32)  * sld->count; break;
-			case SLDT_DIR24:  length += sizeof(dir24)  * sld->count; break;
+			case SLDT_UINT8:  length += sizeof(uint8)  * sld->count;  break;
+			case SLDT_UINT16: length += sizeof(uint16) * sld->count;  break;
+			case SLDT_UINT32: length += sizeof(uint32) * sld->count;  break;
+			case SLDT_INT8:   length += sizeof(int8)   * sld->count;  break;
+			case SLDT_INT16:  length += sizeof(int16)  * sld->count;  break;
+			case SLDT_INT32:  length += sizeof(int32)  * sld->count;  break;
+			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld); break;
 		}
 		sld++;
 	}
@@ -50,6 +50,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 		for (i = 0; i < sld->count; i++) {
 			switch (sld->type_disk) {
+				case SLDT_SLD:
 				case SLDT_NULL:
 					value = 0;
 					break;
@@ -102,19 +103,6 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 					value = v;
 				} break;
-
-
-				case SLDT_DIR24: {
-					dir24 v;
-
-					if (fread(&v.current, sizeof(uint8), 1, fp) != 1) return false;
-					if (fread(&v.speed,   sizeof(uint8), 1, fp) != 1) return false;
-					if (fread(&v.target,  sizeof(uint8), 1, fp) != 1) return false;
-
-					value  = v.current << 16;
-					value |= v.speed   << 8;
-					value |= v.target  << 0;
-				} break;
 			}
 
 			switch (sld->type_memory) {
@@ -147,10 +135,8 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 					break;
 
 
-				case SLDT_DIR24:
-					((dir24 *)(((dir24 *)object) + sld->offset) + i)->current = (value >> 16) & 0xFF;
-					((dir24 *)(((dir24 *)object) + sld->offset) + i)->speed   = (value >> 8 ) & 0xFF;
-					((dir24 *)(((dir24 *)object) + sld->offset) + i)->target  = (value >> 0 ) & 0xFF;
+				case SLDT_SLD:
+					SaveLoad_Load(sld->sld, fp, (((uint8 *)object) + sld->offset) + i);
 					break;
 			}
 		}
@@ -206,14 +192,13 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 					break;
 
 
-				case SLDT_DIR24:
-					value  = ((dir24 *)(((uint8 *)object) + sld->offset) + i)->current << 16;
-					value |= ((dir24 *)(((uint8 *)object) + sld->offset) + i)->speed   << 8;
-					value |= ((dir24 *)(((uint8 *)object) + sld->offset) + i)->target  << 0;
+				case SLDT_SLD:
+					SaveLoad_Save(sld->sld, fp, (((uint8 *)object) + sld->offset) + i);
 					break;
 			}
 
 			switch (sld->type_disk) {
+				case SLDT_SLD:
 				case SLDT_NULL:
 					break;
 
@@ -253,18 +238,6 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 					int32 v = (int32)value;
 
 					if (fwrite(&v, sizeof(int32), 1, fp) != 1) return false;
-				} break;
-
-
-				case SLDT_DIR24: {
-					dir24 v;
-					v.current = (value >> 16) & 0xFF;
-					v.speed   = (value >> 8 ) & 0xFF;
-					v.target  = (value >> 0 ) & 0xFF;
-
-					if (fwrite(&v.current, sizeof(uint8), 1, fp) != 1) return false;
-					if (fwrite(&v.speed,   sizeof(uint8), 1, fp) != 1) return false;
-					if (fwrite(&v.target,  sizeof(uint8), 1, fp) != 1) return false;
 				} break;
 			}
 		}
