@@ -1,6 +1,6 @@
 /* $Id$ */
 
-/** @file src/saveload/house.c Load/save routines for House. */
+/** @file src/saveload/house.c Load/save routines for Unit. */
 
 #include <stdio.h>
 #include "types.h"

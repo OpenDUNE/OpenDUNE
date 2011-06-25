@@ -98,7 +98,7 @@ typedef struct Unit {
 	tile32 variable_49;                                     /*!< ?? */
 	uint16 originEncoded;                                   /*!< Encoded index, indicating the origin. */
 	uint8  actionID;                                        /*!< Current action. */
-	uint8  nextActionID;                                                         /*!< Next action. */
+	uint8  nextActionID;                                    /*!< Next action. */
 	uint8  fireDelay;                                       /*!< ?? */
 	uint16 variable_52;                                     /*!< ?? */
 	uint16 targetAttack;                                    /*!< Target to attack (encoded index). */
