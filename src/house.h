@@ -96,8 +96,6 @@ extern void GameLoop_House();
 extern uint8 House_StringToType(const char *name);
 extern void House_EnsureHarvesterAvailable(uint8 houseID);
 extern bool House_AreAllied(uint8 houseID1, uint8 houseID2);
-extern bool House_Save(FILE *fp);
-extern bool House_Load(FILE *fp, uint32 length);
 extern bool House_UpdateRadarState(House *h);
 extern void House_UpdateCreditsStorage(uint8 houseID);
 extern void House_CalculatePowerAndCredit(struct House *h);

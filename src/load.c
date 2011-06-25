@@ -22,6 +22,7 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "save.h"
+#include "saveload/saveload.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"

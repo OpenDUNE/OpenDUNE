@@ -1367,6 +1367,54 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="saveload"
+				>
+				<File
+					RelativePath="..\src\saveload\house.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\saveload\saveload.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\saveload\saveload.h"
+					>
+				</File>
+			</Filter>
+			<Filter
 				Name="script"
 				>
 				<File

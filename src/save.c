@@ -18,6 +18,7 @@
 #include "pool/pool.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
+#include "saveload/saveload.h"
 #include "structure.h"
 #include "team.h"
 #include "unit.h"

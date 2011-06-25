@@ -374,68 +374,6 @@ bool House_AreAllied(uint8 houseID1, uint8 houseID2)
 }
 
 /**
- * Save all Houses to a file.
- * @param fp The file to save to.
- * @return True if and only if all bytes were written successful.
- */
-bool House_Save(FILE *fp)
-{
-	PoolFindStruct find;
-
-	find.houseID = HOUSE_INVALID;
-	find.type    = 0xFFFF;
-	find.index   = 0xFFFF;
-
-	while (true) {
-		House *h;
-
-		h = House_Find(&find);
-		if (h == NULL) break;
-
-		if (fwrite(h, sizeof(House), 1, fp) != 1) return false;
-	}
-
-	return true;
-}
-
-/**
- * Load all Houses from a file.
- * @param fp The file to load from.
- * @param length The length of the data chunk.
- * @return True if and only if all bytes were read successful.
- */
-bool House_Load(FILE *fp, uint32 length)
-{
-	while (length >= sizeof(House)) {
-		House *h;
-		House hl;
-
-		length -= sizeof(House);
-
-		/* Read the next House from disk */
-		if (fread(&hl, sizeof(House), 1, fp) != 1) return false;
-
-		/* Create the House in the pool */
-		h = House_Allocate((uint8)hl.index);
-		if (h == NULL) return false;
-
-		/* Copy over the data */
-		*h = hl;
-
-		/* See if it is a human house */
-		if (h->flags.s.human) {
-			g_playerHouseID = h->index;
-			g_playerHouse = h;
-
-			if (h->starportLinkedID != 0xFFFF && h->starportTimeLeft == 0) h->starportTimeLeft = 1;
-		}
-	}
-	if (length != 0) return false;
-
-	return true;
-}
-
-/**
  * Updates the radar state for the given house.
  * @param h The house.
  * @return True if and only if the radar has been activated.

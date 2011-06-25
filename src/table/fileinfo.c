@@ -1,4 +1,4 @@
-/* $Id: fileinfo.c 1881 2011-06-21 22:48:28Z truebrain $ */
+/* $Id$ */
 
 /** @file src/table/fileinfo.c FileInfo file table. */
 
