@@ -1414,18 +1414,18 @@ typedef struct GlobalData {
 	/* 7FC4(2)   */ PACK uint16 donotuse_7FC4;
 	/* 7FC6(60)  */ PACK csip32 removed_7FC6[3][5];         /*!< REMOVED - Pointers to sprites. */
 	/* 8002(4)   */ PACK csip32 removed_8002;               /*!< REMOVED - Sprite */
-	/* 8006(1)   */ PACK uint8  variable_8006;              /*!< Left A ?? */
-	/* 8007(1)   */ PACK uint8  variable_8007;              /*!< Top A ?? */
-	/* 8008(1)   */ PACK uint8  variable_8008;              /*!< Right A ?? */
-	/* 8009(1)   */ PACK uint8  variable_8009;              /*!< Bottom A ?? */
-	/* 800A(1)   */ PACK uint8  variable_800A;              /*!< Left B ?? */
-	/* 800B(1)   */ PACK uint8  variable_800B;              /*!< Top B ?? */
-	/* 800C(1)   */ PACK uint8  variable_800C;              /*!< Right B ?? */
-	/* 800D(1)   */ PACK uint8  variable_800D;              /*!< Bottom B ?? */
-	/* 800E(1)   */ PACK uint8  variable_800E;              /*!< ?? */
-	/* 800F(1)   */ PACK uint8  variable_800F;              /*!< ?? */
-	/* 8010(1)   */ PACK uint8  variable_8010;              /*!< X pos of #variable_8002 */
-	/* 8011(1)   */ PACK uint8  variable_8011;              /*!< Y pos of #variable_8002 */
+	/* 8006(1)   */ PACK uint8   removed_8006;              /*!< REMOVED - Left A ?? */
+	/* 8007(1)   */ PACK uint8   removed_8007;              /*!< REMOVED - Top A ?? */
+	/* 8008(1)   */ PACK uint8   removed_8008;              /*!< REMOVED - Right A ?? */
+	/* 8009(1)   */ PACK uint8   removed_8009;              /*!< REMOVED - Bottom A ?? */
+	/* 800A(1)   */ PACK uint8   removed_800A;              /*!< REMOVED - Left B ?? */
+	/* 800B(1)   */ PACK uint8   removed_800B;              /*!< REMOVED - Top B ?? */
+	/* 800C(1)   */ PACK uint8   removed_800C;              /*!< REMOVED - Right B ?? */
+	/* 800D(1)   */ PACK uint8   removed_800D;              /*!< REMOVED - Bottom B ?? */
+	/* 800E(1)   */ PACK uint8   removed_800E;              /*!< REMOVED - ?? */
+	/* 800F(1)   */ PACK uint8   removed_800F;              /*!< REMOVED - ?? */
+	/* 8010(1)   */ PACK uint8   removed_8010;              /*!< REMOVED X pos of #variable_8002 */
+	/* 8011(1)   */ PACK uint8   removed_8011;              /*!< REMOVED Y pos of #variable_8002 */
 	/* 8012(4)   */ PACK int32  variable_8012;              /*!< ?? */
 	/* 8016(4)   */ PACK int32  variable_8016;              /*!< ?? */
 	/* 801A(4)   */ PACK int32  variable_801A;              /*!< ?? */

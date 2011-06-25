@@ -44,6 +44,23 @@ static const uint8 unknownHouseData[6][8] = {
 
 static uint8 *_mentatSprites[3][5];
 
+static uint8 _eyesLeft;    /*!< Left of the changing eyes. */
+static uint8 _eyesTop;     /*!< Top of the changing eyes. */
+static uint8 _eyesRight;   /*!< Right of the changing eyes. */
+static uint8 _eyesBottom;  /*!< Bottom of the changing eyes. */
+
+static uint8 _mouthLeft;   /*!< Left of the moving mouth. */
+static uint8 _mouthTop;    /*!< Top of the moving mouth. */
+static uint8 _mouthRight;  /*!< Right of the moving mouth. */
+static uint8 _mouthBottom; /*!< Bottom of the moving mouth. */
+
+static uint8 otherLeft; /*!< Left of the other object (ring of Ordos mentat, book of atreides mentat). */
+static uint8 otherTop;  /*!< Top of the other object (ring of Ordos mentat, book of atreides mentat). */
+
+uint8 g_shoulderLeft; /*!< Left of the right shoulder of the house mentats (to put them in front of the display in the background). */
+uint8 g_shoulderTop;  /*!< Top of the right shoulder of the house mentats (to put them in front of the display in the background). */
+
+
 /**
  * Show the Mentat screen with a dialog (Proceed / Repeat).
  * @param houseID The house to show the mentat of.
@@ -233,7 +250,7 @@ static void GUI_Mentat_Draw(bool force)
 
 	Unknown_07AE_00E4(8);
 
-	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 	/* "Select Subject:" */
 	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_global->variable_992D << 3) + 16, g_global->variable_992B + 2, 12, 0, 0x12);
@@ -403,7 +420,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GUI_Screen_SetActive(0);
 
 	GUI_Mouse_Hide_Safe();
@@ -482,35 +499,35 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 
 	memset(_mentatSprites, 0, sizeof(_mentatSprites));
 
-	g_global->variable_8006 = g_global->variable_8008 = unknownHouseData[houseID][0];
-	g_global->variable_8007 = g_global->variable_8009 = unknownHouseData[houseID][1];
+	_eyesLeft = _eyesRight  = unknownHouseData[houseID][0];
+	_eyesTop  = _eyesBottom = unknownHouseData[houseID][1];
 
 	for (i = 0; i < 5; i++) {
 		_mentatSprites[0][i] = g_sprites[14 + i];
 	}
 
-	g_global->variable_8008 += Sprite_GetWidth(_mentatSprites[0][0]);
-	g_global->variable_8009 += Sprite_GetHeight(_mentatSprites[0][0]);
+	_eyesRight  += Sprite_GetWidth(_mentatSprites[0][0]);
+	_eyesBottom += Sprite_GetHeight(_mentatSprites[0][0]);
 
-	g_global->variable_800A = g_global->variable_800C = unknownHouseData[houseID][2];
-	g_global->variable_800B = g_global->variable_800D = unknownHouseData[houseID][3];
+	_mouthLeft = _mouthRight  = unknownHouseData[houseID][2];
+	_mouthTop  = _mouthBottom = unknownHouseData[houseID][3];
 
 	for (i = 0; i < 5; i++) {
 		_mentatSprites[1][i] = g_sprites[19 + i];
 	}
 
-	g_global->variable_800C += Sprite_GetWidth(_mentatSprites[1][0]);
-	g_global->variable_800D += Sprite_GetHeight(_mentatSprites[1][0]);
+	_mouthRight += Sprite_GetWidth(_mentatSprites[1][0]);
+	_mouthBottom += Sprite_GetHeight(_mentatSprites[1][0]);
 
-	g_global->variable_800E = unknownHouseData[houseID][4];
-	g_global->variable_800F = unknownHouseData[houseID][5];
+	otherLeft = unknownHouseData[houseID][4];
+	otherTop  = unknownHouseData[houseID][5];
 
 	for (i = 0; i < 4; i++) {
 		_mentatSprites[2][i] = g_sprites[25 + i];
 	}
 
-	g_global->variable_8010 = unknownHouseData[houseID][6];
-	g_global->variable_8011 = unknownHouseData[houseID][7];
+	g_shoulderLeft = unknownHouseData[houseID][6];
+	g_shoulderTop  = unknownHouseData[houseID][7];
 
 	Unknown_07AE_00E4(8);
 
@@ -522,7 +539,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 		WSA_Unload(wsa);
 	}
 
-	GUI_DrawSprite(2, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GUI_Screen_SetActive(oldScreenID);
 }
 
@@ -546,8 +563,8 @@ void GUI_Mentat_Animation(uint16 unknown)
 
 			sprite = _mentatSprites[2][abs(g_global->variable_8024)];
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800E, g_global->variable_800F, g_global->variable_800E + Sprite_GetWidth(sprite), g_global->variable_800F + Sprite_GetHeight(sprite));
-			GUI_DrawSprite(0, sprite, g_global->variable_800E, g_global->variable_800F, 0, 0);
+			GUI_Mouse_Hide_InRegion(otherLeft, otherTop, otherLeft + Sprite_GetWidth(sprite), otherTop + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, otherLeft, otherTop, 0, 0);
 			GUI_Mouse_Show_InRegion();
 		}
 
@@ -575,8 +592,8 @@ void GUI_Mentat_Animation(uint16 unknown)
 			g_global->variable_8022 = Tools_RandomRange(0, 4);
 			sprite = _mentatSprites[1][g_global->variable_8022];
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
-			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
+			GUI_Mouse_Hide_InRegion(_mouthLeft, _mouthTop, _mouthLeft + Sprite_GetWidth(sprite), _mouthTop + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, _mouthLeft, _mouthTop, 0, 0);
 			GUI_Mouse_Show_InRegion();
 
 			switch (g_global->variable_8022) {
@@ -604,7 +621,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 				g_global->variable_8016 = 0;
 				bool06 = 0x1;
 			}
-		} else if (Mouse_InsideRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800C, g_global->variable_800D) != 0) {
+		} else if (Mouse_InsideRegion(_mouthLeft, _mouthTop, _mouthRight, _mouthBottom) != 0) {
 			if (g_global->variable_8016 != -1) {
 				g_global->variable_8016 = -1;
 				g_global->variable_8022 = Tools_RandomRange(1, 4);
@@ -621,8 +638,8 @@ void GUI_Mentat_Animation(uint16 unknown)
 		if (bool06 != 0x0) {
 			sprite = _mentatSprites[1][g_global->variable_8022];
 
-			GUI_Mouse_Hide_InRegion(g_global->variable_800A, g_global->variable_800B, g_global->variable_800A + Sprite_GetWidth(sprite), g_global->variable_800B + Sprite_GetHeight(sprite));
-			GUI_DrawSprite(0, sprite, g_global->variable_800A, g_global->variable_800B, 0, 0);
+			GUI_Mouse_Hide_InRegion(_mouthLeft, _mouthTop, _mouthLeft + Sprite_GetWidth(sprite), _mouthTop + Sprite_GetHeight(sprite));
+			GUI_DrawSprite(0, sprite, _mouthLeft, _mouthTop, 0, 0);
 			GUI_Mouse_Show_InRegion();
 		}
 	}
@@ -630,7 +647,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 	bool06 = 0x0;
 
 	if (Input_Test(0x41) != 0 || Input_Test(0x42) != 0) {
-		if (Mouse_InsideRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8008, g_global->variable_8009) != 0) {
+		if (Mouse_InsideRegion(_eyesLeft, _eyesTop, _eyesRight, _eyesBottom) != 0) {
 			if (g_global->variable_801E != 0x4) {
 				bool06 = 0x1;
 				g_global->variable_801E = (g_global->variable_801E == 3) ? 4 : 3;
@@ -641,8 +658,8 @@ void GUI_Mentat_Animation(uint16 unknown)
 			if (bool06 != 0x0) {
 				sprite = _mentatSprites[0][g_global->variable_801E];
 
-				GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
-				GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
+				GUI_Mouse_Hide_InRegion(_eyesLeft, _eyesTop, _eyesLeft + Sprite_GetWidth(sprite), _eyesTop + Sprite_GetHeight(sprite));
+				GUI_DrawSprite(0, sprite, _eyesLeft, _eyesTop, 0, 0);
 				GUI_Mouse_Show_InRegion();
 			}
 
@@ -650,14 +667,14 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 	}
 
-	if (Mouse_InsideRegion((int16)g_global->variable_8006 - 16, (int16)g_global->variable_8007 - 8, g_global->variable_8008 + 16, g_global->variable_8009 + 24) != 0) {
-		if (Mouse_InsideRegion((int16)g_global->variable_8006 - 8, g_global->variable_8009, g_global->variable_8008 + 8, SCREEN_HEIGHT - 1) != 0) {
+	if (Mouse_InsideRegion((int16)_eyesLeft - 16, (int16)_eyesTop - 8, _eyesRight + 16, _eyesBottom + 24) != 0) {
+		if (Mouse_InsideRegion((int16)_eyesLeft - 8, _eyesBottom, _eyesRight + 8, SCREEN_HEIGHT - 1) != 0) {
 			i = 3;
 		} else {
-			if (Mouse_InsideRegion(g_global->variable_8008, (int16)g_global->variable_8007 - 8, g_global->variable_8008 + 16, g_global->variable_8009 + 8) != 0) {
+			if (Mouse_InsideRegion(_eyesRight, (int16)_eyesTop - 8, _eyesRight + 16, _eyesBottom + 8) != 0) {
 				i = 2;
 			} else {
-				i = (Mouse_InsideRegion((int16)g_global->variable_8006 - 16, (int16)g_global->variable_8007 - 8, g_global->variable_8006, g_global->variable_8009 + 8) == 0) ? 0 : 1;
+				i = (Mouse_InsideRegion((int16)_eyesLeft - 16, (int16)_eyesTop - 8, _eyesLeft, _eyesBottom + 8) == 0) ? 0 : 1;
 			}
 		}
 
@@ -747,8 +764,8 @@ void GUI_Mentat_Animation(uint16 unknown)
 	if (bool06 != 0x0) {
 		sprite = _mentatSprites[0][g_global->variable_801E];
 
-		GUI_Mouse_Hide_InRegion(g_global->variable_8006, g_global->variable_8007, g_global->variable_8006 + Sprite_GetWidth(sprite), g_global->variable_8007 + Sprite_GetHeight(sprite));
-		GUI_DrawSprite(0, sprite, g_global->variable_8006, g_global->variable_8007, 0, 0);
+		GUI_Mouse_Hide_InRegion(_eyesLeft, _eyesTop, _eyesLeft + Sprite_GetWidth(sprite), _eyesTop + Sprite_GetHeight(sprite));
+		GUI_DrawSprite(0, sprite, _eyesLeft, _eyesTop, 0, 0);
 		GUI_Mouse_Show_InRegion();
 	}
 }
@@ -1228,7 +1245,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GUI_Mentat_DrawInfo(pictureDetails, (g_global->variable_992D << 3) + 5, g_global->variable_992B + 3, 8, 0, lines, 0x31);
 
-		GUI_DrawSprite(4, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+		GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 		GUI_Mouse_Show_InWidget();
@@ -1238,7 +1255,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	if (wsa != NULL) WSA_Unload(wsa);
 
 	GUI_Screen_SetActive(4);
-	GUI_DrawSprite(4, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+	GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 	GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
 	GUI_Mouse_Show_InWidget();

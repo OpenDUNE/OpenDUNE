@@ -5,6 +5,9 @@
 #ifndef GUI_MENTAT_H
 #define GUI_MENTAT_H
 
+extern uint8 g_shoulderLeft;
+extern uint8 g_shoulderTop;
+
 struct Widget;
 
 extern bool GUI_Widget_Mentat_Click(struct Widget *w);

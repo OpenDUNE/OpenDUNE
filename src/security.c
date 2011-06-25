@@ -179,7 +179,7 @@ bool GUI_Security_Show()
 		WSA_DisplayFrame(wsa, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
 		WSA_Unload(wsa);
 
-		GUI_DrawSprite(4, g_sprites[24], g_global->variable_8010, g_global->variable_8011, 0, 0);
+		GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
 		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
