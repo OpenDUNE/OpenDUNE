@@ -632,18 +632,12 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 static void ShadeScreen()
 {
 	uint16 i;
-	uint16 loc1A[9];
-
-	memcpy(loc1A, g_global->variable_2A9B, 18);
 
 	memmove(g_palette_998A, g_palette1, 0x300);
 
 	for (i = 0; i < 0x300; i++) g_palette1[i] = g_palette1[i] / 2;
 
-	for (i = 0; i < 9; i++) {
-		if (loc1A[i] == 0xFFFF) break;
-		memmove(g_palette1 + (loc1A[i] * 3), &g_palette_998A[loc1A[i] * 3], 3);
-	}
+	for (i = 0; i < 8; i++) memmove(g_palette1 + ((231 + i) * 3), &g_palette_998A[(231 + i) * 3], 3);
 
 	GFX_SetPalette(g_palette_998A);
 }
