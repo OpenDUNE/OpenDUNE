@@ -578,8 +578,8 @@ typedef struct GlobalData {
 	/* 2494(36)  */ PACK csip32 removed_2494[3][3];         /*!< REMOVED - Pointers to functions used in Map_B4CD_057B(). */
 	/* 24B8(166) */ PACK uint16 variable_24B8[83];          /*!< REMOVED - Mapping of landscape sprites to landscape type. @see _landscapeSpriteMap */
 	/* 255E(8)   */ PACK uint16 removed_255E[4];            /*!< REMOVED - Relative steps in the map array for moving up, right, down, left */
-	/* 2566(8)   */ PACK uint16 variable_2566[4];           /*!< ?? */
-	/* 256E(6)   */ PACK uint16 variable_256E[3];           /*!< ?? */
+	/* 2566(8)   */ PACK uint16  removed_2566[4];           /*!< REMOVED - map XY offsets */
+	/* 256E(6)   */ PACK uint16  removed_256E[3];           /*!< REMOVED - small map offsets based on map scale */
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
 	/* 2580(2)   */ PACK uint16  removed_2580;              /*!< REMOVED - disable movement of 'other' mentat object */
@@ -592,9 +592,9 @@ typedef struct GlobalData {
 	/* 25B8(11)  */ PACK char  removed_25B8[11];            /*!< REMOVED - "FORDOS.WSA" NULL terminated. */
 	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
-	/* 25CE(2)   */ PACK uint16 variable_25CE;              /*!< ?? */
-	/* 25D0(4)   */ PACK csip32 variable_25D0;              /*!< ?? */
-	/* 25D4(2)   */ PACK uint16 variable_25D4;              /*!< ?? */
+	/* 25CE(2)   */ PACK uint16  removed_25CE;              /*!< REMOVED - select from the list of ingame help subjects. */
+	/* 25D0(4)   */ PACK csip32  removed_25D0;              /*!< REMOVED - Base address of help subjects (helpDataList). */
+	/* 25D4(2)   */ PACK uint16  removed_25D4;              /*!< REMOVED - Displayed help subject (displayedHelpSubject)  */
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
 	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
 	/* 25E6(2)   */ PACK uint16 variable_25E6;              /*!< ?? */
@@ -1442,7 +1442,7 @@ typedef struct GlobalData {
 	/* 803C(2)   */ PACK uint16 selectedHelpSubject;        /*!< Index of selected subject. */
 	/* 803E(2)   */ PACK uint16 topHelpList;                /*!< Top of the mentat help subjects list being displayed currently. */
 	/* 8040(13)  */ PACK char   mentatFilename[13];         /*!< buffer for "MENTAT[AHO].[ENG|FRE|GER]". */
-	/* 804D(4)   */ PACK csip32 helpSubjects;               /*!< String pointer. */
+	/* 804D(4)   */ PACK csip32 removed_helpSubjects;       /*!< String pointer. */
 	/* 8051()    */ PACK uint8   unknown_8051;
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
 	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */

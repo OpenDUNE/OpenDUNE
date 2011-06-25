@@ -1228,10 +1228,12 @@ void Map_B4CD_160C(uint16 packed, uint8 houseID)
 
 uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 {
+	static int16 mapBase[3] = {1, -2, -2};
+
 	uint16 ret = 0;
 	uint16 loc02;
 
-	loc02 = g_global->variable_256E[g_global->scenario.mapScale];
+	loc02 = mapBase[g_global->scenario.mapScale];
 
 	if (locationID == 6) {
 		PoolFindStruct find;
@@ -1604,7 +1606,8 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 		spriteID = 0;
 
 		for (i = 0; i < 4; i++) {
-			uint16 neighbour = packed + g_global->variable_2566[i];
+			static const int16 mapOffset[] = {-64, 1, 64, -1};
+			uint16 neighbour = packed + mapOffset[i];
 
 			if (Tile_IsOutOfMap(neighbour)) {
 				spriteID |= 1 << i;

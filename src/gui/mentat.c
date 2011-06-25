@@ -64,6 +64,8 @@ bool g_disableOtherMovement; /*!< Disable moving of the other object. */
 uint8 g_shoulderLeft; /*!< Left of the right shoulder of the house mentats (to put them in front of the display in the background). */
 uint8 g_shoulderTop;  /*!< Top of the right shoulder of the house mentats (to put them in front of the display in the background). */
 
+static bool _selectMentatHelp = false; /*!< Selecting from the list of in-game help subjects. */
+static uint8 *_helpSubjects = NULL;
 
 /**
  * Show the Mentat screen with a dialog (Proceed / Repeat).
@@ -127,7 +129,7 @@ static void GUI_Mentat_HelpListLoop()
 
 		key &= 0x80FF;
 
-		g_global->variable_25CE = 1;
+		_selectMentatHelp = true;
 
 		switch (key) {
 			case 0x0053:
@@ -184,12 +186,14 @@ static void GUI_Mentat_HelpListLoop()
 			default: break;
 		}
 
-		g_global->variable_25CE = 0;
+		_selectMentatHelp = false;
 	}
 }
 
 static void GUI_Mentat_LoadHelpSubjects(bool init)
 {
+	static uint8 *helpDataList = NULL;
+
 	uint8 fileID;
 	uint32 length;
 	uint32 counter;
@@ -197,7 +201,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	uint16 i;
 
 	if (init) {
-		g_global->variable_25D0 = Screen_GetSegment_ByIndex_1(3);
+		helpDataList = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
 
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
@@ -207,11 +211,11 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	}
 
 	fileID = ChunkFile_Open(g_global->mentatFilename);
-	length = ChunkFile_Read(fileID, HTOBE32('NAME'), emu_get_memorycsip(g_global->variable_25D0), g_global->variable_6CD3[1][1]);
+	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, g_global->variable_6CD3[1][1]);
 	ChunkFile_Close(fileID);
 
 	g_global->numberHelpSubjects = 0;
-	helpSubjects = emu_get_memorycsip(g_global->variable_25D0);
+	helpSubjects = helpDataList;
 
 	counter = 0;
 	while (counter < length) {
@@ -229,26 +233,28 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 		g_global->numberHelpSubjects++;
 	}
 
-	helpSubjects = emu_get_memorycsip(g_global->variable_25D0);
+	helpSubjects = helpDataList;
 
 	while (*helpSubjects == '\0') helpSubjects++;
 
 	for (i = 0; i < g_global->topHelpList; i++) helpSubjects = String_NextString(helpSubjects);
 
-	g_global->helpSubjects = emu_Global_GetCSIP(helpSubjects);
+	_helpSubjects = helpSubjects;
 }
 
 static void GUI_Mentat_Draw(bool force)
 {
+	static uint16 displayedHelpSubject = 0;
+
 	uint16 oldScreenID;
 	Widget *line;
 	Widget *w = g_widgetMentatTail;
-	uint8 *helpSubjects = emu_get_memorycsip(g_global->helpSubjects);
+	uint8 *helpSubjects = _helpSubjects;
 	uint16 i;
 
-	if (!force && g_global->topHelpList == g_global->variable_25D4) return;
+	if (!force && g_global->topHelpList == displayedHelpSubject) return;
 
-	g_global->variable_25D4 = g_global->topHelpList;
+	displayedHelpSubject = g_global->topHelpList;
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
@@ -799,19 +805,15 @@ void GUI_Mentat_Animation(uint16 speakingMode)
  */
 void GUI_Mentat_SelectHelpSubject(int16 difference)
 {
-	uint8 *helpSujects; /* Needed for converting g_global->numberHelpSubjects */
-
 	if (difference > 0) {
 		if (difference + g_global->topHelpList + 11 > g_global->numberHelpSubjects) {
 			difference = g_global->numberHelpSubjects - (g_global->topHelpList + 11);
 		}
 		g_global->topHelpList += difference;
 
-		helpSujects = emu_get_memorycsip(g_global->helpSubjects);
 		while (difference-- != 0) {
-			helpSujects = String_NextString(helpSujects);
+			_helpSubjects = String_NextString(_helpSubjects);
 		}
-		g_global->helpSubjects = emu_Global_GetCSIP(helpSujects);
 		return;
 	}
 
@@ -824,11 +826,9 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 
 		g_global->topHelpList -= difference;
 
-		helpSujects = emu_get_memorycsip(g_global->helpSubjects);
 		while (difference-- != 0) {
-			helpSujects = String_PrevString(helpSujects);
+			_helpSubjects = String_PrevString(_helpSubjects);
 		}
-		g_global->helpSubjects = emu_Global_GetCSIP(helpSujects);
 		return;
 	}
 }
@@ -929,7 +929,7 @@ static void GUI_Mentat_ShowHelp()
 	char *text;
 	bool loc12;
 
-	subject = emu_get_memorycsip(g_global->helpSubjects);
+	subject = _helpSubjects;
 
 	for (i = 0; i < g_global->selectedHelpSubject; i++) subject = String_NextString(subject);
 
@@ -1029,7 +1029,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 		return true;
 	}
 
-	if ((w->state.s.buttonState & 0x11) == 0 && g_global->variable_25CE == 0) return true;
+	if ((w->state.s.buttonState & 0x11) == 0 && !_selectMentatHelp) return true;
 
 	if (w->stringID != 0x31) return true;
 
