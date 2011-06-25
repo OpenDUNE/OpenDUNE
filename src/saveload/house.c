@@ -32,6 +32,7 @@ static SaveLoadDesc s_saveHouse[] = {
 	SLD_ENTRY (House, SLDT_UINT16, variable_28),
 	SLD_ENTRY (House, SLDT_UINT16, starportTimeLeft),
 	SLD_ENTRY (House, SLDT_UINT16, starportLinkedID),
+	SLD_ARRAY (House, SLDT_UINT16, ai_structureRebuild, 10),
 	SLD_END
 };
 
@@ -49,9 +50,8 @@ bool House_Load(FILE *fp, uint32 length)
 
 		/* Read the next House from disk */
 		if (!SaveLoad_Load(s_saveHouse, fp, &hl)) return false;
-		if (fread(&hl.ai_structureRebuild, sizeof(uint16), 10, fp) != 10) return false;
 
-		length -= sizeof(uint16) * 10 + SaveLoad_GetLength(s_saveHouse);
+		length -= SaveLoad_GetLength(s_saveHouse);
 
 		/* Create the House in the pool */
 		h = House_Allocate(hl.index);
@@ -92,7 +92,6 @@ bool House_Save(FILE *fp)
 		if (h == NULL) break;
 
 		if (!SaveLoad_Save(s_saveHouse, fp, h)) return false;
-		if (fwrite(&h->ai_structureRebuild, sizeof(uint16), 10, fp) != 10) return false;
 	}
 
 	return true;

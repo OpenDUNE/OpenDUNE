@@ -25,7 +25,7 @@ typedef enum SaveLoadType {
  * @param t The type on disk / in memory.
  * @param m The member of the class.
  */
-#define SLD_ENTRY(c, t, m) { offset(c, m), t, t }
+#define SLD_ENTRY(c, t, m) { offset(c, m), t, t, 1 }
 
 /**
  * A full entry.
@@ -34,16 +34,42 @@ typedef enum SaveLoadType {
  * @param m The member of the class.
  * @param t2 The type in memory.
  */
-#define SLD_ENTRY2(c, t, m, t2) { offset(c, m), t, t2 }
+#define SLD_ENTRY2(c, t, m, t2) { offset(c, m), t, t2, 1 }
+
+/**
+ * A normal array.
+ * @param c The class.
+ * @param t The type on disk / in memory.
+ * @param m The member of the class.
+ * @param n The number of elements.
+ */
+#define SLD_ARRAY(c, t, m, n) { offset(c, m), t, t, n }
+
+/**
+ * A full array.
+ * @param c The class.
+ * @param t The type on disk.
+ * @param m The member of the class.
+ * @param t2 The type in memory.
+ * @param n The number of elements.
+ */
+#define SLD_ARRAY2(c, t, m, t2, n) { offset(c, m), t, t2, n }
 
 /**
  * An empty entry. Just to pad bytes on disk.
  * @param t The type on disk.
  */
-#define SLD_EMPTY(t) { 0, t, SLDT_NULL }
+#define SLD_EMPTY(t) { 0, t, SLDT_NULL, 1 }
+
+/**
+ * An empty array. Just to pad bytes on disk.
+ * @param t The type on disk.
+ * @param n The number of elements.
+ */
+#define SLD_EMPTY2(t, n) { 0, t, SLDT_NULL, n }
 
 /** Indicates end of array. */
-#define SLD_END { 0, SLDT_NULL, SLDT_NULL }
+#define SLD_END { 0, SLDT_NULL, SLDT_NULL, 0 }
 
 /**
  * Table definition for SaveLoad descriptors.
@@ -52,6 +78,7 @@ typedef struct SaveLoadDesc {
 	size_t offset;                                          /*!< The offset in the object, in bytes. */
 	SaveLoadType type_disk;                                 /*!< The type it is on disk. */
 	SaveLoadType type_memory;                               /*!< The type it is in memory. */
+	uint16 count;                                           /*!< The number of elements */
 } SaveLoadDesc;
 
 

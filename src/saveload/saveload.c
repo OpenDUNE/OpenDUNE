@@ -19,9 +19,9 @@ uint32 SaveLoad_GetLength(SaveLoadDesc *sld)
 	while (sld->type_disk != SLDT_NULL) {
 		switch (sld->type_disk) {
 			case SLDT_NULL:   length += 0; break;
-			case SLDT_UINT8:  length += sizeof(uint8);  break;
-			case SLDT_UINT16: length += sizeof(uint16); break;
-			case SLDT_UINT32: length += sizeof(uint32); break;
+			case SLDT_UINT8:  length += sizeof(uint8) * sld->count;  break;
+			case SLDT_UINT16: length += sizeof(uint16) * sld->count; break;
+			case SLDT_UINT32: length += sizeof(uint32) * sld->count; break;
 		}
 		sld++;
 	}
@@ -40,52 +40,55 @@ bool SaveLoad_Load(SaveLoadDesc *sld, FILE *fp, void *object)
 {
 	while (sld->type_disk != SLDT_NULL) {
 		uint32 value = 0;
+		uint16 i;
 
-		switch (sld->type_disk) {
-			case SLDT_NULL:
-				value = 0;
-				break;
+		for (i = 0; i < sld->count; i++) {
+			switch (sld->type_disk) {
+				case SLDT_NULL:
+					value = 0;
+					break;
 
-			case SLDT_UINT8: {
-				uint8 v;
+				case SLDT_UINT8: {
+					uint8 v;
 
-				if (fread(&v, sizeof(uint8), 1, fp) != 1) return false;
+					if (fread(&v, sizeof(uint8), 1, fp) != 1) return false;
 
-				value = v;
-			} break;
+					value = v;
+				} break;
 
-			case SLDT_UINT16: {
-				uint16 v;
+				case SLDT_UINT16: {
+					uint16 v;
 
-				if (fread(&v, sizeof(uint16), 1, fp) != 1) return false;
+					if (fread(&v, sizeof(uint16), 1, fp) != 1) return false;
 
-				value = v;
-			} break;
+					value = v;
+				} break;
 
-			case SLDT_UINT32: {
-				uint32 v;
+				case SLDT_UINT32: {
+					uint32 v;
 
-				if (fread(&v, sizeof(uint32), 1, fp) != 1) return false;
+					if (fread(&v, sizeof(uint32), 1, fp) != 1) return false;
 
-				value = v;
-			} break;
-		}
+					value = v;
+				} break;
+			}
 
-		switch (sld->type_memory) {
-			case SLDT_NULL:
-				break;
+			switch (sld->type_memory) {
+				case SLDT_NULL:
+					break;
 
-			case SLDT_UINT8:
-				*(uint8 *)(((uint8 *)object) + sld->offset) = (uint8)value;
-				break;
+				case SLDT_UINT8:
+					*((uint8 *)(((uint8 *)object) + sld->offset) + i) = (uint8)value;
+					break;
 
-			case SLDT_UINT16:
-				*(uint16 *)(((uint8 *)object) + sld->offset) = (uint16)value;
-				break;
+				case SLDT_UINT16:
+					*((uint16 *)(((uint8 *)object) + sld->offset) + i) = (uint16)value;
+					break;
 
-			case SLDT_UINT32:
-				*(uint32 *)(((uint8 *)object) + sld->offset) = (uint32)value;
-				break;
+				case SLDT_UINT32:
+					*((uint32 *)(((uint8 *)object) + sld->offset) + i) = (uint32)value;
+					break;
+			}
 		}
 
 		sld++;
@@ -105,46 +108,49 @@ bool SaveLoad_Save(SaveLoadDesc *sld, FILE *fp, void *object)
 {
 	while (sld->type_disk != SLDT_NULL) {
 		uint32 value = 0;
+		uint16 i;
 
-		switch (sld->type_memory) {
-			case SLDT_NULL:
-				value = 0;
-				break;
+		for (i = 0; i < sld->count; i++) {
+			switch (sld->type_memory) {
+				case SLDT_NULL:
+					value = 0;
+					break;
 
-			case SLDT_UINT8:
-				value = *(uint8 *)(((uint8 *)object) + sld->offset);
-				break;
+				case SLDT_UINT8:
+					value = *((uint8 *)(((uint8 *)object) + sld->offset) + i);
+					break;
 
-			case SLDT_UINT16:
-				value = *(uint16 *)(((uint8 *)object) + sld->offset);
-				break;
+				case SLDT_UINT16:
+					value = *((uint16 *)(((uint8 *)object) + sld->offset) + i);
+					break;
 
-			case SLDT_UINT32:
-				value = *(uint32 *)(((uint8 *)object) + sld->offset);
-				break;
-		}
+				case SLDT_UINT32:
+					value = *((uint32 *)(((uint8 *)object) + sld->offset) + i);
+					break;
+			}
 
-		switch (sld->type_disk) {
-			case SLDT_NULL:
-				break;
+			switch (sld->type_disk) {
+				case SLDT_NULL:
+					break;
 
-			case SLDT_UINT8: {
-				uint8 v = (uint8)value;
+				case SLDT_UINT8: {
+					uint8 v = (uint8)value;
 
-				if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
-			} break;
+					if (fwrite(&v, sizeof(uint8), 1, fp) != 1) return false;
+				} break;
 
-			case SLDT_UINT16: {
-				uint16 v = (uint16)value;
+				case SLDT_UINT16: {
+					uint16 v = (uint16)value;
 
-				if (fwrite(&v, sizeof(uint16), 1, fp) != 1) return false;
-			} break;
+					if (fwrite(&v, sizeof(uint16), 1, fp) != 1) return false;
+				} break;
 
-			case SLDT_UINT32: {
-				uint32 v = (uint32)value;
+				case SLDT_UINT32: {
+					uint32 v = (uint32)value;
 
-				if (fwrite(&v, sizeof(uint32), 1, fp) != 1) return false;
-			} break;
+					if (fwrite(&v, sizeof(uint32), 1, fp) != 1) return false;
+				} break;
+			}
 		}
 
 		sld++;
