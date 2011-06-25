@@ -721,8 +721,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	g_global->savegameDiskspaceForNew = File_HasFreeSpace(30000) ? 1 : 0;
-
 	if (g_global->variable_38D6.csip != 0x0) {
 		GUI_Mouse_Hide_Safe();
 		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
@@ -959,7 +957,7 @@ static void UpdateArrows(bool save, bool force)
 	}
 
 	w = &g_table_windowWidgets[7];
-	if (g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1 > g_global->variable_2A97) {
+	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > g_global->variable_2A97) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -980,7 +978,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	g_global->savegameCountOnDisk = GetSavegameCount();
 
-	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1);
+	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
 
 	FillSavegameDesc(save);
 
@@ -1008,7 +1006,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 			switch (key) {
 				case 0x25:
-					g_global->variable_2A97 = min(g_global->savegameCountOnDisk + (save ? g_global->savegameDiskspaceForNew : 0) - 1, g_global->variable_2A97 + 1);
+					g_global->variable_2A97 = min(g_global->savegameCountOnDisk - (save ? 0 : 1), g_global->variable_2A97 + 1);
 
 					FillSavegameDesc(save);
 

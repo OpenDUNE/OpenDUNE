@@ -612,7 +612,7 @@ typedef struct GlobalData {
 	/* 27F0(105) */ PACK uint8 removed_27F0[105];           /*!< REMOVED - SavegameName WindowDesc. */
 	/* 2859(540) */ PACK uint8 removed_2859[9][60];         /*!< REMOVED - Widgets for windows defined via WindowDesc. */
 	/* 2A75(28)  */ PACK csip32 removed_2A75[7];            /*!< REMOVED - Array of pointers to Widgets. */
-	/* 2A91(2)   */ PACK uint16 savegameDiskspaceForNew;    /*!< Zero or one. One if and only if there is room for at least one more savegame on disk. */
+	/* 2A91(2)   */ PACK uint16 removed_2491;               /*!< REMOVED - Zero or one. One if and only if there is room for at least one more savegame on disk. */
 	/* 2A93(4)   */ PACK csip32 removed_2A93;               /*!< REMOVED - The last Widget in the linkedlist. */
 	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
 	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
