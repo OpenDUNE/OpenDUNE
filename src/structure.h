@@ -35,39 +35,36 @@ typedef enum StructureType {
 	STRUCTURE_INVALID           = 0xFF
 } StructureType;
 
-MSVC_PACKED_BEGIN
 /**
  * A Structure as stored in the memory.
  */
 typedef struct Structure {
-	/* 0000(71)  */ PACK Object o;                          /*!< Common to Unit and Structures. */
-	/* 0047(2)   */ PACK uint16 variable_47;                /*!< ?? The 16bit version of HouseID? */
-	/* 0049(2)   */ PACK uint16 variable_49;                /*!< ?? */
-	/* 004B(1)   */ PACK uint8  variable_4B;                /*!< ?? */
-	/* 004C(2)   */ PACK uint16 objectType;                 /*!< Type of Unit/Structure we are building. */
-	/* 004E(1)   */ PACK uint8  upgradeLevel;               /*!< The current level of upgrade of the Structure. */
-	/* 004F(1)   */ PACK uint8  upgradeTimeLeft;            /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
-	/* 0050(2)   */ PACK uint16 countDown;                  /*!< General countdown for various of functions. */
-	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? Used as 'overflow' value for building stuff. */
-	/* 0054(2)   */ PACK  int16 animation;                  /*!< The animation frame. -1 is the 'just built', 0 is 'normal', .. */
-	/* 0056(2)   */ PACK uint16 hitpointsMax;               /*!< Max amount of hitpoints. */
-} GCC_PACKED Structure;
-MSVC_PACKED_END
-assert_compile(sizeof(Structure) == 0x58);
+	Object o;                                               /*!< Common to Unit and Structures. */
+	uint16 variable_47;                                     /*!< ?? The 16bit version of HouseID? */
+	uint16 variable_49;                                     /*!< ?? */
+	uint8  variable_4B;                                     /*!< ?? */
+	uint16 objectType;                                      /*!< Type of Unit/Structure we are building. */
+	uint8  upgradeLevel;                                    /*!< The current level of upgrade of the Structure. */
+	uint8  upgradeTimeLeft;                                 /*!< Time left before upgrade is complete, or 0 if no upgrade available. */
+	uint16 countDown;                                       /*!< General countdown for various of functions. */
+	uint16 variable_52;                                     /*!< ?? Used as 'overflow' value for building stuff. */
+	 int16 animation;                                       /*!< The animation frame. -1 is the 'just built', 0 is 'normal', .. */
+	uint16 hitpointsMax;                                    /*!< Max amount of hitpoints. */
+}  Structure;
 
 /**
  * Static information per Structure type.
  */
 typedef struct StructureInfo {
-	/* 0000(50)  */ ObjectInfo o;                           /*!< Common to UnitInfo and StructureInfo. */
-	/* 0032(4)   */ uint32 enterFilter;                     /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
-	/* 0036(2)   */ uint16 creditsStorage;                  /*!< How many credits this Structure can store. */
-	/* 0038(2)   */  int16 powerUsage;                      /*!< How much power this Structure uses (positive value) or produces (negative value). */
-	/* 003A(2)   */ uint16 layout;                          /*!< Layout type of Structure. */
-	/* 003C(2)   */ uint16 iconGroup;                       /*!< In which IconGroup the sprites of the Structure belongs. */
-	/* 003E(12)  */ csip32 animationProc[3];                /*!< The procs to the Animation of the Structure. */
-	/* 004A(16)  */ uint16 buildableUnits[8];               /*!< Which units this structure can produce. */
-	/* 005A(6)   */ uint16 upgradeCampaign[3];              /*!< Minimum campaign for upgrades. */
+	ObjectInfo o;                                           /*!< Common to UnitInfo and StructureInfo. */
+	uint32 enterFilter;                                     /*!< Bitfield determining which unit is allowed to enter the structure. If bit n is set, then units of type n may enter */
+	uint16 creditsStorage;                                  /*!< How many credits this Structure can store. */
+	 int16 powerUsage;                                      /*!< How much power this Structure uses (positive value) or produces (negative value). */
+	uint16 layout;                                          /*!< Layout type of Structure. */
+	uint16 iconGroup;                                       /*!< In which IconGroup the sprites of the Structure belongs. */
+	csip32 animationProc[3];                                /*!< The procs to the Animation of the Structure. */
+	uint16 buildableUnits[8];                               /*!< Which units this structure can produce. */
+	uint16 upgradeCampaign[3];                              /*!< Minimum campaign for upgrades. */
 } StructureInfo;
 
 struct House;

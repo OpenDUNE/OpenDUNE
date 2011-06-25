@@ -13,15 +13,15 @@
 #include "../unit.h"
 
 static const SaveLoadDesc s_saveUnitOrientation[] = {
-	SLD_ENTRY (dir24, SLDT_INT8,  speed),
-	SLD_ENTRY (dir24, SLDT_INT8,  target),
-	SLD_ENTRY (dir24, SLDT_INT8,  current),
+	SLD_ENTRY (dir24,  SLDT_INT8, speed),
+	SLD_ENTRY (dir24,  SLDT_INT8, target),
+	SLD_ENTRY (dir24,  SLDT_INT8, current),
 	SLD_END
 };
 
 static const SaveLoadDesc s_saveUnit[] = {
 	SLD_SLD   (Unit, o, g_saveObject),
-	SLD_ENTRY (Unit, SLDT_UINT16, unknown_0047),
+	SLD_EMPTY (      SLDT_UINT16),
 	SLD_ENTRY (Unit, SLDT_UINT32, variable_49),
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),
 	SLD_ENTRY (Unit, SLDT_UINT8,  actionID),
@@ -57,14 +57,14 @@ static const SaveLoadDesc s_saveUnit[] = {
  */
 bool Unit_Load(FILE *fp, uint32 length)
 {
-	while (length >= sizeof(Unit)) {
+	while (length > 0) {
 		Unit *u;
 		Unit ul;
 
-		length -= sizeof(Unit);
-
 		/* Read the next Structure from disk */
 		if (!SaveLoad_Load(s_saveUnit, fp, &ul)) return false;
+
+		length -= SaveLoad_GetLength(s_saveUnit);
 
 		ul.o.script.scriptInfo.s.cs = 0x353F;
 		ul.o.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptUnit, 0x353F);

@@ -35,14 +35,14 @@ static const SaveLoadDesc s_saveStructure[] = {
  */
 bool Structure_Load(FILE *fp, uint32 length)
 {
-	while (length >= sizeof(Structure)) {
+	while (length > 0) {
 		Structure *s;
 		Structure sl;
 
-		length -= sizeof(Structure);
-
 		/* Read the next Structure from disk */
 		if (!SaveLoad_Load(s_saveStructure, fp, &sl)) return false;
+
+		length -= SaveLoad_GetLength(s_saveStructure);
 
 		sl.o.script.scriptInfo.s.cs = 0x353F;
 		sl.o.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptStructure, 0x353F);

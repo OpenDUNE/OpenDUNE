@@ -81,111 +81,104 @@ typedef enum MovementType {
 	MOVEMENT_INVALID     = 0xFF
 } MovementType;
 
-MSVC_PACKED_BEGIN
 /**
  * Directional information
  */
 typedef struct dir24 {
-	/* 0000(1)  */ PACK int8 speed;                        /*!< Speed of direction change. */
-	/* 0001(1)  */ PACK int8 target;                       /*!< Target direction. */
-	/* 0002(1)  */ PACK int8 current;                      /*!< Current direction. */
-} GCC_PACKED dir24;
-MSVC_PACKED_END
-assert_compile(sizeof(dir24) == 0x3);
+	int8 speed;                                             /*!< Speed of direction change. */
+	int8 target;                                            /*!< Target direction. */
+	int8 current;                                           /*!< Current direction. */
+} dir24;
 
-MSVC_PACKED_BEGIN
 /**
  * A Unit as stored in the memory.
  */
 typedef struct Unit {
-	/* 0000(71)  */ PACK Object o;                          /*!< Common to Unit and Structures. */
-	/* 0047()    */ PACK uint8   unknown_0047[0x0002];
-	/* 0049(4)   */ PACK tile32 variable_49;                /*!< ?? */
-	/* 004D(2)   */ PACK uint16 originEncoded;              /*!< Encoded index, indicating the origin. */
-	/* 004F(1)   */ PACK uint8  actionID;                   /*!< Current action. */
-	/* 0050(1)   */ PACK uint8  nextActionID;               /*!< Next action. */
-	/* 0051(1)   */ PACK uint8  fireDelay;                  /*!< ?? */
-	/* 0052(2)   */ PACK uint16 variable_52;                /*!< ?? */
-	/* 0054(2)   */ PACK uint16 targetAttack;               /*!< Target to attack (encoded index). */
-	/* 0056(2)   */ PACK uint16 targetMove;                 /*!< Target to move to (encoded index). */
-	/* 0058(1)   */ PACK uint8  amount;                     /*!< Meaning depends on type:
+	Object o;                                               /*!< Common to Unit and Structures. */
+	tile32 variable_49;                                     /*!< ?? */
+	uint16 originEncoded;                                   /*!< Encoded index, indicating the origin. */
+	uint8  actionID;                                        /*!< Current action. */
+	uint8  nextActionID;                                                         /*!< Next action. */
+	uint8  fireDelay;                                       /*!< ?? */
+	uint16 variable_52;                                     /*!< ?? */
+	uint16 targetAttack;                                    /*!< Target to attack (encoded index). */
+	uint16 targetMove;                                      /*!< Target to move to (encoded index). */
+	uint8  amount;                                          /*!< Meaning depends on type:
 	                                                         * - Sandworm : units to eat before disappearing.
 	                                                         * - Harvester : harvested spice.
 	                                                         */
-	/* 0059(1)   */ PACK uint8  deviated;                   /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
-	/* 005A(4)   */ PACK tile32 variable_5A;                /*!< ?? */
-	/* 005E(4)   */ PACK tile32 variable_5E;                /*!< ?? */
-	/* 0062(6)   */ PACK dir24  orientation[2];             /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
-	/* 0068(1)   */ PACK uint8  variable_68;                /*!< ?? */
-	/* 0069(1)   */ PACK uint8  variable_69;                /*!< ?? */
-	/* 006A(1)   */ PACK uint8  variable_6A;                /*!< ?? */
-	/* 006B(1)   */ PACK uint8  variable_6B;                /*!< ?? */
-	/* 006C(1)   */ PACK uint8  variable_6C;                /*!< ?? */
-	/* 006D(1)   */ PACK  int8  variable_6D;                /*!< ?? */
-	/* 006E(1)   */ PACK uint8  blinkCounter;               /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
-	/* 006F(1)   */ PACK uint8  team;                       /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
-	/* 0070(1)   */ PACK uint16 variable_70;                /*!< ?? */
-	/* 0072(1)   */ PACK uint8  variable_72[14];            /*!< ?? */
-} GCC_PACKED Unit;
-MSVC_PACKED_END
-assert_compile(sizeof(Unit) == 0x80);
+	uint8  deviated;                                        /*!< ?? If non-zero, the unit is deviated, but what does it hold exactly? */
+	tile32 variable_5A;                                     /*!< ?? */
+	tile32 variable_5E;                                     /*!< ?? */
+	dir24  orientation[2];                                  /*!< Orientation of the unit. [0] = base, [1] = top (turret, etc). */
+	uint8  variable_68;                                     /*!< ?? */
+	uint8  variable_69;                                     /*!< ?? */
+	uint8  variable_6A;                                     /*!< ?? */
+	uint8  variable_6B;                                     /*!< ?? */
+	uint8  variable_6C;                                     /*!< ?? */
+	 int8  variable_6D;                                     /*!< ?? */
+	uint8  blinkCounter;                                    /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
+	uint8  team;                                            /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
+	uint16 variable_70;                                     /*!< ?? */
+	uint8  variable_72[14];                                 /*!< ?? */
+} Unit;
 
 /**
  * Static information per Unit type.
  */
 typedef struct UnitInfo {
-	/* 0000(50)  */ ObjectInfo o;                           /*!< Common to UnitInfo and StructureInfo. */
-	/* 0032(2)   */ uint16 indexStart;                      /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
-	/* 0034(2)   */ uint16 indexEnd;                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
-	/* 0036(2)   */ union {
-	                     struct {
-	/*      0001 */              BITTYPE notused_0001:1;    /*!< Not used. */
-	/*      0002 */              BITTYPE variable_0002:1;   /*!< ?? */
-	/*      0004 */              BITTYPE variable_0004:1;   /*!< ?? */
-	/*      0008 */              BITTYPE sonicProtection:1; /*!< If true, the Unit receives no damage of a sonic blast. */
-	/*      0010 */              BITTYPE variable_0010:1;   /*!< ?? */
-	/*      0020 */              BITTYPE variable_0020:1;   /*!< ?? */
-	/*      0040 */              BITTYPE variable_0040:1;   /*!< ?? */
-	/*      0080 */              BITTYPE variable_0080:1;   /*!< ?? */
-	/*      0100 */              BITTYPE notused_1000:1;    /*!< Not used. */
-	/*      0200 */              BITTYPE notused_0200:1;    /*!< Not used. */
-	/*      0400 */              BITTYPE variable_0400:1;   /*!< ?? */
-	/*      0800 */              BITTYPE variable_0800:1;   /*!< ?? */
-	/*      1000 */              BITTYPE deviateProtection:1; /*!< If true, the Unit can't be deviated. */
-	/*      2000 */              BITTYPE variable_2000:1;   /*!< ?? */
-	/*      4000 */              BITTYPE variable_4000:1;   /*!< ?? */
-	/*      8000 */              BITTYPE variable_8000:1;   /*!< ?? */
-	                     } s;
-	                     uint16 all; } flags;               /*!< General flags of the UnitInfo. */
-	/* 0038(2)   */ uint16 variable_38;                     /*!< ?? */
-	/* 003A()    */ uint8   unknown_003A[0x0002];
-	/* 003C(2)   */ uint16 movementType;                    /*!< MovementType of Unit. */
-	/* 003E(2)   */ uint16 variable_3E;                     /*!< ?? */
-	/* 0040(2)   */ uint16 variable_40;                     /*!< ?? */
-	/* 0042(1)   */ uint8  turningSpeed;                    /*!< Speed of orientation change of the Unit. */
-	/* 0043()    */ uint8   unknown_0043[0x0001];
-	/* 0044(2)   */ uint16 spriteID;                        /*!< SpriteID for north direction. */
-	/* 0046(2)   */ uint16 turretSpriteID;                  /*!< SpriteID of the turret for north direction. */
-	/* 0048(2)   */ uint16 actionAI;                        /*!< Default action for AI units. */
-	/* 004A(2)   */ uint16 displayMode;                     /*!< How to draw the Unit. */
-	/* 004C(2)   */ uint16 variable_4C;                     /*!< ?? */
-	/* 004E(2)   */ uint16 fireDelay;                       /*!< Time between firing at Normal speed. */
-	/* 0050(2)   */ uint16 variable_50;                     /*!< ?? */
-	/* 0052(2)   */ uint16 damage;                          /*!< Damage this Unit does to other Units. */
-	/* 0054(2)   */ uint16 explosionType;                   /*!< Type of the explosion of Unit. */
-	/* 0056(2)   */ uint16 bulletType;                      /*!< Type of the bullets of Unit. */
-	/* 0058(2)   */ uint16 bulletSound;                     /*!< Sound for the bullets. */
+	ObjectInfo o;                                           /*!< Common to UnitInfo and StructureInfo. */
+	uint16 indexStart;                                      /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
+	uint16 indexEnd;                                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
+	union {
+		struct {
+			BITTYPE notused_0001:1;                         /*!< Not used. */
+			BITTYPE variable_0002:1;                        /*!< ?? */
+			BITTYPE variable_0004:1;                        /*!< ?? */
+			BITTYPE sonicProtection:1;                      /*!< If true, the Unit receives no damage of a sonic blast. */
+			BITTYPE variable_0010:1;                        /*!< ?? */
+			BITTYPE variable_0020:1;                        /*!< ?? */
+			BITTYPE variable_0040:1;                        /*!< ?? */
+			BITTYPE variable_0080:1;                        /*!< ?? */
+			BITTYPE notused_1000:1;                         /*!< Not used. */
+			BITTYPE notused_0200:1;                         /*!< Not used. */
+			BITTYPE variable_0400:1;                        /*!< ?? */
+			BITTYPE variable_0800:1;                        /*!< ?? */
+			BITTYPE deviateProtection:1;                    /*!< If true, the Unit can't be deviated. */
+			BITTYPE variable_2000:1;                        /*!< ?? */
+			BITTYPE variable_4000:1;                        /*!< ?? */
+			BITTYPE variable_8000:1;                        /*!< ?? */
+		} s;
+		uint16 all; } flags;                                /*!< General flags of the UnitInfo. */
+	uint16 variable_38;                                     /*!< ?? */
+	uint8   unknown_003A[0x0002];
+	uint16 movementType;                                    /*!< MovementType of Unit. */
+	uint16 variable_3E;                                     /*!< ?? */
+	uint16 variable_40;                                     /*!< ?? */
+	uint8  turningSpeed;                                    /*!< Speed of orientation change of the Unit. */
+	uint8   unknown_0043[0x0001];
+	uint16 spriteID;                                        /*!< SpriteID for north direction. */
+	uint16 turretSpriteID;                                  /*!< SpriteID of the turret for north direction. */
+	uint16 actionAI;                                        /*!< Default action for AI units. */
+	uint16 displayMode;                                     /*!< How to draw the Unit. */
+	uint16 variable_4C;                                     /*!< ?? */
+	uint16 fireDelay;                                       /*!< Time between firing at Normal speed. */
+	uint16 variable_50;                                     /*!< ?? */
+	uint16 damage;                                          /*!< Damage this Unit does to other Units. */
+	uint16 explosionType;                                   /*!< Type of the explosion of Unit. */
+	uint16 bulletType;                                      /*!< Type of the bullets of Unit. */
+	uint16 bulletSound;                                     /*!< Sound for the bullets. */
 } UnitInfo;
 
 /**
  * Static information per Action type.
  */
 typedef struct ActionInfo {
-	/* 0000()    */ uint16 stringID;                        /*!< StringID of Action name. */
-	/* 0002(4)   */ const char *name;                       /*!< Name of Action. */
-	/* 0006(2)   */ uint16 variable_06;                     /*!< ?? */
-	/* 0008(2)   */ uint16 variable_08;                     /*!< ?? */
-	/* 000A(2)   */ uint16 variable_0A;                     /*!< ?? */
+	uint16 stringID;                                        /*!< StringID of Action name. */
+	const char *name;                                       /*!< Name of Action. */
+	uint16 variable_06;                                     /*!< ?? */
+	uint16 variable_08;                                     /*!< ?? */
+	uint16 variable_0A;                                     /*!< ?? */
 } ActionInfo;
 
 struct Team;
