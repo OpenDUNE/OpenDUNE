@@ -27,7 +27,7 @@ uint32 SaveLoad_GetLength(const SaveLoadDesc *sld)
 			case SLDT_INT8:   length += sizeof(int8)   * sld->count;  break;
 			case SLDT_INT16:  length += sizeof(int16)  * sld->count;  break;
 			case SLDT_INT32:  length += sizeof(int32)  * sld->count;  break;
-			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld); break;
+			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld) * sld->count; break;
 		}
 		sld++;
 	}
