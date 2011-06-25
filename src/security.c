@@ -79,7 +79,7 @@ static void GUI_Security_NormaliseText(char *str)
  */
 bool GUI_Security_Show()
 {
-	csip32 wsaHouseFilenamecsip;
+	char *wsaHouseFilename;
 	uint16 questionsCount;
 	uint32 loc0E;
 	uint16 oldValue_07AE_0000;
@@ -90,18 +90,17 @@ bool GUI_Security_Show()
 	g_disableOtherMovement = true;
 	g_interrogation = true;
 
-	wsaHouseFilenamecsip.s.cs = 0x353F;
 	switch (g_global->playerHouseID) {
 		case HOUSE_HARKONNEN:
-			wsaHouseFilenamecsip.s.ip = 0x25A4; /* "FHARK.WSA" */
+			wsaHouseFilename = "FHARK.WSA";
 			break;
 
 		case HOUSE_ATREIDES:
-			wsaHouseFilenamecsip.s.ip = 0x25AE; /* "FARTR.WSA" */
+			wsaHouseFilename = "FARTR.WSA";
 			break;
 
 		case HOUSE_ORDOS:
-			wsaHouseFilenamecsip.s.ip = 0x25B8; /* "FORDOS.WSA" */
+			wsaHouseFilename = "FORDOS.WSA";
 			break;
 
 		default:
@@ -124,7 +123,7 @@ bool GUI_Security_Show()
 
 	Unknown_259E_0006(g_palette2, 15);
 
-	GUI_Mentat_Display((char *)emu_get_memorycsip(wsaHouseFilenamecsip), g_global->playerHouseID);
+	GUI_Mentat_Display(wsaHouseFilename, g_global->playerHouseID);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
@@ -140,7 +139,7 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		GUI_Mentat_Loop((char *)emu_get_memorycsip(wsaHouseFilenamecsip), NULL, string, true, NULL);
+		GUI_Mentat_Loop(wsaHouseFilename, NULL, string, true, NULL);
 	}
 
 

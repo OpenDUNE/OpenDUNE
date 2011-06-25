@@ -587,9 +587,9 @@ typedef struct GlobalData {
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 25A4(10)  */ PACK char   string_25A4[10];            /*!< "FHARK.WSA" NULL terminated. */
-	/* 25AE(10)  */ PACK char   string_25AE[10];            /*!< "FARTR.WSA" NULL terminated. */
-	/* 25B8(11)  */ PACK char   string_25B8[11];            /*!< "FORDOS.WSA" NULL terminated. */
+	/* 25A4(10)  */ PACK char  removed_25A4[10];            /*!< REMOVED - "FHARK.WSA" NULL terminated. */
+	/* 25AE(10)  */ PACK char  removed_25AE[10];            /*!< REMOVED - "FARTR.WSA" NULL terminated. */
+	/* 25B8(11)  */ PACK char  removed_25B8[11];            /*!< REMOVED - "FORDOS.WSA" NULL terminated. */
 	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
 	/* 25CE(2)   */ PACK uint16 variable_25CE;              /*!< ?? */
