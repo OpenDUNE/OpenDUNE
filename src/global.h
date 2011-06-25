@@ -89,6 +89,7 @@ typedef enum IconMapEntries {
 } IconMapEntries;
 
 MSVC_PACKED_BEGIN
+/** REMOVED (never ever used) */
 typedef struct struct_7B68 {
 	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
 	/* 0001(1)   */ PACK uint8  variable_0001;              /*!< ?? */
@@ -1392,7 +1393,7 @@ typedef struct GlobalData {
 	/* 7B1C(2)   */ PACK uint16 variable_7B1C;              /*!< ?? variable_77CA[0] init state. */
 	/* 7B1E(2)   */ PACK uint16 variable_7B1E;              /*!< ?? variable_77CA[1] init state. */
 	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
-	/* 7B68(36)  */ PACK struct_7B68 variable_7B68[6];      /*!< ?? */
+	/* 7B68(36)  */ PACK struct_7B68 removed_7B68[6];       /*!< REMOVED - ?? (apparently never ever used) */
 	/* 7B8C(640) */ PACK uint16 variable_7B8C[320];         /*!< ?? */
 	/* 7E0C(400) */ PACK uint16 variable_7E0C[200];         /*!< ?? */
 	/* 7F9C(4)   */ PACK uint32 variable_7F9C;              /*!< ?? Also a tick counter.. */
