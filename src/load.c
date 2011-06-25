@@ -59,8 +59,8 @@ static bool Load_Info(FILE *fp, uint32 length)
 	if (fread(&activeUnit, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->activeAction, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
@@ -154,9 +154,9 @@ static bool Load_Main(FILE *fp)
 		fseek(fp, sizeof(Scenario) - sizeof(uint16), SEEK_CUR);
 		fseek(fp, 22, SEEK_CUR);
 
-		if (fread(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-		if (fread(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
-		g_global->variable_38BE = 1;
+		if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
+		if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
+		g_gameMode = GM_RESTART;
 
 		/* Find the 'PLYR' chunk */
 		fseek(fp, position, SEEK_SET);
@@ -191,7 +191,7 @@ static bool Load_Main(FILE *fp)
 				continue;
 			}
 
-			g_global->playerHouseID = index;
+			g_playerHouseID = index;
 			break;
 		}
 		if (length == 0) return false;
@@ -270,7 +270,7 @@ bool LoadFile(char *filename)
 		return false;
 	}
 
-	if (g_global->variable_38BE != 1) Game_Prepare();
+	if (g_gameMode != GM_RESTART) Game_Prepare();
 
 	return true;
 }
@@ -280,7 +280,7 @@ bool LoadFile(char *filename)
  */
 void Load_Palette_Mercenaries()
 {
-	if (g_global->playerHouseID == HOUSE_MERCENARY) {
+	if (g_playerHouseID == HOUSE_MERCENARY) {
 		File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
 	}
 }

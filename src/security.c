@@ -90,7 +90,7 @@ bool GUI_Security_Show()
 	g_disableOtherMovement = true;
 	g_interrogation = true;
 
-	switch (g_global->playerHouseID) {
+	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
 			wsaHouseFilename = "FHARK.WSA";
 			break;
@@ -123,7 +123,7 @@ bool GUI_Security_Show()
 
 	Unknown_259E_0006(g_palette2, 15);
 
-	GUI_Mentat_Display(wsaHouseFilename, g_global->playerHouseID);
+	GUI_Mentat_Display(wsaHouseFilename, g_playerHouseID);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
@@ -135,7 +135,7 @@ bool GUI_Security_Show()
 		char string[1024];
 		char *compressedString;
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_global->playerHouseID * 3 + 1);
+		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 1);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
@@ -228,11 +228,11 @@ bool GUI_Security_Show()
 		GUI_Security_NormaliseText(string);
 
 		if (strcasecmp(string, (char *)&emu_get_memory8(0x353F, 0x9939, 0)) != 0) {
-			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_global->playerHouseID * 3 + 3);
+			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 3);
 			String_Decompress(compressedString, string);
 			String_TranslateSpecial(string, string);
 		} else {
-			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_global->playerHouseID * 3 + 2);
+			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 2);
 			String_Decompress(compressedString, string);
 			String_TranslateSpecial(string, string);
 

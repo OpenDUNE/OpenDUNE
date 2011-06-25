@@ -283,7 +283,7 @@ void Sound_Unknown0156(uint16 index)
 
 		filename = g_table_voices[index].string;
 		if (filename[0] == '?') {
-			sprintf((char *)g_global->variable_9939, filename + 1, g_global->playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_global->playerHouseID].prefixChar : ' ');
+			sprintf((char *)g_global->variable_9939, filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
 
 			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 

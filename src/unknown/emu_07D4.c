@@ -716,7 +716,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 		s = Structure_Get_ByPackedTile(packed);
 
-		if (s != NULL && s->o.houseID == g_global->playerHouseID) {
+		if (s != NULL && s->o.houseID == g_playerHouseID) {
 			if (mapScale > 1) {
 				spriteID = mapScale + s->o.houseID * 2 + 29;
 			} else {

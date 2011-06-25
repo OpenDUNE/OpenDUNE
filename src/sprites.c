@@ -92,7 +92,7 @@ void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites)
 		uint32 length;
 		char *filename = (char *)g_global->variable_9939;
 
-		hi = &g_table_houseInfo[(g_global->playerHouseID == HOUSE_INDEX_INVALID) ? HOUSE_ATREIDES : g_global->playerHouseID];
+		hi = &g_table_houseInfo[(g_playerHouseID == HOUSE_INVALID) ? HOUSE_ATREIDES : g_playerHouseID];
 
 		sprintf(filename, files, hi->name[0]);
 
@@ -625,7 +625,7 @@ void Sprites_CPS_LoadRegionClick()
 	g_global->REGION_INI = memBlock;
 
 	buf = emu_get_memorycsip(g_global->REGION_INI);
-	sprintf((char *)g_global->variable_9939, "REGION%c.INI", g_table_houseInfo[g_global->playerHouseID].name[0]);
+	sprintf((char *)g_global->variable_9939, "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
 	memBlock.s.ip += File_ReadFile((char *)g_global->variable_9939, buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
 	g_global->regions = memBlock;

@@ -570,7 +570,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			o  = &u->o;
 			oi = &ui->o;
 
-			isNotPlayerOwned = (g_global->playerHouseID == Unit_GetHouseID(u)) ? false : true;
+			isNotPlayerOwned = (g_playerHouseID == Unit_GetHouseID(u)) ? false : true;
 
 			h = House_Get_ByIndex(u->o.houseID);
 		} break;
@@ -582,7 +582,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			o  = &s->o;
 			oi = &si->o;
 
-			isNotPlayerOwned = (g_global->playerHouseID == s->o.houseID) ? false : true;
+			isNotPlayerOwned = (g_playerHouseID == s->o.houseID) ? false : true;
 
 			h = House_Get_ByIndex(s->o.houseID);
 
@@ -598,7 +598,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 			isNotPlayerOwned = false;
 
-			h = House_Get_ByIndex((uint8)g_global->playerHouseID);
+			h = House_Get_ByIndex(g_playerHouseID);
 		} break;
 
 		case 8: { /* House Missile */
@@ -608,9 +608,9 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			o  = &u->o;
 			oi = &ui->o;
 
-			isNotPlayerOwned = (g_global->playerHouseID == Unit_GetHouseID(u)) ? false : true;
+			isNotPlayerOwned = (g_playerHouseID == Unit_GetHouseID(u)) ? false : true;
 
-			h = House_Get_ByIndex((uint8)g_global->playerHouseID);
+			h = House_Get_ByIndex(g_playerHouseID);
 		} break;
 
 		case 4: /* Attack */

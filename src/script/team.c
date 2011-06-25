@@ -14,6 +14,7 @@
 #include "script.h"
 
 #include "../gui/gui.h"
+#include "../house.h"
 #include "../pool/team.h"
 #include "../pool/pool.h"
 #include "../pool/unit.h"
@@ -426,7 +427,7 @@ uint16 Script_Team_DisplayText(ScriptEngine *script)
 	uint16 offset;
 
 	t = g_scriptCurrentTeam;
-	if (t->houseID == g_global->playerHouseID) return 0;
+	if (t->houseID == g_playerHouseID) return 0;
 
 	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
 

@@ -103,6 +103,7 @@ typedef struct HouseInfo {
 extern const HouseInfo g_table_houseInfo[];
 
 extern House *g_playerHouse;
+extern HouseType g_playerHouseID;
 
 extern void GameLoop_House();
 extern uint8 House_StringToType(const char *name);

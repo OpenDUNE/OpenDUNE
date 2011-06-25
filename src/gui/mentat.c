@@ -23,6 +23,7 @@
 #include "../input/input.h"
 #include "../load.h"
 #include "../mouse.h"
+#include "../opendune.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
@@ -200,7 +201,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
 
-		sprintf(g_global->mentatFilename, "MENTAT%c", g_table_houseInfo[g_global->playerHouseID].name[0]);
+		sprintf(g_global->mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
 		strcpy(g_global->mentatFilename, String_GenerateFilename(g_global->mentatFilename));
 	}
 
@@ -217,7 +218,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 
 		counter += size;
 
-		if (helpSubjects[size - 1] > g_global->campaignID + 1) {
+		if (helpSubjects[size - 1] > g_campaignID + 1) {
 			while (size-- != 0) *helpSubjects++ = '\0';
 			continue;
 		}
@@ -310,7 +311,7 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 	Input_Flags_SetBits(INPUT_FLAG_KEY_REPEAT);
 	Input_History_Clear();
 
-	GUI_Mentat_Display(NULL, g_global->playerHouseID);
+	GUI_Mentat_Display(NULL, g_playerHouseID);
 
 	g_widgetMentatFirst = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(*String_Get_ByIndex(0xC1)), 200, 168, proceed ? 6 : 4, 5, 1);
 	g_widgetMentatFirst->shortcut2 = 'n';
@@ -367,7 +368,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
-	Music_Play(g_table_houseInfo[g_global->playerHouseID].musicBriefing);
+	Music_Play(g_table_houseInfo[g_playerHouseID].musicBriefing);
 
 	Sprites_UnloadTiles();
 
@@ -408,7 +409,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 
 	Sprites_UnloadTiles();
 
-	GUI_Mentat_Display(wsaFilename, g_global->playerHouseID);
+	GUI_Mentat_Display(wsaFilename, g_playerHouseID);
 
 	GUI_Screen_SetActive(2);
 
@@ -458,7 +459,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
  */
 void GUI_Mentat_ShowBriefing()
 {
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 4, g_global->scenario.pictureBriefing, g_table_houseInfo[g_global->playerHouseID].musicBriefing);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 4, g_global->scenario.pictureBriefing, g_table_houseInfo[g_playerHouseID].musicBriefing);
 }
 
 /**
@@ -466,7 +467,7 @@ void GUI_Mentat_ShowBriefing()
  */
 void GUI_Mentat_ShowWin()
 {
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 5, g_global->scenario.pictureWin, g_table_houseInfo[g_global->playerHouseID].musicWin);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 5, g_global->scenario.pictureWin, g_table_houseInfo[g_playerHouseID].musicWin);
 }
 
 /**
@@ -474,7 +475,7 @@ void GUI_Mentat_ShowWin()
  */
 void GUI_Mentat_ShowLose()
 {
-	GUI_Mentat_ShowDialog((uint8)g_global->playerHouseID, g_global->campaignID * 4 + 6, g_global->scenario.pictureLose, g_table_houseInfo[g_global->playerHouseID].musicLose);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 6, g_global->scenario.pictureLose, g_table_houseInfo[g_playerHouseID].musicLose);
 }
 
 /**
@@ -581,7 +582,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 			GUI_Mouse_Show_InRegion();
 		}
 
-		switch (g_global->playerHouseID) {
+		switch (g_playerHouseID) {
 			case HOUSE_HARKONNEN:
 				movingOtherTimer = g_global->variable_76AC + 300 * 60;
 				break;
@@ -965,9 +966,9 @@ static void GUI_Mentat_ShowHelp()
 		desc    = NULL;
 		text    = (char *)emu_get_memorycsip(g_global->readBuffer);
 
-		index = *text - 44 + g_global->campaignID * 4;
+		index = *text - 44 + g_campaignID * 4;
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[g_global->playerHouseID].name[0]);
+		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[g_playerHouseID].name[0]);
 		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), index, text, g_global->readBufferSize);
 		String_TranslateSpecial(text, text);
 	} else {

@@ -92,7 +92,7 @@ void Map_SetSelection(uint16 packed)
 			const StructureInfo *si;
 
 			si = &g_table_structureInfo[s->o.type];
-			if (s->o.houseID == g_global->playerHouseID || g_global->selectionType != 0) {
+			if (s->o.houseID == g_playerHouseID || g_global->selectionType != 0) {
 				GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 			}
 
@@ -448,7 +448,7 @@ static bool Map_06F7_072B(struct_395A *s)
 	Map_ChangeSpiceAmount(packed, -1);
 
 	if (t->groundSpriteID == g_global->bloomSpriteID) {
-		Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
+		Map_B4CD_14CA(packed, g_playerHouseID);
 		return false;
 	}
 
@@ -480,7 +480,7 @@ static bool Map_06F7_0913(struct_395A *s)
 
 	if (g_map[packed].groundSpriteID != g_global->bloomSpriteID) return true;
 
-	Map_B4CD_14CA(packed, (uint8)g_global->playerHouseID);
+	Map_B4CD_14CA(packed, g_playerHouseID);
 
 	return false;
 }
@@ -693,7 +693,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 				Unit_Damage(u, hitpoints >> (distance >> 2), 0);
 			}
 
-			if (u->o.houseID == g_global->playerHouseID) continue;
+			if (u->o.houseID == g_playerHouseID) continue;
 
 			us = Tools_Index_GetUnit(unitOriginEncoded);
 			if (us == NULL) continue;
@@ -993,7 +993,7 @@ void Map_B4CD_14CA(uint16 packed, uint8 houseID)
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
 	}
 
-	if (houseID == g_global->playerHouseID) Sound_Unknown0363(36);
+	if (houseID == g_playerHouseID) Sound_Unknown0363(36);
 
 	Map_FillCircleWithSpice(packed, 5);
 }
@@ -1282,13 +1282,13 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 			case 4: {
 				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
-				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 			}
 
 			case 5:
 				ret = Tile_PackXY(Tile_GetPackedX(g_global->minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_global->minimapPosition) + Tools_RandomRange(0, 9));
-				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 
 			case 6:
@@ -1321,7 +1321,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 					}
 				}
 
-				if (houseID == g_global->playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
+				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 			}
 
@@ -1514,7 +1514,7 @@ void Map_SelectNext(bool getNext)
 
 		if (!Map_IsTileVisible(Tile_PackTile(u->o.position))) continue;
 
-		if ((u->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
+		if ((u->o.variable_09 & (1 << g_playerHouseID)) == 0) continue;
 
 		if (first == NULL) first = &u->o;
 		last = &u->o;
@@ -1548,7 +1548,7 @@ void Map_SelectNext(bool getNext)
 
 		if (!Map_IsTileVisible(Tile_PackTile(s->o.position))) continue;
 
-		if ((s->o.variable_09 & (1 << g_global->playerHouseID)) == 0) continue;
+		if ((s->o.variable_09 & (1 << g_playerHouseID)) == 0) continue;
 
 		if (first == NULL) first = &s->o;
 		last = &s->o;
@@ -1620,7 +1620,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 
 		if (spriteID != 15) {
 			Unit *u = Unit_Get_ByPackedTile(packed);
-			if (u != NULL) Unit_HouseUnitCount_Add(u, (uint8)g_global->playerHouseID);
+			if (u != NULL) Unit_HouseUnitCount_Add(u, g_playerHouseID);
 		}
 
 		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
@@ -1644,7 +1644,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 	Unit *u;
 	Tile *t;
 
-	if (houseID != g_global->playerHouseID) return false;
+	if (houseID != g_playerHouseID) return false;
 	if (Tile_IsOutOfMap(packed)) return false;
 
 	t = &g_map[packed];

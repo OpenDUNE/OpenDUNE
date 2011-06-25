@@ -11,6 +11,7 @@
 
 #include "house.h"
 #include "map.h"
+#include "opendune.h"
 #include "os/endian.h"
 #include "os/math.h"
 #include "os/strings.h"
@@ -65,8 +66,8 @@ static bool Save_Info(FILE *fp)
 	if (fwrite(&g_global->activeAction, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
 
-	if (fwrite(&g_global->scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->campaignID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (fwrite(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
 	if (fwrite(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;

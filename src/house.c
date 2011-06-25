@@ -14,6 +14,7 @@
 
 #include "gui/gui.h"
 #include "map.h"
+#include "opendune.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
@@ -28,6 +29,8 @@
 
 
 House *g_playerHouse = NULL;
+HouseType g_playerHouseID = HOUSE_INVALID;
+
 static uint32 _tickHouseHouse = 0;
 static uint32 _tickHousePowerMaintenance = 0;
 static uint32 _tickHouseStarport = 0;
@@ -92,7 +95,7 @@ void GameLoop_House()
 		g_global->houseMissileCountdown--;
 		Sound_Unknown0363(g_global->houseMissileCountdown + 41);
 
-		if (g_global->houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, (uint8)g_global->playerHouseID));
+		if (g_global->houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, g_playerHouseID));
 	}
 
 	if (tickStarportAvailability) {
@@ -180,7 +183,7 @@ void GameLoop_House()
 		if (tickHouse) {
 			/* ENHANCEMENT -- Originally this code was outside the house loop, which seems very odd.
 			 *  This problem is considered to be so bad, that the original code has been removed. */
-			if (h->index != g_global->playerHouseID) {
+			if (h->index != g_playerHouseID) {
 				if (h->creditsStorage < h->credits) {
 					h->credits = h->creditsStorage;
 				}
@@ -194,12 +197,12 @@ void GameLoop_House()
 				}
 			}
 
-			if (h->index == g_global->playerHouseID) {
+			if (h->index == g_playerHouseID) {
 				if (h->creditsStorage > g_global->playerCreditsNoSilo) {
 					g_global->playerCreditsNoSilo = 0;
 				}
 
-				if (g_global->playerCreditsNoSilo == 0 && g_global->campaignID > 1 && h->credits != 0) {
+				if (g_global->playerCreditsNoSilo == 0 && g_campaignID > 1 && h->credits != 0) {
 					if (h->creditsStorage != 0 && ((h->credits * 256 / h->creditsStorage) > 200)) {
 						/* "Spice storage capacity low, build silos." */
 						GUI_DisplayText(String_Get_ByIndex(0x142), 0);
@@ -344,7 +347,7 @@ void House_EnsureHarvesterAvailable(uint8 houseID)
 
 	if (Unit_CreateWrapper(houseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE)) == NULL) return;
 
-	if (houseID != g_global->playerHouseID) return;
+	if (houseID != g_playerHouseID) return;
 
 	/* "Harvester is heading to refinery." */
 	GUI_DisplayText(String_Get_ByIndex(0x32), 0);
@@ -367,7 +370,7 @@ bool House_AreAllied(uint8 houseID1, uint8 houseID2)
 		return (houseID1 == HOUSE_ATREIDES || houseID2 == HOUSE_ATREIDES);
 	}
 
-	return (houseID1 != g_global->playerHouseID && houseID2 != g_global->playerHouseID);
+	return (houseID1 != g_playerHouseID && houseID2 != g_playerHouseID);
 }
 
 /**
@@ -421,7 +424,7 @@ bool House_Load(FILE *fp, uint32 length)
 
 		/* See if it is a human house */
 		if (h->flags.s.human) {
-			g_global->playerHouseID = h->index;
+			g_playerHouseID = h->index;
 			g_playerHouse = h;
 
 			if (h->starportLinkedID != 0xFFFF && h->starportTimeLeft == 0) h->starportTimeLeft = 1;
@@ -444,7 +447,7 @@ bool House_UpdateRadarState(House *h)
 	uint16 frameCount;
 	bool activate;
 
-	if (h == NULL || h->index != g_global->playerHouseID) return false;
+	if (h == NULL || h->index != g_playerHouseID) return false;
 
 	wsa = NULL;
 
@@ -585,13 +588,13 @@ void House_CalculatePowerAndCredit(House *h)
 	}
 
 	/* Check if we are low on power */
-	if (h->index == g_global->playerHouseID && h->powerUsage > h->powerProduction) {
+	if (h->index == g_playerHouseID && h->powerUsage > h->powerProduction) {
 		/* "Insufficient power.  Windtrap is needed." */
 		GUI_DisplayText(String_Get_ByIndex(0x10E), 1);
 	}
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */
-	if (h->index == g_global->playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
+	if (h->index == g_playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
 		g_global->playerCreditsNoSilo = 0;
 	}
 }

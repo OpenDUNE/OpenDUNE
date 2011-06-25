@@ -180,7 +180,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 
 	if (!Unit_SetPosition(u2, Tile_Center(u->o.position))) return 0;
 
-	if (u2->o.houseID == g_global->playerHouseID) {
+	if (u2->o.houseID == g_playerHouseID) {
 		Voice_PlayAtTile(24, u->o.position);
 	}
 
@@ -246,7 +246,7 @@ uint16 Script_Unit_Unknown0BC3(ScriptEngine *script)
 
 			if (u2->variable_5A.tile != 0) {
 				u->targetMove = Tools_Index_Encode(Tile_PackTile(u2->variable_5A), IT_TILE);
-			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_global->playerHouseID) {
+			} else if (u2->o.type == UNIT_HARVESTER && Unit_GetHouseID(u2) != g_playerHouseID) {
 				u->targetMove = Tools_Index_Encode(Map_SearchSpice(Tile_PackTile(u->o.position), 20), IT_TILE);
 			}
 
@@ -482,7 +482,7 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 
 		credits = max(ui->o.buildCredits / 100, 1);
 
-		if (u->o.houseID == g_global->playerHouseID) {
+		if (u->o.houseID == g_playerHouseID) {
 			g_global->scenario.killedAllied++;
 			g_global->scenario.score -= credits;
 		} else {
@@ -852,7 +852,7 @@ uint16 Script_Unit_SetAction(ScriptEngine *script)
 
 	action = script->stack[script->stackPointer];
 
-	if (u->o.houseID == g_global->playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
+	if (u->o.houseID == g_playerHouseID && action == ACTION_HARVEST && u->nextActionID != ACTION_INVALID) return 0;
 
 	Unit_SetAction(u, action);
 
@@ -946,7 +946,7 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x10: return u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current;
 		case 0x11: return abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].target - u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
-		case 0x13: return (u->o.variable_09 & (1 << g_global->playerHouseID)) == 0 ? 0 : 1;
+		case 0x13: return (u->o.variable_09 & (1 << g_playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
 	}
 }
@@ -1801,7 +1801,7 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 		}
 	}
 
-	if (Unit_GetHouseID(u) == g_global->playerHouseID) {
+	if (Unit_GetHouseID(u) == g_playerHouseID) {
 		/* "Unit is unable to deploy here." */
 		GUI_DisplayText(String_Get_ByIndex(0x14), 0);
 	}

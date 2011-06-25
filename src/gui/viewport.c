@@ -190,7 +190,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				Unit *u;
 
 				g_global->variable_38BC++;
-				u = Unit_CreateWrapper((uint8)g_global->playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
+				u = Unit_CreateWrapper(g_playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 				g_global->variable_38BC--;
 
 				if (u == NULL) {

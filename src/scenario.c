@@ -16,6 +16,7 @@
 #include "house.h"
 #include "ini.h"
 #include "map.h"
+#include "opendune.h"
 #include "pool/house.h"
 #include "pool/pool.h"
 #include "pool/structure.h"
@@ -74,7 +75,7 @@ static void Scenario_Load_House(uint8 houseID)
 
 	h->flags.s.human = true;
 
-	g_global->playerHouseID       = houseID;
+	g_playerHouseID               = houseID;
 	g_playerHouse                 = h;
 	g_global->playerCreditsNoSilo = h->credits;
 }
@@ -185,7 +186,7 @@ static void Scenario_Load_Unit(const char *key, char *settings)
 	u->nextActionID = ACTION_INVALID;
 
 	/* In case the above function failed and we are passed campaign 2, don't add the unit */
-	if (!Map_IsValidPosition(Tile_PackTile(u->o.position)) && g_global->campaignID > 2) {
+	if (!Map_IsValidPosition(Tile_PackTile(u->o.position)) && g_campaignID > 2) {
 		Unit_Free(u);
 		return;
 	}
@@ -522,7 +523,7 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 
 	if (houseID >= HOUSE_MAX) return false;
 
-	g_global->scenarioID = scenarioID;
+	g_scenarioID = scenarioID;
 
 	/* Clear the buffer we will read in */
 	memset(readBuffer, 0, g_global->readBufferSize);

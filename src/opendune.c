@@ -48,8 +48,9 @@
 #include "wsa.h"
 
 
-extern void Input_Init();
-extern void Input_Uninit();
+GameMode g_gameMode = GM_NORMAL;
+uint16 g_campaignID = 0;
+uint16 g_scenarioID = 1;
 
 /**
  * Initialize the video driver.
@@ -95,7 +96,7 @@ static bool GameLoop_IsLevelFinished()
 			if (s->o.type == STRUCTURE_TURRET) continue;
 			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
-			if (s->o.houseID == g_global->playerHouseID) {
+			if (s->o.houseID == g_playerHouseID) {
 				countStructureFriendly++;
 			} else {
 				countStructureEnemy++;
@@ -162,7 +163,7 @@ static bool GameLoop_IsLevelWon()
 			if (s->o.type == STRUCTURE_TURRET) continue;
 			if (s->o.type == STRUCTURE_ROCKET_TURRET) continue;
 
-			if (s->o.houseID == g_global->playerHouseID) {
+			if (s->o.houseID == g_playerHouseID) {
 				countStructureFriendly++;
 			} else {
 				countStructureEnemy++;
@@ -389,7 +390,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		g_global->variable_80AC = 1;
 	}
 
-	if (g_global->playerHouseID != HOUSE_INDEX_INVALID || g_global->variable_8072 != 2) return;
+	if (g_playerHouseID != HOUSE_INVALID || g_global->variable_8072 != 2) return;
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x21);
 
@@ -633,9 +634,9 @@ static void GameLoop_LevelEndAnimation()
 
 	Input_History_Clear();
 
-	switch (g_global->campaignID) {
+	switch (g_campaignID) {
 		case 4:
-			switch (g_global->playerHouseID) {
+			switch (g_playerHouseID) {
 				case HOUSE_ATREIDES:
 					args[0].csip = 0x353F1C1A;
 					args[1].csip = 0x353F1C42;
@@ -658,7 +659,7 @@ static void GameLoop_LevelEndAnimation()
 			} break;
 
 		case 8:
-			switch (g_global->playerHouseID) {
+			switch (g_playerHouseID) {
 				case HOUSE_ATREIDES:
 					args[0].csip = 0x353F1C8D;
 					args[1].csip = 0x353F1CAD;
@@ -1036,7 +1037,7 @@ static void GameLoop_GameCredits()
 		loc04 = i % 16;
 
 		if (loc06 == 9 && loc04 <= 6) {
-			memory[i] = (g_global->playerHouseID * 16) + loc04 + 144;
+			memory[i] = (g_playerHouseID * 16) + loc04 + 144;
 		}
 	}
 
@@ -1085,7 +1086,7 @@ static void GameLoop_GameEndAnimation()
 
 	Voice_LoadVoices(0xFFFE);
 
-	switch (g_global->playerHouseID) {
+	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
 			args[0].csip = 0x353F1A31;
 			args[1].csip = 0x353F1A91;
@@ -1150,11 +1151,11 @@ static void GameLoop_LevelEnd()
 
 			Sprites_UnloadTiles();
 
-			g_global->campaignID++;
+			g_campaignID++;
 
-			GUI_EndStats_Show(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_global->playerHouseID);
+			GUI_EndStats_Show(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_playerHouseID);
 
-			if (g_global->campaignID == 9) {
+			if (g_campaignID == 9) {
 				GUI_Mouse_Hide_Safe();
 
 				Unknown_259E_0006(g_palette2, 15);
@@ -1170,11 +1171,11 @@ static void GameLoop_LevelEnd()
 
 			File_ReadBlockFile("IBM.PAL", g_palette1, 768);
 
-			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
+			g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
 			Unknown_259E_0006(g_palette2, 15);
 
-			if (g_global->campaignID == 1 || g_global->campaignID == 7) {
+			if (g_campaignID == 1 || g_campaignID == 7) {
 				Sprites_Load(1, 7, g_sprites);
 
 				if (!GUI_Security_Show()) {
@@ -1193,7 +1194,7 @@ static void GameLoop_LevelEnd()
 
 			Sprites_UnloadTiles();
 
-			g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, false);
+			g_scenarioID = GUI_StrategicMap_Show(g_campaignID, false);
 		}
 
 		g_playerHouse->flags.s.variable_0004 = false;
@@ -1202,7 +1203,7 @@ static void GameLoop_LevelEnd()
 
 		Sprites_LoadTiles();
 
-		g_global->variable_38BE = 1;
+		g_gameMode = GM_RESTART;
 		g_global->debugForceWin = 0;
 	}
 
@@ -1725,9 +1726,9 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	Game_Timer_SetState(1, true);
 
-	g_global->campaignID = 0x0;
-	g_global->scenarioID = 0x1;
-	g_global->playerHouseID = HOUSE_INDEX_INVALID;
+	g_campaignID = 0;
+	g_scenarioID = 1;
+	g_playerHouseID = HOUSE_INVALID;
 	g_global->debugScenario = 0x0;
 	g_global->variable_3A3E[LST_SPICE][11] = 0xD7;
 	g_global->variable_3A3E[LST_SPICE][12] = 0x35;
@@ -1735,7 +1736,6 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->variable_3A3E[LST_THICK_SPICE][12] = 0x35;
 	g_global->selectionType = 0x0;
 	g_global->variable_3A10 = 0x0;
-	g_global->variable_6C8C = 0; /* Seems never set to any other value. */
 
 	g_palette2 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
 	g_palette1 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
@@ -1804,9 +1804,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		Script_LoadFromFile("BUILD.EMC", &g_global->scriptStructure, functions, null);
 	}
 
-	if (g_global->playerHouseID != HOUSE_INDEX_INVALID) {
-		GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
-	}
+	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);
 
 	Sprites_Load(0, 7, g_sprites);
 
@@ -1918,8 +1916,8 @@ static void GameLoop_GameIntroAnimationMenu()
 					if (GUI_Widget_SaveLoad_Click(false)) {
 						loc02 = true;
 						loc10 = false;
-						if (g_global->variable_38BE == 1) break;
-						g_global->variable_38BE = 0;
+						if (g_gameMode == GM_RESTART) break;
+						g_gameMode = GM_NORMAL;
 
 						Sprites_Load(0, 7, g_sprites);
 					} else {
@@ -2033,26 +2031,26 @@ static void GameLoop_GameIntroAnimationMenu()
 	if (g_global->enableLog != 0) Mouse_SetMouseMode((uint8)g_global->enableLog, "DUNE.LOG");
 
 	if (!loc02) {
-		if (g_global->playerHouseID == HOUSE_INDEX_INVALID) {
+		if (g_playerHouseID == HOUSE_INVALID) {
 			GUI_Mouse_Show_Safe();
 
-			g_global->playerHouseID = HOUSE_MERCENARY;
-			g_global->playerHouseID = GUI_PickHouse();
+			g_playerHouseID = HOUSE_MERCENARY;
+			g_playerHouseID = GUI_PickHouse();
 
 			GUI_Mouse_Hide_Safe();
 		}
 
 		Sprites_LoadTiles();
 
-		GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
+		GUI_Palette_CreateRemap(g_playerHouseID);
 
-		Voice_LoadVoices(g_global->playerHouseID);
+		Voice_LoadVoices(g_playerHouseID);
 
 		GUI_Mouse_Show_Safe();
 
-		if (g_global->campaignID != 0) g_global->scenarioID = GUI_StrategicMap_Show(g_global->campaignID, true);
+		if (g_campaignID != 0) g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
-		Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
+		Game_LoadScenario(g_playerHouseID, g_scenarioID);
 		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 		GUI_Mouse_Hide_Safe();
@@ -2148,11 +2146,11 @@ static void GameLoop_Main()
 	Music_Play(Tools_RandomRange(0, 5) + 8);
 
 	while (true) {
-		if (g_global->variable_38BE == 2) {
+		if (g_gameMode == GM_PICKHOUSE) {
 			Music_Play(28);
 
-			g_global->playerHouseID = HOUSE_MERCENARY;
-			g_global->playerHouseID = GUI_PickHouse();
+			g_playerHouseID = HOUSE_MERCENARY;
+			g_playerHouseID = GUI_PickHouse();
 
 			GUI_Mouse_Hide_Safe();
 
@@ -2160,15 +2158,15 @@ static void GameLoop_Main()
 
 			Sprites_LoadTiles();
 
-			GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
+			GUI_Palette_CreateRemap(g_playerHouseID);
 
-			Voice_LoadVoices(g_global->playerHouseID);
+			Voice_LoadVoices(g_playerHouseID);
 
 			GUI_Mouse_Show_Safe();
 
-			g_global->variable_38BE = 1;
-			g_global->scenarioID    = 1;
-			g_global->campaignID    = 0;
+			g_gameMode = GM_RESTART;
+			g_scenarioID = 1;
+			g_campaignID = 0;
 			g_global->variable_2AF4 = 0;
 		}
 
@@ -2178,13 +2176,13 @@ static void GameLoop_Main()
 
 		GUI_PaletteAnimate();
 
-		if (g_global->variable_38BE == 1) {
+		if (g_gameMode == GM_RESTART) {
 			GUI_ChangeSelectionType(0);
 
-			Game_LoadScenario((uint8)g_global->playerHouseID, g_global->scenarioID);
+			Game_LoadScenario(g_playerHouseID, g_scenarioID);
 			if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
-			g_global->variable_38BE = 0;
+			g_gameMode = GM_NORMAL;
 
 			GUI_ChangeSelectionType(4);
 
@@ -2238,7 +2236,7 @@ static void GameLoop_Main()
 
 			InGame_Numpad_Move(key);
 
-			GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+			GUI_DrawCredits(g_playerHouseID, 0);
 
 			GameLoop_Team();
 			GameLoop_Unit();
@@ -2415,7 +2413,7 @@ void Game_Prepare()
 
 		if (u == NULL || !u->o.flags.s.used) t->hasUnit = false;
 		if (s == NULL || !s->o.flags.s.used) t->hasStructure = false;
-		if (t->isUnveiled) Map_UnveilTile(i, (uint8)g_global->playerHouseID);
+		if (t->isUnveiled) Map_UnveilTile(i, g_playerHouseID);
 	}
 
 	find.houseID = 0xFFFF;
@@ -2484,7 +2482,7 @@ void Game_Prepare()
 		House_CalculatePowerAndCredit(h);
 	}
 
-	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap(g_playerHouseID);
 
 	Sprites_Load(0, 7, g_sprites);
 
@@ -2506,7 +2504,7 @@ void Game_Prepare()
 		if (s != NULL) Map_SetSelectionSize(g_table_structureInfo[s->o.type].layout);
 	}
 
-	Voice_LoadVoices(g_global->playerHouseID);
+	Voice_LoadVoices(g_playerHouseID);
 
 	g_global->variable_38C0 = g_global->tickGlobal + 70;
 	g_global->variable_3A12 = 1;

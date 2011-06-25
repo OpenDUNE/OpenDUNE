@@ -21,6 +21,7 @@
 #include "../load.h"
 #include "../map.h"
 #include "../mouse.h"
+#include "../opendune.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../save.h"
@@ -245,7 +246,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	ui = &g_table_unitInfo[u->o.type];
 
 	actions = ui->o.actionsPlayer;
-	if (Unit_GetHouseID(u) != g_global->playerHouseID && u->o.type != UNIT_SIEGE_TANK) {
+	if (Unit_GetHouseID(u) != g_playerHouseID && u->o.type != UNIT_SIEGE_TANK) {
 		actions = g_table_actionsAI;
 	}
 
@@ -754,7 +755,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 					if (!GUI_YesNo(0x76)) break;
 
 					loop = false;
-					g_global->variable_38BE = 1;
+					g_gameMode = GM_RESTART;
 					break;
 
 				case 4:
@@ -763,7 +764,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 					loop = false;
 					Driver_Music_FadeOut();
-					g_global->variable_38BE = 2;
+					g_gameMode = GM_PICKHOUSE;
 					break;
 
 				case 5:
@@ -1131,7 +1132,7 @@ bool GUI_Production_ResumeGame_Click(Widget *w)
 
 			i++;
 
-			GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+			GUI_DrawCredits(g_playerHouseID, 0);
 		}
 	}
 
@@ -1361,7 +1362,7 @@ static void GUI_Purchase_ShowInvoice()
 	Input_History_Clear();
 
 	while (GUI_Widget_HandleEvents(w) == 0) {
-		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+		GUI_DrawCredits(g_playerHouseID, 0);
 
 		GUI_FactoryWindow_UpdateSelection(false);
 

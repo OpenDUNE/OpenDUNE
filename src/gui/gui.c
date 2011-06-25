@@ -1294,7 +1294,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
  * @param harvestedEnemy Pointer to the total amount of spice harvested by enemies.
  * @param houseID The houseID of the player.
  */
-static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvestedEnemy, uint16 houseID)
+static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvestedEnemy, uint8 houseID)
 {
 	PoolFindStruct find;
 	uint16 locdi = 0;
@@ -1329,7 +1329,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		if (House_AreAllied(Unit_GetHouseID(u), (uint8)g_global->playerHouseID)) {
+		if (House_AreAllied(Unit_GetHouseID(u), g_playerHouseID)) {
 			locdi += u->amount * 7;
 		} else {
 			loc0C += u->amount * 7;
@@ -1344,11 +1344,11 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 	tmp = *harvestedAllied + locdi;
 	*harvestedAllied = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
 
-	score += House_Get_ByIndex((uint8)houseID)->credits / 100;
+	score += House_Get_ByIndex(houseID)->credits / 100;
 
 	if (score < 0) score = 0;
 
-	loc0A = g_global->campaignID * 45;
+	loc0A = g_campaignID * 45;
 
 	if ((int16)g_global->variable_81EB < loc0A) {
 		score += loc0A - g_global->variable_81EB;
@@ -1406,13 +1406,13 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	Sprites_LoadImage("FAME.CPS", 3, 3, g_palette_998A, 1);
 
 	xSrc = 1;
-	if ((int16)g_global->playerHouseID >= HOUSE_HARKONNEN && (int16)g_global->playerHouseID <= HOUSE_ORDOS) {
-		xSrc = (g_global->playerHouseID * 56 + 8) / 8;
+	if (g_playerHouseID <= HOUSE_ORDOS) {
+		xSrc = (g_playerHouseID * 56 + 8) / 8;
 	}
 
 	GUI_Screen_Copy(xSrc, 136, 0, 8, 7, 56, 2, 2);
 
-	if ((int16)g_global->playerHouseID < HOUSE_HARKONNEN || (int16)g_global->playerHouseID > HOUSE_ORDOS) {
+	if (g_playerHouseID > HOUSE_ORDOS) {
 		xSrc += 7;
 	}
 
@@ -1425,7 +1425,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 		if (score != 0xFFFF) GUI_HallOfFame_DrawRank(score, false);
 	} else {
 		GFX_Screen_Copy2(8, 80, 8, 116, 304, 36, 2, 2, false);
-		if (g_global->scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, 2, 2, false);
+		if (g_scenarioID != 1) GFX_Screen_Copy2(8, 80, 8, 152, 304, 36, 2, 2, false);
 	}
 
 	if (score != 0xFFFF) {
@@ -1447,7 +1447,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 		GUI_DrawText_Wrapper(String_Get_ByIndex(0x150), SCREEN_WIDTH / 2, 15, 15, 0, 0x122);
 	}
 
-	switch (g_global->playerHouseID) {
+	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
 			colour = 149;
 			offset = 0;
@@ -1494,7 +1494,7 @@ static void GUI_EndStats_Sleep(uint16 delay)
  * @param score The base score.
  * @param houseID The houseID of the player.
  */
-void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint16 houseID)
+void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyedAllied, uint16 destroyedEnemy, uint16 harvestedAllied, uint16 harvestedEnemy, int16 score, uint8 houseID)
 {
 	uint16 loc06;
 	uint16 oldScreenID;
@@ -1508,7 +1508,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
 
-	loc16 = (g_global->scenarioID == 1) ? 2 : 3;
+	loc16 = (g_scenarioID == 1) ? 2 : 3;
 
 	GUI_Mouse_Hide_Safe();
 
@@ -1524,7 +1524,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	/* "Units Destroyed By" */
 	GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x18), 119);
 
-	if (g_global->scenarioID != 1) {
+	if (g_scenarioID != 1) {
 		/* "Buildings Destroyed By" */
 		GUI_DrawTextOnFilledRectangle(String_Get_ByIndex(0x19), 155);
 	}
@@ -1659,15 +1659,15 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 /**
  * Show pick house screen.
  */
-uint16 GUI_PickHouse()
+uint8 GUI_PickHouse()
 {
 	uint16 oldScreenID;
 	Widget *w = NULL;
 	uint8 loc314[3 * 256]; /* array of 768 bytes, probably a palette */
 	uint16 i;
-	uint16 ret;
+	HouseType houseID;
 
-	ret = HOUSE_MERCENARY;
+	houseID = HOUSE_MERCENARY;
 
 	memset(loc314, 0, 768);
 
@@ -1709,9 +1709,9 @@ uint16 GUI_PickHouse()
 		Unknown_259E_0006(g_palette1, 15);
 		GUI_Mouse_Show_Safe();
 
-		ret = 0xFFFE;
+		houseID = HOUSE_INVALID;
 
-		while (ret == 0xFFFE) {
+		while (houseID == HOUSE_INVALID) {
 			uint16 key = GUI_Widget_HandleEvents(w);
 
 			GUI_PaletteAnimate();
@@ -1719,22 +1719,17 @@ uint16 GUI_PickHouse()
 			if ((key & 0x800) != 0) key = 0;
 
 			switch (key) {
-				case 0x8001: ret = 1; break;
-				case 0x8002: ret = 2; break;
-				case 0x8003: ret = 0; break;
+				case 0x8001: houseID = HOUSE_ATREIDES; break;
+				case 0x8002: houseID = HOUSE_ORDOS; break;
+				case 0x8003: houseID = HOUSE_HARKONNEN; break;
 				default: break;
 			}
 		}
 
 		GUI_Mouse_Hide_Safe();
 
-		if (ret == 0xFFFF) {
-			Unknown_259E_0006(loc314, 15);
-			break;
-		}
-
 		if (g_config.voiceDrv != 0) {
-			Sound_Unknown0363(ret + 62);
+			Sound_Unknown0363(houseID + 62);
 
 			while (Sound_Unknown0470()) sleep(0);
 		}
@@ -1754,18 +1749,18 @@ uint16 GUI_PickHouse()
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0)); /* "Yes" */
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[ret].name[0]);
+		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[houseID].name[0]);
 
 		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 
-		g_global->playerHouseID = HOUSE_MERCENARY;
+		g_playerHouseID = HOUSE_MERCENARY;
 
 		oldScreenID = GUI_Screen_SetActive(0);
 
 		GUI_Mouse_Show_Safe();
 
-		GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->variable_2BBE[ret]), NULL, false);
+		GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, g_palette1, 1);
 
@@ -1773,14 +1768,14 @@ uint16 GUI_PickHouse()
 
 		GUI_Screen_Copy(0, 0, 0, 0, 26, 24, 2, 0);
 
-		GUI_Screen_Copy(0, 24 * (ret + 1), 26, 0, 13, 24, 2, 0);
+		GUI_Screen_Copy(0, 24 * (houseID + 1), 26, 0, 13, 24, 2, 0);
 
 		GUI_Widget_DrawAll(w);
 
 		GUI_Mouse_Show_Safe();
 
 		while (true) {
-			yes_no = GUI_Mentat_Loop((char *)emu_get_memorycsip(g_global->variable_2BBE[ret]), NULL, NULL, true, w);
+			yes_no = GUI_Mentat_Loop((char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, NULL, true, w);
 
 			if ((yes_no & 0x8000) != 0) break;
 		}
@@ -1811,7 +1806,7 @@ uint16 GUI_PickHouse()
 
 	Music_Play(0);
 
-	GUI_Palette_CreateRemap((uint8)ret);
+	GUI_Palette_CreateRemap(houseID);
 
 	Sprites_Load(0, 7, g_sprites);
 
@@ -1821,7 +1816,7 @@ uint16 GUI_PickHouse()
 
 	Unknown_259E_0006(loc314, 15);
 
-	return ret;
+	return houseID;
 }
 
 /**
@@ -2038,7 +2033,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 		GUI_Mouse_Hide_Safe();
 
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
-		GUI_DrawCredits((uint8)g_global->playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
+		GUI_DrawCredits(g_playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
 		Unknown_259E_0006(g_palette1, 15);
 
 		GUI_Mouse_Show_Safe();
@@ -2046,7 +2041,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	GUI_DrawCredits((uint8)g_global->playerHouseID, 2);
+	GUI_DrawCredits(g_playerHouseID, 2);
 
 	Input_History_Clear();
 }
@@ -2639,7 +2634,7 @@ static void GUI_FactoryWindow_InitItems()
 
 	if (g_factoryWindowStarport) {
 		uint16 seconds = (g_global->tickGlobal - g_global->tickScenarioStart) / 60;
-		uint16 seed = (seconds / 60) + g_global->scenarioID + g_global->playerHouseID;
+		uint16 seed = (seconds / 60) + g_scenarioID + g_playerHouseID;
 		seed *= seed;
 
 		srand(seed);
@@ -2713,8 +2708,8 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
-	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 8, 7, 40, 2, 2);
-	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 152, 7, 40, 2, 2);
+	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 8, 7, 40, 2, 2);
+	GUI_Screen_Copy(xSrc[g_playerHouseID], ySrc[g_playerHouseID], 0, 152, 7, 40, 2, 2);
 
 	GUI_FactoryWindow_CreateWidgets();
 	GUI_FactoryWindow_LoadGraymapTbl();
@@ -2756,7 +2751,7 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_FactoryWindow_DrawDetails();
 
-	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
+	GUI_DrawCredits(g_playerHouseID, 1);
 
 	GUI_Screen_SetActive(oldScreenID);
 }
@@ -2788,7 +2783,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	while (g_factoryWindowResult == FACTORY_CONTINUE) {
 		uint16 event;
 
-		GUI_DrawCredits((uint8)g_global->playerHouseID, 0);
+		GUI_DrawCredits(g_playerHouseID, 0);
 
 		GUI_FactoryWindow_UpdateSelection(false);
 
@@ -2799,7 +2794,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 		GUI_PaletteAnimate();
 	}
 
-	GUI_DrawCredits((uint8)g_global->playerHouseID, 1);
+	GUI_DrawCredits(g_playerHouseID, 1);
 
 	GUI_Screen_SetActive(oldScreenID);
 
@@ -2881,7 +2876,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	uint16 height;
 	uint16 i;
 
-	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap(g_playerHouseID);
 
 	for (i = 0; i < 20; i++) {
 		GUI_StrategicMap_AnimateArrows();
@@ -3014,7 +3009,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	uint16 region;
 	uint16 i;
 
-	GUI_Palette_CreateRemap((uint8)g_global->playerHouseID);
+	GUI_Palette_CreateRemap(g_playerHouseID);
 
 	sprintf(category, "GROUP%d", campaignID);
 
@@ -3164,7 +3159,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 	sprintf(category, "GROUP%d", campaignID);
 
 	for (i = 0; i < 6; i++) {
-		uint8 houseID = (g_global->playerHouseID + i) % 6;
+		uint8 houseID = (g_playerHouseID + i) % 6;
 		char *s = buffer;
 
 		strncpy(key, g_table_houseInfo[houseID].name, 3);
@@ -3229,7 +3224,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	x = 0;
 	y = 0;
 
-	switch (g_global->playerHouseID) {
+	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
 			x = 0;
 			y = 152;
@@ -3247,7 +3242,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	}
 
 	memcpy(loc316, g_palette1 + (251 * 3), 12);
-	memcpy(g_global->variable_81BA, g_palette1 + (144 + (g_global->playerHouseID * 16)) * 3, 12);
+	memcpy(g_global->variable_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 12);
 	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
 
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
@@ -3584,7 +3579,7 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 		paletteColour += paletteChange;
 	}
 
-	switch (g_global->playerHouseID) {
+	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
 			*(g_palette1 + 255 * 3 + 1) = paletteColour;
 			*(g_palette1 + 255 * 3 + 2) = paletteColour;
@@ -4220,9 +4215,9 @@ static uint16 GUI_HallOfFame_InsertScore(HallOfFameData *data, uint16 score)
 		memmove(data + 1, data, 128);
 		memset(data->name, 0, 6);
 		data->score = score;
-		data->houseID = g_global->playerHouseID;
+		data->houseID = g_playerHouseID;
 		data->rank = GUI_HallOfFame_GetRank(score);
-		data->campaignID = g_global->campaignID;
+		data->campaignID = g_campaignID;
 		data->variable_E = 0;
 
 		return i + 1;

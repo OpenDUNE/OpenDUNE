@@ -888,13 +888,13 @@ typedef struct GlobalData {
 	/* 37F4(4)   */ PACK uint32 hintsShown2;                /*!< A bit-array to indicate which hints has been show already (32-63). */
 	/* 37F8(180) */ PACK uint8  removed_37F8[180];          /*!< REMOVED - Information about the houses. */
 	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
-	/* 38B0(2)   */ PACK uint16 scenarioID;                 /*!< ID of current loaded Scenario. */
-	/* 38B2(2)   */ PACK uint16 campaignID;                 /*!< ID of current campaign (from 0 to 9, where 9 is never played). */
+	/* 38B0(2)   */ PACK uint16 removed_38B0;               /*!< REMOVED - ID of current loaded Scenario. */
+	/* 38B2(2)   */ PACK uint16 removed_38B2;               /*!< REMOVED - ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
 	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits shown to player as 'current'. */
 	/* 38B8(4)   */ PACK uint32 tickGameTimeout;            /*!< The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
-	/* 38BE(2)   */ PACK uint16 variable_38BE;              /*!< ?? */
+	/* 38BE(2)   */ PACK uint16 removed_38BE;               /*!< REMOVED - Game mode. */
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */
 	/* 38C4(2)   */ PACK uint16 variable_38C4;              /*!< ?? */
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
@@ -957,7 +957,7 @@ typedef struct GlobalData {
 	/* 3A30(4)   */ PACK csip32 removed_3A30;               /*!< REMOVED - Pointer to content of new8p.fnt (copy of new8pFnt). */
 	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
 	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
-	/* 3A38(2)   */ PACK uint16 playerHouseID;              /*!< The House the player is controlling. */
+	/* 3A38(2)   */ PACK uint16 removed_3A38;               /*!< REMOVED - The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32 removed_3A3A;               /*!< REMOVED - Pointer to the house the player is controlling. */
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
 	/* 3BE2(24)  */ PACK csip32 movementName[6];            /*!< Pointer to the name of the MovementType. */
@@ -1250,7 +1250,7 @@ typedef struct GlobalData {
 	/* 6C84()    */ PACK uint8   unknown_6C84[0x0002];
 	/* 6C86(4)   */ PACK uint32 removed_6C86;               /*!< REMOVED - ?? */
 	/* 6C8A()    */ PACK uint8   unknown_6C8A[0x0002];
-	/* 6C8C(1)   */ PACK uint8  variable_6C8C;              /*!< ?? */
+	/* 6C8C(1)   */ PACK uint8  removed_6C8C;               /*!< REMOVED - Write only. */
 	/* 6C8D()    */ PACK uint8   unknown_6C8D[0x0004];
 	/* 6C91(2)   */ PACK uint16 screenActiveID;             /*!< Current active ScreenID where all drawing is done.. */
 	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */

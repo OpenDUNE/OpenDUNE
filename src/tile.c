@@ -11,6 +11,7 @@
 
 #include "tile.h"
 
+#include "house.h"
 #include "map.h"
 #include "tools.h"
 
@@ -275,7 +276,7 @@ void Tile_RemoveFogInRadius(tile32 tile, uint16 radius)
 
 			if (Tile_GetDistanceRoundedUp(tile, t) > radius) continue;
 
-			Map_UnveilTile(packed, (uint8)g_global->playerHouseID);
+			Map_UnveilTile(packed, g_playerHouseID);
 		}
 	}
 }

@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
 #include "global.h"
 #include "os/strings.h"
 #include "os/math.h"
@@ -18,6 +17,7 @@
 #include "gui/widget.h"
 #include "house.h"
 #include "map.h"
+#include "opendune.h"
 #include "pool/pool.h"
 #include "pool/house.h"
 #include "pool/structure.h"
@@ -46,7 +46,7 @@ void GameLoop_Structure()
 	bool tickScript    = false;
 	bool tickPalace    = false;
 
-	if (g_global->tickStructureDegrade <= g_global->tickGlobal && g_global->campaignID > 1) {
+	if (g_global->tickStructureDegrade <= g_global->tickGlobal && g_campaignID > 1) {
 		tickDegrade = true;
 		g_global->tickStructureDegrade = g_global->tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
@@ -93,7 +93,7 @@ void GameLoop_Structure()
 			if (s->countDown != 0) {
 				s->countDown--;
 
-				if (s->o.houseID == g_global->playerHouseID) {
+				if (s->o.houseID == g_playerHouseID) {
 					GUI_Widget_ActionPanel_Draw(true);
 				}
 			}
@@ -143,7 +143,7 @@ void GameLoop_Structure()
 					h->credits -= repairCost;
 
 					/* AIs repair in early games slower than in later games */
-					if (s->o.houseID == g_global->playerHouseID || g_global->campaignID >= 3) {
+					if (s->o.houseID == g_playerHouseID || g_campaignID >= 3) {
 						s->o.hitpoints += 5;
 					} else {
 						s->o.hitpoints += 3;
@@ -177,8 +177,8 @@ void GameLoop_Structure()
 					}
 
 					/* For AIs, we slow down building speed in all but the last campaign */
-					if (g_global->playerHouseID != s->o.houseID) {
-						if (buildSpeed > g_global->campaignID * 20 + 95) buildSpeed = g_global->campaignID * 20 + 95;
+					if (g_playerHouseID != s->o.houseID) {
+						if (buildSpeed > g_campaignID * 20 + 95) buildSpeed = g_campaignID * 20 + 95;
 					}
 
 					buildCost = oi->buildCredits * 256 / oi->buildTime;
@@ -205,7 +205,7 @@ void GameLoop_Structure()
 
 							Structure_SetAnimation(s, 2);
 
-							if (s->o.houseID == g_global->playerHouseID) {
+							if (s->o.houseID == g_playerHouseID) {
 								if (s->o.type != STRUCTURE_BARRACKS && s->o.type != STRUCTURE_WOR_TROOPER) {
 									uint16 stringID = 0x83; /* "is completed and awaiting orders." */
 									if (s->o.type == STRUCTURE_HIGH_TECH) stringID = 0x81; /* "is complete." */
@@ -249,7 +249,7 @@ void GameLoop_Structure()
 						}
 					} else {
 						/* Out of money means the building gets put on hold */
-						if (s->o.houseID == g_global->playerHouseID) {
+						if (s->o.houseID == g_playerHouseID) {
 							s->o.type |= 0x4000;
 
 							/* "Insufficient funds.  Construction is halted." */
@@ -284,7 +284,7 @@ void GameLoop_Structure()
 
 								Structure_SetAnimation(s, 2);
 
-								if (s->o.houseID == g_global->playerHouseID) Sound_Unknown0363(g_global->playerHouseID + 55);
+								if (s->o.houseID == g_playerHouseID) Sound_Unknown0363(g_playerHouseID + 55);
 							}
 						}
 					} else if (h->credits != 0) {
@@ -294,7 +294,7 @@ void GameLoop_Structure()
 				}
 
 				/* AI maintenance on structures */
-				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_global->playerHouseID && h->credits != 0) {
+				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->o.hitpoints < si->o.hitpoints / 2) {
 						Structure_SetRepairingState(s, 1, NULL);
@@ -419,7 +419,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->countDown = 0;
 
 	/* AIs get the full upgrade immediatly */
-	if (houseID != g_global->playerHouseID) {
+	if (houseID != g_playerHouseID) {
 		while (true) {
 			if (!Structure_IsUpgradable(s)) break;
 			s->upgradeLevel++;
@@ -465,7 +465,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			g_mapSpriteID[position] |= 0x8000;
 
-			if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
+			if (s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 1);
 
 			if (Map_IsPositionUnveiled(position)) t->overlaySpriteID = 0;
 
@@ -491,7 +491,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				g_mapSpriteID[curPos] |= 0x8000;
 
-				if (s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
+				if (s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 
 				if (Map_IsPositionUnveiled(curPos)) t->overlaySpriteID = 0;
 
@@ -513,7 +513,7 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					g_mapSpriteID[curPos] |= 0x8000;
 
-					if (s->o.houseID == g_global->playerHouseID) {
+					if (s->o.houseID == g_playerHouseID) {
 						Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 1);
 						t->overlaySpriteID = 0;
 					}
@@ -533,16 +533,16 @@ bool Structure_Place(Structure *s, uint16 position)
 	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
 
 	if (loc0A == 0) {
-		if ((s->o.houseID != g_global->playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
+		if ((s->o.houseID != g_playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
 			return false;
 		}
 	}
 
 	/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-	if (!g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
+	if (!g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(position), 2);
 
 	s->o.variable_09 |= 1 << s->o.houseID;
-	if (s->o.houseID == g_global->playerHouseID) s->o.variable_09 |= 0xFF;
+	if (s->o.houseID == g_playerHouseID) s->o.variable_09 |= 0xFF;
 
 	s->o.flags.s.isNotOnMap = false;
 
@@ -593,7 +593,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			Unit_Unknown10EC(u);
 
 			/* ENHACEMENT -- In Dune2, it only removes the fog around the top-left tile of a structure, leaving for big structures the right in the fog. */
-			if (g_dune2_enhanced && s->o.houseID == g_global->playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
+			if (g_dune2_enhanced && s->o.houseID == g_playerHouseID) Tile_RemoveFogInRadius(Tile_UnpackTile(curPos), 2);
 
 		}
 	}
@@ -635,7 +635,7 @@ void Structure_CalculateHitpointsMax(House *h)
 
 	if (h == NULL) return;
 
-	if (h->index == g_global->playerHouseID) House_UpdateRadarState(h);
+	if (h->index == g_playerHouseID) House_UpdateRadarState(h);
 
 	if (h->powerUsage == 0) {
 		power = 256;
@@ -796,14 +796,14 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			curPos = position + offset;
 			s = Structure_Get_ByPackedTile(curPos);
 			if (s != NULL) {
-				if (s->o.houseID != g_global->playerHouseID) continue;
+				if (s->o.houseID != g_playerHouseID) continue;
 				isValid = true;
 				break;
 			}
 
 			type = Map_GetLandscapeType(curPos);
 			if (type != LST_CONCRETE_SLAB && type != LST_WALL) continue;
-			if (g_map[curPos].houseID != g_global->playerHouseID) continue;
+			if (g_map[curPos].houseID != g_playerHouseID) continue;
 
 			isValid = true;
 			break;
@@ -1020,7 +1020,7 @@ void Structure_ActivateSpecial(Structure *s)
 		default: break;
 	}
 
-	if (s->o.houseID == g_global->playerHouseID) {
+	if (s->o.houseID == g_playerHouseID) {
 		GUI_Widget_ActionPanel_Draw(true);
 	}
 }
@@ -1032,7 +1032,7 @@ void Structure_ActivateSpecial(Structure *s)
  */
 void Structure_RemoveFog(Structure *s)
 {
-	if (s == NULL || s->o.houseID != g_global->playerHouseID) return;
+	if (s == NULL || s->o.houseID != g_playerHouseID) return;
 
 	Tile_RemoveFogInRadius(s->o.position, g_table_structureInfo[s->o.type].o.fogUncoverRadius);
 }
@@ -1087,7 +1087,7 @@ static void Structure_Destroy(Structure *s)
 
 	h->credits -= (h->creditsStorage == 0) ? h->credits : min(h->credits, (h->credits * 256 / h->creditsStorage) * si->creditsStorage / 256);
 
-	if (s->o.houseID != g_global->playerHouseID) h->credits += si->o.buildCredits + (g_global->campaignID > 7 ? si->o.buildCredits / 2 : 0);
+	if (s->o.houseID != g_playerHouseID) h->credits += si->o.buildCredits + (g_campaignID > 7 ? si->o.buildCredits / 2 : 0);
 
 	if (s->o.type != STRUCTURE_WINDTRAP) return;
 
@@ -1124,7 +1124,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 		score = si->o.buildCredits / 100;
 		if (score < 1) score = 1;
 
-		if (House_AreAllied((uint8)g_global->playerHouseID, s->o.houseID)) {
+		if (House_AreAllied(g_playerHouseID, s->o.houseID)) {
 			g_global->scenario.destroyedAllied++;
 			g_global->scenario.score -= score;
 		} else {
@@ -1134,7 +1134,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 
 		Structure_Destroy(s);
 
-		if (g_global->playerHouseID == s->o.houseID) {
+		if (g_playerHouseID == s->o.houseID) {
 			uint16 index;
 
 			switch (s->o.houseID) {
@@ -1174,9 +1174,9 @@ bool Structure_IsUpgradable(Structure *s)
 	si = &g_table_structureInfo[s->o.type];
 
 	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_HIGH_TECH) return false;
-	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->upgradeCampaign[2] > g_global->campaignID) return false;
+	if (s->o.houseID == HOUSE_ORDOS && s->o.type == STRUCTURE_HEAVY_VEHICLE && s->upgradeLevel == 1 && si->upgradeCampaign[2] > g_campaignID) return false;
 
-	if (si->upgradeCampaign[s->upgradeLevel] != 0 && si->upgradeCampaign[s->upgradeLevel] <= g_global->campaignID + 1) {
+	if (si->upgradeCampaign[s->upgradeLevel] != 0 && si->upgradeCampaign[s->upgradeLevel] <= g_campaignID + 1) {
 		House *h;
 
 		if (s->o.type != STRUCTURE_CONSTRUCTION_YARD) return true;
@@ -1188,7 +1188,7 @@ bool Structure_IsUpgradable(Structure *s)
 		return false;
 	}
 
-	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_WOR_TROOPER && s->upgradeLevel == 0 && g_global->campaignID > 3) return true;
+	if (s->o.houseID == HOUSE_HARKONNEN && s->o.type == STRUCTURE_WOR_TROOPER && s->upgradeLevel == 0 && g_campaignID > 3) return true;
 	return false;
 }
 
@@ -1695,7 +1695,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					if (u == NULL) {
 						h->credits += g_table_unitInfo[UNIT_CARRYALL].o.buildCredits;
-						if (s->o.houseID != g_global->playerHouseID) continue;
+						if (s->o.houseID != g_playerHouseID) continue;
 						/* "Unable to create more." */
 						GUI_DisplayText(String_Get_ByIndex(0x88), 2);
 						continue;
@@ -1749,7 +1749,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 		Structure_SetAnimation(s, 1);
 
-		if (s->o.houseID != g_global->playerHouseID) return true;
+		if (s->o.houseID != g_playerHouseID) return true;
 
 		/* "Production of %s has started." */
 		GUI_DisplayText(String_Get_ByIndex(0x89), 2, str);
@@ -1757,7 +1757,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		return true;
 	}
 
-	if (s->o.houseID != g_global->playerHouseID) return false;
+	if (s->o.houseID != g_playerHouseID) return false;
 
 	/* "Unable to create more." */
 	GUI_DisplayText(String_Get_ByIndex(0x88), 2);
@@ -1782,7 +1782,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w)
 	if (state == -1) state = s->o.flags.s.upgrading ? 0 : 1;
 
 	if (state == 0 && s->o.flags.s.upgrading) {
-		if (s->o.houseID == g_global->playerHouseID) {
+		if (s->o.houseID == g_playerHouseID) {
 			/* "Upgrading stops." */
 			GUI_DisplayText(String_Get_ByIndex(0x8C), 2);
 		}
@@ -1797,7 +1797,7 @@ bool Structure_SetUpgradingState(Structure *s, int8 state, Widget *w)
 
 	if (state == 0 || s->o.flags.s.upgrading || s->upgradeTimeLeft == 0) return ret;
 
-	if (s->o.houseID == g_global->playerHouseID) {
+	if (s->o.houseID == g_playerHouseID) {
 		/* "Upgrading starts." */
 		GUI_DisplayText(String_Get_ByIndex(0x8D), 2);
 	}
@@ -1830,7 +1830,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 	if (state == -1) state = s->o.flags.s.repairing ? 0 : 1;
 
 	if (state == 0 && s->o.flags.s.repairing) {
-		if (s->o.houseID == g_global->playerHouseID) {
+		if (s->o.houseID == g_playerHouseID) {
 			/* "Repairing stops." */
 			GUI_DisplayText(String_Get_ByIndex(0x8A), 2);
 		}
@@ -1845,7 +1845,7 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 
 	if (state == 0 || s->o.flags.s.repairing || s->o.hitpoints == g_table_structureInfo[s->o.type].o.hitpoints) return ret;
 
-	if (s->o.houseID == g_global->playerHouseID) {
+	if (s->o.houseID == g_playerHouseID) {
 		/* "Repairing starts." */
 		GUI_DisplayText(String_Get_ByIndex(0x8B), 2);
 	}
@@ -1985,18 +1985,18 @@ uint32 Structure_GetBuildable(Structure *s)
 				availableCampaign = localsi->o.availableCampaign;
 				structuresRequired = localsi->o.structuresRequired;
 
-				if (i == STRUCTURE_WOR_TROOPER && s->o.houseID == HOUSE_HARKONNEN && g_global->campaignID >= 1) {
+				if (i == STRUCTURE_WOR_TROOPER && s->o.houseID == HOUSE_HARKONNEN && g_campaignID >= 1) {
 					structuresRequired &= ~(1 << STRUCTURE_BARRACKS);
 					availableCampaign = 2;
 				}
 
-				if ((structuresBuilt & structuresRequired) == structuresRequired || s->o.houseID != g_global->playerHouseID) {
+				if ((structuresBuilt & structuresRequired) == structuresRequired || s->o.houseID != g_playerHouseID) {
 					if (s->o.houseID == HOUSE_HARKONNEN && i == STRUCTURE_LIGHT_VEHICLE) {
 						availableCampaign = 2;
 					}
 
-					if (g_global->campaignID >= availableCampaign - 1 && (localsi->o.availableHouse & (1 << s->o.houseID)) != 0) {
-						if (s->upgradeLevel >= localsi->o.upgradeLevelRequired || s->o.houseID != g_global->playerHouseID) {
+					if (g_campaignID >= availableCampaign - 1 && (localsi->o.availableHouse & (1 << s->o.houseID)) != 0) {
+						if (s->upgradeLevel >= localsi->o.upgradeLevelRequired || s->o.houseID != g_playerHouseID) {
 							localsi->o.available = 1;
 
 							ret |= (1 << i);
@@ -2027,7 +2027,7 @@ void Structure_HouseUnderAttack(uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 
-	if (houseID != g_global->playerHouseID && h->flags.s.variable_0004) return;
+	if (houseID != g_playerHouseID && h->flags.s.variable_0004) return;
 
 	h->flags.s.variable_0004 = true;
 
