@@ -1390,6 +1390,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\saveload\object.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\saveload\saveload.c"
 					>
 					<FileConfiguration
@@ -1412,6 +1432,66 @@
 				<File
 					RelativePath="..\src\saveload\saveload.h"
 					>
+				</File>
+				<File
+					RelativePath="..\src\saveload\scriptengine.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\saveload\structure.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\saveload\unit.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter

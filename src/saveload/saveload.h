@@ -9,10 +9,17 @@
  * Types of storage we support / understand.
  */
 typedef enum SaveLoadType {
-	SLDT_NULL,                                              /*!< Not stored. */
 	SLDT_UINT8,                                             /*!< 8bit unsigned integer. */
 	SLDT_UINT16,                                            /*!< 16bit unsigned integer. */
-	SLDT_UINT32                                             /*!< 32bit unsigned integer. */
+	SLDT_UINT32,                                            /*!< 32bit unsigned integer. */
+
+	SLDT_INT8,                                              /*!< 8bit signed integer. */
+	SLDT_INT16,                                             /*!< 16bit signed integer. */
+	SLDT_INT32,                                             /*!< 32bit signed integer. */
+
+	SLDT_DIR24,                                             /*!< 24bit direction value. */
+
+	SLDT_NULL                                               /*!< Not stored. */
 } SaveLoadType;
 
 #define offset(c, m) (((size_t)&((c *)8)->m) - 8)
@@ -81,10 +88,12 @@ typedef struct SaveLoadDesc {
 	uint16 count;                                           /*!< The number of elements */
 } SaveLoadDesc;
 
+extern const SaveLoadDesc g_saveObject[];
+extern const SaveLoadDesc g_saveScriptEngine[];
 
-extern uint32 SaveLoad_GetLength(SaveLoadDesc *sld);
-extern bool SaveLoad_Load(SaveLoadDesc *sld, FILE *fp, void *object);
-extern bool SaveLoad_Save(SaveLoadDesc *sld, FILE *fp, void *object);
+extern uint32 SaveLoad_GetLength(const SaveLoadDesc *sld);
+extern bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object);
+extern bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object);
 
 extern bool House_Load(FILE *fp, uint32 length);
 extern bool House_Save(FILE *fp);

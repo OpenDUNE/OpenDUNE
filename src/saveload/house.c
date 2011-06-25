@@ -10,7 +10,7 @@
 #include "../pool/house.h"
 #include "../pool/pool.h"
 
-static SaveLoadDesc s_saveHouse[] = {
+static const SaveLoadDesc s_saveHouse[] = {
 	SLD_ENTRY2(House, SLDT_UINT16, index,           SLDT_UINT8),
 	SLD_ENTRY (House, SLDT_UINT16, variable_02),
 	SLD_ENTRY2(House, SLDT_UINT16, flags,           SLDT_UINT8),
@@ -68,8 +68,9 @@ bool House_Load(FILE *fp, uint32 length)
 			if (h->starportLinkedID != 0xFFFF && h->starportTimeLeft == 0) h->starportTimeLeft = 1;
 		}
 	}
+	if (length != 0) return false;
 
-	return (length == 0);
+	return true;
 }
 
 /**

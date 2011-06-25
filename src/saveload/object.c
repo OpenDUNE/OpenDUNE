@@ -1,0 +1,21 @@
+/* $Id$ */
+
+/** @file src/saveload/house.c Load/save routines for House. */
+
+#include <stdio.h>
+#include "types.h"
+
+#include "saveload.h"
+#include "../object.h"
+
+const SaveLoadDesc g_saveObject[] = {
+	SLD_ENTRY (Object, SLDT_UINT16, index),
+	SLD_ENTRY (Object, SLDT_UINT8,  type),
+	SLD_ENTRY (Object, SLDT_UINT8,  linkedID),
+	SLD_ENTRY (Object, SLDT_UINT32, flags),
+	SLD_ENTRY (Object, SLDT_UINT8,  houseID),
+	SLD_ENTRY (Object, SLDT_UINT8,  variable_09),
+	SLD_ENTRY (Object, SLDT_UINT32, position),
+	SLD_ENTRY (Object, SLDT_UINT16, hitpoints),
+	SLD_END
+};
