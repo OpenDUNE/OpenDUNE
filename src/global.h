@@ -1400,9 +1400,9 @@ typedef struct GlobalData {
 	/* 7FA0(1)   */ PACK uint8   removed_7FA0;              /*!< REMOVED - palette colour of glowing rectangle in factory window */
 	/* 7FA1(1)   */ PACK uint8   removed_7FA1;              /*!< REMOVED - step size of change in the palette colour above */
 	/* 7FA2(4)   */ PACK csip32 removed_7FA2;               /*!< REMOVED - Last widget in the Invoice window. */
-	/* 7FA6(4)   */ PACK uint32 variable_7FA6;              /*!< ?? */
-	/* 7FAA(4)   */ PACK csip32 factoryWindowGraymapTbl;    /*!< ?? */
-	/* 7FAE(4)   */ PACK csip32 variable_7FAE;              /*!< ?? */
+	/* 7FA6(4)   */ PACK uint32 removed_7FA6;               /*!< REMOVED - Size of buffer for WSA loading in factory window. */
+	/* 7FAA(4)   */ PACK csip32 removed_7FAA;               /*!< REMOVED - Graymap table for factory window. */
+	/* 7FAE(4)   */ PACK csip32 removed_7FAE;               /*!< REMOVED - Buffer for WSA loading in factory window. */
 	/* 7FB2(4)   */ PACK csip32 removed_7FB2;               /*!< REMOVED - Factory window widgets. */
 	/* 7FB6(2)   */ PACK uint16 removed_7FB6;               /*!< REMOVED - Number of items in the invoice. */
 	/* 7FB8(2)   */ PACK uint16 removed_7FB8;               /*!< REMOVED - Item index for the first miniature. */

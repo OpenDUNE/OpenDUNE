@@ -86,8 +86,9 @@ uint16 g_factoryWindowSelected = 0;
 uint16 g_factoryWindowUpgradeCost = 0;
 FactoryResult g_factoryWindowResult = FACTORY_RESUME;
 bool g_factoryWindowStarport = false;
-
-Widget *g_factoryWindowWidgets = NULL;
+static uint8 _factoryWindowGraymapTbl[256];
+static Widget _factoryWindowWidgets[13];
+static uint8 _factoryWindowWsaBuffer[64000];
 
 /**
  * Draw a wired rectangle.
@@ -2552,7 +2553,7 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 	uint16 i;
 	uint16 count = 0;
 	WidgetInfo *wi = g_table_factoryWidgetInfo;
-	Widget *w = g_factoryWindowWidgets;
+	Widget *w = _factoryWindowWidgets;
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -2607,7 +2608,7 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 	uint8 fileID;
 
 	fileID = File_Open("GRAYRMAP.TBL", 1);
-	File_Read(fileID, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 256);
+	File_Read(fileID, _factoryWindowGraymapTbl, 256);
 	File_Close(fileID);
 
 	return 256;
@@ -2701,7 +2702,6 @@ static void GUI_FactoryWindow_Init()
 	static uint8 ySrc[HOUSE_MAX] = { 8, 152, 48, 0, 0, 0 };
 	uint16 oldScreenID;
 	void *wsa;
-	uint32 size;
 	int16 i;
 	ObjectInfo *oi;
 
@@ -2716,24 +2716,8 @@ static void GUI_FactoryWindow_Init()
 	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 8, 7, 40, 2, 2);
 	GUI_Screen_Copy(xSrc[g_global->playerHouseID], ySrc[g_global->playerHouseID], 0, 152, 7, 40, 2, 2);
 
-	g_global->variable_7FA6 = g_global->variable_6CD3[2][1];
-
-	g_factoryWindowWidgets = (Widget *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
-
-	size = GUI_FactoryWindow_CreateWidgets();
-
-	g_global->variable_7FA6 -= size;
-
-	g_global->factoryWindowGraymapTbl = Screen_GetSegment_ByIndex_1(5);
-	g_global->factoryWindowGraymapTbl.csip += size;
-
-	size = GUI_FactoryWindow_LoadGraymapTbl();
-
-	g_global->variable_7FAE = g_global->factoryWindowGraymapTbl;
-	g_global->variable_7FAE.csip += size;
-
-	g_global->variable_7FA6 -= size;
-
+	GUI_FactoryWindow_CreateWidgets();
+	GUI_FactoryWindow_LoadGraymapTbl();
 	GUI_FactoryWindow_InitItems();
 
 	for (i = g_factoryWindowTotal; i < 4; i++) GUI_Widget_MakeInvisible(GUI_Widget_Get_ByIndex(g_widgetInvoiceTail, i + 46));
@@ -2745,7 +2729,7 @@ static void GUI_FactoryWindow_Init()
 
 		oi = item->objectInfo;
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, _factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
@@ -2756,7 +2740,7 @@ static void GUI_FactoryWindow_Init()
 
 	oi = g_factoryWindowItems[0].objectInfo;
 
-	wsa = WSA_LoadFile(oi->wsa, emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
+	wsa = WSA_LoadFile(oi->wsa, _factoryWindowWsaBuffer, sizeof(_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -3440,7 +3424,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	wsa = WSA_LoadFile(oi->wsa, emu_get_memorycsip(g_global->variable_7FAE), g_global->variable_7FA6, false);
+	wsa = WSA_LoadFile(oi->wsa, _factoryWindowWsaBuffer, sizeof(_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -3469,7 +3453,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	if (oi->available == -1) {
-		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, emu_get_memorycsip(g_global->factoryWindowGraymapTbl));
+		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, _factoryWindowGraymapTbl);
 
 		if (g_factoryWindowStarport) {
 			/* "OUT OF STOCK" */
@@ -3721,7 +3705,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, _factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0);
 		}
@@ -3735,7 +3719,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, emu_get_memorycsip(g_global->factoryWindowGraymapTbl), 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, _factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0);
 		}
