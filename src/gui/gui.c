@@ -3735,7 +3735,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 /**
  * Fade in parts of the screen from one screenbuffer to the other screenbuffer.
  * @param x The X-position in the source and destination screenbuffers.
- * @param y The Y-position in the source and destination screenbuffer.
+ * @param y The Y-position in the source and destination screenbuffers.
  * @param width The width of the screen to copy.
  * @param height The height of the screen to copy.
  * @param screenSrc The ID of the source screen.
@@ -3749,21 +3749,27 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 	uint16 i;
 	uint16 j;
 
+	uint16 columns[SCREEN_WIDTH];
+	uint16 rows[SCREEN_HEIGHT];
+
+	assert(width <= SCREEN_WIDTH);
+	assert(height <= SCREEN_HEIGHT);
+
 	if (screenDst == 0) {
 		GUI_Mouse_Hide_InRegion(x, y, x + width, y + height);
 	}
 
-	for (i = 0; i < width; i++)  g_global->variable_7B8C[i] = i;
-	for (i = 0; i < height; i++) g_global->variable_7E0C[i] = i;
+	for (i = 0; i < width; i++)  columns[i] = i;
+	for (i = 0; i < height; i++) rows[i] = i;
 
 	for (i = 0; i < width; i++) {
 		uint16 tmp;
 
 		j = Tools_RandomRange(0, width - 1);
 
-		tmp = g_global->variable_7B8C[j];
-		g_global->variable_7B8C[j] = g_global->variable_7B8C[i];
-		g_global->variable_7B8C[i] = tmp;
+		tmp = columns[j];
+		columns[j] = columns[i];
+		columns[i] = tmp;
 	}
 
 	for (i = 0; i < height; i++) {
@@ -3771,9 +3777,9 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 		j = Tools_RandomRange(0, height - 1);
 
-		tmp = g_global->variable_7E0C[j];
-		g_global->variable_7E0C[j] = g_global->variable_7E0C[i];
-		g_global->variable_7E0C[i] = tmp;
+		tmp = rows[j];
+		rows[j] = rows[i];
+		rows[i] = tmp;
 	}
 
 	oldScreenID = GUI_Screen_SetActive(screenDst);
@@ -3784,8 +3790,8 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 		for (i = 0; i < width; i++) {
 			uint8 colour;
-			uint16 curX = x + g_global->variable_7B8C[i];
-			uint16 curY = y + g_global->variable_7E0C[j2];
+			uint16 curX = x + columns[i];
+			uint16 curY = y + rows[j2];
 
 			if (++j2 >= height) j2 = 0;
 
