@@ -9,6 +9,7 @@ extern uint8 g_shoulderLeft;
 extern uint8 g_shoulderTop;
 extern bool g_disableOtherMovement;
 extern bool g_interrogation;
+extern uint32 g_interrogationTimer;
 
 struct Widget;
 
@@ -18,7 +19,7 @@ extern void GUI_Mentat_ShowBriefing();
 extern void GUI_Mentat_ShowWin();
 extern void GUI_Mentat_ShowLose();
 extern void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID);
-extern void GUI_Mentat_Animation(uint16 unknown);
+extern void GUI_Mentat_Animation(uint16 speakingMode);
 extern void GUI_Mentat_SelectHelpSubject(int16 difference);
 extern void GUI_Mentat_Create_HelpScreen_Widgets();
 extern bool GUI_Mentat_List_Click(struct Widget *w);

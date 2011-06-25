@@ -583,7 +583,7 @@ typedef struct GlobalData {
 	/* 2574(11)  */ PACK char   string_2574[11];            /*!< "STATIC.WSA" NULL terminated. */
 	/* 257F()    */ PACK uint8   unknown_257F[0x0001];
 	/* 2580(2)   */ PACK uint16  removed_2580;              /*!< REMOVED - disable movement of 'other' mentat object */
-	/* 2582(4)   */ PACK uint32 variable_2582;              /*!< ?? Ticker inside Security_Check(). */
+	/* 2582(4)   */ PACK uint32  removed_2582;              /*!< REMOVED - speaking timer for security question. */
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */

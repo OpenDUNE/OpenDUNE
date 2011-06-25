@@ -190,7 +190,7 @@ bool GUI_Security_Show()
 
 		GUI_Security_DrawText(string);
 
-		g_global->variable_2582 = g_global->variable_76AC + strlen(string) * 4;
+		g_interrogationTimer = g_global->variable_76AC + strlen(string) * 4;
 
 		Unknown_07AE_0000(9);
 

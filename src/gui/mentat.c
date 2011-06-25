@@ -51,6 +51,7 @@ static uint8 _eyesTop;     /*!< Top of the changing eyes. */
 static uint8 _eyesRight;   /*!< Right of the changing eyes. */
 static uint8 _eyesBottom;  /*!< Bottom of the changing eyes. */
 
+uint32 g_interrogationTimer; /*!< Speaking time-out for security question. */
 static uint8 _mouthLeft;   /*!< Left of the moving mouth. */
 static uint8 _mouthTop;    /*!< Top of the moving mouth. */
 static uint8 _mouthRight;  /*!< Right of the moving mouth. */
@@ -548,9 +549,9 @@ void GUI_Mentat_Display(const char *wsaFilename, uint16 houseID)
 
 /**
  * Draw sprites and handle mouse in a mentat screen.
- * @param unknown
+ * @param speakingMode If \c 1, the mentat is speaking.
  */
-void GUI_Mentat_Animation(uint16 unknown)
+void GUI_Mentat_Animation(uint16 speakingMode)
 {
 	static int32  movingEyesTimer;      /* timer when to change the eyes sprite. */
 	static uint16 movingEyesSprite;     /* index in _mentatSprites of the displayed moving eyes. */
@@ -601,7 +602,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 		}
 	}
 
-	if (unknown == 0x1) {
+	if (speakingMode == 1) {
 		if (movingMouthTimer < (int32)g_global->variable_76AC) {
 			uint8 *sprite;
 
@@ -719,7 +720,7 @@ void GUI_Mentat_Animation(uint16 unknown)
 			}
 		} else {
 			i = 0;
-			switch (unknown) {
+			switch (speakingMode) {
 				case 0:
 					i = Tools_RandomRange(0, 7);
 					if (i > 5) {
@@ -1081,7 +1082,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	bool textDone;
 	uint16 frame;
 	uint32 descTick;
-	uint16 mentatAnimation;
+	uint16 mentatSpeakingMode;
 	uint16 result;
 	uint32 textTick;
 	uint32 textDelay;
@@ -1116,7 +1117,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 	textLines = GUI_Mentat_SplitText(text, 304);
 
-	mentatAnimation = 2;
+	mentatSpeakingMode = 2;
 	lines = 0;
 	frame = 0;
 	g_global->variable_76B4 = 0;
@@ -1186,7 +1187,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 				/* FALL-THROUGH */
 
 			case 3:
-				if (mentatAnimation == 2 && textTick < g_global->variable_76AC) key = 1;
+				if (mentatSpeakingMode == 2 && textTick < g_global->variable_76AC) key = 1;
 
 				if ((key != 0 && textDone) || result != 0) {
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
@@ -1194,7 +1195,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					GUI_Mouse_Show_InRegion();
 
 					step = 4;
-					mentatAnimation = 0;
+					mentatSpeakingMode = 0;
 					break;
 				}
 
@@ -1204,7 +1205,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					if (textLines-- != 0) {
 						GUI_Screen_SetActive(4);
 						GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
-						mentatAnimation = 1;
+						mentatSpeakingMode = 1;
 						textDelay = strlen(text) * 4;
 						textTick = g_global->variable_76AC + textDelay;
 
@@ -1223,9 +1224,9 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					break;
 				}
 
-				if (mentatAnimation == 0 || textTick > g_global->variable_76AC) break;
+				if (mentatSpeakingMode == 0 || textTick > g_global->variable_76AC) break;
 
-				mentatAnimation = 2;
+				mentatSpeakingMode = 2;
 				textTick += textDelay + textDelay / 2;
 				break;
 
@@ -1241,7 +1242,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 			default: break;
 		}
 
-		GUI_Mentat_Animation(mentatAnimation);
+		GUI_Mentat_Animation(mentatSpeakingMode);
 
 		if (wsa != NULL && g_global->variable_76B4 == 0) {
 			g_global->variable_76B4 = 7;
@@ -1332,7 +1333,7 @@ uint16 GUI_Mentat_SplitText(char *str, uint16 maxWidth)
 
 uint16 GUI_Mentat_Tick()
 {
-	GUI_Mentat_Animation((g_global->variable_2582 < g_global->variable_76AC) ? 0 : 1);
+	GUI_Mentat_Animation((g_interrogationTimer < g_global->variable_76AC) ? 0 : 1);
 
 	return 0;
 }
