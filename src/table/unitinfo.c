@@ -7,6 +7,8 @@
 
 #include "../unit.h"
 
+const uint16 g_table_actionsAI[] = {ACTION_HUNT, ACTION_AREA_GUARD, ACTION_AMBUSH, ACTION_GUARD};
+
 UnitInfo g_table_unitInfo[] = {
 	{ /* 0 */
 		{ /* objectInfo */

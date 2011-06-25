@@ -243,11 +243,8 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 	ui = &g_table_unitInfo[u->o.type];
 
 	actions = ui->o.actionsPlayer;
-
-	if (Unit_GetHouseID(u) != g_global->playerHouseID) {
-		if (u->o.type != UNIT_SIEGE_TANK) {
-			actions = g_global->actionsAI;
-		}
+	if (Unit_GetHouseID(u) != g_global->playerHouseID && u->o.type != UNIT_SIEGE_TANK) {
+		actions = g_table_actionsAI;
 	}
 
 	action = actions[w->index - 8];

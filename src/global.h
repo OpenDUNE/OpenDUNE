@@ -964,7 +964,7 @@ typedef struct GlobalData {
 	/* 3BFA(20)  */ PACK csip32 removed_3BFA[5];            /*!< REMOVED - Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK uint8  removed_3C0E[3][8];         /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
 	/* 3C26(4)   */ PACK csip32 removed_3C26;               /*!< REMOVED - First Widget in the linked-list of all Widgets. */
-	/* 3C2A(8)   */ PACK uint16 actionsAI[4];               /*!< ?? */
+	/* 3C2A(8)   */ PACK uint16 removed_actionsAI[4];       /*!< REMOVED - ?? */
 	/* 3C32(4)   */ PACK csip32 removed_3C32;               /*!< REMOVED - Main palette. */
 	/* 3C36(4)   */ PACK csip32 removed_3C36;               /*!< REMOVED - Secondary palette. */
 	/* 3C3A(4)   */ PACK csip32 removed_3C3A;               /*!< REMOVED - Palette mapping. */

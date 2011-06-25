@@ -730,7 +730,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 					actionCurrent = (u->nextActionID != ACTION_INVALID) ? u->nextActionID : u->actionID;
 
 					actions = oi->actionsPlayer;
-					if (isNotPlayerOwned && o->type != UNIT_HARVESTER) actions = g_global->actionsAI;
+					if (isNotPlayerOwned && o->type != UNIT_HARVESTER) actions = g_table_actionsAI;
 
 					for (i = 0; i < 4; i++) {
 						buttons[i]->stringID = g_table_actionInfo[actions[i]].stringID;
