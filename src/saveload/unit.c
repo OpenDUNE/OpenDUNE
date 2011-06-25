@@ -20,7 +20,7 @@ static const SaveLoadDesc s_saveUnitOrientation[] = {
 };
 
 static const SaveLoadDesc s_saveUnit[] = {
-	SLD_SLD   (Unit, o, g_saveObject),
+	SLD_SLD   (Unit,              o, g_saveObject),
 	SLD_EMPTY (      SLDT_UINT16),
 	SLD_ENTRY (Unit, SLDT_UINT32, variable_49),
 	SLD_ENTRY (Unit, SLDT_UINT16, originEncoded),

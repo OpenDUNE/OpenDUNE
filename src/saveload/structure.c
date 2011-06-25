@@ -13,7 +13,7 @@
 #include "../pool/pool.h"
 
 static const SaveLoadDesc s_saveStructure[] = {
-	SLD_SLD   (Structure, o, g_saveObject),
+	SLD_SLD   (Structure,              o, g_saveObject),
 	SLD_ENTRY (Structure, SLDT_UINT16, variable_47),
 	SLD_ENTRY (Structure, SLDT_UINT16, variable_49),
 	SLD_ENTRY (Structure, SLDT_UINT8,  variable_4B),

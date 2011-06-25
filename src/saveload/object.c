@@ -17,6 +17,6 @@ const SaveLoadDesc g_saveObject[] = {
 	SLD_ENTRY (Object, SLDT_UINT8,  variable_09),
 	SLD_ENTRY (Object, SLDT_UINT32, position),
 	SLD_ENTRY (Object, SLDT_UINT16, hitpoints),
-	SLD_SLD   (Object, script, g_saveScriptEngine),
+	SLD_SLD   (Object,              script, g_saveScriptEngine),
 	SLD_END
 };
