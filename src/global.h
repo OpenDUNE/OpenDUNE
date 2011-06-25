@@ -614,8 +614,8 @@ typedef struct GlobalData {
 	/* 2A75(28)  */ PACK csip32 removed_2A75[7];            /*!< REMOVED - Array of pointers to Widgets. */
 	/* 2A91(2)   */ PACK uint16 removed_2491;               /*!< REMOVED - Zero or one. One if and only if there is room for at least one more savegame on disk. */
 	/* 2A93(4)   */ PACK csip32 removed_2A93;               /*!< REMOVED - The last Widget in the linkedlist. */
-	/* 2A97(2)   */ PACK uint16 variable_2A97;              /*!< ?? */
-	/* 2A99(2)   */ PACK uint16 variable_2A99;              /*!< ?? */
+	/* 2A97(2)   */ PACK uint16 removed_2A97;               /*!< REMOVED - Savegame index base for saveload window. */
+	/* 2A99(2)   */ PACK uint16 removed_2A99;               /*!< REMOVED - Previous savegame index base for saveload window. */
 	/* 2A9B(18)  */ PACK uint16 removed_2A9B[9];            /*!< REMOVED - colorID array for screen shading. */
 	/* 2AAD(10)  */ PACK uint16 removed_2AAD[5];            /*!< REMOVED - StringID for game speed. */
 	/* 2AB7(12)  */ PACK char   string_2AB7[12];            /*!< "OPTIONS.CFG" NULL terminated. */

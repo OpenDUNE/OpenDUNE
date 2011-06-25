@@ -33,6 +33,8 @@
 #include "../unknown/unknown.h"
 
 
+static uint16 _savegameIndexBase = 0;
+
 static char *GenerateSavegameFilename(uint16 number)
 {
 	static char filename[13];
@@ -838,9 +840,9 @@ static void FillSavegameDesc(bool save)
 
 		*desc = '\0';
 
-		if (g_global->variable_2A97 - i < 0) continue;
+		if (_savegameIndexBase - i < 0) continue;
 
-		if (g_global->variable_2A97 - i == g_global->savegameCountOnDisk) {
+		if (_savegameIndexBase - i == g_global->savegameCountOnDisk) {
 			if (!save) continue;
 
 			/* "[ EMPTY SLOT ]" */
@@ -848,7 +850,7 @@ static void FillSavegameDesc(bool save)
 			continue;
 		}
 
-		filename = GenerateSavegameFilename(g_global->variable_2A97 - i);
+		filename = GenerateSavegameFilename(_savegameIndexBase - i);
 
 		if (!File_Exists(filename)) continue;
 
@@ -911,7 +913,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 			case 0x1E:
 				if (*saveDesc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(g_global->variable_2A97 - key), saveDesc);
+				SaveFile(GenerateSavegameFilename(_savegameIndexBase - key), saveDesc);
 				loop = false;
 				ret = true;
 				break;
@@ -933,14 +935,15 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 static void UpdateArrows(bool save, bool force)
 {
+	static uint16 previousIndex = 0;
 	Widget *w;
 
-	if (!force && g_global->variable_2A97 == g_global->variable_2A99) return;
+	if (!force && _savegameIndexBase == previousIndex) return;
 
-	g_global->variable_2A99 = g_global->variable_2A97;
+	previousIndex = _savegameIndexBase;
 
 	w = &g_table_windowWidgets[8];
-	if (g_global->variable_2A97 >= 5) {
+	if (_savegameIndexBase >= 5) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -948,7 +951,7 @@ static void UpdateArrows(bool save, bool force)
 	}
 
 	w = &g_table_windowWidgets[7];
-	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > g_global->variable_2A97) {
+	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > _savegameIndexBase) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -969,7 +972,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	g_global->savegameCountOnDisk = GetSavegameCount();
 
-	g_global->variable_2A97 = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
+	_savegameIndexBase = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
 
 	FillSavegameDesc(save);
 
@@ -997,7 +1000,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 			switch (key) {
 				case 0x25:
-					g_global->variable_2A97 = min(g_global->savegameCountOnDisk - (save ? 0 : 1), g_global->variable_2A97 + 1);
+					_savegameIndexBase = min(g_global->savegameCountOnDisk - (save ? 0 : 1), _savegameIndexBase + 1);
 
 					FillSavegameDesc(save);
 
@@ -1005,7 +1008,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					break;
 
 				case 0x26:
-					g_global->variable_2A97 = max(0, g_global->variable_2A97 - 1);
+					_savegameIndexBase = max(0, _savegameIndexBase - 1);
 
 					FillSavegameDesc(save);
 
@@ -1022,7 +1025,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					key -= 0x1E;
 
 					if (!save) {
-						LoadFile(GenerateSavegameFilename(g_global->variable_2A97 - key));
+						LoadFile(GenerateSavegameFilename(_savegameIndexBase - key));
 						return true;
 					}
 
