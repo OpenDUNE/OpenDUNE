@@ -1001,7 +1001,7 @@ static void GameCredits_LoadPaletteAndSprites()
  */
 static void GameLoop_GameCredits()
 {
-	static const colours[] = {0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	static const uint8 colours[] = {0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 	uint16 i;
 	csip32 memBlock;
