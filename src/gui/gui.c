@@ -4121,19 +4121,19 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 
 uint16 GUI_HallOfFame_Tick()
 {
-	static int16 loc2C38 = 1;
+	static int16 colouringDirection = 1;
 
 	if (g_global->variable_2C3A >= g_global->variable_76AC) return 0;
 
 	g_global->variable_2C3A = g_global->variable_76AC + 2;
 
 	if (*g_palette1_houseColour >= 63) {
-		loc2C38 = -1;
+		colouringDirection = -1;
 	} else if (*g_palette1_houseColour <= 35) {
-		loc2C38 = 1;
+		colouringDirection = 1;
 	}
 
-	*g_palette1_houseColour += loc2C38;
+	*g_palette1_houseColour += colouringDirection;
 
 	GFX_SetPalette(g_palette1);
 
