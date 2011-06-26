@@ -27,7 +27,7 @@ ScriptInfo *g_scriptTeam = &s_scriptTeam;
 ScriptInfo *g_scriptUnit = &s_scriptUnit;
 
 /**
- * Converted script functions for Structures. If NULL, the emu_ version is used.
+ * Converted script functions for Structures.
  */
 const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_General_Delay,
@@ -58,7 +58,7 @@ const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT] = {
 };
 
 /**
- * Converted script functions for Units. If NULL, the emu_ version is used.
+ * Converted script functions for Units.
  */
 const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_Unit_Unknown1CFE,
@@ -128,7 +128,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 };
 
 /**
- * Converted script functions for Teams. If NULL, the emu_ version is used.
+ * Converted script functions for Teams.
  */
 const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_General_Delay,
