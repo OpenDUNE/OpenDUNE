@@ -48,8 +48,7 @@ bool Team_Load(FILE *fp, uint32 length)
 
 		length -= SaveLoad_GetLength(s_saveTeam);
 
-		tl.script.scriptInfo.s.cs = 0x353F;
-		tl.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptTeam, 0x353F);
+		tl.script.scriptInfo = &g_global->scriptTeam;
 		if (tl.script.script.csip != 0x0) {
 			uint16 lineno = tl.script.script.csip;
 
@@ -94,11 +93,9 @@ bool Team_Save(FILE *fp)
 
 		/* Rewrite the pointer in the scriptEngine to an index */
 		if (st.script.script.csip != 0x00000000) {
-			ScriptInfo *scriptInfo;
-			scriptInfo = (ScriptInfo *)emu_get_memorycsip(st.script.scriptInfo);
-			st.script.script.csip = (st.script.script.csip - scriptInfo->start.csip) / 2;
+			st.script.script.csip = (st.script.script.csip - st.script.scriptInfo->start.csip) / 2;
 		}
-		st.script.scriptInfo.csip = 0x00000000;
+		st.script.scriptInfo = NULL;
 
 		if (!SaveLoad_Save(s_saveTeam, fp, &st)) return false;
 	}

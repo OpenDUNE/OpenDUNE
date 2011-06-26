@@ -115,7 +115,7 @@ uint16 Script_General_DisplayText(ScriptEngine *script)
 	csip32 text;
 	uint16 offset;
 
-	text = ((ScriptInfo *)emu_get_memorycsip(script->scriptInfo))->text;
+	text = script->scriptInfo->text;
 
 	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
 
@@ -153,7 +153,7 @@ uint16 Script_General_Unknown0184(ScriptEngine *script)
 	csip32 text;
 	uint16 offset;
 
-	text = ((ScriptInfo *)emu_get_memorycsip(script->scriptInfo))->text;
+	text = script->scriptInfo->text;
 
 	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
 

@@ -422,16 +422,13 @@ uint16 Script_Team_Unknown0788(ScriptEngine *script)
 uint16 Script_Team_DisplayText(ScriptEngine *script)
 {
 	Team *t;
-	ScriptInfo *scriptInfo;
 	csip32 text;
 	uint16 offset;
 
 	t = g_scriptCurrentTeam;
 	if (t->houseID == g_playerHouseID) return 0;
 
-	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
-
-	text = scriptInfo->text;
+	text = script->scriptInfo->text;
 
 	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
 

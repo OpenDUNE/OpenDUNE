@@ -44,8 +44,7 @@ bool Structure_Load(FILE *fp, uint32 length)
 
 		length -= SaveLoad_GetLength(s_saveStructure);
 
-		sl.o.script.scriptInfo.s.cs = 0x353F;
-		sl.o.script.scriptInfo.s.ip = emu_Global_GetIP(&g_global->scriptStructure, 0x353F);
+		sl.o.script.scriptInfo = &g_global->scriptStructure;
 		if (sl.o.script.script.csip != 0x0) {
 			uint16 lineno = sl.o.script.script.csip;
 
@@ -92,11 +91,9 @@ bool Structure_Save(FILE *fp)
 
 		/* Rewrite the pointer in the scriptEngine to an index */
 		if (ss.o.script.script.csip != 0x00000000) {
-			ScriptInfo *scriptInfo;
-			scriptInfo = (ScriptInfo *)emu_get_memorycsip(ss.o.script.scriptInfo);
-			ss.o.script.script.csip = (ss.o.script.script.csip - scriptInfo->start.csip) / 2;
+			ss.o.script.script.csip = (ss.o.script.script.csip - ss.o.script.scriptInfo->start.csip) / 2;
 		}
-		ss.o.script.scriptInfo.csip = 0x00000000;
+		ss.o.script.scriptInfo = NULL;
 
 		if (!SaveLoad_Save(s_saveStructure, fp, &ss)) return false;
 	}

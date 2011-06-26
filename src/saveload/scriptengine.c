@@ -11,7 +11,7 @@
 const SaveLoadDesc g_saveScriptEngine[] = {
 	SLD_ENTRY (ScriptEngine, SLDT_UINT16, delay),
 	SLD_ENTRY (ScriptEngine, SLDT_UINT32, script),
-	SLD_ENTRY (ScriptEngine, SLDT_UINT32, scriptInfo),
+	SLD_EMPTY (              SLDT_UINT32),
 	SLD_ENTRY (ScriptEngine, SLDT_UINT16, returnValue),
 	SLD_ENTRY (ScriptEngine, SLDT_UINT8,  framePointer),
 	SLD_ENTRY (ScriptEngine, SLDT_UINT8,  stackPointer),

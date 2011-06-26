@@ -156,12 +156,11 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo)
 	if (script == NULL) return;
 	if (scriptInfo == NULL) return;
 
-	script->script.csip     = 0;
-	script->scriptInfo.s.cs = 0x353F;
-	script->scriptInfo.s.ip = emu_Global_GetIP(scriptInfo, 0x353F);
-	script->isSubroutine    = 0;
-	script->framePointer    = 17;
-	script->stackPointer    = 15;
+	script->script.csip  = 0;
+	script->scriptInfo   = scriptInfo;
+	script->isSubroutine = 0;
+	script->framePointer = 17;
+	script->stackPointer = 15;
 }
 
 /**
@@ -179,8 +178,8 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 
 	if (script == NULL) return;
 
-	if (script->scriptInfo.csip == 0) return;
-	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
+	if (script->scriptInfo == NULL) return;
+	scriptInfo = script->scriptInfo;
 
 	Script_Reset(script, scriptInfo);
 
@@ -200,7 +199,7 @@ bool Script_IsLoaded(ScriptEngine *script)
 {
 	if (script == NULL) return false;
 	if (script->script.csip == 0) return false;
-	if (script->scriptInfo.csip == 0) return false;
+	if (script->scriptInfo == NULL) return false;
 
 	return true;
 }
@@ -219,7 +218,7 @@ bool Script_Run(ScriptEngine *script)
 	uint8 opcode;
 
 	if (!Script_IsLoaded(script)) return false;
-	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
+	scriptInfo = script->scriptInfo;
 
 	current = emu_get_memory16(script->script.s.cs, script->script.s.ip, 0);
 	current = (current >> 8) + (current << 8); /* Scripts are in BigEndian */
@@ -495,7 +494,7 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	if (!Script_IsLoaded(script)) return;
 	if (script->isSubroutine != 0) return;
 
-	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
+	scriptInfo = script->scriptInfo;
 	script->isSubroutine = 1;
 
 	script->stack[--script->stackPointer] = (script->script.csip - scriptInfo->start.csip) / 2;
