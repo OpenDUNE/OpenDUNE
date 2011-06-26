@@ -11,23 +11,20 @@ enum {
 	SCRIPT_FUNCTIONS_TEAM_COUNT      = 15                   /*!< There are 15 functions to call for Teams. */
 };
 
-MSVC_PACKED_BEGIN
 /**
  * A ScriptEngine as stored in the memory.
  */
 typedef struct ScriptEngine {
-	/* 0000(2)   */ PACK uint16 delay;                      /*!< How many more ticks the script is suspended (or zero if not suspended). */
-	/* 0002(4)   */ PACK csip32 script;                     /*!< Pointer to the script we are executing. */
-	/* 0006(4)   */ PACK csip32 scriptInfo;                 /*!< Pointer to a struct with script information (g_global->scriptStructure/scriptUnit). */
-	/* 000A(2)   */ PACK uint16 returnValue;                /*!< Return value from sub-routines. */
-	/* 000C(1)   */ PACK uint8  framePointer;               /*!< Frame pointer. */
-	/* 000D(1)   */ PACK uint8  stackPointer;               /*!< Stack pointer. */
-	/* 000E(10)  */ PACK uint16 variables[5];               /*!< Variables to store values in (outside the stack). Accessed by all kinds of routines outside the scripts! */
-	/* 0018(30)  */ PACK uint16 stack[15];                  /*!< Stack of the script engine, starting at the end. */
-	/* 0036(1)   */ PACK uint8  isSubroutine;               /*!< The script we are executing is a subroutine. */
-} GCC_PACKED ScriptEngine;
-MSVC_PACKED_END
-assert_compile(sizeof(ScriptEngine) == 0x37);
+	uint16 delay;                                           /*!< How many more ticks the script is suspended (or zero if not suspended). */
+	csip32 script;                                          /*!< Pointer to the script we are executing. */
+	csip32 scriptInfo;                                      /*!< Pointer to a struct with script information (g_global->scriptStructure/scriptUnit). */
+	uint16 returnValue;                                     /*!< Return value from sub-routines. */
+	uint8  framePointer;                                    /*!< Frame pointer. */
+	uint8  stackPointer;                                    /*!< Stack pointer. */
+	uint16 variables[5];                                    /*!< Variables to store values in (outside the stack). Accessed by all kinds of routines outside the scripts! */
+	uint16 stack[15];                                       /*!< Stack of the script engine, starting at the end. */
+	uint8  isSubroutine;                                    /*!< The script we are executing is a subroutine. */
+} ScriptEngine;
 
 MSVC_PACKED_BEGIN
 /**
