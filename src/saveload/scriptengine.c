@@ -17,6 +17,6 @@ const SaveLoadDesc g_saveScriptEngine[] = {
 	SLD_ENTRY (ScriptEngine, SLDT_UINT8,  stackPointer),
 	SLD_ARRAY (ScriptEngine, SLDT_UINT16, variables, 5),
 	SLD_ARRAY (ScriptEngine, SLDT_UINT16, stack, 15),
-	SLD_ENTRY (ScriptEngine, SLDT_UINT8,  variable_34),
+	SLD_ENTRY (ScriptEngine, SLDT_UINT8,  isSubroutine),
 	SLD_END
 };

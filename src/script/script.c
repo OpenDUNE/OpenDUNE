@@ -170,7 +170,7 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo)
 	script->script.csip     = 0;
 	script->scriptInfo.s.cs = 0x353F;
 	script->scriptInfo.s.ip = emu_Global_GetIP(scriptInfo, 0x353F);
-	script->variable_34     = 0;
+	script->isSubroutine    = 0;
 	script->framePointer    = 17;
 	script->stackPointer    = 15;
 }
@@ -186,6 +186,7 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo)
 void Script_Load(ScriptEngine *script, uint8 typeID)
 {
 	ScriptInfo *scriptInfo;
+	uint16 *offsets;
 
 	if (script == NULL) return;
 
@@ -194,8 +195,9 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 
 	Script_Reset(script, scriptInfo);
 
+	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
 	script->script = scriptInfo->start;
-	script->script.s.ip += emu_get_memory16(scriptInfo->offsets.s.cs, scriptInfo->offsets.s.ip, typeID * 2) * 2;
+	script->script.s.ip += offsets[typeID] * 2;
 }
 
 /**
@@ -480,7 +482,7 @@ bool Script_Run(ScriptEngine *script)
 			script->returnValue = script->stack[script->stackPointer++];
 			script->script.s.ip += script->stack[script->stackPointer++] * 2;
 
-			script->variable_34 = 0;
+			script->isSubroutine = 0;
 			return true;
 		}
 
@@ -491,33 +493,28 @@ bool Script_Run(ScriptEngine *script)
 }
 
 /**
- * Unknown function 044C.
+ * Load a script in an engine without removing the previously loaded script.
  *
  * @param script The script engine to run.
- * @param type ??.
+ * @param typeID The typeID for which we want to load a script.
  */
-void Script_Unknown044C(ScriptEngine *script, uint16 type)
+void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 {
 	ScriptInfo *scriptInfo;
-	csip32 csip;
 	uint16 *offsets;
 
 	if (!Script_IsLoaded(script)) return;
-	if (script->variable_34 != 0) return;
+	if (script->isSubroutine != 0) return;
 
 	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
-	script->variable_34 = 1;
+	script->isSubroutine = 1;
 
-	csip = script->script;
-	csip.csip -= scriptInfo->start.csip;
-
-	script->stack[--script->stackPointer] = csip.csip / 2;
+	script->stack[--script->stackPointer] = (script->script.csip - scriptInfo->start.csip) / 2;
 	script->stack[--script->stackPointer] = script->returnValue;
 
 	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
-	csip       = scriptInfo->start;
-	csip.s.ip += offsets[type];
-	script->script = csip;
+	script->script = scriptInfo->start;
+	script->script.s.ip += offsets[typeID] * 2;
 }
 
 /**

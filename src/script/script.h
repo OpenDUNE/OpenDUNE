@@ -24,7 +24,7 @@ typedef struct ScriptEngine {
 	/* 000D(1)   */ PACK uint8  stackPointer;               /*!< Stack pointer. */
 	/* 000E(10)  */ PACK uint16 variables[5];               /*!< Variables to store values in (outside the stack). Accessed by all kinds of routines outside the scripts! */
 	/* 0018(30)  */ PACK uint16 stack[15];                  /*!< Stack of the script engine, starting at the end. */
-	/* 0036(1)   */ PACK uint8  variable_34;                /*!< ?? */
+	/* 0036(1)   */ PACK uint8  isSubroutine;               /*!< The script we are executing is a subroutine. */
 } GCC_PACKED ScriptEngine;
 MSVC_PACKED_END
 assert_compile(sizeof(ScriptEngine) == 0x37);
@@ -55,7 +55,7 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
-extern void Script_Unknown044C(ScriptEngine *script, uint16 type);
+extern void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID);
 extern void Script_ClearInfo(ScriptInfo *scriptInfo);
 extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 functions, csip32 data);
 

@@ -505,7 +505,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 
 		case 2:
 			u->o.script.variables[0] = action;
-			Script_Unknown044C(&u->o.script, u->o.type);
+			Script_LoadAsSubroutine(&u->o.script, u->o.type);
 			return;
 
 		default: return;
