@@ -292,7 +292,7 @@ static void GameLoop_DrawText(char *string, uint16 top)
 
 	s = string;
 
-	while (*s != 0 && *s != g_global->variable_264A) s++;
+	while (*s != 0 && *s != '\r') s++;
 
 	if (*s != 0) {
 		*s++ = 0;

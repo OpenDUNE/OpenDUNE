@@ -603,7 +603,7 @@ typedef struct GlobalData {
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */
 	/* 2603(29)  */ PACK char   string_2603[29];            /*!< "Bad mode in animation #%i.\r\n" NULL terminated. */
 	/* 2620(42)  */ PACK char   string_2620[42];            /*!< "Copyright (c) 1992 Westwood Studios, Inc." NULL terminated. */
-	/* 264A(1)   */ PACK uint8  variable_264A;              /*!< ?? */
+	/* 264A(1)   */ PACK uint8   removed_264A;              /*!< REMOVED - string delimiter '\r' */
 	/* 264B()    */ PACK uint8   unknown_264B[0x0001];
 	/* 264C(105) */ PACK uint8 removed_264C[105];           /*!< REMOVED - Options WindowDesc. */
 	/* 26B5(105) */ PACK uint8 removed_26B5[105];           /*!< REMOVED - GameControl WindowDesc. */
