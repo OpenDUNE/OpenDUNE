@@ -461,7 +461,7 @@ bool Script_Run(ScriptEngine *script)
 
 			return true;
 		}
-		case 18: { /* RETURN FROM SUBROUTINE WITHOUT RESETTING FRAMEPOINTER (never used, is a weird opcode anyway) */
+		case 18: { /* RETURN FROM SUBROUTINE WITHOUT RESETTING FRAMEPOINTER */
 			if (script->stackPointer == 15) {
 				script->script.csip = 0;
 				return false;
