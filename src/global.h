@@ -1411,15 +1411,15 @@ typedef struct GlobalData {
 	/* 8064(4)   */ PACK csip32 removed_8064;               /*!< REMOVED - Pointer to content of intro.fnt. */
 	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
 	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
-	/* 806C(4)   */ PACK uint32 animationTick;              /*!< ?? */
+	/* 806C(4)   */ PACK uint32 removed_animationTick;      /*!< REMOVED - animation timer of palette part changing */
 	/* 8070(2)   */ PACK uint16 animationSoundEffect;       /*!< ?? */
 	/* 8072(2)   */ PACK uint16 variable_8072;              /*!< ?? */
 	/* 8074(2)   */ PACK uint16 variable_8074;              /*!< ?? */
-	/* 8076(18)  */ PACK uint8  variable_8076[18];          /*!< ?? */
-	/* 8088(18)  */ PACK uint8  variable_8088[18];          /*!< ?? */
-	/* 809A(18)  */ PACK uint8  variable_809A[18];          /*!< ?? */
-	/* 80AC(2)   */ PACK uint16 variable_80AC;              /*!< ?? */
-	/* 80AE(2)   */ PACK uint16 variable_80AE;              /*!< ?? */
+	/* 8076(18)  */ PACK uint8   removed_8076[18];          /*!< REMOVED - palette part change amount */
+	/* 8088(18)  */ PACK uint8   removed_8088[18];          /*!< REMOVED - current palette part */
+	/* 809A(18)  */ PACK uint8   removed_809A[18];          /*!< REMOVED - target palette part */
+	/* 80AC(2)   */ PACK uint16  removed_80AC;              /*!< REMOVED - number of steps to do in changing palette part */
+	/* 80AE(2)   */ PACK uint16  removed_80AE;              /*!< REMOVED - palette part direction */
 	/* 80B0(2)   */ PACK uint16  removed_80B0;              /*!< REMOVED ?? (write-only variable) */
 	/* 80B2(2)   */ PACK uint16 savegameCountOnDisk;        /*!< Amount of savegames on disk. */
 	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
