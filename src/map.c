@@ -1727,6 +1727,8 @@ static void Map_AddSpiceOnTile(uint16 packed)
  */
 void Map_CreateLandscape(uint32 seed)
 {
+	static const int8 around[] = {0, -1, 1, -16, 16, -17, 17, -15, 15, -2, 2, -32, 32, -4, 4, -64, 64, -30, 30, -34, 34};
+
 	uint16 i;
 	uint16 j;
 	uint16 k;
@@ -1749,8 +1751,8 @@ void Map_CreateLandscape(uint32 seed)
 	while (i-- != 0) {
 		int16 base = Tools_Random_256();
 
-		for (j = 0; j < 21; j++) {
-			int16 index = min(max(0, base + g_global->variable_2006[j]), 272);
+		for (j = 0; j < lengthof(around); j++) {
+			int16 index = min(max(0, base + around[j]), 272);
 
 			memory[index] = (memory[index] + (Tools_Random_256() & 0xF)) & 0xF;
 		}
@@ -1760,8 +1762,8 @@ void Map_CreateLandscape(uint32 seed)
 	while (i-- != 0) {
 		int16 base = Tools_Random_256();
 
-		for (j = 0; j < 21; j++) {
-			int16 index = min(max(0, base + g_global->variable_2006[j]), 272);
+		for (j = 0; j < lengthof(around); j++) {
+			int16 index = min(max(0, base + around[j]), 272);
 
 			memory[index] = Tools_Random_256() & 0x3;
 		}

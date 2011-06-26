@@ -516,7 +516,7 @@ typedef struct GlobalData {
 	/* 1FF9(6)   */ PACK char   string_1FF9[6];             /*!< "TEAMS" NULL terminated. */
 	/* 1FFF(6)   */ PACK char   string_1FFF[6];             /*!< "CHOAM" NULL terminated. */
 	/* 2005()    */ PACK uint8   unknown_2005[0x0001];
-	/* 2006(21)  */ PACK int8   variable_2006[21];          /*!< ?? */
+	/* 2006(21)  */ PACK int8    removed_2006[21];          /*!< REMOVED - some offset data around a center */
 	/* 201B(336) */ PACK uint16 variable_201B[2][21][4];    /*!< ?? */
 	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
 	/* 2177(2)   */ PACK uint16 removed_2177;               /*!< REMOVED - True if ICON.ICN/MAP data are loaded. */
