@@ -143,47 +143,6 @@ assert_compile(sizeof(struct_8BDE) == 0xA);
 
 MSVC_PACKED_BEGIN
 /**
- * Inside the Scenario is information about reinforcements in the scenario.
- *  This is the layout of that data.
- */
-typedef struct Reinformcent {
-	/* 0000(2)   */ PACK uint16 unitID;                     /*!< The Unit which is already created and ready to join the game. */
-	/* 0002(2)   */ PACK uint16 locationID;                 /*!< The location where the Unit will appear. */
-	/* 0004(2)   */ PACK uint16 timeLeft;                   /*!< In how many ticks the Unit will appear. */
-	/* 0006(2)   */ PACK uint16 timeBetween;                /*!< In how many ticks the Unit will appear again if repeat is set. */
-	/* 0008(2)   */ PACK uint16 repeat;                     /*!< If non-zero, the Unit will appear every timeBetween ticks. */
-} GCC_PACKED Reinformcent;
-MSVC_PACKED_END
-assert_compile(sizeof(Reinformcent) == 0x0A);
-
-MSVC_PACKED_BEGIN
-/**
- * Inside the GlobalData is information about the current loaded scenario.
- *  This is the layout of that data.
- */
-typedef struct Scenario {
-	/* 0002(2)   */ PACK uint16 score;                      /*!< Base score. */
-	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
-	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
-	/* 0008(4)   */ PACK uint32 mapSeed;                    /*!< MAP/Seed. */
-	/* 000C(2)   */ PACK uint16 mapScale;                   /*!< BASIC/MapScale. 0 is 62x62, 1 is 32x32, 2 is 21x21. */
-	/* 000E(2)   */ PACK uint16 timeOut;                    /*!< BASIC/TimeOut. */
-	/* 0010(14)  */ PACK char   pictureBriefing[14];        /*!< BASIC/BriefPicture. */
-	/* 001E(14)  */ PACK char   pictureWin[14];             /*!< BASIC/WinPicture. */
-	/* 002C(14)  */ PACK char   pictureLose[14];            /*!< BASIC/LosePicture. */
-	/* 003A(2)   */ PACK uint16 killedAllied;               /*!< Number of units lost by "You". */
-	/* 003C(2)   */ PACK uint16 killedEnemy;                /*!< Number of units lost by "Enemy". */
-	/* 003E(2)   */ PACK uint16 destroyedAllied;            /*!< Number of structures lost by "You". */
-	/* 0040(2)   */ PACK uint16 destroyedEnemy;             /*!< Number of structures lost by "Enemy". */
-	/* 0042(2)   */ PACK uint16 harvestedAllied;            /*!< Total amount of spice harvested by "You". */
-	/* 0044(2)   */ PACK uint16 harvestedEnemy;             /*!< Total amount of spice harvested by "Enemy". */
-	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */
-} GCC_PACKED Scenario;
-MSVC_PACKED_END
-assert_compile(sizeof(Scenario) == 0xE4);
-
-MSVC_PACKED_BEGIN
-/**
  * At segment 353F there is a big blob of all kinds of variables and constants.
  *  This struct tries to map all those.
  */
@@ -1513,8 +1472,8 @@ typedef struct GlobalData {
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
 	/* 8BEA(275) */ PACK uint8 removed_8BEA[25][11];        /*!< REMOVED - Items for the factory window. */
-	/* 8CFD(2)   */ PACK uint16 removed_8CFD9;              /*!< REMOVED - Savegame version. */
-	/* 8CFF(228) */ PACK Scenario scenario;                 /*!< Scenario data */
+	/* 8CFD(2)   */ PACK uint16 removed_8CFD;               /*!< REMOVED - Savegame version. */
+	/* 8CFF(228) */ PACK uint8  removed_8CFF[228];          /*!< REMOVED - Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
 	/* 8FE5(512) */ PACK uint8  variable_8FE5[512];         /*!< ?? array size is unsure. */

@@ -32,17 +32,17 @@ static void Scenario_Load_General()
 {
 	char *readBuffer = (char *)emu_get_memorycsip(g_global->readBuffer);
 
-	g_global->scenario.winFlags  = Ini_GetInteger("BASIC", "WinFlags",    0,                         readBuffer);
-	g_global->scenario.loseFlags = Ini_GetInteger("BASIC", "LoseFlags",   0,                         readBuffer);
-	g_global->scenario.mapSeed   = Ini_GetInteger("MAP",   "Seed",        0,                         readBuffer);
-	g_global->scenario.timeOut   = Ini_GetInteger("BASIC", "TimeOut",     0,                         readBuffer);
+	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                         readBuffer);
+	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                         readBuffer);
+	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                         readBuffer);
+	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                         readBuffer);
 	g_global->minimapPosition    = Ini_GetInteger("BASIC", "TacticalPos", g_global->minimapPosition, readBuffer);
 	g_global->variable_3A00      = Ini_GetInteger("BASIC", "CursorPos",   g_global->variable_3A00,   readBuffer);
-	g_global->scenario.mapScale  = Ini_GetInteger("BASIC", "MapScale",    0,                         readBuffer);
+	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                         readBuffer);
 
-	Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA",  g_global->scenario.pictureBriefing, 14, readBuffer);
-	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_global->scenario.pictureWin,      14, readBuffer);
-	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_global->scenario.pictureLose,     14, readBuffer);
+	Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA",  g_scenario.pictureBriefing, 14, readBuffer);
+	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_scenario.pictureWin,      14, readBuffer);
+	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_scenario.pictureLose,     14, readBuffer);
 
 	g_global->viewportPosition  = g_global->minimapPosition;
 	g_global->selectionPosition = g_global->variable_3A00;
@@ -399,11 +399,11 @@ static void Scenario_Load_Reinforcement(const char *key, char *settings)
 	u = Unit_Create(UNIT_INDEX_INVALID, unitType, houseType, position, 0);
 	if (u == NULL) return;
 
-	g_global->scenario.reinforcement[index].unitID      = u->o.index;
-	g_global->scenario.reinforcement[index].locationID  = locationID;
-	g_global->scenario.reinforcement[index].timeLeft    = timeBetween;
-	g_global->scenario.reinforcement[index].timeBetween = timeBetween;
-	g_global->scenario.reinforcement[index].repeat      = repeat ? 1 : 0;
+	g_scenario.reinforcement[index].unitID      = u->o.index;
+	g_scenario.reinforcement[index].locationID  = locationID;
+	g_scenario.reinforcement[index].timeLeft    = timeBetween;
+	g_scenario.reinforcement[index].timeBetween = timeBetween;
+	g_scenario.reinforcement[index].repeat      = repeat ? 1 : 0;
 }
 
 static void Scenario_Load_Team(const char *key, char *settings)
@@ -533,14 +533,14 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	if (!File_Exists(filename)) return false;
 	File_ReadBlockFile(filename, readBuffer, g_global->readBufferSize);
 
-	memset(&g_global->scenario, 0, sizeof(Scenario));
+	memset(&g_scenario, 0, sizeof(Scenario));
 
 	Scenario_Load_General();
 	Sprites_LoadTiles();
-	Map_CreateLandscape(g_global->scenario.mapSeed);
+	Map_CreateLandscape(g_scenario.mapSeed);
 
 	for (i = 0; i < 16; i++) {
-		g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
+		g_scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
 	}
 
 	Scenario_Load_Houses();

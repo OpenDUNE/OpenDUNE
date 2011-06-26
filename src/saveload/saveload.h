@@ -121,6 +121,7 @@ typedef struct SaveLoadDesc {
 
 extern const SaveLoadDesc g_saveObject[];
 extern const SaveLoadDesc g_saveScriptEngine[];
+extern const SaveLoadDesc g_saveScenario[];
 
 extern uint32 SaveLoad_GetLength(const SaveLoadDesc *sld);
 extern bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object);

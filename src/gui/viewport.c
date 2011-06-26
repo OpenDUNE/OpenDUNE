@@ -16,6 +16,7 @@
 #include "../pool/house.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
+#include "../scenario.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
@@ -107,7 +108,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		uint16 mapScale;
 		const MapInfo *mapInfo;
 
-		mapScale = g_global->scenario.mapScale;
+		mapScale = g_scenario.mapScale;
 		mapInfo = &g_mapInfos[mapScale];
 
 		x = min((max(x, 256) - 256) / (mapScale + 1), mapInfo->sizeX - 1) + mapInfo->minX;

@@ -23,6 +23,7 @@
 #include "pool/structure.h"
 #include "pool/team.h"
 #include "pool/unit.h"
+#include "scenario.h"
 #include "script/script.h"
 #include "sprites.h"
 #include "string.h"
@@ -1048,11 +1049,11 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 		if (score < 1) score = 1;
 
 		if (House_AreAllied(g_playerHouseID, s->o.houseID)) {
-			g_global->scenario.destroyedAllied++;
-			g_global->scenario.score -= score;
+			g_scenario.destroyedAllied++;
+			g_scenario.score -= score;
 		} else {
-			g_global->scenario.destroyedEnemy++;
-			g_global->scenario.score += score;
+			g_scenario.destroyedEnemy++;
+			g_scenario.score += score;
 		}
 
 		Structure_Destroy(s);

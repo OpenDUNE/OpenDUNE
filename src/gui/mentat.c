@@ -24,6 +24,7 @@
 #include "../load.h"
 #include "../mouse.h"
 #include "../opendune.h"
+#include "../scenario.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../tools.h"
@@ -466,7 +467,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
  */
 void GUI_Mentat_ShowBriefing()
 {
-	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 4, g_global->scenario.pictureBriefing, g_table_houseInfo[g_playerHouseID].musicBriefing);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 4, g_scenario.pictureBriefing, g_table_houseInfo[g_playerHouseID].musicBriefing);
 }
 
 /**
@@ -474,7 +475,7 @@ void GUI_Mentat_ShowBriefing()
  */
 void GUI_Mentat_ShowWin()
 {
-	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 5, g_global->scenario.pictureWin, g_table_houseInfo[g_playerHouseID].musicWin);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 5, g_scenario.pictureWin, g_table_houseInfo[g_playerHouseID].musicWin);
 }
 
 /**
@@ -482,7 +483,7 @@ void GUI_Mentat_ShowWin()
  */
 void GUI_Mentat_ShowLose()
 {
-	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 6, g_global->scenario.pictureLose, g_table_houseInfo[g_playerHouseID].musicLose);
+	GUI_Mentat_ShowDialog(g_playerHouseID, g_campaignID * 4 + 6, g_scenario.pictureLose, g_table_houseInfo[g_playerHouseID].musicLose);
 }
 
 /**
@@ -963,7 +964,7 @@ static void GUI_Mentat_ShowHelp()
 	if (noDesc) {
 		uint16 index;
 
-		picture = g_global->scenario.pictureBriefing;
+		picture = g_scenario.pictureBriefing;
 		desc    = NULL;
 		text    = (char *)emu_get_memorycsip(g_global->readBuffer);
 

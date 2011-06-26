@@ -19,6 +19,7 @@
 #include "../pool/unit.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
+#include "../scenario.h"
 #include "../structure.h"
 #include "../tools.h"
 #include "../tile.h"
@@ -483,11 +484,11 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 		credits = max(ui->o.buildCredits / 100, 1);
 
 		if (u->o.houseID == g_playerHouseID) {
-			g_global->scenario.killedAllied++;
-			g_global->scenario.score -= credits;
+			g_scenario.killedAllied++;
+			g_scenario.score -= credits;
 		} else {
-			g_global->scenario.killedEnemy++;
-			g_global->scenario.score += credits;
+			g_scenario.killedEnemy++;
+			g_scenario.score += credits;
 		}
 	}
 

@@ -16,6 +16,7 @@
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
+#include "../scenario.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
@@ -144,11 +145,11 @@ uint16 Script_Structure_RefineSpice(ScriptEngine *script)
 	creditsStep *= harvesterStep;
 
 	if (House_AreAllied(g_playerHouseID, s->o.houseID)) {
-		g_global->scenario.harvestedAllied += creditsStep;
-		if (g_global->scenario.harvestedAllied > 0xFDE8) g_global->scenario.harvestedAllied = 0xFDE8;
+		g_scenario.harvestedAllied += creditsStep;
+		if (g_scenario.harvestedAllied > 0xFDE8) g_scenario.harvestedAllied = 0xFDE8;
 	} else {
-		g_global->scenario.harvestedEnemy += creditsStep;
-		if (g_global->scenario.harvestedEnemy > 0xFDE8) g_global->scenario.harvestedEnemy = 0xFDE8;
+		g_scenario.harvestedEnemy += creditsStep;
+		if (g_scenario.harvestedEnemy > 0xFDE8) g_scenario.harvestedEnemy = 0xFDE8;
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);

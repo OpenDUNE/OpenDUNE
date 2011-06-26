@@ -18,11 +18,14 @@
 #include "input/input.h"
 #include "load.h"
 #include "os/strings.h"
+#include "scenario.h"
 #include "sprites.h"
 #include "string.h"
 #include "tools.h"
 #include "unknown/unknown.h"
 #include "wsa.h"
+
+Scenario g_scenario;
 
 static void GUI_Security_DrawText(char *text)
 {

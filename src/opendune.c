@@ -82,7 +82,7 @@ static bool GameLoop_IsLevelFinished()
 	if (g_global->tickGlobal - g_global->tickScenarioStart < 7200) return false;
 
 	/* Check for structure counts hitting zero */
-	if ((g_global->scenario.winFlags & 0x3) != 0) {
+	if ((g_scenario.winFlags & 0x3) != 0) {
 		PoolFindStruct find;
 		uint16 countStructureEnemy = 0;
 		uint16 countStructureFriendly = 0;
@@ -108,23 +108,23 @@ static bool GameLoop_IsLevelFinished()
 			}
 		}
 
-		if ((g_global->scenario.winFlags & 0x1) != 0 && countStructureEnemy == 0) {
+		if ((g_scenario.winFlags & 0x1) != 0 && countStructureEnemy == 0) {
 			finish = true;
 		}
-		if ((g_global->scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0) {
+		if ((g_scenario.winFlags & 0x2) != 0 && countStructureFriendly == 0) {
 			finish = true;
 		}
 	}
 
 	/* Check for reaching spice quota */
-	if ((g_global->scenario.winFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
+	if ((g_scenario.winFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
 		if (g_global->playerCredits >= g_playerHouse->creditsQuota) {
 			finish = true;
 		}
 	}
 
 	/* Check for reaching timeout */
-	if ((g_global->scenario.winFlags & 0x8) != 0) {
+	if ((g_scenario.winFlags & 0x8) != 0) {
 		/* XXX -- This code was with '<' instead of '>=', which makes
 		 *  no sense. As it is unused, who knows what the intentions
 		 *  were. This at least makes it sensible. */
@@ -148,7 +148,7 @@ static bool GameLoop_IsLevelWon()
 	if (g_global->debugForceWin) return true;
 
 	/* Check for structure counts hitting zero */
-	if ((g_global->scenario.loseFlags & 0x3) != 0) {
+	if ((g_scenario.loseFlags & 0x3) != 0) {
 		PoolFindStruct find;
 		uint16 countStructureEnemy = 0;
 		uint16 countStructureFriendly = 0;
@@ -176,21 +176,21 @@ static bool GameLoop_IsLevelWon()
 		}
 
 		win = true;
-		if ((g_global->scenario.loseFlags & 0x1) != 0) {
+		if ((g_scenario.loseFlags & 0x1) != 0) {
 			win = win && (countStructureEnemy == 0);
 		}
-		if ((g_global->scenario.loseFlags & 0x2) != 0) {
+		if ((g_scenario.loseFlags & 0x2) != 0) {
 			win = win && (countStructureFriendly != 0);
 		}
 	}
 
 	/* Check for reaching spice quota */
-	if (!win && (g_global->scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
+	if (!win && (g_scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
 		win = (g_global->playerCredits >= g_playerHouse->creditsQuota);
 	}
 
 	/* Check for reaching timeout */
-	if (!win && (g_global->scenario.loseFlags & 0x8) != 0) {
+	if (!win && (g_scenario.loseFlags & 0x8) != 0) {
 		win = (g_global->tickGlobal < g_global->tickGameTimeout);
 	}
 
@@ -1158,7 +1158,7 @@ static void GameLoop_LevelEnd()
 
 			g_campaignID++;
 
-			GUI_EndStats_Show(g_global->scenario.killedAllied, g_global->scenario.killedEnemy, g_global->scenario.destroyedAllied, g_global->scenario.destroyedEnemy, g_global->scenario.harvestedAllied, g_global->scenario.harvestedEnemy, g_global->scenario.score, g_playerHouseID);
+			GUI_EndStats_Show(g_scenario.killedAllied, g_scenario.killedEnemy, g_scenario.destroyedAllied, g_scenario.destroyedEnemy, g_scenario.harvestedAllied, g_scenario.harvestedEnemy, g_scenario.score, g_playerHouseID);
 
 			if (g_campaignID == 9) {
 				GUI_Mouse_Hide_Safe();

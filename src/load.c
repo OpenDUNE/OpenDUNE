@@ -23,6 +23,7 @@
 #include "pool/unit.h"
 #include "save.h"
 #include "saveload/saveload.h"
+#include "scenario.h"
 #include "sprites.h"
 #include "string.h"
 #include "structure.h"
@@ -48,7 +49,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 
 	position = ftell(fp);
 
-	if (fread(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
+	if (!SaveLoad_Load(g_saveScenario, fp, &g_scenario)) return false;
 	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
@@ -107,7 +108,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 
 	Sprites_LoadTiles();
 
-	Map_CreateLandscape(g_global->scenario.mapSeed);
+	Map_CreateLandscape(g_scenario.mapSeed);
 
 	return true;
 }

@@ -19,6 +19,7 @@
 #include "pool/unit.h"
 #include "pool/house.h"
 #include "pool/structure.h"
+#include "scenario.h"
 #include "structure.h"
 #include "team.h"
 #include "tools.h"
@@ -56,7 +57,7 @@ uint16 Map_MoveDirection(uint16 direction)
 	x = Tile_GetPackedX(g_global->minimapPosition) + g_global->mapScrollOffset[direction][0];
 	y = Tile_GetPackedY(g_global->minimapPosition) + g_global->mapScrollOffset[direction][1];
 
-	mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
 	x = max(x, mapInfo->minX);
 	y = max(y, mapInfo->minY);
@@ -242,7 +243,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		const MapInfo *mapInfo;
 		uint16 left, top, right, bottom;
 
-		mapScale = g_global->scenario.mapScale;
+		mapScale = g_scenario.mapScale;
 		mapInfo = &g_mapInfos[mapScale];
 
 		left   = (Tile_GetPackedX(packed) - mapInfo->minX) * (mapScale + 1) + 256;
@@ -287,7 +288,7 @@ bool Map_IsValidPosition(uint16 position)
 	x = Tile_GetPackedX(position);
 	y = Tile_GetPackedY(position);
 
-	mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
 	return (mapInfo->minX <= x && x < (mapInfo->minX + mapInfo->sizeX) && mapInfo->minY <= y && y < (mapInfo->minY + mapInfo->sizeY));
 }
@@ -1142,7 +1143,7 @@ void Map_SetViewportPosition(uint16 packed)
 	x = Tile_GetPackedX(packed) - 7;
 	y = Tile_GetPackedY(packed) - 5;
 
-	mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
 	x = max(mapInfo->minX, min(mapInfo->minX + mapInfo->sizeX - 15, x));
 	y = max(mapInfo->minY, min(mapInfo->minY + mapInfo->sizeY - 10, y));
@@ -1233,7 +1234,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	uint16 ret = 0;
 	uint16 loc02;
 
-	loc02 = mapBase[g_global->scenario.mapScale];
+	loc02 = mapBase[g_scenario.mapScale];
 
 	if (locationID == 6) {
 		PoolFindStruct find;
@@ -1258,31 +1259,31 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 	while (ret == 0) {
 		switch (locationID) {
 			case 0: {
-				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + loc02);
 				break;
 			}
 
 			case 1:{
-				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + mapInfo->sizeX - loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
 				break;
 			}
 
 			case 2: {
-				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX - 2), mapInfo->minY + mapInfo->sizeY - loc02);
 				break;
 			}
 
 			case 3: {
-				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + loc02, mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY - 2));
 				break;
 			}
 
 			case 4: {
-				const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+				const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 				ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
@@ -1318,7 +1319,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 					if (u != NULL) {
 						ret = Tile_PackTile(Tile_MoveByRandom(u->o.position, 120, true));
 					} else {
-						const MapInfo *mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+						const MapInfo *mapInfo = &g_mapInfos[g_scenario.mapScale];
 						ret = Tile_PackXY(mapInfo->minX + Tools_RandomRange(0, mapInfo->sizeX), mapInfo->minY + Tools_RandomRange(0, mapInfo->sizeY));
 					}
 				}
@@ -1436,7 +1437,7 @@ uint16 Map_SearchSpice(uint16 packed, uint16 radius)
 
 	found = false;
 
-	mapInfo = &g_mapInfos[g_global->scenario.mapScale];
+	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
 	xmin = max(Tile_GetPackedX(packed) - radius, mapInfo->minX);
 	xmax = min(Tile_GetPackedX(packed) + radius, mapInfo->minX + mapInfo->sizeX - 1);

@@ -23,6 +23,7 @@
 #include "../pool/unit.h"
 #include "../house.h"
 #include "../sprites.h"
+#include "../scenario.h"
 
 
 /**
@@ -670,7 +671,7 @@ void Unknown_07D4_1625(uint16 packed)
 	x = Tile_GetPackedX(packed);
 	y = Tile_GetPackedY(packed);
 
-	mapScale = g_global->scenario.mapScale + 1;
+	mapScale = g_scenario.mapScale + 1;
 
 	if (mapScale == 0 || (g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0) return;
 
@@ -681,7 +682,7 @@ void Unknown_07D4_1625(uint16 packed)
 		Unit *u;
 
 		if (mapScale > 1) {
-			spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[type][12] - 1;
+			spriteID = g_scenario.mapScale + g_global->variable_3A3E[type][12] - 1;
 		} else {
 			colour = g_global->variable_3A3E[type][11];
 		}
@@ -724,19 +725,19 @@ void Unknown_07D4_1625(uint16 packed)
 			}
 		} else {
 			if (mapScale > 1) {
-				spriteID = g_global->scenario.mapScale + g_global->variable_3A3E[LST_ENTIRELY_MOUNTAIN][12] - 1;
+				spriteID = g_scenario.mapScale + g_global->variable_3A3E[LST_ENTIRELY_MOUNTAIN][12] - 1;
 			} else {
 				colour = 12;
 			}
 		}
 	}
 
-	x -= g_mapInfos[g_global->scenario.mapScale].minX;
-	y -= g_mapInfos[g_global->scenario.mapScale].minY;
+	x -= g_mapInfos[g_scenario.mapScale].minX;
+	y -= g_mapInfos[g_scenario.mapScale].minY;
 
 	if (spriteID != 0xFFFF) {
-		x *= g_global->scenario.mapScale + 1;
-		y *= g_global->scenario.mapScale + 1;
+		x *= g_scenario.mapScale + 1;
+		y *= g_scenario.mapScale + 1;
 		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
@@ -753,7 +754,7 @@ void Unknown_07D4_1625(uint16 packed)
  */
 void Unknown_07D4_02F8(uint16 packed)
 {
-	if ((g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0 && g_global->scenario.mapScale + 1 == 0) return;
+	if ((g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0 && g_scenario.mapScale + 1 == 0) return;
 
 	g_global->variable_91E5[packed >> 3] |= (1 << (packed & 7));
 

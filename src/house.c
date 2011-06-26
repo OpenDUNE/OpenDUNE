@@ -19,6 +19,7 @@
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "pool/unit.h"
+#include "scenario.h"
 #include "string.h"
 #include "structure.h"
 #include "tile.h"
@@ -125,13 +126,13 @@ void GameLoop_House()
 			bool deployed;
 			Unit *u;
 
-			if (g_global->scenario.reinforcement[i].unitID == UNIT_INDEX_INVALID) continue;
-			if (g_global->scenario.reinforcement[i].timeLeft == 0) continue;
-			if (--g_global->scenario.reinforcement[i].timeLeft != 0) continue;
+			if (g_scenario.reinforcement[i].unitID == UNIT_INDEX_INVALID) continue;
+			if (g_scenario.reinforcement[i].timeLeft == 0) continue;
+			if (--g_scenario.reinforcement[i].timeLeft != 0) continue;
 
-			u = Unit_Get_ByIndex(g_global->scenario.reinforcement[i].unitID);
+			u = Unit_Get_ByIndex(g_scenario.reinforcement[i].unitID);
 
-			locationID = g_global->scenario.reinforcement[i].locationID;
+			locationID = g_scenario.reinforcement[i].locationID;
 			deployed   = false;
 
 			if (locationID >= 4) {
@@ -148,17 +149,17 @@ void GameLoop_House()
 					u->o.linkedID = nu->o.linkedID;
 					nu->o.linkedID = (uint8)u->o.index;
 					nu->o.flags.s.inTransport = true;
-					g_global->scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
+					g_scenario.reinforcement[i].unitID = UNIT_INDEX_INVALID;
 					deployed = true;
 				} else {
 					/* Failed to create carry-all, try again in a short moment */
-					g_global->scenario.reinforcement[i].timeLeft = 1;
+					g_scenario.reinforcement[i].timeLeft = 1;
 				}
 			} else {
 				deployed = Unit_SetPosition(u, Tile_UnpackTile(Map_B4CD_1816(locationID, u->o.houseID)));
 			}
 
-			if (deployed && g_global->scenario.reinforcement[i].repeat != 0) {
+			if (deployed && g_scenario.reinforcement[i].repeat != 0) {
 				tile32 tile;
 				tile.tile = 0xFFFFFFFF;
 
@@ -167,8 +168,8 @@ void GameLoop_House()
 				g_global->variable_38BC--;
 
 				if (u != NULL) {
-					g_global->scenario.reinforcement[i].unitID = u->o.index;
-					g_global->scenario.reinforcement[i].timeLeft = g_global->scenario.reinforcement[i].timeBetween;
+					g_scenario.reinforcement[i].unitID = u->o.index;
+					g_scenario.reinforcement[i].timeLeft = g_scenario.reinforcement[i].timeBetween;
 				}
 			}
 		}

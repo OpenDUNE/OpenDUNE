@@ -19,6 +19,7 @@
 #include "pool/structure.h"
 #include "pool/unit.h"
 #include "saveload/saveload.h"
+#include "scenario.h"
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
@@ -36,7 +37,7 @@ static bool Save_Info(FILE *fp)
 
 	if (fwrite(&savegameVersion, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (fwrite(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
+	if (!SaveLoad_Save(g_saveScenario, fp, &g_scenario)) return false;
 	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
