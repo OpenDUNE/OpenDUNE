@@ -49,12 +49,7 @@ bool Team_Load(FILE *fp, uint32 length)
 		length -= SaveLoad_GetLength(s_saveTeam);
 
 		tl.script.scriptInfo = &g_global->scriptTeam;
-		if (tl.script.script.csip != 0x0) {
-			uint16 lineno = tl.script.script.csip;
-
-			tl.script.script = g_global->scriptTeam.start;
-			tl.script.script.s.ip += lineno * 2;
-		}
+		tl.script.script.csip += g_global->scriptTeam.start.csip;
 
 		/* Get the Structure from the pool */
 		t = Team_Get_ByIndex(tl.index);
@@ -90,12 +85,6 @@ bool Team_Save(FILE *fp)
 		t = Team_Find(&find);
 		if (t == NULL) break;
 		st = *t;
-
-		/* Rewrite the pointer in the scriptEngine to an index */
-		if (st.script.script.csip != 0x00000000) {
-			st.script.script.csip = (st.script.script.csip - st.script.scriptInfo->start.csip) / 2;
-		}
-		st.script.scriptInfo = NULL;
 
 		if (!SaveLoad_Save(s_saveTeam, fp, &st)) return false;
 	}

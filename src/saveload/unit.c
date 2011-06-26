@@ -68,12 +68,7 @@ bool Unit_Load(FILE *fp, uint32 length)
 		length -= SaveLoad_GetLength(s_saveUnit);
 
 		ul.o.script.scriptInfo = &g_global->scriptUnit;
-		if (ul.o.script.script.csip != 0x0) {
-			uint16 lineno = ul.o.script.script.csip;
-
-			ul.o.script.script = g_global->scriptUnit.start;
-			ul.o.script.script.s.ip += lineno * 2;
-		}
+		ul.o.script.script.csip += g_global->scriptUnit.start.csip;
 		ul.o.script.delay = 0;
 		ul.variable_70 = 0;
 		ul.o.variable_09 |= 1 << ul.o.houseID;
@@ -117,12 +112,6 @@ bool Unit_Save(FILE *fp)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 		su = *u;
-
-		/* Rewrite the pointer in the scriptEngine to an index */
-		if (su.o.script.script.csip != 0x00000000) {
-			su.o.script.script.csip = (su.o.script.script.csip - su.o.script.scriptInfo->start.csip) / 2;
-		}
-		su.o.script.scriptInfo = NULL;
 
 		if (!SaveLoad_Save(s_saveUnit, fp, &su)) return false;
 	}

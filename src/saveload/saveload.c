@@ -20,14 +20,15 @@ uint32 SaveLoad_GetLength(const SaveLoadDesc *sld)
 
 	while (sld->type_disk != SLDT_NULL) {
 		switch (sld->type_disk) {
-			case SLDT_NULL:   length += 0; break;
-			case SLDT_UINT8:  length += sizeof(uint8)  * sld->count;  break;
-			case SLDT_UINT16: length += sizeof(uint16) * sld->count;  break;
-			case SLDT_UINT32: length += sizeof(uint32) * sld->count;  break;
-			case SLDT_INT8:   length += sizeof(int8)   * sld->count;  break;
-			case SLDT_INT16:  length += sizeof(int16)  * sld->count;  break;
-			case SLDT_INT32:  length += sizeof(int32)  * sld->count;  break;
-			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld); break;
+			case SLDT_NULL:     length += 0; break;
+			case SLDT_CALLBACK: length += 0; break;
+			case SLDT_UINT8:    length += sizeof(uint8)  * sld->count;  break;
+			case SLDT_UINT16:   length += sizeof(uint16) * sld->count;  break;
+			case SLDT_UINT32:   length += sizeof(uint32) * sld->count;  break;
+			case SLDT_INT8:     length += sizeof(int8)   * sld->count;  break;
+			case SLDT_INT16:    length += sizeof(int16)  * sld->count;  break;
+			case SLDT_INT32:    length += sizeof(int32)  * sld->count;  break;
+			case SLDT_SLD:      length += SaveLoad_GetLength(sld->sld); break;
 		}
 		sld++;
 	}
@@ -50,6 +51,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 		for (i = 0; i < sld->count; i++) {
 			switch (sld->type_disk) {
+				case SLDT_CALLBACK:
 				case SLDT_SLD:
 				case SLDT_NULL:
 					value = 0;
@@ -138,6 +140,10 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_SLD:
 					SaveLoad_Load(sld->sld, fp, ((uint8 *)object) + sld->offset);
 					break;
+
+				case SLDT_CALLBACK:
+					sld->callback(object, value, true);
+					break;
 			}
 		}
 
@@ -195,9 +201,14 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 				case SLDT_SLD:
 					SaveLoad_Save(sld->sld, fp, ((uint8 *)object) + sld->offset);
 					break;
+
+				case SLDT_CALLBACK:
+					value = sld->callback(object, 0, false);
+					break;
 			}
 
 			switch (sld->type_disk) {
+				case SLDT_CALLBACK:
 				case SLDT_SLD:
 				case SLDT_NULL:
 					break;
