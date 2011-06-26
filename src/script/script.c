@@ -11,7 +11,6 @@
 #include "script.h"
 
 #include "../file.h"
-#include "../tools.h"
 
 struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;

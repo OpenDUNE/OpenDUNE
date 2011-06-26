@@ -3,13 +3,13 @@
 /** @file src/gui/font.c Font routines. */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "types.h"
 #include "../global.h"
 
 #include "font.h"
 
 #include "../file.h"
-#include "../tools.h"
 
 void *g_fontIntro = NULL;
 void *g_fontNew6p = NULL;
@@ -72,7 +72,7 @@ void *Font_LoadFile(const char *filename)
 		return NULL;
 	}
 
-	buf = emu_get_memorycsip(Tools_Malloc(length, 0x10));
+	buf = malloc(length);
 
 	*(uint16 *)buf = length;
 
@@ -80,7 +80,7 @@ void *Font_LoadFile(const char *filename)
 	File_Close(index);
 
 	if (buf[2] != 0 || buf[3] != 5) {
-		Tools_Free(emu_Global_GetCSIP(buf));
+		free(buf);
 		return NULL;
 	}
 
