@@ -1001,6 +1001,8 @@ static void GameCredits_LoadPaletteAndSprites()
  */
 static void GameLoop_GameCredits()
 {
+	static const colours[] = {0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 	uint16 i;
 	csip32 memBlock;
 	uint8 *memory;
@@ -1051,7 +1053,7 @@ static void GameLoop_GameCredits()
 
 	GUI_Mouse_Hide_Safe();
 
-	GUI_InitColors(g_global->variable_1857, 0, 11);
+	GUI_InitColors(colours, 0, lengthof(colours) - 1);
 
 	g_global->variable_6C6C = -1;
 

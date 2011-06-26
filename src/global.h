@@ -402,7 +402,7 @@ typedef struct GlobalData {
 	/* 183C(3)   */ PACK char   string_183C[3];             /*!< "\x05\r" NULL terminated. */
 	/* 183F(12)  */ PACK char   string_183F[12];            /*!< "BIGPLAN.CPS" NULL terminated. */
 	/* 184B(12)  */ PACK char   string_184B[12];            /*!< "MAPPLAN.CPS" NULL terminated. */
-	/* 1857(12)  */ PACK uint8  variable_1857[12];          /*!< ?? */
+	/* 1857(12)  */ PACK uint8   removed_1857[12];          /*!< REMOVED - colours */
 	/* 1863(8)   */ PACK char   string_1863[8];             /*!< "CREDITS" NULL terminated. */
 	/* 186B(8)   */ PACK char   string_186B[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 1873(13)  */ PACK char   string_1873[13];            /*!< "CREDIT%d.SHP" NULL terminated. */
