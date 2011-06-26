@@ -63,7 +63,7 @@ extern void GUI_DrawProgressbar(uint16 current, uint16 max);
 extern void GUI_DrawInterfaceAndRadar(uint16 unknown);
 extern void GUI_DrawCredits(uint8 houseID, uint16 mode);
 extern void GUI_ChangeSelectionType(uint16 selectionType);
-extern void GUI_InitColors(uint8 *colors, uint8 first, uint8 last);
+extern void GUI_InitColors(const uint8 *colors, uint8 first, uint8 last);
 extern void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 color);
 extern void GUI_SetClippingArea(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern void GUI_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, int16 memBlockSrc, int16 memBlockDst);

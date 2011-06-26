@@ -2288,7 +2288,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
  * @param min The index of the first colour to set.
  * @param max The index of the last colour to set.
  */
-void GUI_InitColors(uint8 *colours, uint8 first, uint8 last)
+void GUI_InitColors(const uint8 *colours, uint8 first, uint8 last)
 {
 	uint8 i;
 
