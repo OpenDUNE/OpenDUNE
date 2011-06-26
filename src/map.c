@@ -1686,12 +1686,12 @@ static void Map_AddSpiceOnTile(uint16 packed)
 	t = &g_map[packed];
 
 	switch (t->groundSpriteID) {
-		case 0x8: /* Spice (low) */
-			t->groundSpriteID = 0x9;
+		case LST_SPICE:
+			t->groundSpriteID = LST_THICK_SPICE;
 			Map_AddSpiceOnTile(packed);
 			return;
 
-		case 0x9: { /* Spice (high) */
+		case LST_THICK_SPICE: {
 			int8 i;
 			int8 j;
 
@@ -1705,18 +1705,18 @@ static void Map_AddSpiceOnTile(uint16 packed)
 					t2 = &g_map[packed2];
 
 					if (g_global->variable_3A3E[t2->groundSpriteID][9] == 0) {
-						t->groundSpriteID = 0x8;
+						t->groundSpriteID = LST_SPICE;
 						continue;
 					}
 
-					if (t2->groundSpriteID != 0x9) t2->groundSpriteID = 0x8;
+					if (t2->groundSpriteID != LST_THICK_SPICE) t2->groundSpriteID = LST_SPICE;
 				}
 			}
 			return;
 		}
 
 		default:
-			if (g_global->variable_3A3E[t->groundSpriteID][9] != 0) t->groundSpriteID = 0x8;
+			if (g_global->variable_3A3E[t->groundSpriteID][9] != 0) t->groundSpriteID = LST_SPICE;
 			return;
 	}
 }
@@ -1838,13 +1838,13 @@ void Map_CreateLandscape(uint32 seed)
 		uint16 spriteID = g_map[i].groundSpriteID;
 
 		if (spriteID > spriteID1 + 4) {
-			spriteID = 0x6; /* Mountain */
+			spriteID = LST_ENTIRELY_MOUNTAIN;
 		} else if (spriteID >= spriteID1) {
-			spriteID = 0x4; /* Rock */
+			spriteID = LST_ENTIRELY_ROCK;
 		} else if (spriteID <= spriteID2) {
-			spriteID = 0x2; /* Dunes. */
+			spriteID = LST_ENTIRELY_DUNE;
 		} else {
-			spriteID = 0x0; /* Sand. */
+			spriteID = LST_NORMAL_SAND;
 		}
 
 		g_map[i].groundSpriteID = spriteID;
@@ -1899,30 +1899,30 @@ void Map_CreateLandscape(uint32 seed)
 			if (right == current) spriteID |= 8;
 
 			switch (current) {
-				case 0x0: /* Sand */
+				case LST_NORMAL_SAND:
 					spriteID = 0;
 					break;
-				case 0x4: /* Rock */
-					if (up    == 0x6) spriteID |= 1;
-					if (left  == 0x6) spriteID |= 2;
-					if (down  == 0x6) spriteID |= 4;
-					if (right == 0x6) spriteID |= 8;
+				case LST_ENTIRELY_ROCK:
+					if (up    == LST_ENTIRELY_MOUNTAIN) spriteID |= 1;
+					if (left  == LST_ENTIRELY_MOUNTAIN) spriteID |= 2;
+					if (down  == LST_ENTIRELY_MOUNTAIN) spriteID |= 4;
+					if (right == LST_ENTIRELY_MOUNTAIN) spriteID |= 8;
 					spriteID++;
 					break;
-				case 0x2: /* Dunes */
+				case LST_ENTIRELY_DUNE:
 					spriteID += 17;
 					break;
-				case 0x6: /* Mountains */
+				case LST_ENTIRELY_MOUNTAIN:
 					spriteID += 33;
 					break;
-				case 0x8: /* Spice (low) */
-					if (up    == 0x9) spriteID |= 1;
-					if (left  == 0x9) spriteID |= 2;
-					if (down  == 0x9) spriteID |= 4;
-					if (right == 0x9) spriteID |= 8;
+				case LST_SPICE:
+					if (up    == LST_THICK_SPICE) spriteID |= 1;
+					if (left  == LST_THICK_SPICE) spriteID |= 2;
+					if (down  == LST_THICK_SPICE) spriteID |= 4;
+					if (right == LST_THICK_SPICE) spriteID |= 8;
 					spriteID += 49;
 					break;
-				case 0x9: /* Spice (high) */
+				case LST_THICK_SPICE:
 					spriteID += 65;
 					break;
 				default: break;
