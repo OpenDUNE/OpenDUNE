@@ -24,6 +24,7 @@ typedef enum SaveLoadType {
 } SaveLoadType;
 
 #define offset(c, m) (((size_t)&((c *)8)->m) - 8)
+#define item_size(c, m) sizeof(((c *)0)->m)
 
 /* Quick macros for easy making saveload tables */
 
@@ -33,7 +34,7 @@ typedef enum SaveLoadType {
  * @param t The type on disk / in memory.
  * @param m The member of the class.
  */
-#define SLD_ENTRY(c, t, m) { offset(c, m), t, t, 1, NULL, NULL }
+#define SLD_ENTRY(c, t, m) { offset(c, m), t, t, 1, NULL, item_size(c, m), NULL }
 
 /**
  * A full entry.
@@ -42,7 +43,7 @@ typedef enum SaveLoadType {
  * @param m The member of the class.
  * @param t2 The type in memory.
  */
-#define SLD_ENTRY2(c, t, m, t2) { offset(c, m), t, t2, 1, NULL, NULL }
+#define SLD_ENTRY2(c, t, m, t2) { offset(c, m), t, t2, 1, NULL, item_size(c, m), NULL }
 
 /**
  * A normal array.
@@ -51,7 +52,7 @@ typedef enum SaveLoadType {
  * @param m The member of the class.
  * @param n The number of elements.
  */
-#define SLD_ARRAY(c, t, m, n) { offset(c, m), t, t, n, NULL, NULL }
+#define SLD_ARRAY(c, t, m, n) { offset(c, m), t, t, n, NULL, item_size(c, m) / n, NULL }
 
 /**
  * A full array.
@@ -61,20 +62,20 @@ typedef enum SaveLoadType {
  * @param t2 The type in memory.
  * @param n The number of elements.
  */
-#define SLD_ARRAY2(c, t, m, t2, n) { offset(c, m), t, t2, n, NULL, NULL }
+#define SLD_ARRAY2(c, t, m, t2, n) { offset(c, m), t, t2, n, NULL, item_size(c, m) / n, NULL }
 
 /**
  * An empty entry. Just to pad bytes on disk.
  * @param t The type on disk.
  */
-#define SLD_EMPTY(t) { 0, t, SLDT_NULL, 1, NULL, NULL }
+#define SLD_EMPTY(t) { 0, t, SLDT_NULL, 1, NULL, 0, NULL }
 
 /**
  * An empty array. Just to pad bytes on disk.
  * @param t The type on disk.
  * @param n The number of elements.
  */
-#define SLD_EMPTY2(t, n) { 0, t, SLDT_NULL, n, NULL, NULL }
+#define SLD_EMPTY2(t, n) { 0, t, SLDT_NULL, n, NULL, 0, NULL }
 
 /**
  * A struct entry.
@@ -82,7 +83,16 @@ typedef enum SaveLoadType {
  * @param m The member of the class.
  * @param s The SaveLoadDesc.
  */
-#define SLD_SLD(c, m, s) { offset(c, m), SLDT_SLD, SLDT_SLD, 1, s, NULL }
+#define SLD_SLD(c, m, s) { offset(c, m), SLDT_SLD, SLDT_SLD, 1, s, item_size(c, m), NULL }
+
+/**
+ * A struct array.
+ * @param c The class.
+ * @param m The member of the class.
+ * @param s The SaveLoadDesc.
+ * @param n The number of elements.
+ */
+#define SLD_SLD2(c, m, s, n) { offset(c, m), SLDT_SLD, SLDT_SLD, n, s, item_size(c, m) / n, NULL }
 
 /**
  * A callback entry.
@@ -91,10 +101,10 @@ typedef enum SaveLoadType {
  * @param m The member of the class.
  * @param p The callback.
  */
-#define SLD_CALLB(c, t, m, p) { offset(c, m), t, SLDT_CALLBACK, 1, NULL, p }
+#define SLD_CALLB(c, t, m, p) { offset(c, m), t, SLDT_CALLBACK, 1, NULL, item_size(c, m), p }
 
 /** Indicates end of array. */
-#define SLD_END { 0, SLDT_NULL, SLDT_NULL, 0, NULL, NULL }
+#define SLD_END { 0, SLDT_NULL, SLDT_NULL, 0, NULL, 0, NULL }
 
 /**
  * Table definition for SaveLoad descriptors.
@@ -105,6 +115,7 @@ typedef struct SaveLoadDesc {
 	SaveLoadType type_memory;                               /*!< The type it is in memory. */
 	uint16 count;                                           /*!< The number of elements */
 	const struct SaveLoadDesc *sld;                         /*!< The SaveLoadDesc. */
+	size_t size;                                            /*!< The size of an element. */
 	uint32 (*callback)(void *object, uint32 value, bool loading);/*!< The custom callback. */
 } SaveLoadDesc;
 
