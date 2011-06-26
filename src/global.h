@@ -901,7 +901,7 @@ typedef struct GlobalData {
 	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
 	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
-	/* 38D6(4)   */ PACK csip32 variable_38D6;              /*!< ?? */
+	/* 38D6(4)   */ PACK csip32  removed_38D6;              /*!< REMOVED ?? (never written, only tested for not-0) */
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16 removed_38E2;               /*!< REMOVED - Type of the structure being placed. */
@@ -1445,7 +1445,7 @@ typedef struct GlobalData {
 	/* 804D(4)   */ PACK csip32 removed_helpSubjects;       /*!< String pointer. */
 	/* 8051()    */ PACK uint8   unknown_8051;
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
-	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
+	/* 8054(2)   */ PACK uint16  removed_8054;              /*!< REMOVED ?? (write-only variable) */
 	/* 8056(4)   */ PACK csip32  removed_8056;              /*!< REMOVED ?? */
 	/* 805A(4)   */ PACK csip32  removed_805A;              /*!< REMOVED ?? */
 	/* 805E(4)   */ PACK csip32  removed_805E;              /*!< REMOVED ?? */
@@ -1462,7 +1462,7 @@ typedef struct GlobalData {
 	/* 809A(18)  */ PACK uint8  variable_809A[18];          /*!< ?? */
 	/* 80AC(2)   */ PACK uint16 variable_80AC;              /*!< ?? */
 	/* 80AE(2)   */ PACK uint16 variable_80AE;              /*!< ?? */
-	/* 80B0(2)   */ PACK uint16 variable_80B0;              /*!< ?? */
+	/* 80B0(2)   */ PACK uint16  removed_80B0;              /*!< REMOVED ?? (write-only variable) */
 	/* 80B2(2)   */ PACK uint16 savegameCountOnDisk;        /*!< Amount of savegames on disk. */
 	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];

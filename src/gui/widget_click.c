@@ -591,7 +591,6 @@ static void GUI_Widget_GameControls_Click(Widget *w)
 					g_gameConfig.music ^= 0x1;
 					if (g_gameConfig.music == 0) {
 						Driver_Music_Stop();
-						g_global->variable_80B0 = 1;
 					}
 					Drivers_EnableMusic(g_gameConfig.music);
 					break;
@@ -703,8 +702,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	memmove(g_palette_998A, g_global->variable_70A2, 0x300);
 
-	g_global->variable_80B0 = 0;
-
 	{
 		csip32 nullcsip;
 		nullcsip.csip = 0x0;
@@ -714,11 +711,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 	Game_Timer_SetState(2, false);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
-
-	if (g_global->variable_38D6.csip != 0x0) {
-		GUI_Mouse_Hide_Safe();
-		/* Unresolved jump */ emu_ip = 0x0147; emu_last_cs = 0xB4F2; emu_last_ip = 0x0147; emu_last_length = 0x0013; emu_last_crc = 0x7748; emu_call();
-	}
 
 	ShadeScreen();
 
@@ -795,10 +787,6 @@ bool GUI_Widget_Options_Click(Widget *w)
 	}
 
 	g_global->variable_38C4 = 1;
-
-	if (g_global->variable_38D6.csip != 0) {
-		/* Unresolved jump */ emu_ip = 0x02BD; emu_last_cs = 0xB4F2; emu_last_ip = 0x02BD; emu_last_length = 0x001E; emu_last_crc = 0x2B44; emu_call();
-	}
 
 	Sprites_LoadTiles();
 	GUI_DrawInterfaceAndRadar(0);

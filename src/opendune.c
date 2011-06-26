@@ -1483,8 +1483,6 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	fgColourNormal = loc24[5] & 0xFF;
 	fgColourSelected = loc24[6] & 0xFF;
 
-	g_global->variable_8054 = 0;
-
 	key = 0;
 	if (Input_IsInputAvailable() != 0) {
 		key = Input_Wait() & 0x8FF;
@@ -1522,8 +1520,6 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 			if (GameLoop_B4E6_00E0(g_global->mouseClickX, g_global->mouseClickY, minX, minY, maxX, maxY)) {
 				current = (g_global->mouseClickY - minY) / lineHeight;
 				result = current;
-			} else {
-				g_global->variable_8054 = key;
 			}
 			break;
 
@@ -1549,8 +1545,6 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 					break;
 				}
 			}
-
-			g_global->variable_8054 = key;
 		} break;
 	}
 
