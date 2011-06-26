@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "../global.h"
 #include "../os/endian.h"
 #include "../os/strings.h"
 
