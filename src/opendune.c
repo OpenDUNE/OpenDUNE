@@ -709,7 +709,7 @@ static void GameLoop_Uninit()
 		Widget *w = g_widgetLinkedListHead;
 		g_widgetLinkedListHead = w->next;
 
-		Tools_Free(emu_Global_GetCSIP(w));
+		free(w);
 	}
 
 	Tools_Free(emu_Global_GetCSIP(g_palette1));

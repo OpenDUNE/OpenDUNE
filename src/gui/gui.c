@@ -1735,7 +1735,7 @@ uint8 GUI_PickHouse()
 		while (w != NULL) {
 			Widget *next = w->next;
 
-			Tools_Free(emu_Global_GetCSIP(w));
+			free(w);
 
 			w = next;
 		}
@@ -1787,7 +1787,7 @@ uint8 GUI_PickHouse()
 		while (w != NULL) {
 			Widget *next = w->next;
 
-			Tools_Free(emu_Global_GetCSIP(w));
+			free(w);
 
 			w = next;
 		}
@@ -4180,7 +4180,7 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 	while (w != NULL) {
 		Widget *next = w->next;
 
-		Tools_Free(emu_Global_GetCSIP(w));
+		free(w);
 
 		w = next;
 	}

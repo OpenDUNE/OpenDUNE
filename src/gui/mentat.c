@@ -104,8 +104,8 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 	} while (GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), wsaFilename, w1, true) == 0x8002);
 
-	Tools_Free(emu_Global_GetCSIP(w2));
-	Tools_Free(emu_Global_GetCSIP(w1));
+	free(w2);
+	free(w1);
 
 	if (musicID != 0xFFFF) Driver_Music_FadeOut();
 
@@ -337,14 +337,14 @@ static void GUI_Mentat_ShowHelpList(bool proceed)
 
 	GUI_Mentat_HelpListLoop();
 
-	Tools_Free(emu_Global_GetCSIP(g_widgetMentatFirst));
+	free(g_widgetMentatFirst);
 
 	Load_Palette_Mercenaries();
 
 	GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
 
-	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown1));
-	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown2));
+	free(g_widgetMentatUnknown1);
+	free(g_widgetMentatUnknown2);
 
 	g_widgetMentatUnknown1 = NULL;
 	g_widgetMentatUnknown2 = NULL;
@@ -843,8 +843,8 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 
 	if (g_widgetMentatScrollbar != NULL) GUI_Widget_Free_WithScrollbar(g_widgetMentatScrollbar);
 
-	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown2));
-	Tools_Free(emu_Global_GetCSIP(g_widgetMentatUnknown1));
+	free(g_widgetMentatUnknown2);
+	free(g_widgetMentatUnknown1);
 
 	g_widgetMentatTail = NULL;
 	ypos = 8;

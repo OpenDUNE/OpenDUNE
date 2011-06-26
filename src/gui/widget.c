@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "types.h"
 #include "../global.h"
 #include "../os/math.h"
@@ -517,7 +518,7 @@ Widget *GUI_Widget_Allocate(uint16 index, uint16 shortcut, uint16 offsetX, uint1
 	WidgetDrawParameter drawParam1;
 	WidgetDrawParameter drawParam2;
 
-	w = (Widget *)emu_get_memorycsip(Tools_Malloc(sizeof(Widget), 0x10));
+	w = (Widget *)calloc(1, sizeof(Widget));
 
 	w->index            = index;
 	w->shortcut         = shortcut;
@@ -629,7 +630,7 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 	Widget *w;
 	WidgetScrollbar *ws;
 
-	w = (Widget *)emu_get_memorycsip(Tools_Malloc(sizeof(Widget), 0x10));
+	w = (Widget *)calloc(1, sizeof(Widget));
 
 	w->index    = index;
 	w->parentID = parentID;
@@ -658,7 +659,7 @@ Widget *GUI_Widget_Allocate_WithScrollbar(uint16 index, uint16 parentID, uint16 
 	w->drawParameterSelected.proc = &GUI_Widget_Scrollbar_Draw;
 	w->clickProc                  = &GUI_Widget_Scrollbar_Click;
 
-	ws = (WidgetScrollbar *)emu_get_memorycsip(Tools_Malloc(sizeof(WidgetScrollbar), 0x10));
+	ws = (WidgetScrollbar *)calloc(1, sizeof(WidgetScrollbar));
 
 	w->data = ws;
 
@@ -686,7 +687,7 @@ Widget *GUI_Widget_Allocate3(uint16 index, uint16 parentID, uint16 offsetX, uint
 {
 	Widget *w;
 
-	w = (Widget *)emu_get_memorycsip(Tools_Malloc(sizeof(Widget), 0x10));
+	w = (Widget *)calloc(1, sizeof(Widget));
 
 	w->index    = index;
 	w->parentID = parentID;
@@ -864,8 +865,8 @@ void GUI_Widget_Free_WithScrollbar(Widget *w)
 {
 	if (w == NULL) return;
 
-	Tools_Free(emu_Global_GetCSIP(w->data));
-	Tools_Free(emu_Global_GetCSIP(w));
+	free(w->data);
+	free(w);
 }
 
 /**
