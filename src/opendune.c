@@ -761,6 +761,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 		uint16 x;
 		uint16 y;
 	} positions[6];
+	uint16 stage = 0;
+	uint16 counter = 0;
 
 	Unknown_07AE_0000(windowID);
 
@@ -849,20 +851,20 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			stringCount++;
 		}
 
-		switch (g_global->variable_1836) {
+		switch (stage) {
 			case 0:
 				GUI_ClearScreen(memory);
 
 				if (spriteID == 0) GUI_ClearScreen(screenID);
 
-				g_global->variable_1836++;
-				g_global->variable_1838 = 2;
+				stage++;
+				counter = 2;
 				break;
 
 			case 1: case 4:
-				if (g_global->variable_1838-- == 0) {
-					g_global->variable_1838 = 0;
-					g_global->variable_1836++;
+				if (counter-- == 0) {
+					counter = 0;
+					stage++;
 				}
 				break;
 
@@ -871,25 +873,25 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 				GUI_DrawSprite(memory, sprite, positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
-				g_global->variable_1838 = 8;
-				g_global->variable_1836++;
+				counter = 8;
+				stage++;
 				spriteID++;
 				if (++spritePos > 5) spritePos = 0;;
 				break;
 
 			case 3:
-				GFX_SetPalette(g_palette1 + 0x300 * g_global->variable_1838);
+				GFX_SetPalette(g_palette1 + 0x300 * counter);
 
-				if (g_global->variable_1838-- == 0) {
-					g_global->variable_1836++;
-					g_global->variable_1838 = 20;
+				if (counter-- == 0) {
+					stage++;
+					counter = 20;
 				}
 				break;
 
 			case 5:
-				GFX_SetPalette(g_palette1 + 0x300 * g_global->variable_1838);
+				GFX_SetPalette(g_palette1 + 0x300 * counter);
 
-				if (g_global->variable_1838++ >= 8) g_global->variable_1836 = 0;
+				if (counter++ >= 8) stage = 0;
 				break;
 
 			default: break;
@@ -926,7 +928,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_global->variable_992B + g_global->variable_9931) loc10 = true;
 		}
 
-		if (loc10 && g_global->variable_1836 == 0) break;
+		if (loc10 && stage == 0) break;
 
 		if (Input_Keyboard_NextKey() != 0) break;
 	}
@@ -936,9 +938,6 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_ClearScreen(0);
 	GUI_ClearScreen(memory);
 	GUI_ClearScreen(screenID);
-
-	g_global->variable_1838 = 0;
-	g_global->variable_1836 = 0;
 }
 
 static void GameCredits_LoadPaletteAndSprites()

@@ -396,8 +396,8 @@ typedef struct GlobalData {
 	/* 182D()    */ PACK uint8   unknown_182D[0x1];
 	/* 182E(4)   */ PACK csip32 variable_182E;              /*!< ?? */
 	/* 1832(4)   */ PACK csip32 variable_1832;              /*!< ?? */
-	/* 1836(2)   */ PACK uint16 variable_1836;              /*!< ?? Counter. */
-	/* 1838(2)   */ PACK uint16 variable_1838;              /*!< ?? Counter. */
+	/* 1836(2)   */ PACK uint16  removed_1836;              /*!< REMOVED - Counter (changed to local var: used in one function, and reset at the end, and no return halfway). */
+	/* 1838(2)   */ PACK uint16  removed_1838;              /*!< REMOVED - Counter (changed to local var: used in one function, and reset at the end, and no return halfway). */
 	/* 183A()    */ PACK uint8   unknown_183A[0x2];
 	/* 183C(3)   */ PACK char   string_183C[3];             /*!< "\x05\r" NULL terminated. */
 	/* 183F(12)  */ PACK char   string_183F[12];            /*!< "BIGPLAN.CPS" NULL terminated. */
