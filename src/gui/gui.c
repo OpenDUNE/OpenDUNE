@@ -89,6 +89,7 @@ bool g_factoryWindowStarport = false;
 static uint8 _factoryWindowGraymapTbl[256];
 static Widget _factoryWindowWidgets[13];
 static uint8 _factoryWindowWsaBuffer[64000];
+static uint8 *g_palette1_houseColour;
 
 /**
  * Draw a wired rectangle.
@@ -1464,12 +1465,9 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 			break;
 	}
 
-	g_global->variable_81ED = emu_Global_GetCSIP(g_palette1);
-	g_global->variable_81ED.s.ip += 255 * 3;
-
-	memcpy(emu_get_memorycsip(g_global->variable_81ED), g_palette1 + colour * 3, 3);
-
-	g_global->variable_81ED.s.ip += offset;
+	g_palette1_houseColour = g_palette1 + 255 * 3;
+	memcpy(g_palette1_houseColour, g_palette1 + colour * 3, 3);
+	g_palette1_houseColour += offset;
 
 	if (!hallOfFame) GUI_HallOfFame_Tick();
 
@@ -4123,19 +4121,19 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 
 uint16 GUI_HallOfFame_Tick()
 {
-	uint8 *var81ED = emu_get_memorycsip(g_global->variable_81ED);
+	static int16 loc2C38 = 1;
 
 	if (g_global->variable_2C3A >= g_global->variable_76AC) return 0;
 
 	g_global->variable_2C3A = g_global->variable_76AC + 2;
 
-	if (*var81ED >= 63) {
-		g_global->variable_2C38 = 0xFFFF;
-	} else if (*var81ED <= 35) {
-		g_global->variable_2C38 = 1;
+	if (*g_palette1_houseColour >= 63) {
+		loc2C38 = -1;
+	} else if (*g_palette1_houseColour <= 35) {
+		loc2C38 = 1;
 	}
 
-	*var81ED += (int16)g_global->variable_2C38;
+	*g_palette1_houseColour += loc2C38;
 
 	GFX_SetPalette(g_palette1);
 

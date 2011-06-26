@@ -658,7 +658,7 @@ typedef struct GlobalData {
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
 	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x1];
 	/* 2C10(40)  */ PACK uint16 variable_2C10[5][4];        /*!< ?? */
-	/* 2C38(2)   */ PACK uint16 variable_2C38;              /*!< ?? */
+	/* 2C38(2)   */ PACK uint16 removed_2C38;               /*!< REMOVED - ?? */
 	/* 2C3A(4)   */ PACK uint32 variable_2C3A;              /*!< ?? */
 	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
 	/* 2C41(13)  */ PACK char   string_2C41[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
@@ -1478,7 +1478,7 @@ typedef struct GlobalData {
 	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
 	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
-	/* 81ED(4)   */ PACK csip32 variable_81ED;              /*!< ?? */
+	/* 81ED(4)   */ PACK csip32 removed_81ED;               /*!< REMOVED - ?? */
 	/* 81F1(40)  */ PACK uint16 variable_81F1[5][4];        /*!< ?? */
 	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
 	/* 821A(1)   */ PACK uint8  variable_821A;              /*!< ?? */
