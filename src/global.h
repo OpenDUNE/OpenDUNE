@@ -597,7 +597,7 @@ typedef struct GlobalData {
 	/* 25D4(2)   */ PACK uint16  removed_25D4;              /*!< REMOVED - Displayed help subject (displayedHelpSubject)  */
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
 	/* 25DF(7)   */ PACK char   string_25DF[7];             /*!< "TEXT%c" NULL terminated. */
-	/* 25E6(2)   */ PACK uint16 variable_25E6;              /*!< ?? */
+	/* 25E6(2)   */ PACK uint16  removed_25E6;              /*!< REMOVED - constant 1 */
 	/* 25E8(10)  */ PACK char   string_25E8[10];            /*!< "INTRO.PAL" NULL terminated. */
 	/* 25F2(10)  */ PACK char   string_25F2[10];            /*!< "INTRO.FNT" NULL terminated. */
 	/* 25FC(7)   */ PACK char   string_25FC[7];             /*!< "%s.WSA" NULL terminated. */

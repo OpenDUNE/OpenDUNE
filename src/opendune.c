@@ -1402,7 +1402,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
 		uint16 pos = top + ((g_global->variable_6C71 + arg12) * i);
 
-		if (index == old && (g_global->variable_25E6 != 0 || g_global->variable_7097 != 0)) {
+		if (index == old) {
 			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[6], 0, 0x22);
 		} else {
 			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[5], 0, 0x22);
@@ -1486,7 +1486,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	if (g_global->variable_7097 == 0) {
 		uint16 y = g_global->mouseY;
 
-		if (GameLoop_B4E6_00E0(g_global->mouseX, y, minX, minY, maxX, maxY) && g_global->variable_25E6 != 0) {
+		if (GameLoop_B4E6_00E0(g_global->mouseX, y, minX, minY, maxX, maxY)) {
 			current = (y - minY) / lineHeight;
 		}
 	}
