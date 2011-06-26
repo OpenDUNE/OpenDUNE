@@ -93,7 +93,7 @@ bool Structure_Save(FILE *fp)
 		/* Rewrite the pointer in the scriptEngine to an index */
 		if (ss.o.script.script.csip != 0x00000000) {
 			ScriptInfo *scriptInfo;
-			scriptInfo = ScriptInfo_Get_ByMemory(ss.o.script.scriptInfo);
+			scriptInfo = (ScriptInfo *)emu_get_memorycsip(ss.o.script.scriptInfo);
 			ss.o.script.script.csip = (ss.o.script.script.csip - scriptInfo->start.csip) / 2;
 		}
 		ss.o.script.scriptInfo.csip = 0x00000000;

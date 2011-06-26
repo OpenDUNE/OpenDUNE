@@ -121,7 +121,7 @@ bool Unit_Save(FILE *fp)
 		/* Rewrite the pointer in the scriptEngine to an index */
 		if (su.o.script.script.csip != 0x00000000) {
 			ScriptInfo *scriptInfo;
-			scriptInfo = ScriptInfo_Get_ByMemory(su.o.script.scriptInfo);
+			scriptInfo = (ScriptInfo *)emu_get_memorycsip(su.o.script.scriptInfo);
 			su.o.script.script.csip = (su.o.script.script.csip - scriptInfo->start.csip) / 2;
 		}
 		su.o.script.scriptInfo.csip = 0x00000000;

@@ -95,7 +95,7 @@ bool Team_Save(FILE *fp)
 		/* Rewrite the pointer in the scriptEngine to an index */
 		if (st.script.script.csip != 0x00000000) {
 			ScriptInfo *scriptInfo;
-			scriptInfo = ScriptInfo_Get_ByMemory(st.script.scriptInfo);
+			scriptInfo = (ScriptInfo *)emu_get_memorycsip(st.script.scriptInfo);
 			st.script.script.csip = (st.script.script.csip - scriptInfo->start.csip) / 2;
 		}
 		st.script.scriptInfo.csip = 0x00000000;

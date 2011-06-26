@@ -24,7 +24,7 @@ struct Team *g_scriptCurrentTeam;
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
+static const ScriptFunction s_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_General_NoOperation,
 	/* 02 */ &Script_Structure_Unknown0A81,
@@ -55,7 +55,7 @@ ScriptFunction scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
 /**
  * Converted script functions for Units. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
+static const ScriptFunction s_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 	/* 00 */ &Script_Unit_Unknown1CFE,
 	/* 01 */ &Script_Unit_SetAction,
 	/* 02 */ &Script_General_DisplayText,
@@ -125,7 +125,7 @@ ScriptFunction scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
 /**
  * Converted script functions for Teams. If NULL, the emu_ version is used.
  */
-ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
+static const ScriptFunction s_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_Team_DisplayText,
 	/* 02 */ &Script_Team_GetMembers,
@@ -142,17 +142,6 @@ ScriptFunction scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
 	/* 0D */ &Script_Team_GetTarget,
 	/* 0E */ &Script_General_NoOperation,
 };
-
-/**
- * Get a ScriptInfo from the memory.
- *
- * @param address The address of the ScriptInfo to get.
- * @return The ScriptInfo.
- */
-ScriptInfo *ScriptInfo_Get_ByMemory(csip32 address)
-{
-	return (ScriptInfo *)&emu_get_memory8(address.s.cs, address.s.ip, 0x0);
-}
 
 /**
  * Reset a script engine. It forgets the correct script it was executing,
@@ -191,7 +180,7 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 	if (script == NULL) return;
 
 	if (script->scriptInfo.csip == 0) return;
-	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
 
 	Script_Reset(script, scriptInfo);
 
@@ -230,7 +219,7 @@ bool Script_Run(ScriptEngine *script)
 	uint8 opcode;
 
 	if (!Script_IsLoaded(script)) return false;
-	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
 
 	current = emu_get_memory16(script->script.s.cs, script->script.s.ip, 0);
 	current = (current >> 8) + (current << 8); /* Scripts are in BigEndian */
@@ -364,9 +353,9 @@ bool Script_Run(ScriptEngine *script)
 					return false;
 				}
 
-				assert(scriptFunctionsStructure[parameter] != NULL);
+				assert(s_scriptFunctionsStructure[parameter] != NULL);
 
-				script->returnValue = scriptFunctionsStructure[parameter](script);
+				script->returnValue = s_scriptFunctionsStructure[parameter](script);
 				return true;
 			}
 
@@ -377,9 +366,9 @@ bool Script_Run(ScriptEngine *script)
 					return false;
 				}
 
-				assert (scriptFunctionsTeam[parameter] != NULL);
+				assert (s_scriptFunctionsTeam[parameter] != NULL);
 
-				script->returnValue = scriptFunctionsTeam[parameter](script);
+				script->returnValue = s_scriptFunctionsTeam[parameter](script);
 				return true;
 			}
 
@@ -390,9 +379,9 @@ bool Script_Run(ScriptEngine *script)
 					return false;
 				}
 
-				assert (scriptFunctionsUnit[parameter] != NULL);
+				assert (s_scriptFunctionsUnit[parameter] != NULL);
 
-				script->returnValue = scriptFunctionsUnit[parameter](script);
+				script->returnValue = s_scriptFunctionsUnit[parameter](script);
 				return true;
 			}
 
@@ -506,7 +495,7 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	if (!Script_IsLoaded(script)) return;
 	if (script->isSubroutine != 0) return;
 
-	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
 	script->isSubroutine = 1;
 
 	script->stack[--script->stackPointer] = (script->script.csip - scriptInfo->start.csip) / 2;

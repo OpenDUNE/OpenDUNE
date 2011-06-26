@@ -47,7 +47,6 @@ extern struct Structure *g_scriptCurrentStructure;
 extern struct Unit *g_scriptCurrentUnit;
 extern struct Team *g_scriptCurrentTeam;
 
-extern ScriptInfo *ScriptInfo_Get_ByMemory(csip32 address);
 void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);

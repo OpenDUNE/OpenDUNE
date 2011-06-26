@@ -335,7 +335,7 @@ void GameLoop_Structure()
 					/* ENHANCEMENT -- Dune2 aborts all other structures if one gives a script error. This doesn't seem correct */
 					if (!g_dune2_enhanced && i != 3) return;
 				} else {
-					Script_Reset(&s->o.script, ScriptInfo_Get_ByMemory(s->o.script.scriptInfo));
+					Script_Reset(&s->o.script, (ScriptInfo *)emu_get_memorycsip(s->o.script.scriptInfo));
 					Script_Load(&s->o.script, s->o.type);
 				}
 			}
@@ -577,7 +577,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* XXX -- Weird .. if 'position' enters with 0xFFFF it is returned immediatly .. how can this ever NOT happen? */
 	if (position != 0xFFFF) {
 		s->o.script.delay = 0;
-		Script_Reset(&s->o.script, ScriptInfo_Get_ByMemory(s->o.script.scriptInfo));
+		Script_Reset(&s->o.script, (ScriptInfo *)emu_get_memorycsip(s->o.script.scriptInfo));
 		Script_Load(&s->o.script, s->o.type);
 	}
 

@@ -429,7 +429,7 @@ uint16 Script_Team_DisplayText(ScriptEngine *script)
 	t = g_scriptCurrentTeam;
 	if (t->houseID == g_playerHouseID) return 0;
 
-	scriptInfo = ScriptInfo_Get_ByMemory(script->scriptInfo);
+	scriptInfo = (ScriptInfo *)emu_get_memorycsip(script->scriptInfo);
 
 	text = scriptInfo->text;
 
