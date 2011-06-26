@@ -890,7 +890,7 @@ typedef struct GlobalData {
 	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 removed_38B0;               /*!< REMOVED - ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 removed_38B2;               /*!< REMOVED - ID of current campaign (from 0 to 9, where 9 is never played). */
-	/* 38B4(2)   */ PACK uint16 playerCreditsNoSilo;        /*!< Credits player is still free to have without silo support. */
+	/* 38B4(2)   */ PACK uint16 removed_38B4;               /*!< REMOVED - Credits player is still free to have without silo support. */
 	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits shown to player as 'current'. */
 	/* 38B8(4)   */ PACK uint32 tickGameTimeout;            /*!< The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
@@ -904,18 +904,18 @@ typedef struct GlobalData {
 	/* 38D6(4)   */ PACK csip32 variable_38D6;              /*!< ?? */
 	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
 	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
-	/* 38E2(2)   */ PACK uint16 activeStructureType;        /*!< Type of the structure being placed. */
+	/* 38E2(2)   */ PACK uint16 removed_38E2;               /*!< REMOVED - Type of the structure being placed. */
 	/* 38E4(4)   */ PACK csip32 removed_38E4;               /*!< REMOVED - Structure being placed. */
 	/* 38E8()    */ PACK uint16 variable_38E8;              /*!< ?? */
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
 	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
-	/* 38F0(2)   */ PACK uint16 activeStructurePosition;    /*!< Position of the structure being placed. */
+	/* 38F0(2)   */ PACK uint16 removed_38F0;               /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32 removed_38F2;               /*!< REMOVED - Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32 removed_38FA;               /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
-	/* 38FE(2)   */ PACK uint16 houseMissileCountdown;      /*!< Amount of time the user has to select Missile target. */
+	/* 38FE(2)   */ PACK uint16 removed_38FE;               /*!< REMOVED - Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16 removed_3900;               /*!< REMOVED - Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
 	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
 	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */

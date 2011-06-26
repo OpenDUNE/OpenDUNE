@@ -30,6 +30,8 @@
 
 House *g_playerHouse = NULL;
 HouseType g_playerHouseID = HOUSE_INVALID;
+uint16 g_houseMissileCountdown = 0;
+uint16 g_playerCreditsNoSilo = 0;
 
 static uint32 _tickHouseHouse = 0;
 static uint32 _tickHousePowerMaintenance = 0;
@@ -91,11 +93,11 @@ void GameLoop_House()
 		_tickHouseStarportAvailability = g_global->tickGlobal + 1800;
 	}
 
-	if (tickMissileCountdown && g_global->houseMissileCountdown != 0) {
-		g_global->houseMissileCountdown--;
-		Sound_Unknown0363(g_global->houseMissileCountdown + 41);
+	if (tickMissileCountdown && g_houseMissileCountdown != 0) {
+		g_houseMissileCountdown--;
+		Sound_Unknown0363(g_houseMissileCountdown + 41);
 
-		if (g_global->houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, g_playerHouseID));
+		if (g_houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, g_playerHouseID));
 	}
 
 	if (tickStarportAvailability) {
@@ -188,7 +190,7 @@ void GameLoop_House()
 					h->credits = h->creditsStorage;
 				}
 			} else {
-				uint16 maxCredits = max(h->creditsStorage, g_global->playerCreditsNoSilo);
+				uint16 maxCredits = max(h->creditsStorage, g_playerCreditsNoSilo);
 				if (h->credits > maxCredits) {
 					h->credits = maxCredits;
 
@@ -198,18 +200,18 @@ void GameLoop_House()
 			}
 
 			if (h->index == g_playerHouseID) {
-				if (h->creditsStorage > g_global->playerCreditsNoSilo) {
-					g_global->playerCreditsNoSilo = 0;
+				if (h->creditsStorage > g_playerCreditsNoSilo) {
+					g_playerCreditsNoSilo = 0;
 				}
 
-				if (g_global->playerCreditsNoSilo == 0 && g_campaignID > 1 && h->credits != 0) {
+				if (g_playerCreditsNoSilo == 0 && g_campaignID > 1 && h->credits != 0) {
 					if (h->creditsStorage != 0 && ((h->credits * 256 / h->creditsStorage) > 200)) {
 						/* "Spice storage capacity low, build silos." */
 						GUI_DisplayText(String_Get_ByIndex(0x142), 0);
 					}
 				}
 
-				if (h->credits < 100 && g_global->playerCreditsNoSilo != 0) {
+				if (h->credits < 100 && g_playerCreditsNoSilo != 0) {
 					/* "Credits are low. Harvest spice for more credits." */
 					GUI_DisplayText(String_Get_ByIndex(0x14B), 0);
 				}
@@ -533,6 +535,6 @@ void House_CalculatePowerAndCredit(House *h)
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */
 	if (h->index == g_playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
-		g_global->playerCreditsNoSilo = 0;
+		g_playerCreditsNoSilo = 0;
 	}
 }

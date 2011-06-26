@@ -75,9 +75,9 @@ static void Scenario_Load_House(uint8 houseID)
 
 	h->flags.s.human = true;
 
-	g_playerHouseID               = houseID;
-	g_playerHouse                 = h;
-	g_global->playerCreditsNoSilo = h->credits;
+	g_playerHouseID       = houseID;
+	g_playerHouse         = h;
+	g_playerCreditsNoSilo = h->credits;
 }
 
 static void Scenario_Load_Houses()

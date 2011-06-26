@@ -31,19 +31,19 @@
 static bool Save_Info(FILE *fp)
 {
 	uint8 selectionType = (uint8)g_global->selectionType;
-	uint8 activeStructureType = (uint8)g_global->activeStructureType;
+	uint8 structureActiveType = (uint8)g_structureActiveType;
 
 	g_global->scenario.savegameVersion = 0x0290;
 
 	if (fwrite(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
-	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&selectionType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fwrite(&activeStructureType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fwrite(&g_global->activeStructurePosition, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&structureActiveType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fwrite(&g_structureActivePosition, sizeof(uint16), 1, fp) != 1) return false;
 
-	if (g_global->activeStructureType != 0xFFFF) {
+	if (g_structureActiveType != 0xFFFF) {
 		if (fwrite(&g_structureActive->o.index, sizeof(uint16), 1, fp) != 1) return false;
 	} else {
 		uint16 invalid = 0xFFFF;
@@ -78,9 +78,9 @@ static bool Save_Info(FILE *fp)
 		if (fwrite(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
 	}
 
-	if (fwrite(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fwrite(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fwrite(&g_global->houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
+	if (fwrite(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (g_unitHouseMissile != NULL) {
 		if (fwrite(&g_unitHouseMissile->o.index, sizeof(uint16), 1, fp) != 1) return false;

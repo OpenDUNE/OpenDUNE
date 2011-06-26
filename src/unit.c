@@ -2558,7 +2558,7 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	if (!isAI) Sound_Unknown0363(39);
 
-	g_global->houseMissileCountdown = 0;
+	g_houseMissileCountdown = 0;
 	g_unitHouseMissile = NULL;
 
 	if (isAI) return;

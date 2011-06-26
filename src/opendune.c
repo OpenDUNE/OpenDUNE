@@ -2497,8 +2497,8 @@ void Game_Prepare()
 		g_structureActive = NULL;
 	}
 
-	if (g_global->activeStructureType != 0xFFFF) {
-		Map_SetSelectionSize(g_table_structureInfo[g_global->activeStructureType].layout);
+	if (g_structureActiveType != 0xFFFF) {
+		Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 	} else {
 		Structure *s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
@@ -2544,18 +2544,18 @@ void Game_Init()
 
 	Sound_Unknown0363(0xFFFE);
 
-	g_global->playerCreditsNoSilo     = 0;
-	g_global->houseMissileCountdown   = 0;
-	g_global->variable_38EC           = 0;
-	g_global->activeStructurePosition = 0;
+	g_playerCreditsNoSilo     = 0;
+	g_houseMissileCountdown   = 0;
+	g_global->variable_38EC   = 0;
+	g_structureActivePosition = 0;
 
 	g_unitHouseMissile = NULL;
-	g_unitActive = NULL;
-	g_structureActive = NULL;
+	g_unitActive       = NULL;
+	g_structureActive  = NULL;
 
-	g_global->activeAction            = 0xFFFF;
-	g_global->activeStructureType     = 0xFFFF;
-	g_global->variable_38EE           = 0xFFFF;
+	g_global->activeAction  = 0xFFFF;
+	g_structureActiveType   = 0xFFFF;
+	g_global->variable_38EE = 0xFFFF;
 
 	GUI_DisplayText(NULL, 0xFFFF);
 }

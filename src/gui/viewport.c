@@ -178,7 +178,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		House *h;
 
 		s = g_structureActive;
-		si = &g_table_structureInfo[g_global->activeStructureType];
+		si = &g_table_structureInfo[g_structureActiveType];
 		h = g_playerHouse;
 
 		if (Structure_Place(s, g_global->selectionPosition)) {
@@ -186,7 +186,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 
-			if (g_global->activeStructureType == STRUCTURE_REFINERY && g_global->variable_38BC == 0) {
+			if (g_structureActiveType == STRUCTURE_REFINERY && g_global->variable_38BC == 0) {
 				Unit *u;
 
 				g_global->variable_38BC++;
@@ -202,14 +202,14 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			GUI_ChangeSelectionType(4);
 
-			s = Structure_Get_ByPackedTile(g_global->activeStructurePosition);
+			s = Structure_Get_ByPackedTile(g_structureActivePosition);
 			if (s != NULL) {
 				if ((Structure_GetBuildable(s) & (1 << s->objectType)) == 0) Structure_BuildObject(s, 0xFFFE);
 			}
 
-			g_global->activeStructureType = 0xFFFF;
-			g_structureActive             = NULL;
-			g_global->variable_38EC       = 0;
+			g_structureActiveType   = 0xFFFF;
+			g_structureActive       = NULL;
+			g_global->variable_38EC = 0;
 
 			GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 
@@ -226,7 +226,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		Voice_Play(47);
 
-		if (g_global->activeStructureType == STRUCTURE_SLAB_1x1 || g_global->activeStructureType == STRUCTURE_SLAB_2x2) {
+		if (g_structureActiveType == STRUCTURE_SLAB_1x1 || g_structureActiveType == STRUCTURE_SLAB_2x2) {
 			/* Can not place foundation here. */
 			GUI_DisplayText(String_Get_ByIndex(0x87), 2);
 		} else {

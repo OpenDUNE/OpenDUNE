@@ -39,7 +39,7 @@
 static bool Load_Info(FILE *fp, uint32 length)
 {
 	uint8 variable_3A10;
-	uint8 activeStructureType;
+	uint8 structureActiveType;
 	uint16 selectionUnit;
 	uint16 activeUnit;
 	uint32 tickScenarioStart;
@@ -49,12 +49,12 @@ static bool Load_Info(FILE *fp, uint32 length)
 	position = ftell(fp);
 
 	if (fread(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
-	if (fread(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&variable_3A10, sizeof(uint8), 1, fp) != 1) return false;
-	if (fread(&activeStructureType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fread(&g_global->activeStructurePosition, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&structureActiveType, sizeof(uint8), 1, fp) != 1) return false;
+	if (fread(&g_structureActivePosition, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->variable_38E8, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&selectionUnit, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&activeUnit, sizeof(uint16), 1, fp) != 1) return false;
@@ -65,9 +65,9 @@ static bool Load_Info(FILE *fp, uint32 length)
 	if (fread(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_global->playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fread(&g_global->houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&variable_38FA, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;
 
@@ -77,7 +77,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 	g_global->viewportPosition = g_global->minimapPosition;
 	g_global->selectionPosition = g_global->variable_3A00;
 	g_global->variable_3A10 = (int8)variable_3A10;
-	g_global->activeStructureType = (int8)activeStructureType;
+	g_structureActiveType = (int8)structureActiveType;
 
 	if (selectionUnit != 0xFFFF) {
 		Unit *u;

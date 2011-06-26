@@ -73,6 +73,8 @@ struct Widget;
 extern StructureInfo g_table_structureInfo[];
 
 extern Structure *g_structureActive;
+extern uint16 g_structureActivePosition;
+extern uint16 g_structureActiveType;
 
 extern void GameLoop_Structure();
 extern uint8 Structure_StringToType(const char *name);

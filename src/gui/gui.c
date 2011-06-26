@@ -2184,7 +2184,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		switch (oldSelectionType) {
 			case 1:
 			case 2:
-				Map_SetSelection(g_global->activeStructurePosition);
+				Map_SetSelection(g_structureActivePosition);
 				/* Fall-through */
 			case 4:
 				g_global->cursorDefaultSpriteID = 0;
@@ -2246,7 +2246,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				break;
 
 			case 1:
-				g_global->activeStructurePosition = g_global->selectionPosition;
+				g_structureActivePosition = g_global->selectionPosition;
 				GUI_Widget_ActionPanel_Draw(true);
 
 				g_global->cursorDefaultSpriteID = 5;
@@ -2258,7 +2258,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Unit_Select(NULL);
 				GUI_Widget_ActionPanel_Draw(true);
 
-				Map_SetSelectionSize(g_table_structureInfo[g_global->activeStructureType].layout);
+				Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 
 				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
 				break;

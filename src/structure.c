@@ -34,6 +34,8 @@
 
 
 Structure *g_structureActive = NULL;
+uint16 g_structureActivePosition = 0;
+uint16 g_structureActiveType = 0;
 
 /**
  * Loop over all structures, preforming various of tasks.
@@ -876,7 +878,7 @@ void Structure_ActivateSpecial(Structure *s)
 			}
 
 			/* Give the user 7 seconds to select their target */
-			g_global->houseMissileCountdown = 7;
+			g_houseMissileCountdown = 7;
 
 			GUI_ChangeSelectionType(1);
 		} break;

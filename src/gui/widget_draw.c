@@ -430,7 +430,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 	if (g_global->selectionType == 2) {
 		if (g_global->variable_3752 != 7 || forceDraw) actionType = 7; /* Placement */
 	} else if (g_unitHouseMissile != NULL) {
-		if (g_global->variable_3762 != g_global->houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
+		if (g_global->variable_3762 != g_houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
 	} else if (g_unitSelected != NULL) {
 		if (g_global->selectionType == 1) {
 			uint16 activeAction = g_global->activeAction;
@@ -482,7 +482,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 
 	switch (actionType) {
 		case 8: /* House Missile */
-			g_global->variable_3762 = g_global->houseMissileCountdown;
+			g_global->variable_3762 = g_houseMissileCountdown;
 			g_global->variable_3756 = 0xFFFF;
 			break;
 
@@ -591,7 +591,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		} break;
 
 		case 7: { /* Placement */
-			si = &g_table_structureInfo[g_global->activeStructureType];
+			si = &g_table_structureInfo[g_structureActiveType];
 
 			o = NULL;
 			oi = &si->o;
@@ -878,7 +878,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 				case 8: /* House Missile */
 				{
-					int16 count = (int16)g_global->houseMissileCountdown - 1;
+					int16 count = (int16)g_houseMissileCountdown - 1;
 					if (count <= 0) count = 0;
 
 					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11, count);
