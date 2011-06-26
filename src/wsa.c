@@ -262,7 +262,7 @@ void *WSA_LoadFile(const char *filename, void *wsa, uint32 wsaSize, bool reserve
 			wsaSize = bufferSizeMinimal;
 		}
 
-		wsa = emu_get_memorycsip(Tools_Malloc(wsaSize, 0x30));
+		wsa = calloc(1, wsaSize);
 		flags.s.malloced = true;
 	} else {
 		flags.s.notmalloced = true;
@@ -333,7 +333,7 @@ void WSA_Unload(void *wsa)
 	if (wsa == NULL) return;
 	if (!header->flags.s.malloced) return;
 
-	Tools_Free(emu_Global_GetCSIP(wsa));
+	free(wsa);
 }
 
 /**
