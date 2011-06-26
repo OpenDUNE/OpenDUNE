@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
-#include "../global.h"
 #include "../os/endian.h"
 
 #include "script.h"
