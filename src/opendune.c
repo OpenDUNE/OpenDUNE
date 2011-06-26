@@ -1790,19 +1790,15 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_fontNew8p2 = g_fontNew8p;
 
 	{
-		csip32 functions;
 		csip32 null;
-		functions.csip = 0x353F6128; /* g_global->scriptFunctionsTeam */
 		null.csip = 0x0;
-		Script_LoadFromFile("TEAM.EMC", g_scriptTeam, functions, null);
+		Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, null);
 	}
 
 	{
-		csip32 functions;
 		csip32 null;
-		functions.csip = 0x353F33B6; /* g_global->scriptFunctionsStructure */
 		null.csip = 0x0;
-		Script_LoadFromFile("BUILD.EMC", g_scriptStructure, functions, null);
+		Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, null);
 	}
 
 	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);

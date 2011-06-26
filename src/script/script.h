@@ -6,9 +6,7 @@
 #define SCRIPT_H
 
 enum {
-	SCRIPT_FUNCTIONS_STRUCTURE_COUNT = 25,                  /*!< There are 25 functions to call for Structures. */
-	SCRIPT_FUNCTIONS_UNIT_COUNT      = 64,                  /*!< There are 64 functions to call for Units. */
-	SCRIPT_FUNCTIONS_TEAM_COUNT      = 15                   /*!< There are 15 functions to call for Teams. */
+	SCRIPT_FUNCTIONS_COUNT = 64                             /*!< There are never more than 64 functions for a script category. */
 };
 
 /**
@@ -26,6 +24,8 @@ typedef struct ScriptEngine {
 	uint8  isSubroutine;                                    /*!< The script we are executing is a subroutine. */
 } ScriptEngine;
 
+typedef uint16 (*ScriptFunction)(ScriptEngine *script);
+
 /**
  * A ScriptInfo as stored in the memory.
  */
@@ -35,7 +35,7 @@ typedef struct ScriptInfo {
 	csip32 offsets;                                         /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
 	uint16 offsetsCount;                                    /*!< Number of words in offsets array. */
 	uint16 startCount;                                      /*!< Number of words in start. */
-	csip32 functions;                                       /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
+	const ScriptFunction *functions;                        /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
 	uint16 isAllocated;                                     /*!< Memory has been allocated on load. */
 } ScriptInfo;
 
@@ -48,13 +48,17 @@ extern ScriptInfo *g_scriptStructure;
 extern ScriptInfo *g_scriptTeam;
 extern ScriptInfo *g_scriptUnit;
 
+extern const ScriptFunction g_scriptFunctionsStructure[];
+extern const ScriptFunction g_scriptFunctionsTeam[];
+extern const ScriptFunction g_scriptFunctionsUnit[];
+
 void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);
 extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
 extern void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID);
 extern void Script_ClearInfo(ScriptInfo *scriptInfo);
-extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 functions, csip32 data);
+extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, csip32 data);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);

@@ -14,8 +14,6 @@
 #include "../file.h"
 #include "../tools.h"
 
-typedef uint16 (*ScriptFunction)(ScriptEngine *script);
-
 struct Object *g_scriptCurrentObject;
 struct Structure *g_scriptCurrentStructure;
 struct Unit *g_scriptCurrentUnit;
@@ -31,7 +29,7 @@ ScriptInfo *g_scriptUnit = &s_scriptUnit;
 /**
  * Converted script functions for Structures. If NULL, the emu_ version is used.
  */
-static const ScriptFunction s_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTURE_COUNT] = {
+const ScriptFunction g_scriptFunctionsStructure[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_General_NoOperation,
 	/* 02 */ &Script_Structure_Unknown0A81,
@@ -62,7 +60,7 @@ static const ScriptFunction s_scriptFunctionsStructure[SCRIPT_FUNCTIONS_STRUCTUR
 /**
  * Converted script functions for Units. If NULL, the emu_ version is used.
  */
-static const ScriptFunction s_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] = {
+const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_Unit_Unknown1CFE,
 	/* 01 */ &Script_Unit_SetAction,
 	/* 02 */ &Script_General_DisplayText,
@@ -132,7 +130,7 @@ static const ScriptFunction s_scriptFunctionsUnit[SCRIPT_FUNCTIONS_UNIT_COUNT] =
 /**
  * Converted script functions for Teams. If NULL, the emu_ version is used.
  */
-static const ScriptFunction s_scriptFunctionsTeam[SCRIPT_FUNCTIONS_TEAM_COUNT] = {
+const ScriptFunction g_scriptFunctionsTeam[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 00 */ &Script_General_Delay,
 	/* 01 */ &Script_Team_DisplayText,
 	/* 02 */ &Script_Team_GetMembers,
@@ -341,65 +339,14 @@ bool Script_Run(ScriptEngine *script)
 		}
 
 		case 14: { /* EXECUTE SUBROUTINE $parameter */
-			csip32 function;
-
 			parameter &= 0xFF;
 
-			/* Check if we are using the scriptFunctionsStructure */
-			if (scriptInfo->functions.csip == 0x353F33B6) {
-				if (parameter >= SCRIPT_FUNCTIONS_STRUCTURE_COUNT) {
-					script->script = NULL;
-					return false;
-				}
-
-				assert(s_scriptFunctionsStructure[parameter] != NULL);
-
-				script->returnValue = s_scriptFunctionsStructure[parameter](script);
-				return true;
+			if (parameter >= SCRIPT_FUNCTIONS_COUNT || scriptInfo->functions[parameter] == NULL) {
+				script->script = NULL;
+				return false;
 			}
 
-			/* Check if we are using the scriptFunctionsTeam */
-			if (scriptInfo->functions.csip == 0x353F6128) {
-				if (parameter >= SCRIPT_FUNCTIONS_TEAM_COUNT) {
-					script->script = NULL;
-					return false;
-				}
-
-				assert (s_scriptFunctionsTeam[parameter] != NULL);
-
-				script->returnValue = s_scriptFunctionsTeam[parameter](script);
-				return true;
-			}
-
-			/* Check if we are using the scriptFunctionsUnit */
-			if (scriptInfo->functions.csip == 0x353F6168) {
-				if (parameter >= SCRIPT_FUNCTIONS_UNIT_COUNT) {
-					script->script = NULL;
-					return false;
-				}
-
-				assert (s_scriptFunctionsUnit[parameter] != NULL);
-
-				script->returnValue = s_scriptFunctionsUnit[parameter](script);
-				return true;
-			}
-
-			function = emu_get_csip32(scriptInfo->functions.s.cs, scriptInfo->functions.s.ip, parameter * 4);
-			emu_push((((uint8 *)script - emu_memory) >> 4) & 0xFF00); emu_push(((uint8 *)script - emu_memory) & 0x0FFF);
-			emu_push(emu_cs); emu_push(0x0935);
-
-			/* We are not using any known function, fall back to the decompiled method */
-			emu_cs = function.s.cs; emu_ip = function.s.ip;
-			switch (function.csip) {
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0x15C2; emu_last_ip = 0x0932; emu_last_length = 0x003A; emu_last_crc = 0xD1E0;
-					emu_call();
-					return false;
-			}
-			emu_sp += 4;
-
-			script->returnValue = emu_ax;
+			script->returnValue = scriptInfo->functions[parameter](script);
 			return true;
 		}
 
@@ -530,7 +477,7 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
  * @param functions Pointer to the functions to call via script.
  * @param data Pointer to preallocated space to load data.
  */
-uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, csip32 functions, csip32 data)
+uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, csip32 data)
 {
 	uint32 total = 0;
 	uint32 length = 0;

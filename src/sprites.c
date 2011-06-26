@@ -390,11 +390,7 @@ void Sprites_LoadTiles()
 
 	Sprites_Init_DataBlock(g_global->variable_3952);
 
-	{
-		csip32 functions;
-		functions.csip = 0x353F6168; /* g_global->scriptFunctionsUnit */
-		length = Script_LoadFromFile("UNIT.EMC", g_scriptUnit, functions, memBlock);
-	}
+	length = Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, memBlock);
 
 	memBlockFree  -= length;
 	memBlock.s.ip += length;
