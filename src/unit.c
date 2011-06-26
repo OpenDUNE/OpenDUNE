@@ -1817,6 +1817,8 @@ Unit *Unit_CreateWrapper(uint8 houseID, UnitType typeID, uint16 destination)
  */
 uint16 Unit_FindTargetAround(uint16 packed)
 {
+	static const int16 around[] = {0, -1, 1, -64, 64, -65, -63, 65, 63};
+
 	uint8 i;
 
 	if (g_global->selectionType == 2) return packed;
@@ -1825,10 +1827,10 @@ uint16 Unit_FindTargetAround(uint16 packed)
 
 	if (Map_GetLandscapeType(packed) == LST_BLOOM_FIELD) return packed;
 
-	for (i = 0; i < 9; i++) {
+	for (i = 0; i < lengthof(around); i++) {
 		Unit *u;
 
-		u = Unit_Get_ByPackedTile(packed + g_global->variable_62D8[i]);
+		u = Unit_Get_ByPackedTile(packed + around[i]);
 		if (u == NULL) continue;
 
 		return Tile_PackTile(u->o.position);

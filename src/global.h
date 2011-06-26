@@ -570,8 +570,8 @@ typedef struct GlobalData {
 	/* 23CA(4)   */ PACK char   string_23CA[4];             /*!< "AND" NULL terminated. */
 	/* 23CE(11)  */ PACK char   string_23CE[11];            /*!< "VIRGIN.CPS" NULL terminated. */
 	/* 23D9()    */ PACK uint8   unknown_23D9[0x0001];
-	/* 23DA(8)   */ PACK uint16 variable_23DA[4];           /*!< ?? */
-	/* 23E2(128) */ PACK int32  variable_23E2[32];          /*!< ?? */
+	/* 23DA(8)   */ PACK uint16  removed_23DA[4];           /*!< REMOVED - ?? */
+	/* 23E2(128) */ PACK int32   removed_23E2[32];          /*!< REMOVED - ?? */
 	/* 2462(18)  */ PACK uint16 removed_2462[9];            /*!< REMOVED - Tile offsets. */
 	/* 2474(16)  */ PACK uint16 removed_2474[8];            /*!< REMOVED - X offsets for unit position. */
 	/* 2484(16)  */ PACK uint16 removed_2484[8];            /*!< REMOVED - Y offsets for unit position. */
@@ -1056,7 +1056,7 @@ typedef struct GlobalData {
 	/* 6288(4)   */ PACK uint32 tickUnitDeviation;          /*!< Indicates next time Unit runs Deviation function. */
 	/* 628C(8)   */ PACK uint16 variable_628C[4];           /*!< ?? */
 	/* 6294(68)  */ PACK tile32 variable_6294[17];          /*!< ?? */
-	/* 62D8(18)  */ PACK uint16 variable_62D8[9];           /*!< ?? */
+	/* 62D8(18)  */ PACK uint16  removed_62D8[9];           /*!< REMOVED - mapOffsets in a 3x3 grid around a centre */
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */
 	/* 62F3(2)   */ PACK char   string_62F3[2];             /*!< "." NULL terminated. */
