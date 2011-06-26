@@ -16,7 +16,7 @@ enum {
  */
 typedef struct ScriptEngine {
 	uint16 delay;                                           /*!< How many more ticks the script is suspended (or zero if not suspended). */
-	csip32 script;                                          /*!< Pointer to the script we are executing. */
+	uint16 *script;                                         /*!< Pointer to current command in the script we are executing. */
 	struct ScriptInfo *scriptInfo;                          /*!< Pointer to a struct with script information. */
 	uint16 returnValue;                                     /*!< Return value from sub-routines. */
 	uint8  framePointer;                                    /*!< Frame pointer. */

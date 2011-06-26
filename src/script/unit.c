@@ -432,7 +432,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 
 		script->delay = 2;
 
-		script->script.s.ip -= 2;
+		script->script--;
 		return 0;
 	}
 
@@ -451,7 +451,7 @@ uint16 Script_Unit_Unknown1098(ScriptEngine *script)
 	if (delay != 0) {
 		script->delay = delay;
 
-		script->script.s.ip -= 2;
+		script->script--;
 	}
 
 	return 0;

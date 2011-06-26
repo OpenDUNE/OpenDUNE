@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include "types.h"
+#include "../global.h"
 
 #include "saveload.h"
 #include "../script/script.h"
@@ -13,12 +14,12 @@ static uint32 SaveLoad_Script_Script(void *object, uint32 value, bool loading)
 	ScriptEngine *script = (ScriptEngine *)object;
 
 	if (loading) {
-		script->script.csip = value * 2;
+		script->script = (uint16 *)(size_t)value;
 		return 0;
 	}
 
-	if (script->script.csip == 0x0) return 0;
-	return (script->script.csip - script->scriptInfo->start.csip) / 2;
+	if (script->script == NULL) return 0;
+	return (script->script - (uint16 *)emu_get_memorycsip(script->scriptInfo->start));
 }
 
 const SaveLoadDesc g_saveScriptEngine[] = {

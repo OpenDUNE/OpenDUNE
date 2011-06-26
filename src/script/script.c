@@ -156,7 +156,7 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo)
 	if (script == NULL) return;
 	if (scriptInfo == NULL) return;
 
-	script->script.csip  = 0;
+	script->script       = NULL;
 	script->scriptInfo   = scriptInfo;
 	script->isSubroutine = 0;
 	script->framePointer = 17;
@@ -184,8 +184,7 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 	Script_Reset(script, scriptInfo);
 
 	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
-	script->script = scriptInfo->start;
-	script->script.s.ip += offsets[typeID] * 2;
+	script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + offsets[typeID];
 }
 
 /**
@@ -198,7 +197,7 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 bool Script_IsLoaded(ScriptEngine *script)
 {
 	if (script == NULL) return false;
-	if (script->script.csip == 0) return false;
+	if (script->script == NULL) return false;
 	if (script->scriptInfo == NULL) return false;
 
 	return true;
@@ -220,9 +219,7 @@ bool Script_Run(ScriptEngine *script)
 	if (!Script_IsLoaded(script)) return false;
 	scriptInfo = script->scriptInfo;
 
-	current = emu_get_memory16(script->script.s.cs, script->script.s.ip, 0);
-	current = (current >> 8) + (current << 8); /* Scripts are in BigEndian */
-	script->script.s.ip += 2;
+	current = BETOH16(*script->script++);
 
 	opcode    = (current >> 8) & 0x1F;
 	parameter = 0;
@@ -236,15 +233,12 @@ bool Script_Run(ScriptEngine *script)
 		parameter = (int16)(int8)(current & 0xFF);
 	} else if ((current & 0x2000) != 0) {
 		/* When this flag is set, the parameter is in the next opcode */
-		parameter = emu_get_memory16(script->script.s.cs, script->script.s.ip, 0x0);
-		parameter = (parameter >> 8) + (parameter << 8); /* Scripts are in BigEndian */
-		script->script.s.ip += 2;
+		parameter = BETOH16(*script->script++);
 	}
 
 	switch (opcode) {
 		case 0: { /* JUMP TO INSTRUCTION $parameter */
-			script->script = scriptInfo->start;
-			script->script.s.ip += parameter * 2;
+			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + parameter;
 			return true;
 		}
 
@@ -261,7 +255,7 @@ bool Script_Run(ScriptEngine *script)
 
 			if (parameter == 1) { /* PUSH NEXT LOCATION + FRAMEPOINTER */
 				uint32 location;
-				location = (script->script.csip - scriptInfo->start.csip) / 2 + 1;
+				location = (script->script - (uint16 *)emu_get_memorycsip(scriptInfo->start)) + 1;
 
 				script->stack[--script->stackPointer] = location;
 				script->stack[--script->stackPointer] = script->framePointer;
@@ -270,7 +264,7 @@ bool Script_Run(ScriptEngine *script)
 				return true;
 			}
 
-			script->script.csip = 0;
+			script->script = NULL;
 			return false;
 		}
 
@@ -301,17 +295,16 @@ bool Script_Run(ScriptEngine *script)
 			}
 			if (parameter == 1) { /* POP FRAMEPOINTER + LOCATION */
 				if (script->stackPointer == 15) {
-					script->script.csip = 0;
+					script->script = NULL;
 					return false;
 				}
 
-				script->script = scriptInfo->start;
 				script->framePointer = (uint8)script->stack[script->stackPointer++];
-				script->script.s.ip += script->stack[script->stackPointer++] * 2;
+				script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + script->stack[script->stackPointer++];
 				return true;
 			}
 
-			script->script.csip = 0;
+			script->script = NULL;
 			return false;
 		}
 
@@ -348,7 +341,7 @@ bool Script_Run(ScriptEngine *script)
 			/* Check if we are using the scriptFunctionsStructure */
 			if (scriptInfo->functions.csip == 0x353F33B6) {
 				if (parameter >= SCRIPT_FUNCTIONS_STRUCTURE_COUNT) {
-					script->script.csip = 0;
+					script->script = NULL;
 					return false;
 				}
 
@@ -361,7 +354,7 @@ bool Script_Run(ScriptEngine *script)
 			/* Check if we are using the scriptFunctionsTeam */
 			if (scriptInfo->functions.csip == 0x353F6128) {
 				if (parameter >= SCRIPT_FUNCTIONS_TEAM_COUNT) {
-					script->script.csip = 0;
+					script->script = NULL;
 					return false;
 				}
 
@@ -374,7 +367,7 @@ bool Script_Run(ScriptEngine *script)
 			/* Check if we are using the scriptFunctionsUnit */
 			if (scriptInfo->functions.csip == 0x353F6168) {
 				if (parameter >= SCRIPT_FUNCTIONS_UNIT_COUNT) {
-					script->script.csip = 0;
+					script->script = NULL;
 					return false;
 				}
 
@@ -406,8 +399,7 @@ bool Script_Run(ScriptEngine *script)
 		case 15: { /* IF NOT EQUAL JUMP TO INSTRUCTION $parameter */
 			if (script->stack[script->stackPointer++] != 0) return true;
 
-			script->script = scriptInfo->start;
-			script->script.s.ip += (parameter & 0x7FFF) * 2;
+			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + (parameter & 0x7FFF);
 			return true;
 		}
 
@@ -425,7 +417,7 @@ bool Script_Run(ScriptEngine *script)
 				return true;
 			}
 
-			script->script.csip = 0;
+			script->script = NULL;
 			return false;
 		}
 
@@ -454,7 +446,7 @@ bool Script_Run(ScriptEngine *script)
 				case 17: script->stack[--script->stackPointer] =  left ^  right;          break; /* left ^  right */
 
 				default:
-					script->script.csip = 0;
+					script->script = NULL;
 					return false;
 			}
 
@@ -462,20 +454,19 @@ bool Script_Run(ScriptEngine *script)
 		}
 		case 18: { /* RETURN FROM SUBROUTINE WITHOUT RESETTING FRAMEPOINTER */
 			if (script->stackPointer == 15) {
-				script->script.csip = 0;
+				script->script = NULL;
 				return false;
 			}
 
-			script->script = scriptInfo->start;
 			script->returnValue = script->stack[script->stackPointer++];
-			script->script.s.ip += script->stack[script->stackPointer++] * 2;
+			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + script->stack[script->stackPointer++];
 
 			script->isSubroutine = 0;
 			return true;
 		}
 
 		default:
-			script->script.csip = 0x0;
+			script->script = NULL;
 			return false;
 	}
 }
@@ -497,12 +488,11 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	scriptInfo = script->scriptInfo;
 	script->isSubroutine = 1;
 
-	script->stack[--script->stackPointer] = (script->script.csip - scriptInfo->start.csip) / 2;
+	script->stack[--script->stackPointer] = (script->script - (uint16 *)emu_get_memorycsip(scriptInfo->start));
 	script->stack[--script->stackPointer] = script->returnValue;
 
 	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
-	script->script = scriptInfo->start;
-	script->script.s.ip += offsets[typeID] * 2;
+	script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + offsets[typeID];
 }
 
 /**
