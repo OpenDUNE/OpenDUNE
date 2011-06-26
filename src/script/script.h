@@ -26,26 +26,27 @@ typedef struct ScriptEngine {
 	uint8  isSubroutine;                                    /*!< The script we are executing is a subroutine. */
 } ScriptEngine;
 
-MSVC_PACKED_BEGIN
 /**
  * A ScriptInfo as stored in the memory.
  */
 typedef struct ScriptInfo {
-	/* 0000(4)   */ PACK csip32 text;                       /*!< ?? Pointer to TEXT section of the scripts. */
-	/* 0004(4)   */ PACK csip32 start;                      /*!< Pointer to the begin of the scripts. */
-	/* 0008(4)   */ PACK csip32 offsets;                    /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
-	/* 000C()    */ PACK uint16 offsetsCount;               /*!< Number of words in offsets array. */
-	/* 000E()    */ PACK uint16 startCount;                 /*!< Number of words in start. */
-	/* 0010(4)   */ PACK csip32 functions;                  /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
-	/* 0014()    */ PACK uint16 isAllocated;                /*!< Memory has been allocated on load. */
-} GCC_PACKED ScriptInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(ScriptInfo) == 0x16);
+	csip32 text;                                            /*!< ?? Pointer to TEXT section of the scripts. */
+	csip32 start;                                           /*!< Pointer to the begin of the scripts. */
+	csip32 offsets;                                         /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
+	uint16 offsetsCount;                                    /*!< Number of words in offsets array. */
+	uint16 startCount;                                      /*!< Number of words in start. */
+	csip32 functions;                                       /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
+	uint16 isAllocated;                                     /*!< Memory has been allocated on load. */
+} ScriptInfo;
 
 extern struct Object *g_scriptCurrentObject;
 extern struct Structure *g_scriptCurrentStructure;
 extern struct Unit *g_scriptCurrentUnit;
 extern struct Team *g_scriptCurrentTeam;
+
+extern ScriptInfo *g_scriptStructure;
+extern ScriptInfo *g_scriptTeam;
+extern ScriptInfo *g_scriptUnit;
 
 void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo);
 extern void Script_Load(ScriptEngine *script, uint8 typeID);

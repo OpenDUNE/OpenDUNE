@@ -416,7 +416,7 @@ Unit *Unit_Create(uint16 index, uint8 typeID, uint8 houseID, tile32 position, in
 	u->blinkCounter  = 0;
 	u->variable_70   = 0x0000;
 
-	Script_Reset(&u->o.script, &g_global->scriptUnit);
+	Script_Reset(&u->o.script, g_scriptUnit);
 
 	u->o.flags.s.allocated = true;
 
@@ -498,7 +498,7 @@ void Unit_SetAction(Unit *u, ActionType action)
 			u->nextActionID = ACTION_INVALID;
 			u->variable_49.tile = 0;
 			u->o.script.delay = 0;
-			Script_Reset(&u->o.script, &g_global->scriptUnit);
+			Script_Reset(&u->o.script, g_scriptUnit);
 			u->o.script.variables[0] = action;
 			Script_Load(&u->o.script, u->o.type);
 			return;
@@ -883,7 +883,7 @@ void Unit_Unknown10EC(Unit *u)
 
 	Unit_HouseUnitCount_Remove(u);
 
-	Script_Reset(&u->o.script, &g_global->scriptUnit);
+	Script_Reset(&u->o.script, g_scriptUnit);
 
 	Unit_Free(u);
 }
@@ -2079,7 +2079,7 @@ void Unit_Unknown2AAA(Unit *unit)
 
 	unit->o.flags.s.variable_4_0040 = false;
 
-	Script_Reset(&unit->o.script, &g_global->scriptUnit);
+	Script_Reset(&unit->o.script, g_scriptUnit);
 	Unit_UntargetMe(unit);
 
 	unit->o.flags.s.isNotOnMap = true;

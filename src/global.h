@@ -917,9 +917,9 @@ typedef struct GlobalData {
 	/* 38FA(4)   */ PACK csip32 removed_38FA;               /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16 removed_38FE;               /*!< REMOVED - Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16 removed_3900;               /*!< REMOVED - Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
-	/* 3902(22)  */ PACK ScriptInfo scriptUnit;             /*!< Script information for Units. */
-	/* 3918(22)  */ PACK ScriptInfo scriptStructure;        /*!< Script information for Structures. */
-	/* 392E(22)  */ PACK ScriptInfo scriptTeam;             /*!< Script information for Teams. */
+	/* 3902(22)  */ PACK uint8  removed_3902[22];           /*!< Script information for Units. */
+	/* 3918(22)  */ PACK uint8  removed_3918[22];           /*!< Script information for Structures. */
+	/* 392E(22)  */ PACK uint8  removed_392E[22];           /*!< Script information for Teams. */
 	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */

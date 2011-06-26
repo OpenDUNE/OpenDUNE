@@ -312,7 +312,7 @@ uint16 Script_Team_Load(ScriptEngine *script)
 
 	t->variable_0C = type;
 
-	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Reset(&t->script, g_scriptTeam);
 	Script_Load(&t->script, type & 0xFF);
 
 	return 0;
@@ -340,7 +340,7 @@ uint16 Script_Team_Load2(ScriptEngine *script)
 
 	t->variable_0C = type;
 
-	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Reset(&t->script, g_scriptTeam);
 	Script_Load(&t->script, type & 0xFF);
 
 	return 0;

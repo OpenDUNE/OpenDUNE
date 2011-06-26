@@ -44,8 +44,8 @@ bool Structure_Load(FILE *fp, uint32 length)
 
 		length -= SaveLoad_GetLength(s_saveStructure);
 
-		sl.o.script.scriptInfo = &g_global->scriptStructure;
-		sl.o.script.script = (uint16 *)emu_get_memorycsip(g_global->scriptStructure.start) + (size_t)sl.o.script.script;
+		sl.o.script.scriptInfo = g_scriptStructure;
+		sl.o.script.script = (uint16 *)emu_get_memorycsip(g_scriptStructure->start) + (size_t)sl.o.script.script;
 		if (sl.upgradeTimeLeft == 0) sl.upgradeTimeLeft = Structure_IsUpgradable(&sl) ? 100 : 0;
 
 		/* Get the Structure from the pool */

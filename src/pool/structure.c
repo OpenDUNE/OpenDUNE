@@ -164,7 +164,7 @@ void Structure_Free(Structure *s)
 
 	s->o.flags.all = 0x0000;
 
-	Script_Reset(&s->o.script, &g_global->scriptStructure);
+	Script_Reset(&s->o.script, g_scriptStructure);
 
 	/* Walk the array to find the Structure we are removing */
 	for (i = 0; i < g_structureFindCount; i++) {

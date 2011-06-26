@@ -97,7 +97,7 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	t->variable_06 = unknown;
 	t->maxMembers  = maxMembers;
 
-	Script_Reset(&t->script, &g_global->scriptTeam);
+	Script_Reset(&t->script, g_scriptTeam);
 	Script_Load(&t->script, teamActionType);
 
 	t->script.delay = 0;

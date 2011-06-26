@@ -571,7 +571,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		}
 	}
 
-	Script_Reset(&s->o.script, &g_global->scriptStructure);
+	Script_Reset(&s->o.script, g_scriptStructure);
 
 	s->o.script.variables[0] = 0;
 	s->o.script.variables[4] = 0;
@@ -983,7 +983,7 @@ static void Structure_Destroy(Structure *s)
 	s->o.flags.s.repairing = false;
 	s->o.script.delay = 0;
 
-	Script_Reset(&s->o.script, &g_global->scriptStructure);
+	Script_Reset(&s->o.script, g_scriptStructure);
 	Script_Load(&s->o.script, s->o.type);
 
 	Voice_PlayAtTile(44, s->o.position);

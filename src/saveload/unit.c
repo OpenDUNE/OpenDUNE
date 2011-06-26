@@ -67,8 +67,8 @@ bool Unit_Load(FILE *fp, uint32 length)
 
 		length -= SaveLoad_GetLength(s_saveUnit);
 
-		ul.o.script.scriptInfo = &g_global->scriptUnit;
-		ul.o.script.script = (uint16 *)emu_get_memorycsip(g_global->scriptUnit.start) + (size_t)ul.o.script.script;
+		ul.o.script.scriptInfo = g_scriptUnit;
+		ul.o.script.script = (uint16 *)emu_get_memorycsip(g_scriptUnit->start) + (size_t)ul.o.script.script;
 		ul.o.script.delay = 0;
 		ul.variable_70 = 0;
 		ul.o.variable_09 |= 1 << ul.o.houseID;

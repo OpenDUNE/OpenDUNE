@@ -714,8 +714,8 @@ static void GameLoop_Uninit()
 	Tools_Free(g_global->readBuffer);
 	Tools_Free(g_global->strings);
 
-	Script_ClearInfo(&g_global->scriptStructure);
-	Script_ClearInfo(&g_global->scriptTeam);
+	Script_ClearInfo(g_scriptStructure);
+	Script_ClearInfo(g_scriptTeam);
 }
 
 static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
@@ -1794,7 +1794,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		csip32 null;
 		functions.csip = 0x353F6128; /* g_global->scriptFunctionsTeam */
 		null.csip = 0x0;
-		Script_LoadFromFile("TEAM.EMC", &g_global->scriptTeam, functions, null);
+		Script_LoadFromFile("TEAM.EMC", g_scriptTeam, functions, null);
 	}
 
 	{
@@ -1802,7 +1802,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		csip32 null;
 		functions.csip = 0x353F33B6; /* g_global->scriptFunctionsStructure */
 		null.csip = 0x0;
-		Script_LoadFromFile("BUILD.EMC", &g_global->scriptStructure, functions, null);
+		Script_LoadFromFile("BUILD.EMC", g_scriptStructure, functions, null);
 	}
 
 	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);
