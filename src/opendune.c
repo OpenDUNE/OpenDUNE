@@ -1789,17 +1789,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 	g_fontNew8p2 = g_fontNew8p;
 
-	{
-		csip32 null;
-		null.csip = 0x0;
-		Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, null);
-	}
-
-	{
-		csip32 null;
-		null.csip = 0x0;
-		Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, null);
-	}
+	Script_LoadFromFile("TEAM.EMC", g_scriptTeam, g_scriptFunctionsTeam, NULL);
+	Script_LoadFromFile("BUILD.EMC", g_scriptStructure, g_scriptFunctionsStructure, NULL);
 
 	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);
 

@@ -179,7 +179,6 @@ void Script_Reset(ScriptEngine *script, ScriptInfo *scriptInfo)
 void Script_Load(ScriptEngine *script, uint8 typeID)
 {
 	ScriptInfo *scriptInfo;
-	uint16 *offsets;
 
 	if (script == NULL) return;
 
@@ -188,8 +187,7 @@ void Script_Load(ScriptEngine *script, uint8 typeID)
 
 	Script_Reset(script, scriptInfo);
 
-	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
-	script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + offsets[typeID];
+	script->script = scriptInfo->start + scriptInfo->offsets[typeID];
 }
 
 /**
@@ -243,7 +241,7 @@ bool Script_Run(ScriptEngine *script)
 
 	switch (opcode) {
 		case 0: { /* JUMP TO INSTRUCTION $parameter */
-			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + parameter;
+			script->script = scriptInfo->start + parameter;
 			return true;
 		}
 
@@ -260,7 +258,7 @@ bool Script_Run(ScriptEngine *script)
 
 			if (parameter == 1) { /* PUSH NEXT LOCATION + FRAMEPOINTER */
 				uint32 location;
-				location = (script->script - (uint16 *)emu_get_memorycsip(scriptInfo->start)) + 1;
+				location = (script->script - scriptInfo->start) + 1;
 
 				script->stack[--script->stackPointer] = location;
 				script->stack[--script->stackPointer] = script->framePointer;
@@ -305,7 +303,7 @@ bool Script_Run(ScriptEngine *script)
 				}
 
 				script->framePointer = (uint8)script->stack[script->stackPointer++];
-				script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + script->stack[script->stackPointer++];
+				script->script = scriptInfo->start + script->stack[script->stackPointer++];
 				return true;
 			}
 
@@ -353,7 +351,7 @@ bool Script_Run(ScriptEngine *script)
 		case 15: { /* IF NOT EQUAL JUMP TO INSTRUCTION $parameter */
 			if (script->stack[script->stackPointer++] != 0) return true;
 
-			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + (parameter & 0x7FFF);
+			script->script = scriptInfo->start + (parameter & 0x7FFF);
 			return true;
 		}
 
@@ -413,7 +411,7 @@ bool Script_Run(ScriptEngine *script)
 			}
 
 			script->returnValue = script->stack[script->stackPointer++];
-			script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + script->stack[script->stackPointer++];
+			script->script = scriptInfo->start + script->stack[script->stackPointer++];
 
 			script->isSubroutine = 0;
 			return true;
@@ -434,7 +432,6 @@ bool Script_Run(ScriptEngine *script)
 void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 {
 	ScriptInfo *scriptInfo;
-	uint16 *offsets;
 
 	if (!Script_IsLoaded(script)) return;
 	if (script->isSubroutine != 0) return;
@@ -442,11 +439,10 @@ void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID)
 	scriptInfo = script->scriptInfo;
 	script->isSubroutine = 1;
 
-	script->stack[--script->stackPointer] = (script->script - (uint16 *)emu_get_memorycsip(scriptInfo->start));
+	script->stack[--script->stackPointer] = (script->script - scriptInfo->start);
 	script->stack[--script->stackPointer] = script->returnValue;
 
-	offsets = (uint16 *)emu_get_memorycsip(scriptInfo->offsets);
-	script->script = (uint16 *)emu_get_memorycsip(scriptInfo->start) + offsets[typeID];
+	script->script = scriptInfo->start + scriptInfo->offsets[typeID];
 }
 
 /**
@@ -459,14 +455,14 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
 	if (scriptInfo == NULL) return;
 
 	if (scriptInfo->isAllocated != 0) {
-		Tools_Free(scriptInfo->text);
-		Tools_Free(scriptInfo->offsets);
-		Tools_Free(scriptInfo->start);
+		Tools_Free(emu_Global_GetCSIP(scriptInfo->text));
+		Tools_Free(emu_Global_GetCSIP(scriptInfo->offsets));
+		Tools_Free(emu_Global_GetCSIP(scriptInfo->start));
 	}
 
-	scriptInfo->text.csip = 0x0;
-	scriptInfo->offsets.csip = 0x0;
-	scriptInfo->start.csip = 0x0;
+	scriptInfo->text = NULL;
+	scriptInfo->offsets = NULL;
+	scriptInfo->start = NULL;
 }
 
 /**
@@ -477,7 +473,7 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
  * @param functions Pointer to the functions to call via script.
  * @param data Pointer to preallocated space to load data.
  */
-uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, csip32 data)
+uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, uint8 *data)
 {
 	uint32 total = 0;
 	uint32 length = 0;
@@ -489,7 +485,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 
 	Script_ClearInfo(scriptInfo);
 
-	scriptInfo->isAllocated = (data.csip == 0x0) ? 1 : 0;
+	scriptInfo->isAllocated = (data == NULL);
 
 	scriptInfo->functions = functions;
 
@@ -501,14 +497,14 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 	total += length;
 
 	if (length != 0) {
-		if (data.csip != 0) {
-			scriptInfo->text = data;
-			data.csip += length;
+		if (data != NULL) {
+			scriptInfo->text = (uint16 *)data;
+			data += length;
 		} else {
-			scriptInfo->text = Tools_Malloc(length, 0x30);
+			scriptInfo->text = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
 		}
 
-		ChunkFile_Read(index, HTOBE32('TEXT'), (void *)emu_get_memorycsip(scriptInfo->text), length);
+		ChunkFile_Read(index, HTOBE32('TEXT'), scriptInfo->text, length);
 	}
 
 	length = ChunkFile_Seek(index, HTOBE32('ORDR'));
@@ -520,18 +516,18 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 		return 0;
 	}
 
-	if (data.csip != 0x0) {
-		scriptInfo->offsets = data;
-		data.csip += length;
+	if (data != NULL) {
+		scriptInfo->offsets = (uint16 *)data;
+		data += length;
 	} else {
-		scriptInfo->offsets = Tools_Malloc(length, 0x30);
+		scriptInfo->offsets = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
 	}
 
 	scriptInfo->offsetsCount = (length >> 1) & 0xFFFF;
-	ChunkFile_Read(index, HTOBE32('ORDR'), (void *)emu_get_memorycsip(scriptInfo->offsets), length);
+	ChunkFile_Read(index, HTOBE32('ORDR'), scriptInfo->offsets, length);
 
-	for(i = 0; (int16)((length >> 1) & 0xFFFF) > i; i++) {
-		emu_get_memory16(scriptInfo->offsets.s.cs, scriptInfo->offsets.s.ip, 2 * i) = HTOBE16(emu_get_memory16(scriptInfo->offsets.s.cs, scriptInfo->offsets.s.ip, 2 * i));
+	for(i = 0; i < (int16)((length >> 1) & 0xFFFF); i++) {
+		scriptInfo->offsets[i] = BETOH16(scriptInfo->offsets[i]);
 	}
 
 	length = ChunkFile_Seek(index, HTOBE32('DATA'));
@@ -543,15 +539,15 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 		return 0;
 	}
 
-	if (data.csip != 0x0) {
-		scriptInfo->start = data;
-		data.csip += length;
+	if (data != NULL) {
+		scriptInfo->start = (uint16 *)data;
+		data += length;
 	} else {
-		scriptInfo->start = Tools_Malloc(length, 0x30);
+		scriptInfo->start = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
 	}
 
 	scriptInfo->startCount = (length >> 1) & 0xFFFF;
-	ChunkFile_Read(index, HTOBE32('DATA'), (void *)emu_get_memorycsip(scriptInfo->start), length);
+	ChunkFile_Read(index, HTOBE32('DATA'), scriptInfo->start, length);
 
 
 	ChunkFile_Close(index);

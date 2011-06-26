@@ -19,7 +19,7 @@ static uint32 SaveLoad_Script_Script(void *object, uint32 value, bool loading)
 	}
 
 	if (script->script == NULL) return 0;
-	return (script->script - (uint16 *)emu_get_memorycsip(script->scriptInfo->start));
+	return (script->script - script->scriptInfo->start);
 }
 
 const SaveLoadDesc g_saveScriptEngine[] = {

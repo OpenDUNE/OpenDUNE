@@ -30,9 +30,9 @@ typedef uint16 (*ScriptFunction)(ScriptEngine *script);
  * A ScriptInfo as stored in the memory.
  */
 typedef struct ScriptInfo {
-	csip32 text;                                            /*!< ?? Pointer to TEXT section of the scripts. */
-	csip32 start;                                           /*!< Pointer to the begin of the scripts. */
-	csip32 offsets;                                         /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
+	uint16 *text;                                           /*!< Pointer to TEXT section of the scripts. */
+	uint16 *start;                                          /*!< Pointer to the begin of the scripts. */
+	uint16 *offsets;                                        /*!< Pointer to an array of offsets of where to start with a script for a typeID. */
 	uint16 offsetsCount;                                    /*!< Number of words in offsets array. */
 	uint16 startCount;                                      /*!< Number of words in start. */
 	const ScriptFunction *functions;                        /*!< Pointer to an array of functions pointers which scripts with this scriptInfo can call. */
@@ -58,7 +58,7 @@ extern bool Script_IsLoaded(ScriptEngine *script);
 extern bool Script_Run(ScriptEngine *script);
 extern void Script_LoadAsSubroutine(ScriptEngine *script, uint8 typeID);
 extern void Script_ClearInfo(ScriptInfo *scriptInfo);
-extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, csip32 data);
+extern uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const ScriptFunction *functions, uint8 *data);
 
 /* General Script Functions */
 extern uint16 Script_General_Delay(ScriptEngine *script);

@@ -49,7 +49,7 @@ bool Team_Load(FILE *fp, uint32 length)
 		length -= SaveLoad_GetLength(s_saveTeam);
 
 		tl.script.scriptInfo = g_scriptTeam;
-		tl.script.script = (uint16 *)emu_get_memorycsip(g_scriptTeam->start) + (size_t)tl.script.script;
+		tl.script.script = g_scriptTeam->start + (size_t)tl.script.script;
 
 		/* Get the Structure from the pool */
 		t = Team_Get_ByIndex(tl.index);

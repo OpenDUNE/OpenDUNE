@@ -112,16 +112,13 @@ uint16 Script_General_NoOperation(ScriptEngine *script)
  */
 uint16 Script_General_DisplayText(ScriptEngine *script)
 {
-	csip32 text;
+	char *text;
 	uint16 offset;
 
-	text = script->scriptInfo->text;
+	offset = BETOH16(*(script->scriptInfo->text + script->stack[script->stackPointer]));
+	text = (char *)script->scriptInfo->text + offset;
 
-	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
-
-	text.s.ip += offset;
-
-	GUI_DisplayText((char *)emu_get_memorycsip(text), 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
+	GUI_DisplayText(text, 0, script->stack[script->stackPointer + 1], script->stack[script->stackPointer + 2], script->stack[script->stackPointer + 3]);
 
 	return 0;
 }
@@ -150,16 +147,13 @@ uint16 Script_General_RandomRange(ScriptEngine *script)
  */
 uint16 Script_General_Unknown0184(ScriptEngine *script)
 {
-	csip32 text;
+	char *text;
 	uint16 offset;
 
-	text = script->scriptInfo->text;
+	offset = BETOH16(*(script->scriptInfo->text + script->stack[script->stackPointer]));
+	text = (char *)script->scriptInfo->text + offset;
 
-	offset = BETOH16(emu_get_memory16(text.s.cs, text.s.ip, script->stack[script->stackPointer] * 2));
-
-	text.s.ip += offset;
-
-	return GUI_DisplayModalMessage((char *)emu_get_memorycsip(text), 0xFFFF);
+	return GUI_DisplayModalMessage(text, 0xFFFF);
 }
 
 /**

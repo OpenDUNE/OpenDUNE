@@ -390,7 +390,7 @@ void Sprites_LoadTiles()
 
 	Sprites_Init_DataBlock(g_global->variable_3952);
 
-	length = Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, memBlock);
+	length = Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(memBlock));
 
 	memBlockFree  -= length;
 	memBlock.s.ip += length;
