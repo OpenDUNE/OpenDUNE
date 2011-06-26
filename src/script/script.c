@@ -4,8 +4,8 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "types.h"
-#include "libemu.h"
 #include "../global.h"
 #include "../os/endian.h"
 
@@ -455,9 +455,9 @@ void Script_ClearInfo(ScriptInfo *scriptInfo)
 	if (scriptInfo == NULL) return;
 
 	if (scriptInfo->isAllocated != 0) {
-		Tools_Free(emu_Global_GetCSIP(scriptInfo->text));
-		Tools_Free(emu_Global_GetCSIP(scriptInfo->offsets));
-		Tools_Free(emu_Global_GetCSIP(scriptInfo->start));
+		free(scriptInfo->text);
+		free(scriptInfo->offsets);
+		free(scriptInfo->start);
 	}
 
 	scriptInfo->text = NULL;
@@ -501,7 +501,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 			scriptInfo->text = (uint16 *)data;
 			data += length;
 		} else {
-			scriptInfo->text = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
+			scriptInfo->text = calloc(1, length);
 		}
 
 		ChunkFile_Read(index, HTOBE32('TEXT'), scriptInfo->text, length);
@@ -520,7 +520,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 		scriptInfo->offsets = (uint16 *)data;
 		data += length;
 	} else {
-		scriptInfo->offsets = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
+		scriptInfo->offsets = calloc(1, length);
 	}
 
 	scriptInfo->offsetsCount = (length >> 1) & 0xFFFF;
@@ -543,7 +543,7 @@ uint16 Script_LoadFromFile(const char *filename, ScriptInfo *scriptInfo, const S
 		scriptInfo->start = (uint16 *)data;
 		data += length;
 	} else {
-		scriptInfo->start = (uint16 *)emu_get_memorycsip(Tools_Malloc(length, 0x30));
+		scriptInfo->start = calloc(1, length);
 	}
 
 	scriptInfo->startCount = (length >> 1) & 0xFFFF;
