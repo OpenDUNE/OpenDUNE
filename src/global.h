@@ -162,7 +162,6 @@ MSVC_PACKED_BEGIN
  *  This is the layout of that data.
  */
 typedef struct Scenario {
-	/* 0000(2)   */ PACK uint16 savegameVersion;            /*!< Version of the savegame, stored in the Scenario data. */
 	/* 0002(2)   */ PACK uint16 score;                      /*!< Base score. */
 	/* 0004(2)   */ PACK uint16 winFlags;                   /*!< BASIC/WinFlags. */
 	/* 0006(2)   */ PACK uint16 loseFlags;                  /*!< BASIC/LoseFlags. */
@@ -181,7 +180,7 @@ typedef struct Scenario {
 	/* 0046()    */ PACK Reinformcent reinforcement[16];    /*!< Reinforcement information. */
 } GCC_PACKED Scenario;
 MSVC_PACKED_END
-assert_compile(sizeof(Scenario) == 0xE6);
+assert_compile(sizeof(Scenario) == 0xE4);
 
 MSVC_PACKED_BEGIN
 /**
@@ -1514,7 +1513,8 @@ typedef struct GlobalData {
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
 	/* 8BEA(275) */ PACK uint8 removed_8BEA[25][11];        /*!< REMOVED - Items for the factory window. */
-	/* 8CFD(230) */ PACK Scenario scenario;                 /*!< Scenario data */
+	/* 8CFD(2)   */ PACK uint16 removed_8CFD9;              /*!< REMOVED - Savegame version. */
+	/* 8CFF(228) */ PACK Scenario scenario;                 /*!< Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
 	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
 	/* 8FE5(512) */ PACK uint8  variable_8FE5[512];         /*!< ?? array size is unsure. */

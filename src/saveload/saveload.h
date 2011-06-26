@@ -127,6 +127,7 @@ extern bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object);
 extern bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object);
 
 extern bool House_Load(FILE *fp, uint32 length);
+extern bool House_LoadOld(FILE *fp, uint32 length);
 extern bool House_Save(FILE *fp);
 
 #endif /* SAVELOAD_SAVELOAD_H */

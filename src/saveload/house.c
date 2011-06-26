@@ -74,6 +74,33 @@ bool House_Load(FILE *fp, uint32 length)
 }
 
 /**
+ * Load all Houses from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+bool House_LoadOld(FILE *fp, uint32 length)
+{
+	while (length > 0) {
+		House hl;
+
+		/* Read the next House from disk */
+		if (!SaveLoad_Load(s_saveHouse, fp, &hl)) return false;
+
+		/* See if it is a human house */
+		if (hl.flags.s.human) {
+			g_playerHouseID = hl.index;
+			break;
+		}
+
+		length -= SaveLoad_GetLength(s_saveHouse);
+	}
+	if (length == 0) return false;
+
+	return true;
+}
+
+/**
  * Save all Houses to a file.
  * @param fp The file to save to.
  * @return True if and only if all bytes were written successful.

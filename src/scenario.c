@@ -534,7 +534,6 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	File_ReadBlockFile(filename, readBuffer, g_global->readBufferSize);
 
 	memset(&g_global->scenario, 0, sizeof(Scenario));
-	g_global->scenario.savegameVersion = 0x290;
 
 	Scenario_Load_General();
 	Sprites_LoadTiles();

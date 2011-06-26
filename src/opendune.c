@@ -2475,8 +2475,6 @@ void Game_Prepare()
 
 	Sprites_Load(0, 7, g_sprites);
 
-	g_global->scenario.savegameVersion = 0x290;
-
 	Map_SetSelection(g_global->selectionPosition);
 
 	if (g_global->variable_38E8 != 0xFFFF) {

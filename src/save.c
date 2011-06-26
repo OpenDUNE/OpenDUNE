@@ -30,10 +30,11 @@
  */
 static bool Save_Info(FILE *fp)
 {
+	static uint16 savegameVersion = 0x0290;
 	uint8 selectionType = (uint8)g_global->selectionType;
 	uint8 structureActiveType = (uint8)g_structureActiveType;
 
-	g_global->scenario.savegameVersion = 0x0290;
+	if (fwrite(&savegameVersion, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (fwrite(&g_global->scenario, sizeof(Scenario), 1, fp) != 1) return false;
 	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;

@@ -112,6 +112,42 @@ static bool Load_Info(FILE *fp, uint32 length)
 	return true;
 }
 
+/**
+ * Load all kinds of important info from a file.
+ * @param fp The file to load from.
+ * @param length The length of the data chunk.
+ * @return True if and only if all bytes were read successful.
+ */
+static bool Load_InfoOld(FILE *fp, uint32 length)
+{
+	VARIABLE_NOT_USED(length);
+
+	/* Skip a few bytes, and go to the scenarioID / campaignID */
+	fseek(fp, 250, SEEK_CUR);
+
+	if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
+	if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
+
+	return true;
+}
+
+static uint32 Load_FindChunk(FILE *fp, uint32 chunk)
+{
+	uint32 header;
+	uint32 length;
+
+	while (fread(&header, sizeof(uint32), 1, fp) == 1) {
+		if (fread(&length, sizeof(uint32), 1, fp) != 1) return 0;
+		length = BETOH32(length);
+		if (BETOH32(header) != chunk) {
+			fseek(fp, length + (length & 1), SEEK_CUR);
+			continue;
+		}
+		return length;
+	}
+	return 0;
+}
+
 static bool Load_Main(FILE *fp)
 {
 	uint32 position;
@@ -137,71 +173,33 @@ static bool Load_Main(FILE *fp)
 
 	/* Find the 'INFO' chunk, as it contains the savegame version */
 	version = 0;
-	while (fread(&header, sizeof(uint32), 1, fp) == 1) {
-		if (fread(&length, sizeof(uint32), 1, fp) != 1) return false;
-		length = BETOH32(length);
-		if (BETOH32(header) != 'INFO') {
-			fseek(fp, length + (length & 1), SEEK_CUR);
-			continue;
-		}
+	length = Load_FindChunk(fp, 'INFO');
+	if (length == 0) return false;
 
-		if (fread(&version, sizeof(uint16), 1, fp) != 1) return false;
-		break;
-	}
+	/* Read the savegame version */
+	if (fread(&version, sizeof(uint16), 1, fp) != 1) return false;
+	length -= 2;
 	if (version == 0) return false;
 
 	if (version != 0x0290) {
-		/* Skip a few bytes, and go to the scenarioID / campaignID */
-		fseek(fp, sizeof(Scenario) - sizeof(uint16), SEEK_CUR);
-		fseek(fp, 22, SEEK_CUR);
+		/* Get the scenarioID / campaignID */
+		if (!Load_InfoOld(fp, length)) return false;
 
-		if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-		if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
 		g_gameMode = GM_RESTART;
 
 		/* Find the 'PLYR' chunk */
 		fseek(fp, position, SEEK_SET);
-		while (fread(&header, sizeof(uint32), 1, fp) == 1) {
-			if (fread(&length, sizeof(uint32), 1, fp) != 1) return false;
-			length = BETOH32(length);
-			if (BETOH32(header) != 'PLYR') {
-				fseek(fp, length + (length & 1), SEEK_CUR);
-				continue;
-			}
-
-			break;
-		}
-		if (BETOH32(header) != 'PLYR') return false;
+		length = Load_FindChunk(fp, 'PLYR');
+		if (length == 0) return false;
 
 		/* Find the human player */
-		while (length > 0) {
-			uint16 index;
-			uint16 flags;
-
-			/* Read the index of the House */
-			if (fread(&index, sizeof(uint16), 1, fp) != 1) return false;
-			/* Skip next 2 bytes */
-			fseek(fp, 2, SEEK_CUR);
-			/* Read the flags value */
-			if (fread(&flags, sizeof(uint16), 1, fp) != 1) return false;
-			/* We are looking for a human controlled House */
-			if ((flags & 0x0002) == 0) {
-				/* Go to the next House (which was of size 0x42) */
-				fseek(fp, 0x42 - 6, SEEK_CUR);
-				length -= 0x42;
-				continue;
-			}
-
-			g_playerHouseID = index;
-			break;
-		}
-		if (length == 0) return false;
+		if (!House_LoadOld(fp, length)) return false;
 
 		GUI_DisplayModalMessage(String_Get_ByIndex(0x152), 0xFFFF); /* "Warning: Original saved games are incompatable with the new version.  The battle will be restarted." */
 
 		return true;
 	}
-	fseek(fp, -2, SEEK_CUR);
+
 	/* Load the 'INFO' chunk'. It has to be the first chunk loaded */
 	if (!Load_Info(fp, length)) return false;
 
