@@ -83,15 +83,6 @@ typedef enum SaveLoadType {
  */
 #define SLD_SLD(c, m, s) { offset(c, m), SLDT_SLD, SLDT_SLD, 1, s }
 
-/**
- * A struct array.
- * @param c The class.
- * @param m The member of the class.
- * @param s The SaveLoadDesc.
- * @param n The number of elements.
- */
-#define SLD_SLD2(c, m, s, n) { offset(c, m), SLDT_SLD, SLDT_SLD, n, s }
-
 /** Indicates end of array. */
 #define SLD_END { 0, SLDT_NULL, SLDT_NULL, 0, NULL }
 

@@ -27,7 +27,7 @@ uint32 SaveLoad_GetLength(const SaveLoadDesc *sld)
 			case SLDT_INT8:   length += sizeof(int8)   * sld->count;  break;
 			case SLDT_INT16:  length += sizeof(int16)  * sld->count;  break;
 			case SLDT_INT32:  length += sizeof(int32)  * sld->count;  break;
-			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld) * sld->count; break;
+			case SLDT_SLD:    length += SaveLoad_GetLength(sld->sld); break;
 		}
 		sld++;
 	}
@@ -136,7 +136,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 
 				case SLDT_SLD:
-					SaveLoad_Load(sld->sld, fp, (((uint8 *)object) + sld->offset) + i);
+					SaveLoad_Load(sld->sld, fp, ((uint8 *)object) + sld->offset);
 					break;
 			}
 		}
@@ -193,7 +193,7 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 
 
 				case SLDT_SLD:
-					SaveLoad_Save(sld->sld, fp, (((uint8 *)object) + sld->offset) + i);
+					SaveLoad_Save(sld->sld, fp, ((uint8 *)object) + sld->offset);
 					break;
 			}
 
