@@ -52,6 +52,11 @@ GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
 
+static const struct_19A8 *_var_805E = NULL; /*!< Unknown animation data. */
+static const struct_19F0 *_var_805A = NULL; /*!< Unknown animation data. */
+static const struct_1A2C *_var_8056 = NULL; /*!< Unknown animation data. */
+static uint16 _var_8062 = 0xFFFF; /*!< Unknown animation data. */
+
 /**
  * Initialize the video driver.
  */
@@ -192,15 +197,15 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
-static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, csip32 arg10)
+static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_19F0 *arg_805A, uint16 arg_8062, const struct_1A2C *arg_8056)
 {
 	uint8 i;
 	uint8 colors[16];
 
-	g_global->variable_805E = arg06;
-	g_global->variable_805A = arg0A;
-	g_global->variable_8056 = arg10;
-	g_global->variable_8062 = arg0E;
+	_var_805E = arg_805E;
+	_var_805A = arg_805A;
+	_var_8056 = arg_8056;
+	_var_8062 = arg_8062;
 	g_global->variable_6C6C = 0;
 	g_global->variable_8072 = 0;
 	g_global->animationSoundEffect = 0;
@@ -223,7 +228,7 @@ static void GameLoop_PrepareAnimation(csip32 arg06, csip32 arg0A, uint16 arg0E, 
 
 	GUI_Screen_SetActive(0);
 
-	memcpy(g_global->variable_809A, &g_palette1[(144 + (((uint16 *)emu_get_memorycsip(g_global->variable_805A))[1] * 16)) * 3], 6 * 3);
+	memcpy(g_global->variable_809A, &g_palette1[(144 + _var_805A->variable_0002 * 16) * 3], 6 * 3);
 
 	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
@@ -272,7 +277,7 @@ static void GameLoop_FinishAnimation()
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
 {
-	struct_1A2C *var8056 = &((struct_1A2C *)emu_get_memorycsip(g_global->variable_8056))[g_global->animationSoundEffect];
+	const struct_1A2C *var8056 = _var_8056 + g_global->animationSoundEffect;
 
 	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
 
@@ -311,7 +316,7 @@ static void GameLoop_DrawText(char *string, uint16 top)
 
 static void GameLoop_B4ED_07B6(uint8 animation)
 {
-	struct_19F0 *var805A;
+	const struct_19F0 *var805A;
 	uint8 i;
 	uint8 colors[16];
 
@@ -319,7 +324,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GameLoop_PlaySoundEffect(animation);
 
-	var805A = &((struct_19F0 *)emu_get_memorycsip(g_global->variable_805A))[g_global->variable_8072];
+	var805A = _var_805A + g_global->variable_8072;
 
 	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) return;
 
@@ -360,8 +365,8 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_config.voiceDrv != 0 && g_global->variable_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
-		uint16 loc06 = g_global->variable_8062 + g_global->variable_8072;
+	if (g_config.voiceDrv != 0 && _var_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
+		uint16 loc06 = _var_8062 + g_global->variable_8072;
 
 		Sound_Unknown0363(loc06);
 
@@ -446,10 +451,10 @@ static uint16 GameLoop_B4ED_0AA5(bool arg06)
 
 static void GameLoop_PlayAnimation()
 {
-	struct_19A8 *var805E;
+	const struct_19A8 *var805E;
 	uint8 animation = 0;
 
-	var805E = (struct_19A8 *)emu_get_memorycsip(g_global->variable_805E);
+	var805E = _var_805E;
 
 	while (var805E->variable_0004 != 0) {
 		uint16 loc04;
@@ -630,7 +635,9 @@ static void GameLoop_PlayAnimation()
 
 static void GameLoop_LevelEndAnimation()
 {
-	csip32 args[3];
+	const struct_19A8 *arg_805E;
+	const struct_19F0 *arg_805A;
+	const struct_1A2C *arg_8056;
 
 	Input_History_Clear();
 
@@ -638,21 +645,21 @@ static void GameLoop_LevelEndAnimation()
 		case 4:
 			switch (g_playerHouseID) {
 				case HOUSE_ATREIDES:
-					args[0].csip = 0x353F1C1A;
-					args[1].csip = 0x353F1C42;
-					args[2].csip = 0x353F1C88;
+					arg_805E = g_global->variable_1C1A;
+					arg_805A = g_global->variable_1C42;
+					arg_8056 = g_global->variable_1C88;
 					break;
 
 				case HOUSE_ORDOS:
-					args[0].csip = 0x353F1CEE;
-					args[1].csip = 0x353F1D16;
-					args[2].csip = 0x353F1D5C;
+					arg_805E = g_global->variable_1CEE;
+					arg_805A = g_global->variable_1D16;
+					arg_8056 = g_global->variable_1D5C;
 					break;
 
 				case HOUSE_HARKONNEN:
-					args[0].csip = 0x353F1DC2;
-					args[1].csip = 0x353F1DEA;
-					args[2].csip = 0x353F1E30;
+					arg_805E = g_global->variable_1DC2;
+					arg_805A = g_global->variable_1DEA;
+					arg_8056 = g_global->variable_1E30;
 					break;
 
 				default: return;
@@ -661,21 +668,21 @@ static void GameLoop_LevelEndAnimation()
 		case 8:
 			switch (g_playerHouseID) {
 				case HOUSE_ATREIDES:
-					args[0].csip = 0x353F1C8D;
-					args[1].csip = 0x353F1CAD;
-					args[2].csip = 0x353F1CE9;
+					arg_805E = g_global->variable_1C8D;
+					arg_805A = g_global->variable_1CAD;
+					arg_8056 = g_global->variable_1CE9;
 					break;
 
 				case HOUSE_ORDOS:
-					args[0].csip = 0x353F1D61;
-					args[1].csip = 0x353F1D81;
-					args[2].csip = 0x353F1DBD;
+					arg_805E = g_global->variable_1D61;
+					arg_805A = g_global->variable_1D81;
+					arg_8056 = g_global->variable_1DBD;
 					break;
 
 				case HOUSE_HARKONNEN:
-					args[0].csip = 0x353F1E35;
-					args[1].csip = 0x353F1E55;
-					args[2].csip = 0x353F1E9B;
+					arg_805E = g_global->variable_1E35;
+					arg_805A = g_global->variable_1E55;
+					arg_8056 = g_global->variable_1E9B;
 					break;
 
 				default: return;
@@ -685,7 +692,7 @@ static void GameLoop_LevelEndAnimation()
 		default: return;
 	}
 
-	GameLoop_PrepareAnimation(args[0], args[1], 0xFFFF, args[2]);
+	GameLoop_PrepareAnimation(arg_805E, arg_805A, 0xFFFF, arg_8056);
 
 	Music_Play(0x22);
 
@@ -1080,7 +1087,9 @@ static void GameLoop_GameCredits()
  */
 static void GameLoop_GameEndAnimation()
 {
-	csip32 args[3];
+	const struct_19A8 *arg_805E;
+	const struct_19F0 *arg_805A;
+	const struct_1A2C *arg_8056;
 	uint16 sound;
 
 	String_Load("INTRO");
@@ -1089,29 +1098,29 @@ static void GameLoop_GameEndAnimation()
 
 	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
-			args[0].csip = 0x353F1A31;
-			args[1].csip = 0x353F1A91;
-			args[2].csip = 0x353F1AE1;
+			arg_805E = g_global->variable_1A31;
+			arg_805A = g_global->variable_1A91;
+			arg_8056 = g_global->variable_1AE1;
 			sound = 0x1E;
 			break;
 
 		case HOUSE_ORDOS:
-			args[0].csip = 0x353F1AFB;
-			args[1].csip = 0x353F1B6B;
-			args[2].csip = 0x353F1BB1;
+			arg_805E = g_global->variable_1AFB;
+			arg_805A = g_global->variable_1B6B;
+			arg_8056 = g_global->variable_1BB1;
 			sound = 0x20;
 			break;
 
 		default:
 		case HOUSE_ATREIDES:
-			args[0].csip = 0x353F19A8;
-			args[1].csip = 0x353F19F0;
-			args[2].csip = 0x353F1A2C;
+			arg_805E = g_global->variable_19A8;
+			arg_805A = g_global->variable_19F0;
+			arg_8056 = g_global->variable_1A2C;
 			sound = 0x1F;
 			break;
 	}
 
-	GameLoop_PrepareAnimation(args[0], args[1], 0xFFFF, args[2]);
+	GameLoop_PrepareAnimation(arg_805E, arg_805A, 0xFFFF, arg_8056);
 
 	Music_Play(sound);
 
@@ -1342,15 +1351,13 @@ static void GameLoop_GameIntroAnimation()
 	Gameloop_Logos();
 
 	if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) {
-		csip32 args[3];
+		const struct_19A8 *arg_805E = (const struct_19A8 *)&emu_get_memory8(0x2C41, 0x0000, 0x0);
+		const struct_19F0 *arg_805A = (const struct_19F0 *)&emu_get_memory8(0x2C4D, 0x0000, 0x0);
+		const struct_1A2C *arg_8056 = (const struct_1A2C *)&emu_get_memory8(0x2C5B, 0x0000, 0x0);
 
 		Music_Play(0x1B);
 
-		args[0].csip = 0x2C410000;
-		args[1].csip = 0x2C4D0000;
-		args[2].csip = 0x2C5B0000;
-
-		GameLoop_PrepareAnimation(args[0], args[1], 0x4A, args[2]);
+		GameLoop_PrepareAnimation(arg_805E, arg_805A, 0x4A, arg_8056);
 
 		GameLoop_PlayAnimation();
 

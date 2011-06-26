@@ -1446,10 +1446,10 @@ typedef struct GlobalData {
 	/* 8051()    */ PACK uint8   unknown_8051;
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
 	/* 8054(2)   */ PACK uint16 variable_8054;              /*!< ?? */
-	/* 8056(4)   */ PACK csip32 variable_8056;              /*!< ?? */
-	/* 805A(4)   */ PACK csip32 variable_805A;              /*!< ?? */
-	/* 805E(4)   */ PACK csip32 variable_805E;              /*!< ?? */
-	/* 8062(2)   */ PACK uint16 variable_8062;              /*!< ?? */
+	/* 8056(4)   */ PACK csip32  removed_8056;              /*!< REMOVED ?? */
+	/* 805A(4)   */ PACK csip32  removed_805A;              /*!< REMOVED ?? */
+	/* 805E(4)   */ PACK csip32  removed_805E;              /*!< REMOVED ?? */
+	/* 8062(2)   */ PACK uint16  removed_8062;              /*!< REMOVED ?? */
 	/* 8064(4)   */ PACK csip32 removed_8064;               /*!< REMOVED - Pointer to content of intro.fnt. */
 	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
 	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
