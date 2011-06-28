@@ -1439,15 +1439,15 @@ typedef struct GlobalData {
 	/* 81ED(4)   */ PACK csip32 removed_81ED;               /*!< REMOVED - ?? */
 	/* 81F1(40)  */ PACK uint16 variable_81F1[5][4];        /*!< ?? */
 	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
-	/* 821A(1)   */ PACK uint8  variable_821A;              /*!< ?? */
-	/* 821B(1)   */ PACK uint8  variable_821B;              /*!< ?? */
-	/* 821C(1)   */ PACK uint8  variable_821C;              /*!< ?? */
-	/* 821D(4)   */ PACK csip32 variable_821D;              /*!< ?? Pointer to an element in an array of uint8. */
-	/* 8221(4)   */ PACK csip32 variable_8221;              /*!< ?? Pointer to an element in an array of uint8. */
+	/* 821A(1)   */ PACK uint8   removed_821A;              /*!< REMOVED ?? (never used) */
+	/* 821B(1)   */ PACK uint8   removed_821B;              /*!< REMOVED ?? (never used) */
+	/* 821C(1)   */ PACK uint8   removed_821C;              /*!< REMOVED ?? (never used) */
+	/* 821D(4)   */ PACK csip32  removed_821D;              /*!< REMOVED ?? Pointer to an element in an array of uint8. (never used) */
+	/* 8221(4)   */ PACK csip32  removed_8221;              /*!< REMOVED ?? Pointer to an element in an array of uint8. (never used) */
 	/* 8225(2)   */ PACK uint16  removed_8225;              /*!< REMOVED (never read) */
-	/* 8227(2)   */ PACK uint16 variable_8227;              /*!< ?? */
-	/* 8229(2)   */ PACK uint16 variable_8229;              /*!< ?? */
-	/* 822B(1)   */ PACK uint8  variable_822B;              /*!< ?? */
+	/* 8227(2)   */ PACK uint16  removed_8227;              /*!< REMOVED ?? (never used) */
+	/* 8229(2)   */ PACK uint16  removed_8229;              /*!< REMOVED ?? (never used) */
+	/* 822B(1)   */ PACK uint8   removed_822B;              /*!< REMOVED ?? (never used) */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
@@ -1486,17 +1486,17 @@ typedef struct GlobalData {
 	/* 9846(4)   */ PACK csip32 removed_9846;               /*!< REMOVED - Stored interrupt vector for overlay handler. */
 	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */
 	/* 9858(14)  */ PACK char   variable_9858[14];          /*!< Buffer to store a filename */
-	/* 9866(2)   */ PACK uint16 variable_9866;              /*!< ?? */
-	/* 9868(2)   */ PACK uint16 variable_9868;              /*!< ?? */
+	/* 9866(2)   */ PACK uint16  removed_9866;              /*!< REMOVED ?? (never used) */
+	/* 9868(2)   */ PACK uint16  removed_9868;              /*!< REMOVED ?? (never used) */
 	/* 986A()    */ PACK uint8   unknown_986A[0x0002];
 	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
-	/* 986D(1)   */ PACK uint8  variable_986D;              /*!< ?? */
-	/* 986E(1)   */ PACK uint8  variable_986E;              /*!< ?? */
+	/* 986D(1)   */ PACK uint8   removed_986D;              /*!< REMOVED ?? (never used) */
+	/* 986E(1)   */ PACK uint8   removed_986E;              /*!< REMOVED ?? (never used) */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8  removed_9882[0x005F];       /*!< REMOVED - Current directory. */
 	/* 98E1(10)  */ PACK DuneCfg removed_98E1;              /*!< REMOVED - Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
-	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< ?? */
+	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< REMOVED ?? (never used) */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
 	/* 98F1(2)   */ PACK uint16 removed_98F1;               /*!< REMOVED - If screen memory has to go in highermemory (0x40 or 0x0). Always 0x0. */
 	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];
