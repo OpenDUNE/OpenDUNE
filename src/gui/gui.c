@@ -90,6 +90,8 @@ static uint8 _factoryWindowGraymapTbl[256];
 static Widget _factoryWindowWidgets[13];
 static uint8 _factoryWindowWsaBuffer[64000];
 static uint8 *g_palette1_houseColour;
+static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
+static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 
 /**
  * Draw a wired rectangle.
@@ -2853,13 +2855,12 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 
 static void GUI_StrategicMap_AnimateArrows()
 {
-	if (g_global->variable_81B6 >= g_global->variable_76AC) return;
+	if (_arrowAnimationTimeout >= g_global->variable_76AC) return;
+	_arrowAnimationTimeout = g_global->variable_76AC + 7;
 
-	g_global->variable_81B6 = g_global->variable_76AC + 7;
+	_arrowAnimationState = (_arrowAnimationState + 1) % 4;
 
-	g_global->variable_2B10 = (g_global->variable_2B10 + 1) % 4;
-
-	memcpy(g_palette1 + 251 * 3, g_global->variable_81BA + g_global->variable_2B10 * 3, 4 * 3);
+	memcpy(g_palette1 + 251 * 3, g_global->variable_81BA + _arrowAnimationState * 3, 4 * 3);
 
 	GFX_SetPalette(g_palette1);
 }

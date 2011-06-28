@@ -588,7 +588,7 @@ typedef struct GlobalData {
 	/* 2AF4(2)   */ PACK uint32 variable_2AF4;              /*!< ?? */
 	/* 2AF8(20)  */ PACK char   string_2AF8[5][4];          /*!< "ENG\0FRE\0GER\0ITA\0SPA" NULL terminated. */
 	/* 2B0C(4)   */ PACK uint32 variable_2B0C;              /*!< ?? */
-	/* 2B10(2)   */ PACK uint16 variable_2B10;              /*!< ?? */
+	/* 2B10(2)   */ PACK uint16  removed_2B10;              /*!< REMOVED - scenario select arrow animation state. */
 	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */
 	/* 2B1E(11)  */ PACK char   string_2B1E[11];            /*!< "PLANET.CPS" NULL terminated. */
 	/* 2B29(12)  */ PACK char   string_2B29[12];            /*!< "DUNEMAP.CPS" NULL terminated. */
@@ -1425,7 +1425,7 @@ typedef struct GlobalData {
 	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];
 	/* 81B4(2)   */ PACK uint16 strategicMapFastForward;    /*!< ?? */
-	/* 81B6(4)   */ PACK uint32 variable_81B6;              /*!< ?? */
+	/* 81B6(4)   */ PACK uint32  removed_81B6;              /*!< REMOVED - Arrow animation timeout */
 	/* 81BA(12)  */ PACK uint8  variable_81BA[12];          /*!< ?? */
 	/* 81C6(12)  */ PACK uint8  variable_81C6[12];          /*!< ?? */
 	/* 81D2(4)   */ PACK csip32 regions;                    /*!< Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */
