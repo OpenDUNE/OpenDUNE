@@ -3242,7 +3242,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	memcpy(loc316, g_palette1 + (251 * 3), 12);
 	memcpy(g_global->variable_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 12);
-	memcpy(g_global->variable_81C6, g_global->variable_81BA, 12);
+	memcpy(g_global->variable_81BA + 12, g_global->variable_81BA, 12);
 
 	GUI_Screen_Copy(x, y, 0, 152, 7, 40, 4, 4);
 	GUI_Screen_Copy(x, y, 33, 152, 7, 40, 4, 4);
