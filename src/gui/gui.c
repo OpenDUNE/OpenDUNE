@@ -2950,7 +2950,7 @@ static int16 GUI_StrategicMap_ClickedRegion()
 	key = Input_WaitForValidInput();
 	if (key != 0xC6 && key != 0xC7) return 0;
 
-	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_global->mouseClickY - 24) * 304 + g_global->mouseClickX - 8];
+	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
 }
 
 static bool GUI_StrategicMap_FastForwardToggleWithESC()
@@ -4079,7 +4079,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	g_mouseY = y;
 
 	if (g_global->mouseInstalled) {
-		if (g_global->doubleWidth) x *= 2;
+		if (g_doubleWidth) x *= 2;
 
 		emu_ax = 4;
 		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();

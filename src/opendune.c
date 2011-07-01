@@ -1533,8 +1533,8 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 
 		case 0x41: /* MOUSE LEFT BUTTON */
 		case 0x42: /* MOUSE RIGHT BUTTON */
-			if (GameLoop_B4E6_00E0(g_global->mouseClickX, g_global->mouseClickY, minX, minY, maxX, maxY)) {
-				current = (g_global->mouseClickY - minY) / lineHeight;
+			if (GameLoop_B4E6_00E0(g_mouseClickX, g_mouseClickY, minX, minY, maxX, maxY)) {
+				current = (g_mouseClickY - minY) / lineHeight;
 				result = current;
 			}
 			break;

@@ -6,10 +6,14 @@
 #define MOUSE_H
 
 extern uint16 g_mouseLock;
+extern bool   g_doubleWidth;
 extern uint16 g_mouseX;
 extern uint16 g_mouseY;
 extern uint16 g_mousePrevX;
 extern uint16 g_mousePrevY;
+extern uint8  g_prevButtonState;
+extern uint16 g_mouseClickX;
+extern uint16 g_mouseClickY;
 
 extern void Mouse_Init();
 extern void Mouse_CallbackClear();

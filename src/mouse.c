@@ -19,11 +19,16 @@
 #include "interrupt.h"
 
 uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
+bool   g_doubleWidth;        /*!< If non-zero, the X-position given by mouse is twice the real value. */
 
 uint16 g_mouseX;             /*!< Current X position of the mouse. */
 uint16 g_mouseY;             /*!< Current Y position of the mouse. */
 uint16 g_mousePrevX;         /*!< Previous X position of the mouse. */
 uint16 g_mousePrevY;         /*!< Previous Y position of the mouse. */
+
+uint8  g_prevButtonState;    /*!< Previous mouse button state. */
+uint16 g_mouseClickX;        /*!< X position of last mouse click. */
+uint16 g_mouseClickY;        /*!< Y position of last mouse click. */
 
 /**
  * Initialize the mouse driver.
@@ -40,7 +45,7 @@ void Mouse_Init()
 	g_global->mouseRegionRight = SCREEN_WIDTH - 1;
 	g_global->mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_global->doubleWidth = true;
+	g_doubleWidth = true;
 	g_global->mouseInstalled = true;
 	g_global->variable_7097 = true;
 
@@ -101,8 +106,8 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	g_global->mouseRegionBottom = bottom;
 
 	if (g_global->mouseInstalled) {
-		emu_cx = left  * (g_global->doubleWidth ? 2 : 1);
-		emu_dx = right * (g_global->doubleWidth ? 2 : 1);
+		emu_cx = left  * (g_doubleWidth ? 2 : 1);
+		emu_dx = right * (g_doubleWidth ? 2 : 1);
 		emu_ax = 0x7;
 		emu_syscall(0x33); /* Mouse Interrupt */
 
@@ -197,7 +202,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				if (File_Read(g_global->mouseFileID, &g_global->variable_7019, 2) == 2) {
 					g_mouseX = g_global->variable_7017;
 					g_mouseY = g_global->variable_7019;
-					g_global->prevButtonState = 0;
+					g_prevButtonState = 0;
 
 					GUI_Mouse_Hide_Safe();
 					GUI_Mouse_Show_Safe();
@@ -230,10 +235,10 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
 	newButtonState &= 0xFF;
 
 	result = 0x2D;
-	change = newButtonState ^ g_global->prevButtonState;
+	change = newButtonState ^ g_prevButtonState;
 	if (change == 0) return result;
 
-	g_global->prevButtonState = newButtonState & 0xFF;
+	g_prevButtonState = newButtonState & 0xFF;
 
 	if ((change & 0x2) != 0) {
 		result = 0x42;

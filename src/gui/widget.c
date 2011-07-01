@@ -272,8 +272,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		}
 
 		if (buttonStateChange != 0) {
-			mouseX = g_global->mouseClickX;
-			mouseY = g_global->mouseClickY;
+			mouseX = g_mouseClickX;
+			mouseY = g_mouseClickY;
 		}
 
 		/* Disable when release, enable when click */

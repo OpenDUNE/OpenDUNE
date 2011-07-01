@@ -1277,9 +1277,9 @@ typedef struct GlobalData {
 	/* 705E(2)   */ PACK uint16 removed_mouseLock;          /*!< REMOVED - Lock for when handling mouse movement. */
 	/* 7060(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
 	/* 7062(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
-	/* 7064(2)   */ PACK uint16 mouseClickX;                /*!< X position of last mouse click. */
-	/* 7066(2)   */ PACK uint16 mouseClickY;                /*!< Y position of last mouse click. */
-	/* 7068(2)   */ PACK uint16 doubleWidth;                /*!< If non-zero, the X-position given by mouse is twice the real value. */
+	/* 7064(2)   */ PACK uint16 removed_mouseClickX;        /*!< REMOVED - X position of last mouse click. */
+	/* 7066(2)   */ PACK uint16 removed_mouseClickY;        /*!< REMOVED - Y position of last mouse click. */
+	/* 7068(2)   */ PACK uint16 removed_doubleWidth;        /*!< REMOVED - If non-zero, the X-position given by mouse is twice the real value. */
 	/* 706A(2)   */ PACK uint16 mouseHiddenDepth;           /*!< If zero, mouse is drawn. Otherwise, it is not (also no movement is registered). */
 	/* 706C(2)   */ PACK uint16 mouseRegionLeft;            /*!< Region mouse can be in - left position. */
 	/* 706E(2)   */ PACK uint16 mouseRegionRight;           /*!< Region mouse can be in - right position. */
@@ -1303,7 +1303,7 @@ typedef struct GlobalData {
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
-	/* 7099(1)   */ PACK uint8  prevButtonState;            /*!< Previous mouse button state. */
+	/* 7099(1)   */ PACK uint8  removed_prevButtonState;    /*!< REMOVED - Previous mouse button state. */
 	/* 709A(2)   */ PACK uint16 mouseSpriteLeft;            /*!< Left of the mouse sprite region (which is copied in the buffer). */
 	/* 709C(2)   */ PACK uint16 mouseSpriteTop;             /*!< Top of the mouse sprite region (which is copied in the buffer). */
 	/* 709E(2)   */ PACK uint16 mouseSpriteWidth;           /*!< Width of the mouse sprite region (which is copied in the buffer). */

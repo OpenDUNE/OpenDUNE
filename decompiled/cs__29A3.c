@@ -43,7 +43,7 @@ void emu_Mouse_EventHandler()
 	if (g_global->variable_7097 == 0 && g_global->variable_7098 != 0 &&
 			(g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_global->ignoreInput == 0)) {
 
-		if (g_global->doubleWidth == 0x1) mouseX /= 2;
+		if (g_doubleWidth) mouseX /= 2;
 
 		if (mouseX > SCREEN_WIDTH - 1) mouseX = SCREEN_WIDTH - 1;
 

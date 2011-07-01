@@ -170,10 +170,10 @@ uint16 Input_ReadHistory(uint16 index)
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			g_global->mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
+			g_mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_global->mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
+			g_mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
 			g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
@@ -292,15 +292,15 @@ void Input_HandleInput(uint16 input)
 
 		if (((s_input_local->flags & 0x2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
 			input = 0x41 | (input & 0xFF00);
-			g_global->prevButtonState |= 1;
+			g_prevButtonState |= 1;
 			if ((input & 0x800) != 0) {
-				g_global->prevButtonState &= 0xFE; /* ~1 */
+				g_prevButtonState &= 0xFE; /* ~1 */
 			}
 		} else if (value == 0x68) {
 			input = 0x42 | (input & 0xFF00);
-			g_global->prevButtonState |= 2;
+			g_prevButtonState |= 2;
 			if ((input & 0x800) != 0) {
-				g_global->prevButtonState &= 0xFD; /* ~2 */
+				g_prevButtonState &= 0xFD; /* ~2 */
 			}
 		} else if ((input & 0x800) == 0 && (value == 0x61 || (value >= 0x5B && value <= 0x67 &&
 				(value <= 0x5D || value >= 0x65 || value == 0x60 || value == 0x62)))) {
@@ -441,8 +441,8 @@ void Input_ReadInputFromFile()
 
 		value -= 0x41;
 		if ((value & 0xFF) <= 0x2) {
-			g_global->prevButtonState &= ~(1 << (value & 0xFF));
-			g_global->prevButtonState |= (((value & 0x800) >> (3+8)) ^ 1) << (value & 0xFF);
+			g_prevButtonState &= ~(1 << (value & 0xFF));
+			g_prevButtonState |= (((value & 0x800) >> (3+8)) ^ 1) << (value & 0xFF);
 		}
 	}
 

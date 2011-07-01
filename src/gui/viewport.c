@@ -95,8 +95,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (click) {
-		x = g_global->mouseClickX;
-		y = g_global->mouseClickY;
+		x = g_mouseClickX;
+		y = g_mouseClickY;
 	} else {
 		x = g_mouseX;
 		y = g_mouseY;
