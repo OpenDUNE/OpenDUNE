@@ -15,6 +15,7 @@
 
 #include "codec/format80.h"
 #include "file.h"
+#include "mouse.h"
 #include "gfx.h"
 #include "house.h"
 #include "ini.h"
@@ -506,9 +507,9 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	if (sprite == NULL || g_global->variable_7097 != 0) return;
 
-	while (g_global->mouseLock != 0) sleep(0);
+	while (g_mouseLock != 0) sleep(0);
 
-	g_global->mouseLock++;
+	g_mouseLock++;
 
 	GUI_Mouse_Hide();
 
@@ -579,7 +580,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	GUI_Mouse_Show();
 
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 static void InitRegions()

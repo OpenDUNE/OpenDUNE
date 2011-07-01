@@ -1274,9 +1274,9 @@ typedef struct GlobalData {
 	/* 701D()    */ PACK uint8   unknown_701D[0x003D];
 	/* 705A(2)   */ PACK uint16 variable_705A;              /*!< ?? */
 	/* 705C(2)   */ PACK uint16 variable_705C;              /*!< ?? */
-	/* 705E(2)   */ PACK uint16 mouseLock;                  /*!< Lock for when handling mouse movement. */
-	/* 7060(2)   */ PACK uint16 mouseX;                     /*!< Current X position of the mouse. */
-	/* 7062(2)   */ PACK uint16 mouseY;                     /*!< Current Y position of the mouse. */
+	/* 705E(2)   */ PACK uint16 removed_mouseLock;          /*!< REMOVED - Lock for when handling mouse movement. */
+	/* 7060(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
+	/* 7062(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
 	/* 7064(2)   */ PACK uint16 mouseClickX;                /*!< X position of last mouse click. */
 	/* 7066(2)   */ PACK uint16 mouseClickY;                /*!< Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16 doubleWidth;                /*!< If non-zero, the X-position given by mouse is twice the real value. */
@@ -1289,8 +1289,8 @@ typedef struct GlobalData {
 	/* 7076(2)   */ PACK uint16 mouseWidth;                 /*!< The width of the mouse cursor. */
 	/* 7078(2)   */ PACK uint16 mouseSpriteHotspotX;        /*!< The X position of the hotspot of the mouse cursor (where you really click). */
 	/* 707A(2)   */ PACK uint16 mouseSpriteHotspotY;        /*!< The T position of the hotspot of the mouse cursor (where you really click). */
-	/* 707C(2)   */ PACK uint16 mousePrevX;                 /*!< Previous X position. */
-	/* 707E(2)   */ PACK uint16 mousePrevY;                 /*!< Previous Y position. */
+	/* 707C(2)   */ PACK uint16 removed_mousePrevX;         /*!< REMOVED - Previous X position. */
+	/* 707E(2)   */ PACK uint16 removed_mousePrevY;         /*!< REMOVED - Previous Y position. */
 	/* 7080(2)   */ PACK uint16 regionFlags;                /*!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. 0x00FF - Countdown to showing. */
 	/* 7082(2)   */ PACK uint16 regionMinX;                 /*!< Region - minimum value for X position. */
 	/* 7084(2)   */ PACK uint16 regionMinY;                 /*!< Region - minimum value for Y position. */

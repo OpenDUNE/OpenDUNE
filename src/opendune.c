@@ -1505,9 +1505,9 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	}
 
 	if (g_global->variable_7097 == 0) {
-		uint16 y = g_global->mouseY;
+		uint16 y = g_mouseY;
 
-		if (GameLoop_B4E6_00E0(g_global->mouseX, y, minX, minY, maxX, maxY)) {
+		if (GameLoop_B4E6_00E0(g_mouseX, y, minX, minY, maxX, maxY)) {
 			current = (y - minY) / lineHeight;
 		}
 	}

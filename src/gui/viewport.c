@@ -11,6 +11,7 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../mouse.h"
 #include "../house.h"
 #include "../map.h"
 #include "../pool/house.h"
@@ -97,8 +98,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		x = g_global->mouseClickX;
 		y = g_global->mouseClickY;
 	} else {
-		x = g_global->mouseX;
-		y = g_global->mouseY;
+		x = g_mouseX;
+		y = g_mouseY;
 	}
 
 	if (w->index == 43) {

@@ -52,7 +52,7 @@ void emu_Mouse_EventHandler()
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
 
-		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_global->mouseLock == 0x0) {
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0) {
 			Mouse_HandleMovement(newButtonState, mouseX, mouseY);
 		}
 	}

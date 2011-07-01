@@ -271,8 +271,8 @@ void Input_HandleInput(uint16 input)
 	emu_cli();
 
 	s_input_local->flags = g_global->inputFlags;
-	s_input_local->mouseX = g_global->mouseX;
-	s_input_local->mouseY = g_global->mouseY;
+	s_input_local->mouseX = g_mouseX;
+	s_input_local->mouseY = g_mouseY;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
@@ -347,9 +347,9 @@ void Input_HandleInput(uint16 input)
 				if ((int16)s_input_local->mouseY > SCREEN_HEIGHT - 1) s_input_local->mouseY = SCREEN_HEIGHT - 1;
 			}
 
-			g_global->mouseX = s_input_local->mouseX;
-			g_global->mouseY = s_input_local->mouseY;
-			if (g_global->mouseLock == 0) {
+			g_mouseX = s_input_local->mouseX;
+			g_mouseY = s_input_local->mouseY;
+			if (g_mouseLock == 0) {
 				GUI_Mouse_Hide();
 				GUI_Mouse_Show();
 			}
@@ -448,8 +448,8 @@ void Input_ReadInputFromFile()
 
 	File_Read(g_global->mouseFileID, s_input_local->variable_063B[1], 4); /* Read failure not translated. */
 
-	g_global->mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
-	value = g_global->mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
+	g_mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
+	value = g_mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
 
 	Mouse_HandleMovementIfMoved(value);
 	g_global->variable_76A6 = 0x0;

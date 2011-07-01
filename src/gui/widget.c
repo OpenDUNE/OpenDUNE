@@ -14,6 +14,7 @@
 #include "mentat.h"
 #include "gui.h"
 #include "../input/input.h"
+#include "../mouse.h"
 #include "../gfx.h"
 #include "../house.h"
 #include "../string.h"
@@ -249,8 +250,8 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		}
 	}
 
-	mouseX = g_global->mouseX;
-	mouseY = g_global->mouseY;
+	mouseX = g_mouseX;
+	mouseY = g_mouseY;
 
 	buttonState = 0;
 	if (g_global->variable_7097 == 0) {

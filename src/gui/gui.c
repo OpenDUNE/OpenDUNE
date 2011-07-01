@@ -3819,8 +3819,8 @@ void GUI_Mouse_Show()
 	if (g_global->variable_7097) return;
 	if (g_global->mouseHiddenDepth == 0 || --g_global->mouseHiddenDepth != 0) return;
 
-	left = g_global->mouseX - g_global->mouseSpriteHotspotX;
-	top = g_global->mouseY - g_global->mouseSpriteHotspotY;
+	left = g_mouseX - g_global->mouseSpriteHotspotX;
+	top  = g_mouseY - g_global->mouseSpriteHotspotY;
 
 	g_global->mouseSpriteLeft = (left < 0) ? 0 : (left >> 3);
 	g_global->mouseSpriteTop = (top < 0) ? 0 : top;
@@ -3863,17 +3863,17 @@ void GUI_Mouse_Hide()
  */
 void GUI_Mouse_Hide_Safe()
 {
-	while (g_global->mouseLock != 0) sleep(0);
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0);
+	g_mouseLock++;
 
 	if (g_global->variable_7097) {
-		g_global->mouseLock--;
+		g_mouseLock--;
 		return;
 	}
 
 	GUI_Mouse_Hide();
 
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 /**
@@ -3882,17 +3882,17 @@ void GUI_Mouse_Hide_Safe()
  */
 void GUI_Mouse_Show_Safe()
 {
-	while (g_global->mouseLock != 0) sleep(0);
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0);
+	g_mouseLock++;
 
 	if (g_global->variable_7097) {
-		g_global->mouseLock--;
+		g_mouseLock--;
 		return;
 	}
 
 	GUI_Mouse_Show();
 
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 /**
@@ -3903,13 +3903,13 @@ void GUI_Mouse_Show_InRegion()
 {
 	uint8 counter;
 
-	while (g_global->mouseLock != 0) sleep(0);
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0);
+	g_mouseLock++;
 
 	counter = g_global->regionFlags & 0xFF;
 	if (counter == 0 || --counter != 0) {
 		g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (counter & 0xFF);
-		g_global->mouseLock--;
+		g_mouseLock--;
 		return;
 	}
 
@@ -3918,7 +3918,7 @@ void GUI_Mouse_Show_InRegion()
 	}
 
 	g_global->regionFlags = 0;
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 /**
@@ -3943,8 +3943,8 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	maxy = bottom + g_global->mouseSpriteHotspotY;
 	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
-	while (g_global->mouseLock != 0) sleep(0);
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0);
+	g_mouseLock++;
 
 	if (g_global->regionFlags == 0) {
 		g_global->regionMinX = minx;
@@ -3959,10 +3959,10 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	if (maxy < g_global->regionMaxY) g_global->regionMaxY = maxy;
 
 	if ((g_global->regionFlags & 0x4000) == 0 &&
-	     g_global->mouseX >= g_global->regionMinX &&
-	     g_global->mouseX <= g_global->regionMaxX &&
-	     g_global->mouseY >= g_global->regionMinY &&
-	     g_global->mouseY <= g_global->regionMaxY) {
+	     g_mouseX >= g_global->regionMinX &&
+	     g_mouseX <= g_global->regionMaxX &&
+	     g_mouseY >= g_global->regionMinY &&
+	     g_mouseY <= g_global->regionMaxY) {
 		GUI_Mouse_Hide();
 
 		g_global->regionFlags |= 0x4000;
@@ -3971,7 +3971,7 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	g_global->regionFlags |= 0x8000;
 	g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (((g_global->regionFlags & 0x00FF) + 1) & 0xFF);
 
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 /**
@@ -4067,16 +4067,16 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	emu_cx = x;
 	emu_dx = y;
 
-	while (g_global->mouseLock != 0) sleep(0);
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0);
+	g_mouseLock++;
 
 	if (x < g_global->mouseRegionLeft)   x = g_global->mouseRegionLeft;
 	if (x > g_global->mouseRegionRight)  x = g_global->mouseRegionRight;
 	if (y < g_global->mouseRegionTop)    y = g_global->mouseRegionTop;
 	if (y > g_global->mouseRegionBottom) y = g_global->mouseRegionBottom;
 
-	g_global->mouseX = x;
-	g_global->mouseY = y;
+	g_mouseX = x;
+	g_mouseY = y;
 
 	if (g_global->mouseInstalled) {
 		if (g_global->doubleWidth) x *= 2;
@@ -4085,15 +4085,12 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();
 	}
 
-	if (g_global->mouseX == g_global->mousePrevX && g_global->mouseY == g_global->mousePrevY) {
-		g_global->mouseLock--;
-		return;
+	if (g_mouseX != g_mousePrevX || g_mouseY != g_mousePrevY) {
+		GUI_Mouse_Hide();
+		GUI_Mouse_Show();
 	}
 
-	GUI_Mouse_Hide();
-	GUI_Mouse_Show();
-
-	g_global->mouseLock--;
+	g_mouseLock--;
 }
 
 /**

@@ -179,10 +179,10 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 		scrollbar->pressed = 0;
 
 		if (w->width > w->height) {
-			positionCurrent = g_global->mouseX;
+			positionCurrent = g_mouseX;
 			positionBegin = positionX + scrollbar->position + 1;
 		} else {
-			positionCurrent = g_global->mouseY;
+			positionCurrent = g_mouseY;
 			positionBegin = positionY + scrollbar->position + 1;
 		}
 
@@ -201,10 +201,10 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 
 		if (w->width > w->height) {
 			size = w->width - 2 - scrollbar->size;
-			position = g_global->mouseX - scrollbar->pressedPosition - positionX - 1;
+			position = g_mouseX - scrollbar->pressedPosition - positionX - 1;
 		} else {
 			size = w->height - 2 - scrollbar->size;
-			position = g_global->mouseY - scrollbar->pressedPosition - positionY - 1;
+			position = g_mouseY - scrollbar->pressedPosition - positionY - 1;
 		}
 
 		if (position < 0) {

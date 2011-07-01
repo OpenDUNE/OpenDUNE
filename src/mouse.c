@@ -18,6 +18,13 @@
 #include "input/input.h"
 #include "interrupt.h"
 
+uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
+
+uint16 g_mouseX;             /*!< Current X position of the mouse. */
+uint16 g_mouseY;             /*!< Current Y position of the mouse. */
+uint16 g_mousePrevX;         /*!< Previous X position of the mouse. */
+uint16 g_mousePrevY;         /*!< Previous Y position of the mouse. */
+
 /**
  * Initialize the mouse driver.
  */
@@ -26,8 +33,8 @@ void Mouse_Init()
 	emu_ax = 0x3533;
 	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_DOS();
 
-	g_global->mouseX = SCREEN_WIDTH / 2;
-	g_global->mouseY = SCREEN_HEIGHT / 2;
+	g_mouseX = SCREEN_WIDTH / 2;
+	g_mouseY = SCREEN_HEIGHT / 2;
 	g_global->mouseHiddenDepth = 1;
 	g_global->regionFlags = 0;
 	g_global->mouseRegionRight = SCREEN_WIDTH - 1;
@@ -119,15 +126,15 @@ uint16 Mouse_InsideRegion(int16 left, int16 top, int16 right, int16 bottom)
 	int16 mx, my;
 	uint16 inside;
 
-	while (g_global->mouseLock != 0) sleep(0); /* Spin-lock. */
-	g_global->mouseLock++;
+	while (g_mouseLock != 0) sleep(0); /* Spin-lock. */
+	g_mouseLock++;
 
-	mx = g_global->mouseX;
-	my = g_global->mouseY;
+	mx = g_mouseX;
+	my = g_mouseY;
 
 	inside = (mx < left || mx > right || my < top || my > bottom) ? 0 : 1;
 
-	g_global->mouseLock--;
+	g_mouseLock--;
 	return inside;
 }
 
@@ -188,8 +195,8 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			if ((g_global->variable_7013 >= 0x41 && g_global->variable_7013 <= 0x44) || g_global->variable_7013 == 0x2D) {
 				File_Read(g_global->mouseFileID, &g_global->variable_7017, 2);
 				if (File_Read(g_global->mouseFileID, &g_global->variable_7019, 2) == 2) {
-					g_global->mouseX = g_global->variable_7017;
-					g_global->mouseY = g_global->variable_7019;
+					g_mouseX = g_global->variable_7017;
+					g_mouseY = g_global->variable_7019;
 					g_global->prevButtonState = 0;
 
 					GUI_Mouse_Hide_Safe();
@@ -250,18 +257,18 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
  * @param mouseX New mouse X coordinate.
  * @param mouseY New mouse Y coordinate.
  */
-void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
+static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 {
-	if (g_global->mouseHiddenDepth == 0 && (g_global->mousePrevX != mouseX || g_global->mousePrevY != mouseY)) {
+	if (g_global->mouseHiddenDepth == 0 && (g_mousePrevX != mouseX || g_mousePrevY != mouseY)) {
 
 		if ((g_global->regionFlags & 0xC000) != 0xC000) {
 			GUI_Mouse_Hide();
 
 			if ((g_global->regionFlags & 0x8000) == 0) {
 				GUI_Mouse_Show();
-				g_global->mousePrevX = mouseX;
-				g_global->mousePrevY = mouseY;
-				g_global->mouseLock = 0;
+				g_mousePrevX = mouseX;
+				g_mousePrevY = mouseY;
+				g_mouseLock = 0;
 				return;
 			}
 		}
@@ -274,9 +281,9 @@ void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 		}
 	}
 
-	g_global->mousePrevX = mouseX;
-	g_global->mousePrevY = mouseY;
-	g_global->mouseLock = 0;
+	g_mousePrevX = mouseX;
+	g_mousePrevY = mouseY;
+	g_mouseLock = 0;
 }
 
 /**
@@ -287,7 +294,7 @@ void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
  */
 void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 {
-	g_global->mouseLock = 0x1;
+	g_mouseLock = 0x1;
 
 	if (g_global->snapX != 0) {
 		mouseX = ((mouseX - g_global->snapGreyX) / g_global->snapX) * g_global->snapX + g_global->snapGreyX;
@@ -296,8 +303,8 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 		mouseY = ((mouseY - g_global->snapGreyY) / g_global->snapY) * g_global->snapY + g_global->snapGreyY;
 	}
 
-	g_global->mouseX = mouseX;
-	g_global->mouseY = mouseY;
+	g_mouseX = mouseX;
+	g_mouseY = mouseY;
 	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_global->mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
 		Input_HandleInput(Mouse_CheckButtons(newButtonState));
 	}
@@ -311,9 +318,9 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
  */
 void Mouse_HandleMovementIfMoved(uint16 newButtonState)
 {
-	if (abs((int16)g_global->mouseX - (int16)g_global->mousePrevX) >= 1 ||
-			abs((int16)g_global->mouseY - (int16)g_global->mousePrevY) >= 1) {
-		Mouse_HandleMovement(newButtonState, g_global->mouseX, g_global->mouseY);
+	if (abs((int16)g_mouseX - (int16)g_mousePrevX) >= 1 ||
+			abs((int16)g_mouseY - (int16)g_mousePrevY) >= 1) {
+		Mouse_HandleMovement(newButtonState, g_mouseX, g_mouseY);
 	}
 }
 
