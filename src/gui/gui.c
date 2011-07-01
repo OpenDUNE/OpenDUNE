@@ -3897,7 +3897,7 @@ void GUI_Mouse_Show_Safe()
 
 /**
  * Show the mouse if needed. Should be used in combination with
- *  GUI_Mouse_Hide_InRegion().
+ *  #GUI_Mouse_Hide_InRegion().
  */
 void GUI_Mouse_Show_InRegion()
 {
@@ -3906,24 +3906,24 @@ void GUI_Mouse_Show_InRegion()
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
-	counter = g_global->regionFlags & 0xFF;
+	counter = g_regionFlags & 0xFF;
 	if (counter == 0 || --counter != 0) {
-		g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (counter & 0xFF);
+		g_regionFlags = (g_regionFlags & 0xFF00) | (counter & 0xFF);
 		g_mouseLock--;
 		return;
 	}
 
-	if ((g_global->regionFlags & 0x4000) != 0) {
+	if ((g_regionFlags & 0x4000) != 0) {
 		GUI_Mouse_Show();
 	}
 
-	g_global->regionFlags = 0;
+	g_regionFlags = 0;
 	g_mouseLock--;
 }
 
 /**
  * Hide the mouse when it is inside the specified region. Works with
- *  GUI_Mouse_Show_InRegion(), which only calls GUI_Mouse_Show() when
+ *  #GUI_Mouse_Show_InRegion(), which only calls #GUI_Mouse_Show() when
  *  mouse was really hidden.
  */
 void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
@@ -3946,30 +3946,30 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
-	if (g_global->regionFlags == 0) {
-		g_global->regionMinX = minx;
-		g_global->regionMinY = miny;
-		g_global->regionMaxX = maxx;
-		g_global->regionMaxY = maxy;
+	if (g_regionFlags == 0) {
+		g_regionMinX = minx;
+		g_regionMinY = miny;
+		g_regionMaxX = maxx;
+		g_regionMaxY = maxy;
 	}
 
-	if (minx > g_global->regionMinX) g_global->regionMinX = minx;
-	if (miny > g_global->regionMinY) g_global->regionMinY = miny;
-	if (maxx < g_global->regionMaxX) g_global->regionMaxX = maxx;
-	if (maxy < g_global->regionMaxY) g_global->regionMaxY = maxy;
+	if (minx > g_regionMinX) g_regionMinX = minx;
+	if (miny > g_regionMinY) g_regionMinY = miny;
+	if (maxx < g_regionMaxX) g_regionMaxX = maxx;
+	if (maxy < g_regionMaxY) g_regionMaxY = maxy;
 
-	if ((g_global->regionFlags & 0x4000) == 0 &&
-	     g_mouseX >= g_global->regionMinX &&
-	     g_mouseX <= g_global->regionMaxX &&
-	     g_mouseY >= g_global->regionMinY &&
-	     g_mouseY <= g_global->regionMaxY) {
+	if ((g_regionFlags & 0x4000) == 0 &&
+	     g_mouseX >= g_regionMinX &&
+	     g_mouseX <= g_regionMaxX &&
+	     g_mouseY >= g_regionMinY &&
+	     g_mouseY <= g_regionMaxY) {
 		GUI_Mouse_Hide();
 
-		g_global->regionFlags |= 0x4000;
+		g_regionFlags |= 0x4000;
 	}
 
-	g_global->regionFlags |= 0x8000;
-	g_global->regionFlags = (g_global->regionFlags & 0xFF00) | (((g_global->regionFlags & 0x00FF) + 1) & 0xFF);
+	g_regionFlags |= 0x8000;
+	g_regionFlags = (g_regionFlags & 0xFF00) | (((g_regionFlags & 0x00FF) + 1) & 0xFF);
 
 	g_mouseLock--;
 }
@@ -3985,7 +3985,7 @@ void GUI_Mouse_Show_InWidget()
 
 /**
  * Hide the mouse when it is inside the specified widget. Works with
- *  GUI_Mouse_Show_InWidget(), which only calls GUI_Mouse_Show() when
+ *  #GUI_Mouse_Show_InWidget(), which only calls #GUI_Mouse_Show() when
  *  mouse was really hidden.
  * @param widgetIndex The index of the widget to check on.
  */
@@ -4070,10 +4070,10 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
-	if (x < g_global->mouseRegionLeft)   x = g_global->mouseRegionLeft;
-	if (x > g_global->mouseRegionRight)  x = g_global->mouseRegionRight;
-	if (y < g_global->mouseRegionTop)    y = g_global->mouseRegionTop;
-	if (y > g_global->mouseRegionBottom) y = g_global->mouseRegionBottom;
+	if (x < g_mouseRegionLeft)   x = g_mouseRegionLeft;
+	if (x > g_mouseRegionRight)  x = g_mouseRegionRight;
+	if (y < g_mouseRegionTop)    y = g_mouseRegionTop;
+	if (y > g_mouseRegionBottom) y = g_mouseRegionBottom;
 
 	g_mouseX = x;
 	g_mouseY = y;

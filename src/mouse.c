@@ -30,6 +30,18 @@ uint8  g_prevButtonState;    /*!< Previous mouse button state. */
 uint16 g_mouseClickX;        /*!< X position of last mouse click. */
 uint16 g_mouseClickY;        /*!< Y position of last mouse click. */
 
+uint16 g_regionFlags;        /*!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. 0x00FF - Countdown to showing. */
+uint16 g_mouseRegionLeft;    /*!< Region mouse can be in - left position. */
+uint16 g_mouseRegionRight;   /*!< Region mouse can be in - right position. */
+uint16 g_mouseRegionTop;     /*!< Region mouse can be in - top position. */
+uint16 g_mouseRegionBottom;  /*!< Region mouse can be in - bottom position. */
+
+uint16 g_regionMinX;         /*!< Region - minimum value for X position. */
+uint16 g_regionMinY;         /*!< Region - minimum value for Y position. */
+uint16 g_regionMaxX;         /*!< Region - maximum value for X position. */
+uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
+
+
 /**
  * Initialize the mouse driver.
  */
@@ -41,9 +53,9 @@ void Mouse_Init()
 	g_mouseX = SCREEN_WIDTH / 2;
 	g_mouseY = SCREEN_HEIGHT / 2;
 	g_global->mouseHiddenDepth = 1;
-	g_global->regionFlags = 0;
-	g_global->mouseRegionRight = SCREEN_WIDTH - 1;
-	g_global->mouseRegionBottom = SCREEN_HEIGHT - 1;
+	g_regionFlags = 0;
+	g_mouseRegionRight = SCREEN_WIDTH - 1;
+	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
 	g_doubleWidth = true;
 	g_global->mouseInstalled = true;
@@ -100,10 +112,10 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	top    = clamp(top,    0, SCREEN_HEIGHT - 1);
 	bottom = clamp(bottom, 0, SCREEN_HEIGHT - 1);
 
-	g_global->mouseRegionLeft   = left;
-	g_global->mouseRegionRight  = right;
-	g_global->mouseRegionTop    = top;
-	g_global->mouseRegionBottom = bottom;
+	g_mouseRegionLeft   = left;
+	g_mouseRegionRight  = right;
+	g_mouseRegionTop    = top;
+	g_mouseRegionBottom = bottom;
 
 	if (g_global->mouseInstalled) {
 		emu_cx = left  * (g_doubleWidth ? 2 : 1);
@@ -266,10 +278,10 @@ static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 {
 	if (g_global->mouseHiddenDepth == 0 && (g_mousePrevX != mouseX || g_mousePrevY != mouseY)) {
 
-		if ((g_global->regionFlags & 0xC000) != 0xC000) {
+		if ((g_regionFlags & 0xC000) != 0xC000) {
 			GUI_Mouse_Hide();
 
-			if ((g_global->regionFlags & 0x8000) == 0) {
+			if ((g_regionFlags & 0x8000) == 0) {
 				GUI_Mouse_Show();
 				g_mousePrevX = mouseX;
 				g_mousePrevY = mouseY;
@@ -278,9 +290,9 @@ static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 			}
 		}
 
-		if (mouseX >= g_global->regionMinX && mouseX <= g_global->regionMaxX &&
-				mouseY >= g_global->regionMinY && mouseY <= g_global->regionMaxY) {
-			g_global->regionFlags |= 0x4000;
+		if (mouseX >= g_regionMinX && mouseX <= g_regionMaxX &&
+				mouseY >= g_regionMinY && mouseY <= g_regionMaxY) {
+			g_regionFlags |= 0x4000;
 		} else {
 			GUI_Mouse_Show();
 		}

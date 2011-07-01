@@ -1281,21 +1281,21 @@ typedef struct GlobalData {
 	/* 7066(2)   */ PACK uint16 removed_mouseClickY;        /*!< REMOVED - Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16 removed_doubleWidth;        /*!< REMOVED - If non-zero, the X-position given by mouse is twice the real value. */
 	/* 706A(2)   */ PACK uint16 mouseHiddenDepth;           /*!< If zero, mouse is drawn. Otherwise, it is not (also no movement is registered). */
-	/* 706C(2)   */ PACK uint16 mouseRegionLeft;            /*!< Region mouse can be in - left position. */
-	/* 706E(2)   */ PACK uint16 mouseRegionRight;           /*!< Region mouse can be in - right position. */
-	/* 7070(2)   */ PACK uint16 mouseRegionTop;             /*!< Region mouse can be in - top position. */
-	/* 7072(2)   */ PACK uint16 mouseRegionBottom;          /*!< Region mouse can be in - bottom position. */
+	/* 706C(2)   */ PACK uint16 removed_mouseRegionLeft;    /*!< REMOVED - Region mouse can be in - left position. */
+	/* 706E(2)   */ PACK uint16 removed_mouseRegionRight;   /*!< REMOVED - Region mouse can be in - right position. */
+	/* 7070(2)   */ PACK uint16 removed_mouseRegionTop;     /*!< REMOVED - Region mouse can be in - top position. */
+	/* 7072(2)   */ PACK uint16 removed_mouseRegionBottom;  /*!< REMOVED - Region mouse can be in - bottom position. */
 	/* 7074(2)   */ PACK uint16 mouseHeight;                /*!< The height of the mouse cursor. */
 	/* 7076(2)   */ PACK uint16 mouseWidth;                 /*!< The width of the mouse cursor. */
 	/* 7078(2)   */ PACK uint16 mouseSpriteHotspotX;        /*!< The X position of the hotspot of the mouse cursor (where you really click). */
 	/* 707A(2)   */ PACK uint16 mouseSpriteHotspotY;        /*!< The T position of the hotspot of the mouse cursor (where you really click). */
 	/* 707C(2)   */ PACK uint16 removed_mousePrevX;         /*!< REMOVED - Previous X position. */
 	/* 707E(2)   */ PACK uint16 removed_mousePrevY;         /*!< REMOVED - Previous Y position. */
-	/* 7080(2)   */ PACK uint16 regionFlags;                /*!< Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. 0x00FF - Countdown to showing. */
-	/* 7082(2)   */ PACK uint16 regionMinX;                 /*!< Region - minimum value for X position. */
-	/* 7084(2)   */ PACK uint16 regionMinY;                 /*!< Region - minimum value for Y position. */
-	/* 7086(2)   */ PACK uint16 regionMaxX;                 /*!< Region - maximum value for X position. */
-	/* 7088(2)   */ PACK uint16 regionMaxY;                 /*!< Region - maximum value for Y position. */
+	/* 7080(2)   */ PACK uint16 removed_regionFlags;        /*!< REMOVED - Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. 0x00FF - Countdown to showing. */
+	/* 7082(2)   */ PACK uint16 removed_regionMinX;         /*!< REMOVED - Region - minimum value for X position. */
+	/* 7084(2)   */ PACK uint16 removed_regionMinY;         /*!< REMOVED - Region - minimum value for Y position. */
+	/* 7086(2)   */ PACK uint16 removed_regionMaxX;         /*!< REMOVED - Region - maximum value for X position. */
+	/* 7088(2)   */ PACK uint16 removed_regionMaxY;         /*!< REMOVED - Region - maximum value for Y position. */
 	/* 708A(4)   */ PACK csip32 mouseSpriteBuffer;          /*!< The temporary buffer with what was behind the mouse cursor. */
 	/* 708E(4)   */ PACK csip32 mouseSprite;                /*!< The sprite for the mouse cursor. */
 	/* 7092(2)   */ PACK uint16 variable_7092;              /*!< Parameter 1 for proc at 66B4. */

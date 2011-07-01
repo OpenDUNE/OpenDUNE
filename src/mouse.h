@@ -14,6 +14,15 @@ extern uint16 g_mousePrevY;
 extern uint8  g_prevButtonState;
 extern uint16 g_mouseClickX;
 extern uint16 g_mouseClickY;
+extern uint16 g_regionFlags;
+extern uint16 g_mouseRegionLeft;
+extern uint16 g_mouseRegionRight;
+extern uint16 g_mouseRegionTop;
+extern uint16 g_mouseRegionBottom;
+extern uint16 g_regionMinX;
+extern uint16 g_regionMinY;
+extern uint16 g_regionMaxX;
+extern uint16 g_regionMaxY;
 
 extern void Mouse_Init();
 extern void Mouse_CallbackClear();
