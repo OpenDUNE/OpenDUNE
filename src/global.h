@@ -1317,39 +1317,39 @@ typedef struct GlobalData {
 	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
 	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? Also a tick counter, but counts down. */
 	/* 76B8(2)   */ PACK uint16 timersActive;               /*!< Which timers are active. 1 = variable_76AC, 2 = tickGlobal. */
-	/* 76BA(2)   */ PACK uint16 variable_76BA;              /*!< ?? */
+	/* 76BA(2)   */ PACK uint16  removed_76BA;              /*!< REMOVED - ?? (never used) */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
-	/* 76BD(256) */ PACK uint8  characterClass[256];        /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. */
+	/* 76BD(256) */ PACK uint8  removed_characterClass[256];        /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. (never used) */
 	/* 77BD()    */ PACK uint8   unknown_77BD[0x0001];
-	/* 77BE(4)   */ PACK csip32 variable_77BE;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
-	/* 77C2(4)   */ PACK csip32 variable_77C2;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
-	/* 77C6(4)   */ PACK csip32 variable_77C6;              /*!< ?? CS:IP of a function called in emu_Terminate(). */
-	/* 77CA(400) */ PACK uint8  variable_77CA[20][20];      /*!< ?? File infos. */
-	/* 795A(2)   */ PACK uint16 variable_795A;              /*!< Size of array of opened file status. */
-	/* 795C(40)  */ PACK uint16 variable_795C[20];          /*!< Array of opened file status (0 when closed). */
-	/* 7984(2)   */ PACK uint16 variable_7984;              /*!< ?? Something related to files. */
-	/* 7986(2)   */ PACK uint16 variable_7986;              /*!< ?? Something related to files. */
-	/* 7988(2)   */ PACK uint16 variable_7988;              /*!< ?? Something related to files. */
-	/* 798A(1)   */ PACK uint8  variable_798A;              /*!< ?? Something related to files. */
+	/* 77BE(4)   */ PACK csip32  removed_77BE;              /*!< REMOVED - ?? CS:IP of a function called in emu_Terminate(). (never used) */
+	/* 77C2(4)   */ PACK csip32  removed_77C2;              /*!< REMOVED - ?? CS:IP of a function called in emu_Terminate(). (never used) */
+	/* 77C6(4)   */ PACK csip32  removed_77C6;              /*!< REMOVED - ?? CS:IP of a function called in emu_Terminate(). (never used) */
+	/* 77CA(400) */ PACK uint8   removed_77CA[20][20];      /*!< REMOVED - ?? File infos. (never used) */
+	/* 795A(2)   */ PACK uint16  removed_795A;              /*!< REMOVED - Size of array of opened file status. (never used) */
+	/* 795C(40)  */ PACK uint16  removed_795C[20];          /*!< REMOVED - Array of opened file status (0 when closed). (never used) */
+	/* 7984(2)   */ PACK uint16  removed_7984;              /*!< REMOVED - ?? Something related to files. (never used) */
+	/* 7986(2)   */ PACK uint16  removed_7986;              /*!< REMOVED - ?? Something related to files. (never used) */
+	/* 7988(2)   */ PACK uint16  removed_7988;              /*!< REMOVED - ?? Something related to files. (never used) */
+	/* 798A(1)   */ PACK uint8   removed_798A;              /*!< REMOVED - ?? Something related to files. (never used) */
 	/* 798B()    */ PACK uint8   unknown_798B[0x0059];
-	/* 79E4(4)   */ PACK uint32 variable_79E4;              /*!< ?? */
+	/* 79E4(4)   */ PACK uint32  removed_79E4;              /*!< REMOVED - ?? (never used) */
 	/* 79E8()    */ PACK uint8   unknown_79E8[0x0080];
-	/* 7A68(2)   */ PACK uint16 variable_7A68;              /*!< ?? Something related to required memory. */
+	/* 7A68(2)   */ PACK uint16  removed_7A68;              /*!< REMOVED - ?? Something related to required memory. (never used) */
 	/* 7A6A(7)   */ PACK char   string_7A6A[7];             /*!< "(null)" NULL terminated. */
 	/* 7A71()    */ PACK uint8   unknown_7A71[0x0061];
 	/* 7AD2(50)  */ PACK char   string_7AD2[50];            /*!< "print scanf : floating point formats not linked\r\n" NULL terminated. */
-	/* 7B04(2)   */ PACK uint16 variable_7B04;              /*!< ?? */
-	/* 7B06(2)   */ PACK uint16 variable_7B06;              /*!< ?? */
-	/* 7B08(4)   */ PACK csip32 variable_7B08;              /*!< ?? */
-	/* 7B0C(4)   */ PACK csip32 variable_7B0C;              /*!< ?? */
-	/* 7B10(2)   */ PACK uint16 variable_7B10;              /*!< ?? */
-	/* 7B12(2)   */ PACK uint16 variable_7B12;              /*!< ?? */
-	/* 7B14(2)   */ PACK uint16 variable_7B14;              /*!< ?? */
-	/* 7B16(2)   */ PACK uint16 variable_7B16;              /*!< ?? */
-	/* 7B18(2)   */ PACK uint16 variable_7B18;              /*!< ?? */
+	/* 7B04(2)   */ PACK uint16  removed_7B04;              /*!< REMOVED - ?? (never used) */
+	/* 7B06(2)   */ PACK uint16  removed_7B06;              /*!< REMOVED - ?? (never used) */
+	/* 7B08(4)   */ PACK csip32  removed_7B08;              /*!< REMOVED - ?? (never used) */
+	/* 7B0C(4)   */ PACK csip32  removed_7B0C;              /*!< REMOVED - ?? (never used) */
+	/* 7B10(2)   */ PACK uint16  removed_7B10;              /*!< REMOVED - ?? (never used) */
+	/* 7B12(2)   */ PACK uint16  removed_7B12;              /*!< REMOVED - ?? (never used) */
+	/* 7B14(2)   */ PACK uint16  removed_7B14;              /*!< REMOVED - ?? (never used) */
+	/* 7B16(2)   */ PACK uint16  removed_7B16;              /*!< REMOVED - ?? (never used) */
+	/* 7B18(2)   */ PACK uint16  removed_7B18;              /*!< REMOVED - ?? (never used) */
 	/* 7B1A()    */ PACK uint8   unknown_7B1A[0x0002];
-	/* 7B1C(2)   */ PACK uint16 variable_7B1C;              /*!< ?? variable_77CA[0] init state. */
-	/* 7B1E(2)   */ PACK uint16 variable_7B1E;              /*!< ?? variable_77CA[1] init state. */
+	/* 7B1C(2)   */ PACK uint16  removed_7B1C;              /*!< REMOVED - ?? variable_77CA[0] init state. (never used) */
+	/* 7B1E(2)   */ PACK uint16  removed_7B1E;              /*!< REMOVED - ?? variable_77CA[1] init state. (never used) */
 	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
 	/* 7B68(36)  */ PACK struct_7B68 removed_7B68[6];       /*!< REMOVED - ?? (apparently never ever used) */
 	/* 7B8C(640) */ PACK uint16  removed_7B8C[320];         /*!< REMOVED - screen columns swapping indices in fade-in */
