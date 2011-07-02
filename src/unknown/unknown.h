@@ -5,10 +5,6 @@
 #ifndef UNKNOWN_UNKNOWN_H
 #define UNKNOWN_UNKNOWN_H
 
-extern uint16 Unknown_07AE_0000(uint16 index);
-extern uint16 Unknown_07AE_00E4(uint16 index);
-extern void Unknown_07AE_0103();
-
 extern void Unknown_07D4_0000(uint16 screenID);
 extern void Unknown_07D4_02F8(uint16 packed);
 extern void Unknown_07D4_159A(uint16 screenID);

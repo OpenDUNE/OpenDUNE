@@ -35,7 +35,7 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 	g_global->editBoxShowCursor = (g_global->editBoxShowCursor == 0) ? 1 : 0;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_DrawFilledRectangle(positionX, g_global->variable_992B, positionX + Font_GetCharWidth('W'), g_global->variable_992B + g_global->variable_9931 - 1, (g_global->editBoxShowCursor) ? g_global->variable_6D5B : g_global->variable_6D59);
+	GUI_DrawFilledRectangle(positionX, g_curWidgetYBase, positionX + Font_GetCharWidth('W'), g_curWidgetYBase + g_curWidgetHeight - 1, (g_global->editBoxShowCursor) ? g_curWidgetFGColourBlink : g_curWidgetFGColourNormal);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -67,16 +67,16 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 		oldScreenID = GUI_Screen_SetActive(0);
 
-		oldValue_07AE_0000 = Unknown_07AE_0000(unknown1);
+		oldValue_07AE_0000 = Widget_SetCurrentWidget(unknown1);
 
 		returnValue = 0x0;
 	}
 
-	positionX = g_global->variable_992D << 3;
+	positionX = g_curWidgetXBase << 3;
 
 	textWidth = 0;
 	textLength = 0;
-	maxWidth = (g_global->variable_992F << 3) - Font_GetCharWidth('W') - 1;
+	maxWidth = (g_curWidgetWidth << 3) - Font_GetCharWidth('W') - 1;
 	t = text;
 
 	/* Calculate the length and width of the current string */
@@ -94,9 +94,9 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 	GUI_Mouse_Hide_Safe();
 
-	if ((unknown4 & 0x4) != 0) Unknown_07AE_0103();
+	if ((unknown4 & 0x4) != 0) Widget_PaintCurrentWidget();
 
-	GUI_DrawText_Wrapper(text, positionX, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0);
+	GUI_DrawText_Wrapper(text, positionX, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0);
 
 	GUI_EditBox_BlinkCursor(positionX + textWidth, false);
 
@@ -166,7 +166,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 		GUI_EditBox_BlinkCursor(positionX + textWidth, true);
 
 		/* Draw new character */
-		GUI_DrawText_Wrapper(text + textLength - 1, positionX + textWidth, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF, 0x020);
+		GUI_DrawText_Wrapper(text + textLength - 1, positionX + textWidth, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal, 0x020);
 
 		GUI_Mouse_Show_Safe();
 
@@ -180,7 +180,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_0002);
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000);
 
-		Unknown_07AE_0000(oldValue_07AE_0000);
+		Widget_SetCurrentWidget(oldValue_07AE_0000);
 
 		GUI_Screen_SetActive(oldScreenID);
 	}

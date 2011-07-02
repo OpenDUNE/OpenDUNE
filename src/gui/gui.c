@@ -206,16 +206,16 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		}
 		if ((int32)g_global->variable_373C > (int32)g_global->variable_76AC) return;
 
-		oldValue_07AE_0000 = Unknown_07AE_0000(7);
+		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
 		if (g_global->variable_38C4 != 0) {
 			uint16 oldScreenID = GUI_Screen_SetActive(2);
 
-			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, (uint8)g_global->variable_6D59);
+			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, g_curWidgetFGColourNormal);
 
 			GUI_DrawText_Wrapper(
 				g_global->variable_3694,
-				g_global->variable_992D << 3,
+				g_curWidgetXBase << 3,
 				2,
 				g_global->variable_8ADA & 0xFF,
 				0,
@@ -224,7 +224,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 			GUI_DrawText_Wrapper(
 				g_global->variable_3644,
-				g_global->variable_992D << 3,
+				g_curWidgetXBase << 3,
 				13,
 				g_global->variable_8AD8 & 0xFF,
 				0,
@@ -238,16 +238,16 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 		GUI_Mouse_Hide_InWidget(7);
 
-		if (g_global->variable_3740 + g_global->variable_9931 > 24) {
+		if (g_global->variable_3740 + g_curWidgetHeight > 24) {
 			loc06 = 24 - g_global->variable_3740;
 		} else {
-			loc06 = g_global->variable_9931;
+			loc06 = g_curWidgetHeight;
 		}
 
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_3740, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, loc06, 2, 0);
+		GUI_Screen_Copy(g_curWidgetXBase, g_global->variable_3740, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, loc06, 2, 0);
 		GUI_Mouse_Show_InWidget();
 
-		Unknown_07AE_0000(oldValue_07AE_0000);
+		Widget_SetCurrentWidget(oldValue_07AE_0000);
 
 		if (g_global->variable_3740 != 0) {
 			if ((int16)g_global->variable_3738 <= (int16)g_global->variable_3736) {
@@ -674,7 +674,7 @@ static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, 
 	g_widgetProperties[index].width  = width;
 	g_widgetProperties[index].height = height;
 
-	if (g_global->variable_6D5D == index) Unknown_07AE_0000(index);
+	if (g_curWidgetIndex == index) Widget_SetCurrentWidget(index);
 }
 
 /**
@@ -702,34 +702,34 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-	oldValue_07AE_0000 = Unknown_07AE_0000(1);
+	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
 
-	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
-	Unknown_07AE_0000(1);
+	Widget_SetCurrentWidget(1);
 
 	if (g_global->variable_3600.csip == 0x0) {
-		size = GFX_GetSize(g_global->variable_992F, g_global->variable_9931);
+		size = GFX_GetSize(g_curWidgetWidth, g_curWidgetHeight);
 
 		g_global->variable_3600 = Tools_Malloc(size, 0x0);
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {
-		GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(g_global->variable_3600));
+		GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(g_global->variable_3600));
 	}
 
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
 		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
-		GUI_2599_000B(1, g_global->variable_992D + 5, g_global->variable_992B + 8, g_global->variable_992F - 7, g_global->variable_9931 - 16);
+		GUI_2599_000B(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
 	} else {
-		GUI_2599_000B(1, g_global->variable_992D + 1, g_global->variable_992B + 8, g_global->variable_992F - 2, g_global->variable_9931 - 16);
+		GUI_2599_000B(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
 	}
 
-	g_global->variable_6D59 = 0;
+	g_curWidgetFGColourNormal = 0;
 
-	GUI_DrawText(g_global->variable_87D8, g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_6D5B & 0xFF, g_global->variable_6D59 & 0xFF);
+	GUI_DrawText(g_global->variable_87D8, g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal);
 
 	GFX_SetPalette(g_palette1);
 
@@ -752,16 +752,16 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Mouse_Hide_Safe();
 
 	if (spriteID != 0xFFFF) {
-		GUI_2599_000B(1, g_global->variable_992D - 5, g_global->variable_992B - 8, g_global->variable_992F + 7, g_global->variable_9931 + 16);
+		GUI_2599_000B(1, g_curWidgetXBase - 5, g_curWidgetYBase - 8, g_curWidgetWidth + 7, g_curWidgetHeight + 16);
 	} else {
-		GUI_2599_000B(1, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16);
+		GUI_2599_000B(1, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16);
 	}
 
 	if (g_global->variable_3600.csip != 0x0) {
-		GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(g_global->variable_3600));
+		GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(g_global->variable_3600));
 	}
 
-	Unknown_07AE_0000(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldValue_07AE_0000);
 
 	if (size != 0) {
 		Tools_Free(g_global->variable_3600);
@@ -2078,7 +2078,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	oldValue_07AE_0000 = Unknown_07AE_0000(4);
+	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
 
 	creditsDiff = h->credits - g_global->creditsAnimation;
 	if (creditsDiff != 0) {
@@ -2144,13 +2144,13 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (oldScreenID != g_global->screenActiveID) {
 		GUI_Mouse_Hide_InWidget(5);
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B - 40, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, oldScreenID);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase - 40, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, oldScreenID);
 		GUI_Mouse_Show_InWidget();
 	}
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	Unknown_07AE_0000(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldValue_07AE_0000);
 }
 
 /**
@@ -2209,10 +2209,10 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			GUI_DrawInterfaceAndRadar(0);
 		}
 
-		Unknown_07AE_0000(info[selectionType].variable_08);
+		Widget_SetCurrentWidget(info[selectionType].variable_08);
 
-		if (g_global->variable_6D5D != 0) {
-			GUI_Widget_DrawBorder(g_global->variable_6D5D, 0, false);
+		if (g_curWidgetIndex != 0) {
+			GUI_Widget_DrawBorder(g_curWidgetIndex, 0, false);
 		}
 
 		if (selectionType != 0) {
@@ -2242,7 +2242,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
 
-				Unknown_07AE_0000(info[selectionType].variable_08);
+				Widget_SetCurrentWidget(info[selectionType].variable_08);
 				break;
 
 			case 1:
@@ -4293,7 +4293,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			uint16 oldScreenID;
 
 			oldScreenID = GUI_Screen_SetActive(0);
-			Unknown_07AE_00E4(19);
+			Widget_SetAndPaintCurrentWidget(19);
 			GUI_Screen_SetActive(oldScreenID);
 
 			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, 0);

@@ -259,12 +259,12 @@ static void GUI_Mentat_Draw(bool force)
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	Unknown_07AE_00E4(8);
+	Widget_SetAndPaintCurrentWidget(8);
 
 	GUI_DrawSprite(2, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
 	/* "Select Subject:" */
-	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_global->variable_992D << 3) + 16, g_global->variable_992B + 2, 12, 0, 0x12);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(0x30), (g_curWidgetXBase << 3) + 16, g_curWidgetYBase + 2, 12, 0, 0x12);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x11);
 
 	line = GUI_Widget_Get_ByIndex(w, 3);
@@ -301,7 +301,7 @@ static void GUI_Mentat_Draw(bool force)
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
 	GUI_Mouse_Show_Safe();
 	GUI_Screen_SetActive(oldScreenID);
 }
@@ -421,13 +421,13 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 
 	GUI_Screen_SetActive(2);
 
-	Unknown_07AE_00E4(8);
+	Widget_SetAndPaintCurrentWidget(8);
 
 	if (wsaFilename != NULL) {
 		void *wsa;
 
 		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][0], false);
-		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
 
@@ -540,13 +540,13 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	g_shoulderLeft = unknownHouseData[houseID][6];
 	g_shoulderTop  = unknownHouseData[houseID][7];
 
-	Unknown_07AE_00E4(8);
+	Widget_SetAndPaintCurrentWidget(8);
 
 	if (wsaFilename != NULL) {
 		void *wsa;
 
 		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][1], false);
-		WSA_DisplayFrame(wsa, 0, g_global->variable_992D * 8, g_global->variable_992B, 2);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
 
@@ -1062,7 +1062,7 @@ static bool GUI_Mentat_DrawInfo(char *text, uint16 left, uint16 top, uint16 heig
 	while (skip-- != 0) text += strlen(text) + 1;
 
 	while (lines-- != 0) {
-		if (*text != '\0') GUI_DrawText_Wrapper(text, left, top, (uint8)g_global->variable_6D5B, 0, flags);
+		if (*text != '\0') GUI_DrawText_Wrapper(text, left, top, g_curWidgetFGColourBlink, 0, flags);
 		top += height;
 		text += strlen(text) + 1;
 	}
@@ -1095,7 +1095,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	textTick = 0;
 	textDelay = 0;
 
-	old07AE = Unknown_07AE_0000(8);
+	old07AE = Widget_SetCurrentWidget(8);
 	oldScreenID = GUI_Screen_SetActive(4);
 
 	wsa = NULL;
@@ -1106,13 +1106,13 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 	step = 0;
 	if (wsa == NULL) {
-		Unknown_07AE_0103();
+		Widget_PaintCurrentWidget();
 		step = 1;
 	}
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x31);
 
-	descLines = GUI_SplitText(pictureDetails, (g_global->variable_992F << 3) + 10, '\0');
+	descLines = GUI_SplitText(pictureDetails, (g_curWidgetWidth << 3) + 10, '\0');
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x32);
 
@@ -1205,7 +1205,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 					if (textLines-- != 0) {
 						GUI_Screen_SetActive(4);
-						GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
+						GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 						mentatSpeakingMode = 1;
 						textDelay = strlen(text) * 4;
 						textTick = g_global->variable_76AC + textDelay;
@@ -1251,7 +1251,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 			do {
 				if (step == 0 && frame > 4) step = 1;
 
-				if (!WSA_DisplayFrame(wsa, frame++, g_global->variable_992D << 3, g_global->variable_992B, 4)) {
+				if (!WSA_DisplayFrame(wsa, frame++, g_curWidgetXBase << 3, g_curWidgetYBase, 4)) {
 					if (step == 0) step = 1;
 
 					if (arg12 != 0) {
@@ -1267,11 +1267,11 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		if (!dirty) continue;
 
-		GUI_Mentat_DrawInfo(pictureDetails, (g_global->variable_992D << 3) + 5, g_global->variable_992B + 3, 8, 0, lines, 0x31);
+		GUI_Mentat_DrawInfo(pictureDetails, (g_curWidgetXBase << 3) + 5, g_curWidgetYBase + 3, 8, 0, lines, 0x31);
 
 		GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
-		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+		GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
 		dirty = false;
 	}
@@ -1280,10 +1280,10 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 	GUI_Screen_SetActive(4);
 	GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
-	GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
-	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+	GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 	GUI_Mouse_Show_InWidget();
-	Unknown_07AE_0000(old07AE);
+	Widget_SetCurrentWidget(old07AE);
 	GUI_Screen_SetActive(oldScreenID);
 
 	Input_History_Clear();

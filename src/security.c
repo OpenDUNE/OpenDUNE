@@ -41,7 +41,7 @@ static void GUI_Security_DrawText(char *text)
 
 	GUI_Mentat_SplitText(text, 304);
 
-	GUI_DrawText_Wrapper(text, 4, 1, (uint8)g_global->variable_6D5B, 0, 0x32);
+	GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
@@ -158,7 +158,7 @@ bool GUI_Security_Show()
 		questionsCount = atoi(string);
 	}
 
-	oldValue_07AE_0000 = Unknown_07AE_0000(8);
+	oldValue_07AE_0000 = Widget_SetCurrentWidget(8);
 
 	oldScreenID = GUI_Screen_SetActive(4);
 
@@ -171,20 +171,20 @@ bool GUI_Security_Show()
 
 		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + 10;
 
-		Unknown_07AE_0000(8);
+		Widget_SetCurrentWidget(8);
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 1);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
 		wsa = WSA_LoadFile(string, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), loc0E, false);
-		WSA_DisplayFrame(wsa, 0, g_global->variable_992D << 3, g_global->variable_992B, 4);
+		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase << 3, g_curWidgetYBase, 4);
 		WSA_Unload(wsa);
 
 		GUI_DrawSprite(4, g_sprites[24], g_shoulderLeft, g_shoulderTop, 0, 0);
 
-		GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 4, 0);
+		GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex);
@@ -195,17 +195,17 @@ bool GUI_Security_Show()
 
 		g_interrogationTimer = g_global->variable_76AC + strlen(string) * 4;
 
-		Unknown_07AE_0000(9);
+		Widget_SetCurrentWidget(9);
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(g_global->variable_992D - 1, g_global->variable_992B - 8, 0, 0, g_global->variable_992F + 2, g_global->variable_9931 + 16, 0, 4);
+		GUI_Screen_Copy(g_curWidgetXBase - 1, g_curWidgetYBase - 8, 0, 0, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 0, 4);
 		GUI_Mouse_Show_Safe();
 
 		GUI_Screen_SetActive(0);
 
 		GUI_Mouse_Hide_Safe();
-		GUI_DrawBorder((g_global->variable_992D << 3) - 6, g_global->variable_992B - 6, (g_global->variable_992F << 3) + 12, g_global->variable_9931 + 12, 1, true);
-		GUI_DrawBorder((g_global->variable_992D << 3) - 2, g_global->variable_992B - 2, (g_global->variable_992F << 3) + 4, g_global->variable_9931 + 4, 2, false);
+		GUI_DrawBorder((g_curWidgetXBase << 3) - 6, g_curWidgetYBase - 6, (g_curWidgetWidth << 3) + 12, g_curWidgetHeight + 12, 1, true);
+		GUI_DrawBorder((g_curWidgetXBase << 3) - 2, g_curWidgetYBase - 2, (g_curWidgetWidth << 3) + 4, g_curWidgetHeight + 4, 2, false);
 		GUI_Mouse_Show_Safe();
 
 		Input_History_Clear();
@@ -219,7 +219,7 @@ bool GUI_Security_Show()
 		GUI_Security_UndrawText();
 
 		GUI_Mouse_Hide_Safe();
-		GUI_Screen_Copy(0, 0, g_global->variable_992D - 1, g_global->variable_992B - 8, g_global->variable_992F + 2, g_global->variable_9931 + 16, 4, 0);
+		GUI_Screen_Copy(0, 0, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 4, 0);
 		GUI_Mouse_Show_Safe();
 
 		GUI_Security_NormaliseText((char *)g_global->variable_9939);
@@ -262,7 +262,7 @@ bool GUI_Security_Show()
 		GUI_Security_UndrawText();
 	}
 
-	Unknown_07AE_0000(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldValue_07AE_0000);
 
 	GUI_Screen_SetActive(oldScreenID);
 

@@ -86,7 +86,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	oldValue_07AE_0000 = Unknown_07AE_0000(2);
+	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
 	if (g_global->variable_39E2 != 0 || arg06) {
 		for (y = 0; y < 10; y++) {
@@ -478,8 +478,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	if (loc12 && !arg0A) {
 		if (g_global->variable_3A14 != 0) {
-			GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
-			GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
+			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, 0);
 			GUI_Mouse_Show_InWidget();
 
 			g_global->variable_3A14 = 0;
@@ -503,7 +503,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				height = 16;
 
 				if (!init) {
-					GUI_Mouse_Hide_InWidget(g_global->variable_6D5D);
+					GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 					init = true;
 					g_global->variable_37A4 = 0;
@@ -518,7 +518,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	Unknown_07AE_0000(oldValue_07AE_0000);
+	Widget_SetCurrentWidget(oldValue_07AE_0000);
 
 	return;
 }

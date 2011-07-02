@@ -63,6 +63,13 @@ WidgetProperties g_widgetProperties[22] = {
 	{ 1,   6, 12,   3,   0,  15,  6}  /* 21 */
 };
 
+uint16 g_curWidgetIndex;          /*!< Index of the currently selected widget in #g_widgetProperties. */
+uint16 g_curWidgetXBase;          /*!< Horizontal base position of the currently selected widget. */
+uint16 g_curWidgetYBase;          /*!< Vertical base position of the currently selected widget. */
+uint16 g_curWidgetWidth;          /*!< Width of the currently selected widget. */
+uint16 g_curWidgetHeight;         /*!< Height of the currently selected widget. */
+uint8  g_curWidgetFGColourBlink;  /*!< Blinking colour of the currently selected widget. */
+uint8  g_curWidgetFGColourNormal; /*!< Normal colour of the currently selected widget. */
 
 Widget *GUI_Widget_GetNext(Widget *w)
 {
@@ -935,4 +942,46 @@ Widget *GUI_Widget_Insert(Widget *w1, Widget *w2)
 	g_global->widgetReset = 1;
 
 	return first;
+}
+
+/**
+ * Select a widget as current widget.
+ * @param index %Widget number to select.
+ * @return Index of the previous selected widget.
+ */
+uint16 Widget_SetCurrentWidget(uint16 index)
+{
+	uint16 oldIndex = g_curWidgetIndex;
+	g_curWidgetIndex = index;
+
+	g_curWidgetXBase          = g_widgetProperties[index].xBase;
+	g_curWidgetYBase          = g_widgetProperties[index].yBase;
+	g_curWidgetWidth          = g_widgetProperties[index].width;
+	g_curWidgetHeight         = g_widgetProperties[index].height;
+	g_curWidgetFGColourBlink  = g_widgetProperties[index].prop4;
+	g_curWidgetFGColourNormal = g_widgetProperties[index].fgColourNormal;
+
+	return oldIndex;
+}
+
+/**
+ * Select a widget as current widget and draw its exterior.
+ * @param index %Widget number to select.
+ * @return Index of the previous selected widget.
+ */
+uint16 Widget_SetAndPaintCurrentWidget(uint16 index)
+{
+	index = Widget_SetCurrentWidget(index);
+
+	Widget_PaintCurrentWidget();
+
+	return index;
+}
+
+/**
+ * Draw the exterior of the currently selected widget.
+ */
+void Widget_PaintCurrentWidget()
+{
+	GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, ((g_curWidgetXBase + g_curWidgetWidth) << 3) - 1, g_curWidgetYBase + g_curWidgetHeight - 1, g_curWidgetFGColourNormal);
 }

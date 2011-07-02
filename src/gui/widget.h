@@ -213,6 +213,13 @@ extern Widget *g_widgetMentatUnknown2;
 extern Widget *g_widgetMentatScrollbar;
 
 extern WidgetProperties g_widgetProperties[22];
+extern uint16 g_curWidgetIndex;
+extern uint16 g_curWidgetXBase;
+extern uint16 g_curWidgetYBase;
+extern uint16 g_curWidgetWidth;
+extern uint16 g_curWidgetHeight;
+extern uint8  g_curWidgetFGColourBlink;
+extern uint8  g_curWidgetFGColourNormal;
 
 extern Widget g_table_windowWidgets[];
 
@@ -235,6 +242,9 @@ extern uint16 GUI_Widget_Scrollbar_CalculatePosition(WidgetScrollbar *scrollbar)
 extern uint16 GUI_Widget_Scrollbar_CalculateScrollPosition(WidgetScrollbar *scrollbar);
 extern void GUI_Widget_Free_WithScrollbar(Widget *w);
 extern Widget *GUI_Widget_Insert(Widget *w1, Widget *w2);
+extern uint16 Widget_SetCurrentWidget(uint16 index);
+extern uint16 Widget_SetAndPaintCurrentWidget(uint16 index);
+extern void Widget_PaintCurrentWidget();
 
 /* viewport.c */
 extern bool GUI_Widget_Viewport_Click(Widget *w);

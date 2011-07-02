@@ -787,11 +787,11 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	uint16 stage = 0;
 	uint16 counter = 0;
 
-	Unknown_07AE_0000(windowID);
+	Widget_SetCurrentWidget(windowID);
 
 	sprite = Sprites_GetSprite(g_sprites[spriteID], 0);
-	spriteX = (g_global->variable_992F << 3) - Sprite_GetWidth(sprite);
-	spriteY = g_global->variable_9931 - Sprite_GetHeight(sprite);
+	spriteX = (g_curWidgetWidth << 3) - Sprite_GetWidth(sprite);
+	spriteY = g_curWidgetHeight - Sprite_GetHeight(sprite);
 
 	positions[0].x = spriteX;
 	positions[0].y = 0;
@@ -809,7 +809,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, memory);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
-	GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, memory, g_global->variable_182E);
+	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, g_global->variable_182E);
 
 	GUI_Screen_SetActive(0);
 	loc0C = g_global->variable_76A8;
@@ -821,7 +821,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 		loc0C = g_global->variable_76A8 + delay;
 
-		while ((g_global->variable_9931 / 6) + 2 > stringCount && *data != 0) {
+		while ((g_curWidgetHeight / 6) + 2 > stringCount && *data != 0) {
 			char *text = data;
 			uint16 y;
 
@@ -829,7 +829,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				y = strings[stringCount - 1].y;
 				if (strings[stringCount - 1].separator != 5) y += strings[stringCount - 1].charHeight + strings[stringCount - 1].charHeight / 8;
 			} else {
-				y = g_global->variable_9931;
+				y = g_curWidgetHeight;
 			}
 
 			text = data;
@@ -920,17 +920,17 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			default: break;
 		}
 
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, memory, screenID);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, memory, screenID);
 
 		for (loc02 = 0; loc02 < stringCount; loc02++) {
-			if ((int16)strings[loc02].y < g_global->variable_9931) {
+			if ((int16)strings[loc02].y < g_curWidgetHeight) {
 				GUI_Screen_SetActive(screenID);
 
 				Font_Select(g_fontNew8p2);
 
 				if (strings[loc02].charHeight != g_global->variable_6C71) Font_Select(g_fontNew6p);
 
-				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_global->variable_992B, 255, 0);
+				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_curWidgetYBase, 255, 0);
 
 				GUI_Screen_SetActive(0);
 			}
@@ -938,7 +938,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			strings[loc02].y--;
 		}
 
-		GameCredits_1DD2_0008(g_global->variable_992B, g_global->variable_9931, screenID, g_global->variable_182E);
+		GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, screenID, g_global->variable_182E);
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);
@@ -947,8 +947,8 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			memcpy(&strings[0], &strings[1], stringCount * sizeof(*strings));
 		}
 
-		if ((g_global->variable_9931 / 6 + 2) > stringCount) {
-			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_global->variable_992B + g_global->variable_9931) loc10 = true;
+		if ((g_curWidgetHeight / 6 + 2) > stringCount) {
+			if (strings[stringCount - 1].y + strings[stringCount - 1].charHeight < g_curWidgetYBase + g_curWidgetHeight) loc10 = true;
 		}
 
 		if (loc10 && stage == 0) break;
@@ -974,7 +974,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	g_global->variable_182E = Screen_GetSegment_ByIndex_1(7);
 
-	size = SCREEN_WIDTH * g_global->variable_9931;
+	size = SCREEN_WIDTH * g_curWidgetHeight;
 
 	g_global->variable_1832 = g_global->variable_182E;
 	g_global->variable_1832.s.ip += size;
@@ -1031,13 +1031,13 @@ static void GameLoop_GameCredits()
 
 	GUI_Mouse_Hide_Safe();
 
-	Unknown_07AE_0000(20);
+	Widget_SetCurrentWidget(20);
 
 	Sprites_LoadImage("BIGPLAN.CPS", 3, 3, g_palette_998A, 1);
 
 	GUI_ClearScreen(0);
 
-	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
 
 	Unknown_259E_0006(g_palette_998A, 60);
 
@@ -1067,9 +1067,9 @@ static void GameLoop_GameCredits()
 
 	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, g_palette_998A, 1);
 
-	GUI_Palette_RemapScreen(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, emu_get_memorycsip(memBlock));
+	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, emu_get_memorycsip(memBlock));
 
-	GUI_Screen_FadeIn2(g_global->variable_992D << 3, g_global->variable_992B, g_global->variable_992F << 3, g_global->variable_9931, 2, 0, 1, false);
+	GUI_Screen_FadeIn2(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, 0, 1, false);
 
 	GameCredits_LoadPaletteAndSprites();
 
@@ -1414,8 +1414,8 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 	uint8 i;
 
 	props = &g_widgetProperties[21 + arg06];
-	top = g_global->variable_992B + props->yBase;
-	left = (g_global->variable_992D + props->xBase) << 3;
+	top = g_curWidgetYBase + props->yBase;
+	left = (g_curWidgetXBase + props->xBase) << 3;
 
 	old = GameLoop_B4E6_0000(props->prop4, arg0C, arg10);
 
@@ -1486,13 +1486,13 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 
 	result = 0xFFFF;
 
-	top = g_global->variable_992B + props->yBase;
-	left = (g_global->variable_992D + props->xBase) << 3;
+	top = g_curWidgetYBase + props->yBase;
+	left = (g_curWidgetXBase + props->xBase) << 3;
 
 	lineHeight = g_global->variable_6C71 + g_global->variable_8052;
 
-	minX = (g_global->variable_992D << 3) + (g_global->variable_6C70 * props->xBase);
-	minY = g_global->variable_992B + props->yBase - (g_global->variable_8052 / 2);
+	minX = (g_curWidgetXBase << 3) + (g_global->variable_6C70 * props->xBase);
+	minY = g_curWidgetYBase + props->yBase - (g_global->variable_8052 / 2);
 	maxX = minX + (g_global->variable_6C70 * props->width) - 1;
 	maxY = minY + (props->height * lineHeight) - 1;
 
@@ -1982,7 +1982,7 @@ static void GameLoop_GameIntroAnimationMenu()
 				GUI_DrawText_Wrapper("V1.07", 319, 192, 133, 0, 0x231, 0x39);
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-				Unknown_07AE_0000(13);
+				Widget_SetCurrentWidget(13);
 
 				GUI_Widget_DrawBorder(13, 2, 1);
 
@@ -2021,7 +2021,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	g_global->variable_37B4 = 0;
 
-	GUI_DrawFilledRectangle(g_global->variable_992D << 3, g_global->variable_992B, (g_global->variable_992D + g_global->variable_992F) << 3, g_global->variable_992B + g_global->variable_9931, 12);
+	GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 12);
 
 	if (!loc02) {
 		Voice_LoadVoices(5);
@@ -2266,13 +2266,13 @@ static void GameLoop_Main()
 
 	GUI_Mouse_Hide_Safe();
 
-	Unknown_07AE_0000(0);
+	Widget_SetCurrentWidget(0);
 
 	GUI_Screen_SetActive(2);
 
 	GFX_ClearScreen();
 
-	GUI_Screen_FadeIn(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
 }
 
 static bool Unknown_25C4_000E()
@@ -2341,7 +2341,7 @@ static bool Unknown_25C4_000E()
 
 	srand((unsigned)time(NULL));
 
-	Unknown_07AE_0000(0);
+	Widget_SetCurrentWidget(0);
 
 	return true;
 }

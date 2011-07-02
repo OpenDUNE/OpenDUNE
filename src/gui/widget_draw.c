@@ -622,14 +622,14 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 	}
 
 	oldScreenID = g_global->screenActiveID;
-	loc06 = g_global->variable_6D5D;
+	loc06 = g_curWidgetIndex;
 
 	if (actionType != 0) {
 		Widget *w = g_widgetLinkedListHead;
 
 		oldScreenID = GUI_Screen_SetActive(2);
 
-		loc06 = Unknown_07AE_0000(6);
+		loc06 = Widget_SetCurrentWidget(6);
 
 		widget30 = GUI_Widget_Get_ByIndex(w, 7);
 		GUI_Widget_MakeInvisible(widget30);
@@ -652,7 +652,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			GUI_Widget_MakeInvisible(buttons[i]);
 		}
 
-		GUI_Widget_DrawBorder(g_global->variable_6D5D, 0, 0);
+		GUI_Widget_DrawBorder(g_curWidgetIndex, 0, 0);
 	}
 
 	if (actionType > 1) {
@@ -858,22 +858,22 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 				case 4: /* Attack */
 					GUI_Widget_MakeVisible(widget30);
-					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(86), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 					break;
 
 				case 5: /* Movement */
 					GUI_Widget_MakeVisible(widget30);
-					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(87), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 					break;
 
 				case 6: /* Harvest */
 					GUI_Widget_MakeVisible(widget30);
-					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(335), 259, 76, g_curWidgetFGColourBlink, 0, 0x11);
 					break;
 
 				case 7: /* Placement */
 					GUI_Widget_MakeVisible(widget30);
-					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(84), 259, 84, g_curWidgetFGColourBlink, 0, 0x11);
 					break;
 
 				case 8: /* House Missile */
@@ -881,7 +881,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 					int16 count = (int16)g_houseMissileCountdown - 1;
 					if (count <= 0) count = 0;
 
-					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_global->variable_6D5B & 0xFF, 0, 0x11, count);
+					GUI_DrawText_Wrapper(String_Get_ByIndex(85), 259, 84, g_curWidgetFGColourBlink, 0, 0x11, count);
 				} break;
 
 				default:
@@ -892,12 +892,12 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 	if (actionType != 0) {
 		GUI_Mouse_Hide_InWidget(6);
-		GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, g_global->screenActiveID, 0);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, 0);
 		GUI_Mouse_Show_InWidget();
 	}
 
 	if (actionType > 1) {
-		Unknown_07AE_0000(loc06);
+		Widget_SetCurrentWidget(loc06);
 
 		GUI_Screen_SetActive(oldScreenID);
 	}

@@ -441,17 +441,17 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	GUI_Screen_SetActive(2);
 
-	Unknown_07AE_0000(desc->index);
+	Widget_SetCurrentWidget(desc->index);
 
-	GUI_Widget_DrawBorder(g_global->variable_6D5D, 2, true);
+	GUI_Widget_DrawBorder(g_curWidgetIndex, 2, true);
 
 	if (GUI_String_Get_ByIndex(desc->stringID) != NULL) {
-		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->stringID), (g_global->variable_992D << 3) + (g_global->variable_992F << 2), g_global->variable_992B + 6 + ((desc == &g_yesNoWindowDesc) ? 2 : 0), 238, 0, 0x122);
+		GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->stringID), (g_curWidgetXBase << 3) + (g_curWidgetWidth << 2), g_curWidgetYBase + 6 + ((desc == &g_yesNoWindowDesc) ? 2 : 0), 238, 0, 0x122);
 	}
 
 	if (GUI_String_Get_ByIndex(desc->widgets[0].stringID) == NULL) {
 		/* "There are no saved games to load." */
-		GUI_DrawText_Wrapper(String_Get_ByIndex(0x151), (g_global->variable_992D + 2) << 3, g_global->variable_992B + 42, 232, 0, 0x22);
+		GUI_DrawText_Wrapper(String_Get_ByIndex(0x151), (g_curWidgetXBase + 2) << 3, g_curWidgetYBase + 42, 232, 0, 0x22);
 	}
 
 	for (i = 0; i < desc->widgetCount; i++) {
@@ -537,9 +537,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	GUI_Mouse_Hide_Safe();
 
-	Unknown_07AE_0000(desc->index);
+	Widget_SetCurrentWidget(desc->index);
 
-	GUI_Screen_Copy(g_global->variable_992D, g_global->variable_992B, g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, 2, 0);
+	GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 2, 0);
 
 	GUI_Mouse_Show_Safe();
 
@@ -548,19 +548,19 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
 {
-	Unknown_07AE_0000(desc->index);
+	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyToBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
+	GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 	GUI_Mouse_Show_Safe();
 }
 
 static void GUI_Window_RestoreScreen(WindowDesc *desc)
 {
-	Unknown_07AE_0000(desc->index);
+	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyFromBuffer(g_global->variable_992D, g_global->variable_992B, g_global->variable_992F, g_global->variable_9931, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
+	GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 	GUI_Mouse_Show_Safe();
 }
 
@@ -880,10 +880,10 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	GUI_Screen_SetActive(0);
 
-	Unknown_07AE_0000(15);
+	Widget_SetCurrentWidget(15);
 
 	GUI_Mouse_Hide_Safe();
-	GUI_DrawBorder((g_global->variable_992D << 3) - 1, g_global->variable_992B - 1, (g_global->variable_992F << 3) + 2, g_global->variable_9931 + 2, 4, false);
+	GUI_DrawBorder((g_curWidgetXBase << 3) - 1, g_curWidgetYBase - 1, (g_curWidgetWidth << 3) + 2, g_curWidgetHeight + 2, 4, false);
 	GUI_Mouse_Show_Safe();
 
 	while (loop) {

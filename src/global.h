@@ -1217,9 +1217,9 @@ typedef struct GlobalData {
 	/* 6D13()    */ PACK uint8   unknown_6D13[0x0040];
 	/* 6D53(2)   */ PACK uint16 variable_6D53;              /*!< ?? */
 	/* 6D55()    */ PACK uint8   unknown_6D55[0x0004];
-	/* 6D59(2)   */ PACK uint16 variable_6D59;              /*!< ?? Non-blink colour for cursor in edit box. */
-	/* 6D5B(2)   */ PACK uint16 variable_6D5B;              /*!< ?? Blink colour for cursor in edit box. */
-	/* 6D5D(2)   */ PACK uint16 variable_6D5D;              /*!< ?? */
+	/* 6D59(2)   */ PACK uint16  removed_6D59;              /*!< REMOVED ?? Non-blink colour for cursor in edit box. */
+	/* 6D5B(2)   */ PACK uint16  removed_6D5B;              /*!< REMOVED ?? Blink colour for cursor in edit box. */
+	/* 6D5D(2)   */ PACK uint16  removed_6D5D;              /*!< REMOVED ?? */
 	/* 6D5F(2)   */ PACK uint16  removed_6D5F;              /*!< REMOVED - ?? (Write-only var with font property?) */
 	/* 6D61(2)   */ PACK uint16  removed_6D61;              /*!< REMOVED - ?? (Write-only var with font property?) */
 	/* 6D63(2)   */ PACK uint16  removed_6D63;              /*!< REMOVED - ?? (Write-only var with font property?) */
@@ -1499,10 +1499,10 @@ typedef struct GlobalData {
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
 	/* 98F1(2)   */ PACK uint16 removed_98F1;               /*!< REMOVED - If screen memory has to go in highermemory (0x40 or 0x0). Always 0x0. */
 	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];
-	/* 992B(2)   */ PACK uint16 variable_992B;              /*!< ?? */
-	/* 992D(2)   */ PACK uint16 variable_992D;              /*!< ?? Y position of top of edit box.*/
-	/* 992F(2)   */ PACK uint16 variable_992F;              /*!< ?? */
-	/* 9931(2)   */ PACK uint16 variable_9931;              /*!< ?? Height of edit box. */
+	/* 992B(2)   */ PACK uint16  removed_992B;              /*!< REMOVED - ?? */
+	/* 992D(2)   */ PACK uint16  removed_992D;              /*!< REMOVED - ?? Y position of top of edit box.*/
+	/* 992F(2)   */ PACK uint16  removed_992F;              /*!< REMOVED - ?? */
+	/* 9931(2)   */ PACK uint16  removed_9931;              /*!< REMOVED - ?? Height of edit box. */
 	/* 9933(2)   */ PACK uint16  removed_9933;              /*!< REMOVED - A counter (write-only). */
 	/* 9935(2)   */ PACK uint16  removed_9935;              /*!< REMOVED - ?? (write-only) */
 	/* 9937(2)   */ PACK uint16 removed_9937;               /*!< REMOVED - True if video is vsync'd. */
