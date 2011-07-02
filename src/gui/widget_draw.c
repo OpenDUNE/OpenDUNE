@@ -39,15 +39,15 @@ void GUI_Widget_TextButton_Draw(Widget *w)
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	positionX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
-	positionY = w->offsetY +  g_global->variable_4062[w->parentID][1];
+	positionX = w->offsetX + (g_widgetProperties[w->parentID].xBase << 3);
+	positionY = w->offsetY +  g_widgetProperties[w->parentID].yBase;
 	width     = w->width;
 	height    = w->height;
 
-	g_global->variable_4062[19][0] = positionX >> 3;
-	g_global->variable_4062[19][1] = positionY;
-	g_global->variable_4062[19][2] = width >> 3;
-	g_global->variable_4062[19][3] = height;
+	g_widgetProperties[19].xBase  = positionX >> 3;
+	g_widgetProperties[19].yBase  = positionY;
+	g_widgetProperties[19].width  = width >> 3;
+	g_widgetProperties[19].height = height;
 
 	state  = (w->state.s.selected) ? 0 : 2;
 	colour = (w->state.s.hover2) ? 231 : 232;
@@ -377,12 +377,12 @@ void GUI_Widget_Scrollbar_Draw(Widget *w)
 	height = w->height;
 
 	positionX = w->offsetX;
-	if (w->offsetX < 0) positionX += g_global->variable_4062[w->parentID][2] << 3;
-	positionX += g_global->variable_4062[w->parentID][0] << 3;
+	if (w->offsetX < 0) positionX += g_widgetProperties[w->parentID].width << 3;
+	positionX += g_widgetProperties[w->parentID].xBase<< 3;
 
 	positionY = w->offsetY;
-	if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
-	positionY += g_global->variable_4062[w->parentID][1];
+	if (w->offsetY < 0) positionY += g_widgetProperties[w->parentID].height;
+	positionY += g_widgetProperties[w->parentID].yBase;
 
 	if (width > height) {
 		scrollLeft   = scrollbar->position + 1;
@@ -911,10 +911,10 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
  */
 void GUI_Widget_DrawBorder(uint16 widgetIndex, uint16 borderType, bool pressed)
 {
-	uint16 left = g_global->variable_4062[widgetIndex][0] << 3;
-	uint16 top = g_global->variable_4062[widgetIndex][1];
-	uint16 width = g_global->variable_4062[widgetIndex][2] << 3;
-	uint16 height = g_global->variable_4062[widgetIndex][3];
+	uint16 left   = g_widgetProperties[widgetIndex].xBase << 3;
+	uint16 top    = g_widgetProperties[widgetIndex].yBase;
+	uint16 width  = g_widgetProperties[widgetIndex].width << 3;
+	uint16 height = g_widgetProperties[widgetIndex].height;
 
 	uint16 colourSchemaIndex = (pressed) ? 2 : 0;
 	uint16 colourSchemaIndexDiff;

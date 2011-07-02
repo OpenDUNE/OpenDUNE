@@ -159,12 +159,12 @@ bool GUI_Widget_Scrollbar_Click(Widget *w)
 	scrollbar = w->data;
 
 	positionX = w->offsetX;
-	if (w->offsetX < 0) positionX += g_global->variable_4062[w->parentID][2] << 3;
-	positionX += g_global->variable_4062[w->parentID][0] << 3;
+	if (w->offsetX < 0) positionX += g_widgetProperties[w->parentID].width << 3;
+	positionX += g_widgetProperties[w->parentID].xBase << 3;
 
 	positionY = w->offsetY;
-	if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
-	positionY += g_global->variable_4062[w->parentID][1];
+	if (w->offsetY < 0) positionY += g_widgetProperties[w->parentID].height;
+	positionY += g_widgetProperties[w->parentID].yBase;
 
 	if ((w->state.s.buttonState & 0x44) != 0) {
 		scrollbar->pressed = 0;
@@ -415,8 +415,8 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 
 	if (w == NULL) return;
 
-	offsetX = w->offsetX + (g_global->variable_4062[w->parentID][0] << 3);
-	offsetY = w->offsetY + g_global->variable_4062[w->parentID][1];
+	offsetX = w->offsetX + (g_widgetProperties[w->parentID].xBase << 3);
+	offsetY = w->offsetY + g_widgetProperties[w->parentID].yBase;
 	width = w->width;
 	height = w->height;
 
@@ -499,9 +499,9 @@ static void GUI_Window_Create(WindowDesc *desc)
 		if (desc->widgets[i].labelStringId == 0) continue;
 
 		if (g_config.language == LANGUAGE_FRENCH) {
-			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), (g_global->variable_4062[w->parentID][0] << 3) + 40, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x22);
+			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), (g_widgetProperties[w->parentID].xBase << 3) + 40, w->offsetY + g_widgetProperties[w->parentID].yBase + 3, 232, 0, 0x22);
 		} else {
-			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), w->offsetX + (g_global->variable_4062[w->parentID][0] << 3) - 10, w->offsetY + g_global->variable_4062[w->parentID][1] + 3, 232, 0, 0x222);
+			GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(desc->widgets[i].labelStringId), w->offsetX + (g_widgetProperties[w->parentID].xBase << 3) - 10, w->offsetY + g_widgetProperties[w->parentID].yBase + 3, 232, 0, 0x222);
 		}
 	}
 

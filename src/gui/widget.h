@@ -178,6 +178,17 @@ typedef struct WindowDesc {
 	} widgets[7];                                           /*!< The Widgets belonging to the Window. */
 } WindowDesc;
 
+/** Widget properties. */
+typedef struct WidgetProperties {
+	uint16 xBase;                                           /*!< Horizontal base coordinate divided by 8. */
+	uint16 yBase;                                           /*!< Vertical base coordinate. */
+	uint16 width;                                           /*!< Width of the widget divided by 8. */
+	uint16 height;                                          /*!< Height of the widget. */
+	uint16 prop4;                                           /*!< ?? */
+	uint8  fgColourNormal;                                  /*!< Foreground colour for 'normal'. */
+	uint8  fgColourSelected;                                /*!< Foreground colour when 'selected' */
+} WidgetProperties;
+
 extern WidgetInfo g_table_gameWidgetInfo[];
 extern WidgetInfo g_table_factoryWidgetInfo[];
 
@@ -201,7 +212,10 @@ extern Widget *g_widgetMentatUnknown1;
 extern Widget *g_widgetMentatUnknown2;
 extern Widget *g_widgetMentatScrollbar;
 
+extern WidgetProperties g_widgetProperties[22];
+
 extern Widget g_table_windowWidgets[];
+
 
 extern Widget *GUI_Widget_GetNext(Widget *w);
 extern Widget *GUI_Widget_Get_ByIndex(Widget *w, uint16 index);

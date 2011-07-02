@@ -357,10 +357,10 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 
 	dst = emu_get_memorycsip(Screen_GetSegment_ByIndex_2(g_global->screenActiveID));
 
-	left   = g_global->variable_4062[windowID][0] << 3;
-	right  = left + (g_global->variable_4062[windowID][2] << 3);
-	top    = g_global->variable_4062[windowID][1];
-	bottom = top + g_global->variable_4062[windowID][3];
+	left   = g_widgetProperties[windowID].xBase << 3;
+	right  = left + (g_widgetProperties[windowID].width << 3);
+	top    = g_widgetProperties[windowID].yBase;
+	bottom = top + g_widgetProperties[windowID].height;
 
 	if (y - top < 0) {
 		if (y - top + height <= 0) return;

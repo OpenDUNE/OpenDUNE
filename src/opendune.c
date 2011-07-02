@@ -1407,28 +1407,28 @@ static uint16 GameLoop_B4E6_0000(uint16 arg06, uint32 arg08, uint16 arg0C)
 
 static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint16 arg10, uint16 arg12)
 {
-	uint16 *loc04;
+	WidgetProperties *props;
 	uint16 left;
 	uint16 old;
 	uint16 top;
 	uint8 i;
 
-	loc04 = g_global->variable_4062[21 + arg06];
-	top = g_global->variable_992B + loc04[1];
-	left = (g_global->variable_992D + loc04[0]) << 3;
+	props = &g_widgetProperties[21 + arg06];
+	top = g_global->variable_992B + props->yBase;
+	left = (g_global->variable_992D + props->xBase) << 3;
 
-	old = GameLoop_B4E6_0000(loc04[4], arg0C, arg10);
+	old = GameLoop_B4E6_0000(props->prop4, arg0C, arg10);
 
 	GUI_Mouse_Hide_Safe();
 
-	for (i = 0; i < loc04[3]; i++) {
+	for (i = 0; i < props->height; i++) {
 		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
 		uint16 pos = top + ((g_global->variable_6C71 + arg12) * i);
 
 		if (index == old) {
-			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[6], 0, 0x22);
+			GUI_DrawText_Wrapper(strings[index], left, pos, props->fgColourSelected, 0, 0x22);
 		} else {
-			GUI_DrawText_Wrapper(strings[index], left, pos, (uint8)loc04[5], 0, 0x22);
+			GUI_DrawText_Wrapper(strings[index], left, pos, props->fgColourNormal, 0, 0x22);
 		}
 	}
 
@@ -1475,29 +1475,29 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	uint8 fgColourNormal;
 	uint8 fgColourSelected;
 	uint16 old;
-	uint16 *loc24;
+	WidgetProperties *props;
 	uint16 current;
 
-	loc24 = g_global->variable_4062[21 + arg06];
+	props = &g_widgetProperties[21 + arg06];
 
-	last = loc24[3] - 1;
-	old = loc24[4] % (last + 1);
+	last = props->height - 1;
+	old = props->prop4 % (last + 1);
 	current = old;
 
 	result = 0xFFFF;
 
-	top = g_global->variable_992B + loc24[1];
-	left = (g_global->variable_992D + loc24[0]) << 3;
+	top = g_global->variable_992B + props->yBase;
+	left = (g_global->variable_992D + props->xBase) << 3;
 
 	lineHeight = g_global->variable_6C71 + g_global->variable_8052;
 
-	minX = (g_global->variable_992D << 3) + (g_global->variable_6C70 * loc24[0]);
-	minY = g_global->variable_992B + loc24[1] - (g_global->variable_8052 / 2);
-	maxX = minX + (g_global->variable_6C70 * loc24[2]) - 1;
-	maxY = minY + (loc24[3] * lineHeight) - 1;
+	minX = (g_global->variable_992D << 3) + (g_global->variable_6C70 * props->xBase);
+	minY = g_global->variable_992B + props->yBase - (g_global->variable_8052 / 2);
+	maxX = minX + (g_global->variable_6C70 * props->width) - 1;
+	maxY = minY + (props->height * lineHeight) - 1;
 
-	fgColourNormal = loc24[5] & 0xFF;
-	fgColourSelected = loc24[6] & 0xFF;
+	fgColourNormal = props->fgColourNormal;
+	fgColourSelected = props->fgColourSelected;
 
 	key = 0;
 	if (Input_IsInputAvailable() != 0) {
@@ -1548,7 +1548,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 		default: {
 			uint16 i;
 
-			for (i = 0; i < loc24[3]; i++) {
+			for (i = 0; i < props->height; i++) {
 				char c1;
 				char c2;
 
@@ -1580,7 +1580,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 		GUI_Mouse_Show_Safe();
 	}
 
-	loc24[4] = current;
+	props->prop4 = current;
 
 	if (result == 0xFFFF) return 0xFFFF;
 
@@ -1939,13 +1939,13 @@ static void GameLoop_GameIntroAnimationMenu()
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
 				uint16 i;
 
-				g_global->variable_4062[21][3] = 0;
+				g_widgetProperties[21].height = 0;
 
 				for (i = 0; i < 6; i++) {
 					strings[i] = NULL;
 
 					if (g_global->variable_219D[index][i] == 0) {
-						if (g_global->variable_4062[21][3] == 0) g_global->variable_4062[21][3] = i;
+						if (g_widgetProperties[21].height == 0) g_widgetProperties[21].height = i;
 						continue;
 					}
 
@@ -1956,18 +1956,18 @@ static void GameLoop_GameIntroAnimationMenu()
 
 				maxWidth = 0;
 
-				for (i = 0; i < g_global->variable_4062[21][3]; i++) {
+				for (i = 0; i < g_widgetProperties[21].height; i++) {
 					if (Font_GetStringWidth(strings[i]) <= maxWidth) continue;
 					maxWidth = Font_GetStringWidth(strings[i]);
 				}
 
 				maxWidth += 7;
 
-				g_global->variable_4062[21][2] = maxWidth >> 3;
-				g_global->variable_4062[13][2] = g_global->variable_4062[21][2] + 2;
-				g_global->variable_4062[13][0] = 19 - (maxWidth >> 4);
-				g_global->variable_4062[13][1] = 160 - ((g_global->variable_4062[21][3] * g_global->variable_6C71) >> 1);
-				g_global->variable_4062[13][3] = (g_global->variable_4062[21][3] * g_global->variable_6C71) + 11;
+				g_widgetProperties[21].width  = maxWidth >> 3;
+				g_widgetProperties[13].width  = g_widgetProperties[21].width + 2;
+				g_widgetProperties[13].xBase  = 19 - (maxWidth >> 4);
+				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_global->variable_6C71) >> 1);
+				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_global->variable_6C71) + 11;
 
 				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, 3, NULL, 0);
 

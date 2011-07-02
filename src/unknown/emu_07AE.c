@@ -10,20 +10,21 @@
 #include "../gui/gui.h"
 
 /**
- * Unknown function.
- * @param index
+ * Load widget properties by index.
+ * @param index %Widget properties index to load.
+ * @return old index.
  */
 uint16 Unknown_07AE_0000(uint16 index)
 {
 	uint16 old6D5D = g_global->variable_6D5D;
 	g_global->variable_6D5D = index;
 
-	g_global->variable_992D = g_global->variable_4062[index][0];
-	g_global->variable_992B = g_global->variable_4062[index][1];
-	g_global->variable_992F = g_global->variable_4062[index][2];
-	g_global->variable_9931 = g_global->variable_4062[index][3];
-	g_global->variable_6D5B = g_global->variable_4062[index][4];
-	g_global->variable_6D59 = g_global->variable_4062[index][5];
+	g_global->variable_992D = g_widgetProperties[index].xBase;
+	g_global->variable_992B = g_widgetProperties[index].yBase;
+	g_global->variable_992F = g_widgetProperties[index].width;
+	g_global->variable_9931 = g_widgetProperties[index].height;
+	g_global->variable_6D5B = g_widgetProperties[index].prop4;
+	g_global->variable_6D59 = g_widgetProperties[index].fgColourNormal;
 
 	return old6D5D;
 }

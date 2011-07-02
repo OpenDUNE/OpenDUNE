@@ -36,6 +36,34 @@ Widget *g_widgetMentatUnknown1 = NULL;
 Widget *g_widgetMentatUnknown2 = NULL;
 Widget *g_widgetMentatScrollbar = NULL;
 
+/** Layout and other properties of the widgets. */
+WidgetProperties g_widgetProperties[22] = {
+	/* x   y   w    h   p4  norm sel */
+	{ 0,   0, 40, 200,  15,  12,  0}, /*  0 */
+	{ 1,  75, 29,  70,  15,  15,  0}, /*  1 */
+	{ 0,  40, 30, 160,  15,  20,  0}, /*  2 */
+	{32, 136,  8,  64,  15,  12,  0}, /*  3 */
+	{32,  44,  8,   9,  29, 116,  0}, /*  4 */
+	{32,   4,  8,   9,  29, 116,  0}, /*  5 */
+	{32,  42,  8,  82,  15,  20,  0}, /*  6 */
+	{ 1,  21, 38,  14,  12, 116,  0}, /*  7 */
+	{16,  48, 23, 112,  15, 233,  0}, /*  8 */
+	{ 2, 176, 36,  11,  15,  20,  0}, /*  9 */
+	{ 0,  40, 40, 160,  29,  20,  0}, /* 10 */
+	{16,  48, 23, 112,  29,  20,  0}, /* 11 */
+	{ 9,  80, 22, 112,  29, 116,  0}, /* 12 */
+	{12, 140, 16,  42, 236, 233,  0}, /* 13 */
+	{ 2,  89, 36,  60,   0,   0,  0}, /* 14 */
+	{ 4, 110, 32,  12, 232, 235,  0}, /* 15 */
+	{ 5,  48, 30, 134,   0,   0,  0}, /* 16 */
+	{ 3,  36, 36, 148,   0,   0,  0}, /* 17 */
+	{ 1,  72, 38,  52,   0,   0,  0}, /* 18 */
+	{ 0,   0,  0,   0,   0,   0,  0}, /* 19 */
+	{ 2,  24, 36, 152,  12,  12,  0}, /* 20 */
+	{ 1,   6, 12,   3,   0,  15,  6}  /* 21 */
+};
+
+
 Widget *GUI_Widget_GetNext(Widget *w)
 {
 	if (w->next == NULL) return NULL;
@@ -151,16 +179,16 @@ void GUI_Widget_Draw(Widget *w)
 
 	offsetX = w->offsetX;
 	if (w->offsetX < 0) {
-		offsetX = (g_global->variable_4062[w->parentID][2] << 3) + w->offsetX;
+		offsetX = (g_widgetProperties[w->parentID].width << 3) + w->offsetX;
 	}
-	positionLeft = (g_global->variable_4062[w->parentID][0] << 3) + offsetX;
+	positionLeft = (g_widgetProperties[w->parentID].xBase << 3) + offsetX;
 	positionRight = positionLeft + w->width - 1;
 
 	offsetY = w->offsetY;
 	if (w->offsetY < 0) {
-		offsetY = g_global->variable_4062[w->parentID][3] + w->offsetY;
+		offsetY = g_widgetProperties[w->parentID].height + w->offsetY;
 	}
-	positionTop = g_global->variable_4062[w->parentID][1] + offsetY;
+	positionTop = g_widgetProperties[w->parentID].yBase + offsetY;
 	positionBottom = positionTop + w->height - 1;
 
 	assert(drawMode < DRAW_MODE_MAX);
@@ -308,12 +336,12 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 		w->state.s.hover1Last = w->state.s.hover1;
 
 		positionX = w->offsetX;
-		if (w->offsetX < 0) positionX += (g_global->variable_4062[w->parentID][2] << 3);
-		positionX += g_global->variable_4062[w->parentID][0] << 3;
+		if (w->offsetX < 0) positionX += g_widgetProperties[w->parentID].width << 3;
+		positionX += g_widgetProperties[w->parentID].xBase << 3;
 
 		positionY = w->offsetY;
-		if (w->offsetY < 0) positionY += g_global->variable_4062[w->parentID][3];
-		positionY += g_global->variable_4062[w->parentID][1];
+		if (w->offsetY < 0) positionY += g_widgetProperties[w->parentID].height;
+		positionY += g_widgetProperties[w->parentID].yBase;
 
 		widgetHover = false;
 		w->state.s.keySelected = false;

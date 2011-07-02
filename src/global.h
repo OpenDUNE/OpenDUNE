@@ -937,7 +937,7 @@ typedef struct GlobalData {
 	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32 removed_3E54[131];          /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
-	/* 4062(352) */ PACK uint16 variable_4062[22][8];       /*!< ?? Position and size of widgets? */
+	/* 4062(352) */ PACK uint16  removed_4062[22][8];       /*!< REMOVED - ?? Position and size of widgets? (to g_widgetProperties[22]) */
 	/* 41C2(10)  */ PACK GameCfg removed_41C2;              /*!< REMOVED - Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */

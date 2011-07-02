@@ -667,12 +667,12 @@ void GUI_UpdateProductionStringID()
 	}
 }
 
-static void GUI_2599_000B(uint16 index, uint16 arg08, uint16 arg0A, uint16 arg0C, uint16 arg0E)
+static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, uint16 height)
 {
-	g_global->variable_4062[index][0] = arg08;
-	g_global->variable_4062[index][1] = arg0A;
-	g_global->variable_4062[index][2] = arg0C;
-	g_global->variable_4062[index][3] = arg0E;
+	g_widgetProperties[index].xBase  = xpos;
+	g_widgetProperties[index].yBase  = ypos;
+	g_widgetProperties[index].width  = width;
+	g_widgetProperties[index].height = height;
 
 	if (g_global->variable_6D5D == index) Unknown_07AE_0000(index);
 }
@@ -704,7 +704,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	oldValue_07AE_0000 = Unknown_07AE_0000(1);
 
-	g_global->variable_4062[1][3] = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_global->variable_992F - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
 	Unknown_07AE_0000(1);
 
@@ -901,18 +901,18 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	loc34 = 0;
 
 	memBlock = Screen_GetSegment_ByIndex_2(screenID);
-	memBlock.s.ip = g_global->variable_4062[windowID][0] << 3;
+	memBlock.s.ip = g_widgetProperties[windowID].xBase << 3;
 
 	buf = emu_get_memorycsip(memBlock);
 
-	if ((flags & 0x4000) == 0) posX -= g_global->variable_4062[windowID][0] << 3;
+	if ((flags & 0x4000) == 0) posX -= g_widgetProperties[windowID].xBase << 3;
 
-	width = g_global->variable_4062[windowID][2] << 3;
-	top = g_global->variable_4062[windowID][1];
+	width = g_widgetProperties[windowID].width << 3;
+	top = g_widgetProperties[windowID].yBase;
 
-	if ((flags & 0x4000) != 0) posY += g_global->variable_4062[windowID][1];
+	if ((flags & 0x4000) != 0) posY += g_widgetProperties[windowID].yBase;
 
-	bottom = g_global->variable_4062[windowID][1] + g_global->variable_4062[windowID][3];
+	bottom = g_widgetProperties[windowID].yBase + g_widgetProperties[windowID].height;
 
 	loc10 = *(uint16 *)sprite;
 	sprite += 2;
@@ -3994,10 +3994,10 @@ void GUI_Mouse_Hide_InWidget(uint16 widgetIndex)
 	uint16 left, top;
 	uint16 width, height;
 
-	left   = g_global->variable_4062[widgetIndex][0] << 3;
-	top    = g_global->variable_4062[widgetIndex][1];
-	width  = g_global->variable_4062[widgetIndex][2] << 3;
-	height = g_global->variable_4062[widgetIndex][3];
+	left   = g_widgetProperties[widgetIndex].xBase << 3;
+	top    = g_widgetProperties[widgetIndex].yBase;
+	width  = g_widgetProperties[widgetIndex].width << 3;
+	height = g_widgetProperties[widgetIndex].height;
 
 	GUI_Mouse_Hide_InRegion(left, top, left + width - 1, top + height - 1);
 }
@@ -4272,19 +4272,19 @@ void GUI_HallOfFame_Show(uint16 score)
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
 	if (editLine != 0) {
-		uint16 backup_4062[16];
+		WidgetProperties backupProperties;
 		char *name;
 
 		name = data[editLine - 1].name;
 
-		memcpy(backup_4062, g_global->variable_4062[19], 16);
+		memcpy(&backupProperties, &g_widgetProperties[19], sizeof(WidgetProperties));
 
-		g_global->variable_4062[19][0] = 4;
-		g_global->variable_4062[19][1] = (editLine - 1) * 11 + 90;
-		g_global->variable_4062[19][2] = width / 8;
-		g_global->variable_4062[19][3] = 11;
-		g_global->variable_4062[19][4] = 6;
-		g_global->variable_4062[19][5] = 116;
+		g_widgetProperties[19].xBase = 4;
+		g_widgetProperties[19].yBase = (editLine - 1) * 11 + 90;
+		g_widgetProperties[19].width = width / 8;
+		g_widgetProperties[19].height = 11;
+		g_widgetProperties[19].prop4 = 6;
+		g_widgetProperties[19].fgColourNormal = 116;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -4305,7 +4305,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			while (*nameEnd <= ' ' && nameEnd >= name) *nameEnd-- = '\0';
 		}
 
-		memcpy(g_global->variable_4062[19], backup_4062, 16);
+		memcpy(&g_widgetProperties[19], &backupProperties, sizeof(WidgetProperties));
 
 		GUI_HallOfFame_DrawData(data, true);
 
