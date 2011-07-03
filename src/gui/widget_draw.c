@@ -169,7 +169,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	GUI_DrawWiredRectangle(positionX - 1, positionY - 1, positionX + width, positionY + height, 12);
 	GUI_DrawBorder(positionX, positionY, width, height, buttonDown ? 0 : 1, true);
 
-	switch (g_global->productionStringID) {
+	switch (g_productionStringID) {
 		case 0x2A: /* "Launch" */
 			spriteID = 0x1E;
 			break;
@@ -223,7 +223,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 	if (spriteID != 0) GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], positionX + 2, positionY + 2, 0, 0x100, g_paletteMapping1, buttonDown ? 1 : 0);
 
-	if (g_global->productionStringID == 0x2E) { /* "%d%% done" */
+	if (g_productionStringID == 0x2E) { /* "%d%% done" */
 		uint16 buildTime;
 		uint16 timeLeft;
 
@@ -250,11 +250,11 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		percentDone = 100 * timeLeft / buildTime;
 	}
 
-	if (g_global->productionStringID == 0x90) { /* "Upgrading|%d%% done" */
+	if (g_productionStringID == 0x90) { /* "Upgrading|%d%% done" */
 		percentDone = 100 - s->upgradeTimeLeft;
 
 		GUI_DrawText_Wrapper(
-			String_Get_ByIndex(g_global->productionStringID),
+			String_Get_ByIndex(g_productionStringID),
 			positionX + 1,
 			positionY + height - 19,
 			buttonDown ? 0xE : 0xF,
@@ -264,20 +264,20 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 		);
 	} else {
 		GUI_DrawText_Wrapper(
-			String_Get_ByIndex(g_global->productionStringID),
+			String_Get_ByIndex(g_productionStringID),
 			positionX + width / 2,
 			positionY + height - 9,
-			(g_global->productionStringID == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF), /* "Place it" */
+			(g_productionStringID == 0x26) ? 0xEF : (buttonDown ? 0xE : 0xF), /* "Place it" */
 			0,
 			0x121,
 			percentDone
 		);
 	}
 
-	if (g_global->productionStringID == 0x2E || g_global->productionStringID == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
+	if (g_productionStringID == 0x2E || g_productionStringID == 0x90) { /* "%d%% done" / "Upgrading|%d%% done" */
 		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(0x28)); /* "On hold" */
 	} else {
-		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_global->productionStringID));
+		w->shortcut = GUI_Widget_GetShortcut(*String_Get_ByIndex(g_productionStringID));
 	}
 
 	if (old_6C91 != 0x0) return;

@@ -92,6 +92,7 @@ static uint8 _factoryWindowWsaBuffer[64000];
 static uint8 *g_palette1_houseColour;
 static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
 static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
+uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
 
 /**
  * Draw a wired rectangle.
@@ -628,7 +629,8 @@ void GUI_PaletteAnimate()
 }
 
 /**
- * Sets productionStringID to the correct string for the active structure.
+ * Sets the activity description to the correct string for the active structure.
+ * @see g_productionStringID
  */
 void GUI_UpdateProductionStringID()
 {
@@ -636,35 +638,41 @@ void GUI_UpdateProductionStringID()
 
 	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
-	g_global->productionStringID = 0;
+	g_productionStringID = 0;
 
 	if (s == NULL) return;
 
-	if (g_table_structureInfo[s->o.type].o.flags.s.factory) {
-		if (s->o.flags.s.upgrading) {
-			g_global->productionStringID = 0x90; /* "Upgrading|%d%% done" */
-		} else {
-			if (s->o.linkedID != 0xFF) {
-				if (s->o.flags.s.onHold) {
-					g_global->productionStringID = 0x28; /* "On hold" */
-				} else {
-					if (s->countDown != 0) {
-						g_global->productionStringID = 0x2E; /* "%d%% done" */
-					} else {
-						if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
-							g_global->productionStringID = 0x26; /* "Place it" */
-						} else {
-							g_global->productionStringID = 0x27; /* "Completed" */
-						}
-					}
-				}
-			} else {
-				g_global->productionStringID = 0x29; /* "Build it" */
-			}
-		}
-	} else {
-		if (s->o.type == STRUCTURE_PALACE) g_global->productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
+	if (!g_table_structureInfo[s->o.type].o.flags.s.factory) {
+		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
+		return;
 	}
+
+	if (s->o.flags.s.upgrading) {
+		g_productionStringID = 0x90; /* "Upgrading|%d%% done" */
+		return;
+	}
+
+	if (s->o.linkedID == 0xFF) {
+		g_productionStringID = 0x29; /* "Build it" */
+		return;
+	}
+
+	if (s->o.flags.s.onHold) {
+		g_productionStringID = 0x28; /* "On hold" */
+		return;
+	}
+
+	if (s->countDown != 0) {
+		g_productionStringID = 0x2E; /* "%d%% done" */
+		return;
+	}
+
+	if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
+		g_productionStringID = 0x26; /* "Place it" */
+		return;
+	}
+
+	g_productionStringID = 0x27; /* "Completed" */
 }
 
 static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, uint16 height)
