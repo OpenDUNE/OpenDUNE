@@ -2544,7 +2544,7 @@ void Game_Init()
 	memset(g_global->variable_8DE5, 0, 512 * sizeof(uint8));
 
 	memset(g_mapSpriteID, 0, 64 * 64 * sizeof(uint16));
-	memset(g_global->starportAvailable, 0, 27 * sizeof(uint16));
+	memset(g_starportAvailable, 0, sizeof(g_starportAvailable));
 
 	Sound_Unknown0363(0xFFFE);
 

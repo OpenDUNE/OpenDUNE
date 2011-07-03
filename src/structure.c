@@ -1500,19 +1500,19 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					loop = false;
 
 					for (i = 0; i < UNIT_MAX; i++) {
-						int16 loc2A = g_global->starportAvailable[i];
+						int16 unitsAtStarport = g_starportAvailable[i];
 
-						if (loc2A == 0) {
+						if (unitsAtStarport == 0) {
 							g_table_unitInfo[i].o.available = 0;
 							continue;
 						}
 
-						if (loc2A < 0) {
+						if (unitsAtStarport < 0) {
 							g_table_unitInfo[i].o.available = -1;
 							continue;
 						}
 
-						if (loc60[i] >= loc2A) continue;
+						if (loc60[i] >= unitsAtStarport) continue;
 
 						g_global->variable_38BC++;
 
@@ -1632,9 +1632,8 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 					u->o.linkedID = h->starportLinkedID & 0xFF;
 					h->starportLinkedID = u->o.index;
 
-					g_global->starportAvailable[objectType]--;
-
-					if (g_global->starportAvailable[objectType] <= 0) g_global->starportAvailable[objectType] = -1;
+					g_starportAvailable[objectType]--;
+					if (g_starportAvailable[objectType] <= 0) g_starportAvailable[objectType] = -1;
 
 					g_factoryWindowItems[i].amount--;
 					if (g_factoryWindowItems[i].amount != 0) i--;

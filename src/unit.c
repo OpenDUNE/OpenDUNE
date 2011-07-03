@@ -39,6 +39,12 @@ Unit *g_unitHouseMissile = NULL;
 Unit *g_unitSelected = NULL;
 
 /**
+ * Number of units of each type available at the starport.
+ * \c 0 means not available, \c -1 means \c 0 units, \c >0 means that number of units available.
+ */
+int16 g_starportAvailable[UNIT_MAX];
+
+/**
  * Rotate a unit (or his top).
  *
  * @param unit The Unit to operate on.

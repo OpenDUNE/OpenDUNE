@@ -67,7 +67,7 @@ static bool Load_Info(FILE *fp, uint32 length)
 	if (fread(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
 	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
+	if (fread(&g_starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
 	if (fread(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&variable_38FA, sizeof(uint16), 1, fp) != 1) return false;
 	if (fread(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;

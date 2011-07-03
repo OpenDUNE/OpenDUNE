@@ -81,7 +81,7 @@ static bool Save_Info(FILE *fp)
 	}
 
 	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
+	if (fwrite(&g_starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
 	if (fwrite(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
 
 	if (g_unitHouseMissile != NULL) {

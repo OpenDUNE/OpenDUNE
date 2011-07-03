@@ -1480,7 +1480,7 @@ typedef struct GlobalData {
 	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
 	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
 	/* 97E5(2)   */ PACK uint16 productionStringID;         /*!< StringID displayed on the production button. */
-	/* 97E7(54)  */ PACK int16  starportAvailable[27];      /*!< Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
+	/* 97E7(54)  */ PACK int16  removed_starportAvailable[27]; /*!< REMOVED - Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
 	/* 9846(4)   */ PACK csip32 removed_9846;               /*!< REMOVED - Stored interrupt vector for overlay handler. */
 	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */

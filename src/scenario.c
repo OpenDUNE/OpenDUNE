@@ -464,6 +464,11 @@ static void Scenario_Load_Team(const char *key, char *settings)
 	Team_Create(houseType, teamActionType, movementType, unknown, maxMembers);
 }
 
+/**
+ * Initialize a unit count of the starport.
+ * @param key Unit type to set.
+ * @param settings Count to set.
+ */
 static void Scenario_Load_Choam(const char *key, char *settings)
 {
 	uint8 unitType;
@@ -471,7 +476,7 @@ static void Scenario_Load_Choam(const char *key, char *settings)
 	unitType = Unit_StringToType(key);
 	if (unitType == UNIT_INVALID) return;
 
-	g_global->starportAvailable[unitType] = atoi(settings);
+	g_starportAvailable[unitType] = atoi(settings);
 }
 
 static void Scenario_Load_MapParts(const char *key, void (*ptr)(uint16 packed, Tile *t))
