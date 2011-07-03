@@ -50,7 +50,7 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 		uint16 i;
 
 		for (i = 0; i < sld->count; i++) {
-			void *ptr = ((uint8 *)object) + sld->offset + i * sld->size;
+			void *ptr = (sld->address == NULL ? ((uint8 *)object) + sld->offset : (uint8 *)sld->address) + i * sld->size;
 
 			switch (sld->type_disk) {
 				case SLDT_CALLBACK:
@@ -169,7 +169,7 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 		uint16 i;
 
 		for (i = 0; i < sld->count; i++) {
-			void *ptr = ((uint8 *)object) + sld->offset + i * sld->size;
+			void *ptr = (sld->address == NULL ? ((uint8 *)object) + sld->offset : (uint8 *)sld->address) + i * sld->size;
 
 			switch (sld->type_memory) {
 				case SLDT_NULL:
