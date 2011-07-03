@@ -1432,17 +1432,18 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	}
 
 	if (score != 0xFFFF) {
+		char buffer[64];
 		/* "Time: %dh %dm" */
-		sprintf((char *)g_global->variable_9939, String_Get_ByIndex(0x16), g_global->variable_81EB / 60, g_global->variable_81EB % 60);
+		snprintf(buffer, sizeof(buffer), String_Get_ByIndex(0x16), g_global->variable_81EB / 60, g_global->variable_81EB % 60);
 
 		if (g_global->variable_81EB < 60) {
-			char *hours = strchr((char *)g_global->variable_9939, '0');
+			char *hours = strchr(buffer, '0');
 			while (*hours != ' ') strcpy(hours, hours + 1);
 		}
 
 		/* "Score: %d" */
 		GUI_DrawText_Wrapper(String_Get_ByIndex(0x15), 72, 15, 15, 0, 0x22, score);
-		GUI_DrawText_Wrapper((char *)g_global->variable_9939, 248, 15, 15, 0, 0x222);
+		GUI_DrawText_Wrapper(buffer, 248, 15, 15, 0, 0x222);
 		/* "You have attained the rank of" */
 		GUI_DrawText_Wrapper(String_Get_ByIndex(0x17), SCREEN_WIDTH / 2, 38, 15, 0, 0x122);
 	} else {
@@ -1683,6 +1684,7 @@ uint8 GUI_PickHouse()
 
 	while (true) {
 		uint16 yes_no;
+		char buffer[16];
 
 		for (i = 0; i < 3; i++) {
 			Widget *w2;
@@ -1749,9 +1751,8 @@ uint8 GUI_PickHouse()
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0)); /* "Yes" */
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[houseID].name[0]);
-
-		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+		snprintf(buffer, sizeof(buffer), "TEXT%c", g_table_houseInfo[houseID].name[0]);
+		String_LoadFile(String_GenerateFilename(buffer), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
 
 		g_playerHouseID = HOUSE_MERCENARY;
@@ -2638,8 +2639,6 @@ static void GUI_FactoryWindow_InitItems()
 		seed *= seed;
 
 		srand(seed);
-
-		sprintf((char *)g_global->variable_9939, "sec(%u) seed(%u) ", seconds, seed);
 	}
 
 	if (g_global->factoryWindowConstructionYard == 0) {
@@ -2868,6 +2867,7 @@ static void GUI_StrategicMap_AnimateArrows()
 static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *data)
 {
 	char key[4];
+	char buffer[81];
 	int16 x;
 	int16 y;
 	uint8 *sprite;
@@ -2889,8 +2889,8 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 	sprintf(key, "%d", selected);
 
-	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
-	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
+	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	sscanf(buffer, "%hd,%hd", &x, &y);
 
 	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), selected);
 	width  = Sprite_GetWidth(sprite);
@@ -3015,11 +3015,13 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 	memset(data, 0, 20 * sizeof(StrategicMapData));
 
 	for (i = 0; i < 20; i++) {
+		char buffer[81];
+
 		sprintf(key, "REG%d", i + 1);
 
-		if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) break;
+		if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) break;
 
-		sscanf((char *)g_global->variable_9939, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
+		sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
 		if (!GUI_StrategicMap_Var2AF4_Get(data[i].index)) loc12 = false;
 
@@ -3085,15 +3087,16 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 {
 	char key[4];
 	char buffer[100];
+	char groupText[16];
 	char *s = buffer;
 	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 
 	strncpy(key, g_table_houseInfo[houseID].name, 3);
 	key[3] = '\0';
 
-	sprintf((char *)g_global->variable_9939, "GROUP%d", campaignID);
+	snprintf(groupText, sizeof(groupText), "GROUP%d", campaignID);
 
-	if (Ini_GetString((char *)g_global->variable_9939, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) return;
+	if (Ini_GetString(groupText, key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) return;
 
 	while (*s != '\0') {
 		uint16 region = atoi(s);
@@ -3109,6 +3112,7 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progressive)
 {
 	char key[4];
+	char buffer[81];
 	int16 x;
 	int16 y;
 	uint8 *sprite;
@@ -3117,8 +3121,8 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	sprintf(key, "%d", region);
 
-	Ini_GetString("PIECES", key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
-	sscanf((char *)g_global->variable_9939, "%hd,%hd", &x, &y);
+	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer), (char *)emu_get_memorycsip(g_global->REGION_INI));
+	sscanf(buffer, "%hd,%hd", &x, &y);
 
 	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), region);
 
@@ -3170,10 +3174,12 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 			uint16 region = atoi(s);
 
 			if (region != 0) {
+				char buffer[81];
+
 				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_config.language], region);
 
-				if (Ini_GetString(category, key, NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
-					GUI_StrategicMap_DrawText((char *)g_global->variable_9939);
+				if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer), (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
+					GUI_StrategicMap_DrawText(buffer);
 				}
 
 				GUI_StrategicMap_DrawRegion(houseID, region, true);
@@ -4370,24 +4376,24 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 
 	offsetY = 90;
 	for (i = 0; i < 8; i++, offsetY += 11) {
+		char buffer[81];
+		const char *p1, *p2;
+
 		if (data[i].score == 0) break;
 
-		strcpy((char *)g_global->variable_9939, data[i].name);
-		strcat((char *)g_global->variable_9939, ", ");
 		if (g_config.language == LANGUAGE_FRENCH) {
-			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
-			strcat((char *)g_global->variable_9939, " ");
-			strcat((char *)g_global->variable_9939, g_table_houseInfo[data[i].houseID].name);
+			p1 = String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]);
+			p2 = g_table_houseInfo[data[i].houseID].name;
 		} else {
-			strcat((char *)g_global->variable_9939, g_table_houseInfo[data[i].houseID].name);
-			strcat((char *)g_global->variable_9939, " ");
-			strcat((char *)g_global->variable_9939, String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]));
+			p1 = g_table_houseInfo[data[i].houseID].name;
+			p2 = String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]);
 		}
+		snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
 
 		if (*data[i].name == '\0') {
-			width = battleX - 36 - Font_GetStringWidth((char *)g_global->variable_9939);
+			width = battleX - 36 - Font_GetStringWidth(buffer);
 		} else {
-			GUI_DrawText_Wrapper((char *)g_global->variable_9939, 32, offsetY, 15, 0, 0x22);
+			GUI_DrawText_Wrapper(buffer, 32, offsetY, 15, 0, 0x22);
 		}
 
 		GUI_DrawText_Wrapper("%u.", 24, offsetY, 15, 0, 0x222, i + 1);

@@ -211,6 +211,7 @@ void Voice_LoadVoices(uint16 voiceSet)
 	if (currentVoiceSet == voiceSet) return;
 
 	for (voice = 0; voice < NUM_VOICES; voice++) {
+		char filename[16];
 		const char *str = g_table_voices[voice].string;
 		switch (*str) {
 			case '%':
@@ -222,9 +223,9 @@ void Voice_LoadVoices(uint16 voiceSet)
 					case LANGUAGE_GERMAN: i = 'G'; break;
 					default: i = g_table_houseInfo[voiceSet].prefixChar;
 				}
-				sprintf((char *)g_global->variable_9939, str, i);
+				snprintf(filename, sizeof(filename), str, i);
 
-				g_variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_Unknown0823(filename, &g_variable_3E54_size[voice]);
 				break;
 
 			case '+':
@@ -235,9 +236,9 @@ void Voice_LoadVoices(uint16 voiceSet)
 					case LANGUAGE_GERMAN:  i = 'G'; break;
 					default: i = 'Z'; break;
 				}
-				sprintf((char *)g_global->variable_9939, str + 1, i);
+				snprintf(filename, sizeof(filename), str + 1, i);
 
-				g_variable_3E54[voice] = Sound_Unknown0823((char *)g_global->variable_9939, &g_variable_3E54_size[voice]);
+				g_variable_3E54[voice] = Sound_Unknown0823(filename, &g_variable_3E54_size[voice]);
 				break;
 
 			case '-':
@@ -279,13 +280,14 @@ void Sound_Unknown0156(uint16 index)
 		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
 		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 	} else {
+		char filenameBuffer[16];
 		const char *filename;
 
 		filename = g_table_voices[index].string;
 		if (filename[0] == '?') {
-			sprintf((char *)g_global->variable_9939, filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
+			snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
 
-			Driver_Voice_LoadFile((char *)g_global->variable_9939, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+			Driver_Voice_LoadFile(filenameBuffer, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
 
 			Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
 		}

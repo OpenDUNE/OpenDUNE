@@ -1506,7 +1506,7 @@ typedef struct GlobalData {
 	/* 9933(2)   */ PACK uint16  removed_9933;              /*!< REMOVED - A counter (write-only). */
 	/* 9935(2)   */ PACK uint16  removed_9935;              /*!< REMOVED - ?? (write-only) */
 	/* 9937(2)   */ PACK uint16 removed_9937;               /*!< REMOVED - True if video is vsync'd. */
-	/* 9939(81)  */ PACK uint8  variable_9939[81];          /*!< ?? Buffer. */
+	/* 9939(81)  */ PACK uint8  removed_9939[81];           /*!< REMOVED - General text buffer. */
 	/* 998A(4)   */ PACK csip32 removed_998A;               /*!< REMOVED - A palette. */
 	/* 998E(97)  */ PACK uint8  removed_998E[97];           /*!< REMOVED - Current directory. */
 	/* 99EF(4)   */ PACK csip32 removed_99Ef;               /*!< REMOVED - Pointer to content of new8p.fnt. */

@@ -168,6 +168,7 @@ bool GUI_Security_Show()
 		uint32 tickWaitTill;
 		char string[1024];
 		char *compressedString;
+		char buffer[81];
 
 		questionIndex = Tools_RandomRange(0, questionsCount - 1) * 3 + 10;
 
@@ -210,11 +211,11 @@ bool GUI_Security_Show()
 
 		Input_History_Clear();
 
-		g_global->variable_9939[0] = 0;
+		buffer[0] = 0;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
-		GUI_EditBox((char *)g_global->variable_9939, 80, 9, NULL, &GUI_Mentat_Tick, 0);
+		GUI_EditBox(buffer, sizeof(buffer) - 1, 9, NULL, &GUI_Mentat_Tick, 0);
 
 		GUI_Security_UndrawText();
 
@@ -222,7 +223,7 @@ bool GUI_Security_Show()
 		GUI_Screen_Copy(0, 0, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 4, 0);
 		GUI_Mouse_Show_Safe();
 
-		GUI_Security_NormaliseText((char *)g_global->variable_9939);
+		GUI_Security_NormaliseText(buffer);
 
 		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 2);
 		String_Decompress(compressedString, string);
@@ -230,7 +231,7 @@ bool GUI_Security_Show()
 
 		GUI_Security_NormaliseText(string);
 
-		if (strcasecmp(string, (char *)&emu_get_memory8(0x353F, 0x9939, 0)) != 0) {
+		if (strcasecmp(string, buffer) != 0) {
 			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 3);
 			String_Decompress(compressedString, string);
 			String_TranslateSpecial(string, string);

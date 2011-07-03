@@ -493,12 +493,12 @@ void GUI_Mentat_ShowLose()
  */
 void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 {
+	char textBuffer[16];
 	uint16 oldScreenID;
 	int i;
 
-	sprintf((char *)g_global->variable_9939, "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
-
-	Sprites_LoadImage((char *)g_global->variable_9939, 3, 3, g_palette_998A, 1);
+	snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
+	Sprites_LoadImage(textBuffer, 3, 3, g_palette_998A, 1);
 
 	GFX_Screen_Copy3(3, 2);
 
@@ -963,6 +963,7 @@ static void GUI_Mentat_ShowHelp()
 
 	if (noDesc) {
 		uint16 index;
+		char filenamePrefix[8];
 
 		picture = g_scenario.pictureBriefing;
 		desc    = NULL;
@@ -970,8 +971,8 @@ static void GUI_Mentat_ShowHelp()
 
 		index = *text - 44 + g_campaignID * 4;
 
-		sprintf((char *)g_global->variable_9939, "TEXT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-		String_LoadFile(String_GenerateFilename((char *)g_global->variable_9939), index, text, g_global->readBufferSize);
+		snprintf(filenamePrefix, sizeof(filenamePrefix), "TEXT%c", g_table_houseInfo[g_playerHouseID].name[0]);
+		String_LoadFile(String_GenerateFilename(filenamePrefix), index, text, g_global->readBufferSize);
 		String_TranslateSpecial(text, text);
 	} else {
 		picture = (char *)emu_get_memorycsip(g_global->readBuffer);

@@ -10,6 +10,7 @@
 #include "global.h"
 #include "os/endian.h"
 #include "os/sleep.h"
+#include "os/strings.h"
 
 #include "sprites.h"
 
@@ -91,11 +92,13 @@ void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites)
 	while (*files != '\0') {
 		const HouseInfo *hi;
 		uint32 length;
-		char *filename = (char *)g_global->variable_9939;
+		char bufferText[12];
+		char *filename;
 
 		hi = &g_table_houseInfo[(g_playerHouseID == HOUSE_INVALID) ? HOUSE_ATREIDES : g_playerHouseID];
 
-		sprintf(filename, files, hi->name[0]);
+		snprintf(bufferText, sizeof(bufferText), files, hi->name[0]);
+		filename = bufferText;
 
 		if (strchr(filename, '.') == NULL) {
 			filename = String_GenerateFilename(filename);
@@ -587,10 +590,11 @@ static void InitRegions()
 {
 	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 	uint16 i;
+	char textBuffer[81];
 
-	Ini_GetString("INFO", "TOTAL REGIONS", NULL, (char *)g_global->variable_9939, 80, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	Ini_GetString("INFO", "TOTAL REGIONS", NULL, textBuffer, lengthof(textBuffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI));
 
-	sscanf((char *)g_global->variable_9939, "%hu", &regions[0]);
+	sscanf(textBuffer, "%hu", &regions[0]);
 
 	for (i = 0; i < regions[0]; i++) regions[i + 1] = 0xFFFF;
 }
@@ -600,6 +604,7 @@ void Sprites_CPS_LoadRegionClick()
 	csip32 memBlock;
 	uint8 *buf;
 	uint8 i;
+	char filename[16];
 
 	memBlock = Screen_GetSegment_ByIndex_1(5);
 	g_global->RGNCLK_CPS = memBlock;
@@ -622,8 +627,8 @@ void Sprites_CPS_LoadRegionClick()
 	g_global->REGION_INI = memBlock;
 
 	buf = emu_get_memorycsip(g_global->REGION_INI);
-	sprintf((char *)g_global->variable_9939, "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
-	memBlock.s.ip += File_ReadFile((char *)g_global->variable_9939, buf) & 0xFFFF;
+	snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
+	memBlock.s.ip += File_ReadFile(filename, buf) & 0xFFFF;
 	memBlock = Tools_GetSmallestIP(memBlock);
 	g_global->regions = memBlock;
 

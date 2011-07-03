@@ -498,6 +498,8 @@ static void GameLoop_PlayAnimation()
 			wsa = NULL;
 			frame = 0;
 		} else {
+			char filenameBuffer[16];
+
 			if (mode == 3) {
 				frame = var805E->variable_0005;
 				loc20 = true;
@@ -519,9 +521,8 @@ static void GameLoop_PlayAnimation()
 				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 			}
 
-			sprintf((char *)g_global->variable_9939, "%s.WSA", emu_get_memorycsip(var805E->string));
-
-			wsa = WSA_LoadFile((char *)g_global->variable_9939, wsa, loc24, loc20);
+			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", emu_get_memorycsip(var805E->string));
+			wsa = WSA_LoadFile(filenameBuffer, wsa, loc24, loc20);
 		}
 
 		locdi = 0;
@@ -1006,9 +1007,10 @@ static void GameCredits_LoadPaletteAndSprites()
 	memBlock = Screen_GetSegment_ByIndex_1(3);
 
 	for (i = 0; i < 11; i++) {
-		sprintf((char *)g_global->variable_9939, "CREDIT%d.SHP", i + 1);
+		char filenameBuffer[16];
 
-		size = File_ReadBlockFile((char *)g_global->variable_9939, emu_get_memorycsip(memBlock), 0xFA00);
+		snprintf(filenameBuffer, sizeof(filenameBuffer), "CREDIT%d.SHP", i + 1);
+		size = File_ReadBlockFile(filenameBuffer, emu_get_memorycsip(memBlock), 0xFA00);
 
 		g_sprites[i] = emu_get_memorycsip(Tools_Malloc(size, 0x0));
 

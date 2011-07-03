@@ -11,6 +11,7 @@
 #include "../os/endian.h"
 #include "../os/math.h"
 #include "../os/sleep.h"
+#include "../os/strings.h"
 
 #include "gui.h"
 #include "widget.h"
@@ -1289,6 +1290,7 @@ static void GUI_Purchase_ShowInvoice()
 	uint16 y = 48;
 	uint16 total = 0;
 	uint16 x;
+	char textBuffer[12];
 
 	GUI_DrawFilledRectangle(128, 48, 311, 159, 20);
 
@@ -1307,17 +1309,18 @@ static void GUI_Purchase_ShowInvoice()
 		for (i = 0; i < g_factoryWindowTotal; i++) {
 			ObjectInfo *oi;
 			uint16 amount;
+
 			if (g_factoryWindowItems[i].amount == 0) continue;
 
 			amount = g_factoryWindowItems[i].amount * g_factoryWindowItems[i].credits;
 			total += amount;
 
-			sprintf((char *)g_global->variable_9939, "%02d %5d", g_factoryWindowItems[i].amount, amount);
+			snprintf(textBuffer, sizeof(textBuffer), "%02d %5d", g_factoryWindowItems[i].amount, amount);
 
 			oi = g_factoryWindowItems[i].objectInfo;
 			GUI_DrawText_Wrapper(String_Get_ByIndex(oi->stringID_full), 128, y, 8, 0, 0x11);
 
-			GUI_DrawText_Monospace((char *)g_global->variable_9939, 311 - strlen((char *)g_global->variable_9939) * 6, y, 15, 0, 6);
+			GUI_DrawText_Monospace(textBuffer, 311 - strlen(textBuffer) * 6, y, 15, 0, 6);
 
 			y += 8;
 		}
@@ -1329,14 +1332,13 @@ static void GUI_Purchase_ShowInvoice()
 	GUI_DrawLine(129, 148, 310, 148, 12);
 	GUI_DrawLine(129, 150, 310, 150, 12);
 
-	sprintf((char *)g_global->variable_9939, "%d", total);
+	snprintf(textBuffer, sizeof(textBuffer), "%d", total);
 
-	x = 311 - strlen((char *)g_global->variable_9939) * 6;
+	x = 311 - strlen(textBuffer) * 6;
 
 	/* "Total Cost :" */
 	GUI_DrawText_Wrapper(GUI_String_Get_ByIndex(0xB8), x - 3, 152, 11, 0, 0x211);
-
-	GUI_DrawText_Monospace((char *)g_global->variable_9939, x, 152, 11, 0, 6);
+	GUI_DrawText_Monospace(textBuffer, x, 152, 11, 0, 6);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, 0);

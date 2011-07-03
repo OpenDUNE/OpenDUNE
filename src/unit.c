@@ -2015,19 +2015,20 @@ Unit *Unit_CreateBullet(tile32 position, UnitType type, uint8 houseID, uint16 da
 void Unit_DisplayStatusText(Unit *unit)
 {
 	const UnitInfo *ui;
+	char buffer[81];
 
 	if (unit == NULL) return;
 
 	ui = &g_table_unitInfo[unit->o.type];
 
 	if (unit->o.type == UNIT_SANDWORM) {
-		snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
+		snprintf(buffer, sizeof(buffer), "%s", String_Get_ByIndex(ui->o.stringID_abbrev));
 	} else {
 		const char *houseName = g_table_houseInfo[Unit_GetHouseID(unit)].name;
 		if (g_config.language == LANGUAGE_FRENCH) {
-			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
+			snprintf(buffer, sizeof(buffer), "%s %s", String_Get_ByIndex(ui->o.stringID_abbrev), houseName);
 		} else {
-			snprintf((char *)g_global->variable_9939, sizeof(g_global->variable_9939), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
+			snprintf(buffer, sizeof(buffer), "%s %s", houseName, String_Get_ByIndex(ui->o.stringID_abbrev));
 		}
 	}
 
@@ -2053,15 +2054,15 @@ void Unit_DisplayStatusText(Unit *unit)
 		if (unit->amount == 0) stringID += 4;
 
 		{
-			size_t len = strlen((char *)g_global->variable_9939);
-			char *s = (char *)g_global->variable_9939 + len;
+			size_t len = strlen(buffer);
+			char *s = buffer + len;
 
-			snprintf(s, sizeof((char *)g_global->variable_9939) - len, String_Get_ByIndex(stringID), unit->amount);
+			snprintf(s, sizeof(buffer) - len, String_Get_ByIndex(stringID), unit->amount);
 		}
 	}
 
-	strcat((char *)g_global->variable_9939, ".");
-	GUI_DisplayText((char *)g_global->variable_9939, 2);
+	strcat(buffer, ".");
+	GUI_DisplayText(buffer, 2);
 }
 
 /**
