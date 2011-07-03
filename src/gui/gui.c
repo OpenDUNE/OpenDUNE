@@ -4289,7 +4289,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		g_widgetProperties[19].yBase = (editLine - 1) * 11 + 90;
 		g_widgetProperties[19].width = width / 8;
 		g_widgetProperties[19].height = 11;
-		g_widgetProperties[19].prop4 = 6;
+		g_widgetProperties[19].fgColourBlink = 6;
 		g_widgetProperties[19].fgColourNormal = 116;
 
 		GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);

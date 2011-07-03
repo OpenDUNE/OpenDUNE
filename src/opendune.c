@@ -1419,7 +1419,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 	top = g_curWidgetYBase + props->yBase;
 	left = (g_curWidgetXBase + props->xBase) << 3;
 
-	old = GameLoop_B4E6_0000(props->prop4, arg0C, arg10);
+	old = GameLoop_B4E6_0000(props->fgColourBlink, arg0C, arg10);
 
 	GUI_Mouse_Hide_Safe();
 
@@ -1464,7 +1464,7 @@ static bool GameLoop_B4E6_00E0(uint16 x, uint16 y, uint16 minX, uint16 minY, uin
 
 static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uint16 arg14)
 {
-	uint16 last;
+	uint8 last;
 	uint16 result;
 	uint16 key;
 	uint16 top;
@@ -1476,14 +1476,14 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	uint16 lineHeight;
 	uint8 fgColourNormal;
 	uint8 fgColourSelected;
-	uint16 old;
+	uint8 old;
 	WidgetProperties *props;
-	uint16 current;
+	uint8 current;
 
 	props = &g_widgetProperties[21 + arg06];
 
 	last = props->height - 1;
-	old = props->prop4 % (last + 1);
+	old = props->fgColourBlink % (last + 1);
 	current = old;
 
 	result = 0xFFFF;
@@ -1548,7 +1548,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 			break;
 
 		default: {
-			uint16 i;
+			uint8 i;
 
 			for (i = 0; i < props->height; i++) {
 				char c1;
@@ -1582,7 +1582,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 		GUI_Mouse_Show_Safe();
 	}
 
-	props->prop4 = current;
+	props->fgColourBlink = current;
 
 	if (result == 0xFFFF) return 0xFFFF;
 

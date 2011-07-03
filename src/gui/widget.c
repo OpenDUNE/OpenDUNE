@@ -958,7 +958,7 @@ uint16 Widget_SetCurrentWidget(uint16 index)
 	g_curWidgetYBase          = g_widgetProperties[index].yBase;
 	g_curWidgetWidth          = g_widgetProperties[index].width;
 	g_curWidgetHeight         = g_widgetProperties[index].height;
-	g_curWidgetFGColourBlink  = g_widgetProperties[index].prop4;
+	g_curWidgetFGColourBlink  = g_widgetProperties[index].fgColourBlink;
 	g_curWidgetFGColourNormal = g_widgetProperties[index].fgColourNormal;
 
 	return oldIndex;

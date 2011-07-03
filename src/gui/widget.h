@@ -184,7 +184,7 @@ typedef struct WidgetProperties {
 	uint16 yBase;                                           /*!< Vertical base coordinate. */
 	uint16 width;                                           /*!< Width of the widget divided by 8. */
 	uint16 height;                                          /*!< Height of the widget. */
-	uint16 prop4;                                           /*!< ?? */
+	uint8  fgColourBlink;                                   /*!< Foreground colour for 'blink'. */
 	uint8  fgColourNormal;                                  /*!< Foreground colour for 'normal'. */
 	uint8  fgColourSelected;                                /*!< Foreground colour when 'selected' */
 } WidgetProperties;
