@@ -50,6 +50,8 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 		uint16 i;
 
 		for (i = 0; i < sld->count; i++) {
+			void *ptr = ((uint8 *)object) + sld->offset + i * sld->size;
+
 			switch (sld->type_disk) {
 				case SLDT_CALLBACK:
 				case SLDT_SLD:
@@ -112,33 +114,33 @@ bool SaveLoad_Load(const SaveLoadDesc *sld, FILE *fp, void *object)
 					break;
 
 				case SLDT_UINT8:
-					*(uint8 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint8)value;
+					*(uint8 *)ptr = (uint8)value;
 					break;
 
 				case SLDT_UINT16:
-					*(uint16 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint16)value;
+					*(uint16 *)ptr = (uint16)value;
 					break;
 
 				case SLDT_UINT32:
-					*(uint32 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint32)value;
+					*(uint32 *)ptr = (uint32)value;
 					break;
 
 
 				case SLDT_INT8:
-					*(int8 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint8)value;
+					*(int8 *)ptr = (uint8)value;
 					break;
 
 				case SLDT_INT16:
-					*(int16 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint16)value;
+					*(int16 *)ptr = (uint16)value;
 					break;
 
 				case SLDT_INT32:
-					*(int32 *)(((uint8 *)object) + sld->offset + i * sld->size) = (uint32)value;
+					*(int32 *)ptr = (uint32)value;
 					break;
 
 
 				case SLDT_SLD:
-					SaveLoad_Load(sld->sld, fp, ((uint8 *)object) + sld->offset + i * sld->size);
+					SaveLoad_Load(sld->sld, fp, ptr);
 					break;
 
 				case SLDT_CALLBACK:
@@ -167,39 +169,41 @@ bool SaveLoad_Save(const SaveLoadDesc *sld, FILE *fp, void *object)
 		uint16 i;
 
 		for (i = 0; i < sld->count; i++) {
+			void *ptr = ((uint8 *)object) + sld->offset + i * sld->size;
+
 			switch (sld->type_memory) {
 				case SLDT_NULL:
 					value = 0;
 					break;
 
 				case SLDT_UINT8:
-					value = *(uint8 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(uint8 *)ptr;
 					break;
 
 				case SLDT_UINT16:
-					value = *(uint16 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(uint16 *)ptr;
 					break;
 
 				case SLDT_UINT32:
-					value = *(uint32 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(uint32 *)ptr;
 					break;
 
 
 				case SLDT_INT8:
-					value = *(int8 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(int8 *)ptr;
 					break;
 
 				case SLDT_INT16:
-					value = *(int16 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(int16 *)ptr;
 					break;
 
 				case SLDT_INT32:
-					value = *(int32 *)(((uint8 *)object) + sld->offset + i * sld->size);
+					value = *(int32 *)ptr;
 					break;
 
 
 				case SLDT_SLD:
-					SaveLoad_Save(sld->sld, fp, ((uint8 *)object) + sld->offset + i * sld->size);
+					SaveLoad_Save(sld->sld, fp, ptr);
 					break;
 
 				case SLDT_CALLBACK:
