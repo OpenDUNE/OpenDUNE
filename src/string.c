@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include "types.h"
 #include "global.h"
 #include "os/strings.h"
@@ -51,8 +52,13 @@ uint16 String_Decompress(char *source, char *dest)
  */
 char *String_GenerateFilename(char *name)
 {
-	snprintf(g_global->stringFilename, sizeof(g_global->stringFilename), "%s.%s", name, g_global->string_31D8 + g_config.language * 4);
-	return g_global->stringFilename;
+	static char filename[14];
+	static const char * const languageSuffixes[] = {"ENG", "FRE", "GER", "ITA", "SPA"};
+
+	assert(g_config.language < lengthof(languageSuffixes));
+
+	snprintf(filename, sizeof(filename), "%s.%s", name, languageSuffixes[g_config.language]);
+	return filename;
 }
 
 /**

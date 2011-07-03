@@ -731,11 +731,11 @@ typedef struct GlobalData {
 	/* 31D2(2)   */ PACK uint16 variable_31D2;              /*!< ?? */
 	/* 31D4(2)   */ PACK uint16 variable_31D4;              /*!< ?? */
 	/* 31D6(2)   */ PACK uint16 variable_31D6;              /*!< ?? */
-	/* 31D8(4)   */ PACK char   string_31D8[4];             /*!< "ENG" NULL terminated. */
-	/* 31DC(4)   */ PACK char   string_31DC[4];             /*!< "FRE" NULL terminated. */
-	/* 31E0(4)   */ PACK char   string_31E0[4];             /*!< "GER" NULL terminated. */
-	/* 31E4(4)   */ PACK char   string_31E4[4];             /*!< "ITA" NULL terminated. */
-	/* 31E8(4)   */ PACK char   string_31E8[4];             /*!< "SPA" NULL terminated. */
+	/* 31D8(4)   */ PACK char   removed_string_31D8[4];     /*!< REMOVED - "ENG" NULL terminated. */
+	/* 31DC(4)   */ PACK char   removed_string_31DC[4];     /*!< REMOVED - "FRE" NULL terminated. */
+	/* 31E0(4)   */ PACK char   removed_string_31E0[4];     /*!< REMOVED - "GER" NULL terminated. */
+	/* 31E4(4)   */ PACK char   removed_string_31E4[4];     /*!< REMOVED - "ITA" NULL terminated. */
+	/* 31E8(4)   */ PACK char   removed_string_31E8[4];     /*!< REMOVED - "SPA" NULL terminated. */
 	/* 31EC(4)   */ PACK char   string_31EC[4];             /*!< "FRE" NULL terminated. */
 	/* 31F0(4)   */ PACK char   string_31F0[4];             /*!< "GER" NULL terminated. */
 	/* 31F4(5)   */ PACK char   string_31F4[5];             /*!< "DUNE" NULL terminated. */
@@ -1448,7 +1448,7 @@ typedef struct GlobalData {
 	/* 8229(2)   */ PACK uint16  removed_8229;              /*!< REMOVED ?? (never used) */
 	/* 822B(1)   */ PACK uint8   removed_822B;              /*!< REMOVED ?? (never used) */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
-	/* 8282(14)  */ PACK char   stringFilename[14];         /*!< String buffer for emu_String_GenerateFilename(). */
+	/* 8282(14)  */ PACK char   removed_stringFilename[14]; /*!< REMOVED - String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
 	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
 	/* 8430(4)   */ PACK csip32 removed_8430;               /*!< REMOVED - Current StructureInfo we are handling in the GameLoop. */
