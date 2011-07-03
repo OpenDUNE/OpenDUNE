@@ -2495,12 +2495,6 @@ void Game_Prepare()
 
 	Map_SetSelection(g_global->selectionPosition);
 
-	if (g_global->variable_38E8 != 0xFFFF) {
-		g_structureActive = Structure_Get_ByIndex(g_global->variable_38E8);
-	} else {
-		g_structureActive = NULL;
-	}
-
 	if (g_structureActiveType != 0xFFFF) {
 		Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 	} else {

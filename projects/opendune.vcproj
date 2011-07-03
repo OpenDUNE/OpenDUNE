@@ -1390,6 +1390,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\src\saveload\info.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\saveload\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\src\saveload\object.c"
 					>
 					<FileConfiguration

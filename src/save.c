@@ -25,78 +25,6 @@
 #include "unit.h"
 
 /**
- * Save all kinds of important info to the savegame.
- * @param fp The file to save to.
- * @return True if and only if all bytes were written successful.
- */
-static bool Save_Info(FILE *fp)
-{
-	static uint16 savegameVersion = 0x0290;
-	uint8 selectionType = (uint8)g_global->selectionType;
-	uint8 structureActiveType = (uint8)g_structureActiveType;
-
-	if (fwrite(&savegameVersion, sizeof(uint16), 1, fp) != 1) return false;
-
-	if (!SaveLoad_Save(g_saveScenario, fp, &g_scenario)) return false;
-	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&selectionType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fwrite(&structureActiveType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fwrite(&g_structureActivePosition, sizeof(uint16), 1, fp) != 1) return false;
-
-	if (g_structureActiveType != 0xFFFF) {
-		if (fwrite(&g_structureActive->o.index, sizeof(uint16), 1, fp) != 1) return false;
-	} else {
-		uint16 invalid = 0xFFFF;
-		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
-	}
-
-	if (g_unitSelected != NULL) {
-		if (fwrite(&g_unitSelected->o.index, sizeof(uint16), 1, fp) != 1) return false;
-	} else {
-		uint16 invalid = 0xFFFF;
-		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
-	}
-
-	if (g_unitActive != NULL) {
-		if (fwrite(&g_unitActive->o.index, sizeof(uint16), 1, fp) != 1) return false;
-	} else {
-		uint16 invalid = 0xFFFF;
-		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
-	}
-
-	if (fwrite(&g_global->activeAction, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
-
-	if (fwrite(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
-
-	if (fwrite(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
-	if (fwrite(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
-
-	{
-		uint32 tickScenarioStart = g_global->tickGlobal - g_global->tickScenarioStart;
-		if (fwrite(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
-	}
-
-	if (fwrite(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fwrite(&g_starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fwrite(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
-
-	if (g_unitHouseMissile != NULL) {
-		if (fwrite(&g_unitHouseMissile->o.index, sizeof(uint16), 1, fp) != 1) return false;
-	} else {
-		uint16 invalid = 0xFFFF;
-		if (fwrite(&invalid, sizeof(uint16), 1, fp) != 1) return false;
-	}
-
-	if (fwrite(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;
-
-	return true;
-}
-
-/**
  * Save a chunk of data.
  * @param fp The file to save to.
  * @param header The chunk identification string (4 chars, always).
@@ -170,7 +98,7 @@ static bool Save_Main(FILE *fp, char *description)
 	}
 
 	/* Store all additional chunks */
-	if (!Save_Chunk(fp, "INFO", &Save_Info)) return false;
+	if (!Save_Chunk(fp, "INFO", &Info_Save)) return false;
 	if (!Save_Chunk(fp, "PLYR", &House_Save)) return false;
 	if (!Save_Chunk(fp, "UNIT", &Unit_Save)) return false;
 	if (!Save_Chunk(fp, "BLDG", &Structure_Save)) return false;

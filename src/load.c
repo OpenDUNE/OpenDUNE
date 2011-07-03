@@ -31,107 +31,6 @@
 #include "unit.h"
 #include "unknown/unknown.h"
 
-/**
- * Load all kinds of important info from a file.
- * @param fp The file to load from.
- * @param length The length of the data chunk.
- * @return True if and only if all bytes were read successful.
- */
-static bool Load_Info(FILE *fp, uint32 length)
-{
-	uint8 variable_3A10;
-	uint8 structureActiveType;
-	uint16 selectionUnit;
-	uint16 activeUnit;
-	uint32 tickScenarioStart;
-	uint16 variable_38FA;
-	uint32 position;
-
-	position = ftell(fp);
-
-	if (!SaveLoad_Load(g_saveScenario, fp, &g_scenario)) return false;
-	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->minimapPosition, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->variable_3A00, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&variable_3A10, sizeof(uint8), 1, fp) != 1) return false;
-	if (fread(&structureActiveType, sizeof(uint8), 1, fp) != 1) return false;
-	if (fread(&g_structureActivePosition, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->variable_38E8, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&selectionUnit, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&activeUnit, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->activeAction, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->variable_2AF4, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->hintsShown1, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_global->hintsShown2, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&tickScenarioStart, sizeof(uint32), 1, fp) != 1) return false;
-	if (fread(&g_playerCreditsNoSilo, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_starportAvailable, sizeof(int16), UNIT_MAX, fp) != UNIT_MAX) return false;
-	if (fread(&g_houseMissileCountdown, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&variable_38FA, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_global->structureIndex, sizeof(uint16), 1, fp) != 1) return false;
-
-	position = ftell(fp) - position;
-	if (position != length) return false;
-
-	g_global->viewportPosition = g_global->minimapPosition;
-	g_global->selectionPosition = g_global->variable_3A00;
-	g_global->variable_3A10 = (int8)variable_3A10;
-	g_structureActiveType = (int8)structureActiveType;
-
-	if (selectionUnit != 0xFFFF) {
-		Unit *u;
-		if (selectionUnit >= UNIT_INDEX_MAX) return false;
-		u = Unit_Get_ByIndex(selectionUnit);
-
-		g_unitSelected = u;
-	}
-
-	if (activeUnit != 0xFFFF) {
-		Unit *u;
-		if (activeUnit >= UNIT_INDEX_MAX) return false;
-		u = Unit_Get_ByIndex(activeUnit);
-
-		g_unitActive = u;
-	}
-
-	g_global->tickScenarioStart = g_global->tickGlobal - tickScenarioStart;
-
-	if (variable_38FA != 0xFFFF) {
-		Unit *u;
-		if (variable_38FA >= UNIT_INDEX_MAX) return false;
-		u = Unit_Get_ByIndex(variable_38FA);
-
-		g_unitHouseMissile = u;
-	}
-
-	Sprites_LoadTiles();
-
-	Map_CreateLandscape(g_scenario.mapSeed);
-
-	return true;
-}
-
-/**
- * Load all kinds of important info from a file.
- * @param fp The file to load from.
- * @param length The length of the data chunk.
- * @return True if and only if all bytes were read successful.
- */
-static bool Load_InfoOld(FILE *fp, uint32 length)
-{
-	VARIABLE_NOT_USED(length);
-
-	/* Skip a few bytes, and go to the scenarioID / campaignID */
-	fseek(fp, 250, SEEK_CUR);
-
-	if (fread(&g_scenarioID, sizeof(uint16), 1, fp) != 1) return false;
-	if (fread(&g_campaignID, sizeof(uint16), 1, fp) != 1) return false;
-
-	return true;
-}
-
 static uint32 Load_FindChunk(FILE *fp, uint32 chunk)
 {
 	uint32 header;
@@ -184,7 +83,7 @@ static bool Load_Main(FILE *fp)
 
 	if (version != 0x0290) {
 		/* Get the scenarioID / campaignID */
-		if (!Load_InfoOld(fp, length)) return false;
+		if (!Info_LoadOld(fp, length)) return false;
 
 		g_gameMode = GM_RESTART;
 
@@ -202,7 +101,7 @@ static bool Load_Main(FILE *fp)
 	}
 
 	/* Load the 'INFO' chunk'. It has to be the first chunk loaded */
-	if (!Load_Info(fp, length)) return false;
+	if (!Info_Load(fp, length)) return false;
 
 	/* Rewind, and read other chunks */
 	fseek(fp, position, SEEK_SET);

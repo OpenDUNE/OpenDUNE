@@ -139,4 +139,8 @@ extern bool House_Load(FILE *fp, uint32 length);
 extern bool House_LoadOld(FILE *fp, uint32 length);
 extern bool House_Save(FILE *fp);
 
+extern bool Info_Load(FILE *fp, uint32 length);
+extern bool Info_LoadOld(FILE *fp, uint32 length);
+extern bool Info_Save(FILE *fp);
+
 #endif /* SAVELOAD_SAVELOAD_H */
