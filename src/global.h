@@ -748,18 +748,18 @@ typedef struct GlobalData {
 	/* 324A()    */ PACK uint8   unknown_324A[0x0018];
 	/* 3262(60)  */ PACK csip32 variable_3262[15];          /*!< Array of functions. */
 	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? */
-	/* 32A4(32)  */ PACK uint16 variable_32A4[8][2];        /*!< ?? */
-	/* 32C4(32)  */ PACK uint16 variable_32C4[8][2];        /*!< ?? */
-	/* 32E4(32)  */ PACK uint16 variable_32E4[8][2];        /*!< ?? */
-	/* 3304(32)  */ PACK uint16 variable_3304[8][2];        /*!< ?? */
+	/* 32A4(32)  */ PACK uint16  removed_32A4[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 32C4(32)  */ PACK uint16  removed_32C4[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 32E4(32)  */ PACK uint16  removed_32E4[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 3304(32)  */ PACK uint16  removed_3304[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
 	/* 3344(2)   */ PACK uint16 variable_3344;              /*!< ?? */
 	/* 3346(4)   */ PACK uint32 viewportMessageTime;        /*!< Keeps track when to decrease #viewportMessageCounter. */
-	/* 334A(4)   */ PACK uint8  variable_334A[4];           /*!< ?? */
-	/* 334E(32)  */ PACK uint16 variable_334E[8][2];        /*!< ?? */
-	/* 336E(32)  */ PACK uint16 variable_336E[8][2];        /*!< ?? */
-	/* 338E(32)  */ PACK uint16 variable_338E[8][2];        /*!< ?? */
-	/* 33AE(8)   */ PACK uint16 variable_33AE[4];           /*!< ?? */
+	/* 334A(4)   */ PACK uint8   removed_334A[4];           /*!< REMOVED - ?? (read-only array) */
+	/* 334E(32)  */ PACK uint16  removed_334E[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 336E(32)  */ PACK uint16  removed_336E[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 338E(32)  */ PACK uint16  removed_338E[8][2];        /*!< REMOVED - ?? (read-only array) */
+	/* 33AE(8)   */ PACK uint16  removed_33AE[4];           /*!< REMOVED - ?? (read-only array) */
 	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
 	/* 341A(4)   */ PACK uint32 tickStructureDegrade;       /*!< Indicates next time Structure runs Degrade function. */
 	/* 341E(4)   */ PACK uint32 tickStructureStructure;     /*!< Indicates next time Structure runs Structurs function. */

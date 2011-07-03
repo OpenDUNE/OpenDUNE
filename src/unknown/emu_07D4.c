@@ -67,9 +67,14 @@ static uint8 *Unknown_07D4_18BD(uint16 index, uint8 houseID)
  */
 static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 {
+	static const uint16 values_32A4[8][2] = {
+		{0, 0}, {1, 0}, {2, 0}, {3, 0},
+		{4, 0}, {3, 1}, {2, 1}, {1, 1}
+	};
+
 	uint16 x;
 	uint16 y;
-	uint16 loc0E;
+	uint16 i;
 	uint16 curPos;
 	bool loc12;
 	uint16 oldScreenID;
@@ -81,8 +86,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	loc12 = arg06;
 
-	memset(minX, 0xF, 20);
-	memset(maxX, 0, 20);
+	memset(minX, 0xF, sizeof(minX));
+	memset(maxX, 0,   sizeof(minX));
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
@@ -223,26 +228,33 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			orientation = Sprites_B4CD_17DC(u->orientation[0].current);
 
 			if (u->variable_6D >= 0 || ui->variable_4C == 0) {
+				static const uint16 values_32C4[8][2] = {
+					{0, 0}, {1, 0}, {1, 0}, {1, 0},
+					{2, 0}, {1, 1}, {1, 1}, {1, 1}
+				};
+
 				index = ui->spriteID;
 
 				switch (ui->displayMode) {
 					case 1:
 					case 2:
 						if (ui->movementType == MOVEMENT_SLITHER) break;
-						index += g_global->variable_32A4[orientation][0];
-						g_global->variable_8DE3 = g_global->variable_32A4[orientation][1];
+						index += values_32A4[orientation][0];
+						g_global->variable_8DE3 = values_32A4[orientation][1];
 						break;
 
-					case 3:
-						index += g_global->variable_32C4[orientation][0] * 3;
-						index += g_global->variable_334A[u->variable_6D & 3];
-						g_global->variable_8DE3 = g_global->variable_32C4[orientation][1];
-						break;
+					case 3: {
+						static const uint16 values_334A[4] = {0, 1, 0, 2};
+
+						index += values_32C4[orientation][0] * 3;
+						index += values_334A[u->variable_6D & 3];
+						g_global->variable_8DE3 = values_32C4[orientation][1];
+					} break;
 
 					case 4:
-						index += g_global->variable_32C4[orientation][0] * 4;
+						index += values_32C4[orientation][0] * 4;
 						index += u->variable_6D & 3;
-						g_global->variable_8DE3 = g_global->variable_32C4[orientation][1];
+						g_global->variable_8DE3 = values_32C4[orientation][1];
 						break;
 
 					default:
@@ -262,42 +274,57 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
 				if (type == LST_SPICE || type == LST_THICK_SPICE) {
-					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (g_global->variable_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + g_global->variable_334E[orientation][0], y + g_global->variable_334E[orientation][1], 2, g_global->variable_32A4[orientation][1] | 0xC000);
+					static const int16 values_334E[8][2] = {
+						{0, 7},  {-7,  6}, {-14, 1}, {-9, -6},
+						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
+					};
+
+					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
 				}
 			}
 
 			if (u->variable_6D >= 0 && ui->turretSpriteID != 0xFFFF) {
-				uint16 offsetX = 0;
-				uint16 offsetY = 0;
+				int16 offsetX = 0;
+				int16 offsetY = 0;
 				uint16 index = ui->turretSpriteID;
 
 				orientation = Sprites_B4CD_17DC(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 
 				switch (ui->turretSpriteID) {
 					case 0x8D: /* sonic tank */
-						offsetY = 0xFFFE;
+						offsetY = -2;
 						break;
 
 					case 0x92: /* rocket launcher */
-						offsetY = 0xFFFD;
+						offsetY = -3;
 						break;
 
-					case 0x7E: /* siege tank */
-						offsetX = g_global->variable_336E[orientation][0];
-						offsetY = g_global->variable_336E[orientation][1];
-						break;
+					case 0x7E: { /* siege tank */
+						static const int16 values_336E[8][2] = {
+							{ 0, -5}, { 0, -5}, { 2, -3}, { 2, -1},
+							{-1, -3}, {-2, -1}, {-2, -3}, {-1, -5}
+						};
 
-					case 0x88: /* devastator */
-						offsetX = g_global->variable_338E[orientation][0];
-						offsetY = g_global->variable_338E[orientation][1];
-						break;
+						offsetX = values_336E[orientation][0];
+						offsetY = values_336E[orientation][1];
+					} break;
+
+					case 0x88: { /* devastator */
+						static const int16 values_338E[8][2] = {
+							{ 0, -4}, {-1, -3}, { 2, -4}, {0, -3},
+							{-1, -3}, { 0, -3}, {-2, -4}, {1, -3}
+						};
+
+						offsetX = values_338E[orientation][0];
+						offsetY = values_338E[orientation][1];
+					} break;
 
 					default:
 						break;
 				}
 
-				g_global->variable_8DE3 = g_global->variable_32A4[orientation][1];
-				index += g_global->variable_32A4[orientation][0];
+				g_global->variable_8DE3 = values_32A4[orientation][1];
+				index += values_32A4[orientation][0];
 
 				GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
@@ -317,10 +344,10 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		g_global->variable_39E6 = 0;
 	}
 
-	for (loc0E = 0; loc0E < 32; loc0E ++) {
+	for (i = 0; i < 32; i++) {
 		struct_395A *s;
 
-		s = &g_map395A[loc0E];
+		s = &g_map395A[i];
 
 		curPos = Tile_PackTile(s->position);
 
@@ -346,6 +373,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		find.houseID = HOUSE_INVALID;
 
 		while (true) {
+			static const uint16 values_32E4[8][2] = {
+				{0, 0}, {1, 0}, {2, 0}, {1, 2},
+				{0, 2}, {1, 3}, {2, 1}, {1, 1}
+			};
+
 			Unit *u;
 			UnitInfo *ui;
 			uint8 orientation;
@@ -382,23 +414,30 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				case 1:
 					orientation = Sprites_B4CD_17DC(orientation);
 
-					index += g_global->variable_32E4[orientation][0];
-					g_global->variable_8DE3 |= g_global->variable_32E4[orientation][1];
+					index += values_32E4[orientation][0];
+					g_global->variable_8DE3 |= values_32E4[orientation][1];
 					break;
 
-				case 2:
+				case 2: {
+					static const uint16 values_3304[8][2] = {
+						{0, 0}, {1, 0}, {2, 0}, {3, 0},
+						{4, 0}, {3, 2}, {2, 2}, {1, 2}
+					};
+
 					orientation = Sprites_B4CD_17F7(orientation);
 
-					index += g_global->variable_3304[orientation][0];
-					g_global->variable_8DE3 |= g_global->variable_3304[orientation][1];
-					break;
+					index += values_3304[orientation][0];
+					g_global->variable_8DE3 |= values_3304[orientation][1];
+				} break;
 
-				case 5:
+				case 5: {
+					static const uint16 values_33AE[4] = {2, 1, 0, 1};
+
 					orientation = Sprites_B4CD_17DC(orientation);
 
-					index += (g_global->variable_32E4[orientation][0] * 3) + g_global->variable_33AE[u->variable_6D & 3];
-					g_global->variable_8DE3 |= g_global->variable_32E4[orientation][1];
-					break;
+					index += (values_32E4[orientation][0] * 3) + values_33AE[u->variable_6D & 3];
+					g_global->variable_8DE3 |= values_32E4[orientation][1];
+				} break;
 
 				default:
 					g_global->variable_8DE3 = 0x0;
@@ -430,8 +469,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		bool update = false;
 		uint16 oldScreenID2 = 2;
 
-		for (loc0E = 0; loc0E < g_global->variable_3344; loc0E++) {
-			curPos = g_global->variable_8290[loc0E];
+		for (i = 0; i < g_global->variable_3344; i++) {
+			curPos = g_global->variable_8290[i];
 			g_global->variable_91E5[curPos >> 3] &= ~(1 << (curPos & 7));
 
 			if (!init) {
@@ -460,9 +499,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		if (g_global->variable_3344 == 200) {
 			g_global->variable_3344 = 0;
 
-			for (loc0E = 0; loc0E < 4096; loc0E++) {
-				if ((g_global->variable_91E5[loc0E >> 3] & (1 << (loc0E & 7))) == 0) continue;
-				g_global->variable_8290[g_global->variable_3344++] = loc0E;
+			for (i = 0; i < 4096; i++) {
+				if ((g_global->variable_91E5[i >> 3] & (1 << (i & 7))) == 0) continue;
+				g_global->variable_8290[g_global->variable_3344++] = i;
 				if (g_global->variable_3344 == 200) break;
 			}
 		} else {
@@ -486,20 +525,20 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		} else {
 			bool init = false;
 
-			for (loc0E = 0; loc0E < 10; loc0E++) {
+			for (i = 0; i < 10; i++) {
 				uint16 width;
 				uint16 height;
 
 				if (arg08) {
-					minX[loc0E] = 0;
-					maxX[loc0E] = 14;
+					minX[i] = 0;
+					maxX[i] = 14;
 				}
 
-				if (maxX[loc0E] < minX[loc0E]) continue;
+				if (maxX[i] < minX[i]) continue;
 
-				x = minX[loc0E] * 2;
-				y = (loc0E << 4) + 0x28;
-				width  = (maxX[loc0E] - minX[loc0E] + 1) * 2;
+				x = minX[i] * 2;
+				y = (i << 4) + 0x28;
+				width  = (maxX[i] - minX[i] + 1) * 2;
 				height = 16;
 
 				if (!init) {
@@ -519,8 +558,6 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	GUI_Screen_SetActive(oldScreenID);
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
-
-	return;
 }
 
 /**
