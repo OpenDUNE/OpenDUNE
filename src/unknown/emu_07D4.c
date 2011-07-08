@@ -25,6 +25,9 @@
 #include "../sprites.h"
 #include "../scenario.h"
 
+uint16 _changedTilesCount;     /*!< Number of changed tiles in #_changedTiles. */
+uint16 _changedTiles[200];     /*!< Array of positions of changed tiles. */
+uint8  g_changedTilesMap[512]; /*!< Bit array of changed tiles, in order not to loose changes. */
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -76,7 +79,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	uint16 y;
 	uint16 i;
 	uint16 curPos;
-	bool loc12;
+	bool updateDisplay;
 	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
 	int16 minX[10];
@@ -84,7 +87,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	PoolFindStruct find;
 
-	loc12 = arg06;
+	updateDisplay = arg06;
 
 	memset(minX, 0xF, sizeof(minX));
 	memset(maxX, 0,   sizeof(minX));
@@ -102,18 +105,18 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 				curPos = g_global->viewportPosition + Tile_PackXY(x, y);
 
-				if (x < 15 && !arg06 && BitArray_Test(g_global->variable_8FE5, curPos)) {
+				if (x < 15 && !arg06 && BitArray_Test(g_dirtyViewport, curPos)) {
 					if (maxX[y] < x) maxX[y] = x;
 					if (minX[y] > x) minX[y] = x;
-					loc12 = true;
+					updateDisplay = true;
 				}
 
-				if (!BitArray_Test(g_global->variable_8DE5, curPos) && !arg06) continue;
+				if (!BitArray_Test(g_dirtyMinimap, curPos) && !arg06) continue;
 
-				BitArray_Set(g_global->variable_8FE5, curPos);
+				BitArray_Set(g_dirtyViewport, curPos);
 
 				if (x < 15) {
-					loc12 = true;
+					updateDisplay = true;
 					if (maxX[y] < x) maxX[y] = x;
 					if (minX[y] > x) minX[y] = x;
 				}
@@ -192,7 +195,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		g_global->variable_3A08 = 0;
 	}
 
-	if (g_global->variable_39E6 != 0 || arg06 || loc12) {
+	if (g_global->variable_39E6 != 0 || arg06 || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -212,7 +215,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_global->variable_8FE5, packed)) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, packed)) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 
@@ -351,7 +354,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		curPos = Tile_PackTile(s->position);
 
-		if (BitArray_Test(g_global->variable_8FE5, curPos)) s->variable_07 = 1;
+		if (BitArray_Test(g_dirtyViewport, curPos)) s->variable_07 = 1;
 
 		if (s->activities.csip == 0x0) continue;
 		if (s->variable_07 == 0 && !arg06) continue;
@@ -367,7 +370,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
-	if (g_global->variable_39E8 != 0 || arg06 || loc12) {
+	if (g_global->variable_39E8 != 0 || arg06 || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -392,7 +395,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_global->variable_8FE5, curPos)) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_dirtyViewport, curPos)) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 
@@ -459,19 +462,19 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		g_global->variable_39E8 = 0;
 	}
 
-	if (loc12) {
-		memset(g_global->variable_8DE5, 0, 512);
-		memset(g_global->variable_8FE5, 0, 512);
+	if (updateDisplay) {
+		memset(g_dirtyMinimap,  0, sizeof(g_dirtyMinimap));
+		memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
 	}
 
-	if (g_global->variable_3344 != 0) {
+	if (_changedTilesCount != 0) {
 		bool init = false;
 		bool update = false;
 		uint16 oldScreenID2 = 2;
 
-		for (i = 0; i < g_global->variable_3344; i++) {
-			curPos = g_global->variable_8290[i];
-			BitArray_Clear(g_global->variable_91E5, curPos);
+		for (i = 0; i < _changedTilesCount; i++) {
+			curPos = _changedTiles[i];
+			BitArray_Clear(g_changedTilesMap, curPos);
 
 			if (!init) {
 				init = true;
@@ -483,7 +486,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			Unknown_07D4_1625(curPos);
 
-			if (!update && BitArray_Test(g_global->variable_93E5, curPos)) update = true;
+			if (!update && BitArray_Test(g_displayedMinimap, curPos)) update = true;
 		}
 
 		if (update) Map_UpdateMinimapPosition(g_global->minimapPosition, true);
@@ -496,16 +499,16 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_Mouse_Show_InWidget();
 		}
 
-		if (g_global->variable_3344 == 200) {
-			g_global->variable_3344 = 0;
+		if (_changedTilesCount == lengthof(_changedTiles)) {
+			_changedTilesCount = 0;
 
 			for (i = 0; i < 4096; i++) {
-				if (!BitArray_Test(g_global->variable_91E5, i)) continue;
-				g_global->variable_8290[g_global->variable_3344++] = i;
-				if (g_global->variable_3344 == 200) break;
+				if (!BitArray_Test(g_changedTilesMap, i)) continue;
+				_changedTiles[_changedTilesCount++] = i;
+				if (_changedTilesCount == lengthof(_changedTiles)) break;
 			}
 		} else {
-			g_global->variable_3344 = 0;
+			_changedTilesCount = 0;
 		}
 	}
 
@@ -515,7 +518,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		maxX[6] = 14;
 	}
 
-	if (loc12 && !arg0A) {
+	if (updateDisplay && !arg0A) {
 		if (g_global->variable_3A14 != 0) {
 			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, 0);
@@ -628,8 +631,8 @@ void Unknown_07D4_0000(uint16 screenID)
 		for (xpos = 0; xpos < 14; xpos++) {
 			uint16 v = g_global->minimapPosition + xpos + 6*64;
 
-			BitArray_Set(g_global->variable_8FE5, v);
-			BitArray_Set(g_global->variable_8DE5, v);
+			BitArray_Set(g_dirtyViewport, v);
+			BitArray_Set(g_dirtyMinimap, v);
 
 			g_global->variable_39E2++;
 		}
@@ -710,7 +713,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	mapScale = g_scenario.mapScale + 1;
 
-	if (mapScale == 0 || BitArray_Test(g_global->variable_93E5, packed)) return;
+	if (mapScale == 0 || BitArray_Test(g_displayedMinimap, packed)) return;
 
 	t = &g_map[packed];
 
@@ -791,9 +794,8 @@ void Unknown_07D4_1625(uint16 packed)
  */
 void Unknown_07D4_02F8(uint16 packed)
 {
-	if (BitArray_Test(g_global->variable_93E5, packed) && g_scenario.mapScale + 1 == 0) return;
+	if (BitArray_Test(g_displayedMinimap, packed) && g_scenario.mapScale + 1 == 0) return;
 
-	BitArray_Set(g_global->variable_91E5, packed);
-
-	if (g_global->variable_3344 < 200) g_global->variable_8290[g_global->variable_3344++] = packed;
+	BitArray_Set(g_changedTilesMap, packed);
+	if (_changedTilesCount < lengthof(_changedTiles)) _changedTiles[_changedTilesCount++] = packed;
 }

@@ -34,6 +34,11 @@ uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
 MapActivity g_mapActivity[32];  /*!< Map activities. */
 uint32 _mapActivityTimeout = 0; /*!< Timeout value for next map activity. */
 
+uint8 g_dirtyMinimap[512];      /*!< Dirty tiles of the minimap (must be rendered again). */
+uint8 g_displayedMinimap[512];  /*!< Displayed part of the minimap. */
+uint8 g_dirtyViewport[512];     /*!< Dirty tiles of the viewport (must be rendered again). */
+uint8 g_displayedViewport[512]; /*!< Displayed part of the viewport. */
+
 /**
  * Map definitions.
  * Map sizes: [0] is 62x62, [1] is 32x32, [2] is 21x21.
@@ -170,9 +175,9 @@ static void Map_InvalidateSelection(uint16 packed, bool enable)
 			Map_Update(curPacked, 0, false);
 
 			if (enable) {
-				BitArray_Set(g_global->variable_95E5, curPacked);
+				BitArray_Set(g_displayedViewport, curPacked);
 			} else {
-				BitArray_Clear(g_global->variable_95E5, curPacked);
+				BitArray_Clear(g_displayedViewport, curPacked);
 			}
 		}
 	}
@@ -228,7 +233,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			uint16 curPacked;
 
 			curPacked = g_global->minimapPreviousPosition + *m;
-			BitArray_Clear(g_global->variable_93E5, curPacked);
+			BitArray_Clear(g_displayedMinimap, curPacked);
 
 			Unknown_07D4_1625(curPacked);
 		}
@@ -254,7 +259,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			uint16 curPacked;
 
 			curPacked = packed + *m;
-			BitArray_Set(g_global->variable_93E5, curPacked);
+			BitArray_Set(g_displayedMinimap, curPacked);
 		}
 	}
 
@@ -907,24 +912,24 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 			uint8 i;
 			uint16 curPacked;
 
-			if (BitArray_Test(g_global->variable_8DE5, packed)) return;
+			if (BitArray_Test(g_dirtyMinimap, packed)) return;
 
 			g_global->variable_39E2++;
 
 			for (i = 0; i < 9; i++) {
 				curPacked = (packed + offsets[i]) & 0xFFF;
-				BitArray_Set(g_global->variable_8FE5, curPacked);
-				if (BitArray_Test(g_global->variable_95E5, curPacked)) g_global->variable_3A08 = 1;
+				BitArray_Set(g_dirtyViewport, curPacked);
+				if (BitArray_Test(g_displayedViewport, curPacked)) g_global->variable_3A08 = 1;
 			}
 
-			BitArray_Set(g_global->variable_8DE5, curPacked);
+			BitArray_Set(g_dirtyMinimap, curPacked);
 			return;
 		}
 
 		case 1:
 		case 2:
 		case 3:
-			BitArray_Set(g_global->variable_8FE5, packed);
+			BitArray_Set(g_dirtyViewport, packed);
 			return;
 	}
 }
@@ -1393,7 +1398,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 				if (x + i < 0 || x + i >= 64 || y + j < 0 || y + j >= 64) continue;
 
 				curPacked = Tile_PackXY(x + i, y + j);
-				BitArray_Set(g_global->variable_8FE5, curPacked);
+				BitArray_Set(g_dirtyViewport, curPacked);
 				g_global->variable_39E2++;
 
 				switch (function) {
@@ -1419,7 +1424,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 			uint16 curPacked = Tile_PackTile(loc08);
 
 			if (curPacked != loc04) {
-				BitArray_Set(g_global->variable_8FE5, curPacked);
+				BitArray_Set(g_dirtyViewport, curPacked);
 				g_global->variable_39E2++;
 
 				switch (function) {

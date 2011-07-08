@@ -753,7 +753,7 @@ typedef struct GlobalData {
 	/* 32E4(32)  */ PACK uint16  removed_32E4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 3304(32)  */ PACK uint16  removed_3304[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
-	/* 3344(2)   */ PACK uint16 variable_3344;              /*!< ?? */
+	/* 3344(2)   */ PACK uint16  removed_3344;              /*!< REMOVED - changed tiles count (in 8290) */
 	/* 3346(4)   */ PACK uint32 viewportMessageTime;        /*!< Keeps track when to decrease #viewportMessageCounter. */
 	/* 334A(4)   */ PACK uint8   removed_334A[4];           /*!< REMOVED - ?? (read-only array) */
 	/* 334E(32)  */ PACK uint16  removed_334E[8][2];        /*!< REMOVED - ?? (read-only array) */
@@ -1449,7 +1449,7 @@ typedef struct GlobalData {
 	/* 822B(1)   */ PACK uint8   removed_822B;              /*!< REMOVED ?? (never used) */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char   removed_stringFilename[14]; /*!< REMOVED - String buffer for emu_String_GenerateFilename(). */
-	/* 8290(400) */ PACK uint16 variable_8290[200];         /*!< ?? */
+	/* 8290(400) */ PACK uint16  removed_8290[200];         /*!< REMOVED - positions of changes in the map. */
 	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
 	/* 8430(4)   */ PACK csip32 removed_8430;               /*!< REMOVED - Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32 removed_8434;               /*!< REMOVED - Current Structure we are handling in the GameLoop. */
@@ -1474,11 +1474,11 @@ typedef struct GlobalData {
 	/* 8CFD(2)   */ PACK uint16 removed_8CFD;               /*!< REMOVED - Savegame version. */
 	/* 8CFF(228) */ PACK uint8  removed_8CFF[228];          /*!< REMOVED - Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
-	/* 8DE5(512) */ PACK uint8  variable_8DE5[512];         /*!< ?? array size is unsure. */
-	/* 8FE5(512) */ PACK uint8  variable_8FE5[512];         /*!< ?? array size is unsure. */
-	/* 91E5(512) */ PACK uint8  variable_91E5[512];         /*!< ?? array size is unsure. */
-	/* 93E5(512) */ PACK uint8  variable_93E5[512];         /*!< ?? array size is unsure. */
-	/* 95E5(512) */ PACK uint8  variable_95E5[512];         /*!< ?? array size is unsure. */
+	/* 8DE5(512) */ PACK uint8   removed_8DE5[512];         /*!< REMOVED - dirty minimap tiles. */
+	/* 8FE5(512) */ PACK uint8   removed_8FE5[512];         /*!< REMOVED - dirty viewport tiles. */
+	/* 91E5(512) */ PACK uint8   removed_91E5[512];         /*!< REMOVED - ?? array size is unsure. */
+	/* 93E5(512) */ PACK uint8   removed_93E5[512];         /*!< REMOVED - displayed part of the minimap. */
+	/* 95E5(512) */ PACK uint8   removed_95E5[512];         /*!< REMOVED - displayed part of the viewport. */
 	/* 97E5(2)   */ PACK uint16 removed_productionStringID; /*!< REMOVED - StringID displayed on the production button. */
 	/* 97E7(54)  */ PACK int16  removed_starportAvailable[27]; /*!< REMOVED - Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
