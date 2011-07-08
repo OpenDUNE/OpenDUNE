@@ -843,22 +843,24 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 char *Drivers_GenerateFilename(const char *name, Driver *driver)
 {
+	static char filename[14];
+
 	if (name == NULL || driver == NULL || driver->index == 0xFFFF) return NULL;
 
-	strcpy(g_global->variable_984A, name);
-	if (strrchr(g_global->variable_984A, '.') != NULL) *strrchr(g_global->variable_984A, '.') = '\0';
-	strcat(g_global->variable_984A, ".");
-	strcat(g_global->variable_984A, driver->extension);
+	strcpy(filename, name);
+	if (strrchr(filename, '.') != NULL) *strrchr(filename, '.') = '\0';
+	strcat(filename, ".");
+	strcat(filename, driver->extension);
 
-	if (File_Exists(g_global->variable_984A)) return g_global->variable_984A;
+	if (File_Exists(filename)) return filename;
 
 	if (driver->index == 0xFFFF) return NULL;
 
-	strcpy(g_global->variable_984A, name);
-	if (strrchr(g_global->variable_984A, '.') != NULL) *strrchr(g_global->variable_984A, '.') = '\0';
-	strcat(g_global->variable_984A, ".XMI");
+	strcpy(filename, name);
+	if (strrchr(filename, '.') != NULL) *strrchr(filename, '.') = '\0';
+	strcat(filename, ".XMI");
 
-	if (File_Exists(g_global->variable_984A)) return g_global->variable_984A;
+	if (File_Exists(filename)) return filename;
 
 	return NULL;
 }

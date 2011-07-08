@@ -458,6 +458,8 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
  */
 void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
 {
+	static char textBuffer[240];
+
 	uint8 arg12low = flags & 0xF;
 	uint8 arg2mid  = flags & 0xF0;
 
@@ -472,67 +474,68 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 	}
 
 	if ((arg2mid != g_global->variable_376E && arg2mid != 0) || string == NULL) {
-		memset(g_global->variable_8ADE, 0, 16);
+		uint8 colours[16];
+		memset(colours, 0, sizeof(colours));
 
 		switch (arg2mid) {
 			case 0x0010:
-				g_global->variable_8ADE[2] = 0;
-				g_global->variable_8ADE[3] = 0;
+				colours[2] = 0;
+				colours[3] = 0;
 				g_global->variable_6C6C = -2;
 				break;
 
 			case 0x0020:
-				g_global->variable_8ADE[2] = 12;
-				g_global->variable_8ADE[3] = 0;
+				colours[2] = 12;
+				colours[3] = 0;
 				g_global->variable_6C6C = -1;
 				break;
 
 			case 0x0030:
-				g_global->variable_8ADE[2] = 12;
-				g_global->variable_8ADE[3] = 12;
+				colours[2] = 12;
+				colours[3] = 12;
 				g_global->variable_6C6C = -1;
 				break;
 
 			case 0x0040:
-				g_global->variable_8ADE[2] = 232;
-				g_global->variable_8ADE[3] = 0;
+				colours[2] = 232;
+				colours[3] = 0;
 				g_global->variable_6C6C = -1;
 				break;
 		}
 
-		g_global->variable_8ADE[0] = bgColour;
-		g_global->variable_8ADE[1] = fgColour;
-		g_global->variable_8ADE[4] = 6;
+		colours[0] = bgColour;
+		colours[1] = fgColour;
+		colours[4] = 6;
 
-		GUI_InitColors(g_global->variable_8ADE, 0, 15);
+		GUI_InitColors(colours, 0, lengthof(colours) - 1);
 
 		g_global->variable_376E = arg2mid;
 	}
 
 	if (string == NULL) return;
 
-	if (string != g_global->variable_8AEE) {
+	if (string != textBuffer) {
 		char buf[256];
 		va_list ap;
 
 		strncpy(buf, string, sizeof(buf));
 
 		va_start(ap, flags);
-		vsnprintf(g_global->variable_8AEE, sizeof(g_global->variable_8AEE), buf, ap);
+		vsnprintf(textBuffer, sizeof(textBuffer), buf, ap);
 		va_end(ap);
 	}
 
 	switch (flags & 0x0F00) {
 		case 0x100:
-			left -= Font_GetStringWidth(g_global->variable_8AEE) / 2;
+			left -= Font_GetStringWidth(textBuffer) / 2;
 			break;
 
 		case 0x200:
-			left -= Font_GetStringWidth(g_global->variable_8AEE);
+			left -= Font_GetStringWidth(textBuffer);
 			break;
 	}
 
-	GUI_DrawText(g_global->variable_8AEE, left, top, fgColour, bgColour);
+	GUI_DrawText(textBuffer, left, top, fgColour, bgColour);
 }
 
 /**

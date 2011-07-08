@@ -1466,8 +1466,8 @@ typedef struct GlobalData {
 	/* 8AD8(2)   */ PACK uint16 variable_8AD8;              /*!< ?? */
 	/* 8ADA(2)   */ PACK uint16 variable_8ADA;              /*!< ?? */
 	/* 8ADC(2)   */ PACK uint16 variable_8ADC;              /*!< ?? */
-	/* 8ADE(16)  */ PACK uint8  variable_8ADE[16];          /*!< ?? Buffer. */
-	/* 8AEE(240) */ PACK char   variable_8AEE[240];         /*!< ?? Buffer. */
+	/* 8ADE(16)  */ PACK uint8   removed_8ADE[16];          /*!< REMOVED - ?? Buffer for colours*/
+	/* 8AEE(240) */ PACK char    removed_8AEE[240];         /*!< REMOVED - ?? Buffer. */
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
 	/* 8BEA(275) */ PACK uint8 removed_8BEA[25][11];        /*!< REMOVED - Items for the factory window. */
@@ -1483,8 +1483,8 @@ typedef struct GlobalData {
 	/* 97E7(54)  */ PACK int16  removed_starportAvailable[27]; /*!< REMOVED - Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
 	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
 	/* 9846(4)   */ PACK csip32 removed_9846;               /*!< REMOVED - Stored interrupt vector for overlay handler. */
-	/* 984A(14)  */ PACK char   variable_984A[14];          /*!< Buffer to store a filename */
-	/* 9858(14)  */ PACK char   variable_9858[14];          /*!< Buffer to store a filename */
+	/* 984A(14)  */ PACK char    removed_984A[14];          /*!< REMOVED - Buffer to store a filename */
+	/* 9858(14)  */ PACK char    removed_9858[14];          /*!< REMOVED - Buffer to store a filename (NEVER USED) */
 	/* 9866(2)   */ PACK uint16  removed_9866;              /*!< REMOVED ?? (never used) */
 	/* 9868(2)   */ PACK uint16  removed_9868;              /*!< REMOVED ?? (never used) */
 	/* 986A()    */ PACK uint8   unknown_986A[0x0002];
@@ -1495,7 +1495,7 @@ typedef struct GlobalData {
 	/* 9882()    */ PACK uint8  removed_9882[0x005F];       /*!< REMOVED - Current directory. */
 	/* 98E1(10)  */ PACK DuneCfg removed_98E1;              /*!< REMOVED - Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
-	/* 98ED(2)   */ PACK uint16 variable_98ED;              /*!< REMOVED ?? (never used) */
+	/* 98ED(2)   */ PACK uint16  removed_98ED;              /*!< REMOVED ?? (never used) */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
 	/* 98F1(2)   */ PACK uint16 removed_98F1;               /*!< REMOVED - If screen memory has to go in highermemory (0x40 or 0x0). Always 0x0. */
 	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];
@@ -1510,7 +1510,7 @@ typedef struct GlobalData {
 	/* 998A(4)   */ PACK csip32 removed_998A;               /*!< REMOVED - A palette. */
 	/* 998E(97)  */ PACK uint8  removed_998E[97];           /*!< REMOVED - Current directory. */
 	/* 99EF(4)   */ PACK csip32 removed_99Ef;               /*!< REMOVED - Pointer to content of new8p.fnt. */
-	/* 99F3(4)   */ PACK csip32 variable_99F3;              /*!< ?? Points to data about the loaded font.  */
+	/* 99F3(4)   */ PACK csip32  removed_99F3;              /*!< REMOVED - ?? Points to data about the loaded font. (NEVER USED) */
 } GCC_PACKED GlobalData;
 MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);
