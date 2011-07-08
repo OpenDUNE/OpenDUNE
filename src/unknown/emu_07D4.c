@@ -102,15 +102,15 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 				curPos = g_global->viewportPosition + Tile_PackXY(x, y);
 
-				if (x < 15 && !arg06 && (g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) {
+				if (x < 15 && !arg06 && BitArray_Test(g_global->variable_8FE5, curPos)) {
 					if (maxX[y] < x) maxX[y] = x;
 					if (minX[y] > x) minX[y] = x;
 					loc12 = true;
 				}
 
-				if ((g_global->variable_8DE5[curPos >> 3] & (1 << (curPos & 7))) == 0 && !arg06) continue;
+				if (!BitArray_Test(g_global->variable_8DE5, curPos) && !arg06) continue;
 
-				g_global->variable_8FE5[curPos >> 3] |= (1 << (curPos & 7));
+				BitArray_Set(g_global->variable_8FE5, curPos);
 
 				if (x < 15) {
 					loc12 = true;
@@ -212,7 +212,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			packed = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && (g_global->variable_8FE5[packed >> 3] & (1 << (packed & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_global->variable_8FE5, packed)) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 
@@ -351,7 +351,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		curPos = Tile_PackTile(s->position);
 
-		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) s->variable_07 = 1;
+		if (BitArray_Test(g_global->variable_8FE5, curPos)) s->variable_07 = 1;
 
 		if (s->activities.csip == 0x0) continue;
 		if (s->variable_07 == 0 && !arg06) continue;
@@ -392,7 +392,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			curPos = Tile_PackTile(u->o.position);
 
-			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && (g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) == 0) continue;
+			if ((!u->o.flags.s.variable_4_1000 || u->o.flags.s.isNotOnMap) && !arg06 && !BitArray_Test(g_global->variable_8FE5, curPos)) continue;
 
 			u->o.flags.s.variable_4_1000 = false;
 
@@ -471,7 +471,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		for (i = 0; i < g_global->variable_3344; i++) {
 			curPos = g_global->variable_8290[i];
-			g_global->variable_91E5[curPos >> 3] &= ~(1 << (curPos & 7));
+			BitArray_Clear(g_global->variable_91E5, curPos);
 
 			if (!init) {
 				init = true;
@@ -483,7 +483,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			Unknown_07D4_1625(curPos);
 
-			if (!update && (g_global->variable_93E5[curPos >> 3] & (1 << (curPos & 7))) != 0) update = true;
+			if (!update && BitArray_Test(g_global->variable_93E5, curPos)) update = true;
 		}
 
 		if (update) Map_UpdateMinimapPosition(g_global->minimapPosition, true);
@@ -500,7 +500,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			g_global->variable_3344 = 0;
 
 			for (i = 0; i < 4096; i++) {
-				if ((g_global->variable_91E5[i >> 3] & (1 << (i & 7))) == 0) continue;
+				if (!BitArray_Test(g_global->variable_91E5, i)) continue;
 				g_global->variable_8290[g_global->variable_3344++] = i;
 				if (g_global->variable_3344 == 200) break;
 			}
@@ -628,8 +628,8 @@ void Unknown_07D4_0000(uint16 screenID)
 		for (xpos = 0; xpos < 14; xpos++) {
 			uint16 v = g_global->minimapPosition + xpos + 6*64;
 
-			g_global->variable_8FE5[v >> 3] |= 1 << (v & 7);
-			g_global->variable_8DE5[v >> 3] |= 1 << (v & 7);
+			BitArray_Set(g_global->variable_8FE5, v);
+			BitArray_Set(g_global->variable_8DE5, v);
 
 			g_global->variable_39E2++;
 		}
@@ -710,7 +710,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	mapScale = g_scenario.mapScale + 1;
 
-	if (mapScale == 0 || (g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0) return;
+	if (mapScale == 0 || BitArray_Test(g_global->variable_93E5, packed)) return;
 
 	t = &g_map[packed];
 
@@ -791,9 +791,9 @@ void Unknown_07D4_1625(uint16 packed)
  */
 void Unknown_07D4_02F8(uint16 packed)
 {
-	if ((g_global->variable_93E5[packed >> 3] & (1 << (packed & 7))) != 0 && g_scenario.mapScale + 1 == 0) return;
+	if (BitArray_Test(g_global->variable_93E5, packed) && g_scenario.mapScale + 1 == 0) return;
 
-	g_global->variable_91E5[packed >> 3] |= (1 << (packed & 7));
+	BitArray_Set(g_global->variable_91E5, packed);
 
 	if (g_global->variable_3344 < 200) g_global->variable_8290[g_global->variable_3344++] = packed;
 }

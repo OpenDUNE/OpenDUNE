@@ -163,20 +163,16 @@ static void Map_InvalidateSelection(uint16 packed, bool enable)
 
 	for (y = 0; y < g_global->selectionHeight; y++) {
 		for (x = 0; x < g_global->selectionWidth; x++) {
-			uint16 curPacked, value;
-			uint8 *dest;
+			uint16 curPacked;
 
 			curPacked = packed + Tile_PackXY(x, y);
 
 			Map_Update(curPacked, 0, false);
 
-			dest = &g_global->variable_95E5[curPacked >> 3];
-			value = 1 << (curPacked & 0x7);
-
 			if (enable) {
-				*dest |= value;
+				BitArray_Set(g_global->variable_95E5, curPacked);
 			} else {
-				*dest &= ~value;
+				BitArray_Clear(g_global->variable_95E5, curPacked);
 			}
 		}
 	}
@@ -232,7 +228,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			uint16 curPacked;
 
 			curPacked = g_global->minimapPreviousPosition + *m;
-			g_global->variable_93E5[curPacked >> 3] &= ~(1 << (curPacked & 0x7));
+			BitArray_Clear(g_global->variable_93E5, curPacked);
 
 			Unknown_07D4_1625(curPacked);
 		}
@@ -258,7 +254,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 			uint16 curPacked;
 
 			curPacked = packed + *m;
-			g_global->variable_93E5[curPacked >> 3] |= (1 << (curPacked & 0x7));
+			BitArray_Set(g_global->variable_93E5, curPacked);
 		}
 	}
 
@@ -896,27 +892,25 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 		case 0: {
 			uint8 i;
 			uint16 curPacked;
-			uint8 v;
 
-			if ((g_global->variable_8DE5[packed >> 3] & (1 << (packed & 7))) != 0) return;
+			if (BitArray_Test(g_global->variable_8DE5, packed)) return;
 
 			g_global->variable_39E2++;
 
 			for (i = 0; i < 9; i++) {
 				curPacked = (packed + offsets[i]) & 0xFFF;
-				v = (1 << (curPacked & 7));
-				g_global->variable_8FE5[curPacked >> 3] |= v;
-				g_global->variable_3A08 |= g_global->variable_95E5[curPacked >> 3] & v;
+				BitArray_Set(g_global->variable_8FE5, curPacked);
+				if (BitArray_Test(g_global->variable_95E5, curPacked)) g_global->variable_3A08 = 1;
 			}
 
-			g_global->variable_8DE5[curPacked >> 3] |= v;
+			BitArray_Set(g_global->variable_8DE5, curPacked);
 			return;
 		}
 
 		case 1:
 		case 2:
 		case 3:
-			g_global->variable_8FE5[packed >> 3] |= (1 << (packed & 7));
+			BitArray_Set(g_global->variable_8FE5, packed);
 			return;
 	}
 }
@@ -1380,7 +1374,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 				if (x + i < 0 || x + i >= 64 || y + j < 0 || y + j >= 64) continue;
 
 				curPacked = Tile_PackXY(x + i, y + j);
-				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
+				BitArray_Set(g_global->variable_8FE5, curPacked);
 				g_global->variable_39E2++;
 
 				switch (function) {
@@ -1406,7 +1400,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 			uint16 curPacked = Tile_PackTile(loc08);
 
 			if (curPacked != loc04) {
-				g_global->variable_8FE5[curPacked >> 3] |= (1 << (curPacked & 7));
+				BitArray_Set(g_global->variable_8FE5, curPacked);
 				g_global->variable_39E2++;
 
 				switch (function) {
