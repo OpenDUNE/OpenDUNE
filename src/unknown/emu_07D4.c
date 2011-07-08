@@ -345,9 +345,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	}
 
 	for (i = 0; i < 32; i++) {
-		struct_395A *s;
+		MapActivity *s;
 
-		s = &g_map395A[i];
+		s = &g_mapActivity[i];
 
 		curPos = Tile_PackTile(s->position);
 

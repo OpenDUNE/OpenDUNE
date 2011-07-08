@@ -29,9 +29,10 @@
 
 
 uint16 g_mapSpriteID[64 * 64];
-Tile g_map[64 * 64];
+Tile g_map[64 * 64];            /*!< All map data. */
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
-struct_395A g_map395A[32];
+MapActivity g_mapActivity[32];  /*!< Map activities. */
+uint32 _mapActivityTimeout = 0; /*!< Timeout value for next map activity. */
 
 /**
  * Map definitions.
@@ -394,7 +395,7 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 	return x >= -16 && x <= 256 && y >= -16 && y <= 176;
 }
 
-static void Map_B4CD_04D9(uint16 arg06, struct_395A *s)
+static void Map_B4CD_04D9(uint16 arg06, MapActivity *s)
 {
 	if (s == NULL) return;
 
@@ -405,7 +406,7 @@ static void Map_B4CD_04D9(uint16 arg06, struct_395A *s)
 	Map_B4CD_057B(24, s->position, NULL, g_functions[2][arg06]);
 }
 
-static bool Map_06F7_072B(struct_395A *s)
+static bool Map_06F7_072B(MapActivity *s)
 {
 	uint16 packed;
 	uint16 type;
@@ -460,20 +461,20 @@ static bool Map_06F7_072B(struct_395A *s)
 	return true;
 }
 
-static bool Map_06F7_08BD(struct_395A *s, uint16 voiceID)
+static bool Map_06F7_08BD(MapActivity *s, uint16 voiceID)
 {
 	Voice_PlayAtTile(voiceID, s->position);
 
 	return true;
 }
 
-static bool Map_06F7_08DD(struct_395A *s)
+static bool Map_06F7_08DD(MapActivity *s)
 {
 	VARIABLE_NOT_USED(s);
 	return true;
 }
 
-static bool Map_06F7_0913(struct_395A *s)
+static bool Map_06F7_0913(MapActivity *s)
 {
 	uint16 packed;
 
@@ -486,7 +487,7 @@ static bool Map_06F7_0913(struct_395A *s)
 	return false;
 }
 
-static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0967(MapActivity *s, uint16 arg0A)
 {
 	csip32 proc;
 	uint16 packed;
@@ -503,7 +504,7 @@ static bool Map_06F7_0967(struct_395A *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_09F4(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_09F4(MapActivity *s, uint16 arg0A)
 {
 	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
 	s->position.s.x = arg0A;
@@ -511,7 +512,7 @@ static bool Map_06F7_09F4(struct_395A *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_0A27(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0A27(MapActivity *s, uint16 arg0A)
 {
 	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
 	s->position.s.x = 0;
@@ -519,13 +520,13 @@ static bool Map_06F7_0A27(struct_395A *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_0A5A(struct_395A *s)
+static bool Map_06F7_0A5A(MapActivity *s)
 {
 	s->variable_09 = 0;
 	return true;
 }
 
-static bool Map_06F7_0A6C(struct_395A *s)
+static bool Map_06F7_0A6C(MapActivity *s)
 {
 	g_map[Tile_PackTile(s->position)].flag_10 = false;
 
@@ -536,19 +537,19 @@ static bool Map_06F7_0A6C(struct_395A *s)
 	return false;
 }
 
-static bool Map_06F7_0AC1(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0AC1(MapActivity *s, uint16 arg0A)
 {
 	s->variable_00 = g_global->variable_76AC + arg0A;
 	return true;
 }
 
-static bool Map_06F7_0AE2(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0AE2(MapActivity *s, uint16 arg0A)
 {
 	s->variable_00 = g_global->variable_76AC + Tools_RandomRange(0, arg0A);
 	return true;
 }
 
-static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0B14(MapActivity *s, uint16 arg0A)
 {
 	s->variable_0A = arg0A;
 	s->variable_08 = 0;
@@ -558,7 +559,7 @@ static bool Map_06F7_0B14(struct_395A *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_0B42(struct_395A *s, uint16 arg0A)
+static bool Map_06F7_0B42(MapActivity *s, uint16 arg0A)
 {
 	s->variable_0A = arg0A;
 	s->variable_08 = 1;
@@ -584,9 +585,9 @@ static bool Map_06F7_057C(uint16 packed)
 	if (!t->flag_10) return false;
 
 	for (i = 0; i < 32; i++) {
-		struct_395A *s;
+		MapActivity *s;
 
-		s = &g_map395A[i];
+		s = &g_mapActivity[i];
 
 		if (s->variable_0C.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
 
@@ -615,9 +616,9 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 	Map_06F7_057C(packed);
 
 	for (i = 0; i < 32; i++) {
-		struct_395A *s;
+		MapActivity *s;
 
-		s = &g_map395A[i];
+		s = &g_mapActivity[i];
 
 		if (s->variable_0C.csip != 0x0) continue;
 
@@ -628,7 +629,7 @@ static bool Map_06F7_0493(csip32 csip, tile32 position)
 		s->position    = position;
 		s->variable_07 = 0;
 		s->variable_00 = g_global->variable_76AC;
-		g_global->variable_320E = 0;
+		_mapActivityTimeout = 0;
 		g_map[packed].flag_10 = true;
 		return true;
 	}
@@ -936,20 +937,20 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 /**
  * ??.
  *
- * @return g_global->variable_320E.
+ * @return _mapActivityTimeout.
  */
 uint32 Map_06F7_0602()
 {
 	uint8 i;
 
-	if (g_global->variable_320E > g_global->variable_76AC) return g_global->variable_320E;
+	if (_mapActivityTimeout > g_global->variable_76AC) return _mapActivityTimeout;
 
-	g_global->variable_320E += 10000;
+	_mapActivityTimeout += 10000;
 
 	for (i = 0; i < 32; i++) {
-		struct_395A *s;
+		MapActivity *s;
 
-		s = &g_map395A[i];
+		s = &g_mapActivity[i];
 
 		if (s->variable_0C.csip == 0x0) continue;
 
@@ -978,12 +979,12 @@ uint32 Map_06F7_0602()
 			}
 		}
 
-		if (s->variable_0C.csip == 0x0 || s->variable_00 > g_global->variable_320E) continue;
+		if (s->variable_0C.csip == 0x0 || s->variable_00 > _mapActivityTimeout) continue;
 
-		g_global->variable_320E = s->variable_00;
+		_mapActivityTimeout = s->variable_00;
 	}
 
-	return g_global->variable_320E;
+	return _mapActivityTimeout;
 }
 
 void Map_B4CD_14CA(uint16 packed, uint8 houseID)

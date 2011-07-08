@@ -46,7 +46,7 @@ MSVC_PACKED_BEGIN
 /**
  * A struct.
  */
-typedef struct struct_395A {
+typedef struct MapActivity {
 	/* 0000(4)   */ PACK uint32 variable_00;                /*!< ?? */
 	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? an index. */
 	/* 0006(1)   */ PACK uint8  houseID;                    /*!< A houseID. */
@@ -56,9 +56,9 @@ typedef struct struct_395A {
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? an index. */
 	/* 000C(4)   */ PACK csip32 variable_0C;                /*!< ?? a CSIP. */
 	/* 0010(4)   */ PACK tile32 position;                   /*!< A position. */
-} GCC_PACKED struct_395A;
+} GCC_PACKED MapActivity;
 MSVC_PACKED_END
-assert_compile(sizeof(struct_395A) == 0x14);
+assert_compile(sizeof(MapActivity) == 0x14);
 
 /** Definition of the map size of a map scale. */
 typedef struct MapInfo {
@@ -73,7 +73,7 @@ struct Unit;
 extern uint16 g_mapSpriteID[];
 extern Tile g_map[];
 extern uint8 g_functions[3][3];
-extern struct_395A g_map395A[];
+extern MapActivity g_mapActivity[];
 
 extern const MapInfo g_mapInfos[3];
 extern const tile32 g_table_tilediff[][8];

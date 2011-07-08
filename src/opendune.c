@@ -2528,7 +2528,7 @@ void Game_Init()
 	House_Init();
 
 	memset(g_animations, 0, ANIMATION_MAX * sizeof(Animation));
-	memset(g_map395A, 0, 32 * sizeof(struct_395A));
+	memset(g_mapActivity, 0, 32 * sizeof(MapActivity));
 	memset(g_map, 0, 64 * 64 * sizeof(Tile));
 
 	memset(g_global->variable_95E5, 0, 512 * sizeof(uint8));
