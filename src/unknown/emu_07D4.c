@@ -353,7 +353,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if ((g_global->variable_8FE5[curPos >> 3] & (1 << (curPos & 7))) != 0) s->variable_07 = 1;
 
-		if (s->variable_0C.csip == 0x0) continue;
+		if (s->activities.csip == 0x0) continue;
 		if (s->variable_07 == 0 && !arg06) continue;
 		if (s->variable_0A == 0) continue;
 
@@ -580,7 +580,7 @@ void Unknown_07D4_0000(uint16 screenID)
 
 	if (screenID != 0) g_global->variable_3A12 = 1;
 
-	Map_06F7_0602();
+	Map_Activity_Tick();
 	Animation_Tick();
 	Unit_Sort();
 

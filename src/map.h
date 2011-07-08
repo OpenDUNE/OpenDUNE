@@ -36,7 +36,7 @@ typedef struct Tile {
 	/* 0010 0000 */ PACK uint32 hasUnit:1;                  /*!< There is a Unit on the Tile. */
 	/* 0020 0000 */ PACK uint32 hasStructure:1;             /*!< There is a Structure on the Tile. */
 	/* 0040 0000 */ PACK uint32 hasAnimation:1;             /*!< There is animation going on on the Tile. */
-	/* 0080 0000 */ PACK uint32 flag_10:1;                  /*!< ?? */
+	/* 0080 0000 */ PACK uint32 hasMapActivity:1;           /*!< There is map activity at this location. */
 	/* FF00 0000 */ PACK uint32 index:8;                    /*!< Index of the Structure / Unit (index 1 is Structure/Unit 0, etc). */
 } GCC_PACKED Tile;
 MSVC_PACKED_END
@@ -47,15 +47,15 @@ MSVC_PACKED_BEGIN
  * A struct.
  */
 typedef struct MapActivity {
-	/* 0000(4)   */ PACK uint32 variable_00;                /*!< ?? */
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? an index. */
+	/* 0000(4)   */ PACK uint32 timeOut;                    /*!< Time out for the next activity. */
+	/* 0004(2)   */ PACK uint16 index;                      /*!< Index in #g_mapActivity. */
 	/* 0006(1)   */ PACK uint8  houseID;                    /*!< A houseID. */
 	/* 0007(1)   */ PACK uint8  variable_07;                /*!< ?? a bool. */
 	/* 0008(1)   */ PACK uint8  variable_08;                /*!< ?? */
-	/* 0009(1)   */ PACK uint8  variable_09;                /*!< ?? */
+	/* 0009(1)   */ PACK uint8  actCounter;                 /*!< Index in #activities pointing to the next activity. */
 	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? an index. */
-	/* 000C(4)   */ PACK csip32 variable_0C;                /*!< ?? a CSIP. */
-	/* 0010(4)   */ PACK tile32 position;                   /*!< A position. */
+	/* 000C(4)   */ PACK csip32 activities;                 /*!< Activities being executed, \c 0x0 means 'unused'. */
+	/* 0010(4)   */ PACK tile32 position;                   /*!< Position where this activity acts. */
 } GCC_PACKED MapActivity;
 MSVC_PACKED_END
 assert_compile(sizeof(MapActivity) == 0x14);
@@ -92,7 +92,7 @@ extern void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, ui
 extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
-extern uint32 Map_06F7_0602();
+extern uint32 Map_Activity_Tick();
 extern void Map_B4CD_14CA(uint16 packed, uint8 houseID);
 extern void Map_FillCircleWithSpice(uint16 packed, uint16 radius);
 extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);

@@ -850,7 +850,7 @@ bool Unit_SetPosition(Unit *u, tile32 position)
 	u->targetMove = 0;
 	u->targetAttack = 0;
 
-	if (g_map[Tile_PackTile(u->o.position)].flag_10 != 0) {
+	if (g_map[Tile_PackTile(u->o.position)].hasMapActivity) {
 		u->o.variable_09 &= ~(1 << u->o.houseID);
 
 		Unit_HouseUnitCount_Add(u, g_playerHouseID);

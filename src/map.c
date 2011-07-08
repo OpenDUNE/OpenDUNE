@@ -307,7 +307,7 @@ bool Map_Save(FILE *fp)
 		Tile *tile = &g_map[i];
 
 		/* If there is nothing on the tile, not unveiled, and it is equal to the mapseed generated tile, don't store it */
-		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->flag_10 && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
+		if (!tile->isUnveiled && !tile->hasStructure && !tile->hasUnit && !tile->hasAnimation && !tile->hasMapActivity && (g_mapSpriteID[i] & 0x8000) == 0 && g_mapSpriteID[i] == tile->groundSpriteID) continue;
 
 		/* Store the index, then the tile itself */
 		if (fwrite(&i, sizeof(uint16), 1, fp) != 1) return false;
@@ -520,32 +520,51 @@ static bool Map_06F7_0A27(MapActivity *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_0A5A(MapActivity *s)
+/**
+ * Reset the activity counter of activity \a s.
+ * @param s Activity being reset.
+ * @return True.
+ */
+static bool Map_ResetActCounter(MapActivity *s)
 {
-	s->variable_09 = 0;
+	s->actCounter = 0;
 	return true;
 }
 
-static bool Map_06F7_0A6C(MapActivity *s)
+/**
+ * Stop performing an activity.
+ * @param s Map activity to end.
+ * @return False.
+ */
+static bool Map_StopActivity(MapActivity *s)
 {
-	g_map[Tile_PackTile(s->position)].flag_10 = false;
+	g_map[Tile_PackTile(s->position)].hasMapActivity = false;
 
 	Map_B4CD_04D9(0, s);
 
-	s->variable_0C.csip = 0x0;
-
+	s->activities.csip = 0x0;
 	return false;
 }
 
-static bool Map_06F7_0AC1(MapActivity *s, uint16 arg0A)
+/**
+ * Set timeout for next the map activity of \a s.
+ * @param s Map activy.
+ * @return True
+ */
+static bool Map_SetTimeout(MapActivity *s, uint16 value)
 {
-	s->variable_00 = g_global->variable_76AC + arg0A;
+	s->timeOut = g_global->variable_76AC + value;
 	return true;
 }
 
-static bool Map_06F7_0AE2(MapActivity *s, uint16 arg0A)
+/**
+ * Set timeout for next the map activity of \a s to a random value up to \a value.
+ * @param s Map activy.
+ * @return True
+ */
+static bool Map_SetRandomTimeout(MapActivity *s, uint16 value)
 {
-	s->variable_00 = g_global->variable_76AC + Tools_RandomRange(0, arg0A);
+	s->timeOut = g_global->variable_76AC + Tools_RandomRange(0, value);
 	return true;
 }
 
@@ -570,67 +589,65 @@ static bool Map_06F7_0B42(MapActivity *s, uint16 arg0A)
 }
 
 /**
- * ??.
- *
- * @param packed A packed position.
- * @return True if and only if something happened.
+ * Stop any activity at position \a packed.
+ * @param packed A packed position where no activities should take place (any more).
+ * @return True if and only if at least one map activity was stopped.
  */
-static bool Map_06F7_057C(uint16 packed)
+static bool Map_StopActivityAtPosition(uint16 packed)
 {
 	Tile *t;
 	uint8 i;
 
 	t = &g_map[packed];
 
-	if (!t->flag_10) return false;
+	if (!t->hasMapActivity) return false;
 
 	for (i = 0; i < 32; i++) {
 		MapActivity *s;
 
 		s = &g_mapActivity[i];
 
-		if (s->variable_0C.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
+		if (s->activities.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
 
-		Map_06F7_0A6C(s);
+		Map_StopActivity(s);
 	}
 
 	return true;
 }
 
 /**
- * Init ??.
- *
- * @param csip The CSIP to use for init.
+ * Initialize map activity.
+ * @param activities Activities of this map activity.
  * @param position The position to use for init.
  * @return True if and only if an init happened.
  */
-static bool Map_06F7_0493(csip32 csip, tile32 position)
+static bool Map_InitializeActivity(csip32 activities, tile32 position)
 {
 	uint16 packed;
 	uint8 i;
 
-	if (csip.csip == 0x0) return false;
+	if (activities.csip == 0x0) return false;
 
 	packed = Tile_PackTile(position);
 
-	Map_06F7_057C(packed);
+	Map_StopActivityAtPosition(packed);
 
 	for (i = 0; i < 32; i++) {
 		MapActivity *s;
 
 		s = &g_mapActivity[i];
 
-		if (s->variable_0C.csip != 0x0) continue;
+		if (s->activities.csip != 0x0) continue;
 
-		s->variable_04 = i;
-		s->variable_0C = csip;
-		s->variable_09 = 0;
+		s->index       = i;
+		s->activities  = activities;
+		s->actCounter  = 0;
 		s->variable_0A = 0;
 		s->position    = position;
 		s->variable_07 = 0;
-		s->variable_00 = g_global->variable_76AC;
+		s->timeOut     = g_global->variable_76AC;
 		_mapActivityTimeout = 0;
-		g_map[packed].flag_10 = true;
+		g_map[packed].hasMapActivity = true;
 		return true;
 	}
 
@@ -780,7 +797,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
-	Map_06F7_0493(g_global->variable_3212[type], position);
+	Map_InitializeActivity(g_global->mapActivities[type], position);
 }
 
 /**
@@ -915,7 +932,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 {
 	PoolFindStruct find;
 
-	Map_06F7_0493(g_global->variable_3212[type], position);
+	Map_InitializeActivity(g_global->mapActivities[type], position);
 
 
 	find.type    = 0xFFFF;
@@ -935,11 +952,10 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 }
 
 /**
- * ??.
- *
- * @return _mapActivityTimeout.
+ * Timer tick for map activities.
+ * @return Timer value for next activity.
  */
-uint32 Map_06F7_0602()
+uint32 Map_Activity_Tick()
 {
 	uint8 i;
 
@@ -952,22 +968,22 @@ uint32 Map_06F7_0602()
 
 		s = &g_mapActivity[i];
 
-		if (s->variable_0C.csip == 0x0) continue;
+		if (s->activities.csip == 0x0) continue;
 
-		if (s->variable_00 <= g_global->variable_76AC) {
+		if (s->timeOut <= g_global->variable_76AC) {
 			uint16 data;
 			uint16 action;
 
-			data = ((uint16 *)emu_get_memorycsip(s->variable_0C))[s->variable_09++];
+			data = ((uint16 *)emu_get_memorycsip(s->activities))[s->actCounter++];
 			action = min((data >> 12) & 0xF, 0xE);
 			data &= 0xFFF;
 
 			switch(action) {
 				case  1: Map_06F7_0B14(s, data); break;
-				case  2: Map_06F7_0AC1(s, data); break;
-				case  3: Map_06F7_0AE2(s, data); break;
+				case  2: Map_SetTimeout(s, data); break;
+				case  3: Map_SetRandomTimeout(s, data); break;
 				case  4: Map_06F7_0B42(s, data); break;
-				case  5: Map_06F7_0A5A(s); break;
+				case  5: Map_ResetActCounter(s); break;
 				case  6: Map_06F7_09F4(s, data); break;
 				case  7: Map_06F7_0A27(s, data); break;
 				case  8: Map_06F7_072B(s); break;
@@ -975,13 +991,13 @@ uint32 Map_06F7_0602()
 				case 10: Map_06F7_08DD(s); break;
 				case 11: Map_06F7_0967(s, data); break;
 				case 13: Map_06F7_0913(s); break;
-				default: Map_06F7_0A6C(s); break;
+				default: Map_StopActivity(s); break;
 			}
 		}
 
-		if (s->variable_0C.csip == 0x0 || s->variable_00 > _mapActivityTimeout) continue;
+		if (s->activities.csip == 0x0 || s->timeOut > _mapActivityTimeout) continue;
 
-		_mapActivityTimeout = s->variable_00;
+		_mapActivityTimeout = s->timeOut;
 	}
 
 	return _mapActivityTimeout;
@@ -1948,7 +1964,7 @@ void Map_CreateLandscape(uint32 seed)
 		t->hasUnit         = false;
 		t->hasStructure    = false;
 		t->hasAnimation    = false;
-		t->flag_10         = false;
+		t->hasMapActivity  = false;
 		t->index           = 0;
 	}
 
