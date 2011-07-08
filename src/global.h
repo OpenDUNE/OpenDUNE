@@ -821,8 +821,8 @@ typedef struct GlobalData {
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
-	/* 3782(16)  */ PACK uint16 variable_3782[8];           /*!< ?? */
-	/* 3792(8)   */ PACK uint8  variable_3792[8];           /*!< ?? */
+	/* 3782(16)  */ PACK uint16  removed_3782[8];           /*!< REMOVED ?? */
+	/* 3792(8)   */ PACK uint8   removed_3792[8];           /*!< REMOVED ?? */
 	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI. */
 	/* 379E(2)   */ PACK uint16 debugForceWin;              /*!< When non-zero, you immediately win the level.  */
