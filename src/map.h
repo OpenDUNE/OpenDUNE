@@ -93,7 +93,7 @@ extern uint16 Map_GetLandscapeType(uint16 packed);
 extern void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible);
 extern void Map_DeviateArea(uint16 type, tile32 position, uint16 radius);
 extern uint32 Map_Activity_Tick();
-extern void Map_B4CD_14CA(uint16 packed, uint8 houseID);
+extern void Map_ExplodeBloom(uint16 packed, uint8 houseID);
 extern void Map_FillCircleWithSpice(uint16 packed, uint16 radius);
 extern void Map_ChangeSpiceAmount(uint16 packed, int16 dir);
 extern void Map_SetViewportPosition(uint16 packed);

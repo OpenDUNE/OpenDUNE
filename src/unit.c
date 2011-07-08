@@ -1500,7 +1500,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 	if (sprite2 != 0) Map_B4CD_160C(packed, Unit_GetHouseID(unit));
 
-	if (sprite1 != 0) Map_B4CD_14CA(packed, Unit_GetHouseID(unit));
+	if (sprite1 != 0) Map_ExplodeBloom(packed, Unit_GetHouseID(unit));
 
 	return ret;
 }

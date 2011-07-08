@@ -446,7 +446,7 @@ static bool Map_06F7_072B(MapActivity *s)
 	Map_ChangeSpiceAmount(packed, -1);
 
 	if (t->groundSpriteID == g_global->bloomSpriteID) {
-		Map_B4CD_14CA(packed, g_playerHouseID);
+		Map_ExplodeBloom(packed, g_playerHouseID);
 		return false;
 	}
 
@@ -470,7 +470,11 @@ static bool Map_06F7_08DD(MapActivity *s)
 	return true;
 }
 
-static bool Map_06F7_0913(MapActivity *s)
+/**
+ * Let a bloom explode.
+ * @param s Map activy.
+ */
+static bool Map_PerformBloomExplosion(MapActivity *s)
 {
 	uint16 packed;
 
@@ -478,7 +482,7 @@ static bool Map_06F7_0913(MapActivity *s)
 
 	if (g_map[packed].groundSpriteID != g_global->bloomSpriteID) return true;
 
-	Map_B4CD_14CA(packed, g_playerHouseID);
+	Map_ExplodeBloom(packed, g_playerHouseID);
 
 	return false;
 }
@@ -500,19 +504,29 @@ static bool Map_06F7_0967(MapActivity *s, uint16 arg0A)
 	return true;
 }
 
-static bool Map_06F7_09F4(MapActivity *s, uint16 arg0A)
+/**
+ * Set position at the top of a column.
+ * @param column Column number.
+ * @return True.
+ */
+static bool Map_SetColumn(MapActivity *s, uint16 column)
 {
-	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
-	s->position.s.x = arg0A;
+	if ((column & 0x800) != 0) column |= 0xF000;
+	s->position.s.x = column;
 	s->position.s.y = 0;
 	return true;
 }
 
-static bool Map_06F7_0A27(MapActivity *s, uint16 arg0A)
+/**
+ * Set position at the left of a row.
+ * @param row Row number.
+ * @return True.
+ */
+static bool Map_SetRow(MapActivity *s, uint16 row)
 {
-	if ((arg0A & 0x800) != 0) arg0A |= 0xF000;
+	if ((row & 0x800) != 0) row |= 0xF000;
 	s->position.s.x = 0;
-	s->position.s.y = arg0A;
+	s->position.s.y = row;
 	return true;
 }
 
@@ -978,13 +992,13 @@ uint32 Map_Activity_Tick()
 				case  3: Map_SetRandomTimeout(s, data); break;
 				case  4: Map_06F7_0B42(s, data); break;
 				case  5: Map_ResetActCounter(s); break;
-				case  6: Map_06F7_09F4(s, data); break;
-				case  7: Map_06F7_0A27(s, data); break;
+				case  6: Map_SetColumn(s, data); break;
+				case  7: Map_SetRow(s, data); break;
 				case  8: Map_06F7_072B(s); break;
 				case  9: Map_06F7_08BD(s, data); break;
 				case 10: Map_06F7_08DD(s); break;
 				case 11: Map_06F7_0967(s, data); break;
-				case 13: Map_06F7_0913(s); break;
+				case 13: Map_PerformBloomExplosion(s); break;
 				default: Map_StopActivity(s); break;
 			}
 		}
@@ -997,7 +1011,12 @@ uint32 Map_Activity_Tick()
 	return _mapActivityTimeout;
 }
 
-void Map_B4CD_14CA(uint16 packed, uint8 houseID)
+/**
+ * Perform a bloom explosion, filling the area with spice.
+ * @param packed Center position.
+ * @param houseID %House causing the explosion.
+ */
+void Map_ExplodeBloom(uint16 packed, uint8 houseID)
 {
 	if (g_global->variable_38BC == 0) {
 		Unit_Unknown10EC(Unit_Get_ByPackedTile(packed));
