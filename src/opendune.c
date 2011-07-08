@@ -377,7 +377,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 	if (g_config.voiceDrv != 0 && _var_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
 		uint16 loc06 = _var_8062 + g_global->variable_8072;
 
-		Sound_Unknown0363(loc06);
+		Sound_Output_Feedback(loc06);
 
 		if (g_global->variable_0312[loc06][5] != 0) {
 			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
@@ -1166,12 +1166,12 @@ static void GameLoop_LevelEnd()
 
 		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-		Sound_Unknown0363(0xFFFE);
+		Sound_Output_Feedback(0xFFFE);
 
 		GUI_ChangeSelectionType(0);
 
 		if (GameLoop_IsLevelWon()) {
-			Sound_Unknown0363(40);
+			Sound_Output_Feedback(40);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x52), 0xFFFF); /* "You have successfully completed your mission." */
 
@@ -1214,7 +1214,7 @@ static void GameLoop_LevelEnd()
 				Sprites_Load(0, 7, g_sprites);
 			}
 		} else {
-			Sound_Unknown0363(41);
+			Sound_Output_Feedback(41);
 
 			GUI_DisplayModalMessage(String_Get_ByIndex(0x53), 0xFFFF); /* "You have failed your mission " */
 
@@ -1867,7 +1867,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					GameLoop_GameIntroAnimation();
 
-					Sound_Unknown0363(0xFFFE);
+					Sound_Output_Feedback(0xFFFE);
 
 					File_ReadBlockFile("IBM.PAL", g_palette_998A, 3 * 256);
 					memmove(g_palette1, g_palette_998A, 3 * 256);
@@ -2540,7 +2540,7 @@ void Game_Init()
 	memset(g_mapSpriteID, 0, 64 * 64 * sizeof(uint16));
 	memset(g_starportAvailable, 0, sizeof(g_starportAvailable));
 
-	Sound_Unknown0363(0xFFFE);
+	Sound_Output_Feedback(0xFFFE);
 
 	g_playerCreditsNoSilo     = 0;
 	g_houseMissileCountdown   = 0;
@@ -2565,7 +2565,7 @@ void Game_Init()
  */
 void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 {
-	Sound_Unknown0363(0xFFFE);
+	Sound_Output_Feedback(0xFFFE);
 
 	Game_Init();
 

@@ -1543,10 +1543,10 @@ bool Unit_Damage(Unit *unit, uint16 damage, uint16 range)
 		if (unit->o.type == UNIT_HARVESTER) Map_FillCircleWithSpice(Tile_PackTile(unit->o.position), unit->amount / 32);
 
 		if (unit->o.type == UNIT_SABOTEUR) {
-			Sound_Unknown0363(20);
+			Sound_Output_Feedback(20);
 		} else {
 			if (!ui->o.flags.s.noMessageOnDeath && alive) {
-				Sound_Unknown0363((houseID == g_playerHouseID || g_campaignID > 3) ? houseID + 14 : 13);
+				Sound_Output_Feedback((houseID == g_playerHouseID || g_campaignID > 3) ? houseID + 14 : 13);
 			}
 		}
 
@@ -2559,11 +2559,11 @@ void Unit_LaunchHouseMissile(uint16 packed)
 
 	Unit_Free(g_unitHouseMissile);
 
-	Sound_Unknown0363(0xFFFE);
+	Sound_Output_Feedback(0xFFFE);
 
 	Unit_CreateBullet(h->palacePosition, g_unitHouseMissile->o.type, g_unitHouseMissile->o.houseID, 0x1F4, Tools_Index_Encode(packed, IT_TILE));
 
-	if (!isAI) Sound_Unknown0363(39);
+	if (!isAI) Sound_Output_Feedback(39);
 
 	g_houseMissileCountdown = 0;
 	g_unitHouseMissile = NULL;
@@ -2661,7 +2661,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 			if (hp->variable_26 == 0) {
 				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
 
-				Sound_Unknown0363(37);
+				Sound_Output_Feedback(37);
 
 				if (g_config.language == LANGUAGE_ENGLISH) {
 					GUI_DisplayHint(28, 105);
@@ -2676,7 +2676,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
 
 				if (unit->o.type != UNIT_SABOTEUR) {
-					Sound_Unknown0363(12);
+					Sound_Output_Feedback(12);
 				} else {
 					if (g_scenarioID < 3) {
 						PoolFindStruct find;
@@ -2694,9 +2694,9 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 							stringID = 1;
 						}
 
-						Sound_Unknown0363(stringID);
+						Sound_Output_Feedback(stringID);
 					} else {
-						Sound_Unknown0363(unit->o.houseID + 6);
+						Sound_Output_Feedback(unit->o.houseID + 6);
 					}
 				}
 

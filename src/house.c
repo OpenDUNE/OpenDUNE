@@ -96,7 +96,7 @@ void GameLoop_House()
 
 	if (tickMissileCountdown && g_houseMissileCountdown != 0) {
 		g_houseMissileCountdown--;
-		Sound_Unknown0363(g_houseMissileCountdown + 41);
+		Sound_Output_Feedback(g_houseMissileCountdown + 41);
 
 		if (g_houseMissileCountdown == 0) Unit_LaunchHouseMissile(Map_B4CD_1816(4, g_playerHouseID));
 	}
@@ -239,7 +239,7 @@ void GameLoop_House()
 						h->starportLinkedID = UNIT_INDEX_INVALID;
 						u->o.flags.s.inTransport = true;
 
-						Sound_Unknown0363(38);
+						Sound_Output_Feedback(38);
 					}
 				} else {
 					PoolFindStruct find2;
@@ -260,7 +260,7 @@ void GameLoop_House()
 							h->starportLinkedID = 0xFFFF;
 							u->o.flags.s.inTransport = true;
 
-							Sound_Unknown0363(38);
+							Sound_Output_Feedback(38);
 						}
 					}
 				}
@@ -415,7 +415,7 @@ bool House_UpdateRadarState(House *h)
 
 	Voice_Play(62);
 
-	Sound_Unknown0363(activate ? 28 : 29);
+	Sound_Output_Feedback(activate ? 28 : 29);
 
 	frameCount = WSA_GetFrameCount(wsa);
 

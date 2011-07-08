@@ -1739,7 +1739,7 @@ uint8 GUI_PickHouse()
 		GUI_Mouse_Hide_Safe();
 
 		if (g_config.voiceDrv != 0) {
-			Sound_Unknown0363(houseID + 62);
+			Sound_Output_Feedback(houseID + 62);
 
 			while (Sound_Unknown0470()) sleep(0);
 		}

@@ -264,7 +264,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 		if (s->o.linkedID == 0xFF) Structure_SetAnimation(s, 0);
 		Object_Script_Variable4_Clear(&s->o);
 
-		if (s->o.houseID == g_playerHouseID) Sound_Unknown0363(g_playerHouseID + 49);
+		if (s->o.houseID == g_playerHouseID) Sound_Output_Feedback(g_playerHouseID + 49);
 
 		return 1;
 	}
@@ -294,7 +294,7 @@ uint16 Script_Structure_Unknown0C5A(ScriptEngine *script)
 	if (s->o.houseID != g_playerHouseID) return 1;
 	if (s->o.type == STRUCTURE_REPAIR) return 1;
 
-	Sound_Unknown0363(g_playerHouseID + ((u->o.type == UNIT_HARVESTER) ? 68 : 30));
+	Sound_Output_Feedback(g_playerHouseID + ((u->o.type == UNIT_HARVESTER) ? 68 : 30));
 
 	return 1;
 }

@@ -295,10 +295,11 @@ void Sound_Unknown0156(uint16 index)
 }
 
 /**
- * Unknown function.
- * @param index
+ * Output feedback about events of the game.
+ * @param index Feedback to provide (\c 0xFFFF means do nothing, \c 0xFFFE means stop, otherwise a feedback code).
+ * @note If sound is disabled, the main viewport is used to display a message.
  */
-void Sound_Unknown0363(uint16 index)
+void Sound_Output_Feedback(uint16 index)
 {
 	if (index == 0xFFFF) return;
 

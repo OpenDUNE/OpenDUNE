@@ -1029,7 +1029,7 @@ void Map_ExplodeBloom(uint16 packed, uint8 houseID)
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
 	}
 
-	if (houseID == g_playerHouseID) Sound_Unknown0363(36);
+	if (houseID == g_playerHouseID) Sound_Output_Feedback(36);
 
 	Map_FillCircleWithSpice(packed, 5);
 }

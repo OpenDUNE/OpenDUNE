@@ -769,7 +769,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 					loop = !GUI_YesNo(0x65);
 					g_global->variable_38F8 = loop ? 1 : 0;
 
-					Sound_Unknown0363(0xFFFE);
+					Sound_Output_Feedback(0xFFFE);
 
 					while (Driver_Voice_IsPlaying()) sleep(0);
 					break;

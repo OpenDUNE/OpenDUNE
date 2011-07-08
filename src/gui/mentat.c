@@ -88,7 +88,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	w1 = GUI_Widget_Link(w1, w2);
 
-	Sound_Unknown0363(0xFFFE);
+	Sound_Output_Feedback(0xFFFE);
 
 	{
 		csip32 nullcsip;
@@ -368,7 +368,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-	Sound_Unknown0363(0xFFFE);
+	Sound_Output_Feedback(0xFFFE);
 
 	{
 		csip32 nullcsip;
