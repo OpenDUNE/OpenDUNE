@@ -356,7 +356,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		if (BitArray_Test(g_dirtyViewport, curPos)) s->variable_07 = 1;
 
-		if (s->activities.csip == 0x0) continue;
+		if (s->activities == NULL) continue;
 		if (s->variable_07 == 0 && !arg06) continue;
 		if (s->variable_0A == 0) continue;
 

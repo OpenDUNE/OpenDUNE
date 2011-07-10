@@ -744,8 +744,7 @@ typedef struct GlobalData {
 	/* 3204(9)   */ PACK char   string_3204[9];             /*!< "DUNEINIT" NULL terminated. */
 	/* 320D()    */ PACK uint8   unknown_320D[0x0001];
 	/* 320E(4)   */ PACK uint32  removed_320E;              /*!< REMOVED - Timeout value for next map activity. */
-	/* 3212(64)  */ PACK csip32 mapActivities[14];          /*!< Array with map activity scripts. */
-	/* 324A()    */ PACK uint8   unknown_324A[0x0018];
+	/* 3212(80)  */ PACK csip32  removed_3212[20];          /*!< REMOVED - Array with map activity scripts. */
 	/* 3262(60)  */ PACK csip32 variable_3262[15];          /*!< Array of functions. */
 	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? */
 	/* 32A4(32)  */ PACK uint16  removed_32A4[8][2];        /*!< REMOVED - ?? (read-only array) */

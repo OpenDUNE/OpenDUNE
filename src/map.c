@@ -39,6 +39,381 @@ uint8 g_displayedMinimap[512];  /*!< Displayed part of the minimap. */
 uint8 g_dirtyViewport[512];     /*!< Dirty tiles of the viewport (must be rendered again). */
 uint8 g_displayedViewport[512]; /*!< Displayed part of the viewport. */
 
+static const Activity _activities00[] = {
+	{  1,  153 },
+	{  2,    3 },
+	{ 13,    0 },
+	{  4,  153 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities01[] = {
+	{  1,  154 },
+	{ 13,    0 },
+	{  2,    3 },
+	{  4,  153 },
+	{  2,    3 },
+	{  1,  154 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities02[] = {
+	{  1,  183 },
+	{  9,   50 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,   15 },
+	{  1,  184 },
+	{  2,   15 },
+	{  0,    0 }
+};
+
+static const Activity _activities03[] = {
+	{  1,  183 },
+	{  9,   49 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    3 },
+	{  1,  184 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities04[] = {
+	{  1,  203 },
+	{  9,   51 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    7 },
+	{  1,  204 },
+	{  2,    3 },
+	{  1,  205 },
+	{  2,    3 },
+	{  1,  206 },
+	{  2,    3 },
+	{  1,  207 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities05[] = {
+	{  3,   60 },
+	{  1,  203 },
+	{  9,   41 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    7 },
+	{  1,  204 },
+	{  2,    3 },
+	{  1,  205 },
+	{  2,    3 },
+	{  1,  206 },
+	{  2,    3 },
+	{  1,  207 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities06[] = {
+	{  1,  198 },
+	{  9,   51 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    7 },
+	{  1,  199 },
+	{  2,    3 },
+	{  1,  200 },
+	{  2,    3 },
+	{  1,  201 },
+	{  2,    3 },
+	{  1,  202 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities07[] = {
+	{  1,  208 },
+	{  9,   39 },
+	{  2,   15 },
+	{  1,  209 },
+	{  2,   15 },
+	{  1,  210 },
+	{  2,   15 },
+	{  1,  211 },
+	{  2,   15 },
+	{  1,  212 },
+	{  2,   15 },
+	{  0,    0 }
+};
+
+static const Activity _activities08[] = {
+	{  1,  156 },
+	{  9,   40 },
+	{ 13,    0 },
+	{  2,    7 },
+	{  1,  157 },
+	{  2,    3 },
+	{  1,  158 },
+	{  2,    3 },
+	{  1,  157 },
+	{  2,    3 },
+	{  8,    0 },
+	{  0,    0 }
+};
+
+static const Activity _activities09[] = {
+	{  1,  183 },
+	{  9,   41 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    3 },
+	{  1,  203 },
+	{  2,    3 },
+	{  7, 4016 },
+	{  1,  168 },
+	{  2,   15 },
+	{  1,  169 },
+	{  2,   15 },
+	{  1,  170 },
+	{  2,   15 },
+	{  1,  168 },
+	{  2,   15 },
+	{  1,  169 },
+	{  2,   15 },
+	{  1,  170 },
+	{  2,   15 },
+	{  1,  168 },
+	{  2,   15 },
+	{  1,  169 },
+	{  2,   15 },
+	{  1,  170 },
+	{  2,   15 },
+	{  1,  168 },
+	{  2,   15 },
+	{  1,  169 },
+	{  2,   15 },
+	{  1,  170 },
+	{  2,   15 },
+	{  1,  168 },
+	{  2,   15 },
+	{  1,  169 },
+	{  2,   15 },
+	{  1,  170 },
+	{  2,   15 },
+	{  0,    0 }
+};
+
+static const Activity _activities10[] = {
+	{  1,  151 },
+	{  9,   49 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    7 },
+	{  1,  152 },
+	{  2,    7 },
+	{  0,    0 }
+};
+
+static const Activity _activities11[] = {
+	{  3,   60 },
+	{  1,  188 },
+	{  9,   51 },
+	{ 13,    0 },
+	{  8,    0 },
+	{  2,    7 },
+	{  1,  189 },
+	{  2,    3 },
+	{  1,  190 },
+	{  2,    3 },
+	{  1,  191 },
+	{  2,    3 },
+	{  1,  192 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities12[] = {
+	{  1,  213 },
+	{  2,   15 },
+	{  1,  214 },
+	{  2,   15 },
+	{  1,  215 },
+	{  2,   15 },
+	{  1,  216 },
+	{  2,   15 },
+	{  1,  217 },
+	{  2,   30 },
+	{  0,    0 }
+};
+
+static const Activity _activities13[] = {
+	{  1,  218 },
+	{  2,   15 },
+	{  1,  219 },
+	{  2,   15 },
+	{  1,  220 },
+	{  2,   15 },
+	{  1,  221 },
+	{  2,   15 },
+	{  1,  222 },
+	{  2,   30 },
+	{  0,    0 }
+};
+
+static const Activity _activities14[] = {
+	{  3,   60 },
+	{  1,  188 },
+	{  9,   51 },
+	{  2,    7 },
+	{  1,  189 },
+	{ 13,    0 },
+	{ 10,    0 },
+	{  2,    3 },
+	{  1,  190 },
+	{  2,    3 },
+	{  1,  191 },
+	{  2,    3 },
+	{  1,  192 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities15[] = {
+	{  1,  183 },
+	{  9,   49 },
+	{  7, 4016 },
+	{  2,    3 },
+	{  1,  184 },
+	{  2,    3 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  180 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  1,  182 },
+	{  2,   15 },
+	{  1,  181 },
+	{  2,   15 },
+	{  0,    0 }
+};
+
+static const Activity _activities16[] = {
+	{  1,  203 },
+	{  9,   49 },
+	{ 13,    0 },
+	{ 11,    0 },
+	{  2,    3 },
+	{  1,  204 },
+	{  1,  207 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities17[] = {
+	{  1,  203 },
+	{  9,   49 },
+	{ 13,    0 },
+	{ 11,    4 },
+	{  2,    3 },
+	{  1,  204 },
+	{  1,  207 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities18[] = {
+	{  1,  183 },
+	{  9,   54 },
+	{ 13,    0 },
+	{  2,    3 },
+	{  1,  184 },
+	{  2,    3 },
+	{  0,    0 }
+};
+
+static const Activity _activities19[] = {
+	{  1,  156 },
+	{  9,   40 },
+	{ 10,    0 },
+	{  2,    7 },
+	{ 10,    0 },
+	{  1,  157 },
+	{  2,    3 },
+	{ 10,    0 },
+	{  1,  158 },
+	{  2,    3 },
+	{ 10,    0 },
+	{  1,  157 },
+	{  2,    3 },
+	{ 10,    0 },
+	{  8,    0 },
+	{  0,    0 }
+};
+
+static const Activity *_activities[] = {
+	_activities00,
+	_activities01,
+	_activities02,
+	_activities03,
+	_activities04,
+	_activities05,
+	_activities06,
+	_activities07,
+	_activities08,
+	_activities09,
+	_activities10,
+	_activities11,
+	_activities12,
+	_activities13,
+	_activities14,
+	_activities15,
+	_activities16,
+	_activities17,
+	_activities18,
+	_activities19
+};
+
 /**
  * Map definitions.
  * Map sizes: [0] is 62x62, [1] is 32x32, [2] is 21x21.
@@ -557,7 +932,7 @@ static bool Map_StopActivity(MapActivity *s)
 
 	Map_B4CD_04D9(0, s);
 
-	s->activities.csip = 0x0;
+	s->activities = NULL;
 	return false;
 }
 
@@ -622,7 +997,7 @@ static bool Map_StopActivityAtPosition(uint16 packed)
 
 		s = &g_mapActivity[i];
 
-		if (s->activities.csip == 0x0 || Tile_PackTile(s->position) != packed) continue;
+		if (s->activities == NULL || Tile_PackTile(s->position) != packed) continue;
 
 		Map_StopActivity(s);
 	}
@@ -636,12 +1011,12 @@ static bool Map_StopActivityAtPosition(uint16 packed)
  * @param position The position to use for init.
  * @return True if and only if an init happened.
  */
-static bool Map_InitializeActivity(csip32 activities, tile32 position)
+static bool Map_InitializeActivity(const Activity *activities, tile32 position)
 {
 	uint16 packed;
 	uint8 i;
 
-	if (activities.csip == 0x0) return false;
+	if (activities == NULL) return false;
 
 	packed = Tile_PackTile(position);
 
@@ -652,7 +1027,7 @@ static bool Map_InitializeActivity(csip32 activities, tile32 position)
 
 		s = &g_mapActivity[i];
 
-		if (s->activities.csip != 0x0) continue;
+		if (s->activities != NULL) continue;
 
 		s->index       = i;
 		s->activities  = activities;
@@ -812,7 +1187,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		if (loc22) Map_UpdateWall(positionPacked);
 	}
 
-	Map_InitializeActivity(g_global->mapActivities[type], position);
+	Map_InitializeActivity(_activities[type], position);
 }
 
 /**
@@ -945,7 +1320,7 @@ void Map_DeviateArea(uint16 type, tile32 position, uint16 radius)
 {
 	PoolFindStruct find;
 
-	Map_InitializeActivity(g_global->mapActivities[type], position);
+	Map_InitializeActivity(_activities[type], position);
 
 
 	find.type    = 0xFFFF;
@@ -981,15 +1356,13 @@ uint32 Map_Activity_Tick()
 
 		s = &g_mapActivity[i];
 
-		if (s->activities.csip == 0x0) continue;
+		if (s->activities == NULL) continue;
 
 		if (s->timeOut <= g_global->variable_76AC) {
-			uint16 data;
-			uint16 action;
+			uint16 data   = s->activities[s->actCounter].data;
+			uint16 action = s->activities[s->actCounter].action;
 
-			data = ((uint16 *)emu_get_memorycsip(s->activities))[s->actCounter++];
-			action = min((data >> 12) & 0xF, 0xE);
-			data &= 0xFFF;
+			s->actCounter++;
 
 			switch(action) {
 				case  1: Map_06F7_0B14(s, data); break;
@@ -1008,7 +1381,7 @@ uint32 Map_Activity_Tick()
 			}
 		}
 
-		if (s->activities.csip == 0x0 || s->timeOut > _mapActivityTimeout) continue;
+		if (s->activities == NULL || s->timeOut > _mapActivityTimeout) continue;
 
 		_mapActivityTimeout = s->timeOut;
 	}

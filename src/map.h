@@ -42,23 +42,25 @@ typedef struct Tile {
 MSVC_PACKED_END
 assert_compile(sizeof(Tile) == 0x04);
 
-MSVC_PACKED_BEGIN
+typedef struct Activity {
+	uint8 action;
+	uint16 data;
+} Activity;
+
 /**
  * A struct.
  */
 typedef struct MapActivity {
-	/* 0000(4)   */ PACK uint32 timeOut;                    /*!< Time out for the next activity. */
-	/* 0004(2)   */ PACK uint16 index;                      /*!< Index in #g_mapActivity. */
-	/* 0006(1)   */ PACK uint8  houseID;                    /*!< A houseID. */
-	/* 0007(1)   */ PACK uint8  variable_07;                /*!< ?? a bool. */
-	/* 0008(1)   */ PACK uint8  variable_08;                /*!< ?? */
-	/* 0009(1)   */ PACK uint8  actCounter;                 /*!< Index in #activities pointing to the next activity. */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? an index. */
-	/* 000C(4)   */ PACK csip32 activities;                 /*!< Activities being executed, \c 0x0 means 'unused'. */
-	/* 0010(4)   */ PACK tile32 position;                   /*!< Position where this activity acts. */
-} GCC_PACKED MapActivity;
-MSVC_PACKED_END
-assert_compile(sizeof(MapActivity) == 0x14);
+	uint32 timeOut;                                         /*!< Time out for the next activity. */
+	uint16 index;                                           /*!< Index in #g_mapActivity. */
+	uint8  houseID;                                         /*!< A houseID. */
+	uint8  variable_07;                                     /*!< ?? a bool. */
+	uint8  variable_08;                                     /*!< ?? */
+	uint8  actCounter;                                      /*!< Index in #activities pointing to the next activity. */
+	uint16 variable_0A;                                     /*!< ?? an index. */
+	const Activity *activities;                             /*!< Activities being executed, \c 0x0 means 'unused'. */
+	tile32 position;                                        /*!< Position where this activity acts. */
+} MapActivity;
 
 /** Definition of the map size of a map scale. */
 typedef struct MapInfo {
