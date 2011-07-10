@@ -1256,8 +1256,8 @@ typedef struct GlobalData {
 	/* 6E88(145) */ PACK char   stringDecompress[144];      /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
 	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm".
 	                                                         *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
-	/* 6F18(4)   */ PACK csip32 variable_6F18;              /*!< Pointer to a buffer. */
-	/* 6F1C(2)   */ PACK uint16 variable_6F1C;              /*!< Size of the above buffer. */
+	/* 6F18(4)   */ PACK csip32 removed_6F18;               /*!< REMOVED - Pointer to a buffer. */
+	/* 6F1C(2)   */ PACK uint16 removed_6F1C;               /*!< REMOVED - Size of the above buffer. */
 	/* 6F1E()    */ PACK uint8   unknown_6F1E[0x00EC];
 	/* 700A(2)   */ PACK uint16 soundsEnabled;              /*!< 1 if sounds are enabled in game options, 0 otherwise. */
 	/* 700C(2)   */ PACK uint16 musicEnabled;               /*!< 1 if music is enabled in game options, 0 otherwise. */

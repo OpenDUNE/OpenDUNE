@@ -15,6 +15,4 @@ extern csip32 Screen_GetSegment_ByIndex_2(uint16 index);
 
 extern void Unknown_259E_0006(uint8 *ptr2data, int16 unknown);
 
-extern void Unknown_2903_090A(csip32 arg06, uint16 arg0A);
-
 #endif /* UNKNOWN_UNKNOWN_H */

@@ -982,7 +982,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	g_global->variable_3C46 = Screen_GetSegment_ByIndex_1(9);
 
-	Unknown_2903_090A(g_global->variable_3C46, 20000);
+	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
 
 	g_palette1 = emu_get_memorycsip(g_global->variable_3C46) + 20000;
 
@@ -1801,7 +1801,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_paletteMapping2[0xEF] = 0xEF;
 
 	g_global->variable_3C46 = Tools_Malloc(1500, 0x30);
-	Unknown_2903_090A(g_global->variable_3C46, 1500);
+	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
 
 	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
 

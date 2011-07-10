@@ -6,6 +6,7 @@
 #define SPRITES_H
 
 extern uint8 *g_sprites[];
+extern uint8 *g_spriteBuffer;
 
 extern void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites);
 extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
@@ -20,6 +21,7 @@ extern uint8 Sprites_B4CD_17DC(uint8 orientation);
 extern uint8 Sprites_B4CD_17F7(uint8 orientation);
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick();
+extern void Sprite_SetSpriteBuffer(uint8 *buffer);
 
 
 #endif /* SPRITES_H */

@@ -960,9 +960,9 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	}
 
 	if ((loc10 & 0x2) == 0) {
-		Format80_Decode(emu_get_memorycsip(g_global->variable_6F18), sprite, locbx);
+		Format80_Decode(g_spriteBuffer, sprite, locbx);
 
-		sprite = emu_get_memorycsip(g_global->variable_6F18);
+		sprite = g_spriteBuffer;
 	}
 
 	if ((flags & 0x2) == 0) {

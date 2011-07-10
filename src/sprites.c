@@ -27,6 +27,7 @@
 #include "unknown/unknown.h"
 
 uint8 *g_sprites[355];
+uint8 *g_spriteBuffer;
 
 /**
  * ??.
@@ -547,7 +548,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 		memcpy(emu_get_memorycsip(g_global->mouseSprite), sprite, *(uint16 *)(sprite + 6) * 2);
 	} else {
 		uint8 *dst = emu_get_memorycsip(g_global->mouseSprite);
-		uint8 *buf = emu_get_memorycsip(g_global->variable_6F18);
+		uint8 *buf = g_spriteBuffer;
 		uint16 flags = *(uint16 *)sprite | 0x2;
 
 		*(uint16 *)dst = flags;
@@ -633,4 +634,9 @@ void Sprites_CPS_LoadRegionClick()
 	g_global->regions = memBlock;
 
 	InitRegions();
+}
+
+void Sprite_SetSpriteBuffer(uint8 *buffer)
+{
+	g_spriteBuffer     = buffer;
 }
