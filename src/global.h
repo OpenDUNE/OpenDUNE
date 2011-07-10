@@ -786,7 +786,7 @@ typedef struct GlobalData {
 	/* 35F8(2)   */ PACK uint16 removed_35F8;               /*!< REMOVED - Amount of Structures on the map. */
 	/* 35FA(4)   */ PACK csip32 removed_35FA;               /*!< REMOVED - CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16 removed_35FE;               /*!< REMOVED - Amount of houses on the map. */
-	/* 3600(4)   */ PACK csip32 variable_3600;              /*!< ?? */
+	/* 3600(4)   */ PACK csip32 removed_3600;               /*!< REMOVED - Buffer for screen backup when drawing modal windows. */
 	/* 3604(40)  */ PACK uint16 colourBorderSchema[5][4];   /*!< Colours used for the border of widgets. */
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */

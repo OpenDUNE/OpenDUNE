@@ -701,7 +701,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	uint16 oldValue_07AE_0000;
 	uint16 ret;
 	uint16 oldScreenID;
-	uint16 size = 0;
+	uint8 *screenBackup = NULL;
 
 	va_start(ap, spriteID);
 	vsnprintf(g_global->variable_87D8, sizeof(g_global->variable_87D8), str, ap);
@@ -719,14 +719,10 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	Widget_SetCurrentWidget(1);
 
-	if (g_global->variable_3600.csip == 0x0) {
-		size = GFX_GetSize(g_curWidgetWidth, g_curWidgetHeight);
+	screenBackup = malloc(GFX_GetSize(g_curWidgetWidth, g_curWidgetHeight));
 
-		g_global->variable_3600 = Tools_Malloc(size, 0x0);
-	}
-
-	if (g_global->variable_3600.csip != 0x0) {
-		GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(g_global->variable_3600));
+	if (screenBackup != NULL) {
+		GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, screenBackup);
 	}
 
 	GUI_Widget_DrawBorder(1, 1, 1);
@@ -768,15 +764,14 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		GUI_2599_000B(1, g_curWidgetXBase - 1, g_curWidgetYBase - 8, g_curWidgetWidth + 2, g_curWidgetHeight + 16);
 	}
 
-	if (g_global->variable_3600.csip != 0x0) {
-		GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(g_global->variable_3600));
+	if (screenBackup != NULL) {
+		GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, screenBackup);
 	}
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
 
-	if (size != 0) {
-		Tools_Free(g_global->variable_3600);
-		g_global->variable_3600.csip = 0x0;
+	if (screenBackup != NULL) {
+		free(screenBackup);
 	} else {
 		g_global->variable_3A12 = 1;
 	}
