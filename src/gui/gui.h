@@ -48,7 +48,7 @@ extern bool g_textDisplayNeedsUpdate;
 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
-extern void GUI_DisplayText(const char *str, uint16 arg0A, ...);
+extern void GUI_DisplayText(const char *str, int16 importance, ...);
 extern void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour);
 extern void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...);
 extern void GUI_PaletteAnimate();

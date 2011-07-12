@@ -123,7 +123,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		ActionType action;
 		uint16 encoded;
 
-		GUI_DisplayText(NULL, 0xFFFF);
+		GUI_DisplayText(NULL, -1);
 
 		if (g_unitHouseMissile != NULL) {
 			Unit_LaunchHouseMissile(packed);

@@ -792,15 +792,15 @@ typedef struct GlobalData {
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
 	/* 3640(4)   */ PACK uint32 tickCreditsAnimation;       /*!< Next tick when credits animation needs an update. */
-	/* 3644(80)  */ PACK char  variable_3644[80];           /*!< ?? */
-	/* 3694(80)  */ PACK char  variable_3694[80];           /*!< ?? */
-	/* 36E4(80)  */ PACK char  variable_36E4[80];           /*!< ?? */
-	/* 3734(2)   */ PACK uint16 variable_3734;              /*!< ?? */
-	/* 3736(2)   */ PACK uint16 variable_3736;              /*!< ?? */
-	/* 3738(2)   */ PACK uint16 variable_3738;              /*!< ?? */
-	/* 373A(2)   */ PACK uint16 variable_373A;              /*!< ?? */
-	/* 373C(4)   */ PACK uint32 variable_373C;              /*!< ?? */
-	/* 3740(2)   */ PACK uint16 variable_3740;              /*!< ?? */
+	/* 3644(80)  */ PACK char    removed_3644[80];          /*!< REMOVED 1st line of text to display. */
+	/* 3694(80)  */ PACK char    removed_3694[80];          /*!< REMOVED 2nd line of text to display. */
+	/* 36E4(80)  */ PACK char    removed_36E4[80];          /*!< REMOVED 3rd line of text to display. */
+	/* 3734(2)   */ PACK uint16  removed_3734;              /*!< REMOVED line1 importance */
+	/* 3736(2)   */ PACK uint16  removed_3736;              /*!< REMOVED line2 importance */
+	/* 3738(2)   */ PACK uint16  removed_3738;              /*!< REMOVED line3 importance */
+	/* 373A(2)   */ PACK uint16  removed_373A;              /*!< REMOVED text display scroll in progress. */
+	/* 373C(4)   */ PACK uint32  removed_373C;              /*!< REMOVED text display timeout. */
+	/* 3740(2)   */ PACK uint16  removed_3740;              /*!< REMOVED text offset of scroll */
 	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< Always zero bytes, used to memset 4 csips. No longer in use. */
 	/* 3752(2)   */ PACK uint16 variable_3752;              /*!< ?? */
 	/* 3754(2)   */ PACK uint16 variable_3754;              /*!< ?? */
@@ -1462,9 +1462,9 @@ typedef struct GlobalData {
 	/* 87BA(6)   */ PACK uint8  removed_87BA[6];            /*!< REMOVED - Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 removed_87C0[6];            /*!< REMOVED - Array with CS:IP of House, always gap-less. */
 	/* 87D8(768) */ PACK char   variable_87D8[768];         /*!< ?? Buffer. */
-	/* 8AD8(2)   */ PACK uint16 variable_8AD8;              /*!< ?? */
-	/* 8ADA(2)   */ PACK uint16 variable_8ADA;              /*!< ?? */
-	/* 8ADC(2)   */ PACK uint16 variable_8ADC;              /*!< ?? */
+	/* 8AD8(2)   */ PACK uint16  removed_8AD8;              /*!< REMOVED - foreground colour 1st line of text */
+	/* 8ADA(2)   */ PACK uint16  removed_8ADA;              /*!< REMOVED - foreground colour 2nd line of text */
+	/* 8ADC(2)   */ PACK uint16  removed_8ADC;              /*!< REMOVED - foreground colour 3rd line of text */
 	/* 8ADE(16)  */ PACK uint8   removed_8ADE[16];          /*!< REMOVED - ?? Buffer for colours*/
 	/* 8AEE(240) */ PACK char    removed_8AEE[240];         /*!< REMOVED - ?? Buffer. */
 	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */

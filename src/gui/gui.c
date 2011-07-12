@@ -156,57 +156,72 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 
 /**
  * Display a text.
- * @param str The text to display.
- * @param arg0A ??.
+ * @param str The text to display. If \c NULL, update the text display (scroll text, and/or remove it on time out).
+ * @param importance Importance of the new text. Value \c -1 means remove all text lines, \c -2 means drop all texts in buffer but not yet displayed.
+ *                   Otherwise, it is the importance of the message (if supplied). Higher numbers mean displayed sooner.
  * @param ... The args for the text.
  */
-void GUI_DisplayText(const char *str, uint16 arg0A, ...)
+void GUI_DisplayText(const char *str, int16 importance, ...)
 {
-	char buffer[80];
+	char buffer[80];                 /* Formatting buffer of new message. */
+	static int32 displayTimeout = 0; /* Timeout value for next update of the display. */
+	static uint16 textOffset;        /* Vertical position of text being scrolled. */
+	static bool scrollInProgress;    /* Text is being scrolled (and partly visible to the user). */
+
+	static char displayLine1[80];    /* Current line being displayed. */
+	static char displayLine2[80];    /* Next line (if scrollInProgress, it is scrolled up). */
+	static char displayLine3[80];    /* Next message to display (after scrolling next line has finished). */
+	static int16 line1Importance;    /* Importance of the displayed line of text. */
+	static int16 line2Importance;    /* Importance of the next line of text. */
+	static int16 line3Importance;    /* Importance of the next message. */
+	static uint8 fgColour1;          /* Foreground colour current line. */
+	static uint8 fgColour2;          /* Foreground colour next line. */
+	static uint8 fgColour3;          /* Foreground colour next message. */
+
 	buffer[0] = '\0';
 
 	if (str != NULL) {
 		va_list ap;
 
-		va_start(ap, arg0A);
+		va_start(ap, importance);
 		vsnprintf(buffer, sizeof(buffer), str, ap);
 		va_end(ap);
 	}
 
-	if (arg0A == 0xFFFF) {
-		g_global->variable_3734 = 0xFFFF;
-		g_global->variable_3736 = 0xFFFF;
-		g_global->variable_3738 = 0xFFFF;
+	if (importance == -1) { /* Remove all displayed lines. */
+		line1Importance = -1;
+		line2Importance = -1;
+		line3Importance = -1;
 
-		g_global->variable_3644[0] = '\0';
-		g_global->variable_3694[0] = '\0';
-		g_global->variable_36E4[0] = '\0';
+		displayLine1[0] = '\0';
+		displayLine2[0] = '\0';
+		displayLine3[0] = '\0';
 
-		g_global->variable_373A = 0;
-		g_global->variable_373C = 0;
+		scrollInProgress = false;
+		displayTimeout = 0;
 		return;
 	}
 
-	if (arg0A == 0xFFFE) {
-		if (g_global->variable_373A == 0) {
-			g_global->variable_3736 = 0xFFFF;
-			g_global->variable_3694[0] = '\0';
+	if (importance == -2) { /* Remove next line and next message. */
+		if (!scrollInProgress) {
+			line2Importance = -1;
+			displayLine2[0] = '\0';
 		}
-		g_global->variable_3738 = 0xFFFF;
-		g_global->variable_36E4[0] = '\0';
+		line3Importance = -1;
+		displayLine3[0] = '\0';
 	}
 
-	if (g_global->variable_373A != 0) {
+	if (scrollInProgress) {
 		uint16 oldValue_07AE_0000;
-		uint16 loc06;
+		uint16 height;
 
 		if (buffer[0] != '\0') {
-			if (strcasecmp(buffer, g_global->variable_3694) != 0 && (int16)arg0A >= (int16)g_global->variable_3738) {
-				strcpy(g_global->variable_36E4, buffer);
-				g_global->variable_3738 = arg0A;
+			if (strcasecmp(buffer, displayLine2) != 0 && importance >= line3Importance) {
+				strcpy(displayLine3, buffer);
+				line3Importance = importance;
 			}
 		}
-		if ((int32)g_global->variable_373C > (int32)g_global->variable_76AC) return;
+		if (displayTimeout > (int32)g_global->variable_76AC) return;
 
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
@@ -215,23 +230,8 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, g_curWidgetFGColourNormal);
 
-			GUI_DrawText_Wrapper(
-				g_global->variable_3694,
-				g_curWidgetXBase << 3,
-				2,
-				g_global->variable_8ADA & 0xFF,
-				0,
-				0x012
-			);
-
-			GUI_DrawText_Wrapper(
-				g_global->variable_3644,
-				g_curWidgetXBase << 3,
-				13,
-				g_global->variable_8AD8 & 0xFF,
-				0,
-				0x012
-			);
+			GUI_DrawText_Wrapper(displayLine2, g_curWidgetXBase << 3,  2, fgColour2, 0, 0x012);
+			GUI_DrawText_Wrapper(displayLine1, g_curWidgetXBase << 3, 13, fgColour1, 0, 0x012);
 
 			g_textDisplayNeedsUpdate = false;
 
@@ -240,69 +240,74 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 		GUI_Mouse_Hide_InWidget(7);
 
-		if (g_global->variable_3740 + g_curWidgetHeight > 24) {
-			loc06 = 24 - g_global->variable_3740;
+		if (textOffset + g_curWidgetHeight > 24) {
+			height = 24 - textOffset;
 		} else {
-			loc06 = g_curWidgetHeight;
+			height = g_curWidgetHeight;
 		}
 
-		GUI_Screen_Copy(g_curWidgetXBase, g_global->variable_3740, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, loc06, 2, 0);
+		GUI_Screen_Copy(g_curWidgetXBase, textOffset, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, height, 2, 0);
 		GUI_Mouse_Show_InWidget();
 
 		Widget_SetCurrentWidget(oldValue_07AE_0000);
 
-		if (g_global->variable_3740 != 0) {
-			if ((int16)g_global->variable_3738 <= (int16)g_global->variable_3736) {
-				g_global->variable_373C = g_global->variable_76AC + 1;
+		if (textOffset != 0) {
+			if (line3Importance <= line2Importance) {
+				displayTimeout = g_global->variable_76AC + 1;
 			}
-			g_global->variable_3740--;
+			textOffset--;
 			return;
 		}
 
-		strcpy(g_global->variable_3644, g_global->variable_3694);
+		/* Finished scrolling, move line 2 to line 1. */
+		strcpy(displayLine1, displayLine2);
+		fgColour1 = fgColour2;
+		line1Importance = (line2Importance != 0) ? line2Importance - 1 : 0;
 
-		g_global->variable_8AD8 = g_global->variable_8ADA;
-		g_global->variable_3734 = (g_global->variable_3736 != 0) ? g_global->variable_3736 - 1 : 0;
+		/* And move line 3 to line 2. */
+		strcpy(displayLine2, displayLine3);
+		line2Importance = line3Importance;
+		fgColour2 = fgColour3;
+		displayLine3[0] = '\0';
 
-		strcpy(g_global->variable_3694, g_global->variable_36E4);
-
-		g_global->variable_3736 = g_global->variable_3738;
-		g_global->variable_8ADA = g_global->variable_8ADC;
-		g_global->variable_36E4[0] = '\0';
-		g_global->variable_3738 = 0xFFFF;
+		line3Importance = -1;
 		g_textDisplayNeedsUpdate = true;
-		g_global->variable_373C = g_global->variable_76AC + ((int16)g_global->variable_3736 <= (int16)g_global->variable_3734 ? 900 : 1);
-		g_global->variable_373A = 0;
+		displayTimeout = g_global->variable_76AC + (line2Importance <= line1Importance ? 900 : 1);
+		scrollInProgress = false;
 		return;
 	}
 
 	if (buffer[0] != '\0') {
-		if (strcasecmp(buffer, g_global->variable_3644) != 0 && strcasecmp(buffer, g_global->variable_3694) != 0 && strcasecmp(buffer, g_global->variable_36E4) != 0) {
-			if ((int16)arg0A >= (int16)g_global->variable_3736) {
-				strcpy(g_global->variable_36E4, g_global->variable_3694);
+		/* If new line arrived, different from every line that is in the display buffers, and more important than existing messages,
+		 * insert it at the right place.
+		 */
+		if (strcasecmp(buffer, displayLine1) != 0 && strcasecmp(buffer, displayLine2) != 0 && strcasecmp(buffer, displayLine3) != 0) {
+			if (importance >= line2Importance) {
+				/* Move line 2 to line 2 to make room for the new line. */
+				strcpy(displayLine3, displayLine2);
+				fgColour3 = fgColour2;
+				line3Importance = line2Importance;
+				/* Copy new line to line 2. */
+				strcpy(displayLine2, buffer);
+				fgColour2 = 12;
+				line2Importance = importance;
 
-				g_global->variable_8ADC = g_global->variable_8ADA;
-				g_global->variable_3738 = g_global->variable_3736;
-
-				strcpy(g_global->variable_3694, buffer);
-
-				g_global->variable_8ADA = 12;
-				g_global->variable_3736 = arg0A;
-			} else if ((int16)arg0A >= (int16)g_global->variable_3738) {
-				strcpy(g_global->variable_36E4, buffer);
-				g_global->variable_3738 = arg0A;
-				g_global->variable_8ADC = 12;
+			} else if (importance >= line3Importance) {
+				/* Copy new line to line 3. */
+				strcpy(displayLine3, buffer);
+				line3Importance = importance;
+				fgColour3 = 12;
 			}
 		}
 	} else {
-		if (g_global->variable_3644[0] == '\0' && g_global->variable_3694[0] == '\0') return;
+		if (displayLine1[0] == '\0' && displayLine2[0] == '\0') return;
 	}
 
-	if ((int16)g_global->variable_3736 <= (int16)g_global->variable_3734 && (int32)g_global->variable_373C >= (int32)g_global->variable_76AC) return;
+	if (line2Importance <= line1Importance && displayTimeout >= (int32)g_global->variable_76AC) return;
 
-	g_global->variable_373A = 1;
-	g_global->variable_3740 = 10;
-	g_global->variable_373C = 0;
+	scrollInProgress = true;
+	textOffset = 10;
+	displayTimeout = 0;
 }
 
 /**
@@ -2196,7 +2201,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				/* Fall-through */
 			case 4:
 				g_global->cursorDefaultSpriteID = 0;
-				GUI_DisplayText(NULL, 0xFFFF);
+				GUI_DisplayText(NULL, -1);
 				break;
 
 			case 3:

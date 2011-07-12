@@ -2555,7 +2555,7 @@ void Game_Init()
 	g_structureActiveType   = 0xFFFF;
 	g_global->variable_38EE = 0xFFFF;
 
-	GUI_DisplayText(NULL, 0xFFFF);
+	GUI_DisplayText(NULL, -1);
 }
 
 /**
