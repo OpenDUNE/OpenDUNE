@@ -853,7 +853,7 @@ typedef struct GlobalData {
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16 removed_38BE;               /*!< REMOVED - Game mode. */
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */
-	/* 38C4(2)   */ PACK uint16 variable_38C4;              /*!< ?? */
+	/* 38C4(2)   */ PACK uint16  removed_38C4;              /*!< REMOVED - text display needs an update. */
 	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
 	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */

@@ -93,6 +93,7 @@ static uint8 *g_palette1_houseColour;
 static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
 static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
+bool g_textDisplayNeedsUpdate;            /*!< If set, text display needs to be updated. */
 
 /**
  * Draw a wired rectangle.
@@ -209,7 +210,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
-		if (g_global->variable_38C4 != 0) {
+		if (g_textDisplayNeedsUpdate) {
 			uint16 oldScreenID = GUI_Screen_SetActive(2);
 
 			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, g_curWidgetFGColourNormal);
@@ -232,7 +233,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 				0x012
 			);
 
-			g_global->variable_38C4 = 0;
+			g_textDisplayNeedsUpdate = false;
 
 			GUI_Screen_SetActive(oldScreenID);
 		}
@@ -269,7 +270,7 @@ void GUI_DisplayText(const char *str, uint16 arg0A, ...)
 		g_global->variable_8ADA = g_global->variable_8ADC;
 		g_global->variable_36E4[0] = '\0';
 		g_global->variable_3738 = 0xFFFF;
-		g_global->variable_38C4 = 1;
+		g_textDisplayNeedsUpdate = true;
 		g_global->variable_373C = g_global->variable_76AC + ((int16)g_global->variable_3736 <= (int16)g_global->variable_3734 ? 900 : 1);
 		g_global->variable_373A = 0;
 		return;
@@ -1994,7 +1995,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	GUI_DrawSprite(2, g_sprites[11], 192, 0, 0, 0);
 
-	g_global->variable_38C4 = 1;
+	g_textDisplayNeedsUpdate = true;
 
 	Unknown_07D4_159A(g_global->screenActiveID);
 
@@ -2238,7 +2239,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			}
 
 			GUI_Widget_DrawAll(g_widgetLinkedListHead);
-			g_global->variable_38C4 = 1;
+			g_textDisplayNeedsUpdate = true;
 		}
 
 		switch (g_global->selectionType) {

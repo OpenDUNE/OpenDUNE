@@ -787,7 +787,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 		GUI_PaletteAnimate();
 	}
 
-	g_global->variable_38C4 = 1;
+	g_textDisplayNeedsUpdate = true;
 
 	Sprites_LoadTiles();
 	GUI_DrawInterfaceAndRadar(0);

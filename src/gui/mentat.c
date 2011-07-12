@@ -394,7 +394,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_LoadTiles();
 
-	g_global->variable_38C4 = 1;
+	g_textDisplayNeedsUpdate = true;
 
 	GUI_DrawInterfaceAndRadar(0);
 

@@ -407,7 +407,7 @@ bool House_UpdateRadarState(House *h)
 	wsa = WSA_LoadFile("STATIC.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], true);
 	frameCount = WSA_GetFrameCount(wsa);
 
-	g_global->variable_38C4 = 1;
+	g_textDisplayNeedsUpdate = true;
 
 	GUI_Mouse_Hide_Safe();
 
