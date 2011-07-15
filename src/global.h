@@ -1004,13 +1004,13 @@ typedef struct GlobalData {
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32 removed_6268;               /*!< REMOVED - Current Unit we are handling in GameLoop. */
 	/* 626C(4)   */ PACK csip32 removed_626C;               /*!< REMOVED - Current UnitInfo we are handling in the GameLoop. */
-	/* 6270(4)   */ PACK uint32 tickUnitUnknown1;           /*!< Indicates next time Unit runs Unknown1 function. */
-	/* 6274(4)   */ PACK uint32 tickUnitUnknown2;           /*!< Indicates next time Unit runs Unknown2 function. */
-	/* 6278(4)   */ PACK uint32 tickUnitBlinking;           /*!< Indicates next time Unit runs Blinking function. */
-	/* 627C(4)   */ PACK uint32 tickUnitUnknown4;           /*!< Indicates next time Unit runs Unknown4 function. */
-	/* 6280(4)   */ PACK uint32 tickUnitScript;             /*!< Indicates next time Unit runs Script function. */
-	/* 6284(4)   */ PACK uint32 tickUnitUnknown5;           /*!< Indicates next time Unit runs Unknown5 function. */
-	/* 6288(4)   */ PACK uint32 tickUnitDeviation;          /*!< Indicates next time Unit runs Deviation function. */
+	/* 6270(4)   */ PACK uint32 removed_tickUnitUnknown1;   /*!< REMOVED - Indicates next time Unit runs Unknown1 function. */
+	/* 6274(4)   */ PACK uint32 removed_tickUnitUnknown2;   /*!< REMOVED - Indicates next time Unit runs Unknown2 function. */
+	/* 6278(4)   */ PACK uint32 removed_tickUnitBlinking;   /*!< REMOVED - Indicates next time Unit runs Blinking function. */
+	/* 627C(4)   */ PACK uint32 removed_tickUnitUnknown4;   /*!< REMOVED - Indicates next time Unit runs Unknown4 function. */
+	/* 6280(4)   */ PACK uint32 removed_tickUnitScript;     /*!< REMOVED - Indicates next time Unit runs Script function. */
+	/* 6284(4)   */ PACK uint32 removed_tickUnitUnknown5;   /*!< REMOVED - Indicates next time Unit runs Unknown5 function. */
+	/* 6288(4)   */ PACK uint32 removed_tickUnitDeviation;  /*!< REMOVED - Indicates next time Unit runs Deviation function. */
 	/* 628C(8)   */ PACK uint16 variable_628C[4];           /*!< ?? */
 	/* 6294(68)  */ PACK tile32 variable_6294[17];          /*!< ?? */
 	/* 62D8(18)  */ PACK uint16  removed_62D8[9];           /*!< REMOVED - mapOffsets in a 3x3 grid around a centre */
@@ -1313,7 +1313,7 @@ typedef struct GlobalData {
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? Also a tick counter.. */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
-	/* 76B0(4)   */ PACK uint32 tickGlobal;                 /*!< Global tick counter. Increase with 1 every tick. */
+	/* 76B0(4)   */ PACK uint32 removed_tickGlobal;         /*!< REMOVED - Global tick counter. Increase with 1 every tick. */
 	/* 76B4(4)   */ PACK uint32 variable_76B4;              /*!< ?? Also a tick counter, but counts down. */
 	/* 76B8(2)   */ PACK uint16 timersActive;               /*!< Which timers are active. 1 = variable_76AC, 2 = tickGlobal. */
 	/* 76BA(2)   */ PACK uint16  removed_76BA;              /*!< REMOVED - ?? (never used) */
