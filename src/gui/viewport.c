@@ -27,6 +27,8 @@
 #include "../unit.h"
 #include "../unknown/unknown.h"
 
+static uint32 _tickCursor;    /*!< Stores last time Viewport changed the cursor spriteID. */
+static uint32 _tickMapScroll; /*!< Stores last time Viewport ran MapScroll function. */
 
 /**
  * Handles the Click events for the Viewport widget.
@@ -54,7 +56,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (spriteID != g_global->cursorSpriteID) {
-		g_global->tickCursor = g_global->tickGlobal;
+		_tickCursor = g_tickGlobal;
 
 		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], g_sprites[spriteID]);
 
@@ -84,12 +86,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 	if (direction != 0xFFFF) {
 		if (!click && !drag) {
-			if (g_global->tickMapScroll + 10 >= g_global->tickGlobal || g_global->tickCursor + 20 >= g_global->tickGlobal) return true;
+			if (_tickMapScroll + 10 >= g_tickGlobal || _tickCursor + 20 >= g_tickGlobal) return true;
 			if (g_gameConfig.autoScroll == 0) return true;
 			if (!g_config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return true;
 		}
 
-		g_global->tickMapScroll = g_global->tickGlobal;
+		_tickMapScroll = g_tickGlobal;
 
 		Map_MoveDirection(direction);
 		return true;

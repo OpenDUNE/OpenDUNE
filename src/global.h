@@ -760,15 +760,15 @@ typedef struct GlobalData {
 	/* 338E(32)  */ PACK uint16  removed_338E[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 33AE(8)   */ PACK uint16  removed_33AE[4];           /*!< REMOVED - ?? (read-only array) */
 	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
-	/* 341A(4)   */ PACK uint32 tickStructureDegrade;       /*!< Indicates next time Structure runs Degrade function. */
-	/* 341E(4)   */ PACK uint32 tickStructureStructure;     /*!< Indicates next time Structure runs Structurs function. */
-	/* 3422(4)   */ PACK uint32 tickStructureScript;        /*!< Indicates next time Structure runs Script function. */
-	/* 3426(4)   */ PACK uint32 tickStructurePalace;        /*!< Indicates next time Structure runs Palace function. */
+	/* 341A(4)   */ PACK uint32 removed_tickStructureDegrade; /*!< REMOVED - Indicates next time Structure runs Degrade function. */
+	/* 341E(4)   */ PACK uint32 removed_tickStructureStructure; /*!< REMOVED - Indicates next time Structure runs Structurs function. */
+	/* 3422(4)   */ PACK uint32 removed_tickStructureScript; /*!< REMOVED - Indicates next time Structure runs Script function. */
+	/* 3426(4)   */ PACK uint32 removed_tickStructurePalace; /*!< REMOVED - Indicates next time Structure runs Palace function. */
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
 	/* 3439()    */ PACK uint8   unknown_3439[0x0001];
-	/* 343A(4)   */ PACK uint32 tickCursor;                 /*!< Stores last time Viewport changed the cursor spriteID. */
-	/* 343E(4)   */ PACK uint32 tickMapScroll;              /*!< Stores last time Viewport ran MapScroll function. */
+	/* 343A(4)   */ PACK uint32 removed_tickCursor;         /*!< REMOVED - Stores last time Viewport changed the cursor spriteID. */
+	/* 343E(4)   */ PACK uint32 removed_tickMapScroll;      /*!< REMOVED - Stores last time Viewport ran MapScroll function. */
 	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< HotSpots for different cursor types. */
 	/* 345A(8)   */ PACK uint16 removed_345A[4];            /*!< REMOVED - ?? */
 	/* 3462(256) */ PACK uint8  removed_3462[256];          /*!< REMOVED - ?? */
@@ -791,7 +791,7 @@ typedef struct GlobalData {
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
-	/* 3640(4)   */ PACK uint32 tickCreditsAnimation;       /*!< Next tick when credits animation needs an update. */
+	/* 3640(4)   */ PACK uint32  removed_tickCreditsAnimation; /*!< REMOVED - Next tick when credits animation needs an update. */
 	/* 3644(80)  */ PACK char    removed_3644[80];          /*!< REMOVED 1st line of text to display. */
 	/* 3694(80)  */ PACK char    removed_3694[80];          /*!< REMOVED 2nd line of text to display. */
 	/* 36E4(80)  */ PACK char    removed_36E4[80];          /*!< REMOVED 3rd line of text to display. */
@@ -844,12 +844,12 @@ typedef struct GlobalData {
 	/* 37F0(4)   */ PACK uint32 hintsShown1;                /*!< A bit-array to indicate which hints has been show already (0-31). */
 	/* 37F4(4)   */ PACK uint32 hintsShown2;                /*!< A bit-array to indicate which hints has been show already (32-63). */
 	/* 37F8(180) */ PACK uint8  removed_37F8[180];          /*!< REMOVED - Information about the houses. */
-	/* 38AC()    */ PACK uint32 tickScenarioStart;          /*!< The tick the scenario started in. */
+	/* 38AC()    */ PACK uint32 removed_tickScenarioStart;  /*!< REMOVED - The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 removed_38B0;               /*!< REMOVED - ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 removed_38B2;               /*!< REMOVED - ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 removed_38B4;               /*!< REMOVED - Credits player is still free to have without silo support. */
 	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits shown to player as 'current'. */
-	/* 38B8(4)   */ PACK uint32 tickGameTimeout;            /*!< The tick the game will timeout. */
+	/* 38B8(4)   */ PACK uint32 removed_tickGameTimeout;    /*!< REMOVED - The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16 removed_38BE;               /*!< REMOVED - Game mode. */
 	/* 38C0(4)   */ PACK uint32 variable_38C0;              /*!< ?? */

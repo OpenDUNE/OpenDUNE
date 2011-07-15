@@ -24,9 +24,9 @@ void GameLoop_Team()
 	PoolFindStruct find;
 	bool tick = false;
 
-	if (g_global->variable_6164 <= g_global->tickGlobal) {
+	if (g_global->variable_6164 <= g_tickGlobal) {
 		tick = true;
-		g_global->variable_6164 = g_global->tickGlobal + (Tools_Random_256() & 7) + 5;
+		g_global->variable_6164 = g_tickGlobal + (Tools_Random_256() & 7) + 5;
 	}
 
 	if (!tick) return;

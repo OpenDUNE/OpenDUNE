@@ -94,11 +94,11 @@ static uint32 SaveLoad_TickScenarioStart(void *object, uint32 value, bool loadin
 	VARIABLE_NOT_USED(object);
 
 	if (loading) {
-		g_global->tickScenarioStart = g_global->tickGlobal - value;
+		g_tickScenarioStart = g_tickGlobal - value;
 		return 0;
 	}
 
-	return (g_global->tickGlobal - g_global->tickScenarioStart);
+	return g_tickGlobal - g_tickScenarioStart;
 }
 
 static uint32 SaveLoad_UnitHouseMissile(void *object, uint32 value, bool loading)
@@ -138,7 +138,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GENTRY (SLDT_UINT16, g_campaignID),
 	SLD_ENTRY  (GlobalData, SLDT_UINT32, hintsShown1),
 	SLD_ENTRY  (GlobalData, SLDT_UINT32, hintsShown2),
-	SLD_CALLB  (GlobalData, SLDT_UINT32, tickScenarioStart, &SaveLoad_TickScenarioStart),
+	SLD_GCALLB (SLDT_UINT32, g_tickScenarioStart, &SaveLoad_TickScenarioStart),
 	SLD_GENTRY (SLDT_UINT16, g_playerCreditsNoSilo),
 	SLD_GARRAY (SLDT_INT16,  g_starportAvailable, UNIT_MAX),
 	SLD_GENTRY (SLDT_UINT16, g_houseMissileCountdown),

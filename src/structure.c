@@ -39,6 +39,10 @@ uint16 g_structureActivePosition = 0;
 uint16 g_structureActiveType = 0;
 
 static bool _debugInstantBuild = false; /*!< When non-zero, constructions are almost instant. */
+static uint32 _tickStructureDegrade   = 0; /*!< Indicates next time Degrade function is run. */
+static uint32 _tickStructureStructure = 0; /*!< Indicates next time Structures function is run. */
+static uint32 _tickStructureScript    = 0; /*!< Indicates next time Script function is run. */
+static uint32 _tickStructurePalace    = 0; /*!< Indicates next time Palace function is run. */
 
 /**
  * Loop over all structures, preforming various of tasks.
@@ -51,24 +55,24 @@ void GameLoop_Structure()
 	bool tickScript    = false;
 	bool tickPalace    = false;
 
-	if (g_global->tickStructureDegrade <= g_global->tickGlobal && g_campaignID > 1) {
+	if (_tickStructureDegrade <= g_tickGlobal && g_campaignID > 1) {
 		tickDegrade = true;
-		g_global->tickStructureDegrade = g_global->tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
+		_tickStructureDegrade = g_tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
-	if (g_global->tickStructureStructure <= g_global->tickGlobal || _debugInstantBuild != 0) {
+	if (_tickStructureStructure <= g_tickGlobal || _debugInstantBuild != 0) {
 		tickStructure = true;
-		g_global->tickStructureStructure = g_global->tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
+		_tickStructureStructure = g_tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}
 
-	if (g_global->tickStructureScript <= g_global->tickGlobal) {
+	if (_tickStructureScript <= g_tickGlobal) {
 		tickScript = true;
-		g_global->tickStructureScript = g_global->tickGlobal + 5;
+		_tickStructureScript = g_tickGlobal + 5;
 	}
 
-	if (g_global->tickStructurePalace <= g_global->tickGlobal) {
+	if (_tickStructurePalace <= g_tickGlobal) {
 		tickPalace = true;
-		g_global->tickStructurePalace = g_global->tickGlobal + 60;
+		_tickStructurePalace = g_tickGlobal + 60;
 	}
 
 	find.houseID = HOUSE_INVALID;

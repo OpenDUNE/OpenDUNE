@@ -51,6 +51,9 @@
 GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
+uint32 g_tickGlobal = 0;            /*!< Global tick counter. Increase with 1 every tick. */
+uint32 g_tickScenarioStart = 0;     /*!< The tick the scenario started in. */
+static uint32 _tickGameTimeout = 0; /*!< The tick the game will timeout. */
 
 bool   g_debugGame = false;        /*!< When true, you can control the AI. */
 bool   g_debugScenario = false;    /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
@@ -99,7 +102,7 @@ static bool GameLoop_IsLevelFinished()
 	if (_debugForceWin) return true;
 
 	/* You have to play at least 7200 ticks before you can win the game */
-	if (g_global->tickGlobal - g_global->tickScenarioStart < 7200) return false;
+	if (g_tickGlobal - g_tickScenarioStart < 7200) return false;
 
 	/* Check for structure counts hitting zero */
 	if ((g_scenario.winFlags & 0x3) != 0) {
@@ -148,7 +151,7 @@ static bool GameLoop_IsLevelFinished()
 		/* XXX -- This code was with '<' instead of '>=', which makes
 		 *  no sense. As it is unused, who knows what the intentions
 		 *  were. This at least makes it sensible. */
-		if (g_global->tickGlobal >= g_global->tickGameTimeout) {
+		if (g_tickGlobal >= _tickGameTimeout) {
 			finish = true;
 		}
 	}
@@ -211,7 +214,7 @@ static bool GameLoop_IsLevelWon()
 
 	/* Check for reaching timeout */
 	if (!win && (g_scenario.loseFlags & 0x8) != 0) {
-		win = (g_global->tickGlobal < g_global->tickGameTimeout);
+		win = (g_tickGlobal < _tickGameTimeout);
 	}
 
 	return win;
@@ -1163,7 +1166,7 @@ static void GameLoop_GameEndAnimation()
  */
 static void GameLoop_LevelEnd()
 {
-	if (g_global->variable_60A2 >= g_global->tickGlobal && !_debugForceWin) return;
+	if (g_global->variable_60A2 >= g_tickGlobal && !_debugForceWin) return;
 
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
@@ -1241,7 +1244,7 @@ static void GameLoop_LevelEnd()
 		_debugForceWin = false;
 	}
 
-	g_global->variable_60A2 = g_global->tickGlobal + 300;
+	g_global->variable_60A2 = g_tickGlobal + 300;
 }
 
 /**
@@ -2235,9 +2238,9 @@ static void GameLoop_Main()
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_unitSelected != NULL) {
-				if (g_global->variable_31C2 < g_global->tickGlobal) {
+				if (g_global->variable_31C2 < g_tickGlobal) {
 					Unit_DisplayStatusText(g_unitSelected);
-					g_global->variable_31C2 = g_global->tickGlobal + 300;
+					g_global->variable_31C2 = g_tickGlobal + 300;
 				}
 
 				if (g_global->selectionType != 1) {
@@ -2511,7 +2514,7 @@ void Game_Prepare()
 
 	Voice_LoadVoices(g_playerHouseID);
 
-	g_global->variable_38C0 = g_global->tickGlobal + 70;
+	g_global->variable_38C0 = g_tickGlobal + 70;
 	g_global->variable_3A12 = 1;
 	g_global->playerCredits = 0xFFFF;
 
@@ -2615,7 +2618,7 @@ void Game_Timer_Interrupt()
 	uint16 timers = g_global->timersActive;
 
 	if ((timers & 0x1) != 0) g_global->variable_76AC++;
-	if ((timers & 0x2) != 0) g_global->tickGlobal++;
+	if ((timers & 0x2) != 0) g_tickGlobal++;
 	g_global->variable_76A6++;
 	g_global->variable_76A8++;
 

@@ -561,6 +561,6 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	Scenario_Load_MapParts("Field", Scenario_Load_Map_Field);
 	Scenario_Load_MapParts("Special", Scenario_Load_Map_Special);
 
-	g_global->tickScenarioStart = g_global->tickGlobal;
+	g_tickScenarioStart = g_tickGlobal;
 	return true;
 }

@@ -90,6 +90,7 @@ static uint8 _factoryWindowGraymapTbl[256];
 static Widget _factoryWindowWidgets[13];
 static uint8 _factoryWindowWsaBuffer[64000];
 static uint8 *g_palette1_houseColour;
+static uint32 _tickCreditsAnimation = 0;  /*!< Next tick when credits animation needs an update. */
 static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
 static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
@@ -1517,7 +1518,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	uint16 loc32[3][2][2];
 	uint16 i;
 
-	g_global->variable_81EB = ((g_global->tickGlobal - g_global->tickScenarioStart) / 3600) + 1;
+	g_global->variable_81EB = ((g_tickGlobal - g_tickScenarioStart) / 3600) + 1;
 
 	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
 
@@ -2074,8 +2075,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	int16 creditsOld;
 	int16 offset;
 
-	if (g_global->tickCreditsAnimation > g_global->variable_76AC && mode == 0) return;
-	g_global->tickCreditsAnimation = g_global->variable_76AC + 1;
+	if (_tickCreditsAnimation > g_global->variable_76AC && mode == 0) return;
+	_tickCreditsAnimation = g_global->variable_76AC + 1;
 
 	h = House_Get_ByIndex(houseID);
 
@@ -2643,7 +2644,7 @@ static void GUI_FactoryWindow_InitItems()
 	memset(g_factoryWindowItems, 0, 25 * sizeof(FactoryWindowItem));
 
 	if (g_factoryWindowStarport) {
-		uint16 seconds = (g_global->tickGlobal - g_global->tickScenarioStart) / 60;
+		uint16 seconds = (g_tickGlobal - g_tickScenarioStart) / 60;
 		uint16 seed = (seconds / 60) + g_scenarioID + g_playerHouseID;
 		seed *= seed;
 

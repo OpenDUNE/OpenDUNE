@@ -59,39 +59,39 @@ void GameLoop_House()
 
 	if (g_debugScenario) return;
 
-	if (_tickHouseHouse <= g_global->tickGlobal) {
+	if (_tickHouseHouse <= g_tickGlobal) {
 		tickHouse = true;
-		_tickHouseHouse = g_global->tickGlobal + 900;
+		_tickHouseHouse = g_tickGlobal + 900;
 	}
 
-	if (g_global->variable_38C0 <= g_global->tickGlobal && _tickHousePowerMaintenance <= g_global->tickGlobal) {
+	if (g_global->variable_38C0 <= g_tickGlobal && _tickHousePowerMaintenance <= g_tickGlobal) {
 		tickPowerMaintenance = true;
-		_tickHousePowerMaintenance = g_global->tickGlobal + 10800;
+		_tickHousePowerMaintenance = g_tickGlobal + 10800;
 	}
 
-	if (_tickHouseStarport <= g_global->tickGlobal) {
+	if (_tickHouseStarport <= g_tickGlobal) {
 		tickStarport = true;
-		_tickHouseStarport = g_global->tickGlobal + 180;
+		_tickHouseStarport = g_tickGlobal + 180;
 	}
 
-	if (_tickHouseReinforcement <= g_global->tickGlobal) {
+	if (_tickHouseReinforcement <= g_tickGlobal) {
 		tickReinforcement = true;
-		_tickHouseReinforcement = g_global->tickGlobal + (g_debugGame ? 60 : 600);
+		_tickHouseReinforcement = g_tickGlobal + (g_debugGame ? 60 : 600);
 	}
 
-	if (_tickHouseUnused <= g_global->tickGlobal) {
+	if (_tickHouseUnused <= g_tickGlobal) {
 		tickUnused = true;
-		_tickHouseUnused = g_global->tickGlobal + 5;
+		_tickHouseUnused = g_tickGlobal + 5;
 	}
 
-	if (_tickHouseMissileCountdown <= g_global->tickGlobal) {
+	if (_tickHouseMissileCountdown <= g_tickGlobal) {
 		tickMissileCountdown = true;
-		_tickHouseMissileCountdown = g_global->tickGlobal + 60;
+		_tickHouseMissileCountdown = g_tickGlobal + 60;
 	}
 
-	if (_tickHouseStarportAvailability <= g_global->tickGlobal) {
+	if (_tickHouseStarportAvailability <= g_tickGlobal) {
 		tickStarportAvailability = true;
-		_tickHouseStarportAvailability = g_global->tickGlobal + 1800;
+		_tickHouseStarportAvailability = g_tickGlobal + 1800;
 	}
 
 	if (tickMissileCountdown && g_houseMissileCountdown != 0) {

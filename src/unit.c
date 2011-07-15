@@ -33,6 +33,13 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
+static uint32 _tickUnitUnknown1  = 0; /*!< Indicates next time the  Unknown1 function is run. */
+static uint32 _tickUnitUnknown2  = 0; /*!< Indicates next time the  Unknown2 function is run. */
+static uint32 _tickUnitBlinking  = 0; /*!< Indicates next time the  Blinking function is run. */
+static uint32 _tickUnitUnknown4  = 0; /*!< Indicates next time the  Unknown4 function is run. */
+static uint32 _tickUnitScript    = 0; /*!< Indicates next time the  Script function is run. */
+static uint32 _tickUnitUnknown5  = 0; /*!< Indicates next time the  Unknown5 function is run. */
+static uint32 _tickUnitDeviation = 0; /*!< Indicates next time the  Deviation function is run. */
 
 Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
@@ -116,39 +123,39 @@ void GameLoop_Unit()
 
 	if (g_debugScenario) return;
 
-	if (g_global->tickUnitUnknown1 <= g_global->tickGlobal) {
+	if (_tickUnitUnknown1 <= g_tickGlobal) {
 		tickUnknown1 = true;
-		g_global->tickUnitUnknown1 = g_global->tickGlobal + 3;
+		_tickUnitUnknown1 = g_tickGlobal + 3;
 	}
 
-	if (g_global->tickUnitUnknown2 <= g_global->tickGlobal) {
+	if (_tickUnitUnknown2 <= g_tickGlobal) {
 		tickUnknown2 = true;
-		g_global->tickUnitUnknown2 = g_global->tickGlobal + Tools_AdjustToGameSpeed(4, 2, 8, true);
+		_tickUnitUnknown2 = g_tickGlobal + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
-	if (g_global->tickUnitBlinking <= g_global->tickGlobal) {
+	if (_tickUnitBlinking <= g_tickGlobal) {
 		tickBlinking = true;
-		g_global->tickUnitBlinking = g_global->tickGlobal + 3;
+		_tickUnitBlinking = g_tickGlobal + 3;
 	}
 
-	if (g_global->tickUnitUnknown4 <= g_global->tickGlobal) {
+	if (_tickUnitUnknown4 <= g_tickGlobal) {
 		tickUnknown4 = true;
-		g_global->tickUnitUnknown4 = g_global->tickGlobal + 20;
+		_tickUnitUnknown4 = g_tickGlobal + 20;
 	}
 
-	if (g_global->tickUnitScript <= g_global->tickGlobal) {
+	if (_tickUnitScript <= g_tickGlobal) {
 		tickScript = true;
-		g_global->tickUnitScript = g_global->tickGlobal + 5;
+		_tickUnitScript = g_tickGlobal + 5;
 	}
 
-	if (g_global->tickUnitUnknown5 <= g_global->tickGlobal) {
+	if (_tickUnitUnknown5 <= g_tickGlobal) {
 		tickUnknown5 = true;
-		g_global->tickUnitUnknown5 = g_global->tickGlobal + 5;
+		_tickUnitUnknown5 = g_tickGlobal + 5;
 	}
 
-	if (g_global->tickUnitDeviation <= g_global->tickGlobal) {
+	if (_tickUnitDeviation <= g_tickGlobal) {
 		tickDeviation = true;
-		g_global->tickUnitDeviation = g_global->tickGlobal + 60;
+		_tickUnitDeviation = g_tickGlobal + 60;
 	}
 
 	find.houseID = HOUSE_INVALID;
