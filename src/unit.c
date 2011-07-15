@@ -2257,7 +2257,7 @@ static Structure *Unit_FindBestTargetStructure(Unit *unit, uint16 mode)
 		s = Structure_Find(&find);
 		if (s == NULL) break;
 
-		curPosition.tile = s->o.position.tile + g_global->layoutTileDiff[g_table_structureInfo[s->o.type].layout].tile;
+		curPosition.tile = s->o.position.tile + g_table_structure_layoutTileDiff[g_table_structureInfo[s->o.type].layout].tile;
 
 		if (mode != 0 && mode != 4) {
 			if (mode == 1) {

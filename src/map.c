@@ -484,7 +484,7 @@ void Map_SetSelection(uint16 packed)
 
 			Structure_UpdateMap(s);
 		} else {
-			Map_SetSelectionSize(0);
+			Map_SetSelectionSize(STRUCTURE_LAYOUT_1x1);
 		}
 
 		if (g_global->selectionType != 1) {
@@ -505,7 +505,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	Map_SetSelectionSize(0);
+	Map_SetSelectionSize(STRUCTURE_LAYOUT_1x1);
 	g_global->selectionPosition = packed;
 	return;
 }
@@ -515,6 +515,7 @@ void Map_SetSelection(uint16 packed)
  *
  * @param layout The layout to determine selection size from.
  * @return The previous layout.
+ * @see StructureLayout
  */
 uint16 Map_SetSelectionSize(uint16 layout)
 {
@@ -527,8 +528,8 @@ uint16 Map_SetSelectionSize(uint16 layout)
 	oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
 	g_global->selectionObjectLayout = layout;
-	g_global->selectionWidth        = g_global->layoutSize[layout][0];
-	g_global->selectionHeight       = g_global->layoutSize[layout][1];
+	g_global->selectionWidth        = g_table_structure_layoutSize[layout].width;
+	g_global->selectionHeight       = g_table_structure_layoutSize[layout].height;
 
 	Map_SetSelectionObjectPosition(oldPosition);
 

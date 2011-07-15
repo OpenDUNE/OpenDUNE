@@ -24,7 +24,7 @@ Animation g_animations[ANIMATION_MAX];
  */
 static void Animation_Func_Stop(Animation *animation, int16 parameter)
 {
-	uint16 *layout = g_global->layoutTiles[animation->tileLayout];
+	const uint16 *layout = g_table_structure_layoutTiles[animation->tileLayout];
 	uint16 packed = Tile_PackTile(animation->tile);
 	Tile *t = &g_map[packed];
 	int i;
@@ -34,7 +34,7 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 	t->hasAnimation = false;
 	animation->proc.csip = 0x0;
 
-	for (i = 0; i < g_global->layoutTileCount[animation->tileLayout]; i++) {
+	for (i = 0; i < g_table_structure_layoutTileCount[animation->tileLayout]; i++) {
 		uint16 position = packed + (*layout++);
 
 		if (animation->tileLayout != 0) {
@@ -123,12 +123,12 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 {
 	uint16 specialMap[1];
 	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	uint16 *layout = g_global->layoutTiles[animation->tileLayout];
+	const uint16 *layout = g_table_structure_layoutTiles[animation->tileLayout];
 	uint16 packed = Tile_PackTile(animation->tile);
 	uint16 layoutTileCount;
 	int i;
 
-	layoutTileCount = g_global->layoutTileCount[animation->tileLayout];
+	layoutTileCount = g_table_structure_layoutTileCount[animation->tileLayout];
 	iconMap = &iconMap[iconMap[animation->iconGroup] + layoutTileCount * parameter];
 
 	/* Some special case for turrets */

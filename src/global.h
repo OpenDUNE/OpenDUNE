@@ -625,12 +625,12 @@ typedef struct GlobalData {
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
 	/* 2C5E(4)   */ PACK uint32 tickEditBox;                /*!< Ticker for cursor blinking (in EditBox) */
 	/* 2C62(2)   */ PACK uint16 editBoxShowCursor;          /*!< Boolean value, when non-zero, cursor is active (in EditBox). */
-	/* 2C64(126) */ PACK uint16 layoutTiles[7][9];          /*!< Array with position offset per tile in a structure layout. */
-	/* 2CE2(112) */ PACK uint16 variable_2CE2[56];          /*!< ?? */
-	/* 2D52(14)  */ PACK uint16 layoutTileCount[7];         /*!< Array with amount of tiles in a layout. */
-	/* 2D60(224) */ PACK uint16 layoutTilesAround[7][16];   /*!< Array with position offset per tile around a structure layout. */
-	/* 2E40(28)  */ PACK uint16 layoutSize[7][2];           /*!< Array with size of a layout. */
-	/* 2E5C(28)  */ PACK tile32 layoutTileDiff[7];          /*!< Array with TileDiff of a layout. */
+	/* 2C64(126) */ PACK uint16 removed_layoutTiles[7][9];  /*!< REMOVED - Array with position offset per tile in a structure layout. */
+	/* 2CE2(112) */ PACK uint16 removed_variable_2CE2[56];  /*!< REMOVED - position of edge tiles of a structure layout */
+	/* 2D52(14)  */ PACK uint16 removed_layoutTileCount[7]; /*!< REMOVED - Array with amount of tiles in a layout. */
+	/* 2D60(224) */ PACK uint16 removed_layoutTilesAround[7][16]; /*!< REMOVED - Array with position offset per tile around a structure layout. */
+	/* 2E40(28)  */ PACK uint16 removed_layoutSize[7][2];   /*!< REMOVED - Array with size of a layout. */
+	/* 2E5C(28)  */ PACK tile32 removed_layoutTileDiff[7];  /*!< REMOVED - Array with TileDiff of a layout. */
 	/* 2E78(9)   */ PACK char   string_2E78[9];             /*!< "Concrete" NULL terminated. */
 	/* 2E81(9)   */ PACK char   string_2E81[9];             /*!< "slab.wsa" NULL terminated. */
 	/* 2E8A(10)  */ PACK char   string_2E8A[10];            /*!< "Concrete4" NULL terminated. */

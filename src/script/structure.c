@@ -561,10 +561,10 @@ uint16 Script_Structure_Unknown1524(ScriptEngine *script)
 	layout = g_table_structureInfo[s->o.type].layout;
 	position = Tile_PackTile(s->o.position);
 
-	for (i = 0; i < g_global->layoutTileCount[layout]; i++) {
+	for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++) {
 		tile32 tile;
 
-		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
+		tile = Tile_UnpackTile(position + g_table_structure_layoutTiles[layout][i]);
 
 		Map_MakeExplosion(14, tile, 0, 0);
 	}
@@ -595,11 +595,11 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 
 	Structure_0C3A_1002(s);
 
-	for (i = 0; i < g_global->layoutTileCount[layout]; i++) {
+	for (i = 0; i < g_table_structure_layoutTileCount[layout]; i++) {
 		tile32 tile;
 		Unit *u;
 
-		tile = Tile_UnpackTile(position + g_global->layoutTiles[layout][i]);
+		tile = Tile_UnpackTile(position + g_table_structure_layoutTiles[layout][i]);
 
 		if (g_table_structureInfo[s->o.type].o.spawnChance < Tools_Random_256()) continue;
 

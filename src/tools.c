@@ -172,7 +172,7 @@ tile32 Tools_Index_GetTile(uint16 encoded)
 			s = Structure_Get_ByIndex(index);
 			si = &g_table_structureInfo[s->o.type];
 
-			return Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]);
+			return Tile_AddTileDiff(s->o.position, g_table_structure_layoutTileDiff[si->layout]);
 		}
 		default: return tile;
 	}

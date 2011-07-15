@@ -205,8 +205,8 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 
 				si = &g_table_structureInfo[s->objectType];
 
-				for (y = 0; y < g_global->layoutSize[si->layout][1]; y++) {
-					for (x = 0; x < g_global->layoutSize[si->layout][0]; x++) {
+				for (y = 0; y < g_table_structure_layoutSize[si->layout].height; y++) {
+					for (x = 0; x < g_table_structure_layoutSize[si->layout].width; x++) {
 						GUI_DrawSprite(g_global->screenActiveID, sprite, positionX + x * spriteWidth + 38, positionY + y * spriteWidth + 6, 0, 0);
 					}
 				}

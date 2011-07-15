@@ -35,6 +35,17 @@ typedef enum StructureType {
 	STRUCTURE_INVALID           = 0xFF
 } StructureType;
 
+/** Available structure layouts. */
+typedef enum StructureLayout {
+	STRUCTURE_LAYOUT_1x1 = 0,
+	STRUCTURE_LAYOUT_2x1 = 1,
+	STRUCTURE_LAYOUT_1x2 = 2,
+	STRUCTURE_LAYOUT_2x2 = 3,
+	STRUCTURE_LAYOUT_2x3 = 4,
+	STRUCTURE_LAYOUT_3x2 = 5,
+	STRUCTURE_LAYOUT_3x3 = 6
+} StructureLayout;
+
 /**
  * A Structure as stored in the memory.
  */
@@ -67,10 +78,22 @@ typedef struct StructureInfo {
 	uint16 upgradeCampaign[3];                              /*!< Minimum campaign for upgrades. */
 } StructureInfo;
 
+/** X/Y pair defining a 2D size. */
+typedef struct XYSize {
+	uint16 width;  /*!< Horizontal length. */
+	uint16 height; /*!< Vertical length. */
+} XYSize;
+
 struct House;
 struct Widget;
 
 extern StructureInfo g_table_structureInfo[];
+extern const uint16  g_table_structure_layoutTiles[][9];
+extern const uint16  g_table_structure_layoutEdgeTiles[][8];
+extern const uint16  g_table_structure_layoutTileCount[];
+extern const tile32  g_table_structure_layoutTileDiff[];
+extern const XYSize  g_table_structure_layoutSize[];
+extern const int16   g_table_structure_layoutTilesAround[][16];
 
 extern Structure *g_structureActive;
 extern uint16 g_structureActivePosition;

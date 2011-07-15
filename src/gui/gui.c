@@ -3457,8 +3457,8 @@ void GUI_FactoryWindow_DrawDetails()
 		width = Sprite_GetWidth(sprite) + 1;
 		si = &g_table_structureInfo[item->objectType];
 
-		for (j = 0; j < g_global->layoutSize[si->layout][1]; j++) {
-			for (i = 0; i < g_global->layoutSize[si->layout][0]; i++) {
+		for (j = 0; j < g_table_structure_layoutSize[si->layout].height; j++) {
+			for (i = 0; i < g_table_structure_layoutSize[si->layout].width; i++) {
 				GUI_DrawSprite(g_global->screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
 			}
 		}

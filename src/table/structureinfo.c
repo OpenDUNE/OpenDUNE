@@ -51,7 +51,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
-		/* layout               */ 0,
+		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 8,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C71 } },
@@ -118,7 +118,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 8,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C71 } },
@@ -185,7 +185,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 80,
-		/* layout               */ 6,
+		/* layout               */ STRUCTURE_LAYOUT_3x3,
 		/* iconGroup            */ 11,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C74 } },
@@ -252,7 +252,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 12,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C82 } },
@@ -319,7 +319,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 35,
-		/* layout               */ 5,
+		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 13,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C7E } },
@@ -386,7 +386,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 35,
-		/* layout               */ 5,
+		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 14,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C79 } },
@@ -453,7 +453,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 40,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 15,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C8A } },
@@ -520,7 +520,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 16,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C8B } },
@@ -587,7 +587,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 17,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C8C } },
@@ -654,7 +654,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ -100,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 19,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C92 } },
@@ -721,7 +721,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 10,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 18,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C94 } },
@@ -788,7 +788,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 50,
-		/* layout               */ 6,
+		/* layout               */ STRUCTURE_LAYOUT_3x3,
 		/* iconGroup            */ 20,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C75 } },
@@ -855,7 +855,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 65536,
 		/* creditsStorage       */ 1005,
 		/* powerUsage           */ 30,
-		/* layout               */ 5,
+		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 21,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C86 } },
@@ -922,7 +922,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 130944,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 20,
-		/* layout               */ 5,
+		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 22,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C8D } },
@@ -989,7 +989,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 0,
-		/* layout               */ 0,
+		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 6,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x0 } },
@@ -1056,7 +1056,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 10,
-		/* layout               */ 0,
+		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 23,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x0 } },
@@ -1123,7 +1123,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 25,
-		/* layout               */ 0,
+		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 24,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x0 } },
@@ -1190,7 +1190,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 1000,
 		/* powerUsage           */ 5,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 25,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C93 } },
@@ -1257,7 +1257,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* enterFilter          */ 0,
 		/* creditsStorage       */ 0,
 		/* powerUsage           */ 30,
-		/* layout               */ 3,
+		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 26,
 		{ /* animationProc */
 		/* [0]                  */ { { 0x0, 0x2C72 } },
@@ -1281,3 +1281,70 @@ StructureInfo g_table_structureInfo[] = {
 		},
 	}
 };
+
+/** Array with position offset per tile in a structure layout. */
+const uint16 g_table_structure_layoutTiles[][9] = {
+	{0,    0,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_1x1 */
+	{0,    1,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x1 */
+	{0, 64+0,    0,    0,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_1x2 */
+	{0,    1, 64+0, 64+1,     0,     0,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x2 */
+	{0,    1, 64+0, 64+1, 128+0, 128+1,     0,     0,     0}, /* STRUCTURE_LAYOUT_2x3 */
+	{0,    1,    2, 64+0,  64+1,  64+2,     0,     0,     0}, /* STRUCTURE_LAYOUT_3x2 */
+	{0,    1,    2, 64+0,  64+1,  64+2, 128+0, 128+1, 128+2}, /* STRUCTURE_LAYOUT_3x3 */
+};
+
+/** Array with position offset of edge tiles in a structure layout. */
+const uint16 g_table_structure_layoutEdgeTiles[][8] = {
+	{0, 0,    0,     0,     0,     0,     0, 0}, /* STRUCTURE_LAYOUT_1x1 */
+	{0, 1,    1,     1,     1,     0,     0, 0}, /* STRUCTURE_LAYOUT_2x1 */
+	{0, 0,    0,  64+0,  64+0,  64+0,     0, 0}, /* STRUCTURE_LAYOUT_1x2 */
+	{0, 1,    1,  64+1,  64+1,  64+0,  64+0, 0}, /* STRUCTURE_LAYOUT_2x2 */
+	{0, 1, 64+1, 128+1, 128+1, 128+0,  64+0, 0}, /* STRUCTURE_LAYOUT_2x3 */
+	{1, 2,    2,  64+2,  64+1,  64+0,     0, 0}, /* STRUCTURE_LAYOUT_3x2 */
+	{1, 2, 64+2, 128+2, 128+1, 128+0,  64+0, 0}, /* STRUCTURE_LAYOUT_3x3 */
+};
+
+/** Array with number of tiles in a layout. */
+const uint16 g_table_structure_layoutTileCount[] = {
+	1, /* STRUCTURE_LAYOUT_1x1 */
+	2, /* STRUCTURE_LAYOUT_2x1 */
+	2, /* STRUCTURE_LAYOUT_1x2 */
+	4, /* STRUCTURE_LAYOUT_2x2 */
+	6, /* STRUCTURE_LAYOUT_2x3 */
+	6, /* STRUCTURE_LAYOUT_3x2 */
+	9, /* STRUCTURE_LAYOUT_3x3 */
+};
+
+/** Array with TileDiff of a layout. */
+const tile32 g_table_structure_layoutTileDiff[] = {
+	{{0x0080, 0x0080}}, /* STRUCTURE_LAYOUT_1x1 */
+	{{0x0080, 0x0100}}, /* STRUCTURE_LAYOUT_2x1 */
+	{{0x0100, 0x0080}}, /* STRUCTURE_LAYOUT_1x2 */
+	{{0x0100, 0x0100}}, /* STRUCTURE_LAYOUT_2x2 */
+	{{0x0180, 0x0100}}, /* STRUCTURE_LAYOUT_2x3 */
+	{{0x0100, 0x0280}}, /* STRUCTURE_LAYOUT_3x2 */
+	{{0x0180, 0x0180}}, /* STRUCTURE_LAYOUT_3x3 */
+};
+
+/** Array with size of a layout. */
+const XYSize g_table_structure_layoutSize[] = {
+	{1, 1}, /* STRUCTURE_LAYOUT_1x1 */
+	{2, 1}, /* STRUCTURE_LAYOUT_2x1 */
+	{1, 2}, /* STRUCTURE_LAYOUT_1x2 */
+	{2, 2}, /* STRUCTURE_LAYOUT_2x2 */
+	{2, 3}, /* STRUCTURE_LAYOUT_2x3 */
+	{3, 2}, /* STRUCTURE_LAYOUT_3x2 */
+	{3, 3}, /* STRUCTURE_LAYOUT_3x3 */
+};
+
+/** Array with position offset per tile around a structure layout. */
+const int16 g_table_structure_layoutTilesAround[][16] = {
+	{-64, -64+1,     1,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x1 */
+	{-64, -64+1, -64+2,     2,  64+2,  64+1,  64+0,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_2x1 */
+	{-64, -64+1,     1,  64+1, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_1x2 */
+	{-64, -64+1, -64+2,     2,  64+2, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,     0,     0,  0,     0}, /* STRUCTURE_LAYOUT_2x2 */
+	{-64, -64+1, -64+2,     2,  64+2, 128+2, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1,    -1, -64-1,  0,     0}, /* STRUCTURE_LAYOUT_2x3 */
+	{-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 128+2, 128+1, 128+0, 128-1,  64-1,    -1, -64-1,  0,     0}, /* STRUCTURE_LAYOUT_3x2 */
+	{-64, -64+1, -64+2, -64+3,     3,  64+3, 128+3, 192+3, 192+2, 192+1, 192+0, 192-1, 128-1,  64-1, -1, -64-1}, /* STRUCTURE_LAYOUT_3x3 */
+};
+

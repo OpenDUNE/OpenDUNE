@@ -483,8 +483,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			result = 0;
 
-			for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
-				uint16 curPos = position + g_global->layoutTiles[si->layout][i];
+			for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
+				uint16 curPos = position + g_table_structure_layoutTiles[si->layout][i];
 				Tile *t = &g_map[curPos];
 
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
@@ -505,8 +505,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 			/* XXX -- Dirt hack -- Parts of the 2x2 slab can be outside the building area, so by doing the same loop twice it will build for sure */
 			if (s->o.type == STRUCTURE_SLAB_2x2) {
-				for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
-					uint16 curPos = position + g_global->layoutTiles[si->layout][i];
+				for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
+					uint16 curPos = position + g_table_structure_layoutTiles[si->layout][i];
 					Tile *t = &g_map[curPos];
 
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
@@ -560,7 +560,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	/* If the return value is negative, there are tiles without slab. This gives a penalty to the hitpoints. */
 	if (loc0A < 0) {
 		uint16 tilesWithoutSlab = -(int16)loc0A;
-		uint16 structureTileCount = g_global->layoutTileCount[si->layout];
+		uint16 structureTileCount = g_table_structure_layoutTileCount[si->layout];
 
 		s->o.hitpoints -= (si->o.hitpoints / 2) * tilesWithoutSlab / structureTileCount;
 
@@ -587,8 +587,8 @@ bool Structure_Place(Structure *s, uint16 position)
 	{
 		uint16 i;
 
-		for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
-			uint16 curPos = position + g_global->layoutTiles[si->layout][i];
+		for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
+			uint16 curPos = position + g_table_structure_layoutTiles[si->layout][i];
 			Unit *u;
 
 			u = Unit_Get_ByPackedTile(curPos);
@@ -738,18 +738,18 @@ uint32 Structure_GetStructuresBuilt(House *h)
 int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 {
 	const StructureInfo *si;
-	uint16 *layoutTile;
+	const uint16 *layoutTile;
 	uint8 i;
 	uint16 neededSlabs;
 	bool isValid;
 	uint16 curPos;
 
 	si = &g_table_structureInfo[type];
-	layoutTile = g_global->layoutTiles[si->layout];
+	layoutTile = g_table_structure_layoutTiles[si->layout];
 
 	isValid = true;
 	neededSlabs = 0;
-	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+	for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
 		uint16 type;
 
 		curPos = position + layoutTile[i];
@@ -793,7 +793,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			uint16 offset, type;
 			Structure *s;
 
-			offset = g_global->layoutTilesAround[si->layout][i];
+			offset = g_table_structure_layoutTilesAround[si->layout][i];
 			if (offset == 0) break;
 
 			curPos = position + offset;
@@ -1079,7 +1079,7 @@ bool Structure_Damage(Structure *s, uint16 damage, uint16 range)
 
 	if (range == 0) return false;
 
-	Map_MakeExplosion(2, Tile_AddTileDiff(s->o.position, g_global->layoutTileDiff[si->layout]), 0, 0);
+	Map_MakeExplosion(2, Tile_AddTileDiff(s->o.position, g_table_structure_layoutTileDiff[si->layout]), 0, 0);
 	return false;
 }
 
@@ -1263,7 +1263,7 @@ uint16 Structure_FindFreePosition(Structure *s, bool checkForSpice)
 	loc12 = 16;
 
 	while (loc12 > 0) {
-		uint16 offset = g_global->layoutTilesAround[si->layout][i];
+		uint16 offset = g_table_structure_layoutTilesAround[si->layout][i];
 
 		if (offset != 0) {
 			uint16 curPacked;
@@ -1310,9 +1310,9 @@ void Structure_0C3A_1002(Structure *s)
 	si = &g_table_structureInfo[s->o.type];
 	packed = Tile_PackTile(s->o.position);
 
-	for (i = 0; i < g_global->layoutTileCount[si->layout]; i++) {
+	for (i = 0; i < g_table_structure_layoutTileCount[si->layout]; i++) {
 		Tile *t;
-		uint16 curPacked = packed + g_global->layoutTiles[si->layout][i];
+		uint16 curPacked = packed + g_table_structure_layoutTiles[si->layout][i];
 
 		Animation_Stop_ByTile(curPacked);
 
@@ -1372,7 +1372,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 
 	si = &g_table_structureInfo[objectType];
 
-	tileCount = g_global->layoutTileCount[si->layout];
+	tileCount = g_table_structure_layoutTileCount[si->layout];
 
 	if (objectType == STRUCTURE_SLAB_1x1 || objectType == STRUCTURE_SLAB_2x2) return true;
 
@@ -1381,7 +1381,7 @@ static bool Structure_0C3A_0B93(uint16 objectType, uint8 houseID)
 		uint16 j;
 
 		for (j = 0; j < tileCount; j++) {
-			uint16 packed = i + g_global->layoutTiles[si->layout][j];
+			uint16 packed = i + g_table_structure_layoutTiles[si->layout][j];
 
 			if (Map_GetLandscapeType(packed) == LST_CONCRETE_SLAB && g_map[packed].houseID == houseID) continue;
 
@@ -1790,7 +1790,7 @@ void Structure_UpdateMap(Structure *s)
 	const StructureInfo *si;
 	csip32 animationProc;
 	uint16 layoutSize;
-	uint16 *layout;
+	const uint16 *layout;
 	uint16 *gIconMap;
 	uint16 *iconMap;
 	int i;
@@ -1801,8 +1801,8 @@ void Structure_UpdateMap(Structure *s)
 
 	si = &g_table_structureInfo[s->o.type];
 
-	layout = g_global->layoutTiles[si->layout];
-	layoutSize = g_global->layoutTileCount[si->layout];
+	layout = g_table_structure_layoutTiles[si->layout];
+	layoutSize = g_table_structure_layoutTileCount[si->layout];
 
 	gIconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	iconMap = &gIconMap[gIconMap[si->iconGroup] + layoutSize + layoutSize];
