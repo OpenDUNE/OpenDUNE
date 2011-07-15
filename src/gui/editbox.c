@@ -22,20 +22,23 @@
  */
 static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 {
+	static uint32 tickEditBox = 0;           /* Ticker for cursor blinking. */
+	static bool   editBoxShowCursor = false; /* Cursor is active. */
+
 	if (resetBlink) {
-		g_global->tickEditBox = 0;
-		g_global->editBoxShowCursor = 1;
+		tickEditBox = 0;
+		editBoxShowCursor = true;
 	}
 
-	if (g_global->tickEditBox > g_global->variable_76AC) return;
+	if (tickEditBox > g_global->variable_76AC) return;
 	if (!resetBlink) {
-		g_global->tickEditBox = g_global->variable_76AC + 20;
+		tickEditBox = g_global->variable_76AC + 20;
 	}
 
-	g_global->editBoxShowCursor = (g_global->editBoxShowCursor == 0) ? 1 : 0;
+	editBoxShowCursor = !editBoxShowCursor;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_DrawFilledRectangle(positionX, g_curWidgetYBase, positionX + Font_GetCharWidth('W'), g_curWidgetYBase + g_curWidgetHeight - 1, (g_global->editBoxShowCursor) ? g_curWidgetFGColourBlink : g_curWidgetFGColourNormal);
+	GUI_DrawFilledRectangle(positionX, g_curWidgetYBase, positionX + Font_GetCharWidth('W'), g_curWidgetYBase + g_curWidgetHeight - 1, (editBoxShowCursor) ? g_curWidgetFGColourBlink : g_curWidgetFGColourNormal);
 	GUI_Mouse_Show_Safe();
 }
 

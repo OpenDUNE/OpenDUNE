@@ -623,8 +623,8 @@ typedef struct GlobalData {
 	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */
 	/* 2C57(3)   */ PACK char   string_2C57[3];             /*!< ", " NULL terminated. */
 	/* 2C5A(4)   */ PACK char   string_2C5A[4];             /*!< "%u." NULL terminated. */
-	/* 2C5E(4)   */ PACK uint32 tickEditBox;                /*!< Ticker for cursor blinking (in EditBox) */
-	/* 2C62(2)   */ PACK uint16 editBoxShowCursor;          /*!< Boolean value, when non-zero, cursor is active (in EditBox). */
+	/* 2C5E(4)   */ PACK uint32 removed_tickEditBox;        /*!< REMOVED - Ticker for cursor blinking (in EditBox) */
+	/* 2C62(2)   */ PACK uint16 removed_editBoxShowCursor;  /*!< REMOVED - Boolean value, when non-zero, cursor is active (in EditBox). */
 	/* 2C64(126) */ PACK uint16 removed_layoutTiles[7][9];  /*!< REMOVED - Array with position offset per tile in a structure layout. */
 	/* 2CE2(112) */ PACK uint16 removed_variable_2CE2[56];  /*!< REMOVED - position of edge tiles of a structure layout */
 	/* 2D52(14)  */ PACK uint16 removed_layoutTileCount[7]; /*!< REMOVED - Array with amount of tiles in a layout. */
