@@ -79,7 +79,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 {
 	Widget *w1, *w2;
 
-	if (g_global->debugSkipDialogs) return;
+	if (g_debugSkipDialogs) return;
 
 	Sprites_Load(1, 7, g_sprites);
 

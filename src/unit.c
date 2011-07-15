@@ -114,7 +114,7 @@ void GameLoop_Unit()
 	bool tickUnknown5  = false;
 	bool tickDeviation = false;
 
-	if (g_global->debugScenario) return;
+	if (g_debugScenario) return;
 
 	if (g_global->tickUnitUnknown1 <= g_global->tickGlobal) {
 		tickUnknown1 = true;
@@ -1690,11 +1690,11 @@ void Unit_Select(Unit *unit)
 {
 	if (unit == g_unitSelected) return;
 
-	if (unit != NULL && !unit->o.flags.s.allocated && g_global->debugGame == 0) {
+	if (unit != NULL && !unit->o.flags.s.allocated && !g_debugGame) {
 		unit = NULL;
 	}
 
-	if (unit != NULL && (unit->o.variable_09 & (1 << g_playerHouseID)) == 0 && g_global->debugGame == 0) {
+	if (unit != NULL && (unit->o.variable_09 & (1 << g_playerHouseID)) == 0 && !g_debugGame) {
 		unit = NULL;
 	}
 

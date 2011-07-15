@@ -130,7 +130,7 @@ bool SaveFile(char *filename, char *description)
 	/* In debug-scenario mode, the whole map is uncovered. Cover it now in
 	 *  the savegame based on the current position of the units and
 	 *  structures. */
-	if (g_global->debugScenario) {
+	if (g_debugScenario) {
 		PoolFindStruct find;
 		uint16 i;
 

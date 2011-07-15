@@ -52,6 +52,10 @@ GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
 
+bool   g_debugGame = false;        /*!< When true, you can control the AI. */
+bool   g_debugScenario = false;    /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
+bool   g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to house selection, and skip all intros. */
+
 static const struct_19A8 *_var_805E = NULL; /*!< Unknown animation data. */
 static const struct_19F0 *_var_805A = NULL; /*!< Unknown animation data. */
 static const struct_1A2C *_var_8056 = NULL; /*!< Unknown animation data. */
@@ -70,6 +74,8 @@ static uint16               _palettePartCount;        /*!< Number of steps left 
 static uint8                _palettePartTarget[18];   /*!< Target palette part (6 colours). */
 static uint8                _palettePartCurrent[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
 static uint8                _palettePartChange[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
+
+static bool _debugForceWin = false; /*!< When true, you immediately win the level. */
 
 /**
  * Initialize the video driver.
@@ -90,7 +96,7 @@ static bool GameLoop_IsLevelFinished()
 {
 	bool finish = false;
 
-	if (g_global->debugForceWin) return true;
+	if (_debugForceWin) return true;
 
 	/* You have to play at least 7200 ticks before you can win the game */
 	if (g_global->tickGlobal - g_global->tickScenarioStart < 7200) return false;
@@ -159,7 +165,7 @@ static bool GameLoop_IsLevelWon()
 {
 	bool win = false;
 
-	if (g_global->debugForceWin) return true;
+	if (_debugForceWin) return true;
 
 	/* Check for structure counts hitting zero */
 	if ((g_scenario.loseFlags & 0x3) != 0) {
@@ -1157,7 +1163,7 @@ static void GameLoop_GameEndAnimation()
  */
 static void GameLoop_LevelEnd()
 {
-	if (g_global->variable_60A2 >= g_global->tickGlobal && g_global->debugForceWin == 0) return;
+	if (g_global->variable_60A2 >= g_global->tickGlobal && !_debugForceWin) return;
 
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
@@ -1232,7 +1238,7 @@ static void GameLoop_LevelEnd()
 		Sprites_LoadTiles();
 
 		g_gameMode = GM_RESTART;
-		g_global->debugForceWin = 0;
+		_debugForceWin = false;
 	}
 
 	g_global->variable_60A2 = g_global->tickGlobal + 300;
@@ -1673,7 +1679,7 @@ static void ReadProfileIni(char *filename)
 		oi->sortPriority = (uint8)sortPriority;
 	}
 
-	if (g_global->debugGame != 0) {
+	if (g_debugGame) {
 		for (locsi = 0; locsi < UNIT_MAX; locsi++) {
 			ObjectInfo *oi = &g_table_unitInfo[locsi].o;
 
@@ -1722,7 +1728,7 @@ static void ReadProfileIni(char *filename)
 		}
 	}
 
-	if (g_global->debugGame == 0) return;
+	if (!g_debugGame) return;
 
 	for (locsi = 0; locsi < UNIT_MAX; locsi++) {
 		const UnitInfo *ui = &g_table_unitInfo[locsi];
@@ -1749,7 +1755,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_campaignID = 0;
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
-	g_global->debugScenario = 0x0;
+	g_debugScenario = false;
 	g_global->variable_3A3E[LST_SPICE][11] = 0xD7;
 	g_global->variable_3A3E[LST_SPICE][12] = 0x35;
 	g_global->variable_3A3E[LST_THICK_SPICE][11] = 0xD8;
@@ -1834,7 +1840,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	GUI_Mouse_Show_Safe();
 
-	if (g_global->debugSkipDialogs == 0) {
+	if (!g_debugSkipDialogs) {
 		uint16 stringID;
 		uint16 maxWidth;
 		bool hasSave;
@@ -2058,11 +2064,11 @@ static void GameLoop_GameIntroAnimationMenu()
 		if (g_campaignID != 0) g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
 		Game_LoadScenario(g_playerHouseID, g_scenarioID);
-		if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
+		if (!g_debugScenario && !g_debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 		GUI_Mouse_Hide_Safe();
 
-		GUI_ChangeSelectionType((g_global->debugScenario != 0) ? 5 : 4);
+		GUI_ChangeSelectionType(g_debugScenario ? 5 : 4);
 	}
 
 	GFX_SetPalette(g_palette1);
@@ -2187,7 +2193,7 @@ static void GameLoop_Main()
 			GUI_ChangeSelectionType(0);
 
 			Game_LoadScenario(g_playerHouseID, g_scenarioID);
-			if (!g_global->debugScenario && !g_global->debugSkipDialogs) GUI_Mentat_ShowBriefing();
+			if (!g_debugScenario && !g_debugSkipDialogs) GUI_Mentat_ShowBriefing();
 
 			g_gameMode = GM_NORMAL;
 
@@ -2255,7 +2261,7 @@ static void GameLoop_Main()
 
 		GUI_DisplayText(NULL, 0);
 
-		if (g_global->variable_38F8 != 0 && g_global->debugScenario == 0) {
+		if (g_global->variable_38F8 != 0 && !g_debugScenario) {
 			GameLoop_LevelEnd();
 		}
 

@@ -10,6 +10,7 @@
 #include "script.h"
 
 #include "../gui/gui.h"
+#include "../opendune.h"
 #include "../house.h"
 #include "../map.h"
 #include "../pool/house.h"
@@ -620,7 +621,7 @@ uint16 Script_Structure_Destroy(ScriptEngine *script)
 		u->targetMove = Tools_Index_Encode(Tile_PackTile(tile), IT_TILE);
 	}
 
-	if (g_global->debugScenario) return 0;
+	if (g_debugScenario) return 0;
 	if (s->o.houseID != g_playerHouseID) return 0;
 
 	if (g_config.language == LANGUAGE_FRENCH) {

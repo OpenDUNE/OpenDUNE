@@ -329,7 +329,7 @@ static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
 	Map_ExplodeBloom(packed, HOUSE_INVALID);
 
 	/* Show where a field started in the preview mode by making it an odd looking sprite */
-	if (g_global->debugScenario) {
+	if (g_debugScenario) {
 		t->groundSpriteID = 0x01FF;
 	}
 }

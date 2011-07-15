@@ -9,6 +9,7 @@
 
 #include "team.h"
 
+#include "opendune.h"
 #include "house.h"
 #include "pool/pool.h"
 #include "pool/team.h"
@@ -55,7 +56,7 @@ void GameLoop_Team()
 		if (!Script_IsLoaded(&t->script)) continue;
 
 
-		if (g_global->debugGame) {
+		if (g_debugGame) {
 			g_global->variable_37A4 = 0;
 			g_global->variable_37A2++;
 

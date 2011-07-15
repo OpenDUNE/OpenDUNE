@@ -15,6 +15,7 @@
 #include "animation.h"
 #include "gui/gui.h"
 #include "house.h"
+#include "opendune.h"
 #include "pool/pool.h"
 #include "pool/unit.h"
 #include "pool/house.h"
@@ -38,6 +39,8 @@ uint8 g_dirtyMinimap[512];      /*!< Dirty tiles of the minimap (must be rendere
 uint8 g_displayedMinimap[512];  /*!< Displayed part of the minimap. */
 uint8 g_dirtyViewport[512];     /*!< Dirty tiles of the viewport (must be rendered again). */
 uint8 g_displayedViewport[512]; /*!< Displayed part of the viewport. */
+
+static bool _debugNoExplosionDamage = false; /*!< When non-zero, explosions do no damage to their surrounding. */
 
 static const Activity _activities00[] = {
 	{  1,  153 },
@@ -466,7 +469,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	if (g_map[packed].overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
+	if (g_map[packed].overlaySpriteID != g_global->variable_39F2 || g_debugScenario) {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(packed);
@@ -741,7 +744,7 @@ bool Map_IsPositionUnveiled(uint16 position)
 {
 	Tile *t;
 
-	if (g_global->debugScenario) return true;
+	if (g_debugScenario) return true;
 
 	t = &g_map[position];
 
@@ -1077,7 +1080,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	uint16 reactionDistance = (type == 11) ? 32 : 16;
 	uint16 positionPacked = Tile_PackTile(position);
 
-	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
+	if (!_debugNoExplosionDamage == 0 && hitpoints != 0) {
 		PoolFindStruct find;
 		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
@@ -1157,7 +1160,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 		}
 	}
 
-	if (g_global->debugNoExplosionDamage == 0 && hitpoints != 0) {
+	if (!_debugNoExplosionDamage && hitpoints != 0) {
 		Structure *s = Structure_Get_ByPackedTile(positionPacked);
 
 		if (s != NULL) {
@@ -1438,9 +1441,9 @@ void Map_FillCircleWithSpice(uint16 packed, uint16 radius)
 
 			Map_ChangeSpiceAmount(curPacked, 1);
 
-			if (g_global->debugScenario == 0) continue;
-
-			Unknown_07D4_02F8(curPacked);
+			if (g_debugScenario) {
+				Unknown_07D4_02F8(curPacked);
+			}
 		}
 	}
 

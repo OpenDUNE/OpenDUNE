@@ -57,7 +57,7 @@ void GameLoop_House()
 	bool tickMissileCountdown     = false;
 	bool tickStarportAvailability = false;
 
-	if (g_global->debugScenario) return;
+	if (g_debugScenario) return;
 
 	if (_tickHouseHouse <= g_global->tickGlobal) {
 		tickHouse = true;
@@ -76,7 +76,7 @@ void GameLoop_House()
 
 	if (_tickHouseReinforcement <= g_global->tickGlobal) {
 		tickReinforcement = true;
-		_tickHouseReinforcement = g_global->tickGlobal + (g_global->debugGame ? 60 : 600);
+		_tickHouseReinforcement = g_global->tickGlobal + (g_debugGame ? 60 : 600);
 	}
 
 	if (_tickHouseUnused <= g_global->tickGlobal) {

@@ -11,6 +11,7 @@
 
 #include "gui.h"
 #include "widget.h"
+#include "../opendune.h"
 #include "../mouse.h"
 #include "../house.h"
 #include "../map.h"
@@ -243,14 +244,14 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	if (click && w->index == 43) {
 		uint16 position;
 
-		if (g_global->debugScenario != 0) {
+		if (g_debugScenario) {
 			position = packed;
 		} else {
 			position = Unit_FindTargetAround(packed);
 		}
 
-		if (g_map[position].overlaySpriteID != g_global->variable_39F2 || g_global->debugScenario != 0) {
-			if (Object_GetByPackedTile(position) != NULL || g_global->debugScenario != 0) {
+		if (g_map[position].overlaySpriteID != g_global->variable_39F2 || g_debugScenario) {
+			if (Object_GetByPackedTile(position) != NULL || g_debugScenario) {
 				Map_SetSelection(position);
 				Unit_DisplayStatusText(g_unitSelected);
 			}

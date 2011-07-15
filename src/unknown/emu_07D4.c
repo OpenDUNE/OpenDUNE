@@ -9,6 +9,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../opendune.h"
 #include "unknown.h"
 #include "../animation.h"
 #include "../gfx.h"
@@ -124,14 +125,14 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				t = &g_map[curPos];
 				left = x << 4;
 
-				if (g_global->debugScenario == 0x0 && g_global->variable_39F2 == t->overlaySpriteID) {
+				if (!g_debugScenario && g_global->variable_39F2 == t->overlaySpriteID) {
 					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
 					continue;
 				}
 
 				GFX_DrawSprite(t->groundSpriteID, left >> 3, top, t->houseID);
 
-				if (t->overlaySpriteID == 0 || g_global->debugScenario != 0x0) continue;
+				if (t->overlaySpriteID == 0 || g_debugScenario) continue;
 
 				GFX_DrawSprite(t->overlaySpriteID, left >> 3, top, t->houseID);
 			}
@@ -155,7 +156,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		u->o.flags.s.variable_4_1000 = false;
 
-		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && g_global->debugScenario == 0) continue;
+		if (!g_map[Tile_PackTile(u->o.position)].isUnveiled && !g_debugScenario) continue;
 
 		sprite = Unknown_07D4_18BD(g_table_unitInfo[u->o.type].spriteID, Unit_GetHouseID(u));
 
@@ -176,7 +177,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	g_global->variable_39E4 = 0;
 
-	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_global->debugScenario != 0)) {
+	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_global->variable_3A00) - Tile_GetPackedX(g_global->minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_global->variable_3A00) - Tile_GetPackedY(g_global->minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_global->selectionWidth << 4) - 1;
@@ -219,7 +220,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			u->o.flags.s.variable_4_1000 = false;
 
-			if (!g_map[packed].isUnveiled && g_global->debugScenario == 0) continue;
+			if (!g_map[packed].isUnveiled && !g_debugScenario) continue;
 
 			ui = &g_table_unitInfo[u->o.type];
 
@@ -362,7 +363,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		s->variable_07 = 0;
 
-		if (!g_map[curPos].isUnveiled && g_global->debugScenario == 0) continue;
+		if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 		if (!Map_IsPositionInViewport(s->position, &x, &y)) continue;
 
 		g_global->variable_8DE3 = 0xC000;
@@ -399,7 +400,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			u->o.flags.s.variable_4_1000 = false;
 
-			if (!g_map[curPos].isUnveiled && g_global->debugScenario == 0) continue;
+			if (!g_map[curPos].isUnveiled && !g_debugScenario) continue;
 
 			ui = &g_table_unitInfo[u->o.type];
 
@@ -717,7 +718,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	t = &g_map[packed];
 
-	if ((t->isUnveiled && g_playerHouse->flags.s.radarActivated) || g_global->debugScenario != 0) {
+	if ((t->isUnveiled && g_playerHouse->flags.s.radarActivated) || g_debugScenario) {
 		uint16 type = Map_GetLandscapeType(packed);
 		Unit *u;
 

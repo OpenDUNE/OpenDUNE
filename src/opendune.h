@@ -14,6 +14,9 @@ typedef enum GameMode {
 extern GameMode g_gameMode;
 extern uint16 g_campaignID;
 extern uint16 g_scenarioID;
+extern bool   g_debugGame;
+extern bool   g_debugScenario;
+extern bool   g_debugSkipDialogs;
 
 extern void Main();
 extern void Game_Prepare();

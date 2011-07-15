@@ -1758,7 +1758,7 @@ uint8 GUI_PickHouse()
 
 		Unknown_259E_0006(loc314, 15);
 
-		if (g_global->debugSkipDialogs != 0 || g_global->debugScenario != 0) break;
+		if (g_debugSkipDialogs || g_debugScenario) break;
 
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(107)[0]), 168, 168, 0, 0, 0)); /* "Yes" */
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
@@ -1918,10 +1918,7 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	assert(stringID < 64);
 
-	if (g_global->debugGame) return 0;
-	if (stringID == 0) return 0;
-	if (!g_gameConfig.hints) return 0;
-	if (g_global->selectionType == 0) return 0;
+	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_global->selectionType == 0) return 0;
 
 	if (stringID < 32) {
 		mask = (1 << stringID);

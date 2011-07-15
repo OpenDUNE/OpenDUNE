@@ -823,17 +823,17 @@ typedef struct GlobalData {
 	/* 3782(16)  */ PACK uint16  removed_3782[8];           /*!< REMOVED ?? */
 	/* 3792(8)   */ PACK uint8   removed_3792[8];           /*!< REMOVED ?? */
 	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
-	/* 379C(2)   */ PACK uint16 debugGame;                  /*!< When non-zero, it allows you to control the AI. */
-	/* 379E(2)   */ PACK uint16 debugForceWin;              /*!< When non-zero, you immediately win the level.  */
-	/* 37A0(2)   */ PACK uint16 debugScenario;              /*!< When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
+	/* 379C(2)   */ PACK uint16 removed_debugGame;          /*!< REMOVED - When non-zero, it allows you to control the AI. */
+	/* 379E(2)   */ PACK uint16 removed_debugForceWin;      /*!< REMOVED - When non-zero, you immediately win the level.  */
+	/* 37A0(2)   */ PACK uint16 removed_debugScenario;      /*!< REMOVED - When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
 	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? Write-only. */
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
 	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? Write-only. */
 	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
 	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? Read-only. */
-	/* 37AC(2)   */ PACK uint16 debugInstantBuild;          /*!< When non-zero, constructions are almost instant. */
-	/* 37AE(2)   */ PACK uint16 debugSkipDialogs;           /*!< When non-zero, you immediately go to house selection, and skip all intros. */
-	/* 37B0(2)   */ PACK uint16 debugNoExplosionDamage;     /*!< When non-zero, explosions do no damage to their surrounding. */
+	/* 37AC(2)   */ PACK uint16 removed_debugInstantBuild;  /*!< REMOVED - When non-zero, constructions are almost instant. */
+	/* 37AE(2)   */ PACK uint16 removed_debugSkipDialogs;   /*!< REMOVED - When non-zero, you immediately go to house selection, and skip all intros. */
+	/* 37B0(2)   */ PACK uint16 removed_debugNoExplosionDamage; /*!< REMOVED - When non-zero, explosions do no damage to their surrounding. */
 	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 removed_37B6;               /*!< REMOVED - @see Language. */

@@ -38,6 +38,8 @@ Structure *g_structureActive = NULL;
 uint16 g_structureActivePosition = 0;
 uint16 g_structureActiveType = 0;
 
+static bool _debugInstantBuild = false; /*!< When non-zero, constructions are almost instant. */
+
 /**
  * Loop over all structures, preforming various of tasks.
  */
@@ -54,7 +56,7 @@ void GameLoop_Structure()
 		g_global->tickStructureDegrade = g_global->tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
-	if (g_global->tickStructureStructure <= g_global->tickGlobal || g_global->debugInstantBuild != 0) {
+	if (g_global->tickStructureStructure <= g_global->tickGlobal || _debugInstantBuild != 0) {
 		tickStructure = true;
 		g_global->tickStructureStructure = g_global->tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}
@@ -73,7 +75,7 @@ void GameLoop_Structure()
 	find.index   = 0xFFFF;
 	find.type    = 0xFFFF;
 
-	if (g_global->debugScenario) return;
+	if (g_debugScenario) return;
 
 	while (true) {
 		const StructureInfo *si;
@@ -321,7 +323,7 @@ void GameLoop_Structure()
 					uint8 i;
 
 					/* XXX -- No idea, variable_37A2, variable_37A4 and variable_37A8 are only written to, never read. Most likely part of a script debugger. */
-					if (g_global->debugGame) {
+					if (g_debugGame) {
 						g_global->variable_37A4 = 0;
 						g_global->variable_37A2++;
 
@@ -388,7 +390,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->o.flags.s.isNotOnMap = true;
 	s->o.position.tile      = 0;
 	s->o.linkedID           = 0xFF;
-	s->animation            = (g_global->debugScenario) ? 0 : -1;
+	s->animation            = (g_debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
 		uint16 *iconMap;
@@ -536,7 +538,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
 
 	if (loc0A == 0) {
-		if ((s->o.houseID != g_playerHouseID || !g_global->debugScenario) && g_global->variable_38BC == 0) {
+		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_global->variable_38BC == 0) {
 			return false;
 		}
 	}
@@ -756,7 +758,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 
 		type = Map_GetLandscapeType(curPos);
 
-		if (g_global->debugScenario != 0) {
+		if (g_debugScenario) {
 			if (g_global->variable_3A3E[type][8] == 0) {
 				isValid = false;
 				break;
@@ -787,7 +789,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 		}
 	}
 
-	if (g_global->variable_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && g_global->debugScenario == 0) {
+	if (g_global->variable_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
 		isValid = false;
 		for (i = 0; i < 16; i++) {
 			uint16 offset, type;
@@ -974,7 +976,7 @@ static void Structure_Destroy(Structure *s)
 
 	if (s == NULL) return;
 
-	if (g_global->debugScenario != 0) {
+	if (g_debugScenario) {
 		Structure_0C3A_1002(s);
 		return;
 	}
@@ -1319,13 +1321,13 @@ void Structure_0C3A_1002(Structure *s)
 		t = &g_map[curPacked];
 		t->hasStructure = false;
 
-		if (g_global->debugScenario == 0) continue;
-
-		t->groundSpriteID = g_mapSpriteID[curPacked] & 0x1FF;
-		t->overlaySpriteID = 0;
+		if (g_debugScenario) {
+			t->groundSpriteID = g_mapSpriteID[curPacked] & 0x1FF;
+			t->overlaySpriteID = 0;
+		}
 	}
 
-	if (g_global->debugScenario == 0) {
+	if (!g_debugScenario) {
 		csip32 proc;
 
 		proc.csip = 0x2C6F0000;
@@ -1349,7 +1351,7 @@ void Structure_0C3A_1002(Structure *s)
 
 	House_UpdateCreditsStorage(s->o.houseID);
 
-	if (g_global->debugScenario != 0) return;
+	if (g_debugScenario) return;
 
 	switch (s->o.type) {
 		case STRUCTURE_WINDTRAP:

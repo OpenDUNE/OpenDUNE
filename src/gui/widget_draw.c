@@ -10,6 +10,7 @@
 #include "gui.h"
 #include "mentat.h"
 #include "widget.h"
+#include "../opendune.h"
 #include "../gfx.h"
 #include "../house.h"
 #include "../map.h"
@@ -455,7 +456,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				actionType = 2; /* Unit */
 			}
 		}
-	} else if (g_map[g_global->selectionPosition].isUnveiled || g_global->debugScenario != 0) {
+	} else if (g_map[g_global->selectionPosition].isUnveiled || g_debugScenario) {
 		if (Map_GetLandscapeType(g_global->selectionPosition) == LST_STRUCTURE) {
 			s = Structure_Get_ByPackedTile(g_global->selectionPosition);
 
@@ -717,7 +718,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 			GUI_DrawText_Wrapper(String_Get_ByIndex(49), 296, 65, 29, 0, 0x11);
 		}
 
-		if (!isNotPlayerOwned || g_global->debugGame) {
+		if (!isNotPlayerOwned || g_debugGame) {
 			switch (actionType) {
 				case 2: /* Unit */
 				{
