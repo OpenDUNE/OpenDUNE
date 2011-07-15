@@ -848,7 +848,7 @@ typedef struct GlobalData {
 	/* 38B0(2)   */ PACK uint16 removed_38B0;               /*!< REMOVED - ID of current loaded Scenario. */
 	/* 38B2(2)   */ PACK uint16 removed_38B2;               /*!< REMOVED - ID of current campaign (from 0 to 9, where 9 is never played). */
 	/* 38B4(2)   */ PACK uint16 removed_38B4;               /*!< REMOVED - Credits player is still free to have without silo support. */
-	/* 38B6(2)   */ PACK uint16 playerCredits;              /*!< Credits shown to player as 'current'. */
+	/* 38B6(2)   */ PACK uint16 removed_playerCredits;      /*!< REMOVED - Credits shown to player as 'current'. */
 	/* 38B8(4)   */ PACK uint32 removed_tickGameTimeout;    /*!< REMOVED - The tick the game will timeout. */
 	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16 removed_38BE;               /*!< REMOVED - Game mode. */

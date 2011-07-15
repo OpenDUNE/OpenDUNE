@@ -33,6 +33,7 @@ House *g_playerHouse = NULL;
 HouseType g_playerHouseID = HOUSE_INVALID;
 uint16 g_houseMissileCountdown = 0;
 uint16 g_playerCreditsNoSilo = 0;
+uint16 g_playerCredits = 0; /*!< Credits shown to player as 'current'. */
 
 static uint32 _tickHouseHouse = 0;
 static uint32 _tickHousePowerMaintenance = 0;

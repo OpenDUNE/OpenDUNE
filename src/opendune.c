@@ -140,8 +140,8 @@ static bool GameLoop_IsLevelFinished()
 	}
 
 	/* Check for reaching spice quota */
-	if ((g_scenario.winFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
-		if (g_global->playerCredits >= g_playerHouse->creditsQuota) {
+	if ((g_scenario.winFlags & 0x4) != 0 && g_playerCredits != 0xFFFF) {
+		if (g_playerCredits >= g_playerHouse->creditsQuota) {
 			finish = true;
 		}
 	}
@@ -208,8 +208,8 @@ static bool GameLoop_IsLevelWon()
 	}
 
 	/* Check for reaching spice quota */
-	if (!win && (g_scenario.loseFlags & 0x4) != 0 && g_global->playerCredits != 0xFFFF) {
-		win = (g_global->playerCredits >= g_playerHouse->creditsQuota);
+	if (!win && (g_scenario.loseFlags & 0x4) != 0 && g_playerCredits != 0xFFFF) {
+		win = (g_playerCredits >= g_playerHouse->creditsQuota);
 	}
 
 	/* Check for reaching timeout */
@@ -2516,7 +2516,7 @@ void Game_Prepare()
 
 	g_global->variable_38C0 = g_tickGlobal + 70;
 	g_global->variable_3A12 = 1;
-	g_global->playerCredits = 0xFFFF;
+	g_playerCredits = 0xFFFF;
 
 	g_global->selectionType = oldSelectionType;
 	g_global->variable_38BC--;

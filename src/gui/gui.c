@@ -2044,7 +2044,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 		GUI_Mouse_Hide_Safe();
 
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2 ,0);
-		GUI_DrawCredits(g_playerHouseID, (g_global->playerCredits == 0xFFFF) ? 2 : 1);
+		GUI_DrawCredits(g_playerHouseID, (g_playerCredits == 0xFFFF) ? 2 : 1);
 		Unknown_259E_0006(g_palette1, 15);
 
 		GUI_Mouse_Show_Safe();
@@ -2081,7 +2081,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	h = House_Get_ByIndex(houseID);
 
 	if (mode == 2) {
-		g_global->playerCredits = h->credits;
+		g_playerCredits = h->credits;
 		g_global->creditsAnimation = h->credits;
 	}
 
@@ -2130,7 +2130,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	GUI_DrawSprite(g_global->screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
 
-	g_global->playerCredits = creditsOld;
+	g_playerCredits = creditsOld;
 
 	snprintf(charCreditsOld, sizeof(charCreditsOld), "%6d", creditsOld);
 	snprintf(charCreditsNew, sizeof(charCreditsNew), "%6d", creditsNew);
@@ -2814,7 +2814,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	GFX_SetPalette(g_palette1);
 
 	/* Visible credits have to be reset, as it might not be the real value */
-	g_global->playerCredits = 0xFFFF;
+	g_playerCredits = 0xFFFF;
 
 	return g_factoryWindowResult;
 }
