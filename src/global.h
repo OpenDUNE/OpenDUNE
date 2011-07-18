@@ -841,8 +841,8 @@ typedef struct GlobalData {
 	/* 37BA(2)   */ PACK uint16 viewportMessageCounter;     /*!< Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
 	/* 37BC(4)   */ PACK csip32 viewportMessageText;        /*!< If not \c NULL, message text displayed in the viewport. */
 	/* 37C0(48)  */ PACK uint16 variable_37C0[12][2];       /*!< Array of ranks. */
-	/* 37F0(4)   */ PACK uint32 hintsShown1;                /*!< A bit-array to indicate which hints has been show already (0-31). */
-	/* 37F4(4)   */ PACK uint32 hintsShown2;                /*!< A bit-array to indicate which hints has been show already (32-63). */
+	/* 37F0(4)   */ PACK uint32 removed_hintsShown1;        /*!< REMOVED - A bit-array to indicate which hints has been show already (0-31). */
+	/* 37F4(4)   */ PACK uint32 removed_hintsShown2;        /*!< REMOVED - A bit-array to indicate which hints has been show already (32-63). */
 	/* 37F8(180) */ PACK uint8  removed_37F8[180];          /*!< REMOVED - Information about the houses. */
 	/* 38AC()    */ PACK uint32 removed_tickScenarioStart;  /*!< REMOVED - The tick the scenario started in. */
 	/* 38B0(2)   */ PACK uint16 removed_38B0;               /*!< REMOVED - ID of current loaded Scenario. */

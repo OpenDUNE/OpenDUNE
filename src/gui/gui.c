@@ -1923,10 +1923,10 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	if (stringID < 32) {
 		mask = (1 << stringID);
-		hintsShown = &g_global->hintsShown1;
+		hintsShown = &g_hintsShown1;
 	} else {
 		mask = (1 << (stringID - 32));
-		hintsShown = &g_global->hintsShown2;
+		hintsShown = &g_hintsShown2;
 	}
 
 	if ((*hintsShown & mask) != 0) return 0;

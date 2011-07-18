@@ -11,6 +11,8 @@ typedef enum GameMode {
 	GM_PICKHOUSE = 2
 } GameMode;
 
+extern uint32 g_hintsShown1;
+extern uint32 g_hintsShown2;
 extern GameMode g_gameMode;
 extern uint16 g_campaignID;
 extern uint16 g_scenarioID;

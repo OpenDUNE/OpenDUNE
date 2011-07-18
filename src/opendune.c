@@ -48,6 +48,8 @@
 #include "wsa.h"
 
 
+uint32 g_hintsShown1 = 0;          /*!< A bit-array to indicate which hints has been show already (0-31). */
+uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has been show already (32-63). */
 GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
@@ -2590,8 +2592,8 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 	Game_Prepare();
 
 	if (scenarioID < 5) {
-		g_global->hintsShown1 = 0;
-		g_global->hintsShown2 = 0;
+		g_hintsShown1 = 0;
+		g_hintsShown2 = 0;
 	}
 
 	g_global->variable_38BC--;
