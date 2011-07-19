@@ -1080,7 +1080,7 @@ void Map_MakeExplosion(uint16 type, tile32 position, uint16 hitpoints, uint16 un
 	uint16 reactionDistance = (type == 11) ? 32 : 16;
 	uint16 positionPacked = Tile_PackTile(position);
 
-	if (!_debugNoExplosionDamage == 0 && hitpoints != 0) {
+	if (!_debugNoExplosionDamage && hitpoints != 0) {
 		PoolFindStruct find;
 		find.houseID = HOUSE_INVALID;
 		find.index   = 0xFFFF;
