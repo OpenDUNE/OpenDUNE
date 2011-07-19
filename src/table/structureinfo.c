@@ -1318,11 +1318,11 @@ const uint16 g_table_structure_layoutTileCount[] = {
 /** Array with TileDiff of a layout. */
 const tile32 g_table_structure_layoutTileDiff[] = {
 	{{0x0080, 0x0080}}, /* STRUCTURE_LAYOUT_1x1 */
-	{{0x0080, 0x0100}}, /* STRUCTURE_LAYOUT_2x1 */
-	{{0x0100, 0x0080}}, /* STRUCTURE_LAYOUT_1x2 */
+	{{0x0100, 0x0080}}, /* STRUCTURE_LAYOUT_2x1 */
+	{{0x0080, 0x0100}}, /* STRUCTURE_LAYOUT_1x2 */
 	{{0x0100, 0x0100}}, /* STRUCTURE_LAYOUT_2x2 */
-	{{0x0180, 0x0100}}, /* STRUCTURE_LAYOUT_2x3 */
-	{{0x0100, 0x0280}}, /* STRUCTURE_LAYOUT_3x2 */
+	{{0x0100, 0x0180}}, /* STRUCTURE_LAYOUT_2x3 */
+	{{0x0280, 0x0100}}, /* STRUCTURE_LAYOUT_3x2 */
 	{{0x0180, 0x0180}}, /* STRUCTURE_LAYOUT_3x3 */
 };
 
