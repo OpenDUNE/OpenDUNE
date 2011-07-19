@@ -34,9 +34,9 @@ HouseType g_playerHouseID = HOUSE_INVALID;
 uint16 g_houseMissileCountdown = 0;
 uint16 g_playerCreditsNoSilo = 0;
 uint16 g_playerCredits = 0; /*!< Credits shown to player as 'current'. */
+uint32 g_tickHousePowerMaintenance = 0;
 
 static uint32 _tickHouseHouse = 0;
-static uint32 _tickHousePowerMaintenance = 0;
 static uint32 _tickHouseStarport = 0;
 static uint32 _tickHouseReinforcement = 0;
 static uint32 _tickHouseUnused = 0;
@@ -65,9 +65,9 @@ void GameLoop_House()
 		_tickHouseHouse = g_tickGlobal + 900;
 	}
 
-	if (g_global->variable_38C0 <= g_tickGlobal && _tickHousePowerMaintenance <= g_tickGlobal) {
+	if (g_tickHousePowerMaintenance <= g_tickGlobal) {
 		tickPowerMaintenance = true;
-		_tickHousePowerMaintenance = g_tickGlobal + 10800;
+		g_tickHousePowerMaintenance = g_tickGlobal + 10800;
 	}
 
 	if (_tickHouseStarport <= g_tickGlobal) {

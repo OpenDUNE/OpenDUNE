@@ -2516,7 +2516,7 @@ void Game_Prepare()
 
 	Voice_LoadVoices(g_playerHouseID);
 
-	g_global->variable_38C0 = g_tickGlobal + 70;
+	g_tickHousePowerMaintenance = max(g_tickGlobal + 70, g_tickHousePowerMaintenance);
 	g_global->variable_3A12 = 1;
 	g_playerCredits = 0xFFFF;
 
