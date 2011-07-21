@@ -726,6 +726,8 @@ static void GUI_2599_000B(uint16 index, uint16 xpos, uint16 ypos, uint16 width, 
  */
 uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 {
+	static char textBuffer[768];
+
 	va_list ap;
 	uint16 oldValue_07AE_0000;
 	uint16 ret;
@@ -733,7 +735,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	uint8 *screenBackup = NULL;
 
 	va_start(ap, spriteID);
-	vsnprintf(g_global->variable_87D8, sizeof(g_global->variable_87D8), str, ap);
+	vsnprintf(textBuffer, sizeof(textBuffer), str, ap);
 	va_end(ap);
 
 	GUI_Mouse_Hide_Safe();
@@ -744,7 +746,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
 
-	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(g_global->variable_87D8, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
 	Widget_SetCurrentWidget(1);
 
@@ -765,7 +767,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	g_curWidgetFGColourNormal = 0;
 
-	GUI_DrawText(g_global->variable_87D8, g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal);
+	GUI_DrawText(textBuffer, g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetFGColourBlink, g_curWidgetFGColourNormal);
 
 	GFX_SetPalette(g_palette1);
 

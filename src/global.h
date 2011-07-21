@@ -1461,7 +1461,7 @@ typedef struct GlobalData {
 	/* 876A()    */ PACK uint8   unknown_876A[0x0050];
 	/* 87BA(6)   */ PACK uint8  removed_87BA[6];            /*!< REMOVED - Default find struct used if none given to emu_House_FindFirst/FindNext. */
 	/* 87C0(24)  */ PACK csip32 removed_87C0[6];            /*!< REMOVED - Array with CS:IP of House, always gap-less. */
-	/* 87D8(768) */ PACK char   variable_87D8[768];         /*!< ?? Buffer. */
+	/* 87D8(768) */ PACK char    removed_87D8[768];         /*!< REMOVED - Multi-line modal message text buffer. */
 	/* 8AD8(2)   */ PACK uint16  removed_8AD8;              /*!< REMOVED - foreground colour 1st line of text */
 	/* 8ADA(2)   */ PACK uint16  removed_8ADA;              /*!< REMOVED - foreground colour 2nd line of text */
 	/* 8ADC(2)   */ PACK uint16  removed_8ADC;              /*!< REMOVED - foreground colour 3rd line of text */
