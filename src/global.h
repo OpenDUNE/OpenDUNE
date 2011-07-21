@@ -192,10 +192,10 @@ typedef struct GlobalData {
 	                                                         *   "Spare RAM: %ld\r"
 	                                                         *   "DOS prompt memory free must be %ld.\r" NULL terminated. */
 	/* 0217()    */ PACK uint8   unknown_0217;
-	/* 0218(10)  */ PACK uint16 variable_0218[5];           /*!< ?? */
+	/* 0218(10)  */ PACK uint16  removed_0218[5];           /*!< REMOVED - buffer for speech */
 	/* 0222(240) */ PACK uint16 removed_0222[120];          /*!< REMOVED - Mapping of voiceID -> voice files */
-	/* 0312(1316)*/ PACK uint16 variable_0312[94][7];       /*!< ?? */
-	/* 0836(1316)*/ PACK uint16 variable_0836[94][7];       /*!< ?? */
+	/* 0312(1316)*/ PACK uint16  removed_0312[94][7];       /*!< REMOVED - table of feedback strings and audio on events and commands */
+	/* 0836(1316)*/ PACK uint16  removed_0836[94][7];       /*!< REMOVED - table of translated spoken audio feedback */
 	/* 0D5A(786) */ PACK uint8  removed_0D5A[131][6];       /*!< REMOVED - Array of pointers to voice files names (and something else). */
 	/* 106C(228) */ PACK uint8  removed_106C[38][6];        /*!< REMOVED - Array of pointers to music files names (and something else). */
 	/* 1150(2)   */ PACK uint16 removed_1150;               /*!< REMOVED - Currently loaded set of voices. */

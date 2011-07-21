@@ -390,7 +390,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 		Sound_Output_Feedback(loc06);
 
-		if (g_global->variable_0312[loc06][5] != 0) {
+		if (g_feedback[loc06].messageId != 0) {
 			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
 		}
 	} else {
@@ -440,7 +440,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
  */
 static uint16 GameLoop_PalettePart_Update(bool finishNow)
 {
-	Sound_Unknown0470();
+	Sound_StartSpeech();
 
 	if (_palettePartDirection == PPD_STOPPED) return 0;
 
@@ -2214,7 +2214,7 @@ static void GameLoop_Main()
 			g_global->variable_31C0 = g_global->variable_38EC;
 		}
 
-		if (!Driver_Voice_IsPlaying() && !Sound_Unknown0470()) {
+		if (!Driver_Voice_IsPlaying() && !Sound_StartSpeech()) {
 			if (g_global->musicEnabled == 0) {
 				Music_Play(2);
 

@@ -1720,7 +1720,7 @@ void Unit_Select(Unit *unit)
 		ui = &g_table_unitInfo[unit->o.type];
 
 		/* Plays the 'reporting' sound file. */
-		Sound_Unknown0156(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
+		Sound_StartSound(ui->movementType == MOVEMENT_FOOT ? 18 : 19);
 
 		GUI_DisplayHint(ui->o.hintStringID, ui->o.spriteID);
 	}

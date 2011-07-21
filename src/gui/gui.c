@@ -657,7 +657,7 @@ void GUI_PaletteAnimate()
 		g_global->variable_31C6 = g_global->variable_76AC + 5;
 	}
 
-	Sound_Unknown0470();
+	Sound_StartSpeech();
 }
 
 /**
@@ -1770,7 +1770,7 @@ uint8 GUI_PickHouse()
 		if (g_config.voiceDrv != 0) {
 			Sound_Output_Feedback(houseID + 62);
 
-			while (Sound_Unknown0470()) sleep(0);
+			while (Sound_StartSpeech()) sleep(0);
 		}
 
 		while (w != NULL) {

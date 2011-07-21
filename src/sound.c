@@ -24,7 +24,8 @@
 
 static void *g_variable_3E54[NUM_VOICES];
 static uint32 g_variable_3E54_size[NUM_VOICES];
-static const char *_currentMusic = NULL; /*!< Currently loaded music file. */
+static const char *_currentMusic = NULL;        /*!< Currently loaded music file. */
+static uint16 _spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
 
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
@@ -267,10 +268,10 @@ void Voice_LoadVoices(uint16 voiceSet)
 }
 
 /**
- * Unknown function.
- * @param index
+ * Start playing a sound sample.
+ * @param index Sample to play.
  */
-void Sound_Unknown0156(uint16 index)
+void Sound_StartSound(uint16 index)
 {
 	if (index == 0xFFFF || g_global->soundsEnabled == 0 || (int16)g_table_voices[index].variable_04 < (int16)g_global->variable_4060) return;
 
@@ -306,8 +307,9 @@ void Sound_Output_Feedback(uint16 index)
 	if (index == 0xFFFE) {
 		uint8 i;
 
-		for (i = 0; i < 5; i++) {
-			g_global->variable_0218[i] = 0xFFFF;
+		/* Clear spoken audio. */
+		for (i = 0; i < lengthof(_spokenWords); i++) {
+			_spokenWords[i] = 0xFFFF;
 		}
 
 		Driver_Voice_Stop();
@@ -323,9 +325,9 @@ void Sound_Output_Feedback(uint16 index)
 	}
 
 	if (g_config.voiceDrv == 0 || g_global->soundsEnabled == 0) {
-		Driver_Sound_Play(g_global->variable_0312[index][6], 0xFF);
+		Driver_Sound_Play(g_feedback[index].soundId, 0xFF);
 
-		g_viewportMessageText = String_Get_ByIndex(g_global->variable_0312[index][5]);
+		g_viewportMessageText = String_Get_ByIndex(g_feedback[index].messageId);
 
 		if ((g_viewportMessageCounter & 1) != 0) {
 			g_global->variable_3A12 = 1;
@@ -336,22 +338,24 @@ void Sound_Output_Feedback(uint16 index)
 		return;
 	}
 
-	if (g_global->variable_0218[0] == 0xFFFF) {
+	/* If nothing is being said currently, load new words. */
+	if (_spokenWords[0] == 0xFFFF) {
 		uint8 i;
 
-		for (i = 0; i < 5; i++) {
-			g_global->variable_0218[i] = (g_config.language == LANGUAGE_ENGLISH) ? g_global->variable_0312[index][i] : g_global->variable_0836[index][i];
+		for (i = 0; i < lengthof(_spokenWords); i++) {
+			_spokenWords[i] = (g_config.language == LANGUAGE_ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[index][i];
 		}
 	}
 
-	Sound_Unknown0470();
+	Sound_StartSpeech();
 }
 
 /**
- * Unknown function.
- * @return ??
+ * Start speech.
+ * Start a new speech fragment if possible.
+ * @return Sound is produced.
  */
-bool Sound_Unknown0470()
+bool Sound_StartSpeech()
 {
 	if (g_global->soundsEnabled == 0) return false;
 
@@ -359,12 +363,12 @@ bool Sound_Unknown0470()
 
 	g_global->variable_4060 = 0;
 
-	if (g_global->variable_0218[0] == 0xFFFF) return false;
+	if (_spokenWords[0] == 0xFFFF) return false;
 
-	Sound_Unknown0156(g_global->variable_0218[0]);
-
-	memmove(&g_global->variable_0218[0], &g_global->variable_0218[1], 8);
-	g_global->variable_0218[4] = 0xFFFF;
+	Sound_StartSound(_spokenWords[0]);
+	/* Move speech parts one place. */
+	memmove(&_spokenWords[0], &_spokenWords[1], sizeof(_spokenWords) - sizeof(_spokenWords[0]));
+	_spokenWords[lengthof(_spokenWords) - 1] = 0xFFFF;
 
 	return true;
 }

@@ -285,7 +285,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	Unit_SetAction(u, action);
 
-	if (ui->movementType == MOVEMENT_FOOT) Sound_Unknown0156(ai->variable_08);
+	if (ui->movementType == MOVEMENT_FOOT) Sound_StartSound(ai->variable_08);
 
 	if (unitAction == action) return true;
 
