@@ -753,7 +753,7 @@ typedef struct GlobalData {
 	/* 3304(32)  */ PACK uint16  removed_3304[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
 	/* 3344(2)   */ PACK uint16  removed_3344;              /*!< REMOVED - changed tiles count (in 8290) */
-	/* 3346(4)   */ PACK uint32 viewportMessageTime;        /*!< Keeps track when to decrease #viewportMessageCounter. */
+	/* 3346(4)   */ PACK uint32  removed_viewportMessageTime; /*!< REMOVED - Keeps track when to decrease #viewportMessageCounter. */
 	/* 334A(4)   */ PACK uint8   removed_334A[4];           /*!< REMOVED - ?? (read-only array) */
 	/* 334E(32)  */ PACK uint16  removed_334E[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 336E(32)  */ PACK uint16  removed_336E[8][2];        /*!< REMOVED - ?? (read-only array) */
@@ -838,8 +838,8 @@ typedef struct GlobalData {
 	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
 	/* 37B6(2)   */ PACK uint16 removed_37B6;               /*!< REMOVED - @see Language. */
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
-	/* 37BA(2)   */ PACK uint16 viewportMessageCounter;     /*!< Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
-	/* 37BC(4)   */ PACK csip32 viewportMessageText;        /*!< If not \c NULL, message text displayed in the viewport. */
+	/* 37BA(2)   */ PACK uint16  removed_viewportMessageCounter; /*!< REMOVED - Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
+	/* 37BC(4)   */ PACK csip32  removed_viewportMessageText; /*!< REMOVED - If not \c NULL, message text displayed in the viewport. */
 	/* 37C0(48)  */ PACK uint16  removed_37C0[12][2];       /*!< REMOVED - Array of ranks. */
 	/* 37F0(4)   */ PACK uint32 removed_hintsShown1;        /*!< REMOVED - A bit-array to indicate which hints has been show already (0-31). */
 	/* 37F4(4)   */ PACK uint32 removed_hintsShown2;        /*!< REMOVED - A bit-array to indicate which hints has been show already (32-63). */

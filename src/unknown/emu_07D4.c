@@ -30,6 +30,10 @@ uint16 _changedTilesCount;     /*!< Number of changed tiles in #_changedTiles. *
 uint16 _changedTiles[200];     /*!< Array of positions of changed tiles. */
 uint8  g_changedTilesMap[512]; /*!< Bit array of changed tiles, in order not to loose changes. */
 
+uint16 g_viewportMessageCounter;        /*!< Countdown counter for displaying #g_viewportMessageText, bit 0 means 'display the text'. */
+char *g_viewportMessageText;            /*!< If not \c NULL, message text displayed in the viewport. */
+static uint32 _viewportMessageTime = 0; /*!< Keeps track when to decrease #g_viewportMessageCounter. */
+
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
  *
@@ -513,8 +517,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		}
 	}
 
-	if ((g_global->viewportMessageCounter & 0x1) != 0 && g_global->viewportMessageText.csip != 0x0 && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
-		GUI_DrawText_Wrapper((char *)emu_get_memorycsip(g_global->viewportMessageText), 112, 139, 15, 0, 0x132);
+	if ((g_viewportMessageCounter & 1) != 0 && g_viewportMessageText != NULL && (minX[6] <= 14 || maxX[6] >= 0 || arg08 || arg06)) {
+		GUI_DrawText_Wrapper(g_viewportMessageText, 112, 139, 15, 0, 0x132);
 		minX[6] = -1;
 		maxX[6] = 14;
 	}
@@ -642,9 +646,9 @@ void Unknown_07D4_0000(uint16 screenID)
 	g_global->minimapPosition = g_global->viewportPosition;
 	g_global->variable_3A00 = g_global->selectionPosition;
 
-	if (g_global->viewportMessageCounter != 0 && g_global->viewportMessageTime < g_global->variable_76AC) {
-		g_global->viewportMessageCounter--;
-		g_global->viewportMessageTime = g_global->variable_76AC + 60;
+	if (g_viewportMessageCounter != 0 && _viewportMessageTime < g_global->variable_76AC) {
+		g_viewportMessageCounter--;
+		_viewportMessageTime = g_global->variable_76AC + 60;
 
 		for (xpos = 0; xpos < 14; xpos++) {
 			Map_Update(g_global->viewportPosition + xpos + 6*64, 0, true);
