@@ -74,6 +74,28 @@ typedef struct StrategicMapData {
 MSVC_PACKED_END
 assert_compile(sizeof(StrategicMapData) == 0x8);
 
+/** Coupling between score and rank name. */
+typedef struct RankScore {
+	uint16 rankString; /*!< StringID of the name of the rank. */
+	uint16 score;      /*!< Score needed to obtain the rank. */
+} RankScore;
+
+/** Mapping of scores to rank names. */
+static const RankScore _rankScores[] = {
+	{271,   25},
+	{272,   50},
+	{273,  100},
+	{274,  150},
+	{275,  200},
+	{276,  300},
+	{277,  400},
+	{278,  500},
+	{279,  700},
+	{280, 1000},
+	{281, 1400},
+	{282, 1800}
+};
+
 static uint8 g_colours[16];
 static ClippingArea g_clipping = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 uint8 *g_palette_998A = NULL;
@@ -1394,16 +1416,16 @@ static uint16 GUI_HallOfFame_GetRank(uint16 score)
 {
 	uint8 i;
 
-	for (i = 0; i < 12; i++) {
-		if (g_global->variable_37C0[i][1] > score) break;
+	for (i = 0; i < lengthof(_rankScores); i++) {
+		if (_rankScores[i].score > score) break;
 	}
 
-	return min(i, 11);
+	return min(i, lengthof(_rankScores) - 1);
 }
 
 static void GUI_HallOfFame_DrawRank(uint16 score, bool fadeIn)
 {
-	GUI_DrawText_Wrapper(String_Get_ByIndex(g_global->variable_37C0[GUI_HallOfFame_GetRank(score)][0]), SCREEN_WIDTH / 2, 49, 6, 0, 0x122);
+	GUI_DrawText_Wrapper(String_Get_ByIndex(_rankScores[GUI_HallOfFame_GetRank(score)].rankString), SCREEN_WIDTH / 2, 49, 6, 0, 0x122);
 
 	if (!fadeIn) return;
 
@@ -4392,11 +4414,11 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 		if (data[i].score == 0) break;
 
 		if (g_config.language == LANGUAGE_FRENCH) {
-			p1 = String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]);
+			p1 = String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 			p2 = g_table_houseInfo[data[i].houseID].name;
 		} else {
 			p1 = g_table_houseInfo[data[i].houseID].name;
-			p2 = String_Get_ByIndex(g_global->variable_37C0[data[i].rank][0]);
+			p2 = String_Get_ByIndex(_rankScores[data[i].rank].rankString);
 		}
 		snprintf(buffer, sizeof(buffer), "%s, %s %s", data[i].name, p1, p2);
 

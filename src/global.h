@@ -840,7 +840,7 @@ typedef struct GlobalData {
 	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
 	/* 37BA(2)   */ PACK uint16 viewportMessageCounter;     /*!< Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
 	/* 37BC(4)   */ PACK csip32 viewportMessageText;        /*!< If not \c NULL, message text displayed in the viewport. */
-	/* 37C0(48)  */ PACK uint16 variable_37C0[12][2];       /*!< Array of ranks. */
+	/* 37C0(48)  */ PACK uint16  removed_37C0[12][2];       /*!< REMOVED - Array of ranks. */
 	/* 37F0(4)   */ PACK uint32 removed_hintsShown1;        /*!< REMOVED - A bit-array to indicate which hints has been show already (0-31). */
 	/* 37F4(4)   */ PACK uint32 removed_hintsShown2;        /*!< REMOVED - A bit-array to indicate which hints has been show already (32-63). */
 	/* 37F8(180) */ PACK uint8  removed_37F8[180];          /*!< REMOVED - Information about the houses. */
