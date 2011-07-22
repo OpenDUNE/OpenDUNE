@@ -1748,6 +1748,13 @@ static void ReadProfileIni(char *filename)
  */
 static void GameLoop_GameIntroAnimationMenu()
 {
+	static const uint16 mainMenuStrings[][6] = {
+		{0x001B, 0x001C, 0x001D, 0x0000, 0x0000, 0x0000}, /* Neither HOF nor save. */
+		{0x001B, 0x001C, 0x0153, 0x001D, 0x0000, 0x0000}, /* Has a save game. */
+		{0x001B, 0x001C, 0x001D, 0x014E, 0x0000, 0x0000}, /* Has a HOF. */
+		{0x001B, 0x001C, 0x0153, 0x001D, 0x014E, 0x0000}  /* Has a HOF and a save game. */
+	};
+
 	bool loc02 = false;
 	bool loc06;
 
@@ -1957,12 +1964,12 @@ static void GameLoop_GameIntroAnimationMenu()
 				for (i = 0; i < 6; i++) {
 					strings[i] = NULL;
 
-					if (g_global->variable_219D[index][i] == 0) {
+					if (mainMenuStrings[index][i] == 0) {
 						if (g_widgetProperties[21].height == 0) g_widgetProperties[21].height = i;
 						continue;
 					}
 
-					strings[i] = String_Get_ByIndex(g_global->variable_219D[index][i]);
+					strings[i] = String_Get_ByIndex(mainMenuStrings[index][i]);
 				}
 
 				GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
@@ -2012,7 +2019,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 			if (stringID != 0xFFFF) {
 				uint16 index = (hasFame ? 2 : 0) + (hasSave ? 1 : 0);
-				stringID = g_global->variable_219D[index][stringID];
+				stringID = mainMenuStrings[index][stringID];
 			}
 
 			GUI_PaletteAnimate();
