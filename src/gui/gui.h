@@ -45,6 +45,7 @@ extern FactoryResult g_factoryWindowResult;
 extern bool g_factoryWindowStarport;
 extern uint16 g_productionStringID;
 extern bool g_textDisplayNeedsUpdate;
+extern uint32 g_strategicRegionBits;
 
 extern uint16 g_viewportMessageCounter;
 extern char *g_viewportMessageText;

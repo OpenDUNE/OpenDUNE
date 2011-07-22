@@ -2192,7 +2192,7 @@ static void GameLoop_Main()
 			g_gameMode = GM_RESTART;
 			g_scenarioID = 1;
 			g_campaignID = 0;
-			g_global->variable_2AF4 = 0;
+			g_strategicRegionBits = 0;
 		}
 
 		if (g_global->variable_3A10 != g_global->selectionType) {

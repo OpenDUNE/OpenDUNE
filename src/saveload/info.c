@@ -16,6 +16,7 @@
 #include "../sprites.h"
 #include "../structure.h"
 #include "../unit.h"
+#include "../gui/gui.h"
 
 static uint32 SaveLoad_SelectionType(void *object, uint32 value, bool loading)
 {
@@ -133,7 +134,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GCALLB (SLDT_UINT16, g_unitSelected, &SaveLoad_UnitSelected),
 	SLD_GCALLB (SLDT_UINT16, g_unitActive, &SaveLoad_UnitActive),
 	SLD_ENTRY  (GlobalData, SLDT_UINT16, activeAction),
-	SLD_ENTRY  (GlobalData, SLDT_UINT32, variable_2AF4),
+	SLD_GENTRY (SLDT_UINT32, g_strategicRegionBits),
 	SLD_GENTRY (SLDT_UINT16, g_scenarioID),
 	SLD_GENTRY (SLDT_UINT16, g_campaignID),
 	SLD_GENTRY (SLDT_UINT32, g_hintsShown1),

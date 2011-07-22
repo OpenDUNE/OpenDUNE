@@ -117,6 +117,7 @@ static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palett
 static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
 bool g_textDisplayNeedsUpdate;            /*!< If set, text display needs to be updated. */
+uint32 g_strategicRegionBits;             /*!< Region bits at the map. */
 
 /**
  * Draw a wired rectangle.
@@ -2959,17 +2960,27 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 	}
 }
 
-static bool GUI_StrategicMap_Var2AF4_Get(uint16 region)
+/**
+ * Get region bit of the strategic map.
+ * @param region Region to obtain.
+ * @return Value of the region bit.
+ */
+static bool GUI_StrategicMap_GetRegion(uint16 region)
 {
-	return (g_global->variable_2AF4 & (1 << region)) != 0;
+	return (g_strategicRegionBits & (1 << region)) != 0;
 }
 
-static void GUI_StrategicMap_Var2AF4_Set(uint16 region, bool set)
+/**
+ * Set or reset a region of the strategic map.
+ * @param region Region to change.
+ * @param set Region must be set.
+ */
+static void GUI_StrategicMap_SetRegion(uint16 region, bool set)
 {
 	if (set) {
-		g_global->variable_2AF4 |= (1 << region);
+		g_strategicRegionBits |= (1 << region);
 	} else {
-		g_global->variable_2AF4 &= ~(1 << region);
+		g_strategicRegionBits &= ~(1 << region);
 	}
 }
 
@@ -3057,7 +3068,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
-		if (!GUI_StrategicMap_Var2AF4_Get(data[i].index)) loc12 = false;
+		if (!GUI_StrategicMap_GetRegion(data[i].index)) loc12 = false;
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
@@ -3068,11 +3079,11 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 	if (loc12) {
 		for (i = 0; i < count; i++) {
-			GUI_StrategicMap_Var2AF4_Set(data[i].index, false);
+			GUI_StrategicMap_SetRegion(data[i].index, false);
 		}
 	} else {
 		for (i = 0; i < count; i++) {
-			if (GUI_StrategicMap_Var2AF4_Get(data[i].index)) data[i].index = 0;
+			if (GUI_StrategicMap_GetRegion(data[i].index)) data[i].index = 0;
 		}
 	}
 
@@ -3103,7 +3114,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 		}
 	}
 
-	GUI_StrategicMap_Var2AF4_Set(region, true);
+	GUI_StrategicMap_SetRegion(region, true);
 
 	GUI_StrategicMap_DrawText("");
 

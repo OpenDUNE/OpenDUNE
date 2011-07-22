@@ -585,7 +585,7 @@ typedef struct GlobalData {
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
 	/* 2AF3(1)   */ PACK uint8  variable_2AF3;              /*!< ?? */
-	/* 2AF4(2)   */ PACK uint32 variable_2AF4;              /*!< ?? */
+	/* 2AF4(2)   */ PACK uint32  removed_2AF4;              /*!< REMOVED - strategic region bits. */
 	/* 2AF8(20)  */ PACK char   string_2AF8[5][4];          /*!< "ENG\0FRE\0GER\0ITA\0SPA" NULL terminated. */
 	/* 2B0C(4)   */ PACK uint32 variable_2B0C;              /*!< ?? */
 	/* 2B10(2)   */ PACK uint16  removed_2B10;              /*!< REMOVED - scenario select arrow animation state. */
