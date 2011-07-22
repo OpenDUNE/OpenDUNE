@@ -593,39 +593,40 @@ void Unknown_07D4_0000(uint16 screenID)
 	Unit_Sort();
 
 	if (g_global->variable_3A12 == 0 && g_global->viewportPosition != g_global->minimapPosition) {
-		uint16 loc0C = Tile_GetPackedX(g_global->viewportPosition);
-		uint16 loc0E = Tile_GetPackedY(g_global->viewportPosition);
-		int16 locsi = Tile_GetPackedX(g_global->minimapPosition) - loc0C;
-		int16 locdi = Tile_GetPackedY(g_global->minimapPosition) - loc0E;
+		uint16 viewportX = Tile_GetPackedX(g_global->viewportPosition);
+		uint16 viewportY = Tile_GetPackedY(g_global->viewportPosition);
+		int16 xOffset = Tile_GetPackedX(g_global->minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
+		int16 yOffset = Tile_GetPackedY(g_global->minimapPosition) - viewportY; /* Vertical offset between viewport and minmap. */
 
-		int16 loc02 = 15 - abs(locsi);
-		int16 loc04 = 10 - abs(locdi);
+		/* Overlap remaining in tiles. */
+		int16 xOverlap = 15 - abs(xOffset);
+		int16 yOverlap = 10 - abs(yOffset);
 
-		int16 loc06, loc08;
+		int16 x, y;
 
-		if (loc02 < 1 || loc04 < 1) g_global->variable_3A12 = 1;
+		if (xOverlap < 1 || yOverlap < 1) g_global->variable_3A12 = 1;
 
-		if (g_global->variable_3A12 == 0 && (loc02 != 15 || loc04 != 10)) {
+		if (g_global->variable_3A12 == 0 && (xOverlap != 15 || yOverlap != 10)) {
 			Map_SetSelectionObjectPosition(0xFFFF);
 			loc10 = true;
 
 			GUI_Mouse_Hide_InWidget(2);
 
-			GUI_Screen_Copy(max(-locsi << 1, 0), 40 + max(-locdi << 4, 0), max(0, locsi << 1), 40 + max(0, locdi << 4), loc02 << 1, loc04 << 4, 0, 2);
+			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, 0, 2);
 		} else {
 			g_global->variable_3A12 = 1;
 		}
 
-		locsi = max(0, locsi);
-		locdi = max(0, locdi);
+		xOffset = max(0, xOffset);
+		yOffset = max(0, yOffset);
 
-		for (loc08 = 0; loc08 < 10; loc08++) {
-			uint16 loc0A = (loc08 + loc0E) << 6;
+		for (y = 0; y < 10; y++) {
+			uint16 mapYBase = (y + viewportY) << 6;
 
-			for (loc06 = 0; loc06 < 15; loc06++) {
-				if (loc06 >= locsi && (locsi + loc02) > loc06 && loc08 >= locdi && (locdi + loc04) > loc08 && g_global->variable_3A12 == 0) continue;
+			for (x = 0; x < 15; x++) {
+				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && g_global->variable_3A12 == 0) continue;
 
-				Map_Update(loc06 + loc0C + loc0A, 0, true);
+				Map_Update(x + viewportX + mapYBase, 0, true);
 			}
 		}
 	}
