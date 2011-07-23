@@ -82,18 +82,18 @@ typedef struct RankScore {
 
 /** Mapping of scores to rank names. */
 static const RankScore _rankScores[] = {
-	{271,   25},
-	{272,   50},
-	{273,  100},
-	{274,  150},
-	{275,  200},
-	{276,  300},
-	{277,  400},
-	{278,  500},
-	{279,  700},
-	{280, 1000},
-	{281, 1400},
-	{282, 1800}
+	{271,   25}, /* "Sand Flea" */
+	{272,   50}, /* "Sand Snake" */
+	{273,  100}, /* "Desert Mongoose" */
+	{274,  150}, /* "Sand Warrior" */
+	{275,  200}, /* "Dune Trooper" */
+	{276,  300}, /* "Squad Leader" */
+	{277,  400}, /* "Outpost Commander" */
+	{278,  500}, /* "Base Commander" */
+	{279,  700}, /* "Warlord" */
+	{280, 1000}, /* "Chief Warlord" */
+	{281, 1400}, /* "Ruler of Arrakis" */
+	{282, 1800}  /* "Emperor" */
 };
 
 static uint8 g_colours[16];
