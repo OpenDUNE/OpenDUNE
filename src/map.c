@@ -593,6 +593,21 @@ uint16 Map_SetSelectionObjectPosition(uint16 packed)
  */
 void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 {
+	/* Border tiles of the viewport relative to the top-left. */
+	static const uint16 viewportBorder[] = {
+		0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E,
+		0x0040, 0x004E,
+		0x0080, 0x008E,
+		0x00C0, 0x00CE,
+		0x0100, 0x010E,
+		0x0140, 0x014E,
+		0x0180, 0x018E,
+		0x01C0, 0x01CE,
+		0x0200, 0x020E,
+		0x0240, 0x0241, 0x0242, 0x0243, 0x0244, 0x0245, 0x0246, 0x0247, 0x0248, 0x0249, 0x024A, 0x024B, 0x024C, 0x024D, 0x024E,
+		0xFFFF
+	};
+
 	bool cleared;
 	uint16 oldScreenID;
 
@@ -604,11 +619,11 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	cleared = false;
 
 	if (g_global->minimapPreviousPosition != 0xFFFF && g_global->minimapPreviousPosition != packed) {
-		uint16 *m;
+		const uint16 *m;
 
 		cleared = true;
 
-		for (m = g_global->variable_3566; *m != 0xFFFF; m++) {
+		for (m = viewportBorder; *m != 0xFFFF; m++) {
 			uint16 curPacked;
 
 			curPacked = g_global->minimapPreviousPosition + *m;
@@ -619,7 +634,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	}
 
 	if (packed != 0xFFFF && (packed != g_global->minimapPreviousPosition || forceUpdate)) {
-		uint16 *m;
+		const uint16 *m;
 		uint16 mapScale;
 		const MapInfo *mapInfo;
 		uint16 left, top, right, bottom;
@@ -634,7 +649,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 
 		GUI_DrawWiredRectangle(left, top, right, bottom, 15);
 
-		for (m = g_global->variable_3566; *m != 0xFFFF; m++) {
+		for (m = viewportBorder; *m != 0xFFFF; m++) {
 			uint16 curPacked;
 
 			curPacked = packed + *m;
