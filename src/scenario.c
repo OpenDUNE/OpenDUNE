@@ -33,20 +33,20 @@ static void Scenario_Load_General()
 {
 	char *readBuffer = (char *)emu_get_memorycsip(g_global->readBuffer);
 
-	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                         readBuffer);
-	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                         readBuffer);
-	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                         readBuffer);
-	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                         readBuffer);
-	g_minimapPosition            = Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition,         readBuffer);
-	g_global->variable_3A00      = Ini_GetInteger("BASIC", "CursorPos",   g_global->variable_3A00,   readBuffer);
-	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                         readBuffer);
+	g_scenario.winFlags          = Ini_GetInteger("BASIC", "WinFlags",    0,                            readBuffer);
+	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                            readBuffer);
+	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                            readBuffer);
+	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                            readBuffer);
+	g_minimapPosition            = Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition,            readBuffer);
+	g_selectionRectanglePosition = Ini_GetInteger("BASIC", "CursorPos",   g_selectionRectanglePosition, readBuffer);
+	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                            readBuffer);
 
 	Ini_GetString("BASIC", "BriefPicture", "HARVEST.WSA",  g_scenario.pictureBriefing, 14, readBuffer);
 	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_scenario.pictureWin,      14, readBuffer);
 	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_scenario.pictureLose,     14, readBuffer);
 
 	g_viewportPosition  = g_minimapPosition;
-	g_global->selectionPosition = g_global->variable_3A00;
+	g_selectionPosition = g_selectionRectanglePosition;
 }
 
 static void Scenario_Load_House(uint8 houseID)

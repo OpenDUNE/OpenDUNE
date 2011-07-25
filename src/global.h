@@ -899,10 +899,10 @@ typedef struct GlobalData {
 	/* 39FA(2)   */ PACK uint16 wallSpriteID;               /*!< First wall spriteID. */
 	/* 39FC(2)   */ PACK uint16 removed_minimapPosition;    /*!< REMOVED - Current minimap position (top-left tile, packed). */
 	/* 39FE(2)   */ PACK uint16 removed_viewportPosition;   /*!< REMOVED - Current viewport position (top-left tile, packed). */
-	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
-	/* 3A02(2)   */ PACK uint16 selectionPosition;          /*!< Current selection position (packed). */
-	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */
-	/* 3A06(2)   */ PACK uint16 selectionHeight;            /*!< Height of the selection. */
+	/* 3A00(2)   */ PACK uint16  removed_3A00;              /*!< REMOVED - Position of the structure selection rectangle */
+	/* 3A02(2)   */ PACK uint16 removed_selectionPosition;  /*!< REMOVED - Current selection position (packed). */
+	/* 3A04(2)   */ PACK uint16 removed_selectionWidth;     /*!< REMOVED - Width of the selection. */
+	/* 3A06(2)   */ PACK uint16 removed_selectionHeight;    /*!< REMOVED - Height of the selection. */
 	/* 3A08(2)   */ PACK uint16 variable_3A08;              /*!< ?? */
 	/* 3A0A(4)   */ PACK csip32 removed_3A0A;               /*!< REMOVED - Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure, 7 = intro. */

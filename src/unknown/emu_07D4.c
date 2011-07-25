@@ -36,6 +36,10 @@ static uint32 _viewportMessageTime = 0; /*!< Keeps track when to decrease #g_vie
 
 uint16 g_viewportPosition;              /*!< Top-left tile of the viewport. */
 uint16 g_minimapPosition;               /*!< Top-left tile of the border in the minimap. */
+uint16 g_selectionRectanglePosition;    /*!< Position of the structure selection rectangle. */
+uint16 g_selectionPosition;             /*!< Current selection position (packed). */
+uint16 g_selectionWidth;                /*!< Width of the selection. */
+uint16 g_selectionHeight;               /*!< Height of the selection. */
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -184,11 +188,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	g_global->variable_39E4 = 0;
 
-	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
-		uint16 x1 = (Tile_GetPackedX(g_global->variable_3A00) - Tile_GetPackedX(g_minimapPosition)) << 4;
-		uint16 y1 = ((Tile_GetPackedY(g_global->variable_3A00) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
-		uint16 x2 = x1 + (g_global->selectionWidth << 4) - 1;
-		uint16 y2 = y1 + (g_global->selectionHeight << 4) - 1;
+	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
+		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
+		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
+		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
+		uint16 y2 = y1 + (g_selectionHeight << 4) - 1;
 
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
@@ -648,7 +652,7 @@ void Unknown_07D4_0000(uint16 screenID)
 	}
 
 	g_minimapPosition = g_viewportPosition;
-	g_global->variable_3A00 = g_global->selectionPosition;
+	g_selectionRectanglePosition = g_selectionPosition;
 
 	if (g_viewportMessageCounter != 0 && _viewportMessageTime < g_global->variable_76AC) {
 		g_viewportMessageCounter--;
@@ -665,7 +669,7 @@ void Unknown_07D4_0000(uint16 screenID)
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	Map_SetSelectionObjectPosition(g_global->variable_3A00);
+	Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
 	Map_UpdateMinimapPosition(g_minimapPosition, false);
 
 	GUI_Mouse_Show_InWidget();

@@ -51,6 +51,10 @@ extern uint16 g_viewportMessageCounter;
 extern char *g_viewportMessageText;
 extern uint16 g_viewportPosition;
 extern uint16 g_minimapPosition;
+extern uint16 g_selectionRectanglePosition;
+extern uint16 g_selectionPosition;
+extern uint16 g_selectionWidth;
+extern uint16 g_selectionHeight;
 
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);

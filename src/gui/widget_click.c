@@ -77,7 +77,7 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 
 	VARIABLE_NOT_USED(w);
 
-	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 	switch (g_productionStringID) {
 		default: break;
@@ -89,8 +89,8 @@ bool GUI_Widget_SpriteTextButton_Click(Widget *w)
 				ns = Structure_Get_ByIndex(s->o.linkedID);
 				g_structureActive = ns;
 				g_structureActiveType = s->objectType;
-				g_global->variable_38EC = Structure_IsValidBuildLocation(g_global->variable_3A00, g_structureActiveType);
-				g_structureActivePosition = g_global->selectionPosition;
+				g_global->variable_38EC = Structure_IsValidBuildLocation(g_selectionRectanglePosition, g_structureActiveType);
+				g_structureActivePosition = g_selectionPosition;
 				s->o.linkedID = STRUCTURE_INVALID;
 
 				GUI_ChangeSelectionType(2);
@@ -309,7 +309,7 @@ bool GUI_Widget_Name_Click(Widget *w)
 
 	VARIABLE_NOT_USED(w);
 
-	o = Object_GetByPackedTile(g_global->selectionPosition);
+	o = Object_GetByPackedTile(g_selectionPosition);
 
 	if (o == NULL) return false;
 
@@ -380,7 +380,7 @@ bool GUI_Widget_Picture_Click(Widget *w)
 		return false;
 	}
 
-	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 	if (s == NULL || !g_table_structureInfo[s->o.type].o.flags.s.factory) return false;
 
@@ -399,7 +399,7 @@ bool GUI_Widget_RepairUpgrade_Click(Widget *w)
 {
 	Structure *s;
 
-	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 	if (Structure_SetRepairingState(s, -1, w)) return false;
 	Structure_SetUpgradingState(s, -1, w);

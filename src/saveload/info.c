@@ -126,7 +126,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GSLD   (g_scenario,  g_saveScenario),
 	SLD_GENTRY (SLDT_UINT16, g_playerCreditsNoSilo),
 	SLD_GENTRY (SLDT_UINT16, g_minimapPosition),
-	SLD_ENTRY  (GlobalData, SLDT_UINT16, variable_3A00),
+	SLD_GENTRY (SLDT_UINT16, g_selectionRectanglePosition),
 	SLD_CALLB  (GlobalData, SLDT_INT8,   selectionType, &SaveLoad_SelectionType),
 	SLD_GENTRY2(SLDT_INT8,   g_structureActiveType, SLDT_UINT16),
 	SLD_GENTRY (SLDT_UINT16, g_structureActivePosition),
@@ -167,7 +167,7 @@ bool Info_Load(FILE *fp, uint32 length)
 	if (!SaveLoad_Load(s_saveInfo, fp, g_global)) return false;
 
 	g_viewportPosition = g_minimapPosition;
-	g_global->selectionPosition = g_global->variable_3A00;
+	g_selectionPosition = g_selectionRectanglePosition;
 
 	Sprites_LoadTiles();
 

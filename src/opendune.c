@@ -2217,7 +2217,7 @@ static void GameLoop_Main()
 
 		if (g_global->variable_31C0 != g_global->variable_38EC) {
 			Map_SetSelectionObjectPosition(0xFFFF);
-			Map_SetSelectionObjectPosition(g_global->variable_3A00);
+			Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
 			g_global->variable_31C0 = g_global->variable_38EC;
 		}
 
@@ -2253,7 +2253,7 @@ static void GameLoop_Main()
 				}
 
 				if (g_global->selectionType != 1) {
-					g_global->selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected->o.position));
+					g_selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected->o.position));
 				}
 			}
 
@@ -2511,12 +2511,12 @@ void Game_Prepare()
 
 	Sprites_Load(0, 7, g_sprites);
 
-	Map_SetSelection(g_global->selectionPosition);
+	Map_SetSelection(g_selectionPosition);
 
 	if (g_structureActiveType != 0xFFFF) {
 		Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 	} else {
-		Structure *s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+		Structure *s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 		if (s != NULL) Map_SetSelectionSize(g_table_structureInfo[s->o.type].layout);
 	}

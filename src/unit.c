@@ -1486,12 +1486,12 @@ bool Unit_Move(Unit *unit, uint16 distance)
 
 					if (unit->o.type != UNIT_SANDWORM) {
 						if (g_map[packed].groundSpriteID == g_global->bloomSpriteID) {
-							g_map[g_global->selectionPosition].groundSpriteID = g_mapSpriteID[g_global->selectionPosition] & 0x01FF;
+							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
 							sprite1 = true;
 						}
 
 						if (g_map[packed].groundSpriteID == g_global->bloomSpriteID + 1) {
-							g_map[g_global->selectionPosition].groundSpriteID = g_mapSpriteID[g_global->selectionPosition] & 0x01FF;
+							g_map[g_selectionPosition].groundSpriteID = g_mapSpriteID[g_selectionPosition] & 0x01FF;
 							sprite2 = true;
 						}
 					}

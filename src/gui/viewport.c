@@ -186,7 +186,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		si = &g_table_structureInfo[g_structureActiveType];
 		h = g_playerHouse;
 
-		if (Structure_Place(s, g_global->selectionPosition)) {
+		if (Structure_Place(s, g_selectionPosition)) {
 			Voice_Play(20);
 
 			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;

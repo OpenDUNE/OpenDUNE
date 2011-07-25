@@ -464,7 +464,7 @@ void Map_SetSelection(uint16 packed)
 
 	if (g_global->selectionType == 2) {
 		g_global->variable_38EC = Structure_IsValidBuildLocation(packed, g_structureActiveType);
-		g_global->selectionPosition = packed;
+		g_selectionPosition = packed;
 		return;
 	}
 
@@ -503,12 +503,12 @@ void Map_SetSelection(uint16 packed)
 				}
 			}
 		}
-		g_global->selectionPosition = packed;
+		g_selectionPosition = packed;
 		return;
 	}
 
 	Map_SetSelectionSize(STRUCTURE_LAYOUT_1x1);
-	g_global->selectionPosition = packed;
+	g_selectionPosition = packed;
 	return;
 }
 
@@ -530,8 +530,8 @@ uint16 Map_SetSelectionSize(uint16 layout)
 	oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
 	g_global->selectionObjectLayout = layout;
-	g_global->selectionWidth        = g_table_structure_layoutSize[layout].width;
-	g_global->selectionHeight       = g_table_structure_layoutSize[layout].height;
+	g_selectionWidth                = g_table_structure_layoutSize[layout].width;
+	g_selectionHeight               = g_table_structure_layoutSize[layout].height;
 
 	Map_SetSelectionObjectPosition(oldPosition);
 
@@ -544,8 +544,8 @@ static void Map_InvalidateSelection(uint16 packed, bool enable)
 
 	if (packed == 0xFFFF) return;
 
-	for (y = 0; y < g_global->selectionHeight; y++) {
-		for (x = 0; x < g_global->selectionWidth; x++) {
+	for (y = 0; y < g_selectionHeight; y++) {
+		for (x = 0; x < g_selectionWidth; x++) {
 			uint16 curPacked;
 
 			curPacked = packed + Tile_PackXY(x, y);
@@ -1926,7 +1926,7 @@ void Map_SelectNext(bool getNext)
 	} else {
 		Structure *s;
 
-		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+		s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 		if (Map_IsTileVisible(Tile_PackTile(s->o.position))) selected = &s->o;
 	}

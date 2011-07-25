@@ -96,7 +96,7 @@ void GUI_Widget_SpriteButton_Draw(Widget *w)
 		const StructureInfo *si;
 		Structure *s;
 
-		s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+		s = Structure_Get_ByPackedTile(g_selectionPosition);
 		if (s == NULL) return;
 		si = &g_table_structureInfo[s->o.type];
 
@@ -150,7 +150,7 @@ void GUI_Widget_SpriteTextButton_Draw(Widget *w)
 	spriteID    = 0;
 	percentDone = 0;
 
-	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	s = Structure_Get_ByPackedTile(g_selectionPosition);
 	if (s == NULL) return;
 
 	GUI_UpdateProductionStringID();
@@ -456,9 +456,9 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				actionType = 2; /* Unit */
 			}
 		}
-	} else if (g_map[g_global->selectionPosition].isUnveiled || g_debugScenario) {
-		if (Map_GetLandscapeType(g_global->selectionPosition) == LST_STRUCTURE) {
-			s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	} else if (g_map[g_selectionPosition].isUnveiled || g_debugScenario) {
+		if (Map_GetLandscapeType(g_selectionPosition) == LST_STRUCTURE) {
+			s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 			if (forceDraw
 				|| s->o.hitpoints != g_global->variable_3754
@@ -577,7 +577,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 		} break;
 
 		case 3: { /* Structure */
-			s  = Structure_Get_ByPackedTile(g_global->selectionPosition);
+			s  = Structure_Get_ByPackedTile(g_selectionPosition);
 			si = &g_table_structureInfo[s->o.type];
 
 			o  = &s->o;

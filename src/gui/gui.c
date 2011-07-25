@@ -669,7 +669,7 @@ void GUI_UpdateProductionStringID()
 {
 	Structure *s = NULL;
 
-	s = Structure_Get_ByPackedTile(g_global->selectionPosition);
+	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
 	g_productionStringID = 0;
 
@@ -2282,7 +2282,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				break;
 
 			case 1:
-				g_structureActivePosition = g_global->selectionPosition;
+				g_structureActivePosition = g_selectionPosition;
 				GUI_Widget_ActionPanel_Draw(true);
 
 				g_global->cursorDefaultSpriteID = 5;
