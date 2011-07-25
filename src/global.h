@@ -897,8 +897,8 @@ typedef struct GlobalData {
 	/* 39F6(2)   */ PACK uint16 landscapeSpriteID;          /*!< First landscape spriteID. */
 	/* 39F8(2)   */ PACK uint16 builtSlabSpriteID;          /*!< SpriteID of the built concrete slab. */
 	/* 39FA(2)   */ PACK uint16 wallSpriteID;               /*!< First wall spriteID. */
-	/* 39FC(2)   */ PACK uint16 minimapPosition;            /*!< Current minimap position (top-left tile, packed). */
-	/* 39FE(2)   */ PACK uint16 viewportPosition;           /*!< Current viewport position (top-left tile, packed). */
+	/* 39FC(2)   */ PACK uint16 removed_minimapPosition;    /*!< REMOVED - Current minimap position (top-left tile, packed). */
+	/* 39FE(2)   */ PACK uint16 removed_viewportPosition;   /*!< REMOVED - Current viewport position (top-left tile, packed). */
 	/* 3A00(2)   */ PACK uint16 variable_3A00;              /*!< ?? */
 	/* 3A02(2)   */ PACK uint16 selectionPosition;          /*!< Current selection position (packed). */
 	/* 3A04(2)   */ PACK uint16 selectionWidth;             /*!< Width of the selection. */

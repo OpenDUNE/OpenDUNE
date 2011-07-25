@@ -123,7 +123,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	volume = 255;
 	if (position.tile != 0) {
-		volume = Tile_GetDistancePacked(g_global->minimapPosition, Tile_PackTile(position));
+		volume = Tile_GetDistancePacked(g_minimapPosition, Tile_PackTile(position));
 		if (volume > 64) volume = 64;
 
 		volume = 255 - (volume * 255 / 80);

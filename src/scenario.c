@@ -26,6 +26,7 @@
 #include "team.h"
 #include "tile.h"
 #include "unit.h"
+#include "gui/gui.h"
 
 
 static void Scenario_Load_General()
@@ -36,7 +37,7 @@ static void Scenario_Load_General()
 	g_scenario.loseFlags         = Ini_GetInteger("BASIC", "LoseFlags",   0,                         readBuffer);
 	g_scenario.mapSeed           = Ini_GetInteger("MAP",   "Seed",        0,                         readBuffer);
 	g_scenario.timeOut           = Ini_GetInteger("BASIC", "TimeOut",     0,                         readBuffer);
-	g_global->minimapPosition    = Ini_GetInteger("BASIC", "TacticalPos", g_global->minimapPosition, readBuffer);
+	g_minimapPosition            = Ini_GetInteger("BASIC", "TacticalPos", g_minimapPosition,         readBuffer);
 	g_global->variable_3A00      = Ini_GetInteger("BASIC", "CursorPos",   g_global->variable_3A00,   readBuffer);
 	g_scenario.mapScale          = Ini_GetInteger("BASIC", "MapScale",    0,                         readBuffer);
 
@@ -44,7 +45,7 @@ static void Scenario_Load_General()
 	Ini_GetString("BASIC", "WinPicture",   "WIN1.WSA",     g_scenario.pictureWin,      14, readBuffer);
 	Ini_GetString("BASIC", "LosePicture",  "LOSTBILD.WSA", g_scenario.pictureLose,     14, readBuffer);
 
-	g_global->viewportPosition  = g_global->minimapPosition;
+	g_viewportPosition  = g_minimapPosition;
 	g_global->selectionPosition = g_global->variable_3A00;
 }
 

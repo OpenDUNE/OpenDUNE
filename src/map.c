@@ -438,8 +438,8 @@ uint16 Map_MoveDirection(uint16 direction)
 	uint16 x, y;
 	const MapInfo *mapInfo;
 
-	x = Tile_GetPackedX(g_global->minimapPosition) + g_global->mapScrollOffset[direction][0];
-	y = Tile_GetPackedY(g_global->minimapPosition) + g_global->mapScrollOffset[direction][1];
+	x = Tile_GetPackedX(g_minimapPosition) + g_global->mapScrollOffset[direction][0];
+	y = Tile_GetPackedY(g_minimapPosition) + g_global->mapScrollOffset[direction][1];
 
 	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
@@ -449,9 +449,8 @@ uint16 Map_MoveDirection(uint16 direction)
 	x = min(x, mapInfo->minX + mapInfo->sizeX - 15);
 	y = min(y, mapInfo->minY + mapInfo->sizeY - 10);
 
-	g_global->viewportPosition = Tile_PackXY(x, y);
-
-	return g_global->viewportPosition;
+	g_viewportPosition = Tile_PackXY(x, y);
+	return g_viewportPosition;
 }
 
 /**
@@ -783,8 +782,8 @@ bool Map_IsPositionInViewport(tile32 position, uint16 *retX, uint16 *retY)
 {
 	int16 x, y;
 
-	x = (position.s.x >> 4) - (Tile_GetPackedX(g_global->viewportPosition) << 4);
-	y = (position.s.y >> 4) - (Tile_GetPackedY(g_global->viewportPosition) << 4);
+	x = (position.s.x >> 4) - (Tile_GetPackedX(g_viewportPosition) << 4);
+	y = (position.s.y >> 4) - (Tile_GetPackedY(g_viewportPosition) << 4);
 
 	if (retX != NULL) *retX = x;
 	if (retY != NULL) *retY = y;
@@ -1273,8 +1272,8 @@ static bool Map_IsTileVisible(uint16 packed)
 
 	x = Tile_GetPackedX(packed);
 	y = Tile_GetPackedY(packed);
-	x2 = Tile_GetPackedX(g_global->minimapPosition);
-	y2 = Tile_GetPackedY(g_global->minimapPosition);
+	x2 = Tile_GetPackedX(g_minimapPosition);
+	y2 = Tile_GetPackedY(g_minimapPosition);
 
 	return x >= x2 && x < x2 + 15 && y >= y2 && y < y2 + 10;
 }
@@ -1577,7 +1576,7 @@ void Map_SetViewportPosition(uint16 packed)
 	x = max(mapInfo->minX, min(mapInfo->minX + mapInfo->sizeX - 15, x));
 	y = max(mapInfo->minY, min(mapInfo->minY + mapInfo->sizeY - 10, y));
 
-	g_global->viewportPosition = Tile_PackXY(x, y);
+	g_viewportPosition = Tile_PackXY(x, y);
 }
 
 void Map_B4CD_160C(uint16 packed, uint8 houseID)
@@ -1719,7 +1718,7 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 			}
 
 			case 5:
-				ret = Tile_PackXY(Tile_GetPackedX(g_global->minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_global->minimapPosition) + Tools_RandomRange(0, 9));
+				ret = Tile_PackXY(Tile_GetPackedX(g_minimapPosition) + Tools_RandomRange(0, 14), Tile_GetPackedY(g_minimapPosition) + Tools_RandomRange(0, 9));
 				if (houseID == g_playerHouseID && !Map_IsValidPosition(ret)) ret = 0;
 				break;
 

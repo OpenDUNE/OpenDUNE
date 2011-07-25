@@ -106,8 +106,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (w->index == 43) {
-		x =  x / 16 + Tile_GetPackedX(g_global->minimapPosition);
-		y = (y - 40) / 16 + Tile_GetPackedY(g_global->minimapPosition);
+		x =  x / 16 + Tile_GetPackedX(g_minimapPosition);
+		y = (y - 40) / 16 + Tile_GetPackedY(g_minimapPosition);
 	} else if (w->index == 44) {
 		uint16 mapScale;
 		const MapInfo *mapInfo;

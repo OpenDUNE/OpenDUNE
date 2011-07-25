@@ -34,6 +34,9 @@ uint16 g_viewportMessageCounter;        /*!< Countdown counter for displaying #g
 char *g_viewportMessageText;            /*!< If not \c NULL, message text displayed in the viewport. */
 static uint32 _viewportMessageTime = 0; /*!< Keeps track when to decrease #g_viewportMessageCounter. */
 
+uint16 g_viewportPosition;              /*!< Top-left tile of the viewport. */
+uint16 g_minimapPosition;               /*!< Top-left tile of the border in the minimap. */
+
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
  *
@@ -108,7 +111,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				Tile *t;
 				uint16 left;
 
-				curPos = g_global->viewportPosition + Tile_PackXY(x, y);
+				curPos = g_viewportPosition + Tile_PackXY(x, y);
 
 				if (x < 15 && !arg06 && BitArray_Test(g_dirtyViewport, curPos)) {
 					if (maxX[y] < x) maxX[y] = x;
@@ -182,8 +185,8 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	g_global->variable_39E4 = 0;
 
 	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_global->variable_3A00) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
-		uint16 x1 = (Tile_GetPackedX(g_global->variable_3A00) - Tile_GetPackedX(g_global->minimapPosition)) << 4;
-		uint16 y1 = ((Tile_GetPackedY(g_global->variable_3A00) - Tile_GetPackedY(g_global->minimapPosition)) << 4) + 0x28;
+		uint16 x1 = (Tile_GetPackedX(g_global->variable_3A00) - Tile_GetPackedX(g_minimapPosition)) << 4;
+		uint16 y1 = ((Tile_GetPackedY(g_global->variable_3A00) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_global->selectionWidth << 4) - 1;
 		uint16 y2 = y1 + (g_global->selectionHeight << 4) - 1;
 
@@ -494,7 +497,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (!update && BitArray_Test(g_displayedMinimap, curPos)) update = true;
 		}
 
-		if (update) Map_UpdateMinimapPosition(g_global->minimapPosition, true);
+		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 		if (init) {
 			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_global->screenActiveID, 0);
@@ -592,11 +595,11 @@ void Unknown_07D4_0000(uint16 screenID)
 	Animation_Tick();
 	Unit_Sort();
 
-	if (g_global->variable_3A12 == 0 && g_global->viewportPosition != g_global->minimapPosition) {
-		uint16 viewportX = Tile_GetPackedX(g_global->viewportPosition);
-		uint16 viewportY = Tile_GetPackedY(g_global->viewportPosition);
-		int16 xOffset = Tile_GetPackedX(g_global->minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
-		int16 yOffset = Tile_GetPackedY(g_global->minimapPosition) - viewportY; /* Vertical offset between viewport and minmap. */
+	if (g_global->variable_3A12 == 0 && g_viewportPosition != g_minimapPosition) {
+		uint16 viewportX = Tile_GetPackedX(g_viewportPosition);
+		uint16 viewportY = Tile_GetPackedY(g_viewportPosition);
+		int16 xOffset = Tile_GetPackedX(g_minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
+		int16 yOffset = Tile_GetPackedY(g_minimapPosition) - viewportY; /* Vertical offset between viewport and minmap. */
 
 		/* Overlap remaining in tiles. */
 		int16 xOverlap = 15 - abs(xOffset);
@@ -635,7 +638,7 @@ void Unknown_07D4_0000(uint16 screenID)
 		Map_SetSelectionObjectPosition(0xFFFF);
 
 		for (xpos = 0; xpos < 14; xpos++) {
-			uint16 v = g_global->minimapPosition + xpos + 6*64;
+			uint16 v = g_minimapPosition + xpos + 6*64;
 
 			BitArray_Set(g_dirtyViewport, v);
 			BitArray_Set(g_dirtyMinimap, v);
@@ -644,7 +647,7 @@ void Unknown_07D4_0000(uint16 screenID)
 		}
 	}
 
-	g_global->minimapPosition = g_global->viewportPosition;
+	g_minimapPosition = g_viewportPosition;
 	g_global->variable_3A00 = g_global->selectionPosition;
 
 	if (g_viewportMessageCounter != 0 && _viewportMessageTime < g_global->variable_76AC) {
@@ -652,7 +655,7 @@ void Unknown_07D4_0000(uint16 screenID)
 		_viewportMessageTime = g_global->variable_76AC + 60;
 
 		for (xpos = 0; xpos < 14; xpos++) {
-			Map_Update(g_global->viewportPosition + xpos + 6*64, 0, true);
+			Map_Update(g_viewportPosition + xpos + 6*64, 0, true);
 		}
 	}
 
@@ -663,7 +666,7 @@ void Unknown_07D4_0000(uint16 screenID)
 	GUI_Screen_SetActive(oldScreenID);
 
 	Map_SetSelectionObjectPosition(g_global->variable_3A00);
-	Map_UpdateMinimapPosition(g_global->minimapPosition, false);
+	Map_UpdateMinimapPosition(g_minimapPosition, false);
 
 	GUI_Mouse_Show_InWidget();
 }
@@ -683,7 +686,7 @@ void Unknown_07D4_159A(uint16 screenID)
 
 	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
 
-	Map_UpdateMinimapPosition(g_global->minimapPosition, true);
+	Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 	if (screenID != 0) return;
 
