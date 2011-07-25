@@ -608,17 +608,19 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		0xFFFF
 	};
 
+	static uint16 minimapPreviousPosition = 0;
+
 	bool cleared;
 	uint16 oldScreenID;
 
-	if (packed != 0xFFFF && packed == g_global->minimapPreviousPosition && !forceUpdate) return;
+	if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
 	if (g_global->selectionType == 0) return;
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
 	cleared = false;
 
-	if (g_global->minimapPreviousPosition != 0xFFFF && g_global->minimapPreviousPosition != packed) {
+	if (minimapPreviousPosition != 0xFFFF && minimapPreviousPosition != packed) {
 		const uint16 *m;
 
 		cleared = true;
@@ -626,14 +628,14 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		for (m = viewportBorder; *m != 0xFFFF; m++) {
 			uint16 curPacked;
 
-			curPacked = g_global->minimapPreviousPosition + *m;
+			curPacked = minimapPreviousPosition + *m;
 			BitArray_Clear(g_displayedMinimap, curPacked);
 
 			Unknown_07D4_1625(curPacked);
 		}
 	}
 
-	if (packed != 0xFFFF && (packed != g_global->minimapPreviousPosition || forceUpdate)) {
+	if (packed != 0xFFFF && (packed != minimapPreviousPosition || forceUpdate)) {
 		const uint16 *m;
 		uint16 mapScale;
 		const MapInfo *mapInfo;
@@ -665,7 +667,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 
 	GUI_Screen_SetActive(oldScreenID);
 
-	g_global->minimapPreviousPosition = packed;
+	minimapPreviousPosition = packed;
 }
 
 /**
