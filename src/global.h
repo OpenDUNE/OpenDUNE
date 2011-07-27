@@ -983,7 +983,7 @@ typedef struct GlobalData {
 	/* 6096(4)   */ PACK uint32 removed_6096;               /*!< REMOVED - Indicates next time House runs Unused function. */
 	/* 609A(4)   */ PACK uint32 removed_609A;               /*!< REMOVED - Indicates next time House runs Unknown function. */
 	/* 609E(4)   */ PACK uint32 removed_609E;               /*!< REMOVED - Indicates next time House runs Starport Availability function. */
-	/* 60A2(4)   */ PACK uint32 variable_60A2;              /*!< ?? */
+	/* 60A2(4)   */ PACK uint32  removed_60A2;              /*!< REMOVED - end of level check timer */
 	/* 60A6(8)   */ PACK uint16 donotuse_60A6[4];
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
@@ -991,7 +991,7 @@ typedef struct GlobalData {
 	/* 60D2(13)  */ PACK char   string_60D2[13];            /*!< "Timeout win." NULL terminated. */
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 60E7()    */ PACK uint8   unknown_60E7[0x0001];
-	/* 60E8(4)   */ PACK uint32 variable_60E8;              /*!< ?? */
+	/* 60E8(4)   */ PACK uint32  removed_60E8;              /*!< REMOVED - ?? */
 	/* 60EC(4)   */ PACK csip32 animationProc[10];          /*!< Which command ends up in which function. No longer in use. */
 	/* 6114(4)   */ PACK uint32 iconUsedMemory;             /*!< Amount of memory block used when loading ICON.ICN. */
 	/* 6118(4)   */ PACK csip32 iconRPAL;                   /*!< Content of RPAL chunk from ICON.ICN. */

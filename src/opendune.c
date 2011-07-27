@@ -1168,7 +1168,9 @@ static void GameLoop_GameEndAnimation()
  */
 static void GameLoop_LevelEnd()
 {
-	if (g_global->variable_60A2 >= g_tickGlobal && !_debugForceWin) return;
+	static uint32 levelEndTimer = 0;
+
+	if (levelEndTimer >= g_tickGlobal && !_debugForceWin) return;
 
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
@@ -1246,7 +1248,7 @@ static void GameLoop_LevelEnd()
 		_debugForceWin = false;
 	}
 
-	g_global->variable_60A2 = g_tickGlobal + 300;
+	levelEndTimer = g_tickGlobal + 300;
 }
 
 /**

@@ -16,6 +16,7 @@
 #include "unknown/unknown.h"
 
 Animation g_animations[ANIMATION_MAX];
+static uint32 _animationTimer; /*!< Timer for animations. */
 
 /**
  * Stop with this Animation.
@@ -222,7 +223,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 		animation->proc.csip   = proc.csip;
 		animation->tile        = tile;
 
-		g_global->variable_60E8 = 0;
+		_animationTimer = 0;
 
 		t->houseID = houseID;
 		t->hasAnimation = true;
@@ -259,8 +260,8 @@ void Animation_Tick()
 	Animation *animation = g_animations;
 	int i;
 
-	if (g_global->variable_60E8 > g_global->variable_76AC) return;
-	g_global->variable_60E8 += 10000;
+	if (_animationTimer > g_global->variable_76AC) return;
+	_animationTimer += 10000;
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
 		if (animation->proc.csip == 0) continue;
@@ -292,6 +293,6 @@ void Animation_Tick()
 			if (animation->proc.csip == 0) continue;
 		}
 
-		if (animation->tickNext < g_global->variable_60E8) g_global->variable_60E8 = animation->tickNext;
+		if (animation->tickNext < _animationTimer) _animationTimer = animation->tickNext;
 	}
 }
