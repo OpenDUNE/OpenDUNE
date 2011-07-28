@@ -122,7 +122,7 @@ extern uint16 Script_Unit_Unknown0FD2(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown105E(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown1098(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown12CE(ScriptEngine *script);
-extern uint16 Script_Unit_Unknown1382(ScriptEngine *script);
+extern uint16 Script_Unit_SelfExplode(ScriptEngine *script);
 extern uint16 Script_Unit_Unknown13CD(ScriptEngine *script);
 extern uint16 Script_Unit_Fire(ScriptEngine *script);
 extern uint16 Script_Unit_GetOrientation(ScriptEngine *script);

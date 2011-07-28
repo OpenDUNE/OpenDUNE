@@ -502,14 +502,15 @@ uint16 Script_Unit_Unknown12CE(ScriptEngine *script)
 }
 
 /**
- * Unknown function 1382.
+ * Make an explosion at the coordinates of the unit.
+ * Part of unit destruction of ground vehicles.
  *
- * Stack: 0 - ??.
+ * Stack: 0 - Explosion type
  *
  * @param script The script engine to operate on.
  * @return The value 0. Always.
  */
-uint16 Script_Unit_Unknown1382(ScriptEngine *script)
+uint16 Script_Unit_SelfExplode(ScriptEngine *script)
 {
 	Unit *u;
 

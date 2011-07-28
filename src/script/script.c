@@ -73,7 +73,7 @@ const ScriptFunction g_scriptFunctionsUnit[SCRIPT_FUNCTIONS_COUNT] = {
 	/* 0B */ &Script_Unit_Blink,
 	/* 0C */ &Script_Unit_Unknown1F51,
 	/* 0D */ &Script_General_Unknown050C,
-	/* 0E */ &Script_Unit_Unknown1382,
+	/* 0E */ &Script_Unit_SelfExplode,
 	/* 0F */ &Script_Unit_Unknown12CE,
 	/* 10 */ &Script_General_Delay,
 	/* 11 */ &Script_General_Unknown04AE,
