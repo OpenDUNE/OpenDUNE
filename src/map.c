@@ -21,6 +21,7 @@
 #include "pool/house.h"
 #include "pool/structure.h"
 #include "scenario.h"
+#include "sprites.h"
 #include "structure.h"
 #include "team.h"
 #include "tools.h"
@@ -809,7 +810,7 @@ static bool Map_06F7_072B(MapActivity *s)
 	Tile *t;
 	uint16 loc06;
 	uint16 overlaySpriteID;
-	uint16 *icon;
+	uint16 *iconMap;
 
 	packed = Tile_PackTile(s->position);
 
@@ -834,10 +835,9 @@ static bool Map_06F7_072B(MapActivity *s)
 
 	if (overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= overlaySpriteID + 15) return false;
 
-	icon = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	icon = &icon[icon[loc06]];
-	if (icon[0] <= overlaySpriteID && overlaySpriteID <= icon[10]) {
-		overlaySpriteID -= icon[0];
+	iconMap = &g_iconMap[g_iconMap[loc06]];
+	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
+		overlaySpriteID -= iconMap[0];
 		if (overlaySpriteID < 4) overlaySpriteID += 2;
 	} else {
 		overlaySpriteID = Tools_Random_256() & 1;
@@ -850,7 +850,7 @@ static bool Map_06F7_072B(MapActivity *s)
 		return false;
 	}
 
-	t->overlaySpriteID = (overlaySpriteID + icon[0]) & 0x7F;
+	t->overlaySpriteID = (overlaySpriteID + iconMap[0]) & 0x7F;
 
 	Map_Update(packed, 0, false);
 
@@ -1477,7 +1477,6 @@ static void Map_FixupSpiceEdges(uint16 packed)
 
 	uint16 type;
 	uint16 spriteID;
-	uint16 *iconMap;
 
 	packed &= 0xFFF;
 	type = Map_GetLandscapeType(packed);
@@ -1507,8 +1506,7 @@ static void Map_FixupSpiceEdges(uint16 packed)
 
 		spriteID += (type == LST_SPICE) ? 49 : 65;
 
-		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
+		spriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
 		g_mapSpriteID[packed] = 0x8000 | spriteID;
 		g_map[packed].groundSpriteID = spriteID;
 	}
@@ -1525,7 +1523,6 @@ void Map_ChangeSpiceAmount(uint16 packed, int16 dir)
 {
 	uint16 type;
 	uint16 spriteID;
-	uint16 *iconMap;
 
 	if (dir == 0) return;
 
@@ -1545,8 +1542,7 @@ void Map_ChangeSpiceAmount(uint16 packed, int16 dir)
 	if (type == LST_SPICE) spriteID = 49;
 	if (type == LST_THICK_SPICE) spriteID = 65;
 
-	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	spriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
+	spriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE] + spriteID] & 0x1FF;
 	g_mapSpriteID[packed] = 0x8000 | spriteID;
 	g_map[packed].groundSpriteID = spriteID;
 
@@ -2048,15 +2044,12 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	}
 
 	if (spriteID != 0) {
-		uint16 *iconMap;
-
 		if (spriteID != 15) {
 			Unit *u = Unit_Get_ByPackedTile(packed);
 			if (u != NULL) Unit_HouseUnitCount_Add(u, g_playerHouseID);
 		}
 
-		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		spriteID = iconMap[iconMap[ICM_ICONGROUP_FOG_OF_WAR] + spriteID];
+		spriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + spriteID];
 	}
 
 	t->overlaySpriteID = spriteID;
@@ -2380,8 +2373,7 @@ void Map_CreateLandscape(uint32 seed)
 	}
 
 	/* Finalise the tiles with the real sprites. */
-	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	iconMap = &iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE]];
+	iconMap = &g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];
 
 	for (i = 0; i < 4096; i++) {
 		Tile *t = &g_map[i];

@@ -882,7 +882,7 @@ typedef struct GlobalData {
 	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32 removed_394A;               /*!< REMOVED - Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32 removed_394E;               /*!< REMOVED - Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
-	/* 3952(4)   */ PACK csip32 variable_3952;              /*!< ?? */
+	/* 3952(4)   */ PACK csip32 removed_3952;               /*!< REMOVED - Table with orientation information. */
 	/* 3956(4)   */ PACK csip32 removed_3956;               /*!< REMOVED - Pointer to the current animations. */
 	/* 395A(4)   */ PACK csip32 removed_395A;               /*!< REMOVED - ?? */
 	/* 395E(132) */ PACK uint32 variable_395E[33];          /*!< ?? */
@@ -891,7 +891,7 @@ typedef struct GlobalData {
 	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
 	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32 removed_39EA;               /*!< REMOVED - Pointer to the map. */
-	/* 39EE(4)   */ PACK csip32 iconMap;                    /*!< Pointer to content of ICON.MAP. */
+	/* 39EE(4)   */ PACK csip32 removed_39EE;               /*!< REMOVED - Pointer to content of ICON.MAP. */
 	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
 	/* 39F4(2)   */ PACK uint16 bloomSpriteID;              /*!< First bloom field spriteID. */
 	/* 39F6(2)   */ PACK uint16 landscapeSpriteID;          /*!< First landscape spriteID. */

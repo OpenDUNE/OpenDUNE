@@ -448,6 +448,22 @@ csip32 File_ReadWholeFile(const char *filename, uint8 mallocFlags)
 
 	return memBlock;
 }
+void *File_ReadWholeFile_Pure(const char *filename)
+{
+	uint8 index;
+	uint32 length;
+	void *buffer;
+
+	index = File_Open(filename, 1);
+	length = File_GetSize(index);
+
+	buffer = malloc(length);
+	File_Read(index, buffer, length);
+
+	File_Close(index);
+
+	return buffer;
+}
 
 /**
  * Reads the whole file into buffer.

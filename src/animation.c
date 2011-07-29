@@ -12,6 +12,7 @@
 #include "map.h"
 #include "tile.h"
 #include "tools.h"
+#include "sprites.h"
 #include "structure.h"
 #include "unknown/unknown.h"
 
@@ -89,7 +90,6 @@ static void Animation_Func_Pause(Animation *animation, int16 parameter)
  */
 static void Animation_Func_SetOverlaySprite(Animation *animation, int16 parameter)
 {
-	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 	uint16 packed = Tile_PackTile(animation->tile);
 	Tile *t = &g_map[packed];
 
@@ -97,7 +97,7 @@ static void Animation_Func_SetOverlaySprite(Animation *animation, int16 paramete
 
 	if (!Map_IsPositionUnveiled(packed)) return;
 
-	t->overlaySpriteID = iconMap[iconMap[animation->iconGroup] + parameter];
+	t->overlaySpriteID = g_iconMap[g_iconMap[animation->iconGroup] + parameter];
 	t->houseID = animation->houseID;
 
 	Map_Update(packed, 0, false);
@@ -123,14 +123,14 @@ static void Animation_Func_Rewind(Animation *animation, int16 parameter)
 static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter)
 {
 	uint16 specialMap[1];
-	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
+	uint16 *iconMap;
 	const uint16 *layout = g_table_structure_layoutTiles[animation->tileLayout];
 	uint16 packed = Tile_PackTile(animation->tile);
 	uint16 layoutTileCount;
 	int i;
 
 	layoutTileCount = g_table_structure_layoutTileCount[animation->tileLayout];
-	iconMap = &iconMap[iconMap[animation->iconGroup] + layoutTileCount * parameter];
+	iconMap = &g_iconMap[g_iconMap[animation->iconGroup] + layoutTileCount * parameter];
 
 	/* Some special case for turrets */
 	if (parameter > 1 && (animation->iconGroup == 23 || animation->iconGroup == 24)) {
@@ -138,7 +138,7 @@ static void Animation_Func_SetGroundSprite(Animation *animation, int16 parameter
 		assert(s != NULL);
 		assert(layoutTileCount == 1);
 
-		specialMap[0] = s->variable_49 + iconMap[iconMap[animation->iconGroup]] + 2;
+		specialMap[0] = s->variable_49 + g_iconMap[g_iconMap[animation->iconGroup]] + 2;
 		iconMap = &specialMap[0];
 	}
 

@@ -375,7 +375,6 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 	int16 rotation;
 	int16 rotationNeeded;
 	int16 rotateDiff;
-	uint16 *iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
 
 	encoded = script->stack[script->stackPointer];
 
@@ -387,16 +386,16 @@ uint16 Script_Structure_RotateTurret(ScriptEngine *script)
 
 	/* Find the base sprite of the structure */
 	if (s->o.type == STRUCTURE_ROCKET_TURRET) {
-		baseSpriteID = iconMap[iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
+		baseSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 2];
 	} else {
-		baseSpriteID = iconMap[iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
+		baseSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 2];
 	}
 
 	rotation = tile->groundSpriteID - baseSpriteID;
 	if (rotation < 0 || rotation > 7) return 1;
 
 	/* Find what rotation we should have to look at the target */
-	rotationNeeded = Sprites_B4CD_17DC(Tile_GetDirection(s->o.position, lookAt));
+	rotationNeeded = Orientation_Orientation256ToOrientation8(Tile_GetDirection(s->o.position, lookAt));
 
 	/* Do we need to rotate */
 	if (rotationNeeded == rotation) return 0;
@@ -444,7 +443,7 @@ uint16 Script_Structure_GetDirection(ScriptEngine *script)
 
 	tile = Tools_Index_GetTile(encoded);
 
-	return Sprites_B4CD_17DC(Tile_GetDirection(s->o.position, tile)) << 5;
+	return Orientation_Orientation256ToOrientation8(Tile_GetDirection(s->o.position, tile)) << 5;
 }
 
 /**

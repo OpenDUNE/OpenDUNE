@@ -32,6 +32,9 @@ uint8 *g_spriteBuffer;
 uint8 *g_iconRTBL = NULL;
 uint8 *g_iconRPAL = NULL;
 uint8 *g_spriteInfo = NULL;
+uint16 *g_iconMap = NULL;
+
+uint8 s_orientationTable[256];
 
 /**
  * ??.
@@ -285,21 +288,18 @@ static void Sprites_LoadICNFile(const char *filename)
 }
 
 /**
- * Initialize data block.
- * @param block_csip Start point of the data block (256 bytes long)
+ * Initialize the orientation table.
  */
-static void Sprites_Init_DataBlock(csip32 block_csip)
+static void Sprites_Init_OrientationTable()
 {
-	uint8 *block = emu_get_memorycsip(block_csip);
+	uint8 *block = s_orientationTable;
 	int16 i;
 
-	if (block == NULL) return;
-
 	for (i = 0; i < 256; i++) {
-		uint8 low  = ((i + 0x10) & 0xE0) >> 5;
-		uint8 hi   = ((i + 0x08) & 0xF0) >> 4;
-		*block = (hi << 4) | low;
-		block++;
+		uint8 low  = ((i + 16) / 32) & 0x7;
+		uint8 hi   = ((i + 8)  / 16) & 0xF;
+
+		*block++ = (hi << 4) | low;
 	}
 }
 
@@ -310,47 +310,24 @@ static bool _iconLoaded = false;
  */
 void Sprites_LoadTiles()
 {
-	csip32 memBlock;
-	uint32 memBlockFree;
-	uint32 length;
-	uint16 *iconMap;
-
 	if (_iconLoaded) return;
 
 	_iconLoaded = true;
 
 	Sprites_LoadICNFile("ICON.ICN");
 
-	memBlock = Screen_GetSegment_ByIndex_1(5);
-	memBlockFree = g_global->variable_6CD3[2][1];
+	free(g_iconMap);
+	g_iconMap = File_ReadWholeFile_Pure("ICON.MAP");
 
-	g_global->iconMap = memBlock;
+	g_global->variable_39F2     = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
+	g_global->bloomSpriteID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
+	g_global->builtSlabSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
+	g_global->landscapeSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];
+	g_global->wallSpriteID      = g_iconMap[g_iconMap[ICM_ICONGROUP_WALLS]];
 
-	length = File_ReadBlockFile("ICON.MAP", (void *)emu_get_memorycsip(g_global->iconMap), memBlockFree);
+	Sprites_Init_OrientationTable();
 
-	iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	g_global->variable_39F2     = iconMap[iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
-	g_global->bloomSpriteID     = iconMap[iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
-	g_global->builtSlabSpriteID = iconMap[iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
-	g_global->landscapeSpriteID = iconMap[iconMap[ICM_ICONGROUP_LANDSCAPE]];
-	g_global->wallSpriteID      = iconMap[iconMap[ICM_ICONGROUP_WALLS]];
-
-	memBlockFree  -= length;
-	memBlock.s.ip += length;
-
-	memBlock = Tools_GetSmallestIP(memBlock);
-
-	g_global->variable_3952 = memBlock;
-
-	memBlockFree  -= 256;
-	memBlock.s.ip += 256;
-
-	Sprites_Init_DataBlock(g_global->variable_3952);
-
-	length = Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(memBlock));
-
-	memBlockFree  -= length;
-	memBlock.s.ip += length;
+	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 }
 
 /**
@@ -445,16 +422,6 @@ uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, u
 	}
 
 	return Sprites_LoadCPSFile(filename, memory1, memory2, palette) / 8000;
-}
-
-uint8 Sprites_B4CD_17DC(uint8 orientation)
-{
-	return emu_get_memorycsip(g_global->variable_3952)[orientation] & 0x7;
-}
-
-uint8 Sprites_B4CD_17F7(uint8 orientation)
-{
-	return emu_get_memorycsip(g_global->variable_3952)[orientation] >> 4;
 }
 
 void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
@@ -591,4 +558,24 @@ void Sprites_CPS_LoadRegionClick()
 void Sprite_SetSpriteBuffer(uint8 *buffer)
 {
 	g_spriteBuffer = buffer;
+}
+
+/**
+ * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 7.
+ * @param orientation The 256-based orientation.
+ * @return A 8-based orientation.
+ */
+uint8 Orientation_Orientation256ToOrientation8(uint8 orientation)
+{
+	return s_orientationTable[orientation] & 0x7;
+}
+
+/**
+ * Convert an orientation that goes from 0 .. 255 to one that goes from 0 .. 15.
+ * @param orientation The 256-based orientation.
+ * @return A 16-based orientation.
+ */
+uint8 Orientation_Orientation256ToOrientation16(uint8 orientation)
+{
+	return s_orientationTable[orientation] >> 4;
 }

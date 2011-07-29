@@ -85,7 +85,7 @@ static void Unit_Rotate(Unit *unit, uint16 level)
 
 	unit->orientation[level].current = newCurrent;
 
-	if (Sprites_B4CD_17F7(newCurrent) == Sprites_B4CD_17F7(current) && Sprites_B4CD_17DC(newCurrent) == Sprites_B4CD_17DC(current)) return;
+	if (Orientation_Orientation256ToOrientation16(newCurrent) == Orientation_Orientation256ToOrientation16(current) && Orientation_Orientation256ToOrientation8(newCurrent) == Orientation_Orientation256ToOrientation8(current)) return;
 
 	Unit_B4CD_01BF(2, unit);
 }
@@ -1047,7 +1047,7 @@ static tile32 Unit_B4CD_00A5(tile32 position, uint8 orientation)
 	x = Tile_GetX(position);
 	y = Tile_GetY(position);
 
-	orientation = Sprites_B4CD_17DC(orientation);
+	orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 	x += xOffsets[orientation];
 	y += yOffsets[orientation];
@@ -1351,7 +1351,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				csip32 proc;
 
 				proc.s.cs = 0x33C8;
-				proc.s.ip = Sprites_B4CD_17DC(unit->orientation[0].current) << 4;
+				proc.s.ip = Orientation_Orientation256ToOrientation8(unit->orientation[0].current) << 4;
 
 				Animation_Start(proc, unit->o.position, 0, unit->o.houseID, 5);
 			}
@@ -2696,7 +2696,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 
 						s = Structure_Find(&find);
 						if (s != NULL) {
-							stringID = ((Sprites_B4CD_17F7(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
+							stringID = ((Orientation_Orientation256ToOrientation16(Tile_GetDirection(s->o.position, unit->o.position)) + 1) & 7) / 2 + 1;
 						} else {
 							stringID = 1;
 						}

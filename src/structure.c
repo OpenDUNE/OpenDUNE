@@ -397,16 +397,10 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	s->animation            = (g_debugScenario) ? 0 : -1;
 
 	if (typeID == STRUCTURE_TURRET) {
-		uint16 *iconMap;
-
-		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		s->variable_49 = iconMap[iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
+		s->variable_49 = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_DEFENSE_TURRET] + 1];
 	}
 	if (typeID == STRUCTURE_ROCKET_TURRET) {
-		uint16 *iconMap;
-
-		iconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-		s->variable_49 = iconMap[iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
+		s->variable_49 = g_iconMap[g_iconMap[ICM_ICONGROUP_BASE_ROCKET_TURRET] + 1];
 	}
 
 	s->o.hitpoints  = si->o.hitpoints;
@@ -1797,7 +1791,6 @@ void Structure_UpdateMap(Structure *s)
 	csip32 animationProc;
 	uint16 layoutSize;
 	const uint16 *layout;
-	uint16 *gIconMap;
 	uint16 *iconMap;
 	int i;
 
@@ -1810,8 +1803,7 @@ void Structure_UpdateMap(Structure *s)
 	layout = g_table_structure_layoutTiles[si->layout];
 	layoutSize = g_table_structure_layoutTileCount[si->layout];
 
-	gIconMap = (uint16 *)emu_get_memorycsip(g_global->iconMap);
-	iconMap = &gIconMap[gIconMap[si->iconGroup] + layoutSize + layoutSize];
+	iconMap = &g_iconMap[g_iconMap[si->iconGroup] + layoutSize + layoutSize];
 
 	for (i = 0; i < layoutSize; i++) {
 		uint16 position;

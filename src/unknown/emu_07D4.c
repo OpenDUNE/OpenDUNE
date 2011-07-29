@@ -240,7 +240,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			x += g_table_tilediff[0][u->variable_6C].s.x;
 			y += g_table_tilediff[0][u->variable_6C].s.y;
 
-			orientation = Sprites_B4CD_17DC(u->orientation[0].current);
+			orientation = Orientation_Orientation256ToOrientation8(u->orientation[0].current);
 
 			if (u->variable_6D >= 0 || ui->variable_4C == 0) {
 				static const uint16 values_32C4[8][2] = {
@@ -303,7 +303,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				int16 offsetY = 0;
 				uint16 index = ui->turretSpriteID;
 
-				orientation = Sprites_B4CD_17DC(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
+				orientation = Orientation_Orientation256ToOrientation8(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
 
 				switch (ui->turretSpriteID) {
 					case 0x8D: /* sonic tank */
@@ -427,7 +427,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					break;
 
 				case 1:
-					orientation = Sprites_B4CD_17DC(orientation);
+					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += values_32E4[orientation][0];
 					g_global->variable_8DE3 |= values_32E4[orientation][1];
@@ -439,7 +439,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						{4, 0}, {3, 2}, {2, 2}, {1, 2}
 					};
 
-					orientation = Sprites_B4CD_17F7(orientation);
+					orientation = Orientation_Orientation256ToOrientation16(orientation);
 
 					index += values_3304[orientation][0];
 					g_global->variable_8DE3 |= values_3304[orientation][1];
@@ -448,7 +448,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				case 5: {
 					static const uint16 values_33AE[4] = {2, 1, 0, 1};
 
-					orientation = Sprites_B4CD_17DC(orientation);
+					orientation = Orientation_Orientation256ToOrientation8(orientation);
 
 					index += (values_32E4[orientation][0] * 3) + values_33AE[u->variable_6D & 3];
 					g_global->variable_8DE3 |= values_32E4[orientation][1];

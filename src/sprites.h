@@ -10,6 +10,7 @@ extern uint8 *g_spriteBuffer;
 extern uint8 *g_iconRTBL;
 extern uint8 *g_iconRPAL;
 extern uint8 *g_spriteInfo;
+extern uint16 *g_iconMap;
 
 extern void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites);
 extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
@@ -20,11 +21,12 @@ extern void Sprites_LoadTiles();
 extern void Sprites_UnloadTiles();
 extern uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette);
 extern uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette, uint16 arg12);
-extern uint8 Sprites_B4CD_17DC(uint8 orientation);
-extern uint8 Sprites_B4CD_17F7(uint8 orientation);
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick();
 extern void Sprite_SetSpriteBuffer(uint8 *buffer);
+
+extern uint8 Orientation_Orientation256ToOrientation8(uint8 orientation);
+extern uint8 Orientation_Orientation256ToOrientation16(uint8 orientation);
 
 
 #endif /* SPRITES_H */
