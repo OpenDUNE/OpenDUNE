@@ -16,6 +16,7 @@
 #include "gui/gui.h"
 #include "house.h"
 #include "mt32mpu.h"
+#include "opendune.h"
 #include "string.h"
 #include "tile.h"
 #include "tools.h"

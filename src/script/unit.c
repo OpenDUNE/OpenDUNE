@@ -16,6 +16,7 @@
 #include "../gui/gui.h"
 #include "../house.h"
 #include "../map.h"
+#include "../opendune.h"
 #include "../pool/unit.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"

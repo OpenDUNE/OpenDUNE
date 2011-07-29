@@ -11,6 +11,20 @@ typedef enum GameMode {
 	GM_PICKHOUSE = 2
 } GameMode;
 
+/**
+ * Types of Language available in the game.
+ */
+typedef enum Language {
+	LANGUAGE_ENGLISH     = 0,
+	LANGUAGE_FRENCH      = 1,
+	LANGUAGE_GERMAN      = 2,
+	LANGUAGE_ITALIAN     = 3,
+	LANGUAGE_SPANSIH     = 4,
+
+	LANGUAGE_MAX         = 5,
+	LANGUAGE_INVALID     = 0xFF
+} Language;
+
 extern uint32 g_hintsShown1;
 extern uint32 g_hintsShown2;
 extern GameMode g_gameMode;
