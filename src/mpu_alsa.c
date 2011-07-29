@@ -10,7 +10,6 @@
 #include <alloca.h>
 #include <alsa/asoundlib.h>
 #include "types.h"
-#include "libemu.h"
 #include "mpu.h"
 
 static snd_seq_t *_midi = NULL;
@@ -18,7 +17,7 @@ static snd_midi_event_t *_midiCoder = NULL;
 static int _midiPort = -1;
 static snd_seq_port_subscribe_t *_midiSubscription = NULL;
 
-extern char *emu_caption;
+extern char *s_mpu_caption;
 
 void mpu_init() {
 	snd_seq_addr_t sender, receiver;
@@ -27,16 +26,16 @@ void mpu_init() {
 	bool found = false;
 
 	if (snd_seq_open(&_midi, "default", SND_SEQ_OPEN_OUTPUT, 0) < 0) {
-		fprintf(stderr, "[EMU] Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MPU\n");
 		_midi = NULL;
 		return;
 	}
-	snd_seq_set_client_name(_midi, emu_caption);
+	snd_seq_set_client_name(_midi, s_mpu_caption);
 
 	/* Create a port to work on */
-	_midiPort = snd_seq_create_simple_port(_midi, emu_caption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
+	_midiPort = snd_seq_create_simple_port(_midi, s_mpu_caption, SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ, SND_SEQ_PORT_TYPE_MIDI_GENERIC);
 	if (_midiPort < 0) {
-		fprintf(stderr, "[EMU] Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MPU\n");
 		snd_seq_close(_midi);
 		_midi = NULL;
 		return;
@@ -65,7 +64,7 @@ void mpu_init() {
 	}
 
 	if (!found) {
-		fprintf(stderr, "[EMU] No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA\n");
+		fprintf(stderr, "No valid MIDI output ports.\n  Please install and start Timidity++ like: timidity -iA\n");
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;
@@ -84,7 +83,7 @@ void mpu_init() {
 	snd_seq_port_subscribe_set_time_update(_midiSubscription, 1);
 	snd_seq_port_subscribe_set_time_real(_midiSubscription, 1);
 	if (snd_seq_subscribe_port(_midi, _midiSubscription) < 0) {
-		fprintf(stderr, "[EMU] Failed to subscript to MIDI output\n");
+		fprintf(stderr, "Failed to subscript to MIDI output\n");
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;
@@ -93,7 +92,7 @@ void mpu_init() {
 
 	/* Start the MIDI decoder */
 	if (snd_midi_event_new(4, &_midiCoder) < 0) {
-		fprintf(stderr, "[EMU] Failed to initialize MIDI decoder\n");
+		fprintf(stderr, "Failed to initialize MIDI decoder\n");
 		snd_seq_delete_port(_midi, _midiPort);
 		snd_seq_close(_midi);
 		_midi = NULL;

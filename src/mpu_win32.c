@@ -9,7 +9,6 @@
 
 #include <windows.h>
 #include "types.h"
-#include "libemu.h"
 #include "mpu.h"
 
 static HMIDIOUT _midi = NULL;
@@ -17,7 +16,7 @@ static HMIDIOUT _midi = NULL;
 void mpu_init()
 {
 	if (midiOutOpen(&_midi, 0, 0, 0, CALLBACK_NULL) != MMSYSERR_NOERROR) {
-		fprintf(stderr, "[EMU] Failed to initialize MPU\n");
+		fprintf(stderr, "Failed to initialize MPU\n");
 		_midi = NULL;
 		return;
 	}

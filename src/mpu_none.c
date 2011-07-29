@@ -7,7 +7,6 @@
 #if !defined(_WIN32) && !defined(MPU_ALSA)
 
 #include "types.h"
-#include "libemu.h"
 #include "mpu.h"
 
 void mpu_init()
