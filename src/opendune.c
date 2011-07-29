@@ -251,7 +251,6 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 	memcpy(g_palette_998A, g_palette1, 768);
 
 	g_fontIntro = Font_LoadFile("INTRO.FNT");
-
 	Font_Select(g_fontIntro);
 
 	GUI_Screen_SetActive(0);
@@ -289,7 +288,7 @@ static void Memory_ClearBlock(uint16 index)
 
 static void GameLoop_FinishAnimation()
 {
-	Tools_Free(emu_Global_GetCSIP(g_fontIntro));
+	free(g_fontIntro);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x1);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x2);
