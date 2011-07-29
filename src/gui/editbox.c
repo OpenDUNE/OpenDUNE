@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "../global.h"
 
 #include "font.h"
 #include "gui.h"
