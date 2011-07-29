@@ -759,10 +759,10 @@ typedef struct GlobalData {
 	/* 379C(2)   */ PACK uint16  removed_379C;              /*!< REMOVED - When non-zero, it allows you to control the AI. */
 	/* 379E(2)   */ PACK uint16  removed_379E;              /*!< REMOVED - When non-zero, you immediately win the level.  */
 	/* 37A0(2)   */ PACK uint16  removed_37A0;              /*!< REMOVED - When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
-	/* 37A2(2)   */ PACK uint16 variable_37A2;              /*!< ?? Write-only. */
-	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
-	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? Write-only. */
-	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
+	/* 37A2(2)   */ PACK uint16  removed_37A2;              /*!< REMOVED - ?? Write-only. */
+	/* 37A4(2)   */ PACK uint16  removed_37A4;              /*!< REMOVED - ?? */
+	/* 37A6(2)   */ PACK uint16  removed_37A6;              /*!< REMOVED - ?? Write-only. */
+	/* 37A8(2)   */ PACK uint16  removed_37A8;              /*!< REMOVED - ?? */
 	/* 37AA(2)   */ PACK uint16  removed_37AA;              /*!< REMOVED - ?? Read-only. */
 	/* 37AC(2)   */ PACK uint16  removed_37AC;              /*!< REMOVED - When non-zero, constructions are almost instant. */
 	/* 37AE(2)   */ PACK uint16  removed_37AE;              /*!< REMOVED - When non-zero, you immediately go to house selection, and skip all intros. */

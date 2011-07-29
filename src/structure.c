@@ -327,16 +327,6 @@ void GameLoop_Structure()
 				if (Script_IsLoaded(&s->o.script)) {
 					uint8 i;
 
-					/* XXX -- No idea, variable_37A2, variable_37A4 and variable_37A8 are only written to, never read. Most likely part of a script debugger. */
-					if (g_debugGame) {
-						g_global->variable_37A4 = 0;
-						g_global->variable_37A2++;
-
-						if (s->o.script.stackPointer <= 15 && 15 - s->o.script.stackPointer > g_global->variable_37A8) {
-							g_global->variable_37A8 = 15 - s->o.script.stackPointer;
-						}
-					}
-
 					/* Run the script 3 times in a row */
 					for (i = 0; i < 3; i++) {
 						if (!Script_Run(&s->o.script)) break;
@@ -1837,8 +1827,6 @@ void Structure_UpdateMap(Structure *s)
 	s->o.flags.s.variable_4_1000 = true;
 
 	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
-
-	g_global->variable_37A4 = 0;
 }
 
 uint32 Structure_GetBuildable(Structure *s)

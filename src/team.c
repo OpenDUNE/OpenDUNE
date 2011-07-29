@@ -56,16 +56,6 @@ void GameLoop_Team()
 
 		if (!Script_IsLoaded(&t->script)) continue;
 
-
-		if (g_debugGame) {
-			g_global->variable_37A4 = 0;
-			g_global->variable_37A2++;
-
-			if (t->script.stackPointer <= 15 && 15 - t->script.stackPointer > g_global->variable_37A8) {
-				g_global->variable_37A8 = 15 - t->script.stackPointer;
-			}
-		}
-
 		if (!Script_Run(&t->script)) {
 			/* ENHANCEMENT -- Dune2 aborts all other teams if one gives a script error. This doesn't seem correct */
 			if (g_dune2_enhanced) continue;

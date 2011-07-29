@@ -568,7 +568,6 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 					init = true;
-					g_global->variable_37A4 = 0;
 				}
 
 				GUI_Screen_Copy(x, y, x, y, width, height, g_global->screenActiveID, 0);
@@ -803,8 +802,6 @@ void Unknown_07D4_1625(uint16 packed)
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}
-
-	g_global->variable_37A6++;
 }
 
 /**

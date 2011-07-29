@@ -292,13 +292,6 @@ void GameLoop_Unit()
 					u->o.script.variables[3] = g_playerHouseID;
 
 					for (; g_global->scriptUnitLeft >= -1 && u->o.script.delay == 0; g_global->scriptUnitLeft--) {
-						g_global->variable_37A4 = 0;
-						g_global->variable_37A2++;
-
-						if (u->o.script.stackPointer <= 15 && 15 - u->o.script.stackPointer > g_global->variable_37A8) {
-							g_global->variable_37A8 = 15 - u->o.script.stackPointer;
-						}
-
 						if (!Script_Run(&u->o.script)) break;
 					}
 				}
