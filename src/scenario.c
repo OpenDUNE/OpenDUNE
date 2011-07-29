@@ -314,14 +314,12 @@ static void Scenario_Load_Map(const char *key, char *settings)
 	t->groundSpriteID = atoi(s) & 0x01FF;
 	if (g_mapSpriteID[packed] != t->groundSpriteID) g_mapSpriteID[packed] |= 0x8000;
 
-	if (!t->isUnveiled) {
-		t->overlaySpriteID = g_global->veiledSpriteID & 0x7F;
-	}
+	if (!t->isUnveiled) t->overlaySpriteID = g_veiledSpriteID;
 }
 
 static void Scenario_Load_Map_Bloom(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = g_global->bloomSpriteID & 0x01FF;
+	t->groundSpriteID = g_bloomSpriteID;
 	g_mapSpriteID[packed] |= 0x8000;
 }
 
@@ -337,7 +335,7 @@ static void Scenario_Load_Map_Field(uint16 packed, Tile *t)
 
 static void Scenario_Load_Map_Special(uint16 packed, Tile *t)
 {
-	t->groundSpriteID = (g_global->bloomSpriteID + 1) & 0x01FF;
+	t->groundSpriteID = g_bloomSpriteID + 1;
 	g_mapSpriteID[packed] |= 0x8000;
 }
 

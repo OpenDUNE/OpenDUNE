@@ -20,6 +20,7 @@
 #include "pool/unit.h"
 #include "saveload/saveload.h"
 #include "scenario.h"
+#include "sprites.h"
 #include "structure.h"
 #include "team.h"
 #include "unit.h"
@@ -138,7 +139,7 @@ bool SaveFile(char *filename, char *description)
 		for (i = 0; i < 0x1000; i++) {
 			Tile *tile = &g_map[i];
 			tile->isUnveiled = false;
-			tile->overlaySpriteID = g_global->veiledSpriteID & 0x7F;
+			tile->overlaySpriteID = g_veiledSpriteID;
 		}
 
 		find.houseID = HOUSE_INVALID;

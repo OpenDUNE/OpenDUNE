@@ -59,6 +59,12 @@ extern uint16 *g_iconMap;
 extern void *g_mouseSprite;
 extern void *g_mouseSpriteBuffer;
 
+extern uint16 g_veiledSpriteID;                             /*!< SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
+extern uint16 g_bloomSpriteID;                              /*!< First bloom field spriteID. */
+extern uint16 g_landscapeSpriteID;                          /*!< First landscape spriteID. */
+extern uint16 g_builtSlabSpriteID;                          /*!< SpriteID of the built concrete slab. */
+extern uint16 g_wallSpriteID;                               /*!< First wall spriteID. */
+
 extern void Sprites_Load(uint16 index, uint8 **sprites);
 extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
 extern uint8 Sprite_GetWidth(uint8 *sprite);
@@ -70,6 +76,7 @@ extern uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *pa
 extern void Sprites_SetMouseSprite(uint16 x, uint16 y, uint8 *sprite);
 extern void Sprites_CPS_LoadRegionClick();
 extern void Sprite_SetSpriteBuffer(uint8 *buffer);
+extern bool Sprite_IsUnveiled(uint16 spriteID);
 
 extern uint8 Orientation_Orientation256ToOrientation8(uint8 orientation);
 extern uint8 Orientation_Orientation256ToOrientation16(uint8 orientation);

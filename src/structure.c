@@ -462,7 +462,7 @@ bool Structure_Place(Structure *s, uint16 position)
 			if (Structure_IsValidBuildLocation(position, STRUCTURE_WALL) == 0) return false;
 
 			t = &g_map[position];
-			t->groundSpriteID = (g_global->wallSpriteID + 1) & 0x1FF;
+			t->groundSpriteID = g_wallSpriteID + 1;
 			/* ENHANCEMENT -- Dune2 wrongfully only removes the lower 2 bits, where the lower 3 bits are the owner. This is no longer visible. */
 			t->houseID  = s->o.houseID;
 
@@ -489,8 +489,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 				if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-				t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
-				t->houseID  = s->o.houseID;
+				t->groundSpriteID = g_builtSlabSpriteID;
+				t->houseID = s->o.houseID;
 
 				g_mapSpriteID[curPos] |= 0x8000;
 
@@ -511,8 +511,8 @@ bool Structure_Place(Structure *s, uint16 position)
 
 					if (Structure_IsValidBuildLocation(curPos, STRUCTURE_SLAB_1x1) == 0) continue;
 
-					t->groundSpriteID = g_global->builtSlabSpriteID & 0x01FF;
-					t->houseID  = s->o.houseID;
+					t->groundSpriteID = g_builtSlabSpriteID;
+					t->houseID = s->o.houseID;
 
 					g_mapSpriteID[curPos] |= 0x8000;
 
@@ -1171,7 +1171,7 @@ bool Structure_ConnectWall(uint16 position, bool recurse)
 
 	if (isDestroyedWall) return false;
 
-	spriteID = g_global->wallSpriteID + wall[bits] + 1;
+	spriteID = g_wallSpriteID + wall[bits] + 1;
 
 	tile = &g_map[position];
 	if (tile->groundSpriteID == spriteID) return false;
@@ -1818,9 +1818,7 @@ void Structure_UpdateMap(Structure *s)
 
 		t->groundSpriteID = iconMap[i] + s->variable_49;
 
-		if (t->overlaySpriteID > g_global->veiledSpriteID || g_global->veiledSpriteID > t->overlaySpriteID + 15) {
-			t->overlaySpriteID = 0;
-		}
+		if (Sprite_IsUnveiled(t->overlaySpriteID)) t->overlaySpriteID = 0;
 
 		Map_Update(position, 0, false);
 	}

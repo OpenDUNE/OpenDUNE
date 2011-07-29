@@ -825,11 +825,11 @@ typedef struct GlobalData {
 	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32 removed_39EA;               /*!< REMOVED - Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 removed_39EE;               /*!< REMOVED - Pointer to content of ICON.MAP. */
-	/* 39F2(2)   */ PACK uint16 veiledSpriteID;             /*!< SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
-	/* 39F4(2)   */ PACK uint16 bloomSpriteID;              /*!< First bloom field spriteID. */
-	/* 39F6(2)   */ PACK uint16 landscapeSpriteID;          /*!< First landscape spriteID. */
-	/* 39F8(2)   */ PACK uint16 builtSlabSpriteID;          /*!< SpriteID of the built concrete slab. */
-	/* 39FA(2)   */ PACK uint16 wallSpriteID;               /*!< First wall spriteID. */
+	/* 39F2(2)   */ PACK uint16 removed_39F2;               /*!< REMOVED - SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
+	/* 39F4(2)   */ PACK uint16 removed_39F4;               /*!< REMOVED - First bloom field spriteID. */
+	/* 39F6(2)   */ PACK uint16 removed_39F6;               /*!< REMOVED - First landscape spriteID. */
+	/* 39F8(2)   */ PACK uint16 removed_39F8;               /*!< REMOVED - SpriteID of the built concrete slab. */
+	/* 39FA(2)   */ PACK uint16 removed_39Fa;               /*!< REMOVED - First wall spriteID. */
 	/* 39FC(2)   */ PACK uint16 removed_minimapPosition;    /*!< REMOVED - Current minimap position (top-left tile, packed). */
 	/* 39FE(2)   */ PACK uint16 removed_viewportPosition;   /*!< REMOVED - Current viewport position (top-left tile, packed). */
 	/* 3A00(2)   */ PACK uint16  removed_3A00;              /*!< REMOVED - Position of the structure selection rectangle */

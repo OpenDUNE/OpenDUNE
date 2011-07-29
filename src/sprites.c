@@ -35,11 +35,17 @@ uint8 *g_iconRPAL = NULL;
 uint8 *g_spriteInfo = NULL;
 uint16 *g_iconMap = NULL;
 
+uint16 g_veiledSpriteID;
+uint16 g_bloomSpriteID;
+uint16 g_landscapeSpriteID;
+uint16 g_builtSlabSpriteID;
+uint16 g_wallSpriteID;
+
 void *g_mouseSprite = NULL;
 void *g_mouseSpriteBuffer = NULL;
 
-uint16 s_mouseSpriteBufferSize = 0;
 uint16 s_mouseSpriteSize = 0;
+uint16 s_mouseSpriteBufferSize = 0;
 
 uint8 s_orientationTable[256];
 
@@ -323,11 +329,11 @@ void Sprites_LoadTiles()
 	free(g_iconMap);
 	g_iconMap = File_ReadWholeFile_Pure("ICON.MAP");
 
-	g_global->veiledSpriteID    = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
-	g_global->bloomSpriteID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
-	g_global->builtSlabSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
-	g_global->landscapeSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];
-	g_global->wallSpriteID      = g_iconMap[g_iconMap[ICM_ICONGROUP_WALLS]];
+	g_veiledSpriteID    = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
+	g_bloomSpriteID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
+	g_builtSlabSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
+	g_landscapeSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];
+	g_wallSpriteID      = g_iconMap[g_iconMap[ICM_ICONGROUP_WALLS]];
 
 	Orientation_InitTable();
 
@@ -558,6 +564,19 @@ void Sprites_CPS_LoadRegionClick()
 void Sprite_SetSpriteBuffer(uint8 *buffer)
 {
 	g_spriteBuffer = buffer;
+}
+
+/**
+ * Check if a spriteID is part of the veiling sprites.
+ * @param spriteID The sprite to check for.
+ * @return True if and only if the spriteID is part of the veiling sprites.
+ */
+bool Sprite_IsUnveiled(uint16 spriteID)
+{
+	if (spriteID > g_veiledSpriteID) return true;
+	if (spriteID < g_veiledSpriteID - 15) return true;
+
+	return false;
 }
 
 /**

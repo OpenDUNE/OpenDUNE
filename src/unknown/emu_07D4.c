@@ -141,7 +141,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				t = &g_map[curPos];
 				left = x << 4;
 
-				if (!g_debugScenario && g_global->veiledSpriteID == t->overlaySpriteID) {
+				if (!g_debugScenario && g_veiledSpriteID == t->overlaySpriteID) {
 					GUI_DrawFilledRectangle(left, top, left + 15, top + 15, 12);
 					continue;
 				}
