@@ -684,8 +684,7 @@ typedef struct GlobalData {
 	/* 32A4(32)  */ PACK uint16  removed_32A4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 32C4(32)  */ PACK uint16  removed_32C4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 32E4(32)  */ PACK uint16  removed_32E4[8][2];        /*!< REMOVED - ?? (read-only array) */
-	/* 3304(32)  */ PACK uint16  removed_3304[8][2];        /*!< REMOVED - ?? (read-only array) */
-	/* 3324()    */ PACK uint8   unknown_3324[0x0020];
+	/* 3304(32)  */ PACK uint16  removed_3304[16][2];       /*!< REMOVED - ?? (read-only array) */
 	/* 3344(2)   */ PACK uint16  removed_3344;              /*!< REMOVED - changed tiles count (in 8290) */
 	/* 3346(4)   */ PACK uint32  removed_viewportMessageTime; /*!< REMOVED - Keeps track when to decrease #viewportMessageCounter. */
 	/* 334A(4)   */ PACK uint8   removed_334A[4];           /*!< REMOVED - ?? (read-only array) */
