@@ -44,4 +44,6 @@ extern void Game_Init();
 extern void Game_LoadScenario(uint8 houseID, uint16 scenarioID);
 extern void PrepareEnd();
 
+extern bool Game_Timer_SetState(uint16 bit, bool set);
+
 #endif /* OPENDUNE_H */

@@ -2638,3 +2638,26 @@ void Game_Timer_Interrupt()
 
 	if (g_global->variable_76B4 != 0) g_global->variable_76B4--;
 }
+
+/**
+ * Set timers on and off.
+ *
+ * @param timer 1 = variable_76AC timer, 0 = tickGlobal timer.
+ * @param set True sets the timer on, false sets it off.
+ * @return True if timer was set, false if it was not set.
+ */
+bool Game_Timer_SetState(uint16 timer, bool set)
+{
+	bool ret;
+
+	timer = (1 << (timer - 1));
+	ret = (g_global->timersActive & timer) != 0;
+
+	if (set) {
+		g_global->timersActive |= timer;
+	} else {
+		g_global->timersActive &= ~timer;
+	}
+
+	return ret;
+}

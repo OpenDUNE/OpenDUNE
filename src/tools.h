@@ -35,7 +35,6 @@ extern uint8 Tools_Random_256();
 extern void Tools_Random_Seed(uint32 seed);
 extern uint16 Tools_RandomRange(uint16 min, uint16 max);
 
-extern bool Game_Timer_SetState(uint16 bit, bool set);
 extern void Tools_Sleep(uint16 ticks);
 
 extern csip32 Tools_Malloc(uint32 size, uint8 flags);
