@@ -933,7 +933,7 @@ typedef struct GlobalData {
 	/* 6122(2)   */ PACK uint16  removed_6122;              /*!< REMOVED - True if memory at iconRTBL has been freed. */
 	/* 6124(4)   */ PACK csip32  removed_6124;              /*!< REMOVED - Current Team we are handling in GameLoop. */
 	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
-	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */
+	/* 6164(4)   */ PACK uint32  removed_6164;              /*!< REMOVED - Indicates next time Team runs GameLoop function. */
 	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32  removed_6268;              /*!< REMOVED - Current Unit we are handling in GameLoop. */
 	/* 626C(4)   */ PACK csip32  removed_626C;              /*!< REMOVED - Current UnitInfo we are handling in the GameLoop. */

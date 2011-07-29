@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include "types.h"
-#include "global.h"
 #include "os/strings.h"
 
 #include "team.h"
@@ -17,20 +16,17 @@
 #include "timer.h"
 #include "tools.h"
 
+static uint32 s_tickTeamGameLoop = 0; /*!< Indicates next time the GameLoop function is executed. */
+
 /**
  * Loop over all teams, performing various of tasks.
  */
 void GameLoop_Team()
 {
 	PoolFindStruct find;
-	bool tick = false;
 
-	if (g_global->variable_6164 <= g_timerGame) {
-		tick = true;
-		g_global->variable_6164 = g_timerGame + (Tools_Random_256() & 7) + 5;
-	}
-
-	if (!tick) return;
+	if (s_tickTeamGameLoop > g_timerGame) return;
+	s_tickTeamGameLoop = g_timerGame + (Tools_Random_256() & 7) + 5;
 
 	find.houseID = HOUSE_INVALID;
 	find.index   = 0xFFFF;
