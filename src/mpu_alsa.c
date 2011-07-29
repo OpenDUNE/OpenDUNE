@@ -17,7 +17,7 @@ static snd_midi_event_t *_midiCoder = NULL;
 static int _midiPort = -1;
 static snd_seq_port_subscribe_t *_midiSubscription = NULL;
 
-extern char *s_mpu_caption;
+char *s_mpu_caption = "OpenDUNE MIDI Port";
 
 void mpu_init() {
 	snd_seq_addr_t sender, receiver;
