@@ -27,7 +27,7 @@
 #include "../string.h"
 #include "../unit.h"
 
-static const int16 _mapDirection[8] = {-64, -63, 1, 65, 64, 63, -1, -65}; /*!< Tile index change when moving in a direction. */
+static const int16 s_mapDirection[8] = {-64, -63, 1, 65, 64, 63, -1, -65}; /*!< Tile index change when moving in a direction. */
 
 /**
  * Create a new soldier unit.
@@ -1027,7 +1027,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 			}
 
 			if (loc09 == 0) {
-				packed += _mapDirection[*loc04];
+				packed += s_mapDirection[*loc04];
 				loc08++;
 				continue;
 			}
@@ -1036,11 +1036,11 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 				loc0C = (*loc04 + (loc09 < 0 ? -1 : 1)) & 0x7;
 
 				if (abs(loc09) == 1) {
-					if (Script_Unit_176C_1F21(packed + _mapDirection[loc0C], loc0C) <= arg0E) {
+					if (Script_Unit_176C_1F21(packed + s_mapDirection[loc0C], loc0C) <= arg0E) {
 						*loc08 = loc0C;
 						*loc04 = loc0C;
 					}
-					packed += _mapDirection[*loc04];
+					packed += s_mapDirection[*loc04];
 					loc08++;
 					continue;
 				}
@@ -1054,7 +1054,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 			while (*loc04 == 0xFE && arg06->buffer != loc04) loc04--;
 
 			if (*loc04 != 0xFE) {
-				packed += _mapDirection[(*loc04 + 4) & 0x7];
+				packed += s_mapDirection[(*loc04 + 4) & 0x7];
 			} else {
 				packed = arg06->packed;
 			}
@@ -1070,7 +1070,7 @@ static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 	for (; *loc08 != 0xFF; loc08++) {
 		if (*loc08 == 0xFE) continue;
 
-		packed += _mapDirection[*loc08];
+		packed += s_mapDirection[*loc08];
 		arg06->variable_0002 = Script_Unit_176C_1F21(packed, *loc08);
 		arg06->variable_0004++;
 		*loc04++ = *loc08;
@@ -1101,14 +1101,14 @@ static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C,
 		while (true) {
 			loc02 = (loc02 + arg0C) & 0x7;
 
-			if ((loc02 & 0x1) != 0 && (loc04 + _mapDirection[(loc02 + arg0C) & 0x7]) == packed) {
+			if ((loc02 & 0x1) != 0 && (loc04 + s_mapDirection[(loc02 + arg0C) & 0x7]) == packed) {
 				loc02 = (loc02 + arg0C) & 0x7;
-				locsi = loc04 + _mapDirection[loc02];
+				locsi = loc04 + s_mapDirection[loc02];
 				break;
 			} else {
 				if (loc02 == arg0E) return false;
 
-				locsi = loc04 + _mapDirection[loc02];
+				locsi = loc04 + s_mapDirection[loc02];
 
 				if (Script_Unit_176C_1F21(locsi, loc02) <= arg14) break;
 			}
@@ -1160,7 +1160,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 
 		loc04 = (Tile_GetDirectionPacked(curPacked, packedDest) >> 5) & 7;
 
-		locsi = curPacked + _mapDirection[loc04];
+		locsi = curPacked + s_mapDirection[loc04];
 		loc08 = Script_Unit_176C_1F21(locsi, loc04);
 
 		if (loc08 <= arg14) {
@@ -1179,7 +1179,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 				if (locsi == packedDest) break;
 
 				loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
-				locsi += _mapDirection[loc06];
+				locsi += s_mapDirection[loc06];
 
 				if (Script_Unit_176C_1F21(locsi, loc06) > arg14) continue;
 
@@ -1203,7 +1203,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 					if (locsi == packedDest) break;
 
 					loc06 = Tile_GetDirectionPacked(locsi, packedDest) >> 5;
-					locsi += _mapDirection[loc06];
+					locsi += s_mapDirection[loc06];
 				} while (Script_Unit_176C_1F21(locsi, loc06) <= arg14);
 			}
 

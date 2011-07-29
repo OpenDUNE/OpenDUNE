@@ -37,12 +37,12 @@ uint16 g_playerCreditsNoSilo = 0;
 uint16 g_playerCredits = 0; /*!< Credits shown to player as 'current'. */
 uint32 g_tickHousePowerMaintenance = 0;
 
-static uint32 _tickHouseHouse = 0;
-static uint32 _tickHouseStarport = 0;
-static uint32 _tickHouseReinforcement = 0;
-static uint32 _tickHouseUnused = 0;
-static uint32 _tickHouseMissileCountdown = 0;
-static uint32 _tickHouseStarportAvailability = 0;
+static uint32 s_tickHouseHouse = 0;
+static uint32 s_tickHouseStarport = 0;
+static uint32 s_tickHouseReinforcement = 0;
+static uint32 s_tickHouseUnused = 0;
+static uint32 s_tickHouseMissileCountdown = 0;
+static uint32 s_tickHouseStarportAvailability = 0;
 
 /**
  * Loop over all houses, preforming various of tasks.
@@ -61,9 +61,9 @@ void GameLoop_House()
 
 	if (g_debugScenario) return;
 
-	if (_tickHouseHouse <= g_timerGame) {
+	if (s_tickHouseHouse <= g_timerGame) {
 		tickHouse = true;
-		_tickHouseHouse = g_timerGame + 900;
+		s_tickHouseHouse = g_timerGame + 900;
 	}
 
 	if (g_tickHousePowerMaintenance <= g_timerGame) {
@@ -71,29 +71,29 @@ void GameLoop_House()
 		g_tickHousePowerMaintenance = g_timerGame + 10800;
 	}
 
-	if (_tickHouseStarport <= g_timerGame) {
+	if (s_tickHouseStarport <= g_timerGame) {
 		tickStarport = true;
-		_tickHouseStarport = g_timerGame + 180;
+		s_tickHouseStarport = g_timerGame + 180;
 	}
 
-	if (_tickHouseReinforcement <= g_timerGame) {
+	if (s_tickHouseReinforcement <= g_timerGame) {
 		tickReinforcement = true;
-		_tickHouseReinforcement = g_timerGame + (g_debugGame ? 60 : 600);
+		s_tickHouseReinforcement = g_timerGame + (g_debugGame ? 60 : 600);
 	}
 
-	if (_tickHouseUnused <= g_timerGame) {
+	if (s_tickHouseUnused <= g_timerGame) {
 		tickUnused = true;
-		_tickHouseUnused = g_timerGame + 5;
+		s_tickHouseUnused = g_timerGame + 5;
 	}
 
-	if (_tickHouseMissileCountdown <= g_timerGame) {
+	if (s_tickHouseMissileCountdown <= g_timerGame) {
 		tickMissileCountdown = true;
-		_tickHouseMissileCountdown = g_timerGame + 60;
+		s_tickHouseMissileCountdown = g_timerGame + 60;
 	}
 
-	if (_tickHouseStarportAvailability <= g_timerGame) {
+	if (s_tickHouseStarportAvailability <= g_timerGame) {
 		tickStarportAvailability = true;
-		_tickHouseStarportAvailability = g_timerGame + 1800;
+		s_tickHouseStarportAvailability = g_timerGame + 1800;
 	}
 
 	if (tickMissileCountdown && g_houseMissileCountdown != 0) {

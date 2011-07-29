@@ -110,13 +110,13 @@ uint16 g_factoryWindowSelected = 0;
 uint16 g_factoryWindowUpgradeCost = 0;
 FactoryResult g_factoryWindowResult = FACTORY_RESUME;
 bool g_factoryWindowStarport = false;
-static uint8 _factoryWindowGraymapTbl[256];
-static Widget _factoryWindowWidgets[13];
-static uint8 _factoryWindowWsaBuffer[64000];
-static uint8 *g_palette1_houseColour;
-static uint32 _tickCreditsAnimation = 0;  /*!< Next tick when credits animation needs an update. */
-static uint32 _arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
-static uint16 _arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
+static uint8 s_factoryWindowGraymapTbl[256];
+static Widget s_factoryWindowWidgets[13];
+static uint8 s_factoryWindowWsaBuffer[64000];
+static uint8 *s_palette1_houseColour;
+static uint32 s_tickCreditsAnimation = 0;  /*!< Next tick when credits animation needs an update. */
+static uint32 s_arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
+static uint16 s_arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
 uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
 bool g_textDisplayNeedsUpdate;            /*!< If set, text display needs to be updated. */
 uint32 g_strategicRegionBits;             /*!< Region bits at the map. */
@@ -1505,9 +1505,9 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 			break;
 	}
 
-	g_palette1_houseColour = g_palette1 + 255 * 3;
-	memcpy(g_palette1_houseColour, g_palette1 + colour * 3, 3);
-	g_palette1_houseColour += offset;
+	s_palette1_houseColour = g_palette1 + 255 * 3;
+	memcpy(s_palette1_houseColour, g_palette1 + colour * 3, 3);
+	s_palette1_houseColour += offset;
 
 	if (!hallOfFame) GUI_HallOfFame_Tick();
 
@@ -2098,8 +2098,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	int16 creditsOld;
 	int16 offset;
 
-	if (_tickCreditsAnimation > g_timerGUI && mode == 0) return;
-	_tickCreditsAnimation = g_timerGUI + 1;
+	if (s_tickCreditsAnimation > g_timerGUI && mode == 0) return;
+	s_tickCreditsAnimation = g_timerGUI + 1;
 
 	h = House_Get_ByIndex(houseID);
 
@@ -2582,7 +2582,7 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 	uint16 i;
 	uint16 count = 0;
 	WidgetInfo *wi = g_table_factoryWidgetInfo;
-	Widget *w = _factoryWindowWidgets;
+	Widget *w = s_factoryWindowWidgets;
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -2637,7 +2637,7 @@ static uint32 GUI_FactoryWindow_LoadGraymapTbl()
 	uint8 fileID;
 
 	fileID = File_Open("GRAYRMAP.TBL", 1);
-	File_Read(fileID, _factoryWindowGraymapTbl, 256);
+	File_Read(fileID, s_factoryWindowGraymapTbl, 256);
 	File_Close(fileID);
 
 	return 256;
@@ -2756,7 +2756,7 @@ static void GUI_FactoryWindow_Init()
 
 		oi = item->objectInfo;
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, _factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 24 + i * 32, 0, 0);
 		}
@@ -2767,7 +2767,7 @@ static void GUI_FactoryWindow_Init()
 
 	oi = g_factoryWindowItems[0].objectInfo;
 
-	wsa = WSA_LoadFile(oi->wsa, _factoryWindowWsaBuffer, sizeof(_factoryWindowWsaBuffer), false);
+	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -2887,12 +2887,12 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 
 static void GUI_StrategicMap_AnimateArrows()
 {
-	if (_arrowAnimationTimeout >= g_timerGUI) return;
-	_arrowAnimationTimeout = g_timerGUI + 7;
+	if (s_arrowAnimationTimeout >= g_timerGUI) return;
+	s_arrowAnimationTimeout = g_timerGUI + 7;
 
-	_arrowAnimationState = (_arrowAnimationState + 1) % 4;
+	s_arrowAnimationState = (s_arrowAnimationState + 1) % 4;
 
-	memcpy(g_palette1 + 251 * 3, g_global->variable_81BA + _arrowAnimationState * 3, 4 * 3);
+	memcpy(g_palette1 + 251 * 3, g_global->variable_81BA + s_arrowAnimationState * 3, 4 * 3);
 
 	GFX_SetPalette(g_palette1);
 }
@@ -3467,7 +3467,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	wsa = WSA_LoadFile(oi->wsa, _factoryWindowWsaBuffer, sizeof(_factoryWindowWsaBuffer), false);
+	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
@@ -3496,7 +3496,7 @@ void GUI_FactoryWindow_DrawDetails()
 	}
 
 	if (oi->available == -1) {
-		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, _factoryWindowGraymapTbl);
+		GUI_Palette_RemapScreen(128, 48, 184, 112, 2, s_factoryWindowGraymapTbl);
 
 		if (g_factoryWindowStarport) {
 			/* "OUT OF STOCK" */
@@ -3748,7 +3748,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, _factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 8, 0, 0);
 		}
@@ -3762,7 +3762,7 @@ void GUI_FactoryWindow_PrepareScrollList()
 		ObjectInfo *oi = item->objectInfo;
 
 		if (oi->available == -1) {
-			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, _factoryWindowGraymapTbl, 1);
+			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0x100, s_factoryWindowGraymapTbl, 1);
 		} else {
 			GUI_DrawSprite(2, g_sprites[oi->spriteID], 72, 168, 0, 0);
 		}
@@ -4174,13 +4174,13 @@ uint16 GUI_HallOfFame_Tick()
 
 	g_global->variable_2C3A = g_timerGUI + 2;
 
-	if (*g_palette1_houseColour >= 63) {
+	if (*s_palette1_houseColour >= 63) {
 		colouringDirection = -1;
-	} else if (*g_palette1_houseColour <= 35) {
+	} else if (*s_palette1_houseColour <= 35) {
 		colouringDirection = 1;
 	}
 
-	*g_palette1_houseColour += colouringDirection;
+	*s_palette1_houseColour += colouringDirection;
 
 	GFX_SetPalette(g_palette1);
 

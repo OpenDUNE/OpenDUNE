@@ -58,16 +58,16 @@ GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
 uint32 g_tickScenarioStart = 0;     /*!< The tick the scenario started in. */
-static uint32 _tickGameTimeout = 0; /*!< The tick the game will timeout. */
+static uint32 s_tickGameTimeout = 0; /*!< The tick the game will timeout. */
 
 bool   g_debugGame = false;        /*!< When true, you can control the AI. */
 bool   g_debugScenario = false;    /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
 bool   g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to house selection, and skip all intros. */
 
-static const struct_19A8 *_var_805E = NULL; /*!< Unknown animation data. */
-static const struct_19F0 *_var_805A = NULL; /*!< Unknown animation data. */
-static const struct_1A2C *_var_8056 = NULL; /*!< Unknown animation data. */
-static uint16 _var_8062 = 0xFFFF; /*!< Unknown animation data. */
+static const struct_19A8 *s_var_805E = NULL; /*!< Unknown animation data. */
+static const struct_19F0 *s_var_805A = NULL; /*!< Unknown animation data. */
+static const struct_1A2C *s_var_8056 = NULL; /*!< Unknown animation data. */
+static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
 
 /** Direction of change in the #GameLoop_PalettePart_Update function. */
 typedef enum PalettePartDirection {
@@ -156,7 +156,7 @@ static bool GameLoop_IsLevelFinished()
 		/* XXX -- This code was with '<' instead of '>=', which makes
 		 *  no sense. As it is unused, who knows what the intentions
 		 *  were. This at least makes it sensible. */
-		if (g_timerGame >= _tickGameTimeout) {
+		if (g_timerGame >= s_tickGameTimeout) {
 			finish = true;
 		}
 	}
@@ -219,7 +219,7 @@ static bool GameLoop_IsLevelWon()
 
 	/* Check for reaching timeout */
 	if (!win && (g_scenario.loseFlags & 0x8) != 0) {
-		win = (g_timerGame < _tickGameTimeout);
+		win = (g_timerGame < s_tickGameTimeout);
 	}
 
 	return win;
@@ -230,10 +230,10 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 	uint8 i;
 	uint8 colors[16];
 
-	_var_805E = arg_805E;
-	_var_805A = arg_805A;
-	_var_8056 = arg_8056;
-	_var_8062 = arg_8062;
+	s_var_805E = arg_805E;
+	s_var_805A = arg_805A;
+	s_var_8056 = arg_8056;
+	s_var_8062 = arg_8062;
 	g_global->variable_6C6C = 0;
 	g_global->variable_8072 = 0;
 	g_global->animationSoundEffect = 0;
@@ -256,7 +256,7 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 
 	GUI_Screen_SetActive(0);
 
-	memcpy(_palettePartTarget, &g_palette1[(144 + _var_805A->variable_0002 * 16) * 3], 6 * 3);
+	memcpy(_palettePartTarget, &g_palette1[(144 + s_var_805A->variable_0002 * 16) * 3], 6 * 3);
 
 	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
@@ -305,7 +305,7 @@ static void GameLoop_FinishAnimation()
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
 {
-	const struct_1A2C *var8056 = _var_8056 + g_global->animationSoundEffect;
+	const struct_1A2C *var8056 = s_var_8056 + g_global->animationSoundEffect;
 
 	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
 
@@ -352,7 +352,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GameLoop_PlaySoundEffect(animation);
 
-	var805A = _var_805A + g_global->variable_8072;
+	var805A = s_var_805A + g_global->variable_8072;
 
 	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) return;
 
@@ -388,8 +388,8 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_config.voiceDrv != 0 && _var_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
-		uint16 loc06 = _var_8062 + g_global->variable_8072;
+	if (g_config.voiceDrv != 0 && s_var_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
+		uint16 loc06 = s_var_8062 + g_global->variable_8072;
 
 		Sound_Output_Feedback(loc06);
 
@@ -484,7 +484,7 @@ static void GameLoop_PlayAnimation()
 	const struct_19A8 *var805E;
 	uint8 animation = 0;
 
-	var805E = _var_805E;
+	var805E = s_var_805E;
 
 	while (var805E->variable_0004 != 0) {
 		uint16 loc04;

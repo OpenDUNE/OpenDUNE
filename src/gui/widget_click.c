@@ -36,7 +36,7 @@
 #include "../unknown/unknown.h"
 
 
-static uint16 _savegameIndexBase = 0;
+static uint16 s_savegameIndexBase = 0;
 
 static char *GenerateSavegameFilename(uint16 number)
 {
@@ -831,9 +831,9 @@ static void FillSavegameDesc(bool save)
 
 		*desc = '\0';
 
-		if (_savegameIndexBase - i < 0) continue;
+		if (s_savegameIndexBase - i < 0) continue;
 
-		if (_savegameIndexBase - i == g_global->savegameCountOnDisk) {
+		if (s_savegameIndexBase - i == g_global->savegameCountOnDisk) {
 			if (!save) continue;
 
 			/* "[ EMPTY SLOT ]" */
@@ -841,7 +841,7 @@ static void FillSavegameDesc(bool save)
 			continue;
 		}
 
-		filename = GenerateSavegameFilename(_savegameIndexBase - i);
+		filename = GenerateSavegameFilename(s_savegameIndexBase - i);
 
 		if (!File_Exists(filename)) continue;
 
@@ -904,7 +904,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 			case 0x1E:
 				if (*saveDesc == 0) break;
 
-				SaveFile(GenerateSavegameFilename(_savegameIndexBase - key), saveDesc);
+				SaveFile(GenerateSavegameFilename(s_savegameIndexBase - key), saveDesc);
 				loop = false;
 				ret = true;
 				break;
@@ -929,12 +929,12 @@ static void UpdateArrows(bool save, bool force)
 	static uint16 previousIndex = 0;
 	Widget *w;
 
-	if (!force && _savegameIndexBase == previousIndex) return;
+	if (!force && s_savegameIndexBase == previousIndex) return;
 
-	previousIndex = _savegameIndexBase;
+	previousIndex = s_savegameIndexBase;
 
 	w = &g_table_windowWidgets[8];
-	if (_savegameIndexBase >= 5) {
+	if (s_savegameIndexBase >= 5) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -942,7 +942,7 @@ static void UpdateArrows(bool save, bool force)
 	}
 
 	w = &g_table_windowWidgets[7];
-	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > _savegameIndexBase) {
+	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > s_savegameIndexBase) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -963,7 +963,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 	g_global->savegameCountOnDisk = GetSavegameCount();
 
-	_savegameIndexBase = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
+	s_savegameIndexBase = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
 
 	FillSavegameDesc(save);
 
@@ -991,7 +991,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 			switch (key) {
 				case 0x25:
-					_savegameIndexBase = min(g_global->savegameCountOnDisk - (save ? 0 : 1), _savegameIndexBase + 1);
+					s_savegameIndexBase = min(g_global->savegameCountOnDisk - (save ? 0 : 1), s_savegameIndexBase + 1);
 
 					FillSavegameDesc(save);
 
@@ -999,7 +999,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					break;
 
 				case 0x26:
-					_savegameIndexBase = max(0, _savegameIndexBase - 1);
+					s_savegameIndexBase = max(0, s_savegameIndexBase - 1);
 
 					FillSavegameDesc(save);
 
@@ -1016,7 +1016,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 					key -= 0x1E;
 
 					if (!save) {
-						LoadFile(GenerateSavegameFilename(_savegameIndexBase - key));
+						LoadFile(GenerateSavegameFilename(s_savegameIndexBase - key));
 						return true;
 					}
 

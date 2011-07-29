@@ -26,8 +26,8 @@
 
 static void *g_variable_3E54[NUM_VOICES];
 static uint32 g_variable_3E54_size[NUM_VOICES];
-static const char *_currentMusic = NULL;        /*!< Currently loaded music file. */
-static uint16 _spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
+static const char *s_currentMusic = NULL;        /*!< Currently loaded music file. */
+static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play. */
 
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
@@ -95,15 +95,15 @@ void Music_Play(uint16 musicID)
 
 	if (musicID == 0xFFFF || musicID >= 38) return;
 
-	if (g_table_musics[musicID].string != _currentMusic) {
-		_currentMusic = g_table_musics[musicID].string;
+	if (g_table_musics[musicID].string != s_currentMusic) {
+		s_currentMusic = g_table_musics[musicID].string;
 
 		Driver_Music_Stop();
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 		Driver_Music_LoadFile(NULL);
 		Driver_Sound_LoadFile(NULL);
-		Driver_Music_LoadFile(_currentMusic);
-		Driver_Sound_LoadFile(_currentMusic);
+		Driver_Music_LoadFile(s_currentMusic);
+		Driver_Sound_LoadFile(s_currentMusic);
 	}
 
 	Driver_Music_Play(g_table_musics[musicID].variable_04, 0xFF);
@@ -310,8 +310,8 @@ void Sound_Output_Feedback(uint16 index)
 		uint8 i;
 
 		/* Clear spoken audio. */
-		for (i = 0; i < lengthof(_spokenWords); i++) {
-			_spokenWords[i] = 0xFFFF;
+		for (i = 0; i < lengthof(s_spokenWords); i++) {
+			s_spokenWords[i] = 0xFFFF;
 		}
 
 		Driver_Voice_Stop();
@@ -341,11 +341,11 @@ void Sound_Output_Feedback(uint16 index)
 	}
 
 	/* If nothing is being said currently, load new words. */
-	if (_spokenWords[0] == 0xFFFF) {
+	if (s_spokenWords[0] == 0xFFFF) {
 		uint8 i;
 
-		for (i = 0; i < lengthof(_spokenWords); i++) {
-			_spokenWords[i] = (g_config.language == LANGUAGE_ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[index][i];
+		for (i = 0; i < lengthof(s_spokenWords); i++) {
+			s_spokenWords[i] = (g_config.language == LANGUAGE_ENGLISH) ? g_feedback[index].voiceId[i] : g_translatedVoice[index][i];
 		}
 	}
 
@@ -365,12 +365,12 @@ bool Sound_StartSpeech()
 
 	g_global->variable_4060 = 0;
 
-	if (_spokenWords[0] == 0xFFFF) return false;
+	if (s_spokenWords[0] == 0xFFFF) return false;
 
-	Sound_StartSound(_spokenWords[0]);
+	Sound_StartSound(s_spokenWords[0]);
 	/* Move speech parts one place. */
-	memmove(&_spokenWords[0], &_spokenWords[1], sizeof(_spokenWords) - sizeof(_spokenWords[0]));
-	_spokenWords[lengthof(_spokenWords) - 1] = 0xFFFF;
+	memmove(&s_spokenWords[0], &s_spokenWords[1], sizeof(s_spokenWords) - sizeof(s_spokenWords[0]));
+	s_spokenWords[lengthof(s_spokenWords) - 1] = 0xFFFF;
 
 	return true;
 }

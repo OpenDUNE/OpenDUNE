@@ -35,13 +35,13 @@
 #include "tools.h"
 #include "unknown/unknown.h"
 
-static uint32 _tickUnitUnknown1  = 0; /*!< Indicates next time the  Unknown1 function is run. */
-static uint32 _tickUnitUnknown2  = 0; /*!< Indicates next time the  Unknown2 function is run. */
-static uint32 _tickUnitBlinking  = 0; /*!< Indicates next time the  Blinking function is run. */
-static uint32 _tickUnitUnknown4  = 0; /*!< Indicates next time the  Unknown4 function is run. */
-static uint32 _tickUnitScript    = 0; /*!< Indicates next time the  Script function is run. */
-static uint32 _tickUnitUnknown5  = 0; /*!< Indicates next time the  Unknown5 function is run. */
-static uint32 _tickUnitDeviation = 0; /*!< Indicates next time the  Deviation function is run. */
+static uint32 s_tickUnitUnknown1  = 0; /*!< Indicates next time the  Unknown1 function is run. */
+static uint32 s_tickUnitUnknown2  = 0; /*!< Indicates next time the  Unknown2 function is run. */
+static uint32 s_tickUnitBlinking  = 0; /*!< Indicates next time the  Blinking function is run. */
+static uint32 s_tickUnitUnknown4  = 0; /*!< Indicates next time the  Unknown4 function is run. */
+static uint32 s_tickUnitScript    = 0; /*!< Indicates next time the  Script function is run. */
+static uint32 s_tickUnitUnknown5  = 0; /*!< Indicates next time the  Unknown5 function is run. */
+static uint32 s_tickUnitDeviation = 0; /*!< Indicates next time the  Deviation function is run. */
 
 Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
@@ -125,39 +125,39 @@ void GameLoop_Unit()
 
 	if (g_debugScenario) return;
 
-	if (_tickUnitUnknown1 <= g_timerGame) {
+	if (s_tickUnitUnknown1 <= g_timerGame) {
 		tickUnknown1 = true;
-		_tickUnitUnknown1 = g_timerGame + 3;
+		s_tickUnitUnknown1 = g_timerGame + 3;
 	}
 
-	if (_tickUnitUnknown2 <= g_timerGame) {
+	if (s_tickUnitUnknown2 <= g_timerGame) {
 		tickUnknown2 = true;
-		_tickUnitUnknown2 = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
+		s_tickUnitUnknown2 = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
-	if (_tickUnitBlinking <= g_timerGame) {
+	if (s_tickUnitBlinking <= g_timerGame) {
 		tickBlinking = true;
-		_tickUnitBlinking = g_timerGame + 3;
+		s_tickUnitBlinking = g_timerGame + 3;
 	}
 
-	if (_tickUnitUnknown4 <= g_timerGame) {
+	if (s_tickUnitUnknown4 <= g_timerGame) {
 		tickUnknown4 = true;
-		_tickUnitUnknown4 = g_timerGame + 20;
+		s_tickUnitUnknown4 = g_timerGame + 20;
 	}
 
-	if (_tickUnitScript <= g_timerGame) {
+	if (s_tickUnitScript <= g_timerGame) {
 		tickScript = true;
-		_tickUnitScript = g_timerGame + 5;
+		s_tickUnitScript = g_timerGame + 5;
 	}
 
-	if (_tickUnitUnknown5 <= g_timerGame) {
+	if (s_tickUnitUnknown5 <= g_timerGame) {
 		tickUnknown5 = true;
-		_tickUnitUnknown5 = g_timerGame + 5;
+		s_tickUnitUnknown5 = g_timerGame + 5;
 	}
 
-	if (_tickUnitDeviation <= g_timerGame) {
+	if (s_tickUnitDeviation <= g_timerGame) {
 		tickDeviation = true;
-		_tickUnitDeviation = g_timerGame + 60;
+		s_tickUnitDeviation = g_timerGame + 60;
 	}
 
 	find.houseID = HOUSE_INVALID;

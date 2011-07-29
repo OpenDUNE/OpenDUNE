@@ -36,7 +36,7 @@ uint16 g_mapSpriteID[64 * 64];
 Tile g_map[64 * 64];            /*!< All map data. */
 uint8 g_functions[3][3] = {{0, 1, 0}, {2, 3, 0}, {0, 1, 0}};
 MapActivity g_mapActivity[32];  /*!< Map activities. */
-uint32 _mapActivityTimeout = 0; /*!< Timeout value for next map activity. */
+static uint32 s_mapActivityTimeout = 0; /*!< Timeout value for next map activity. */
 
 uint8 g_dirtyMinimap[512];      /*!< Dirty tiles of the minimap (must be rendered again). */
 uint8 g_displayedMinimap[512];  /*!< Displayed part of the minimap. */
@@ -1058,7 +1058,7 @@ static bool Map_InitializeActivity(const Activity *activities, tile32 position)
 		s->position    = position;
 		s->variable_07 = 0;
 		s->timeOut     = g_timerGUI;
-		_mapActivityTimeout = 0;
+		s_mapActivityTimeout = 0;
 		g_map[packed].hasMapActivity = true;
 		return true;
 	}
@@ -1369,9 +1369,9 @@ uint32 Map_Activity_Tick()
 {
 	uint8 i;
 
-	if (_mapActivityTimeout > g_timerGUI) return _mapActivityTimeout;
+	if (s_mapActivityTimeout > g_timerGUI) return s_mapActivityTimeout;
 
-	_mapActivityTimeout += 10000;
+	s_mapActivityTimeout += 10000;
 
 	for (i = 0; i < 32; i++) {
 		MapActivity *s;
@@ -1403,12 +1403,12 @@ uint32 Map_Activity_Tick()
 			}
 		}
 
-		if (s->activities == NULL || s->timeOut > _mapActivityTimeout) continue;
+		if (s->activities == NULL || s->timeOut > s_mapActivityTimeout) continue;
 
-		_mapActivityTimeout = s->timeOut;
+		s_mapActivityTimeout = s->timeOut;
 	}
 
-	return _mapActivityTimeout;
+	return s_mapActivityTimeout;
 }
 
 /**
