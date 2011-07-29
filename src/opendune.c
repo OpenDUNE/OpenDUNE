@@ -744,13 +744,14 @@ static void GameLoop_Uninit()
 
 	Tools_Free(emu_Global_GetCSIP(g_palette1));
 	Tools_Free(emu_Global_GetCSIP(g_palette2));
-	Tools_Free(emu_Global_GetCSIP(g_paletteMapping1));
-	Tools_Free(emu_Global_GetCSIP(g_paletteMapping2));
 	Tools_Free(g_global->variable_3C46);
 	Tools_Free(g_global->readBuffer);
 
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
+
+	free(g_paletteMapping1);
+	free(g_paletteMapping2);
 
 	free(g_strings);
 	free(g_stringsHint);
@@ -1807,8 +1808,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	GFX_SetPalette(g_palette1);
 	GFX_SetPalette(g_palette2);
 
-	g_paletteMapping1 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
-	g_paletteMapping2 = emu_get_memorycsip(Tools_Malloc(256, 0x0));
+	g_paletteMapping1 = malloc(256);
+	g_paletteMapping2 = malloc(256);
 
 	GUI_Palette_CreateMapping(g_palette1, g_paletteMapping1, 0xC, 0x55);
 	g_paletteMapping1[0xFF] = 0xFF;
