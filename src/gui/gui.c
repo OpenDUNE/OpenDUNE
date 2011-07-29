@@ -1096,8 +1096,8 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		loc22 += loc12 - 1;
 	}
 
-	loc22 *= 2;
-	loc22 = emu_get_memory16(g_global->variable_66EC.s.cs, g_global->variable_66EC.s.ip, loc22) + posX;
+	loc22 = ((uint16 *)emu_get_memorycsip(g_global->variable_66EC))[loc22] + posX;
+
 	buf += loc22;
 
 	if ((flags & 0x1) != 0) {
