@@ -284,14 +284,14 @@ void GameLoop_Unit()
 		if (tickScript) {
 			if (u->o.script.delay == 0) {
 				if (Script_IsLoaded(&u->o.script)) {
-					g_global->scriptUnitLeft = g_global->scriptUnitSpeed * 5;
+					int opcodesLeft = SCRIPT_UNIT_OPCODES_PER_TICK + 2;
 					if (!ui->o.flags.s.scriptNoSlowdown && !Map_IsPositionInViewport(u->o.position, NULL, NULL)) {
-						g_global->scriptUnitLeft = 1;
+						opcodesLeft = 3;
 					}
 
 					u->o.script.variables[3] = g_playerHouseID;
 
-					for (; g_global->scriptUnitLeft >= -1 && u->o.script.delay == 0; g_global->scriptUnitLeft--) {
+					for (; opcodesLeft > 0 && u->o.script.delay == 0; opcodesLeft--) {
 						if (!Script_Run(&u->o.script)) break;
 					}
 				}

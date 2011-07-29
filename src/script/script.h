@@ -6,6 +6,8 @@
 #define SCRIPT_H
 
 enum {
+	SCRIPT_UNIT_OPCODES_PER_TICK = 50,                      /*!< The amount of opcodes a unit can execute per tick. */
+
 	SCRIPT_FUNCTIONS_COUNT = 64                             /*!< There are never more than 64 functions for a script category. */
 };
 

@@ -810,9 +810,9 @@ typedef struct GlobalData {
 	/* 3902(22)  */ PACK uint8   removed_3902[22];          /*!< Script information for Units. */
 	/* 3918(22)  */ PACK uint8   removed_3918[22];          /*!< Script information for Structures. */
 	/* 392E(22)  */ PACK uint8   removed_392E[22];          /*!< Script information for Teams. */
-	/* 3944(2)   */ PACK uint16 scriptUnitSpeed;            /*!< Amount of opcodes a script for a Unit will execute every tick. */
+	/* 3944(2)   */ PACK uint16  removed_3944;              /*!< REMOVED - Amount of opcodes a script for a Unit will execute every tick (read-only, always 10). */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
-	/* 3948(2)   */ PACK  int16 scriptUnitLeft;             /*!< Amount of opcodes left for a script for a Unit to execute this tick. */
+	/* 3948(2)   */ PACK  int16  removed_3948;              /*!< REMOVED - Amount of opcodes left for a script for a Unit to execute this tick. */
 	/* 394A(4)   */ PACK csip32  removed_394A;              /*!< REMOVED - Current House we are handling in GameLoop. */
 	/* 394E(4)   */ PACK csip32  removed_394E;              /*!< REMOVED - Current Structure or Unit we are handling in GameLoop (the type depends on the GameLoop). */
 	/* 3952(4)   */ PACK csip32  removed_3952;              /*!< REMOVED - Table with orientation information. */
