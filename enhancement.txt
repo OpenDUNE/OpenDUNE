@@ -75,6 +75,9 @@ General
 -------
 - The screen telling if you have the security question wrong/right is there
     for such short time, you never really see it.
+- When loading a game, the fadein is barely visible because it is against the
+    screen how it will turn out, minus the selection of an active building.
+
 
 Map
 ---

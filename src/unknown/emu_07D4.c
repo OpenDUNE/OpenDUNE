@@ -541,6 +541,16 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	if (updateDisplay && !arg0A) {
 		if (g_global->variable_3A14 != 0) {
 			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
+
+			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
+			if (g_dune2_enhanced) {
+				uint8 oldScreenID = g_global->screenActiveID;
+
+				GUI_Screen_SetActive(0);
+				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
+				GUI_Screen_SetActive(oldScreenID);
+			}
+
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, 0);
 			GUI_Mouse_Show_InWidget();
 
