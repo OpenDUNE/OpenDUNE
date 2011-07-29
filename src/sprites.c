@@ -638,5 +638,5 @@ void Sprites_CPS_LoadRegionClick()
 
 void Sprite_SetSpriteBuffer(uint8 *buffer)
 {
-	g_spriteBuffer     = buffer;
+	g_spriteBuffer = buffer;
 }
