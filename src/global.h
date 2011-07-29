@@ -1271,8 +1271,8 @@ typedef struct GlobalData {
 	/* 7019(2)   */ PACK uint16 variable_7019;              /*!< ?? */
 	/* 701B(2)   */ PACK uint16 variable_701B;              /*!< ?? */
 	/* 701D()    */ PACK uint8   unknown_701D[0x003D];
-	/* 705A(2)   */ PACK uint16 variable_705A;              /*!< ?? */
-	/* 705C(2)   */ PACK uint16 variable_705C;              /*!< ?? */
+	/* 705A(2)   */ PACK uint16 removed_705A;               /*!< REMOVED - Amount of bytes allocated for mouse sprite buffer. */
+	/* 705C(2)   */ PACK uint16 removed_705C;               /*!< REMOVED - Amount of bytes allocated for mouse sprite. */
 	/* 705E(2)   */ PACK uint16 removed_mouseLock;          /*!< REMOVED - Lock for when handling mouse movement. */
 	/* 7060(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
 	/* 7062(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
@@ -1295,8 +1295,8 @@ typedef struct GlobalData {
 	/* 7084(2)   */ PACK uint16 removed_regionMinY;         /*!< REMOVED - Region - minimum value for Y position. */
 	/* 7086(2)   */ PACK uint16 removed_regionMaxX;         /*!< REMOVED - Region - maximum value for X position. */
 	/* 7088(2)   */ PACK uint16 removed_regionMaxY;         /*!< REMOVED - Region - maximum value for Y position. */
-	/* 708A(4)   */ PACK csip32 mouseSpriteBuffer;          /*!< The temporary buffer with what was behind the mouse cursor. */
-	/* 708E(4)   */ PACK csip32 mouseSprite;                /*!< The sprite for the mouse cursor. */
+	/* 708A(4)   */ PACK csip32 removed_708A;               /*!< The temporary buffer with what was behind the mouse cursor. */
+	/* 708E(4)   */ PACK csip32 removed_708E;               /*!< The sprite for the mouse cursor. */
 	/* 7092(2)   */ PACK uint16 variable_7092;              /*!< Parameter 1 for proc at 66B4. */
 	/* 7094(2)   */ PACK uint16 variable_7094;              /*!< Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */

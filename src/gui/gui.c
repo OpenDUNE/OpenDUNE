@@ -3880,11 +3880,11 @@ void GUI_Mouse_Show()
 	g_global->mouseSpriteHeight = g_global->mouseHeight;
 	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) g_global->mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
 
-	if (g_global->mouseSpriteBuffer.csip != 0) {
-		GFX_CopyToBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, emu_get_memorycsip(g_global->mouseSpriteBuffer));
+	if (g_mouseSpriteBuffer != NULL) {
+		GFX_CopyToBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, g_mouseSpriteBuffer);
 	}
 
-	GUI_DrawSprite(0, emu_get_memorycsip(g_global->mouseSprite), left, top, 0, 0);
+	GUI_DrawSprite(0, g_mouseSprite, left, top, 0, 0);
 }
 
 /**
@@ -3896,8 +3896,8 @@ void GUI_Mouse_Hide()
 	if (g_global->variable_7097) return;
 
 	if (g_global->mouseHiddenDepth == 0 && g_global->mouseSpriteWidth != 0) {
-		if (g_global->mouseSpriteBuffer.csip != 0) {
-			GFX_CopyFromBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, emu_get_memorycsip(g_global->mouseSpriteBuffer));
+		if (g_mouseSpriteBuffer != NULL) {
+			GFX_CopyFromBuffer(g_global->mouseSpriteLeft, g_global->mouseSpriteTop, g_global->mouseSpriteWidth, g_global->mouseSpriteHeight, g_mouseSpriteBuffer);
 		}
 
 		g_global->mouseSpriteWidth = 0;

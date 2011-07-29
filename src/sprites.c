@@ -34,6 +34,12 @@ uint8 *g_iconRPAL = NULL;
 uint8 *g_spriteInfo = NULL;
 uint16 *g_iconMap = NULL;
 
+void *g_mouseSprite = NULL;
+void *g_mouseSpriteBuffer = NULL;
+
+uint16 s_mouseSpriteBufferSize = 0;
+uint16 s_mouseSpriteSize = 0;
+
 uint8 s_orientationTable[256];
 
 /**
@@ -290,7 +296,7 @@ static void Sprites_LoadICNFile(const char *filename)
 /**
  * Initialize the orientation table.
  */
-static void Sprites_Init_OrientationTable()
+static void Orientation_InitTable()
 {
 	uint8 *block = s_orientationTable;
 	int16 i;
@@ -325,7 +331,7 @@ void Sprites_LoadTiles()
 	g_global->landscapeSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];
 	g_global->wallSpriteID      = g_iconMap[g_iconMap[ICM_ICONGROUP_WALLS]];
 
-	Sprites_Init_OrientationTable();
+	Orientation_InitTable();
 
 	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
 }
@@ -438,35 +444,35 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 	size = GFX_GetSize((*(uint16 *)(sprite + 3) >> 3) + 2, sprite[5]);
 
-	if (g_global->variable_705A < size) {
-		if (g_global->mouseSpriteBuffer.csip != 0x0) {
-			Tools_Free(g_global->mouseSpriteBuffer);
-			g_global->mouseSpriteBuffer.csip = 0x0;
-			g_global->variable_705A = 0;
+	if (s_mouseSpriteBufferSize < size) {
+		if (g_mouseSpriteBuffer != NULL) {
+			free(g_mouseSpriteBuffer);
+			g_mouseSpriteBuffer = NULL;
+			s_mouseSpriteBufferSize = 0;
 		}
 
-		g_global->mouseSpriteBuffer = Tools_Malloc(size, 0x0);
-		g_global->variable_705A = size;
+		g_mouseSpriteBuffer = malloc(size);
+		s_mouseSpriteBufferSize = size;
 	}
 
 	size = *(uint16 *)(sprite + 8) + 10;
 	if ((*(uint16 *)sprite & 0x1) != 0) size += 16;
 
-	if (g_global->variable_705C < size) {
-		if (g_global->mouseSprite.csip != 0x0) {
-			Tools_Free(g_global->mouseSprite);
-			g_global->mouseSprite.csip = 0x0;
-			g_global->variable_705C = 0;
+	if (s_mouseSpriteSize < size) {
+		if (g_mouseSprite != NULL) {
+			free(g_mouseSprite);
+			g_mouseSprite = NULL;
+			s_mouseSpriteSize = 0;
 		}
 
-		g_global->mouseSprite = Tools_Malloc(size, 0x0);
-		g_global->variable_705C = size;
+		g_mouseSprite = malloc(size);
+		s_mouseSpriteSize = size;
 	}
 
 	if ((*(uint16 *)sprite & 0x2) != 0) {
-		memcpy(emu_get_memorycsip(g_global->mouseSprite), sprite, *(uint16 *)(sprite + 6) * 2);
+		memcpy(g_mouseSprite, sprite, *(uint16 *)(sprite + 6) * 2);
 	} else {
-		uint8 *dst = emu_get_memorycsip(g_global->mouseSprite);
+		uint8 *dst = (uint8 *)g_mouseSprite;
 		uint8 *buf = g_spriteBuffer;
 		uint16 flags = *(uint16 *)sprite | 0x2;
 
@@ -497,7 +503,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 	g_global->mouseSpriteHotspotX = hotSpotX;
 	g_global->mouseSpriteHotspotY = hotSpotY;
 
-	sprite = emu_get_memorycsip(g_global->mouseSprite);
+	sprite = g_mouseSprite;
 	g_global->mouseHeight = sprite[5];
 	g_global->mouseWidth = (*(uint16 *)(sprite + 3) >> 3) + 2;
 

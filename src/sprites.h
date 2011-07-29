@@ -11,6 +11,8 @@ extern uint8 *g_iconRTBL;
 extern uint8 *g_iconRPAL;
 extern uint8 *g_spriteInfo;
 extern uint16 *g_iconMap;
+extern void *g_mouseSprite;
+extern void *g_mouseSpriteBuffer;
 
 extern void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites);
 extern uint8 *Sprites_GetSprite(uint8 *buffer, uint16 index);
