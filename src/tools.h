@@ -38,4 +38,8 @@ extern void Tools_Sleep(uint16 ticks);
 extern csip32 Tools_Malloc(uint32 size, uint8 flags);
 extern void Tools_Free(csip32 ptr);
 
+extern bool BitArray_Test(uint8 *array, uint16 index);
+extern void BitArray_Set(uint8 *array, uint16 index);
+extern void BitArray_Clear(uint8 *array, uint16 index);
+
 #endif /* TOOLS_H */

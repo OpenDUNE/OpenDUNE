@@ -486,3 +486,35 @@ void Tools_Free(csip32 ptr)
 
 	Tools_Free_Internal(ptr);
 }
+
+
+/**
+ * Test a bit in a bit array.
+ * @param array Bit array.
+ * @param index Index in the array.
+ * @return value of the bit.
+ */
+bool BitArray_Test(uint8 *array, uint16 index)
+{
+	return (array[index >> 3] & (1 << (index & 7))) != 0;
+}
+
+/**
+ * Set a bit in a bit array.
+ * @param array Bit array.
+ * @param index Index in the array.
+ */
+void BitArray_Set(uint8 *array, uint16 index)
+{
+	array[index >> 3] |= (1 << (index & 7));
+}
+
+/**
+ * Clear a bit in a bit array.
+ * @param array Bit array.
+ * @param index Index in the array.
+ */
+void BitArray_Clear(uint8 *array, uint16 index)
+{
+	array[index >> 3] &= ~(1 << (index & 7));
+}

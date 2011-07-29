@@ -48,6 +48,8 @@
 #include "wsa.h"
 
 
+bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
+
 uint32 g_hintsShown1 = 0;          /*!< A bit-array to indicate which hints has been show already (0-31). */
 uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has been show already (32-63). */
 GameMode g_gameMode = GM_NORMAL;

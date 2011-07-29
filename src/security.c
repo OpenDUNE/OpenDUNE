@@ -17,6 +17,7 @@
 #include "house.h"
 #include "input/input.h"
 #include "load.h"
+#include "opendune.h"
 #include "os/strings.h"
 #include "scenario.h"
 #include "sprites.h"

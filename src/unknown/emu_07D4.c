@@ -9,26 +9,30 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
-#include "../opendune.h"
+
 #include "unknown.h"
+
 #include "../animation.h"
 #include "../gfx.h"
-#include "../unit.h"
-#include "../tile.h"
-#include "../map.h"
-#include "../os/math.h"
 #include "../gui/gui.h"
-#include "../structure.h"
-#include "../pool/pool.h"
-#include "../pool/house.h"
-#include "../pool/unit.h"
 #include "../house.h"
-#include "../sprites.h"
+#include "../map.h"
+#include "../opendune.h"
+#include "../os/math.h"
+#include "../pool/house.h"
+#include "../pool/pool.h"
+#include "../pool/unit.h"
 #include "../scenario.h"
+#include "../sprites.h"
+#include "../structure.h"
+#include "../tools.h"
+#include "../tile.h"
+#include "../unit.h"
 
-uint16 _changedTilesCount;     /*!< Number of changed tiles in #_changedTiles. */
-uint16 _changedTiles[200];     /*!< Array of positions of changed tiles. */
-uint8  g_changedTilesMap[512]; /*!< Bit array of changed tiles, in order not to loose changes. */
+
+static uint16 s_changedTilesCount;     /*!< Number of changed tiles in #_changedTiles. */
+static uint16 s_changedTiles[200];     /*!< Array of positions of changed tiles. */
+uint8 g_changedTilesMap[512]; /*!< Bit array of changed tiles, in order not to loose changes. */
 
 uint16 g_viewportMessageCounter;        /*!< Countdown counter for displaying #g_viewportMessageText, bit 0 means 'display the text'. */
 char *g_viewportMessageText;            /*!< If not \c NULL, message text displayed in the viewport. */
@@ -479,13 +483,13 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		memset(g_dirtyViewport, 0, sizeof(g_dirtyViewport));
 	}
 
-	if (_changedTilesCount != 0) {
+	if (s_changedTilesCount != 0) {
 		bool init = false;
 		bool update = false;
 		uint16 oldScreenID2 = 2;
 
-		for (i = 0; i < _changedTilesCount; i++) {
-			curPos = _changedTiles[i];
+		for (i = 0; i < s_changedTilesCount; i++) {
+			curPos = s_changedTiles[i];
 			BitArray_Clear(g_changedTilesMap, curPos);
 
 			if (!init) {
@@ -511,16 +515,16 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_Mouse_Show_InWidget();
 		}
 
-		if (_changedTilesCount == lengthof(_changedTiles)) {
-			_changedTilesCount = 0;
+		if (s_changedTilesCount == lengthof(s_changedTiles)) {
+			s_changedTilesCount = 0;
 
 			for (i = 0; i < 4096; i++) {
 				if (!BitArray_Test(g_changedTilesMap, i)) continue;
-				_changedTiles[_changedTilesCount++] = i;
-				if (_changedTilesCount == lengthof(_changedTiles)) break;
+				s_changedTiles[s_changedTilesCount++] = i;
+				if (s_changedTilesCount == lengthof(s_changedTiles)) break;
 			}
 		} else {
-			_changedTilesCount = 0;
+			s_changedTilesCount = 0;
 		}
 	}
 
@@ -810,5 +814,5 @@ void Unknown_07D4_02F8(uint16 packed)
 	if (BitArray_Test(g_displayedMinimap, packed) && g_scenario.mapScale + 1 == 0) return;
 
 	BitArray_Set(g_changedTilesMap, packed);
-	if (_changedTilesCount < lengthof(_changedTiles)) _changedTiles[_changedTilesCount++] = packed;
+	if (s_changedTilesCount < lengthof(s_changedTiles)) s_changedTiles[s_changedTilesCount++] = packed;
 }

@@ -12,6 +12,7 @@
 #include "gfx.h"
 
 #include "house.h"
+#include "opendune.h"
 #include "sprites.h"
 
 static uint16 s_spriteSpacing  = 0;

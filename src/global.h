@@ -1455,16 +1455,10 @@ typedef struct GlobalData {
 MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);
 
-
-extern bool BitArray_Test(uint8 *array, uint16 index);
-extern void BitArray_Set(uint8 *array, uint16 index);
-extern void BitArray_Clear(uint8 *array, uint16 index);
-
 extern uint16 emu_Global_GetIP(void *ptr, uint16 segment);
 extern csip32 emu_Global_GetCSIP(void *ptr);
 extern uint8 *emu_get_memorycsip(csip32 csip);
 
 extern GlobalData *g_global;
-extern bool g_dune2_enhanced;
 
 #endif /* GLOBAL_H */

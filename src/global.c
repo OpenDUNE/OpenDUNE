@@ -10,39 +10,6 @@
 #include "global.h"
 
 GlobalData *g_global = NULL;
-bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
-
-/**
- * Test a bit in a bit array.
- * @param array Bit array.
- * @param index Index in the array.
- * @return value of the bit.
- */
-bool BitArray_Test(uint8 *array, uint16 index)
-{
-	return (array[index >> 3] & (1 << (index & 7))) != 0;
-}
-
-/**
- * Set a bit in a bit array.
- * @param array Bit array.
- * @param index Index in the array.
- */
-void BitArray_Set(uint8 *array, uint16 index)
-{
-	array[index >> 3] |= (1 << (index & 7));
-}
-
-/**
- * Clear a bit in a bit array.
- * @param array Bit array.
- * @param index Index in the array.
- */
-void BitArray_Clear(uint8 *array, uint16 index)
-{
-	array[index >> 3] &= ~(1 << (index & 7));
-}
-
 
 /**
  * Initialize the global system.
