@@ -22,15 +22,6 @@ void System_Init_Global()
 }
 
 /**
- * Given a pointer inside the 16bit memory and a segment, find the IP which
- *  belongs to it.
- */
-uint16 emu_Global_GetIP(void *ptr, uint16 segment)
-{
-	return (size_t)ptr - (size_t)emu_memory - (segment << 4);
-}
-
-/**
  * Given a pointer inside the 16bit memory, find a CS:IP to reflect this
  *  address.
  * @note Please avoid using.
