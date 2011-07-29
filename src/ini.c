@@ -7,7 +7,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "types.h"
-#include "global.h"
 #include "os/strings.h"
 
 #include "ini.h"

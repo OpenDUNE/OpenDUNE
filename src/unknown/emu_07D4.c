@@ -9,6 +9,8 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../os/common.h"
+#include "../os/math.h"
 
 #include "unknown.h"
 
@@ -18,7 +20,6 @@
 #include "../house.h"
 #include "../map.h"
 #include "../opendune.h"
-#include "../os/math.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
 #include "../pool/unit.h"

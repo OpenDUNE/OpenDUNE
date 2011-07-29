@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include "types.h"
-#include "../global.h"
 
 #include "saveload.h"
 #include "../house.h"

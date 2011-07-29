@@ -8,6 +8,7 @@
 #include <assert.h>
 #include "types.h"
 #include "global.h"
+#include "os/common.h"
 #include "os/strings.h"
 
 #include "string.h"

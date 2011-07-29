@@ -7,6 +7,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "../global.h"
+#include "../os/common.h"
 #include "../os/sleep.h"
 
 #include "input.h"

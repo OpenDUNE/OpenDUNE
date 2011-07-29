@@ -8,7 +8,6 @@
 #include "types.h"
 #include "libemu.h"
 #include "driver.h"
-#include "global.h"
 
 /**
  * Emulator wrapper around Drivers_CustomTimer_Interrupt()

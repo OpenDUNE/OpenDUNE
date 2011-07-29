@@ -5,19 +5,20 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "../global.h"
 
 #include "script.h"
 
+#include "../config.h"
 #include "../gui/gui.h"
-#include "../opendune.h"
 #include "../house.h"
 #include "../map.h"
+#include "../opendune.h"
 #include "../pool/house.h"
 #include "../pool/pool.h"
 #include "../pool/structure.h"
 #include "../pool/unit.h"
 #include "../scenario.h"
+#include "../sound.h"
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"

@@ -8,6 +8,7 @@
 #include "types.h"
 #include "libemu.h"
 #include "global.h"
+#include "os/common.h"
 #include "os/math.h"
 
 #include "map.h"
