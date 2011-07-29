@@ -1096,9 +1096,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		loc22 += loc12 - 1;
 	}
 
-	loc22 = ((uint16 *)emu_get_memorycsip(g_global->variable_66EC))[loc22] + posX;
-
-	buf += loc22;
+	buf += loc22 * SCREEN_WIDTH + posX;
 
 	if ((flags & 0x1) != 0) {
 		uint16 tmp = loc1E;

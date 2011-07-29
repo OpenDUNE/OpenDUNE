@@ -386,7 +386,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 		width = right - x;
 	}
 
-	dst += ((uint16 *)emu_get_memorycsip(g_global->variable_66EC))[y] + x;
+	dst += y * SCREEN_WIDTH + x;
 
 	while (height-- != 0) {
 		src += skipBefore;

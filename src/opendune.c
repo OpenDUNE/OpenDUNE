@@ -755,11 +755,10 @@ static void GameLoop_Uninit()
 
 static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
 {
-	uint16 *data = (uint16 *)emu_get_memorycsip(g_global->variable_66EC);
 	uint16 *esdi = (uint16 *)emu_get_memorycsip(arg0C);
-	uint16 *dssi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[arg0A >> 1][arg0A & 1], data[arg06], 0x0);
-	uint16 *essi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[0][0], data[arg06], 0x0);
-	uint16 count = data[arg08] / 2;
+	uint16 *dssi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[arg0A >> 1][arg0A & 1], arg06 * SCREEN_WIDTH, 0x0);
+	uint16 *essi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[0][0], arg06 * SCREEN_WIDTH, 0x0);
+	uint16 count = arg08 * SCREEN_WIDTH / 2;
 
 	while (count-- != 0) {
 		if (*esdi++ != *dssi++) {
