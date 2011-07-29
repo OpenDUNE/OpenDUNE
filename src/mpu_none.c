@@ -20,6 +20,7 @@ void mpu_uninit()
 
 void mpu_send(uint32 data)
 {
+	VARIABLE_NOT_USED(data);
 }
 
 void mpu_reset()
