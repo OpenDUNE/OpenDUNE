@@ -710,7 +710,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
-	Timer_SetTimer(2, false);
+	Timer_SetTimer(TIMER_GAME, false);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -797,7 +797,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_Widget_MakeSelected(w, false);
 
-	Timer_SetTimer(2, true);
+	Timer_SetTimer(TIMER_GAME, true);
 
 	GameOptions_Save();
 

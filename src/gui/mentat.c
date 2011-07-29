@@ -383,11 +383,11 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_Load(1, g_sprites);
 
-	Timer_SetTimer(2, false);
+	Timer_SetTimer(TIMER_GAME, false);
 
 	GUI_Mentat_ShowHelpList(false);
 
-	Timer_SetTimer(2, true);
+	Timer_SetTimer(TIMER_GAME, true);
 
 	Driver_Sound_Play(1, 0xFF);
 

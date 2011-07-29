@@ -1561,11 +1561,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GUI_ChangeSelectionType(0);
 
-			Timer_SetTimer(2, false);
+			Timer_SetTimer(TIMER_GAME, false);
 
 			res = GUI_DisplayFactoryWindow(g_global->factoryWindowConstructionYard != 0, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
-			Timer_SetTimer(2, true);
+			Timer_SetTimer(TIMER_GAME, true);
 
 			Sprites_LoadTiles();
 

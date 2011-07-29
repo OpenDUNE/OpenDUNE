@@ -1765,7 +1765,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
 	                      INPUT_FLAG_UNKNOWN_0008 | INPUT_FLAG_UNKNOWN_0004 | INPUT_FLAG_UNKNOWN_0002);
 
-	Timer_SetTimer(1, true);
+	Timer_SetTimer(TIMER_GUI, true);
 
 	g_campaignID = 0;
 	g_scenarioID = 1;
@@ -2167,7 +2167,7 @@ static void GameLoop_Main()
 
 	GameLoop_GameIntroAnimationMenu();
 
-	Timer_SetTimer(2, g_global->variable_37AA != 0);
+	Timer_SetTimer(TIMER_GAME, g_global->variable_37AA != 0);
 
 	GUI_Mouse_Show_Safe();
 
