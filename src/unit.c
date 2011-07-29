@@ -2413,7 +2413,7 @@ bool Unit_Unknown379B(Unit *unit)
 	if (unit != g_unitSelected) return true;
 
 	if (g_global->selectionType == 1) {
-		g_global->variable_39F2 = 0;
+		g_global->veiledSpriteID = 0;
 		g_global->bloomSpriteID = 0;
 		g_global->landscapeSpriteID = 0xFFFF;
 

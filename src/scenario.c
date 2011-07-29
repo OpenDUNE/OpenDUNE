@@ -315,7 +315,7 @@ static void Scenario_Load_Map(const char *key, char *settings)
 	if (g_mapSpriteID[packed] != t->groundSpriteID) g_mapSpriteID[packed] |= 0x8000;
 
 	if (!t->isUnveiled) {
-		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
+		t->overlaySpriteID = g_global->veiledSpriteID & 0x7F;
 	}
 }
 

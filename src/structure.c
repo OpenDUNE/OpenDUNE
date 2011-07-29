@@ -1818,7 +1818,7 @@ void Structure_UpdateMap(Structure *s)
 
 		t->groundSpriteID = iconMap[i] + s->variable_49;
 
-		if (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15) {
+		if (t->overlaySpriteID > g_global->veiledSpriteID || g_global->veiledSpriteID > t->overlaySpriteID + 15) {
 			t->overlaySpriteID = 0;
 		}
 

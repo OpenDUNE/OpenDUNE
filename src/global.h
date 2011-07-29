@@ -825,7 +825,7 @@ typedef struct GlobalData {
 	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32 removed_39EA;               /*!< REMOVED - Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32 removed_39EE;               /*!< REMOVED - Pointer to content of ICON.MAP. */
-	/* 39F2(2)   */ PACK uint16 variable_39F2;              /*!< ?? */
+	/* 39F2(2)   */ PACK uint16 veiledSpriteID;             /*!< SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
 	/* 39F4(2)   */ PACK uint16 bloomSpriteID;              /*!< First bloom field spriteID. */
 	/* 39F6(2)   */ PACK uint16 landscapeSpriteID;          /*!< First landscape spriteID. */
 	/* 39F8(2)   */ PACK uint16 builtSlabSpriteID;          /*!< SpriteID of the built concrete slab. */

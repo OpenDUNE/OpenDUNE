@@ -323,7 +323,7 @@ void Sprites_LoadTiles()
 	free(g_iconMap);
 	g_iconMap = File_ReadWholeFile_Pure("ICON.MAP");
 
-	g_global->variable_39F2     = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
+	g_global->veiledSpriteID    = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
 	g_global->bloomSpriteID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];
 	g_global->builtSlabSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_CONCRETE_SLAB] + 2];
 	g_global->landscapeSpriteID = g_iconMap[g_iconMap[ICM_ICONGROUP_LANDSCAPE]];

@@ -470,7 +470,7 @@ void Map_SetSelection(uint16 packed)
 		return;
 	}
 
-	if (g_map[packed].overlaySpriteID != g_global->variable_39F2 || g_debugScenario) {
+	if (g_map[packed].overlaySpriteID != g_global->veiledSpriteID || g_debugScenario) {
 		Structure *s;
 
 		s = Structure_Get_ByPackedTile(packed);
@@ -729,7 +729,7 @@ bool Map_Load(FILE *fp, uint32 length)
 		Tile *t = &g_map[i];
 
 		t->isUnveiled = false;
-		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
+		t->overlaySpriteID = g_global->veiledSpriteID & 0x7F;
 	}
 
 	while (length >= sizeof(uint16) + sizeof(Tile)) {
@@ -767,7 +767,7 @@ bool Map_IsPositionUnveiled(uint16 position)
 	t = &g_map[position];
 
 	if (!t->isUnveiled) return false;
-	if (t->overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= t->overlaySpriteID + 15) return false;
+	if (t->overlaySpriteID <= g_global->veiledSpriteID && g_global->veiledSpriteID <= t->overlaySpriteID + 15) return false;
 
 	return true;
 }
@@ -834,7 +834,7 @@ static bool Map_06F7_072B(MapActivity *s)
 
 	overlaySpriteID = t->overlaySpriteID;
 
-	if (overlaySpriteID <= g_global->variable_39F2 && g_global->variable_39F2 <= overlaySpriteID + 15) return false;
+	if (overlaySpriteID <= g_global->veiledSpriteID && g_global->veiledSpriteID <= overlaySpriteID + 15) return false;
 
 	iconMap = &g_iconMap[g_iconMap[loc06]];
 	if (iconMap[0] <= overlaySpriteID && overlaySpriteID <= iconMap[10]) {
@@ -2027,7 +2027,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	if (t->isUnveiled) {
 		int i;
 
-		if (g_global->variable_38BC == 0 && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return;
+		if (g_global->variable_38BC == 0 && (t->overlaySpriteID > g_global->veiledSpriteID || g_global->veiledSpriteID > t->overlaySpriteID + 15)) return;
 
 		spriteID = 0;
 
@@ -2075,7 +2075,7 @@ bool Map_UnveilTile(uint16 packed, uint8 houseID)
 
 	t = &g_map[packed];
 
-	if (t->isUnveiled && (t->overlaySpriteID > g_global->variable_39F2 || g_global->variable_39F2 > t->overlaySpriteID + 15)) return false;
+	if (t->isUnveiled && (t->overlaySpriteID > g_global->veiledSpriteID || g_global->veiledSpriteID > t->overlaySpriteID + 15)) return false;
 	t->isUnveiled = true;
 
 	Unknown_07D4_02F8(packed);
@@ -2380,7 +2380,7 @@ void Map_CreateLandscape(uint32 seed)
 		Tile *t = &g_map[i];
 
 		t->groundSpriteID  = iconMap[t->groundSpriteID];
-		t->overlaySpriteID = g_global->variable_39F2 & 0x7F;
+		t->overlaySpriteID = g_global->veiledSpriteID & 0x7F;
 		t->houseID         = HOUSE_HARKONNEN;
 		t->isUnveiled      = false;
 		t->hasUnit         = false;
