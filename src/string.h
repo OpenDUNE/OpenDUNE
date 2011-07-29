@@ -5,6 +5,9 @@
 #ifndef STRING_H
 #define STRING_H
 
+extern void *g_strings;
+extern void *g_stringsHint;
+
 extern uint16 String_Decompress(char *source, char *dest);
 extern char *String_GenerateFilename(char *name);
 extern char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index);

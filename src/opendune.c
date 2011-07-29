@@ -744,13 +744,14 @@ static void GameLoop_Uninit()
 	Tools_Free(emu_Global_GetCSIP(g_palette2));
 	Tools_Free(emu_Global_GetCSIP(g_paletteMapping1));
 	Tools_Free(emu_Global_GetCSIP(g_paletteMapping2));
-	Tools_Free(g_global->variable_38C6);
 	Tools_Free(g_global->variable_3C46);
 	Tools_Free(g_global->readBuffer);
-	Tools_Free(g_global->strings);
 
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
+
+	free(g_strings);
+	free(g_stringsHint);
 }
 
 static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
@@ -1822,7 +1823,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->variable_3C46 = Tools_Malloc(1500, 0x30);
 	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
 
-	g_global->variable_38C6 = File_ReadWholeFile(String_GenerateFilename("MESSAGE"), 0);
+	g_stringsHint = File_ReadWholeFile_Pure(String_GenerateFilename("MESSAGE"));
 
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 	g_fontNew8p2 = g_fontNew8p;

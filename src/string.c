@@ -14,6 +14,9 @@
 #include "file.h"
 #include "tools.h"
 
+void *g_strings = NULL;
+void *g_stringsHint = NULL;
+
 /**
  * Decompress a string.
  *
@@ -81,10 +84,7 @@ char *String_GetFromBuffer_ByIndex(char *buffer, uint16 index)
  */
 char *String_Get_ByIndex(uint16 index)
 {
-	char *buffer;
-
-	buffer = (char *)emu_get_memorycsip(g_global->strings);
-	return String_GetFromBuffer_ByIndex(buffer, index);
+	return String_GetFromBuffer_ByIndex(g_strings, index);
 }
 
 /**
@@ -114,18 +114,14 @@ void String_TranslateSpecial(char *source, char *dest)
  */
 void String_Load(char *name)
 {
-	char *filename;
-
-	if (g_global->strings.csip != 0) {
-		Tools_Free(g_global->strings);
-		g_global->strings.csip = 0x0;
+	if (g_strings != NULL) {
+		free(g_strings);
+		g_strings = NULL;
 	}
 
 	if (name == NULL) return;
 
-	filename = String_GenerateFilename(name);
-
-	g_global->strings = File_ReadWholeFile(filename, 0);
+	g_strings = File_ReadWholeFile_Pure(String_GenerateFilename(name));
 }
 
 /**

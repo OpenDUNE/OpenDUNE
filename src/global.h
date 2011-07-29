@@ -854,8 +854,8 @@ typedef struct GlobalData {
 	/* 38BE(2)   */ PACK uint16 removed_38BE;               /*!< REMOVED - Game mode. */
 	/* 38C0(4)   */ PACK uint32  removed_38C0;              /*!< REMOVED - ?? */
 	/* 38C4(2)   */ PACK uint16  removed_38C4;              /*!< REMOVED - text display needs an update. */
-	/* 38C6(4)   */ PACK csip32 variable_38C6;              /*!< ?? */
-	/* 38CA(4)   */ PACK csip32 strings;                    /*!< Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
+	/* 38C6(4)   */ PACK csip32 removed_38C6;               /*!< REMOVED - MESSAGE strings. */
+	/* 38CA(4)   */ PACK csip32 removed_38CA;               /*!< REMOVED - Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
 	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
 	/* 38D6(4)   */ PACK csip32  removed_38D6;              /*!< REMOVED ?? (never written, only tested for not-0) */

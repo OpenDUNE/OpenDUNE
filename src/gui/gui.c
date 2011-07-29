@@ -1955,7 +1955,7 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 	if ((*hintsShown & mask) != 0) return 0;
 	*hintsShown |= mask;
 
-	return GUI_DisplayModalMessage(String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->variable_38C6), stringID), spriteID);
+	return GUI_DisplayModalMessage(String_GetFromBuffer_ByIndex(g_stringsHint, stringID), spriteID);
 }
 
 void GUI_DrawProgressbar(uint16 current, uint16 max)
