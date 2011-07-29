@@ -7,17 +7,19 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "types.h"
-#include "global.h"
 #include "os/common.h"
 #include "os/strings.h"
 
 #include "string.h"
 
+#include "config.h"
 #include "file.h"
 #include "tools.h"
 
 void *g_strings = NULL;
 void *g_stringsHint = NULL;
+
+static char *s_stringDecompress = " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm";
 
 /**
  * Decompress a string.
@@ -38,10 +40,10 @@ uint16 String_Decompress(char *source, char *dest)
 		if ((c & 0x80) != 0) {
 			c &= 0x78;
 			c >>= 3;
-			dest[count++] = g_global->stringDecompress[c];
+			dest[count++] = s_stringDecompress[c];
 			c <<= 3;
 			c += (*s & 0x07);
-			c = g_global->stringDecompress[c + 0x10];
+			c = s_stringDecompress[c + 16];
 		}
 		dest[count++] = c;
 	}

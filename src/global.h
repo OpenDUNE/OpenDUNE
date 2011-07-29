@@ -1186,7 +1186,7 @@ typedef struct GlobalData {
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
 	/* 6E87()    */ PACK uint8   unknown_6E87[0x0001];
-	/* 6E88(145) */ PACK char   stringDecompress[144];      /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
+	/* 6E88(145) */ PACK char    removed_6E88[144];         /*!< " etainosrlhcdupmtasio wb rnsdalmh ieorasnrtlc synstcloer dtgesionr ufmsw tep.icae "
 	                                                         *   "oiadur laeiyodeia otruetoakhlr eiu,.oansrctlaileoiratpeaoip bm".
 	                                                         *   Used to uncompress lang files (.ENG, ...). Also accessed via 0x6E98. */
 	/* 6F18(4)   */ PACK csip32  removed_6F18;              /*!< REMOVED - Pointer to a buffer. */
