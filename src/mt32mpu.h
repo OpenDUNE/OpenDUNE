@@ -70,8 +70,6 @@ extern struct DriverInfo *MPU_GetInfo();
 extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);
 
 
-extern void emu_MPU_Reset();
-extern void emu_MPU_UART();
 extern void emu_MPU_WriteData();
 extern void emu_MPU_Interrupt();
 extern void emu_MPU_Init();

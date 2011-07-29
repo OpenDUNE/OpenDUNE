@@ -10,36 +10,6 @@
 #include "mt32mpu.h"
 
 /**
- * Emulator wrapper around MPU_Reset()
- *
- * @name emu_MPU_Reset
- * @implements AB01:050D:0013:8F78 ()
- */
-void emu_MPU_Reset()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	emu_ax = MPU_Reset() ? 1 : 0;
-}
-
-/**
- * Emulator wrapper around MPU_UART()
- *
- * @name emu_MPU_UART
- * @implements AB01:0543:0013:0ECE ()
- */
-void emu_MPU_UART()
-{
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	MPU_UART();
-}
-
-/**
  * Emulator wrapper around MPU_WriteData()
  *
  * @name emu_MPU_WriteData
