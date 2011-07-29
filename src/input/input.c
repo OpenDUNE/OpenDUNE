@@ -17,6 +17,8 @@
 #include "../gui/gui.h"
 #include "../interrupt.h"
 #include "../mouse.h"
+#include "../opendune.h"
+#include "../timer.h"
 
 static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 
@@ -236,7 +238,7 @@ uint16 Input_AddHistory(uint16 value)
 
 	if (g_global->variable_701B != 0) {
 		value = 0;
-	} else if (g_global->variable_76A6 < g_global->variable_7015) {
+	} else if (g_timerInput < g_global->variable_7015) {
 		value = 0;
 	} else if (g_global->variable_7013 == 0x2D) {
 		Input_ReadInputFromFile();
@@ -406,10 +408,10 @@ void Input_HandleInput(uint16 input)
 		return;
 	}
 	s_input_local->variable_0A94 = input;
-	s_input_local->variable_0A96 = g_global->variable_76A6;
+	s_input_local->variable_0A96 = g_timerInput;
 
 	File_Write(g_global->mouseFileID, &s_input_local->variable_0A94, saveSize);
-	g_global->variable_76A6 = 0x0;
+	g_timerInput = 0;
 
 	emu_popf();
 }
@@ -436,7 +438,7 @@ void Input_ReadInputFromFile()
 		if ((value & 0x800) == 0) s_input_local->activeInputMap[idx] |= bit;
 
 		if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44) {
-			g_global->variable_76A6 = 0;
+			g_timerInput = 0;
 			return;
 		}
 
@@ -453,7 +455,7 @@ void Input_ReadInputFromFile()
 	value = g_mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
 
 	Mouse_HandleMovementIfMoved(value);
-	g_global->variable_76A6 = 0x0;
+	g_timerInput = 0;
 }
 
 /**

@@ -38,6 +38,7 @@
 #include "../sprites.h"
 #include "../string.h"
 #include "../structure.h"
+#include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
@@ -189,7 +190,7 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 void GUI_DisplayText(const char *str, int16 importance, ...)
 {
 	char buffer[80];                 /* Formatting buffer of new message. */
-	static int32 displayTimeout = 0; /* Timeout value for next update of the display. */
+	static uint32 displayTimer = 0;  /* Timeout value for next update of the display. */
 	static uint16 textOffset;        /* Vertical position of text being scrolled. */
 	static bool scrollInProgress;    /* Text is being scrolled (and partly visible to the user). */
 
@@ -223,7 +224,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		displayLine3[0] = '\0';
 
 		scrollInProgress = false;
-		displayTimeout = 0;
+		displayTimer = 0;
 		return;
 	}
 
@@ -246,7 +247,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 				line3Importance = importance;
 			}
 		}
-		if (displayTimeout > (int32)g_global->variable_76AC) return;
+		if (displayTimer > g_timerGUI) return;
 
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
@@ -278,7 +279,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 
 		if (textOffset != 0) {
 			if (line3Importance <= line2Importance) {
-				displayTimeout = g_global->variable_76AC + 1;
+				displayTimer = g_timerGUI + 1;
 			}
 			textOffset--;
 			return;
@@ -297,7 +298,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 
 		line3Importance = -1;
 		g_textDisplayNeedsUpdate = true;
-		displayTimeout = g_global->variable_76AC + (line2Importance <= line1Importance ? 900 : 1);
+		displayTimer = g_timerGUI + (line2Importance <= line1Importance ? 900 : 1);
 		scrollInProgress = false;
 		return;
 	}
@@ -328,11 +329,11 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		if (displayLine1[0] == '\0' && displayLine2[0] == '\0') return;
 	}
 
-	if (line2Importance <= line1Importance && displayTimeout >= (int32)g_global->variable_76AC) return;
+	if (line2Importance <= line1Importance && displayTimer >= g_timerGUI) return;
 
 	scrollInProgress = true;
 	textOffset = 10;
-	displayTimeout = 0;
+	displayTimer = 0;
 }
 
 /**
@@ -601,7 +602,7 @@ static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 referenc
  */
 void GUI_PaletteAnimate()
 {
-	if (g_global->variable_31CE < g_global->variable_76AC) {
+	if (g_global->variable_31CE < g_timerGUI) {
 		uint16 colour;
 		if (g_global->variable_37B2 != 0) {
 			colour = 15;
@@ -614,10 +615,10 @@ void GUI_PaletteAnimate()
 		GFX_SetPalette(g_palette1);
 
 		g_global->variable_31D2 = (g_global->variable_31D2 == 0) ? 1 : 0;
-		g_global->variable_31CE = g_global->variable_76AC + 60;
+		g_global->variable_31CE = g_timerGUI + 60;
 	}
 
-	if (g_global->variable_31CA < g_global->variable_76AC && g_global->selectionType != 0) {
+	if (g_global->variable_31CA < g_timerGUI && g_global->selectionType != 0) {
 		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
 		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
 		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
@@ -640,10 +641,10 @@ void GUI_PaletteAnimate()
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_31CA = g_global->variable_76AC + 3;
+		g_global->variable_31CA = g_timerGUI + 3;
 	}
 
-	if (g_global->variable_31C6 < g_global->variable_76AC) {
+	if (g_global->variable_31C6 < g_timerGUI) {
 		GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6);
 
 		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6)) {
@@ -656,7 +657,7 @@ void GUI_PaletteAnimate()
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_31C6 = g_global->variable_76AC + 5;
+		g_global->variable_31C6 = g_timerGUI + 5;
 	}
 
 	Sound_StartSpeech();
@@ -775,9 +776,8 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_Mouse_Show_Safe();
 
-	g_global->variable_76B4 = 30;
-
-	while (g_global->variable_76B4 != 0) GUI_PaletteAnimate();
+	g_timerTimeout = 30;
+	while (g_timerTimeout != 0) GUI_PaletteAnimate();
 
 	Input_History_Clear();
 
@@ -1516,9 +1516,8 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 static void GUI_EndStats_Sleep(uint16 delay)
 {
-	g_global->variable_76B4 = delay;
-
-	while (g_global->variable_76B4 != 0) GUI_HallOfFame_Tick();
+	g_timerTimeout = delay;
+	while (g_timerTimeout != 0) GUI_HallOfFame_Tick();
 }
 
 /**
@@ -1542,7 +1541,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	uint16 loc32[3][2][2];
 	uint16 i;
 
-	g_global->variable_81EB = ((g_tickGlobal - g_tickScenarioStart) / 3600) + 1;
+	g_global->variable_81EB = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
 	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
 
@@ -1644,7 +1643,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 				GUI_HallOfFame_Tick();
 
-				g_global->variable_76B4 = 1;
+				g_timerTimeout = 1;
 
 				GUI_DrawLine(loc04, locdi, loc04, locdi + 5, colour);
 
@@ -1656,7 +1655,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 				Driver_Sound_Play(52, 0xFF);
 
-				GUI_EndStats_Sleep(g_global->variable_76B4);
+				GUI_EndStats_Sleep(g_timerTimeout);
 			}
 
 			GUI_DrawFilledRectangle(271, locdi, 303, locdi + 5, 226);
@@ -2099,8 +2098,8 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 	int16 creditsOld;
 	int16 offset;
 
-	if (_tickCreditsAnimation > g_global->variable_76AC && mode == 0) return;
-	_tickCreditsAnimation = g_global->variable_76AC + 1;
+	if (_tickCreditsAnimation > g_timerGUI && mode == 0) return;
+	_tickCreditsAnimation = g_timerGUI + 1;
 
 	h = House_Get_ByIndex(houseID);
 
@@ -2210,7 +2209,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
 
-		Game_Timer_SetState(2, false);
+		Timer_SetTimer(2, false);
 
 		g_global->selectionType = selectionType;
 		g_global->variable_3A10 = selectionType;
@@ -2286,7 +2285,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				g_global->cursorDefaultSpriteID = 5;
 
-				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			case 2:
@@ -2295,11 +2294,11 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 
-				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			case 3:
-				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(2, (g_global->variable_37AA != 0) ? true : false);
 
 				GUI_Widget_ActionPanel_Draw(true);
 				break;
@@ -2307,7 +2306,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			case 4:
 				GUI_Widget_ActionPanel_Draw(true);
 
-				Game_Timer_SetState(2, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(2, (g_global->variable_37AA != 0) ? true : false);
 				break;
 
 			default: break;
@@ -2668,7 +2667,7 @@ static void GUI_FactoryWindow_InitItems()
 	memset(g_factoryWindowItems, 0, 25 * sizeof(FactoryWindowItem));
 
 	if (g_factoryWindowStarport) {
-		uint16 seconds = (g_tickGlobal - g_tickScenarioStart) / 60;
+		uint16 seconds = (g_timerGame - g_tickScenarioStart) / 60;
 		uint16 seed = (seconds / 60) + g_scenarioID + g_playerHouseID;
 		seed *= seed;
 
@@ -2888,8 +2887,8 @@ char *GUI_String_Get_ByIndex(int16 stringID)
 
 static void GUI_StrategicMap_AnimateArrows()
 {
-	if (_arrowAnimationTimeout >= g_global->variable_76AC) return;
-	_arrowAnimationTimeout = g_global->variable_76AC + 7;
+	if (_arrowAnimationTimeout >= g_timerGUI) return;
+	_arrowAnimationTimeout = g_timerGUI + 7;
 
 	_arrowAnimationState = (_arrowAnimationState + 1) % 4;
 
@@ -2954,8 +2953,8 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 		GFX_Screen_Copy2((i % 2 == 0) ? 16 : 176, 16, x, y, width, height, 2, 0, false);
 		GUI_Mouse_Show_Safe();
 
-		g_global->variable_76B4 = 20;
-		while (g_global->variable_76B4 != 0) GUI_StrategicMap_AnimateArrows();
+		g_timerTimeout = 20;
+		while (g_timerTimeout != 0) GUI_StrategicMap_AnimateArrows();
 	}
 }
 
@@ -3023,19 +3022,19 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 	GUI_DrawText_Wrapper(string, 64, 175, 12, 0, 0x12);
 
-	while (g_global->variable_76AC + 90 < g_global->variable_2B0C) sleep(0);
+	while (g_timerGUI + 90 < g_global->variable_2B0C) sleep(0);
 
 	for (y = 185; y > 172; y--) {
 		GUI_Screen_Copy(8, y, 8, 165, 24, 14, 2, 0);
 
-		g_global->variable_76B4 = 3;
+		g_timerTimeout = 3;
 
-		while (g_global->variable_76B4 != 0) {
+		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 	}
 
-	g_global->variable_2B0C = g_global->variable_76AC + 90;
+	g_global->variable_2B0C = g_timerGUI + 90;
 
 	GUI_Screen_SetActive(oldScreenID);
 }
@@ -3250,7 +3249,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	if (campaignID == 0) return 1;
 
-	Tools_Sleep(10);
+	Timer_Sleep(10);
 	Music_Play(0x1D);
 
 	memset(loc30A, 0, 0x300);
@@ -3330,11 +3329,11 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		Input_History_Clear();
 
-		g_global->variable_76B4 = 120;
+		g_timerTimeout = 120;
 
 		Sprites_CPS_LoadRegionClick();
 
-		while (g_global->variable_76B4 != 0) {
+		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
@@ -3347,9 +3346,9 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 		GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, GUI_StrategicMap_FastForwardToggleWithESC() ? 0 : 1, false);
 
-		g_global->variable_76B4 = 60;
+		g_timerTimeout = 60;
 
-		while (g_global->variable_76B4 != 0) {
+		while (g_timerTimeout != 0) {
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
@@ -3617,10 +3616,10 @@ void GUI_FactoryWindow_UpdateSelection(bool selectionChanged)
 		GUI_DrawWiredRectangle(72, y, 103, y + 23, 255);
 		GUI_Mouse_Show_Safe();
 	} else {
-		if (paletteChangeTimer > g_global->variable_76AC) return;
+		if (paletteChangeTimer > g_timerGUI) return;
 	}
 
-	paletteChangeTimer = g_global->variable_76AC + 3;
+	paletteChangeTimer = g_timerGUI + 3;
 	paletteColour += paletteChange;
 
 	if (paletteColour < 0 || paletteColour > 63) {
@@ -3846,9 +3845,9 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 			GFX_PutPixel(curX, curY, colour);
 		}
 
-		tick = g_global->variable_76A8 + delay;
+		tick = g_timerSleep + delay;
 
-		while (g_global->variable_76A8 < tick) sleep(0);
+		while (g_timerSleep < tick) sleep(0);
 	}
 
 	if (screenDst == 0) {
@@ -4171,9 +4170,9 @@ uint16 GUI_HallOfFame_Tick()
 {
 	static int16 colouringDirection = 1;
 
-	if (g_global->variable_2C3A >= g_global->variable_76AC) return 0;
+	if (g_global->variable_2C3A >= g_timerGUI) return 0;
 
-	g_global->variable_2C3A = g_global->variable_76AC + 2;
+	g_global->variable_2C3A = g_timerGUI + 2;
 
 	if (*g_palette1_houseColour >= 63) {
 		colouringDirection = -1;

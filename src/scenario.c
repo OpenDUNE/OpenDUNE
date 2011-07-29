@@ -25,6 +25,7 @@
 #include "structure.h"
 #include "team.h"
 #include "tile.h"
+#include "timer.h"
 #include "unit.h"
 #include "gui/gui.h"
 
@@ -560,6 +561,6 @@ bool Scenario_Load(uint16 scenarioID, uint8 houseID)
 	Scenario_Load_MapParts("Field", Scenario_Load_Map_Field);
 	Scenario_Load_MapParts("Special", Scenario_Load_Map_Special);
 
-	g_tickScenarioStart = g_tickGlobal;
+	g_tickScenarioStart = g_timerGUI;
 	return true;
 }

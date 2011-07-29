@@ -12,6 +12,7 @@
 #include "map.h"
 #include "tile.h"
 #include "tools.h"
+#include "timer.h"
 #include "sprites.h"
 #include "structure.h"
 #include "unknown/unknown.h"
@@ -80,7 +81,7 @@ static void Animation_Func_Pause(Animation *animation, int16 parameter)
 {
 	assert(parameter >= 0);
 
-	animation->tickNext = g_global->variable_76AC + parameter + (Tools_Random_256() % 4);
+	animation->tickNext = g_timerGUI + parameter + (Tools_Random_256() % 4);
 }
 
 /**
@@ -215,7 +216,7 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
 		if (animation->proc.csip != 0) continue;
 
-		animation->tickNext    = g_global->variable_76AC;
+		animation->tickNext    = g_timerGUI;
 		animation->tileLayout  = tileLayout;
 		animation->houseID     = houseID;
 		animation->current     = 0;
@@ -260,13 +261,13 @@ void Animation_Tick()
 	Animation *animation = g_animations;
 	int i;
 
-	if (_animationTimer > g_global->variable_76AC) return;
+	if (_animationTimer > g_timerGUI) return;
 	_animationTimer += 10000;
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
 		if (animation->proc.csip == 0) continue;
 
-		if (animation->tickNext <= g_global->variable_76AC) {
+		if (animation->tickNext <= g_timerGUI) {
 			uint16 *commands = (uint16 *)emu_get_memorycsip(animation->proc);
 			uint16 command;
 			int16 parameter;

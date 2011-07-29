@@ -29,6 +29,7 @@
 #include "string.h"
 #include "team.h"
 #include "tile.h"
+#include "timer.h"
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
@@ -55,24 +56,24 @@ void GameLoop_Structure()
 	bool tickScript    = false;
 	bool tickPalace    = false;
 
-	if (_tickStructureDegrade <= g_tickGlobal && g_campaignID > 1) {
+	if (_tickStructureDegrade <= g_timerGame && g_campaignID > 1) {
 		tickDegrade = true;
-		_tickStructureDegrade = g_tickGlobal + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
+		_tickStructureDegrade = g_timerGame + Tools_AdjustToGameSpeed(10800, 5400, 21600, true);
 	}
 
-	if (_tickStructureStructure <= g_tickGlobal || _debugInstantBuild) {
+	if (_tickStructureStructure <= g_timerGame || _debugInstantBuild) {
 		tickStructure = true;
-		_tickStructureStructure = g_tickGlobal + Tools_AdjustToGameSpeed(30, 15, 60, true);
+		_tickStructureStructure = g_timerGame + Tools_AdjustToGameSpeed(30, 15, 60, true);
 	}
 
-	if (_tickStructureScript <= g_tickGlobal) {
+	if (_tickStructureScript <= g_timerGame) {
 		tickScript = true;
-		_tickStructureScript = g_tickGlobal + 5;
+		_tickStructureScript = g_timerGame + 5;
 	}
 
-	if (_tickStructurePalace <= g_tickGlobal) {
+	if (_tickStructurePalace <= g_timerGame) {
 		tickPalace = true;
-		_tickStructurePalace = g_tickGlobal + 60;
+		_tickStructurePalace = g_timerGame + 60;
 	}
 
 	find.houseID = HOUSE_INVALID;
@@ -1560,11 +1561,11 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GUI_ChangeSelectionType(0);
 
-			Game_Timer_SetState(2, false);
+			Timer_SetTimer(2, false);
 
 			res = GUI_DisplayFactoryWindow(g_global->factoryWindowConstructionYard != 0, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
-			Game_Timer_SetState(2, true);
+			Timer_SetTimer(2, true);
 
 			Sprites_LoadTiles();
 

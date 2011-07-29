@@ -22,6 +22,7 @@
 #include "scenario.h"
 #include "sprites.h"
 #include "string.h"
+#include "timer.h"
 #include "tools.h"
 #include "unknown/unknown.h"
 #include "wsa.h"
@@ -195,7 +196,7 @@ bool GUI_Security_Show()
 
 		GUI_Security_DrawText(string);
 
-		g_interrogationTimer = g_global->variable_76AC + strlen(string) * 4;
+		g_interrogationTimer = g_timerGUI + strlen(string) * 4;
 
 		Widget_SetCurrentWidget(9);
 
@@ -246,15 +247,15 @@ bool GUI_Security_Show()
 
 		GUI_Security_DrawText(string);
 
-		tickWaitTill = g_global->variable_76AC + strlen(string) * 4;
+		tickWaitTill = g_timerGUI + strlen(string) * 4;
 
 		Input_History_Clear();
 
 		/* ENHANCEMENT -- In Dune2, the + 120 is on the other side, causing the 'You are wrong! / Well done.' screen to appear very short (close to invisible, so to say) */
-		while (g_global->variable_76AC + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0)) {
+		while (g_timerGUI + (g_dune2_enhanced ? 0 : 120) < tickWaitTill + (g_dune2_enhanced ? 120 : 0)) {
 			if (Input_Keyboard_NextKey() != 0) break;
 
-			if (g_global->variable_76AC < tickWaitTill) {
+			if (g_timerGUI < tickWaitTill) {
 				GUI_Mentat_Animation(1);
 			} else {
 				GUI_Mentat_Animation(0);

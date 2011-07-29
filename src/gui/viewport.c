@@ -23,6 +23,7 @@
 #include "../string.h"
 #include "../structure.h"
 #include "../tile.h"
+#include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
@@ -56,7 +57,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (spriteID != g_global->cursorSpriteID) {
-		_tickCursor = g_tickGlobal;
+		_tickCursor = g_timerGame;
 
 		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], g_sprites[spriteID]);
 
@@ -86,12 +87,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 	if (direction != 0xFFFF) {
 		if (!click && !drag) {
-			if (_tickMapScroll + 10 >= g_tickGlobal || _tickCursor + 20 >= g_tickGlobal) return true;
+			if (_tickMapScroll + 10 >= g_timerGame || _tickCursor + 20 >= g_timerGame) return true;
 			if (g_gameConfig.autoScroll == 0) return true;
 			if (!g_config.useMouse || g_global->selectionType == 4 || g_global->selectionType == 3) return true;
 		}
 
-		_tickMapScroll = g_tickGlobal;
+		_tickMapScroll = g_timerGame;
 
 		Map_MoveDirection(direction);
 		return true;

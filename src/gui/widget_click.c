@@ -30,6 +30,7 @@
 #include "../string.h"
 #include "../structure.h"
 #include "../tile.h"
+#include "../timer.h"
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
@@ -709,7 +710,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
 	}
 
-	Game_Timer_SetState(2, false);
+	Timer_SetTimer(2, false);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -796,7 +797,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	GUI_Widget_MakeSelected(w, false);
 
-	Game_Timer_SetState(2, true);
+	Timer_SetTimer(2, true);
 
 	GameOptions_Save();
 
@@ -1201,7 +1202,7 @@ bool GUI_Production_Down_Click(Widget *w)
 	bool locdi = false;
 
 	if (g_factoryWindowSelected < 3 && (g_factoryWindowSelected + 1) < g_factoryWindowTotal) {
-		g_global->variable_76B4 = 10;
+		g_timerTimeout = 10;
 		GUI_FactoryWindow_B495_0F30();
 		g_factoryWindowSelected++;
 
@@ -1210,7 +1211,7 @@ bool GUI_Production_Down_Click(Widget *w)
 		locdi = true;
 	} else {
 		if (g_factoryWindowBase + 4 < g_factoryWindowTotal) {
-			g_global->variable_76B4 = 10;
+			g_timerTimeout = 10;
 			g_factoryWindowBase++;
 			locdi = true;
 
@@ -1228,7 +1229,7 @@ bool GUI_Production_Down_Click(Widget *w)
 
 	do {
 		GUI_FactoryWindow_UpdateSelection(false);
-	} while (g_global->variable_76B4 != 0);
+	} while (g_timerTimeout != 0);
 
 	if (locdi) GUI_FactoryWindow_DrawDetails();
 
@@ -1247,7 +1248,7 @@ bool GUI_Production_Up_Click(Widget *w)
 	bool locdi = false;
 
 	if (g_factoryWindowSelected != 0) {
-		g_global->variable_76B4 = 10;
+		g_timerTimeout = 10;
 		GUI_FactoryWindow_B495_0F30();
 		g_factoryWindowSelected--;
 
@@ -1256,7 +1257,7 @@ bool GUI_Production_Up_Click(Widget *w)
 		locdi = true;
 	} else {
 		if (g_factoryWindowBase != 0) {
-			g_global->variable_76B4 = 10;
+			g_timerTimeout = 10;
 			g_factoryWindowBase--;
 			locdi = true;
 
@@ -1274,7 +1275,7 @@ bool GUI_Production_Up_Click(Widget *w)
 
 	do {
 		GUI_FactoryWindow_UpdateSelection(false);
-	} while (g_global->variable_76B4 != 0);
+	} while (g_timerTimeout != 0);
 
 	if (locdi) GUI_FactoryWindow_DrawDetails();
 

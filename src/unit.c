@@ -31,6 +31,7 @@
 #include "structure.h"
 #include "team.h"
 #include "tile.h"
+#include "timer.h"
 #include "tools.h"
 #include "unknown/unknown.h"
 
@@ -124,39 +125,39 @@ void GameLoop_Unit()
 
 	if (g_debugScenario) return;
 
-	if (_tickUnitUnknown1 <= g_tickGlobal) {
+	if (_tickUnitUnknown1 <= g_timerGame) {
 		tickUnknown1 = true;
-		_tickUnitUnknown1 = g_tickGlobal + 3;
+		_tickUnitUnknown1 = g_timerGame + 3;
 	}
 
-	if (_tickUnitUnknown2 <= g_tickGlobal) {
+	if (_tickUnitUnknown2 <= g_timerGame) {
 		tickUnknown2 = true;
-		_tickUnitUnknown2 = g_tickGlobal + Tools_AdjustToGameSpeed(4, 2, 8, true);
+		_tickUnitUnknown2 = g_timerGame + Tools_AdjustToGameSpeed(4, 2, 8, true);
 	}
 
-	if (_tickUnitBlinking <= g_tickGlobal) {
+	if (_tickUnitBlinking <= g_timerGame) {
 		tickBlinking = true;
-		_tickUnitBlinking = g_tickGlobal + 3;
+		_tickUnitBlinking = g_timerGame + 3;
 	}
 
-	if (_tickUnitUnknown4 <= g_tickGlobal) {
+	if (_tickUnitUnknown4 <= g_timerGame) {
 		tickUnknown4 = true;
-		_tickUnitUnknown4 = g_tickGlobal + 20;
+		_tickUnitUnknown4 = g_timerGame + 20;
 	}
 
-	if (_tickUnitScript <= g_tickGlobal) {
+	if (_tickUnitScript <= g_timerGame) {
 		tickScript = true;
-		_tickUnitScript = g_tickGlobal + 5;
+		_tickUnitScript = g_timerGame + 5;
 	}
 
-	if (_tickUnitUnknown5 <= g_tickGlobal) {
+	if (_tickUnitUnknown5 <= g_timerGame) {
 		tickUnknown5 = true;
-		_tickUnitUnknown5 = g_tickGlobal + 5;
+		_tickUnitUnknown5 = g_timerGame + 5;
 	}
 
-	if (_tickUnitDeviation <= g_tickGlobal) {
+	if (_tickUnitDeviation <= g_timerGame) {
 		tickDeviation = true;
-		_tickUnitDeviation = g_tickGlobal + 60;
+		_tickUnitDeviation = g_timerGame + 60;
 	}
 
 	find.houseID = HOUSE_INVALID;

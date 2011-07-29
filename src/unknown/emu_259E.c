@@ -10,6 +10,9 @@
 #include "../gfx.h"
 #include "unknown.h"
 
+#include "../timer.h"
+
+
 void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 {
 	int16  progress; /* bool */
@@ -47,7 +50,7 @@ void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 	}
 
 	loc12 = 0x0;
-	loc0C = g_global->variable_76A8;
+	loc0C = g_timerSleep;
 
 	do {
 		progress = 0;
@@ -78,7 +81,7 @@ void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 		if (progress != 0x0) {
 			GFX_SetPalette(data);
 
-			while (g_global->variable_76A8 < loc0C) sleep(0); /* Spin-lock */
+			while (g_timerSleep < loc0C) sleep(0); /* Spin-lock */
 		}
 	} while (progress != 0);
 }

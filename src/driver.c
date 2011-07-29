@@ -20,7 +20,7 @@
 #include "mt32mpu.h"
 #include "tools.h"
 
-extern void Game_Timer_Interrupt();
+extern void Timer_Interrupt();
 extern void emu_Tools_PrintDebug();
 extern void emu_DSP_GetInfo();
 extern void emu_DSP_Uninit();
@@ -226,7 +226,7 @@ void Drivers_CustomTimer_Interrupt()
 			emu_push(emu_cs); emu_push(0x05A2); emu_cs = _stat08[_stat120].s.cs;
 			switch (_stat08[_stat120].s.ip) {
 				case 0x0622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
-				case 0x0006: Game_Timer_Interrupt(); break;
+				case 0x0006: Timer_Interrupt(); break;
 				case 0x1CEE: g_mt32mpu_cs = _stat08[_stat120].s.cs; emu_MPU_Interrupt(); break;
 				default:
 					/* In case we don't know the call point yet, call the dynamic call */

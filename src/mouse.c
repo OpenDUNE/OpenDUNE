@@ -17,6 +17,7 @@
 #include "gui/gui.h"
 #include "input/input.h"
 #include "interrupt.h"
+#include "timer.h"
 #include "tools.h"
 
 uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
@@ -222,7 +223,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			break;
 	}
 
-	g_global->variable_76A6 = 0;
+	g_timerInput = 0;
 	g_global->mouseMode = mouseMode;
 }
 

@@ -28,6 +28,7 @@
 #include "../structure.h"
 #include "../tools.h"
 #include "../tile.h"
+#include "../timer.h"
 #include "../unit.h"
 
 
@@ -661,9 +662,9 @@ void Unknown_07D4_0000(uint16 screenID)
 	g_minimapPosition = g_viewportPosition;
 	g_selectionRectanglePosition = g_selectionPosition;
 
-	if (g_viewportMessageCounter != 0 && _viewportMessageTime < g_global->variable_76AC) {
+	if (g_viewportMessageCounter != 0 && _viewportMessageTime < g_timerGUI) {
 		g_viewportMessageCounter--;
-		_viewportMessageTime = g_global->variable_76AC + 60;
+		_viewportMessageTime = g_timerGUI + 60;
 
 		for (xpos = 0; xpos < 14; xpos++) {
 			Map_Update(g_viewportPosition + xpos + 6*64, 0, true);

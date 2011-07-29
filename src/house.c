@@ -23,6 +23,7 @@
 #include "string.h"
 #include "structure.h"
 #include "tile.h"
+#include "timer.h"
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
@@ -60,39 +61,39 @@ void GameLoop_House()
 
 	if (g_debugScenario) return;
 
-	if (_tickHouseHouse <= g_tickGlobal) {
+	if (_tickHouseHouse <= g_timerGame) {
 		tickHouse = true;
-		_tickHouseHouse = g_tickGlobal + 900;
+		_tickHouseHouse = g_timerGame + 900;
 	}
 
-	if (g_tickHousePowerMaintenance <= g_tickGlobal) {
+	if (g_tickHousePowerMaintenance <= g_timerGame) {
 		tickPowerMaintenance = true;
-		g_tickHousePowerMaintenance = g_tickGlobal + 10800;
+		g_tickHousePowerMaintenance = g_timerGame + 10800;
 	}
 
-	if (_tickHouseStarport <= g_tickGlobal) {
+	if (_tickHouseStarport <= g_timerGame) {
 		tickStarport = true;
-		_tickHouseStarport = g_tickGlobal + 180;
+		_tickHouseStarport = g_timerGame + 180;
 	}
 
-	if (_tickHouseReinforcement <= g_tickGlobal) {
+	if (_tickHouseReinforcement <= g_timerGame) {
 		tickReinforcement = true;
-		_tickHouseReinforcement = g_tickGlobal + (g_debugGame ? 60 : 600);
+		_tickHouseReinforcement = g_timerGame + (g_debugGame ? 60 : 600);
 	}
 
-	if (_tickHouseUnused <= g_tickGlobal) {
+	if (_tickHouseUnused <= g_timerGame) {
 		tickUnused = true;
-		_tickHouseUnused = g_tickGlobal + 5;
+		_tickHouseUnused = g_timerGame + 5;
 	}
 
-	if (_tickHouseMissileCountdown <= g_tickGlobal) {
+	if (_tickHouseMissileCountdown <= g_timerGame) {
 		tickMissileCountdown = true;
-		_tickHouseMissileCountdown = g_tickGlobal + 60;
+		_tickHouseMissileCountdown = g_timerGame + 60;
 	}
 
-	if (_tickHouseStarportAvailability <= g_tickGlobal) {
+	if (_tickHouseStarportAvailability <= g_timerGame) {
 		tickStarportAvailability = true;
-		_tickHouseStarportAvailability = g_tickGlobal + 1800;
+		_tickHouseStarportAvailability = g_timerGame + 1800;
 	}
 
 	if (tickMissileCountdown && g_houseMissileCountdown != 0) {
@@ -424,9 +425,8 @@ bool House_UpdateRadarState(House *h)
 		WSA_DisplayFrame(wsa, activate ? frameCount - frame : frame, 256, 136, 0);
 		GUI_PaletteAnimate();
 
-		g_global->variable_76B4 = 3;
-
-		while (g_global->variable_76B4 != 0) sleep(0);
+		g_timerTimeout = 3;
+		while (g_timerTimeout != 0) sleep(0);
 	}
 
 	h->flags.s.radarActivated = activate;

@@ -25,6 +25,7 @@
 #include "sprites.h"
 #include "structure.h"
 #include "team.h"
+#include "timer.h"
 #include "tools.h"
 #include "tile.h"
 #include "unit.h"
@@ -964,7 +965,7 @@ static bool Map_StopActivity(MapActivity *s)
  */
 static bool Map_SetTimeout(MapActivity *s, uint16 value)
 {
-	s->timeOut = g_global->variable_76AC + value;
+	s->timeOut = g_timerGUI + value;
 	return true;
 }
 
@@ -975,7 +976,7 @@ static bool Map_SetTimeout(MapActivity *s, uint16 value)
  */
 static bool Map_SetRandomTimeout(MapActivity *s, uint16 value)
 {
-	s->timeOut = g_global->variable_76AC + Tools_RandomRange(0, value);
+	s->timeOut = g_timerGUI + Tools_RandomRange(0, value);
 	return true;
 }
 
@@ -1056,7 +1057,7 @@ static bool Map_InitializeActivity(const Activity *activities, tile32 position)
 		s->variable_0A = 0;
 		s->position    = position;
 		s->variable_07 = 0;
-		s->timeOut     = g_global->variable_76AC;
+		s->timeOut     = g_timerGUI;
 		_mapActivityTimeout = 0;
 		g_map[packed].hasMapActivity = true;
 		return true;
@@ -1368,7 +1369,7 @@ uint32 Map_Activity_Tick()
 {
 	uint8 i;
 
-	if (_mapActivityTimeout > g_global->variable_76AC) return _mapActivityTimeout;
+	if (_mapActivityTimeout > g_timerGUI) return _mapActivityTimeout;
 
 	_mapActivityTimeout += 10000;
 
@@ -1379,7 +1380,7 @@ uint32 Map_Activity_Tick()
 
 		if (s->activities == NULL) continue;
 
-		if (s->timeOut <= g_global->variable_76AC) {
+		if (s->timeOut <= g_timerGUI) {
 			uint16 data   = s->activities[s->actCounter].data;
 			uint16 action = s->activities[s->actCounter].action;
 

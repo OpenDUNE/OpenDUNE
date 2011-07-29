@@ -12,6 +12,7 @@
 #include "mentat.h"
 #include "widget.h"
 #include "../input/input.h"
+#include "../timer.h"
 #include "../unknown/unknown.h"
 
 /**
@@ -30,9 +31,9 @@ static void GUI_EditBox_BlinkCursor(uint16 positionX, bool resetBlink)
 		editBoxShowCursor = true;
 	}
 
-	if (tickEditBox > g_global->variable_76AC) return;
+	if (tickEditBox > g_timerGUI) return;
 	if (!resetBlink) {
-		tickEditBox = g_global->variable_76AC + 20;
+		tickEditBox = g_timerGUI + 20;
 	}
 
 	editBoxShowCursor = !editBoxShowCursor;

@@ -27,6 +27,7 @@
 #include "../scenario.h"
 #include "../sprites.h"
 #include "../string.h"
+#include "../timer.h"
 #include "../tools.h"
 #include "../wsa.h"
 #include "../unknown/unknown.h"
@@ -382,11 +383,11 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_Load(1, g_sprites);
 
-	Game_Timer_SetState(2, false);
+	Timer_SetTimer(2, false);
 
 	GUI_Mentat_ShowHelpList(false);
 
-	Game_Timer_SetState(2, true);
+	Timer_SetTimer(2, true);
 
 	Driver_Sound_Play(1, 0xFF);
 
@@ -560,20 +561,20 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
  */
 void GUI_Mentat_Animation(uint16 speakingMode)
 {
-	static int32  movingEyesTimer;      /* timer when to change the eyes sprite. */
-	static uint16 movingEyesSprite;     /* index in _mentatSprites of the displayed moving eyes. */
-	static uint16 movingEyesNextSprite; /* If not 0, it decides the movingEyesNextSprite */
+	static uint32 movingEyesTimer = 0;      /* Timer when to change the eyes sprite. */
+	static uint16 movingEyesSprite = 0;     /* Index in _mentatSprites of the displayed moving eyes. */
+	static uint16 movingEyesNextSprite = 0; /* If not 0, it decides the movingEyesNextSprite */
 
-	static int32  movingMouthTimer;
-	static uint16 movingMouthSprite;
+	static uint32 movingMouthTimer = 0;
+	static uint16 movingMouthSprite = 0;
 
-	static int32 movingOtherTimer;
-	static int16 otherSprite;
+	static uint32 movingOtherTimer = 0;
+	static int16 otherSprite = 0;
 
 	bool partNeedsRedraw;
 	uint16 i;
 
-	if (movingOtherTimer < (int32)g_global->variable_76AC && !g_disableOtherMovement) {
+	if (movingOtherTimer < g_timerGUI && !g_disableOtherMovement) {
 		if (movingOtherTimer != 0) {
 			uint8 *sprite;
 
@@ -592,16 +593,16 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 
 		switch (g_playerHouseID) {
 			case HOUSE_HARKONNEN:
-				movingOtherTimer = g_global->variable_76AC + 300 * 60;
+				movingOtherTimer = g_timerGUI + 300 * 60;
 				break;
 			case HOUSE_ATREIDES:
-				movingOtherTimer = g_global->variable_76AC + 60 * Tools_RandomRange(1,3);
+				movingOtherTimer = g_timerGUI + 60 * Tools_RandomRange(1,3);
 				break;
 			case HOUSE_ORDOS:
 				if (otherSprite != 0) {
-					movingOtherTimer = g_global->variable_76AC + 6;
+					movingOtherTimer = g_timerGUI + 6;
 				} else {
-					movingOtherTimer = g_global->variable_76AC + 60 * Tools_RandomRange(10, 19);
+					movingOtherTimer = g_timerGUI + 60 * Tools_RandomRange(10, 19);
 				}
 				break;
 			default:
@@ -610,7 +611,7 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 	}
 
 	if (speakingMode == 1) {
-		if (movingMouthTimer < (int32)g_global->variable_76AC) {
+		if (movingMouthTimer < g_timerGUI) {
 			uint8 *sprite;
 
 			movingMouthSprite = Tools_RandomRange(0, 4);
@@ -622,15 +623,15 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 
 			switch (movingMouthSprite) {
 				case 0:
-					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(7, 30);
+					movingMouthTimer = g_timerGUI + Tools_RandomRange(7, 30);
 					break;
 				case 1:
 				case 2:
 				case 3:
-					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(6, 10);
+					movingMouthTimer = g_timerGUI + Tools_RandomRange(6, 10);
 					break;
 				case 4:
-					movingMouthTimer = g_global->variable_76AC + Tools_RandomRange(5, 6);
+					movingMouthTimer = g_timerGUI + Tools_RandomRange(5, 6);
 					break;
 				default:
 					break;
@@ -646,8 +647,8 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 				partNeedsRedraw = true;
 			}
 		} else if (Mouse_InsideRegion(_mouthLeft, _mouthTop, _mouthRight, _mouthBottom) != 0) {
-			if (movingMouthTimer != -1) {
-				movingMouthTimer = -1;
+			if (movingMouthTimer != 0xFFFFFFFF) {
+				movingMouthTimer = 0xFFFFFFFF;
 				movingMouthSprite = Tools_RandomRange(1, 4);
 				partNeedsRedraw = true;
 			}
@@ -710,10 +711,10 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 			partNeedsRedraw = true;
 			movingEyesSprite = i;
 			movingEyesNextSprite = 0;
-			movingEyesTimer = g_global->variable_76AC;
+			movingEyesTimer = g_timerGUI;
 		}
 	} else {
-		if (movingEyesTimer >= (int32)g_global->variable_76AC) return;
+		if (movingEyesTimer >= g_timerGUI) return;
 
 		partNeedsRedraw = true;
 		if (movingEyesNextSprite != 0) {
@@ -721,9 +722,9 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 			movingEyesNextSprite = 0;
 
 			if (movingEyesSprite != 4) {
-				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(20, 180);
+				movingEyesTimer = g_timerGUI + Tools_RandomRange(20, 180);
 			} else {
-				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(12, 30);
+				movingEyesTimer = g_timerGUI + Tools_RandomRange(12, 30);
 			}
 		} else {
 			i = 0;
@@ -769,18 +770,18 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 			if ((i == 2 && movingEyesSprite == 1) || (i == 1 && movingEyesSprite == 2)) {
 				movingEyesNextSprite = i;
 				movingEyesSprite = 0;
-				movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(1, 5);
+				movingEyesTimer = g_timerGUI + Tools_RandomRange(1, 5);
 			} else {
 				if (i != movingEyesSprite && (i == 4 || movingEyesSprite == 4)) {
 					movingEyesNextSprite = i;
 					movingEyesSprite = 3;
-					movingEyesTimer = g_global->variable_76AC;
+					movingEyesTimer = g_timerGUI;
 				} else {
 					movingEyesSprite = i;
 					if (i != 4) {
-						movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(15, 180);
+						movingEyesTimer = g_timerGUI + Tools_RandomRange(15, 180);
 					} else {
-						movingEyesTimer = g_global->variable_76AC + Tools_RandomRange(6, 60);
+						movingEyesTimer = g_timerGUI + Tools_RandomRange(6, 60);
 					}
 				}
 			}
@@ -1122,8 +1123,8 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	mentatSpeakingMode = 2;
 	lines = 0;
 	frame = 0;
-	g_global->variable_76B4 = 0;
-	descTick = g_global->variable_76AC + 30;
+	g_timerTimeout = 0;
+	descTick = g_timerGUI + 30;
 
 	Input_History_Clear();
 
@@ -1166,8 +1167,8 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					lines = descLines;
 					dirty = true;
 				} else {
-					if (g_global->variable_76AC > descTick) {
-						descTick = g_global->variable_76AC + 15;
+					if (g_timerGUI > descTick) {
+						descTick = g_timerGUI + 15;
 						lines++;
 						dirty = true;
 					}
@@ -1189,7 +1190,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 				/* FALL-THROUGH */
 
 			case 3:
-				if (mentatSpeakingMode == 2 && textTick < g_global->variable_76AC) key = 1;
+				if (mentatSpeakingMode == 2 && textTick < g_timerGUI) key = 1;
 
 				if ((key != 0 && textDone) || result != 0) {
 					GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
@@ -1209,7 +1210,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 						GUI_DrawText_Wrapper(text, 4, 1, g_curWidgetFGColourBlink, 0, 0x32);
 						mentatSpeakingMode = 1;
 						textDelay = strlen(text) * 4;
-						textTick = g_global->variable_76AC + textDelay;
+						textTick = g_timerGUI + textDelay;
 
 						if (textLines != 0) {
 							while (*text++ != '\0') sleep(0);
@@ -1226,7 +1227,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 					break;
 				}
 
-				if (mentatSpeakingMode == 0 || textTick > g_global->variable_76AC) break;
+				if (mentatSpeakingMode == 0 || textTick > g_timerGUI) break;
 
 				mentatSpeakingMode = 2;
 				textTick += textDelay + textDelay / 2;
@@ -1246,8 +1247,8 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 
 		GUI_Mentat_Animation(mentatSpeakingMode);
 
-		if (wsa != NULL && g_global->variable_76B4 == 0) {
-			g_global->variable_76B4 = 7;
+		if (wsa != NULL && g_timerTimeout == 0) {
+			g_timerTimeout = 7;
 
 			do {
 				if (step == 0 && frame > 4) step = 1;
@@ -1335,7 +1336,7 @@ uint16 GUI_Mentat_SplitText(char *str, uint16 maxWidth)
 
 uint16 GUI_Mentat_Tick()
 {
-	GUI_Mentat_Animation((g_interrogationTimer < g_global->variable_76AC) ? 0 : 1);
+	GUI_Mentat_Animation((g_interrogationTimer < g_timerGUI) ? 0 : 1);
 
 	return 0;
 }

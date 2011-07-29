@@ -14,6 +14,7 @@
 #include "pool/pool.h"
 #include "pool/team.h"
 #include "pool/house.h"
+#include "timer.h"
 #include "tools.h"
 
 /**
@@ -24,9 +25,9 @@ void GameLoop_Team()
 	PoolFindStruct find;
 	bool tick = false;
 
-	if (g_global->variable_6164 <= g_tickGlobal) {
+	if (g_global->variable_6164 <= g_timerGame) {
 		tick = true;
-		g_global->variable_6164 = g_tickGlobal + (Tools_Random_256() & 7) + 5;
+		g_global->variable_6164 = g_timerGame + (Tools_Random_256() & 7) + 5;
 	}
 
 	if (!tick) return;

@@ -43,6 +43,7 @@
 #include "structure.h"
 #include "team.h"
 #include "tile.h"
+#include "timer.h"
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
@@ -56,7 +57,6 @@ uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has 
 GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
-uint32 g_tickGlobal = 0;            /*!< Global tick counter. Increase with 1 every tick. */
 uint32 g_tickScenarioStart = 0;     /*!< The tick the scenario started in. */
 static uint32 _tickGameTimeout = 0; /*!< The tick the game will timeout. */
 
@@ -107,7 +107,7 @@ static bool GameLoop_IsLevelFinished()
 	if (_debugForceWin) return true;
 
 	/* You have to play at least 7200 ticks before you can win the game */
-	if (g_tickGlobal - g_tickScenarioStart < 7200) return false;
+	if (g_timerGame - g_tickScenarioStart < 7200) return false;
 
 	/* Check for structure counts hitting zero */
 	if ((g_scenario.winFlags & 0x3) != 0) {
@@ -156,7 +156,7 @@ static bool GameLoop_IsLevelFinished()
 		/* XXX -- This code was with '<' instead of '>=', which makes
 		 *  no sense. As it is unused, who knows what the intentions
 		 *  were. This at least makes it sensible. */
-		if (g_tickGlobal >= _tickGameTimeout) {
+		if (g_timerGame >= _tickGameTimeout) {
 			finish = true;
 		}
 	}
@@ -219,7 +219,7 @@ static bool GameLoop_IsLevelWon()
 
 	/* Check for reaching timeout */
 	if (!win && (g_scenario.loseFlags & 0x8) != 0) {
-		win = (g_tickGlobal < _tickGameTimeout);
+		win = (g_timerGame < _tickGameTimeout);
 	}
 
 	return win;
@@ -447,9 +447,9 @@ static uint16 GameLoop_PalettePart_Update(bool finishNow)
 
 	if (_palettePartDirection == PPD_STOPPED) return 0;
 
-	if (_paletteAnimationTimeout >= g_global->variable_76AC && !finishNow) return _palettePartDirection;
+	if (_paletteAnimationTimeout >= g_timerGUI && !finishNow) return _palettePartDirection;
 
-	_paletteAnimationTimeout = g_global->variable_76AC + 7;
+	_paletteAnimationTimeout = g_timerGUI + 7;
 	if (--_palettePartCount == 0 || finishNow) {
 		if (_palettePartDirection == PPD_TO_NEW_PALETTE) {
 			memcpy(_palettePartCurrent, _palettePartTarget, 18);
@@ -490,7 +490,7 @@ static void GameLoop_PlayAnimation()
 		uint16 loc04;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		uint32 loc10 = g_global->variable_76AC + var805E->variable_0004 * 6;
+		uint32 loc10 = g_timerGUI + var805E->variable_0004 * 6;
 		uint32 loc14 = loc10 + 30;
 		uint32 loc18;
 		uint32 loc1C;
@@ -574,7 +574,7 @@ static void GameLoop_PlayAnimation()
 			}
 		}
 
-		loc1C = loc10 - g_global->variable_76AC;
+		loc1C = loc10 - g_timerGUI;
 		loc18 = 0;
 		loc04 = 1;
 
@@ -607,8 +607,8 @@ static void GameLoop_PlayAnimation()
 				exit(0);
 		}
 
-		while (loc10 > g_global->variable_76AC) {
-			g_global->variable_76B4 = loc18;
+		while (loc10 > g_timerGUI) {
+			g_timerTimeout = loc18;
 
 			GameLoop_B4ED_07B6(animation);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
@@ -626,7 +626,7 @@ static void GameLoop_PlayAnimation()
 
 			do {
 				GameLoop_PalettePart_Update(false);
-			} while (g_global->variable_76B4 != 0 && loc10 > g_global->variable_76AC);
+			} while (g_timerTimeout != 0 && loc10 > g_timerGUI);
 		}
 
 		if (mode == 2) {
@@ -660,7 +660,7 @@ static void GameLoop_PlayAnimation()
 		animation++;
 		var805E++;
 
-		while (loc14 > g_global->variable_76AC) sleep(0);
+		while (loc14 > g_timerGUI) sleep(0);
 	}
 }
 
@@ -827,14 +827,14 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, g_global->variable_182E);
 
 	GUI_Screen_SetActive(0);
-	loc0C = g_global->variable_76A8;
+	loc0C = g_timerSleep;
 
 	Input_History_Clear();
 
 	while (true) {
-		while (loc0C > g_global->variable_76A8) sleep(0);
+		while (loc0C > g_timerSleep) sleep(0);
 
-		loc0C = g_global->variable_76A8 + delay;
+		loc0C = g_timerSleep + delay;
 
 		while ((g_curWidgetHeight / 6) + 2 > stringCount && *data != 0) {
 			char *text = data;
@@ -1173,7 +1173,7 @@ static void GameLoop_LevelEnd()
 {
 	static uint32 levelEndTimer = 0;
 
-	if (levelEndTimer >= g_tickGlobal && !_debugForceWin) return;
+	if (levelEndTimer >= g_timerGame && !_debugForceWin) return;
 
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
@@ -1251,7 +1251,7 @@ static void GameLoop_LevelEnd()
 		_debugForceWin = false;
 	}
 
-	levelEndTimer = g_tickGlobal + 300;
+	levelEndTimer = g_timerGame + 300;
 }
 
 /**
@@ -1278,7 +1278,7 @@ static void Gameloop_Logos()
 
 	Music_Play(0x24);
 
-	g_global->variable_76B4 = 0x168;
+	g_timerTimeout = 360;
 
 	while (true) {
 		uint32 loc04;
@@ -1287,8 +1287,8 @@ static void Gameloop_Logos()
 		displayed = WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
 		if (!displayed) break;
 
-		loc04 = g_global->variable_76AC + 6;
-		while (loc04 > g_global->variable_76AC) sleep(0);
+		loc04 = g_timerGUI + 6;
+		while (loc04 > g_timerGUI) sleep(0);
 	}
 
 	WSA_Unload(wsa);
@@ -1301,7 +1301,7 @@ static void Gameloop_Logos()
 		}
 	}
 
-	while (g_global->variable_76B4 != 0) {
+	while (g_timerTimeout != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
@@ -1316,7 +1316,7 @@ static void Gameloop_Logos()
 
 	while (Driver_Music_IsPlaying());
 
-	while (g_global->variable_76B4 != 0) {
+	while (g_timerTimeout != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
@@ -1337,9 +1337,8 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_palette_998A, 30);
 
-	g_global->variable_76B4 = 0x3C;
-
-	while (g_global->variable_76B4 != 0) {
+	g_timerTimeout = 60;
+	while (g_timerTimeout != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
@@ -1360,9 +1359,8 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_palette_998A, 30);
 
-	g_global->variable_76B4 = 0xB4;
-
-	while (g_global->variable_76B4 != 0) {
+	g_timerTimeout = 180;
+	while (g_timerTimeout != 0) {
 		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
 	}
 
@@ -1465,11 +1463,11 @@ static void GameLoop_B4E6_0074(char *string, uint16 left, uint16 top, uint8 fgCo
 		GUI_Mouse_Hide_Safe();
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourSelected, bgColour, 0x22);
-		Tools_Sleep(2);
+		Timer_Sleep(2);
 
 		GUI_DrawText_Wrapper(string, left, top, fgColourNormal, bgColour, 0x22);
 		GUI_Mouse_Show_Safe();
-		Tools_Sleep(2);
+		Timer_Sleep(2);
 	}
 }
 
@@ -1767,7 +1765,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	                      INPUT_FLAG_UNKNOWN_0080 | INPUT_FLAG_UNKNOWN_0040 | INPUT_FLAG_UNKNOWN_0020 |
 	                      INPUT_FLAG_UNKNOWN_0008 | INPUT_FLAG_UNKNOWN_0004 | INPUT_FLAG_UNKNOWN_0002);
 
-	Game_Timer_SetState(1, true);
+	Timer_SetTimer(1, true);
 
 	g_campaignID = 0;
 	g_scenarioID = 1;
@@ -2169,7 +2167,7 @@ static void GameLoop_Main()
 
 	GameLoop_GameIntroAnimationMenu();
 
-	Game_Timer_SetState(2, g_global->variable_37AA != 0);
+	Timer_SetTimer(2, g_global->variable_37AA != 0);
 
 	GUI_Mouse_Show_Safe();
 
@@ -2217,7 +2215,7 @@ static void GameLoop_Main()
 			GUI_ChangeSelectionType(4);
 
 			Music_Play(Tools_RandomRange(0, 8) + 8);
-			g_global->variable_31BC = g_global->variable_76AC + 300;
+			g_global->variable_31BC = g_timerGUI + 300;
 		}
 
 		if (g_global->variable_31C0 != g_global->variable_38EC) {
@@ -2233,14 +2231,14 @@ static void GameLoop_Main()
 				g_global->variable_3E52 = 0;
 			} else if (g_global->variable_3E52 > 0) {
 				Music_Play(Tools_RandomRange(0, 5) + 17);
-				g_global->variable_31BC = g_global->variable_76AC + 300;
+				g_global->variable_31BC = g_timerGUI + 300;
 				g_global->variable_3E52 = -1;
 			} else {
 				g_global->variable_3E52 = 0;
-				if (g_config.musicDrv != 0 && g_global->variable_76AC > g_global->variable_31BC) {
+				if (g_config.musicDrv != 0 && g_timerGUI > g_global->variable_31BC) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
-						g_global->variable_31BC = g_global->variable_76AC + 300;
+						g_global->variable_31BC = g_timerGUI + 300;
 					}
 				}
 			}
@@ -2252,9 +2250,9 @@ static void GameLoop_Main()
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_unitSelected != NULL) {
-				if (g_global->variable_31C2 < g_tickGlobal) {
+				if (g_global->variable_31C2 < g_timerGame) {
 					Unit_DisplayStatusText(g_unitSelected);
-					g_global->variable_31C2 = g_tickGlobal + 300;
+					g_global->variable_31C2 = g_timerGame + 300;
 				}
 
 				if (g_global->selectionType != 1) {
@@ -2528,7 +2526,7 @@ void Game_Prepare()
 
 	Voice_LoadVoices(g_playerHouseID);
 
-	g_tickHousePowerMaintenance = max(g_tickGlobal + 70, g_tickHousePowerMaintenance);
+	g_tickHousePowerMaintenance = max(g_timerGame + 70, g_tickHousePowerMaintenance);
 	g_global->variable_3A12 = 1;
 	g_playerCredits = 0xFFFF;
 
@@ -2625,39 +2623,4 @@ void PrepareEnd()
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	Input_Uninit();
-}
-
-void Game_Timer_Interrupt()
-{
-	uint16 timers = g_global->timersActive;
-
-	if ((timers & 0x1) != 0) g_global->variable_76AC++;
-	if ((timers & 0x2) != 0) g_tickGlobal++;
-	g_global->variable_76A6++;
-	g_global->variable_76A8++;
-
-	if (g_global->variable_76B4 != 0) g_global->variable_76B4--;
-}
-
-/**
- * Set timers on and off.
- *
- * @param timer 1 = variable_76AC timer, 0 = tickGlobal timer.
- * @param set True sets the timer on, false sets it off.
- * @return True if timer was set, false if it was not set.
- */
-bool Game_Timer_SetState(uint16 timer, bool set)
-{
-	bool ret;
-
-	timer = (1 << (timer - 1));
-	ret = (g_global->timersActive & timer) != 0;
-
-	if (set) {
-		g_global->timersActive |= timer;
-	} else {
-		g_global->timersActive &= ~timer;
-	}
-
-	return ret;
 }

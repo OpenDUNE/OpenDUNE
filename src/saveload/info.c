@@ -15,6 +15,7 @@
 #include "../scenario.h"
 #include "../sprites.h"
 #include "../structure.h"
+#include "../timer.h"
 #include "../unit.h"
 #include "../gui/gui.h"
 
@@ -95,11 +96,11 @@ static uint32 SaveLoad_TickScenarioStart(void *object, uint32 value, bool loadin
 	VARIABLE_NOT_USED(object);
 
 	if (loading) {
-		g_tickScenarioStart = g_tickGlobal - value;
+		g_tickScenarioStart = g_timerGame - value;
 		return 0;
 	}
 
-	return g_tickGlobal - g_tickScenarioStart;
+	return g_timerGame - g_tickScenarioStart;
 }
 
 static uint32 SaveLoad_UnitHouseMissile(void *object, uint32 value, bool loading)

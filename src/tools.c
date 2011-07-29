@@ -17,6 +17,7 @@
 #include "pool/unit.h"
 #include "structure.h"
 #include "tile.h"
+#include "timer.h"
 #include "unit.h"
 
 
@@ -312,19 +313,6 @@ uint16 Tools_RandomRange(uint16 min, uint16 max)
 	} while (ret > max);
 
 	return ret;
-}
-
-/**
- * Sleep for an amount of ticks.
- * @param ticks The amount of ticks to sleep.
- */
-void Tools_Sleep(uint16 ticks)
-{
-	while (ticks-- > 0) {
-		uint32 tick = g_global->variable_76A8 + 1;
-
-		while (tick >= g_global->variable_76A8) sleep(0);
-	}
 }
 
 static csip32 g_tools_alloc = { { 0x0, 0x4012 } };
