@@ -995,7 +995,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
 
-	g_palette1 = emu_get_memorycsip(g_global->variable_3C46) + 20000;
+	g_palette1 = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(9)) + 20000;
 
 	File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
 
@@ -1046,7 +1046,7 @@ static void GameLoop_GameCredits()
 
 	Widget_SetCurrentWidget(20);
 
-	Sprites_LoadImage("BIGPLAN.CPS", 3, 3, g_palette_998A, 1);
+	Sprites_LoadImage("BIGPLAN.CPS", 3, g_palette_998A, 1);
 
 	GUI_ClearScreen(0);
 
@@ -1078,7 +1078,7 @@ static void GameLoop_GameCredits()
 		}
 	}
 
-	Sprites_LoadImage("MAPPLAN.CPS", 3, 3, g_palette_998A, 1);
+	Sprites_LoadImage("MAPPLAN.CPS", 3, g_palette_998A, 1);
 
 	GUI_Palette_RemapScreen(g_curWidgetXBase << 3, g_curWidgetYBase, g_curWidgetWidth << 3, g_curWidgetHeight, 2, emu_get_memorycsip(memBlock));
 
@@ -1217,14 +1217,14 @@ static void GameLoop_LevelEnd()
 			Unknown_259E_0006(g_palette2, 15);
 
 			if (g_campaignID == 1 || g_campaignID == 7) {
-				Sprites_Load(1, 7, g_sprites);
+				Sprites_Load(1, g_sprites);
 
 				if (!GUI_Security_Show()) {
 					PrepareEnd();
 					exit(0);
 				}
 
-				Sprites_Load(0, 7, g_sprites);
+				Sprites_Load(0, g_sprites);
 			}
 		} else {
 			Sound_Output_Feedback(41);
@@ -1240,7 +1240,7 @@ static void GameLoop_LevelEnd()
 
 		g_playerHouse->flags.s.variable_0004 = false;
 
-		Sprites_Load(0, 7, g_sprites);
+		Sprites_Load(0, g_sprites);
 
 		Sprites_LoadTiles();
 
@@ -1328,7 +1328,7 @@ static void Gameloop_Logos()
 
 	GFX_ClearScreen(0);
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), 2, 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -1351,7 +1351,7 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	Sprites_LoadImage("VIRGIN.CPS", 2, 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -1833,7 +1833,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	if (g_playerHouseID != HOUSE_INVALID) GUI_Palette_CreateRemap(g_playerHouseID);
 
-	Sprites_Load(0, 7, g_sprites);
+	Sprites_Load(0, g_sprites);
 
 	g_global->cursorSpriteID = 0;
 
@@ -1911,7 +1911,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					GUI_Mouse_Show_Safe();
 
-					Sprites_Load(0, 7, g_sprites);
+					Sprites_Load(0, g_sprites);
 
 					Music_Play(28);
 
@@ -1946,7 +1946,7 @@ static void GameLoop_GameIntroAnimationMenu()
 						if (g_gameMode == GM_RESTART) break;
 						g_gameMode = GM_NORMAL;
 
-						Sprites_Load(0, 7, g_sprites);
+						Sprites_Load(0, g_sprites);
 					} else {
 						GFX_SetPalette(g_palette2);
 
@@ -1991,7 +1991,7 @@ static void GameLoop_GameIntroAnimationMenu()
 				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_global->variable_6C71) >> 1);
 				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_global->variable_6C71) + 11;
 
-				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, 3, NULL, 0);
+				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, NULL, 0);
 
 				GUI_Mouse_Hide_Safe();
 
@@ -2511,7 +2511,7 @@ void Game_Prepare()
 
 	GUI_Palette_CreateRemap(g_playerHouseID);
 
-	Sprites_Load(0, 7, g_sprites);
+	Sprites_Load(0, g_sprites);
 
 	Map_SetSelection(g_selectionPosition);
 

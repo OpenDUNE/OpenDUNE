@@ -68,10 +68,9 @@ static void Sprites_Remap(uint8 *sprite, uint8 *remap)
  * Loads the sprites.
  *
  * @param index The index of the list of sprite files to load.
- * @param memory The index of memory block where to store loaded sprites.
  * @param sprites The array where to store CSIP for each loaded sprite.
  */
-void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites)
+void Sprites_Load(uint16 index, uint8 **sprites)
 {
 #define M(x) x "\0"
 	static const char *spriteFiles[3] = {
@@ -94,12 +93,10 @@ void Sprites_Load(uint16 index, uint16 memory, uint8 **sprites)
 #undef M
 
 	const char *files;
-	csip32 memBlock;
 	uint8 *buffer;
 	uint16 i;
 
-	memBlock = Screen_GetSegment_ByIndex_1(memory);
-	buffer = emu_get_memorycsip(memBlock);
+	buffer = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(7));
 
 	files = spriteFiles[index];
 
@@ -348,31 +345,29 @@ void Sprites_UnloadTiles()
  * Loads a CPS file.
  *
  * @param filename The name of the file to load.
- * @param memory1 The index of a memory block where to store loaded data.
- * @param memory2 The index of a memory block where to store loaded data.
+ * @param screenID The index of a memory block where to store loaded data.
  * @param palette Where to store the palette, if any.
  * @return The size of the loaded image.
  */
-uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette)
+static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *palette)
 {
 	uint8 index;
-	csip32 memBlock;
 	csip32 loc0A;
 	uint16 size;
-	void *buf;
+	void *buffer;
 	uint16 paletteSize;
 
-	buf = (void *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(memory1));
+	buffer = (void *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(screenID));
 
 	index = File_Open(filename, 1);
 
 	File_Read(index, &size, 2);
 
-	File_Read(index, buf, 8);
+	File_Read(index, buffer, 8);
 
 	size -= 8;
 
-	paletteSize = ((uint16 *)buf)[3];
+	paletteSize = ((uint16 *)buffer)[3];
 
 	if (palette != NULL && paletteSize != 0) {
 		File_Read(index, palette, paletteSize);
@@ -380,24 +375,22 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 		File_Seek(index, paletteSize, 1);
 	}
 
-	((uint16 *)buf)[3] = 0;
+	((uint16 *)buffer)[3] = 0;
 	size -= paletteSize;
 
-	loc0A.s.cs = g_global->variable_6C93[memory1 >> 1][memory1 & 0x1];
-	loc0A.s.ip = g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] - size - 8;
+	loc0A.s.cs = g_global->variable_6C93[screenID >> 1][screenID & 0x1];
+	loc0A.s.ip = g_global->variable_6CD3[screenID >> 1][screenID & 0x1] - size - 8;
 
 	loc0A = Tools_GetSmallestIP(loc0A);
 	loc0A.s.ip = 0x0;
 
-	memmove(emu_get_memorycsip(loc0A), buf, 8);
+	memmove(emu_get_memorycsip(loc0A), buffer, 8);
 
 	File_Read(index, (void *)(emu_get_memorycsip(loc0A) + 8), size);
 
 	File_Close(index);
 
-	memBlock = Screen_GetSegment_ByIndex_1(memory2);
-
-	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock));
+	return Sprites_Decode(emu_get_memorycsip(loc0A), buffer);
 }
 
 /**
@@ -410,7 +403,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
  * @param arg12 ??.
  * @return The size of the loaded image.
  */
-uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, uint8 *palette, uint16 arg12)
+uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette, uint16 arg12)
 {
 	uint8 index;
 	uint32 header;
@@ -427,7 +420,7 @@ uint16 Sprites_LoadImage(const char *filename, uint16 memory1, uint16 memory2, u
 		/* Unresolved jump */ emu_ip = 0x0299; emu_last_cs = 0xB4CA; emu_last_ip = 0x0263; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call(); return 0;
 	}
 
-	return Sprites_LoadCPSFile(filename, memory1, memory2, palette) / 8000;
+	return Sprites_LoadCPSFile(filename, screenID, palette) / 8000;
 }
 
 void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
@@ -536,7 +529,7 @@ void Sprites_CPS_LoadRegionClick()
 	g_global->RGNCLK_CPS = memBlock;
 
 	buf = emu_get_memorycsip(g_global->RGNCLK_CPS);
-	Sprites_LoadCPSFile("RGNCLK.CPS", 5, 5, NULL);
+	Sprites_LoadCPSFile("RGNCLK.CPS", 5, NULL);
 	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
 	memBlock.s.ip += i * 304;
 	memBlock = Tools_GetSmallestIP(memBlock);

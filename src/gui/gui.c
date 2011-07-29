@@ -1442,7 +1442,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	oldScreenID = GUI_Screen_SetActive(2);;
 
-	Sprites_LoadImage("FAME.CPS", 3, 3, g_palette_998A, 1);
+	Sprites_LoadImage("FAME.CPS", 3, g_palette_998A, 1);
 
 	xSrc = 1;
 	if (g_playerHouseID <= HOUSE_ORDOS) {
@@ -1716,7 +1716,7 @@ uint8 GUI_PickHouse()
 
 	Voice_LoadVoices(5);
 
-	Sprites_Load(1, 7, g_sprites);
+	Sprites_Load(1, g_sprites);
 
 	while (true) {
 		uint16 yes_no;
@@ -1738,7 +1738,7 @@ uint8 GUI_PickHouse()
 			w = GUI_Widget_Link(w, w2);
 		}
 
-		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, 3, NULL, 1);
+		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, NULL, 1);
 
 		GFX_Screen_Copy3(3, 2);
 
@@ -1799,7 +1799,7 @@ uint8 GUI_PickHouse()
 
 		GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, false);
 
-		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, 3, g_palette1, 1);
+		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1, 1);
 
 		GUI_Mouse_Hide_Safe();
 
@@ -1845,7 +1845,7 @@ uint8 GUI_PickHouse()
 
 	GUI_Palette_CreateRemap(houseID);
 
-	Sprites_Load(0, 7, g_sprites);
+	Sprites_Load(0, g_sprites);
 
 	Input_History_Clear();
 
@@ -2015,7 +2015,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_global->variable_3A12 = 1;
 
-	Sprites_LoadImage(g_global->string_3777, 3, 3, NULL, 1);
+	Sprites_LoadImage(g_global->string_3777, 3, NULL, 1);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
@@ -2586,7 +2586,7 @@ static uint32 GUI_FactoryWindow_CreateWidgets()
 
 	memset(w, 0, 13 * sizeof(Widget));
 
-	Sprites_Load(2, 7, g_sprites);
+	Sprites_Load(2, g_sprites);
 
 	for (i = 0; i < 13; i++, wi++) {
 		if ((i == 8 || i == 9 || i == 10 || i == 12) && !g_factoryWindowStarport) continue;
@@ -2734,7 +2734,7 @@ static void GUI_FactoryWindow_Init()
 
 	oldScreenID = GUI_Screen_SetActive(2);
 
-	Sprites_LoadImage("CHOAM.CPS", 3, 3, NULL, 1);
+	Sprites_LoadImage("CHOAM.CPS", 3, NULL, 1);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 2, g_remap);
 
@@ -3263,7 +3263,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_SetPosition(160, 84);
 
-	Sprites_LoadImage("MAPMACH.CPS", 5, 5, g_palette_998A, 1);
+	Sprites_LoadImage("MAPMACH.CPS", 5, g_palette_998A, 1);
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_remap);
 
@@ -3318,7 +3318,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	g_global->strategicMapFastForward = 0;
 
 	if (win && campaignID == 1) {
-		Sprites_LoadImage("PLANET.CPS", 3, 3, g_palette_998A, 1);
+		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A, 1);
 
 		GFX_Screen_Copy3(3, 2);
 
@@ -3337,7 +3337,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			if (GUI_StrategicMap_FastForwardToggleWithESC()) break;
 		}
 
-		Sprites_LoadImage("DUNEMAP.CPS", 3 , 3, g_palette_998A, 1);
+		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A, 1);
 
 		GFX_Screen_Copy3(3, 2);
 
@@ -3358,7 +3358,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		Sprites_CPS_LoadRegionClick();
 	}
 
-	Sprites_LoadImage("DUNERGN.CPS", 3, 3, g_palette_998A, 1);
+	Sprites_LoadImage("DUNERGN.CPS", 3, g_palette_998A, 1);
 
 	GFX_Screen_Copy3(3, 2);
 

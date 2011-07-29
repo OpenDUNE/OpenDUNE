@@ -1570,7 +1570,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			GFX_SetPalette(g_palette1);
 
-			Sprites_Load(0, 7, g_sprites);
+			Sprites_Load(0, g_sprites);
 
 			GUI_ChangeSelectionType(4);
 

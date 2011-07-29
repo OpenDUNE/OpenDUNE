@@ -81,7 +81,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	if (g_debugSkipDialogs) return;
 
-	Sprites_Load(1, 7, g_sprites);
+	Sprites_Load(1, g_sprites);
 
 	w1 = GUI_Widget_Allocate(1, GUI_Widget_GetShortcut(String_Get_ByIndex(175)[0]), 168, 168, 6, 0, 0);
 	w2 = GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(176)[0]), 240, 168, 8, 0, 0);
@@ -110,7 +110,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	if (musicID != 0xFFFF) Driver_Music_FadeOut();
 
-	Sprites_Load(0, 7, g_sprites);
+	Sprites_Load(0, g_sprites);
 }
 
 static void GUI_Mentat_HelpListLoop()
@@ -380,7 +380,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sprites_UnloadTiles();
 
-	Sprites_Load(1, 7, g_sprites);
+	Sprites_Load(1, g_sprites);
 
 	Game_Timer_SetState(2, false);
 
@@ -390,7 +390,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Driver_Sound_Play(1, 0xFF);
 
-	Sprites_Load(0, 7, g_sprites);
+	Sprites_Load(0, g_sprites);
 
 	Sprites_LoadTiles();
 
@@ -498,7 +498,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	int i;
 
 	snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
-	Sprites_LoadImage(textBuffer, 3, 3, g_palette_998A, 1);
+	Sprites_LoadImage(textBuffer, 3, g_palette_998A, 1);
 
 	GFX_Screen_Copy3(3, 2);
 
