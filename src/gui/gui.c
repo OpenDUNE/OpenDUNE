@@ -2800,7 +2800,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	uint16 oldScreenID = GUI_Screen_SetActive(0);
 	uint8 backup[3];
 
-	memcpy(g_palette1 + 765, backup, 3);
+	memcpy(backup, g_palette1 + 765, 3);
 
 	g_global->factoryWindowConstructionYard = isConstructionYard;
 	g_factoryWindowStarport = isStarPort;
@@ -2832,7 +2832,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	GUI_FactoryWindow_B495_0F30();
 
-	memcpy(backup, g_palette1 + 765, 3);
+	memcpy(g_palette1 + 765, backup, 3);
 
 	GFX_SetPalette(g_palette1);
 
