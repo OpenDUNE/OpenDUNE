@@ -763,7 +763,7 @@ typedef struct GlobalData {
 	/* 37A4(2)   */ PACK uint16 variable_37A4;              /*!< ?? */
 	/* 37A6(2)   */ PACK uint16 variable_37A6;              /*!< ?? Write-only. */
 	/* 37A8(2)   */ PACK uint16 variable_37A8;              /*!< ?? */
-	/* 37AA(2)   */ PACK uint16 variable_37AA;              /*!< ?? Read-only. */
+	/* 37AA(2)   */ PACK uint16  removed_37AA;              /*!< REMOVED - ?? Read-only. */
 	/* 37AC(2)   */ PACK uint16  removed_37AC;              /*!< REMOVED - When non-zero, constructions are almost instant. */
 	/* 37AE(2)   */ PACK uint16  removed_37AE;              /*!< REMOVED - When non-zero, you immediately go to house selection, and skip all intros. */
 	/* 37B0(2)   */ PACK uint16  removed_37B0;              /*!< REMOVED - When non-zero, explosions do no damage to their surrounding. */

@@ -2285,7 +2285,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				g_global->cursorDefaultSpriteID = 5;
 
-				Timer_SetTimer(TIMER_GAME, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
 			case 2:
@@ -2294,19 +2294,19 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 				Map_SetSelectionSize(g_table_structureInfo[g_structureActiveType].layout);
 
-				Timer_SetTimer(TIMER_GAME, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
 			case 3:
-				Timer_SetTimer(TIMER_GAME, (g_global->variable_37AA != 0) ? true : false);
-
 				GUI_Widget_ActionPanel_Draw(true);
+
+				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
 			case 4:
 				GUI_Widget_ActionPanel_Draw(true);
 
-				Timer_SetTimer(TIMER_GAME, (g_global->variable_37AA != 0) ? true : false);
+				Timer_SetTimer(TIMER_GAME, true);
 				break;
 
 			default: break;

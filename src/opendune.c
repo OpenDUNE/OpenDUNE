@@ -2167,7 +2167,7 @@ static void GameLoop_Main()
 
 	GameLoop_GameIntroAnimationMenu();
 
-	Timer_SetTimer(TIMER_GAME, g_global->variable_37AA != 0);
+	Timer_SetTimer(TIMER_GAME, true);
 
 	GUI_Mouse_Show_Safe();
 
