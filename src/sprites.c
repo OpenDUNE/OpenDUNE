@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
@@ -28,6 +29,9 @@
 
 uint8 *g_sprites[355];
 uint8 *g_spriteBuffer;
+uint8 *g_iconRTBL = NULL;
+uint8 *g_iconRPAL = NULL;
+uint8 *g_spriteInfo = NULL;
 
 /**
  * ??.
@@ -197,7 +201,7 @@ uint16 Sprites_GetType(uint8 *sprite)
  * @param dest The place the decoded image will be.
  * @return The size of the decoded image.
  */
-static uint32 Sprites_Decode(uint8 *source, uint8 *dest, csip32 source_csip, csip32 dest_csip)
+static uint32 Sprites_Decode(uint8 *source, uint8 *dest)
 {
 	uint32 size = 0;
 
@@ -211,6 +215,8 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest, csip32 source_csip, csi
 			memmove(dest, source, size);
 			break;
 
+#if 0
+		/* XXX -- In Dune2, this type of sprite was never used, so it is unknown how to decode it. */
 		case 0x3:
 			emu_push(dest_csip.s.cs);
 			emu_push(source_csip.s.cs);
@@ -218,6 +224,7 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest, csip32 source_csip, csi
 			emu_sp += 4;
 			size = emu_ax;
 			break;
+#endif
 
 		case 0x4:
 			source += 6;
@@ -236,94 +243,45 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest, csip32 source_csip, csi
  * Loads an ICN file.
  *
  * @param filename The name of the file to load.
- * @param memory1 The index of a memory block where to store loaded sprites.
- * @param memory2 The index of a memory block where to store loaded sprites.
- * @return The number of loaded sprites.
+ * @param screenID The index of a memory block where to store loaded sprites.
  */
-static uint16 Sprites_LoadICNFile(const char *filename, uint16 memory1, uint16 memory2)
+static void Sprites_LoadICNFile(const char *filename)
 {
-	csip32 memBlock1;
-	csip32 memBlock2;
-	uint8  index;
-	uint16 tileSize;
-	uint32 length;
+	uint8  fileIndex;
+
+	uint32 spriteInfoLength;
+	uint32 tableLength;
+	uint32 paletteLength;
 	int8   info[4];
-	uint16 tileCount = 0;
 
-	memBlock2 = Screen_GetSegment_ByIndex_1(memory2);
-	memBlock1 = Screen_GetSegment_ByIndex_1(memory1);
+	fileIndex = ChunkFile_Open(filename);
 
-	index = ChunkFile_Open(filename);
+	/* Get the length of the chunks */
+	spriteInfoLength = ChunkFile_Seek(fileIndex, HTOBE32('SSET'));
+	tableLength      = ChunkFile_Seek(fileIndex, HTOBE32('RTBL'));
+	paletteLength    = ChunkFile_Seek(fileIndex, HTOBE32('RPAL'));
 
-	ChunkFile_Read(index, HTOBE32('SINF'), info, 4);
-
+	/* Read the header information */
+	ChunkFile_Read(fileIndex, HTOBE32('SINF'), info, 4);
 	GFX_Init_SpriteInfo(info[0], info[1]);
 
-	tileSize = (info[1] * (info[0] << 3)) * info[3];
+	/* Get the SpriteInfo chunk */
+	free(g_spriteInfo);
+	g_spriteInfo = calloc(1, spriteInfoLength);
+	ChunkFile_Read(fileIndex, HTOBE32('SSET'), g_spriteInfo, spriteInfoLength);
+	Sprites_Decode(g_spriteInfo, g_spriteInfo);
 
-	length = ChunkFile_Seek(index, HTOBE32('SSET'));
+	/* Get the Table chunk */
+	free(g_iconRTBL);
+	g_iconRTBL = calloc(1, tableLength);
+	ChunkFile_Read(fileIndex, HTOBE32('RTBL'), g_iconRTBL, tableLength);
 
-	if (g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] >= length) {
-		memBlock1.s.cs = g_global->variable_6C93[memory1 >> 1][memory1 & 0x1];
-		memBlock1.s.ip = g_global->variable_6CD3[memory1 >> 1][memory1 & 0x1] - length - 8;
+	/* Get the Palette chunk */
+	free(g_iconRPAL);
+	g_iconRPAL = calloc(1, paletteLength);
+	ChunkFile_Read(fileIndex, HTOBE32('RPAL'), g_iconRPAL, paletteLength);
 
-		memBlock1 = Tools_GetSmallestIP(memBlock1);
-		memBlock1.s.ip = 0x0;
-
-		ChunkFile_Read(index, HTOBE32('SSET'), (void *)emu_get_memorycsip(memBlock1), length);
-
-		tileCount = Sprites_Decode(emu_get_memorycsip(memBlock1), emu_get_memorycsip(memBlock2), memBlock1, memBlock2) / tileSize;
-		g_global->iconUsedMemory = tileSize * tileCount;
-
-		if (g_global->iconRTBL.csip != 0x0 && g_global->iconRTBLFreed == 0) {
-			Tools_Free(g_global->iconRTBL);
-			g_global->iconRTBLFreed = 1;
-		}
-
-		if (g_global->iconRPAL.csip != 0x0 && g_global->iconRPALFreed == 0) {
-			Tools_Free(g_global->iconRPAL);
-			g_global->iconRPALFreed = 1;
-		}
-
-		if (g_global->variable_6CD3[memory2 >> 1][memory2 & 0x1] - g_global->iconUsedMemory > tileCount) {
-			g_global->iconRTBL = memBlock2;
-			g_global->iconRTBL.csip += g_global->iconUsedMemory;
-
-			g_global->iconRTBL = Tools_GetSmallestIP(g_global->iconRTBL);
-
-			g_global->iconUsedMemory += (tileCount + 0xF) & 0xFFFFFFF0;
-
-			length = ChunkFile_Seek(index, HTOBE32('RPAL'));
-
-			if (g_global->variable_6CD3[memory2 >> 1][memory2 & 0x1] - g_global->iconUsedMemory > length) {
-				g_global->iconRPAL = memBlock2;
-				g_global->iconRPAL.csip += g_global->iconUsedMemory;
-
-				g_global->iconRPAL = Tools_GetSmallestIP(g_global->iconRPAL);
-				g_global->iconRPAL.s.ip = 0x0;
-
-				g_global->iconUsedMemory += length;
-			} else {
-				g_global->iconRPAL = Tools_Malloc(length, 0x30);
-				g_global->iconRPALFreed = 0;
-			}
-		} else {
-			g_global->iconRTBL = Tools_Malloc(tileCount, 0x30);
-			g_global->iconRTBLFreed = 0;
-
-			g_global->iconRPAL = Tools_Malloc(length, 0x30);
-			g_global->iconRPALFreed = 0;
-		}
-
-		ChunkFile_Read(index, HTOBE32('RTBL'), (void *)emu_get_memorycsip(g_global->iconRTBL), tileCount);
-		ChunkFile_Read(index, HTOBE32('RPAL'), (void *)emu_get_memorycsip(g_global->iconRPAL), length);
-
-		GFX_Init_Sprites(memory2, (void *)emu_get_memorycsip(g_global->iconRPAL), (void *)emu_get_memorycsip(g_global->iconRTBL));
-	}
-
-	ChunkFile_Close(index);
-
-	return tileCount;
+	ChunkFile_Close(fileIndex);
 }
 
 /**
@@ -361,16 +319,10 @@ void Sprites_LoadTiles()
 
 	_iconLoaded = true;
 
+	Sprites_LoadICNFile("ICON.ICN");
+
 	memBlock = Screen_GetSegment_ByIndex_1(5);
-
 	memBlockFree = g_global->variable_6CD3[2][1];
-
-	g_global->iconUsedMemory = 0;
-
-	Sprites_LoadICNFile("ICON.ICN", 5, 5);
-
-	memBlock.csip += g_global->iconUsedMemory;
-	memBlockFree  -= g_global->iconUsedMemory;
 
 	g_global->iconMap = memBlock;
 
@@ -462,7 +414,7 @@ uint32 Sprites_LoadCPSFile(const char *filename, uint16 memory1, uint16 memory2,
 
 	memBlock = Screen_GetSegment_ByIndex_1(memory2);
 
-	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock), loc0A, memBlock);
+	return Sprites_Decode(emu_get_memorycsip(loc0A), emu_get_memorycsip(memBlock));
 }
 
 /**

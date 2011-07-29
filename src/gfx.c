@@ -12,15 +12,13 @@
 #include "gfx.h"
 
 #include "house.h"
+#include "sprites.h"
 
-static uint8 *g_iconRTBL = NULL;
-static uint8 *g_iconRPAL = NULL;
-static uint8 *g_spriteInfo = NULL;
-static uint16 g_spriteSpacing = 0;
-static uint16 g_spriteHeight = 0;
-static uint16 g_spriteWidth = 0;
-static uint8 g_spriteMode = 0;
-static uint8 g_spriteInfoSize = 0;
+static uint16 s_spriteSpacing  = 0;
+static uint16 s_spriteHeight   = 0;
+static uint16 s_spriteWidth    = 0;
+static uint8  s_spriteMode     = 0;
+static uint8  s_spriteInfoSize = 0;
 
 /**
  * Get the codesegment of the active screen buffer.
@@ -87,14 +85,14 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 		palette[i] = colour;
 	}
 
-	if (g_spriteMode == 4) return;
+	if (s_spriteMode == 4) return;
 
 	wptr = &emu_get_memory8(GFX_Screen_GetSegmentActive(), y * SCREEN_WIDTH, x * 8);
-	rptr = g_spriteInfo + ((spriteID * g_spriteInfoSize) << 4);
+	rptr = g_spriteInfo + ((spriteID * s_spriteInfoSize) << 4);
 
-	spacing = g_spriteSpacing;
-	height  = g_spriteHeight;
-	width   = g_spriteWidth;
+	spacing = s_spriteSpacing;
+	height  = s_spriteHeight;
+	width   = s_spriteWidth;
 
 	for (j = 0; j < height; j++) {
 		for (i = 0; i < width; i++) {
@@ -115,56 +113,29 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 /**
  * Initialize sprite information.
  *
- * @param screenID The screenID the sprites are in.
- * @param iconRPAL The palette used for sprites.
- * @param iconRTBL The table to look up sprite information.
- */
-void GFX_Init_Sprites(uint16 screenID, void *iconRPAL, void *iconRTBL)
-{
-	g_spriteInfo = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex2(screenID), 0, 0);
-
-	g_iconRPAL = iconRPAL;
-	g_iconRTBL = iconRTBL;
-}
-
-/**
- * Initialize sprite information.
- *
  * @param widthSize Value between 0 and 2, indicating the width of the sprite.
  * @param heightSize Value between 0 and 2, indicating the width of the sprite.
  */
 void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize)
 {
-	emu_get_memory16(emu_cs, 0x00, 0x347) = 0; /* Write-only */
-	emu_get_memory16(emu_cs, 0x00, 0x349) = 0; /* Write-only */
-
 	if (widthSize == heightSize && widthSize < 3) {
-		emu_get_memory16(emu_cs, 0x00, 0x34B) = 1; /* Write-only */
-		emu_get_memory16(emu_cs, 0x00, 0x34D) = 1; /* Write-only */
+		s_spriteMode = widthSize & 2;
+		s_spriteInfoSize = (2 << widthSize);
 
-		g_spriteMode = widthSize & 2;
-		g_spriteInfoSize = (2 << widthSize);
-
-		g_spriteWidth   = widthSize << 2;
-		g_spriteHeight  = widthSize << 3;
-		g_spriteSpacing = SCREEN_WIDTH - g_spriteHeight;
+		s_spriteWidth   = widthSize << 2;
+		s_spriteHeight  = widthSize << 3;
+		s_spriteSpacing = SCREEN_WIDTH - s_spriteHeight;
 	} else {
-		emu_get_memory16(emu_cs, 0x00, 0x34B) = widthSize; /* Write-only */
-		emu_get_memory16(emu_cs, 0x00, 0x34D) = heightSize; /* Write-only */
+		s_spriteMode = 4;
+		s_spriteInfoSize = 2;
 
-		g_spriteMode = 4;
-		g_spriteInfoSize = 2;
-
-		g_spriteWidth   = 4;
-		g_spriteHeight  = 8;
-		g_spriteSpacing = 312;
+		s_spriteWidth   = 4;
+		s_spriteHeight  = 8;
+		s_spriteSpacing = 312;
 
 		widthSize = 1;
 		heightSize = 1;
 	}
-
-	emu_get_memory16(emu_cs, 0x00, 0x345) = widthSize; /* Write-only */
-	emu_get_memory16(emu_cs, 0x00, 0x343) = heightSize; /* Write-only */
 }
 
 /**

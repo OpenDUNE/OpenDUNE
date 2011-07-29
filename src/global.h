@@ -993,11 +993,11 @@ typedef struct GlobalData {
 	/* 60E7()    */ PACK uint8   unknown_60E7[0x0001];
 	/* 60E8(4)   */ PACK uint32  removed_60E8;              /*!< REMOVED - ?? */
 	/* 60EC(4)   */ PACK csip32 animationProc[10];          /*!< Which command ends up in which function. No longer in use. */
-	/* 6114(4)   */ PACK uint32 iconUsedMemory;             /*!< Amount of memory block used when loading ICON.ICN. */
-	/* 6118(4)   */ PACK csip32 iconRPAL;                   /*!< Content of RPAL chunk from ICON.ICN. */
-	/* 611C(2)   */ PACK uint16 iconRPALFreed;              /*!< True if memory at iconRPAL has been freed. */
-	/* 611E(4)   */ PACK csip32 iconRTBL;                   /*!< Content of RTBL chunk from ICON.ICN. */
-	/* 6122(2)   */ PACK uint16 iconRTBLFreed;              /*!< True if memory at iconRTBL has been freed. */
+	/* 6114(4)   */ PACK uint32 removed_6114;               /*!< REMOVED - Amount of memory block used when loading ICON.ICN. */
+	/* 6118(4)   */ PACK csip32 removed_6118;               /*!< REMOVED - Content of RPAL chunk from ICON.ICN. */
+	/* 611C(2)   */ PACK uint16 removed_611C;               /*!< REMOVED - True if memory at iconRPAL has been freed. */
+	/* 611E(4)   */ PACK csip32 removed_611E;               /*!< REMOVED - Content of RTBL chunk from ICON.ICN. */
+	/* 6122(2)   */ PACK uint16 removed_6122;               /*!< REMOVED - True if memory at iconRTBL has been freed. */
 	/* 6124(4)   */ PACK csip32 removed_6124;               /*!< REMOVED - Current Team we are handling in GameLoop. */
 	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32 variable_6164;              /*!< ?? */

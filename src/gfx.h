@@ -11,7 +11,6 @@ enum {
 };
 
 extern void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID);
-extern void GFX_Init_Sprites(uint16 memoryBlockID, void *iconRPAL, void *iconRTBL);
 extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
 extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);
 extern uint16 GFX_Screen_GetSegmentActive();

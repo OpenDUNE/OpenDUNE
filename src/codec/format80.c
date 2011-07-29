@@ -10,8 +10,8 @@
 
 /**
  * Decode a memory fragment which is encoded with 'format80'.
- * @param source The encoded fragment.
  * @param dest The place the decoded fragment will be loaded.
+ * @param source The encoded fragment.
  * @param destLength The length of the destionation buffer.
  * @return The length of decoded data.
  */
