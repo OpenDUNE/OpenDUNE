@@ -13,12 +13,11 @@
 #include "os/endian.h"
 
 #include "mt32mpu.h"
+#include "mpu.h"
 
 #include "driver.h"
 
 extern void f__AB01_0787_0028_C5A7();
-extern void f__AB01_08CE_005F_AC14();
-extern void f__AB01_0CB4_0016_9B28();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
@@ -26,88 +25,9 @@ extern void f__AB01_1B48_0023_740C();
 
 uint16 g_mt32mpu_cs;
 
-static bool MPU_WriteCommand(uint8 command)
+void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
-	uint16 i;
-	bool ret = false;
-
-	for (i = 0; i < 0xFFFF; i++) {
-		uint8 value;
-		emu_inb(&value, 0x331);
-		if ((value & 0x40) == 0) break;
-	}
-
-	emu_outb(0x331, command);
-
-	for (i = 0; !ret && i < 0xFFFF; i++) {
-		uint8 value;
-		emu_inb(&value, 0x331);
-		if ((value & 0x80) != 0) continue;
-		emu_inb(&value, 0x330);
-		if (value == 0xFE) ret = true;
-	}
-
-	return ret;
-}
-
-bool MPU_Reset()
-{
-	bool ret;
-
-	ret = MPU_WriteCommand(0xFF);
-	if (!ret) ret = MPU_WriteCommand(0xFF);
-
-	return ret;
-}
-
-void MPU_UART()
-{
-	MPU_WriteCommand(0x3F);
-}
-
-void MPU_WriteData(uint8 data)
-{
-	uint8 value;
-
-	while (true) {
-		emu_inb(&value, 0x331);
-		if ((value & 0x40) == 0) break;
-		if ((value & 0x80) != 0) continue;
-		emu_sti();
-		emu_inb(&value, 0x330);
-	}
-
-	emu_outb(0x330, data);
-}
-
-static void MPU_074E(uint8 *sound, uint16 arg0A, uint16 arg0C)
-{
-	if (arg0A == 0xF0) MPU_WriteData(0xF0);
-	if (arg0C == 0) return;
-
-	while (arg0C-- != 0) MPU_WriteData(*sound++);
-}
-
-static uint16 MPU_1C49(MSData *data)
-{
-	uint8 *sound = emu_get_memorycsip(data->sound);
-	uint16 loc02;
-	uint16 loc04 = *sound;
-	uint8 *s = sound + 1;
-	uint32 flag = 0;
-
-	while (true) {
-		uint8 v = *s++;
-		flag |= v & 0x7F;
-		if ((v & 0x80) == 0) break;
-		flag <<= 6;
-	}
-
-	loc02 = sound - s + (flag & 0xFFFF);
-
-	MPU_074E(s, loc04, flag & 0xFFFF);
-
-	return loc02;
+	mpu_send(status | (data1 << 8) | (data2 << 16));
 }
 
 static void MPU_ApplyVolume(MSData *data)
@@ -126,11 +46,7 @@ static void MPU_ApplyVolume(MSData *data)
 
 		if ((emu_get_memory8(g_mt32mpu_cs, i, 0x13EE) & 0x80) != 0) continue;
 
-		emu_push(volume);
-		emu_push(7);
-		emu_push(data->chanMaps[i] | 0xB0);
-		emu_push(emu_cs); emu_push(0x189C); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-		emu_sp += 6;
+		MPU_Send(0xB0 | data->chanMaps[i], 7, volume);
 	}
 }
 
@@ -200,11 +116,7 @@ void MPU_Interrupt()
 				emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)--;
 
 				/* Note Off */
-				emu_push(0);
-				emu_push(note);
-				emu_push(0x80 | chan);
-				emu_push(emu_cs); emu_push(0x1E10); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-				emu_sp += 6;
+				MPU_Send(0x80 | chan, note, 0);
 
 				data->noteOnCount--;
 			}
@@ -237,45 +149,30 @@ void MPU_Interrupt()
 					data2 = emu_get_memorycsip(data->sound)[2];
 
 					if (status >= 0xF0) {
-						if (chan != 0xF) {
-							nb = MPU_1C49(data);
-						} else {
-							emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-							emu_push(emu_cs); emu_push(0x1EB5); emu_cs = g_mt32mpu_cs; f__AB01_1B48_0023_740C();
-							emu_sp += 4;
-							nb = emu_ax;
-						}
+						assert(chan == 0xF);
+						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
+						emu_push(emu_cs); emu_push(0x1EB5); emu_cs = g_mt32mpu_cs; f__AB01_1B48_0023_740C();
+						emu_sp += 4;
+						nb = emu_ax;
 					} else if (status >= 0xE0) {
 						data->pitchWheelLSB[chan] = data1;
 						data->pitchWheelMSB[chan] = data2;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13BE) = data1;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13CE) = data2;
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
-							emu_push(data2);
-							emu_push(data1);
-							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-							emu_sp += 6;
+							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
 					} else if (status >= 0xD0) {
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
-							emu_push(data2);
-							emu_push(data1);
-							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-							emu_sp += 6;
+							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
 					} else if (status >= 0xC0) {
 						data->programs[chan] = data1;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13AE) = data1;
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
-							emu_push(data2);
-							emu_push(data1);
-							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-							emu_sp += 6;
+							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
 					} else if (status >= 0xB0) {
@@ -288,11 +185,7 @@ void MPU_Interrupt()
 						nb = 0x3;
 					} else if (status >= 0xA0) {
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
-							emu_push(data2);
-							emu_push(data1);
-							emu_push(status | data->chanMaps[chan]);
-							emu_push(emu_cs); emu_push(0x1F01); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-							emu_sp += 6;
+							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
 					} else {
@@ -529,11 +422,7 @@ void MPU_StopAllNotes(MSData *data)
 		chan = data->chanMaps[chan];
 
 		/* Note Off */
-		emu_push(0);
-		emu_push(note);
-		emu_push(0x80 | chan);
-		emu_push(emu_cs); emu_push(0x16A2); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-		emu_sp += 6;
+		MPU_Send(0x80 | chan, note, 0);
 	}
 
 	data->noteOnCount = 0;
@@ -579,79 +468,12 @@ uint16 MPU_GetDataSize()
 	return sizeof(MSData);
 }
 
-static void MPU_0564()
-{
-	emu_push(12);
-	emu_push(1);
-	emu_push(g_mt32mpu_cs); emu_push(0x12B);
-	emu_push(0);
-	emu_push(0);
-	emu_push(127);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x05B4); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
-	emu_sp += 16;
-
-	emu_push(4);
-	emu_push(9);
-	emu_push(g_mt32mpu_cs); emu_push(0x12B);
-	emu_push(13);
-	emu_push(0);
-	emu_push(16);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0602); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
-	emu_sp += 16;
-}
-
-static void MPU_0610()
-{
-	uint8 i;
-
-	emu_push(4);
-	emu_push(9);
-	emu_push(g_mt32mpu_cs); emu_push(0x134);
-	emu_push(4);
-	emu_push(0);
-	emu_push(16);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x0660); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
-	emu_sp += 16;
-
-	emu_push(4);
-	emu_push(3);
-	emu_push(g_mt32mpu_cs); emu_push(0x128);
-	emu_push(1);
-	emu_push(0);
-	emu_push(16);
-	emu_push(0);
-	emu_push(emu_cs); emu_push(0x06AE); emu_cs = g_mt32mpu_cs; f__AB01_0CB4_0016_9B28();
-	emu_sp += 16;
-
-	for (i = 0; i < 3; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x248) = 0;
-
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x24B) = 0;
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x24D) = 0;
-
-	for (i = 0; i < 64; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x3CF) = 0x0;
-
-	for (i = 0; i < 16; i++) {
-		emu_get_memory8(g_mt32mpu_cs, i, 0x40F) = 0xFF;
-		emu_get_memory8(g_mt32mpu_cs, i, 0x42F) = 0xFF;
-		emu_get_memory8(g_mt32mpu_cs, i, 0x41F) = 0;
-	}
-
-	for (i = 0; i < 128; i++) emu_get_memory8(g_mt32mpu_cs, i, 0x13D) = 0x0;
-}
-
-static void MPU_21CE()
-{
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x131A) = 0x0;
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x131C) = 0x0;
-}
-
 void MPU_Init()
 {
 	uint8 i;
 	uint8 j;
+
+	mpu_init();
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312) = 0;
 	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x131E), 0xFF, 192);
@@ -664,15 +486,11 @@ void MPU_Init()
 		emu_get_memory8(g_mt32mpu_cs, index, 0x11F2) = i * 16;
 	}
 
-	MPU_Reset();
-	MPU_UART();
-	MPU_0564();
-	MPU_0610();
-	MPU_21CE();
+	mpu_reset();
 
 	for (i = 0; i < 9; i++) {
 		for (j = 0; j < 9; j++) {
-			uint16 index;
+			uint8 index;
 			uint16 index2;
 			uint8 value;
 
@@ -686,11 +504,8 @@ void MPU_Init()
 
 			emu_get_memory8(g_mt32mpu_cs, index2, 0x131E) = value;
 
-			emu_push(value);
-			emu_push(index);
-			emu_push((j + 1) | 0xB0);
-			emu_push(emu_cs); emu_push(0x2062); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-			emu_sp += 6;
+			MPU_Send(0xB0 | (j + 1), index, value);
+
 		}
 	}
 
@@ -704,11 +519,7 @@ void MPU_Init()
 		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13BE) = 0x0;
 		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13CE) = 0x40;
 
-		emu_push(64);
-		emu_push(0);
-		emu_push((j + 1) | 0xE0);
-		emu_push(emu_cs); emu_push(0x20AF); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-		emu_sp += 6;
+		MPU_Send(0xE0 | (j + 1), 0, 64);
 
 		value = emu_get_memory8(g_mt32mpu_cs, j + 1, 0x11E8);
 
@@ -716,11 +527,7 @@ void MPU_Init()
 
 		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13AE) = value;
 
-		emu_push(0);
-		emu_push(value);
-		emu_push((j + 1) | 0xC0);
-		emu_push(emu_cs); emu_push(0x20D6); emu_cs = g_mt32mpu_cs; f__AB01_08CE_005F_AC14();
-		emu_sp += 6;
+		MPU_Send(0xC0 | (j + 1), 0, value);
 	}
 
 	emu_push(10);
@@ -742,10 +549,11 @@ void MPU_Uninit()
 		MPU_ClearData(i * 4);
 	}
 
-	MPU_0564();
-	MPU_Reset();
+	mpu_reset();
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0;
+
+	mpu_uninit();
 }
 
 void MPU_ClearData(uint16 index)

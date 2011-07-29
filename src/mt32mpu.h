@@ -53,9 +53,7 @@ assert_compile(sizeof(MSData) == 0x208);
 
 struct DriverInfo;
 
-extern bool MPU_Reset();
-extern void MPU_UART();
-extern void MPU_WriteData(uint8 data);
+extern void MPU_Send(uint8 status, uint8 data1, uint8 data2);
 extern void MPU_Interrupt();
 extern uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_0012);
 extern void MPU_InitData(MSData *data);
@@ -70,7 +68,7 @@ extern struct DriverInfo *MPU_GetInfo();
 extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);
 
 
-extern void emu_MPU_WriteData();
+extern void emu_MPU_Send();
 extern void emu_MPU_Interrupt();
 extern void emu_MPU_Init();
 extern void emu_MPU_Uninit();

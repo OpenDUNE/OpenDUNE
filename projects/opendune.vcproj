@@ -619,6 +619,70 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\mpu.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\mpu_alsa.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\mpu_none.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\mpu_win32.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\src\"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\src\mt32mpu.c"
 				>
 				<FileConfiguration

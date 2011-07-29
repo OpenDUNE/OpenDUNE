@@ -23,6 +23,7 @@ extern void System_Init_Input();
 extern void System_Init_Global();
 
 extern char *emu_caption;
+extern uint8 emu_mpu;
 
 #if defined(__APPLE__)
 int SDL_main(int argc, char **argv)
@@ -32,7 +33,7 @@ int main(int argc, char **argv)
 {
 #if defined(_WIN32)
 	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
-		int __cdecl __MINGW_NOTHROW	_fileno (FILE*);
+		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
 	#endif
 	FILE *err = fopen("error.log", "w");
 	FILE *out = fopen("output.log", "w");
@@ -51,6 +52,9 @@ int main(int argc, char **argv)
 	emu_hard_link(0x4352, 0x058F, &f__AB00_058F_000E_41A1);
 
 	emu_caption = "OpenDUNE - Pre v0.6";
+
+	/* We don't need the MPU of libemu. */
+	emu_mpu = 0;
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
