@@ -17,6 +17,7 @@
 #include "gui/gui.h"
 #include "input/input.h"
 #include "interrupt.h"
+#include "tools.h"
 
 uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
 bool   g_doubleWidth;        /*!< If non-zero, the X-position given by mouse is twice the real value. */
@@ -177,11 +178,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			File_Create(filename);
 
 			srand(0x1234);
-
-			g_global->randomSeed[0] = 0x21;
-			g_global->randomSeed[1] = 0x43;
-			g_global->randomSeed[2] = 0x34;
-			g_global->randomSeed[3] = 0x12;
+			Tools_Random_Seed(0x21433412);
 
 			g_global->mouseFileID = File_Open(filename, 3);
 
@@ -197,11 +194,7 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 				g_global->mouseFileID = File_Open(filename, 1);
 
 				srand(0x1234);
-
-				g_global->randomSeed[0] = 0x21;
-				g_global->randomSeed[1] = 0x43;
-				g_global->randomSeed[2] = 0x34;
-				g_global->randomSeed[3] = 0x12;
+				Tools_Random_Seed(0x21433412);
 			}
 
 			g_global->variable_701B = 1;

@@ -20,6 +20,8 @@
 #include "unit.h"
 
 
+uint8 s_randomSeed[4];
+
 uint16 Tools_AdjustToGameSpeed(uint16 normal, uint16 minimum, uint16 maximum, bool inverseSpeed)
 {
 	uint16 gameSpeed = g_gameConfig.gameSpeed;
@@ -259,15 +261,27 @@ uint8 Tools_Random_256()
 	uint16 val16;
 	uint8 val8;
 
-	val16 = (g_global->randomSeed[1] << 8) | g_global->randomSeed[2];
+	val16 = (s_randomSeed[1] << 8) | s_randomSeed[2];
 	val8 = ((val16 ^ 0x8000) >> 15) & 1;
-	val16 = (val16 << 1) | ((g_global->randomSeed[0] >> 1) & 1);
-	val8 = (g_global->randomSeed[0] >> 2) - g_global->randomSeed[0] - val8;
-	g_global->randomSeed[0] = (val8 << 7) | (g_global->randomSeed[0] >> 1);
-	g_global->randomSeed[1] = val16 >> 8;
-	g_global->randomSeed[2] = val16 & 0xFF;
+	val16 = (val16 << 1) | ((s_randomSeed[0] >> 1) & 1);
+	val8 = (s_randomSeed[0] >> 2) - s_randomSeed[0] - val8;
+	s_randomSeed[0] = (val8 << 7) | (s_randomSeed[0] >> 1);
+	s_randomSeed[1] = val16 >> 8;
+	s_randomSeed[2] = val16 & 0xFF;
 
-	return g_global->randomSeed[0] ^ g_global->randomSeed[1];
+	return s_randomSeed[0] ^ s_randomSeed[1];
+}
+
+/**
+ * Set the seed for the Tools_Random_256().
+ * @param seed The seed to set the randomizer to.
+ */
+void Tools_Random_Seed(uint32 seed)
+{
+	s_randomSeed[0] = (seed >>  0) & 0xFF;
+	s_randomSeed[1] = (seed >>  8) & 0xFF;
+	s_randomSeed[2] = (seed >> 16) & 0xFF;
+	s_randomSeed[3] = (seed >> 24) & 0xFF;
 }
 
 /**

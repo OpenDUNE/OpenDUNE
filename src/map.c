@@ -2180,7 +2180,7 @@ void Map_CreateLandscape(uint32 seed)
 	uint16 spriteID2;
 	uint16 *iconMap;
 
-	*(uint32 *)g_global->randomSeed = seed;
+	Tools_Random_Seed(seed);
 
 	/* Place random data on a 4x4 grid. */
 	for (i = 0; i < 272; i++) {

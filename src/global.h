@@ -1242,7 +1242,7 @@ typedef struct GlobalData {
 	/* 70A0(2)   */ PACK uint16 mouseSpriteHeight;          /*!< Height of the mouse sprite region (which is copied in the buffer). */
 	/* 70A2(768) */ PACK uint8  variable_70A2[768];         /*!< ?? */
 	/* 73A2()    */ PACK uint8   unknown_73A2[0x0300];
-	/* 76A2(4)   */ PACK uint8  randomSeed[4];              /*!< Seed for pseudo-random generator. */
+	/* 76A2(4)   */ PACK uint8  removed_76A2[4];            /*!< REMOVED - Seed for pseudo-random generator. */
 	/* 76A6(2)   */ PACK uint16 variable_76A6;              /*!< ?? */
 	/* 76A8(4)   */ PACK uint32 variable_76A8;              /*!< ?? Also a tick counter.. */
 	/* 76AC(4)   */ PACK uint32 variable_76AC;              /*!< ?? Also a tick counter.. */
