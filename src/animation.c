@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <stdio.h>
 #include "types.h"
-#include "global.h"
 
 #include "animation.h"
 
@@ -16,6 +15,7 @@
 #include "sprites.h"
 #include "structure.h"
 #include "unknown/unknown.h"
+#include "sound.h"
 
 Animation g_animations[ANIMATION_MAX];
 static uint32 s_animationTimer; /*!< Timer for animations. */
@@ -35,7 +35,7 @@ static void Animation_Func_Stop(Animation *animation, int16 parameter)
 	VARIABLE_NOT_USED(parameter);
 
 	t->hasAnimation = false;
-	animation->proc.csip = 0x0;
+	animation->commands = NULL;
 
 	for (i = 0; i < g_table_structure_layoutTileCount[animation->tileLayout]; i++) {
 		uint16 position = packed + (*layout++);
@@ -66,7 +66,7 @@ static void Animation_Func_Abort(Animation *animation, int16 parameter)
 	VARIABLE_NOT_USED(parameter);
 
 	t->hasAnimation = false;
-	animation->proc.csip = 0x0;
+	animation->commands = NULL;
 
 	Map_Update(packed, 0, false);
 }
@@ -197,13 +197,13 @@ static void Animation_Func_PlayVoice(Animation *animation, int16 parameter)
 
 /**
  * Start an Animation.
- * @param proc The proc to the Animation.
+ * @param commands List of commands for the Animation.
  * @param tile The tile to do the Animation on.
  * @param layout The layout of tiles for the Animation.
  * @param houseID The house of the item being Animation.
  * @param iconGroup In which IconGroup the sprites of the Animation belongs.
  */
-void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup)
+void Animation_Start(void *commands, tile32 tile, uint16 tileLayout, uint8 houseID, uint8 iconGroup)
 {
 	Animation *animation = g_animations;
 	uint16 packed = Tile_PackTile(tile);
@@ -214,14 +214,14 @@ void Animation_Start(csip32 proc, tile32 tile, uint16 tileLayout, uint8 houseID,
 	Animation_Stop_ByTile(packed);
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
-		if (animation->proc.csip != 0) continue;
+		if (animation->commands != NULL) continue;
 
 		animation->tickNext    = g_timerGUI;
 		animation->tileLayout  = tileLayout;
 		animation->houseID     = houseID;
 		animation->current     = 0;
 		animation->iconGroup   = iconGroup;
-		animation->proc.csip   = proc.csip;
+		animation->commands    = commands;
 		animation->tile        = tile;
 
 		s_animationTimer = 0;
@@ -245,7 +245,7 @@ void Animation_Stop_ByTile(uint16 packed)
 	if (!t->hasAnimation) return;
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
-		if (animation->proc.csip == 0) continue;
+		if (animation->commands == NULL) continue;
 		if (Tile_PackTile(animation->tile) != packed) continue;
 
 		Animation_Func_Stop(animation, 0);
@@ -265,10 +265,10 @@ void Animation_Tick()
 	s_animationTimer += 10000;
 
 	for (i = 0; i < ANIMATION_MAX; i++, animation++) {
-		if (animation->proc.csip == 0) continue;
+		if (animation->commands == NULL) continue;
 
 		if (animation->tickNext <= g_timerGUI) {
-			uint16 *commands = (uint16 *)emu_get_memorycsip(animation->proc);
+			uint16 *commands = animation->commands;
 			uint16 command;
 			int16 parameter;
 
@@ -291,7 +291,7 @@ void Animation_Tick()
 				case 8: Animation_Func_SetIconGroup(animation, parameter); break;
 			}
 
-			if (animation->proc.csip == 0) continue;
+			if (animation->commands == NULL) continue;
 		}
 
 		if (animation->tickNext < s_animationTimer) s_animationTimer = animation->tickNext;

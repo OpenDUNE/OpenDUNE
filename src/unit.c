@@ -1348,7 +1348,7 @@ bool Unit_Move(Unit *unit, uint16 distance)
 				proc.s.cs = 0x33C8;
 				proc.s.ip = Orientation_Orientation256ToOrientation8(unit->orientation[0].current) << 4;
 
-				Animation_Start(proc, unit->o.position, 0, unit->o.houseID, 5);
+				Animation_Start(emu_get_memorycsip(proc), unit->o.position, 0, unit->o.houseID, 5);
 			}
 		}
 	}

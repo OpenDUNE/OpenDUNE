@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
+#include "libemu.h"
 #include "global.h"
 #include "os/strings.h"
 #include "os/math.h"
@@ -1317,11 +1318,7 @@ void Structure_0C3A_1002(Structure *s)
 	}
 
 	if (!g_debugScenario) {
-		csip32 proc;
-
-		proc.csip = 0x2C6F0000;
-
-		Animation_Start(proc, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+		Animation_Start(&emu_get_memory8(0x2C6F, 0x0000, 0), s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -1826,7 +1823,7 @@ void Structure_UpdateMap(Structure *s)
 
 	s->o.flags.s.variable_4_1000 = true;
 
-	Animation_Start(animationProc, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+	Animation_Start(emu_get_memorycsip(animationProc), s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 }
 
 uint32 Structure_GetBuildable(Structure *s)
