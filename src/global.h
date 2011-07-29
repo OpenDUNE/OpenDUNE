@@ -829,7 +829,7 @@ typedef struct GlobalData {
 	/* 39F4(2)   */ PACK uint16 removed_39F4;               /*!< REMOVED - First bloom field spriteID. */
 	/* 39F6(2)   */ PACK uint16 removed_39F6;               /*!< REMOVED - First landscape spriteID. */
 	/* 39F8(2)   */ PACK uint16 removed_39F8;               /*!< REMOVED - SpriteID of the built concrete slab. */
-	/* 39FA(2)   */ PACK uint16 removed_39Fa;               /*!< REMOVED - First wall spriteID. */
+	/* 39FA(2)   */ PACK uint16 removed_39FA;               /*!< REMOVED - First wall spriteID. */
 	/* 39FC(2)   */ PACK uint16 removed_minimapPosition;    /*!< REMOVED - Current minimap position (top-left tile, packed). */
 	/* 39FE(2)   */ PACK uint16 removed_viewportPosition;   /*!< REMOVED - Current viewport position (top-left tile, packed). */
 	/* 3A00(2)   */ PACK uint16  removed_3A00;              /*!< REMOVED - Position of the structure selection rectangle */
