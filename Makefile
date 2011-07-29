@@ -47,6 +47,11 @@ LIBS := $(LIBS) -lwinmm
 endif
 endif
 
+ifdef ALSA
+LIBS := $(LIBS) -lasound
+CFLAGS := $(CFLAGS) -DMPU_ALSA
+endif
+
 CFLAGS := $(CFLAGS) -g -Wall -Wextra -Wno-unused-label -Wno-multichar
 CFLAGS := $(CFLAGS) -ansi -pedantic
 # We need -O1 and optimize-sibling-calls to avoid infinite loops we are
