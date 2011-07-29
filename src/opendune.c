@@ -1268,7 +1268,7 @@ static void Gameloop_Logos()
 	GFX_SetPalette(g_palette2);
 	GFX_ClearScreen();
 
-	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 0x300);
+	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 768);
 
 	frame = 0;
 	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
@@ -1789,7 +1789,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	Tools_Free(g_global->readBuffer);
 	g_global->readBuffer.csip = 0x0;
 
-	File_ReadBlockFile("IBM.PAL", g_palette_998A, 0x300);
+	File_ReadBlockFile("IBM.PAL", g_palette_998A, 768);
 
 	memmove(g_palette1, g_palette_998A, 3 * 256);
 

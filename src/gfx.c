@@ -297,7 +297,7 @@ void GFX_ClearScreen()
  */
 void GFX_SetPalette(uint8 *palette)
 {
-	uint8 *dest = g_global->variable_70A2;
+	uint8 *dest = g_paletteActive;
 	int i;
 
 	/* Set DAC write-index to 0 */

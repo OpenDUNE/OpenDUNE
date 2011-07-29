@@ -13,7 +13,7 @@
 #include "../timer.h"
 
 
-void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
+void Unknown_259E_0006(uint8 *palette, int16 unknown)
 {
 	int16  progress; /* bool */
 	int16  signed04;
@@ -23,18 +23,15 @@ void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 	int16  signed10;
 	uint16 loc12;
 	uint8 data[768];
-
 	int i;
 
-	uint8 *ptr1 = g_global->variable_70A2;
+	if (g_paletteActive == NULL || palette == NULL) return;
 
-	if (ptr1 == NULL || ptr2 == NULL) return;
-
-	memcpy(data, ptr1, 0x300);
+	memcpy(data, g_paletteActive, 768);
 
 	signed0E = 0;
 	for (i = 0; i < 0x300; i++) {
-		int16 diff = (int16)ptr2[i] - (int16)data[i];
+		int16 diff = (int16)palette[i] - (int16)data[i];
 		if (diff < 0) diff = -diff;
 		signed0E = max(signed0E, diff);
 	}
@@ -60,7 +57,7 @@ void Unknown_259E_0006(uint8 *ptr2, int16 unknown)
 		loc12 &= 0xFF;
 
 		for (i = 0; i < 0x300; i++) {
-			int16 locdi = ptr2[i];
+			int16 locdi = palette[i];
 			int16 signed08 = data[i];
 
 			if (signed08 == locdi) continue;

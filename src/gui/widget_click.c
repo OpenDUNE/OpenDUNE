@@ -637,7 +637,7 @@ static void ShadeScreen()
 {
 	uint16 i;
 
-	memmove(g_palette_998A, g_palette1, 0x300);
+	memmove(g_palette_998A, g_palette1, 768);
 
 	for (i = 0; i < 0x300; i++) g_palette1[i] = g_palette1[i] / 2;
 
@@ -648,7 +648,7 @@ static void ShadeScreen()
 
 static void UnshadeScreen()
 {
-	memmove(g_palette1, g_palette_998A, 0x300);
+	memmove(g_palette1, g_palette_998A, 768);
 
 	GFX_SetPalette(g_palette1);
 }
@@ -702,7 +702,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	Sprites_UnloadTiles();
 
-	memmove(g_palette_998A, g_global->variable_70A2, 0x300);
+	memmove(g_palette_998A, g_paletteActive, 768);
 
 	{
 		csip32 nullcsip;
