@@ -905,6 +905,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 			case 2:
 				if (g_sprites[spriteID] == NULL) spriteID = 0;
+				sprite = Sprites_GetSprite(g_sprites[spriteID], 0);
 
 				GUI_DrawSprite(memory, sprite, positions[spritePos].x, positions[spritePos].y, windowID, 0x4000);
 
