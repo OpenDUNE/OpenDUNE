@@ -340,7 +340,7 @@ void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst)
 
 	if (screenSrc == 0x0 || screenDst == 0x0 || screenSrc == screenDst) return;
 
-	memcpy(&emu_get_memory8(screenDst, 0x0, 0x0), &emu_get_memory8(screenSrc, 0x0, 0x0), 64000);
+	memcpy(&emu_get_memory8(screenDst, 0x0, 0x0), &emu_get_memory8(screenSrc, 0x0, 0x0), SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 uint16 GFX_GetSize(int16 width, int16 height)

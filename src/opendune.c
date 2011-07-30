@@ -758,10 +758,10 @@ static void GameLoop_Uninit()
 	free(g_stringsHint);
 }
 
-static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
+static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 screenID, csip32 arg0C)
 {
 	uint16 *esdi = (uint16 *)emu_get_memorycsip(arg0C);
-	uint16 *dssi = (uint16 *)&emu_get_memory8(GFX_Screen_GetSegment_ByIndex(arg0A), arg06 * SCREEN_WIDTH, 0x0);
+	uint16 *dssi = (uint16 *)&emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenID), arg06 * SCREEN_WIDTH, 0x0);
 	uint16 *essi = (uint16 *)&emu_get_memory8(GFX_Screen_GetSegment_ByIndex(0), arg06 * SCREEN_WIDTH, 0x0);
 	uint16 count = arg08 * SCREEN_WIDTH / 2;
 
