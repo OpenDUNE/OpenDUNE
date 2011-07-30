@@ -225,7 +225,7 @@ void Drivers_CustomTimer_Interrupt()
 			/* Call based on memory/register values */
 			emu_push(emu_cs); emu_push(0x05A2); emu_cs = _stat08[_stat120].s.cs;
 			switch (_stat08[_stat120].s.ip) {
-				case 0x0622: emu_Drivers_CustomTimer_OriginalInterrupt(); break;
+				case 0x0622: break;
 				case 0x0006: Timer_Interrupt(); break;
 				case 0x1CEE: g_mt32mpu_cs = _stat08[_stat120].s.cs; emu_MPU_Interrupt(); break;
 				default:
@@ -255,13 +255,6 @@ void Drivers_CustomTimer_Interrupt()
 	emu_outb(0x20, 0x20);
 
 	assert(*_stat1B4 == HTOBE32('Test'));
-}
-
-void Drivers_CustomTimer_OriginalInterrupt()
-{
-	assert(_stat11C.csip == 0x00700040);
-
-	emu_pushf(); emu_push(emu_cs); emu_push(0x0628); emu_cs = 0x0070; Interrupt_Timer();
 }
 
 static csip32 Drivers_Load(const char *filename)

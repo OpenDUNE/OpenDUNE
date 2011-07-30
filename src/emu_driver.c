@@ -24,18 +24,3 @@ void emu_Drivers_CustomTimer_Interrupt()
 	emu_pop(&emu_cs);
 	emu_popf();
 }
-
-/**
- * Emulator wrapper around Drivers_CustomTimer_OriginalInterrupt()
- *
- * @name emu_Drivers_CustomTimer_OriginalInterrupt
- * @implements 2756:0622:0006:823A ()
- */
-void emu_Drivers_CustomTimer_OriginalInterrupt()
-{
-	Drivers_CustomTimer_OriginalInterrupt();
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-}
