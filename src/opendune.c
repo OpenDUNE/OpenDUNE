@@ -2013,11 +2013,11 @@ static void GameLoop_GameIntroAnimationMenu()
 	} else {
 		Music_Play(0);
 
-		String_Load("DUNE");
-
 		free(g_readBuffer);
 		g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
 		g_readBuffer = calloc(1, g_readBufferSize);
+
+		String_Load("DUNE");
 	}
 
 	GUI_Mouse_Hide_Safe();
