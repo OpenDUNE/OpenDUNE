@@ -1,9 +1,3 @@
-29A3:0054:005C:47DC	emu_Mouse_EventHandler
-
-29E8:0D47:0096:3777	emu_Input_Keyboard_EventHandler
-
-2BEE:0017:0028:0D9F	emu_Video_WaitForNextVSync	# (vsync), waits for next vsync (or lack thereof)
-
 AB00:0169:001D:2693	emu_DSP_Write	# (value)
 AB00:0192:0019:263B	emu_DSP_Read	# ()
 AB00:01B7:003B:56B4	emu_DSP_WriteAndWait	# (value)
