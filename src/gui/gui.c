@@ -858,10 +858,6 @@ uint16 GUI_SplitText(char *str, uint16 maxwidth, char delimiter)
  */
 void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint16 windowID, uint16 flags, ...)
 {
-	static uint16 s_variable_0E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07A7, 0x0857, 0x07A7, 0x0857};
-	static uint16 s_variable_1E[8]  = {0x050E, 0x0545, 0x050E, 0x0545, 0x07ED, 0x089D, 0x07ED, 0x089D};
-	static uint16 s_variable_2E[8]  = {0x0530, 0x0569, 0x0530, 0x0569, 0x0812, 0x08C5, 0x0812, 0x08C5};
-	static uint16 s_variable_3E[16] = {0x0580, 0x0584, 0x0599, 0x05C8, 0x05E0, 0x061F, 0x05EA, 0x05C8, 0x0634, 0x0653, 0x0683, 0x06C6, 0x06F9, 0x0777, 0x071E, 0x06C6};
 	static uint16 s_variable_5E     = 0;
 	static uint16 s_variable_60[8]  = {1, 3, 2, 5, 4, 3, 2, 1};
 	static uint16 s_variable_70     = 1;
@@ -1016,31 +1012,19 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 			count = loc1A;
 			loc1C = loc1A;
 
-			/* Call based on memory/register values */
-			switch (s_variable_1E[flags & 0xFF]) {
-				case 0x050E:
-				case 0x0545:
-					if (count == 0) break;
+			assert((flags & 0xFF) < 4);
 
-					while (count > 0) {
-						while (count != 0) {
-							count--;
-							if (*sprite++ == 0) break;
-						}
-						if (sprite[-1] != 0 && count == 0) break;
+			while (count > 0) {
+				while (count != 0) {
+					count--;
+					if (*sprite++ == 0) break;
+				}
+				if (sprite[-1] != 0 && count == 0) break;
 
-						count -= *sprite++ - 1;
-					}
-
-					buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
-					break;
-
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0x2903; emu_last_ip = 0x0384; emu_last_length = 0x0016; emu_last_crc = 0x7D40;
-					emu_call();
-					return;
+				count -= *sprite++ - 1;
 			}
+
+			buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
 
 			loc34 += loc32;
 			if ((loc34 & 0xFF00) == 0) continue;
@@ -1124,31 +1108,19 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 			count = loc1A;
 			loc1C = loc1A;
 
-			/* Call based on memory/register values */
-			switch (s_variable_1E[flags & 0xFF]) {
-				case 0x050E:
-				case 0x0545:
-					if (count == 0) break;
+			assert((flags & 0xFF) < 4);
 
-					while (count > 0) {
-						while (count != 0) {
-							count--;
-							if (*sprite++ == 0) break;
-						}
-						if (sprite[-1] != 0 && count == 0) break;
+			while (count > 0) {
+				while (count != 0) {
+					count--;
+					if (*sprite++ == 0) break;
+				}
+				if (sprite[-1] != 0 && count == 0) break;
 
-						count -= *sprite++ - 1;
-					}
-
-					buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
-					break;
-
-				default:
-					/* In case we don't know the call point yet, call the dynamic call */
-					emu_last_cs = 0x2903; emu_last_ip = 0x04B9; emu_last_length = 0x0018; emu_last_crc = 0x7352;
-					emu_call();
-					return;
+				count -= *sprite++ - 1;
 			}
+
+			buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
 		}
 		loc38 = sprite;
 	}
@@ -1157,12 +1129,107 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 		loc1C = loc1A;
 		count = loc1E;
 
-		/* Call based on memory/register values */
-		switch (s_variable_0E[flags & 0xFF]) {
-			case 0x050E:
-			case 0x0545:
-				if (count == 0) break;
+		assert((flags & 0xFF) < 4);
 
+		while (count > 0) {
+			while (count != 0) {
+				count--;
+				if (*sprite++ == 0) break;
+			}
+			if (sprite[-1] != 0 && count == 0) break;
+
+			count -= *sprite++ - 1;
+		}
+
+		buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
+
+		if (loc1C != 0) {
+			count += loc14;
+			if (count > 0) {
+				uint8 v;
+
+				while (count > 0) {
+					v = *sprite++;
+					if (v == 0) {
+						buf += *sprite * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? 1 : -1);
+						count -= *sprite++;
+						continue;
+					}
+
+					assert(((flags >> 8) & 0xF) < 8);
+					switch ((flags >> 8) & 0xF) {
+						case 0:
+							*buf = v;
+							break;
+
+						case 1: {
+							int16 i;
+
+							for(i = 0; i < loc28; i++) v = loc26[v];
+
+							*buf = v;
+
+							break;
+						}
+
+						case 2:
+							s_variable_74 += s_variable_72;
+
+							if ((s_variable_74 & 0xFF00) == 0) {
+								*buf = v;
+							} else {
+								s_variable_74 &= 0xFF;
+								*buf = buf[s_variable_70];
+							}
+							break;
+
+						case 3: case 7: {
+							int16 i;
+
+							v = *buf;
+
+							for(i = 0; i < loc28; i++) v = loc26[v];
+
+							*buf = v;
+
+							break;
+						}
+
+						case 4:
+							*buf = loc3E[v];
+							break;
+
+						case 5: {
+							int16 i;
+
+							v = loc3E[v];
+
+							for(i = 0; i < loc28; i++) v = loc26[v];
+
+							*buf = v;
+
+							break;
+						}
+
+						case 6:
+							s_variable_74 += s_variable_72;
+
+							if ((s_variable_74 & 0xFF00) == 0) {
+								*buf = loc3E[v];
+							} else {
+								s_variable_74 &= 0xFF;
+								*buf = buf[s_variable_70];
+							}
+							break;
+					}
+
+					buf += (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? 1 : -1);
+					count--;
+				}
+			}
+
+			count += loc20;
+			if (count != 0) {
 				while (count > 0) {
 					while (count != 0) {
 						count--;
@@ -1173,146 +1240,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 					count -= *sprite++ - 1;
 				}
 
-				buf += count * ((s_variable_0E[flags & 0xFF] == 0x050E) ? -1 : 1);
-				break;
-
-			default:
-				/* In case we don't know the call point yet, call the dynamic call */
-				emu_last_cs = 0x2903; emu_last_ip = 0x04D1; emu_last_length = 0x0010; emu_last_crc = 0x92CB;
-				emu_call();
-				return;
-		}
-
-		if (loc1C != 0) {
-			count += loc14;
-			if (count > 0) {
-				uint8 v;
-
-				/* Call based on memory/register values */
-				switch (s_variable_2E[flags & 0xFF]) {
-					case 0x0530:
-					case 0x0569:
-						while (count > 0) {
-							v = *sprite++;
-							if (v == 0) {
-								buf += *sprite * ((s_variable_2E[flags & 0xFF] == 0x0530) ? 1 : -1);
-								count -= *sprite++;
-								continue;
-							}
-
-							/* Call based on memory/register values */
-							switch (s_variable_3E[(flags >> 8) & 0xF]) {
-								case 0x0580:
-									*buf = v;
-									break;
-
-								case 0x0584: {
-									int16 i;
-
-									for(i = 0; i < loc28; i++) v = loc26[v];
-
-									*buf = v;
-
-									break;
-								}
-
-								case 0x0599:
-									s_variable_74 += s_variable_72;
-
-									if ((s_variable_74 & 0xFF00) == 0) {
-										*buf = v;
-									} else {
-										s_variable_74 &= 0xFF;
-										*buf = buf[s_variable_70];
-									}
-									break;
-
-								case 0x05C8: {
-									int16 i;
-
-									v = *buf;
-
-									for(i = 0; i < loc28; i++) v = loc26[v];
-
-									*buf = v;
-
-									break;
-								}
-
-								case 0x05E0:
-									*buf = loc3E[v];
-									break;
-
-								case 0x05EA:
-									s_variable_74 += s_variable_72;
-
-									if ((s_variable_74 & 0xFF00) == 0) {
-										*buf = loc3E[v];
-									} else {
-										s_variable_74 &= 0xFF;
-										*buf = buf[s_variable_70];
-									}
-									break;
-
-								case 0x061F: {
-									int16 i;
-
-									v = loc3E[v];
-
-									for(i = 0; i < loc28; i++) v = loc26[v];
-
-									*buf = v;
-
-									break;
-								}
-
-								default:
-									/* In case we don't know the call point yet, call the dynamic call */
-									emu_last_cs = 0x2903; emu_last_ip = 0x0535; emu_last_length = 0x0008; emu_last_crc = 0xCF42;
-									emu_call();
-									return;
-							}
-
-							buf += ((s_variable_2E[flags & 0xFF] == 0x0530) ? 1 : -1);
-							count--;
-						}
-						break;
-
-					default:
-						/* In case we don't know the call point yet, call the dynamic call */
-						emu_last_cs = 0x2903; emu_last_ip = 0x04DF; emu_last_length = 0x000E; emu_last_crc = 0x82DD;
-						emu_call();
-						return;
-				}
-			}
-
-			count += loc20;
-			if (count != 0) {
-				/* Call based on memory/register values */
-				switch (s_variable_1E[flags & 0xFF]) {
-					case 0x050E:
-					case 0x0545:
-						if (count == 0) break;
-
-						while (count > 0) {
-							while (count != 0) {
-								count--;
-								if (*sprite++ == 0) break;
-							}
-							if (sprite[-1] != 0 && count == 0) break;
-
-							count -= *sprite++ - 1;
-						}
-
-						buf += count * ((s_variable_1E[flags & 0xFF] == 0x050E) ? -1 : 1);
-						break;
-
-					default:
-						/* In case we don't know the call point yet, call the dynamic call */
-						emu_last_cs = 0x2903; emu_last_ip = 0x04E7; emu_last_length = 0x0008; emu_last_crc = 0x5672;
-						emu_call();
-						return;
-				}
+				buf += count * (((flags & 0xFF) == 0 || (flags & 0xFF) == 2) ? -1 : 1);
 			}
 		}
 
