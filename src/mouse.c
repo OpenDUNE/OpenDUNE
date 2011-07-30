@@ -49,9 +49,6 @@ uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
  */
 void Mouse_Init()
 {
-	emu_ax = 0x3533;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_DOS();
-
 	g_mouseX = SCREEN_WIDTH / 2;
 	g_mouseY = SCREEN_HEIGHT / 2;
 	g_global->mouseHiddenDepth = 1;
@@ -62,7 +59,7 @@ void Mouse_Init()
 	g_global->mouseInstalled = true;
 	g_global->variable_7097 = true;
 
-	Video_Mouse_SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	Video_Mouse_SetPosition(g_mouseX * 2, g_mouseY * 2);
 }
 
 /**
