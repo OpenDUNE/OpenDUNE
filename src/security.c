@@ -180,7 +180,7 @@ bool GUI_Security_Show()
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
-		wsa = WSA_LoadFile(string, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), loc0E, false);
+		wsa = WSA_LoadFile(string, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), loc0E, false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase << 3, g_curWidgetYBase, 4);
 		WSA_Unload(wsa);
 

@@ -14,6 +14,7 @@
 #include "house.h"
 #include "opendune.h"
 #include "sprites.h"
+#include "unknown/unknown.h"
 #include "video/video.h"
 
 static uint16 s_spriteSpacing  = 0;
@@ -28,17 +29,7 @@ static uint8  s_spriteInfoSize = 0;
  */
 uint16 GFX_Screen_GetSegmentActive()
 {
-	return g_global->variable_6C93[g_global->screenActiveID >> 1][0];
-}
-
-/**
- * Returns the codesegment of a screenbuffer.
- * @param screenID The screenID to get the segment of.
- * @return Some codesegment value.
- */
-uint16 GFX_Screen_GetSegment_ByIndex2(uint16 screenID)
-{
-	return g_global->variable_6C93[screenID >> 1][1];
+	return GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID);
 }
 
 /**
@@ -49,6 +40,21 @@ uint16 GFX_Screen_GetSegment_ByIndex2(uint16 screenID)
 uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID)
 {
 	return g_global->variable_6C93[screenID >> 1][0];
+}
+
+/**
+ * Returns the csip of a screenbuffer.
+ * @param screenID The screenID to get the csip of.
+ * @return Some CSIP value.
+ */
+csip32 GFX_Screen_GetCSIP_ByIndex(uint16 screenID)
+{
+	csip32 ret;
+
+	ret.s.cs = GFX_Screen_GetSegment_ByIndex(screenID & 0xF);
+	ret.s.ip = 0x0;
+
+	return ret;
 }
 
 /**
@@ -319,7 +325,7 @@ uint8 GFX_GetPixel(uint16 x, uint16 y)
 
 void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst)
 {
-	screenSrc = GFX_Screen_GetSegment_ByIndex2(screenSrc);
+	screenSrc = GFX_Screen_GetSegment_ByIndex(screenSrc);
 	screenDst = GFX_Screen_GetSegment_ByIndex(screenDst);
 
 	if (screenSrc == 0x0 || screenDst == 0x0 || screenSrc == screenDst) return;

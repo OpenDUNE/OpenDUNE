@@ -12,6 +12,7 @@
 
 #include "house.h"
 
+#include "gfx.h"
 #include "gui/gui.h"
 #include "map.h"
 #include "opendune.h"
@@ -406,7 +407,7 @@ bool House_UpdateRadarState(House *h)
 
 	if (h->flags.s.radarActivated == activate) return false;
 
-	wsa = WSA_LoadFile("STATIC.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], true);
+	wsa = WSA_LoadFile("STATIC.WSA", emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), g_global->variable_6CD3[1][1], true);
 	frameCount = WSA_GetFrameCount(wsa);
 
 	g_textDisplayNeedsUpdate = true;

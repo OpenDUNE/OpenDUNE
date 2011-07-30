@@ -275,7 +275,7 @@ static void Memory_ClearBlock(uint16 index)
 	uint32 size;
 	uint8 *memory;
 
-	memory = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(index));
+	memory = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(index));
 
 	size = g_global->variable_6CD3[index >> 1][index & 0x1];
 
@@ -525,12 +525,12 @@ static void GameLoop_PlayAnimation()
 			if ((var805E->flags & 0x480) != 0) {
 				GUI_ClearScreen(3);
 
-				wsa = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
+				wsa = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
 
 				loc24 = g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 				loc20 = false;
 			} else {
-				wsa = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
+				wsa = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
 				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
 			}
@@ -761,8 +761,8 @@ static void GameLoop_Uninit()
 static void GameCredits_1DD2_0008(uint16 arg06, uint16 arg08, uint16 arg0A, csip32 arg0C)
 {
 	uint16 *esdi = (uint16 *)emu_get_memorycsip(arg0C);
-	uint16 *dssi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[arg0A >> 1][arg0A & 1], arg06 * SCREEN_WIDTH, 0x0);
-	uint16 *essi = (uint16 *)&emu_get_memory8(g_global->variable_6C93[0][0], arg06 * SCREEN_WIDTH, 0x0);
+	uint16 *dssi = (uint16 *)&emu_get_memory8(GFX_Screen_GetSegment_ByIndex(arg0A), arg06 * SCREEN_WIDTH, 0x0);
+	uint16 *essi = (uint16 *)&emu_get_memory8(GFX_Screen_GetSegment_ByIndex(0), arg06 * SCREEN_WIDTH, 0x0);
 	uint16 count = arg08 * SCREEN_WIDTH / 2;
 
 	while (count-- != 0) {
@@ -987,7 +987,7 @@ static void GameCredits_LoadPaletteAndSprites()
 	uint16 i;
 	uint16 locdi;
 
-	g_global->variable_182E = Screen_GetSegment_ByIndex_1(7);
+	g_global->variable_182E = GFX_Screen_GetCSIP_ByIndex(7);
 
 	size = SCREEN_WIDTH * g_curWidgetHeight;
 
@@ -1053,7 +1053,7 @@ static void GameLoop_GameCredits()
 
 	Music_Play(33);
 
-	memBlock = Screen_GetSegment_ByIndex_1(5);
+	memBlock = GFX_Screen_GetCSIP_ByIndex(5);
 
 	memory = emu_get_memorycsip(memBlock);
 
@@ -1261,7 +1261,7 @@ static void Gameloop_Logos()
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 256 * 3);
 
 	frame = 0;
-	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
+	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
 	WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
 
 	Unknown_259E_0006(g_palette_998A, 60);
@@ -1631,7 +1631,7 @@ static void ReadProfileIni(char *filename)
 	if (filename == NULL) return;
 	if (!File_Exists(filename)) return;
 
-	source = (char *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
+	source = (char *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
 	memset(source, 0, 32000);
 	File_ReadBlockFile(filename, source, g_global->variable_6CD3[1][1]);

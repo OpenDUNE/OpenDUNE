@@ -939,7 +939,7 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	loc34 = 0;
 
-	memBlock = Screen_GetSegment_ByIndex_2(screenID);
+	memBlock = GFX_Screen_GetCSIP_ByIndex(screenID);
 	memBlock.s.ip = g_widgetProperties[windowID].xBase << 3;
 
 	buf = emu_get_memorycsip(memBlock);
@@ -4084,7 +4084,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 		height = SCREEN_HEIGHT - top;
 	}
 
-	screen = &emu_get_memory8(g_global->variable_6C93[g_global->screenActiveID >> 1][0], 0, 0);
+	screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID), 0, 0);
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
 		int i = width;
@@ -4143,7 +4143,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap)
 {
-	uint8 *screen = &emu_get_memory8(g_global->variable_6C93[screenID >> 1][1], 0, 0);
+	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenID), 0, 0);
 
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
@@ -4278,7 +4278,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		g_global->variable_81EB = 0;
 	}
 
-	data = (HallOfFameData *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
+	data = (HallOfFameData *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;

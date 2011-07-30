@@ -103,7 +103,7 @@ void Sprites_Load(uint16 index, uint8 **sprites)
 	uint8 *buffer;
 	uint16 i;
 
-	buffer = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(7));
+	buffer = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(7));
 
 	files = spriteFiles[index];
 
@@ -326,7 +326,7 @@ void Sprites_LoadTiles()
 
 	Orientation_InitTable();
 
-	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)));
+	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)));
 }
 
 /**
@@ -353,7 +353,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
 	void *buffer;
 	uint16 paletteSize;
 
-	buffer = (void *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(screenID));
+	buffer = (void *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(screenID));
 
 	index = File_Open(filename, 1);
 
@@ -374,7 +374,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
 	((uint16 *)buffer)[3] = 0;
 	size -= paletteSize;
 
-	loc0A.s.cs = g_global->variable_6C93[screenID >> 1][screenID & 0x1];
+	loc0A = GFX_Screen_GetCSIP_ByIndex(screenID);
 	loc0A.s.ip = g_global->variable_6CD3[screenID >> 1][screenID & 0x1] - size - 8;
 
 	loc0A = Tools_GetSmallestIP(loc0A);
@@ -517,7 +517,7 @@ void Sprites_CPS_LoadRegionClick()
 	uint8 i;
 	char filename[16];
 
-	memBlock = Screen_GetSegment_ByIndex_1(5);
+	memBlock = GFX_Screen_GetCSIP_ByIndex(5);
 	g_global->RGNCLK_CPS = memBlock;
 
 	buf = emu_get_memorycsip(g_global->RGNCLK_CPS);

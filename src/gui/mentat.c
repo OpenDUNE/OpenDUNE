@@ -199,7 +199,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	uint16 i;
 
 	if (init) {
-		helpDataList = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
+		helpDataList = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
@@ -419,7 +419,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][0], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), g_global->variable_6CD3[2][0], false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -538,7 +538,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5)), g_global->variable_6CD3[2][1], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), g_global->variable_6CD3[2][1], false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -843,7 +843,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	g_widgetMentatTail = NULL;
 	ypos = 8;
 
-	w = (Widget *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(5));
+	w = (Widget *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -939,7 +939,7 @@ static void GUI_Mentat_ShowHelp()
 
 	text = (char *)g_readBuffer;
 
-	compressedText = (char *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
+	compressedText = (char *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
 	fileID = File_Open(g_global->mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
@@ -1095,7 +1095,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	wsa = NULL;
 
 	if (wsaFilename != NULL) {
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), g_global->variable_6CD3[1][1], false);
 	}
 
 	step = 0;
