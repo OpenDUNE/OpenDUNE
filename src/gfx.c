@@ -33,16 +33,6 @@ void *GFX_Screen_GetActive()
 }
 
 /**
- * Returns the codesegment of a screenbuffer.
- * @param screenID The screenID to get the segment of.
- * @return Some codesegment value.
- */
-uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID)
-{
-	return g_global->variable_6C93[screenID >> 1][0];
-}
-
-/**
  * Returns the size of a screenbuffer.
  * @param screenID The screenID to get the size of.
  * @return Some size value.
@@ -61,7 +51,7 @@ csip32 GFX_Screen_GetCSIP_ByIndex(uint16 screenID)
 {
 	csip32 ret;
 
-	ret.s.cs = GFX_Screen_GetSegment_ByIndex(screenID & 0xF);
+	ret.s.cs = g_global->variable_6C93[screenID >> 1][0];
 	ret.s.ip = 0x0;
 
 	return ret;
