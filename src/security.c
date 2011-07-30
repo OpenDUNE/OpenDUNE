@@ -33,7 +33,7 @@ static void GUI_Security_DrawText(char *text)
 {
 	uint16 oldScreenID;
 
-	oldScreenID = GUI_Screen_SetActive(4);
+	oldScreenID = GFX_Screen_SetActive(4);
 
 	GUI_Mouse_Hide_InRegion(0, 0, SCREEN_WIDTH, 40);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 0, 4);
@@ -49,7 +49,7 @@ static void GUI_Security_DrawText(char *text)
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, 40, 4, 0);
 	GUI_Mouse_Show_InRegion();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 static void GUI_Security_UndrawText()
@@ -159,7 +159,7 @@ bool GUI_Security_Show()
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(8);
 
-	oldScreenID = GUI_Screen_SetActive(4);
+	oldScreenID = GFX_Screen_SetActive(4);
 
 	for (i = 0, valid = false; i < 3 && !valid; i++) {
 		void *wsa;
@@ -201,7 +201,7 @@ bool GUI_Security_Show()
 		GUI_Screen_Copy(g_curWidgetXBase - 1, g_curWidgetYBase - 8, 0, 0, g_curWidgetWidth + 2, g_curWidgetHeight + 16, 0, 4);
 		GUI_Mouse_Show_Safe();
 
-		GUI_Screen_SetActive(0);
+		GFX_Screen_SetActive(0);
 
 		GUI_Mouse_Hide_Safe();
 		GUI_DrawBorder((g_curWidgetXBase << 3) - 6, g_curWidgetYBase - 6, (g_curWidgetWidth << 3) + 12, g_curWidgetHeight + 12, 1, true);
@@ -264,7 +264,7 @@ bool GUI_Security_Show()
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Input_History_Clear();
 

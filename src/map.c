@@ -14,6 +14,7 @@
 #include "map.h"
 
 #include "animation.h"
+#include "gfx.h"
 #include "gui/gui.h"
 #include "house.h"
 #include "opendune.h"
@@ -618,7 +619,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
 	if (g_global->selectionType == 0) return;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	cleared = false;
 
@@ -667,7 +668,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 		GUI_Mouse_Show_Safe();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	minimapPreviousPosition = packed;
 }

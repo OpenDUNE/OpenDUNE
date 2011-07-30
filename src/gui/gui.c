@@ -252,7 +252,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(7);
 
 		if (g_textDisplayNeedsUpdate) {
-			uint16 oldScreenID = GUI_Screen_SetActive(2);
+			uint16 oldScreenID = GFX_Screen_SetActive(2);
 
 			GUI_DrawFilledRectangle(0, 0, SCREEN_WIDTH - 1, 23, g_curWidgetFGColourNormal);
 
@@ -261,7 +261,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 
 			g_textDisplayNeedsUpdate = false;
 
-			GUI_Screen_SetActive(oldScreenID);
+			GFX_Screen_SetActive(oldScreenID);
 		}
 
 		GUI_Mouse_Hide_InWidget(7);
@@ -743,7 +743,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	GUI_Mouse_Hide_Safe();
 
-	oldScreenID = GUI_Screen_SetActive(0);
+	oldScreenID = GFX_Screen_SetActive(0);
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -762,7 +762,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	GUI_Widget_DrawBorder(1, 1, 1);
 
 	if (spriteID != 0xFFFF) {
-		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
+		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], 7, 8, 1, 0x4000);
 		GUI_2599_000B(1, g_curWidgetXBase + 5, g_curWidgetYBase + 8, g_curWidgetWidth - 7, g_curWidgetHeight - 16);
 	} else {
 		GUI_2599_000B(1, g_curWidgetXBase + 1, g_curWidgetYBase + 8, g_curWidgetWidth - 2, g_curWidgetHeight - 16);
@@ -809,7 +809,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 		g_global->variable_3A12 = 1;
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_Mouse_Show_Safe();
 
@@ -1366,7 +1366,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	uint16 colour;
 	uint16 offset;
 
-	oldScreenID = GUI_Screen_SetActive(2);;
+	oldScreenID = GFX_Screen_SetActive(2);;
 
 	Sprites_LoadImage("FAME.CPS", 3, g_palette_998A, 1);
 
@@ -1436,7 +1436,7 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 
 	if (!hallOfFame) GUI_HallOfFame_Tick();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 static void GUI_EndStats_Sleep(uint16 delay)
@@ -1476,7 +1476,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_ChangeSelectionType(0);
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	GUI_HallOfFame_DrawBackground(score, false);
 
@@ -1613,7 +1613,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	memcpy(g_palette1 + 0x2FD, g_global->variable_81E8, 3);
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Driver_Music_FadeOut();
 }
@@ -1712,7 +1712,7 @@ uint8 GUI_PickHouse()
 
 		g_playerHouseID = HOUSE_MERCENARY;
 
-		oldScreenID = GUI_Screen_SetActive(0);
+		oldScreenID = GFX_Screen_SetActive(0);
 
 		GUI_Mouse_Show_Safe();
 
@@ -1753,7 +1753,7 @@ uint8 GUI_PickHouse()
 		Load_Palette_Mercenaries();
 		Sprites_LoadTiles();
 
-		GUI_Screen_SetActive(oldScreenID);
+		GFX_Screen_SetActive(oldScreenID);
 
 		while (Driver_Voice_IsPlaying());
 
@@ -1930,7 +1930,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 	uint16 oldScreenID;
 	Widget *w;
 
-	oldScreenID = GUI_Screen_SetActive((screenID == 0) ? 2 : screenID);
+	oldScreenID = GFX_Screen_SetActive((screenID == 0) ? 2 : screenID);
 
 	g_global->variable_3A12 = 1;
 
@@ -1942,9 +1942,9 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	g_textDisplayNeedsUpdate = true;
 
-	Unknown_07D4_159A(g_global->screenActiveID);
+	Unknown_07D4_159A(g_screenActiveID);
 
-	Unknown_07D4_0000(g_global->screenActiveID);
+	Unknown_07D4_0000(g_screenActiveID);
 
 	GUI_Widget_ActionPanel_Draw(true);
 
@@ -1981,7 +1981,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 	}
 
 	if (screenID == 0) {
-		GUI_Screen_SetActive(0);
+		GFX_Screen_SetActive(0);
 
 		GUI_Mouse_Hide_Safe();
 
@@ -1992,7 +1992,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 		GUI_Mouse_Show_Safe();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_DrawCredits(g_playerHouseID, 2);
 
@@ -2029,7 +2029,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (mode == 0 && h->credits == g_global->creditsAnimation && g_global->creditsAnimationOffset == 0) return;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
 
@@ -2070,7 +2070,7 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		creditsNew += 1;
 	}
 
-	GUI_DrawSprite(g_global->screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
+	GUI_DrawSprite(g_screenActiveID, g_sprites[12], 0, 0, 4, 0x4000);
 
 	g_playerCredits = creditsOld;
 
@@ -2084,24 +2084,24 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
 			if (g_global->creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
 		} else {
-			GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
+			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
 		}
 	}
 
-	if (oldScreenID != g_global->screenActiveID) {
+	if (oldScreenID != g_screenActiveID) {
 		GUI_Mouse_Hide_InWidget(5);
-		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase - 40, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, oldScreenID);
+		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase - 40, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, oldScreenID);
 		GUI_Mouse_Show_InWidget();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
 }
@@ -2123,7 +2123,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		g_unitSelected = NULL;
 	}
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
@@ -2232,7 +2232,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2651,7 +2651,7 @@ static void GUI_FactoryWindow_Init()
 	int16 i;
 	ObjectInfo *oi;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	Sprites_LoadImage("CHOAM.CPS", 3, NULL, 1);
 
@@ -2698,13 +2698,13 @@ static void GUI_FactoryWindow_Init()
 
 	GUI_FactoryWindow_PrepareScrollList();
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 
 	GUI_FactoryWindow_DrawDetails();
 
 	GUI_DrawCredits(g_playerHouseID, 1);
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2716,7 +2716,7 @@ static void GUI_FactoryWindow_Init()
  */
 FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort, uint16 upgradeCost)
 {
-	uint16 oldScreenID = GUI_Screen_SetActive(0);
+	uint16 oldScreenID = GFX_Screen_SetActive(0);
 	uint8 backup[3];
 
 	memcpy(backup, g_palette1 + 255 * 3, 3);
@@ -2747,7 +2747,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	GUI_DrawCredits(g_playerHouseID, 1);
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_FactoryWindow_B495_0F30();
 
@@ -2933,7 +2933,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 	uint16 oldScreenID;
 	uint16 y;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	GUI_Screen_Copy(8, 165, 8, 186, 24, 14, 0, 2);
 
@@ -2955,7 +2955,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 	g_global->variable_2B0C = g_timerGUI + 90;
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
@@ -3172,7 +3172,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	memset(palette, 0, 256 * 3);
 
 	previousCampaignID = campaignID - (win ? 1 : 0);
-	oldScreenID = GUI_Screen_SetActive(4);
+	oldScreenID = GFX_Screen_SetActive(4);
 
 	Unknown_259E_0006(palette, 15);
 
@@ -3271,7 +3271,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Sprites_LoadImage("DUNERGN.CPS", 3, g_palette_998A, 1);
 
-	GUI_Screen_SetActive(2);
+	GFX_Screen_SetActive(2);
 
 	GUI_StrategicMap_PrepareRegions(previousCampaignID);
 
@@ -3298,7 +3298,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Driver_Music_FadeOut();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Mouse_SetRegion(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
@@ -3323,11 +3323,11 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
  */
 void GUI_ClearScreen(uint16 screenID)
 {
-	uint16 oldScreenID = GUI_Screen_SetActive(screenID);
+	uint16 oldScreenID = GFX_Screen_SetActive(screenID);
 
 	GFX_ClearScreen();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -3374,7 +3374,7 @@ void GUI_FactoryWindow_DrawDetails()
 	ObjectInfo *oi = item->objectInfo;
 	void *wsa;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	wsa = WSA_LoadFile(oi->wsa, s_factoryWindowWsaBuffer, sizeof(s_factoryWindowWsaBuffer), false);
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
@@ -3389,7 +3389,7 @@ void GUI_FactoryWindow_DrawDetails()
 		uint16 i;
 		uint16 j;
 
-		GUI_DrawSprite(g_global->screenActiveID, g_sprites[64], x, y, 0, 0);
+		GUI_DrawSprite(g_screenActiveID, g_sprites[64], x, y, 0, 0);
 		x++;
 		y++;
 
@@ -3399,7 +3399,7 @@ void GUI_FactoryWindow_DrawDetails()
 
 		for (j = 0; j < g_table_structure_layoutSize[si->layout].height; j++) {
 			for (i = 0; i < g_table_structure_layoutSize[si->layout].width; i++) {
-				GUI_DrawSprite(g_global->screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
+				GUI_DrawSprite(g_screenActiveID, sprite, x + i * width, y + j * width, 0, 0);
 			}
 		}
 	}
@@ -3437,7 +3437,7 @@ void GUI_FactoryWindow_DrawDetails()
 	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, oldScreenID);
 	GUI_Mouse_Show_Safe();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_FactoryWindow_DrawCaption(NULL);
 }
@@ -3446,7 +3446,7 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 {
 	uint16 oldScreenID;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	GUI_DrawFilledRectangle(128, 21, 310, 35, 116);
 
@@ -3478,7 +3478,7 @@ void GUI_FactoryWindow_DrawCaption(char *caption)
 	if (oldScreenID == 0) GFX_Screen_Copy2(128, 21, 128, 21, 182, 14, 3, oldScreenID, false);
 	GUI_Mouse_Show_Safe();
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 void GUI_FactoryWindow_UpdateDetails()
@@ -3489,7 +3489,7 @@ void GUI_FactoryWindow_UpdateDetails()
 	if (oi->available == -1) return;
 
 	GUI_Mouse_Hide_Safe();
-	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_global->screenActiveID);
+	GUI_Screen_Copy(16, (oi->available == item->amount) ? 169 : 160, 16, 99, 23, 9, 2, g_screenActiveID);
 	GUI_Mouse_Show_Safe();
 }
 
@@ -3633,18 +3633,6 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	}
 }
 
-/**
- * Change the current active screen to the new value.
- * @param screenID The new screen to get active.
- * @return Old screenID that was currently active.
- */
-uint16 GUI_Screen_SetActive(uint16 screenID)
-{
-	uint16 oldScreen = g_global->screenActiveID;
-	g_global->screenActiveID = screenID;
-	return oldScreen;
-}
-
 void GUI_FactoryWindow_PrepareScrollList()
 {
 	FactoryWindowItem *item;
@@ -3732,7 +3720,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 		rows[i] = tmp;
 	}
 
-	oldScreenID = GUI_Screen_SetActive(screenDst);
+	oldScreenID = GFX_Screen_SetActive(screenDst);
 
 	for (j = 0; j < height; j++) {
 		uint16 j2 = j;
@@ -3745,11 +3733,11 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 
 			if (++j2 >= height) j2 = 0;
 
-			GUI_Screen_SetActive(screenSrc);
+			GFX_Screen_SetActive(screenSrc);
 
 			colour = GFX_GetPixel(curX, curY);
 
-			GUI_Screen_SetActive(screenDst);
+			GFX_Screen_SetActive(screenDst);
 
 			if (skipNull && colour == 0) continue;
 
@@ -3765,7 +3753,7 @@ void GUI_Screen_FadeIn2(int16 x, int16 y, int16 width, int16 height, uint16 scre
 		GUI_Mouse_Show_InRegion();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -4245,9 +4233,9 @@ void GUI_HallOfFame_Show(uint16 score)
 			char *nameEnd;
 			uint16 oldScreenID;
 
-			oldScreenID = GUI_Screen_SetActive(0);
+			oldScreenID = GFX_Screen_SetActive(0);
 			Widget_SetAndPaintCurrentWidget(19);
-			GUI_Screen_SetActive(oldScreenID);
+			GFX_Screen_SetActive(oldScreenID);
 
 			GUI_EditBox(name, 5, 19, NULL, &GUI_HallOfFame_Tick, 0);
 
@@ -4275,7 +4263,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	Input_History_Clear();
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 
 	g_global->variable_81E6 = 0;
 
@@ -4301,7 +4289,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 	uint16 battleX;
 	uint8 i;
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 	GUI_DrawFilledRectangle(8, 80, 311, 178, 116);
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x22);
 
@@ -4354,7 +4342,7 @@ uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
 		GUI_Mouse_Show_Safe();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	return width;
 }

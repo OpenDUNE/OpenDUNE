@@ -27,13 +27,15 @@ static uint8  s_spriteInfoSize = 0;
 static const uint16 s_screenBufferSize[5] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D, 0xA044 };
 static void *s_screenBuffer[5] = { NULL, NULL, NULL, NULL, NULL };
 
+uint16 g_screenActiveID = 0;
+
 /**
  * Get the codesegment of the active screen buffer.
  * @return The codesegment of the screen buffer.
  */
 void *GFX_Screen_GetActive()
 {
-	return GFX_Screen_Get_ByIndex(g_global->screenActiveID);
+	return GFX_Screen_Get_ByIndex(g_screenActiveID);
 }
 
 /**
@@ -80,7 +82,19 @@ void GFX_Init()
 
 	s_screenBuffer[0] = &emu_get_memory8(0xA000, 0, 0);
 
-	g_global->screenActiveID = 0;
+	g_screenActiveID = 0;
+}
+
+/**
+ * Change the current active screen to the new value.
+ * @param screenID The new screen to get active.
+ * @return Old screenID that was currently active.
+ */
+uint16 GFX_Screen_SetActive(uint16 screenID)
+{
+	uint16 oldScreen = g_screenActiveID;
+	g_screenActiveID = screenID;
+	return oldScreen;
 }
 
 /**

@@ -10,6 +10,7 @@
 #include "gui.h"
 #include "mentat.h"
 #include "widget.h"
+#include "../gfx.h"
 #include "../input/input.h"
 #include "../timer.h"
 #include "../unknown/unknown.h"
@@ -68,7 +69,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 		Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_0002);
 		Input_Flags_ClearBits(INPUT_FLAG_UNKNOWN_2000);
 
-		oldScreenID = GUI_Screen_SetActive(0);
+		oldScreenID = GFX_Screen_SetActive(0);
 
 		oldValue_07AE_0000 = Widget_SetCurrentWidget(unknown1);
 
@@ -185,7 +186,7 @@ uint16 GUI_EditBox(char *text, uint16 maxLength, uint16 unknown1, Widget *w, uin
 
 		Widget_SetCurrentWidget(oldValue_07AE_0000);
 
-		GUI_Screen_SetActive(oldScreenID);
+		GFX_Screen_SetActive(oldScreenID);
 	}
 
 	return returnValue;

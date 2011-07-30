@@ -251,7 +251,7 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 	g_fontIntro = Font_LoadFile("INTRO.FNT");
 	Font_Select(g_fontIntro);
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 
 	memcpy(_palettePartTarget, &g_palette1[(144 + s_var_805A->variable_0002 * 16) * 3], 6 * 3);
 
@@ -822,7 +822,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 	loc0C = g_timerSleep;
 
 	Input_History_Clear();
@@ -936,7 +936,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 		for (loc02 = 0; loc02 < stringCount; loc02++) {
 			if ((int16)strings[loc02].y < g_curWidgetHeight) {
-				GUI_Screen_SetActive(screenID);
+				GFX_Screen_SetActive(screenID);
 
 				Font_Select(g_fontNew8p2);
 
@@ -944,7 +944,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_curWidgetYBase, 255, 0);
 
-				GUI_Screen_SetActive(0);
+				GFX_Screen_SetActive(0);
 			}
 
 			strings[loc02].y--;
@@ -1240,7 +1240,7 @@ static void Gameloop_Logos()
 	void *wsa;
 	uint16 frame;
 
-	oldScreenID = GUI_Screen_SetActive(0);
+	oldScreenID = GFX_Screen_SetActive(0);
 
 	GFX_SetPalette(g_palette2);
 	GFX_ClearScreen();
@@ -1285,7 +1285,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		GUI_Screen_SetActive(oldScreenID);
+		GFX_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1300,7 +1300,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		GUI_Screen_SetActive(oldScreenID);
+		GFX_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1322,7 +1322,7 @@ static void Gameloop_Logos()
 
 		GUI_ClearScreen(0);
 
-		GUI_Screen_SetActive(oldScreenID);
+		GFX_Screen_SetActive(oldScreenID);
 		return;
 	}
 
@@ -1345,7 +1345,7 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 }
 
 /**
@@ -2211,7 +2211,7 @@ static void GameLoop_Main()
 			}
 		}
 
-		GUI_Screen_SetActive(0);
+		GFX_Screen_SetActive(0);
 
 		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
@@ -2258,7 +2258,7 @@ static void GameLoop_Main()
 
 	Widget_SetCurrentWidget(0);
 
-	GUI_Screen_SetActive(2);
+	GFX_Screen_SetActive(2);
 
 	GFX_ClearScreen();
 

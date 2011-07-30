@@ -110,7 +110,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	memset(minX, 0xF, sizeof(minX));
 	memset(maxX, 0,   sizeof(minX));
 
-	oldScreenID = GUI_Screen_SetActive(2);
+	oldScreenID = GFX_Screen_SetActive(2);
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
@@ -179,17 +179,17 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0x200;
 
-		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->o.position, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5A, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
-		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
+		if (Map_IsPositionInViewport(u->variable_5E, &x, &y)) GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0xC000);
 
 		if (u != g_unitSelected) continue;
 
 		if (!Map_IsPositionInViewport(u->o.position, &x, &y)) continue;
 
-		GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
 	g_global->variable_39E4 = 0;
@@ -290,7 +290,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) g_global->variable_8DE3 |= 0x100;
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -300,7 +300,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 						{0, -9}, { 9, -6}, { 14, 1}, { 7,  6}
 					};
 
-					GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
+					GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD((u->variable_6D % 3) + 0xDF + (values_32A4[orientation][0] * 3), Unit_GetHouseID(u)), x + values_334E[orientation][0], y + values_334E[orientation][1], 2, values_32A4[orientation][1] | 0xC000);
 				}
 			}
 
@@ -347,19 +347,19 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				g_global->variable_8DE3 = values_32A4[orientation][1];
 				index += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
+				GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420);
 			}
 
 			if (u->o.flags.s.isSmoking) {
 				uint16 spriteID = 180 + (u->variable_6D & 3);
 				if (spriteID == 183) spriteID = 181;
 
-				GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
+				GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y - 14, 2, 0xC000);
 			}
 
 			if (u != g_unitSelected) continue;
 
-			GUI_DrawSprite(g_global->screenActiveID, g_sprites[6], x, y, 2, 0xC000);
+			GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}
 
 		g_global->variable_39E6 = 0;
@@ -385,7 +385,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		g_global->variable_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_global->screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, g_global->variable_8DE3, g_global->variable_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || updateDisplay) {
@@ -472,11 +472,11 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			sprite = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_global->screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
 			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_global->screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
+			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}
 
 		g_global->variable_39E8 = 0;
@@ -499,7 +499,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (!init) {
 				init = true;
 
-				oldScreenID2 = GUI_Screen_SetActive(2);
+				oldScreenID2 = GFX_Screen_SetActive(2);
 
 				GUI_Mouse_Hide_InWidget(3);
 			}
@@ -512,9 +512,9 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		if (update) Map_UpdateMinimapPosition(g_minimapPosition, true);
 
 		if (init) {
-			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_global->screenActiveID, 0);
+			GUI_Screen_Copy(32, 136, 32, 136, 8, 64, g_screenActiveID, 0);
 
-			GUI_Screen_SetActive(oldScreenID2);
+			GFX_Screen_SetActive(oldScreenID2);
 
 			GUI_Mouse_Show_InWidget();
 		}
@@ -544,14 +544,14 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
 			if (g_dune2_enhanced) {
-				uint16 oldScreenID = g_global->screenActiveID;
+				uint16 oldScreenID = g_screenActiveID;
 
-				GUI_Screen_SetActive(0);
+				GFX_Screen_SetActive(0);
 				GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 0);
-				GUI_Screen_SetActive(oldScreenID);
+				GFX_Screen_SetActive(oldScreenID);
 			}
 
-			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_global->screenActiveID, 0);
+			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, 0);
 			GUI_Mouse_Show_InWidget();
 
 			g_global->variable_3A14 = 0;
@@ -580,14 +580,14 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					init = true;
 				}
 
-				GUI_Screen_Copy(x, y, x, y, width, height, g_global->screenActiveID, 0);
+				GUI_Screen_Copy(x, y, x, y, width, height, g_screenActiveID, 0);
 			}
 
 			if (init) GUI_Mouse_Show_InWidget();
 		}
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Widget_SetCurrentWidget(oldValue_07AE_0000);
 }
@@ -608,7 +608,7 @@ void Unknown_07D4_0000(uint16 screenID)
 
 	loc10 = false;
 
-	oldScreenID = GUI_Screen_SetActive(screenID);
+	oldScreenID = GFX_Screen_SetActive(screenID);
 
 	if (screenID != 0) g_global->variable_3A12 = 1;
 
@@ -684,7 +684,7 @@ void Unknown_07D4_0000(uint16 screenID)
 
 	g_global->variable_3A12 = 0;
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
 	Map_UpdateMinimapPosition(g_minimapPosition, false);
@@ -703,7 +703,7 @@ void Unknown_07D4_159A(uint16 screenID)
 	uint16 oldScreenID = 2;
 	uint16 i;
 
-	if (screenID == 0) oldScreenID = GUI_Screen_SetActive(2);
+	if (screenID == 0) oldScreenID = GFX_Screen_SetActive(2);
 
 	for (i = 0; i < 4096; i++) Unknown_07D4_1625(i);
 
@@ -711,7 +711,7 @@ void Unknown_07D4_159A(uint16 screenID)
 
 	if (screenID != 0) return;
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	GUI_Mouse_Hide_InWidget(3);
 	GUI_Screen_Copy(32, 136, 32, 136, 8, 64, 2, 0);
@@ -808,7 +808,7 @@ void Unknown_07D4_1625(uint16 packed)
 	if (spriteID != 0xFFFF) {
 		x *= g_scenario.mapScale + 1;
 		y *= g_scenario.mapScale + 1;
-		GUI_DrawSprite(g_global->screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
+		GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], x, y, 3, 0x4000);
 	} else {
 		GFX_PutPixel(x + 256, y + 136, colour & 0xFF);
 	}

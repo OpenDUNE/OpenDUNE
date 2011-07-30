@@ -422,13 +422,13 @@ static void GUI_Widget_Undraw(Widget *w, uint8 colour)
 	width = w->width;
 	height = w->height;
 
-	if (g_global->screenActiveID == 0) {
+	if (g_screenActiveID == 0) {
 		GUI_Mouse_Hide_InRegion(offsetX, offsetY, offsetX + width, offsetY + height);
 	}
 
 	GUI_DrawFilledRectangle(offsetX, offsetY, offsetX + width, offsetY + height, colour);
 
-	if (g_global->screenActiveID == 0) {
+	if (g_screenActiveID == 0) {
 		GUI_Mouse_Show_InRegion();
 	}
 }
@@ -441,7 +441,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	g_widgetLinkedListTail = NULL;
 
-	GUI_Screen_SetActive(2);
+	GFX_Screen_SetActive(2);
 
 	Widget_SetCurrentWidget(desc->index);
 
@@ -545,7 +545,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 
 	GUI_Mouse_Show_Safe();
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 }
 
 static void GUI_Window_BackupScreen(WindowDesc *desc)
@@ -876,7 +876,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 
 	if (*saveDesc == '[') key = g_global->savegameCountOnDisk;
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 
 	Widget_SetCurrentWidget(15);
 
@@ -1283,7 +1283,7 @@ bool GUI_Production_Up_Click(Widget *w)
 static void GUI_Purchase_ShowInvoice()
 {
 	Widget *w = g_widgetInvoiceTail;
-	uint16 oldScreenID = GUI_Screen_SetActive(2);
+	uint16 oldScreenID = GFX_Screen_SetActive(2);
 	uint16 y = 48;
 	uint16 total = 0;
 	uint16 x;
@@ -1341,7 +1341,7 @@ static void GUI_Purchase_ShowInvoice()
 	GUI_Screen_Copy(16, 48, 16, 48, 23, 112, 2, 0);
 	GUI_Mouse_Show_Safe();
 
-	GUI_Screen_SetActive(0);
+	GFX_Screen_SetActive(0);
 
 	/* "Invoice of Units on Order" */
 	GUI_FactoryWindow_DrawCaption(String_Get_ByIndex(0xB7));
@@ -1356,7 +1356,7 @@ static void GUI_Purchase_ShowInvoice()
 		GUI_PaletteAnimate();
 	}
 
-	GUI_Screen_SetActive(oldScreenID);
+	GFX_Screen_SetActive(oldScreenID);
 
 	w = GUI_Widget_Get_ByIndex(w, 10);
 

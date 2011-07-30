@@ -485,12 +485,11 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uin
 	header->frameCurrent = frameNext;
 
 	if (header->flags.s.displayInBuffer) {
-		uint16 oldScreenID = g_global->screenActiveID;
-		g_global->screenActiveID = screenID;
+		uint16 oldScreenID = GFX_Screen_SetActive(screenID);
 
 		WSA_DrawFrame(posX, posY, header->width, header->height, 0, dst);
 
-		g_global->screenActiveID = oldScreenID;
+		GFX_Screen_SetActive(oldScreenID);
 	}
 
 	return true;
