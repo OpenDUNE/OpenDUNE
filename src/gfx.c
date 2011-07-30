@@ -14,6 +14,7 @@
 #include "house.h"
 #include "opendune.h"
 #include "sprites.h"
+#include "tools.h"
 #include "unknown/unknown.h"
 #include "video/video.h"
 
@@ -22,6 +23,9 @@ static uint16 s_spriteHeight   = 0;
 static uint16 s_spriteWidth    = 0;
 static uint8  s_spriteMode     = 0;
 static uint8  s_spriteInfoSize = 0;
+
+static const uint16 s_screenBufferSize[5] = { 0xFA00, 0xFBF4, 0xFA00, 0xFD0D, 0xA044 };
+static void *s_screenBuffer[5] = { NULL, NULL, NULL, NULL, NULL };
 
 /**
  * Get the codesegment of the active screen buffer.
@@ -39,7 +43,7 @@ void *GFX_Screen_GetActive()
  */
 uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID)
 {
-	return g_global->variable_6CD3[screenID >> 1][0];
+	return s_screenBufferSize[screenID >> 1];
 }
 
 /**
@@ -49,12 +53,34 @@ uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID)
  */
 void *GFX_Screen_Get_ByIndex(uint16 screenID)
 {
-	csip32 pointer;
+	return s_screenBuffer[screenID >> 1];
+}
 
-	pointer.s.cs = g_global->variable_6C93[screenID >> 1][0];
-	pointer.s.ip = 0x0;
+/**
+ * Initialize the GFX system.
+ */
+void GFX_Init()
+{
+	csip32 memBlock;
+	uint32 totalSize = 0;
+	int i;
 
-	return emu_get_memorycsip(pointer);
+	for (i = 1; i < 8; i++) {
+		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
+	}
+
+	memBlock = Tools_Malloc(totalSize, 0x30);
+
+	for (i = 1; i < 5; i++) {
+		s_screenBuffer[i] = emu_get_memorycsip(memBlock);
+
+		memBlock.csip += GFX_Screen_GetSize_ByIndex(i * 2);
+		memBlock = Tools_GetSmallestIP(memBlock);
+	}
+
+	s_screenBuffer[0] = &emu_get_memory8(0xA000, 0, 0);
+
+	g_global->screenActiveID = 0;
 }
 
 /**

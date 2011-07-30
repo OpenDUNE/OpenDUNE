@@ -10,6 +10,7 @@ enum {
 	SCREEN_HEIGHT = 200  /*!< Height of the screen in pixels. */
 };
 
+extern void GFX_Init();
 extern void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID);
 extern void GFX_Init_SpriteInfo(uint16 widthSize, uint16 heightSize);
 extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);

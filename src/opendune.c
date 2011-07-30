@@ -2267,12 +2267,6 @@ static void GameLoop_Main()
 
 static bool Unknown_25C4_000E()
 {
-	uint32 totalSize = 0;
-	uint16 i;
-	csip32 memBlock;
-
-	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
-
 	Timer_Init();
 #if !defined(_WIN32)
 	/* libSDL 1.2 needs to be initialized in the same thread as the events are polled in */
@@ -2286,23 +2280,7 @@ static bool Unknown_25C4_000E()
 
 	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
 
-	for (i = 1; i < 8; i++) {
-		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
-	}
-
-	memBlock = Tools_Malloc(totalSize, 0x30);
-
-	for (i = 1; i < 8; i++) {
-		if (GFX_Screen_GetSize_ByIndex(i * 2) == 0) continue;
-
-		g_global->variable_6C93[i][0] = memBlock.s.cs;
-
-		memBlock.csip += GFX_Screen_GetSize_ByIndex(i * 2);
-		memBlock = Tools_GetSmallestIP(memBlock);
-	}
-
-	g_global->variable_6C93[0][0] = 0xA000;
-
+	GFX_Init();
 	GFX_ClearScreen();
 
 	g_fontNew8p = Font_LoadFile("new8p.fnt");
@@ -2345,17 +2323,6 @@ void Main()
 	}
 
 	if (!g_config.useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
-
-	g_global->variable_6CD3[0][0] = 0xFA00;
-	g_global->variable_6CD3[0][1] = 0xFA00;
-	g_global->variable_6CD3[1][0] = 0xFBF4;
-	g_global->variable_6CD3[1][1] = 0xFBF4;
-	g_global->variable_6CD3[2][0] = 0xFA00;
-	g_global->variable_6CD3[2][1] = 0xFA00;
-	g_global->variable_6CD3[3][0] = 0xFD0D;
-	g_global->variable_6CD3[3][1] = 0xFD0D;
-	g_global->variable_6CD3[4][0] = 0xA044;
-	g_global->variable_6CD3[4][1] = 0xA044;
 
 	Drivers_All_Init(g_config.soundDrv, g_config.musicDrv, g_config.voiceDrv);
 
