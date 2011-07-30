@@ -1147,7 +1147,7 @@ typedef struct GlobalData {
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
 	/* 6CD3(64)  */ PACK uint32  removed_6CD3[8][2];        /*!< REMOVED - Array with size of screen buffers. */
 	/* 6D13()    */ PACK uint8   unknown_6D13[0x0040];
-	/* 6D53(2)   */ PACK uint16 variable_6D53;              /*!< ?? */
+	/* 6D53(2)   */ PACK uint16  removed_6D53;              /*!< REMOVED - Read-only, colour of some kind. */
 	/* 6D55()    */ PACK uint8   unknown_6D55[0x0004];
 	/* 6D59(2)   */ PACK uint16  removed_6D59;              /*!< REMOVED ?? Non-blink colour for cursor in edit box. */
 	/* 6D5B(2)   */ PACK uint16  removed_6D5B;              /*!< REMOVED ?? Blink colour for cursor in edit box. */

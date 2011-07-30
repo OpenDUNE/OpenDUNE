@@ -161,7 +161,7 @@ void GUI_Widget_Draw(Widget *w)
 	if (w->flags.s.invisible) {
 		if (!w->flags.s.variable_0010) return;
 
-		GUI_Widget_DrawBlocked(w, (uint8)g_global->variable_6D53);
+		GUI_Widget_DrawBlocked(w, 12);
 		return;
 	}
 
