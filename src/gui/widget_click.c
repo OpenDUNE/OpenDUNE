@@ -553,7 +553,7 @@ static void GUI_Window_BackupScreen(WindowDesc *desc)
 	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)));
+	GFX_CopyToBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, GFX_Screen_Get_ByIndex(5));
 	GUI_Mouse_Show_Safe();
 }
 
@@ -562,7 +562,7 @@ static void GUI_Window_RestoreScreen(WindowDesc *desc)
 	Widget_SetCurrentWidget(desc->index);
 
 	GUI_Mouse_Hide_Safe();
-	GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)));
+	GFX_CopyFromBuffer(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, GFX_Screen_Get_ByIndex(5));
 	GUI_Mouse_Show_Safe();
 }
 

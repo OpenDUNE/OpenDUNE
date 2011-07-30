@@ -152,7 +152,7 @@ void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, u
 	uint16 height;
 	uint16 width;
 
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
+	uint8 *screen = GFX_Screen_GetActive();
 
 	if (left >= SCREEN_WIDTH) return;
 	if (left < 0) left = 0;
@@ -346,7 +346,7 @@ void GUI_DisplayText(const char *str, int16 importance, ...)
 static void GUI_DrawChar(char c, uint16 x, uint16 y)
 {
 	uint8 *font   = (uint8 *)g_fontCurrent;
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
+	uint8 *screen = GFX_Screen_GetActive();
 
 	uint16 offset;
 	uint16 remainingWidth;
@@ -892,7 +892,6 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 	uint16 loc44;
 	uint16 locbx;
 
-	csip32 memBlock;
 	uint8 *buf = NULL;
 	uint8 *b = NULL;
 	int16  count;
@@ -935,10 +934,8 @@ void GUI_DrawSprite(uint16 screenID, uint8 *sprite, int16 posX, int16 posY, uint
 
 	loc34 = 0;
 
-	memBlock = GFX_Screen_GetCSIP_ByIndex(screenID);
-	memBlock.s.ip = g_widgetProperties[windowID].xBase << 3;
-
-	buf = emu_get_memorycsip(memBlock);
+	buf = GFX_Screen_Get_ByIndex(screenID);
+	buf += g_widgetProperties[windowID].xBase << 3;
 
 	if ((flags & 0x4000) == 0) posX -= g_widgetProperties[windowID].xBase << 3;
 
@@ -1664,8 +1661,6 @@ uint8 GUI_PickHouse()
 
 		Sprites_LoadImage(String_GenerateFilename("HERALD"), 3, NULL, 1);
 
-		GFX_Screen_Copy3(3, 2);
-
 		GUI_Mouse_Hide_Safe();
 		GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 		Unknown_259E_0006(g_palette1, 15);
@@ -2338,7 +2333,7 @@ static void ClipRight(int16 *x1, int16 *y1, int16 x2, int16 y2)
  */
 void GUI_DrawLine(int16 x1, int16 y1, int16 x2, int16 y2, uint8 colour)
 {
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x00, 0x00);
+	uint8 *screen = GFX_Screen_GetActive();
 	int16 increment = 1;
 
 	if (x1 < g_clipping.left || x1 > g_clipping.right || y1 < g_clipping.top || y1 > g_clipping.bottom || x2 < g_clipping.left || x2 > g_clipping.right || y2 < g_clipping.top || y2 > g_clipping.bottom) {
@@ -3191,8 +3186,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Palette_RemapScreen(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 5, g_remap);
 
-	GFX_Screen_Copy3(5, 4);
-
 	x = 0;
 	y = 0;
 
@@ -3244,8 +3237,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A, 1);
 
-		GFX_Screen_Copy3(3, 2);
-
 		/* "Three Houses have come to Dune." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11B));
 
@@ -3262,8 +3253,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 		}
 
 		Sprites_LoadImage("DUNEMAP.CPS", 3 , g_palette_998A, 1);
-
-		GFX_Screen_Copy3(3, 2);
 
 		/* "To take control of the land." */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11C));
@@ -3283,8 +3272,6 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	}
 
 	Sprites_LoadImage("DUNERGN.CPS", 3, g_palette_998A, 1);
-
-	GFX_Screen_Copy3(3, 2);
 
 	GUI_Screen_SetActive(2);
 
@@ -4012,8 +3999,9 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 		height = SCREEN_HEIGHT - top;
 	}
 
-	screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0, 0);
+	screen = GFX_Screen_GetActive();
 	screen += top * SCREEN_WIDTH + left;
+
 	for (; height > 0; height--) {
 		int i = width;
 
@@ -4071,7 +4059,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
  */
 void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 height, uint16 screenID, uint8 *remap)
 {
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenID), 0, 0);
+	uint8 *screen = GFX_Screen_Get_ByIndex(screenID);
 
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
@@ -4206,7 +4194,7 @@ void GUI_HallOfFame_Show(uint16 score)
 		g_global->variable_81EB = 0;
 	}
 
-	data = (HallOfFameData *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
+	data = (HallOfFameData *)GFX_Screen_Get_ByIndex(5);
 
 	if (!File_Exists("SAVEFAME.DAT")) {
 		uint16 written;
@@ -4388,7 +4376,7 @@ void GUI_DrawXorFilledRectangle(int16 left, int16 top, int16 right, int16 bottom
 	uint16 height;
 	uint16 width;
 
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
+	uint8 *screen = GFX_Screen_GetActive();
 
 	if (left >= SCREEN_WIDTH) return;
 	if (left < 0) left = 0;

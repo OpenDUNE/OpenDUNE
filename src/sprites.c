@@ -103,7 +103,7 @@ void Sprites_Load(uint16 index, uint8 **sprites)
 	uint8 *buffer;
 	uint16 i;
 
-	buffer = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(7));
+	buffer = GFX_Screen_Get_ByIndex(7);
 
 	files = spriteFiles[index];
 
@@ -326,7 +326,7 @@ void Sprites_LoadTiles()
 
 	Orientation_InitTable();
 
-	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)));
+	Script_LoadFromFile("UNIT.EMC", g_scriptUnit, g_scriptFunctionsUnit, GFX_Screen_Get_ByIndex(5));
 }
 
 /**
@@ -348,12 +348,12 @@ void Sprites_UnloadTiles()
 static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *palette)
 {
 	uint8 index;
-	csip32 loc0A;
 	uint16 size;
 	void *buffer;
+	uint8 *buffer2;
 	uint16 paletteSize;
 
-	buffer = (void *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(screenID));
+	buffer = GFX_Screen_Get_ByIndex(screenID);
 
 	index = File_Open(filename, 1);
 
@@ -374,19 +374,15 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
 	((uint16 *)buffer)[3] = 0;
 	size -= paletteSize;
 
-	loc0A = GFX_Screen_GetCSIP_ByIndex(screenID);
-	loc0A.s.ip = GFX_Screen_GetSize_ByIndex(screenID) - size - 8;
+	buffer2 = GFX_Screen_Get_ByIndex(screenID);
+	buffer2 += GFX_Screen_GetSize_ByIndex(screenID) - size - 8;
 
-	loc0A = Tools_GetSmallestIP(loc0A);
-	loc0A.s.ip = 0x0;
-
-	memmove(emu_get_memorycsip(loc0A), buffer, 8);
-
-	File_Read(index, (void *)(emu_get_memorycsip(loc0A) + 8), size);
+	memmove(buffer2, buffer, 8);
+	File_Read(index, buffer2 + 8, size);
 
 	File_Close(index);
 
-	return Sprites_Decode(emu_get_memorycsip(loc0A), buffer);
+	return Sprites_Decode(buffer2, buffer);
 }
 
 /**

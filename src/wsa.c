@@ -356,7 +356,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	int16 skipAfter;
 	uint8 *dst;
 
-	dst = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0, 0);
+	dst = GFX_Screen_GetActive();
 
 	left   = g_widgetProperties[windowID].xBase << 3;
 	right  = left + (g_widgetProperties[windowID].width << 3);
@@ -421,7 +421,7 @@ bool WSA_DisplayFrame(void *wsa, uint16 frameNext, uint16 posX, uint16 posY, uin
 	if (header->flags.s.displayInBuffer) {
 		dst = (uint8 *)wsa + sizeof(WSAHeader);
 	} else {
-		dst = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(screenID));
+		dst = GFX_Screen_Get_ByIndex(screenID);
 		dst += posX + posY * SCREEN_WIDTH;
 	}
 

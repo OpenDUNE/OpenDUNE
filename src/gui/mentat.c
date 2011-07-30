@@ -199,7 +199,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	uint16 i;
 
 	if (init) {
-		helpDataList = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
+		helpDataList = GFX_Screen_Get_ByIndex(3);
 
 		g_global->topHelpList = 0;
 		g_global->selectedHelpSubject = 0;
@@ -419,7 +419,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), GFX_Screen_GetSize_ByIndex(5), false);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(5), GFX_Screen_GetSize_ByIndex(5), false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -493,8 +493,6 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	snprintf(textBuffer, sizeof(textBuffer), "MENTAT%c.CPS", g_table_houseInfo[houseID].name[0]);
 	Sprites_LoadImage(textBuffer, 3, g_palette_998A, 1);
 
-	GFX_Screen_Copy3(3, 2);
-
 	oldScreenID = GUI_Screen_SetActive(2);
 
 	if (houseID == HOUSE_MERCENARY) {
@@ -538,7 +536,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), GFX_Screen_GetSize_ByIndex(5), false);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(5), GFX_Screen_GetSize_ByIndex(5), false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -843,7 +841,7 @@ void GUI_Mentat_Create_HelpScreen_Widgets()
 	g_widgetMentatTail = NULL;
 	ypos = 8;
 
-	w = (Widget *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
+	w = (Widget *)GFX_Screen_Get_ByIndex(5);
 
 	memset(w, 0, 13 * sizeof(Widget));
 
@@ -937,9 +935,8 @@ static void GUI_Mentat_ShowHelp()
 	info.variable_04 = HTOBE32(info.variable_04);
 	info.variable_08 = HTOBE32(info.variable_08);
 
-	text = (char *)g_readBuffer;
-
-	compressedText = (char *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
+	text = g_readBuffer;
+	compressedText = GFX_Screen_Get_ByIndex(3);
 
 	fileID = File_Open(g_global->mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
@@ -1095,7 +1092,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	wsa = NULL;
 
 	if (wsaFilename != NULL) {
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), GFX_Screen_GetSize_ByIndex(3), false);
+		wsa = WSA_LoadFile(wsaFilename, GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), false);
 	}
 
 	step = 0;

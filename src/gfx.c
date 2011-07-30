@@ -27,9 +27,9 @@ static uint8  s_spriteInfoSize = 0;
  * Get the codesegment of the active screen buffer.
  * @return The codesegment of the screen buffer.
  */
-uint16 GFX_Screen_GetSegmentActive()
+void *GFX_Screen_GetActive()
 {
-	return GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID);
+	return GFX_Screen_Get_ByIndex(g_global->screenActiveID);
 }
 
 /**
@@ -65,6 +65,16 @@ csip32 GFX_Screen_GetCSIP_ByIndex(uint16 screenID)
 	ret.s.ip = 0x0;
 
 	return ret;
+}
+
+/**
+ * Get the pointer to a screenbuffer.
+ * @param screenID The screenbuffer to get.
+ * @return A pointer to the screenbuffer.
+ */
+void *GFX_Screen_Get_ByIndex(uint16 screenID)
+{
+	return emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(screenID));
 }
 
 /**
@@ -105,7 +115,8 @@ void GFX_DrawSprite(uint16 spriteID, uint16 x, uint16 y, uint8 houseID)
 
 	if (s_spriteMode == 4) return;
 
-	wptr = &emu_get_memory8(GFX_Screen_GetSegmentActive(), y * SCREEN_WIDTH, x * 8);
+	wptr = GFX_Screen_GetActive();
+	wptr += y * SCREEN_WIDTH + (x << 3);
 	rptr = g_spriteInfo + ((spriteID * s_spriteInfoSize) << 4);
 
 	spacing = s_spriteSpacing;
@@ -167,7 +178,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (y >= SCREEN_HEIGHT) return;
 	if (x >= SCREEN_WIDTH) return;
 
-	emu_get_memory8(GFX_Screen_GetSegmentActive(), y * SCREEN_WIDTH, x) = colour;
+	emu_get_memory8(GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID), y * SCREEN_WIDTH, x) = colour;
 }
 
 /**
@@ -227,8 +238,8 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 	if (width < 0 || width >= SCREEN_WIDTH) return;
 	if (height < 0 || height >= SCREEN_HEIGHT) return;
 
-	src = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenDst), 0x0, 0x0);
+	src = GFX_Screen_Get_ByIndex(screenSrc);
+	dst = GFX_Screen_Get_ByIndex(screenDst);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
@@ -282,8 +293,8 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	if (yDst >= SCREEN_HEIGHT) return;
 	if (yDst < 0) yDst = 0;
 
-	src = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenSrc), 0x0, 0x0);
-	dst = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(screenDst), 0x0, 0x0);
+	src = GFX_Screen_Get_ByIndex(screenSrc);
+	dst = GFX_Screen_Get_ByIndex(screenDst);
 
 	src += xSrc + ySrc * SCREEN_WIDTH;
 	dst += xDst + yDst * SCREEN_WIDTH;
@@ -303,9 +314,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
  */
 void GFX_ClearScreen()
 {
-	uint8 *screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0x0, 0x0);
-
-	memset(screen, 0, SCREEN_WIDTH * SCREEN_HEIGHT);
+	memset(GFX_Screen_GetActive(), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 /**
@@ -330,17 +339,7 @@ uint8 GFX_GetPixel(uint16 x, uint16 y)
 	if (y >= SCREEN_HEIGHT) return 0;
 	if (x >= SCREEN_WIDTH) return 0;
 
-	return emu_get_memory8(GFX_Screen_GetSegmentActive(), y * SCREEN_WIDTH, x);
-}
-
-void GFX_Screen_Copy3(uint16 screenSrc, uint16 screenDst)
-{
-	screenSrc = GFX_Screen_GetSegment_ByIndex(screenSrc);
-	screenDst = GFX_Screen_GetSegment_ByIndex(screenDst);
-
-	if (screenSrc == 0x0 || screenDst == 0x0 || screenSrc == screenDst) return;
-
-	memcpy(&emu_get_memory8(screenDst, 0x0, 0x0), &emu_get_memory8(screenSrc, 0x0, 0x0), SCREEN_WIDTH * SCREEN_HEIGHT);
+	return *((uint8 *)GFX_Screen_GetActive() + y * SCREEN_WIDTH + x);
 }
 
 uint16 GFX_GetSize(int16 width, int16 height)
@@ -377,7 +376,8 @@ void GFX_CopyFromBuffer(int16 left, int16 top, uint16 width, uint16 height, uint
 	if (width > SCREEN_WIDTH / 8) width = SCREEN_WIDTH / 8;
 	if (height > SCREEN_HEIGHT) height = SCREEN_HEIGHT;
 
-	screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(0), top * SCREEN_WIDTH, left * 8);
+	screen = GFX_Screen_Get_ByIndex(0);
+	screen += top * SCREEN_WIDTH + (left << 3);
 	width *= 8;
 
 	while (height-- != 0) {
@@ -411,7 +411,8 @@ void GFX_CopyToBuffer(int16 left, int16 top, uint16 width, uint16 height, uint8 
 	if (width > SCREEN_WIDTH / 8) width = SCREEN_WIDTH / 8;
 	if (height > SCREEN_HEIGHT) height = SCREEN_HEIGHT;
 
-	screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(0), top * SCREEN_WIDTH, left * 8);
+	screen = GFX_Screen_Get_ByIndex(0);
+	screen += top * SCREEN_WIDTH + (left << 3);
 	width *= 8;
 
 	while (height-- != 0) {
