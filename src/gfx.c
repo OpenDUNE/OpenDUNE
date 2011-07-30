@@ -271,7 +271,7 @@ void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 widt
 				if (src[i] != 0) dst[i] = src[i];
 			}
 		} else {
-			memcpy(dst, src, width);
+			memmove(dst, src, width);
 		}
 		dst += SCREEN_WIDTH;
 		src += SCREEN_WIDTH;
@@ -323,7 +323,7 @@ void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width
 	width *= 8;
 
 	while (height-- != 0) {
-		memcpy(dst, src, width);
+		memmove(dst, src, width);
 		dst += SCREEN_WIDTH;
 		src += SCREEN_WIDTH;
 	}
