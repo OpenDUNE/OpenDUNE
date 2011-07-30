@@ -122,7 +122,7 @@ bool GUI_Security_Show()
 
 		/* Read the whole file in the buffer */
 		file = File_Open(filename, 1);
-		File_Read(file, emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+		File_Read(file, g_readBuffer, g_readBufferSize);
 		File_Close(file);
 	}
 
@@ -140,7 +140,7 @@ bool GUI_Security_Show()
 		char string[1024];
 		char *compressedString;
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 1);
+		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 1);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
@@ -153,7 +153,7 @@ bool GUI_Security_Show()
 		char string[1024];
 		char *compressedString;
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), 0);
+		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, 0);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
@@ -176,7 +176,7 @@ bool GUI_Security_Show()
 
 		Widget_SetCurrentWidget(8);
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 1);
+		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex + 1);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
@@ -190,7 +190,7 @@ bool GUI_Security_Show()
 		GUI_Screen_Copy(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, 4, 0);
 		GUI_Mouse_Show_InWidget();
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex);
+		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
@@ -227,18 +227,18 @@ bool GUI_Security_Show()
 
 		GUI_Security_NormaliseText(buffer);
 
-		compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), questionIndex + 2);
+		compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, questionIndex + 2);
 		String_Decompress(compressedString, string);
 		String_TranslateSpecial(string, string);
 
 		GUI_Security_NormaliseText(string);
 
 		if (strcasecmp(string, buffer) != 0) {
-			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 3);
+			compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 3);
 			String_Decompress(compressedString, string);
 			String_TranslateSpecial(string, string);
 		} else {
-			compressedString = String_GetFromBuffer_ByIndex((char *)emu_get_memorycsip(g_global->readBuffer), g_playerHouseID * 3 + 2);
+			compressedString = String_GetFromBuffer_ByIndex(g_readBuffer, g_playerHouseID * 3 + 2);
 			String_Decompress(compressedString, string);
 			String_TranslateSpecial(string, string);
 

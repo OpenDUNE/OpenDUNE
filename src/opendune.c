@@ -65,6 +65,9 @@ bool   g_debugGame = false;        /*!< When true, you can control the AI. */
 bool   g_debugScenario = false;    /*!< When true, you can review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
 bool   g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to house selection, and skip all intros. */
 
+void *g_readBuffer = NULL;
+uint32 g_readBufferSize = 0;
+
 static const struct_19A8 *s_var_805E = NULL; /*!< Unknown animation data. */
 static const struct_19F0 *s_var_805A = NULL; /*!< Unknown animation data. */
 static const struct_1A2C *s_var_8056 = NULL; /*!< Unknown animation data. */
@@ -740,12 +743,11 @@ static void GameLoop_Uninit()
 		free(w);
 	}
 
-	Tools_Free(g_global->readBuffer);
-
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
 
 	free(s_spriteBuffer);
+	free(g_readBuffer);
 
 	free(g_palette1);
 	free(g_palette2);
@@ -1769,13 +1771,13 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_palette1 = calloc(1, 256 * 3);
 	g_palette2 = calloc(1, 256 * 3);
 
-	g_global->readBufferSize = 0x2EE0;
-	g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
+	g_readBufferSize = 0x2EE0;
+	g_readBuffer = calloc(1, g_readBufferSize);
 
 	ReadProfileIni("PROFILE.INI");
 
-	Tools_Free(g_global->readBuffer);
-	g_global->readBuffer.csip = 0x0;
+	free(g_readBuffer);
+	g_readBuffer = NULL;
 
 	File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 
@@ -1858,9 +1860,9 @@ static void GameLoop_GameIntroAnimationMenu()
 				case 0x001C: /* Replay Introduction */
 					Music_Play(0);
 
-					Tools_Free(g_global->readBuffer);
-					g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
-					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
+					free(g_readBuffer);
+					g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x6D60;
+					g_readBuffer = calloc(1, g_readBufferSize);
 
 					GUI_Mouse_Hide_Safe();
 
@@ -1883,12 +1885,11 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					Music_Play(0);
 
-					Tools_Free(g_global->readBuffer);
+					free(g_readBuffer);
+					g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+					g_readBuffer = calloc(1, g_readBufferSize);
 
 					String_Load("DUNE");
-
-					g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
-					g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
 
 					GUI_Mouse_Show_Safe();
 
@@ -2012,12 +2013,11 @@ static void GameLoop_GameIntroAnimationMenu()
 	} else {
 		Music_Play(0);
 
-		Tools_Free(g_global->readBuffer);
-
 		String_Load("DUNE");
 
-		g_global->readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
-		g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
+		free(g_readBuffer);
+		g_readBufferSize = (g_config.voiceDrv == 0) ? 0x2EE0 : 0x4E20;
+		g_readBuffer = calloc(1, g_readBufferSize);
 	}
 
 	GUI_Mouse_Hide_Safe();

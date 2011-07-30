@@ -791,9 +791,9 @@ typedef struct GlobalData {
 	/* 38CA(4)   */ PACK csip32  removed_38CA;              /*!< REMOVED - Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
 	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
 	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
-	/* 38D6(4)   */ PACK csip32  removed_38D6;              /*!< REMOVED ?? (never written, only tested for not-0) */
-	/* 38DA(4)   */ PACK csip32 readBuffer;                 /*!< Temporary buffer used for reading and analyzing files. */
-	/* 38DE(4)   */ PACK uint32 readBufferSize;             /*!< Maximal length of the temporary read buffer. */
+	/* 38D6(4)   */ PACK csip32  removed_38D6;              /*!< REMOVED - ?? (never written, only tested for not-0) */
+	/* 38DA(4)   */ PACK csip32  removed_38DA;              /*!< REMOVED - Temporary buffer used for reading and analyzing files. */
+	/* 38DE(4)   */ PACK uint32  removed_38DE;              /*!< REMOVED - Maximal length of the temporary read buffer. */
 	/* 38E2(2)   */ PACK uint16  removed_38E2;              /*!< REMOVED - Type of the structure being placed. */
 	/* 38E4(4)   */ PACK csip32  removed_38E4;              /*!< REMOVED - Structure being placed. */
 	/* 38E8()    */ PACK uint16  removed_38E8;              /*!< REMOVED - ?? */

@@ -38,6 +38,9 @@ extern bool   g_debugGame;
 extern bool   g_debugScenario;
 extern bool   g_debugSkipDialogs;
 
+extern void *g_readBuffer;
+extern uint32 g_readBufferSize;
+
 extern void Main();
 extern void Game_Prepare();
 extern void Game_Init();

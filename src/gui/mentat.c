@@ -91,20 +91,16 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	Sound_Output_Feedback(0xFFFE);
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
-	}
+	Driver_Voice_Play(NULL, 0xFF, 0xFF);
 
 	Music_Play(musicID);
 
 	do {
 		char filename[10];
 		snprintf(filename, sizeof(filename), "TEXT%c", g_table_houseInfo[houseID].name[0]);
-		String_LoadFile(String_GenerateFilename(filename), stringID, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
-		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
-	} while (GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), wsaFilename, w1, true) == 0x8002);
+		String_LoadFile(String_GenerateFilename(filename), stringID, g_readBuffer, g_readBufferSize);
+		String_TranslateSpecial(g_readBuffer, g_readBuffer);
+	} while (GUI_Mentat_Show(g_readBuffer, wsaFilename, w1, true) == 0x8002);
 
 	free(w2);
 	free(w1);
@@ -371,11 +367,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sound_Output_Feedback(0xFFFE);
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
-	}
+	Driver_Voice_Play(NULL, 0xFF, 0xFF);
 
 	Music_Play(g_table_houseInfo[g_playerHouseID].musicBriefing);
 
@@ -945,7 +937,7 @@ static void GUI_Mentat_ShowHelp()
 	info.variable_04 = HTOBE32(info.variable_04);
 	info.variable_08 = HTOBE32(info.variable_08);
 
-	text = (char *)emu_get_memorycsip(g_global->readBuffer);
+	text = (char *)g_readBuffer;
 
 	compressedText = (char *)emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3));
 
@@ -968,15 +960,15 @@ static void GUI_Mentat_ShowHelp()
 
 		picture = g_scenario.pictureBriefing;
 		desc    = NULL;
-		text    = (char *)emu_get_memorycsip(g_global->readBuffer);
+		text    = (char *)g_readBuffer;
 
 		index = *text - 44 + g_campaignID * 4;
 
 		snprintf(filenamePrefix, sizeof(filenamePrefix), "TEXT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-		String_LoadFile(String_GenerateFilename(filenamePrefix), index, text, g_global->readBufferSize);
+		String_LoadFile(String_GenerateFilename(filenamePrefix), index, text, g_readBufferSize);
 		String_TranslateSpecial(text, text);
 	} else {
-		picture = (char *)emu_get_memorycsip(g_global->readBuffer);
+		picture = (char *)g_readBuffer;
 		desc    = text;
 
 		while (*text != '\0' && *text != 0xC) text++;

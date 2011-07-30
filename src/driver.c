@@ -509,11 +509,9 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 	File_ReadBlockFile(filename, buffer, length);
 }
 
-void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C)
+void Driver_Voice_Play(uint8 *arg06, int16 arg0A, int16 arg0C)
 {
 	Driver *voice = &g_global->voiceDriver;
-
-	assert(arg06 == emu_get_memorycsip(arg06_csip));
 
 	if (!g_global->soundsEnabled || voice->index == 0xFFFF) return;
 
@@ -540,11 +538,20 @@ void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C
 
 	if (arg06 == NULL) return;
 
-	emu_push(0xFFFF);
-	emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-	emu_push(voice->index); /* unused, but needed for correct param accesses. */
-	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Play();
-	emu_sp += 8;
+	/* XXX - Temporary hack so we can have other pointers outside the 16bit world.
+	 *   The input buffer is never bigger than 0x6D60, so copy that, than we are
+	 *   fine for sure. */
+	{
+		static csip32 arg06_csip = { { 0, 0 } };
+		if (arg06_csip.csip == 0x0) arg06_csip = Tools_Malloc(0x6D60, 0x20);
+		memcpy(emu_get_memorycsip(arg06_csip), arg06, 0x6D60);
+
+		emu_push(0xFFFF);
+		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
+		emu_push(voice->index); /* unused, but needed for correct param accesses. */
+		emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Play();
+		emu_sp += 8;
+	}
 
 	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Start();
 }

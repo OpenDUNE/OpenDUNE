@@ -1708,11 +1708,7 @@ uint8 GUI_PickHouse()
 
 	memset(palette, 0, 256 * 3);
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
-	}
+	Driver_Voice_Play(NULL, 0xFF, 0xFF);
 
 	Voice_LoadVoices(5);
 
@@ -1788,8 +1784,8 @@ uint8 GUI_PickHouse()
 		w = GUI_Widget_Link(w, GUI_Widget_Allocate(2, GUI_Widget_GetShortcut(String_Get_ByIndex(108)[0]), 240, 168, 2, 0, 0)); /* "No" */
 
 		snprintf(buffer, sizeof(buffer), "TEXT%c", g_table_houseInfo[houseID].name[0]);
-		String_LoadFile(String_GenerateFilename(buffer), 0, (char *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
-		String_TranslateSpecial((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->readBuffer));
+		String_LoadFile(String_GenerateFilename(buffer), 0, g_readBuffer, g_readBufferSize);
+		String_TranslateSpecial(g_readBuffer, g_readBuffer);
 
 		g_playerHouseID = HOUSE_MERCENARY;
 
@@ -1797,7 +1793,7 @@ uint8 GUI_PickHouse()
 
 		GUI_Mouse_Show_Safe();
 
-		GUI_Mentat_Show((char *)emu_get_memorycsip(g_global->readBuffer), (char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, false);
+		GUI_Mentat_Show(g_readBuffer, (char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1, 1);
 

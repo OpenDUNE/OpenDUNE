@@ -82,7 +82,7 @@ extern void Driver_Sound_Play(int16 index, int16 volume);
 extern void Driver_Music_Stop();
 extern void Driver_Sound_Stop();
 extern void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length);
-extern void Driver_Voice_Play(uint8 *arg06, csip32 arg06_csip, int16 arg0A, int16 arg0C);
+extern void Driver_Voice_Play(uint8 *arg06, int16 arg0A, int16 arg0C);
 extern void Driver_Voice_Stop();
 extern void Driver_Sound_LoadFile(const char *musicName);
 extern char *Drivers_GenerateFilename(const char *name, Driver *driver);

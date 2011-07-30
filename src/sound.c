@@ -90,16 +90,13 @@ static void Driver_Music_LoadFile(const char *musicName)
  */
 void Music_Play(uint16 musicID)
 {
-	csip32 nullcsip;
-	nullcsip.csip = 0x0;
-
 	if (musicID == 0xFFFF || musicID >= 38) return;
 
 	if (g_table_musics[musicID].string != s_currentMusic) {
 		s_currentMusic = g_table_musics[musicID].string;
 
 		Driver_Music_Stop();
-		Driver_Voice_Play(NULL, nullcsip, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, 0xFF, 0xFF);
 		Driver_Music_LoadFile(NULL);
 		Driver_Sound_LoadFile(NULL);
 		Driver_Music_LoadFile(s_currentMusic);
@@ -135,9 +132,9 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 
 	if (g_config.voiceDrv != 0 && index != 0xFFFF && g_variable_3E54[index] != NULL && g_table_voices[index].variable_04 >= g_global->variable_4060) {
 		g_global->variable_4060 = g_table_voices[index].variable_04;
-		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
+		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
 
-		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, g_global->variable_4060, volume);
+		Driver_Voice_Play(g_readBuffer, g_global->variable_4060, volume);
 	} else {
 		Driver_Sound_Play(voiceID, volume);
 	}
@@ -280,8 +277,8 @@ void Sound_StartSound(uint16 index)
 	g_global->variable_4060 = g_table_voices[index].variable_04;
 
 	if (g_variable_3E54[index] != NULL) {
-		memmove(emu_get_memorycsip(g_global->readBuffer), g_variable_3E54[index], g_variable_3E54_size[index]);
-		Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
+		Driver_Voice_Play(g_readBuffer, 0xFF, 0xFF);
 	} else {
 		char filenameBuffer[16];
 		const char *filename;
@@ -290,9 +287,9 @@ void Sound_StartSound(uint16 index)
 		if (filename[0] == '?') {
 			snprintf(filenameBuffer, sizeof(filenameBuffer), filename + 1, g_playerHouseID < HOUSE_MAX ? g_table_houseInfo[g_playerHouseID].prefixChar : ' ');
 
-			Driver_Voice_LoadFile(filenameBuffer, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+			Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
 
-			Driver_Voice_Play(emu_get_memorycsip(g_global->readBuffer), g_global->readBuffer, 0xFF, 0xFF);
+			Driver_Voice_Play(g_readBuffer, 0xFF, 0xFF);
 		}
 	}
 }
@@ -395,11 +392,11 @@ void *Sound_Unknown0823(const char *filename, uint32 *retFileSize)
 	fileSize += 1;
 	fileSize &= 0xFFFFFFFE;
 
-	Driver_Voice_LoadFile(filename, (void *)emu_get_memorycsip(g_global->readBuffer), g_global->readBufferSize);
+	Driver_Voice_LoadFile(filename, g_readBuffer, g_readBufferSize);
 
 	*retFileSize = fileSize;
 	res = malloc(fileSize);
-	memcpy(res, emu_get_memorycsip(g_global->readBuffer), fileSize);
+	memcpy(res, g_readBuffer, fileSize);
 
 	return res;
 }
