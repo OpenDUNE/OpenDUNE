@@ -286,8 +286,8 @@ typedef struct GlobalData {
 	/* 181F(7)   */ PACK char   string_181F[7];             /*!< REMOVED - "dune19" NULL terminated. */
 	/* 1826(7)   */ PACK char   string_1826[7];             /*!< REMOVED - "dune20" NULL terminated. */
 	/* 182D()    */ PACK uint8   unknown_182D[0x1];
-	/* 182E(4)   */ PACK csip32 variable_182E;              /*!< ?? */
-	/* 1832(4)   */ PACK csip32 variable_1832;              /*!< ?? */
+	/* 182E(4)   */ PACK csip32  removed_182E;              /*!< REMOVED - ?? */
+	/* 1832(4)   */ PACK csip32  removed_1832;              /*!< REMOVED - ?? */
 	/* 1836(2)   */ PACK uint16  removed_1836;              /*!< REMOVED - Counter (changed to local var: used in one function, and reset at the end, and no return halfway). */
 	/* 1838(2)   */ PACK uint16  removed_1838;              /*!< REMOVED - Counter (changed to local var: used in one function, and reset at the end, and no return halfway). */
 	/* 183A()    */ PACK uint8   unknown_183A[0x2];

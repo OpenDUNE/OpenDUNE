@@ -89,7 +89,9 @@ static uint8                _palettePartChange[18];   /*!< Amount of change of e
 
 static bool _debugForceWin = false; /*!< When true, you immediately win the level. */
 
-static void *s_spriteBuffer;
+static void *s_spriteBuffer  = NULL;
+static void *s_buffer_182E = NULL;
+static void *s_buffer_1832 = NULL;
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -818,7 +820,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 0, memory);
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, memory, screenID);
 
-	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, emu_get_memorycsip(g_global->variable_182E));
+	GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, memory, s_buffer_182E);
 
 	GUI_Screen_SetActive(0);
 	loc0C = g_timerSleep;
@@ -948,7 +950,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 			strings[loc02].y--;
 		}
 
-		GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, screenID, emu_get_memorycsip(g_global->variable_182E));
+		GameCredits_1DD2_0008(g_curWidgetYBase, g_curWidgetHeight, screenID, s_buffer_182E);
 
 		if ((int16)strings[0].y < -10) {
 			strings[0].text += strlen(strings[0].text);
@@ -975,17 +977,11 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 static void GameCredits_LoadPaletteAndSprites()
 {
-	uint8 *p;
-	uint32 size;
 	uint16 i;
-	uint16 locdi;
+	uint8 *p;
 
-	g_global->variable_182E = GFX_Screen_GetCSIP_ByIndex(7);
-
-	size = SCREEN_WIDTH * g_curWidgetHeight;
-
-	g_global->variable_1832 = g_global->variable_182E;
-	g_global->variable_1832.s.ip += size;
+	s_buffer_182E = GFX_Screen_Get_ByIndex(7);
+	s_buffer_1832 = (uint8 *)s_buffer_182E + SCREEN_WIDTH * g_curWidgetHeight;
 
 	s_spriteBuffer = calloc(1, 20000);
 	Sprite_SetSpriteBuffer(s_spriteBuffer);
@@ -998,9 +994,10 @@ static void GameCredits_LoadPaletteAndSprites()
 	/* Create 10 fadein/fadeout palettes */
 	p = g_palette1;
 	for (i = 0; i < 10; i++) {
+		uint16 j;
 		uint8 *pr = g_palette1;
 
-		for (locdi = 0; locdi < 255 * 3; locdi++) *p++ = *pr++ * (9 - i) / 9;
+		for (j = 0; j < 255 * 3; j++) *p++ = *pr++ * (9 - i) / 9;
 
 		*p++ = 0x3F;
 		*p++ = 0x3F;
@@ -1078,9 +1075,9 @@ static void GameLoop_GameCredits()
 	GFX_SetPalette(g_palette1);
 
 	while (true) {
-		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), GFX_Screen_GetSize_ByIndex(6));
+		File_ReadBlockFile(String_GenerateFilename("CREDITS"), s_buffer_1832, GFX_Screen_GetSize_ByIndex(6));
 
-		GameCredits_Play((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
+		GameCredits_Play(s_buffer_1832, 20, 2, 4, 6);
 
 		if (Input_Keyboard_NextKey() != 0) break;
 

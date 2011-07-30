@@ -43,28 +43,18 @@ uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID)
 }
 
 /**
- * Returns the csip of a screenbuffer.
- * @param screenID The screenID to get the csip of.
- * @return Some CSIP value.
- */
-csip32 GFX_Screen_GetCSIP_ByIndex(uint16 screenID)
-{
-	csip32 ret;
-
-	ret.s.cs = g_global->variable_6C93[screenID >> 1][0];
-	ret.s.ip = 0x0;
-
-	return ret;
-}
-
-/**
  * Get the pointer to a screenbuffer.
  * @param screenID The screenbuffer to get.
  * @return A pointer to the screenbuffer.
  */
 void *GFX_Screen_Get_ByIndex(uint16 screenID)
 {
-	return emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(screenID));
+	csip32 pointer;
+
+	pointer.s.cs = g_global->variable_6C93[screenID >> 1][0];
+	pointer.s.ip = 0x0;
+
+	return emu_get_memorycsip(pointer);
 }
 
 /**
