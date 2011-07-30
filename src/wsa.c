@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "libemu.h"
 #include "global.h"
 #include "os/math.h"
 
@@ -355,7 +356,7 @@ static void WSA_DrawFrame(int16 x, int16 y, int16 width, int16 height, uint16 wi
 	int16 skipAfter;
 	uint8 *dst;
 
-	dst = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(g_global->screenActiveID));
+	dst = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0, 0);
 
 	left   = g_widgetProperties[windowID].xBase << 3;
 	right  = left + (g_widgetProperties[windowID].width << 3);

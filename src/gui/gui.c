@@ -4084,7 +4084,7 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
 		height = SCREEN_HEIGHT - top;
 	}
 
-	screen = &emu_get_memory8(GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID), 0, 0);
+	screen = &emu_get_memory8(GFX_Screen_GetSegmentActive(), 0, 0);
 	screen += top * SCREEN_WIDTH + left;
 	for (; height > 0; height--) {
 		int i = width;
