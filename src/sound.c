@@ -392,11 +392,9 @@ void *Sound_Unknown0823(const char *filename, uint32 *retFileSize)
 	fileSize += 1;
 	fileSize &= 0xFFFFFFFE;
 
-	Driver_Voice_LoadFile(filename, g_readBuffer, g_readBufferSize);
-
 	*retFileSize = fileSize;
 	res = malloc(fileSize);
-	memcpy(res, g_readBuffer, fileSize);
+	Driver_Voice_LoadFile(filename, res, fileSize);
 
 	return res;
 }
