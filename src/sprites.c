@@ -412,10 +412,6 @@ uint16 Sprites_LoadImage(const char *filename, uint16 screenID, uint8 *palette, 
 	File_Read(index, &header, 4);
 	File_Close(index);
 
-	if (header == HTOBE32('FORM')) {
-		/* Unresolved jump */ emu_ip = 0x0299; emu_last_cs = 0xB4CA; emu_last_ip = 0x0263; emu_last_length = 0x001E; emu_last_crc = 0x9B59; emu_call(); return 0;
-	}
-
 	return Sprites_LoadCPSFile(filename, screenID, palette) / 8000;
 }
 
