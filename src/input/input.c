@@ -15,7 +15,6 @@
 #include "../file.h"
 #include "../gfx.h"
 #include "../gui/gui.h"
-#include "../interrupt.h"
 #include "../mouse.h"
 #include "../opendune.h"
 #include "../timer.h"
@@ -235,25 +234,16 @@ void Input_HandleInput(uint16 input)
 	uint16 value;
 	uint8  bit_value;
 
-	emu_pushf();
-	emu_cli();
-
 	s_input_local->flags = g_global->inputFlags;
 	s_input_local->mouseX = g_mouseX;
 	s_input_local->mouseY = g_mouseY;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
-		if (g_global->ignoreInput != 0) {
-			emu_popf();
-			return;
-		}
+		if (g_global->ignoreInput != 0) return;
 	}
 
-	if (input == 0) {
-		emu_popf();
-		return;
-	}
+	if (input == 0) return;
 
 	value = input & 0xFF;
 	if ((s_input_local->flags & 0x1000) != 0 && (input & 0x400) == 0) {
@@ -329,7 +319,6 @@ void Input_HandleInput(uint16 input)
 
 	if (Input_History_Add(input) != 0) {
 		s_input_local->historyTail = oldTail;
-		emu_popf();
 		return;
 	}
 
@@ -338,14 +327,12 @@ void Input_HandleInput(uint16 input)
 
 		if (Input_History_Add(s_input_local->mouseX) != 0) {
 			s_input_local->historyTail = oldTail;
-			emu_popf();
 			return;
 		}
 		saveSize += 2;
 
 		if (Input_History_Add(s_input_local->mouseY) != 0) {
 			s_input_local->historyTail = oldTail;
-			emu_popf();
 			return;
 		}
 		saveSize += 2;
@@ -368,17 +355,13 @@ void Input_HandleInput(uint16 input)
 	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
 	s_input_local->activeInputMap[index] |= bit_value;
 
-	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) {
-		emu_popf();
-		return;
-	}
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
+
 	s_input_local->variable_0A94 = input;
 	s_input_local->variable_0A96 = g_timerInput;
 
 	File_Write(g_global->mouseFileID, &s_input_local->variable_0A94, saveSize);
 	g_timerInput = 0;
-
-	emu_popf();
 }
 
 /** Read input event from file. */
@@ -431,10 +414,7 @@ uint16 Input_IsInputAvailable()
 {
 	uint16 value;
 
-	emu_pushf();
-	emu_cli();
 	value = s_input_local->historyHead ^ s_input_local->historyTail;
-	emu_popf();
 
 	return Input_AddHistory(value);
 }
@@ -448,18 +428,15 @@ uint16 Input_Wait()
 	uint16 value = 0;
 
 	for (;;) {
-		emu_cli();
 		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 		value = s_input_local->historyHead;
 		if (value != s_input_local->historyTail) break;
 
-		emu_sti();
 		sleep(0); /* Spin-lock */
 	}
 
 	value = Input_ReadHistory(value);
-	emu_sti();
 
 	Input_ReadInputFromFile();
 	return value;
@@ -472,7 +449,7 @@ uint16 Input_Wait()
  */
 uint16 Input_Test(uint16 value)
 {
-	Input_AddHistory(value); /* 'value' seems to be the best approximation to emu_ax. */
+	Input_AddHistory(value);
 	value = Input_Keyboard_Translate(value);
 
 	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
@@ -565,18 +542,15 @@ uint16 Input_WaitForValidInput()
 
 	do {
 		for (;;) {
-			emu_cli();
 			if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 			index = s_input_local->historyHead;
 			if (index != s_input_local->historyTail) break;
 
-			emu_sti();
 			sleep(0); /* Spin-lock */
 		}
 
 		value = Input_ReadHistory(index);
-		emu_sti();
 		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
 			if ((value & 0xFF) == s_input_local->keymap_ignore[i]) break;
 		}
@@ -596,14 +570,10 @@ uint16 Input_Keyboard_NextKey()
 	uint16 i;
 	uint16 value;
 
-	emu_pushf();
-
 	Input_AddHistory(0);
 
 	for (;;) {
 		uint16 index;
-
-		emu_cli();
 
 		index = s_input_local->historyHead;
 		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_input_local->historyTail) {
@@ -624,18 +594,15 @@ uint16 Input_Keyboard_NextKey()
 
 		s_input_local->historyHead = index + 2;
 
-		emu_sti();
 		sleep(0); /* Spin-lock */
 	}
 
 	s_input_local->controlKeys2 = s_input_local->controlKeys;
-	emu_sti();
 
 	if (value != 0) {
 		value = Input_Keyboard_HandleKeys(value) & 0xFF;
 	}
 
-	emu_popf();
 	return value;
 }
 

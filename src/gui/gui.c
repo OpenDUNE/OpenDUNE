@@ -26,7 +26,6 @@
 #include "../house.h"
 #include "../ini.h"
 #include "../input/input.h"
-#include "../interrupt.h"
 #include "../load.h"
 #include "../map.h"
 #include "../mouse.h"

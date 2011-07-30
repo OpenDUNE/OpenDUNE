@@ -90,11 +90,5 @@ extern void Drivers_All_Uninit();
 extern void Driver_LoadFile(const char *musicName, Driver *driver);
 extern void Driver_UnloadFile(Driver *driver);
 extern void Driver_Music_FadeOut();
-extern void Drivers_CustomTimer_Interrupt();
-extern void Drivers_CustomTimer_OriginalInterrupt();
-
-
-extern void emu_Drivers_CustomTimer_Interrupt();
-extern void emu_Drivers_CustomTimer_OriginalInterrupt();
 
 #endif /* DRIVER_H */

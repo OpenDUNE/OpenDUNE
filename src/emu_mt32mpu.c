@@ -35,21 +35,6 @@ void emu_MPU_Send()
 }
 
 /**
- * Emulator wrapper around MPU_Interrupt()
- *
- * @name emu_MPU_Interrupt
- * @implements AB01:1CEE:0015:5BCF ()
- */
-void emu_MPU_Interrupt()
-{
-	MPU_Interrupt();
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-}
-
-/**
  * Emulator wrapper around MPU_Init()
  *
  * @name emu_MPU_Init

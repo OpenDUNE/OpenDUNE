@@ -28,7 +28,6 @@
 #include "house.h"
 #include "ini.h"
 #include "input/input.h"
-#include "interrupt.h"
 #include "map.h"
 #include "mouse.h"
 #include "pool/pool.h"
@@ -2296,11 +2295,16 @@ static bool Unknown_25C4_000E()
 
 	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 
+	Timer_Init();
 #if !defined(_WIN32)
 	/* libSDL 1.2 needs to be initialized in the same thread as the events are polled in */
 	if (!Video_Init()) return false;
 #endif /* _WIN32 */
 	Mouse_Init();
+
+	/* Add the general tickers */
+	Timer_Add(Video_Tick, 1000000 / 60);
+	Timer_Add(Timer_Tick, 1000000 / 60);
 
 	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
 
@@ -2614,4 +2618,5 @@ void PrepareEnd()
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	Video_Uninit();
+	Timer_Uninit();
 }
