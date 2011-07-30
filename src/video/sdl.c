@@ -228,12 +228,6 @@ void Video_Tick()
 				/* Fall Through */
 			case SDL_KEYUP:
 			{
-				if (s_keyBufferLatest == 0x63 && event.key.keysym.sym == 0x132) {
-					s_video_lock = false;
-					fprintf(stderr, "CTRL+C pressed\n");
-					PrepareEnd();
-					exit(0);
-				}
 				if (event.key.keysym.sym >= sizeof(s_SDL_keymap)) continue;
 				if (s_SDL_keymap[event.key.keysym.sym] == 0) {
 					fprintf(stderr, "ERROR: unhandled key %X\n", event.key.keysym.sym);
