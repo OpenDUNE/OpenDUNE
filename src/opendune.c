@@ -981,7 +981,6 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 static void GameCredits_LoadPaletteAndSprites()
 {
 	uint8 *p;
-	csip32 memBlock;
 	uint32 size;
 	uint16 i;
 	uint16 locdi;
@@ -1001,7 +1000,7 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
-	/* Convert the palette */
+	/* Create 10 fadein/fadeout palettes */
 	p = g_palette1;
 	for (i = 0; i < 10; i++) {
 		uint8 *pr = g_palette1;
@@ -1013,17 +1012,11 @@ static void GameCredits_LoadPaletteAndSprites()
 		*p++ = 0x3F;
 	}
 
-	memBlock = Screen_GetSegment_ByIndex_1(3);
-
 	for (i = 0; i < 11; i++) {
 		char filenameBuffer[16];
 
 		snprintf(filenameBuffer, sizeof(filenameBuffer), "CREDIT%d.SHP", i + 1);
-		size = File_ReadBlockFile(filenameBuffer, emu_get_memorycsip(memBlock), 0xFA00);
-
-		g_sprites[i] = emu_get_memorycsip(Tools_Malloc(size, 0x0));
-
-		memcpy(g_sprites[i], emu_get_memorycsip(memBlock), size);
+		g_sprites[i] = File_ReadWholeFile_Pure(filenameBuffer);
 	}
 
 	g_sprites[i] = NULL;
