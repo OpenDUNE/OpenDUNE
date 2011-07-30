@@ -42,6 +42,7 @@
 #include "../tools.h"
 #include "../unit.h"
 #include "../unknown/unknown.h"
+#include "../video/video.h"
 #include "../wsa.h"
 
 
@@ -3698,6 +3699,7 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 	}
 
 	for (y = 0; y < height; y++) {
+		uint32 tick;
 		uint16 y2 = y;
 		for (x = 0; x < width; x++) {
 			uint16 offsetX, offsetY;
@@ -3709,11 +3711,12 @@ void GUI_Screen_FadeIn(uint16 xSrc, uint16 ySrc, uint16 xDst, uint16 yDst, uint1
 
 			y2++;
 			if (y2 == height) y2 = 0;
+		}
 
-			/* XXX -- This delays the system so you can in fact see the animation */
-			if ((x % 10) != 0) continue;
-			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) == 0);
-			do { emu_inb(&emu_al, 0x3DA); } while ((emu_al & 0x8) != 0);
+		/* XXX -- This delays the system so you can in fact see the animation */
+		if ((y % 4) == 0) {
+			tick = g_timerSleep;
+			while (tick == g_timerSleep) sleep(0);
 		}
 	}
 
@@ -4113,9 +4116,6 @@ void GUI_DrawBlockedRectangle(int16 left, int16 top, int16 width, int16 height, 
  */
 void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 {
-	emu_cx = x;
-	emu_dx = y;
-
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
@@ -4127,12 +4127,7 @@ void GUI_Mouse_SetPosition(uint16 x, uint16 y)
 	g_mouseX = x;
 	g_mouseY = y;
 
-	if (g_global->mouseInstalled) {
-		if (g_doubleWidth) x *= 2;
-
-		emu_ax = 4;
-		emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x004B); Interrupt_Mouse();
-	}
+	if (g_global->mouseInstalled) Video_Mouse_SetPosition(x * 2, y * 2);
 
 	if (g_mouseX != g_mousePrevX || g_mouseY != g_mousePrevY) {
 		GUI_Mouse_Hide();

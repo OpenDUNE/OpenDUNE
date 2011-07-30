@@ -25,7 +25,7 @@ extern uint16 g_regionMaxX;
 extern uint16 g_regionMaxY;
 
 extern void Mouse_Init();
-extern void Mouse_CallbackClear();
+extern void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft, bool mouseButtonRight);
 extern void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom);
 extern uint16 Mouse_InsideRegion(int16 left, int16 top, int16 right, int16 bottom);
 extern void Mouse_SetMouseMode(uint8 mouseMode, const char *filename);

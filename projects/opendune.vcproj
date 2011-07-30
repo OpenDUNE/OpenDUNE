@@ -171,26 +171,6 @@
 			Name="decompiled"
 			>
 			<File
-				RelativePath="..\decompiled\cs__29A3.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\decompiled\cs__AB00.c"
 				>
 				<FileConfiguration
@@ -2043,6 +2023,34 @@
 				</File>
 				<File
 					RelativePath="..\src\unknown\unknown.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="video"
+				>
+				<File
+					RelativePath="..\src\video\sdl.c"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\video\"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)\src\video\"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\src\video\video.h"
 					>
 				</File>
 			</Filter>

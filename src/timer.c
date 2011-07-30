@@ -13,6 +13,9 @@
 
 #include "timer.h"
 
+#include "video/video.h"
+
+
 uint32 g_timerGUI = 0;                                      /*!< Tick counter. Increases with 1 every tick when Timer 1 is enabled. Used for GUI. */
 uint32 g_timerGame = 0;                                     /*!< Tick counter. Increases with 1 every tick when Timer 2 is enabled. Used for game timing (units, ..). */
 uint32 g_timerInput = 0;                                    /*!< Tick counter. Increases with 1 every tick. Used for input timing. */
@@ -29,6 +32,8 @@ void Timer_Interrupt()
 	g_timerSleep++;
 
 	if (g_timerTimeout != 0) g_timerTimeout--;
+
+	Video_Tick();
 }
 
 /**

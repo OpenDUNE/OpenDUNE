@@ -102,9 +102,8 @@ typedef struct InputLocalData {
 MSVC_PACKED_END
 assert_compile(sizeof(InputLocalData) == 0x0F95);
 
-extern void System_Init_Input();
 extern void Input_Init();
-extern void Input_Uninit();
+extern void Input_EventHandler(uint8 key);
 extern uint16 Input_Flags_ClearBits(uint16 bits);
 extern uint16 Input_Flags_SetBits(uint16 bits);
 extern void Input_History_Clear();

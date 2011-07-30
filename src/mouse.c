@@ -19,9 +19,9 @@
 #include "interrupt.h"
 #include "timer.h"
 #include "tools.h"
+#include "video/video.h"
 
 uint16 g_mouseLock;          /*!< Lock for when handling mouse movement. */
-bool   g_doubleWidth;        /*!< If non-zero, the X-position given by mouse is twice the real value. */
 
 uint16 g_mouseX;             /*!< Current X position of the mouse. */
 uint16 g_mouseY;             /*!< Current Y position of the mouse. */
@@ -59,32 +59,28 @@ void Mouse_Init()
 	g_mouseRegionRight = SCREEN_WIDTH - 1;
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_doubleWidth = true;
 	g_global->mouseInstalled = true;
 	g_global->variable_7097 = true;
 
-	emu_cx = SCREEN_WIDTH;
-	emu_dx = SCREEN_HEIGHT / 2;
-	emu_ax = 0x4;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02A8); Interrupt_Mouse();
-
-	emu_cx = 31;
-	emu_es = 0x29A3; emu_dx = 0x0054; /* emu_Mouse_EventHandler() */
-	emu_ax = 12;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02B5); Interrupt_Mouse();
+	Video_Mouse_SetPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 
 /**
- * Remove the interrupt callback for the mouse.
+ * Handle the new mouse event.
  */
-void Mouse_CallbackClear()
+void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft, bool mouseButtonRight)
 {
-	if (!g_global->mouseInstalled) return;
+	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	emu_cx = 0x0;
-	emu_es = 0x29A3; emu_dx = 0x54;
-	emu_ax = 0xC;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x02D5); Interrupt_Mouse();
+	if (g_global->variable_7097 == 0 && g_global->variable_7098 != 0 && (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_global->ignoreInput == 0)) {
+		if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
+			Input_HandleInput(Mouse_CheckButtons(newButtonState));
+		}
+
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0) {
+			Mouse_HandleMovement(newButtonState, mousePosX, mousePosY);
+		}
+	}
 }
 
 /**
@@ -120,15 +116,7 @@ void Mouse_SetRegion(uint16 left, uint16 top, uint16 right, uint16 bottom)
 	g_mouseRegionBottom = bottom;
 
 	if (g_global->mouseInstalled) {
-		emu_cx = left  * (g_doubleWidth ? 2 : 1);
-		emu_dx = right * (g_doubleWidth ? 2 : 1);
-		emu_ax = 0x7;
-		emu_syscall(0x33); /* Mouse Interrupt */
-
-		emu_cx = top;
-		emu_dx = bottom;
-		emu_ax = 0x8;
-		emu_syscall(0x33); /* Mouse Interrupt */
+		Video_Mouse_SetRegion(left * 2, right * 2, top * 2, bottom * 2);
 	}
 }
 

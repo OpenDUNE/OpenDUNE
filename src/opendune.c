@@ -47,8 +47,10 @@
 #include "tools.h"
 #include "unit.h"
 #include "unknown/unknown.h"
+#include "video/video.h"
 #include "wsa.h"
 
+char *window_caption = "OpenDUNE - Pre v0.6";
 
 bool g_dune2_enhanced = true; /*!< If false, the game acts exactly like the original Dune2, including bugs. */
 
@@ -84,16 +86,6 @@ static uint8                _palettePartCurrent[18];  /*!< Current value of the 
 static uint8                _palettePartChange[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
 
 static bool _debugForceWin = false; /*!< When true, you immediately win the level. */
-
-/**
- * Initialize the video driver.
- */
-void Video_Init()
-{
-	emu_ah = 0x0;
-	emu_al = 19;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x022D); Interrupt_Video();
-}
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -1329,7 +1321,7 @@ static void Gameloop_Logos()
 
 	Unknown_259E_0006(g_palette2, 60);
 
-	GFX_ClearScreen(0);
+	GFX_ClearScreen();
 
 	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
 
@@ -1795,15 +1787,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	GUI_ClearScreen(0);
 
-	emu_push(emu_es);
-	emu_es = emu_Global_GetCSIP(g_palette1).s.cs;
-	emu_dx = emu_Global_GetCSIP(g_palette1).s.ip;
-	emu_cx = 0x100;
-	emu_bx = 0;
-	emu_al = 0x12;
-	emu_ah = 0x10;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x1852); Interrupt_Video();
-	emu_pop(&emu_es);
+	Video_SetPalette(g_palette1, 0, 256);
 
 	GFX_SetPalette(g_palette1);
 	GFX_SetPalette(g_palette2);
@@ -2306,7 +2290,10 @@ static bool Unknown_25C4_000E()
 
 	memset(&emu_get_memory8(0xA000, 0x0000, 0x0000), 0, SCREEN_WIDTH * SCREEN_HEIGHT);
 
-	Video_Init();
+#if !defined(_WIN32)
+	/* libSDL 1.2 needs to be initialized in the same thread as the events are polled in */
+	if (!Video_Init()) return false;
+#endif /* _WIN32 */
 	Mouse_Init();
 
 	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
@@ -2618,9 +2605,7 @@ void PrepareEnd()
 {
 	Drivers_All_Uninit();
 
-	Mouse_CallbackClear();
-
 	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
-	Input_Uninit();
+	Video_Uninit();
 }

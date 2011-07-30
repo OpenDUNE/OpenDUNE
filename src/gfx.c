@@ -14,6 +14,7 @@
 #include "house.h"
 #include "opendune.h"
 #include "sprites.h"
+#include "video/video.h"
 
 static uint16 s_spriteSpacing  = 0;
 static uint16 s_spriteHeight   = 0;
@@ -297,16 +298,9 @@ void GFX_ClearScreen()
  */
 void GFX_SetPalette(uint8 *palette)
 {
-	uint8 *dest = g_paletteActive;
-	int i;
+	Video_SetPalette(palette, 0, 256);
 
-	/* Set DAC write-index to 0 */
-	emu_outb(0x3C8, 0);
-
-	for (i = 0; i < 768; i++) {
-		emu_outb(0x3C9, *palette);
-		*dest++ = *palette++;
-	}
+	memcpy(g_paletteActive, palette, 768);
 }
 
 /**

@@ -26,23 +26,6 @@ void Interrupt_Timer()
 }
 
 /**
- * Video Interrupt.
- *
- * @name Interrupt_Video
- * @implements 0070:0080:0005:E27B ()
- */
-void Interrupt_Video()
-{
-	emu_syscall(0x10);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
  * System Interrupt.
  *
  * @name Interrupt_System
@@ -119,23 +102,6 @@ void Interrupt_DOS()
 void Interrupt_DOS_Multiplex()
 {
 	emu_syscall(0x2F);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
-}
-
-/**
- * Mouse Interrupt.
- *
- * @name Interrupt_Mouse
- * @implements 0070:0198:0005:E61B ()
- */
-void Interrupt_Mouse()
-{
-	emu_syscall(0x33);
 
 	/* Return from this function */
 	emu_pop(&emu_ip);

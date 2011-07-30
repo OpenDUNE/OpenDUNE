@@ -11,11 +11,9 @@
 #include "libemu.h"
 #include "opendune.h"
 
-extern void Input_EventHandler();
 extern void Interrupt_User_Clock();
 extern void Interrupt_Timer();
 extern void emu_Drivers_CustomTimer_Interrupt();
-extern void emu_Mouse_EventHandler();
 extern void f__AB00_056F_0020_6328();
 extern void f__AB00_058F_000E_41A1();
 
@@ -43,15 +41,11 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 
-	emu_hard_link(0x29E8, 0x0D47, &Input_EventHandler);
 	emu_hard_link(0x0070, 0x00E0, &Interrupt_User_Clock);
 	emu_hard_link(0x0070, 0x0040, &Interrupt_Timer);
 	emu_hard_link(0x2756, 0x050F, &emu_Drivers_CustomTimer_Interrupt);
-	emu_hard_link(0x29A3, 0x0054, &emu_Mouse_EventHandler);
 	emu_hard_link(0x4352, 0x056F, &f__AB00_056F_0020_6328);
 	emu_hard_link(0x4352, 0x058F, &f__AB00_058F_000E_41A1);
-
-	emu_caption = "OpenDUNE - Pre v0.6";
 
 	/* We don't need the MPU of libemu. */
 	emu_mpu = 0;
@@ -59,7 +53,6 @@ int main(int argc, char **argv)
 	emu_init(argc, argv);
 	emu_overlay = 1;
 
-	System_Init_Input();
 	System_Init_Global();
 
 	Main();

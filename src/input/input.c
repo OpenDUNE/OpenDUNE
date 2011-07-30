@@ -19,53 +19,27 @@
 #include "../mouse.h"
 #include "../opendune.h"
 #include "../timer.h"
+#include "../video/video.h"
 
 static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 
-/**
- * Initialize the input system.
- *
- * @init System_Init_Input
- */
-void System_Init_Input()
+void Input_Init()
 {
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
 }
 
-void Input_Init()
+void Input_EventHandler(uint8 key)
 {
-	emu_ax = 0x3509;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x09E2); Interrupt_DOS();
-	s_input_local->interruptVector09.s.cs = emu_es;
-	s_input_local->interruptVector09.s.ip = emu_bx;
-
-	emu_ds = 0x29E8; emu_dx = 0x0D47;
-	emu_ax = 0x2509;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x09F8); Interrupt_DOS();
-}
-
-void Input_Uninit()
-{
-	emu_ds = s_input_local->interruptVector09.s.cs;
-	emu_dx = s_input_local->interruptVector09.s.ip;
-	emu_ax = 0x2509;
-	emu_pushf(); emu_flags.inf = 0; emu_push(emu_cs); emu_cs = 0x0070; emu_push(0x0F91); Interrupt_DOS();
-}
-
-void Input_EventHandler()
-{
-	uint8 key;
 	uint8 state;
 	uint8 i;
 
 	s_input_local->flags = g_global->inputFlags;
 
 	state = 0;
-	emu_inb(&key, 0x60); /* Pop key from buffer */
 
 	if (key == 0xE0) {
 		s_input_local->extendedKey = 1;
-		goto event_exit;
+		return;
 	}
 
 	/* Key up */
@@ -83,43 +57,34 @@ void Input_EventHandler()
 				break;
 			}
 		}
-		if (i == 16) goto event_exit;
+		if (i == 16) return;
 	} else if (key == 0x7A) {
 		key = 0x80;
 	} else {
 		key = s_input_local->variable_01B9[key & 0x7F];
 	}
 
-	if ((s_input_local->activeInputMap[7] & 0x4) != 0) goto event_exit;
+	if ((s_input_local->activeInputMap[7] & 0x4) != 0) return;
 	if ((s_input_local->activeInputMap[7] & 0x50) != 0) state |= 0x04;
 
 	key = Input_Keyboard_Translate(key) & 0xFF;
 
 	if ((s_input_local->activeInputMap[7] & 0x2) != 0) state |= 0x01;
 
-	if (state == 0x06 && key == 0x68) goto event_exit;
-	if (state == 0x06 && key == 0x4C) goto event_exit;
+	if (state == 0x06 && key == 0x68) return;
+	if (state == 0x06 && key == 0x4C) return;
 
 	Input_HandleInput((state << 8) | key);
 
 	for (i = 0; i < 10; i++) {
-		if (s_input_local->keymap_ignore[i] == key) goto event_exit;
+		if (s_input_local->keymap_ignore[i] == key) return;
 	}
 	for (i = 0; i < 17; i++) {
 		if (s_input_local->variable_0036[i] == key) {
-			if ((s_input_local->variable_0058[i] & s_input_local->flags) != 0) goto event_exit;
+			if ((s_input_local->variable_0058[i] & s_input_local->flags) != 0) return;
 			break;
 		}
 	}
-
-event_exit:
-	emu_outb(0x20, 0x20);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
-	return;
 }
 
 /**

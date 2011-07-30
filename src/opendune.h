@@ -25,6 +25,7 @@ typedef enum Language {
 	LANGUAGE_INVALID     = 0xFF
 } Language;
 
+extern char *window_caption;
 extern bool g_dune2_enhanced;
 
 extern uint32 g_hintsShown1;

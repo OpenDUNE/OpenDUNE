@@ -26,6 +26,14 @@ LIB_EXTENSION := .so
 endif
 endif
 
+ifndef SDL_INCLUDE
+ifdef OSX
+SDL_INCLUDE := /opt/local/include/SDL
+else
+SDL_INCLUDE := /usr/include/SDL
+endif
+endif
+
 ifdef STATIC
 LIBS := $(LIBS) libemu.a
 LIBEMU := libemu.a
@@ -45,6 +53,14 @@ LIBS := $(LIBS) -lSDL
 ifdef WIN32
 LIBS := $(LIBS) -lwinmm
 endif
+endif
+
+ifdef WIN32
+LIBS := $(LIBS) -lSDL -lwinmm
+endif
+
+ifdef OSX
+LIBS := $(LIBS) -lSDL -L/opt/local/lib
 endif
 
 ifdef ALSA
@@ -97,7 +113,7 @@ depend: Makefile.dep
 objs/%.o: %.c
 	$(shell mkdir -p `dirname $@`)
 	@echo "[Compiling] $<"
-	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/ -I $(SDL_INCLUDE)
 
 opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBEMU)
 	@echo "[Linking] $@"
