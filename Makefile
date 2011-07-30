@@ -124,10 +124,10 @@ clean:
 	$(Q)rm -f Makefile.dep opendune$(EXTENSION) $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 
 run: all
-	./opendune$(EXTENSION)
+	$(Q)./opendune$(EXTENSION)
 
 run-gdb: all
-	gdb --ex run --args ./opendune$(EXTENSION)
+	$(Q)gdb --ex run --args ./opendune$(EXTENSION)
 
 FORCE:
 
