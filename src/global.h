@@ -1143,9 +1143,9 @@ typedef struct GlobalData {
 	/* 6C8C(1)   */ PACK uint8   removed_6C8C;              /*!< REMOVED - Write only. */
 	/* 6C8D()    */ PACK uint8   unknown_6C8D[0x0004];
 	/* 6C91(2)   */ PACK uint16  removed_6C91;              /*!< REMOVED - Current active ScreenID where all drawing is done.. */
-	/* 6C93(32)  */ PACK uint16 variable_6C93[8][2];        /*!< ?? Array of memory segments. */
+	/* 6C93(32)  */ PACK uint16  removed_6C93[8][2];        /*!< REMOVED - Array with segment values of screenbuffers. */
 	/* 6CB3()    */ PACK uint8   unknown_6CB3[0x0020];
-	/* 6CD3(64)  */ PACK uint32 variable_6CD3[8][2];        /*!< ?? Array init in f__B480_0000_0018_A09B(). */
+	/* 6CD3(64)  */ PACK uint32  removed_6CD3[8][2];        /*!< REMOVED - Array with size of screen buffers. */
 	/* 6D13()    */ PACK uint8   unknown_6D13[0x0040];
 	/* 6D53(2)   */ PACK uint16 variable_6D53;              /*!< ?? */
 	/* 6D55()    */ PACK uint8   unknown_6D55[0x0004];
