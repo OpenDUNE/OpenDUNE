@@ -347,10 +347,11 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) return;
 
-	if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0006;
-	if (g_global->variable_806A-- != 0) return;
-
 	if (g_global->variable_8074 != 0) {
+		if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0008;
+
+		if (g_global->variable_806A-- != 0) return;
+
 		g_global->variable_8074 = 0;
 		g_global->variable_8072++;
 		_palettePartDirection = PPD_TO_BLACK;
@@ -372,6 +373,10 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		_palettePartCount = 1;
 		return;
 	}
+
+	if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0006;
+
+	if (g_global->variable_806A-- != 0) return;
 
 	memcpy(_palettePartTarget, &g_palette1[(144 + (var805A->variable_0002 * 16)) * 3], 18);
 
