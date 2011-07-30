@@ -375,7 +375,7 @@ static uint32 Sprites_LoadCPSFile(const char *filename, uint16 screenID, uint8 *
 	size -= paletteSize;
 
 	loc0A = GFX_Screen_GetCSIP_ByIndex(screenID);
-	loc0A.s.ip = g_global->variable_6CD3[screenID >> 1][screenID & 0x1] - size - 8;
+	loc0A.s.ip = GFX_Screen_GetSize_ByIndex(screenID) - size - 8;
 
 	loc0A = Tools_GetSmallestIP(loc0A);
 	loc0A.s.ip = 0x0;

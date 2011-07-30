@@ -277,7 +277,7 @@ static void Memory_ClearBlock(uint16 index)
 
 	memory = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(index));
 
-	size = g_global->variable_6CD3[index >> 1][index & 0x1];
+	size = GFX_Screen_GetSize_ByIndex(index);
 
 	memset(memory, 0, size);
 }
@@ -527,12 +527,12 @@ static void GameLoop_PlayAnimation()
 
 				wsa = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5));
 
-				loc24 = g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
+				loc24 = GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6);
 				loc20 = false;
 			} else {
 				wsa = emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
-				loc24 = g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0];
+				loc24 = GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6);
 			}
 
 			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", emu_get_memorycsip(var805E->string));
@@ -1088,7 +1088,7 @@ static void GameLoop_GameCredits()
 	GFX_SetPalette(g_palette1);
 
 	while (true) {
-		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), g_global->variable_6CD3[3][0]);
+		File_ReadBlockFile(String_GenerateFilename("CREDITS"), emu_get_memorycsip(g_global->variable_1832), GFX_Screen_GetSize_ByIndex(6));
 
 		GameCredits_Play((char *)emu_get_memorycsip(g_global->variable_1832), 20, 2, 4, 6);
 
@@ -1261,7 +1261,7 @@ static void Gameloop_Logos()
 	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 256 * 3);
 
 	frame = 0;
-	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
+	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6), true);
 	WSA_DisplayFrame(wsa, frame++, 0, 0, 0);
 
 	Unknown_259E_0006(g_palette_998A, 60);
@@ -1321,7 +1321,7 @@ static void Gameloop_Logos()
 
 	GFX_ClearScreen();
 
-	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage(String_GenerateFilename("AND"), 2, g_palette_998A, GFX_Screen_GetSize_ByIndex(2));
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -1343,7 +1343,7 @@ static void Gameloop_Logos()
 
 	GUI_ClearScreen(0);
 
-	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A, g_global->variable_6CD3[1][0] & 0xFFFF);
+	Sprites_LoadImage("VIRGIN.CPS", 2, g_palette_998A, GFX_Screen_GetSize_ByIndex(2));
 
 	GUI_Screen_Copy(0, 0, 0, 0, SCREEN_WIDTH / 8, SCREEN_HEIGHT, 2, 0);
 
@@ -1634,7 +1634,7 @@ static void ReadProfileIni(char *filename)
 	source = (char *)emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3));
 
 	memset(source, 0, 32000);
-	File_ReadBlockFile(filename, source, g_global->variable_6CD3[1][1]);
+	File_ReadBlockFile(filename, source, GFX_Screen_GetSize_ByIndex(3));
 
 	keys = source + strlen(source) + 5000;
 	*keys = '\0';

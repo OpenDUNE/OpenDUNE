@@ -16,6 +16,7 @@ extern void GFX_PutPixel(uint16 x, uint16 y, uint8 colour);
 extern uint16 GFX_Screen_GetSegmentActive();
 extern uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID);
 extern csip32 GFX_Screen_GetCSIP_ByIndex(uint16 screenID);
+extern uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID);
 extern void GFX_Screen_Copy2(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst, bool skipNull);
 extern void GFX_Screen_Copy(int16 xSrc, int16 ySrc, int16 xDst, int16 yDst, int16 width, int16 height, uint16 memBlockSrc, uint16 memBlockDst);
 extern void GFX_ClearScreen();

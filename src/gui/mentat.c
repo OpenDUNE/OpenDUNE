@@ -209,7 +209,7 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	}
 
 	fileID = ChunkFile_Open(g_global->mentatFilename);
-	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, g_global->variable_6CD3[1][1]);
+	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, GFX_Screen_GetSize_ByIndex(3));
 	ChunkFile_Close(fileID);
 
 	g_global->numberHelpSubjects = 0;
@@ -419,7 +419,7 @@ uint16 GUI_Mentat_Show(char *stringBuffer, const char *wsaFilename, Widget *w, b
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), g_global->variable_6CD3[2][0], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), GFX_Screen_GetSize_ByIndex(4), false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -538,7 +538,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	if (wsaFilename != NULL) {
 		void *wsa;
 
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), g_global->variable_6CD3[2][1], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(5)), GFX_Screen_GetSize_ByIndex(5), false);
 		WSA_DisplayFrame(wsa, 0, g_curWidgetXBase * 8, g_curWidgetYBase, 2);
 		WSA_Unload(wsa);
 	}
@@ -1095,7 +1095,7 @@ uint16 GUI_Mentat_Loop(const char *wsaFilename, char *pictureDetails, char *text
 	wsa = NULL;
 
 	if (wsaFilename != NULL) {
-		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), g_global->variable_6CD3[1][1], false);
+		wsa = WSA_LoadFile(wsaFilename, emu_get_memorycsip(GFX_Screen_GetCSIP_ByIndex(3)), GFX_Screen_GetSize_ByIndex(3), false);
 	}
 
 	step = 0;

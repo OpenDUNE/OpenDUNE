@@ -43,6 +43,16 @@ uint16 GFX_Screen_GetSegment_ByIndex(uint16 screenID)
 }
 
 /**
+ * Returns the size of a screenbuffer.
+ * @param screenID The screenID to get the size of.
+ * @return Some size value.
+ */
+uint16 GFX_Screen_GetSize_ByIndex(uint16 screenID)
+{
+	return g_global->variable_6CD3[screenID >> 1][0];
+}
+
+/**
  * Returns the csip of a screenbuffer.
  * @param screenID The screenID to get the csip of.
  * @return Some CSIP value.
