@@ -133,6 +133,9 @@ static void Timer_InterruptRun()
 
 #if defined(_WIN32)
 void CALLBACK Timer_InterruptWindows(LPVOID arg, BOOLEAN TimerOrWaitFired) {
+	VARIABLE_NOT_USED(arg);
+	VARIABLE_NOT_USED(TimerOrWaitFired);
+
 	SuspendThread(s_timerMainThread);
 	Timer_InterruptRun();
 	ResumeThread(s_timerMainThread);
