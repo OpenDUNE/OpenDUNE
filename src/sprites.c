@@ -35,6 +35,12 @@ uint8 *g_iconRPAL = NULL;
 uint8 *g_spriteInfo = NULL;
 uint16 *g_iconMap = NULL;
 
+uint8 *g_fileRgnclkCPS = NULL;
+void *g_filePiecesSHP = NULL;
+void *g_fileArrowsSHP = NULL;
+void *g_fileRegionINI = NULL;
+uint16 *g_regions = NULL;
+
 uint16 g_veiledSpriteID;
 uint16 g_bloomSpriteID;
 uint16 g_landscapeSpriteID;
@@ -495,11 +501,11 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 
 static void InitRegions()
 {
-	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
+	uint16 *regions = g_regions;
 	uint16 i;
 	char textBuffer[81];
 
-	Ini_GetString("INFO", "TOTAL REGIONS", NULL, textBuffer, lengthof(textBuffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	Ini_GetString("INFO", "TOTAL REGIONS", NULL, textBuffer, lengthof(textBuffer) - 1, g_fileRegionINI);
 
 	sscanf(textBuffer, "%hu", &regions[0]);
 
@@ -508,36 +514,28 @@ static void InitRegions()
 
 void Sprites_CPS_LoadRegionClick()
 {
-	csip32 memBlock;
 	uint8 *buf;
 	uint8 i;
 	char filename[16];
 
-	memBlock = GFX_Screen_GetCSIP_ByIndex(5);
-	g_global->RGNCLK_CPS = memBlock;
+	buf = GFX_Screen_Get_ByIndex(5);
 
-	buf = emu_get_memorycsip(g_global->RGNCLK_CPS);
+	g_fileRgnclkCPS = buf;
 	Sprites_LoadCPSFile("RGNCLK.CPS", 5, NULL);
 	for (i = 0; i < 120; i++) memcpy(buf + (i * 304), buf + 7688 + (i * 320), 304);
-	memBlock.s.ip += i * 304;
-	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->PIECES_SHP = memBlock;
+	buf += 120 * 304;
 
-	buf = emu_get_memorycsip(g_global->PIECES_SHP);
-	memBlock.s.ip += File_ReadFile("PIECES.SHP", buf) & 0xFFFF;
-	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->ARROWS_SHP = memBlock;
+	g_filePiecesSHP = buf;
+	buf += File_ReadFile("PIECES.SHP", buf);
 
-	buf = emu_get_memorycsip(g_global->ARROWS_SHP);
-	memBlock.s.ip += File_ReadFile("ARROWS.SHP", buf) & 0xFFFF;
-	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->REGION_INI = memBlock;
+	g_fileArrowsSHP = buf;
+	buf += File_ReadFile("ARROWS.SHP", buf);
 
-	buf = emu_get_memorycsip(g_global->REGION_INI);
+	g_fileRegionINI = buf;
 	snprintf(filename, sizeof(filename), "REGION%c.INI", g_table_houseInfo[g_playerHouseID].name[0]);
-	memBlock.s.ip += File_ReadFile(filename, buf) & 0xFFFF;
-	memBlock = Tools_GetSmallestIP(memBlock);
-	g_global->regions = memBlock;
+	buf += File_ReadFile(filename, buf);
+
+	g_regions = (uint16 *)buf;
 
 	InitRegions();
 }

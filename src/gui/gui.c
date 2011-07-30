@@ -2841,10 +2841,10 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 	sprintf(key, "%d", selected);
 
-	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI));
+	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI);
 	sscanf(buffer, "%hd,%hd", &x, &y);
 
-	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), selected);
+	sprite = Sprites_GetSprite(g_filePiecesSHP, selected);
 	width  = Sprite_GetWidth(sprite);
 	height = Sprite_GetHeight(sprite);
 
@@ -2864,7 +2864,7 @@ static void GUI_StrategicMap_AnimateSelected(uint16 selected, StrategicMapData *
 
 		if (data[i].index != selected) continue;
 
-		GUI_DrawSprite(2, Sprites_GetSprite(emu_get_memorycsip(g_global->ARROWS_SHP), data[i].arrow), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, Sprites_GetSprite(g_fileArrowsSHP, data[i].arrow), data[i].offsetX + 16 - x, data[i].offsetY + 16 - y, 0, 0x100, g_remap, 1);
 	}
 
 	for (i = 0; i < 4; i++) {
@@ -2912,7 +2912,7 @@ static int16 GUI_StrategicMap_ClickedRegion()
 	key = Input_WaitForValidInput();
 	if (key != 0xC6 && key != 0xC7) return 0;
 
-	return emu_get_memorycsip(g_global->RGNCLK_CPS)[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
+	return g_fileRgnclkCPS[(g_mouseClickY - 24) * 304 + g_mouseClickX - 8];
 }
 
 static bool GUI_StrategicMap_FastForwardToggleWithESC()
@@ -2981,7 +2981,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		sprintf(key, "REG%d", i + 1);
 
-		if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) break;
+		if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI) == NULL) break;
 
 		sscanf(buffer, "%hd,%hd,%hd,%hd", &data[i].index, &data[i].arrow, &data[i].offsetX, &data[i].offsetY);
 
@@ -2989,7 +2989,7 @@ static uint16 GUI_StrategicMap_ScenarioSelection(uint16 campaignID)
 
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 152, 16, 16, 2, 2, false);
 		GFX_Screen_Copy2(data[i].offsetX, data[i].offsetY, i * 16, 0, 16, 16, 2, 2, false);
-		GUI_DrawSprite(2, Sprites_GetSprite(emu_get_memorycsip(g_global->ARROWS_SHP), data[i].arrow), i * 16, 152, 0, 0x100, g_remap, 1);
+		GUI_DrawSprite(2, Sprites_GetSprite(g_fileArrowsSHP, data[i].arrow), i * 16, 152, 0, 0x100, g_remap, 1);
 	}
 
 	count = i;
@@ -3051,19 +3051,18 @@ static void GUI_StrategicMap_ReadHouseRegions(uint8 houseID, uint16 campaignID)
 	char buffer[100];
 	char groupText[16];
 	char *s = buffer;
-	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 
 	strncpy(key, g_table_houseInfo[houseID].name, 3);
 	key[3] = '\0';
 
 	snprintf(groupText, sizeof(groupText), "GROUP%d", campaignID);
 
-	if (Ini_GetString(groupText, key, NULL, buffer, sizeof(buffer) - 1, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) return;
+	if (Ini_GetString(groupText, key, NULL, buffer, sizeof(buffer) - 1, g_fileRegionINI) == NULL) return;
 
 	while (*s != '\0') {
 		uint16 region = atoi(s);
 
-		if (region != 0) regions[region] = houseID;
+		if (region != 0) g_regions[region] = houseID;
 
 		while (*s != '\0') {
 			if (*s++ == ',') break;
@@ -3083,10 +3082,10 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 
 	sprintf(key, "%d", region);
 
-	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer), (char *)emu_get_memorycsip(g_global->REGION_INI));
+	Ini_GetString("PIECES", key, NULL, buffer, sizeof(buffer), g_fileRegionINI);
 	sscanf(buffer, "%hd,%hd", &x, &y);
 
-	sprite = Sprites_GetSprite(emu_get_memorycsip(g_global->PIECES_SHP), region);
+	sprite = Sprites_GetSprite(g_filePiecesSHP, region);
 
 	GUI_DrawSprite(3, sprite, x + 8, y + 24, 0, 0x100, g_remap, 1);
 
@@ -3098,7 +3097,6 @@ static void GUI_StrategicMap_DrawRegion(uint8 houseId, uint16 region, bool progr
 static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 {
 	uint16 i;
-	uint16 *regions = (uint16 *)emu_get_memorycsip(g_global->regions);
 
 	for (i = 0; i < campaignID; i++) {
 		GUI_StrategicMap_ReadHouseRegions(HOUSE_HARKONNEN, i + 1);
@@ -3107,10 +3105,10 @@ static void GUI_StrategicMap_PrepareRegions(uint16 campaignID)
 		GUI_StrategicMap_ReadHouseRegions(HOUSE_SARDAUKAR, i + 1);
 	}
 
-	for (i = 0; i < regions[0]; i++) {
-		if (regions[i + 1] == 0xFFFF) continue;
+	for (i = 0; i < g_regions[0]; i++) {
+		if (g_regions[i + 1] == 0xFFFF) continue;
 
-		GUI_StrategicMap_DrawRegion((uint8)regions[i + 1], i + 1, false);
+		GUI_StrategicMap_DrawRegion((uint8)g_regions[i + 1], i + 1, false);
 	}
 }
 
@@ -3130,7 +3128,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 		strncpy(key, g_table_houseInfo[houseID].name, 3);
 		key[3] = '\0';
 
-		if (Ini_GetString(category, key, NULL, buffer, 99, (char *)emu_get_memorycsip(g_global->REGION_INI)) == NULL) continue;
+		if (Ini_GetString(category, key, NULL, buffer, 99, g_fileRegionINI) == NULL) continue;
 
 		while (*s != '\0') {
 			uint16 region = atoi(s);
@@ -3140,7 +3138,7 @@ static void GUI_StrategicMap_ShowProgression(uint16 campaignID)
 
 				sprintf(key, "%sTXT%d", g_global->string_2AF8[g_config.language], region);
 
-				if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer), (char *)emu_get_memorycsip(g_global->REGION_INI)) != NULL) {
+				if (Ini_GetString(category, key, NULL, buffer, sizeof(buffer), g_fileRegionINI) != NULL) {
 					GUI_StrategicMap_DrawText(buffer);
 				}
 
@@ -3289,7 +3287,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	GUI_Mouse_Show_Safe();
 
-	if (*(uint16 *)emu_get_memorycsip(g_global->regions) >= campaignID) {
+	if (*g_regions >= campaignID) {
 		/* "Select your next region" */
 		GUI_StrategicMap_DrawText(String_Get_ByIndex(0x11E));
 

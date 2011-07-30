@@ -1359,11 +1359,11 @@ typedef struct GlobalData {
 	/* 81B4(2)   */ PACK uint16 strategicMapFastForward;    /*!< ?? */
 	/* 81B6(4)   */ PACK uint32  removed_81B6;              /*!< REMOVED - Arrow animation timeout */
 	/* 81BA(24)  */ PACK uint8  variable_81BA[24];          /*!< Palette for animated arrows in the scenario selection. */
-	/* 81D2(4)   */ PACK csip32 regions;                    /*!< Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */
-	/* 81D6(4)   */ PACK csip32 RGNCLK_CPS;                 /*!< Pointer to content of RGNCLK.CPS file. */
-	/* 81DA(4)   */ PACK csip32 REGION_INI;                 /*!< Pointer to content of REGION[AHO].INI file. */
-	/* 81DE(4)   */ PACK csip32 ARROWS_SHP;                 /*!< Pointer to content of ARROWS.SHP file. */
-	/* 81E2(4)   */ PACK csip32 PIECES_SHP;                 /*!< Pointer to content of PIECES.SHP file. */
+	/* 81D2(4)   */ PACK csip32  removed_81D2;              /*!< REMOVED - Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */
+	/* 81D6(4)   */ PACK csip32  removed_81D6;              /*!< REMOVED - Pointer to content of RGNCLK.CPS file. */
+	/* 81DA(4)   */ PACK csip32  removed_81DA;              /*!< REMOVED - Pointer to content of REGION[AHO].INI file. */
+	/* 81DE(4)   */ PACK csip32  removed_81DE;              /*!< REMOVED - Pointer to content of ARROWS.SHP file. */
+	/* 81E2(4)   */ PACK csip32  removed_81E2;              /*!< REMOVED - Pointer to content of PIECES.SHP file. */
 	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
 	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */

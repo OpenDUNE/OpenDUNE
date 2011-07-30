@@ -56,6 +56,13 @@ extern uint8 *g_iconRTBL;
 extern uint8 *g_iconRPAL;
 extern uint8 *g_spriteInfo;
 extern uint16 *g_iconMap;
+
+extern uint8 *g_fileRgnclkCPS;
+extern void *g_filePiecesSHP;
+extern void *g_fileArrowsSHP;
+extern void *g_fileRegionINI;
+extern uint16 *g_regions;
+
 extern void *g_mouseSprite;
 extern void *g_mouseSpriteBuffer;
 
