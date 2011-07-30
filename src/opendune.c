@@ -2287,36 +2287,21 @@ static bool Unknown_25C4_000E()
 	g_global->variable_7097 = g_global->mouseInstalled == 0 ? 1 : -g_global->mouseInstalled;
 
 	for (i = 1; i < 8; i++) {
-		uint32 size = (g_global->variable_6CD3[i][1] + 15) & 0xFFFFFFF0;
-
-		if ((size & 0xFF000000) != 0) {
-			PrepareEnd();
-			printf("PageArraySize is negative!\r\n");
-
-			Input_WaitForValidInput();
-			exit(5);
-		}
-
-		g_global->variable_6CD3[i][0] = size;
-		g_global->variable_6CD3[i][1] = size;
-
-		totalSize += size;
+		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
 	}
 
 	memBlock = Tools_Malloc(totalSize, 0x30);
 
 	for (i = 1; i < 8; i++) {
-		if (g_global->variable_6CD3[i][0] == 0) continue;
+		if (GFX_Screen_GetSize_ByIndex(i * 2) == 0) continue;
 
 		g_global->variable_6C93[i][0] = memBlock.s.cs;
-		g_global->variable_6C93[i][1] = memBlock.s.cs;
 
-		memBlock.csip += g_global->variable_6CD3[i][0];
+		memBlock.csip += GFX_Screen_GetSize_ByIndex(i * 2);
 		memBlock = Tools_GetSmallestIP(memBlock);
 	}
 
 	g_global->variable_6C93[0][0] = 0xA000;
-	g_global->variable_6C93[0][1] = 0xA000;
 
 	GFX_ClearScreen();
 

@@ -240,7 +240,7 @@ void Video_Tick()
 	}
 
 	{
-		uint8 *data = &emu_get_memory8(0xA000, 0, 0);
+		uint8 *data = GFX_Screen_Get_ByIndex(0);
 		uint8 *gfx  = s_gfx_screen;
 		int x, y;
 
