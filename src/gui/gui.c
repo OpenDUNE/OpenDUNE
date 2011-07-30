@@ -1700,13 +1700,13 @@ uint8 GUI_PickHouse()
 {
 	uint16 oldScreenID;
 	Widget *w = NULL;
-	uint8 loc314[3 * 256]; /* array of 768 bytes, probably a palette */
+	uint8 palette[3 * 256];
 	uint16 i;
 	HouseType houseID;
 
 	houseID = HOUSE_MERCENARY;
 
-	memset(loc314, 0, 768);
+	memset(palette, 0, 256 * 3);
 
 	{
 		csip32 nullcsip;
@@ -1780,7 +1780,7 @@ uint8 GUI_PickHouse()
 			w = next;
 		}
 
-		Unknown_259E_0006(loc314, 15);
+		Unknown_259E_0006(palette, 15);
 
 		if (g_debugSkipDialogs || g_debugScenario) break;
 
@@ -1820,7 +1820,7 @@ uint8 GUI_PickHouse()
 		if (yes_no == 0x8001) {
 			Driver_Music_FadeOut();
 		} else {
-			Unknown_259E_0006(loc314, 15);
+			Unknown_259E_0006(palette, 15);
 		}
 
 		while (w != NULL) {
@@ -1851,7 +1851,7 @@ uint8 GUI_PickHouse()
 
 	GUI_Mouse_Show_Safe();
 
-	Unknown_259E_0006(loc314, 15);
+	Unknown_259E_0006(palette, 15);
 
 	return houseID;
 }
@@ -2800,7 +2800,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 	uint16 oldScreenID = GUI_Screen_SetActive(0);
 	uint8 backup[3];
 
-	memcpy(backup, g_palette1 + 765, 3);
+	memcpy(backup, g_palette1 + 255 * 3, 3);
 
 	g_global->factoryWindowConstructionYard = isConstructionYard;
 	g_factoryWindowStarport = isStarPort;
@@ -2832,7 +2832,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	GUI_FactoryWindow_B495_0F30();
 
-	memcpy(g_palette1 + 765, backup, 3);
+	memcpy(g_palette1 + 255 * 3, backup, 3);
 
 	GFX_SetPalette(g_palette1);
 
@@ -3244,7 +3244,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	uint16 x;
 	uint16 y;
 	uint16 oldScreenID;
-	uint8 loc30A[3 * 256];
+	uint8 palette[3 * 256];
 	uint8 loc316[12];
 
 	if (campaignID == 0) return 1;
@@ -3252,12 +3252,12 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	Timer_Sleep(10);
 	Music_Play(0x1D);
 
-	memset(loc30A, 0, 0x300);
+	memset(palette, 0, 256 * 3);
 
 	previousCampaignID = campaignID - (win ? 1 : 0);
 	oldScreenID = GUI_Screen_SetActive(4);
 
-	Unknown_259E_0006(loc30A, 15);
+	Unknown_259E_0006(palette, 15);
 
 	Mouse_SetRegion(8, 24, 311, 143);
 
@@ -3289,7 +3289,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 			break;
 	}
 
-	memcpy(loc316, g_palette1 + (251 * 3), 12);
+	memcpy(loc316, g_palette1 + 251 * 3, 12);
 	memcpy(g_global->variable_81BA, g_palette1 + (144 + (g_playerHouseID * 16)) * 3, 12);
 	memcpy(g_global->variable_81BA + 12, g_global->variable_81BA, 12);
 
@@ -3395,9 +3395,9 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 
 	Input_History_Clear();
 
-	memcpy(g_palette1 + (251 * 3), loc316, 12);
+	memcpy(g_palette1 + 251 * 3, loc316, 12);
 
-	Unknown_259E_0006(loc30A, 15);
+	Unknown_259E_0006(palette, 15);
 
 	GUI_Mouse_Hide_Safe();
 	GUI_ClearScreen(0);

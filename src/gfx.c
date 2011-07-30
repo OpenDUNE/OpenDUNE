@@ -300,7 +300,7 @@ void GFX_SetPalette(uint8 *palette)
 {
 	Video_SetPalette(palette, 0, 256);
 
-	memcpy(g_paletteActive, palette, 768);
+	memcpy(g_paletteActive, palette, 256 * 3);
 }
 
 /**

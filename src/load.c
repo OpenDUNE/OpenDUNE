@@ -180,6 +180,6 @@ bool LoadFile(char *filename)
 void Load_Palette_Mercenaries()
 {
 	if (g_playerHouseID == HOUSE_MERCENARY) {
-		File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
+		File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 	}
 }

@@ -22,15 +22,15 @@ void Unknown_259E_0006(uint8 *palette, int16 unknown)
 	int16  signed0E;
 	int16  signed10;
 	uint16 loc12;
-	uint8 data[768];
+	uint8 data[256 * 3];
 	int i;
 
 	if (g_paletteActive == NULL || palette == NULL) return;
 
-	memcpy(data, g_paletteActive, 768);
+	memcpy(data, g_paletteActive, 256 * 3);
 
 	signed0E = 0;
-	for (i = 0; i < 0x300; i++) {
+	for (i = 0; i < 256 * 3; i++) {
 		int16 diff = (int16)palette[i] - (int16)data[i];
 		if (diff < 0) diff = -diff;
 		signed0E = max(signed0E, diff);
@@ -56,7 +56,7 @@ void Unknown_259E_0006(uint8 *palette, int16 unknown)
 		loc0C += (uint32)(loc12 >> 8);
 		loc12 &= 0xFF;
 
-		for (i = 0; i < 0x300; i++) {
+		for (i = 0; i < 256 * 3; i++) {
 			int16 locdi = palette[i];
 			int16 signed08 = data[i];
 

@@ -1544,7 +1544,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Sprites_UnloadTiles();
 
-			memmove(g_palette1, g_paletteActive, 768);
+			memmove(g_palette1, g_paletteActive, 256 * 3);
 
 			GUI_ChangeSelectionType(0);
 

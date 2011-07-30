@@ -506,7 +506,7 @@ void GUI_Mentat_Display(const char *wsaFilename, uint8 houseID)
 	oldScreenID = GUI_Screen_SetActive(2);
 
 	if (houseID == HOUSE_MERCENARY) {
-		File_ReadBlockFile("BENE.PAL", g_palette1, 0x300);
+		File_ReadBlockFile("BENE.PAL", g_palette1, 256 * 3);
 	}
 
 	memset(s_mentatSprites, 0, sizeof(s_mentatSprites));

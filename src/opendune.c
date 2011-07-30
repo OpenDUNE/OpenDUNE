@@ -237,9 +237,9 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 
 	GFX_ClearScreen();
 
-	File_ReadBlockFile("INTRO.PAL", g_palette1, 768);
+	File_ReadBlockFile("INTRO.PAL", g_palette1, 256 * 3);
 
-	memcpy(g_palette_998A, g_palette1, 768);
+	memcpy(g_palette_998A, g_palette1, 256 * 3);
 
 	g_fontIntro = Font_LoadFile("INTRO.FNT");
 	Font_Select(g_fontIntro);
@@ -633,13 +633,13 @@ static void GameLoop_PlayAnimation()
 		}
 
 		if ((var805E->flags & 0x10) != 0) {
-			memset(&g_palette_998A[3 * 1], 63, 3 * 255);
+			memset(&g_palette_998A[3 * 1], 63, 256 * 3);
 
 			memcpy(&g_palette_998A[215 * 3], _palettePartCurrent, 18);
 
 			Unknown_259E_0006(g_palette_998A, 15);
 
-			memcpy(g_palette_998A, g_palette1, 3 * 256);
+			memcpy(g_palette_998A, g_palette1, 256 * 3);
 		}
 
 		if ((var805E->flags & 0x8) != 0) {
@@ -738,14 +738,14 @@ static void GameLoop_Uninit()
 		free(w);
 	}
 
-	Tools_Free(emu_Global_GetCSIP(g_palette1));
-	Tools_Free(emu_Global_GetCSIP(g_palette2));
 	Tools_Free(g_global->variable_3C46);
 	Tools_Free(g_global->readBuffer);
 
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
 
+	free(g_palette1);
+	free(g_palette2);
 	free(g_paletteMapping1);
 	free(g_paletteMapping2);
 
@@ -915,7 +915,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 3:
-				GFX_SetPalette(g_palette1 + 0x300 * counter);
+				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter-- == 0) {
 					stage++;
@@ -924,7 +924,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				break;
 
 			case 5:
-				GFX_SetPalette(g_palette1 + 0x300 * counter);
+				GFX_SetPalette(g_palette1 + 256 * 3 * counter);
 
 				if (counter++ >= 8) stage = 0;
 				break;
@@ -977,8 +977,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 static void GameCredits_LoadPaletteAndSprites()
 {
-	uint8 *loc04;
-	uint8 *loc08;
+	uint8 *p;
 	csip32 memBlock;
 	uint32 size;
 	uint16 i;
@@ -995,25 +994,22 @@ static void GameCredits_LoadPaletteAndSprites()
 
 	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
 
-	g_palette1 = emu_get_memorycsip(Screen_GetSegment_ByIndex_1(9)) + 20000;
+	g_palette1 = malloc(256 * 3 * 10);
+	g_palette2 = calloc(1, 256 * 3);
 
-	File_ReadBlockFile("IBM.PAL", g_palette1, 0x300);
+	File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
-	loc08 = g_palette1;
-
+	/* Convert the palette */
+	p = g_palette1;
 	for (i = 0; i < 10; i++) {
-		loc04 = g_palette1;
+		uint8 *pr = g_palette1;
 
-		for (locdi = 0; locdi < 255 * 3; locdi++) *loc08++ = *loc04++ * (9 - i) / 9;
+		for (locdi = 0; locdi < 255 * 3; locdi++) *p++ = *pr++ * (9 - i) / 9;
 
-		*loc08++ = 0x3F;
-		*loc08++ = 0x3F;
-		*loc08++ = 0x3F;
+		*p++ = 0x3F;
+		*p++ = 0x3F;
+		*p++ = 0x3F;
 	}
-
-	g_palette2 = loc08;
-
-	memset(g_palette2, 0, 0x300);
 
 	memBlock = Screen_GetSegment_ByIndex_1(3);
 
@@ -1210,7 +1206,7 @@ static void GameLoop_LevelEnd()
 			GameLoop_LevelEndAnimation();
 			GUI_Mouse_Show_Safe();
 
-			File_ReadBlockFile("IBM.PAL", g_palette1, 768);
+			File_ReadBlockFile("IBM.PAL", g_palette1, 256 * 3);
 
 			g_scenarioID = GUI_StrategicMap_Show(g_campaignID, true);
 
@@ -1265,7 +1261,7 @@ static void Gameloop_Logos()
 	GFX_SetPalette(g_palette2);
 	GFX_ClearScreen();
 
-	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 768);
+	File_ReadBlockFile("WESTWOOD.PAL", g_palette_998A, 256 * 3);
 
 	frame = 0;
 	wsa = WSA_LoadFile("WESTWOOD.WSA", emu_get_memorycsip(Screen_GetSegment_ByIndex_1(3)), g_global->variable_6CD3[1][1] + g_global->variable_6CD3[2][1] + g_global->variable_6CD3[3][0], true);
@@ -1775,8 +1771,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->selectionType = 0x0;
 	g_global->variable_3A10 = 0x0;
 
-	g_palette2 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
-	g_palette1 = emu_get_memorycsip(Tools_Malloc(768, 0x10));
+	g_palette1 = calloc(1, 256 * 3);
+	g_palette2 = calloc(1, 256 * 3);
 
 	g_global->readBufferSize = 0x2EE0;
 	g_global->readBuffer = Tools_Malloc(g_global->readBufferSize, 0x20);
@@ -1786,9 +1782,9 @@ static void GameLoop_GameIntroAnimationMenu()
 	Tools_Free(g_global->readBuffer);
 	g_global->readBuffer.csip = 0x0;
 
-	File_ReadBlockFile("IBM.PAL", g_palette_998A, 768);
+	File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 
-	memmove(g_palette1, g_palette_998A, 3 * 256);
+	memmove(g_palette1, g_palette_998A, 256 * 3);
 
 	GUI_ClearScreen(0);
 
@@ -1879,8 +1875,8 @@ static void GameLoop_GameIntroAnimationMenu()
 
 					Sound_Output_Feedback(0xFFFE);
 
-					File_ReadBlockFile("IBM.PAL", g_palette_998A, 3 * 256);
-					memmove(g_palette1, g_palette_998A, 3 * 256);
+					File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
+					memmove(g_palette1, g_palette_998A, 256 * 3);
 
 					if (g_global->variable_37B4 == 0) {
 						uint8 fileID;
