@@ -86,6 +86,8 @@ static uint8                _palettePartChange[18];   /*!< Amount of change of e
 
 static bool _debugForceWin = false; /*!< When true, you immediately win the level. */
 
+static void *s_spriteBuffer;
+
 /**
  * Check if a level is finished, based on the values in WinFlags.
  *
@@ -738,11 +740,12 @@ static void GameLoop_Uninit()
 		free(w);
 	}
 
-	Tools_Free(g_global->variable_3C46);
 	Tools_Free(g_global->readBuffer);
 
 	Script_ClearInfo(g_scriptStructure);
 	Script_ClearInfo(g_scriptTeam);
+
+	free(s_spriteBuffer);
 
 	free(g_palette1);
 	free(g_palette2);
@@ -990,9 +993,8 @@ static void GameCredits_LoadPaletteAndSprites()
 	g_global->variable_1832 = g_global->variable_182E;
 	g_global->variable_1832.s.ip += size;
 
-	g_global->variable_3C46 = Screen_GetSegment_ByIndex_1(9);
-
-	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
+	s_spriteBuffer = calloc(1, 20000);
+	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
 	g_palette1 = malloc(256 * 3 * 10);
 	g_palette2 = calloc(1, 256 * 3);
@@ -1806,8 +1808,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_paletteMapping2[0xDF] = 0xDF;
 	g_paletteMapping2[0xEF] = 0xEF;
 
-	g_global->variable_3C46 = Tools_Malloc(1500, 0x30);
-	Sprite_SetSpriteBuffer(emu_get_memorycsip(g_global->variable_3C46));
+	s_spriteBuffer = calloc(1, 1500);
+	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
 	g_stringsHint = File_ReadWholeFile_Pure(String_GenerateFilename("MESSAGE"));
 

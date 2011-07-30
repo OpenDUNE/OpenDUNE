@@ -860,7 +860,7 @@ typedef struct GlobalData {
 	/* 3C3A(4)   */ PACK csip32  removed_3C3A;              /*!< REMOVED - Palette mapping. */
 	/* 3C3E(4)   */ PACK csip32  removed_3C3E;              /*!< REMOVED - Palette mapping. */
 	/* 3C42(4)   */ PACK csip32  removed_3C42;              /*!< REMOVED - Pointer to color remap. */
-	/* 3C46(4)   */ PACK csip32 variable_3C46;              /*!< ?? */
+	/* 3C46(4)   */ PACK csip32  removed_3C46;              /*!< REMOVED - Sprite buffer. */
 	/* 3C4A(2)   */ PACK uint16  removed_3C4A;              /*!< REMOVED - mentat interrogation flag */
 	/* 3C4C(256) */ PACK int8    removed_3C4C[256];         /*!< REMOVED - table with X steps */
 	/* 3D4C(256) */ PACK int8    removed_3D4C[256];         /*!< REMOVED - table with Y steps. */
