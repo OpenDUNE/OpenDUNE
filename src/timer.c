@@ -66,9 +66,6 @@ bool Timer_SetTimer(TimerType timer, bool set)
  */
 void Timer_Sleep(uint16 ticks)
 {
-	while (ticks-- > 0) {
-		uint32 tick = g_timerSleep + 1;
-
-		while (tick >= g_timerSleep) sleep(0);
-	}
+	uint32 tick = g_timerSleep + ticks;
+	while (tick >= g_timerSleep) sleep(0);
 }
