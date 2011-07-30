@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "types.h"
 #include "libemu.h"
@@ -63,24 +64,21 @@ void *GFX_Screen_Get_ByIndex(uint16 screenID)
  */
 void GFX_Init()
 {
-	csip32 memBlock;
+	uint8 *screenBuffers;
 	uint32 totalSize = 0;
 	int i;
 
-	for (i = 1; i < 8; i++) {
+	for (i = 0; i < 5; i++) {
 		totalSize += GFX_Screen_GetSize_ByIndex(i * 2);
 	}
 
-	memBlock = Tools_Malloc(totalSize, 0x30);
+	screenBuffers = calloc(1, totalSize);
 
-	for (i = 1; i < 5; i++) {
-		s_screenBuffer[i] = emu_get_memorycsip(memBlock);
+	for (i = 0; i < 5; i++) {
+		s_screenBuffer[i] = screenBuffers;
 
-		memBlock.csip += GFX_Screen_GetSize_ByIndex(i * 2);
-		memBlock = Tools_GetSmallestIP(memBlock);
+		screenBuffers += GFX_Screen_GetSize_ByIndex(i * 2);
 	}
-
-	s_screenBuffer[0] = &emu_get_memory8(0xA000, 0, 0);
 
 	g_screenActiveID = 0;
 }
