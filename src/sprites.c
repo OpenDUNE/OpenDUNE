@@ -228,17 +228,6 @@ static uint32 Sprites_Decode(uint8 *source, uint8 *dest)
 			memmove(dest, source, size);
 			break;
 
-#if 0
-		/* XXX -- In Dune2, this type of sprite was never used, so it is unknown how to decode it. */
-		case 0x3:
-			emu_push(dest_csip.s.cs);
-			emu_push(source_csip.s.cs);
-			/* Unresolved call */ emu_push(emu_cs); emu_push(0x02BB); emu_cs = 0x2BD6; emu_ip = 0x0100; emu_last_cs = 0x253D; emu_last_ip = 0x02B6; emu_last_length = 0x0011; emu_last_crc = 0xFC80; emu_call();
-			emu_sp += 4;
-			size = emu_ax;
-			break;
-#endif
-
 		case 0x4:
 			source += 6;
 			source += *((uint16 *)source);
