@@ -178,7 +178,7 @@ void GFX_PutPixel(uint16 x, uint16 y, uint8 colour)
 	if (y >= SCREEN_HEIGHT) return;
 	if (x >= SCREEN_WIDTH) return;
 
-	emu_get_memory8(GFX_Screen_GetSegment_ByIndex(g_global->screenActiveID), y * SCREEN_WIDTH, x) = colour;
+	*((uint8 *)GFX_Screen_GetActive() + y * SCREEN_WIDTH + x) = colour;
 }
 
 /**
