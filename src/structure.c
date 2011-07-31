@@ -1821,7 +1821,7 @@ void Structure_UpdateMap(Structure *s)
 		} else {
 			uint8 animationID = si->animationIndex[animationIndex];
 
-			assert(animationID < 28);
+			assert(animationID < 29);
 			Animation_Start(g_table_animation_structure[animationID], s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 		}
 	} else {
