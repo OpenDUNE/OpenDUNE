@@ -693,7 +693,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 
 		switch (actionType) {
 			case 3: /* Structure */
-				if (oi->flags.s.factory && !isNotPlayerOwned) {
+				if (oi->flags.factory && !isNotPlayerOwned) {
 					GUI_Widget_MakeVisible(widget28);
 					break;
 				}
@@ -798,7 +798,7 @@ void GUI_Widget_ActionPanel_Draw(bool forceDraw)
 					}
 
 					if (o->type != STRUCTURE_STARPORT) {
-						if (oi->flags.s.factory || (o->type == STRUCTURE_PALACE && s->countDown == 0)) {
+						if (oi->flags.factory || (o->type == STRUCTURE_PALACE && s->countDown == 0)) {
 							GUI_Widget_MakeVisible(widget2C);
 							GUI_Widget_Draw(widget2C);
 						}

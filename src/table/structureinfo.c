@@ -14,7 +14,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Concrete",
 		/* stringID_full        */ 233, /* "Small Concrete Slab" */
 		/* wsa                  */ "slab.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ true,
@@ -30,7 +30,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 20,
 		/* fogUncoverRadius     */ 1,
@@ -81,7 +81,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Concrete4",
 		/* stringID_full        */ 235, /* "Large Concrete Slab" */
 		/* wsa                  */ "4slab.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ true,
@@ -97,7 +97,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 20,
 		/* fogUncoverRadius     */ 1,
@@ -148,7 +148,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Palace",
 		/* stringID_full        */ 237, /* "House Palace" */
 		/* wsa                  */ "palace.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -164,7 +164,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 1000,
 		/* fogUncoverRadius     */ 5,
@@ -215,7 +215,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Light Fctry",
 		/* stringID_full        */ 239, /* "Light Vehicle Factory" */
 		/* wsa                  */ "liteftry.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -231,7 +231,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 350,
 		/* fogUncoverRadius     */ 3,
@@ -282,7 +282,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Heavy Fctry",
 		/* stringID_full        */ 241, /* "Heavy Vehicle Factory" */
 		/* wsa                  */ "hvyftry.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -298,7 +298,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 3,
@@ -349,7 +349,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Hi-Tech",
 		/* stringID_full        */ 243, /* "High-Tech Factory" */
 		/* wsa                  */ "hitcftry.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -365,7 +365,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 400,
 		/* fogUncoverRadius     */ 3,
@@ -416,7 +416,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "IX",
 		/* stringID_full        */ 245, /* "House of IX" */
 		/* wsa                  */ "ix.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -432,7 +432,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 192,
 		/* hitpoints            */ 400,
 		/* fogUncoverRadius     */ 3,
@@ -483,7 +483,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "WOR",
 		/* stringID_full        */ 247, /* "WOR Trooper Facility" */
 		/* wsa                  */ "wor.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -499,7 +499,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 400,
 		/* fogUncoverRadius     */ 3,
@@ -550,7 +550,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Const Yard",
 		/* stringID_full        */ 249, /* "Construction Yard" */
 		/* wsa                  */ "construc.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -566,7 +566,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 400,
 		/* fogUncoverRadius     */ 3,
@@ -617,7 +617,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Windtrap",
 		/* stringID_full        */ 251, /* "Windtrap Power Center" */
 		/* wsa                  */ "windtrap.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -633,7 +633,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 2,
@@ -684,7 +684,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Barracks",
 		/* stringID_full        */ 253, /* "Infantry Barracks" */
 		/* wsa                  */ "barrac.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -700,7 +700,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 300,
 		/* fogUncoverRadius     */ 2,
@@ -751,7 +751,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Starport",
 		/* stringID_full        */ 255, /* "Starport Facility" */
 		/* wsa                  */ "starport.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ true,
 		/* notused_0004         */ false,
@@ -767,7 +767,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 500,
 		/* fogUncoverRadius     */ 6,
@@ -818,7 +818,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Refinery",
 		/* stringID_full        */ 257, /* "Spice Refinery" */
 		/* wsa                  */ "refinery.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -834,7 +834,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 450,
 		/* fogUncoverRadius     */ 4,
@@ -885,7 +885,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Repair",
 		/* stringID_full        */ 259, /* "Repair Facility" */
 		/* wsa                  */ "repair.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -901,7 +901,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 3,
@@ -952,7 +952,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Wall",
 		/* stringID_full        */ 261, /* "Base Defense Wall" */
 		/* wsa                  */ "wall.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ true,
@@ -968,7 +968,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 50,
 		/* fogUncoverRadius     */ 1,
@@ -1019,7 +1019,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Turret",
 		/* stringID_full        */ 263, /* "Cannon Turret" */
 		/* wsa                  */ "turret.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1035,7 +1035,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 2,
@@ -1086,7 +1086,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "R-Turret",
 		/* stringID_full        */ 265, /* "Rocket Turret" */
 		/* wsa                  */ "rturret.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1102,7 +1102,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 5,
@@ -1153,7 +1153,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Spice Silo",
 		/* stringID_full        */ 267, /* "Spice Storage Silo" */
 		/* wsa                  */ "storage.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1169,7 +1169,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 150,
 		/* fogUncoverRadius     */ 2,
@@ -1220,7 +1220,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* name                 */ "Outpost",
 		/* stringID_full        */ 269, /* "Radar Outpost" */
 		/* wsa                  */ "headqrts.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1236,7 +1236,7 @@ StructureInfo g_table_structureInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 500,
 		/* fogUncoverRadius     */ 10,

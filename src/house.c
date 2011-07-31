@@ -395,9 +395,9 @@ bool House_UpdateRadarState(House *h)
 
 	wsa = NULL;
 
-	activate = h->flags.s.radarActivated;
+	activate = h->flags.radarActivated;
 
-	if (h->flags.s.radarActivated) {
+	if (h->flags.radarActivated) {
 		/* Deactivate radar */
 		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) == 0 || h->powerProduction < h->powerUsage) activate = false;
 	} else {
@@ -405,7 +405,7 @@ bool House_UpdateRadarState(House *h)
 		if ((h->structuresBuilt & (1 << STRUCTURE_OUTPOST)) != 0 && h->powerProduction >= h->powerUsage) activate = true;
 	}
 
-	if (h->flags.s.radarActivated == activate) return false;
+	if (h->flags.radarActivated == activate) return false;
 
 	wsa = WSA_LoadFile("STATIC.WSA", GFX_Screen_Get_ByIndex(3), GFX_Screen_GetSize_ByIndex(3), true);
 	frameCount = WSA_GetFrameCount(wsa);
@@ -430,7 +430,7 @@ bool House_UpdateRadarState(House *h)
 		while (g_timerTimeout != 0) sleep(0);
 	}
 
-	h->flags.s.radarActivated = activate;
+	h->flags.radarActivated = activate;
 
 	WSA_Unload(wsa);
 

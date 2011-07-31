@@ -111,7 +111,7 @@ void GameLoop_Structure()
 			}
 
 			/* Check if we have to fire the weapon for the AI immediately */
-			if (s->countDown == 0 && !h->flags.s.human && h->flags.s.variable_0008) {
+			if (s->countDown == 0 && !h->flags.human && h->flags.variable_0008) {
 				Structure_ActivateSpecial(s);
 			}
 		}
@@ -170,7 +170,7 @@ void GameLoop_Structure()
 					s->o.flags.s.repairing = false;
 				}
 			} else {
-				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->o.flags.s.factory) {
+				if (!s->o.flags.s.onHold && s->countDown != 0 && s->o.linkedID != 0xFF && s->animation == 1 && si->o.flags.factory) {
 					ObjectInfo *oi;
 					uint16 buildSpeed;
 					uint16 buildCost;
@@ -306,14 +306,14 @@ void GameLoop_Structure()
 				}
 
 				/* AI maintenance on structures */
-				if (h->flags.s.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_playerHouseID && h->credits != 0) {
+				if (h->flags.variable_0008 && s->o.flags.s.allocated && s->o.houseID != g_playerHouseID && h->credits != 0) {
 					/* When structure is below 50% hitpoints, start repairing */
 					if (s->o.hitpoints < si->o.hitpoints / 2) {
 						Structure_SetRepairingState(s, 1, NULL);
 					}
 
 					/* If the structure is not doing something, but can build stuff, see if there is stuff to build */
-					if (si->o.flags.s.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
+					if (si->o.flags.factory && s->countDown == 0 && s->o.linkedID == 0xFF) {
 						uint16 type = Structure_AI_PickNextToBuild(s);
 
 						if (type != 0xFFFF) Structure_BuildObject(s, type);
@@ -404,7 +404,7 @@ Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 po
 	}
 
 	/* Check if there is an upgrade available */
-	if (si->o.flags.s.factory) {
+	if (si->o.flags.factory) {
 		s->upgradeTimeLeft = Structure_IsUpgradable(s) ? 100 : 0;
 	}
 
@@ -760,7 +760,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 				break;
 			}
 
-			if (si->o.flags.s.variable_0008) {
+			if (si->o.flags.variable_0008) {
 				if (g_global->variable_3A3E[type][8] == 0 && g_global->variable_38BC == 0) {
 					isValid = false;
 					break;
@@ -824,7 +824,7 @@ void Structure_ActivateSpecial(Structure *s)
 	if (s->o.type != STRUCTURE_PALACE) return;
 
 	h = House_Get_ByIndex(s->o.houseID);
-	if (!h->flags.s.used) return;
+	if (!h->flags.used) return;
 
 	switch (g_table_houseInfo[s->o.houseID].specialWeapon) {
 		case HOUSE_WEAPON_MISSLE: {
@@ -843,7 +843,7 @@ void Structure_ActivateSpecial(Structure *s)
 
 			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 
-			if (!h->flags.s.human) {
+			if (!h->flags.human) {
 				PoolFindStruct find;
 
 				find.houseID = HOUSE_INVALID;
@@ -1431,7 +1431,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 	si = &g_table_structureInfo[s->o.type];
 
-	if (!si->o.flags.s.factory) return false;
+	if (!si->o.flags.factory) return false;
 
 	h = House_Get_ByIndex(s->o.houseID);
 
@@ -1935,11 +1935,11 @@ void Structure_HouseUnderAttack(uint8 houseID)
 
 	h = House_Get_ByIndex(houseID);
 
-	if (houseID != g_playerHouseID && h->flags.s.variable_0004) return;
+	if (houseID != g_playerHouseID && h->flags.variable_0004) return;
 
-	h->flags.s.variable_0004 = true;
+	h->flags.variable_0004 = true;
 
-	if (h->flags.s.human) {
+	if (h->flags.human) {
 		if (h->variable_28 != 0) return;
 
 		Sound_Output_Feedback(48);

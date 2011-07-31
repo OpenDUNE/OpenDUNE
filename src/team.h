@@ -27,12 +27,10 @@ typedef enum TeamActionType {
  */
 typedef struct Team {
 	uint16 index;                                           /*!< The index of the Team in the array. */
-	union {
-		struct {
-			BITTYPE used:1;                                 /*!< The Team is in use (no longer free in the pool). */
-			BITTYPE notused_0002:7;                         /*!< Never used - remaining bits. */
-		} s;
-		uint8 all; } flags;                                 /*!< General flags of the Team. */
+	struct {
+		BIT_U8 used:1;                                      /*!< The Team is in use (no longer free in the pool). */
+		BIT_U8 notused_0002:7;                              /*!< Never used - remaining bits. */
+	} flags;                                                /*!< General flags of the Team. */
 	uint16 members;                                         /*!< Amount of members in team. */
 	uint16 variable_06;                                     /*!< ?? */
 	uint16 maxMembers;                                      /*!< Maximum amount of members in team. */

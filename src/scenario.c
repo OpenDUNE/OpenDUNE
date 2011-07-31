@@ -72,7 +72,7 @@ static void Scenario_Load_House(uint8 houseID)
 	/* For 'Brain = Human' we have to set a few additional things */
 	if (*houseType != 'H') return;
 
-	h->flags.s.human = true;
+	h->flags.human = true;
 
 	g_playerHouseID       = houseID;
 	g_playerHouse         = h;
@@ -103,7 +103,7 @@ static void Scenario_Load_Houses()
 		max = 80;
 		while ((h = House_Find(&find)) != NULL) {
 			/* Skip the human controlled house */
-			if (h->flags.s.human) continue;
+			if (h->flags.human) continue;
 			max -= h->unitCountMax;
 		}
 

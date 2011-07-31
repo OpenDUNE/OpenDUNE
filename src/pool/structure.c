@@ -162,7 +162,7 @@ void Structure_Free(Structure *s)
 {
 	int i;
 
-	s->o.flags.all = 0x0000;
+	memset(&s->o.flags, 0, sizeof(s->o.flags));
 
 	Script_Reset(&s->o.script, g_scriptStructure);
 

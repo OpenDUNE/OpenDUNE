@@ -68,7 +68,7 @@ void Object_Script_Variable4_Set(Object *o, uint16 encoded)
 	if (o->flags.s.variable_6_0001) return;
 
 	si = &g_table_structureInfo[o->type];
-	if (!si->o.flags.s.variable_0010) return;
+	if (!si->o.flags.variable_0010) return;
 
 	s = (Structure *)o;
 	if (Structure_GetLinkedUnit(s) != NULL) return;

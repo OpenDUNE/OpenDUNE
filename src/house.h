@@ -37,16 +37,13 @@ typedef enum HouseWeapon {
 typedef struct House {
 	uint8  index;                      /*!< The index of the House in the array. */
 	uint16 variable_02;                /*!< ?? */
-	union {
-	    struct {
-	        BITTYPE used:1;            /*!< The House is in use (no longer free in the pool). */
-	        BITTYPE human:1;           /*!< The House is controlled by a human. */
-	        BITTYPE variable_0004:1;   /*!< ?? */
-	        BITTYPE variable_0008:1;   /*!< ?? */
-	        BITTYPE radarActivated:1;  /*!< The radar is activated. */
-	        BITTYPE unused_0020:3;     /*!< Unused */
-	    } s;
-	    uint8 all;
+	struct {
+		BIT_U8 used:1;                 /*!< The House is in use (no longer free in the pool). */
+		BIT_U8 human:1;                /*!< The House is controlled by a human. */
+		BIT_U8 variable_0004:1;        /*!< ?? */
+		BIT_U8 variable_0008:1;        /*!< ?? */
+		BIT_U8 radarActivated:1;       /*!< The radar is activated. */
+		BIT_U8 unused_0020:3;          /*!< Unused */
 	} flags;                           /*!< General flags of the House. */
 	uint16 unitCount;                  /*!< Amount of units owned by House. */
 	uint16 unitCountMax;               /*!< Maximum amount of units this House is allowed to have. */

@@ -43,7 +43,7 @@ void GameLoop_Team()
 
 		g_scriptCurrentTeam = t;
 
-		if (!h->flags.s.variable_0008) continue;
+		if (!h->flags.variable_0008) continue;
 
 		if (t->script.delay != 0) {
 			t->script.delay--;
@@ -77,7 +77,7 @@ Team *Team_Create(uint8 houseID, uint8 teamActionType, uint8 movementType, uint1
 	t = Team_Allocate(0xFFFF);
 
 	if (t == NULL) return NULL;
-	t->flags.s.used = true;
+	t->flags.used  = true;
 	t->houseID     = houseID;
 	t->variable_0C = teamActionType;
 	t->variable_0E = teamActionType;

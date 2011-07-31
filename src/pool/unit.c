@@ -164,7 +164,7 @@ void Unit_Free(Unit *u)
 {
 	int i;
 
-	u->o.flags.all = 0x0000;
+	memset(&u->o.flags, 0, sizeof(u->o.flags));
 
 	Script_Reset(&u->o.script, g_scriptUnit);
 

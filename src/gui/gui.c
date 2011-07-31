@@ -677,7 +677,7 @@ void GUI_UpdateProductionStringID()
 
 	if (s == NULL) return;
 
-	if (!g_table_structureInfo[s->o.type].o.flags.s.factory) {
+	if (!g_table_structureInfo[s->o.type].o.flags.factory) {
 		if (s->o.type == STRUCTURE_PALACE) g_productionStringID = g_table_houseInfo[s->o.houseID].specialWeapon + 0x29;
 		return;
 	}

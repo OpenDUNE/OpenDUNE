@@ -1948,7 +1948,7 @@ void Map_SelectNext(bool getNext)
 		u = Unit_Find(&find);
 		if (u == NULL) break;
 
-		if (!g_table_unitInfo[u->o.type].o.flags.s.tabSelectable) continue;
+		if (!g_table_unitInfo[u->o.type].o.flags.tabSelectable) continue;
 
 		if (!Map_IsTileVisible(Tile_PackTile(u->o.position))) continue;
 

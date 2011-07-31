@@ -154,7 +154,7 @@ uint16 Script_Unit_Unknown0882(ScriptEngine *script)
 			return ret;
 		}
 
-		if ((s->animation == 0 || (si->o.flags.s.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
+		if ((s->animation == 0 || (si->o.flags.variable_0010 && s->animation == 1)) && s->o.linkedID == 0xFF) {
 			Voice_PlayAtTile(24, u->o.position);
 
 			Unit_EnterStructure(Unit_Get_ByIndex(u->o.linkedID), s);
@@ -577,7 +577,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 	ui = &g_table_unitInfo[u->o.type];
 
-	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].speed != 0) return 0;
+	if (u->o.type != UNIT_SANDWORM && u->orientation[ui->o.flags.hasTurret ? 1 : 0].speed != 0) return 0;
 
 	if (Tools_Index_GetType(target) == IT_TILE && Object_GetByPackedTile(Tools_Index_GetPackedTile(target)) != NULL) Unit_SetTarget(u, target);
 
@@ -593,7 +593,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 
 		orientation = Tile_GetDirection(u->o.position, Tools_Index_GetTile(target));
 
-		diff = abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current - orientation);
+		diff = abs(u->orientation[ui->o.flags.hasTurret ? 1 : 0].current - orientation);
 		if (ui->movementType == MOVEMENT_WINGER) diff /= 8;
 
 		if (diff >= 8) return 0;
@@ -602,7 +602,7 @@ uint16 Script_Unit_Fire(ScriptEngine *script)
 	damage = ui->damage;
 	typeID = ui->bulletType;
 
-	loc1A = ui->flags.s.variable_0400 && u->o.hitpoints > ui->o.hitpoints / 2;
+	loc1A = ui->flags.variable_0400 && u->o.hitpoints > ui->o.hitpoints / 2;
 
 	if ((u->o.type == UNIT_TROOPERS || u->o.type == UNIT_TROOPER) && (int16)distance > 512) typeID = UNIT_MISSILE_TROOPER;
 
@@ -718,7 +718,7 @@ uint16 Script_Unit_Unknown196C(ScriptEngine *script)
 
 	if (ui->movementType != MOVEMENT_WINGER && u->variable_49.tile != 0) return 1;
 
-	locdi = ui->o.flags.s.hasTurret ? 1 : 0;
+	locdi = ui->o.flags.hasTurret ? 1 : 0;
 
 	if (u->orientation[locdi].speed != 0) return 1;
 	current = u->orientation[locdi].current;
@@ -830,7 +830,7 @@ uint16 Script_Unit_Unknown1B45(ScriptEngine *script)
 	orientation = Tile_GetDirection(u->o.position, tile);
 
 	u->targetAttack = target;
-	if (!g_table_unitInfo[u->o.type].o.flags.s.hasTurret) {
+	if (!g_table_unitInfo[u->o.type].o.flags.hasTurret) {
 		u->targetMove = target;
 		Unit_SetOrientation(u, orientation, false, 0);
 	}
@@ -903,7 +903,7 @@ uint16 Script_Unit_Unknown1C6F(ScriptEngine *script)
 
 	u = g_scriptCurrentUnit;
 
-	if (u->variable_49.tile == 0 || g_table_unitInfo[u->o.type].flags.s.variable_8000) {
+	if (u->variable_49.tile == 0 || g_table_unitInfo[u->o.type].flags.variable_8000) {
 		u->variable_49 = Tools_Index_GetTile(encoded);
 	}
 
@@ -944,11 +944,11 @@ uint16 Script_Unit_Unknown1CFE(ScriptEngine *script)
 		case 0x0A: return abs(u->orientation[0].target - u->orientation[0].current);
 		case 0x0B: return u->variable_49.tile == 0 ? 0 : 1;
 		case 0x0C: return u->fireDelay == 0 ? 1 : 0;
-		case 0x0D: return ui->flags.s.variable_0004;
+		case 0x0D: return ui->flags.variable_0004;
 		case 0x0E: return Unit_GetHouseID(u);
 		case 0x0F: return u->o.flags.s.byScenario ? 1 : 0;
-		case 0x10: return u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current;
-		case 0x11: return abs(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].target - u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
+		case 0x10: return u->orientation[ui->o.flags.hasTurret ? 1 : 0].current;
+		case 0x11: return abs(u->orientation[ui->o.flags.hasTurret ? 1 : 0].target - u->orientation[ui->o.flags.hasTurret ? 1 : 0].current);
 		case 0x12: return (ui->movementType & 0x40) == 0 ? 0 : 1;
 		case 0x13: return (u->o.variable_09 & (1 << g_playerHouseID)) == 0 ? 0 : 1;
 		default:   return 0;
@@ -1464,7 +1464,7 @@ uint16 Script_Unit_Unknown246C(ScriptEngine *script)
 	u = g_scriptCurrentUnit;
 
 	if (u->o.script.variables[4] != 0) return u->o.script.variables[4];
-	if (!g_table_unitInfo[u->o.type].o.flags.s.variable_0100 || u->deviated != 0) return 0;
+	if (!g_table_unitInfo[u->o.type].o.flags.variable_0100 || u->deviated != 0) return 0;
 
 	encoded = Tools_Index_Encode(u->o.index, IT_UNIT);
 

@@ -1219,7 +1219,7 @@ static void GameLoop_LevelEnd()
 			g_scenarioID = GUI_StrategicMap_Show(g_campaignID, false);
 		}
 
-		g_playerHouse->flags.s.variable_0004 = false;
+		g_playerHouse->flags.variable_0004 = false;
 
 		Sprites_Load(0, g_sprites);
 

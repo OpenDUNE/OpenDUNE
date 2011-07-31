@@ -77,7 +77,7 @@ void Team_Recount()
 
 	for (index = 0; index < TEAM_INDEX_MAX; index++) {
 		Team *t = Team_Get_ByIndex(index);
-		if (!t->flags.s.used) continue;
+		if (!t->flags.used) continue;
 
 		g_teamFindArray[g_teamFindCount++] = t;
 	}
@@ -97,19 +97,19 @@ Team *Team_Allocate(uint16 index)
 		/* Find the first unused index */
 		for (index = 0; index < TEAM_INDEX_MAX; index++) {
 			t = Team_Get_ByIndex(index);
-			if (!t->flags.s.used) break;
+			if (!t->flags.used) break;
 		}
 		if (index == TEAM_INDEX_MAX) return NULL;
 	} else {
 		t = Team_Get_ByIndex(index);
-		if (t->flags.s.used) return NULL;
+		if (t->flags.used) return NULL;
 	}
 	assert(t != NULL);
 
 	/* Initialize the Team */
 	memset(t, 0, sizeof(Team));
-	t->index        = index;
-	t->flags.s.used = true;
+	t->index      = index;
+	t->flags.used = true;
 
 	g_teamFindArray[g_teamFindCount++] = t;
 
@@ -125,7 +125,7 @@ void Team_Free(Team *t)
 {
 	int i;
 
-	t->flags.all = 0x0000;
+	memset(&t->flags, 0, sizeof(t->flags));
 
 	/* Walk the array to find the Team we are removing */
 	for (i = 0; i < g_teamFindCount; i++) {

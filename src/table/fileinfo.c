@@ -15,7 +15,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -24,7 +24,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 1 */
@@ -34,7 +34,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -43,7 +43,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 2 */
@@ -53,7 +53,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -62,7 +62,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 3 */
@@ -72,7 +72,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -81,7 +81,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 4 */
@@ -91,7 +91,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -100,7 +100,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 5 */
@@ -110,7 +110,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -119,7 +119,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 6 */
@@ -129,7 +129,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -138,7 +138,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 7 */
@@ -148,7 +148,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -157,7 +157,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 8 */
@@ -167,7 +167,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -176,7 +176,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 9 */
@@ -186,7 +186,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -195,7 +195,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 10 */
@@ -205,7 +205,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -214,7 +214,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 11 */
@@ -224,7 +224,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -233,7 +233,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 12 */
@@ -243,7 +243,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -252,7 +252,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 13 */
@@ -262,7 +262,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -271,7 +271,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 14 */
@@ -281,7 +281,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -290,7 +290,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 15 */
@@ -300,7 +300,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -309,7 +309,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 16 */
@@ -319,7 +319,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -328,7 +328,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 17 */
@@ -338,7 +338,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -347,7 +347,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 18 */
@@ -357,7 +357,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -366,7 +366,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 19 */
@@ -376,7 +376,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -385,7 +385,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 20 */
@@ -395,7 +395,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -404,7 +404,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 21 */
@@ -414,7 +414,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -423,7 +423,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 22 */
@@ -433,7 +433,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -442,7 +442,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 23 */
@@ -452,7 +452,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -461,7 +461,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 24 */
@@ -471,7 +471,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -480,7 +480,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 25 */
@@ -490,7 +490,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -499,7 +499,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 26 */
@@ -509,7 +509,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -518,7 +518,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 27 */
@@ -528,7 +528,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -537,7 +537,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 28 */
@@ -547,7 +547,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -556,7 +556,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 29 */
@@ -566,7 +566,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -575,7 +575,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 30 */
@@ -585,7 +585,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -594,7 +594,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 31 */
@@ -604,7 +604,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -613,7 +613,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 32 */
@@ -623,7 +623,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -632,7 +632,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 33 */
@@ -642,7 +642,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -651,7 +651,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 34 */
@@ -661,7 +661,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -670,7 +670,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 35 */
@@ -680,7 +680,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -689,7 +689,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 36 */
@@ -699,7 +699,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -708,7 +708,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 37 */
@@ -718,7 +718,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -727,7 +727,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 38 */
@@ -737,7 +737,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -746,7 +746,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 39 */
@@ -756,7 +756,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -765,7 +765,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 40 */
@@ -775,7 +775,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -784,7 +784,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 41 */
@@ -794,7 +794,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -803,7 +803,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 42 */
@@ -813,7 +813,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -822,7 +822,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 43 */
@@ -832,7 +832,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -841,7 +841,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 44 */
@@ -851,7 +851,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -860,7 +860,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 45 */
@@ -870,7 +870,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -879,7 +879,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 46 */
@@ -889,7 +889,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -898,7 +898,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 47 */
@@ -908,7 +908,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -917,7 +917,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 48 */
@@ -927,7 +927,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -936,7 +936,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 49 */
@@ -946,7 +946,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -955,7 +955,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 50 */
@@ -965,7 +965,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -974,7 +974,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 51 */
@@ -984,7 +984,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -993,7 +993,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 52 */
@@ -1003,7 +1003,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1012,7 +1012,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 53 */
@@ -1022,7 +1022,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1031,7 +1031,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 54 */
@@ -1041,7 +1041,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1050,7 +1050,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 55 */
@@ -1060,7 +1060,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 0,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1069,7 +1069,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 56 */
@@ -1079,7 +1079,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1088,7 +1088,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 57 */
@@ -1098,7 +1098,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1107,7 +1107,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 58 */
@@ -1117,7 +1117,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1126,7 +1126,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 59 */
@@ -1136,7 +1136,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1145,7 +1145,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 60 */
@@ -1155,7 +1155,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1164,7 +1164,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 61 */
@@ -1174,7 +1174,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1183,7 +1183,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 62 */
@@ -1193,7 +1193,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1202,7 +1202,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 63 */
@@ -1212,7 +1212,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1221,7 +1221,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 64 */
@@ -1231,7 +1231,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1240,7 +1240,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 65 */
@@ -1250,7 +1250,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1259,7 +1259,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 66 */
@@ -1269,7 +1269,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1278,7 +1278,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 67 */
@@ -1288,7 +1288,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1297,7 +1297,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 68 */
@@ -1307,7 +1307,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1316,7 +1316,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 69 */
@@ -1326,7 +1326,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1335,7 +1335,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 70 */
@@ -1345,7 +1345,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1354,7 +1354,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 71 */
@@ -1364,7 +1364,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1373,7 +1373,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 72 */
@@ -1383,7 +1383,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1392,7 +1392,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 73 */
@@ -1402,7 +1402,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1411,7 +1411,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 74 */
@@ -1421,7 +1421,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 2,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1430,7 +1430,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 75 */
@@ -1440,7 +1440,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1449,7 +1449,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 76 */
@@ -1459,7 +1459,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1468,7 +1468,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 77 */
@@ -1478,7 +1478,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1487,7 +1487,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 78 */
@@ -1497,7 +1497,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1506,7 +1506,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 79 */
@@ -1516,7 +1516,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1525,7 +1525,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 80 */
@@ -1535,7 +1535,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1544,7 +1544,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 81 */
@@ -1554,7 +1554,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1563,7 +1563,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 82 */
@@ -1573,7 +1573,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1582,7 +1582,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 83 */
@@ -1592,7 +1592,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1601,7 +1601,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 84 */
@@ -1611,7 +1611,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1620,7 +1620,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 85 */
@@ -1630,7 +1630,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1639,7 +1639,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 86 */
@@ -1649,7 +1649,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1658,7 +1658,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 87 */
@@ -1668,7 +1668,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1677,7 +1677,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 88 */
@@ -1687,7 +1687,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1696,7 +1696,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 89 */
@@ -1706,7 +1706,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1715,7 +1715,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 90 */
@@ -1725,7 +1725,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1734,7 +1734,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 91 */
@@ -1744,7 +1744,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1753,7 +1753,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 92 */
@@ -1763,7 +1763,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1772,7 +1772,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 93 */
@@ -1782,7 +1782,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1791,7 +1791,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 94 */
@@ -1801,7 +1801,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1810,7 +1810,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 95 */
@@ -1820,7 +1820,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1829,7 +1829,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 96 */
@@ -1839,7 +1839,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1848,7 +1848,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 97 */
@@ -1858,7 +1858,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1867,7 +1867,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 98 */
@@ -1877,7 +1877,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1886,7 +1886,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 99 */
@@ -1896,7 +1896,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1905,7 +1905,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 100 */
@@ -1915,7 +1915,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1924,7 +1924,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 101 */
@@ -1934,7 +1934,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1943,7 +1943,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 102 */
@@ -1953,7 +1953,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1962,7 +1962,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 103 */
@@ -1972,7 +1972,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -1981,7 +1981,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 104 */
@@ -1991,7 +1991,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2000,7 +2000,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 105 */
@@ -2010,7 +2010,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2019,7 +2019,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 106 */
@@ -2029,7 +2029,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2038,7 +2038,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 107 */
@@ -2048,7 +2048,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2057,7 +2057,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 108 */
@@ -2067,7 +2067,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2076,7 +2076,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 109 */
@@ -2086,7 +2086,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2095,7 +2095,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 110 */
@@ -2105,7 +2105,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2114,7 +2114,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 111 */
@@ -2124,7 +2124,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2133,7 +2133,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 112 */
@@ -2143,7 +2143,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2152,7 +2152,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 113 */
@@ -2162,7 +2162,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2171,7 +2171,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 114 */
@@ -2181,7 +2181,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2190,7 +2190,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 115 */
@@ -2200,7 +2200,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2209,7 +2209,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 116 */
@@ -2219,7 +2219,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2228,7 +2228,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 117 */
@@ -2238,7 +2238,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 1,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2247,7 +2247,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 118 */
@@ -2257,7 +2257,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2266,7 +2266,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 119 */
@@ -2276,7 +2276,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2285,7 +2285,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 120 */
@@ -2295,7 +2295,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2304,7 +2304,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 121 */
@@ -2314,7 +2314,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2323,7 +2323,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 122 */
@@ -2333,7 +2333,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2342,7 +2342,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 123 */
@@ -2352,7 +2352,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2361,7 +2361,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 124 */
@@ -2371,7 +2371,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2380,7 +2380,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 125 */
@@ -2390,7 +2390,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2399,7 +2399,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 126 */
@@ -2409,7 +2409,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2418,7 +2418,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 127 */
@@ -2428,7 +2428,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2437,7 +2437,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 128 */
@@ -2447,7 +2447,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2456,7 +2456,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 129 */
@@ -2466,7 +2466,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2475,7 +2475,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 130 */
@@ -2485,7 +2485,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2494,7 +2494,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 131 */
@@ -2504,7 +2504,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2513,7 +2513,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 132 */
@@ -2523,7 +2523,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2532,7 +2532,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 133 */
@@ -2542,7 +2542,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2551,7 +2551,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 134 */
@@ -2561,7 +2561,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2570,7 +2570,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 135 */
@@ -2580,7 +2580,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2589,7 +2589,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 136 */
@@ -2599,7 +2599,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2608,7 +2608,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 137 */
@@ -2618,7 +2618,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2627,7 +2627,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 138 */
@@ -2637,7 +2637,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2646,7 +2646,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 139 */
@@ -2656,7 +2656,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2665,7 +2665,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 140 */
@@ -2675,7 +2675,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2684,7 +2684,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 141 */
@@ -2694,7 +2694,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2703,7 +2703,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 142 */
@@ -2713,7 +2713,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2722,7 +2722,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 143 */
@@ -2732,7 +2732,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2741,7 +2741,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 144 */
@@ -2751,7 +2751,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2760,7 +2760,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 145 */
@@ -2770,7 +2770,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2779,7 +2779,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 146 */
@@ -2789,7 +2789,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2798,7 +2798,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 147 */
@@ -2808,7 +2808,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2817,7 +2817,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 148 */
@@ -2827,7 +2827,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2836,7 +2836,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 149 */
@@ -2846,7 +2846,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2855,7 +2855,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 150 */
@@ -2865,7 +2865,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2874,7 +2874,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 151 */
@@ -2884,7 +2884,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2893,7 +2893,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 152 */
@@ -2903,7 +2903,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2912,7 +2912,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 153 */
@@ -2922,7 +2922,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2931,7 +2931,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 154 */
@@ -2941,7 +2941,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2950,7 +2950,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 155 */
@@ -2960,7 +2960,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2969,7 +2969,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 156 */
@@ -2979,7 +2979,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -2988,7 +2988,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 157 */
@@ -2998,7 +2998,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3007,7 +3007,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 158 */
@@ -3017,7 +3017,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3026,7 +3026,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 159 */
@@ -3036,7 +3036,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3045,7 +3045,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 160 */
@@ -3055,7 +3055,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3064,7 +3064,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 161 */
@@ -3074,7 +3074,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3083,7 +3083,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 162 */
@@ -3093,7 +3093,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3102,7 +3102,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 163 */
@@ -3112,7 +3112,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3121,7 +3121,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 164 */
@@ -3131,7 +3131,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3140,7 +3140,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 165 */
@@ -3150,7 +3150,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3159,7 +3159,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 166 */
@@ -3169,7 +3169,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3178,7 +3178,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 167 */
@@ -3188,7 +3188,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3197,7 +3197,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 168 */
@@ -3207,7 +3207,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3216,7 +3216,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 169 */
@@ -3226,7 +3226,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3235,7 +3235,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 170 */
@@ -3245,7 +3245,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3254,7 +3254,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 171 */
@@ -3264,7 +3264,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3273,7 +3273,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 172 */
@@ -3283,7 +3283,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3292,7 +3292,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 173 */
@@ -3302,7 +3302,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3311,7 +3311,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 174 */
@@ -3321,7 +3321,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3330,7 +3330,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 175 */
@@ -3340,7 +3340,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3349,7 +3349,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 176 */
@@ -3359,7 +3359,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3368,7 +3368,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 177 */
@@ -3378,7 +3378,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3387,7 +3387,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 178 */
@@ -3397,7 +3397,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3406,7 +3406,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 179 */
@@ -3416,7 +3416,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3425,7 +3425,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 180 */
@@ -3435,7 +3435,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3444,7 +3444,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 181 */
@@ -3454,7 +3454,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3463,7 +3463,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 182 */
@@ -3473,7 +3473,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3482,7 +3482,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 183 */
@@ -3492,7 +3492,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3501,7 +3501,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 184 */
@@ -3511,7 +3511,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3520,7 +3520,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 185 */
@@ -3530,7 +3530,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3539,7 +3539,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 186 */
@@ -3549,7 +3549,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3558,7 +3558,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 187 */
@@ -3568,7 +3568,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3577,7 +3577,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 188 */
@@ -3587,7 +3587,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3596,7 +3596,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 189 */
@@ -3606,7 +3606,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3615,7 +3615,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 190 */
@@ -3625,7 +3625,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3634,7 +3634,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 191 */
@@ -3644,7 +3644,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3653,7 +3653,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 192 */
@@ -3663,7 +3663,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3672,7 +3672,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 193 */
@@ -3682,7 +3682,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3691,7 +3691,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 194 */
@@ -3701,7 +3701,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3710,7 +3710,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 195 */
@@ -3720,7 +3720,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3729,7 +3729,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 196 */
@@ -3739,7 +3739,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3748,7 +3748,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 197 */
@@ -3758,7 +3758,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3767,7 +3767,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 198 */
@@ -3777,7 +3777,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3786,7 +3786,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 199 */
@@ -3796,7 +3796,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3805,7 +3805,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 200 */
@@ -3815,7 +3815,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3824,7 +3824,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 201 */
@@ -3834,7 +3834,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3843,7 +3843,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 202 */
@@ -3853,7 +3853,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3862,7 +3862,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 203 */
@@ -3872,7 +3872,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3881,7 +3881,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 204 */
@@ -3891,7 +3891,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3900,7 +3900,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 205 */
@@ -3910,7 +3910,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3919,7 +3919,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 206 */
@@ -3929,7 +3929,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3938,7 +3938,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 207 */
@@ -3948,7 +3948,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3957,7 +3957,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 208 */
@@ -3967,7 +3967,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3976,7 +3976,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 209 */
@@ -3986,7 +3986,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -3995,7 +3995,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 210 */
@@ -4005,7 +4005,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4014,7 +4014,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 211 */
@@ -4024,7 +4024,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4033,7 +4033,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 212 */
@@ -4043,7 +4043,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4052,7 +4052,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 213 */
@@ -4062,7 +4062,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4071,7 +4071,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 214 */
@@ -4081,7 +4081,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4090,7 +4090,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 215 */
@@ -4100,7 +4100,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4109,7 +4109,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 216 */
@@ -4119,7 +4119,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4128,7 +4128,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 217 */
@@ -4138,7 +4138,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4147,7 +4147,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 218 */
@@ -4157,7 +4157,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4166,7 +4166,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 219 */
@@ -4176,7 +4176,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4185,7 +4185,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 220 */
@@ -4195,7 +4195,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4204,7 +4204,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 221 */
@@ -4214,7 +4214,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4223,7 +4223,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 222 */
@@ -4233,7 +4233,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4242,7 +4242,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 223 */
@@ -4252,7 +4252,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4261,7 +4261,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 224 */
@@ -4271,7 +4271,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4280,7 +4280,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 225 */
@@ -4290,7 +4290,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4299,7 +4299,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 226 */
@@ -4309,7 +4309,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4318,7 +4318,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 227 */
@@ -4328,7 +4328,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4337,7 +4337,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 228 */
@@ -4347,7 +4347,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4356,7 +4356,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 229 */
@@ -4366,7 +4366,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4375,7 +4375,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 230 */
@@ -4385,7 +4385,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4394,7 +4394,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 231 */
@@ -4404,7 +4404,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4413,7 +4413,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 232 */
@@ -4423,7 +4423,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 3,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4432,7 +4432,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 233 */
@@ -4442,7 +4442,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4451,7 +4451,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 234 */
@@ -4461,7 +4461,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4470,7 +4470,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 235 */
@@ -4480,7 +4480,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4489,7 +4489,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 236 */
@@ -4499,7 +4499,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4508,7 +4508,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 237 */
@@ -4518,7 +4518,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4527,7 +4527,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 238 */
@@ -4537,7 +4537,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4546,7 +4546,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 239 */
@@ -4556,7 +4556,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4565,7 +4565,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 240 */
@@ -4575,7 +4575,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4584,7 +4584,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 241 */
@@ -4594,7 +4594,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4603,7 +4603,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 242 */
@@ -4613,7 +4613,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4622,7 +4622,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 243 */
@@ -4632,7 +4632,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4641,7 +4641,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 244 */
@@ -4651,7 +4651,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4660,7 +4660,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 245 */
@@ -4670,7 +4670,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4679,7 +4679,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 246 */
@@ -4689,7 +4689,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4698,7 +4698,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 247 */
@@ -4708,7 +4708,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4717,7 +4717,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 248 */
@@ -4727,7 +4727,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4736,7 +4736,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 249 */
@@ -4746,7 +4746,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4755,7 +4755,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 250 */
@@ -4765,7 +4765,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4774,7 +4774,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 251 */
@@ -4784,7 +4784,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4793,7 +4793,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 252 */
@@ -4803,7 +4803,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4812,7 +4812,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 253 */
@@ -4822,7 +4822,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4831,7 +4831,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 254 */
@@ -4841,7 +4841,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4850,7 +4850,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 255 */
@@ -4860,7 +4860,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4869,7 +4869,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 256 */
@@ -4879,7 +4879,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4888,7 +4888,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 257 */
@@ -4898,7 +4898,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4907,7 +4907,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 258 */
@@ -4917,7 +4917,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4926,7 +4926,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 259 */
@@ -4936,7 +4936,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4945,7 +4945,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 260 */
@@ -4955,7 +4955,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4964,7 +4964,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 261 */
@@ -4974,7 +4974,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -4983,7 +4983,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 262 */
@@ -4993,7 +4993,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5002,7 +5002,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 263 */
@@ -5012,7 +5012,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 4,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5021,7 +5021,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 264 */
@@ -5031,7 +5031,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5040,7 +5040,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 265 */
@@ -5050,7 +5050,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5059,7 +5059,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 266 */
@@ -5069,7 +5069,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5078,7 +5078,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 267 */
@@ -5088,7 +5088,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5097,7 +5097,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 268 */
@@ -5107,7 +5107,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5116,7 +5116,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 269 */
@@ -5126,7 +5126,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5135,7 +5135,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 270 */
@@ -5145,7 +5145,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5154,7 +5154,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 271 */
@@ -5164,7 +5164,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5173,7 +5173,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 272 */
@@ -5183,7 +5183,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5192,7 +5192,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 273 */
@@ -5202,7 +5202,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5211,7 +5211,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 274 */
@@ -5221,7 +5221,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5230,7 +5230,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 275 */
@@ -5240,7 +5240,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5249,7 +5249,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 276 */
@@ -5259,7 +5259,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5268,7 +5268,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 277 */
@@ -5278,7 +5278,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5287,7 +5287,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 278 */
@@ -5297,7 +5297,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5306,7 +5306,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 279 */
@@ -5316,7 +5316,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5325,7 +5325,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 280 */
@@ -5335,7 +5335,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5344,7 +5344,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 281 */
@@ -5354,7 +5354,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5363,7 +5363,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 282 */
@@ -5373,7 +5373,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5382,7 +5382,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 283 */
@@ -5392,7 +5392,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5401,7 +5401,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 284 */
@@ -5411,7 +5411,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5420,7 +5420,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 285 */
@@ -5430,7 +5430,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5439,7 +5439,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 286 */
@@ -5449,7 +5449,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5458,7 +5458,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 287 */
@@ -5468,7 +5468,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5477,7 +5477,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 288 */
@@ -5487,7 +5487,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5496,7 +5496,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 289 */
@@ -5506,7 +5506,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5515,7 +5515,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 290 */
@@ -5525,7 +5525,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5534,7 +5534,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 291 */
@@ -5544,7 +5544,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5553,7 +5553,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 292 */
@@ -5563,7 +5563,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5572,7 +5572,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 293 */
@@ -5582,7 +5582,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5591,7 +5591,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 294 */
@@ -5601,7 +5601,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5610,7 +5610,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 295 */
@@ -5620,7 +5620,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5629,7 +5629,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 296 */
@@ -5639,7 +5639,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5648,7 +5648,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 297 */
@@ -5658,7 +5658,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5667,7 +5667,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 298 */
@@ -5677,7 +5677,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5686,7 +5686,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 299 */
@@ -5696,7 +5696,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5705,7 +5705,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 300 */
@@ -5715,7 +5715,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5724,7 +5724,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 301 */
@@ -5734,7 +5734,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5743,7 +5743,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 302 */
@@ -5753,7 +5753,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5762,7 +5762,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 303 */
@@ -5772,7 +5772,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5781,7 +5781,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 304 */
@@ -5791,7 +5791,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 9,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5800,7 +5800,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 305 */
@@ -5810,7 +5810,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5819,7 +5819,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 306 */
@@ -5829,7 +5829,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5838,7 +5838,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 307 */
@@ -5848,7 +5848,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5857,7 +5857,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 308 */
@@ -5867,7 +5867,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5876,7 +5876,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 309 */
@@ -5886,7 +5886,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5895,7 +5895,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 310 */
@@ -5905,7 +5905,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5914,7 +5914,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 311 */
@@ -5924,7 +5924,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5933,7 +5933,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 312 */
@@ -5943,7 +5943,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5952,7 +5952,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 313 */
@@ -5962,7 +5962,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5971,7 +5971,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 314 */
@@ -5981,7 +5981,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -5990,7 +5990,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 315 */
@@ -6000,7 +6000,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6009,7 +6009,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 316 */
@@ -6019,7 +6019,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6028,7 +6028,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 317 */
@@ -6038,7 +6038,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6047,7 +6047,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 318 */
@@ -6057,7 +6057,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6066,7 +6066,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 319 */
@@ -6076,7 +6076,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6085,7 +6085,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 320 */
@@ -6095,7 +6095,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6104,7 +6104,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 321 */
@@ -6114,7 +6114,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6123,7 +6123,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 322 */
@@ -6133,7 +6133,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6142,7 +6142,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 323 */
@@ -6152,7 +6152,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6161,7 +6161,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 324 */
@@ -6171,7 +6171,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6180,7 +6180,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 325 */
@@ -6190,7 +6190,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6199,7 +6199,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 326 */
@@ -6209,7 +6209,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6218,7 +6218,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 327 */
@@ -6228,7 +6228,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6237,7 +6237,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 328 */
@@ -6247,7 +6247,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6256,7 +6256,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 329 */
@@ -6266,7 +6266,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6275,7 +6275,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 330 */
@@ -6285,7 +6285,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6294,7 +6294,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 331 */
@@ -6304,7 +6304,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6313,7 +6313,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 332 */
@@ -6323,7 +6323,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6332,7 +6332,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 333 */
@@ -6342,7 +6342,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6351,7 +6351,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 334 */
@@ -6361,7 +6361,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6370,7 +6370,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 335 */
@@ -6380,7 +6380,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6389,7 +6389,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 336 */
@@ -6399,7 +6399,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6408,7 +6408,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 337 */
@@ -6418,7 +6418,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6427,7 +6427,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 338 */
@@ -6437,7 +6437,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6446,7 +6446,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 339 */
@@ -6456,7 +6456,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6465,7 +6465,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 340 */
@@ -6475,7 +6475,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6484,7 +6484,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 341 */
@@ -6494,7 +6494,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6503,7 +6503,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 342 */
@@ -6513,7 +6513,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6522,7 +6522,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 343 */
@@ -6532,7 +6532,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6541,7 +6541,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 344 */
@@ -6551,7 +6551,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6560,7 +6560,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 345 */
@@ -6570,7 +6570,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6579,7 +6579,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 346 */
@@ -6589,7 +6589,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 10,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6598,7 +6598,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 347 */
@@ -6608,7 +6608,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6617,7 +6617,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 348 */
@@ -6627,7 +6627,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6636,7 +6636,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 349 */
@@ -6646,7 +6646,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6655,7 +6655,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 350 */
@@ -6665,7 +6665,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6674,7 +6674,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 351 */
@@ -6684,7 +6684,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6693,7 +6693,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 352 */
@@ -6703,7 +6703,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6712,7 +6712,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 353 */
@@ -6722,7 +6722,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6731,7 +6731,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 354 */
@@ -6741,7 +6741,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6750,7 +6750,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 355 */
@@ -6760,7 +6760,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6769,7 +6769,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 356 */
@@ -6779,7 +6779,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6788,7 +6788,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 357 */
@@ -6798,7 +6798,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6807,7 +6807,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 358 */
@@ -6817,7 +6817,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6826,7 +6826,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 359 */
@@ -6836,7 +6836,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6845,7 +6845,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 360 */
@@ -6855,7 +6855,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6864,7 +6864,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 361 */
@@ -6874,7 +6874,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6883,7 +6883,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 362 */
@@ -6893,7 +6893,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6902,7 +6902,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 363 */
@@ -6912,7 +6912,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6921,7 +6921,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 364 */
@@ -6931,7 +6931,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6940,7 +6940,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 365 */
@@ -6950,7 +6950,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6959,7 +6959,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 366 */
@@ -6969,7 +6969,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6978,7 +6978,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 367 */
@@ -6988,7 +6988,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -6997,7 +6997,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 368 */
@@ -7007,7 +7007,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7016,7 +7016,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 369 */
@@ -7026,7 +7026,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7035,7 +7035,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 370 */
@@ -7045,7 +7045,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7054,7 +7054,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 371 */
@@ -7064,7 +7064,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7073,7 +7073,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 372 */
@@ -7083,7 +7083,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7092,7 +7092,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 373 */
@@ -7102,7 +7102,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7111,7 +7111,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 374 */
@@ -7121,7 +7121,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7130,7 +7130,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 375 */
@@ -7140,7 +7140,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7149,7 +7149,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 376 */
@@ -7159,7 +7159,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7168,7 +7168,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 377 */
@@ -7178,7 +7178,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7187,7 +7187,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 378 */
@@ -7197,7 +7197,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7206,7 +7206,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 379 */
@@ -7216,7 +7216,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7225,7 +7225,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 380 */
@@ -7235,7 +7235,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7244,7 +7244,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 381 */
@@ -7254,7 +7254,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7263,7 +7263,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 382 */
@@ -7273,7 +7273,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7282,7 +7282,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 383 */
@@ -7292,7 +7292,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7301,7 +7301,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 384 */
@@ -7311,7 +7311,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7320,7 +7320,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 385 */
@@ -7330,7 +7330,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7339,7 +7339,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 386 */
@@ -7349,7 +7349,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7358,7 +7358,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 387 */
@@ -7368,7 +7368,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 11,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7377,7 +7377,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 388 */
@@ -7387,7 +7387,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 12,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7396,7 +7396,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 389 */
@@ -7406,7 +7406,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 12,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7415,7 +7415,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 390 */
@@ -7425,7 +7425,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 12,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7434,7 +7434,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 391 */
@@ -7444,7 +7444,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 12,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7453,7 +7453,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 392 */
@@ -7463,7 +7463,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 12,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7472,7 +7472,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 393 */
@@ -7482,7 +7482,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7491,7 +7491,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 394 */
@@ -7501,7 +7501,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7510,7 +7510,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 395 */
@@ -7520,7 +7520,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7529,7 +7529,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 396 */
@@ -7539,7 +7539,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7548,7 +7548,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 397 */
@@ -7558,7 +7558,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7567,7 +7567,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 398 */
@@ -7577,7 +7577,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7586,7 +7586,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 399 */
@@ -7596,7 +7596,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7605,7 +7605,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 400 */
@@ -7615,7 +7615,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7624,7 +7624,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 401 */
@@ -7634,7 +7634,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7643,7 +7643,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 402 */
@@ -7653,7 +7653,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7662,7 +7662,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 403 */
@@ -7672,7 +7672,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7681,7 +7681,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 404 */
@@ -7691,7 +7691,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7700,7 +7700,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 405 */
@@ -7710,7 +7710,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7719,7 +7719,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 406 */
@@ -7729,7 +7729,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7738,7 +7738,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 407 */
@@ -7748,7 +7748,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7757,7 +7757,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 408 */
@@ -7767,7 +7767,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7776,7 +7776,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 409 */
@@ -7786,7 +7786,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7795,7 +7795,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 410 */
@@ -7805,7 +7805,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7814,7 +7814,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 411 */
@@ -7824,7 +7824,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7833,7 +7833,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 412 */
@@ -7843,7 +7843,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7852,7 +7852,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 413 */
@@ -7862,7 +7862,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7871,7 +7871,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 414 */
@@ -7881,7 +7881,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7890,7 +7890,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 415 */
@@ -7900,7 +7900,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7909,7 +7909,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 416 */
@@ -7919,7 +7919,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7928,7 +7928,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 417 */
@@ -7938,7 +7938,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7947,7 +7947,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 418 */
@@ -7957,7 +7957,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7966,7 +7966,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 419 */
@@ -7976,7 +7976,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -7985,7 +7985,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 420 */
@@ -7995,7 +7995,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8004,7 +8004,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 421 */
@@ -8014,7 +8014,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8023,7 +8023,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 422 */
@@ -8033,7 +8033,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8042,7 +8042,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 423 */
@@ -8052,7 +8052,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8061,7 +8061,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 424 */
@@ -8071,7 +8071,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8080,7 +8080,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 425 */
@@ -8090,7 +8090,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8099,7 +8099,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 426 */
@@ -8109,7 +8109,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8118,7 +8118,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 427 */
@@ -8128,7 +8128,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8137,7 +8137,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 428 */
@@ -8147,7 +8147,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8156,7 +8156,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 429 */
@@ -8166,7 +8166,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8175,7 +8175,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 430 */
@@ -8185,7 +8185,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8194,7 +8194,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 431 */
@@ -8204,7 +8204,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8213,7 +8213,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 432 */
@@ -8223,7 +8223,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8232,7 +8232,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 433 */
@@ -8242,7 +8242,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8251,7 +8251,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 434 */
@@ -8261,7 +8261,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8270,7 +8270,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 435 */
@@ -8280,7 +8280,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8289,7 +8289,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 436 */
@@ -8299,7 +8299,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8308,7 +8308,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 437 */
@@ -8318,7 +8318,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8327,7 +8327,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 438 */
@@ -8337,7 +8337,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8346,7 +8346,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 439 */
@@ -8356,7 +8356,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8365,7 +8365,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 440 */
@@ -8375,7 +8375,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8384,7 +8384,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 441 */
@@ -8394,7 +8394,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8403,7 +8403,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 442 */
@@ -8413,7 +8413,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8422,7 +8422,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 443 */
@@ -8432,7 +8432,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8441,7 +8441,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 444 */
@@ -8451,7 +8451,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8460,7 +8460,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 445 */
@@ -8470,7 +8470,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8479,7 +8479,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 446 */
@@ -8489,7 +8489,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8498,7 +8498,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 447 */
@@ -8508,7 +8508,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8517,7 +8517,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 448 */
@@ -8527,7 +8527,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8536,7 +8536,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 449 */
@@ -8546,7 +8546,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8555,7 +8555,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 450 */
@@ -8565,7 +8565,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8574,7 +8574,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 451 */
@@ -8584,7 +8584,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8593,7 +8593,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 452 */
@@ -8603,7 +8603,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8612,7 +8612,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 453 */
@@ -8622,7 +8622,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8631,7 +8631,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 454 */
@@ -8641,7 +8641,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8650,7 +8650,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 455 */
@@ -8660,7 +8660,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8669,7 +8669,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 456 */
@@ -8679,7 +8679,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8688,7 +8688,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 457 */
@@ -8698,7 +8698,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8707,7 +8707,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 458 */
@@ -8717,7 +8717,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8726,7 +8726,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 459 */
@@ -8736,7 +8736,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8745,7 +8745,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 460 */
@@ -8755,7 +8755,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8764,7 +8764,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 461 */
@@ -8774,7 +8774,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8783,7 +8783,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 462 */
@@ -8793,7 +8793,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 5,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8802,7 +8802,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 463 */
@@ -8812,7 +8812,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8821,7 +8821,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 464 */
@@ -8831,7 +8831,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8840,7 +8840,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 465 */
@@ -8850,7 +8850,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8859,7 +8859,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 466 */
@@ -8869,7 +8869,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8878,7 +8878,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 467 */
@@ -8888,7 +8888,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8897,7 +8897,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 468 */
@@ -8907,7 +8907,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8916,7 +8916,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 469 */
@@ -8926,7 +8926,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8935,7 +8935,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 470 */
@@ -8945,7 +8945,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8954,7 +8954,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 471 */
@@ -8964,7 +8964,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8973,7 +8973,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 472 */
@@ -8983,7 +8983,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -8992,7 +8992,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 473 */
@@ -9002,7 +9002,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9011,7 +9011,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 474 */
@@ -9021,7 +9021,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9030,7 +9030,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 475 */
@@ -9040,7 +9040,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9049,7 +9049,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 476 */
@@ -9059,7 +9059,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9068,7 +9068,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 477 */
@@ -9078,7 +9078,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9087,7 +9087,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 478 */
@@ -9097,7 +9097,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9106,7 +9106,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 479 */
@@ -9116,7 +9116,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9125,7 +9125,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 480 */
@@ -9135,7 +9135,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9144,7 +9144,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 481 */
@@ -9154,7 +9154,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9163,7 +9163,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 482 */
@@ -9173,7 +9173,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9182,7 +9182,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 483 */
@@ -9192,7 +9192,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9201,7 +9201,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 484 */
@@ -9211,7 +9211,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9220,7 +9220,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 485 */
@@ -9230,7 +9230,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9239,7 +9239,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 486 */
@@ -9249,7 +9249,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9258,7 +9258,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 487 */
@@ -9268,7 +9268,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9277,7 +9277,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 488 */
@@ -9287,7 +9287,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9296,7 +9296,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 489 */
@@ -9306,7 +9306,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9315,7 +9315,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 490 */
@@ -9325,7 +9325,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9334,7 +9334,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 491 */
@@ -9344,7 +9344,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 6,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9353,7 +9353,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 492 */
@@ -9363,7 +9363,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9372,7 +9372,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 493 */
@@ -9382,7 +9382,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9391,7 +9391,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 494 */
@@ -9401,7 +9401,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9410,7 +9410,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 495 */
@@ -9420,7 +9420,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9429,7 +9429,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 496 */
@@ -9439,7 +9439,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9448,7 +9448,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 497 */
@@ -9458,7 +9458,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9467,7 +9467,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 498 */
@@ -9477,7 +9477,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9486,7 +9486,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 499 */
@@ -9496,7 +9496,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9505,7 +9505,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 500 */
@@ -9515,7 +9515,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9524,7 +9524,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 501 */
@@ -9534,7 +9534,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9543,7 +9543,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 502 */
@@ -9553,7 +9553,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9562,7 +9562,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 503 */
@@ -9572,7 +9572,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9581,7 +9581,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 504 */
@@ -9591,7 +9591,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9600,7 +9600,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 505 */
@@ -9610,7 +9610,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9619,7 +9619,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 506 */
@@ -9629,7 +9629,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9638,7 +9638,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 507 */
@@ -9648,7 +9648,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9657,7 +9657,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 508 */
@@ -9667,7 +9667,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9676,7 +9676,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 509 */
@@ -9686,7 +9686,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 7,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9695,7 +9695,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 510 */
@@ -9705,7 +9705,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9714,7 +9714,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 511 */
@@ -9724,7 +9724,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9733,7 +9733,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 512 */
@@ -9743,7 +9743,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9752,7 +9752,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 513 */
@@ -9762,7 +9762,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9771,7 +9771,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 514 */
@@ -9781,7 +9781,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9790,7 +9790,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 515 */
@@ -9800,7 +9800,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9809,7 +9809,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 516 */
@@ -9819,7 +9819,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9828,7 +9828,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 517 */
@@ -9838,7 +9838,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9847,7 +9847,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 518 */
@@ -9857,7 +9857,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9866,7 +9866,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 519 */
@@ -9876,7 +9876,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9885,7 +9885,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 520 */
@@ -9895,7 +9895,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9904,7 +9904,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 521 */
@@ -9914,7 +9914,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9923,7 +9923,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 522 */
@@ -9933,7 +9933,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9942,7 +9942,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 523 */
@@ -9952,7 +9952,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9961,7 +9961,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 524 */
@@ -9971,7 +9971,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9980,7 +9980,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 525 */
@@ -9990,7 +9990,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -9999,7 +9999,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 526 */
@@ -10009,7 +10009,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10018,7 +10018,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 527 */
@@ -10028,7 +10028,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10037,7 +10037,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 528 */
@@ -10047,7 +10047,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10056,7 +10056,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 529 */
@@ -10066,7 +10066,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10075,7 +10075,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 530 */
@@ -10085,7 +10085,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10094,7 +10094,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 531 */
@@ -10104,7 +10104,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10113,7 +10113,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 532 */
@@ -10123,7 +10123,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10132,7 +10132,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 533 */
@@ -10142,7 +10142,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10151,7 +10151,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 534 */
@@ -10161,7 +10161,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10170,7 +10170,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 535 */
@@ -10180,7 +10180,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10189,7 +10189,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 536 */
@@ -10199,7 +10199,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10208,7 +10208,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 537 */
@@ -10218,7 +10218,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10227,7 +10227,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 538 */
@@ -10237,7 +10237,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10246,7 +10246,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 539 */
@@ -10256,7 +10256,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10265,7 +10265,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 540 */
@@ -10275,7 +10275,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10284,7 +10284,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 541 */
@@ -10294,7 +10294,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10303,7 +10303,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 542 */
@@ -10313,7 +10313,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10322,7 +10322,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 543 */
@@ -10332,7 +10332,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10341,7 +10341,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 544 */
@@ -10351,7 +10351,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10360,7 +10360,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 545 */
@@ -10370,7 +10370,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10379,7 +10379,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 546 */
@@ -10389,7 +10389,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10398,7 +10398,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 547 */
@@ -10408,7 +10408,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10417,7 +10417,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 548 */
@@ -10427,7 +10427,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10436,7 +10436,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 549 */
@@ -10446,7 +10446,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10455,7 +10455,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 550 */
@@ -10465,7 +10465,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10474,7 +10474,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 551 */
@@ -10484,7 +10484,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10493,7 +10493,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 552 */
@@ -10503,7 +10503,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10512,7 +10512,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 553 */
@@ -10522,7 +10522,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10531,7 +10531,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 554 */
@@ -10541,7 +10541,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10550,7 +10550,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 555 */
@@ -10560,7 +10560,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10569,7 +10569,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 556 */
@@ -10579,7 +10579,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10588,7 +10588,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 557 */
@@ -10598,7 +10598,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10607,7 +10607,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 558 */
@@ -10617,7 +10617,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10626,7 +10626,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 559 */
@@ -10636,7 +10636,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10645,7 +10645,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 560 */
@@ -10655,7 +10655,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10664,7 +10664,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 561 */
@@ -10674,7 +10674,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10683,7 +10683,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 562 */
@@ -10693,7 +10693,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10702,7 +10702,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 563 */
@@ -10712,7 +10712,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10721,7 +10721,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 564 */
@@ -10731,7 +10731,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10740,7 +10740,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 565 */
@@ -10750,7 +10750,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10759,7 +10759,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 566 */
@@ -10769,7 +10769,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10778,7 +10778,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 567 */
@@ -10788,7 +10788,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10797,7 +10797,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 568 */
@@ -10807,7 +10807,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10816,7 +10816,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 569 */
@@ -10826,7 +10826,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 8,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10835,7 +10835,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 570 */
@@ -10845,7 +10845,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10854,7 +10854,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 571 */
@@ -10864,7 +10864,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10873,7 +10873,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 572 */
@@ -10883,7 +10883,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10892,7 +10892,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 573 */
@@ -10902,7 +10902,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10911,7 +10911,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 574 */
@@ -10921,7 +10921,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10930,7 +10930,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 575 */
@@ -10940,7 +10940,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10949,7 +10949,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 576 */
@@ -10959,7 +10959,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10968,7 +10968,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 577 */
@@ -10978,7 +10978,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -10987,7 +10987,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 578 */
@@ -10997,7 +10997,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11006,7 +11006,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 579 */
@@ -11016,7 +11016,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11025,7 +11025,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 580 */
@@ -11035,7 +11035,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11044,7 +11044,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 581 */
@@ -11054,7 +11054,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11063,7 +11063,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 582 */
@@ -11073,7 +11073,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11082,7 +11082,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 583 */
@@ -11092,7 +11092,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11101,7 +11101,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 584 */
@@ -11111,7 +11111,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11120,7 +11120,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 585 */
@@ -11130,7 +11130,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11139,7 +11139,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 586 */
@@ -11149,7 +11149,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11158,7 +11158,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 587 */
@@ -11168,7 +11168,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11177,7 +11177,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 588 */
@@ -11187,7 +11187,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11196,7 +11196,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 589 */
@@ -11206,7 +11206,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11215,7 +11215,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 590 */
@@ -11225,7 +11225,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11234,7 +11234,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 591 */
@@ -11244,7 +11244,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11253,7 +11253,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 592 */
@@ -11263,7 +11263,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11272,7 +11272,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 593 */
@@ -11282,7 +11282,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11291,7 +11291,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 594 */
@@ -11301,7 +11301,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11310,7 +11310,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 595 */
@@ -11320,7 +11320,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11329,7 +11329,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 596 */
@@ -11339,7 +11339,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11348,7 +11348,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 597 */
@@ -11358,7 +11358,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11367,7 +11367,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 598 */
@@ -11377,7 +11377,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11386,7 +11386,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 599 */
@@ -11396,7 +11396,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11405,7 +11405,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 600 */
@@ -11415,7 +11415,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11424,7 +11424,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 601 */
@@ -11434,7 +11434,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11443,7 +11443,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 602 */
@@ -11453,7 +11453,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11462,7 +11462,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 603 */
@@ -11472,7 +11472,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11481,7 +11481,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 604 */
@@ -11491,7 +11491,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11500,7 +11500,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 605 */
@@ -11510,7 +11510,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11519,7 +11519,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 606 */
@@ -11529,7 +11529,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11538,7 +11538,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 607 */
@@ -11548,7 +11548,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11557,7 +11557,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 608 */
@@ -11567,7 +11567,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11576,7 +11576,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 609 */
@@ -11586,7 +11586,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11595,7 +11595,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 610 */
@@ -11605,7 +11605,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11614,7 +11614,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 611 */
@@ -11624,7 +11624,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11633,7 +11633,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 612 */
@@ -11643,7 +11643,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11652,7 +11652,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 613 */
@@ -11662,7 +11662,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11671,7 +11671,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 614 */
@@ -11681,7 +11681,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11690,7 +11690,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 615 */
@@ -11700,7 +11700,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11709,7 +11709,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 616 */
@@ -11719,7 +11719,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11728,7 +11728,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 617 */
@@ -11738,7 +11738,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11747,7 +11747,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 618 */
@@ -11757,7 +11757,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11766,7 +11766,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 619 */
@@ -11776,7 +11776,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11785,7 +11785,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 620 */
@@ -11795,7 +11795,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11804,7 +11804,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 621 */
@@ -11814,7 +11814,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11823,7 +11823,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 622 */
@@ -11833,7 +11833,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 13,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11842,7 +11842,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 623 */
@@ -11852,7 +11852,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11861,7 +11861,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 624 */
@@ -11871,7 +11871,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11880,7 +11880,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 625 */
@@ -11890,7 +11890,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11899,7 +11899,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 626 */
@@ -11909,7 +11909,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11918,7 +11918,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 627 */
@@ -11928,7 +11928,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11937,7 +11937,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 628 */
@@ -11947,7 +11947,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11956,7 +11956,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 629 */
@@ -11966,7 +11966,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11975,7 +11975,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 630 */
@@ -11985,7 +11985,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -11994,7 +11994,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 631 */
@@ -12004,7 +12004,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12013,7 +12013,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 632 */
@@ -12023,7 +12023,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12032,7 +12032,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 633 */
@@ -12042,7 +12042,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12051,7 +12051,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 634 */
@@ -12061,7 +12061,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12070,7 +12070,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 635 */
@@ -12080,7 +12080,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12089,7 +12089,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 636 */
@@ -12099,7 +12099,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12108,7 +12108,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 637 */
@@ -12118,7 +12118,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12127,7 +12127,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 638 */
@@ -12137,7 +12137,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12146,7 +12146,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 639 */
@@ -12156,7 +12156,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12165,7 +12165,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 640 */
@@ -12175,7 +12175,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12184,7 +12184,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 641 */
@@ -12194,7 +12194,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12203,7 +12203,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 642 */
@@ -12213,7 +12213,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12222,7 +12222,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 643 */
@@ -12232,7 +12232,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12241,7 +12241,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 644 */
@@ -12251,7 +12251,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12260,7 +12260,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 645 */
@@ -12270,7 +12270,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12279,7 +12279,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 646 */
@@ -12289,7 +12289,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12298,7 +12298,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 647 */
@@ -12308,7 +12308,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12317,7 +12317,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 648 */
@@ -12327,7 +12327,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12336,7 +12336,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 649 */
@@ -12346,7 +12346,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12355,7 +12355,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 650 */
@@ -12365,7 +12365,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12374,7 +12374,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 651 */
@@ -12384,7 +12384,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12393,7 +12393,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 652 */
@@ -12403,7 +12403,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12412,7 +12412,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 653 */
@@ -12422,7 +12422,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12431,7 +12431,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 654 */
@@ -12441,7 +12441,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12450,7 +12450,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 655 */
@@ -12460,7 +12460,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12469,7 +12469,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 656 */
@@ -12479,7 +12479,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12488,7 +12488,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 657 */
@@ -12498,7 +12498,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12507,7 +12507,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 658 */
@@ -12517,7 +12517,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12526,7 +12526,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 659 */
@@ -12536,7 +12536,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12545,7 +12545,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 660 */
@@ -12555,7 +12555,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12564,7 +12564,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 661 */
@@ -12574,7 +12574,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12583,7 +12583,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 662 */
@@ -12593,7 +12593,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12602,7 +12602,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 663 */
@@ -12612,7 +12612,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12621,7 +12621,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 664 */
@@ -12631,7 +12631,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12640,7 +12640,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 665 */
@@ -12650,7 +12650,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12659,7 +12659,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 666 */
@@ -12669,7 +12669,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12678,7 +12678,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 667 */
@@ -12688,7 +12688,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12697,7 +12697,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 668 */
@@ -12707,7 +12707,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12716,7 +12716,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 669 */
@@ -12726,7 +12726,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12735,7 +12735,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 670 */
@@ -12745,7 +12745,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12754,7 +12754,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 671 */
@@ -12764,7 +12764,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12773,7 +12773,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 672 */
@@ -12783,7 +12783,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12792,7 +12792,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 673 */
@@ -12802,7 +12802,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12811,7 +12811,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 674 */
@@ -12821,7 +12821,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12830,7 +12830,7 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	},
 
 	{ /* 675 */
@@ -12840,7 +12840,7 @@ FileInfo g_table_fileInfo[] = {
 		/* filePosition         */ 0,
 		/* parentIndex          */ 14,
 		/* variable_11          */ 0,
-		{ { /* flags */
+		{ /* flags */
 		/* isLoaded             */ false,
 		/* inMemory             */ false,
 		/* variable_0004        */ false,
@@ -12849,6 +12849,6 @@ FileInfo g_table_fileInfo[] = {
 		/* variable_0020        */ false,
 		/* variable_0040        */ false,
 		/* variable_0080        */ false,
-		} },
+		},
 	}
 };

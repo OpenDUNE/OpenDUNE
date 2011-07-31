@@ -76,16 +76,16 @@ typedef struct Widget {
 	uint8  variable_0D;                                     /*!< ?? */
 	union {
 		struct {
-			BITTYPE requiresClick:1;                        /*!< Requires click. */
-			BITTYPE variable_0002:1;                        /*!< ?? */
-			BITTYPE clickAsHover:1;                         /*!< Click as hover. */
-			BITTYPE invisible:1;                            /*!< Widget is invisible. */
-			BITTYPE variable_0010:1;                        /*!< ?? */
-			BITTYPE noClickCascade:1;                       /*!< Don't cascade the click event to any other widgets. */
-			BITTYPE loseSelect:1;                           /*!< Lose select when leave. */
-			BITTYPE variable_0080:1;                        /*!< ?? */
-			BITTYPE buttonFilterLeft:4;                     /*!< Left button filter. */
-			BITTYPE buttonFilterRight:4;                    /*!< Right button filter. */
+			BIT_U8 requiresClick:1;                         /*!< Requires click. */
+			BIT_U8 variable_0002:1;                         /*!< ?? */
+			BIT_U8 clickAsHover:1;                          /*!< Click as hover. */
+			BIT_U8 invisible:1;                             /*!< Widget is invisible. */
+			BIT_U8 variable_0010:1;                         /*!< ?? */
+			BIT_U8 noClickCascade:1;                        /*!< Don't cascade the click event to any other widgets. */
+			BIT_U8 loseSelect:1;                            /*!< Lose select when leave. */
+			BIT_U8 variable_0080:1;                         /*!< ?? */
+			BIT_U8 buttonFilterLeft:4;                      /*!< Left button filter. */
+			BIT_U8 buttonFilterRight:4;                     /*!< Right button filter. */
 		} s;
 		uint16 all; } flags;                                /*!< General flags of the Widget. */
 	WidgetDrawParameter drawParameterNormal;                /*!< Draw parameter when normal. */
@@ -106,15 +106,15 @@ typedef struct Widget {
 	uint8   unknown_002D[0x0001];
 	union {
 		struct {
-			BITTYPE selected:1;                             /*!< Selected. */
-			BITTYPE hover1:1;                               /*!< Hover. */
-			BITTYPE hover2:1;                               /*!< Hover. */
-			BITTYPE selectedLast:1;                         /*!< Last Selected. */
-			BITTYPE hover1Last:1;                           /*!< Last Hover. */
-			BITTYPE hover2Last:1;                           /*!< Last Hover. */
-			BITTYPE variable_0040:1;                        /*!< ?? */
-			BITTYPE keySelected:1;                          /*!< Key Selected. */
-			BITTYPE buttonState:8;                          /*!< Button state. */
+			BIT_U8 selected:1;                              /*!< Selected. */
+			BIT_U8 hover1:1;                                /*!< Hover. */
+			BIT_U8 hover2:1;                                /*!< Hover. */
+			BIT_U8 selectedLast:1;                          /*!< Last Selected. */
+			BIT_U8 hover1Last:1;                            /*!< Last Hover. */
+			BIT_U8 hover2Last:1;                            /*!< Last Hover. */
+			BIT_U8 variable_0040:1;                         /*!< ?? */
+			BIT_U8 keySelected:1;                           /*!< Key Selected. */
+			BIT_U8 buttonState:8;                           /*!< Button state. */
 		} s;
 		uint16 all; } state;                                /*!< State of the Widget. */
 	ClickProc *clickProc;                                   /*!< Function to execute when widget is pressed. */

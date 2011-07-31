@@ -104,7 +104,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	if (fileInfoIndex == FILEINFO_INVALID) return FILE_INVALID;
 
 	/* If the file is not inside another PAK, then the file doesn't exist (as it wasn't in the directory either) */
-	if (!g_table_fileInfo[fileInfoIndex].flags.s.inPAKFile) return FILE_INVALID;
+	if (!g_table_fileInfo[fileInfoIndex].flags.inPAKFile) return FILE_INVALID;
 
 	pakName = g_table_fileInfo[g_table_fileInfo[fileInfoIndex].parentIndex].filename;
 	snprintf(pakNameComplete, sizeof(pakNameComplete), "data/%s", pakName);
@@ -121,7 +121,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 
 	/* If this file is not yet read from the PAK, read the complete index
 	 *  of the PAK and index all files */
-	if (!g_table_fileInfo[fileInfoIndex].flags.s.isLoaded) {
+	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
 		uint16 pakIndexLast;
 
 		pakIndexLast = FILEINFO_INVALID;
@@ -160,7 +160,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 			if (g_table_fileInfo[pakIndex].parentIndex != g_table_fileInfo[fileInfoIndex].parentIndex) continue;
 
 			/* Update the information of the file */
-			g_table_fileInfo[pakIndex].flags.s.isLoaded = true;
+			g_table_fileInfo[pakIndex].flags.isLoaded = true;
 			g_table_fileInfo[pakIndex].filePosition = pakPosition;
 			if (pakIndexLast != FILEINFO_INVALID) g_table_fileInfo[pakIndexLast].fileSize = pakPosition - g_table_fileInfo[pakIndexLast].filePosition;
 
@@ -175,7 +175,7 @@ static uint8 _File_Open(const char *filename, uint8 mode)
 	}
 
 	/* Check if the file is inside the PAK file */
-	if (!g_table_fileInfo[fileInfoIndex].flags.s.isLoaded) {
+	if (!g_table_fileInfo[fileInfoIndex].flags.isLoaded) {
 		fclose(s_file[fileIndex].fp);
 		return FILE_INVALID;
 	}

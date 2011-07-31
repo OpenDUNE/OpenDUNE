@@ -130,26 +130,24 @@ typedef struct UnitInfo {
 	ObjectInfo o;                                           /*!< Common to UnitInfo and StructureInfo. */
 	uint16 indexStart;                                      /*!< At Unit create, between this and indexEnd (including) a free index is picked. */
 	uint16 indexEnd;                                        /*!< At Unit create, between indexStart and this (including) a free index is picked. */
-	union {
-		struct {
-			BITTYPE notused_0001:1;                         /*!< Not used. */
-			BITTYPE variable_0002:1;                        /*!< ?? */
-			BITTYPE variable_0004:1;                        /*!< ?? */
-			BITTYPE sonicProtection:1;                      /*!< If true, the Unit receives no damage of a sonic blast. */
-			BITTYPE variable_0010:1;                        /*!< ?? */
-			BITTYPE variable_0020:1;                        /*!< ?? */
-			BITTYPE variable_0040:1;                        /*!< ?? */
-			BITTYPE variable_0080:1;                        /*!< ?? */
-			BITTYPE notused_1000:1;                         /*!< Not used. */
-			BITTYPE notused_0200:1;                         /*!< Not used. */
-			BITTYPE variable_0400:1;                        /*!< ?? */
-			BITTYPE variable_0800:1;                        /*!< ?? */
-			BITTYPE deviateProtection:1;                    /*!< If true, the Unit can't be deviated. */
-			BITTYPE variable_2000:1;                        /*!< ?? */
-			BITTYPE variable_4000:1;                        /*!< ?? */
-			BITTYPE variable_8000:1;                        /*!< ?? */
-		} s;
-		uint16 all; } flags;                                /*!< General flags of the UnitInfo. */
+	struct {
+		BIT_U8 notused_0001:1;                              /*!< Not used. */
+		BIT_U8 variable_0002:1;                             /*!< ?? */
+		BIT_U8 variable_0004:1;                             /*!< ?? */
+		BIT_U8 sonicProtection:1;                           /*!< If true, the Unit receives no damage of a sonic blast. */
+		BIT_U8 variable_0010:1;                             /*!< ?? */
+		BIT_U8 variable_0020:1;                             /*!< ?? */
+		BIT_U8 variable_0040:1;                             /*!< ?? */
+		BIT_U8 variable_0080:1;                             /*!< ?? */
+		BIT_U8 notused_1000:1;                              /*!< Not used. */
+		BIT_U8 notused_0200:1;                              /*!< Not used. */
+		BIT_U8 variable_0400:1;                             /*!< ?? */
+		BIT_U8 variable_0800:1;                             /*!< ?? */
+		BIT_U8 deviateProtection:1;                         /*!< If true, the Unit can't be deviated. */
+		BIT_U8 variable_2000:1;                             /*!< ?? */
+		BIT_U8 variable_4000:1;                             /*!< ?? */
+		BIT_U8 variable_8000:1;                             /*!< ?? */
+	} flags;                                                /*!< General flags of the UnitInfo. */
 	uint16 variable_38;                                     /*!< ?? */
 	uint8   unknown_003A[0x0002];
 	uint16 movementType;                                    /*!< MovementType of Unit. */

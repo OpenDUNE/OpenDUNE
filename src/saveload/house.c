@@ -61,7 +61,7 @@ bool House_Load(FILE *fp, uint32 length)
 		*h = hl;
 
 		/* See if it is a human house */
-		if (h->flags.s.human) {
+		if (h->flags.human) {
 			g_playerHouseID = h->index;
 			g_playerHouse = h;
 
@@ -88,7 +88,7 @@ bool House_LoadOld(FILE *fp, uint32 length)
 		if (!SaveLoad_Load(s_saveHouse, fp, &hl)) return false;
 
 		/* See if it is a human house */
-		if (hl.flags.s.human) {
+		if (hl.flags.human) {
 			g_playerHouseID = hl.index;
 			break;
 		}

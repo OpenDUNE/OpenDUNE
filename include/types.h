@@ -14,8 +14,6 @@
 #define GCC_UNUSED
 #define PACK
 
-#define BITTYPE uint8
-
 #define BIT_S8  int8
 #define BIT_S16 int16
 #define BIT_S32 int32
@@ -30,9 +28,6 @@
 	#define GCC_PACKED __attribute__((packed))
 	#undef GCC_UNUSED
 	#define GCC_UNUSED __attribute__((unused))
-
-	#undef BITTYPE
-	#define BITTYPE uint32
 
 	#undef BIT_S8
 	#undef BIT_S16

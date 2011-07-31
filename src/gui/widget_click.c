@@ -383,7 +383,7 @@ bool GUI_Widget_Picture_Click(Widget *w)
 
 	s = Structure_Get_ByPackedTile(g_selectionPosition);
 
-	if (s == NULL || !g_table_structureInfo[s->o.type].o.flags.s.factory) return false;
+	if (s == NULL || !g_table_structureInfo[s->o.type].o.flags.factory) return false;
 
 	Structure_BuildObject(s, 0xFFFF);
 

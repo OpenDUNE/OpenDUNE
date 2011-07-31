@@ -288,7 +288,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			}
 
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) g_global->variable_8DE3 |= 0x100;
-			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (ui->o.flags.variable_0020) g_global->variable_8DE3 |= 0x200;
 
 			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, g_global->variable_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
 
@@ -309,7 +309,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				int16 offsetY = 0;
 				uint16 index = ui->turretSpriteID;
 
-				orientation = Orientation_Orientation256ToOrientation8(u->orientation[ui->o.flags.s.hasTurret ? 1 : 0].current);
+				orientation = Orientation_Orientation256ToOrientation8(u->orientation[ui->o.flags.hasTurret ? 1 : 0].current);
 
 				switch (ui->turretSpriteID) {
 					case 0x8D: /* sonic tank */
@@ -467,14 +467,14 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 					break;
 			}
 
-			if (ui->flags.s.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
+			if (ui->flags.variable_2000 && u->o.flags.s.variable_4_0020) index += 5;
 			if (u->o.type == UNIT_CARRYALL && u->o.flags.s.inTransport) index += 3;
 
 			sprite = Unknown_07D4_18BD(index, Unit_GetHouseID(u));
 
-			if (ui->o.flags.s.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
+			if (ui->o.flags.hasShadow) GUI_DrawSprite(g_screenActiveID, sprite, x + 1, y + 3, 2, (g_global->variable_8DE3 & 0xDFFF) | 0x300, g_paletteMapping1, 1);
 
-			if (ui->o.flags.s.variable_0020) g_global->variable_8DE3 |= 0x200;
+			if (ui->o.flags.variable_0020) g_global->variable_8DE3 |= 0x200;
 
 			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, g_global->variable_8DE3 | 0x2000, g_global->variable_8420);
 		}
@@ -747,7 +747,7 @@ void Unknown_07D4_1625(uint16 packed)
 
 	t = &g_map[packed];
 
-	if ((t->isUnveiled && g_playerHouse->flags.s.radarActivated) || g_debugScenario) {
+	if ((t->isUnveiled && g_playerHouse->flags.radarActivated) || g_debugScenario) {
 		uint16 type = Map_GetLandscapeType(packed);
 		Unit *u;
 

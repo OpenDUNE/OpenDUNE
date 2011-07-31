@@ -16,7 +16,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Carryall",
 		/* stringID_full        */ 195, /* "All-Purpose Carryall" */
 		/* wsa                  */ "carryall.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ true,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -32,7 +32,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 100,
 		/* fogUncoverRadius     */ 0,
@@ -52,7 +52,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 0,
 		/* indexEnd             */ 10,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -69,7 +69,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 32,
 		/* unknown_003A         */ { 5, 0 },
 		/* movementType         */ 4,
@@ -96,7 +96,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "'Thopter",
 		/* stringID_full        */ 197, /* "Ornithipter" */
 		/* wsa                  */ "orni.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ true,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -112,7 +112,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 25,
 		/* fogUncoverRadius     */ 5,
@@ -132,7 +132,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 0,
 		/* indexEnd             */ 10,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -149,7 +149,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 4, 0 },
 		/* movementType         */ 4,
@@ -176,7 +176,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Infantry",
 		/* stringID_full        */ 199, /* "Light Infantry Squad" */
 		/* wsa                  */ "infantry.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -192,7 +192,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 50,
 		/* fogUncoverRadius     */ 1,
@@ -212,7 +212,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -229,7 +229,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 0, 0 },
 		/* movementType         */ 0,
@@ -256,7 +256,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Troopers",
 		/* stringID_full        */ 201, /* "Heavy Trooper Squad" */
 		/* wsa                  */ "hyinfy.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -272,7 +272,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ true,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 110,
 		/* fogUncoverRadius     */ 1,
@@ -292,7 +292,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -309,7 +309,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 0, 0 },
 		/* movementType         */ 0,
@@ -336,7 +336,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Soldier",
 		/* stringID_full        */ 203, /* "Infantry Soldier" */
 		/* wsa                  */ "infantry.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -352,7 +352,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 20,
 		/* fogUncoverRadius     */ 1,
@@ -372,7 +372,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -389,7 +389,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 0, 0 },
 		/* movementType         */ 0,
@@ -416,7 +416,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Trooper",
 		/* stringID_full        */ 205, /* "Heavy Trooper" */
 		/* wsa                  */ "hyinfy.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -432,7 +432,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ true,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 45,
 		/* fogUncoverRadius     */ 1,
@@ -452,7 +452,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -469,7 +469,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 0, 0 },
 		/* movementType         */ 0,
@@ -496,7 +496,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Saboteur",
 		/* stringID_full        */ 44, /* "Insidious Saboteur" */
 		/* wsa                  */ "saboture.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -512,7 +512,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 10,
 		/* fogUncoverRadius     */ 1,
@@ -532,7 +532,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 20,
 		/* indexEnd             */ 21,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -549,7 +549,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 8,
 		/* unknown_003A         */ { 0, 0 },
 		/* movementType         */ 0,
@@ -576,7 +576,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Launcher",
 		/* stringID_full        */ 209, /* "Rocket Launcher" */
 		/* wsa                  */ "rtank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -592,7 +592,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ true,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 100,
 		/* fogUncoverRadius     */ 5,
@@ -612,7 +612,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -629,7 +629,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 3, 0 },
 		/* movementType         */ 1,
@@ -656,7 +656,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Deviator",
 		/* stringID_full        */ 211, /* "Deviator launcher" */
 		/* wsa                  */ "ordrtank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -672,7 +672,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 120,
 		/* fogUncoverRadius     */ 5,
@@ -692,7 +692,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -709,7 +709,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 3, 0 },
 		/* movementType         */ 1,
@@ -736,7 +736,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Tank",
 		/* stringID_full        */ 213, /* "Combat Tank" */
 		/* wsa                  */ "ltank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -752,7 +752,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 200,
 		/* fogUncoverRadius     */ 3,
@@ -772,7 +772,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -789,7 +789,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 2, 0 },
 		/* movementType         */ 1,
@@ -816,7 +816,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Siege Tank",
 		/* stringID_full        */ 215, /* "Heavy Siege Tank" */
 		/* wsa                  */ "htank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -832,7 +832,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 300,
 		/* fogUncoverRadius     */ 4,
@@ -852,7 +852,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -869,7 +869,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 2, 0 },
 		/* movementType         */ 1,
@@ -896,7 +896,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Devastator",
 		/* stringID_full        */ 217, /* "Devastator Tank" */
 		/* wsa                  */ "harktank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -912,7 +912,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 400,
 		/* fogUncoverRadius     */ 4,
@@ -932,7 +932,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ true,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -949,7 +949,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 2, 0 },
 		/* movementType         */ 1,
@@ -976,7 +976,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Sonic Tank",
 		/* stringID_full        */ 219, /* "Sonic Wave Tank" */
 		/* wsa                  */ "stank.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -992,7 +992,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 110,
 		/* fogUncoverRadius     */ 4,
@@ -1012,7 +1012,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1029,7 +1029,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 3, 0 },
 		/* movementType         */ 1,
@@ -1056,7 +1056,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Trike",
 		/* stringID_full        */ 221, /* "Light Attack Trike" */
 		/* wsa                  */ "trike.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1072,7 +1072,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 100,
 		/* fogUncoverRadius     */ 2,
@@ -1092,7 +1092,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1109,7 +1109,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 1, 0 },
 		/* movementType         */ 3,
@@ -1136,7 +1136,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Raider Trike",
 		/* stringID_full        */ 223, /* "Fast Raider Trike" */
 		/* wsa                  */ "otrike.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1152,7 +1152,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 80,
 		/* fogUncoverRadius     */ 2,
@@ -1172,7 +1172,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1189,7 +1189,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 1, 0 },
 		/* movementType         */ 3,
@@ -1216,7 +1216,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Quad",
 		/* stringID_full        */ 225, /* "Heavy Attack Quad" */
 		/* wsa                  */ "quad.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1232,7 +1232,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 130,
 		/* fogUncoverRadius     */ 2,
@@ -1252,7 +1252,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1269,7 +1269,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 1, 0 },
 		/* movementType         */ 3,
@@ -1296,7 +1296,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Harvester",
 		/* stringID_full        */ 227, /* "Spice Harvester" */
 		/* wsa                  */ "harvest.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1312,7 +1312,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 128,
 		/* hitpoints            */ 150,
 		/* fogUncoverRadius     */ 2,
@@ -1332,7 +1332,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1349,7 +1349,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 7, 0 },
 		/* movementType         */ 2,
@@ -1376,7 +1376,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "MCV",
 		/* stringID_full        */ 229, /* "Mobile Const. Vehicle" */
 		/* wsa                  */ "mcv.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1392,7 +1392,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 64,
 		/* hitpoints            */ 150,
 		/* fogUncoverRadius     */ 2,
@@ -1412,7 +1412,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 22,
 		/* indexEnd             */ 101,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ true,
@@ -1429,7 +1429,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ true
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 7, 0 },
 		/* movementType         */ 1,
@@ -1456,7 +1456,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Death Hand",
 		/* stringID_full        */ 0,
 		/* wsa                  */ "gold-bb.wsa",
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1472,7 +1472,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 70,
 		/* fogUncoverRadius     */ 0,
@@ -1492,7 +1492,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ false,
@@ -1509,7 +1509,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 32,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1536,7 +1536,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Rocket",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1552,7 +1552,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 70,
 		/* fogUncoverRadius     */ 0,
@@ -1572,7 +1572,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ false,
@@ -1589,7 +1589,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ true,
 		/* variable_4000        */ true,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1616,7 +1616,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "ARocket",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1632,7 +1632,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 70,
 		/* fogUncoverRadius     */ 0,
@@ -1652,7 +1652,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ false,
@@ -1669,7 +1669,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ true,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1696,7 +1696,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "GRocket",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1712,7 +1712,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 70,
 		/* fogUncoverRadius     */ 0,
@@ -1732,7 +1732,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ false,
@@ -1749,7 +1749,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ true,
 		/* variable_4000        */ true,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 16,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1776,7 +1776,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "MiniRocket",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1792,7 +1792,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 70,
 		/* fogUncoverRadius     */ 0,
@@ -1812,7 +1812,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ false,
@@ -1829,7 +1829,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ true,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 8,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1856,7 +1856,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Bullet",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1872,7 +1872,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 1,
 		/* fogUncoverRadius     */ 0,
@@ -1892,7 +1892,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ true,
 		/* variable_0004        */ true,
@@ -1909,7 +1909,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 8,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -1936,7 +1936,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Sonic Blast",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -1952,7 +1952,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ false,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 1,
 		/* fogUncoverRadius     */ 0,
@@ -1972,7 +1972,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 12,
 		/* indexEnd             */ 15,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -1989,7 +1989,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 32,
 		/* unknown_003A         */ { 6, 0 },
 		/* movementType         */ 4,
@@ -2016,7 +2016,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Sandworm",
 		/* stringID_full        */ 231, /* "Sandworm" */
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ false,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -2032,7 +2032,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 1000,
 		/* fogUncoverRadius     */ 0,
@@ -2052,7 +2052,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 16,
 		/* indexEnd             */ 17,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -2069,7 +2069,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 24,
 		/* unknown_003A         */ { 7, 0 },
 		/* movementType         */ 5,
@@ -2096,7 +2096,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* name                 */ "Frigate",
 		/* stringID_full        */ 0,
 		/* wsa                  */ NULL,
-		{ { /* flags */
+		{ /* flags */
 		/* hasShadow            */ true,
 		/* factory              */ false,
 		/* notused_0004         */ false,
@@ -2112,7 +2112,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* targetAir            */ false,
 		/* priority             */ true,
 		/* notused_4000         */ false
-		} },
+		},
 		/* spawnChance          */ 0,
 		/* hitpoints            */ 100,
 		/* fogUncoverRadius     */ 0,
@@ -2132,7 +2132,7 @@ UnitInfo g_table_unitInfo[] = {
 		},
 		/* indexStart           */ 11,
 		/* indexEnd             */ 11,
-		{ { /* flags */
+		{ /* flags */
 		/* notused_0001         */ false,
 		/* variable_0002        */ false,
 		/* variable_0004        */ false,
@@ -2149,7 +2149,7 @@ UnitInfo g_table_unitInfo[] = {
 		/* variable_2000        */ false,
 		/* variable_4000        */ false,
 		/* variable_8000        */ false
-		} },
+		},
 		/* variable_38          */ 32,
 		/* unknown_003A         */ { 5, 0 },
 		/* movementType         */ 4,
