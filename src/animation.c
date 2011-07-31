@@ -268,27 +268,26 @@ void Animation_Tick()
 		if (animation->commands == NULL) continue;
 
 		if (animation->tickNext <= g_timerGUI) {
-			uint16 *commands = animation->commands;
-			uint16 command;
+			AnimationCommandStruct *commands = animation->commands;
 			int16 parameter;
 
 			commands += animation->current++;
-			command = *commands;
 
-			parameter = command & 0x0FFF;
-			/* Sign extend if needed */
-			if ((parameter & 0x0800) != 0) parameter |= 0xF000;
+			parameter = commands->parameter;
+			assert((parameter & 0x0800) == 0 || (parameter & 0xF000) != 0); /* Validate if the compiler sign-extends correctly */
 
-			switch (command >> 12) {
-				case 0: case 9: default: Animation_Func_Stop(animation, parameter); break;
-				case 1: Animation_Func_Abort(animation, parameter); break;
-				case 2: Animation_Func_SetOverlaySprite(animation, parameter); break;
-				case 3: Animation_Func_Pause(animation, parameter); break;
-				case 4: Animation_Func_Rewind(animation, parameter); break;
-				case 5: Animation_Func_PlayVoice(animation, parameter); break;
-				case 6: Animation_Func_SetGroundSprite(animation, parameter); break;
-				case 7: Animation_Func_Forward(animation, parameter); break;
-				case 8: Animation_Func_SetIconGroup(animation, parameter); break;
+			switch (commands->command) {
+				case ANIMATION_STOP:
+				default:                           Animation_Func_Stop(animation, parameter); break;
+
+				case ANIMATION_ABORT:              Animation_Func_Abort(animation, parameter); break;
+				case ANIMATION_SET_OVERLAY_SPRITE: Animation_Func_SetOverlaySprite(animation, parameter); break;
+				case ANIMATION_PAUSE:              Animation_Func_Pause(animation, parameter); break;
+				case ANIMATION_REWIND:             Animation_Func_Rewind(animation, parameter); break;
+				case ANIMATION_PLAY_VOICE:         Animation_Func_PlayVoice(animation, parameter); break;
+				case ANIMATION_SET_GROUND_SPRITE:  Animation_Func_SetGroundSprite(animation, parameter); break;
+				case ANIMATION_FORWARD:            Animation_Func_Forward(animation, parameter); break;
+				case ANIMATION_SET_ICONGROUP:      Animation_Func_SetIconGroup(animation, parameter); break;
 			}
 
 			if (animation->commands == NULL) continue;
