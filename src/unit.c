@@ -1343,12 +1343,10 @@ bool Unit_Move(Unit *unit, uint16 distance)
 		} else {
 			uint16 type = Map_GetLandscapeType(packed);
 			if ((type == LST_NORMAL_SAND || type == LST_ENTIRELY_DUNE) && g_map[packed].overlaySpriteID == 0) {
-				csip32 proc;
+				uint8 animationID = Orientation_Orientation256ToOrientation8(unit->orientation[0].current);
 
-				proc.s.cs = 0x33C8;
-				proc.s.ip = Orientation_Orientation256ToOrientation8(unit->orientation[0].current) << 4;
-
-				Animation_Start(emu_get_memorycsip(proc), unit->o.position, 0, unit->o.houseID, 5);
+				assert(animationID < 8);
+				Animation_Start(g_table_animation_unitMove[animationID], unit->o.position, 0, unit->o.houseID, 5);
 			}
 		}
 	}

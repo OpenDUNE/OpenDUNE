@@ -1420,9 +1420,8 @@ uint16 Script_Unit_IsInTransport(ScriptEngine *script)
  */
 uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 {
-	csip32 proc;
 	Unit *u;
-	uint16 loc06;
+	uint16 animationUnitID;
 	uint16 position;
 
 	VARIABLE_NOT_USED(script);
@@ -1432,16 +1431,17 @@ uint16 Script_Unit_Unknown22C4(ScriptEngine *script)
 	position = Tile_PackTile(Tile_Center(u->o.position));
 	Animation_Stop_ByTile(position);
 
-	loc06 = g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
-	if (u->o.script.variables[1] == 1) loc06 += 2;
-	loc06 = (loc06 << 4) + (g_table_unitInfo[u->o.type].displayMode == 3 ? 128 : 192);
+	animationUnitID = g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(u->o.position))][7] != 0 ? 0 : 1;
+	if (u->o.script.variables[1] == 1) animationUnitID += 2;
 
 	g_map[position].houseID = Unit_GetHouseID(u);
 
-	proc.s.cs = 0x33C8;
-	proc.s.ip = loc06;
-
-	Animation_Start(emu_get_memorycsip(proc), u->o.position, 0, Unit_GetHouseID(u), 4);
+	assert(animationUnitID < 4);
+	if (g_table_unitInfo[u->o.type].displayMode == 3) {
+		Animation_Start(g_table_animation_unitScript1[animationUnitID], u->o.position, 0, Unit_GetHouseID(u), 4);
+	} else {
+		Animation_Start(g_table_animation_unitScript2[animationUnitID], u->o.position, 0, Unit_GetHouseID(u), 4);
+	}
 
 	return 1;
 }

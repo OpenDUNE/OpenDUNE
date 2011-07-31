@@ -890,19 +890,19 @@ static bool Map_PerformBloomExplosion(MapActivity *s)
 	return false;
 }
 
-static bool Map_06F7_0967(MapActivity *s, uint16 arg0A)
+static bool Map_SetAnimation(MapActivity *s, uint16 animationMapID)
 {
-	csip32 proc;
 	uint16 packed;
 
 	packed = Tile_PackTile(s->position);
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return true;
 
-	proc.s.cs = 0x33C8;
-	proc.s.ip = ((arg0A + (Tools_Random_256() & 0x1) + (g_global->variable_3A3E[Map_GetLandscapeType(packed)][7] != 0 ? 0 : 2)) << 4) + 256;
+	animationMapID += Tools_Random_256() & 0x1;
+	animationMapID += g_global->variable_3A3E[Map_GetLandscapeType(packed)][7] != 0 ? 0 : 2;
 
-	Animation_Start(emu_get_memorycsip(proc), s->position, 0, s->houseID, 3);
+	assert(animationMapID < 16);
+	Animation_Start(g_table_animation_map[animationMapID], s->position, 0, s->houseID, 3);
 
 	return true;
 }
@@ -1398,7 +1398,7 @@ uint32 Map_Activity_Tick()
 				case  8: Map_06F7_072B(s); break;
 				case  9: Map_06F7_08BD(s, data); break;
 				case 10: Map_06F7_08DD(s); break;
-				case 11: Map_06F7_0967(s, data); break;
+				case 11: Map_SetAnimation(s, data); break;
 				case 13: Map_PerformBloomExplosion(s); break;
 				default: Map_StopActivity(s); break;
 			}

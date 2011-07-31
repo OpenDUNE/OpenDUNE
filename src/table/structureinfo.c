@@ -53,10 +53,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 8,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C71 } },
-		/* [1]                  */ { { 0x0, 0x2C71 } },
-		/* [2]                  */ { { 0x0, 0x2C71 } }
+		{ /* animationIndex */
+		/* [0]                  */ 2,
+		/* [1]                  */ 2,
+		/* [2]                  */ 2
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -120,10 +120,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 8,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C71 } },
-		/* [1]                  */ { { 0x0, 0x2C71 } },
-		/* [2]                  */ { { 0x0, 0x2C71 } }
+		{ /* animationIndex */
+		/* [0]                  */ 2,
+		/* [1]                  */ 2,
+		/* [2]                  */ 2
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -187,10 +187,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 80,
 		/* layout               */ STRUCTURE_LAYOUT_3x3,
 		/* iconGroup            */ 11,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C74 } },
-		/* [1]                  */ { { 0x0, 0x2C74 } },
-		/* [2]                  */ { { 0x0, 0x2C74 } }
+		{ /* animationIndex */
+		/* [0]                  */ 4,
+		/* [1]                  */ 4,
+		/* [2]                  */ 4
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -254,10 +254,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 12,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C82 } },
-		/* [1]                  */ { { 0x0, 0x2C83 } },
-		/* [2]                  */ { { 0x0, 0x2C84 } }
+		{ /* animationIndex */
+		/* [0]                  */ 14,
+		/* [1]                  */ 15,
+		/* [2]                  */ 16
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ 13,
@@ -321,10 +321,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 35,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 13,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C7E } },
-		/* [1]                  */ { { 0x0, 0x2C7F } },
-		/* [2]                  */ { { 0x0, 0x2C80 } }
+		{ /* animationIndex */
+		/* [0]                  */ 11,
+		/* [1]                  */ 12,
+		/* [2]                  */ 13
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ 10,
@@ -388,10 +388,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 35,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 14,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C79 } },
-		/* [1]                  */ { { 0x0, 0x2C7A } },
-		/* [2]                  */ { { 0x0, 0x2C7C } }
+		{ /* animationIndex */
+		/* [0]                  */ 8,
+		/* [1]                  */ 9,
+		/* [2]                  */ 10
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ 0,
@@ -455,10 +455,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 40,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 15,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C8A } },
-		/* [1]                  */ { { 0x0, 0x2C8A } },
-		/* [2]                  */ { { 0x0, 0x2C8A } }
+		{ /* animationIndex */
+		/* [0]                  */ 20,
+		/* [1]                  */ 20,
+		/* [2]                  */ 20
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -522,10 +522,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 16,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C8B } },
-		/* [1]                  */ { { 0x0, 0x2C8B } },
-		/* [2]                  */ { { 0x0, 0x2C8B } }
+		{ /* animationIndex */
+		/* [0]                  */ 21,
+		/* [1]                  */ 21,
+		/* [2]                  */ 21
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ 5,
@@ -589,10 +589,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 17,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C8C } },
-		/* [1]                  */ { { 0x0, 0x2C8C } },
-		/* [2]                  */ { { 0x0, 0x2C8C } }
+		{ /* animationIndex */
+		/* [0]                  */ 22,
+		/* [1]                  */ 22,
+		/* [2]                  */ 22
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -656,10 +656,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ -100,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 19,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C92 } },
-		/* [1]                  */ { { 0x0, 0x2C92 } },
-		/* [2]                  */ { { 0x0, 0x2C92 } }
+		{ /* animationIndex */
+		/* [0]                  */ 26,
+		/* [1]                  */ 26,
+		/* [2]                  */ 26
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -723,10 +723,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 10,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 18,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C94 } },
-		/* [1]                  */ { { 0x0, 0x2C94 } },
-		/* [2]                  */ { { 0x0, 0x2C94 } }
+		{ /* animationIndex */
+		/* [0]                  */ 28,
+		/* [1]                  */ 28,
+		/* [2]                  */ 28
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ 4,
@@ -790,10 +790,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 50,
 		/* layout               */ STRUCTURE_LAYOUT_3x3,
 		/* iconGroup            */ 20,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C75 } },
-		/* [1]                  */ { { 0x0, 0x2C76 } },
-		/* [2]                  */ { { 0x0, 0x2C78 } }
+		{ /* animationIndex */
+		/* [0]                  */ 5,
+		/* [1]                  */ 6,
+		/* [2]                  */ 7
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -857,10 +857,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 30,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 21,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C86 } },
-		/* [1]                  */ { { 0x0, 0x2C87 } },
-		/* [2]                  */ { { 0x0, 0x2C89 } }
+		{ /* animationIndex */
+		/* [0]                  */ 17,
+		/* [1]                  */ 18,
+		/* [2]                  */ 19
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -924,10 +924,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 20,
 		/* layout               */ STRUCTURE_LAYOUT_3x2,
 		/* iconGroup            */ 22,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C8D } },
-		/* [1]                  */ { { 0x0, 0x2C8F } },
-		/* [2]                  */ { { 0x0, 0x2C90 } }
+		{ /* animationIndex */
+		/* [0]                  */ 23,
+		/* [1]                  */ 24,
+		/* [2]                  */ 25
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -991,10 +991,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 0,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 6,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x0 } },
-		/* [1]                  */ { { 0x0, 0x0 } },
-		/* [2]                  */ { { 0x0, 0x0 } }
+		{ /* animationIndex */
+		/* [0]                  */ 0xFF,
+		/* [1]                  */ 0xFF,
+		/* [2]                  */ 0xFF
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -1058,10 +1058,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 10,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 23,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x0 } },
-		/* [1]                  */ { { 0x0, 0x0 } },
-		/* [2]                  */ { { 0x0, 0x0 } }
+		{ /* animationIndex */
+		/* [0]                  */ 0xFF,
+		/* [1]                  */ 0xFF,
+		/* [2]                  */ 0xFF
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -1125,10 +1125,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 25,
 		/* layout               */ STRUCTURE_LAYOUT_1x1,
 		/* iconGroup            */ 24,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x0 } },
-		/* [1]                  */ { { 0x0, 0x0 } },
-		/* [2]                  */ { { 0x0, 0x0 } }
+		{ /* animationIndex */
+		/* [0]                  */ 0xFF,
+		/* [1]                  */ 0xFF,
+		/* [2]                  */ 0xFF
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -1192,10 +1192,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 5,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 25,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C93 } },
-		/* [1]                  */ { { 0x0, 0x2C93 } },
-		/* [2]                  */ { { 0x0, 0x2C93 } }
+		{ /* animationIndex */
+		/* [0]                  */ 27,
+		/* [1]                  */ 27,
+		/* [2]                  */ 27
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,
@@ -1259,10 +1259,10 @@ StructureInfo g_table_structureInfo[] = {
 		/* powerUsage           */ 30,
 		/* layout               */ STRUCTURE_LAYOUT_2x2,
 		/* iconGroup            */ 26,
-		{ /* animationProc */
-		/* [0]                  */ { { 0x0, 0x2C72 } },
-		/* [1]                  */ { { 0x0, 0x2C72 } },
-		/* [2]                  */ { { 0x0, 0x2C72 } }
+		{ /* animationIndex */
+		/* [0]                  */ 3,
+		/* [1]                  */ 3,
+		/* [2]                  */ 3
 		},
 		{ /* buildableUnits */
 		/* [0]                  */ -1,

@@ -29,8 +29,8 @@ MSVC_PACKED_BEGIN
  * How a single command looks like.
  */
 typedef struct AnimationCommandStruct {
-	PACK BIT_S16 parameter:12;                              /*!< The parameter for this command. */
 	PACK BIT_U16 command:4;                                 /*!< The command of this command (see AnimationCommand). */
+	PACK BIT_S16 parameter:12;                              /*!< The parameter for this command. */
 } GCC_PACKED AnimationCommandStruct;
 MSVC_PACKED_END
 assert_compile(sizeof(AnimationCommandStruct) == 0x2);
@@ -47,6 +47,12 @@ typedef struct Animation {
 	AnimationCommandStruct *commands;                       /*!< List of commands for this Animation. */
 	tile32  tile;                                           /*!< Top-left tile of Animation. */
 } Animation;
+
+extern AnimationCommandStruct g_table_animation_unitMove[8][8];
+extern AnimationCommandStruct g_table_animation_unitScript1[4][8];
+extern AnimationCommandStruct g_table_animation_unitScript2[4][8];
+extern AnimationCommandStruct g_table_animation_map[16][8];
+extern AnimationCommandStruct g_table_animation_structure[29][16];
 
 extern Animation g_animations[];
 

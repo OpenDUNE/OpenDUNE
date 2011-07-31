@@ -73,7 +73,7 @@ typedef struct StructureInfo {
 	 int16 powerUsage;                                      /*!< How much power this Structure uses (positive value) or produces (negative value). */
 	uint16 layout;                                          /*!< Layout type of Structure. */
 	uint16 iconGroup;                                       /*!< In which IconGroup the sprites of the Structure belongs. */
-	csip32 animationProc[3];                                /*!< The procs to the Animation of the Structure. */
+	uint8  animationIndex[3];                               /*!< The index inside g_table_animation_structure for the Animation of the Structure. */
 	uint16 buildableUnits[8];                               /*!< Which units this structure can produce. */
 	uint16 upgradeCampaign[3];                              /*!< Minimum campaign for upgrades. */
 } StructureInfo;

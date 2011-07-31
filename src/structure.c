@@ -2,6 +2,7 @@
 
 /** @file src/structure.c %Structure handling routines. */
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
@@ -1318,7 +1319,7 @@ void Structure_0C3A_1002(Structure *s)
 	}
 
 	if (!g_debugScenario) {
-		Animation_Start(&emu_get_memory8(0x2C6F, 0x0000, 0), s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+		Animation_Start(g_table_animation_structure[0], s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
 	}
 
 	h = House_Get_ByIndex(s->o.houseID);
@@ -1776,7 +1777,6 @@ bool Structure_SetRepairingState(Structure *s, int8 state, Widget *w)
 void Structure_UpdateMap(Structure *s)
 {
 	const StructureInfo *si;
-	csip32 animationProc;
 	uint16 layoutSize;
 	const uint16 *layout;
 	uint16 *iconMap;
@@ -1811,19 +1811,22 @@ void Structure_UpdateMap(Structure *s)
 		Map_Update(position, 0, false);
 	}
 
-	if (s->animation >= 0) {
-		uint16 animation = (s->animation > 2) ? 2 : s->animation;
-		if (si->animationProc[animation].csip == 0) animation &= 1;
-
-		animationProc.csip = si->animationProc[animation].csip;
-	} else {
-		animationProc.s.cs = 0x2C70;
-		animationProc.s.ip = 0x0;
-	}
-
 	s->o.flags.s.variable_4_1000 = true;
 
-	Animation_Start(emu_get_memorycsip(animationProc), s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+	if (s->animation >= 0) {
+		uint16 animationIndex = (s->animation > 2) ? 2 : s->animation;
+
+		if (si->animationIndex[animationIndex] == 0xFF) {
+			Animation_Start(NULL, s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+		} else {
+			uint8 animationID = si->animationIndex[animationIndex];
+
+			assert(animationID < 28);
+			Animation_Start(g_table_animation_structure[animationID], s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+		}
+	} else {
+		Animation_Start(g_table_animation_structure[1], s->o.position, si->layout, s->o.houseID, (uint8)si->iconGroup);
+	}
 }
 
 uint32 Structure_GetBuildable(Structure *s)
