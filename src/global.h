@@ -818,7 +818,7 @@ typedef struct GlobalData {
 	/* 3952(4)   */ PACK csip32  removed_3952;              /*!< REMOVED - Table with orientation information. */
 	/* 3956(4)   */ PACK csip32  removed_3956;              /*!< REMOVED - Pointer to the current animations. */
 	/* 395A(4)   */ PACK csip32  removed_395A;              /*!< REMOVED - ?? */
-	/* 395E(132) */ PACK uint32 variable_395E[33];          /*!< ?? */
+	/* 395E(132) */ PACK uint32  removed_395E[33];          /*!< REMOVED - tile offsets (only 15..32) are used. */
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
 	/* 39E4(2)   */ PACK uint16 variable_39E4;              /*!< ?? */
 	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */

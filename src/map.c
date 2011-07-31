@@ -1769,6 +1769,14 @@ uint16 Map_B4CD_1816(uint16 locationID, uint8 houseID)
 
 void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 {
+	static const uint32 tileOffsets[] = {
+		0x00800080, 0x00880088, 0x00900090, 0x00980098,
+		0x00A000A0, 0x00A800A8, 0x00B000B0, 0x00B800B8,
+		0x00C000C0, 0x00C800C8, 0x00D000D0, 0x00D800D8,
+		0x00E000E0, 0x00E800E8, 0x00F000F0, 0x00F800F8,
+		0x01000100, 0x01800180
+	};
+
 	uint16 loc0A;
 	tile32 loc12;
 	uint16 loc04;
@@ -1806,7 +1814,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 	}
 
 	arg06 = max(min(arg06, 32), 15);
-	position.tile -= g_global->variable_395E[arg06];
+	position.tile -= tileOffsets[arg06 - 15];
 	loc12.tile = 0;
 	loc04 = 0;
 	for (loc0A = 0; loc0A < 9; loc0A++) {
