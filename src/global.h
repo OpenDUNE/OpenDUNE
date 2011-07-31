@@ -735,19 +735,19 @@ typedef struct GlobalData {
 	/* 373C(4)   */ PACK uint32  removed_373C;              /*!< REMOVED text display timeout. */
 	/* 3740(2)   */ PACK uint16  removed_3740;              /*!< REMOVED text offset of scroll */
 	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< Always zero bytes, used to memset 4 csips. No longer in use. */
-	/* 3752(2)   */ PACK uint16 variable_3752;              /*!< ?? */
-	/* 3754(2)   */ PACK uint16 variable_3754;              /*!< ?? */
-	/* 3756(2)   */ PACK uint16 variable_3756;              /*!< ?? */
-	/* 3758(2)   */ PACK uint16 variable_3758;              /*!< ?? */
-	/* 375A(2)   */ PACK uint16 variable_375A;              /*!< ?? */
-	/* 375C(2)   */ PACK uint16 variable_375C;              /*!< ?? */
-	/* 375E(2)   */ PACK uint16 variable_375E;              /*!< ?? */
-	/* 3760(2)   */ PACK uint16 variable_3760;              /*!< ?? */
-	/* 3762(2)   */ PACK uint16 variable_3762;              /*!< ?? */
-	/* 3764(2)   */ PACK uint16 variable_3764;              /*!< ?? */
-	/* 3766(2)   */ PACK uint16 variable_3766;              /*!< ?? */
-	/* 3768(2)   */ PACK uint16 variable_3768;              /*!< ?? */
-	/* 376A(2)   */ PACK uint16 variable_376A;              /*!< ?? */
+	/* 3752(2)   */ PACK uint16  removed_3752;              /*!< REMOVED - displayed action type */
+	/* 3754(2)   */ PACK uint16  removed_3754;              /*!< REMOVED - displayed hit points */
+	/* 3756(2)   */ PACK uint16  removed_3756;              /*!< REMOVED - displayed index */
+	/* 3758(2)   */ PACK uint16  removed_3758;              /*!< REMOVED - displayed countdown */
+	/* 375A(2)   */ PACK uint16  removed_375A;              /*!< REMOVED - displayed object type */
+	/* 375C(2)   */ PACK uint16  removed_375C;              /*!< REMOVED - displayed structure low flags */
+	/* 375E(2)   */ PACK uint16  removed_375E;              /*!< REMOVED - displayed linked ID */
+	/* 3760(2)   */ PACK uint16  removed_3760;              /*!< REMOVED - displayed active action */
+	/* 3762(2)   */ PACK uint16  removed_3762;              /*!< REMOVED - displayed house missile countdown */
+	/* 3764(2)   */ PACK uint16  removed_3764;              /*!< REMOVED - displayed upgrade time */
+	/* 3766(2)   */ PACK uint16  removed_3766;              /*!< REMOVED - displayed structure hi flags */
+	/* 3768(2)   */ PACK uint16  removed_3768;              /*!< REMOVED - displayed starport time */
+	/* 376A(2)   */ PACK uint16  removed_376A;              /*!< REMOVED - displayed house ID */
 	/* 376C(2)   */ PACK uint16 variable_376C;              /*!< ?? */
 	/* 376E(2)   */ PACK uint16 variable_376E;              /*!< ?? */
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
