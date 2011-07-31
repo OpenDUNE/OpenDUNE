@@ -8,56 +8,56 @@
 #include "../animation.h"
 
 AnimationCommandStruct g_table_animation_unitMove[8][8] = {
-		{ /* 33C8 / 0 */
+		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 1 */
+		{ /* 1 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 2 */
+		{ /* 2 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 6 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 3 */
+		{ /* 3 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 3 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 7 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 4 */
+		{ /* 4 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 5 */
+		{ /* 5 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 6 */
+		{ /* 6 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 6 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 7 */
+		{ /* 7 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 3 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 7 },
@@ -67,25 +67,25 @@ AnimationCommandStruct g_table_animation_unitMove[8][8] = {
 };
 
 AnimationCommandStruct g_table_animation_unitScript1[4][8] = {
-		{ /* 33C8 / 8 */
+		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 9 */
+		{ /* 1 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 10 */
+		{ /* 2 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PLAY_VOICE        , 35 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 11 */
+		{ /* 3 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PLAY_VOICE        , 35 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -94,25 +94,25 @@ AnimationCommandStruct g_table_animation_unitScript1[4][8] = {
 };
 
 AnimationCommandStruct g_table_animation_unitScript2[4][8] = {
-		{ /* 33C8 / 12 */
+		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 3 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 13 */
+		{ /* 1 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 14 */
+		{ /* 2 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PLAY_VOICE        , 35 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 15 */
+		{ /* 3 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PLAY_VOICE        , 35 },
 			{ ANIMATION_PAUSE             , 600 },
@@ -121,96 +121,96 @@ AnimationCommandStruct g_table_animation_unitScript2[4][8] = {
 };
 
 AnimationCommandStruct g_table_animation_map[16][8] = {
-		{ /* 33C8 / 16 */
+		{ /* 0 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 17 */
+		{ /* 1 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 1 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 2 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 18 */
+		{ /* 2 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 19 */
+		{ /* 3 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 0 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 20 */
+		{ /* 4 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 21 */
+		{ /* 5 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 4 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_SET_OVERLAY_SPRITE, 5 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 22 */
+		{ /* 6 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 3 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 23 */
+		{ /* 7 */
 			{ ANIMATION_SET_OVERLAY_SPRITE, 3 },
 			{ ANIMATION_PAUSE             , 600 },
 			{ ANIMATION_STOP              , 0 }
 		},
-		{ /* 33C8 / 24 */
+		{ /* 8 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 25 */
+		{ /* 9 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 26 */
+		{ /* 10 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 27 */
+		{ /* 11 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 28 */
+		{ /* 12 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 29 */
+		{ /* 13 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 30 */
+		{ /* 14 */
 			{ ANIMATION_STOP              , 0 },
 		},
-		{ /* 33C8 / 31 */
+		{ /* 15 */
 			{ ANIMATION_STOP              , 0 },
 		}
 };
 
 AnimationCommandStruct g_table_animation_structure[29][16] = {
-		{ /* 2C6F:0000 */
+		{ /* 0 */
 			{ ANIMATION_SET_GROUND_SPRITE , 1 },
 			{ ANIMATION_PAUSE             , 300 },
 			{ ANIMATION_ABORT             , 0 }
 		},
-		{ /* 2C70:0000 */
+		{ /* 1 */
 			{ ANIMATION_SET_GROUND_SPRITE , 0 },
 			{ ANIMATION_ABORT             , 0 }
 		},
-		{ /* 2C71:0000 */
+		{ /* 2 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 300 },
 			{ ANIMATION_ABORT             , 0 }
 		},
-		{ /* 2C72:0000 */
+		{ /* 3 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
@@ -221,21 +221,21 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C74:0000 */
+		{ /* 4 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C75:0000 */
+		{ /* 5 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C76:0000 */
+		{ /* 6 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -246,21 +246,21 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C78:0000 */
+		{ /* 7 */
 			{ ANIMATION_SET_GROUND_SPRITE , 8 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 9 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C79:0000 */
+		{ /* 8 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C7A:0000 */
+		{ /* 9 */
 			{ ANIMATION_SET_GROUND_SPRITE , 7 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 6 },
@@ -271,7 +271,7 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C7C:0000 */
+		{ /* 10 */
 			{ ANIMATION_SET_GROUND_SPRITE , 4 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -282,21 +282,21 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C7E:0000 */
+		{ /* 11 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C7F:0000 */
+		{ /* 12 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C80:0000 */
+		{ /* 13 */
 			{ ANIMATION_SET_GROUND_SPRITE , 4 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -307,21 +307,21 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C82:0000 */
+		{ /* 14 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C83:0000 */
+		{ /* 15 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C84:0000 */
+		{ /* 16 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -338,14 +338,14 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C86:0000 */
+		{ /* 17 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C87:0000 */
+		{ /* 18 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -356,35 +356,35 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C89:0000 */
+		{ /* 19 */
 			{ ANIMATION_SET_GROUND_SPRITE , 8 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 9 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C8A:0000 */
+		{ /* 20 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C8B:0000 */
+		{ /* 21 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C8C:0000 */
+		{ /* 22 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C8D:0000 */
+		{ /* 23 */
 			{ ANIMATION_SET_GROUND_SPRITE , 8 },
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_SET_GROUND_SPRITE , 9 },
@@ -399,14 +399,14 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C8F:0000 */
+		{ /* 24 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C90:0000 */
+		{ /* 25 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_SET_GROUND_SPRITE , 5 },
@@ -419,21 +419,21 @@ AnimationCommandStruct g_table_animation_structure[29][16] = {
 			{ ANIMATION_PAUSE             , 60 },
 			{ ANIMATION_FORWARD           , -4 }
 		},
-		{ /* 2C92:0000 */
+		{ /* 26 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C93:0000 */
+		{ /* 27 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_REWIND            , 0 }
 		},
-		{ /* 2C94:0000 */
+		{ /* 28 */
 			{ ANIMATION_SET_GROUND_SPRITE , 2 },
 			{ ANIMATION_PAUSE             , 30 },
 			{ ANIMATION_SET_GROUND_SPRITE , 3 },
