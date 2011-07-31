@@ -96,7 +96,7 @@ void Music_Play(uint16 musicID)
 		s_currentMusic = g_table_musics[musicID].string;
 
 		Driver_Music_Stop();
-		Driver_Voice_Play(NULL, 0xFF, 0xFF);
+		Driver_Voice_Play(NULL, 0xFF);
 		Driver_Music_LoadFile(NULL);
 		Driver_Sound_LoadFile(NULL);
 		Driver_Music_LoadFile(s_currentMusic);
@@ -134,7 +134,7 @@ void Voice_PlayAtTile(int16 voiceID, tile32 position)
 		g_global->variable_4060 = g_table_voices[index].variable_04;
 		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
 
-		Driver_Voice_Play(g_readBuffer, g_global->variable_4060, volume);
+		Driver_Voice_Play(g_readBuffer, g_global->variable_4060);
 	} else {
 		Driver_Sound_Play(voiceID, volume);
 	}
@@ -278,7 +278,7 @@ void Sound_StartSound(uint16 index)
 
 	if (g_variable_3E54[index] != NULL) {
 		memmove(g_readBuffer, g_variable_3E54[index], g_variable_3E54_size[index]);
-		Driver_Voice_Play(g_readBuffer, 0xFF, 0xFF);
+		Driver_Voice_Play(g_readBuffer, 0xFF);
 	} else {
 		char filenameBuffer[16];
 		const char *filename;
@@ -289,7 +289,7 @@ void Sound_StartSound(uint16 index)
 
 			Driver_Voice_LoadFile(filenameBuffer, g_readBuffer, g_readBufferSize);
 
-			Driver_Voice_Play(g_readBuffer, 0xFF, 0xFF);
+			Driver_Voice_Play(g_readBuffer, 0xFF);
 		}
 	}
 }

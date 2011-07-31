@@ -91,7 +91,7 @@ static void GUI_Mentat_ShowDialog(uint8 houseID, uint16 stringID, const char *ws
 
 	Sound_Output_Feedback(0xFFFE);
 
-	Driver_Voice_Play(NULL, 0xFF, 0xFF);
+	Driver_Voice_Play(NULL, 0xFF);
 
 	Music_Play(musicID);
 
@@ -367,7 +367,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 
 	Sound_Output_Feedback(0xFFFE);
 
-	Driver_Voice_Play(NULL, 0xFF, 0xFF);
+	Driver_Voice_Play(NULL, 0xFF);
 
 	Music_Play(g_table_houseInfo[g_playerHouseID].musicBriefing);
 

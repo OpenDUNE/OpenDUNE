@@ -11,16 +11,7 @@
 
 #undef DECOMPILED_INCLUDE
 
-extern void f__AB00_02AB_000F_A43F();
 extern void f__AB01_0787_0028_C5A7();
-extern void f__AB00_086B_0007_9A8B();
-extern void emu_DSP_GetInfo();
-extern void emu_DSP_Uninit();
-extern void emu_DSP_SetVolume();
-extern void emu_DSP_Init();
-extern void emu_DSP_Play();
-extern void emu_DSP_Start();
-extern void emu_DSP_Stop();
 extern void f__AB01_15E1_0068_0B9B();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_18AC_0082_307C();

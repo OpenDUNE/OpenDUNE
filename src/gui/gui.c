@@ -1633,7 +1633,7 @@ uint8 GUI_PickHouse()
 
 	memset(palette, 0, 256 * 3);
 
-	Driver_Voice_Play(NULL, 0xFF, 0xFF);
+	Driver_Voice_Play(NULL, 0xFF);
 
 	Voice_LoadVoices(5);
 

@@ -15,20 +15,11 @@
 
 #include "driver.h"
 
+#include "dsp.h"
 #include "file.h"
 #include "mt32mpu.h"
 #include "timer.h"
 #include "tools.h"
-
-extern void emu_Tools_PrintDebug();
-extern void emu_DSP_GetInfo();
-extern void emu_DSP_Uninit();
-extern void emu_DSP_SetVolume();
-extern void emu_DSP_Init();
-extern void emu_DSP_Play();
-extern void emu_DSP_Start();
-extern void emu_DSP_Stop();
-extern uint8 DSP_GetStatus();
 
 extern uint16 g_mt32mpu_cs;
 static uint16 s_mt32mpu_cs;
@@ -508,7 +499,7 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 	File_ReadBlockFile(filename, buffer, length);
 }
 
-void Driver_Voice_Play(uint8 *arg06, int16 arg0A, int16 arg0C)
+void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 {
 	Driver *voice = &g_global->voiceDriver;
 
@@ -530,37 +521,16 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A, int16 arg0C)
 
 	g_global->variable_639A = arg0A;
 
-	emu_push(arg0C / 2);
-	emu_push(voice->index); /* unused, but needed for correct param accesses. */
-	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_SetVolume();
-	emu_sp += 4;
-
 	if (arg06 == NULL) return;
 
-	/* XXX - Temporary hack so we can have other pointers outside the 16bit world.
-	 *   The input buffer is never bigger than 0x6D60, so copy that, than we are
-	 *   fine for sure. */
-	{
-		static csip32 arg06_csip = { { 0, 0 } };
-		if (arg06_csip.csip == 0x0) arg06_csip = Tools_Malloc(0x6D60, 0x20);
-		memcpy(emu_get_memorycsip(arg06_csip), arg06, 0x6D60);
-
-		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
-		emu_push(voice->index); /* unused, but needed for correct param accesses. */
-		emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Play();
-		emu_sp += 6;
-	}
-
-	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Start();
+	DSP_Play(arg06);
 }
 
 void Driver_Voice_Stop()
 {
 	Driver *voice = &g_global->voiceDriver;
 
-	if (Driver_Voice_IsPlaying()) {
-		emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Stop();
-	}
+	if (Driver_Voice_IsPlaying()) DSP_Stop();
 
 	if (voice->contentMalloced != 0) {
 		Tools_Free(voice->content);

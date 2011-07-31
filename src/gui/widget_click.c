@@ -704,7 +704,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 
 	memmove(g_palette_998A, g_paletteActive, 256 * 3);
 
-	Driver_Voice_Play(NULL, 0xFF, 0xFF);
+	Driver_Voice_Play(NULL, 0xFF);
 
 	Timer_SetTimer(TIMER_GAME, false);
 
