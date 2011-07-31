@@ -541,3 +541,11 @@ void House_CalculatePowerAndCredit(House *h)
 		g_playerCreditsNoSilo = 0;
 	}
 }
+
+const char *House_GetWSAHouseFilename(uint8 houseID)
+{
+	static const char *houseWSAFileNames[3] = { "FHARK.WSA", "FARTR.WSA", "FORDOS.WSA" };
+
+	if (houseID >= 3) return NULL;
+	return houseWSAFileNames[houseID];
+}

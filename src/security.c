@@ -84,7 +84,7 @@ static void GUI_Security_NormaliseText(char *str)
  */
 bool GUI_Security_Show()
 {
-	char *wsaHouseFilename;
+	const char *wsaHouseFilename;
 	uint16 questionsCount;
 	uint16 oldValue_07AE_0000;
 	uint16 oldScreenID;
@@ -94,22 +94,8 @@ bool GUI_Security_Show()
 	g_disableOtherMovement = true;
 	g_interrogation = true;
 
-	switch (g_playerHouseID) {
-		case HOUSE_HARKONNEN:
-			wsaHouseFilename = "FHARK.WSA";
-			break;
-
-		case HOUSE_ATREIDES:
-			wsaHouseFilename = "FARTR.WSA";
-			break;
-
-		case HOUSE_ORDOS:
-			wsaHouseFilename = "FORDOS.WSA";
-			break;
-
-		default:
-			return true;
-	}
+	wsaHouseFilename = House_GetWSAHouseFilename(g_playerHouseID);
+	if (wsaHouseFilename == NULL) return true;
 
 	{
 		char *filename;

@@ -1716,7 +1716,7 @@ uint8 GUI_PickHouse()
 
 		GUI_Mouse_Show_Safe();
 
-		GUI_Mentat_Show(g_readBuffer, (char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, false);
+		GUI_Mentat_Show(g_readBuffer, House_GetWSAHouseFilename(houseID), NULL, false);
 
 		Sprites_LoadImage(String_GenerateFilename("MISC"), 3, g_palette1, 1);
 
@@ -1731,7 +1731,7 @@ uint8 GUI_PickHouse()
 		GUI_Mouse_Show_Safe();
 
 		while (true) {
-			yes_no = GUI_Mentat_Loop((char *)emu_get_memorycsip(g_global->variable_2BBE[houseID]), NULL, NULL, true, w);
+			yes_no = GUI_Mentat_Loop(House_GetWSAHouseFilename(houseID), NULL, NULL, true, w);
 
 			if ((yes_no & 0x8000) != 0) break;
 		}
