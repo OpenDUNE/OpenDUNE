@@ -28,7 +28,7 @@ extern void emu_DSP_Init();
 extern void emu_DSP_Play();
 extern void emu_DSP_Start();
 extern void emu_DSP_Stop();
-extern void emu_DSP_GetStatus();
+extern uint8 DSP_GetStatus();
 
 extern uint16 g_mt32mpu_cs;
 static uint16 s_mt32mpu_cs;
@@ -435,8 +435,7 @@ bool Driver_Music_IsPlaying()
 bool Driver_Voice_IsPlaying()
 {
 	if (g_global->voiceDriver.index == 0xFFFF) return false;
-	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_GetStatus();
-	return emu_ax == 2;
+	return DSP_GetStatus() == 2;
 }
 
 void Driver_Sound_Play(int16 index, int16 volume)
@@ -546,11 +545,10 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A, int16 arg0C)
 		if (arg06_csip.csip == 0x0) arg06_csip = Tools_Malloc(0x6D60, 0x20);
 		memcpy(emu_get_memorycsip(arg06_csip), arg06, 0x6D60);
 
-		emu_push(0xFFFF);
 		emu_push(arg06_csip.s.cs); emu_push(arg06_csip.s.ip);
 		emu_push(voice->index); /* unused, but needed for correct param accesses. */
 		emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Play();
-		emu_sp += 8;
+		emu_sp += 6;
 	}
 
 	emu_push(emu_cs); emu_push(emu_ip); emu_cs = 0x4352; emu_DSP_Start();

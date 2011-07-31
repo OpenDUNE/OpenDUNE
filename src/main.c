@@ -11,14 +11,12 @@
 #include "libemu.h"
 #include "opendune.h"
 
-extern void f__AB00_056F_0020_6328();
-extern void f__AB00_058F_000E_41A1();
-
 extern void System_Init_Global();
 
 extern char *emu_caption;
 extern uint8 emu_mpu;
 extern uint8 emu_pic;
+extern uint8 emu_pcm;
 
 #if defined(__APPLE__)
 int SDL_main(int argc, char **argv)
@@ -38,12 +36,10 @@ int main(int argc, char **argv)
 	FreeConsole();
 #endif
 
-	emu_hard_link(0x4352, 0x056F, &f__AB00_056F_0020_6328);
-	emu_hard_link(0x4352, 0x058F, &f__AB00_058F_000E_41A1);
-
-	/* We don't need the MPU or PIC from libemu. */
+	/* We don't need the MPU, PIC or PCM from libemu. */
 	emu_mpu = 0;
 	emu_pic = 0;
+	emu_pcm = 0;
 
 	emu_init(argc, argv);
 	emu_overlay = 1;

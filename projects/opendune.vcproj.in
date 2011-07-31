@@ -168,10 +168,6 @@
 	</References>
 	<Files>
 !!FILES!!
-		<File
-			RelativePath="..\src\function_names.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

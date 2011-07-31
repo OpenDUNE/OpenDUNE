@@ -1991,10 +1991,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\src\function_names.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
