@@ -77,18 +77,18 @@ static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
 /** Direction of change in the #GameLoop_PalettePart_Update function. */
 typedef enum PalettePartDirection {
 	PPD_STOPPED,        /*!< Not changing. */
-	PPD_TO_NEW_PALETTE, /*!< Modifying towards #_palettePartTarget */
+	PPD_TO_NEW_PALETTE, /*!< Modifying towards #s_palettePartTarget */
 	PPD_TO_BLACK        /*!< Modifying towards all black. */
 } PalettePartDirection;
 
-static PalettePartDirection _palettePartDirection;    /*!< Direction of change. @see PalettePartDirection */
-static uint32               _paletteAnimationTimeout; /*!< Timeout value for the next palette change. */
-static uint16               _palettePartCount;        /*!< Number of steps left before the target palette is reached. */
-static uint8                _palettePartTarget[18];   /*!< Target palette part (6 colours). */
-static uint8                _palettePartCurrent[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
-static uint8                _palettePartChange[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
+static PalettePartDirection s_palettePartDirection;    /*!< Direction of change. @see PalettePartDirection */
+static uint32               s_paletteAnimationTimeout; /*!< Timeout value for the next palette change. */
+static uint16               s_palettePartCount;        /*!< Number of steps left before the target palette is reached. */
+static uint8                s_palettePartTarget[18];   /*!< Target palette part (6 colours). */
+static uint8                s_palettePartCurrent[18];  /*!< Current value of the palette part (6 colours, updated each call to #GameLoop_PalettePart_Update). */
+static uint8                s_palettePartChange[18];   /*!< Amount of change of each RGB colour of the palette part with each step. */
 
-static bool _debugForceWin = false; /*!< When true, you immediately win the level. */
+static bool  s_debugForceWin = false; /*!< When true, you immediately win the level. */
 
 static void *s_spriteBuffer  = NULL;
 static void *s_buffer_182E = NULL;
@@ -103,7 +103,7 @@ static bool GameLoop_IsLevelFinished()
 {
 	bool finish = false;
 
-	if (_debugForceWin) return true;
+	if (s_debugForceWin) return true;
 
 	/* You have to play at least 7200 ticks before you can win the game */
 	if (g_timerGame - g_tickScenarioStart < 7200) return false;
@@ -172,7 +172,7 @@ static bool GameLoop_IsLevelWon()
 {
 	bool win = false;
 
-	if (_debugForceWin) return true;
+	if (s_debugForceWin) return true;
 
 	/* Check for structure counts hitting zero */
 	if ((g_scenario.loseFlags & 0x3) != 0) {
@@ -233,15 +233,15 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 	s_var_805A = arg_805A;
 	s_var_8056 = arg_8056;
 	s_var_8062 = arg_8062;
-	g_global->variable_6C6C = 0;
-	g_global->variable_8072 = 0;
+	g_global->variable_6C6C   = 0;
+	g_global->variable_8072   = 0;
 	g_global->animationSoundEffect = 0;
-	g_global->variable_8068 = 0;
-	_palettePartDirection   = PPD_STOPPED;
-	_palettePartCount       = 0;
-	g_global->variable_8074 = 0;
-	_paletteAnimationTimeout = 0;
-	g_global->variable_806A = 0xFFFF;
+	g_global->variable_8068   = 0;
+	s_palettePartDirection    = PPD_STOPPED;
+	s_palettePartCount        = 0;
+	g_global->variable_8074   = 0;
+	s_paletteAnimationTimeout = 0;
+	g_global->variable_806A   = 0xFFFF;
 
 	GFX_ClearScreen();
 
@@ -254,13 +254,13 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 
 	GFX_Screen_SetActive(0);
 
-	memcpy(_palettePartTarget, &g_palette1[(144 + s_var_805A->variable_0002 * 16) * 3], 6 * 3);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + s_var_805A->variable_0002 * 16) * 3], 6 * 3);
 
 	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
-	memcpy(_palettePartCurrent, _palettePartTarget, 6 * 3);
+	memcpy(s_palettePartCurrent, s_palettePartTarget, 6 * 3);
 
-	memset(_palettePartChange, 0, 6 * 3);
+	memset(s_palettePartChange, 0, 6 * 3);
 
 
 	colors[0] = 0;
@@ -354,23 +354,23 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 		g_global->variable_8074 = 0;
 		g_global->variable_8072++;
-		_palettePartDirection = PPD_TO_BLACK;
+		s_palettePartDirection = PPD_TO_BLACK;
 
 		if (var805A->variable_0009 != 0) {
 			uint8 i;
 
-			_palettePartCount = var805A->variable_0009;
+			s_palettePartCount = var805A->variable_0009;
 
 			for (i = 0; i < 18; i++) {
-				_palettePartChange[i] = _palettePartTarget[i] / _palettePartCount;
-				if (_palettePartChange[i] == 0) _palettePartChange[i] = 1;
+				s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
+				if (s_palettePartChange[i] == 0) s_palettePartChange[i] = 1;
 			}
 
 			return;
 		}
 
-		memcpy(_palettePartChange, _palettePartTarget, 18);
-		_palettePartCount = 1;
+		memcpy(s_palettePartChange, s_palettePartTarget, 18);
+		s_palettePartCount = 1;
 		return;
 	}
 
@@ -378,7 +378,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	if (g_global->variable_806A-- != 0) return;
 
-	memcpy(_palettePartTarget, &g_palette1[(144 + (var805A->variable_0002 * 16)) * 3], 18);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + (var805A->variable_0002 * 16)) * 3], 18);
 
 	g_global->variable_8074 = 1;
 
@@ -398,20 +398,20 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		}
 	}
 
-	_palettePartDirection = PPD_TO_NEW_PALETTE;
+	s_palettePartDirection = PPD_TO_NEW_PALETTE;
 
 	if (var805A->variable_0007 != 0) {
 		uint8 i;
 
-		_palettePartCount = var805A->variable_0007;
+		s_palettePartCount = var805A->variable_0007;
 
 		for (i = 0; i < 18; i++) {
-			_palettePartChange[i] = _palettePartTarget[i] / _palettePartCount;
-			if (_palettePartChange[i] == 0) _palettePartChange[i] = 1;
+			s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
+			if (s_palettePartChange[i] == 0) s_palettePartChange[i] = 1;
 		}
 	} else {
-		memcpy(_palettePartChange, _palettePartTarget, 18);
-		_palettePartCount = 1;
+		memcpy(s_palettePartChange, s_palettePartTarget, 18);
+		s_palettePartCount = 1;
 	}
 
 	if (g_playerHouseID != HOUSE_INVALID || g_global->variable_8072 != 2) return;
@@ -441,38 +441,38 @@ static uint16 GameLoop_PalettePart_Update(bool finishNow)
 {
 	Sound_StartSpeech();
 
-	if (_palettePartDirection == PPD_STOPPED) return 0;
+	if (s_palettePartDirection == PPD_STOPPED) return 0;
 
-	if (_paletteAnimationTimeout >= g_timerGUI && !finishNow) return _palettePartDirection;
+	if (s_paletteAnimationTimeout >= g_timerGUI && !finishNow) return s_palettePartDirection;
 
-	_paletteAnimationTimeout = g_timerGUI + 7;
-	if (--_palettePartCount == 0 || finishNow) {
-		if (_palettePartDirection == PPD_TO_NEW_PALETTE) {
-			memcpy(_palettePartCurrent, _palettePartTarget, 18);
+	s_paletteAnimationTimeout = g_timerGUI + 7;
+	if (--s_palettePartCount == 0 || finishNow) {
+		if (s_palettePartDirection == PPD_TO_NEW_PALETTE) {
+			memcpy(s_palettePartCurrent, s_palettePartTarget, 18);
 		} else {
-			memset(_palettePartCurrent, 0, 18);
+			memset(s_palettePartCurrent, 0, 18);
 		}
 
-		_palettePartDirection = PPD_STOPPED;
+		s_palettePartDirection = PPD_STOPPED;
 	} else {
 		uint8 i;
 
 		for (i = 0; i < 18; i++) {
-			if (_palettePartDirection == PPD_TO_NEW_PALETTE) {
-				_palettePartCurrent[i] = min(_palettePartCurrent[i] + _palettePartChange[i], _palettePartTarget[i]);
+			if (s_palettePartDirection == PPD_TO_NEW_PALETTE) {
+				s_palettePartCurrent[i] = min(s_palettePartCurrent[i] + s_palettePartChange[i], s_palettePartTarget[i]);
 			} else {
-				_palettePartCurrent[i] = max(_palettePartCurrent[i] - _palettePartChange[i], 0);
+				s_palettePartCurrent[i] = max(s_palettePartCurrent[i] - s_palettePartChange[i], 0);
 			}
 		}
 	}
 
-	if (finishNow) return _palettePartDirection;
+	if (finishNow) return s_palettePartDirection;
 
-	memcpy(&g_palette_998A[215 * 3], _palettePartCurrent, 18);
+	memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
 	GFX_SetPalette(g_palette_998A);
 
-	return _palettePartDirection;
+	return s_palettePartDirection;
 }
 
 static void GameLoop_PlayAnimation()
@@ -551,7 +551,7 @@ static void GameLoop_PlayAnimation()
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			GameLoop_PalettePart_Update(true);
 
-			memcpy(&g_palette1[215 * 3], _palettePartCurrent, 18);
+			memcpy(&g_palette1[215 * 3], s_palettePartCurrent, 18);
 
 			Unknown_259E_0006(g_palette1, 45);
 
@@ -636,7 +636,7 @@ static void GameLoop_PlayAnimation()
 		if ((var805E->flags & 0x10) != 0) {
 			memset(&g_palette_998A[3 * 1], 63, 256 * 3);
 
-			memcpy(&g_palette_998A[215 * 3], _palettePartCurrent, 18);
+			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
 			Unknown_259E_0006(g_palette_998A, 15);
 
@@ -646,7 +646,7 @@ static void GameLoop_PlayAnimation()
 		if ((var805E->flags & 0x8) != 0) {
 			GameLoop_PalettePart_Update(true);
 
-			memcpy(&g_palette_998A[215 * 3], _palettePartCurrent, 18);
+			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
 
 			Unknown_259E_0006(g_palette_998A, 45);
 		}
@@ -1151,7 +1151,7 @@ static void GameLoop_LevelEnd()
 {
 	static uint32 levelEndTimer = 0;
 
-	if (levelEndTimer >= g_timerGame && !_debugForceWin) return;
+	if (levelEndTimer >= g_timerGame && !s_debugForceWin) return;
 
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
@@ -1226,7 +1226,7 @@ static void GameLoop_LevelEnd()
 		Sprites_LoadTiles();
 
 		g_gameMode = GM_RESTART;
-		_debugForceWin = false;
+		s_debugForceWin = false;
 	}
 
 	levelEndTimer = g_timerGame + 300;
