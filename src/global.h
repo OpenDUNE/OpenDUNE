@@ -802,7 +802,7 @@ typedef struct GlobalData {
 	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32  removed_38F2;              /*!< REMOVED - Unit currently controlled by player. */
-	/* 38F6(2)   */ PACK uint16 activeAction;               /*!< Action the controlled unit will do. */
+	/* 38F6(2)   */ PACK uint16 removed_activeAction;       /*!< REMOVED - Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32  removed_38FA;              /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16  removed_38FE;              /*!< REMOVED - Amount of time the user has to select Missile target. */

@@ -58,7 +58,8 @@ uint32 g_hintsShown2 = 0;          /*!< A bit-array to indicate which hints has 
 GameMode g_gameMode = GM_NORMAL;
 uint16 g_campaignID = 0;
 uint16 g_scenarioID = 1;
-uint32 g_tickScenarioStart = 0;     /*!< The tick the scenario started in. */
+uint16 g_activeAction = 0xFFFF;      /*!< Action the controlled unit will do. */
+uint32 g_tickScenarioStart = 0;      /*!< The tick the scenario started in. */
 static uint32 s_tickGameTimeout = 0; /*!< The tick the game will timeout. */
 
 bool   g_debugGame = false;        /*!< When true, you can control the AI. */
@@ -2499,7 +2500,7 @@ void Game_Init()
 	g_unitActive       = NULL;
 	g_structureActive  = NULL;
 
-	g_global->activeAction  = 0xFFFF;
+	g_activeAction          = 0xFFFF;
 	g_structureActiveType   = 0xFFFF;
 	g_global->variable_38EE = 0xFFFF;
 

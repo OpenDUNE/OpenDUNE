@@ -448,7 +448,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 		if (displayedMissileCountdown != g_houseMissileCountdown || forceDraw) actionType = 8; /* House Missile */
 	} else if (g_unitSelected != NULL) {
 		if (g_global->selectionType == 1) {
-			uint16 activeAction = g_global->activeAction;
+			uint16 activeAction = g_activeAction;
 
 			if (activeAction != displayedActiveAction || forceDraw) {
 				switch (activeAction) {

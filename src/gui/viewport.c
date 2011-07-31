@@ -136,7 +136,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		u = g_unitActive;
 
-		action = g_global->activeAction;
+		action = g_activeAction;
 
 		Object_Script_Variable4_Clear(&u->o);
 		u->targetAttack   = 0;
@@ -171,8 +171,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 			Sound_StartSound(((Tools_Random_256() & 0x1) == 0) ? 20 : 17);
 		}
 
-		g_unitActive = NULL;
-		g_global->activeAction    = 0xFFFF;
+		g_unitActive   = NULL;
+		g_activeAction = 0xFFFF;
 
 		GUI_ChangeSelectionType(3);
 		return true;

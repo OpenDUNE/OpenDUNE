@@ -273,7 +273,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	if (ai->variable_08 != g_global->selectionType) {
 		g_unitActive = g_unitSelected;
-		g_global->activeAction = action;
+		g_activeAction = action;
 		GUI_ChangeSelectionType(ai->variable_08);
 
 		return true;
@@ -354,7 +354,7 @@ bool GUI_Widget_Cancel_Click(Widget *w)
 	if (g_unitActive == NULL) return true;
 
 	g_unitActive = NULL;
-	g_global->activeAction = 0xFFFF;
+	g_activeAction = 0xFFFF;
 	g_global->cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);

@@ -134,7 +134,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GCALLB (SLDT_UINT16, g_structureActive, &SaveLoad_StructureActive),
 	SLD_GCALLB (SLDT_UINT16, g_unitSelected, &SaveLoad_UnitSelected),
 	SLD_GCALLB (SLDT_UINT16, g_unitActive, &SaveLoad_UnitActive),
-	SLD_ENTRY  (GlobalData, SLDT_UINT16, activeAction),
+	SLD_GENTRY (SLDT_UINT16, g_activeAction),
 	SLD_GENTRY (SLDT_UINT32, g_strategicRegionBits),
 	SLD_GENTRY (SLDT_UINT16, g_scenarioID),
 	SLD_GENTRY (SLDT_UINT16, g_campaignID),
