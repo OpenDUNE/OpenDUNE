@@ -363,8 +363,7 @@ uint8 Unit_MovementStringToType(const char *name)
 	if (name == NULL) return MOVEMENT_INVALID;
 
 	for (type = 0; type < MOVEMENT_MAX; type++) {
-		const char *movementName = (const char *)emu_get_memorycsip(g_global->movementName[type]);
-		if (strcasecmp(movementName, name) == 0) return type;
+		if (strcasecmp(g_table_movementTypeName[type], name) == 0) return type;
 	}
 
 	return MOVEMENT_INVALID;

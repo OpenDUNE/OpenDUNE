@@ -182,6 +182,8 @@ typedef struct ActionInfo {
 struct Team;
 struct Structure;
 
+extern const char *g_table_movementTypeName[];
+
 extern const uint16 g_table_actionsAI[];
 extern const ActionInfo g_table_actionInfo[];
 extern UnitInfo g_table_unitInfo[];
