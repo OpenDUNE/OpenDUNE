@@ -21,7 +21,6 @@
 extern void f__AB01_15E1_0068_0B9B();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_1B48_0023_740C();
-extern void f__AB01_281A_003D_9A17();
 extern void f__AB01_289D_0017_6184();
 
 uint16 g_mt32mpu_cs;
@@ -101,6 +100,39 @@ static uint16 MPU_NoteOn(MSData *data)
 	return len;
 }
 
+static uint8 MPU_281A()
+{
+	uint8 i;
+	uint8 chan = 0xFF;
+	uint8 flag = 0xC0;
+	uint8 min = 0xFF;
+
+	while (true) {
+		for (i = 0; i < 16; i++) {
+			if ((emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13EE) & flag) == 0 && emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13DE) < min) {
+				min = emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13DE);
+				chan = 15 - i;
+			}
+		}
+		if (chan != 0xFF) break;
+		if (flag == 0x80) return chan;
+
+		flag = 0x80;
+	}
+
+	/* Sustain Off */
+	MPU_Send(0xB0 | chan, 64, 0);
+
+	emu_push(chan);
+	emu_push(emu_cs); emu_push(0x287F); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
+	emu_sp += 2;
+
+	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE) = 0x0;
+	emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) |= 0x80;
+
+	return chan;
+}
+
 static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 {
 	uint8 index;
@@ -178,11 +210,9 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 				break;
 			}
 
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x1A55); emu_cs = g_mt32mpu_cs; f__AB01_281A_003D_9A17();
-			emu_sp += 2;
+			data1 = MPU_281A();
 
-			if (data1-- == 0) data1 = chan;
+			if (data1 == 0xFF) data1 = chan;
 
 			data->chanMaps[chan] = data1;
 			break;
