@@ -887,9 +887,7 @@ void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 	diff = data->variable_0026 - data->variable_0024;
 	if (diff == 0) return;
 
-	emu_cx = abs(diff);
-
-	data->variable_002C = 10 * arg0C / diff;
+	data->variable_002C = 10 * arg0C / abs(diff);
 	if (data->variable_002C == 0) data->variable_002C = 1;
 	data->variable_0028 = 0;
 }
