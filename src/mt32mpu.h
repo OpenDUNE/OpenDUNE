@@ -42,7 +42,15 @@ typedef struct MSData {
 	/* 0088(16)  */ PACK uint8  pitchWheelLSB[16];          /*!< Channel pitch wheel LSB (E0 command). */
 	/* 0098(16)  */ PACK uint8  pitchWheelMSB[16];          /*!< Channel pitch wheel MSB (E0 command). */
 	/* 00A8(16)  */ PACK uint8  variable_00A8[16];          /*!< ?? */
-	/* 00B8(144) */ PACK uint8  variable_00B8[144];         /*!< ?? */
+	/* 00B8(16)  */ PACK uint8  variable_00B8[16];          /*!< ?? */
+	/* 00C8(16)  */ PACK uint8  variable_00C8[16];          /*!< ?? */
+	/* 00D8(16)  */ PACK uint8  variable_00D8[16];          /*!< ?? */
+	/* 00E8(16)  */ PACK uint8  variable_00E8[16];          /*!< ?? */
+	/* 00F8(16)  */ PACK uint8  sustain[16];                /*!< ?? */
+	/* 0108(16)  */ PACK uint8  variable_0108[16];          /*!< ?? */
+	/* 0118(16)  */ PACK uint8  variable_0118[16];          /*!< ?? */
+	/* 0128(16)  */ PACK uint8  variable_0128[16];          /*!< ?? */
+	/* 0138(16)  */ PACK uint8  variable_0138[16];          /*!< ?? */
 	/* 0148(32)  */ PACK uint8  noteOnChans[32];            /*!< ?? */
 	/* 0168(32)  */ PACK uint8  noteOnNotes[32];            /*!< ?? */
 	/* 0188(64)  */ PACK uint16 noteOnLengthLSB[32];        /*!< ?? */

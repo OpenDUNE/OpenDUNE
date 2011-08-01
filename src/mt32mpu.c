@@ -19,7 +19,6 @@
 #include "driver.h"
 
 extern void f__AB01_15E1_0068_0B9B();
-extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_289D_0017_6184();
 
 uint16 g_mt32mpu_cs;
@@ -220,7 +219,37 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 	}
 }
 
-static uint16 MPU_1B48(MSData *data, csip32 data_csip)
+static void MPU_16B7(MSData *data)
+{
+	uint8 chan;
+
+	for (chan = 0; chan < 16; chan++) {
+		if (data->sustain[chan] >= 64) {
+			emu_get_memory8(g_mt32mpu_cs, chan, 0x135E) = 0;
+			/* Sustain Off */
+			MPU_Send(0xB0 | chan, 64, 0);
+		}
+
+		if (data->variable_0118[chan] >= 64) {
+			emu_push(chan);
+			emu_push(emu_cs); emu_push(0x1702); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
+			emu_sp += 2;
+
+			emu_push(data->chanMaps[chan] + 1);
+			emu_push(0);
+			emu_push(emu_cs); emu_push(0x171C); emu_cs = g_mt32mpu_cs; f__AB01_289D_0017_6184();
+			emu_sp += 4;
+
+			data->chanMaps[chan] = chan;
+		}
+
+		if (data->variable_0128[chan] >= 64) emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) &= 0xBF;
+
+		if (data->variable_0138[chan] >= 64) MPU_Send(0xB0 | chan, 112, 0);
+	}
+}
+
+static uint16 MPU_1B48(MSData *data)
 {
 	uint8 *sound;
 	uint8 type;
@@ -240,9 +269,7 @@ static uint16 MPU_1B48(MSData *data, csip32 data_csip)
 
 	switch (type) {
 		case 0x2F:
-			emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-			emu_push(emu_cs); emu_push(0x1BAE); emu_cs = g_mt32mpu_cs; f__AB01_16B7_0039_7EF1();
-			emu_sp += 4;
+			MPU_16B7(data);
 
 			data->playing = 2;
 			if (data->variable_001C == 0) break;
@@ -375,7 +402,7 @@ void MPU_Interrupt()
 
 					if (status >= 0xF0) {
 						assert(chan == 0xF);
-						nb = MPU_1B48(data, data_csip);
+						nb = MPU_1B48(data);
 					} else if (status >= 0xE0) {
 						data->pitchWheelLSB[chan] = data1;
 						data->pitchWheelMSB[chan] = data2;
@@ -658,10 +685,7 @@ void MPU_Stop(uint16 index)
 	if (data->playing != 1) return;
 
 	MPU_StopAllNotes(data);
-
-	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-	emu_push(emu_cs); emu_push(0x2441); emu_cs = g_mt32mpu_cs; f__AB01_16B7_0039_7EF1();
-	emu_sp += 4;
+	MPU_16B7(data);
 
 	data->playing = 0;
 }
