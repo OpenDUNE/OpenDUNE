@@ -91,7 +91,6 @@ cat "$ROOT_DIR/projects/opendune.vcproj.in" | tr '\r' '\n' | awk '
 ' > "$ROOT_DIR/projects/opendune.vcproj"
 
 # Get all source files
-generate_data decompiled >> "$ROOT_DIR/projects/opendune.vcproj"
 generate_data include >> "$ROOT_DIR/projects/opendune.vcproj"
 generate_data src >> "$ROOT_DIR/projects/opendune.vcproj"
 
