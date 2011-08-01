@@ -134,9 +134,9 @@ typedef struct HouseAnimation_Voice {
 } HouseAnimation_Voice;
 
 extern const HouseInfo g_table_houseInfo[];
-extern const HouseAnimation_Animation g_houseAnimation_animation[][32];
-extern const HouseAnimation_Subtitle g_houseAnimation_subtitle[][32];
-extern const HouseAnimation_Voice g_houseAnimation_voice[][90];
+extern const HouseAnimation_Animation g_table_houseAnimation_animation[][32];
+extern const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32];
+extern const HouseAnimation_Voice g_table_houseAnimation_voice[][90];
 
 extern House *g_playerHouse;
 extern HouseType g_playerHouseID;

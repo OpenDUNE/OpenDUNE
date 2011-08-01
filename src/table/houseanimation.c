@@ -7,7 +7,7 @@
 
 #include "../house.h"
 
-const HouseAnimation_Animation g_houseAnimation_animation[][32] = {
+const HouseAnimation_Animation g_table_houseAnimation_animation[][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* string        */ "",
@@ -624,7 +624,7 @@ const HouseAnimation_Animation g_houseAnimation_animation[][32] = {
 	}
 };
 
-const HouseAnimation_Subtitle g_houseAnimation_subtitle[][32] = {
+const HouseAnimation_Subtitle g_table_houseAnimation_subtitle[][32] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* stringID      */ 1,
@@ -1548,7 +1548,7 @@ const HouseAnimation_Subtitle g_houseAnimation_subtitle[][32] = {
 	}
 };
 
-const HouseAnimation_Voice g_houseAnimation_voice[][90] = {
+const HouseAnimation_Voice g_table_houseAnimation_voice[][90] = {
 	{ /* 0 - intro */
 		{ /* 0 */
 			/* variable_0000 */ 5,

@@ -681,21 +681,21 @@ static void GameLoop_LevelEndAnimation()
 		case 4:
 			switch (g_playerHouseID) {
 				case HOUSE_HARKONNEN:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_HARKONNEN];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_HARKONNEN];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_HARKONNEN];
 					break;
 
 				case HOUSE_ATREIDES:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ARTREIDES];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ARTREIDES];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ORDOS];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ORDOS];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ORDOS];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ORDOS];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ORDOS];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ORDOS];
 					break;
 
 				default: return;
@@ -704,21 +704,21 @@ static void GameLoop_LevelEndAnimation()
 		case 8:
 			switch (g_playerHouseID) {
 				case HOUSE_HARKONNEN:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_HARKONNEN];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_HARKONNEN];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_HARKONNEN];
 					break;
 
 				case HOUSE_ATREIDES:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ARTREIDES];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ARTREIDES];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ORDOS];
-					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ORDOS];
-					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ORDOS];
+					animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ORDOS];
+					subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ORDOS];
+					voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ORDOS];
 					break;
 
 				default: return;
@@ -1117,24 +1117,24 @@ static void GameLoop_GameEndAnimation()
 
 	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
-			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_HARKONNEN];
-			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_HARKONNEN];
-			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_HARKONNEN];
 			sound     = 0x1E;
 			break;
 
 		default:
 		case HOUSE_ATREIDES:
-			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ARTREIDES];
-			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ARTREIDES];
-			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ARTREIDES];
 			sound     = 0x1F;
 			break;
 
 		case HOUSE_ORDOS:
-			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ORDOS];
-			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ORDOS];
-			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ORDOS];
+			animation = g_table_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ORDOS];
+			subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ORDOS];
+			voice     = g_table_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ORDOS];
 			sound     = 0x20;
 			break;
 	}
@@ -1370,9 +1370,9 @@ static void GameLoop_GameIntroAnimation()
 	Gameloop_Logos();
 
 	if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) {
-		const HouseAnimation_Animation *animation = g_houseAnimation_animation[HOUSEANIMATION_INTRO];
-		const HouseAnimation_Subtitle  *subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
-		const HouseAnimation_Voice     *voice     = g_houseAnimation_voice[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Animation *animation = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Subtitle  *subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Voice     *voice     = g_table_houseAnimation_voice[HOUSEANIMATION_INTRO];
 
 		Music_Play(0x1B);
 
