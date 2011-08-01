@@ -8,10 +8,10 @@
 #include "../unit.h"
 
 const char *g_table_movementTypeName[MOVEMENT_MAX] = {
-        "Foot",
-        "Tracked",
-        "Harvester",
-        "Wheeled",
-        "Winged",
-		"Slither"
+	"Foot",
+	"Tracked",
+	"Harvester",
+	"Wheeled",
+	"Winged",
+	"Slither"
 };
