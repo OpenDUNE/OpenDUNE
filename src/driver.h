@@ -75,7 +75,6 @@ extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);
 extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
 extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
-extern csip32 Drivers_CallFunction(uint16 driver, uint16 function);
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_IsPlaying();
 extern void Driver_Sound_Play(int16 index, int16 volume);

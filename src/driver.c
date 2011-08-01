@@ -48,18 +48,31 @@ static csip32 Drivers_Load(const char *filename)
 	return File_ReadWholeFile(filename, 0x20);
 }
 
-static DriverInfo *Driver_GetInfo(uint16 driver)
+static void *Drivers_CallFunction(uint16 driver, uint16 function)
 {
-	csip32 ret;
+	csip32 csip;
 
-	emu_push(0x2756); emu_push(0x888);
-	emu_push(driver); /* unused, but needed for correct param accesses. */
-	ret = Drivers_CallFunction(driver, 0x64);
-	emu_sp += 6;
-	return (DriverInfo *)emu_get_memorycsip(ret);
+	csip = Drivers_GetFunctionCSIP(driver, function);
+	if (csip.csip == 0) return NULL;
+
+	switch (csip.s.ip) {
+		case 0x0B73: g_dsp_cs = csip.s.cs; return DSP_GetInfo(); /* 0x64 */
+		case 0x0C96: g_mt32mpu_cs = csip.s.cs; return MPU_GetInfo(); /* 0x64 */
+		case 0x0DA4: DSP_Init(); break; /* 0x66 */
+		case 0x1FA8: MPU_Init(); break; /* 0x66 */
+		case 0x0B91: DSP_Uninit(); break; /* 0x68 */
+		case 0x2103: MPU_Uninit(); break; /* 0x68 */
+	}
+
+	return NULL;
 }
 
-static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uint16 drq)
+static DriverInfo *Driver_GetInfo(uint16 driver)
+{
+	return Drivers_CallFunction(driver, 0x64);
+}
+
+static void Driver_Init(uint16 driver)
 {
 	csip32 csip;
 	uint16 locsi;
@@ -72,13 +85,7 @@ static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uin
 		Timer_Add(Drivers_Tick, 1000000 / locsi);
 	}
 
-	emu_push(drq);
-	emu_push(dma);
-	emu_push(irq1);
-	emu_push(port);
-	emu_push(driver); /* unused, but needed for correct param accesses. */
 	Drivers_CallFunction(driver, 0x66);
-	emu_sp += 10;
 
 	_stat188[driver] = 1;
 }
@@ -123,9 +130,7 @@ static void Driver_Uninit(uint16 driver)
 
 	Timer_Remove(Drivers_Tick);
 
-	emu_push(driver); /* unused, but needed for correct param accesses. */
 	Drivers_CallFunction(driver, 0x68);
-	emu_sp += 2;
 }
 
 static void Drivers_Uninit(Driver *driver)
@@ -236,7 +241,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 		}
 	}
 
-	Driver_Init(driver->index, info->port, info->irq1, info->dma, info->drq);
+	Driver_Init(driver->index);
 
 	driver->dfilename = fcsip;
 	driver->extension[0] = 0;
@@ -376,36 +381,6 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 	}
 
 	csip.s.ip = emu_get_memory16(csip.s.cs, csip.s.ip, 2);
-	return csip;
-}
-
-csip32 Drivers_CallFunction(uint16 driver, uint16 function)
-{
-	csip32 csip;
-
-	csip = Drivers_GetFunctionCSIP(driver, function);
-	if (csip.csip == 0) return csip;
-
-	/* Call/jump based on memory/register values */
-	emu_push(emu_cs); emu_push(emu_ip);
-	emu_ip = csip.s.ip;
-	emu_cs = csip.s.cs;
-	switch (emu_ip) {
-		case 0x0B73: g_dsp_cs = csip.s.cs; emu_DSP_GetInfo(); break; /* 0x64 */
-		case 0x0C96: g_mt32mpu_cs = csip.s.cs; emu_MPU_GetInfo(); break; /* 0x64 */
-		case 0x0DA4: emu_DSP_Init(); break; /* 0x66 */
-		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
-		case 0x0B91: emu_DSP_Uninit(); break; /* 0x68 */
-		case 0x2103: emu_MPU_Uninit(); break; /* 0x68 */
-		default:
-			/* In case we don't know the call point yet, call the dynamic call */
-			emu_last_cs = 0x2756; emu_last_ip = 0x050B; emu_last_length = 0x0003; emu_last_crc = 0x6FD4;
-			emu_call();
-			return csip; /* not reached */
-	}
-
-	csip.s.cs = emu_dx;
-	csip.s.ip = emu_ax;
 	return csip;
 }
 

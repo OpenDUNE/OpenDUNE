@@ -14,9 +14,4 @@ extern void DSP_Init();
 extern void DSP_Uninit();
 extern struct DriverInfo *DSP_GetInfo();
 
-
-extern void emu_DSP_Init();
-extern void emu_DSP_Uninit();
-extern void emu_DSP_GetInfo();
-
 #endif /* DSP_H */

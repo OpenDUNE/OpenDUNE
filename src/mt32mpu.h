@@ -75,9 +75,4 @@ extern void MPU_ClearData(uint16 index);
 extern struct DriverInfo *MPU_GetInfo();
 extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);
 
-
-extern void emu_MPU_Init();
-extern void emu_MPU_Uninit();
-extern void emu_MPU_GetInfo();
-
 #endif /* MT32MPU_H */
