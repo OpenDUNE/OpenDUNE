@@ -10,31 +10,6 @@
 #include "mt32mpu.h"
 
 /**
- * Emulator wrapper around MPU_Send()
- *
- * @name emu_MPU_Send
- * @implements AB01:08CE:005F:AC14 ()
- */
-void emu_MPU_Send()
-{
-	uint8 status;
-	uint8 data1;
-	uint8 data2;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	status = emu_get_memory8(emu_ss, emu_sp, 0x0);
-	data1  = emu_get_memory8(emu_ss, emu_sp, 0x2);
-	data2  = emu_get_memory8(emu_ss, emu_sp, 0x4);
-
-	MPU_Send(status, data1, data2);
-
-	return;
-}
-
-/**
  * Emulator wrapper around MPU_Init()
  *
  * @name emu_MPU_Init

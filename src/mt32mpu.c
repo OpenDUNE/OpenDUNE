@@ -18,9 +18,6 @@
 
 #include "driver.h"
 
-extern void f__AB01_15E1_0068_0B9B();
-extern void f__AB01_289D_0017_6184();
-
 uint16 g_mt32mpu_cs;
 
 void MPU_Send(uint8 status, uint8 data1, uint8 data2)
@@ -98,6 +95,45 @@ static uint16 MPU_NoteOn(MSData *data)
 	return len;
 }
 
+static void MPU_FlushChannel(uint8 channel)
+{
+	uint16 count;
+	uint16 index = 0;
+
+	count = emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312);
+
+	while (count-- != 0) {
+		csip32 data_csip;
+		MSData *data;
+		uint8 i;
+
+		while (emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) == 0x0) index += 4;
+
+		data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
+		data = (MSData *)emu_get_memorycsip(data_csip);
+
+		if (data->noteOnCount == 0) continue;
+
+		for (i = 0; i < 32; i++) {
+			uint8 chan;
+			uint8 note;
+
+			chan = data->noteOnChans[i];
+			if (chan != channel) continue;
+			data->noteOnChans[i] = 0xFF;
+
+			note = data->noteOnNotes[i];
+			chan = data->chanMaps[chan];
+			emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)--;
+
+			/* Note Off */
+			MPU_Send(0x80 | chan, note, 0);
+
+			data->noteOnCount--;
+		}
+	}
+}
+
 static uint8 MPU_281A()
 {
 	uint8 i;
@@ -121,14 +157,45 @@ static uint8 MPU_281A()
 	/* Sustain Off */
 	MPU_Send(0xB0 | chan, 64, 0);
 
-	emu_push(chan);
-	emu_push(emu_cs); emu_push(0x287F); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
-	emu_sp += 2;
+	MPU_FlushChannel(chan);
 
 	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE) = 0x0;
 	emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) |= 0x80;
 
 	return chan;
+}
+
+static void MPU_289D(uint8 chan)
+{
+	uint8 i;
+	uint8 program;
+	uint8 pitchWheelLSB;
+	uint8 pitchWheelMSB;
+
+	if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) return;
+
+	emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) &= 0x7F;
+	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE) = 0x0;
+
+	/* Sustain Off */
+	MPU_Send(0xB0 | chan, 64, 0);
+
+	/* All Notes Off */
+	MPU_Send(0xB0 | chan, 123, 0);
+
+	for (i = 0; i < 9; i++) {
+		uint8 value   = emu_get_memory8(g_mt32mpu_cs, chan + i * 16, 0x131E);
+		uint8 command = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
+
+		if (value != 0xFF) MPU_Send(0xB0 | chan, command, value);
+	}
+
+	program = emu_get_memory8(g_mt32mpu_cs, chan, 0x13AE);
+	if (program != 0xFF) MPU_Send(0xC0 | chan, program, 0);
+
+	pitchWheelLSB = emu_get_memory8(g_mt32mpu_cs, chan, 0x13BE);
+	pitchWheelMSB = emu_get_memory8(g_mt32mpu_cs, chan, 0x13CE);
+	if (pitchWheelLSB != 0xFF && pitchWheelMSB != 0xFF) MPU_Send(0xE0 | chan, pitchWheelLSB, pitchWheelMSB);
 }
 
 static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
@@ -194,17 +261,9 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 
 		case 110:
 			if (data2 < 64) {
-				emu_push(chan);
-				emu_push(emu_cs); emu_push(0x1A6D); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
-				emu_sp += 2;
-
-				emu_push(data->chanMaps[chan] + 1);
-				emu_push(0);
-				emu_push(emu_cs); emu_push(0x1A85); emu_cs = g_mt32mpu_cs; f__AB01_289D_0017_6184();
-				emu_sp += 4;
-
+				MPU_FlushChannel(chan);
+				MPU_289D(data->chanMaps[chan]);
 				data->chanMaps[chan] = chan;
-
 				break;
 			}
 
@@ -231,15 +290,8 @@ static void MPU_16B7(MSData *data)
 		}
 
 		if (data->variable_0118[chan] >= 64) {
-			emu_push(chan);
-			emu_push(emu_cs); emu_push(0x1702); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
-			emu_sp += 2;
-
-			emu_push(data->chanMaps[chan] + 1);
-			emu_push(0);
-			emu_push(emu_cs); emu_push(0x171C); emu_cs = g_mt32mpu_cs; f__AB01_289D_0017_6184();
-			emu_sp += 4;
-
+			MPU_FlushChannel(chan);
+			MPU_289D(data->chanMaps[chan]);
 			data->chanMaps[chan] = chan;
 		}
 

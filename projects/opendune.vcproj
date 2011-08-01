@@ -168,34 +168,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="decompiled"
-			>
-			<File
-				RelativePath="..\decompiled\cs__AB01.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)\decompiled\"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\decompiled\decompiled.h"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="include"
 			>
 			<File
