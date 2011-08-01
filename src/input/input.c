@@ -513,7 +513,8 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 	if (keyValue < 0x6E) {
 		uint8 keySave = keyValue - 0x4B;
 
-		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 && (s_input_local->controlKeys2 & 0x2) != 0) {
+		/* XXX -- Commented code is purely for reference on its original functionality. We don't support control keys, so it is removed. */
+		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 /* && (s_input_local->controlKeys2 & 0x2) != 0 */) {
 			keyValue = s_input_local->keymap_numlock[keySave - 0xF];
 		} else {
 			keyValue = s_input_local->keymap_numpad[keySave];
@@ -602,8 +603,6 @@ uint16 Input_Keyboard_NextKey()
 
 		sleep(0); /* Spin-lock */
 	}
-
-	s_input_local->controlKeys2 = s_input_local->controlKeys;
 
 	if (value != 0) {
 		value = Input_Keyboard_HandleKeys(value) & 0xFF;

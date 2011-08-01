@@ -44,42 +44,42 @@ typedef struct InputLocalData {
 	/* 0004(6)   */ PACK uint8   removed_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 000A(36)  */ PACK uint32  removed_000A[9];           /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 002E(8)   */ PACK uint8   removed_002E[8];           /*!< REMOVED - The value of (1 << N), with N from 0 to 7. */
-	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? */
-	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? */
+	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? Read-only. */
+	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? Read-only. */
 	/* 007A()    */ PACK uint8   unknown_007A[0x0004];
-	/* 007E(16)  */ PACK uint8  translateExtendedMap[16];   /*!< ?? Some kind of translation map for extended keys. */
-	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Some kind of translation map. */
-	/* 009E(16)  */ PACK uint8  translateTo[16];            /*!< ?? To what a match in the above map translates. */
+	/* 007E(16)  */ PACK uint8  translateExtendedMap[16];   /*!< ?? Read-only - Some kind of translation map for extended keys. */
+	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Read-only - Some kind of translation map. */
+	/* 009E(16)  */ PACK uint8  translateTo[16];            /*!< ?? Read-only - To what a match in the above map translates. */
 	/* 00AE(1)   */ PACK uint8   unknown_00AE[1];
-	/* 00AF(256) */ PACK uint16 removed_history[128];       /*!< History of input commands. */
-	/* 01AF(2)   */ PACK uint16 removed_historyHead;        /*!< The current head inside the history array. */
-	/* 01B1(2)   */ PACK uint16 removed_historyTail;        /*!< The current tail inside the history array. */
+	/* 00AF(256) */ PACK uint16  removed_00AF[128];         /*!< REMOVED - History of input commands. */
+	/* 01AF(2)   */ PACK uint16  removed_01AF;              /*!< REMOVED - The current head inside the history array. */
+	/* 01B1(2)   */ PACK uint16  removed_01B1;              /*!< REMOVED - The current tail inside the history array. */
 	/* 01B3(2)   */ PACK uint16 flags;                      /*!< Mask for allowed input types. See InputFlagsEnum. */
-	/* 01B5()    */ PACK uint16 controlKeys;                /*!< Which control keys are pressed. */
-	/* 01B7(2)   */ PACK uint16 controlKeys2;               /*!< Copy of controlKeys */
-	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? */
-	/* 0212(8)   */ PACK uint8  keymap_special_mask[8];     /*!< Per bit, mask which keys are special and should be done &= 0x1F. */
+	/* 01B5()    */ PACK uint16  removed_01B5;              /*!< REMOVED - Which control keys are pressed. */
+	/* 01B7(2)   */ PACK uint16  removed_01B7;              /*!< REMOVED - Copy of controlKeys */
+	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? Read-only. */
+	/* 0212(8)   */ PACK uint8  keymap_special_mask[8];     /*!< Read-only - Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
 	/* 0242()    */ PACK uint8   unknown_0242[0x0014];
 	/* 0256(1)   */ PACK uint8  extendedKey;                /*!< Reading extended key. */
-	/* 0257(1)   */ PACK uint8  extendedSpecialKey;         /*!< Reading extended special key. */
-	/* 0258(4)   */ PACK csip32 interruptVector09;          /*!< Location of original Interrupt Vector 09. */
-	/* 025C(4)   */ PACK csip32 interruptVector23;          /*!< Location of original Interrupt Vector 23. */
-	/* 0260(11)  */ PACK uint8  keymap_ignore[11];          /*!< Keys to ignore when reading. */
-	/* 026B(1)   */ PACK uint8  variable_02B6;              /*!< ?? */
+	/* 0257(1)   */ PACK uint8   removed_0257;              /*!< REMOVED - Reading extended special key. */
+	/* 0258(4)   */ PACK csip32  removed_0258;              /*!< REMOVED - Location of original Interrupt Vector 09. */
+	/* 025C(4)   */ PACK csip32  removed_025C;              /*!< REMOVED - Location of original Interrupt Vector 23. */
+	/* 0260(11)  */ PACK uint8  keymap_ignore[11];          /*!< Read-only - Keys to ignore when reading. */
+	/* 026B(1)   */ PACK uint8   removed_02B6;              /*!< REMOVED - ?? */
 	/* 026C(222) */ PACK uint8      code_026C[222];
-	/* 034A(62)  */ PACK uint8  keymap_normal[62];          /*!< Keymap to convert scancode to ASCII with capslock off and shift released. */
-	/* 0388(62)  */ PACK uint8  keymap_shift[62];           /*!< Keymap to convert scancode to ASCII with capslock off and shift pressed. */
-	/* 03C6(62)  */ PACK uint8  keymap_capslock[62];        /*!< Keymap to convert scancode to ASCII with capslock on and shift released. */
-	/* 0404(62)  */ PACK uint8  keymap_caps_shift[62];      /*!< Keymap to convert scancode to ASCII with capslock on and shift pressed. */
-	/* 0442(35)  */ PACK uint8  keymap_numpad[35];          /*!< Keymap to convert scancode to for numpad with numlock off. */
-	/* 0465(20)  */ PACK uint8  keymap_numlock[20];         /*!< Keymap to convert scancode to for numpad with numlock on. */
+	/* 034A(62)  */ PACK uint8  keymap_normal[62];          /*!< Read-only - Keymap to convert scancode to ASCII with capslock off and shift released. */
+	/* 0388(62)  */ PACK uint8  keymap_shift[62];           /*!< Read-only - Keymap to convert scancode to ASCII with capslock off and shift pressed. */
+	/* 03C6(62)  */ PACK uint8  keymap_capslock[62];        /*!< Read-only - Keymap to convert scancode to ASCII with capslock on and shift released. */
+	/* 0404(62)  */ PACK uint8  keymap_caps_shift[62];      /*!< Read-only - Keymap to convert scancode to ASCII with capslock on and shift pressed. */
+	/* 0442(35)  */ PACK uint8  keymap_numpad[35];          /*!< Read-only - Keymap to convert scancode to for numpad with numlock off. */
+	/* 0465(20)  */ PACK uint8  keymap_numlock[20];         /*!< Read-only - Keymap to convert scancode to for numpad with numlock on. */
 
 	/* 0479(185) */ PACK uint8      code_0479[187];
 	/* 0534()    */ PACK uint8   unknown_0534[0x0103];
-	/* 0637(4)   */ PACK uint32  removed_0637;              /*!< REMOVED: File length to read (4L) for variable_063B[x]. */
-	/* 063B(8)   */ PACK uint16 variable_063B[2][2];        /*!< ?? */
+	/* 0637(4)   */ PACK uint32  removed_0637;              /*!< REMOVED - File length to read (4L) for variable_063B[x]. */
+	/* 063B(8)   */ PACK uint16 variable_063B[2][2];        /*!< ?? Header of mouse demo file. */
 	/* 0643(125) */ PACK uint8      code_0643[125];
 	/* 06C0()    */ PACK uint8   unknown_06C0[0x007F];
 	/* 073F(14)  */ PACK uint8      code_073F[14];
