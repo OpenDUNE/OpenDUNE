@@ -41,9 +41,9 @@ MSVC_PACKED_BEGIN
  */
 typedef struct InputLocalData {
 	/* 0000()    */ PACK uint8   unknown_0000[4];
-	/* 0004(6)   */ PACK uint8      data_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
-	/* 000A(36)  */ PACK uint32 mouseCoord[9];              /*!< REMOVED Copied into the Input_HandleInput function. */
-	/* 002E(8)   */ PACK uint8  removed_bitmask[8];         /*!< REMOVED - The value of (1 << N), with N from 0 to 7. */
+	/* 0004(6)   */ PACK uint8   removed_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
+	/* 000A(36)  */ PACK uint32  removed_000A[9];           /*!< REMOVED Copied into the Input_HandleInput function. */
+	/* 002E(8)   */ PACK uint8   removed_002E[8];           /*!< REMOVED - The value of (1 << N), with N from 0 to 7. */
 	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? */
 	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? */
 	/* 007A()    */ PACK uint8   unknown_007A[0x0004];
@@ -86,13 +86,13 @@ typedef struct InputLocalData {
 	/* 074D()    */ PACK uint8   unknown_074D[0x02CC];
 
 	/* 0A19(123) */ PACK uint8      code_0A19[123];
-	/* 0A94(2)   */ PACK uint16  removed_0A94;              /*!< REMOVED - temporary buffer for writing input events to disk */
-	/* 0A96(2)   */ PACK uint16  removed_0A96;              /*!< REMOVED - temporary buffer for writing input events to disk */
-	/* 0A98(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
-	/* 0A9A(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
+	/* 0A94(2)   */ PACK uint16  removed_0A94;              /*!< REMOVED - Temporary buffer for writing input events to disk */
+	/* 0A96(2)   */ PACK uint16  removed_0A96;              /*!< REMOVED - Temporary buffer for writing input events to disk */
+	/* 0A98(2)   */ PACK uint16  removed_0A98;              /*!< REMOVED - Current X position of the mouse. */
+	/* 0A9A(2)   */ PACK uint16  removed_0A9A;              /*!< REMOVED - Current Y position of the mouse. */
 
-	/* 0A9C(26)  */ PACK uint16     data_0A9C[13];          /*!< REMOVED Copied into the Input_HandleInput function. */
-	/* 0AB6(32)  */ PACK uint16     data_0AB6[0x10];        /*!< REMOVED Copied into the Input_HandleInput function. */
+	/* 0A9C(26)  */ PACK uint16  removed_0A9C[13];          /*!< REMOVED - Copied into the Input_HandleInput function. */
+	/* 0AB6(32)  */ PACK uint16  removed_0AB6[0x10];        /*!< REMOVED - Copied into the Input_HandleInput function. */
 	/* 0AD6(16)  */ PACK uint8      code_0AD6[16];
 	/* 0AE6()    */ PACK uint8   unknown_0AE6[0x015A];
 	/* 0C40(263) */ PACK uint8      code_0C40[263];
