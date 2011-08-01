@@ -2477,9 +2477,6 @@ void Game_Prepare()
  */
 void Game_Init()
 {
-	csip32 null;
-	null.csip = 0x0;
-
 	Unit_Init();
 	Structure_Init();
 	Team_Init();
