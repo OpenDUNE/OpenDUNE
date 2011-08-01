@@ -24,6 +24,7 @@ static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
 static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
+static bool s_input_extendedKey = false;     /*!< If we are currently actively reading an extended key. */
 
 void Input_Init()
 {
@@ -60,7 +61,7 @@ void Input_EventHandler(uint8 key)
 	state = 0;
 
 	if (key == 0xE0) {
-		s_input_local->extendedKey = 1;
+		s_input_extendedKey = true;
 		return;
 	}
 
@@ -70,8 +71,8 @@ void Input_EventHandler(uint8 key)
 		state |= 0x08;
 	}
 
-	if (s_input_local->extendedKey != 0) {
-		s_input_local->extendedKey = 0;
+	if (s_input_extendedKey) {
+		s_input_extendedKey = false;
 
 		for (i = 0; i < 16; i++) {
 			if (s_input_local->translateExtendedMap[i] == key) {
