@@ -51,9 +51,9 @@ typedef struct InputLocalData {
 	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Some kind of translation map. */
 	/* 009E(16)  */ PACK uint8  translateTo[16];            /*!< ?? To what a match in the above map translates. */
 	/* 00AE(1)   */ PACK uint8   unknown_00AE[1];
-	/* 00AF(256) */ PACK uint16 history[128];               /*!< History of input commands. */
-	/* 01AF(2)   */ PACK uint16 historyHead;                /*!< The current head inside the history array. */
-	/* 01B1(2)   */ PACK uint16 historyTail;                /*!< The current tail inside the history array. */
+	/* 00AF(256) */ PACK uint16 removed_history[128];       /*!< History of input commands. */
+	/* 01AF(2)   */ PACK uint16 removed_historyHead;        /*!< The current head inside the history array. */
+	/* 01B1(2)   */ PACK uint16 removed_historyTail;        /*!< The current tail inside the history array. */
 	/* 01B3(2)   */ PACK uint16 flags;                      /*!< Mask for allowed input types. See InputFlagsEnum. */
 	/* 01B5()    */ PACK uint16 controlKeys;                /*!< Which control keys are pressed. */
 	/* 01B7(2)   */ PACK uint16 controlKeys2;               /*!< Copy of controlKeys */

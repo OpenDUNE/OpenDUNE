@@ -21,6 +21,9 @@
 #include "../video/video.h"
 
 static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
+static uint16 s_history[128];                /*!< History of input commands. */
+static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
+static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
 
 void Input_Init()
 {
@@ -119,7 +122,7 @@ uint16 Input_Flags_SetBits(uint16 bits)
 /** Clear the history buffer. */
 void Input_History_Clear()
 {
-	s_input_local->historyTail = s_input_local->historyHead;
+	s_historyTail = s_historyHead;
 }
 
 /**
@@ -132,25 +135,25 @@ uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
-	value = g_global->variable_7013 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7013 : s_input_local->history[index / 2];
+	value = g_global->variable_7013 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7013 : s_history[index / 2];
 	index = (index + 2) & 0xFF;
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			g_mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
+			g_mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
+			g_mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
-			g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_input_local->history[index / 2];
+			g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_input_local->history[index / 2];
+			g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		}
 	}
-	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) s_input_local->historyHead = index;
+	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
 	return value;
 }
 
@@ -183,11 +186,11 @@ uint16 Input_History_Add(uint16 value)
 {
 	uint16 index;
 
-	index = (s_input_local->historyTail + 2) & 0xFF;
-	if (index == s_input_local->historyHead) return 1;
+	index = (s_historyTail + 2) & 0xFF;
+	if (index == s_historyHead) return 1;
 
-	s_input_local->history[s_input_local->historyTail / 2] = value;
-	s_input_local->historyTail = index;
+	s_history[s_historyTail / 2] = value;
+	s_historyTail = index;
 	return 0;
 }
 
@@ -211,7 +214,7 @@ uint16 Input_AddHistory(uint16 value)
 		value = g_global->variable_7013;
 	}
 
-	s_input_local->history[s_input_local->historyHead / 2] = value;
+	s_history[s_historyHead / 2] = value;
 	return value;
 }
 
@@ -315,10 +318,10 @@ void Input_HandleInput(uint16 input)
 		}
 	}
 
-	oldTail = s_input_local->historyTail;
+	oldTail = s_historyTail;
 
 	if (Input_History_Add(input) != 0) {
-		s_input_local->historyTail = oldTail;
+		s_historyTail = oldTail;
 		return;
 	}
 
@@ -326,13 +329,13 @@ void Input_HandleInput(uint16 input)
 	if (value == 0x2D || value == 0x41 || value == 0x42) {
 
 		if (Input_History_Add(s_input_local->mouseX) != 0) {
-			s_input_local->historyTail = oldTail;
+			s_historyTail = oldTail;
 			return;
 		}
 		saveSize += 2;
 
 		if (Input_History_Add(s_input_local->mouseY) != 0) {
-			s_input_local->historyTail = oldTail;
+			s_historyTail = oldTail;
 			return;
 		}
 		saveSize += 2;
@@ -344,13 +347,13 @@ void Input_HandleInput(uint16 input)
 
 	if (value == 0x2D || value == 0x7F ||
 			((input & 0x800) != 0 && (s_input_local->flags & 0x800) == 0 && value != 0x41 && value != 0x42)) {
-		s_input_local->historyTail = oldTail;
+		s_historyTail = oldTail;
 	}
 
 	index = (value & 0x7F) >> 3;
 	bit_value <<= (value & 7);
 	if ((bit_value & s_input_local->activeInputMap[index]) != 0 && (s_input_local->flags & 1) == 0) {
-		s_input_local->historyTail = oldTail;
+		s_historyTail = oldTail;
 	}
 	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
 	s_input_local->activeInputMap[index] |= bit_value;
@@ -414,7 +417,7 @@ uint16 Input_IsInputAvailable()
 {
 	uint16 value;
 
-	value = s_input_local->historyHead ^ s_input_local->historyTail;
+	value = s_historyHead ^ s_historyTail;
 
 	return Input_AddHistory(value);
 }
@@ -430,8 +433,8 @@ uint16 Input_Wait()
 	for (;;) {
 		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
-		value = s_input_local->historyHead;
-		if (value != s_input_local->historyTail) break;
+		value = s_historyHead;
+		if (value != s_historyTail) break;
 
 		sleep(0); /* Spin-lock */
 	}
@@ -544,8 +547,8 @@ uint16 Input_WaitForValidInput()
 		for (;;) {
 			if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
-			index = s_input_local->historyHead;
-			if (index != s_input_local->historyTail) break;
+			index = s_historyHead;
+			if (index != s_historyTail) break;
 
 			sleep(0); /* Spin-lock */
 		}
@@ -575,13 +578,13 @@ uint16 Input_Keyboard_NextKey()
 	for (;;) {
 		uint16 index;
 
-		index = s_input_local->historyHead;
-		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_input_local->historyTail) {
+		index = s_historyHead;
+		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_historyTail) {
 			value = 0;
 			break;
 		}
 
-		value = s_input_local->history[index / 2];
+		value = s_history[index / 2];
 		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY && value == 0) break;
 
 		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
@@ -592,7 +595,7 @@ uint16 Input_Keyboard_NextKey()
 
 		if ((value & 0xFF) >= 0x41 && (value & 0xFF) <= 0x44) index += 4;
 
-		s_input_local->historyHead = index + 2;
+		s_historyHead = index + 2;
 
 		sleep(0); /* Spin-lock */
 	}
