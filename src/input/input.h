@@ -86,8 +86,8 @@ typedef struct InputLocalData {
 	/* 074D()    */ PACK uint8   unknown_074D[0x02CC];
 
 	/* 0A19(123) */ PACK uint8      code_0A19[123];
-	/* 0A94(2)   */ PACK uint16 variable_0A94;              /*!< ?? */
-	/* 0A96(2)   */ PACK uint16 variable_0A96;              /*!< ?? Set to the same as 353F:76A6. */
+	/* 0A94(2)   */ PACK uint16  removed_0A94;              /*!< REMOVED - temporary buffer for writing input events to disk */
+	/* 0A96(2)   */ PACK uint16  removed_0A96;              /*!< REMOVED - temporary buffer for writing input events to disk */
 	/* 0A98(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
 	/* 0A9A(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
 

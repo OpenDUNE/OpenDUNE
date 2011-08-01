@@ -281,6 +281,7 @@ void Input_HandleInput(uint16 input)
 
 	uint16 inputMouseX;
 	uint16 inputMouseY;
+	uint16 tempBuffer[2];
 
 	s_input_local->flags = g_global->inputFlags;
 	inputMouseX = g_mouseX;
@@ -405,10 +406,9 @@ void Input_HandleInput(uint16 input)
 
 	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
 
-	s_input_local->variable_0A94 = input;
-	s_input_local->variable_0A96 = g_timerInput;
-
-	File_Write(g_global->mouseFileID, &s_input_local->variable_0A94, saveSize);
+	tempBuffer[0] = input;
+	tempBuffer[1] = g_timerInput;
+	File_Write(g_global->mouseFileID, tempBuffer, saveSize);
 	g_timerInput = 0;
 }
 
