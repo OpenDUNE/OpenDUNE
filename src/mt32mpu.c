@@ -20,7 +20,6 @@
 
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_18AC_0082_307C();
-extern void f__AB01_1A90_002B_D292();
 extern void f__AB01_1B48_0023_740C();
 
 uint16 g_mt32mpu_cs;
@@ -49,6 +48,57 @@ static void MPU_ApplyVolume(MSData *data)
 		MPU_Send(0xB0 | data->chanMaps[i], 7, volume);
 	}
 }
+
+static uint16 MPU_NoteOn(MSData *data)
+{
+	uint8 chan;
+	uint8 note;
+	uint8 velocity;
+	uint8 *sound;
+	uint16 len = 0;
+	uint32 duration = 0;
+	uint8 i;
+
+	sound = emu_get_memorycsip(data->sound);
+
+	chan = *sound++ & 0xF;
+	note = *sound++;
+	velocity = *sound++;
+
+	while (true) {
+		uint8 v = *sound++;
+		duration |= v & 0x7F;
+		if ((v & 0x80) == 0) break;
+		duration <<= 7;
+	}
+
+	len = sound - emu_get_memorycsip(data->sound);
+
+	if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) != 0) return len;
+
+	for (i = 0; i < 32; i++) {
+		if (data->noteOnChans[i] == 0xFF) {
+			data->noteOnCount++;
+			break;
+		}
+	}
+	if (i == 32) i = 0;
+
+	duration--;
+	data->noteOnChans[i] = chan;
+	data->noteOnNotes[i] = note;
+	data->noteOnLengthLSB[i] = duration & 0xFFFF;
+	data->noteOnLengthMSB[i] = duration >> 16;
+
+	chan = data->chanMaps[chan];
+	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)++;
+
+	/* Note On */
+	MPU_Send(0x90 | chan, note, velocity);
+
+	return len;
+}
+
 
 void MPU_Interrupt()
 {
@@ -189,10 +239,7 @@ void MPU_Interrupt()
 						}
 						nb = 0x3;
 					} else {
-						emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1E96); emu_cs = g_mt32mpu_cs; f__AB01_1A90_002B_D292();
-						emu_sp += 4;
-						nb = emu_ax;
+						nb = MPU_NoteOn(data);
 					}
 
 					data->sound.s.ip += nb;
