@@ -18,9 +18,10 @@
 
 #include "driver.h"
 
+extern void f__AB01_15E1_0068_0B9B();
 extern void f__AB01_16B7_0039_7EF1();
-extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1B48_0023_740C();
+extern void f__AB01_289D_0017_6184();
 
 uint16 g_mt32mpu_cs;
 
@@ -99,6 +100,94 @@ static uint16 MPU_NoteOn(MSData *data)
 	return len;
 }
 
+static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
+{
+	uint8 index;
+
+	if (data->variable_00A8[chan] != 0xFF) {
+		data2 = emu_get_memorycsip(data->variable_0012)[data->variable_00A8[chan]];
+		data->variable_00A8[chan] = 0xFF;
+	}
+
+	index = emu_get_memory8(g_mt32mpu_cs, data1, 0x11F2);
+	if (index != 0xFF) {
+		index += chan;
+		emu_get_memory8(g_mt32mpu_cs, index, 0x131E) = data2;
+		data->variable_00B8[index] = data2;
+	}
+
+	switch (data1) {
+		case 7: /* Channel Volume */
+			if (data->variable_0024 == 100) break;
+			data2 = min(data->variable_0024 * data2 / 100, 127);
+			emu_get_memory8(g_mt32mpu_cs, chan, 0x131E) = data2;
+			/* FALL-THROUGH */
+
+		default:
+			if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+			break;
+
+
+		case 116: {
+			uint8 i;
+
+			for (i = 0; i < 4; i++) {
+				if (data->variable_0060[i] == 0xFFFF) {
+					data->variable_0060[i] = data2;
+					data->variable_0050[i] = data->sound;
+					break;
+				}
+			}
+		} break;
+
+		case 117: {
+			uint8 i;
+
+			if (data2 < 64) break;
+
+			for (i = 0; i < 4; i++) {
+				if (data->variable_0060[3 - i] != 0xFFFF) {
+					if (data->variable_0060[3 - i] != 0 && --data->variable_0060[3 - i] == 0) {
+						data->variable_0060[3 - i] = 0xFFFF;
+						break;
+					}
+					data->sound = data->variable_0050[3 - i];
+					break;
+				}
+			}
+		} break;
+
+		case 111:
+			if (data2 > 64) emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) |= 0x40;
+			break;
+
+		case 110:
+			if (data2 < 64) {
+				emu_push(chan);
+				emu_push(emu_cs); emu_push(0x1A6D); emu_cs = g_mt32mpu_cs; f__AB01_15E1_0068_0B9B();
+				emu_sp += 2;
+
+				emu_push(data->chanMaps[chan] + 1);
+				emu_push(0);
+				emu_push(emu_cs); emu_push(0x1A85); emu_cs = g_mt32mpu_cs; f__AB01_289D_0017_6184();
+				emu_sp += 4;
+
+				data->chanMaps[chan] = chan;
+
+				break;
+			}
+
+			emu_push(0);
+			emu_sp += 2;
+
+			if (data1-- == 0) data1 = chan;
+
+			data->chanMaps[chan] = data1;
+			break;
+
+		case 115: case 118: case 119: assert(0);
+	}
+}
 
 void MPU_Interrupt()
 {
@@ -226,12 +315,7 @@ void MPU_Interrupt()
 						}
 						nb = 0x2;
 					} else if (status >= 0xB0) {
-						emu_push(data2);
-						emu_push(data1);
-						emu_push(chan);
-						emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1EC5); emu_cs = g_mt32mpu_cs; f__AB01_18AC_0082_307C();
-						emu_sp += 10;
+						MPU_Control(data, chan, data1, data2);
 						nb = 0x3;
 					} else if (status >= 0xA0) {
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
@@ -492,7 +576,7 @@ void MPU_Stop(uint16 index)
 
 	MPU_StopAllNotes(data);
 
-	emu_push(data_csip.s.cs); emu_cs = g_mt32mpu_cs; emu_push(data_csip.s.ip);
+	emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
 	emu_push(emu_cs); emu_push(0x2441); emu_cs = g_mt32mpu_cs; f__AB01_16B7_0039_7EF1();
 	emu_sp += 4;
 

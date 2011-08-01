@@ -35,7 +35,7 @@ typedef struct MSData {
 	/* 0044(4)   */ PACK uint32 variable_0044;              /*!< ?? */
 	/* 0048(4)   */ PACK uint32 variable_0048;              /*!< ?? */
 	/* 004C(4)   */ PACK uint32 variable_004C;              /*!< ?? */
-	/* 0050()    */ PACK uint8   unknown_0050[0x010];
+	/* 0050(16)  */ PACK csip32 variable_0050[4];           /*!< ?? */
 	/* 0060(8)   */ PACK uint16 variable_0060[4];           /*!< ?? */
 	/* 0068(16)  */ PACK uint8  chanMaps[16];               /*!< ?? Channel mapping. */
 	/* 0078(16)  */ PACK uint8  programs[16];               /*!< Channel program number (C0 command). */
