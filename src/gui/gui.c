@@ -44,18 +44,6 @@
 #include "../video/video.h"
 #include "../wsa.h"
 
-
-MSVC_PACKED_BEGIN
-typedef struct struct_B4E9 {
-	/* 0000(4)   */ PACK csip32 variable_00;                /*!< ?? */
-	/* 0004(2)   */ PACK uint16 variable_04;                /*!< ?? */
-	/* 0006(2)   */ PACK uint16 variable_06;                /*!< ?? */
-	/* 0008(2)   */ PACK uint16 variable_08;                /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_0A;                /*!< ?? */
-} GCC_PACKED struct_B4E9;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_B4E9) == 0x0C);
-
 MSVC_PACKED_BEGIN
 typedef struct ClippingArea {
 	/* 0000(2)   */ PACK uint16 left;                       /*!< ?? */
@@ -2112,7 +2100,6 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
  */
 void GUI_ChangeSelectionType(uint16 selectionType)
 {
-	struct_B4E9 *info = (struct_B4E9 *)&emu_get_memory8(0x2E8A, 0, 0xE);
 	uint16 oldScreenID;
 
 	if (selectionType == 3 && g_unitSelected == NULL) {
@@ -2125,7 +2112,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
-	if (g_global->selectionType != selectionType || info[selectionType].variable_0A != 0) {
+	if (g_global->selectionType != selectionType || g_table_selectionType[selectionType].variable_0A != 0) {
 		uint16 oldSelectionType = g_global->selectionType;
 
 		Timer_SetTimer(TIMER_GAME, false);
@@ -2155,14 +2142,14 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				break;
 		}
 
-		if (info[oldSelectionType].variable_04 != 0 && info[selectionType].variable_06 != 0) {
+		if (g_table_selectionType[oldSelectionType].variable_04 != 0 && g_table_selectionType[selectionType].variable_06 != 0) {
 			g_global->variable_3A12 = 1;
 			g_global->variable_3A14 = 1;
 
 			GUI_DrawInterfaceAndRadar(0);
 		}
 
-		Widget_SetCurrentWidget(info[selectionType].variable_08);
+		Widget_SetCurrentWidget(g_table_selectionType[selectionType].variable_08);
 
 		if (g_curWidgetIndex != 0) {
 			GUI_Widget_DrawBorder(g_curWidgetIndex, 0, false);
@@ -2171,7 +2158,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		if (selectionType != 0) {
 			Widget *w = g_widgetLinkedListHead;
 
-			uint8 *loc08 = emu_get_memorycsip(info[selectionType].variable_00);
+			uint8 *loc08 = emu_get_memorycsip(g_table_selectionType[selectionType].variable_00);
 
 			while (w != NULL) {
 				w->state.s.selected = false;
@@ -2195,7 +2182,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
 
-				Widget_SetCurrentWidget(info[selectionType].variable_08);
+				Widget_SetCurrentWidget(g_table_selectionType[selectionType].variable_08);
 				break;
 
 			case 1:

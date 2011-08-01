@@ -31,7 +31,20 @@ typedef struct FactoryWindowItem {
 	/* 0007(4)   */ struct ObjectInfo *objectInfo;     /*!< ?? */
 } FactoryWindowItem;
 
+/**
+ * Information for the selection type.
+ */
+typedef struct SelectionType {
+	csip32 variable_00;                                     /*!< ?? */
+	uint16 variable_04;                                     /*!< ?? */
+	uint16 variable_06;                                     /*!< ?? */
+	uint16 variable_08;                                     /*!< ?? */
+	uint16 variable_0A;                                     /*!< ?? */
+} SelectionType;
+
 struct Widget;
+
+extern const SelectionType g_table_selectionType[];
 
 extern uint8 *g_palette_998A;
 extern uint8 g_remap[];
