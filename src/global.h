@@ -24,16 +24,6 @@
  */
 
 MSVC_PACKED_BEGIN
-/** REMOVED (never ever used) */
-typedef struct struct_7B68 {
-	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
-	/* 0001(1)   */ PACK uint8  variable_0001;              /*!< ?? */
-	/* 0002(4)   */ PACK csip32 variable_0002;              /*!< CS:IP of a function. */
-} GCC_PACKED struct_7B68;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_7B68) == 0x6);
-
-MSVC_PACKED_BEGIN
 /**
  * At segment 353F there is a big blob of all kinds of variables and constants.
  *  This struct tries to map all those.
@@ -437,9 +427,9 @@ typedef struct GlobalData {
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 25A4(10)  */ PACK char   removed_25A4[10];           /*!< REMOVED - "FHARK.WSA" NULL terminated. */
-	/* 25AE(10)  */ PACK char   removed_25AE[10];           /*!< REMOVED - "FARTR.WSA" NULL terminated. */
-	/* 25B8(11)  */ PACK char   removed_25B8[11];           /*!< REMOVED - "FORDOS.WSA" NULL terminated. */
+	/* 25A4(10)  */ PACK char    removed_25A4[10];          /*!< REMOVED - "FHARK.WSA" NULL terminated. */
+	/* 25AE(10)  */ PACK char    removed_25AE[10];          /*!< REMOVED - "FARTR.WSA" NULL terminated. */
+	/* 25B8(11)  */ PACK char    removed_25B8[11];          /*!< REMOVED - "FORDOS.WSA" NULL terminated. */
 	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
 	/* 25CE(2)   */ PACK uint16  removed_25CE;              /*!< REMOVED - select from the list of ingame help subjects. */
@@ -623,11 +613,11 @@ typedef struct GlobalData {
 	/* 31D2(2)   */ PACK uint16 variable_31D2;              /*!< ?? */
 	/* 31D4(2)   */ PACK uint16 variable_31D4;              /*!< ?? */
 	/* 31D6(2)   */ PACK uint16 variable_31D6;              /*!< ?? */
-	/* 31D8(4)   */ PACK char    removed_string_31D8[4];    /*!< REMOVED - "ENG" NULL terminated. */
-	/* 31DC(4)   */ PACK char    removed_string_31DC[4];    /*!< REMOVED - "FRE" NULL terminated. */
-	/* 31E0(4)   */ PACK char    removed_string_31E0[4];    /*!< REMOVED - "GER" NULL terminated. */
-	/* 31E4(4)   */ PACK char    removed_string_31E4[4];    /*!< REMOVED - "ITA" NULL terminated. */
-	/* 31E8(4)   */ PACK char    removed_string_31E8[4];    /*!< REMOVED - "SPA" NULL terminated. */
+	/* 31D8(4)   */ PACK char    removed_31D8[4];           /*!< REMOVED - "ENG" NULL terminated. */
+	/* 31DC(4)   */ PACK char    removed_31DC[4];           /*!< REMOVED - "FRE" NULL terminated. */
+	/* 31E0(4)   */ PACK char    removed_31E0[4];           /*!< REMOVED - "GER" NULL terminated. */
+	/* 31E4(4)   */ PACK char    removed_31E4[4];           /*!< REMOVED - "ITA" NULL terminated. */
+	/* 31E8(4)   */ PACK char    removed_31E8[4];           /*!< REMOVED - "SPA" NULL terminated. */
 	/* 31EC(4)   */ PACK char   string_31EC[4];             /*!< "FRE" NULL terminated. */
 	/* 31F0(4)   */ PACK char   string_31F0[4];             /*!< "GER" NULL terminated. */
 	/* 31F4(5)   */ PACK char   string_31F4[5];             /*!< "DUNE" NULL terminated. */
@@ -658,8 +648,8 @@ typedef struct GlobalData {
 	/* 342A(6)   */ PACK char   string_342A[6];             /*!< "%s %s" NULL terminated. */
 	/* 3430(9)   */ PACK char   string_3430[9];             /*!< "%s %s %s" NULL terminated. */
 	/* 3439()    */ PACK uint8   unknown_3439[0x0001];
-	/* 343A(4)   */ PACK uint32  removed_tickCursor;        /*!< REMOVED - Stores last time Viewport changed the cursor spriteID. */
-	/* 343E(4)   */ PACK uint32  removed_tickMapScroll;     /*!< REMOVED - Stores last time Viewport ran MapScroll function. */
+	/* 343A(4)   */ PACK uint32  removed_343A;              /*!< REMOVED - Stores last time Viewport changed the cursor spriteID. */
+	/* 343E(4)   */ PACK uint32  removed_343E;              /*!< REMOVED - Stores last time Viewport ran MapScroll function. */
 	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< HotSpots for different cursor types. */
 	/* 345A(8)   */ PACK uint16  removed_345A[4];           /*!< REMOVED - ?? */
 	/* 3462(256) */ PACK uint8   removed_3462[256];         /*!< REMOVED - ?? */
@@ -682,7 +672,7 @@ typedef struct GlobalData {
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
-	/* 3640(4)   */ PACK uint32  removed_tickCreditsAnimation; /*!< REMOVED - Next tick when credits animation needs an update. */
+	/* 3640(4)   */ PACK uint32  removed_3640;              /*!< REMOVED - Next tick when credits animation needs an update. */
 	/* 3644(80)  */ PACK char    removed_3644[80];          /*!< REMOVED 1st line of text to display. */
 	/* 3694(80)  */ PACK char    removed_3694[80];          /*!< REMOVED 2nd line of text to display. */
 	/* 36E4(80)  */ PACK char    removed_36E4[80];          /*!< REMOVED 3rd line of text to display. */
@@ -760,7 +750,7 @@ typedef struct GlobalData {
 	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32  removed_38F2;              /*!< REMOVED - Unit currently controlled by player. */
-	/* 38F6(2)   */ PACK uint16 removed_activeAction;       /*!< REMOVED - Action the controlled unit will do. */
+	/* 38F6(2)   */ PACK uint16  removed_38F6;              /*!< REMOVED - Action the controlled unit will do. */
 	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32  removed_38FA;              /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16  removed_38FE;              /*!< REMOVED - Amount of time the user has to select Missile target. */
@@ -1241,7 +1231,7 @@ typedef struct GlobalData {
 	/* 7B1C(2)   */ PACK uint16  removed_7B1C;              /*!< REMOVED - ?? variable_77CA[0] init state. (never used) */
 	/* 7B1E(2)   */ PACK uint16  removed_7B1E;              /*!< REMOVED - ?? variable_77CA[1] init state. (never used) */
 	/* 7B20()    */ PACK uint8   unknown_7B20[0x0048];
-	/* 7B68(36)  */ PACK struct_7B68 removed_7B68[6];       /*!< REMOVED - ?? (apparently never ever used) */
+	/* 7B68(36)  */ PACK uint8   removed_7B68[6][6];        /*!< REMOVED - ?? (apparently never ever used) */
 	/* 7B8C(640) */ PACK uint16  removed_7B8C[320];         /*!< REMOVED - screen columns swapping indices in fade-in */
 	/* 7E0C(400) */ PACK uint16  removed_7E0C[200];         /*!< REMOVED - screen line swapping indices used in fade-in */
 	/* 7F9C(4)   */ PACK uint32  removed_7F9C;              /*!< REMOVED - ?? Also a tick counter.. */
@@ -1360,7 +1350,7 @@ typedef struct GlobalData {
 	/* 8AEE(240) */ PACK char    removed_8AEE[240];         /*!< REMOVED - ?? Buffer. */
 	/* 8BDE(10)  */ PACK uint8   removed_8BDE[10];          /*!< REMOVED - ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
-	/* 8BEA(275) */ PACK uint8  removed_8BEA[25][11];       /*!< REMOVED - Items for the factory window. */
+	/* 8BEA(275) */ PACK uint8   removed_8BEA[25][11];      /*!< REMOVED - Items for the factory window. */
 	/* 8CFD(2)   */ PACK uint16  removed_8CFD;              /*!< REMOVED - Savegame version. */
 	/* 8CFF(228) */ PACK uint8   removed_8CFF[228];         /*!< REMOVED - Scenario data */
 	/* 8DE3(2)   */ PACK uint16 variable_8DE3;              /*!< ?? */
