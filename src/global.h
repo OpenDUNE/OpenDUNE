@@ -34,16 +34,6 @@ MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
 
 MSVC_PACKED_BEGIN
-typedef struct struct_8BDE {
-	/* 0000(2)   */ PACK uint16 packed;                     /*!< ?? */
-	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
-	/* 0004(2)   */ PACK uint16 variable_0004;              /*!< ?? */
-	/* 0006(4)   */ PACK csip32 buffer_csip;                /*!< CS:IP of a buffer. */
-} GCC_PACKED struct_8BDE;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_8BDE) == 0xA);
-
-MSVC_PACKED_BEGIN
 /**
  * At segment 353F there is a big blob of all kinds of variables and constants.
  *  This struct tries to map all those.
@@ -1368,7 +1358,7 @@ typedef struct GlobalData {
 	/* 8ADC(2)   */ PACK uint16  removed_8ADC;              /*!< REMOVED - foreground colour 3rd line of text */
 	/* 8ADE(16)  */ PACK uint8   removed_8ADE[16];          /*!< REMOVED - ?? Buffer for colours*/
 	/* 8AEE(240) */ PACK char    removed_8AEE[240];         /*!< REMOVED - ?? Buffer. */
-	/* 8BDE(10)  */ PACK struct_8BDE variable_8BDE;         /*!< ?? */
+	/* 8BDE(10)  */ PACK uint8   removed_8BDE[10];          /*!< REMOVED - ?? */
 	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
 	/* 8BEA(275) */ PACK uint8  removed_8BEA[25][11];       /*!< REMOVED - Items for the factory window. */
 	/* 8CFD(2)   */ PACK uint16  removed_8CFD;              /*!< REMOVED - Savegame version. */
@@ -1381,7 +1371,8 @@ typedef struct GlobalData {
 	/* 95E5(512) */ PACK uint8   removed_95E5[512];         /*!< REMOVED - displayed part of the viewport. */
 	/* 97E5(2)   */ PACK uint16  removed_97E5;              /*!< REMOVED - StringID displayed on the production button. */
 	/* 97E7(54)  */ PACK int16   removed_97E7[27];          /*!< REMOVED - Array of UNIT_MAX size, which contains which units are available via the starport. 0 means not available, -1 means sold-out. */
-	/* 981D()    */ PACK uint8   unknown_981D[0x0029];
+	/* 981D()    */ PACK uint8   unknown_981D[0x0001];
+	/* 981E(40)  */ PACK uint8   removed_981E[40];          /*!< REMOVED - Buffer for pathfinding */
 	/* 9846(4)   */ PACK csip32  removed_9846;              /*!< REMOVED - Stored interrupt vector for overlay handler. */
 	/* 984A(14)  */ PACK char    removed_984A[14];          /*!< REMOVED - Buffer to store a filename */
 	/* 9858(14)  */ PACK char    removed_9858[14];          /*!< REMOVED - Buffer to store a filename (NEVER USED) */

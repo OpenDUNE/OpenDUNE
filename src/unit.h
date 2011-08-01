@@ -120,7 +120,7 @@ typedef struct Unit {
 	uint8  blinkCounter;                                    /*!< If non-zero, it indicates how many more ticks this unit is blinking. */
 	uint8  team;                                            /*!< If non-zero, unit is part of team. Value 1 means team 0, etc. */
 	uint16 variable_70;                                     /*!< ?? */
-	uint8  variable_72[14];                                 /*!< ?? */
+	uint8  variable_72[14];                                 /*!< ?? Related to pathfinding. */
 } Unit;
 
 /**

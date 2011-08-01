@@ -27,6 +27,13 @@
 #include "../string.h"
 #include "../unit.h"
 
+typedef struct struct_1319 {
+	uint16 packed;
+	uint16 variable_0002;
+	uint16 variable_0004;
+	uint8 *buffer;
+} struct_1319;
+
 static const int16 s_mapDirection[8] = {-64, -63, 1, 65, 64, 63, -1, -65}; /*!< Tile index change when moving in a direction. */
 
 /**
@@ -978,14 +985,6 @@ static int16 Script_Unit_176C_1F21(uint16 packed, uint8 arg08)
 	return res;
 }
 
-/* This struct is similar to struct_8BDE */
-typedef struct struct_1319 {
-	uint16 packed;
-	uint16 variable_0002;
-	uint16 variable_0004;
-	uint8 *buffer;
-} struct_1319;
-
 static uint16 Script_Unit_1319_03E8(struct_1319 *arg06, int16 arg0E)
 {
 	static const int8 var3792[8] = {0, 0, 1, 2, 3, -2, -1, 0};
@@ -1134,24 +1133,25 @@ static bool Script_Unit_1319_02AC(uint16 packed, struct_1319 *arg08, int8 arg0C,
 	return false;
 }
 
-static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, csip32 buffer_csip, int16 arg0E, int16 arg14)
+/**
+ * ?? Guessing this function is the pathfinder.
+ */
+static struct_1319 Script_Unit_Pathfinder_1319_002D(uint16 packedSrc, uint16 packedDest, void *buffer, int16 bufferSize, int16 arg14)
 {
 	uint16 curPacked;
 	struct_1319 res;
 
-	if (buffer_csip.csip == 0x0) return NULL;
-
 	res.packed        = packedSrc;
 	res.variable_0002 = 0;
 	res.variable_0004 = 0;
-	res.buffer        = emu_get_memorycsip(buffer_csip);
+	res.buffer        = buffer;
 
 	res.buffer[0] = 0xFF;
 
-	arg0E--;
+	bufferSize--;
 	curPacked = packedSrc;
 
-	while (res.variable_0004 < arg0E) {
+	while (res.variable_0004 < bufferSize) {
 		uint8  loc04;
 		uint16 locsi;
 		int16  loc08;
@@ -1217,7 +1217,7 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 				loc26 = &loc22[loc22[1].variable_0002 < loc22[0].variable_0002 ? 1 : 0];
 			}
 
-			loc0E = min(arg0E - res.variable_0004, loc26->variable_0004);
+			loc0E = min(bufferSize - res.variable_0004, loc26->variable_0004);
 
 			if (loc0E <= 0) break;
 
@@ -1230,16 +1230,11 @@ static struct_8BDE *Script_Unit_1319_002D(uint16 packedSrc, uint16 packedDest, c
 		curPacked = locsi;
 	}
 
-	if (res.variable_0004 < arg0E) res.buffer[res.variable_0004++] = 0xFF;
+	if (res.variable_0004 < bufferSize) res.buffer[res.variable_0004++] = 0xFF;
 
 	Script_Unit_1319_03E8(&res, arg14);
 
-	g_global->variable_8BDE.packed        = res.packed;
-	g_global->variable_8BDE.variable_0002 = res.variable_0002;
-	g_global->variable_8BDE.variable_0004 = res.variable_0004;
-	g_global->variable_8BDE.buffer_csip   = buffer_csip;
-
-	return &g_global->variable_8BDE;
+	return res;
 }
 
 /**
@@ -1272,14 +1267,12 @@ uint16 Script_Unit_Unknown1F51(ScriptEngine *script)
 	}
 
 	if (u->variable_72[0] == 0xFF) {
-		struct_8BDE *loc08;
-		csip32 buffer_csip;
+		struct_1319 loc08;
+		uint8 buffer[40];
 
-		buffer_csip.csip = 0x353F981E;
+		loc08 = Script_Unit_Pathfinder_1319_002D(packed, locdi, buffer, 40, 255);
 
-		loc08 = Script_Unit_1319_002D(packed, locdi, buffer_csip, 40, 255);
-
-		memcpy(u->variable_72, emu_get_memorycsip(loc08->buffer_csip), min(loc08->variable_0004, 14));
+		memcpy(u->variable_72, loc08.buffer, min(loc08.variable_0004, 14));
 
 		if (u->variable_72[0] == 0xFF) {
 			u->targetMove = 0;
