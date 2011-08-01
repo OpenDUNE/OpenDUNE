@@ -71,7 +71,6 @@ extern void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C);
 extern void emu_MPU_Send();
 extern void emu_MPU_Init();
 extern void emu_MPU_Uninit();
-extern void emu_MPU_ClearData();
 extern void emu_MPU_GetInfo();
 
 #endif /* MT32MPU_H */

@@ -20,7 +20,6 @@
 
 extern void f__AB01_15E1_0068_0B9B();
 extern void f__AB01_16B7_0039_7EF1();
-extern void f__AB01_1B48_0023_740C();
 extern void f__AB01_289D_0017_6184();
 
 uint16 g_mt32mpu_cs;
@@ -221,6 +220,61 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 	}
 }
 
+static uint16 MPU_1B48(MSData *data, csip32 data_csip)
+{
+	uint8 *sound;
+	uint8 type;
+	uint16 len = 0;
+
+	sound = emu_get_memorycsip(data->sound);
+	type = sound[1];
+	sound += 2;
+
+	while (true) {
+		uint8 v = *sound++;
+		len |= v & 0x7F;
+		if ((v & 0x80) == 0) break;
+		len <<= 7;
+	}
+	len += sound - emu_get_memorycsip(data->sound);
+
+	switch (type) {
+		case 0x2F:
+			emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
+			emu_push(emu_cs); emu_push(0x1BAE); emu_cs = g_mt32mpu_cs; f__AB01_16B7_0039_7EF1();
+			emu_sp += 4;
+
+			data->playing = 2;
+			if (data->variable_001C == 0) break;
+
+			MPU_ClearData(emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314));
+			break;
+
+		case 0x58: {
+			int8 mul;
+
+			data->variable_0042 = sound[0];
+			mul = (int8)sound[1] - 2;
+
+			if (mul < 0) {
+				data->variable_0044 = 133333 >> -mul;
+			} else {
+				data->variable_0044 = 133333 << mul;
+			}
+
+			data->variable_0048 = data->variable_0044;
+		} break;
+
+		case 0x51:
+			data->variable_004C = (sound[0] << 20) | (sound[1] << 12) | (sound[2] << 4);
+			break;
+
+		default: break;
+	}
+
+	return len;
+}
+
 void MPU_Interrupt()
 {
 	static bool locked = false;
@@ -321,10 +375,7 @@ void MPU_Interrupt()
 
 					if (status >= 0xF0) {
 						assert(chan == 0xF);
-						emu_push(data_csip.s.cs); emu_push(data_csip.s.ip);
-						emu_push(emu_cs); emu_push(0x1EB5); emu_cs = g_mt32mpu_cs; f__AB01_1B48_0023_740C();
-						emu_sp += 4;
-						nb = emu_ax;
+						nb = MPU_1B48(data, data_csip);
 					} else if (status >= 0xE0) {
 						data->pitchWheelLSB[chan] = data1;
 						data->pitchWheelMSB[chan] = data2;

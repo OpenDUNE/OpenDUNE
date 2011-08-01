@@ -65,26 +65,6 @@ void emu_MPU_Uninit()
 }
 
 /**
- * Emulator wrapper around MPU_ClearData()
- *
- * @name emu_MPU_ClearData
- * @implements AB01:2336:002C:4FDC ()
- */
-void emu_MPU_ClearData()
-{
-	uint16 index;
-
-	/* Pop the return CS:IP. */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-
-	/* First arg was not for us so we skipped it. */
-	index = emu_get_memory16(emu_ss, emu_sp, 0x2);
-
-	MPU_ClearData(index);
-}
-
-/**
  * Emulator wrapper around MPU_GetInfo()
  *
  * @name emu_MPU_GetInfo
