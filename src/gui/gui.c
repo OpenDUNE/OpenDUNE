@@ -2158,13 +2158,18 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		if (selectionType != 0) {
 			Widget *w = g_widgetLinkedListHead;
 
-			uint8 *loc08 = emu_get_memorycsip(g_table_selectionType[selectionType].variable_00);
-
 			while (w != NULL) {
+				const int8 *s = g_table_selectionType[selectionType].variable_00;
+
 				w->state.s.selected = false;
 				w->flags.s.invisible = true;
 
-				if (memchr(loc08 + 1, w->index, *loc08) != NULL) w->flags.s.invisible = false;
+				for (; *s != -1; s++) {
+					if (*s == w->index) {
+						w->flags.s.invisible = false;
+						break;
+					}
+				}
 
 				GUI_Widget_Draw(w);
 				w = GUI_Widget_GetNext(w);

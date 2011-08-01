@@ -35,7 +35,7 @@ typedef struct FactoryWindowItem {
  * Information for the selection type.
  */
 typedef struct SelectionType {
-	csip32 variable_00;                                     /*!< ?? */
+	 int8  variable_00[20];                                 /*!< ?? */
 	uint16 variable_04;                                     /*!< ?? */
 	uint16 variable_06;                                     /*!< ?? */
 	uint16 variable_08;                                     /*!< ?? */
