@@ -11,7 +11,6 @@
 #include "global.h"
 #include "os/math.h"
 #include "os/endian.h"
-#include "os/sleep.h"
 
 #include "mt32mpu.h"
 #include "mpu.h"
@@ -799,8 +798,6 @@ void MPU_Init()
 		}
 	}
 
-	sleep(140);
-
 	for (j = 0; j < 9; j++) {
 		uint8 value;
 
@@ -817,8 +814,6 @@ void MPU_Init()
 
 		MPU_Send(0xC0 | (j + 1), 0, value);
 	}
-
-	sleep(140);
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
 }
