@@ -88,8 +88,8 @@ typedef struct InputLocalData {
 	/* 0A19(123) */ PACK uint8      code_0A19[123];
 	/* 0A94(2)   */ PACK uint16 variable_0A94;              /*!< ?? */
 	/* 0A96(2)   */ PACK uint16 variable_0A96;              /*!< ?? Set to the same as 353F:76A6. */
-	/* 0A98(2)   */ PACK uint16 mouseX;                     /*!< Current X position of the mouse. */
-	/* 0A9A(2)   */ PACK uint16 mouseY;                     /*!< Current Y position of the mouse. */
+	/* 0A98(2)   */ PACK uint16 removed_mouseX;             /*!< REMOVED - Current X position of the mouse. */
+	/* 0A9A(2)   */ PACK uint16 removed_mouseY;             /*!< REMOVED - Current Y position of the mouse. */
 
 	/* 0A9C(26)  */ PACK uint16     data_0A9C[13];          /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 0AB6(32)  */ PACK uint16     data_0AB6[0x10];        /*!< REMOVED Copied into the Input_HandleInput function. */

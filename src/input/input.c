@@ -279,9 +279,12 @@ void Input_HandleInput(uint16 input)
 	uint16 value;
 	uint8  bit_value;
 
+	uint16 inputMouseX;
+	uint16 inputMouseY;
+
 	s_input_local->flags = g_global->inputFlags;
-	s_input_local->mouseX = g_mouseX;
-	s_input_local->mouseY = g_mouseY;
+	inputMouseX = g_mouseX;
+	inputMouseY = g_mouseY;
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
@@ -333,8 +336,8 @@ void Input_HandleInput(uint16 input)
 				const XYPosition *xy;
 
 				xy = mousePos + data_0AB6[((dy & 3) << 2) | (dx & 3)];
-				s_input_local->mouseX = xy->x;
-				s_input_local->mouseY = xy->y;
+				inputMouseX = xy->x;
+				inputMouseY = xy->y;
 			} else {
 				static const int8 offsetSmall[3] = { -1, 0,  1};
 				static const int8 offsetBig[3]   = {-16, 0, 16};
@@ -342,16 +345,16 @@ void Input_HandleInput(uint16 input)
 
 				change = ((input & 0x100) == 0) ? &offsetSmall[1] : &offsetBig[1];
 
-				s_input_local->mouseX += change[dx];
-				s_input_local->mouseY += change[dy];
-				if (s_input_local->mouseX >= 0x8000) s_input_local->mouseX = 0;
-				if (s_input_local->mouseY >= 0x8000) s_input_local->mouseY = 0;
-				if ((int16)s_input_local->mouseX > SCREEN_WIDTH - 1)  s_input_local->mouseX = SCREEN_WIDTH - 1;
-				if ((int16)s_input_local->mouseY > SCREEN_HEIGHT - 1) s_input_local->mouseY = SCREEN_HEIGHT - 1;
+				inputMouseX += change[dx];
+				inputMouseY += change[dy];
+				if (inputMouseX >= 0x8000) inputMouseX = 0;
+				if (inputMouseY >= 0x8000) inputMouseY = 0;
+				if ((int16)inputMouseX > SCREEN_WIDTH - 1)  inputMouseX = SCREEN_WIDTH - 1;
+				if ((int16)inputMouseY > SCREEN_HEIGHT - 1) inputMouseY = SCREEN_HEIGHT - 1;
 			}
 
-			g_mouseX = s_input_local->mouseX;
-			g_mouseY = s_input_local->mouseY;
+			g_mouseX = inputMouseX;
+			g_mouseY = inputMouseY;
 			if (g_mouseLock == 0) {
 				GUI_Mouse_Hide();
 				GUI_Mouse_Show();
@@ -370,13 +373,13 @@ void Input_HandleInput(uint16 input)
 	value = input & 0xFF;
 	if (value == 0x2D || value == 0x41 || value == 0x42) {
 
-		if (Input_History_Add(s_input_local->mouseX) != 0) {
+		if (Input_History_Add(inputMouseX) != 0) {
 			s_historyTail = oldTail;
 			return;
 		}
 		saveSize += 2;
 
-		if (Input_History_Add(s_input_local->mouseY) != 0) {
+		if (Input_History_Add(inputMouseY) != 0) {
 			s_historyTail = oldTail;
 			return;
 		}
