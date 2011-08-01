@@ -30,6 +30,26 @@ void Input_Init()
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
 }
 
+/**
+ * Translate keyboard input.
+ * @param keyValue Entered key value.
+ * @return Translated key value.
+ */
+static uint16 Input_Keyboard_Translate(uint16 keyValue)
+{
+	uint16 i;
+
+	if ((g_global->inputFlags & 0x2) == 0) {
+		for (i = 0; i < lengthof(s_input_local->translateMap); i++) {
+			if (s_input_local->translateMap[i] == (uint8)(keyValue & 0xFF)) {
+				keyValue = s_input_local->translateTo[i] | (keyValue & 0xFF00);
+				break;
+			}
+		}
+	}
+	return keyValue;
+}
+
 void Input_EventHandler(uint8 key)
 {
 	uint8 state;
@@ -131,7 +151,7 @@ void Input_History_Clear()
  * @return Read input.
  * @note Provided \a index gets updated and written to #historyHead
  */
-uint16 Input_ReadHistory(uint16 index)
+static uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
@@ -158,31 +178,11 @@ uint16 Input_ReadHistory(uint16 index)
 }
 
 /**
- * Translate keyboard input.
- * @param keyValue Entered key value.
- * @return Translated key value.
- */
-uint16 Input_Keyboard_Translate(uint16 keyValue)
-{
-	uint16 i;
-
-	if ((g_global->inputFlags & 0x2) == 0) {
-		for (i = 0; i < lengthof(s_input_local->translateMap); i++) {
-			if (s_input_local->translateMap[i] == (uint8)(keyValue & 0xFF)) {
-				keyValue = s_input_local->translateTo[i] | (keyValue & 0xFF00);
-				break;
-			}
-		}
-	}
-	return keyValue;
-}
-
-/**
  * Add a value to the history buffer.
  * @param value New value to add.
  * @return \c 1 if adding fails, \c 0 if successful.
  */
-uint16 Input_History_Add(uint16 value)
+static uint16 Input_History_Add(uint16 value)
 {
 	uint16 index;
 
@@ -194,12 +194,54 @@ uint16 Input_History_Add(uint16 value)
 	return 0;
 }
 
+/** Read input event from file. */
+static void Input_ReadInputFromFile()
+{
+	uint16 value;
+
+	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) return;
+
+	File_Read(g_global->mouseFileID, s_input_local->variable_063B[0], 4); /* Read failure not translated. */
+
+	g_global->variable_7015 = s_input_local->variable_063B[0][1];
+	value = g_global->variable_7013 = s_input_local->variable_063B[0][0];
+
+	if ((value & 0xFF) != 0x2D) {
+		uint8 idx, bit;
+
+		idx = (value & 0xFF) >> 3;
+		bit = 1 << (value & 7);
+
+		s_input_local->activeInputMap[idx] &= ~bit;
+		if ((value & 0x800) == 0) s_input_local->activeInputMap[idx] |= bit;
+
+		if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44) {
+			g_timerInput = 0;
+			return;
+		}
+
+		value -= 0x41;
+		if ((value & 0xFF) <= 0x2) {
+			g_prevButtonState &= ~(1 << (value & 0xFF));
+			g_prevButtonState |= (((value & 0x800) >> (3+8)) ^ 1) << (value & 0xFF);
+		}
+	}
+
+	File_Read(g_global->mouseFileID, s_input_local->variable_063B[1], 4); /* Read failure not translated. */
+
+	g_mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
+	value = g_mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
+
+	Mouse_HandleMovementIfMoved(value);
+	g_timerInput = 0;
+}
+
 /**
  * Get input, and add it to the history.
  * @param value Old value.
  * @return Added input value.
  */
-uint16 Input_AddHistory(uint16 value)
+static uint16 Input_AddHistory(uint16 value)
 {
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) return value;
 
@@ -364,48 +406,6 @@ void Input_HandleInput(uint16 input)
 	s_input_local->variable_0A96 = g_timerInput;
 
 	File_Write(g_global->mouseFileID, &s_input_local->variable_0A94, saveSize);
-	g_timerInput = 0;
-}
-
-/** Read input event from file. */
-void Input_ReadInputFromFile()
-{
-	uint16 value;
-
-	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) return;
-
-	File_Read(g_global->mouseFileID, s_input_local->variable_063B[0], 4); /* Read failure not translated. */
-
-	g_global->variable_7015 = s_input_local->variable_063B[0][1];
-	value = g_global->variable_7013 = s_input_local->variable_063B[0][0];
-
-	if ((value & 0xFF) != 0x2D) {
-		uint8 idx, bit;
-
-		idx = (value & 0xFF) >> 3;
-		bit = 1 << (value & 7);
-
-		s_input_local->activeInputMap[idx] &= ~bit;
-		if ((value & 0x800) == 0) s_input_local->activeInputMap[idx] |= bit;
-
-		if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44) {
-			g_timerInput = 0;
-			return;
-		}
-
-		value -= 0x41;
-		if ((value & 0xFF) <= 0x2) {
-			g_prevButtonState &= ~(1 << (value & 0xFF));
-			g_prevButtonState |= (((value & 0x800) >> (3+8)) ^ 1) << (value & 0xFF);
-		}
-	}
-
-	File_Read(g_global->mouseFileID, s_input_local->variable_063B[1], 4); /* Read failure not translated. */
-
-	g_mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
-	value = g_mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
-
-	Mouse_HandleMovementIfMoved(value);
 	g_timerInput = 0;
 }
 
