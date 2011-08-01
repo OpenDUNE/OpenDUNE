@@ -490,7 +490,7 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 		}
 
 		if ((keyFlags & 0x200) != 0) {
-			if ((s_input_local->bitmask[keySave & 7] & s_input_local->keymap_special_mask[keySave >> 3]) != 0) {
+			if ((s_input_local->keymap_special_mask[keySave >> 3] & (1 << (keySave & 7))) != 0) {
 				keyValue &= 0x1F;
 			}
 		}
