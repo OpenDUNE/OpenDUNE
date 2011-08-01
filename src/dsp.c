@@ -9,6 +9,8 @@
 #include "dsp.h"
 #include "driver.h"
 
+uint16 g_dsp_cs;
+
 static uint8 *s_buffer;
 static int s_bufferLen;
 static uint8 *s_data;
@@ -95,8 +97,8 @@ static void DSP_ProcessBlock()
 DriverInfo *DSP_GetInfo()
 {
 	DriverInfo *info;
-	info = (DriverInfo *)&emu_get_memory8(0x4352, 0x00, 0x73); /* XXX: 0x4352 should not be there */
-	info->variable_0008.s.cs = 0x4352; /* XXX: 0x4352 should not be there */
+	info = (DriverInfo *)&emu_get_memory8(g_dsp_cs, 0x00, 0x73);
+	info->variable_0008.s.cs = g_dsp_cs;
 	return info;
 }
 

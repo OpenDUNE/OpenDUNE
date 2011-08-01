@@ -22,7 +22,7 @@
 #include "tools.h"
 
 extern uint16 g_mt32mpu_cs;
-static uint16 s_mt32mpu_cs;
+extern uint16 g_dsp_cs;
 
 static csip32 _stat128[16];
 static uint16 _stat188[16];
@@ -34,7 +34,6 @@ static csip32 _stat466;
 
 void Drivers_Tick()
 {
-	g_mt32mpu_cs = s_mt32mpu_cs;
 	if (emu_flags.inf) MPU_Interrupt();
 }
 
@@ -70,7 +69,6 @@ static void Driver_Init(uint16 driver, uint16 port, uint16 irq1, uint16 dma, uin
 	locsi = Driver_GetInfo(driver)->variable_0014;
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
 	if (locsi != 0xFFFF && csip.csip != 0) {
-		s_mt32mpu_cs = csip.s.cs;
 		Timer_Add(Drivers_Tick, 1000000 / locsi);
 	}
 
@@ -388,15 +386,13 @@ csip32 Drivers_CallFunction(uint16 driver, uint16 function)
 	csip = Drivers_GetFunctionCSIP(driver, function);
 	if (csip.csip == 0) return csip;
 
-	g_mt32mpu_cs = csip.s.cs;
-
 	/* Call/jump based on memory/register values */
 	emu_push(emu_cs); emu_push(emu_ip);
 	emu_ip = csip.s.ip;
 	emu_cs = csip.s.cs;
 	switch (emu_ip) {
-		case 0x0B73: emu_DSP_GetInfo(); break; /* 0x64 */
-		case 0x0C96: emu_MPU_GetInfo(); break; /* 0x64 */
+		case 0x0B73: g_dsp_cs = csip.s.cs; emu_DSP_GetInfo(); break; /* 0x64 */
+		case 0x0C96: g_mt32mpu_cs = csip.s.cs; emu_MPU_GetInfo(); break; /* 0x64 */
 		case 0x0DA4: emu_DSP_Init(); break; /* 0x66 */
 		case 0x1FA8: emu_MPU_Init(); break; /* 0x66 */
 		case 0x0B91: emu_DSP_Uninit(); break; /* 0x68 */
