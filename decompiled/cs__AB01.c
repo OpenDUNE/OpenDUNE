@@ -7,54 +7,6 @@
 #include "decompiled.h"
 
 /**
- * Decompiled function f__AB01_0787_0028_C5A7()
- *
- * @name f__AB01_0787_0028_C5A7
- * @implements AB01:0787:0028:C5A7 ()
- * @implements AB01:079E:0011:DDDD
- * @implements AB01:07A3:000C:62A2
- * @implements AB01:07AA:0005:C48A
- *
- * Called From: AB01:0D8F:000A:3A40
- * Called From: AB01:207C:001D:88E8
- * Called From: AB01:20EA:0014:F67A
- */
-void f__AB01_0787_0028_C5A7()
-{
-l__0787:
-	emu_push(emu_bp);
-	emu_bp = emu_sp;
-	emu_push(emu_ds);
-	emu_push(emu_si);
-	emu_push(emu_di);
-	emu_ax = 0x40;
-	emu_ds = emu_ax;
-	emu_dx = emu_get_memory16(emu_ds, 0x00, 0x63);
-	emu_addb(&emu_dl, 0x6);
-	emu_cx = emu_get_memory16(emu_ss, emu_bp,  0x6);
-	if (emu_cx == 0) goto l__07AA;
-l__079E:
-	emu_inb(&emu_al, emu_dx);
-	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) == 0) goto l__079E;
-l__07A3:
-	emu_inb(&emu_al, emu_dx);
-	emu_testb(&emu_al, 0x8);
-	if ((emu_al & 0x8) != 0) goto l__07A3;
-	if (--emu_cx != 0) goto l__079E;
-l__07AA:
-	emu_pop(&emu_di);
-	emu_pop(&emu_si);
-	emu_pop(&emu_ds);
-	emu_pop(&emu_bp);
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	return;
-}
-
-/**
  * Decompiled function f__AB01_15E1_0068_0B9B()
  *
  * @name f__AB01_15E1_0068_0B9B
@@ -760,9 +712,7 @@ l__287F:
 	emu_orb(&emu_get_memory8(emu_cs, emu_si, 0x13EE), 0x80);
 	emu_ax = emu_si;
 	emu_incw(&emu_ax);
-	emu_orb(&emu_bh, 0x0);
-	emu_push(emu_cs);
-	emu_push(0x2898); f__AB01_2892_0001_6780();
+	emu_popf();
 l__2898:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
@@ -772,25 +722,6 @@ l__2898:
 	/* Return from this function */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__AB01_2892_0001_6780()
- *
- * @name f__AB01_2892_0001_6780
- * @implements AB01:2892:0001:6780 ()
- *
- * Called From: AB01:2895:0019:4F9F
- */
-void f__AB01_2892_0001_6780()
-{
-l__2892:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
 	return;
 }
 
@@ -919,9 +850,7 @@ l__2951:
 l__2972:
 	emu_addw(&emu_sp, 0x6);
 l__2975:
-	emu_orb(&emu_bh, 0x0);
-	emu_push(emu_cs);
-	emu_push(0x297C); f__AB01_2976_0001_6780();
+	emu_popf();
 l__297C:
 	emu_pop(&emu_di);
 	emu_pop(&emu_si);
@@ -931,25 +860,5 @@ l__297C:
 	/* Return from this function */
 	emu_pop(&emu_ip);
 	emu_pop(&emu_cs);
-	return;
-}
-
-/**
- * Decompiled function f__AB01_2976_0001_6780()
- *
- * @name f__AB01_2976_0001_6780
- * @implements AB01:2976:0001:6780 ()
- *
- * Called From: AB01:2979:0007:3FBD
- * Called From: AB01:2979:000A:191F
- */
-void f__AB01_2976_0001_6780()
-{
-l__2976:
-
-	/* Return from this function */
-	emu_pop(&emu_ip);
-	emu_pop(&emu_cs);
-	emu_popf();
 	return;
 }

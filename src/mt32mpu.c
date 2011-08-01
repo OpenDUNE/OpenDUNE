@@ -11,13 +11,13 @@
 #include "global.h"
 #include "os/math.h"
 #include "os/endian.h"
+#include "os/sleep.h"
 
 #include "mt32mpu.h"
 #include "mpu.h"
 
 #include "driver.h"
 
-extern void f__AB01_0787_0028_C5A7();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_18AC_0082_307C();
 extern void f__AB01_1A90_002B_D292();
@@ -509,9 +509,7 @@ void MPU_Init()
 		}
 	}
 
-	emu_push(10);
-	emu_push(emu_cs); emu_push(0x207F); emu_cs = g_mt32mpu_cs; f__AB01_0787_0028_C5A7();
-	emu_sp += 2;
+	sleep(140);
 
 	for (j = 0; j < 9; j++) {
 		uint8 value;
@@ -530,9 +528,7 @@ void MPU_Init()
 		MPU_Send(0xC0 | (j + 1), 0, value);
 	}
 
-	emu_push(10);
-	emu_push(emu_cs); emu_push(0x20ED); emu_cs = g_mt32mpu_cs; f__AB01_0787_0028_C5A7();
-	emu_sp += 2;
+	sleep(140);
 
 	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
 }
