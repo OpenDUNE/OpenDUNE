@@ -7,7 +7,7 @@
 
 #if defined(_WIN32)
 	#include <windows.h>
-	#define sleep Sleep
+	#define sleep(x) Sleep(x * 1000)
 #else
 	#include <unistd.h>
 #endif /* _WIN32 */
