@@ -21,6 +21,7 @@
 extern void f__AB01_15E1_0068_0B9B();
 extern void f__AB01_16B7_0039_7EF1();
 extern void f__AB01_1B48_0023_740C();
+extern void f__AB01_281A_003D_9A17();
 extern void f__AB01_289D_0017_6184();
 
 uint16 g_mt32mpu_cs;
@@ -178,6 +179,7 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 			}
 
 			emu_push(0);
+			emu_push(emu_cs); emu_push(0x1A55); emu_cs = g_mt32mpu_cs; f__AB01_281A_003D_9A17();
 			emu_sp += 2;
 
 			if (data1-- == 0) data1 = chan;
