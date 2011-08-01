@@ -10,6 +10,7 @@
 #include "driver.h"
 #include "sound.h"
 #include "gui/widget.h"
+#include "house.h"
 
 /*
  * Segments:
@@ -31,39 +32,6 @@ typedef struct struct_7B68 {
 } GCC_PACKED struct_7B68;
 MSVC_PACKED_END
 assert_compile(sizeof(struct_7B68) == 0x6);
-
-MSVC_PACKED_BEGIN
-typedef struct struct_19A8 {
-	/* 0000(4)   */ PACK csip32 string;                     /*!< Pointer to a string. */
-	/* 0004(1)   */ PACK uint8  variable_0004;              /*!< ?? */
-	/* 0005(1)   */ PACK uint8  variable_0005;              /*!< ?? */
-	/* 0006(2)   */ PACK uint16 flags;                      /*!< ?? */
-} GCC_PACKED struct_19A8;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_19A8) == 0x8);
-
-MSVC_PACKED_BEGIN
-typedef struct struct_19F0 {
-	/* 0000(2)   */ PACK uint16 stringID;                   /*!< ?? */
-	/* 0002(2)   */ PACK uint16 variable_0002;              /*!< ?? */
-	/* 0004(1)   */ PACK uint8  variable_0004;              /*!< ?? */
-	/* 0005(1)   */ PACK uint8  top;                        /*!< ?? */
-	/* 0006(1)   */ PACK uint8  variable_0006;              /*!< ?? */
-	/* 0007(1)   */ PACK uint8  variable_0007;              /*!< ?? */
-	/* 0008(1)   */ PACK uint8  variable_0008;              /*!< ?? */
-	/* 0009(1)   */ PACK uint8  variable_0009;              /*!< ?? */
-} GCC_PACKED struct_19F0;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_19F0) == 0xA);
-
-MSVC_PACKED_BEGIN
-typedef struct struct_1A2C {
-	/* 0000(1)   */ PACK uint8  variable_0000;              /*!< ?? */
-	/* 0001(1)   */ PACK uint8  voiceID;                    /*!< ?? */
-	/* 0002(1)   */ PACK uint8  variable_0002;              /*!< ?? */
-} GCC_PACKED struct_1A2C;
-MSVC_PACKED_END
-assert_compile(sizeof(struct_1A2C) == 0x3);
 
 MSVC_PACKED_BEGIN
 typedef struct struct_8BDE {
@@ -321,17 +289,17 @@ typedef struct GlobalData {
 	/* 196E(26)  */ PACK char   string_196E[26];            /*!< "No friendly units remain:" NULL terminated. */
 	/* 1988(21)  */ PACK char   string_1988[21];            /*!< "Spice quota reached:" NULL terminated. */
 	/* 199D(11)  */ PACK char   string_199D[11];            /*!< "Timed out:" NULL terminated. */
-	/* 19A8(72)  */ PACK struct_19A8 variable_19A8[9];      /*!< ?? */
-	/* 19F0(60)  */ PACK struct_19F0 variable_19F0[6];      /*!< ?? */
-	/* 1A2C(3)   */ PACK struct_1A2C variable_1A2C[1];      /*!< ?? */
+	/* 19A8(72)  */ PACK uint8   removed_19A8[9][8];        /*!< REMOVED - Part of house animation. */
+	/* 19F0(60)  */ PACK uint8   removed_19F0[6][10];       /*!< REMOVED - Part of house animation. */
+	/* 1A2C(3)   */ PACK uint8   removed_1A2C[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1A2F(2)   */ PACK uint16  removed_1A2F;              /*!< REMOVED - not used */
-	/* 1A31(96)  */ PACK struct_19A8 variable_1A31[12];     /*!< ?? */
-	/* 1A91(80)  */ PACK struct_19F0 variable_1A91[8];      /*!< ?? */
-	/* 1AE1(3)   */ PACK struct_1A2C variable_1AE1[8];      /*!< ?? */
+	/* 1A31(96)  */ PACK uint8   removed_1A31[12][8];       /*!< REMOVED - Part of house animation. */
+	/* 1A91(80)  */ PACK uint8   removed_1A91[8][10];       /*!< REMOVED - Part of house animation. */
+	/* 1AE1(3)   */ PACK uint8   removed_1AE1[8][3];        /*!< REMOVED - Part of house animation. */
 	/* 1AF9(2)   */ PACK uint16  removed_1AF9;              /*!< REMOVED - not used */
-	/* 1AFB(112) */ PACK struct_19A8 variable_1AFB[14];     /*!< ?? */
-	/* 1B6B(70)  */ PACK struct_19F0 variable_1B6B[7];      /*!< ?? */
-	/* 1BB1(3)   */ PACK struct_1A2C variable_1BB1[3];      /*!< ?? */
+	/* 1AFB(112) */ PACK uint8   removed_1AFB[14][8];       /*!< REMOVED - Part of house animation. */
+	/* 1B6B(70)  */ PACK uint8   removed_1B6B[7][10];       /*!< REMOVED - Part of house animation. */
+	/* 1BB1(3)   */ PACK uint8   removed_1BB1[3][3];        /*!< REMOVED - Part of house animation. */
 	/* 1BBA(2)   */ PACK uint16  removed_1BBA;              /*!< REMOVED - not used */
 	/* 1BBC(8)   */ PACK char   string_1BBC[8];             /*!< "AFINALA" NULL terminated. */
 	/* 1BC4(8)   */ PACK char   string_1BC4[8];             /*!< "EFINALA" NULL terminated. */
@@ -345,29 +313,29 @@ typedef struct GlobalData {
 	/* 1C04(8)   */ PACK char   string_1C04[8];             /*!< "OFINALC" NULL terminated. */
 	/* 1C0C(8)   */ PACK char   string_1C0C[8];             /*!< "OFINALD" NULL terminated. */
 	/* 1C14(6)   */ PACK char   string_1C14[6];             /*!< "INTRO" NULL terminated. */
-	/* 1C1A(40)  */ PACK struct_19A8 variable_1C1A[5];      /*!< ?? */
-	/* 1C42(70)  */ PACK struct_19F0 variable_1C42[7];      /*!< ?? */
-	/* 1C88(3)   */ PACK struct_1A2C variable_1C88[1];      /*!< ?? */
+	/* 1C1A(40)  */ PACK uint8   removed_1C1A[5][8];        /*!< REMOVED - Part of house animation. */
+	/* 1C42(70)  */ PACK uint8   removed_1C42[7][10];       /*!< REMOVED - Part of house animation. */
+	/* 1C88(3)   */ PACK uint8   removed_1C88[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1C8B(2)   */ PACK uint16  removed_1C8B;              /*!< REMOVED - not used */
-	/* 1C8D(32)  */ PACK struct_19A8 variable_1C8D[4];      /*!< ?? */
-	/* 1CAD(60)  */ PACK struct_19F0 variable_1CAD[6];      /*!< ?? */
-	/* 1CE9(3)   */ PACK struct_1A2C variable_1CE9[1];      /*!< ?? */
+	/* 1C8D(32)  */ PACK uint8   removed_1C8D[4][8];        /*!< REMOVED - Part of house animation. */
+	/* 1CAD(60)  */ PACK uint8   removed_1CAD[6][10];       /*!< REMOVED - Part of house animation. */
+	/* 1CE9(3)   */ PACK uint8   removed_1CE9[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1CEC(2)   */ PACK uint16  removed_1CEC;              /*!< REMOVED - not used */
-	/* 1CEE(40)  */ PACK struct_19A8 variable_1CEE[5];      /*!< ?? */
-	/* 1D16(70)  */ PACK struct_19F0 variable_1D16[7];      /*!< ?? */
-	/* 1D5C(3)   */ PACK struct_1A2C variable_1D5C[1];      /*!< ?? */
+	/* 1CEE(40)  */ PACK uint8   removed_1CEE[5][8];        /*!< REMOVED - Part of house animation. */
+	/* 1D16(70)  */ PACK uint8   removed_1D16[7][10];       /*!< REMOVED - Part of house animation. */
+	/* 1D5C(3)   */ PACK uint8   removed_1D5C[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1D5F(2)   */ PACK uint16  removed_1D5F;              /*!< REMOVED - not used */
-	/* 1D61(32)  */ PACK struct_19A8 variable_1D61[4];      /*!< ?? */
-	/* 1D81(60)  */ PACK struct_19F0 variable_1D81[6];      /*!< ?? */
-	/* 1DBD(3)   */ PACK struct_1A2C variable_1DBD[1];      /*!< ?? */
+	/* 1D61(32)  */ PACK uint8   removed_1D61[4][8];        /*!< REMOVED - Part of house animation. */
+	/* 1D81(60)  */ PACK uint8   removed_1D81[6][10];       /*!< REMOVED - Part of house animation. */
+	/* 1DBD(3)   */ PACK uint8   removed_1DBD[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1DC0(2)   */ PACK uint16  removed_1DC0;              /*!< REMOVED - not used */
-	/* 1DC2(40)  */ PACK struct_19A8 variable_1DC2[5];      /*!< ?? */
-	/* 1DEA(70)  */ PACK struct_19F0 variable_1DEA[7];      /*!< ?? */
-	/* 1E30(3)   */ PACK struct_1A2C variable_1E30[1];      /*!< ?? */
+	/* 1DC2(40)  */ PACK uint8   removed_1DC2[5][8];        /*!< REMOVED - Part of house animation. */
+	/* 1DEA(70)  */ PACK uint8   removed_1DEA[7][10];       /*!< REMOVED - Part of house animation. */
+	/* 1E30(3)   */ PACK uint8   removed_1E30[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1E33(2)   */ PACK uint16  removed_1E33;              /*!< REMOVED - not used */
-	/* 1E35(32)  */ PACK struct_19A8 variable_1E35[4];      /*!< ?? */
-	/* 1E55(70)  */ PACK struct_19F0 variable_1E55[7];      /*!< ?? */
-	/* 1E9B(3)   */ PACK struct_1A2C variable_1E9B[1];      /*!< ?? */
+	/* 1E35(32)  */ PACK uint8   removed_1E35[4][8];        /*!< REMOVED - Part of house animation. */
+	/* 1E55(70)  */ PACK uint8   removed_1E55[7][10];       /*!< REMOVED - Part of house animation. */
+	/* 1E9B(3)   */ PACK uint8   removed_1E9B[1][3];        /*!< REMOVED - Part of house animation. */
 	/* 1E9E(2)   */ PACK uint16  removed_1E9E;              /*!< REMOVED - not used */
 	/* 1EA0()    */ PACK uint8   unknown_1EA0[0x0001];
 	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */
@@ -1335,18 +1303,18 @@ typedef struct GlobalData {
 	/* 804D(4)   */ PACK csip32  removed_804D;              /*!< REMOVED - String pointer. */
 	/* 8051()    */ PACK uint8   unknown_8051;
 	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
-	/* 8054(2)   */ PACK uint16  removed_8054;              /*!< REMOVED ?? (write-only variable) */
-	/* 8056(4)   */ PACK csip32  removed_8056;              /*!< REMOVED ?? */
-	/* 805A(4)   */ PACK csip32  removed_805A;              /*!< REMOVED ?? */
-	/* 805E(4)   */ PACK csip32  removed_805E;              /*!< REMOVED ?? */
-	/* 8062(2)   */ PACK uint16  removed_8062;              /*!< REMOVED ?? */
+	/* 8054(2)   */ PACK uint16  removed_8054;              /*!< REMOVED - ?? (write-only variable) */
+	/* 8056(4)   */ PACK csip32  removed_8056;              /*!< REMOVED - ?? */
+	/* 805A(4)   */ PACK csip32  removed_805A;              /*!< REMOVED - ?? */
+	/* 805E(4)   */ PACK csip32  removed_805E;              /*!< REMOVED - ?? */
+	/* 8062(2)   */ PACK uint16  removed_8062;              /*!< REMOVED - ?? */
 	/* 8064(4)   */ PACK csip32  removed_8064;              /*!< REMOVED - Pointer to content of intro.fnt. */
-	/* 8068(2)   */ PACK uint16 variable_8068;              /*!< ?? */
-	/* 806A(2)   */ PACK uint16 variable_806A;              /*!< ?? */
+	/* 8068(2)   */ PACK uint16  removed_8068;              /*!< REMOVED - ?? */
+	/* 806A(2)   */ PACK uint16  removed_806A;              /*!< REMOVED - ?? */
 	/* 806C(4)   */ PACK uint32  removed_806C;              /*!< REMOVED - animation timer of palette part changing */
-	/* 8070(2)   */ PACK uint16 animationSoundEffect;       /*!< ?? */
-	/* 8072(2)   */ PACK uint16 variable_8072;              /*!< ?? */
-	/* 8074(2)   */ PACK uint16 variable_8074;              /*!< ?? */
+	/* 8070(2)   */ PACK uint16  removed_8070;              /*!< REMOVED - ?? */
+	/* 8072(2)   */ PACK uint16  removed_8072;              /*!< REMOVED - ?? */
+	/* 8074(2)   */ PACK uint16  removed_8074;              /*!< REMOVED - ?? */
 	/* 8076(18)  */ PACK uint8   removed_8076[18];          /*!< REMOVED - palette part change amount */
 	/* 8088(18)  */ PACK uint8   removed_8088[18];          /*!< REMOVED - current palette part */
 	/* 809A(18)  */ PACK uint8   removed_809A[18];          /*!< REMOVED - target palette part */

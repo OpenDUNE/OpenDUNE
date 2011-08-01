@@ -69,10 +69,15 @@ bool   g_debugSkipDialogs = false; /*!< When non-zero, you immediately go to hou
 void *g_readBuffer = NULL;
 uint32 g_readBufferSize = 0;
 
-static const struct_19A8 *s_var_805E = NULL; /*!< Unknown animation data. */
-static const struct_19F0 *s_var_805A = NULL; /*!< Unknown animation data. */
-static const struct_1A2C *s_var_8056 = NULL; /*!< Unknown animation data. */
+static const HouseAnimation_Animation *s_houseAnimation_animation = NULL; /*!< Animation part of animation data. */
+static const HouseAnimation_Subtitle  *s_houseAnimation_subtitle = NULL;  /*!< Subtitle part of animation data. */
+static const HouseAnimation_Voice     *s_houseAnimation_voice = NULL;     /*!< Voice part of animation data. */
 static uint16 s_var_8062 = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_var_8068 = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_var_806A = 0xFFFF; /*!< Unknown animation data. */
+static uint16 s_houseAnimation_currentSubtitle = 0; /*!< Current subtitle (index) part of animation. */
+static uint16 s_houseAnimation_currentVoice = 0; /* Current voice (index) part of animation. */
+static bool s_var_8074 = false; /* Unknown animation data. */
 
 /** Direction of change in the #GameLoop_PalettePart_Update function. */
 typedef enum PalettePartDirection {
@@ -224,24 +229,28 @@ static bool GameLoop_IsLevelWon()
 	return win;
 }
 
-static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_19F0 *arg_805A, uint16 arg_8062, const struct_1A2C *arg_8056)
+static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation, const HouseAnimation_Subtitle *subtitle, uint16 arg_8062, const HouseAnimation_Voice *voice)
 {
 	uint8 i;
 	uint8 colors[16];
 
-	s_var_805E = arg_805E;
-	s_var_805A = arg_805A;
-	s_var_8056 = arg_8056;
+	s_houseAnimation_animation = animation;
+	s_houseAnimation_subtitle  = subtitle;
+	s_houseAnimation_voice     = voice;
+
+	s_houseAnimation_currentSubtitle = 0;
+	s_houseAnimation_currentVoice    = 0;
+
+	g_global->variable_6C6C = 0;
+
 	s_var_8062 = arg_8062;
-	g_global->variable_6C6C   = 0;
-	g_global->variable_8072   = 0;
-	g_global->animationSoundEffect = 0;
-	g_global->variable_8068   = 0;
+	s_var_8068 = 0;
+	s_var_806A = 0xFFFF;
+	s_var_8074 = false;
+
 	s_palettePartDirection    = PPD_STOPPED;
 	s_palettePartCount        = 0;
-	g_global->variable_8074   = 0;
 	s_paletteAnimationTimeout = 0;
-	g_global->variable_806A   = 0xFFFF;
 
 	GFX_ClearScreen();
 
@@ -254,7 +263,7 @@ static void GameLoop_PrepareAnimation(const struct_19A8 *arg_805E, const struct_
 
 	GFX_Screen_SetActive(0);
 
-	memcpy(s_palettePartTarget, &g_palette1[(144 + s_var_805A->variable_0002 * 16) * 3], 6 * 3);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + s_houseAnimation_subtitle->variable_0002 * 16) * 3], 6 * 3);
 
 	memset(&g_palette1[215 * 3], 0, 6 * 3);
 
@@ -296,13 +305,13 @@ static void GameLoop_FinishAnimation()
 
 static void GameLoop_PlaySoundEffect(uint8 animation)
 {
-	const struct_1A2C *var8056 = s_var_8056 + g_global->animationSoundEffect;
+	const HouseAnimation_Voice *var8056 = &s_houseAnimation_voice[s_houseAnimation_currentVoice];
 
-	if (var8056->variable_0000 > animation || var8056->variable_0002 > g_global->variable_8068) return;
+	if (var8056->variable_0000 > animation || var8056->variable_0002 > s_var_8068) return;
 
 	Voice_Play(var8056->voiceID);
 
-	g_global->animationSoundEffect++;
+	s_houseAnimation_currentVoice++;
 }
 
 static void GameLoop_DrawText(char *string, uint16 top)
@@ -335,31 +344,31 @@ static void GameLoop_DrawText(char *string, uint16 top)
 
 static void GameLoop_B4ED_07B6(uint8 animation)
 {
-	const struct_19F0 *var805A;
+	const HouseAnimation_Subtitle *subtitle;
 	uint8 i;
 	uint8 colors[16];
 
-	g_global->variable_8068++;
+	s_var_8068++;
 
 	GameLoop_PlaySoundEffect(animation);
 
-	var805A = s_var_805A + g_global->variable_8072;
+	subtitle = &s_houseAnimation_subtitle[s_houseAnimation_currentSubtitle];
 
-	if (var805A->stringID == 0xFFFF || var805A->variable_0004 > animation) return;
+	if (subtitle->stringID == 0xFFFF || subtitle->variable_0004 > animation) return;
 
-	if (g_global->variable_8074 != 0) {
-		if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0008;
+	if (s_var_8074) {
+		if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0008;
 
-		if (g_global->variable_806A-- != 0) return;
+		if (s_var_806A-- != 0) return;
 
-		g_global->variable_8074 = 0;
-		g_global->variable_8072++;
+		s_var_8074 = false;
+		s_houseAnimation_currentSubtitle++;
 		s_palettePartDirection = PPD_TO_BLACK;
 
-		if (var805A->variable_0009 != 0) {
+		if (subtitle->variable_0009 != 0) {
 			uint8 i;
 
-			s_palettePartCount = var805A->variable_0009;
+			s_palettePartCount = subtitle->variable_0009;
 
 			for (i = 0; i < 18; i++) {
 				s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
@@ -374,36 +383,36 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		return;
 	}
 
-	if (g_global->variable_806A == 0xFFFF) g_global->variable_806A = var805A->variable_0006;
+	if (s_var_806A == 0xFFFF) s_var_806A = subtitle->variable_0006;
 
-	if (g_global->variable_806A-- != 0) return;
+	if (s_var_806A-- != 0) return;
 
-	memcpy(s_palettePartTarget, &g_palette1[(144 + (var805A->variable_0002 * 16)) * 3], 18);
+	memcpy(s_palettePartTarget, &g_palette1[(144 + (subtitle->variable_0002 * 16)) * 3], 18);
 
-	g_global->variable_8074 = 1;
+	s_var_8074 = true;
 
-	GUI_DrawFilledRectangle(0, var805A->top == 85 ? 0 : var805A->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
+	GUI_DrawFilledRectangle(0, subtitle->top == 85 ? 0 : subtitle->top, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1, 0);
 
-	if (g_config.voiceDrv != 0 && s_var_8062 != 0xFFFF && g_global->variable_8072 != 0 && g_config.language == LANGUAGE_ENGLISH) {
-		uint16 loc06 = s_var_8062 + g_global->variable_8072;
+	if (g_config.voiceDrv != 0 && s_var_8062 != 0xFFFF && s_houseAnimation_currentSubtitle != 0 && g_config.language == LANGUAGE_ENGLISH) {
+		uint16 loc06 = s_var_8062 + s_houseAnimation_currentSubtitle;
 
 		Sound_Output_Feedback(loc06);
 
 		if (g_feedback[loc06].messageId != 0) {
-			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
+			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	} else {
-		if (var805A->stringID != 0) {
-			GameLoop_DrawText(String_Get_ByIndex(var805A->stringID), var805A->top);
+		if (subtitle->stringID != 0) {
+			GameLoop_DrawText(String_Get_ByIndex(subtitle->stringID), subtitle->top);
 		}
 	}
 
 	s_palettePartDirection = PPD_TO_NEW_PALETTE;
 
-	if (var805A->variable_0007 != 0) {
+	if (subtitle->variable_0007 != 0) {
 		uint8 i;
 
-		s_palettePartCount = var805A->variable_0007;
+		s_palettePartCount = subtitle->variable_0007;
 
 		for (i = 0; i < 18; i++) {
 			s_palettePartChange[i] = s_palettePartTarget[i] / s_palettePartCount;
@@ -414,7 +423,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 		s_palettePartCount = 1;
 	}
 
-	if (g_playerHouseID != HOUSE_INVALID || g_global->variable_8072 != 2) return;
+	if (g_playerHouseID != HOUSE_INVALID || s_houseAnimation_currentSubtitle != 2) return;
 
 	GUI_DrawText_Wrapper(NULL, 0, 0, 0, 0, 0x21);
 
@@ -477,32 +486,32 @@ static uint16 GameLoop_PalettePart_Update(bool finishNow)
 
 static void GameLoop_PlayAnimation()
 {
-	const struct_19A8 *var805E;
-	uint8 animation = 0;
+	const HouseAnimation_Animation *animation;
+	uint8 animationMode = 0;
 
-	var805E = s_var_805E;
+	animation = s_houseAnimation_animation;
 
-	while (var805E->variable_0004 != 0) {
+	while (animation->variable_0004 != 0) {
 		uint16 loc04;
 		uint16 posX = 0;
 		uint16 posY = 0;
-		uint32 loc10 = g_timerGUI + var805E->variable_0004 * 6;
+		uint32 loc10 = g_timerGUI + animation->variable_0004 * 6;
 		uint32 loc14 = loc10 + 30;
 		uint32 loc18;
 		uint32 loc1C;
-		uint16 mode = var805E->flags & 0x3;
+		uint16 mode = animation->flags & 0x3;
 		bool loc20;
 		uint32 loc24;
 		uint16 locdi;
 		uint16 frame;
 		void *wsa;
 
-		if ((var805E->flags & 0x20) == 0) {
+		if ((animation->flags & 0x20) == 0) {
 			posX = 8;
 			posY = 24;
 		}
 
-		g_global->variable_8068 = 0;
+		s_var_8068 = 0;
 
 		if (mode == 0) {
 			wsa = NULL;
@@ -511,14 +520,14 @@ static void GameLoop_PlayAnimation()
 			char filenameBuffer[16];
 
 			if (mode == 3) {
-				frame = var805E->variable_0005;
+				frame = animation->variable_0005;
 				loc20 = true;
 			} else {
 				frame = 0;
-				loc20 = ((var805E->flags & 0x40) != 0) ? true : false;
+				loc20 = ((animation->flags & 0x40) != 0) ? true : false;
 			}
 
-			if ((var805E->flags & 0x480) != 0) {
+			if ((animation->flags & 0x480) != 0) {
 				GUI_ClearScreen(3);
 
 				wsa = GFX_Screen_Get_ByIndex(5);
@@ -531,23 +540,23 @@ static void GameLoop_PlayAnimation()
 				loc24 = GFX_Screen_GetSize_ByIndex(3) + GFX_Screen_GetSize_ByIndex(5) + GFX_Screen_GetSize_ByIndex(6);
 			}
 
-			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", emu_get_memorycsip(var805E->string));
+			snprintf(filenameBuffer, sizeof(filenameBuffer), "%s.WSA", animation->string);
 			wsa = WSA_LoadFile(filenameBuffer, wsa, loc24, loc20);
 		}
 
 		locdi = 0;
-		if ((var805E->flags & 0x8) != 0) {
+		if ((animation->flags & 0x8) != 0) {
 			loc10 -= 45;
 			locdi++;
 		} else {
-			if ((var805E->flags & 0x10) != 0) {
+			if ((animation->flags & 0x10) != 0) {
 				loc10 -= 15;
 				locdi++;
 			}
 		}
 
-		if ((var805E->flags & 0x4) != 0) {
-			GameLoop_B4ED_07B6(animation);
+		if ((animation->flags & 0x4) != 0) {
+			GameLoop_B4ED_07B6(animationMode);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			GameLoop_PalettePart_Update(true);
 
@@ -557,14 +566,14 @@ static void GameLoop_PlayAnimation()
 
 			locdi++;
 		} else {
-			if ((var805E->flags & 0x480) != 0) {
-				GameLoop_B4ED_07B6(animation);
+			if ((animation->flags & 0x480) != 0) {
+				GameLoop_B4ED_07B6(animationMode);
 				WSA_DisplayFrame(wsa, frame++, posX, posY, 2);
 				locdi++;
 
-				if ((var805E->flags & 0x480) == 0x80) {
+				if ((animation->flags & 0x480) == 0x80) {
 					GUI_Screen_FadeIn2(8, 24, 304, 120, 2, 0, 1, false);
-				} else if ((var805E->flags & 0x480) == 0x400) {
+				} else if ((animation->flags & 0x480) == 0x400) {
 					GUI_Screen_FadeIn(1, 24, 1, 24, 38, 120, 2, 0);
 				}
 			}
@@ -576,13 +585,13 @@ static void GameLoop_PlayAnimation()
 
 		switch (mode) {
 			case 0:
-				loc04 = var805E->variable_0005 - locdi;
+				loc04 = animation->variable_0005 - locdi;
 				loc18 = loc1C / loc04;
 				break;
 
 			case 1:
 				loc04 = WSA_GetFrameCount(wsa);
-				loc18 = loc1C / var805E->variable_0005;
+				loc18 = loc1C / animation->variable_0005;
 				break;
 
 			case 2:
@@ -592,21 +601,21 @@ static void GameLoop_PlayAnimation()
 				break;
 
 			case 3:
-				frame = var805E->variable_0005;
+				frame = animation->variable_0005;
 				loc04 = 1;
 				loc18 = loc1C / 20;
 				break;
 
 			default:
 				PrepareEnd();
-				printf("Bad mode in animation #%i.\r\n", animation);
+				printf("Bad mode in animation #%i.\r\n", animationMode);
 				exit(0);
 		}
 
 		while (loc10 > g_timerGUI) {
 			g_timerTimeout = loc18;
 
-			GameLoop_B4ED_07B6(animation);
+			GameLoop_B4ED_07B6(animationMode);
 			WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 
 			if (mode == 1 && frame == loc04) {
@@ -628,12 +637,12 @@ static void GameLoop_PlayAnimation()
 		if (mode == 2) {
 			bool displayed;
 			do {
-				GameLoop_B4ED_07B6(animation);
+				GameLoop_B4ED_07B6(animationMode);
 				displayed = WSA_DisplayFrame(wsa, frame++, posX, posY, 0);
 			} while (displayed);
 		}
 
-		if ((var805E->flags & 0x10) != 0) {
+		if ((animation->flags & 0x10) != 0) {
 			memset(&g_palette_998A[3 * 1], 63, 256 * 3);
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
@@ -643,7 +652,7 @@ static void GameLoop_PlayAnimation()
 			memcpy(g_palette_998A, g_palette1, 256 * 3);
 		}
 
-		if ((var805E->flags & 0x8) != 0) {
+		if ((animation->flags & 0x8) != 0) {
 			GameLoop_PalettePart_Update(true);
 
 			memcpy(&g_palette_998A[215 * 3], s_palettePartCurrent, 18);
@@ -653,8 +662,8 @@ static void GameLoop_PlayAnimation()
 
 		WSA_Unload(wsa);
 
+		animationMode++;
 		animation++;
-		var805E++;
 
 		while (loc14 > g_timerGUI) sleep(0);
 	}
@@ -662,31 +671,31 @@ static void GameLoop_PlayAnimation()
 
 static void GameLoop_LevelEndAnimation()
 {
-	const struct_19A8 *arg_805E;
-	const struct_19F0 *arg_805A;
-	const struct_1A2C *arg_8056;
+	const HouseAnimation_Animation *animation;
+	const HouseAnimation_Subtitle *subtitle;
+	const HouseAnimation_Voice *voice;
 
 	Input_History_Clear();
 
 	switch (g_campaignID) {
 		case 4:
 			switch (g_playerHouseID) {
+				case HOUSE_HARKONNEN:
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_HARKONNEN];
+					break;
+
 				case HOUSE_ATREIDES:
-					arg_805E = g_global->variable_1C1A;
-					arg_805A = g_global->variable_1C42;
-					arg_8056 = g_global->variable_1C88;
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ARTREIDES];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					arg_805E = g_global->variable_1CEE;
-					arg_805A = g_global->variable_1D16;
-					arg_8056 = g_global->variable_1D5C;
-					break;
-
-				case HOUSE_HARKONNEN:
-					arg_805E = g_global->variable_1DC2;
-					arg_805A = g_global->variable_1DEA;
-					arg_8056 = g_global->variable_1E30;
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL4_ORDOS];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL4_ORDOS];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL4_ORDOS];
 					break;
 
 				default: return;
@@ -694,22 +703,22 @@ static void GameLoop_LevelEndAnimation()
 
 		case 8:
 			switch (g_playerHouseID) {
+				case HOUSE_HARKONNEN:
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_HARKONNEN];
+					break;
+
 				case HOUSE_ATREIDES:
-					arg_805E = g_global->variable_1C8D;
-					arg_805A = g_global->variable_1CAD;
-					arg_8056 = g_global->variable_1CE9;
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ARTREIDES];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ARTREIDES];
 					break;
 
 				case HOUSE_ORDOS:
-					arg_805E = g_global->variable_1D61;
-					arg_805A = g_global->variable_1D81;
-					arg_8056 = g_global->variable_1DBD;
-					break;
-
-				case HOUSE_HARKONNEN:
-					arg_805E = g_global->variable_1E35;
-					arg_805A = g_global->variable_1E55;
-					arg_8056 = g_global->variable_1E9B;
+					animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL8_ORDOS];
+					subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL8_ORDOS];
+					voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL8_ORDOS];
 					break;
 
 				default: return;
@@ -719,7 +728,7 @@ static void GameLoop_LevelEndAnimation()
 		default: return;
 	}
 
-	GameLoop_PrepareAnimation(arg_805E, arg_805A, 0xFFFF, arg_8056);
+	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, voice);
 
 	Music_Play(0x22);
 
@@ -1097,9 +1106,9 @@ static void GameLoop_GameCredits()
  */
 static void GameLoop_GameEndAnimation()
 {
-	const struct_19A8 *arg_805E;
-	const struct_19F0 *arg_805A;
-	const struct_1A2C *arg_8056;
+	const HouseAnimation_Animation *animation;
+	const HouseAnimation_Subtitle *subtitle;
+	const HouseAnimation_Voice *voice;
 	uint16 sound;
 
 	String_Load("INTRO");
@@ -1108,29 +1117,29 @@ static void GameLoop_GameEndAnimation()
 
 	switch (g_playerHouseID) {
 		case HOUSE_HARKONNEN:
-			arg_805E = g_global->variable_1A31;
-			arg_805A = g_global->variable_1A91;
-			arg_8056 = g_global->variable_1AE1;
-			sound = 0x1E;
-			break;
-
-		case HOUSE_ORDOS:
-			arg_805E = g_global->variable_1AFB;
-			arg_805A = g_global->variable_1B6B;
-			arg_8056 = g_global->variable_1BB1;
-			sound = 0x20;
+			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_HARKONNEN];
+			sound     = 0x1E;
 			break;
 
 		default:
 		case HOUSE_ATREIDES:
-			arg_805E = g_global->variable_19A8;
-			arg_805A = g_global->variable_19F0;
-			arg_8056 = g_global->variable_1A2C;
-			sound = 0x1F;
+			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ARTREIDES];
+			sound     = 0x1F;
+			break;
+
+		case HOUSE_ORDOS:
+			animation = g_houseAnimation_animation[HOUSEANIMATION_LEVEL9_ORDOS];
+			subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_LEVEL9_ORDOS];
+			voice     = g_houseAnimation_voice[HOUSEANIMATION_LEVEL9_ORDOS];
+			sound     = 0x20;
 			break;
 	}
 
-	GameLoop_PrepareAnimation(arg_805E, arg_805A, 0xFFFF, arg_8056);
+	GameLoop_PrepareAnimation(animation, subtitle, 0xFFFF, voice);
 
 	Music_Play(sound);
 
@@ -1361,13 +1370,13 @@ static void GameLoop_GameIntroAnimation()
 	Gameloop_Logos();
 
 	if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) {
-		const struct_19A8 *arg_805E = (const struct_19A8 *)&emu_get_memory8(0x2C41, 0x0000, 0x0);
-		const struct_19F0 *arg_805A = (const struct_19F0 *)&emu_get_memory8(0x2C4D, 0x0000, 0x0);
-		const struct_1A2C *arg_8056 = (const struct_1A2C *)&emu_get_memory8(0x2C5B, 0x0000, 0x0);
+		const HouseAnimation_Animation *animation = g_houseAnimation_animation[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Subtitle  *subtitle  = g_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
+		const HouseAnimation_Voice     *voice     = g_houseAnimation_voice[HOUSEANIMATION_INTRO];
 
 		Music_Play(0x1B);
 
-		GameLoop_PrepareAnimation(arg_805E, arg_805A, 0x4A, arg_8056);
+		GameLoop_PrepareAnimation(animation, subtitle, 0x4A, voice);
 
 		GameLoop_PlayAnimation();
 

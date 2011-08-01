@@ -31,6 +31,19 @@ typedef enum HouseWeapon {
 	HOUSE_WEAPON_INVALID = 0xFF
 } HouseWeapon;
 
+typedef enum HouseAnimationType {
+	HOUSEANIMATION_INTRO            = 0,
+	HOUSEANIMATION_LEVEL4_HARKONNEN = 1,
+	HOUSEANIMATION_LEVEL4_ARTREIDES = 2,
+	HOUSEANIMATION_LEVEL4_ORDOS     = 3,
+	HOUSEANIMATION_LEVEL8_HARKONNEN = 4,
+	HOUSEANIMATION_LEVEL8_ARTREIDES = 5,
+	HOUSEANIMATION_LEVEL8_ORDOS     = 6,
+	HOUSEANIMATION_LEVEL9_HARKONNEN = 7,
+	HOUSEANIMATION_LEVEL9_ARTREIDES = 8,
+	HOUSEANIMATION_LEVEL9_ORDOS     = 9
+} HouseAnimationType;
+
 /**
  * A %House as stored in the memory.
  */
@@ -84,7 +97,46 @@ typedef struct HouseInfo {
 	const char *voiceFilename;                              /*!< Pointer to filename with the voices of the house. */
 } HouseInfo;
 
+/**
+ * The information for a single animation frame in House Animation. It is part
+ *  of an array that stops when variable_0004 is 0.
+ */
+typedef struct HouseAnimation_Animation {
+	const char *string;                                     /*!< Name of the WSA for this animation. */
+	uint8  variable_0004;                                   /*!< ?? */
+	uint8  variable_0005;                                   /*!< ?? */
+	uint16 flags;                                           /*!< ?? */
+} HouseAnimation_Animation;
+
+/**
+ * Subtitle information part of House Information. It is part of an array that
+ *  stops when stringID is 0xFFFF.
+ */
+typedef struct HouseAnimation_Subtitle {
+	uint16 stringID;                                        /*!< ?? */
+	uint16 variable_0002;                                   /*!< ?? */
+	uint8  variable_0004;                                   /*!< ?? */
+	uint8  top;                                             /*!< ?? */
+	uint8  variable_0006;                                   /*!< ?? */
+	uint8  variable_0007;                                   /*!< ?? */
+	uint8  variable_0008;                                   /*!< ?? */
+	uint8  variable_0009;                                   /*!< ?? */
+} HouseAnimation_Subtitle;
+
+/**
+ * Voice information part of House Information. It is part of an array that
+ *  stops when voiceID is 0xFF.
+ */
+typedef struct HouseAnimation_Voice {
+	uint8  variable_0000;                                   /*!< ?? */
+	uint8  voiceID;                                         /*!< ?? */
+	uint8  variable_0002;                                   /*!< ?? */
+} HouseAnimation_Voice;
+
 extern const HouseInfo g_table_houseInfo[];
+extern const HouseAnimation_Animation g_houseAnimation_animation[][32];
+extern const HouseAnimation_Subtitle g_houseAnimation_subtitle[][32];
+extern const HouseAnimation_Voice g_houseAnimation_voice[][90];
 
 extern House *g_playerHouse;
 extern HouseType g_playerHouseID;
