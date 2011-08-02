@@ -26,6 +26,9 @@ static uint16 s_historyHead = 0;             /*!< The current head inside the #s
 static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
 static bool s_input_extendedKey = false;     /*!< If we are currently actively reading an extended key. */
 
+static const uint8 s_keymapIgnore[] = {30, ',', '9', ':', '<', '>', '@', 'Z', 128}; /*!< Keys to ignore when reading. */
+
+
 void Input_Init()
 {
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
@@ -99,8 +102,8 @@ void Input_EventHandler(uint8 key)
 
 	Input_HandleInput((state << 8) | key);
 
-	for (i = 0; i < 10; i++) {
-		if (s_input_local->keymap_ignore[i] == key) return;
+	for (i = 0; i < lengthof(s_keymapIgnore); i++) {
+		if (s_keymapIgnore[i] == key) return;
 	}
 	for (i = 0; i < 17; i++) {
 		if (s_input_local->variable_0036[i] == key) {
@@ -462,6 +465,35 @@ uint16 Input_Test(uint16 value)
 	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
 }
 
+/** Per bit, mask which keys are special and should be done &= 0x1F. */
+static const uint8 s_keymapSpecialMask[] = {0x00, 0x00, 0xFE, 0x87, 0xFF, 0xC0, 0x1F, 0x00};
+
+/** Keymap to convert scancode to ASCII with capslock off and shift released. */
+static const uint8 s_keymapNormal[] = {
+	   0, '`', '1', '2', '3', '4', '5', '6', '7',  '8', '9',  '0', '-',  '=',   0,   8,
+	'\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',  'o', 'p',  '[', ']', '\\',   0, 'a',
+	 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'',   0, '\r',   0,  '-', 'z', 'x',
+	 'c', 'v', 'b', 'n', 'm', ',', '.', '/',   0,    0,   0,    0,   0,  ' '
+};
+
+/** Keymap to convert scancode to ASCII with capslock off and shift pressed. */
+static const uint8 s_keymapShift[] = {
+	   0, '~', '!', '@', '#', '$', '%', '^', '&', '*', '(',  ')', '_', '+',   0,   8,
+	'\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',  '{', '}', '|',   0, 'A',
+	 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"',   0, '\r',   0, '-', 'Z', 'X',
+	 'C', 'V', 'B', 'N', 'M', '<', '>', '?',   0,   0,   0,    0,   0, ' '
+};
+
+/** Keymap to convert scancode to for numpad with numlock off. */
+static const uint8 s_keymapNumpad[] = {
+	174, 173,    0,   0, 181, 185, 177,   0, 184, 176, 183, 175,   0,   0, 179,   0,
+	185, 181,  177,   0, '/', 184, 180, 176, 174, '*', 183, 179, 175, 173, '-', '+',
+	  0, '\r',   0
+};
+
+/** Keymap to convert scancode to for numpad with numlock on. */
+static const uint8 s_keymapNumlock[] = {0, '7', '4', '1',   0, '/', '8', '5', '2', '0', '*', '9', '6', '3', '.', '-', '+', 0, '\r', 0};
+
 /**
  * Handle keyboard input.
  * @param value Combined keycode and modifier flags.
@@ -491,13 +523,13 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 		uint8 keySave = keyValue & 0x3F;
 
 		if ((keyFlags & 0x100) != 0) {
-			keyValue = s_input_local->keymap_shift[keySave];
+			keyValue = s_keymapShift[keySave];
 		} else {
-			keyValue = s_input_local->keymap_normal[keySave];
+			keyValue = s_keymapNormal[keySave];
 		}
 
 		if ((keyFlags & 0x200) != 0) {
-			if ((s_input_local->keymap_special_mask[keySave >> 3] & (1 << (keySave & 7))) != 0) {
+			if ((s_keymapSpecialMask[keySave >> 3] & (1 << (keySave & 7))) != 0) {
 				keyValue &= 0x1F;
 			}
 		}
@@ -516,9 +548,9 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 
 		/* XXX -- Commented code is purely for reference on its original functionality. We don't support control keys, so it is removed. */
 		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 /* && (s_input_local->controlKeys2 & 0x2) != 0 */) {
-			keyValue = s_input_local->keymap_numlock[keySave - 0xF];
+			keyValue = s_keymapNumlock[keySave - 0xF];
 		} else {
-			keyValue = s_input_local->keymap_numpad[keySave];
+			keyValue = s_keymapNumpad[keySave];
 		}
 		return keyValue;
 	}
@@ -559,10 +591,10 @@ uint16 Input_WaitForValidInput()
 		}
 
 		value = Input_ReadHistory(index);
-		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
-			if ((value & 0xFF) == s_input_local->keymap_ignore[i]) break;
+		for (i = 0; i < lengthof(s_keymapIgnore); i++) {
+			if ((value & 0xFF) == s_keymapIgnore[i]) break;
 		}
-	} while (i < lengthof(s_input_local->keymap_ignore) || (value & 0x800) != 0 || (value & 0xFF) >= 0x7A);
+	} while (i < lengthof(s_keymapIgnore) || (value & 0x800) != 0 || (value & 0xFF) >= 0x7A);
 
 	value = Input_Keyboard_HandleKeys(value);
 	Input_ReadInputFromFile();
@@ -592,11 +624,11 @@ uint16 Input_Keyboard_NextKey()
 		value = s_history[index / 2];
 		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY && value == 0) break;
 
-		for (i = 0; i < lengthof(s_input_local->keymap_ignore); i++) {
-			if (s_input_local->keymap_ignore[i] == (value & 0xFF)) break;
+		for (i = 0; i < lengthof(s_keymapIgnore); i++) {
+			if (s_keymapIgnore[i] == (value & 0xFF)) break;
 		}
 
-		if (i == lengthof(s_input_local->keymap_ignore) && (value & 0x800) == 0 && (value & 0xFF) < 0x7A) break;
+		if (i == lengthof(s_keymapIgnore) && (value & 0x800) == 0 && (value & 0xFF) < 0x7A) break;
 
 		if ((value & 0xFF) >= 0x41 && (value & 0xFF) <= 0x44) index += 4;
 

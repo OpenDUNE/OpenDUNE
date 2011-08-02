@@ -58,7 +58,7 @@ typedef struct InputLocalData {
 	/* 01B5()    */ PACK uint16  removed_01B5;              /*!< REMOVED - Which control keys are pressed. */
 	/* 01B7(2)   */ PACK uint16  removed_01B7;              /*!< REMOVED - Copy of controlKeys */
 	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? Read-only. */
-	/* 0212(8)   */ PACK uint8  keymap_special_mask[8];     /*!< Read-only - Per bit, mask which keys are special and should be done &= 0x1F. */
+	/* 0212(8)   */ PACK uint8   removed_0212[8];           /*!< REMOVED - Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
 	/* 0242()    */ PACK uint8   unknown_0242[0x0014];
@@ -66,15 +66,15 @@ typedef struct InputLocalData {
 	/* 0257(1)   */ PACK uint8   removed_0257;              /*!< REMOVED - Reading extended special key. */
 	/* 0258(4)   */ PACK csip32  removed_0258;              /*!< REMOVED - Location of original Interrupt Vector 09. */
 	/* 025C(4)   */ PACK csip32  removed_025C;              /*!< REMOVED - Location of original Interrupt Vector 23. */
-	/* 0260(11)  */ PACK uint8  keymap_ignore[11];          /*!< Read-only - Keys to ignore when reading. */
+	/* 0260(11)  */ PACK uint8   removed_0260[11];          /*!< REMOVED - Read-only - Keys to ignore when reading. */
 	/* 026B(1)   */ PACK uint8   removed_02B6;              /*!< REMOVED - ?? */
 	/* 026C(222) */ PACK uint8      code_026C[222];
-	/* 034A(62)  */ PACK uint8  keymap_normal[62];          /*!< Read-only - Keymap to convert scancode to ASCII with capslock off and shift released. */
-	/* 0388(62)  */ PACK uint8  keymap_shift[62];           /*!< Read-only - Keymap to convert scancode to ASCII with capslock off and shift pressed. */
-	/* 03C6(62)  */ PACK uint8  keymap_capslock[62];        /*!< Read-only - Keymap to convert scancode to ASCII with capslock on and shift released. */
-	/* 0404(62)  */ PACK uint8  keymap_caps_shift[62];      /*!< Read-only - Keymap to convert scancode to ASCII with capslock on and shift pressed. */
-	/* 0442(35)  */ PACK uint8  keymap_numpad[35];          /*!< Read-only - Keymap to convert scancode to for numpad with numlock off. */
-	/* 0465(20)  */ PACK uint8  keymap_numlock[20];         /*!< Read-only - Keymap to convert scancode to for numpad with numlock on. */
+	/* 034A(62)  */ PACK uint8   removed_034A[62];          /*!< REMOVED - Keymap to convert scancode to ASCII with capslock off and shift released. */
+	/* 0388(62)  */ PACK uint8   removed_0388[62];          /*!< REMOVED - Keymap to convert scancode to ASCII with capslock off and shift pressed. */
+	/* 03C6(62)  */ PACK uint8   removed_03C6[62];          /*!< REMOVED - Not used - Keymap to convert scancode to ASCII with capslock on and shift released. */
+	/* 0404(62)  */ PACK uint8   removed_0404[62];          /*!< REMOVED - Not used - Keymap to convert scancode to ASCII with capslock on and shift pressed. */
+	/* 0442(35)  */ PACK uint8   removed_0442[35];          /*!< REMOVED - Keymap to convert scancode to for numpad with numlock off. */
+	/* 0465(20)  */ PACK uint8   removed_0465[20];          /*!< REMOVED - Keymap to convert scancode to for numpad with numlock on. */
 
 	/* 0479(185) */ PACK uint8      code_0479[187];
 	/* 0534()    */ PACK uint8   unknown_0534[0x0103];
