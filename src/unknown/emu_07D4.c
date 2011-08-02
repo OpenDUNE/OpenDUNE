@@ -49,6 +49,7 @@ uint16 g_selectionHeight;               /*!< Height of the selection. */
 int16  g_selectionState = 1;            /*!< State of the selection (\c 1 is valid, \c 0 is not valid, \c <0 valid but missing some slabs. */
 
 static uint16 s_var_8DE3;
+static uint8 s_var_8420[16];
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -77,7 +78,7 @@ static uint8 *Unknown_07D4_18BD(uint16 index, uint8 houseID)
 			v += houseID * 16;
 		}
 
-		g_global->variable_8420[i] = v;
+		s_var_8420[i] = v;
 	}
 
 	return sprite;
@@ -291,7 +292,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			if (u->o.type != UNIT_SANDWORM && u->o.flags.s.isHighlighted) s_var_8DE3 |= 0x100;
 			if (ui->o.flags.variable_0020) s_var_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_var_8DE3 | 0xE000, g_global->variable_8420, g_paletteMapping2, 1);
+			GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, (u->deviated != 0) ? HOUSE_ORDOS : Unit_GetHouseID(u)), x, y, 2, s_var_8DE3 | 0xE000, s_var_8420, g_paletteMapping2, 1);
 
 			if (u->o.type == UNIT_HARVESTER && u->actionID == ACTION_HARVEST && u->variable_6D >= 0 && (u->actionID == ACTION_HARVEST || u->actionID == ACTION_MOVE)) {
 				uint16 type = Map_GetLandscapeType(packed);
@@ -348,7 +349,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				s_var_8DE3 = values_32A4[orientation][1];
 				index += values_32A4[orientation][0];
 
-				GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_var_8DE3 | 0xE000, g_global->variable_8420);
+				GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(index, Unit_GetHouseID(u)), x + offsetX, y + offsetY, 2, s_var_8DE3 | 0xE000, s_var_8420);
 			}
 
 			if (u->o.flags.s.isSmoking) {
@@ -386,7 +387,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		s_var_8DE3 = 0xC000;
 
-		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, s_var_8DE3, g_global->variable_8420);
+		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, s_var_8DE3, s_var_8420);
 	}
 
 	if (g_global->variable_39E8 != 0 || arg06 || updateDisplay) {
@@ -477,7 +478,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 			if (ui->o.flags.variable_0020) s_var_8DE3 |= 0x200;
 
-			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0x2000, g_global->variable_8420);
+			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0x2000, s_var_8420);
 		}
 
 		g_global->variable_39E8 = 0;
