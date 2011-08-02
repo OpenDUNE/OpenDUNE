@@ -159,7 +159,7 @@ static void Drivers_Uninit(Driver *driver)
 	Tools_Free(driver->dcontent);
 
 	driver->dcontent.csip  = 0x0;
-	driver->dfilename.csip = 0x0;
+	driver->dfilename = NULL;
 }
 
 static uint16 Driver_Install(csip32 dcontent)
@@ -195,14 +195,14 @@ static uint16 Driver_Install(csip32 dcontent)
 	return _stat1AC;
 }
 
-static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, const char *extension)
+static bool Drivers_Init(const char *filename, Driver *driver, const char *extension)
 {
 	DriverInfo *info;
 
 	if (filename == NULL || !File_Exists(filename)) return false;
 
 	if (driver->dcontent.csip != 0) {
-		if (strcasecmp((char *)emu_get_memorycsip(driver->dfilename), filename) == 0) return true;
+		if (strcasecmp(driver->dfilename, filename) == 0) return true;
 		Drivers_Uninit(driver);
 	}
 
@@ -224,7 +224,7 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 
 	Driver_Init(driver->index);
 
-	driver->dfilename = fcsip;
+	driver->dfilename = filename;
 	driver->extension[0] = 0;
 	if (driver->dcontent.csip != 0) memcpy(driver->extension, extension, 4);
 
@@ -246,10 +246,10 @@ uint16 Drivers_Sound_Init(uint16 index)
 
 	filename = (char *)emu_get_memorycsip(driver->filename);
 
-	if (music->dfilename.csip != 0x0 && !strcasecmp((char *)emu_get_memorycsip(music->dfilename), filename)) {
+	if (music->dfilename != NULL && !strcasecmp(music->dfilename, filename)) {
 		memcpy(sound, music, sizeof(Driver));
 	} else {
-		if (!Drivers_Init(filename, driver->filename, sound, (char *)emu_get_memorycsip(driver->extension))) return 0;
+		if (!Drivers_Init(filename, sound, (char *)emu_get_memorycsip(driver->extension))) return 0;
 	}
 
 	if (driver->variable_0008 == 0) {
@@ -286,10 +286,10 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	filename = (char *)emu_get_memorycsip(driver->filename);
 
-	if (sound->dfilename.csip != 0x0 && !strcasecmp((char *)emu_get_memorycsip(sound->dfilename), filename)) {
+	if (sound->dfilename != NULL && !strcasecmp(sound->dfilename, filename)) {
 		memcpy(music, sound, sizeof(Driver));
 	} else {
-		if (!Drivers_Init(filename, driver->filename, music, (char *)emu_get_memorycsip(driver->extension))) return 0;
+		if (!Drivers_Init(filename, music, (char *)emu_get_memorycsip(driver->extension))) return 0;
 	}
 
 	if (driver->variable_0008 != 0) return index;
@@ -315,7 +315,7 @@ uint16 Drivers_Voice_Init(uint16 index)
 
 	filename = (char *)emu_get_memorycsip(driver->filename);
 
-	if (!Drivers_Init(filename, driver->filename, voice, "VOC")) return 0;
+	if (!Drivers_Init(filename, voice, "VOC")) return 0;
 
 	return index;
 }
@@ -496,18 +496,18 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 	if (sound->content.csip == music->content.csip) {
 		sound->content.csip = 0x0;
-		sound->filename.csip = 0x0;
+		sound->filename        = NULL;
 		sound->contentMalloced = 0;
 	} else {
 		Driver_UnloadFile(sound);
 	}
 
-	if (music->filename.csip != 0x0) {
+	if (music->filename != NULL) {
 		char *filename;
 
 		filename = Drivers_GenerateFilename(musicName, sound);
 
-		if (strcasecmp(filename, (char *)emu_get_memorycsip(music->filename)) == 0) {
+		if (strcasecmp(filename, music->filename) == 0) {
 			sound->content         = music->content;
 			sound->filename        = music->filename;
 			sound->contentMalloced = music->contentMalloced;
@@ -561,7 +561,7 @@ static void Drivers_Music_Uninit()
 
 	if (music->dcontent.csip == g_driverSound->dcontent.csip) {
 		music->dcontent.csip    = 0x0;
-		music->dfilename.csip   = 0x0;
+		music->dfilename = NULL;
 	} else {
 		Drivers_Uninit(music);
 	}
@@ -590,7 +590,7 @@ static void Drivers_Sound_Uninit()
 
 	if (sound->dcontent.csip == g_driverMusic->dcontent.csip) {
 		sound->dcontent.csip    = 0x0;
-		sound->dfilename.csip   = 0x0;
+		sound->dfilename = NULL;
 	} else {
 		Drivers_Uninit(sound);
 	}
@@ -620,8 +620,8 @@ void Driver_LoadFile(const char *musicName, Driver *driver)
 
 	Driver_UnloadFile(driver);
 
-	driver->filename = Tools_Malloc(strlen(filename) + 1, 0x0);
-	strcpy((char *)emu_get_memorycsip(driver->filename), filename);
+	driver->filename = malloc(strlen(filename) + 1);
+	strcpy(driver->filename, filename);
 
 	fileIndex = File_Open(filename, 1);
 
@@ -641,10 +641,10 @@ void Driver_UnloadFile(Driver *driver)
 		Tools_Free(driver->content);
 	}
 
-	Tools_Free(driver->filename);
+	free(driver->filename);
 
-	driver->contentMalloced  = 0;
-	driver->filename.csip    = 0x0;
+	driver->contentMalloced = 0;
+	driver->filename        = NULL;
 	driver->content.csip     = 0x0;
 }
 

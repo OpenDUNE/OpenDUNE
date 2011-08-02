@@ -61,13 +61,13 @@ static void Driver_Music_LoadFile(const char *musicName)
 
 	if (music->content.csip == sound->content.csip) {
 		music->content.csip     = 0x0;
-		music->filename.csip    = 0x0;
-		music->contentMalloced  = 0;
+		music->filename        = NULL;
+		music->contentMalloced = 0;
 	} else {
 		Driver_UnloadFile(music);
 	}
 
-	if (sound->filename.csip != 0x0 && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
+	if (sound->filename != NULL && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), sound->filename) == 0) {
 		g_driverMusic->content         = g_driverSound->content;
 		g_driverMusic->filename        = g_driverSound->filename;
 		g_driverMusic->contentMalloced = g_driverSound->contentMalloced;
