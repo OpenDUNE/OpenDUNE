@@ -194,12 +194,6 @@ void Timer_Init()
 	}
 #endif /* _WIN32 */
 	Timer_InterruptResume();
-
-	{
-		/* XXX -- Keep calling the LibEMU IRQ handler */
-		extern void pic_run_irq();
-		Timer_Add(pic_run_irq, 0);
-	}
 }
 
 /**
