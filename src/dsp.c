@@ -111,13 +111,19 @@ void DSP_Uninit()
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
-void DSP_Init()
+bool DSP_Init()
 {
-	SDL_InitSubSystem(SDL_INIT_AUDIO);
+	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) return false;
+
+	DSP_SetTimeConst(255);
+
+	if (SDL_GetAudioStatus() == 0) return false;
 
 	s_bufferLen = 0;
 	s_buffer = NULL;
 	s_status = 0;
+
+	return true;
 }
 
 void DSP_Play(uint8 *data)
@@ -133,11 +139,5 @@ void DSP_Play(uint8 *data)
 
 uint8 DSP_GetStatus()
 {
-	uint8 ret;
-
-	SDL_LockAudio();
-	ret = s_status;
-	SDL_UnlockAudio();
-
-	return ret;
+	return (SDL_GetAudioStatus() != 0) ? s_status : 0;
 }

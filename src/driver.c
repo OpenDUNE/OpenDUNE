@@ -96,12 +96,14 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 	return true;
 }
 
-uint16 Drivers_SoundMusic_Init(uint16 index)
+static uint8 Drivers_SoundMusic_Init(uint8 index)
 {
 	Driver *sound;
 	Driver *music;
 	uint32 size;
 	uint8 i;
+
+	if (index == 0) return 0;
 
 	sound  = g_driverSound;
 	music  = g_driverMusic;
@@ -128,15 +130,17 @@ uint16 Drivers_SoundMusic_Init(uint16 index)
 	return index;
 }
 
-uint16 Drivers_Voice_Init(uint16 index)
+static uint8 Drivers_Voice_Init(uint8 index)
 {
 	Driver *voice;
+
+	if (index == 0) return 0;
 
 	voice  = g_driverVoice;
 
 	if (!Drivers_Init(voice, "VOC")) return 0;
 
-	DSP_Init();
+	if (!DSP_Init()) return 0;
 
 	return index;
 }
@@ -147,13 +151,13 @@ static void Drivers_Reset()
 	memset(s_driverLoaded, 0, sizeof(s_driverLoaded));
 }
 
-void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
+void Drivers_All_Init(uint8 sound, uint8 music, uint8 voice)
 {
 	Drivers_Reset();
 
 	assert(music == sound);
 	assert(Drivers_SoundMusic_Init(sound) == sound);
-	assert(Drivers_Voice_Init(voice) == voice);
+	g_config.voiceDrv = Drivers_Voice_Init(voice);
 }
 
 bool Driver_Music_IsPlaying()

@@ -25,7 +25,7 @@ extern Driver *g_driverVoice;
 extern MSBuffer *g_bufferMusic;
 extern MSBuffer *g_bufferSound[4];
 
-extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
+extern void Drivers_All_Init(uint8 sound, uint8 music, uint8 voice);
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_IsPlaying();
 extern void Driver_Sound_Play(int16 index, int16 volume);
