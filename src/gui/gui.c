@@ -638,8 +638,8 @@ void GUI_PaletteAnimate()
 				g_global->variable_31D4 = 15;
 
 				if (g_global->selectionType == 2) {
-					if (g_global->variable_38EC != 0) {
-						g_global->variable_31D4 = ((g_global->variable_38EC & 0x8000) != 0) ? 5 : 15;
+					if (g_selectionState != 0) {
+						g_global->variable_31D4 = (g_selectionState < 0) ? 5 : 15;
 					} else {
 						g_global->variable_31D4 = 6;
 					}

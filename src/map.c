@@ -467,7 +467,7 @@ void Map_SetSelection(uint16 packed)
 	if (g_global->selectionType == 1) return;
 
 	if (g_global->selectionType == 2) {
-		g_global->variable_38EC = Structure_IsValidBuildLocation(packed, g_structureActiveType);
+		g_selectionState = Structure_IsValidBuildLocation(packed, g_structureActiveType);
 		g_selectionPosition = packed;
 		return;
 	}

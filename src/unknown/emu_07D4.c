@@ -46,6 +46,7 @@ uint16 g_selectionRectanglePosition;    /*!< Position of the structure selection
 uint16 g_selectionPosition;             /*!< Current selection position (packed). */
 uint16 g_selectionWidth;                /*!< Width of the selection. */
 uint16 g_selectionHeight;               /*!< Height of the selection. */
+int16  g_selectionState = 1;            /*!< State of the selection (\c 1 is valid, \c 0 is not valid, \c <0 valid but missing some slabs. */
 
 /**
  * C-ified function of f__07D4_18BD_0016_68BB()
@@ -201,7 +202,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
-		if (g_global->variable_38EC == 0 && g_global->selectionType == 2) {
+		if (g_selectionState == 0 && g_global->selectionType == 2) {
 			GUI_DrawLine(x1, y1, x2, y2, 0xFF);
 			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
 		}

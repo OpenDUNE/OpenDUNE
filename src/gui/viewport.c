@@ -213,9 +213,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 				if ((Structure_GetBuildable(s) & (1 << s->objectType)) == 0) Structure_BuildObject(s, 0xFFFE);
 			}
 
-			g_structureActiveType   = 0xFFFF;
-			g_structureActive       = NULL;
-			g_global->variable_38EC = 0;
+			g_structureActiveType = 0xFFFF;
+			g_structureActive     = NULL;
+			g_selectionState      = 0; /* Invalid. */
 
 			GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 

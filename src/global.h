@@ -605,7 +605,7 @@ typedef struct GlobalData {
 	/* 31B2(4)   */ PACK csip32  removed_31B2;              /*!< REMOVED - ?? */
 	/* 31B6()    */ PACK uint8   unknown_31B6[0x0006];
 	/* 31BC(4)   */ PACK uint32  removed_31BC;              /*!< REMOVED - ?? Some timer. */
-	/* 31C0(2)   */ PACK  int16 variable_31C0;              /*!< ?? */
+	/* 31C0(2)   */ PACK  int16  removed_31C0;              /*!< REMOVED - local copy of #g_selectionState. */
 	/* 31C2(4)   */ PACK uint32 variable_31C2;              /*!< ?? */
 	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
 	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
@@ -746,7 +746,7 @@ typedef struct GlobalData {
 	/* 38E4(4)   */ PACK csip32  removed_38E4;              /*!< REMOVED - Structure being placed. */
 	/* 38E8()    */ PACK uint16  removed_38E8;              /*!< REMOVED - ?? */
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
-	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
+	/* 38EC(2)   */ PACK  int16  removed_38EC;              /*!< REMOVED - Build state of the selection. */
 	/* 38EE(2)   */ PACK uint16  removed_38EE;              /*!< REMOVED - ?? Write-only. */
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32  removed_38F2;              /*!< REMOVED - Unit currently controlled by player. */

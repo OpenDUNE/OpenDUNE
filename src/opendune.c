@@ -2139,6 +2139,8 @@ static void InGame_Numpad_Move(uint16 key)
 static void GameLoop_Main()
 {
 	static uint32 l_timerNext = 0;
+	static int16  l_selectionState = -2;
+
 	uint16 key;
 
 	String_Load("DUNE");
@@ -2196,10 +2198,10 @@ static void GameLoop_Main()
 			l_timerNext = g_timerGUI + 300;
 		}
 
-		if (g_global->variable_31C0 != g_global->variable_38EC) {
+		if (l_selectionState != g_selectionState) {
 			Map_SetSelectionObjectPosition(0xFFFF);
 			Map_SetSelectionObjectPosition(g_selectionRectanglePosition);
-			g_global->variable_31C0 = g_global->variable_38EC;
+			l_selectionState = g_selectionState;
 		}
 
 		if (!Driver_Voice_IsPlaying() && !Sound_StartSpeech()) {
@@ -2500,7 +2502,7 @@ void Game_Init()
 
 	g_playerCreditsNoSilo     = 0;
 	g_houseMissileCountdown   = 0;
-	g_global->variable_38EC   = 0;
+	g_selectionState          = 0; /* Invalid. */
 	g_structureActivePosition = 0;
 
 	g_unitHouseMissile = NULL;
