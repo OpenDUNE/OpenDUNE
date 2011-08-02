@@ -51,8 +51,6 @@ typedef struct MSData {
 	uint32 noteOnDuration[32];                              /*!< ?? */
 } MSData;
 
-uint16 g_mt32mpu_cs;
-
 static const uint8 s_var_11D7[9] = { 7, 1, 10, 11, 64, 114, 110, 111, 112 };
 static const uint8 s_var_11E0[9] = { 127, 0, 64, 127, 0, 0, 0, 0, 0 };
 static const uint8 s_var_11E9[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };

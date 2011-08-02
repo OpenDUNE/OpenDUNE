@@ -21,9 +21,6 @@
 #include "timer.h"
 #include "tools.h"
 
-extern uint16 g_mt32mpu_cs;
-extern uint16 g_dsp_cs;
-
 static csip32 _stat128[16];
 static uint16 _stat188[16];
 static uint16 _stat1AC;
@@ -56,8 +53,8 @@ static void *Drivers_CallFunction(uint16 driver, uint16 function)
 	if (csip.csip == 0) return NULL;
 
 	switch (csip.s.ip) {
-		case 0x0B73: g_dsp_cs = csip.s.cs; return DSP_GetInfo(); /* 0x64 */
-		case 0x0C96: g_mt32mpu_cs = csip.s.cs; return MPU_GetInfo(); /* 0x64 */
+		case 0x0B73: return DSP_GetInfo(); /* 0x64 */
+		case 0x0C96: return MPU_GetInfo(); /* 0x64 */
 		case 0x0DA4: DSP_Init(); break; /* 0x66 */
 		case 0x1FA8: MPU_Init(); break; /* 0x66 */
 		case 0x0B91: DSP_Uninit(); break; /* 0x68 */
