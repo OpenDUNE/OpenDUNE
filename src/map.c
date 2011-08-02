@@ -439,11 +439,16 @@ const MapInfo g_mapInfos[3] = {
 */
 uint16 Map_MoveDirection(uint16 direction)
 {
+	static const XYPosition mapScrollOffset[] = {
+		{ 0, -1}, { 1, -1}, { 1,  0}, { 1,  1},
+		{ 0,  1}, {-1,  1}, {-1,  0}, {-1, -1}
+	};
+
 	uint16 x, y;
 	const MapInfo *mapInfo;
 
-	x = Tile_GetPackedX(g_minimapPosition) + g_global->mapScrollOffset[direction][0];
-	y = Tile_GetPackedY(g_minimapPosition) + g_global->mapScrollOffset[direction][1];
+	x = Tile_GetPackedX(g_minimapPosition) + mapScrollOffset[direction].x;
+	y = Tile_GetPackedY(g_minimapPosition) + mapScrollOffset[direction].y;
 
 	mapInfo = &g_mapInfos[g_scenario.mapScale];
 
