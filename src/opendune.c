@@ -1018,7 +1018,7 @@ static void GameCredits_LoadPaletteAndSprites()
 		char filenameBuffer[16];
 
 		snprintf(filenameBuffer, sizeof(filenameBuffer), "CREDIT%d.SHP", i + 1);
-		g_sprites[i] = File_ReadWholeFile_Pure(filenameBuffer);
+		g_sprites[i] = File_ReadWholeFile(filenameBuffer);
 	}
 
 	g_sprites[i] = NULL;
@@ -1803,7 +1803,7 @@ static void GameLoop_GameIntroAnimationMenu()
 	s_spriteBuffer = calloc(1, 1500);
 	Sprite_SetSpriteBuffer(s_spriteBuffer);
 
-	g_stringsHint = File_ReadWholeFile_Pure(String_GenerateFilename("MESSAGE"));
+	g_stringsHint = File_ReadWholeFile(String_GenerateFilename("MESSAGE"));
 
 	g_fontNew6p = Font_LoadFile((g_config.language == LANGUAGE_GERMAN) ? "new6pg.fnt" : "new6p.fnt");
 	g_fontNew8p2 = g_fontNew8p;

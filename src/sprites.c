@@ -322,7 +322,7 @@ void Sprites_LoadTiles()
 	Sprites_LoadICNFile("ICON.ICN");
 
 	free(g_iconMap);
-	g_iconMap = File_ReadWholeFile_Pure("ICON.MAP");
+	g_iconMap = File_ReadWholeFile("ICON.MAP");
 
 	g_veiledSpriteID    = g_iconMap[g_iconMap[ICM_ICONGROUP_FOG_OF_WAR] + 16];
 	g_bloomSpriteID     = g_iconMap[g_iconMap[ICM_ICONGROUP_SPICE_BLOOM]];

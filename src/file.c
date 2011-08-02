@@ -429,26 +429,7 @@ uint32 File_ReadBlockFile(const char *filename, void *buffer, uint32 length)
  * @param mallocFlags The type of memory to allocate.
  * @return The CS:IP of the allocated memory where the file has been read.
  */
-csip32 File_ReadWholeFile(const char *filename, uint8 mallocFlags)
-{
-	uint8 index;
-	uint32 length;
-	csip32 memBlock;
-
-	index = File_Open(filename, 1);
-	length = File_GetSize(index);
-
-	memBlock = Tools_Malloc(length, mallocFlags);
-
-	if (memBlock.csip != 0x0) {
-		File_Read(index, (void *)emu_get_memorycsip(memBlock), length);
-	}
-
-	File_Close(index);
-
-	return memBlock;
-}
-void *File_ReadWholeFile_Pure(const char *filename)
+void *File_ReadWholeFile(const char *filename)
 {
 	uint8 index;
 	uint32 length;

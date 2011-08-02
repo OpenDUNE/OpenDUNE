@@ -125,7 +125,7 @@ void String_Load(char *name)
 
 	if (name == NULL) return;
 
-	g_strings = File_ReadWholeFile_Pure(String_GenerateFilename(name));
+	g_strings = File_ReadWholeFile(String_GenerateFilename(name));
 }
 
 /**

@@ -34,7 +34,7 @@ typedef struct Driver {
 	uint16 index;                                           /*!< Index of the loaded driver. */
 	const char *dfilename;                                  /*!< Pointer to filename for the driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
-	csip32 dcontent;                                        /*!< Pointer to the driver file content. */
+	void  *dcontent;                                        /*!< Pointer to the driver file content. */
 	csip32 content;                                         /*!< Pointer to the file to play content. */
 	char  *filename;                                        /*!< Pointer to the name of file to play. */
 	uint16 contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
@@ -59,7 +59,6 @@ extern MSBuffer *g_bufferSound[4];
 extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);
 extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);
-extern csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function);
 extern bool Driver_Music_IsPlaying();
 extern bool Driver_Voice_IsPlaying();
 extern void Driver_Sound_Play(int16 index, int16 volume);
