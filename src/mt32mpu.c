@@ -17,9 +17,51 @@
 
 #include "driver.h"
 
+typedef struct MSData {
+	csip32 TIMB;                                            /*!< Pointer to TIMB position in sound file. */
+	csip32 RBRN;                                            /*!< Pointer to RBRN position in sound file. */
+	csip32 EVNT;                                            /*!< Pointer to EVNT position in sound file. */
+	csip32 sound;                                           /*!< Pointer to current position in sound file. */
+	uint16 playing;                                         /*!< ?? 0, 1 or 2. 1 if a sound is playing. */
+	bool   delayedClear;                                    /*!< ?? */
+	int16  delay;                                           /*!< Delay before reading next command. */
+	uint16 noteOnCount;                                     /*!< Number of notes currently on. */
+	uint16 variable_0022;                                   /*!< ?? */
+	uint16 variable_0024;                                   /*!< ?? */
+	uint16 variable_0026;                                   /*!< ?? */
+	uint32 variable_0028;                                   /*!< ?? */
+	uint32 variable_002C;                                   /*!< ?? */
+	uint16 variable_0030;                                   /*!< ?? */
+	uint16 variable_0032;                                   /*!< ?? */
+	uint16 variable_0034;                                   /*!< ?? */
+	uint32 variable_0036;                                   /*!< ?? */
+	uint32 variable_003A;                                   /*!< ?? */
+	uint16 variable_003E;                                   /*!< ?? */
+	uint16 variable_0040;                                   /*!< ?? */
+	uint16 variable_0042;                                   /*!< ?? */
+	uint32 variable_0044;                                   /*!< ?? */
+	uint32 variable_0048;                                   /*!< ?? */
+	uint32 variable_004C;                                   /*!< ?? */
+	csip32 variable_0050[4];                                /*!< ?? */
+	uint16 variable_0060[4];                                /*!< ?? */
+	uint8  chanMaps[16];                                    /*!< ?? Channel mapping. */
+	int8   variable_00B8[16];                               /*!< ?? */
+	int8   variable_00C8[16];                               /*!< ?? */
+	int8   variable_00D8[16];                               /*!< ?? */
+	int8   variable_00E8[16];                               /*!< ?? */
+	int8   sustain[16];                                     /*!< ?? */
+	int8   variable_0108[16];                               /*!< ?? */
+	int8   variable_0118[16];                               /*!< ?? */
+	int8   variable_0128[16];                               /*!< ?? */
+	int8   variable_0138[16];                               /*!< ?? */
+	uint8  noteOnChans[32];                                 /*!< ?? */
+	uint8  noteOnNotes[32];                                 /*!< ?? */
+	uint32 noteOnDuration[32];                              /*!< ?? */
+} MSData;
+
 uint16 g_mt32mpu_cs;
 
-void MPU_Send(uint8 status, uint8 data1, uint8 data2)
+static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
 	mpu_send(status | (data1 << 8) | (data2 << 16));
 }
@@ -79,11 +121,9 @@ static uint16 MPU_NoteOn(MSData *data)
 	}
 	if (i == 32) i = 0;
 
-	duration--;
 	data->noteOnChans[i] = chan;
 	data->noteOnNotes[i] = note;
-	data->noteOnLengthLSB[i] = duration & 0xFFFF;
-	data->noteOnLengthMSB[i] = duration >> 16;
+	data->noteOnDuration[i] = duration;
 
 	chan = data->chanMaps[chan];
 	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)++;
@@ -200,11 +240,6 @@ static void MPU_289D(uint8 chan)
 static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 {
 	uint8 index;
-
-	if (data->variable_00A8[chan] != 0xFF) {
-		data2 = emu_get_memorycsip(data->variable_0012)[data->variable_00A8[chan]];
-		data->variable_00A8[chan] = 0xFF;
-	}
 
 	index = emu_get_memory8(g_mt32mpu_cs, data1, 0x11F2);
 	if (index != 0xFF) {
@@ -323,9 +358,7 @@ static uint16 MPU_1B48(MSData *data)
 			MPU_16B7(data);
 
 			data->playing = 2;
-			if (data->variable_001C == 0) break;
-
-			MPU_ClearData(emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314));
+			if (data->delayedClear) MPU_ClearData(emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314));
 			break;
 
 		case 0x58: {
@@ -409,9 +442,7 @@ void MPU_Interrupt()
 				}
 				if (index == 0x20) break;
 
-				emu_subw(&data->noteOnLengthLSB[index], 0x1);
-				emu_sbbw(&data->noteOnLengthMSB[index], 0x0);
-				if (!(emu_flags.sf != emu_flags.of)) continue;
+				if (--data->noteOnDuration[index] > 0) continue;
 
 				chan = data->chanMaps[data->noteOnChans[index]];
 				data->noteOnChans[index] = 0xFF;
@@ -455,8 +486,6 @@ void MPU_Interrupt()
 						assert(chan == 0xF);
 						nb = MPU_1B48(data);
 					} else if (status >= 0xE0) {
-						data->pitchWheelLSB[chan] = data1;
-						data->pitchWheelMSB[chan] = data2;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13BE) = data1;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13CE) = data2;
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
@@ -469,7 +498,6 @@ void MPU_Interrupt()
 						}
 						nb = 0x2;
 					} else if (status >= 0xC0) {
-						data->programs[chan] = data1;
 						emu_get_memory8(g_mt32mpu_cs, chan, 0x13AE) = data1;
 						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
@@ -589,7 +617,36 @@ csip32 MPU_FindSoundStart(csip32 file, uint16 index)
 	return file;
 }
 
-uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_0012)
+static void MPU_InitData(MSData *data)
+{
+	uint8 i;
+
+	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
+
+	for (i = 0; i < 16; i++) {
+		data->chanMaps[i] = i;
+	}
+
+	for (i = 0; i < 144; i++) data->variable_00B8[i] = 0xFF;
+
+	for (i = 0; i < 32; i++) data->noteOnChans[i] = 0xFF;
+
+	data->delay = 0;
+	data->noteOnCount = 0;
+	data->variable_0024 = 0x5A;
+	data->variable_0026 = 0x5A;
+	data->variable_0030 = 0;
+	data->variable_0032 = 0x64;
+	data->variable_0034 = 0x64;
+	data->variable_003E = 0;
+	data->variable_0040 = 0;
+	data->variable_0042 = 4;
+	data->variable_0044 = 0x208D5;
+	data->variable_0048 = 0x208D5;
+	data->variable_004C = 0x7A1200;
+}
+
+uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip)
 {
 	uint16 i;
 	uint16 size;
@@ -629,52 +686,15 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip, csip32 variable_
 		}
 	}
 
-	data->index = i * 4;
 	data->EVNT = file;
-	data->variable_0012 = variable_0012;
-	data->variable_0018 = 0;
 	data->playing = 0;
-	data->variable_001C = 0;
+	data->delayedClear = false;
 
 	emu_get_memory16(g_mt32mpu_cs, 0x0, 0x1312)++;
 
 	MPU_InitData(data);
 
 	return i * 4;
-}
-
-void MPU_InitData(MSData *data)
-{
-	uint8 i;
-
-	for (i = 0; i < 4; i++) data->variable_0060[i] = 0xFFFF;
-
-	for (i = 0; i < 16; i++) {
-		data->chanMaps[i] = i;
-		data->programs[i] = 0xFF;
-		data->pitchWheelLSB[i] = 0xFF;
-		data->pitchWheelMSB[i] = 0xFF;
-		data->variable_00A8[i] = 0xFF;
-	}
-
-	for (i = 0; i < 144; i++) data->variable_00B8[i] = 0xFF;
-
-	for (i = 0; i < 32; i++) data->noteOnChans[i] = 0xFF;
-
-	data->variable_0010 = 0xFFFF;
-	data->delay = 0;
-	data->noteOnCount = 0;
-	data->variable_0024 = 0x5A;
-	data->variable_0026 = 0x5A;
-	data->variable_0030 = 0;
-	data->variable_0032 = 0x64;
-	data->variable_0034 = 0x64;
-	data->variable_003E = 0;
-	data->variable_0040 = 0;
-	data->variable_0042 = 4;
-	data->variable_0044 = 0x208D5;
-	data->variable_0048 = 0x208D5;
-	data->variable_004C = 0x7A1200;
 }
 
 void MPU_Play(uint16 index)
@@ -695,7 +715,6 @@ void MPU_Play(uint16 index)
 	data->sound.s.ip &= 0xF;
 
 	data->playing = 1;
-	data->variable_0018 = 1;
 }
 
 void MPU_StopAllNotes(MSData *data)
@@ -850,7 +869,7 @@ void MPU_ClearData(uint16 index)
 	data = (MSData *)emu_get_memorycsip(data_csip);
 
 	if (data->playing == 1) {
-		data->variable_001C = 1;
+		data->delayedClear = true;
 	} else {
 		emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) = 0;
 		emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312)--;

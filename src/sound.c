@@ -44,11 +44,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 		musicBuffer->index = 0xFFFF;
 	}
 
-	{
-		csip32 nullcsip;
-		nullcsip.csip = 0x0;
-		musicBuffer->index = MPU_SetData(music->content, index, musicBuffer->buffer, nullcsip);
-	}
+	musicBuffer->index = MPU_SetData(music->content, index, musicBuffer->buffer);
 
 	MPU_Play(musicBuffer->index);
 	MPU_SetVolume(musicBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
