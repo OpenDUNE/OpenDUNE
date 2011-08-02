@@ -75,14 +75,14 @@ static DriverInfo *Driver_GetInfo(uint16 driver)
 static void Driver_Init(uint16 driver)
 {
 	csip32 csip;
-	uint16 locsi;
+	uint16 frequency;
 
 	if (driver >= 16) return;
 
-	locsi = Driver_GetInfo(driver)->frequency;
+	frequency = Driver_GetInfo(driver)->frequency;
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
-	if (locsi != 0xFFFF && csip.csip != 0) {
-		Timer_Add(Drivers_Tick, 1000000 / locsi);
+	if (frequency != 0xFFFF && csip.csip != 0) {
+		Timer_Add(Drivers_Tick, 1000000 / frequency);
 	}
 
 	Drivers_CallFunction(driver, 0x66);

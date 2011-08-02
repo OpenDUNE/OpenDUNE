@@ -55,21 +55,17 @@ typedef struct MSBuffer {
 MSVC_PACKED_END
 assert_compile(sizeof(MSBuffer) == 0x06);
 
-MSVC_PACKED_BEGIN
 typedef struct DriverInfo {
-	/* 0000(2)   */ PACK uint16 version;                    /*!< Version of the driver (of the API). */
-	/* 0002()    */ PACK uint8  unknown_0002[2];
-	/* 0004(4)   */ PACK char extension[4];                 /*!< Extension of the file the driver supports. */
-	/* 0008(4)   */ PACK csip32 driverCode;                 /*!< Location where the driver is loaded. */
-	/* 000C(2)   */ PACK uint16 port;                       /*!< DMA used for driver. */
-	/* 000E(2)   */ PACK uint16 irq1;                       /*!< IRQ used for driver. */
-	/* 0010(2)   */ PACK uint16 dma;                        /*!< DMA used for driver. */
-	/* 0012(2)   */ PACK uint16 drq;                        /*!< DRQ used for driver. */
-	/* 0014(2)   */ PACK uint16 frequency;                  /*!< The timer frequency this driver works with. */
-} GCC_PACKED DriverInfo;
-MSVC_PACKED_END
-assert_compile(sizeof(DriverInfo) == 0x16);
-
+	uint16 version;                                         /*!< Version of the driver (of the API). */
+	uint8  unknown_0002[2];
+	char extension[4];                                      /*!< Extension of the file the driver supports. */
+	csip32 driverCode;                                      /*!< Location where the driver is loaded. */
+	uint16 port;                                            /*!< DMA used for driver. */
+	uint16 irq1;                                            /*!< IRQ used for driver. */
+	uint16 dma;                                             /*!< DMA used for driver. */
+	uint16 drq;                                             /*!< DRQ used for driver. */
+	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
+} DriverInfo;
 
 extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);

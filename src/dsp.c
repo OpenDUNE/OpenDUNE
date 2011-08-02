@@ -11,6 +11,18 @@
 
 uint16 g_dsp_cs;
 
+static DriverInfo s_dsp_driverInfo = {
+	/* version      */ 200,
+	/* unknown_0002 */ { 2, 0 },
+	/* extension    */ "VOC",
+	/* driverCode   */ { { 0x0, 0x0 } },
+	/* port         */ 544,
+	/* irq1         */ 7,
+	/* dma          */ 1,
+	/* drq          */ 65535,
+	/* frequency    */ 65535
+};
+
 static uint8 *s_buffer;
 static int s_bufferLen;
 static uint8 *s_data;
@@ -96,8 +108,7 @@ static void DSP_ProcessBlock()
 
 DriverInfo *DSP_GetInfo()
 {
-	DriverInfo *info;
-	info = (DriverInfo *)&emu_get_memory8(g_dsp_cs, 0x00, 0x73);
+	DriverInfo *info = &s_dsp_driverInfo;
 	info->driverCode.s.cs = g_dsp_cs;
 	return info;
 }
