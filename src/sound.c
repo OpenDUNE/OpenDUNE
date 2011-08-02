@@ -61,7 +61,6 @@ static void Driver_Music_LoadFile(const char *musicName)
 
 	if (music->content.csip == sound->content.csip) {
 		music->content.csip     = 0x0;
-		music->variable_1E.csip = 0x0;
 		music->filename.csip    = 0x0;
 		music->contentMalloced  = 0;
 	} else {
@@ -70,7 +69,6 @@ static void Driver_Music_LoadFile(const char *musicName)
 
 	if (sound->filename.csip != 0x0 && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
 		g_driverMusic->content         = g_driverSound->content;
-		g_driverMusic->variable_1E     = g_driverSound->variable_1E;
 		g_driverMusic->filename        = g_driverSound->filename;
 		g_driverMusic->contentMalloced = g_driverSound->contentMalloced;
 

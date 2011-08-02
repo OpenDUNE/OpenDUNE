@@ -142,10 +142,6 @@ static void Drivers_Uninit(Driver *driver)
 {
 	if (driver == NULL) return;
 
-	if (driver->customTimer != 0xFFFF) {
-		driver->customTimer = 0xFFFF;
-	}
-
 	Driver_Uninit(driver->index);
 
 	Driver_Uninstall(driver->index);
@@ -495,7 +491,6 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 	if (sound->content.csip == music->content.csip) {
 		sound->content.csip = 0x0;
-		sound->variable_1E.csip = 0x0;
 		sound->filename.csip = 0x0;
 		sound->contentMalloced = 0;
 	} else {
@@ -508,9 +503,8 @@ void Driver_Sound_LoadFile(const char *musicName)
 		filename = Drivers_GenerateFilename(musicName, sound);
 
 		if (strcasecmp(filename, (char *)emu_get_memorycsip(music->filename)) == 0) {
-			sound->content = music->content;
-			sound->variable_1E = music->variable_1E;
-			sound->filename = music->filename;
+			sound->content         = music->content;
+			sound->filename        = music->filename;
 			sound->contentMalloced = music->contentMalloced;
 			return;
 		}
@@ -563,7 +557,6 @@ static void Drivers_Music_Uninit()
 	if (music->dcontent.csip == g_driverSound->dcontent.csip) {
 		music->dcontent.csip    = 0x0;
 		music->dfilename.csip   = 0x0;
-		music->customTimer      = 0xFFFF;
 	} else {
 		Drivers_Uninit(music);
 	}
@@ -593,7 +586,6 @@ static void Drivers_Sound_Uninit()
 	if (sound->dcontent.csip == g_driverMusic->dcontent.csip) {
 		sound->dcontent.csip    = 0x0;
 		sound->dfilename.csip   = 0x0;
-		sound->customTimer      = 0xFFFF;
 	} else {
 		Drivers_Uninit(sound);
 	}
@@ -642,7 +634,6 @@ void Driver_UnloadFile(Driver *driver)
 {
 	if (driver->content.csip != 0x0 && driver->contentMalloced != 0) {
 		Tools_Free(driver->content);
-		Tools_Free(driver->variable_1E);
 	}
 
 	Tools_Free(driver->filename);
@@ -650,7 +641,6 @@ void Driver_UnloadFile(Driver *driver)
 	driver->contentMalloced  = 0;
 	driver->filename.csip    = 0x0;
 	driver->content.csip     = 0x0;
-	driver->variable_1E.csip = 0x0;
 }
 
 void Driver_Music_FadeOut()

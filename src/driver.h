@@ -37,9 +37,7 @@ typedef struct Driver {
 	csip32 dcontent;                                        /*!< Pointer to the driver file content. */
 	csip32 content;                                         /*!< Pointer to the file to play content. */
 	csip32 filename;                                        /*!< Pointer to the name of file to play. */
-	csip32 variable_1E;                                     /*!< ?? */
 	uint16 contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
-	uint16 customTimer;                                     /*!< ?? */
 } Driver;
 
 MSVC_PACKED_BEGIN
