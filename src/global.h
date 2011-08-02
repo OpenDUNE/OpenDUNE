@@ -1076,8 +1076,8 @@ typedef struct GlobalData {
 	/* 6C6A(2)   */ PACK uint16  removed_6C6A;              /*!< REMOVED - ?? */
 	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? Wide-space between chars? */
 	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? Wide-space between lines? */
-	/* 6C70(1)   */ PACK uint8  variable_6C70;              /*!< ?? */
-	/* 6C71(1)   */ PACK uint8  variable_6C71;              /*!< ?? */
+	/* 6C70(1)   */ PACK uint8   removed_6C70;              /*!< REMOVED - ?? */
+	/* 6C71(1)   */ PACK uint8   removed_6C71;              /*!< REMOVED - ?? */
 	/* 6C72(4)   */ PACK csip32  removed_6C72;              /*!< REMOVED - ?? Pointer to an array. */
 	/* 6C76(2)   */ PACK uint16  removed_6C76;              /*!< REMOVED - The GraphicMode the game will be playing in. */
 	/* 6C78(2)   */ PACK uint16  removed_6C78;              /*!< REMOVED - Snap mouse to grid, x-axis. */

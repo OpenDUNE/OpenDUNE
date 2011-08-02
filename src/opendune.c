@@ -887,7 +887,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 				Font_Select(g_fontNew8p2);
 			}
 
-			strings[stringCount].charHeight = g_global->variable_6C71;
+			strings[stringCount].charHeight = g_var_6C71;
 
 			switch (strings[stringCount].type) {
 				case 3:
@@ -964,7 +964,7 @@ static void GameCredits_Play(char *data, uint16 windowID, uint16 memory, uint16 
 
 				Font_Select(g_fontNew8p2);
 
-				if (strings[loc02].charHeight != g_global->variable_6C71) Font_Select(g_fontNew6p);
+				if (strings[loc02].charHeight != g_var_6C71) Font_Select(g_fontNew6p);
 
 				GUI_DrawText(strings[loc02].text, strings[loc02].x, strings[loc02].y + g_curWidgetYBase, 255, 0);
 
@@ -1440,7 +1440,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 
 	for (i = 0; i < props->height; i++) {
 		uint16 index = GameLoop_B4E6_0000(i, arg0C, arg10);
-		uint16 pos = top + ((g_global->variable_6C71 + arg12) * i);
+		uint16 pos = top + ((g_var_6C71 + arg12) * i);
 
 		if (index == old) {
 			GUI_DrawText_Wrapper(strings[index], left, pos, props->fgColourSelected, 0, 0x22);
@@ -1506,11 +1506,11 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	top = g_curWidgetYBase + props->yBase;
 	left = (g_curWidgetXBase + props->xBase) << 3;
 
-	lineHeight = g_global->variable_6C71 + s_var_8052;
+	lineHeight = g_var_6C71 + s_var_8052;
 
-	minX = (g_curWidgetXBase << 3) + (g_global->variable_6C70 * props->xBase);
+	minX = (g_curWidgetXBase << 3) + (g_var_6C70 * props->xBase);
 	minY = g_curWidgetYBase + props->yBase - s_var_8052 / 2;
-	maxX = minX + (g_global->variable_6C70 * props->width) - 1;
+	maxX = minX + (g_var_6C70 * props->width) - 1;
 	maxY = minY + (props->height * lineHeight) - 1;
 
 	fgColourNormal = props->fgColourNormal;
@@ -1981,8 +1981,8 @@ static void GameLoop_GameIntroAnimationMenu()
 				g_widgetProperties[21].width  = maxWidth >> 3;
 				g_widgetProperties[13].width  = g_widgetProperties[21].width + 2;
 				g_widgetProperties[13].xBase  = 19 - (maxWidth >> 4);
-				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_global->variable_6C71) >> 1);
-				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_global->variable_6C71) + 11;
+				g_widgetProperties[13].yBase  = 160 - ((g_widgetProperties[21].height * g_var_6C71) >> 1);
+				g_widgetProperties[13].height = (g_widgetProperties[21].height * g_var_6C71) + 11;
 
 				Sprites_LoadImage(String_GenerateFilename("TITLE"), 3, NULL, 0);
 

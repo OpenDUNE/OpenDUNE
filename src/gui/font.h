@@ -26,6 +26,9 @@ extern void *g_fontNew6p;
 extern void *g_fontNew8p;
 extern void *g_fontNew8p2;
 
+extern uint16 g_var_6C70;
+extern uint16 g_var_6C71;
+
 extern FontHeader *g_fontCurrent;
 
 extern uint16 Font_GetCharWidth(char c);

@@ -784,7 +784,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(1);
 
-	g_widgetProperties[1].height = g_global->variable_6C71 * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
+	g_widgetProperties[1].height = g_var_6C71 * max(GUI_SplitText(textBuffer, ((g_curWidgetWidth - ((spriteID == 0xFFFF) ? 2 : 7)) << 3) - 6, '\r'), 3) + 18;
 
 	Widget_SetCurrentWidget(1);
 
