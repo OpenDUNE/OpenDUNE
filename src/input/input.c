@@ -82,6 +82,15 @@ static const InputFlagsEnum s_otherFlags[] = {
 
 assert_compile(lengthof(s_otherKeys) == lengthof(s_otherFlags));
 
+/** Key translation table. */
+static const uint8 s_keyTranslate[] = {
+	127,  'n',   2,   3,   4,   5,    6,   7,   8,  9,  10,    11,  12,  13,  15,  16,
+	 17,   18,  19,  20,  21,  22,   23,  24,  25, 26,  27,    28, '+', ':',  31, ' ',
+	 '!', '"', '#', '$', '%', '&', '\'', '(', ')',  1, ',',    29, '.', '/', '0', '1',
+	 '2', '3', '4', '5', '6', '7',  '9', 'd', '<', '=', 30,   'p', 'q', 'r', 's', 't',
+	 'u', 'v', 'w', 'x', 'y', 'Z',  '}', '[', '`', 'e', 'i', '\\', 'a', 'f', 'j', ']',
+	 'b', 'g', 'c', 'h', 127, 127,  127, 'z', '{'
+};
 
 void Input_Init()
 {
@@ -141,7 +150,7 @@ void Input_EventHandler(uint8 key)
 	} else if (key == 0x7A) {
 		key = 0x80;
 	} else {
-		key = s_input_local->variable_01B9[key & 0x7F];
+		key = s_keyTranslate[key & 0x7F];
 	}
 
 	if ((s_input_local->activeInputMap[7] & 0x4) != 0) return;

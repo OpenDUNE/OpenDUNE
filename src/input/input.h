@@ -57,7 +57,7 @@ typedef struct InputLocalData {
 	/* 01B3(2)   */ PACK uint16  removed_01B3;              /*!< REMOVED - Mask for allowed input types. See InputFlagsEnum. */
 	/* 01B5()    */ PACK uint16  removed_01B5;              /*!< REMOVED - Which control keys are pressed. */
 	/* 01B7(2)   */ PACK uint16  removed_01B7;              /*!< REMOVED - Copy of controlKeys */
-	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? Read-only. */
+	/* 01B9(89)  */ PACK uint8   removed_01B9[89];          /*!< REMOVED ?? Read-only. */
 	/* 0212(8)   */ PACK uint8   removed_0212[8];           /*!< REMOVED - Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
 	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
