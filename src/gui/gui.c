@@ -4053,11 +4053,11 @@ void GUI_Palette_RemapScreen(uint16 left, uint16 top, uint16 width, uint16 heigh
 
 uint16 GUI_HallOfFame_Tick()
 {
+	static uint32 timerNext = 0;
 	static int16 colouringDirection = 1;
 
-	if (g_global->variable_2C3A >= g_timerGUI) return 0;
-
-	g_global->variable_2C3A = g_timerGUI + 2;
+	if (timerNext >= g_timerGUI) return 0;
+	timerNext = g_timerGUI + 2;
 
 	if (*s_palette1_houseColour >= 63) {
 		colouringDirection = -1;

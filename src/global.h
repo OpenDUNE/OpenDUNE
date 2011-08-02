@@ -487,7 +487,7 @@ typedef struct GlobalData {
 	/* 2B98(5)   */ PACK char   string_2B98[5];             /*!< "INFO" NULL terminated. */
 	/* 2B9D(14)  */ PACK char   string_2B9D[14];            /*!< "TOTAL REGIONS" NULL terminated. */
 	/* 2BAB()    */ PACK uint8   unknown_2BAB[0x0001];
-	/* 2BAC(18)  */ PACK uint16 variable_2BAC[3][3];        /*!< ?? */
+	/* 2BAC(18)  */ PACK uint16 variable_2BAC[3][3];        /*!< Read Only - ?? */
 	/* 2BBE(12)  */ PACK csip32  removed_2BBE[3];           /*!< REMOVED - Points to the WSAs for each house. */
 	/* 2BCA(19)  */ PACK char   string_2BCA[19];            /*!< "No more scenarios!" NULL terminated. */
 	/* 2BDD(7)   */ PACK char   string_2BDD[7];             /*!< "TEXT%c" NULL terminated. */
@@ -497,9 +497,9 @@ typedef struct GlobalData {
 	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
 	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x1];
-	/* 2C10(40)  */ PACK uint16 variable_2C10[5][4];        /*!< ?? */
+	/* 2C10(40)  */ PACK uint16 variable_2C10[5][4];        /*!< Read Only - ?? */
 	/* 2C38(2)   */ PACK uint16  removed_2C38;              /*!< REMOVED - ?? */
-	/* 2C3A(4)   */ PACK uint32 variable_2C3A;              /*!< ?? */
+	/* 2C3A(4)   */ PACK uint32  removed_2C3A;              /*!< REMOVED - ?? Some timer. */
 	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
 	/* 2C41(13)  */ PACK char   string_2C41[13];            /*!< "SAVEFAME.DAT" NULL terminated. */
 	/* 2C4E(9)   */ PACK char   string_2C4E[9];             /*!< "FAME.CPS" NULL terminated. */
@@ -602,7 +602,7 @@ typedef struct GlobalData {
 	/* 319F(7)   */ PACK char   string_319F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 31A6(3)   */ PACK char   string_31A6[3];             /*!< "%d" NULL terminated. */
 	/* 31A9()    */ PACK uint8   unknown_31A9[0x0009];
-	/* 31B2(4)   */ PACK csip32 variable_31B2;              /*!< ?? */
+	/* 31B2(4)   */ PACK csip32  removed_31B2;              /*!< REMOVED - ?? */
 	/* 31B6()    */ PACK uint8   unknown_31B6[0x0006];
 	/* 31BC(4)   */ PACK uint32 variable_31BC;              /*!< ?? */
 	/* 31C0(2)   */ PACK  int16 variable_31C0;              /*!< ?? */
@@ -627,7 +627,7 @@ typedef struct GlobalData {
 	/* 320D()    */ PACK uint8   unknown_320D[0x0001];
 	/* 320E(4)   */ PACK uint32  removed_320E;              /*!< REMOVED - Timeout value for next map activity. */
 	/* 3212(80)  */ PACK csip32  removed_3212[20];          /*!< REMOVED - Array with map activity scripts. */
-	/* 3262(60)  */ PACK csip32 variable_3262[15];          /*!< Array of functions. */
+	/* 3262(60)  */ PACK csip32  removed_3262[15];          /*!< REMOVED - Array of functions. */
 	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? */
 	/* 32A4(32)  */ PACK uint16  removed_32A4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 32C4(32)  */ PACK uint16  removed_32C4[8][2];        /*!< REMOVED - ?? (read-only array) */
@@ -640,7 +640,7 @@ typedef struct GlobalData {
 	/* 336E(32)  */ PACK uint16  removed_336E[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 338E(32)  */ PACK uint16  removed_338E[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 33AE(8)   */ PACK uint16  removed_33AE[4];           /*!< REMOVED - ?? (read-only array) */
-	/* 33B6(100) */ PACK csip32 scriptFunctionsStructure[25];/*!< Structure functions to call via scripts. */
+	/* 33B6(100) */ PACK csip32  removed_33B6[25];          /*!< REMOVED - Structure functions to call via scripts. */
 	/* 341A(4)   */ PACK uint32  removed_341A;              /*!< REMOVED - Indicates next time Structure runs Degrade function. */
 	/* 341E(4)   */ PACK uint32  removed_341E;              /*!< REMOVED - Indicates next time Structure runs Structurs function. */
 	/* 3422(4)   */ PACK uint32  removed_3422;              /*!< REMOVED - Indicates next time Structure runs Script function. */
@@ -650,7 +650,7 @@ typedef struct GlobalData {
 	/* 3439()    */ PACK uint8   unknown_3439[0x0001];
 	/* 343A(4)   */ PACK uint32  removed_343A;              /*!< REMOVED - Stores last time Viewport changed the cursor spriteID. */
 	/* 343E(4)   */ PACK uint32  removed_343E;              /*!< REMOVED - Stores last time Viewport ran MapScroll function. */
-	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< HotSpots for different cursor types. */
+	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< Read Only - HotSpots for different cursor types. */
 	/* 345A(8)   */ PACK uint16  removed_345A[4];           /*!< REMOVED - ?? */
 	/* 3462(256) */ PACK uint8   removed_3462[256];         /*!< REMOVED - ?? */
 	/* 3562(2)   */ PACK uint16  removed_3562;              /*!< REMOVED - ?? */
@@ -658,7 +658,7 @@ typedef struct GlobalData {
 	/* 3566(94)  */ PACK uint16  removed_3566[47];          /*!< REMOVED - tile positions of the viewport border. */
 	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
 	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
-	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Translates scroll numbers to positional offsets for map scrolling. */
+	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Read Only - Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32  removed_35E8;              /*!< REMOVED - CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16  removed_35EC;              /*!< REMOVED - Amount of Units on the map. */
 	/* 35EE(4)   */ PACK csip32  removed_35EE;              /*!< REMOVED - CS:IP of Team array. */
@@ -669,20 +669,20 @@ typedef struct GlobalData {
 	/* 35FE(2)   */ PACK uint16  removed_35FE;              /*!< REMOVED - Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32  removed_3600;              /*!< REMOVED - Buffer for screen backup when drawing modal windows. */
 	/* 3604(40)  */ PACK uint16 colourBorderSchema[5][4];   /*!< Colours used for the border of widgets. */
-	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< ?? */
+	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< Read Only - ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
 	/* 3640(4)   */ PACK uint32  removed_3640;              /*!< REMOVED - Next tick when credits animation needs an update. */
-	/* 3644(80)  */ PACK char    removed_3644[80];          /*!< REMOVED 1st line of text to display. */
-	/* 3694(80)  */ PACK char    removed_3694[80];          /*!< REMOVED 2nd line of text to display. */
-	/* 36E4(80)  */ PACK char    removed_36E4[80];          /*!< REMOVED 3rd line of text to display. */
-	/* 3734(2)   */ PACK uint16  removed_3734;              /*!< REMOVED line1 importance */
-	/* 3736(2)   */ PACK uint16  removed_3736;              /*!< REMOVED line2 importance */
-	/* 3738(2)   */ PACK uint16  removed_3738;              /*!< REMOVED line3 importance */
-	/* 373A(2)   */ PACK uint16  removed_373A;              /*!< REMOVED text display scroll in progress. */
-	/* 373C(4)   */ PACK uint32  removed_373C;              /*!< REMOVED text display timeout. */
-	/* 3740(2)   */ PACK uint16  removed_3740;              /*!< REMOVED text offset of scroll */
-	/* 3742(16)  */ PACK uint8  variable_3742[16];          /*!< Always zero bytes, used to memset 4 csips. No longer in use. */
+	/* 3644(80)  */ PACK char    removed_3644[80];          /*!< REMOVED - 1st line of text to display. */
+	/* 3694(80)  */ PACK char    removed_3694[80];          /*!< REMOVED - 2nd line of text to display. */
+	/* 36E4(80)  */ PACK char    removed_36E4[80];          /*!< REMOVED - 3rd line of text to display. */
+	/* 3734(2)   */ PACK uint16  removed_3734;              /*!< REMOVED - Line1 importance */
+	/* 3736(2)   */ PACK uint16  removed_3736;              /*!< REMOVED - Line2 importance */
+	/* 3738(2)   */ PACK uint16  removed_3738;              /*!< REMOVED - Line3 importance */
+	/* 373A(2)   */ PACK uint16  removed_373A;              /*!< REMOVED - Text display scroll in progress. */
+	/* 373C(4)   */ PACK uint32  removed_373C;              /*!< REMOVED - Text display timeout. */
+	/* 3740(2)   */ PACK uint16  removed_3740;              /*!< REMOVED - Text offset of scroll */
+	/* 3742(16)  */ PACK uint8   removed_3742[16];          /*!< REMOVED - Always zero bytes, used to memset 4 csips. */
 	/* 3752(2)   */ PACK uint16  removed_3752;              /*!< REMOVED - displayed action type */
 	/* 3754(2)   */ PACK uint16  removed_3754;              /*!< REMOVED - displayed hit points */
 	/* 3756(2)   */ PACK uint16  removed_3756;              /*!< REMOVED - displayed index */
@@ -873,16 +873,16 @@ typedef struct GlobalData {
 	/* 60DF(8)   */ PACK char   string_60DF[8];             /*!< "IBM.PAL" NULL terminated. */
 	/* 60E7()    */ PACK uint8   unknown_60E7[0x0001];
 	/* 60E8(4)   */ PACK uint32  removed_60E8;              /*!< REMOVED - ?? */
-	/* 60EC(4)   */ PACK csip32 animationProc[10];          /*!< Which command ends up in which function. No longer in use. */
+	/* 60EC(4)   */ PACK csip32  removed_60EC[10];          /*!< REMOVED - Which command ends up in which function. */
 	/* 6114(4)   */ PACK uint32  removed_6114;              /*!< REMOVED - Amount of memory block used when loading ICON.ICN. */
 	/* 6118(4)   */ PACK csip32  removed_6118;              /*!< REMOVED - Content of RPAL chunk from ICON.ICN. */
 	/* 611C(2)   */ PACK uint16  removed_611C;              /*!< REMOVED - True if memory at iconRPAL has been freed. */
 	/* 611E(4)   */ PACK csip32  removed_611E;              /*!< REMOVED - Content of RTBL chunk from ICON.ICN. */
 	/* 6122(2)   */ PACK uint16  removed_6122;              /*!< REMOVED - True if memory at iconRTBL has been freed. */
 	/* 6124(4)   */ PACK csip32  removed_6124;              /*!< REMOVED - Current Team we are handling in GameLoop. */
-	/* 6128(60)  */ PACK csip32 scriptFunctionsTeam[15];    /*!< Team functions to call via scripts. */
+	/* 6128(60)  */ PACK csip32  removed_6128[15];          /*!< REMOVED - Team functions to call via scripts. */
 	/* 6164(4)   */ PACK uint32  removed_6164;              /*!< REMOVED - Indicates next time Team runs GameLoop function. */
-	/* 6168(256) */ PACK csip32 scriptFunctionsUnit[64];    /*!< Unit functions to call via scripts. */
+	/* 6168(256) */ PACK csip32  removed_6168[64];          /*!< REMOVED - Unit functions to call via scripts. */
 	/* 6268(4)   */ PACK csip32  removed_6268;              /*!< REMOVED - Current Unit we are handling in GameLoop. */
 	/* 626C(4)   */ PACK csip32  removed_626C;              /*!< REMOVED - Current UnitInfo we are handling in the GameLoop. */
 	/* 6270(4)   */ PACK uint32  removed_6270;              /*!< REMOVED - Indicates next time Unit runs Unknown1 function. */
