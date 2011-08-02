@@ -57,6 +57,17 @@ static const uint8 s_keymapNumpad[] = {
 /** Keymap to convert scancode to for numpad with numlock on. */
 static const uint8 s_keymapNumlock[] = {0, '7', '4', '1',   0, '/', '8', '5', '2', '0', '*', '9', '6', '3', '.', '-', '+', 0, '\r', 0};
 
+/** Some kind of translation map for extended keys. */
+static const uint8 s_translateExtendedMap[] = {'8', 29, 'R', 'S', 'K', 'G', 'O', 'H', 'P', 'I', 'Q', 'M', '5', 28, '7', 'F'};
+
+/** Some kind of translation map. */
+static const uint8 s_translateMap[] = {'>', '@', 'K', 'L', 'O', 'P', 'Q', 'S', 'T', 'U', 'V', 'Y', '_', 'l', '|', 0};
+
+/** To what a match in #s_translateMap translates. */
+static const uint8 s_translateTo[] = {'<', ':', 'c', 'h', '\\', '[', ']', '`', 'b', 'e', 'g', 'f', '7', '+', '|', 0};
+
+assert_compile(lengthof(s_translateExtendedMap) == lengthof(s_translateMap));
+assert_compile(lengthof(s_translateMap) == lengthof(s_translateTo));
 
 void Input_Init()
 {
@@ -73,9 +84,9 @@ static uint16 Input_Keyboard_Translate(uint16 keyValue)
 	uint16 i;
 
 	if ((g_global->inputFlags & 0x2) == 0) {
-		for (i = 0; i < lengthof(s_input_local->translateMap); i++) {
-			if (s_input_local->translateMap[i] == (uint8)(keyValue & 0xFF)) {
-				keyValue = s_input_local->translateTo[i] | (keyValue & 0xFF00);
+		for (i = 0; i < lengthof(s_translateMap); i++) {
+			if (s_translateMap[i] == (uint8)(keyValue & 0xFF)) {
+				keyValue = s_translateTo[i] | (keyValue & 0xFF00);
 				break;
 			}
 		}
@@ -106,9 +117,9 @@ void Input_EventHandler(uint8 key)
 	if (s_input_extendedKey) {
 		s_input_extendedKey = false;
 
-		for (i = 0; i < 16; i++) {
-			if (s_input_local->translateExtendedMap[i] == key) {
-				key = s_input_local->translateMap[i];
+		for (i = 0; i < lengthof(s_translateExtendedMap); i++) {
+			if (s_translateExtendedMap[i] == key) {
+				key = s_translateMap[i];
 				break;
 			}
 		}

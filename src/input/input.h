@@ -47,9 +47,9 @@ typedef struct InputLocalData {
 	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? Read-only. */
 	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? Read-only. */
 	/* 007A()    */ PACK uint8   unknown_007A[0x0004];
-	/* 007E(16)  */ PACK uint8  translateExtendedMap[16];   /*!< ?? Read-only - Some kind of translation map for extended keys. */
-	/* 008E(16)  */ PACK uint8  translateMap[16];           /*!< ?? Read-only - Some kind of translation map. */
-	/* 009E(16)  */ PACK uint8  translateTo[16];            /*!< ?? Read-only - To what a match in the above map translates. */
+	/* 007E(16)  */ PACK uint8   removed_007E[16];          /*!< REMOVED Read-only - Some kind of translation map for extended keys. */
+	/* 008E(16)  */ PACK uint8   removed_008E[16];          /*!< REMOVED Read-only - Some kind of translation map. */
+	/* 009E(16)  */ PACK uint8   removed_009E[16];          /*!< REMOVED Read-only - To what a match in the above map translates. */
 	/* 00AE(1)   */ PACK uint8   unknown_00AE[1];
 	/* 00AF(256) */ PACK uint16  removed_00AF[128];         /*!< REMOVED - History of input commands. */
 	/* 01AF(2)   */ PACK uint16  removed_01AF;              /*!< REMOVED - The current head inside the history array. */
