@@ -5,8 +5,9 @@
 #include <assert.h>
 #include <SDL.h>
 #include "types.h"
-#include "libemu.h"
+
 #include "dsp.h"
+
 #include "driver.h"
 
 static DriverInfo s_dsp_driverInfo = {
