@@ -7,14 +7,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
-#include "libemu.h"
-#include "global.h"
 #include "os/math.h"
 #include "os/endian.h"
 
 #include "mt32mpu.h"
-#include "mpu.h"
 
+#include "mpu.h"
 #include "driver.h"
 
 typedef struct MSData {
