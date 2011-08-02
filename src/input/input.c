@@ -28,6 +28,35 @@ static bool s_input_extendedKey = false;     /*!< If we are currently actively r
 
 static const uint8 s_keymapIgnore[] = {30, ',', '9', ':', '<', '>', '@', 'Z', 128}; /*!< Keys to ignore when reading. */
 
+/** Per bit, mask which keys are special and should be done &= 0x1F. */
+static const uint8 s_keymapSpecialMask[] = {0x00, 0x00, 0xFE, 0x87, 0xFF, 0xC0, 0x1F, 0x00};
+
+/** Keymap to convert scancode to ASCII with capslock off and shift released. */
+static const uint8 s_keymapNormal[] = {
+	   0, '`', '1', '2', '3', '4', '5', '6', '7',  '8', '9',  '0', '-',  '=',   0,   8,
+	'\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',  'o', 'p',  '[', ']', '\\',   0, 'a',
+	 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'',   0, '\r',   0,  '-', 'z', 'x',
+	 'c', 'v', 'b', 'n', 'm', ',', '.', '/',   0,    0,   0,    0,   0,  ' '
+};
+
+/** Keymap to convert scancode to ASCII with capslock off and shift pressed. */
+static const uint8 s_keymapShift[] = {
+	   0, '~', '!', '@', '#', '$', '%', '^', '&', '*', '(',  ')', '_', '+',   0,   8,
+	'\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',  '{', '}', '|',   0, 'A',
+	 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"',   0, '\r',   0, '-', 'Z', 'X',
+	 'C', 'V', 'B', 'N', 'M', '<', '>', '?',   0,   0,   0,    0,   0, ' '
+};
+
+/** Keymap to convert scancode to for numpad with numlock off. */
+static const uint8 s_keymapNumpad[] = {
+	174, 173,    0,   0, 181, 185, 177,   0, 184, 176, 183, 175,   0,   0, 179,   0,
+	185, 181,  177,   0, '/', 184, 180, 176, 174, '*', 183, 179, 175, 173, '-', '+',
+	  0, '\r',   0
+};
+
+/** Keymap to convert scancode to for numpad with numlock on. */
+static const uint8 s_keymapNumlock[] = {0, '7', '4', '1',   0, '/', '8', '5', '2', '0', '*', '9', '6', '3', '.', '-', '+', 0, '\r', 0};
+
 
 void Input_Init()
 {
@@ -464,35 +493,6 @@ uint16 Input_Test(uint16 value)
 
 	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
 }
-
-/** Per bit, mask which keys are special and should be done &= 0x1F. */
-static const uint8 s_keymapSpecialMask[] = {0x00, 0x00, 0xFE, 0x87, 0xFF, 0xC0, 0x1F, 0x00};
-
-/** Keymap to convert scancode to ASCII with capslock off and shift released. */
-static const uint8 s_keymapNormal[] = {
-	   0, '`', '1', '2', '3', '4', '5', '6', '7',  '8', '9',  '0', '-',  '=',   0,   8,
-	'\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',  'o', 'p',  '[', ']', '\\',   0, 'a',
-	 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'',   0, '\r',   0,  '-', 'z', 'x',
-	 'c', 'v', 'b', 'n', 'm', ',', '.', '/',   0,    0,   0,    0,   0,  ' '
-};
-
-/** Keymap to convert scancode to ASCII with capslock off and shift pressed. */
-static const uint8 s_keymapShift[] = {
-	   0, '~', '!', '@', '#', '$', '%', '^', '&', '*', '(',  ')', '_', '+',   0,   8,
-	'\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',  '{', '}', '|',   0, 'A',
-	 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"',   0, '\r',   0, '-', 'Z', 'X',
-	 'C', 'V', 'B', 'N', 'M', '<', '>', '?',   0,   0,   0,    0,   0, ' '
-};
-
-/** Keymap to convert scancode to for numpad with numlock off. */
-static const uint8 s_keymapNumpad[] = {
-	174, 173,    0,   0, 181, 185, 177,   0, 184, 176, 183, 175,   0,   0, 179,   0,
-	185, 181,  177,   0, '/', 184, 180, 176, 174, '*', 183, 179, 175, 173, '-', '+',
-	  0, '\r',   0
-};
-
-/** Keymap to convert scancode to for numpad with numlock on. */
-static const uint8 s_keymapNumlock[] = {0, '7', '4', '1',   0, '/', '8', '5', '2', '0', '*', '9', '6', '3', '.', '-', '+', 0, '\r', 0};
 
 /**
  * Handle keyboard input.
