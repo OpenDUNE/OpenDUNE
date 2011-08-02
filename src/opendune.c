@@ -2336,8 +2336,27 @@ static bool Unknown_25C4_000E()
 	return true;
 }
 
-void Main()
+#if defined(__APPLE__)
+int SDL_main(int argc, char **argv)
+#else
+int main(int argc, char **argv)
+#endif /* __APPLE__ */
 {
+#if defined(_WIN32)
+	#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+		int __cdecl __MINGW_NOTHROW _fileno (FILE*);
+	#endif
+	FILE *err = fopen("error.log", "w");
+	FILE *out = fopen("output.log", "w");
+
+	if (err != NULL) _dup2(_fileno(err), _fileno(stderr));
+	if (out != NULL) _dup2(_fileno(out), _fileno(stdout));
+	FreeConsole();
+#endif
+
+	VARIABLE_NOT_USED(argc);
+	VARIABLE_NOT_USED(argv);
+
 	if (!Config_Read("dune.cfg", &g_config)) {
 		printf("\r\nThe setup program must be run first.\r\n"
 		       "\r\nZuerst muß das Setup-Programm betrieben werden.\r\n"
