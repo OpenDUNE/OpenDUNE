@@ -24,7 +24,8 @@ static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
 static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
-static bool s_input_extendedKey = false;     /*!< If we are currently actively reading an extended key. */
+static bool   s_input_extendedKey = false;   /*!< If we are currently actively reading an extended key. */
+static uint8  s_activeInputMap[16];          /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
 
 static const uint8 s_keymapIgnore[] = {30, ',', '9', ':', '<', '>', '@', 'Z', 128}; /*!< Keys to ignore when reading. */
 
@@ -94,6 +95,10 @@ static const uint8 s_keyTranslate[] = {
 
 void Input_Init()
 {
+	uint8 i;
+
+	for (i = 0; i < lengthof(s_activeInputMap); i++) s_activeInputMap[i] = 0;
+
 	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
 }
 
@@ -153,12 +158,12 @@ void Input_EventHandler(uint8 key)
 		key = s_keyTranslate[key & 0x7F];
 	}
 
-	if ((s_input_local->activeInputMap[7] & 0x4) != 0) return;
-	if ((s_input_local->activeInputMap[7] & 0x50) != 0) state |= 0x04;
+	if ((s_activeInputMap[7] & 0x4) != 0) return;
+	if ((s_activeInputMap[7] & 0x50) != 0) state |= 0x04;
 
 	key = Input_Keyboard_Translate(key) & 0xFF;
 
-	if ((s_input_local->activeInputMap[7] & 0x2) != 0) state |= 0x01;
+	if ((s_activeInputMap[7] & 0x2) != 0) state |= 0x01;
 
 	if (state == 0x06 && key == 0x68) return;
 	if (state == 0x06 && key == 0x4C) return;
@@ -200,7 +205,7 @@ uint16 Input_Flags_SetBits(uint16 bits)
 
 	if ((g_global->inputFlags & INPUT_FLAG_KEY_RELEASE) != 0) {
 		uint8 i;
-		for (i = 0; i < 16; i++) s_input_local->activeInputMap[i] = 0;
+		for (i = 0; i < lengthof(s_activeInputMap); i++) s_activeInputMap[i] = 0;
 	}
 
 	return g_global->inputFlags;
@@ -280,8 +285,8 @@ static void Input_ReadInputFromFile()
 		idx = (value & 0xFF) >> 3;
 		bit = 1 << (value & 7);
 
-		s_input_local->activeInputMap[idx] &= ~bit;
-		if ((value & 0x800) == 0) s_input_local->activeInputMap[idx] |= bit;
+		s_activeInputMap[idx] &= ~bit;
+		if ((value & 0x800) == 0) s_activeInputMap[idx] |= bit;
 
 		if ((value & 0xFF) < 0x41 || (value & 0xFF) > 0x44) {
 			g_timerInput = 0;
@@ -467,11 +472,11 @@ void Input_HandleInput(uint16 input)
 
 	index = (value & 0x7F) >> 3;
 	bit_value <<= (value & 7);
-	if ((bit_value & s_input_local->activeInputMap[index]) != 0 && (flags & INPUT_FLAG_KEY_REPEAT) == 0) {
+	if ((bit_value & s_activeInputMap[index]) != 0 && (flags & INPUT_FLAG_KEY_REPEAT) == 0) {
 		s_historyTail = oldTail;
 	}
-	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
-	s_input_local->activeInputMap[index] |= bit_value;
+	s_activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
+	s_activeInputMap[index] |= bit_value;
 
 	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
 
@@ -527,7 +532,7 @@ uint16 Input_Test(uint16 value)
 	Input_AddHistory(value);
 	value = Input_Keyboard_Translate(value);
 
-	return s_input_local->activeInputMap[value >> 3] & (1 << (value & 7));
+	return s_activeInputMap[value >> 3] & (1 << (value & 7));
 }
 
 /**

@@ -60,7 +60,7 @@ typedef struct InputLocalData {
 	/* 01B9(89)  */ PACK uint8   removed_01B9[89];          /*!< REMOVED ?? Read-only. */
 	/* 0212(8)   */ PACK uint8   removed_0212[8];           /*!< REMOVED - Per bit, mask which keys are special and should be done &= 0x1F. */
 	/* 021A()    */ PACK uint8   unknown_021A[0x0018];
-	/* 0232(16)  */ PACK uint8  activeInputMap[16];         /*!< A 96 bit array, where each active bit means that the Nth key is pressed. */
+	/* 0232(16)  */ PACK uint8   removed_0232[16];          /*!< REMOVED - A 96 bit array, where each active bit means that the Nth key is pressed. */
 	/* 0242()    */ PACK uint8   unknown_0242[0x0014];
 	/* 0256(1)   */ PACK uint8   removed_0256;              /*!< REMOVED - Reading extended key. */
 	/* 0257(1)   */ PACK uint8   removed_0257;              /*!< REMOVED - Reading extended special key. */
