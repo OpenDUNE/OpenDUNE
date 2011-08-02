@@ -35,7 +35,6 @@ typedef struct Driver {
 	csip32 dfilename;                                       /*!< Pointer to filename for the driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
 	csip32 dcontent;                                        /*!< Pointer to the driver file content. */
-	csip32 variable_12;                                     /*!< ?? */
 	csip32 content;                                         /*!< Pointer to the file to play content. */
 	csip32 filename;                                        /*!< Pointer to the name of file to play. */
 	csip32 variable_1E;                                     /*!< ?? */

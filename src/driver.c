@@ -562,7 +562,6 @@ static void Drivers_Music_Uninit()
 
 	if (music->dcontent.csip == g_driverSound->dcontent.csip) {
 		music->dcontent.csip    = 0x0;
-		music->variable_12.csip = 0x0;
 		music->dfilename.csip   = 0x0;
 		music->customTimer      = 0xFFFF;
 	} else {
@@ -593,7 +592,6 @@ static void Drivers_Sound_Uninit()
 
 	if (sound->dcontent.csip == g_driverMusic->dcontent.csip) {
 		sound->dcontent.csip    = 0x0;
-		sound->variable_12.csip = 0x0;
 		sound->dfilename.csip   = 0x0;
 		sound->customTimer      = 0xFFFF;
 	} else {
