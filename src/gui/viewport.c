@@ -57,9 +57,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	}
 
 	if (spriteID != g_global->cursorSpriteID) {
+		/* HotSpots for different cursor types. */
+		static const XYPosition cursorHotSpots[6] = {{0, 0}, {5, 0}, {8, 5}, {5, 8}, {0, 5}, {8, 8}};
+
 		s_tickCursor = g_timerGame;
 
-		Sprites_SetMouseSprite(g_global->cursorHotSpots[spriteID][0], g_global->cursorHotSpots[spriteID][1], g_sprites[spriteID]);
+		Sprites_SetMouseSprite(cursorHotSpots[spriteID].x, cursorHotSpots[spriteID].y, g_sprites[spriteID]);
 
 		g_global->cursorSpriteID = spriteID;
 	}

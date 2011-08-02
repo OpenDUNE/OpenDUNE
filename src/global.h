@@ -650,7 +650,7 @@ typedef struct GlobalData {
 	/* 3439()    */ PACK uint8   unknown_3439[0x0001];
 	/* 343A(4)   */ PACK uint32  removed_343A;              /*!< REMOVED - Stores last time Viewport changed the cursor spriteID. */
 	/* 343E(4)   */ PACK uint32  removed_343E;              /*!< REMOVED - Stores last time Viewport ran MapScroll function. */
-	/* 3442(24)  */ PACK uint16 cursorHotSpots[6][2];       /*!< Read Only - HotSpots for different cursor types. */
+	/* 3442(24)  */ PACK uint16  removed_3442[6][2];        /*!< REMOVED - Read Only - HotSpots for different cursor types. */
 	/* 345A(8)   */ PACK uint16  removed_345A[4];           /*!< REMOVED - ?? */
 	/* 3462(256) */ PACK uint8   removed_3462[256];         /*!< REMOVED - ?? */
 	/* 3562(2)   */ PACK uint16  removed_3562;              /*!< REMOVED - ?? */

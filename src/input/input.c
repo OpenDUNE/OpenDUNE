@@ -330,12 +330,6 @@ static uint16 Input_AddHistory(uint16 value)
 	return value;
 }
 
-/** X and Y coordinate. */
-typedef struct XY {
-	uint16 x; /*!< X coordinate. */
-	uint16 y; /*!< Y coordinate. */
-} XYPosition;
-
 /**
  * Handle input.
  * @param input New input.

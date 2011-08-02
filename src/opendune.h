@@ -25,6 +25,12 @@ typedef enum Language {
 	LANGUAGE_INVALID     = 0xFF
 } Language;
 
+/** X and Y coordinate. */
+typedef struct XYPosition {
+	uint16 x; /*!< X coordinate. */
+	uint16 y; /*!< Y coordinate. */
+} XYPosition;
+
 extern char *window_caption;
 extern bool g_dune2_enhanced;
 
