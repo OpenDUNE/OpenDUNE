@@ -40,13 +40,10 @@ typedef struct Driver {
 	uint16 contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
 } Driver;
 
-MSVC_PACKED_BEGIN
 typedef struct MSBuffer {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
-	/* 0002(4)   */ PACK csip32 buffer;                     /*!< ?? */
-} GCC_PACKED MSBuffer;
-MSVC_PACKED_END
-assert_compile(sizeof(MSBuffer) == 0x06);
+	uint16 index;                                           /*!< ?? */
+	csip32 buffer;                                          /*!< ?? */
+} MSBuffer;
 
 typedef struct DriverInfo {
 	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
