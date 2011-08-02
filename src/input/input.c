@@ -110,7 +110,7 @@ static uint16 Input_Keyboard_Translate(uint16 keyValue)
 {
 	uint16 i;
 
-	if ((g_global->inputFlags & 0x2) == 0) {
+	if ((g_inputFlags & 0x2) == 0) {
 		for (i = 0; i < lengthof(s_translateMap); i++) {
 			if (s_translateMap[i] == (uint8)(keyValue & 0xFF)) {
 				keyValue = s_translateTo[i] | (keyValue & 0xFF00);
@@ -127,7 +127,7 @@ void Input_EventHandler(uint8 key)
 	uint8 i;
 	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-	flags = g_global->inputFlags;
+	flags = g_inputFlags;
 	state = 0;
 
 	if (key == 0xE0) {
@@ -188,8 +188,8 @@ void Input_EventHandler(uint8 key)
  */
 uint16 Input_Flags_ClearBits(uint16 bits)
 {
-	g_global->inputFlags &= ~bits;
-	return g_global->inputFlags;
+	g_inputFlags &= ~bits;
+	return g_inputFlags;
 }
 
 /**
@@ -200,14 +200,14 @@ uint16 Input_Flags_ClearBits(uint16 bits)
  */
 uint16 Input_Flags_SetBits(uint16 bits)
 {
-	g_global->inputFlags |= bits;
+	g_inputFlags |= bits;
 
-	if ((g_global->inputFlags & INPUT_FLAG_KEY_RELEASE) != 0) {
+	if ((g_inputFlags & INPUT_FLAG_KEY_RELEASE) != 0) {
 		uint8 i;
 		for (i = 0; i < lengthof(s_activeInputMap); i++) s_activeInputMap[i] = 0;
 	}
 
-	return g_global->inputFlags;
+	return g_inputFlags;
 }
 
 /** Clear the history buffer. */
@@ -226,25 +226,25 @@ static uint16 Input_ReadHistory(uint16 index)
 {
 	uint16 value;
 
-	value = g_global->variable_7013 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7013 : s_history[index / 2];
+	value = g_var_7013 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7013 : s_history[index / 2];
 	index = (index + 2) & 0xFF;
 
 	if ((value & 0xFF) >= 0x41) {
 		if ((value & 0xFF) <= 0x42) {
-			g_mouseClickX = g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_history[index / 2];
+			g_mouseClickX = g_var_7017 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7017 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_mouseClickY = g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_history[index / 2];
+			g_mouseClickY = g_var_7019 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7019 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		} else if ((value & 0xFF) <= 0x44) {
-			g_global->variable_7017 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7017 : s_history[index / 2];
+			g_var_7017 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7017 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 
-			g_global->variable_7019 = (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_global->variable_7019 : s_history[index / 2];
+			g_var_7019 = (g_mouseMode == INPUT_MOUSE_MODE_PLAY) ? g_var_7019 : s_history[index / 2];
 			index = (index + 2) & 0xFF;
 		}
 	}
-	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
+	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY) s_historyHead = index;
 	return value;
 }
 
@@ -271,12 +271,12 @@ static void Input_ReadInputFromFile()
 	uint16 value;
 	uint16 mouseBuffer[2];
 
-	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) return;
+	if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL || g_mouseMode != INPUT_MOUSE_MODE_PLAY) return;
 
-	File_Read(g_global->mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
+	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_global->variable_7015 = mouseBuffer[1];
-	value = g_global->variable_7013 = mouseBuffer[0];
+	g_var_7015 = mouseBuffer[1];
+	value = g_var_7013 = mouseBuffer[0];
 
 	if ((value & 0xFF) != 0x2D) {
 		uint8 idx, bit;
@@ -299,10 +299,10 @@ static void Input_ReadInputFromFile()
 		}
 	}
 
-	File_Read(g_global->mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
+	File_Read(g_mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_mouseX = g_global->variable_7017 = mouseBuffer[0];
-	value = g_mouseY = g_global->variable_7019 = mouseBuffer[1];
+	g_mouseX = g_var_7017 = mouseBuffer[0];
+	value = g_mouseY = g_var_7019 = mouseBuffer[1];
 
 	Mouse_HandleMovementIfMoved(value);
 	g_timerInput = 0;
@@ -315,17 +315,17 @@ static void Input_ReadInputFromFile()
  */
 static uint16 Input_AddHistory(uint16 value)
 {
-	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) return value;
+	if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL || g_mouseMode == INPUT_MOUSE_MODE_RECORD) return value;
 
-	if (g_global->variable_701B != 0) {
+	if (g_var_701B) {
 		value = 0;
-	} else if (g_timerInput < g_global->variable_7015) {
+	} else if (g_timerInput < g_var_7015) {
 		value = 0;
-	} else if (g_global->variable_7013 == 0x2D) {
+	} else if (g_var_7013 == 0x2D) {
 		Input_ReadInputFromFile();
 		value = 0;
 	} else {
-		value = g_global->variable_7013;
+		value = g_var_7013;
 	}
 
 	s_history[s_historyHead / 2] = value;
@@ -350,11 +350,11 @@ void Input_HandleInput(uint16 input)
 	uint16 tempBuffer[2];
 	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-	flags       = g_global->inputFlags;
+	flags       = g_inputFlags;
 	inputMouseX = g_mouseX;
 	inputMouseY = g_mouseY;
 
-	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
+	if (g_mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
 		if (g_inputIgnore != 0) return;
 	}
@@ -471,11 +471,11 @@ void Input_HandleInput(uint16 input)
 	s_activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
 	s_activeInputMap[index] |= bit_value;
 
-	if (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
+	if (g_mouseMode != INPUT_MOUSE_MODE_RECORD || value == 0x7D) return;
 
 	tempBuffer[0] = input;
 	tempBuffer[1] = g_timerInput;
-	File_Write(g_global->mouseFileID, tempBuffer, saveSize);
+	File_Write(g_mouseFileID, tempBuffer, saveSize);
 	g_timerInput = 0;
 }
 
@@ -501,7 +501,7 @@ uint16 Input_Wait()
 	uint16 value = 0;
 
 	for (;;) {
-		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
+		if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 		value = s_historyHead;
 		if (value != s_historyTail) break;
@@ -608,7 +608,7 @@ uint16 Input_WaitForValidInput()
 
 	do {
 		for (;;) {
-			if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY) break;
+			if (g_mouseMode == INPUT_MOUSE_MODE_PLAY) break;
 
 			index = s_historyHead;
 			if (index != s_historyTail) break;
@@ -642,13 +642,13 @@ uint16 Input_Keyboard_NextKey()
 		uint16 index;
 
 		index = s_historyHead;
-		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_historyTail) {
+		if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && index == s_historyTail) {
 			value = 0;
 			break;
 		}
 
 		value = s_history[index / 2];
-		if (g_global->mouseMode == INPUT_MOUSE_MODE_PLAY && value == 0) break;
+		if (g_mouseMode == INPUT_MOUSE_MODE_PLAY && value == 0) break;
 
 		for (i = 0; i < lengthof(s_keymapIgnore); i++) {
 			if (s_keymapIgnore[i] == (value & 0xFF)) break;

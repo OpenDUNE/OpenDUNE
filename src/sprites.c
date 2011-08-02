@@ -421,7 +421,7 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 {
 	uint16 size;
 
-	if (sprite == NULL || g_global->variable_7097 != 0) return;
+	if (sprite == NULL || g_var_7097 != 0) return;
 
 	while (g_mouseLock != 0) sleep(0);
 
@@ -487,12 +487,12 @@ void Sprites_SetMouseSprite(uint16 hotSpotX, uint16 hotSpotY, uint8 *sprite)
 		memcpy(dst, buf, size);
 	}
 
-	g_global->mouseSpriteHotspotX = hotSpotX;
-	g_global->mouseSpriteHotspotY = hotSpotY;
+	g_mouseSpriteHotspotX = hotSpotX;
+	g_mouseSpriteHotspotY = hotSpotY;
 
 	sprite = g_mouseSprite;
-	g_global->mouseHeight = sprite[5];
-	g_global->mouseWidth = (*(uint16 *)(sprite + 3) >> 3) + 2;
+	g_mouseHeight = sprite[5];
+	g_mouseWidth = (*(uint16 *)(sprite + 3) >> 3) + 2;
 
 	GUI_Mouse_Show();
 

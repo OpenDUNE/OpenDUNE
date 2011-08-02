@@ -292,7 +292,7 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	mouseY = g_mouseY;
 
 	buttonState = 0;
-	if (g_global->variable_7097 == 0) {
+	if (g_var_7097 == 0) {
 		uint16 buttonStateChange = 0;
 
 		/* See if the key was a mouse button action */

@@ -1509,7 +1509,7 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 		key = Input_Wait() & 0x8FF;
 	}
 
-	if (g_global->variable_7097 == 0) {
+	if (g_var_7097 == 0) {
 		uint16 y = g_mouseY;
 
 		if (GameLoop_B4E6_00E0(g_mouseX, y, minX, minY, maxX, maxY)) {
@@ -1821,7 +1821,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
-	while (g_global->mouseHiddenDepth > 1) {
+	while (g_mouseHiddenDepth > 1) {
 		GUI_Mouse_Show_Safe();
 	}
 
@@ -2294,7 +2294,7 @@ static bool Unknown_25C4_000E()
 	Timer_Add(Video_Tick, 1000000 / 60);
 	Timer_Add(Timer_Tick, 1000000 / 60);
 
-	g_global->variable_7097 = -1;
+	g_var_7097 = -1;
 
 	GFX_Init();
 	GFX_ClearScreen();
@@ -2344,7 +2344,7 @@ void Main()
 
 	if (!Unknown_25C4_000E()) exit(1);
 
-	g_global->variable_7097 = 0;
+	g_var_7097 = 0;
 
 	GameLoop_Main();
 	PrepareEnd();
@@ -2557,7 +2557,7 @@ void PrepareEnd()
 {
 	Drivers_All_Uninit();
 
-	if (g_global->mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
+	if (g_mouseFileID != 0xFF) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, NULL);
 
 	Video_Uninit();
 	Timer_Uninit();

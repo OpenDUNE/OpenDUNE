@@ -120,6 +120,11 @@ static uint16 s_mouseSpriteTop;
 static uint16 s_mouseSpriteWidth;
 static uint16 s_mouseSpriteHeight;
 
+uint16 g_mouseSpriteHotspotX;
+uint16 g_mouseSpriteHotspotY;
+uint16 g_mouseWidth;
+uint16 g_mouseHeight;
+
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
 	{ 26,  29,  29,  29},
@@ -3804,20 +3809,20 @@ void GUI_Mouse_Show()
 {
 	int left, top;
 
-	if (g_global->variable_7097) return;
-	if (g_global->mouseHiddenDepth == 0 || --g_global->mouseHiddenDepth != 0) return;
+	if (g_var_7097 == 1) return;
+	if (g_mouseHiddenDepth == 0 || --g_mouseHiddenDepth != 0) return;
 
-	left = g_mouseX - g_global->mouseSpriteHotspotX;
-	top  = g_mouseY - g_global->mouseSpriteHotspotY;
+	left = g_mouseX - g_mouseSpriteHotspotX;
+	top  = g_mouseY - g_mouseSpriteHotspotY;
 
 	s_mouseSpriteLeft = (left < 0) ? 0 : (left >> 3);
 	s_mouseSpriteTop = (top < 0) ? 0 : top;
 
-	s_mouseSpriteWidth = g_global->mouseWidth;
-	if ((left >> 3) + g_global->mouseWidth >= SCREEN_WIDTH / 8) s_mouseSpriteWidth -= (left >> 3) + g_global->mouseWidth - SCREEN_WIDTH / 8;
+	s_mouseSpriteWidth = g_mouseWidth;
+	if ((left >> 3) + g_mouseWidth >= SCREEN_WIDTH / 8) s_mouseSpriteWidth -= (left >> 3) + g_mouseWidth - SCREEN_WIDTH / 8;
 
-	s_mouseSpriteHeight = g_global->mouseHeight;
-	if (top + g_global->mouseHeight >= SCREEN_HEIGHT) s_mouseSpriteHeight -= top + g_global->mouseHeight - SCREEN_HEIGHT;
+	s_mouseSpriteHeight = g_mouseHeight;
+	if (top + g_mouseHeight >= SCREEN_HEIGHT) s_mouseSpriteHeight -= top + g_mouseHeight - SCREEN_HEIGHT;
 
 	if (g_mouseSpriteBuffer != NULL) {
 		GFX_CopyToBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
@@ -3832,9 +3837,9 @@ void GUI_Mouse_Show()
  */
 void GUI_Mouse_Hide()
 {
-	if (g_global->variable_7097) return;
+	if (g_var_7097 == 1) return;
 
-	if (g_global->mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
+	if (g_mouseHiddenDepth == 0 && s_mouseSpriteWidth != 0) {
 		if (g_mouseSpriteBuffer != NULL) {
 			GFX_CopyFromBuffer(s_mouseSpriteLeft, s_mouseSpriteTop, s_mouseSpriteWidth, s_mouseSpriteHeight, g_mouseSpriteBuffer);
 		}
@@ -3842,7 +3847,7 @@ void GUI_Mouse_Hide()
 		s_mouseSpriteWidth = 0;
 	}
 
-	g_global->mouseHiddenDepth++;
+	g_mouseHiddenDepth++;
 }
 
 /**
@@ -3854,7 +3859,7 @@ void GUI_Mouse_Hide_Safe()
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
-	if (g_global->variable_7097) {
+	if (g_var_7097 == 1) {
 		g_mouseLock--;
 		return;
 	}
@@ -3873,7 +3878,7 @@ void GUI_Mouse_Show_Safe()
 	while (g_mouseLock != 0) sleep(0);
 	g_mouseLock++;
 
-	if (g_global->variable_7097) {
+	if (g_var_7097 == 1) {
 		g_mouseLock--;
 		return;
 	}
@@ -3919,16 +3924,16 @@ void GUI_Mouse_Hide_InRegion(uint16 left, uint16 top, uint16 right, uint16 botto
 	int minx, miny;
 	int maxx, maxy;
 
-	minx = left - ((g_global->mouseWidth - 1) << 3) + g_global->mouseSpriteHotspotX;
+	minx = left - ((g_mouseWidth - 1) << 3) + g_mouseSpriteHotspotX;
 	if (minx < 0) minx = 0;
 
-	miny = top - g_global->mouseHeight + g_global->mouseSpriteHotspotY;
+	miny = top - g_mouseHeight + g_mouseSpriteHotspotY;
 	if (miny < 0) miny = 0;
 
-	maxx = right + g_global->mouseSpriteHotspotX;
+	maxx = right + g_mouseSpriteHotspotX;
 	if (maxx > SCREEN_WIDTH - 1) maxx = SCREEN_WIDTH - 1;
 
-	maxy = bottom + g_global->mouseSpriteHotspotY;
+	maxy = bottom + g_mouseSpriteHotspotY;
 	if (maxy > SCREEN_HEIGHT - 1) maxy = SCREEN_HEIGHT - 1;
 
 	while (g_mouseLock != 0) sleep(0);

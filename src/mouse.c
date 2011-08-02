@@ -41,6 +41,19 @@ uint16 g_regionMinY;         /*!< Region - minimum value for Y position. */
 uint16 g_regionMaxX;         /*!< Region - maximum value for X position. */
 uint16 g_regionMaxY;         /*!< Region - maximum value for Y position. */
 
+uint8 g_var_7097;
+uint8 g_mouseHiddenDepth;
+uint8 g_mouseFileID;
+bool g_var_701B;
+
+uint16 g_var_7013;
+uint16 g_var_7015;
+uint16 g_var_7017;
+uint16 g_var_7019;
+
+uint8 g_mouseMode;
+uint16 g_inputFlags;
+
 
 /**
  * Initialize the mouse driver.
@@ -49,12 +62,12 @@ void Mouse_Init()
 {
 	g_mouseX = SCREEN_WIDTH / 2;
 	g_mouseY = SCREEN_HEIGHT / 2;
-	g_global->mouseHiddenDepth = 1;
+	g_mouseHiddenDepth = 1;
 	g_regionFlags = 0;
 	g_mouseRegionRight = SCREEN_WIDTH - 1;
 	g_mouseRegionBottom = SCREEN_HEIGHT - 1;
 
-	g_global->variable_7097 = true;
+	g_var_7097 = true;
 
 	Video_Mouse_SetPosition(g_mouseX * 2, g_mouseY * 2);
 }
@@ -66,12 +79,12 @@ void Mouse_EventHandler(uint16 mousePosX, uint16 mousePosY, bool mouseButtonLeft
 {
 	uint8 newButtonState = (mouseButtonLeft ? 0x1 : 0x0) | (mouseButtonRight ? 0x2 : 0x0);
 
-	if (g_global->variable_7097 == 0 && (g_global->mouseMode != INPUT_MOUSE_MODE_RECORD || g_inputIgnore == 0)) {
-		if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
+	if (g_var_7097 == 0 && (g_mouseMode != INPUT_MOUSE_MODE_RECORD || g_inputIgnore == 0)) {
+		if (g_mouseMode == INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & 0x1000) == 0) {
 			Input_HandleInput(Mouse_CheckButtons(newButtonState));
 		}
 
-		if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0) {
+		if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseLock == 0) {
 			Mouse_HandleMovement(newButtonState, mousePosX, mousePosY);
 		}
 	}
@@ -143,17 +156,17 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 		default: break;
 
 		case INPUT_MOUSE_MODE_NORMAL:
-			g_global->mouseMode = mouseMode;
-			if (g_global->mouseFileID != 0xFF) {
+			g_mouseMode = mouseMode;
+			if (g_mouseFileID != 0xFF) {
 				Input_Flags_ClearBits(INPUT_FLAG_KEY_RELEASE);
-				File_Close(g_global->mouseFileID);
+				File_Close(g_mouseFileID);
 			}
-			g_global->mouseFileID = 0xFF;
-			g_global->variable_701B = 1;
+			g_mouseFileID = 0xFF;
+			g_var_701B = true;
 			break;
 
 		case INPUT_MOUSE_MODE_RECORD:
-			if (g_global->mouseFileID != 0xFF) break;
+			if (g_mouseFileID != 0xFF) break;
 
 			File_Delete(filename);
 			File_Create(filename);
@@ -161,9 +174,9 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			srand(0x1234);
 			Tools_Random_Seed(0x21433412);
 
-			g_global->mouseFileID = File_Open(filename, 3);
+			g_mouseFileID = File_Open(filename, 3);
 
-			g_global->mouseMode = mouseMode;
+			g_mouseMode = mouseMode;
 
 			Input_Flags_SetBits(INPUT_FLAG_KEY_RELEASE);
 
@@ -171,40 +184,40 @@ void Mouse_SetMouseMode(uint8 mouseMode, const char *filename)
 			break;
 
 		case INPUT_MOUSE_MODE_PLAY:
-			if (g_global->mouseFileID == 0xFF) {
-				g_global->mouseFileID = File_Open(filename, 1);
+			if (g_mouseFileID == 0xFF) {
+				g_mouseFileID = File_Open(filename, 1);
 
 				srand(0x1234);
 				Tools_Random_Seed(0x21433412);
 			}
 
-			g_global->variable_701B = 1;
+			g_var_701B = true;
 
-			File_Read(g_global->mouseFileID, &g_global->variable_7013, 2);
-			if (File_Read(g_global->mouseFileID, &g_global->variable_7015, 2) != 2) break;;
+			File_Read(g_mouseFileID, &g_var_7013, 2);
+			if (File_Read(g_mouseFileID, &g_var_7015, 2) != 2) break;;
 
-			if ((g_global->variable_7013 >= 0x41 && g_global->variable_7013 <= 0x44) || g_global->variable_7013 == 0x2D) {
-				File_Read(g_global->mouseFileID, &g_global->variable_7017, 2);
-				if (File_Read(g_global->mouseFileID, &g_global->variable_7019, 2) == 2) {
-					g_mouseX = g_global->variable_7017;
-					g_mouseY = g_global->variable_7019;
+			if ((g_var_7013 >= 0x41 && g_var_7013 <= 0x44) || g_var_7013 == 0x2D) {
+				File_Read(g_mouseFileID, &g_var_7017, 2);
+				if (File_Read(g_mouseFileID, &g_var_7019, 2) == 2) {
+					g_mouseX = g_var_7017;
+					g_mouseY = g_var_7019;
 					g_prevButtonState = 0;
 
 					GUI_Mouse_Hide_Safe();
 					GUI_Mouse_Show_Safe();
 
-					g_global->variable_701B = 0;
+					g_var_701B = false;
 					break;
 				}
-				g_global->variable_701B = 1;
+				g_var_701B = true;
 				break;
 			}
-			g_global->variable_701B = 0;
+			g_var_701B = false;
 			break;
 	}
 
 	g_timerInput = 0;
-	g_global->mouseMode = mouseMode;
+	g_mouseMode = mouseMode;
 }
 
 /**
@@ -250,7 +263,7 @@ uint16 Mouse_CheckButtons(uint16 newButtonState)
  */
 static void Mouse_CheckMovement(uint16 mouseX, uint16 mouseY)
 {
-	if (g_global->mouseHiddenDepth == 0 && (g_mousePrevX != mouseX || g_mousePrevY != mouseY)) {
+	if (g_mouseHiddenDepth == 0 && (g_mousePrevX != mouseX || g_mousePrevY != mouseY)) {
 
 		if ((g_regionFlags & 0xC000) != 0xC000) {
 			GUI_Mouse_Hide();
@@ -296,7 +309,7 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 
 	g_mouseX = mouseX;
 	g_mouseY = mouseY;
-	if (g_global->mouseMode != INPUT_MOUSE_MODE_PLAY && g_global->mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_global->inputFlags & 0x1000) == 0) {
+	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & 0x1000) == 0) {
 		Input_HandleInput(Mouse_CheckButtons(newButtonState));
 	}
 

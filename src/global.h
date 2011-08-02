@@ -1142,15 +1142,15 @@ typedef struct GlobalData {
 	/* 6F1E()    */ PACK uint8   unknown_6F1E[0x00EC];
 	/* 700A(2)   */ PACK uint16  removed_700A;              /*!< REMOVED - 1 if sounds are enabled in game options, 0 otherwise. */
 	/* 700C(2)   */ PACK uint16  removed_700C;              /*!< REMOVED - 1 if music is enabled in game options, 0 otherwise. */
-	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
-	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
-	/* 7011(1)   */ PACK uint8  mouseFileID;                /*!< ?? */
+	/* 700E(2)   */ PACK uint16  removed_700E;              /*!< REMOVED - Flags for input. See InputFlagsEnum. */
+	/* 7010(1)   */ PACK uint8   removed_7010;              /*!< REMOVED - Mouse mode. See InputMouseMode. */
+	/* 7011(1)   */ PACK uint8   removed_7011;              /*!< REMOVED - ?? */
 	/* 7012(1)   */ PACK uint8   removed_7012;              /*!< REMOVED - ?? */
-	/* 7013(2)   */ PACK uint16 variable_7013;              /*!< ?? */
-	/* 7015(2)   */ PACK uint16 variable_7015;              /*!< ?? */
-	/* 7017(2)   */ PACK uint16 variable_7017;              /*!< ?? */
-	/* 7019(2)   */ PACK uint16 variable_7019;              /*!< ?? */
-	/* 701B(2)   */ PACK uint16 variable_701B;              /*!< ?? */
+	/* 7013(2)   */ PACK uint16  removed_7013;              /*!< REMOVED - ?? */
+	/* 7015(2)   */ PACK uint16  removed_7015;              /*!< REMOVED - ?? */
+	/* 7017(2)   */ PACK uint16  removed_7017;              /*!< REMOVED - ?? */
+	/* 7019(2)   */ PACK uint16  removed_7019;              /*!< REMOVED - ?? */
+	/* 701B(2)   */ PACK uint16  removed_701B;              /*!< REMOVED - ?? */
 	/* 701D()    */ PACK uint8   unknown_701D[0x003D];
 	/* 705A(2)   */ PACK uint16  removed_705A;              /*!< REMOVED - Amount of bytes allocated for mouse sprite buffer. */
 	/* 705C(2)   */ PACK uint16  removed_705C;              /*!< REMOVED - Amount of bytes allocated for mouse sprite. */
@@ -1160,15 +1160,15 @@ typedef struct GlobalData {
 	/* 7064(2)   */ PACK uint16  removed_7064;              /*!< REMOVED - X position of last mouse click. */
 	/* 7066(2)   */ PACK uint16  removed_7066;              /*!< REMOVED - Y position of last mouse click. */
 	/* 7068(2)   */ PACK uint16  removed_7068;              /*!< REMOVED - If non-zero, the X-position given by mouse is twice the real value. */
-	/* 706A(2)   */ PACK uint16 mouseHiddenDepth;           /*!< If zero, mouse is drawn. Otherwise, it is not (also no movement is registered). */
+	/* 706A(2)   */ PACK uint16  removed_706A;              /*!< REMOVED - If zero, mouse is drawn. Otherwise, it is not (also no movement is registered). */
 	/* 706C(2)   */ PACK uint16  removed_706C;              /*!< REMOVED - Region mouse can be in - left position. */
 	/* 706E(2)   */ PACK uint16  removed_706E;              /*!< REMOVED - Region mouse can be in - right position. */
 	/* 7070(2)   */ PACK uint16  removed_7070;              /*!< REMOVED - Region mouse can be in - top position. */
 	/* 7072(2)   */ PACK uint16  removed_7072;              /*!< REMOVED - Region mouse can be in - bottom position. */
-	/* 7074(2)   */ PACK uint16 mouseHeight;                /*!< The height of the mouse cursor. */
-	/* 7076(2)   */ PACK uint16 mouseWidth;                 /*!< The width of the mouse cursor. */
-	/* 7078(2)   */ PACK uint16 mouseSpriteHotspotX;        /*!< The X position of the hotspot of the mouse cursor (where you really click). */
-	/* 707A(2)   */ PACK uint16 mouseSpriteHotspotY;        /*!< The T position of the hotspot of the mouse cursor (where you really click). */
+	/* 7074(2)   */ PACK uint16  removed_7074;              /*!< REMOVED - The height of the mouse cursor. */
+	/* 7076(2)   */ PACK uint16  removed_7076;              /*!< REMOVED - The width of the mouse cursor. */
+	/* 7078(2)   */ PACK uint16  removed_7078;              /*!< REMOVED - The X position of the hotspot of the mouse cursor (where you really click). */
+	/* 707A(2)   */ PACK uint16  removed_707A;              /*!< REMOVED - The Y position of the hotspot of the mouse cursor (where you really click). */
 	/* 707C(2)   */ PACK uint16  removed_707C;              /*!< REMOVED - Previous X position. */
 	/* 707E(2)   */ PACK uint16  removed_707E;              /*!< REMOVED - Previous Y position. */
 	/* 7080(2)   */ PACK uint16  removed_7080;              /*!< REMOVED - Flags: 0x4000 - Mouse still inside region, 0x8000 - Region check. 0x00FF - Countdown to showing. */
@@ -1181,7 +1181,7 @@ typedef struct GlobalData {
 	/* 7092(2)   */ PACK uint16  removed_7092;              /*!< REMOVED - Parameter 1 for proc at 66B4. */
 	/* 7094(2)   */ PACK uint16  removed_7094;              /*!< REMOVED - Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8   removed_7096;              /*!< REMOVED - If non-zero, the mouse callback is installed. */
-	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
+	/* 7097(1)   */ PACK uint8   removed_7097;              /*!< REMOVED - ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8   removed_7098;              /*!< REMOVED - ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8   removed_7099;              /*!< REMOVED - Previous mouse button state. */
 	/* 709A(2)   */ PACK uint16  removed_709A;              /*!< REMOVED - Left of the mouse sprite region (which is copied in the buffer). */
@@ -1199,7 +1199,7 @@ typedef struct GlobalData {
 	/* 76B8(2)   */ PACK uint16  removed_76B8;              /*!< REMOVED - Which timers are active. 1 = GUI, 2 = Game. */
 	/* 76BA(2)   */ PACK uint16  removed_76BA;              /*!< REMOVED - ?? (never used) */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
-	/* 76BD(256) */ PACK uint8   removed_76BD[256];         /*!< Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. (never used) */
+	/* 76BD(256) */ PACK uint8   removed_76BD[256];         /*!< REMOVED - Flags: 0x01 - isspace, 0x02 - isdigit, 0x04 - isupper, 0x08 - islower, 0x10 - isxdigit && !isdigit, 0x20 - iscntrl, 0x40 - ispunct. (never used) */
 	/* 77BD()    */ PACK uint8   unknown_77BD[0x0001];
 	/* 77BE(4)   */ PACK csip32  removed_77BE;              /*!< REMOVED - ?? CS:IP of a function called in emu_Terminate(). (never used) */
 	/* 77C2(4)   */ PACK csip32  removed_77C2;              /*!< REMOVED - ?? CS:IP of a function called in emu_Terminate(). (never used) */
