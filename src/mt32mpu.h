@@ -8,7 +8,7 @@
 struct DriverInfo;
 
 extern void MPU_Interrupt();
-extern uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip);
+extern uint16 MPU_SetData(csip32 file, uint16 index, void *data);
 extern void MPU_Play(uint16 index);
 extern void MPU_Stop(uint16 index);
 extern uint16 MPU_IsPlaying(uint16 index);

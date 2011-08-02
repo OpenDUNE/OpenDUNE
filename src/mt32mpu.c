@@ -45,21 +45,28 @@ typedef struct MSData {
 	csip32 variable_0050[4];                                /*!< ?? */
 	uint16 variable_0060[4];                                /*!< ?? */
 	uint8  chanMaps[16];                                    /*!< ?? Channel mapping. */
-	int8   variable_00B8[16];                               /*!< ?? */
-	int8   variable_00C8[16];                               /*!< ?? */
-	int8   variable_00D8[16];                               /*!< ?? */
-	int8   variable_00E8[16];                               /*!< ?? */
-	int8   sustain[16];                                     /*!< ?? */
-	int8   variable_0108[16];                               /*!< ?? */
-	int8   variable_0118[16];                               /*!< ?? */
-	int8   variable_0128[16];                               /*!< ?? */
-	int8   variable_0138[16];                               /*!< ?? */
+	int8   variable_00B8[9][16];                            /*!< ?? */
 	uint8  noteOnChans[32];                                 /*!< ?? */
 	uint8  noteOnNotes[32];                                 /*!< ?? */
 	uint32 noteOnDuration[32];                              /*!< ?? */
 } MSData;
 
 uint16 g_mt32mpu_cs;
+
+static const uint8 s_var_11D7[9] = { 7, 1, 10, 11, 64, 114, 110, 111, 112 };
+static const uint8 s_var_11E0[9] = { 127, 0, 64, 127, 0, 0, 0, 0, 0 };
+static const uint8 s_var_11E9[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
+
+static uint8 s_var_11F2[256];
+
+static MSData *s_mpu_msdata[8];
+static uint16 s_mpu_msdataSize;
+static uint16 s_mpu_msdataCurrent;
+
+static uint8 s_var_131E[12][16];
+static uint8 s_var_13DE[16];
+static uint8 s_var_13EE[16];
+static bool s_mpu_initialized;
 
 static void MPU_Send(uint8 status, uint8 data1, uint8 data2)
 {
@@ -73,14 +80,14 @@ static void MPU_ApplyVolume(MSData *data)
 	for (i = 0; i < 16; i++) {
 		uint8 volume;
 
-		volume = data->variable_00B8[i];
+		volume = data->variable_00B8[0][i];
 		if (volume == 0xFF) continue;
 
 		volume = min((volume * data->variable_0024) / 100, 127);
 
-		emu_get_memory8(g_mt32mpu_cs, i, 0x131E) = volume;
+		s_var_131E[0][i] = volume;
 
-		if ((emu_get_memory8(g_mt32mpu_cs, i, 0x13EE) & 0x80) != 0) continue;
+		if ((s_var_13EE[i] & 0x80) != 0) continue;
 
 		MPU_Send(0xB0 | data->chanMaps[i], 7, volume);
 	}
@@ -111,7 +118,7 @@ static uint16 MPU_NoteOn(MSData *data)
 
 	len = sound - emu_get_memorycsip(data->sound);
 
-	if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) != 0) return len;
+	if ((s_var_13EE[chan] & 0x80) != 0) return len;
 
 	for (i = 0; i < 32; i++) {
 		if (data->noteOnChans[i] == 0xFF) {
@@ -126,7 +133,7 @@ static uint16 MPU_NoteOn(MSData *data)
 	data->noteOnDuration[i] = duration;
 
 	chan = data->chanMaps[chan];
-	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)++;
+	s_var_13DE[chan]++;
 
 	/* Note On */
 	MPU_Send(0x90 | chan, note, velocity);
@@ -139,17 +146,15 @@ static void MPU_FlushChannel(uint8 channel)
 	uint16 count;
 	uint16 index = 0;
 
-	count = emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312);
+	count = s_mpu_msdataSize;
 
 	while (count-- != 0) {
-		csip32 data_csip;
 		MSData *data;
 		uint8 i;
 
-		while (emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) == 0x0) index += 4;
+		while (s_mpu_msdata[index] == NULL) index++;
 
-		data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
-		data = (MSData *)emu_get_memorycsip(data_csip);
+		data = s_mpu_msdata[index];
 
 		if (data->noteOnCount == 0) continue;
 
@@ -163,7 +168,7 @@ static void MPU_FlushChannel(uint8 channel)
 
 			note = data->noteOnNotes[i];
 			chan = data->chanMaps[chan];
-			emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)--;
+			s_var_13DE[chan]--;
 
 			/* Note Off */
 			MPU_Send(0x80 | chan, note, 0);
@@ -182,8 +187,8 @@ static uint8 MPU_281A()
 
 	while (true) {
 		for (i = 0; i < 16; i++) {
-			if ((emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13EE) & flag) == 0 && emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13DE) < min) {
-				min = emu_get_memory8(g_mt32mpu_cs, 15 - i, 0x13DE);
+			if ((s_var_13EE[15 - i] & flag) == 0 && s_var_13DE[15 - i] < min) {
+				min = s_var_13DE[15 - i];
 				chan = 15 - i;
 			}
 		}
@@ -198,8 +203,8 @@ static uint8 MPU_281A()
 
 	MPU_FlushChannel(chan);
 
-	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE) = 0x0;
-	emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) |= 0x80;
+	s_var_13DE[chan] = 0;
+	s_var_13EE[chan] |= 0x80;
 
 	return chan;
 }
@@ -211,10 +216,10 @@ static void MPU_289D(uint8 chan)
 	uint8 pitchWheelLSB;
 	uint8 pitchWheelMSB;
 
-	if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) return;
+	if ((s_var_13EE[chan] & 0x80) == 0) return;
 
-	emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) &= 0x7F;
-	emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE) = 0x0;
+	s_var_13EE[chan] &= 0x7F;
+	s_var_13DE[chan] = 0x0;
 
 	/* Sustain Off */
 	MPU_Send(0xB0 | chan, 64, 0);
@@ -223,17 +228,17 @@ static void MPU_289D(uint8 chan)
 	MPU_Send(0xB0 | chan, 123, 0);
 
 	for (i = 0; i < 9; i++) {
-		uint8 value   = emu_get_memory8(g_mt32mpu_cs, chan + i * 16, 0x131E);
-		uint8 command = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
+		uint8 value   = s_var_131E[i][chan];
+		uint8 command = s_var_11D7[i];
 
 		if (value != 0xFF) MPU_Send(0xB0 | chan, command, value);
 	}
 
-	program = emu_get_memory8(g_mt32mpu_cs, chan, 0x13AE);
+	program = s_var_131E[9][chan];
 	if (program != 0xFF) MPU_Send(0xC0 | chan, program, 0);
 
-	pitchWheelLSB = emu_get_memory8(g_mt32mpu_cs, chan, 0x13BE);
-	pitchWheelMSB = emu_get_memory8(g_mt32mpu_cs, chan, 0x13CE);
+	pitchWheelLSB = s_var_131E[10][chan];
+	pitchWheelMSB = s_var_131E[11][chan];
 	if (pitchWheelLSB != 0xFF && pitchWheelMSB != 0xFF) MPU_Send(0xE0 | chan, pitchWheelLSB, pitchWheelMSB);
 }
 
@@ -241,22 +246,21 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 {
 	uint8 index;
 
-	index = emu_get_memory8(g_mt32mpu_cs, data1, 0x11F2);
+	index = s_var_11F2[data1];
 	if (index != 0xFF) {
-		index += chan;
-		emu_get_memory8(g_mt32mpu_cs, index, 0x131E) = data2;
-		data->variable_00B8[index] = data2;
+		s_var_131E[index][chan] = data2;
+		data->variable_00B8[index][chan] = data2;
 	}
 
 	switch (data1) {
 		case 7: /* Channel Volume */
 			if (data->variable_0024 == 100) break;
 			data2 = min(data->variable_0024 * data2 / 100, 127);
-			emu_get_memory8(g_mt32mpu_cs, chan, 0x131E) = data2;
+			s_var_131E[0][chan] = data2;
 			/* FALL-THROUGH */
 
 		default:
-			if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
+			if ((s_var_13EE[chan] & 0x80) == 0) MPU_Send(0xB0 | data->chanMaps[chan], data1, data2);
 			break;
 
 
@@ -290,7 +294,7 @@ static void MPU_Control(MSData *data, uint8 chan, uint8 data1, uint8 data2)
 		} break;
 
 		case 111:
-			if (data2 > 64) emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) |= 0x40;
+			if (data2 > 64) s_var_13EE[chan] |= 0x40;
 			break;
 
 		case 110:
@@ -317,21 +321,21 @@ static void MPU_16B7(MSData *data)
 	uint8 chan;
 
 	for (chan = 0; chan < 16; chan++) {
-		if (data->sustain[chan] >= 64) {
-			emu_get_memory8(g_mt32mpu_cs, chan, 0x135E) = 0;
+		if (data->variable_00B8[4][chan] >= 64) {
+			s_var_131E[4][chan] = 0;
 			/* Sustain Off */
 			MPU_Send(0xB0 | chan, 64, 0);
 		}
 
-		if (data->variable_0118[chan] >= 64) {
+		if (data->variable_00B8[6][chan] >= 64) {
 			MPU_FlushChannel(chan);
 			MPU_289D(data->chanMaps[chan]);
 			data->chanMaps[chan] = chan;
 		}
 
-		if (data->variable_0128[chan] >= 64) emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) &= 0xBF;
+		if (data->variable_00B8[7][chan] >= 64) s_var_13EE[chan] &= 0xBF;
 
-		if (data->variable_0138[chan] >= 64) MPU_Send(0xB0 | chan, 112, 0);
+		if (data->variable_00B8[8][chan] >= 64) MPU_Send(0xB0 | chan, 112, 0);
 	}
 }
 
@@ -358,7 +362,7 @@ static uint16 MPU_1B48(MSData *data)
 			MPU_16B7(data);
 
 			data->playing = 2;
-			if (data->delayedClear) MPU_ClearData(emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314));
+			if (data->delayedClear) MPU_ClearData(s_mpu_msdataCurrent);
 			break;
 
 		case 0x58: {
@@ -395,20 +399,18 @@ void MPU_Interrupt()
 
 	locked = true;
 
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314) = -4;
-	count = emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312);
+	s_mpu_msdataCurrent = -1;
+	count = s_mpu_msdataSize;
 	while (count-- != 0) {
 		uint16 index;
-		csip32 data_csip;
 		MSData *data;
 
 		do {
-			emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314) += 4;
-			index = emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1314);
-		} while (emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) == 0x0);
+			s_mpu_msdataCurrent++;
+			index = s_mpu_msdataCurrent;
+		} while (s_mpu_msdata[index] == NULL);
 
-		data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
-		data = (MSData *)emu_get_memorycsip(data_csip);
+		data = s_mpu_msdata[index];
 
 		if (data->playing != 1) continue;
 
@@ -447,7 +449,7 @@ void MPU_Interrupt()
 				chan = data->chanMaps[data->noteOnChans[index]];
 				data->noteOnChans[index] = 0xFF;
 				note = data->noteOnNotes[index];
-				emu_get_memory8(g_mt32mpu_cs, chan, 0x13DE)--;
+				s_var_13DE[chan]--;
 
 				/* Note Off */
 				MPU_Send(0x80 | chan, note, 0);
@@ -486,20 +488,20 @@ void MPU_Interrupt()
 						assert(chan == 0xF);
 						nb = MPU_1B48(data);
 					} else if (status >= 0xE0) {
-						emu_get_memory8(g_mt32mpu_cs, chan, 0x13BE) = data1;
-						emu_get_memory8(g_mt32mpu_cs, chan, 0x13CE) = data2;
-						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
+						s_var_131E[10][chan] = data1;
+						s_var_131E[11][chan] = data2;
+						if ((s_var_13EE[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
 					} else if (status >= 0xD0) {
-						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
+						if ((s_var_13EE[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
 					} else if (status >= 0xC0) {
-						emu_get_memory8(g_mt32mpu_cs, chan, 0x13AE) = data1;
-						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
+						s_var_131E[9][chan] = data1;
+						if ((s_var_13EE[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x2;
@@ -507,7 +509,7 @@ void MPU_Interrupt()
 						MPU_Control(data, chan, data1, data2);
 						nb = 0x3;
 					} else if (status >= 0xA0) {
-						if ((emu_get_memory8(g_mt32mpu_cs, chan, 0x13EE) & 0x80) == 0) {;
+						if ((s_var_13EE[chan] & 0x80) == 0) {
 							MPU_Send(status | data->chanMaps[chan], data1, data2);
 						}
 						nb = 0x3;
@@ -627,9 +629,8 @@ static void MPU_InitData(MSData *data)
 		data->chanMaps[i] = i;
 	}
 
-	for (i = 0; i < 144; i++) data->variable_00B8[i] = 0xFF;
-
-	for (i = 0; i < 32; i++) data->noteOnChans[i] = 0xFF;
+	memset(data->variable_00B8, 0xFF, sizeof(data->variable_00B8));
+	memset(data->noteOnChans, 0xFF, sizeof(data->noteOnChans));
 
 	data->delay = 0;
 	data->noteOnCount = 0;
@@ -646,14 +647,14 @@ static void MPU_InitData(MSData *data)
 	data->variable_004C = 0x7A1200;
 }
 
-uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip)
+uint16 MPU_SetData(csip32 file, uint16 index, void *msdata)
 {
+	MSData *data = msdata;
 	uint16 i;
 	uint16 size;
-	MSData *data;
 
 	for (i = 0; i < 8; i++) {
-		if (emu_get_memory16(g_mt32mpu_cs, i * 4, 0x12F4) == 0) break;
+		if (s_mpu_msdata[i] == NULL) break;
 	}
 	if (i == 8) return 0xFFFF;
 
@@ -662,8 +663,7 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip)
 	if (file.csip == 0) return 0xFFFF;
 
 	size = 0xC;
-	emu_get_csip32(g_mt32mpu_cs, i * 4, 0x12F2) = data_csip;
-	data = (MSData*)emu_get_memorycsip(data_csip);
+	s_mpu_msdata[i] = data;
 	data->TIMB.csip = 0;
 	data->RBRN.csip = 0;
 	data->EVNT.csip = 0;
@@ -690,11 +690,11 @@ uint16 MPU_SetData(csip32 file, uint16 index, csip32 data_csip)
 	data->playing = 0;
 	data->delayedClear = false;
 
-	emu_get_memory16(g_mt32mpu_cs, 0x0, 0x1312)++;
+	s_mpu_msdataSize++;
 
 	MPU_InitData(data);
 
-	return i * 4;
+	return i;
 }
 
 void MPU_Play(uint16 index)
@@ -703,7 +703,7 @@ void MPU_Play(uint16 index)
 
 	if (index == 0xFFFF) return;
 
-	data = (MSData *)emu_get_memorycsip(emu_get_csip32(g_mt32mpu_cs, index, 0x12F2));
+	data = s_mpu_msdata[index];
 
 	if (data->playing == 1) MPU_Stop(index);
 
@@ -742,15 +742,11 @@ void MPU_StopAllNotes(MSData *data)
 void MPU_Stop(uint16 index)
 {
 	MSData *data;
-	csip32 data_csip;
 
 	if (index == 0xFFFF) return;
+	if (s_mpu_msdata[index] == NULL) return;
 
-	data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
-
-	if (data_csip.csip == 0) return;
-
-	data = (MSData *)emu_get_memorycsip(data_csip);
+	data = s_mpu_msdata[index];
 
 	if (data->playing != 1) return;
 
@@ -766,7 +762,7 @@ uint16 MPU_IsPlaying(uint16 index)
 
 	if (index == 0xFFFF) return 0xFFFF;
 
-	data = (MSData *)emu_get_memorycsip(emu_get_csip32(g_mt32mpu_cs, index, 0x12F2));
+	data = s_mpu_msdata[index];
 
 	return data->playing;
 }
@@ -783,15 +779,19 @@ void MPU_Init()
 
 	mpu_init();
 
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312) = 0;
-	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x131E), 0xFF, 192);
-	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x11F2), 0xFF, 256);
-	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x12F2), 0x00, 32);
-	memset(&emu_get_memory8(g_mt32mpu_cs, 0x00, 0x13EE), 0x00, 16);
+	s_mpu_msdataSize = 0;
+	s_mpu_msdataCurrent = 0;
+	memset(s_mpu_msdata, 0, sizeof(s_mpu_msdata));
+
+	memset(s_var_11F2, 0xFF, sizeof(s_var_11F2));
+	memset(s_var_131E, 0xFF, sizeof(s_var_131E));
+
+	memset(s_var_13DE, 0, sizeof(s_var_13DE));
+	memset(s_var_13EE, 0, sizeof(s_var_13EE));
 
 	for (i = 0; i < 9; i++) {
-		uint16 index = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
-		emu_get_memory8(g_mt32mpu_cs, index, 0x11F2) = i * 16;
+		uint16 index = s_var_11D7[i];
+		s_var_11F2[index] = i;
 	}
 
 	mpu_reset();
@@ -799,18 +799,14 @@ void MPU_Init()
 	for (i = 0; i < 9; i++) {
 		for (j = 0; j < 9; j++) {
 			uint8 index;
-			uint16 index2;
 			uint8 value;
 
-			value = emu_get_memory8(g_mt32mpu_cs, i, 0x11E0);
+			value = s_var_11E0[i];
 
 			if (value == 0xFF) break;
 
-			index  = emu_get_memory8(g_mt32mpu_cs, i, 0x11D7);
-			index2 = emu_get_memory8(g_mt32mpu_cs, index, 0x11F2);
-			index2 += j + 1;
-
-			emu_get_memory8(g_mt32mpu_cs, index2, 0x131E) = value;
+			index = s_var_11D7[i];
+			s_var_131E[s_var_11F2[index]][j + 1] = value;
 
 			MPU_Send(0xB0 | (j + 1), index, value);
 
@@ -820,38 +816,38 @@ void MPU_Init()
 	for (j = 0; j < 9; j++) {
 		uint8 value;
 
-		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13BE) = 0x0;
-		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13CE) = 0x40;
+		s_var_131E[10][j + 1] = 0;
+		s_var_131E[11][j + 1] = 0x40;
 
 		MPU_Send(0xE0 | (j + 1), 0, 64);
 
-		value = emu_get_memory8(g_mt32mpu_cs, j + 1, 0x11E8);
+		value = s_var_11E9[j];
 
 		if (value == 0xFF) continue;
 
-		emu_get_memory8(g_mt32mpu_cs, j + 1, 0x13AE) = value;
+		s_var_131E[9][j + 1] = value;
 
 		MPU_Send(0xC0 | (j + 1), 0, value);
 	}
 
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0x1;
+	s_mpu_initialized = true;
 }
 
 void MPU_Uninit()
 {
 	uint16 i;
 
-	if (emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) == 0) return;
+	if (!s_mpu_initialized) return;
 
-	for (i = 0; i < emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312); i++) {
-		if (emu_get_memory16(g_mt32mpu_cs, i * 4, 0x12F4) == 0) continue;
-		MPU_Stop(i * 4);
-		MPU_ClearData(i * 4);
+	for (i = 0; i < s_mpu_msdataSize; i++) {
+		if (s_mpu_msdata[i] == NULL) continue;
+		MPU_Stop(i);
+		MPU_ClearData(i);
 	}
 
 	mpu_reset();
 
-	emu_get_memory16(g_mt32mpu_cs, 0x00, 0x13FE) = 0;
+	s_mpu_initialized = false;
 
 	mpu_uninit();
 }
@@ -859,20 +855,17 @@ void MPU_Uninit()
 void MPU_ClearData(uint16 index)
 {
 	MSData *data;
-	csip32 data_csip;
 
 	if (index == 0xFFFF) return;
+	if (s_mpu_msdata[index] == NULL) return;
 
-	if (emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) == 0) return;
-
-	data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
-	data = (MSData *)emu_get_memorycsip(data_csip);
+	data = s_mpu_msdata[index];
 
 	if (data->playing == 1) {
 		data->delayedClear = true;
 	} else {
-		emu_get_memory16(g_mt32mpu_cs, index, 0x12F4) = 0;
-		emu_get_memory16(g_mt32mpu_cs, 0x00, 0x1312)--;
+		s_mpu_msdata[index] = NULL;
+		s_mpu_msdataSize--;
 	}
 }
 
@@ -887,13 +880,11 @@ DriverInfo *MPU_GetInfo()
 void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)
 {
 	MSData *data;
-	csip32 data_csip;
 	uint16 diff;
 
 	if (index == 0xFFFF) return;
 
-	data_csip = emu_get_csip32(g_mt32mpu_cs, index, 0x12F2);
-	data = (MSData *)emu_get_memorycsip(data_csip);
+	data = s_mpu_msdata[index];
 
 	data->variable_0026 = volume;
 
