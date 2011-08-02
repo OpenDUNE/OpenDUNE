@@ -2018,6 +2018,9 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
  */
 void GUI_DrawCredits(uint8 houseID, uint16 mode)
 {
+	static uint16 creditsAnimation = 0;           /* How many credits are shown in current animation of credits. */
+	static int16  creditsAnimationOffset = 0;     /* Offset of the credits for the animation of credits. */
+
 	uint16 oldScreenID;
 	uint16 oldValue_07AE_0000;
 	House *h;
@@ -2036,49 +2039,49 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 
 	if (mode == 2) {
 		g_playerCredits = h->credits;
-		g_global->creditsAnimation = h->credits;
+		creditsAnimation = h->credits;
 	}
 
-	if (mode == 0 && h->credits == g_global->creditsAnimation && g_global->creditsAnimationOffset == 0) return;
+	if (mode == 0 && h->credits == creditsAnimation && creditsAnimationOffset == 0) return;
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(4);
 
-	creditsDiff = h->credits - g_global->creditsAnimation;
+	creditsDiff = h->credits - creditsAnimation;
 	if (creditsDiff != 0) {
 		int16 diff = creditsDiff / 4;
 		if (diff == 0)   diff = (creditsDiff < 0) ? -1 : 1;
 		if (diff > 128)  diff = 128;
 		if (diff < -128) diff = -128;
-		g_global->creditsAnimationOffset += diff;
+		creditsAnimationOffset += diff;
 	} else {
-		g_global->creditsAnimationOffset = 0;
+		creditsAnimationOffset = 0;
 	}
 
-	if (creditsDiff != 0 && (g_global->creditsAnimationOffset < -7 || g_global->creditsAnimationOffset > 7)) {
+	if (creditsDiff != 0 && (creditsAnimationOffset < -7 || creditsAnimationOffset > 7)) {
 		Driver_Sound_Play(creditsDiff > 0 ? 52 : 53, 0xFF);
 	}
 
-	if (g_global->creditsAnimationOffset < 0 && g_global->creditsAnimation == 0) g_global->creditsAnimationOffset = 0;
+	if (creditsAnimationOffset < 0 && creditsAnimation == 0) creditsAnimationOffset = 0;
 
-	g_global->creditsAnimation += g_global->creditsAnimationOffset / 8;
+	creditsAnimation += creditsAnimationOffset / 8;
 
-	if (g_global->creditsAnimationOffset > 0) g_global->creditsAnimationOffset &= 7;
-	if (g_global->creditsAnimationOffset < 0) g_global->creditsAnimationOffset = -((-g_global->creditsAnimationOffset) & 7);
+	if (creditsAnimationOffset > 0) creditsAnimationOffset &= 7;
+	if (creditsAnimationOffset < 0) creditsAnimationOffset = -((-creditsAnimationOffset) & 7);
 
-	creditsOld = g_global->creditsAnimation;
-	creditsNew = g_global->creditsAnimation;
+	creditsOld = creditsAnimation;
+	creditsNew = creditsAnimation;
 	offset = 1;
 
-	if (g_global->creditsAnimationOffset < 0) {
+	if (creditsAnimationOffset < 0) {
 		creditsOld -= 1;
 		if (creditsOld < 0) creditsOld = 0;
 
 		offset -= 8;
 	}
 
-	if (g_global->creditsAnimationOffset > 0) {
+	if (creditsAnimationOffset > 0) {
 		creditsNew += 1;
 	}
 
@@ -2096,12 +2099,12 @@ void GUI_DrawCredits(uint8 houseID, uint16 mode)
 		spriteID = (charCreditsOld[i] == ' ') ? 13 : charCreditsOld[i] - 34;
 
 		if (charCreditsOld[i] != charCreditsNew[i]) {
-			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset - g_global->creditsAnimationOffset, 4, 0x4000);
-			if (g_global->creditsAnimationOffset == 0) continue;
+			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset - creditsAnimationOffset, 4, 0x4000);
+			if (creditsAnimationOffset == 0) continue;
 
 			spriteID = (charCreditsNew[i] == ' ') ? 13 : charCreditsNew[i] - 34;
 
-			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset + 8 - g_global->creditsAnimationOffset, 4, 0x4000);
+			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, offset + 8 - creditsAnimationOffset, 4, 0x4000);
 		} else {
 			GUI_DrawSprite(g_screenActiveID, g_sprites[spriteID], left, 1, 4, 0x4000);
 		}
