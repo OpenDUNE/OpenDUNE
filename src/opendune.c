@@ -2,6 +2,10 @@
 
 /** @file src/opendune.c Gameloop and other main routines. */
 
+#if defined(_WIN32)
+#include <io.h>
+#include <windows.h>
+#endif
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
