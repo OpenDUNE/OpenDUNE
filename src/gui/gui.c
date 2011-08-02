@@ -102,12 +102,34 @@ static uint8 s_factoryWindowGraymapTbl[256];
 static Widget s_factoryWindowWidgets[13];
 static uint8 s_factoryWindowWsaBuffer[64000];
 static uint8 *s_palette1_houseColour;
-static uint32 s_tickCreditsAnimation = 0;  /*!< Next tick when credits animation needs an update. */
-static uint32 s_arrowAnimationTimeout = 0; /*!< Timeout value for the next palette change in the animation of the arrows. */
-static uint16 s_arrowAnimationState = 0;   /*!< State of the arrow animation. @see _arrowAnimationTimeout */
-uint16 g_productionStringID;              /*!< Descriptive text of activity of the active structure. */
-bool g_textDisplayNeedsUpdate;            /*!< If set, text display needs to be updated. */
-uint32 g_strategicRegionBits;             /*!< Region bits at the map. */
+static uint32 s_tickCreditsAnimation = 0;                   /*!< Next tick when credits animation needs an update. */
+static uint32 s_arrowAnimationTimeout = 0;                  /*!< Timeout value for the next palette change in the animation of the arrows. */
+static uint16 s_arrowAnimationState = 0;                    /*!< State of the arrow animation. @see _arrowAnimationTimeout */
+static uint16 s_temporaryColourBorderSchema[5][4];          /*!< Temporary storage for the #s_colourBorderSchema. */
+uint16 g_productionStringID;                                /*!< Descriptive text of activity of the active structure. */
+bool g_textDisplayNeedsUpdate;                              /*!< If set, text display needs to be updated. */
+uint32 g_strategicRegionBits;                               /*!< Region bits at the map. */
+
+/*!< Colours used for the border of widgets. */
+static uint16 s_colourBorderSchema[5][4] = {
+	{ 26,  29,  29,  29},
+	{ 20,  26,  16,  20},
+	{ 20,  16,  26,  20},
+	{233, 235, 232, 233},
+	{233, 232, 235, 233}
+};
+
+/** Colours used for the border of widgets in the hall of fame. */
+static const uint16 s_HOF_ColourBorderSchema[5][4] = {
+	{226, 228, 228, 228},
+	{116, 226, 105, 116},
+	{116, 105, 226, 116},
+	{233, 235, 232, 233},
+	{233, 232, 235, 233}
+};
+
+assert_compile(lengthof(s_colourBorderSchema) == lengthof(s_temporaryColourBorderSchema));
+assert_compile(lengthof(s_colourBorderSchema) == lengthof(s_HOF_ColourBorderSchema));
 
 /**
  * Draw a wired rectangle.
@@ -1822,7 +1844,7 @@ void GUI_DrawBorder(uint16 left, uint16 top, uint16 width, uint16 height, uint16
 	width  -= 1;
 	height -= 1;
 
-	colourSchema = g_global->colourBorderSchema[colourSchemaIndex];
+	colourSchema = s_colourBorderSchema[colourSchemaIndex];
 
 	if (fill) GUI_DrawFilledRectangle(left, top, left + width, top + height, colourSchema[0] & 0xFF);
 
@@ -4080,8 +4102,8 @@ static Widget *GUI_HallOfFame_CreateButtons(HallOfFameData *data)
 	Widget *wResume;
 	uint16 width;
 
-	memcpy(g_global->variable_81F1, g_global->colourBorderSchema, 40);
-	memcpy(g_global->colourBorderSchema, g_global->variable_2C10, 40);
+	memcpy(s_temporaryColourBorderSchema, s_colourBorderSchema, sizeof(s_colourBorderSchema));
+	memcpy(s_colourBorderSchema, s_HOF_ColourBorderSchema, sizeof(s_colourBorderSchema));
 
 	resumeString = String_Get_ByIndex(0x146); /* "Resume Game" */
 	clearString  = String_Get_ByIndex(0x147); /* "Clear List" */
@@ -4117,7 +4139,7 @@ static void GUI_HallOfFame_DeleteButtons(Widget *w)
 		w = next;
 	}
 
-	memcpy(g_global->colourBorderSchema, g_global->variable_81F1, 40);
+	memcpy(s_colourBorderSchema, s_temporaryColourBorderSchema, sizeof(s_temporaryColourBorderSchema));
 }
 
 static void GUI_HallOfFame_Encode(HallOfFameData *data)

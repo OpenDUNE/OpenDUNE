@@ -497,7 +497,7 @@ typedef struct GlobalData {
 	/* 2BFF(11)  */ PACK char   string_2BFF[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 2C0A(5)   */ PACK char   string_2C0A[5];             /*!< "MISC" NULL terminated. */
 	/* 2C0F()    */ PACK uint8   unknown_2C0F[0x1];
-	/* 2C10(40)  */ PACK uint16 variable_2C10[5][4];        /*!< Read Only - ?? */
+	/* 2C10(40)  */ PACK uint16  removed_2C10[5][4];        /*!< REMOVED - colour border schema for HOF */
 	/* 2C38(2)   */ PACK uint16  removed_2C38;              /*!< REMOVED - ?? */
 	/* 2C3A(4)   */ PACK uint32  removed_2C3A;              /*!< REMOVED - ?? Some timer. */
 	/* 2C3E(3)   */ PACK char   string_2C3E[3];             /*!< "%u" NULL terminated. */
@@ -668,7 +668,7 @@ typedef struct GlobalData {
 	/* 35FA(4)   */ PACK csip32  removed_35FA;              /*!< REMOVED - CS:IP of house array. */
 	/* 35FE(2)   */ PACK uint16  removed_35FE;              /*!< REMOVED - Amount of houses on the map. */
 	/* 3600(4)   */ PACK csip32  removed_3600;              /*!< REMOVED - Buffer for screen backup when drawing modal windows. */
-	/* 3604(40)  */ PACK uint16 colourBorderSchema[5][4];   /*!< Colours used for the border of widgets. */
+	/* 3604(40)  */ PACK uint16  removed_3604[5][4];        /*!< REMOVED - Colours used for the border of widgets. */
 	/* 362C(16)  */ PACK uint16 variable_362C[4][2];        /*!< Read Only - ?? */
 	/* 363C(2)   */ PACK uint16 creditsAnimation;           /*!< How many credits are shown in current animation of credits. */
 	/* 363E(2)   */ PACK  int16 creditsAnimationOffset;     /*!< Offset of the credits for the animation of credits. */
@@ -1316,7 +1316,7 @@ typedef struct GlobalData {
 	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< Read Only - ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
 	/* 81ED(4)   */ PACK csip32  removed_81ED;              /*!< REMOVED - ?? */
-	/* 81F1(40)  */ PACK uint16 variable_81F1[5][4];        /*!< ?? */
+	/* 81F1(40)  */ PACK uint16  removed_81F1[5][4];        /*!< REMOVED - Temporary storage for colour border schema. */
 	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
 	/* 821A(1)   */ PACK uint8   removed_821A;              /*!< REMOVED ?? (never used) */
 	/* 821B(1)   */ PACK uint8   removed_821B;              /*!< REMOVED ?? (never used) */
