@@ -21,7 +21,7 @@
 #include "timer.h"
 #include "tools.h"
 
-static uint16 *s_driverFunctionTable[16];
+static bool s_driverInstalled[16];
 static bool s_driverLoaded[16];
 
 static Driver s_driverMusic;
@@ -45,71 +45,9 @@ void Drivers_Tick()
 	if (emu_flags.inf) MPU_Interrupt();
 }
 
-static void *Drivers_Load(const char *filename)
-{
-	if (!File_Exists(filename)) return NULL;
-
-	return File_ReadWholeFile(filename);
-}
-
-static uint16 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
-{
-	uint16 *p;
-
-	if (driver >= 16) {
-		return 0;
-	}
-
-	p = s_driverFunctionTable[driver];
-	if (p == NULL) return 0;
-
-	for (;; p += 2) {
-		if (*p == function) break;
-		if (*p != 0xFFFF) continue;
-		return 0;
-	}
-
-	return *(p + 1);
-}
-
-static void *Drivers_CallFunction(uint16 driver, uint16 function)
-{
-	uint16 ip;
-
-	ip = Drivers_GetFunctionCSIP(driver, function);
-	if (ip == 0) return NULL;
-
-	switch (ip) {
-		case 0x0B73: return DSP_GetInfo(); /* 0x64 */
-		case 0x0C96: return MPU_GetInfo(); /* 0x64 */
-		case 0x0DA4: DSP_Init(); break; /* 0x66 */
-		case 0x1FA8: MPU_Init(); break; /* 0x66 */
-		case 0x0B91: DSP_Uninit(); break; /* 0x68 */
-		case 0x2103: MPU_Uninit(); break; /* 0x68 */
-	}
-
-	return NULL;
-}
-
-static DriverInfo *Driver_GetInfo(uint16 driver)
-{
-	return Drivers_CallFunction(driver, 0x64);
-}
-
 static void Driver_Init(uint16 driver)
 {
-	uint16 ip;
-	uint16 frequency;
-
 	if (driver >= 16) return;
-
-	frequency = Driver_GetInfo(driver)->frequency;
-	ip = Drivers_GetFunctionCSIP(driver, 0x67);
-	if (frequency != 0xFFFF && ip != 0) {
-		Timer_Add(Drivers_Tick, 1000000 / frequency);
-	}
-
-	Drivers_CallFunction(driver, 0x66);
 
 	s_driverLoaded[driver] = true;
 }
@@ -142,17 +80,13 @@ static void Driver_Uninstall(uint16 driver)
 {
 	if (driver >= 16) return;
 
-	s_driverFunctionTable[driver] = NULL;
+	s_driverInstalled[driver] = false;
 }
 
 static void Driver_Uninit(uint16 driver)
 {
 	if (driver >= 16 || !s_driverLoaded[driver]) return;
 	s_driverLoaded[driver] = false;
-
-	Timer_Remove(Drivers_Tick);
-
-	Drivers_CallFunction(driver, 0x68);
 }
 
 static void Drivers_Uninit(Driver *driver)
@@ -164,72 +98,35 @@ static void Drivers_Uninit(Driver *driver)
 	Driver_Uninstall(driver->index);
 
 	driver->index = 0xFFFF;
-
-	free(driver->dcontent);
-
-	driver->dcontent  = NULL;
-	driver->dfilename = NULL;
 }
 
-static uint16 Driver_Install(void *dcontent)
+static uint16 Driver_Install()
 {
-	uint8 *content = dcontent;
-	DriverInfo *info;
 	uint16 index;
 
 	for (index = 0; index < 16; index++) {
-		if (s_driverFunctionTable[index] == NULL) break;
+		if (!s_driverInstalled[index]) break;
 	}
 	if (index == 16) return 0xFFFF;
-
-	if (strncmp((char *)(content + 2), "Copy", 4) != 0) return 0xFFFF;
-
-	s_driverFunctionTable[index] = (uint16 *)(content + ((uint16 *)content)[0]);
-
-	info = Driver_GetInfo(index);
-	if (info == NULL) return 0xFFFF;
+	s_driverInstalled[index] = true;
 
 	return index;
 }
 
-static bool Drivers_Init(const char *filename, Driver *driver, const char *extension)
+static bool Drivers_Init(Driver *driver, const char *extension)
 {
-	DriverInfo *info;
-
-	if (filename == NULL || !File_Exists(filename)) return false;
-
-	if (driver->dcontent != NULL) {
-		if (strcasecmp(driver->dfilename, filename) == 0) return true;
-		Drivers_Uninit(driver);
-	}
-
-	driver->dcontent = Drivers_Load(filename);
-	if (driver->dcontent == NULL) return false;
-
-	driver->index = Driver_Install(driver->dcontent);
-
-	if (driver->index == 0xFFFF) {
-		free(driver->dcontent);
-		driver->dcontent = NULL;
-		return false;
-	}
-
-	info = Driver_GetInfo(driver->index);
-
-	strcpy(driver->extension, "xmi");
+	driver->index = Driver_Install();
+	if (driver->index == 0xFFFF) return false;
 
 	Driver_Init(driver->index);
 
-	driver->dfilename = filename;
-	driver->extension[0] = 0;
-	if (driver->dcontent != NULL) memcpy(driver->extension, extension, 4);
+	memcpy(driver->extension, extension, 4);
 
 	return true;
 }
 
-uint16 Drivers_Sound_Init(uint16 index)
+uint16 Drivers_SoundMusic_Init(uint16 index)
 {
-	char *filename;
 	MSDriver *driver;
 	Driver *sound;
 	Driver *music;
@@ -238,15 +135,11 @@ uint16 Drivers_Sound_Init(uint16 index)
 	sound  = g_driverSound;
 	music  = g_driverMusic;
 
-	if (driver->filename.csip == 0x0) return index;
+	if (!Drivers_Init(sound, (char *)emu_get_memorycsip(driver->extension))) return 0;
+	memcpy(music, sound, sizeof(Driver));
 
-	filename = (char *)emu_get_memorycsip(driver->filename);
-
-	if (music->dfilename != NULL && !strcasecmp(music->dfilename, filename)) {
-		memcpy(sound, music, sizeof(Driver));
-	} else {
-		if (!Drivers_Init(filename, sound, (char *)emu_get_memorycsip(driver->extension))) return 0;
-	}
+	MPU_Init();
+	Timer_Add(Drivers_Tick, 1000000 / 120);
 
 	if (driver->variable_0008 == 0) {
 		uint32 size;
@@ -261,64 +154,32 @@ uint16 Drivers_Sound_Init(uint16 index)
 			buf->index  = 0xFFFF;
 		}
 		s_bufferSoundIndex = 0;
+
+		g_bufferMusic->buffer = calloc(1, size);
+		g_bufferMusic->index  = 0xFFFF;
 	}
-
-	return index;
-}
-
-uint16 Drivers_Music_Init(uint16 index)
-{
-	char *filename;
-	MSDriver *driver;
-	Driver *music;
-	Driver *sound;
-	uint32 size;
-
-	driver = &g_global->musicDrv[index];
-	sound  = g_driverSound;
-	music  = g_driverMusic;
-
-	if (driver->filename.csip == 0x0) return index;
-
-	filename = (char *)emu_get_memorycsip(driver->filename);
-
-	if (sound->dfilename != NULL && !strcasecmp(sound->dfilename, filename)) {
-		memcpy(music, sound, sizeof(Driver));
-	} else {
-		if (!Drivers_Init(filename, music, (char *)emu_get_memorycsip(driver->extension))) return 0;
-	}
-
-	if (driver->variable_0008 != 0) return index;
-
-	size = MPU_GetDataSize();
-
-	g_bufferMusic->buffer = calloc(1, size);
-	g_bufferMusic->index  = 0xFFFF;
 
 	return index;
 }
 
 uint16 Drivers_Voice_Init(uint16 index)
 {
-	char *filename;
 	DSDriver *driver;
 	Driver *voice;
 
 	driver = &g_global->voiceDrv[index];
 	voice  = g_driverVoice;
 
-	if (driver->filename.csip == 0x0) return index;
+	if (!Drivers_Init(voice, "VOC")) return 0;
 
-	filename = (char *)emu_get_memorycsip(driver->filename);
-
-	if (!Drivers_Init(filename, voice, "VOC")) return 0;
+	DSP_Init();
 
 	return index;
 }
 
 static void Drivers_Reset()
 {
-	memset(s_driverFunctionTable, 0, sizeof(s_driverFunctionTable));
+	memset(s_driverInstalled, 0, sizeof(s_driverInstalled));
 	memset(s_driverLoaded, 0, sizeof(s_driverLoaded));
 }
 
@@ -326,8 +187,8 @@ void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
 {
 	Drivers_Reset();
 
-	assert(Drivers_Music_Init(music) == music);
-	assert(Drivers_Sound_Init(sound) == sound);
+	assert(music == sound);
+	assert(Drivers_SoundMusic_Init(sound) == sound);
 	assert(Drivers_Voice_Init(voice) == voice);
 }
 
@@ -513,8 +374,9 @@ char *Drivers_GenerateFilename(const char *name, Driver *driver)
 	return NULL;
 }
 
-static void Drivers_Music_Uninit()
+static void Drivers_SoundMusic_Uninit()
 {
+	Driver *sound = g_driverSound;
 	Driver *music = g_driverMusic;
 
 	if (music->index != 0xFFFF) {
@@ -529,18 +391,6 @@ static void Drivers_Music_Uninit()
 		free(buffer->buffer);
 		buffer->buffer = NULL;
 	}
-
-	if (music->dcontent == g_driverSound->dcontent) {
-		music->dcontent  = NULL;
-		music->dfilename = NULL;
-	} else {
-		Drivers_Uninit(music);
-	}
-}
-
-static void Drivers_Sound_Uninit()
-{
-	Driver *sound = g_driverSound;
 
 	if (sound->index != 0xFFFF) {
 		uint8 i;
@@ -559,23 +409,24 @@ static void Drivers_Sound_Uninit()
 		}
 	}
 
-	if (sound->dcontent == g_driverMusic->dcontent) {
-		sound->dcontent  = NULL;
-		sound->dfilename = NULL;
-	} else {
-		Drivers_Uninit(sound);
-	}
+	/* Only Uninit() sound, as music is a copy of sound. */
+	Drivers_Uninit(sound);
+	memcpy(music, sound, sizeof(Driver));
+
+	Timer_Remove(Drivers_Tick);
+	MPU_Uninit();
 }
 
 static void Drivers_Voice_Uninit()
 {
 	Drivers_Uninit(g_driverVoice);
+
+	DSP_Uninit();
 }
 
 void Drivers_All_Uninit()
 {
-	Drivers_Music_Uninit();
-	Drivers_Sound_Uninit();
+	Drivers_SoundMusic_Uninit();
 	Drivers_Voice_Uninit();
 }
 

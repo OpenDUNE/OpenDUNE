@@ -32,9 +32,7 @@ assert_compile(sizeof(MSDriver) == 0x0C);
 
 typedef struct Driver {
 	uint16 index;                                           /*!< Index of the loaded driver. */
-	const char *dfilename;                                  /*!< Pointer to filename for the driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
-	void  *dcontent;                                        /*!< Pointer to the driver file content. */
 	void  *content;                                         /*!< Pointer to the file to play content. */
 	char  *filename;                                        /*!< Pointer to the name of file to play. */
 	bool   contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
@@ -44,10 +42,6 @@ typedef struct MSBuffer {
 	uint16 index;                                           /*!< ?? */
 	void  *buffer;                                          /*!< ?? */
 } MSBuffer;
-
-typedef struct DriverInfo {
-	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
-} DriverInfo;
 
 extern Driver *g_driverMusic;
 extern Driver *g_driverSound;

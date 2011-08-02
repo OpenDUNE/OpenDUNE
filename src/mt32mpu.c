@@ -59,10 +59,6 @@ typedef struct MSData {
 	uint32 noteOnDuration[32];                              /*!< ?? */
 } MSData;
 
-static DriverInfo s_mpu_driverInfo = {
-	/* frequency    */ 120
-};
-
 static MSData *s_mpu_msdata[8];
 static uint16 s_mpu_msdataSize;
 static uint16 s_mpu_msdataCurrent;
@@ -873,11 +869,6 @@ void MPU_ClearData(uint16 index)
 		s_mpu_msdata[index] = NULL;
 		s_mpu_msdataSize--;
 	}
-}
-
-DriverInfo *MPU_GetInfo()
-{
-	return &s_mpu_driverInfo;
 }
 
 void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)

@@ -10,10 +10,6 @@
 
 #include "driver.h"
 
-static DriverInfo s_dsp_driverInfo = {
-	/* frequency    */ 65535
-};
-
 static uint8 *s_buffer;
 static int s_bufferLen;
 static uint8 *s_data;
@@ -95,11 +91,6 @@ static void DSP_ProcessBlock()
 			SDL_PauseAudio(0);
 			break;
 	}
-}
-
-DriverInfo *DSP_GetInfo()
-{
-	return &s_dsp_driverInfo;
 }
 
 void DSP_Stop()
