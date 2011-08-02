@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "types.h"
-#include "../global.h"
 #include "../os/math.h"
 
 #include "script.h"
