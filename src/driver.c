@@ -21,22 +21,19 @@
 #include "timer.h"
 #include "tools.h"
 
-static uint16 *_stat128[16];
-static uint16 _stat188[16];
-static uint16 _stat460;
-static uint16 _stat462;
-static uint16 _stat464;
+static uint16 *s_driverFunctionTable[16];
+static bool s_driverLoaded[16];
 
-Driver s_driverMusic;
-Driver s_driverSound;
-Driver s_driverVoice;
+static Driver s_driverMusic;
+static Driver s_driverSound;
+static Driver s_driverVoice;
+
+static MSBuffer s_bufferMusic;
+static MSBuffer s_bufferSound[4];
 
 Driver *g_driverMusic = &s_driverMusic;
 Driver *g_driverSound = &s_driverSound;
 Driver *g_driverVoice = &s_driverVoice;
-
-MSBuffer s_bufferMusic;
-MSBuffer s_bufferSound[4];
 
 MSBuffer *g_bufferMusic = &s_bufferMusic;
 MSBuffer *g_bufferSound[4] = { &s_bufferSound[0], &s_bufferSound[1], &s_bufferSound[2], &s_bufferSound[3] };
@@ -63,7 +60,7 @@ static uint16 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 		return 0;
 	}
 
-	p = _stat128[driver];
+	p = s_driverFunctionTable[driver];
 	if (p == NULL) return 0;
 
 	for (;; p += 2) {
@@ -114,7 +111,7 @@ static void Driver_Init(uint16 driver)
 
 	Drivers_CallFunction(driver, 0x66);
 
-	_stat188[driver] = 1;
+	s_driverLoaded[driver] = true;
 }
 
 uint16 Drivers_EnableSounds(uint16 sounds)
@@ -145,15 +142,13 @@ static void Driver_Uninstall(uint16 driver)
 {
 	if (driver >= 16) return;
 
-	_stat128[driver] = NULL;
-
-	if (_stat462 != 0 && _stat460 == driver) _stat462 = 0;
+	s_driverFunctionTable[driver] = NULL;
 }
 
 static void Driver_Uninit(uint16 driver)
 {
-	if (driver >= 16 || _stat188[driver] == 0) return;
-	_stat188[driver] = 0;
+	if (driver >= 16 || !s_driverLoaded[driver]) return;
+	s_driverLoaded[driver] = false;
 
 	Timer_Remove(Drivers_Tick);
 
@@ -183,22 +178,13 @@ static uint16 Driver_Install(void *dcontent)
 	uint16 index;
 
 	for (index = 0; index < 16; index++) {
-		if (_stat128[index] == NULL) break;
+		if (s_driverFunctionTable[index] == NULL) break;
 	}
 	if (index == 16) return 0xFFFF;
 
-	if (strncmp((char *)(content + 3), "DIGPAK", 6) == 0) {
-		if (_stat462 != 0) return 0xFFFF;
-		_stat462 = 1;
-		_stat460 = 0xFFFF;
-		_stat128[index] = (uint16 *)&emu_get_memory8(0x2756, 0x03BE, 0x0);
-		_stat464 = 0;
-		return index;
-	}
-
 	if (strncmp((char *)(content + 2), "Copy", 4) != 0) return 0xFFFF;
 
-	_stat128[index] = (uint16 *)(content + ((uint16 *)content)[0]);
+	s_driverFunctionTable[index] = (uint16 *)(content + ((uint16 *)content)[0]);
 
 	info = Driver_GetInfo(index);
 	if (info == NULL) return 0xFFFF;
@@ -332,9 +318,8 @@ uint16 Drivers_Voice_Init(uint16 index)
 
 static void Drivers_Reset()
 {
-	_stat462 = 0;
-	memset(_stat128, 0, sizeof(_stat128));
-	memset(_stat188, 0, sizeof(_stat188));
+	memset(s_driverFunctionTable, 0, sizeof(s_driverFunctionTable));
+	memset(s_driverLoaded, 0, sizeof(s_driverLoaded));
 }
 
 void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice)
