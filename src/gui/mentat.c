@@ -176,8 +176,7 @@ static void GUI_Mentat_HelpListLoop()
 			} break;
 
 			case 0x0041: /* MOUSE LEFT BUTTON */
-				if (g_config.useMouse) break;
-				/* FALL THROUGH */
+				break;
 
 			case 0x002B: /* NUMPAD 5 / RETURN */
 			case 0x003D: /* SPACE */

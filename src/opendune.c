@@ -2334,11 +2334,6 @@ void Main()
 	}
 
 	Input_Init();
-	if (!g_config.useXMS) {
-		g_config.voiceDrv = 0;
-	}
-
-	if (!g_config.useMouse) Input_Flags_SetBits(INPUT_FLAG_UNKNOWN_2000 | INPUT_FLAG_NO_CLICK);
 
 	Drivers_All_Init(g_config.soundDrv, g_config.musicDrv, g_config.voiceDrv);
 
