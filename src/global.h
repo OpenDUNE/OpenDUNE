@@ -865,7 +865,7 @@ typedef struct GlobalData {
 	/* 609A(4)   */ PACK uint32  removed_609A;              /*!< REMOVED - Indicates next time House runs Unknown function. */
 	/* 609E(4)   */ PACK uint32  removed_609E;              /*!< REMOVED - Indicates next time House runs Starport Availability function. */
 	/* 60A2(4)   */ PACK uint32  removed_60A2;              /*!< REMOVED - end of level check timer */
-	/* 60A6(8)   */ PACK uint16 donotuse_60A6[4];
+	/* 60A6(8)   */ PACK uint16  removed_60A6[4];           /*!< REMOVED - ?? */
 	/* 60AE(12)  */ PACK char   string_60AE[12];            /*!< "Forced end." NULL terminated. */
 	/* 60BA(13)  */ PACK char   string_60BA[13];            /*!< "Destroy end." NULL terminated. */
 	/* 60C7(11)  */ PACK char   string_60C7[11];            /*!< "Quota win." NULL terminated. */
