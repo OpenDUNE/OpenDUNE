@@ -387,7 +387,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 		soundBuffer->index = 0xFFFF;
 	}
 
-	soundBuffer->index = MPU_SetData(sound->content, index, emu_get_memorycsip(soundBuffer->buffer));
+	soundBuffer->index = MPU_SetData(emu_get_memorycsip(sound->content), index, emu_get_memorycsip(soundBuffer->buffer));
 
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);

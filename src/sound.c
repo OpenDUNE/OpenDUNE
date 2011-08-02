@@ -44,7 +44,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 		musicBuffer->index = 0xFFFF;
 	}
 
-	musicBuffer->index = MPU_SetData(music->content, index, emu_get_memorycsip(musicBuffer->buffer));
+	musicBuffer->index = MPU_SetData(emu_get_memorycsip(music->content), index, emu_get_memorycsip(musicBuffer->buffer));
 
 	MPU_Play(musicBuffer->index);
 	MPU_SetVolume(musicBuffer->index, ((volume & 0xFF) * 90) / 256, 0);

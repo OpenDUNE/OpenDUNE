@@ -581,42 +581,40 @@ void MPU_Interrupt()
 	return;
 }
 
-csip32 MPU_FindSoundStart(csip32 file, uint16 index)
+static void *MPU_FindSoundStart(uint8 *file, uint16 index)
 {
-	csip32 ret;
 	uint32 total;
-
-	ret.csip = 0;
+	uint32 header;
+	uint32 size;
 
 	index++;
 
 	while (true) {
-		if (emu_get_memory32(file.s.cs, file.s.ip, 0) != ' TAC' && emu_get_memory32(file.s.cs, file.s.ip, 0) != 'MROF') return ret;
-		if (emu_get_memory32(file.s.cs, file.s.ip, 8) == 'DIMX') break;
+		header = BETOH32(*(uint32 *)(file + 0));
+		size   = BETOH32(*(uint32 *)(file + 4));
 
-		file.s.ip += BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
-		file.s.cs += file.s.ip >> 4;
-		file.s.ip &= 0xF;
+		if (header != 'CAT ' && header != 'FORM') return NULL;
+		if (*(uint32 *)(file + 8) == BETOH32('XMID')) break;
+
+		file += 8;
+		file += size;
 	}
+	total = size - 5;
 
-	total = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) - 5;
+	if (header == 'FORM') return (index == 1) ? file : NULL;
 
-	if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'MROF') return (index == 1) ? file : ret;
-
-	file.s.ip += 0xC;
+	file += 12;
 
 	while (true) {
-		uint16 size;
+		size = BETOH32(*(uint32 *)(file + 4));
 
-		if (emu_get_memory32(file.s.cs, file.s.ip, 8) == 'DIMX' && --index == 0) break;
+		if (*(uint32 *)(file + 8) == BETOH32('XMID') && --index == 0) break;
 
-		size = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
+		size = size + 8;
 		total -= size;
-		if ((int32)total < 0) return ret;
+		if ((int32)total < 0) return NULL;
 
-		file.s.ip += size;
-		file.s.cs += file.s.ip >> 4;
-		file.s.ip &= 0xF;
+		file += size;
 	}
 
 	return file;
@@ -650,11 +648,14 @@ static void MPU_InitData(MSData *data)
 	data->variable_004C = 0x7A1200;
 }
 
-uint16 MPU_SetData(csip32 file, uint16 index, void *msdata)
+uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 {
 	MSData *data = msdata;
+	uint32 header;
+	uint32 size;
 	uint16 i;
-	uint16 size;
+
+	if (file == NULL) return 0xFFFF;
 
 	for (i = 0; i < 8; i++) {
 		if (s_mpu_msdata[i] == NULL) break;
@@ -662,34 +663,32 @@ uint16 MPU_SetData(csip32 file, uint16 index, void *msdata)
 	if (i == 8) return 0xFFFF;
 
 	file = MPU_FindSoundStart(file, index);
+	if (file == NULL) return 0xFFFF;
 
-	if (file.csip == 0) return 0xFFFF;
-
-	size = 0xC;
 	s_mpu_msdata[i] = data;
 	data->TIMB.csip = 0;
 	data->RBRN.csip = 0;
 	data->EVNT.csip = 0;
 
-	while (emu_get_memory32(file.s.cs, file.s.ip, 0) != 'TNVE') {
-		file.s.ip += size;
-		file.s.cs += file.s.ip >> 4;
-		file.s.ip &= 0xF;
+	header = BETOH32(*(uint32 *)(file + 0));
+	size   = 12;
+	while (header != 'EVNT') {
+		file += size;
+		header = BETOH32(*(uint32 *)(file + 0));
+		size   = BETOH32(*(uint32 *)(file + 4)) + 8;
 
-		size = BETOH32(emu_get_memory32(file.s.cs, file.s.ip, 4)) + 8;
-
-		if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'BMIT') {
-			data->TIMB = file;
+		if (header == 'TIMB') {
+			data->TIMB = emu_Global_GetCSIP(file);
 			continue;
 		}
 
-		if (emu_get_memory32(file.s.cs, file.s.ip, 0) == 'NRBR') {
-			data->RBRN = file;
+		if (header == 'RBRN') {
+			data->RBRN = emu_Global_GetCSIP(file);
 			continue;
 		}
 	}
 
-	data->EVNT = file;
+	data->EVNT = emu_Global_GetCSIP(file);
 	data->playing = 0;
 	data->delayedClear = false;
 
