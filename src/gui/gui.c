@@ -501,21 +501,23 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgColour, uint16 flags, ...)
 {
 	static char textBuffer[240];
+	static uint16 displayedarg12low = -1;
+	static uint16 displayedarg2mid  = -1;
 
 	uint8 arg12low = flags & 0xF;
 	uint8 arg2mid  = flags & 0xF0;
 
-	if ((arg12low != g_global->variable_376C && arg12low != 0) || string == NULL) {
+	if ((arg12low != displayedarg12low && arg12low != 0) || string == NULL) {
 		switch (arg12low) {
 			case 1:  Font_Select(g_fontNew6p);  break;
 			case 2:  Font_Select(g_fontNew8p2); break;
 			default: Font_Select(g_fontNew8p);  break;
 		}
 
-		g_global->variable_376C = arg12low;
+		displayedarg12low = arg12low;
 	}
 
-	if ((arg2mid != g_global->variable_376E && arg2mid != 0) || string == NULL) {
+	if ((arg2mid != displayedarg2mid && arg2mid != 0) || string == NULL) {
 		uint8 colours[16];
 		memset(colours, 0, sizeof(colours));
 
@@ -551,7 +553,7 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 
 		GUI_InitColors(colours, 0, lengthof(colours) - 1);
 
-		g_global->variable_376E = arg2mid;
+		displayedarg2mid = arg2mid;
 	}
 
 	if (string == NULL) return;

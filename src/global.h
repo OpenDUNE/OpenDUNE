@@ -696,8 +696,8 @@ typedef struct GlobalData {
 	/* 3766(2)   */ PACK uint16  removed_3766;              /*!< REMOVED - displayed structure hi flags */
 	/* 3768(2)   */ PACK uint16  removed_3768;              /*!< REMOVED - displayed starport time */
 	/* 376A(2)   */ PACK uint16  removed_376A;              /*!< REMOVED - displayed house ID */
-	/* 376C(2)   */ PACK uint16 variable_376C;              /*!< ?? */
-	/* 376E(2)   */ PACK uint16 variable_376E;              /*!< ?? */
+	/* 376C(2)   */ PACK uint16  removed_376C;              /*!< REMOVED - ?? */
+	/* 376E(2)   */ PACK uint16  removed_376E;              /*!< REMOVED - ?? */
 	/* 3770(4)   */ PACK char   string_3770[4];             /*!< "%6d" NULL terminated. */
 	/* 3774(3)   */ PACK char   string_3774[3];             /*!< "%d" NULL terminated. */
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
