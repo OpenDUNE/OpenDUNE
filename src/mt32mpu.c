@@ -18,10 +18,10 @@
 #include "driver.h"
 
 typedef struct MSData {
-	csip32 TIMB;                                            /*!< Pointer to TIMB position in sound file. */
-	csip32 RBRN;                                            /*!< Pointer to RBRN position in sound file. */
-	csip32 EVNT;                                            /*!< Pointer to EVNT position in sound file. */
-	csip32 sound;                                           /*!< Pointer to current position in sound file. */
+	uint8 *TIMB;                                            /*!< Pointer to TIMB position in sound file. */
+	uint8 *RBRN;                                            /*!< Pointer to RBRN position in sound file. */
+	uint8 *EVNT;                                            /*!< Pointer to EVNT position in sound file. */
+	uint8 *sound;                                           /*!< Pointer to current position in sound file. */
 	uint16 playing;                                         /*!< ?? 0, 1 or 2. 1 if a sound is playing. */
 	bool   delayedClear;                                    /*!< ?? */
 	int16  delay;                                           /*!< Delay before reading next command. */
@@ -42,7 +42,7 @@ typedef struct MSData {
 	uint32 variable_0044;                                   /*!< ?? */
 	uint32 variable_0048;                                   /*!< ?? */
 	uint32 variable_004C;                                   /*!< ?? */
-	csip32 variable_0050[4];                                /*!< ?? */
+	uint8 *variable_0050[4];                                /*!< ?? */
 	uint16 variable_0060[4];                                /*!< ?? */
 	uint8  chanMaps[16];                                    /*!< ?? Channel mapping. */
 	int8   variable_00B8[9][16];                            /*!< ?? */
@@ -106,7 +106,7 @@ static uint16 MPU_NoteOn(MSData *data)
 	uint32 duration = 0;
 	uint8 i;
 
-	sound = emu_get_memorycsip(data->sound);
+	sound = data->sound;
 
 	chan = *sound++ & 0xF;
 	note = *sound++;
@@ -119,7 +119,7 @@ static uint16 MPU_NoteOn(MSData *data)
 		duration <<= 7;
 	}
 
-	len = sound - emu_get_memorycsip(data->sound);
+	len = sound - data->sound;
 
 	if ((s_var_13EE[chan] & 0x80) != 0) return len;
 
@@ -348,7 +348,7 @@ static uint16 MPU_1B48(MSData *data)
 	uint8 type;
 	uint16 len = 0;
 
-	sound = emu_get_memorycsip(data->sound);
+	sound = data->sound;
 	type = sound[1];
 	sound += 2;
 
@@ -358,7 +358,7 @@ static uint16 MPU_1B48(MSData *data)
 		if ((v & 0x80) == 0) break;
 		len <<= 7;
 	}
-	len += sound - emu_get_memorycsip(data->sound);
+	len += sound - data->sound;
 
 	switch (type) {
 		case 0x2F:
@@ -468,24 +468,19 @@ void MPU_Interrupt()
 					uint8 data2;
 					uint16 nb;
 
-					if (data->sound.s.ip >= 0x8000) {
-						data->sound.s.cs += data->sound.s.ip >> 4;
-						data->sound.s.ip &= 0xF;
-					}
-
-					status = emu_get_memorycsip(data->sound)[0];
+					status = data->sound[0];
 
 					if (status < 0x80) {
 						/* Set a delay before next command. */
-						data->sound.s.ip++;
+						data->sound++;
 						data->delay = status;
 						break;
 					}
 
 					chan = status & 0xF;
 					status &= 0xF0;
-					data1 = emu_get_memorycsip(data->sound)[1];
-					data2 = emu_get_memorycsip(data->sound)[2];
+					data1 = data->sound[1];
+					data2 = data->sound[2];
 
 					if (status >= 0xF0) {
 						assert(chan == 0xF);
@@ -520,7 +515,7 @@ void MPU_Interrupt()
 						nb = MPU_NoteOn(data);
 					}
 
-					data->sound.s.ip += nb;
+					data->sound += nb;
 				} while (data->playing == 1);
 			}
 			if (data->playing != 1) break;
@@ -666,9 +661,9 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 	if (file == NULL) return 0xFFFF;
 
 	s_mpu_msdata[i] = data;
-	data->TIMB.csip = 0;
-	data->RBRN.csip = 0;
-	data->EVNT.csip = 0;
+	data->TIMB = NULL;
+	data->RBRN = NULL;
+	data->EVNT = NULL;
 
 	header = BETOH32(*(uint32 *)(file + 0));
 	size   = 12;
@@ -678,17 +673,17 @@ uint16 MPU_SetData(uint8 *file, uint16 index, void *msdata)
 		size   = BETOH32(*(uint32 *)(file + 4)) + 8;
 
 		if (header == 'TIMB') {
-			data->TIMB = emu_Global_GetCSIP(file);
+			data->TIMB = file;
 			continue;
 		}
 
 		if (header == 'RBRN') {
-			data->RBRN = emu_Global_GetCSIP(file);
+			data->RBRN = file;
 			continue;
 		}
 	}
 
-	data->EVNT = emu_Global_GetCSIP(file);
+	data->EVNT = file;
 	data->playing = 0;
 	data->delayedClear = false;
 
@@ -711,10 +706,7 @@ void MPU_Play(uint16 index)
 
 	MPU_InitData(data);
 
-	data->sound = data->EVNT;
-	data->sound.s.ip += 8;
-	data->sound.s.cs += data->sound.s.ip >> 4;
-	data->sound.s.ip &= 0xF;
+	data->sound = data->EVNT + 8;
 
 	data->playing = 1;
 }
