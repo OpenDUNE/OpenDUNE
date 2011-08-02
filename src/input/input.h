@@ -44,8 +44,8 @@ typedef struct InputLocalData {
 	/* 0004(6)   */ PACK uint8   removed_0004[6];           /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 000A(36)  */ PACK uint32  removed_000A[9];           /*!< REMOVED Copied into the Input_HandleInput function. */
 	/* 002E(8)   */ PACK uint8   removed_002E[8];           /*!< REMOVED - The value of (1 << N), with N from 0 to 7. */
-	/* 0036(34)  */ PACK uint16 variable_0036[17];          /*!< ?? Read-only. */
-	/* 0058(34)  */ PACK uint16 variable_0058[17];          /*!< ?? Read-only. */
+	/* 0036(34)  */ PACK uint16  removed_0036[17];          /*!< REMOVED - other keys Read-only. */
+	/* 0058(34)  */ PACK uint16  removed_0058[17];          /*!< REMOVED - Read-only. */
 	/* 007A()    */ PACK uint8   unknown_007A[0x0004];
 	/* 007E(16)  */ PACK uint8   removed_007E[16];          /*!< REMOVED Read-only - Some kind of translation map for extended keys. */
 	/* 008E(16)  */ PACK uint8   removed_008E[16];          /*!< REMOVED Read-only - Some kind of translation map. */
