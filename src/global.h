@@ -33,32 +33,32 @@ typedef struct GlobalData {
 	/* 0004(43)  */ PACK char   string_0004[43];            /*!< "Borland C++ - Copyright 1991 Borland Intl." NULL terminated. */
 	/* 002F(14)  */ PACK char   string_002F[14];            /*!< "Divide error\r\n" not NULL terminated. */
 	/* 003D(30)  */ PACK char   string_003D[30];            /*!< "Abnormal program termination\r\n" not NULL terminated. */
-	/* 005B(4)   */ PACK csip32 oldInterrupt00;             /*!< CS:IP of original INT00 handler. */
-	/* 005F(4)   */ PACK csip32 oldInterrupt04;             /*!< CS:IP of original INT04 handler. */
-	/* 0063(4)   */ PACK csip32 oldInterrupt05;             /*!< CS:IP of original INT05 handler. */
-	/* 0067(4)   */ PACK csip32 oldInterrupt06;             /*!< CS:IP of original INT06 handler. */
-	/* 006B(2)   */ PACK uint16 variable_006B;              /*!< ?? */
-	/* 006D(4)   */ PACK csip32 variable_006D;              /*!< ?? */
-	/* 0071(2)   */ PACK uint16 variable_0071;              /*!< ?? */
-	/* 0073(2)   */ PACK uint16 variable_0073;              /*!< ?? */
-	/* 0075(2)   */ PACK uint16 environmentSize;            /*!< Size of environment in bytes. */
-	/* 0077(2)   */ PACK uint16 environmentSegment;         /*!< Environment segment. */
-	/* 0079(2)   */ PACK uint16 variable_0079;              /*!< ?? Something related to number of environment variables. */
-	/* 007B(2)   */ PACK uint16 PSP;                        /*!< Program Segment Prefix. */
-	/* 007D(1)   */ PACK uint8  majorDOSVersion;            /*!< DOS major version. */
-	/* 007E(1)   */ PACK uint8  minorDOSVersion;            /*!< DOS minor version. */
-	/* 007F(2)   */ PACK uint16 variable_007F;              /*!< ?? Something related to files. */
-	/* 0081(4)   */ PACK uint32 systemTime;                 /*!< System time. */
+	/* 005B(4)   */ PACK csip32  removed_005B;              /*!< REMOVED - CS:IP of original INT00 handler. */
+	/* 005F(4)   */ PACK csip32  removed_005F;              /*!< REMOVED - CS:IP of original INT04 handler. */
+	/* 0063(4)   */ PACK csip32  removed_0063;              /*!< REMOVED - CS:IP of original INT05 handler. */
+	/* 0067(4)   */ PACK csip32  removed_0067;              /*!< REMOVED - CS:IP of original INT06 handler. */
+	/* 006B(2)   */ PACK uint16  removed_006B;              /*!< REMOVED - ?? */
+	/* 006D(4)   */ PACK csip32  removed_006D;              /*!< REMOVED - ?? */
+	/* 0071(2)   */ PACK uint16  removed_0071;              /*!< REMOVED - ?? */
+	/* 0073(2)   */ PACK uint16  removed_0073;              /*!< REMOVED - ?? */
+	/* 0075(2)   */ PACK uint16  removed_0075;              /*!< REMOVED - Size of environment in bytes. */
+	/* 0077(2)   */ PACK uint16  removed_0077;              /*!< REMOVED - Environment segment. */
+	/* 0079(2)   */ PACK uint16  removed_0079;              /*!< REMOVED - ?? Something related to number of environment variables. */
+	/* 007B(2)   */ PACK uint16  removed_007B;              /*!< REMOVED - Program Segment Prefix. */
+	/* 007D(1)   */ PACK uint8   removed_007D;              /*!< REMOVED - DOS major version. */
+	/* 007E(1)   */ PACK uint8   removed_007E;              /*!< REMOVED - DOS minor version. */
+	/* 007F(2)   */ PACK uint16  removed_007F;              /*!< REMOVED - ?? Something related to files. */
+	/* 0081(4)   */ PACK uint32  removed_0081;              /*!< REMOVED - System time. */
 	/* 0085()    */ PACK uint8   unknown_0085[0x0002];
-	/* 0087(4)   */ PACK uint32 variable_0087;              /*!< ?? Something related to memory. */
-	/* 008B(4)   */ PACK uint32 variable_008B;              /*!< ?? Something related to memory. */
-	/* 008F(4)   */ PACK uint32 memorySize;                 /*!< Size of memory in paragraphs. */
+	/* 0087(4)   */ PACK uint32  removed_0087;              /*!< REMOVED - ?? Something related to memory. */
+	/* 008B(4)   */ PACK uint32  removed_008B;              /*!< REMOVED - ?? Something related to memory. */
+	/* 008F(4)   */ PACK uint32  removed_008F;              /*!< REMOVED - Size of memory in paragraphs. */
 	/* 0093()    */ PACK uint8   unknown_0093[0x0001];
-	/* 0094()    */ PACK csip32 variable_0094;              /*!< ?? Pointer to string_00A8. */
-	/* 0098()    */ PACK csip32 variable_0098;              /*!< ?? Pointer to string_00B2. */
-	/* 009C(4)   */ PACK uint32 sizeExecutable;             /*!< The size, in bytes, of the executable as loaded in the memory. */
-	/* 00A0(4)   */ PACK uint32 memoryFree;                 /*!< The amount of free bytes in the memory. */
-	/* 00A4(4)   */ PACK uint32 variable_00A4;              /*!< ?? */
+	/* 0094()    */ PACK csip32  removed_0094;              /*!< REMOVED - ?? Pointer to string_00A8. */
+	/* 0098()    */ PACK csip32  removed_0098;              /*!< REMOVED - ?? Pointer to string_00B2. */
+	/* 009C(4)   */ PACK uint32  removed_009C;              /*!< REMOVED - The size, in bytes, of the executable as loaded in the memory. */
+	/* 00A0(4)   */ PACK uint32  removed_00A0;              /*!< REMOVED - The amount of free bytes in the memory. */
+	/* 00A4(4)   */ PACK uint32  removed_00A4;              /*!< REMOVED - ?? */
 	/* 00A8(10)  */ PACK char   string_00A8[10];            /*!< "new8p.fnt" NULL terminated. */
 	/* 00B2(10)  */ PACK char   string_00B2[10];            /*!< "DUNE2.EXE" NULL terminated. */
 	/* 00BC(10)  */ PACK char   string_00BC[9];             /*!< "DUNE.CFG" NULL terminated. */
