@@ -607,12 +607,12 @@ typedef struct GlobalData {
 	/* 31BC(4)   */ PACK uint32  removed_31BC;              /*!< REMOVED - ?? Some timer. */
 	/* 31C0(2)   */ PACK  int16  removed_31C0;              /*!< REMOVED - local copy of #g_selectionState. */
 	/* 31C2(4)   */ PACK uint32  removed_31C2;              /*!< REMOVED - timer for updating unit status */
-	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
-	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
-	/* 31CE(4)   */ PACK uint32 variable_31CE;              /*!< ?? */
-	/* 31D2(2)   */ PACK uint16 variable_31D2;              /*!< ?? */
-	/* 31D4(2)   */ PACK uint16 variable_31D4;              /*!< ?? */
-	/* 31D6(2)   */ PACK uint16 variable_31D6;              /*!< ?? */
+	/* 31C6(4)   */ PACK uint32  removed_31C6;              /*!< REMOVED - animation toggle timer */
+	/* 31CA(4)   */ PACK uint32  removed_31CA;              /*!< REMOVED - animation selection timer */
+	/* 31CE(4)   */ PACK uint32  removed_31CE;              /*!< REMOVED - animation timer */
+	/* 31D2(2)   */ PACK uint16  removed_31D2;              /*!< REMOVED - animation toggle */
+	/* 31D4(2)   */ PACK uint16  removed_31D4;              /*!< REMOVED - selection animation colour */
+	/* 31D6(2)   */ PACK uint16  removed_31D6;              /*!< REMOVED - toggle animation colour */
 	/* 31D8(4)   */ PACK char    removed_31D8[4];           /*!< REMOVED - "ENG" NULL terminated. */
 	/* 31DC(4)   */ PACK char    removed_31DC[4];           /*!< REMOVED - "FRE" NULL terminated. */
 	/* 31E0(4)   */ PACK char    removed_31E0[4];           /*!< REMOVED - "GER" NULL terminated. */

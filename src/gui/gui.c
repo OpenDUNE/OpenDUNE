@@ -612,62 +612,64 @@ static bool GUI_Palette_2BA5_00A2(uint8 *palette, uint16 colour, uint16 referenc
  */
 void GUI_PaletteAnimate()
 {
-	if (g_global->variable_31CE < g_timerGUI) {
-		uint16 colour;
-		if (g_global->variable_37B2 != 0) {
-			colour = 15;
-		} else {
-			colour = (g_global->variable_31D2 == 0) ? 15 : 6;
-		}
+	static uint32 timerAnimation = 0;
+	static uint32 timerSelection = 0;
+	static uint32 timerToggle = 0;
 
+	if (timerAnimation < g_timerGUI) {
+		static bool animationToggle = false;
+
+		uint16 colour;
+
+		colour = (g_global->variable_37B2 == 0 && animationToggle) ? 6 : 15;
 		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_31D2 = (g_global->variable_31D2 == 0) ? 1 : 0;
-		g_global->variable_31CE = g_timerGUI + 60;
+		animationToggle = !animationToggle;
+		timerAnimation = g_timerGUI + 60;
 	}
 
-	if (g_global->variable_31CA < g_timerGUI && g_global->selectionType != 0) {
-		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
-		GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4);
+	if (timerSelection < g_timerGUI && g_global->selectionType != 0) {
+		static uint16 selectionStateColour = 15;
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 255, g_global->variable_31D4)) {
-			if (g_global->variable_31D4 == 13) {
-				g_global->variable_31D4 = 15;
+		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
+		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
+		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
+
+		if (!GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour)) {
+			if (selectionStateColour == 13) {
+				selectionStateColour = 15;
 
 				if (g_global->selectionType == 2) {
 					if (g_selectionState != 0) {
-						g_global->variable_31D4 = (g_selectionState < 0) ? 5 : 15;
+						selectionStateColour = (g_selectionState < 0) ? 5 : 15;
 					} else {
-						g_global->variable_31D4 = 6;
+						selectionStateColour = 6;
 					}
 				}
 			} else {
-				g_global->variable_31D4 = 13;
+				selectionStateColour = 13;
 			}
 		}
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_31CA = g_timerGUI + 3;
+		timerSelection = g_timerGUI + 3;
 	}
 
-	if (g_global->variable_31C6 < g_timerGUI) {
-		GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6);
+	if (timerToggle < g_timerGUI) {
+		static uint16 toggleColour = 12;
 
-		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, g_global->variable_31D6)) {
-			if (g_global->variable_31D6 == 12) {
-				g_global->variable_31D6 = 10;
-			} else {
-				g_global->variable_31D6 = 12;
-			}
+		GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour);
+
+		if (!GUI_Palette_2BA5_00A2(g_palette1, 223, toggleColour)) {
+			toggleColour = (toggleColour == 12) ? 10 : 12;
 		}
 
 		GFX_SetPalette(g_palette1);
 
-		g_global->variable_31C6 = g_timerGUI + 5;
+		timerToggle = g_timerGUI + 5;
 	}
 
 	Sound_StartSpeech();
