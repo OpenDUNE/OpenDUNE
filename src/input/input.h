@@ -79,7 +79,7 @@ typedef struct InputLocalData {
 	/* 0479(185) */ PACK uint8      code_0479[187];
 	/* 0534()    */ PACK uint8   unknown_0534[0x0103];
 	/* 0637(4)   */ PACK uint32  removed_0637;              /*!< REMOVED - File length to read (4L) for variable_063B[x]. */
-	/* 063B(8)   */ PACK uint16 variable_063B[2][2];        /*!< ?? Header of mouse demo file. */
+	/* 063B(8)   */ PACK uint16  removed_063B[2][2];        /*!< REMOVED - Buffer for reading mouse input. */
 	/* 0643(125) */ PACK uint8      code_0643[125];
 	/* 06C0()    */ PACK uint8   unknown_06C0[0x007F];
 	/* 073F(14)  */ PACK uint8      code_073F[14];

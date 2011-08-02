@@ -235,13 +235,14 @@ static uint16 Input_History_Add(uint16 value)
 static void Input_ReadInputFromFile()
 {
 	uint16 value;
+	uint16 mouseBuffer[2];
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_NORMAL || g_global->mouseMode != INPUT_MOUSE_MODE_PLAY) return;
 
-	File_Read(g_global->mouseFileID, s_input_local->variable_063B[0], 4); /* Read failure not translated. */
+	File_Read(g_global->mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_global->variable_7015 = s_input_local->variable_063B[0][1];
-	value = g_global->variable_7013 = s_input_local->variable_063B[0][0];
+	g_global->variable_7015 = mouseBuffer[1];
+	value = g_global->variable_7013 = mouseBuffer[0];
 
 	if ((value & 0xFF) != 0x2D) {
 		uint8 idx, bit;
@@ -264,10 +265,10 @@ static void Input_ReadInputFromFile()
 		}
 	}
 
-	File_Read(g_global->mouseFileID, s_input_local->variable_063B[1], 4); /* Read failure not translated. */
+	File_Read(g_global->mouseFileID, mouseBuffer, 4); /* Read failure not translated. */
 
-	g_mouseX = g_global->variable_7017 = s_input_local->variable_063B[1][0];
-	value = g_mouseY = g_global->variable_7019 = s_input_local->variable_063B[1][1];
+	g_mouseX = g_global->variable_7017 = mouseBuffer[0];
+	value = g_mouseY = g_global->variable_7019 = mouseBuffer[1];
 
 	Mouse_HandleMovementIfMoved(value);
 	g_timerInput = 0;
