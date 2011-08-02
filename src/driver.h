@@ -56,14 +56,7 @@ MSVC_PACKED_END
 assert_compile(sizeof(MSBuffer) == 0x06);
 
 typedef struct DriverInfo {
-	uint16 version;                                         /*!< Version of the driver (of the API). */
-	uint8  unknown_0002[2];
 	char extension[4];                                      /*!< Extension of the file the driver supports. */
-	csip32 driverCode;                                      /*!< Location where the driver is loaded. */
-	uint16 port;                                            /*!< DMA used for driver. */
-	uint16 irq1;                                            /*!< IRQ used for driver. */
-	uint16 dma;                                             /*!< DMA used for driver. */
-	uint16 drq;                                             /*!< DRQ used for driver. */
 	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
 } DriverInfo;
 

@@ -58,14 +58,7 @@ static const uint8 s_var_11E0[9] = { 127, 0, 64, 127, 0, 0, 0, 0, 0 };
 static const uint8 s_var_11E9[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
 
 static DriverInfo s_mpu_driverInfo = {
-	/* version      */ 200,
-	/* unknown_0002 */ { 3, 0 },
 	/* extension    */ "MT",
-	/* driverCode   */ { { 0x0, 0x0 } },
-	/* port         */ 816,
-	/* irq1         */ 65535,
-	/* dma          */ 65535,
-	/* drq          */ 65535,
 	/* frequency    */ 120
 };
 
@@ -883,9 +876,7 @@ void MPU_ClearData(uint16 index)
 
 DriverInfo *MPU_GetInfo()
 {
-	DriverInfo *info = &s_mpu_driverInfo;
-	info->driverCode.s.cs = g_mt32mpu_cs;
-	return info;
+	return &s_mpu_driverInfo;
 }
 
 void MPU_SetVolume(uint16 index, uint16 volume, uint16 arg0C)

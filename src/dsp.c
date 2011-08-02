@@ -12,14 +12,7 @@
 uint16 g_dsp_cs;
 
 static DriverInfo s_dsp_driverInfo = {
-	/* version      */ 200,
-	/* unknown_0002 */ { 2, 0 },
 	/* extension    */ "VOC",
-	/* driverCode   */ { { 0x0, 0x0 } },
-	/* port         */ 544,
-	/* irq1         */ 7,
-	/* dma          */ 1,
-	/* drq          */ 65535,
 	/* frequency    */ 65535
 };
 
@@ -108,9 +101,7 @@ static void DSP_ProcessBlock()
 
 DriverInfo *DSP_GetInfo()
 {
-	DriverInfo *info = &s_dsp_driverInfo;
-	info->driverCode.s.cs = g_dsp_cs;
-	return info;
+	return &s_dsp_driverInfo;
 }
 
 void DSP_Stop()

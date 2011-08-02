@@ -181,7 +181,7 @@ static uint16 Driver_Install(csip32 dcontent)
 	_stat128[_stat1AC].s.ip += ((uint16 *)content)[0];
 
 	info = Driver_GetInfo(_stat1AC);
-	if (info == NULL || info->version > 211) return 0xFFFF;
+	if (info == NULL) return 0xFFFF;
 
 	return _stat1AC;
 }
