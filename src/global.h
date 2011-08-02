@@ -1306,7 +1306,7 @@ typedef struct GlobalData {
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];
 	/* 81B4(2)   */ PACK uint16 strategicMapFastForward;    /*!< ?? */
 	/* 81B6(4)   */ PACK uint32  removed_81B6;              /*!< REMOVED - Arrow animation timeout */
-	/* 81BA(24)  */ PACK uint8  variable_81BA[24];          /*!< Palette for animated arrows in the scenario selection. */
+	/* 81BA(24)  */ PACK uint8   removed_81BA[24];          /*!< REMOVED - Palette for animated arrows in the scenario selection. */
 	/* 81D2(4)   */ PACK csip32  removed_81D2;              /*!< REMOVED - Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */
 	/* 81D6(4)   */ PACK csip32  removed_81D6;              /*!< REMOVED - Pointer to content of RGNCLK.CPS file. */
 	/* 81DA(4)   */ PACK csip32  removed_81DA;              /*!< REMOVED - Pointer to content of REGION[AHO].INI file. */
