@@ -68,8 +68,8 @@ static uint16 s_mpu_msdataSize;
 static uint16 s_mpu_msdataCurrent;
 
 static Controls s_mpu_controls[16];
-static uint8 s_mpu_programs[ 16];
-static uint16 s_mpu_pitchWheel[ 16];
+static uint8 s_mpu_programs[16];
+static uint16 s_mpu_pitchWheel[16];
 static uint8 s_mpu_noteOnCount[16];
 static uint8 s_mpu_lockStatus[16];
 static bool s_mpu_initialized;
