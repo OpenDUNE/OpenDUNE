@@ -20,7 +20,6 @@
 #include "../timer.h"
 #include "../video/video.h"
 
-static InputLocalData *s_input_local = NULL; /*!< Pointer to input data. */
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
 static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
@@ -98,8 +97,6 @@ void Input_Init()
 	uint8 i;
 
 	for (i = 0; i < lengthof(s_activeInputMap); i++) s_activeInputMap[i] = 0;
-
-	s_input_local = (InputLocalData *)&emu_get_memory8(0x29E8, 0x0, 0x0);
 }
 
 /**
