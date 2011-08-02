@@ -18,6 +18,7 @@ void *g_fontNew8p2 = NULL;
 
 uint16 g_var_6C70;
 uint16 g_var_6C71;
+int8 g_fontCharOffset = -1;
 
 FontHeader *g_fontCurrent = NULL;
 
@@ -32,7 +33,7 @@ uint16 Font_GetCharWidth(char c)
 	uint16 width;
 
 	width = *((uint8 *)g_fontCurrent + g_fontCurrent->widthOffset + c);
-	return width + g_global->variable_6C6C;
+	return width + g_fontCharOffset;
 }
 
 /**

@@ -1074,8 +1074,8 @@ typedef struct GlobalData {
 	/* 6C5F(7)   */ PACK char   string_6C5F[7];             /*!< "<MORE>" NULL terminated. */
 	/* 6C66(4)   */ PACK csip32  removed_6C66;              /*!< REMOVED - ?? Pointer to a function. */
 	/* 6C6A(2)   */ PACK uint16  removed_6C6A;              /*!< REMOVED - ?? */
-	/* 6C6C(2)   */ PACK uint16 variable_6C6C;              /*!< ?? Wide-space between chars? */
-	/* 6C6E(2)   */ PACK uint16 variable_6C6E;              /*!< ?? Wide-space between lines? */
+	/* 6C6C(2)   */ PACK uint16  removed_6C6C;              /*!< REMOVED - ?? Wide-space between chars? */
+	/* 6C6E(2)   */ PACK uint16  removed_6C6E;              /*!< REMOVED - ?? Wide-space between lines? */
 	/* 6C70(1)   */ PACK uint8   removed_6C70;              /*!< REMOVED - ?? */
 	/* 6C71(1)   */ PACK uint8   removed_6C71;              /*!< REMOVED - ?? */
 	/* 6C72(4)   */ PACK csip32  removed_6C72;              /*!< REMOVED - ?? Pointer to an array. */

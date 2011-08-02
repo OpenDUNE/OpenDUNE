@@ -489,16 +489,16 @@ void GUI_DrawText(char *string, int16 left, int16 top, uint8 fgColour, uint8 bgC
 
 		if (*s == '\n' || *s == '\r') {
 			x = left;
-			y += height + g_global->variable_6C6E;
+			y += height;
 
 			while (*s == '\n' || *s == '\r') s++;
 		}
 
-		width = data[widthOffset + *s] + g_global->variable_6C6C;
+		width = data[widthOffset + *s] + g_fontCharOffset;
 
 		if (x + width > SCREEN_WIDTH) {
 			x = left;
-			y += height + g_global->variable_6C6E;
+			y += height;
 		}
 		if (y > SCREEN_HEIGHT) break;
 
@@ -546,25 +546,25 @@ void GUI_DrawText_Wrapper(char *string, int16 left, int16 top, uint8 fgColour, u
 			case 0x0010:
 				colours[2] = 0;
 				colours[3] = 0;
-				g_global->variable_6C6C = -2;
+				g_fontCharOffset = -2;
 				break;
 
 			case 0x0020:
 				colours[2] = 12;
 				colours[3] = 0;
-				g_global->variable_6C6C = -1;
+				g_fontCharOffset = -1;
 				break;
 
 			case 0x0030:
 				colours[2] = 12;
 				colours[3] = 12;
-				g_global->variable_6C6C = -1;
+				g_fontCharOffset = -1;
 				break;
 
 			case 0x0040:
 				colours[2] = 232;
 				colours[3] = 0;
-				g_global->variable_6C6C = -1;
+				g_fontCharOffset = -1;
 				break;
 		}
 

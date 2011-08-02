@@ -255,7 +255,7 @@ static void GameLoop_PrepareAnimation(const HouseAnimation_Animation *animation,
 	s_houseAnimation_currentSubtitle = 0;
 	s_houseAnimation_currentVoice    = 0;
 
-	g_global->variable_6C6C = 0;
+	g_fontCharOffset = 0;
 
 	s_var_8062 = arg_8062;
 	s_var_8068 = 0;
@@ -443,7 +443,7 @@ static void GameLoop_B4ED_07B6(uint8 animation)
 
 	GUI_DrawText_Wrapper("Copyright (c) 1992 Westwood Studios, Inc.", 160, 189, 215, 0, 0x112);
 
-	g_global->variable_6C6C = 0;
+	g_fontCharOffset = 0;
 
 	colors[0] = 0;
 	for (i = 0; i < 6; i++) colors[i + 1] = 215 + i;
@@ -1094,7 +1094,7 @@ static void GameLoop_GameCredits()
 
 	GUI_InitColors(colours, 0, lengthof(colours) - 1);
 
-	g_global->variable_6C6C = -1;
+	g_fontCharOffset = -1;
 
 	GFX_SetPalette(g_palette1);
 
