@@ -27,7 +27,7 @@ extern void *g_fontNew8p;
 extern void *g_fontNew8p2;
 
 extern uint16 g_var_6C70;
-extern uint16 g_var_6C71;
+extern uint8 g_var_6C71;
 
 extern int8 g_fontCharOffset;
 

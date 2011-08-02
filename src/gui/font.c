@@ -16,7 +16,7 @@ void *g_fontNew8p = NULL;
 void *g_fontNew8p2 = NULL;
 
 uint16 g_var_6C70;
-uint16 g_var_6C71;
+uint8 g_var_6C71;
 int8 g_fontCharOffset = -1;
 
 FontHeader *g_fontCurrent = NULL;
