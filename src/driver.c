@@ -37,6 +37,12 @@ Driver *g_driverMusic = &s_driverMusic;
 Driver *g_driverSound = &s_driverSound;
 Driver *g_driverVoice = &s_driverVoice;
 
+MSBuffer s_bufferMusic;
+MSBuffer s_bufferSound[4];
+
+MSBuffer *g_bufferMusic = &s_bufferMusic;
+MSBuffer *g_bufferSound[4] = { &s_bufferSound[0], &s_bufferSound[1], &s_bufferSound[2], &s_bufferSound[3] };
+
 void Drivers_Tick()
 {
 	if (emu_flags.inf) MPU_Interrupt();
@@ -251,7 +257,7 @@ uint16 Drivers_Sound_Init(uint16 index)
 		value = MPU_GetDataSize();
 
 		for (i = 0; i < 4; i++) {
-			MSBuffer *buf = &g_global->soundBuffer[i];
+			MSBuffer *buf = g_bufferSound[i];
 
 			buf->buffer = Tools_Malloc(value, 0x10);
 			buf->index  = 0xFFFF;
@@ -293,8 +299,8 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	value = MPU_GetDataSize();
 
-	g_global->musicBuffer.buffer = Tools_Malloc(value, 0x10);
-	g_global->musicBuffer.index  = 0xFFFF;
+	g_bufferMusic->buffer = Tools_Malloc(value, 0x10);
+	g_bufferMusic->index  = 0xFFFF;
 
 	return index;
 }
@@ -359,7 +365,7 @@ csip32 Drivers_GetFunctionCSIP(uint16 driver, uint16 function)
 
 bool Driver_Music_IsPlaying()
 {
-	MSBuffer *buffer = &g_global->musicBuffer;
+	MSBuffer *buffer = g_bufferMusic;
 
 	if (g_driverMusic->index == 0xFFFF) return false;
 	if (buffer->index == 0xFFFF) return false;
@@ -376,7 +382,7 @@ bool Driver_Voice_IsPlaying()
 void Driver_Sound_Play(int16 index, int16 volume)
 {
 	Driver *sound = g_driverSound;
-	MSBuffer *soundBuffer = &g_global->soundBuffer[g_global->soundBufferIndex];
+	MSBuffer *soundBuffer = g_bufferSound[g_global->soundBufferIndex];
 
 	if (index < 0 || index >= 120) return;
 
@@ -401,7 +407,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 void Driver_Music_Stop()
 {
 	Driver *music = g_driverMusic;
-	MSBuffer *musicBuffer = &g_global->musicBuffer;
+	MSBuffer *musicBuffer = g_bufferMusic;
 
 	if (music->index == 0xFFFF) return;
 	if (musicBuffer->index == 0xFFFF) return;
@@ -419,7 +425,7 @@ void Driver_Sound_Stop()
 	if (sound->index == 0xFFFF) return;
 
 	for (i = 0; i < 4; i++) {
-		MSBuffer *soundBuffer = &g_global->soundBuffer[i];
+		MSBuffer *soundBuffer = g_bufferSound[i];
 		if (soundBuffer->index == 0xFFFF) continue;
 
 		MPU_Stop(soundBuffer->index);
@@ -542,7 +548,7 @@ static void Drivers_Music_Uninit()
 	Driver *music = g_driverMusic;
 
 	if (music->index != 0xFFFF) {
-		MSBuffer *buffer = &g_global->musicBuffer;
+		MSBuffer *buffer = g_bufferMusic;
 
 		if (buffer->index != 0xFFFF) {
 			MPU_Stop(buffer->index);
@@ -570,7 +576,7 @@ static void Drivers_Sound_Uninit()
 		uint8 i;
 
 		for (i = 0; i < 4; i++) {
-			MSBuffer *buffer = &g_global->soundBuffer[i];
+			MSBuffer *buffer = g_bufferSound[i];
 
 			if (buffer->index != 0xFFFF) {
 				MPU_Stop(buffer->index);
@@ -646,7 +652,7 @@ void Driver_UnloadFile(Driver *driver)
 void Driver_Music_FadeOut()
 {
 	Driver *music = g_driverMusic;
-	MSBuffer *musicBuffer = &g_global->musicBuffer;
+	MSBuffer *musicBuffer = g_bufferMusic;
 
 	if (music->index == 0xFFFF) return;
 	if (musicBuffer->index == 0xFFFF) return;

@@ -56,6 +56,9 @@ extern Driver *g_driverMusic;
 extern Driver *g_driverSound;
 extern Driver *g_driverVoice;
 
+extern MSBuffer *g_bufferMusic;
+extern MSBuffer *g_bufferSound[4];
+
 extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);
 extern void Drivers_All_Init(uint16 sound, uint16 music, uint16 voice);

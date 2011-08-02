@@ -32,7 +32,7 @@ static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
 	Driver *music = g_driverMusic;
-	MSBuffer *musicBuffer = &g_global->musicBuffer;
+	MSBuffer *musicBuffer = g_bufferMusic;
 
 	if (index < 0 || index > 120 || g_global->musicEnabled == 0) return;
 
