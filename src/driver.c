@@ -40,11 +40,6 @@ MSBuffer *g_bufferSound[4] = { &s_bufferSound[0], &s_bufferSound[1], &s_bufferSo
 
 static uint8 s_bufferSoundIndex;
 
-void Drivers_Tick()
-{
-	if (emu_flags.inf) MPU_Interrupt();
-}
-
 static void Driver_Init(uint16 driver)
 {
 	if (driver >= 16) return;
@@ -139,7 +134,7 @@ uint16 Drivers_SoundMusic_Init(uint16 index)
 	memcpy(music, sound, sizeof(Driver));
 
 	MPU_Init();
-	Timer_Add(Drivers_Tick, 1000000 / 120);
+	Timer_Add(MPU_Interrupt, 1000000 / 120);
 
 	size = MPU_GetDataSize();
 
@@ -406,7 +401,7 @@ static void Drivers_SoundMusic_Uninit()
 	Drivers_Uninit(sound);
 	memcpy(music, sound, sizeof(Driver));
 
-	Timer_Remove(Drivers_Tick);
+	Timer_Remove(MPU_Interrupt);
 	MPU_Uninit();
 }
 
