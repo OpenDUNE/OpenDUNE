@@ -47,8 +47,8 @@ Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
 Unit *g_unitSelected = NULL;
 
-uint16 g_var_39E6;
-uint16 g_var_39E8;
+uint16 g_var_39E6 = 0;
+uint16 g_var_39E8 = 0;
 
 /**
  * Number of units of each type available at the starport.

@@ -105,11 +105,11 @@ static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (
 static bool s_var_37B4;
 
 uint16 g_var_38BC = 0;
-bool g_var_38F8;
-uint16 g_selectionType;
-uint16 g_selectionTypeNew;
-bool g_var_3A12;
-bool g_var_3A14;
+bool g_var_38F8 = true;
+uint16 g_selectionType = 0;
+uint16 g_selectionTypeNew = 0;
+bool g_var_3A12 = false;
+bool g_var_3A14 = false;
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
