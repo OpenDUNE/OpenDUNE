@@ -752,7 +752,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 		type = Map_GetLandscapeType(curPos);
 
 		if (g_debugScenario) {
-			if (g_global->variable_3A3E[type][8] == 0) {
+			if (g_var_3A3E[type][8] == 0) {
 				isValid = false;
 				break;
 			}
@@ -763,12 +763,12 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->o.flags.variable_0008) {
-				if (g_global->variable_3A3E[type][8] == 0 && g_var_38BC == 0) {
+				if (g_var_3A3E[type][8] == 0 && g_var_38BC == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (g_global->variable_3A3E[type][6] == 0 && g_var_38BC == 0) {
+				if (g_var_3A3E[type][6] == 0 && g_var_38BC == 0) {
 					isValid = false;
 					break;
 				}

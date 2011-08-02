@@ -975,7 +975,7 @@ uint16 Unit_Unknown14E6(Unit *unit, Unit *target)
 
 	if (unit == NULL || target == NULL) return 0;
 	if (!Map_IsPositionUnveiled(Tile_PackTile(target->o.position))) return 0;
-	if (g_global->variable_3A3E[Map_GetLandscapeType(Tile_PackTile(target->o.position))][7] == 0) return 0;
+	if (g_var_3A3E[Map_GetLandscapeType(Tile_PackTile(target->o.position))][7] == 0) return 0;
 
 	switch(g_table_unitInfo[target->o.type].movementType) {
 		case MOVEMENT_FOOT:      res = 0x64;   break;
@@ -1095,7 +1095,7 @@ bool Unit_Unknown167C(Unit *unit)
 	type = Map_GetLandscapeType(packed);
 	if (type == LST_STRUCTURE) type = LST_CONCRETE_SLAB;
 
-	locdi = g_global->variable_3A3E[type][2 + (ui->movementType / 2)];
+	locdi = g_var_3A3E[type][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {
 		locdi &= 0xFF;
 	} else {
@@ -1105,7 +1105,7 @@ bool Unit_Unknown167C(Unit *unit)
 	if (unit->o.type == UNIT_SABOTEUR && type == LST_WALL) locdi = 0xFF;
 	unit->o.flags.s.isSmoking = false;
 
-	if (g_global->variable_3A3E[type][5] != 0) unit->o.flags.s.variable_4_0080 = true;
+	if (g_var_3A3E[type][5] != 0) unit->o.flags.s.variable_4_0080 = true;
 
 	if ((ui->o.hitpoints / 2) > unit->o.hitpoints && ui->movementType != MOVEMENT_WINGER) locdi -= locdi / 4;
 
@@ -1865,7 +1865,7 @@ bool Unit_Unknown0E2E(Unit *unit)
 	ui = &g_table_unitInfo[unit->o.type];
 	packed = Tile_PackTile(unit->o.position);
 
-	loc02 = g_global->variable_3A3E[Map_GetLandscapeType(packed)][2 + ui->movementType / 2];
+	loc02 = g_var_3A3E[Map_GetLandscapeType(packed)][2 + ui->movementType / 2];
 	loc02 &= ((ui->movementType & 0x1) != 0) ? 0xFF00 : 0x00FF;
 	if (loc02 == 0) return true;
 
@@ -2322,7 +2322,7 @@ int16 Unit_Unknown3146(Unit *unit, uint16 packed, uint16 arg0C)
 
 	type = Map_GetLandscapeType(packed);
 
-	res = g_global->variable_3A3E[type][2 + (ui->movementType / 2)];
+	res = g_var_3A3E[type][2 + (ui->movementType / 2)];
 	if (ui->movementType % 2 == 0) {
 		res &= 0xFF;
 	} else {
@@ -2661,7 +2661,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 	if (houseID == g_playerHouseID && g_selectionType != 0) {
 		if (unit->o.type == UNIT_SANDWORM) {
 			if (hp->variable_26 == 0) {
-				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
+				if (g_var_3E52 == 0) g_var_3E52 = 1;
 
 				Sound_Output_Feedback(37);
 
@@ -2675,7 +2675,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 			Team *t;
 
 			if (hp->variable_24 == 0) {
-				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
+				if (g_var_3E52 == 0) g_var_3E52 = 1;
 
 				if (unit->o.type != UNIT_SABOTEUR) {
 					Sound_Output_Feedback(12);

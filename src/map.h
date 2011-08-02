@@ -89,6 +89,8 @@ extern const tile32 g_table_tilediff[][8];
 extern uint16 g_var_39E2;
 extern uint16 g_var_3A08;
 
+extern uint16 g_var_3A3E[15][14];
+
 extern uint16 Map_MoveDirection(uint16 direction);
 extern void Map_SetSelection(uint16 packed);
 extern uint16 Map_SetSelectionSize(uint16 layout);

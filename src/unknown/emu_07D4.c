@@ -754,12 +754,12 @@ void Unknown_07D4_1625(uint16 packed)
 		Unit *u;
 
 		if (mapScale > 1) {
-			spriteID = g_scenario.mapScale + g_global->variable_3A3E[type][12] - 1;
+			spriteID = g_scenario.mapScale + g_var_3A3E[type][12] - 1;
 		} else {
-			colour = g_global->variable_3A3E[type][11];
+			colour = g_var_3A3E[type][11];
 		}
 
-		if (g_global->variable_3A3E[type][11] == 0xFFFF) {
+		if (g_var_3A3E[type][11] == 0xFFFF) {
 			if (mapScale > 1) {
 				spriteID = mapScale + t->houseID * 2 + 29;
 			} else {
@@ -797,7 +797,7 @@ void Unknown_07D4_1625(uint16 packed)
 			}
 		} else {
 			if (mapScale > 1) {
-				spriteID = g_scenario.mapScale + g_global->variable_3A3E[LST_ENTIRELY_MOUNTAIN][12] - 1;
+				spriteID = g_scenario.mapScale + g_var_3A3E[LST_ENTIRELY_MOUNTAIN][12] - 1;
 			} else {
 				colour = 12;
 			}

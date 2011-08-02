@@ -797,7 +797,7 @@ typedef struct GlobalData {
 	/* 3A36(2)   */ PACK uint16  removed_3A36;              /*!< REMOVED - The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16  removed_3A38;              /*!< REMOVED - The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32  removed_3A3A;              /*!< REMOVED - Pointer to the house the player is controlling. */
-	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
+	/* 3A3E(448) */ PACK uint16  removed_3A3E[15][14];      /*!< REMOVED - ?? */
 	/* 3BE2(24)  */ PACK csip32  removed_3BE2[6];           /*!< REMOVED - Pointer to the name of the MovementType. */
 	/* 3BFA(20)  */ PACK csip32  removed_3BFA[5];           /*!< REMOVED - Pointer to the name of the TeamActionType. */
 	/* 3C0E(24)  */ PACK uint8   removed_3C0E[3][8];        /*!< REMOVED - Data about the map. [0] is 62x62, [1] is 32x32, [2] is 21x21. */
@@ -814,7 +814,7 @@ typedef struct GlobalData {
 	/* 3D4C(256) */ PACK int8    removed_3D4C[256];         /*!< REMOVED - table with Y steps. */
 	/* 3E4C()    */ PACK uint8   unknown_3E4C[0x0002];
 	/* 3E4E(4)   */ PACK csip32  removed_3E4E;              /*!< REMOVED - Currently loaded music file. */
-	/* 3E52(2)   */ PACK  int16 variable_3E52;              /*!< ?? */
+	/* 3E52(2)   */ PACK  int16  removed_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32  removed_3E54[131];         /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16  removed_4062[22][8];       /*!< REMOVED - ?? Position and size of widgets? (to g_widgetProperties[22]) */

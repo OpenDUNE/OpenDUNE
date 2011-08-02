@@ -111,6 +111,8 @@ uint16 g_selectionTypeNew = 0;
 bool g_var_3A12 = false;
 bool g_var_3A14 = false;
 
+uint16 g_var_3E52 = 0;
+
 /**
  * Check if a level is finished, based on the values in WinFlags.
  *
@@ -1770,10 +1772,10 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_scenarioID = 1;
 	g_playerHouseID = HOUSE_INVALID;
 	g_debugScenario = false;
-	g_global->variable_3A3E[LST_SPICE][11] = 0xD7;
-	g_global->variable_3A3E[LST_SPICE][12] = 0x35;
-	g_global->variable_3A3E[LST_THICK_SPICE][11] = 0xD8;
-	g_global->variable_3A3E[LST_THICK_SPICE][12] = 0x35;
+	g_var_3A3E[LST_SPICE][11] = 0xD7;
+	g_var_3A3E[LST_SPICE][12] = 0x35;
+	g_var_3A3E[LST_THICK_SPICE][11] = 0xD8;
+	g_var_3A3E[LST_THICK_SPICE][12] = 0x35;
 	g_selectionType = 0;
 	g_selectionTypeNew = 0;
 
@@ -2221,13 +2223,13 @@ static void GameLoop_Main()
 			if (g_gameConfig.music == 0) {
 				Music_Play(2);
 
-				g_global->variable_3E52 = 0;
-			} else if (g_global->variable_3E52 > 0) {
+				g_var_3E52 = 0;
+			} else if (g_var_3E52 > 0) {
 				Music_Play(Tools_RandomRange(0, 5) + 17);
 				l_timerNext = g_timerGUI + 300;
-				g_global->variable_3E52 = -1;
+				g_var_3E52 = -1;
 			} else {
-				g_global->variable_3E52 = 0;
+				g_var_3E52 = 0;
 				if (g_config.musicDrv != 0 && g_timerGUI > l_timerNext) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
