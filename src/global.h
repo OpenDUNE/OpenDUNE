@@ -1313,20 +1313,20 @@ typedef struct GlobalData {
 	/* 81DE(4)   */ PACK csip32  removed_81DE;              /*!< REMOVED - Pointer to content of ARROWS.SHP file. */
 	/* 81E2(4)   */ PACK csip32  removed_81E2;              /*!< REMOVED - Pointer to content of PIECES.SHP file. */
 	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
-	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< Read Only - ?? */
-	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
+	/* 81E8(3)   */ PACK uint8   removed_81E8[3];           /*!< REMOVED - Always zero? */
+	/* 81EB(2)   */ PACK uint16  removed_81EB;              /*!< REMOVED - Time played. */
 	/* 81ED(4)   */ PACK csip32  removed_81ED;              /*!< REMOVED - ?? */
 	/* 81F1(40)  */ PACK uint16  removed_81F1[5][4];        /*!< REMOVED - Temporary storage for colour border schema. */
 	/* 8219()    */ PACK uint8   unknown_8219[0x0001];
-	/* 821A(1)   */ PACK uint8   removed_821A;              /*!< REMOVED ?? (never used) */
-	/* 821B(1)   */ PACK uint8   removed_821B;              /*!< REMOVED ?? (never used) */
-	/* 821C(1)   */ PACK uint8   removed_821C;              /*!< REMOVED ?? (never used) */
-	/* 821D(4)   */ PACK csip32  removed_821D;              /*!< REMOVED ?? Pointer to an element in an array of uint8. (never used) */
-	/* 8221(4)   */ PACK csip32  removed_8221;              /*!< REMOVED ?? Pointer to an element in an array of uint8. (never used) */
-	/* 8225(2)   */ PACK uint16  removed_8225;              /*!< REMOVED (never read) */
-	/* 8227(2)   */ PACK uint16  removed_8227;              /*!< REMOVED ?? (never used) */
-	/* 8229(2)   */ PACK uint16  removed_8229;              /*!< REMOVED ?? (never used) */
-	/* 822B(1)   */ PACK uint8   removed_822B;              /*!< REMOVED ?? (never used) */
+	/* 821A(1)   */ PACK uint8   removed_821A;              /*!< REMOVED - ?? (never used) */
+	/* 821B(1)   */ PACK uint8   removed_821B;              /*!< REMOVED - ?? (never used) */
+	/* 821C(1)   */ PACK uint8   removed_821C;              /*!< REMOVED - ?? (never used) */
+	/* 821D(4)   */ PACK csip32  removed_821D;              /*!< REMOVED - ?? Pointer to an element in an array of uint8. (never used) */
+	/* 8221(4)   */ PACK csip32  removed_8221;              /*!< REMOVED - ?? Pointer to an element in an array of uint8. (never used) */
+	/* 8225(2)   */ PACK uint16  removed_8225;              /*!< REMOVED - (never read) */
+	/* 8227(2)   */ PACK uint16  removed_8227;              /*!< REMOVED - ?? (never used) */
+	/* 8229(2)   */ PACK uint16  removed_8229;              /*!< REMOVED - ?? (never used) */
+	/* 822B(1)   */ PACK uint8   removed_822B;              /*!< REMOVED - ?? (never used) */
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char    removed_8282[14];          /*!< REMOVED - String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16  removed_8290[200];         /*!< REMOVED - positions of changes in the map. */

@@ -110,6 +110,8 @@ static uint16 s_temporaryColourBorderSchema[5][4];          /*!< Temporary stora
 uint16 g_productionStringID;                                /*!< Descriptive text of activity of the active structure. */
 bool g_textDisplayNeedsUpdate;                              /*!< If set, text display needs to be updated. */
 uint32 g_strategicRegionBits;                               /*!< Region bits at the map. */
+static uint32 s_ticksPlayed;
+bool g_var_81E6;
 
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
@@ -1278,7 +1280,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 {
 	PoolFindStruct find;
 	uint16 locdi = 0;
-	int16  loc0A;
+	uint16 targetTime;
 	uint16 loc0C = 0;
 	uint32 tmp;
 
@@ -1328,10 +1330,10 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 
 	if (score < 0) score = 0;
 
-	loc0A = g_campaignID * 45;
+	targetTime = g_campaignID * 45;
 
-	if ((int16)g_global->variable_81EB < loc0A) {
-		score += loc0A - g_global->variable_81EB;
+	if (s_ticksPlayed < targetTime) {
+		score += targetTime - s_ticksPlayed;
 	}
 
 	return score;
@@ -1411,9 +1413,9 @@ static void GUI_HallOfFame_DrawBackground(uint16 score, bool hallOfFame)
 	if (score != 0xFFFF) {
 		char buffer[64];
 		/* "Time: %dh %dm" */
-		snprintf(buffer, sizeof(buffer), String_Get_ByIndex(0x16), g_global->variable_81EB / 60, g_global->variable_81EB % 60);
+		snprintf(buffer, sizeof(buffer), String_Get_ByIndex(0x16), s_ticksPlayed / 60, s_ticksPlayed % 60);
 
-		if (g_global->variable_81EB < 60) {
+		if (s_ticksPlayed < 60) {
 			char *hours = strchr(buffer, '0');
 			while (*hours != ' ') strcpy(hours, hours + 1);
 		}
@@ -1481,7 +1483,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 	uint16 loc32[3][2][2];
 	uint16 i;
 
-	g_global->variable_81EB = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
+	s_ticksPlayed = ((g_timerGame - g_tickScenarioStart) / 3600) + 1;
 
 	score = Update_Score(score, &harvestedAllied, &harvestedEnemy, houseID);
 
@@ -1626,7 +1628,7 @@ void GUI_EndStats_Show(uint16 killedAllied, uint16 killedEnemy, uint16 destroyed
 
 	GUI_HallOfFame_Show(score);
 
-	memcpy(g_palette1 + 0x2FD, g_global->variable_81E8, 3);
+	memset(g_palette1 + 255 * 3, 0, 3);
 
 	GFX_Screen_SetActive(oldScreenID);
 
@@ -4206,7 +4208,7 @@ void GUI_HallOfFame_Show(uint16 score)
 			GUI_Mouse_Show_Safe();
 			return;
 		}
-		g_global->variable_81EB = 0;
+		s_ticksPlayed = 0;
 	}
 
 	data = (HallOfFameData *)GFX_Screen_Get_ByIndex(5);
@@ -4294,9 +4296,9 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	GFX_Screen_SetActive(0);
 
-	g_global->variable_81E6 = 0;
+	g_var_81E6 = false;
 
-	while (g_global->variable_81E6 == 0) GUI_Widget_HandleEvents(w);
+	while (!g_var_81E6) GUI_Widget_HandleEvents(w);
 
 	GUI_HallOfFame_DeleteButtons(w);
 
@@ -4304,7 +4306,7 @@ void GUI_HallOfFame_Show(uint16 score)
 
 	if (score == 0xFFFF) return;
 
-	memcpy(g_palette1 + 255 * 3, g_global->variable_81E8, 3);
+	memset(g_palette1 + 255 * 3, 0, 3);
 }
 
 uint16 GUI_HallOfFame_DrawData(HallOfFameData *data, bool show)
