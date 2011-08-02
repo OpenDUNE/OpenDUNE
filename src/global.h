@@ -469,7 +469,7 @@ typedef struct GlobalData {
 	/* 2AF3(1)   */ PACK uint8   removed_2AF3;              /*!< REMOVED - ?? */
 	/* 2AF4(2)   */ PACK uint32  removed_2AF4;              /*!< REMOVED - strategic region bits. */
 	/* 2AF8(20)  */ PACK char   string_2AF8[5][4];          /*!< "ENG\0FRE\0GER\0ITA\0SPA" NULL terminated. */
-	/* 2B0C(4)   */ PACK uint32 variable_2B0C;              /*!< ?? */
+	/* 2B0C(4)   */ PACK uint32  removed_2B0C;              /*!< REMOVED - ?? Some timer. */
 	/* 2B10(2)   */ PACK uint16  removed_2B10;              /*!< REMOVED - scenario select arrow animation state. */
 	/* 2B12(12)  */ PACK char   string_2B12[12];            /*!< "MAPMACH.CPS" NULL terminated. */
 	/* 2B1E(11)  */ PACK char   string_2B1E[11];            /*!< "PLANET.CPS" NULL terminated. */

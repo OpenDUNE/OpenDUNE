@@ -2922,6 +2922,7 @@ static bool GUI_StrategicMap_FastForwardToggleWithESC()
 
 static void GUI_StrategicMap_DrawText(char *string)
 {
+	static uint32 l_timerNext = 0;
 	uint16 oldScreenID;
 	uint16 y;
 
@@ -2933,7 +2934,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 
 	GUI_DrawText_Wrapper(string, 64, 175, 12, 0, 0x12);
 
-	while (g_timerGUI + 90 < g_global->variable_2B0C) sleep(0);
+	while (g_timerGUI + 90 < l_timerNext) sleep(0);
 
 	for (y = 185; y > 172; y--) {
 		GUI_Screen_Copy(8, y, 8, 165, 24, 14, 2, 0);
@@ -2945,7 +2946,7 @@ static void GUI_StrategicMap_DrawText(char *string)
 		}
 	}
 
-	g_global->variable_2B0C = g_timerGUI + 90;
+	l_timerNext = g_timerGUI + 90;
 
 	GFX_Screen_SetActive(oldScreenID);
 }
