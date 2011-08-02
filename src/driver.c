@@ -127,47 +127,40 @@ static bool Drivers_Init(Driver *driver, const char *extension)
 
 uint16 Drivers_SoundMusic_Init(uint16 index)
 {
-	MSDriver *driver;
 	Driver *sound;
 	Driver *music;
+	uint32 size;
+	uint8 i;
 
-	driver = &g_global->soundDrv[index];
 	sound  = g_driverSound;
 	music  = g_driverMusic;
 
-	if (!Drivers_Init(sound, (char *)emu_get_memorycsip(driver->extension))) return 0;
+	if (!Drivers_Init(sound, "C55")) return 0;
 	memcpy(music, sound, sizeof(Driver));
 
 	MPU_Init();
 	Timer_Add(Drivers_Tick, 1000000 / 120);
 
-	if (driver->variable_0008 == 0) {
-		uint32 size;
-		uint8 i;
+	size = MPU_GetDataSize();
 
-		size = MPU_GetDataSize();
+	for (i = 0; i < 4; i++) {
+		MSBuffer *buf = g_bufferSound[i];
 
-		for (i = 0; i < 4; i++) {
-			MSBuffer *buf = g_bufferSound[i];
-
-			buf->buffer = calloc(1, size);
-			buf->index  = 0xFFFF;
-		}
-		s_bufferSoundIndex = 0;
-
-		g_bufferMusic->buffer = calloc(1, size);
-		g_bufferMusic->index  = 0xFFFF;
+		buf->buffer = calloc(1, size);
+		buf->index  = 0xFFFF;
 	}
+	s_bufferSoundIndex = 0;
+
+	g_bufferMusic->buffer = calloc(1, size);
+	g_bufferMusic->index  = 0xFFFF;
 
 	return index;
 }
 
 uint16 Drivers_Voice_Init(uint16 index)
 {
-	DSDriver *driver;
 	Driver *voice;
 
-	driver = &g_global->voiceDrv[index];
 	voice  = g_driverVoice;
 
 	if (!Drivers_Init(voice, "VOC")) return 0;

@@ -915,9 +915,9 @@ typedef struct GlobalData {
 	/* 639C(2)   */ PACK uint16  removed_639C;              /*!< REMOVED - ?? */
 	/* 639E(6)   */ PACK uint8   removed_639E[6];           /*!< REMOVED - ?? */
 	/* 63A4(6)   */ PACK uint8   removed_63A4[6];           /*!< REMOVED - ?? */
-	/* 63AA(28)  */ PACK DSDriver voiceDrv[7];              /*!< Informations about the digitized sound drivers. */
-	/* 63C6(168) */ PACK MSDriver musicDrv[14];             /*!< Informations about the music drivers. */
-	/* 646E(168) */ PACK MSDriver soundDrv[14];             /*!< Informations about the sound drivers. */
+	/* 63AA(28)  */ PACK uint8   removed_63AA[7][4];        /*!< REMOVED - Informations about the digitized sound drivers. */
+	/* 63C6(168) */ PACK uint8   removed_63C6[14][12];      /*!< REMOVED - Informations about the music drivers. */
+	/* 646E(168) */ PACK uint8   removed_646E[14][12];      /*!< REMOVED - Informations about the sound drivers. */
 	/* 6516(2)   */ PACK uint16  removed_6516;              /*!< REMOVED - ?? */
 	/* 6518(17)  */ PACK char  string_6518[17];             /*!< "Sound1 for %08lx" NULL terminated. */
 	/* 6529(5)   */ PACK char  string_6529[5];              /*!< ".COM" NULL terminated. */

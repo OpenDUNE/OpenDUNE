@@ -5,31 +5,6 @@
 #ifndef DRIVER_H
 #define DRIVER_H
 
-MSVC_PACKED_BEGIN
-/**
- * Inside the GlobalData is information about digitized sound drivers. This is the layout of
- *  that data.
- */
-typedef struct DSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
-} GCC_PACKED DSDriver;
-MSVC_PACKED_END
-assert_compile(sizeof(DSDriver) == 0x04);
-
-MSVC_PACKED_BEGIN
-/**
- * Inside the GlobalData is information about music/sound drivers. This is the layout of
- *  that data.
- */
-typedef struct MSDriver {
-	/* 0000(4)   */ PACK csip32 filename;                   /*!< Pointer to filename for the driver. */
-	/* 0004(4)   */ PACK csip32 extension;                  /*!< Pointer to extension used for music file names. */
-	/* 0008(2)   */ PACK uint16 variable_0008;              /*!< ?? */
-	/* 000A(2)   */ PACK uint16 variable_000A;              /*!< ?? */
-} GCC_PACKED MSDriver;
-MSVC_PACKED_END
-assert_compile(sizeof(MSDriver) == 0x0C);
-
 typedef struct Driver {
 	uint16 index;                                           /*!< Index of the loaded driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
