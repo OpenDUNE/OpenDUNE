@@ -35,9 +35,9 @@ typedef struct Driver {
 	const char *dfilename;                                  /*!< Pointer to filename for the driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
 	void  *dcontent;                                        /*!< Pointer to the driver file content. */
-	csip32 content;                                         /*!< Pointer to the file to play content. */
+	void  *content;                                         /*!< Pointer to the file to play content. */
 	char  *filename;                                        /*!< Pointer to the name of file to play. */
-	uint16 contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
+	bool   contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
 } Driver;
 
 typedef struct MSBuffer {

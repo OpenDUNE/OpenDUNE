@@ -379,7 +379,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 		soundBuffer->index = 0xFFFF;
 	}
 
-	soundBuffer->index = MPU_SetData(emu_get_memorycsip(sound->content), index, emu_get_memorycsip(soundBuffer->buffer));
+	soundBuffer->index = MPU_SetData(sound->content, index, emu_get_memorycsip(soundBuffer->buffer));
 
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
@@ -463,12 +463,12 @@ void Driver_Voice_Stop()
 
 	if (Driver_Voice_IsPlaying()) DSP_Stop();
 
-	if (voice->contentMalloced != 0) {
-		Tools_Free(voice->content);
-		voice->contentMalloced = 0;
+	if (voice->contentMalloced) {
+		free(voice->content);
+		voice->contentMalloced = false;
 	}
 
-	voice->content.csip = 0x0;
+	voice->content = NULL;
 }
 
 void Driver_Sound_LoadFile(const char *musicName)
@@ -480,10 +480,10 @@ void Driver_Sound_LoadFile(const char *musicName)
 
 	if (sound->index == 0xFFFF) return;
 
-	if (sound->content.csip == music->content.csip) {
-		sound->content.csip = 0x0;
+	if (sound->content == music->content) {
+		sound->content         = NULL;
 		sound->filename        = NULL;
-		sound->contentMalloced = 0;
+		sound->contentMalloced = false;
 	} else {
 		Driver_UnloadFile(sound);
 	}
@@ -597,8 +597,6 @@ void Drivers_All_Uninit()
 void Driver_LoadFile(const char *musicName, Driver *driver)
 {
 	char *filename;
-	uint8 fileIndex;
-	int32 size;
 
 	filename = Drivers_GenerateFilename(musicName, driver);
 
@@ -609,29 +607,21 @@ void Driver_LoadFile(const char *musicName, Driver *driver)
 	driver->filename = malloc(strlen(filename) + 1);
 	strcpy(driver->filename, filename);
 
-	fileIndex = File_Open(filename, 1);
-
-	size = File_GetSize(fileIndex);
-
-	driver->content = Tools_Malloc(size, 0x20);
-	driver->contentMalloced = 1;
-
-	File_Read(fileIndex, (void *)emu_get_memorycsip(driver->content), size);
-
-	File_Close(fileIndex);
+	driver->content = File_ReadWholeFile(filename);
+	driver->contentMalloced = true;
 }
 
 void Driver_UnloadFile(Driver *driver)
 {
-	if (driver->content.csip != 0x0 && driver->contentMalloced != 0) {
-		Tools_Free(driver->content);
+	if (driver->contentMalloced) {
+		free(driver->content);
 	}
 
 	free(driver->filename);
 
-	driver->contentMalloced = 0;
 	driver->filename        = NULL;
-	driver->content.csip     = 0x0;
+	driver->content         = NULL;
+	driver->contentMalloced = false;
 }
 
 void Driver_Music_FadeOut()

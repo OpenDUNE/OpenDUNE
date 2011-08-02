@@ -44,7 +44,7 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 		musicBuffer->index = 0xFFFF;
 	}
 
-	musicBuffer->index = MPU_SetData(emu_get_memorycsip(music->content), index, emu_get_memorycsip(musicBuffer->buffer));
+	musicBuffer->index = MPU_SetData(music->content, index, emu_get_memorycsip(musicBuffer->buffer));
 
 	MPU_Play(musicBuffer->index);
 	MPU_SetVolume(musicBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
@@ -59,10 +59,10 @@ static void Driver_Music_LoadFile(const char *musicName)
 
 	if (music->index == 0xFFFF) return;
 
-	if (music->content.csip == sound->content.csip) {
-		music->content.csip     = 0x0;
+	if (music->content == sound->content) {
+		music->content         = NULL;
 		music->filename        = NULL;
-		music->contentMalloced = 0;
+		music->contentMalloced = false;
 	} else {
 		Driver_UnloadFile(music);
 	}
