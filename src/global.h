@@ -786,10 +786,10 @@ typedef struct GlobalData {
 	/* 3A06(2)   */ PACK uint16  removed_3A06;              /*!< REMOVED - Height of the selection. */
 	/* 3A08(2)   */ PACK uint16  removed_3A08;              /*!< REMOVED - ?? */
 	/* 3A0A(4)   */ PACK csip32  removed_3A0A;              /*!< REMOVED - Current selected unit. */
-	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure, 7 = intro. */
-	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */
-	/* 3A12(2)   */ PACK uint16 variable_3A12;              /*!< ?? */
-	/* 3A14(2)   */ PACK uint16 variable_3A14;              /*!< ?? */
+	/* 3A0E(2)   */ PACK uint16  removed_30AE;              /*!< REMOVED - Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure, 7 = intro. */
+	/* 3A10(2)   */ PACK uint16  removed_3A10;              /*!< REMOVED - ?? */
+	/* 3A12(2)   */ PACK uint16  removed_3A12;              /*!< REMOVED - ?? */
+	/* 3A14(2)   */ PACK uint16  removed_3A14;              /*!< REMOVED - ?? */
 	/* 3A16(22)  */ PACK uint16 progressbarInfo[11];        /*!< Info about the current progressbar (there is only one in Dune2). */
 	/* 3A2C(4)   */ PACK csip32  removed_3A2C;              /*!< REMOVED - Pointer to content of new6p[g].fnt. */
 	/* 3A30(4)   */ PACK csip32  removed_3A30;              /*!< REMOVED - Pointer to content of new8p.fnt (copy of new8pFnt). */

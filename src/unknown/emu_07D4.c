@@ -196,7 +196,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
-	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
+	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_selectionType == 2 || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
@@ -205,7 +205,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_SetClippingArea(0, 40, 239, SCREEN_HEIGHT - 1);
 		GUI_DrawWiredRectangle(x1, y1, x2, y2, 0xFF);
 
-		if (g_selectionState == 0 && g_global->selectionType == 2) {
+		if (g_selectionState == 0 && g_selectionType == 2) {
 			GUI_DrawLine(x1, y1, x2, y2, 0xFF);
 			GUI_DrawLine(x2, y1, x1, y2, 0xFF);
 		}
@@ -541,7 +541,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 	}
 
 	if (updateDisplay && !arg0A) {
-		if (g_global->variable_3A14 != 0) {
+		if (g_var_3A14) {
 			GUI_Mouse_Hide_InWidget(g_curWidgetIndex);
 
 			/* ENHANCEMENT -- When fading in the game on start, you don't see the fade as it is against the already drawn screen. */
@@ -556,7 +556,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_Screen_FadeIn(g_curWidgetXBase, g_curWidgetYBase, g_curWidgetXBase, g_curWidgetYBase, g_curWidgetWidth, g_curWidgetHeight, g_screenActiveID, 0);
 			GUI_Mouse_Show_InWidget();
 
-			g_global->variable_3A14 = 0;
+			g_var_3A14 = false;
 		} else {
 			bool init = false;
 
@@ -606,19 +606,19 @@ void Unknown_07D4_0000(uint16 screenID)
 	uint16 oldScreenID;
 	uint16 xpos;
 
-	if (g_global->selectionType < 1 || g_global->selectionType > 4) return;
+	if (g_selectionType < 1 || g_selectionType > 4) return;
 
 	loc10 = false;
 
 	oldScreenID = GFX_Screen_SetActive(screenID);
 
-	if (screenID != 0) g_global->variable_3A12 = 1;
+	if (screenID != 0) g_var_3A12 = true;
 
 	Map_Activity_Tick();
 	Animation_Tick();
 	Unit_Sort();
 
-	if (g_global->variable_3A12 == 0 && g_viewportPosition != g_minimapPosition) {
+	if (!g_var_3A12 && g_viewportPosition != g_minimapPosition) {
 		uint16 viewportX = Tile_GetPackedX(g_viewportPosition);
 		uint16 viewportY = Tile_GetPackedY(g_viewportPosition);
 		int16 xOffset = Tile_GetPackedX(g_minimapPosition) - viewportX; /* Horizontal offset between viewport and minimap. */
@@ -630,9 +630,9 @@ void Unknown_07D4_0000(uint16 screenID)
 
 		int16 x, y;
 
-		if (xOverlap < 1 || yOverlap < 1) g_global->variable_3A12 = 1;
+		if (xOverlap < 1 || yOverlap < 1) g_var_3A12 = true;
 
-		if (g_global->variable_3A12 == 0 && (xOverlap != 15 || yOverlap != 10)) {
+		if (!g_var_3A12 && (xOverlap != 15 || yOverlap != 10)) {
 			Map_SetSelectionObjectPosition(0xFFFF);
 			loc10 = true;
 
@@ -640,7 +640,7 @@ void Unknown_07D4_0000(uint16 screenID)
 
 			GUI_Screen_Copy(max(-xOffset << 1, 0), 40 + max(-yOffset << 4, 0), max(0, xOffset << 1), 40 + max(0, yOffset << 4), xOverlap << 1, yOverlap << 4, 0, 2);
 		} else {
-			g_global->variable_3A12 = 1;
+			g_var_3A12 = true;
 		}
 
 		xOffset = max(0, xOffset);
@@ -650,7 +650,7 @@ void Unknown_07D4_0000(uint16 screenID)
 			uint16 mapYBase = (y + viewportY) << 6;
 
 			for (x = 0; x < 15; x++) {
-				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && g_global->variable_3A12 == 0) continue;
+				if (x >= xOffset && (xOffset + xOverlap) > x && y >= yOffset && (yOffset + yOverlap) > y && !g_var_3A12) continue;
 
 				Map_Update(x + viewportX + mapYBase, 0, true);
 			}
@@ -682,9 +682,9 @@ void Unknown_07D4_0000(uint16 screenID)
 		}
 	}
 
-	Unknown_07D4_034D(g_global->variable_3A12 != 0, loc10, screenID != 0);
+	Unknown_07D4_034D(g_var_3A12, loc10, screenID != 0);
 
-	g_global->variable_3A12 = 0;
+	g_var_3A12 = false;
 
 	GFX_Screen_SetActive(oldScreenID);
 

@@ -106,6 +106,10 @@ static bool s_var_37B4;
 
 uint16 g_var_38BC = 0;
 bool g_var_38F8;
+uint16 g_selectionType;
+uint16 g_selectionTypeNew;
+bool g_var_3A12;
+bool g_var_3A14;
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -1770,8 +1774,8 @@ static void GameLoop_GameIntroAnimationMenu()
 	g_global->variable_3A3E[LST_SPICE][12] = 0x35;
 	g_global->variable_3A3E[LST_THICK_SPICE][11] = 0xD8;
 	g_global->variable_3A3E[LST_THICK_SPICE][12] = 0x35;
-	g_global->selectionType = 0x0;
-	g_global->variable_3A10 = 0x0;
+	g_selectionType = 0;
+	g_selectionTypeNew = 0;
 
 	g_palette1 = calloc(1, 256 * 3);
 	g_palette2 = calloc(1, 256 * 3);
@@ -2187,8 +2191,8 @@ static void GameLoop_Main()
 			g_strategicRegionBits = 0;
 		}
 
-		if (g_global->variable_3A10 != g_global->selectionType) {
-			GUI_ChangeSelectionType(g_global->variable_3A10);
+		if (g_selectionTypeNew != g_selectionType) {
+			GUI_ChangeSelectionType(g_selectionTypeNew);
 		}
 
 		GUI_PaletteAnimate();
@@ -2237,14 +2241,14 @@ static void GameLoop_Main()
 
 		key = GUI_Widget_HandleEvents(g_widgetLinkedListHead);
 
-		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
+		if (g_selectionType >= 1 && g_selectionType <= 4) {
 			if (g_unitSelected != NULL) {
 				if (l_timerUnitStatus < g_timerGame) {
 					Unit_DisplayStatusText(g_unitSelected);
 					l_timerUnitStatus = g_timerGame + 300;
 				}
 
-				if (g_global->selectionType != 1) {
+				if (g_selectionType != 1) {
 					g_selectionPosition = Tile_PackTile(Tile_Center(g_unitSelected->o.position));
 				}
 			}
@@ -2368,8 +2372,8 @@ void Game_Prepare()
 
 	g_var_38BC++;
 
-	oldSelectionType = g_global->selectionType;
-	g_global->selectionType = 0;
+	oldSelectionType = g_selectionType;
+	g_selectionType = 0;
 
 	Structure_Recount();
 	Unit_Recount();
@@ -2471,10 +2475,10 @@ void Game_Prepare()
 	Voice_LoadVoices(g_playerHouseID);
 
 	g_tickHousePowerMaintenance = max(g_timerGame + 70, g_tickHousePowerMaintenance);
-	g_global->variable_3A12 = 1;
+	g_var_3A12 = true;
 	g_playerCredits = 0xFFFF;
 
-	g_global->selectionType = oldSelectionType;
+	g_selectionType = oldSelectionType;
 	g_var_38BC--;
 }
 

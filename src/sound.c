@@ -309,7 +309,7 @@ void Sound_Output_Feedback(uint16 index)
 
 		g_viewportMessageText = NULL;
 		if ((g_viewportMessageCounter & 1) != 0) {
-			g_global->variable_3A12 = 1;
+			g_var_3A12 = true;
 			g_viewportMessageCounter = 0;
 		}
 		g_global->variable_4060 = 0;
@@ -323,7 +323,7 @@ void Sound_Output_Feedback(uint16 index)
 		g_viewportMessageText = String_Get_ByIndex(g_feedback[index].messageId);
 
 		if ((g_viewportMessageCounter & 1) != 0) {
-			g_global->variable_3A12 = 1;
+			g_var_3A12 = true;
 		}
 
 		g_viewportMessageCounter = 4;

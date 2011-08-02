@@ -92,7 +92,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		if (!click && !drag) {
 			if (s_tickMapScroll + 10 >= g_timerGame || s_tickCursor + 20 >= g_timerGame) return true;
 			if (g_gameConfig.autoScroll == 0) return true;
-			if (g_global->selectionType == 4 || g_global->selectionType == 3) return true;
+			if (g_selectionType == 4 || g_selectionType == 3) return true;
 		}
 
 		s_tickMapScroll = g_timerGame;
@@ -125,7 +125,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 	packed = Tile_PackXY(x, y);
 
-	if (click && g_global->selectionType == 1) {
+	if (click && g_selectionType == 1) {
 		Unit *u;
 		ActionType action;
 		uint16 encoded;
@@ -181,7 +181,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		return true;
 	}
 
-	if (click && g_global->selectionType == 2) {
+	if (click && g_selectionType == 2) {
 		const StructureInfo *si;
 		Structure *s;
 		House *h;
@@ -273,9 +273,9 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 		return true;
 	}
 
-	if (g_global->selectionType == 1) {
+	if (g_selectionType == 1) {
 		Map_SetSelection(Unit_FindTargetAround(packed));
-	} else if (g_global->selectionType == 2) {
+	} else if (g_selectionType == 2) {
 		Map_SetSelection(packed);
 	}
 

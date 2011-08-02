@@ -650,7 +650,7 @@ void GUI_PaletteAnimate()
 		timerAnimation = g_timerGUI + 60;
 	}
 
-	if (timerSelection < g_timerGUI && g_global->selectionType != 0) {
+	if (timerSelection < g_timerGUI && g_selectionType != 0) {
 		static uint16 selectionStateColour = 15;
 
 		GUI_Palette_2BA5_00A2(g_palette1, 255, selectionStateColour);
@@ -661,7 +661,7 @@ void GUI_PaletteAnimate()
 			if (selectionStateColour == 13) {
 				selectionStateColour = 15;
 
-				if (g_global->selectionType == 2) {
+				if (g_selectionType == 2) {
 					if (g_selectionState != 0) {
 						selectionStateColour = (g_selectionState < 0) ? 5 : 15;
 					} else {
@@ -838,7 +838,7 @@ uint16 GUI_DisplayModalMessage(char *str, uint16 spriteID, ...)
 	if (screenBackup != NULL) {
 		free(screenBackup);
 	} else {
-		g_global->variable_3A12 = 1;
+		g_var_3A12 = true;
 	}
 
 	GFX_Screen_SetActive(oldScreenID);
@@ -1899,7 +1899,7 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 	assert(stringID < 64);
 
-	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_global->selectionType == 0) return 0;
+	if (g_debugGame || stringID == 0 || !g_gameConfig.hints || g_selectionType == 0) return 0;
 
 	if (stringID < 32) {
 		mask = (1 << stringID);
@@ -1970,7 +1970,7 @@ void GUI_DrawInterfaceAndRadar(uint16 screenID)
 
 	oldScreenID = GFX_Screen_SetActive((screenID == 0) ? 2 : screenID);
 
-	g_global->variable_3A12 = 1;
+	g_var_3A12 = true;
 
 	Sprites_LoadImage("SCREEN.CPS", 3, NULL, 1);
 
@@ -2165,13 +2165,13 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
-	if (g_global->selectionType != selectionType || g_table_selectionType[selectionType].variable_0A != 0) {
-		uint16 oldSelectionType = g_global->selectionType;
+	if (g_selectionType != selectionType || g_table_selectionType[selectionType].variable_0A != 0) {
+		uint16 oldSelectionType = g_selectionType;
 
 		Timer_SetTimer(TIMER_GAME, false);
 
-		g_global->selectionType = selectionType;
-		g_global->variable_3A10 = selectionType;
+		g_selectionType = selectionType;
+		g_selectionTypeNew = selectionType;
 		g_var_37B8 = true;
 
 		switch (oldSelectionType) {
@@ -2196,8 +2196,8 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		}
 
 		if (g_table_selectionType[oldSelectionType].variable_04 != 0 && g_table_selectionType[selectionType].variable_06 != 0) {
-			g_global->variable_3A12 = 1;
-			g_global->variable_3A14 = 1;
+			g_var_3A12 = true;
+			g_var_3A14 = true;
 
 			GUI_DrawInterfaceAndRadar(0);
 		}
@@ -2232,7 +2232,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 			g_textDisplayNeedsUpdate = true;
 		}
 
-		switch (g_global->selectionType) {
+		switch (g_selectionType) {
 			case 0:
 				if (oldSelectionType != 7) {
 					g_global->cursorSpriteID = 0;

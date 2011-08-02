@@ -24,11 +24,11 @@ static uint32 SaveLoad_SelectionType(void *object, uint32 value, bool loading)
 	VARIABLE_NOT_USED(object);
 
 	if (loading) {
-		g_global->variable_3A10 = (uint16)value;
+		g_selectionTypeNew = (uint16)value;
 		return 0;
 	}
 
-	return g_global->selectionType;
+	return g_selectionType;
 }
 
 static uint32 SaveLoad_StructureActive(void *object, uint32 value, bool loading)
@@ -128,7 +128,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GENTRY (SLDT_UINT16, g_playerCreditsNoSilo),
 	SLD_GENTRY (SLDT_UINT16, g_minimapPosition),
 	SLD_GENTRY (SLDT_UINT16, g_selectionRectanglePosition),
-	SLD_CALLB  (GlobalData, SLDT_INT8,   selectionType, &SaveLoad_SelectionType),
+	SLD_GCALLB (SLDT_INT8,   g_selectionType, &SaveLoad_SelectionType),
 	SLD_GENTRY2(SLDT_INT8,   g_structureActiveType, SLDT_UINT16),
 	SLD_GENTRY (SLDT_UINT16, g_structureActivePosition),
 	SLD_GCALLB (SLDT_UINT16, g_structureActive, &SaveLoad_StructureActive),

@@ -273,7 +273,7 @@ bool GUI_Widget_TextButton_Click(Widget *w)
 
 	ai = &g_table_actionInfo[action];
 
-	if (ai->variable_08 != g_global->selectionType) {
+	if (ai->variable_08 != g_selectionType) {
 		g_unitActive = g_unitSelected;
 		g_activeAction = action;
 		GUI_ChangeSelectionType(ai->variable_08);

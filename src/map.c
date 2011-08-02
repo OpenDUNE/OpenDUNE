@@ -472,9 +472,9 @@ uint16 Map_MoveDirection(uint16 direction)
  */
 void Map_SetSelection(uint16 packed)
 {
-	if (g_global->selectionType == 1) return;
+	if (g_selectionType == 1) return;
 
-	if (g_global->selectionType == 2) {
+	if (g_selectionType == 2) {
 		g_selectionState = Structure_IsValidBuildLocation(packed, g_structureActiveType);
 		g_selectionPosition = packed;
 		return;
@@ -488,7 +488,7 @@ void Map_SetSelection(uint16 packed)
 			const StructureInfo *si;
 
 			si = &g_table_structureInfo[s->o.type];
-			if (s->o.houseID == g_playerHouseID || g_global->selectionType != 0) {
+			if (s->o.houseID == g_playerHouseID || g_selectionType != 0) {
 				GUI_DisplayHint(si->o.hintStringID, si->o.spriteID);
 			}
 
@@ -501,7 +501,7 @@ void Map_SetSelection(uint16 packed)
 			Map_SetSelectionSize(STRUCTURE_LAYOUT_1x1);
 		}
 
-		if (g_global->selectionType != 1) {
+		if (g_selectionType != 1) {
 			Unit *u;
 
 			u = Unit_Get_ByPackedTile(packed);
@@ -629,7 +629,7 @@ void Map_UpdateMinimapPosition(uint16 packed, bool forceUpdate)
 	uint16 oldScreenID;
 
 	if (packed != 0xFFFF && packed == minimapPreviousPosition && !forceUpdate) return;
-	if (g_global->selectionType == 0) return;
+	if (g_selectionType == 0) return;
 
 	oldScreenID = GFX_Screen_SetActive(2);
 

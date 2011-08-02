@@ -434,7 +434,7 @@ bool House_UpdateRadarState(House *h)
 
 	WSA_Unload(wsa);
 
-	g_global->variable_3A12 = 1;
+	g_var_3A12 = true;
 
 	GUI_Mouse_Show_Safe();
 

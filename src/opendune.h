@@ -47,6 +47,10 @@ extern bool   g_debugSkipDialogs;
 
 extern uint16 g_var_38BC;
 extern bool g_var_38F8;
+extern uint16 g_selectionType;
+extern uint16 g_selectionTypeNew;
+extern bool g_var_3A12;
+extern bool g_var_3A14;
 
 extern void *g_readBuffer;
 extern uint32 g_readBufferSize;

@@ -1829,7 +1829,7 @@ uint16 Unit_FindTargetAround(uint16 packed)
 
 	uint8 i;
 
-	if (g_global->selectionType == 2) return packed;
+	if (g_selectionType == 2) return packed;
 
 	if (Structure_Get_ByPackedTile(packed) != NULL) return packed;
 
@@ -2406,7 +2406,7 @@ bool Unit_Unknown379B(Unit *unit)
 
 	if (unit != g_unitSelected) return true;
 
-	if (g_global->selectionType == 1) {
+	if (g_selectionType == 1) {
 		g_veiledSpriteID = 0;
 		g_bloomSpriteID = 0;
 		g_landscapeSpriteID = 0xFFFF;
@@ -2658,7 +2658,7 @@ void Unit_HouseUnitCount_Add(Unit *unit, uint8 houseID)
 		}
 	}
 
-	if (houseID == g_playerHouseID && g_global->selectionType != 0) {
+	if (houseID == g_playerHouseID && g_selectionType != 0) {
 		if (unit->o.type == UNIT_SANDWORM) {
 			if (hp->variable_26 == 0) {
 				if (g_global->variable_3E52 == 0) g_global->variable_3E52 = 1;
