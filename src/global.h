@@ -1312,7 +1312,7 @@ typedef struct GlobalData {
 	/* 81DA(4)   */ PACK csip32  removed_81DA;              /*!< REMOVED - Pointer to content of REGION[AHO].INI file. */
 	/* 81DE(4)   */ PACK csip32  removed_81DE;              /*!< REMOVED - Pointer to content of ARROWS.SHP file. */
 	/* 81E2(4)   */ PACK csip32  removed_81E2;              /*!< REMOVED - Pointer to content of PIECES.SHP file. */
-	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
+	/* 81E6(2)   */ PACK uint16  removed_81E6;              /*!< REMOVED - ?? */
 	/* 81E8(3)   */ PACK uint8   removed_81E8[3];           /*!< REMOVED - Always zero? */
 	/* 81EB(2)   */ PACK uint16  removed_81EB;              /*!< REMOVED - Time played. */
 	/* 81ED(4)   */ PACK csip32  removed_81ED;              /*!< REMOVED - ?? */
