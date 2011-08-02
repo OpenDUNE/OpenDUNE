@@ -1396,8 +1396,6 @@ typedef struct GlobalData {
 MSVC_PACKED_END
 assert_compile(sizeof(GlobalData) == 0x99F7);
 
-extern uint8 *emu_get_memorycsip(csip32 csip);
-
 extern GlobalData *g_global;
 
 #endif /* GLOBAL_H */
