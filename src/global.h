@@ -258,9 +258,9 @@ typedef struct GlobalData {
 	/* 18F3(3)   */ PACK char   string_18F3[3];             /*!< "³ " NULL terminated. */
 	/* 18F6(6)   */ PACK char   string_18F6[6];             /*!< "%02X " NULL terminated. */
 	/* 18FC(2)   */ PACK char   string_18FC[2];             /*!< "." NULL terminated. */
-	/* 18FE(4)   */ PACK csip32 donotuse_18FE;
-	/* 1902(4)   */ PACK csip32 donotuse_1902;
-	/* 1906(32)  */ PACK uint16 donotuse_1906[16];
+	/* 18FE(4)   */ PACK csip32  removed_18FE;
+	/* 1902(4)   */ PACK csip32  removed_1902;
+	/* 1906(32)  */ PACK uint16  removed_1906[16];
 	/* 1926(28)  */ PACK char   string_1926[28];            /*!< "Victory Controls for Player" NULL terminated. */
 	/* 1942(5)   */ PACK char   string_1942[5];             /*!< "Imm." NULL terminated. */
 	/* 1947(4)   */ PACK char   string_1947[4];             /*!< "End" NULL terminated. */
@@ -320,7 +320,7 @@ typedef struct GlobalData {
 	/* 1EA0()    */ PACK uint8   unknown_1EA0[0x0001];
 	/* 1EA1(9)   */ PACK char   string_1EA1[9];             /*!< "MEANWHIL" NULL terminated. */
 	/* 1EAA(8)   */ PACK char   string_1EAA[8];             /*!< "EFINALA" NULL terminated. */
-	/* 1EB2(15)  */ PACK char   string_scenario_file[15];   /*!< "SCEN%c%03d.INI" NULL terminated. */
+	/* 1EB2(15)  */ PACK char   string_1EB2[15];            /*!< "SCEN%c%03d.INI" NULL terminated. */
 	/* 1EC1(6)   */ PACK char   string_1EC1[6];             /*!< "BASIC" NULL terminated. */
 	/* 1EC7(9)   */ PACK char   string_1EC7[9];             /*!< "WinFlags" NULL terminated. */
 	/* 1ED0(10)  */ PACK char   string_1ED0[10];            /*!< "LoseFlags" NULL terminated. */
@@ -358,7 +358,7 @@ typedef struct GlobalData {
 	/* 2005()    */ PACK uint8   unknown_2005[0x0001];
 	/* 2006(21)  */ PACK int8    removed_2006[21];          /*!< REMOVED - some offset data around a center */
 	/* 201B(336) */ PACK uint16  removed_201B[2][21][4];    /*!< REMOVED - table with offsets for averaging a scenario. */
-	/* 216B(12)  */ PACK csip32 spriteFiles[3];             /*!< Array of pointers to spriteFilesX. */
+	/* 216B(12)  */ PACK csip32  removed_216B[3];           /*!< REMOVED - Array of pointers to spriteFilesX. */
 	/* 2177(2)   */ PACK uint16  removed_2177;              /*!< REMOVED - True if ICON.ICN/MAP data are loaded. */
 	/* 2179(36)  */ PACK uint8   removed_2179[0x0024];      /*!< REMOVED - ?? */
 	/* 219D(48)  */ PACK uint16  removed_219D[4][6];        /*!< REMOVED - stringIDs of main menu */
@@ -427,12 +427,12 @@ typedef struct GlobalData {
 	/* 2586(13)  */ PACK char   string_2586[13];            /*!< "MENTAT%c.CPS" NULL terminated. */
 	/* 2593(9)   */ PACK char   string_2593[9];             /*!< "BENE.PAL" NULL terminated. */
 	/* 259C(8)   */ PACK char   string_259C[8];             /*!< "IBM.PAL" NULL terminated. */
-	/* 25A4(10)  */ PACK char    removed_25A4[10];          /*!< REMOVED - "FHARK.WSA" NULL terminated. */
-	/* 25AE(10)  */ PACK char    removed_25AE[10];          /*!< REMOVED - "FARTR.WSA" NULL terminated. */
-	/* 25B8(11)  */ PACK char    removed_25B8[11];          /*!< REMOVED - "FORDOS.WSA" NULL terminated. */
+	/* 25A4(10)  */ PACK char   string_25A4[10];            /*!< "FHARK.WSA" NULL terminated. */
+	/* 25AE(10)  */ PACK char   string_25AE[10];            /*!< "FARTR.WSA" NULL terminated. */
+	/* 25B8(11)  */ PACK char   string_25B8[11];            /*!< "FORDOS.WSA" NULL terminated. */
 	/* 25C3(8)   */ PACK char   string_25C3[8];             /*!< "PROTECT" NULL terminated. */
 	/* 25CB(3)   */ PACK char   string_25CB[3];             /*!< "%d" NULL terminated. */
-	/* 25CE(2)   */ PACK uint16  removed_25CE;              /*!< REMOVED - select from the list of ingame help subjects. */
+	/* 25CE(2)   */ PACK uint16  removed_25CE;              /*!< REMOVED - Select from the list of ingame help subjects. */
 	/* 25D0(4)   */ PACK csip32  removed_25D0;              /*!< REMOVED - Base address of help subjects (helpDataList). */
 	/* 25D4(2)   */ PACK uint16  removed_25D4;              /*!< REMOVED - Displayed help subject (displayedHelpSubject)  */
 	/* 25D6(9)   */ PACK char   string_25D6[9];             /*!< "MENTAT%c" NULL terminated. */
@@ -466,7 +466,7 @@ typedef struct GlobalData {
 	/* 2ADE(8)   */ PACK char   string_2ADE[8];             /*!< "%s=%d\r\n" NULL terminated. */
 	/* 2AE6(5)   */ PACK char   string_2AE6[8];             /*!< "%s=%s\r\n" NULL terminated. */
 	/* 2AEE(5)   */ PACK char   string_2AEE[5];             /*!< "[%s]" NULL terminated. */
-	/* 2AF3(1)   */ PACK uint8  variable_2AF3;              /*!< ?? */
+	/* 2AF3(1)   */ PACK uint8   removed_2AF3;              /*!< REMOVED - ?? */
 	/* 2AF4(2)   */ PACK uint32  removed_2AF4;              /*!< REMOVED - strategic region bits. */
 	/* 2AF8(20)  */ PACK char   string_2AF8[5][4];          /*!< "ENG\0FRE\0GER\0ITA\0SPA" NULL terminated. */
 	/* 2B0C(4)   */ PACK uint32 variable_2B0C;              /*!< ?? */
