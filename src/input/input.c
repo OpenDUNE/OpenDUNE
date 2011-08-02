@@ -20,6 +20,8 @@
 #include "../timer.h"
 #include "../video/video.h"
 
+int g_inputIgnore; /*!< If non-zero, input (keyboard + mouse) is ignored for the time being. */
+
 static uint16 s_history[128];                /*!< History of input commands. */
 static uint16 s_historyHead = 0;             /*!< The current head inside the #s_history array. */
 static uint16 s_historyTail = 0;             /*!< The current tail inside the #s_history array. */
@@ -354,7 +356,7 @@ void Input_HandleInput(uint16 input)
 
 	if (g_global->mouseMode == INPUT_MOUSE_MODE_RECORD) {
 		saveSize = 4;
-		if (g_global->ignoreInput != 0) return;
+		if (g_inputIgnore != 0) return;
 	}
 
 	if (input == 0) return;

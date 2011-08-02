@@ -1366,17 +1366,17 @@ typedef struct GlobalData {
 	/* 9846(4)   */ PACK csip32  removed_9846;              /*!< REMOVED - Stored interrupt vector for overlay handler. */
 	/* 984A(14)  */ PACK char    removed_984A[14];          /*!< REMOVED - Buffer to store a filename */
 	/* 9858(14)  */ PACK char    removed_9858[14];          /*!< REMOVED - Buffer to store a filename (NEVER USED) */
-	/* 9866(2)   */ PACK uint16  removed_9866;              /*!< REMOVED ?? (never used) */
-	/* 9868(2)   */ PACK uint16  removed_9868;              /*!< REMOVED ?? (never used) */
+	/* 9866(2)   */ PACK uint16  removed_9866;              /*!< REMOVED - ?? (never used) */
+	/* 9868(2)   */ PACK uint16  removed_9868;              /*!< REMOVED - ?? (never used) */
 	/* 986A()    */ PACK uint8   unknown_986A[0x0002];
-	/* 986C(1)   */ PACK uint8  ignoreInput;                /*!< Ignore mouse and keyboard if non zero. */
-	/* 986D(1)   */ PACK uint8   removed_986D;              /*!< REMOVED ?? (never used) */
-	/* 986E(1)   */ PACK uint8   removed_986E;              /*!< REMOVED ?? (never used) */
+	/* 986C(1)   */ PACK uint8   removed_98DC;              /*!< REMOVED - Ignore mouse and keyboard if non zero. */
+	/* 986D(1)   */ PACK uint8   removed_986D;              /*!< REMOVED - ?? (never used) */
+	/* 986E(1)   */ PACK uint8   removed_986E;              /*!< REMOVED - ?? (never used) */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8   removed_9882[0x005F];      /*!< REMOVED - Current directory. */
 	/* 98E1(10)  */ PACK uint8   removed_98E1[10];          /*!< REMOVED - Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
-	/* 98ED(2)   */ PACK uint16  removed_98ED;              /*!< REMOVED ?? (never used) */
+	/* 98ED(2)   */ PACK uint16  removed_98ED;              /*!< REMOVED - ?? (never used) */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];
 	/* 98F1(2)   */ PACK uint16  removed_98F1;              /*!< REMOVED - If screen memory has to go in highermemory (0x40 or 0x0). Always 0x0. */
 	/* 98F3()    */ PACK uint8   unknown_98F3[0x0038];

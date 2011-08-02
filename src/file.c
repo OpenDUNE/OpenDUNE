@@ -15,6 +15,7 @@
 #include "file.h"
 
 #include "tools.h"
+#include "input/input.h"
 
 
 /**
@@ -199,16 +200,16 @@ bool File_Exists(const char *filename)
 {
 	uint8 index;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 
 	index = _File_Open(filename, 1);
 	if (index == FILE_INVALID) {
-		g_global->ignoreInput--;
+		g_inputIgnore--;
 		return false;
 	}
 	File_Close(index);
 
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 
 	return true;
 }
@@ -224,9 +225,9 @@ uint8 File_Open(const char *filename, uint8 mode)
 {
 	uint8 res;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 	res = _File_Open(filename, mode);
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 
 	if (res == FILE_INVALID) {
 		fprintf(stderr, "ERROR: unable to open file '%s'.\n", filename);
@@ -246,12 +247,12 @@ void File_Close(uint8 index)
 	if (index >= FILE_MAX) return;
 	if (s_file[index].fp == NULL) return;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 
 	fclose(s_file[index].fp);
 	s_file[index].fp = NULL;
 
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 }
 
 /**
@@ -271,14 +272,14 @@ uint32 File_Read(uint8 index, void *buffer, uint32 length)
 
 	if (length > s_file[index].size - s_file[index].position) length = s_file[index].size - s_file[index].position;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 	if (fread(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: read error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 
 	s_file[index].position += length;
 	return length;
@@ -297,14 +298,14 @@ uint32 File_Write(uint8 index, void *buffer, uint32 length)
 	if (index >= FILE_MAX) return 0;
 	if (s_file[index].fp == NULL) return 0;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 	if (fwrite(buffer, length, 1, s_file[index].fp) != 1) {
 		fprintf(stderr, "ERROR: write error\n");
 		File_Close(index);
 
 		length = 0;
 	}
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 
 	s_file[index].position += length;
 	if (s_file[index].position > s_file[index].size) s_file[index].size = s_file[index].position;
@@ -325,7 +326,7 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 	if (s_file[index].fp == NULL) return 0;
 	if (mode > 2) { File_Close(index); return 0; }
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 	switch (mode) {
 		case 0:
 			fseek(s_file[index].fp, s_file[index].start + position, SEEK_SET);
@@ -340,7 +341,7 @@ uint32 File_Seek(uint8 index, uint32 position, uint8 mode)
 			s_file[index].position = s_file[index].size - position;
 			break;
 	}
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 
 	return s_file[index].position;
 }
@@ -378,9 +379,9 @@ void File_Delete(const char *filename)
 		}
 	}
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 	unlink(filenameComplete);
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 }
 
 /**
@@ -392,16 +393,16 @@ void File_Create(const char *filename)
 {
 	uint8 index;
 
-	g_global->ignoreInput++;
+	g_inputIgnore++;
 
 	index = _File_Open(filename, 2);
 	if (index == FILE_INVALID) {
-		g_global->ignoreInput--;
+		g_inputIgnore--;
 		return;
 	}
 	File_Close(index);
 
-	g_global->ignoreInput--;
+	g_inputIgnore--;
 }
 
 /**
