@@ -8,15 +8,15 @@
 #endif
 #include <stdio.h>
 #include "types.h"
-#include "libemu.h"
 #include "opendune.h"
 
-extern void System_Init_Global();
-
 extern char *emu_caption;
+extern uint8 emu_overlay;
 extern uint8 emu_mpu;
 extern uint8 emu_pic;
 extern uint8 emu_pcm;
+
+extern void emu_init();
 
 #if defined(__APPLE__)
 int SDL_main(int argc, char **argv)
@@ -43,8 +43,6 @@ int main(int argc, char **argv)
 
 	emu_init(argc, argv);
 	emu_overlay = 1;
-
-	System_Init_Global();
 
 	Main();
 
