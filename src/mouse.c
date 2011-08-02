@@ -300,13 +300,6 @@ void Mouse_HandleMovement(uint16 newButtonState, uint16 mouseX, uint16 mouseY)
 {
 	g_mouseLock = 0x1;
 
-	if (g_global->snapX != 0) {
-		mouseX = ((mouseX - g_global->snapGreyX) / g_global->snapX) * g_global->snapX + g_global->snapGreyX;
-	}
-	if (g_global->snapY != 0) {
-		mouseY = ((mouseY - g_global->snapGreyY) / g_global->snapY) * g_global->snapY + g_global->snapGreyY;
-	}
-
 	g_mouseX = mouseX;
 	g_mouseY = mouseY;
 	if (g_mouseMode != INPUT_MOUSE_MODE_PLAY && g_mouseMode != INPUT_MOUSE_MODE_NORMAL && (g_inputFlags & 0x1000) == 0) {
