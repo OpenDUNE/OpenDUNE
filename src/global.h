@@ -606,7 +606,7 @@ typedef struct GlobalData {
 	/* 31B6()    */ PACK uint8   unknown_31B6[0x0006];
 	/* 31BC(4)   */ PACK uint32  removed_31BC;              /*!< REMOVED - ?? Some timer. */
 	/* 31C0(2)   */ PACK  int16  removed_31C0;              /*!< REMOVED - local copy of #g_selectionState. */
-	/* 31C2(4)   */ PACK uint32 variable_31C2;              /*!< ?? */
+	/* 31C2(4)   */ PACK uint32  removed_31C2;              /*!< REMOVED - timer for updating unit status */
 	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
 	/* 31CA(4)   */ PACK uint32 variable_31CA;              /*!< ?? */
 	/* 31CE(4)   */ PACK uint32 variable_31CE;              /*!< ?? */

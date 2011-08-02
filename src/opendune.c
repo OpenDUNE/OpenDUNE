@@ -2139,6 +2139,7 @@ static void InGame_Numpad_Move(uint16 key)
 static void GameLoop_Main()
 {
 	static uint32 l_timerNext = 0;
+	static uint32 l_timerUnitStatus = 0;
 	static int16  l_selectionState = -2;
 
 	uint16 key;
@@ -2230,9 +2231,9 @@ static void GameLoop_Main()
 
 		if (g_global->selectionType >= 1 && g_global->selectionType <= 4) {
 			if (g_unitSelected != NULL) {
-				if (g_global->variable_31C2 < g_timerGame) {
+				if (l_timerUnitStatus < g_timerGame) {
 					Unit_DisplayStatusText(g_unitSelected);
-					g_global->variable_31C2 = g_timerGame + 300;
+					l_timerUnitStatus = g_timerGame + 300;
 				}
 
 				if (g_global->selectionType != 1) {
