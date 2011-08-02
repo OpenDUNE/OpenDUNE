@@ -74,8 +74,8 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 	if ((w->state.s.buttonState & 0x11) != 0) {
 		click = true;
-		g_global->variable_37B8 = 0;
-	} else if ((w->state.s.buttonState & 0x22) != 0 && g_global->variable_37B8 == 0) {
+		g_var_37B8 = false;
+	} else if ((w->state.s.buttonState & 0x22) != 0 && !g_var_37B8) {
 		drag = true;
 	}
 
@@ -195,12 +195,12 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 			if (s->o.type == STRUCTURE_PALACE) House_Get_ByIndex(s->o.houseID)->palacePosition = s->o.position;
 
-			if (g_structureActiveType == STRUCTURE_REFINERY && g_global->variable_38BC == 0) {
+			if (g_structureActiveType == STRUCTURE_REFINERY && g_var_38BC == 0) {
 				Unit *u;
 
-				g_global->variable_38BC++;
+				g_var_38BC++;
 				u = Unit_CreateWrapper(g_playerHouseID, UNIT_HARVESTER, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
-				g_global->variable_38BC--;
+				g_var_38BC--;
 
 				if (u == NULL) {
 					h->variable_02++;

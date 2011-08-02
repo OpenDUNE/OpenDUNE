@@ -77,6 +77,9 @@ extern uint16 g_mouseSpriteHotspotY;
 extern uint16 g_mouseWidth;
 extern uint16 g_mouseHeight;
 
+extern uint16 g_variable_37B2;
+extern bool g_var_37B8;
+
 extern void GUI_DrawWiredRectangle(uint16 left, uint16 top, uint16 right, uint16 bottom, uint8 colour);
 extern void GUI_DrawFilledRectangle(int16 left, int16 top, int16 right, int16 bottom, uint8 colour);
 extern void GUI_DisplayText(const char *str, int16 importance, ...);

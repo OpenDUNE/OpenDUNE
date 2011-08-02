@@ -101,6 +101,11 @@ static void *s_buffer_1832 = NULL;
 
 static uint16 s_var_8052 = 0;
 
+static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
+static bool s_var_37B4;
+
+uint16 g_var_38BC = 0;
+
 /**
  * Check if a level is finished, based on the values in WinFlags.
  *
@@ -626,7 +631,7 @@ static void GameLoop_PlayAnimation()
 				if (mode == 3) frame--;
 			}
 
-			if (Input_Keyboard_NextKey() != 0 && g_global->variable_37B4 != 0) {
+			if (Input_Keyboard_NextKey() != 0 && s_var_37B4) {
 				WSA_Unload(wsa);
 				return;
 			}
@@ -1282,16 +1287,16 @@ static void Gameloop_Logos()
 
 	WSA_Unload(wsa);
 
-	if (g_global->variable_37B4 == 0) {
+	if (!s_var_37B4) {
 		Voice_LoadVoices(0xFFFF);
 	} else {
-		if (Input_Keyboard_NextKey() == 0 && g_global->variable_37B4 != 0) {
+		if (Input_Keyboard_NextKey() == 0 && s_var_37B4) {
 			Voice_LoadVoices(0xFFFF);
 		}
 	}
 
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1306,7 +1311,7 @@ static void Gameloop_Logos()
 	while (Driver_Music_IsPlaying());
 
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1328,7 +1333,7 @@ static void Gameloop_Logos()
 
 	g_timerTimeout = 60;
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
 
 		Unknown_259E_0006(g_palette2, 30);
 
@@ -1350,7 +1355,7 @@ static void Gameloop_Logos()
 
 	g_timerTimeout = 180;
 	while (g_timerTimeout != 0) {
-		if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) continue;
+		if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) continue;
 	}
 
 	Unknown_259E_0006(g_palette2, 30);
@@ -1371,7 +1376,7 @@ static void GameLoop_GameIntroAnimation()
 
 	Gameloop_Logos();
 
-	if (Input_Keyboard_NextKey() == 0 || g_global->variable_37B4 == 0) {
+	if (Input_Keyboard_NextKey() == 0 || !s_var_37B4) {
 		const HouseAnimation_Animation *animation = g_table_houseAnimation_animation[HOUSEANIMATION_INTRO];
 		const HouseAnimation_Subtitle  *subtitle  = g_table_houseAnimation_subtitle[HOUSEANIMATION_INTRO];
 		const HouseAnimation_Voice     *voice     = g_table_houseAnimation_voice[HOUSEANIMATION_INTRO];
@@ -1848,7 +1853,7 @@ static void GameLoop_GameIntroAnimationMenu()
 		hasSave = File_Exists("_save000.dat");
 		hasFame = File_Exists("SAVEFAME.DAT");
 
-		if (hasSave || File_Exists("ONETIME.DAT")) g_global->variable_37B4 = 1;
+		if (hasSave || File_Exists("ONETIME.DAT")) s_var_37B4 = true;
 
 		stringID = 0x1C; /* Replay Introduction */
 
@@ -1874,12 +1879,12 @@ static void GameLoop_GameIntroAnimationMenu()
 					File_ReadBlockFile("IBM.PAL", g_palette_998A, 256 * 3);
 					memmove(g_palette1, g_palette_998A, 256 * 3);
 
-					if (g_global->variable_37B4 == 0) {
+					if (!s_var_37B4) {
 						uint8 fileID;
 
 						fileID = File_Open("ONETIME.DAT", 2);
 						File_Close(fileID);
-						g_global->variable_37B4 = 1;
+						s_var_37B4 = true;
 					}
 
 					Music_Play(0);
@@ -2021,7 +2026,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	GUI_Mouse_Hide_Safe();
 
-	g_global->variable_37B4 = 0;
+	s_var_37B4 = false;
 
 	GUI_DrawFilledRectangle(g_curWidgetXBase << 3, g_curWidgetYBase, (g_curWidgetXBase + g_curWidgetWidth) << 3, g_curWidgetYBase + g_curWidgetHeight, 12);
 
@@ -2035,7 +2040,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	Input_History_Clear();
 
-	if (g_global->enableLog != 0) Mouse_SetMouseMode((uint8)g_global->enableLog, "DUNE.LOG");
+	if (s_enableLog != 0) Mouse_SetMouseMode((uint8)s_enableLog, "DUNE.LOG");
 
 	if (!loc02) {
 		if (g_playerHouseID == HOUSE_INVALID) {
@@ -2268,7 +2273,7 @@ static void GameLoop_Main()
 
 	GUI_Mouse_Hide_Safe();
 
-	if (g_global->enableLog != 0) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
+	if (s_enableLog != 0) Mouse_SetMouseMode(INPUT_MOUSE_MODE_NORMAL, "DUNE.LOG");
 
 	GUI_Mouse_Hide_Safe();
 
@@ -2360,7 +2365,7 @@ void Game_Prepare()
 	Tile *t;
 	int i;
 
-	g_global->variable_38BC++;
+	g_var_38BC++;
 
 	oldSelectionType = g_global->selectionType;
 	g_global->selectionType = 0;
@@ -2469,7 +2474,7 @@ void Game_Prepare()
 	g_playerCredits = 0xFFFF;
 
 	g_global->selectionType = oldSelectionType;
-	g_global->variable_38BC--;
+	g_var_38BC--;
 }
 
 /**
@@ -2524,7 +2529,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 
 	Game_Init();
 
-	g_global->variable_38BC++;
+	g_var_38BC++;
 
 	if (!Scenario_Load(scenarioID, houseID)) {
 		GUI_DisplayModalMessage("No more scenarios!", 0xFFFF);
@@ -2540,7 +2545,7 @@ void Game_LoadScenario(uint8 houseID, uint16 scenarioID)
 		g_hintsShown2 = 0;
 	}
 
-	g_global->variable_38BC--;
+	g_var_38BC--;
 }
 
 /**

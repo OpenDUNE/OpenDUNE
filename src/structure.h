@@ -99,6 +99,8 @@ extern Structure *g_structureActive;
 extern uint16 g_structureActivePosition;
 extern uint16 g_structureActiveType;
 
+extern uint16 g_structureIndex;
+
 extern void GameLoop_Structure();
 extern uint8 Structure_StringToType(const char *name);
 extern Structure *Structure_Create(uint16 index, uint8 typeID, uint8 houseID, uint16 position);

@@ -166,9 +166,9 @@ void GameLoop_House()
 				tile32 tile;
 				tile.tile = 0xFFFFFFFF;
 
-				g_global->variable_38BC++;
+				g_var_38BC++;
 				u = Unit_Create(UNIT_INDEX_INVALID, u->o.type, u->o.houseID, tile, 0);
-				g_global->variable_38BC--;
+				g_var_38BC--;
 
 				if (u != NULL) {
 					g_scenario.reinforcement[i].unitID = u->o.index;
@@ -233,7 +233,7 @@ void GameLoop_House()
 			if (h->starportTimeLeft == 0) {
 				Structure *s;
 
-				s = Structure_Get_ByIndex(g_global->structureIndex);
+				s = Structure_Get_ByIndex(g_structureIndex);
 				if (s->o.type == STRUCTURE_STARPORT && s->o.houseID == h->index) {
 					u = Unit_CreateWrapper((uint8)h->index, UNIT_FRIGATE, Tools_Index_Encode(s->o.index, IT_STRUCTURE));
 
@@ -453,8 +453,8 @@ void House_UpdateCreditsStorage(uint8 houseID)
 	PoolFindStruct find;
 	uint32 creditsStorage;
 
-	uint16 loc06 = g_global->variable_38BC;
-	g_global->variable_38BC = 0;
+	uint16 loc06 = g_var_38BC;
+	g_var_38BC = 0;
 
 	find.houseID = houseID;
 	find.index   = 0xFFFF;
@@ -476,7 +476,7 @@ void House_UpdateCreditsStorage(uint8 houseID)
 
 	House_Get_ByIndex(houseID)->creditsStorage = creditsStorage;
 
-	g_global->variable_38BC = loc06;
+	g_var_38BC = loc06;
 }
 
 /**
@@ -537,7 +537,7 @@ void House_CalculatePowerAndCredit(House *h)
 	}
 
 	/* If there are no buildings left, you lose your right on 'credits without storage' */
-	if (h->index == g_playerHouseID && h->structuresBuilt == 0 && g_global->variable_38BC == 0) {
+	if (h->index == g_playerHouseID && h->structuresBuilt == 0 && g_var_38BC == 0) {
 		g_playerCreditsNoSilo = 0;
 	}
 }

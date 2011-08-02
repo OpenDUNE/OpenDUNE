@@ -154,9 +154,9 @@ bool LoadFile(char *filename)
 
 	Sprites_LoadTiles();
 
-	g_global->variable_38BC++;
+	g_var_38BC++;
 	res = Load_Main(fp);
-	g_global->variable_38BC--;
+	g_var_38BC--;
 
 	fclose(fp);
 

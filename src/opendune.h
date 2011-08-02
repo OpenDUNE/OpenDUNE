@@ -45,6 +45,8 @@ extern bool   g_debugGame;
 extern bool   g_debugScenario;
 extern bool   g_debugSkipDialogs;
 
+extern uint16 g_var_38BC;
+
 extern void *g_readBuffer;
 extern uint32 g_readBufferSize;
 

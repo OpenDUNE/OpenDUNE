@@ -1429,7 +1429,7 @@ uint32 Map_Activity_Tick()
  */
 void Map_ExplodeBloom(uint16 packed, uint8 houseID)
 {
-	if (g_global->variable_38BC == 0) {
+	if (g_var_38BC == 0) {
 		Unit_Unknown10EC(Unit_Get_ByPackedTile(packed));
 		g_map[packed].groundSpriteID = g_mapSpriteID[packed] & 0x1FF;
 		Map_MakeExplosion(0x13, Tile_UnpackTile(packed), 0, 0);
@@ -2047,7 +2047,7 @@ static void Map_UnveilTile_Neighbour(uint16 packed)
 	if (t->isUnveiled) {
 		int i;
 
-		if (g_global->variable_38BC == 0 && Sprite_IsUnveiled(t->overlaySpriteID)) return;
+		if (g_var_38BC == 0 && Sprite_IsUnveiled(t->overlaySpriteID)) return;
 
 		spriteID = 0;
 

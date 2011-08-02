@@ -125,6 +125,9 @@ uint16 g_mouseSpriteHotspotY;
 uint16 g_mouseWidth;
 uint16 g_mouseHeight;
 
+uint16 g_variable_37B2;
+bool g_var_37B8;
+
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
 	{ 26,  29,  29,  29},
@@ -638,7 +641,7 @@ void GUI_PaletteAnimate()
 
 		uint16 colour;
 
-		colour = (g_global->variable_37B2 == 0 && animationToggle) ? 6 : 15;
+		colour = (g_variable_37B2 == 0 && animationToggle) ? 6 : 15;
 		memcpy(g_palette1 + 3 * 239, g_palette1 + 3 * colour, 3);
 
 		GFX_SetPalette(g_palette1);
@@ -1311,7 +1314,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		score += g_table_structureInfo[s->o.type].o.buildCredits / 100;
 	}
 
-	g_global->variable_38BC++;
+	g_var_38BC++;
 
 	find.houseID = HOUSE_INVALID;
 	find.type    = UNIT_HARVESTER;
@@ -1330,7 +1333,7 @@ static uint16 Update_Score(int16 score, uint16 *harvestedAllied, uint16 *harvest
 		}
 	}
 
-	g_global->variable_38BC--;
+	g_var_38BC--;
 
 	tmp = *harvestedEnemy + loc0C;
 	*harvestedEnemy = (tmp > 65000) ? 65000 : (tmp & 0xFFFF);
@@ -2169,7 +2172,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 
 		g_global->selectionType = selectionType;
 		g_global->variable_3A10 = selectionType;
-		g_global->variable_37B8 = 1;
+		g_var_37B8 = true;
 
 		switch (oldSelectionType) {
 			case 1:

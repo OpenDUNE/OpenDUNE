@@ -145,7 +145,7 @@ static const SaveLoadDesc s_saveInfo[] = {
 	SLD_GARRAY (SLDT_INT16,  g_starportAvailable, UNIT_MAX),
 	SLD_GENTRY (SLDT_UINT16, g_houseMissileCountdown),
 	SLD_GCALLB (SLDT_UINT16, g_unitHouseMissile, &SaveLoad_UnitHouseMissile),
-	SLD_ENTRY  (GlobalData, SLDT_UINT16, structureIndex),
+	SLD_GENTRY (SLDT_UINT16, g_structureIndex),
 	SLD_END
 };
 

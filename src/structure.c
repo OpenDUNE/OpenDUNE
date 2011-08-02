@@ -47,6 +47,8 @@ static uint32 s_tickStructureStructure = 0; /*!< Indicates next time Structures 
 static uint32 s_tickStructureScript    = 0; /*!< Indicates next time Script function is executed. */
 static uint32 s_tickStructurePalace    = 0; /*!< Indicates next time Palace function is executed. */
 
+uint16 g_structureIndex;
+
 /**
  * Loop over all structures, preforming various of tasks.
  */
@@ -529,7 +531,7 @@ bool Structure_Place(Structure *s, uint16 position)
 	loc0A = Structure_IsValidBuildLocation(position, s->o.type);
 
 	if (loc0A == 0) {
-		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_global->variable_38BC == 0) {
+		if ((s->o.houseID != g_playerHouseID || !g_debugScenario) && g_var_38BC == 0) {
 			return false;
 		}
 	}
@@ -601,7 +603,7 @@ bool Structure_Place(Structure *s, uint16 position)
 		h->windtrapCount += 1;
 	}
 
-	if (g_global->variable_38BC == 0x0) {
+	if (g_var_38BC == 0) {
 		House *h;
 
 		h = House_Get_ByIndex(s->o.houseID);
@@ -761,12 +763,12 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 			}
 
 			if (si->o.flags.variable_0008) {
-				if (g_global->variable_3A3E[type][8] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[type][8] == 0 && g_var_38BC == 0) {
 					isValid = false;
 					break;
 				}
 			} else {
-				if (g_global->variable_3A3E[type][6] == 0 && g_global->variable_38BC == 0) {
+				if (g_global->variable_3A3E[type][6] == 0 && g_var_38BC == 0) {
 					isValid = false;
 					break;
 				}
@@ -780,7 +782,7 @@ int16 Structure_IsValidBuildLocation(uint16 position, StructureType type)
 		}
 	}
 
-	if (g_global->variable_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
+	if (g_var_38BC == 0 && isValid && type != STRUCTURE_CONSTRUCTION_YARD && !g_debugScenario) {
 		isValid = false;
 		for (i = 0; i < 16; i++) {
 			uint16 offset, type;
@@ -834,9 +836,9 @@ void Structure_ActivateSpecial(Structure *s)
 			position.s.x = 0xFFFF;
 			position.s.y = 0xFFFF;
 
-			g_global->variable_38BC++;
+			g_var_38BC++;
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_MISSILE_HOUSE, s->o.houseID, position, Tools_Random_256());
-			g_global->variable_38BC--;
+			g_var_38BC--;
 
 			g_unitHouseMissile = u;
 			if (u == NULL) break;
@@ -898,9 +900,9 @@ void Structure_ActivateSpecial(Structure *s)
 				orientation = Tools_RandomRange(0, 3);
 				unitType = (orientation == 1) ? UNIT_TROOPER : UNIT_TROOPERS;
 
-				g_global->variable_38BC++;
+				g_var_38BC++;
 				u = Unit_Create(UNIT_INDEX_INVALID, (uint8)unitType, HOUSE_FREMEN, position, (int8)orientation);
-				g_global->variable_38BC--;
+				g_var_38BC--;
 
 				if (u == NULL) continue;
 
@@ -923,9 +925,9 @@ void Structure_ActivateSpecial(Structure *s)
 				return;
 			}
 
-			g_global->variable_38BC++;
+			g_var_38BC++;
 			u = Unit_Create(UNIT_INDEX_INVALID, UNIT_SABOTEUR, s->o.houseID, Tile_UnpackTile(position), Tools_Random_256());
-			g_global->variable_38BC--;
+			g_var_38BC--;
 
 			s->countDown = g_table_houseInfo[s->o.houseID].specialCountDown;
 
@@ -1503,11 +1505,9 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						if (loc60[i] >= unitsAtStarport) continue;
 
-						g_global->variable_38BC++;
-
+						g_var_38BC++;
 						u = Unit_Allocate(UNIT_INDEX_INVALID, i, s->o.houseID);
-
-						g_global->variable_38BC--;
+						g_var_38BC--;
 
 						if (u != NULL) {
 							loop = true;
@@ -1598,13 +1598,13 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 					ui = &g_table_unitInfo[objectType];
 
-					g_global->variable_38BC++;
+					g_var_38BC++;
 					{
 						tile32 tile;
 						tile.tile = 0xFFFFFFFF;
 						u = Unit_Create(UNIT_INDEX_INVALID, (uint8)objectType, s->o.houseID, tile, 0);
 					}
-					g_global->variable_38BC--;
+					g_var_38BC--;
 
 					if (u == NULL) {
 						h->credits += g_table_unitInfo[UNIT_CARRYALL].o.buildCredits;
@@ -1614,7 +1614,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 						continue;
 					}
 
-					g_global->structureIndex = s->o.index;
+					g_structureIndex = s->o.index;
 
 					if (h->starportTimeLeft == 0) h->starportTimeLeft = g_table_houseInfo[h->index].starportDeliveryTime;
 

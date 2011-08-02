@@ -485,7 +485,7 @@ static uint16 GUI_Widget_ActionPanel_GetActionType(bool forceDraw)
 				|| s->o.houseID         != displayedHouseID
 				|| House_Get_ByIndex(s->o.houseID)->starportTimeLeft != displayedStarportTime
 				|| s->o.flags.half.low  != displayedStructureLoFlags) {
-					g_global->variable_37B2 = (s->o.hitpoints > (g_table_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
+					g_variable_37B2 = (s->o.hitpoints > (g_table_structureInfo[s->o.type].o.hitpoints / 2)) ? 1 : 0;
 					actionType = 3; /* Structure */
 			}
 		} else {

@@ -703,7 +703,7 @@ typedef struct GlobalData {
 	/* 3777(11)  */ PACK char   string_3777[11];            /*!< "SCREEN.CPS" NULL terminated. */
 	/* 3782(16)  */ PACK uint16  removed_3782[8];           /*!< REMOVED ?? */
 	/* 3792(8)   */ PACK uint8   removed_3792[8];           /*!< REMOVED ?? */
-	/* 379A(2)   */ PACK uint16 enableLog;                  /*!< 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
+	/* 379A(2)   */ PACK uint16  removed_379A;              /*!< REMOVED - 0 = off, 1 = record game, 2 = playback game (stored in 'dune.log'). */
 	/* 379C(2)   */ PACK uint16  removed_379C;              /*!< REMOVED - When non-zero, it allows you to control the AI. */
 	/* 379E(2)   */ PACK uint16  removed_379E;              /*!< REMOVED - When non-zero, you immediately win the level.  */
 	/* 37A0(2)   */ PACK uint16  removed_37A0;              /*!< REMOVED - When non-zero, it allows you to review the scenario. There is no fog. The game is not running (no unit-movement, no structure-building, etc). You can click on individual tiles. */
@@ -715,10 +715,10 @@ typedef struct GlobalData {
 	/* 37AC(2)   */ PACK uint16  removed_37AC;              /*!< REMOVED - When non-zero, constructions are almost instant. */
 	/* 37AE(2)   */ PACK uint16  removed_37AE;              /*!< REMOVED - When non-zero, you immediately go to house selection, and skip all intros. */
 	/* 37B0(2)   */ PACK uint16  removed_37B0;              /*!< REMOVED - When non-zero, explosions do no damage to their surrounding. */
-	/* 37B2(2)   */ PACK uint16 variable_37B2;              /*!< ?? */
-	/* 37B4(2)   */ PACK uint16 variable_37B4;              /*!< ?? */
+	/* 37B2(2)   */ PACK uint16  removed_37B2;              /*!< REMOVED - ?? */
+	/* 37B4(2)   */ PACK uint16  removed_37B4;              /*!< REMOVED - ?? */
 	/* 37B6(2)   */ PACK uint16  removed_37B6;              /*!< REMOVED - @see Language. */
-	/* 37B8(2)   */ PACK uint16 variable_37B8;              /*!< ?? */
+	/* 37B8(2)   */ PACK uint16  removed_37B8;              /*!< REMOVED - ?? */
 	/* 37BA(2)   */ PACK uint16  removed_37BA;              /*!< REMOVED - Countdown counter for displaying #viewportMessageText, bit 0 means 'display the text'. */
 	/* 37BC(4)   */ PACK csip32  removed_37BC;              /*!< REMOVED - If not \c NULL, message text displayed in the viewport. */
 	/* 37C0(48)  */ PACK uint16  removed_37C0[12][2];       /*!< REMOVED - Array of ranks. */
@@ -731,7 +731,7 @@ typedef struct GlobalData {
 	/* 38B4(2)   */ PACK uint16  removed_38B4;              /*!< REMOVED - Credits player is still free to have without silo support. */
 	/* 38B6(2)   */ PACK uint16  removed_38B6;              /*!< REMOVED - Credits shown to player as 'current'. */
 	/* 38B8(4)   */ PACK uint32  removed_38B8;              /*!< REMOVED - The tick the game will timeout. */
-	/* 38BC(2)   */ PACK uint16 variable_38BC;              /*!< ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
+	/* 38BC(2)   */ PACK uint16  removed_38BC;              /*!< REMOVED - ?? If non-zero, Unit_Find/Structure_Find skips Unit/Structures with flag 0x4 off (being-built flag?). */
 	/* 38BE(2)   */ PACK uint16  removed_38BE;              /*!< REMOVED - Game mode. */
 	/* 38C0(4)   */ PACK uint32  removed_38C0;              /*!< REMOVED - ?? */
 	/* 38C4(2)   */ PACK uint16  removed_38C4;              /*!< REMOVED - text display needs an update. */
@@ -745,7 +745,7 @@ typedef struct GlobalData {
 	/* 38E2(2)   */ PACK uint16  removed_38E2;              /*!< REMOVED - Type of the structure being placed. */
 	/* 38E4(4)   */ PACK csip32  removed_38E4;              /*!< REMOVED - Structure being placed. */
 	/* 38E8()    */ PACK uint16  removed_38E8;              /*!< REMOVED - ?? */
-	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
+	/* 38EA(2)   */ PACK uint16  removed_38EA;              /*!< REMOVED - ?? */
 	/* 38EC(2)   */ PACK  int16  removed_38EC;              /*!< REMOVED - Build state of the selection. */
 	/* 38EE(2)   */ PACK uint16  removed_38EE;              /*!< REMOVED - ?? Write-only. */
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */

@@ -178,9 +178,9 @@ bool SaveFile(char *filename, char *description)
 		return false;
 	}
 
-	g_global->variable_38BC++;
+	g_var_38BC++;
 	res = Save_Main(fp, description);
-	g_global->variable_38BC--;
+	g_var_38BC--;
 
 	fclose(fp);
 
