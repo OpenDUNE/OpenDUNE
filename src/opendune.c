@@ -105,6 +105,7 @@ static uint8 s_enableLog = 0; /*!< 0 = off, 1 = record game, 2 = playback game (
 static bool s_var_37B4;
 
 uint16 g_var_38BC = 0;
+bool g_var_38F8;
 
 /**
  * Check if a level is finished, based on the values in WinFlags.
@@ -2264,11 +2265,11 @@ static void GameLoop_Main()
 
 		GUI_DisplayText(NULL, 0);
 
-		if (g_global->variable_38F8 != 0 && !g_debugScenario) {
+		if (g_var_38F8 && !g_debugScenario) {
 			GameLoop_LevelEnd();
 		}
 
-		if (g_global->variable_38F8 == 0) break;
+		if (!g_var_38F8) break;
 	}
 
 	GUI_Mouse_Hide_Safe();

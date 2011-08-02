@@ -46,6 +46,9 @@ uint8 g_displayedViewport[512]; /*!< Displayed part of the viewport. */
 
 static bool _debugNoExplosionDamage = false; /*!< When non-zero, explosions do no damage to their surrounding. */
 
+uint16 g_var_39E2 = 0;
+uint16 g_var_3A08 = 0;
+
 static const Activity _activities00[] = {
 	{  1,  153 },
 	{  2,    3 },
@@ -1322,12 +1325,12 @@ void Map_Update(uint16 packed, uint16 type, bool ignoreInvisible)
 
 			if (BitArray_Test(g_dirtyMinimap, packed)) return;
 
-			g_global->variable_39E2++;
+			g_var_39E2++;
 
 			for (i = 0; i < 9; i++) {
 				curPacked = (packed + offsets[i]) & 0xFFF;
 				BitArray_Set(g_dirtyViewport, curPacked);
-				if (BitArray_Test(g_displayedViewport, curPacked)) g_global->variable_3A08 = 1;
+				if (BitArray_Test(g_displayedViewport, curPacked)) g_var_3A08 = 1;
 			}
 
 			BitArray_Set(g_dirtyMinimap, curPacked);
@@ -1809,7 +1812,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 
 				curPacked = Tile_PackXY(x + i, y + j);
 				BitArray_Set(g_dirtyViewport, curPacked);
-				g_global->variable_39E2++;
+				g_var_39E2++;
 
 				switch (function) {
 					case 0: Map_Update(curPacked, 0, false); break;
@@ -1835,7 +1838,7 @@ void Map_B4CD_057B(uint16 arg06, tile32 position, Unit *unit, uint8 function)
 
 			if (curPacked != loc04) {
 				BitArray_Set(g_dirtyViewport, curPacked);
-				g_global->variable_39E2++;
+				g_var_39E2++;
 
 				switch (function) {
 					case 0: Map_Update(curPacked, 0, false); break;

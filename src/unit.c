@@ -47,6 +47,9 @@ Unit *g_unitActive = NULL;
 Unit *g_unitHouseMissile = NULL;
 Unit *g_unitSelected = NULL;
 
+uint16 g_var_39E6;
+uint16 g_var_39E8;
+
 /**
  * Number of units of each type available at the starport.
  * \c 0 means not available, \c -1 means \c 0 units, \c >0 means that number of units available.
@@ -2422,7 +2425,7 @@ static void Unit_B4CD_011A(uint16 arg06, Unit *unit)
 
 	if (arg06 != 0) {
 		unit->o.flags.s.variable_4_1000 = true;
-		g_global->variable_39E8++;
+		g_var_39E8++;
 	}
 
 	Map_B4CD_057B(g_table_unitInfo[unit->o.type].variable_38, unit->o.position, unit, g_functions[0][arg06]);
@@ -2469,7 +2472,7 @@ void Unit_B4CD_01BF(uint16 arg06, Unit *unit)
 
 	if (arg06 != 0) {
 		unit->o.flags.s.variable_4_1000 = true;
-		g_global->variable_39E6++;
+		g_var_39E6++;
 	}
 
 	loc06 = ui->variable_38 + 3;

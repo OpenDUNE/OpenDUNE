@@ -751,13 +751,13 @@ typedef struct GlobalData {
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32  removed_38F2;              /*!< REMOVED - Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16  removed_38F6;              /*!< REMOVED - Action the controlled unit will do. */
-	/* 38F8(2)   */ PACK uint16 variable_38F8;              /*!< ?? If zero, game exists? */
+	/* 38F8(2)   */ PACK uint16  removed_38F8;              /*!< REMOVED - ?? If zero, game exists? */
 	/* 38FA(4)   */ PACK csip32  removed_38FA;              /*!< REMOVED - When launching a House Missile, while selecting location, this points to the missile. */
 	/* 38FE(2)   */ PACK uint16  removed_38FE;              /*!< REMOVED - Amount of time the user has to select Missile target. */
 	/* 3900(2)   */ PACK uint16  removed_3900;              /*!< REMOVED - Speed of the game, where 0 is slowest, and 4 is fastest. 2 is normal. */
-	/* 3902(22)  */ PACK uint8   removed_3902[22];          /*!< Script information for Units. */
-	/* 3918(22)  */ PACK uint8   removed_3918[22];          /*!< Script information for Structures. */
-	/* 392E(22)  */ PACK uint8   removed_392E[22];          /*!< Script information for Teams. */
+	/* 3902(22)  */ PACK uint8   removed_3902[22];          /*!< REMOVED - Script information for Units. */
+	/* 3918(22)  */ PACK uint8   removed_3918[22];          /*!< REMOVED - Script information for Structures. */
+	/* 392E(22)  */ PACK uint8   removed_392E[22];          /*!< REMOVED - Script information for Teams. */
 	/* 3944(2)   */ PACK uint16  removed_3944;              /*!< REMOVED - Amount of opcodes a script for a Unit will execute every tick (read-only, always 10). */
 	/* 3946()    */ PACK uint8   unknown_3946[0x0002];
 	/* 3948(2)   */ PACK  int16  removed_3948;              /*!< REMOVED - Amount of opcodes left for a script for a Unit to execute this tick. */
@@ -767,10 +767,10 @@ typedef struct GlobalData {
 	/* 3956(4)   */ PACK csip32  removed_3956;              /*!< REMOVED - Pointer to the current animations. */
 	/* 395A(4)   */ PACK csip32  removed_395A;              /*!< REMOVED - ?? */
 	/* 395E(132) */ PACK uint32  removed_395E[33];          /*!< REMOVED - tile offsets (only 15..32) are used. */
-	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
+	/* 39E2(2)   */ PACK uint16  removed_39E2;              /*!< REMOVED - ?? */
 	/* 39E4(2)   */ PACK uint16  removed_39E4;              /*!< REMOVED - ?? Write-only */
-	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
-	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
+	/* 39E6(2)   */ PACK uint16  removed_39E6;              /*!< REMOVED - ?? */
+	/* 39E8(2)   */ PACK uint16  removed_39E8;              /*!< REMOVED - ?? */
 	/* 39EA(4)   */ PACK csip32  removed_39EA;              /*!< REMOVED - Pointer to the map. */
 	/* 39EE(4)   */ PACK csip32  removed_39EE;              /*!< REMOVED - Pointer to content of ICON.MAP. */
 	/* 39F2(2)   */ PACK uint16  removed_39F2;              /*!< REMOVED - SpriteID of the veiled sprite, at the end of the partily veiled sprites. */
@@ -784,7 +784,7 @@ typedef struct GlobalData {
 	/* 3A02(2)   */ PACK uint16  removed_3A02;              /*!< REMOVED - Current selection position (packed). */
 	/* 3A04(2)   */ PACK uint16  removed_3A04;              /*!< REMOVED - Width of the selection. */
 	/* 3A06(2)   */ PACK uint16  removed_3A06;              /*!< REMOVED - Height of the selection. */
-	/* 3A08(2)   */ PACK uint16 variable_3A08;              /*!< ?? */
+	/* 3A08(2)   */ PACK uint16  removed_3A08;              /*!< REMOVED - ?? */
 	/* 3A0A(4)   */ PACK csip32  removed_3A0A;              /*!< REMOVED - Current selected unit. */
 	/* 3A0E(2)   */ PACK uint16 selectionType;              /*!< Type of selection. 0 = ??, 1 = target/destination, 2 = place object, 3 = unit, 4 = structure, 7 = intro. */
 	/* 3A10(2)   */ PACK uint16 variable_3A10;              /*!< ?? */

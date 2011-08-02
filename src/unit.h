@@ -193,6 +193,9 @@ extern Unit *g_unitHouseMissile;
 extern Unit *g_unitSelected;
 extern int16 g_starportAvailable[UNIT_MAX];
 
+extern uint16 g_var_39E6;
+extern uint16 g_var_39E8;
+
 
 extern void GameLoop_Unit();
 extern uint8 Unit_GetHouseID(Unit *u);

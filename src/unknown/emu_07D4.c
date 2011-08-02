@@ -118,7 +118,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 	oldValue_07AE_0000 = Widget_SetCurrentWidget(2);
 
-	if (g_global->variable_39E2 != 0 || arg06) {
+	if (g_var_39E2 != 0 || arg06) {
 		for (y = 0; y < 10; y++) {
 			uint16 top = (y << 4) + 0x28;
 			for (x = 0; x < (arg0A ? 15 : 16); x++) {
@@ -158,7 +158,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 				GFX_DrawSprite(t->overlaySpriteID, left >> 3, top, t->houseID);
 			}
 		}
-		g_global->variable_39E2 = 0;
+		g_var_39E2 = 0;
 	}
 
 	find.type    = UNIT_SANDWORM;
@@ -196,7 +196,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 	}
 
-	if (g_unitSelected == NULL && (g_global->variable_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
+	if (g_unitSelected == NULL && (g_var_3A08 != 0 || arg08) && (Structure_Get_ByPackedTile(g_selectionRectanglePosition) != NULL || g_global->selectionType == 2 || g_debugScenario)) {
 		uint16 x1 = (Tile_GetPackedX(g_selectionRectanglePosition) - Tile_GetPackedX(g_minimapPosition)) << 4;
 		uint16 y1 = ((Tile_GetPackedY(g_selectionRectanglePosition) - Tile_GetPackedY(g_minimapPosition)) << 4) + 0x28;
 		uint16 x2 = x1 + (g_selectionWidth << 4) - 1;
@@ -212,10 +212,10 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 
 		GUI_SetClippingArea(0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-		g_global->variable_3A08 = 0;
+		g_var_3A08 = 0;
 	}
 
-	if (g_global->variable_39E6 != 0 || arg06 || updateDisplay) {
+	if (g_var_39E6 != 0 || arg06 || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -364,7 +364,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_DrawSprite(g_screenActiveID, g_sprites[6], x, y, 2, 0xC000);
 		}
 
-		g_global->variable_39E6 = 0;
+		g_var_39E6 = 0;
 	}
 
 	for (i = 0; i < 32; i++) {
@@ -390,7 +390,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 		GUI_DrawSprite(g_screenActiveID, Unknown_07D4_18BD(s->variable_0A, s->houseID), x, y, 2, s_var_8DE3, s_var_8420);
 	}
 
-	if (g_global->variable_39E8 != 0 || arg06 || updateDisplay) {
+	if (g_var_39E8 != 0 || arg06 || updateDisplay) {
 		find.type    = 0xFFFF;
 		find.index   = 0xFFFF;
 		find.houseID = HOUSE_INVALID;
@@ -481,7 +481,7 @@ static void Unknown_07D4_034D(bool arg06, bool arg08, bool arg0A)
 			GUI_DrawSprite(g_screenActiveID, sprite, x, y, 2, s_var_8DE3 | 0x2000, s_var_8420);
 		}
 
-		g_global->variable_39E8 = 0;
+		g_var_39E8 = 0;
 	}
 
 	if (updateDisplay) {
@@ -666,7 +666,7 @@ void Unknown_07D4_0000(uint16 screenID)
 			BitArray_Set(g_dirtyViewport, v);
 			BitArray_Set(g_dirtyMinimap, v);
 
-			g_global->variable_39E2++;
+			g_var_39E2++;
 		}
 	}
 
