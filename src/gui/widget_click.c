@@ -357,7 +357,7 @@ bool GUI_Widget_Cancel_Click(Widget *w)
 
 	g_unitActive = NULL;
 	g_activeAction = 0xFFFF;
-	g_global->cursorSpriteID = 0;
+	g_cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
@@ -691,10 +691,10 @@ static bool GUI_YesNo(uint16 stringID)
 bool GUI_Widget_Options_Click(Widget *w)
 {
 	WindowDesc *desc = &g_optionsWindowDesc;
-	uint16 cursor = g_global->cursorSpriteID;
+	uint16 cursor = g_cursorSpriteID;
 	bool loop;
 
-	g_global->cursorSpriteID = 0;
+	g_cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
@@ -798,7 +798,7 @@ bool GUI_Widget_Options_Click(Widget *w)
 	Structure_Recount();
 	Unit_Recount();
 
-	g_global->cursorSpriteID = cursor;
+	g_cursorSpriteID = cursor;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[cursor]);
 

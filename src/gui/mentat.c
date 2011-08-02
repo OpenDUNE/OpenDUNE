@@ -365,7 +365,7 @@ bool GUI_Widget_Mentat_Click(Widget *w)
 {
 	VARIABLE_NOT_USED(w);
 
-	g_global->cursorSpriteID = 0;
+	g_cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 

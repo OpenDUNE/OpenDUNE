@@ -44,19 +44,19 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 	uint16 packed;
 	bool click, drag;
 
-	spriteID = g_global->cursorSpriteID;
+	spriteID = g_cursorSpriteID;
 	switch (w->index) {
 		default: break;
 		case 39: spriteID = 1; break;
 		case 40: spriteID = 2; break;
 		case 41: spriteID = 4; break;
 		case 42: spriteID = 3; break;
-		case 43: spriteID = g_global->cursorDefaultSpriteID; break;
-		case 44: spriteID = g_global->cursorDefaultSpriteID; break;
+		case 43: spriteID = g_cursorDefaultSpriteID; break;
+		case 44: spriteID = g_cursorDefaultSpriteID; break;
 		case 45: spriteID = 0; break;
 	}
 
-	if (spriteID != g_global->cursorSpriteID) {
+	if (spriteID != g_cursorSpriteID) {
 		/* HotSpots for different cursor types. */
 		static const XYPosition cursorHotSpots[6] = {{0, 0}, {5, 0}, {8, 5}, {5, 8}, {0, 5}, {8, 8}};
 
@@ -64,7 +64,7 @@ bool GUI_Widget_Viewport_Click(Widget *w)
 
 		Sprites_SetMouseSprite(cursorHotSpots[spriteID].x, cursorHotSpots[spriteID].y, g_sprites[spriteID]);
 
-		g_global->cursorSpriteID = spriteID;
+		g_cursorSpriteID = spriteID;
 	}
 
 	if (w->index == 45) return true;

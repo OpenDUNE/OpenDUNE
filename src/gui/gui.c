@@ -125,6 +125,9 @@ uint16 g_mouseSpriteHotspotY;
 uint16 g_mouseWidth;
 uint16 g_mouseHeight;
 
+uint16 g_cursorSpriteID;
+uint16 g_cursorDefaultSpriteID;
+
 uint16 g_variable_37B2;
 bool g_var_37B8;
 
@@ -1917,24 +1920,23 @@ uint16 GUI_DisplayHint(uint16 stringID, uint16 spriteID)
 
 void GUI_DrawProgressbar(uint16 current, uint16 max)
 {
-	uint16 *info;
+	static uint16 l_info[11] = { 293, 52, 24, 7, 1, 0, 0, 0, 4, 5, 8 };
+
 	uint16 width;
 	uint16 height;
 	uint16 colour;
 
-	info = g_global->progressbarInfo;
-
-	info[7] = max;
-	info[6] = current;
+	l_info[7] = max;
+	l_info[6] = current;
 
 	if (current > max) current = max;
 	if (max < 1) max = 1;
 
-	width  = info[2];
-	height = info[3];
+	width  = l_info[2];
+	height = l_info[3];
 
 	/* 0 = Horizontal, 1 = Vertial */
-	if (info[5] == 0) {
+	if (l_info[5] == 0) {
 		width = current * width / max;
 		if (width < 1) width = 1;
 	} else {
@@ -1942,19 +1944,19 @@ void GUI_DrawProgressbar(uint16 current, uint16 max)
 		if (height < 1) height = 1;
 	}
 
-	colour = info[8];
-	if (current <= max / 2) colour = info[9];
-	if (current <= max / 4) colour = info[10];
+	colour = l_info[8];
+	if (current <= max / 2) colour = l_info[9];
+	if (current <= max / 4) colour = l_info[10];
 
 	if (current != 0 && width  == 0) width = 1;
 	if (current != 0 && height == 0) height = 1;
 
 	if (height != 0) {
-		GUI_DrawBorder(info[0] - 1, info[1] - 1, info[2] + 2, info[3] + 2, 1, true);
+		GUI_DrawBorder(l_info[0] - 1, l_info[1] - 1, l_info[2] + 2, l_info[3] + 2, 1, true);
 	}
 
 	if (width != 0) {
-		GUI_DrawFilledRectangle(info[0], info[1] + info[3] - height, info[0] + width - 1, info[1] + info[3] - 1, (uint8)colour);
+		GUI_DrawFilledRectangle(l_info[0], l_info[1] + l_info[3] - height, l_info[0] + width - 1, l_info[1] + l_info[3] - 1, (uint8)colour);
 	}
 }
 
@@ -2180,7 +2182,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				Map_SetSelection(g_structureActivePosition);
 				/* Fall-through */
 			case 4:
-				g_global->cursorDefaultSpriteID = 0;
+				g_cursorDefaultSpriteID = 0;
 				GUI_DisplayText(NULL, -1);
 				break;
 
@@ -2235,7 +2237,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 		switch (g_selectionType) {
 			case 0:
 				if (oldSelectionType != 7) {
-					g_global->cursorSpriteID = 0;
+					g_cursorSpriteID = 0;
 
 					Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 				}
@@ -2247,7 +2249,7 @@ void GUI_ChangeSelectionType(uint16 selectionType)
 				g_structureActivePosition = g_selectionPosition;
 				GUI_Widget_ActionPanel_Draw(true);
 
-				g_global->cursorDefaultSpriteID = 5;
+				g_cursorDefaultSpriteID = 5;
 
 				Timer_SetTimer(TIMER_GAME, true);
 				break;

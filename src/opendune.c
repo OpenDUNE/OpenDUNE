@@ -1177,7 +1177,7 @@ static void GameLoop_LevelEnd()
 	if (GameLoop_IsLevelFinished()) {
 		Music_Play(0);
 
-		g_global->cursorSpriteID = 0;
+		g_cursorSpriteID = 0;
 
 		Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 
@@ -1827,7 +1827,7 @@ static void GameLoop_GameIntroAnimationMenu()
 
 	Sprites_Load(0, g_sprites);
 
-	g_global->cursorSpriteID = 0;
+	g_cursorSpriteID = 0;
 
 	Sprites_SetMouseSprite(0, 0, g_sprites[0]);
 

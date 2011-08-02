@@ -790,11 +790,11 @@ typedef struct GlobalData {
 	/* 3A10(2)   */ PACK uint16  removed_3A10;              /*!< REMOVED - ?? */
 	/* 3A12(2)   */ PACK uint16  removed_3A12;              /*!< REMOVED - ?? */
 	/* 3A14(2)   */ PACK uint16  removed_3A14;              /*!< REMOVED - ?? */
-	/* 3A16(22)  */ PACK uint16 progressbarInfo[11];        /*!< Info about the current progressbar (there is only one in Dune2). */
+	/* 3A16(22)  */ PACK uint16  removed_3A16[11];          /*!< REMOVED - Info about the current progressbar (there is only one in Dune2). */
 	/* 3A2C(4)   */ PACK csip32  removed_3A2C;              /*!< REMOVED - Pointer to content of new6p[g].fnt. */
 	/* 3A30(4)   */ PACK csip32  removed_3A30;              /*!< REMOVED - Pointer to content of new8p.fnt (copy of new8pFnt). */
-	/* 3A34(2)   */ PACK uint16 cursorSpriteID;             /*!< The current cursor spriteID. */
-	/* 3A36(2)   */ PACK uint16 cursorDefaultSpriteID;      /*!< The cursor spriteID for viewport and minimap. */
+	/* 3A34(2)   */ PACK uint16  removed_3A34;              /*!< REMOVED - The current cursor spriteID. */
+	/* 3A36(2)   */ PACK uint16  removed_3A36;              /*!< REMOVED - The cursor spriteID for viewport and minimap. */
 	/* 3A38(2)   */ PACK uint16  removed_3A38;              /*!< REMOVED - The House the player is controlling. */
 	/* 3A3A(4)   */ PACK csip32  removed_3A3A;              /*!< REMOVED - Pointer to the house the player is controlling. */
 	/* 3A3E(448) */ PACK uint16 variable_3A3E[15][14];      /*!< ?? */
