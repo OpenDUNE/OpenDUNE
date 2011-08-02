@@ -1180,7 +1180,7 @@ typedef struct GlobalData {
 	/* 708E(4)   */ PACK csip32  removed_708E;              /*!< REMOVED - The sprite for the mouse cursor. */
 	/* 7092(2)   */ PACK uint16  removed_7092;              /*!< REMOVED - Parameter 1 for proc at 66B4. */
 	/* 7094(2)   */ PACK uint16  removed_7094;              /*!< REMOVED - Paramerer 2 for proc at 66B4. */
-	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */
+	/* 7096(1)   */ PACK uint8   removed_7096;              /*!< REMOVED - If non-zero, the mouse callback is installed. */
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8   removed_7098;              /*!< REMOVED - ?? If zero, no mouse handling. */
 	/* 7099(1)   */ PACK uint8   removed_7099;              /*!< REMOVED - Previous mouse button state. */
