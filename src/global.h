@@ -816,7 +816,7 @@ typedef struct GlobalData {
 	/* 3E4E(4)   */ PACK csip32  removed_3E4E;              /*!< REMOVED - Currently loaded music file. */
 	/* 3E52(2)   */ PACK  int16  removed_3E52;              /*!< ?? */
 	/* 3E54(524) */ PACK csip32  removed_3E54[131];         /*!< REMOVED - Pointer to loaded voice. */
-	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
+	/* 4060(2)   */ PACK uint16  removed_4060;              /*!< REMOVED - ?? */
 	/* 4062(352) */ PACK uint16  removed_4062[22][8];       /*!< REMOVED - ?? Position and size of widgets? (to g_widgetProperties[22]) */
 	/* 41C2(10)  */ PACK uint8   removed_41C2[10];          /*!< REMOVED - Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
@@ -892,8 +892,8 @@ typedef struct GlobalData {
 	/* 6280(4)   */ PACK uint32  removed_6280;              /*!< REMOVED - Indicates next time Unit runs Script function. */
 	/* 6284(4)   */ PACK uint32  removed_6284;              /*!< REMOVED - Indicates next time Unit runs Unknown5 function. */
 	/* 6288(4)   */ PACK uint32  removed_6288;              /*!< REMOVED - Indicates next time Unit runs Deviation function. */
-	/* 628C(8)   */ PACK uint16 variable_628C[4];           /*!< ?? */
-	/* 6294(68)  */ PACK tile32 variable_6294[17];          /*!< ?? */
+	/* 628C(8)   */ PACK uint16  removed_628C[4];           /*!< REMOVED - ?? */
+	/* 6294(68)  */ PACK tile32  removed_6294[17];          /*!< REMOVED - ?? */
 	/* 62D8(18)  */ PACK uint16  removed_62D8[9];           /*!< REMOVED - mapOffsets in a 3x3 grid around a centre */
 	/* 62EA(3)   */ PACK char   string_62EA[3];             /*!< "%s" NULL terminated. */
 	/* 62ED(6)   */ PACK char   string_62ED[6];             /*!< "%s %s" NULL terminated. */

@@ -1794,7 +1794,9 @@ uint16 Script_Unit_MCVDeploy(ScriptEngine *script)
 	Unit_B4CD_01BF(0, u);
 
 	for (i = 0; i < 4; i++) {
-		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + g_global->variable_628C[i]);
+		static int8 offsets[4] = { 0, -1, -64, -65 };
+
+		s = Structure_Create(0xFFFF, STRUCTURE_CONSTRUCTION_YARD, Unit_GetHouseID(u), Tile_PackTile(u->o.position) + offsets[i]);
 
 		if (s != NULL) {
 			Unit_Unknown10EC(u);

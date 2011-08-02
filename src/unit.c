@@ -1426,9 +1426,11 @@ bool Unit_Move(Unit *unit, uint16 distance)
 						uint8 i;
 
 						for (i = 0; i < 17; i++) {
+							static int16 offsetX[17] = { 0, 0, 200, 256, 200, 0, -200, -256, -200, 0, 400, 512, 400, 0, -400, -512, -400 };
+							static int16 offsetY[17] = { 0, -256, -200, 0, 200, 256, 200, 0, -200, -512, -400, 0, 400, 512, 400, 0, -400 };
 							tile32 p = newPosition;
-							p.s.y += g_global->variable_6294[i].s.y;
-							p.s.x += g_global->variable_6294[i].s.x;
+							p.s.y += offsetY[i];
+							p.s.x += offsetX[i];
 
 							Map_MakeExplosion(ui->explosionType, p, 200, 0);
 						}
