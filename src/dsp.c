@@ -95,11 +95,10 @@ static void DSP_ProcessBlock()
 
 void DSP_Stop()
 {
-	SDL_LockAudio();
+	SDL_PauseAudio(1);
+
 	s_bufferLen = 0;
 	s_buffer = NULL;
-	SDL_UnlockAudio();
-	SDL_PauseAudio(1);
 }
 
 void DSP_Uninit()
