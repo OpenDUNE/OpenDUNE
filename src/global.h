@@ -1276,13 +1276,13 @@ typedef struct GlobalData {
 	/* 802E(4)   */ PACK csip32  removed_802E;              /*!< REMOVED - Widget pointing to a Widget in Mentat. */
 	/* 8032(4)   */ PACK csip32  removed_8032;              /*!< REMOVED - Widget pointing to a Widget in Mentat. */
 	/* 8036(4)   */ PACK csip32  removed_8036;              /*!< REMOVED - Widget pointing to a Widget in Mentat. */
-	/* 803A(2)   */ PACK uint16 numberHelpSubjects;         /*!< Number of help subjects. */
-	/* 803C(2)   */ PACK uint16 selectedHelpSubject;        /*!< Index of selected subject. */
-	/* 803E(2)   */ PACK uint16 topHelpList;                /*!< Top of the mentat help subjects list being displayed currently. */
-	/* 8040(13)  */ PACK char   mentatFilename[13];         /*!< buffer for "MENTAT[AHO].[ENG|FRE|GER]". */
+	/* 803A(2)   */ PACK uint16  removed_803A;              /*!< REMOVED - Number of help subjects. */
+	/* 803C(2)   */ PACK uint16  removed_803C;              /*!< REMOVED - Index of selected subject. */
+	/* 803E(2)   */ PACK uint16  removed_803E;              /*!< REMOVED - Top of the mentat help subjects list being displayed currently. */
+	/* 8040(13)  */ PACK char    removed_8040[13];          /*!< REMOVED - Buffer for "MENTAT[AHO].[ENG|FRE|GER]". */
 	/* 804D(4)   */ PACK csip32  removed_804D;              /*!< REMOVED - String pointer. */
 	/* 8051()    */ PACK uint8   unknown_8051;
-	/* 8052(2)   */ PACK uint16 variable_8052;              /*!< ?? */
+	/* 8052(2)   */ PACK uint16  removed_8052;              /*!< REMOVED - ?? */
 	/* 8054(2)   */ PACK uint16  removed_8054;              /*!< REMOVED - ?? (write-only variable) */
 	/* 8056(4)   */ PACK csip32  removed_8056;              /*!< REMOVED - ?? */
 	/* 805A(4)   */ PACK csip32  removed_805A;              /*!< REMOVED - ?? */
@@ -1300,11 +1300,11 @@ typedef struct GlobalData {
 	/* 809A(18)  */ PACK uint8   removed_809A[18];          /*!< REMOVED - target palette part */
 	/* 80AC(2)   */ PACK uint16  removed_80AC;              /*!< REMOVED - number of steps to do in changing palette part */
 	/* 80AE(2)   */ PACK uint16  removed_80AE;              /*!< REMOVED - palette part direction */
-	/* 80B0(2)   */ PACK uint16  removed_80B0;              /*!< REMOVED ?? (write-only variable) */
-	/* 80B2(2)   */ PACK uint16 savegameCountOnDisk;        /*!< Amount of savegames on disk. */
-	/* 80B4(255) */ PACK char   savegameDesc[5][51];        /*!< Array of savegame descriptions for the SaveLoad window. */
+	/* 80B0(2)   */ PACK uint16  removed_80B0;              /*!< REMOVED - ?? (write-only variable) */
+	/* 80B2(2)   */ PACK uint16  removed_80B2;              /*!< REMOVED - Amount of savegames on disk. */
+	/* 80B4(255) */ PACK char    removed_80B4[5][51];       /*!< REMOVED - Array of savegame descriptions for the SaveLoad window. */
 	/* 81B3()    */ PACK uint8   unknown_81B3[0x0001];
-	/* 81B4(2)   */ PACK uint16 strategicMapFastForward;    /*!< ?? */
+	/* 81B4(2)   */ PACK uint16  removed_81B4;              /*!< REMOVED - True if strategic map is fast forward. */
 	/* 81B6(4)   */ PACK uint32  removed_81B6;              /*!< REMOVED - Arrow animation timeout */
 	/* 81BA(24)  */ PACK uint8   removed_81BA[24];          /*!< REMOVED - Palette for animated arrows in the scenario selection. */
 	/* 81D2(4)   */ PACK csip32  removed_81D2;              /*!< REMOVED - Array of regions. [0] is number of regions, [X] is owner of region X, 0xFFFF if no owner. */

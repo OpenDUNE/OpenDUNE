@@ -69,6 +69,11 @@ uint8 g_shoulderTop;  /*!< Top of the right shoulder of the house mentats (to pu
 static bool s_selectMentatHelp = false; /*!< Selecting from the list of in-game help subjects. */
 static uint8 *s_helpSubjects = NULL;
 
+static char s_mentatFilename[13];
+static uint16 s_topHelpList;
+static uint16 s_selectedHelpSubject;
+static uint16 s_numberHelpSubjects;
+
 /**
  * Show the Mentat screen with a dialog (Proceed / Repeat).
  * @param houseID The house to show the mentat of.
@@ -134,8 +139,8 @@ static void GUI_Mentat_HelpListLoop()
 			case 0x0060: /* NUMPAD 8 / ARROW UP */
 			case 0x0453:
 			case 0x0460:
-				if (g_global->selectedHelpSubject != 0) {
-					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 2));
+				if (s_selectedHelpSubject != 0) {
+					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, s_selectedHelpSubject + 2));
 					break;
 				}
 
@@ -146,8 +151,8 @@ static void GUI_Mentat_HelpListLoop()
 			case 0x0062: /* NUMPAD 2 / ARROW DOWN */
 			case 0x0454:
 			case 0x0462:
-				if (g_global->selectedHelpSubject < 10) {
-					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 4));
+				if (s_selectedHelpSubject < 10) {
+					GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, s_selectedHelpSubject + 4));
 					break;
 				}
 
@@ -178,7 +183,7 @@ static void GUI_Mentat_HelpListLoop()
 			case 0x003D: /* SPACE */
 			case 0x042B:
 			case 0x043D:
-				GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, g_global->selectedHelpSubject + 3));
+				GUI_Mentat_List_Click(GUI_Widget_Get_ByIndex(w, s_selectedHelpSubject + 3));
 				break;
 
 			default: break;
@@ -201,18 +206,18 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 	if (init) {
 		helpDataList = GFX_Screen_Get_ByIndex(3);
 
-		g_global->topHelpList = 0;
-		g_global->selectedHelpSubject = 0;
+		s_topHelpList = 0;
+		s_selectedHelpSubject = 0;
 
-		sprintf(g_global->mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
-		strcpy(g_global->mentatFilename, String_GenerateFilename(g_global->mentatFilename));
+		sprintf(s_mentatFilename, "MENTAT%c", g_table_houseInfo[g_playerHouseID].name[0]);
+		strcpy(s_mentatFilename, String_GenerateFilename(s_mentatFilename));
 	}
 
-	fileID = ChunkFile_Open(g_global->mentatFilename);
+	fileID = ChunkFile_Open(s_mentatFilename);
 	length = ChunkFile_Read(fileID, HTOBE32('NAME'), helpDataList, GFX_Screen_GetSize_ByIndex(3));
 	ChunkFile_Close(fileID);
 
-	g_global->numberHelpSubjects = 0;
+	s_numberHelpSubjects = 0;
 	helpSubjects = helpDataList;
 
 	counter = 0;
@@ -228,14 +233,14 @@ static void GUI_Mentat_LoadHelpSubjects(bool init)
 
 		helpSubjects[size - 1] = size;
 		helpSubjects += size;
-		g_global->numberHelpSubjects++;
+		s_numberHelpSubjects++;
 	}
 
 	helpSubjects = helpDataList;
 
 	while (*helpSubjects == '\0') helpSubjects++;
 
-	for (i = 0; i < g_global->topHelpList; i++) helpSubjects = String_NextString(helpSubjects);
+	for (i = 0; i < s_topHelpList; i++) helpSubjects = String_NextString(helpSubjects);
 
 	s_helpSubjects = helpSubjects;
 }
@@ -250,9 +255,9 @@ static void GUI_Mentat_Draw(bool force)
 	uint8 *helpSubjects = s_helpSubjects;
 	uint16 i;
 
-	if (!force && g_global->topHelpList == displayedHelpSubject) return;
+	if (!force && s_topHelpList == displayedHelpSubject) return;
 
-	displayedHelpSubject = g_global->topHelpList;
+	displayedHelpSubject = s_topHelpList;
 
 	oldScreenID = GFX_Screen_SetActive(2);
 
@@ -277,7 +282,7 @@ static void GUI_Mentat_Draw(bool force)
 			line->fgColourNormal   = 11;
 			line->stringID         = 0x30;
 		} else {
-			uint8 colour = (i == g_global->selectedHelpSubject) ? 8 : 15;
+			uint8 colour = (i == s_selectedHelpSubject) ? 8 : 15;
 			line->offsetX          = 24;
 			line->fgColourSelected = colour;
 			line->fgColourDown     = colour;
@@ -292,7 +297,7 @@ static void GUI_Mentat_Draw(bool force)
 		helpSubjects = String_NextString(helpSubjects);
 	}
 
-	GUI_Widget_Scrollbar_Init(GUI_Widget_Get_ByIndex(w, 15), g_global->numberHelpSubjects, 11, g_global->topHelpList);
+	GUI_Widget_Scrollbar_Init(GUI_Widget_Get_ByIndex(w, 15), s_numberHelpSubjects, 11, s_topHelpList);
 
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 16));
 	GUI_Widget_Draw(GUI_Widget_Get_ByIndex(w, 17));
@@ -798,10 +803,10 @@ void GUI_Mentat_Animation(uint16 speakingMode)
 void GUI_Mentat_SelectHelpSubject(int16 difference)
 {
 	if (difference > 0) {
-		if (difference + g_global->topHelpList + 11 > g_global->numberHelpSubjects) {
-			difference = g_global->numberHelpSubjects - (g_global->topHelpList + 11);
+		if (difference + s_topHelpList + 11 > s_numberHelpSubjects) {
+			difference = s_numberHelpSubjects - (s_topHelpList + 11);
 		}
-		g_global->topHelpList += difference;
+		s_topHelpList += difference;
 
 		while (difference-- != 0) {
 			s_helpSubjects = String_NextString(s_helpSubjects);
@@ -812,11 +817,11 @@ void GUI_Mentat_SelectHelpSubject(int16 difference)
 	if (difference < 0) {
 		difference = -difference;
 
-		if ((int16)g_global->topHelpList < difference) {
-			difference = g_global->topHelpList;
+		if ((int16)s_topHelpList < difference) {
+			difference = s_topHelpList;
 		}
 
-		g_global->topHelpList -= difference;
+		s_topHelpList -= difference;
 
 		while (difference-- != 0) {
 			s_helpSubjects = String_PrevString(s_helpSubjects);
@@ -923,12 +928,12 @@ static void GUI_Mentat_ShowHelp()
 
 	subject = s_helpSubjects;
 
-	for (i = 0; i < g_global->selectedHelpSubject; i++) subject = String_NextString(subject);
+	for (i = 0; i < s_selectedHelpSubject; i++) subject = String_NextString(subject);
 
 	noDesc = (subject[5] == '0');
 	offset = HTOBE32(*(uint32 *)(subject + 1));
 
-	fileID = ChunkFile_Open(g_global->mentatFilename);
+	fileID = ChunkFile_Open(s_mentatFilename);
 	ChunkFile_Read(fileID, HTOBE32('INFO'), &info, 12);
 	ChunkFile_Close(fileID);
 
@@ -938,7 +943,7 @@ static void GUI_Mentat_ShowHelp()
 	text = g_readBuffer;
 	compressedText = GFX_Screen_Get_ByIndex(3);
 
-	fileID = File_Open(g_global->mentatFilename, 1);
+	fileID = File_Open(s_mentatFilename, 1);
 	File_Seek(fileID, offset, 0);
 	File_Read(fileID, compressedText, info.variable_08);
 	String_Decompress(compressedText, text);
@@ -993,7 +998,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 	uint16 index;
 	Widget *w2;
 
-	index = g_global->selectedHelpSubject + 3;
+	index = s_selectedHelpSubject + 3;
 
 	if (w->index != index) {
 		w2 = GUI_Widget_Get_ByIndex(g_widgetMentatTail, index);
@@ -1017,7 +1022,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 			GUI_Widget_Draw(w);
 		}
 
-		g_global->selectedHelpSubject = w->index - 3;
+		s_selectedHelpSubject = w->index - 3;
 		return true;
 	}
 
@@ -1038,7 +1043,7 @@ bool GUI_Mentat_List_Click(Widget *w)
 
 void GUI_Mentat_ScrollBar_Draw(Widget *w)
 {
-	GUI_Mentat_SelectHelpSubject(GUI_Get_Scrollbar_Position(w) - g_global->topHelpList);
+	GUI_Mentat_SelectHelpSubject(GUI_Get_Scrollbar_Position(w) - s_topHelpList);
 	GUI_Mentat_Draw(false);
 }
 

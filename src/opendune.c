@@ -99,6 +99,8 @@ static void *s_spriteBuffer  = NULL;
 static void *s_buffer_182E = NULL;
 static void *s_buffer_1832 = NULL;
 
+static uint16 s_var_8052 = 0;
+
 /**
  * Check if a level is finished, based on the values in WinFlags.
  *
@@ -1435,7 +1437,7 @@ static void GameLoop_B4E6_0108(uint16 arg06, char **strings, uint32 arg0C, uint1
 		}
 	}
 
-	g_global->variable_8052 = arg12;
+	s_var_8052 = arg12;
 
 	GUI_Mouse_Show_Safe();
 
@@ -1492,10 +1494,10 @@ static uint16 GameLoop_B4E6_0200(uint16 arg06, char **strings, uint32 arg10, uin
 	top = g_curWidgetYBase + props->yBase;
 	left = (g_curWidgetXBase + props->xBase) << 3;
 
-	lineHeight = g_global->variable_6C71 + g_global->variable_8052;
+	lineHeight = g_global->variable_6C71 + s_var_8052;
 
 	minX = (g_curWidgetXBase << 3) + (g_global->variable_6C70 * props->xBase);
-	minY = g_curWidgetYBase + props->yBase - (g_global->variable_8052 / 2);
+	minY = g_curWidgetYBase + props->yBase - s_var_8052 / 2;
 	maxX = minX + (g_global->variable_6C70 * props->width) - 1;
 	maxY = minY + (props->height * lineHeight) - 1;
 

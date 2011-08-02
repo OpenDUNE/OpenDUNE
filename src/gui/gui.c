@@ -113,6 +113,7 @@ uint32 g_strategicRegionBits;                               /*!< Region bits at 
 static uint32 s_ticksPlayed;
 bool g_var_81E6;
 static uint8 s_var_81BA[24];
+static bool s_strategicMapFastForward;
 
 /*!< Colours used for the border of widgets. */
 static uint16 s_colourBorderSchema[5][4] = {
@@ -2794,9 +2795,11 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 char *GUI_String_Get_ByIndex(int16 stringID)
 {
+	extern char g_savegameDesc[5][51];
+
 	switch (stringID) {
 		case -5: case -4: case -3: case -2: case -1: {
-			char *s = g_global->savegameDesc[abs((int16)stringID + 1)];
+			char *s = g_savegameDesc[abs((int16)stringID + 1)];
 			if (*s == '\0') return NULL;
 			return s;
 		}
@@ -2948,15 +2951,15 @@ static int16 GUI_StrategicMap_ClickedRegion()
 
 static bool GUI_StrategicMap_FastForwardToggleWithESC()
 {
-	if (Input_Keyboard_NextKey() == 0) return g_global->strategicMapFastForward != 0;
+	if (Input_Keyboard_NextKey() == 0) return s_strategicMapFastForward;
 
-	if (Input_WaitForValidInput() != 0x1B) return g_global->strategicMapFastForward != 0;
+	if (Input_WaitForValidInput() != 0x1B) return s_strategicMapFastForward;
 
-	g_global->strategicMapFastForward = (g_global->strategicMapFastForward == 0) ? 1 : 0;
+	s_strategicMapFastForward = !s_strategicMapFastForward;
 
 	Input_History_Clear();
 
-	return g_global->strategicMapFastForward != 0;
+	return s_strategicMapFastForward;
 }
 
 static void GUI_StrategicMap_DrawText(char *string)
@@ -3262,7 +3265,7 @@ uint16 GUI_StrategicMap_Show(uint16 campaignID, bool win)
 	Unknown_259E_0006(g_palette1, 15);
 	GUI_Mouse_Show_Safe();
 
-	g_global->strategicMapFastForward = 0;
+	s_strategicMapFastForward = false;
 
 	if (win && campaignID == 1) {
 		Sprites_LoadImage("PLANET.CPS", 3, g_palette_998A, 1);

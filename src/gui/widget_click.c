@@ -36,7 +36,9 @@
 #include "../unknown/unknown.h"
 
 
+char g_savegameDesc[5][51];                                 /*!< Array of savegame descriptions for the SaveLoad window. */
 static uint16 s_savegameIndexBase = 0;
+static uint16 s_savegameCountOnDisk = 0;                    /*!< Amount of savegames on disk. */
 
 static char *GenerateSavegameFilename(uint16 number)
 {
@@ -507,7 +509,7 @@ static void GUI_Window_Create(WindowDesc *desc)
 		}
 	}
 
-	if (g_global->savegameCountOnDisk >= 5 && desc->addArrows) {
+	if (s_savegameCountOnDisk >= 5 && desc->addArrows) {
 		Widget *w = &g_table_windowWidgets[7];
 
 		w->drawParameterNormal.sprite   = g_sprites[59];
@@ -817,7 +819,7 @@ static void FillSavegameDesc(bool save)
 	uint8 i;
 
 	for (i = 0; i < 5; i++) {
-		char *desc = g_global->savegameDesc[i];
+		char *desc = g_savegameDesc[i];
 		char *filename;
 		uint8 fileId;
 
@@ -825,7 +827,7 @@ static void FillSavegameDesc(bool save)
 
 		if (s_savegameIndexBase - i < 0) continue;
 
-		if (s_savegameIndexBase - i == g_global->savegameCountOnDisk) {
+		if (s_savegameIndexBase - i == s_savegameCountOnDisk) {
 			if (!save) continue;
 
 			/* "[ EMPTY SLOT ]" */
@@ -855,7 +857,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 {
 	WindowDesc *desc = &g_savegameNameWindowDesc;
 	bool loop;
-	char *saveDesc = g_global->savegameDesc[key];
+	char *saveDesc = g_savegameDesc[key];
 	uint16 loc08;
 	uint16 loc0A;
 	bool ret;
@@ -870,7 +872,7 @@ static bool GUI_Widget_Savegame_Click(uint16 key)
 	loop = true;
 	loc08 = 1;
 
-	if (*saveDesc == '[') key = g_global->savegameCountOnDisk;
+	if (*saveDesc == '[') key = s_savegameCountOnDisk;
 
 	GFX_Screen_SetActive(0);
 
@@ -934,7 +936,7 @@ static void UpdateArrows(bool save, bool force)
 	}
 
 	w = &g_table_windowWidgets[7];
-	if (g_global->savegameCountOnDisk - (save ? 0 : 1) > s_savegameIndexBase) {
+	if (s_savegameCountOnDisk - (save ? 0 : 1) > s_savegameIndexBase) {
 		GUI_Widget_MakeVisible(w);
 	} else {
 		GUI_Widget_MakeInvisible(w);
@@ -953,9 +955,9 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 	WindowDesc *desc = &g_saveLoadWindowDesc;
 	bool loop;
 
-	g_global->savegameCountOnDisk = GetSavegameCount();
+	s_savegameCountOnDisk = GetSavegameCount();
 
-	s_savegameIndexBase = max(0, g_global->savegameCountOnDisk - (save ? 0 : 1));
+	s_savegameIndexBase = max(0, s_savegameCountOnDisk - (save ? 0 : 1));
 
 	FillSavegameDesc(save);
 
@@ -983,7 +985,7 @@ bool GUI_Widget_SaveLoad_Click(bool save)
 
 			switch (key) {
 				case 0x25:
-					s_savegameIndexBase = min(g_global->savegameCountOnDisk - (save ? 0 : 1), s_savegameIndexBase + 1);
+					s_savegameIndexBase = min(s_savegameCountOnDisk - (save ? 0 : 1), s_savegameIndexBase + 1);
 
 					FillSavegameDesc(save);
 
