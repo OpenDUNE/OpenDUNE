@@ -873,7 +873,7 @@ DriverInfo *MPU_GetInfo()
 {
 	DriverInfo *info;
 	info = (DriverInfo *)&emu_get_memory8(g_mt32mpu_cs, 0x00, 0xC7);
-	info->variable_0008.s.cs = g_mt32mpu_cs;
+	info->driverCode.s.cs = g_mt32mpu_cs;
 	return info;
 }
 

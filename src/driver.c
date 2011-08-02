@@ -79,7 +79,7 @@ static void Driver_Init(uint16 driver)
 
 	if (driver >= 16) return;
 
-	locsi = Driver_GetInfo(driver)->variable_0014;
+	locsi = Driver_GetInfo(driver)->frequency;
 	csip = Drivers_GetFunctionCSIP(driver, 0x67);
 	if (locsi != 0xFFFF && csip.csip != 0) {
 		Timer_Add(Drivers_Tick, 1000000 / locsi);
@@ -181,7 +181,7 @@ static uint16 Driver_Install(csip32 dcontent)
 	_stat128[_stat1AC].s.ip += ((uint16 *)content)[0];
 
 	info = Driver_GetInfo(_stat1AC);
-	if (info == NULL || info->variable_0000 > 211) return 0xFFFF;
+	if (info == NULL || info->version > 211) return 0xFFFF;
 
 	return _stat1AC;
 }
@@ -213,33 +213,6 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 
 	memcpy(driver->extension2, info->extension, 4);
 	strcpy(driver->extension, "xmi");
-
-	if (strcasecmp(filename, "sbdig.adv") == 0 || strcasecmp(filename, "sbpdig.adv") == 0) {
-		/* XXX -- Hard coded driver information. */
-		const char *blaster = "A220 I7 D1 H5 T6";
-
-		if (blaster != NULL) {
-			char *val;
-
-			val = strchr(blaster, 'A');
-			if (val != NULL) {
-				val++;
-				info->port = (uint16)strtoul(val, NULL, 16);
-			}
-
-			val = strchr(blaster, 'I');
-			if (val != NULL) {
-				val++;
-				info->irq1 = info->drq = (uint16)strtoul(val, NULL, 10);
-			}
-
-			val = strchr(blaster, 'D');
-			if (val != NULL) {
-				val++;
-				info->dma = (uint16)strtoul(val, NULL, 10);
-			}
-		}
-	}
 
 	Driver_Init(driver->index);
 

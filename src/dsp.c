@@ -98,7 +98,7 @@ DriverInfo *DSP_GetInfo()
 {
 	DriverInfo *info;
 	info = (DriverInfo *)&emu_get_memory8(g_dsp_cs, 0x00, 0x73);
-	info->variable_0008.s.cs = g_dsp_cs;
+	info->driverCode.s.cs = g_dsp_cs;
 	return info;
 }
 
