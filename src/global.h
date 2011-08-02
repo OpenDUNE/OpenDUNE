@@ -1349,7 +1349,7 @@ typedef struct GlobalData {
 	/* 8ADE(16)  */ PACK uint8   removed_8ADE[16];          /*!< REMOVED - ?? Buffer for colours*/
 	/* 8AEE(240) */ PACK char    removed_8AEE[240];         /*!< REMOVED - ?? Buffer. */
 	/* 8BDE(10)  */ PACK uint8   removed_8BDE[10];          /*!< REMOVED - ?? */
-	/* 8BE8(2)   */ PACK uint16 factoryWindowConstructionYard; /*!< True if the current factory display order is for a construction yard. */
+	/* 8BE8(2)   */ PACK uint16  removed_8BE8;              /*!< REMOVED - True if the current factory display order is for a construction yard. */
 	/* 8BEA(275) */ PACK uint8   removed_8BEA[25][11];      /*!< REMOVED - Items for the factory window. */
 	/* 8CFD(2)   */ PACK uint16  removed_8CFD;              /*!< REMOVED - Savegame version. */
 	/* 8CFF(228) */ PACK uint8   removed_8CFF[228];         /*!< REMOVED - Scenario data */

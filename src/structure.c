@@ -1463,7 +1463,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 		if (s->o.type == STRUCTURE_CONSTRUCTION_YARD) {
 			uint8 i;
 
-			g_global->factoryWindowConstructionYard = 1;
+			g_factoryWindowConstructionYard = true;
 
 			for (i = 0; i < STRUCTURE_MAX; i++) {
 				if ((buildable & (1 << i)) == 0) continue;
@@ -1473,7 +1473,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 				return false;
 			}
 		} else {
-			g_global->factoryWindowConstructionYard = 0;
+			g_factoryWindowConstructionYard = false;
 
 			if (s->o.type == STRUCTURE_STARPORT) {
 				uint8 linkedID = 0xFF;
@@ -1551,7 +1551,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 			Timer_SetTimer(TIMER_GAME, false);
 
-			res = GUI_DisplayFactoryWindow(g_global->factoryWindowConstructionYard != 0, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
+			res = GUI_DisplayFactoryWindow(g_factoryWindowConstructionYard, s->o.type == STRUCTURE_STARPORT ? 1 : 0, upgradeCost);
 
 			Timer_SetTimer(TIMER_GAME, true);
 
@@ -1585,7 +1585,7 @@ bool Structure_BuildObject(Structure *s, uint16 objectType)
 
 						s->objectType = objectType;
 
-						if (g_global->factoryWindowConstructionYard != 1) continue;
+						if (!g_factoryWindowConstructionYard) continue;
 
 						if (Structure_0C3A_0B93(objectType, s->o.houseID)) continue;
 

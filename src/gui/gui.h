@@ -54,6 +54,7 @@ extern uint16 g_factoryWindowBase;
 extern uint16 g_factoryWindowTotal;
 extern uint16 g_factoryWindowSelected;
 extern uint16 g_factoryWindowUpgradeCost;
+extern bool g_factoryWindowConstructionYard;
 extern FactoryResult g_factoryWindowResult;
 extern bool g_factoryWindowStarport;
 extern uint16 g_productionStringID;

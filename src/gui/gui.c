@@ -96,6 +96,7 @@ uint16 g_factoryWindowBase = 0;
 uint16 g_factoryWindowTotal = 0;
 uint16 g_factoryWindowSelected = 0;
 uint16 g_factoryWindowUpgradeCost = 0;
+bool g_factoryWindowConstructionYard = false;
 FactoryResult g_factoryWindowResult = FACTORY_RESUME;
 bool g_factoryWindowStarport = false;
 static uint8 s_factoryWindowGraymapTbl[256];
@@ -2620,7 +2621,7 @@ static void GUI_FactoryWindow_InitItems()
 		srand(seed);
 	}
 
-	if (g_global->factoryWindowConstructionYard == 0) {
+	if (!g_factoryWindowConstructionYard) {
 		uint16 i;
 
 		for (i = 0; i < UNIT_MAX; i++) {
@@ -2748,7 +2749,7 @@ FactoryResult GUI_DisplayFactoryWindow(bool isConstructionYard, bool isStarPort,
 
 	memcpy(backup, g_palette1 + 255 * 3, 3);
 
-	g_global->factoryWindowConstructionYard = isConstructionYard;
+	g_factoryWindowConstructionYard = isConstructionYard;
 	g_factoryWindowStarport = isStarPort;
 	g_factoryWindowUpgradeCost = upgradeCost;
 	g_factoryWindowOrdered = 0;
@@ -3408,7 +3409,7 @@ void GUI_FactoryWindow_DrawDetails()
 	WSA_DisplayFrame(wsa, 0, 128, 48, 2);
 	WSA_Unload(wsa);
 
-	if (g_global->factoryWindowConstructionYard != 0) {
+	if (g_factoryWindowConstructionYard) {
 		const StructureInfo *si;
 		int16 x = 288;
 		int16 y = 136;
