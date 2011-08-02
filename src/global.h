@@ -1330,7 +1330,7 @@ typedef struct GlobalData {
 	/* 822C()    */ PACK uint8   unknown_822C[0x0056];
 	/* 8282(14)  */ PACK char    removed_8282[14];          /*!< REMOVED - String buffer for emu_String_GenerateFilename(). */
 	/* 8290(400) */ PACK uint16  removed_8290[200];         /*!< REMOVED - positions of changes in the map. */
-	/* 8420(16)  */ PACK uint8  variable_8420[16];          /*!< ?? */
+	/* 8420(16)  */ PACK uint8   removed_8420[16];          /*!< REMOVED - ?? */
 	/* 8430(4)   */ PACK csip32  removed_8430;              /*!< REMOVED - Current StructureInfo we are handling in the GameLoop. */
 	/* 8434(4)   */ PACK csip32  removed_8434;              /*!< REMOVED - Current Structure we are handling in the GameLoop. */
 	/* 8438(6)   */ PACK uint8   removed_8438[6];           /*!< REMOVED - Default find struct used if noone given to emu_Unit_FindFirst/FindNext. */
