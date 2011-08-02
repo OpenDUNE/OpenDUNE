@@ -34,7 +34,6 @@ typedef struct Driver {
 	uint16 index;                                           /*!< Index of the loaded driver. */
 	csip32 dfilename;                                       /*!< Pointer to filename for the driver. */
 	char   extension[4];                                    /*!< Extension used for music file names. */
-	char   extension2[4];                                   /*!< Extension used for ?? */
 	csip32 dcontent;                                        /*!< Pointer to the driver file content. */
 	csip32 variable_12;                                     /*!< ?? */
 	csip32 content;                                         /*!< Pointer to the file to play content. */
@@ -53,7 +52,6 @@ MSVC_PACKED_END
 assert_compile(sizeof(MSBuffer) == 0x06);
 
 typedef struct DriverInfo {
-	char extension[4];                                      /*!< Extension of the file the driver supports. */
 	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
 } DriverInfo;
 

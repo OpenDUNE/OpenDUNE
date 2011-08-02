@@ -11,7 +11,6 @@
 #include "driver.h"
 
 static DriverInfo s_dsp_driverInfo = {
-	/* extension    */ "VOC",
 	/* frequency    */ 65535
 };
 

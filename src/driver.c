@@ -216,7 +216,6 @@ static bool Drivers_Init(const char *filename, csip32 fcsip, Driver *driver, con
 
 	info = Driver_GetInfo(driver->index);
 
-	memcpy(driver->extension2, info->extension, 4);
 	strcpy(driver->extension, "xmi");
 
 	Driver_Init(driver->index);

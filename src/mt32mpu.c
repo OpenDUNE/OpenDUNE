@@ -54,7 +54,6 @@ static const uint8 s_var_11E0[9] = { 127, 0, 64, 127, 0, 0, 0, 0, 0 };
 static const uint8 s_var_11E9[9] = { 68, 48, 95, 78, 41, 3, 110, 122, 255 };
 
 static DriverInfo s_mpu_driverInfo = {
-	/* extension    */ "MT",
 	/* frequency    */ 120
 };
 
