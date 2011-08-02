@@ -35,11 +35,9 @@ endif
 endif
 
 ifdef STATIC
-LIBS := $(LIBS) libemu.a
-LIBEMU := libemu.a
+LIBS := $(LIBS)
 else
-LIBS := $(LIBS) ./libemu$(LIB_EXTENSION)
-LIBEMU := libemu$(LIB_EXTENSION)
+LIBS := $(LIBS)
 endif
 
 ifdef OSX
@@ -115,7 +113,7 @@ objs/%.o: %.c
 	@echo "[Compiling] $<"
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@ -I include/ -I $(SDL_INCLUDE)
 
-opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBEMU)
+opendune$(EXTENSION): $(DECOMPILED_OBJS) $(SOURCE_OBJS)
 	@echo "[Linking] $@"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $(DECOMPILED_OBJS) $(SOURCE_OBJS) $(LIBS)
 
