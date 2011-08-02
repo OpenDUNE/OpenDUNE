@@ -2138,6 +2138,7 @@ static void InGame_Numpad_Move(uint16 key)
  */
 static void GameLoop_Main()
 {
+	static uint32 l_timerNext = 0;
 	uint16 key;
 
 	String_Load("DUNE");
@@ -2192,7 +2193,7 @@ static void GameLoop_Main()
 			GUI_ChangeSelectionType(4);
 
 			Music_Play(Tools_RandomRange(0, 8) + 8);
-			g_global->variable_31BC = g_timerGUI + 300;
+			l_timerNext = g_timerGUI + 300;
 		}
 
 		if (g_global->variable_31C0 != g_global->variable_38EC) {
@@ -2208,14 +2209,14 @@ static void GameLoop_Main()
 				g_global->variable_3E52 = 0;
 			} else if (g_global->variable_3E52 > 0) {
 				Music_Play(Tools_RandomRange(0, 5) + 17);
-				g_global->variable_31BC = g_timerGUI + 300;
+				l_timerNext = g_timerGUI + 300;
 				g_global->variable_3E52 = -1;
 			} else {
 				g_global->variable_3E52 = 0;
-				if (g_config.musicDrv != 0 && g_timerGUI > g_global->variable_31BC) {
+				if (g_config.musicDrv != 0 && g_timerGUI > l_timerNext) {
 					if (!Driver_Music_IsPlaying()) {
 						Music_Play(Tools_RandomRange(0, 8) + 8);
-						g_global->variable_31BC = g_timerGUI + 300;
+						l_timerNext = g_timerGUI + 300;
 					}
 				}
 			}
@@ -2508,7 +2509,6 @@ void Game_Init()
 
 	g_activeAction          = 0xFFFF;
 	g_structureActiveType   = 0xFFFF;
-	g_global->variable_38EE = 0xFFFF;
 
 	GUI_DisplayText(NULL, -1);
 }

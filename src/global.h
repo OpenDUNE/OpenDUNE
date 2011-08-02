@@ -604,7 +604,7 @@ typedef struct GlobalData {
 	/* 31A9()    */ PACK uint8   unknown_31A9[0x0009];
 	/* 31B2(4)   */ PACK csip32  removed_31B2;              /*!< REMOVED - ?? */
 	/* 31B6()    */ PACK uint8   unknown_31B6[0x0006];
-	/* 31BC(4)   */ PACK uint32 variable_31BC;              /*!< ?? */
+	/* 31BC(4)   */ PACK uint32  removed_31BC;              /*!< REMOVED - ?? Some timer. */
 	/* 31C0(2)   */ PACK  int16 variable_31C0;              /*!< ?? */
 	/* 31C2(4)   */ PACK uint32 variable_31C2;              /*!< ?? */
 	/* 31C6(4)   */ PACK uint32 variable_31C6;              /*!< ?? */
@@ -628,7 +628,7 @@ typedef struct GlobalData {
 	/* 320E(4)   */ PACK uint32  removed_320E;              /*!< REMOVED - Timeout value for next map activity. */
 	/* 3212(80)  */ PACK csip32  removed_3212[20];          /*!< REMOVED - Array with map activity scripts. */
 	/* 3262(60)  */ PACK csip32  removed_3262[15];          /*!< REMOVED - Array of functions. */
-	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? */
+	/* 329E(6)   */ PACK uint16 variable_329E[3];           /*!< ?? Read-Only. */
 	/* 32A4(32)  */ PACK uint16  removed_32A4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 32C4(32)  */ PACK uint16  removed_32C4[8][2];        /*!< REMOVED - ?? (read-only array) */
 	/* 32E4(32)  */ PACK uint16  removed_32E4[8][2];        /*!< REMOVED - ?? (read-only array) */
@@ -737,8 +737,8 @@ typedef struct GlobalData {
 	/* 38C4(2)   */ PACK uint16  removed_38C4;              /*!< REMOVED - text display needs an update. */
 	/* 38C6(4)   */ PACK csip32  removed_38C6;              /*!< REMOVED - MESSAGE strings. */
 	/* 38CA(4)   */ PACK csip32  removed_38CA;              /*!< REMOVED - Content of a string file (DUNE|INTRO|...).(ENG|FRE|...). */
-	/* 38CE(4)   */ PACK csip32 variable_38CE;              /*!< Not used. Replaced by a local variable. */
-	/* 38D2(4)   */ PACK uint32 variable_38D2;              /*!< Not used. Replaced by a local variable. */
+	/* 38CE(4)   */ PACK csip32  removed_38CE;              /*!< REMOVED - ?? */
+	/* 38D2(4)   */ PACK uint32  removed_38D2;              /*!< REMOVED - ?? */
 	/* 38D6(4)   */ PACK csip32  removed_38D6;              /*!< REMOVED - ?? (never written, only tested for not-0) */
 	/* 38DA(4)   */ PACK csip32  removed_38DA;              /*!< REMOVED - Temporary buffer used for reading and analyzing files. */
 	/* 38DE(4)   */ PACK uint32  removed_38DE;              /*!< REMOVED - Maximal length of the temporary read buffer. */
@@ -747,7 +747,7 @@ typedef struct GlobalData {
 	/* 38E8()    */ PACK uint16  removed_38E8;              /*!< REMOVED - ?? */
 	/* 38EA(2)   */ PACK uint16 structureIndex;             /*!< ?? */
 	/* 38EC(2)   */ PACK  int16 variable_38EC;              /*!< ?? */
-	/* 38EE(2)   */ PACK uint16 variable_38EE;              /*!< ?? */
+	/* 38EE(2)   */ PACK uint16  removed_38EE;              /*!< REMOVED - ?? Write-only. */
 	/* 38F0(2)   */ PACK uint16  removed_38F0;              /*!< REMOVED - Position of the structure being placed. */
 	/* 38F2(4)   */ PACK csip32  removed_38F2;              /*!< REMOVED - Unit currently controlled by player. */
 	/* 38F6(2)   */ PACK uint16  removed_38F6;              /*!< REMOVED - Action the controlled unit will do. */
@@ -768,7 +768,7 @@ typedef struct GlobalData {
 	/* 395A(4)   */ PACK csip32  removed_395A;              /*!< REMOVED - ?? */
 	/* 395E(132) */ PACK uint32  removed_395E[33];          /*!< REMOVED - tile offsets (only 15..32) are used. */
 	/* 39E2(2)   */ PACK uint16 variable_39E2;              /*!< ?? */
-	/* 39E4(2)   */ PACK uint16 variable_39E4;              /*!< ?? */
+	/* 39E4(2)   */ PACK uint16  removed_39E4;              /*!< REMOVED - ?? Write-only */
 	/* 39E6(2)   */ PACK uint16 variable_39E6;              /*!< ?? */
 	/* 39E8(2)   */ PACK uint16 variable_39E8;              /*!< ?? */
 	/* 39EA(4)   */ PACK csip32  removed_39EA;              /*!< REMOVED - Pointer to the map. */
@@ -818,7 +818,7 @@ typedef struct GlobalData {
 	/* 3E54(524) */ PACK csip32  removed_3E54[131];         /*!< REMOVED - Pointer to loaded voice. */
 	/* 4060(2)   */ PACK uint16 variable_4060;              /*!< ?? */
 	/* 4062(352) */ PACK uint16  removed_4062[22][8];       /*!< REMOVED - ?? Position and size of widgets? (to g_widgetProperties[22]) */
-	/* 41C2(10)  */ PACK GameCfg removed_41C2;              /*!< REMOVED - Game config (options.cfg). */
+	/* 41C2(10)  */ PACK uint8   removed_41C2[10];          /*!< REMOVED - Game config (options.cfg). */
 	/* 41CC(10)  */ PACK char   string_41CC[10];            /*!< "Harkonnen" NULL terminated. */
 	/* 41D6(10)  */ PACK char   string_41D6[10];            /*!< "nhark.voc" NULL terminated. */
 	/* 41E0(9)   */ PACK char   string_41E0[9];             /*!< "Atreides" NULL terminated. */
@@ -1104,7 +1104,7 @@ typedef struct GlobalData {
 	/* 6D61(2)   */ PACK uint16  removed_6D61;              /*!< REMOVED - ?? (Write-only var with font property?) */
 	/* 6D63(2)   */ PACK uint16  removed_6D63;              /*!< REMOVED - ?? (Write-only var with font property?) */
 	/* 6D65()    */ PACK uint8   unknown_6D65[0x0010];
-	/* 6D75(2)   */ PACK uint16 widgetReset;                /*!< Reset the widget and redraw when non-zero. */
+	/* 6D75(2)   */ PACK uint16  removed_6D75;              /*!< REMOVED - Reset the widget and redraw when non-zero. */
 	/* 6D77(4)   */ PACK char   string_6D77[4];             /*!< "ENG" NULL terminated. */
 	/* 6D7B(4)   */ PACK char   string_6D7B[4];             /*!< "FRE" NULL terminated. */
 	/* 6D7F(4)   */ PACK char   string_6D7F[4];             /*!< "GER" NULL terminated. */
@@ -1116,7 +1116,7 @@ typedef struct GlobalData {
 	/* 6D91()    */ PACK uint8   unknown_6D91[0x0001];
 	/* 6D92(16)  */ PACK uint8   removed_6D92[16];          /*!< REMOVED - Copy of palette data */
 	/* 6DA2(16)  */ PACK uint8   removed_6DA2[16];          /*!< REMOVED - Copy of palette data */
-	/* 6DB2(28)  */ PACK csip32 variable_6DB2[7];           /*!< Array of pointers to string_6DCE - string_6DFE. */
+	/* 6DB2(28)  */ PACK csip32  removed_6DB2[7];           /*!< REMOVED - Array of pointers to string_6DCE - string_6DFE. */
 	/* 6DCE(8)   */ PACK char   string_6DCE[8];             /*!< "cga.ovl" NULL terminated. */
 	/* 6DD6(8)   */ PACK char   string_6DD6[8];             /*!< "tga.ovl" NULL terminated. */
 	/* 6DDE(8)   */ PACK char   string_6DDE[8];             /*!< "ega.ovl" NULL terminated. */
@@ -1129,7 +1129,7 @@ typedef struct GlobalData {
 	/* 6E26(2)   */ PACK uint16  removed_6E26;              /*!< REMOVED - The videomode when the game starts. It switches back to this on terminate. */
 	/* 6E28(18)  */ PACK uint16  removed_6E28[9];           /*!< REMOVED - The mapping from Dune2 video mode to DOS video mode. */
 	/* 6E3A()    */ PACK uint8   unknown_6E3A[0x0004];
-	/* 6E3E(4)   */ PACK csip32 xmsHandler;                 /*!< Pointer to XMS handler. */
+	/* 6E3E(4)   */ PACK csip32  removed_6E3E;              /*!< REMOVED - Pointer to XMS handler. */
 	/* 6E42()    */ PACK uint8   unknown_6E42[0x0004];
 	/* 6E46(40)  */ PACK char   string_6E46[40];            /*!< "Run setup and remove XMS and HMA usage." NULL terminated. */
 	/* 6E6E(25)  */ PACK char   string_6E6E[25];            /*!< "HIMEM.SYS error %x -- %s" NULL terminated. */
@@ -1145,7 +1145,7 @@ typedef struct GlobalData {
 	/* 700E(2)   */ PACK uint16 inputFlags;                 /*!< Flags for input. See InputFlagsEnum. */
 	/* 7010(1)   */ PACK uint8  mouseMode;                  /*!< Mouse mode. See InputMouseMode. */
 	/* 7011(1)   */ PACK uint8  mouseFileID;                /*!< ?? */
-	/* 7012(1)   */ PACK uint8  mouseFileIDHigh;            /*!< ?? */
+	/* 7012(1)   */ PACK uint8   removed_7012;              /*!< REMOVED - ?? */
 	/* 7013(2)   */ PACK uint16 variable_7013;              /*!< ?? */
 	/* 7015(2)   */ PACK uint16 variable_7015;              /*!< ?? */
 	/* 7017(2)   */ PACK uint16 variable_7017;              /*!< ?? */
@@ -1176,10 +1176,10 @@ typedef struct GlobalData {
 	/* 7084(2)   */ PACK uint16  removed_7084;              /*!< REMOVED - Region - minimum value for Y position. */
 	/* 7086(2)   */ PACK uint16  removed_7086;              /*!< REMOVED - Region - maximum value for X position. */
 	/* 7088(2)   */ PACK uint16  removed_7088;              /*!< REMOVED - Region - maximum value for Y position. */
-	/* 708A(4)   */ PACK csip32  removed_708A;              /*!< The temporary buffer with what was behind the mouse cursor. */
-	/* 708E(4)   */ PACK csip32  removed_708E;              /*!< The sprite for the mouse cursor. */
-	/* 7092(2)   */ PACK uint16 variable_7092;              /*!< Parameter 1 for proc at 66B4. */
-	/* 7094(2)   */ PACK uint16 variable_7094;              /*!< Paramerer 2 for proc at 66B4. */
+	/* 708A(4)   */ PACK csip32  removed_708A;              /*!< REMOVED - The temporary buffer with what was behind the mouse cursor. */
+	/* 708E(4)   */ PACK csip32  removed_708E;              /*!< REMOVED - The sprite for the mouse cursor. */
+	/* 7092(2)   */ PACK uint16  removed_7092;              /*!< REMOVED - Parameter 1 for proc at 66B4. */
+	/* 7094(2)   */ PACK uint16  removed_7094;              /*!< REMOVED - Paramerer 2 for proc at 66B4. */
 	/* 7096(1)   */ PACK uint8  mouseInstalled;             /*!< If non-zero, the mouse callback is installed. */
 	/* 7097(1)   */ PACK uint8  variable_7097;              /*!< ?? If non-zero, no mouse handling. */
 	/* 7098(1)   */ PACK uint8  variable_7098;              /*!< ?? If zero, no mouse handling. */
@@ -1313,7 +1313,7 @@ typedef struct GlobalData {
 	/* 81DE(4)   */ PACK csip32  removed_81DE;              /*!< REMOVED - Pointer to content of ARROWS.SHP file. */
 	/* 81E2(4)   */ PACK csip32  removed_81E2;              /*!< REMOVED - Pointer to content of PIECES.SHP file. */
 	/* 81E6(2)   */ PACK uint16 variable_81E6;              /*!< ?? */
-	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< ?? */
+	/* 81E8(3)   */ PACK uint8  variable_81E8[3];           /*!< Read Only - ?? */
 	/* 81EB(2)   */ PACK uint16 variable_81EB;              /*!< ?? */
 	/* 81ED(4)   */ PACK csip32  removed_81ED;              /*!< REMOVED - ?? */
 	/* 81F1(40)  */ PACK uint16 variable_81F1[5][4];        /*!< ?? */
@@ -1374,7 +1374,7 @@ typedef struct GlobalData {
 	/* 986E(1)   */ PACK uint8   removed_986E;              /*!< REMOVED ?? (never used) */
 	/* 986F()    */ PACK uint8   unknown_986F[0x0013];
 	/* 9882()    */ PACK uint8   removed_9882[0x005F];      /*!< REMOVED - Current directory. */
-	/* 98E1(10)  */ PACK DuneCfg removed_98E1;              /*!< REMOVED - Config data (dune.cfg). */
+	/* 98E1(10)  */ PACK uint8   removed_98E1[10];          /*!< REMOVED - Config data (dune.cfg). */
 	/* 98EB()    */ PACK uint8   unknown_98EB[0x0002];
 	/* 98ED(2)   */ PACK uint16  removed_98ED;              /*!< REMOVED ?? (never used) */
 	/* 98EF()    */ PACK uint8   unknown_98EF[0x0002];

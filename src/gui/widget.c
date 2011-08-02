@@ -72,6 +72,8 @@ uint16 g_curWidgetHeight;         /*!< Height of the currently selected widget. 
 uint8  g_curWidgetFGColourBlink;  /*!< Blinking colour of the currently selected widget. */
 uint8  g_curWidgetFGColourNormal; /*!< Normal colour of the currently selected widget. */
 
+static bool s_widgetReset; /*!< If true, the widgets will be redrawn. */
+
 Widget *GUI_Widget_GetNext(Widget *w)
 {
 	if (w->next == NULL) return NULL;
@@ -268,11 +270,11 @@ uint16 GUI_Widget_HandleEvents(Widget *w)
 	if (w == NULL) return key & 0x7FFF;
 
 	/* First time this window is being drawn? */
-	if (w != l_widget_last || g_global->widgetReset != 0) {
+	if (w != l_widget_last || s_widgetReset) {
 		l_widget_last         = w;
 		l_widget_selected     = NULL;
 		l_widget_button_state = 0x0;
-		g_global->widgetReset = 0;
+		s_widgetReset = false;
 
 		/* Check for left click */
 		if (Input_Test(0x41) != 0) l_widget_button_state |= 0x0200;
@@ -816,7 +818,7 @@ Widget *GUI_Widget_Link(Widget *w1, Widget *w2)
 {
 	Widget *first = w1;
 
-	g_global->widgetReset = true;
+	s_widgetReset = true;
 
 	if (w2 == NULL) return w1;
 	w2->next = NULL;
@@ -940,7 +942,7 @@ Widget *GUI_Widget_Insert(Widget *w1, Widget *w2)
 		w2->next = w1;
 	}
 
-	g_global->widgetReset = 1;
+	s_widgetReset = true;
 
 	return first;
 }
