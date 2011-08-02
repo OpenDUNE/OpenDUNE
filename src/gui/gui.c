@@ -1658,9 +1658,15 @@ uint8 GUI_PickHouse()
 		char buffer[16];
 
 		for (i = 0; i < 3; i++) {
+			static uint8 l_var_2BAC[3][3] = {
+				/* x, y, shortcut */
+				{ 16, 56, 31 },
+				{ 112, 56, 25 },
+				{ 208, 56, 36 },
+			};
 			Widget *w2;
 
-			w2 = GUI_Widget_Allocate(i + 1, g_global->variable_2BAC[i][2], g_global->variable_2BAC[i][0], g_global->variable_2BAC[i][1], 0xFFFF, 0, 0);
+			w2 = GUI_Widget_Allocate(i + 1, l_var_2BAC[i][2], l_var_2BAC[i][0], l_var_2BAC[i][1], 0xFFFF, 0, 0);
 
 			w2->flags.all = 0x0;
 			w2->flags.s.loseSelect = true;

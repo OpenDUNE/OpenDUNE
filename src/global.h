@@ -487,7 +487,7 @@ typedef struct GlobalData {
 	/* 2B98(5)   */ PACK char   string_2B98[5];             /*!< "INFO" NULL terminated. */
 	/* 2B9D(14)  */ PACK char   string_2B9D[14];            /*!< "TOTAL REGIONS" NULL terminated. */
 	/* 2BAB()    */ PACK uint8   unknown_2BAB[0x0001];
-	/* 2BAC(18)  */ PACK uint16 variable_2BAC[3][3];        /*!< Read Only - ?? */
+	/* 2BAC(18)  */ PACK uint16  removed_2BAC[3][3];        /*!< REMOVED - ?? */
 	/* 2BBE(12)  */ PACK csip32  removed_2BBE[3];           /*!< REMOVED - Points to the WSAs for each house. */
 	/* 2BCA(19)  */ PACK char   string_2BCA[19];            /*!< "No more scenarios!" NULL terminated. */
 	/* 2BDD(7)   */ PACK char   string_2BDD[7];             /*!< "TEXT%c" NULL terminated. */
@@ -903,7 +903,7 @@ typedef struct GlobalData {
 	/* 62F7(9)   */ PACK uint8   removed_62F7[9];           /*!< REMOVED - ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
 	/* 6302(38)  */ PACK uint8   removed_6302[38];          /*!< REMOVED - Sound driver. */
-	/* 6328(2)   */ PACK uint16  removed_6328;              /*!< REMOVEd - ?? */
+	/* 6328(2)   */ PACK uint16  removed_6328;              /*!< REMOVED - ?? */
 	/* 632A(2)   */ PACK uint16  removed_632A;              /*!< REMOVED - ?? */
 	/* 632C(24)  */ PACK uint8   removed_632C[4][6];        /*!< REMOVED - Sound buffer. */
 	/* 6344(38)  */ PACK uint8   removed_6344[38];          /*!< REMOVED - Music driver. */
@@ -1195,7 +1195,7 @@ typedef struct GlobalData {
 	/* 76A8(4)   */ PACK uint32  removed_76A8;              /*!< REMOVED - Global tick counter, increases every tick. */
 	/* 76AC(4)   */ PACK uint32  removed_76AC;              /*!< REMOVED - Global tick counter, increases when Timer 1 is enabled. */
 	/* 76B0(4)   */ PACK uint32  removed_76B0;              /*!< REMOVED - Global tick counter, increases when Timer 2 is enabled. */
-	/* 76B4(4)   */ PACK uint32  removed_76B4;              /*!< REMOVEd - Global tick counter, decreases every tick when set. */
+	/* 76B4(4)   */ PACK uint32  removed_76B4;              /*!< REMOVED - Global tick counter, decreases every tick when set. */
 	/* 76B8(2)   */ PACK uint16  removed_76B8;              /*!< REMOVED - Which timers are active. 1 = GUI, 2 = Game. */
 	/* 76BA(2)   */ PACK uint16  removed_76BA;              /*!< REMOVED - ?? (never used) */
 	/* 76BC()    */ PACK uint8   unknown_76BC[0x0001];
