@@ -902,15 +902,15 @@ typedef struct GlobalData {
 	/* 62F6(1)   */ PACK uint8  not_used_62F6;              /*!< Not used (any more). */
 	/* 62F7(9)   */ PACK uint8  variable_62F7[9];           /*!< ?? */
 	/* 6300(2)   */ PACK char   string_6300[2];             /*!< "\" NULL terminated. */
-	/* 6302(38)  */ PACK Driver soundDriver;                /*!< Sound driver. */
+	/* 6302(38)  */ PACK uint8   removed_6302[38];          /*!< REMOVED - Sound driver. */
 	/* 6328(2)   */ PACK uint16 variable_6328;              /*!< ?? */
 	/* 632A(2)   */ PACK uint16 soundBufferIndex;           /*!< ?? */
 	/* 632C(24)  */ PACK MSBuffer soundBuffer[4];           /*!< ?? */
-	/* 6344(38)  */ PACK Driver musicDriver;                /*!< Music driver. */
+	/* 6344(38)  */ PACK uint8   removed_6344[38];          /*!< REMOVED - Music driver. */
 	/* 636A(2)   */ PACK uint16 variable_636A;              /*!< ?? */
 	/* 636C(6)   */ PACK MSBuffer musicBuffer;              /*!< ?? */
 	/* 6372(2)   */ PACK uint16 variable_6372;              /*!< ?? */
-	/* 6374(38)  */ PACK Driver voiceDriver;                /*!< Voice driver. */
+	/* 6374(38)  */ PACK uint8   removed_6374[38];          /*!< REMOVED - Voice driver. */
 	/* 639A(2)   */ PACK uint16 variable_639A;              /*!< ?? */
 	/* 639C(2)   */ PACK uint16 variable_639C;              /*!< ?? */
 	/* 639E(6)   */ PACK uint8  variable_639E[6];           /*!< ?? */

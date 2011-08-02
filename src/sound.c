@@ -31,7 +31,7 @@ static uint16 s_spokenWords[NUM_SPEECH_PARTS];   /*!< Buffer with speech to play
 
 static void Driver_Music_Play(int16 index, uint16 volume)
 {
-	Driver *music = &g_global->musicDriver;
+	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = &g_global->musicBuffer;
 
 	if (index < 0 || index > 120 || g_global->musicEnabled == 0) return;
@@ -52,8 +52,8 @@ static void Driver_Music_Play(int16 index, uint16 volume)
 
 static void Driver_Music_LoadFile(const char *musicName)
 {
-	Driver *music = &g_global->musicDriver;
-	Driver *sound = &g_global->soundDriver;
+	Driver *music = g_driverMusic;
+	Driver *sound = g_driverSound;
 
 	Driver_Music_Stop();
 
@@ -69,10 +69,10 @@ static void Driver_Music_LoadFile(const char *musicName)
 	}
 
 	if (sound->filename.csip != 0x0 && musicName != NULL && strcasecmp(Drivers_GenerateFilename(musicName, music), (char *)emu_get_memorycsip(sound->filename)) == 0) {
-		g_global->musicDriver.content         = g_global->soundDriver.content;
-		g_global->musicDriver.variable_1E     = g_global->soundDriver.variable_1E;
-		g_global->musicDriver.filename        = g_global->soundDriver.filename;
-		g_global->musicDriver.contentMalloced = g_global->soundDriver.contentMalloced;
+		g_driverMusic->content         = g_driverSound->content;
+		g_driverMusic->variable_1E     = g_driverSound->variable_1E;
+		g_driverMusic->filename        = g_driverSound->filename;
+		g_driverMusic->contentMalloced = g_driverSound->contentMalloced;
 
 		return;
 	}

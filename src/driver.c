@@ -29,6 +29,14 @@ static uint16 _stat462;
 static uint16 _stat464;
 static csip32 _stat466;
 
+Driver s_driverMusic;
+Driver s_driverSound;
+Driver s_driverVoice;
+
+Driver *g_driverMusic = &s_driverMusic;
+Driver *g_driverSound = &s_driverSound;
+Driver *g_driverVoice = &s_driverVoice;
+
 void Drivers_Tick()
 {
 	if (emu_flags.inf) MPU_Interrupt();
@@ -228,8 +236,8 @@ uint16 Drivers_Sound_Init(uint16 index)
 	Driver *music;
 
 	driver = &g_global->soundDrv[index];
-	sound  = &g_global->soundDriver;
-	music  = &g_global->musicDriver;
+	sound  = g_driverSound;
+	music  = g_driverMusic;
 
 	if (driver->filename.csip == 0x0) return index;
 
@@ -272,8 +280,8 @@ uint16 Drivers_Music_Init(uint16 index)
 	int32 value;
 
 	driver = &g_global->musicDrv[index];
-	music  = &g_global->musicDriver;
-	sound  = &g_global->soundDriver;
+	sound  = g_driverSound;
+	music  = g_driverMusic;
 
 	if (driver->filename.csip == 0x0) return index;
 
@@ -303,7 +311,7 @@ uint16 Drivers_Voice_Init(uint16 index)
 	Driver *voice;
 
 	driver = &g_global->voiceDrv[index];
-	voice  = &g_global->voiceDriver;
+	voice  = g_driverVoice;
 
 	if (driver->filename.csip == 0x0) return index;
 
@@ -358,7 +366,7 @@ bool Driver_Music_IsPlaying()
 {
 	MSBuffer *buffer = &g_global->musicBuffer;
 
-	if (g_global->musicDriver.index == 0xFFFF) return false;
+	if (g_driverMusic->index == 0xFFFF) return false;
 	if (buffer->index == 0xFFFF) return false;
 
 	return MPU_IsPlaying(buffer->index) == 1;
@@ -366,13 +374,13 @@ bool Driver_Music_IsPlaying()
 
 bool Driver_Voice_IsPlaying()
 {
-	if (g_global->voiceDriver.index == 0xFFFF) return false;
+	if (g_driverVoice->index == 0xFFFF) return false;
 	return DSP_GetStatus() == 2;
 }
 
 void Driver_Sound_Play(int16 index, int16 volume)
 {
-	Driver *sound = &g_global->soundDriver;
+	Driver *sound = g_driverSound;
 	MSBuffer *soundBuffer = &g_global->soundBuffer[g_global->soundBufferIndex];
 
 	if (index < 0 || index >= 120) return;
@@ -397,7 +405,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 
 void Driver_Music_Stop()
 {
-	Driver *music = &g_global->musicDriver;
+	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = &g_global->musicBuffer;
 
 	if (music->index == 0xFFFF) return;
@@ -410,7 +418,7 @@ void Driver_Music_Stop()
 
 void Driver_Sound_Stop()
 {
-	Driver *sound = &g_global->soundDriver;
+	Driver *sound = g_driverSound;
 	uint8 i;
 
 	if (sound->index == 0xFFFF) return;
@@ -430,7 +438,7 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 	assert(buffer != NULL);
 
 	if (filename == NULL) return;
-	if (g_global->voiceDriver.index == 0xFFFF) return;
+	if (g_driverVoice->index == 0xFFFF) return;
 	if (!File_Exists(filename)) return;
 
 	File_ReadBlockFile(filename, buffer, length);
@@ -438,7 +446,7 @@ void Driver_Voice_LoadFile(const char *filename, void *buffer, uint32 length)
 
 void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 {
-	Driver *voice = &g_global->voiceDriver;
+	Driver *voice = g_driverVoice;
 
 	if (!g_global->soundsEnabled || voice->index == 0xFFFF) return;
 
@@ -465,7 +473,7 @@ void Driver_Voice_Play(uint8 *arg06, int16 arg0A)
 
 void Driver_Voice_Stop()
 {
-	Driver *voice = &g_global->voiceDriver;
+	Driver *voice = g_driverVoice;
 
 	if (Driver_Voice_IsPlaying()) DSP_Stop();
 
@@ -479,8 +487,8 @@ void Driver_Voice_Stop()
 
 void Driver_Sound_LoadFile(const char *musicName)
 {
-	Driver *sound = &g_global->soundDriver;
-	Driver *music = &g_global->musicDriver;
+	Driver *sound = g_driverSound;
+	Driver *music = g_driverMusic;
 
 	Driver_Sound_Stop();
 
@@ -538,7 +546,7 @@ char *Drivers_GenerateFilename(const char *name, Driver *driver)
 
 static void Drivers_Music_Uninit()
 {
-	Driver *music = &g_global->musicDriver;
+	Driver *music = g_driverMusic;
 
 	if (music->index != 0xFFFF) {
 		MSBuffer *buffer = &g_global->musicBuffer;
@@ -553,7 +561,7 @@ static void Drivers_Music_Uninit()
 		buffer->buffer.csip = 0x0;
 	}
 
-	if (music->dcontent.csip == g_global->soundDriver.dcontent.csip) {
+	if (music->dcontent.csip == g_driverSound->dcontent.csip) {
 		music->dcontent.csip    = 0x0;
 		music->variable_12.csip = 0x0;
 		music->dfilename.csip   = 0x0;
@@ -565,7 +573,7 @@ static void Drivers_Music_Uninit()
 
 static void Drivers_Sound_Uninit()
 {
-	Driver *sound = &g_global->soundDriver;
+	Driver *sound = g_driverSound;
 
 	if (sound->index != 0xFFFF) {
 		uint8 i;
@@ -584,7 +592,7 @@ static void Drivers_Sound_Uninit()
 		}
 	}
 
-	if (sound->dcontent.csip == g_global->musicDriver.dcontent.csip) {
+	if (sound->dcontent.csip == g_driverMusic->dcontent.csip) {
 		sound->dcontent.csip    = 0x0;
 		sound->variable_12.csip = 0x0;
 		sound->dfilename.csip   = 0x0;
@@ -596,7 +604,7 @@ static void Drivers_Sound_Uninit()
 
 static void Drivers_Voice_Uninit()
 {
-	Drivers_Uninit(&g_global->voiceDriver);
+	Drivers_Uninit(g_driverVoice);
 }
 
 void Drivers_All_Uninit()
@@ -650,7 +658,7 @@ void Driver_UnloadFile(Driver *driver)
 
 void Driver_Music_FadeOut()
 {
-	Driver *music = &g_global->musicDriver;
+	Driver *music = g_driverMusic;
 	MSBuffer *musicBuffer = &g_global->musicBuffer;
 
 	if (music->index == 0xFFFF) return;

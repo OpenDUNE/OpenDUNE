@@ -30,22 +30,19 @@ typedef struct MSDriver {
 MSVC_PACKED_END
 assert_compile(sizeof(MSDriver) == 0x0C);
 
-MSVC_PACKED_BEGIN
 typedef struct Driver {
-	/* 0000(2)   */ PACK uint16 index;                      /*!< ?? */
-	/* 0002(4)   */ PACK csip32 dfilename;                  /*!< Pointer to filename for the driver. */
-	/* 0006(4)   */ PACK char   extension[4];               /*!< Extension used for music file names. */
-	/* 000A(4)   */ PACK char   extension2[4];              /*!< Extension used for ?? */
-	/* 000E(4)   */ PACK csip32 dcontent;                   /*!< Pointer to the driver file content. */
-	/* 0012(4)   */ PACK csip32 variable_12;                /*!< ?? */
-	/* 0016(4)   */ PACK csip32 content;                    /*!< Pointer to the file to play content. */
-	/* 001A(4)   */ PACK csip32 filename;                   /*!< Pointer to the name of file to play. */
-	/* 001E(4)   */ PACK csip32 variable_1E;                /*!< ?? */
-	/* 0022(2)   */ PACK uint16 contentMalloced;            /*!< Wether content pointer is the result of a malloc. */
-	/* 0024(2)   */ PACK uint16 customTimer;                /*!< ?? */
-} GCC_PACKED Driver;
-MSVC_PACKED_END
-assert_compile(sizeof(Driver) == 0x26);
+	uint16 index;                                           /*!< Index of the loaded driver. */
+	csip32 dfilename;                                       /*!< Pointer to filename for the driver. */
+	char   extension[4];                                    /*!< Extension used for music file names. */
+	char   extension2[4];                                   /*!< Extension used for ?? */
+	csip32 dcontent;                                        /*!< Pointer to the driver file content. */
+	csip32 variable_12;                                     /*!< ?? */
+	csip32 content;                                         /*!< Pointer to the file to play content. */
+	csip32 filename;                                        /*!< Pointer to the name of file to play. */
+	csip32 variable_1E;                                     /*!< ?? */
+	uint16 contentMalloced;                                 /*!< Wether content pointer is the result of a malloc. */
+	uint16 customTimer;                                     /*!< ?? */
+} Driver;
 
 MSVC_PACKED_BEGIN
 typedef struct MSBuffer {
@@ -59,6 +56,10 @@ typedef struct DriverInfo {
 	char extension[4];                                      /*!< Extension of the file the driver supports. */
 	uint16 frequency;                                       /*!< The timer frequency this driver works with. */
 } DriverInfo;
+
+extern Driver *g_driverMusic;
+extern Driver *g_driverSound;
+extern Driver *g_driverVoice;
 
 extern uint16 Drivers_EnableSounds(uint16 sounds);
 extern uint16 Drivers_EnableMusic(uint16 music);
