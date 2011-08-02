@@ -656,8 +656,8 @@ typedef struct GlobalData {
 	/* 3562(2)   */ PACK uint16  removed_3562;              /*!< REMOVED - ?? */
 	/* 3564(2)   */ PACK uint16  removed_3564;              /*!< REMOVED Previous minimap position (top-left tile, packed). */
 	/* 3566(94)  */ PACK uint16  removed_3566[47];          /*!< REMOVED - tile positions of the viewport border. */
-	/* 35C4(2)   */ PACK uint16 selectionObjectPosition;    /*!< Position of the current selected object (top-left tile, packed). */
-	/* 35C6(2)   */ PACK uint16 selectionObjectLayout;      /*!< Layout of the current selected object. */
+	/* 35C4(2)   */ PACK uint16  removed_35C4;              /*!< REMOVED - Position of the current selected object (top-left tile, packed). */
+	/* 35C6(2)   */ PACK uint16  removed_35C6;              /*!< REMOVED - Layout of the current selected object. */
 	/* 35C8(32)  */ PACK uint16 mapScrollOffset[8][2];      /*!< Read Only - Translates scroll numbers to positional offsets for map scrolling. */
 	/* 35E8(4)   */ PACK csip32  removed_35E8;              /*!< REMOVED - CS:IP of Unit array. */
 	/* 35EC(2)   */ PACK uint16  removed_35EC;              /*!< REMOVED - Amount of Units on the map. */

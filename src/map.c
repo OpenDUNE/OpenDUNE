@@ -525,17 +525,19 @@ void Map_SetSelection(uint16 packed)
  */
 uint16 Map_SetSelectionSize(uint16 layout)
 {
+	static uint16 selectionLayout = 0;
+
 	uint16 oldLayout;
 	uint16 oldPosition;
 
-	oldLayout = g_global->selectionObjectLayout;
+	oldLayout = selectionLayout;
 	if (layout & 0x80) return oldLayout;
 
 	oldPosition = Map_SetSelectionObjectPosition(0xFFFF);
 
-	g_global->selectionObjectLayout = layout;
-	g_selectionWidth                = g_table_structure_layoutSize[layout].width;
-	g_selectionHeight               = g_table_structure_layoutSize[layout].height;
+	selectionLayout   = layout;
+	g_selectionWidth  = g_table_structure_layoutSize[layout].width;
+	g_selectionHeight = g_table_structure_layoutSize[layout].height;
 
 	Map_SetSelectionObjectPosition(oldPosition);
 
@@ -573,9 +575,11 @@ static void Map_InvalidateSelection(uint16 packed, bool enable)
  */
 uint16 Map_SetSelectionObjectPosition(uint16 packed)
 {
+	static uint16 selectionPosition = 0xFFFF;
+
 	uint16 oldPacked;
 
-	oldPacked = g_global->selectionObjectPosition;
+	oldPacked = selectionPosition;
 
 	if (packed == oldPacked) return oldPacked;
 
@@ -583,7 +587,7 @@ uint16 Map_SetSelectionObjectPosition(uint16 packed)
 
 	if (packed != 0xFFFF) Map_InvalidateSelection(packed, true);
 
-	g_global->selectionObjectPosition = packed;
+	selectionPosition = packed;
 
 	return oldPacked;
 }
