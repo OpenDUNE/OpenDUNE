@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libemu.lib winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib SDL.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libemu.lib winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib SDL.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"

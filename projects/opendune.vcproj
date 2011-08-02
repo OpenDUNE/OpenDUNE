@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libemu.lib winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib SDL.lib"
 				AdditionalLibraryDirectories=".."
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
@@ -134,7 +134,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libemu.lib winmm.lib SDL.lib"
+				AdditionalDependencies="winmm.lib SDL.lib"
 				AdditionalLibraryDirectories=".."
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
@@ -170,30 +170,6 @@
 		<Filter
 			Name="include"
 			>
-			<File
-				RelativePath="..\include\libemu.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu_bios.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu_call.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu_math.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu_mov.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\libemu_register.h"
-				>
-			</File>
 			<File
 				RelativePath="..\include\types.h"
 				>
