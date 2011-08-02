@@ -54,7 +54,7 @@ typedef struct InputLocalData {
 	/* 00AF(256) */ PACK uint16  removed_00AF[128];         /*!< REMOVED - History of input commands. */
 	/* 01AF(2)   */ PACK uint16  removed_01AF;              /*!< REMOVED - The current head inside the history array. */
 	/* 01B1(2)   */ PACK uint16  removed_01B1;              /*!< REMOVED - The current tail inside the history array. */
-	/* 01B3(2)   */ PACK uint16 flags;                      /*!< Mask for allowed input types. See InputFlagsEnum. */
+	/* 01B3(2)   */ PACK uint16  removed_01B3;              /*!< REMOVED - Mask for allowed input types. See InputFlagsEnum. */
 	/* 01B5()    */ PACK uint16  removed_01B5;              /*!< REMOVED - Which control keys are pressed. */
 	/* 01B7(2)   */ PACK uint16  removed_01B7;              /*!< REMOVED - Copy of controlKeys */
 	/* 01B9(89)  */ PACK uint8  variable_01B9[89];          /*!< ?? Read-only. */

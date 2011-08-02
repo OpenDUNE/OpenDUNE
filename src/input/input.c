@@ -47,13 +47,6 @@ static const uint8 s_keymapShift[] = {
 	 'C', 'V', 'B', 'N', 'M', '<', '>', '?',   0,   0,   0,    0,   0, ' '
 };
 
-/** Keymap to convert scancode to for numpad with numlock off. */
-static const uint8 s_keymapNumpad[] = {
-	174, 173,    0,   0, 181, 185, 177,   0, 184, 176, 183, 175,   0,   0, 179,   0,
-	185, 181,  177,   0, '/', 184, 180, 176, 174, '*', 183, 179, 175, 173, '-', '+',
-	  0, '\r',   0
-};
-
 /** Keymap to convert scancode to for numpad with numlock on. */
 static const uint8 s_keymapNumlock[] = {0, '7', '4', '1',   0, '/', '8', '5', '2', '0', '*', '9', '6', '3', '.', '-', '+', 0, '\r', 0};
 
@@ -98,9 +91,9 @@ void Input_EventHandler(uint8 key)
 {
 	uint8 state;
 	uint8 i;
+	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-	s_input_local->flags = g_global->inputFlags;
-
+	flags = g_global->inputFlags;
 	state = 0;
 
 	if (key == 0xE0) {
@@ -147,7 +140,7 @@ void Input_EventHandler(uint8 key)
 	}
 	for (i = 0; i < 17; i++) {
 		if (s_input_local->variable_0036[i] == key) {
-			if ((s_input_local->variable_0058[i] & s_input_local->flags) != 0) return;
+			if ((s_input_local->variable_0058[i] & flags) != 0) return;
 			break;
 		}
 	}
@@ -326,8 +319,9 @@ void Input_HandleInput(uint16 input)
 	uint16 inputMouseX;
 	uint16 inputMouseY;
 	uint16 tempBuffer[2];
+	uint16 flags; /* Mask for allowed input types. See InputFlagsEnum. */
 
-	s_input_local->flags = g_global->inputFlags;
+	flags       = g_global->inputFlags;
 	inputMouseX = g_mouseX;
 	inputMouseY = g_mouseY;
 
@@ -339,9 +333,9 @@ void Input_HandleInput(uint16 input)
 	if (input == 0) return;
 
 	value = input & 0xFF;
-	if ((s_input_local->flags & 0x1000) != 0 && (input & 0x400) == 0) {
+	if ((flags & INPUT_FLAG_NO_CLICK) != 0 && (input & 0x400) == 0) {
 
-		if (((s_input_local->flags & 0x2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
+		if (((flags & INPUT_FLAG_UNKNOWN_2000) != 0 && (value == 0x2B || value == 0x3D || value == 0x6C)) || value == 0x63) {
 			input = 0x41 | (input & 0xFF00);
 			g_prevButtonState |= 1;
 			if ((input & 0x800) != 0) {
@@ -436,13 +430,13 @@ void Input_HandleInput(uint16 input)
 	if (value != 0x2D && value != 0x7F && (input & 0x800) != 0) bit_value = 0;
 
 	if (value == 0x2D || value == 0x7F ||
-			((input & 0x800) != 0 && (s_input_local->flags & 0x800) == 0 && value != 0x41 && value != 0x42)) {
+			((input & 0x800) != 0 && (flags & INPUT_FLAG_KEY_RELEASE) == 0 && value != 0x41 && value != 0x42)) {
 		s_historyTail = oldTail;
 	}
 
 	index = (value & 0x7F) >> 3;
 	bit_value <<= (value & 7);
-	if ((bit_value & s_input_local->activeInputMap[index]) != 0 && (s_input_local->flags & 1) == 0) {
+	if ((bit_value & s_input_local->activeInputMap[index]) != 0 && (flags & INPUT_FLAG_KEY_REPEAT) == 0) {
 		s_historyTail = oldTail;
 	}
 	s_input_local->activeInputMap[index] &= (1 << (value & 7)) ^ 0xFF;
@@ -524,8 +518,6 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 		return 0;
 	}
 
-	s_input_local->flags = 0x1100; /* cs:700E instead of ds:700E (value obtained at run-time). */
-
 	if (keyValue == 0x6E) {
 		return keyFlags | 0x1B;
 	}
@@ -557,13 +549,7 @@ uint16 Input_Keyboard_HandleKeys(uint16 value)
 	if (keyValue < 0x6E) {
 		uint8 keySave = keyValue - 0x4B;
 
-		/* XXX -- Commented code is purely for reference on its original functionality. We don't support control keys, so it is removed. */
-		if ((s_input_local->flags & INPUT_FLAG_UNKNOWN_0200) == 0 /* && (s_input_local->controlKeys2 & 0x2) != 0 */) {
-			keyValue = s_keymapNumlock[keySave - 0xF];
-		} else {
-			keyValue = s_keymapNumpad[keySave];
-		}
-		return keyValue;
+		return s_keymapNumlock[keySave - 0xF];
 	}
 
 	if (keyValue < 0x70 || keyValue > 0x79) {
