@@ -263,15 +263,15 @@ uint16 Drivers_Sound_Init(uint16 index)
 	}
 
 	if (driver->variable_0008 == 0) {
+		uint32 size;
 		uint8 i;
-		int32 value;
 
-		value = MPU_GetDataSize();
+		size = MPU_GetDataSize();
 
 		for (i = 0; i < 4; i++) {
 			MSBuffer *buf = g_bufferSound[i];
 
-			buf->buffer = Tools_Malloc(value, 0x10);
+			buf->buffer = calloc(1, size);
 			buf->index  = 0xFFFF;
 		}
 		s_bufferSoundIndex = 0;
@@ -286,7 +286,7 @@ uint16 Drivers_Music_Init(uint16 index)
 	MSDriver *driver;
 	Driver *music;
 	Driver *sound;
-	int32 value;
+	uint32 size;
 
 	driver = &g_global->musicDrv[index];
 	sound  = g_driverSound;
@@ -304,9 +304,9 @@ uint16 Drivers_Music_Init(uint16 index)
 
 	if (driver->variable_0008 != 0) return index;
 
-	value = MPU_GetDataSize();
+	size = MPU_GetDataSize();
 
-	g_bufferMusic->buffer = Tools_Malloc(value, 0x10);
+	g_bufferMusic->buffer = calloc(1, size);
 	g_bufferMusic->index  = 0xFFFF;
 
 	return index;
@@ -379,7 +379,7 @@ void Driver_Sound_Play(int16 index, int16 volume)
 		soundBuffer->index = 0xFFFF;
 	}
 
-	soundBuffer->index = MPU_SetData(sound->content, index, emu_get_memorycsip(soundBuffer->buffer));
+	soundBuffer->index = MPU_SetData(sound->content, index, soundBuffer->buffer);
 
 	MPU_Play(soundBuffer->index);
 	MPU_SetVolume(soundBuffer->index, ((volume & 0xFF) * 90) / 256, 0);
@@ -541,8 +541,8 @@ static void Drivers_Music_Uninit()
 			buffer->index = 0xFFFF;
 		}
 
-		Tools_Free(buffer->buffer);
-		buffer->buffer.csip = 0x0;
+		free(buffer->buffer);
+		buffer->buffer = NULL;
 	}
 
 	if (music->dcontent == g_driverSound->dcontent) {
@@ -569,8 +569,8 @@ static void Drivers_Sound_Uninit()
 				buffer->index = 0xFFFF;
 			}
 
-			Tools_Free(buffer->buffer);
-			buffer->buffer.csip = 0x0;
+			free(buffer->buffer);
+			buffer->buffer = NULL;
 		}
 	}
 

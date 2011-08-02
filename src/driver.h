@@ -42,7 +42,7 @@ typedef struct Driver {
 
 typedef struct MSBuffer {
 	uint16 index;                                           /*!< ?? */
-	csip32 buffer;                                          /*!< ?? */
+	void  *buffer;                                          /*!< ?? */
 } MSBuffer;
 
 typedef struct DriverInfo {
